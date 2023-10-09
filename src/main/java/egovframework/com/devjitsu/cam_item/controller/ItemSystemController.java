@@ -28,7 +28,7 @@ public class ItemSystemController {
     @Value("#{properties['File.Base.Directory']}")
     private String BASE_DIR;
 
-    /** 캠아이템 > 시스템관리 > 시스템 */
+    /** 캠아이템 > 시스템관리 > 시스템  > 고객관리 */
 
     /**
      * item 고객관리 (crm 고객관리 페이지와 동일)
@@ -45,6 +45,8 @@ public class ItemSystemController {
 
         return "cam_item/system/customer/customerMaList";
     }
+
+    /** 캠아이템 > 시스템관리 > 시스템  > 기초코드등록 */
 
     /**
      * item 코드 관리
@@ -143,6 +145,88 @@ public class ItemSystemController {
     @RequestMapping("/item/selLgSmCode")
     public String selLgSmCode(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("rs", itemSystemService.selLgSmCode(params));
+        return "jsonView";
+    }
+
+    /** 캠아이템 > 시스템관리 > 시스템  > 품목마스터 */
+
+    /**
+     * 품목마스터
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/itemMasterList.do")
+    public String itemMasterList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_item/system/itemMaster/itemMasterList";
+    }
+
+    /**
+     * 품목 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getItemMasterList.do")
+    public String getItemMasterList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", itemSystemService.getItemMasterList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 품목 조회(단일)
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getItemMaster.do")
+    public String getItemMaster(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", itemSystemService.getItemMaster(params));
+        return "jsonView";
+    }
+
+    /**
+     * 품번등록팝업
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/pop/itemNoReg.do")
+    public String itemNoReg(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_item/itemNoReg";
+    }
+
+    /**
+     * 품번중복확인
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getItemNoDuplicate.do")
+    public String getItemDuplicate(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", itemSystemService.getItemNoDuplicate(params));
+        return "jsonView";
+    }
+
+    /**
+     * 품번중복확인
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/setItemMasterReg.do")
+    public String setItemMasterReg(@RequestParam Map<String, Object> params, Model model){
+        itemSystemService.setItemMasterReg(params);
         return "jsonView";
     }
 }

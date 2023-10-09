@@ -46,6 +46,10 @@
             AND WI.INSPECTION = #{inspection}
         </if>
 
+        <if test='regEmpSeq != null and !"".equals(regEmpSeq)'>
+            AND WI.REG_EMP_SEQ = #{regEmpSeq}
+        </if>
+
     </select>
 
     <update id="setInspectionUpd" parameterType="map">

@@ -16,4 +16,8 @@ public class ItemSystemRepository extends AbstractDAO {
     public void insItemCode(Map<String, Object> params) {insert("itemSystem.insItemCode", params);}
     public List<Map<String, Object>> selLgCode(Map<String, Object> params) {return selectList("itemSystem.selLgCode", params);}
     public List<Map<String, Object>> selSmCode(Map<String, Object> params) {return selectList("itemSystem.selSmCode", params);}
+    public List<Map<String, Object>> getItemMasterList(Map<String, Object> params) {return selectList("itemSystem.getItemMasterList", params);}
+    public Map<String, Object> getItemMaster(Map<String, Object> params) {return (Map<String, Object>) selectOne("itemSystem.getItemMaster", params);}
+    public boolean getItemNoDuplicate(Map<String, Object> params) { return (boolean) selectOne("itemSystem.getItemNoDuplicate", params);}
+    public void setItemMasterReg(Map<String, Object> params) {insert("itemSystem.setItemMasterReg", params);}
 }
