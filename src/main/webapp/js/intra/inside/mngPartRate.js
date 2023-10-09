@@ -80,7 +80,7 @@ var mngPartRate = {
                     title: "프로젝트 명",
                     width: "20%",
                     template: function(e){
-                        return "<a href='javascript:void(0);' style='font-weight: bold' onclick=''>" + e.PJT_NM + "</a>";
+                        return "<a href='javascript:void(0);' style='font-weight: bold' onclick='mngPartRate.fn_popPartRate("+e.PART_RATE_VER_SN+")'>" + e.PJT_NM + "</a>";
                     }
                 }, {
                     field: "STR_DT",
@@ -133,6 +133,16 @@ var mngPartRate = {
         $("#mainGrid").data("kendoGrid").setOptions({
             selectable : true
         })
+    },
+
+    fn_popPartRate : function (key){
+
+        var url = "/project/pop/partRate.do?partRateVerSn=" + key;
+
+        var name = "blank";
+        var option = "width = 1680, height = 850, top = 100, left = 200, location = no";
+
+        var popup = window.open(url, name, option);
     }
 }
 

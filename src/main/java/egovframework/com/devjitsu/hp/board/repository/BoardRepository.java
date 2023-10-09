@@ -61,4 +61,11 @@ public class BoardRepository extends AbstractDAO {
     }
 
     public void setBoardArticleViewCount(Map<String, Object> params) { update("boardCt.setBoardArticleViewCount", params);}
+    public Map<String, Object> selectNewsPop(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("boardCt.selectNewsPop", params);
+    }
+    public Map<String, Object> selectNewsView(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("boardCt.selectNewsView", params);
+    }
+
 }

@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -863,6 +864,32 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<Map<String, Object>> getPartRateVersionList(Map<String, Object> params) {
         return projectRepository.getPartRateVersionList(params);
+    }
+
+    @Override
+    public Map<String, Object> getPartRateVer(Map<String, Object> params) {
+        return projectRepository.getPartRateVer(params);
+    }
+
+    @Override
+    public Map<String, Object> getMngPartRate(Map<String, Object> map) {
+        Map<String, Object> result = new HashMap<>();
+        List<Map<String, Object>> projectMemberInfo = new ArrayList<>();
+
+        result.put("projectManagerInfo", projectRepository.getProjectManagerInfo(map));
+
+        String[] strArr = map.get("JOIN_MEM_SN").toString().split(",");
+        for(String str : strArr){
+            map.put("MEMBER_SEQ", str);
+            Map<String, Object> memberData = new HashMap<>();
+
+            memberData = projectRepository.getProjectMemberInfo(map);
+
+            projectMemberInfo.add(memberData);
+        }
+
+        result.put("projectMemberInfo", projectMemberInfo);
+        return result;
     }
 }
 

@@ -2,6 +2,7 @@ package egovframework.com.devjitsu.cam_project.controller;
 
 
 import com.google.gson.Gson;
+import egovframework.com.devjitsu.cam_project.service.ProjectRndService;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -35,6 +37,9 @@ public class ProjectController {
 
     @Autowired
     private CommonCodeService commonCodeService;
+
+    @Autowired
+    private ProjectRndService projectRndService;
 
     @Value("#{properties['File.Server.Dir']}")
     private String SERVER_DIR;
@@ -1055,6 +1060,40 @@ public class ProjectController {
         model.addAttribute("data", params);
 
         return "popup/cam_project/estPrintPop";
+    }
+
+    @RequestMapping("/project/pop/partRate.do")
+    public String partRate(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        Map<String, Object> data = projectService.getPartRateVer(params);
+
+        params.put("pjtSn", data.get("PJT_SN"));
+        Map<String, Object> map = projectService.getProjectStep(params);
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("map", map);
+        model.addAttribute("data", data);
+        model.addAttribute("params", params);
+
+        return "popup/cam_project/partRate";
+    }
+
+    @RequestMapping("/project/getPartRateVerData")
+    public String getPartRateVerData(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> map = projectService.getPartRateVer(params);
+        model.addAttribute("map", map);
+
+        Map<String, Object> result = projectService.getMngPartRate(map);
+        model.addAttribute("result", result);
+        if(map != null){
+            List<Map<String, Object>> fileList = projectRndService.getFileList(map);
+
+            model.addAttribute("fileList", fileList);
+        }
+
+        return "jsonView";
     }
 
 }

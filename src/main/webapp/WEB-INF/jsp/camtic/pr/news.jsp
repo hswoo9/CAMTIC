@@ -32,6 +32,13 @@
       <jsp:include page="/WEB-INF/jsp/template/camtic/lnb.jsp" flush="false"/>
       <div id="content">
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
+
+        <div class="__botArea __mt20">
+          <div class="rig">
+            <a href="#" onclick="fn_regist();" class="__btn1 grayLine"><span>수정</span></a>
+          </div>
+        </div>
+
         <div class="__newsListhead">
           <%--<div class="newboxHead">
             <div class="img"><i style="background-image:url(https://fakeimg.pl/408x238/f3f3f3);"></i></div>
@@ -76,11 +83,11 @@
 </div>
 
 <script>
-
   var categoryKey = "news";
 
   var firstData = fn_customAjax('/board/getBoardArticleList.do?categoryId=' + categoryKey + '&recordSize=3','');
   var flag = false;
+  var globalKey;
 
   var paginationData;
   var startPage;
@@ -120,6 +127,10 @@
     location.href = '/camtic/pr/news_write.do?category=' + categoryKey;
   }
 
+  function fn_regist(){
+      location.href="/camtic/pr/news_register.do?boardArticleId=" + globalKey + "&category=" + categoryKey;
+  }
+
   //상세보기 이동
   function fn_detailBoard(key){
 
@@ -148,6 +159,23 @@
     drawPage();
   }
 
+  function openPopup(groupKey,linkKey){
+    if(location.host.indexOf("127.0.0.1") > -1 || location.host.indexOf("localhost") > -1){
+      var url = 'http://localhost:8080/newsPopup.do?groupKey='+ groupKey + '&linkKey=' + linkKey;
+    }else{
+      var url = 'http://218.158.231.186:8080/newsPopup.do?groupKey='+ groupKey + '&linkKey=' + linkKey;
+    }
+
+    var popupWidth = 750;
+    var popupHeight = 850;
+
+    var popupX = (window.screen.width / 2) - (popupWidth / 2);
+    var popupY= (window.screen.height / 2) - (popupHeight / 2);
+
+
+    window.open(url, '뉴스레터', 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY);
+  }
+
   //게시글 리스트 그리기
   function drawTable(data) {
     $(".__newsListhead").html('');
@@ -165,6 +193,8 @@
       const formattedDay = String(item.reg_DATE.dayOfMonth).padStart(2, '0');
 
       if(index == 0){
+
+        globalKey = item.board_ARTICLE_ID;
         /*htmlHead += "<div class='newboxHead' style='cursor:pointer;' onclick='fn_detailBoard("+item.board_ARTICLE_ID+")'>";
         if(item.file_PATH) {
           htmlHead += '<div class="img"><i style="background-image:url('+item.file_PATH+'); background-size:auto;"></i></div>';
@@ -174,7 +204,7 @@
         htmlHead += '</div>';*/
 
         //htmlHead += '<hr style="height: auto; width:1px; margin: 0; color:#ccc; background-color:#ccc;">';
-        htmlHead += "<div class='newboxHead' style='/*cursor:pointer; border: 1px solid #ccc;*/ width: 100%; padding: 5px 0 0 15px;' /*onclick='fn_detailBoard("+item.board_ARTICLE_ID+")'*/>";
+        htmlHead += "<div class='newboxHead' style='/*cursor:pointer; border: 1px solid #ccc;*/ width: 100%; padding: 5px 0 0 15px;'>";
         htmlHead += '<div class="info" style="margin-top:10px;">';
         htmlHead += '<p class="subject" style="text-align: center">'+ item.board_ARTICLE_TITLE +'</p>'+ item.board_ARTICLE_CONTENT +'';
         //htmlHead += '<p class="subject">'+ item.board_ARTICLE_CONTENT +'</p>';
@@ -188,7 +218,8 @@
         htmlHead += '<p class="subject">'+formatYear+'.'+formattedMonth+'.'+formattedDay+' '+ item.board_ARTICLE_TITLE +'</p>';
         htmlHead += '</div>';
         htmlHead += '</div>';*/
-        html += "<a class='box' style='cursor:pointer;' onclick='fn_detailBoard("+item.board_ARTICLE_ID+")'>";
+        html += "<a class='box' style='cursor:pointer;' onclick='fn_detailNews("+item.board_ARTICLE_ID+")'>";
+
         if(item.file_PATH){
           html += '<div class="img"><i style="background-image:url('+item.file_PATH+'); background-size:auto; background-repeat : no-repeat;"></i></div>';
         }else{
@@ -207,7 +238,7 @@
         html += '</div>';
         html += "</a>";
       }else{
-        html += "<a class='box' style='cursor:pointer;' onclick='fn_detailBoard("+item.board_ARTICLE_ID+")'>";
+        html += "<a class='box' style='cursor:pointer;' onclick='fn_detailNews("+item.board_ARTICLE_ID+")'>";
         if(item.file_PATH){
           html += '<div class="img"><i style="background-image:url('+item.file_PATH+'); background-size:auto; background-repeat : no-repeat;"></i></div>';
         }else{
@@ -244,6 +275,25 @@
 
     html += '<a href="javascript:void(0);" onclick="movePage(' + (page + 1) + ');" class="arr next"><span class="hide">다음 페이지</span></a>';
     $(".__paging").html(html);
+  }
+
+  function fn_detailNews(key){
+    globalKey = key;
+
+    var returnData = fn_customAjax('/camtic/pr/news_view.do?boardArticleId=' + key,'');
+
+    $(".__newsListhead").html('');
+    let htmlHead = "";
+
+    htmlHead += "<div class='newboxHead' style='/*cursor:pointer; border: 1px solid #ccc;*/ width: 100%; padding: 5px 0 0 15px;'>";
+    htmlHead += '<div class="info" style="margin-top:10px;">';
+    htmlHead += '<p class="subject" style="text-align: center">'+returnData.map.title+'</p>'+returnData.map.content+'';
+    //htmlHead += '<p class="subject">'+ item.board_ARTICLE_CONTENT +'</p>';
+    htmlHead += '</div>';
+    htmlHead += '</div>';
+
+
+    $(".__newsListhead").append(htmlHead);
   }
 
   function fn_customAjax(url, data){

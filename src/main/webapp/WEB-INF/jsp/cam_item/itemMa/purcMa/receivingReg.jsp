@@ -12,6 +12,12 @@
         color: white;
         text-align: center;
     }
+    .dash-left .table > tbody > tr > td{
+        padding-left: 5px;
+        padding-right: 5px;
+        text-align: center;
+    }
+
     .percentInput {
         text-align: right;
     }
@@ -39,17 +45,17 @@
             </div>
             <table class="searchTable table table-bordered mb-0 mt10">
                 <colgroup>
-                    <col style="width: 14%;">
+                    <col style="width: 17%;">
                     <col style="width: 10%;">
                     <col style="width: 10%;">
                     <col style="width: 10%">
                     <col style="width: 7%;">
                     <col style="width: 7%;">
-                    <col style="width: 7%">
                     <col style="width: 10%">
+                    <col style="width: 8%">
                     <col style="width: 11%;">
-                    <col style="width: 9%;">
-                    <col style="width: 5%">
+                    <col style="width: 8%;">
+                    <col style="width: 4%">
                 </colgroup>
                 <thead>
                     <tr>
@@ -73,6 +79,7 @@
 
             <input type="hidden" id="crmSn" onchange="regRv.crmInfoChange()">
             <input type="hidden" id="crmNm">
+            <input type="hidden" id="unitPrice" onchange="regRv.unitPriceChange()">
         </div>
     </div>
 </div><!-- col-md-9 -->
