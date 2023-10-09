@@ -241,7 +241,7 @@
 
 									<a href='javascript:void(0)' class="custom-tooltip">
 										<div style=""><span>?</span></div>
-										<span class="tooltip-text" style="width: 370px;">
+										<span class="tooltip-text" style="width: 330px;">
 		                                    <strong>링크 생성 안내</strong><br>
 		                                    1. 그룹 생성 버튼 클릭(최초 1회)<br>
 		                                    2. 링크 생성<br>
@@ -249,7 +249,8 @@
 											복사 된 내용 삽입<br>
 											3-1. 링크 생성 상단 에디터 내용이<br>
 											링크의 목적지가 된다.<br>
-											4. 추가 후 위 내용 반복
+											4. 추가 후 위 내용 반복<br>
+											※ a태그의 target속성은 생략
                                         </span>
 									</a>
 								</div>
