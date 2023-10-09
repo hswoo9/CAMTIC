@@ -26,7 +26,7 @@
     </select>
 
     <select id="getTeamCostList" parameterType="map" resultType="map">
-        /* getLaborList */
+        /* getTeamCostList */
         SELECT
             (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = C.REG_EMP_SEQ) AS EMP_NAME_KR,
             C.*,
@@ -220,4 +220,58 @@
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_TEAM_COST'
         </selectKey>
     </insert>
+
+    <insert id="setProductInfo" parameterType="map">
+        /* setProductInfo */
+        INSERT INTO CAM_PJT_MNG.DJ_PRODUCT_CODE
+            (
+                PRODUCT_GROUP_CODE_ID,
+                PRODUCT_MD_CODE,
+                PRODUCT_MD_CODE_NM,
+                PRODUCT_DT_CODE,
+                PRODUCT_DT_CODE_NM,
+                <if test='"2".equals(groupCode) or "3".equals(groupCode)'>
+                    PARENT_CODE,
+                    PARENT_CODE_NM,
+                </if>
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{groupCode},
+                #{midleCode},
+                #{midleCodeName},
+                <choose>
+                    <when test='"2".equals(groupCode) or "3".equals(groupCode)'>
+                        (SELECT IFNULL(MAX(SCCC.PRODUCT_DT_CODE), 0)+1 FROM CAM_PJT_MNG.DJ_PRODUCT_CODE SCCC WHERE SCCC.PRODUCT_GROUP_CODE_ID = #{groupCode} AND PARENT_CODE = #{parentCodeId}),
+                    </when>
+                    <otherwise>
+                        (SELECT IFNULL(MAX(SCCC.PRODUCT_DT_CODE), 0)+1 FROM CAM_PJT_MNG.DJ_PRODUCT_CODE SCCC WHERE SCCC.PRODUCT_GROUP_CODE_ID = #{groupCode}),
+                    </otherwise>
+                </choose>
+                #{reqText},
+                <if test='"2".equals(groupCode) or "3".equals(groupCode)'>
+                    #{parentCodeId},
+                    #{parentCodeName},
+                </if>
+                #{regEmpSeq}
+            )
+    </insert>
+
+    <select id="getProductCodeInfo" resultType="map" parameterType="map">
+        /* getProductCodeInfo */
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PRODUCT_CODE CC
+        WHERE
+            ACTIVE = 'Y'
+        <if test='productGroupCodeId != null and !"".equals(productGroupCodeId)'>
+            AND PRODUCT_GROUP_CODE_ID = #{productGroupCodeId}
+        </if>
+        <if test='parentCodeId != null and !"".equals(parentCodeId)'>
+            AND PARENT_CODE = #{parentCodeId} AND PARENT_CODE_NM = #{parentCodeName}
+        </if>
+
+    </select>
 </mapper>

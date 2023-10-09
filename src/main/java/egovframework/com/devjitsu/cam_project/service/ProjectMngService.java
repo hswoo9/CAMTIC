@@ -23,4 +23,8 @@ public interface ProjectMngService {
     void insTeamCostHistInfo(Map<String, Object> params);
 
     void setTeamInfo(Map<String, Object> params);
+
+    void setProductInfo(Map<String, Object> params);
+
+    List<Map<String, Object>> getProductCodeInfo(Map<String, Object> params);
 }

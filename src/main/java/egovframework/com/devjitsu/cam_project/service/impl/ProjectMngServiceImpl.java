@@ -103,4 +103,15 @@ public class ProjectMngServiceImpl implements ProjectMngService {
 
         projectMngRepository.insTeamCostHistInfo(params);
     }
+
+
+    @Override
+    public void setProductInfo(Map<String, Object> params) {
+        projectMngRepository.setProductInfo(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getProductCodeInfo(Map<String, Object> params) {
+        return projectMngRepository.getProductCodeInfo(params);
+    }
 }

@@ -228,7 +228,7 @@ var labor = {
                         if(e.TEAM_COST_AMT == undefined){
                             return "";
                         }
-                        return '<div style="text-align: right">'+labor.comma(e.TEAM_COST_AMT)+' 원</div>';
+                        return '<div style="text-align: right">'+labor.comma(e.TEAM_COST_AMT)+' %</div>';
                     },
                 }, {
                     title: "상태",

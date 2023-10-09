@@ -11,15 +11,6 @@ const systemAdmin = {
     },
 
     dataSet: function(){
-        customKendo.fn_textBox(["searchText"])
-        customKendo.fn_datePicker("recruitYear", "decade", "yyyy", new Date());
-        let searchTypeDataSource = [
-            {text: "모집분야", value: "1"},
-            {text: "공고명", value: "2"},
-            {text: "공고번호", value: "3"},
-            {text: "지원자", value: "4"}
-        ]
-        customKendo.fn_dropDownList("searchType", searchTypeDataSource, "text", "value", 3);
     },
 
     mainGrid: function(){

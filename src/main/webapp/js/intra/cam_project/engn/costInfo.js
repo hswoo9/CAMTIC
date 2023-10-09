@@ -2,8 +2,7 @@ var costInfo = {
 
     fn_defaultScript : function (){
 
-        customKendo.fn_textBox(["costAmt", "rawAmt", "outsAmt", "laborAmt", "chargeAmt",
-            "bustAmt"]);
+        customKendo.fn_textBox(["costAmt", "rawAmt", "outsAmt", "laborAmt", "chargeAmt", "bustAmt"]);
 
         $("#costEtc").kendoTextArea({
             rows : 5,
@@ -56,7 +55,11 @@ var costInfo = {
                         '    </tr>'
                     $("#costDetailTable").html("");
                     $("#costDetailTable").append(html);
-                    $("#chargeAmt").val(costInfo.comma(teamCostAmt));
+
+                    const pjtMap = rs.pjtInfo;
+                    const pjtAmt = pjtMap.PJT_AMT;
+                    let chargeAmt = pjtMap.PJT_AMT * (teamCostAmt / 100);
+                    $("#chargeAmt").val(costInfo.comma(chargeAmt));
 
                     $("#costAmt").val(costInfo.comma(Number(costInfo.uncomma($("#rawAmt").val())) + Number(costInfo.uncomma($("#outsAmt").val())) + Number(costInfo.uncomma($("#laborAmt").val())) + Number(costInfo.uncomma($("#chargeAmt").val())) + Number(costInfo.uncomma($("#bustAmt").val()))));
                     $(".costWorkTime").trigger("keyup");

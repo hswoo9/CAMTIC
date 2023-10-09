@@ -67,5 +67,13 @@ public class ProjectMngRepository extends AbstractDAO {
         insert("projectMng.insTeamCostHistInfo", params);
     }
 
+    public void setProductInfo(Map<String, Object> params) {
+        insert("projectMng.setProductInfo", params);
+    }
+
+    public List<Map<String, Object>> getProductCodeInfo(Map<String, Object> params) {
+        return selectList("projectMng.getProductCodeInfo", params);
+    }
+
 
 }

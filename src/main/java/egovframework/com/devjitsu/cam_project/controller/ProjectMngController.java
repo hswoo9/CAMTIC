@@ -62,6 +62,47 @@ public class ProjectMngController {
     }
 
     /**
+     * 캠프로젝트 > 자산연계-거래 분류 리스트 페이지
+     * @param params
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping("/projectMng/product.do")
+    public String mngProduct(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "cam_project/product";
+    }
+
+    /**
+     * 캠프로젝트 > 자산연계-거래 분류 등록 페이지
+     * @param params
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping("/projectMng/pop/productReqPop.do")
+    public String systemAdminReqPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        if(params.get("mode").equals("upd") && params.get("type").equals("A")){
+            //Map<String, Object> data = campusService.getCodeOne(params);
+            //model.addAttribute("data", data);
+        }
+        return "popup/cam_project/productReqPop";
+    }
+
+
+
+    /**
      * 프로젝트 관리 > 노임단가 관리 > 노임단가 데이터 조회(직급별)
      * @param params
      * @param model
@@ -171,6 +212,21 @@ public class ProjectMngController {
             e.printStackTrace();
         }
 
+        return "jsonView";
+    }
+
+    /** 자산연계-거래 분류 코드 등록 */
+    @RequestMapping("/projectMng/setProductInfo")
+    public String setProductInfo(@RequestParam Map<String, Object> params){
+        projectMngService.setProductInfo(params);
+        return "jsonView";
+    }
+
+    /** 자산연계-거래 분류 코드 리스트 조회 */
+    @RequestMapping("/projectMng/getProductCodeInfo")
+    public String getProductCodeInfo(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = projectMngService.getProductCodeInfo(params);
+        model.addAttribute("list", list);
         return "jsonView";
     }
 }
