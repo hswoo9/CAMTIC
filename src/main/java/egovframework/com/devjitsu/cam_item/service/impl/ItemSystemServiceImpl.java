@@ -77,6 +77,26 @@ public class ItemSystemServiceImpl implements ItemSystemService {
         return lgSmList;
     }
 
+    @Override
+    public List<Map<String, Object>> getItemMasterList(Map<String, Object> params) {
+        return itemSystemRepository.getItemMasterList(params);
+    }
+
+    @Override
+    public Map<String, Object> getItemMaster(Map<String, Object> params) {
+        return itemSystemRepository.getItemMaster(params);
+    }
+
+    @Override
+    public boolean getItemNoDuplicate(Map<String, Object> params) {
+        return itemSystemRepository.getItemNoDuplicate(params);
+    }
+
+    @Override
+    public void setItemMasterReg(Map<String, Object> params) {
+        itemSystemRepository.setItemMasterReg(params);
+    }
+
     public String cellValueToString(XSSFCell cell){
         String txt = "";
 
