@@ -54,4 +54,8 @@ public interface ProjectRndService {
     void setPartRateDetail(Map<String, Object> params);
 
     void checkPartRateDetail(Map<String, Object> params);
+
+    void setReqPartRateStatus(Map<String, Object> params);
+
+
 }

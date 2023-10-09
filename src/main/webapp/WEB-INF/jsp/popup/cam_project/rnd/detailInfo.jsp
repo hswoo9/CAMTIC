@@ -69,8 +69,8 @@
                 </td>
                 <th scope="row" class="text-center th-color"><span class="red-star"></span>민간부담금</th>
                 <td>
-                    현금 : <input type="text" id="peoResCost" name="peoResCost" style="width: 30%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
-                    현물 : <input type="text" id="peoResItem" name="peoResItem" style="width: 30%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                    현금 : <input type="text" id="peoResCost" value="0" name="peoResCost" style="width: 30%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                    현물 : <input type="text" id="peoResItem" value="0" name="peoResItem" style="width: 30%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
                 </td>
             </tr>
             <tr>

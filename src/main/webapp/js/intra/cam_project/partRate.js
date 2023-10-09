@@ -373,7 +373,8 @@ var partRate = {
         for(var i = 0 ; i < body.length ; i++){
             var parameters = {
                 pjtSn : $("#pjtSn").val(),
-                partRateVerSn : $("#partRateVerSn").val()
+                partRateVerSn : $("#partRateVerSn").val(),
+                mngComm : $("#mngComment").val()
             }
 
             $(body.get(i)).find("input").each(function(){
@@ -393,10 +394,13 @@ var partRate = {
         }
 
         for(var i = 0 ; i < parameterList.length ; i++){
-            var rs = customKendo.fn_customAjax("/projectRnd/setPartRateDetail", parameterList[i]);
+            customKendo.fn_customAjax("/projectRnd/setPartRateDetail", parameterList[i]);
 
             if(i == parameterList.length - 1){
+                var rs = customKendo.fn_customAjax("/projectRnd/setReqPartRateStatus", parameterList[i]);
+
                 if(rs.code == 200){
+
                     alert("저장되었습니다.");
                     location.reload();
                 }

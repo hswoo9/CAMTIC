@@ -257,5 +257,10 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     public void checkPartRateDetail(Map<String, Object> params) {
         projectRndRepository.delPartRateDetail(params);
     }
+
+    @Override
+    public void setReqPartRateStatus(Map<String, Object> params) {
+        projectRndRepository.updReqPartRateStatus(params);
+    }
 }
 

@@ -190,7 +190,7 @@
                         담당자 코멘트
                     </th>
                     <td colspan="3">
-                        <textarea id="mngComment" style="width: 100%; text-align: left"></textarea>
+                        <textarea id="mngComment" style="width: 100%; text-align: left">${data.MNG_COMM}</textarea>
                     </td>
                 </tr>
                 </thead>
