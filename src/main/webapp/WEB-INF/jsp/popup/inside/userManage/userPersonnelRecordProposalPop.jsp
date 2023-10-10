@@ -13,10 +13,13 @@
       <h3 class="card-title title_NM">제안 제도</h3>
       <div class="btn-st popButton">
         <button type="button" class="k-button k-button-solid-info" onclick="fu_addInfo()">추가</button>
+        <button type="button" class="k-button k-button-solid-info" onclick="fu_modifyInfo()">수정</button>
+        <button type="button" class="k-button k-button-solid-info" onclick="fu_delInfo()">삭제</button>
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="fn_windowClose()">닫기</button>
       </div>
     </div>
     <form id="subHolidayReqPop" style="padding: 20px 30px;">
+      <input type="hidden" id="pk" name="pk" value="${pk}">
       <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
       <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
       <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
@@ -75,6 +78,7 @@
   fn_textBox*/
   $(function(){
     fn_default();
+    fn_dataSet();
   });
   function fn_default() {
     customKendo.fn_datePicker("sDate", '', "yyyy-MM-dd", '');
@@ -86,6 +90,23 @@
     $("#proposal").kendoTextBox();
     $("#status").kendoTextBox();
   }
+
+  function fn_dataSet() {
+    var result = customKendo.fn_customAjax('/userManage/getProinfoList.do', {
+      pk : $("#pk").val()
+    });
+
+    if(result.flag){
+      var e = result.rs;
+
+      $("#pGubun").val(e.PROPOSAL_GUBUN);
+      $("#sDate").val(e.PROPOSAL_DATE);
+      $("#proposal").val(e.PROPOSAL_DETAIL);
+      $("#status").val(e.PROPOSAL_CHECK_CHOICE);
+    }
+  }
+
+
   function fu_addInfo() {
     var data = {
         pGubun : $("#pGubun").val(),
@@ -93,6 +114,7 @@
         PROPOSAL_DETAIL : $("#proposal").val(),
         PROPOSAL_CHECK_CHOICE : $("#status").val(),
         type : "proposal",
+        applicationactive : "등록",
     }
 
     var formData = new FormData();
@@ -101,20 +123,56 @@
     formData.append("PROPOSAL_DETAIL", data.PROPOSAL_DETAIL);
     formData.append("PROPOSAL_CHECK_CHOICE", data.PROPOSAL_CHECK_CHOICE);
     formData.append("type", "proposal");
+    formData.append("applicationactive", data.applicationactive);
 
     var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);
+    console.log(result.rs);
     if(result.flag){
       if(result.rs == "SUCCESS") {
-        alert("등록되었습니다.");
+        alert("등록요청을 성공하였습니다. 관리자 승인 대기 중입니다.");
         fn_windowClose();
       }else{
-        alert("등록에 실패하였습니다.");
+        alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
       }
     }else{
-      alert("등록에 실패하였습니다.");
+      alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
     }
   }
-  function fn_windowClose() {
+
+  function fu_modifyInfo() {
+    var data = {
+      pGubun: $("#pGubun").val(),
+      sDate: $("#sDate").val(),
+      PROPOSAL_DETAIL: $("#proposal").val(),
+      PROPOSAL_CHECK_CHOICE: $("#status").val(),
+      type: "proposal",
+      pk: $("#pk").val(),
+      applicationactive: "수정",
+    }
+
+    var formData = new FormData();
+    formData.append("pGubun", data.pGubun);
+    formData.append("sDate", data.sDate);
+    formData.append("PROPOSAL_DETAIL", data.PROPOSAL_DETAIL);
+    formData.append("PROPOSAL_CHECK_CHOICE", data.PROPOSAL_CHECK_CHOICE);
+    formData.append("type", "proposal");
+    formData.append("pk", data.pk);
+    formData.append("applicationactive", data.applicationactive);
+
+    var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);
+    console.log(result.rs);
+    if(result.flag){
+      if(result.rs == "SUCCESS") {
+        alert("수정요청이 완료되었습니다. 관리자 승인 대기 중입니다.");
+        fn_windowClose();
+      }else{
+        alert("수정요청에 실패하였습니다. 다시 확인부탁드립니다.");
+      }
+    }else{
+      alert("수정요청에 실패하였습니다. 다시 확인부탁드립니다.");
+    }
+  }
+    function fn_windowClose() {
     window.close();
   }
 </script>

@@ -194,6 +194,8 @@
       score : $("#score").val(),
       bmk : $("#bmk").val(),
       type : "degree",
+      pk : $("#pk").val(),
+      applicationactive : "수정",
     }
 
     var formData = new FormData();
@@ -207,6 +209,8 @@
     formData.append("bmk", data.bmk);
     formData.append("menuCd", "degree");
     formData.append("type", "degree");
+    formData.append("pk", data.pk);
+    formData.append("applicationactive", data.applicationactive);
 
     if($("#gradeFile")[0].files.length == 1){
       formData.append("gradeFile", $("#gradeFile")[0].files[0]);
@@ -229,13 +233,13 @@
     console.log(result.rs);
     if(result.flag){
       if(result.rs == "SUCCESS") {
-        alert("등록되었습니다.");
+        alert("수정요청이 완료되었습니다. 관리자 승인 대기 중입니다.");
         fn_windowClose();
       }else{
-        alert("등록에 실패하였습니다.");
+        alert("수정요청에 실패하였습니다. 다시 확인부탁드립니다.");
       }
     }else{
-      alert("등록에 실패하였습니다.");
+      alert("수정요청에 실패하였습니다. 다시 확인부탁드립니다.");
     }
   }
 
@@ -251,6 +255,8 @@
       score : $("#score").val(),
       bmk : $("#bmk").val(),
       type : "degree",
+      pk : $("#pk").val(),
+      applicationactive : "삭제",
     }
 
     var formData = new FormData();
@@ -264,6 +270,8 @@
     formData.append("bmk", data.bmk);
     formData.append("menuCd", "degree");
     formData.append("type", "degree");
+    formData.append("pk", data.pk);
+    formData.append("applicationactive", data.applicationactive);
 
     if($("#gradeFile")[0].files.length == 1){
       formData.append("gradeFile", $("#gradeFile")[0].files[0]);
@@ -286,13 +294,13 @@
     console.log(result.rs);
     if(result.flag){
       if(result.rs == "SUCCESS") {
-        alert("등록되었습니다.");
+        alert("삭제 요청이 등록되었습니다. 관리자 승인 대기 중입니다.");
         fn_windowClose();
       }else{
-        alert("등록에 실패하였습니다.");
+        alert("삭제요청에 실패하였습니다. 다시 확인부탁드립니다.");
       }
     }else{
-      alert("등록에 실패하였습니다.");
+      alert("삭제요청에 실패하였습니다. 다시 확인부탁드립니다.");
     }
   }
 
@@ -308,6 +316,7 @@
       score : $("#score").val(),
       bmk : $("#bmk").val(),
       type : "degree",
+      applicationactive : "등록",
     }
 
     var formData = new FormData();
@@ -321,6 +330,7 @@
     formData.append("bmk", data.bmk);
     formData.append("menuCd", "degree");
     formData.append("type", "degree");
+    formData.append("applicationactive", data.applicationactive);
 
     if($("#gradeFile")[0].files.length == 1){
       formData.append("gradeFile", $("#gradeFile")[0].files[0]);
@@ -343,13 +353,13 @@
     console.log(result.rs);
     if(result.flag){
       if(result.rs == "SUCCESS") {
-        alert("등록되었습니다.");
+        alert("등록요청을 성공하였습니다. 관리자 승인 대기 중입니다.");
         fn_windowClose();
       }else{
-        alert("등록에 실패하였습니다.");
+        alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
       }
     }else{
-      alert("등록에 실패하였습니다.");
+      alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
     }
   }
 

@@ -538,6 +538,44 @@ public class UserManageController {
         return "jsonView";
     }
 
+    //제안제도 수정 팝업 내용
+    @RequestMapping("/userManage/getProinfoList.do")
+    public String getProinfoList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", userManageService.getProinfoList(map));
+        return "jsonView";
+    }
+
+    //상벌사항 수정 팝업 내용
+    @RequestMapping("/userManage/getRewinfoList.do")
+    public String getRewinfoList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", userManageService.getRewinfoList(map));
+        return "jsonView";
+    }
+
+    @RequestMapping("/userManage/getCarinfoList.do")
+    public String getCarinfoList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", userManageService.getCarinfoList(map));
+        return "jsonView";
+    }
+
+    @RequestMapping("/userManage/getJobinfoList.do")
+    public String getJobinfoList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", userManageService.getJobinfoList(map));
+        return "jsonView";
+    }
+
+    @RequestMapping("/userManage/getLininfoList.do")
+    public String getLininfoList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", userManageService.getLininfoList(map));
+        return "jsonView";
+    }
+
+    @RequestMapping("/userManage/getFaminfoList.do")
+    public String getFaminfoList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", userManageService.getFaminfoList(map));
+        return "jsonView";
+    }
+
     @RequestMapping("/useManage/userPersonnelRecordPop.do")
     public String userPersonnelRecordEduAddPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
         String viewName = "";
@@ -1156,11 +1194,31 @@ public class UserManageController {
     /**
      * 인사기록카드 - 학력 사항 삭제
      */
-    /*@RequestMapping("/userManage/setEduDelete")
+    @RequestMapping("/userManage/setEduDelete")
     public String setEduDelete(@RequestParam(value = "eduChk[]") List<String> eduChk, Model model){
         model.addAttribute("rs", userManageService.setEduDelete(eduChk));
         return "jsonView";
-    }*/
+    }
+
+    /**
+     * 인사기록카드 - 학력 사항 삭제 요청
+     */
+    @RequestMapping("/userManage/setEduDeleteTmp")
+    public String setEduDeleteTmp(@RequestParam(value = "eduChk[]") List<Integer> eduChk, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        List<Map<String, Object>> eduDataList = userManageService.getEduDeleteList(eduChk);
+        System.out.println(eduDataList);
+
+        for (Map<String, Object> eduData : eduDataList) {
+            userManageService.setEduDeleteTmp(eduData);
+        }
+
+        return "jsonView";
+    }
+
+
 
     /**
      * 인사기록카드 - 경력 사항 삭제

@@ -14,6 +14,8 @@
       <h3 class="card-title title_NM">상벌 사항</h3>
       <div class="btn-st popButton">
         <button type="button" class="k-button k-button-solid-info" onclick="fu_addInfo()">추가</button>
+        <button type="button" class="k-button k-button-solid-info" onclick="fu_modifyInfo()">수정</button>
+        <button type="button" class="k-button k-button-solid-info" onclick="fu_delInfo()">삭제</button>
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="fn_windowClose()">닫기</button>
       </div>
     </div>
@@ -25,6 +27,7 @@
       <input type="hidden" id="regTeamSeq" value="${loginVO.teamId}"/>
       <input type="hidden" id="regTeamName" value="${loginVO.teamNm}"/>
       <input type="hidden" id="regErpEmpCd" value="${loginVO.erpEmpCd}"/>
+      <input type="hidden" id="pk" name="pk" value="${pk}">
       <table class="popTable table table-bordered mb-0" id="userReqPop">
         <colgroup>
           <col width="30%">
@@ -95,6 +98,7 @@
   fn_textBox*/
   $(function(){
     fn_default();
+    fn_dataSet();
   });
 
   function fileChange(e){
@@ -124,6 +128,23 @@
       index: 0
     });
   }
+
+  function fn_dataSet() {
+    var result = customKendo.fn_customAjax('/userManage/getRewinfoList.do', {
+      pk : $("#pk").val()
+    });
+    if(result.flag){
+      var e = result.rs;
+
+      var selectedGubun = e.REWORD_TYPE_NAME.split(' ')[0];
+      $("#rGubunOutIn").data("kendoDropDownList").text(selectedGubun);
+      $("#rGubun").val(e.REWORD_TYPE_NAME.split('] ')[1]);
+      $("#sDate").val(e.REWORD_DAY);
+      $("#rIssue").val(e.RWD_OFM);
+      $("#agency").val(e.RWD_ST_COMP);
+    }
+  }
+
   function fu_addInfo() {
     var data = {
       rGubunOutInType : $("#rGubunOutIn").data("kendoDropDownList").value(),
@@ -134,6 +155,7 @@
       rIssue : $("#rIssue").val(),
       agency : $("#agency").val(),
       type : "reward",
+      applicationactive : "등록",
     }
 
     var formData = new FormData();
@@ -146,6 +168,7 @@
     formData.append("agency", data.agency);
     formData.append("menuCd", "reward");
     formData.append("type", "reward");
+    formData.append("applicationactive", data.applicationactive);
 
     if($("#rewardAddFile")[0].files.length == 1){
       formData.append("rewardAddFile", $("#rewardAddFile")[0].files[0]);
@@ -169,17 +192,82 @@
     }
 
     var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);
+    console.log(result.rs);
     if(result.flag){
       if(result.rs == "SUCCESS") {
-        alert("등록되었습니다.");
+        alert("등록요청을 성공하였습니다. 관리자 승인 대기 중입니다.");
         fn_windowClose();
       }else{
-        alert("등록에 실패하였습니다.");
+        alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
       }
     }else{
-      alert("등록에 실패하였습니다.");
+      alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
     }
   }
+
+  function fu_modifyInfo() {
+    var data = {
+      rGubunOutInType : $("#rGubunOutIn").data("kendoDropDownList").value(),
+      rGubunOutInName : $("#rGubunOutIn").data("kendoDropDownList").text(),
+      rGubun : $("#rGubun").val(),
+      rGubunAll : ($("#rGubunOutIn").data("kendoDropDownList").text() + $("#rGubun").val()),
+      sDate : $("#sDate").val(),
+      rIssue : $("#rIssue").val(),
+      agency : $("#agency").val(),
+      type : "reward",
+      pk : $("#pk").val(),
+      applicationactive : "수정",
+    }
+
+    var formData = new FormData();
+    formData.append("rGubunOutInType", data.rGubunOutInType);
+    formData.append("rGubunOutInName", data.rGubunOutInName);
+    formData.append("rGubun", data.rGubun);
+    formData.append("rGubunAll", data.rGubunAll);
+    formData.append("sDate", data.sDate);
+    formData.append("rIssue", data.rIssue);
+    formData.append("agency", data.agency);
+    formData.append("menuCd", "reward");
+    formData.append("type", "reward");
+    formData.append("pk", data.pk);
+    formData.append("applicationactive", data.applicationactive);
+
+    if($("#rewardAddFile")[0].files.length == 1){
+      formData.append("rewardAddFile", $("#rewardAddFile")[0].files[0]);
+    }
+
+    if(data.rGubunOutInType == null || data.rGubunOutInType == ''){
+      alert("구분(내부/외부)를 선택하세요.")
+      return false;
+    }else if(data.rGubun == null || data.rGubun == '') {
+      alert("구분(표창/징계)를 입력하세요.")
+      return false;
+    }else if(data.sDate == null || data.sDate == '') {
+      alert("포상/징계 일자를 입력하세요.")
+      return false;
+    }else if(data.rIssue == null || data.rIssue == '') {
+      alert("공적(징계) 사항을 입력하세요.")
+      return false;
+    }else if(data.agency == null || data.agency == '') {
+      alert("시행처를 입력하세요.")
+      return false;
+    }
+
+    var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);
+    console.log(result.rs);
+    if(result.flag){
+      if(result.rs == "SUCCESS") {
+        alert("수정요청이 완료되었습니다. 관리자 승인 대기 중입니다.");
+        fn_windowClose();
+      }else{
+        alert("수정요청에 실패하였습니다. 다시 확인부탁드립니다.");
+      }
+    }else{
+      alert("수정요청에 실패하였습니다. 다시 확인부탁드립니다.");
+    }
+  }
+
+
   function fn_windowClose() {
     window.close();
     /*opener.window.location.reload();*/

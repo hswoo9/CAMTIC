@@ -326,7 +326,8 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 병력 사항</div>
                             <div id="armyInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addMilitaryBtn('${mInfo.MSI_INFO_ID}')"/>
+                                <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addMilitaryBtn()"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick="updateMilitaryBtn('${mInfo.MSI_INFO_ID}')"/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -1131,6 +1132,14 @@
         var name = "userPersonnelRecordEduAddPop";
         var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+
+        // 페이지가 열린 후 버튼을 숨깁니다.
+        popup.onload = function() {
+            var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info:nth-child(n+2)');
+            for(var i = 0; i < buttons.length; i++) {
+                buttons[i].style.display = 'none';
+            }
+        }
     }
     //경력추가
     function addCareerBtn() {
@@ -1138,13 +1147,31 @@
         var name = "userPersonnelRecordEduAddPop";
         var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+
+        // 페이지가 열린 후 버튼을 숨깁니다.
+        popup.onload = function() {
+            var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info:nth-child(n+2)');
+            for(var i = 0; i < buttons.length; i++) {
+                buttons[i].style.display = 'none';
+            }
+        }
     }
     //병력추가
     function addMilitaryBtn(e) {
-        var url = "/useManage/userPersonnelRecordPop.do?popName=military&msiInfoId=" + e;
+        var url = "/useManage/userPersonnelRecordPop.do?popName=military";
         var name = "userPersonnelRecordEduAddPop";
         var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+
+        popup.onload = function() {
+            var titleElement = popup.document.querySelector('.card-title.title_NM');
+            titleElement.textContent = '병력 등록';
+
+            var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
+            for(var i = 0; i < buttons.length; i++) {
+                buttons[i].style.display = (i == 0) ? 'inline-block' : 'none';
+            }
+        }
     }
     //가족추가
     function addFamilyBtn() {
@@ -1152,6 +1179,16 @@
         var name = "userPersonnelRecordEduAddPop";
         var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+
+        popup.onload = function() {
+            var titleElement = popup.document.querySelector('.card-title.title_NM');
+            titleElement.textContent = '가족 등록';
+
+            var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
+            for(var i = 0; i < buttons.length; i++) {
+                buttons[i].style.display = (i == 0) ? 'inline-block' : 'none';
+            }
+        }
     }
     //보유면허추가
     function addLicenseBtn() {
@@ -1159,6 +1196,16 @@
         var name = "userPersonnelRecordEduAddPop";
         var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+
+        popup.onload = function() {
+            var titleElement = popup.document.querySelector('.card-title.title_NM');
+            titleElement.textContent = '보유면허 추가';
+
+            var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
+            for(var i = 0; i < buttons.length; i++) {
+                buttons[i].style.display = (i == 0) ? 'inline-block' : 'none';
+            }
+        }
     }
     //직무사항추가
     function addJobBtn() {
@@ -1166,20 +1213,38 @@
         var name = "userPersonnelRecordEduAddPop";
         var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+        popup.onload = function() {
+            var titleElement = popup.document.querySelector('.card-title.title_NM');
+            titleElement.textContent = '직무사항 추가';
+
+            var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
+            for(var i = 0; i < buttons.length; i++) {
+                buttons[i].style.display = (i == 0) ? 'inline-block' : 'none';
+            }
+        }
     }
-    //발령사항추가
+    /*//발령사항추가
     function addAppointingBtn() {
         var url = "/useManage/userPersonnelRecordPop.do?popName=appointing";
         var name = "userPersonnelRecordEduAddPop";
         var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
-    }
+    }*/
     //상벌사항추가
     function addRewardBtn() {
         var url = "/useManage/userPersonnelRecordPop.do?popName=reward";
         var name = "userPersonnelRecordEduAddPop";
         var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+        popup.onload = function() {
+            var titleElement = popup.document.querySelector('.card-title.title_NM');
+            titleElement.textContent = '상벌 사항 추가';
+
+            var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
+            for(var i = 0; i < buttons.length; i++) {
+                buttons[i].style.display = (i == 0) ? 'inline-block' : 'none';
+            }
+        }
     }
     //교육사항추가
     function addEduBtn() {
@@ -1201,55 +1266,91 @@
         var name = "userPersonnelRecordEduAddPop";
         var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+        popup.onload = function() {
+            var titleElement = popup.document.querySelector('.card-title.title_NM');
+            titleElement.textContent = '제안 제도 추가';
+
+            var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
+            for(var i = 0; i < buttons.length; i++) {
+                buttons[i].style.display = (i == 0) ? 'inline-block' : 'none';
+            }
+        }
     }
 
     //인사기록카드 - 학력 사항 수정
     function updateDegreeBtn() {
-        if($('input[name=eduChk]:checked').length == 0){
+        if ($('input[name=eduChk]:checked').length == 0) {
             alert("수정할 항목을 선택해주세요.");
-        }else if($('input[name=eduChk]:checked').length > 1){
+        } else if ($('input[name=eduChk]:checked').length > 1) {
             alert("한개의 항목만 선택해주세요.");
-        }else{
+        } else {
             var eduChk = new Array();
-            $("input[name='eduChk']").each(function(){
-                if(this.checked){
+            $("input[name='eduChk']").each(function () {
+                if (this.checked) {
                     var id = $(this).attr("id").replace($(this).attr("name"), "");
                     id = id.replace("edu", "");
                     eduChk.push(id);
                 }
             })
 
-            var url = "/useManage/userPersonnelRecordPop.do?popName=degree"+"&pk=" + eduChk;
+            var url = "/useManage/userPersonnelRecordPop.do?popName=degree" + "&pk=" + eduChk;
             var name = "userPersonnelRecordEduAddPop";
             var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
             var popup = window.open(url, name, option);
+
+            popup.onload = function() {
+                var titleElement = popup.document.querySelector('.card-title.title_NM');
+                titleElement.textContent = '학력 수정';
+
+                var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
+                for(var i = 0; i < buttons.length; i++) {
+                    buttons[i].style.display = (i == 1) ? 'inline-block' : 'none';
+                }
+                var tds = popup.document.querySelectorAll('tr');
+                for(var i = 0; i < tds.length; i++) {
+                    tds[i].setAttribute('disabled', 'true');
+                }
+                $("#gubun").data("kendoDropDownList").enable(false);
+            }
         }
     }
-
     //인사기록카드 - 학력 사항 삭제
     function delDegreeBtn() {
-        if($('input[name=eduChk]:checked').length == 0){
-            alert("수정할 항목을 선택해주세요.");
-        }else if($('input[name=eduChk]:checked').length > 1){
+        if ($('input[name=eduChk]:checked').length == 0) {
+            alert("삭제할 항목을 선택해주세요.");
+        } else if ($('input[name=eduChk]:checked').length > 1) {
             alert("한개의 항목만 선택해주세요.");
-        }else{
+        } else {
             var eduChk = new Array();
-            $("input[name='eduChk']").each(function(){
-                if(this.checked){
+            $("input[name='eduChk']").each(function () {
+                if (this.checked) {
                     var id = $(this).attr("id").replace($(this).attr("name"), "");
                     id = id.replace("edu", "");
                     eduChk.push(id);
                 }
             })
 
-            var url = "/useManage/userPersonnelRecordPop.do?popName=degree"+"&pk=" + eduChk;
+            var url = "/useManage/userPersonnelRecordPop.do?popName=degree" + "&pk=" + eduChk;
             var name = "userPersonnelRecordEduAddPop";
             var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
             var popup = window.open(url, name, option);
-        }
 
+            popup.onload = function () {
+                var titleElement = popup.document.querySelector('.card-title.title_NM');
+                titleElement.textContent = '학력 삭제';
+
+                var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
+                for (var i = 0; i < buttons.length; i++) {
+                    buttons[i].style.display = (i == 2) ? 'inline-block' : 'none';
+                }
+            }
+        }
     }
-    /*function delDegreeBtn() {
+
+
+    //인사기록카드 - 학력사항삭제 요청(_Tmp 테이블로 카피)
+    /*
+    function delDegreeBtn() {
         if($('input[name=eduChk]:checked').length == 0){
             alert("삭제할 항목을 선택해주세요.");
             return;
@@ -1260,23 +1361,29 @@
         var eduChk = new Array();
         $("input[name='eduChk']").each(function(){
             if(this.checked){
-                eduChk.push($(this).attr("id").replace($(this).attr("name"), ""));
+                var id = $(this).attr("id"); // id 속성 값
+                var eduId = parseInt(id.replace("edu", ""), 10); // "edu"를 제거하고 정수로 변환
+                eduChk.push(eduId);
             }
         })
 
-        $.ajax({
-            url : '/userManage/setEduDelete',
-            data : {
-                eduChk : eduChk
+          $.ajax({
+            type: "POST",
+            url: "/userManage/setEduDeleteTmp", // 컨트롤러 엔드포인트 URL
+            data: { eduChk: eduChk }, // 전송할 데이터
+            success: function (response) {
+                // AJAX 요청이 성공했을 때 실행되는 코드
+                console.log("요청이 성공했습니다.");
+                alert("삭제 요청이 완료되었습니다.")
             },
-            dataType: "json",
-            type : "POST",
-            success : function (rs){
-                var rs = rs.rs;
-                alert(rs.message);
+            error: function (error) {
+                // AJAX 요청이 실패했을 때 실행되는 코드
+                console.error("요청이 실패했습니다.");
+                alert("삭제 요청이 실패했습니다.")
             }
         });
-    }*/
+    }
+     */
 
     //인사기록카드 - 경력 사항 수정
     function updateCareerBtn() {
@@ -1285,42 +1392,89 @@
         }else if($('input[name=employChk]:checked').length > 1){
             alert("한개의 항목만 선택해주세요.");
         }else{
-            var url = "/useManage/userPersonnelRecordPop.do?popName=career";
+            var employChk = new Array();
+            $("input[name='employChk']").each(function () {
+                if (this.checked) {
+                    var id = $(this).attr("id").replace($(this).attr("name"), "");
+                    id = id.replace("employ", "");
+                    employChk.push(id);
+                }
+            })
+
+            var url = "/useManage/userPersonnelRecordPop.do?popName=career" + "&pk=" + employChk;
             var name = "userPersonnelRecordEduAddPop";
             var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
             var popup = window.open(url, name, option);
+
+            popup.onload = function() {
+                var titleElement = popup.document.querySelector('.card-title.title_NM');
+                titleElement.textContent = '경력 수정';
+
+                var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
+                for(var i = 0; i < buttons.length; i++) {
+                    buttons[i].style.display = (i == 1) ? 'inline-block' : 'none';
+                }
+                var tds = popup.document.querySelectorAll('tr');
+                for(var i = 0; i < tds.length; i++) {
+                    tds[i].setAttribute('disabled', 'true');
+                }
+            }
         }
     }
 
     //인사기록카드 - 경력 사항 삭제
     function delCareerBtn() {
         if($('input[name=employChk]:checked').length == 0){
-            alert("삭제할 항목을 선택해주세요.");
-            return;
-        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
-            return;
+            alert("수정할 항목을 선택해주세요.");
+        }else if($('input[name=employChk]:checked').length > 1){
+            alert("한개의 항목만 선택해주세요.");
+        }else{
+            var employChk = new Array();
+            $("input[name='employChk']").each(function () {
+                if (this.checked) {
+                    var id = $(this).attr("id").replace($(this).attr("name"), "");
+                    id = id.replace("employ", "");
+                    employChk.push(id);
+                }
+            })
+
+            var url = "/useManage/userPersonnelRecordPop.do?popName=career" + "&pk=" + employChk;
+            var name = "userPersonnelRecordEduAddPop";
+            var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+            var popup = window.open(url, name, option);
+
+            popup.onload = function() {
+                var titleElement = popup.document.querySelector('.card-title.title_NM');
+                titleElement.textContent = '경력 삭제';
+
+                var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
+                for(var i = 0; i < buttons.length; i++) {
+                    buttons[i].style.display = (i == 2) ? 'inline-block' : 'none';
+                }
+
+
+            }
         }
-
-        var employChk = new Array();
-        $("input[name='employChk']").each(function(){
-            if(this.checked){
-                employChk.push($(this).attr("id").replace($(this).attr("name"), ""));
-            }
-        })
-
-        $.ajax({
-            url : '/userManage/setCareerDelete',
-            data : {
-                employChk : employChk
-            },
-            dataType: "json",
-            type : "POST",
-            success : function (rs){
-                var rs = rs.rs;
-                alert(rs.message);
-            }
-        });
     }
+
+    //인사기록카드 - 병력 사항 수정
+    function updateMilitaryBtn(e) {
+        var url = "/useManage/userPersonnelRecordPop.do?popName=military&msiInfoId=" + e;
+        var name = "userPersonnelRecordEduAddPop";
+        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+
+        popup.onload = function() {
+            var titleElement = popup.document.querySelector('.card-title.title_NM');
+            titleElement.textContent = '병력 수정';
+
+            var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].style.display = (i == 1) ? 'inline-block' : 'none';
+            }
+        }
+    }
+
 
     //인사기록카드 - 가족 사항 수정
     function updateFamilyBtn() {
@@ -1329,14 +1483,34 @@
         }else if($('input[name=familyChk]:checked').length > 1){
             alert("한개의 항목만 선택해주세요.");
         }else{
-            var url = "/useManage/userPersonnelRecordPop.do?popName=family";
+            var familyChk = new Array();
+            $("input[name='familyChk']").each(function () {
+                if (this.checked) {
+                    var id = $(this).attr("id").replace($(this).attr("name"), "");
+                    id = id.replace("family", "");
+                    familyChk.push(id);
+                }
+            })
+
+            var url = "/useManage/userPersonnelRecordPop.do?popName=family" + "&pk=" + familyChk;
             var name = "userPersonnelRecordEduAddPop";
             var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
             var popup = window.open(url, name, option);
+
+            popup.onload = function() {
+                var titleElement = popup.document.querySelector('.card-title.title_NM');
+                titleElement.textContent = '가족사항 수정';
+
+                var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
+                for(var i = 0; i < buttons.length; i++) {
+                    buttons[i].style.display = (i == 1) ? 'inline-block' : 'none';
+                }
+
+            }
         }
     }
 
-    //인사기록카드 - 가족 사항 삭제
+    /*//인사기록카드 - 가족 사항 삭제
     function delFamilyBtn() {
         if($('input[name=familyChk]:checked').length == 0){
             alert("삭제할 항목을 선택해주세요.");
@@ -1364,7 +1538,7 @@
                 alert(rs.message);
             }
         });
-    }
+    }*/
 
     //인사기록카드 - 보유 면허 수정
     function updateLicenseBtn() {
@@ -1373,10 +1547,30 @@
         }else if($('input[name=certChk]:checked').length > 1){
             alert("한개의 항목만 선택해주세요.");
         }else{
-            var url = "/useManage/userPersonnelRecordPop.do?popName=license";
+            var certChk = new Array();
+            $("input[name='certChk']").each(function () {
+                if (this.checked) {
+                    var id = $(this).attr("id").replace($(this).attr("name"), "");
+                    id = id.replace("cert", "");
+                    certChk.push(id);
+                }
+            })
+
+            var url = "/useManage/userPersonnelRecordPop.do?popName=license" + "&pk=" + certChk;
             var name = "userPersonnelRecordEduAddPop";
             var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
             var popup = window.open(url, name, option);
+
+            popup.onload = function() {
+                var titleElement = popup.document.querySelector('.card-title.title_NM');
+                titleElement.textContent = '보유 면허 수정';
+
+                var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
+                for(var i = 0; i < buttons.length; i++) {
+                    buttons[i].style.display = (i == 1) ? 'inline-block' : 'none';
+                }
+
+            }
         }
     }
 
@@ -1417,10 +1611,28 @@
         }else if($('input[name=dutyInfoChk]:checked').length > 1){
             alert("한개의 항목만 선택해주세요.");
         }else{
-            var url = "/useManage/userPersonnelRecordPop.do?popName=job";
+            var dutyInfoChk = new Array();
+            $("input[name='dutyInfoChk']").each(function () {
+                if (this.checked) {
+                    var id = $(this).attr("id").replace($(this).attr("name"), "");
+                    id = id.replace("dutyInfo", "");
+                    dutyInfoChk.push(id);
+                }
+            })
+            var url = "/useManage/userPersonnelRecordPop.do?popName=job" + "&pk=" + dutyInfoChk;
             var name = "userPersonnelRecordEduAddPop";
             var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
             var popup = window.open(url, name, option);
+
+            popup.onload = function() {
+                var titleElement = popup.document.querySelector('.card-title.title_NM');
+                titleElement.textContent = '직무 사항 수정';
+
+                var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
+                for(var i = 0; i < buttons.length; i++) {
+                    buttons[i].style.display = (i == 1) ? 'inline-block' : 'none';
+                }
+            }
         }
     }
 
@@ -1461,10 +1673,28 @@
         }else if($('input[name=rewordChk]:checked').length > 1){
             alert("한개의 항목만 선택해주세요.");
         }else{
-            var url = "/useManage/userPersonnelRecordPop.do?popName=reward";
+            var rewordChk = new Array();
+            $("input[name='rewordChk']").each(function () {
+                if (this.checked) {
+                    var id = $(this).attr("id").replace($(this).attr("name"), "");
+                    id = id.replace("reword", "");
+                    rewordChk.push(id);
+                }
+            })
+            var url = "/useManage/userPersonnelRecordPop.do?popName=reward" + "&pk=" + rewordChk;
             var name = "userPersonnelRecordEduAddPop";
             var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
             var popup = window.open(url, name, option);
+
+            popup.onload = function() {
+                var titleElement = popup.document.querySelector('.card-title.title_NM');
+                titleElement.textContent = '상벌 사항 수정';
+
+                var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
+                for(var i = 0; i < buttons.length; i++) {
+                    buttons[i].style.display = (i == 1) ? 'inline-block' : 'none';
+                }
+            }
         }
     }
 
@@ -1505,10 +1735,27 @@
         }else if($('input[name=propChk]:checked').length > 1){
             alert("한개의 항목만 선택해주세요.");
         }else{
-            var url = "/useManage/userPersonnelRecordPop.do?popName=proposal";
+            var propChk = new Array();
+            $("input[name='propChk']").each(function () {
+                if (this.checked) {
+                    var id = $(this).attr("id").replace($(this).attr("name"), "");
+                    id = id.replace("prop", "");
+                    propChk.push(id);
+                }
+            })
+            var url = "/useManage/userPersonnelRecordPop.do?popName=proposal" + "&pk=" + propChk;
             var name = "userPersonnelRecordEduAddPop";
             var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
             var popup = window.open(url, name, option);
+            popup.onload = function() {
+                var titleElement = popup.document.querySelector('.card-title.title_NM');
+                titleElement.textContent = '제안 제도 수정';
+
+                var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
+                for(var i = 0; i < buttons.length; i++) {
+                    buttons[i].style.display = (i == 1) ? 'inline-block' : 'none';
+                }
+            }
         }
     }
 

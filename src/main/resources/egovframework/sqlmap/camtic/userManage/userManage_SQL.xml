@@ -764,6 +764,8 @@
              ,GUBUN_CODE
              ,GRADUATION_CODE
              ,SCORE
+             ,EDUCATIONAL_PK
+             ,APPLICATION_ACTIVE
         )VALUES (
             #{EMP_SEQ}
             ,#{EMP_NAME}
@@ -777,15 +779,17 @@
             ,#{gubun}
             ,#{graduation}
             ,#{score}
+            ,#{pk}
+            ,#{applicationactive}
         )
         <selectKey keyProperty="educationalId" resultType="Integer" order="BEFORE">
-            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_EDUCATIONAL'
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_EDUCATIONAL_TMP'
         </selectKey>
     </insert>
 
     <insert id="setCareerInfo" parameterType="map">
         /*setCareerInfo*/
-        INSERT INTO cam_hr.dj_emp_career(
+        INSERT INTO cam_hr.dj_emp_career_tmp(
               EMP_SEQ
              ,EMP_NAME
              ,EMPLOY_DEPT_NAME
@@ -798,6 +802,8 @@
              ,RMK
              ,MAIN_TASK
              ,CAREER_MONTH
+            ,CAREER_PK
+            ,APPLICATION_ACTIVE
         )VALUES (
             #{EMP_SEQ}
             ,#{EMP_NAME}
@@ -811,9 +817,11 @@
             ,#{bmk}
             ,#{workType}
             ,#{dateM}
+            ,#{pk}
+            ,#{applicationactive}
             )
         <selectKey keyProperty="careerId" resultType="Integer" order="BEFORE">
-            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_CAREER'
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_CAREER_TMP'
         </selectKey>
     </insert>
 
@@ -829,7 +837,7 @@
 
     <insert id="setMilitaryInfo" parameterType="map">
         /*setMilitaryInfo*/
-        INSERT INTO CAM_HR.DJ_EMP_MILITARY_SVC_INFO(
+        INSERT INTO CAM_HR.DJ_EMP_MILITARY_SVC_INFO_TMP(
                  EMP_SEQ
                 ,EMP_NAME
                 ,MILITARY_SVC_TYPE
@@ -841,6 +849,8 @@
                 ,M_LAST_RANK
                 ,M_DIVISION
                 ,MOS
+                ,MSI_INFO_PK
+                ,APPLICATION_ACTIVE
         )VALUES (
                 #{EMP_SEQ}
                 ,#{EMP_NAME}
@@ -853,9 +863,11 @@
                 ,#{rank}
                 ,#{mType}
                 ,#{mDept}
+                ,#{pk}
+                ,#{applicationactive}
                 )
     </insert>
-    <update id="setMilitaryInfoUpd" parameterType="map">
+    <!--<update id="setMilitaryInfoUpd" parameterType="map">
         /* setMilitaryInfoUpd */
         UPDATE
             CAM_HR.DJ_EMP_MILITARY_SVC_INFO
@@ -870,10 +882,10 @@
             MOD_EMP_SEQ = #{EMP_SEQ}
         WHERE
             MSI_INFO_ID = #{msiInfoId}
-    </update>
+    </update>-->
     <insert id="setFmailyInfo" parameterType="map">
         /*setFmailyInfo*/
-        INSERT INTO CAM_HR.DJ_EMP_FAMILY_INFO(
+        INSERT INTO CAM_HR.DJ_EMP_FAMILY_INFO_TMP(
                 EMP_SEQ
                 ,EMP_NAME
                 ,FAMILY_CODE
@@ -883,6 +895,8 @@
                 ,INCLUDE_YN
                 ,REG_EMP_SEQ
                 ,REG_DATE
+                ,FAMILY_PK
+                ,APPLICATION_ACTIVE
         )VALUES (
                 #{EMP_SEQ}
                 ,#{EMP_NAME}
@@ -893,11 +907,13 @@
                 ,#{includeType}
                 ,#{EMP_SEQ}
                 ,now()
+                ,#{pk}
+                ,#{applicationactive}
                 )
     </insert>
     <insert id="setLicenceInfo" parameterType="map">
         /*setLicenceInfo*/
-        INSERT INTO CAM_HR.DJ_EMP_CERTIFICATE(
+        INSERT INTO CAM_HR.DJ_EMP_CERTIFICATE_TMP(
                   EMP_SEQ
                  ,EMP_NAME
                  ,CERTIFICATE_NAME
@@ -907,6 +923,8 @@
                  ,RMK
                  ,REG_EMP_SEQ
                  ,REG_DATE
+                 ,CERTIFICATE_PK
+                 ,APPLICATION_ACTIVE
         )VALUES (
                 #{EMP_SEQ}
                 ,#{EMP_NAME}
@@ -917,9 +935,11 @@
                 ,#{bmk}
                 ,#{EMP_SEQ}
                 ,now()
+                ,#{pk}
+                ,#{applicationactive}
                 )
         <selectKey keyProperty="certificateId" resultType="Integer" order="BEFORE">
-            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_CERTIFICATE'
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_CERTIFICATE_TMP'
         </selectKey>
     </insert>
     <insert id="setAppointingInfo" parameterType="map">
@@ -946,7 +966,7 @@
     <!--인사기록카드 상벌 사항 추가-->
     <insert id="setRewardInfo" parameterType="map">
         /*setRewardInfo*/
-        INSERT INTO CAM_HR.DJ_EMP_REWORD(
+        INSERT INTO CAM_HR.DJ_EMP_REWORD_TMP(
                   EMP_SEQ
                  ,ERP_EMP_SEQ
                  ,EMP_NAME
@@ -962,6 +982,8 @@
                  ,REG_EMP_SEQ
                  ,REG_DATE
                  ,RWD_ETC
+                 ,REWORD_PK
+                 ,APPLICATION_ACTIVE
         )VALUES (
                 #{EMP_SEQ}
                 ,#{regErpEmpCd}
@@ -978,13 +1000,15 @@
                 ,#{EMP_SEQ}
                 ,now()
                 ,''
+                ,#{pk}
+                ,#{applicationactive}
                 )
         <selectKey keyProperty="rewordId" resultType="Integer" order="BEFORE">
-            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_REWORD'
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_REWORD_TMP'
         </selectKey>
     </insert>
     <insert id="setJobInfo" parameterType="map">
-        INSERT INTO cam_hr.dj_emp_duty_info(
+        INSERT INTO cam_hr.dj_emp_duty_info_tmp(
                 EMP_SEQ
                 , EMP_NAME
                 , POSITON_NAME
@@ -994,6 +1018,8 @@
                 , WORK_LEAVE_DAY
                 , REG_EMP_SEQ
                 , REG_DATE
+                , DUTY_PK
+                , APPLICATION_ACTIVE
         )VALUES (
                 #{EMP_SEQ}
                 , #{EMP_NAME}
@@ -1004,10 +1030,12 @@
                 , #{eDate}
                 , #{EMP_SEQ}
                 , NOW()
+                , #{pk}
+                , #{applicationactive}
         )
     </insert>
     <insert id="setProposalInfo" parameterType="map">
-        INSERT INTO cam_hr.dj_emp_proposal_info(
+        INSERT INTO cam_hr.dj_emp_proposal_info_tmp(
             EMP_SEQ
             ,EMP_NAME
             ,PROPOSAL_GUBUN
@@ -1016,6 +1044,8 @@
             ,PROPOSAL_DATE
             ,REG_EMP_SEQ
             ,REG_DATE
+            ,PROPOSAL_PK
+            ,APPLICATION_ACTIVE
         )VALUES (
             #{EMP_SEQ}
             ,#{EMP_NAME}
@@ -1025,6 +1055,8 @@
             ,#{sDate}
             ,#{EMP_SEQ}
             ,NOW()
+            ,#{pk}
+            ,#{applicationactive}
         )
     </insert>
 
@@ -1072,7 +1104,7 @@
         '경력사항' AS 'typeName',
         'CAREER_ID' AS 'key'
         FROM
-        cam_hr.dj_emp_career AS a
+        cam_hr.dj_emp_career_tmp AS a
         LEFT join
         cam_hr.dj_emp_info AS b
         on
@@ -1094,7 +1126,7 @@
         '병력사항' AS 'typeName',
         'MSI_INFO_ID' AS 'key'
         FROM
-        cam_hr.dj_emp_military_svc_info AS a
+        cam_hr.dj_emp_military_svc_info_tmp AS a
         LEFT join
         cam_hr.dj_emp_info AS b
         on
@@ -1116,7 +1148,7 @@
         '가족사항' AS 'typeName',
         'FAMILY_ID' AS 'key'
         FROM
-        cam_hr.dj_emp_family_info AS a
+        cam_hr.dj_emp_family_info_tmp AS a
         LEFT join
         cam_hr.dj_emp_info AS b
         on
@@ -1138,7 +1170,7 @@
         '보유면허' AS 'typeName',
         'CERTIFICATE_ID' AS 'key'
         FROM
-        cam_hr.dj_emp_certificate AS a
+        cam_hr.dj_emp_certificate_tmp AS a
         LEFT join
         cam_hr.dj_emp_info AS b
         on
@@ -1160,7 +1192,7 @@
         '상벌사항' AS 'typeName',
         'REWORD_ID' AS 'key'
         FROM
-        cam_hr.dj_emp_reword AS a
+        cam_hr.dj_emp_reword_tmp AS a
         LEFT join
         cam_hr.dj_emp_info AS b
         on
@@ -1183,7 +1215,7 @@
         '직무사항' AS 'typeName',
         'DUTY_ID' AS 'key'
         FROM
-        cam_hr.dj_emp_duty_info AS a
+        cam_hr.dj_emp_duty_info_tmp AS a
         LEFT join
         cam_hr.dj_emp_info AS b
         on
@@ -1205,7 +1237,7 @@
         '제안제도' AS 'typeName',
         'PROPOSAL_ID' AS 'key'
         FROM
-        cam_hr.dj_emp_proposal_info AS a
+        cam_hr.dj_emp_proposal_info_tmp AS a
         LEFT join
         cam_hr.dj_emp_info AS b
         on
@@ -1541,7 +1573,7 @@
             ${KEY} = #{ID}
     </update>
     <update id="setUpdateUserInfoModN" parameterType="map">
-        UPDATE cam_hr.${TYPE}
+        UPDATE cam_hr.${TYPE}_tmp
         SET
             ADMIN_APPROVAL = 'N',
             ADMIN_APPROVAL_DATE = NOW()
@@ -1551,7 +1583,7 @@
             ${KEY} = #{ID}
     </update>
         <update id="setUpdateUserInfoReturnY" parameterType="map">
-        UPDATE cam_hr.${TYPE}
+        UPDATE cam_hr.${TYPE}_tmp
         SET
             RETURNYN = 'Y',
             RETURNYN_DATE = NOW()
@@ -1561,7 +1593,7 @@
             ${KEY} = #{ID}
     </update>
     <update id="setUpdateUserInfoReturnN" parameterType="map">
-        UPDATE cam_hr.${TYPE}
+        UPDATE cam_hr.${TYPE}_tmp
         SET
             RETURNYN = 'N',
             RETURNYN_DATE = NOW()
@@ -2011,8 +2043,61 @@
             EMP_SEQ = #{empSeq}
     </update>
 
+    <!--인사기록카드 - 삭제할 학력사항 선택-->
+    <select id="getEduDeleteList" parameterType="java.util.List" resultType="map">
+        /* getEduDeleteList */
+         SELECT
+            *
+        FROM
+            CAM_HR.DJ_EMP_EDUCATIONAL
+        WHERE
+        EDUCATIONAL_ID IN
+        (
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </select>
+
+    <!-- 인사기록카드 - 학력사항 삭제 요청 데이터 카피-->
+    <insert id="setEduDeleteTmp" parameterType="map">
+        /*setEduDeleteTmp*/
+        INSERT INTO CAM_HR.DJ_EMP_EDUCATIONAL_TMP(
+        EMP_SEQ
+        ,EMP_NAME
+        ,ADMISSION_DAY
+        ,GRADUATION_DAY
+        ,DEGREE_CODE
+        ,REG_EMP_SEQ
+        ,REG_DATE
+        ,SCHOOL_NAME
+        ,RMK
+        ,GUBUN_CODE
+        ,GRADUATION_CODE
+        ,SCORE,
+        APPLICATION_ACTIVE
+        )VALUES (
+        #{EMP_SEQ}
+        ,#{EMP_NAME}
+        ,#{ADMISSION_DAY}
+        ,#{GRADUATION_DAY}
+        ,#{DEGREE_CODE}
+        ,#{EMP_SEQ}
+        ,NOW()
+        ,#{SCHOOL_NAME}
+        ,#{RMK}
+        ,#{GUBUN_CODE}
+        ,#{GRADUATION_CODE}
+        ,#{SCORE}
+        ,'삭제'
+        )
+        <selectKey keyProperty="educationalId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_EDUCATIONAL'
+        </selectKey>
+    </insert>
+
     <!--인사기록카드 - 학력사항 삭제-->
-    <!--<update id="setEduDelete" parameterType="java.util.List">
+    <update id="setEduDelete" parameterType="java.util.List">
         /* setEduDelete */
         UPDATE
         CAM_HR.DJ_EMP_EDUCATIONAL
@@ -2025,7 +2110,61 @@
             #{item}
         </foreach>
         )
-    </update>-->
+    </update>
+
+    <!--인사기록카드 - 삭제할 가족사항 선택 -->
+    <select id="getFamilyDeleteList" parameterType="java.util.List" resultType="map">
+        /* getFamilyDeleteList */
+        SELECT
+        *
+        FROM
+        CAM_HR.DJ_EMP_FAMILY_INFO
+        WHERE
+        FAMILY_ID IN
+        (
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </select>
+
+
+    <!--인사기록카드 - 가족사항 삭제 요청 데이터 카피-->
+    <insert id="setFamilyDeleteTmp" parameterType="map">
+        /*setEduDeleteTmp*/
+        INSERT INTO CAM_HR.DJ_EMP_FAMILY_INFO(
+        EMP_SEQ
+        ,EMP_NAME
+        ,ADMIN_APPROVAL
+        ,RETURNYN
+        ,ACTIVE
+        ,REG_EMP_SEQ
+        ,REG_DATE
+        ,FAMILY_CODE
+        ,FAMILY_NAME
+        ,FAMILY_BIRTH
+        ,FAMILY_JOB
+        ,INCLUDE_YN
+        ,APPLICATION_ACTIVE
+        )VALUES (
+        #{EMP_SEQ}
+        ,#{EMP_NAME}
+        ,#{ADMIN_APPROVAL}
+        ,#{RETURNYN}
+        ,#{ACTIVE}
+        ,#{EMP_SEQ}
+        ,NOW()
+        ,#{FAMILY_CODE}
+        ,#{FAMILY_NAME}
+        ,#{FAMILY_BIRTH}
+        ,#{FAMILY_JOB}
+        ,#{INCLUDE_YN}
+        ,'삭제'
+        )
+        <selectKey keyProperty="familyId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_FAMILY_INFO'
+        </selectKey>
+    </insert>
 
 
     <!--인사기록카드 - 가족사항 삭제    -->
@@ -2045,6 +2184,64 @@
     </update>
 
 
+
+    <!--인사기록카드 - 삭제할 보유면허 선택-->
+    <select id="getLicenseDeleteList" parameterType="java.util.List" resultType="map">
+        /* getLicenseDeleteList */
+        SELECT
+        *
+        FROM
+        CAM_HR.DJ_EMP_CERTIFICATE
+        WHERE
+        CERTIFICATE_ID IN
+        (
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </select>
+
+
+    <!--인사기록카드 - 보유면허 삭제 요청 데이터 카피-->
+    <insert id="setLicenseDeleteTmp" parameterType="map">
+        /*setLicenseDeleteTmp*/
+        INSERT INTO CAM_HR.DJ_EMP_CERTIFICATE(
+        EMP_SEQ
+        ,EMP_NAME
+        ,CERTIFICATE_NAME
+        ,CERTIFICATE_NUM
+        ,ACQUISITION_DAY
+        ,ISSUER
+        ,RMK
+        ,ACTIVE
+        ,ADMIN_APPROVAL
+        ,RETURNYN
+        ,REG_EMP_SEQ
+        ,REG_DATE
+        ,CERTIFICATE_ADD_NO
+        ,APPLICATION_ACTIVE
+        )VALUES (
+        #{EMP_SEQ}
+        ,#{EMP_NAME}
+        ,#{CERTIFICATE_NAME}
+        ,#{CERTIFICATE_NUM}
+        ,#{ACQUISITION_DAY}
+        ,#{ISSUER}
+        ,#{RMK}
+        ,#{ACTIVE}
+        ,#{ADMIN_APPROVAL}
+        ,#{RETURNYN}
+        ,#{EMP_SEQ}
+        ,NOW()
+        ,#{CERTIFICATE_ADD_NO}
+        ,'삭제'
+        )
+        <selectKey keyProperty="certificateId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_CERTIFICATE'
+        </selectKey>
+    </insert>
+
+
     <!--인사기록카드 - 보유면허 삭제-->
     <update id="setLicenseDelete" parameterType="java.util.List">
         /* setLicenseDelete */
@@ -2060,6 +2257,68 @@
         </foreach>
         )
     </update>
+
+
+
+    <!--인사기록카드 - 삭제할 직무사항 선택-->
+    <select id="getJobDeleteList" parameterType="java.util.List" resultType="map">
+        /* getJobDeleteList */
+        SELECT
+        *
+        FROM
+        CAM_HR.DJ_EMP_DUTY_INFO
+        WHERE
+        DUTY_ID IN
+        (
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </select>
+
+
+    <!--인사기록카드 - 직무사항 삭제 요청 데이터 카피-->
+    <insert id="setJobDeleteTmp" parameterType="map">
+        /*setJobDeleteTmp*/
+        INSERT INTO CAM_HR.DJ_EMP_DUTY_INFO(
+        EMP_SEQ
+        ,EMP_NAME
+        ,POSITION_NAME
+        ,WORK_PAY
+        ,WORK_PAY
+        ,DUTY_DETAIL
+        ,WORK_JOIN_DAY
+        ,WORK_LEAVE_DAY
+        ,RMK
+        ,ADMIN_APPROVAL
+        ,RETURNYN
+        ,ACTIVE
+        ,REG_EMP_SEQ
+        ,REG_DATE
+        ,APPLICATION_ACTIVE
+        )VALUES (
+        #{EMP_SEQ}
+        ,#{EMP_NAME}
+        ,#{CERTIFICATE_NAME}
+        ,#{CERTIFICATE_NUM}
+        ,#{ACQUISITION_DAY}
+        ,#{ISSUER}
+        ,#{RMK}
+        ,#{ACTIVE}
+        ,#{ADMIN_APPROVAL}
+        ,#{RETURNYN}
+        ,#{EMP_SEQ}
+        ,#{ACTIVE}
+        ,#{EMP_SEQ}
+        ,NOW()
+        ,'삭제'
+        )
+        <selectKey keyProperty="jobId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_DUTY_INFO'
+        </selectKey>
+    </insert>
+
+
 
     <!--인사기록카드 - 직무사항 삭제-->
     <update id="setJobDelete" parameterType="java.util.List">
@@ -2077,6 +2336,72 @@
         )
     </update>
 
+
+    <!--인사기록카드 - 삭제할 상벌사항 선택-->
+    <select id="getRewordDeleteList" parameterType="java.util.List" resultType="map">
+        /* getRewordDeleteList */
+        SELECT
+        *
+        FROM
+        CAM_HR.DJ_EMP_REWORD
+        WHERE
+        REWORD_ID IN
+        (
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </select>
+
+
+    <!--인사기록카드 - 상벌사항 삭제 요청 데이터 카피-->
+    <insert id="setRewordDeleteTmp" parameterType="map">
+        /*setRewordDeleteTmp*/
+        INSERT INTO CAM_HR.DJ_EMP_DUTY_INFO(
+        EMP_SEQ
+        ,EMP_NAME
+        ,ERP_EMP_SEQ
+        ,DEPT_SEQ
+        ,TEAM_SEQ
+        ,TEAM_NAME
+        ,REWORD_TYPE
+        ,REWORD_TYPE_NAME
+        ,REWORD_NAME
+        ,RWD_OFM
+        ,RWD_ST_COMP
+        ,RETURNYN
+        ,ACTIVE
+        ,ADMIN_APPROVAL
+        ,REG_EMP_SEQ
+        ,REG_DATE
+        ,REWARD_ADD_NO
+        ,APPLICATION_ACTIVE
+        )VALUES (
+        #{EMP_SEQ}
+        ,#{EMP_NAME}
+        ,#{ERP_EMP_SEQ}
+        ,#{DEPT_SEQ}
+        ,#{TEAM_SEQ}
+        ,#{TEAM_NAME}
+        ,#{REWORD_TYPE}
+        ,#{REWORD_TYPE_NAME}
+        ,#{REWORD_NAME}
+        ,#{RWD_OFM}
+        ,#{RWD_ST_COMP}
+        ,#{EMP_SEQ}
+        ,#{ACTIVE}
+        ,#{ADMIN_APPROVAL}
+        ,#{EMP_SEQ}
+        ,NOW()
+        ,#{REWARD_ADD_NO}
+        ,'삭제'
+        )
+        <selectKey keyProperty="rewordId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_REWORD'
+        </selectKey>
+    </insert>
+
+
     <!--인사기록카드 - 상벌사항 삭제-->
     <update id="setRewordDelete" parameterType="java.util.List">
         /* setRewordDelete */
@@ -2092,6 +2417,65 @@
         </foreach>
         )
     </update>
+
+
+
+    <!--인사기록카드 - 삭제할 제안제도 선택-->
+    <select id="getProposalDeleteList" parameterType="java.util.List" resultType="map">
+        /* getRewordDeleteList */
+        SELECT
+        *
+        FROM
+        CAM_HR.DJ_EMP_PROPOSAL_INFO
+        WHERE
+        PROPOSAL_ID IN
+        (
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </select>
+
+
+    <!--인사기록카드 - 제안제도 삭제 요청 데이터 카피-->
+    <insert id="setProposalDeleteTmp" parameterType="map">
+        /*setProposalDeleteTmp*/
+        INSERT INTO CAM_HR.DJ_EMP_PROPOSAL_INFO(
+        EMP_SEQ
+        ,EMP_NAME
+        ,PROPOSAL_GUBUN
+        ,PROPOSAL_DETAIL
+        ,PROPOSAL_CHECK_CHOICE
+        ,PROPOSAL_DATE
+        ,ADMIN_APPROVAL
+        ,RETURNYN
+        ,ACTIVE
+        ,ADMIN_APPROVAL
+        ,REG_EMP_SEQ
+        ,REG_DATE
+        ,APPLICATION_ACTIVE
+        )VALUES (
+        #{EMP_SEQ}
+        ,#{EMP_NAME}
+        ,#{PROPOSAL_GUBUN}
+        ,#{PROPOSAL_DETAIL}
+        ,#{PROPOSAL_CHECK_CHOICE}
+        ,#{PROPOSAL_DATE}
+        ,#{ADMIN_APPROVAL}
+        ,#{RETURNYN}
+        ,#{ACTIVE}
+        ,#{ADMIN_APPROVAL}
+        ,#{EMP_SEQ}
+        ,NOW()
+        ,#{REWARD_ADD_NO}
+        ,'삭제'
+        )
+        <selectKey keyProperty="proposalId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_PROPOSAL_INFO'
+        </selectKey>
+    </insert>
+
+
 
     <!--인사기록카드 - 제안제도 삭제-->
     <update id="setProposalDelete" parameterType="java.util.List">
@@ -2109,6 +2493,27 @@
         )
     </update>
 
+
+    <select id="getRewinfoList" parameterType="map" resultType="map">
+        /* getRewinfoList */
+        SELECT
+            *
+        FROM
+            CAM_HR.DJ_EMP_REWORD
+        WHERE
+            REWORD_ID = #{pk}
+    </select>
+
+    <select id="getProinfoList" parameterType="map" resultType="map">
+        /* getProinfoList */
+        SELECT
+            *
+        FROM
+            CAM_HR.DJ_EMP_PROPOSAL_INFO
+        WHERE
+            PROPOSAL_ID = #{pk}
+    </select>
+
     <select id="getEduinfoList" parameterType="map" resultType="map">
         /* getEduinfoList */
         SELECT
@@ -2119,10 +2524,50 @@
             EDUCATIONAL_ID = #{pk}
     </select>
 
+    <select id="getCarinfoList" parameterType="map" resultType="map">
+        /* getCarinfoList */
+        SELECT
+            *
+        FROM
+            CAM_HR.DJ_EMP_CAREER
+        WHERE
+            CAREER_ID = #{pk}
+    </select>
+
+    <select id="getFaminfoList" parameterType="map" resultType="map">
+        /* getFaminfoList */
+        SELECT
+            *
+        FROM
+            CAM_HR.DJ_EMP_FAMILY_INFO
+        WHERE
+            FAMILY_ID = #{pk}
+    </select>
+
+    <select id="getLininfoList" parameterType="map" resultType="map">
+        /* getLininfoList */
+        SELECT
+            *
+        FROM
+            CAM_HR.DJ_EMP_CERTIFICATE
+        WHERE
+            CERTIFICATE_ID = #{pk}
+    </select>
+
+    <select id="getJobinfoList" parameterType="map" resultType="map">
+        /* getJobinfoList */
+        SELECT
+            *
+        FROM
+            CAM_HR.DJ_EMP_DUTY_INFO
+        WHERE
+            DUTY_ID = #{pk}
+    </select>
+
     <update id="setInGradeFileNoUpd" parameterType="map">
         /* setInGradeFileNoUpd */
         UPDATE
-            CAM_HR.DJ_EMP_EDUCATIONAL
+            CAM_HR.DJ_EMP_EDUCATIONAL_TMP
         SET
             GRADE_NO = #{gradeFileNo}
         WHERE
@@ -2132,7 +2577,7 @@
     <update id="setInScoreFileNoUpd" parameterType="map">
         /* setInScoreFileNoUpd */
         UPDATE
-            CAM_HR.DJ_EMP_EDUCATIONAL
+            CAM_HR.DJ_EMP_EDUCATIONAL_TMP
         SET
             SCORE_NO = #{socreFileNo}
         WHERE
@@ -2142,7 +2587,7 @@
     <update id="setInAddFileNoUpd" parameterType="map">
         /* setInAddFileNoUpd */
         UPDATE
-            CAM_HR.DJ_EMP_CAREER
+            CAM_HR.DJ_EMP_CAREER_TMP
         SET
             ADD_NO = #{addFileNo}
         WHERE
@@ -2152,7 +2597,7 @@
     <update id="setInCertificateFileNoUpd" parameterType="map">
         /* setInCertificateFileNoUpd */
         UPDATE
-            CAM_HR.DJ_EMP_CERTIFICATE
+            CAM_HR.DJ_EMP_CERTIFICATE_TMP
         SET
             CERTIFICATE_ADD_NO = #{certificateFileNo}
         WHERE
@@ -2162,7 +2607,7 @@
     <update id="setInRewardAddFileNoUpd" parameterType="map">
         /* setInRewardAddFileNoUpd */
         UPDATE
-            CAM_HR.DJ_EMP_REWORD
+            CAM_HR.DJ_EMP_REWORD_TMP
         SET
             REWARD_ADD_NO = #{rewardAddFileNo}
         WHERE
