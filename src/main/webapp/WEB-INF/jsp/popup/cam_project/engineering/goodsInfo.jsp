@@ -29,7 +29,7 @@
 <div style="padding: 10px">
     <div id="btnDiv">
         <button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="goodsInfo.fn_save()">저장</button>
-        <button type="button" id="printBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-base" onclick="">인쇄</button>
+        <button type="button" id="printBtn" style="display:none; float: right; margin-right: 5px;" class="k-button k-button-solid-base" onclick="goodsInfo.goodsPrintPop()">인쇄</button>
     </div>
     <div class="table-responsive">
         <table class="popTable table table-bordered mb-0">
