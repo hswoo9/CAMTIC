@@ -45,8 +45,8 @@ var regRnd = {
         var tab5Url = "/projectRnd/rndDevSchedule.do";          // 개발일정
         var tab6Url = "/projectRnd/rndDevJob.do";               // 개발일지
 
-        var tab7Url = "/projectRnd/payMvInfo.do";               // 입출금대장관리
-        var tab8Url = "/projectRnd/budgetInfo.do";              // 예산관리
+        // var tab7Url = "/projectRnd/payMvInfo.do";               // 입출금대장관리
+        var tab7Url = "/projectRnd/budgetInfo.do";              // 예산관리
         var tab9Url = "/projectRnd/rschPayReqInfo.do";          // 연구비신청
         // var tab9Url = "/projectRnd/rschPayRepInfo.do";          // 연구비정산 -- 제외
 
@@ -62,7 +62,7 @@ var regRnd = {
             tab5Url += "?pjtSn=" + setParameters.PJT_SN;
             tab6Url += "?pjtSn=" + setParameters.PJT_SN;
             tab7Url += "?pjtSn=" + setParameters.PJT_SN;
-            tab8Url += "?pjtSn=" + setParameters.PJT_SN;
+            // tab8Url += "?pjtSn=" + setParameters.PJT_SN;
             tab9Url += "?pjtSn=" + setParameters.PJT_SN;
             tab10Url += "?pjtSn=" + setParameters.PJT_SN;
             tab11Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -89,7 +89,7 @@ var regRnd = {
                 {name: "개발일지", url: tab6Url},
                 // {name: "입출금대장관리", url: tab5Url},
                 {name: "예산현황", url: tab7Url},        // 연구비 입금처리와 같이 사용
-                {name: "지급관리", url: tab8Url},
+                {name: "지급관리", url: tab9Url},
                 // {name: "연구비정산", url: tab8Url},
                 {name: "협업관리", url: tab10Url},
                 {name: "구매관리", url: tab11Url}
@@ -110,7 +110,7 @@ var regRnd = {
             } else {
                 tabStrip.select(0);
             }
-            tabStrip.disable(tabStrip.tabGroup.children().eq(7));
+            // tabStrip.disable(tabStrip.tabGroup.children().eq(7));
             // tabStrip.disable(tabStrip.tabGroup.children().eq(8));
             regRnd.fn_setData(setParameters);
         }
