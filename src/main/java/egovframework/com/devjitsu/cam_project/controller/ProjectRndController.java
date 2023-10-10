@@ -635,4 +635,42 @@ public class ProjectRndController {
         return "jsonView";
     }
 
+    @RequestMapping("/projectRnd/setPartRateDetail")
+    public String setPartRateDetail(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectRndService.setPartRateDetail(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectRnd/checkPartRateDetail")
+    public String checkPartRateDetail(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectRndService.checkPartRateDetail(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+
+    @RequestMapping("/projectRnd/setReqPartRateStatus")
+    public String setReqPartRateStatus(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectRndService.setReqPartRateStatus(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }

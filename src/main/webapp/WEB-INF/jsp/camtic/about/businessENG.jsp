@@ -38,12 +38,19 @@
     <div class="inner">
       <jsp:include page="/WEB-INF/jsp/template/camtic/lnbENG.jsp" flush="false"/>
       <div id="content">
-        <jsp:include page="/WEB-INF/jsp/template/camtic/navi_titleENG.jsp" flush="false"/>
+        <ul id="navigation">
+          <li><a href="/camtic">HOME</a></li>
+          <li class="mdCategory">Major Business Areas</li>
+          <li class="smCategory" style="display: none;">Major Business Areas</li>
+        </ul>
+        <div id="title">
+          <h3>Major Business Areas</h3>
+        </div>
 
         <div class="__busi m0" style="padding: 0px 52px">
-          <div class="__tit1 __mt0" style="display: flex;">
+          <%--<div class="__tit1 __mt0" style="display: flex;">
             <h4 style="font-size: 45px; font-weight: bold; color: #000;"><strong>Major Business Areas</strong></h4>
-          </div>
+          </div>--%>
           <div class="__vision50" style="border: none; margin-bottom: 0px;">
             <img src="/images/camtic/symbol.png" alt="" style="margin-bottom: 100px; width:100px; height: 150px;">
             <div class="__busiA">
@@ -78,12 +85,12 @@
             </div>
           </div>
 
-          <div class="__tit1 __mt0" >
+          <%--<div class="__tit1 __mt0" >
             <h3><strong>Research & Business Development</strong></h3>
           </div>
-          <%--<div class="__vision50" style="border-top: 1px dashed #b7b7b7;">
+          &lt;%&ndash;<div class="__vision50" style="border-top: 1px dashed #b7b7b7;">
             <img src="/images/camtic/img-busi_01ENG.png" alt="">
-          </div>--%>
+          </div>&ndash;%&gt;
           <div class="__vision50">
             <div class="__imgW __imgW1">
               <div class="wrap">
@@ -188,9 +195,9 @@
           <div class="__tit1 __mt50" >
             <h3><strong>Business Growth Support</strong> </h3>
           </div>
-          <%--<div class="__vision50" style="border-top: 1px dashed #b7b7b7;">
+          &lt;%&ndash;<div class="__vision50" style="border-top: 1px dashed #b7b7b7;">
             <img src="/images/camtic/img-busi_02ENG.png" alt="">
-          </div>--%>
+          </div>&ndash;%&gt;
           <div class="__vision50">
 
             <div class="__imgW __imgW2">
@@ -327,9 +334,9 @@
           <div class="__tit1 __mt50" >
             <h3><strong>Commercialization of key technologies</strong></h3>
           </div>
-          <%--<div class="__vision50" style="border-top: 1px dashed #b7b7b7;">
+          &lt;%&ndash;<div class="__vision50" style="border-top: 1px dashed #b7b7b7;">
             <img src="/images/camtic/img-busi_03ENG.png" alt="">
-          </div>--%>
+          </div>&ndash;%&gt;
         <div class="__vision50">
           <div class="__imgW __imgW3">
             <div class="wrap">
@@ -465,7 +472,7 @@
           </div>
         </div>
 
-       <%-- <div class="__bio3">
+       &lt;%&ndash; <div class="__bio3">
           <h3>• Overseas: Approved as an official event by the FAI affiliated to the International Olympic Committee; Distributed to Japan, China, France, the Netherlands, and so on.</h3>
           <div class="box __mt20" style="padding: 0px 50px;">
             <div class="cont" style="display: flex;">
@@ -475,7 +482,7 @@
               <div class="img"><div class="img"><img src="/images/camtic/businesseENG12-4.jpg" alt=""></div><div class="txt">Drone soccer ball for childre</div></div>
             </div>
           </div>
-        </div>--%>
+        </div>&ndash;%&gt;
 
           <div class="__jvalley3 __mt100">
             <div class="sw" style="justify-content: center; align-items: center;">
@@ -492,7 +499,7 @@
               </div>
               <div class="box" style="display: flex; flex-direction: column; align-items: center;width: calc(100% / 2); height: 415px;">
                 <h6>Drone soccer field</h6>
-                <div class="cont" <%--style="display: flex; flex-direction: row; align-items: center; justify-content: center;--%> ">
+                <div class="cont" &lt;%&ndash;style="display: flex; flex-direction: row; align-items: center; justify-content: center;&ndash;%&gt; ">
                   <div class="img"><div class="img"><img src="/images/camtic/businesseENG13-5.jpg" alt=""></div><div class="txt">Drone soccer field in Jeonju World Cup Stadium</div></div>
                   <div class="img"><div class="img"><img src="/images/camtic/businesseENG13-6.png" alt=""></div><div class="txt">Air bounce drone soccer field</div></div>
                 </div>
@@ -531,8 +538,8 @@
               </div>
             </div>
           </div>
-
-
+--%>
+        </div>
       </div>
     </div>
   </div>

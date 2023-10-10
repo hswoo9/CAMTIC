@@ -150,6 +150,7 @@ var rndRPR = {
             var html = '';
             for(var i = 0; i < ls.length; i++){
                 $("#partRateVersion").html("");
+                $("#partRateVersion2").html("");
                 var mngStat = "";
                 if(ls[i].MNG_STAT == "S"){
                     mngStat = "설정완료";
@@ -159,26 +160,44 @@ var rndRPR = {
                     mngStat = "검토중"
                 }
 
+                var repDate = "";
+                if(ls[i].REP_DATE != null){
+                    repDate = new Date(ls[i].REP_DATE).toISOString().replace('T', ' ').slice(0, -5)
+                }
+
+                var mngComm = "";
+                if(ls[i].MNG_COMM != null){
+                    mngComm = ls[i].MNG_COMM;
+                }
+
                 html += '<tr style="text-align: center">';
                 html += '   <td>신규</td>';
                 html += '   <td>';
-                html += '       <span style="cursor : pointer;" onclick="rndRPR.versionClickEvt(' + ls[i].PART_RATE_VER_SN + ')">ver.' + (i+1) + '</span>';
+                html += '       <span style="cursor : pointer;font-weight: bold" onclick="rndRPR.versionClickEvt(' + ls[i].PART_RATE_VER_SN + ')">ver.' + (i+1) + '</span>';
                 html += '   </td>';
                 html += '   <td>'+ ls[i].REQ_EMP_NM +'</td>';
                 html += '   <td style="text-align: right">' + comma(Number(ls[i].PAY_BUDGET) + Number(ls[i].ITEM_BUDGET)) + '</td>';
                 html += '   <td>'+ new Date(ls[i].REQ_DATE).toISOString().replace('T', ' ').slice(0, -5) +'</td>';
+                html += '   <td>'+ repDate +'</td>';
                 html += '   <td></td>';
-                html += '   <td></td>';
-                html += '   <td></td>';
+                html += '   <td>'+mngComm+'</td>';
                 html += '   <td>'+mngStat+'</td>';
                 html += '</tr>';
             }
             $("#partRateVersion").append(html);
+            $("#partRateVersion2").append(html);
         }
     },
 
     versionClickEvt: function (key){
-        alert(key)
+
+        if($("#partRateMenuGubun").val() != undefined && $("#partRateMenuGubun").val() != null){
+            $("#partRateVerSn").val(key);
+
+            rndPR.fn_getPartRateDetail();
+        } else {
+            alert(key);
+        }
     },
 
     fn_changePartRate: function (){

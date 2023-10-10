@@ -42,13 +42,13 @@ var partRate = {
                 '	<td colspan="3" style="text-align: center">첨부된 파일이 없습니다.</td>' +
                 '</tr>');
         }
-
+        console.log()
         if(mng != null){
             var mngHtml = "";
 
-            mngHtml += '<tr style="text-align: center">';
-            mngHtml += '   <td>책임자</td>';
-            mngHtml += '   <td>' + mng.MNG_EMP_NAME + '</td>';
+            mngHtml += '<tr style="text-align: center" class="bodyTr">';
+            mngHtml += '   <td>책임자<input type="hidden" name="partEmpSeq" value="'+mng.MNG_EMP_SEQ+'" /></td>';
+            mngHtml += '   <td>' + mng.MNG_EMP_NAME + '<input type="hidden" name="partEmpName" value="'+mng.MNG_EMP_NAME+'" /></td>';
             mngHtml += '   <td style="text-align: right">' + comma(mng.BASIC_SALARY) + '</td>';
             mngHtml += '   <td>';
             mngHtml += '        <input type="text" id="mngChngSal" name="chngSal" value="'+comma(mng.BASIC_SALARY)+'" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" />';
@@ -84,16 +84,60 @@ var partRate = {
             $("#mngPayTotal, #mngItemRate, #mngChngSal").on("keyup", function(){
                 partRate.fn_mngCalc(mng.BASIC_SALARY, rs.PAY_BUDGET);
             });
+
+            if(mng.CHNG_SAL != null){
+                $("#mngChngSal").val(comma(mng.CHNG_SAL));
+            }
+
+            if(mng.PART_DET_STR_DT != null){
+                $("#mngStrDt").val(mng.PART_DET_STR_DT);
+            }
+
+            if(mng.PART_DET_END_DT != null){
+                $("#mngEndDt").val(mng.PART_DET_END_DT);
+            }
+
+            if(mng.MON_DIFF != null){
+                $("#mngMon").val(mng.MON_DIFF);
+            }
+
+            if(mng.PAY_RATE != null){
+                $("#mngPayRate").val(mng.PAY_RATE);
+            }
+
+            if(mng.TOT_PAY_BUDG != null){
+                $("#mngTotPayBudget").val(comma(mng.TOT_PAY_BUDG));
+            }
+
+            if(mng.ITEM_RATE != null){
+                $("#mngItemRate").val(mng.ITEM_RATE);
+            }
+
+            if(mng.TOT_ITEM_BUDG != null){
+                $("#mngTotItemBudget").val(comma(mng.TOT_ITEM_BUDG));
+            }
+
+            if(mng.TOT_RATE != null){
+                $("#mngTotRate").val(mng.TOT_RATE);
+            }
+
+            if(mng.PAY_TOTAL != null){
+                $("#mngPayTotal").val(comma(mng.PAY_TOTAL));
+            }
+
+            if(mng.MON_SAL != null){
+                $("#mngMonSal").val(comma(mng.MON_SAL));
+            }
+
         }
-        
         
         if(mem != null){
             var memHtml = '';
             
             for(var i = 0 ; i < mem.length ; i++){
-                memHtml += '<tr style="text-align: center">';
-                memHtml += '   <td>참여자</td>';
-                memHtml += '   <td>' + mem[i].EMP_NAME + '</td>';
+                memHtml += '<tr style="text-align: center" class="bodyTr">';
+                memHtml += '   <td>참여자<input type="hidden" name="partEmpSeq" value="'+mem[i].EMP_SEQ+'" /></td>';
+                memHtml += '   <td>' + mem[i].EMP_NAME + '<input type="hidden" name="partEmpName" value="'+mem[i].EMP_NAME+'" /></td>';
                 memHtml += '   <td style="text-align: right">' + comma(mem[i].BASIC_SALARY) + '</td>';
                 memHtml += '   <td>';
                 memHtml += '        <input type="text" id="memChngSal'+i+'" name="chngSal" value="'+comma(mem[i].BASIC_SALARY)+'" style="text-align: right" onkeyup="partRate.fn_memCalc('+mem[i].BASIC_SALARY+','+rs.PAY_BUDGET+','+ i +', this);" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" />';
@@ -119,8 +163,52 @@ var partRate = {
                 customKendo.fn_textBox(["memChngSal" + i, "memItemRate" + i, "memPayTotal" + i, "memMon" + i, "memPayRate" + i, "memTotPayBudget" + i, "memTotItemBudget" + i, "memTotRate" + i, "memMonSal" + i]);
                 customKendo.fn_datePicker("memStrDt" + i, "depth", "yyyy-MM-dd", new Date(mng.PJT_STR_DT));
                 customKendo.fn_datePicker("memEndDt" + i, "depth", "yyyy-MM-dd", new Date(mng.PJT_END_DT));
-            }
 
+
+                if(mem[i].CHNG_SAL != null){
+                    $("#memChngSal" + i).val(comma(mem[i].CHNG_SAL));
+                }
+
+                if(mem[i].PART_DET_STR_DT != null){
+                    $("#memStrDt" + i).val(mem[i].PART_DET_STR_DT);
+                }
+
+                if(mem[i].PART_DET_END_DT != null){
+                    $("#memEndDt" + i).val(mem[i].PART_DET_END_DT);
+                }
+
+                if(mem[i].MON_DIFF != null){
+                    $("#memMon" + i).val(mem[i].MON_DIFF);
+                }
+
+                if(mem[i].PAY_RATE != null){
+                    $("#memPayRate" + i).val(mem[i].PAY_RATE);
+                }
+
+                if(mem[i].TOT_PAY_BUDG != null){
+                    $("#memTotPayBudget" + i).val(comma(mem[i].TOT_PAY_BUDG));
+                }
+
+                if(mem[i].ITEM_RATE != null){
+                    $("#memItemRate" + i).val(mem[i].ITEM_RATE);
+                }
+
+                if(mem[i].TOT_ITEM_BUDG != null){
+                    $("#memTotItemBudget" + i).val(comma(mem[i].TOT_ITEM_BUDG));
+                }
+
+                if(mem[i].TOT_RATE != null){
+                    $("#memTotRate" + i).val(mem[i].TOT_RATE);
+                }
+
+                if(mem[i].PAY_TOTAL != null){
+                    $("#memPayTotal" + i).val(comma(mem[i].PAY_TOTAL));
+                }
+
+                if(mem[i].MON_SAL != null){
+                    $("#memMonSal" + i).val(comma(mem[i].MON_SAL));
+                }
+            }
         }
 
         var lastHtml = ''
@@ -134,6 +222,8 @@ var partRate = {
 
 
         customKendo.fn_textBox(["allPayTotal"]);
+
+        partRate.fn_mngCalc(mng.BASIC_SALARY, rs.PAY_BUDGET);
     },
 
     fn_mngCalc : function (bsSal, payBudget){
@@ -159,9 +249,15 @@ var partRate = {
             $("#mngPayRate").val(mngPayRate);
         }
 
+        // var mngTotPayBudget = comma(Math.round(Number(uncomma($("#mngPayTotal").val())) / ($("#mngTotRate").val() / $("#mngPayRate").val())));
         var mngTotPayBudget = comma(Math.round(Number(uncomma($("#mngPayTotal").val())) / ($("#mngTotRate").val() / $("#mngPayRate").val())));
-        if(!isNaN(mngTotPayBudget)){
-            $("#mngTotPayBudget").val(mngTotPayBudget);
+        if($("#mngItemRate").val() == 0){
+            $("#mngTotPayBudget").val(comma($("#mngPayTotal").val()));
+        } else {
+            console.log(mngTotPayBudget);
+            if(!isNaN(uncomma(mngTotPayBudget))){
+                $("#mngTotPayBudget").val(mngTotPayBudget);
+            }
         }
 
         $("#mngTotItemBudget").val(comma(Math.round(Number(uncomma($("#mngPayTotal").val())) - Number(uncomma($("#mngTotPayBudget").val())))));
@@ -208,9 +304,14 @@ var partRate = {
         }
 
         var memTotPayBudget = comma(Math.round(Number(uncomma($("#memPayTotal" + i).val())) / ($("#memTotRate" + i).val() / $("#memPayRate" + i).val())));
-        if(!isNaN(memTotPayBudget)){
-            $("#memTotPayBudget" + i).val(memTotPayBudget);
+        if($("#memItemRate" + i).val() == 0){
+            $("#memTotPayBudget" + i).val(comma($("#memPayTotal" + i).val()));
+        } else {
+            if(!isNaN(uncomma(memTotPayBudget))){
+                $("#memTotPayBudget" + i).val(memTotPayBudget);
+            }
         }
+
 
         $("#memTotItemBudget" + i).val(comma(Math.round(Number(uncomma($("#memPayTotal" + i).val())) - Number(uncomma($("#memTotPayBudget" + i).val())))));
 
@@ -261,5 +362,51 @@ var partRate = {
 
         // return Math.round((diffDays / 30).toFixed(2) * 10) / 10;
         return pDateMonth;
+    },
+
+    fn_save: function(){
+
+
+
+        var parameterList = new Array();
+        var body = $("#partRateMember").find(".bodyTr");
+        for(var i = 0 ; i < body.length ; i++){
+            var parameters = {
+                pjtSn : $("#pjtSn").val(),
+                partRateVerSn : $("#partRateVerSn").val(),
+                mngComm : $("#mngComment").val()
+            }
+
+            $(body.get(i)).find("input").each(function(){
+                if($(this).attr("name") == "partEmpName" || $(this).attr("name") == "strDt" || $(this).attr("name") == "endDt"
+                  || $(this).attr("name") == "payRate" || $(this).attr("name") == "itemRate" || $(this).attr("name") == "mon"
+                    || $(this).attr("name") == "totRate"){
+                    parameters[$(this).attr("name")] = $(this).val();
+                } else {
+                    parameters[$(this).attr("name")] = uncomma($(this).val());
+                }
+            });
+            parameterList[i] = parameters;
+        }
+
+        if(parameterList.length != 0){
+            customKendo.fn_customAjax("/projectRnd/checkPartRateDetail", parameterList[0]);
+        }
+
+        for(var i = 0 ; i < parameterList.length ; i++){
+            customKendo.fn_customAjax("/projectRnd/setPartRateDetail", parameterList[i]);
+
+            if(i == parameterList.length - 1){
+                var rs = customKendo.fn_customAjax("/projectRnd/setReqPartRateStatus", parameterList[i]);
+
+                if(rs.code == 200){
+
+                    alert("저장되었습니다.");
+                    location.reload();
+                }
+            }
+        }
+
+
     }
 }

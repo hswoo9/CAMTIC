@@ -28,6 +28,7 @@
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 
 <input type="hidden" id="partRateVerSn" value="${params.partRateVerSn}" />
+<input type="hidden" id="pjtSn" value="${map.PJT_SN}" />
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
@@ -56,7 +57,7 @@
                         프로젝트 코드
                     </th>
                     <td colspan="3">
-                        ${data.PJT_CD}
+                        ${map.PJT_CD}
                     </td>
                 </tr>
                 <tr>
@@ -189,7 +190,7 @@
                         담당자 코멘트
                     </th>
                     <td colspan="3">
-                        <textarea id="mngComment" style="width: 100%; text-align: left"></textarea>
+                        <textarea id="mngComment" style="width: 100%; text-align: left">${data.MNG_COMM}</textarea>
                     </td>
                 </tr>
                 </thead>

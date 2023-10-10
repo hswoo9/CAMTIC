@@ -123,11 +123,48 @@ var rndDetail = {
 
     },
     fn_approve : function() {
+        var pjCode = $("#pjCode").val();
+        var supDep = $("#supDep2").val();
+        var supDepSub = $("#supDepSub2").val();
+        var pjtStat = $("#pjtStat").val();
+        var pjtStatSub = $("#pjtStatSub").val();
+
+        var date = new Date();
+        var year = date.getFullYear().toString().substring(2,4);
+
+
+
         var parameters = {
             pjtSn : $("#pjtSn").val(),
             rndSn : $("#rndSn").val(),
-            pjtExpAmt : uncomma($("#pjtExpAmt").val())
+            pjtTmpCd : pjCode + supDep + supDepSub + pjtStat + pjtStatSub + year,
+            pjtCd : pjCode + supDep + supDepSub + pjtStat + pjtStatSub + year,
+            pjtExpAmt : uncomma($("#pjtExpAmt").val()),
+            pType : "I",
+            pProjectNM : $("#pjtNm").val(),
+            pState : '1',
+            pProjectNMEx : $("#pjtSubNm").val(),
+            pSDate : $("#sbjStrDe").val().replaceAll("-", ""),
+            pEDate : $("#sbjEndDe").val().replaceAll("-", ""),
         }
+
+        if(supDep == ""){
+            alert("지원부처를 선택해주세요.");
+            return;
+        }
+        if(supDepSub == ""){
+            alert("전담기관을 선택해주세요.");
+            return;
+        }
+        if(pjtStat == ""){
+            alert("사업성격을 선택해주세요.");
+            return;
+        }
+        if(pjtStatSub == ""){
+            alert("사업성격1을 선택해주세요.");
+            return;
+        }
+
 
         if(!confirm("수주확정을 하시겠습니까?")){
             return ;

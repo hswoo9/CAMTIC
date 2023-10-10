@@ -69,8 +69,8 @@
                 </td>
                 <th scope="row" class="text-center th-color"><span class="red-star"></span>민간부담금</th>
                 <td>
-                    현금 : <input type="text" id="peoResCost" name="peoResCost" style="width: 30%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
-                    현물 : <input type="text" id="peoResItem" name="peoResItem" style="width: 30%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                    현금 : <input type="text" id="peoResCost" value="0" name="peoResCost" style="width: 30%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                    현물 : <input type="text" id="peoResItem" value="0" name="peoResItem" style="width: 30%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
                 </td>
             </tr>
             <tr>
@@ -141,7 +141,17 @@
                 '		<tr>' +
                 '			<th scope="row" class="text-center th-color"><span class="red-star">*</span>프로젝트 구분</th>' +
                 '			<td colspan="3">' +
-                '				<input type="text" id="pjCode" name="pjCode" style="width: 90%"/>' +
+                '				<input type="text" disabled id="pjCode" name="pjCode" style="width: 90%"/>' +
+                '			</td>' +
+                '		</tr>' +
+                '		<tr>' +
+                '			<th scope="row" class="text-center th-color"><span class="red-star">*</span>지원부처</th>' +
+                '			<td>' +
+                '				<input type="text" id="supDep2" name="supDep" style="width: 90%"/>' +
+                '			</td>' +
+                '			<th scope="row" class="text-center th-color"><span class="red-star">*</span>전담기관</th>' +
+                '			<td>' +
+                '				<input type="text" id="supDepSub2" name="supDepSub" style="width: 90%"/>' +
                 '			</td>' +
                 '		</tr>' +
                 '		<tr>' +
@@ -180,6 +190,7 @@
         var data= {
             cmGroupCode : "BUSN_CLASS"
         }
+
         var pjCodeDs = customKendo.fn_customAjax("/common/commonCodeList", data)
         customKendo.fn_dropDownList("pjCode", pjCodeDs.rs, "CM_CODE_NM", "CM_CODE");
 
@@ -187,18 +198,19 @@
 
         data.grpSn = "SUP_DEP";
         var lgCodeDs = customKendo.fn_customAjax("/project/selLgCode", data);
-        customKendo.fn_dropDownList("supDep", lgCodeDs.rs, "LG_CD_NM", "LG_CD");
+        customKendo.fn_dropDownList("supDep2", lgCodeDs.rs, "LG_CD_NM", "LG_CD");
 
-        $("#supDepSub").kendoDropDownList({
+        $("#supDepSub2").kendoDropDownList({
             dataSource : [{text : "선택", value : ""}],
             dataTextField : "text",
             dataValueField : "value"
         });
-        $("#supDep").data("kendoDropDownList").bind("change", function(){
-            data.lgCd = $("#supDep").val();
+
+        $("#supDep2").data("kendoDropDownList").bind("change", function(){
+            data.lgCd = $("#supDep2").val();
             data.grpSn = "SUP_DEP";
             var smCodeDs = customKendo.fn_customAjax("/project/selSmCode", data);
-            customKendo.fn_dropDownList("supDepSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
+            customKendo.fn_dropDownList("supDepSub2", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
         });
 
         data.grpSn = "BUS_STAT";
@@ -216,6 +228,11 @@
             var smCodeDs = customKendo.fn_customAjax("/project/selSmCode", data);
             customKendo.fn_dropDownList("pjtStatSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
         });
+
+        $("#supDep2").data("kendoDropDownList").value($("#supDep").val());
+        $("#supDep2").data("kendoDropDownList").trigger("change");
+
+        $("#supDepSub2").data("kendoDropDownList").value($("#supDepSub").val());
 
         $("#dialog").css("overflow", "hidden");
     }

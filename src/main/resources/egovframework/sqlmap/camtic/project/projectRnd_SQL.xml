@@ -330,7 +330,7 @@
                 #{resDay}
             )
         <selectKey keyProperty="rndSn" resultType="Integer" order="BEFORE">
-            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_PJT_RND'
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_RND'
         </selectKey>
     </insert>
 
@@ -513,4 +513,71 @@
                 #{EMP_SEQ}
             )
     </insert>
+
+    <select id="getPartRateDetail" parameterType="map" resultType="map">
+        /*getPartRateDetail*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PART_RATE_DET
+        WHERE
+            PART_RATE_VER_SN = #{partRateVerSn}
+    </select>
+
+    <insert id="insPartRateDetail" parameterType="map">
+        /*insPartRateDetail*/
+        INSERT INTO CAM_PJT_MNG.DJ_PART_RATE_DET
+            (
+                PART_RATE_VER_SN,
+                PJT_SN,
+                CHNG_SAL,
+                PART_DET_STR_DT,
+                PART_DET_END_DT,
+                PART_EMP_NM,
+                PART_EMP_SEQ,
+                PAY_RATE,
+                ITEM_RATE,
+                MON_SAL,
+                MON_DIFF,
+                TOT_PAY_BUDG,
+                TOT_ITEM_BUDG,
+                TOT_RATE,
+                PAY_TOTAL
+            )
+        VALUE
+            (
+                #{partRateVerSn},
+                #{pjtSn},
+                #{chngSal},
+                #{strDt},
+                #{endDt},
+                #{partEmpName},
+                #{partEmpSeq},
+                #{payRate},
+                #{itemRate},
+                #{monSal},
+                #{mon},
+                #{totPayBudget},
+                #{totItemBudget},
+                #{totRate},
+                #{payTotal}
+            )
+    </insert>
+
+    <delete id="delPartRateDetail" parameterType="map">
+        /*delPartRateDetail*/
+        DELETE FROM CAM_PJT_MNG.DJ_PART_RATE_DET
+        WHERE
+            PART_RATE_VER_SN = #{partRateVerSn}
+    </delete>
+
+    <update id="updReqPartRateStatus" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
+        SET
+            MNG_STAT = "S",
+            MNG_COMM = #{mngComm},
+            REP_DATE = now()
+        WHERE
+            PART_RATE_VER_SN = #{partRateVerSn}
+    </update>
 </mapper>
