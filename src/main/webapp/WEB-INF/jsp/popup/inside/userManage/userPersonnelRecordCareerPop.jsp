@@ -13,10 +13,13 @@
       <h3 class="card-title title_NM">경력 등록</h3>
       <div class="btn-st popButton">
         <button type="button" class="k-button k-button-solid-info" onclick="fu_addInfo()">추가</button>
+        <button type="button" class="k-button k-button-solid-info" onclick="fu_modiInfo()">수정</button>
+        <button type="button" class="k-button k-button-solid-info" onclick="fu_delInfo()">삭제</button>
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="fn_windowClose()">닫기</button>
       </div>
     </div>
     <form id="subHolidayReqPop" style="padding: 20px 30px;">
+      <input type="hidden" id="pk" name="pk" value="${pk}">
       <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
       <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
       <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
@@ -100,6 +103,7 @@
   <%--  gubun  sDate eDate school gkrdnl whfdjq score bmk--%>
   $(function(){
     fn_default();
+    fn_dataSet();
   });
 
   function fileChange(e){
@@ -124,6 +128,28 @@
     $("#dateY").kendoTextBox();
     $("#dateM").kendoTextBox();
   }
+
+  function fn_dataSet() {
+    var result = customKendo.fn_customAjax('/userManage/getCarinfoList.do', {
+      pk : $("#pk").val()
+    });
+
+    if(result.flag) {
+      var e = result.rs;
+
+      $("#sDate").val(e.JOIN_DAY);
+      $("#eDate").val(e.RESIGN_DAY);
+      $("#place").val(e.EMPLOY_DEPT_NAME);
+      $("#position").val(e.POSITION_OR_DUTY);
+      $("#workType").val(e.MAIN_TASK);
+      $("#dateY").val(e.CAREER_PERIOD);
+      $("#dateM").val(e.CAREER_MONTH);
+      $("#bmk").val(e.RMK);
+    }
+  }
+
+
+  // 경력사항 등록
   function fu_addInfo() {
     var data = {
         place : $("#place").val(),
@@ -136,6 +162,7 @@
         bmk : $("#bmk").val(),
         workType : $("#workType").val(),
         type : "career",
+        applicationactive : "등록",
     }
 
     var formData = new FormData();
@@ -150,6 +177,7 @@
     formData.append("workType", data.workType);
     formData.append("menuCd", "career");
     formData.append("type", "career");
+    formData.append("applicationactive", data.applicationactive);
 
     if($("#addFile")[0].files.length == 1){
       formData.append("addFile", $("#addFile")[0].files[0]);
@@ -158,15 +186,118 @@
     var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);
     if(result.flag){
       if(result.rs == "SUCCESS") {
-        alert("등록되었습니다.");
+        alert("등록요청을 성공하였습니다. 관리자 승인 대기 중입니다.");
         fn_windowClose();
       }else{
-        alert("등록에 실패하였습니다.");
+        alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
       }
     }else{
-      alert("등록에 실패하였습니다.");
+      alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
     }
   }
+
+  // 경력사항 수정
+  function fu_modiInfo() {
+    var data = {
+      place: $("#place").val(),
+      sDate: $("#sDate").val(),
+      eDate: $("#eDate").val(),
+      position: $("#position").val(),
+      workType: $("#workType").val(),
+      dateY: $("#dateY").val(),
+      dateM: $("#dateM").val(),
+      bmk: $("#bmk").val(),
+      workType: $("#workType").val(),
+      type: "career",
+      pk: $("#pk").val(),
+      applicationactive : "수정",
+    }
+
+    var formData = new FormData();
+    formData.append("place", data.place);
+    formData.append("sDate", data.sDate);
+    formData.append("eDate", data.eDate);
+    formData.append("position", data.position);
+    formData.append("workType", data.workType);
+    formData.append("dateY", data.dateY);
+    formData.append("dateM", data.dateM);
+    formData.append("bmk", data.bmk);
+    formData.append("workType", data.workType);
+    formData.append("menuCd", "career");
+    formData.append("type", "career");
+    formData.append("pk", data.pk);
+    formData.append("applicationactive", data.applicationactive);
+
+    if ($("#addFile")[0].files.length == 1) {
+      formData.append("addFile", $("#addFile")[0].files[0]);
+    }
+
+
+    var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);
+    console.log(result.rs);
+    if(result.flag){
+      if(result.rs == "SUCCESS") {
+        alert("수정요청이 완료되었습니다. 관리자 승인 대기 중입니다.");
+        fn_windowClose();
+      }else{
+        alert("수정요청이 완료되었습니다. 관리자 승인 대기 중입니다.");
+      }
+    }else{
+      alert("수정요청에 실패하였습니다. 다시 확인부탁드립니다.");
+    }
+  }
+
+  // 경력사항 삭제
+  function fu_delInfo() {
+    var data = {
+      place: $("#place").val(),
+      sDate: $("#sDate").val(),
+      eDate: $("#eDate").val(),
+      position: $("#position").val(),
+      workType: $("#workType").val(),
+      dateY: $("#dateY").val(),
+      dateM: $("#dateM").val(),
+      bmk: $("#bmk").val(),
+      workType: $("#workType").val(),
+      type: "career",
+      pk: $("#pk").val(),
+      applicationactive : "삭제",
+    }
+
+    var formData = new FormData();
+    formData.append("place", data.place);
+    formData.append("sDate", data.sDate);
+    formData.append("eDate", data.eDate);
+    formData.append("position", data.position);
+    formData.append("workType", data.workType);
+    formData.append("dateY", data.dateY);
+    formData.append("dateM", data.dateM);
+    formData.append("bmk", data.bmk);
+    formData.append("workType", data.workType);
+    formData.append("menuCd", "career");
+    formData.append("type", "career");
+    formData.append("pk", data.pk);
+    formData.append("applicationactive", data.applicationactive);
+
+    if ($("#addFile")[0].files.length == 1) {
+      formData.append("addFile", $("#addFile")[0].files[0]);
+    }
+
+    var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);
+    console.log(result.rs);
+    if(result.flag){
+      if(result.rs == "SUCCESS") {
+        alert("삭제 요청이 등록되었습니다. 관리자 승인 대기 중입니다.");
+        fn_windowClose();
+      }else{
+        alert("삭제요청에 실패하였습니다. 다시 확인부탁드립니다.");
+      }
+    }else{
+      alert("삭제요청에 실패하였습니다. 다시 확인부탁드립니다.");
+    }
+  }
+
+
   function fn_windowClose() {
     window.close();
   }

@@ -57,7 +57,7 @@ public class UserManageRepository extends AbstractDAO {
         insert("userManage.setCareerInfo", map);
     }
     public void setMilitaryInfo (Map<String,Object> map) {insert("userManage.setMilitaryInfo", map);}
-    public void setMilitaryInfoUpd (Map<String,Object> map) {insert("userManage.setMilitaryInfoUpd", map);}
+   /* public void setMilitaryInfoUpd (Map<String,Object> map) {insert("userManage.setMilitaryInfoUpd", map);}*/
     public void setFmailyInfo (Map<String,Object> map) {
         insert("userManage.setFmailyInfo", map);
     }
@@ -175,6 +175,30 @@ public class UserManageRepository extends AbstractDAO {
     //인사기록카드 수정에 들어갈 항목 조회
     public Map<String,Object> getEduinfoList (Map<String,Object> params) {
         return (Map<String,Object>)selectOne("userManage.getEduinfoList", params);
+    }
+    //상벌사항 수정에 들어갈 항목 조회
+    public Map<String,Object> getRewinfoList (Map<String,Object> params) {
+        return (Map<String,Object>)selectOne("userManage.getRewinfoList", params);
+    }
+    //제안제도 수정에 들어갈 항목 조회
+    public Map<String,Object> getProinfoList (Map<String,Object> params) {
+        return (Map<String,Object>)selectOne("userManage.getProinfoList", params);
+    }
+    //경력사항 수정 항목
+    public Map<String,Object> getCarinfoList (Map<String,Object> params) {
+        return (Map<String,Object>)selectOne("userManage.getCarinfoList", params);
+    }
+    //가족사항 수정 항목
+    public Map<String,Object> getFaminfoList (Map<String,Object> params) {
+        return (Map<String,Object>)selectOne("userManage.getFaminfoList", params);
+    }
+    //보유면허 수정 항목
+    public Map<String,Object> getLininfoList (Map<String,Object> params) {
+        return (Map<String,Object>)selectOne("userManage.getLininfoList", params);
+    }
+    //직무사항 수정 항목
+    public Map<String,Object> getJobinfoList (Map<String,Object> params) {
+        return (Map<String,Object>)selectOne("userManage.getJobinfoList", params);
     }
     //학력 사항 첨부파일 등록
     public void setInGradeFileNoUpd(Map<String, Object> params) { insert("userManage.setInGradeFileNoUpd", params);}

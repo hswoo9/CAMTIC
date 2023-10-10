@@ -13,6 +13,7 @@
       <h3 class="card-title title_NM">병력 등록</h3>
       <div class="btn-st popButton">
         <button type="button" class="k-button k-button-solid-info" onclick="fu_addInfo()">등록</button>
+        <button type="button" class="k-button k-button-solid-info" onclick="fu_modifyInfo()">수정</button>
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="fn_windowClose()">닫기</button>
       </div>
     </div>
@@ -113,7 +114,9 @@
     $("#mType").kendoTextBox();
     $("#mDept").kendoTextBox();
   }
-  function fu_addInfo() {
+
+  //병력 수정
+  function fu_modifyInfo() {
     var data = {
         msiInfoId : $("#msiInfoId").val(),
         mGubun : $("#mGubun").val(),
@@ -124,6 +127,8 @@
         mType : $("#mType").val(),
         mDept : $("#mDept").val(),
         type : "military",
+        pk : $("#msiInfoId").val(),
+        applicationactive : "수정",
     }
 
     var formData = new FormData();
@@ -137,19 +142,54 @@
     formData.append("mType", data.mType);
     formData.append("mDept", data.mDept);
     formData.append("type", "military");
+    formData.append("pk", data.pk);
+    formData.append("applicationactive", data.applicationactive);
 
     var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);
+    console.log(result.rs);
     if(result.flag){
       if(result.rs == "SUCCESS") {
-        alert("등록되었습니다.");
+        alert("수정요청을 성공하였습니다. 관리자 승인 대기 중입니다.");
         fn_windowClose();
       }else{
-        alert("등록에 실패하였습니다.");
+        alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
       }
     }else{
-      alert("등록에 실패하였습니다.");
+      alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
     }
   }
+
+  // 병력등록
+  function fu_addInfo() {
+    var data = { msiInfoId : $("#msiInfoId").val(),
+      mGubun : $("#mGubun").val(),
+      sDate : $("#sDate").val(),
+      eDate : $("#eDate").val(),
+      reason : $("#reason").val(),
+      rank : $("#rank").val(),
+      mType : $("#mType").val(),
+      mDept : $("#mDept").val(),
+      type : "military",
+      pk : $("#msiInfoId").val(),
+      applicationactive : "등록",
+    }
+
+
+    var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);
+    console.log(result.rs);
+    if(result.flag){
+      if(result.rs == "SUCCESS") {
+        alert("등록요청을 성공하였습니다. 관리자 승인 대기 중입니다.");
+        fn_windowClose();
+      }else{
+        alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
+      }
+    }else{
+      alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
+    }
+  }
+
+
 
   function fn_codeSet() {
     $.ajax({

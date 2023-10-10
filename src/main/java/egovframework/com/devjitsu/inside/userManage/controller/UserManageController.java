@@ -538,6 +538,44 @@ public class UserManageController {
         return "jsonView";
     }
 
+    //제안제도 수정 팝업 내용
+    @RequestMapping("/userManage/getProinfoList.do")
+    public String getProinfoList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", userManageService.getProinfoList(map));
+        return "jsonView";
+    }
+
+    //상벌사항 수정 팝업 내용
+    @RequestMapping("/userManage/getRewinfoList.do")
+    public String getRewinfoList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", userManageService.getRewinfoList(map));
+        return "jsonView";
+    }
+
+    @RequestMapping("/userManage/getCarinfoList.do")
+    public String getCarinfoList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", userManageService.getCarinfoList(map));
+        return "jsonView";
+    }
+
+    @RequestMapping("/userManage/getJobinfoList.do")
+    public String getJobinfoList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", userManageService.getJobinfoList(map));
+        return "jsonView";
+    }
+
+    @RequestMapping("/userManage/getLininfoList.do")
+    public String getLininfoList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", userManageService.getLininfoList(map));
+        return "jsonView";
+    }
+
+    @RequestMapping("/userManage/getFaminfoList.do")
+    public String getFaminfoList(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("rs", userManageService.getFaminfoList(map));
+        return "jsonView";
+    }
+
     @RequestMapping("/useManage/userPersonnelRecordPop.do")
     public String userPersonnelRecordEduAddPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
         String viewName = "";
