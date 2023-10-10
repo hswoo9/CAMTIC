@@ -259,20 +259,23 @@
 
 								<div class="linkInfo">
 									<div class="filebox2">
-										└&nbsp;
-										<input type="text" id="groupKey" name="groupKey" style="width: 10%;margin: 0 5px 0 5px;text-align:center;" value="" readonly />
+										<span>└&nbsp;</span>
 										<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="groupKeyCreate()">
 											<span class="__btn1 grayLine">그룹 생성</span>
 										</button>
+										<input type="text" id="groupKey" name="groupKey" style="margin: 0 5px 0 5px;text-align:center;" value="" readonly />
 
+										<div>
 										<input type="hidden" id="linkKey1" value="" />
-										<input type="text" id="linkText1" name="linkText" style="width: 50%; margin: 0 5px 0 5px;" value="" readonly />
-										<button type="button" id="groupFlag1" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="linkCreate(1)">
+										<button type="button" id="groupFlag1" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="padding-left: 28px; margin-top: 4px;" onclick="linkCreate(1)">
 											<span class="__btn1 grayLine">링크 생성</span>
 										</button>
-										<button type="button" id="groupFlag2" class="addBtn"  onclick="addLinkDiv()">
+										<input type="text" id="linkText1" name="linkText" style="width: 40%; margin: 0 5px 0 5px;" value="" readonly />
+
+										<button type="button" id="groupFlag2" class="addBtn" style="padding-left: 30px; margin-top: 4px;"  onclick="addLinkDiv()">
 											<span class="__btn1 grayLine">추가</span>
 										</button>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -355,20 +358,23 @@
         let html = "";
 
         html += '<div class="file-and-table-container2" id="linkDiv'+num+'" name="linkDiv" data-number="'+num+'">';
-			html += '<div class="linkInfo">';
-		        html += '<div class="filebox2">';
-				    html += '└&nbsp;<input type="text" id="groupKey" name="groupKey" style="width: 10%;margin: 0 5px 0 5px;text-align:center;" value="'+group+'" readonly />';
-				    html += '<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="groupKeyCreate()" disabled>';
-				    html += '<span class="__btn1 grayLine">그룹 번호</span></button>';
+		html += '<div class="linkInfo">';
+		html += '<div class="filebox2">';
+		html += '<span>└&nbsp</span>'
+		html += '<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="padding-left: 2px;" onclick="groupKeyCreate()" disabled>';
+		html += '<span class="__btn1 grayLine">그룹 번호</span></button>';
+		html += '<input type="text" id="groupKey" name="groupKey" style="margin: 0 5px 0 5px;text-align:center;" value="'+group+'" readonly />';
 
-                    html += '<input type="hidden" id="linkKey'+num+'" value="" />';
-					html += '<input type="text" id="linkText'+num+'" name="linkText" style="width: 50%; margin: 0 5px 0 5px;" value="" readonly />';
-                    html += '<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="linkCreate('+num+')">';
-                    html += '<span class="__btn1 grayLine">링크 생성</span></button>';
-			        html += '<button type="button" class="addBtn" onclick="delLinkDiv('+num+')" >';
-			        html += '<span class="__btn1 grayLine" style="margin-left: 4px;">삭제</span></button>';
-				html += '</div>';
-			html += '</div>';
+		html += '<div>';
+		html += '<input type="hidden" id="linkKey'+num+'" value="" />';
+		html += '<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="padding-left:26px;margin-top: 4px;" onclick="linkCreate('+num+')">';
+		html += '<span class="__btn1 grayLine">링크 생성</span></button>';
+		html += '<input type="text" id="linkText'+num+'" name="linkText" style="width: 40%; margin: 4px 5px 0 5px;" value="" readonly />';
+		html += '<button type="button" class="addBtn" style="padding-left: 26px;margin-top: 4px;" onclick="delLinkDiv('+num+')" >';
+		html += '<span class="__btn1 grayLine">삭제</span></button>';
+		html += '</div>';
+		html += '</div>';
+		html += '</div>';
 	    html += '</div>';
 
         $("#linkTbl").append(html);

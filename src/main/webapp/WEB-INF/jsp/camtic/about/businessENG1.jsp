@@ -52,10 +52,10 @@
           <div class="__tit1 __mt0" >
             <h3><strong>Research & Business Development</strong></h3>
           </div>
-          <%--<div class="__vision50" style="border-top: 1px dashed #b7b7b7;">
+          <div class="__vision50" style="border-top: 1px dashed #b7b7b7;">
             <img src="/images/camtic/img-busi_01ENG.png" alt="">
-          </div>--%>
-          <div class="__vision50">
+          </div>
+         <%-- <div class="__vision50">
             <div class="__imgW __imgW9">
               <div class="wrap">
                 <img src="/images/camtic/img-busi_01.png" alt="">  <!--영어 이미지로 변경-->
@@ -108,7 +108,7 @@
                 <div class="iw iw21"><span>Manufacturing innovation</span></div>
               </div>
             </div>
-          </div>
+          </div>--%>
         </div>
 
         <div class="__bio3">
