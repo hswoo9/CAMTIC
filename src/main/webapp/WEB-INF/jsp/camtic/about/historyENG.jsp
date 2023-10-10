@@ -34,11 +34,19 @@
     <div class="inner">
       <jsp:include page="/WEB-INF/jsp/template/camtic/lnbENG.jsp" flush="false"/>
       <div id="content">
-        <jsp:include page="/WEB-INF/jsp/template/camtic/navi_titleENG.jsp" flush="false"/>
+        <ul id="navigation">
+          <li><a href="/camtic">HOME</a></li>
+          <li class="mdCategory">History</li>
+          <li class="smCategory" style="display: none;">History</li>
+        </ul>
+        <div id="title">
+          <h3>History</h3>
+        </div>
+
         <div class="__history1">
-          <div class="__tit1 __mt0">
+          <%--<div class="__tit1 __mt0">
             <h4 style="font-size: 45px; font-weight: bold; color: #000;"><strong>History</strong></h4>
-          </div>
+          </div>--%>
 
           <div class="area">
             <div class="box">

@@ -5,7 +5,8 @@
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 <style>
-
+  .__loc .add{margin-top:0px;display: flex; flex-direction: column; align-items: flex-start;}
+  .__loc .add .box{margin-top: 20px; border-right: none;}
 </style>
 </head>
 
@@ -16,12 +17,19 @@
     <div class="inner">
       <jsp:include page="/WEB-INF/jsp/template/camtic/lnbENG.jsp" flush="false"/>
       <div id="content">
-        <jsp:include page="/WEB-INF/jsp/template/camtic/navi_titleENG.jsp" flush="false"/>
+        <ul id="navigation">
+          <li><a href="/camtic">HOME</a></li>
+          <li class="mdCategory">Contect</li>
+          <li class="smCategory" style="display: none;">Contect</li>
+        </ul>
+        <div id="title">
+          <h3>Contect</h3>
+        </div>
 
         <div class="__busi m0" style="padding: 0px 52px">
-          <div class="__tit1 __mt0" style="display: flex;">
+         <%-- <div class="__tit1 __mt0" style="display: flex;">
             <h4 style="font-size: 45px; font-weight: bold; color: #000;"><strong>Contect</strong></h4>
-          </div>
+          </div>--%>
         </div>
 
         <div class="__loc">
@@ -57,62 +65,13 @@
                   <dd>063-219-0303</dd>
                 </dl>
               </div>
+              <div class="box">
+                <dl>
+                  <dt>E-mail</dt>
+                  <dd>camtic@camtic.or.kr</dd>
+                </dl>
+              </div>
             </div>
-
-           <%-- <div class="__tit2 __mt100">
-              <h3><strong>오시는 길</strong></h3>
-            </div>
-            <div class="tbl">
-              <dl class="box">
-                <dt>네비게이션</dt>
-                <dd>
-                  명칭 검색 : 전주첨단벤처단지 입력
-                </dd>
-              </dl>
-              <dl class="box">
-                <dt>규모</dt>
-                <dd>
-                  전주IC (도청, 군산방향) → 팔달로(시청, 완주군 방향) → 호남제일문 통과 → 전주첨단벤처 단지,
-                  전북테크노파크 방향으로 우회전 → 로터리에서 동아제약 끼고 우회전 (한국산업인력 공단,
-                  전주첨단벤처단지 방향) → 전주첨단벤처단지 내 캠틱종합기술원 위치
-                </dd>
-              </dl>
-              <dl class="box">
-                <dt>기차</dt>
-                <dd>
-                  <strong>전주역 하차 후 택시 또는 버스 이용</strong>
-                  <dl>
-                    <dt>택시 :</dt>
-                    <dd> 팔복동 전주첨단벤처단지 또는 산업인력공단 방향으로 운행 요청(20~30분 소요)</dd>
-                  </dl>
-                  <dl>
-                    <dt>버스 :</dt>
-                    <dd>337번 버스 탑승 → 도시첨단산업단지 하차(40분 소요) → 도보이동 (10분 소요)</dd>
-                  </dl>
-                </dd>
-              </dl>
-              <dl class="box">
-                <dt>고속버스</dt>
-                <dd>
-                  <strong>터미널 하차 후 택시 또는 버스 이용</strong>
-                  <dl>
-                    <dt>택시 :</dt>
-                    <dd>팔복동 전주첨단벤처단지 또는 산업인력공단 방향으로 운행 요청(20~30분 소요)</dd>
-                  </dl>
-
-                  <dl>
-                    <dt>버스 :</dt>
-                    <dd>
-                      (10분 소요)<br>
-                      전북일보 빌딩 버스정류장으로 이동 → 버스 탑승<br>
-                      <em>(1, 69, 70. 310, 315, 373, 374, 375, 378, 380, 383, 385, 411, 413, 414, 416, 423, 424, 428, 429, 470, 472, 474, 475, 479, 486, 487)</em><br>
-                      → 도시첨단산업단지 하차(30분 소요) → 도보이동
-                    </dd>
-                  </dl>
-
-                </dd>
-              </dl>
-            </div>--%>
           </div>
         </div>
 

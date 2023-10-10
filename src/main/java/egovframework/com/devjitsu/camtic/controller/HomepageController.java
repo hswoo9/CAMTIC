@@ -145,6 +145,12 @@ public class HomepageController {
 
     @RequestMapping("/camtic/about/businessENG.do")
     public String AbusinessENG(){ return "camtic/about/businessENG"; }
+    @RequestMapping("/camtic/about/businessENG1.do")
+    public String AbusinessENG1(){ return "camtic/about/businessENG1"; }
+    @RequestMapping("/camtic/about/businessENG2.do")
+    public String AbusinessENG2(){ return "camtic/about/businessENG2"; }
+    @RequestMapping("/camtic/about/businessENG3.do")
+    public String AbusinessENG3(){ return "camtic/about/businessENG3"; }
 
     @RequestMapping("/camtic/about/historyENG.do")
     public String AhistoryENG(){ return "camtic/about/historyENG"; }
