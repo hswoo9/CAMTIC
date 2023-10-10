@@ -59,27 +59,24 @@ var invenTr = {
                 '<td>' +
                     '<input type="text" id="transferType' + invenTr.global.invenTransferIndex + '" class="transferType">' +
                 '</td>' +
-                '<td style="text-align: right">' +
+                '<td>' +
                     '<input type="hidden" id="invenTransSn' + invenTr.global.invenTransferIndex + '" class="invenTransSn">' +
                     '<input type="hidden" id="invenSn' + invenTr.global.invenTransferIndex + '" class="invenSn">' +
-                    '<input type="hidden" id="itemNo' + invenTr.global.invenTransferIndex + '" class="itemNo">' +
-                    '<input type="hidden" id="itemName' + invenTr.global.invenTransferIndex + '" class="itemName">' +
-                    '<input type="hidden" id="currentInven' + invenTr.global.invenTransferIndex + '" class="currentInven">' +
-                    '<input type="hidden" id="forwardingWhCd' + invenTr.global.invenTransferIndex + '" class="forwardingWhCd">' +
-                    '<div id="itemNoTxt' + invenTr.global.invenTransferIndex + '" class="itemNoTxt" style="float: left;margin-top: 5px;"></div>' +
+                    '<input type="hidden" id="masterSn' + invenTr.global.invenTransferIndex + '" class="masterSn">' +
+                    '<input type="text" id="itemNo' + invenTr.global.invenTransferIndex + '" class="itemNo k-input k-textbox" readonly onClick="invenTr.fn_popCamItemList(' + invenTr.global.invenTransferIndex + ');" style="width: 80%">' +
                     '<button type="button" id="itemSelBtn' + invenTr.global.invenTransferIndex + '" class="itemSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="invenTr.fn_popCamItemList(' + invenTr.global.invenTransferIndex + ');">선택</button>' +
                 '</td>' +
                 '<td>' +
-                    '<span id="itemNameTxt' + invenTr.global.invenTransferIndex + '" class="itemNameTxt"></span>' +
+                    '<input type="text" id="itemName' + invenTr.global.invenTransferIndex + '" class="itemName k-input k-textbox" readonly onClick="invenTr.fn_popCamItemList(' + invenTr.global.invenTransferIndex + ');">' +
                 '</td>' +
-                '<td style="text-align: right">' +
-                    '<span id="currentInvenTxt' + invenTr.global.invenTransferIndex + '" class="currentInvenTxt"></span>' +
+                '<td>' +
+                    '<input type="text" id="currentInven' + invenTr.global.invenTransferIndex + '" class="currentInven k-input k-textbox" readonly onClick="invenTr.fn_popCamItemList(' + invenTr.global.invenTransferIndex + ');" style="text-align: right">' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="transferQty' + invenTr.global.invenTransferIndex + '" class="transferQty numBerInput" style="text-align: right" value="0" oninput="invenTr.maxCurrentInvenChk(this, ' + invenTr.global.invenTransferIndex + ')">' +
                 '</td>' +
                 '<td>' +
-                    '<span id="forwardingWhCdTxt' + invenTr.global.invenTransferIndex + '" class="forwardingWhCdTxt"></span>' +
+                    '<input type="text" id="forwardingWhCd' + invenTr.global.invenTransferIndex + '" class="forwardingWhCd k-input k-textbox" readonly onClick="invenTr.fn_popCamItemList(' + invenTr.global.invenTransferIndex + ');">' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="receivingWhCd' + invenTr.global.invenTransferIndex + '" class="receivingWhCd">' +
@@ -119,17 +116,14 @@ var invenTr = {
             $(this).find("input.transferType").attr("id", "transferType" + i);
             $(this).find(".invenTransSn").attr("id", "invenTransSn" + i);
             $(this).find(".invenSn").attr("id", "invenSn" + i);
+            $(this).find(".masterSn").attr("id", "masterSn" + i);
             $(this).find(".itemNo").attr("id", "itemNo" + i);
             $(this).find(".itemName").attr("id", "itemName" + i);
             $(this).find(".currentInven").attr("id", "currentInven" + i);
             $(this).find(".forwardingWhCd").attr("id", "forwardingWhCd" + i);
-            $(this).find(".itemNoTxt").attr("id", "itemNoTxt" + i);
 
             $(this).find(".itemSelBtn").attr("id", "itemSelBtn" + i);
-            $(this).find(".itemNameTxt").attr("id", "itemNameTxt" + i);
-            $(this).find(".currentInvenTxt").attr("id", "currentInvenTxt" + i);
             $(this).find("input.transferQty").attr("id", "transferQty" + i);
-            $(this).find(".forwardingWhCdTxt").attr("id", "forwardingWhCdTxt" + i);
 
             $(this).find("input.receivingWhCd").attr("id", "receivingWhCd" + i);
             $(this).find(".rmk").attr("id", "rmk" + i);
@@ -194,7 +188,7 @@ var invenTr = {
         var flag = true;
         $.each($(".itransInfo"), function(i, v){
 
-            if(!$(this).find("#invenSn" + i).val() || !$(this).find("#itemNo" + i).val() || !$(this).find("#itemName" + i).val() || !$(this).find("#currentInven" + i).val()
+            if(!$(this).find("#invenSn" + i).val() || !$(this).find("#masterSn" + i).val() || !$(this).find("#itemNo" + i).val() || !$(this).find("#itemName" + i).val() || !$(this).find("#currentInven" + i).val()
                 || !$(this).find("#forwardingWhCd" + i).val() || !$(this).find("#transferQty" + i).val() || !$(this).find("#receivingWhCd" + i).val()){
                 flag = false;
             }
@@ -220,8 +214,7 @@ var invenTr = {
                     forwarder : $("#regEmpSeq").val(),
                     invenTransSn : $(this).find("#invenTransSn" + i).val(),
                     invenSn : $(this).find("#invenSn" + i).val(),
-                    itemNo : $(this).find("#itemNo" + i).val(),
-                    itemName : $(this).find("#itemName" + i).val(),
+                    masterSn : $(this).find("#masterSn" + i).val(),
                     currentInven : $(this).find("#currentInven" + i).val(),
                     transferQty : invenTr.uncomma($(this).find("#transferQty" + i).val()),
                     forwardingWhCd : $(this).find("#forwardingWhCd" + i).val(),
@@ -262,17 +255,14 @@ var invenTr = {
 
     itemInfoChange : function(){
         $("#invenSn" + invenTr.global.invenSnIndex).val($("#invenSn").val())
+        $("#masterSn" + invenTr.global.invenSnIndex).val($("#masterSn").val())
         $("#itemNo" + invenTr.global.invenSnIndex).val($("#itemNo").val())
         $("#itemName" + invenTr.global.invenSnIndex).val($("#itemName").val())
         $("#currentInven" + invenTr.global.invenSnIndex).val($("#currentInven").val())
         $("#forwardingWhCd" + invenTr.global.invenSnIndex).val($("#whCd").val())
 
-        $("#itemNoTxt" + invenTr.global.invenSnIndex).text($("#itemNo").val())
-        $("#itemNameTxt" + invenTr.global.invenSnIndex).text($("#itemName").val())
-        $("#currentInvenTxt" + invenTr.global.invenSnIndex).text(invenTr.comma($("#currentInven").val()))
-        $("#forwardingWhCdTxt" + invenTr.global.invenSnIndex).text($("#whCdNm").val())
-
         $("#invenSn").val("")
+        $("#masterSn").val("")
         $("#itemNo").val("")
         $("#itemName").val("")
         $("#currentInven").val("")

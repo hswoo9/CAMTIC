@@ -1,23 +1,29 @@
-var popItemInvenList = {
+var popItemNoList = {
     global : {
         dropDownDataSource : "",
         searchAjaxData : "",
     },
 
     fn_defultScript: function (){
-        popItemInvenList.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
-        customKendo.fn_dropDownList("whCd", popItemInvenList.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
-        $("#whCd").data("kendoDropDownList").bind("change", popItemInvenList.gridReload);
+        popItemNoList.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
+        customKendo.fn_dropDownList("whCd", popItemNoList.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
+        $("#whCd").data("kendoDropDownList").bind("change", popItemNoList.gridReload);
 
-        popItemInvenList.global.dropDownDataSource = [
+        popItemNoList.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "UN", lgCd : "UNIT"});
+        customKendo.fn_dropDownList("itemUnitCd", popItemNoList.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
+        $("#itemUnitCd").data("kendoDropDownList").bind("change", popItemNoList.gridReload);
+
+        popItemNoList.global.dropDownDataSource = [
             { text : "품번", value : "ITEM_NO" },
-            { text : "품명", value : "ITEM_NAME" }
+            { text : "품명", value : "ITEM_NAME" },
+            { text : "안전재고", value : "SAFETY_INVEN" },
         ]
-        customKendo.fn_dropDownList("searchKeyword", popItemInvenList.global.dropDownDataSource, "text", "value");
-        $("#searchKeyword").data("kendoDropDownList").bind("change", popItemInvenList.gridReload);
+        customKendo.fn_dropDownList("searchKeyword", popItemNoList.global.dropDownDataSource, "text", "value");
+        $("#searchKeyword").data("kendoDropDownList").bind("change", popItemNoList.gridReload);
+
         customKendo.fn_textBox(["searchValue"]);
 
-        popItemInvenList.gridReload();
+        popItemNoList.gridReload();
     },
 
     popMainGrid : function (url, params) {
@@ -41,23 +47,32 @@ var popItemInvenList = {
                     template: "#= --record #",
                     width: 50
                 }, {
-                    title: "창고",
-                    field: "WH_CD_NM",
-                    width: 120,
-                }, {
                     title: "품번",
                     field: "ITEM_NO",
-                    width: 150,
                 }, {
                     title: "품명",
                     field: "ITEM_NAME",
-                    width: 150
                 }, {
-                    title: "재고",
-                    field: "CURRENT_INVEN",
+                    title: "규격",
+                    field: "STANDARD",
+                }, {
+                    title: "단위",
+                    field: "ITEM_UNIT_NM",
+                    width: 80
+                }, {
+                    title: "창고",
+                    field: "WH_CD_NM",
+                    width: 100
+                }, {
+                    title: "안전재고",
+                    field: "SAFETY_INVEN",
                     width: 100,
                     template : function (e){
-                        return popItemInvenList.comma(e.CURRENT_INVEN);
+                        if(e.SAFETY_INVEN != null && e.SAFETY_INVEN != ""){
+                            return popItemNoList.comma(e.SAFETY_INVEN) + "";
+                        }else{
+                            return "0";
+                        }
                     },
                     attributes : {
                         style : "text-align : right;"
@@ -65,7 +80,7 @@ var popItemInvenList = {
                 }, {
                     title: "",
                     template: function(e){
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="popItemInvenList.fn_selItem(' + e.INVEN_SN + ')">선택</button>';
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="popItemNoList.fn_selItem(' + e.MASTER_SN + ')">선택</button>';
                     },
                     width: 60
                 }
@@ -77,33 +92,31 @@ var popItemInvenList = {
     },
 
     gridReload: function (){
-        popItemInvenList.global.searchAjaxData = {
+        popItemNoList.global.searchAjaxData = {
             whCd : $("#whCd").val(),
+            itemUnitCd : $("#itemUnitCd").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
+            active : "Y"
         }
 
-        popItemInvenList.popMainGrid("/item/getItemInvenList.do", popItemInvenList.global.searchAjaxData);
+        popItemNoList.popMainGrid("/item/getItemMasterList.do", popItemNoList.global.searchAjaxData);
     },
 
     fn_selItem: function (e){
         var data= {
-            invenSn : e
+            masterSn : e
         }
 
-        var result = customKendo.fn_customAjax("/item/getItemInven.do", data);
+        var result = customKendo.fn_customAjax("/item/getItemMaster.do", data);
         if(result.flag){
             var rs = result.rs;
             console.log(rs);
-            opener.parent.$("#invenSn").val(rs.INVEN_SN);
             opener.parent.$("#masterSn").val(rs.MASTER_SN);
             opener.parent.$("#itemNo").val(rs.ITEM_NO);
             opener.parent.$("#itemName").val(rs.ITEM_NAME);
-            opener.parent.$("#currentInven").val(rs.CURRENT_INVEN);
-            opener.parent.$("#whCd").val(rs.WH_CD);
-            opener.parent.$("#whCdNm").val(rs.WH_CD_NM);
-
-            opener.parent.$("#invenSn").change();
+            opener.parent.$("#baseWhCd").val(rs.WH_CD);
+            opener.parent.$("#masterSn").change();
 
             window.close();
         }

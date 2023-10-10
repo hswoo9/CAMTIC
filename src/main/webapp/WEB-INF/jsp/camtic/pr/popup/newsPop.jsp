@@ -11,29 +11,43 @@
 	<title>${map.TITLE}</title>
 </head>
 <style>
-    body, html {
-        height: 100%;
-        margin: 0;
-    }
-    #content {
-        width: 100%;
-        height: 100%;
-        overflow-y: hidden;
-    }
-    #content img {
-        max-width: 90%;
-        max-height: 90%;
-        height: auto;
-    }
+	body, html {
+		height: 100%;
+		margin: 0;
+	}
+	.container {
+		display: flex;
+		justify-content: center;
+	}
+	.content {
+		max-width: 100%;
+		max-height: 100%;
+		padding: 10px;
+		box-sizing: border-box; /* 여백을 포함한 전체 너비와 높이 계산 */
+	}
+	.content img {
+		max-width: 100%;
+		max-height: 100%;
+		height: auto;
+	}
 </style>
 
 
 <body>
-	<div id="content">
-		${map.CONTENT}
+	<div class="container">
+		<div class="content" id="content">
+			${map.CONTENT}
+		</div>
 	</div>
-
 <script>
+	window.onload = function() {
+		var content = document.getElementById('content');
+		var windowHeight = window.innerHeight;
+		var contentHeight = content.scrollHeight;
+		if (contentHeight > windowHeight) {
+			content.style.height = windowHeight + 'px';
+		}
+	};
 </script>
 </body>
 </html>

@@ -57,22 +57,50 @@ public class ItemManageController {
 
     /** 캠아이템 > 아이템관리 > 구매관리 */
 
-
     /**
-     * 입고등록
+     * 입고리스트
      * @param params
      * @param request
      * @param model
      * @return
      */
-    @RequestMapping("/item/receivingReg.do")
-    public String regReceipt(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+    @RequestMapping("/item/receivingRegList.do")
+    public String receivingRegList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
         session.setAttribute("menuNm", request.getRequestURI());
 
-        return "cam_item/itemMa/purcMa/receivingReg";
+        return "cam_item/itemMa/purcMa/receivingRegList";
     }
+
+    /**
+     * 입고등록 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/pop/receivingReg.do")
+    public String regReceipt(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+
+        return "popup/cam_item/receivingReg";
+    }
+
+    /**
+     * 품번선택팝업
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/pop/popItemNoList.do")
+    public String popItemNoList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("params", params);
+        return "popup/cam_item/popItemNoList";
+    }
+
 
     /**
      * 단가이력팝업

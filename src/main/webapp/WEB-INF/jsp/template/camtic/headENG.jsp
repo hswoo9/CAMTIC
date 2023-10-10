@@ -25,19 +25,19 @@
       <h1 class="logoENG"><a href="/camtic">캠틱종합기술원</a></h1>
       <ul class="gnb">
         <li class="about_greeting">
-          <a href="/camtic/about/greetingENG.do"><span>Introduce</span><i aria-hidden="true"></i></a>
+          <a href="/camtic/about/greetingENG.do"><span>Introduce</span></a>
         </li>
         <li class="about_history">
-          <a href="/camtic/about/historyENG.do"><span>History</span><i aria-hidden="true"></i></a>
+          <a href="/camtic/about/historyENG.do"><span>History</span></a>
         </li>
         <li class="about_business">
-          <a href="/camtic/about/businessENG.do"><span>Major Business Areas</span><i aria-hidden="true"></i></a>
+          <a href="/camtic/about/businessENG.do"><span>Major Business Areas</span></a>
         </li>
         <li class="about_vision">
-          <a href="/camtic/about/visionENG.do"><span>CAMTIC Mission & Vision 2030</span><i aria-hidden="true"></i></a>
+          <a href="/camtic/about/visionENG.do"><span>CAMTIC Mission & Vision 2030</span></a>
         </li>
         <li class="about_location">
-          <a href="/camtic/about/locationENG.do"><span>Contect</span><i aria-hidden="true"></i></a>
+          <a href="/camtic/about/locationENG.do"><span>Contect</span></a>
         </li>
       </ul>
       <button type="button" class="mnu"><span class="hide">메뉴</span><i></i></button>
@@ -57,4 +57,6 @@
     smallCategory = smallCategory.split(".")[0];
   };
   $("."+middleCategory+"_"+smallCategory).addClass('active');
+
+
 </script>

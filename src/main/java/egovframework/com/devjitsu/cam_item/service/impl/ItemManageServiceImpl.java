@@ -66,8 +66,20 @@ public class ItemManageServiceImpl implements ItemManageService {
                     cell = row.createCell(1);cell.setCellValue(searchList.get(i).get("CRM_NM").toString());
                 }
 
-                /** 입고형태 코드 목록 */
+                /** 품번 코드 목록 */
                 sheet = workbook.getSheetAt(2);
+                rowIndex = 2;
+
+                searchMap.put("active", "Y");
+                searchList = itemSystemRepository.getItemMasterList(searchMap);
+                for(int i = 0; i < searchList.size(); i++){
+                    XSSFRow row = sheet.createRow(rowIndex++);
+                    cell = row.createCell(0);cell.setCellValue(searchList.get(i).get("ITEM_NO").toString());
+                    cell = row.createCell(1);cell.setCellValue(searchList.get(i).get("ITEM_NAME").toString());
+                }
+
+                /** 입고형태 코드 목록 */
+                sheet = workbook.getSheetAt(3);
                 rowIndex = 2;
 
                 searchMap.put("grpSn", "WT");
@@ -82,7 +94,7 @@ public class ItemManageServiceImpl implements ItemManageService {
                 }
 
                 /** 입고창고 코드 목록 */
-                sheet = workbook.getSheetAt(3);
+                sheet = workbook.getSheetAt(4);
                 rowIndex = 2;
 
                 searchMap.put("grpSn", "WC");
@@ -155,9 +167,14 @@ public class ItemManageServiceImpl implements ItemManageService {
                 if(!cellValueToString(col0).equals("") && !cellValueToString(col1).equals("") && !cellValueToString(col2).equals("")
                         && !cellValueToString(col3).equals("") && !cellValueToString(col4).equals("") && !cellValueToString(col5).equals("")
                         && !cellValueToString(col7).equals("") && !cellValueToString(col8).equals("") && !cellValueToString(col9).equals("")){
+                    params.put("itemNo", cellValueToString(row.getCell(2)));
+                    Map<String, Object> masterMap = itemSystemRepository.getItemMaster(params);
+
                     int cells = sheet.getRow(i).getPhysicalNumberOfCells();
+
                     tumpMap.put("crmSn", cellValueToString(row.getCell(0)));
                     tumpMap.put("crmNm", cellValueToString(row.getCell(1)));
+                    tumpMap.put("masterSn", masterMap.get("MASTER_SN"));
                     tumpMap.put("itemNo", cellValueToString(row.getCell(2)));
                     tumpMap.put("itemName", cellValueToString(row.getCell(3)));
                     tumpMap.put("whType", cellValueToString(row.getCell(4)));

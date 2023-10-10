@@ -68,6 +68,7 @@
             </table>
 
             <input type="hidden" id="invenSn" onchange="invenTr.itemInfoChange()">
+            <input type="hidden" id="masterSn">
             <input type="hidden" id="itemNo">
             <input type="hidden" id="itemName">
             <input type="hidden" id="currentInven">

@@ -137,4 +137,112 @@
                 #{itemCdNm}
             )
     </insert>
+
+    <select id="getItemMasterList" parameterType="map" resultType="map">
+        /* getItemMasterList */
+        SELECT
+            IM.*,
+            WHC.ITEM_CD_NM AS WH_CD_NM,
+            IUC.ITEM_CD_NM AS ITEM_UNIT_NM
+        FROM
+            CAM_ITEM.DJ_ITEM_MASTER IM
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD WHC
+        ON WHC.LG_CD = 'WH' AND IM.WH_CD = WHC.ITEM_CD
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD IUC
+        ON IUC.LG_CD = 'UNIT' AND IM.ITEM_UNIT_CD = IUC.ITEM_CD
+        WHERE 1=1
+
+        <if test='active != null and !"".equals(active)'>
+            AND IM.ACTIVE = #{active}
+        </if>
+
+        <if test='itemUnitCd != null and !"".equals(itemUnitCd)'>
+            AND IM.ITEM_UNIT_CD = #{itemUnitCd}
+        </if>
+
+
+        <if test='whCd != null and !"".equals(whCd)'>
+            AND IM.WH_CD = #{whCd}
+        </if>
+
+        <choose>
+            <when test='searchKeyword != null and !"".equals(searchKeyword)'>
+                AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+            <otherwise>
+                <if test='searchValue != null and !"".equals(searchValue)'>
+                    AND (
+                        IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
+                        IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
+                        IM.SAFETY_INVEN LIKE CONCAT('%', #{searchValue}, '%')
+                    )
+                </if>
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="getItemMaster" parameterType="map" resultType="map">
+        /* getItemMaster */
+        SELECT
+            IM.*,
+            WHC.ITEM_CD_NM AS WH_CD_NM,
+            IUC.ITEM_CD_NM AS ITEM_UNIT_NM
+        FROM
+            CAM_ITEM.DJ_ITEM_MASTER IM
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD WHC
+        ON WHC.LG_CD = 'WH' AND IM.WH_CD = WHC.ITEM_CD
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD IUC
+        ON IUC.LG_CD = 'UNIT' AND IM.ITEM_UNIT_CD = IUC.ITEM_CD
+        WHERE 1=1
+        <choose>
+            <when test='itemNo != null and !"".equals(itemNo)'>
+                AND IM.ITEM_NO = #{itemNo}
+            </when>
+            <otherwise>
+                AND IM.MASTER_SN = #{masterSn}
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="getItemNoDuplicate" parameterType="map" resultType="boolean">
+        /* getItemNoDuplicate */
+        SELECT
+            CASE WHEN COUNT(*) > 0 THEN 1
+                 ELSE 0
+            END
+        FROM
+            CAM_ITEM.DJ_ITEM_MASTER
+        WHERE
+            ITEM_NO = #{itemNo}
+    </select>
+
+    <insert id="setItemMasterReg" parameterType="map">
+        /* setItemMasterReg */
+        INSERT INTO CAM_ITEM.DJ_ITEM_MASTER
+        (
+            ITEM_NO,
+            ITEM_NAME,
+            ITEM_UNIT_CD,
+            STANDARD,
+            WH_CD,
+            SAFETY_INVEN,
+            ACTIVE,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{itemNo},
+            #{itemName},
+            #{itemUnitCd},
+            #{standard},
+            #{whCd},
+            #{safetyInven},
+            #{active},
+            #{empSeq}
+        )
+    </insert>
 </mapper>

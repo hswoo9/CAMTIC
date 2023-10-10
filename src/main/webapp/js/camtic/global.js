@@ -14,29 +14,30 @@ const setCSSVars = () => {
 setCSSVars();
 window.addEventListener('resize', setCSSVars);
 
+/*
 const head = {
 	init() {
-		this.action();
+			this.action();
 	},
 	action() {
-		const header = $('#header');
+			const header = $('#header');
 
-		header
-			.on('click', '.mnu', () => $html.toggleClass('navOn'))
-			.on('mouseenter focusin', '.gnb', () => {
-				if (matchMedia('screen and (min-width:1025px)').matches) $html.addClass('navOn');
-			})
-			.on('mouseleave focusout', () => {
-				if (matchMedia('screen and (min-width:1025px)').matches) {
-					$html.removeClass('navOn');
-				}
-			})
-			.on('click', '.gnb > li > a', function () {
-				if (matchMedia('screen and (max-width:1024px)').matches && $(this).next('ul').length > 0) {
-					$(this).closest('li').toggleClass('active').siblings().removeClass('active');
-					return false;
-				}
-			});
+			header
+				.on('click', '.mnu', () => $html.toggleClass('navOn'))
+				.on('mouseenter focusin', '.gnb', () => {
+					if (matchMedia('screen and (min-width:1025px)').matches) $html.addClass('navOn');
+				})
+				.on('mouseleave focusout', () => {
+					if (matchMedia('screen and (min-width:1025px)').matches) {
+						$html.removeClass('navOn');
+					}
+				})
+				.on('click', '.gnb > li > a', function () {
+					if (matchMedia('screen and (max-width:1024px)').matches && $(this).next('ul').length > 0) {
+						$(this).closest('li').toggleClass('active').siblings().removeClass('active');
+						return false;
+					}
+				});
 
 		const handleHeadFix = () => $html.toggleClass('fix', winSh() > 30);
 
@@ -49,6 +50,7 @@ const head = {
 		});
 	},
 };
+*/
 
 const fam = {
 	init() {

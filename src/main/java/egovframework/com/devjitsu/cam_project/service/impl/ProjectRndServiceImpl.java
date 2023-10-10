@@ -1,9 +1,11 @@
 package egovframework.com.devjitsu.cam_project.service.impl;
 
 import dev_jitsu.MainLib;
+import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRndRepository;
 import egovframework.com.devjitsu.cam_project.service.ProjectRndService;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
+import egovframework.com.devjitsu.g20.repository.G20Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,7 +24,13 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     private ProjectRndRepository projectRndRepository;
 
     @Autowired
+    private ProjectRepository projectRepository;
+
+    @Autowired
     private CommonRepository commonRepository;
+
+    @Autowired
+    private G20Repository g20Repository;
 
     @Override
     public void setSubjectInfo(Map<String, Object> params) {
@@ -155,8 +163,26 @@ public class ProjectRndServiceImpl implements ProjectRndService {
 
     @Override
     public void setDelvApprove(Map<String, Object> params) {
-        projectRndRepository.setDelvApprove(params);
-        projectRndRepository.updRndProjectInfo(params);
+
+        try{
+
+            projectRepository.updTmpProjectCode(params);
+            projectRndRepository.setDelvApprove(params);
+
+            // 결재 완료 처리
+            projectRndRepository.updRndProjectInfo(params);
+            int pjtCnt = g20Repository.getProjectCount(params);
+
+            params.put("pjtCd", params.get("pjtCd") + String.format("%02d", (pjtCnt + 1)) + "0");
+            params.put("pProjectCD", params.get("pjtCd"));
+
+            // G20 프로젝트 추가
+            g20Repository.insProject(params);
+            projectRepository.updProjectCode(params);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -220,6 +246,21 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     @Override
     public List<Map<String, Object>> getReqPartRateVerList(Map<String, Object> params) {
         return projectRndRepository.getReqPartRateVerList(params);
+    }
+
+    @Override
+    public void setPartRateDetail(Map<String, Object> params) {
+        projectRndRepository.insPartRateDetail(params);
+    }
+
+    @Override
+    public void checkPartRateDetail(Map<String, Object> params) {
+        projectRndRepository.delPartRateDetail(params);
+    }
+
+    @Override
+    public void setReqPartRateStatus(Map<String, Object> params) {
+        projectRndRepository.updReqPartRateStatus(params);
     }
 }
 

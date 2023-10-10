@@ -15,7 +15,14 @@
     <div class="inner">
       <jsp:include page="/WEB-INF/jsp/template/camtic/lnbENG.jsp" flush="false"/>
       <div id="content">
-        <jsp:include page="/WEB-INF/jsp/template/camtic/navi_titleENG.jsp" flush="false"/>
+        <ul id="navigation">
+          <li><a href="/camtic">HOME</a></li>
+          <li class="mdCategory">CAMTIC Mission & Vision 2030</li>
+          <li class="smCategory" style="display: none;">CAMTIC Mission & Vision 2030</li>
+        </ul>
+        <div id="title">
+          <h3>CAMTIC Mission & Vision 2030</h3>
+        </div>
 
         <div class="__vision1 m0">
           <div><span class="since">Since 1999</span></div><br>
