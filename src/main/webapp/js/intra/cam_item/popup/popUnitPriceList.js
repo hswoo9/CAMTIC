@@ -25,27 +25,39 @@ var popUnitPriceList = {
             },
             columns: [
                 {
-                    title: "순번",
-                    template: "#= --record #",
-                    width: 50
-                }, {
-                    title: "창고",
-                    field: "WH_CD_NM",
+                    title: "거래처",
+                    field: "CRM_NM",
                     width: 120,
                 }, {
-                    title: "품번",
-                    field: "ITEM_NO",
+                    title: "입고일자",
+                    field: "WH_DT",
                     width: 150,
                 }, {
-                    title: "품명",
-                    field: "ITEM_NAME",
-                    width: 150
-                }, {
-                    title: "재고",
-                    field: "CURRENT_INVEN",
+                    title: "입고량",
+                    field: "WH_VOLUME",
                     width: 100,
                     template : function (e){
-                        return popUnitPriceList.comma(e.CURRENT_INVEN);
+                        return popUnitPriceList.comma(e.WH_VOLUME);
+                    },
+                    attributes : {
+                        style : "text-align : right;"
+                    }
+                }, {
+                    title: "단가",
+                    field: "UNIT_PRICE",
+                    width: 100,
+                    template : function (e){
+                        return popUnitPriceList.comma(e.UNIT_PRICE);
+                    },
+                    attributes : {
+                        style : "text-align : right;"
+                    }
+                }, {
+                    title: "금액",
+                    field: "AMT",
+                    width: 100,
+                    template : function (e){
+                        return popUnitPriceList.comma(e.AMT);
                     },
                     attributes : {
                         style : "text-align : right;"
@@ -53,7 +65,7 @@ var popUnitPriceList = {
                 }, {
                     title: "",
                     template: function(e){
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="popUnitPriceList.fn_selItem(' + e.INVEN_SN + ')">선택</button>';
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="popUnitPriceList.fn_selItem(' + e.UNIT_PRICE + ')">단가적용</button>';
                     },
                     width: 60
                 }
@@ -66,34 +78,17 @@ var popUnitPriceList = {
 
     gridReload: function (){
         popUnitPriceList.global.searchAjaxData = {
-            whCd : $("#whCd").val(),
-            searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val(),
+            crmSn : $("#crmSn").val(),
+            masterSn : $("#masterSn").val(),
         }
 
-        popUnitPriceList.popMainGrid("/item/getItemInvenList.do", popUnitPriceList.global.searchAjaxData);
+        popUnitPriceList.popMainGrid("/item/getItemWhInfoList.do", popUnitPriceList.global.searchAjaxData);
     },
 
     fn_selItem: function (e){
-        var data= {
-            invenSn : e
-        }
-
-        var result = customKendo.fn_customAjax("/item/getItemInven.do", data);
-        if(result.flag){
-            var rs = result.rs;
-            console.log(rs);
-            opener.parent.$("#invenSn").val(rs.INVEN_SN);
-            opener.parent.$("#itemNo").val(rs.ITEM_NO);
-            opener.parent.$("#itemName").val(rs.ITEM_NAME);
-            opener.parent.$("#currentInven").val(rs.CURRENT_INVEN);
-            opener.parent.$("#whCd").val(rs.WH_CD);
-            opener.parent.$("#whCdNm").val(rs.WH_CD_NM);
-
-            opener.parent.$("#invenSn").change();
-
-            window.close();
-        }
+        opener.parent.$("#unitPrice").val(e);
+        opener.parent.$("#unitPrice").change();
+        window.close();
     },
 
     comma: function(str) {

@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.cam_item.service.impl;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_item.repository.ItemSystemRepository;
 import egovframework.com.devjitsu.cam_item.service.ItemSystemService;
@@ -23,6 +25,32 @@ public class ItemSystemServiceImpl implements ItemSystemService {
 
     @Autowired
     private ItemSystemRepository itemSystemRepository;
+
+    @Override
+    public List<Map<String, Object>> getCrmItemManageList(Map<String, Object> params) {
+        return itemSystemRepository.getCrmItemManageList(params);
+    }
+
+    @Override
+    public void setCrmItemManage(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> newArr = gson.fromJson((String) params.get("newArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        if(newArr.size() > 0){
+            params.put("newArr", newArr);
+            itemSystemRepository.setCrmItemManage(params);
+        }
+//        List<Map<String, Object>> oldArr = gson.fromJson((String) params.get("oldArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+//        if(oldArr.size() > 0){
+//            for(Map<String, Object> map : oldArr){
+//                itemSystemRepository.setCrmItemManageUpd(map);
+//            }
+//        }
+    }
+
+    @Override
+    public void setCrmItemManageDel(Map<String, Object> params) {
+        itemSystemRepository.setCrmItemManageDel(params);
+    }
 
     @Override
     public List<Map<String, Object>> groupCodeList(Map<String, Object> params) {
