@@ -72,8 +72,8 @@
              ,IFNULL(DATE_FORMAT(START_DT, '%Y-%m-%d %H:%i'), "-") as startDt
              ,IFNULL(DATE_FORMAT(END_DT, '%Y-%m-%d %H:%i'), "-") as endDt
              ,IFNULL(DATE_FORMAT(END_DT, '%Y-%m-%d'), "-") as endDay
-             ,(case when now() between start_dt AND end_dt THEN '진행 중'
-                    when start_dt > now() then '공고 전'
+             ,(case when now() between start_dt AND end_dt THEN '진행중'
+                    when start_dt > now() then '공고전'
                     else '마감' end ) as state
         FROM
             CAM_COMMON.DJ_BOARD_ARTICLE
