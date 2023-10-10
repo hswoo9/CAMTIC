@@ -69,7 +69,13 @@ public interface UserManageService{
     Object setUserReqDetailUpdate(Map<String, Object> params);
 
     /** 인사기록카드 - 학력사항 삭제*/
-    /*Map<String, Object> setEduDelete(List<String> eduChk);*/
+    Map<String, Object> setEduDelete(List<String> eduChk);
+
+    /**인사기록카드 - 삭제할 학력사항 선택*/
+    List<Map<String, Object>> getEduDeleteList(List<Integer> eduChk);
+
+    /**인사기록카드 - 학력사항 삭제 요청 데이터 카피*/
+    void setEduDeleteTmp(Map<String, Object> map);
 
     /** 인사기록카드 - 경력사항 삭제*/
     Map<String, Object> setCareerDelete(List<String> employChk);

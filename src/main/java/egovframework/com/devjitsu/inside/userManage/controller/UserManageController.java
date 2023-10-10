@@ -1194,11 +1194,31 @@ public class UserManageController {
     /**
      * 인사기록카드 - 학력 사항 삭제
      */
-    /*@RequestMapping("/userManage/setEduDelete")
+    @RequestMapping("/userManage/setEduDelete")
     public String setEduDelete(@RequestParam(value = "eduChk[]") List<String> eduChk, Model model){
         model.addAttribute("rs", userManageService.setEduDelete(eduChk));
         return "jsonView";
-    }*/
+    }
+
+    /**
+     * 인사기록카드 - 학력 사항 삭제 요청
+     */
+    @RequestMapping("/userManage/setEduDeleteTmp")
+    public String setEduDeleteTmp(@RequestParam(value = "eduChk[]") List<Integer> eduChk, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        List<Map<String, Object>> eduDataList = userManageService.getEduDeleteList(eduChk);
+        System.out.println(eduDataList);
+
+        for (Map<String, Object> eduData : eduDataList) {
+            userManageService.setEduDeleteTmp(eduData);
+        }
+
+        return "jsonView";
+    }
+
+
 
     /**
      * 인사기록카드 - 경력 사항 삭제

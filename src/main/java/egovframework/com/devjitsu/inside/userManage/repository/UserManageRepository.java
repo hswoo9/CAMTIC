@@ -82,6 +82,10 @@ public class UserManageRepository extends AbstractDAO {
     public void setProposalInfo (Map<String,Object> map) {
         insert("userManage.setProposalInfo", map);
     }
+
+    //인사관리
+
+
     public List<Map<String,Object>> getPersonRecordApplyList(Map<String,Object> map) {
         return selectList("userManage.getPersonRecordApplyList", map);
     }
@@ -151,13 +155,36 @@ public class UserManageRepository extends AbstractDAO {
     }
     public void setBasicInfo(Map<String, Object> params) { update("userManage.setBasicInfo", params);}
 
+    //인사기록카드 - 삭제할 학력사항 선택
+    public List<Map<String,Object>> getEduDeleteList(List<Integer> eduChk) {
+        return selectList("userManage.getEduDeleteList", eduChk);
+    }
+
+    //인사기록카드 - 학력사항 삭제 요청 데이터 카피
+    public void setEduDeleteTmp (Map<String,Object> map) {
+        insert("userManage.setEduDeleteTmp", map);
+    }
+
     //인사기록카드 - 학력사항 삭제
-    /*public void setEduDelete(List<String> eduChk) { insert("userManage.setEduDelete", eduChk);}*/
+    public void setEduDelete(List<String> eduChk) {update("userManage.setEduDelete", eduChk);}
+
+    //인사기록카드 - 삭제할 경력사항 선택
+
 
     //인사기록카드 - 경력사항 삭제
+    //인사기록카드 - 경력사항 삭제 요청 데이터 카피
     public void setCareerDelete(List<String> employChk) { update("userManage.setCareerDelete", employChk);}
 
+    //인사기록카드 - 삭제할 가족사항 선택
+    public List<Map<String,Object>> getFamilyDeleteList(List<Integer> familyChk){
+        return selectList("userManage.getFamilyDeleteList", familyChk);
+    }
+
     //인사기록카드 - 가족사항 삭제
+    //인사기록카드 - 가족사항 삭제 요청 데이터 카피
+    public void setFamilyDeleteTmp (Map<String,Object> map){
+        insert("userManage.setFamilyDeleteTmp", map);
+    }
     public void setFamilyDelete(List<String> familyChk) { update("userManage.setFamilyDelete", familyChk);}
 
     //인사기록카드 - 보유면허 삭제

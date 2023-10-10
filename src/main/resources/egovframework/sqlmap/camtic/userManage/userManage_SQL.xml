@@ -2043,8 +2043,61 @@
             EMP_SEQ = #{empSeq}
     </update>
 
+    <!--인사기록카드 - 삭제할 학력사항 선택-->
+    <select id="getEduDeleteList" parameterType="java.util.List" resultType="map">
+        /* getEduDeleteList */
+         SELECT
+            *
+        FROM
+            CAM_HR.DJ_EMP_EDUCATIONAL
+        WHERE
+        EDUCATIONAL_ID IN
+        (
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </select>
+
+    <!-- 인사기록카드 - 학력사항 삭제 요청 데이터 카피-->
+    <insert id="setEduDeleteTmp" parameterType="map">
+        /*setEduDeleteTmp*/
+        INSERT INTO CAM_HR.DJ_EMP_EDUCATIONAL_TMP(
+        EMP_SEQ
+        ,EMP_NAME
+        ,ADMISSION_DAY
+        ,GRADUATION_DAY
+        ,DEGREE_CODE
+        ,REG_EMP_SEQ
+        ,REG_DATE
+        ,SCHOOL_NAME
+        ,RMK
+        ,GUBUN_CODE
+        ,GRADUATION_CODE
+        ,SCORE,
+        APPLICATION_ACTIVE
+        )VALUES (
+        #{EMP_SEQ}
+        ,#{EMP_NAME}
+        ,#{ADMISSION_DAY}
+        ,#{GRADUATION_DAY}
+        ,#{DEGREE_CODE}
+        ,#{EMP_SEQ}
+        ,NOW()
+        ,#{SCHOOL_NAME}
+        ,#{RMK}
+        ,#{GUBUN_CODE}
+        ,#{GRADUATION_CODE}
+        ,#{SCORE}
+        ,'삭제'
+        )
+        <selectKey keyProperty="educationalId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_EDUCATIONAL'
+        </selectKey>
+    </insert>
+
     <!--인사기록카드 - 학력사항 삭제-->
-    <!--<update id="setEduDelete" parameterType="java.util.List">
+    <update id="setEduDelete" parameterType="java.util.List">
         /* setEduDelete */
         UPDATE
         CAM_HR.DJ_EMP_EDUCATIONAL
@@ -2057,7 +2110,61 @@
             #{item}
         </foreach>
         )
-    </update>-->
+    </update>
+
+    <!--인사기록카드 - 삭제할 가족사항 선택 -->
+    <select id="getFamilyDeleteList" parameterType="java.util.List" resultType="map">
+        /* getFamilyDeleteList */
+        SELECT
+        *
+        FROM
+        CAM_HR.DJ_EMP_FAMILY_INFO
+        WHERE
+        FAMILY_ID IN
+        (
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </select>
+
+
+    <!--인사기록카드 - 가족사항 삭제 요청 데이터 카피-->
+    <insert id="setFamilyDeleteTmp" parameterType="map">
+        /*setEduDeleteTmp*/
+        INSERT INTO CAM_HR.DJ_EMP_FAMILY_INFO(
+        EMP_SEQ
+        ,EMP_NAME
+        ,ADMIN_APPROVAL
+        ,RETURNYN
+        ,ACTIVE
+        ,REG_EMP_SEQ
+        ,REG_DATE
+        ,FAMILY_CODE
+        ,FAMILY_NAME
+        ,FAMILY_BIRTH
+        ,FAMILY_JOB
+        ,INCLUDE_YN
+        ,APPLICATION_ACTIVE
+        )VALUES (
+        #{EMP_SEQ}
+        ,#{EMP_NAME}
+        ,#{ADMIN_APPROVAL}
+        ,#{RETURNYN}
+        ,#{ACTIVE}
+        ,#{EMP_SEQ}
+        ,NOW()
+        ,#{FAMILY_CODE}
+        ,#{FAMILY_NAME}
+        ,#{FAMILY_BIRTH}
+        ,#{FAMILY_JOB}
+        ,#{INCLUDE_YN}
+        ,'삭제'
+        )
+        <selectKey keyProperty="familyId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_FAMILY_INFO'
+        </selectKey>
+    </insert>
 
 
     <!--인사기록카드 - 가족사항 삭제    -->
@@ -2077,6 +2184,64 @@
     </update>
 
 
+
+    <!--인사기록카드 - 삭제할 보유면허 선택-->
+    <select id="getLicenseDeleteList" parameterType="java.util.List" resultType="map">
+        /* getLicenseDeleteList */
+        SELECT
+        *
+        FROM
+        CAM_HR.DJ_EMP_CERTIFICATE
+        WHERE
+        CERTIFICATE_ID IN
+        (
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </select>
+
+
+    <!--인사기록카드 - 보유면허 삭제 요청 데이터 카피-->
+    <insert id="setLicenseDeleteTmp" parameterType="map">
+        /*setLicenseDeleteTmp*/
+        INSERT INTO CAM_HR.DJ_EMP_CERTIFICATE(
+        EMP_SEQ
+        ,EMP_NAME
+        ,CERTIFICATE_NAME
+        ,CERTIFICATE_NUM
+        ,ACQUISITION_DAY
+        ,ISSUER
+        ,RMK
+        ,ACTIVE
+        ,ADMIN_APPROVAL
+        ,RETURNYN
+        ,REG_EMP_SEQ
+        ,REG_DATE
+        ,CERTIFICATE_ADD_NO
+        ,APPLICATION_ACTIVE
+        )VALUES (
+        #{EMP_SEQ}
+        ,#{EMP_NAME}
+        ,#{CERTIFICATE_NAME}
+        ,#{CERTIFICATE_NUM}
+        ,#{ACQUISITION_DAY}
+        ,#{ISSUER}
+        ,#{RMK}
+        ,#{ACTIVE}
+        ,#{ADMIN_APPROVAL}
+        ,#{RETURNYN}
+        ,#{EMP_SEQ}
+        ,NOW()
+        ,#{CERTIFICATE_ADD_NO}
+        ,'삭제'
+        )
+        <selectKey keyProperty="certificateId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_CERTIFICATE'
+        </selectKey>
+    </insert>
+
+
     <!--인사기록카드 - 보유면허 삭제-->
     <update id="setLicenseDelete" parameterType="java.util.List">
         /* setLicenseDelete */
@@ -2092,6 +2257,68 @@
         </foreach>
         )
     </update>
+
+
+
+    <!--인사기록카드 - 삭제할 직무사항 선택-->
+    <select id="getJobDeleteList" parameterType="java.util.List" resultType="map">
+        /* getJobDeleteList */
+        SELECT
+        *
+        FROM
+        CAM_HR.DJ_EMP_DUTY_INFO
+        WHERE
+        DUTY_ID IN
+        (
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </select>
+
+
+    <!--인사기록카드 - 직무사항 삭제 요청 데이터 카피-->
+    <insert id="setJobDeleteTmp" parameterType="map">
+        /*setJobDeleteTmp*/
+        INSERT INTO CAM_HR.DJ_EMP_DUTY_INFO(
+        EMP_SEQ
+        ,EMP_NAME
+        ,POSITION_NAME
+        ,WORK_PAY
+        ,WORK_PAY
+        ,DUTY_DETAIL
+        ,WORK_JOIN_DAY
+        ,WORK_LEAVE_DAY
+        ,RMK
+        ,ADMIN_APPROVAL
+        ,RETURNYN
+        ,ACTIVE
+        ,REG_EMP_SEQ
+        ,REG_DATE
+        ,APPLICATION_ACTIVE
+        )VALUES (
+        #{EMP_SEQ}
+        ,#{EMP_NAME}
+        ,#{CERTIFICATE_NAME}
+        ,#{CERTIFICATE_NUM}
+        ,#{ACQUISITION_DAY}
+        ,#{ISSUER}
+        ,#{RMK}
+        ,#{ACTIVE}
+        ,#{ADMIN_APPROVAL}
+        ,#{RETURNYN}
+        ,#{EMP_SEQ}
+        ,#{ACTIVE}
+        ,#{EMP_SEQ}
+        ,NOW()
+        ,'삭제'
+        )
+        <selectKey keyProperty="jobId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_DUTY_INFO'
+        </selectKey>
+    </insert>
+
+
 
     <!--인사기록카드 - 직무사항 삭제-->
     <update id="setJobDelete" parameterType="java.util.List">
@@ -2109,6 +2336,72 @@
         )
     </update>
 
+
+    <!--인사기록카드 - 삭제할 상벌사항 선택-->
+    <select id="getRewordDeleteList" parameterType="java.util.List" resultType="map">
+        /* getRewordDeleteList */
+        SELECT
+        *
+        FROM
+        CAM_HR.DJ_EMP_REWORD
+        WHERE
+        REWORD_ID IN
+        (
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </select>
+
+
+    <!--인사기록카드 - 상벌사항 삭제 요청 데이터 카피-->
+    <insert id="setRewordDeleteTmp" parameterType="map">
+        /*setRewordDeleteTmp*/
+        INSERT INTO CAM_HR.DJ_EMP_DUTY_INFO(
+        EMP_SEQ
+        ,EMP_NAME
+        ,ERP_EMP_SEQ
+        ,DEPT_SEQ
+        ,TEAM_SEQ
+        ,TEAM_NAME
+        ,REWORD_TYPE
+        ,REWORD_TYPE_NAME
+        ,REWORD_NAME
+        ,RWD_OFM
+        ,RWD_ST_COMP
+        ,RETURNYN
+        ,ACTIVE
+        ,ADMIN_APPROVAL
+        ,REG_EMP_SEQ
+        ,REG_DATE
+        ,REWARD_ADD_NO
+        ,APPLICATION_ACTIVE
+        )VALUES (
+        #{EMP_SEQ}
+        ,#{EMP_NAME}
+        ,#{ERP_EMP_SEQ}
+        ,#{DEPT_SEQ}
+        ,#{TEAM_SEQ}
+        ,#{TEAM_NAME}
+        ,#{REWORD_TYPE}
+        ,#{REWORD_TYPE_NAME}
+        ,#{REWORD_NAME}
+        ,#{RWD_OFM}
+        ,#{RWD_ST_COMP}
+        ,#{EMP_SEQ}
+        ,#{ACTIVE}
+        ,#{ADMIN_APPROVAL}
+        ,#{EMP_SEQ}
+        ,NOW()
+        ,#{REWARD_ADD_NO}
+        ,'삭제'
+        )
+        <selectKey keyProperty="rewordId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_REWORD'
+        </selectKey>
+    </insert>
+
+
     <!--인사기록카드 - 상벌사항 삭제-->
     <update id="setRewordDelete" parameterType="java.util.List">
         /* setRewordDelete */
@@ -2125,6 +2418,65 @@
         )
     </update>
 
+
+
+    <!--인사기록카드 - 삭제할 제안제도 선택-->
+    <select id="getProposalDeleteList" parameterType="java.util.List" resultType="map">
+        /* getRewordDeleteList */
+        SELECT
+        *
+        FROM
+        CAM_HR.DJ_EMP_PROPOSAL_INFO
+        WHERE
+        PROPOSAL_ID IN
+        (
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </select>
+
+
+    <!--인사기록카드 - 제안제도 삭제 요청 데이터 카피-->
+    <insert id="setProposalDeleteTmp" parameterType="map">
+        /*setProposalDeleteTmp*/
+        INSERT INTO CAM_HR.DJ_EMP_PROPOSAL_INFO(
+        EMP_SEQ
+        ,EMP_NAME
+        ,PROPOSAL_GUBUN
+        ,PROPOSAL_DETAIL
+        ,PROPOSAL_CHECK_CHOICE
+        ,PROPOSAL_DATE
+        ,ADMIN_APPROVAL
+        ,RETURNYN
+        ,ACTIVE
+        ,ADMIN_APPROVAL
+        ,REG_EMP_SEQ
+        ,REG_DATE
+        ,APPLICATION_ACTIVE
+        )VALUES (
+        #{EMP_SEQ}
+        ,#{EMP_NAME}
+        ,#{PROPOSAL_GUBUN}
+        ,#{PROPOSAL_DETAIL}
+        ,#{PROPOSAL_CHECK_CHOICE}
+        ,#{PROPOSAL_DATE}
+        ,#{ADMIN_APPROVAL}
+        ,#{RETURNYN}
+        ,#{ACTIVE}
+        ,#{ADMIN_APPROVAL}
+        ,#{EMP_SEQ}
+        ,NOW()
+        ,#{REWARD_ADD_NO}
+        ,'삭제'
+        )
+        <selectKey keyProperty="proposalId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_PROPOSAL_INFO'
+        </selectKey>
+    </insert>
+
+
+
     <!--인사기록카드 - 제안제도 삭제-->
     <update id="setProposalDelete" parameterType="java.util.List">
         /* setProposalDelete */
@@ -2140,6 +2492,7 @@
         </foreach>
         )
     </update>
+
 
     <select id="getRewinfoList" parameterType="map" resultType="map">
         /* getRewinfoList */

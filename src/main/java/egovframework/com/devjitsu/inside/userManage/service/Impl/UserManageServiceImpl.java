@@ -559,8 +559,20 @@ public class UserManageServiceImpl implements UserManageService {
         return userManageRepository.setUserReqDetailUpdate(params);
     }
 
-    //인사기록카드 - 학력사항 삭제
-    /*@Override
+    //인사기록카드 - 삭제할 학력사항 선택
+
+    @Override
+    public List<Map<String, Object>> getEduDeleteList(List<Integer> eduChk) {
+        return userManageRepository.getEduDeleteList(eduChk);
+    }
+
+    //인사기록카드 - 학력사항 삭제 요청 데이터 카피
+    @Override
+    public void setEduDeleteTmp(Map<String, Object> map) {
+            userManageRepository.setEduDeleteTmp(map);
+
+    }
+    @Override
     public Map<String, Object> setEduDelete(List<String> eduChk) {
         Map<String, Object> result = new HashMap<>();
 
@@ -575,7 +587,7 @@ public class UserManageServiceImpl implements UserManageService {
         }
 
         return result;
-    }*/
+    }
 
     //인사기록카드 - 경력사항 삭제
     @Override

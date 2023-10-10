@@ -1348,7 +1348,9 @@
     }
 
 
-    /*function delDegreeBtn() {
+    //인사기록카드 - 학력사항삭제 요청(_Tmp 테이블로 카피)
+    /*
+    function delDegreeBtn() {
         if($('input[name=eduChk]:checked').length == 0){
             alert("삭제할 항목을 선택해주세요.");
             return;
@@ -1359,23 +1361,29 @@
         var eduChk = new Array();
         $("input[name='eduChk']").each(function(){
             if(this.checked){
-                eduChk.push($(this).attr("id").replace($(this).attr("name"), ""));
+                var id = $(this).attr("id"); // id 속성 값
+                var eduId = parseInt(id.replace("edu", ""), 10); // "edu"를 제거하고 정수로 변환
+                eduChk.push(eduId);
             }
         })
 
-        $.ajax({
-            url : '/userManage/setEduDelete',
-            data : {
-                eduChk : eduChk
+          $.ajax({
+            type: "POST",
+            url: "/userManage/setEduDeleteTmp", // 컨트롤러 엔드포인트 URL
+            data: { eduChk: eduChk }, // 전송할 데이터
+            success: function (response) {
+                // AJAX 요청이 성공했을 때 실행되는 코드
+                console.log("요청이 성공했습니다.");
+                alert("삭제 요청이 완료되었습니다.")
             },
-            dataType: "json",
-            type : "POST",
-            success : function (rs){
-                var rs = rs.rs;
-                alert(rs.message);
+            error: function (error) {
+                // AJAX 요청이 실패했을 때 실행되는 코드
+                console.error("요청이 실패했습니다.");
+                alert("삭제 요청이 실패했습니다.")
             }
         });
-    }*/
+    }
+     */
 
     //인사기록카드 - 경력 사항 수정
     function updateCareerBtn() {
