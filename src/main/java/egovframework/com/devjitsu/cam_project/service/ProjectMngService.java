@@ -26,5 +26,11 @@ public interface ProjectMngService {
 
     void setProductInfo(Map<String, Object> params);
 
+    void setProductUpd(Map<String, Object> params);
+
+    void setProductDel(Map<String, Object> params);
+
     List<Map<String, Object>> getProductCodeInfo(Map<String, Object> params);
+
+    Map<String, Object> getProductCodeOne(Map<String, Object> params);
 }

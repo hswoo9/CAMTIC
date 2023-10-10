@@ -57,12 +57,79 @@ var hwpInit = {
         hwpDocCtrl.putFieldText('REVENUE_PER', (100 - planPer) + "%");
 
         /** 5. 계획대비 실적률 */
-        hwpDocCtrl.putFieldText('EXP_AMT', fn_numberWithCommas(map.EXP_AMT));
         let rs = customKendo.fn_customAjax("/project/engn/getResultInfo", data);
         const ls = rs.list;
+
+        hwpDocCtrl.putFieldText('INV_AMT', String(fn_numberWithCommas(invAmt)));
         for(let i=0; i<ls.length; i++){
+            /** 인원(최대 3칸) */
             hwpDocCtrl.putFieldText('CELL'+(i+1), ls[i].PS_EMP_NM);
 
+            /** 수익 */
+            var value = 0;
+            var calcAmt = 0;
+            var type = "";
+            if(ls[i].PS_PREP == 1){
+                type = "A";
+                if(rs.result.map != undefined){
+                    if(rs.result.map.DELV_PREP_A != null && rs.result.map.DELV_PREP_A != ""){
+                        value = rs.result.map.DELV_PREP_A;
+                    }
+                }
+            } else if (ls[i].PS_PREP == 2){
+                type = "B";
+                if(rs.result.map != undefined) {
+                    if (rs.result.map.DELV_PREP_B != null && rs.result.map.DELV_PREP_B != "") {
+                        value = rs.result.map.DELV_PREP_B;
+                    }
+                }
+            } else if (ls[i].PS_PREP == 3){
+                type = "C";
+                if(rs.result.map != undefined) {
+                    if (rs.result.map.DELV_PREP_C != null && rs.result.map.DELV_PREP_C != "") {
+                        value = rs.result.map.DELV_PREP_C;
+                    }
+                }
+            }
+            calcAmt = Math.round(rs.pjtInfo.PJT_AMT * (value * 0.01));
+            hwpDocCtrl.putFieldText('CELL_DELV_AMT'+(i+1), String(fn_numberWithCommas(calcAmt)));
+            hwpDocCtrl.putFieldText('CELL_DELV_PER'+(i+1), value + "%");
+        }
+
+        for(let i=0; i<ls.length; i++){
+            /** 매출 */
+            var value = 0;
+            var calcAmt = 0;
+            var type = "";
+            if(ls[i].PS_PREP == 1){
+                type = "A";
+                if(rs.result.map != undefined){
+                    if(rs.result.map.INV_PREP_A != null && rs.result.map.INV_PREP_A != ""){
+                        value = rs.result.map.INV_PREP_A;
+                    }
+                }
+            } else if (ls[i].PS_PREP == 2){
+                type = "B";
+                if(rs.result.map != undefined) {
+                    if (rs.result.map.INV_PREP_B != null && rs.result.map.INV_PREP_B != "") {
+                        value = rs.result.map.INV_PREP_B;
+                    }
+                }
+            } else if (ls[i].PS_PREP == 3){
+                type = "C";
+                if(rs.result.map != undefined) {
+                    if (rs.result.map.INV_PREP_C != null && rs.result.map.INV_PREP_C != "") {
+                        value = rs.result.map.INV_PREP_C;
+                    }
+                }
+            }
+            calcAmt = Math.round(invAmt * (value * 0.01));
+            hwpDocCtrl.putFieldText('CELL_INV_AMT'+(i+1), String(fn_numberWithCommas(calcAmt)));
+            hwpDocCtrl.putFieldText('CELL_INV_PER'+(i+1), value + "%");
+        }
+
+        for(let i=0; i<ls.length; i++){
+            /** 수익 */
             var value = 0;
             var calcAmt = 0;
             var type = "";
@@ -88,10 +155,11 @@ var hwpInit = {
                     }
                 }
             }
-            calcAmt = Math.round((map.EXP_AMT == null ? 0 : map.EXP_AMT) * (value * 0.01));
-            hwpDocCtrl.putFieldText('CELL_AMT'+(i+1), fn_numberWithCommas(calcAmt));
+            calcAmt = Math.round((rs.pjtInfo.PJT_AMT-invAmt) * (value * 0.01));
+            hwpDocCtrl.putFieldText('CELL_AMT'+(i+1), String(fn_numberWithCommas(calcAmt)));
             hwpDocCtrl.putFieldText('CELL_PER'+(i+1), value + "%");
         }
+        hwpDocCtrl.putFieldText('EXP_AMT', fn_numberWithCommas(rs.pjtInfo.PJT_AMT-invAmt));
     },
 
     pjtCostInit: function(pjtSn){

@@ -3,6 +3,68 @@
 
 <mapper namespace="itemSystem">
 
+    <select id="getCrmItemManageList" parameterType="map" resultType="map">
+        /* getCrmItemManageList */
+        SELECT
+            *
+        FROM
+            CAM_ITEM.DJ_CRM_ITEM_MANGE CIM
+        JOIN
+            CAM_ITEM.DJ_ITEM_MASTER IM
+        ON IM.MASTER_SN = CIM.MASTER_SN
+        WHERE
+            CIM.CRM_SN = #{crmSn}
+    </select>
+    
+    <insert id="setCrmItemManage" parameterType="map">
+        /* setCrmItemManage */
+        INSERT INTO CAM_ITEM.DJ_CRM_ITEM_MANGE
+        (
+            CRM_SN,
+            MASTER_SN,
+            CRM_ITEM_NO,
+            CRM_ITEM_NAME,
+            BUS_CLASS,
+            ACTIVE,
+            REG_EMP_SEQ
+        )
+        VALUES
+        <foreach collection="newArr" item="item" separator=" , ">
+        (
+            #{item.crmSn},
+            #{item.masterSn},
+            #{item.crmItemNo},
+            #{item.crmItemName},
+            #{item.busClass},
+            #{item.active},
+            #{item.empSeq}
+        )
+        </foreach>
+    </insert>
+
+    <update id="setCrmItemManageUpd" parameterType="map">
+        /* setCrmItemManageUpd */
+        UPDATE
+            CAM_ITEM.DJ_CRM_ITEM_MANGE
+        SET
+            MASTER_SN = #{masterSn},
+            CRM_ITEM_NO = #{crmItemNo},
+            CRM_ITEM_NAME = #{crmItemName},
+            BUS_CLASS = #{busClass},
+            ACTIVE = #{active},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            CRM_ITEM_SN = #{crmItemSn}
+        AND
+            CRM_SN = #{crmSn}
+    </update>
+
+    <delete id="setCrmItemManageDel" parameterType="map">
+        /* setCrmItemManageDel */
+        DELETE FROM CAM_ITEM.DJ_CRM_ITEM_MANGE WHERE CRM_ITEM_SN IN (${crmItemSn})
+    </delete>
+
     <select id="groupCodeList" parameterType="map" resultType="map">
         /* groupCodeList */
         SELECT
@@ -172,13 +234,21 @@
                 AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
             </when>
             <otherwise>
-                AND (
-                    IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
-                    IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
-                    IM.SAFETY_INVEN LIKE CONCAT('%', #{searchValue}, '%')
-                )
+                <if test='searchValue != null and !"".equals(searchValue)'>
+                    AND (
+                        IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
+                        IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
+                        IM.STANDARD LIKE CONCAT('%', #{searchValue}, '%') OR
+                        IM.SAFETY_INVEN LIKE CONCAT('%', #{searchValue}, '%')
+                    )
+                </if>
             </otherwise>
         </choose>
+
+        <if test='target != null and "crmItem".equals(target)'>
+            AND MASTER_SN NOT IN(SELECT MASTER_SN FROM CAM_ITEM.DJ_CRM_ITEM_MANGE WHERE CRM_SN = #{crmSn})
+        </if>
+
     </select>
 
     <select id="getItemMaster" parameterType="map" resultType="map">
@@ -195,8 +265,15 @@
         JOIN
             CAM_ITEM.DJ_ITEM_CD IUC
         ON IUC.LG_CD = 'UNIT' AND IM.ITEM_UNIT_CD = IUC.ITEM_CD
-        WHERE
-            IM.MASTER_SN = #{masterSn}
+        WHERE 1=1
+        <choose>
+            <when test='itemNo != null and !"".equals(itemNo)'>
+                AND IM.ITEM_NO = #{itemNo}
+            </when>
+            <otherwise>
+                AND IM.MASTER_SN = #{masterSn}
+            </otherwise>
+        </choose>
     </select>
 
     <select id="getItemNoDuplicate" parameterType="map" resultType="boolean">

@@ -30,7 +30,7 @@
     <div class="card-header pop-header">
       <h3 class="card-title title_NM">자산연계-거래 분류 등록</h3>
       <div class="btn-st popButton">
-        <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="productReq.fn_saveBtn();">등록</button>
+        <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="productReq.fn_saveBtn();">저장</button>
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
       </div>
     </div>
@@ -44,7 +44,7 @@
       <tr>
         <th>분류명</th>
         <td>
-          <input type="text" id="reqText" style="width:500px" value=""/>
+          <input type="text" id="reqText" style="width:500px" value="${data.PRODUCT_DT_CODE_NM}"/>
         </td>
       </tr>
       </thead>

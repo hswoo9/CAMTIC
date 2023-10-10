@@ -28,7 +28,40 @@ var purcInfo = {
             { text: "구매", value: "1"},
         ]
 
-        customKendo.fn_dropDownList("purcItemType0", purcInfo.global.dropDownDataSource, "text", "value", 2);
+
+        let productsDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId: "38"});
+        customKendo.fn_dropDownList("purcItemType0", productsDataSource, "CM_CODE_NM", "CM_CODE", 2);
+
+        let productADataSource = customKendo.fn_customAjax("/projectMng/getProductCodeInfo", {productGroupCodeId: 1}).list;
+        customKendo.fn_dropDownList("productA0", productADataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
+
+        $("#productA0").bind("change", function(){
+            if($("#productA0").data("kendoDropDownList").value() == ""){
+                return;
+            }
+            $("#productB0").val("");
+            let data = {
+                productGroupCodeId: 2,
+                parentCodeId: $("#productA0").data("kendoDropDownList").value(),
+                parentCodeName: $("#productA0").data("kendoDropDownList").text(),
+            }
+            let productBDataSource = customKendo.fn_customAjax("/projectMng/getProductCodeInfo", data).list;
+            customKendo.fn_dropDownList("productB0", productBDataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
+        });
+
+        $("#productB0").bind("change", function(){
+            if($("#productB0").data("kendoDropDownList").value() == ""){
+                return;
+            }
+            $("#productC0").val("");
+            let data = {
+                productGroupCodeId: 3,
+                parentCodeId: $("#productB0").data("kendoDropDownList").value(),
+                parentCodeName: $("#productB0").data("kendoDropDownList").text(),
+            }
+            let productCDataSource = customKendo.fn_customAjax("/projectMng/getProductCodeInfo", data).list;
+            customKendo.fn_dropDownList("productC0", productCDataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
+        });
 
         $("#purcCrmSn, #purcCrmNm").change(function(){
             purcInfo.crmInfoChange();
@@ -59,10 +92,41 @@ var purcInfo = {
         }
 
         var itemArr = new Array()
+
+        let flag = true;
+        $.each($(".purcItemInfo"), function(i, v){
+            /** 구매구분 값 제대로 입력 했는지 체크 */
+            try{
+                if($("#purcItemType" + i).data("kendoDropDownList").value == ""
+                    || $("#purcItemType" + i).data("kendoDropDownList").value == null
+                    || $("#productA" + i).data("kendoDropDownList").value == ""
+                    || $("#productA" + i).data("kendoDropDownList").value == null
+                    || $("#productB" + i).data("kendoDropDownList").value == ""
+                    || $("#productB" + i).data("kendoDropDownList").value == null
+                    || $("#productC" + i).data("kendoDropDownList").value == ""
+                    || $("#productC" + i).data("kendoDropDownList").value == null){
+
+                    alert("구매구분이 올바르게 선택되지 않았습니다."); flag = false;
+                }
+            }catch{
+                alert("구매구분이 올바르게 선택되지 않았습니다."); flag = false;
+            }
+        });
+        if(flag){
+            return;
+        }
+
         $.each($(".purcItemInfo"), function(i, v){
             var data = {
                 purcItemSn : $(this).find("#purcItemSn" + i).val(),
-                purcItemType : $("#purcItemType" + i).val(),
+                purcItemType : $("#purcItemType" + i).data("kendoDropDownList").value(),
+                purcItemTypeName : $("#purcItemType" + i).data("kendoDropDownList").text(),
+                productA : $("#productA" + i).data("kendoDropDownList").value(),
+                productAName : $("#productA" + i).data("kendoDropDownList").text(),
+                productB : $("#productB" + i).data("kendoDropDownList").value(),
+                productBName : $("#productB" + i).data("kendoDropDownList").text(),
+                productC : $("#productC" + i).data("kendoDropDownList").value(),
+                productCName : $("#productC" + i).data("kendoDropDownList").text(),
                 purcItemName : $("#purcItemName" + i).val(),
                 purcItemStd : $("#purcItemStd" + i).val(),
                 purcItemUnitPrice : $("#purcItemUnitPrice" + i).val(),
@@ -97,7 +161,10 @@ var purcInfo = {
             '<tr class="purcItemInfo newArray" id="item' + purcInfo.global.itemIndex + '">' +
             '   <td>' +
             '       <input type="hidden" id="purcItemSn' + purcInfo.global.itemIndex + '" class="purcItemSn">' +
-            '       <input type="text" id="purcItemType' + purcInfo.global.itemIndex + '" class="purcItemType">' +
+            '       <input type="text" id="purcItemType' + purcInfo.global.itemIndex + '" class="purcItemType" style="width: 24%">' +
+            '       <input type="text" id="productA' + purcInfo.global.itemIndex + '" class="productA" style="width: 24%">' +
+            '       <input type="text" id="productB' + purcInfo.global.itemIndex + '" class="productB" style="width: 24%; display: none">' +
+            '       <input type="text" id="productC' + purcInfo.global.itemIndex + '" class="productC" style="width: 24%; display: none">' +
             '   </td>' +
             '   <td>' +
             '       <input type="text" id="purcItemName' + purcInfo.global.itemIndex + '" class="purcItemName">' +
@@ -119,7 +186,7 @@ var purcInfo = {
             '   </td>' +
             '   <td>' +
             '       <input type="hidden" id="crmSn' + purcInfo.global.itemIndex + '" class="crmSn">' +
-            '       <input type="text" id="crmNm' + purcInfo.global.itemIndex + '" class="crmNm" style="width: 70%">' +
+            '       <input type="text" id="crmNm' + purcInfo.global.itemIndex + '" class="crmNm" style="width: 60%">' +
             '       <button type="button" id="crmSelBtn' + purcInfo.global.itemIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" class="crmSelBtn" onclick="purcInfo.fn_popCamCrmList(\'crmSn' + purcInfo.global.itemIndex + '\',\'crmNm' + purcInfo.global.itemIndex + '\');">업체 선택</button>' +
             '   </td>' +
             '   <td>' +
@@ -133,10 +200,40 @@ var purcInfo = {
 
         $("#purcItemTb").append(purcInfo.global.createHtmlStr);
 
-        purcInfo.global.dropDownDataSource = [
-            { text: "구매", value: "1"},
-        ]
-        customKendo.fn_dropDownList("purcItemType" + purcInfo.global.itemIndex, purcInfo.global.dropDownDataSource, "text", "value", 2);
+
+        let productsDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "38"});
+        customKendo.fn_dropDownList("purcItemType" + purcInfo.global.itemIndex, productsDataSource, "CM_CODE_NM", "CM_CODE", 2);
+
+        let productADataSource = customKendo.fn_customAjax("/projectMng/getProductCodeInfo", {productGroupCodeId: 1}).list;
+        customKendo.fn_dropDownList("productA" + purcInfo.global.itemIndex, productADataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
+
+        $("#productA" + purcInfo.global.itemIndex).bind("change", function(){
+            if($("#productA" + purcInfo.global.itemIndex).data("kendoDropDownList").value() == ""){
+                return;
+            }
+            $("#productB" + purcInfo.global.itemIndex).val("");
+            let data = {
+                productGroupCodeId: 2,
+                parentCodeId: $("#productA" + purcInfo.global.itemIndex).data("kendoDropDownList").value(),
+                parentCodeName: $("#productA" + purcInfo.global.itemIndex).data("kendoDropDownList").text(),
+            }
+            let productBDataSource = customKendo.fn_customAjax("/projectMng/getProductCodeInfo", data).list;
+            customKendo.fn_dropDownList("productB" + purcInfo.global.itemIndex, productBDataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
+        });
+
+        $("#productB" + purcInfo.global.itemIndex).bind("change", function(){
+            if($("#productB" + purcInfo.global.itemIndex).data("kendoDropDownList").value() == ""){
+                return;
+            }
+            $("#productC" + purcInfo.global.itemIndex).val("");
+            let data = {
+                productGroupCodeId: 3,
+                parentCodeId: $("#productB" + purcInfo.global.itemIndex).data("kendoDropDownList").value(),
+                parentCodeName: $("#productB" + purcInfo.global.itemIndex).data("kendoDropDownList").text(),
+            }
+            let productCDataSource = customKendo.fn_customAjax("/projectMng/getProductCodeInfo", data).list;
+            customKendo.fn_dropDownList("productC" + purcInfo.global.itemIndex, productCDataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
+        });
 
         customKendo.fn_textBox(["purcItemName" + purcInfo.global.itemIndex, "purcItemStd" + purcInfo.global.itemIndex,
             "purcItemUnitPrice" + purcInfo.global.itemIndex, "purcItemQty" + purcInfo.global.itemIndex,

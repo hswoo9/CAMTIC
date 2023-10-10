@@ -43,17 +43,17 @@ var regRv = {
                     '<input type="text" id="whType' + regRv.global.itemWhIndex + '" name="whType' + regRv.global.itemWhIndex + '">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="whVolume' + regRv.global.itemWhIndex + '" name="whVolume' + regRv.global.itemWhIndex + '" class="numBerInput" style="text-align: right">' +
+                    '<input type="text" id="whVolume' + regRv.global.itemWhIndex + '" name="whVolume' + regRv.global.itemWhIndex + '" class="numBerInput whVolume" style="text-align: right">' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="whWeight' + regRv.global.itemWhIndex + '" name="whWeight' + regRv.global.itemWhIndex + '" class="numBerInput" style="text-align: right">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="unitPrice' + regRv.global.itemWhIndex + '" name="unitPrice' + regRv.global.itemWhIndex + '" class="numBerInput" style="text-align: right;width: 63%">' +
+                    '<input type="text" id="unitPrice' + regRv.global.itemWhIndex + '" name="unitPrice' + regRv.global.itemWhIndex + '" class="numBerInput unitPrice" style="text-align: right;width: 63%">' +
                     '<button type="button" id="crmSelBtn' + regRv.global.itemWhIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="regRv.fn_popUnitPriceList(\'unitPrice\', ' + regRv.global.itemWhIndex + ');">선택</button>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="amt' + regRv.global.itemWhIndex + '" name="amt' + regRv.global.itemWhIndex + '" class="numBerInput" style="text-align: right">' +
+                    '<input type="text" id="amt' + regRv.global.itemWhIndex + '" name="amt' + regRv.global.itemWhIndex + '" class="amt numBerInput" style="text-align: right" readonly>' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="whCd' + regRv.global.itemWhIndex + '" name="whCd' + regRv.global.itemWhIndex + '">' +
@@ -74,6 +74,13 @@ var regRv = {
         $(".numBerInput").keyup(function(){
             $(this).val(regRv.comma(regRv.uncomma($(this).val())));
         });
+
+        $(".whVolume, .unitPrice").keyup(function(){
+            var whVolume = Number(regRv.uncomma($(this).closest("tr").find("input.whVolume").val()));
+            var unitPrice = Number(regRv.uncomma($(this).closest("tr").find("input.unitPrice").val()));
+            $(this).closest("tr").find("input.amt").val(regRv.comma(Number(whVolume * unitPrice)));
+        });
+
 
         customKendo.fn_dropDownList("whType" + regRv.global.itemWhIndex, regRv.global.wTDataSource, "ITEM_CD_NM", "ITEM_CD", 3);
         customKendo.fn_dropDownList("whCd" + regRv.global.itemWhIndex, regRv.global.wCDataSource, "ITEM_CD_NM", "ITEM_CD", 3);
@@ -117,6 +124,7 @@ var regRv = {
 
                         $("#wh" + i).find("#crmSn" + i).val(list[i].crmSn);
                         $("#wh" + i).find("#crmNm" + i).val(list[i].crmNm);
+                        $("#wh" + i).find("#masterSn" + i).val(list[i].masterSn);
                         $("#wh" + i).find("#itemNo" + i).val(list[i].itemNo);
                         $("#wh" + i).find("#itemName" + i).val(list[i].itemName);
                         $("#wh" + i).find("#whType" + i).data("kendoDropDownList").value(list[i].whType);
@@ -164,9 +172,8 @@ var regRv = {
             $.each($(".whInfo"), function(i, v){
                 var arrData = {
                     crmSn : $(this).find("#crmSn" + i).val(),
+                    masterSn : $(this).find("#masterSn" + i).val(),
                     itemWhSn : $(this).find("#itemWhSn" + i).val(),
-                    itemNo : $(this).find("#itemNo" + i).val(),
-                    itemName : $(this).find("#itemName" + i).val(),
                     whType : $(this).find("#whType" + i).val(),
                     whVolume : regRv.uncomma($(this).find("#whVolume" + i).val()),
                     whWeight : regRv.uncomma($(this).find("#whWeight" + i).val()),
@@ -197,6 +204,7 @@ var regRv = {
                 regRv.global.itemWhIndex = 0;
                 $("#listTb tr").remove();
                 regRv.addRow('new');
+                opener.parent.recL.gridReload();
             }
         }
     },
@@ -229,8 +237,6 @@ var regRv = {
     },
 
     masterSnChange : function(){
-        console.log(regRv.global.masterSnIndex);
-        console.log($("#whCd" + regRv.global.masterSnIndex).data("kendoDropDownList"));
         $("#masterSn" + regRv.global.masterSnIndex).val($("#masterSn").val())
         $("#itemNo" + regRv.global.masterSnIndex).val($("#itemNo").val())
         $("#itemName" + regRv.global.masterSnIndex).val($("#itemName").val())
@@ -254,14 +260,14 @@ var regRv = {
 
         regRv.global.unitPriceId = unitPriceId + i;
 
-        var url = "/item/pop/popUnitPriceList.do?crmSn=" + $("#crmSn" + i).val() + "&itemNo=" + $("#itemNo" + i).val();
+        var url = "/item/pop/popUnitPriceList.do?crmSn=" + $("#crmSn" + i).val() + "&masterSn=" + $("#masterSn" + i).val();
         var name = "_blank";
         var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 
     unitPriceChange : function(){
-        $("#" + regRv.global.unitPriceId).val($("#unitPrice").val())
+        $("#" + regRv.global.unitPriceId).val(regRv.comma($("#unitPrice").val()));
         $("#unitPrice").val("")
     },
 

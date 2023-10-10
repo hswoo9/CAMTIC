@@ -240,6 +240,19 @@ var regPrj = {
 
         // tabStrip.enable(tabStrip.tabGroup.children().eq(0));
 
+        $("#viewBtn").on("click", function(){
+            if($("#viewStat").val() == "Y"){
+                $("#mainTable").css("display", "none");
+                $("#viewStat").val("N");
+                $("#viewText").html("&#9660;");
+            }else{
+                $("#mainTable").css("display", "");
+                $("#viewStat").val("Y");
+                $("#viewText").html("&#9650;");
+            }
+
+        });
+
 
 
     },

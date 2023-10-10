@@ -15,6 +15,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -37,6 +38,88 @@ public class ItemManageServiceImpl implements ItemManageService {
 
     @Autowired
     private CrmRepository crmRepository;
+
+    @Override
+    public List<Map<String, Object>> getItemStandardUnitPriceList(Map<String, Object> params) {
+        return itemManageRepository.getItemStandardUnitPriceList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getSdunitPriceList(Map<String, Object> params) {
+        return itemManageRepository.getSdunitPriceList(params);
+    }
+
+    @Override
+    public void setSdUnitPriceReg(Map<String, Object> params) {
+        Gson gson = new Gson();
+        if(!StringUtils.isEmpty(params.get("newData"))){
+            params.put("changeNum", itemManageRepository.getMaxChangeNum(params));
+            if(!params.get("changeNum").equals("1")){
+                Map<String, Object> updateMap = new HashMap<>();
+                updateMap.put("endDt", params.get("startDt"));
+                updateMap.put("empSeq", params.get("empSeq"));
+                updateMap.put("empName", params.get("empName"));
+                updateMap.put("masterSn", params.get("masterSn"));
+                updateMap.put("changeNum", params.get("changeNum"));
+                itemManageRepository.setSdUnitPriceEndDtUpd(updateMap);
+            }
+
+            itemManageRepository.setSdUnitPriceReg(params);
+        }
+
+        List<Map<String, Object>> oldArr = gson.fromJson((String) params.get("oldArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        if(oldArr.size() > 0){
+            for(Map<String, Object> map : oldArr){
+                itemManageRepository.setSdUnitPriceRegUpd(map);
+            }
+        }
+    }
+
+    @Override
+    public void setSdUnitPriceDel(Map<String, Object> params) {
+        itemManageRepository.setSdUnitPriceDel(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getMaterialUnitPriceList(Map<String, Object> params) {
+        return itemManageRepository.getMaterialUnitPriceList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getCrmItemUnitPriceList(Map<String, Object> params) {
+        return itemManageRepository.getCrmItemUnitPriceList(params);
+    }
+
+    @Override
+    public void setCrmItemUnitPriceReg(Map<String, Object> params) {
+        Gson gson = new Gson();
+        if(!StringUtils.isEmpty(params.get("newData"))){
+            params.put("changeNum", itemManageRepository.getCrmItemMaxChangeNum(params));
+            if(!params.get("changeNum").equals("1")){
+                Map<String, Object> updateMap = new HashMap<>();
+                updateMap.put("endDt", params.get("startDt"));
+                updateMap.put("empSeq", params.get("empSeq"));
+                updateMap.put("empName", params.get("empName"));
+                updateMap.put("crmItemSn", params.get("crmItemSn"));
+                updateMap.put("changeNum", params.get("changeNum"));
+                itemManageRepository.setCrmItemUnitPriceEndDtUpd(updateMap);
+            }
+
+            itemManageRepository.setCrmItemUnitPriceReg(params);
+        }
+
+        List<Map<String, Object>> oldArr = gson.fromJson((String) params.get("oldArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        if(oldArr.size() > 0){
+            for(Map<String, Object> map : oldArr){
+                itemManageRepository.setCrmItemUnitPriceRegUpd(map);
+            }
+        }
+    }
+
+    @Override
+    public void setCrmItemUnitPriceDel(Map<String, Object> params) {
+        itemManageRepository.setCrmItemUnitPriceDel(params);
+    }
 
     @Override
     public void receivingExcelFormDown(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -66,8 +149,20 @@ public class ItemManageServiceImpl implements ItemManageService {
                     cell = row.createCell(1);cell.setCellValue(searchList.get(i).get("CRM_NM").toString());
                 }
 
-                /** 입고형태 코드 목록 */
+                /** 품번 코드 목록 */
                 sheet = workbook.getSheetAt(2);
+                rowIndex = 2;
+
+                searchMap.put("active", "Y");
+                searchList = itemSystemRepository.getItemMasterList(searchMap);
+                for(int i = 0; i < searchList.size(); i++){
+                    XSSFRow row = sheet.createRow(rowIndex++);
+                    cell = row.createCell(0);cell.setCellValue(searchList.get(i).get("ITEM_NO").toString());
+                    cell = row.createCell(1);cell.setCellValue(searchList.get(i).get("ITEM_NAME").toString());
+                }
+
+                /** 입고형태 코드 목록 */
+                sheet = workbook.getSheetAt(3);
                 rowIndex = 2;
 
                 searchMap.put("grpSn", "WT");
@@ -82,7 +177,7 @@ public class ItemManageServiceImpl implements ItemManageService {
                 }
 
                 /** 입고창고 코드 목록 */
-                sheet = workbook.getSheetAt(3);
+                sheet = workbook.getSheetAt(4);
                 rowIndex = 2;
 
                 searchMap.put("grpSn", "WC");
@@ -155,9 +250,14 @@ public class ItemManageServiceImpl implements ItemManageService {
                 if(!cellValueToString(col0).equals("") && !cellValueToString(col1).equals("") && !cellValueToString(col2).equals("")
                         && !cellValueToString(col3).equals("") && !cellValueToString(col4).equals("") && !cellValueToString(col5).equals("")
                         && !cellValueToString(col7).equals("") && !cellValueToString(col8).equals("") && !cellValueToString(col9).equals("")){
+                    params.put("itemNo", cellValueToString(row.getCell(2)));
+                    Map<String, Object> masterMap = itemSystemRepository.getItemMaster(params);
+
                     int cells = sheet.getRow(i).getPhysicalNumberOfCells();
+
                     tumpMap.put("crmSn", cellValueToString(row.getCell(0)));
                     tumpMap.put("crmNm", cellValueToString(row.getCell(1)));
+                    tumpMap.put("masterSn", masterMap.get("MASTER_SN"));
                     tumpMap.put("itemNo", cellValueToString(row.getCell(2)));
                     tumpMap.put("itemName", cellValueToString(row.getCell(3)));
                     tumpMap.put("whType", cellValueToString(row.getCell(4)));

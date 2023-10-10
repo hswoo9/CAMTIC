@@ -10,6 +10,8 @@
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
+        <input type="hidden" id="crmSn" name="crmSn" value="${data.CRM_SN}">
+        <input type="hidden" id="masterSn" name="masterSn" value="${rs.MASTER_SN}">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">단가이력</span>
             </h3>
@@ -17,8 +19,6 @@
         <div>
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
-                    <col width="10%">
-                    <col>
                     <col width="10%">
                     <col>
                 </colgroup>
@@ -32,7 +32,7 @@
                 <tr>
                     <th>품번</th>
                     <td>
-
+                        ${rs.ITEM_NO} ${rs.ITEM_NAME}
                     </td>
                 </tr>
                 </thead>

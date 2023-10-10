@@ -104,7 +104,7 @@
         <ul id="navigation">
           <li><a href="/camtic">홈으로</a></li>
           <li class="">홍보관</li>
-          <li class=""><span class="categoryName"></span></li>
+          <li class="">뉴스레터</li>
           <li class="">게시글 수정</li>
         </ul>
         <div id="title">
@@ -187,21 +187,24 @@
 
                 <div class="linkInfo">
                   <div class="filebox2">
-                    └&nbsp;
-                    <input type="text" id="groupKey" name="groupKey" style="width: 10%;margin: 0 5px 0 5px;text-align:center;" value="${firstLinkInfo.GROUP_KEY}" readonly />
-                    <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="groupKeyCreate()" disabled>
+                    <span>└&nbsp;</span>
+                    <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="padding-left: 2px;" onclick="groupKeyCreate()" disabled>
                       <span class="__btn1 grayLine" disabled="disabled">그룹 생성</span>
                     </button>
+                    <input type="text" id="groupKey" name="groupKey" style="/*width: 10%;*/margin: 0 5px 0 5px;text-align:center;" value="${firstLinkInfo.GROUP_KEY}" readonly />
 
-                    <input type="hidden" id="linkKey1" value="${firstLinkInfo.LINK_KEY}" />
-                    <input type="text" id="linkText1" name="linkText" style="width: 50%; margin: 0 5px 0 5px;" value="${firstLinkInfo.LINK}" readonly />
-                    <button type="button" id="copyBtn1'" onclick="copyBtn(1)"><img src="/images/nav.png" style="background: white" alt="복사"></button>
-                    <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="linkCreate(1)" disabled>
-                      <span class="__btn1 grayLine" disabled="disabled">링크 생성</span>
-                    </button>
-                    <button type="button" class="addBtn"  onclick="addLinkDiv()">
-                      <span class="__btn1 grayLine">링크 추가</span>
-                    </button>
+                    <div>
+                      <input type="hidden" id="linkKey1" value="${firstLinkInfo.LINK_KEY}" />
+                      <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="padding-left: 30px; margin-top: 4px;" onclick="linkCreate(1)" disabled>
+                        <span class="__btn1 grayLine" disabled="disabled">링크 생성</span>
+                      </button>
+                      <input type="text" id="linkText1" name="linkText" style="width: 38%; margin: 0 5px 0 5px;" value="${firstLinkInfo.LINK}" readonly />
+                      <button type="button" id="copyBtn1'" onclick="copyBtn(1)"><img src="/images/nav.png" style="background: white" alt="복사"></button>
+
+                      <button type="button" class="addBtn"  style="padding-left: 30px; margin-top: 4px;" onclick="addLinkDiv()">
+                        <span class="__btn1 grayLine">링크 추가</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
 
@@ -344,17 +347,22 @@
         html += '<div class="file-and-table-container2" id="linkDiv'+num+'" name="linkDiv" data-number="'+num+'">';
         html += '<div class="linkInfo">';
         html += '<div class="filebox2">';
-        html += '└&nbsp;<input type="text" id="groupKey" name="groupKey" style="width: 10%;margin: 0 5px 0 5px;text-align:center;" value="'+group+'" readonly />';
-        html += '<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="groupKeyCreate()" disabled>';
+        html += '<span>└&nbsp</span>'
+        html += '<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="padding-left: 2px;" onclick="groupKeyCreate()" disabled>';
         html += '<span class="__btn1 grayLine">그룹 번호</span></button>';
+        html += '<input type="text" id="groupKey" name="groupKey" style="margin: 0 5px 0 5px;text-align:center;" value="'+group+'" readonly />';
 
+        html += '<div>'
         html += '<input type="hidden" id="linkKey'+num+'" value="'+linkInfo[cnt].LINK_KEY+'" />';
-        html += '<input type="text" id="linkText'+num+'" name="linkText" style="width: 50%; margin: 0 5px 0 5px;" value="'+linkInfo[cnt].LINK+'" readonly />';
-        html += '<button type="button" id="copyBtn'+num+'" onclick="copyBtn('+num+')"><img src="/images/nav.png" style="background: white" alt="복사"></button>';
-        html += '<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="linkCreate('+num+')" disabled>';
+        html += '<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="padding-left:26px;margin-top: 4px;" onclick="linkCreate('+num+')" disabled>';
         html += '<span class="__btn1 grayLine" disabled="disabled">링크 생성</span></button>';
-        html += '<button type="button" class="addBtn" onclick="delLinkDiv('+num+')" >';
-        html += '<span class="__btn1 grayLine" style="margin-left: 4px;">삭제</span></button>';
+        html += '<input type="text" id="linkText'+num+'" name="linkText" style="width: 40%; margin: 4px 5px 0 5px;" value="'+linkInfo[cnt].LINK+'" readonly />';
+        html += '<button type="button" id="copyBtn'+num+'" style="margin-top: 4px;" onclick="copyBtn('+num+')"><img src="/images/nav.png" style="background: white" alt="복사"></button>';
+
+
+        html += '<button type="button" class="addBtn" style="padding-left: 26px;margin-top: 4px;" onclick="delLinkDiv('+num+')" >';
+        html += '<span class="__btn1 grayLine" >삭제</span></button>';
+        html += '</div>';
         html += '</div>';
         html += '</div>';
         html += '</div>';
@@ -408,16 +416,19 @@
     html += '<div class="file-and-table-container2" id="linkDiv'+num+'" name="linkDiv" data-number="'+num+'">';
     html += '<div class="linkInfo">';
     html += '<div class="filebox2">';
-    html += '└&nbsp;<input type="text" id="groupKey" name="groupKey" style="width: 10%;margin: 0 5px 0 5px;text-align:center;" value="'+group+'" readonly />';
-    html += '<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="groupKeyCreate()" disabled>';
+    html += '<span>└&nbsp</span>'
+    html += '<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="padding-left: 2px;" onclick="groupKeyCreate()" disabled>';
     html += '<span class="__btn1 grayLine">그룹 번호</span></button>';
+    html += '<input type="text" id="groupKey" name="groupKey" style="margin: 0 5px 0 5px;text-align:center;" value="'+group+'" readonly />';
 
+    html += '<div>'
     html += '<input type="hidden" id="linkKey'+num+'" value="" />';
-    html += '<input type="text" id="linkText'+num+'" name="linkText" style="width: 50%; margin: 0 5px 0 5px;" value="" readonly />';
-    html += '<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="linkCreate('+num+')">';
+    html += '<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="padding-left:26px;margin-top: 4px;" onclick="linkCreate('+num+')">';
     html += '<span class="__btn1 grayLine">링크 생성</span></button>';
-    html += '<button type="button" class="addBtn" onclick="delLinkDiv('+num+')" >';
+    html += '<input type="text" id="linkText'+num+'" name="linkText" style="width: 40%; margin: 4px 5px 0 5px;" value="" readonly />';
+    html += '<button type="button" class="addBtn" style="padding-left: 26px;margin-top: 4px;" onclick="delLinkDiv('+num+')" >';
     html += '<span class="__btn1 grayLine">삭제</span></button>';
+    html += '</div>';
     html += '</div>';
     html += '</div>';
     html += '</div>';
@@ -462,8 +473,7 @@
     let random = new Date().getTime().toString(16);
 
     $("#linkKey" + num).val(random);
-    $("#linkText" + num).val('javascript:openPopup('+ groupKey +',' +random + ')');
-
+    $("#linkText" + num).val('javascript:openPopup(\'' + groupKey + '\',\'' + random + '\')');
     if(document.getElementById("copyBtn" + num)){
     }else{
       let html = '<button type="button" id="copyBtn'+num+'" onclick="copyBtn('+num+')"><img src="/images/nav.png" style="background: white" alt="복사"></button>';

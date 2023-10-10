@@ -123,7 +123,8 @@
             EI.EMP_NAME_KR,
             EI.POSITION_NAME,
             DATE_FORMAT(STR_DT, '%Y-%m-%d') AS PJT_START_DT,
-            DATE_FORMAT(END_EXP_DT, '%Y-%m-%d') AS PJT_END_DT
+            DATE_FORMAT(END_EXP_DT, '%Y-%m-%d') AS PJT_END_DT,
+            DATE_FORMAT(END_EXP_DT, '%Y-%m-%d') AS END_EXP_DT_FORMAT
         FROM
             CAM_PJT_MNG.DJ_PROJECT A
                 LEFT JOIN
@@ -1258,6 +1259,24 @@
         SUP_CONT,
         RS_ISS,
         RS_ETC,
+        <if test='delvPrepA != null and !"".equals(delvPrepA)'>
+            DELV_PREP_A,
+        </if>
+        <if test='delvPrepB != null and !"".equals(delvPrepB)'>
+            DELV_PREP_B,
+        </if>
+        <if test='delvPrepC != null and !"".equals(delvPrepC)'>
+            DELV_PREP_C,
+        </if>
+        <if test='invPrepA != null and !"".equals(invPrepA)'>
+            INV_PREP_A,
+        </if>
+        <if test='invPrepB != null and !"".equals(invPrepB)'>
+            INV_PREP_B,
+        </if>
+        <if test='invPrepC != null and !"".equals(invPrepC)'>
+            INV_PREP_C,
+        </if>
         <if test='prepA != null and !"".equals(prepA)'>
             PREP_A,
         </if>
@@ -1279,6 +1298,24 @@
         #{supCont},
         #{rsIss},
         #{rsEtc},
+        <if test='delvPrepA != null and !"".equals(delvPrepA)'>
+            #{delvPrepA},
+        </if>
+        <if test='delvPrepB != null and !"".equals(delvPrepB)'>
+            #{delvPrepB},
+        </if>
+        <if test='delvPrepC != null and !"".equals(delvPrepC)'>
+            #{delvPrepC},
+        </if>
+        <if test='invPrepA != null and !"".equals(invPrepA)'>
+            #{invPrepA},
+        </if>
+        <if test='invPrepB != null and !"".equals(invPrepB)'>
+            #{invPrepB},
+        </if>
+        <if test='invPrepC != null and !"".equals(invPrepC)'>
+            #{invPrepC},
+        </if>
         <if test='prepA != null and !"".equals(prepA)'>
             #{prepA},
         </if>
@@ -1306,6 +1343,24 @@
         SUP_CONT = #{supCont},
         RS_ISS = #{rsIss},
         RS_ETC = #{rsEtc},
+        <if test='delvPrepA != null and !"".equals(delvPrepA)'>
+            DELV_PREP_A = #{delvPrepA},
+        </if>
+        <if test='delvPrepB != null and !"".equals(delvPrepB)'>
+            DELV_PREP_B = #{delvPrepB},
+        </if>
+        <if test='delvPrepC != null and !"".equals(delvPrepC)'>
+            DELV_PREP_C = #{delvPrepC},
+        </if>
+        <if test='invPrepA != null and !"".equals(invPrepA)'>
+            INV_PREP_A = #{invPrepA},
+        </if>
+        <if test='invPrepB != null and !"".equals(invPrepB)'>
+            INV_PREP_B = #{invPrepB},
+        </if>
+        <if test='invPrepC != null and !"".equals(invPrepC)'>
+            INV_PREP_C = #{invPrepC},
+        </if>
         <if test='prepA != null and !"".equals.prepA'>
             PREP_A = #{prepA},
         </if>

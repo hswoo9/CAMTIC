@@ -14,10 +14,13 @@
       <h3 class="card-title title_NM">가족 등록</h3>
       <div class="btn-st popButton">
         <button type="button" class="k-button k-button-solid-info" onclick="fu_addInfo()">추가</button>
+        <button type="button" class="k-button k-button-solid-info" onclick="fu_modifyInfo()">수정</button>
+        <button type="button" class="k-button k-button-solid-info" onclick="fu_delInfo()">삭제</button>
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="fn_windowClose()">닫기</button>
       </div>
     </div>
     <form id="subHolidayReqPop" style="padding: 20px 30px;">
+      <input type="hidden" id="pk" name="pk" value="${pk}">
       <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
       <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
       <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
@@ -89,32 +92,9 @@
   var codeDropDown = [];
   $(function(){
     fn_default();
+    fn_dataSet();
   });
   function fn_default() {
-    $("#includeType").kendoRadioGroup({
-      items: [
-        { label : "예", value : "Y" },
-        { label : "아니오", value : "N" }
-      ],
-      layout : "horizontal",
-      labelPosition : "after",
-    });
-    /*$("#checkY").kendoCheckBox({
-      label: "예",
-      change: function(e) {
-        if(e.checked == true){
-          $("#checkN").prop("checked", false);
-        }
-      }
-    });
-    $("#checkN").kendoCheckBox({
-      label: "아니오",
-      change: function(e) {
-        if(e.checked == true){
-          $("#checkY").prop("checked", false);
-        }
-      }
-    });*/
     customKendo.fn_datePicker("bDay", '', "yyyy-MM-dd", '');
     fn_codeSet();
     $("#relation").kendoDropDownList({
@@ -129,7 +109,49 @@
     });
     $("#fName").kendoTextBox();
     $("#job").kendoTextBox();
+    $("#includeType").kendoRadioGroup({
+      items: [
+        {label: "예", value: "Y"},
+        {label: "아니오", value: "N"}
+      ],
+      layout: "horizontal",
+      labelPosition: "after",
+    });
   }
+    function fn_dataSet() {
+      var result = customKendo.fn_customAjax('/userManage/getFaminfoList.do', {
+        pk : $("#pk").val()
+      });
+
+      if(result.flag) {
+      var e = result.rs;
+
+      $("#relation").val(e.FAMILY_CODE);
+      $("#fName").val(e.FAMILY_NAME);
+      $("#bDay").val(e.FAMILY_BIRTH);
+      $("#job").val(e.FAMILY_JOB);
+      $("input[name='includeType'][value='" + e.INCLUDE_YN + "']").prop('checked', true);
+      }
+
+
+    customKendo.fn_datePicker("bDay", '', "yyyy-MM-dd", '');
+    fn_codeSet();
+    $("#relation").kendoDropDownList({
+      dataTextField: "HR_DT_CODE_NM",
+      dataValueField: "value",
+      dataSource: edCodeDataSource("B05")
+    });
+      $("#includeType").kendoRadioGroup({
+        items: [
+          {label: "예", value: "Y"},
+          {label: "아니오", value: "N"}
+        ],
+        layout: "horizontal",
+        labelPosition: "after",
+      });
+  }
+
+  // 가족사항 등록
   function fu_addInfo() {
     var data = {
       relation : $("#relation").val(),
@@ -139,6 +161,7 @@
       includeType : $("#includeType").getKendoRadioGroup().value(),
       /*cohab : $(".cohab:checked").val(),*/
       type : "family",
+      applicationactive: "등록",
     }
 
     var formData = new FormData();
@@ -148,6 +171,7 @@
     formData.append("fName", data.fName);
     formData.append("includeType", data.includeType);
     formData.append("type", "family");
+    formData.append("applicationactive", data.applicationactive);
 
     if(data.relation == "") { alert("관계가 선택되지 않았습니다."); return; }
     if(data.fName == "") { alert("성명이 선택되지 않았습니다."); return; }
@@ -158,13 +182,51 @@
     var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);
     if(result.flag){
       if(result.rs == "SUCCESS") {
-        alert("등록되었습니다.");
+        alert("등록요청이 완료되었습니다. 관리자 승인 대기 중입니다.");
         fn_windowClose();
       }else{
-        alert("등록에 실패하였습니다.");
+        alert("등록요청이 완료되었습니다. 관리자 승인 대기 중입니다.");
       }
     }else{
-      alert("등록에 실패하였습니다.");
+      alert("등록요청에 실패하였습니다. 다시 확인부탁드립니다.");
+    }
+  }
+
+  // 가족사항 수정
+  function fu_modifyInfo() {
+    var data = {
+      relation : $("#relation").val(),
+      bDay : $("#bDay").val(),
+      job : $("#job").val(),
+      fName : $("#fName").val(),
+      includeType : $("#includeType").getKendoRadioGroup().value(),
+      /*cohab : $(".cohab:checked").val(),*/
+      type : "family",
+      pk: $("#pk").val(),
+      applicationactive : "수정",
+    }
+
+    var formData = new FormData();
+    formData.append("relation", data.relation);
+    formData.append("bDay", data.bDay);
+    formData.append("job", data.job);
+    formData.append("fName", data.fName);
+    formData.append("includeType", data.includeType);
+    formData.append("type", "family");
+    formData.append("pk", data.pk);
+    formData.append("applicationactive", data.applicationactive);
+
+    var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);
+    console.log(result.rs);
+    if(result.flag){
+      if(result.rs == "SUCCESS") {
+        alert("수정요청이 완료되었습니다. 관리자 승인 대기 중입니다.");
+        fn_windowClose();
+      }else{
+        alert("수정요청에 실패하였습니다. 관리자 승인 대기 중입니다.");
+      }
+    }else{
+      alert("수정요청에 실패하였습니다. 다시 확인부탁드립니다.");
     }
   }
 

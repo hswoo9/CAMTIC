@@ -94,8 +94,8 @@ public class ProjectMngController {
         model.addAttribute("loginVO", login);
         model.addAttribute("params", params);
         if(params.get("mode").equals("upd") && params.get("type").equals("A")){
-            //Map<String, Object> data = campusService.getCodeOne(params);
-            //model.addAttribute("data", data);
+            Map<String, Object> data = projectMngService.getProductCodeOne(params);
+            model.addAttribute("data", data);
         }
         return "popup/cam_project/productReqPop";
     }
@@ -219,6 +219,20 @@ public class ProjectMngController {
     @RequestMapping("/projectMng/setProductInfo")
     public String setProductInfo(@RequestParam Map<String, Object> params){
         projectMngService.setProductInfo(params);
+        return "jsonView";
+    }
+
+    /** 자산연계-거래 분류 코드 수정 */
+    @RequestMapping("/projectMng/setProductUpd")
+    public String setProductUpd(@RequestParam Map<String, Object> params){
+        projectMngService.setProductUpd(params);
+        return "jsonView";
+    }
+
+    /** 자산연계-거래 분류 코드 삭제 */
+    @RequestMapping("/projectMng/setProductDel")
+    public String setProductDel(@RequestParam Map<String, Object> params) {
+        projectMngService.setProductDel(params);
         return "jsonView";
     }
 

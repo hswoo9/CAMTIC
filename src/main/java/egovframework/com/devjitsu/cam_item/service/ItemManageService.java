@@ -9,7 +9,14 @@ import java.util.List;
 import java.util.Map;
 
 public interface ItemManageService {
-
+    List<Map<String, Object>> getItemStandardUnitPriceList(Map<String, Object> params);
+    List<Map<String, Object>> getSdunitPriceList(Map<String, Object> params);
+    void setSdUnitPriceReg(Map<String, Object> params);
+    void setSdUnitPriceDel(Map<String, Object> params);
+    List<Map<String, Object>> getMaterialUnitPriceList(Map<String, Object> params);
+    List<Map<String, Object>> getCrmItemUnitPriceList(Map<String, Object> params);
+    void setCrmItemUnitPriceReg(Map<String, Object> params);
+    void setCrmItemUnitPriceDel(Map<String, Object> params);
     void receivingExcelFormDown(HttpServletRequest request, HttpServletResponse response) throws IOException;
     List<Map<String, Object>> receivingExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception;
     void setReceivingReg(Map<String, Object> params);

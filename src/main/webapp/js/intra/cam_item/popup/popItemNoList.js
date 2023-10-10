@@ -16,6 +16,7 @@ var popItemNoList = {
         popItemNoList.global.dropDownDataSource = [
             { text : "품번", value : "ITEM_NO" },
             { text : "품명", value : "ITEM_NAME" },
+            { text : "규격", value : "STANDARD" },
             { text : "안전재고", value : "SAFETY_INVEN" },
         ]
         customKendo.fn_dropDownList("searchKeyword", popItemNoList.global.dropDownDataSource, "text", "value");
@@ -41,6 +42,16 @@ var popItemNoList = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            toolbar : [
+                {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="popItemNoList.gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }
+            ],
             columns: [
                 {
                     title: "순번",
@@ -97,7 +108,9 @@ var popItemNoList = {
             itemUnitCd : $("#itemUnitCd").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
-            active : "Y"
+            active : "Y",
+            target : $("#target").val(),
+            crmSn : $("#crmSn").val(),
         }
 
         popItemNoList.popMainGrid("/item/getItemMasterList.do", popItemNoList.global.searchAjaxData);

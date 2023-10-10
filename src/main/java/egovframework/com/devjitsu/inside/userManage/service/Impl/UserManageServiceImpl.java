@@ -253,13 +253,18 @@ public class UserManageServiceImpl implements UserManageService {
         }
     }
 
-    @Override
+    /*@Override
     public void setMilitaryInfo(Map<String, Object> map) {
         if(StringUtils.isEmpty(map.get("msiInfoId"))){
             userManageRepository.setMilitaryInfo(map);
         }else{
             userManageRepository.setMilitaryInfoUpd(map);
         }
+    }*/
+
+    @Override
+    public void setMilitaryInfo(Map<String, Object> params) {
+            userManageRepository.setMilitaryInfo(params);
     }
 
     @Override
@@ -554,8 +559,20 @@ public class UserManageServiceImpl implements UserManageService {
         return userManageRepository.setUserReqDetailUpdate(params);
     }
 
-    //인사기록카드 - 학력사항 삭제
-    /*@Override
+    //인사기록카드 - 삭제할 학력사항 선택
+
+    @Override
+    public List<Map<String, Object>> getEduDeleteList(List<Integer> eduChk) {
+        return userManageRepository.getEduDeleteList(eduChk);
+    }
+
+    //인사기록카드 - 학력사항 삭제 요청 데이터 카피
+    @Override
+    public void setEduDeleteTmp(Map<String, Object> map) {
+            userManageRepository.setEduDeleteTmp(map);
+
+    }
+    @Override
     public Map<String, Object> setEduDelete(List<String> eduChk) {
         Map<String, Object> result = new HashMap<>();
 
@@ -570,7 +587,7 @@ public class UserManageServiceImpl implements UserManageService {
         }
 
         return result;
-    }*/
+    }
 
     //인사기록카드 - 경력사항 삭제
     @Override
@@ -686,4 +703,38 @@ public class UserManageServiceImpl implements UserManageService {
         return userManageRepository.getEduinfoList(params);
     }
 
+    //상벌사항 수정에 들어갈 항목 조회
+    @Override
+    public Map<String, Object> getRewinfoList(Map<String, Object> params) {
+        return userManageRepository.getRewinfoList(params);
+    }
+
+    //제안제도 수정에 들어갈 항목 조회
+    @Override
+    public Map<String, Object> getProinfoList(Map<String, Object> params) {
+        return userManageRepository.getProinfoList(params);
+    }
+
+    // 경력사항 수정 항목
+    @Override
+    public Map<String, Object> getCarinfoList(Map<String, Object> params) {
+        return userManageRepository.getCarinfoList(params);
+    }
+
+    // 가족사항 수정 항목
+    @Override
+    public Map<String, Object> getFaminfoList(Map<String, Object> params) {
+        return userManageRepository.getFaminfoList(params);
+    }
+    // 보유면허 수정 항목
+    @Override
+    public Map<String, Object> getLininfoList(Map<String, Object> params) {
+        return userManageRepository.getLininfoList(params);
+    }
+
+    // 직무사항 수정 항목
+    @Override
+    public Map<String, Object> getJobinfoList(Map<String, Object> params) {
+        return userManageRepository.getJobinfoList(params);
+    }
 }

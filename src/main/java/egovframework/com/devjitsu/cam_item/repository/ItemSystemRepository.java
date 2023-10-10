@@ -8,6 +8,10 @@ import java.util.Map;
 
 @Repository
 public class ItemSystemRepository extends AbstractDAO {
+    public List<Map<String, Object>> getCrmItemManageList(Map<String, Object> params) {return selectList("itemSystem.getCrmItemManageList", params);}
+    public void setCrmItemManage(Map<String, Object> params) {insert("itemSystem.setCrmItemManage", params);}
+    public void setCrmItemManageUpd(Map<String, Object> params) {update("itemSystem.setCrmItemManageUpd", params);}
+    public void setCrmItemManageDel(Map<String, Object> params) {delete("itemSystem.setCrmItemManageDel", params);}
     public List<Map<String, Object>> groupCodeList(Map<String, Object> params) {return selectList("itemSystem.groupCodeList", params);}
     public void saveGroupCode(Map<String, Object> params) {insert("itemSystem.insGroupCode", params);}
     public List<Map<String, Object>> codeList(Map<String, Object> params) {return selectList("itemSystem.codeList", params);}

@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface ItemSystemService {
+    List<Map<String, Object>> getCrmItemManageList(Map<String, Object> params);
+    void setCrmItemManage(Map<String, Object> params);
+    void setCrmItemManageDel(Map<String, Object> params);
     List<Map<String, Object>> groupCodeList(Map<String, Object> params);
     void saveGroupCode(Map<String, Object> params);
     List<Map<String, Object>> codeList(Map<String, Object> params);

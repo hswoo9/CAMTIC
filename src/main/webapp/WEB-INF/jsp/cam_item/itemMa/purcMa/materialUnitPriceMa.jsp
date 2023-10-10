@@ -4,19 +4,15 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/cam_crm/crm.js?v=${today}'/>"></script>
-
-
-<input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
-<input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
+<script type="text/javascript" src="<c:url value='/js/intra/cam_item/itemMa/purcMa/materialUnitPriceMa.js?v=${today}'/>"></script>
 
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">고객관리</h4>
-            <div class="title-road">캠CRM > CRM관리 &gt; 고객관리</div>
+            <h4 class="panel-title">자재단가관리</h4>
+            <div class="title-road">캠아이템 > 아이템관리 > 구매관리 > 자재단가관리</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -24,25 +20,23 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
-                        <col width="25%">
-                        <col width="10%">
                         <col width="20%">
                         <col width="10%">
-                        <col width="25%">
+                        <col>
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">고객유형</th>
+                        <th class="text-center th-color">업체</th>
                         <td>
-                            <input type="text" id="ctmType" style="width: 150px;">
-                        </td>
-                        <th class="text-center th-color">고객등급</th>
-                        <td>
-                            <input type="text" id="ctmGrade" style="width: 150px;">
+                            <input type="hidden" id="crmSn" name="crmSn" onchange="mup.gridReload();">
+                            <input type="text" id="crmNm" style="width: 200px;">
+                            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="mup.fn_popCamCrmList()">
+                                조회
+                            </button>
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>
-                            <input type="text" id="searchKeyword" style="width: 30%;"/>
-                            <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){crm.gridReload()}"/>
+                            <input type="text" id="searchKeyword" style="width: 15%;"/>
+                            <input type="text" id="searchValue" style="width: 30%;" onkeypress="if(window.event.keyCode==13){mup.gridReload()}"/>
                         </td>
                     </tr>
                 </table>
@@ -54,7 +48,5 @@
 </div><!-- col-md-9 -->
 
 <script>
-
-    crm.fn_defaultScript();
-
+    mup.fn_defaultScript();
 </script>

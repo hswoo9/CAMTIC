@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.cam_item.controller;
 
+import egovframework.com.devjitsu.cam_crm.service.CrmService;
 import egovframework.com.devjitsu.cam_item.service.ItemSystemService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,10 @@ public class ItemSystemController {
     @Autowired
     private ItemSystemService itemSystemService;
 
+    @Autowired
+    private CrmService crmService;
+
+
     @Value("#{properties['File.Server.Dir']}")
     private String SERVER_DIR;
 
@@ -37,14 +42,66 @@ public class ItemSystemController {
      * @param model
      * @return
      */
-    @RequestMapping("/item/customerMaList.do")
+    @RequestMapping("/item/crmMaList.do")
     public String customerMaList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
         session.setAttribute("menuNm", request.getRequestURI());
 
-        return "cam_item/system/customer/customerMaList";
+        return "cam_item/system/crm/crmMaList";
     }
+
+    /**
+     * 고객품번등록팝업
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/pop/popCrmItemReg.do")
+    public String popCrmItemReg(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        model.addAttribute("data", crmService.getCrmInfo(params));
+
+        return "popup/cam_item/popCrmItemReg";
+    }
+
+    /**
+     * 고객품번 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getCrmItemManageList.do")
+    public String getCrmItemList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", itemSystemService.getCrmItemManageList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 고객품번 데이터 저장
+     * @param params
+     * @return
+     */
+    @RequestMapping("/item/setCrmItemManage.do")
+    public String setCrmItemManage(@RequestParam Map<String, Object> params){
+        itemSystemService.setCrmItemManage(params);
+        return "jsonView";
+    }
+
+    /**
+     * 고객품번 데이터 삭제
+     * @param params
+     * @return
+     */
+    @RequestMapping("/item/setCrmItemManageDel.do")
+    public String setCrmItemManageDel(@RequestParam Map<String, Object> params){
+        itemSystemService.setCrmItemManageDel(params);
+        return "jsonView";
+    }
+
 
     /** 캠아이템 > 시스템관리 > 시스템  > 기초코드등록 */
 
