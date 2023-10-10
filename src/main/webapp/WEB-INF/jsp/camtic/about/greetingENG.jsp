@@ -12,8 +12,18 @@
   <div id="sub">
     <div class="inner">
       <jsp:include page="/WEB-INF/jsp/template/camtic/lnbENG.jsp" flush="false"/>
+      <%--<div id="content">
+        <jsp:include page="/WEB-INF/jsp/template/camtic/navi_titleENG.jsp" flush="false"/>--%>
       <div id="content">
-        <jsp:include page="/WEB-INF/jsp/template/camtic/navi_titleENG.jsp" flush="false"/>
+        <ul id="navigation">
+          <li><a href="/camtic">HOME</a></li>
+          <li class="mdCategory">Introduce</li>
+          <li class="smCategory" style="display: none;">Introduce</li>
+        </ul>
+        <div id="title">
+          <h3>Introduce</h3>
+        </div>
+
         <div class="__greeting">
           <dl class="head">
             <dt style="text-align: center"><span class="__nm" style="color:#155996 !important;">“</span><span class="mainCapyTitle" style="color:#155996 !important;">Great Workplace for Mutual Growth</span><span class="__nm" style="color:#155996 !important;">”</span></dt>
