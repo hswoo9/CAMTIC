@@ -173,7 +173,7 @@ var rndRPR = {
                 html += '<tr style="text-align: center">';
                 html += '   <td>신규</td>';
                 html += '   <td>';
-                html += '       <span style="cursor : pointer;" onclick="rndRPR.versionClickEvt(' + ls[i].PART_RATE_VER_SN + ')">ver.' + (i+1) + '</span>';
+                html += '       <span style="cursor : pointer;font-weight: bold" onclick="rndRPR.versionClickEvt(' + ls[i].PART_RATE_VER_SN + ')">ver.' + (i+1) + '</span>';
                 html += '   </td>';
                 html += '   <td>'+ ls[i].REQ_EMP_NM +'</td>';
                 html += '   <td style="text-align: right">' + comma(Number(ls[i].PAY_BUDGET) + Number(ls[i].ITEM_BUDGET)) + '</td>';
