@@ -104,7 +104,7 @@
         <ul id="navigation">
           <li><a href="/camtic">홈으로</a></li>
           <li class="">홍보관</li>
-          <li class=""><span class="categoryName"></span></li>
+          <li class="">뉴스레터</li>
           <li class="">게시글 수정</li>
         </ul>
         <div id="title">
@@ -462,8 +462,7 @@
     let random = new Date().getTime().toString(16);
 
     $("#linkKey" + num).val(random);
-    $("#linkText" + num).val('javascript:openPopup('+ groupKey +',' +random + ')');
-
+    $("#linkText" + num).val('javascript:openPopup(\'' + groupKey + '\',\'' + random + '\')');
     if(document.getElementById("copyBtn" + num)){
     }else{
       let html = '<button type="button" id="copyBtn'+num+'" onclick="copyBtn('+num+')"><img src="/images/nav.png" style="background: white" alt="복사"></button>';
