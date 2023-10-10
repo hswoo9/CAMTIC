@@ -39,12 +39,12 @@ public class ItemSystemServiceImpl implements ItemSystemService {
             params.put("newArr", newArr);
             itemSystemRepository.setCrmItemManage(params);
         }
-//        List<Map<String, Object>> oldArr = gson.fromJson((String) params.get("oldArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
-//        if(oldArr.size() > 0){
-//            for(Map<String, Object> map : oldArr){
-//                itemSystemRepository.setCrmItemManageUpd(map);
-//            }
-//        }
+        List<Map<String, Object>> oldArr = gson.fromJson((String) params.get("oldArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        if(oldArr.size() > 0){
+            for(Map<String, Object> map : oldArr){
+                itemSystemRepository.setCrmItemManageUpd(map);
+            }
+        }
     }
 
     @Override

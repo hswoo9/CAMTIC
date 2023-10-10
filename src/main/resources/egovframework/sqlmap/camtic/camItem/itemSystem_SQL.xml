@@ -238,6 +238,7 @@
                     AND (
                         IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
                         IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
+                        IM.STANDARD LIKE CONCAT('%', #{searchValue}, '%') OR
                         IM.SAFETY_INVEN LIKE CONCAT('%', #{searchValue}, '%')
                     )
                 </if>
@@ -245,7 +246,7 @@
         </choose>
 
         <if test='target != null and "crmItem".equals(target)'>
-            AND MASTER_SN NOT IN(SELECT MASTER_SN FROM CAM_ITEM.DJ_CRM_ITEM_MANGE)
+            AND MASTER_SN NOT IN(SELECT MASTER_SN FROM CAM_ITEM.DJ_CRM_ITEM_MANGE WHERE CRM_SN = #{crmSn})
         </if>
 
     </select>

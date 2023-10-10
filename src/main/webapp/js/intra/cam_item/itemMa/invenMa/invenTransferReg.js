@@ -63,6 +63,7 @@ var invenTr = {
                     '<input type="hidden" id="invenTransSn' + invenTr.global.invenTransferIndex + '" class="invenTransSn">' +
                     '<input type="hidden" id="invenSn' + invenTr.global.invenTransferIndex + '" class="invenSn">' +
                     '<input type="hidden" id="masterSn' + invenTr.global.invenTransferIndex + '" class="masterSn">' +
+                    '<input type="hidden" id="forwardingWhCd' + invenTr.global.invenTransferIndex + '" class="forwardingWhCd">' +
                     '<input type="text" id="itemNo' + invenTr.global.invenTransferIndex + '" class="itemNo k-input k-textbox" readonly onClick="invenTr.fn_popCamItemList(' + invenTr.global.invenTransferIndex + ');" style="width: 80%">' +
                     '<button type="button" id="itemSelBtn' + invenTr.global.invenTransferIndex + '" class="itemSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="invenTr.fn_popCamItemList(' + invenTr.global.invenTransferIndex + ');">선택</button>' +
                 '</td>' +
@@ -76,7 +77,7 @@ var invenTr = {
                     '<input type="text" id="transferQty' + invenTr.global.invenTransferIndex + '" class="transferQty numBerInput" style="text-align: right" value="0" oninput="invenTr.maxCurrentInvenChk(this, ' + invenTr.global.invenTransferIndex + ')">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="forwardingWhCd' + invenTr.global.invenTransferIndex + '" class="forwardingWhCd k-input k-textbox" readonly onClick="invenTr.fn_popCamItemList(' + invenTr.global.invenTransferIndex + ');">' +
+                    '<input type="text" id="forwardingWhCdTxt' + invenTr.global.invenTransferIndex + '" class="forwardingWhCdTxt k-input k-textbox" readonly onClick="invenTr.fn_popCamItemList(' + invenTr.global.invenTransferIndex + ');">' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="receivingWhCd' + invenTr.global.invenTransferIndex + '" class="receivingWhCd">' +
@@ -260,12 +261,15 @@ var invenTr = {
         $("#itemName" + invenTr.global.invenSnIndex).val($("#itemName").val())
         $("#currentInven" + invenTr.global.invenSnIndex).val($("#currentInven").val())
         $("#forwardingWhCd" + invenTr.global.invenSnIndex).val($("#whCd").val())
+        $("#forwardingWhCdTxt" + invenTr.global.invenSnIndex).val($("#whCdNm").val())
 
         $("#invenSn").val("")
         $("#masterSn").val("")
         $("#itemNo").val("")
         $("#itemName").val("")
         $("#currentInven").val("")
+        $("#whCd").val("")
+        $("#whCdNm").val("")
     },
 
     comma: function(str) {

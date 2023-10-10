@@ -3,6 +3,257 @@
 
 <mapper namespace="item">
 
+    <select id="getItemStandardUnitPriceList" parameterType="map" resultType="map">
+        /* getItemStandardUnitPriceList */
+        SELECT
+            IM.*,
+            MSU.*,
+            (SELECT REG_EMP_NAME FROM CAM_ITEM.DJ_ITEM_MASTER_SD_UP WHERE MASTER_SN = IM.MASTER_SN AND CHANGE_NUM = 1) AS REG_EMP_NAME,
+            (SELECT REG_EMP_NAME FROM CAM_ITEM.DJ_ITEM_MASTER_SD_UP WHERE MASTER_SN = IM.MASTER_SN AND CHANGE_NUM != 1 ORDER BY CHANGE_NUM DESC LIMIT 1) AS MOD_EMP_NAME
+        FROM
+            CAM_ITEM.DJ_ITEM_MASTER IM
+        LEFT JOIN
+            CAM_ITEM.DJ_ITEM_MASTER_SD_UP MSU
+        ON MSU.MASTER_SN = IM.MASTER_SN AND MSU.ACTIVE = 'Y'
+
+        WHERE 1=1
+        <choose>
+            <when test='searchKeyword != null and !"".equals(searchKeyword)'>
+                AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+            <otherwise>
+                <if test='searchValue != null and !"".equals(searchValue)'>
+                    AND (
+                        IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
+                        IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
+                        IM.STANDARD LIKE CONCAT('%', #{searchValue}, '%') OR
+                        IM.SAFETY_INVEN LIKE CONCAT('%', #{searchValue}, '%')
+                    )
+                </if>
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="getSdunitPriceList" parameterType="map" resultType="map">
+        /* getSdunitPriceList */
+        SELECT
+            *
+        FROM
+            CAM_ITEM.DJ_ITEM_MASTER_SD_UP
+        WHERE
+            MASTER_SN = #{masterSn}
+    </select>
+
+    <select id="getMaxChangeNum" parameterType="map" resultType="String">
+        /* getMaxChangeNum */
+        SELECT IFNULL(MAX(CHANGE_NUM) + 1, '1') FROM CAM_ITEM.DJ_ITEM_MASTER_SD_UP IM WHERE IM.MASTER_SN = #{masterSn}
+    </select>
+
+    <insert id="setSdUnitPriceReg" parameterType="map">
+        /* setSdUnitPriceReg */
+        INSERT INTO CAM_ITEM.DJ_ITEM_MASTER_SD_UP
+        (
+            MASTER_SN,
+            UNIT_PRICE,
+            START_DT,
+            END_DT,
+            RMK,
+            CHANGE_NUM,
+            REG_EMP_SEQ,
+            REG_EMP_NAME
+        )
+        VALUES
+        (
+            #{masterSn},
+            #{unitPrice},
+            #{startDt},
+            '9999-12-31',
+            #{rmk},
+            #{changeNum},
+            #{empSeq},
+            #{empName}
+        )
+    </insert>
+
+    <update id="setSdUnitPriceEndDtUpd" parameterType="map">
+        /* setSdUnitPriceEndDtUpd */
+        UPDATE
+            CAM_ITEM.DJ_ITEM_MASTER_SD_UP
+        SET
+            END_DT = DATE_FORMAT(DATE_ADD(#{endDt}, INTERVAL -1 DAY), '%Y-%m-%d'),
+            ACTIVE = 'N',
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_EMP_NAME = #{empName},
+            MOD_DT = NOW()
+        WHERE
+            MASTER_SD_UP_SN = (
+                SELECT
+                    MASTER_SD_UP_SN
+                FROM
+                    CAM_ITEM.DJ_ITEM_MASTER_SD_UP
+                WHERE
+                    MASTER_SN = #{masterSn}
+                AND
+                    CHANGE_NUM = (${changeNum} - 1)
+            )
+        AND
+            MASTER_SN = #{masterSn}
+    </update>
+
+    <update id="setSdUnitPriceRegUpd" parameterType="map">
+        /* setSdUnitPriceRegUpd */
+        UPDATE
+            CAM_ITEM.DJ_ITEM_MASTER_SD_UP
+        SET
+            UNIT_PRICE = #{unitPrice},
+            START_DT = #{startDt},
+            RMK = #{rmk},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_EMP_NAME = #{empName},
+            MOD_DT = NOW()
+        WHERE
+            MASTER_SD_UP_SN = #{masterSdUpSn}
+        AND
+            MASTER_SN = #{masterSn}
+    </update>
+
+    <delete id="setSdUnitPriceDel" parameterType="map">
+        /* setSdUnitPriceDel */
+        DELETE FROM CAM_ITEM.DJ_ITEM_MASTER_SD_UP WHERE MASTER_SD_UP_SN IN (${masterSdUpSn})
+    </delete>
+
+    <select id="getMaterialUnitPriceList" parameterType="map" resultType="map">
+        /* getMaterialUnitPriceList */
+        SELECT
+            IM.*,
+            CIM.*,
+            CIU.*,
+            (SELECT REG_EMP_NAME FROM CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE WHERE CRM_ITEM_SN = CIM.CRM_ITEM_SN AND CHANGE_NUM = 1) AS REG_EMP_NAME,
+            (SELECT REG_EMP_NAME FROM CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE WHERE CRM_ITEM_SN = CIM.CRM_ITEM_SN AND CHANGE_NUM != 1 ORDER BY CHANGE_NUM DESC LIMIT 1) AS MOD_EMP_NAME
+        FROM
+            CAM_ITEM.DJ_CRM_ITEM_MANGE CIM
+        JOIN
+            CAM_ITEM.DJ_ITEM_MASTER IM
+        ON IM.MASTER_SN = CIM.MASTER_SN
+        LEFT JOIN
+            CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE CIU
+        ON CIU.CRM_ITEM_SN = CIM.CRM_ITEM_SN AND CIU.ACTIVE = 'Y'
+        WHERE 1=1
+
+        <choose>
+            <when test='crmSn != null and !"".equals(crmSn)'>
+                AND CIM.CRM_SN = #{crmSn}
+            </when>
+            <otherwise>
+                AND CIM.CRM_SN = '0'
+            </otherwise>
+        </choose>
+
+        <choose>
+            <when test='searchKeyword != null and !"".equals(searchKeyword)'>
+                AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+            <otherwise>
+                <if test='searchValue != null and !"".equals(searchValue)'>
+                    AND (
+                        IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
+                        IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
+                        IM.STANDARD LIKE CONCAT('%', #{searchValue}, '%') OR
+                        IM.SAFETY_INVEN LIKE CONCAT('%', #{searchValue}, '%')
+                    )
+                </if>
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="getCrmItemUnitPriceList" parameterType="map" resultType="map">
+        /* getCrmItemUnitPriceList */
+        SELECT
+            *
+        FROM
+            CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE
+        WHERE
+            CRM_ITEM_SN = #{crmItemSn}
+    </select>
+
+    <select id="getCrmItemMaxChangeNum" parameterType="map" resultType="String">
+        /* getCrmItemMaxChangeNum */
+        SELECT IFNULL(MAX(CHANGE_NUM) + 1, '1') FROM CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE CIM WHERE CIM.CRM_ITEM_SN = #{crmItemSn}
+    </select>
+
+    <insert id="setCrmItemUnitPriceReg" parameterType="map">
+        /* setCrmItemUnitPriceReg */
+        INSERT INTO CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE
+        (
+            CRM_ITEM_SN,
+            UNIT_PRICE,
+            START_DT,
+            END_DT,
+            RMK,
+            CHANGE_NUM,
+            REG_EMP_SEQ,
+            REG_EMP_NAME
+        )
+        VALUES
+        (
+            #{crmItemSn},
+            #{unitPrice},
+            #{startDt},
+            '9999-12-31',
+            #{rmk},
+            #{changeNum},
+            #{empSeq},
+            #{empName}
+        )
+    </insert>
+
+    <update id="setCrmItemUnitPriceEndDtUpd" parameterType="map">
+        /* setCrmItemUnitPriceEndDtUpd */
+        UPDATE
+            CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE
+        SET
+            END_DT = DATE_FORMAT(DATE_ADD(#{endDt}, INTERVAL -1 DAY), '%Y-%m-%d'),
+            ACTIVE = 'N',
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_EMP_NAME = #{empName},
+            MOD_DT = NOW()
+        WHERE
+            CRM_ITEM_UNIT_PRICE_SN = (
+                SELECT
+                    CRM_ITEM_UNIT_PRICE_SN
+                FROM
+                    CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE
+                WHERE
+                    CRM_ITEM_SN = #{crmItemSn}
+                AND
+                    CHANGE_NUM = (${changeNum} - 1)
+            )
+        AND
+            CRM_ITEM_SN = #{crmItemSn}
+    </update>
+
+    <update id="setCrmItemUnitPriceRegUpd" parameterType="map">
+        /* setCrmItemUnitPriceRegUpd */
+        UPDATE
+            CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE
+        SET
+            UNIT_PRICE = #{unitPrice},
+            START_DT = #{startDt},
+            RMK = #{rmk},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_EMP_NAME = #{empName},
+            MOD_DT = NOW()
+        WHERE
+            CRM_ITEM_UNIT_PRICE_SN = #{ciupSn}
+        AND
+            CRM_ITEM_SN = #{crmItemSn}
+    </update>
+
+    <delete id="setCrmItemUnitPriceDel" parameterType="map">
+        /* setCrmItemUnitPriceDel */
+        DELETE FROM CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE WHERE CRM_ITEM_UNIT_PRICE_SN IN (${ciupSn})
+    </delete>
+
     <select id="getItemWhInfoList" parameterType="map" resultType="map">
         /* getItemWhInfoList */
         SELECT

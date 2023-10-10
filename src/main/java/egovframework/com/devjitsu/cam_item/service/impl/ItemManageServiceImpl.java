@@ -15,6 +15,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -37,6 +38,88 @@ public class ItemManageServiceImpl implements ItemManageService {
 
     @Autowired
     private CrmRepository crmRepository;
+
+    @Override
+    public List<Map<String, Object>> getItemStandardUnitPriceList(Map<String, Object> params) {
+        return itemManageRepository.getItemStandardUnitPriceList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getSdunitPriceList(Map<String, Object> params) {
+        return itemManageRepository.getSdunitPriceList(params);
+    }
+
+    @Override
+    public void setSdUnitPriceReg(Map<String, Object> params) {
+        Gson gson = new Gson();
+        if(!StringUtils.isEmpty(params.get("newData"))){
+            params.put("changeNum", itemManageRepository.getMaxChangeNum(params));
+            if(!params.get("changeNum").equals("1")){
+                Map<String, Object> updateMap = new HashMap<>();
+                updateMap.put("endDt", params.get("startDt"));
+                updateMap.put("empSeq", params.get("empSeq"));
+                updateMap.put("empName", params.get("empName"));
+                updateMap.put("masterSn", params.get("masterSn"));
+                updateMap.put("changeNum", params.get("changeNum"));
+                itemManageRepository.setSdUnitPriceEndDtUpd(updateMap);
+            }
+
+            itemManageRepository.setSdUnitPriceReg(params);
+        }
+
+        List<Map<String, Object>> oldArr = gson.fromJson((String) params.get("oldArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        if(oldArr.size() > 0){
+            for(Map<String, Object> map : oldArr){
+                itemManageRepository.setSdUnitPriceRegUpd(map);
+            }
+        }
+    }
+
+    @Override
+    public void setSdUnitPriceDel(Map<String, Object> params) {
+        itemManageRepository.setSdUnitPriceDel(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getMaterialUnitPriceList(Map<String, Object> params) {
+        return itemManageRepository.getMaterialUnitPriceList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getCrmItemUnitPriceList(Map<String, Object> params) {
+        return itemManageRepository.getCrmItemUnitPriceList(params);
+    }
+
+    @Override
+    public void setCrmItemUnitPriceReg(Map<String, Object> params) {
+        Gson gson = new Gson();
+        if(!StringUtils.isEmpty(params.get("newData"))){
+            params.put("changeNum", itemManageRepository.getCrmItemMaxChangeNum(params));
+            if(!params.get("changeNum").equals("1")){
+                Map<String, Object> updateMap = new HashMap<>();
+                updateMap.put("endDt", params.get("startDt"));
+                updateMap.put("empSeq", params.get("empSeq"));
+                updateMap.put("empName", params.get("empName"));
+                updateMap.put("crmItemSn", params.get("crmItemSn"));
+                updateMap.put("changeNum", params.get("changeNum"));
+                itemManageRepository.setCrmItemUnitPriceEndDtUpd(updateMap);
+            }
+
+            itemManageRepository.setCrmItemUnitPriceReg(params);
+        }
+
+        List<Map<String, Object>> oldArr = gson.fromJson((String) params.get("oldArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        if(oldArr.size() > 0){
+            for(Map<String, Object> map : oldArr){
+                itemManageRepository.setCrmItemUnitPriceRegUpd(map);
+            }
+        }
+    }
+
+    @Override
+    public void setCrmItemUnitPriceDel(Map<String, Object> params) {
+        itemManageRepository.setCrmItemUnitPriceDel(params);
+    }
 
     @Override
     public void receivingExcelFormDown(HttpServletRequest request, HttpServletResponse response) throws IOException {

@@ -41,6 +41,87 @@ public class ItemManageController {
 
     /** 캠아이템 > 아이템관리 > 기준정보 */
 
+    /**
+     * 표준단가관리 페이지
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/standardUnitPriceMa.do")
+    public String standardUnitPriceMa(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_item/itemMa/baseInfo/standardUnitPriceMa";
+    }
+
+    /**
+     * 표준단가관리 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getItemStandardUnitPriceList.do")
+    public String getItemStandardUnitPriceList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", itemManageService.getItemStandardUnitPriceList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 표준단가등록 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/pop/popStandardUnitPriceReg.do")
+    public String popStandardUnitPriceReg(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        model.addAttribute("item", itemSystemService.getItemMaster(params));
+
+        return "popup/cam_item/popStandardUnitPriceReg";
+    }
+
+    /**
+     * 품목표준단가 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getSdunitPriceList.do")
+    public String getSdunitPriceList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", itemManageService.getSdunitPriceList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 표준단가 데이터 저장
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/setSdUnitPriceReg.do")
+    public String setSdUnitPriceReg(@RequestParam Map<String, Object> params, Model model){
+        itemManageService.setSdUnitPriceReg(params);
+        return "jsonView";
+    }
+
+    /**
+     * 표준단가 데이터 삭제
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/setSdUnitPriceDel.do")
+    public String setSdUnitPriceDel(@RequestParam Map<String, Object> params, Model model){
+        itemManageService.setSdUnitPriceDel(params);
+        return "jsonView";
+    }
 
 
     /** 캠아이템 > 아이템관리 > 수주관리 */
@@ -71,6 +152,72 @@ public class ItemManageController {
         session.setAttribute("menuNm", request.getRequestURI());
 
         return "cam_item/itemMa/purcMa/materialUnitPriceMa";
+    }
+
+    /**
+     * 자재단가관리 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getMaterialUnitPriceList.do")
+    public String getMaterialUnitPriceList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", itemManageService.getMaterialUnitPriceList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 고객 자재단가관리 등록 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/pop/popCrmItemUnitPriceReg.do")
+    public String popCrmItemUnitPriceReg(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        model.addAttribute("item", itemSystemService.getItemMaster(params));
+
+        return "popup/cam_item/popCrmItemUnitPriceReg";
+    }
+
+    /**
+     * 고객 품목단가 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getCrmItemUnitPriceList.do")
+    public String getCrmItemUnitPriceList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", itemManageService.getCrmItemUnitPriceList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 고객 품목단가 데이터 저장
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/setCrmItemUnitPriceReg.do")
+    public String setCrmItemUnitPriceReg(@RequestParam Map<String, Object> params, Model model){
+        itemManageService.setCrmItemUnitPriceReg(params);
+        return "jsonView";
+    }
+
+    /**
+     * 고객 품목단가 데이터 삭제
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/setCrmItemUnitPriceDel.do")
+    public String setCrmItemUnitPriceDel(@RequestParam Map<String, Object> params, Model model){
+        itemManageService.setCrmItemUnitPriceDel(params);
+        return "jsonView";
     }
 
     /**

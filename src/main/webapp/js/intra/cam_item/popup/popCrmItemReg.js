@@ -35,14 +35,14 @@ var cir = {
             }else{
                 for(var i = 0; i < list.length; i++){
                     cir.addRow('old');
-
                     $("#cir" + i).find("#crmItemSn" + i).val(list[i].CRM_ITEM_SN)
-                    $("#cir" + i).find("#itemNo" + i).text(list[i].ITEM_NO)
-                    $("#cir" + i).find("#itemName" + i).text(list[i].ITEM_NAME)
-                    $("#cir" + i).find("#crmItemNo" + i).text(list[i].CRM_ITEM_NO)
-                    $("#cir" + i).find("#crmItemName" + i).text(list[i].CRM_ITEM_NAME)
-                    $("#cir" + i).find("#busClass" + i).text(list[i].BUS_CLASS == "W" ? "입고" : "출고");
-                    $("#cir" + i).find("#active" + i).text(list[i].ACTIVE == "Y" ? "사용" : "미사용");
+                    $("#cir" + i).find("#masterSn" + i).val(list[i].MASTER_SN)
+                    $("#cir" + i).find("#itemNo" + i).val(list[i].ITEM_NO)
+                    $("#cir" + i).find("#itemName" + i).val(list[i].ITEM_NAME)
+                    $("#cir" + i).find("#crmItemNo" + i).val(list[i].CRM_ITEM_NO)
+                    $("#cir" + i).find("#crmItemName" + i).val(list[i].CRM_ITEM_NAME)
+                    $("#cir" + i).find("#busClass" + i).val(list[i].BUS_CLASS);
+                    $("#cir" + i).find("#active" + i).val(list[i].ACTIVE);
                 }
 
                 cir.addRow('new');
@@ -61,76 +61,51 @@ var cir = {
         }
 
         html += '</td>' +
-                '<td>';
-        if(e == "new"){
-            html += '<input type="hidden" id="masterSn' + cir.global.itemNoIndex + '" class="masterSn">' +
+                '<td>' +
+                    '<input type="hidden" id="masterSn' + cir.global.itemNoIndex + '" class="masterSn">' +
                     '<input type="text" id="itemNo' + cir.global.itemNoIndex + '" class="k-input k-textbox itemNo" readonly style="width: 78%" onclick="cir.fn_popItemNoList(' + cir.global.itemNoIndex + ');"/>' +
-                    '<button type="button" id="crmSelBtn' + cir.global.itemNoIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="cir.fn_popItemNoList(' + cir.global.itemNoIndex + ');">선택</button>';
-        }else{
-            html += '<div style="text-align: center" id="itemNo' + cir.global.itemNoIndex + '"></div>';
-        }
-        html += '</td>' +
-                '<td>';
-        if(e == "new"){
-            html += '' +
-                    '<input type="text" id="itemName' + cir.global.itemNoIndex + '" class="k-input k-textbox" onclick="cir.fn_popItemNoList(' + cir.global.itemNoIndex + ');" readonly name="itemName' + cir.global.itemNoIndex + '">';
-        }else{
-            html += '' +
-                    '<div style="text-align: center" id="itemName' + cir.global.itemNoIndex + '"></div>';
-        }
-        html += '</td>' +
-                '<td>';
-        if(e == "new"){
-            html += '' +
-                    '<input type="text" id="crmItemNo' + cir.global.itemNoIndex + '" class="k-input k-textbox crmItemNo" name="crmItemNo' + cir.global.itemNoIndex + '">';
-        }else{
-            html += '' +
-                    '<div style="text-align: center" id="crmItemNo' + cir.global.itemNoIndex + '"></div>';
-        }
-        html += '</td>' +
-                '<td>';
-        if(e == "new"){
-            html += '<input type="text" id="crmItemName' + cir.global.itemNoIndex + '" class="k-input k-textbox crmItemName" name="crmItemName' + cir.global.itemNoIndex + '">';
-        }else{
-            html += '<div style="text-align: center" id="crmItemName' + cir.global.itemNoIndex + '"></div>';
-        }
-        html += '</td>' +
-                '<td>';
-        if(e == "new"){
-            html += '<input type="text" id="busClass' + cir.global.itemNoIndex + '" class="busClass" name="busClass' + cir.global.itemNoIndex + '">';
-        }else{
-            html += '<div style="text-align: center" id="busClass' + cir.global.itemNoIndex + '"></div>';
-        }
-        html += '</td>' +
-                '<td>';
-        if(e == "new"){
-            html += '<input type="text" id="active' + cir.global.itemNoIndex + '" class="active" name="active' + cir.global.itemNoIndex + '">';
-        }else{
-            html += '<div style="text-align: center" id="active' + cir.global.itemNoIndex + '"></div>';
-        }
-        html += '</td>' +
+                    '<button type="button" id="crmSelBtn' + cir.global.itemNoIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="cir.fn_popItemNoList(' + cir.global.itemNoIndex + ');">선택</button>' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="itemName' + cir.global.itemNoIndex + '" class="k-input k-textbox" onclick="cir.fn_popItemNoList(' + cir.global.itemNoIndex + ');" readonly name="itemName' + cir.global.itemNoIndex + '">' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="crmItemNo' + cir.global.itemNoIndex + '" class="k-input k-textbox crmItemNo" name="crmItemNo' + cir.global.itemNoIndex + '">' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="crmItemName' + cir.global.itemNoIndex + '" class="k-input k-textbox crmItemName" name="crmItemName' + cir.global.itemNoIndex + '">' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="busClass' + cir.global.itemNoIndex + '" class="busClass" name="busClass' + cir.global.itemNoIndex + '">' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="active' + cir.global.itemNoIndex + '" class="active" name="active' + cir.global.itemNoIndex + '">' +
+                '</td>' +
             '</tr>';
 
         $("#listTb").append(html);
 
-        if(e == "new"){
-            cir.global.dropDownDataSource = [
-                {text : "입고", value : "W"},
-                {text : "출고", value : "R"},
-            ]
-            customKendo.fn_dropDownList("busClass" + cir.global.itemNoIndex, cir.global.dropDownDataSource, "text", "value", 3);
+        cir.global.dropDownDataSource = [
+            {text : "입고", value : "W"},
+            {text : "출고", value : "R"},
+        ]
+        customKendo.fn_dropDownList("busClass" + cir.global.itemNoIndex, cir.global.dropDownDataSource, "text", "value", 3);
 
-            cir.global.dropDownDataSource = [
-                {text : "사용", value : "Y"},
-                {text : "미사용", value : "N"},
-            ]
-            customKendo.fn_dropDownList("active" + cir.global.itemNoIndex, cir.global.dropDownDataSource, "text", "value", 3);
-        }
+        cir.global.dropDownDataSource = [
+            {text : "사용", value : "Y"},
+            {text : "미사용", value : "N"},
+        ]
+        customKendo.fn_dropDownList("active" + cir.global.itemNoIndex, cir.global.dropDownDataSource, "text", "value", 3);
 
         cir.global.itemNoIndex++;
     },
 
     delRow : function(e){
+        if($("input[name='crmItemSn']:checked").length == 0){
+            alert("삭제할 항목을 선택해주세요.");
+            return;
+        }
+
         if(confirm("삭제하시겠습니까?\n삭제한 데이터는 복구 할 수 없습니다.")){
             var crmItemSn = "";
 
@@ -200,8 +175,8 @@ var cir = {
         var flag = true;
         $.each($(".cirInfo"), function(i, v){
             if($(this).hasClass("newCirInfo")){
-                if(!$(this).find("#masterSn" + i).val() || !$(this).find("#crmItemNo" + i).val() || !$(this).find("#crmItemName" + i).val()
-                    || !$(this).find("#busClass" + i).val() || !$(this).find("#active" + i).val()){
+                if($(this).find("#masterSn" + i).val() && (!$(this).find("#crmItemNo" + i).val() || !$(this).find("#crmItemName" + i).val()
+                    || !$(this).find("#busClass" + i).val() || !$(this).find("#active" + i).val())){
                     flag = false;
                 }
             }
@@ -221,26 +196,29 @@ var cir = {
             var oldArr = new Array();
 
             $.each($(".cirInfo"), function(i, v){
-                var arrData = {
-                    masterSn : $(this).find("#masterSn" + i).val(),
-                    crmItemNo : $(this).find("#crmItemNo" + i).val(),
-                    crmItemName : $(this).find("#crmItemName" + i).val(),
-                    busClass : $(this).find("#busClass" + i).val(),
-                    active : $(this).find("#active" + i).val(),
-                    crmSn : $("#crmSn").val(),
-                    empSeq : $("#empSeq").val()
-                }
+                if($(this).find("#masterSn" + i).val()){
+                    var arrData = {
+                        crmItemSn : $(this).find("#crmItemSn" + i).val(),
+                        masterSn : $(this).find("#masterSn" + i).val(),
+                        crmItemNo : $(this).find("#crmItemNo" + i).val(),
+                        crmItemName : $(this).find("#crmItemName" + i).val(),
+                        busClass : $(this).find("#busClass" + i).val(),
+                        active : $(this).find("#active" + i).val(),
+                        crmSn : $("#crmSn").val(),
+                        empSeq : $("#empSeq").val()
+                    }
 
-                if($(this).hasClass("newCirInfo")){
-                    newArr.push(arrData);
-                }/*else{
-                    oldArr.push(arrData);
-                }*/
+                    if($(this).hasClass("newCirInfo")){
+                        newArr.push(arrData);
+                    }else{
+                        oldArr.push(arrData);
+                    }
+                }
             })
 
             cir.global.saveAjaxData = {
                 newArr : JSON.stringify(newArr),
-                // oldArr : JSON.stringify(oldArr)
+                oldArr : JSON.stringify(oldArr)
             }
 
             var result = customKendo.fn_customAjax("/item/setCrmItemManage.do", cir.global.saveAjaxData)
@@ -255,7 +233,7 @@ var cir = {
     fn_popItemNoList : function (masterSnIndex){
         cir.global.masterSnIndex = masterSnIndex;
 
-        var url = "/item/pop/popItemNoList.do?target=crmItem";
+        var url = "/item/pop/popItemNoList.do?target=crmItem&crmSn=" + $("#crmSn").val();
         var name = "_blank";
         var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
