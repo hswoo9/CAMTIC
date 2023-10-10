@@ -72,8 +72,8 @@ var invenSt = {
                     width: 150
                 }, {
                     title: "규격",
-                    field: "WH_DT",
-                    width: 80
+                    field: "STANDARD",
+                    width: 150
                 }, {
                     title: "재고",
                     field: "CURRENT_INVEN",
@@ -140,11 +140,6 @@ var invenSt = {
                 record = fn_getRowNum(this, 3);
             }
         }).data("kendoGrid");
-
-        $("#checkAll").click(function(){
-            if($(this).is(":checked")) $("input[name=whSn]").prop("checked", true);
-            else $("input[name=whSn]").prop("checked", false);
-        });
     },
 
     gridReload: function (){

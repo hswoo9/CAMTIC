@@ -7,11 +7,15 @@
         /* getItemWhInfoList */
         SELECT
             WI.*,
+            IM.*,
             CI.CRM_NM,
             WHC.ITEM_CD_NM AS WH_CD_NM,
             WTC.ITEM_CD_NM AS WH_TYPE_NM
         FROM
             CAM_ITEM.DJ_ITEM_WH_INFO WI
+        JOIN
+            CAM_ITEM.DJ_ITEM_MASTER IM
+        ON IM.MASTER_SN = WI.MASTER_SN
         JOIN
             CAM_CRM.DJ_CRM_INFO CI
         ON WI.CRM_SN = CI.CRM_SN
@@ -32,12 +36,12 @@
 
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword)'>
-                AND WI.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+                AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
             </when>
             <otherwise>
                 AND (
-                    WI.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
-                    WI.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%')
+                    IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
+                    IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%')
                 )
             </otherwise>
         </choose>
@@ -50,6 +54,7 @@
             AND WI.REG_EMP_SEQ = #{regEmpSeq}
         </if>
 
+        ORDER BY WI.REG_DT DESC
     </select>
 
     <update id="setInspectionUpd" parameterType="map">
@@ -69,9 +74,7 @@
         INSERT INTO CAM_ITEM.DJ_ITEM_WH_INFO
         (
             CRM_SN,
-            ITEM_NO,
-            ITEM_NAME,
-            ITEM_UNIT_CD,
+            MASTER_SN,
             INVEN_AMT,
             WH_TYPE,
             WH_VOLUME,
@@ -92,9 +95,7 @@
         <foreach collection="newRateArr" item="item" separator=" , ">
         (
             #{item.crmSn},
-            #{item.itemNo},
-            #{item.itemName},
-            #{item.itemUnitCd},
+            #{item.masterSn},
             #{item.invenAmt},
             #{item.whType},
             #{item.whVolume},
@@ -120,9 +121,7 @@
             CAM_ITEM.DJ_ITEM_WH_INFO
         SET
             CRM_SN = #{crmSn},
-            ITEM_NO = #{empSeq},
-            ITEM_NAME = #{itemName},
-            ITEM_UNIT_CD = #{itemUnitCd},
+            MASTER_SN = #{masterSn},
             INVEN_AMT = #{invenAmt},
             WH_TYPE = #{whType},
             WH_VOLUME = #{whVolume},
@@ -147,9 +146,13 @@
         /* getItemInvenList */
         SELECT
             II.*,
+            IM.*,
             WHC.ITEM_CD_NM AS WH_CD_NM
         FROM
             CAM_ITEM.DJ_ITEM_INVENTORY II
+        JOIN
+            CAM_ITEM.DJ_ITEM_MASTER IM
+        ON IM.MASTER_SN = II.MASTER_SN
         JOIN
             CAM_ITEM.DJ_ITEM_CD WHC
         ON WHC.LG_CD = 'WH' AND II.WH_CD = WHC.ITEM_CD
@@ -159,12 +162,12 @@
 
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword)'>
-                AND II.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+                AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
             </when>
             <otherwise>
                 AND (
-                    II.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
-                    II.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%')
+                    IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
+                    IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%')
                 )
             </otherwise>
         </choose>
@@ -174,9 +177,13 @@
         /* getItemInven */
         SELECT
             II.*,
+            IM.*,
             WHC.ITEM_CD_NM AS WH_CD_NM
         FROM
             CAM_ITEM.DJ_ITEM_INVENTORY II
+        JOIN
+            CAM_ITEM.DJ_ITEM_MASTER IM
+        ON IM.MASTER_SN = II.MASTER_SN
         JOIN
             CAM_ITEM.DJ_ITEM_CD WHC
         ON WHC.LG_CD = 'WH' AND II.WH_CD = WHC.ITEM_CD
@@ -192,8 +199,7 @@
             FORWARDING_DATE,
             FORWARDER,
             INVEN_SN,
-            ITEM_NO,
-            ITEM_NAME,
+            MASTER_SN,
             CURRENT_INVEN,
             TRANSFER_QTY,
             FORWARDING_WH_CD,
@@ -208,8 +214,7 @@
             #{item.forwardingDate},
             #{item.forwarder},
             #{item.invenSn},
-            #{item.itemNo},
-            #{item.itemName},
+            #{item.masterSn},
             #{item.currentInven},
             #{item.transferQty},
             #{item.forwardingWhCd},
@@ -229,8 +234,7 @@
             FORWARDING_DATE = #{forwardingDate},
             FORWARDER = #{forwarder},
             INVEN_SN = #{invenSn},
-            ITEM_NO = #{itemNo},
-            ITEM_NAME = #{itemName},
+            MASTER_SN = #{masterSn},
             CURRENT_INVEN = #{currentInven},
             TRANSFER_QTY = #{transferQty},
             FORWARDING_WH_CD = #{forwardingWhCd},
@@ -243,14 +247,19 @@
     </update>
 
     <select id="getInvenTransferHistoryList" parameterType="map" resultType="map">
+        /* getInvenTransferHistoryList */
         SELECT
             IT.*,
+            IM.*,
             EI.EMP_NAME_KR,
             TFT.ITEM_CD_NM AS TRANSFER_TYPE_NM,
             FWH.ITEM_CD_NM AS FORWARDING_WH_CD_NM,
             RWH.ITEM_CD_NM AS RECEIVING_WH_CD_NM
         FROM
             CAM_ITEM.DJ_ITEM_INVENTORY_TRANSFER IT
+        JOIN
+            CAM_ITEM.DJ_ITEM_MASTER IM
+        ON IM.MASTER_SN = IT.MASTER_SN
         JOIN
             CAM_HR.DJ_EMP_INFO EI
         ON IT.FORWARDER = EI.EMP_SEQ
@@ -289,12 +298,12 @@
 
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword)'>
-                AND IT.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+                AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
             </when>
             <otherwise>
                 AND (
-                    IT.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
-                    IT.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%')
+                    IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
+                    IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%')
                 )
             </otherwise>
         </choose>

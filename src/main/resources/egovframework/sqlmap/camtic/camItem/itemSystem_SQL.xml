@@ -172,11 +172,13 @@
                 AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
             </when>
             <otherwise>
-                AND (
-                    IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
-                    IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
-                    IM.SAFETY_INVEN LIKE CONCAT('%', #{searchValue}, '%')
-                )
+                <if test='searchValue != null and !"".equals(searchValue)'>
+                    AND (
+                        IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
+                        IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
+                        IM.SAFETY_INVEN LIKE CONCAT('%', #{searchValue}, '%')
+                    )
+                </if>
             </otherwise>
         </choose>
     </select>
@@ -195,8 +197,15 @@
         JOIN
             CAM_ITEM.DJ_ITEM_CD IUC
         ON IUC.LG_CD = 'UNIT' AND IM.ITEM_UNIT_CD = IUC.ITEM_CD
-        WHERE
-            IM.MASTER_SN = #{masterSn}
+        WHERE 1=1
+        <choose>
+            <when test='itemNo != null and !"".equals(itemNo)'>
+                AND IM.ITEM_NO = #{itemNo}
+            </when>
+            <otherwise>
+                AND IM.MASTER_SN = #{masterSn}
+            </otherwise>
+        </choose>
     </select>
 
     <select id="getItemNoDuplicate" parameterType="map" resultType="boolean">

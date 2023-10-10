@@ -62,6 +62,7 @@ var invenTr = {
                 '<td style="text-align: right">' +
                     '<input type="hidden" id="invenTransSn' + invenTr.global.invenTransferIndex + '" class="invenTransSn">' +
                     '<input type="hidden" id="invenSn' + invenTr.global.invenTransferIndex + '" class="invenSn">' +
+                    '<input type="hidden" id="masterSn' + invenTr.global.invenTransferIndex + '" class="masterSn">' +
                     '<input type="hidden" id="itemNo' + invenTr.global.invenTransferIndex + '" class="itemNo">' +
                     '<input type="hidden" id="itemName' + invenTr.global.invenTransferIndex + '" class="itemName">' +
                     '<input type="hidden" id="currentInven' + invenTr.global.invenTransferIndex + '" class="currentInven">' +
@@ -119,6 +120,7 @@ var invenTr = {
             $(this).find("input.transferType").attr("id", "transferType" + i);
             $(this).find(".invenTransSn").attr("id", "invenTransSn" + i);
             $(this).find(".invenSn").attr("id", "invenSn" + i);
+            $(this).find(".masterSn").attr("id", "masterSn" + i);
             $(this).find(".itemNo").attr("id", "itemNo" + i);
             $(this).find(".itemName").attr("id", "itemName" + i);
             $(this).find(".currentInven").attr("id", "currentInven" + i);
@@ -194,7 +196,7 @@ var invenTr = {
         var flag = true;
         $.each($(".itransInfo"), function(i, v){
 
-            if(!$(this).find("#invenSn" + i).val() || !$(this).find("#itemNo" + i).val() || !$(this).find("#itemName" + i).val() || !$(this).find("#currentInven" + i).val()
+            if(!$(this).find("#invenSn" + i).val() || !$(this).find("#masterSn" + i).val() || !$(this).find("#itemNo" + i).val() || !$(this).find("#itemName" + i).val() || !$(this).find("#currentInven" + i).val()
                 || !$(this).find("#forwardingWhCd" + i).val() || !$(this).find("#transferQty" + i).val() || !$(this).find("#receivingWhCd" + i).val()){
                 flag = false;
             }
@@ -220,8 +222,7 @@ var invenTr = {
                     forwarder : $("#regEmpSeq").val(),
                     invenTransSn : $(this).find("#invenTransSn" + i).val(),
                     invenSn : $(this).find("#invenSn" + i).val(),
-                    itemNo : $(this).find("#itemNo" + i).val(),
-                    itemName : $(this).find("#itemName" + i).val(),
+                    masterSn : $(this).find("#masterSn" + i).val(),
                     currentInven : $(this).find("#currentInven" + i).val(),
                     transferQty : invenTr.uncomma($(this).find("#transferQty" + i).val()),
                     forwardingWhCd : $(this).find("#forwardingWhCd" + i).val(),
@@ -262,6 +263,7 @@ var invenTr = {
 
     itemInfoChange : function(){
         $("#invenSn" + invenTr.global.invenSnIndex).val($("#invenSn").val())
+        $("#masterSn" + invenTr.global.invenSnIndex).val($("#masterSn").val())
         $("#itemNo" + invenTr.global.invenSnIndex).val($("#itemNo").val())
         $("#itemName" + invenTr.global.invenSnIndex).val($("#itemName").val())
         $("#currentInven" + invenTr.global.invenSnIndex).val($("#currentInven").val())
@@ -273,6 +275,7 @@ var invenTr = {
         $("#forwardingWhCdTxt" + invenTr.global.invenSnIndex).text($("#whCdNm").val())
 
         $("#invenSn").val("")
+        $("#masterSn").val("")
         $("#itemNo").val("")
         $("#itemName").val("")
         $("#currentInven").val("")

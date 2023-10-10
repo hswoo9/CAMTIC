@@ -117,6 +117,7 @@ var regRv = {
 
                         $("#wh" + i).find("#crmSn" + i).val(list[i].crmSn);
                         $("#wh" + i).find("#crmNm" + i).val(list[i].crmNm);
+                        $("#wh" + i).find("#masterSn" + i).val(list[i].masterSn);
                         $("#wh" + i).find("#itemNo" + i).val(list[i].itemNo);
                         $("#wh" + i).find("#itemName" + i).val(list[i].itemName);
                         $("#wh" + i).find("#whType" + i).data("kendoDropDownList").value(list[i].whType);
@@ -164,9 +165,8 @@ var regRv = {
             $.each($(".whInfo"), function(i, v){
                 var arrData = {
                     crmSn : $(this).find("#crmSn" + i).val(),
+                    masterSn : $(this).find("#masterSn" + i).val(),
                     itemWhSn : $(this).find("#itemWhSn" + i).val(),
-                    itemNo : $(this).find("#itemNo" + i).val(),
-                    itemName : $(this).find("#itemName" + i).val(),
                     whType : $(this).find("#whType" + i).val(),
                     whVolume : regRv.uncomma($(this).find("#whVolume" + i).val()),
                     whWeight : regRv.uncomma($(this).find("#whWeight" + i).val()),
@@ -197,6 +197,7 @@ var regRv = {
                 regRv.global.itemWhIndex = 0;
                 $("#listTb tr").remove();
                 regRv.addRow('new');
+                opener.parent.recL.gridReload();
             }
         }
     },

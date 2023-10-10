@@ -96,6 +96,7 @@ var popItemInvenList = {
             var rs = result.rs;
             console.log(rs);
             opener.parent.$("#invenSn").val(rs.INVEN_SN);
+            opener.parent.$("#masterSn").val(rs.MASTER_SN);
             opener.parent.$("#itemNo").val(rs.ITEM_NO);
             opener.parent.$("#itemName").val(rs.ITEM_NAME);
             opener.parent.$("#currentInven").val(rs.CURRENT_INVEN);
