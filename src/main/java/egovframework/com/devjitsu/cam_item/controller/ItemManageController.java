@@ -58,7 +58,23 @@ public class ItemManageController {
     /** 캠아이템 > 아이템관리 > 구매관리 */
 
     /**
-     * 입고리스트
+     * 자재단가관리
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/materialUnitPriceMa.do")
+    public String materialUnitPriceMa(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_item/itemMa/purcMa/materialUnitPriceMa";
+    }
+
+    /**
+     * 입고리스트 페이지
      * @param params
      * @param request
      * @param model
@@ -111,6 +127,7 @@ public class ItemManageController {
     @RequestMapping("/item/pop/popUnitPriceList.do")
     public String popUnitPriceList(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("data", crmService.getCrmInfo(params));
+        model.addAttribute("rs", itemSystemService.getItemMaster(params));
         model.addAttribute("params", params);
         return "popup/cam_item/popUnitPriceList";
     }

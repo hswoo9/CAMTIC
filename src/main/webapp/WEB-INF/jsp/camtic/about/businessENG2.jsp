@@ -51,18 +51,18 @@
 
           <div class="__vision50">
 
-            <div class="__imgW __imgW2">
+            <div class="__imgW __imgW10">
               <div class="wrap">
                 <img src="/images/camtic/img-busi_02.png" alt="">
-                <div class="iw iw1" style="font-size: 22px;"><span>Foundation/innovation/<br>growth<br>by business growth phase</span></div>
-                <div class="iw iw2" style="font-size: 22px;"><span>Foundation/technology/<br>management<br>Business growth by field</span></div>
-                <div class="iw iw3" style="font-size: 14px;"><span>HR development</span></div>
-                <div class="iw iw4" style="font-size: 14px;"><span>Local industrial development</span></div>
-                <div class="iw iw5" style="font-size: 14px;"><span>Job creation</span></div>
-                <div class="iw iw6" style="font-size: 14px;"><span>Foundation</span></div>
+                <div class="iw iw1"><span>Foundation/innovation/<br>growth<br>by business growth phase</span></div>
+                <div class="iw iw2"><span>Foundation/technology/<br>management<br>Business growth by field</span></div>
+                <div class="iw iw3"><span>HR development</span></div>
+                <div class="iw iw4"><span>Local industrial development</span></div>
+                <div class="iw iw5"><span>Job creation</span></div>
+                <div class="iw iw6"><span>Foundation</span></div>
 
-                <div class="iw iw7" style="font-size: 13px;"><span>HR development</span></div>
-                <div class="iw iw8 dot tal" style="font-size:10px;">
+                <div class="iw iw7"><span>HR development</span></div>
+                <div class="iw iw8 dot tal">
                   <ul>
                     <li>HR cultivation</li>
                     <li>Work-study balance/Paid leave</li>
@@ -72,8 +72,8 @@
                   </ul>
                 </div>
 
-                <div class="iw iw9" style="font-size: 13px;"><span>Local industrial development</span></div>
-                <div class="iw iw10 dot tal" style="font-size: 13px;">
+                <div class="iw iw9"><span>Local industrial development</span></div>
+                <div class="iw iw10 dot tal">
                   <ul>
                     <li>Technology commercialization support</li>
                     <li>Growth ladder support</li>
@@ -82,8 +82,8 @@
                   </ul>
                 </div>
 
-                <div class="iw iw11" style="font-size: 13px;"><span>Job creation</span></div>
-                <div class="iw iw12 dot tal" style="font-size: 11px;">
+                <div class="iw iw11"><span>Job creation</span></div>
+                <div class="iw iw12 dot tal">
                   <ul>
                     <li>Job support program for youth</li>
                     <li>Support for employment</li>
@@ -92,23 +92,23 @@
                   </ul>
                 </div>
 
-                <div class="iw iw13" style="font-size: 13px;"><span>Foundation</span></div>
-                <div class="iw iw14 dot tal" style="font-size: 13px;">
+                <div class="iw iw13"><span>Foundation</span></div>
+                <div class="iw iw14 dot tal">
                   <ul>
                     <li>Support for business foundation in specialized fields</li>
                     <li>Maker Space</li>
                     <li>Network of startup-associated institutions</li>
                   </ul>
                 </div>
-                <div class="iw iw15" style="font-size: 22px;"><span>Gr<br>ow<br>th<br>ass<br>is<br>tan<br>ce</span></div>
-                <div class="iw iw16" style="font-size: 22px;"><span>Co<br>op<br>er<br>at<br>ion</span></div>
-                <div class="iw iw17" style="font-size: 8px;"><span>Employe training</span></div>
-                <div class="iw iw18" style="font-size: 8px;"><span>Startup assistance</span></div>
-                <div class="iw iw19" style="font-size: 8px;"><span>Support for commercialization</span></div>
-                <div class="iw iw20" style="font-size: 8px;"><span>Employment support</span></div>
-                <div class="iw iw21" style="font-size: 8px;"><span>Marketing</span></div>
-                <div class="iw iw22" style="font-size: 8px;"><span>Technical assistance</span></div>
-                <div class="iw iw23" style="font-size: 8px;"><span>Consulting</span></div>
+                <div class="iw iw15"><span>Gr<br>ow<br>th<br>ass<br>is<br>tan<br>ce</span></div>
+                <div class="iw iw16"><span>Co<br>op<br>er<br>at<br>ion</span></div>
+                <div class="iw iw17"><span>Employe training</span></div>
+                <div class="iw iw18"><span>Startup assistance</span></div>
+                <div class="iw iw19"><span>Support for commercialization</span></div>
+                <div class="iw iw20"><span>Employment support</span></div>
+                <div class="iw iw21"><span>Marketing</span></div>
+                <div class="iw iw22"><span>Technical assistance</span></div>
+                <div class="iw iw23"><span>Consulting</span></div>
 
               </div>
             </div>

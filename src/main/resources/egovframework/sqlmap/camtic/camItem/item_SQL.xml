@@ -39,10 +39,12 @@
                 AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
             </when>
             <otherwise>
-                AND (
-                    IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
-                    IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%')
-                )
+                <if test='searchValue != null and !"".equals(searchValue)'>
+                    AND (
+                        IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
+                        IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%')
+                    )
+                </if>
             </otherwise>
         </choose>
 
@@ -52,6 +54,14 @@
 
         <if test='regEmpSeq != null and !"".equals(regEmpSeq)'>
             AND WI.REG_EMP_SEQ = #{regEmpSeq}
+        </if>
+
+        <if test='crmSn != null and !"".equals(crmSn)'>
+            AND WI.CRM_SN = #{crmSn}
+        </if>
+
+        <if test='masterSn != null and !"".equals(masterSn)'>
+            AND WI.MASTER_SN = #{masterSn}
         </if>
 
         ORDER BY WI.REG_DT DESC
