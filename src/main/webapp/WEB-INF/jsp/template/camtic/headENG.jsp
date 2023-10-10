@@ -33,6 +33,17 @@
         <li class="about_business">
           <a href="/camtic/about/businessENG.do"><span>Major Business Areas</span></a>
         </li>
+
+        <li class="about_business sub_menu">
+          <a href="/camtic/about/businessENG1.do"><span>Research & Business Development</span></a>
+        </li>
+        <li class="about_business sub_menu">
+          <a href="/camtic/about/businessENG2.do"><span>Business Growth Support</span></a>
+        </li>
+        <li class="about_business sub_menu">
+          <a href="/camtic/about/businessENG3.do"><span>Commercialization of key technologies</span></a>
+        </li>
+
         <li class="about_vision">
           <a href="/camtic/about/visionENG.do"><span>CAMTIC Mission & Vision 2030</span></a>
         </li>
@@ -40,7 +51,7 @@
           <a href="/camtic/about/locationENG.do"><span>Contect</span></a>
         </li>
       </ul>
-      <button type="button" class="mnu"><span class="hide">메뉴</span><i></i></button>
+      <button type="button" class="mnu" onclick=""><span class="hide">메뉴</span><i></i></button>
     </div>
   </div>
 </header>
@@ -60,3 +71,17 @@
 
 
 </script>
+
+<style>
+  .sub_menu {
+    font-size: 15px;padding: 0px 30px;
+    display: none;
+  }
+  .sub_menu span{font-size: 15px;}
+  @media screen and (max-width: 800px) {
+    .sub_menu {
+      display: block;
+    }
+  }
+
+</style>

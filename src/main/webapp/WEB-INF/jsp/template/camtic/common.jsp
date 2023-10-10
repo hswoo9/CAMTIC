@@ -4,14 +4,17 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8"/>
+  <meta charset="utf-8">
   <meta name="format-detection" content="telephone=no"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"/>
-  <meta property="og:title" content=""/>
-  <meta property="og:image" content=""/>
-  <meta property="og:description" content=""/>
-  <meta name="description" content=""/>
+  <meta property="og:title" content="캠틱종합기술원"/>
+  <meta property="og:image" content="http://218.158.231.186:8080/camtic/images/camtic/logo.png"/>
+  <meta property="og:url" content="http://218.158.231.186:8080/camtic">
+  <meta property="og:description" content="함께 성장하는 행복한 일터"/>
+  <meta name="description" content="">
+  <meta name="author" content="">
   <meta name="keywords" content=""/>
+
   <title>캠틱종합기술원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

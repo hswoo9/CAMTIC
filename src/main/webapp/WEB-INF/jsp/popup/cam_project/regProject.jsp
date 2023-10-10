@@ -84,7 +84,8 @@
             </div>
         </div>
         <div id="vEngi" style="padding: 20px 30px;display: none;">
-            <table class="popTable table table-bordered mb-0">
+            <input type="hidden" id="viewStat" value="Y" />
+            <table class="popTable table table-bordered mb-0" id="mainTable">
                 <colgroup>
                     <col width="15%">
                     <col width="35%">
@@ -146,6 +147,8 @@
                 </tr>
                 </thead>
             </table>
+
+            <div style="text-align: center; cursor: pointer; margin-top: 15px; background-color: #f1f7ff; border: 1px solid #c5c5c5" id="viewBtn"><span id="viewText">&#9650;</span></div>
 
             <div style="margin-top :15px;">
                 <div class="demo-section">

@@ -22,6 +22,9 @@
     .__newsListhead .newboxHead {width: calc((100% / 2) - (10px / 2));}
     .__newsListhead .newboxHead .info .subject {font-size: 14px; line-height: 1.2; height: 2.4em;}
     .__newsListhead {gap: 25px 10px;}
+    .info table{margin:0 auto; width: 100%;}
+    .info table img{height: auto;}
+    .info table td{height: auto;}
   }
 </style>
 <body>

@@ -24,9 +24,8 @@
   @media all and (max-width: 1200px) {
     .__busiA {display: flex;flex-direction: column;gap: 35px 38px;justify-content: center;align-items: center;}
     .__busiA .__busiArea {width: 100%; height: 350px; margin: 10px 0;}
+
   }
-
-
 
 </style>
 </head>
@@ -39,7 +38,7 @@
       <jsp:include page="/WEB-INF/jsp/template/camtic/lnbENG.jsp" flush="false"/>
       <div id="content">
         <ul id="navigation">
-          <li><a href="/camtic">HOME</a></li>
+          <li><a href="/camtic/about/greetingENG.do">HOME</a></li>
           <li class="mdCategory">Major Business Areas</li>
           <li class="smCategory" style="display: none;">Major Business Areas</li>
         </ul>
@@ -52,19 +51,19 @@
           </div>
 
           <div class="__vision50">
-            <div class="__imgW __imgW3">
+            <div class="__imgW __imgW11">
               <div class="wrap">
                 <img src="/images/camtic/img-busi_03.png" alt="">
-                <div class="iw iw1" style="font-size: 22px;"><span>Expertise/Experience in key technology</span></div>
-                <div class="iw iw2" style="font-size: 22px;"><span>Profit making</span></div>
-                <div class="iw iw3" style="font-size: 22px;"><span>Key<br>tech<br>nolo<br>gy</span></div>
-                <div class="iw iw4" style="font-size: 22px;"><span>Com<br>merc<br>ializa<br>tion</span></div>
+                <div class="iw iw1"><span>Expertise/Experience in key technology</span></div>
+                <div class="iw iw2"><span>Profit making</span></div>
+                <div class="iw iw3"><span>Key<br>tech<br>nolo<br>gy</span></div>
+                <div class="iw iw4"><span>Com<br>merc<br>ializa<br>tion</span></div>
                 <div class="iw iw5"><span>Drone</span></div>
-                <div class="iw iw6" style="font-size: 16px;"><span>Smart manufacturing</span></div>
+                <div class="iw iw6"><span>Smart manufacturing</span></div>
                 <div class="iw iw7"><span>Aerospace</span></div>
 
-                <div class="iw iw8" style="font-size: 13px;"><span>Key technology</span></div>
-                <div class="iw iw9 dot tal" style="font-size: 13px;">
+                <div class="iw iw8"><span>Key technology</span></div>
+                <div class="iw iw9 dot tal">
                   <ul>
                     <li>Drone Industry Innovation Support Center</li>
                     <li>Industrial drone platform</li>
@@ -73,8 +72,8 @@
                   </ul>
                 </div>
 
-                <div class="iw iw10" style="font-size: 13px;"><span>Key technology</span></div>
-                <div class="iw iw11 dot tal" style="font-size: 13px;">
+                <div class="iw iw10"><span>Key technology</span></div>
+                <div class="iw iw11 dot tal">
                   <ul>
                     <li>Production/Quality innovation</li>
                     <li>Smart factory</li>
@@ -83,8 +82,8 @@
                   </ul>
                 </div>
 
-                <div class="iw iw12" style="font-size: 13px;"><span>Key technology</span></div>
-                <div class="iw iw13 dot tal" style="font-size: 12px;">
+                <div class="iw iw12"><span>Key technology</span></div>
+                <div class="iw iw13 dot tal">
                   <ul>
                     <li>Space/Aviation/Defense/<br>Energy</li>
                     <li>MGSE manufacturing</li>
@@ -94,8 +93,8 @@
                 </div>
 
                 <div class="iw iw14"><span>Drone</span></div>
-                <div class="iw iw15" style="font-size: 15px;"><span>Smart manufacturing</span></div>
-                <div class="iw iw16" style="font-size: 15px;"><span>Aerospace</span></div>
+                <div class="iw iw15"><span>Smart manufacturing</span></div>
+                <div class="iw iw16"><span>Aerospace</span></div>
               </div>
             </div>
           </div>

@@ -153,7 +153,7 @@
 				<ul id="navigation">
 					<li><a href="/camtic">홈으로</a></li>
 					<li class="">홍보관</li>
-					<li class=""><span class="categoryName"></span></li>
+					<li class="">뉴스레터</li>
 					<li class="">게시글 등록</li>
 				</ul>
 				<div id="title">
@@ -250,7 +250,7 @@
 											3-1. 링크 생성 상단 에디터 내용이<br>
 											링크의 목적지가 된다.<br>
 											4. 추가 후 위 내용 반복<br>
-											※ a태그의 target속성은 생략
+											※ a태그의 target속성은 생략ㅣㅑㅜㅏ
                                         </span>
 									</a>
 								</div>
@@ -418,7 +418,8 @@
 
         $("#linkKey" + num).val(random);
         //$("#linkText" + num).val('onclick="openPopup("'+ groupKey +'","' +random + '")"');
-        $("#linkText" + num).val('javascript:openPopup('+ groupKey +',' +random + ')');
+        $("#linkText" + num).val('javascript:openPopup(\'' + groupKey + '\',\'' + random + '\')');
+
 
         if(document.getElementById("copyBtn" + num)){
         }else{

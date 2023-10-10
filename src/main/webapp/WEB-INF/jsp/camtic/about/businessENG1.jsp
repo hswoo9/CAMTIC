@@ -26,8 +26,6 @@
     .__busiA .__busiArea {width: 100%; height: 350px; margin: 10px 0;}
   }
 
-
-
 </style>
 </head>
 
@@ -39,7 +37,7 @@
       <jsp:include page="/WEB-INF/jsp/template/camtic/lnbENG.jsp" flush="false"/>
       <div id="content">
         <ul id="navigation">
-          <li><a href="/camtic">HOME</a></li>
+          <li><a href="/camtic/about/greetingENG.do">HOME</a></li>
           <li class="mdCategory">Major Business Areas</li>
           <li class="smCategory" style="display: none;">Major Business Areas</li>
         </ul>
@@ -58,25 +56,25 @@
             <img src="/images/camtic/img-busi_01ENG.png" alt="">
           </div>--%>
           <div class="__vision50">
-            <div class="__imgW __imgW1">
+            <div class="__imgW __imgW9">
               <div class="wrap">
                 <img src="/images/camtic/img-busi_01.png" alt="">  <!--영어 이미지로 변경-->
                 <div class="iw iw1"><span>Enterprise</span></div>
                 <div class="iw iw2"><span>R<br>&<br>B<br>D</span></div>
                 <div class="iw iw3"><span>R&D</span></div>
-                <div class="iw iw4" style="font-size: 14px;"><span>Prototype<br>manufacturing</span></div>
-                <div class="iw iw5" style="font-size: 14px;"><span>Product<br>development</span></div>
-                <div class="iw iw6" style="font-size: 14px;"><span>Testing/<br>Certification</span></div>
+                <div class="iw iw4"><span>Prototype<br>manufacturing</span></div>
+                <div class="iw iw5"><span>Product<br>development</span></div>
+                <div class="iw iw6"><span>Testing/<br>Certification</span></div>
 
-                <div class="iw iw7" style="font-size: 22px;"><span>Sales and employment growth<br>Productivity enhancement<br>Product/Technology development</span></div>
-                <div class="iw iw8" style="font-size:30px;"><span>Non<br>-<br>R<br>&<br>D</span></div>
-                <div class="iw iw9" style="font-size: 14px;"><span>Engineering</span></div>
-                <div class="iw iw10" style="font-size: 14px;"><span>Mass production</span></div>
-                <div class="iw iw11" style="font-size: 14px;"><span>Utilization of equipment</span></div>
-                <div class="iw iw12" style="font-size: 14px;"><span>Support projects</span></div>
+                <div class="iw iw7"><span>Sales and employment growth<br>Productivity enhancement<br>Product/Technology development</span></div>
+                <div class="iw iw8"><span>Non<br>-<br>R<br>&<br>D</span></div>
+                <div class="iw iw9"><span>Engineering</span></div>
+                <div class="iw iw10"><span>Mass production</span></div>
+                <div class="iw iw11"><span>Utilization of equipment</span></div>
+                <div class="iw iw12"><span>Support projects</span></div>
 
-                <div class="iw iw13" style="font-size: 13px;"><span>Specialized technology</span></div>
-                <div class="iw iw14 dot tal" style="font-size: 12px;">
+                <div class="iw iw13"><span>Specialized technology</span></div>
+                <div class="iw iw14 dot tal">
                   <ul>
                     <li>Injection mold</li>
                     <li>Multi-processed mold</li>
@@ -85,8 +83,8 @@
                   </ul>
                 </div>
 
-                <div class="iw iw15" style="font-size: 13px;"><span>Specialized technology</span></div>
-                <div class="iw iw16 dot tal" style="font-size: 13px;">
+                <div class="iw iw15"><span>Specialized technology</span></div>
+                <div class="iw iw16 dot tal">
                   <ul>
                     <li>Smart healthcare</li>
                     <li>Manufactured intelligent robots</li>
@@ -95,8 +93,8 @@
                   </ul>
                 </div>
 
-                <div class="iw iw17" style="font-size: 13px;"><span>Specialized technology</span></div>
-                <div class="iw iw18 dot tal" style="font-size: 13px;">
+                <div class="iw iw17"><span>Specialized technology</span></div>
+                <div class="iw iw18 dot tal">
                   <ul>
                     <li>Smart factories</li>
                     <li>Process automation</li>
@@ -105,9 +103,9 @@
                     </li>
                   </ul>
                 </div>
-                <div class="iw iw19" style="font-size: 15px;"><span>Composite materials</span></div>
-                <div class="iw iw20" style="font-size: 15px;"><span>New technology convergence</span></div>
-                <div class="iw iw21" style="font-size: 15px;"><span>Manufacturing innovation</span></div>
+                <div class="iw iw19"><span>Composite materials</span></div>
+                <div class="iw iw20"><span>New technology convergence</span></div>
+                <div class="iw iw21"><span>Manufacturing innovation</span></div>
               </div>
             </div>
           </div>

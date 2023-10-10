@@ -93,16 +93,16 @@
             <table class="popTable table table-bordered mb-0 mt-20">
                 <colgroup>
                     <col>
-                    <col>
-                    <col style="width: 10%;">
+                    <col style="width: 12%;">
                     <col style="width: 6%;">
+                    <col style="width: 4%;">
+                    <col style="width: 4%;">
+                    <col style="width: 4%;">
                     <col style="width: 6%;">
-                    <col style="width: 6%;">
-                    <col style="width: 8%;">
-                    <col>
-                    <col style="width: 10%">
-                    <col>
-                    <col>
+                    <col style="width: 15%;">
+                    <col style="width: 5%;">
+                    <col style="width: 5%;">
+                    <col style="width: 3%">
                 </colgroup>
                 <thead>
                 <tr>
@@ -123,7 +123,10 @@
                 <tr class="purcItemInfo newArray" id="item0">
                     <td>
                         <input type="hidden" id="purcItemSn0" name="purcItemSn0" class="purcItemSn">
-                        <input type="text" id="purcItemType0" class="purcItemType">
+                        <input type="text" id="purcItemType0" class="purcItemType" style="width: 24%">
+                        <input type="text" id="productA0" class="productA" style="width: 24%">
+                        <input type="text" id="productB0" class="productB" style="width: 24%; display: none">
+                        <input type="text" id="productC0" class="productC" style="width: 24%; display: none">
                     </td>
                     <td>
                         <input type="text" id="purcItemName0" class="purcItemName">
@@ -145,7 +148,7 @@
                     </td>
                     <td>
                         <input type="hidden" id="crmSn0" class="crmSn">
-                        <input type="text" id="crmNm0" class="crmNm" style="width: 70%">
+                        <input type="text" id="crmNm0" class="crmNm" style="width: 60%">
                         <button type="button" id="crmSelBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcInfo.fn_popCamCrmList('crmSn0', 'crmNm0');">업체 선택</button>
                     </td>
                     <td>
