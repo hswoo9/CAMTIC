@@ -97,7 +97,8 @@ var popItemNoList = {
             itemUnitCd : $("#itemUnitCd").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
-            active : "Y"
+            active : "Y",
+            target : $("#target").val()
         }
 
         popItemNoList.popMainGrid("/item/getItemMasterList.do", popItemNoList.global.searchAjaxData);

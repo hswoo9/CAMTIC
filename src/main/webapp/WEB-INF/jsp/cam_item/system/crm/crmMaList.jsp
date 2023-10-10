@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/cam_crm/crm.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_item/system/crm/crmMaList.js?v=${today}'/>"></script>
 
 
 <input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
@@ -16,7 +16,7 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">고객관리</h4>
-            <div class="title-road">캠CRM > CRM관리 &gt; 고객관리</div>
+            <div class="title-road">캠아이템 > 시스템관리 > 시스템 &gt; 고객관리</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -42,7 +42,7 @@
                         <th class="text-center th-color">검색어</th>
                         <td>
                             <input type="text" id="searchKeyword" style="width: 30%;"/>
-                            <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){crm.gridReload()}"/>
+                            <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){cml.gridReload()}"/>
                         </td>
                     </tr>
                 </table>
@@ -54,7 +54,5 @@
 </div><!-- col-md-9 -->
 
 <script>
-
-    crm.fn_defaultScript();
-
+    cml.fn_defaultScript();
 </script>
