@@ -92,7 +92,7 @@ var product = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAllA" name="checkAllA" onclick="fn_checkAll(\'checkAllA\', \'largeCategoryPk\');"/>',
-                    template : "<input type='checkbox' name='largeCategoryPk' class='largeCategoryPk' value='#=PRODUCT_DT_CODE#'/>",
+                    template : "<input type='checkbox' name='largeCategoryPk' class='largeCategoryPk' value='#=PRODUCT_CODE_ID#'/>",
                     width: 50
                 }, {
                     template: "#= ++record #",
@@ -185,7 +185,7 @@ var product = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAllB" name="checkAllB" onclick="fn_checkAll(\'checkAllA\', \'mediumCategoryPk\');"/>',
-                    template : "<input type='checkbox' name='mediumCategoryPk' class='mediumCategoryPk' value='#=PRODUCT_DT_CODE#'/>",
+                    template : "<input type='checkbox' name='mediumCategoryPk' class='mediumCategoryPk' value='#=PRODUCT_CODE_ID#'/>",
                     width: 50
                 }, {
                     template: "#= ++record #",
@@ -268,7 +268,7 @@ var product = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAllC" name="checkAllC" onclick="fn_checkAll(\'checkAllC\', \'smallCategoryPk\');"/>',
-                    template : "<input type='checkbox' name='smallCategoryPk' class='smallCategoryPk' value='#=PRODUCT_DT_CODE#'/>",
+                    template : "<input type='checkbox' name='smallCategoryPk' class='smallCategoryPk' value='#=PRODUCT_CODE_ID#'/>",
                     width: 50
                 }, {
                     template: "#= ++record #",
@@ -283,6 +283,56 @@ var product = {
                 record = (this.dataSource.page() -1) * this.dataSource.pageSize();
             },
         }).data("kendoGrid");
+    },
+
+    fn_modBtn: function(type){
+        let checkbox;
+
+        if(type == "A"){
+            checkbox = $("input[name=largeCategoryPk]:checked");
+        }else if(type == "B"){
+            checkbox = $("input[name=mediumCategoryPk]:checked");
+        }else if(type == "C"){
+            checkbox = $("input[name=smallCategoryPk]:checked");
+        }
+
+        if(checkbox.length == 0){ alert("수정할 코드를 선택해주세요."); return; }
+        if(checkbox.length > 1){ alert("수정은 단건만 가능합니다."); return; }
+
+        product.productReqPop("upd", type, checkbox.val())
+    },
+
+    fn_delBtn: function(type){
+        let checkbox;
+        let url;
+        let gridId;
+        let data = {};
+
+        if(type == "A"){
+            checkbox = $("input[name=largeCategoryPk]:checked");
+            gridId = "categoryGridA";
+        }else if(type == "B"){
+            checkbox = $("input[name=mediumCategoryPk]:checked");
+            gridId = "categoryGridB";
+        }else if(type == "C"){
+            checkbox = $("input[name=smallCategoryPk]:checked");
+            gridId = "categoryGridC";
+        }
+        url = "/projectMng/setProductDel";
+
+        if(checkbox.length == 0){ alert("삭제할 코드를 선택해주세요."); return; }
+        let checked = "";
+        if(confirm("선택한 코드를 삭제하시겠습니까?")) {
+            $.each(checkbox, function(){
+                checked += "," + $(this).val();
+            });
+        }
+        data.pk = checked.substring(1);
+        const result = customKendo.fn_customAjax(url, data);
+        if(result.flag){
+            alert("삭제가 완료되었습니다.");
+            gridReload(gridId);
+        }
     },
 
     productReqPop: function(mode, type, pk){
