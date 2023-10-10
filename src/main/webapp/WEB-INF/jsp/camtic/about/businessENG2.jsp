@@ -48,8 +48,11 @@
           <div class="__tit1 __mt50" >
             <h3><strong>Business Growth Support</strong> </h3>
           </div>
+          <div class="__vision50" style="border-top: 1px dashed #b7b7b7;">
+            <img src="/images/camtic/img-busi_02ENG.png" alt="">
+          </div>
 
-          <div class="__vision50">
+<%--          <div class="__vision50">
 
             <div class="__imgW __imgW10">
               <div class="wrap">
@@ -112,7 +115,7 @@
 
               </div>
             </div>
-          </div>
+          </div>--%>
         </div>
 
         <div class="__bio3">

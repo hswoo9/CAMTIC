@@ -50,7 +50,11 @@
             <h3><strong>Commercialization of key technologies</strong></h3>
           </div>
 
-          <div class="__vision50">
+          <div class="__vision50" style="border-top: 1px dashed #b7b7b7;">
+            <img src="/images/camtic/img-busi_03ENG.png" alt="">
+          </div>
+
+<%--          <div class="__vision50">
             <div class="__imgW __imgW11">
               <div class="wrap">
                 <img src="/images/camtic/img-busi_03.png" alt="">
@@ -97,7 +101,7 @@
                 <div class="iw iw16"><span>Aerospace</span></div>
               </div>
             </div>
-          </div>
+          </div>--%>
         </div>
 
 
