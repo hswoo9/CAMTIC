@@ -111,7 +111,22 @@ public class ProjectMngServiceImpl implements ProjectMngService {
     }
 
     @Override
+    public void setProductUpd(Map<String, Object> params) {
+        projectMngRepository.setProductUpd(params);
+    }
+
+    @Override
+    public void setProductDel(Map<String, Object> params) {
+        projectMngRepository.setProductDel(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getProductCodeInfo(Map<String, Object> params) {
         return projectMngRepository.getProductCodeInfo(params);
+    }
+
+    @Override
+    public Map<String, Object> getProductCodeOne(Map<String, Object> params) {
+        return projectMngRepository.getProductCodeOne(params);
     }
 }

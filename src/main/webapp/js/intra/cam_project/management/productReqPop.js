@@ -49,7 +49,7 @@ const productReq = {
             productReq.setProductInfo(data);
         }else if($("#mode").val() == "upd"){
             data.pk = $("#pk").val();
-            productReq.setEduCodeUpd(data);
+            productReq.setProductUpd(data);
         }
     },
 
@@ -77,9 +77,9 @@ const productReq = {
         });
     },
 
-    setEduCodeUpd: function(data){
+    setProductUpd: function(data){
         $.ajax({
-            url: "/campus/setEduCodeUpd",
+            url: "/projectMng/setProductUpd",
             data: data,
             type: "post",
             dataType: "json",

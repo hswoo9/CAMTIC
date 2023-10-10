@@ -258,6 +258,26 @@
             )
     </insert>
 
+    <update id="setProductUpd" parameterType="map">
+        /* setProductUpd */
+        UPDATE
+            CAM_PJT_MNG.DJ_PRODUCT_CODE
+        SET
+            PRODUCT_DT_CODE_NM = #{reqText}
+        WHERE
+            PRODUCT_CODE_ID = #{pk}
+    </update>
+
+    <update id="setProductDel" parameterType="map">
+        /* setProductDel */
+        UPDATE
+            CAM_PJT_MNG.DJ_PRODUCT_CODE
+        SET
+            ACTIVE = 'N'
+        WHERE
+            PRODUCT_CODE_ID IN (#{pk})
+    </update>
+
     <select id="getProductCodeInfo" resultType="map" parameterType="map">
         /* getProductCodeInfo */
         SELECT
@@ -273,5 +293,15 @@
             AND PARENT_CODE = #{parentCodeId} AND PARENT_CODE_NM = #{parentCodeName}
         </if>
 
+    </select>
+
+    <select id="getProductCodeOne" resultType="map" parameterType="map">
+        /* getProductCodeOne */
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PRODUCT_CODE CC
+        WHERE
+            PRODUCT_CODE_ID = #{pk}
     </select>
 </mapper>
