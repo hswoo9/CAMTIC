@@ -163,7 +163,7 @@
             TEAM_COST_AMT = #{teamCostAmt},
             REG_EMP_SEQ = #{empSeq}
         WHERE
-            deptCd = #{deptCd}
+            DEPT_CD = #{deptCd}
     </update>
 
     <update id="updTeamCostHistInfo" parameterType="map">
@@ -175,7 +175,7 @@
             TEAM_COST_AMT = #{teamCostAmt},
             REG_EMP_SEQ = #{empSeq}
         WHERE
-            TEAM_COST_HIST_SN = #{teamCostHistSn}
+            TEAM_COST_HIST_SN = #{teamCostSn}
     </update>
 
     <update id="updLaborHistInfo" parameterType="map">
