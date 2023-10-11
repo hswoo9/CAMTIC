@@ -5,7 +5,7 @@
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 <style>
-  .__bio3 .area{padding: 0px 20px;}
+  .__bio3 .area{margin: 0 60px;}
   .__jvalley3 .sw .box{border: 4px solid #008000;}
   .__jvalley3 .sw .box h6{color: #008000;}
   .__bio3 .area .box .img img{height: 240px;}

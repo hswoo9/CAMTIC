@@ -129,6 +129,8 @@ var popItemNoList = {
             opener.parent.$("#itemNo").val(rs.ITEM_NO);
             opener.parent.$("#itemName").val(rs.ITEM_NAME);
             opener.parent.$("#baseWhCd").val(rs.WH_CD);
+            opener.parent.$("#maxUnitPrice").val(rs.MAX_UNIT_PRICE);
+
             opener.parent.$("#masterSn").change();
 
             window.close();

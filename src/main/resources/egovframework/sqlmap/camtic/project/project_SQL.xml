@@ -1361,13 +1361,13 @@
         <if test='invPrepC != null and !"".equals(invPrepC)'>
             INV_PREP_C = #{invPrepC},
         </if>
-        <if test='prepA != null and !"".equals.prepA'>
+        <if test='prepA != null and !"".equals(prepA)'>
             PREP_A = #{prepA},
         </if>
-        <if test='prepB != null and !"".equals.prepB'>
+        <if test='prepB != null and !"".equals(prepB)'>
             PREP_B = #{prepB},
         </if>
-        <if test='prepC != null and !"".equals.prepC'>
+        <if test='prepC != null and !"".equals(prepC)'>
             PREP_C = #{prepB},
         </if>
         RS_STR_DT = #{rsStrDt},

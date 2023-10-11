@@ -54,7 +54,7 @@ var ciupR = {
 
         html += '</td>' +
                 '<td>' +
-                    '<input type="text" id="unitPrice' + ciupR.global.ciupIndex + '" class="numBerInput" style="text-align: right"/>' +
+                    '<input type="text" id="unitPrice' + ciupR.global.ciupIndex + '" class="numberInput" style="text-align: right"/>' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="startDt' + ciupR.global.ciupIndex + '" name="startDt' + ciupR.global.ciupIndex + '">' +
@@ -74,7 +74,7 @@ var ciupR = {
 
         customKendo.fn_textBox(["unitPrice" + ciupR.global.ciupIndex, "rmk" + ciupR.global.ciupIndex]);
 
-        $(".numBerInput").keyup(function(){
+        $(".numberInput").keyup(function(){
             $(this).val(ciupR.comma(ciupR.uncomma($(this).val())));
         });
 

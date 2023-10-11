@@ -27,9 +27,12 @@ var chv = {
     },
 
     mainGrid1 : function(){
+        const data = {
+            crmSn : $("#crmSn").val(),
+            crmHistType: 2
+        }
         $("#mainGrid1").kendoGrid({
-            /** TODO. 추후 변경해야함 (이력조회) */
-            // dataSource: customKendo.fn_gridDataSource2("", params),
+            dataSource: customKendo.fn_gridDataSource2("/crm/getCrmHistEngnList", data),
             sortable: true,
             scrollable: true,
             selectable: "row",
@@ -48,19 +51,30 @@ var chv = {
                     title: "순번",
                     width : 50
                 }, {
-                    field: "",
+                    field: "CRM_HIST_OBJ",
                     title: "과제구분",
+                    width : 80
                 }, {
-                    field: "",
                     title: "건명",
+                    template: function(row){
+                        return "<a href='javascript:void(0);' style='font-weight: bold' onclick='approveDocView(\""+row.DOC_ID+"\", \""+row.APPRO_KEY+"\", \""+row.DOC_MENU_CD+"\");'>" + row.CRM_REL_PJT_NM + "</a>";
+                    }
                 }, {
                     title: "연구 기간",
+                    template: function(row){
+                        return row.START_DATE +" ~ "+row.END_DATE;
+                    },
+                    width : 180
                 }, {
-                    field: "",
                     title: "총 연구비",
+                    template: function(row){
+                        return fn_numberWithCommas(row.CRM_REL_PJT_AMT);
+                    },
+                    width : 80
                 }, {
-                    field: "",
+                    field: "CRM_SHARE_EMP",
                     title: "담당자",
+                    width : 80
                 }
             ],
             dataBinding: function(){

@@ -100,10 +100,10 @@
             <div id="histDiv" class="mt-20" style="margin-top: 20px">
                 <ul style="font-size: 12px;">
                     <li >
-                        연구개발
+                        엔지니어링
                     </li>
                     <li>
-                        개발사업
+                        R&D
                     </li>
                     <li>
                         교육훈련

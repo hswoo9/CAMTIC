@@ -904,6 +904,7 @@ img {max-width:100%;}
 .__history .area .box:nth-child(3n+2) .top h4 span {background:#305c9a;}
 .__history .area .box:nth-child(3n+3) .top h4 span {background:#24e1cd;}
 
+
 @media all and (max-width:1024px){
 	.__history .head {margin-bottom:30px;font-size:16px;padding:10px;border-radius:0;}
 	.__history .head strong {display:block;}
@@ -1239,6 +1240,8 @@ img {max-width:100%;}
 .__jvalley5 .two .area .box dl ~ dl {margin-top:3px;}
 .__jvalley5 .two .area .box dl dt {color:#000;width:45px;font-weight:500;}
 .__jvalley5 .two .area .box dl dd {width:0;flex-grow:1;}
+.__jvalley5 .two .area .box .blue dt {font-weight:600;color: #305c9a; font-size: 18px;}
+.__jvalley5 .two .area .box .blue dd {font-weight:600;color: #305c9a; font-size: 18px;}
 
 .__jvalley5 .thr h4 {color:#fff;text-align:center;background:#111;border-radius:5px;padding:12px;font-size:26px;font-weight:500;letter-spacing:-0.05em;}
 .__jvalley5 .thr .area {display:flex;gap:26px;}
