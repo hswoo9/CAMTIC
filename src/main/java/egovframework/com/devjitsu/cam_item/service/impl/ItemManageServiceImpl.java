@@ -88,6 +88,12 @@ public class ItemManageServiceImpl implements ItemManageService {
     @Override
     public void setBomDel(Map<String, Object> params) {
         itemManageRepository.setBomDel(params);
+        itemManageRepository.setBomDetailDel(params);
+    }
+
+    @Override
+    public void setBomDetailDel(Map<String, Object> params) {
+        itemManageRepository.setBomDetailDel(params);
     }
 
     @Override
@@ -97,7 +103,58 @@ public class ItemManageServiceImpl implements ItemManageService {
 
     @Override
     public List<Map<String, Object>> getBomDetailList(Map<String, Object> params) {
-        return itemManageRepository.getBomDetailList(params);
+        Map<String, Object> searchMap = new HashMap<>();
+        List<Map<String, Object>> bomDetailList = itemManageRepository.getBomDetailList(params);
+        for(Map<String, Object> map : bomDetailList){
+            searchMap.put("masterSn", map.get("MASTER_SN"));
+            map.put("whCdList", itemManageRepository.getItemInvenList(searchMap));
+        }
+
+        return bomDetailList;
+    }
+
+    @Override
+    public Map<String, Object> getBomDetailChk(Map<String, Object> params) {
+        Map<String, Object> returnMap = new HashMap<>();
+        List<Map<String, Object>> bomDetailList = itemManageRepository.getBomDetailList(params);
+
+        String message = "";
+        for(Map<String, Object> map : bomDetailList){
+
+            int reqQty = Integer.parseInt(map.get("REQ_QTY").toString());
+            int invenCnt = Integer.parseInt(map.get("INVEN_CNT").toString());
+            int currentInven = Integer.parseInt(map.get("CURRENT_INVEN").toString());
+            int safetyInven = Integer.parseInt(map.get("SAFETY_INVEN").toString());
+
+            /** 창고 조회 */
+            if(invenCnt == 0){
+                returnMap.put("error", "999");
+                message += map.get("ITEM_NO") + " " + map.get("ITEM_NAME")  + " - [미입고 재고]\n";
+            }else if(invenCnt > 1) {
+                returnMap.put("whCd", "whCd");
+                message += map.get("ITEM_NO") + " " + map.get("ITEM_NAME")  + " - [출고창고지정 필요]\n";
+            }else {
+                returnMap.put("success", "200");
+            }
+
+            /** 재고 조회 */
+            if(currentInven == 0){
+                returnMap.put("error", "999");
+                message += map.get("ITEM_NO") + " " + map.get("ITEM_NAME")  + " - [재고 부족]\n";
+            }else if(reqQty > currentInven){
+                returnMap.put("error", "999");
+                message += map.get("ITEM_NO") + " " + map.get("ITEM_NAME")  + " - [재고 부족]\n";
+            }else if((currentInven - reqQty) < safetyInven){
+                returnMap.put("error", "999");
+                message += map.get("ITEM_NO") + " " + map.get("ITEM_NAME")  + " - [안전재고미달 부족]\n";
+            }else{
+                returnMap.put("success", "200");
+            }
+        }
+
+        returnMap.put("message", message);
+        
+        return returnMap;
     }
 
     @Override
