@@ -57,7 +57,6 @@ var costInfo = {
                     $("#costDetailTable").append(html);
 
                     const pjtMap = rs.pjtInfo;
-                    const pjtAmt = pjtMap.PJT_AMT;
                     let chargeAmt = pjtMap.PJT_AMT * (teamCostAmt / 100);
                     $("#chargeAmt").val(costInfo.comma(chargeAmt));
 
