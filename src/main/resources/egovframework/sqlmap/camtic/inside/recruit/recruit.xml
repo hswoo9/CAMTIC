@@ -624,6 +624,43 @@
             APPLICATION_ID = #{applicationId}
     </update>
 
+    <select id="getInterViewEvalChk" parameterType="map" resultType="boolean">
+        /* getInterViewEvalChk */
+        SELECT
+            CASE WHEN (
+                    SELECT
+                        COUNT(*)
+                    FROM
+                        CAM_INSIDE.DJ_APPLICATION_MAIN
+                    WHERE
+                        SAVE_TYPE = 'S'
+                    AND
+                        RECRUIT_INFO_SN = #{recruitInfoSn}
+                    AND (
+                        APPLICATION_STAT = 'D' OR
+                        APPLICATION_STAT = 'I' OR
+                        APPLICATION_STAT = 'IF'
+                    )
+                ) = (
+                    SELECT
+                        COUNT(*)
+                    FROM
+                        CAM_INSIDE.DJ_APPLICATION_MAIN
+                    WHERE
+                        SAVE_TYPE = 'S'
+                    AND
+                        RECRUIT_INFO_SN = #{recruitInfoSn}
+                    AND (
+                        APPLICATION_STAT = 'I' OR
+                        APPLICATION_STAT = 'IF' OR
+                        IN_AVOID = 'Y')
+                    )
+                THEN 1 ELSE 0
+            END
+        FROM
+            DUAL
+    </select>
+
     <delete id="setInAvoidScoreBoardDel" parameterType="map">
         /* setInAvoidScoreBoardDel */
         DELETE FROM CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD WHERE APPLICATION_ID IN (${applicationId})

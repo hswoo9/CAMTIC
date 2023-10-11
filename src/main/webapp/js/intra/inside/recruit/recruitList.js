@@ -136,9 +136,7 @@ var recruitList = {
                     field: "",
                     title: "서류심사",
                     template: function(e) {
-                        if(e.RECRUIT_STATUS_SN == "3"){
-                            return '서류심사중';
-                        }else if(e.RECRUIT_STATUS_SN > 3){
+                        if(e.RECRUIT_STATUS_SN > 3){
                             return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitList.screenViewPop(' + e.RECRUIT_INFO_SN + ', \'doc\')">' +
                                 '	<span class="k-button-text">심사결과</span>' +
                                 '</button>';
@@ -150,9 +148,7 @@ var recruitList = {
                     field: "",
                     title: "면접심사",
                     template: function(e) {
-                        if(e.RECRUIT_STATUS_SN == "4"){
-                            return '면접심사중';
-                        }else if(e.RECRUIT_STATUS_SN > 4){
+                        if(e.RECRUIT_STATUS_SN > 4){
                             return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitList.screenViewPop(' + e.RECRUIT_INFO_SN + ', \'in\')">' +
                                 '	<span class="k-button-text">심사결과</span>' +
                                 '</button>';

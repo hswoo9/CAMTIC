@@ -356,6 +356,16 @@ public class RecruitServiceImpl implements RecruitService {
     @Override
     public void setApplicationUpd(Map<String, Object> params) {
         recruitRepository.setApplicationUpd(params);
+
+        if(params.get("applicationStat").equals("I") || params.get("applicationStat").equals("IF")){
+            if(recruitRepository.getInterViewEvalChk(params)){
+                Map<String, Object> saveMap = new HashMap<>();
+                saveMap.put("recruitInfoSn", params.get("recruitInfoSn"));
+                saveMap.put("recruitStatusSn", "5");
+                saveMap.put("recruitStatusText", "면접심사완료");
+                recruitRepository.setRecruitStatusUpd(saveMap);
+            }
+        }
     }
 
     @Override
@@ -369,6 +379,14 @@ public class RecruitServiceImpl implements RecruitService {
 
         /** 불참자 평가 데이터 삭제 */
 //        recruitRepository.setInAvoidScoreBoardDel(params);
+
+        if(recruitRepository.getInterViewEvalChk(params)){
+            Map<String, Object> saveMap = new HashMap<>();
+            saveMap.put("recruitInfoSn", params.get("recruitInfoSn"));
+            saveMap.put("recruitStatusSn", "5");
+            saveMap.put("recruitStatusText", "면접심사완료");
+            recruitRepository.setRecruitStatusUpd(saveMap);
+        }
     }
 
     @Override
