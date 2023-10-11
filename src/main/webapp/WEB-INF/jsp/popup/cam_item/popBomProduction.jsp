@@ -6,15 +6,16 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 
 <body class="font-opensans" style="background-color:#fff;">
-<script type="text/javascript" src="/js/intra/cam_item/popup/popBomView.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/cam_item/popup/popBomProduction.js?v=${today}"/></script>
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
         <input type="hidden" id="bomSn" name="bomSn" value="${rs.BOM_SN}">
         <div class="card-header pop-header">
-            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">BOM조회</span>
+            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">BOM제작</span>
             </h3>
             <div class="btn-st popButton">
+                <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="popBomPt.setBomProduction()">제작</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -42,7 +43,8 @@
                         <col>
                         <col style="width: 14%;">
                         <col style="width: 12%;">
-                        <col style="width: 10%;">
+                        <col style="width: 12%;">
+                        <col style="width: 15%;">
                         <col style="width: 20%;">
                     </colgroup>
                     <thead>
@@ -53,26 +55,13 @@
                         <th>단가</th>
                         <th>필요수량</th>
                         <th>안전재고</th>
+                        <th>자재출고창고</th>
                         <th>비고</th>
                     </tr>
-                    <c:forEach var="item" items="${detailList}" varStatus="status">
-                        <tr>
-                            <td style="text-align: center">${status.index + 1}</td>
-                            <td>${item.ITEM_NO}</td>
-                            <td>${item.ITEM_NAME}</td>
-                            <td style="text-align: right">
-                                <fmt:formatNumber value="${item.UNIT_PRICE}" pattern="#,###" />
-                            </td>
-                            <td style="text-align: right">
-                                <fmt:formatNumber value="${item.REQ_QTY}" pattern="#,###" />
-                            </td>
-                            <td style="text-align: right">
-                                <fmt:formatNumber value="${item.SAFETY_INVEN}" pattern="#,###" />
-                            </td>
-                            <td>${item.RMK}</td>
-                        </tr>
-                    </c:forEach>
                     </thead>
+                    <tbody id="productionTb">
+
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -80,7 +69,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    popBomView.fn_defultScript();
+    popBomPt.fn_defultScript();
 </script>
 </body>
 </html>

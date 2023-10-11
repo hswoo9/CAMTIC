@@ -39,10 +39,10 @@ var bomReg = {
         if(confirm("등록하시겠습니까?")){
             var detailArr = new Array();
             $.each($(".bomDetail"), function(i, v){
-                if($(this).find("#invenSn" + i).val()){
+                if($(this).find("#masterSn" + i).val()){
                     var arrData = {
                         bomDetailSn : $(this).find("#bomDetailSn" + i).val(),
-                        invenSn : $(this).find("#invenSn" + i).val(),
+                        masterSn : $(this).find("#masterSn" + i).val(),
                         reqQty : $(this).find("#reqQty" + i).val(),
                         rmk : $(this).find("#rmk" + i).val(),
                         empSeq : $("#empSeq").val()
@@ -80,15 +80,15 @@ var bomReg = {
             '<tr class="bomDetail" id="detail' + bomReg.global.bomDetailIndex + '">' +
                 '<td>' +
                     '<input type="hidden" id="bomDetailSn' + bomReg.global.bomDetailIndex + '" class="bomDetailSn">' +
-                    '<input type="hidden" id="invenSn' + bomReg.global.bomDetailIndex + '" class="invenSn">' +
-                    '<input type="text" id="itemNo' + bomReg.global.bomDetailIndex + '" class="itemNo k-input k-textbox" readonly onClick="bomReg.fn_popCamItemList(' + bomReg.global.bomDetailIndex + ');" style="width: 75%">' +
-                    '<button type="button" id="itemSelBtn' + bomReg.global.bomDetailIndex + '" class="itemSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="bomReg.fn_popCamItemList(' + bomReg.global.bomDetailIndex + ');">선택</button>' +
+                    '<input type="hidden" id="masterSn' + bomReg.global.bomDetailIndex + '" class="masterSn">' +
+                    '<input type="text" id="itemNo' + bomReg.global.bomDetailIndex + '" class="itemNo k-input k-textbox" readonly onClick="bomReg.fn_popItemNoList(' + bomReg.global.bomDetailIndex + ');" style="width: 75%">' +
+                    '<button type="button" id="itemSelBtn' + bomReg.global.bomDetailIndex + '" class="itemSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="bomReg.fn_popItemNoList(' + bomReg.global.bomDetailIndex + ');">선택</button>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="itemName' + bomReg.global.bomDetailIndex + '" class="itemName k-input k-textbox" readonly onClick="bomReg.fn_popCamItemList(' + bomReg.global.bomDetailIndex + ');">' +
+                    '<input type="text" id="itemName' + bomReg.global.bomDetailIndex + '" class="itemName k-input k-textbox" readonly onClick="bomReg.fn_popItemNoList(' + bomReg.global.bomDetailIndex + ');">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="unitPrice' + bomReg.global.bomDetailIndex + '" class="unitPrice k-input k-textbox numberInput" style="text-align: right" readonly onClick="bomReg.fn_popCamItemList(' + bomReg.global.bomDetailIndex + ');" onchange="bomReg.costPriceChange()">' +
+                    '<input type="text" id="unitPrice' + bomReg.global.bomDetailIndex + '" class="unitPrice k-input k-textbox numberInput" style="text-align: right" readonly onClick="bomReg.fn_popItemNoList(' + bomReg.global.bomDetailIndex + ');" onchange="bomReg.costPriceChange()">' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="reqQty' + bomReg.global.bomDetailIndex + '" class="reqQty numberInput" style="text-align: right" onkeyup="bomReg.costPriceChange()">' +
@@ -112,23 +112,51 @@ var bomReg = {
         bomReg.global.bomDetailIndex++
     },
 
-    fn_popCamItemList : function (invenSnIndex){
-        bomReg.global.invenSnIndex = invenSnIndex;
+    fn_popItemNoList : function (masterSnIndex){
+        bomReg.global.masterSnIndex = masterSnIndex;
 
-        var url = "/item/pop/popItemInvenList.do";
+        var url = "/item/pop/popItemNoList.do";
         var name = "_blank";
         var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 
     delRow : function(e){
-        if(confirm("삭제하시겠습니까?")){
-            if($("." + $(e).closest("tr").attr("class")).length > 1){
-                $(e).closest("tr").remove();
-                bomReg.global.bomDetailIndex--;
+        if($(e).closest("tr").find("input.bomDetailSn").val()){
+            if(confirm("삭제하시겠습니까?\n삭제한 데이터는 복구 할 수 없습니다.")){
+                bomReg.global.saveAjaxData = {
+                    bomDetailSn : $(e).closest("tr").find("input.bomDetailSn").val()
+                }
+
+                var result = customKendo.fn_customAjax("/item/setBomDetailDel.do", bomReg.global.saveAjaxData);
+                if(result.flag){
+                    $(e).closest("tr").remove();
+                    bomReg.global.bomDetailIndex--;
+                }
             }
+        }else{
+            $(e).closest("tr").remove();
+            bomReg.global.bomDetailIndex--;
         }
+
+        bomReg.rowAttrOverride();
+        bomReg.costPriceChange();
     },
+
+    rowAttrOverride : function(){
+        $.each($(".bomDetail"), function(i, v){
+            $(this).attr("id", "detail" + i);
+            $(this).find("input.bomDetailSn").attr("id", "bomDetailSn" + i);
+            $(this).find("input.masterSn").attr("id", "masterSn" + i);
+            $(this).find("input.itemNo").attr("id", "itemNo" + i);
+            $(this).find(".itemSelBtn").attr("id", "itemSelBtn" + i);
+            $(this).find("input.itemName").attr("id", "itemName" + i);
+            $(this).find("input.unitPrice").attr("id", "unitPrice" + i);
+            $(this).find("input.reqQty").attr("id", "reqQty" + i);
+            $(this).find("input.rmk").attr("id", "rmk" + i);
+        })
+    },
+
 
     bomDataSet : function(){
         bomReg.global.searchAjaxData = {
@@ -155,7 +183,7 @@ var bomReg = {
         for(var i = 0; i < e.length; i++){
             bomReg.addRow();
             $("#detail" + i).find("#bomDetailSn" + i).val(e[i].BOM_DETAIL_SN)
-            $("#detail" + i).find("#invenSn" + i).val(e[i].INVEN_SN)
+            $("#detail" + i).find("#masterSn" + i).val(e[i].MASTER_SN)
             $("#detail" + i).find("#itemNo" + i).val(e[i].ITEM_NO)
             $("#detail" + i).find("#itemName" + i).val(e[i].ITEM_NAME)
             $("#detail" + i).find("#unitPrice" + i).val(bomReg.comma(e[i].UNIT_PRICE));
@@ -169,18 +197,16 @@ var bomReg = {
     },
 
     itemInfoChange : function(){
-        $("#invenSn" + bomReg.global.invenSnIndex).val($("#invenSn").val())
-        $("#itemNo" + bomReg.global.invenSnIndex).val($("#itemNo").val())
-        $("#itemName" + bomReg.global.invenSnIndex).val($("#itemName").val())
-        $("#unitPrice" + bomReg.global.invenSnIndex).val(bomReg.comma($("#unitPrice").val()))
-        $("#unitPrice" + bomReg.global.invenSnIndex).change()
+        $("#masterSn" + bomReg.global.masterSnIndex).val($("#masterSn").val())
+        $("#itemNo" + bomReg.global.masterSnIndex).val($("#itemNo").val())
+        $("#itemName" + bomReg.global.masterSnIndex).val($("#itemName").val())
+        $("#unitPrice" + bomReg.global.masterSnIndex).val(bomReg.comma($("#maxUnitPrice").val()))
+        $("#unitPrice" + bomReg.global.masterSnIndex).change()
 
-        $("#invenSn").val("")
+        $("#masterSn").val("")
         $("#itemNo").val("")
         $("#itemName").val("")
-        $("#whCd").val("")
-        $("#whCdNm").val("")
-        $("#unitPrice").val("")
+        $("#maxUnitPrice").val("")
     },
 
     costPriceChange : function(){

@@ -105,13 +105,10 @@
                 </table>
             </div>
 
-            <input type="hidden" id="invenSn" onchange="bomReg.itemInfoChange()">
-            <input type="hidden" id="masterSn">
+            <input type="hidden" id="masterSn" onchange="bomReg.itemInfoChange()">
             <input type="hidden" id="itemNo">
             <input type="hidden" id="itemName">
-            <input type="hidden" id="whCd">
-            <input type="hidden" id="whCdNm">
-            <input type="hidden" id="unitPrice">
+            <input type="hidden" id="maxUnitPrice">
         </div>
     </div>
 </div>

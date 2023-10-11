@@ -19,7 +19,8 @@ public class ItemManageRepository extends AbstractDAO {
     public List<Map<String, Object>> getBomList(Map<String, Object> params) { return selectList("item.getBomList", params);}
     public Map<String, Object> getBom(Map<String, Object> params){ return (Map<String, Object>) selectOne("item.getBom", params);}
     public List<Map<String, Object>> getBomDetailList(Map<String, Object> params) { return selectList("item.getBomDetailList", params);}
-    public void setBomDel(Map<String, Object> params) { delete("item.setBomDel", params);delete("item.setBomDetailDel", params);}
+    public void setBomDel(Map<String, Object> params) { delete("item.setBomDel", params);}
+    public void setBomDetailDel(Map<String, Object> params) {delete("item.setBomDetailDel", params);}
     public void setBom(Map<String, Object> params) { insert("item.setBom", params);}
     public void setBomUpd(Map<String, Object> params) { insert("item.setBomUpd", params);}
     public void setBomDetail(Map<String, Object> params) { insert("item.setBomDetail", params);}

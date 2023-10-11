@@ -134,7 +134,7 @@
         ON WHC.LG_CD = 'WH' AND B.BOM_WH_CD = WHC.ITEM_CD
         WHERE 1=1
         <if test='whCd != null and !"".equals(whCd)'>
-            AND B.WH_CD = #{whCd}
+            AND B.BOM_WH_CD = #{whCd}
         </if>
 
         <choose>
@@ -167,20 +167,23 @@
         /* getBomDetailList */
         SELECT
             BD.*,
-            II.INVEN_SN,
-            II.UNIT_PRICE,
             IM.ITEM_NO,
-            IM.ITEM_NAME
+            IM.ITEM_NAME,
+            IFNULL(MAX(II.UNIT_PRICE), 0) AS UNIT_PRICE,
+            COUNT(II.INVEN_SN) AS INVEN_CNT,
+            IFNULL(CAST(SUM(II.CURRENT_INVEN) AS SIGNED INTEGER), 0) AS CURRENT_INVEN,
+            IM.SAFETY_INVEN
         FROM
             CAM_ITEM.DJ_BOM_DETAIL BD
         JOIN
-            CAM_ITEM.DJ_ITEM_INVENTORY II
-            ON II.INVEN_SN = BD.INVEN_SN
-        JOIN
             CAM_ITEM.DJ_ITEM_MASTER IM
+        ON BD.MASTER_SN = IM.MASTER_SN
+        LEFT JOIN
+            CAM_ITEM.DJ_ITEM_INVENTORY II
         ON II.MASTER_SN = IM.MASTER_SN
         WHERE
             BOM_SN = #{bomSn}
+        GROUP BY MASTER_SN
     </select>
 
     <delete id="setBomDel" parameterType="map">
@@ -190,7 +193,18 @@
 
     <delete id="setBomDetailDel" parameterType="map">
         /* setBomDetailDel */
-        DELETE FROM CAM_ITEM.DJ_BOM_DETAIL WHERE BOM_SN IN (${bomSn})
+        DELETE FROM
+            CAM_ITEM.DJ_BOM_DETAIL
+       WHERE 1=1
+       <choose>
+           <when test='bomDetailSn != null and !"".equals(bomDetailSn)'>
+               AND BOM_DETAIL_SN = #{bomDetailSn}
+           </when>
+            <otherwise>
+                AND BOM_SN IN (${bomSn})
+            </otherwise>
+       </choose>
+
     </delete>
 
     <insert id="setBom" parameterType="map">
@@ -231,7 +245,7 @@
             STANDARD = #{standard},
             BOM_COST_PRICE = #{bomCostPrice},
             BOM_UNIT_PRICE = #{bomUnitPrice},
-            WH_CD = #{whCd},
+            BOM_WH_CD = #{bomWhCd},
             MOD_EMP_SEQ = #{empSeq}
         WHERE
             BOM_SN = #{bomSn}
@@ -242,7 +256,7 @@
         INSERT INTO CAM_ITEM.DJ_BOM_DETAIL
         (
             BOM_SN,
-            INVEN_SN,
+            MASTER_SN,
             REQ_QTY,
             RMK,
             REG_EMP_SEQ
@@ -250,7 +264,7 @@
         VALUES
         (
             #{bomSn},
-            #{invenSn},
+            #{masterSn},
             #{reqQty},
             #{rmk},
             #{empSeq}
@@ -262,7 +276,7 @@
         UPDATE
             CAM_ITEM.DJ_BOM_DETAIL
         SET
-            INVEN_SN = #{invenSn},
+            MASTER_SN = #{masterSn},
             REQ_QTY = #{reqQty},
             RMK = #{rmk},
             REG_EMP_SEQ = #{empSeq}
@@ -569,15 +583,21 @@
             AND II.WH_CD = #{whCd}
         </if>
 
+        <if test='masterSn != null and !"".equals(masterSn)'>
+            AND II.MASTER_SN = #{masterSn}
+        </if>
+
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword)'>
                 AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
             </when>
             <otherwise>
-                AND (
-                    IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
-                    IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%')
-                )
+                <if test='searchValue != null and !"".equals(searchValue)'>
+                    AND (
+                        IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
+                        IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%')
+                    )
+                </if>
             </otherwise>
         </choose>
     </select>
