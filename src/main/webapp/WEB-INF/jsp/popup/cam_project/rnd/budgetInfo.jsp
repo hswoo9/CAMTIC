@@ -9,6 +9,7 @@
 
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="mgtCd" value="${data.PJT_CD}" />
 <div style="padding: 10px">
     <div class="table-responsive">
         <button type="button" id="budgetAddBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-base" onclick="rndBg.fn_popBudgetAdd()">등록</button>
@@ -19,5 +20,8 @@
 </div>
 
 <script>
-    rndBg.fn_defaultScript();
+    var inParameters = JSON.parse('${map}');
+
+
+    rndBg.fn_defaultScript(inParameters);
 </script>

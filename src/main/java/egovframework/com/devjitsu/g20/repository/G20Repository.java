@@ -28,4 +28,8 @@ public class G20Repository extends AbstractDAO {
     public void insProject(Map<String, Object> params) {
         insertMs("g20.insProject", params);
     }
+
+    public List<Map<String, Object>> getBudgetInfo(Map<String, Object> params) {
+        return selectListMs("g20.getBudgetInfo", params);
+    }
 }
