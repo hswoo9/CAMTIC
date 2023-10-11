@@ -79,7 +79,11 @@ var invenSt = {
                     field: "CURRENT_INVEN",
                     width: 100,
                     template : function (e){
-                        return invenSt.comma(e.CURRENT_INVEN);
+                        if(e.CURRENT_INVEN < 0){
+                            return "<span style='color: red'>" + invenSt.comma(e.CURRENT_INVEN) + "</span>";
+                        }else{
+                            return invenSt.comma(e.CURRENT_INVEN);
+                        }
                     },
                     attributes : {
                         style : "text-align : right;"
@@ -129,7 +133,11 @@ var invenSt = {
                     width: 100,
                     field: "INVEN_AMT",
                     template: function(e){
-                        return invenSt.comma(e.INVEN_AMT) + "원";
+                        if(e.INVEN_AMT < 0){
+                            return "<span style='color: red'>" + invenSt.comma(e.INVEN_AMT) + "원</span>";
+                        }else{
+                            return invenSt.comma(e.INVEN_AMT) + "원";
+                        }
                     },
                     attributes : {
                         style : "text-align : right;"

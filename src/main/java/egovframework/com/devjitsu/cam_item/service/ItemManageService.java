@@ -16,10 +16,11 @@ public interface ItemManageService {
     List<Map<String, Object>> getBomList(Map<String, Object> params);
     Map<String, Object> getBom(Map<String, Object> params);
     List<Map<String, Object>> getBomDetailList(Map<String, Object> params);
-    Map<String, Object> getBomDetailChk(Map<String, Object> params);
+    Map<String, Object> getInvenChk(Map<String, Object> params);
     void setBomDel(Map<String, Object> params);
     void setBomDetailDel(Map<String, Object> params);
     void setBom(Map<String, Object> params);
+    void setOutput(Map<String, Object> params);
     List<Map<String, Object>> getMaterialUnitPriceList(Map<String, Object> params);
     List<Map<String, Object>> getCrmItemUnitPriceList(Map<String, Object> params);
     void setCrmItemUnitPriceReg(Map<String, Object> params);
