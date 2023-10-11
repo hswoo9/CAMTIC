@@ -9,72 +9,75 @@ var bomReg = {
     },
 
     fn_defaultScript : function (){
-        customKendo.fn_textBox(["bomNo", "bomName", "bomUnitPrice"]);
+        bomReg.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
+        customKendo.fn_dropDownList("bomWhCd", bomReg.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD", 2);
+
+        customKendo.fn_textBox(["bomNo", "bomName", "standard", "bomCostPrice", "bomUnitPrice"]);
 
         if($("#bomSn").val()){
             bomReg.bomDataSet();
         }else{
-            bomReg.addRow("new");
+            bomReg.addRow();
         }
     },
 
-    setBomReq : function(e){
-        var formData = new FormData()
-        formData.append("bomSn", $("#bomSn").val());
-        formData.append("menuCd", "manage");
-        formData.append("purcReqDate", $("#purcReqDate").val());
-        formData.append("purcReqEmpSeq", $("#purcReqEmpSeq").val());
-        formData.append("purcReqDeptSeq", $("#purcReqDeptSeq").val());
-        formData.append("purcReqPurpose", $("#purcReqPurpose").val());
-        formData.append("purcType", $("#purcType").data("kendoRadioGroup").value());
-        formData.append("status", e);
-        formData.append("empSeq", $("#purcReqEmpSeq").val());
-
-        if($("#file1")[0].files.length == 1){
-            formData.append("file1", $("#file1")[0].files[0]);
+    setBomReq : function(){
+        if(!$("#bomNo").val()){
+            alert("품번을 입력해주세요.");
+            $("#bomNo").focus()
+            return;
+        }else if(!$("#bomName").val()){
+            alert("품명을 입력해주세요.");
+            $("#bomName").focus()
+            return;
+        }else if(!$("#bomUnitPrice").val()){
+            alert("표준단가를 입력해주세요.");
+            $("#bomUnitPrice").focus()
+            return;
         }
 
-        if($("#file2")[0].files.length == 1){
-            formData.append("file2", $("#file2")[0].files[0]);
-        }
+        if(confirm("등록하시겠습니까?")){
+            var detailArr = new Array();
+            $.each($(".bomDetail"), function(i, v){
+                if($(this).find("#invenSn" + i).val()){
+                    var arrData = {
+                        bomDetailSn : $(this).find("#bomDetailSn" + i).val(),
+                        invenSn : $(this).find("#invenSn" + i).val(),
+                        reqQty : $(this).find("#reqQty" + i).val(),
+                        rmk : $(this).find("#rmk" + i).val(),
+                        empSeq : $("#empSeq").val()
+                    }
 
-        var itemArr = new Array()
-        $.each($(".bomDetail"), function(i, v){
-            var data = {
-                purcItemSn : $(this).find("#purcItemSn" + i).val(),
-                purcItemType : $("#purcItemType" + i).val(),
-                purcItemName : $("#purcItemName" + i).val(),
-                purcItemStd : $("#purcItemStd" + i).val(),
-                purcItemUnitPrice : $("#purcItemUnitPrice" + i).val(),
-                purcItemQty : $("#purcItemQty" + i).val(),
-                purcItemUnit : $("#purcItemUnit" + i).val(),
-                purcItemAmt : bomReg.uncomma($("#purcItemAmt" + i).val()),
-                crmSn : $("#crmSn" + i).val(),
-                rmk : $("#rmk" + i).val(),
-                status : e,
-                empSeq : $("#purcReqEmpSeq").val(),
+                    detailArr.push(arrData);
+                }
+            })
+
+            bomReg.global.saveAjaxData = {
+                bomSn : $("#bomSn").val(),
+                bomNo : $("#bomNo").val(),
+                bomName : $("#bomName").val(),
+                standard : $("#standard").val(),
+                bomCostPrice : bomReg.uncomma($("#bomCostPrice").val()),
+                bomUnitPrice : bomReg.uncomma($("#bomUnitPrice").val()),
+                bomWhCd : $("#bomWhCd").val(),
+                empSeq : $("#empSeq").val(),
+                detailArr : JSON.stringify(detailArr)
             }
 
-            itemArr.push(data);
-        })
-
-        formData.append("itemArr", JSON.stringify(itemArr))
-
-        var result = customKendo.fn_customFormDataAjax("/manage/setPurcReq.do", formData);
-        if(result.flag){
-            alert("저장되었습니다.");
-            opener.parent.prm.gridReload();
-            window.close();
+            var result = customKendo.fn_customAjax("/item/setBom.do", bomReg.global.saveAjaxData);
+            if(result.flag){
+                alert("저장되었습니다.");
+                opener.bomRegList.gridReload();
+                window.close();
+            }
         }
     },
 
-    addRow : function(e){
+    addRow : function(){
         bomReg.global.createHtmlStr = "";
 
-        bomReg.global.bomDetailIndex++
-
         bomReg.global.createHtmlStr = "" +
-            '<tr class="bomDetail ' + e + 'BomDetail" id="detail' + bomReg.global.bomDetailIndex + '">' +
+            '<tr class="bomDetail" id="detail' + bomReg.global.bomDetailIndex + '">' +
                 '<td>' +
                     '<input type="hidden" id="bomDetailSn' + bomReg.global.bomDetailIndex + '" class="bomDetailSn">' +
                     '<input type="hidden" id="invenSn' + bomReg.global.bomDetailIndex + '" class="invenSn">' +
@@ -85,10 +88,10 @@ var bomReg = {
                     '<input type="text" id="itemName' + bomReg.global.bomDetailIndex + '" class="itemName k-input k-textbox" readonly onClick="bomReg.fn_popCamItemList(' + bomReg.global.bomDetailIndex + ');">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="unitPrice' + bomReg.global.bomDetailIndex + '" class="unitPrice k-input k-textbox numberInput" style="text-align: right" readonly onClick="bomReg.fn_popCamItemList(' + bomReg.global.bomDetailIndex + ');">' +
+                    '<input type="text" id="unitPrice' + bomReg.global.bomDetailIndex + '" class="unitPrice k-input k-textbox numberInput" style="text-align: right" readonly onClick="bomReg.fn_popCamItemList(' + bomReg.global.bomDetailIndex + ');" onchange="bomReg.costPriceChange()">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="reqQty' + bomReg.global.bomDetailIndex + '" class="reqQty numberInput" style="text-align: right">' +
+                    '<input type="text" id="reqQty' + bomReg.global.bomDetailIndex + '" class="reqQty numberInput" style="text-align: right" onkeyup="bomReg.costPriceChange()">' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="rmk' + bomReg.global.bomDetailIndex + '" class="rmk">' +
@@ -105,6 +108,8 @@ var bomReg = {
         $(".numberInput").keyup(function(){
             $(this).val(bomReg.comma(bomReg.uncomma($(this).val())));
         });
+
+        bomReg.global.bomDetailIndex++
     },
 
     fn_popCamItemList : function (invenSnIndex){
@@ -115,7 +120,6 @@ var bomReg = {
         var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
-
 
     delRow : function(e){
         if(confirm("삭제하시겠습니까?")){
@@ -131,44 +135,45 @@ var bomReg = {
             bomSn : $("#bomSn").val()
         }
 
-        var result = customKendo.fn_customAjax("/item/getBomReq.do", bomReg.global.searchAjaxData);
+        var result = customKendo.fn_customAjax("/item/getBom.do", bomReg.global.searchAjaxData);
         if(result.flag){
-            var data = result.data;
-            $("#purcReqDate").val(data.PURC_REQ_DATE);
-            $("#purcReqEmpSeq").val(data.PURC_REQ_EMP_SEQ);
-            $("#purcReqEmpName").text(data.EMP_NAME_KR);
+            var bom = result.bom;
+            $("#bomNo").val(bom.BOM_NO);
+            $("#bomName").val(bom.BOM_NAME);
+            $("#bomWhCd").data("kendoDropDownList").value(bom.BOM_WH_CD);
+            $("#standard").val(bom.STANDARD);
+            $("#bomCostPrice").val(bomReg.comma(bom.BOM_COST_PRICE));
+            $("#bomUnitPrice").val(bomReg.comma(bom.BOM_UNIT_PRICE));
 
-            bomReg.setBomDetailMakeTable(data.bomDetailList);
+            bomReg.setBomDetailMakeTable(result.bomDetail);
         }
     },
 
     setBomDetailMakeTable : function(e) {
         $("#bomDetailTb tr").remove();
 
-        if(e.length == 0){
-            bomReg.addRow('new');
-        }else{
-            for(var i = 0; i < e.length; i++){
-                bomReg.addRow('old');
-                $("#cir" + i).find("#crmItemSn" + i).val(e[i].CRM_ITEM_SN)
-                $("#cir" + i).find("#masterSn" + i).val(e[i].MASTER_SN)
-                $("#cir" + i).find("#itemNo" + i).val(e[i].ITEM_NO)
-                $("#cir" + i).find("#itemName" + i).val(e[i].ITEM_NAME)
-                $("#cir" + i).find("#crmItemNo" + i).val(e[i].CRM_ITEM_NO)
-                $("#cir" + i).find("#crmItemName" + i).val(e[i].CRM_ITEM_NAME)
-                $("#cir" + i).find("#busClass" + i).val(e[i].BUS_CLASS);
-                $("#cir" + i).find("#active" + i).val(e[i].ACTIVE);
-            }
-
-            bomReg.addRow('new');
+        for(var i = 0; i < e.length; i++){
+            bomReg.addRow();
+            $("#detail" + i).find("#bomDetailSn" + i).val(e[i].BOM_DETAIL_SN)
+            $("#detail" + i).find("#invenSn" + i).val(e[i].INVEN_SN)
+            $("#detail" + i).find("#itemNo" + i).val(e[i].ITEM_NO)
+            $("#detail" + i).find("#itemName" + i).val(e[i].ITEM_NAME)
+            $("#detail" + i).find("#unitPrice" + i).val(bomReg.comma(e[i].UNIT_PRICE));
+            $("#detail" + i).find("#reqQty" + i).val(e[i].REQ_QTY)
+            $("#detail" + i).find("#rmk" + i).val(e[i].RMK);
         }
+
+        bomReg.costPriceChange();
+
+        bomReg.addRow();
     },
 
     itemInfoChange : function(){
         $("#invenSn" + bomReg.global.invenSnIndex).val($("#invenSn").val())
         $("#itemNo" + bomReg.global.invenSnIndex).val($("#itemNo").val())
         $("#itemName" + bomReg.global.invenSnIndex).val($("#itemName").val())
-        $("#unitPrice" + bomReg.global.invenSnIndex).val($("#unitPrice").val())
+        $("#unitPrice" + bomReg.global.invenSnIndex).val(bomReg.comma($("#unitPrice").val()))
+        $("#unitPrice" + bomReg.global.invenSnIndex).change()
 
         $("#invenSn").val("")
         $("#itemNo").val("")
@@ -176,6 +181,15 @@ var bomReg = {
         $("#whCd").val("")
         $("#whCdNm").val("")
         $("#unitPrice").val("")
+    },
+
+    costPriceChange : function(){
+        var sum = 0;
+        $.each($("#bomDetailTb .unitPrice"), function(){
+            sum += Number(bomReg.uncomma($(this).val())) * Number(bomReg.uncomma($(this).closest("tr").find("input.reqQty").val()))
+        })
+
+        $("#bomCostPrice").val(bomReg.comma(sum));
     },
 
     comma: function(str) {

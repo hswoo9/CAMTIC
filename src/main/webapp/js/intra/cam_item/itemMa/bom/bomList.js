@@ -1,4 +1,4 @@
-var bomRegList = {
+var bomList = {
 
     global : {
         dropDownDataSource : "",
@@ -7,21 +7,21 @@ var bomRegList = {
     },
 
     fn_defaultScript : function (){
-        bomRegList.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
-        customKendo.fn_dropDownList("whCd", bomRegList.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
-        $("#whCd").data("kendoDropDownList").bind("change", bomRegList.gridReload);
+        bomList.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
+        customKendo.fn_dropDownList("whCd", bomList.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
+        $("#whCd").data("kendoDropDownList").bind("change", bomList.gridReload);
 
-        bomRegList.global.dropDownDataSource = [
+        bomList.global.dropDownDataSource = [
             { text : "품번", value : "BOM_NO" },
             { text : "품명", value : "BOM_NAME" },
             { text : "규격", value : "STANDARD" },
         ]
-        customKendo.fn_dropDownList("searchKeyword", bomRegList.global.dropDownDataSource, "text", "value");
-        $("#searchKeyword").data("kendoDropDownList").bind("change", bomRegList.gridReload);
+        customKendo.fn_dropDownList("searchKeyword", bomList.global.dropDownDataSource, "text", "value");
+        $("#searchKeyword").data("kendoDropDownList").bind("change", bomList.gridReload);
 
         customKendo.fn_textBox(["searchValue"]);
 
-        bomRegList.gridReload();
+        bomList.gridReload();
     },
 
     mainGrid: function(url, params){
@@ -42,21 +42,14 @@ var bomRegList = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bomRegList.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bomList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bomRegList.fn_popBomReg()">' +
-                            '	<span class="k-button-text">등록</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name: 'button',
-                    template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="bomRegList.setBomDel()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="bomList.setBomDel()">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
@@ -82,30 +75,20 @@ var bomRegList = {
                     title: "품번",
                     field: "BOM_NO",
                     width: 180,
-                    template : function(e){
-                        return '<a class="title" onclick="bomRegList.fn_popBomReg(' + e.BOM_SN + ')" style="cursor: pointer;">' + e.BOM_NO + '</a>'
-                    }
                 }, {
                     title: "품명",
                     field: "BOM_NAME",
                     width: 180,
-                    template : function(e){
-                        return '<a class="title" onclick="bomRegList.fn_popBomReg(' + e.BOM_SN + ')" style="cursor: pointer;">' + e.BOM_NAME + '</a>'
-                    }
                 }, {
                     title: "규격",
                     field: "STANDARD",
-                    width: 150
-                }, {
-                    title: "기본입고창고",
-                    field: "WH_CD_NM",
                     width: 150
                 }, {
                     title: "원가",
                     field: "BOM_COST_PRICE",
                     width: 100,
                     template : function (e){
-                        return bomRegList.comma(e.BOM_COST_PRICE);
+                        return bomList.comma(e.BOM_COST_PRICE);
                     },
                     attributes : {
                         style : "text-align : right;"
@@ -115,12 +98,43 @@ var bomRegList = {
                     field: "BOM_UNIT_PRICE",
                     width: 100,
                     template : function (e){
-                        return bomRegList.comma(e.BOM_UNIT_PRICE);
+                        return bomList.comma(e.BOM_UNIT_PRICE);
                     },
                     attributes : {
                         style : "text-align : right;"
                     }
+                }, {
+                    title: "기본입고창고",
+                    field: "WH_CD_NM",
+                    width: 120
+                }, {
+                    title: "현재재고",
+                    field: "CURRENT_INVEN",
+                    width: 100,
+                    template : function (e){
+                        return bomList.comma(e.CURRENT_INVEN);
+                    },
+                    attributes : {
+                        style : "text-align : right;"
+                    }
+                }, {
+                    title: "BOM조회",
+                    width: 80,
+                    template: function(e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bomList.fn_popBomView(' + e.BOM_SN + ')">' +
+                            '	<span class="k-button-text">BOM조회</span>' +
+                            '</button>';
+                    }
+                }, {
+                    title: "제작",
+                    width: 50,
+                    template: function(e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bomList.fn_popBomView(' + e.BOM_SN + ')">' +
+                            '	<span class="k-button-text">제작</span>' +
+                            '</button>';
+                    }
                 }
+
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 3);
@@ -134,22 +148,18 @@ var bomRegList = {
     },
 
     gridReload: function (){
-        bomRegList.global.searchAjaxData = {
-            whCd : $("#whCd").val(),
+        bomList.global.searchAjaxData = {
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
         }
 
-        bomRegList.mainGrid("/item/getBomList.do", bomRegList.global.searchAjaxData);
+        bomList.mainGrid("/item/getBomList.do", bomList.global.searchAjaxData);
     },
 
-    fn_popBomReg : function (e){
-        var url = "/item/pop/popBomReg.do";
-        if(e != null){
-            url += "?bomSn=" + e
-        }
+    fn_popBomView : function (e){
+        var url = "/item/pop/popBomView.do?bomSn=" + e;
         var name = "_blank";
-        var option = "width = 855, height = 600, top = 100, left = 400, location = no"
+        var option = "width = 855, height = 660, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 
@@ -173,7 +183,7 @@ var bomRegList = {
             var result = customKendo.fn_customAjax("/item/setBomDel.do", ciupR.global.saveAjaxData);
             if(result.flag){
                 alert("처리되었습니다.");
-                bomRegList.gridReload();
+                bomList.gridReload();
             }
         }
     },

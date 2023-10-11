@@ -191,6 +191,77 @@ public class ItemManageController {
         return "popup/cam_item/popBomReg";
     }
 
+    /**
+     * BOM 조회(단일)
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getBom.do")
+    public String getBom(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("bom", itemManageService.getBom(params));
+        model.addAttribute("bomDetail", itemManageService.getBomDetailList(params));
+        return "jsonView";
+    }
+
+    /**
+     * BOM 등록
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/setBom.do")
+    public String setBom(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        itemManageService.setBom(params);
+        return "jsonView";
+    }
+
+    /**
+     * BOM 조회 페이지
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/bomList.do")
+    public String bomList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_item/itemMa/bom/bomList";
+    }
+
+    /**
+     * BOM 조회 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/pop/popBomView.do")
+    public String popBomView(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("rs", itemManageService.getBom(params));
+        model.addAttribute("detailList", itemManageService.getBomDetailList(params));
+
+        return "popup/cam_item/popBomView";
+    }
+
+    /**
+     * BOM 부자재 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getBomDetailList.do")
+    public String getBomDetailList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", itemManageService.getBomDetailList(params));
+        return "jsonView";
+    }
 
 
     /** 캠아이템 > 아이템관리 > 구매관리 */

@@ -35,19 +35,39 @@
                 </colgroup>
                 <thead>
                 <tr>
-                    <th scope="row" class="text-center th-color">품번</th>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star">*</span>품번
+                    </th>
                     <td>
                         <input type="text" id="bomNo">
                     </td>
-                    <th scope="row" class="text-center th-color">품명</th>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star">*</span>품명
+                    </th>
                     <td>
                         <input type="text" id="bomName">
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">단가</th>
-                    <td colspan="3" id="bomUnitPriceTd">
-                        <input type="text" id="bomUnitPrice" class="numberInput">
+                    <th scope="row" class="text-center th-color">입고창고</th>
+                    <td>
+                        <input type="text" id="bomWhCd">
+                    </td>
+                    <th scope="row" class="text-center th-color">규격</th>
+                    <td>
+                        <input type="text" id="standard">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">원가</th>
+                    <td>
+                        <input type="text" id="bomCostPrice" class="numberInput" style="text-align: right;" readonly>
+                    </td>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star">*</span>표준단가
+                    </th>
+                    <td>
+                        <input type="text" id="bomUnitPrice" class="numberInput" style="text-align: right;">
                     </td>
                 </tr>
                 </thead>
