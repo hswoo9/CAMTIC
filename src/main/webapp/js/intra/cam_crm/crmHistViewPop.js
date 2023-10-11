@@ -31,7 +31,6 @@ var chv = {
             crmHistType: 2
         }
         $("#mainGrid1").kendoGrid({
-            /** TODO. 추후 변경해야함 (이력조회) */
             dataSource: customKendo.fn_gridDataSource2("/crm/getCrmHistDetailList", data),
             sortable: true,
             scrollable: true,
@@ -51,19 +50,29 @@ var chv = {
                     title: "순번",
                     width : 50
                 }, {
-                    field: "",
+                    field: "CRM_HIST_OBJ",
                     title: "과제구분",
+                    width : 80
                 }, {
-                    field: "",
+                    field: "CRM_REL_PJT_NM",
                     title: "건명",
                 }, {
                     title: "연구 기간",
+                    template: function(row){
+                        return row.START_DATE +" ~ "+row.END_DATE;
+                    },
+                    width : 180
                 }, {
                     field: "",
                     title: "총 연구비",
+                    template: function(row){
+                        return fn_numberWithCommas(row.CRM_REL_PJT_AMT);
+                    },
+                    width : 80
                 }, {
-                    field: "",
+                    field: "CRM_SHARE_EMP",
                     title: "담당자",
+                    width : 80
                 }
             ],
             dataBinding: function(){
