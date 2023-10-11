@@ -5,6 +5,7 @@ import egovframework.com.devjitsu.g20.service.G20Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,9 +30,18 @@ public class G20ServiceImpl implements G20Service {
 
         params.put("mgtSeq", params.get("mgtSeq") + "|");
 
-        List<Map<String, Object>> subjectList = g20Repository.getSubjectList(params);
+//        List<Map<String, Object>> subjectList = g20Repository.getSubjectList(params);
 
-//        List<Map<String, Object>> budgetList = g20Repository.getBudgetInfo(params);
-        return subjectList;
+        List<Map<String, Object>> budgetList = g20Repository.getBudgetInfo(params);
+
+        List<Map<String, Object>> result = new ArrayList<>();
+        for(Map<String, Object> map : budgetList){
+
+            if(!"0".equals(map.get("DIV_FG"))){
+                result.add(map);
+            }
+        }
+
+        return result;
     }
 }
