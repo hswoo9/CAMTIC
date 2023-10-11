@@ -12,7 +12,7 @@ var srm = {
         customKendo.fn_textBox(["nationalPension0", "limitAmt0", "healthInsurance0",
             "longCareInsurance0", "employInsurance0", "accidentInsurance0"])
 
-        $(".numBerInput").keyup(function(){
+        $(".numberInput").keyup(function(){
             $(this).val(srm.comma(srm.uncomma($(this).val())));
         });
 
@@ -57,7 +57,7 @@ var srm = {
                     '<input type="text" id="nationalPension' + srm.global.rateIndex + '" name="nationalPension' + srm.global.rateIndex + '" class="percentInput">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="limitAmt' + srm.global.rateIndex + '" name="limitAmt' + srm.global.rateIndex + '" class="numBerInput" style="text-align: right">' +
+                    '<input type="text" id="limitAmt' + srm.global.rateIndex + '" name="limitAmt' + srm.global.rateIndex + '" class="numberInput" style="text-align: right">' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="healthInsurance' + srm.global.rateIndex + '" name="healthInsurance' + srm.global.rateIndex + '" class="percentInput">' +
@@ -84,7 +84,7 @@ var srm = {
             "healthInsurance" + srm.global.rateIndex, "longCareInsurance" + srm.global.rateIndex,
             "employInsurance" + srm.global.rateIndex, "accidentInsurance" + srm.global.rateIndex])
 
-        $(".numBerInput").keyup(function(){
+        $(".numberInput").keyup(function(){
             $(this).val(srm.comma(srm.uncomma($(this).val())));
         });
 

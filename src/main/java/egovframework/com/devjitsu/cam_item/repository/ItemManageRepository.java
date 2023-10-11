@@ -16,6 +16,8 @@ public class ItemManageRepository extends AbstractDAO {
     public void setSdUnitPriceEndDtUpd(Map<String, Object> params) { insert("item.setSdUnitPriceEndDtUpd", params);}
     public void setSdUnitPriceRegUpd(Map<String, Object> params) { insert("item.setSdUnitPriceRegUpd", params);}
     public void setSdUnitPriceDel(Map<String, Object> params) { delete("item.setSdUnitPriceDel", params);}
+    public List<Map<String, Object>> getBomList(Map<String, Object> params) { return selectList("item.getBomList", params);}
+    public void setBomDel(Map<String, Object> params) { delete("item.setBomDel", params);delete("item.setBomDetailDel", params);}
     public List<Map<String, Object>> getMaterialUnitPriceList(Map<String, Object> params) { return selectList("item.getMaterialUnitPriceList", params);}
     public List<Map<String, Object>> getCrmItemUnitPriceList(Map<String, Object> params) { return selectList("item.getCrmItemUnitPriceList", params);}
     public String getCrmItemMaxChangeNum(Map<String, Object> params) { return (String) selectOne("item.getCrmItemMaxChangeNum", params);}

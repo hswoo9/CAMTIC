@@ -81,6 +81,16 @@ public class ItemManageServiceImpl implements ItemManageService {
     }
 
     @Override
+    public List<Map<String, Object>> getBomList(Map<String, Object> params) {
+        return itemManageRepository.getBomList(params);
+    }
+
+    @Override
+    public void setBomDel(Map<String, Object> params) {
+        itemManageRepository.setBomDel(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getMaterialUnitPriceList(Map<String, Object> params) {
         return itemManageRepository.getMaterialUnitPriceList(params);
     }

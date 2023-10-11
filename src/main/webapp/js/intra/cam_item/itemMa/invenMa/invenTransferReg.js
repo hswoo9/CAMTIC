@@ -74,7 +74,7 @@ var invenTr = {
                     '<input type="text" id="currentInven' + invenTr.global.invenTransferIndex + '" class="currentInven k-input k-textbox" readonly onClick="invenTr.fn_popCamItemList(' + invenTr.global.invenTransferIndex + ');" style="text-align: right">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="transferQty' + invenTr.global.invenTransferIndex + '" class="transferQty numBerInput" style="text-align: right" value="0" oninput="invenTr.maxCurrentInvenChk(this, ' + invenTr.global.invenTransferIndex + ')">' +
+                    '<input type="text" id="transferQty' + invenTr.global.invenTransferIndex + '" class="transferQty numberInput" style="text-align: right" value="0" oninput="invenTr.maxCurrentInvenChk(this, ' + invenTr.global.invenTransferIndex + ')">' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="forwardingWhCdTxt' + invenTr.global.invenTransferIndex + '" class="forwardingWhCdTxt k-input k-textbox" readonly onClick="invenTr.fn_popCamItemList(' + invenTr.global.invenTransferIndex + ');">' +
@@ -96,7 +96,7 @@ var invenTr = {
         customKendo.fn_textBox(["transferQty" + invenTr.global.invenTransferIndex, "rmk" + invenTr.global.invenTransferIndex])
         customKendo.fn_dropDownList("receivingWhCd" + invenTr.global.invenTransferIndex, invenTr.global.wCDataSource, "ITEM_CD_NM", "ITEM_CD", 3);
 
-        $(".numBerInput").keyup(function(){
+        $(".numberInput").keyup(function(){
             $(this).val(invenTr.comma(invenTr.uncomma($(this).val())));
         });
 

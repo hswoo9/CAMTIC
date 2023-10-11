@@ -122,6 +122,39 @@
         DELETE FROM CAM_ITEM.DJ_ITEM_MASTER_SD_UP WHERE MASTER_SD_UP_SN IN (${masterSdUpSn})
     </delete>
 
+    <select id="getBomList" parameterType="map" resultType="map">
+        /* getBomList */
+        SELECT
+            *
+        FROM
+            CAM_ITEM.DJ_BOM B
+        WHERE 1=1
+        <choose>
+            <when test='searchKeyword != null and !"".equals(searchKeyword)'>
+                AND B.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+            <otherwise>
+                <if test='searchValue != null and !"".equals(searchValue)'>
+                    AND (
+                        B.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
+                        B.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
+                        B.ITEM_UNIT_PRICE LIKE CONCAT('%', #{searchValue}, '%')
+                    )
+                </if>
+            </otherwise>
+        </choose>
+    </select>
+
+    <delete id="setBomDel" parameterType="map">
+        /* setBomDel */
+        DELETE FROM CAM_ITEM.DJ_BOM WHERE BOM_SN IN (${bomSn})
+    </delete>
+
+    <delete id="setBomDetailDel" parameterType="map">
+        /* setBomDetailDel */
+        DELETE FROM CAM_ITEM.DJ_BOM_DETAIL WHERE BOM_SN IN (${bomSn})
+    </delete>
+
     <select id="getMaterialUnitPriceList" parameterType="map" resultType="map">
         /* getMaterialUnitPriceList */
         SELECT

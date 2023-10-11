@@ -134,6 +134,63 @@ public class ItemManageController {
 
     /** 캠아이템 > 아이템관리 > BOM */
 
+    /**
+     * BOM 등록 페이지
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/bomRegList.do")
+    public String bomCodeList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_item/itemMa/bom/bomRegList";
+    }
+
+    /**
+     * BOM 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getBomList.do")
+    public String getBomList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", itemManageService.getBomList(params));
+        return "jsonView";
+    }
+
+    /**
+     * BOM 삭제
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/setBomDel.do")
+    public String setBomDel(@RequestParam Map<String, Object> params, Model model){
+        itemManageService.setBomDel(params);
+        return "jsonView";
+    }
+
+    /**
+     * BOM 등록 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/pop/popBomReg.do")
+    public String popBomReg(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_item/popBomReg";
+    }
+
 
 
     /** 캠아이템 > 아이템관리 > 구매관리 */

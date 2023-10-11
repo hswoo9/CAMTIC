@@ -102,6 +102,7 @@ var popItemInvenList = {
             opener.parent.$("#currentInven").val(rs.CURRENT_INVEN);
             opener.parent.$("#whCd").val(rs.WH_CD);
             opener.parent.$("#whCdNm").val(rs.WH_CD_NM);
+            opener.parent.$("#unitPrice").val(rs.UNIT_PRICE);
 
             opener.parent.$("#invenSn").change();
 
