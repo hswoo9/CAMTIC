@@ -2072,10 +2072,12 @@
         ,REG_DATE
         ,SCHOOL_NAME
         ,RMK
+        ,ACTIVE
         ,GUBUN_CODE
         ,GRADUATION_CODE
-        ,SCORE,
-        APPLICATION_ACTIVE
+        ,SCORE
+        ,APPLICATION_ACTIVE
+        ,EDUCATIONAL_PK
         )VALUES (
         #{EMP_SEQ}
         ,#{EMP_NAME}
@@ -2086,10 +2088,12 @@
         ,NOW()
         ,#{SCHOOL_NAME}
         ,#{RMK}
+        ,'N'
         ,#{GUBUN_CODE}
         ,#{GRADUATION_CODE}
         ,#{SCORE}
         ,'삭제'
+        ,#{EDUCATIONAL_ID}
         )
         <selectKey keyProperty="educationalId" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_EDUCATIONAL'
@@ -2112,6 +2116,71 @@
         )
     </update>
 
+    <!--인사기록카드 - 삭제할 경력사항 선택-->
+    <select id="getCareerDeleteList" parameterType="java.util.List" resultType="map">
+        /* getCareerDeleteList */
+        SELECT
+        *
+        FROM
+        CAM_HR.DJ_EMP_CAREER
+        WHERE
+        CAREER_ID IN
+        (
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </select>
+
+    <!-- 인사기록카드 - 학력사항 삭제 요청 데이터 카피-->
+    <insert id="setCareerDeleteTmp" parameterType="map">
+        /*setCareerDeleteTmp*/
+        INSERT INTO CAM_HR.DJ_EMP_CAREER_TMP(
+        EMP_SEQ
+        ,EMP_NAME
+        ,JOIN_DAY
+        ,RESIGN_DAY
+        ,CAREER_PERIOD
+        ,CAREER_MONTH
+        ,EMPLOY_DEPT_NAME
+        ,POSITION_OR_DUTY
+        ,MAIN_TASK
+        ,RMK
+        ,ADMIN_APPROVAL
+        ,RETURNYN
+        ,APPROVAL_REQUEST_REASON
+        ,ACTIVE
+        ,REG_EMP_SEQ
+        ,REG_DATE
+        ,APPLICATION_ACTIVE
+        ,ADD_NO
+        ,CAREER_PK
+        )VALUES (
+        #{EMP_SEQ}
+        ,#{EMP_NAME}
+        ,#{JOIN_DAY}
+        ,#{RESIGN_DAY}
+        ,#{CAREER_PERIOD}
+        ,#{CAREER_MONTH}
+        ,#{EMPLOY_DEPT_NAME}
+        ,#{POSITION_OR_DUTY}
+        ,#{MAIN_TASK}
+        ,#{RMK}
+        ,#{ADMIN_APPROVAL}
+        ,#{RETURNYN}
+        ,#{APPROVAL_REQUEST_REASON}
+        ,'N'
+        ,#{EMP_SEQ}
+        ,NOW()
+        ,'삭제'
+        ,#{ADD_NO}
+        ,#{CAREER_ID}
+        )
+        <selectKey keyProperty="careerId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_CAREER'
+        </selectKey>
+    </insert>
+
     <!--인사기록카드 - 삭제할 가족사항 선택 -->
     <select id="getFamilyDeleteList" parameterType="java.util.List" resultType="map">
         /* getFamilyDeleteList */
@@ -2131,8 +2200,8 @@
 
     <!--인사기록카드 - 가족사항 삭제 요청 데이터 카피-->
     <insert id="setFamilyDeleteTmp" parameterType="map">
-        /*setEduDeleteTmp*/
-        INSERT INTO CAM_HR.DJ_EMP_FAMILY_INFO(
+        /*setFamilyDeleteTmp*/
+        INSERT INTO CAM_HR.DJ_EMP_FAMILY_INFO_TMP(
         EMP_SEQ
         ,EMP_NAME
         ,ADMIN_APPROVAL
@@ -2151,7 +2220,7 @@
         ,#{EMP_NAME}
         ,#{ADMIN_APPROVAL}
         ,#{RETURNYN}
-        ,#{ACTIVE}
+        ,'N'
         ,#{EMP_SEQ}
         ,NOW()
         ,#{FAMILY_CODE}
@@ -2205,7 +2274,7 @@
     <!--인사기록카드 - 보유면허 삭제 요청 데이터 카피-->
     <insert id="setLicenseDeleteTmp" parameterType="map">
         /*setLicenseDeleteTmp*/
-        INSERT INTO CAM_HR.DJ_EMP_CERTIFICATE(
+        INSERT INTO CAM_HR.DJ_EMP_CERTIFICATE_TMP(
         EMP_SEQ
         ,EMP_NAME
         ,CERTIFICATE_NAME
@@ -2220,6 +2289,7 @@
         ,REG_DATE
         ,CERTIFICATE_ADD_NO
         ,APPLICATION_ACTIVE
+        ,CERTIFICATE_PK
         )VALUES (
         #{EMP_SEQ}
         ,#{EMP_NAME}
@@ -2228,13 +2298,14 @@
         ,#{ACQUISITION_DAY}
         ,#{ISSUER}
         ,#{RMK}
-        ,#{ACTIVE}
+        ,'N'
         ,#{ADMIN_APPROVAL}
         ,#{RETURNYN}
         ,#{EMP_SEQ}
         ,NOW()
         ,#{CERTIFICATE_ADD_NO}
         ,'삭제'
+        ,#{CERTIFICATE_ID}
         )
         <selectKey keyProperty="certificateId" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_CERTIFICATE'
@@ -2280,11 +2351,10 @@
     <!--인사기록카드 - 직무사항 삭제 요청 데이터 카피-->
     <insert id="setJobDeleteTmp" parameterType="map">
         /*setJobDeleteTmp*/
-        INSERT INTO CAM_HR.DJ_EMP_DUTY_INFO(
+        INSERT INTO CAM_HR.DJ_EMP_DUTY_INFO_TMP(
         EMP_SEQ
         ,EMP_NAME
-        ,POSITION_NAME
-        ,WORK_PAY
+        ,POSITON_NAME
         ,WORK_PAY
         ,DUTY_DETAIL
         ,WORK_JOIN_DAY
@@ -2299,16 +2369,15 @@
         )VALUES (
         #{EMP_SEQ}
         ,#{EMP_NAME}
-        ,#{CERTIFICATE_NAME}
-        ,#{CERTIFICATE_NUM}
-        ,#{ACQUISITION_DAY}
-        ,#{ISSUER}
+        ,#{POSITON_NAME}
+        ,#{WORK_PAY}
+        ,#{DUTY_DETAIL}
+        ,#{WORK_JOIN_DAY}
+        ,#{WORK_LEAVE_DAY}
         ,#{RMK}
-        ,#{ACTIVE}
         ,#{ADMIN_APPROVAL}
         ,#{RETURNYN}
-        ,#{EMP_SEQ}
-        ,#{ACTIVE}
+        ,'N'
         ,#{EMP_SEQ}
         ,NOW()
         ,'삭제'
@@ -2357,7 +2426,7 @@
     <!--인사기록카드 - 상벌사항 삭제 요청 데이터 카피-->
     <insert id="setRewordDeleteTmp" parameterType="map">
         /*setRewordDeleteTmp*/
-        INSERT INTO CAM_HR.DJ_EMP_DUTY_INFO(
+        INSERT INTO CAM_HR.DJ_EMP_REWORD_TMP(
         EMP_SEQ
         ,EMP_NAME
         ,ERP_EMP_SEQ
@@ -2366,16 +2435,22 @@
         ,TEAM_NAME
         ,REWORD_TYPE
         ,REWORD_TYPE_NAME
+        ,RWD_SN
+        ,REWORD_DAY
         ,REWORD_NAME
         ,RWD_OFM
         ,RWD_ST_COMP
         ,RETURNYN
+        ,RWD_ETC
+        ,REWORD_AGENCY_NAME
+        ,REWORD_REASON
         ,ACTIVE
         ,ADMIN_APPROVAL
         ,REG_EMP_SEQ
         ,REG_DATE
         ,REWARD_ADD_NO
         ,APPLICATION_ACTIVE
+        ,REWORD_PK
         )VALUES (
         #{EMP_SEQ}
         ,#{EMP_NAME}
@@ -2385,16 +2460,22 @@
         ,#{TEAM_NAME}
         ,#{REWORD_TYPE}
         ,#{REWORD_TYPE_NAME}
+        ,#{RWD_SN}
+        ,#{REWORD_DAY}
         ,#{REWORD_NAME}
         ,#{RWD_OFM}
         ,#{RWD_ST_COMP}
-        ,#{EMP_SEQ}
-        ,#{ACTIVE}
+        ,#{RETURNYN}
+        ,#{RWD_ETC}
+        ,#{REWORD_AGENCY_NAME}
+        ,#{REWORD_REASON}
+        ,'N'
         ,#{ADMIN_APPROVAL}
         ,#{EMP_SEQ}
         ,NOW()
         ,#{REWARD_ADD_NO}
         ,'삭제'
+        ,#{REWORD_ID}
         )
         <selectKey keyProperty="rewordId" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_REWORD'
@@ -2422,7 +2503,7 @@
 
     <!--인사기록카드 - 삭제할 제안제도 선택-->
     <select id="getProposalDeleteList" parameterType="java.util.List" resultType="map">
-        /* getRewordDeleteList */
+        /* getProposalDeleteList */
         SELECT
         *
         FROM
@@ -2440,20 +2521,20 @@
     <!--인사기록카드 - 제안제도 삭제 요청 데이터 카피-->
     <insert id="setProposalDeleteTmp" parameterType="map">
         /*setProposalDeleteTmp*/
-        INSERT INTO CAM_HR.DJ_EMP_PROPOSAL_INFO(
+        INSERT INTO CAM_HR.DJ_EMP_PROPOSAL_INFO_TMP(
         EMP_SEQ
         ,EMP_NAME
         ,PROPOSAL_GUBUN
         ,PROPOSAL_DETAIL
         ,PROPOSAL_CHECK_CHOICE
         ,PROPOSAL_DATE
-        ,ADMIN_APPROVAL
         ,RETURNYN
         ,ACTIVE
         ,ADMIN_APPROVAL
         ,REG_EMP_SEQ
         ,REG_DATE
         ,APPLICATION_ACTIVE
+        ,PROPOSAL_PK
         )VALUES (
         #{EMP_SEQ}
         ,#{EMP_NAME}
@@ -2461,14 +2542,13 @@
         ,#{PROPOSAL_DETAIL}
         ,#{PROPOSAL_CHECK_CHOICE}
         ,#{PROPOSAL_DATE}
-        ,#{ADMIN_APPROVAL}
         ,#{RETURNYN}
-        ,#{ACTIVE}
+        ,'N'
         ,#{ADMIN_APPROVAL}
         ,#{EMP_SEQ}
         ,NOW()
-        ,#{REWARD_ADD_NO}
         ,'삭제'
+        ,#{PROPOSAL_ID}
         )
         <selectKey keyProperty="proposalId" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_PROPOSAL_INFO'
