@@ -60,6 +60,16 @@ public class EvalManageController {
     }
 
     /**
+     * 채용 심사 평가 복사
+     * @return
+     */
+    @RequestMapping("/inside/setInEvalRegCopy.do")
+    public String setInEvalRegCopy(@RequestParam Map<String, Object> params, Model model){
+        evalManageService.setInEvalRegCopy(params);
+        return "jsonView";
+    }
+
+    /**
      * 채용심사 평가항목 삭제
      * @param params
      * @param request

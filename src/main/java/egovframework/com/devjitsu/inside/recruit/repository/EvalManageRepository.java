@@ -11,6 +11,8 @@ import java.util.Map;
 @Repository
 public class EvalManageRepository extends AbstractDAO {
     public List<Map<String, Object>> getEvalItemMainList(Map<String, Object> params) { return selectList("evalManage.getEvalItemMainList", params);}
+    public void setEvalItemMainCopy(Map<String, Object> params) { update("evalManage.setEvalItemMainCopy", params);}
+    public void setInEvalItemCopy(Map<String, Object> params) { update("evalManage.setInEvalItemCopy", params);}
     public void setEvalItemActiveUpd(Map<String, Object> params) { update("evalManage.setEvalItemActiveUpd", params);}
     public void setEvalItemMain(Map<String, Object> params) { insert("evalManage.setEvalItemMain", params);}
     public void setEvalItemMainUpd(Map<String, Object> params) { update("evalManage.setEvalItemMainUpd", params);}

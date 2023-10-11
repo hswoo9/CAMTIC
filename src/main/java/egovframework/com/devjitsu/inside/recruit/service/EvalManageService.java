@@ -6,6 +6,7 @@ import java.util.Map;
 public interface EvalManageService {
 
     List<Map<String, Object>> getEvalItemMainList(Map<String, Object> params);
+    void setInEvalRegCopy(Map<String, Object> params);
     void setEvalItemActiveUpd(Map<String, Object> params);
     void setEvalItemMain(Map<String, Object> params);
     Map<String, Object> getEvalItemMain(Map<String, Object> params);
