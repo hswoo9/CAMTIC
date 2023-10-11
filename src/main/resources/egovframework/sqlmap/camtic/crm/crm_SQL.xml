@@ -318,6 +318,14 @@
         WHERE
             1 = 1
             <choose>
+                <when test='crmHistType != null and !"".equals(crmHistType)'>
+                    AND A.CRM_HIST_TYPE = #{crmHistType}
+                </when>
+                <otherwise>
+                    AND A.CRM_HIST_TYPE = '1'
+                </otherwise>
+            </choose>
+            <choose>
                 <when test='deptSeq != null and !"".equals(deptSeq) and teamSeq != null and !"".equals(teamSeq)'>
                     AND C.PARENT_DEPT_SEQ = #{deptSeq} AND C.DEPT_SEQ = #{teamSeq}
                 </when>
@@ -430,6 +438,32 @@
                 #{RESULT},
                 #{REG_EMP_SEQ}
             )
+    </insert>
+
+    <insert id="insCrmEngnHist" parameterType="map">
+        /* insEngnHist */
+        INSERT INTO CAM_CRM.DJ_CRM_HIST
+        (
+            CRM_SN,
+            CRM_HIST_TYPE,
+            CRM_HIST_OBJ,
+            CRM_REL_PJT_NM,
+            CRM_REL_STR_DT,
+            CRM_REL_END_DT,
+            CRM_SHARE_EMP,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{crmSn},
+            2,
+            #{BUSN_NM},
+            #{PJT_NM},
+            #{STR_DT},
+            #{END_EXP_DT},
+            #{EMP_SEQ},
+            #{emlSeq}
+        )
     </insert>
 
     <update id="setMfOverviewDel" parameterType="map">

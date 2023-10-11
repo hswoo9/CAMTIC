@@ -27,9 +27,12 @@ var chv = {
     },
 
     mainGrid1 : function(){
+        const data = {
+            crmHistType: 2
+        }
         $("#mainGrid1").kendoGrid({
             /** TODO. 추후 변경해야함 (이력조회) */
-            // dataSource: customKendo.fn_gridDataSource2("", params),
+            dataSource: customKendo.fn_gridDataSource2("/crm/getCrmHistDetailList", data),
             sortable: true,
             scrollable: true,
             selectable: "row",

@@ -2,6 +2,7 @@ package egovframework.com.devjitsu.cam_project.service.impl;
 
 
 import dev_jitsu.MainLib;
+import egovframework.com.devjitsu.cam_crm.repository.CrmRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
@@ -29,6 +30,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private BustripRepository bustripRepository;
+
+    @Autowired
+    private CrmRepository crmRepository;
 
     @Override
     public List<Map<String, Object>> getProjectList(Map<String, Object> params) {
@@ -556,8 +560,9 @@ public class ProjectServiceImpl implements ProjectService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             projectRepository.updateResFinalApprStat(params);
+            Map<String, Object> pjtMap = projectRepository.getProjectData(params);
+            crmRepository.insCrmEngnHist(pjtMap);
         }
-
         /*if("10".equals(docSts) || "101".equals(docSts)){
             *//** STEP1. pjtSn 으로 resultData 호출 *//*
             Map<String, Object> resultMap = projectRepository.getResultInfo(params);
