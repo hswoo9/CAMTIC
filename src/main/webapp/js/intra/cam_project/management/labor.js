@@ -250,7 +250,7 @@ var labor = {
                         var date = labor.dateFormat();
 
                         if((e.STR_DE <= date && e.END_DE >= date) || e.END_DE == ""){
-                            return '<button type="button" class="k-button k-button-solid-primary" onclick="labor.fn_teamEdit(\''+e.DEPT_SEQ+'\', \''+e.TEAM_COST_HIST_SN+'\')">수정</button>';
+                            return '<button type="button" class="k-button k-button-solid-primary" onclick="labor.fn_teamEdit(\''+e.dept_seq+'\', \''+e.TEAM_COST_HIST_SN+'\')">수정</button>';
                         } else {
                             return '<button type="button" class="k-button k-button-solid-error" onclick="labor.fn_teamDel(\''+e.TEAM_COST_HIST_SN+'\')">삭제</button>';
                         }
@@ -326,7 +326,7 @@ var labor = {
 
     },
 
-    fn_teamEdit: function (code, name, key){
+    fn_teamEdit: function (code, key){
 
         if(code != null){
             if(key != 'undefined') {
@@ -335,12 +335,13 @@ var labor = {
                     deptSeq: code
                 }
                 $.ajax({
-                    url: "/projectMng/getLaborData",
+                    url: "/projectMng/getTeamCostData",
                     data: data,
                     type: "post",
                     dataType: "json",
                     success: function (rs) {
                         var rs = rs.rs;
+                        console.log(rs);
                         $("#teamCostAmt").val(rs.TEAM_COST_AMT);
                         $("#strDe").val(rs.STR_DE);
                         $("#endDe").val(rs.END_DE);
@@ -364,7 +365,7 @@ var labor = {
 
     },
 
-    fn_save : function (){
+    fn_save : function (val){
 
         if(val == "team"){
             var parameters = {

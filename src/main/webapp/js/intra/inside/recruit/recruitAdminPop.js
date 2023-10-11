@@ -123,20 +123,18 @@ var recruitAdminPop = {
                     title: "서류심사",
                     width : 120,
                     template : function(e){
-                        if(e.DOC_SCREEN_AVERAGE != null){
-                            var str = "";
-                            if(e.APPLICATION_STAT == "D" || e.APPLICATION_STAT == "I" || e.APPLICATION_STAT == "IF"){
-                                str = '합격 (' + e.DOC_SCREEN_AVERAGE + "점)";
-                            }else if(e.APPLICATION_STAT == "DF"){
-                                str = '불합격 (' + e.DOC_SCREEN_AVERAGE + "점)";
-                            }else{
-                                str = e.DOC_SCREEN_AVERAGE + '점';
-                            }
+                        var str = "";
+                        var avg = e.DOC_SCREEN_AVERAGE == null ? 0 : e.DOC_SCREEN_AVERAGE;
 
-                            return str;
+                        if(e.APPLICATION_STAT == "D" || e.APPLICATION_STAT == "I" || e.APPLICATION_STAT == "IF"){
+                            str = '합격 (' + avg + "점)";
+                        }else if(e.APPLICATION_STAT == "DF"){
+                            str = '불합격 (' + avg + "점)";
                         }else{
-                            return "심사전";
+                            str = avg + '점';
                         }
+
+                        return str;
                     },
                 }, {
                     field: "IN_SCREEN_AVERAGE",
@@ -144,21 +142,18 @@ var recruitAdminPop = {
                     width : 120,
                     template : function(e){
                         if(e.IN_AVOID != "Y"){
-                            if(e.IN_SCREEN_AVERAGE != null){
-                                var str = "";
+                            var avg = e.IN_SCREEN_AVERAGE == null ? 0 : e.IN_SCREEN_AVERAGE;
+                            var str = "";
 
-                                if(e.APPLICATION_STAT == "I"){
-                                    str = '합격 (' + e.IN_SCREEN_AVERAGE + "점)";
-                                }else if(e.APPLICATION_STAT == "IF"){
-                                    str = '불합격 (' + e.IN_SCREEN_AVERAGE + "점)";
-                                }else{
-                                    str = e.IN_SCREEN_AVERAGE + '점';
-                                }
-
-                                return str;
+                            if(e.APPLICATION_STAT == "I"){
+                                str = '합격 (' + avg + "점)";
+                            }else if(e.APPLICATION_STAT == "IF"){
+                                str = '불합격 (' + avg + "점)";
                             }else{
-                                return "심사전";
+                                str = avg + '점';
                             }
+
+                            return str;
                         }else{
                             return e.IN_AVOID_TXT
                         }
@@ -175,10 +170,8 @@ var recruitAdminPop = {
                             chk = "checked";
                         }
 
-                        if(e.IN_SCREEN_AVERAGE != null){
-                            if(Number(e.IN_SCREEN_AVERAGE) >= 80){
-                                html = "<input type='checkbox' id='preliminaryPass_" + e.APPLICATION_ID + "' name='preliminaryPass' value='" + e.APPLICATION_ID + "' " + chk + " onclick='recruitAdminPop.setPrePassAppl(this)'/>"
-                            }
+                        if(e.APPLICATION_STAT == "I"){
+                            html = "<input type='checkbox' id='preliminaryPass_" + e.APPLICATION_ID + "' name='preliminaryPass' value='" + e.APPLICATION_ID + "' " + chk + " onclick='recruitAdminPop.setPrePassAppl(this)'/>"
                         }
 
                         return html;
@@ -250,7 +243,7 @@ var recruitAdminPop = {
         var applicationId = "";
         var confirmTxt = "";
         $.each($("input[name='aplChk']:checked"), function(i, e){
-            applicationId += "," + $(this).val()
+            applicationId += "," + $(this).val();
         })
 
         if(type == "pass"){
@@ -263,13 +256,18 @@ var recruitAdminPop = {
             var data = {
                 applicationStat : sts,
                 empSeq : $("#empSeq").val(),
+                recruitInfoSn : $("#recruitInfoSn").val(),
                 applicationId : applicationId.substring(1),
-
             }
             var result = customKendo.fn_customAjax("/inside/setApplicationUpd.do", data);
             if(result.flag){
                 alert("처리되었습니다.");
-                recruitAdminPop.gridReload();
+                if(sts == "I" || sts == "IF"){
+                    window.reload();
+                }else{
+                    recruitAdminPop.gridReload();
+                }
+
             }
         }
     },
@@ -298,12 +296,13 @@ var recruitAdminPop = {
 
         if(confirm("선택한 응시자를 면접 불참처리 하시겠습니까?\n")){
             var data = {
-                appArr : JSON.stringify(appArr)
+                appArr : JSON.stringify(appArr),
+                recruitInfoSn : $("#recruitInfoSn").val(),
             }
             var result = customKendo.fn_customAjax("/inside/setInAvoidUpd.do", data);
             if(result.flag){
                 alert("처리되었습니다.");
-                recruitAdminPop.gridReload();
+                window.reload();
             }
         }
     },

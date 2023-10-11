@@ -27,6 +27,18 @@ public class EvalManageServiceImpl implements EvalManageService {
     }
 
     @Override
+    public void setInEvalRegCopy(Map<String, Object> params) {
+        String[] mainId = params.get("evalItemMainId").toString().split(",");
+        for(String id : mainId){
+            Map<String, Object> copyMap = new HashMap<>();
+            copyMap.put("empSeq", params.get("empSeq"));
+            copyMap.put("copyId", id);
+            evalManageRepository.setEvalItemMainCopy(copyMap);
+            evalManageRepository.setInEvalItemCopy(copyMap);
+        }
+    }
+
+    @Override
     public void setEvalItemActiveUpd(Map<String, Object> params) {
         evalManageRepository.setEvalItemActiveUpd(params);
     }

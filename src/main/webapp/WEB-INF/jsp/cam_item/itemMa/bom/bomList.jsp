@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/cam_item/itemMa/bom/bomRegList.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_item/itemMa/bom/bomList.js?v=${today}'/>"></script>
 <script src="https://kendo.cdn.telerik.com/2023.2.606/js/jszip.min.js"></script>
 <style>
     a:hover{
@@ -17,8 +17,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">BOM등록</h4>
-            <div class="title-road">캠아이템 > 아이템관리 > BOM > BOM등록</div>
+            <h4 class="panel-title">BOM조회</h4>
+            <div class="title-road">캠아이템 > 아이템관리 > BOM > BOM조회</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -31,14 +31,14 @@
                         <col>
                     </colgroup>
                     <tr>
-                        <th>입고창고</th>
+                        <th>창고</th>
                         <td>
                             <input type="text" id="whCd" style="width: 150px;">
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>
                             <input type="text" id="searchKeyword" style="width: 8%;"/>
-                            <input type="text" id="searchValue" style="width: 20%;" onkeypress="if(window.event.keyCode==13){bomRegList.gridReload()}"/>
+                            <input type="text" id="searchValue" style="width: 20%;" onkeypress="if(window.event.keyCode==13){bomList.gridReload()}"/>
                         </td>
                     </tr>
                 </table>
@@ -50,5 +50,5 @@
 </div><!-- col-md-9 -->
 
 <script>
-    bomRegList.fn_defaultScript();
+    bomList.fn_defaultScript();
 </script>

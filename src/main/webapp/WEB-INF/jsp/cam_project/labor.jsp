@@ -148,7 +148,7 @@
                 '			</td>' +
                 '			<th scope="row" class="text-center th-color"><span class="red-star">*</span>경비</th>' +
                 '			<td>' +
-                '				<input type="text" id="teamCostAmt" name="teamCostAmt" style="width: 80.5%; text-align: right" onkeyup="labor.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /> 원' +
+                '				<input type="text" id="teamCostAmt" name="teamCostAmt" style="width: 80.5%; text-align: right" onkeyup="labor.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /> %' +
                 '			</td>' +
                 '		</tr>' +
                 '		<tr>' +

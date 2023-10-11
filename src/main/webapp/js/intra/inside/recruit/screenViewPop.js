@@ -15,54 +15,62 @@ var screenViewPop = {
 
         var result = customKendo.fn_customAjax("/inside/getRecruitAreaList.do", screenViewPop.global.searchAjaxData);
         customKendo.fn_dropDownList("recruitAreaInfoSn", result.recruitArea, "AREA_TITLE","RECRUIT_AREA_INFO_SN", 2);
+
         if($("#type").val() == "doc"){
             $("#recruitAreaInfoSn").data("kendoDropDownList").bind("change", screenViewPop.makeDocScreenTable);
         }else{
             $("#recruitAreaInfoSn").data("kendoDropDownList").bind("change", screenViewPop.makeInterViewScreenTable);
         }
+
+        if(result.recruitArea.filter(element => element.RECRUIT_AREA_INFO_SN != "").length == 1){
+            $("#recruitAreaInfoSn").data("kendoDropDownList").select(1);
+            $("#recruitAreaInfoSn").data("kendoDropDownList").trigger("change");
+        }
     },
 
     makeDocScreenTable : function() {
-        screenViewPop.global.careerType = this.dataSource._data.find(element => element.RECRUIT_AREA_INFO_SN == this.value()).CAREER_TYPE;
+        if(this.value()){
+            screenViewPop.global.careerType = this.dataSource._data.find(element => element.RECRUIT_AREA_INFO_SN == this.value()).CAREER_TYPE;
 
-        screenViewPop.global.searchAjaxData = {
-            recruitInfoSn : $("#recruitInfoSn").val(),
-            recruitAreaInfoSn : $("#recruitAreaInfoSn").val(),
-            notSearchType : "S"
-        }
-
-        var result = customKendo.fn_customAjax("/recruit/manage/eval/getApplicationScreenViewList.do", screenViewPop.global.searchAjaxData);
-        var applicationArr = "";
-        for(var i = 0; i < result.list.length; i++){
-            applicationArr += "," + result.list[i].APPLICATION_ID
-        }
-
-        screenViewPop.global.saveAjaxData = {
-            evalScreenType : "doc",
-            applicationArr : applicationArr.substring(1)
-        }
-
-        var result2 = customKendo.fn_customAjax("/evaluation/getApplicationScoreBoard", screenViewPop.global.saveAjaxData);
-        if(result2.flag){
-            $("#tbDiv *").remove();
-
-            if(screenViewPop.global.careerType == "1"){
-                screenViewPop.makeType1ApplicationList(result.list, result2.rs.evalCnt);
-            }else if(screenViewPop.global.careerType == "2"){
-                screenViewPop.makeType2ApplicationList(result.list, result2.rs.evalCnt);
-            }else if(screenViewPop.global.careerType == "1,2"){
-                screenViewPop.makeType1ApplicationList(result.list.filter(element => element.CAREER_TYPE == "1"), result2.rs.evalCnt);
-                screenViewPop.makeType2ApplicationList(result.list.filter(element => element.CAREER_TYPE == "2"), result2.rs.evalCnt);
+            screenViewPop.global.searchAjaxData = {
+                recruitInfoSn : $("#recruitInfoSn").val(),
+                recruitAreaInfoSn : $("#recruitAreaInfoSn").val(),
+                notSearchType : "S"
             }
 
-            if(result2.rs.evalScoreBoard.length > 0){
-
-                console.log(result2.rs.evalScoreBoard);
-                screenViewPop.applicationEvalDataSet(result2.rs.evalScoreBoard);
+            var result = customKendo.fn_customAjax("/recruit/manage/eval/getApplicationScreenViewList.do", screenViewPop.global.searchAjaxData);
+            var applicationArr = "";
+            for(var i = 0; i < result.list.length; i++){
+                applicationArr += "," + result.list[i].APPLICATION_ID
             }
-        }
 
-        screenViewPop.fnResizeForm();
+            screenViewPop.global.saveAjaxData = {
+                evalScreenType : "doc",
+                applicationArr : applicationArr.substring(1)
+            }
+
+            var result2 = customKendo.fn_customAjax("/evaluation/getApplicationScoreBoard", screenViewPop.global.saveAjaxData);
+            if(result2.flag){
+                $("#tbDiv *").remove();
+
+                if(screenViewPop.global.careerType == "1"){
+                    screenViewPop.makeType1ApplicationList(result.list, result2.rs.evalCnt);
+                }else if(screenViewPop.global.careerType == "2"){
+                    screenViewPop.makeType2ApplicationList(result.list, result2.rs.evalCnt);
+                }else if(screenViewPop.global.careerType == "1,2"){
+                    screenViewPop.makeType1ApplicationList(result.list.filter(element => element.CAREER_TYPE == "1"), result2.rs.evalCnt);
+                    screenViewPop.makeType2ApplicationList(result.list.filter(element => element.CAREER_TYPE == "2"), result2.rs.evalCnt);
+                }
+
+                if(result2.rs.evalScoreBoard.length > 0){
+
+                    console.log(result2.rs.evalScoreBoard);
+                    screenViewPop.applicationEvalDataSet(result2.rs.evalScoreBoard);
+                }
+            }
+
+            screenViewPop.fnResizeForm();
+        }
     },
 
     makeType1ApplicationList : function(e, cnt){
@@ -318,91 +326,93 @@ var screenViewPop = {
 
 
     makeInterViewScreenTable(){
-        screenViewPop.global.searchAjaxData = {
-            recruitInfoSn : $("#recruitInfoSn").val(),
-            recruitAreaInfoSn : $("#recruitAreaInfoSn").val(),
-            searchTypeArr : "'D','I'"
-        }
+        if(this.value()){
+            screenViewPop.global.searchAjaxData = {
+                recruitInfoSn : $("#recruitInfoSn").val(),
+                recruitAreaInfoSn : $("#recruitAreaInfoSn").val(),
+                searchTypeArr : "'D','I'"
+            }
 
-        var result = customKendo.fn_customAjax("/recruit/manage/eval/getApplicationInterViewList.do", screenViewPop.global.searchAjaxData);
+            var result = customKendo.fn_customAjax("/recruit/manage/eval/getApplicationInterViewList.do", screenViewPop.global.searchAjaxData);
 
-        if(result.flag) {
-            $("#tbDiv *").remove();
-            var area = $("#recruitAreaInfoSn").data("kendoDropDownList").dataSource._data.find(element => element.RECRUIT_AREA_INFO_SN == $("#recruitAreaInfoSn").val())
-            var sum = 0;
-            var evalCnt = 0;
-            var application = [];
-            var index = 0;
+            if(result.flag) {
+                $("#tbDiv *").remove();
+                var area = $("#recruitAreaInfoSn").data("kendoDropDownList").dataSource._data.find(element => element.RECRUIT_AREA_INFO_SN == $("#recruitAreaInfoSn").val())
+                var sum = 0;
+                var evalCnt = 0;
+                var application = [];
+                var index = 0;
 
-            var html = "";
-            html += '' +
-                '<div class="pdf_page mt-20">' +
-                    '<h2 class="text-center">면접위원 평가점수 및 의견</h2><br>' +
-                    '<h4 class="text-left">■ ' + area.JOB + '</h4>' +
-                    '<table class="searchTable table table-bordered mb-0 mt-10" style="text-align: center">' +
-                        '<colgroup>' +
-                        '    <col style="width: 8%">' +
-                        '    <col style="width: 10%">' +
-                        '    <col style="width: 8%">' +
-                        '    <col>' +
-                        '    <col style="width: 11%">' +
-                        '    <col>' +
-                        '</colgroup>' +
-                        '<tr>' +
-                        '    <th>지원자</th>' +
-                        '    <th>면접위원</th>' +
-                        '    <th>점수</th>' +
-                        '    <th>평가의견</th>' +
-                        '    <th>비고</th>' +
-                        '</tr>' +
-                        '<tbody id="applicationTb">';
-                    for(var i = 0; i < result.list.length; i++){
-                        sum += Number(result.list[i].SUM_SCORE);
-                        evalCnt ++;
-                        index = i;
-
-                        if(i < result.list.length -1){
-                            index++
-                        }
-
-                        html += '' +
+                var html = "";
+                html += '' +
+                    '<div class="pdf_page mt-20">' +
+                        '<h2 class="text-center">면접위원 평가점수 및 의견</h2><br>' +
+                        '<h4 class="text-left">■ ' + area.JOB + '</h4>' +
+                        '<table class="searchTable table table-bordered mb-0 mt-10" style="text-align: center">' +
+                            '<colgroup>' +
+                            '    <col style="width: 8%">' +
+                            '    <col style="width: 10%">' +
+                            '    <col style="width: 8%">' +
+                            '    <col>' +
+                            '    <col style="width: 11%">' +
+                            '    <col>' +
+                            '</colgroup>' +
                             '<tr>' +
-                                '<td class="applicationId_' + result.list[i].APPLICATION_ID + '">' + result.list[i].USER_NAME + '</td>' +
-                                '<td>' + result.list[i].EMP_NAME_KR + '</td>' +
-                                '<td>' + result.list[i].SUM_SCORE + '</td>' +
-                                '<td>' + result.list[i].OPINION + '</td>' +
-                                '<td></td>' +
-                            '</tr>';
+                            '    <th>지원자</th>' +
+                            '    <th>면접위원</th>' +
+                            '    <th>점수</th>' +
+                            '    <th>평가의견</th>' +
+                            '    <th>비고</th>' +
+                            '</tr>' +
+                            '<tbody id="applicationTb">';
+                        for(var i = 0; i < result.list.length; i++){
+                            sum += Number(result.list[i].SUM_SCORE);
+                            evalCnt ++;
+                            index = i;
 
-                        if(result.list[i].APPLICATION_ID != result.list[index].APPLICATION_ID || result.list.length == (i+1)){
+                            if(i < result.list.length -1){
+                                index++
+                            }
+
                             html += '' +
                                 '<tr>' +
                                     '<td class="applicationId_' + result.list[i].APPLICATION_ID + '">' + result.list[i].USER_NAME + '</td>' +
-                                    '<td>평균점수</td>' +
-                                    '<td>' + (sum/evalCnt) + '</td>' +
-                                    '<td></td>' +
+                                    '<td>' + result.list[i].EMP_NAME_KR + '</td>' +
+                                    '<td>' + result.list[i].SUM_SCORE + '</td>' +
+                                    '<td>' + result.list[i].OPINION + '</td>' +
                                     '<td></td>' +
                                 '</tr>';
 
-                            sum = 0;
-                            evalCnt = 0;
-                            application.push(result.list[i].APPLICATION_ID);
+                            if(result.list[i].APPLICATION_ID != result.list[index].APPLICATION_ID || result.list.length == (i+1)){
+                                html += '' +
+                                    '<tr>' +
+                                        '<td class="applicationId_' + result.list[i].APPLICATION_ID + '">' + result.list[i].USER_NAME + '</td>' +
+                                        '<td>평균점수</td>' +
+                                        '<td>' + (sum/evalCnt) + '</td>' +
+                                        '<td></td>' +
+                                        '<td></td>' +
+                                    '</tr>';
+
+                                sum = 0;
+                                evalCnt = 0;
+                                application.push(result.list[i].APPLICATION_ID);
+                            }
                         }
-                    }
-            html += '' +
-                        '</tbody>' +
-                    '</table>' +
-                '</div>';
+                html += '' +
+                            '</tbody>' +
+                        '</table>' +
+                    '</div>';
 
-            $("#tbDiv").append(html);
+                $("#tbDiv").append(html);
+            }
+
+            for(var i = 0; i < application.length; i++){
+                $(".applicationId_" + application[i]).attr("rowspan", $(".applicationId_" + application[i]).length)
+                $(".applicationId_" + application[i]).not(":first").remove();
+            }
+
+            screenViewPop.fnResizeForm();
         }
-
-        for(var i = 0; i < application.length; i++){
-            $(".applicationId_" + application[i]).attr("rowspan", $(".applicationId_" + application[i]).length)
-            $(".applicationId_" + application[i]).not(":first").remove();
-        }
-
-        screenViewPop.fnResizeForm();
     },
 
     applicationEvalDataSet : function(e){

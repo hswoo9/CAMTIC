@@ -17,7 +17,15 @@ public class ItemManageRepository extends AbstractDAO {
     public void setSdUnitPriceRegUpd(Map<String, Object> params) { insert("item.setSdUnitPriceRegUpd", params);}
     public void setSdUnitPriceDel(Map<String, Object> params) { delete("item.setSdUnitPriceDel", params);}
     public List<Map<String, Object>> getBomList(Map<String, Object> params) { return selectList("item.getBomList", params);}
-    public void setBomDel(Map<String, Object> params) { delete("item.setBomDel", params);delete("item.setBomDetailDel", params);}
+    public Map<String, Object> getBom(Map<String, Object> params){ return (Map<String, Object>) selectOne("item.getBom", params);}
+    public List<Map<String, Object>> getBomDetailList(Map<String, Object> params) { return selectList("item.getBomDetailList", params);}
+    public void setBomDel(Map<String, Object> params) { delete("item.setBomDel", params);}
+    public void setBomDetailDel(Map<String, Object> params) {delete("item.setBomDetailDel", params);}
+    public void setBom(Map<String, Object> params) { insert("item.setBom", params);}
+    public void setBomUpd(Map<String, Object> params) { insert("item.setBomUpd", params);}
+    public void setBomDetail(Map<String, Object> params) { insert("item.setBomDetail", params);}
+    public void setBomDetailUpd(Map<String, Object> params) { insert("item.setBomDetailUpd", params);}
+    public void setBomCurrentInvenUpd(Map<String, Object> params) { insert("item.setBomCurrentInvenUpd", params);insert("item.setOutputByBom", params);}
     public List<Map<String, Object>> getMaterialUnitPriceList(Map<String, Object> params) { return selectList("item.getMaterialUnitPriceList", params);}
     public List<Map<String, Object>> getCrmItemUnitPriceList(Map<String, Object> params) { return selectList("item.getCrmItemUnitPriceList", params);}
     public String getCrmItemMaxChangeNum(Map<String, Object> params) { return (String) selectOne("item.getCrmItemMaxChangeNum", params);}
@@ -34,4 +42,5 @@ public class ItemManageRepository extends AbstractDAO {
     public void setInvenTransferReg(Map<String, Object> params) { insert("item.setInvenTransferReg", params);}
     public void setInvenTransferRegUpd(Map<String, Object> params) { insert("item.setInvenTransferRegUpd", params);}
     public List<Map<String, Object>> getInvenTransferHistoryList(Map<String, Object> params) { return selectList("item.getInvenTransferHistoryList", params);}
+    public void setCurrentInvenUpd(Map<String, Object> params) { update("item.setCurrentInvenUpd", params);}
 }

@@ -125,10 +125,18 @@
     <select id="getBomList" parameterType="map" resultType="map">
         /* getBomList */
         SELECT
-            *
+            B.*,
+            WHC.ITEM_CD_NM AS WH_CD_NM
         FROM
             CAM_ITEM.DJ_BOM B
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD WHC
+        ON WHC.LG_CD = 'WH' AND B.BOM_WH_CD = WHC.ITEM_CD
         WHERE 1=1
+        <if test='whCd != null and !"".equals(whCd)'>
+            AND B.BOM_WH_CD = #{whCd}
+        </if>
+
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword)'>
                 AND B.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
@@ -136,13 +144,46 @@
             <otherwise>
                 <if test='searchValue != null and !"".equals(searchValue)'>
                     AND (
-                        B.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
-                        B.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
-                        B.ITEM_UNIT_PRICE LIKE CONCAT('%', #{searchValue}, '%')
+                        B.BOM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
+                        B.BOM_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
+                        B.STANDARD LIKE CONCAT('%', #{searchValue}, '%') OR
                     )
                 </if>
             </otherwise>
         </choose>
+    </select>
+
+    <select id="getBom" parameterType="map" resultType="map">
+        /* getBom */
+        SELECT
+            *
+        FROM
+            CAM_ITEM.DJ_BOM
+        WHERE
+            BOM_SN = #{bomSn}
+    </select>
+
+    <select id="getBomDetailList" parameterType="map" resultType="map">
+        /* getBomDetailList */
+        SELECT
+            BD.*,
+            IM.ITEM_NO,
+            IM.ITEM_NAME,
+            IFNULL(MAX(II.UNIT_PRICE), 0) AS UNIT_PRICE,
+            COUNT(II.INVEN_SN) AS INVEN_CNT,
+            IFNULL(CAST(SUM(II.CURRENT_INVEN) AS SIGNED INTEGER), 0) AS CURRENT_INVEN,
+            IM.SAFETY_INVEN
+        FROM
+            CAM_ITEM.DJ_BOM_DETAIL BD
+        JOIN
+            CAM_ITEM.DJ_ITEM_MASTER IM
+        ON BD.MASTER_SN = IM.MASTER_SN
+        LEFT JOIN
+            CAM_ITEM.DJ_ITEM_INVENTORY II
+        ON II.MASTER_SN = IM.MASTER_SN
+        WHERE
+            BOM_SN = #{bomSn}
+        GROUP BY MASTER_SN
     </select>
 
     <delete id="setBomDel" parameterType="map">
@@ -152,8 +193,124 @@
 
     <delete id="setBomDetailDel" parameterType="map">
         /* setBomDetailDel */
-        DELETE FROM CAM_ITEM.DJ_BOM_DETAIL WHERE BOM_SN IN (${bomSn})
+        DELETE FROM
+            CAM_ITEM.DJ_BOM_DETAIL
+       WHERE 1=1
+       <choose>
+           <when test='bomDetailSn != null and !"".equals(bomDetailSn)'>
+               AND BOM_DETAIL_SN = #{bomDetailSn}
+           </when>
+            <otherwise>
+                AND BOM_SN IN (${bomSn})
+            </otherwise>
+       </choose>
+
     </delete>
+
+    <insert id="setBom" parameterType="map">
+        /* setBom */
+        INSERT INTO CAM_ITEM.DJ_BOM
+        (
+            BOM_NO,
+            BOM_NAME,
+            STANDARD,
+            BOM_COST_PRICE,
+            BOM_UNIT_PRICE,
+            BOM_WH_CD,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{bomNo},
+            #{bomName},
+            #{standard},
+            #{bomCostPrice},
+            #{bomUnitPrice},
+            #{bomWhCd},
+            #{empSeq}
+        )
+
+        <selectKey keyProperty="bomSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_ITEM' AND TABLE_NAME = 'DJ_BOM'
+        </selectKey>
+    </insert>
+
+    <update id="setBomUpd" parameterType="map">
+        /* setBomUpd */
+        UPDATE
+            CAM_ITEM.DJ_BOM
+        SET
+            BOM_NO = #{bomNo},
+            BOM_NAME = #{bomName},
+            STANDARD = #{standard},
+            BOM_COST_PRICE = #{bomCostPrice},
+            BOM_UNIT_PRICE = #{bomUnitPrice},
+            BOM_WH_CD = #{bomWhCd},
+            MOD_EMP_SEQ = #{empSeq}
+        WHERE
+            BOM_SN = #{bomSn}
+    </update>
+
+    <insert id="setBomDetail" parameterType="map">
+        /* setBomDetail */
+        INSERT INTO CAM_ITEM.DJ_BOM_DETAIL
+        (
+            BOM_SN,
+            MASTER_SN,
+            REQ_QTY,
+            RMK,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{bomSn},
+            #{masterSn},
+            #{reqQty},
+            #{rmk},
+            #{empSeq}
+        )
+    </insert>
+
+    <update id="setBomDetailUpd" parameterType="map">
+        /* setBomDetailUpd */
+        UPDATE
+            CAM_ITEM.DJ_BOM_DETAIL
+        SET
+            MASTER_SN = #{masterSn},
+            REQ_QTY = #{reqQty},
+            RMK = #{rmk},
+            REG_EMP_SEQ = #{empSeq}
+        WHERE
+            BOM_DETAIL_SN = #{bomDetailSn}
+    </update>
+
+    <update id="setBomCurrentInvenUpd" parameterType="map">
+        /* setBomCurrentInvenUpd */
+        UPDATE
+            CAM_ITEM.DJ_BOM
+        SET
+            CURRENT_INVEN = CURRENT_INVEN + ${outputCnt},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            BOM_SN = #{bomSn}
+    </update>
+
+    <insert id="setOutputByBom" parameterType="map">
+        /* setOutputByBom */
+        INSERT INTO CAM_ITEM.DJ_BOM_OUTPUT_HISTORY
+            (
+                BOM_SN,
+                OUTPUT_CNT,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{bomSn},
+                #{outputCnt},
+                #{empSeq}
+            )
+    </insert>
 
     <select id="getMaterialUnitPriceList" parameterType="map" resultType="map">
         /* getMaterialUnitPriceList */
@@ -454,15 +611,21 @@
             AND II.WH_CD = #{whCd}
         </if>
 
+        <if test='masterSn != null and !"".equals(masterSn)'>
+            AND II.MASTER_SN = #{masterSn}
+        </if>
+
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword)'>
                 AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
             </when>
             <otherwise>
-                AND (
-                    IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
-                    IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%')
-                )
+                <if test='searchValue != null and !"".equals(searchValue)'>
+                    AND (
+                        IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
+                        IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%')
+                    )
+                </if>
             </otherwise>
         </choose>
     </select>
@@ -602,4 +765,18 @@
             </otherwise>
         </choose>
     </select>
+
+    <update id="setCurrentInvenUpd" parameterType="map">
+        /* setCurrentInvenUpd */
+        UPDATE
+            CAM_ITEM.DJ_ITEM_INVENTORY
+        SET
+            CURRENT_INVEN = CURRENT_INVEN - ${reqQty},
+            FORWARDING_INVEN = FORWARDING_INVEN + ${reqQty},
+            INVEN_AMT = CURRENT_INVEN * UNIT_PRICE,
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            MASTER_SN = #{masterSn} AND WH_CD = #{whCd}
+    </update>
 </mapper>
