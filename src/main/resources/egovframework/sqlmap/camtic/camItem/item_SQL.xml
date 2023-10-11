@@ -284,6 +284,34 @@
             BOM_DETAIL_SN = #{bomDetailSn}
     </update>
 
+    <update id="setBomCurrentInvenUpd" parameterType="map">
+        /* setBomCurrentInvenUpd */
+        UPDATE
+            CAM_ITEM.DJ_BOM
+        SET
+            CURRENT_INVEN = CURRENT_INVEN + ${outputCnt},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            BOM_SN = #{bomSn}
+    </update>
+
+    <insert id="setOutputByBom" parameterType="map">
+        /* setOutputByBom */
+        INSERT INTO CAM_ITEM.DJ_BOM_OUTPUT_HISTORY
+            (
+                BOM_SN,
+                OUTPUT_CNT,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{bomSn},
+                #{outputCnt},
+                #{empSeq}
+            )
+    </insert>
+
     <select id="getMaterialUnitPriceList" parameterType="map" resultType="map">
         /* getMaterialUnitPriceList */
         SELECT
@@ -737,4 +765,18 @@
             </otherwise>
         </choose>
     </select>
+
+    <update id="setCurrentInvenUpd" parameterType="map">
+        /* setCurrentInvenUpd */
+        UPDATE
+            CAM_ITEM.DJ_ITEM_INVENTORY
+        SET
+            CURRENT_INVEN = CURRENT_INVEN - ${reqQty},
+            FORWARDING_INVEN = FORWARDING_INVEN + ${reqQty},
+            INVEN_AMT = CURRENT_INVEN * UNIT_PRICE,
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            MASTER_SN = #{masterSn} AND WH_CD = #{whCd}
+    </update>
 </mapper>
