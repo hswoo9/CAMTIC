@@ -43,17 +43,17 @@ var regRv = {
                     '<input type="text" id="whType' + regRv.global.itemWhIndex + '" name="whType' + regRv.global.itemWhIndex + '">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="whVolume' + regRv.global.itemWhIndex + '" name="whVolume' + regRv.global.itemWhIndex + '" class="numBerInput whVolume" style="text-align: right">' +
+                    '<input type="text" id="whVolume' + regRv.global.itemWhIndex + '" name="whVolume' + regRv.global.itemWhIndex + '" class="numberInput whVolume" style="text-align: right">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="whWeight' + regRv.global.itemWhIndex + '" name="whWeight' + regRv.global.itemWhIndex + '" class="numBerInput" style="text-align: right">' +
+                    '<input type="text" id="whWeight' + regRv.global.itemWhIndex + '" name="whWeight' + regRv.global.itemWhIndex + '" class="numberInput" style="text-align: right">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="unitPrice' + regRv.global.itemWhIndex + '" name="unitPrice' + regRv.global.itemWhIndex + '" class="numBerInput unitPrice" style="text-align: right;width: 63%">' +
+                    '<input type="text" id="unitPrice' + regRv.global.itemWhIndex + '" name="unitPrice' + regRv.global.itemWhIndex + '" class="numberInput unitPrice" style="text-align: right;width: 63%">' +
                     '<button type="button" id="crmSelBtn' + regRv.global.itemWhIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="regRv.fn_popUnitPriceList(\'unitPrice\', ' + regRv.global.itemWhIndex + ');">선택</button>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="amt' + regRv.global.itemWhIndex + '" name="amt' + regRv.global.itemWhIndex + '" class="amt numBerInput" style="text-align: right" readonly>' +
+                    '<input type="text" id="amt' + regRv.global.itemWhIndex + '" name="amt' + regRv.global.itemWhIndex + '" class="amt numberInput" style="text-align: right" readonly>' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="whCd' + regRv.global.itemWhIndex + '" name="whCd' + regRv.global.itemWhIndex + '">' +
@@ -71,7 +71,7 @@ var regRv = {
         customKendo.fn_textBox(["whVolume" + regRv.global.itemWhIndex, "whWeight" + regRv.global.itemWhIndex,
             "unitPrice" + regRv.global.itemWhIndex, "amt" + regRv.global.itemWhIndex, "rmk" + regRv.global.itemWhIndex])
 
-        $(".numBerInput").keyup(function(){
+        $(".numberInput").keyup(function(){
             $(this).val(regRv.comma(regRv.uncomma($(this).val())));
         });
 

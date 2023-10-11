@@ -61,7 +61,7 @@ var sdupR = {
 
         html += '</td>' +
                 '<td>' +
-                    '<input type="text" id="unitPrice' + sdupR.global.sdUpIndex + '" class="numBerInput" style="text-align: right"/>' +
+                    '<input type="text" id="unitPrice' + sdupR.global.sdUpIndex + '" class="numberInput" style="text-align: right"/>' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="startDt' + sdupR.global.sdUpIndex + '" name="startDt' + sdupR.global.sdUpIndex + '">' +
@@ -81,7 +81,7 @@ var sdupR = {
 
         customKendo.fn_textBox(["unitPrice" + sdupR.global.sdUpIndex, "rmk" + sdupR.global.sdUpIndex]);
 
-        $(".numBerInput").keyup(function(){
+        $(".numberInput").keyup(function(){
             $(this).val(sdupR.comma(sdupR.uncomma($(this).val())));
         });
 

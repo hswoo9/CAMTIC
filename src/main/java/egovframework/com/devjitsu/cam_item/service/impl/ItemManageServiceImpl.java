@@ -81,6 +81,48 @@ public class ItemManageServiceImpl implements ItemManageService {
     }
 
     @Override
+    public List<Map<String, Object>> getBomList(Map<String, Object> params) {
+        return itemManageRepository.getBomList(params);
+    }
+
+    @Override
+    public void setBomDel(Map<String, Object> params) {
+        itemManageRepository.setBomDel(params);
+    }
+
+    @Override
+    public Map<String, Object> getBom(Map<String, Object> params) {
+        return itemManageRepository.getBom(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getBomDetailList(Map<String, Object> params) {
+        return itemManageRepository.getBomDetailList(params);
+    }
+
+    @Override
+    public void setBom(Map<String, Object> params) {
+        if(StringUtils.isEmpty(params.get("bomSn"))){
+            itemManageRepository.setBom(params);
+        }else{
+            itemManageRepository.setBomUpd(params);
+        }
+
+        Gson gson = new Gson();
+        List<Map<String, Object>> detailArr = gson.fromJson((String) params.get("detailArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        if(detailArr.size() > 0){
+            for(Map<String, Object> map : detailArr){
+                map.put("bomSn", params.get("bomSn"));
+                if(StringUtils.isEmpty(map.get("bomDetailSn"))){
+                    itemManageRepository.setBomDetail(map);
+                }else{
+                    itemManageRepository.setBomDetailUpd(map);
+                }
+            }
+        }
+    }
+
+    @Override
     public List<Map<String, Object>> getMaterialUnitPriceList(Map<String, Object> params) {
         return itemManageRepository.getMaterialUnitPriceList(params);
     }
