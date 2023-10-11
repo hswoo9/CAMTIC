@@ -297,9 +297,6 @@
         SELECT
             A.*,
             DATE_FORMAT(A.CRM_REL_STR_DT, '%Y-%m-%d %H:%i') AS START_DATETIME,
-            DATE_FORMAT(A.CRM_REL_END_DT, '%Y-%m-%d %H:%i') AS END_DATETIME,
-            DATE_FORMAT(A.CRM_REL_STR_DT, '%Y-%m-%d') AS START_DATE,
-            DATE_FORMAT(A.CRM_REL_END_DT, '%Y-%m-%d') AS END_DATE,
             CI.*,
             CM.*,
             B.EMP_NAME_KR,
@@ -320,14 +317,9 @@
         ON B.DEPT_SEQ = C.DEPT_SEQ
         WHERE
             1 = 1
-            <choose>
-                <when test='crmHistType != null and !"".equals(crmHistType)'>
-                    AND A.CRM_HIST_TYPE = #{crmHistType}
-                </when>
-                <otherwise>
-                    AND A.CRM_HIST_TYPE = '1'
-                </otherwise>
-            </choose>
+        AND
+            A.CRM_HIST_TYPE = '1'
+
             <choose>
                 <when test='deptSeq != null and !"".equals(deptSeq) and teamSeq != null and !"".equals(teamSeq)'>
                     AND C.PARENT_DEPT_SEQ = #{deptSeq} AND C.DEPT_SEQ = #{teamSeq}
@@ -355,6 +347,40 @@
                 CI.CRM_SN = #{crmSn}
             </if>
 
+        ORDER BY A.REG_DT DESC
+    </select>
+
+    <select id="getCrmHistEngnList" parameterType="map" resultType="map">
+        /*getCrmHistEngnList ==> CRM 관리 > 고객 이력관리 엔지니어링 데이터 조회 */
+        SELECT
+            A.*,
+            DATE_FORMAT(A.CRM_REL_STR_DT, '%Y-%m-%d %H:%i') AS START_DATETIME,
+            DATE_FORMAT(A.CRM_REL_END_DT, '%Y-%m-%d %H:%i') AS END_DATETIME,
+            DATE_FORMAT(A.CRM_REL_STR_DT, '%Y-%m-%d') AS START_DATE,
+            DATE_FORMAT(A.CRM_REL_END_DT, '%Y-%m-%d') AS END_DATE,
+            IFNULL(R.DOC_ID, '') AS DOC_ID,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
+        FROM
+            CAM_CRM.DJ_CRM_HIST A
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_RESULT R ON A.CRM_REL_PJT_SN = R.PJT_SN
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON R.DOC_ID = DI.DOC_ID
+        WHERE
+        1 = 1
+        <choose>
+            <when test='crmHistType != null and !"".equals(crmHistType)'>
+                AND A.CRM_HIST_TYPE = #{crmHistType}
+            </when>
+            <otherwise>
+                AND A.CRM_HIST_TYPE = '1'
+            </otherwise>
+        </choose>
+        <if test='crmSn != null and !"".equals(crmSn)'>
+            AND
+                A.CRM_SN = #{crmSn}
+        </if>
         ORDER BY A.REG_DT DESC
     </select>
 
@@ -450,6 +476,7 @@
             CRM_SN,
             CRM_HIST_TYPE,
             CRM_HIST_OBJ,
+            CRM_REL_PJT_SN,
             CRM_REL_PJT_NM,
             CRM_REL_PJT_AMT,
             CRM_REL_STR_DT,
@@ -459,9 +486,10 @@
         )
         VALUES
         (
-            #{crmSn},
+            #{CRM_SN},
             2,
             #{BUSN_NM},
+            #{PJT_SN},
             #{PJT_NM},
             #{PJT_AMT},
             #{STR_DT},

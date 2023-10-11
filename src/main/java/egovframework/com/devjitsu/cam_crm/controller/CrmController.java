@@ -358,6 +358,18 @@ public class CrmController {
     }
 
     /**
+     * 이력관리 엔지니어링 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/getCrmHistEngnList")
+    public String getCrmHistEngnList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", crmService.getCrmHistEngnList(params));
+        return "jsonView";
+    }
+
+    /**
      * 이력관리 등록 팝업
      * @param request
      * @param params
