@@ -20,6 +20,15 @@
     margin-bottom: 5px;
     font-size: 14px;
   }
+  input[name="groupKey"], input[name="linkText"]{
+    width: 40%;
+    height: 34px;
+    display: inline-block;
+    background: none;
+    border: 1px solid #c9c9c9;
+    padding-left: 5px;
+    font-size: 14px;
+  }
   .txt_area_01 {display: inline-block; width: 100%; height: 170px; border: 1px solid #c9c9c9; }
 
   table th{
@@ -64,6 +73,10 @@
     min-width: 70px;
     height: 35px;
   }
+  .filebox2 .addBtn2 .__btn1 {
+    min-width: 70px;
+    height: 35px;
+  }
   .__boardView .con {
     font-size: 20px;
     padding-right: 5px;
@@ -89,6 +102,11 @@
 
   [class*='__btn'].grayLine[disabled]{
     background: #e0e0e0;
+  }
+
+  @media (max-width: 1024px) {
+    .addBtn {margin-left: 29px;}
+    .addBtn2 {margin-left: 26px;}
   }
 </style>
 
@@ -195,14 +213,14 @@
 
                     <div>
                       <input type="hidden" id="linkKey1" value="${firstLinkInfo.LINK_KEY}" />
-                      <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="padding-left: 30px; margin-top: 4px;" onclick="linkCreate(1)" disabled>
+                      <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="margin-left: 30px; margin-top: 4px;" onclick="linkCreate(1)" disabled>
                         <span class="__btn1 grayLine" disabled="disabled">링크 생성</span>
                       </button>
-                      <input type="text" id="linkText1" name="linkText" style="width: 38%; margin: 0 5px 0 5px;" value="${firstLinkInfo.LINK}" readonly />
+                      <input type="text" id="linkText1" name="linkText" style="width: 40%; margin: 0 5px 0 5px;" value="${firstLinkInfo.LINK}" readonly />
                       <button type="button" id="copyBtn1'" onclick="copyBtn(1)"><img src="/images/nav.png" style="background: white" alt="복사"></button>
 
-                      <button type="button" class="addBtn"  style="padding-left: 30px; margin-top: 4px;" onclick="addLinkDiv()">
-                        <span class="__btn1 grayLine">링크 추가</span>
+                      <button type="button" class="addBtn" style="margin-top: 4px;" onclick="addLinkDiv()">
+                        <span class="__btn1 grayLine">추가</span>
                       </button>
                     </div>
                   </div>
@@ -354,13 +372,13 @@
 
         html += '<div>'
         html += '<input type="hidden" id="linkKey'+num+'" value="'+linkInfo[cnt].LINK_KEY+'" />';
-        html += '<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="padding-left:26px;margin-top: 4px;" onclick="linkCreate('+num+')" disabled>';
+        html += '<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="margin-left:26px;margin-top: 4px;" onclick="linkCreate('+num+')" disabled>';
         html += '<span class="__btn1 grayLine" disabled="disabled">링크 생성</span></button>';
         html += '<input type="text" id="linkText'+num+'" name="linkText" style="width: 40%; margin: 4px 5px 0 5px;" value="'+linkInfo[cnt].LINK+'" readonly />';
         html += '<button type="button" id="copyBtn'+num+'" style="margin-top: 4px;" onclick="copyBtn('+num+')"><img src="/images/nav.png" style="background: white" alt="복사"></button>';
 
 
-        html += '<button type="button" class="addBtn" style="padding-left: 26px;margin-top: 4px;" onclick="delLinkDiv('+num+')" >';
+        html += '<button type="button" class="addBtn2" style="margin-top: 4px;" onclick="delLinkDiv('+num+')" >';
         html += '<span class="__btn1 grayLine" >삭제</span></button>';
         html += '</div>';
         html += '</div>';
@@ -423,10 +441,10 @@
 
     html += '<div>'
     html += '<input type="hidden" id="linkKey'+num+'" value="" />';
-    html += '<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="padding-left:26px;margin-top: 4px;" onclick="linkCreate('+num+')">';
+    html += '<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="margin-left:26px;margin-top: 4px;" onclick="linkCreate('+num+')">';
     html += '<span class="__btn1 grayLine">링크 생성</span></button>';
     html += '<input type="text" id="linkText'+num+'" name="linkText" style="width: 40%; margin: 4px 5px 0 5px;" value="" readonly />';
-    html += '<button type="button" class="addBtn" style="padding-left: 26px;margin-top: 4px;" onclick="delLinkDiv('+num+')" >';
+    html += '<button type="button" class="addBtn2" style="margin-top: 4px;" onclick="delLinkDiv('+num+')" >';
     html += '<span class="__btn1 grayLine">삭제</span></button>';
     html += '</div>';
     html += '</div>';
