@@ -5,13 +5,13 @@
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 <style>
-  .__bio3 .area{padding: 0px 20px;}
+  .__bio3 .area{margin: 0 60px;}
   .__jvalley3 .sw .box{border: 4px solid #008000;}
   .__jvalley3 .sw .box h6{color: #008000;}
   .__bio3 .area .box .img img{height: 240px;}
   .__jvalley3 .sw .box .img img{width: 100%; height: 130px;}
   .__bio3 .area .box .txt{font-size: 12px; line-height: 1.6em;}
-  .__jvalley3 .sw .box .cont .txt {font-size: 12px;line-height: 1.6em; text-align: center}
+  .__jvalley3 .sw .box .cont .txt {font-size: 12px;line-height: 1.6em; text-align: center; margin-top: 5px;}
   h4{font-size: 20px; margin-bottom: 10px; }
   h3{font-size: 16px;}
   .__busiA {display: flex;flex-wrap: wrap;gap: 35px 38px;justify-content: center;align-items: center;}
@@ -141,7 +141,7 @@
           <h3>• In Korea: 18 offices, 32 branches of Korea Drone Soccer Association; 1,500 teams currently operating</h3>
         </div>
           <div class="__jvalley3">
-            <div class="sw">
+            <div class="sw" style="margin: 0 100px;">
               <div class="box">
                 <h6>2017</h6>
                 <div class="cont">
@@ -178,7 +178,7 @@
         </div>
         <div class="__jvalley3">
           <div class="sw" style="justify-content: center; align-items: center;">
-            <div class="box" style="width: 1234px;">
+            <div class="box" style="width: 1234px; margin: 0px 100px;">
               <div class="cont" style="display: flex;flex-direction: row; align-items: center;">
                 <div class="img" style="width: calc(100% / 4); margin-right: 12px;"><div class="img"><img src="/images/camtic/businesseENG12-1.png" alt=""></div><div class="txt">Japan Drone Soccer Federation established<br>in 2020</div></div>
                 <div class="img" style="width: calc(100% / 4); margin-right: 12px;"><div class="img"><img src="/images/camtic/businesseENG12-2.jpg" alt=""></div><div class="txt">China held Youth Drone Soccer Competition<br>in 2021</div></div>
@@ -202,7 +202,7 @@
         </div>--%>
 
           <div class="__jvalley3 __mt100">
-            <div class="sw" style="justify-content: center; align-items: center;">
+            <div class="sw" style="justify-content: center; align-items: center; margin: 0 100px; gap: 50px;">
               <div class="box" style="display: flex; flex-direction: column; align-items: center;width: calc(100% / 2);">
                 <h6>Drone soccer ball</h6>
                 <div class="cont" style="display: flex; flex-direction: row; align-items: center;">
@@ -225,32 +225,36 @@
           </div>
 
           <div class="__jvalley3 __mt100">
-            <div class="sw">
+            <div class="sw" style="margin: 0 100px;">
               <div class="box">
                 <h6>DESKTOP ROBOT</h6>
                 <div class="cont">
-                  <div class="img"><div class="img"><img src="/images/camtic/businesseENG14-1.png" alt=""></div><div class="txt"></div></div>
+                  <div class="img"><div class="img"><img src="/images/camtic/businesseENG14-1.png" alt=""></div><div class="txt" style="text-align: left;">ㆍ Commercialization of manufacturing process platform
+                    <br>ㆍ Process standardization and flexible manufacturing</div></div>
                 </div>
               </div>
               <div class="box">
                 <h6 style="font-size: 14px;">Hydrogen-powered bus safety test</h6>
                 <div class="cont" style="display: flex;flex-direction: column;">
                   <div class="img"><div class="img"><img src="/images/camtic/businesseENG14-2.jpg" alt=""></div><div class="txt"></div></div>
-                  <div class="img"><div class="img"><img src="/images/camtic/businesseENG14-3.jpg" alt=""></div><div class="txt"></div></div>
+                  <div class="img"><div class="img"><img src="/images/camtic/businesseENG14-3.jpg" alt=""></div><div class="txt" style="text-align: left;">ㆍ Hydrogen tank penetration test system
+                    <br>ㆍ Deep learning-based imaging
+                  </div></div>
                 </div>
               </div>
               <div class="box">
                 <h6>Process monitoring</h6>
                 <div class="cont" style="display: flex;flex-direction: column;">
                   <div class="img"><div class="img"><img src="/images/camtic/businesseENG14-4.jpg" alt=""></div><div class="txt"></div></div>
-                  <div class="img"><div class="img"><img src="/images/camtic/businesseENG14-5.png" alt=""></div><div class="txt"></div></div>
+                  <div class="img"><div class="img"><img src="/images/camtic/businesseENG14-5.png" alt=""></div><div class="txt" style="text-align: left;">ㆍ Smart factory / Smart farm<br>ㆍ Establishment of a manufacturing data platform
+                  </div></div>
                 </div>
               </div>
               <div class="box">
                 <h6>Inspection system</h6>
                 <div class="cont" style="display: flex;flex-direction: column;">
                   <div class="img"><div class="img"><img src="/images/camtic/businesseENG14-6.jpg" alt=""></div><div class="txt"></div></div>
-                  <div class="img"><div class="img"><img src="/images/camtic/businesseENG14-7.png" alt=""></div><div class="txt"></div></div>
+                  <div class="img"><div class="img"><img src="/images/camtic/businesseENG14-7.png" alt=""></div><div class="txt" style="text-align: left;">ㆍ Data-based inspection program</div></div>
                 </div>
               </div>
             </div>
