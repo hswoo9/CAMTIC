@@ -1117,4 +1117,11 @@ public class ProjectController {
         return "jsonView";
     }
 
+    /** 프로젝트 합계 정보 */
+    @RequestMapping("/project/getProjectTotalData")
+    public String getProjectTotalData(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", projectService.getProjectTotalData(params));
+        return "jsonView";
+    }
+
 }

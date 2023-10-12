@@ -462,4 +462,8 @@ public class ProjectRepository extends AbstractDAO {
     public void updEngnProjectCode(Map<String, Object> params) {
         update("project.updEngnProjectCode", params);
     }
+
+    public Map<String, Object> getProjectTotalData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getProjectTotalData", params);
+    }
 }
