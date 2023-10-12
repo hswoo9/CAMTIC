@@ -114,7 +114,7 @@ public class ItemManageServiceImpl implements ItemManageService {
     }
 
     @Override
-    public Map<String, Object> getBomDetailChk(Map<String, Object> params) {
+    public Map<String, Object> getInvenChk(Map<String, Object> params) {
         Map<String, Object> returnMap = new HashMap<>();
         List<Map<String, Object>> bomDetailList = itemManageRepository.getBomDetailList(params);
 
@@ -177,6 +177,17 @@ public class ItemManageServiceImpl implements ItemManageService {
                 }
             }
         }
+    }
+
+    @Override
+    public void setOutput(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> detailArr = gson.fromJson((String) params.get("detailArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        for(Map<String, Object> map : detailArr){
+            itemManageRepository.setCurrentInvenUpd(map);
+        }
+
+        itemManageRepository.setBomCurrentInvenUpd(params);
     }
 
     @Override

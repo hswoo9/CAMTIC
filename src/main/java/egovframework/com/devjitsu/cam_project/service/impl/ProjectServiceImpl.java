@@ -455,6 +455,8 @@ public class ProjectServiceImpl implements ProjectService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             projectRepository.updateDelvFinalApprStat(params);
+            Map<String, Object> pjtMap = projectRepository.getProjectData(params);
+            projectRepository.updEngnProjectCode(pjtMap);
         }
 
         /*if("10".equals(docSts) || "101".equals(docSts)){

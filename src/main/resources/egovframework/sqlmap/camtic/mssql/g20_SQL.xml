@@ -196,4 +196,23 @@
             , ''                /*(공백)*/
     </update>
 
+    <select id="getBudgetInfo" parameterType="map" resultType="map">
+        /*getBudgetInfo*/
+        EXEC USP_ABDOCU_EXTER_YESIL_SELECT2
+            '1212',
+            #{gisu},
+            #{baseDate},
+            '1000|2000|3000|4000|5000|6000|7000|',
+            #{mgtSeq},
+            '',
+            '',
+            #{fromDate},
+            #{toDate},
+            '2',
+            '2',                /*수입예산 1 , 지출예산 2*/
+            '1',
+            '1',
+            '1'
+    </select>
+
 </mapper>

@@ -276,14 +276,14 @@ public class ItemManageController {
     }
 
     /**
-     * BOM 제작가능여부 체크
+     * BOM 제작가능여부 체크 (자재 체크)
      * @param params
      * @param model
      * @return
      */
-    @RequestMapping("/item/getBomDetailChk.do")
-    public String getBomDetailChk(@RequestParam Map<String, Object> params, Model model){
-        model.addAttribute("rs", itemManageService.getBomDetailChk(params));
+    @RequestMapping("/item/getInvenChk.do")
+    public String getInvenChk(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", itemManageService.getInvenChk(params));
         return "jsonView";
     }
 
@@ -295,15 +295,30 @@ public class ItemManageController {
      * @param model
      * @return
      */
-    @RequestMapping("/item/pop/popBomProduction.do")
+    @RequestMapping("/item/pop/popOutputByBom.do")
     public String popBomProduction(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("rs", itemManageService.getBom(params));
+        model.addAttribute("params", params);
 
-        return "popup/cam_item/popBomProduction";
+        return "popup/cam_item/popOutputByBom";
     }
+
+    /**
+     * 생산
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/setOutput.do")
+    public String setOutput(@RequestParam Map<String, Object> params, Model model){
+        itemManageService.setOutput(params);
+        return "jsonView";
+    }
+
+
 
 
 

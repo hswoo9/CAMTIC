@@ -88,9 +88,9 @@
 <%--        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" id="inUrl" onclick="recruitAdminPop.getEvalUrlSet('in')">--%>
 <%--          <span>면접심사 URL 생성</span>--%>
 <%--        </button>--%>
-<%--        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info"onclick="recruitAdminPop.inTimeSetPop()">--%>
-<%--          <span>면접정보 설정</span>--%>
-<%--        </button>--%>
+        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info"onclick="recruitAdminPop.inTimeSetPop()">
+          <span>면접정보 설정</span>
+        </button>
         <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" id="inPass" value="I" onclick="recruitAdminPop.setApplicationUpd(this.value, 'pass')">
           <span>면접심사 합격</span>
         </button>

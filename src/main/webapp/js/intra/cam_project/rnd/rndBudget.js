@@ -1,9 +1,13 @@
+let calcAmSum = 0;
+let acctAm2Sum = 0;
+let acctAm1Sum = 0;
+let acctAm3Sum = 0;
+let subAmSum = 0;
+
+
 var rndBg = {
 
-
     fn_defaultScript : function (setParameters){
-
-        console.log(setParameters);
 
         var date = new Date();
         var year = date.getFullYear().toString().substring(2,4);
@@ -32,7 +36,6 @@ var rndBg = {
         //         console.log(rs);
         //     }
         // })
-
     },
 
     gridReload : function (){
@@ -72,7 +75,7 @@ var rndBg = {
                     return data.list.length;
                 },
             },
-            pageSize: 100,
+            pageSize: 100
         });
 
         $("#budgetMainGrid").kendoGrid({
@@ -89,109 +92,96 @@ var rndBg = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound : function (e){
-                $('#budgetMainGrid > .k-grid-content > table').each(function (index, item) {
-                    var dimension_col = 1;
-                    var dimension_col2 = 1;
-
-                    // First, scan first row of headers for the "Dimensions" column.
-                    $('#budgetMainGrid>.k-grid-header>.k-grid-header-wrap>table').find('th').each(function () {
-                        if ($(this).text() == '장') {
-
-                            // first_instance holds the first instance of identical td
-                            var first_instance = null;
-
-                            $(item).find('tr').each(function () {
-
-                                // find the td of the correct column (determined by the colTitle)
-                                var dimension_td = $(this).find('td:nth-child(' + dimension_col + ')');
-
-                                if (first_instance == null) {
-                                    first_instance = dimension_td;
-                                } else if (dimension_td.text() == first_instance.text()) {
-                                    // if current td is identical to the previous
-                                    // then remove the current td
-                                    dimension_td.remove();
-                                    // increment the rowspan attribute of the first instance
-                                    first_instance.attr('rowspan', typeof first_instance.attr('rowspan') == "undefined" ? 2 : Number(first_instance.attr('rowspan')) + 1);
-                                } else {
-                                    // this cell is different from the last
-                                    first_instance = dimension_td;
-                                }
-                            });
-                            return;
-                        }
-                        dimension_col++;
-
-
-                        if ($(this).text() == '관') {
-
-                            // first_instance holds the first instance of identical td
-                            var first_instance = null;
-
-                            $(item).find('tr').each(function () {
-
-                                // find the td of the correct column (determined by the colTitle)
-                                var dimension_td = $(this).find('td:nth-child(' + dimension_col2 + ')');
-
-                                if (first_instance == null) {
-                                    first_instance = dimension_td;
-                                } else if (dimension_td.text() == first_instance.text()) {
-                                    // if current td is identical to the previous
-                                    // then remove the current td
-                                    dimension_td.remove();
-                                    // increment the rowspan attribute of the first instance
-                                    first_instance.attr('rowspan', typeof first_instance.attr('rowspan') == "undefined" ? 2 : Number(first_instance.attr('rowspan')) + 1);
-                                } else {
-                                    // this cell is different from the last
-                                    first_instance = dimension_td;
-                                }
-                            });
-                            return;
-                        }
-                        dimension_col2++;
-
-                    });
-
-                });
-            },
+            dataBound: rndBg.onDataBound,
             columns: [
                 {
                     template: "#= ++record #",
                     title: "번호",
                     width : 80
                 }, {
-                    field: "",
-                    title: "구분",
-                    width: 100
-                }, {
-                    title: "계정코드",
-                    field: "",
-                    width: 150
-                }, {
                     title: "장",
                     width: 250,
-                    field: "BGT01_NM"
-                }, {
-                    title: "관",
-                    field: "BGT02_NM",
-                    width: 250
-                }, {
-                    title: "항",
-                    field: "BGT03_NM",
-                    width: 150
-                }, {
-                    title: "예산액(현물)",
-                    field: "",
-                    width: 150,
-                    template: function(e){
-                        console.log(e);
+                    template: function (e){
+                        if(e.DIV_FG_NM == "장"){
+                            return "<div style='font-weight: bold'>"+e.BGT_NM+"</div>";
+                        } else {
+                            return "";
+                        }
                     }
                 }, {
-                    title: "예산액 합계",
-                    field: "",
-                    footerTemplate: function (e){
-                        return "합계 : 0";
+                    title: "관",
+                    width: 250,
+                    template: function (e){
+                        if(e.DIV_FG_NM == "관"){
+                            return e.BGT_NM;
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    title: "항",
+                    width: 150,
+                    template: function (e){
+                        if(e.DIV_FG_NM == "항"){
+                            return e.BGT_NM;
+                        } else {
+                            return "";
+                        }
+                    },
+                    footerTemplate: "합계"
+                }, {
+                    title: "예산액",
+                    width: 150,
+                    template: function(e){
+                        calcAmSum  += Number(e.CALC_AM);
+                        return "<div style='text-align: right'>"+comma(e.CALC_AM)+"</div>";
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(calcAmSum)+"</div>";
+                    }
+                }, {
+                    title: "지출완료",
+                    width: 150,
+                    template: function(e){
+                        acctAm2Sum  += Number(e.ACCT_AM_2);
+                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_2)+"</div>";
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(acctAm2Sum)+"</div>";
+                    }
+                }, {
+                    title: "지출대기",
+                    width: 150,
+                    template: function(e){
+                        if(e.ACCT_AM_1 != null){
+                            acctAm1Sum += Number(e.ACCT_AM_1);
+                            return "<div style='text-align: right'>"+comma(e.ACCT_AM_1)+"</div>";
+                        } else {
+                            return "<div style='text-align: right'>0</div>";
+                        }
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(acctAm1Sum)+"</div>";
+                    }
+                }, {
+                    title: "승인",
+                    width: 150,
+                    template: function(e){
+                        acctAm3Sum += Number(e.ACCT_AM_3);
+                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_3)+"</div>";
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(acctAm3Sum)+"</div>";
+                    }
+                }, {
+                    title: "예산잔액",
+                    width: 150,
+                    template: function(e){
+                        subAmSum += Number(e.SUB_AM);
+                        return "<div style='text-align: right'>"+comma(e.SUB_AM)+"</div>";
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(subAmSum)+"</div>";
                     }
                 }
             ],
@@ -214,5 +204,11 @@ var rndBg = {
         var popup = window.open(url, name, option);
     },
 
-
+    onDataBound: function(){
+        calcAmSum = 0;
+        acctAm2Sum = 0;
+        acctAm1Sum = 0;
+        acctAm3Sum = 0;
+        subAmSum = 0;
+    }
 }

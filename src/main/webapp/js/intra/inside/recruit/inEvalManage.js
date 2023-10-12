@@ -39,6 +39,13 @@ var inEvalManage = {
                 }, {
                     name : 'button',
                     template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="inEvalManage.inEvalRegCopy()">' +
+                            '	<span class="k-button-text">복사</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="inEvalManage.setEvalItemActiveUpd()">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
@@ -105,6 +112,27 @@ var inEvalManage = {
         var name = "inEvalRegPop";
         var option = "width=1000, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+    },
+
+    inEvalRegCopy : function(){
+        if(confirm("선택한 평가표를 복사하시겠습니까?")){
+            var evalItemMainId = "";
+
+            $.each($("input[name='evalChk']:checked"), function(){
+                evalItemMainId += "," + $(this).val()
+            })
+
+            inEvalManage.global.saveAjaxData = {
+                empSeq : $("#empSeq").val(),
+                evalItemMainId : evalItemMainId.substring(1)
+            }
+
+            var result = customKendo.fn_customAjax("/inside/setInEvalRegCopy.do", inEvalManage.global.saveAjaxData);
+            if(result.flag){
+                alert("처리되었습니다.");
+                inEvalManage.gridReload();
+            }
+        }
     },
 
     setEvalItemActiveUpd : function(){

@@ -83,6 +83,52 @@
         ORDER BY EIM.REG_DATE DESC
     </select>
 
+    <insert id="setEvalItemMainCopy" parameterType="map">
+        /* setEvalItemMainCopy */
+        INSERT INTO CAM_INSIDE.DJ_EVAL_ITEM_MAIN
+        (
+            EVAL_MANAGE_TITLE,
+            EVAL_ITEM_CNT,
+            REG_EMP_SEQ
+        )
+        SELECT
+            CONCAT(EVAL_MANAGE_TITLE, ' - 복사본'),
+            EVAL_ITEM_CNT,
+            #{empSeq}
+        FROM
+            CAM_INSIDE.DJ_EVAL_ITEM_MAIN
+        WHERE
+            EVAL_ITEM_MAIN_ID = #{copyId}
+
+        <selectKey keyProperty="evalItemMainId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_EVAL_ITEM_MAIN'
+        </selectKey>
+    </insert>
+
+    <insert id="setInEvalItemCopy" parameterType="map">
+        /* setInEvalItemCopy */
+        INSERT INTO CAM_INSIDE.DJ_EVAL_ITEM
+        (
+            EVAL_ITEM_MAIN_ID,
+            EVAL_ITEM_NUM,
+            EVAL_ITEM_TYPE,
+            EVAL_ITEM_TITLE,
+            EVAL_ITEM_VAL,
+            REG_EMP_SEQ
+        )
+        SELECT
+            #{evalItemMainId},
+            EVAL_ITEM_NUM,
+            EVAL_ITEM_TYPE,
+            EVAL_ITEM_TITLE,
+            EVAL_ITEM_VAL,
+            #{empSeq}
+        FROM
+            CAM_INSIDE.DJ_EVAL_ITEM
+        WHERE
+            EVAL_ITEM_MAIN_ID = #{copyId}
+    </insert>
+
     <update id="setEvalItemActiveUpd" parameterType="map">
         /* setEvalItemActiveUpd */
         UPDATE

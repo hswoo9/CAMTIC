@@ -126,11 +126,10 @@ var bomList = {
                             '</button>';
                     }
                 }, {
-                    title: "제작",
                     width: 50,
                     template: function(e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bomList.fn_popBomProduction(' + e.BOM_SN + ')">' +
-                            '	<span class="k-button-text">제작</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bomList.fn_popOutputByBom(' + e.BOM_SN + ')">' +
+                            '	<span class="k-button-text">생산</span>' +
                             '</button>';
                     }
                 }
@@ -164,30 +163,30 @@ var bomList = {
         var popup = window.open(url, name, option);
     },
 
-    fn_popBomProduction : function (e){
-        var result = bomList.getBomDetailChk(e);
+    fn_popOutputByBom : function (e){
+        var result = bomList.getInvenChk(e);
         if(result.message != null){
-            alert("제작 불가능한 품목입니다.\n\n" + result.message);
+            alert("생산 불가능한 품목입니다.\n\n" + result.message);
             if(result.whCd != null && result.error == null){
-                var url = "/item/pop/popBomProduction.do?bomSn=" + e;
+                var url = "/item/pop/popOutputByBom.do?bomSn=" + e + "&outputCnt=1";
                 var name = "_blank";
                 var option = "width = 1055, height = 600, top = 100, left = 400, location = no"
                 var popup = window.open(url, name, option);
             }
         }else if(result.success != null){
-            if(confirm("헤딩 품목을 제작하시겠습니까?")){
-                alert("뚝딱뚝딱 제작중..");
+            if(confirm("헤딩 품목을 생산하시겠습니까?")){
+                alert("뚝딱뚝딱 생산중..");
             }
         }
     },
 
-    getBomDetailChk : function(e){
+    getInvenChk : function(e){
         var result = "";
         bomList.global.searchAjaxData = {
             bomSn : e
         }
 
-        var rs = customKendo.fn_customAjax("/item/getBomDetailChk.do", bomList.global.searchAjaxData);
+        var rs = customKendo.fn_customAjax("/item/getInvenChk.do", bomList.global.searchAjaxData);
         if(rs.flag){
             result = rs.rs;
         }
