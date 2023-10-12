@@ -130,6 +130,157 @@ public class ItemManageController {
 
     /** 캠아이템 > 아이템관리 > 출하관리 */
 
+    /**
+     * 출하실적 등록 리스트(사용자)
+     * @param request
+     * @return
+     */
+    @RequestMapping("/item/shipmentRecordRegList.do")
+    public String shipmentRecordRegList(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_item/itemMa/shipmentMa/shipmentRecordRegList";
+    }
+
+    /**
+     * 출하실적 등록 리스트
+     * @param request
+     * @return
+     */
+    @RequestMapping("/item/shipmentRecordList.do")
+    public String shipmentRecordList(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_item/itemMa/shipmentMa/shipmentRecordList";
+    }
+
+    /**
+     * 출하실적 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getShipmentRecordList.do")
+    public String getShipmentRecordList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", itemManageService.getShipmentRecordList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 출하실적등록 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/pop/popShipmentRecordReg.do")
+    public String popShipmentRecordReg(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_item/popShipmentRecordReg";
+    }
+
+    /**
+     * 출고단가이력팝업
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/pop/popSrUnitPriceList.do")
+    public String popSrUnitPriceList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", crmService.getCrmInfo(params));
+        model.addAttribute("rs", itemSystemService.getItemMaster(params));
+        model.addAttribute("params", params);
+        return "popup/cam_item/popSrUnitPriceList";
+    }
+
+
+    /**
+     * 출하실적등록
+     * @param params
+     * @return
+     */
+    @RequestMapping("/item/setShipmentRecord.do")
+    public String setShipmentRecord(@RequestParam Map<String, Object> params){
+        itemManageService.setShipmentRecord(params);
+        return "jsonView";
+    }
+
+    /**
+     * 출하실적추이분석
+     * @param request
+     * @return
+     */
+    @RequestMapping("/item/shipmentTrend.do")
+    public String shipmentTrend(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_item/itemMa/shipmentMa/shipmentTrend";
+    }
+
+    /**
+     * 반품등록리스트
+     * @param request
+     * @return
+     */
+    @RequestMapping("/item/returnRecordRegList.do")
+    public String returnRegList(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_item/itemMa/shipmentMa/returnRecordRegList";
+    }
+
+    /**
+     * 반품등록 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getReturnRecordRegList.do")
+    public String getReturnRegList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", itemManageService.getReturnRecordRegList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 반품등록 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/pop/popReturnRecordReg.do")
+    public String popReturnRecordReg(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_item/popReturnRecordReg";
+    }
+
+    /**
+     * 반품등록
+     * @param params
+     * @return
+     */
+    @RequestMapping("/item/setReturnRecord.do")
+    public String setReturnRecord(@RequestParam Map<String, Object> params){
+        itemManageService.setReturnRecord(params);
+        return "jsonView";
+    }
+
 
 
     /** 캠아이템 > 아이템관리 > BOM */
@@ -219,12 +370,10 @@ public class ItemManageController {
     /**
      * BOM 등록
      * @param params
-     * @param request
-     * @param model
      * @return
      */
     @RequestMapping("/item/setBom.do")
-    public String setBom(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+    public String setBom(@RequestParam Map<String, Object> params){
         itemManageService.setBom(params);
         return "jsonView";
     }
@@ -317,9 +466,6 @@ public class ItemManageController {
         itemManageService.setOutput(params);
         return "jsonView";
     }
-
-
-
 
 
     /** 캠아이템 > 아이템관리 > 구매관리 */
@@ -452,17 +598,17 @@ public class ItemManageController {
 
 
     /**
-     * 단가이력팝업
+     * 입고단가이력팝업
      * @param params
      * @param model
      * @return
      */
-    @RequestMapping("/item/pop/popUnitPriceList.do")
-    public String popUnitPriceList(@RequestParam Map<String, Object> params, Model model){
+    @RequestMapping("/item/pop/popRvUnitPriceList.do")
+    public String popRvUnitPriceList(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("data", crmService.getCrmInfo(params));
         model.addAttribute("rs", itemSystemService.getItemMaster(params));
         model.addAttribute("params", params);
-        return "popup/cam_item/popUnitPriceList";
+        return "popup/cam_item/popRvUnitPriceList";
     }
 
     /**

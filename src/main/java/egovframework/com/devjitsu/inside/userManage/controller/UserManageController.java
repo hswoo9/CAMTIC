@@ -1218,14 +1218,30 @@ public class UserManageController {
         return "jsonView";
     }
 
-
-
     /**
      * 인사기록카드 - 경력 사항 삭제
      */
     @RequestMapping("/userManage/setCareerDelete")
     public String setCareerDelete(@RequestParam(value = "employChk[]") List<String> employChk, Model model){
         model.addAttribute("rs", userManageService.setCareerDelete(employChk));
+        return "jsonView";
+    }
+
+    /**
+     * 인사기록카드 - 경력사항 삭제 요청
+     */
+    @RequestMapping("/userManage/setCareerDeleteTmp")
+    public String setCareerDeleteTmp(@RequestParam(value = "employChk[]") List<Integer> employChk, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        List<Map<String, Object>> careerDataList = userManageService.getCareerDeleteList(employChk);
+        System.out.println(careerDataList);
+
+        for (Map<String, Object> careerData : careerDataList) {
+            userManageService.setCareerDeleteTmp(careerData);
+        }
+
         return "jsonView";
     }
 
@@ -1239,11 +1255,47 @@ public class UserManageController {
     }
 
     /**
+     * 인사기록카드 - 가족 사항 삭제 요청
+     */
+    @RequestMapping("/userManage/setFamilyDeleteTmp")
+    public String setFamilyDeleteTmp(@RequestParam(value = "familyChk[]") List<Integer> familyChk, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        List<Map<String, Object>> familyDataList = userManageService.getFamilyDeleteList(familyChk);
+        System.out.println(familyDataList);
+
+        for (Map<String, Object> familyData : familyDataList) {
+            userManageService.setFamilyDeleteTmp(familyData);
+        }
+
+        return "jsonView";
+    }
+
+    /**
      * 인사기록카드 - 보유면허 삭제
      */
     @RequestMapping("/userManage/setLicenseDelete")
     public String setLicenseDelete(@RequestParam(value = "certChk[]") List<String> certChk, Model model){
         model.addAttribute("rs", userManageService.setLicenseDelete(certChk));
+        return "jsonView";
+    }
+
+    /**
+     * 인사기록카드 - 보유면허 삭제 요청
+     */
+    @RequestMapping("/userManage/setLicenseDeleteTmp")
+    public String setLicenseDeleteTmp(@RequestParam(value = "certChk[]") List<Integer> certChk, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        List<Map<String, Object>> certDataList = userManageService.getLicenseDeleteList(certChk);
+        System.out.println(certDataList);
+
+        for (Map<String, Object> certData :certDataList) {
+            userManageService.setLicenseDeleteTmp(certData);
+        }
+
         return "jsonView";
     }
 
@@ -1257,6 +1309,24 @@ public class UserManageController {
     }
 
     /**
+     * 인사기록카드 - 직무사항 삭제 요청
+     */
+    @RequestMapping("/userManage/setJobDeleteTmp")
+    public String setJobDeleteTmp(@RequestParam(value = "dutyInfoChk[]") List<Integer> dutyInfoChk, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        List<Map<String, Object>> dutyDataList = userManageService.getJobDeleteList(dutyInfoChk);
+        System.out.println(dutyDataList);
+
+        for (Map<String, Object> dutyData :dutyDataList) {
+            userManageService.setJobDeleteTmp(dutyData);
+        }
+
+        return "jsonView";
+    }
+
+    /**
      * 인사기록카드 - 상벌사항 삭제
      */
     @RequestMapping("/userManage/setRewordDelete")
@@ -1266,11 +1336,49 @@ public class UserManageController {
     }
 
     /**
+     * 인사기록카드 - 상벌사항 삭제 요청
+     */
+    @RequestMapping("/userManage/setRewordDeleteTmp")
+    public String setRewordDeleteTmp(@RequestParam(value = "rewordChk[]") List<Integer> rewordChk, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        List<Map<String, Object>> rewordDataList = userManageService.getRewordDeleteList(rewordChk);
+        System.out.println(rewordDataList);
+
+        for (Map<String, Object> rewordData : rewordDataList) {
+            userManageService.setRewordDeleteTmp(rewordData);
+        }
+
+        return "jsonView";
+    }
+
+
+
+    /**
      * 인사기록카드 - 제안제도 삭제
      */
     @RequestMapping("/userManage/setProposalDelete")
     public String setProposalDelete(@RequestParam(value = "propChk[]") List<String> propChk, Model model){
         model.addAttribute("rs", userManageService.setProposalDelete(propChk));
+        return "jsonView";
+    }
+
+    /**
+     * 인사기록카드 - 제안제도 삭제 요청
+     */
+    @RequestMapping("/userManage/setProposalDeleteTmp")
+    public String setProposalDeleteTmp(@RequestParam(value = "propChk[]") List<Integer> propChk, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        List<Map<String, Object>> propDataList = userManageService.getProposalDeleteList(propChk);
+        System.out.println(propDataList);
+
+        for (Map<String, Object>  propData : propDataList) {
+            userManageService.setProposalDeleteTmp(propData);
+        }
+
         return "jsonView";
     }
 

@@ -898,6 +898,11 @@ public class ProjectServiceImpl implements ProjectService {
         result.put("projectMemberInfo", projectMemberInfo);
         return result;
     }
+
+    @Override
+    public Map<String, Object> getProjectTotalData(Map<String, Object> params) {
+        return projectRepository.getProjectTotalData(params);
+    }
 }
 
 

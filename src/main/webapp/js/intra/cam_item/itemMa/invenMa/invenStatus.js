@@ -26,6 +26,7 @@ var invenSt = {
     mainGrid: function(url, params){
         $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
+            height: 508,
             sortable: true,
             selectable: "row",
             pageable: {

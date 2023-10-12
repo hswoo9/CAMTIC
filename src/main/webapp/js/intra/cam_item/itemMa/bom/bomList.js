@@ -12,8 +12,8 @@ var bomList = {
         $("#whCd").data("kendoDropDownList").bind("change", bomList.gridReload);
 
         bomList.global.dropDownDataSource = [
-            { text : "품번", value : "BOM_NO" },
-            { text : "품명", value : "BOM_NAME" },
+            { text : "품번", value : "ITEM_NO" },
+            { text : "품명", value : "ITEM_NAME" },
             { text : "규격", value : "STANDARD" },
         ]
         customKendo.fn_dropDownList("searchKeyword", bomList.global.dropDownDataSource, "text", "value");
@@ -73,11 +73,11 @@ var bomList = {
                     width: 30
                 }, {
                     title: "품번",
-                    field: "BOM_NO",
+                    field: "ITEM_NO",
                     width: 180,
                 }, {
                     title: "품명",
-                    field: "BOM_NAME",
+                    field: "ITEM_NAME",
                     width: 180,
                 }, {
                     title: "규격",

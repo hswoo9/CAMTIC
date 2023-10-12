@@ -60,10 +60,10 @@ var inr = {
         }else if(!$("#itemUnitCd").val()){
             alert("단위를 선택해주세요.");
             return;
-        }else if(!$("#standard").val()){
+        }/*else if(!$("#standard").val()){
             alert("규격을 입력해주세요.");
             return;
-        }else if(!$("#active").val()){
+        }*/else if(!$("#active").val()){
             alert("사용여부를 선택해주세요.");
             return;
         }

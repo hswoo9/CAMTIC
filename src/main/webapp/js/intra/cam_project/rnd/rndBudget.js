@@ -1,9 +1,13 @@
+let calcAmSum = 0;
+let acctAm2Sum = 0;
+let acctAm1Sum = 0;
+let acctAm3Sum = 0;
+let subAmSum = 0;
+
+
 var rndBg = {
 
-
     fn_defaultScript : function (setParameters){
-
-        console.log(setParameters);
 
         var date = new Date();
         var year = date.getFullYear().toString().substring(2,4);
@@ -32,7 +36,6 @@ var rndBg = {
         //         console.log(rs);
         //     }
         // })
-
     },
 
     gridReload : function (){
@@ -71,15 +74,8 @@ var rndBg = {
                 total: function(data){
                     return data.list.length;
                 },
-            },aggregate: [
-                { field: "CALC_AM", aggregate: "sum" },
-                { field: "ACCT_AM_1", aggregate: "sum" },
-                { field: "ACCT_AM_2", aggregate: "sum" },
-                { field: "ACCT_AM_3", aggregate: "sum" },
-                { field: "SUB_AM", aggregate: "sum" },
-            ],
-
-            pageSize: 100,
+            },
+            pageSize: 100
         });
 
         $("#budgetMainGrid").kendoGrid({
@@ -96,6 +92,7 @@ var rndBg = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound: rndBg.onDataBound,
             columns: [
                 {
                     template: "#= ++record #",
@@ -130,40 +127,61 @@ var rndBg = {
                         } else {
                             return "";
                         }
-                    }
+                    },
+                    footerTemplate: "합계"
                 }, {
                     title: "예산액",
                     width: 150,
                     template: function(e){
+                        calcAmSum  += Number(e.CALC_AM);
                         return "<div style='text-align: right'>"+comma(e.CALC_AM)+"</div>";
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(calcAmSum)+"</div>";
                     }
                 }, {
                     title: "지출완료",
                     width: 150,
                     template: function(e){
+                        acctAm2Sum  += Number(e.ACCT_AM_2);
                         return "<div style='text-align: right'>"+comma(e.ACCT_AM_2)+"</div>";
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(acctAm2Sum)+"</div>";
                     }
                 }, {
                     title: "지출대기",
                     width: 150,
                     template: function(e){
                         if(e.ACCT_AM_1 != null){
+                            acctAm1Sum += Number(e.ACCT_AM_1);
                             return "<div style='text-align: right'>"+comma(e.ACCT_AM_1)+"</div>";
                         } else {
                             return "<div style='text-align: right'>0</div>";
                         }
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(acctAm1Sum)+"</div>";
                     }
                 }, {
                     title: "승인",
                     width: 150,
                     template: function(e){
+                        acctAm3Sum += Number(e.ACCT_AM_3);
                         return "<div style='text-align: right'>"+comma(e.ACCT_AM_3)+"</div>";
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(acctAm3Sum)+"</div>";
                     }
                 }, {
                     title: "예산잔액",
                     width: 150,
                     template: function(e){
+                        subAmSum += Number(e.SUB_AM);
                         return "<div style='text-align: right'>"+comma(e.SUB_AM)+"</div>";
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(subAmSum)+"</div>";
                     }
                 }
             ],
@@ -186,5 +204,11 @@ var rndBg = {
         var popup = window.open(url, name, option);
     },
 
-
+    onDataBound: function(){
+        calcAmSum = 0;
+        acctAm2Sum = 0;
+        acctAm1Sum = 0;
+        acctAm3Sum = 0;
+        subAmSum = 0;
+    }
 }

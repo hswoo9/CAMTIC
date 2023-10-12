@@ -6,13 +6,14 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 
 <body class="font-opensans" style="background-color:#fff;">
-<script type="text/javascript" src="/js/intra/cam_item/popup/popItemInvenList.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/cam_item/popup/popRvUnitPriceList.js?v=${today}"/></script>
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
-        <input type="hidden" id="reg" name="reg" value="${params.reg}">
+        <input type="hidden" id="crmSn" name="crmSn" value="${data.CRM_SN}">
+        <input type="hidden" id="masterSn" name="masterSn" value="${rs.MASTER_SN}">
         <div class="card-header pop-header">
-            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">재고 선택</span>
+            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">입고단가이력</span>
             </h3>
         </div>
         <div>
@@ -20,19 +21,18 @@
                 <colgroup>
                     <col width="10%">
                     <col>
-                    <col width="10%">
-                    <col>
                 </colgroup>
                 <thead>
                 <tr>
-                    <th>창고</th>
+                    <th>업체명</th>
                     <td>
-                        <input type="text" id="whCd" style="width: 150px;">
+                        ${data.CRM_NM}
                     </td>
-                    <th>검색어</th>
+                </tr>
+                <tr>
+                    <th>품번</th>
                     <td>
-                        <input type="text" id="searchKeyword" style="width: 30%;"/>
-                        <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){popItemInvenList.gridReload()}"/>
+                        ${rs.ITEM_NO} ${rs.ITEM_NAME}
                     </td>
                 </tr>
                 </thead>
@@ -44,7 +44,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    popItemInvenList.fn_defultScript();
+    popRvUnitPriceList.fn_defultScript();
 </script>
 </body>
 </html>

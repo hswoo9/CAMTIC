@@ -20,16 +20,23 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
-                        <col width="25%">
                         <col width="10%">
-                        <col width="20%">
                         <col width="10%">
-                        <col width="25%">
+                        <col width="18%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col>
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">입고형태</th>
                         <td>
                             <input type="text" id="whType" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">입고일자</th>
+                        <td>
+                            <input type="text" id="startDt" style="width: 110px;"> ~
+                            <input type="text" id="endDt" style="width: 110px;">
                         </td>
                         <th class="text-center th-color">입고창고</th>
                         <td>
