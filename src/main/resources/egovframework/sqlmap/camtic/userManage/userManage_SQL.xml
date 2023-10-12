@@ -2076,6 +2076,7 @@
         ,GUBUN_CODE
         ,GRADUATION_CODE
         ,SCORE
+        ,ADMIN_APPROVAL
         ,APPLICATION_ACTIVE
         ,EDUCATIONAL_PK
         )VALUES (
@@ -2092,6 +2093,7 @@
         ,#{GUBUN_CODE}
         ,#{GRADUATION_CODE}
         ,#{SCORE}
+        ,'N'
         ,'삭제'
         ,#{EDUCATIONAL_ID}
         )
@@ -2166,7 +2168,7 @@
         ,#{POSITION_OR_DUTY}
         ,#{MAIN_TASK}
         ,#{RMK}
-        ,#{ADMIN_APPROVAL}
+        ,'N'
         ,#{RETURNYN}
         ,#{APPROVAL_REQUEST_REASON}
         ,'N'
@@ -2218,7 +2220,7 @@
         )VALUES (
         #{EMP_SEQ}
         ,#{EMP_NAME}
-        ,#{ADMIN_APPROVAL}
+        ,'N'
         ,#{RETURNYN}
         ,'N'
         ,#{EMP_SEQ}
@@ -2299,7 +2301,7 @@
         ,#{ISSUER}
         ,#{RMK}
         ,'N'
-        ,#{ADMIN_APPROVAL}
+        ,'N'
         ,#{RETURNYN}
         ,#{EMP_SEQ}
         ,NOW()
@@ -2375,7 +2377,7 @@
         ,#{WORK_JOIN_DAY}
         ,#{WORK_LEAVE_DAY}
         ,#{RMK}
-        ,#{ADMIN_APPROVAL}
+        ,'N'
         ,#{RETURNYN}
         ,'N'
         ,#{EMP_SEQ}
@@ -2470,7 +2472,7 @@
         ,#{REWORD_AGENCY_NAME}
         ,#{REWORD_REASON}
         ,'N'
-        ,#{ADMIN_APPROVAL}
+        ,'N'
         ,#{EMP_SEQ}
         ,NOW()
         ,#{REWARD_ADD_NO}
@@ -2544,7 +2546,7 @@
         ,#{PROPOSAL_DATE}
         ,#{RETURNYN}
         ,'N'
-        ,#{ADMIN_APPROVAL}
+        ,'N'
         ,#{EMP_SEQ}
         ,NOW()
         ,'삭제'
