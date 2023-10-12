@@ -232,13 +232,25 @@ public class ItemManageController {
      * @param request
      * @return
      */
-    @RequestMapping("/item/returnRegList.do")
+    @RequestMapping("/item/returnRecordRegList.do")
     public String returnRegList(HttpServletRequest request){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
         session.setAttribute("menuNm", request.getRequestURI());
 
-        return "cam_item/itemMa/shipmentMa/returnRegList";
+        return "cam_item/itemMa/shipmentMa/returnRecordRegList";
+    }
+
+    /**
+     * 반품등록 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getReturnRecordRegList.do")
+    public String getReturnRegList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", itemManageService.getReturnRecordRegList(params));
+        return "jsonView";
     }
 
     /**
@@ -248,15 +260,27 @@ public class ItemManageController {
      * @param model
      * @return
      */
-    @RequestMapping("/item/pop/popReturnReg.do")
-    public String popReturnReg(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+    @RequestMapping("/item/pop/popReturnRecordReg.do")
+    public String popReturnRecordReg(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
 
-        return "popup/cam_item/popReturnReg";
+        return "popup/cam_item/popReturnRecordReg";
     }
+
+    /**
+     * 반품등록
+     * @param params
+     * @return
+     */
+    @RequestMapping("/item/setReturnRecord.do")
+    public String setReturnRecord(@RequestParam Map<String, Object> params){
+        itemManageService.setReturnRecord(params);
+        return "jsonView";
+    }
+
 
 
     /** 캠아이템 > 아이템관리 > BOM */

@@ -101,6 +101,26 @@ public class ItemManageServiceImpl implements ItemManageService {
     }
 
     @Override
+    public List<Map<String, Object>> getReturnRecordRegList(Map<String, Object> params) {
+        return itemManageRepository.getReturnRecordRegList(params);
+    }
+
+    @Override
+    public void setReturnRecord(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> rrArr = gson.fromJson((String) params.get("rrArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        if(rrArr.size() > 0){
+            for(Map<String, Object> map : rrArr){
+                if(StringUtils.isEmpty(map.get("returnRecordSn"))){
+                    itemManageRepository.setReturnRecord(map);
+                }else{
+                    itemManageRepository.setReturnRecordUpd(map);
+                }
+            }
+        }
+    }
+
+    @Override
     public List<Map<String, Object>> getBomList(Map<String, Object> params) {
         return itemManageRepository.getBomList(params);
     }

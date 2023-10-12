@@ -235,6 +235,119 @@
             SM_RECORD_SN = #{smRecordSn}
     </update>
 
+    <select id="getReturnRecordRegList" parameterType="map" resultType="map">
+        /* getReturnRecordRegList */
+        SELECT
+            RR.*,
+            EI.EMP_NAME_KR,
+            IM.ITEM_NO,
+            IM.ITEM_NAME,
+            CI.CRM_NM,
+            WHC.ITEM_CD_NM AS WH_CD_NM
+        FROM
+            CAM_ITEM.DJ_ITEM_RETURN_RECORD RR
+        JOIN
+            CAM_CRM.DJ_CRM_INFO CI
+        ON RR.CRM_SN = CI.CRM_SN
+        JOIN
+            CAM_ITEM.DJ_ITEM_INVENTORY II
+        ON II.INVEN_SN = RR.INVEN_SN
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON RR.REG_EMP_SEQ = EI.EMP_SEQ
+        JOIN
+            CAM_ITEM.DJ_ITEM_MASTER IM
+        ON IM.MASTER_SN = II.MASTER_SN
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD WHC
+        ON WHC.LG_CD = 'WH' AND II.WH_CD = WHC.ITEM_CD
+        WHERE 1=1
+
+        <if test='startDt != null and !"".equals(startDt)'>
+            <![CDATA[
+            AND
+                DATE_FORMAT(#{startDt}, '%Y%m%d') <= DATE_FORMAT(RR.DELIVERY_DT, '%Y%m%d')
+            AND
+                DATE_FORMAT(#{endDt}, '%Y%m%d') >= DATE_FORMAT(RR.DELIVERY_DT, '%Y%m%d')
+            ]]>
+        </if>
+
+        <if test='crmSn != null and !"".equals(crmSn)'>
+            AND RR.CRM_SN = #{crmSn}
+        </if>
+
+        <if test='whCd != null and !"".equals(whCd)'>
+            AND II.WH_CD = #{whCd}
+        </if>
+
+        <if test='masterSn != null and !"".equals(masterSn)'>
+            AND IM.MASTER_SN = #{masterSn}
+        </if>
+
+
+        <choose>
+            <when test='searchKeyword != null and !"".equals(searchKeyword)'>
+                AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+            <otherwise>
+                <if test='searchValue != null and !"".equals(searchValue)'>
+                    AND (
+                        IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
+                        IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%')
+                    )
+                </if>
+            </otherwise>
+        </choose>
+
+        <if test='regEmpSeq != null and !"".equals(regEmpSeq)'>
+            AND RR.REG_EMP_SEQ = #{regEmpSeq}
+        </if>
+    </select>
+
+    <insert id="setReturnRecord" parameterType="map">
+        /* setReturnRecord */
+        INSERT INTO CAM_ITEM.DJ_ITEM_RETURN_RECORD
+        (
+            CRM_SN,
+            INVEN_SN,
+            DELIVERY_VOLUME,
+            DELIVERY_DT,
+            UNIT_PRICE,
+            AMT,
+            RMK,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{crmSn},
+            #{invenSn},
+            #{deliveryVolume},
+            #{deliveryDt},
+            #{unitPrice},
+            #{amt},
+            #{rmk},
+            #{empSeq}
+        )
+    </insert>
+
+    <update id="setReturnRecordUpd" parameterType="map">
+        /* setReturnRecordUpd */
+        UPDATE
+            CAM_ITEM.DJ_ITEM_RETURN_RECORD
+        SET
+            CRM_SN = #{crmSn},
+            INVEN_SN = #{invenSn},
+            DELIVERY_VOLUME = #{deliveryVolume},
+            DELIVERY_DT = #{deliveryDt},
+            UNIT_PRICE = #{unitPrice},
+            AMT = #{amt},
+            RMK = #{rmk},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            RETURN_RECORD_SN = #{returnRecordSn}
+    </update>
+
     <select id="getBomList" parameterType="map" resultType="map">
         /* getBomList */
         SELECT

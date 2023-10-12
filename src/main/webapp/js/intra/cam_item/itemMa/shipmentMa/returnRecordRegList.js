@@ -45,7 +45,7 @@ var rrl = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="rrl.fn_popReturnReg()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="rrl.fn_popReturnRecordReg()">' +
                             '	<span class="k-button-text">반품등록</span>' +
                             '</button>';
                     }
@@ -173,7 +173,7 @@ var rrl = {
             searchValue : $("#searchValue").val(),
         }
 
-        rrl.mainGrid("/item/getShipmentRecordList.do", rrl.global.searchAjaxData);
+        rrl.mainGrid("/item/getReturnRecordRegList.do", rrl.global.searchAjaxData);
     },
 
     crmSnReset : function(){
@@ -182,8 +182,8 @@ var rrl = {
         rrl.gridReload()
     },
 
-    fn_popReturnReg : function (){
-        var url = "/item/pop/popReturnReg.do";
+    fn_popReturnRecordReg : function (){
+        var url = "/item/pop/popReturnRecordReg.do";
         var name = "_blank";
         var option = "width = 1680, height = 400, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);

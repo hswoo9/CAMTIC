@@ -6,7 +6,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <fmt:formatDate value="${today}" var="nowHyphen" pattern="yyyy-MM-dd" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
-<script type="text/javascript" src="/js/intra/cam_item/popup/popReturnReg.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/cam_item/popup/popReturnRecordReg.js?v=${today}"/></script>
 <style>
     .searchTable > thead > tr > th {
         background-color: #00397f96;
@@ -36,12 +36,12 @@
         <div>
             <div>
                 <input type="hidden" id="deliveryDt" name="deliveryDt" value="${nowHyphen}">
-                <input type="file" id="file" name="file" onchange="rr.fileChange(this)" style="display: none">
+                <input type="file" id="file" name="file" onchange="rrr.fileChange(this)" style="display: none">
             </div>
             <div class="btn-st popButton" style="text-align: right">
-                <button type="button" class="k-button k-button-solid-info" onclick="rr.setReceivingReg()">저장</button>
-                <button type="button" class="k-button k-button-solid-base" onclick="rr.resetRow()">초기화</button>
-                <button type="button" class="k-button k-button-solid-base" onclick="rr.addRow('new')">품목추가</button>
+                <button type="button" class="k-button k-button-solid-info" onclick="rrr.setReceivingReg()">저장</button>
+                <button type="button" class="k-button k-button-solid-base" onclick="rrr.resetRow()">초기화</button>
+                <button type="button" class="k-button k-button-solid-base" onclick="rrr.addRow('new')">품목추가</button>
             </div>
             <table class="popTable table table-bordered mb-0 mt10">
                 <colgroup>
@@ -73,11 +73,11 @@
                 </tbody>
             </table>
 
-            <input type="hidden" id="crmSn" onchange="rr.crmInfoChange()">
+            <input type="hidden" id="crmSn" onchange="rrr.crmInfoChange()">
             <input type="hidden" id="crmNm">
-            <input type="hidden" id="unitPrice" onchange="rr.unitPriceChange()">
+            <input type="hidden" id="unitPrice" onchange="rrr.unitPriceChange()">
 
-            <input type="hidden" id="invenSn" onchange="rr.itemInfoChange()">
+            <input type="hidden" id="invenSn" onchange="rrr.itemInfoChange()">
             <input type="hidden" id="masterSn">
             <input type="hidden" id="itemNo">
             <input type="hidden" id="itemName">
@@ -89,7 +89,7 @@
 </div>
 
 <script type="text/javascript">
-    rr.fn_defaultScript();
+    rrr.fn_defaultScript();
 </script>
 </body>
 </html>
