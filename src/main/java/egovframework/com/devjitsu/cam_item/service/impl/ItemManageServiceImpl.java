@@ -81,6 +81,26 @@ public class ItemManageServiceImpl implements ItemManageService {
     }
 
     @Override
+    public List<Map<String, Object>> getShipmentRecordList(Map<String, Object> params) {
+        return itemManageRepository.getShipmentRecordList(params);
+    }
+
+    @Override
+    public void setShipmentRecord(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> srArr = gson.fromJson((String) params.get("srArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        if(srArr.size() > 0){
+            for(Map<String, Object> map : srArr){
+                if(StringUtils.isEmpty(map.get("smRecordSn"))){
+                    itemManageRepository.setShipmentRecord(map);
+                }else{
+                    itemManageRepository.setShipmentRecordUpd(map);
+                }
+            }
+        }
+    }
+
+    @Override
     public List<Map<String, Object>> getBomList(Map<String, Object> params) {
         return itemManageRepository.getBomList(params);
     }

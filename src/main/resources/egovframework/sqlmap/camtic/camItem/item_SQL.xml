@@ -122,31 +122,148 @@
         DELETE FROM CAM_ITEM.DJ_ITEM_MASTER_SD_UP WHERE MASTER_SD_UP_SN IN (${masterSdUpSn})
     </delete>
 
-    <select id="getBomList" parameterType="map" resultType="map">
-        /* getBomList */
+    <select id="getShipmentRecordList" parameterType="map" resultType="map">
+        /* getShipmentRecordList */
         SELECT
-            B.*,
+            SR.*,
+            EI.EMP_NAME_KR,
+            IM.ITEM_NO,
+            IM.ITEM_NAME,
+            CI.CRM_NM,
             WHC.ITEM_CD_NM AS WH_CD_NM
         FROM
-            CAM_ITEM.DJ_BOM B
+            CAM_ITEM.DJ_ITEM_SM_RECORD SR
+        JOIN
+            CAM_CRM.DJ_CRM_INFO CI
+        ON SR.CRM_SN = CI.CRM_SN
+        JOIN
+            CAM_ITEM.DJ_ITEM_INVENTORY II
+        ON II.INVEN_SN = SR.INVEN_SN
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON SR.REG_EMP_SEQ = EI.EMP_SEQ
+        JOIN
+            CAM_ITEM.DJ_ITEM_MASTER IM
+        ON IM.MASTER_SN = II.MASTER_SN
         JOIN
             CAM_ITEM.DJ_ITEM_CD WHC
-        ON WHC.LG_CD = 'WH' AND B.BOM_WH_CD = WHC.ITEM_CD
+        ON WHC.LG_CD = 'WH' AND II.WH_CD = WHC.ITEM_CD
         WHERE 1=1
-        <if test='whCd != null and !"".equals(whCd)'>
-            AND B.BOM_WH_CD = #{whCd}
+
+        <if test='startDt != null and !"".equals(startDt)'>
+            <![CDATA[
+            AND
+                DATE_FORMAT(#{startDt}, '%Y%m%d') <= DATE_FORMAT(SR.DELIVERY_DT, '%Y%m%d')
+            AND
+                DATE_FORMAT(#{endDt}, '%Y%m%d') >= DATE_FORMAT(SR.DELIVERY_DT, '%Y%m%d')
+            ]]>
         </if>
+
+        <if test='crmSn != null and !"".equals(crmSn)'>
+            AND SR.CRM_SN = #{crmSn}
+        </if>
+
+        <if test='whCd != null and !"".equals(whCd)'>
+            AND II.WH_CD = #{whCd}
+        </if>
+
+        <if test='masterSn != null and !"".equals(masterSn)'>
+            AND IM.MASTER_SN = #{masterSn}
+        </if>
+
 
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword)'>
-                AND B.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+                AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
             </when>
             <otherwise>
                 <if test='searchValue != null and !"".equals(searchValue)'>
                     AND (
-                        B.BOM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
-                        B.BOM_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
-                        B.STANDARD LIKE CONCAT('%', #{searchValue}, '%') OR
+                        IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
+                        IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%')
+                    )
+                </if>
+            </otherwise>
+        </choose>
+
+        <if test='regEmpSeq != null and !"".equals(regEmpSeq)'>
+            AND SR.REG_EMP_SEQ = #{regEmpSeq}
+        </if>
+    </select>
+
+    <insert id="setShipmentRecord" parameterType="map">
+        /* setShipmentRecord */
+        INSERT INTO CAM_ITEM.DJ_ITEM_SM_RECORD
+        (
+            CRM_SN,
+            INVEN_SN,
+            DELIVERY_VOLUME,
+            DELIVERY_DT,
+            UNIT_PRICE,
+            AMT,
+            RMK,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{crmSn},
+            #{invenSn},
+            #{deliveryVolume},
+            #{deliveryDt},
+            #{unitPrice},
+            #{amt},
+            #{rmk},
+            #{empSeq}
+        )
+    </insert>
+
+    <update id="setShipmentRecordUpd" parameterType="map">
+        /* setShipmentRecordUpd */
+        UPDATE
+            CAM_ITEM.DJ_ITEM_SM_RECORD
+        SET
+            CRM_SN = #{crmSn},
+            INVEN_SN = #{invenSn},
+            DELIVERY_VOLUME = #{deliveryVolume},
+            DELIVERY_DT = #{deliveryDt},
+            UNIT_PRICE = #{unitPrice},
+            AMT = #{amt},
+            RMK = #{rmk},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            SM_RECORD_SN = #{smRecordSn}
+    </update>
+
+    <select id="getBomList" parameterType="map" resultType="map">
+        /* getBomList */
+        SELECT
+            B.*,
+            IM.*,
+            WHC.ITEM_CD_NM AS WH_CD_NM
+        FROM
+            CAM_ITEM.DJ_BOM B
+        JOIN
+            CAM_ITEM.DJ_ITEM_MASTER IM
+        ON IM.MASTER_SN = B.MASTER_SN
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD WHC
+        ON WHC.LG_CD = 'WH' AND IM.WH_CD = WHC.ITEM_CD
+        WHERE 1=1
+        <if test='whCd != null and !"".equals(whCd)'>
+            AND IM.WH_CD = #{whCd}
+        </if>
+
+        <choose>
+            <when test='searchKeyword != null and !"".equals(searchKeyword)'>
+                AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+            <otherwise>
+                <if test='searchValue != null and !"".equals(searchValue)'>
+                    AND (
+                        IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
+                        IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
+                        IM.STANDARD LIKE CONCAT('%', #{searchValue}, '%')
                     )
                 </if>
             </otherwise>
@@ -156,9 +273,19 @@
     <select id="getBom" parameterType="map" resultType="map">
         /* getBom */
         SELECT
-            *
+            B.*,
+            IM.ITEM_NO,
+            IM.ITEM_NAME,
+            IM.STANDARD,
+            WHC.ITEM_CD_NM AS WH_CD_NM
         FROM
-            CAM_ITEM.DJ_BOM
+            CAM_ITEM.DJ_BOM B
+        JOIN
+            CAM_ITEM.DJ_ITEM_MASTER IM
+        ON IM.MASTER_SN = B.MASTER_SN
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD WHC
+        ON WHC.LG_CD = 'WH' AND IM.WH_CD = WHC.ITEM_CD
         WHERE
             BOM_SN = #{bomSn}
     </select>
@@ -211,22 +338,16 @@
         /* setBom */
         INSERT INTO CAM_ITEM.DJ_BOM
         (
-            BOM_NO,
-            BOM_NAME,
-            STANDARD,
+            MASTER_SN,
             BOM_COST_PRICE,
             BOM_UNIT_PRICE,
-            BOM_WH_CD,
             REG_EMP_SEQ
         )
         VALUES
         (
-            #{bomNo},
-            #{bomName},
-            #{standard},
+            #{masterSn},
             #{bomCostPrice},
             #{bomUnitPrice},
-            #{bomWhCd},
             #{empSeq}
         )
 
@@ -240,12 +361,9 @@
         UPDATE
             CAM_ITEM.DJ_BOM
         SET
-            BOM_NO = #{bomNo},
-            BOM_NAME = #{bomName},
-            STANDARD = #{standard},
+            MASTER_SN = #{masterSn},
             BOM_COST_PRICE = #{bomCostPrice},
             BOM_UNIT_PRICE = #{bomUnitPrice},
-            BOM_WH_CD = #{bomWhCd},
             MOD_EMP_SEQ = #{empSeq}
         WHERE
             BOM_SN = #{bomSn}
@@ -469,6 +587,15 @@
         WHERE 1=1
         <if test='whType != null and !"".equals(whType)'>
             AND WI.WH_TYPE = #{whType}
+        </if>
+
+        <if test='startDt != null and !"".equals(startDt)'>
+            <![CDATA[
+            AND
+                DATE_FORMAT(#{startDt}, '%Y%m%d') <= DATE_FORMAT(WI.WH_DT, '%Y%m%d')
+            AND
+                DATE_FORMAT(#{endDt}, '%Y%m%d') >= DATE_FORMAT(WI.WH_DT, '%Y%m%d')
+            ]]>
         </if>
 
         <if test='whCd != null and !"".equals(whCd)'>

@@ -6,14 +6,14 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 
 <body class="font-opensans" style="background-color:#fff;">
-<script type="text/javascript" src="/js/intra/cam_item/popup/popUnitPriceList.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/cam_item/popup/popSrUnitPriceList.js?v=${today}"/></script>
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
         <input type="hidden" id="crmSn" name="crmSn" value="${data.CRM_SN}">
         <input type="hidden" id="masterSn" name="masterSn" value="${rs.MASTER_SN}">
         <div class="card-header pop-header">
-            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">단가이력</span>
+            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">출하단가이력</span>
             </h3>
         </div>
         <div>
@@ -44,7 +44,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    popUnitPriceList.fn_defultScript();
+    popSrUnitPriceList.fn_defultScript();
 </script>
 </body>
 </html>

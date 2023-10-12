@@ -9,10 +9,7 @@ var bomReg = {
     },
 
     fn_defaultScript : function (){
-        bomReg.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
-        customKendo.fn_dropDownList("bomWhCd", bomReg.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD", 2);
-
-        customKendo.fn_textBox(["bomNo", "bomName", "standard", "bomCostPrice", "bomUnitPrice"]);
+        customKendo.fn_textBox(["bomCostPrice", "bomUnitPrice"]);
 
         if($("#bomSn").val()){
             bomReg.bomDataSet();
@@ -22,13 +19,8 @@ var bomReg = {
     },
 
     setBomReq : function(){
-        if(!$("#bomNo").val()){
-            alert("품번을 입력해주세요.");
-            $("#bomNo").focus()
-            return;
-        }else if(!$("#bomName").val()){
-            alert("품명을 입력해주세요.");
-            $("#bomName").focus()
+        if(!$("#masterSn999").val()){
+            alert("품번을 선택해주세요.");
             return;
         }else if(!$("#bomUnitPrice").val()){
             alert("표준단가를 입력해주세요.");
@@ -54,12 +46,9 @@ var bomReg = {
 
             bomReg.global.saveAjaxData = {
                 bomSn : $("#bomSn").val(),
-                bomNo : $("#bomNo").val(),
-                bomName : $("#bomName").val(),
-                standard : $("#standard").val(),
+                masterSn : $("#masterSn999").val(),
                 bomCostPrice : bomReg.uncomma($("#bomCostPrice").val()),
                 bomUnitPrice : bomReg.uncomma($("#bomUnitPrice").val()),
-                bomWhCd : $("#bomWhCd").val(),
                 empSeq : $("#empSeq").val(),
                 detailArr : JSON.stringify(detailArr)
             }
@@ -166,10 +155,11 @@ var bomReg = {
         var result = customKendo.fn_customAjax("/item/getBom.do", bomReg.global.searchAjaxData);
         if(result.flag){
             var bom = result.bom;
-            $("#bomNo").val(bom.BOM_NO);
-            $("#bomName").val(bom.BOM_NAME);
-            $("#bomWhCd").data("kendoDropDownList").value(bom.BOM_WH_CD);
-            $("#standard").val(bom.STANDARD);
+            $("#masterSn999").val(bom.MASTER_SN);
+            $("#itemNo999").val(bom.ITEM_NO);
+            $("#itemName999").val(bom.ITEM_NAME);
+            $("#whCdNm999").val(bom.WH_CD_NM);
+            $("#standard999").val(bom.STANDARD);
             $("#bomCostPrice").val(bomReg.comma(bom.BOM_COST_PRICE));
             $("#bomUnitPrice").val(bomReg.comma(bom.BOM_UNIT_PRICE));
 
@@ -200,6 +190,8 @@ var bomReg = {
         $("#masterSn" + bomReg.global.masterSnIndex).val($("#masterSn").val())
         $("#itemNo" + bomReg.global.masterSnIndex).val($("#itemNo").val())
         $("#itemName" + bomReg.global.masterSnIndex).val($("#itemName").val())
+        $("#whCdNm" + bomReg.global.masterSnIndex).val($("#whCdNm").val())
+        $("#standard" + bomReg.global.masterSnIndex).val($("#standard").val())
         $("#unitPrice" + bomReg.global.masterSnIndex).val(bomReg.comma($("#maxUnitPrice").val()))
         $("#unitPrice" + bomReg.global.masterSnIndex).change()
 
@@ -207,6 +199,8 @@ var bomReg = {
         $("#itemNo").val("")
         $("#itemName").val("")
         $("#maxUnitPrice").val("")
+        $("#whCdNm").val("")
+        $("#standard").val("")
     },
 
     costPriceChange : function(){

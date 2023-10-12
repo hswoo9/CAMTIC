@@ -1,4 +1,4 @@
-var purcIns = {
+var srl = {
 
     global : {
         dropDownDataSource : "",
@@ -8,33 +8,29 @@ var purcIns = {
     },
 
     fn_defaultScript : function (){
-        purcIns.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WT", lgCd : "WT"});
-        customKendo.fn_dropDownList("whType", purcIns.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
-        $("#whType").data("kendoDropDownList").bind("change", purcIns.gridReload);
+        srl.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
+        customKendo.fn_dropDownList("whCd", srl.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
+        $("#whCd").data("kendoDropDownList").bind("change", srl.gridReload);
 
-        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(purcIns.global.now.setMonth(purcIns.global.now.getMonth() - 1)));
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(srl.global.now.setMonth(srl.global.now.getMonth() - 1)));
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
 
-        purcIns.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
-        customKendo.fn_dropDownList("whCd", purcIns.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
-        $("#whCd").data("kendoDropDownList").bind("change", purcIns.gridReload);
-
-        purcIns.global.dropDownDataSource = [
+        srl.global.dropDownDataSource = [
             { text : "품번", value : "ITEM_NO" },
             { text : "품명", value : "ITEM_NAME" }
         ]
-        customKendo.fn_dropDownList("searchKeyword", purcIns.global.dropDownDataSource, "text", "value");
-        $("#searchKeyword").data("kendoDropDownList").bind("change", purcIns.gridReload);
+        customKendo.fn_dropDownList("searchKeyword", srl.global.dropDownDataSource, "text", "value");
+        $("#searchKeyword").data("kendoDropDownList").bind("change", srl.gridReload);
 
         customKendo.fn_textBox(["searchValue"]);
 
-        purcIns.gridReload();
+        srl.gridReload();
     },
 
     mainGrid: function(url, params){
         $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
-            height: 508,
+            height : 508,
             sortable: true,
             selectable: "row",
             pageable: {
@@ -49,14 +45,14 @@ var purcIns = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="purcIns.setInspectionUpd(\'Y\')">' +
-                            '	<span class="k-button-text">검수완료</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="srl.fn_popShipmentRecordReg()">' +
+                            '	<span class="k-button-text">출하실적등록</span>' +
                             '</button>';
                     }
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcIns.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="srl.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -72,39 +68,41 @@ var purcIns = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" style="top: 3px; position: relative" />',
-                    template : "<input type='checkbox' id='whSn#=ITEM_WH_SN#' name='whSn' value='#=ITEM_WH_SN#' style=\"top: 3px; position: relative\" />",
+                    template : function(e){
+                        if(e.INSPECTION == "Y"){
+                            return "";
+                        }else {
+                            return "<input type='checkbox' id='whSn#=ITEM_WH_SN#' name='whSn' value='#=ITEM_WH_SN#' style=\"top: 3px; position: relative\" />"
+                        }
+                    },
                     width: 30,
                 }, {
                     title: "순번",
                     template: "#= --record #",
                     width: 50
                 }, {
-                    title: "거래처",
+                    title: "납품처",
                     field: "CRM_NM",
-                    width: 100,
+                    width: 150,
+                }, {
+                    title: "납품일",
+                    field: "DELIVERY_DT",
+                    width: 80,
                 }, {
                     title: "품번",
                     field: "ITEM_NO",
-                    width: 120,
+                    width: 120
                 }, {
                     title: "품명",
                     field: "ITEM_NAME",
-                    width: 100
+                    width: 120
                 }, {
-                    title: "입고일자",
-                    field: "WH_DT",
-                    width: 80
-                }, {
-                    title: "입고형태",
-                    field: "WH_TYPE_NM",
-                    width: 100
-                }, {
-                    title: "입고량",
-                    field: "WH_VOLUME",
+                    title: "납품량",
+                    field: "DELIVERY_VOLUME",
                     width: 100,
                     template : function (e){
-                        if(e.WH_VOLUME != null && e.WH_VOLUME != ""){
-                            return purcIns.comma(e.WH_VOLUME) + "";
+                        if(e.DELIVERY_VOLUME != null && e.DELIVERY_VOLUME != ""){
+                            return srl.comma(e.DELIVERY_VOLUME) + "";
                         }else{
                             return "0";
                         }
@@ -118,7 +116,7 @@ var purcIns = {
                     field: "UNIT_PRICE",
                     template : function (e){
                         if(e.UNIT_PRICE != null && e.UNIT_PRICE != ""){
-                            return purcIns.comma(e.UNIT_PRICE) + "원";
+                            return srl.comma(e.UNIT_PRICE) + "원";
                         }else{
                             return "0원";
                         }
@@ -132,7 +130,7 @@ var purcIns = {
                     field: "AMT",
                     template: function(e){
                         if(e.AMT != null && e.AMT != ""){
-                            return purcIns.comma(e.AMT) + "원";
+                            return srl.comma(e.AMT) + "원";
                         }else{
                             return "0원";
                         }
@@ -140,6 +138,18 @@ var purcIns = {
                     attributes : {
                         style : "text-align : right;"
                     }
+                }, {
+                    title: "창고",
+                    field: "WH_CD_NM",
+                    width: 150,
+                }, {
+                    title: "비고",
+                    field: "RMK",
+                    width: 200,
+                }, {
+                    title: "등록자",
+                    field: "EMP_NAME_KR",
+                    width: 80,
                 }
             ],
             dataBinding: function(){
@@ -154,44 +164,37 @@ var purcIns = {
     },
 
     gridReload: function (){
-        purcIns.global.searchAjaxData = {
-            whType : $("#whType").val(),
+        srl.global.searchAjaxData = {
+            crmSn : $("#crmSn").val(),
+            whCd : $("#whCd").val(),
             startDt : $("#startDt").val(),
             endDt : $("#endDt").val(),
-            whCd : $("#whCd").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
-            inspection : "N"
+            regEmpSeq : $("#regEmpSeq").val()
         }
 
-        purcIns.mainGrid("/item/getItemWhInfoList.do", purcIns.global.searchAjaxData);
+        srl.mainGrid("/item/getShipmentRecordList.do", srl.global.searchAjaxData);
     },
 
-    setInspectionUpd : function(e){
-        if($("input[name='whSn']:checked").length == 0){
-            alert("품목을 선택해주세요.");
-            return
-        }
+    crmSnReset : function(){
+        $("#crmSn").val("");
+        $("#crmNm").val("");
+        srl.gridReload()
+    },
 
-        if(confirm("검수처리 하시겠습니까?")){
-            var whSn = "";
+    fn_popShipmentRecordReg : function (){
+        var url = "/item/pop/popShipmentRecordReg.do";
+        var name = "_blank";
+        var option = "width = 1680, height = 400, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
 
-            $.each($("input[name='whSn']:checked"), function(){
-                whSn += "," + $(this).val()
-            })
-
-            purcIns.global.saveAjaxData = {
-                inspection : e,
-                whSn : whSn.substring(1),
-                empSeq : $("#regEmpSeq").val(),
-            }
-
-            var result = customKendo.fn_customAjax("/item/setInspectionUpd.do", purcIns.global.saveAjaxData);
-            if(result.flag){
-                alert("처리되었습니다.");
-                purcIns.gridReload();
-            }
-        }
+    fn_popCamCrmList : function (){
+        var url = "/crm/pop/popCrmList.do";
+        var name = "_blank";
+        var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
     },
 
     comma: function(str) {

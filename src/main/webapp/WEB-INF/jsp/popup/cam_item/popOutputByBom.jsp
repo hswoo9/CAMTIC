@@ -31,7 +31,7 @@
                 <tr>
                     <th>품명</th>
                     <td>
-                        ${rs.BOM_NO} ${rs.BOM_NAME}
+                        ${rs.ITEM_NO} ${rs.ITEM_NAME}
                     </td>
                 </tr>
                 </thead>

@@ -1,11 +1,11 @@
-var popUnitPriceList = {
+var popSrUnitPriceList = {
     global : {
         dropDownDataSource : "",
         searchAjaxData : "",
     },
 
     fn_defultScript: function (){
-        popUnitPriceList.gridReload();
+        popSrUnitPriceList.gridReload();
     },
 
     popMainGrid : function (url, params) {
@@ -27,17 +27,16 @@ var popUnitPriceList = {
                 {
                     title: "거래처",
                     field: "CRM_NM",
-                    width: 120,
                 }, {
-                    title: "입고일자",
-                    field: "WH_DT",
-                    width: 150,
+                    title: "출고일자",
+                    field: "DELIVERY_DT",
+                    width: 100,
                 }, {
-                    title: "입고량",
-                    field: "WH_VOLUME",
+                    title: "출고량",
+                    field: "DELIVERY_VOLUME",
                     width: 100,
                     template : function (e){
-                        return popUnitPriceList.comma(e.WH_VOLUME);
+                        return popSrUnitPriceList.comma(e.DELIVERY_VOLUME);
                     },
                     attributes : {
                         style : "text-align : right;"
@@ -47,7 +46,7 @@ var popUnitPriceList = {
                     field: "UNIT_PRICE",
                     width: 100,
                     template : function (e){
-                        return popUnitPriceList.comma(e.UNIT_PRICE);
+                        return popSrUnitPriceList.comma(e.UNIT_PRICE);
                     },
                     attributes : {
                         style : "text-align : right;"
@@ -57,7 +56,7 @@ var popUnitPriceList = {
                     field: "AMT",
                     width: 100,
                     template : function (e){
-                        return popUnitPriceList.comma(e.AMT);
+                        return popSrUnitPriceList.comma(e.AMT);
                     },
                     attributes : {
                         style : "text-align : right;"
@@ -65,9 +64,9 @@ var popUnitPriceList = {
                 }, {
                     title: "",
                     template: function(e){
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="popUnitPriceList.fn_selItem(' + e.UNIT_PRICE + ')">단가적용</button>';
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="popSrUnitPriceList.fn_selItem(' + e.UNIT_PRICE + ')">단가적용</button>';
                     },
-                    width: 60
+                    width: 100
                 }
             ],
             dataBinding: function(){
@@ -77,12 +76,12 @@ var popUnitPriceList = {
     },
 
     gridReload: function (){
-        popUnitPriceList.global.searchAjaxData = {
+        popSrUnitPriceList.global.searchAjaxData = {
             crmSn : $("#crmSn").val(),
             masterSn : $("#masterSn").val(),
         }
 
-        popUnitPriceList.popMainGrid("/item/getItemWhInfoList.do", popUnitPriceList.global.searchAjaxData);
+        popSrUnitPriceList.popMainGrid("/item/getShipmentRecordList.do", popSrUnitPriceList.global.searchAjaxData);
     },
 
     fn_selItem: function (e){

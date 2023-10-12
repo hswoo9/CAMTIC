@@ -39,23 +39,25 @@
                         <span class="red-star">*</span>품번
                     </th>
                     <td>
-                        <input type="text" id="bomNo">
+                        <input type="hidden" id="masterSn999" class="masterSn999">
+                        <input type="text" id="itemNo999" class="k-input k-text" readonly onClick="bomReg.fn_popItemNoList(999);" style="width: 83%">
+                        <button type="button" id="itemSelBtn" class="itemSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="bomReg.fn_popItemNoList(999);">선택</button>
                     </td>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>품명
                     </th>
                     <td>
-                        <input type="text" id="bomName">
+                        <input type="text" id="itemName999" class="k-input k-text" readonly onClick="bomReg.fn_popItemNoList(999);">
                     </td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">입고창고</th>
                     <td>
-                        <input type="text" id="bomWhCd">
+                        <input type="text" id="whCdNm999" class="k-input k-text" readonly onClick="bomReg.fn_popItemNoList(999);">
                     </td>
                     <th scope="row" class="text-center th-color">규격</th>
                     <td>
-                        <input type="text" id="standard">
+                        <input type="text" id="standard999" class="k-input k-text" readonly onClick="bomReg.fn_popItemNoList(999);">
                     </td>
                 </tr>
                 <tr>
@@ -109,6 +111,8 @@
             <input type="hidden" id="itemNo">
             <input type="hidden" id="itemName">
             <input type="hidden" id="maxUnitPrice">
+            <input type="hidden" id="whCdNm">
+            <input type="hidden" id="standard">
         </div>
     </div>
 </div>

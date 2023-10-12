@@ -4,12 +4,16 @@ var rvSt = {
         dropDownDataSource : "",
         searchAjaxData : "",
         saveAjaxData : "",
+        now : new Date()
     },
 
     fn_defaultScript : function (){
         rvSt.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WT", lgCd : "WT"});
         customKendo.fn_dropDownList("whType", rvSt.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
         $("#whType").data("kendoDropDownList").bind("change", rvSt.gridReload);
+
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(rvSt.global.now.setMonth(rvSt.global.now.getMonth() - 1)));
+        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
 
         rvSt.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
         customKendo.fn_dropDownList("whCd", rvSt.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
@@ -30,6 +34,7 @@ var rvSt = {
     mainGrid: function(url, params){
         $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
+            height: 508,
             sortable: true,
             selectable: "row",
             pageable: {
@@ -140,6 +145,8 @@ var rvSt = {
     gridReload: function (){
         rvSt.global.searchAjaxData = {
             whType : $("#whType").val(),
+            startDt : $("#startDt").val(),
+            endDt : $("#endDt").val(),
             whCd : $("#whCd").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
