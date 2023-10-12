@@ -16,7 +16,13 @@ var selEvalPop = {
             dataSource: selEvalPop.global.dropDownDataSource
         });
 
-        $("#searchType").data("kendoDropDownList").bind("change", selEvalPop.gridReload);
+        $("#searchType").data("kendoDropDownList").bind("change", function(){
+            if($("#tabA").hasClass("k-state-active")){
+                selEvalPop.gridReload("mainGrid");
+            }else{
+                selEvalPop.gridReload("mainGrid2");
+            }
+        });
 
         selEvalPop.global.dropDownDataSource = [
             { text: "전체", value: "all" },
@@ -37,13 +43,28 @@ var selEvalPop = {
         }
         var result = customKendo.fn_customAjax("/inside/getRecruitAreaList.do", selEvalPop.global.searchAjaxData);
         customKendo.fn_dropDownList("recruitAreaInfoSn", result.recruitArea, "JOB","RECRUIT_AREA_INFO_SN", 2);
-        $("#recruitAreaInfoSn").data("kendoDropDownList").bind("change", selEvalPop.gridReload);
+        $("#recruitAreaInfoSn").data("kendoDropDownList").bind("change", function(){
+            if($("#tabA").hasClass("k-state-active")){
+                selEvalPop.gridReload("mainGrid");
+            }else{
+                selEvalPop.gridReload("mainGrid2");
+            }
+        });
 
-        selEvalPop.gridReload();
+        $("#mainDiv").kendoTabStrip({
+            animation:  {
+                open: {
+                    effects: "fadeIn"
+                }
+            },
+        });
+
+        selEvalPop.gridReload("mainGrid");
+        selEvalPop.gridReload("mainGrid2");
     },
 
-    mainGrid : function(url, params) {
-        $("#mainGrid").kendoGrid({
+    mainGrid : function(url, params, id) {
+        $("#" + id).kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             scrollable: true,
@@ -55,37 +76,13 @@ var selEvalPop = {
                 buttonCount : 5
             },
             toolbar : [
-                {
-                    template : function (){
-                        return '' +
-                            '<div style="width: 100%;justify-content: space-between;">' +
-                                '<div>' +
-                                    '<input type="checkbox" name="dutyCode" class="k-checkbox" id="dutyCode2" value="2" onchange="selEvalPop.gridReload()"><label for="dutyCode2">본부장</label>' +
-                                    '<input type="checkbox" name="dutyCode" class="k-checkbox" id="dutyCode4" value="4" style="margin-left: 5px" onchange="selEvalPop.gridReload()"><label for="dutyCode4">센터장</label>' +
-                                    '<input type="checkbox" name="dutyCode" class="k-checkbox" id="dutyCode5" value="5" style="margin-left: 5px" onchange="selEvalPop.gridReload()"><label for="dutyCode5">팀장</label>' +
-                                '</div>';
-                    }
-                }, {
-                    template : function (e){
-                        return '<div>' +
-                                '<input type="radio" name="evalType" id="evalTypeDoc" value="doc" checked onchange="selEvalPop.gridReload()"><label for="evalTypeDoc">서류</label>' +
-                                '<input type="radio" name="evalType" id="evalTypeIn" value="in" onchange="selEvalPop.gridReload()" style="margin-left: 5px"><label for="evalTypeIn">면접</label>';
-                    }
-                }, {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" style="margin-left: 5px" onclick="selEvalPop.setInEvalLogin();">' +
-                                '	<span class="k-button-text">평가위원 선발</span>' +
-                                '</button>';
-                    }
-                }, {
+               {
                     name : 'button',
                     template : function (e){
                         return  '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="margin-left: 5px" onclick="selEvalPop.gridReload()">' +
                                 '	<span class="k-button-text">조회</span>' +
                                 '</button>' +
-                            '</div>' +
-                        '</div>';
+                            '</div>';
                     }
                 }
             ],
@@ -153,19 +150,11 @@ var selEvalPop = {
         });
     },
 
-    gridReload : function() {
+    gridReload : function(id) {
         var dutyCode = "";
-        if($("#dutyCode2").is(":checked")){
-            dutyCode += "," + $("#dutyCode2").val()
-        }
-
-        if($("#dutyCode4").is(":checked")){
-            dutyCode += "," + $("#dutyCode4").val()
-        }
-
-        if($("#dutyCode5").is(":checked")){
-            dutyCode += "," + $("#dutyCode5").val()
-        }
+        $.each($("#" + id + "ChkDiv input[name=dutyCode]:checked"), function(){
+            dutyCode += "," + $(this).val()
+        })
 
         selEvalPop.global.searchAjaxData = {
             tempDivision : $("#searchType").val() == "emp" ? "N" : "E",
@@ -173,11 +162,11 @@ var selEvalPop = {
             searchContent : $("#searchContent").val(),
             recruitInfoSn : $("#recruitInfoSn").val(),
             recruitAreaInfoSn : $("#recruitAreaInfoSn").val(),
-            evalType : $("input[name='evalType']:checked").val() == null ? "doc" : $("input[name='evalType']:checked").val(),
+            evalType : $("#tabA").hasClass("k-state-active") ? "doc" : "in",
             dutyCode : dutyCode.substr(1)
         }
 
-        selEvalPop.mainGrid("/inside/getCommissionerList", selEvalPop.global.searchAjaxData);
+        selEvalPop.mainGrid("/inside/getCommissionerList", selEvalPop.global.searchAjaxData, id);
     },
 
     setInEvalLogin : function(e){
@@ -199,7 +188,7 @@ var selEvalPop = {
                 evalEmpSeq : evalEmpSeq.substring(1),
                 recruitInfoSn : $("#recruitInfoSn").val(),
                 recruitAreaInfoSn : $("#recruitAreaInfoSn").val(),
-                evalType : $("input[name='evalType']:checked").val(),
+                evalType : $("#tabA").hasClass("k-state-active") ? "doc" : "in",
                 empSeq : $("#empSeq").val()
             }
 
