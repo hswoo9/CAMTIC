@@ -1,4 +1,4 @@
-var srrl = {
+var srl = {
 
     global : {
         dropDownDataSource : "",
@@ -8,23 +8,23 @@ var srrl = {
     },
 
     fn_defaultScript : function (){
-        srrl.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
-        customKendo.fn_dropDownList("whCd", srrl.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
-        $("#whCd").data("kendoDropDownList").bind("change", srrl.gridReload);
+        srl.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
+        customKendo.fn_dropDownList("whCd", srl.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
+        $("#whCd").data("kendoDropDownList").bind("change", srl.gridReload);
 
-        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(srrl.global.now.setMonth(srrl.global.now.getMonth() - 1)));
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(srl.global.now.setMonth(srl.global.now.getMonth() - 1)));
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
 
-        srrl.global.dropDownDataSource = [
+        srl.global.dropDownDataSource = [
             { text : "품번", value : "ITEM_NO" },
             { text : "품명", value : "ITEM_NAME" }
         ]
-        customKendo.fn_dropDownList("searchKeyword", srrl.global.dropDownDataSource, "text", "value");
-        $("#searchKeyword").data("kendoDropDownList").bind("change", srrl.gridReload);
+        customKendo.fn_dropDownList("searchKeyword", srl.global.dropDownDataSource, "text", "value");
+        $("#searchKeyword").data("kendoDropDownList").bind("change", srl.gridReload);
 
         customKendo.fn_textBox(["searchValue"]);
 
-        srrl.gridReload();
+        srl.gridReload();
     },
 
     mainGrid: function(url, params){
@@ -45,14 +45,14 @@ var srrl = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="srrl.fn_popShipmentRecordReg()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="srl.fn_popShipmentRecordReg()">' +
                             '	<span class="k-button-text">출하실적등록</span>' +
                             '</button>';
                     }
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="srrl.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="srl.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -102,7 +102,7 @@ var srrl = {
                     width: 100,
                     template : function (e){
                         if(e.DELIVERY_VOLUME != null && e.DELIVERY_VOLUME != ""){
-                            return srrl.comma(e.DELIVERY_VOLUME) + "";
+                            return srl.comma(e.DELIVERY_VOLUME) + "";
                         }else{
                             return "0";
                         }
@@ -116,7 +116,7 @@ var srrl = {
                     field: "UNIT_PRICE",
                     template : function (e){
                         if(e.UNIT_PRICE != null && e.UNIT_PRICE != ""){
-                            return srrl.comma(e.UNIT_PRICE) + "원";
+                            return srl.comma(e.UNIT_PRICE) + "원";
                         }else{
                             return "0원";
                         }
@@ -130,7 +130,7 @@ var srrl = {
                     field: "AMT",
                     template: function(e){
                         if(e.AMT != null && e.AMT != ""){
-                            return srrl.comma(e.AMT) + "원";
+                            return srl.comma(e.AMT) + "원";
                         }else{
                             return "0원";
                         }
@@ -164,23 +164,22 @@ var srrl = {
     },
 
     gridReload: function (){
-        srrl.global.searchAjaxData = {
+        srl.global.searchAjaxData = {
             crmSn : $("#crmSn").val(),
             whCd : $("#whCd").val(),
             startDt : $("#startDt").val(),
             endDt : $("#endDt").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
-            regEmpSeq : $("#regEmpSeq").val()
         }
 
-        srrl.mainGrid("/item/getShipmentRecordList.do", srrl.global.searchAjaxData);
+        srl.mainGrid("/item/getShipmentRecordList.do", srl.global.searchAjaxData);
     },
 
     crmSnReset : function(){
         $("#crmSn").val("");
         $("#crmNm").val("");
-        srrl.gridReload()
+        srl.gridReload()
     },
 
     fn_popShipmentRecordReg : function (){

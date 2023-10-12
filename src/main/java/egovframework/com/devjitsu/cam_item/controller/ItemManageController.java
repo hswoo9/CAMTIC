@@ -136,12 +136,26 @@ public class ItemManageController {
      * @return
      */
     @RequestMapping("/item/shipmentRecordRegList.do")
-    public String shipmentRecordList(HttpServletRequest request){
+    public String shipmentRecordRegList(HttpServletRequest request){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
         session.setAttribute("menuNm", request.getRequestURI());
 
         return "cam_item/itemMa/shipmentMa/shipmentRecordRegList";
+    }
+
+    /**
+     * 출하실적 등록 리스트
+     * @param request
+     * @return
+     */
+    @RequestMapping("/item/shipmentRecordList.do")
+    public String shipmentRecordList(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_item/itemMa/shipmentMa/shipmentRecordList";
     }
 
     /**
@@ -198,6 +212,52 @@ public class ItemManageController {
         itemManageService.setShipmentRecord(params);
         return "jsonView";
     }
+
+    /**
+     * 출하실적추이분석
+     * @param request
+     * @return
+     */
+    @RequestMapping("/item/shipmentTrend.do")
+    public String shipmentTrend(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_item/itemMa/shipmentMa/shipmentTrend";
+    }
+
+    /**
+     * 반품등록리스트
+     * @param request
+     * @return
+     */
+    @RequestMapping("/item/returnRegList.do")
+    public String returnRegList(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_item/itemMa/shipmentMa/returnRegList";
+    }
+
+    /**
+     * 반품등록 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/pop/popReturnReg.do")
+    public String popReturnReg(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_item/popReturnReg";
+    }
+
 
     /** 캠아이템 > 아이템관리 > BOM */
 

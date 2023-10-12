@@ -10,6 +10,7 @@
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
+        <input type="hidden" id="reg" name="reg" value="${params.reg}">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">재고 선택</span>
             </h3>

@@ -4,15 +4,15 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/cam_item/itemMa/shipmentMa/shipmentRecordRegList.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_item/itemMa/shipmentMa/returnRegList.js?v=${today}'/>"></script>
 
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">출하실적등록</h4>
-            <div class="title-road">캠아이템 > 아이템관리 > 출하관리 > 출하실적등록</div>
+            <h4 class="panel-title">반품등록</h4>
+            <div class="title-road">캠아이템 > 아이템관리 > 출하관리 > 반품등록</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -31,12 +31,12 @@
                     <tr>
                         <th class="text-center th-color">업체</th>
                         <td>
-                            <input type="hidden" id="crmSn" name="crmSn" onchange="srrl.gridReload();">
-                            <input type="text" id="crmNm" style="width: 190px;" readonly onclick="srrl.fn_popCamCrmList()">
-                            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="srrl.fn_popCamCrmList()">
+                            <input type="hidden" id="crmSn" name="crmSn" onchange="rrl.gridReload();">
+                            <input type="text" id="crmNm" style="width: 190px;" readonly onclick="rrl.fn_popCamCrmList()">
+                            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rrl.fn_popCamCrmList()">
                                 조회
                             </button>
-                            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="srrl.crmSnReset()">
+                            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rrl.crmSnReset()">
                                 초기화
                             </button>
                         </td>
@@ -52,7 +52,7 @@
                         <th class="text-center th-color">검색어</th>
                         <td>
                             <input type="text" id="searchKeyword" style="width: 30%;"/>
-                            <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){srrl.gridReload()}"/>
+                            <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){rrl.gridReload()}"/>
                         </td>
                     </tr>
                 </table>
@@ -64,5 +64,5 @@
 </div><!-- col-md-9 -->
 
 <script>
-    srrl.fn_defaultScript();
+    rrl.fn_defaultScript();
 </script>
