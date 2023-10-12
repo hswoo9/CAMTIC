@@ -8,7 +8,9 @@
 <body class="font-opensans" style="background-color:#fff;">
 <script type="text/javascript" src="/js/intra/cam_crm/regCrmPop.js?v=${today}"/></script>
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/cam_manager/purcManage/regPurcReqPop.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_purc/regPurcReqPop.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_purc/purchase.js?v=${today}'/>"></script>
+
 
 <form id="purcDraftFrm" method="post">
     <input type="hidden" id="purcSn" name="purcSn" value="${params.purcSn}">
@@ -26,10 +28,10 @@
                 </span>
             </h3>
             <div id="purcBtnDiv" class="btn-st popButton">
-                <%--<button type="button" class="k-button k-button-solid-info" id="reqBtn" onclick="prp.purcDrafting();">요청하기</button>
+                <button type="button" class="k-button k-button-solid-info" id="reqBtn" style="display: none" onclick="prp.purcDrafting();">요청하기</button>
                 <button type="button" class="k-button k-button-solid-info" id="reqCancelBtn" onclick="prp.setPurcReqStatusUpd('W');" style="display: none">요청취소</button>
                 <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="prp.setPurcReq('W');">저장</button>
-                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>--%>
+                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
 
@@ -76,6 +78,16 @@
                         <span id="purcType"></span>
                     </td>
                 </tr>
+                <tr id="project" style="display: none;">
+                    <th scope="row" class="text-center th-color">프로젝트</th>
+                    <td colspan="3">
+                        <span>
+                            <input type="text" id="pjtNm" style="width: 40%;">
+                            <input type="hidden" id="pjtSn" />
+                            <button type="button" class="k-button k-button-solid-base" onclick="prp.fn_projectPop()">검색</button>
+                        </span>
+                    </td>
+                </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">견적서 파일</th>
                     <td colspan="3">
@@ -99,6 +111,9 @@
 
             <div class="mt-20">
                 <div class="text-right">
+                    <button type="button" id="delRowBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.delRow()">
+                        삭제
+                    </button>
                     <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="prp.addRow()">
                         <span class="k-button-text">추가</span>
                     </button>
@@ -106,17 +121,16 @@
 
                 <table class="popTable table table-bordered mb-0 mt-20">
                     <colgroup>
+                        <col style="width: 480px;">
                         <col>
-                        <col>
-                        <col style="width: 10%;">
-                        <col style="width: 6%;">
-                        <col style="width: 6%;">
                         <col style="width: 6%;">
                         <col style="width: 8%;">
-                        <col>
-                        <col style="width: 10%">
-                        <col>
-                        <col>
+                        <col style="width: 5%;">
+                        <col style="width: 4%;">
+                        <col style="width: 10%;">
+                        <col style="width: 15%;">
+                        <col style="width: 5%;">
+<%--                        <col style="width: 3%">--%>
                     </colgroup>
                     <thead>
                     <tr>
@@ -129,15 +143,17 @@
                         <th>금액</th>
                         <th>업체명</th>
                         <th>비고</th>
-                        <th>진행상태</th>
-                        <th>삭제</th>
+<%--                        <th>삭제</th>--%>
                     </tr>
                     </thead>
                     <tbody id="purcItemTb">
                     <tr class="purcItemInfo newArray" id="item0">
                         <td>
                             <input type="hidden" id="purcItemSn0" name="purcItemSn0" class="purcItemSn">
-                            <input type="text" id="purcItemType0" class="purcItemType">
+                            <input type="text" id="purcItemType0" class="purcItemType" style="width: 110px">
+                            <input type="text" id="productA0" class="productA" style="width: 110px">
+                            <input type="text" id="productB0" class="productB" style="width: 110px; display: none">
+                            <input type="text" id="productC0" class="productC" style="width: 110px; display: none">
                         </td>
                         <td>
                             <input type="text" id="purcItemName0" class="purcItemName">
@@ -146,31 +162,30 @@
                             <input type="text" id="purcItemStd0" class="purcItemStd">
                         </td>
                         <td>
-                            <input type="text" id="purcItemUnitPrice0" class="purcItemUnitPrice" onkeydown="return onlyNumber(this)" onkeyup="removeChar(event);">
+                            <input type="text" id="purcItemUnitPrice0" style="text-align: right" class="purcItemUnitPrice" onkeyup="prp.fn_calc(0, this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                         </td>
                         <td>
-                            <input type="text" id="purcItemQty0" class="purcItemQty" onkeydown="return onlyNumber(this)" onkeyup="removeChar(event);">
+                            <input type="text" id="purcItemQty0" style="text-align: right" class="purcItemQty" onkeyup="prp.fn_calc(0, this)" onkeydown="return onlyNumber(this)" onkeyup="removeChar(event);">
                         </td>
                         <td>
                             <input type="text" id="purcItemUnit0" class="purcItemUnit">
                         </td>
                         <td>
-                            <input type="text" id="purcItemAmt0" class="purcItemAmt" style="text-align: right" onkeyup="prp.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            <input type="text" id="purcItemAmt0" class="purcItemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                         </td>
                         <td>
                             <input type="hidden" id="crmSn0" class="crmSn">
-                            <input type="text" id="crmNm0" class="crmNm" style="width: 70%">
-                            <button type="button" id="crmSelBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="prp.fn_popCamCrmList('crmSn0', 'crmNm0');">업체 선택</button>
+                            <input type="text" id="crmNm0" disabled class="crmNm" style="width: 60%">
+                            <button type="button" id="crmSelBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="prp.fn_popCamCrmList('crmSn0', 'crmNm0');">업체선택</button>
                         </td>
                         <td>
                             <input type="text" id="rmk0" class="rmk">
                         </td>
-                        <td></td>
-                        <td>
-                            <button type="button" id="delRowBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.delRow(this)">
-                                삭제
-                            </button>
-                        </td>
+<%--                        <td>--%>
+<%--                            <button type="button" id="delRowBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.delRow(this)">--%>
+<%--                                삭제--%>
+<%--                            </button>--%>
+<%--                        </td>--%>
                     </tr>
                     </tbody>
                 </table>
@@ -183,6 +198,15 @@
 </div>
 <script type="text/javascript">
     prp.fn_defaultScript();
+
+    function userSearch() {
+        window.open("/common/deptListPop.do", "조직도", "width=750, height=650");
+    }
+
+    function selectProject(sn, nm){
+        $("#pjtSn").val(sn);
+        $("#pjtNm").val(nm);
+    }
 </script>
 </body>
 </html>

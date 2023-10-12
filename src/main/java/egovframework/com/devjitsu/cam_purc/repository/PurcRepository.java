@@ -1,0 +1,29 @@
+package egovframework.com.devjitsu.cam_purc.repository;
+
+import egovframework.com.devjitsu.gw.login.repository.AbstractDAO;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Map;
+
+@Repository
+public class PurcRepository extends AbstractDAO {
+
+
+    public List<Map<String, Object>> getPurcReqList(Map<String, Object> params) { return selectList("purc.getPurcReqList", params);};
+    public void setPurcReq(Map<String, Object> params) { insert("purc.setPurcReq", params);}
+    public void setPurcReqUpd(Map<String, Object> params) { update("purc.setPurcReqUpd", params);}
+    public void setPurcItem(Map<String, Object> params) { insert("purc.setPurcItem", params);}
+    public void setPurcItemUpd(Map<String, Object> params) { update("purc.setPurcItemUpd", params);}
+    public Map<String, Object> getPurcReq(Map<String, Object> params) { return (Map<String, Object>) selectOne("purc.getPurcReq", params);}
+    public List<Map<String, Object>> getPurcItemList(Map<String, Object> params) { return selectList("purc.getPurcItemList", params);}
+    public Map<String, Object> getPurcItemAmtTotal(Map<String, Object> params) { return (Map<String, Object>) selectOne("purc.getPurcItemAmtTotal", params);}
+    public Map<String, Object> getPurcReqFileInfo(Map<String, Object> params) { return (Map<String, Object>) selectOne("purc.getPurcReqFileInfo", params);}
+    public void updatePurcApprStat(Map<String, Object> params) { update("purc.updatePurcApprStat", params); }
+    public void updatePurcFinalApprStat(Map<String, Object> params) { update("purc.updatePurcFinalApprStat", params); }
+
+
+    public List<Map<String, Object>> getMngReqPurcList(Map<String, Object> params) {
+        return selectList("purc.getMngReqPurcList", params);
+    }
+}

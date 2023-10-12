@@ -1,34 +1,60 @@
-var prm = {
+var purcMngReqList = {
 
     global : {
-        dropDownDataSource : "",
-        searchAjaxData : "",
-        saveAjaxData : "",
+        dropDownDataSource : []
     },
 
-    fn_defaultScript : function (){
 
-        prm.global.dropDownDataSource = [
+    fn_defaultScript : function (){
+        purcMngReqList.global.dropDownDataSource = [
             { text: "내 구매만 조회", value: "empDept" },
         ]
-        customKendo.fn_dropDownList("searchDept", prm.global.dropDownDataSource, "text", "value");
+        customKendo.fn_dropDownList("searchDept", purcMngReqList.global.dropDownDataSource, "text", "value");
         $("#searchDept").data("kendoDropDownList").value("empDept");
-        $("#searchDept").data("kendoDropDownList").bind("change", prm.gridReload);
+        $("#searchDept").data("kendoDropDownList").bind("change", purcMngReqList.gridReload);
 
-        prm.global.dropDownDataSource = [
+        purcMngReqList.global.dropDownDataSource = [
             { text: "문서번호", value: "DOC_NO" },
             { text: "목적", value: "PURC_REQ_PURPOSE" },
             { text: "품명", value: "PURC_ITEM_NAME" },
         ]
 
-        customKendo.fn_dropDownList("searchKeyword", prm.global.dropDownDataSource, "text", "value");
+        customKendo.fn_dropDownList("searchKeyword", purcMngReqList.global.dropDownDataSource, "text", "value");
         customKendo.fn_textBox(["searchValue"]);
-        prm.gridReload();
+        purcMngReqList.mainGrid();
     },
 
     mainGrid: function(url, params){
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read: {
+                    url: '/purc/getMngReqPurcList',
+                    dataType: "json",
+                    type: "post"
+                },
+                parameterMap: function(data) {
+                    data.empSeq = $("#myEmpSeq").val();
+                    data.searchDept = $("#searchDept").val();
+                    data.searchKeyword = $("#searchKeyword").val();
+                    data.searchValue = $("#searchValue").val();
+
+                    return data;
+                }
+            },
+            schema: {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             sortable: true,
             selectable: "row",
             height : 525,
@@ -44,14 +70,14 @@ var prm = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="prm.fn_reqRegPopup()">' +
-                            '	<span class="k-button-text">구매요청서 작성</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="purcMngReqList.fn_reqRegPopup()">' +
+                            '	<span class="k-button-text">구매청구서 작성</span>' +
                             '</button>';
                     }
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="prm.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcMngReqList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -77,7 +103,7 @@ var prm = {
                     title: "목적",
                     field: "PURC_REQ_PURPOSE",
                     template : function(e){
-                        return '<a onclick="prm.fn_reqRegPopup(' + e.PURC_SN + ')">' + e.PURC_REQ_PURPOSE + '</a>'
+                        return '<a onclick="purcMngReqList.fn_reqRegPopup(' + e.PURC_SN + ')">' + e.PURC_REQ_PURPOSE + '</a>'
                     }
                 }, {
                     title: "구매",
@@ -108,23 +134,6 @@ var prm = {
     },
 
     gridReload: function (){
-        prm.global.searchAjaxData = {
-            empSeq : $("#myEmpSeq").val(),
-            searchDept : $("#searchDept").val(),
-            searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val()
-        }
-
-        prm.mainGrid("/manage/getPurcReqManageList.do", prm.global.searchAjaxData);
+        $("#mainGrid").data("kendoGrid").dataSource.read();
     },
-
-    fn_reqRegPopup : function (key){
-        var url = "/manage/pop/regPurcReqPop.do";
-        if(key != null && key != ""){
-            url = "/manage/pop/regPurcReqPop.do?purcSn=" + key;
-        }
-        var name = "_blank";
-        var option = "width = 1500, height = 820, top = 100, left = 400, location = no"
-        var popup = window.open(url, name, option);
-    }
 }

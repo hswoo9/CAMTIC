@@ -300,7 +300,7 @@ var hwpInit = {
             purcSn: purcSn
         }
 
-        const result = customKendo.fn_customAjax("/manage/getPurcReq.do", data).data;
+        const result = customKendo.fn_customAjax("/purc/getPurcReq.do", data).data;
         console.log(result);
 
         /** 1. 구매요청서 데이터 */

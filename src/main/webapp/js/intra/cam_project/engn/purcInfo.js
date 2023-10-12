@@ -144,7 +144,7 @@ var purcInfo = {
 
         formData.append("itemArr", JSON.stringify(itemArr))
 
-        var result = customKendo.fn_customFormDataAjax("/manage/setPurcReq.do", formData);
+        var result = customKendo.fn_customFormDataAjax("/purc/setPurcReq.do", formData);
         if(result.flag){
             alert("저장되었습니다.");
 

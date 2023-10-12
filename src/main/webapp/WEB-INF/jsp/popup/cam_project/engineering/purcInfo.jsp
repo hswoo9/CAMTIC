@@ -149,7 +149,7 @@
                     <td>
                         <input type="hidden" id="crmSn0" class="crmSn">
                         <input type="text" id="crmNm0" class="crmNm" style="width: 60%">
-                        <button type="button" id="crmSelBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcInfo.fn_popCamCrmList('crmSn0', 'crmNm0');">업체 선택</button>
+                        <button type="button" id="crmSelBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcInfo.fn_popCamCrmList('crmSn0', 'crmNm0');">업체선택</button>
                     </td>
                     <td>
                         <input type="text" id="rmk0" class="rmk">
