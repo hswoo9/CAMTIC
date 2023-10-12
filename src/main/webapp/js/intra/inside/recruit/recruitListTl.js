@@ -120,7 +120,7 @@ var recruitListTl = {
                         }
                     },
                     width : 90
-                }, {
+                }/*, {
                     field: "",
                     title: "면접설정",
                     template: function(e) {
@@ -133,7 +133,7 @@ var recruitListTl = {
                         }
                     },
                     width : 90
-                }, {
+                }*/, {
                     field: "",
                     title: "면접심사",
                     template: function(e) {
@@ -277,27 +277,27 @@ var recruitListTl = {
         }
     },
 
-    inTimeSetPop : function(e){
-        recruitListTl.global.searchAjaxData = {
-            recruitInfoSn : e,
-            evalEmpSeq : $("#empSeq").val(),
-            group : "Y",
-            evalType : "in"
-        }
-
-        var chk = customKendo.fn_customAjax("/evaluation/evalChk.do", recruitListTl.global.searchAjaxData);
-        if(chk.flag){
-            if(chk.eval == null){
-                alert("면접 대상 평가위원이 아닙니다.");
-                return;
-            }else{
-                var url = "/inside/pop/inTimeSetPop.do?recruitInfoSn=" + e;
-                var name = "inTimeSetPop";
-                var option = "width=1250, height=690, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-                var popup = window.open(url, name, option);
-            }
-        }
-    },
+    // inTimeSetPop : function(e){
+    //     recruitListTl.global.searchAjaxData = {
+    //         recruitInfoSn : e,
+    //         evalEmpSeq : $("#empSeq").val(),
+    //         group : "Y",
+    //         evalType : "in"
+    //     }
+    //
+    //     var chk = customKendo.fn_customAjax("/evaluation/evalChk.do", recruitListTl.global.searchAjaxData);
+    //     if(chk.flag){
+    //         if(chk.eval == null){
+    //             alert("면접 대상 평가위원이 아닙니다.");
+    //             return;
+    //         }else{
+    //             var url = "/inside/pop/inTimeSetPop.do?recruitInfoSn=" + e;
+    //             var name = "inTimeSetPop";
+    //             var option = "width=1250, height=690, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+    //             var popup = window.open(url, name, option);
+    //         }
+    //     }
+    // },
 
     getInEvalPop : function(r){
         recruitListTl.global.searchAjaxData = {
