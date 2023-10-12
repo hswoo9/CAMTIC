@@ -560,7 +560,6 @@ public class UserManageServiceImpl implements UserManageService {
     }
 
     //인사기록카드 - 삭제할 학력사항 선택
-
     @Override
     public List<Map<String, Object>> getEduDeleteList(List<Integer> eduChk) {
         return userManageRepository.getEduDeleteList(eduChk);
@@ -572,6 +571,8 @@ public class UserManageServiceImpl implements UserManageService {
             userManageRepository.setEduDeleteTmp(map);
 
     }
+
+    //인사기록카드 - 학력사항 삭제
     @Override
     public Map<String, Object> setEduDelete(List<String> eduChk) {
         Map<String, Object> result = new HashMap<>();
@@ -587,6 +588,18 @@ public class UserManageServiceImpl implements UserManageService {
         }
 
         return result;
+    }
+
+    //인사기록카드 - 삭제할 경력사항 선택
+    @Override
+    public List<Map<String,Object>> getCareerDeleteList(List<Integer> employChk){
+        return userManageRepository.getCareerDeleteList(employChk);
+    }
+
+    //인사기록카드 - 경력사항 삭제 요청 데이터 카피
+    @Override
+    public  void setCareerDeleteTmp(Map<String,Object> map){
+        userManageRepository.setCareerDeleteTmp(map);
     }
 
     //인사기록카드 - 경력사항 삭제
@@ -607,6 +620,18 @@ public class UserManageServiceImpl implements UserManageService {
         return result;
     }
 
+    //인사기록카드 - 삭제할 가족사항 선택
+    @Override
+    public List<Map<String, Object>> getFamilyDeleteList(List<Integer> familyChk) {
+        return userManageRepository.getFamilyDeleteList(familyChk);
+    }
+
+    //인사기록카드 - 가족사항 삭제 요청 데이터 카피
+    @Override
+    public void setFamilyDeleteTmp(Map<String,Object> map){
+        userManageRepository.setFamilyDeleteTmp(map);
+    }
+
     //인사기록카드 - 가족사항 삭제
     @Override
     public Map<String, Object> setFamilyDelete(List<String> familyChk) {
@@ -623,6 +648,18 @@ public class UserManageServiceImpl implements UserManageService {
         }
 
         return result;
+    }
+
+    //인사기록카드 - 삭제할 보유면허 선택
+    @Override
+    public List<Map<String,Object>> getLicenseDeleteList(List<Integer> certChk){
+        return userManageRepository.getLicenseDeleteList(certChk);
+    }
+
+    //인사기록카드 - 보유면허 삭제 요청 데이터 카피
+    @Override
+    public void setLicenseDeleteTmp(Map<String, Object> map){
+        userManageRepository.setLicenseDeleteTmp(map);
     }
 
     //인사기록카드 - 보유면허 삭제
@@ -643,6 +680,18 @@ public class UserManageServiceImpl implements UserManageService {
         return result;
     }
 
+    //인사기록카드 - 삭제할 직무사항 선택
+    @Override
+    public List<Map<String,Object>> getJobDeleteList(List<Integer> dutyInfoChk){
+        return userManageRepository.getJobDeleteList(dutyInfoChk);
+    }
+
+    //인사기록카드 - 직무사항 삭제 요청 데이터 카피
+    @Override
+    public void setJobDeleteTmp(Map<String,Object> map){
+        userManageRepository.setJobDeleteTmp(map);
+    }
+
     //인사기록카드 - 직무사항 삭제
     @Override
     public Map<String, Object> setJobDelete(List<String> dutyInfoChk) {
@@ -661,6 +710,18 @@ public class UserManageServiceImpl implements UserManageService {
         return result;
     }
 
+    //인사기록카드 - 삭제할 상벌사항 선택
+    @Override
+    public List<Map<String,Object>> getRewordDeleteList(List<Integer> rewordChk){
+        return userManageRepository.getRewordDeleteList(rewordChk);
+    }
+
+    //인사기록카드 - 상벌사항 삭제 요청 데이터 카피
+    @Override
+    public void setRewordDeleteTmp(Map<String,Object> map){
+        userManageRepository.setRewordDeleteTmp(map);
+    }
+
     //인사기록카드 - 상벌사항 삭제
     @Override
     public Map<String, Object> setRewordDelete(List<String> rewordChk) {
@@ -677,6 +738,18 @@ public class UserManageServiceImpl implements UserManageService {
         }
 
         return result;
+    }
+
+    //인사기록카드 - 삭제할 제안제도 선택
+    @Override
+    public List<Map<String,Object>> getProposalDeleteList (List<Integer> propChk){
+        return userManageRepository.getProposalDeleteList(propChk);
+    }
+
+    //인사기록카드 - 제안제도 삭제 요청 데이터 카피
+    @Override
+    public void setProposalDeleteTmp(Map<String,Object> map){
+        userManageRepository.setProposalDeleteTmp(map);
     }
 
     //인사기록카드 - 제안제도 삭제

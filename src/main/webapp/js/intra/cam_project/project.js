@@ -1,13 +1,5 @@
 var camPrj = {
 
-
-    global : {
-
-    },
-
-
-
-
     fn_defaultScript : function (){
         customKendo.fn_textBox(["deptName", "searchText"]);
 
@@ -353,7 +345,9 @@ var camPrj = {
 
         $("#mainGrid").data("kendoGrid").setOptions({
             selectable : true
-        })
+        });
+
+        camPrj.fn_tableSet();
     },
 
     fn_allCheck : function (e){
@@ -508,5 +502,26 @@ var camPrj = {
         var option = "width = 680, height = 200, top = 100, left = 200, location = no";
 
         var popup = window.open(url, name, option);
+    },
+
+    fn_tableSet: function(){
+        const data = { busnClass: "D" };
+        const engnData = customKendo.fn_customAjax("/project/getProjectTotalData", data).data;
+        console.log(engnData);
+        $("#expectEngnCount").text(camPrj.comma(engnData.EXPECT_COUNT)+ "건");
+        let expectEngnSum = Math.floor(engnData.EXPECT_SUM / 1000000);
+        $("#expectEngnSum").text(camPrj.comma(expectEngnSum)+"백만원");
+
+        $("#progressEngnCount").text(camPrj.comma(engnData.PROGRESS_COUNT)+ "건");
+        let progressEngnSum = Math.floor(engnData.PROGRESS_SUM / 1000000);
+        $("#progressEngnSum").text(camPrj.comma(progressEngnSum)+"백만원");
+
+        $("#completeEngnCount").text(camPrj.comma(engnData.COMPLETE_COUNT)+ "건");
+        let completeEngnSum = Math.floor(engnData.COMPLETE_SUM / 1000000);
+        $("#completeEngnSum").text(camPrj.comma(completeEngnSum)+"백만원");
+
+        $("#engnCount").text(camPrj.comma(engnData.EXPECT_COUNT + engnData.PROGRESS_COUNT + engnData.COMPLETE_COUNT)+ "건");
+        $("#engnSum").text(camPrj.comma(expectEngnSum + progressEngnSum + completeEngnSum)+"백만원");
     }
+
 }

@@ -77,23 +77,59 @@ public interface UserManageService{
     /**인사기록카드 - 학력사항 삭제 요청 데이터 카피*/
     void setEduDeleteTmp(Map<String, Object> map);
 
+    /**인사기록카드 - 삭제할 경력사항 선택*/
+    List<Map<String,Object>> getCareerDeleteList(List<Integer> employChk);
+
+    /**인사기록카드 - 경력사항 삭제 요청 카피 데이터*/
+    void setCareerDeleteTmp(Map<String,Object> map);
+
     /** 인사기록카드 - 경력사항 삭제*/
     Map<String, Object> setCareerDelete(List<String> employChk);
 
     /** 인사기록카드 - 가족사항 삭제*/
     Map<String, Object> setFamilyDelete(List<String> familyChk);
 
+    /**인사기록카드 - 삭제할 가족사항 선택*/
+    List<Map<String, Object>> getFamilyDeleteList(List<Integer> familyChk);
+
+    /**인사기록카드 - 가족사항 삭제 요청 데이터 카피*/
+    void setFamilyDeleteTmp(Map<String, Object> map);
+
     /** 인사기록카드 - 보유면허 삭제*/
     Map<String, Object> setLicenseDelete(List<String> certChk);
+
+    /** 인사기록카드 - 삭제할 보유면허 선택*/
+    List<Map<String,Object>> getLicenseDeleteList(List<Integer> certChk);
+
+    /** 인사기록카드 - 보유면허 삭제 요청 데이터 카피*/
+    void setLicenseDeleteTmp(Map<String, Object> map);
 
     /** 인사기록카드 - 직무사항 삭제*/
     Map<String, Object> setJobDelete(List<String> dutyInfoChk);
 
+    /** 인사기록카드 - 삭제할 직무사항 선택*/
+    List<Map<String,Object>> getJobDeleteList(List<Integer> dutyInfoChk);
+
+    /** 인사기록카드 - 직무사항 삭제 요청 데이터 카피*/
+    void setJobDeleteTmp(Map<String,Object> map);
+
     /** 인사기록카드 - 상벌사항 삭제*/
     Map<String, Object> setRewordDelete(List<String> rewordChk);
 
+    /**인사기록카드 - 삭제할 상벌사항 선택*/
+    List<Map<String,Object>> getRewordDeleteList(List<Integer> rewordChk);
+
+    /**인사기록카드 - 상벌사항 삭제 요청 카피 데이터*/
+    void setRewordDeleteTmp(Map<String,Object> map);
+
     /** 인사기록카드 - 제안제도 삭제*/
     Map<String, Object> setProposalDelete(List<String> propChk);
+
+    /**인사기록카드 - 삭제할 제안제도 선택*/
+    List<Map<String,Object>> getProposalDeleteList (List<Integer> propChk);
+
+    /**인사기록카드 - 제안제도 삭제 요청 카피 데이터*/
+    void setProposalDeleteTmp(Map<String,Object> map);
 
     /**
      * 인사기록카드 수정에 들어갈 항목 조회

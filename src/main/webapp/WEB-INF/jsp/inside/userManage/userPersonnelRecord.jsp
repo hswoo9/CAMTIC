@@ -1315,6 +1315,7 @@
         }
     }
     //인사기록카드 - 학력 사항 삭제
+    /*
     function delDegreeBtn() {
         if ($('input[name=eduChk]:checked').length == 0) {
             alert("삭제할 항목을 선택해주세요.");
@@ -1346,10 +1347,9 @@
             }
         }
     }
-
+    */
 
     //인사기록카드 - 학력사항삭제 요청(_Tmp 테이블로 카피)
-    /*
     function delDegreeBtn() {
         if($('input[name=eduChk]:checked').length == 0){
             alert("삭제할 항목을 선택해주세요.");
@@ -1383,7 +1383,6 @@
             }
         });
     }
-     */
 
     //인사기록카드 - 경력 사항 수정
     function updateCareerBtn() {
@@ -1422,6 +1421,45 @@
         }
     }
 
+    //인사기록카드 - 경력 사항 삭제 요청(_Tmp 테이블로 카피)
+    function delCareerBtn() {
+        if($('input[name=employChk]:checked').length == 0){
+            alert("삭제할 항목을 선택해주세요.");
+            return;
+        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
+            return;
+        }
+
+        var employChk = new Array();
+        $("input[name='employChk']").each(function(){
+            if(this.checked){
+                var id = $(this).attr("id").replace($(this).attr("name"), "");
+                id = id.replace("employ", "");
+                employChk.push(id);
+                //employChk.push(parseInt($(this).attr("id").replace($(this).attr("name"), ""),10));
+            }
+        })
+
+        $.ajax({
+            type: "POST",
+            url: "/userManage/setCareerDeleteTmp", // 컨트롤러 엔드포인트 URL
+            data: { employChk:employChk }, // 전송할 데이터
+            success: function (response) {
+                // AJAX 요청이 성공했을 때 실행되는 코드
+                console.log("요청이 성공했습니다.");
+                console.log(employChk);
+                alert("삭제 요청이 완료되었습니다.");
+            },
+            error: function (error) {
+                // AJAX 요청이 실패했을 때 실행되는 코드
+                console.error("요청이 실패했습니다.");
+                console.log(employChk);
+                alert("삭제 요청이 실패했습니다.");
+            }
+        });
+    }
+
+    /*
     //인사기록카드 - 경력 사항 삭제
     function delCareerBtn() {
         if($('input[name=employChk]:checked').length == 0){
@@ -1456,6 +1494,7 @@
             }
         }
     }
+     */
 
     //인사기록카드 - 병력 사항 수정
     function updateMilitaryBtn(e) {
@@ -1540,6 +1579,44 @@
         });
     }*/
 
+    //인사기록카드 - 가족사항삭제 요청(_Tmp 테이블로 카피)
+    function delFamilyBtn() {
+        if($('input[name=familyChk]:checked').length == 0){
+            alert("삭제할 항목을 선택해주세요.");
+            return;
+        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
+            return;
+        }
+
+        var familyChk = new Array();
+        $("input[name='familyChk']").each(function(){
+            if(this.checked){
+                //var id = $(this).attr("id"); // id 속성 값
+                //var familyId = parseInt(id.replace("family", ""), 10); // "family"를 제거하고 정수로 변환
+                //familyChk.push(familyId);
+                familyChk.push(parseInt($(this).attr("id").replace($(this).attr("name"), ""),10));
+            }
+        })
+
+        $.ajax({
+            type: "POST",
+            url: "/userManage/setFamilyDeleteTmp", // 컨트롤러 엔드포인트 URL
+            data: { familyChk:familyChk }, // 전송할 데이터
+            success: function (response) {
+                // AJAX 요청이 성공했을 때 실행되는 코드
+                console.log("요청이 성공했습니다.");
+                console.log(familyChk);
+                alert("삭제 요청이 완료되었습니다.");
+            },
+            error: function (error) {
+                // AJAX 요청이 실패했을 때 실행되는 코드
+                console.error("요청이 실패했습니다.");
+                console.log(familyChk);
+                alert("삭제 요청이 실패했습니다.");
+            }
+        });
+    }
+
     //인사기록카드 - 보유 면허 수정
     function updateLicenseBtn() {
         if($('input[name=certChk]:checked').length == 0){
@@ -1574,7 +1651,42 @@
         }
     }
 
-    //인사기록카드 - 보유 면허 삭제
+    //인사기록카드 - 보유면허 삭제 요청(_Tmp 테이블로 카피)
+    function delLicenseBtn() {
+        if($('input[name=certChk]:checked').length == 0){
+            alert("삭제할 항목을 선택해주세요.");
+            return;
+        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
+            return;
+        }
+
+        var certChk = new Array();
+        $("input[name='certChk']").each(function(){
+            if(this.checked){
+                certChk.push(parseInt($(this).attr("id").replace($(this).attr("name"), ""),10));
+            }
+        })
+
+        $.ajax({
+            type: "POST",
+            url: "/userManage/setLicenseDeleteTmp", // 컨트롤러 엔드포인트 URL
+            data: { certChk:certChk }, // 전송할 데이터
+            success: function (response) {
+                // AJAX 요청이 성공했을 때 실행되는 코드
+                console.log("요청이 성공했습니다.");
+                console.log(certChk);
+                alert("삭제 요청이 완료되었습니다.");
+            },
+            error: function (error) {
+                // AJAX 요청이 실패했을 때 실행되는 코드
+                console.error("요청이 실패했습니다.");
+                console.log(certChk);
+                alert("삭제 요청이 실패했습니다.");
+            }
+        });
+    }
+
+   /* //인사기록카드 - 보유 면허 삭제
     function delLicenseBtn() {
         if($('input[name=certChk]:checked').length == 0){
             alert("삭제할 항목을 선택해주세요.");
@@ -1603,6 +1715,7 @@
             }
         });
     }
+    */
 
     //인사기록카드 - 직무 사항 수정
     function updateJobBtn() {
@@ -1636,6 +1749,43 @@
         }
     }
 
+    //인사기록카드 - 직무 사항 삭제 요청(_Tmp 테이블로 카피)
+    function delJobBtn() {
+        if($('input[name=dutyInfoChk]:checked').length == 0){
+            alert("삭제할 항목을 선택해주세요.");
+            return;
+        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
+            return;
+        }
+
+        var dutyInfoChk = new Array();
+        $("input[name='dutyInfoChk']").each(function(){
+            if(this.checked){
+                dutyInfoChk.push(parseInt($(this).attr("id").replace($(this).attr("name"), ""),10));
+            }
+        })
+
+        $.ajax({
+            type: "POST",
+            url: "/userManage/setJobDeleteTmp", // 컨트롤러 엔드포인트 URL
+            data: { dutyInfoChk:dutyInfoChk }, // 전송할 데이터
+            success: function (response) {
+                // AJAX 요청이 성공했을 때 실행되는 코드
+                console.log("요청이 성공했습니다.");
+                console.log(dutyInfoChk);
+                alert("삭제 요청이 완료되었습니다.");
+            },
+            error: function (error) {
+                // AJAX 요청이 실패했을 때 실행되는 코드
+                console.error("요청이 실패했습니다.");
+                console.log(dutyInfoChk);
+                alert("삭제 요청이 실패했습니다.");
+            }
+        });
+    }
+
+
+    /*
     //인사기록카드 - 직무 사항 삭제
     function delJobBtn() {
         if($('input[name=dutyInfoChk]:checked').length == 0){
@@ -1665,6 +1815,7 @@
             }
         });
     }
+     */
 
     //인사기록카드 - 상벌 사항 수정
     function updateRewardBtn() {
@@ -1698,6 +1849,42 @@
         }
     }
 
+    //인사기록카드 - 상벌 사항 삭제 요청(_Tmp 테이블로 카피)
+    function delRewardBtn() {
+        if($('input[name=rewordChk]:checked').length == 0){
+            alert("삭제할 항목을 선택해주세요.");
+            return;
+        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
+            return;
+        }
+
+        var rewordChk = new Array();
+        $("input[name='rewordChk']").each(function(){
+            if(this.checked){
+                rewordChk.push(parseInt($(this).attr("id").replace($(this).attr("name"), ""),10));
+            }
+        })
+
+        $.ajax({
+            type: "POST",
+            url: "/userManage/setRewordDeleteTmp", // 컨트롤러 엔드포인트 URL
+            data: { rewordChk:rewordChk }, // 전송할 데이터
+            success: function (response) {
+                // AJAX 요청이 성공했을 때 실행되는 코드
+                console.log("요청이 성공했습니다.");
+                console.log(rewordChk);
+                alert("삭제 요청이 완료되었습니다.");
+            },
+            error: function (error) {
+                // AJAX 요청이 실패했을 때 실행되는 코드
+                console.error("요청이 실패했습니다.");
+                console.log(rewordChk);
+                alert("삭제 요청이 실패했습니다.");
+            }
+        });
+    }
+
+    /*
     //인사기록카드 - 상벌 사항 삭제
     function delRewardBtn() {
         if($('input[name=rewordChk]:checked').length == 0){
@@ -1727,6 +1914,7 @@
             }
         });
     }
+     */
 
     //인사기록카드 - 제안 제도 수정
     function updateProposalBtn() {
@@ -1759,6 +1947,42 @@
         }
     }
 
+    //인사기록카드 - 제안 사항 삭제 요청(_Tmp 테이블로 카피)
+    function delProposalBtn() {
+        if($('input[name=propChk]:checked').length == 0){
+            alert("삭제할 항목을 선택해주세요.");
+            return;
+        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
+            return;
+        }
+
+        var propChk = new Array();
+        $("input[name='propChk']").each(function(){
+            if(this.checked){
+                propChk.push(parseInt($(this).attr("id").replace($(this).attr("name"), ""),10));
+            }
+        })
+
+        $.ajax({
+            type: "POST",
+            url: "/userManage/setProposalDeleteTmp", // 컨트롤러 엔드포인트 URL
+            data: { propChk:propChk }, // 전송할 데이터
+            success: function (response) {
+                // AJAX 요청이 성공했을 때 실행되는 코드
+                console.log("요청이 성공했습니다.");
+                console.log(propChk);
+                alert("삭제 요청이 완료되었습니다.");
+            },
+            error: function (error) {
+                // AJAX 요청이 실패했을 때 실행되는 코드
+                console.error("요청이 실패했습니다.");
+                console.log(propChk);
+                alert("삭제 요청이 실패했습니다.");
+            }
+        });
+    }
+
+    /*
     //인사기록카드 - 제안 제도 삭제
     function delProposalBtn() {
         if($('input[name=propChk]:checked').length == 0){
@@ -1788,5 +2012,6 @@
             }
         });
     }
+     */
 
 </script>

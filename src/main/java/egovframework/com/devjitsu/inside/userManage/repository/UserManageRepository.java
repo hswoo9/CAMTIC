@@ -169,10 +169,14 @@ public class UserManageRepository extends AbstractDAO {
     public void setEduDelete(List<String> eduChk) {update("userManage.setEduDelete", eduChk);}
 
     //인사기록카드 - 삭제할 경력사항 선택
+    public List<Map<String,Object>> getCareerDeleteList(List<Integer> employChk){
+        return selectList("userManage.getCareerDeleteList",employChk);
+    }
 
+    //인사기록카드 - 경력사항 삭제 요청 데이터 카피
+    public void setCareerDeleteTmp(Map<String,Object> map){insert("userManage.setCareerDeleteTmp",map);}
 
     //인사기록카드 - 경력사항 삭제
-    //인사기록카드 - 경력사항 삭제 요청 데이터 카피
     public void setCareerDelete(List<String> employChk) { update("userManage.setCareerDelete", employChk);}
 
     //인사기록카드 - 삭제할 가족사항 선택
@@ -180,21 +184,54 @@ public class UserManageRepository extends AbstractDAO {
         return selectList("userManage.getFamilyDeleteList", familyChk);
     }
 
-    //인사기록카드 - 가족사항 삭제
     //인사기록카드 - 가족사항 삭제 요청 데이터 카피
     public void setFamilyDeleteTmp (Map<String,Object> map){
         insert("userManage.setFamilyDeleteTmp", map);
     }
+
+    //인사기록카드 - 가족사항 삭제
     public void setFamilyDelete(List<String> familyChk) { update("userManage.setFamilyDelete", familyChk);}
+
+    //인사기록카드 - 삭제할 보유면허 선택
+    public List<Map<String,Object>> getLicenseDeleteList(List<Integer> certChk){
+        return selectList("userManage.getLicenseDeleteList", certChk);
+    }
+
+    //인사기록카드 - 보유면허 삭제 요청 데이터 카피
+    public void setLicenseDeleteTmp (Map<String,Object> map) {insert("userManage.setLicenseDeleteTmp", map);}
 
     //인사기록카드 - 보유면허 삭제
     public void setLicenseDelete(List<String> certChk) { update("userManage.setLicenseDelete", certChk);}
 
+    //인사기록카드 - 삭제할 직무사항 선택
+    public List<Map<String,Object>> getJobDeleteList(List<Integer> dutyInfoChk){
+        return selectList("userManage.getJobDeleteList", dutyInfoChk);
+    }
+
+    //인사기록카드 - 직무사항 삭제 요청 데이터 카피
+    public void setJobDeleteTmp(Map<String,Object> map){insert("userManage.setJobDeleteTmp", map);}
+
     //인사기록카드 - 직무사항 삭제
     public void setJobDelete(List<String> dutyInfoChk) { update("userManage.setJobDelete", dutyInfoChk);}
 
+    //인사기록카드 - 삭제할 상벌사항 선택
+    public List<Map<String,Object>> getRewordDeleteList(List<Integer> rewordChk){
+        return selectList("userManage.getRewordDeleteList",rewordChk);
+    }
+
+    //인사기록카드 - 상벌사항 삭제 요청 데이터 카피
+    public void setRewordDeleteTmp(Map<String,Object> map){insert("userManage.setRewordDeleteTmp",map);}
+
     //인사기록카드 - 상벌사항 삭제
     public void setRewordDelete(List<String> rewordChk) { update("userManage.setRewordDelete", rewordChk);}
+
+    //인사기록카드 - 삭제할 제안제도 선택
+    public List<Map<String,Object>> getProposalDeleteList (List<Integer> propChk){
+        return selectList("userManage.getProposalDeleteList",propChk);
+    }
+
+    //인사기록카드 - 제안제도 삭제 요청 데이터 카피
+    public void setProposalDeleteTmp(Map<String,Object> map){ insert("userManage.setProposalDeleteTmp",map);}
 
     //인사기록카드 - 제안제도 삭제
     public void setProposalDelete(List<String> propChk) { update("userManage.setProposalDelete", propChk);}

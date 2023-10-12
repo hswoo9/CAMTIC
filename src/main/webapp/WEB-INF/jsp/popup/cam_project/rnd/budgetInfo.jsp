@@ -7,6 +7,21 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/rnd/rndBudget.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 
+<style>
+    .k-footer-template td:nth-child(4) {
+        overflow: visible;
+        white-space: nowrap;
+        text-align: right;
+    }
+
+    .k-footer-template td:nth-child(1),
+    .k-footer-template td:nth-child(2),
+    .k-footer-template td:nth-child(3),
+    .k-footer-template td:nth-child(4) {
+        border-width: 0;
+    }
+</style>
+
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="mgtCd" value="${data.PJT_CD}" />
