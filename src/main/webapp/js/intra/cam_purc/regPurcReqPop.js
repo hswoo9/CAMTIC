@@ -337,6 +337,7 @@ var prp = {
         if(result.flag){
             console.log(result);
             var data = result.data;
+            $("#docNo").text(data.DOC_NO);
             $("#purcReqDate").val(data.PURC_REQ_DATE);
             $("#purcReqEmpSeq").val(data.PURC_REQ_EMP_SEQ);
             $("#purcReqEmpName").text(data.EMP_NAME_KR);

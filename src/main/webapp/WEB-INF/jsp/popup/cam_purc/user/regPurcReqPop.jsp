@@ -54,7 +54,7 @@
                     </td>
                     <th scope="row" class="text-center th-color">문서번호</th>
                     <td>
-
+                        <div id="docNo" style="margin-top:3px;"></div>
                     </td>
                 </tr>
                 <tr>
