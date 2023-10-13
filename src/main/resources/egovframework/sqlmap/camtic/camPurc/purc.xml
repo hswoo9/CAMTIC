@@ -7,8 +7,8 @@
         /* getPurcReqList */
         SELECT
             MP.PURC_SN,
-            MP.DOC_NO,
             DATE_FORMAT(MP.PURC_REQ_DATE, '%Y. %m. %d') AS PURC_REQ_DATE,
+            DI.DOC_NO,
             EI.EMP_NAME_KR,
             MP.PURC_REQ_PURPOSE,
             COUNT(CASE WHEN MPI.STATUS = 'C' THEN 1 END) AS CP_CNT,
@@ -22,6 +22,10 @@
         JOIN
             CAM_MNG.DJ_MNG_PURC_ITEM MPI
         ON MP.PURC_SN = MPI.PURC_SN
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI
+        ON
+            MP.DOC_ID = DI.DOC_ID
         WHERE
             1=1
 
@@ -55,7 +59,7 @@
         /*getMngReqPurcList*/
         SELECT
             MP.PURC_SN,
-            MP.DOC_NO,
+            DI.DOC_NO,
             DATE_FORMAT(MP.PURC_REQ_DATE, '%Y. %m. %d') AS PURC_REQ_DATE,
             EI.EMP_NAME_KR,
             MP.PURC_REQ_PURPOSE,
@@ -70,6 +74,10 @@
         JOIN
             CAM_MNG.DJ_MNG_PURC_ITEM MPI
         ON MP.PURC_SN = MPI.PURC_SN
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI
+        ON
+            MP.DOC_ID = DI.DOC_ID
         WHERE 1=1
             AND
             MP.DOC_STATUS = 100

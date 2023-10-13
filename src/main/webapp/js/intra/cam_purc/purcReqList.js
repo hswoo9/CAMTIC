@@ -64,7 +64,7 @@ var prm = {
                 }, {
                     title: "문서번호",
                     field: "DOC_NO",
-                    width: 100,
+                    width: 180,
                 }, {
                     field: "PURC_REQ_DATE",
                     title: "요청일",
