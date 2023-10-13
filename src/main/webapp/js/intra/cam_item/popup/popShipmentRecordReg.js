@@ -29,24 +29,24 @@ var srr = {
                     '<button type="button" id="crmSelBtn' + srr.global.smrIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="srr.fn_popCamItemList(' + srr.global.smrIndex + ');">선택</button>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="itemName' + srr.global.smrIndex + '" class="k-input k-textbox" onclick="srr.fn_popCamItemList(' + srr.global.smrIndex + ');" readonly name="itemName' + srr.global.smrIndex + '">' +
+                    '<input type="text" id="itemName' + srr.global.smrIndex + '" class="itemName k-input k-textbox" onclick="srr.fn_popCamItemList(' + srr.global.smrIndex + ');" readonly>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="forwardingWhCdTxt' + srr.global.smrIndex + '" name="forwardingWhCdTxt' + srr.global.smrIndex + '" class="k-input k-textbox" onclick="srr.fn_popCamItemList(' + srr.global.smrIndex + ');" readonly name="forwardingWhCdTxt' + srr.global.smrIndex + '">' +
+                    '<input type="text" id="forwardingWhCdTxt' + srr.global.smrIndex + '" class="forwardingWhCdTxt k-input k-textbox" onclick="srr.fn_popCamItemList(' + srr.global.smrIndex + ');" readonly name="forwardingWhCdTxt' + srr.global.smrIndex + '">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="deliveryVolume' + srr.global.smrIndex + '" name="deliveryVolume' + srr.global.smrIndex + '" class="numberInput deliveryVolume" style="text-align: right;" value="0">' +
+                    '<input type="text" id="deliveryVolume' + srr.global.smrIndex + '" class="numberInput deliveryVolume" style="text-align: right;" value="0">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="unitPrice' + srr.global.smrIndex + '" name="unitPrice' + srr.global.smrIndex + '" class="numberInput unitPrice" style="text-align: right;width: 63%">' +
+                    '<input type="text" id="unitPrice' + srr.global.smrIndex + '" class="numberInput unitPrice" style="text-align: right;width: 63%">' +
                     '<button type="button" id="crmSelBtn' + srr.global.smrIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="srr.fn_popSrUnitPriceList(\'unitPrice\', ' + srr.global.smrIndex + ');">선택</button>' +
                 '</td>' +
 
                 '<td>' +
-                    '<input type="text" id="amt' + srr.global.smrIndex + '" name="amt' + srr.global.smrIndex + '" class="amt numberInput" style="text-align: right" readonly>' +
+                    '<input type="text" id="amt' + srr.global.smrIndex + '" class="amt numberInput" style="text-align: right" readonly>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="rmk' + srr.global.smrIndex + '" name="rmk' + srr.global.smrIndex + '">' +
+                    '<input type="text" id="rmk' + srr.global.smrIndex + '" class="rmk">' +
                 '</td>' +
                 '<td style="text-align: center">' +
                     '<button type="button" class="k-button k-button-solid-error" srNum="' + srr.global.smrIndex + '" onclick="srr.delRow(this)">X</button>' +
@@ -74,6 +74,8 @@ var srr = {
     delRow : function(e){
         if(confirm("삭제하시겠습니까?\n삭제한 데이터는 복구 할 수 없습니다.")){
             $(e).closest("tr").remove();
+            srr.global.smrIndex--;
+            srr.rowAttrOverride();
         }
     },
 
@@ -219,5 +221,25 @@ var srr = {
     uncomma: function(str) {
         str = String(str);
         return str.replace(/[^\d]+/g, '');
+    },
+
+    rowAttrOverride : function(){
+        $.each($(".srInfo"), function(i, v){
+            $(this).attr("id", "sr" + i);
+
+            $(this).find("input.smRecordSn").attr("id", "smRecordSn" + i);
+            $(this).find("input.masterSn").attr("id", "masterSn" + i);
+            $(this).find("input.crmSn").attr("id", "crmSn" + i);
+            $(this).find("input.crmNm").attr("id", "crmNm" + i);
+            $(this).find("input.invenSn").attr("id", "invenSn" + i);
+            $(this).find("input.forwardingWhCd").attr("id", "forwardingWhCd" + i);
+            $(this).find("input.itemNo").attr("id", "itemNo" + i);
+            $(this).find("input.itemName").attr("id", "itemName" + i);
+            $(this).find("input.forwardingWhCdTxt").attr("id", "forwardingWhCdTxt" + i);
+            $(this).find("input.deliveryVolume").attr("id", "deliveryVolume" + i);
+            $(this).find("input.unitPrice").attr("id", "unitPrice" + i);
+            $(this).find("input.amt").attr("id", "amt" + i);
+            $(this).find("input.rmk").attr("id", "rmk" + i);
+        })
     },
 }

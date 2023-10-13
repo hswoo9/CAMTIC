@@ -59,7 +59,7 @@ var bomList = {
                 }
             ],
             excel : {
-                fileName : "재고현황.xlsx",
+                fileName : "BOM.xlsx",
                 filterable : true
             },
             columns: [

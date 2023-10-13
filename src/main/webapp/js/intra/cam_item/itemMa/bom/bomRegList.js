@@ -66,7 +66,7 @@ var bomRegList = {
                 }
             ],
             excel : {
-                fileName : "재고현황.xlsx",
+                fileName : "BOM등록.xlsx",
                 filterable : true
             },
             columns: [

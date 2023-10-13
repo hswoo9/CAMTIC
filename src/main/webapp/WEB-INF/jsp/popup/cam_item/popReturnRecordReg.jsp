@@ -45,6 +45,7 @@
             </div>
             <table class="popTable table table-bordered mb-0 mt10">
                 <colgroup>
+                    <col style="width: 5%;">
                     <col style="width: 17%;">
                     <col style="width: 16%;">
                     <col style="width: 12%;">
@@ -57,6 +58,7 @@
                 </colgroup>
                 <thead>
                 <tr>
+                    <th>반품구분</th>
                     <th>업체</th>
                     <th>품번</th>
                     <th>품명</th>

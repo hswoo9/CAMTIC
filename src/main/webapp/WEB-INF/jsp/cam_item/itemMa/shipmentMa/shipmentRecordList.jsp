@@ -11,7 +11,7 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">출하실적등록</h4>
+            <h4 class="panel-title">출하실적현황</h4>
             <div class="title-road">캠아이템 > 아이템관리 > 출하관리 > 출하실적현황</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>

@@ -4,9 +4,12 @@ var rrr = {
         rrIndex : 0,
         now : new Date(),
         saveAjaxData : "",
+        rTDataSource : "",
     },
     
     fn_defaultScript : function(){
+        regRv.global.rTDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "RC", lgCd : "RT"});
+
         rrr.addRow('new');
     },
 
@@ -15,6 +18,9 @@ var rrr = {
 
         html = "" +
             '<tr class="rrInfo ' + e + 'RrInfo" id="rr' + rrr.global.rrIndex + '">' +
+                '<td>' +
+                    '<input type="text" id="returnType' + rrr.global.rrIndex + '" name="returnType' + rrr.global.rrIndex + '" class="returnType">' +
+                '</td>' +
                 '<td>' +
                     '<input type="hidden" id="returnRecordSn' + rrr.global.rrIndex + '" class="returnRecordSn">' +
                     '<input type="hidden" id="masterSn' + rrr.global.rrIndex + '" class="masterSn">' +
@@ -67,6 +73,9 @@ var rrr = {
             var unitPrice = Number(rrr.uncomma($(this).closest("tr").find("input.unitPrice").val()));
             $(this).closest("tr").find("input.amt").val(rrr.comma(Number(deliveryVolume * unitPrice)));
         });
+
+        customKendo.fn_dropDownList("returnType" + rrr.global.rrIndex, regRv.global.rTDataSource, "ITEM_CD_NM", "ITEM_CD", 3);
+
 
         rrr.global.rrIndex++;
     },
