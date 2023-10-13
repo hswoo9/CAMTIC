@@ -56,7 +56,7 @@ var reqCl = {
         customKendo.fn_datePicker("claimDe", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("expDe", "month", "yyyy-MM-dd", new Date());
 
-        if($("#purcSn").val() != null){
+        if($("#purcSn").val() != ""){
             var data = {
                 claimSn : $("#claimSn").val(),
                 purcSn : $("#purcSn").val()
@@ -70,11 +70,8 @@ var reqCl = {
             $("#purcEmpSeq").val(data.EMP_SEQ);
 
             if($("#claimSn").val() == ""){
-                var data = {
-                    purcSn : $("#purcSn").val()
-                }
-
                 reqCl.fn_setItem(data);
+                $("#purcReqPurpose").val(data.PURC_REQ_PURPOSE);
             } else {
                 var data = {
                     claimSn : $("#claimSn").val(),
@@ -93,7 +90,6 @@ var reqCl = {
                 $("#vat").data("kendoRadioGroup").value(data.VAT);
 
                 $("#expType").data("kendoRadioGroup").value(data.EXP_TYPE);
-
 
                 this.fn_setClaimItem(data);
             }
@@ -229,7 +225,11 @@ var reqCl = {
     },
 
     fn_delete: function (e){
+        var len = $("#claimTbody > tr").length
 
+        if(len > 1){
+            $(e).closest("tr").remove()
+        }
     },
 
     fn_save : function (){

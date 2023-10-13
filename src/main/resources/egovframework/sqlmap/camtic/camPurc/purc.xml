@@ -430,7 +430,12 @@
             )
         VALUES
             (
-                #{purcSn},
+                <if test="purcSn != null and !purcSn.equals('')">
+                    #{purcSn},
+                </if>
+                <if test="purcSn == null or purcSn.equals('')">
+                    NULL,
+                </if>
                 #{loginEmpSeq},
                 #{purcEmpSeq},
                 #{purcType},
@@ -477,4 +482,18 @@
         WHERE
             CLAIM_SN = #{claimSn}
     </update>
+
+    <delete id="delPurcClaimItem" parameterType="map">
+        /*delPurcClaimItem*/
+        DELETE FROM CAM_MNG.DJ_PURC_CLAIM_ITEM
+        WHERE
+            CLAIM_SN = #{claimSn}
+    </delete>
+
+    <delete id="delPurcItem" parameterType="map">
+        /*delPurcItem*/
+        DELETE FROM CAM_MNG.DJ_MNG_PURC_ITEM
+        WHERE
+            PURC_SN = #{purcSn}
+    </delete>
 </mapper>
