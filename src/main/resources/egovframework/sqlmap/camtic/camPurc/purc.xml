@@ -4,25 +4,26 @@
 <mapper namespace="purc">
 
     <select id="getPurcReqList" parameterType="map" resultType="map">
-        /* getPurcReqManageList */
+        /* getPurcReqList */
         SELECT
-        MP.PURC_SN,
-        MP.DOC_NO,
-        DATE_FORMAT(MP.PURC_REQ_DATE, '%Y. %m. %d') AS PURC_REQ_DATE,
-        EI.EMP_NAME_KR,
-        MP.PURC_REQ_PURPOSE,
-        COUNT(CASE WHEN MPI.STATUS = 'C' THEN 1 END) AS CP_CNT,
-        COUNT(CASE WHEN MPI.STATUS = 'R' THEN 1 END) AS RP_CNT,
-        MP.STATUS
+            MP.PURC_SN,
+            MP.DOC_NO,
+            DATE_FORMAT(MP.PURC_REQ_DATE, '%Y. %m. %d') AS PURC_REQ_DATE,
+            EI.EMP_NAME_KR,
+            MP.PURC_REQ_PURPOSE,
+            COUNT(CASE WHEN MPI.STATUS = 'C' THEN 1 END) AS CP_CNT,
+            COUNT(CASE WHEN MPI.STATUS = 'R' THEN 1 END) AS RP_CNT,
+            MP.STATUS
         FROM
-        CAM_MNG.DJ_MNG_PURC MP
+            CAM_MNG.DJ_MNG_PURC MP
         JOIN
-        CAM_HR.DJ_EMP_INFO EI
+            CAM_HR.DJ_EMP_INFO EI
         ON MP.PURC_REQ_EMP_SEQ = EI.EMP_SEQ
         JOIN
-        CAM_MNG.DJ_MNG_PURC_ITEM MPI
+            CAM_MNG.DJ_MNG_PURC_ITEM MPI
         ON MP.PURC_SN = MPI.PURC_SN
-        WHERE 1=1
+        WHERE
+            1=1
 
         <if test='searchDept != null and !"".equals(searchDept)'>
             AND MP.PURC_REQ_EMP_SEQ = #{empSeq}
@@ -41,8 +42,8 @@
             <otherwise>
                 AND
                 (
-                MP.DOC_NO LIKE CONCAT('%',#{searchValue},'%') OR
-                MP.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%')
+                    MP.DOC_NO LIKE CONCAT('%',#{searchValue},'%') OR
+                    MP.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%')
                 )
             </otherwise>
         </choose>
@@ -222,6 +223,9 @@
             EI.DEPT_SEQ,
             DI.DOC_NO,
             CAM_HR.FN_GetName('DEPT', EI.DEPT_SEQ, NULL) AS DEPT_NAME
+            CAM_HR.FN_GetName('DEPT', EI.DEPT_SEQ, NULL) AS DEPT_NAME,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
         FROM
             CAM_MNG.DJ_MNG_PURC MP
         JOIN
@@ -231,6 +235,10 @@
             DJ_CAMTIC.A_DOC_INFO DI
         ON
             MP.DOC_ID = DI.DOC_ID
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO EI ON MP.PURC_REQ_EMP_SEQ = EI.EMP_SEQ
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON MP.DOC_ID = DI.DOC_ID
         WHERE
             PURC_SN = #{purcSn}
     </select>

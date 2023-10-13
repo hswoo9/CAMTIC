@@ -39,10 +39,10 @@ const externalReq = {
     fn_makeRow: function(data){
         let html = '';
         html += '<tr class="addRow">';
-        html += '   <td>'+data.belong+'</td>';
-        html += '   <td>'+data.spot+'</td>';
-        html += '   <td>'+data.name+'</td>';
-        html += '   <td>'+data.etc+'</td>';
+        html += '   <td class="belong">'+data.belong+'</td>';
+        html += '   <td class="spot">'+data.spot+'</td>';
+        html += '   <td class="name">'+data.name+'</td>';
+        html += '   <td class="etc">'+data.etc+'</td>';
         html += '   <td style="text-align: center"><button type="button" class="k-button k-button-solid-error" id="addBtn" onclick="externalReq.fn_delBtn(this);">삭제</button></td>';
         html += '</tr>';
         $("#externalThead").append(html)
@@ -50,5 +50,35 @@ const externalReq = {
 
     fn_delBtn: function(e){
         $(e).parent().parent().remove();
-    }
+    },
+
+    fn_externalSave: function(){
+        let externalArr = []
+
+        let belongArr = "";
+        let spotArr = "";
+        let nameArr = "";
+        let etcArr = "";
+
+        $.each($(".addRow"), function(){
+            let data = {
+                belong : $(this).find(".belong").text(),
+                spot : $(this).find(".spot").text(),
+                name : $(this).find(".name").text(),
+                etc : $(this).find(".etc").text(),
+            }
+
+            belongArr += data.belong + ",";
+            spotArr += data.spot + ",";
+            nameArr += data.name + ",";
+            etcArr += data.etc + ",";
+
+            externalArr.push(data);
+        });
+
+        opener.parent.externalDataSet(externalArr);
+        //window.close();
+    },
+
+
 }
