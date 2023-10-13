@@ -274,3 +274,32 @@ function userDataSet(userArr){
     $("#popDeptSeq").val(userDeptSn);
     $("#popDeptName").val(userDeptText);
 }
+
+function externalDataSet(externalArr){
+    console.log(externalArr);
+    let belongText = "";
+    let spotText = "";
+    let nameText = "";
+    let userDeptSn = "";
+    for(let i=0; i<externalArr.length; i++) {
+        if(nameText != "") {
+            belongText += ",";
+            spotText += ",";
+            nameText += ",";
+            userDeptSn += ",";
+        }
+        belongText += externalArr[i].belong;
+        spotText += externalArr[i].spot;
+        nameText += externalArr[i].name;
+        userDeptSn += externalArr[i].etc;
+    }
+
+    console.log(belongText);
+    console.log(spotText);
+    console.log(nameText);
+    console.log(userDeptSn);
+    $("#externalBelong").val(belongText);
+    $("#externalSpot").val(spotText);
+    $("#externalName").val(nameText);
+    $("#externalEtc").val(userDeptSn);
+}
