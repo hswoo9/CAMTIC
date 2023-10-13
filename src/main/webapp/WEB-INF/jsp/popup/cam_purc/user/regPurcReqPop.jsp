@@ -10,7 +10,7 @@
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_purc/regPurcReqPop.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_purc/purchase.js?v=${today}'/>"></script>
-
+<input type="hidden" id="stat" value="${params.stat}" />
 
 <form id="purcDraftFrm" method="post">
     <input type="hidden" id="purcSn" name="purcSn" value="${params.purcSn}">
@@ -84,7 +84,7 @@
                         <span>
                             <input type="text" id="pjtNm" style="width: 40%;">
                             <input type="hidden" id="pjtSn" />
-                            <button type="button" class="k-button k-button-solid-base" onclick="prp.fn_projectPop()">검색</button>
+                            <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="prp.fn_projectPop()">검색</button>
                         </span>
                     </td>
                 </tr>
@@ -92,7 +92,7 @@
                     <th scope="row" class="text-center th-color">견적서 파일</th>
                     <td colspan="3">
                         <input type="hidden" id="file1Sn" name="file1Sn">
-                        <label for="file1" class="k-button k-button-solid-base">파일첨부</label>
+                        <label for="file1" id="file1" class="k-button k-button-solid-base">파일첨부</label>
                         <input type="file" id="file1" name="file1" onchange="prp.fileChange(this)" style="display: none">
                         <span id="file1Name"></span>
                     </td>
@@ -101,7 +101,7 @@
                     <th scope="row" class="text-center th-color">요청서 파일</th>
                     <td colspan="3">
                         <input type="hidden" id="file2Sn" name="file1Sn">
-                        <label for="file2" class="k-button k-button-solid-base">파일첨부</label>
+                        <label for="file2" id="file2" class="k-button k-button-solid-base">파일첨부</label>
                         <input type="file" id="file2" name="file2" onchange="prp.fileChange(this)" style="display: none">
                         <span id="file2Name"></span>
                     </td>
@@ -114,13 +114,16 @@
                     <button type="button" id="delRowBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.delRow()">
                         삭제
                     </button>
-                    <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="prp.addRow()">
+                    <button type="button" id="addBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="prp.addRow()">
                         <span class="k-button-text">추가</span>
                     </button>
                 </div>
 
                 <table class="popTable table table-bordered mb-0 mt-20">
                     <colgroup>
+                        <c:if test="${params.stat == 'v'}">
+                            <col style="width: 3%;">
+                        </c:if>
                         <col style="width: 480px;">
                         <col>
                         <col style="width: 6%;">
@@ -128,12 +131,25 @@
                         <col style="width: 5%;">
                         <col style="width: 4%;">
                         <col style="width: 10%;">
-                        <col style="width: 15%;">
+                        <c:if test="${params.stat == 'v'}">
+                            <col style="width: 10%;">
+                        </c:if>
+                        <c:if test="${params.stat != 'v'}">
+                            <col style="width: 15%;">
+                        </c:if>
                         <col style="width: 5%;">
+                        <c:if test="${params.stat == 'v'}">
+                            <col style="width: 3%">
+                        </c:if>
 <%--                        <col style="width: 3%">--%>
                     </colgroup>
                     <thead>
                     <tr>
+                        <c:if test="${params.stat == 'v'}">
+                            <th>
+                                <input type="checkbox" id="checkAll" class="k-checkbox" style="margin-left: 2px;" />
+                            </th>
+                        </c:if>
                         <th>구분</th>
                         <th>품명</th>
                         <th>규격</th>
@@ -143,11 +159,19 @@
                         <th>금액</th>
                         <th>업체명</th>
                         <th>비고</th>
+                        <c:if test="${params.stat == 'v'}">
+                            <th>상태</th>
+                        </c:if>
 <%--                        <th>삭제</th>--%>
                     </tr>
                     </thead>
                     <tbody id="purcItemTb">
                     <tr class="purcItemInfo newArray" id="item0">
+                        <c:if test="${params.stat == 'v'}">
+                            <td>
+                                <input type="checkbox" id="check0" class="childCheck k-checkbox" style="margin-left: 3px;" value="0" />
+                            </td>
+                        </c:if>
                         <td>
                             <input type="hidden" id="purcItemSn0" name="purcItemSn0" class="purcItemSn">
                             <input type="text" id="purcItemType0" class="purcItemType" style="width: 110px">
@@ -176,11 +200,18 @@
                         <td>
                             <input type="hidden" id="crmSn0" class="crmSn">
                             <input type="text" id="crmNm0" disabled class="crmNm" style="width: 60%">
-                            <button type="button" id="crmSelBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="prp.fn_popCamCrmList('crmSn0', 'crmNm0');">업체선택</button>
+                            <button type="button" id="crmSelBtn0" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="prp.fn_popCamCrmList('crmSn0', 'crmNm0');">업체선택</button>
                         </td>
                         <td>
                             <input type="text" id="rmk0" class="rmk">
                         </td>
+                        <c:if test="${params.stat == 'v'}">
+                            <td id="itemStatus0">
+                                <button type="button" id="retBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.fn_retItem(0)">
+                                    반려
+                                </button>
+                            </td>
+                        </c:if>
 <%--                        <td>--%>
 <%--                            <button type="button" id="delRowBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.delRow(this)">--%>
 <%--                                삭제--%>
@@ -199,6 +230,21 @@
 <script type="text/javascript">
     prp.fn_defaultScript();
 
+    if($("#stat").val() == "v"){
+        $("input[type='text'], input[type='radio']").prop("disabled", true);
+
+        $("#delRowBtn0, #addBtn, #pjtSelBtn, #file1, #file2, .crmSelBtn").css("display", "none");
+        $(".crmNm").css("width", "100%");
+        var len = $("#purcItemTb > tr").length;
+
+        for(var i = 0 ; i < len ; i++){
+            $("#purcItemType" + i).data("kendoDropDownList").enable(false);
+            $("#productA" + i).data("kendoDropDownList").enable(false);
+            $("#productB" + i).data("kendoDropDownList").enable(false);
+            $("#productC" + i).data("kendoDropDownList").enable(false);
+        }
+
+    }
     function userSearch() {
         window.open("/common/deptListPop.do", "조직도", "width=750, height=650");
     }

@@ -103,28 +103,17 @@ var purcMngReqList = {
                     title: "목적",
                     field: "PURC_REQ_PURPOSE",
                     template : function(e){
-                        return '<a onclick="purcMngReqList.fn_reqRegPopup(' + e.PURC_SN + ')">' + e.PURC_REQ_PURPOSE + '</a>'
+                        return '<a onclick="purcMngReqList.fn_reqRegPopup(' + e.PURC_SN + ', \'v\')">' + e.PURC_REQ_PURPOSE + '</a>'
                     }
                 }, {
                     title: "구매",
                     width: 100,
                     template : function(e){
-                        return e.CP_CNT + "건 / " + e.RP_CNT + "건"
+                        return e.CP_CNT + "건 / " + '<span style="color:red;">'+e.RP_CNT+'</span>' + "건"
                     }
                 }, {
                     title: "외주",
                     width: 100
-                }, {
-                    title: "상태",
-                    field: "STATUS",
-                    width: 100,
-                    template : function(e){
-                        if(e.STATUS == "W"){
-                            return "작성중"
-                        }else if(e.STATUS == "C"){
-                            return "요청완료"
-                        }
-                    }
                 }
             ],
             dataBinding: function(){
@@ -136,4 +125,15 @@ var purcMngReqList = {
     gridReload: function (){
         $("#mainGrid").data("kendoGrid").dataSource.read();
     },
+
+    fn_reqRegPopup : function (key, stat){
+        var url = "/purc/pop/regPurcReqPop.do";
+        if(key != null && key != ""){
+            url = "/purc/pop/regPurcReqPop.do?purcSn=" + key + "&stat=" + stat;
+        }
+        var name = "blank";
+        var option = "width = 1690, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    }
+
 }

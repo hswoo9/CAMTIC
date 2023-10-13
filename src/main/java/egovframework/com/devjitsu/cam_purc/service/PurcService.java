@@ -16,4 +16,6 @@ public interface PurcService {
     void updatePurcDocState(Map<String, Object> bodyMap) throws Exception;
 
     List<Map<String, Object>> getMngReqPurcList(Map<String, Object> params);
+
+    void setPurcItemStat(Map<String, Object> params);
 }

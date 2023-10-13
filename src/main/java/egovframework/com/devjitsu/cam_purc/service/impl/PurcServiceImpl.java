@@ -156,4 +156,9 @@ public class PurcServiceImpl implements PurcService {
     public List<Map<String, Object>> getMngReqPurcList(Map<String, Object> params) {
         return purcRepository.getMngReqPurcList(params);
     }
+
+    @Override
+    public void setPurcItemStat(Map<String, Object> params) {
+        purcRepository.updPurcItemStat(params);
+    }
 }

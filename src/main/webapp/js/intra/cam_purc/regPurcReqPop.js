@@ -63,6 +63,14 @@ var prp = {
         if($("#purcSn").val()){
             prp.purcDataSet();
         }
+
+        $("#checkAll").click(function(){
+            if($("#checkAll").is(":checked")){
+                $(".childCheck").prop("checked", true);
+            } else {
+                $(".childCheck").prop("checked", false);
+            }
+        });
     },
 
     crmInfoChange : function(){
@@ -169,7 +177,14 @@ var prp = {
         prp.global.itemIndex++
 
         prp.global.createHtmlStr = "" +
-            '<tr class="purcItemInfo newArray" id="item' + prp.global.itemIndex + '">' +
+            '<tr class="purcItemInfo newArray" id="item' + prp.global.itemIndex + '">';
+            if($("#stat").val() == "v"){
+                prp.global.createHtmlStr += '' +
+                    '<td>' +
+                    '   <input type="checkbox" id="check'+ prp.global.itemIndex + '" class="childCheck k-checkbox" style="margin-left: 3px;" value="prp.global.itemIndex">' +
+                    '</td>';
+            }
+        prp.global.createHtmlStr += '' +
                 '<td>' +
                 '   <input type="hidden" id="purcItemSn' + prp.global.itemIndex + '" name="purcItemSn0" class="purcItemSn">' +
                 '   <input type="text" id="purcItemType' + prp.global.itemIndex + '" class="purcItemType" style="width: 110px">' +
@@ -198,11 +213,17 @@ var prp = {
                 '<td>' +
                     '<input type="hidden" id="crmSn' + prp.global.itemIndex + '" class="crmSn">' +
                     '<input type="text" id="crmNm' + prp.global.itemIndex + '" disabled class="crmNm" style="width: 60%"> ' +
-                    '<button type="button" id="crmSelBtn' + prp.global.itemIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" class="crmSelBtn" onclick="prp.fn_popCamCrmList(\'crmSn' + prp.global.itemIndex + '\',\'crmNm' + prp.global.itemIndex + '\');">업체선택</button>' +
+                    '<button type="button" id="crmSelBtn' + prp.global.itemIndex + '" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="prp.fn_popCamCrmList(\'crmSn' + prp.global.itemIndex + '\',\'crmNm' + prp.global.itemIndex + '\');">업체선택</button>' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="rmk' + prp.global.itemIndex + '" class="rmk">' +
-                '</td>' +
+                '</td>';
+        if($("#stat").val() == "v"){
+            prp.global.createHtmlStr += '' +
+                '<td id="itemStatus' + prp.global.itemIndex + '">' +
+                    '<button type="button" id="retBtn' + prp.global.itemIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.fn_retItem('+prp.global.itemIndex+')">반려</button>' +
+                '</td>';
+        }
                 // '<td>' +
                 //     '<button type="button" id="delRowBtn' + prp.global.itemIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.delRow(this)">삭제</button>' +
                 // '</td>' +
@@ -371,6 +392,13 @@ var prp = {
             $("#item" + i).find("#crmSn" + i).val(e[i].CRM_SN);
             $("#item" + i).find("#crmNm" + i).val(e[i].CRM_NM);
             $("#item" + i).find("#rmk" + i).val(e[i].CERT_CONTENT);
+            if(e[i].STATUS == "R"){
+                $("#item" + i).find("#retBtn" + i).css("display", "none");
+                $("#item" + i).find("#itemStatus" + i).append("<div style='margin-left:9px; color:red'>반려</div>");
+                $("#item" + i).find("#check" + i).css("display", "none");
+            }
+            $("#item" + i).find("#retBtn" + i).val(e[i].CERT_CONTENT);
+
         }
     },
 
@@ -435,5 +463,29 @@ var prp = {
         var name = "_blank";
         var option = "width = 1100, height = 400, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    fn_retItem: function (idx) {
+
+        if(!confirm("해당 구매물품을 반려하시겠습니까?")){
+            return ;
+        }
+
+        var parameters = {
+            purcItemSn: $("#purcItemSn" + idx).val()
+        }
+
+        $.ajax({
+            url : "/purc/setPurcItemStat",
+            type : "POST",
+            data : parameters,
+            dataType : "json",
+            success : function (rs){
+                if(rs.code == 200){
+                    alert("해당 구매물품이 반려되었습니다.");
+                    location.reload();
+                }
+            }
+        });
     }
 }
