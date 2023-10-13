@@ -168,4 +168,16 @@ public class PurcController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/purc/pop/reqClaiming.do")
+    public String reqClaiming(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("data", purcService.getPurcReq(params));
+
+        return "popup/cam_purc/mng/reqClaiming";
+    }
 }

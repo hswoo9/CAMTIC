@@ -218,13 +218,19 @@
             MP.*,
             EI.EMP_SEQ,
             EI.EMP_NAME_KR,
+            EI.POSITION_NAME,
             EI.DEPT_SEQ,
+            DI.DOC_NO,
             CAM_HR.FN_GetName('DEPT', EI.DEPT_SEQ, NULL) AS DEPT_NAME
         FROM
             CAM_MNG.DJ_MNG_PURC MP
-                JOIN
+        JOIN
             CAM_HR.DJ_EMP_INFO EI
-            ON MP.PURC_REQ_EMP_SEQ = EI.EMP_SEQ
+        ON MP.PURC_REQ_EMP_SEQ = EI.EMP_SEQ
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI
+        ON
+            MP.DOC_ID = DI.DOC_ID
         WHERE
             PURC_SN = #{purcSn}
     </select>
