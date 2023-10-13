@@ -117,11 +117,6 @@ var mup = {
     },
 
     gridReload: function (e){
-        if(!$("#crmSn").val() && e != "load"){
-            alert("업체를 선택해주세요.");
-            return;
-        }
-
         mup.global.searchAjaxData = {
             crmSn : $("#crmSn").val(),
             searchKeyword : $("#searchKeyword").val(),
@@ -146,6 +141,12 @@ var mup = {
         var name = "_blank";
         var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    crmSnReset : function(){
+        $("#crmSn").val("");
+        $("#crmNm").val("");
+        mup.gridReload()
     },
 
     fn_popCrmItemUnitPriceReg : function (e, m){

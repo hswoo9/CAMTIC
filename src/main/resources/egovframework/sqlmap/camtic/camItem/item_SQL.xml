@@ -702,6 +702,10 @@
             AND WI.WH_TYPE = #{whType}
         </if>
 
+        <if test='crmSn != null and !"".equals(crmSn)'>
+            AND CI.CRM_SN = #{crmSn}
+        </if>
+
         <if test='startDt != null and !"".equals(startDt)'>
             <![CDATA[
             AND
