@@ -56,7 +56,29 @@ var reqCl = {
         customKendo.fn_datePicker("claimDe", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("expDe", "month", "yyyy-MM-dd", new Date());
 
+        if($("#purcSn").val() != null){
+            var data = {
+                purcSn : $("#purcSn").val()
+            }
+            var rs = customKendo.fn_customAjax("/purc/getPurcReq.do", data);
+            var data = rs.data;
 
+            console.log(data);
+            $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
+            if($("input[name='purcType']:checked").val() != ""){
+                $("#project").css("display", "");
+                $("#pjtSn").val(data.PJT_SN);
+                $("#pjtNm").val(data.PJT_NM);
+            } else {
+                $("#project").css("display", "none");
+            }
+
+            $("#purcDeptName").val(data.DEPT_NAME);
+            $("#purcDeptSeq").val(data.DEPT_SEQ);
+            $("#purcEmpName").val(data.EMP_NAME_KR);
+            $("#purcEmpSeq").val(data.EMP_SEQ);
+            $("#purcReqPurpose").val(data.PURC_REQ_PURPOSE);
+        }
     },
 
     fn_popCamCrmList : function (){
@@ -131,6 +153,7 @@ var reqCl = {
 
     fn_save : function (){
         var parameters = {
+            purcSn : $("#purcSn").val(),
             purcEmpSeq : $("#purcEmpSeq").val(),
             purcDeptSeq : $("#purcDeptSeq").val(),
             purcEmpName : $("#purcEmpName").val(),
@@ -148,6 +171,10 @@ var reqCl = {
             crmSn : $("#crmSn").val(),
             crmNm : $("#crmNm").val(),
             vat : $("#vat").data("kendoRadioGroup").value(),
+            loginEmpSeq : $("#loginEmpSeq").val(),
+            estAmt : uncomma($("#estAmt").val()),
+            vatAmt : uncomma($("#vatAmt").val()),
+            totAmt : uncomma($("#totAmt").val())
         }
 
 
@@ -157,23 +184,25 @@ var reqCl = {
         var itemArr = new Array()
         for(var i = 0 ; i < len ; i++){
             if(i == 0){
+                itemParameters.claimItemSn = $("#claimItemSn").val();
                 itemParameters.itemNm = $("#itemNm").val();
                 itemParameters.itemStd = $("#itemStd").val();
-                itemParameters.itemEa = $("#itemEa").val();
-                itemParameters.itemUnitAmt = $("#itemUnitAmt").val();
+                itemParameters.itemEa = uncomma($("#itemEa").val());
+                itemParameters.itemUnitAmt = uncomma($("#itemUnitAmt").val());
                 itemParameters.itemUnit = $("#itemUnit").val();
-                itemParameters.itemAmt = $("#itemAmt").val();
+                itemParameters.itemAmt = uncomma($("#itemAmt").val());
                 itemParameters.itemEtc = $("#itemEtc").val();
-                itemParameters.prodCd = $("#prodCd").data("kendoRadioGroup").val();
+                itemParameters.prodCd = $("#prodCd").data("kendoRadioGroup").value();
             } else {
+                itemParameters.claimItemSn = $("#claimItemSn" + i).val();
                 itemParameters.itemNm = $("#itemNm" + i).val();
                 itemParameters.itemStd = $("#itemStd" + i).val();
-                itemParameters.itemEa = $("#itemEa" + i).val();
-                itemParameters.itemUnitAmt = $("#itemUnitAmt" + i).val();
+                itemParameters.itemEa = uncomma($("#itemEa" + i).val());
+                itemParameters.itemUnitAmt = uncomma($("#itemUnitAmt" + i).val());
                 itemParameters.itemUnit = $("#itemUnit" + i).val();
-                itemParameters.itemAmt = $("#itemAmt" + i).val();
+                itemParameters.itemAmt = uncomma($("#itemAmt" + i).val());
                 itemParameters.itemEtc = $("#itemEtc" + i).val();
-                itemParameters.prodCd = $("#prodCd" + i).data("kendoRadioGroup").val();
+                itemParameters.prodCd = $("#prodCd" + i).data("kendoRadioGroup").value();
             }
 
             itemArr.push(itemParameters);

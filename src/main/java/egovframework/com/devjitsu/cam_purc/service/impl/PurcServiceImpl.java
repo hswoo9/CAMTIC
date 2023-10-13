@@ -161,4 +161,32 @@ public class PurcServiceImpl implements PurcService {
     public void setPurcItemStat(Map<String, Object> params) {
         purcRepository.updPurcItemStat(params);
     }
+
+    @Override
+    public void setPurcClaimData(Map<String, Object> params) {
+        Map<String, Object> claimMap = purcRepository.getPurcClaimData(params);
+
+        if(StringUtils.isEmpty(claimMap.get("CLAIM_SN"))){
+            purcRepository.insPurcClaimData(params);
+        }else{
+            params.put("claimSn", claimMap.get("CLAIM_SN"));
+            purcRepository.updPurcClaimData(params);
+        }
+
+        Gson gson = new Gson();
+        List<Map<String, Object>> itemArr = gson.fromJson((String) params.get("itemArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+        for(Map<String, Object> map : itemArr){
+            map.put("claimSn", params.get("claimSn"));
+            if(StringUtils.isEmpty(map.get("claimItemSn"))){
+                purcRepository.insPurcClaimItem(map);
+            }else {
+                purcRepository.updPurcClaimItem(map);
+            }
+        }
+    }
+
+    @Override
+    public Map<String, Object> getPurcClaimData(Map<String, Object> params) {
+        return purcRepository.getPurcClaimData(params);
+    }
 }

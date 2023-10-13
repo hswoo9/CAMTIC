@@ -177,7 +177,7 @@ public class PurcController {
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
-        model.addAttribute("data", purcService.getPurcReq(params));
+        model.addAttribute("map", purcService.getPurcClaimData(params));
 
         return "popup/cam_purc/mng/reqClaiming";
     }
@@ -186,7 +186,7 @@ public class PurcController {
     public String setPurcClaimData(@RequestParam Map<String, Object> params, Model model){
 
         try{
-
+            purcService.setPurcClaimData(params);
             model.addAttribute("code", 200);
         } catch (Exception e){
             e.printStackTrace();

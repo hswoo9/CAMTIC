@@ -18,4 +18,8 @@ public interface PurcService {
     List<Map<String, Object>> getMngReqPurcList(Map<String, Object> params);
 
     void setPurcItemStat(Map<String, Object> params);
+
+    void setPurcClaimData(Map<String, Object> params);
+
+    Map<String, Object> getPurcClaimData(Map<String, Object> params);
 }

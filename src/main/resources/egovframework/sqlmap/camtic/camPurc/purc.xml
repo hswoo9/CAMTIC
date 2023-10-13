@@ -320,4 +320,133 @@
         WHERE
             PURC_ITEM_SN = #{purcItemSn}
     </update>
+
+    <insert id="insPurcClaimItem" parameterType="map">
+        /*insPurcClaimItem*/
+        INSERT CAM_MNG.DJ_PURC_CLAIM_ITEM
+            (
+                CLAIM_SN,
+                ITEM_NM,
+                ITEM_STD,
+                ITEM_EA,
+                ITEM_UNIT_AMT,
+                ITEM_UNIT,
+                ITEM_AMT,
+                ITEM_ETC,
+                PROD_CD,
+                PROD_SN
+            )
+        VALUES
+            (
+                #{claimSn},
+                #{itemNm},
+                #{itemStd},
+                #{itemEa},
+                #{itemUnitAmt},
+                #{itemUnit},
+                #{itemAmt},
+                #{itemEtc},
+                #{prodCd},
+                #{prodSn}
+            )
+    </insert>
+
+    <update id="updPurcClaimItem" parameterType="map">
+        /*updPurcClaimItem*/
+        UPDATE CAM_MNG.DJ_PURC_CLAIM_ITEM
+        SET
+            ITEM_NM = #{itemNm},
+            ITEM_STD = #{itemStd},
+            ITEM_EA = #{itemEa},
+            ITEM_UNIT_AMT = #{itemUnitAmt},
+            ITEM_UNIT = #{itemUnit},
+            ITEM_AMT = #{itemAmt},
+            ITEM_ETC = #{itemEtc},
+            PROD_CD = #{prodCd},
+            PROD_SN = #{prodSn}
+        WHERE
+            CLAIM_ITEM_SN = #{claimItemSn}
+    </update>
+
+    <select id="getPurcClaimData" parameterType="map" resultType="map">
+        /*getPurcClaimData*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_PURC_CLAIM
+        WHERE
+            PURC_SN = #{purcSn}
+    </select>
+
+    <insert id="insPurcClaimData" parameterType="map">
+        /*insPurcClaimData*/
+        INSERT INTO CAM_MNG.DJ_PURC_CLAIM
+            (
+                PURC_SN,
+                CLAIM_EMP_SEQ,
+                PURC_EMP_SEQ,
+                PURC_TYPE,
+                EXP_TYPE,
+                PJT_SN,
+                PJT_NM,
+                CLAIM_DE,
+                EXP_DE,
+                CLAIM_TITLE,
+                PURC_REQ_PURPOSE,
+                CRM_SN,
+                CRM_NM,
+                VAT,
+                EST_AMT,
+                VAT_AMT,
+                TOT_AMT
+            )
+        VALUES
+            (
+                #{purcSn},
+                #{loginEmpSeq},
+                #{purcEmpSeq},
+                #{purcType},
+                #{expType},
+                #{pjtSn},
+                #{pjtNm},
+                #{claimDe},
+                #{expDe},
+                #{claimTitle},
+                #{purcReqPurpose},
+                #{crmSn},
+                #{crmNm},
+                #{vat},
+                #{estAmt},
+                #{vatAmt},
+                #{totAmt}
+            )
+        <selectKey keyProperty="claimSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_MNG' AND TABLE_NAME = 'DJ_PURC_CLAIM'
+        </selectKey>
+    </insert>
+
+    <update id="updPurcClaimData" parameterType="map">
+        /*updPurcClaimData*/
+        UPDATE CAM_MNG.DJ_PURC_CLAIM
+        SET
+            PURC_SN = #{purcSn},
+            CLAIM_EMP_SEQ = #{claimEmpSeq},
+            PURC_EMP_SEQ = #{purcEmpSeq},
+            PURC_TYPE = #{purcType},
+            EXP_TYPE = #{expType},
+            PJT_SN = #{pjtSn},
+            PJT_NM = #{pjtNm},
+            CLAIM_DE = #{claimDe},
+            EXP_DE = #{expDe},
+            CLAIM_TITLE = #{claimTitle},
+            PURC_REQ_PURPOSE = #{purcReqPurpose},
+            CRM_SN = #{crmSn},
+            CRM_NM = #{crmNm},
+            VAT = #{vat},
+            EST_AMT = #{estAmt},
+            VAT_AMT = #{vatAmt},
+            TOT_AMT = #{totAmt}
+        WHERE
+            CLAIM_SN = #{claimSn}
+    </update>
 </mapper>

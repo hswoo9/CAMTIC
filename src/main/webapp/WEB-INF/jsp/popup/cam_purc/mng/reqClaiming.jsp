@@ -58,10 +58,10 @@
                     </td>
                     <th scope="row" class="text-center th-color">직위</th>
                     <td>
-                        <c:if test="${data.POSITION_NAME != null}">
-                            <div>${data.POSITION_NAME}</div>
+                        <c:if test="${map.POSITION_NAME != null}">
+                            <div>${map.POSITION_NAME}</div>
                         </c:if>
-                        <c:if test="${data.POSITION_NAME == null}">
+                        <c:if test="${map.POSITION_NAME == null}">
                             <div>${loginVO.positionNm}</div>
                         </c:if>
                     </td>
@@ -69,14 +69,17 @@
                 <tr>
                     <th scope="row" class="text-center th-color">성명</th>
                     <td>
-                        <c:if test="${data.EMP_NAME_KR != null}">
-                            <div>${data.EMP_NAME_KR}</div>
+                        <c:if test="${map.EMP_NAME_KR != null}">
+                            <div>${map.EMP_NAME_KR}</div>
+                        </c:if>
+                        <c:if test="${map.EMP_NAME_KR == null}">
+                            <div>${loginVO.name}</div>
                         </c:if>
                     </td>
                     <th scope="row" class="text-center th-color">문서번호</th>
                     <td>
-                        <c:if test="${data.DOC_NO != null}">
-                            <div>${data.DOC_NO}</div>
+                        <c:if test="${map.DOC_NO != null}">
+                            <div>${map.DOC_NO}</div>
                         </c:if>
                     </td>
                 </tr>
@@ -119,10 +122,10 @@
                         <span class="red-star">*</span>구매요청자
                     </th>
                     <td>
-                        <input type="text" id="purcDeptName" style="width: 40%" value="${data.DEPT_NAME}" disabled>
-                        <input type="hidden" id="purcDeptSeq" value="${data.DEPT_SEQ}" disabled>
-                        <input type="text" id="purcEmpName" value="${data.EMP_NAME_KR}" style="width: 30%" disabled>
-                        <input type="hidden" id="purcEmpSeq" value="${data.EMP_SEQ}">
+                        <input type="text" id="purcDeptName" style="width: 40%" value="" disabled>
+                        <input type="hidden" id="purcDeptSeq" value="" disabled>
+                        <input type="text" id="purcEmpName" value="" style="width: 30%" disabled>
+                        <input type="hidden" id="purcEmpSeq" value="">
                         <button type="button" id="stfs" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userSearch('mng');">
                             검색
                         </button>
@@ -139,7 +142,7 @@
                 <tr>
                     <th scope="row" class="text-center th-color">구매목적</th>
                     <td colspan="3">
-                        <input type="text" id="purcReqPurpose" style="width: 90%;" value="${data.PURC_REQ_PURPOSE}">
+                        <input type="text" id="purcReqPurpose" style="width: 90%;" value="">
                     </td>
                 </tr>
                 <tr>
@@ -166,7 +169,7 @@
                 <thead>
                     <tr>
                         <th>견적가</th>
-                        <th>세dor</th>
+                        <th>세액</th>
                         <th>합계</th>
                     </tr>
                 </thead>
@@ -224,6 +227,7 @@
                         <tr class="claimItem newArray" id="item">
                             <td style="text-align: center">
                                 <div id="claimIndex">1</div>
+                                <input type="hidden" id="claimItemSn" />
                             </td>
                             <td>
                                 <input type="text" id="itemNm" class="itemNm">
