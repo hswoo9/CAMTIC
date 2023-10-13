@@ -20,26 +20,26 @@ var srr = {
                     '<input type="hidden" id="masterSn' + srr.global.smrIndex + '" class="masterSn">' +
                     '<input type="hidden" id="crmSn' + srr.global.smrIndex + '" class="crmSn">' +
                     '<input type="text" id="crmNm' + srr.global.smrIndex + '" class="k-input k-textbox crmNm" readonly style="width: 83%" onclick="srr.fn_popCamCrmList(\'crmSn' + srr.global.smrIndex + '\', \'crmNm' + srr.global.smrIndex + '\');"/>' +
-                    '<button type="button" id="crmSelBtn' + srr.global.smrIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="srr.fn_popCamCrmList(\'crmSn' + srr.global.smrIndex + '\', \'crmNm' + srr.global.smrIndex + '\');">선택</button>' +
+                    '<button type="button" id="crmSelBtn' + srr.global.smrIndex + '" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="srr.fn_popCamCrmList(\'crmSn' + srr.global.smrIndex + '\', \'crmNm' + srr.global.smrIndex + '\');">선택</button>' +
                 '</td>' +
                 '<td>' +
                     '<input type="hidden" id="invenSn' + srr.global.smrIndex + '" class="invenSn">' +
                     '<input type="hidden" id="forwardingWhCd' + srr.global.smrIndex + '" class="forwardingWhCd">' +
                     '<input type="text" id="itemNo' + srr.global.smrIndex + '" class="k-input k-textbox itemNo" readonly style="width: 69%" onclick="srr.fn_popCamItemList(' + srr.global.smrIndex + ');"/>' +
-                    '<button type="button" id="crmSelBtn' + srr.global.smrIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="srr.fn_popCamItemList(' + srr.global.smrIndex + ');">선택</button>' +
+                    '<button type="button" id="itemSelBtn' + srr.global.smrIndex + '" class="itemSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="srr.fn_popCamItemList(' + srr.global.smrIndex + ');">선택</button>' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="itemName' + srr.global.smrIndex + '" class="itemName k-input k-textbox" onclick="srr.fn_popCamItemList(' + srr.global.smrIndex + ');" readonly>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="forwardingWhCdTxt' + srr.global.smrIndex + '" class="forwardingWhCdTxt k-input k-textbox" onclick="srr.fn_popCamItemList(' + srr.global.smrIndex + ');" readonly name="forwardingWhCdTxt' + srr.global.smrIndex + '">' +
+                    '<input type="text" id="forwardingWhCdTxt' + srr.global.smrIndex + '" class="forwardingWhCdTxt k-input k-textbox" onclick="srr.fn_popCamItemList(' + srr.global.smrIndex + ');" readonly>' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="deliveryVolume' + srr.global.smrIndex + '" class="numberInput deliveryVolume" style="text-align: right;" value="0">' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="unitPrice' + srr.global.smrIndex + '" class="numberInput unitPrice" style="text-align: right;width: 63%">' +
-                    '<button type="button" id="crmSelBtn' + srr.global.smrIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="srr.fn_popSrUnitPriceList(\'unitPrice\', ' + srr.global.smrIndex + ');">선택</button>' +
+                    '<button type="button" id="priceSelBtn' + srr.global.smrIndex + '" class="priceSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="srr.fn_popSrUnitPriceList(\'unitPrice\', ' + srr.global.smrIndex + ');">선택</button>' +
                 '</td>' +
 
                 '<td>' +
@@ -229,15 +229,28 @@ var srr = {
 
             $(this).find("input.smRecordSn").attr("id", "smRecordSn" + i);
             $(this).find("input.masterSn").attr("id", "masterSn" + i);
-            $(this).find("input.crmSn").attr("id", "crmSn" + i);
-            $(this).find("input.crmNm").attr("id", "crmNm" + i);
             $(this).find("input.invenSn").attr("id", "invenSn" + i);
             $(this).find("input.forwardingWhCd").attr("id", "forwardingWhCd" + i);
+            $(this).find("input.crmSn").attr("id", "crmSn" + i);
+            $(this).find("input.crmNm").attr("id", "crmNm" + i);
+            $(this).find("input.crmNm").attr("onClick", "srr.fn_popCamCrmList('crmSn" + i + "','crmNm" + i +"')");
+            $(this).find("button.crmSelBtn").attr("id", "crmSelBtn" + i);
+            $(this).find("button.crmSelBtn").attr("onClick", "srr.fn_popCamCrmList('crmSn" + i + "','crmNm" + i +"')");
+
+
             $(this).find("input.itemNo").attr("id", "itemNo" + i);
+            $(this).find("input.itemNo").attr("onClick", "srr.fn_popCamItemList(" + i + ")");
+            $(this).find("button.itemSelBtn").attr("id", "itemSelBtn" + i);
+            $(this).find("button.itemSelBtn").attr("onClick", "srr.fn_popCamItemList(" + i + ")");
             $(this).find("input.itemName").attr("id", "itemName" + i);
+            $(this).find("input.itemName").attr("onClick", "srr.fn_popCamItemList(" + i + ")");
             $(this).find("input.forwardingWhCdTxt").attr("id", "forwardingWhCdTxt" + i);
+            $(this).find("input.forwardingWhCdTxt").attr("onClick", "srr.fn_popCamItemList(" + i + ")");
+
             $(this).find("input.deliveryVolume").attr("id", "deliveryVolume" + i);
             $(this).find("input.unitPrice").attr("id", "unitPrice" + i);
+            $(this).find("button.priceSelBtn").attr("id", "priceSelBtn" + i);
+            $(this).find("button.priceSelBtn").attr("onClick", "srr.fn_popSrUnitPriceList('unitPrice'," + i + ")");
             $(this).find("input.amt").attr("id", "amt" + i);
             $(this).find("input.rmk").attr("id", "rmk" + i);
         })

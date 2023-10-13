@@ -138,9 +138,13 @@ var bomReg = {
             $(this).find("input.bomDetailSn").attr("id", "bomDetailSn" + i);
             $(this).find("input.masterSn").attr("id", "masterSn" + i);
             $(this).find("input.itemNo").attr("id", "itemNo" + i);
+            $(this).find("input.itemNo").attr("onClick", "bomReg.fn_popItemNoList(" + i + ")");
             $(this).find(".itemSelBtn").attr("id", "itemSelBtn" + i);
+            $(this).find(".itemSelBtn").attr("onClick", "bomReg.fn_popItemNoList(" + i + ")");
             $(this).find("input.itemName").attr("id", "itemName" + i);
+            $(this).find("input.itemName").attr("onClick", "bomReg.fn_popItemNoList(" + i + ")");
             $(this).find("input.unitPrice").attr("id", "unitPrice" + i);
+            $(this).find("input.unitPrice").attr("onClick", "bomReg.fn_popItemNoList(" + i + ")");
             $(this).find("input.reqQty").attr("id", "reqQty" + i);
             $(this).find("input.rmk").attr("id", "rmk" + i);
         })

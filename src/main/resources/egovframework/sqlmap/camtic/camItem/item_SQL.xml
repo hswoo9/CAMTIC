@@ -122,6 +122,110 @@
         DELETE FROM CAM_ITEM.DJ_ITEM_MASTER_SD_UP WHERE MASTER_SD_UP_SN IN (${masterSdUpSn})
     </delete>
 
+    <select id="getObtainOrderList" parameterType="map" resultType="map">
+        /* getObtainOrderList */
+        SELECT
+            OO.*,
+            EI.EMP_NAME_KR,
+            IM.ITEM_NO,
+            IM.ITEM_NAME,
+            CI.CRM_NM
+        FROM
+            CAM_ITEM.DJ_ITEM_OBTAIN_ORDER OO
+        JOIN
+            CAM_CRM.DJ_CRM_INFO CI
+        ON OO.CRM_SN = CI.CRM_SN
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON OO.REG_EMP_SEQ = EI.EMP_SEQ
+        JOIN
+            CAM_ITEM.DJ_ITEM_MASTER IM
+        ON IM.MASTER_SN = OO.MASTER_SN
+        WHERE 1=1
+
+        <if test='startDt != null and !"".equals(startDt)'>
+            <![CDATA[
+            AND
+                DATE_FORMAT(#{startDt}, '%Y%m%d') <= DATE_FORMAT(OO.ORDER_DT, '%Y%m%d')
+            AND
+                DATE_FORMAT(#{endDt}, '%Y%m%d') >= DATE_FORMAT(OO.ORDER_DT, '%Y%m%d')
+            ]]>
+        </if>
+
+        <if test='crmSn != null and !"".equals(crmSn)'>
+            AND OO.CRM_SN = #{crmSn}
+        </if>
+
+        <if test='masterSn != null and !"".equals(masterSn)'>
+            AND IM.MASTER_SN = #{masterSn}
+        </if>
+
+        <choose>
+            <when test='searchKeyword != null and !"".equals(searchKeyword)'>
+                AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+            <otherwise>
+                <if test='searchValue != null and !"".equals(searchValue)'>
+                    AND (
+                        IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
+                        IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%')
+                    )
+                </if>
+            </otherwise>
+        </choose>
+
+        <if test='regEmpSeq != null and !"".equals(regEmpSeq)'>
+            AND OO.REG_EMP_SEQ = #{regEmpSeq}
+        </if>
+    </select>
+
+    <insert id="setObtainOrder" parameterType="map">
+        /* setObtainOrder */
+        INSERT INTO CAM_ITEM.DJ_ITEM_OBTAIN_ORDER
+        (
+            CRM_SN,
+            MASTER_SN,
+            ORDER_VOLUME,
+            ORDER_REMAIN,
+            ORDER_DT,
+            UNIT_PRICE,
+            AMT,
+            RMK,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{crmSn},
+            #{masterSn},
+            #{orderVolume},
+            #{orderRemain},
+            #{orderDt},
+            #{unitPrice},
+            #{amt},
+            #{rmk},
+            #{empSeq}
+        )
+    </insert>
+
+    <update id="setObtainOrderUpd" parameterType="map">
+        /* setObtainOrderUpd */
+        UPDATE
+            CAM_ITEM.DJ_ITEM_OBTAIN_ORDER
+        SET
+            CRM_SN = #{crmSn},
+            MASTER_SN = #{masterSn},
+            ORDER_VOLUME = #{orderVolume},
+            ORDER_REMAIN = #{orderRemain},
+            ORDER_DT = #{orderDt},
+            UNIT_PRICE = #{unitPrice},
+            AMT = #{amt},
+            RMK = #{rmk},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            OBTAIN_ORDER_SN = #{obtainOrderSn}
+    </update>
+
     <select id="getShipmentRecordList" parameterType="map" resultType="map">
         /* getShipmentRecordList */
         SELECT
