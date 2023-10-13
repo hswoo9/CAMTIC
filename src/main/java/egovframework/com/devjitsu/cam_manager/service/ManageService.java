@@ -7,10 +7,4 @@ import java.util.Map;
 
 public interface ManageService {
 
-    List<Map<String, Object>> getPurcReqManageList(Map<String, Object> params);
-    void setPurcReq(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
-    Map<String, Object> getPurcReq(Map<String, Object> params);
-    List<Map<String, Object>> getPurcItemList(Map<String, Object> params);
-    Map<String, Object> getPurcItemAmtTotal(Map<String, Object> params);
-    void updatePurcDocState(Map<String, Object> bodyMap) throws Exception;
 }

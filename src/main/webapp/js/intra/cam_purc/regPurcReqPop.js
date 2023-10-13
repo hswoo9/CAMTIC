@@ -1,0 +1,439 @@
+var prp = {
+
+    global : {
+        radioGroupData : "",
+        createHtmlStr : "",
+        itemIndex : 0,
+        dropDownDataSource : "",
+        searchAjaxData : "",
+        crmSnId : "",
+        crmNmId : "",
+        saveAjaxData : "",
+    },
+
+    fn_defaultScript : function (){
+        customKendo.fn_datePicker("purcReqDate", "month", "yyyy-MM-dd", new Date());
+        customKendo.fn_textBox(["purcReqPurpose", "purcItemName0", "purcItemStd0", "purcItemUnitPrice0",
+            "purcItemQty0", "purcItemUnit0", "purcItemAmt0", "crmNm0", "rmk0", "pjtNm"]);
+
+        prp.global.radioGroupData = [
+            { label: "R&D", value: "R" },
+            { label: "비R&D", value: "S" },
+            { label: "엔지니어링", value: "D" },
+            { label: "용역/기타", value: "V" },
+            { label: "기타", value: "" },
+        ]
+        customKendo.fn_radioGroup("purcType", prp.global.radioGroupData, "horizontal");
+
+        $("input[name='purcType']").click(function(){
+            if($("input[name='purcType']:checked").val() != ""){
+                $("#project").css("display", "");
+            } else {
+                $("#project").css("display", "none");
+                $("#pjtSn").val("");
+                $("#pjtNm").val("");
+            }
+        });
+
+        prp.global.dropDownDataSource = [
+            { text: "구매", value: "1"},
+        ]
+
+        let productsDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId: "38"});
+        customKendo.fn_dropDownList("purcItemType0", productsDataSource, "CM_CODE_NM", "CM_CODE", 2);
+
+        let productADataSource = customKendo.fn_customAjax("/projectMng/getProductCodeInfo", {productGroupCodeId: 1}).list;
+        customKendo.fn_dropDownList("productA0", productADataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
+
+
+        $(".productA").each(function(){
+            var productId = $(this).attr("id");
+
+            if(productId != null){
+                prp.fn_productCodeSetting(productId);
+            }
+        });
+
+
+        $("#purcCrmSn, #purcCrmNm").change(function(){
+            prp.crmInfoChange();
+        });
+
+
+        if($("#purcSn").val()){
+            prp.purcDataSet();
+        }
+    },
+
+    crmInfoChange : function(){
+        console.log(purcInfo.global.crmSnId, purcInfo.global.crmNmId)
+
+        $("#" + purcInfo.global.crmSnId).val($("#purcCrmSn").val())
+        $("#" + purcInfo.global.crmNmId).val($("#purcCrmNm").val())
+
+        $("#purcCrmSn").val("")
+        $("#purcCrmNm").val("")
+
+
+    },
+
+    setPurcReq : function(e){
+        var formData = new FormData()
+        formData.append("purcSn", $("#purcSn").val());
+        formData.append("menuCd", "manage");
+        formData.append("pjtSn", $("#pjtSn").val());
+        formData.append("pjtNm", $("#pjtNm").val());
+        formData.append("purcReqDate", $("#purcReqDate").val());
+        formData.append("purcReqEmpSeq", $("#purcReqEmpSeq").val());
+        formData.append("purcReqDeptSeq", $("#purcReqDeptSeq").val());
+        formData.append("purcReqPurpose", $("#purcReqPurpose").val());
+        formData.append("purcType", $("#purcType").data("kendoRadioGroup").value());
+        formData.append("status", e);
+        formData.append("empSeq", $("#purcReqEmpSeq").val());
+
+        if($("#file1")[0].files.length == 1){
+            formData.append("file1", $("#file1")[0].files[0]);
+        }
+
+        if($("#file2")[0].files.length == 1){
+            formData.append("file2", $("#file2")[0].files[0]);
+        }
+
+        var itemArr = new Array()
+        var flag = true;
+        $.each($(".purcItemInfo"), function(i, v){
+            var data = {
+                purcItemSn : $(this).find("#purcItemSn" + i).val(),
+                purcItemType : $("#purcItemType" + i).val(),
+                productA : $("#productA" + i).val(),
+                productB : $("#productB" + i).val(),
+                productC : $("#productC" + i).val(),
+                purcItemName : $("#purcItemName" + i).val(),
+                purcItemStd : $("#purcItemStd" + i).val(),
+                purcItemUnitPrice : prp.uncomma($("#purcItemUnitPrice" + i).val()),
+                purcItemQty : $("#purcItemQty" + i).val(),
+                purcItemUnit : $("#purcItemUnit" + i).val(),
+                purcItemAmt : prp.uncomma($("#purcItemAmt" + i).val()),
+                crmSn : $("#crmSn" + i).val(),
+                rmk : $("#rmk" + i).val(),
+                status : e,
+                empSeq : $("#purcReqEmpSeq").val(),
+            }
+
+            if(data.productA == ""){
+                flag = false;
+            }
+
+            if(data.productB == ""){
+                flag = false;
+            }
+
+            if(data.productC == ""){
+                flag = false;
+            }
+
+            itemArr.push(data);
+        })
+
+        if(!flag){
+            alert("구분값을 선택해주세요.");
+            return ;
+        }
+        formData.append("itemArr", JSON.stringify(itemArr))
+
+        var result = customKendo.fn_customFormDataAjax("/purc/setPurcReq.do", formData);
+        if(result.flag){
+            alert("저장되었습니다.");
+            opener.parent.prm.gridReload();
+            window.close();
+        }
+    },
+
+    setPurcReqStatusUpd : function(e){
+        prp.global.saveAjaxData = {
+            purcSn : $("#purcSn").val(),
+            status : e
+        }
+
+        var result = customKendo.fn_customFormDataAjax("/manage/setPurcReqStatusUpd.do", prp.global.saveAjaxData);
+        if(result.flag){
+            alert("처리되었습니다.");
+            opener.parent.prm.gridReload();
+            window.close();
+        }
+    },
+
+    addRow : function(){
+        prp.global.createHtmlStr = "";
+
+        prp.global.itemIndex++
+
+        prp.global.createHtmlStr = "" +
+            '<tr class="purcItemInfo newArray" id="item' + prp.global.itemIndex + '">' +
+                '<td>' +
+                '   <input type="hidden" id="purcItemSn' + prp.global.itemIndex + '" name="purcItemSn0" class="purcItemSn">' +
+                '   <input type="text" id="purcItemType' + prp.global.itemIndex + '" class="purcItemType" style="width: 110px">' +
+                '   <input type="text" id="productA' + prp.global.itemIndex + '" class="productA" style="width: 110px">' +
+                '   <input type="text" id="productB' + prp.global.itemIndex + '" class="productB" style="width: 110px; display: none">' +
+                '   <input type="text" id="productC' + prp.global.itemIndex + '" class="productC" style="width: 110px; display: none">' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="purcItemName' + prp.global.itemIndex + '" class="purcItemName">' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="purcItemStd' + prp.global.itemIndex + '" class="purcItemStd">' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="purcItemUnitPrice' + prp.global.itemIndex + '" class="purcItemUnitPrice" onkeyup="prp.fn_calc('+prp.global.itemIndex+', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right">' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="purcItemQty' + prp.global.itemIndex + '" class="purcItemQty" onkeyup="prp.fn_calc('+prp.global.itemIndex+', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right">' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="purcItemUnit' + prp.global.itemIndex + '" class="purcItemUnit">' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="purcItemAmt' + prp.global.itemIndex + '" class="purcItemAmt" disabled onkeyup="prp.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right">' +
+                '</td>' +
+                '<td>' +
+                    '<input type="hidden" id="crmSn' + prp.global.itemIndex + '" class="crmSn">' +
+                    '<input type="text" id="crmNm' + prp.global.itemIndex + '" disabled class="crmNm" style="width: 60%"> ' +
+                    '<button type="button" id="crmSelBtn' + prp.global.itemIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" class="crmSelBtn" onclick="prp.fn_popCamCrmList(\'crmSn' + prp.global.itemIndex + '\',\'crmNm' + prp.global.itemIndex + '\');">업체선택</button>' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="rmk' + prp.global.itemIndex + '" class="rmk">' +
+                '</td>' +
+                // '<td>' +
+                //     '<button type="button" id="delRowBtn' + prp.global.itemIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.delRow(this)">삭제</button>' +
+                // '</td>' +
+            '</tr>';
+
+        $("#purcItemTb").append(prp.global.createHtmlStr);
+
+        prp.global.dropDownDataSource = [
+            { text: "구매", value: "1"},
+        ]
+        customKendo.fn_dropDownList("purcItemType" + prp.global.itemIndex, prp.global.dropDownDataSource, "text", "value", 2);
+
+        customKendo.fn_textBox(["purcItemName" + prp.global.itemIndex, "purcItemStd" + prp.global.itemIndex,
+                                "purcItemUnitPrice" + prp.global.itemIndex, "purcItemQty" + prp.global.itemIndex,
+                                "purcItemUnit" + prp.global.itemIndex, "purcItemAmt" + prp.global.itemIndex,
+                                "crmNm" + prp.global.itemIndex, "rmk" + prp.global.itemIndex]);
+
+        let productsDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId: "38"});
+        customKendo.fn_dropDownList("purcItemType" + prp.global.itemIndex, productsDataSource, "CM_CODE_NM", "CM_CODE", 2);
+
+
+        let productADataSource = customKendo.fn_customAjax("/projectMng/getProductCodeInfo", {productGroupCodeId: 1}).list;
+        customKendo.fn_dropDownList("productA" + prp.global.itemIndex, productADataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
+
+
+        $(".productA").each(function (){
+
+            var productId = $(this).attr("id");
+
+            if(productId != null){
+                prp.fn_productCodeSetting(productId);
+            }
+        });
+
+    },
+
+    fn_productCodeSetting : function (productId){
+        var i = productId.slice(-1);
+
+        $("#productA" + i).bind("change", function(){
+            if($("#productA" + i).data("kendoDropDownList").value() == ""){
+                return;
+            }
+            $("#productB" +  i).val("");
+            let data = {
+                productGroupCodeId: 2,
+                parentCodeId: $("#productA" + i).data("kendoDropDownList").value(),
+                parentCodeName: $("#productA" + i).data("kendoDropDownList").text(),
+            }
+            let productBDataSource = customKendo.fn_customAjax("/projectMng/getProductCodeInfo", data).list;
+            customKendo.fn_dropDownList("productB" + i, productBDataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
+        });
+
+        $("#productB" + i).bind("change", function(){
+            if($("#productB" + i).data("kendoDropDownList").value() == ""){
+                return;
+            }
+            $("#productC" + i).val("");
+            let data = {
+                productGroupCodeId: 3,
+                parentCodeId: $("#productB" + i).data("kendoDropDownList").value(),
+                parentCodeName: $("#productB" + i).data("kendoDropDownList").text(),
+            }
+            let productCDataSource = customKendo.fn_customAjax("/projectMng/getProductCodeInfo", data).list;
+            customKendo.fn_dropDownList("productC" + i, productCDataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
+        });
+    },
+
+    fn_calc : function (idx, e){
+        $("#purcItemAmt" + idx).val(comma($("#purcItemUnitPrice" + idx).val() * $("#purcItemQty" + idx).val()));
+
+        return inputNumberFormat(e);
+    },
+
+    delRow : function(e){
+        // if(!confirm("삭제하시겠습니까?")){
+        //     return;
+        // }
+
+        console.log($(e).closest("tr").attr("class"));
+        if($(".purcItemInfo").length > 1){
+            $("#item" + prp.global.itemIndex).remove();
+            prp.global.itemIndex--;
+        }
+    },
+
+    fn_popCamCrmList : function (crmSnId, crmNmId){
+        prp.global.crmSnId = crmSnId;
+        prp.global.crmNmId = crmNmId;
+
+        var url = "/crm/pop/popCrmList.do";
+        var name = "_blank";
+        var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
+    crmInfoChange : function(){
+        $("#" + prp.global.crmSnId).val($("#crmSn").val())
+        $("#" + prp.global.crmNmId).val($("#crmNm").val())
+
+        $("#crmSn").val("")
+        $("#crmNm").val("")
+    },
+
+    purcDataSet : function(){
+        prp.global.searchAjaxData = {
+            purcSn : $("#purcSn").val()
+        }
+
+        var result = customKendo.fn_customAjax("/purc/getPurcReq.do", prp.global.searchAjaxData);
+        if(result.flag){
+            console.log(result);
+            var data = result.data;
+            $("#purcReqDate").val(data.PURC_REQ_DATE);
+            $("#purcReqEmpSeq").val(data.PURC_REQ_EMP_SEQ);
+            $("#purcReqEmpName").text(data.EMP_NAME_KR);
+            $("#purcReqDeptSeq").val(data.DEPT_SEQ);
+            $("#purcReqDeptName").text(data.DEPT_NAME);
+            $("#purcReqPurpose").val(data.PURC_REQ_PURPOSE);
+            $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
+
+            if($("input[name='purcType']:checked").val() != ""){
+                $("#project").css("display", "");
+                $("#pjtSn").val(data.PJT_SN);
+                $("#pjtNm").val(data.PJT_NM);
+            } else {
+                $("#project").css("display", "none");
+            }
+
+            $("#file1Sn").val(data.estFile.file_no);
+            $("#file1Name").text(data.estFile.file_org_name + "." + data.estFile.file_ext);
+            $("#file2Sn").val(data.reqFile.file_no);
+            $("#file2Name").text(data.reqFile.file_org_name + "." + data.reqFile.file_ext);
+
+            prp.purcItemDataSet(data.itemList);
+
+            prp.purcBtnSet(data);
+        }
+    },
+
+    purcItemDataSet : function(e){
+        for(var i = 0; i < e.length; i++){
+            if(i != 0){
+                prp.addRow();
+            }
+
+            $("#item" + i).find("#purcItemSn" + i).val(e[i].PURC_ITEM_SN);
+            $("#item" + i).find("#purcItemType" + i).data("kendoDropDownList").value(e[i].PURC_ITEM_TYPE);
+            if(e[i].PRODUCT_A != null){
+                $("#item" + i).find("#productA" + i).data("kendoDropDownList").value(e[i].PRODUCT_A);
+                $("#productA" + i).trigger("change");
+            }
+            if(e[i].PRODUCT_B != null){
+                $("#item" + i).find("#productB" + i).data("kendoDropDownList").value(e[i].PRODUCT_B);
+                $("#productB" + i).trigger("change");
+            }
+            if(e[i].PRODUCT_C != null){
+                $("#item" + i).find("#productC" + i).data("kendoDropDownList").value(e[i].PRODUCT_C);
+            }
+            $("#item" + i).find("#purcItemName" + i).val(e[i].PURC_ITEM_NAME);
+            $("#item" + i).find("#purcItemStd" + i).val(e[i].PURC_ITEM_STD);
+            $("#item" + i).find("#purcItemUnitPrice" + i).val(comma(e[i].PURC_ITEM_UNIT_PRICE));
+            $("#item" + i).find("#purcItemQty" + i).val(e[i].PURC_ITEM_QTY);
+            $("#item" + i).find("#purcItemUnit" + i).val(e[i].PURC_ITEM_UNIT);
+            $("#item" + i).find("#purcItemAmt" + i).val(comma(e[i].PURC_ITEM_AMT));
+            $("#item" + i).find("#crmSn" + i).val(e[i].CRM_SN);
+            $("#item" + i).find("#crmNm" + i).val(e[i].CRM_NM);
+            $("#item" + i).find("#rmk" + i).val(e[i].CERT_CONTENT);
+        }
+    },
+
+    purcBtnSet : function(purcMap){
+        let buttonHtml = "";
+        if(purcMap != null){
+            if(purcMap.DOC_STATUS == "0"){
+                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="prp.setPurcReq()">저장</button>';
+                buttonHtml += '<button type="button" id="reqBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="prp.purcDrafting()">상신</button>';
+            }else if(purcMap.DOC_STATUS == "10"){
+                buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+purcMap.DOC_ID+'\', \''+purcMap.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
+            }else if(purcMap.DOC_STATUS == "30" || purcMap.DOC_STATUS == "40"){
+                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="prp.setPurcReq()">저장</button>';
+                buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+purcMap.DOC_ID+'\', \''+purcMap.DOC_MENU_CD+'\', \''+purcMap.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
+            }else if(purcMap.DOC_STATUS == "100"){
+                buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+purcMap.DOC_ID+'\', \''+purcMap.APPRO_KEY+'\', \''+purcMap.DOC_MENU_CD+'\');">열람</button>';
+            }else{
+                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="resultInfo.setPurcReq()">저장</button>';
+            }
+        }else{
+            buttonHtml += '<button type="button" id="saveBtn" style="margin-right:5px; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="prp.setPurcReq()">저장</button>';
+        }
+        buttonHtml += '<button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>';
+
+        $("#purcBtnDiv").html(buttonHtml);
+    },
+
+    fileChange : function(e){
+        $(e).next().text($(e)[0].files[0].name);
+    },
+
+    inputNumberFormat : function (obj){
+        obj.value = prp.comma(prp.uncomma(obj.value));
+    },
+
+    comma: function(str) {
+        str = String(str);
+        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+    },
+
+    uncomma: function(str) {
+        str = String(str);
+        return str.replace(/[^\d]+/g, '');
+    },
+
+    purcDrafting: function() {
+        $("#purcDraftFrm").one("submit", function() {
+            var url = "/popup/cam_purc/approvalFormPopup/purcApprovalPop.do";
+            var name = "_self";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            var popup = window.open(url, name, option);
+            this.action = "/popup/cam_purc/approvalFormPopup/purcApprovalPop.do";
+            this.method = 'POST';
+            this.target = '_self';
+        }).trigger("submit");
+    },
+
+    fn_projectPop : function (){
+
+        var url = "/project/pop/projectView.do?busnClass="+ $("input[name='purcType']:checked").val();
+
+        var name = "_blank";
+        var option = "width = 1100, height = 400, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    }
+}
