@@ -24,7 +24,10 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;">
-                    구매요청서 작성
+                    구매요청서
+                    <c:if test="${params.stat != 'v'}">
+                        작성
+                    </c:if>
                 </span>
             </h3>
             <div id="purcBtnDiv" class="btn-st popButton">
@@ -109,12 +112,21 @@
                 </thead>
             </table>
 
+
+            <span id="totalPay" style="float: right; font-size: 16px; font-weight: bold; display: none; height: 35px;margin-top: 10px;">총 금액 : </span>
+            <c:if test="${params.stat == 'v'}">
+                <span id="claimGroup" style="font-size:12px;">
+                    <button type="button" style="top:15px;" class="k-button k-button-solid-info" onclick="prp.fn_reqClaiming()">청구서작성</button>
+                    <button type="button" style="top:15px;" class="k-button k-button-solid-base" onclick="prp.fn_printEst()">견적요청서 인쇄</button>
+<%--                    <button type="button" style="top:15px;" class="k-button k-button-solid-base" onclick="prp.fn_popCamCrmList('crmSn0', 'crmNm0');">업체수정</button>--%>
+                </span>
+            </c:if>
             <div class="mt-20">
                 <div class="text-right">
                     <button type="button" id="delRowBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.delRow()">
                         삭제
                     </button>
-                    <button type="button" id="addBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="prp.addRow()">
+                    <button type="button" id="addBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="prp.addRow()">
                         <span class="k-button-text">추가</span>
                     </button>
                 </div>
