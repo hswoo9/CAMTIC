@@ -365,6 +365,7 @@ var prp = {
     },
 
     purcItemDataSet : function(e){
+        var totalPay = 0;
         for(var i = 0; i < e.length; i++){
             if(i != 0){
                 prp.addRow();
@@ -396,10 +397,15 @@ var prp = {
                 $("#item" + i).find("#retBtn" + i).css("display", "none");
                 $("#item" + i).find("#itemStatus" + i).append("<div style='margin-left:9px; color:red'>반려</div>");
                 $("#item" + i).find("#check" + i).css("display", "none");
+            } else {
+                totalPay += Number(e[i].PURC_ITEM_AMT);
             }
             $("#item" + i).find("#retBtn" + i).val(e[i].CERT_CONTENT);
-
         }
+
+
+        $("#totalPay").css("display", "");
+        $("#totalPay").text("총 금액 : " + comma(totalPay));
     },
 
     purcBtnSet : function(purcMap){
@@ -487,5 +493,20 @@ var prp = {
                 }
             }
         });
+    },
+
+    fn_reqClaiming : function (){
+
+        var url = "/purc/pop/reqClaiming.do?purcSn="+ $("#purcSn").val();
+
+        var name = "_blank";
+        var option = "width = 1500, height = 840, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+
+        window.close();
+    },
+
+    fn_printEst: function (){
+
     }
 }
