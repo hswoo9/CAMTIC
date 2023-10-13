@@ -20,7 +20,7 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
-                        <col width="20%">
+                        <col width="23%">
                         <col width="10%">
                         <col>
                     </colgroup>
@@ -31,6 +31,9 @@
                             <input type="text" id="crmNm" style="width: 200px;">
                             <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="mup.fn_popCamCrmList()">
                                 조회
+                            </button>
+                            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="mup.crmSnReset()">
+                                초기화
                             </button>
                         </td>
                         <th class="text-center th-color">검색어</th>

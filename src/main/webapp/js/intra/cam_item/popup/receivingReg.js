@@ -267,6 +267,10 @@ var regRv = {
 
     unitPriceChange : function(){
         $("#" + regRv.global.unitPriceId).val(regRv.comma($("#unitPrice").val()));
+        var whVolume = Number(regRv.uncomma($("#" + regRv.global.unitPriceId).closest("tr").find("input.whVolume").val()));
+        var unitPrice = Number($("#unitPrice").val());
+        $("#" + regRv.global.unitPriceId).closest("tr").find("input.amt").val(regRv.comma(Number(whVolume * unitPrice)));
+
         $("#unitPrice").val("")
     },
 

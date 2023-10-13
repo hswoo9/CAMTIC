@@ -148,6 +148,7 @@ var rvSt = {
 
     gridReload: function (){
         rvSt.global.searchAjaxData = {
+            crmSn : $("#crmSn").val(),
             whType : $("#whType").val(),
             startDt : $("#startDt").val(),
             endDt : $("#endDt").val(),
@@ -158,6 +159,19 @@ var rvSt = {
         }
 
         rvSt.mainGrid("/item/getItemWhInfoList.do", rvSt.global.searchAjaxData);
+    },
+
+    fn_popCamCrmList : function (){
+        var url = "/crm/pop/popCrmList.do";
+        var name = "_blank";
+        var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
+    crmSnReset : function(){
+        $("#crmSn").val("");
+        $("#crmNm").val("");
+        rvSt.gridReload()
     },
 
     comma: function(str) {

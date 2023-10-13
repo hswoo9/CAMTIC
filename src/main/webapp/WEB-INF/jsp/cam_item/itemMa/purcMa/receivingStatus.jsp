@@ -20,30 +20,41 @@
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
+                        <col width="5%">
                         <col width="18%">
+                        <col width="6%">
                         <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
+                        <col width="5%">
+                        <col width="18%">
+                        <col width="5%">
                         <col>
                     </colgroup>
                     <tr>
+                        <th class="text-center th-color">업체</th>
+                        <td>
+                            <input type="hidden" id="crmSn" name="crmSn" onchange="rvSt.gridReload();">
+                            <input type="text" id="crmNm" style="width: 148px;" readonly onclick="rvSt.fn_popCamCrmList()">
+                            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rvSt.fn_popCamCrmList()">
+                                조회
+                            </button>
+                            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rvSt.crmSnReset()">
+                                초기화
+                            </button>
+                        </td>
                         <th class="text-center th-color">입고형태</th>
                         <td>
                             <input type="text" id="whType" style="width: 150px;">
                         </td>
-                        <th class="text-center th-color">입고일자</th>
+                        <th class="text-center th-color">입고일</th>
                         <td>
                             <input type="text" id="startDt" style="width: 110px;"> ~
                             <input type="text" id="endDt" style="width: 110px;">
                         </td>
-                        <th class="text-center th-color">입고창고</th>
+                        <th class="text-center th-color">창고</th>
                         <td>
                             <input type="text" id="whCd" style="width: 150px;">
                         </td>
-                        <th class="text-center th-color">검색어</th>
+                        <th class="text-center th-color">검색</th>
                         <td>
                             <input type="text" id="searchKeyword" style="width: 30%;"/>
                             <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){purcIns.gridReload()}"/>

@@ -166,6 +166,7 @@ var recL = {
 
     gridReload: function (){
         recL.global.searchAjaxData = {
+            crmSn : $("#crmSn").val(),
             whType : $("#whType").val(),
             startDt : $("#startDt").val(),
             endDt : $("#endDt").val(),
@@ -176,6 +177,19 @@ var recL = {
         }
 
         recL.mainGrid("/item/getItemWhInfoList.do", recL.global.searchAjaxData);
+    },
+
+    fn_popCamCrmList : function (){
+        var url = "/crm/pop/popCrmList.do";
+        var name = "_blank";
+        var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
+    crmSnReset : function(){
+        $("#crmSn").val("");
+        $("#crmNm").val("");
+        recL.gridReload()
     },
 
     fn_popReceivingReg : function (){
