@@ -62,21 +62,11 @@ var rrl = {
                 }
             ],
             excel : {
-                fileName : "구매검수 목록.xlsx",
+                fileName : "반품등록 목록.xlsx",
                 filterable : true
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" style="top: 3px; position: relative" />',
-                    template : function(e){
-                        if(e.INSPECTION == "Y"){
-                            return "";
-                        }else {
-                            return "<input type='checkbox' id='whSn#=ITEM_WH_SN#' name='whSn' value='#=ITEM_WH_SN#' style=\"top: 3px; position: relative\" />"
-                        }
-                    },
-                    width: 30,
-                }, {
                     title: "순번",
                     template: "#= --record #",
                     width: 50

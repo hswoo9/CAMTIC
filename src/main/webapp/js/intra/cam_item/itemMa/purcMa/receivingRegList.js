@@ -66,21 +66,11 @@ var recL = {
                 }
             ],
             excel : {
-                fileName : "구매검수 목록.xlsx",
+                fileName : "입고등록 목록.xlsx",
                 filterable : true
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" style="top: 3px; position: relative" />',
-                    template : function(e){
-                        if(e.INSPECTION == "Y"){
-                            return "";
-                        }else {
-                            return "<input type='checkbox' id='whSn#=ITEM_WH_SN#' name='whSn' value='#=ITEM_WH_SN#' style=\"top: 3px; position: relative\" />"
-                        }
-                    },
-                    width: 30,
-                }, {
                     title: "순번",
                     template: "#= --record #",
                     width: 50
@@ -103,6 +93,10 @@ var recL = {
                 }, {
                     title: "입고형태",
                     field: "WH_TYPE_NM",
+                    width: 100
+                },{
+                    title: "입고창고",
+                    field: "WH_CD_NM",
                     width: 100
                 }, {
                     title: "입고량",

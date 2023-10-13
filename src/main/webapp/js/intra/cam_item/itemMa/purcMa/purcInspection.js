@@ -98,6 +98,10 @@ var purcIns = {
                     title: "입고형태",
                     field: "WH_TYPE_NM",
                     width: 100
+                },{
+                    title: "입고창고",
+                    field: "WH_CD_NM",
+                    width: 100
                 }, {
                     title: "입고량",
                     field: "WH_VOLUME",

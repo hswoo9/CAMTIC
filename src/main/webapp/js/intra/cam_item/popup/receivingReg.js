@@ -37,16 +37,16 @@ var regRv = {
                     '<button type="button" id="crmSelBtn' + regRv.global.itemWhIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="regRv.fn_popItemNoList(' + regRv.global.itemWhIndex + ');">선택</button>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="itemName' + regRv.global.itemWhIndex + '" class="k-input k-textbox" onclick="regRv.fn_popItemNoList(' + regRv.global.itemWhIndex + ');" readonly name="itemName' + regRv.global.itemWhIndex + '">' +
+                    '<input type="text" id="itemName' + regRv.global.itemWhIndex + '" class="itemName k-input k-textbox" onclick="regRv.fn_popItemNoList(' + regRv.global.itemWhIndex + ');" readonly name="itemName' + regRv.global.itemWhIndex + '">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="whType' + regRv.global.itemWhIndex + '" name="whType' + regRv.global.itemWhIndex + '">' +
+                    '<input type="text" id="whType' + regRv.global.itemWhIndex + '" name="whType' + regRv.global.itemWhIndex + '" class="whType">' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="whVolume' + regRv.global.itemWhIndex + '" name="whVolume' + regRv.global.itemWhIndex + '" class="numberInput whVolume" style="text-align: right">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="whWeight' + regRv.global.itemWhIndex + '" name="whWeight' + regRv.global.itemWhIndex + '" class="numberInput" style="text-align: right">' +
+                    '<input type="text" id="whWeight' + regRv.global.itemWhIndex + '" name="whWeight' + regRv.global.itemWhIndex + '" class="numberInput whWeight" style="text-align: right">' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="unitPrice' + regRv.global.itemWhIndex + '" name="unitPrice' + regRv.global.itemWhIndex + '" class="numberInput unitPrice" style="text-align: right;width: 63%">' +
@@ -56,10 +56,10 @@ var regRv = {
                     '<input type="text" id="amt' + regRv.global.itemWhIndex + '" name="amt' + regRv.global.itemWhIndex + '" class="amt numberInput" style="text-align: right" readonly>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="whCd' + regRv.global.itemWhIndex + '" name="whCd' + regRv.global.itemWhIndex + '">' +
+                    '<input type="text" id="whCd' + regRv.global.itemWhIndex + '" name="whCd' + regRv.global.itemWhIndex + '" class="whCd">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="rmk' + regRv.global.itemWhIndex + '" name="rmk' + regRv.global.itemWhIndex + '">' +
+                    '<input type="text" id="rmk' + regRv.global.itemWhIndex + '" name="rmk' + regRv.global.itemWhIndex + '" class="rmk">' +
                 '</td>' +
                 '<td>' +
                     '<button type="button" class="k-button k-button-solid-error" whNum="' + regRv.global.itemWhIndex + '" onclick="regRv.delRow(this)">X</button>' +
@@ -91,6 +91,8 @@ var regRv = {
     delRow : function(e){
         if(confirm("삭제하시겠습니까?\n삭제한 데이터는 복구 할 수 없습니다.")){
             $(e).closest("tr").remove();
+            regRv.global.itemWhIndex--;
+            regRv.rowAttrOverride();
         }
     },
 
@@ -200,11 +202,8 @@ var regRv = {
             var result = customKendo.fn_customAjax("/item/setReceivingReg.do", regRv.global.saveAjaxData)
             if(result.flag){
                 alert("저장되었습니다.");
-
-                regRv.global.itemWhIndex = 0;
-                $("#listTb tr").remove();
-                regRv.addRow('new');
                 opener.parent.recL.gridReload();
+                window.close();
             }
         }
     },
@@ -279,5 +278,32 @@ var regRv = {
     uncomma: function(str) {
         str = String(str);
         return str.replace(/[^\d]+/g, '');
+    },
+
+    rowAttrOverride : function(){
+        $.each($(".whInfo"), function(i, v){
+            $(this).attr("id", "wh" + i);
+
+            $(this).find("input.crmSn").attr("id", "crmSn" + i);
+            $(this).find("input.crmNm").attr("id", "crmNm" + i);
+            $(this).find("input.masterSn").attr("id", "masterSn" + i);
+            $(this).find("input.itemNo").attr("id", "itemNo" + i);
+            $(this).find("input.itemName").attr("id", "itemName" + i);
+            $(this).find("input.itemName").attr("name", "itemName" + i);
+            $(this).find("input.whType").attr("id", "whType" + i);
+            $(this).find("input.whType").attr("name", "whType" + i);
+            $(this).find("input.whVolume").attr("id", "whVolume" + i);
+            $(this).find("input.whVolume").attr("name", "whVolume" + i);
+            $(this).find("input.whWeight").attr("id", "whWeight" + i);
+            $(this).find("input.whWeight").attr("name", "whWeight" + i);
+            $(this).find("input.unitPrice").attr("id", "unitPrice" + i);
+            $(this).find("input.unitPrice").attr("name", "unitPrice" + i);
+            $(this).find("input.amt").attr("id", "amt" + i);
+            $(this).find("input.amt").attr("name", "amt" + i);
+            $(this).find("input.whCd").attr("id", "whCd" + i);
+            $(this).find("input.whCd").attr("name", "whCd" + i);
+            $(this).find("input.rmk").attr("id", "rmk" + i);
+            $(this).find("input.rmk").attr("name", "rmk" + i);
+        })
     },
 }

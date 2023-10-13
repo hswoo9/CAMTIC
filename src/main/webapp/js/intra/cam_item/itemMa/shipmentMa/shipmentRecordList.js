@@ -45,13 +45,6 @@ var srl = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="srl.fn_popShipmentRecordReg()">' +
-                            '	<span class="k-button-text">출하실적등록</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name: 'button',
-                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="srl.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
@@ -62,21 +55,11 @@ var srl = {
                 }
             ],
             excel : {
-                fileName : "구매검수 목록.xlsx",
+                fileName : "출하실적현황 목록.xlsx",
                 filterable : true
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" style="top: 3px; position: relative" />',
-                    template : function(e){
-                        if(e.INSPECTION == "Y"){
-                            return "";
-                        }else {
-                            return "<input type='checkbox' id='whSn#=ITEM_WH_SN#' name='whSn' value='#=ITEM_WH_SN#' style=\"top: 3px; position: relative\" />"
-                        }
-                    },
-                    width: 30,
-                }, {
                     title: "순번",
                     template: "#= --record #",
                     width: 50

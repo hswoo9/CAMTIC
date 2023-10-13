@@ -54,7 +54,7 @@ var codeI = {
                 }
             ],
             excel: {
-                fileName: " 코드 목록.xlsx",
+                fileName: "기초코드 목록.xlsx",
                 filterable: true
             },
             noRecords: {
@@ -154,7 +154,7 @@ var codeI = {
                 }
             ],
             excel : {
-                fileName : "코드 목록.xlsx",
+                fileName : "상세코드 목록.xlsx",
                 filterable : true
             },
             noRecords: {

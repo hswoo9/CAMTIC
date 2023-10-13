@@ -63,7 +63,7 @@ var invenHis = {
                 }
             ],
             excel : {
-                fileName : "재고현황.xlsx",
+                fileName : "재고이동현황.xlsx",
                 filterable : true
             },
             columns: [
