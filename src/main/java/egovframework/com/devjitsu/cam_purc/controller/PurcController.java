@@ -176,8 +176,22 @@ public class PurcController {
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
         model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
         model.addAttribute("data", purcService.getPurcReq(params));
 
         return "popup/cam_purc/mng/reqClaiming";
+    }
+
+    @RequestMapping("/purc/setPurcClaimData")
+    public String setPurcClaimData(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
     }
 }

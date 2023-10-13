@@ -56,34 +56,7 @@ var reqCl = {
         customKendo.fn_datePicker("claimDe", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("expDe", "month", "yyyy-MM-dd", new Date());
 
-        var parameters = {
-            purcEmpSeq : $("#purcEmpSeq").val(),
-            purcDeptSeq : $("#purcDeptSeq").val(),
-            purcEmpName : $("#purcEmpName").val(),
-            purcDeptName : $("#purcDeptName").val(),
-            claimDe : $("#claimDe").val(),
-            expDe : $("#expDe").val(),
-            purcType : $("#purcType").data("kendoRadioGroup").value(),
-            pjtSn : $("#pjtSn").val(),
-            pjtNm : $("#pjtNm").val(),
-            expType : $("#expType").data("kendoRadioGroup").value(),
-            claimEtc : $("#claimEtc").val(),
-            loginEmpSeq : $("#loginEmpSeq").val(),
-            claimTitle : $("#claimTitle").val(),
-            purcReqPurpose : $("#purcReqPurpose").val(),
-            crmSn : $("#crmSn").val(),
-            crmNm : $("#crmNm").val(),
-            vat : $("#vat").data("kendoRadioGroup").val(),
 
-            itemNm : $("#itemNm").val(),
-            itemStd : $("#itemStd").val(),
-            itemEa : $("#itemEa").val(),
-            itemUnitAmt : $("#itemUnitAmt").val(),
-            itemUnit : $("#itemUnit").val(),
-            itemAmt : $("#itemAmt").val(),
-            itemEtc : $("#itemEtc").val(),
-            prodCd : $("#prodCd").data("kendoRadioGroup").val(),
-        }
     },
 
     fn_popCamCrmList : function (){
@@ -154,5 +127,70 @@ var reqCl = {
 
     fn_delete: function (e){
 
+    },
+
+    fn_save : function (){
+        var parameters = {
+            purcEmpSeq : $("#purcEmpSeq").val(),
+            purcDeptSeq : $("#purcDeptSeq").val(),
+            purcEmpName : $("#purcEmpName").val(),
+            purcDeptName : $("#purcDeptName").val(),
+            claimDe : $("#claimDe").val(),
+            expDe : $("#expDe").val(),
+            purcType : $("#purcType").data("kendoRadioGroup").value(),
+            pjtSn : $("#pjtSn").val(),
+            pjtNm : $("#pjtNm").val(),
+            expType : $("#expType").data("kendoRadioGroup").value(),
+            claimEtc : $("#claimEtc").val(),
+            loginEmpSeq : $("#loginEmpSeq").val(),
+            claimTitle : $("#claimTitle").val(),
+            purcReqPurpose : $("#purcReqPurpose").val(),
+            crmSn : $("#crmSn").val(),
+            crmNm : $("#crmNm").val(),
+            vat : $("#vat").data("kendoRadioGroup").value(),
+        }
+
+
+
+        var len = $("#claimTbody > tr").length;
+        var itemParameters = {};
+        var itemArr = new Array()
+        for(var i = 0 ; i < len ; i++){
+            if(i == 0){
+                itemParameters.itemNm = $("#itemNm").val();
+                itemParameters.itemStd = $("#itemStd").val();
+                itemParameters.itemEa = $("#itemEa").val();
+                itemParameters.itemUnitAmt = $("#itemUnitAmt").val();
+                itemParameters.itemUnit = $("#itemUnit").val();
+                itemParameters.itemAmt = $("#itemAmt").val();
+                itemParameters.itemEtc = $("#itemEtc").val();
+                itemParameters.prodCd = $("#prodCd").data("kendoRadioGroup").val();
+            } else {
+                itemParameters.itemNm = $("#itemNm" + i).val();
+                itemParameters.itemStd = $("#itemStd" + i).val();
+                itemParameters.itemEa = $("#itemEa" + i).val();
+                itemParameters.itemUnitAmt = $("#itemUnitAmt" + i).val();
+                itemParameters.itemUnit = $("#itemUnit" + i).val();
+                itemParameters.itemAmt = $("#itemAmt" + i).val();
+                itemParameters.itemEtc = $("#itemEtc" + i).val();
+                itemParameters.prodCd = $("#prodCd" + i).data("kendoRadioGroup").val();
+            }
+
+            itemArr.push(itemParameters);
+        }
+
+        parameters.itemArr = JSON.stringify(itemArr);
+
+        $.ajax({
+            url : "/purc/setPurcClaimData",
+            data : parameters,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("저장되었습니다.");
+                }
+            }
+        });
     }
 }

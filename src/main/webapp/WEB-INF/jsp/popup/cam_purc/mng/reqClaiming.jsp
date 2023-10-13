@@ -30,7 +30,7 @@
             <div id="purcBtnDiv" class="btn-st popButton">
                 <button type="button" class="k-button k-button-solid-info" id="reqBtn" style="display: none" onclick="prp.purcDrafting();">요청하기</button>
                 <button type="button" class="k-button k-button-solid-info" id="reqCancelBtn" onclick="prp.setPurcReqStatusUpd('W');" style="display: none">요청취소</button>
-                <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="prp.setPurcReq('W');">저장</button>
+                <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="reqCl.fn_save();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -49,10 +49,10 @@
                 <tr>
                     <th scope="row" class="text-center th-color">청구부서</th>
                     <td>
-                        <c:if test="${data.DEPT_NAME != null}">
-                            <div>${data.DEPT_NAME}</div>
+                        <c:if test="${map.DEPT_NAME != null}">
+                            <div>${map.DEPT_NAME}</div>
                         </c:if>
-                        <c:if test="${data.DEPT_NAME == null}">
+                        <c:if test="${map.DEPT_NAME == null}">
                             <div>${loginVO.orgnztNm}</div>
                         </c:if>
                     </td>
