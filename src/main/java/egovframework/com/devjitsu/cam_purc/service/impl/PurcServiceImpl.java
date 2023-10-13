@@ -166,7 +166,7 @@ public class PurcServiceImpl implements PurcService {
     public void setPurcClaimData(Map<String, Object> params) {
         Map<String, Object> claimMap = purcRepository.getPurcClaimData(params);
 
-        if(StringUtils.isEmpty(claimMap.get("CLAIM_SN"))){
+        if(claimMap == null){
             purcRepository.insPurcClaimData(params);
         }else{
             params.put("claimSn", claimMap.get("CLAIM_SN"));
@@ -187,6 +187,9 @@ public class PurcServiceImpl implements PurcService {
 
     @Override
     public Map<String, Object> getPurcClaimData(Map<String, Object> params) {
-        return purcRepository.getPurcClaimData(params);
+        Map<String, Object> result = purcRepository.getPurcClaimData(params);
+
+        result.put("itemList", purcRepository.getPurcClaimItemList(params));
+        return result;
     }
 }

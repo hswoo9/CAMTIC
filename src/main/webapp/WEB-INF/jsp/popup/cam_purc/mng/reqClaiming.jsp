@@ -10,9 +10,11 @@
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_purc/reqClaiming.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_purc/purchase.js?v=${today}'/>"></script>
+
 <input type="hidden" id="stat" value="${params.stat}" />
 
 <form id="purcDraftFrm" method="post">
+    <input type="hidden" id="claimSn" name="claimSn" value="${map.CLAIM_SN}">
     <input type="hidden" id="purcSn" name="purcSn" value="${params.purcSn}">
     <input type="hidden" id="menuCd" name="menuCd" value="purcClaim">
     <input type="hidden" id="type" name="type" value="drafting">
@@ -84,22 +86,22 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">구매구분</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>구매구분</th>
                     <td>
                         <span id="purcType"></span>
                     </td>
-                    <th scope="row" class="text-center th-color">결재구분</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>결재구분</th>
                     <td>
                         <span id="expType"></span>
                     </td>
                 </tr>
                 <tr id="project" style="display: none;">
-                    <th scope="row" class="text-center th-color">프로젝트</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>프로젝트</th>
                     <td colspan="3">
                         <span>
                             <input type="text" id="pjtNm" style="width: 40%;">
                             <input type="hidden" id="pjtSn" />
-                            <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="prp.fn_projectPop()">검색</button>
+                            <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="reqCl.fn_projectPop()">검색</button>
                         </span>
                     </td>
                 </tr>
@@ -134,25 +136,25 @@
 
 
                 <tr>
-                    <th scope="row" class="text-center th-color">제목</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>제목</th>
                     <td colspan="3">
-                        <input type="text" id="claimTitle" style="width: 90%;">
+                        <input type="text" id="claimTitle" style="width: 90%;" value="${map.CLAIM_TITLE}">
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">구매목적</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>구매목적</th>
                     <td colspan="3">
-                        <input type="text" id="purcReqPurpose" style="width: 90%;" value="">
+                        <input type="text" id="purcReqPurpose" style="width: 90%;" value="${map.PURC_REQ_PURPOSE}">
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">구매업체</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>구매업체</th>
                     <td>
-                        <input type="hidden" id="crmSn" class="crmSn">
-                        <input type="text" id="crmNm" disabled class="crmNm" style="width: 60%">
+                        <input type="hidden" id="crmSn" class="crmSn" value="${map.CRM_SN}">
+                        <input type="text" id="crmNm" disabled class="crmNm" value="${map.CRM_NM}" style="width: 60%">
                         <button type="button" id="crmSelBtn" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="reqCl.fn_popCamCrmList();">업체선택</button>
                     </td>
-                    <th scope="row" class="text-center th-color">부가세</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>부가세</th>
                     <td>
                         <span id="vat"></span>
                     </td>
@@ -176,13 +178,13 @@
                 <tbody>
                     <tr>
                         <td>
-                            <input type="text" id="estAmt" value="0" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                            <input type="text" id="estAmt" disabled value="0" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                         </td>
                         <td>
-                            <input type="text" id="vatAmt" value="0" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                            <input type="text" id="vatAmt" disabled value="0" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                         </td>
                         <td>
-                            <input type="text" id="totAmt" value="0" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                            <input type="text" id="totAmt" disabled value="0" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                         </td>
                     </tr>
                 </tbody>
@@ -270,6 +272,11 @@
 
     function userSearch(p) {
         window.open("/common/deptListPop.do?params=" + p , "조직도", "width=750, height=650");
+    }
+
+    function selectProject(sn, nm){
+        $("#pjtSn").val(sn);
+        $("#pjtNm").val(nm);
     }
 </script>
 </body>

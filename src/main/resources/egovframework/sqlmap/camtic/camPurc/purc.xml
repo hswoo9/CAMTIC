@@ -35,18 +35,18 @@
 
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword) and "DOC_NO".equals(searchKeyword)'>
-                AND MP.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
+                AND DI.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
             </when>
             <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_REQ_PURPOSE".equals(searchKeyword)'>
                 AND MP.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchKeyword},'%')
             </when>
             <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_ITEM_NAME".equals(searchKeyword)'>
-                AND MP.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
+                AND DI.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
             </when>
             <otherwise>
                 AND
                 (
-                    MP.DOC_NO LIKE CONCAT('%',#{searchValue},'%') OR
+                    DI.DOC_NO LIKE CONCAT('%',#{searchValue},'%') OR
                     MP.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%')
                 )
             </otherwise>
@@ -87,18 +87,18 @@
 
             <choose>
                 <when test='searchKeyword != null and !"".equals(searchKeyword) and "DOC_NO".equals(searchKeyword)'>
-                    AND MP.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
+                    AND DI.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
                 </when>
                 <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_REQ_PURPOSE".equals(searchKeyword)'>
                     AND MP.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchKeyword},'%')
                 </when>
                 <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_ITEM_NAME".equals(searchKeyword)'>
-                    AND MP.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
+                    AND DI.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
                 </when>
                 <otherwise>
                     AND
                     (
-                    MP.DOC_NO LIKE CONCAT('%',#{searchValue},'%') OR
+                    DI.DOC_NO LIKE CONCAT('%',#{searchValue},'%') OR
                     MP.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%')
                     )
                 </otherwise>
@@ -273,6 +273,13 @@
             PURC_SN = #{purcSn}
     </select>
 
+    <select id="getPurcClaimItemList" parameterType="map" resultType="map">
+        /*getPurcClaimItemList*/
+        SELECT * FROM CAM_MNG.DJ_PURC_CLAIM_ITEM
+        WHERE
+            CLAIM_SN = #{claimSn}
+    </select>
+
     <select id="getPurcItemAmtTotal" parameterType="map" resultType="map">
         /* getPurcItemList */
         SELECT
@@ -377,9 +384,24 @@
     <select id="getPurcClaimData" parameterType="map" resultType="map">
         /*getPurcClaimData*/
         SELECT
-            *
+            A.*,
+            EI.EMP_SEQ,
+            EI.EMP_NAME_KR,
+            EI.POSITION_NAME,
+            EI.DEPT_SEQ,
+            DI.DOC_NO,
+            CAM_HR.FN_GetName('DEPT', EI.DEPT_SEQ, NULL) AS DEPT_NAME,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
         FROM
-            CAM_MNG.DJ_PURC_CLAIM
+            CAM_MNG.DJ_PURC_CLAIM A
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON A.CLAIM_EMP_SEQ = EI.EMP_SEQ
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI
+        ON
+            A.DOC_ID = DI.DOC_ID
         WHERE
             PURC_SN = #{purcSn}
     </select>
@@ -436,7 +458,7 @@
         UPDATE CAM_MNG.DJ_PURC_CLAIM
         SET
             PURC_SN = #{purcSn},
-            CLAIM_EMP_SEQ = #{claimEmpSeq},
+            CLAIM_EMP_SEQ = #{loginEmpSeq},
             PURC_EMP_SEQ = #{purcEmpSeq},
             PURC_TYPE = #{purcType},
             EXP_TYPE = #{expType},

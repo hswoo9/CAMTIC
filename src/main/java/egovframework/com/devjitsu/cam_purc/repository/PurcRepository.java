@@ -50,4 +50,8 @@ public class PurcRepository extends AbstractDAO {
     public void updPurcClaimData(Map<String, Object> params) {
         update("purc.updPurcClaimData", params);
     }
+
+    public List<Map<String, Object>> getPurcClaimItemList(Map<String, Object> params) {
+        return selectList("purc.getPurcClaimItemList", params);
+    }
 }
