@@ -26,4 +26,8 @@ public class PurcRepository extends AbstractDAO {
     public List<Map<String, Object>> getMngReqPurcList(Map<String, Object> params) {
         return selectList("purc.getMngReqPurcList", params);
     }
+
+    public void updPurcItemStat(Map<String, Object> params) {
+        update("purc.updPurcItemStat", params);
+    }
 }

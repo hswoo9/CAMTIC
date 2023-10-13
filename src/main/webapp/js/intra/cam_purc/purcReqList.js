@@ -83,7 +83,7 @@ var prm = {
                     title: "구매",
                     width: 100,
                     template : function(e){
-                        return e.CP_CNT + "건 / " + e.RP_CNT + "건"
+                        return e.CP_CNT + "건 / " + '<span style="color:red;">'+e.RP_CNT+'</span>' + "건"
                     }
                 }, {
                     title: "외주",

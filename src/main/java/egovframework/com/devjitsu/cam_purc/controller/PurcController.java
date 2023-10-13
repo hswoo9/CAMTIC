@@ -156,4 +156,16 @@ public class PurcController {
         model.addAttribute("resultMessage", resultMessage);
         return "jsonView";
     }
+
+    @RequestMapping("/purc/setPurcItemStat")
+    public String setPurcItemStat(@RequestParam Map<String, Object> params, Model model){
+        try{
+            purcService.setPurcItemStat(params);
+            model.addAttribute("code", 200);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }
