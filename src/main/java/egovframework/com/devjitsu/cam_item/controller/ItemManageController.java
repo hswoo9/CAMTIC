@@ -126,6 +126,59 @@ public class ItemManageController {
 
     /** 캠아이템 > 아이템관리 > 수주관리 */
 
+    /**
+     * 수주등록 페이지
+     * @param request
+     * @return
+     */
+    @RequestMapping("/item/obtainOrderRegList.do")
+    public String obtainOrderRegList(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_item/itemMa/obtainOrderMa/obtainOrderRegList";
+    }
+
+    /**
+     * 수주등록 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getObtainOrderList.do")
+    public String getObtainOrderList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", itemManageService.getObtainOrderList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 수주등록 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/pop/popObtainOrderReg.do")
+    public String popObtainOrderReg(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_item/popObtainOrderReg";
+    }
+
+    /**
+     * 수주등록
+     * @param params
+     * @return
+     */
+    @RequestMapping("/item/setObtainOrder.do")
+    public String setObtainOrder(@RequestParam Map<String, Object> params){
+        itemManageService.setObtainOrder(params);
+        return "jsonView";
+    }
 
 
     /** 캠아이템 > 아이템관리 > 출하관리 */
@@ -287,13 +340,11 @@ public class ItemManageController {
 
     /**
      * BOM 등록 페이지
-     * @param params
      * @param request
-     * @param model
      * @return
      */
     @RequestMapping("/item/bomRegList.do")
-    public String bomCodeList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+    public String bomCodeList(HttpServletRequest request){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
         session.setAttribute("menuNm", request.getRequestURI());
@@ -316,11 +367,10 @@ public class ItemManageController {
     /**
      * BOM 삭제
      * @param params
-     * @param model
      * @return
      */
     @RequestMapping("/item/setBomDel.do")
-    public String setBomDel(@RequestParam Map<String, Object> params, Model model){
+    public String setBomDel(@RequestParam Map<String, Object> params){
         itemManageService.setBomDel(params);
         return "jsonView";
     }
@@ -328,11 +378,10 @@ public class ItemManageController {
     /**
      * BOM 부자재 삭제
      * @param params
-     * @param model
      * @return
      */
     @RequestMapping("/item/setBomDetailDel.do")
-    public String setBomDetailDel(@RequestParam Map<String, Object> params, Model model){
+    public String setBomDetailDel(@RequestParam Map<String, Object> params){
         itemManageService.setBomDetailDel(params);
         return "jsonView";
     }
@@ -380,13 +429,11 @@ public class ItemManageController {
 
     /**
      * BOM 조회 페이지
-     * @param params
      * @param request
-     * @param model
      * @return
      */
     @RequestMapping("/item/bomList.do")
-    public String bomList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+    public String bomList(HttpServletRequest request){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
         session.setAttribute("menuNm", request.getRequestURI());
@@ -458,11 +505,10 @@ public class ItemManageController {
     /**
      * 생산
      * @param params
-     * @param model
      * @return
      */
     @RequestMapping("/item/setOutput.do")
-    public String setOutput(@RequestParam Map<String, Object> params, Model model){
+    public String setOutput(@RequestParam Map<String, Object> params){
         itemManageService.setOutput(params);
         return "jsonView";
     }
@@ -472,13 +518,11 @@ public class ItemManageController {
 
     /**
      * 자재단가관리
-     * @param params
      * @param request
-     * @param model
      * @return
      */
     @RequestMapping("/item/materialUnitPriceMa.do")
-    public String materialUnitPriceMa(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+    public String materialUnitPriceMa(HttpServletRequest request){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
         session.setAttribute("menuNm", request.getRequestURI());
@@ -531,11 +575,10 @@ public class ItemManageController {
     /**
      * 고객 품목단가 데이터 저장
      * @param params
-     * @param model
      * @return
      */
     @RequestMapping("/item/setCrmItemUnitPriceReg.do")
-    public String setCrmItemUnitPriceReg(@RequestParam Map<String, Object> params, Model model){
+    public String setCrmItemUnitPriceReg(@RequestParam Map<String, Object> params){
         itemManageService.setCrmItemUnitPriceReg(params);
         return "jsonView";
     }
@@ -543,24 +586,21 @@ public class ItemManageController {
     /**
      * 고객 품목단가 데이터 삭제
      * @param params
-     * @param model
      * @return
      */
     @RequestMapping("/item/setCrmItemUnitPriceDel.do")
-    public String setCrmItemUnitPriceDel(@RequestParam Map<String, Object> params, Model model){
+    public String setCrmItemUnitPriceDel(@RequestParam Map<String, Object> params){
         itemManageService.setCrmItemUnitPriceDel(params);
         return "jsonView";
     }
 
     /**
      * 입고리스트 페이지
-     * @param params
      * @param request
-     * @param model
      * @return
      */
     @RequestMapping("/item/receivingRegList.do")
-    public String receivingRegList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+    public String receivingRegList(HttpServletRequest request){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
         session.setAttribute("menuNm", request.getRequestURI());
@@ -570,13 +610,12 @@ public class ItemManageController {
 
     /**
      * 입고등록 팝업
-     * @param params
      * @param request
      * @param model
      * @return
      */
     @RequestMapping("/item/pop/receivingReg.do")
-    public String regReceipt(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+    public String regReceipt(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
@@ -636,11 +675,10 @@ public class ItemManageController {
     /**
      * 입고등록 데이터 저장
      * @param params
-     * @param model
      * @return
      */
     @RequestMapping("/item/setReceivingReg.do")
-    public String setReceivingReg(@RequestParam Map<String, Object> params, Model model){
+    public String setReceivingReg(@RequestParam Map<String, Object> params){
         itemManageService.setReceivingReg(params);
         return "jsonView";
     }
@@ -653,7 +691,7 @@ public class ItemManageController {
      * @return
      */
     @RequestMapping("/item/purcInspection.do")
-    public String purcInspection(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+    public String purcInspection(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
         session.setAttribute("menuNm", request.getRequestURI());
@@ -677,24 +715,22 @@ public class ItemManageController {
     /**
      * 검수완료처리
      * @param params
-     * @param model
      * @return
      */
     @RequestMapping("/item/setInspectionUpd.do")
-    public String setInspectionUpd(@RequestParam Map<String, Object> params, Model model){
+    public String setInspectionUpd(@RequestParam Map<String, Object> params){
         itemManageService.setInspectionUpd(params);
         return "jsonView";
     }
 
     /**
      * 입고현황
-     * @param params
      * @param request
      * @param model
      * @return
      */
     @RequestMapping("/item/receivingStatus.do")
-    public String receivingStatus(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+    public String receivingStatus(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
         session.setAttribute("menuNm", request.getRequestURI());
@@ -708,13 +744,12 @@ public class ItemManageController {
 
     /**
      * 재고현황
-     * @param params
      * @param request
      * @param model
      * @return
      */
     @RequestMapping("/item/invenStatus.do")
-    public String invenStatus(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+    public String invenStatus(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
         session.setAttribute("menuNm", request.getRequestURI());
@@ -761,13 +796,12 @@ public class ItemManageController {
 
     /**
      * 재고이동등록
-     * @param params
      * @param request
      * @param model
      * @return
      */
     @RequestMapping("/item/invenTransferReg.do")
-    public String invenTransferReg(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+    public String invenTransferReg(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
         session.setAttribute("menuNm", request.getRequestURI());
@@ -779,24 +813,22 @@ public class ItemManageController {
     /**
      * 재고이동등록 데이터 저장
      * @param params
-     * @param model
      * @return
      */
     @RequestMapping("/item/setInvenTransferReg.do")
-    public String setInvenTransferReg(@RequestParam Map<String, Object> params, Model model){
+    public String setInvenTransferReg(@RequestParam Map<String, Object> params){
         itemManageService.setInvenTransferReg(params);
         return "jsonView";
     }
 
     /**
      * 재고이동현황
-     * @param params
      * @param request
      * @param model
      * @return
      */
     @RequestMapping("/item/invenTransferHistory.do")
-    public String invenTransferHistory(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+    public String invenTransferHistory(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
         session.setAttribute("menuNm", request.getRequestURI());

@@ -29,12 +29,12 @@ var regRv = {
                 '<td>' +
                     '<input type="hidden" id="crmSn' + regRv.global.itemWhIndex + '" class="crmSn">' +
                     '<input type="text" id="crmNm' + regRv.global.itemWhIndex + '" class="k-input k-textbox crmNm" readonly style="width: 83%" onclick="regRv.fn_popCamCrmList(\'crmSn' + regRv.global.itemWhIndex + '\', \'crmNm' + regRv.global.itemWhIndex + '\');"/>' +
-                    '<button type="button" id="crmSelBtn' + regRv.global.itemWhIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="regRv.fn_popCamCrmList(\'crmSn' + regRv.global.itemWhIndex + '\', \'crmNm' + regRv.global.itemWhIndex + '\');">선택</button>' +
+                    '<button type="button" id="crmSelBtn' + regRv.global.itemWhIndex + '" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="regRv.fn_popCamCrmList(\'crmSn' + regRv.global.itemWhIndex + '\', \'crmNm' + regRv.global.itemWhIndex + '\');">선택</button>' +
                 '</td>' +
                 '<td>' +
                     '<input type="hidden" id="masterSn' + regRv.global.itemWhIndex + '" class="masterSn">' +
                     '<input type="text" id="itemNo' + regRv.global.itemWhIndex + '" class="k-input k-textbox itemNo" readonly style="width: 69%" onclick="regRv.fn_popItemNoList(' + regRv.global.itemWhIndex + ');"/>' +
-                    '<button type="button" id="crmSelBtn' + regRv.global.itemWhIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="regRv.fn_popItemNoList(' + regRv.global.itemWhIndex + ');">선택</button>' +
+                    '<button type="button" id="itemSelBtn' + regRv.global.itemWhIndex + '" class="itemSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="regRv.fn_popItemNoList(' + regRv.global.itemWhIndex + ');">선택</button>' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="itemName' + regRv.global.itemWhIndex + '" class="itemName k-input k-textbox" onclick="regRv.fn_popItemNoList(' + regRv.global.itemWhIndex + ');" readonly name="itemName' + regRv.global.itemWhIndex + '">' +
@@ -50,7 +50,7 @@ var regRv = {
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="unitPrice' + regRv.global.itemWhIndex + '" name="unitPrice' + regRv.global.itemWhIndex + '" class="numberInput unitPrice" style="text-align: right;width: 63%">' +
-                    '<button type="button" id="crmSelBtn' + regRv.global.itemWhIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="regRv.fn_popUnitPriceList(\'unitPrice\', ' + regRv.global.itemWhIndex + ');">선택</button>' +
+                    '<button type="button" id="priceSelBtn' + regRv.global.itemWhIndex + '" class="priceSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="regRv.fn_popUnitPriceList(\'unitPrice\', ' + regRv.global.itemWhIndex + ');">선택</button>' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="amt' + regRv.global.itemWhIndex + '" name="amt' + regRv.global.itemWhIndex + '" class="amt numberInput" style="text-align: right" readonly>' +
@@ -290,10 +290,19 @@ var regRv = {
 
             $(this).find("input.crmSn").attr("id", "crmSn" + i);
             $(this).find("input.crmNm").attr("id", "crmNm" + i);
+            $(this).find("input.crmNm").attr("onClick", "regRv.fn_popCamCrmList('crmSn" + i + "','crmNm" + i +"')");
+            $(this).find("button.crmSelBtn").attr("id", "crmSelBtn" + i);
+            $(this).find("button.crmSelBtn").attr("onClick", "regRv.fn_popCamCrmList('crmSn" + i + "','crmNm" + i +"')");
+
             $(this).find("input.masterSn").attr("id", "masterSn" + i);
             $(this).find("input.itemNo").attr("id", "itemNo" + i);
+            $(this).find("input.itemNo").attr("onClick", "regRv.fn_popItemNoList(" + i + ")");
+            $(this).find("button.itemSelBtn").attr("id", "itemSelBtn" + i);
+            $(this).find("button.itemSelBtn").attr("onClick", "regRv.fn_popItemNoList(" + i + ")");
             $(this).find("input.itemName").attr("id", "itemName" + i);
             $(this).find("input.itemName").attr("name", "itemName" + i);
+            $(this).find("input.itemName").attr("onClick", "regRv.fn_popItemNoList(" + i + ")");
+
             $(this).find("input.whType").attr("id", "whType" + i);
             $(this).find("input.whType").attr("name", "whType" + i);
             $(this).find("input.whVolume").attr("id", "whVolume" + i);
@@ -302,6 +311,8 @@ var regRv = {
             $(this).find("input.whWeight").attr("name", "whWeight" + i);
             $(this).find("input.unitPrice").attr("id", "unitPrice" + i);
             $(this).find("input.unitPrice").attr("name", "unitPrice" + i);
+            $(this).find("button.priceSelBtn").attr("id", "priceSelBtn" + i);
+            $(this).find("button.priceSelBtn").attr("onClick", "regRv.fn_popUnitPriceList('unitPrice'," + i + ")");
             $(this).find("input.amt").attr("id", "amt" + i);
             $(this).find("input.amt").attr("name", "amt" + i);
             $(this).find("input.whCd").attr("id", "whCd" + i);

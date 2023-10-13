@@ -13,6 +13,8 @@ public interface ItemManageService {
     List<Map<String, Object>> getSdunitPriceList(Map<String, Object> params);
     void setSdUnitPriceReg(Map<String, Object> params);
     void setSdUnitPriceDel(Map<String, Object> params);
+    List<Map<String, Object>> getObtainOrderList(Map<String, Object> params);
+    void setObtainOrder(Map<String, Object> params);
     List<Map<String, Object>> getShipmentRecordList(Map<String, Object> params);
     void setShipmentRecord(Map<String, Object> params);
     List<Map<String, Object>> getReturnRecordRegList(Map<String, Object> params);

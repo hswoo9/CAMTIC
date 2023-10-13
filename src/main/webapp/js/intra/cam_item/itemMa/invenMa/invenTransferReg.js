@@ -15,40 +15,6 @@ var invenTr = {
         invenTr.global.wCDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
 
         invenTr.addRow('new');
-        // invenTr.setMakeTable();
-    },
-
-    invenTransferExcelFormDown : function(){
-        kendo.saveAs({
-            dataURI: "/item/invenTransferExcelFormDown.do"
-        });
-    },
-
-    setMakeTable : function() {
-        var result = customKendo.fn_customAjax("/item/getItemWhInfoList.do", invenTr.global.searchAjaxData);
-        if(result.flag){
-            var list = result.list;
-            $("#listTb tr").remove();
-            if(list.length == 0){
-                    invenTr.addRow('new');
-            }else{
-                for(var i = 0; i < list.length; i++){
-                    if(i > 0){
-                        invenTr.addRow('old');
-                    }
-                    // $("#wh" + i).find("#itemWhSn" + i).val(list[i].ITEM_WH_SN)
-                    // $("#wh" + i).find("#itemNo" + i).val(list[i].ITEM_NO)
-                    // $("#wh" + i).find("#itemName" + i).val(list[i].ITEM_NAME)
-                    // $("#wh" + i).find("#whType" + i).data("kendoDropDownList").value(list[i].WH_TYPE)
-                    // $("#wh" + i).find("#whVolume" + i).val(invenTr.comma(list[i].WH_VOLUME))
-                    // $("#wh" + i).find("#whWeight" + i).val(invenTr.comma(list[i].WH_WEIGHT))
-                    // $("#wh" + i).find("#unitPrice" + i).val(invenTr.comma(list[i].UNIT_PRICE))
-                    // $("#wh" + i).find("#amt" + i).val(invenTr.comma(list[i].AMT))
-                    // $("#wh" + i).find("#whCd" + i).data("kendoDropDownList").value(list[i].WH_CD)
-                    // $("#wh" + i).find("#rmk" + i).val(list[i].RMK)
-                }
-            }
-        }
     },
 
     addRow : function(e){
@@ -118,13 +84,21 @@ var invenTr = {
             $(this).find(".invenTransSn").attr("id", "invenTransSn" + i);
             $(this).find(".invenSn").attr("id", "invenSn" + i);
             $(this).find(".masterSn").attr("id", "masterSn" + i);
-            $(this).find(".itemNo").attr("id", "itemNo" + i);
-            $(this).find(".itemName").attr("id", "itemName" + i);
-            $(this).find(".currentInven").attr("id", "currentInven" + i);
             $(this).find(".forwardingWhCd").attr("id", "forwardingWhCd" + i);
-
+            $(this).find(".itemNo").attr("id", "itemNo" + i);
+            $(this).find(".itemNo").attr("onClick", "invenTr.fn_popCamItemList(" + i + ")");
             $(this).find(".itemSelBtn").attr("id", "itemSelBtn" + i);
+            $(this).find(".itemSelBtn").attr("onClick", "invenTr.fn_popCamItemList(" + i + ")");
+            $(this).find(".itemName").attr("id", "itemName" + i);
+            $(this).find(".itemName").attr("onClick", "invenTr.fn_popCamItemList(" + i + ")");
+
+            $(this).find(".currentInven").attr("id", "currentInven" + i);
+            $(this).find(".currentInven").attr("onClick", "invenTr.fn_popCamItemList(" + i + ")");
+            $(this).find(".forwardingWhCdTxt").attr("id", "forwardingWhCdTxt" + i);
+            $(this).find(".forwardingWhCdTxt").attr("onClick", "invenTr.forwardingWhCdTxt(" + i + ")");
+            
             $(this).find("input.transferQty").attr("id", "transferQty" + i);
+            $(this).find(".transferQty").attr("oninput", "invenTr.maxCurrentInvenChk(this," + i + ")");
 
             $(this).find("input.receivingWhCd").attr("id", "receivingWhCd" + i);
             $(this).find(".rmk").attr("id", "rmk" + i);
@@ -141,42 +115,6 @@ var invenTr = {
             alert("잘못된 이동수량입니다.");
             $(i).val(invenTr.comma($("#currentInven" + e).val()));
             return;
-        }
-    },
-
-    fileChange : function(e){
-        var file = $(e)[0].files[0];
-        var fileExt = file.name.split(".")[file.name.split(".").length - 1];
-
-        if($.inArray(fileExt, ['xls', 'xlsx']) == -1){
-            alert("xls, xlsx 확장자만 업로드할 수 있습니다.");
-            $(e).val("");
-            return;
-        }else{
-            var formData = new FormData();
-            formData.append("file", $("#file")[0].files[0]);
-            formData.append("empSeq", $("#regEmpSeq").val());
-
-            if(confirm("엑셀을 업로드 하시겠습니까?")){
-                var result = customKendo.fn_customFormDataAjax("/item/invenTransferExcelUpload.do", formData);
-                if(result.flag){
-                    var list = result.list;
-                    for(var i = 0; i < list.length; i++){
-                        invenTr.addRow('new');
-                        // $("#it" + i).find("#crmSn" + i).val(list[i].crmSn);
-                        // $("#it" + i).find("#crmNm" + i).val(list[i].crmNm);
-                        // $("#it" + i).find("#itemNo" + i).val(list[i].itemNo);
-                        // $("#it" + i).find("#itemName" + i).val(list[i].itemName);
-                        // $("#it" + i).find("#whType" + i).data("kendoDropDownList").value(list[i].whType);
-                        // $("#it" + i).find("#whVolume" + i).val(invenTr.comma(list[i].whVolume));
-                        // $("#it" + i).find("#whWeight" + i).val(invenTr.comma(list[i].whWeight));
-                        // $("#it" + i).find("#unitPrice" + i).val(invenTr.comma(list[i].unitPrice));
-                        // $("#it" + i).find("#amt" + i).val(invenTr.comma(list[i].amt));
-                        // $("#it" + i).find("#whCd" + i).data("kendoDropDownList").value(list[i].whCd);
-                        // $("#it" + i).find("#rmk" + i).val(list[i].rmk);
-                    }
-                }
-            }
         }
     },
 
@@ -240,7 +178,8 @@ var invenTr = {
             if(result.flag){
                 alert("저장되었습니다.");
                 invenTr.global.invenTransferIndex = 0;
-                invenTr.setMakeTable();
+                $("#listTb tr").remove();
+                invenTr.addRow('new');
             }
         }
     },
