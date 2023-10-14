@@ -87,7 +87,7 @@ var rrl = {
                     field: "ITEM_NAME",
                     width: 120
                 }, {
-                    title: "납품량",
+                    title: "수량",
                     field: "DELIVERY_VOLUME",
                     width: 100,
                     template : function (e){

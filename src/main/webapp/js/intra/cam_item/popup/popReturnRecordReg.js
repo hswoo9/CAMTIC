@@ -24,6 +24,7 @@ var rrr = {
                 '<td>' +
                     '<input type="hidden" id="returnRecordSn' + rrr.global.rrIndex + '" class="returnRecordSn">' +
                     '<input type="hidden" id="masterSn' + rrr.global.rrIndex + '" class="masterSn">' +
+                    '<input type="hidden" id="currentInven' + rrr.global.rrIndex + '" class="currentInven">' +
                     '<input type="hidden" id="crmSn' + rrr.global.rrIndex + '" class="crmSn">' +
                     '<input type="text" id="crmNm' + rrr.global.rrIndex + '" class="k-input k-textbox crmNm" readonly style="width: 82%" onclick="rrr.fn_popCamCrmList(\'crmSn' + rrr.global.rrIndex + '\', \'crmNm' + rrr.global.rrIndex + '\');"/>' +
                     '<button type="button" id="crmSelBtn' + rrr.global.rrIndex + '" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="rrr.fn_popCamCrmList(\'crmSn' + rrr.global.rrIndex + '\', \'crmNm' + rrr.global.rrIndex + '\');">선택</button>' +
@@ -155,6 +156,7 @@ var rrr = {
 
         if(confirm("저장하시겠습니까?")){
             var rrArr = new Array()
+            var transferArr = new Array()
             $.each($(".rrInfo"), function(i, v){
                 if($(this).find("#crmSn" + i).val() && $(this).find("#invenSn" + i).val()){
                     var arrData = {
@@ -170,11 +172,27 @@ var rrr = {
                     }
 
                     rrArr.push(arrData);
+
+                    var transfer = {
+                        transferType : "R",
+                        forwardingDate : $("#deliveryDt").val(),
+                        forwarder : $("#empSeq").val(),
+                        invenSn : $(this).find("#invenSn" + i).val(),
+                        masterSn : $(this).find("#masterSn" + i).val(),
+                        currentInven : $(this).find("#currentInven" + i).val(),
+                        transferQty : rrr.uncomma($(this).find("#deliveryVolume" + i).val()),
+                        forwardingWhCd : $("#forwardingWhCd" + i).val(),
+                        rmk : $(this).find("#rmk" + i).val(),
+                        empSeq : $("#empSeq").val()
+                    }
+
+                    transferArr.push(transfer);
                 }
             })
 
             rrr.global.saveAjaxData = {
-                rrArr : JSON.stringify(rrArr)
+                rrArr : JSON.stringify(rrArr),
+                transferArr : JSON.stringify(transferArr),
             }
 
             var result = customKendo.fn_customAjax("/item/setReturnRecord.do", rrr.global.saveAjaxData);

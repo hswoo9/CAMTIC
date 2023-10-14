@@ -140,6 +140,11 @@ public class ItemManageServiceImpl implements ItemManageService {
                 }
             }
         }
+        List<Map<String, Object>> transferArr = gson.fromJson((String) params.get("transferArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        if(transferArr.size() > 0){
+            params.put("newRateArr", transferArr);
+            itemManageRepository.setInvenTransferReg(params);
+        }
     }
 
     @Override
@@ -159,6 +164,12 @@ public class ItemManageServiceImpl implements ItemManageService {
                     itemManageRepository.setReturnRecordUpd(map);
                 }
             }
+        }
+
+        List<Map<String, Object>> transferArr = gson.fromJson((String) params.get("transferArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        if(transferArr.size() > 0){
+            params.put("newRateArr", transferArr);
+            itemManageRepository.setInvenTransferReg(params);
         }
     }
 

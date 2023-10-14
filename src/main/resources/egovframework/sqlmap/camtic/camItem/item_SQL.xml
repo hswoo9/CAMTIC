@@ -1191,7 +1191,15 @@
             INVEN_AMT = CURRENT_INVEN * UNIT_PRICE,
             MOD_EMP_SEQ = #{empSeq},
             MOD_DT = NOW()
-        WHERE
-            MASTER_SN = #{masterSn} AND WH_CD = #{whCd}
+        WHERE 1=1
+        <choose>
+            <when test='invenSn != null and !"".equals(invenSn)'>
+                AND INVEN_SN = #{invenSn}
+            </when>
+            <otherwise>
+                AND MASTER_SN = #{masterSn} AND WH_CD = #{whCd}
+            </otherwise>
+        </choose>
+
     </update>
 </mapper>

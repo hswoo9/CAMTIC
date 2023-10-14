@@ -18,6 +18,7 @@ var srr = {
                 '<td>' +
                     '<input type="hidden" id="smRecordSn' + srr.global.smrIndex + '" class="smRecordSn">' +
                     '<input type="hidden" id="masterSn' + srr.global.smrIndex + '" class="masterSn">' +
+                    '<input type="hidden" id="currentInven' + srr.global.smrIndex + '" class="currentInven">' +
                     '<input type="hidden" id="crmSn' + srr.global.smrIndex + '" class="crmSn">' +
                     '<input type="text" id="crmNm' + srr.global.smrIndex + '" class="k-input k-textbox crmNm" readonly style="width: 83%" onclick="srr.fn_popCamCrmList(\'crmSn' + srr.global.smrIndex + '\', \'crmNm' + srr.global.smrIndex + '\');"/>' +
                     '<button type="button" id="crmSelBtn' + srr.global.smrIndex + '" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="srr.fn_popCamCrmList(\'crmSn' + srr.global.smrIndex + '\', \'crmNm' + srr.global.smrIndex + '\');">선택</button>' +
@@ -111,13 +112,14 @@ var srr = {
 
         if(confirm("저장하시겠습니까?")){
             var srArr = new Array()
+            var transferArr = new Array()
             $.each($(".srInfo"), function(i, v){
                 if($(this).find("#crmSn" + i).val() && $(this).find("#invenSn" + i).val()){
                     var arrData = {
                         smRecordSn : $(this).find("#smRecordSn" + i).val(),
                         crmSn : $(this).find("#crmSn" + i).val(),
                         invenSn : $(this).find("#invenSn" + i).val(),
-                        deliveryVolume :  srr.uncomma($(this).find("#deliveryVolume" + i).val()),
+                        deliveryVolume : srr.uncomma($(this).find("#deliveryVolume" + i).val()),
                         deliveryDt : $("#deliveryDt").val(),
                         unitPrice : srr.uncomma($(this).find("#unitPrice" + i).val()),
                         amt : srr.uncomma($(this).find("#amt" + i).val()),
@@ -126,11 +128,27 @@ var srr = {
                     }
 
                     srArr.push(arrData);
+
+                    var transfer = {
+                        transferType : "S",
+                        forwardingDate : $("#deliveryDt").val(),
+                        forwarder : $("#empSeq").val(),
+                        invenSn : $(this).find("#invenSn" + i).val(),
+                        masterSn : $(this).find("#masterSn" + i).val(),
+                        currentInven : $(this).find("#currentInven" + i).val(),
+                        transferQty : srr.uncomma($(this).find("#deliveryVolume" + i).val()),
+                        forwardingWhCd : $("#forwardingWhCd" + i).val(),
+                        rmk : $(this).find("#rmk" + i).val(),
+                        empSeq : $("#empSeq").val()
+                    }
+
+                    transferArr.push(transfer);
                 }
             })
 
             srr.global.saveAjaxData = {
-                srArr : JSON.stringify(srArr)
+                srArr : JSON.stringify(srArr),
+                transferArr : JSON.stringify(transferArr),
             }
 
             var result = customKendo.fn_customAjax("/item/setShipmentRecord.do", srr.global.saveAjaxData);
