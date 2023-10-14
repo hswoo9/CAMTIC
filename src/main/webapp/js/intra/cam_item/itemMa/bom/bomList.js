@@ -165,7 +165,7 @@ var bomList = {
 
     fn_popOutputByBom : function (e){
         var result = bomList.getInvenChk(e);
-        if(result.message != null){
+        if(result.message != null && result.message != ""){
             alert("생산 불가능한 품목입니다.\n\n" + result.message);
             if(result.whCd != null && result.error == null){
                 var url = "/item/pop/popOutputByBom.do?bomSn=" + e + "&outputCnt=1";
@@ -173,9 +173,19 @@ var bomList = {
                 var option = "width = 1055, height = 600, top = 100, left = 400, location = no"
                 var popup = window.open(url, name, option);
             }
-        }else if(result.success != null){
+        }else if(result.success == "200"){
             if(confirm("헤딩 품목을 생산하시겠습니까?")){
-                alert("뚝딱뚝딱 생산중..");
+                bomList.global.saveAjaxData = {
+                    bomSn : e,
+                    empSeq : $("#regEmpSeq").val(),
+                    outputCnt : "1",
+                }
+
+                var result = customKendo.fn_customAjax("/item/setOutput.do", bomList.global.saveAjaxData);
+                if(result.flag){
+                    alert("처리되었습니다.");
+                    bomList.gridReload();
+                }
             }
         }
     },

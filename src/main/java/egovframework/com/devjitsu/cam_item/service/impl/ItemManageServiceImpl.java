@@ -279,10 +279,22 @@ public class ItemManageServiceImpl implements ItemManageService {
 
     @Override
     public void setOutput(Map<String, Object> params) {
-        Gson gson = new Gson();
-        List<Map<String, Object>> detailArr = gson.fromJson((String) params.get("detailArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
-        for(Map<String, Object> map : detailArr){
-            itemManageRepository.setCurrentInvenUpd(map);
+        if(!StringUtils.isEmpty(params.get("detailArr"))){
+            Gson gson = new Gson();
+            List<Map<String, Object>> detailArr = gson.fromJson((String) params.get("detailArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+            for(Map<String, Object> map : detailArr){
+                itemManageRepository.setCurrentInvenUpd(map);
+            }
+        }else{
+            List<Map<String, Object>> detailArr = itemManageRepository.getBomDetailList(params);
+            for(Map<String, Object> map : detailArr){
+                Map<String, Object> updateMap = new HashMap<>();
+                updateMap.put("reqQty", map.get("REQ_QTY"));
+                updateMap.put("empSeq", params.get("empSeq"));
+                updateMap.put("masterSn", map.get("MASTER_SN"));
+                updateMap.put("whCd", map.get("WH_CD"));
+                itemManageRepository.setCurrentInvenUpd(updateMap);
+            }
         }
 
         itemManageRepository.setBomCurrentInvenUpd(params);
