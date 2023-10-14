@@ -75,12 +75,17 @@
                     </thead>
                 </table>
             </div>
+
+            <div class="mt-20">
+                <p style="font-weight: bold;">ㆍ생산이력</p>
+                <div id="mainGrid"></div>
+            </div>
         </div>
 
     </div>
 </div>
 <script type="text/javascript">
-    popBomView.fn_defultScript();
+    popBomView.fn_defaultScript();
 </script>
 </body>
 </html>

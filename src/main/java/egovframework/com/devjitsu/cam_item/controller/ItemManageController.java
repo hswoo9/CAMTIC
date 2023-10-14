@@ -494,6 +494,18 @@ public class ItemManageController {
     }
 
     /**
+     * BOM 생산이력
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getBomOutputHistory.do")
+    public String getBomOutputHistory(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", itemManageService.getBomOutputHistory(params));
+        return "jsonView";
+    }
+
+    /**
      * BOM 부자재 리스트
      * @param params
      * @param model

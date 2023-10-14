@@ -44,7 +44,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    popSrUnitPriceList.fn_defultScript();
+    popSrUnitPriceList.fn_defaultScript();
 </script>
 </body>
 </html>

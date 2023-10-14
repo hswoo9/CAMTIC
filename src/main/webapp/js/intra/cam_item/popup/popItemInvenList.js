@@ -4,7 +4,7 @@ var popItemInvenList = {
         searchAjaxData : "",
     },
 
-    fn_defultScript: function (){
+    fn_defaultScript: function (){
         popItemInvenList.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
         customKendo.fn_dropDownList("whCd", popItemInvenList.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
 

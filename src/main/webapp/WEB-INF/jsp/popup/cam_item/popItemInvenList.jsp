@@ -44,7 +44,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    popItemInvenList.fn_defultScript();
+    popItemInvenList.fn_defaultScript();
 </script>
 </body>
 </html>

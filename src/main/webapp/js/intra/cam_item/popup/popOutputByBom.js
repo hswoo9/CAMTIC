@@ -6,7 +6,7 @@ var popOutput = {
         saveAjaxData : "",
     },
 
-    fn_defultScript: function (){
+    fn_defaultScript: function (){
         popOutput.setMakeTable();
     },
 

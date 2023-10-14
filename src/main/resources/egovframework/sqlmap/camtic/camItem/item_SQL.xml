@@ -549,6 +549,31 @@
             BOM_SN = #{bomSn}
     </select>
 
+    <select id="getBomOutputHistory" parameterType="map" resultType="map">
+        /* getBomOutputHistory */
+        SELECT
+            BOH.BOM_SN,
+            IM.ITEM_NO,
+            IM.ITEM_NAME,
+            IM.STANDARD,
+            BOH.OUTPUT_CNT,
+            BOH.RMK,
+            EI.EMP_NAME_KR,
+            DATE_FORMAT(BOH.REG_DT, '%Y-%m-%d') AS REG_DT
+        FROM
+            CAM_ITEM.DJ_BOM_OUTPUT_HISTORY BOH
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON BOH.REG_EMP_SEQ = EI.EMP_SEQ
+        JOIN
+            CAM_ITEM.DJ_BOM B
+        ON BOH.BOM_SN = B.BOM_SN
+        JOIN
+            CAM_ITEM.DJ_ITEM_MASTER IM
+        ON IM.MASTER_SN = B.MASTER_SN
+        WHERE
+            BOH.BOM_SN = #{bomSn}
+    </select>
     <select id="getBomDetailList" parameterType="map" resultType="map">
         /* getBomDetailList */
         SELECT

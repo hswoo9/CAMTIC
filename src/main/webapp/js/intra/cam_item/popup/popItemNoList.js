@@ -4,7 +4,7 @@ var popItemNoList = {
         searchAjaxData : "",
     },
 
-    fn_defultScript: function (){
+    fn_defaultScript: function (){
         popItemNoList.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
         customKendo.fn_dropDownList("whCd", popItemNoList.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
         $("#whCd").data("kendoDropDownList").bind("change", popItemNoList.gridReload);

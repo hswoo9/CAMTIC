@@ -4,7 +4,7 @@ var popRvUnitPriceList = {
         searchAjaxData : "",
     },
 
-    fn_defultScript: function (){
+    fn_defaultScript: function (){
         popRvUnitPriceList.gridReload();
     },
 

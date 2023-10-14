@@ -50,7 +50,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    popItemNoList.fn_defultScript();
+    popItemNoList.fn_defaultScript();
 </script>
 </body>
 </html>

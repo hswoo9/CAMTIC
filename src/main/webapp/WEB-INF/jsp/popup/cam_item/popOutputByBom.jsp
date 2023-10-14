@@ -71,7 +71,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    popOutput.fn_defultScript();
+    popOutput.fn_defaultScript();
 </script>
 </body>
 </html>

@@ -184,6 +184,11 @@ public class ItemManageServiceImpl implements ItemManageService {
     }
 
     @Override
+    public List<Map<String, Object>> getBomOutputHistory(Map<String, Object> params) {
+        return itemManageRepository.getBomOutputHistory(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getBomDetailList(Map<String, Object> params) {
         Map<String, Object> searchMap = new HashMap<>();
         List<Map<String, Object>> bomDetailList = itemManageRepository.getBomDetailList(params);
