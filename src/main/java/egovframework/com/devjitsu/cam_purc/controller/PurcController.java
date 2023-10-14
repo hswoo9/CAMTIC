@@ -190,6 +190,7 @@ public class PurcController {
         try{
             purcService.setPurcClaimData(params);
             model.addAttribute("code", 200);
+            model.addAttribute("params", params);
         } catch (Exception e){
             e.printStackTrace();
         }

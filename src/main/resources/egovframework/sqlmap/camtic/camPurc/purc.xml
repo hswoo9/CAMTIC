@@ -404,6 +404,10 @@
             A.DOC_ID = DI.DOC_ID
         WHERE
             1=1
+            <if test='(claimSn == null or "".equals(claimSn)) and (purcSn == null or "".equals(purcSn))'>
+                AND
+                    PURC_SN = NULL
+            </if>
             <if test='claimSn != null and !"".equals(claimSn)'>
                AND
                     CLAIM_SN = #{claimSn}
@@ -471,7 +475,12 @@
         /*updPurcClaimData*/
         UPDATE CAM_MNG.DJ_PURC_CLAIM
         SET
-            PURC_SN = #{purcSn},
+            <if test="purcSn != null and !purcSn.equals('')">
+                PURC_SN = #{purcSn},
+            </if>
+            <if test="purcSn == null or purcSn.equals('')">
+                PURC_SN = NULL,
+            </if>
             CLAIM_EMP_SEQ = #{loginEmpSeq},
             PURC_EMP_SEQ = #{purcEmpSeq},
             PURC_TYPE = #{purcType},

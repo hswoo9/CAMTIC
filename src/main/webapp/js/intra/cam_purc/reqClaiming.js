@@ -124,7 +124,7 @@ var reqCl = {
             $("#vat").data("kendoRadioGroup").value(data.VAT);
 
             $("#expType").data("kendoRadioGroup").value(data.EXP_TYPE);
-            
+
             $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
             if($("input[name='purcType']:checked").val() != ""){
                 $("#project").css("display", "");
@@ -291,6 +291,10 @@ var reqCl = {
             totAmt : uncomma($("#totAmt").val())
         }
 
+        if($("#claimSn").val() != ""){
+            parameters.claimSn = $("#claimSn").val();
+        }
+
         if(parameters.loginEmpSeq == ""){
             alert("오류가 발생하였습니다. \n관리자에게 문의하세요.");
             return;
@@ -373,7 +377,7 @@ var reqCl = {
                 if(rs.code == 200){
                     alert("저장되었습니다.");
 
-                    location.reload();
+                    location.href = "/purc/pop/reqClaiming.do?claimSn=" + rs.params.claimSn;
                 }
             }
         });
