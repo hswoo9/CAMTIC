@@ -1,0 +1,175 @@
+var purcClaim = {
+
+    global : {
+        dropDownDataSource : []
+    },
+
+    fn_defaultScript : function (){
+        purcClaim.global.dropDownDataSource = [
+            { text: "내 구매만 조회", value: "empDept" },
+        ]
+        customKendo.fn_dropDownList("searchDept", purcClaim.global.dropDownDataSource, "text", "value");
+        $("#searchDept").data("kendoDropDownList").value("empDept");
+        $("#searchDept").data("kendoDropDownList").bind("change", purcClaim.gridReload);
+
+        purcClaim.global.dropDownDataSource = [
+            { text: "문서번호", value: "DOC_NO" },
+            { text: "목적", value: "PURC_REQ_PURPOSE" },
+            { text: "품명", value: "PURC_ITEM_NAME" },
+        ]
+
+        customKendo.fn_dropDownList("searchKeyword", purcClaim.global.dropDownDataSource, "text", "value");
+        customKendo.fn_textBox(["searchValue"]);
+        purcClaim.mainGrid();
+    },
+
+    mainGrid: function(url, params){
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read: {
+                    url: '/purc/getPurcClaimList',
+                    dataType: "json",
+                    type: "post"
+                },
+                parameterMap: function(data) {
+                    data.empSeq = $("#myEmpSeq").val();
+                    data.searchDept = $("#searchDept").val();
+                    data.searchKeyword = $("#searchKeyword").val();
+                    data.searchValue = $("#searchValue").val();
+
+                    return data;
+                }
+            },
+            schema: {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
+        $("#mainGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            selectable: "row",
+            height : 525,
+            pageable: {
+                refresh: true,
+                pageSizes: [ 10, 20, 30, 50, 100 ],
+                buttonCount: 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            toolbar: [
+                {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="purcClaim.fn_reqClaiming()">' +
+                            '	<span class="k-button-text">구매청구서 작성</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcClaim.gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }],
+            columns: [
+                {
+                    title: "번호",
+                    width: 50,
+                    template: "#= --record #"
+                }, {
+                    title: "문서번호",
+                    field: "DOC_NO",
+                    width: 180,
+                }, {
+                    field: "CLAIM_DE",
+                    title: "청구일",
+                    width: 120,
+                }, {
+                    title: "납품(예정)일",
+                    field: "DELV_DE",
+                    width: 120
+                }, {
+                    title: "제목",
+                    field: "CLAIM_TITLE",
+                    template : function(e){
+                        return '<a onclick="purcClaim.fn_reqClaiming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">' + e.CLAIM_TITLE + '</a>'
+                    }
+                }, {
+                    title: "발주자",
+                    width: 100,
+                    field: "CLAIM_EMP_NAME"
+                }, {
+                    title: "요청자",
+                    width: 100,
+                    template: function(e){
+                        if(e.PURC_EMP_NAME != null && e.PURC_EMP_NAME != ""){
+                            return e.PURC_EMP_NAME;
+                        } else {
+                            return e.CLAIM_EMP_NAME;
+                        }
+                    }
+                }, {
+                    title: "요청부서명",
+                    width: 100,
+                    template: function(e){
+                        if(e.PURC_DEPT_NAME != null && e.PURC_DEPT_NAME != ""){
+                            return e.PURC_DEPT_NAME.toString().split(" ")[0] + "<br>" + e.PURC_DEPT_NAME.toString().split(" ")[1];
+                        } else {
+                            return e.CLAIM_DEPT_NAME.toString().split(" ")[0] + "<br>" + e.CLAIM_DEPT_NAME.toString().split(" ")[1];
+                        }
+                    }
+                }, {
+                    title: "업체명",
+                    width: 100,
+                    field: "CRM_NM"
+                }, {
+                    title: "금액",
+                    width: 100,
+                    template: function (e){
+                        return '<div style="text-align: right">'+comma(e.TOT_AMT)+'</div>'
+                    }
+                }, {
+                    title: "상태",
+                    width: 100,
+                    template: function (e){
+                        return "";
+                    }
+                }
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
+        }).data("kendoGrid");
+    },
+
+    gridReload: function (){
+        $("#mainGrid").data("kendoGrid").dataSource.read();
+    },
+
+    fn_reqClaiming : function (key, subKey){
+        var url = "/purc/pop/reqClaiming.do";
+
+        if(key != null && key != ""){
+            url = "/purc/pop/reqClaiming.do?claimSn=" + key;
+
+            if(subKey != null && subKey != "" && subKey != "undefined"){
+                url += "&purcSn=" + subKey;
+            }
+        }
+
+        var name = "blank";
+        var option = "width = 1500, height = 840, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+
+    },
+}

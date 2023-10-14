@@ -168,4 +168,60 @@ public class PurcController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/purc/pop/reqClaiming.do")
+    public String reqClaiming(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        if(params.containsKey("purcSn") || params.containsKey("claimSn")){
+            model.addAttribute("map", purcService.getPurcClaimData(params));
+        }
+
+        return "popup/cam_purc/mng/reqClaiming";
+    }
+
+    @RequestMapping("/purc/setPurcClaimData")
+    public String setPurcClaimData(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            purcService.setPurcClaimData(params);
+            model.addAttribute("code", 200);
+            model.addAttribute("params", params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/purc/getPurcClaimData")
+    public String getPurcClaimData(@RequestParam Map<String, Object> params, Model model){
+        if(params.containsKey("purcSn") || params.containsKey("claimSn")) {
+            model.addAttribute("data", purcService.getPurcClaimData(params));
+        }
+        return "jsonView";
+    }
+
+    @RequestMapping("/purc/purcClaim.do")
+    public String purcClaim(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "cam_purc/mng/purcClaim";
+    }
+
+    @RequestMapping("/purc/getPurcClaimList")
+    public String getPurcClaimList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list", purcService.getPurcClaimList(params));
+
+        return "jsonView";
+    }
 }

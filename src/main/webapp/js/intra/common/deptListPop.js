@@ -146,6 +146,10 @@ var deptListPop = {
             opener.parent.$("#mngDeptSeq").val(row.DEPT_SEQ);
             opener.parent.$("#mngEmpName").val(row.EMP_NAME_KR);
             opener.parent.$("#mngEmpSeq").val(row.EMP_SEQ);
+            opener.parent.$("#purcDeptName").val(row.DEPT_NAME);
+            opener.parent.$("#purcDeptSeq").val(row.DEPT_SEQ);
+            opener.parent.$("#purcEmpName").val(row.EMP_NAME_KR);
+            opener.parent.$("#purcEmpSeq").val(row.EMP_SEQ);
         } else {
             opener.parent.$("#regtrName").val(row.EMP_NAME_KR);
             opener.parent.$("#userName").val(row.EMP_NAME_KR);

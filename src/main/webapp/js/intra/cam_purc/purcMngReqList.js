@@ -70,13 +70,6 @@ var purcMngReqList = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="purcMngReqList.fn_reqRegPopup()">' +
-                            '	<span class="k-button-text">구매청구서 작성</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name: 'button',
-                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcMngReqList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
@@ -90,7 +83,7 @@ var purcMngReqList = {
                 }, {
                     title: "문서번호",
                     field: "DOC_NO",
-                    width: 100,
+                    width: 180,
                 }, {
                     field: "PURC_REQ_DATE",
                     title: "요청일",
@@ -134,6 +127,16 @@ var purcMngReqList = {
         var name = "blank";
         var option = "width = 1690, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
-    }
+    },
+
+    fn_reqClaiming : function (){
+
+        var url = "/purc/pop/reqClaiming.do";
+
+        var name = "_blank";
+        var option = "width = 1500, height = 840, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+
+    },
 
 }

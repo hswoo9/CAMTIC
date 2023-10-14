@@ -54,7 +54,7 @@
                     </td>
                     <th scope="row" class="text-center th-color">문서번호</th>
                     <td>
-
+                        <div id="docNo" style="margin-top:3px;"></div>
                     </td>
                 </tr>
                 <tr>
@@ -93,7 +93,7 @@
                     <th scope="row" class="text-center th-color">견적서 파일</th>
                     <td colspan="3">
                         <input type="hidden" id="file1Sn" name="file1Sn">
-                        <label for="file1" id="file1" class="k-button k-button-solid-base">파일첨부</label>
+                        <label for="file1" id="file1Label" class="k-button k-button-solid-base">파일첨부</label>
                         <input type="file" id="file1" name="file1" onchange="prp.fileChange(this)" style="display: none">
                         <span id="file1Name"></span>
                     </td>
@@ -102,7 +102,7 @@
                     <th scope="row" class="text-center th-color">요청서 파일</th>
                     <td colspan="3">
                         <input type="hidden" id="file2Sn" name="file1Sn">
-                        <label for="file2" id="file2" class="k-button k-button-solid-base">파일첨부</label>
+                        <label for="file2" id="file2Label" class="k-button k-button-solid-base">파일첨부</label>
                         <input type="file" id="file2" name="file2" onchange="prp.fileChange(this)" style="display: none">
                         <span id="file2Name"></span>
                     </td>
@@ -121,9 +121,6 @@
             </c:if>
             <div class="mt-20">
                 <div class="text-right">
-                    <button type="button" id="delRowBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.delRow()">
-                        삭제
-                    </button>
                     <button type="button" id="addBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="prp.addRow()">
                         <span class="k-button-text">추가</span>
                     </button>
@@ -151,7 +148,9 @@
                         <c:if test="${params.stat == 'v'}">
                             <col style="width: 3%">
                         </c:if>
-<%--                        <col style="width: 3%">--%>
+                        <c:if test="${params.stat != 'v'}">
+                            <col style="width: 3%">
+                        </c:if>
                     </colgroup>
                     <thead>
                     <tr>
@@ -172,7 +171,9 @@
                         <c:if test="${params.stat == 'v'}">
                             <th>상태</th>
                         </c:if>
-<%--                        <th>삭제</th>--%>
+                        <c:if test="${params.stat != 'v'}">
+                            <th>삭제</th>
+                        </c:if>
                     </tr>
                     </thead>
                     <tbody id="purcItemTb">
@@ -199,7 +200,7 @@
                             <input type="text" id="purcItemUnitPrice0" style="text-align: right" class="purcItemUnitPrice" onkeyup="prp.fn_calc(0, this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                         </td>
                         <td>
-                            <input type="text" id="purcItemQty0" style="text-align: right" class="purcItemQty" onkeyup="prp.fn_calc(0, this)" onkeydown="return onlyNumber(this)" onkeyup="removeChar(event);">
+                            <input type="text" id="purcItemQty0" style="text-align: right" class="purcItemQty" onkeyup="prp.fn_calc(0, this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                         </td>
                         <td>
                             <input type="text" id="purcItemUnit0" class="purcItemUnit">
@@ -222,11 +223,13 @@
                                 </button>
                             </td>
                         </c:if>
-<%--                        <td>--%>
-<%--                            <button type="button" id="delRowBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.delRow(this)">--%>
-<%--                                삭제--%>
-<%--                            </button>--%>
-<%--                        </td>--%>
+                        <c:if test="${params.stat != 'v'}">
+                            <td>
+                                <button type="button" id="delRowBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.delRow(this)">
+                                    삭제
+                                </button>
+                            </td>
+                        </c:if>
                     </tr>
                     </tbody>
                 </table>
@@ -243,7 +246,7 @@
     if($("#stat").val() == "v"){
         $("input[type='text'], input[type='radio']").prop("disabled", true);
 
-        $("#delRowBtn0, #addBtn, #pjtSelBtn, #file1, #file2, .crmSelBtn").css("display", "none");
+        $("#delRowBtn0, #addBtn, #pjtSelBtn, #file1Label, #file2Label, .crmSelBtn").css("display", "none");
         $(".crmNm").css("width", "100%");
         var len = $("#purcItemTb > tr").length;
 

@@ -76,15 +76,12 @@ public class PurcServiceImpl implements PurcService {
             }
         }
 
+        purcRepository.delPurcItem(params);
         Gson gson = new Gson();
         List<Map<String, Object>> itemArr = gson.fromJson((String) params.get("itemArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
         for(Map<String, Object> map : itemArr){
             map.put("purcSn", params.get("purcSn"));
-            if(StringUtils.isEmpty(map.get("purcItemSn"))){
-                purcRepository.setPurcItem(map);
-            }else {
-                purcRepository.setPurcItemUpd(map);
-            }
+            purcRepository.setPurcItem(map);
         }
 
     }
@@ -92,13 +89,16 @@ public class PurcServiceImpl implements PurcService {
     @Override
     public Map<String, Object> getPurcReq(Map<String, Object> params) {
         Map<String, Object> returnMap = purcRepository.getPurcReq(params);
-        returnMap.put("itemList", purcRepository.getPurcItemList(params));
 
-        Map<String, Object> searchMap = new HashMap<>();
-        searchMap.put("contentId", "est_" + params.get("purcSn"));
-        returnMap.put("estFile", purcRepository.getPurcReqFileInfo(searchMap));
-        searchMap.put("contentId", "req_" + params.get("purcSn"));
-        returnMap.put("reqFile", purcRepository.getPurcReqFileInfo(searchMap));
+        if(returnMap != null){
+            returnMap.put("itemList", purcRepository.getPurcItemList(params));
+
+            Map<String, Object> searchMap = new HashMap<>();
+            searchMap.put("contentId", "est_" + params.get("purcSn"));
+            returnMap.put("estFile", purcRepository.getPurcReqFileInfo(searchMap));
+            searchMap.put("contentId", "req_" + params.get("purcSn"));
+            returnMap.put("reqFile", purcRepository.getPurcReqFileInfo(searchMap));
+        }
 
         return returnMap;
     }
@@ -160,5 +160,42 @@ public class PurcServiceImpl implements PurcService {
     @Override
     public void setPurcItemStat(Map<String, Object> params) {
         purcRepository.updPurcItemStat(params);
+    }
+
+    @Override
+    public void setPurcClaimData(Map<String, Object> params) {
+        Map<String, Object> claimMap = purcRepository.getPurcClaimData(params);
+
+        if(claimMap == null){
+            purcRepository.insPurcClaimData(params);
+        }else{
+            params.put("claimSn", claimMap.get("CLAIM_SN"));
+            purcRepository.updPurcClaimData(params);
+        }
+
+        purcRepository.delPurcClaimItem(params);
+
+        Gson gson = new Gson();
+        List<Map<String, Object>> itemArr = gson.fromJson((String) params.get("itemArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+        for(Map<String, Object> map : itemArr){
+            map.put("claimSn", params.get("claimSn"));
+
+            purcRepository.insPurcClaimItem(map);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getPurcClaimData(Map<String, Object> params) {
+        Map<String, Object> result = purcRepository.getPurcClaimData(params);
+
+        if(result != null){
+            result.put("itemList", purcRepository.getPurcClaimItemList(params));
+        }
+        return result;
+    }
+
+    @Override
+    public List<Map<String, Object>> getPurcClaimList(Map<String, Object> params) {
+        return purcRepository.getPurcClaimList(params);
     }
 }

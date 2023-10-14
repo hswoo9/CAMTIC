@@ -223,11 +223,16 @@ var prp = {
                 '<td id="itemStatus' + prp.global.itemIndex + '">' +
                     '<button type="button" id="retBtn' + prp.global.itemIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.fn_retItem('+prp.global.itemIndex+')">반려</button>' +
                 '</td>';
+        } else {
+            prp.global.createHtmlStr += '' +
+                '<td>' +
+                '   <button type="button" id="delRowBtn' + prp.global.itemIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.delRow(this)">삭제</button>' +
+                '</td>'
         }
-                // '<td>' +
-                //     '<button type="button" id="delRowBtn' + prp.global.itemIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.delRow(this)">삭제</button>' +
-                // '</td>' +
+        prp.global.createHtmlStr += '' +
             '</tr>';
+
+
 
         $("#purcItemTb").append(prp.global.createHtmlStr);
 
@@ -293,7 +298,7 @@ var prp = {
     },
 
     fn_calc : function (idx, e){
-        $("#purcItemAmt" + idx).val(comma($("#purcItemUnitPrice" + idx).val() * $("#purcItemQty" + idx).val()));
+        $("#purcItemAmt" + idx).val(comma(Number(uncomma($("#purcItemUnitPrice" + idx).val())) * Number(uncomma($("#purcItemQty" + idx).val()))));
 
         return inputNumberFormat(e);
     },
@@ -337,6 +342,7 @@ var prp = {
         if(result.flag){
             console.log(result);
             var data = result.data;
+            $("#docNo").text(data.DOC_NO);
             $("#purcReqDate").val(data.PURC_REQ_DATE);
             $("#purcReqEmpSeq").val(data.PURC_REQ_EMP_SEQ);
             $("#purcReqEmpName").text(data.EMP_NAME_KR);
@@ -358,14 +364,17 @@ var prp = {
             $("#file2Sn").val(data.reqFile.file_no);
             $("#file2Name").text(data.reqFile.file_org_name + "." + data.reqFile.file_ext);
 
-            prp.purcItemDataSet(data.itemList);
+            prp.purcItemDataSet(data);
 
             prp.purcBtnSet(data);
         }
     },
 
     purcItemDataSet : function(e){
+        var data = e;
+        var e = e.itemList;
         var totalPay = 0;
+        console.log(e);
         for(var i = 0; i < e.length; i++){
             if(i != 0){
                 prp.addRow();
@@ -403,9 +412,11 @@ var prp = {
             $("#item" + i).find("#retBtn" + i).val(e[i].CERT_CONTENT);
         }
 
-
-        $("#totalPay").css("display", "");
-        $("#totalPay").text("총 금액 : " + comma(totalPay));
+        if(data.DOC_ID != "" && data.DOC_ID != null){
+            $("#totalPay").css("display", "");
+            $("#totalPay").text("총 금액 : " + comma(totalPay));
+            $("#addBtn").css("display", "none");
+        }
     },
 
     purcBtnSet : function(purcMap){
