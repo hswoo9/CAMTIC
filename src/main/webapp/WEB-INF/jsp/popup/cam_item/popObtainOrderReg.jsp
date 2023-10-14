@@ -45,14 +45,15 @@
             </div>
             <table class="popTable table table-bordered mb-0 mt10">
                 <colgroup>
-                    <col style="width: 17%;">
-                    <col style="width: 16%;">
-                    <col style="width: 12%;">
-                    <col style="width: 12%;">
-                    <col style="width: 5%;">
-                    <col style="width: 5%;">
-                    <col style="width: 5%;">
+                    <col style="width: 18%;">
                     <col style="width: 15%;">
+                    <col style="width: 12%;">
+                    <col style="width: 11%;">
+                    <col style="width: 9%;">
+                    <col style="width: 5%;">
+                    <col style="width: 7%;">
+                    <col style="width: 7%;">
+                    <col style="width: 10%;">
                     <col style="width: 3%;">
                 </colgroup>
                 <thead>
@@ -61,6 +62,7 @@
                     <th>품번</th>
                     <th>품명</th>
                     <th>규격</th>
+                    <th>납기일자</th>
                     <th>수주량</th>
                     <th>단가</th>
                     <th>수주금액</th>

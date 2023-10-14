@@ -13,43 +13,45 @@ public class ItemManageRepository extends AbstractDAO {
     public List<Map<String, Object>> getSdunitPriceList(Map<String, Object> params) { return selectList("item.getSdunitPriceList", params);}
     public String getMaxChangeNum(Map<String, Object> params) { return (String) selectOne("item.getMaxChangeNum", params);}
     public void setSdUnitPriceReg(Map<String, Object> params) { insert("item.setSdUnitPriceReg", params);}
-    public void setSdUnitPriceEndDtUpd(Map<String, Object> params) { insert("item.setSdUnitPriceEndDtUpd", params);}
-    public void setSdUnitPriceRegUpd(Map<String, Object> params) { insert("item.setSdUnitPriceRegUpd", params);}
+    public void setSdUnitPriceEndDtUpd(Map<String, Object> params) { update("item.setSdUnitPriceEndDtUpd", params);}
+    public void setSdUnitPriceRegUpd(Map<String, Object> params) { update("item.setSdUnitPriceRegUpd", params);}
     public void setSdUnitPriceDel(Map<String, Object> params) { delete("item.setSdUnitPriceDel", params);}
     public List<Map<String, Object>> getObtainOrderList(Map<String, Object> params) { return selectList("item.getObtainOrderList", params);}
-    public void setObtainOrder(Map<String, Object> params) { delete("item.setObtainOrder", params);}
-    public void setObtainOrderUpd(Map<String, Object> params) { delete("item.setObtainOrderUpd", params);}
+    public void setDeliveryAmtUpd(Map<String, Object> params) { update("item.setDeliveryAmtUpd", params);}
+    public void setDeadlineUpd(Map<String, Object> params) { update("item.setDeadlineUpd", params);}
+    public void setObtainOrder(Map<String, Object> params) { insert("item.setObtainOrder", params);}
+    public void setObtainOrderUpd(Map<String, Object> params) { update("item.setObtainOrderUpd", params);}
     public List<Map<String, Object>> getShipmentRecordList(Map<String, Object> params) { return selectList("item.getShipmentRecordList", params);}
-    public void setShipmentRecord(Map<String, Object> params) { delete("item.setShipmentRecord", params);}
-    public void setShipmentRecordUpd(Map<String, Object> params) { delete("item.setShipmentRecordUpd", params);}
+    public void setShipmentRecord(Map<String, Object> params) { insert("item.setShipmentRecord", params);}
+    public void setShipmentRecordUpd(Map<String, Object> params) { update("item.setShipmentRecordUpd", params);}
     public List<Map<String, Object>> getReturnRecordRegList(Map<String, Object> params) { return selectList("item.getReturnRecordRegList", params);}
-    public void setReturnRecord(Map<String, Object> params) { delete("item.setReturnRecord", params);}
-    public void setReturnRecordUpd(Map<String, Object> params) { delete("item.setReturnRecordUpd", params);}
+    public void setReturnRecord(Map<String, Object> params) { insert("item.setReturnRecord", params);}
+    public void setReturnRecordUpd(Map<String, Object> params) { update("item.setReturnRecordUpd", params);}
     public List<Map<String, Object>> getBomList(Map<String, Object> params) { return selectList("item.getBomList", params);}
     public Map<String, Object> getBom(Map<String, Object> params){ return (Map<String, Object>) selectOne("item.getBom", params);}
     public List<Map<String, Object>> getBomDetailList(Map<String, Object> params) { return selectList("item.getBomDetailList", params);}
     public void setBomDel(Map<String, Object> params) { delete("item.setBomDel", params);}
-    public void setBomDetailDel(Map<String, Object> params) {delete("item.setBomDetailDel", params);}
+    public void setBomDetailDel(Map<String, Object> params) { delete("item.setBomDetailDel", params);}
     public void setBom(Map<String, Object> params) { insert("item.setBom", params);}
-    public void setBomUpd(Map<String, Object> params) { insert("item.setBomUpd", params);}
+    public void setBomUpd(Map<String, Object> params) { update("item.setBomUpd", params);}
     public void setBomDetail(Map<String, Object> params) { insert("item.setBomDetail", params);}
-    public void setBomDetailUpd(Map<String, Object> params) { insert("item.setBomDetailUpd", params);}
-    public void setBomCurrentInvenUpd(Map<String, Object> params) { insert("item.setBomCurrentInvenUpd", params);insert("item.setOutputByBom", params);}
+    public void setBomDetailUpd(Map<String, Object> params) { update("item.setBomDetailUpd", params);}
+    public void setBomCurrentInvenUpd(Map<String, Object> params) { update("item.setBomCurrentInvenUpd", params);insert("item.setOutputByBom", params);}
     public List<Map<String, Object>> getMaterialUnitPriceList(Map<String, Object> params) { return selectList("item.getMaterialUnitPriceList", params);}
     public List<Map<String, Object>> getCrmItemUnitPriceList(Map<String, Object> params) { return selectList("item.getCrmItemUnitPriceList", params);}
     public String getCrmItemMaxChangeNum(Map<String, Object> params) { return (String) selectOne("item.getCrmItemMaxChangeNum", params);}
     public void setCrmItemUnitPriceReg(Map<String, Object> params) { insert("item.setCrmItemUnitPriceReg", params);}
-    public void setCrmItemUnitPriceEndDtUpd(Map<String, Object> params) { insert("item.setCrmItemUnitPriceEndDtUpd", params);}
-    public void setCrmItemUnitPriceRegUpd(Map<String, Object> params) { insert("item.setCrmItemUnitPriceRegUpd", params);}
+    public void setCrmItemUnitPriceEndDtUpd(Map<String, Object> params) { update("item.setCrmItemUnitPriceEndDtUpd", params);}
+    public void setCrmItemUnitPriceRegUpd(Map<String, Object> params) { update("item.setCrmItemUnitPriceRegUpd", params);}
     public void setCrmItemUnitPriceDel(Map<String, Object> params) { delete("item.setCrmItemUnitPriceDel", params);}
     public List<Map<String, Object>> getItemWhInfoList(Map<String, Object> params) { return selectList("item.getItemWhInfoList", params);}
-    public void setInspectionUpd(Map<String, Object> params) { insert("item.setInspectionUpd", params);}
+    public void setInspectionUpd(Map<String, Object> params) { update("item.setInspectionUpd", params);}
     public void setReceivingReg(Map<String, Object> params) { insert("item.setReceivingReg", params);}
-    public void setReceivingRegUpd(Map<String, Object> params) { insert("item.setReceivingRegUpd", params);}
+    public void setReceivingRegUpd(Map<String, Object> params) { update("item.setReceivingRegUpd", params);}
     public List<Map<String, Object>> getItemInvenList(Map<String, Object> params) { return selectList("item.getItemInvenList", params);}
     public Map<String, Object> getItemInven(Map<String, Object> params){ return (Map<String, Object>) selectOne("item.getItemInven", params);}
     public void setInvenTransferReg(Map<String, Object> params) { insert("item.setInvenTransferReg", params);}
-    public void setInvenTransferRegUpd(Map<String, Object> params) { insert("item.setInvenTransferRegUpd", params);}
+    public void setInvenTransferRegUpd(Map<String, Object> params) { update("item.setInvenTransferRegUpd", params);}
     public List<Map<String, Object>> getInvenTransferHistoryList(Map<String, Object> params) { return selectList("item.getInvenTransferHistoryList", params);}
     public void setCurrentInvenUpd(Map<String, Object> params) { update("item.setCurrentInvenUpd", params);}
 }

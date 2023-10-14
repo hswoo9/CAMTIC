@@ -141,14 +141,24 @@ public class ItemManageController {
     }
 
     /**
-     * 수주등록 리스트
+     * 납품누계 업데이트
      * @param params
-     * @param model
      * @return
      */
-    @RequestMapping("/item/getObtainOrderList.do")
-    public String getObtainOrderList(@RequestParam Map<String, Object> params, Model model) {
-        model.addAttribute("list", itemManageService.getObtainOrderList(params));
+    @RequestMapping("/item/setDeliveryAmtUpd.do")
+    public String setDeliveryAmtUpd(@RequestParam Map<String, Object> params){
+        itemManageService.setDeliveryAmtUpd(params);
+        return "jsonView";
+    }
+
+    /**
+     * 마감처리
+     * @param params
+     * @return
+     */
+    @RequestMapping("/item/setDeadlineUpd.do")
+    public String setDeadlineUpd(@RequestParam Map<String, Object> params){
+        itemManageService.setDeadlineUpd(params);
         return "jsonView";
     }
 
@@ -180,6 +190,30 @@ public class ItemManageController {
         return "jsonView";
     }
 
+    /**
+     * 수주등록 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getObtainOrderList.do")
+    public String getObtainOrderList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", itemManageService.getObtainOrderList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 수주현황 페이지
+     * @param request
+     * @return
+     */
+    @RequestMapping("/item/obtainOrderStatusList.do")
+    public String obtainOrderStatusList(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_item/itemMa/obtainOrderMa/obtainOrderStatusList";
+    }
 
     /** 캠아이템 > 아이템관리 > 출하관리 */
 

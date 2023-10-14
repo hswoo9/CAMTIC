@@ -19,17 +19,20 @@ var oor = {
                     '<input type="hidden" id="obtainOrderSn' + oor.global.oorIndex + '" class="obtainOrderSn">' +
                     '<input type="hidden" id="masterSn' + oor.global.oorIndex + '" class="masterSn">' +
                     '<input type="hidden" id="crmSn' + oor.global.oorIndex + '" class="crmSn">' +
-                    '<input type="text" id="crmNm' + oor.global.oorIndex + '" class="k-input k-textbox crmNm" readonly style="width: 84%" onclick="oor.fn_popCamCrmList(\'crmSn' + oor.global.oorIndex + '\', \'crmNm' + oor.global.oorIndex + '\');"/>' +
+                    '<input type="text" id="crmNm' + oor.global.oorIndex + '" class="k-input k-textbox crmNm" readonly style="width: 83%" onclick="oor.fn_popCamCrmList(\'crmSn' + oor.global.oorIndex + '\', \'crmNm' + oor.global.oorIndex + '\');"/>' +
                     '<button type="button" id="crmSelBtn' + oor.global.oorIndex + '" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="oor.fn_popCamCrmList(\'crmSn' + oor.global.oorIndex + '\', \'crmNm' + oor.global.oorIndex + '\');">선택</button>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="itemNo' + oor.global.oorIndex + '" class="k-input k-textbox itemNo" readonly style="width: 84%" onclick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');"/>' +
+                    '<input type="text" id="itemNo' + oor.global.oorIndex + '" class="k-input k-textbox itemNo" readonly style="width: 72%" onclick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');"/>' +
                     '<button type="button" id="itemSelBtn' + oor.global.oorIndex + '" class="itemSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');">선택</button>' +                '</td>' +
                 '<td>' +
                     '<input type="text" id="itemName' + oor.global.oorIndex + '" class="itemName k-input k-textbox" onclick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');" readonly>' +
                 '</td>' +
                 '<td>' +
-                '<input type="text" id="standard' + oor.global.oorIndex + '" class="standard k-input k-textbox" onclick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');" readonly>' +
+                    '<input type="text" id="standard' + oor.global.oorIndex + '" class="standard k-input k-textbox" onclick="oor.fn_popItemNoList(' + oor.global.oorIndex + ');" readonly>' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="dueDt' + oor.global.oorIndex + '" class="dueDt">' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="orderVolume' + oor.global.oorIndex + '" class="numberInput orderVolume" style="text-align: right;" value="0">' +
@@ -52,6 +55,8 @@ var oor = {
 
         customKendo.fn_textBox(["orderVolume" + oor.global.oorIndex, "unitPrice" + oor.global.oorIndex,
             "amt" + oor.global.oorIndex, "rmk" + oor.global.oorIndex])
+
+        customKendo.fn_datePicker("dueDt" + oor.global.oorIndex, '', "yyyy-MM-dd", '');
 
         $(".numberInput").keyup(function(){
             $(this).val(oor.comma(oor.uncomma($(this).val())));
@@ -112,9 +117,10 @@ var oor = {
                         obtainOrderSn : $(this).find("#obtainOrderSn" + i).val(),
                         masterSn : $(this).find("#masterSn" + i).val(),
                         crmSn : $(this).find("#crmSn" + i).val(),
-                        orderVolume :  oor.uncomma($(this).find("#orderVolume" + i).val()),
-                        orderRemain :  oor.uncomma($(this).find("#orderVolume" + i).val()),
+                        orderVolume : oor.uncomma($(this).find("#orderVolume" + i).val()),
+                        orderRemain : oor.uncomma($(this).find("#orderVolume" + i).val()),
                         orderDt : $("#orderDt").val(),
+                        dueDt : $(this).find("#dueDt" + i).val(),
                         unitPrice : oor.uncomma($(this).find("#unitPrice" + i).val()),
                         amt : oor.uncomma($(this).find("#amt" + i).val()),
                         rmk : $(this).find("#rmk" + i).val(),

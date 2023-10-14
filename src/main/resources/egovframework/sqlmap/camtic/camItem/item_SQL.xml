@@ -160,6 +160,14 @@
             AND IM.MASTER_SN = #{masterSn}
         </if>
 
+        <if test='deadLine != null and !"".equals(deadLine)'>
+            AND OO.DEADLINE = #{deadLine}
+        </if>
+
+        <if test='unpaidType != null and !"".equals(unpaidType)'>
+            AND OO.UNPAID_TYPE = #{unpaidType}
+        </if>
+
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword)'>
                 AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
@@ -179,6 +187,37 @@
         </if>
     </select>
 
+    <update id="setDeliveryAmtUpd" parameterType="map">
+        /* setDeliveryAmtUpd */
+        UPDATE
+            CAM_ITEM.DJ_ITEM_OBTAIN_ORDER
+        SET
+            DELIVERY_AMT = #{deliveryAmt},
+            ORDER_REMAIN = (ORDER_VOLUME - ${deliveryAmt}),
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            OBTAIN_ORDER_SN = #{obtainOrderSn}
+    </update>
+
+    <update id="setDeadlineUpd" parameterType="map">
+        /* setDeadlineUpd */
+        <![CDATA[
+        UPDATE
+            CAM_ITEM.DJ_ITEM_OBTAIN_ORDER
+        SET
+            DEADLINE = 'Y',
+            UNPAID_TYPE = CASE WHEN CAST(ORDER_VOLUME AS UNSIGNED) = CAST(ORDER_REMAIN AS UNSIGNED) AND CAST(DELIVERY_AMT AS UNSIGNED) = 0 THEN 'C'
+                               WHEN CAST(ORDER_VOLUME AS UNSIGNED) > CAST(DELIVERY_AMT AS UNSIGNED) AND CAST(DELIVERY_AMT AS UNSIGNED) != 0 THEN 'P'
+                               WHEN CAST(ORDER_VOLUME AS UNSIGNED) = CAST(DELIVERY_AMT AS UNSIGNED) AND CAST(ORDER_REMAIN AS UNSIGNED) = 0 THEN 'N'
+                            END,
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            OBTAIN_ORDER_SN = #{obtainOrderSn}
+        ]]>
+    </update>
+
     <insert id="setObtainOrder" parameterType="map">
         /* setObtainOrder */
         INSERT INTO CAM_ITEM.DJ_ITEM_OBTAIN_ORDER
@@ -188,6 +227,7 @@
             ORDER_VOLUME,
             ORDER_REMAIN,
             ORDER_DT,
+            DUE_DT,
             UNIT_PRICE,
             AMT,
             RMK,
@@ -200,6 +240,7 @@
             #{orderVolume},
             #{orderRemain},
             #{orderDt},
+            #{dueDt},
             #{unitPrice},
             #{amt},
             #{rmk},
@@ -217,6 +258,7 @@
             ORDER_VOLUME = #{orderVolume},
             ORDER_REMAIN = #{orderRemain},
             ORDER_DT = #{orderDt},
+            DUE_DT = #{dueDt},
             UNIT_PRICE = #{unitPrice},
             AMT = #{amt},
             RMK = #{rmk},

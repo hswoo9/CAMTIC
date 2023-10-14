@@ -48,6 +48,20 @@ var oorl = {
                 }, {
                     name: 'button',
                     template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oorl.setDeliveryAmtUpd()">' +
+                            '	<span class="k-button-text">납품누계저장</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oorl.setDeadlineUpd()">' +
+                            '	<span class="k-button-text">마감</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oorl.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
@@ -58,11 +72,15 @@ var oorl = {
                 }
             ],
             excel : {
-                fileName : "출하실적등록 목록.xlsx",
+                fileName : "수주등록 목록.xlsx",
                 filterable : true
             },
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" style="top: 3px; position: relative" />',
+                    template : "<input type='checkbox' id='ooSn#=OBTAIN_ORDER_SN#' name='ooSn' value='#=OBTAIN_ORDER_SN#' style=\"top: 3px; position: relative\" />",
+                    width: 30,
+                }, {
                     title: "순번",
                     template: "#= --record #",
                     width: 50
@@ -72,23 +90,23 @@ var oorl = {
                     width: 150,
                 }, {
                     title: "수주일자",
-                    field: "DELIVERY_DT",
+                    field: "ORDER_DT",
                     width: 80,
                 }, {
                     title: "품번",
                     field: "ITEM_NO",
-                    width: 120
+                    width: 120,
                 }, {
                     title: "품명",
                     field: "ITEM_NAME",
-                    width: 120
+                    width: 120,
                 }, {
                     title: "수주량",
-                    field: "DELIVERY_VOLUME",
+                    field: "ORDER_VOLUME",
                     width: 100,
                     template : function (e){
-                        if(e.DELIVERY_VOLUME != null && e.DELIVERY_VOLUME != ""){
-                            return oorl.comma(e.DELIVERY_VOLUME) + "";
+                        if(e.ORDER_VOLUME != null && e.ORDER_VOLUME != ""){
+                            return oorl.comma(e.ORDER_VOLUME) + "";
                         }else{
                             return "0";
                         }
@@ -125,13 +143,56 @@ var oorl = {
                         style : "text-align : right;"
                     }
                 }, {
-                    title: "창고",
-                    field: "WH_CD_NM",
-                    width: 150,
+                    title: "납품누계",
+                    field: "DELIVERY_AMT",
+                    width: 100,
+                    template : function (e){
+                        if(e.DELIVERY_AMT != null && e.DELIVERY_AMT != ""){
+                            if(e.DEADLINE == "N"){
+                                return "<input type='text' class='deliveryAmtInput numberInput k-input k-textbox' maxOrderVolume='" + e.ORDER_VOLUME + "' style='text-align: right;' value='" + oorl.comma(e.DELIVERY_AMT) + "'>";
+                            }else{
+                                return oorl.comma(e.DELIVERY_AMT);
+                            }
+                        }else{
+                            if(e.DEADLINE == "N"){
+                                return "<input type='text' class='deliveryAmtInput numberInput k-input k-textbox' maxOrderVolume='" + e.ORDER_VOLUME + "' style='text-align: right' value='0'>";
+                            }else{
+                                return "0"
+                            }
+                        }
+                    },
+                    attributes : {
+                        style : "text-align : right;"
+                    }
+                }, {
+                    title: "잔량",
+                    field: "ORDER_REMAIN",
+                    width: 100,
+                    template : function (e){
+                        if(e.ORDER_REMAIN != null && e.ORDER_REMAIN != ""){
+                            return oorl.comma(e.ORDER_REMAIN) + "";
+                        }else{
+                            return "0";
+                        }
+                    },
+                    attributes : {
+                        style : "text-align : right;"
+                    }
                 }, {
                     title: "비고",
                     field: "RMK",
                     width: 200,
+                }, {
+                    title: "마감구분",
+                    field: "DEADLINE",
+                    width: 80,
+                    template : function (e){
+                        if(e.DEADLINE == "Y"){
+                            return "마감"
+                        }else{
+                            return "개시";
+                        }
+                    },
                 }, {
                     title: "등록자",
                     field: "EMP_NAME_KR",
@@ -144,8 +205,17 @@ var oorl = {
         }).data("kendoGrid");
 
         $("#checkAll").click(function(){
-            if($(this).is(":checked")) $("input[name=whSn]").prop("checked", true);
-            else $("input[name=whSn]").prop("checked", false);
+            if($(this).is(":checked")) $("input[name=ooSn]").prop("checked", true);
+            else $("input[name=ooSn]").prop("checked", false);
+        });
+
+        $(".numberInput").keyup(function(){
+            if(Number(oorl.uncomma($(this).val())) > Number($(this).attr("maxOrderVolume"))){
+                alert("납품누계는 수주량을 초과할 수 없습니다.");
+                $(this).val(oorl.comma($(this).attr("maxOrderVolume")));
+            }else{
+                $(this).val(oorl.comma(oorl.uncomma($(this).val())));
+            }
         });
     },
 
@@ -162,6 +232,53 @@ var oorl = {
         oorl.mainGrid("/item/getObtainOrderList.do", oorl.global.searchAjaxData);
     },
 
+    setDeliveryAmtUpd: function(){
+        if(confirm("저장하시겠습니까?")){
+            var oorlArr = new Array()
+            $.each($("input[name=ooSn]"), function(){
+                var data = {
+                    obtainOrderSn : $(this).val(),
+                    deliveryAmt : $(this).closest("tr").find("input.deliveryAmtInput").val(),
+                    empSeq : $("#regEmpSeq").val()
+                }
+                oorlArr.push(data);
+            })
+
+            oorl.global.saveAjaxData = {
+                oorlArr : JSON.stringify(oorlArr)
+            }
+
+            var result = customKendo.fn_customAjax("/item/setDeliveryAmtUpd.do", oorl.global.saveAjaxData);
+            if(result.flag){
+                alert("처리되었습니다.");
+                oorl.gridReload();
+            }
+        }
+    },
+
+    setDeadlineUpd: function(){
+        if(confirm("선택된 수주를 마감처리하시겠습니까?")){
+            var oorlArr = new Array()
+            $.each($("input[name=ooSn]:checked"), function(){
+                var data = {
+                    obtainOrderSn : $(this).val(),
+                    empSeq : $("#regEmpSeq").val()
+                }
+                oorlArr.push(data);
+            })
+
+            oorl.global.saveAjaxData = {
+                oorlArr : JSON.stringify(oorlArr)
+            }
+
+            var result = customKendo.fn_customAjax("/item/setDeadlineUpd.do", oorl.global.saveAjaxData);
+            if(result.flag){
+                alert("처리되었습니다.");
+                oorl.gridReload();
+            }
+        }
+    },
+
     crmSnReset : function(){
         $("#crmSn").val("");
         $("#crmNm").val("");
@@ -171,7 +288,7 @@ var oorl = {
     fn_popObtainOrderReg : function (){
         var url = "/item/pop/popObtainOrderReg.do";
         var name = "_blank";
-        var option = "width = 1680, height = 400, top = 200, left = 400, location = no"
+        var option = "width = 1550, height = 505, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 
