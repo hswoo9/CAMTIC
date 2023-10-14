@@ -193,4 +193,9 @@ public class PurcServiceImpl implements PurcService {
         }
         return result;
     }
+
+    @Override
+    public List<Map<String, Object>> getPurcClaimList(Map<String, Object> params) {
+        return purcRepository.getPurcClaimList(params);
+    }
 }

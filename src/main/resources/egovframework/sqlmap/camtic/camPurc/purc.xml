@@ -403,7 +403,16 @@
         ON
             A.DOC_ID = DI.DOC_ID
         WHERE
-            PURC_SN = #{purcSn}
+            1=1
+            <if test='claimSn != null and !"".equals(claimSn)'>
+               AND
+                    CLAIM_SN = #{claimSn}
+            </if>
+            <if test='purcSn != null and !"".equals(purcSn)'>
+                AND
+                    PURC_SN = #{purcSn}
+            </if>
+
     </select>
 
     <insert id="insPurcClaimData" parameterType="map">
@@ -496,4 +505,36 @@
         WHERE
             PURC_SN = #{purcSn}
     </delete>
+
+    <select id="getPurcClaimList" parameterType="map" resultType="map">
+        /*getPurcClaimList*/
+        SELECT
+            A.CLAIM_SN,
+            A.PURC_SN,
+            A.PURC_TYPE,
+            A.CLAIM_DE,
+            A.EXP_DE,
+            A.CLAIM_TITLE,
+            A.CRM_NM,
+            A.TOT_AMT,
+            B.EMP_NAME_KR AS CLAIM_EMP_NAME,
+            CAM_HR.FN_GetName('DEPT', B.DEPT_SEQ, NULL) AS CLAIM_DEPT_NAME,
+            D.EMP_NAME_KR AS PURC_EMP_NAME,
+            CAM_HR.FN_GetName('DEPT', D.DEPT_SEQ, NULL) AS PURC_DEPT_NAME,
+            C.DELV_DE
+        FROM
+            CAM_MNG.DJ_PURC_CLAIM A
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO B
+        ON
+            A.CLAIM_EMP_SEQ = B.EMP_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO D
+        ON
+            A.PURC_EMP_SEQ = D.EMP_SEQ
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PROJECT C
+        ON
+            A.PJT_SN = C.PJT_SN
+    </select>
 </mapper>

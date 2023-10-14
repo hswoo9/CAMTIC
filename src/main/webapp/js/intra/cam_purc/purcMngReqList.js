@@ -70,13 +70,6 @@ var purcMngReqList = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="purcMngReqList.fn_reqClaiming()">' +
-                            '	<span class="k-button-text">구매청구서 작성</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name: 'button',
-                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcMngReqList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';

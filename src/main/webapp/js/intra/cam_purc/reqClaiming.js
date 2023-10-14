@@ -64,6 +64,7 @@ var reqCl = {
 
             var rs = customKendo.fn_customAjax("/purc/getPurcReq.do", data);
             var data = rs.data;
+
             $("#purcDeptName").val(data.DEPT_NAME);
             $("#purcDeptSeq").val(data.DEPT_SEQ);
             $("#purcEmpName").val(data.EMP_NAME_KR);
@@ -102,6 +103,38 @@ var reqCl = {
             } else {
                 $("#project").css("display", "none");
             }
+        } else if($("#claimSn").val() != "") {
+            var data = {
+                claimSn : $("#claimSn").val(),
+                purcSn : $("#purcSn").val()
+            }
+
+            rs = customKendo.fn_customAjax("/purc/getPurcClaimData", data);
+            data = rs.data;
+
+            $("#purcDeptName").val(data.DEPT_NAME);
+            $("#purcDeptSeq").val(data.DEPT_SEQ);
+            $("#purcEmpName").val(data.EMP_NAME_KR);
+            $("#purcEmpSeq").val(data.EMP_SEQ);
+
+            $("#estAmt").val(comma(data.EST_AMT));
+            $("#vatAmt").val(comma(data.VAT_AMT));
+            $("#totAmt").val(comma(data.TOT_AMT));
+
+            $("#vat").data("kendoRadioGroup").value(data.VAT);
+
+            $("#expType").data("kendoRadioGroup").value(data.EXP_TYPE);
+            
+            $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
+            if($("input[name='purcType']:checked").val() != ""){
+                $("#project").css("display", "");
+                $("#pjtSn").val(data.PJT_SN);
+                $("#pjtNm").val(data.PJT_NM);
+            } else {
+                $("#project").css("display", "none");
+            }
+
+            this.fn_setClaimItem(data);
         }
 
         $("#vat").data("kendoRadioGroup").bind("select", function(e){

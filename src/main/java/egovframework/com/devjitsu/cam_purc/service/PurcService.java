@@ -22,4 +22,6 @@ public interface PurcService {
     void setPurcClaimData(Map<String, Object> params);
 
     Map<String, Object> getPurcClaimData(Map<String, Object> params);
+
+    List<Map<String, Object>> getPurcClaimList(Map<String, Object> params);
 }

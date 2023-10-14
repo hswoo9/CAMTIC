@@ -177,7 +177,9 @@ public class PurcController {
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
-        model.addAttribute("map", purcService.getPurcClaimData(params));
+        if(params.containsKey("purcSn") || params.containsKey("claimSn")){
+            model.addAttribute("map", purcService.getPurcClaimData(params));
+        }
 
         return "popup/cam_purc/mng/reqClaiming";
     }
@@ -197,8 +199,28 @@ public class PurcController {
 
     @RequestMapping("/purc/getPurcClaimData")
     public String getPurcClaimData(@RequestParam Map<String, Object> params, Model model){
+        if(params.containsKey("purcSn") || params.containsKey("claimSn")) {
+            model.addAttribute("data", purcService.getPurcClaimData(params));
+        }
+        return "jsonView";
+    }
 
-        model.addAttribute("data", purcService.getPurcClaimData(params));
+    @RequestMapping("/purc/purcClaim.do")
+    public String purcClaim(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "cam_purc/mng/purcClaim";
+    }
+
+    @RequestMapping("/purc/getPurcClaimList")
+    public String getPurcClaimList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list", purcService.getPurcClaimList(params));
+
         return "jsonView";
     }
 }
