@@ -13,7 +13,7 @@
 
 <input type="hidden" id="stat" value="${params.stat}" />
 
-<form id="purcDraftFrm" method="post">
+<form id="claimDraftFrm" method="post">
     <input type="hidden" id="claimSn" name="claimSn" value="${map.CLAIM_SN}">
     <input type="hidden" id="purcSn" name="purcSn" value="${params.purcSn}">
     <input type="hidden" id="menuCd" name="menuCd" value="purcClaim">
@@ -29,9 +29,7 @@
                     구매정보
                 </span>
             </h3>
-            <div id="purcBtnDiv" class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" id="reqBtn" style="display: none" onclick="prp.purcDrafting();">요청하기</button>
-                <button type="button" class="k-button k-button-solid-info" id="reqCancelBtn" onclick="prp.setPurcReqStatusUpd('W');" style="display: none">요청취소</button>
+            <div id="reqPurcBtnDiv" class="btn-st popButton">
                 <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="reqCl.fn_save();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>

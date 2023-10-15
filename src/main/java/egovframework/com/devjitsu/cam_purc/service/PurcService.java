@@ -12,8 +12,12 @@ public interface PurcService {
     void setPurcReq(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
     Map<String, Object> getPurcReq(Map<String, Object> params);
     List<Map<String, Object>> getPurcItemList(Map<String, Object> params);
+
+    List<Map<String, Object>> getClaimItemList(Map<String, Object> params);
     Map<String, Object> getPurcItemAmtTotal(Map<String, Object> params);
+    Map<String, Object> getPurcClaimItemAmtTotal(Map<String, Object> params);
     void updatePurcDocState(Map<String, Object> bodyMap) throws Exception;
+    void updateClaimDocState(Map<String, Object> bodyMap) throws Exception;
 
     List<Map<String, Object>> getMngReqPurcList(Map<String, Object> params);
 

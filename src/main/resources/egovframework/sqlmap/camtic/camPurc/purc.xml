@@ -275,7 +275,24 @@
 
     <select id="getPurcClaimItemList" parameterType="map" resultType="map">
         /*getPurcClaimItemList*/
-        SELECT * FROM CAM_MNG.DJ_PURC_CLAIM_ITEM
+        SELECT
+            *,
+            FORMAT(ITEM_UNIT_AMT , 0) AS ITEM_UNIT_AMT_COMMA,
+            FORMAT(ITEM_AMT , 0) AS ITEM_AMT_COMMA
+        FROM
+            CAM_MNG.DJ_PURC_CLAIM_ITEM
+        WHERE
+            CLAIM_SN = #{claimSn}
+    </select>
+
+    <select id="getPurcClaimItemAmtTotal" parameterType="map" resultType="map">
+        /* getPurcItemList A합계 B세액 C소계 */
+        SELECT
+            IFNULL(FORMAT(SUM(ITEM_AMT) , 0), 0) AS TOTAL_SUM_COMMA_A,
+            IFNULL(FORMAT(SUM(ITEM_AMT)/10 , 0), 0) AS TOTAL_SUM_COMMA_B,
+            IFNULL(FORMAT((SUM(ITEM_AMT)) - (SUM(ITEM_AMT)/10) , 0), 0) AS TOTAL_SUM_COMMA_C
+        FROM
+            CAM_MNG.DJ_PURC_CLAIM_ITEM MPI
         WHERE
             CLAIM_SN = #{claimSn}
     </select>
@@ -307,7 +324,6 @@
         /* updatePurcApprStat */
         UPDATE CAM_MNG.DJ_MNG_PURC
         SET
-            STATUS = 'C',
             DOC_STATUS = #{approveStatCode},
             DOC_ID = #{docId}
         WHERE
@@ -318,11 +334,33 @@
         /* updatePurcFinalApprStat */
         UPDATE CAM_MNG.DJ_MNG_PURC
         SET
+            STATUS = 'C',
             DOC_STATUS = #{approveStatCode},
             APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
             APPROVAL_EMP_SEQ = #{empSeq}
         WHERE
             PURC_SN = #{purcSn}
+    </update>
+
+    <update id="updateClaimApprStat" parameterType="map">
+        /* updateClaimApprStat */
+        UPDATE CAM_MNG.DJ_PURC_CLAIM
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            CLAIM_SN = #{claimSn}
+    </update>
+
+    <update id="updateClaimFinalApprStat" parameterType="map">
+        /* updateClaimFinalApprStat */
+        UPDATE CAM_MNG.DJ_PURC_CLAIM
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            CLAIM_SN = #{claimSn}
     </update>
 
     <update id="updPurcItemStat" parameterType="map">
