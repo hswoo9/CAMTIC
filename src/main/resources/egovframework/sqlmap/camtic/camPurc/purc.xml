@@ -32,6 +32,9 @@
         <if test='searchDept != null and !"".equals(searchDept)'>
             AND MP.PURC_REQ_EMP_SEQ = #{empSeq}
         </if>
+        <if test='pjtSn != null and !"".equals(pjtSn)'>
+            AND MP.PJT_SN = #{pjtSn}
+        </if>
 
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword) and "DOC_NO".equals(searchKeyword)'>

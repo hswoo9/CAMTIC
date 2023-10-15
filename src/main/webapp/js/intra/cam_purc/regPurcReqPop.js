@@ -59,6 +59,14 @@ var prp = {
             prp.crmInfoChange();
         });
 
+        if($("#pjtSn").val() != ""){
+            $("#purcType").data("kendoRadioGroup").value($("#busnClass").val());
+            $("input[name='purcType']").trigger("click");
+            $("#purcType").data("kendoRadioGroup").enable(false);
+            $("#pjtSelBtn").prop("disabled", true);
+            $("#pjtNm").prop("disabled", true);
+        }
+
 
         if($("#purcSn").val()){
             prp.purcDataSet();
@@ -380,7 +388,6 @@ var prp = {
         var data = e;
         var e = e.itemList;
         var totalPay = 0;
-        console.log(e);
         for(var i = 0; i < e.length; i++){
             if(i != 0){
                 prp.addRow();

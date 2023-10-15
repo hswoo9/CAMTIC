@@ -4,6 +4,7 @@
 
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/purcInfo.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
@@ -13,161 +14,20 @@
 <input type="hidden" id="loginEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}">
 
+<input type="hidden" id="searchKeyword" />
+<input type="hidden" id="searchValue" />
+
 <div style="padding: 10px">
     <div id="btnDiv">
-        <button type="button" class="k-button k-button-solid-info" style="float: right; margin-bottom: 10px; " id="reqBtn" onclick="purcInfo.setPurcReq('C');">요청하기</button>
+<%--        <button type="button" class="k-button k-button-solid-info" style="float: right; margin-bottom: 10px; " id="reqBtn" onclick="purcInfo.setPurcReq('C');">요청하기</button>--%>
 <%--        <button type="button" class="k-button k-button-solid-info" style="float: right; margin-bottom: 10px ; margin-right:5px;" id="saveBtn" onclick="purcInfo.setPurcReq('W');">저장</button>--%>
     </div>
 
     <div class="table-responsive">
         <input type="hidden" id="purcReqEmpSeq" value="${loginVO.uniqId}">
         <input type="hidden" id="purcReqDeptSeq" value="${loginVO.orgnztId}">
-        <table class="popTable table table-bordered mb-0">
-            <colgroup>
-                <col width="10%">
-                <col width="35%">
-                <col width="10%">
-                <col width="35%">
-            </colgroup>
-            <thead>
-            <tr>
-                <th scope="row" class="text-center th-color">요청일자</th>
-                <td>
-                    <input type="text" id="purcReqDate" style="width: 22%;">
-                </td>
-                <th scope="row" class="text-center th-color">문서번호</th>
-                <td>
 
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" class="text-center th-color">요청자</th>
-                <td id="purcReqEmpName">
-                    ${loginVO.name}
-                </td>
-                <th scope="row" class="text-center th-color">요청부서</th>
-                <td id="purcReqDeptName">
-                    ${loginVO.orgnztNm}
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" class="text-center th-color">요청목적</th>
-                <td colspan="3">
-                    <input type="text" id="purcReqPurpose" style="width: 90%;">
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" class="text-center th-color">구매구분</th>
-                <td colspan="3">
-                    <span id="purcType"></span>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" class="text-center th-color">견적서 파일</th>
-                <td colspan="3">
-                    <input type="hidden" id="file1Sn" name="file1Sn">
-                    <label for="file1" class="k-button k-button-solid-base">파일첨부</label>
-                    <input type="file" id="file1" name="file1" onchange="purcInfo.fileChange(this)" style="display: none">
-                    <span id="file1Name"></span>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" class="text-center th-color">요청서 파일</th>
-                <td colspan="3">
-                    <input type="hidden" id="file2Sn" name="file1Sn">
-                    <label for="file2" class="k-button k-button-solid-base">파일첨부</label>
-                    <input type="file" id="file2" name="file2" onchange="purcInfo.fileChange(this)" style="display: none">
-                    <span id="file2Name"></span>
-                </td>
-            </tr>
-            </thead>
-        </table>
-
-        <div class="mt-20">
-            <div class="text-right">
-                <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="purcInfo.addRow()">
-                    <span class="k-button-text">추가</span>
-                </button>
-            </div>
-
-            <table class="popTable table table-bordered mb-0 mt-20">
-                <colgroup>
-                    <col>
-                    <col style="width: 12%;">
-                    <col style="width: 6%;">
-                    <col style="width: 4%;">
-                    <col style="width: 4%;">
-                    <col style="width: 4%;">
-                    <col style="width: 6%;">
-                    <col style="width: 15%;">
-                    <col style="width: 5%;">
-                    <col style="width: 5%;">
-                    <col style="width: 3%">
-                </colgroup>
-                <thead>
-                <tr>
-                    <th>구분</th>
-                    <th>품명</th>
-                    <th>규격</th>
-                    <th>단가</th>
-                    <th>수량</th>
-                    <th>단위</th>
-                    <th>금액</th>
-                    <th>업체명</th>
-                    <th>비고</th>
-                    <th>진행상태</th>
-                    <th>삭제</th>
-                </tr>
-                </thead>
-                <tbody id="purcItemTb">
-                <tr class="purcItemInfo newArray" id="item0">
-                    <td>
-                        <input type="hidden" id="purcItemSn0" name="purcItemSn0" class="purcItemSn">
-                        <input type="text" id="purcItemType0" class="purcItemType" style="width: 24%">
-                        <input type="text" id="productA0" class="productA" style="width: 24%">
-                        <input type="text" id="productB0" class="productB" style="width: 24%; display: none">
-                        <input type="text" id="productC0" class="productC" style="width: 24%; display: none">
-                    </td>
-                    <td>
-                        <input type="text" id="purcItemName0" class="purcItemName">
-                    </td>
-                    <td>
-                        <input type="text" id="purcItemStd0" class="purcItemStd">
-                    </td>
-                    <td>
-                        <input type="text" id="purcItemUnitPrice0" class="purcItemUnitPrice" onkeydown="return onlyNumber(this)" onkeyup="removeChar(event);">
-                    </td>
-                    <td>
-                        <input type="text" id="purcItemQty0" class="purcItemQty" onkeydown="return onlyNumber(this)" onkeyup="removeChar(event);">
-                    </td>
-                    <td>
-                        <input type="text" id="purcItemUnit0" class="purcItemUnit">
-                    </td>
-                    <td>
-                        <input type="text" id="purcItemAmt0" class="purcItemAmt" style="text-align: right" onkeyup="purcInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                    </td>
-                    <td>
-                        <input type="hidden" id="crmSn0" class="crmSn">
-                        <input type="text" id="crmNm0" class="crmNm" style="width: 60%">
-                        <button type="button" id="crmSelBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcInfo.fn_popCamCrmList('crmSn0', 'crmNm0');">업체선택</button>
-                    </td>
-                    <td>
-                        <input type="text" id="rmk0" class="rmk">
-                    </td>
-                    <td></td>
-                    <td>
-                        <button type="button" id="delRowBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="purcInfo.delRow(this)">
-                            삭제
-                        </button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-
-            <input type="hidden" id="purcCrmSn" onchange="purcInfo.crmInfoChange()">
-            <input type="hidden" id="purcCrmNm">
-        </div>
-        <div id="purcGrid" style="margin-top: 20px"></div>
+        <div id="mainGrid" style="margin-top: 20px"></div>
     </div>
 </div>
 

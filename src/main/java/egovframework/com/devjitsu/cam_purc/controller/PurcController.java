@@ -1,6 +1,7 @@
 package egovframework.com.devjitsu.cam_purc.controller;
 
 
+import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.cam_purc.service.PurcService;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.common.service.CommonService;
@@ -27,6 +28,9 @@ public class PurcController {
 
     @Autowired
     private CommonService commonService;
+
+    @Autowired
+    private ProjectService projectService;
 
     @Value("#{properties['File.Server.Dir']}")
     private String SERVER_DIR;
@@ -81,6 +85,10 @@ public class PurcController {
     public String regPurcReqPop(HttpServletRequest request, @RequestParam Map<String, Object> params, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        if(params.containsKey("pjtSn")){
+            model.addAttribute("pjtData", projectService.getProjectData(params));
+        }
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
