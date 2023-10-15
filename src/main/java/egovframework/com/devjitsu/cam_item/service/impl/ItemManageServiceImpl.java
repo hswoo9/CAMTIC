@@ -279,6 +279,7 @@ public class ItemManageServiceImpl implements ItemManageService {
 
     @Override
     public void setOutput(Map<String, Object> params) {
+        /** bom 부자재 업데이트 */
         if(!StringUtils.isEmpty(params.get("detailArr"))){
             Gson gson = new Gson();
             List<Map<String, Object>> detailArr = gson.fromJson((String) params.get("detailArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
@@ -297,7 +298,25 @@ public class ItemManageServiceImpl implements ItemManageService {
             }
         }
 
+        /** bom 생산 재고 업데이트 */
         itemManageRepository.setBomCurrentInvenUpd(params);
+
+        /** bom 창고 입고*/
+        Map<String, Object> invenSn = itemManageRepository.getItemInvenValidation(params);
+        Map<String, Object> saveMap = new HashMap<>();
+        saveMap.put("empSeq", params.get("empSeq"));
+        saveMap.put("unitPrice", params.get("bomUnitPrice"));
+        saveMap.put("whVolume", params.get("outputCnt"));
+        saveMap.put("masterSn", params.get("masterSn"));
+        if(invenSn != null){
+            saveMap.put("invenSn", invenSn.get("INVEN_SN"));
+            itemManageRepository.setItemInvenUpd(saveMap);
+        }else {
+            saveMap.put("whCd", params.get("whCd"));
+            itemManageRepository.setItemInven(saveMap);
+        }
+
+        itemManageRepository.setItemInvenUnitPriceUpd(saveMap);
     }
 
     @Override

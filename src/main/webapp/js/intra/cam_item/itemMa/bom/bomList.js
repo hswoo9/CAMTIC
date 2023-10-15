@@ -128,7 +128,7 @@ var bomList = {
                 }, {
                     width: 50,
                     template: function(e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bomList.fn_popOutputByBom(' + e.BOM_SN + ')">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bomList.fn_popOutputByBom(this)">' +
                             '	<span class="k-button-text">생산</span>' +
                             '</button>';
                     }
@@ -164,11 +164,12 @@ var bomList = {
     },
 
     fn_popOutputByBom : function (e){
-        var result = bomList.getInvenChk(e);
+        var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(e).closest("tr"));
+        var result = bomList.getInvenChk(dataItem.BOM_SN);
         if(result.message != null && result.message != ""){
             alert("생산 불가능한 품목입니다.\n\n" + result.message);
             if(result.whCd != null && result.error == null){
-                var url = "/item/pop/popOutputByBom.do?bomSn=" + e + "&outputCnt=1";
+                var url = "/item/pop/popOutputByBom.do?bomSn=" + dataItem.BOM_SN + "&outputCnt=1";
                 var name = "_blank";
                 var option = "width = 1055, height = 600, top = 100, left = 400, location = no"
                 var popup = window.open(url, name, option);
@@ -176,7 +177,10 @@ var bomList = {
         }else if(result.success == "200"){
             if(confirm("헤딩 품목을 생산하시겠습니까?")){
                 bomList.global.saveAjaxData = {
-                    bomSn : e,
+                    bomSn : dataItem.BOM_SN,
+                    masterSn : dataItem.MASTER_SN,
+                    whCd : dataItem.WH_CD,
+                    bomUnitPrice : dataItem.BOM_UNIT_PRICE,
                     empSeq : $("#regEmpSeq").val(),
                     outputCnt : "1",
                 }

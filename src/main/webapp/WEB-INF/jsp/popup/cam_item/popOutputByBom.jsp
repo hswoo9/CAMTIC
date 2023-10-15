@@ -12,6 +12,9 @@
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
         <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
         <input type="hidden" id="bomSn" name="bomSn" value="${rs.BOM_SN}">
+        <input type="hidden" id="masterSn" name="masterSn" value="${rs.MASTER_SN}">
+        <input type="hidden" id="whCd" name="whCd" value="${rs.WH_CD}">
+        <input type="hidden" id="bomUnitPrice" name="bomUnitPrice" value="${rs.BOM_UNIT_PRICE}">
         <input type="hidden" id="outputCnt" name="outputCnt" value="${params.outputCnt}">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">BOM제작</span>

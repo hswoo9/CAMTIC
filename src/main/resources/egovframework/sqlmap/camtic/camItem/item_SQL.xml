@@ -536,6 +536,7 @@
             IM.ITEM_NO,
             IM.ITEM_NAME,
             IM.STANDARD,
+            IM.WH_CD,
             WHC.ITEM_CD_NM AS WH_CD_NM
         FROM
             CAM_ITEM.DJ_BOM B
@@ -1007,6 +1008,70 @@
             MOD_DATE = NOW()
         WHERE
             ITEM_WH_SN = #{itemWhSn}
+    </update>
+
+    <select id="getItemInvenValidation" parameterType="map" resultType="map">
+        /* getItemInvenValidation */
+        SELECT
+            *
+        FROM
+            CAM_ITEM.DJ_ITEM_INVENTORY
+        WHERE
+            MASTER_SN = #{masterSn}
+          AND
+            WH_CD = #{whCd}
+    </select>
+    <insert id="setItemInven" parameterType="map">
+        /* setItemInven */
+        INSERT INTO CAM_ITEM.DJ_ITEM_INVENTORY
+        (
+            MASTER_SN,
+            CURRENT_INVEN,
+            WH_CD,
+            RECEIVING_INVEN,
+            UNIT_PRICE,
+            INVEN_AMT,
+            REG_EMP_SEQ,
+            REG_DT
+        )
+        VALUES
+        (
+            #{masterSn},
+            #{whVolume},
+            #{whCd},
+            #{whVolume},
+            #{unitPrice},
+            #{whVolume} * #{unitPrice},
+            #{empSeq},
+            NOW()
+        );
+    </insert>
+
+    <update id="setItemInvenUpd" parameterType="map">
+        /* setItemInvenUpd */
+        UPDATE
+            CAM_ITEM.DJ_ITEM_INVENTORY
+        SET
+            CURRENT_INVEN = (CURRENT_INVEN + #{whVolume}),
+            RECEIVING_INVEN = (RECEIVING_INVEN + #{whVolume}),
+            INVEN_AMT = (CURRENT_INVEN + #{whVolume}) * #{unitPrice},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            INVEN_SN = #{invenSn}
+    </update>
+
+    <update id="setItemInvenUnitPriceUpd" parameterType="map">
+        /* setItemInvenUnitPriceUpd */
+        UPDATE
+            CAM_ITEM.DJ_ITEM_INVENTORY
+        SET
+            UNIT_PRICE = #{unitPrice},
+            INVEN_AMT = CURRENT_INVEN * #{unitPrice},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            MASTER_SN = #{masterSn}
     </update>
 
     <select id="getItemInvenList" parameterType="map" resultType="map">
