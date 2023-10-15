@@ -70,6 +70,9 @@ var popOutput = {
                 bomSn : $("#bomSn").val(),
                 empSeq : $("#empSeq").val(),
                 outputCnt : $("#outputCnt").val(),
+                masterSn : $("#masterSn").val(),
+                whCd : $("#whCd").val(),
+                bomUnitPrice : $("#bomUnitPrice").val(),
                 detailArr : JSON.stringify(detailArr)
             }
 
