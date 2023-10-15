@@ -359,10 +359,16 @@ var prp = {
                 $("#project").css("display", "none");
             }
 
-            $("#file1Sn").val(data.estFile.file_no);
-            $("#file1Name").text(data.estFile.file_org_name + "." + data.estFile.file_ext);
-            $("#file2Sn").val(data.reqFile.file_no);
-            $("#file2Name").text(data.reqFile.file_org_name + "." + data.reqFile.file_ext);
+            if(data.estFile != null){
+                $("#file1Sn").val(data.estFile.file_no);
+                $("#file1Name").text(data.estFile.file_org_name + "." + data.estFile.file_ext);
+            }
+
+            if(data.reqFile != null){
+                $("#file2Sn").val(data.reqFile.file_no);
+                $("#file2Name").text(data.reqFile.file_org_name + "." + data.reqFile.file_ext);
+            }
+
 
             prp.purcItemDataSet(data);
 

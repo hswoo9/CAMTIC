@@ -394,6 +394,7 @@ var reqCl = {
     },
 
     fn_setItem: function(e){
+
         var len = e.itemList.length;
         var index = 0;
         var html = '';
