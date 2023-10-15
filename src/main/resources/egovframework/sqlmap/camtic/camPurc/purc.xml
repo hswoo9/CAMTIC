@@ -568,7 +568,9 @@
             CAM_HR.FN_GetName('DEPT', B.DEPT_SEQ, NULL) AS CLAIM_DEPT_NAME,
             D.EMP_NAME_KR AS PURC_EMP_NAME,
             CAM_HR.FN_GetName('DEPT', D.DEPT_SEQ, NULL) AS PURC_DEPT_NAME,
-            C.DELV_DE
+            C.DELV_DE,
+            DI.DOC_NO,
+            A.STATUS
         FROM
             CAM_MNG.DJ_PURC_CLAIM A
         LEFT JOIN
@@ -583,5 +585,9 @@
             CAM_PJT_MNG.DJ_PROJECT C
         ON
             A.PJT_SN = C.PJT_SN
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI
+        ON
+            A.DOC_ID = DI.DOC_ID
     </select>
 </mapper>

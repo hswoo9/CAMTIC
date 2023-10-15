@@ -142,7 +142,15 @@ var purcClaim = {
                     title: "상태",
                     width: 100,
                     template: function (e){
-                        return "";
+                        if(e.STATUS != null && e.STATUS != ""){
+                            if(e.STATUS == 100){
+                                return "구매요청";
+                            }else if(e.STATUS == 0){
+                                return "작성중";
+                            }
+                        }else{
+                            return "미작성";
+                        }
                     }
                 }
             ],
