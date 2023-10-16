@@ -877,9 +877,7 @@ public class ItemManageController {
     public String popInvenTransferReg(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
-        session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("loginVO", loginVO);
-
         return "popup/cam_item/popInvenTransferReg";
     }
 

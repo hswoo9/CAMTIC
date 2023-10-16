@@ -97,6 +97,9 @@ var invenTrl = {
                     title: "품명",
                     field: "ITEM_NAME",
                 }, {
+                    title: "현재재고",
+                    field: "CURRENT_INVEN",
+                }, {
                     title: "이동수량",
                     field: "TRANSFER_QTY",
                     width: 120,
