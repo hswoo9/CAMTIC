@@ -150,12 +150,14 @@ var userInfoMod = {
                 },  {
 					attributes : { style : "text-align : center;"},
 					width: "50px",
-                    field: "",
-                    title: "번호",    /*template : "<input type='checkbox' id='eqmnUsePk#=EQIPMN_USE_SN#' name='eqmnUsePk' value='#=EQIPMN_USE_SN#' class='k-checkbox checkbox'/>",*/
-                    template : function (e) {
-                        return ($("#mainGrid").data("kendoGrid").dataSource.total() - record++)+'<input type="hidden" + value="'+e.EMP_SEQ+'"/><input type="hidden" value="'+e.type+'"/><input type="hidden" value="'+e.ID+'"/><input type="hidden" value="'+e.key+'"/>';
-                    }
-                }, {
+					field: "",
+					title: "번호",
+					hidden: true, // 이 부분을 추가합니다.
+					template : function (e) {
+						return ($("#mainGrid").data("kendoGrid").dataSource.total() - record++)+'<input type="hidden" value="'+e.EMP_SEQ+'"/><input type="hidden" value="'+e.type+'"/><input type="hidden" value="'+e.ID+'"/><input type="hidden" value="'+e.key+'"/>';
+					}
+				}
+				, {
 					attributes : { style : "text-align : center;"},
                     field: "DEPT_NAME",
                     title: "부서"
