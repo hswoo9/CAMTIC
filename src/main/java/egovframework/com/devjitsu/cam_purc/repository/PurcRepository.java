@@ -18,9 +18,12 @@ public class PurcRepository extends AbstractDAO {
     public Map<String, Object> getPurcReq(Map<String, Object> params) { return (Map<String, Object>) selectOne("purc.getPurcReq", params);}
     public List<Map<String, Object>> getPurcItemList(Map<String, Object> params) { return selectList("purc.getPurcItemList", params);}
     public Map<String, Object> getPurcItemAmtTotal(Map<String, Object> params) { return (Map<String, Object>) selectOne("purc.getPurcItemAmtTotal", params);}
+    public Map<String, Object> getPurcClaimItemAmtTotal(Map<String, Object> params) { return (Map<String, Object>) selectOne("purc.getPurcClaimItemAmtTotal", params);}
     public Map<String, Object> getPurcReqFileInfo(Map<String, Object> params) { return (Map<String, Object>) selectOne("purc.getPurcReqFileInfo", params);}
     public void updatePurcApprStat(Map<String, Object> params) { update("purc.updatePurcApprStat", params); }
     public void updatePurcFinalApprStat(Map<String, Object> params) { update("purc.updatePurcFinalApprStat", params); }
+    public void updateClaimApprStat(Map<String, Object> params) { update("purc.updateClaimApprStat", params); }
+    public void updateClaimFinalApprStat(Map<String, Object> params) { update("purc.updateClaimFinalApprStat", params); }
 
 
     public List<Map<String, Object>> getMngReqPurcList(Map<String, Object> params) {

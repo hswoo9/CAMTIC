@@ -1,6 +1,7 @@
 package egovframework.com.devjitsu.cam_purc.controller;
 
 
+import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.cam_purc.service.PurcService;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.common.service.CommonService;
@@ -27,6 +28,9 @@ public class PurcController {
 
     @Autowired
     private CommonService commonService;
+
+    @Autowired
+    private ProjectService projectService;
 
     @Value("#{properties['File.Server.Dir']}")
     private String SERVER_DIR;
@@ -81,6 +85,10 @@ public class PurcController {
     public String regPurcReqPop(HttpServletRequest request, @RequestParam Map<String, Object> params, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        if(params.containsKey("pjtSn")){
+            model.addAttribute("pjtData", projectService.getProjectData(params));
+        }
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
@@ -139,6 +147,27 @@ public class PurcController {
         return "popup/cam_purc/approvalFormPopup/purcApprovalPop";
     }
 
+    /**
+     * 구매청구서 전자결재 양식 페이지
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/popup/cam_purc/approvalFormPopup/claimingApprovalPop.do")
+    public String claimingApprovalPop(HttpServletRequest request, @RequestParam Map<String, Object> params, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        model.addAttribute("purcItemList", purcService.getClaimItemList(params));
+        Map<String, Object> data = purcService.getPurcClaimItemAmtTotal(params);
+        model.addAttribute("data", data);
+        model.addAttribute("info", purcService.getPurcClaimData(params));
+
+        return "popup/cam_purc/approvalFormPopup/claimingApprovalPop";
+    }
+
     /** 구매요청서 결재 상태값에 따른 UPDATE 메서드 */
     @RequestMapping(value = "/purc/purcReqApp")
     public String purcReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
@@ -148,6 +177,24 @@ public class PurcController {
         String resultMessage = "성공하였습니다.";
         try{
             purcService.updatePurcDocState(bodyMap);
+        }catch(Exception e){
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    /** 구매청구서 결재 상태값에 따른 UPDATE 메서드 */
+    @RequestMapping(value = "/purc/claimReqApp")
+    public String claimReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            purcService.updateClaimDocState(bodyMap);
         }catch(Exception e){
             resultCode = "FAIL";
             resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
@@ -210,7 +257,7 @@ public class PurcController {
     public String purcClaim(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
-
+        session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
 

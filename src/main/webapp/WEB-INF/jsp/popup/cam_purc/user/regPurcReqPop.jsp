@@ -11,6 +11,7 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_purc/regPurcReqPop.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_purc/purchase.js?v=${today}'/>"></script>
 <input type="hidden" id="stat" value="${params.stat}" />
+<input type="hidden" id="busnClass" value="${pjtData.BUSN_CLASS}" />
 
 <form id="purcDraftFrm" method="post">
     <input type="hidden" id="purcSn" name="purcSn" value="${params.purcSn}">
@@ -83,8 +84,8 @@
                     <th scope="row" class="text-center th-color">프로젝트</th>
                     <td colspan="3">
                         <span>
-                            <input type="text" id="pjtNm" style="width: 40%;">
-                            <input type="hidden" id="pjtSn" />
+                            <input type="text" id="pjtNm" value="${pjtData.PJT_NM}"  style="width: 40%;">
+                            <input type="hidden" id="pjtSn" value="${pjtData.PJT_SN}" />
                             <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="prp.fn_projectPop()">검색</button>
                         </span>
                     </td>

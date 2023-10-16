@@ -59,6 +59,14 @@ var prp = {
             prp.crmInfoChange();
         });
 
+        if($("#pjtSn").val() != ""){
+            $("#purcType").data("kendoRadioGroup").value($("#busnClass").val());
+            $("input[name='purcType']").trigger("click");
+            $("#purcType").data("kendoRadioGroup").enable(false);
+            $("#pjtSelBtn").prop("disabled", true);
+            $("#pjtNm").prop("disabled", true);
+        }
+
 
         if($("#purcSn").val()){
             prp.purcDataSet();
@@ -359,10 +367,16 @@ var prp = {
                 $("#project").css("display", "none");
             }
 
-            $("#file1Sn").val(data.estFile.file_no);
-            $("#file1Name").text(data.estFile.file_org_name + "." + data.estFile.file_ext);
-            $("#file2Sn").val(data.reqFile.file_no);
-            $("#file2Name").text(data.reqFile.file_org_name + "." + data.reqFile.file_ext);
+            if(data.estFile != null){
+                $("#file1Sn").val(data.estFile.file_no);
+                $("#file1Name").text(data.estFile.file_org_name + "." + data.estFile.file_ext);
+            }
+
+            if(data.reqFile != null){
+                $("#file2Sn").val(data.reqFile.file_no);
+                $("#file2Name").text(data.reqFile.file_org_name + "." + data.reqFile.file_ext);
+            }
+
 
             prp.purcItemDataSet(data);
 
@@ -374,7 +388,6 @@ var prp = {
         var data = e;
         var e = e.itemList;
         var totalPay = 0;
-        console.log(e);
         for(var i = 0; i < e.length; i++){
             if(i != 0){
                 prp.addRow();
@@ -433,7 +446,7 @@ var prp = {
             }else if(purcMap.DOC_STATUS == "100"){
                 buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+purcMap.DOC_ID+'\', \''+purcMap.APPRO_KEY+'\', \''+purcMap.DOC_MENU_CD+'\');">열람</button>';
             }else{
-                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="resultInfo.setPurcReq()">저장</button>';
+                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="prp.setPurcReq()">저장</button>';
             }
         }else{
             buttonHtml += '<button type="button" id="saveBtn" style="margin-right:5px; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="prp.setPurcReq()">저장</button>';

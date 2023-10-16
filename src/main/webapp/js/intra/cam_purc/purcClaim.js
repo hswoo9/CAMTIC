@@ -102,7 +102,7 @@ var purcClaim = {
                     title: "제목",
                     field: "CLAIM_TITLE",
                     template : function(e){
-                        return '<a onclick="purcClaim.fn_reqClaiming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">' + e.CLAIM_TITLE + '</a>'
+                        return '<a onclick="purcClaim.fn_reqClaiming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')" style="font-weight: bold ">' + e.CLAIM_TITLE + '</a>'
                     }
                 }, {
                     title: "발주자",
@@ -142,7 +142,15 @@ var purcClaim = {
                     title: "상태",
                     width: 100,
                     template: function (e){
-                        return "";
+                        if(e.STATUS != null && e.STATUS != ""){
+                            if(e.STATUS == 100){
+                                return "구매요청";
+                            }else if(e.STATUS == 0){
+                                return "작성중";
+                            }
+                        }else{
+                            return "미작성";
+                        }
                     }
                 }
             ],

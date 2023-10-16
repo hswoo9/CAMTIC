@@ -32,6 +32,9 @@
         <if test='searchDept != null and !"".equals(searchDept)'>
             AND MP.PURC_REQ_EMP_SEQ = #{empSeq}
         </if>
+        <if test='pjtSn != null and !"".equals(pjtSn)'>
+            AND MP.PJT_SN = #{pjtSn}
+        </if>
 
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword) and "DOC_NO".equals(searchKeyword)'>
@@ -275,7 +278,24 @@
 
     <select id="getPurcClaimItemList" parameterType="map" resultType="map">
         /*getPurcClaimItemList*/
-        SELECT * FROM CAM_MNG.DJ_PURC_CLAIM_ITEM
+        SELECT
+            *,
+            FORMAT(ITEM_UNIT_AMT , 0) AS ITEM_UNIT_AMT_COMMA,
+            FORMAT(ITEM_AMT , 0) AS ITEM_AMT_COMMA
+        FROM
+            CAM_MNG.DJ_PURC_CLAIM_ITEM
+        WHERE
+            CLAIM_SN = #{claimSn}
+    </select>
+
+    <select id="getPurcClaimItemAmtTotal" parameterType="map" resultType="map">
+        /* getPurcItemList A합계 B세액 C소계 */
+        SELECT
+            IFNULL(FORMAT(SUM(ITEM_AMT) , 0), 0) AS TOTAL_SUM_COMMA_A,
+            IFNULL(FORMAT(SUM(ITEM_AMT)/10 , 0), 0) AS TOTAL_SUM_COMMA_B,
+            IFNULL(FORMAT((SUM(ITEM_AMT)) - (SUM(ITEM_AMT)/10) , 0), 0) AS TOTAL_SUM_COMMA_C
+        FROM
+            CAM_MNG.DJ_PURC_CLAIM_ITEM MPI
         WHERE
             CLAIM_SN = #{claimSn}
     </select>
@@ -307,7 +327,6 @@
         /* updatePurcApprStat */
         UPDATE CAM_MNG.DJ_MNG_PURC
         SET
-            STATUS = 'C',
             DOC_STATUS = #{approveStatCode},
             DOC_ID = #{docId}
         WHERE
@@ -318,11 +337,33 @@
         /* updatePurcFinalApprStat */
         UPDATE CAM_MNG.DJ_MNG_PURC
         SET
+            STATUS = 'C',
             DOC_STATUS = #{approveStatCode},
             APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
             APPROVAL_EMP_SEQ = #{empSeq}
         WHERE
             PURC_SN = #{purcSn}
+    </update>
+
+    <update id="updateClaimApprStat" parameterType="map">
+        /* updateClaimApprStat */
+        UPDATE CAM_MNG.DJ_PURC_CLAIM
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            CLAIM_SN = #{claimSn}
+    </update>
+
+    <update id="updateClaimFinalApprStat" parameterType="map">
+        /* updateClaimFinalApprStat */
+        UPDATE CAM_MNG.DJ_PURC_CLAIM
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            CLAIM_SN = #{claimSn}
     </update>
 
     <update id="updPurcItemStat" parameterType="map">
@@ -530,7 +571,9 @@
             CAM_HR.FN_GetName('DEPT', B.DEPT_SEQ, NULL) AS CLAIM_DEPT_NAME,
             D.EMP_NAME_KR AS PURC_EMP_NAME,
             CAM_HR.FN_GetName('DEPT', D.DEPT_SEQ, NULL) AS PURC_DEPT_NAME,
-            C.DELV_DE
+            C.DELV_DE,
+            DI.DOC_NO,
+            A.STATUS
         FROM
             CAM_MNG.DJ_PURC_CLAIM A
         LEFT JOIN
@@ -545,5 +588,9 @@
             CAM_PJT_MNG.DJ_PROJECT C
         ON
             A.PJT_SN = C.PJT_SN
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI
+        ON
+            A.DOC_ID = DI.DOC_ID
     </select>
 </mapper>

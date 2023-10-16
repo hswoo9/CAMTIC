@@ -109,8 +109,18 @@ public class PurcServiceImpl implements PurcService {
     }
 
     @Override
+    public List<Map<String, Object>> getClaimItemList(Map<String, Object> params) {
+        return purcRepository.getPurcClaimItemList(params);
+    }
+
+    @Override
     public Map<String, Object> getPurcItemAmtTotal(Map<String, Object> params) {
         return purcRepository.getPurcItemAmtTotal(params);
+    }
+
+    @Override
+    public Map<String, Object> getPurcClaimItemAmtTotal(Map<String, Object> params) {
+        return purcRepository.getPurcClaimItemAmtTotal(params);
     }
 
     private String filePath (Map<String, Object> params, String base_dir){
@@ -149,6 +159,35 @@ public class PurcServiceImpl implements PurcService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             purcRepository.updatePurcFinalApprStat(params);
+        }
+    }
+
+    @Override
+    public void updateClaimDocState(Map<String, Object> bodyMap) throws Exception {
+        bodyMap.put("docSts", bodyMap.get("approveStatCode"));
+        String docSts = String.valueOf(bodyMap.get("docSts"));
+        String approKey = String.valueOf(bodyMap.get("approKey"));
+        String docId = String.valueOf(bodyMap.get("docId"));
+        String processId = String.valueOf(bodyMap.get("processId"));
+        String empSeq = String.valueOf(bodyMap.get("empSeq"));
+        approKey = approKey.split("_")[1];
+        bodyMap.put("approKey", approKey);
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("claimSn", approKey);
+        params.put("docName", bodyMap.get("formName"));
+        params.put("docId", docId);
+        params.put("docTitle", bodyMap.get("docTitle"));
+        params.put("approveStatCode", docSts);
+        params.put("empSeq", empSeq);
+
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+            purcRepository.updateClaimApprStat(params);
+        }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
+            purcRepository.updateClaimApprStat(params);
+        }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
+            params.put("approveStatCode", 100);
+            purcRepository.updateClaimFinalApprStat(params);
         }
     }
 
