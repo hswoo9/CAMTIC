@@ -2,7 +2,9 @@
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
 <jsp:useBean id="today" class="java.util.Date" />
+
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/project.js?v=${today}'/>"></script>
 
@@ -20,65 +22,6 @@
 
     * {
         box-sizing: border-box;
-    }
-
-    .container {
-        text-align: center;
-    }
-
-    .progress-container {
-        display: flex;
-        justify-content: space-between;
-        position: relative;
-        max-width: 100%;
-    }
-
-    .progress-container::before {
-        content: ""; /* Mandatory with ::before */
-        background-color: var(--line-border-empty);
-        position: absolute;
-        top: 50%;
-        left: 0;
-        transform: translateY(-50%);
-        height: 4px;
-        width: 100%;
-        z-index: -1;
-    }
-
-    .progress {
-        background-color: var(--line-border-fill);
-        position: absolute;
-        top: 50%;
-        left: 0;
-        transform: translateY(-50%);
-        height: 4px;
-        width: 0%;
-        z-index: -1;
-        transition: 0.4s ease;
-    }
-
-    .circle {
-        background-color: #fff;
-        color: #999;
-        height: 30px;
-        width: 300px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 3px solid var(--line-border-empty);
-        transition: 0.4s ease;
-        margin-left: 15px;
-    }
-
-    .circle.active {
-        border-color: var(--line-border-fill);
-        font-weight: bold;
-        color: black;
-    }
-    .circle.ready {
-        border-color: #FF772EFF;
-        font-weight: bold;
-        color: black;
     }
 
     .totalTable td {

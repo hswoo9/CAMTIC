@@ -3,7 +3,8 @@ var regUnRnd = {
 
     fn_defaultScript : function (setParameters){
 
-        customKendo.fn_textBox(["empName", "deptName", "pjtNm", "pjtSubNm", "rndCrmNm", "rndConCrmNm"]);
+        customKendo.fn_textBox(["empName", "deptName", "pjtNm", "pjtSubNm", "rndCrmNm", "rndConCrmNm"
+                                ,"crmPartNm", "pjtExpAmt"]);
 
         customKendo.fn_datePicker("sbjStrDe", "depth", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("sbjEndDe", "depth", "yyyy-MM-dd", new Date());
@@ -46,8 +47,8 @@ var regUnRnd = {
         var tab6Url = "/projectRnd/rschPayReqInfo.do";          //
         var tab7Url = "/projectRnd/rschPayRepInfo.do";          //
 
-        var tab8Url = "/intra/cam_project/b.do";                //
 
+        var tab8Url = "/intra/cam_project/bustInfo.do";         // 출장관리
         var tab9Url = "/intra/cam_project/teamInfo.do";         //
         var tab10Url= "/intra/cam_project/purcInfo.do";         //
 
@@ -71,32 +72,8 @@ var regUnRnd = {
                     effects: "fadeIn"
                 }
             },
-            select : function (e){
-                console.log($(e.item).attr("id").split("-")[2] - 1);
-                var tabName = $(e.item).find("> .k-link").text();
-                let step = "";
-                let stepColumn = "";
-                let nextStepColumn = "";
-                let stepValue = "";
-                let nextStepValue = "";
+            select : function (){
 
-                if(tabName == "사업정보"){
-                    step = "R0";
-                } else if (tabName == "개발계획"){
-                    step = "R1";
-                } else if (tabName == "개발일정"){
-                    step = "R2";
-                } else if (tabName == "입출금대장관리"){
-                    step = "R3";
-                } else if (tabName == "예산관리"){
-                    step = "R4";
-                } else if (tabName == "연구비신청"){
-                    step = "R5";
-                } else if (tabName == "연구비정산"){
-                    step = "R6";
-                }
-
-                $("#step").val(step);
             },
             dataTextField: "name",
             dataContentUrlField: "url",
@@ -106,7 +83,8 @@ var regUnRnd = {
                 {name: "단위사업", url: tab2Url},
                 {name: "현장교육", url: tab3Url},
                 {name: "EDU매니저", url: tab4Url},
-                {name: "참여율관리", url: tab8Url}, // 지출내역조회와 같이 사용
+                {name: "참여율관리", url: tab7Url}, // 지출내역조회와 같이 사용
+                {name: "출장관리", url: tab8Url},
                 {name: "협업관리", url: tab9Url},
                 {name: "구매관리", url: tab10Url}
             ],
@@ -122,8 +100,21 @@ var regUnRnd = {
             tabStrip.enable(tabStrip.tabGroup.children());
 
             tabStrip.select(0);
-            regRnd.fn_setData(setParameters);
+            regUnRnd.fn_setData(setParameters);
         }
+
+        $("#viewBtn").on("click", function(){
+            if($("#viewStat").val() == "Y"){
+                $("#mainTable").css("display", "none");
+                $("#viewStat").val("N");
+                $("#viewText").html("&#9660;");
+            }else{
+                $("#mainTable").css("display", "");
+                $("#viewStat").val("Y");
+                $("#viewText").html("&#9650;");
+            }
+
+        });
     },
 
     fn_setData: function (e){
@@ -133,7 +124,6 @@ var regUnRnd = {
         $("#modBtn").css("display", "");
 
         $("#sbjClass").data("kendoDropDownList").value(e.SBJ_CLASS);
-        $("#sbjChar").data("kendoDropDownList").value(e.SBJ_CHAR);
         $("#supDep").data("kendoDropDownList").value(e.SBJ_DEP);
         $("#supDep").data("kendoDropDownList").trigger("change");
         $("#supDepSub").data("kendoDropDownList").value(e.SBJ_DEP_SUB);
@@ -175,8 +165,8 @@ var regUnRnd = {
 
     fn_save : function (){
         var parameters = {
-            busnClass : "R",
-            busnNm : "R&D",
+            busnClass : "S",
+            busnNm : "비R&D",
             sbjClass : $("#sbjClass").val(),
             sbjChar : $("#sbjChar").val(),
             sbjDep : $("#supDep").val(),
@@ -192,6 +182,7 @@ var regUnRnd = {
             pjtSubNm : $("#pjtSubNm").val(),
             crmConSn : $("#rndConCrmSn").val(),
             crmSn : $("#rndCrmSn").val(),
+            pjtExpAmt : uncomma($("#pjtExpAmt").val()),
 
             pjtStep : $("#pjtStep").val(),
             pjtStepNm : $("#pjtStepNm").val(),
@@ -204,9 +195,9 @@ var regUnRnd = {
         });
 
         if($("#rndStatYn").is("checked")){
-            parameters.rndStatYn = "Y";
+            parameters.sbjStatYn = "Y";
         } else {
-            parameters.rndStatYn = "N";
+            parameters.sbjStatYn = "N";
         }
 
 
@@ -231,8 +222,8 @@ var regUnRnd = {
             alert("과제명을 입력해주세요.");
             return;
         }
-        if(parameters.pjtNmSub == ""){
-            alert("과제명(약칭) 입력해주세요.");
+        if(parameters.pjtExpAmt == ""){
+            alert("예상수주금액을 입력해주세요.");
             return;
         }
 
@@ -267,6 +258,7 @@ var regUnRnd = {
             pjtSubNm : $("#pjtSubNm").val(),
             crmConSn : $("#rndConCrmSn").val(),
             crmSn : $("#rndCrmSn").val(),
+            pjtExpAmt : uncomma($("#pjtExpAmt").val()),
         }
 
         if(parameters.sbjClass == ""){
@@ -289,8 +281,9 @@ var regUnRnd = {
             alert("과제명을 입력해주세요.");
             return;
         }
-        if(parameters.pjtNmSub == ""){
-            alert("과제명(약칭) 입력해주세요.");
+
+        if(parameters.pjtExpAmt == ""){
+            alert("예상수주금액을 입력해주세요.");
             return;
         }
 
@@ -301,7 +294,7 @@ var regUnRnd = {
             dataType : "json",
             success : function (rs){
                 if(rs.code == 200){
-                    location.href="/projectRnd/pop/regProject.do?pjtSn=" + rs.params.pjtSn;
+                    location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + rs.params.pjtSn;
                 }
             }
         });

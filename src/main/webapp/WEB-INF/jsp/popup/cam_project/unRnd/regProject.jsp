@@ -47,6 +47,7 @@
 </style>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/regProject.js?v=${today}'/>"></script>
+
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/regProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/inside/document/docuPop.js?v=${today}'/>"></script>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
@@ -71,19 +72,20 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">프로젝트 등록</span>
                 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
-                <input type="hidden" id="pjtStep" value="R">
+                <input type="hidden" id="pjtStep" value="S">
                 <input type="hidden" id="pjtStepNm" value="과제등록">
             </h3>
 
             <div class="btn-st popButton">
-                <button type="button" id="stopBtn" class="k-button k-button-solid-error" onclick="regRnd.fn_stopModal()" /> 중단</button>
-                <button type="button" id="saveBtn" class="k-button k-button-solid-info" onclick="regRnd.fn_save()">저장</button>
-                <button type="button" id="modBtn" class="k-button k-button-solid-primary" style="display: none;" onclick="regRnd.fn_mod()">수정</button>
+                <button type="button" id="stopBtn" class="k-button k-button-solid-error" onclick="regUnRnd.fn_stopModal()" /> 중단</button>
+                <button type="button" id="saveBtn" class="k-button k-button-solid-info" onclick="regUnRnd.fn_save()">저장</button>
+                <button type="button" id="modBtn" class="k-button k-button-solid-primary" style="display: none;" onclick="regUnRnd.fn_mod()">수정</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
-        <div id="vRnd" style="padding: 20px 30px;">
-            <table class="popTable table table-bordered mb-0">
+        <div id="vUnRnd" style="padding: 20px 30px;">
+            <input type="hidden" id="viewStat" value="Y" />
+            <table class="popTable table table-bordered mb-0" id="mainTable">
                 <colgroup>
                     <col width="15%">
                     <col width="35%">
@@ -95,15 +97,15 @@
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>과제구분
                     </th>
-                    <td>
-                        <input type="text" id="sbjClass" style="width: 90%;" value="">
+                    <td colspan="3">
+                        <input type="text" id="sbjClass" style="width: 40%;" value="">
                     </td>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>과제성격
-                    </th>
-                    <td>
-                        <input type="text" id="sbjChar" style="width: 90%;" value="">
-                    </td>
+<%--                    <th scope="row" class="text-center th-color">--%>
+<%--                        <span class="red-star">*</span>과제성격--%>
+<%--                    </th>--%>
+<%--                    <td>--%>
+<%--                        <input type="text" id="sbjChar" style="width: 90%;" value="">--%>
+<%--                    </td>--%>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>지원부처</th>
@@ -131,6 +133,20 @@
                         <button type="button" id="s2" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="fn_popCamCrmList('con')">
                             조회
                         </button>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star"></span>참여기관</th>
+                    <td>
+                        <input type="text" id="crmPartNm" name="crmPartNm" style="width: 80%" value="${data.CRM_PART_NM}" />
+                        <input type="hidden" id="crmPartSn" name="crmPartSn" value="${data.CRM_PART_SN}" />
+                        <button type="button" id="s3" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="fn_popCamCrmList('part')">
+                            조회
+                        </button>
+                    </td>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>예상수주금액</th>
+                    <td>
+                        <input type="text" id="pjtExpAmt" name="pjtExpAmt" style="width: 80%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
                     </td>
                 </tr>
                 <tr>
@@ -192,6 +208,8 @@
                 </tr>
                 </thead>
             </table>
+
+            <div style="text-align: center; cursor: pointer; margin-top: 15px; background-color: #f1f7ff; border: 1px solid #c5c5c5" id="viewBtn"><span id="viewText">&#9650;</span></div>
 
             <div style="margin-top :15px;">
                 <div class="demo-section">
