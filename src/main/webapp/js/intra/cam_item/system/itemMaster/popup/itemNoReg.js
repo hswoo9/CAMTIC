@@ -3,7 +3,8 @@ var inr = {
     global : {
         duplicateFlag : "N",
         saveAjaxData : "",
-        dropDownDataSource : ""
+        dropDownDataSource : "",
+        searchAjaxData : ""
     },
     
     fn_defaultScript : function(){
@@ -25,6 +26,9 @@ var inr = {
 
         customKendo.fn_textBox(["itemNo", "itemName", "safetyInven", "standard"])
 
+        if($("#masterSn").val()){
+            inr.getItemMaster();
+        }
     },
 
     getItemNoDuplicate : function(){
@@ -70,6 +74,7 @@ var inr = {
 
         if(confirm("저장하시겠습니까?")){
             inr.global.saveAjaxData = {
+                masterSn : $("#masterSn").val(),
                 itemNo : $("#itemNo").val(),
                 itemName : $("#itemName").val(),
                 itemUnitCd : $("#itemUnitCd").val(),
@@ -89,8 +94,26 @@ var inr = {
             var result = customKendo.fn_customAjax("/item/setItemMasterReg.do", inr.global.saveAjaxData)
             if(result.flag){
                 alert("등록되었습니다.");
+                opener.itemM.gridReload();
                 window.close();
             }
+        }
+    },
+
+    getItemMaster : function(){
+        inr.global.searchAjaxData = {
+            masterSn : $("#masterSn").val()
+        }
+        var result = customKendo.fn_customAjax("/item/getItemMaster.do", inr.global.searchAjaxData);
+        if(result.flag){
+            inr.global.duplicateFlag = false;
+            $("#itemNo").val(result.rs.ITEM_NO);
+            $("#itemName").val(result.rs.ITEM_NAME);
+            $("#itemUnitCd").data("kendoDropDownList").value(result.rs.ITEM_UNIT_CD);
+            $("#standard").val(result.rs.STANDARD)
+            $("#safetyInven").val(result.rs.SAFETY_INVEN)
+            $("#whCd").data("kendoDropDownList").value(result.rs.WH_CD)
+            $("#active").data("kendoDropDownList").value(result.rs.ACTIVE)
         }
     },
 

@@ -28,6 +28,7 @@
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
         <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
+        <input type="hidden" id="masterSn" name="masterSn" value="${params.masterSn}">
 
         <div class="card-header pop-header">
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">품번등록</span>

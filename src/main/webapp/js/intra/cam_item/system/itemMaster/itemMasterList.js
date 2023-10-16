@@ -53,6 +53,13 @@ var itemM = {
                 }, {
                     name: 'button',
                     template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="itemM.setItemMasterDel()">' +
+                            '	<span class="k-button-text">삭제</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="itemM.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
@@ -78,9 +85,15 @@ var itemM = {
                 }, {
                     title: "품번",
                     field: "ITEM_NO",
+                    template : function(e){
+                        return '<a class="title" onclick="itemM.fn_popItemNoReg(' + e.MASTER_SN + ')" style="cursor: pointer;">' + e.ITEM_NO + '</a>'
+                    }
                 }, {
                     title: "품명",
                     field: "ITEM_NAME",
+                    template : function(e){
+                        return '<a class="title" onclick="itemM.fn_popItemNoReg(' + e.MASTER_SN + ')" style="cursor: pointer;">' + e.ITEM_NAME + '</a>'
+                    }
                 }, {
                     title: "규격",
                     field: "STANDARD",
@@ -141,11 +154,39 @@ var itemM = {
         itemM.mainGrid("/item/getItemMasterList.do", itemM.global.searchAjaxData);
     },
 
-    fn_popItemNoReg : function (){
+    fn_popItemNoReg : function (e){
         var url = "/item/pop/itemNoReg.do";
+        if(e != null){
+            url += "?masterSn=" + e
+        }
         var name = "_blank";
         var option = "width = 920, height = 265, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    setItemMasterDel : function(){
+        if($("input[name='imSn']:checked").length == 0){
+            alert("삭제할 항목을 선택해주세요.");
+            return;
+        }
+
+        if(confirm("삭제하시겠습니까?\n삭제한 데이터는 복구 할 수 없습니다.")){
+            var masterSn = "";
+
+            $.each($("input[name='imSn']:checked"), function(){
+                masterSn += "," + $(this).val()
+            })
+
+            itemM.global.saveAjaxData = {
+                masterSn : masterSn.substring(1),
+            }
+
+            var result = customKendo.fn_customAjax("/item/setItemMasterDel.do", itemM.global.saveAjaxData);
+            if(result.flag){
+                alert("처리되었습니다.");
+                itemM.gridReload();
+            }
+        }
     },
 
     comma: function(str) {

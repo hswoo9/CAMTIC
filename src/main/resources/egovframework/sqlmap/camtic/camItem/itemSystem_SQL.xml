@@ -315,4 +315,27 @@
             #{empSeq}
         )
     </insert>
+
+    <update id="setItemMasterRegUpd" parameterType="map">
+        /* setItemMasterRegUpd */
+        UPDATE
+            CAM_ITEM.DJ_ITEM_MASTER
+        SET
+            ITEM_NO = #{itemNo},
+            ITEM_NAME = #{itemName},
+            ITEM_UNIT_CD = #{itemUnitCd},
+            STANDARD = #{standard},
+            WH_CD = #{whCd},
+            SAFETY_INVEN = #{safetyInven},
+            ACTIVE = #{active},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            MASTER_SN = #{masterSn}
+    </update>
+
+    <delete id="setItemMasterDel" parameterType="map">
+        /* setItemMasterDel */
+        DELETE FROM CAM_ITEM.DJ_ITEM_MASTER WHERE MASTER_SN IN (${masterSn})
+    </delete>
 </mapper>

@@ -22,4 +22,5 @@ public interface ItemSystemService {
     Map<String, Object> getItemMaster(Map<String, Object> params);
     boolean getItemNoDuplicate(Map<String, Object> params);
     void setItemMasterReg(Map<String, Object> params);
+    void setItemMasterDel(Map<String, Object> params);
 }

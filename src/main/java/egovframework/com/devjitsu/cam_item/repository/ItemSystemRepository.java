@@ -24,4 +24,6 @@ public class ItemSystemRepository extends AbstractDAO {
     public Map<String, Object> getItemMaster(Map<String, Object> params) {return (Map<String, Object>) selectOne("itemSystem.getItemMaster", params);}
     public boolean getItemNoDuplicate(Map<String, Object> params) { return (boolean) selectOne("itemSystem.getItemNoDuplicate", params);}
     public void setItemMasterReg(Map<String, Object> params) {insert("itemSystem.setItemMasterReg", params);}
+    public void setItemMasterRegUpd(Map<String, Object> params) {update("itemSystem.setItemMasterRegUpd", params);}
+    public void setItemMasterDel(Map<String, Object> params) {delete("itemSystem.setItemMasterDel", params);}
 }
