@@ -56,6 +56,13 @@ var recL = {
                 }, {
                     name: 'button',
                     template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="recL.setReceivingCancel()">' +
+                            '	<span class="k-button-text">입고취소</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recL.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
@@ -71,6 +78,16 @@ var recL = {
             },
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" style="top: 3px; position: relative" />',
+                    template : function(e){
+                        if(e.INSPECTION == "N") {
+                            return "<input type='checkbox' id='iwSn" + e.ITEM_WH_SN + "' name='iwSn' value='" + e.ITEM_WH_SN + "' style=\"top: 3px; position: relative\" />"
+                        }else{
+                            return ""
+                        }
+                    },
+                    width: 30,
+                }, {
                     title: "순번",
                     template: "#= --record #",
                     width: 50
@@ -208,10 +225,14 @@ var recL = {
                     attributes : {
                         style : "text-align : right;"
                     }
+                },{
+                    title: "비고",
+                    field: "RMK",
+                    width : 200
                 }, {
                     title: "상태",
                     field: "INSPECTION",
-                    width: 50,
+                    width: 80,
                     template : function(e){
                         if(e.INSPECTION == "Y"){
                             return "입고"
@@ -229,8 +250,8 @@ var recL = {
         }).data("kendoGrid");
 
         $("#checkAll").click(function(){
-            if($(this).is(":checked")) $("input[name=whSn]").prop("checked", true);
-            else $("input[name=whSn]").prop("checked", false);
+            if($(this).is(":checked")) $("input[name=iwSn]").prop("checked", true);
+            else $("input[name=iwSn").prop("checked", false);
         });
     },
 
@@ -274,6 +295,32 @@ var recL = {
         var name = "_blank";
         var option = "width = 635, height = 400, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    setReceivingCancel : function() {
+        if ($("input[name=iwSn]:checked").length == 0) {
+            alert("항목을 선택해주세요.");
+            return;
+        }
+
+        if (confirm("선택한 항목을 취소처리하시겠습니까?")) {
+            var itemWhSn = "";
+
+            $.each($("input[name='iwSn']:checked"), function () {
+                itemWhSn += "," + $(this).val()
+            })
+
+            recL.global.saveAjaxData = {
+                itemWhSn : itemWhSn.substring(1),
+                empSeq        : $("#regEmpSeq").val()
+            }
+
+            var result = customKendo.fn_customAjax("/item/setReceivingCancel.do", recL.global.saveAjaxData);
+            if (result.flag) {
+                alert("처리되었습니다.");
+                recL.gridReload()
+            }
+        }
     },
 
     comma: function(str) {

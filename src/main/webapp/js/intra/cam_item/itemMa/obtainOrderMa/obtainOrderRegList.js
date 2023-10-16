@@ -48,6 +48,13 @@ var oorl = {
                 }, {
                     name: 'button',
                     template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="oorl.setObtainOrderCancel()">' +
+                            '	<span class="k-button-text">수주취소</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oorl.setDeliveryAmtUpd()">' +
                             '	<span class="k-button-text">납품누계저장</span>' +
                             '</button>';
@@ -78,7 +85,13 @@ var oorl = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" style="top: 3px; position: relative" />',
-                    template : "<input type='checkbox' id='ooSn#=OBTAIN_ORDER_SN#' name='ooSn' value='#=OBTAIN_ORDER_SN#' style=\"top: 3px; position: relative\" />",
+                    template : function(e){
+                        if(e.OBTAIN_ORDER_TYPE == "Y" && e.DEADLINE == "N") {
+                            return "<input type='checkbox' id='ooSn" + e.OBTAIN_ORDER_SN + "' name='ooSn' value='" + e.OBTAIN_ORDER_SN + "' style=\"top: 3px; position: relative\" />"
+                        }else{
+                            return ""
+                        }
+                    },
                     width: 30,
                 }, {
                     title: "순번",
@@ -88,27 +101,70 @@ var oorl = {
                     title: "거래처",
                     field: "CRM_NM",
                     width: 150,
+                    template : function(e){
+                        if(e.OBTAIN_ORDER_TYPE == "N"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.CRM_NM + "</span>"
+                        }else {
+                            return e.CRM_NM
+                        }
+                    }
                 }, {
                     title: "수주일자",
                     field: "ORDER_DT",
                     width: 80,
+                    template : function(e){
+                        if(e.OBTAIN_ORDER_TYPE == "N"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.ORDER_DT + "</span>"
+                        }else {
+                            return e.ORDER_DT
+                        }
+                    }
                 }, {
                     title: "품번",
                     field: "ITEM_NO",
                     width: 120,
+                    template : function(e){
+                        if(e.DEADLINE == "N"){
+                            return '<a class="title" onclick="oorl.fn_popObtainOrderRegMod(' + e.OBTAIN_ORDER_SN + ')" style="cursor: pointer;">' + e.ITEM_NO + '</a>'
+                        }else {
+                            if(e.OBTAIN_ORDER_TYPE == "N"){
+                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.ITEM_NO + "</span>"
+                            }else {
+                                return e.ITEM_NO
+                            }
+                        }
+                    }
                 }, {
                     title: "품명",
                     field: "ITEM_NAME",
                     width: 120,
+                    template : function(e){
+                        if(e.DEADLINE == "N"){
+                            return '<a class="title" onclick="oorl.fn_popObtainOrderRegMod(' + e.OBTAIN_ORDER_SN + ')" style="cursor: pointer;">' + e.ITEM_NAME + '</a>'
+                        }else {
+                            if(e.OBTAIN_ORDER_TYPE == "N"){
+                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.ITEM_NAME + "</span>"
+                            }else {
+                                return e.ITEM_NAME
+                            }
+                        }
+                    }
                 }, {
                     title: "수주량",
                     field: "ORDER_VOLUME",
                     width: 100,
                     template : function (e){
+                        var str = "";
                         if(e.ORDER_VOLUME != null && e.ORDER_VOLUME != ""){
-                            return oorl.comma(e.ORDER_VOLUME) + "";
+                            str = oorl.comma(e.ORDER_VOLUME);
                         }else{
-                            return "0";
+                            str = "0";
+                        }
+
+                        if(e.OBTAIN_ORDER_TYPE == "N"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + str + "</span>"
+                        }else {
+                            return str
                         }
                     },
                     attributes : {
@@ -119,10 +175,17 @@ var oorl = {
                     width: 100,
                     field: "UNIT_PRICE",
                     template : function (e){
+                        var str = "";
                         if(e.UNIT_PRICE != null && e.UNIT_PRICE != ""){
-                            return oorl.comma(e.UNIT_PRICE) + "원";
+                            str = oorl.comma(e.UNIT_PRICE) + "원";
                         }else{
-                            return "0원";
+                            str = "0원";
+                        }
+
+                        if(e.OBTAIN_ORDER_TYPE == "N"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + str + "</span>"
+                        }else {
+                            return str
                         }
                     },
                     attributes : {
@@ -133,10 +196,17 @@ var oorl = {
                     width: 100,
                     field: "AMT",
                     template: function(e){
+                        var str = "";
                         if(e.AMT != null && e.AMT != ""){
-                            return oorl.comma(e.AMT) + "원";
+                            str = oorl.comma(e.AMT) + "원";
                         }else{
-                            return "0원";
+                            str = "0원";
+                        }
+
+                        if(e.OBTAIN_ORDER_TYPE == "N"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + str + "</span>"
+                        }else {
+                            return str
                         }
                     },
                     attributes : {
@@ -147,17 +217,20 @@ var oorl = {
                     field: "DELIVERY_AMT",
                     width: 100,
                     template : function (e){
+                        var str = "";
                         if(e.DELIVERY_AMT != null && e.DELIVERY_AMT != ""){
-                            if(e.DEADLINE == "N"){
-                                return "<input type='text' class='deliveryAmtInput numberInput k-input k-textbox' maxOrderVolume='" + e.ORDER_VOLUME + "' style='text-align: right;' value='" + oorl.comma(e.DELIVERY_AMT) + "'>";
-                            }else{
-                                return oorl.comma(e.DELIVERY_AMT);
-                            }
+                            str = oorl.comma(e.DELIVERY_AMT);
                         }else{
-                            if(e.DEADLINE == "N"){
-                                return "<input type='text' class='deliveryAmtInput numberInput k-input k-textbox' maxOrderVolume='" + e.ORDER_VOLUME + "' style='text-align: right' value='0'>";
-                            }else{
-                                return "0"
+                            str = "0";
+                        }
+
+                        if(e.DEADLINE == "N"){
+                            return "<input type='text' class='deliveryAmtInput numberInput k-input k-textbox' maxOrderVolume='" + e.ORDER_VOLUME + "' style='text-align: right;' value='" + str + "'>";
+                        }else {
+                            if(e.OBTAIN_ORDER_TYPE == "N"){
+                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + str + "</span>"
+                            }else {
+                                return str
                             }
                         }
                     },
@@ -169,10 +242,17 @@ var oorl = {
                     field: "ORDER_REMAIN",
                     width: 100,
                     template : function (e){
+                        var str = "";
                         if(e.ORDER_REMAIN != null && e.ORDER_REMAIN != ""){
-                            return oorl.comma(e.ORDER_REMAIN) + "";
+                            str = oorl.comma(e.ORDER_REMAIN);
                         }else{
-                            return "0";
+                            str = "0";
+                        }
+
+                        if(e.OBTAIN_ORDER_TYPE == "N"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + str + "</span>"
+                        }else {
+                            return str
                         }
                     },
                     attributes : {
@@ -182,6 +262,24 @@ var oorl = {
                     title: "비고",
                     field: "RMK",
                     width: 200,
+                    template : function(e){
+                        if(e.OBTAIN_ORDER_TYPE == "N"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.RMK + "</span>"
+                        }else {
+                            return e.RMK
+                        }
+                    }
+                }, {
+                    title: "수주구분",
+                    field: "OBTAIN_ORDER_TYPE",
+                    width: 80,
+                    template : function (e){
+                        if(e.OBTAIN_ORDER_TYPE == "Y"){
+                            return "정상"
+                        }else{
+                            return "취소";
+                        }
+                    },
                 }, {
                     title: "마감구분",
                     field: "DEADLINE",
@@ -189,7 +287,7 @@ var oorl = {
                     template : function (e){
                         if(e.DEADLINE == "Y"){
                             return "마감"
-                        }else{
+                        }else {
                             return "개시";
                         }
                     },
@@ -289,6 +387,32 @@ var oorl = {
         }
     },
 
+    setObtainOrderCancel : function(){
+        if($("input[name=ooSn]:checked").length == 0){
+            alert("항목을 선택해주세요.");
+            return;
+        }
+
+        if(confirm("선택한 항목을 취소처리하시겠습니까?")){
+            var obtainOrderSn = "";
+
+            $.each($("input[name='ooSn']:checked"), function(){
+                obtainOrderSn += "," + $(this).val()
+            })
+
+            oorl.global.saveAjaxData = {
+                obtainOrderSn : obtainOrderSn.substring(1),
+                empSeq : $("#regEmpSeq").val()
+            }
+
+            var result = customKendo.fn_customAjax("/item/setObtainOrderCancel.do", oorl.global.saveAjaxData);
+            if(result.flag){
+                alert("처리되었습니다.");
+                oorl.gridReload();
+            }
+        }
+    },
+
     crmSnReset : function(){
         $("#crmSn").val("");
         $("#crmNm").val("");
@@ -299,6 +423,13 @@ var oorl = {
         var url = "/item/pop/popObtainOrderReg.do";
         var name = "_blank";
         var option = "width = 1550, height = 505, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
+    fn_popObtainOrderRegMod : function (e){
+        var url = "/item/pop/popObtainOrderRegMod.do?obtainOrderSn=" + e;
+        var name = "_blank";
+        var option = "width = 635, height = 400, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 

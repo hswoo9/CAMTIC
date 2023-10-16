@@ -133,6 +133,10 @@ var rvSt = {
                     attributes : {
                         style : "text-align : right;"
                     }
+                }, {
+                    title: "비고",
+                    field: "RMK",
+                    width : 200
                 }
             ],
             dataBinding: function(){

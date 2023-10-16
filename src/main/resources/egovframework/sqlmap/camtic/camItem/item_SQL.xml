@@ -199,6 +199,29 @@
         DESC
     </select>
 
+    <select id="getObtainOrder" parameterType="map" resultType="map">
+        /* getObtainOrder */
+        SELECT
+            OO.*,
+            EI.EMP_NAME_KR,
+            IM.ITEM_NO,
+            IM.ITEM_NAME,
+            IM.STANDARD,
+            CI.CRM_NM
+        FROM
+            CAM_ITEM.DJ_ITEM_OBTAIN_ORDER OO
+        JOIN
+            CAM_CRM.DJ_CRM_INFO CI
+        ON OO.CRM_SN = CI.CRM_SN
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON OO.REG_EMP_SEQ = EI.EMP_SEQ
+        JOIN
+            CAM_ITEM.DJ_ITEM_MASTER IM
+        ON IM.MASTER_SN = OO.MASTER_SN
+        WHERE 1=1
+        AND OBTAIN_ORDER_SN = #{obtainOrderSn}
+    </select>
     <update id="setDeliveryAmtUpd" parameterType="map">
         /* setDeliveryAmtUpd */
         UPDATE
@@ -268,8 +291,6 @@
             CRM_SN = #{crmSn},
             MASTER_SN = #{masterSn},
             ORDER_VOLUME = #{orderVolume},
-            ORDER_REMAIN = #{orderRemain},
-            ORDER_DT = #{orderDt},
             DUE_DT = #{dueDt},
             UNIT_PRICE = #{unitPrice},
             AMT = #{amt},
@@ -278,6 +299,18 @@
             MOD_DT = NOW()
         WHERE
             OBTAIN_ORDER_SN = #{obtainOrderSn}
+    </update>
+
+    <update id="setObtainOrderCancel" parameterType="map">
+        /* setObtainOrderCancel */
+        UPDATE
+            CAM_ITEM.DJ_ITEM_OBTAIN_ORDER
+        SET
+            OBTAIN_ORDER_TYPE = 'N',
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            OBTAIN_ORDER_SN IN (${obtainOrderSn})
     </update>
 
     <select id="getShipmentRecordList" parameterType="map" resultType="map">

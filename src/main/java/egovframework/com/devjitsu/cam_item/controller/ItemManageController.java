@@ -203,6 +203,58 @@ public class ItemManageController {
     }
 
     /**
+     * 수주등록 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getObtainOrder.do")
+    public String getObtainOrder(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("rs", itemManageService.getObtainOrder(params));
+        return "jsonView";
+    }
+
+
+    /**
+     * 수주수정 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/pop/popObtainOrderRegMod.do")
+    public String popObtainOrderRegMod(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_item/popObtainOrderRegMod";
+    }
+
+    /**
+     * 수주 업데이트
+     * @param params
+     * @return
+     */
+    @RequestMapping("/item/setObtainOrderUpd.do")
+    public String setObtainOrderUpd(@RequestParam Map<String, Object> params){
+        itemManageService.setObtainOrderUpd(params);
+        return "jsonView";
+    }
+
+    /**
+     * 수주 취소
+     * @param params
+     * @return
+     */
+    @RequestMapping("/item/setObtainOrderCancel.do")
+    public String setObtainOrderCancel(@RequestParam Map<String, Object> params){
+        itemManageService.setObtainOrderCancel(params);
+        return "jsonView";
+    }
+
+    /**
      * 수주현황 페이지
      * @param request
      * @return

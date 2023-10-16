@@ -81,7 +81,7 @@ var purcIns = {
                 }, {
                     title: "거래처",
                     field: "CRM_NM",
-                    width: 100,
+                    width: 200,
                 }, {
                     title: "품번",
                     field: "ITEM_NO",
@@ -144,7 +144,12 @@ var purcIns = {
                     attributes : {
                         style : "text-align : right;"
                     }
+                },{
+                    title: "비고",
+                    field: "RMK",
+                    width : 250
                 }
+
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 3);
