@@ -498,16 +498,17 @@ var userInfoMod = {
 			var checkCnt = 0;
 			var successCnt = 0;
 			var checkStatus = 0;
+
 			$.each($('.tdCheckBox:checked'), function(index, item) {
-	            $.each($(item).parent().parent().find('td'), function(index, item) {
-					if(index ==8){
+				$.each($(item).parent().parent().find('td'), function(index, item) {
+					if(index == 1){
 						console.log(index,'번째 td 값 : ', $(item));
-						if($(item)[0].innerText != "반려취소"){	
+						if($(item)[0].innerText == "반려취소"){
 							checkStatus++;
 						}
 					}
-	            });
-	        });
+				});
+			});
 			if(checkStatus > 0){
 				alert("반려상태 만 선택해 주세요.");
 				return;
