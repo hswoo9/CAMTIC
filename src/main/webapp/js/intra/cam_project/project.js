@@ -170,7 +170,6 @@ var camPrj = {
                     title: "프로젝트 명",
                     width: "20%",
                     template: function(e){
-                        console.log(e);
                         return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\")'>" + e.PJT_NM + "</a>";
                     }
                 }, {
@@ -222,9 +221,11 @@ var camPrj = {
                     title: "진행단계",
                     width: "5%",
                     template: function(e){
-                        console.log(e);
+                        console.log(e.BUSN_CLASS);
+
+                        var pjtStepNm = "";
                         if(e.BUSN_CLASS == "D"){
-                            var pjtStepNm = "상담";
+                            pjtStepNm = "상담";
                             if(e.PJT_STOP == "Y"){
                                 pjtStepNm = "미수주";
                             } else if(e.PJT_STEP == "E0"){
@@ -244,16 +245,17 @@ var camPrj = {
                             } else if(e.PJT_STEP == "E7"){
                                 pjtStepNm = "원가보고";
                             }
-                        } else if (e.BUSN_CLASS = "R") {
+                        } else if (e.BUSN_CLASS == "R") {
                             if(e.PJT_STEP == "R"){
                                 pjtStepNm = "예상수주";
                             } else if(e.PJT_STEP == "R2"){
                                 pjtStepNm = "수주보고";
                             }
-                        } else if(e.BUSN_CLASS = "S"){
+                        } else if(e.BUSN_CLASS == "S"){
                             if(e.PJT_STEP == "S"){
                                 pjtStepNm = "예상수주";
                             }
+                        } else {
                         }
 
                         return pjtStepNm;
