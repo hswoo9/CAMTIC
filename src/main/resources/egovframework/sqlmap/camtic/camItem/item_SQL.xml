@@ -32,6 +32,12 @@
                 </if>
             </otherwise>
         </choose>
+
+        ORDER BY
+            CASE WHEN MSU.MOD_DT IS NULL THEN MSU.REG_DT
+                ELSE MSU.MOD_DT
+            END
+        DESC
     </select>
 
     <select id="getSdunitPriceList" parameterType="map" resultType="map">
@@ -185,6 +191,12 @@
         <if test='regEmpSeq != null and !"".equals(regEmpSeq)'>
             AND OO.REG_EMP_SEQ = #{regEmpSeq}
         </if>
+
+        ORDER BY
+            CASE WHEN OO.MOD_DT IS NULL THEN OO.REG_DT
+                ELSE OO.MOD_DT
+            END
+        DESC
     </select>
 
     <update id="setDeliveryAmtUpd" parameterType="map">
@@ -335,6 +347,8 @@
         <if test='regEmpSeq != null and !"".equals(regEmpSeq)'>
             AND SR.REG_EMP_SEQ = #{regEmpSeq}
         </if>
+
+        ORDER BY SR.DELIVERY_DT DESC
     </select>
 
     <insert id="setShipmentRecord" parameterType="map">
@@ -448,6 +462,8 @@
         <if test='regEmpSeq != null and !"".equals(regEmpSeq)'>
             AND RR.REG_EMP_SEQ = #{regEmpSeq}
         </if>
+
+        ORDER BY RR.DELIVERY_DT DESC
     </select>
 
     <insert id="setReturnRecord" parameterType="map">
@@ -527,6 +543,12 @@
                 </if>
             </otherwise>
         </choose>
+
+        ORDER BY
+            CASE WHEN B.MOD_DT IS NULL THEN B.REG_DT
+                ELSE B.MOD_DT
+            END
+        DESC
     </select>
 
     <select id="getBom" parameterType="map" resultType="map">
@@ -650,7 +672,8 @@
             MASTER_SN = #{masterSn},
             BOM_COST_PRICE = #{bomCostPrice},
             BOM_UNIT_PRICE = #{bomUnitPrice},
-            MOD_EMP_SEQ = #{empSeq}
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
         WHERE
             BOM_SN = #{bomSn}
     </update>
@@ -719,6 +742,7 @@
     <select id="getMaterialUnitPriceList" parameterType="map" resultType="map">
         /* getMaterialUnitPriceList */
         SELECT
+            CI.CRM_NM,
             IM.*,
             CIM.*,
             CIU.*,
@@ -727,6 +751,9 @@
         FROM
             CAM_ITEM.DJ_CRM_ITEM_MANGE CIM
         JOIN
+            CAM_CRM.DJ_CRM_INFO CI
+        ON CI.CRM_SN = CIM.CRM_SN
+        JOIN
             CAM_ITEM.DJ_ITEM_MASTER IM
         ON IM.MASTER_SN = CIM.MASTER_SN
         LEFT JOIN
@@ -734,14 +761,9 @@
         ON CIU.CRM_ITEM_SN = CIM.CRM_ITEM_SN AND CIU.ACTIVE = 'Y'
         WHERE 1=1
 
-        <choose>
-            <when test='crmSn != null and !"".equals(crmSn)'>
-                AND CIM.CRM_SN = #{crmSn}
-            </when>
-            <otherwise>
-                AND CIM.CRM_SN = '0'
-            </otherwise>
-        </choose>
+        <if test='crmSn != null and !"".equals(crmSn)'>
+            AND CI.CRM_SN = #{crmSn}
+        </if>
 
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword)'>
@@ -758,6 +780,12 @@
                 </if>
             </otherwise>
         </choose>
+
+        ORDER BY
+            CASE WHEN CIU.MOD_DT IS NULL THEN CIU.REG_DT
+                ELSE CIU.MOD_DT
+            END
+        DESC
     </select>
 
     <select id="getCrmItemUnitPriceList" parameterType="map" resultType="map">
@@ -848,6 +876,16 @@
         DELETE FROM CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE WHERE CRM_ITEM_UNIT_PRICE_SN IN (${ciupSn})
     </delete>
 
+    <update id="setCrmItemManageUpd" parameterType="map">
+        UPDATE
+            CAM_ITEM.DJ_CRM_ITEM_MANGE
+        SET
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            CRM_ITEM_SN = #{crmItemSn}
+    </update>
+
     <select id="getItemWhInfoList" parameterType="map" resultType="map">
         /* getItemWhInfoList */
         SELECT
@@ -922,7 +960,7 @@
             AND WI.MASTER_SN = #{masterSn}
         </if>
 
-        ORDER BY WI.REG_DT DESC
+        ORDER BY WI.WH_DT DESC
     </select>
 
     <update id="setInspectionUpd" parameterType="map">
@@ -1109,6 +1147,12 @@
                 </if>
             </otherwise>
         </choose>
+
+        ORDER BY
+            CASE WHEN II.MOD_DT IS NULL THEN II.REG_DT
+                ELSE II.MOD_DT
+            END
+        DESC
     </select>
 
     <select id="getItemInven" parameterType="map" resultType="map">
@@ -1245,6 +1289,8 @@
                 )
             </otherwise>
         </choose>
+
+        ORDER BY IT.FORWARDING_DATE DESC
     </select>
 
     <update id="setCurrentInvenUpd" parameterType="map">

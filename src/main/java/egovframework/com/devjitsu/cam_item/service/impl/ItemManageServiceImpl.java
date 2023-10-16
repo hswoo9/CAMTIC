@@ -353,6 +353,8 @@ public class ItemManageServiceImpl implements ItemManageService {
                 itemManageRepository.setCrmItemUnitPriceRegUpd(map);
             }
         }
+
+        itemManageRepository.setCrmItemManageUpd(params);
     }
 
     @Override

@@ -12,6 +12,7 @@ var invenTr = {
     
     fn_defaultScript : function(){
         invenTr.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "TF", lgCd : "TFT"});
+        invenTr.global.dropDownDataSource = invenTr.global.dropDownDataSource.filter(element => element.ITEM_CD != "R");
         invenTr.global.wCDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
 
         invenTr.addRow('new');
@@ -23,7 +24,7 @@ var invenTr = {
         html = "" +
             '<tr class="itransInfo ' + e + 'ItransInfo" id="it' + invenTr.global.invenTransferIndex + '">' +
                 '<td>' +
-                    '<input type="text" id="transferType' + invenTr.global.invenTransferIndex + '" class="transferType">' +
+                    '<input type="text" id="transferType' + invenTr.global.invenTransferIndex + '" class="transferType" onchange="invenTr.transferTypeChange(' + invenTr.global.invenTransferIndex + ')">' +
                 '</td>' +
                 '<td>' +
                     '<input type="hidden" id="invenTransSn' + invenTr.global.invenTransferIndex + '" class="invenTransSn">' +
@@ -46,7 +47,9 @@ var invenTr = {
                     '<input type="text" id="forwardingWhCdTxt' + invenTr.global.invenTransferIndex + '" class="forwardingWhCdTxt k-input k-textbox" readonly onClick="invenTr.fn_popCamItemList(' + invenTr.global.invenTransferIndex + ');">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="receivingWhCd' + invenTr.global.invenTransferIndex + '" class="receivingWhCd">' +
+                    '<div id="receivingDiv' + invenTr.global.invenTransferIndex + '">' +
+                        '<input type="text" id="receivingWhCd' + invenTr.global.invenTransferIndex + '" class="receivingWhCd">' +
+                    '</div>' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="rmk' + invenTr.global.invenTransferIndex + '" class="rmk">' +
@@ -67,6 +70,14 @@ var invenTr = {
         });
 
         invenTr.global.invenTransferIndex++;
+    },
+
+    transferTypeChange : function(e){
+        if($("#transferType" + e).val() == "S"){
+            $("#receivingDiv" + e).hide();
+        }else{
+            $("#receivingDiv" + e).show();
+        }
     },
 
     delRow : function(e){
@@ -96,7 +107,7 @@ var invenTr = {
             $(this).find(".currentInven").attr("onClick", "invenTr.fn_popCamItemList(" + i + ")");
             $(this).find(".forwardingWhCdTxt").attr("id", "forwardingWhCdTxt" + i);
             $(this).find(".forwardingWhCdTxt").attr("onClick", "invenTr.forwardingWhCdTxt(" + i + ")");
-            
+
             $(this).find("input.transferQty").attr("id", "transferQty" + i);
             $(this).find(".transferQty").attr("oninput", "invenTr.maxCurrentInvenChk(this," + i + ")");
 
@@ -157,7 +168,7 @@ var invenTr = {
                     currentInven : $(this).find("#currentInven" + i).val(),
                     transferQty : invenTr.uncomma($(this).find("#transferQty" + i).val()),
                     forwardingWhCd : $(this).find("#forwardingWhCd" + i).val(),
-                    receivingWhCd : $(this).find("#receivingWhCd" + i).val(),
+                    receivingWhCd : $(this).find("#transferType" + i).val() == "S" ? null : $(this).find("#receivingWhCd" + i).val(),
                     rmk : $(this).find("#rmk" + i).val(),
                     empSeq : $("#regEmpSeq").val()
                 }

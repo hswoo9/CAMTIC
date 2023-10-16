@@ -58,17 +58,20 @@ var mup = {
                     template: "#= --record #",
                     width: 50
                 }, {
+                    title: "거래처",
+                    field: "CRM_NM",
+                }, {
                     title: "품번",
                     field: "ITEM_NO",
-                    width: 120,
+                    width: 180,
                 }, {
                     title: "품명",
                     field: "ITEM_NAME",
-                    width: 100
+                    width: 180
                 }, {
                     title: "규격",
                     field: "STANDARD",
-                    width: 100
+                    width: 180
                 }, {
                     title: "적용시작일자",
                     field: "START_DT",
@@ -96,8 +99,11 @@ var mup = {
                         style : "text-align : right;"
                     }
                 }, {
+                    title: "비고",
+                    field: "RMK",
+                }, {
                     title: "단가관리",
-                    width: 80,
+                    width: 100,
                     template: function(e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="mup.fn_popCrmItemUnitPriceReg(' + e.CRM_ITEM_SN + ', ' + e.MASTER_SN + ')">' +
                             '	<span class="k-button-text">단가관리</span>' +
