@@ -47,11 +47,11 @@ var regRnd = {
 
         // var tab7Url = "/projectRnd/payMvInfo.do";               // 입출금대장관리
         var tab7Url = "/projectRnd/budgetInfo.do";              // 예산관리
-        var tab9Url = "/projectRnd/rschPayReqInfo.do";          // 연구비신청
         // var tab9Url = "/projectRnd/rschPayRepInfo.do";          // 연구비정산 -- 제외
 
+        var tab9Url = "/intra/cam_project/bustInfo.do";          // 출장관리
         var tab10Url = "/intra/cam_project/teamInfo.do";         // 협업관리
-        var tab11Url= "/intra/cam_project/purcInfo.do";         // 구매관리
+        var tab11Url= "/intra/cam_project/purcInfo.do";          // 구매관리
 
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -90,7 +90,7 @@ var regRnd = {
                 // {name: "입출금대장관리", url: tab5Url},
                 {name: "예산현황", url: tab7Url},        // 연구비 입금처리와 같이 사용
                 // {name: "지급관리", url: tab9Url},
-                // {name: "연구비정산", url: tab8Url},
+                {name: "출장관리", url: tab9Url},
                 {name: "협업관리", url: tab10Url},
                 {name: "구매관리", url: tab11Url}
             ],
@@ -127,6 +127,20 @@ var regRnd = {
             }
 
         });
+
+        var len = $("#tabstrip li").length;
+        for(var i = 0 ; i < len ; i++){
+            console.log($("#tabstrip li")[i]);
+            if(i == 7){
+                var html = '<div style="width:100%;"></div>';
+                var parser = new DOMParser();
+
+                var doc = parser.parseFromString(html, 'text/html');
+
+                console.log(doc)
+                $("#tabstrip li")[i].after(doc.body.firstChild);
+            }
+        }
     },
 
     fn_setData: function (e){

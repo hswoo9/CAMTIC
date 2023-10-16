@@ -41,6 +41,14 @@
         padding : 0;
     }
 
+    .k-tabstrip-top>.k-tabstrip-items-wrapper .k-item+.k-item {
+        margin-left: 0px !important;
+    }
+
+    .k-tabstrip-top>.k-tabstrip-items-wrapper .k-item {
+        border-bottom: 0px !important;
+    }
+
     .table-responsive {
         overflow-x: hidden !important;
     }

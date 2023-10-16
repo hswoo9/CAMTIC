@@ -113,8 +113,21 @@ var regUnRnd = {
                 $("#viewStat").val("Y");
                 $("#viewText").html("&#9650;");
             }
-
         });
+
+        var len = $("#tabstrip li").length;
+        for(var i = 0 ; i < len ; i++){
+            console.log($("#tabstrip li")[i]);
+            if(i == 5){
+                var html = '<div style="width:100%;"></div>';
+                var parser = new DOMParser();
+
+                var doc = parser.parseFromString(html, 'text/html');
+
+                console.log(doc)
+                $("#tabstrip li")[i].after(doc.body.firstChild);
+            }
+        }
     },
 
     fn_setData: function (e){

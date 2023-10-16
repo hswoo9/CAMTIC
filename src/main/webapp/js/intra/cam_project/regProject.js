@@ -28,15 +28,15 @@ var regPrj = {
         }
 
         var tab0Url = "/intra/cam_project/crmInfo.do";
-        var tab1Url = "/intra/cam_project/bustInfo.do";
-        var tab2Url = "/intra/cam_project/estInfo.do";
-        var tab3Url = "/intra/cam_project/delvInfo.do";
-        var tab4Url = "/intra/cam_project/devInfo.do";
-        var tab5Url = "/intra/cam_project/processInfo.do";
-        var tab6Url = "/intra/cam_project/goodsInfo.do";
-        var tab7Url = "/intra/cam_project/resultInfo.do";
-        var tab8Url = "/intra/cam_project/costPriceInfo.do";
+        var tab1Url = "/intra/cam_project/estInfo.do";
+        var tab2Url = "/intra/cam_project/delvInfo.do";
+        var tab3Url = "/intra/cam_project/devInfo.do";
+        var tab4Url = "/intra/cam_project/processInfo.do";
+        var tab5Url = "/intra/cam_project/goodsInfo.do";
+        var tab6Url = "/intra/cam_project/resultInfo.do";
+        var tab7Url = "/intra/cam_project/costPriceInfo.do";
 
+        var tab8Url = "/intra/cam_project/bustInfo.do";
         var tab9Url = "/intra/cam_project/teamInfo.do";         // 협업관리
         var tab10Url = "/intra/cam_project/purcInfo.do";         // 구매관리
 
@@ -121,14 +121,14 @@ var regPrj = {
             dataContentUrlField: "url",
             dataSource : [
                 {name: "업체정보", url: tab0Url},
-                {name: "출장정보", url: tab1Url},
-                {name: "견적관리", url: tab2Url},
-                {name: "수주보고", url: tab3Url},
-                {name: "계획서", url: tab4Url},
-                {name: "공정", url: tab5Url},
-                {name: "납품", url: tab6Url},
-                {name: "결과보고", url: tab7Url},
-                {name: "원가보고", url: tab8Url},
+                {name: "견적관리", url: tab1Url},
+                {name: "수주보고", url: tab2Url},
+                {name: "계획서", url: tab3Url},
+                {name: "공정", url: tab4Url},
+                {name: "납품", url: tab5Url},
+                {name: "결과보고", url: tab6Url},
+                {name: "원가보고", url: tab7Url},
+                {name: "출장관리", url: tab8Url},
                 {name: "협업관리", url: tab9Url},
                 {name: "구매관리", url: tab10Url}
             ],
@@ -188,7 +188,7 @@ var regPrj = {
 
             if(setParameters.PJT_SN){
                 tabStrip.enable(tabStrip.tabGroup.children().eq(0));
-                tabStrip.enable(tabStrip.tabGroup.children().eq(1));
+                // tabStrip.enable(tabStrip.tabGroup.children().eq(1));
             }
 
             setParameters.ENGN_SN;
@@ -196,38 +196,39 @@ var regPrj = {
 
             if(setParameters.PJT_STEP == "E"){
                 tabStrip.enable(tabStrip.tabGroup.children().eq(0));
-                tabStrip.enable(tabStrip.tabGroup.children().eq(1));
+                // tabStrip.enable(tabStrip.tabGroup.children().eq(1));
             }
 
             if(setParameters.PJT_STOP != "Y"){
                 if(setParameters.PJT_STEP >= "E0"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(2));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(1));
                 }
 
                 if(setParameters.PJT_STEP >= "E1"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(3));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(2));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(8));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(9));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(10));
                 }
 
                 if(setParameters.PJT_STEP >= "E2" && delvMap.DELV_STATUS == "100"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(4));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(3));
                 }
 
                 if(setParameters.PJT_STEP >= "E3" && devMap.STATUS == "100"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(5));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(4));
                 }
 
                 if(setParameters.PJT_STEP >= "E4"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(6));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(5));
                 }
 
                 if(setParameters.PJT_STEP >= "E5"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(7));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(6));
                 }
 
                 if(setParameters.PJT_STEP >= "E6"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(8));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(7));
                 }
             } else {
                 $("#modBtn").css("display", "none");
@@ -253,7 +254,19 @@ var regPrj = {
 
         });
 
+        var len = $("#tabstrip li").length;
+        for(var i = 0 ; i < len ; i++){
+            console.log($("#tabstrip li")[i]);
+            if(i == 7){
+                var html = '<div style="width:100%;"></div>';
+                var parser = new DOMParser();
 
+                var doc = parser.parseFromString(html, 'text/html');
+
+                console.log(doc)
+                $("#tabstrip li")[i].after(doc.body.firstChild);
+            }
+        }
 
     },
 
