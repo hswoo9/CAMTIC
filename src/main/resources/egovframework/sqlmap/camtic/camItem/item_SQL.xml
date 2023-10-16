@@ -1290,6 +1290,10 @@
             </otherwise>
         </choose>
 
+        <if test='regEmpSeq != null and !"".equals(regEmpSeq)'>
+            AND IT.REG_EMP_SEQ = #{regEmpSeq}
+        </if>
+
         ORDER BY IT.FORWARDING_DATE DESC
     </select>
 

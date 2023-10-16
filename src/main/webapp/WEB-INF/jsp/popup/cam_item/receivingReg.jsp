@@ -32,20 +32,21 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">입고등록</span>
             </h3>
+            <div class="btn-st popButton">
+                <button type="button" class="k-button k-button-solid-info" onclick="regRv.setReceivingReg()">저장</button>
+                <button type="button" class="k-button k-button-solid-base" onclick="regRv.resetRow()">초기화</button>
+                <button type="button" class="k-button k-button-solid-base" onclick="regRv.receivingExcelFormDown()">양식 다운로드</button>
+                <button type="button" class="k-button k-button-solid-base" onclick="$('#file').click()">엑셀 업로드</button>
+                <button type="button" class="k-button k-button-solid-base" onclick="regRv.addRow('new')">품목추가</button>
+                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
+            </div>
         </div>
         <div>
             <div>
                 <input type="hidden" id="whDt" name="whDt" value="${nowHyphen}">
                 <input type="file" id="file" name="file" onchange="regRv.fileChange(this)" style="display: none">
             </div>
-            <div class="btn-st popButton" style="text-align: right">
-                <button type="button" class="k-button k-button-solid-info" onclick="regRv.setReceivingReg()">저장</button>
-                <button type="button" class="k-button k-button-solid-base" onclick="regRv.resetRow()">초기화</button>
-                <button type="button" class="k-button k-button-solid-base" onclick="regRv.receivingExcelFormDown()">양식 다운로드</button>
-                <button type="button" class="k-button k-button-solid-base" onclick="$('#file').click()">엑셀 업로드</button>
-                <button type="button" class="k-button k-button-solid-base" onclick="regRv.addRow('new')">품목추가</button>
-            </div>
-            <table class="popTable table table-bordered mb-0 mt10">
+            <table class="searchTable table table-bordered mb-0 mt-10">
                 <colgroup>
                     <col style="width: 17%;">
                     <col style="width: 10%;">

@@ -55,7 +55,7 @@ var invenTr = {
                     '<input type="text" id="rmk' + invenTr.global.invenTransferIndex + '" class="rmk">' +
                 '</td>' +
                 '<td>' +
-                    '<button type="button" class="k-button k-button-solid-error inventransNum" inventransNum="' + invenTr.global.invenTransferIndex + '" onclick="invenTr.delRow(this)">삭제</button>' +
+                    '<button type="button" class="k-button k-button-solid-error inventransNum" inventransNum="' + invenTr.global.invenTransferIndex + '" onclick="invenTr.delRow(this)">X</button>' +
                 '</td>' +
             '</tr>';
 

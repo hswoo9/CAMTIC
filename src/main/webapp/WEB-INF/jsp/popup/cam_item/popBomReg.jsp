@@ -4,7 +4,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
-
+<style>
+    .searchTable > thead > tr > th {
+        background-color: #00397f96;
+        color: white;
+        text-align: center;
+    }
+</style>
 <body class="font-opensans" style="background-color:#fff;">
 <script type="text/javascript" src="<c:url value='/js/intra/cam_item/popup/popBomReg.js?v=${today}'/>"></script>
 
@@ -26,7 +32,7 @@
             <input type="hidden" id="empSeq" value="${loginVO.uniqId}">
             <input type="hidden" id="bomSn" value="${params.bomSn}">
 
-            <table class="popTable table table-bordered mb-0">
+            <table class="searchTable table table-bordered mb-0">
                 <colgroup>
                     <col width="10%">
                     <col width="35%">
@@ -82,14 +88,14 @@
                     </button>
                 </div>
 
-                <table class="popTable table table-bordered mb-0 mt-20">
+                <table class="searchTable table table-bordered mb-0 mt-20">
                     <colgroup>
                         <col>
                         <col>
                         <col style="width: 14%;">
                         <col style="width: 12%;">
                         <col style="width: 20%;">
-                        <col style="width: 9%;">
+                        <col style="width: 6%;">
                     </colgroup>
                     <thead>
                     <tr>
