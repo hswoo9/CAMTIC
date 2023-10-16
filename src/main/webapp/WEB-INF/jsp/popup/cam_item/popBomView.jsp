@@ -4,7 +4,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
-
+<style>
+    .searchTable > thead > tr > th {
+        background-color: #00397f96;
+        color: white;
+        text-align: center;
+    }
+</style>
 <body class="font-opensans" style="background-color:#fff;">
 <script type="text/javascript" src="/js/intra/cam_item/popup/popBomView.js?v=${today}"/></script>
 <div style="padding:0;">
@@ -19,7 +25,7 @@
             </div>
         </div>
         <div>
-            <table class="popTable table table-bordered mb-0">
+            <table class="searchTable table table-bordered mb-0 mt-10">
                 <colgroup>
                     <col width="10%">
                     <col>
@@ -34,8 +40,8 @@
                 </thead>
             </table>
 
-            <div class="mt-20">
-                <table class="popTable table table-bordered mb-0 mt-20">
+            <div class="mt-10">
+                <table class="searchTable table table-bordered mb-0 mt-10">
                     <colgroup>
                         <col style="width: 6%;">
                         <col>
@@ -76,7 +82,7 @@
                 </table>
             </div>
 
-            <div class="mt-20">
+            <div class="mt-10">
                 <p style="font-weight: bold;">ㆍ생산이력</p>
                 <div id="mainGrid"></div>
             </div>

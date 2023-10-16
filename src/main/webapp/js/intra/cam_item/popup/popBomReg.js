@@ -86,7 +86,7 @@ var bomReg = {
                     '<input type="text" id="rmk' + bomReg.global.bomDetailIndex + '" class="rmk">' +
                 '</td>' +
                 '<td>' +
-                    '<button type="button" id="delRowBtn' + bomReg.global.bomDetailIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="bomReg.delRow(this)">삭제</button>' +
+                    '<button type="button" id="delRowBtn' + bomReg.global.bomDetailIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="bomReg.delRow(this)">X</button>' +
                 '</td>' +
             '</tr>';
 

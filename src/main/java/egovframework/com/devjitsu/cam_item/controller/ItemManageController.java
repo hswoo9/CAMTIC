@@ -731,7 +731,6 @@ public class ItemManageController {
 
     /**
      * 구매검수
-     * @param params
      * @param request
      * @param model
      * @return
@@ -846,14 +845,42 @@ public class ItemManageController {
      * @param model
      * @return
      */
-    @RequestMapping("/item/invenTransferReg.do")
-    public String invenTransferReg(HttpServletRequest request, Model model){
+    @RequestMapping("/item/invenTransferRegList.do")
+    public String invenTransferRegList(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
         session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("loginVO", loginVO);
 
-        return "cam_item/itemMa/invenMa/invenTransferReg";
+        return "cam_item/itemMa/invenMa/invenTransferRegList";
+    }
+
+    /**
+     * 재고이동현황 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getInvenTransferHistoryList.do")
+    public String getInvenTransferHistoryList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", itemManageService.getInvenTransferHistoryList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 재고이동등록 팝업
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/pop/popInvenTransferReg.do")
+    public String popInvenTransferReg(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+        model.addAttribute("loginVO", loginVO);
+
+        return "popup/cam_item/popInvenTransferReg";
     }
 
     /**
@@ -866,6 +893,7 @@ public class ItemManageController {
         itemManageService.setInvenTransferReg(params);
         return "jsonView";
     }
+
 
     /**
      * 재고이동현황
@@ -881,18 +909,6 @@ public class ItemManageController {
         model.addAttribute("loginVO", loginVO);
 
         return "cam_item/itemMa/invenMa/invenTransferHistory";
-    }
-
-    /**
-     * 재고이동현황 리스트
-     * @param params
-     * @param model
-     * @return
-     */
-    @RequestMapping("/item/getInvenTransferHistoryList.do")
-    public String getInvenTransferHistoryList(@RequestParam Map<String, Object> params, Model model){
-        model.addAttribute("list", itemManageService.getInvenTransferHistoryList(params));
-        return "jsonView";
     }
 
     /** 캠아이템 > 아이템관리 > 마감관리 */

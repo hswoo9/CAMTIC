@@ -45,6 +45,7 @@ public class ItemManageRepository extends AbstractDAO {
     public void setCrmItemUnitPriceEndDtUpd(Map<String, Object> params) { update("item.setCrmItemUnitPriceEndDtUpd", params);}
     public void setCrmItemUnitPriceRegUpd(Map<String, Object> params) { update("item.setCrmItemUnitPriceRegUpd", params);}
     public void setCrmItemUnitPriceDel(Map<String, Object> params) { delete("item.setCrmItemUnitPriceDel", params);}
+    public void setCrmItemManageUpd(Map<String, Object> params) { insert("item.setCrmItemManageUpd", params);}
     public List<Map<String, Object>> getItemWhInfoList(Map<String, Object> params) { return selectList("item.getItemWhInfoList", params);}
     public void setInspectionUpd(Map<String, Object> params) { update("item.setInspectionUpd", params);}
     public void setReceivingReg(Map<String, Object> params) { insert("item.setReceivingReg", params);}

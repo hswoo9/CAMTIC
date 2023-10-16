@@ -38,7 +38,7 @@
             </div>
         </div>
         <div style="padding: 20px 30px;">
-            <table class="popTable table table-bordered mb-0 mt10">
+            <table class="searchTable table table-bordered mb-0 mt10">
                 <colgroup>
                     <col style="width: 11%">
                     <col style="width: 39%">

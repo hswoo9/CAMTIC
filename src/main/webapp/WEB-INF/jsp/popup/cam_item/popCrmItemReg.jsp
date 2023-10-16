@@ -36,8 +36,6 @@
             <div class="btn-st popButton">
                 <button type="button" class="k-button k-button-solid-info" onclick="cir.setReceivingReg()">저장</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="cir.delRow()">삭제</button>
-                <%--                <button type="button" class="k-button k-button-solid-base" onclick="cir.crmItemExcelFormDown()">양식 다운로드</button>--%>
-                <%--                <button type="button" class="k-button k-button-solid-base" onclick="$('#file').click()">엑셀 업로드</button>--%>
                 <button type="button" class="k-button k-button-solid-base" onclick="cir.addRow('new')">품목추가</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
@@ -47,7 +45,7 @@
                 <input type="hidden" id="whDt" name="whDt" value="${nowHyphen}">
                 <input type="file" id="file" name="file" onchange="cir.fileChange(this)" style="display: none">
             </div>
-            <table class="popTable table table-bordered mb-0 mt10">
+            <table class="searchTable table table-bordered mb-0 mt-10">
                 <colgroup>
                     <col style="width: 10%;">
                 </colgroup>
@@ -59,7 +57,7 @@
                 </thead>
             </table>
 
-            <table class="popTable table table-bordered mb-0 mt10">
+            <table class="searchTable table table-bordered mb-0 mt-10">
                 <colgroup>
                     <col style="width: 3%">
                     <col>

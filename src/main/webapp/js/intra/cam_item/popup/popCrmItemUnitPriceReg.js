@@ -138,7 +138,8 @@ var ciupR = {
                     oldArr.push(arrData);
                 }
             })
-
+            ciupR.global.saveAjaxData.empSeq = $("#empSeq").val();
+            ciupR.global.saveAjaxData.crmItemSn = $("#crmItemSn").val();
             ciupR.global.saveAjaxData.oldArr = JSON.stringify(oldArr)
 
             var result = customKendo.fn_customAjax("/item/setCrmItemUnitPriceReg.do", ciupR.global.saveAjaxData)

@@ -30,20 +30,22 @@
         <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
 
         <div class="card-header pop-header">
-            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">반품등록</span>
+            <h3 class="card-title title_NM">
+                <span style="position: relative; top: 3px;" id="popTitle">반품등록</span>
             </h3>
+            <div class="btn-st popButton">
+                <button type="button" class="k-button k-button-solid-info" onclick="rrr.setReceivingReg()">저장</button>
+                <button type="button" class="k-button k-button-solid-base" onclick="rrr.resetRow()">초기화</button>
+                <button type="button" class="k-button k-button-solid-base" onclick="rrr.addRow('new')">품목추가</button>
+                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
+            </div>
         </div>
         <div>
             <div>
                 <input type="hidden" id="deliveryDt" name="deliveryDt" value="${nowHyphen}">
                 <input type="file" id="file" name="file" onchange="rrr.fileChange(this)" style="display: none">
             </div>
-            <div class="btn-st popButton" style="text-align: right">
-                <button type="button" class="k-button k-button-solid-info" onclick="rrr.setReceivingReg()">저장</button>
-                <button type="button" class="k-button k-button-solid-base" onclick="rrr.resetRow()">초기화</button>
-                <button type="button" class="k-button k-button-solid-base" onclick="rrr.addRow('new')">품목추가</button>
-            </div>
-            <table class="popTable table table-bordered mb-0 mt10">
+            <table class="searchTable table table-bordered mb-0 mt-10">
                 <colgroup>
                     <col style="width: 5%;">
                     <col style="width: 17%;">

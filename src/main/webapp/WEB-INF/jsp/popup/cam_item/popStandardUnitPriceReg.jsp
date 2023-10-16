@@ -41,7 +41,7 @@
             </div>
         </div>
         <div>
-            <table class="popTable table table-bordered mb-0 mt10">
+            <table class="searchTable table table-bordered mb-0 mt-10">
                 <colgroup>
                     <col style="width: 10%;">
                 </colgroup>
@@ -57,7 +57,7 @@
                 </thead>
             </table>
 
-            <table class="popTable table table-bordered mb-0 mt10">
+            <table class="searchTable table table-bordered mb-0 mt-10">
                 <colgroup>
                     <col style="width: 3%">
                     <col style="width: 7%">

@@ -249,6 +249,7 @@
             AND MASTER_SN NOT IN(SELECT MASTER_SN FROM CAM_ITEM.DJ_CRM_ITEM_MANGE WHERE CRM_SN = #{crmSn})
         </if>
 
+        ORDER BY IM.REG_DT DESC
     </select>
 
     <select id="getItemMaster" parameterType="map" resultType="map">

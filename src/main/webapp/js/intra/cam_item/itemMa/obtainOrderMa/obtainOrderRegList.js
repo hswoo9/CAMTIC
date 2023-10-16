@@ -233,6 +233,11 @@ var oorl = {
     },
 
     setDeliveryAmtUpd: function(){
+        if($("input[name=ooSn]:checked").length == 0){
+            alert("저장할 항목을 선택해주세요.");
+            return;
+        }
+
         if(confirm("저장하시겠습니까?")){
             var oorlArr = new Array()
             $.each($("input[name=ooSn]"), function(){
@@ -257,7 +262,12 @@ var oorl = {
     },
 
     setDeadlineUpd: function(){
-        if(confirm("선택된 수주를 마감처리하시겠습니까?")){
+        if($("input[name=ooSn]:checked").length == 0){
+            alert("저장할 항목을 선택해주세요.");
+            return;
+        }
+
+        if(confirm("선택한 항목을 마감처리하시겠습니까?")){
             var oorlArr = new Array()
             $.each($("input[name=ooSn]:checked"), function(){
                 var data = {
