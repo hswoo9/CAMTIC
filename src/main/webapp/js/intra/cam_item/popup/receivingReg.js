@@ -46,7 +46,7 @@ var regRv = {
                     '<input type="text" id="whVolume' + regRv.global.itemWhIndex + '" name="whVolume' + regRv.global.itemWhIndex + '" class="numberInput whVolume" style="text-align: right">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="whWeight' + regRv.global.itemWhIndex + '" name="whWeight' + regRv.global.itemWhIndex + '" class="numberInput whWeight" style="text-align: right">' +
+                    '<input type="text" id="whWeight' + regRv.global.itemWhIndex + '" name="whWeight' + regRv.global.itemWhIndex + '" class="numberInput whWeight" style="text-align: right" value="0">' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="unitPrice' + regRv.global.itemWhIndex + '" name="unitPrice' + regRv.global.itemWhIndex + '" class="numberInput unitPrice" style="text-align: right;width: 63%">' +
@@ -169,7 +169,6 @@ var regRv = {
 
         if(confirm("저장하시겠습니까?")){
             var newRateArr = new Array();
-            var oldRateArr = new Array();
 
             $.each($(".whInfo"), function(i, v){
                 var arrData = {
@@ -187,16 +186,11 @@ var regRv = {
                     empSeq : $("#empSeq").val()
                 }
 
-                if($(this).hasClass("newWhInfo")){
-                    newRateArr.push(arrData);
-                }else{
-                    oldRateArr.push(arrData);
-                }
+                newRateArr.push(arrData);
             })
 
             regRv.global.saveAjaxData = {
                 newRateArr : JSON.stringify(newRateArr),
-                oldRateArr : JSON.stringify(oldRateArr)
             }
 
             var result = customKendo.fn_customAjax("/item/setReceivingReg.do", regRv.global.saveAjaxData)

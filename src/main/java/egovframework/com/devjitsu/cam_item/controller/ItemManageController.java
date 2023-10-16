@@ -661,10 +661,11 @@ public class ItemManageController {
      * @return
      */
     @RequestMapping("/item/pop/receivingReg.do")
-    public String regReceipt(HttpServletRequest request, Model model){
+    public String regReceipt(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
 
         return "popup/cam_item/receivingReg";
     }
@@ -726,6 +727,56 @@ public class ItemManageController {
     @RequestMapping("/item/setReceivingReg.do")
     public String setReceivingReg(@RequestParam Map<String, Object> params){
         itemManageService.setReceivingReg(params);
+        return "jsonView";
+    }
+
+    /**
+     * 입고취소
+     * @param params
+     * @return
+     */
+    @RequestMapping("/item/setReceivingCancel.do")
+    public String setReceivingCancel(@RequestParam Map<String, Object> params){
+        itemManageService.setReceivingCancel(params);
+        return "jsonView";
+    }
+
+    /**
+     * 입고데이터 수정 팝업
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/pop/receivingRegMod.do")
+    public String receivingRegMod(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_item/receivingRegMod";
+    }
+
+    /**
+     * 입고등록 데이터 조회 (단일)
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getItemWhInfo.do")
+    public String getItemWhInfo(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", itemManageService.getItemWhInfo(params));
+        return "jsonView";
+    }
+
+    /**
+     * 입고등록 데이터 수정(단일)
+     * @param params
+     * @return
+     */
+    @RequestMapping("/item/setReceivingRegUpd.do")
+    public String setReceivingRegUpd(@RequestParam Map<String, Object> params){
+        itemManageService.setReceivingRegUpd(params);
         return "jsonView";
     }
 

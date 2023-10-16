@@ -78,35 +78,89 @@ var recL = {
                     title: "거래처",
                     field: "CRM_NM",
                     width: 100,
+                    template : function(e){
+                        if(e.INSPECTION == "C"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.CRM_NM + "</span>"
+                        }else {
+                            return e.CRM_NM
+                        }
+                    }
                 }, {
                     title: "품번",
                     field: "ITEM_NO",
                     width: 120,
+                    template : function(e){
+                        if(e.INSPECTION == "N"){
+                            return '<a class="title" onclick="recL.fn_popReceivingRegMod(' + e.ITEM_WH_SN + ')" style="cursor: pointer;">' + e.ITEM_NO + '</a>'
+                        }else if(e.INSPECTION == "C"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.ITEM_NO + "</span>"
+                        }else {
+                            return e.ITEM_NO
+                        }
+                    }
                 }, {
                     title: "품명",
                     field: "ITEM_NAME",
-                    width: 100
+                    width: 100,
+                    template : function(e){
+                        if(e.INSPECTION == "N"){
+                            return '<a class="title" onclick="recL.fn_popReceivingRegMod(' + e.ITEM_WH_SN + ')" style="cursor: pointer;">' + e.ITEM_NAME + '</a>'
+                        }else if(e.INSPECTION == "C"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.ITEM_NAME + "</span>"
+                        }else {
+                            return e.ITEM_NAME
+                        }
+
+                    }
                 }, {
                     title: "입고일자",
                     field: "WH_DT",
-                    width: 80
+                    width: 80,
+                    template : function(e){
+                        if(e.INSPECTION == "C"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.WH_DT + "</span>"
+                        }else {
+                            return e.WH_DT
+                        }
+                    }
                 }, {
                     title: "입고형태",
                     field: "WH_TYPE_NM",
-                    width: 100
+                    width: 100,
+                    template : function(e){
+                        if(e.INSPECTION == "C"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.WH_TYPE_NM + "</span>"
+                        }else {
+                            return e.WH_TYPE_NM
+                        }
+                    }
                 },{
                     title: "입고창고",
                     field: "WH_CD_NM",
-                    width: 100
+                    width: 100,
+                    template : function(e){
+                        if(e.INSPECTION == "C"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.WH_CD_NM + "</span>"
+                        }else {
+                            return e.WH_CD_NM
+                        }
+                    }
                 }, {
                     title: "입고량",
                     field: "WH_VOLUME",
                     width: 100,
                     template : function (e){
+                        var str = "";
                         if(e.WH_VOLUME != null && e.WH_VOLUME != ""){
-                            return recL.comma(e.WH_VOLUME) + "";
+                            str = recL.comma(e.WH_VOLUME);
                         }else{
-                            return "0";
+                            str = "0";
+                        }
+
+                        if(e.INSPECTION == "C"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + str + "</span>"
+                        }else {
+                            return str
                         }
                     },
                     attributes : {
@@ -117,10 +171,17 @@ var recL = {
                     width: 100,
                     field: "UNIT_PRICE",
                     template : function (e){
+                        var str = "";
                         if(e.UNIT_PRICE != null && e.UNIT_PRICE != ""){
-                            return recL.comma(e.UNIT_PRICE) + "원";
+                            str = recL.comma(e.UNIT_PRICE) + "원";
                         }else{
-                            return "0원";
+                            str = "0원";
+                        }
+
+                        if(e.INSPECTION == "C"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + str + "</span>"
+                        }else {
+                            return str
                         }
                     },
                     attributes : {
@@ -131,10 +192,17 @@ var recL = {
                     width: 100,
                     field: "AMT",
                     template: function(e){
+                        var str = "";
                         if(e.AMT != null && e.AMT != ""){
-                            return recL.comma(e.AMT) + "원";
+                            str = recL.comma(e.AMT) + "원";
                         }else{
-                            return "0원";
+                            str = "0원";
+                        }
+
+                        if(e.INSPECTION == "C"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + str + "</span>"
+                        }else {
+                            return str
                         }
                     },
                     attributes : {
@@ -147,8 +215,10 @@ var recL = {
                     template : function(e){
                         if(e.INSPECTION == "Y"){
                             return "입고"
-                        }else {
+                        }else if(e.INSPECTION == "N"){
                             return "검수중"
+                        }else if(e.INSPECTION == "C"){
+                            return "입고취소"
                         }
                     }
                 }
@@ -196,6 +266,13 @@ var recL = {
         var url = "/item/pop/receivingReg.do";
         var name = "_blank";
         var option = "width = 1680, height = 400, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
+    fn_popReceivingRegMod : function(e){
+        var url = "/item/pop/receivingRegMod.do?itemWhSn=" + e;
+        var name = "_blank";
+        var option = "width = 635, height = 400, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 

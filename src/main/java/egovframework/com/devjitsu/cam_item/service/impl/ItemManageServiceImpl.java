@@ -526,12 +526,21 @@ public class ItemManageServiceImpl implements ItemManageService {
             params.put("newRateArr", newRateArr);
             itemManageRepository.setReceivingReg(params);
         }
-        List<Map<String, Object>> oldRateArr = gson.fromJson((String) params.get("oldRateArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
-        if(oldRateArr.size() > 0){
-            for(Map<String, Object> map : oldRateArr){
-                itemManageRepository.setReceivingRegUpd(map);
-            }
-        }
+    }
+
+    @Override
+    public void setReceivingRegUpd(Map<String, Object> params) {
+        itemManageRepository.setReceivingRegUpd(params);
+    }
+
+    @Override
+    public void setReceivingCancel(Map<String, Object> params) {
+        itemManageRepository.setReceivingCancel(params);
+    }
+
+    @Override
+    public Map<String, Object> getItemWhInfo(Map<String, Object> params) {
+        return itemManageRepository.getItemWhInfo(params);
     }
 
     @Override

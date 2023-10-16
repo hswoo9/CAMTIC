@@ -37,6 +37,9 @@ public interface ItemManageService {
     void receivingExcelFormDown(HttpServletRequest request, HttpServletResponse response) throws IOException;
     List<Map<String, Object>> receivingExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception;
     void setReceivingReg(Map<String, Object> params);
+    void setReceivingRegUpd(Map<String, Object> params);
+    void setReceivingCancel(Map<String, Object> params);
+    Map<String, Object> getItemWhInfo(Map<String, Object> params);
     List<Map<String, Object>> getItemWhInfoList(Map<String, Object> params);
     void setInspectionUpd(Map<String, Object> params);
     List<Map<String, Object>> getItemInvenList(Map<String, Object> params);
