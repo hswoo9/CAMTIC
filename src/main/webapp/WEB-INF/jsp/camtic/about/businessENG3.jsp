@@ -178,7 +178,7 @@
         </div>
         <div class="__jvalley3">
           <div class="sw" style="justify-content: center; align-items: center;">
-            <div class="box" style="width: 1234px; margin: 0px 100px;">
+            <div class="box" style="width: 1000px;">
               <div class="cont" style="display: flex;flex-direction: row; align-items: center;">
                 <div class="img" style="width: calc(100% / 4); margin-right: 12px;"><div class="img"><img src="/images/camtic/businesseENG12-1.png" alt=""></div><div class="txt">Japan Drone Soccer Federation established<br>in 2020</div></div>
                 <div class="img" style="width: calc(100% / 4); margin-right: 12px;"><div class="img"><img src="/images/camtic/businesseENG12-2.jpg" alt=""></div><div class="txt">China held Youth Drone Soccer Competition<br>in 2021</div></div>
