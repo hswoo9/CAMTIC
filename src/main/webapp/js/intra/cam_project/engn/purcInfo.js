@@ -1,3 +1,5 @@
+let purcSum = 0;
+
 var purcInfo = {
 
     global : {
@@ -33,6 +35,7 @@ var purcInfo = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound: purcInfo.onDataBound,
             toolbar: [
                 {
                     name: 'button',
@@ -91,6 +94,17 @@ var purcInfo = {
                         }else if(e.STATUS == "C"){
                             return "요청완료"
                         }
+                    },
+                    footerTemplate: "합계"
+                }, {
+                    title: "금액",
+                    width: 100,
+                    template: function(e){
+                        purcSum  += Number(e.PURC_ITEM_AMT_SUM);
+                        return "<div style='text-align: right'>"+comma(e.PURC_ITEM_AMT_SUM)+"</div>";
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(purcSum)+"</div>";
                     }
                 }
             ],
@@ -113,6 +127,10 @@ var purcInfo = {
         var name = "_blank";
         var option = "width = 1690, height = 820, top = 100, left = 600, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    onDataBound : function(){
+        purcSum = 0;
     }
 
 }

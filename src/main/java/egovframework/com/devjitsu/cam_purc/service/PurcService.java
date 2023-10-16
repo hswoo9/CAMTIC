@@ -28,4 +28,6 @@ public interface PurcService {
     Map<String, Object> getPurcClaimData(Map<String, Object> params);
 
     List<Map<String, Object>> getPurcClaimList(Map<String, Object> params);
+
+    Map<String, Object> getPurcSum(Map<String, Object> params);
 }

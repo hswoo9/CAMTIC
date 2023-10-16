@@ -271,4 +271,12 @@ public class PurcController {
 
         return "jsonView";
     }
+
+    /** 하나의 프로젝트에 대한 모든 구매 합계 pjtSn */
+    @RequestMapping("/purc/getPurcSum")
+    public String getPurcSum(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = purcService.getPurcSum(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
 }

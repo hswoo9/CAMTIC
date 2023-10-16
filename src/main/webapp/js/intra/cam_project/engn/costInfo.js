@@ -71,6 +71,12 @@ var costInfo = {
             }
         });
 
+        /** 원재료 세팅 */
+        const purcData = customKendo.fn_customAjax("/purc/getPurcSum", data).data;
+        if(purcData != null){
+            $("#rawAmt").val(costInfo.comma(purcData.PURC_SUM));
+        }
+
         /** 버튼 세팅 */
         costInfo.buttonSet(costMap);
     },

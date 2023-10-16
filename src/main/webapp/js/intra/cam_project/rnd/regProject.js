@@ -89,7 +89,7 @@ var regRnd = {
                 {name: "개발일지", url: tab6Url},
                 // {name: "입출금대장관리", url: tab5Url},
                 {name: "예산현황", url: tab7Url},        // 연구비 입금처리와 같이 사용
-                {name: "지급관리", url: tab9Url},
+                // {name: "지급관리", url: tab9Url},
                 // {name: "연구비정산", url: tab8Url},
                 {name: "협업관리", url: tab10Url},
                 {name: "구매관리", url: tab11Url}

@@ -96,7 +96,7 @@
         </div>
         <div class="panel-body">
             <div>
-                <table class="totalTable table table-bordered mb-0">
+                <table class="totalTable table table-bordered" style="margin-bottom: 0px">
                     <thead>
                         <colgroup>
                             <col width="5%">
@@ -217,6 +217,7 @@
                         </tr>
                     </thead>
                 </table>
+                <p style="text-align: right; margin-bottom: 15px;"><b>10만원 단위는 버림</b></p>
 
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>

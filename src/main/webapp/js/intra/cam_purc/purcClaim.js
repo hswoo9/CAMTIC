@@ -144,9 +144,9 @@ var purcClaim = {
                     template: function (e){
                         if(e.STATUS != null && e.STATUS != ""){
                             if(e.STATUS == 100){
-                                return "구매요청";
+                                return "구매청구완료";
                             }else if(e.STATUS == 0){
-                                return "작성중";
+                                return "청구작업중";
                             }
                         }else{
                             return "미작성";
