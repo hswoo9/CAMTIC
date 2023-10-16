@@ -113,6 +113,16 @@ public class EvaluationController {
         return "popup/inside/userManage/contentWritePop";
     }
 
+    //직원 면담 카드 - 상세 페이지
+    @RequestMapping("/Inside/pop/contentDetailPop.do")
+    public String contentDetailPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/userManage/contentDetailPop";
+    }
+
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {
         Date today = new Date();
