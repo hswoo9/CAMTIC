@@ -107,6 +107,20 @@ var purcMngReqList = {
                 }, {
                     title: "외주",
                     width: 100
+                }, {
+                    title: "상태",
+                    width: 100,
+                    template: function (e){
+                        if(e.MC_STATUS != null && e.MC_STATUS != ""){
+                            if(e.MC_STATUS == 100){
+                                return '<a onclick="approveDocView(\''+e.MC_DOC_ID+'\', \''+e.MC_APPRO_KEY+'\', \''+e.MC_DOC_MENU_CD+'\')" style="font-weight: bold ">구매요청</a>';
+                            }else if(e.MC_STATUS == 0){
+                                return "작성중";
+                            }
+                        }else{
+                            return "미작성";
+                        }
+                    }
                 }
             ],
             dataBinding: function(){

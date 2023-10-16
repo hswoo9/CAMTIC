@@ -68,7 +68,11 @@
             MP.PURC_REQ_PURPOSE,
             COUNT(CASE WHEN MPI.STATUS = 'C' THEN 1 END) AS CP_CNT,
             COUNT(CASE WHEN MPI.STATUS = 'R' THEN 1 END) AS RP_CNT,
-            MP.STATUS
+            MP.STATUS,
+            MC.STATUS AS MC_STATUS,
+            MC.DOC_ID AS MC_DOC_ID,
+            MDI.APPRO_KEY AS MC_APPRO_KEY,
+            MDI.DOC_MENU_CD AS MC_DOC_MENU_CD
         FROM
             CAM_MNG.DJ_MNG_PURC MP
         JOIN
@@ -81,6 +85,13 @@
             DJ_CAMTIC.A_DOC_INFO DI
         ON
             MP.DOC_ID = DI.DOC_ID
+        LEFT JOIN
+            CAM_MNG.DJ_PURC_CLAIM MC
+        ON MP.PURC_SN = MC.PURC_SN
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO MDI
+        ON MC.DOC_ID = MDI.DOC_ID
+
         WHERE 1=1
             AND
             MP.DOC_STATUS = 100
@@ -345,6 +356,15 @@
             PURC_SN = #{purcSn}
     </update>
 
+    <update id="updatePurcListFinalApprStat" parameterType="map">
+        /* updatePurcListFinalApprStat */
+        UPDATE CAM_MNG.DJ_MNG_PURC_ITEM
+        SET
+            STATUS = 'C'
+        WHERE
+            PURC_SN = #{purcSn}
+    </update>
+
     <update id="updateClaimApprStat" parameterType="map">
         /* updateClaimApprStat */
         UPDATE CAM_MNG.DJ_PURC_CLAIM
@@ -592,5 +612,7 @@
             DJ_CAMTIC.A_DOC_INFO DI
         ON
             A.DOC_ID = DI.DOC_ID
+        ORDER BY
+            CLAIM_SN DESC
     </select>
 </mapper>

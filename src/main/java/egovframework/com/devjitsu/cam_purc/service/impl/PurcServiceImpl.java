@@ -159,6 +159,7 @@ public class PurcServiceImpl implements PurcService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             purcRepository.updatePurcFinalApprStat(params);
+            purcRepository.updatePurcListFinalApprStat(params);
         }
     }
 

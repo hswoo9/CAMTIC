@@ -115,13 +115,15 @@ var regRnd = {
             regRnd.fn_setData(setParameters);
         }
 
-        $(".k-tabstrip-items").on("dblclick", function(){
+        $("#viewBtn").on("click", function(){
             if($("#viewStat").val() == "Y"){
                 $("#mainTable").css("display", "none");
                 $("#viewStat").val("N");
+                $("#viewText").html("&#9660;");
             }else{
                 $("#mainTable").css("display", "");
                 $("#viewStat").val("Y");
+                $("#viewText").html("&#9650;");
             }
 
         });
