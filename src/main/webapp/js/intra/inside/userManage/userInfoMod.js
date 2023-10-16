@@ -150,12 +150,14 @@ var userInfoMod = {
                 },  {
 					attributes : { style : "text-align : center;"},
 					width: "50px",
-                    field: "",
-                    title: "번호",    /*template : "<input type='checkbox' id='eqmnUsePk#=EQIPMN_USE_SN#' name='eqmnUsePk' value='#=EQIPMN_USE_SN#' class='k-checkbox checkbox'/>",*/
-                    template : function (e) {
-                        return ($("#mainGrid").data("kendoGrid").dataSource.total() - record++)+'<input type="hidden" + value="'+e.EMP_SEQ+'"/><input type="hidden" value="'+e.type+'"/><input type="hidden" value="'+e.ID+'"/><input type="hidden" value="'+e.key+'"/>';
-                    }
-                }, {
+					field: "",
+					title: "번호",
+					hidden: true, // 이 부분을 추가합니다.
+					template : function (e) {
+						return ($("#mainGrid").data("kendoGrid").dataSource.total() - record++)+'<input type="hidden" value="'+e.EMP_SEQ+'"/><input type="hidden" value="'+e.type+'"/><input type="hidden" value="'+e.ID+'"/><input type="hidden" value="'+e.key+'"/>';
+					}
+				}
+				, {
 					attributes : { style : "text-align : center;"},
                     field: "DEPT_NAME",
                     title: "부서"
@@ -496,16 +498,17 @@ var userInfoMod = {
 			var checkCnt = 0;
 			var successCnt = 0;
 			var checkStatus = 0;
+
 			$.each($('.tdCheckBox:checked'), function(index, item) {
-	            $.each($(item).parent().parent().find('td'), function(index, item) {
-					if(index ==8){
+				$.each($(item).parent().parent().find('td'), function(index, item) {
+					if(index == 1){
 						console.log(index,'번째 td 값 : ', $(item));
-						if($(item)[0].innerText != "반려취소"){	
+						if($(item)[0].innerText == "반려취소"){
 							checkStatus++;
 						}
 					}
-	            });
-	        });
+				});
+			});
 			if(checkStatus > 0){
 				alert("반려상태 만 선택해 주세요.");
 				return;
