@@ -118,7 +118,7 @@
                 </otherwise>
             </choose>
             GROUP BY MP.PURC_SN
-            ORDER BY MP.PURC_REQ_DATE DESC
+            ORDER BY MP.PURC_SN DESC
     </select>
 
     <insert id="setPurcReq" parameterType="map">

@@ -336,7 +336,7 @@ var hwpInit = {
         const result = customKendo.fn_customAjax("/purc/getPurcClaimData", data).data;
 
         /** 1. 구매요청서 데이터 */
-        hwpDocCtrl.putFieldText('DOC_NUM', result.DOC_NO);
+        hwpDocCtrl.putFieldText('DOC_NUM', "");
         hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
         hwpDocCtrl.putFieldText('TO_DEPT_NAME', result.DEPT_NAME);
     }
