@@ -3,8 +3,6 @@ package egovframework.com.devjitsu.hp.board.util;
 import java.time.LocalDateTime;
 
 public class PostResponse {
-
-
     private Long BOARD_ARTICLE_ID;                       // PK
     private String BOARD_ID;
     private String BOARD_ARTICLE_TITLE;                  // 제목
@@ -21,9 +19,15 @@ public class PostResponse {
     private String FILE_PATH;
     private String BOARD_ARTICLE_CONTENT_URL;
     private String BOARD_ARTICLE_HASHTAG;
-
     private String STATE;
 
+    /*뉴스레터 구독현황*/
+    private String APPLICANT;
+    private String EMAIL;
+    private String BELONG;
+    private String CONFIRM1;
+    private String CONFIRM2;
+    private LocalDateTime APPLY_DATE;
 
     public Long getBOARD_ARTICLE_ID() {
         return BOARD_ARTICLE_ID;
@@ -72,4 +76,9 @@ public class PostResponse {
         return FILE_PATH;
     }
     public String getSTATE() { return STATE; }
+    public String getAPPLICANT() { return APPLICANT; }
+    public String getEMAIL() { return EMAIL; }
+    public String getCONFIRM1() { return CONFIRM1; }
+    public String getCONFIRM2() { return CONFIRM2; }
+    public LocalDateTime getAPPLY_DATE() { return APPLY_DATE; }
 }

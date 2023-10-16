@@ -5,7 +5,12 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_item/itemMa/purcMa/receivingRegList.js?v=${today}'/>"></script>
-
+<style>
+    a:hover{
+        text-decoration: underline !important;
+        color: blue;
+    }
+</style>
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">

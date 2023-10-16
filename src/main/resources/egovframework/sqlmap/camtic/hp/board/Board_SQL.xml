@@ -260,4 +260,30 @@
         AND
             BOARD_ARTICLE_ID = #{boardArticleId}
     </select>
+
+    <insert id="insSubscribe" parameterType="map">
+        /*insSubscribe*/
+        INSERT INTO CAM_COMMON.DJ_NEWS_BOARD_SUBSCRIBE
+            (APPLICANT, EMAIL, BELONG, CONFIRM1, CONFIRM2)
+        VALUES
+            (#{applicant}, #{email}, #{belong}, #{confirm1}, #{confirm2})
+    </insert>
+
+    <select id="getNewsSubscribeList" resultType="egovframework.com.devjitsu.hp.board.util.PostResponse" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
+        /*getNewsSubscribeList*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_NEWS_BOARD_SUBSCRIBE
+        ORDER BY APPLY_DATE DESC
+        LIMIT #{pagination.limitStart}, #{recordSize}
+    </select>
+
+    <select id="getNewsSubscribeListCnt" resultType="int" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
+        /*getNewsSubscribeListCnt*/
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_COMMON.DJ_NEWS_BOARD_SUBSCRIBE
+    </select>
 </mapper>

@@ -80,40 +80,71 @@ var oosl = {
                     title: "거래처",
                     field: "CRM_NM",
                     width: 150,
+                    template : function(e){
+                        if(e.OBTAIN_ORDER_TYPE == "N"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.CRM_NM + "</span>"
+                        }else {
+                            return e.CRM_NM
+                        }
+                    }
                 }, {
                     title: "수주일자",
                     field: "ORDER_DT",
                     width: 80,
+                    template : function(e){
+                        if(e.OBTAIN_ORDER_TYPE == "N"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.ORDER_DT + "</span>"
+                        }else {
+                            return e.ORDER_DT
+                        }
+                    }
                 }, {
                     title: "납기일자",
                     field: "DUE_DT",
                     width: 80,
-                }, {
-                    title: "마감",
-                    field: "DEADLINE",
-                    width: 60,
-                    template : function (e){
-                        if(e.DEADLINE == "Y"){
-                            return "마감"
-                        }else{
-                            return "개시";
+                    template : function(e){
+                        if(e.OBTAIN_ORDER_TYPE == "N"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.DUE_DT + "</span>"
+                        }else {
+                            return e.DUE_DT
                         }
-                    },
+                    }
                 }, {
                     title: "품번",
                     field: "ITEM_NO",
+                    template : function(e){
+                        if(e.OBTAIN_ORDER_TYPE == "N"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.ITEM_NO + "</span>"
+                        }else {
+                            return e.ITEM_NO
+                        }
+                    }
                 }, {
                     title: "품명",
                     field: "ITEM_NAME",
+                    template : function(e){
+                        if(e.OBTAIN_ORDER_TYPE == "N"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.ITEM_NAME + "</span>"
+                        }else {
+                            return e.ITEM_NAME
+                        }
+                    }
                 }, {
                     title: "수주량",
                     field: "ORDER_VOLUME",
                     width: 80,
                     template : function (e){
+                        var str = "";
                         if(e.ORDER_VOLUME != null && e.ORDER_VOLUME != ""){
-                            return oosl.comma(e.ORDER_VOLUME) + "";
+                            str = oosl.comma(e.ORDER_VOLUME);
                         }else{
-                            return "0";
+                            str = "0";
+                        }
+
+                        if(e.OBTAIN_ORDER_TYPE == "N"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + str + "</span>"
+                        }else {
+                            return str
                         }
                     },
                     attributes : {
@@ -124,10 +155,17 @@ var oosl = {
                     width: 90,
                     field: "UNIT_PRICE",
                     template : function (e){
+                        var str = "";
                         if(e.UNIT_PRICE != null && e.UNIT_PRICE != ""){
-                            return oosl.comma(e.UNIT_PRICE) + "원";
+                            str = oosl.comma(e.UNIT_PRICE) + "원";
                         }else{
-                            return "0원";
+                            str = "0원";
+                        }
+
+                        if(e.OBTAIN_ORDER_TYPE == "N"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + str + "</span>"
+                        }else {
+                            return str
                         }
                     },
                     attributes : {
@@ -138,10 +176,17 @@ var oosl = {
                     width: 100,
                     field: "AMT",
                     template: function(e){
+                        var str = "";
                         if(e.AMT != null && e.AMT != ""){
-                            return oosl.comma(e.AMT) + "원";
+                            str = oosl.comma(e.AMT) + "원";
                         }else{
-                            return "0원";
+                            str = "0원";
+                        }
+
+                        if(e.OBTAIN_ORDER_TYPE == "N"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + str + "</span>"
+                        }else {
+                            return str
                         }
                     },
                     attributes : {
@@ -152,10 +197,21 @@ var oosl = {
                     field: "DELIVERY_AMT",
                     width: 80,
                     template : function (e){
+                        var str = "";
                         if(e.DELIVERY_AMT != null && e.DELIVERY_AMT != ""){
-                            return oosl.comma(e.DELIVERY_AMT) + "";
+                            str = oosl.comma(e.DELIVERY_AMT);
                         }else{
-                            return "0";
+                            str = "0";
+                        }
+
+                        if(e.DEADLINE == "N"){
+                            return "<input type='text' class='deliveryAmtInput numberInput k-input k-textbox' maxOrderVolume='" + e.ORDER_VOLUME + "' style='text-align: right;' value='" + str + "'>";
+                        }else {
+                            if(e.OBTAIN_ORDER_TYPE == "N"){
+                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + str + "</span>"
+                            }else {
+                                return str
+                            }
                         }
                     },
                     attributes : {
@@ -166,10 +222,17 @@ var oosl = {
                     field: "ORDER_REMAIN",
                     width: 80,
                     template : function (e){
+                        var str = "";
                         if(e.ORDER_REMAIN != null && e.ORDER_REMAIN != ""){
-                            return oosl.comma(e.ORDER_REMAIN) + "";
+                            str = oosl.comma(e.ORDER_REMAIN);
                         }else{
-                            return "0";
+                            str = "0";
+                        }
+
+                        if(e.OBTAIN_ORDER_TYPE == "N"){
+                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + str + "</span>"
+                        }else {
+                            return str
                         }
                     },
                     attributes : {
@@ -188,6 +251,28 @@ var oosl = {
                             return "전체미납"
                         }else if(e.UNPAID_TYPE == "Y"){
                             return "진행중"
+                        }
+                    },
+                }, {
+                    title: "마감",
+                    field: "DEADLINE",
+                    width: 60,
+                    template : function (e){
+                        if(e.DEADLINE == "Y"){
+                            return "마감"
+                        }else{
+                            return "개시";
+                        }
+                    },
+                }, {
+                    title: "수주구분",
+                    field: "OBTAIN_ORDER_TYPE",
+                    width: 80,
+                    template : function (e){
+                        if(e.OBTAIN_ORDER_TYPE == "Y"){
+                            return "정상"
+                        }else{
+                            return "취소";
                         }
                     },
                 }, {

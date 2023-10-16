@@ -97,6 +97,16 @@ var invenTrl = {
                     title: "품명",
                     field: "ITEM_NAME",
                 }, {
+                    title: "현재재고",
+                    field: "CURRENT_INVEN",
+                    width: 100,
+                    template : function (e){
+                        return invenTrl.comma(e.CURRENT_INVEN);
+                    },
+                    attributes : {
+                        style : "text-align : right;"
+                    }
+                }, {
                     title: "이동수량",
                     field: "TRANSFER_QTY",
                     width: 120,

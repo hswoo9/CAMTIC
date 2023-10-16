@@ -199,6 +199,29 @@
         DESC
     </select>
 
+    <select id="getObtainOrder" parameterType="map" resultType="map">
+        /* getObtainOrder */
+        SELECT
+            OO.*,
+            EI.EMP_NAME_KR,
+            IM.ITEM_NO,
+            IM.ITEM_NAME,
+            IM.STANDARD,
+            CI.CRM_NM
+        FROM
+            CAM_ITEM.DJ_ITEM_OBTAIN_ORDER OO
+        JOIN
+            CAM_CRM.DJ_CRM_INFO CI
+        ON OO.CRM_SN = CI.CRM_SN
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON OO.REG_EMP_SEQ = EI.EMP_SEQ
+        JOIN
+            CAM_ITEM.DJ_ITEM_MASTER IM
+        ON IM.MASTER_SN = OO.MASTER_SN
+        WHERE 1=1
+        AND OBTAIN_ORDER_SN = #{obtainOrderSn}
+    </select>
     <update id="setDeliveryAmtUpd" parameterType="map">
         /* setDeliveryAmtUpd */
         UPDATE
@@ -268,8 +291,6 @@
             CRM_SN = #{crmSn},
             MASTER_SN = #{masterSn},
             ORDER_VOLUME = #{orderVolume},
-            ORDER_REMAIN = #{orderRemain},
-            ORDER_DT = #{orderDt},
             DUE_DT = #{dueDt},
             UNIT_PRICE = #{unitPrice},
             AMT = #{amt},
@@ -278,6 +299,18 @@
             MOD_DT = NOW()
         WHERE
             OBTAIN_ORDER_SN = #{obtainOrderSn}
+    </update>
+
+    <update id="setObtainOrderCancel" parameterType="map">
+        /* setObtainOrderCancel */
+        UPDATE
+            CAM_ITEM.DJ_ITEM_OBTAIN_ORDER
+        SET
+            OBTAIN_ORDER_TYPE = 'N',
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            OBTAIN_ORDER_SN IN (${obtainOrderSn})
     </update>
 
     <select id="getShipmentRecordList" parameterType="map" resultType="map">
@@ -963,6 +996,32 @@
         ORDER BY WI.WH_DT DESC
     </select>
 
+    <select id="getItemWhInfo" parameterType="map" resultType="map">
+        /* getItemWhInfo */
+        SELECT
+            WI.*,
+            IM.*,
+            CI.CRM_NM,
+            WHC.ITEM_CD_NM AS WH_CD_NM,
+            WTC.ITEM_CD_NM AS WH_TYPE_NM
+        FROM
+            CAM_ITEM.DJ_ITEM_WH_INFO WI
+        JOIN
+            CAM_ITEM.DJ_ITEM_MASTER IM
+        ON IM.MASTER_SN = WI.MASTER_SN
+        JOIN
+            CAM_CRM.DJ_CRM_INFO CI
+        ON WI.CRM_SN = CI.CRM_SN
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD WHC
+        ON WHC.LG_CD = 'WH' AND WI.WH_CD = WHC.ITEM_CD
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD WTC
+        ON WTC.LG_CD = 'WT' AND WI.WH_TYPE = WTC.ITEM_CD
+        WHERE
+            WI.ITEM_WH_SN = #{itemWhSn}
+    </select>
+
     <update id="setInspectionUpd" parameterType="map">
         /* setInspectionUpd */
         UPDATE
@@ -1028,13 +1087,10 @@
         SET
             CRM_SN = #{crmSn},
             MASTER_SN = #{masterSn},
-            INVEN_AMT = #{invenAmt},
             WH_TYPE = #{whType},
             WH_VOLUME = #{whVolume},
             WH_WEIGHT = #{whWeight},
             WH_CD = #{whCd},
-            WH_TOTAL = #{whTotal},
-            WH_DT = #{whDt},
             WH_NO = #{whNo},
             UNIT_PRICE = #{unitPrice},
             AMT = #{amt},
@@ -1043,9 +1099,21 @@
             ORDER_VOLUME = #{orderVolume},
             RMK = #{rmk},
             MOD_EMP_SEQ = #{empSeq},
-            MOD_DATE = NOW()
+            MOD_DT = NOW()
         WHERE
             ITEM_WH_SN = #{itemWhSn}
+    </update>
+
+    <update id="setReceivingCancel" parameterType="map">
+        /* setReceivingCancel */
+        UPDATE
+            CAM_ITEM.DJ_ITEM_WH_INFO
+        SET
+            INSPECTION = 'C',
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            ITEM_WH_SN IN (${itemWhSn})
     </update>
 
     <select id="getItemInvenValidation" parameterType="map" resultType="map">

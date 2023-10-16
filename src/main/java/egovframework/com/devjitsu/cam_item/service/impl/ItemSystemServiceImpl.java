@@ -122,7 +122,16 @@ public class ItemSystemServiceImpl implements ItemSystemService {
 
     @Override
     public void setItemMasterReg(Map<String, Object> params) {
-        itemSystemRepository.setItemMasterReg(params);
+        if(StringUtils.isEmpty(params.get("masterSn"))){
+            itemSystemRepository.setItemMasterReg(params);
+        }else{
+            itemSystemRepository.setItemMasterRegUpd(params);
+        }
+    }
+
+    @Override
+    public void setItemMasterDel(Map<String, Object> params) {
+        itemSystemRepository.setItemMasterDel(params);
     }
 
     public String cellValueToString(XSSFCell cell){

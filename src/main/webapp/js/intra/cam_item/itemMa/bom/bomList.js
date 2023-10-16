@@ -47,13 +47,6 @@ var bomList = {
                             '</button>';
                     }
                 }, {
-                    name: 'button',
-                    template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="bomList.setBomDel()">' +
-                            '	<span class="k-button-text">삭제</span>' +
-                            '</button>';
-                    }
-                }, {
                     name : 'excel',
                     text: '엑셀다운로드'
                 }

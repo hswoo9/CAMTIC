@@ -86,6 +86,11 @@ public class ItemManageServiceImpl implements ItemManageService {
     }
 
     @Override
+    public Map<String, Object> getObtainOrder(Map<String, Object> params) {
+        return itemManageRepository.getObtainOrder(params);
+    }
+
+    @Override
     public void setDeliveryAmtUpd(Map<String, Object> params) {
         Gson gson = new Gson();
         List<Map<String, Object>> oorlArr = gson.fromJson((String) params.get("oorlArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
@@ -113,13 +118,27 @@ public class ItemManageServiceImpl implements ItemManageService {
         List<Map<String, Object>> orArr = gson.fromJson((String) params.get("orArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
         if(orArr.size() > 0){
             for(Map<String, Object> map : orArr){
-                if(StringUtils.isEmpty(map.get("obtainOrderSn"))){
-                    itemManageRepository.setObtainOrder(map);
-                }else{
-                    itemManageRepository.setObtainOrderUpd(map);
-                }
+                itemManageRepository.setObtainOrder(map);
             }
         }
+    }
+
+    @Override
+    public void setObtainOrderUpd(Map<String, Object> params) {
+        itemManageRepository.setObtainOrderUpd(params);
+    }
+
+    @Override
+    public void setObtainOrderCancel(Map<String, Object> params) {
+        itemManageRepository.setObtainOrderCancel(params);
+        String[] obtainOrderSnL = params.get("obtainOrderSn").toString().split(",");
+        for(String obtainOrderSn : obtainOrderSnL){
+            Map<String, Object> map = new HashMap<>();
+            map.put("obtainOrderSn", obtainOrderSn);
+            map.put("empSeq", params.get("empSeq"));
+            itemManageRepository.setDeadlineUpd(map);
+        }
+
     }
 
     @Override
@@ -526,12 +545,21 @@ public class ItemManageServiceImpl implements ItemManageService {
             params.put("newRateArr", newRateArr);
             itemManageRepository.setReceivingReg(params);
         }
-        List<Map<String, Object>> oldRateArr = gson.fromJson((String) params.get("oldRateArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
-        if(oldRateArr.size() > 0){
-            for(Map<String, Object> map : oldRateArr){
-                itemManageRepository.setReceivingRegUpd(map);
-            }
-        }
+    }
+
+    @Override
+    public void setReceivingRegUpd(Map<String, Object> params) {
+        itemManageRepository.setReceivingRegUpd(params);
+    }
+
+    @Override
+    public void setReceivingCancel(Map<String, Object> params) {
+        itemManageRepository.setReceivingCancel(params);
+    }
+
+    @Override
+    public Map<String, Object> getItemWhInfo(Map<String, Object> params) {
+        return itemManageRepository.getItemWhInfo(params);
     }
 
     @Override

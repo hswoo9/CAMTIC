@@ -278,12 +278,24 @@ public class ItemSystemController {
     /**
      * 품번중복확인
      * @param params
-     * @param model
      * @return
      */
     @RequestMapping("/item/setItemMasterReg.do")
-    public String setItemMasterReg(@RequestParam Map<String, Object> params, Model model){
+    public String setItemMasterReg(@RequestParam Map<String, Object> params){
         itemSystemService.setItemMasterReg(params);
         return "jsonView";
     }
+
+    /**
+     * 품번삭제
+     * @param params
+     * @return
+     */
+    @RequestMapping("/item/setItemMasterDel.do")
+    public String setItemMasterDel(@RequestParam Map<String, Object> params){
+        itemSystemService.setItemMasterDel(params);
+        return "jsonView";
+    }
+
+
 }

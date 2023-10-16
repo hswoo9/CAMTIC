@@ -114,7 +114,6 @@ var oor = {
             $.each($(".orInfo"), function(i, v){
                 if($(this).find("#crmSn" + i).val() && $(this).find("#masterSn" + i).val()){
                     var arrData = {
-                        obtainOrderSn : $(this).find("#obtainOrderSn" + i).val(),
                         masterSn : $(this).find("#masterSn" + i).val(),
                         crmSn : $(this).find("#crmSn" + i).val(),
                         orderVolume : oor.uncomma($(this).find("#orderVolume" + i).val()),

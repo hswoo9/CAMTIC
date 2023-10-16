@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="employInterviewCard">
+    <!-- cam_inside.dj_employee_interview_topic 테이블에 값을 삽입하는 쿼리 -->
+    <insert id="setInterviewTitle" parameterType="Map">
+        INSERT INTO cam_inside.dj_employee_interview_topic (interview_topic1, interview_topic2, interview_topic3, interview_topic4, interview_topic5)
+        VALUES (#{content1}, #{content2}, #{content3}, #{content4}, #{content5})
+        <selectKey keyProperty="interview_number" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'dj_employee_interview_topic'
+        </selectKey>
+    </insert>
+
+    <select id="getTopicList" parameterType="map" resultType="map">
+        SELECT
+            interview_topic1 AS interview_topic1,
+            interview_topic2 AS interview_topic2,
+            interview_topic3 AS interview_topic3,
+            interview_topic4 AS interview_topic4,
+            interview_topic5 as interview_topic5
+        from cam_inside.dj_employee_interview_topic
+        order by interview_number desc LIMIT 1;
+    </select>
+    
+    <insert id="setInterviewContent" parameterType="Map">
+        INSERT INTO cam_inside.dj_employee_interview_card
+        (card_number,
+         card_interview_date,
+         card_interviewer,
+         card_superior_person,
+         card_superior_person2,
+         card_status,
+         interview_content1,
+         interview_content2,
+         interview_content3,
+         interview_content4,
+         interview_content5,
+         EMP_SEQ)
+        VALUES
+            (#{cardNumber},
+             #{cardDate},
+             #{cardInterviewer},
+             #{cardSuperiorPerson},
+             #{cardSuperiorPerson2},
+             #{cardStatus},
+             #{interviewContent1},
+             #{interviewContent2},
+             #{interviewContent3},
+             #{interviewContent4},
+             #{interviewContent5},
+             #{empSeq});
+    </insert>
+
+    <select id="getInterviewCardList" parameterType="map" resultType="map">
+        select dei.emp_name_kr,
+               dei.dept_name,
+               dei.dept_team_name,
+               deic.*
+        from cam_inside.dj_employee_interview_card deic
+                 join cam_hr.dj_emp_info dei
+                      on deic.EMP_SEQ = dei.EMP_SEQ
+    </select>
+
+    <select id="getInterviewDetail" parameterType="map" resultType="map">
+        SELECT dei.emp_name_kr,
+               dei.dept_name,
+               dei.dept_team_name,
+               deic.*
+        FROM cam_inside.dj_employee_interview_card deic
+                 JOIN cam_hr.dj_emp_info dei ON deic.EMP_SEQ = dei.EMP_SEQ
+        WHERE deic.EMP_SEQ = #{empSeq}
+    </select>
+</mapper>
