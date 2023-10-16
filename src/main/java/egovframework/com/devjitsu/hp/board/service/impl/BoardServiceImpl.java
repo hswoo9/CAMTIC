@@ -53,6 +53,22 @@ public class BoardServiceImpl implements BoardService {
         }
         return new PagingResponse<>(list, pagination);
     }
+    @Override
+    public PagingResponse<PostResponse> getNewsSubscribeList(ArticlePage articlePage) {
+        List<PostResponse> list = new ArrayList<>();
+        String category = articlePage.getSearchCategory();
+
+        int count = (int) boardRepository.getNewsSubscribeListCnt(articlePage);
+        if (count < 1) {
+            return new PagingResponse<>(Collections.emptyList(), null);
+        }
+
+        Pagination pagination = new Pagination(count, articlePage);
+        articlePage.setPagination(pagination);
+        list = boardRepository.getNewsSubscribeList(articlePage);
+
+        return new PagingResponse<>(list, pagination);
+    }
 
     @Override
     public List<Map<String, Object>> selectMainList(Map<String, Object> params) {
@@ -272,4 +288,6 @@ public class BoardServiceImpl implements BoardService {
     public Map<String, Object> selectNewsView(Map<String, Object> params) {
         return boardRepository.selectNewsView(params);
     }
+
+    @Override public void insSubscribe(Map<String, Object> params) { boardRepository.insSubscribe(params); }
 }

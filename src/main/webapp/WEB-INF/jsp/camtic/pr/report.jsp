@@ -143,7 +143,7 @@
   function movePage(page){
     const queryParams = {
       page: (page) ? page : 1,
-      recordSize: 5,
+      recordSize: 10,
       pageSize: 10
     }
     var result = fn_customAjax("/board/getBoardArticleList.do?" + new URLSearchParams(queryParams).toString() + "&categoryId=" + categoryKey + "&recordSize=10", "");

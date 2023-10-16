@@ -19,6 +19,9 @@ public class BoardRepository extends AbstractDAO {
     public List<PostResponse> selectPrBoardList(ArticlePage articlePage) {
         return selectList("boardCt.selectPrBoardList", articlePage);
     }
+    public List<PostResponse> getNewsSubscribeList(ArticlePage articlePage) {
+        return selectList("boardCt.getNewsSubscribeList", articlePage);
+    }
     public List<Map<String, Object>> selectMainList(Map<String, Object> params) {
         return selectList("boardCt.selectMainList", params);
     }
@@ -27,6 +30,9 @@ public class BoardRepository extends AbstractDAO {
     }
     public Object selectBoardListCount(ArticlePage articlePage) {
         return (int) selectOne("boardCt.selectBoardListCount", articlePage);
+    }
+    public Object getNewsSubscribeListCnt(ArticlePage articlePage) {
+        return (int) selectOne("boardCt.getNewsSubscribeListCnt", articlePage);
     }
     public Map<String, Object> selectBoard(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("boardCt.selectBoard", params);
@@ -67,5 +73,6 @@ public class BoardRepository extends AbstractDAO {
     public Map<String, Object> selectNewsView(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("boardCt.selectNewsView", params);
     }
+    public void insSubscribe(Map<String, Object> params) {insert("boardCt.insSubscribe", params); }
 
 }
