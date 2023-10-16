@@ -207,6 +207,8 @@
                 </thead>
             </table>
 
+            <div style="text-align: center; cursor: pointer; margin-top: 15px; background-color: #f1f7ff; border: 1px solid #c5c5c5" id="viewBtn"><span id="viewText">&#9650;</span></div>
+
             <div style="margin-top :15px;">
                 <div class="demo-section">
                     <div id="tabstrip">

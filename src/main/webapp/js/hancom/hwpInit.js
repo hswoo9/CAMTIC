@@ -334,7 +334,6 @@ var hwpInit = {
         }
 
         const result = customKendo.fn_customAjax("/purc/getPurcClaimData", data).data;
-        console.log(result);
 
         /** 1. 구매요청서 데이터 */
         hwpDocCtrl.putFieldText('DOC_NUM', "");
