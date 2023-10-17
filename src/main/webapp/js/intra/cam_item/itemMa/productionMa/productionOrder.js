@@ -62,10 +62,6 @@ var po = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" style="top: 3px; position: relative" />',
-                    template : "<input type='checkbox' id='bomSn#=BOM_SN#' name='bomSn' value='#=BOM_SN#' style=\"top: 3px; position: relative\" />",
-                    width: 30,
-                }, {
                     title: "순번",
                     template: "#= --record #",
                     width: 30
