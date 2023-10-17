@@ -2,6 +2,10 @@ var regUnRnd = {
 
 
     fn_defaultScript : function (setParameters){
+        if(setParameters != null && setParameters.PJT_SN != null){
+            setParameters.pjtSn = setParameters.PJT_SN;
+            $("#stopBtn").show();
+        }
 
         customKendo.fn_textBox(["empName", "deptName", "pjtNm", "pjtSubNm", "rndCrmNm", "rndConCrmNm"
                                 ,"crmPartNm", "pjtExpAmt"]);

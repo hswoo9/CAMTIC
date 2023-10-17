@@ -2,6 +2,10 @@ var regRnd = {
 
 
     fn_defaultScript : function (setParameters){
+        if(setParameters != null && setParameters.PJT_SN != null){
+            setParameters.pjtSn = setParameters.PJT_SN;
+            $("#stopBtn").show();
+        }
 
         customKendo.fn_textBox(["empName", "deptName", "pjtNm", "pjtSubNm", "rndCrmNm", "rndConCrmNm", "crmPartNm", "pjtExpAmt"]);
 
@@ -80,19 +84,19 @@ var regRnd = {
             dataTextField: "name",
             dataContentUrlField: "url",
             dataSource : [
-                {name: "등록정보", url: tab0Url},
-                {name: "연구원관리", url: tab1Url},
+                {name: "사업정보", url: tab0Url},
+                {name: "참여인력", url: tab1Url},
                 {name: "참여율요청", url: tab2Url},      // 지출내역조회와 같이 사용
                 {name: "참여율관리", url: tab3Url},      // 지출내역조회와 같이 사용
-                {name: "개발계획", url: tab4Url},
+                {name: "수행계획(공정)", url: tab4Url},
                 {name: "개발일정", url: tab5Url},
                 {name: "개발일지", url: tab6Url},
                 // {name: "입출금대장관리", url: tab5Url},
-                {name: "예산현황", url: tab7Url},        // 연구비 입금처리와 같이 사용
+                {name: "사업비관리(예산/지급)", url: tab7Url},        // 연구비 입금처리와 같이 사용
                 // {name: "지급관리", url: tab9Url},
-                {name: "출장관리", url: tab9Url},
-                {name: "협업관리", url: tab10Url},
-                {name: "구매관리", url: tab11Url}
+                {name: "출장", url: tab9Url},
+                {name: "협업", url: tab10Url},
+                {name: "구매", url: tab11Url}
             ],
         });
 
@@ -128,19 +132,19 @@ var regRnd = {
 
         });
 
-        var len = $("#tabstrip li").length;
-        for(var i = 0 ; i < len ; i++){
-            console.log($("#tabstrip li")[i]);
-            if(i == 7){
-                var html = '<div style="width:100%;"></div>';
-                var parser = new DOMParser();
+        var parser = new DOMParser();
 
-                var doc = parser.parseFromString(html, 'text/html');
+        var html = '<div style="width:100%;"></div>';
+        var doc = parser.parseFromString(html, 'text/html');
+        $("#tabstrip li")[7].after(doc.body.firstChild);
+        
+        var html2 = '<div style="padding: 6px 12px"><b style="color: red">사업관리</b></div>';
+        var doc2 = parser.parseFromString(html2, 'text/html');
+        $("#tabstrip li")[0].before(doc2.body.firstChild);
 
-                console.log(doc)
-                $("#tabstrip li")[i].after(doc.body.firstChild);
-            }
-        }
+        var html3 = '<div style="padding: 6px 12px"><b style="color: blue">운영관리</b></div>';
+        var doc3 = parser.parseFromString(html3, 'text/html');
+        $("#tabstrip li")[8].before(doc3.body.firstChild);
     },
 
     fn_setData: function (e){

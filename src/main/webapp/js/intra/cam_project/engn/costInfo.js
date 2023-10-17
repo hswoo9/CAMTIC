@@ -77,6 +77,12 @@ var costInfo = {
             $("#rawAmt").val(costInfo.comma(purcData.PURC_SUM));
         }
 
+        /** 출장 세팅 */
+        const bustripData = customKendo.fn_customAjax("/bustrip/getBustripExnpSum", data).data;
+        if(bustripData != null){
+            $("#bustAmt").val(costInfo.comma(bustripData.BUSTRIP_EXNP_SUM));
+        }
+
         /** 버튼 세팅 */
         costInfo.buttonSet(costMap);
     },

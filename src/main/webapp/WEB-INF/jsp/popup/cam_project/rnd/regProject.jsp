@@ -83,9 +83,9 @@
             </h3>
 
             <div class="btn-st popButton">
-                <button type="button" id="stopBtn" class="k-button k-button-solid-error" onclick="regRnd.fn_stopModal()" /> 중단</button>
                 <button type="button" id="saveBtn" class="k-button k-button-solid-info" onclick="regRnd.fn_save()">저장</button>
                 <button type="button" id="modBtn" class="k-button k-button-solid-primary" style="display: none;" onclick="regRnd.fn_mod()">수정</button>
+                <button type="button" id="stopBtn" class="k-button k-button-solid-error" style="display: none;" onclick="regRnd.fn_stopModal()" /> 중단</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -220,7 +220,7 @@
             <div style="margin-top :15px;">
                 <div class="demo-section">
                     <div id="tabstrip">
-                        <ul style="font-size: 12px;">
+                        <ul style="font-size: 12px; padding-bottom: 2px">
 
                         </ul>
                     </div>

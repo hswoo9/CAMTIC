@@ -161,7 +161,7 @@
             <div style="margin-top :15px;">
                 <div class="demo-section">
                     <div id="tabstrip">
-                        <ul style="font-size: 12px;">
+                        <ul style="font-size: 12px; padding-bottom: 2px">
 
                         </ul>
                     </div>

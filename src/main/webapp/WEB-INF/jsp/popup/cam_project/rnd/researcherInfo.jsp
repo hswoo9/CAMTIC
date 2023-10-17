@@ -15,7 +15,7 @@
 <%--    <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="bustInfo.fn_save()">저장</button>--%>
 
     <br><br>
-    <span style=""> ◎ 연구원 정보</span>
+    <span style=""> ◎ 참여인력</span>
     <div id="rschMainGrid" style="margin-top:5px;"></div>
 </div>
 

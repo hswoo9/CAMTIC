@@ -212,4 +212,8 @@ public class BustripRepository extends AbstractDAO {
     public void delPjtBustrip(Map<String, Object> params) {
         delete("bustrip.updBustPjtsnReset", params);
     }
+
+    public Map<String, Object> getBustripExnpSum(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("bustrip.getBustripExnpSum", params);
+    }
 }
