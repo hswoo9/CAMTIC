@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/cam_item/itemMa/bom/bomList.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_item/itemMa/productionMa/productionOrder.js?v=${today}'/>"></script>
 <script src="https://kendo.cdn.telerik.com/2023.2.606/js/jszip.min.js"></script>
 <style>
     a:hover{
@@ -17,8 +17,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">BOM조회</h4>
-            <div class="title-road">캠아이템 > 아이템관리 > BOM > BOM조회</div>
+            <h4 class="panel-title">생산지시</h4>
+            <div class="title-road">캠아이템 > 아이템관리 > 생산관리 > 생산지시</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -44,7 +44,7 @@
                         <th class="text-center th-color">검색어</th>
                         <td>
                             <input type="text" id="searchKeyword" style="width: 15%;"/>
-                            <input type="text" id="searchValue" style="width: 20%;" onkeypress="if(window.event.keyCode==13){bomList.gridReload()}"/>
+                            <input type="text" id="searchValue" style="width: 20%;" onkeypress="if(window.event.keyCode==13){po.gridReload()}"/>
                         </td>
                     </tr>
                 </table>
@@ -56,5 +56,5 @@
 </div><!-- col-md-9 -->
 
 <script>
-    bomList.fn_defaultScript();
+    po.fn_defaultScript();
 </script>

@@ -79,7 +79,7 @@ var popOutput = {
             var result = customKendo.fn_customAjax("/item/setOutput.do", popOutput.global.saveAjaxData);
             if(result.flag){
                 alert("처리되었습니다.");
-                opener.bomList.gridReload();
+                opener.po.gridReload();
                 window.close();
             }
         }

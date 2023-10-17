@@ -548,7 +548,8 @@
         SELECT
             B.*,
             IM.*,
-            WHC.ITEM_CD_NM AS WH_CD_NM
+            WHC.ITEM_CD_NM AS WH_CD_NM,
+            ITC.ITEM_CD_NM AS ITEM_TYPE_NM
         FROM
             CAM_ITEM.DJ_BOM B
         JOIN
@@ -557,10 +558,18 @@
         JOIN
             CAM_ITEM.DJ_ITEM_CD WHC
         ON WHC.LG_CD = 'WH' AND IM.WH_CD = WHC.ITEM_CD
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD ITC
+        ON ITC.LG_CD = 'IT' AND IM.ITEM_TYPE = ITC.ITEM_CD
         WHERE 1=1
         <if test='whCd != null and !"".equals(whCd)'>
             AND IM.WH_CD = #{whCd}
         </if>
+
+        <if test='itemType != null and !"".equals(itemType)'>
+            AND IM.ITEM_TYPE = #{itemType}
+        </if>
+
 
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword)'>
@@ -590,7 +599,9 @@
             B.*,
             IM.ITEM_NO,
             IM.ITEM_NAME,
+            CONCAT(IM.ITEM_NO, ' [', IM.ITEM_NAME, ']') AS TREE_NAME,
             IM.STANDARD,
+            IM.ITEM_TYPE,
             IM.WH_CD,
             WHC.ITEM_CD_NM AS WH_CD_NM
         FROM
@@ -605,6 +616,16 @@
             BOM_SN = #{bomSn}
     </select>
 
+    <select id="getBomSn" parameterType="map" resultType="String">
+        /* getBomSn */
+        SELECT
+            BOM_SN
+        FROM
+            CAM_ITEM.DJ_BOM
+        WHERE
+            MASTER_SN = #{masterSn}
+    </select>
+
     <select id="getBomOutputHistory" parameterType="map" resultType="map">
         /* getBomOutputHistory */
         SELECT
@@ -612,6 +633,8 @@
             IM.ITEM_NO,
             IM.ITEM_NAME,
             IM.STANDARD,
+            ITC.ITEM_CD_NM AS ITEM_TYPE_NM,
+            WHC.ITEM_CD_NM AS WH_CD_NM,
             BOH.OUTPUT_CNT,
             BOH.RMK,
             EI.EMP_NAME_KR,
@@ -627,15 +650,47 @@
         JOIN
             CAM_ITEM.DJ_ITEM_MASTER IM
         ON IM.MASTER_SN = B.MASTER_SN
-        WHERE
-            BOH.BOM_SN = #{bomSn}
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD WHC
+        ON WHC.LG_CD = 'WH' AND IM.WH_CD = WHC.ITEM_CD
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD ITC
+        ON ITC.LG_CD = 'IT' AND IM.ITEM_TYPE = ITC.ITEM_CD
+        WHERE 1=1
+
+        <if test='whCd != null and !"".equals(whCd)'>
+            AND IM.WH_CD = #{whCd}
+        </if>
+
+        <if test='itemType != null and !"".equals(itemType)'>
+            AND IM.ITEM_TYPE = #{itemType}
+        </if>
+
+        <choose>
+            <when test='searchKeyword != null and !"".equals(searchKeyword)'>
+                AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+            <otherwise>
+                <if test='searchValue != null and !"".equals(searchValue)'>
+                    AND (
+                        IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
+                        IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
+                        IM.STANDARD LIKE CONCAT('%', #{searchValue}, '%')
+                    )
+                </if>
+            </otherwise>
+        </choose>
+
+        ORDER BY BOH.REG_DT DESC
     </select>
+
     <select id="getBomDetailList" parameterType="map" resultType="map">
         /* getBomDetailList */
         SELECT
             BD.*,
             IM.ITEM_NO,
             IM.ITEM_NAME,
+            CONCAT(IM.ITEM_NO, ' [', IM.ITEM_NAME, '] X ', BD.REQ_QTY) AS TREE_NAME,
             IFNULL(MAX(II.UNIT_PRICE), 0) AS UNIT_PRICE,
             COUNT(II.INVEN_SN) AS INVEN_CNT,
             II.WH_CD,

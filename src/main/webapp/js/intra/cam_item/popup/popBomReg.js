@@ -104,7 +104,15 @@ var bomReg = {
     fn_popItemNoList : function (masterSnIndex){
         bomReg.global.masterSnIndex = masterSnIndex;
 
+        if(masterSnIndex != 999 && !$("#itemType999").val()){
+            alert("BOM 품목을 선택해주세요.");
+            return
+        }
+
         var url = "/item/pop/popItemNoList.do";
+        if(masterSnIndex != 999){
+            url += "?itemType=" + $("#itemType999").val()
+        }
         var name = "_blank";
         var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
@@ -164,6 +172,7 @@ var bomReg = {
             $("#itemName999").val(bom.ITEM_NAME);
             $("#whCdNm999").val(bom.WH_CD_NM);
             $("#standard999").val(bom.STANDARD);
+            $("#itemType999").val(bom.ITEM_TYPE);
             $("#bomCostPrice").val(bomReg.comma(bom.BOM_COST_PRICE));
             $("#bomUnitPrice").val(bomReg.comma(bom.BOM_UNIT_PRICE));
 
@@ -191,13 +200,18 @@ var bomReg = {
     },
 
     itemInfoChange : function(){
-        $("#masterSn" + bomReg.global.masterSnIndex).val($("#masterSn").val())
-        $("#itemNo" + bomReg.global.masterSnIndex).val($("#itemNo").val())
-        $("#itemName" + bomReg.global.masterSnIndex).val($("#itemName").val())
-        $("#whCdNm" + bomReg.global.masterSnIndex).val($("#whCdNm").val())
-        $("#standard" + bomReg.global.masterSnIndex).val($("#standard").val())
-        $("#unitPrice" + bomReg.global.masterSnIndex).val(bomReg.comma($("#maxUnitPrice").val()))
-        $("#unitPrice" + bomReg.global.masterSnIndex).change()
+        if(bomReg.global.masterSnIndex != "999" || $("#itemType").val() != "MA"){
+            $("#masterSn" + bomReg.global.masterSnIndex).val($("#masterSn").val())
+            $("#itemNo" + bomReg.global.masterSnIndex).val($("#itemNo").val())
+            $("#itemName" + bomReg.global.masterSnIndex).val($("#itemName").val())
+            $("#whCdNm" + bomReg.global.masterSnIndex).val($("#whCdNm").val())
+            $("#standard" + bomReg.global.masterSnIndex).val($("#standard").val())
+            $("#itemType" + bomReg.global.masterSnIndex).val($("#itemType").val())
+            $("#unitPrice" + bomReg.global.masterSnIndex).val(bomReg.comma($("#maxUnitPrice").val()))
+            $("#unitPrice" + bomReg.global.masterSnIndex).change()
+        }else{
+            alert("원자재는 BOM을 등록하실 수 없습니다.");
+        }
 
         $("#masterSn").val("")
         $("#itemNo").val("")
@@ -205,6 +219,7 @@ var bomReg = {
         $("#maxUnitPrice").val("")
         $("#whCdNm").val("")
         $("#standard").val("")
+        $("#itemType").val("")
     },
 
     costPriceChange : function(){

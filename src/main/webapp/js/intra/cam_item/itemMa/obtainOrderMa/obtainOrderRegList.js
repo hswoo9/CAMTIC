@@ -52,14 +52,14 @@ var oorl = {
                             '	<span class="k-button-text">수주취소</span>' +
                             '</button>';
                     }
-                }, {
+                },/* {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oorl.setDeliveryAmtUpd()">' +
                             '	<span class="k-button-text">납품누계저장</span>' +
                             '</button>';
                     }
-                }, {
+                },*/ {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oorl.setDeadlineUpd()">' +
@@ -224,15 +224,15 @@ var oorl = {
                             str = "0";
                         }
 
-                        if(e.DEADLINE == "N"){
-                            return "<input type='text' class='deliveryAmtInput numberInput k-input k-textbox' maxOrderVolume='" + e.ORDER_VOLUME + "' style='text-align: right;' value='" + str + "'>";
-                        }else {
+                        // if(e.DEADLINE == "N"){
+                        //     return "<input type='text' class='deliveryAmtInput numberInput k-input k-textbox' maxOrderVolume='" + e.ORDER_VOLUME + "' style='text-align: right;' value='" + str + "'>";
+                        // }else {
                             if(e.OBTAIN_ORDER_TYPE == "N"){
                                 return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + str + "</span>"
                             }else {
                                 return str
                             }
-                        }
+                        // }
                     },
                     attributes : {
                         style : "text-align : right;"

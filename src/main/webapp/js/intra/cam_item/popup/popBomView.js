@@ -5,6 +5,26 @@ var popBomView = {
     },
 
     fn_defaultScript: function (){
+        popBomView.histGrid();
+        popBomView.makeTreeView();
+    },
+
+    makeTreeView : function(){
+        popBomView.global.searchAjaxData = {
+            bomSn : $("#bomSn").val()
+        }
+
+        var result = customKendo.fn_customAjax("/item/makeTreeView.do", popBomView.global.searchAjaxData);
+        if(result.flag){
+            var rs = result.rs;
+            $("#treeView").kendoTreeView({
+                dataSource: JSON.parse(rs),
+                dataTextField:['TREE_NAME'],
+            });
+        }
+    },
+
+    histGrid : function(){
         popBomView.global.searchAjaxData = {
             bomSn : $("#bomSn").val()
         }

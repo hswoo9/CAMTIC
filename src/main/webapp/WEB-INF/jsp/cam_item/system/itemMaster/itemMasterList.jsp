@@ -24,21 +24,27 @@
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="10%">
-                        <col width="25%">
-                        <col width="10%">
-                        <col width="20%">
-                        <col width="10%">
-                        <col width="25%">
+                        <col width="8%">
+                        <col width="15%">
+                        <col width="8%">
+                        <col width="15%">
+                        <col width="8%">
+                        <col width="15%">
+                        <col width="8%">
+                        <col>
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">입고창고</th>
                         <td>
                             <input type="text" id="whCd" style="width: 150px;">
                         </td>
+                        <th class="text-center th-color">품목구분</th>
+                        <td>
+                            <input type="text" id="itemType" style="width: 120px;">
+                        </td>
                         <th class="text-center th-color">규격</th>
                         <td>
-                            <input type="text" id="itemUnitCd" style="width: 150px;">
+                            <input type="text" id="itemUnitCd" style="width: 100px;">
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>

@@ -70,19 +70,26 @@
                             <input type="text" id="itemUnitCd" name="itemUnitCd" style="width: 120px">
                             <input type="text" id="standard" name="standard" style="width: 58%">
                         </td>
+                        <th>
+                            <span class="red-star">*</span>품목구분
+                        </th>
+                        <td>
+                            <input type="text" id="itemType" name="itemType">
+                        </td>
+                    </tr>
+                    <tr>
                         <th>안전재고</th>
                         <td>
                             <input type="text" id="safetyInven" name="safetyInven" value="0">
                         </td>
-                    </tr>
-
-                    <tr>
                         <th>
-                            입고창고
+                            <span class="red-star">*</span>입고창고
                         </th>
                         <td>
                             <input type="text" id="whCd" name="whCd" style="width: 50%">
                         </td>
+                    </tr>
+                    <tr>
                         <th>
                             <span class="red-star">*</span>사용여부
                         </th>

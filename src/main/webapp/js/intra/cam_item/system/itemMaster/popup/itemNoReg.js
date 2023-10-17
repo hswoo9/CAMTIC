@@ -14,6 +14,9 @@ var inr = {
         inr.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "UN", lgCd : "UNIT"});
         customKendo.fn_dropDownList("itemUnitCd", inr.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD", 2);
 
+        inr.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "PT", lgCd : "IT"});
+        customKendo.fn_dropDownList("itemType", inr.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD", 2);
+
         inr.global.dropDownDataSource = [
             {text : "사용", value : "Y"},
             {text : "미사용", value : "N"}
@@ -79,6 +82,7 @@ var inr = {
                 itemName : $("#itemName").val(),
                 itemUnitCd : $("#itemUnitCd").val(),
                 standard : $("#standard").val(),
+                itemType : $("#itemType").val(),
                 active : $("#active").val(),
                 empSeq : $("#empSeq").val()
             }
@@ -111,6 +115,7 @@ var inr = {
             $("#itemName").val(result.rs.ITEM_NAME);
             $("#itemUnitCd").data("kendoDropDownList").value(result.rs.ITEM_UNIT_CD);
             $("#standard").val(result.rs.STANDARD)
+            $("#itemType").data("kendoDropDownList").value(result.rs.ITEM_TYPE);
             $("#safetyInven").val(result.rs.SAFETY_INVEN)
             $("#whCd").data("kendoDropDownList").value(result.rs.WH_CD)
             $("#active").data("kendoDropDownList").value(result.rs.ACTIVE)

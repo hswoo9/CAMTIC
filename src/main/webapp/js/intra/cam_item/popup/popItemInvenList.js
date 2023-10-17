@@ -10,7 +10,7 @@ var popItemInvenList = {
 
         if($("#reg").val() == "shipmentRecord"){
             $("#whCd").data("kendoDropDownList").enable(false);
-            $("#whCd").data("kendoDropDownList").value("PD");
+            $("#whCd").data("kendoDropDownList").value("PR");
         }
 
         $("#whCd").data("kendoDropDownList").bind("change", popItemInvenList.gridReload);

@@ -7,6 +7,11 @@ var bomRegList = {
     },
 
     fn_defaultScript : function (){
+        bomRegList.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "PT", lgCd : "IT"});
+        bomRegList.global.dropDownDataSource = bomRegList.global.dropDownDataSource.filter(element => element.ITEM_CD != "MA");
+        customKendo.fn_dropDownList("itemType", bomRegList.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
+        $("#itemType").data("kendoDropDownList").bind("change", bomRegList.gridReload);
+
         bomRegList.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
         customKendo.fn_dropDownList("whCd", bomRegList.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
         $("#whCd").data("kendoDropDownList").bind("change", bomRegList.gridReload);
@@ -97,6 +102,10 @@ var bomRegList = {
                     field: "STANDARD",
                     width: 150
                 }, {
+                    title: "품목구분",
+                    field: "ITEM_TYPE_NM",
+                    width: 120
+                }, {
                     title: "기본입고창고",
                     field: "WH_CD_NM",
                     width: 150
@@ -136,6 +145,7 @@ var bomRegList = {
     gridReload: function (){
         bomRegList.global.searchAjaxData = {
             whCd : $("#whCd").val(),
+            itemType : $("#itemType").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
         }

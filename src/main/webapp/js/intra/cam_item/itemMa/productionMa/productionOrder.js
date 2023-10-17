@@ -1,4 +1,4 @@
-var bomList = {
+var po = {
 
     global : {
         dropDownDataSource : "",
@@ -7,26 +7,26 @@ var bomList = {
     },
 
     fn_defaultScript : function (){
-        bomList.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "PT", lgCd : "IT"});
-        bomList.global.dropDownDataSource = bomList.global.dropDownDataSource.filter(element => element.ITEM_CD != "MA");
-        customKendo.fn_dropDownList("itemType", bomList.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
-        $("#itemType").data("kendoDropDownList").bind("change", bomList.gridReload);
+        po.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "PT", lgCd : "IT"});
+        po.global.dropDownDataSource = po.global.dropDownDataSource.filter(element => element.ITEM_CD != "MA");
+        customKendo.fn_dropDownList("itemType", po.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
+        $("#itemType").data("kendoDropDownList").bind("change", po.gridReload);
 
-        bomList.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
-        customKendo.fn_dropDownList("whCd", bomList.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
-        $("#whCd").data("kendoDropDownList").bind("change", bomList.gridReload);
+        po.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
+        customKendo.fn_dropDownList("whCd", po.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
+        $("#whCd").data("kendoDropDownList").bind("change", po.gridReload);
 
-        bomList.global.dropDownDataSource = [
+        po.global.dropDownDataSource = [
             { text : "품번", value : "ITEM_NO" },
             { text : "품명", value : "ITEM_NAME" },
             { text : "규격", value : "STANDARD" },
         ]
-        customKendo.fn_dropDownList("searchKeyword", bomList.global.dropDownDataSource, "text", "value");
-        $("#searchKeyword").data("kendoDropDownList").bind("change", bomList.gridReload);
+        customKendo.fn_dropDownList("searchKeyword", po.global.dropDownDataSource, "text", "value");
+        $("#searchKeyword").data("kendoDropDownList").bind("change", po.gridReload);
 
         customKendo.fn_textBox(["searchValue"]);
 
-        bomList.gridReload();
+        po.gridReload();
     },
 
     mainGrid: function(url, params){
@@ -47,7 +47,7 @@ var bomList = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bomList.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="po.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -62,10 +62,6 @@ var bomList = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" style="top: 3px; position: relative" />',
-                    template : "<input type='checkbox' id='bomSn#=BOM_SN#' name='bomSn' value='#=BOM_SN#' style=\"top: 3px; position: relative\" />",
-                    width: 30,
-                }, {
                     title: "순번",
                     template: "#= --record #",
                     width: 30
@@ -86,7 +82,7 @@ var bomList = {
                     field: "BOM_COST_PRICE",
                     width: 100,
                     template : function (e){
-                        return bomList.comma(e.BOM_COST_PRICE);
+                        return po.comma(e.BOM_COST_PRICE);
                     },
                     attributes : {
                         style : "text-align : right;"
@@ -96,7 +92,7 @@ var bomList = {
                     field: "BOM_UNIT_PRICE",
                     width: 100,
                     template : function (e){
-                        return bomList.comma(e.BOM_UNIT_PRICE);
+                        return po.comma(e.BOM_UNIT_PRICE);
                     },
                     attributes : {
                         style : "text-align : right;"
@@ -106,14 +102,24 @@ var bomList = {
                     field: "WH_CD_NM",
                     width: 120
                 }, {
-                    title: "BOM조회",
-                    width: 80,
+                    title: "현재재고",
+                    field: "CURRENT_INVEN",
+                    width: 100,
+                    template : function (e){
+                        return po.comma(e.CURRENT_INVEN);
+                    },
+                    attributes : {
+                        style : "text-align : right;"
+                    }
+                }, {
+                    width: 50,
                     template: function(e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bomList.fn_popBomView(' + e.BOM_SN + ')">' +
-                            '	<span class="k-button-text">BOM조회</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="po.fn_popOutputByBom(this)">' +
+                            '	<span class="k-button-text">생산</span>' +
                             '</button>';
                     }
                 }
+
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 3);
@@ -127,14 +133,14 @@ var bomList = {
     },
 
     gridReload: function (){
-        bomList.global.searchAjaxData = {
+        po.global.searchAjaxData = {
             whCd : $("#whCd").val(),
             itemType : $("#itemType").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
         }
 
-        bomList.mainGrid("/item/getBomList.do", bomList.global.searchAjaxData);
+        po.mainGrid("/item/getBomList.do", po.global.searchAjaxData);
     },
 
     fn_popBomView : function (e){
@@ -146,7 +152,7 @@ var bomList = {
 
     fn_popOutputByBom : function (e){
         var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(e).closest("tr"));
-        var result = bomList.getInvenChk(dataItem.BOM_SN);
+        var result = po.getInvenChk(dataItem.BOM_SN);
         if(result.message != null && result.message != ""){
             alert("생산 불가능한 품목입니다.\n\n" + result.message);
             if(result.whCd != null && result.error == null){
@@ -157,7 +163,7 @@ var bomList = {
             }
         }else if(result.success == "200"){
             if(confirm("헤딩 품목을 생산하시겠습니까?")){
-                bomList.global.saveAjaxData = {
+                po.global.saveAjaxData = {
                     bomSn : dataItem.BOM_SN,
                     masterSn : dataItem.MASTER_SN,
                     whCd : dataItem.WH_CD,
@@ -166,10 +172,10 @@ var bomList = {
                     outputCnt : "1",
                 }
 
-                var result = customKendo.fn_customAjax("/item/setOutput.do", bomList.global.saveAjaxData);
+                var result = customKendo.fn_customAjax("/item/setOutput.do", po.global.saveAjaxData);
                 if(result.flag){
                     alert("처리되었습니다.");
-                    bomList.gridReload();
+                    po.gridReload();
                 }
             }
         }
@@ -177,11 +183,11 @@ var bomList = {
 
     getInvenChk : function(e){
         var result = "";
-        bomList.global.searchAjaxData = {
+        po.global.searchAjaxData = {
             bomSn : e
         }
 
-        var rs = customKendo.fn_customAjax("/item/getInvenChk.do", bomList.global.searchAjaxData);
+        var rs = customKendo.fn_customAjax("/item/getInvenChk.do", po.global.searchAjaxData);
         if(rs.flag){
             result = rs.rs;
         }
@@ -209,7 +215,7 @@ var bomList = {
             var result = customKendo.fn_customAjax("/item/setBomDel.do", ciupR.global.saveAjaxData);
             if(result.flag){
                 alert("처리되었습니다.");
-                bomList.gridReload();
+                po.gridReload();
             }
         }
     },
