@@ -206,18 +206,34 @@
                 <div class="linkInfo">
                   <div class="filebox2">
                     <span>└&nbsp;</span>
-                    <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="padding-left: 2px;" onclick="groupKeyCreate()" disabled>
-                      <span class="__btn1 grayLine" disabled="disabled">그룹 생성</span>
-                    </button>
-                    <input type="text" id="groupKey" name="groupKey" style="/*width: 10%;*/margin: 0 5px 0 5px;text-align:center;" value="${firstLinkInfo.GROUP_KEY}" readonly />
 
+                    <c:if test="${firstLinkInfo.GROUP_KEY ne '' and firstLinkInfo.GROUP_KEY ne null }">
+                      <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="padding-left: 2px;" onclick="groupKeyCreate()" disabled>
+                        <span class="__btn1 grayLine" disabled="disabled">그룹 생성</span>
+                      </button>
+                    </c:if>
+                    <c:if test="${firstLinkInfo.GROUP_KEY eq '' or firstLinkInfo.GROUP_KEY eq null }">
+                      <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="padding-left: 2px;" onclick="groupKeyCreate()">
+                        <span class="__btn1 grayLine">그룹 생성</span>
+                      </button>
+                    </c:if>
+
+                    <input type="text" id="groupKey" name="groupKey" style="/*width: 10%;*/margin: 0 5px 0 5px;text-align:center;" value="${firstLinkInfo.GROUP_KEY}" readonly />
                     <div>
                       <input type="hidden" id="linkKey1" value="${firstLinkInfo.LINK_KEY}" />
-                      <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="margin-left: 30px; margin-top: 4px;" onclick="linkCreate(1)" disabled>
-                        <span class="__btn1 grayLine" disabled="disabled">링크 생성</span>
-                      </button>
-                      <input type="text" id="linkText1" name="linkText" style="width: 40%; margin: 0 5px 0 5px;" value="${firstLinkInfo.LINK}" readonly />
-                      <button type="button" id="copyBtn1'" onclick="copyBtn(1)"><img src="/images/nav.png" style="background: white" alt="복사"></button>
+                      <c:if test="${firstLinkInfo.GROUP_KEY ne '' and firstLinkInfo.GROUP_KEY ne null }">
+                        <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="margin-left: 30px; margin-top: 4px;" onclick="linkCreate(1)" disabled>
+                          <span class="__btn1 grayLine" disabled="disabled">링크 생성</span>
+                        </button>
+                        <input type="text" id="linkText1" name="linkText" style="width: 40%; margin: 0 5px 0 5px;" value="${firstLinkInfo.LINK}" readonly />
+                        <button type="button" id="copyBtn1'" onclick="copyBtn(1)"><img src="/images/nav.png" style="background: white" alt="복사"></button>
+                      </c:if>
+                      <c:if test="${firstLinkInfo.GROUP_KEY eq '' or firstLinkInfo.GROUP_KEY eq null }">
+                        <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="margin-left: 30px; margin-top: 4px;" onclick="linkCreate(1)">
+                          <span class="__btn1 grayLine">링크 생성</span>
+                        </button>
+                        <input type="text" id="linkText1" name="linkText" style="width: 40%; margin: 0 5px 0 5px;" value="" readonly />
+                      </c:if>
 
                       <button type="button" class="addBtn" style="margin-top: 4px;" onclick="addLinkDiv()">
                         <span class="__btn1 grayLine">추가</span>
