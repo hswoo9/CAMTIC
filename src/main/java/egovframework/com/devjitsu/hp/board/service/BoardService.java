@@ -12,6 +12,7 @@ public interface BoardService {
 
     /** 게시글 전체조회 */
     PagingResponse<PostResponse> selectBoardList(ArticlePage params);
+    PagingResponse<PostResponse> getNewsSubscribeList(ArticlePage params);
 
     List<Map<String, Object>> selectMainList(Map<String, Object> param);
     List<Map<String, Object>> selectBsnsMainList(Map<String, Object> param);
@@ -45,4 +46,6 @@ public interface BoardService {
     Map<String, Object> selectNewsPop(Map<String, Object> params);
     /** 뉴스레터 게시판 상세보기*/
     Map<String, Object> selectNewsView(Map<String, Object> params);
+
+    void insSubscribe(Map<String, Object> params);
 }

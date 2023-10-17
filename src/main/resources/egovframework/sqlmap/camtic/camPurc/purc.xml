@@ -13,7 +13,8 @@
             MP.PURC_REQ_PURPOSE,
             COUNT(CASE WHEN MPI.STATUS = 'C' THEN 1 END) AS CP_CNT,
             COUNT(CASE WHEN MPI.STATUS = 'R' THEN 1 END) AS RP_CNT,
-            MP.STATUS
+            MP.STATUS,
+            IFNULL(SUM(MPI.PURC_ITEM_AMT), 0) AS PURC_ITEM_AMT_SUM
         FROM
             CAM_MNG.DJ_MNG_PURC MP
         JOIN
@@ -256,6 +257,9 @@
             MP.DOC_ID = DI.DOC_ID
         WHERE
             PURC_SN = #{purcSn}
+        <if test='pjtSn != null and !"".equals(pjtSn)'>
+            AND MP.PURC_REQ_EMP_SEQ = #{empSeq}
+        </if>
     </select>
 
     <select id="getPurcItemList" parameterType="map" resultType="map">
@@ -317,9 +321,9 @@
             IFNULL(FORMAT(SUM(PURC_ITEM_AMT) , 0), 0) AS TOTAL_SUM_COMMA
         FROM
             CAM_MNG.DJ_MNG_PURC_ITEM MPI
-                LEFT JOIN
+        LEFT JOIN
             CAM_CRM.DJ_CRM_INFO CI
-            ON MPI.CRM_SN = CI.CRM_SN
+        ON MPI.CRM_SN = CI.CRM_SN
         WHERE
             PURC_SN = #{purcSn}
     </select>
@@ -614,5 +618,16 @@
             A.DOC_ID = DI.DOC_ID
         ORDER BY
             CLAIM_SN DESC
+    </select>
+
+    <select id="getPurcSum" parameterType="map" resultType="map">
+        /*getPurcSum*/
+        SELECT
+            IFNULL(SUM(PURC_ITEM_AMT), 0) AS PURC_SUM
+        FROM
+            CAM_MNG.DJ_MNG_PURC MP
+        LEFT JOIN CAM_MNG.DJ_MNG_PURC_ITEM MPI ON MP.PURC_SN = MPI.PURC_SN
+        WHERE
+            PJT_SN = #{pjtSn}
     </select>
 </mapper>

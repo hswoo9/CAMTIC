@@ -45,6 +45,14 @@
         overflow-x: hidden !important;
     }
 
+    .k-tabstrip-top>.k-tabstrip-items-wrapper .k-item+.k-item {
+        margin-left: 0px !important;
+    }
+
+    .k-tabstrip-top>.k-tabstrip-items-wrapper .k-item {
+        border-bottom: 0px !important;
+    }
+
 
 </style>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/regProject.js?v=${today}'/>"></script>

@@ -5,8 +5,6 @@
 
     <select id="getProjectList" parameterType="map" resultType="map">
         SELECT * FROM CAM_PJT_MNG.DJ_PROJECT A
-        LEFT JOIN CAM_PJT_MNG.DJ_PJT_ENGN B
-        ON A.PJT_SN = B.PJT_SN AND B.ACTIVE = "Y"
         WHERE
         1=1
         <if test='busnClass != null and busnClass != ""'>

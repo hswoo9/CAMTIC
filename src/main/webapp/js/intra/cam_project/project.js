@@ -64,40 +64,48 @@ var camPrj = {
             index: 0
         });
 
-        var parameters = {
-            busnClass : $("#busnClass").val(),
-            busnSubClass : $("#busnSubClass").val(),
-            consultDt : $("#consultDt").val(),
-            searchValue : $("#searchValue").val(),
-            searchValue2 : $("#searchValue2").val(),
-            searchText : $("#searchText").val(),
-            deptSeq : $("#deptSeq").val(),
-            myEmpSeq : $("#myEmpSeq").val(),
-            myDeptSeq : $("#myDeptSeq").val()
-        }
-
-        camPrj.mainGrid("/project/getProjectList", parameters);
+        this.gridReload();
     },
 
     gridReload : function (){
-        $(".container").css("display", "none");
-        var parameters = {
-            busnClass : $("#busnClass").val(),
-            busnSubClass : $("#busnSubClass").val(),
-            consultDt : $("#consultDt").val(),
-            searchValue : $("#searchValue").val(),
-            searchValue2 : $("#searchValue2").val(),
-            searchText : $("#searchText").val(),
-            deptSeq : $("#deptSeq").val(),
-            myEmpSeq : $("#myEmpSeq").val(),
-            myDeptSeq : $("#myDeptSeq").val()
-        }
-        camPrj.mainGrid("/project/getProjectList", parameters);
+        this.mainGrid();
     },
 
-    mainGrid: function (url, parameters){
+    mainGrid: function (){
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/project/getProjectList',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.busnClass = $("#busnClass").val();
+                    data.busnSubClass = $("#busnSubClass").val();
+                    data.consultDt = $("#consultDt").val();
+                    data.searchValue = $("#searchValue").val();
+                    data.searchValue2 = $("#searchValue2").val();
+                    data.searchText = $("#searchText").val();
+                    data.deptSeq = $("#deptSeq").val();
+                    data.myEmpSeq = $("#myEmpSeq").val();
+                    data.myDeptSeq = $("#myDeptSeq").val();
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2("/project/getProjectList", parameters, 10),
+            dataSource: dataSource,
             sortable: true,
             scrollable: true,
             height: 489,
@@ -134,66 +142,6 @@ var camPrj = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound : function (e){
-                var self = e.sender;
-                // self.tbody.find("tr").click(function(e) {
-                //     // $(".container").css("display", "");
-                //     // $(".circle").each(function(){
-                //     //     self.tbody.find("tr").css("background-color", "");
-                //     //     $(this).removeClass("active")
-                //     //     $(this).removeClass("ready")
-                //     //     $(this).removeAttr("check");
-                //     //     $(this).removeAttr("onClick");
-                //     // });
-                //
-                //     switch (self.dataItem(this).PJT_STEP) {
-                //         case "E0":
-                //             $("#ps0").attr("check", "Y");
-                //             break;
-                //         case "E1":
-                //             $("#ps1").attr("check", "Y");
-                //             break;
-                //         case "E2":
-                //             $("#ps2").attr("check", "Y");
-                //             break;
-                //         case "E3":
-                //             $("#ps3").attr("check", "Y");
-                //             break;
-                //         case "E4":
-                //             $("#ps4").attr("check", "Y");
-                //             break;
-                //         case "E5":
-                //             $("#ps5").attr("check", "Y");
-                //             break;
-                //         case "E6":
-                //             $("#ps6").attr("check", "Y");
-                //             break;
-                //         case "E7":
-                //             $("#ps7").attr("check", "Y");
-                //             break;
-                //         default:
-                //             break;
-                //     }
-                //
-                //     var index = -1;
-                //
-                //     $(".circle").each(function(e){
-                //         if($(this).attr("check") == "Y"){
-                //             index = e;
-                //         }
-                //     });
-                //
-                //     for(var i = 0 ; i <= index ; i++){
-                //         $("#ps" + i).addClass("active");
-                //         // $("#ps" + i).attr("onClick","camPrj.setPrjPop("+(i + 1)+","+self.dataItem(this).PJT_SN+")");
-                //     }
-                //     $("#ps" + (index + 1)).addClass("ready");
-                //     // $("#ps" + (index + 1)).attr("onClick","camPrj.popSetStep("+ (index + 1) +", " + self.dataItem(this).PJT_SN + ")");
-                //
-                //     $(this).css("background-color", "#a7e1fc");
-
-                // });
-            },
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="camPrj.fn_allCheck(this)" class=""/>',
@@ -222,51 +170,26 @@ var camPrj = {
                     title: "프로젝트 명",
                     width: "20%",
                     template: function(e){
-                        return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \""+e.BUSN_CLASS+"\")'>" + e.PJT_NM + "</a>";
+                        return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\")'>" + e.PJT_NM + "</a>";
                     }
-                }
-                // , {
-                //     field: "COMP_NM",
-                //     title: "업체명",
-                //     width: "10%"
-                // }
-                , {
+                }, {
 
                     field: "STR_DT",
                     title: "수주일",
                     width: "7%",
-                    template: function(e){
-
-                        if(e.STR_DT == null || e.STR_DT == ""){
+                    template: function (e) {
+                        if (e.STR_DT == null || e.STR_DT == "") {
                             return "";
                         }
                         var date = new Date(e.STR_DT);
                         var yyyy = date.getFullYear();
-                        var mm = date.getMonth()+1;
-                        mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
+                        var mm = date.getMonth() + 1;
+                        mm = mm >= 10 ? mm : '0' + mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
                         var dd = date.getDate();
-                        dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
-                        return yyyy+'-'+mm+'-'+dd;
+                        dd = dd >= 10 ? dd : '0' + dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
+                        return yyyy + '-' + mm + '-' + dd;
                     }
-                }
-                // , {
-                //     field: "END_EXP_DT",
-                //     title: "완료예정일",
-                //     width: "7%",
-                //     template: function(e){
-                //         if(e.END_EXP_DT == null || e.END_EXP_DT == ""){
-                //             return "";
-                //         }
-                //         var date = new Date(e.END_EXP_DT);
-                //         var yyyy = date.getFullYear();
-                //         var mm = date.getMonth()+1;
-                //         mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
-                //         var dd = date.getDate();
-                //         dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
-                //         return yyyy+'-'+mm+'-'+dd;
-                //     }
-                // }
-                , {
+                }, {
                     field: "END_DT",
                     title: "종료일자",
                     width: "7%",
@@ -298,9 +221,11 @@ var camPrj = {
                     title: "진행단계",
                     width: "5%",
                     template: function(e){
-                        console.log(e);
+                        console.log(e.BUSN_CLASS);
+
+                        var pjtStepNm = "";
                         if(e.BUSN_CLASS == "D"){
-                            var pjtStepNm = "상담";
+                            pjtStepNm = "상담";
                             if(e.PJT_STOP == "Y"){
                                 pjtStepNm = "미수주";
                             } else if(e.PJT_STEP == "E0"){
@@ -320,12 +245,17 @@ var camPrj = {
                             } else if(e.PJT_STEP == "E7"){
                                 pjtStepNm = "원가보고";
                             }
-                        } else if (e.BUSN_CLASS = "R") {
+                        } else if (e.BUSN_CLASS == "R") {
                             if(e.PJT_STEP == "R"){
                                 pjtStepNm = "예상수주";
                             } else if(e.PJT_STEP == "R2"){
                                 pjtStepNm = "수주보고";
                             }
+                        } else if(e.BUSN_CLASS == "S"){
+                            if(e.PJT_STEP == "S"){
+                                pjtStepNm = "예상수주";
+                            }
+                        } else {
                         }
 
                         return pjtStepNm;
@@ -343,9 +273,9 @@ var camPrj = {
             }
         }).data("kendoGrid");
 
-        $("#mainGrid").data("kendoGrid").setOptions({
-            selectable : true
-        });
+        // $("#mainGrid").data("kendoGrid").setOptions({
+        //     selectable : true
+        // });
 
         camPrj.fn_tableSet();
     },
@@ -389,23 +319,6 @@ var camPrj = {
         var popup = window.open(url, name, option);
     },
 
-    setPrjView: function (i, key){
-        var url = "";
-
-        if(i == 1){
-            url = "/project/pop/viewRegProject.do?pjtSn=" + key;
-        } else {
-            url = "/project/pop/engnStep.do?step=" + (i-1) + "&pjtSn=" + key;
-        }
-        if(key == null || key == ""){
-            url = "/project/pop/viewRegProject.do";
-        }
-
-
-        $("#rightMain").empty();
-        $("#rightMain").load(url);
-    },
-
     fn_delPjt : function(t){
         $("input[name='pjtCheck']").each(function(e){
             if($(this).is(":checked")){
@@ -422,73 +335,14 @@ var camPrj = {
     },
 
 
-    popSetStep: function (i, key){
-        switch (i){
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-                camPrj.fn_step(i, key);
-                break;
-            case 6 :
-                alert("결과보고")
-                break;
-            case 7 :
-                alert("원가보고")
-                break;
-            default:
-                break;
-        }
-    },
-
-    viewSetStep: function (i, key){
-        switch (i){
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-                camPrj.fn_viewStep(i, key);
-                break;
-            case 6 :
-                alert("결과보고")
-                break;
-            case 7 :
-                alert("원가보고")
-                break;
-            default:
-                break;
-        }
-    },
-
-
-    fn_step: function (i, key){
-        var url = "/project/pop/engnStep.do?step=" + i + "&pjtSn=" + key;
-        var name = "_blank";
-        var option = "width = 900, height = 820, top = 100, left = 200, location = no"
-
-        if(i == 3){
-            option = "width = 1160, height = 820, top = 100, left = 200, location = no";
-        }
-
-        var popup = window.open(url, name, option);
-    },
-
-    fn_viewStep : function (i, key){
-        var url = "/project/pop/engnStep.do?step=" + i + "&pjtSn=" + key;
-
-        $("#rightMain").children().remove();
-        $("#rightMain").load(url);
-    },
-
-
     // project 상세페이지
     fn_projectPopView : function (key, cs){
         var url = "/project/pop/viewRegProject.do?pjtSn=" + key;
 
         if(cs == "R"){
             url = "/projectRnd/pop/regProject.do?pjtSn=" + key;
+        } else if (cs == "S"){
+            url = "/projectUnRnd/pop/regProject.do?pjtSn=" + key;
         }
         var name = "blank";
         var option = "width = 1680, height = 850, top = 100, left = 200, location = no";

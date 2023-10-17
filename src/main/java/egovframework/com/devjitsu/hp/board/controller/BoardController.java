@@ -389,4 +389,54 @@ public class BoardController {
         model.addAttribute("map", boardService.selectNewsPop(params));
         return "camtic/pr/popup/newsPop";
     }
+
+    /**
+     * 뉴스레터 구독신청 작성 페이지
+     * */
+    @RequestMapping("/camtic/pr/news_subscribe.do")
+    public String newsSubscribe(Model model, @RequestParam Map<String, Object> params){
+
+        model.addAttribute("categoryId", params.get("category"));
+        return "camtic/pr/subscribe_write";
+    }
+    /**
+     * 뉴스레터 구독현황 페이지
+     * */
+    @RequestMapping("/camtic/pr/news_subscribeList.do")
+    public String newsSubscribeList(Model model, @RequestParam Map<String, Object> params){
+
+        model.addAttribute("categoryId", params.get("category"));
+        return "camtic/pr/subscribe_list";
+    }
+
+    /**
+     * 뉴스레터 구독현황 List
+     * */
+    @RequestMapping("/board/getNewsSubscribeList.do")
+    public String getNewsSubscribeList(@RequestParam Map<String, Object> param, ArticlePage articlePage, HttpServletRequest request, Model model){
+
+        int recordSize = Integer.parseInt(String.valueOf(param.get("recordSize")));
+
+        articlePage.setRecordSize(recordSize);
+
+        PagingResponse<PostResponse> response = boardService.getNewsSubscribeList(articlePage);
+
+        model.addAttribute("boardArticleList", response);
+
+        model.addAttribute("pagination", articlePage.getPagination());
+        model.addAttribute("page", articlePage.getPage());
+        /*model.addAttribute("boardCnt", boardService.selectBoardListCnt(articlePage));*/
+        return "jsonView";
+    }
+
+    /**
+     * 게시글 작성
+     * */
+    @RequestMapping("/camtic/news/insSubscribe.do")
+    public String insSubscribe(Model model,@RequestParam Map<String, Object> params){
+        boardService.insSubscribe(params);
+
+        model.addAttribute("rs", "sc");
+        return "jsonView";
+    }
 }
