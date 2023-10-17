@@ -546,14 +546,14 @@ public class ItemManageController {
     }
 
     /**
-     * BOM 생산이력
+     * String bom
      * @param params
      * @param model
      * @return
      */
-    @RequestMapping("/item/getBomOutputHistory.do")
-    public String getBomOutputHistory(@RequestParam Map<String, Object> params, Model model){
-        model.addAttribute("list", itemManageService.getBomOutputHistory(params));
+    @RequestMapping("/item/makeTreeView.do")
+    public String makeTreeView(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", itemManageService.getStringBomList(params));
         return "jsonView";
     }
 
@@ -569,6 +569,22 @@ public class ItemManageController {
         return "jsonView";
     }
 
+    /** 캠아이템 > 아이템관리 > 생산관리 > 생산지시 */
+
+    /**
+     * 생산지시 페이지
+     * @param request
+     * @return
+     */
+    @RequestMapping("/item/productionOrder.do")
+    public String productionOrder(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_item/itemMa/productionMa/productionOrder";
+    }
+
     /**
      * BOM 제작가능여부 체크 (자재 체크)
      * @param params
@@ -580,7 +596,6 @@ public class ItemManageController {
         model.addAttribute("rs", itemManageService.getInvenChk(params));
         return "jsonView";
     }
-
 
     /**
      * BOM 제작 팝업
@@ -608,6 +623,32 @@ public class ItemManageController {
     @RequestMapping("/item/setOutput.do")
     public String setOutput(@RequestParam Map<String, Object> params){
         itemManageService.setOutput(params);
+        return "jsonView";
+    }
+
+    /**
+     * 생산실적 페이지
+     * @param request
+     * @return
+     */
+    @RequestMapping("/item/productionOrderStat.do")
+    public String productionOrderStat(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_item/itemMa/productionMa/productionOrderStat";
+    }
+
+    /**
+     * BOM 생산이력
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getBomOutputHistory.do")
+    public String getBomOutputHistory(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", itemManageService.getBomOutputHistory(params));
         return "jsonView";
     }
 

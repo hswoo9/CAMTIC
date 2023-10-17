@@ -9,6 +9,17 @@ var popItemNoList = {
         customKendo.fn_dropDownList("whCd", popItemNoList.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
         $("#whCd").data("kendoDropDownList").bind("change", popItemNoList.gridReload);
 
+        if($("#itemType").val()){
+            if($("#itemType").val() == "PR"){
+                $("#whCd").data("kendoDropDownList").value("SM");
+                $("#whCd").data("kendoDropDownList").enable(false);
+            }else if($("#itemType").val() == "SM"){
+                popItemNoList.global.dropDownDataSource = popItemNoList.global.dropDownDataSource.filter(element => element.ITEM_CD != "SM" && element.ITEM_CD != "PR" && element.ITEM_CD != "")
+                customKendo.fn_dropDownList("whCd", popItemNoList.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
+                $("#whCd").data("kendoDropDownList").bind("change", popItemNoList.gridReload);
+            }
+        }
+
         popItemNoList.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "UN", lgCd : "UNIT"});
         customKendo.fn_dropDownList("itemUnitCd", popItemNoList.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
         $("#itemUnitCd").data("kendoDropDownList").bind("change", popItemNoList.gridReload);
@@ -106,6 +117,7 @@ var popItemNoList = {
         popItemNoList.global.searchAjaxData = {
             whCd : $("#whCd").val(),
             itemUnitCd : $("#itemUnitCd").val(),
+            itemType : $("#itemType").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
             active : "Y",
@@ -131,6 +143,7 @@ var popItemNoList = {
             opener.parent.$("#baseWhCd").val(rs.WH_CD);
             opener.parent.$("#whCdNm").val(rs.WH_CD_NM);
             opener.parent.$("#standard").val(rs.STANDARD);
+            opener.parent.$("#itemType").val(rs.ITEM_TYPE);
             opener.parent.$("#maxUnitPrice").val(rs.MAX_UNIT_PRICE);
 
             opener.parent.$("#masterSn").change();

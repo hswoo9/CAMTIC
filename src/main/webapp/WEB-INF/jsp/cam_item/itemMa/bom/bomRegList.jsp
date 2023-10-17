@@ -26,18 +26,24 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
+                        <col width="15%">
                         <col width="10%">
+                        <col width="15%">
                         <col width="10%">
                         <col>
                     </colgroup>
                     <tr>
+                        <th class="text-center th-color">품목구분</th>
+                        <td>
+                            <input type="text" id="itemType" style="width: 120px;">
+                        </td>
                         <th>입고창고</th>
                         <td>
                             <input type="text" id="whCd" style="width: 150px;">
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>
-                            <input type="text" id="searchKeyword" style="width: 8%;"/>
+                            <input type="text" id="searchKeyword" style="width: 15%;"/>
                             <input type="text" id="searchValue" style="width: 20%;" onkeypress="if(window.event.keyCode==13){bomRegList.gridReload()}"/>
                         </td>
                     </tr>

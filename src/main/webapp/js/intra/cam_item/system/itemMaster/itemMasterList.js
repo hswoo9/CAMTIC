@@ -7,6 +7,10 @@ var itemM = {
     },
 
     fn_defaultScript : function (){
+        itemM.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "PT", lgCd : "IT"});
+        customKendo.fn_dropDownList("itemType", itemM.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
+        $("#itemType").data("kendoDropDownList").bind("change", itemM.gridReload);
+
         itemM.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
         customKendo.fn_dropDownList("whCd", itemM.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
         $("#whCd").data("kendoDropDownList").bind("change", itemM.gridReload);
@@ -147,6 +151,7 @@ var itemM = {
         itemM.global.searchAjaxData = {
             whCd : $("#whCd").val(),
             itemUnitCd : $("#itemUnitCd").val(),
+            searchItemType : $("#itemType").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
         }
@@ -160,7 +165,7 @@ var itemM = {
             url += "?masterSn=" + e
         }
         var name = "_blank";
-        var option = "width = 920, height = 265, top = 200, left = 400, location = no"
+        var option = "width = 920, height = 310, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 

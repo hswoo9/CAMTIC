@@ -224,15 +224,15 @@ var oorl = {
                             str = "0";
                         }
 
-                        if(e.DEADLINE == "N"){
-                            return "<input type='text' class='deliveryAmtInput numberInput k-input k-textbox' maxOrderVolume='" + e.ORDER_VOLUME + "' style='text-align: right;' value='" + str + "'>";
-                        }else {
+                        // if(e.DEADLINE == "N"){
+                        //     return "<input type='text' class='deliveryAmtInput numberInput k-input k-textbox' maxOrderVolume='" + e.ORDER_VOLUME + "' style='text-align: right;' value='" + str + "'>";
+                        // }else {
                             if(e.OBTAIN_ORDER_TYPE == "N"){
                                 return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + str + "</span>"
                             }else {
                                 return str
                             }
-                        }
+                        // }
                     },
                     attributes : {
                         style : "text-align : right;"

@@ -231,6 +231,31 @@ public class ItemManageServiceImpl implements ItemManageService {
     }
 
     @Override
+    public String getStringBomList(Map<String, Object> params) {
+        Map<String, Object> bom = itemManageRepository.getBom(params);
+
+        List<Map<String, Object>> bomDetailList = itemManageRepository.getBomDetailList(params);
+        List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+
+        bom.put("expanded", true);
+
+        for (Map<String, Object> map : bomDetailList) {
+            map.put("expanded", true);
+            Map<String, Object> searchMap = new HashMap<>();
+            searchMap.put("masterSn", map.get("MASTER_SN"));
+            searchMap.put("bomSn", itemManageRepository.getBomSn(searchMap));
+            map.put("items", itemManageRepository.getBomDetailList(searchMap));
+
+        }
+
+        bom.put("items", bomDetailList);
+
+        result.add(bom);
+
+        return new Gson().toJson(result);
+    }
+
+    @Override
     public Map<String, Object> getInvenChk(Map<String, Object> params) {
         Map<String, Object> returnMap = new HashMap<>();
         List<Map<String, Object>> bomDetailList = itemManageRepository.getBomDetailList(params);

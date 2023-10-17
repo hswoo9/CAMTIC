@@ -46,6 +46,7 @@
                     </th>
                     <td>
                         <input type="hidden" id="masterSn999" class="masterSn999">
+                        <input type="hidden" id="itemType999" class="itemType999">
                         <input type="text" id="itemNo999" class="k-input k-text" readonly onClick="bomReg.fn_popItemNoList(999);" style="width: 83%">
                         <button type="button" id="itemSelBtn" class="itemSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="bomReg.fn_popItemNoList(999);">선택</button>
                     </td>
@@ -119,6 +120,7 @@
             <input type="hidden" id="maxUnitPrice">
             <input type="hidden" id="whCdNm">
             <input type="hidden" id="standard">
+            <input type="hidden" id="itemType">
         </div>
     </div>
 </div>

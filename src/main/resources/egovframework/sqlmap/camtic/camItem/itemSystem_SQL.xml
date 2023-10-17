@@ -224,9 +224,23 @@
             AND IM.ITEM_UNIT_CD = #{itemUnitCd}
         </if>
 
-
         <if test='whCd != null and !"".equals(whCd)'>
             AND IM.WH_CD = #{whCd}
+        </if>
+
+        <if test='itemType != null and !"".equals(itemType)'>
+            <choose>
+                <when test='"PR".equals(itemType)'>
+                    AND IM.WH_CD = 'SM'
+                </when>
+                <otherwise>
+                    AND IM.WH_CD != 'SM' AND IM.WH_CD != 'PR'
+                </otherwise>
+            </choose>
+        </if>
+
+        <if test='searchItemType != null and !"".equals(searchItemType)'>
+            AND IM.ITEM_TYPE = #{searchItemType}
         </if>
 
         <choose>
@@ -298,6 +312,7 @@
             ITEM_NAME,
             ITEM_UNIT_CD,
             STANDARD,
+            ITEM_TYPE,
             WH_CD,
             SAFETY_INVEN,
             ACTIVE,
@@ -309,6 +324,7 @@
             #{itemName},
             #{itemUnitCd},
             #{standard},
+            #{itemType},
             #{whCd},
             #{safetyInven},
             #{active},
