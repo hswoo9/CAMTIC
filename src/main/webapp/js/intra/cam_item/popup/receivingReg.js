@@ -33,6 +33,7 @@ var regRv = {
                 '</td>' +
                 '<td>' +
                     '<input type="hidden" id="masterSn' + regRv.global.itemWhIndex + '" class="masterSn">' +
+                    '<input type="hidden" id="baseWhCd' + regRv.global.itemWhIndex + '" class="baseWhCd">' +
                     '<input type="text" id="itemNo' + regRv.global.itemWhIndex + '" class="k-input k-textbox itemNo" readonly style="width: 69%" onclick="regRv.fn_popItemNoList(' + regRv.global.itemWhIndex + ');"/>' +
                     '<button type="button" id="itemSelBtn' + regRv.global.itemWhIndex + '" class="itemSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="regRv.fn_popItemNoList(' + regRv.global.itemWhIndex + ');">선택</button>' +
                 '</td>' +
@@ -40,7 +41,7 @@ var regRv = {
                     '<input type="text" id="itemName' + regRv.global.itemWhIndex + '" class="itemName k-input k-textbox" onclick="regRv.fn_popItemNoList(' + regRv.global.itemWhIndex + ');" readonly name="itemName' + regRv.global.itemWhIndex + '">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="whType' + regRv.global.itemWhIndex + '" name="whType' + regRv.global.itemWhIndex + '" class="whType">' +
+                    '<input type="text" id="whType' + regRv.global.itemWhIndex + '" name="whType' + regRv.global.itemWhIndex + '" class="whType" onchange="regRv.whTypeChange(' + regRv.global.itemWhIndex + ')">' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="whVolume' + regRv.global.itemWhIndex + '" name="whVolume' + regRv.global.itemWhIndex + '" class="numberInput whVolume" style="text-align: right">' +
@@ -233,8 +234,10 @@ var regRv = {
         $("#masterSn" + regRv.global.masterSnIndex).val($("#masterSn").val())
         $("#itemNo" + regRv.global.masterSnIndex).val($("#itemNo").val())
         $("#itemName" + regRv.global.masterSnIndex).val($("#itemName").val())
+        $("#baseWhCd" + regRv.global.masterSnIndex).val($("#baseWhCd").val())
         $("#whCd" + regRv.global.masterSnIndex).data("kendoDropDownList").value($("#baseWhCd").val())
 
+        regRv.whTypeChange(regRv.global.masterSnIndex);
 
         $("#masterSn").val("")
         $("#itemNo").val("")
@@ -268,6 +271,20 @@ var regRv = {
         $("#unitPrice").val("")
     },
 
+    whTypeChange : function(e){
+        if($("#whType" + e).val() == "102"){
+            $("#whCd" + e).data("kendoDropDownList").value("RT");
+            $("#whCd" + e).data("kendoDropDownList").enable(false);
+        }else{
+            if($("#baseWhCd" + e).val() == null || $("#baseWhCd" + e).val() == ""){
+                $("#whCd" + e).data("kendoDropDownList").select(0);
+            }else{
+                $("#whCd" + e).data("kendoDropDownList").value($("#baseWhCd" + e).val());
+            }
+            $("#whCd" + e).data("kendoDropDownList").enable(true);
+        }
+    },
+
     comma: function(str) {
         str = String(str);
         return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
@@ -289,6 +306,7 @@ var regRv = {
             $(this).find("button.crmSelBtn").attr("onClick", "regRv.fn_popCamCrmList('crmSn" + i + "','crmNm" + i +"')");
 
             $(this).find("input.masterSn").attr("id", "masterSn" + i);
+            $(this).find("input.baseWhCd").attr("id", "baseWhCd" + i);
             $(this).find("input.itemNo").attr("id", "itemNo" + i);
             $(this).find("input.itemNo").attr("onClick", "regRv.fn_popItemNoList(" + i + ")");
             $(this).find("button.itemSelBtn").attr("id", "itemSelBtn" + i);

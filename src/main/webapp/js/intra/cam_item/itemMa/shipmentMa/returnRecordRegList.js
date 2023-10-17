@@ -8,10 +8,6 @@ var rrl = {
     },
 
     fn_defaultScript : function (){
-        rrl.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
-        customKendo.fn_dropDownList("whCd", rrl.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
-        $("#whCd").data("kendoDropDownList").bind("change", rrl.gridReload);
-
         customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(rrl.global.now.setMonth(rrl.global.now.getMonth() - 1)));
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
 
@@ -42,14 +38,14 @@ var rrl = {
                 template: "데이터가 존재하지 않습니다."
             },
             toolbar: [
-                {
+                /*{
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="rrl.fn_popReturnRecordReg()">' +
                             '	<span class="k-button-text">반품등록</span>' +
                             '</button>';
                     }
-                }, {
+                },*/ {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rrl.gridReload()">' +
@@ -71,12 +67,12 @@ var rrl = {
                     template: "#= --record #",
                     width: 50
                 }, {
-                    title: "납품처",
+                    title: "반품업체",
                     field: "CRM_NM",
                     width: 150,
                 }, {
-                    title: "납품일",
-                    field: "DELIVERY_DT",
+                    title: "반품입고일",
+                    field: "WH_DT",
                     width: 80,
                 }, {
                     title: "품번",
@@ -88,11 +84,11 @@ var rrl = {
                     width: 120
                 }, {
                     title: "수량",
-                    field: "DELIVERY_VOLUME",
+                    field: "WH_VOLUME",
                     width: 100,
                     template : function (e){
-                        if(e.DELIVERY_VOLUME != null && e.DELIVERY_VOLUME != ""){
-                            return rrl.comma(e.DELIVERY_VOLUME) + "";
+                        if(e.WH_VOLUME != null && e.WH_VOLUME != ""){
+                            return rrl.comma(e.WH_VOLUME) + "";
                         }else{
                             return "0";
                         }
@@ -156,14 +152,16 @@ var rrl = {
     gridReload: function (){
         rrl.global.searchAjaxData = {
             crmSn : $("#crmSn").val(),
-            whCd : $("#whCd").val(),
+            whCd : "RT",
+            whType : "102",
             startDt : $("#startDt").val(),
             endDt : $("#endDt").val(),
+            inspection : "Y",
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
         }
 
-        rrl.mainGrid("/item/getReturnRecordRegList.do", rrl.global.searchAjaxData);
+        rrl.mainGrid("/item/getItemWhInfoList.do", rrl.global.searchAjaxData);
     },
 
     crmSnReset : function(){
