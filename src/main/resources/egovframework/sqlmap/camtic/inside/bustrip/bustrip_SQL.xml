@@ -1032,6 +1032,16 @@
             FILE_CD in ('exnpTraf', 'exnpTrafDay', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
         AND CONTENT_ID = #{hrBizReqResultId}
     </select>
+
+    <select id="getBustripExnpSum" parameterType="map" resultType="map">
+        /* getBustripExnpSum */
+        SELECT
+            SUM(REPLACE(TOT_COST, ',', '')) AS BUSTRIP_EXNP_SUM
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT BRR
+        LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_EXNP BE ON BRR.HR_BIZ_REQ_RESULT_ID = BE.HR_BIZ_REQ_RESULT_ID
+        WHERE PJT_SN = #{pjtSn}
+    </select>
 </mapper>
 
 

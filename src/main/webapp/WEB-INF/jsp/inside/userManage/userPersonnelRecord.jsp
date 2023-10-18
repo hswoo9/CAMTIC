@@ -784,6 +784,7 @@
                         </div>
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 직원 면담 카드</div>
+
                         </div>
                         <div class="table-responsive">
                             <div>
@@ -812,15 +813,17 @@
                                         <th>상태</th>
                                     </tr>
                                     <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td id="card_number"></td>
+                                        <td id="dept_name"></td>
+                                        <td id="dept_team_name"></td>
+                                        <td id="emp_name_kr">
+                                            <input type="hidden" id="empSeq" style="width: 50%;" value=""/>
+                                        </td>
+                                        <td id="card_interview_date"></td>
+                                        <td id="card_interviewer"></td>
+                                        <td id="card_superior_person"></td>
+                                        <td id="card_superior_person2"></td>
+                                        <td id="status"></td>
                                     </tr>
                                     </thead>
                                 </table>
@@ -1915,6 +1918,53 @@
         });
     }
      */
+
+    // 인사기록카드 - 직원 면담 카드 조회
+    function retrieveData3(empSeq) {
+        // empSeq를 서버로 전송
+        $.ajax({
+            type: "POST",
+            url: "Inside/getInterviewDetail.do",
+            data: { empSeq: empSeq }, // empSeq를 요청 데이터로 보내기
+            success: function(response) {
+                console.log(empSeq);
+                // 응답 데이터 처리 로직
+                console.log(response);
+
+                // 정보를 템플릿에 표시
+                if (response.list && response.list.length > 0) {
+                    $("#card_number").text(response.list[0].card_number);
+                    $("#dept_name").text(response.list[0].dept_name);
+                    $("#dept_team_name").text(response.list[0].dept_team_name);
+                    $("#emp_name_kr").text(response.list[0].emp_name_kr);
+                    $("#card_interview_date").text(response.list[0].card_interview_date);
+                    $("#card_interviewer").text(response.list[0].card_interviewer);
+                    $("#card_superior_person").text(response.list[0].card_superior_person);
+                    $("#card_superior_person2").text(response.list[0].card_superior_person2);
+                    $("#card_status").text(response.list[0].card_status);
+
+
+                    // 면담일시 날짜 형식 변환 예시:
+                    var cardInterviewDateValue = response.list[0].card_interview_date;
+                    var date = new Date(cardInterviewDateValue);
+                    var formattedDate = date.getFullYear() + '-' +
+                        ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
+                        ('0' + date.getDate()).slice(-2);
+
+                    // 변환된 날짜를 화면에 표시
+                    $("#card_interview_date").html(formattedDate);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error("Error occurred while retrieving data:", errorThrown);
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        var empSeq = $("#empSeq").val(); // select 요소의 ID에 맞게 수정
+        retrieveData3(empSeq);
+    });
 
     //인사기록카드 - 제안 제도 수정
     function updateProposalBtn() {

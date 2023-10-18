@@ -41,7 +41,7 @@ var cir = {
                     $("#cir" + i).find("#itemName" + i).val(list[i].ITEM_NAME)
                     $("#cir" + i).find("#crmItemNo" + i).val(list[i].CRM_ITEM_NO)
                     $("#cir" + i).find("#crmItemName" + i).val(list[i].CRM_ITEM_NAME)
-                    $("#cir" + i).find("#busClass" + i).val(list[i].BUS_CLASS);
+                    $("#cir" + i).find("#busClass" + i).data("kendoDropDownList").value(list[i].BUS_CLASS);
                     $("#cir" + i).find("#active" + i).val(list[i].ACTIVE);
                 }
 

@@ -52,14 +52,14 @@ var oorl = {
                             '	<span class="k-button-text">수주취소</span>' +
                             '</button>';
                     }
-                }, {
+                },/* {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oorl.setDeliveryAmtUpd()">' +
                             '	<span class="k-button-text">납품누계저장</span>' +
                             '</button>';
                     }
-                }, {
+                },*/ {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oorl.setDeadlineUpd()">' +

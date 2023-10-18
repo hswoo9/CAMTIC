@@ -1,4 +1,4 @@
-var mup = {
+var cupm = {
 
     global : {
         dropDownDataSource : "",
@@ -7,18 +7,18 @@ var mup = {
     },
 
     fn_defaultScript : function (){
-        mup.global.dropDownDataSource = [
+        cupm.global.dropDownDataSource = [
             { text : "품번", value : "ITEM_NO" },
             { text : "품명", value : "ITEM_NAME" },
             { text : "규격", value : "STANDARD" },
             { text : "안전재고", value : "SAFETY_INVEN" },
         ]
-        customKendo.fn_dropDownList("searchKeyword", mup.global.dropDownDataSource, "text", "value");
-        $("#searchKeyword").data("kendoDropDownList").bind("change", mup.gridReload);
+        customKendo.fn_dropDownList("searchKeyword", cupm.global.dropDownDataSource, "text", "value");
+        $("#searchKeyword").data("kendoDropDownList").bind("change", cupm.gridReload);
 
         customKendo.fn_textBox(["searchValue"]);
 
-        mup.gridReload("load");
+        cupm.gridReload("load");
     },
 
     mainGrid: function(url, params){
@@ -39,7 +39,7 @@ var mup = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="mup.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="cupm.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -90,7 +90,7 @@ var mup = {
                     width: 100,
                     template : function (e){
                         if(e.UNIT_PRICE != null && e.UNIT_PRICE != ""){
-                            return mup.comma(e.UNIT_PRICE) + "";
+                            return cupm.comma(e.UNIT_PRICE) + "";
                         }else{
                             return "0";
                         }
@@ -105,7 +105,7 @@ var mup = {
                     title: "단가관리",
                     width: 100,
                     template: function(e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="mup.fn_popCrmItemUnitPriceReg(' + e.CRM_ITEM_SN + ', ' + e.MASTER_SN + ')">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="cupm.fn_popCrmItemUnitPriceReg(' + e.CRM_ITEM_SN + ', ' + e.MASTER_SN + ')">' +
                             '	<span class="k-button-text">단가관리</span>' +
                             '</button>';
                     }
@@ -123,14 +123,14 @@ var mup = {
     },
 
     gridReload: function (e){
-        mup.global.searchAjaxData = {
+        cupm.global.searchAjaxData = {
             crmSn : $("#crmSn").val(),
-            busClass : "W",
+            busClass : "R",
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
         }
 
-        mup.mainGrid("/item/getMaterialUnitPriceList.do", mup.global.searchAjaxData);
+        cupm.mainGrid("/item/getMaterialUnitPriceList.do", cupm.global.searchAjaxData);
     },
 
     comma: function(str) {
@@ -153,11 +153,11 @@ var mup = {
     crmSnReset : function(){
         $("#crmSn").val("");
         $("#crmNm").val("");
-        mup.gridReload()
+        cupm.gridReload()
     },
 
     fn_popCrmItemUnitPriceReg : function (e, m){
-        var url = "/item/pop/popCrmItemUnitPriceReg.do?crmItemSn=" + e + "&masterSn=" + m + "&busClass=W";
+        var url = "/item/pop/popCrmItemUnitPriceReg.do?crmItemSn=" + e + "&masterSn=" + m + "&busClass=R";
         var name = "_blank";
         var option = "width = 785, height = 670, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);

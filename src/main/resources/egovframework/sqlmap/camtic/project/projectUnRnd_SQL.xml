@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="projectUnRnd">
+
+    <insert id="insSubjectInfo" parameterType="map">
+        /* insSubjectInfo */
+        INSERT INTO CAM_PJT_MNG.DJ_PROJECT
+        (
+            BUSN_CLASS,
+            BUSN_NM,
+            PJT_STEP,
+            PJT_STEP_NM,
+            BS_TITLE,
+            SBJ_CHAR,
+            SBJ_DEP,
+            SBJ_DEP_SUB,
+            SBJ_SEP,
+            PJT_CON_YEAR,
+            STR_DT,
+            END_DT,
+            EMP_SEQ,
+            EMP_NAME,
+            DEPT_SEQ,
+            DEPT_NAME,
+            PJT_NM,
+            PJT_SUB_NM,
+            CRM_SN,
+            CRM_CON_SN,
+            CRM_PART_SN,
+            PJT_EXP_AMT,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{busnClass},
+            #{busnNm},
+            #{pjtStep},
+            #{pjtStepNm},
+            #{bsTitle},
+            #{sbjChar},
+            #{sbjDep},
+            #{sbjDepSub},
+            #{sbjSep},
+            #{pjtConYear},
+            #{strDt},
+            #{endDt},
+            #{empSeq},
+            #{empName},
+            #{deptSeq},
+            #{deptName},
+            #{pjtNm},
+            #{pjtSubNm},
+            #{crmSn},
+            #{crmConSn},
+            #{crmPartSn},
+            #{pjtExpAmt},
+            #{regEmpSeq}
+        )
+
+        <selectKey keyProperty="pjtSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PROJECT'
+        </selectKey>
+    </insert>
+
+    <update id="updSubjectInfo" parameterType="map">
+        /*updSubjectInfo*/
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            BS_TITLE = #{bsTitle},
+            SBJ_CHAR = #{sbjChar},
+            SBJ_DEP = #{sbjDep},
+            SBJ_DEP_SUB = #{sbjDepSub},
+            SBJ_SEP = #{sbjSep},
+            PJT_CON_YEAR = #{pjtConYear},
+            STR_DT = #{strDt},
+            END_DT = #{endDt},
+            EMP_SEQ = #{empSeq},
+            EMP_NAME = #{empName},
+            DEPT_SEQ = #{deptSeq},
+            DEPT_NAME = #{deptName},
+            PJT_NM = #{pjtNm},
+            PJT_SUB_NM = #{pjtSubNm},
+            CRM_SN = #{crmSn},
+            CRM_CON_SN = #{crmConSn},
+            CRM_PART_SN = #{crmPartSn},
+            PJT_EXP_AMT = #{pjtExpAmt}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+</mapper>

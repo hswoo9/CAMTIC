@@ -120,17 +120,17 @@ var regPrj = {
             dataTextField: "name",
             dataContentUrlField: "url",
             dataSource : [
-                {name: "업체정보", url: tab0Url},
+                {name: "상담정보", url: tab0Url},
                 {name: "견적관리", url: tab1Url},
                 {name: "수주보고", url: tab2Url},
-                {name: "계획서", url: tab3Url},
+                {name: "수행계획(공정)", url: tab3Url},
                 {name: "공정", url: tab4Url},
-                {name: "납품", url: tab5Url},
+                {name: "납품관리", url: tab5Url},
                 {name: "결과보고", url: tab6Url},
-                {name: "원가보고", url: tab7Url},
-                {name: "출장관리", url: tab8Url},
-                {name: "협업관리", url: tab9Url},
-                {name: "구매관리", url: tab10Url}
+                {name: "정산/원가", url: tab7Url},
+                {name: "출장", url: tab8Url},
+                {name: "협업", url: tab9Url},
+                {name: "구매", url: tab10Url}
             ],
         });
 
@@ -254,20 +254,19 @@ var regPrj = {
 
         });
 
-        var len = $("#tabstrip li").length;
-        for(var i = 0 ; i < len ; i++){
-            console.log($("#tabstrip li")[i]);
-            if(i == 7){
-                var html = '<div style="width:100%;"></div>';
-                var parser = new DOMParser();
+        var parser = new DOMParser();
 
-                var doc = parser.parseFromString(html, 'text/html');
+        var html = '<div style="width:100%;"></div>';
+        var doc = parser.parseFromString(html, 'text/html');
+        $("#tabstrip li")[7].after(doc.body.firstChild);
 
-                console.log(doc)
-                $("#tabstrip li")[i].after(doc.body.firstChild);
-            }
-        }
+        var html2 = '<div style="padding: 6px 12px"><b style="color: red">사업관리</b></div>';
+        var doc2 = parser.parseFromString(html2, 'text/html');
+        $("#tabstrip li")[0].before(doc2.body.firstChild);
 
+        var html3 = '<div style="padding: 6px 12px"><b style="color: blue">운영관리</b></div>';
+        var doc3 = parser.parseFromString(html3, 'text/html');
+        $("#tabstrip li")[8].before(doc3.body.firstChild);
     },
 
 

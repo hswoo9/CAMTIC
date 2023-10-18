@@ -660,8 +660,8 @@
             END AS 'APPOINT_GUBUN_NM'
         FROM
             CAM_HR.dj_emp_info	AS a) as A
-        WHERE
-            1=1
+        where
+        1=1
             <if test='startDate != null and !"".equals(startDate)'>
                 <![CDATA[
             AND

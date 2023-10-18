@@ -653,6 +653,14 @@ public class BustripController {
         return "jsonView";
     }
 
+    /** 하나의 프로젝트에 대한 모든 출장여비 합계 pjtSn */
+    @RequestMapping("/bustrip/getBustripExnpSum")
+    public String getPurcSum(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = bustripService.getBustripExnpSum(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
     private static LoginVO getLoginVO(HttpServletRequest request) {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
