@@ -74,4 +74,8 @@ public class PurcRepository extends AbstractDAO {
     public Map<String, Object> getPurcSum(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("purc.getPurcSum", params);
     }
+
+    public List<Map<String, Object>> getPurcProductList(Map<String, Object> params) {
+        return selectList("purc.getPurcProductList", params);
+    }
 }
