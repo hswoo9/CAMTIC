@@ -847,8 +847,10 @@
         LEFT JOIN
             CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE CIU
         ON CIU.CRM_ITEM_SN = CIM.CRM_ITEM_SN AND CIU.ACTIVE = 'Y'
-        WHERE 1=1
-
+        WHERE
+            1=1
+        AND
+            CIM.BUS_CLASS = #{busClass}
         <if test='crmSn != null and !"".equals(crmSn)'>
             AND CI.CRM_SN = #{crmSn}
         </if>
@@ -977,6 +979,8 @@
             CIM.CRM_SN = #{crmSn}
         AND
             CIM.MASTER_SN = #{masterSn}
+        AND
+            CIM.BUS_CLASS = #{busClass}
     </select>
 
     <select id="getItemUnitPrice" parameterType="map" resultType="map">
@@ -1297,6 +1301,10 @@
                 </if>
             </otherwise>
         </choose>
+
+        <if test='"shipmentRecord".equals(reg)'>
+            AND II.WH_CD IN('PR', 'SM')
+        </if>
 
         ORDER BY
             CASE WHEN II.MOD_DT IS NULL THEN II.REG_DT

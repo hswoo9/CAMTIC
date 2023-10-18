@@ -28,8 +28,8 @@ var regRv = {
             '<tr class="whInfo ' + e + 'WhInfo" id="wh' + regRv.global.itemWhIndex + '">' +
                 '<td>' +
                     '<input type="hidden" id="crmSn' + regRv.global.itemWhIndex + '" class="crmSn">' +
-                    '<input type="text" id="crmNm' + regRv.global.itemWhIndex + '" class="k-input k-textbox crmNm" readonly style="width: 83%" onclick="regRv.fn_popCamCrmList(\'crmSn' + regRv.global.itemWhIndex + '\', \'crmNm' + regRv.global.itemWhIndex + '\',' + regRv.global.itemWhIndex + ');"/>' +
-                    '<button type="button" id="crmSelBtn' + regRv.global.itemWhIndex + '" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="regRv.fn_popCamCrmList(\'crmSn' + regRv.global.itemWhIndex + '\', \'crmNm' + regRv.global.itemWhIndex + '\',' + regRv.global.itemWhIndex + ');">선택</button>' +
+                    '<input type="text" id="crmNm' + regRv.global.itemWhIndex + '" class="k-input k-textbox crmNm" readonly style="width: 83%" onclick="regRv.fn_popCamCrmList(\'crmSn\', \'crmNm\',' + regRv.global.itemWhIndex + ');"/>' +
+                    '<button type="button" id="crmSelBtn' + regRv.global.itemWhIndex + '" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="regRv.fn_popCamCrmList(\'crmSn\', \'crmNm\',' + regRv.global.itemWhIndex + ');">선택</button>' +
                 '</td>' +
                 '<td>' +
                     '<input type="hidden" id="masterSn' + regRv.global.itemWhIndex + '" class="masterSn">' +
@@ -204,8 +204,8 @@ var regRv = {
     },
 
     fn_popCamCrmList : function (crmSnId, crmNmId, e){
-        regRv.global.crmSnId = crmSnId;
-        regRv.global.crmNmId = crmNmId;
+        regRv.global.crmSnId = crmSnId + e;
+        regRv.global.crmNmId = crmNmId + e;
         regRv.global.crmIndex = e;
 
         var url = "/crm/pop/popCrmList.do";
@@ -274,7 +274,8 @@ var regRv = {
 
         regRv.global.searchAjaxData = {
             crmSn : $("#crmSn" + e).val(),
-            masterSn : $("#masterSn" + e).val()
+            masterSn : $("#masterSn" + e).val(),
+            busClass : "W"
         }
 
         var result = customKendo.fn_customAjax("/item/getItemUnitPrice.do", regRv.global.searchAjaxData);
@@ -326,9 +327,9 @@ var regRv = {
 
             $(this).find("input.crmSn").attr("id", "crmSn" + i);
             $(this).find("input.crmNm").attr("id", "crmNm" + i);
-            $(this).find("input.crmNm").attr("onClick", "regRv.fn_popCamCrmList('crmSn" + i + "','crmNm" + i +"')");
+            $(this).find("input.crmNm").attr("onClick", "regRv.fn_popCamCrmList('crmSn','crmNm', " + i + ")");
             $(this).find("button.crmSelBtn").attr("id", "crmSelBtn" + i);
-            $(this).find("button.crmSelBtn").attr("onClick", "regRv.fn_popCamCrmList('crmSn" + i + "','crmNm" + i +"')");
+            $(this).find("button.crmSelBtn").attr("onClick", "regRv.fn_popCamCrmList('crmSn','crmNm', " + i + ")");
 
             $(this).find("input.masterSn").attr("id", "masterSn" + i);
             $(this).find("input.baseWhCd").attr("id", "baseWhCd" + i);

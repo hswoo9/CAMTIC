@@ -32,7 +32,16 @@
         <input type="hidden" id="crmItemSn" name="crmItemSn" value="${params.crmItemSn}">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
-                <span style="position: relative; top: 3px;" id="popTitle">자재단가관리</span>
+                <span style="position: relative; top: 3px;" id="popTitle">
+                    <c:choose>
+                        <c:when test="${params.busClass eq 'R'}">
+                            고객단가관리
+                        </c:when>
+                        <c:otherwise>
+                            자재단가관리
+                        </c:otherwise>
+                    </c:choose>
+                </span>
             </h3>
             <div class="btn-st popButton">
                 <button type="button" class="k-button k-button-solid-info" onclick="ciupR.setCiUnitPriceReg()">저장</button>
