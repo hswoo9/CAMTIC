@@ -7,7 +7,7 @@
   <h2>주요알림 모아보기 서비스</h2>
   <div class="svgroup_l">
     <div class="svg_logo">
-      <span class="hidden">한바탕전주 상단 로고</span>
+      <%--<span class="hidden">한바탕전주 상단 로고</span>--%>
     </div>
     <div class="svg_slogan">
       <h3><span class="hidden">사람의 도시 품격의 전주</span></h3>

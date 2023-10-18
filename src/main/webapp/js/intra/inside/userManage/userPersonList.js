@@ -389,7 +389,7 @@ var userPersonList = {
                     title: "성명",
                     width: 100
                 }, {
-                    field: "DEPT_NAME",
+                    field: "DEPT_NAME1",
                     title: "부서(실)",
                     width: 130
                 }, {
