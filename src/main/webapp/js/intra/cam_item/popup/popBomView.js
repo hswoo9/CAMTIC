@@ -20,7 +20,20 @@ var popBomView = {
             $("#treeView").kendoTreeView({
                 dataSource: JSON.parse(rs),
                 dataTextField:['TREE_NAME'],
+                select: popBomView.treeClick,
             });
+        }
+    },
+
+    treeClick : function(e){
+        var item = $("#treeView").data("kendoTreeView").dataItem(e.node);
+        if(item.selected != "N"){
+            var result = customKendo.fn_customAjax("/item/getBomDetailList.do", {bomSn : item.CHILDREN_BOM_CN});
+            if(result.flag){
+                if(result.list.length > 0){
+                    $("#treeView").data("kendoTreeView").append(result.list, $("#treeView").data("kendoTreeView").findByUid(item.uid));
+                }
+            }
         }
     },
 

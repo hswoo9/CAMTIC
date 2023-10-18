@@ -2,36 +2,35 @@
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 </head>
 <style>
   /*블랙 스크린 취소*/
-/*  #vis .rig .nimg:after {
-    content: '';
-    position: absolute;
-    background-color: #0000002e;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
+  /*  #vis .rig .nimg:after {
+      content: '';
+      position: absolute;
+      background-color: #0000002e;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+    #vis .cont{background-color: #ffffff52;}
+   #vis .lef .swiper-slide:after {
+     content: '';
+     position: absolute;
+     background-color: #0000002e;
+     width: 100%;
+     height: 100%;
+     top: 0;
+     left: 0;
+   }*/
+  .mainTitle{
+    background : linear-gradient(to right,#00529c, #4bc1be);
+    background-clip:text;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
   }
-  #vis .cont{background-color: #ffffff52;}
- #vis .lef .swiper-slide:after {
-   content: '';
-   position: absolute;
-   background-color: #0000002e;
-   width: 100%;
-   height: 100%;
-   top: 0;
-   left: 0;
- }*/
- .mainTitle{
-   background : linear-gradient(to right,#00529c, #4bc1be);
-   background-clip:text;
-   -webkit-background-clip:text;
-   -webkit-text-fill-color:transparent;
- }
 
 </style>
 <body>
@@ -258,131 +257,14 @@
         </div>
         <div class="rig">
           <div class="roll">
-            <div class="swiper-wrapper">
-
-              <%--<a href="#" class="swiper-slide">
-                <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
-                <div class="info">
-                  <p class="date">2023-01-20 오전 11:09</p>
-                  <p class="subject">캠틱종합기술원 뉴스레터 e-캠틱종합기술원 뉴스레터 e-NAR 캠틱종합기술원 뉴스레터 e-NAR</p>
-                  <p class="sum">
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                  </p>
-                  <p class="sns"><span class="kakao">카카오톡</span></p>
-                </div>
-              </a>--%>
-
-              <a href="#" class="swiper-slide">
-                <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
-                <div class="info">
-                  <p class="date">2023-01-20 오전 11:09</p>
-                  <p class="subject">캠틱종합기술원 뉴스레터 e-캠틱종합기술원 뉴스레터 e-NAR 캠틱종합기술원 뉴스레터 e-NAR</p>
-                  <p class="sum">
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                  </p>
-                  <p class="sns"><span class="face">페이스북</span></p>
-                </div>
-              </a>
-
-              <a href="#" class="swiper-slide">
-                <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
-                <div class="info">
-                  <p class="date">2023-01-20 오전 11:09</p>
-                  <p class="subject">캠틱종합기술원 뉴스레터 e-캠틱종합기술원 뉴스레터 e-NAR 캠틱종합기술원 뉴스레터 e-NAR</p>
-                  <p class="sum">
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                  </p>
-                  <p class="sns"><span class="insta">인스타그램</span></p>
-                </div>
-              </a>
-
-              <%--<a href="#" class="swiper-slide">
-                <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
-                <div class="info">
-                  <p class="date">2023-01-20 오전 11:09</p>
-                  <p class="subject">캠틱종합기술원 뉴스레터 e-캠틱종합기술원 뉴스레터 e-NAR 캠틱종합기술원 뉴스레터 e-NAR</p>
-                  <p class="sum">
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                  </p>
-                  <p class="sns"><span class="kakao">카카오톡</span></p>
-                </div>
-              </a>--%>
-
-              <a href="#" class="swiper-slide">
-                <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
-                <div class="info">
-                  <p class="date">2023-01-20 오전 11:09</p>
-                  <p class="subject">캠틱종합기술원 뉴스레터 e-캠틱종합기술원 뉴스레터 e-NAR 캠틱종합기술원 뉴스레터 e-NAR</p>
-                  <p class="sum">
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                  </p>
-                  <p class="sns"><span class="face">페이스북</span></p>
-                </div>
-              </a>
-
-              <a href="#" class="swiper-slide">
-                <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
-                <div class="info">
-                  <p class="date">2023-01-20 오전 11:09</p>
-                  <p class="subject">캠틱종합기술원 뉴스레터 e-캠틱종합기술원 뉴스레터 e-NAR 캠틱종합기술원 뉴스레터 e-NAR</p>
-                  <p class="sum">
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                  </p>
-                  <p class="sns"><span class="insta">인스타그램</span></p>
-                </div>
-              </a>
-
-              <%--<a href="#" class="swiper-slide">
-                <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
-                <div class="info">
-                  <p class="date">2023-01-20 오전 11:09</p>
-                  <p class="subject">캠틱종합기술원 뉴스레터 e-캠틱종합기술원 뉴스레터 e-NAR 캠틱종합기술원 뉴스레터 e-NAR</p>
-                  <p class="sum">
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                  </p>
-                  <p class="sns"><span class="kakao">카카오톡</span></p>
-                </div>
-              </a>--%>
-
-              <a href="#" class="swiper-slide">
-                <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
-                <div class="info">
-                  <p class="date">2023-01-20 오전 11:09</p>
-                  <p class="subject">캠틱종합기술원 뉴스레터 e-캠틱종합기술원 뉴스레터 e-NAR 캠틱종합기술원 뉴스레터 e-NAR</p>
-                  <p class="sum">
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                  </p>
-                  <p class="sns"><span class="face">페이스북</span></p>
-                </div>
-              </a>
-
-              <a href="#" class="swiper-slide">
-                <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
-                <div class="info">
-                  <p class="date">2023-01-20 오전 11:09</p>
-                  <p class="subject">캠틱종합기술원 뉴스레터 e-캠틱종합기술원 뉴스레터 e-NAR 캠틱종합기술원 뉴스레터 e-NAR</p>
-                  <p class="sum">
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
-                  </p>
-                  <p class="sns"><span class="insta">인스타그램</span></p>
-                </div>
-              </a>
+            <div id="snsPosts" class="swiper-wrapper">
 
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+          </div><!--#roll-->
+        </div><!--#rig-->
+      </div><!--#inner-->
+    </div><!--#sns-->
+  </div><!--#content-->
 
   <div id="ban">
     <div class="inner">
@@ -394,13 +276,19 @@
       </ul>
     </div>
   </div>
-<jsp:include page="/WEB-INF/jsp/template/camtic/foot.jsp" flush="false"/>
+  <jsp:include page="/WEB-INF/jsp/template/camtic/foot.jsp" flush="false"/>
 </div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+<script async defer crossorigin="anonymous" src="https://www.instagram.com/embed.js"></script>
 <script>
+
   vis.init();
-  snsMain.init();
+
   midMain.init();
   sauMain.init();
+
+  var snsData = [];
+  var snsFinalData;
 
   var data = {
     category : "notice"
@@ -413,9 +301,22 @@
 
   $(function () {
     fnDefaultScript();
-
+    getInstagramData();
     drawTable();
     drawTable2();
+    console.log(snsData);
+
+    console.log("최종");
+    console.log(snsData);
+
+    for(x in snsData){
+
+      if(snsData[x].hasOwnProperty('created_time')){
+        console.log("facebook");
+      }else{
+        console.log("insta");
+      }
+    }
   });
 
   function goList(e){
@@ -496,9 +397,80 @@
       html += '</div></div></a>';
     });
 
-
     $("#bsnsTable").append(html);
   }
+
+  window.fbAsyncInit = function () {
+    FB.init({
+      appId: 10227379748894494,
+      autoLogAppEvents: true,
+      xfbml: true,
+      version: 'v18.0'
+    });
+    FB.api(
+            "https://graph.facebook.com/v18.0/10227379748894494/feed?access_token=EAAFBOj38bsEBO6rWTxDd0ZBf1u8pYJ8E1DZCUfwfu4ZBpuMbHYiTZAWkoeM9h9hZBINKmkADfLMZCakUSyD3KplXqIbvYAZBfUfgNt7kWTqCgmD1ANUZBkHjpoHdqU4ZAP7mZAJgZBTysVECHX1PtTHkbFdGsLfO02wW8ZCai8nwaQAun6ZBDZA7HBKCS7hcvPmf4A0l8SZBnY02ZAv6oWdZAZClhNQWMG9TwNxtqVBrdyE4jsK6OoRIeJBKSUFDVGfkwM6s8ZA",
+            'GET',
+            {"fields": "attachments,message,picture,link,name,caption,description,source,created_time"},
+            function (response) {
+              console.log(response)
+              var data = response.data
+              console.log(data)
+              for (var i = 0; i < data.length; i++) {
+                var html = ""
+                console.log(data[i])
+                var createdTime = data[i].created_time;
+                var formattedTime = new Date(createdTime).toLocaleString();
+
+                html += '<a href="' + data[i].link + '" class="swiper-slide">';
+
+                if (data[i].picture) {
+                  html += '<div class="img"><img id="image' + i + '" src="' + data[i].picture + '" width="340" height="255"></div>';
+                } else {
+                  html += '<div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>';
+                }
+                html += '<div class="info">';
+                html += '<p class="date">' + formattedTime + '</p>';
+                html += '<p class="sum">' + data[i].message + '</p>';
+                html += '<p class="sns"><span class="face">페이스북</span></p>';
+                html += '</div>';
+                html += '</a>';
+
+                $('#snsPosts').append(html)
+              }
+              snsMain.init();
+            }
+    );
+  }
+
+  function getInstagramData() {
+    $.ajax({
+      url: 'https://graph.instagram.com/6685068638249687/media?fields=id,media_type,media_url,permalink,thumbnail_url,username,caption,timestamp&access_token=IGQWRQcWVfT05rakN2T3daSndmSDhndW44aGZASbmx3ellPWHRSXzlUUTZAuT205ZAkJnaXdZAd3luMXlYMENGLTNUNE5PNkczcVBhNVZAwZAmxzSElzcWw4M2Yxc3NUOEtUTm1VR0JmWVp0X2gwQQZDZD',
+      dataType : "json",
+      success: function(rs) {
+        console.log(rs);
+        const data = rs.data;
+        let html = "";
+
+        for (const post of data) {
+          const createdTime = new Date(post.timestamp).toLocaleString();
+
+          html += '<a href="' + post.media_url + '" class="swiper-slide">';
+          html += '<div class="img"><img src="' + post.media_url + '" width="340" height="255"></div>';
+          html += '<div class="info">';
+          html += '<p class="date">' + createdTime + '</p>';
+          html += '<p class="sum">' + post.caption + '</p>';
+          html += '<p class="sns"><span class="insta">인스타그램</span></p>';
+          html += '</div>';
+          html += '</a>';
+        }
+        $('#snsPosts').html(html);
+      },
+    });
+  }
+
+
+
+
 </script>
 </body>
 </html>

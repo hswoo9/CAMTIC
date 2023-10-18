@@ -42,14 +42,14 @@ var srrl = {
                 template: "데이터가 존재하지 않습니다."
             },
             toolbar: [
-                {
+                /*{
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="srrl.fn_popShipmentRecordReg()">' +
                             '	<span class="k-button-text">출하실적등록</span>' +
                             '</button>';
                     }
-                }, {
+                },*/ {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="srrl.gridReload()">' +

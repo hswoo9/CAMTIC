@@ -288,6 +288,11 @@ public class BoardServiceImpl implements BoardService {
     public Map<String, Object> selectNewsView(Map<String, Object> params) {
         return boardRepository.selectNewsView(params);
     }
+    @Override
+    public Map<String, Object> getSubscribeChk(Map<String, Object> params) {
+        return boardRepository.getSubscribeChk(params);
+    }
 
     @Override public void insSubscribe(Map<String, Object> params) { boardRepository.insSubscribe(params); }
+    @Override public void cancleSubscribe(Map<String, Object> param) { boardRepository.cancleSubscribe(param); }
 }

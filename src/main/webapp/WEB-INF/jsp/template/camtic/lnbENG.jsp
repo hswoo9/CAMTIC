@@ -27,35 +27,16 @@
 </div>
 
 <script>
-  $("."+middleCategory+"_"+smallCategory).addClass('active');
-  $("#lnb .lnb > li").not("."+middleCategory).hide();
-  $("#lnb h2").text($("#header .gnb > ."+middleCategory+" span").text());
 
+  $(document).ready(function() {
 
-  $(function () {
-    const categoryInb = $("#category").val();
+    var currentPageURL = window.location.pathname;
 
-   if(categoryInb != ""){
-      if(categoryInb == "notice" || categoryInb == "business" || categoryInb == "study" || categoryInb == "partner"){
-        $(".news"+"_"+categoryInb).addClass('active');
+    $("#lnb .lnb > li").removeClass('active');
 
-      }else{
-        $(".pr"+"_"+categoryInb).addClass('active');
-      }
-    }
-    /*else{
-      const boardPathName = $(location).attr('search');
-      const boardGub = boardPathName.split("=")[1];
-      $(".news"+"_"+boardGub).addClass('active');
-    }*/
+    $("#lnb .lnb > li a[href='" + currentPageURL + "']").parent().addClass('active');
+
   });
-
-/*  var subMenu = document.querySelector('.about_business .sub-menu');
-
-  subMenu.addEventListener('mouseleave', function() {
-    subMenu.style.display = 'none';
-  });*/
-
 
   const head = {
     init() {
@@ -100,6 +81,7 @@
   .mnu {
     display: none;
   }
+
   @media screen and (max-width: 1000px) {
     .mnu {
       display: block;

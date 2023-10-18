@@ -2339,7 +2339,7 @@ img {max-width:100%;}
 #Service .svg_close {position:fixed;right:30px;top:15px;border-radius:50%;background-color:#ee2e5b;z-index:3001}
 #Service .svg_close button {width:75px;height:75px;background:url(/images/camtic/btn_close.png) center no-repeat;display:block;}
 #Service .svgroup_l {position:fixed;left:0;top:0;width:28%;height:100%;text-align:center;overflow:hidden;z-index:100;}
-#Service .svgroup_l .svg_logo {position:absolute;left:40px;top:35px;width:204px;height:47px;background:url(/images/camtic/top_logo.png) left top no-repeat;}
+#Service .svgroup_l .svg_logo {position:absolute;left:40px;top:35px;width:204px;height:47px;/*background:url(/images/camtic/top_logo.png)*/ left top no-repeat;}
 #Service .svgroup_l .svg_slogan {margin-top:40%;}
 #Service .svgroup_l .svg_slogan h3 {width:343px;height:142px;margin-bottom:40px;background:url(/images/camtic/slogan.png) left top no-repeat;display:inline-block;display:none;}
 #Service .svgroup_l .svg_slogan dl dt {font-size:25px;font-weight:400;color:#ffc127;margin-bottom:5px;}
