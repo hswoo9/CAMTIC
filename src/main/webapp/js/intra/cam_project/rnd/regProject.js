@@ -56,6 +56,8 @@ var regRnd = {
         var tab9Url = "/intra/cam_project/bustInfo.do";          // 출장관리
         var tab10Url = "/intra/cam_project/teamInfo.do";         // 협업관리
         var tab11Url= "/intra/cam_project/purcInfo.do";          // 구매관리
+        var tab12Url= "/intra/cam_project/purcInfo.do";          // 세세목 변경신청
+
 
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -70,6 +72,7 @@ var regRnd = {
             tab9Url += "?pjtSn=" + setParameters.PJT_SN;
             tab10Url += "?pjtSn=" + setParameters.PJT_SN;
             tab11Url += "?pjtSn=" + setParameters.PJT_SN;
+            tab12Url += "?pjtSn=" + setParameters.PJT_SN;
         }
 
         $("#tabstrip").kendoTabStrip({
@@ -89,14 +92,15 @@ var regRnd = {
                 {name: "참여율요청", url: tab2Url},      // 지출내역조회와 같이 사용
                 {name: "참여율관리", url: tab3Url},      // 지출내역조회와 같이 사용
                 {name: "수행계획(공정)", url: tab4Url},
-                {name: "개발일정", url: tab5Url},
-                {name: "개발일지", url: tab6Url},
+                {name: "개발관리", url: tab5Url},
+                // {name: "개발일지", url: tab6Url},
                 // {name: "입출금대장관리", url: tab5Url},
                 {name: "사업비관리(예산/지급)", url: tab7Url},        // 연구비 입금처리와 같이 사용
                 // {name: "지급관리", url: tab9Url},
                 {name: "출장", url: tab9Url},
                 {name: "협업", url: tab10Url},
-                {name: "구매", url: tab11Url}
+                {name: "구매", url: tab11Url},
+                {name: "예산변경신청", url: tab12Url}
             ],
         });
 
@@ -119,10 +123,11 @@ var regRnd = {
             if(rndInfo.map.STATUS == "100"){
                 tabStrip.enable(tabStrip.tabGroup.children());
             }
-            console.log(rndInfo);
 
             // tabStrip.disable(tabStrip.tabGroup.children().eq(7));
             // tabStrip.disable(tabStrip.tabGroup.children().eq(8));
+            tabStrip.disable(tabStrip.tabGroup.children().eq(11));
+
             regRnd.fn_setData(setParameters);
         }
 

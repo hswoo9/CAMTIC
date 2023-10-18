@@ -58,4 +58,5 @@ public interface ProjectRndService {
     void setReqPartRateStatus(Map<String, Object> params);
 
 
+    Map<String, Object> getPjtDevSchData(Map<String, Object> params);
 }

@@ -356,6 +356,7 @@ public class ProjectRndController {
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
+        model.addAttribute("map", projectRndService.getPjtDevSchData(params));
 
         return "popup/cam_project/devJob";
     }

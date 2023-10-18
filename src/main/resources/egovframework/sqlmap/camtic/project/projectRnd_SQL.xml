@@ -580,4 +580,14 @@
         WHERE
             PART_RATE_VER_SN = #{partRateVerSn}
     </update>
+
+    <select id="getPjtDevSchData" parameterType="map" resultType="map">
+        /*getPjtDevSchData*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_DEV_SCH
+        WHERE
+            DEV_SCH_SN = #{devSchSn}
+    </select>
 </mapper>
