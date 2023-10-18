@@ -287,8 +287,8 @@
   midMain.init();
   sauMain.init();
 
-  var snsData = [];
-  var snsFinalData;
+  var faceBookData = [];
+  var instaData = [];
 
   var data = {
     category : "notice"
@@ -302,21 +302,10 @@
   $(function () {
     fnDefaultScript();
     getInstagramData();
+    getFacebookData();
     drawTable();
     drawTable2();
-    console.log(snsData);
 
-    console.log("최종");
-    console.log(snsData);
-
-    for(x in snsData){
-
-      if(snsData[x].hasOwnProperty('created_time')){
-        console.log("facebook");
-      }else{
-        console.log("insta");
-      }
-    }
   });
 
   function goList(e){
@@ -400,77 +389,83 @@
     $("#bsnsTable").append(html);
   }
 
-  window.fbAsyncInit = function () {
-    FB.init({
-      appId: 10227379748894494,
-      autoLogAppEvents: true,
-      xfbml: true,
-      version: 'v18.0'
-    });
-    FB.api(
-            "https://graph.facebook.com/v18.0/10227379748894494/feed?access_token=EAAFBOj38bsEBO6rWTxDd0ZBf1u8pYJ8E1DZCUfwfu4ZBpuMbHYiTZAWkoeM9h9hZBINKmkADfLMZCakUSyD3KplXqIbvYAZBfUfgNt7kWTqCgmD1ANUZBkHjpoHdqU4ZAP7mZAJgZBTysVECHX1PtTHkbFdGsLfO02wW8ZCai8nwaQAun6ZBDZA7HBKCS7hcvPmf4A0l8SZBnY02ZAv6oWdZAZClhNQWMG9TwNxtqVBrdyE4jsK6OoRIeJBKSUFDVGfkwM6s8ZA",
-            'GET',
-            {"fields": "attachments,message,picture,link,name,caption,description,source,created_time"},
-            function (response) {
-              console.log(response)
-              var data = response.data
-              console.log(data)
-              for (var i = 0; i < data.length; i++) {
-                var html = ""
-                console.log(data[i])
-                var createdTime = data[i].created_time;
-                var formattedTime = new Date(createdTime).toLocaleString();
-
-                html += '<a href="' + data[i].link + '" class="swiper-slide">';
-
-                if (data[i].picture) {
-                  html += '<div class="img"><img id="image' + i + '" src="' + data[i].picture + '" width="340" height="255"></div>';
-                } else {
-                  html += '<div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>';
-                }
-                html += '<div class="info">';
-                html += '<p class="date">' + formattedTime + '</p>';
-                html += '<p class="sum">' + data[i].message + '</p>';
-                html += '<p class="sns"><span class="face">페이스북</span></p>';
-                html += '</div>';
-                html += '</a>';
-
-                $('#snsPosts').append(html)
-              }
-              snsMain.init();
-            }
-    );
-  }
-
   function getInstagramData() {
     $.ajax({
       url: 'https://graph.instagram.com/6685068638249687/media?fields=id,media_type,media_url,permalink,thumbnail_url,username,caption,timestamp&access_token=IGQWRQcWVfT05rakN2T3daSndmSDhndW44aGZASbmx3ellPWHRSXzlUUTZAuT205ZAkJnaXdZAd3luMXlYMENGLTNUNE5PNkczcVBhNVZAwZAmxzSElzcWw4M2Yxc3NUOEtUTm1VR0JmWVp0X2gwQQZDZD',
       dataType : "json",
+      async : false,
       success: function(rs) {
-        console.log(rs);
-        const data = rs.data;
-        let html = "";
-
-        for (const post of data) {
-          const createdTime = new Date(post.timestamp).toLocaleString();
-
-          html += '<a href="' + post.media_url + '" class="swiper-slide">';
-          html += '<div class="img"><img src="' + post.media_url + '" width="340" height="255"></div>';
-          html += '<div class="info">';
-          html += '<p class="date">' + createdTime + '</p>';
-          html += '<p class="sum">' + post.caption + '</p>';
-          html += '<p class="sns"><span class="insta">인스타그램</span></p>';
-          html += '</div>';
-          html += '</a>';
+        for (const post of rs.data) {
+          instaData.push(post);
         }
-        $('#snsPosts').html(html);
       },
     });
   }
 
+  function getFacebookData() {
+    $.ajax({
+      url: 'https://graph.facebook.com/v18.0/10227379748894494/feed?fields=attachments,message,picture,link,name,caption,description,source,created_time&access_token=EAAFBOj38bsEBO6rWTxDd0ZBf1u8pYJ8E1DZCUfwfu4ZBpuMbHYiTZAWkoeM9h9hZBINKmkADfLMZCakUSyD3KplXqIbvYAZBfUfgNt7kWTqCgmD1ANUZBkHjpoHdqU4ZAP7mZAJgZBTysVECHX1PtTHkbFdGsLfO02wW8ZCai8nwaQAun6ZBDZA7HBKCS7hcvPmf4A0l8SZBnY02ZAv6oWdZAZClhNQWMG9TwNxtqVBrdyE4jsK6OoRIeJBKSUFDVGfkwM6s8ZA',
+      method: 'GET',
+      dataType : "json",
+      async : false,
+      success: function (response) {
+        for (var i = 0; i < response.data.length; i++) {
+          faceBookData.push(data[i]);
+        }
+      }
+    });
+  }
 
+  window.onload = function () {
+    const maxLength = Math.max(faceBookData.length, instaData.length);
 
+    console.log("================");
+    console.log("데이터 통신 확인");
+    console.log(instaData);
+    console.log(faceBookData);
+    console.log("================");
 
+    var html = "";
+    for (var x = 0; x < maxLength; x++) {
+
+      if (x < instaData.length) {
+        let createdTime = new Date(instaData[x].timestamp).toLocaleString();
+
+        html += '<a href="' + instaData[x].media_url + '" class="swiper-slide">';
+        html += '<div class="img"><img src="' + instaData[x].media_url + '" width="340" height="255"></div>';
+        html += '<div class="info">';
+        html += '<p class="date">' + createdTime + '</p>';
+        html += '<p class="sum">' + instaData[x].caption + '</p>';
+        html += '<p class="sns"><span class="insta">인스타그램</span></p>';
+        html += '</div>';
+        html += '</a>';
+
+      }
+
+      if (x < faceBookData.length) {
+
+        let createdTime = faceBookData[x].created_time;
+        var formattedTime = new Date(createdTime).toLocaleString();
+
+        html += '<a href="' + faceBookData[x].link + '" class="swiper-slide">';
+
+        if (faceBookData[x].picture) {
+          html += '<div class="img"><img id="image' + i + '" src="' + faceBookData[x].picture + '" width="340" height="255"></div>';
+        } else {
+          html += '<div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>';
+        }
+        html += '<div class="info">';
+        html += '<p class="date">' + formattedTime + '</p>';
+        html += '<p class="sum">' + faceBookData[x].message + '</p>';
+        html += '<p class="sns"><span class="face">페이스북</span></p>';
+        html += '</div>';
+        html += '</a>';
+      }
+    }
+    $('#snsPosts').append(html);
+
+    snsMain.init();
+  }
 </script>
 </body>
 </html>
