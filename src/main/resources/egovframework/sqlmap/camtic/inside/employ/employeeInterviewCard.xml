@@ -51,13 +51,28 @@
     </insert>
 
     <select id="getInterviewCardList" parameterType="map" resultType="map">
-        select dei.emp_name_kr,
-               dei.dept_name,
-               dei.dept_team_name,
-               deic.*
-        from cam_inside.dj_employee_interview_card deic
-                 join cam_hr.dj_emp_info dei
-                      on deic.EMP_SEQ = dei.EMP_SEQ
+
+        select
+            deic.*,
+            car.dept_name,
+            car.dept_team_name,
+            car.emp_name_kr
+        from (
+                 select
+                     CASE WHEN ddi.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE ddi.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE a.DEPT_SEQ END AS DEPT_SEQ,
+                     CASE WHEN ddi.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE ddi.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE a.DEPT_NAME END AS dept_name,
+                     CASE WHEN ddi.DEPT_LEVEL = 2 THEN a.DEPT_SEQ ELSE "" END AS TEAM_SEQ,
+                     CASE WHEN ddi.DEPT_LEVEL = 2 THEN a.DEPT_NAME ELSE "" END AS TEAM_NAME,
+                     a.emp_seq,
+                     a.dept_team_name,
+                     a.emp_name_kr
+                 from cam_hr.dj_emp_info as a
+                          join cam_hr.dj_dept_info ddi
+                               on a.DEPT_SEQ = ddi.dept_seq
+             )as car
+                 join
+             cam_inside.dj_employee_interview_card deic
+             on car.emp_seq = deic.EMP_SEQ
     </select>
 
     <select id="getInterviewDetail" parameterType="map" resultType="map">

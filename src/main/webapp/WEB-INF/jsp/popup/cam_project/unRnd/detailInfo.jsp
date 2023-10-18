@@ -7,10 +7,10 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/unRndDetail.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 
-<input type="hidden" id="step" value="R0" />
+<input type="hidden" id="step" value="S2" />
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
-<input type="hidden" id="rndSn" value=""/>
+<input type="hidden" id="unRndSn" value=""/>
 <div style="padding: 10px">
 
     <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="unRndDetail.fn_save()">저장</button>
@@ -30,81 +30,42 @@
             <thead>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>연구책임자
+                    <span class="red-star">*</span>총괄책임자
                 </th>
-                <td>
-                    <input type="text" id="mngDeptName" style="width: 40%" disabled>
+                <td colspan="3">
+                    <input type="text" id="mngDeptName" style="width: 20%" disabled>
                     <input type="hidden" id="mngDeptSeq" disabled>
-                    <input type="text" id="mngEmpName" style="width: 30%" disabled>
+                    <input type="text" id="mngEmpName" style="width: 15%" disabled>
                     <input type="hidden" id="mngEmpSeq">
                     <button type="button" id="stfs" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userSearch('mng');">
                         검색
                     </button>
                 </td>
+            </tr>
+            <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>출금대표통장
+                    <span class="red-star">*</span>사업계획서
                 </th>
-                <td>
-                    <input type="text" id="bank" style="width: 80%;" value="">
+                <td colspan="3">
+                    <label for="bsPlanFile" class="k-button k-button-solid-base">파일첨부</label>
+                    <input type="file" id="bsPlanFile" name="bsPlanFile" onchange="unRndDetail.fileChange(this)" style="display: none">
+                    <span id="bsPlanFileName"></span>
                 </td>
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>계좌번호
+                    <span class="red-star"></span>사업목적
                 </th>
-                <td>
-                    <input type="text" id="bankNo" style="width: 90%">
-                </td>
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>예금주
-                </th>
-                <td>
-                    <input type="text" id="accHold" style="width: 90%;" value="(사)캠틱종합기술원">
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" class="text-center th-color"><span class="red-star"></span>전체연구비</th>
-                <td>
-                    <input type="text" id="allResCost" name="allResCost" style="width: 80%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
-                </td>
-                <th scope="row" class="text-center th-color"><span class="red-star"></span>민간부담금</th>
-                <td>
-                    현금 : <input type="text" id="peoResCost" value="0" name="peoResCost" style="width: 30%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
-                    현물 : <input type="text" id="peoResItem" value="0" name="peoResItem" style="width: 30%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" class="text-center th-color"><span class="red-star"></span>계</th>
-                <td>
-                    <input type="text" id="totResCost" name="totResCost" disabled style="width: 80%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
-                </td>
-                <th scope="row" class="text-center th-color"><span class="red-star"></span>연구카드사용여부</th>
-                <td>
-                    <div>
-                        <input type="radio" name="resCardCheck" id="rccY" value="Y" style="position: relative; top:4px;">
-                        <label for="rccY" style="position: relative; top:4px;">사용</label>
-
-                        <input type="radio" name="resCardCheck" id="rccN" value="N" style="position: relative; top:4px;">
-                        <label for="rccN" style="position: relative; top:4px;">미사용</label>
-
-                        <span style="display: none;" id="rccYRes">
-                            <input type="text" id="resCardNo" style="margin-right: 5px; width : 20%" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/> ※ 사용시 카드번호 뒤 4자리 입력
-                        </span>
-                    </div>
+                <td colspan="3">
+                    <textarea type="text" id="unRndObj" name="unRndObj" style="width: 100%"></textarea>
                 </td>
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>중간보고
+                    <span class="red-star"></span>사업내용
                 </th>
-                <td>
-                    <input type="text" id="delvDay" disabled style="width: 90%">
-                </td>
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>결과보고
-                </th>
-                <td>
-                    <input type="text" id="resDay" disabled style="width: 90%;">
+                <td colspan="3">
+                    <textarea type="text" id="unRndCont" name="unRndCont" style="width: 100%"></textarea>
                 </td>
             </tr>
             </thead>

@@ -97,11 +97,6 @@
 
             </div>
             </div>
-
-<%--            <div class="mt-10">--%>
-<%--                <p style="font-weight: bold;">ㆍ생산이력</p>--%>
-<%--                <div id="mainGrid"></div>--%>
-<%--            </div>--%>
         </div>
 
     </div>
