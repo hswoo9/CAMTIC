@@ -137,6 +137,8 @@ var reqCl = {
             }
 
             this.fn_setClaimItem(data);
+            reqCl.fn_kendoUIEnableSet(data);
+            reqCl.fn_ClaimBtnSet(data);
         }
 
         $("#vat").data("kendoRadioGroup").bind("select", function(e){
@@ -395,12 +397,14 @@ var reqCl = {
 
     fn_setItem: function(e){
 
+        console.log(e);
         var len = e.itemList.length;
         var index = 0;
         var html = '';
         $("#claimTbody").html("");
         for(var i = 0 ; i < len ; i++){
             if(e.itemList[i].STATUS == "C"){
+
                 if(index == 0){
                     html += '<tr class="claimItem newArray" id="item">';
                     html += '   <td style="text-align: center">' +
