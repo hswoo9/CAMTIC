@@ -3,31 +3,12 @@ var unRndDetail = {
 
     fn_defaultScript : function (){
 
-        customKendo.fn_textBox(["mngDeptName", "mngEmpName", "bankNo", "accHold", "allResCost", "peoResCost", "peoResItem", "totResCost", "resCardNo"]);
+        customKendo.fn_textBox(["mngDeptName", "mngEmpName"]);
 
-        $("#bank").kendoDropDownList({
-            dataTextField : "text",
-            dataValueField : "value",
-            dataSource : [
-                {text : "전북은행", value : "1"},
-            ],
+
+        $("#unRndObj, #unRndCont").kendoTextArea({
+            rows : 7
         });
-
-        $("input[name='resCardCheck']").click(function(){
-            if($(this).val() == "Y"){
-                $("#rccYRes").show();
-            }else{
-                $("#rccYRes").hide();
-            }
-        });
-
-        $("#allResCost, #peoResCost, #peoResItem").keyup(function(){
-            $("#totResCost").val(comma(Number(uncomma($("#allResCost").val())) + Number(uncomma($("#peoResCost").val())) + Number(uncomma($("#peoResItem").val()))));
-        });
-
-        customKendo.fn_datePicker("delvDay", "month", "yyyy-MM-dd", new Date());
-        customKendo.fn_datePicker("resDay", "month", "yyyy-MM-dd", new Date());
-
 
         unRndDetail.fn_setData();
     },
@@ -42,35 +23,43 @@ var unRndDetail = {
             mngDeptSeq : $("#mngDeptSeq").val(),
             mngEmpSeq : $("#mngEmpSeq").val(),
 
-            bankSn : $("#bank").val(),
-            bankNm : $("#bank").data("kendoDropDownList").text(),
-            bankNo : $("#bankNo").val(),
-            accHold : $("#accHold").val(),
+            unRndObj : $("#unRndObj").val(),
+            unRndCont : $("#unRndCont").val(),
 
-            allResCost : uncomma($("#allResCost").val()),
-            peoResCost : uncomma($("#peoResCost").val()),
-            peoResItem : uncomma($("#peoResItem").val()),
-            totResCost : uncomma($("#totResCost").val()),
-
-            resCardCheck : $("input[name='resCardCheck']:checked").val(),
-            resCardNo : $("#resCardNo").val(),
-
-            delvDay : $("#delvDay").val(),
-            resDay : $("#resDay").val(),
+            empSeq: $("#empSeq").val(),
+            regEmpSeq : $("#empSeq").val(),
         }
 
-        if($("#rndSn").val() != "" && $("#rndSn").val() != null){
-            parameters.rndSn = $("#rndSn").val();
+        if($("#unRndSn").val() != "" && $("#unRndSn").val() != null){
+            parameters.unRndSn = $("#unRndSn").val();
             parameters.stat = "upd"
         } else {
             parameters.stat = "ins"
         }
 
+        var fd = new FormData();
+        for(var key in parameters){
+            fd.append(key, parameters[key]);
+        }
+
+        if($("#bsPlanFile")[0].files.length == 1){
+            fd.append("bsPlanFile", $("#bsPlanFile")[0].files[0]);
+        }
+
+        if($("#bsPlanFileName").text() == ""){
+            alert("사업계획서를 등록해주세요.");
+            return;
+        }
+
         $.ajax({
-            url : "/projectRnd/setRndDetail",
-            data : parameters,
+            url : "/projectUnRnd/setUnRndDetail",
+            data : fd,
             type : "post",
             dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async : false,
             success : function(rs){
                 if(rs.code == 200){
                     location.reload();
@@ -84,13 +73,13 @@ var unRndDetail = {
             pjtSn : $("#pjtSn").val(),
         }
 
-        var result = customKendo.fn_customAjax("/projectRnd/getRndDetail", parameters);
+        var result = customKendo.fn_customAjax("/projectUnRnd/getUnRndDetail", parameters);
 
         var rs = result.map;
 
         if(rs.STATUS == 100){
             $("#aBtn").css("display", "");
-        } else if(rs.RND_SN != "" && rs.RND_SN != null && rs.RND_SN != undefined){
+        } else if(rs.UN_RND_SN != "" && rs.UN_RND_SN != null && rs.UN_RND_SN != undefined){
             $("#approveBtn").css("display", "");
         }
 
@@ -99,29 +88,13 @@ var unRndDetail = {
         $("#mngEmpName").val(rs.MNG_EMP_NAME);
         $("#mngDeptSeq").val(rs.MNG_DEPT_SEQ);
         $("#mngEmpSeq").val(rs.MNG_EMP_SEQ);
+        $("#unRndObj").val(rs.UN_RND_OBJ);
+        $("#unRndCont").val(rs.UN_RND_CONT);
 
-        $("#bank").data("kendoDropDownList").value(rs.BANK_SN);
-        $("#bankNo").val(rs.BANK_NO);
-        $("#accHold").val(rs.ACC_HOLD);
-
-        $("#allResCost").val(comma(rs.ALL_RES_COST));
-        $("#peoResCost").val(comma(rs.PEO_RES_COST));
-        $("#peoResItem").val(comma(rs.PEO_RES_ITEM));
-        $("#totResCost").val(comma(rs.TOT_RES_COST));
-
-        if(rs.RES_CARD_CHECK == "Y"){
-            $("input[name='resCardCheck'][value='Y']").prop("checked", true);
-            $("#rccYRes").css("display", "");
-        }else{
-            $("input[name='resCardCheck'][value='N']").prop("checked", true);
-            $("#rccYRes").css("display", "none");
-        }
-        $("#resCardNo").val(rs.RES_CARD_NO);
-
-        $("#delvDay").val(rs.DELV_DAY);
-        $("#resDay").val(rs.RES_DAY);
-
+        $("#unRndSn").val(rs.UN_RND_SN);
+        $("#bsPlanFileName").text(rs.file_org_name + "." + rs.file_ext);
     },
+
     fn_approve : function() {
         var pjCode = $("#pjCode").val();
         var supDep = $("#supDep2").val();
@@ -181,5 +154,9 @@ var unRndDetail = {
                 }
             }
         });
-    }
+    },
+
+    fileChange : function(e){
+        $(e).next().text($(e)[0].files[0].name);
+    },
 }
