@@ -142,6 +142,9 @@
                         <li>
                             완주군
                         </li>
+                        <li>
+                            통계
+                        </li>
                     </ul>
                     <div>
                         <div>
@@ -155,6 +158,12 @@
                         <div>
 
                         </div>
+                    </div>
+                    <div>
+                        <jsp:include page="/WEB-INF/jsp/popup/cam_crm/mfOverviewJeonbukStat.jsp" flush="true">
+                            <jsp:param name="crmMfSn" value="${data.CRM_MF_SN}"/>
+                            <jsp:param name="mfNo" value="${data.MF_NO}"/>
+                        </jsp:include>
                     </div>
                 </div>
             </div>

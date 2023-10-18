@@ -473,6 +473,19 @@ public class CrmController {
     }
 
     /**
+     * 제조업체총람 상세보기 선택데이터 추이
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/getMfOverviewStatInfo.do")
+    public String getMfOverviewStatInfo(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", crmService.getMfOverviewStatInfo(params));
+        return "jsonView";
+    }
+
+
+    /**
      * 제조업체총람 지역별 통계
      * @param params
      * @param model

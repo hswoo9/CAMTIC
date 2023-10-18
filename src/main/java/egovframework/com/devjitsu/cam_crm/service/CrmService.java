@@ -35,6 +35,7 @@ public interface CrmService {
     void setMfOverviewDel(Map<String, Object> params);
     void setMfOverviewByCrmInfoUpd(Map<String, Object> params);
     Map<String, Object> getMfOverviewInfo(Map<String, Object> params);
+    List<Map<String, Object>> getMfOverviewStatInfo(Map<String, Object> params);
     List<Map<String, Object>> getMfOverviewAreaStat(Map<String, Object> params);
     Map<String, Object> getMfOverviewList(Map<String, Object> params);
     void mfExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception;

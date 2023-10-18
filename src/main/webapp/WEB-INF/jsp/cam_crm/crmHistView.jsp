@@ -47,7 +47,7 @@
                         <th class="text-center th-color">대상부서</th>
                         <td>
                             <input type="text" id="searchKeyword" style="width: 30%;"/>
-                            <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){crm.gridReload()}"/>
+                            <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){crmHist.gridReload()}"/>
                         </td>
                     </tr>
                 </table>

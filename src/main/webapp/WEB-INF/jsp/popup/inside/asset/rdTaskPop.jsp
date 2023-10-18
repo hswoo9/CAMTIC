@@ -61,18 +61,20 @@
                     </colgroup>
                     <tbody>
                     <tr>
-                        <th>연구개발과제 선택</th>
+                        <th class="text-center th-color">
+                            사업명
+                        </th>
                         <th>
-                            사업명:
-                            <input type="text" id="businessName" style="width: 60%;">
-                            <button type="button" id="search" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:15%; height:27px; line-height:0;" onclick="">
-                                검색
-                            </button>
+                            <input type="text" id="pjtNm" style="width: 100%;">
                         </th>
                     </tr>
                     <tr>
-                        <th scope="row" class="text-center th-color">과제명</th>
-                        <td><input type="text" id="taskName" style="width: 100%;"></td>
+                        <th scope="row" class="text-center th-color">
+                            프로젝트명
+                        </th>
+                        <td>
+                            <input type="text" id="taskName" style="width: 100%;">
+                        </td>
                     </tr>
                     </tbody>
                 </table>

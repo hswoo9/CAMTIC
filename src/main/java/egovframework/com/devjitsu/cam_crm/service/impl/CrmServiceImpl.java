@@ -363,6 +363,27 @@ public class CrmServiceImpl implements CrmService {
     }
 
     @Override
+    public List<Map<String, Object>> getMfOverviewStatInfo(Map<String, Object> params) {
+        List<Map<String, Object>> statList = new ArrayList<>();
+
+        LocalDate now = LocalDate.now();
+        int year = now.getYear();
+        for(int i = 0; i < 5; i++){
+            params.put("year", year-i);
+            Map<String, Object> stat = crmRepository.getMfOverviewStatInfo(params);
+            if(stat == null){
+                stat = new HashMap<>();
+                stat.put("year", year-i);
+            }
+
+            statList.add(stat);
+        }
+
+
+        return statList;
+    }
+
+    @Override
     public List<Map<String, Object>> getMfOverviewAreaStat(Map<String, Object> params) {
         return crmRepository.getMfOverviewAreaStat(params);
     }
