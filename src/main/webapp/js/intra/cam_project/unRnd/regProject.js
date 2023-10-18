@@ -8,7 +8,7 @@ var regUnRnd = {
         }
 
         customKendo.fn_textBox(["empName", "deptName", "pjtNm", "pjtSubNm", "rndCrmNm", "rndConCrmNm"
-                                ,"crmPartNm", "pjtExpAmt", "bsTitle"]);
+                                ,"crmPartNm", "pjtExpAmt", "bsTitle", "pjtConYear"]);
 
         customKendo.fn_datePicker("sbjStrDe", "depth", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("sbjEndDe", "depth", "yyyy-MM-dd", new Date());
@@ -133,7 +133,7 @@ var regUnRnd = {
     },
 
     fn_setData: function (e){
-        $("#pjtTitle").text("프로젝트 - R&D");
+        $("#pjtTitle").text("프로젝트 - 비R&D");
 
         $("#saveBtn").css("display", "none");
         $("#modBtn").css("display", "");
@@ -170,11 +170,9 @@ var regUnRnd = {
             }
         }
 
-        if(e.SBJ_STAT_YN != undefined){
-            if(e.SBJ_STAT_YN == "Y"){
-                $("#rndStatYn").prop("checked", true);
-            }
-        }
+        $("#pjtConYear").val(e.PJT_CON_YEAR);
+
+
 
     },
 
@@ -201,6 +199,8 @@ var regUnRnd = {
 
             pjtStep : $("#pjtStep").val(),
             pjtStepNm : $("#pjtStepNm").val(),
+            pjtConYear : $("#pjtConYear").val()
+
         }
 
         $("input[name='sbjSepYn']").each(function(){
@@ -208,12 +208,6 @@ var regUnRnd = {
                 parameters.sbjSep = this.value;
             }
         });
-
-        if($("#rndStatYn").is("checked")){
-            parameters.sbjStatYn = "Y";
-        } else {
-            parameters.sbjStatYn = "N";
-        }
 
         if(parameters.bsTitle == ""){
             alert("사업명을 입력해주세요.")
@@ -273,7 +267,14 @@ var regUnRnd = {
             crmConSn : $("#rndConCrmSn").val(),
             crmSn : $("#rndCrmSn").val(),
             pjtExpAmt : uncomma($("#pjtExpAmt").val()),
+            pjtConYear : $("#pjtConYear").val()
         }
+
+        $("input[name='sbjSepYn']").each(function(){
+            if($(this).is(":checked")){
+                parameters.sbjSep = this.value;
+            }
+        });
 
         if(parameters.bsTitle == ""){
             alert("사업명을 입력해주세요.")

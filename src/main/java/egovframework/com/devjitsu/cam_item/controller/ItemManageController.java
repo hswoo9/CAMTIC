@@ -775,6 +775,16 @@ public class ItemManageController {
         return "popup/cam_item/popItemNoList";
     }
 
+    /**
+     * 입고등록 데이터 저장
+     * @param params
+     * @return
+     */
+    @RequestMapping("/item/getItemUnitPrice.do")
+    public String getItemUnitPrice(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", itemManageService.getItemUnitPrice(params));
+        return "jsonView";
+    }
 
     /**
      * 입고단가이력팝업

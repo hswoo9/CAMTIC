@@ -28,8 +28,8 @@ var regRv = {
             '<tr class="whInfo ' + e + 'WhInfo" id="wh' + regRv.global.itemWhIndex + '">' +
                 '<td>' +
                     '<input type="hidden" id="crmSn' + regRv.global.itemWhIndex + '" class="crmSn">' +
-                    '<input type="text" id="crmNm' + regRv.global.itemWhIndex + '" class="k-input k-textbox crmNm" readonly style="width: 83%" onclick="regRv.fn_popCamCrmList(\'crmSn' + regRv.global.itemWhIndex + '\', \'crmNm' + regRv.global.itemWhIndex + '\');"/>' +
-                    '<button type="button" id="crmSelBtn' + regRv.global.itemWhIndex + '" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="regRv.fn_popCamCrmList(\'crmSn' + regRv.global.itemWhIndex + '\', \'crmNm' + regRv.global.itemWhIndex + '\');">선택</button>' +
+                    '<input type="text" id="crmNm' + regRv.global.itemWhIndex + '" class="k-input k-textbox crmNm" readonly style="width: 83%" onclick="regRv.fn_popCamCrmList(\'crmSn' + regRv.global.itemWhIndex + '\', \'crmNm' + regRv.global.itemWhIndex + '\',' + regRv.global.itemWhIndex + ');"/>' +
+                    '<button type="button" id="crmSelBtn' + regRv.global.itemWhIndex + '" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="regRv.fn_popCamCrmList(\'crmSn' + regRv.global.itemWhIndex + '\', \'crmNm' + regRv.global.itemWhIndex + '\',' + regRv.global.itemWhIndex + ');">선택</button>' +
                 '</td>' +
                 '<td>' +
                     '<input type="hidden" id="masterSn' + regRv.global.itemWhIndex + '" class="masterSn">' +
@@ -203,9 +203,10 @@ var regRv = {
         }
     },
 
-    fn_popCamCrmList : function (crmSnId, crmNmId){
+    fn_popCamCrmList : function (crmSnId, crmNmId, e){
         regRv.global.crmSnId = crmSnId;
         regRv.global.crmNmId = crmNmId;
+        regRv.global.crmIndex = e;
 
         var url = "/crm/pop/popCrmList.do";
         var name = "_blank";
@@ -219,6 +220,8 @@ var regRv = {
 
         $("#crmSn").val("")
         $("#crmNm").val("")
+
+        regRv.getItemUnitPrice(regRv.global.crmIndex);
     },
 
     fn_popItemNoList : function (masterSnIndex){
@@ -243,6 +246,8 @@ var regRv = {
         $("#itemNo").val("")
         $("#itemName").val("")
         $("#baseWhCd").val("")
+
+        regRv.getItemUnitPrice(regRv.global.masterSnIndex);
     },
 
     fn_popUnitPriceList : function(unitPriceId, i){
@@ -260,6 +265,26 @@ var regRv = {
         var name = "_blank";
         var option = "width = 860, height = 670, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    getItemUnitPrice : function(e){
+        if(!$("#masterSn" + e).val()){
+            return;
+        }
+
+        regRv.global.searchAjaxData = {
+            crmSn : $("#crmSn" + e).val(),
+            masterSn : $("#masterSn" + e).val()
+        }
+
+        var result = customKendo.fn_customAjax("/item/getItemUnitPrice.do", regRv.global.searchAjaxData);
+        if(result.flag){
+            if(result.rs != null){
+                regRv.global.unitPriceId = "unitPrice" + e;
+                $("#unitPrice").val(result.rs.UNIT_PRICE);
+                regRv.unitPriceChange();
+            }
+        }
     },
 
     unitPriceChange : function(){

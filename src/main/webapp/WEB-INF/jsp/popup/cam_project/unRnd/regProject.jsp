@@ -201,11 +201,11 @@
                         </span>
                     </td>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>3책 5공
+                        <span class="red-star"></span>사업차년
                     </th>
                     <td>
-                        <input type="checkbox" id="rndStatYn" name="rndStatYn" style="position: relative; top: 3px;">
-                        <label for="rndStatYn">적용</label>
+                        <input type="text" id="pjtConYear" name="rndStatYn" style="width: 90%">
+
                     </td>
                 </tr>
                 </thead>

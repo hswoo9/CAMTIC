@@ -964,6 +964,33 @@
         DELETE FROM CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE WHERE CRM_ITEM_UNIT_PRICE_SN IN (${ciupSn})
     </delete>
 
+    <select id="getCrmItemUnitPrice" parameterType="map" resultType="map">
+        /* getCrmItemUnitPrice */
+        SELECT
+            CIUP.*
+        FROM
+            CAM_ITEM.DJ_CRM_ITEM_MANGE CIM
+        JOIN
+            CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE CIUP
+        ON CIM.CRM_ITEM_SN = CIUP.CRM_ITEM_SN AND CIUP.ACTIVE = 'Y'
+        WHERE
+            CIM.CRM_SN = #{crmSn}
+        AND
+            CIM.MASTER_SN = #{masterSn}
+    </select>
+
+    <select id="getItemUnitPrice" parameterType="map" resultType="map">
+        /* getItemUnitPrice */
+        SELECT
+            *
+        FROM
+            CAM_ITEM.DJ_ITEM_MASTER_SD_UP
+        WHERE
+            ACTIVE = 'Y'
+        AND
+            MASTER_SN = #{masterSn}
+    </select>
+
     <update id="setCrmItemManageUpd" parameterType="map">
         UPDATE
             CAM_ITEM.DJ_CRM_ITEM_MANGE
