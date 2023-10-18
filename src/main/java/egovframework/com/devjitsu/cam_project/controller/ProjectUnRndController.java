@@ -6,10 +6,12 @@ import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.cam_project.service.ProjectUnRndService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -26,6 +28,12 @@ public class ProjectUnRndController {
 
     @Autowired
     private ProjectService projectService;
+
+    @Value("#{properties['File.Server.Dir']}")
+    private String SERVER_DIR;
+
+    @Value("#{properties['File.Base.Directory']}")
+    private String BASE_DIR;
 
     @RequestMapping("/projectUnRnd/pop/regProject.do")
     public String regProject(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
@@ -80,6 +88,26 @@ public class ProjectUnRndController {
             model.addAttribute("params", params);
             model.addAttribute("code", 200);
         } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectUnRnd/getUnRndDetail")
+    public String getUnRndDetail(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("map", projectUnRndService.getUnRndDetail(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectUnRnd/setUnRndDetail")
+    public String setUnRndDetail(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
+        try{
+            projectUnRndService.setUnRndDetail(params, request, SERVER_DIR, BASE_DIR);
+            model.addAttribute("code", 200);
+            model.addAttribute("rs", params);
+        } catch (Exception e){
             e.printStackTrace();
         }
 
