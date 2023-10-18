@@ -79,4 +79,6 @@ public interface BustripService {
     void setExnpFile(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
 
     List<Map<String, Object>> getExnpFile(Map<String, Object> params);
+
+    Map<String, Object> getBustripExnpSum(Map<String, Object> params);
 }

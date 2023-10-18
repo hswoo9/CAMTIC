@@ -17,6 +17,8 @@
   .__newsListhead .newboxHead .img i{display: block; padding-top: calc(238 / 408 * 100%); background-repeat: no-repeat;
     background-position: 50% 50%; background-size: cover; background-image: url(https://fakeimg.pl/408x238/f3f3f3);}
   .info table{margin:0 auto;}
+  .info table img{margin:0 auto;}
+  .info img{margin-left: 18rem;}
 
   @media (max-width: 1024px) {
     .__newsListhead .newboxHead {width: calc((100% / 2) - (10px / 2));}
@@ -25,6 +27,8 @@
     .info table{margin:0 auto; width: 100%;}
     .info table img{height: auto;}
     .info table td{height: auto;}
+
+    .info img{margin-left: 0;}
   }
 </style>
 <body>
@@ -38,6 +42,7 @@
 
         <div class="__botArea __mt20">
           <div class="rig">
+            <a href="#" onclick="fn_delNotice();" class="__btn1 grayLine"><span>삭제</span></a>
             <a href="#" onclick="fn_regist();" class="__btn1 grayLine"><span>수정</span></a>
           </div>
         </div>
@@ -236,7 +241,7 @@
         html += "<a class='box' style='cursor:pointer;' onclick='fn_detailNews("+item.board_ARTICLE_ID+")'>";
 
         if(item.file_PATH){
-          html += '<div class="img"><i style="background-image:url('+item.file_PATH+'); background-size:auto; background-repeat : no-repeat;"></i></div>';
+          html += '<div class="img"><i style="background-image:url('+item.file_PATH+'); background-position: top; background-repeat : no-repeat;"></i></div>';
         }else{
           html += '<div class="img"><i style="background-image:url(https://fakeimg.pl/298x189/f3f3f3);"></i></div>';
         }
@@ -255,7 +260,7 @@
       }else{
         html += "<a class='box' style='cursor:pointer;' onclick='fn_detailNews("+item.board_ARTICLE_ID+")'>";
         if(item.file_PATH){
-          html += '<div class="img"><i style="background-image:url('+item.file_PATH+'); background-size:auto; background-repeat : no-repeat;"></i></div>';
+          html += '<div class="img"><i style="background-image:url('+item.file_PATH+'); background-position: top; background-repeat : no-repeat;"></i></div>';
         }else{
           html += '<div class="img"><i style="background-image:url(https://fakeimg.pl/298x189/f3f3f3);"></i></div>';
         }
@@ -331,6 +336,29 @@
     });
 
     return result;
+  }
+
+  function fn_delNotice(){
+    var data = {
+      boardArticleId : globalKey,
+      boardId : categoryKey,
+      category : categoryKey,
+    }
+
+    if(!confirm("해당 게시글을 삭제하시겠습니까?")) {return false;}
+
+    $.ajax({
+      url : '/camtic/news/deleteBoard.do',
+      type : 'POST',
+      data: data,
+      dataType : "json",
+      async: false,
+      success: function() {
+        alert("삭제가 완료되었습니다.");
+
+        location.reload();
+      }
+    });
   }
 </script>
 

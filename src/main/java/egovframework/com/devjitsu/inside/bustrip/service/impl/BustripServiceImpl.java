@@ -391,4 +391,9 @@ public class BustripServiceImpl implements BustripService {
             commonRepository.insFileInfo(list);
         }
     }
+
+    @Override
+    public Map<String, Object> getBustripExnpSum(Map<String, Object> params) {
+        return bustripRepository.getBustripExnpSum(params);
+    }
 }
