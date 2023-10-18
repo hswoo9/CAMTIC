@@ -53,6 +53,15 @@ var regCrmHist = {
         } ).then (newEditor => {
             regCrmHist.global.editor = newEditor;
         });
+
+        $("input[name='crmRelPjt']").change(function(){
+            $("#pjtNm").hide();
+            $("#pjtSelBtn").hide();
+            if(this.value == "rnd" || this.value == "bRnd"){
+                $("#pjtNm").show();
+                $("#pjtSelBtn").show();
+            }
+        })
     },
 
     fn_save : function(){
@@ -189,5 +198,12 @@ var regCrmHist = {
             $(e).addClass("active");
             $("#codeTable").show();
         }
+    },
+
+    rdTaskPopup : function(){
+        var url = "/Inside/Pop/rdTaskPop.do";
+        var name = "rdTaskPop";
+        var option = "width = 500, height = 200, top = 100, left = 200, location = no, _blank"
+        var popup = window.open(url, name, option);
     }
 }

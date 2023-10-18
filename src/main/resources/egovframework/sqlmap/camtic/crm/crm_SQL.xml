@@ -585,6 +585,18 @@
         </if>
     </select>
 
+    <select id="getMfOverviewStatInfo" parameterType="map" resultType="map">
+        /* getMfOverviewStatInfo */
+        SELECT
+            ${searchContent}
+        FROM
+            CAM_CRM.DJ_CRM_MF_OVERVIEW
+        WHERE
+            MF_NO = #{mfNo}
+        AND
+            DATE_FORMAT(BASE_DATE, '%Y') = #{year}
+    </select>
+
     <select id="getMfOverviewAreaStat" parameterType="map" resultType="map">
         /* getMfOverviewAreaStat */
         SELECT

@@ -13,6 +13,61 @@ var movJb = {
             value : new Date()
         });
 
+        $("#detailSearch").kendoDropDownTree({
+            placeholder: "선택하세요",
+            checkboxes: true,
+            checkAll: true,
+            autoClose: false,
+            dataSource: [
+                {"name": "지역", "value": "area"},
+                {"name": "정상유무", "value": "active"},
+                {"name": "사업체명", "value": "mfName"},
+                {"name": "사업자 번호", "value": "mfNo2"},
+                {"name": "대표자 성명(성별)", "value": "ceoName"},
+                {"name": "대표자 휴대폰", "value": "ceoTelNum"},
+                {"name": "주소", "value": "addr"},
+                {"name": "본사소재지", "value": "location"},
+                {"name": "설립일", "value": "estDate"},
+                {"name": "업력", "value": "history"},
+                {"name": "전화번호", "value": "telNum"},
+                {"name": "팩스번호", "value": "faxNum"},
+                {"name": "홈페이지", "value": "homepage"},
+                {"name": "E-MAIL", "value": "email"},
+                {"name": "담당자 성명", "value": "chargeName"},
+                {"name": "담당자 휴대폰", "value": "chargeTelNum"},
+                {"name": "업종코드", "value": "industry"},
+                {"name": "주생산품", "value": "mainProduct"},
+                {"name": "자동차부품 여부", "value": "amPart"},
+                {"name": "자동차부품", "value": "amPartType"},
+                {"name": "자본금(백만원)", "value": "capital"},
+                {"name": "매출액", "value": "sales"},
+                {"name": "매출비율합계", "value": "salesAmt"},
+                {"name": "매출비율도내", "value": "salesRatioProv"},
+                {"name": "매출비율도외", "value": "salesRatioOtProv"},
+                {"name": "수출여부", "value": "exportYn"},
+                {"name": "종사자수", "value": "empCnt"},
+                {"name": "외국인고용", "value": "empForeign"},
+                {"name": "외국인직원수", "value": "foreignCnt"},
+                {"name": "기업부설연구소/전담부서 운영유무", "value": "laboratoryYn"},
+                {"name": "탄소소재활용", "value": "carbonYn"},
+                {"name": "출원/등록 지식재산권", "value": "rprYn"},
+                {"name": "지식재산권 활용 신규제품 개발여부", "value": "newProductYn"},
+                {"name": "생산시설 투자계획", "value": "facilityInvestYn"},
+                {"name": "만족도 높은 분야", "value": "highlySatField"},
+                {"name": "필요한분야", "value": "needField"},
+                {"name": "개인정보동의", "value": "agreeYn"},
+                {"name": "제3자동의", "value": "agree2Yn"}
+            ],
+            dataTextField: "name",
+            dataValueField: "value",
+            change : function(){
+                $("#jeonbukTb thead th, #jeonbukTb thead td").hide();
+                $.each(this.value(), function(i, v){
+                    $("." + v).show();
+                })
+            }
+        });
+
         movJb.mfOverViewDataSet();
     },
 

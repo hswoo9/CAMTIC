@@ -18,9 +18,11 @@ var movP = {
 
         if($("#crmMfSn").val() != null && $("#crmMfSn").val() != ""){
             tabStrip.enable(tabStrip.tabGroup.children().eq(0));
+            tabStrip.enable(tabStrip.tabGroup.children().eq(2));
             tabStrip.select(0);
         }
 
         movJb.fn_defaultScript();
+        movJbStat.fn_defaultScript();
     },
 }
