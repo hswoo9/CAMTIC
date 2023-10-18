@@ -232,23 +232,6 @@
         retrieveData2(empSeq);
     });
 
-// // 날짜 형식 변환
-//     // card_interview_date 값을 가져옴
-//     var cardInterviewDateValue = $("#card_interview_date").text();
-//
-//     // card_interview_date 값을 숫자로 변환
-//     var timestamp = parseInt(cardInterviewDateValue);
-//
-//     // Date 객체 생성
-//     var date = new Date(timestamp);
-//
-//     // 날짜를 원하는 형식으로 포맷팅 (예: "년-월-일 시:분:초")
-//     var formattedDate = date.getFullYear() + '-' +
-//         ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
-//         ('0' + date.getDate()).slice(-2);
-//
-//     // 변환된 날짜를 화면에 표시
-//     $("#card_interview_date").text(formattedDate);
 </script>
 </body>
 </html>
