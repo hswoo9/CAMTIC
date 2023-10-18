@@ -814,6 +814,7 @@ public class UserManageController {
         System.out.println("searchDetail7 : "+map.get("searchDetail7"));
         System.out.println("searchDetail8 : "+map.get("searchDetail8"));
         model.addAttribute("list", userManageService.getEmpInfoDetailList(map));
+//        System.out.println(getEmpInfoDetailList);
         return "jsonView";
     }
 
