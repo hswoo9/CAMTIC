@@ -447,12 +447,12 @@
         let createdTime = faceBookData[x].created_time;
         var formattedTime = new Date(createdTime).toLocaleString();
 
-        html += '<a href="' + faceBookData[x].link + '" class="swiper-slide">';
-
+        //html += '<a href="' + faceBookData[x].link + '" class="swiper-slide">';
+        html += '<a href="' + (faceBookData[x].picture ? faceBookData[x].link : 'javascript:void(0)') + '" class="swiper-slide">';
         if (faceBookData[x].picture) {
           html += '<div class="img"><img id="image' + i + '" src="' + faceBookData[x].picture + '" width="340" height="255"></div>';
         } else {
-          html += '<div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>';
+          html += '<div class="img"><i style="background-image:url(https://fakeimg.pl/340x255); pointer-events: none;"></i></div>';
         }
         html += '<div class="info">';
         html += '<p class="date">' + formattedTime + '</p>';
@@ -461,7 +461,6 @@
         html += '</div>';
         html += '</a>';
       }
-
     }
     $('#snsPosts').append(html);
 
