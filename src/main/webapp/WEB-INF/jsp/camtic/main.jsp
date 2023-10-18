@@ -404,13 +404,13 @@
 
   function getFacebookData() {
     $.ajax({
-      url: 'https://graph.facebook.com/v18.0/10227379748894494/feed?fields=attachments,message,picture,link,name,caption,description,source,created_time&access_token=EAAFBOj38bsEBO6rWTxDd0ZBf1u8pYJ8E1DZCUfwfu4ZBpuMbHYiTZAWkoeM9h9hZBINKmkADfLMZCakUSyD3KplXqIbvYAZBfUfgNt7kWTqCgmD1ANUZBkHjpoHdqU4ZAP7mZAJgZBTysVECHX1PtTHkbFdGsLfO02wW8ZCai8nwaQAun6ZBDZA7HBKCS7hcvPmf4A0l8SZBnY02ZAv6oWdZAZClhNQWMG9TwNxtqVBrdyE4jsK6OoRIeJBKSUFDVGfkwM6s8ZA',
+      url: 'https://graph.facebook.com/v18.0/10227379748894494/feed?fields=attachments,message,picture,link,name,caption,description,source,created_time&access_token=EAAFBOj38bsEBO720d0bohwQUZAE62Cnsd6dpsYb8s5RZCCrQabO6QrJ9QPHR3y1cqUr6fyHZClCyZB40eYX46HDOsvYEwGaVOb8N9XZA4AtNqcscfQYSvMCb3r9QZAFAb6GtnKrbXUAP64gZC3cD0KZCOeGNXTWbhSZCJxNZBQOfhBvWZACJPEN9yQNZATzTZBcpoZChCZAacU3nINSj6ajbcO9CdckjoulU5iZBI6pZAMZC7BIa3eh49YyAQ474TExcrgREkZD',
       method: 'GET',
       dataType : "json",
       async : false,
       success: function (response) {
         for (var i = 0; i < response.data.length; i++) {
-          faceBookData.push(data[i]);
+          faceBookData.push(response.data[i]);
         }
       }
     });
@@ -461,6 +461,7 @@
         html += '</div>';
         html += '</a>';
       }
+
     }
     $('#snsPosts').append(html);
 
