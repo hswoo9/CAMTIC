@@ -430,7 +430,39 @@ public class BoardController {
     }
 
     /**
-     * 게시글 작성
+     * 뉴스레터 구독 신청 데이터 체크
+     * */
+    @RequestMapping("/camtic/news/getSubscribeChk.do")
+    public String getSubscribeChk(Model model, @RequestParam Map<String, Object> param){
+
+        model.addAttribute("map", boardService.getSubscribeChk(param));
+        return "jsonView";
+    }
+
+    /**
+     * 뉴스레터 구독 신청 취소
+     * */
+    @RequestMapping("/camtic/news/getSubscribeCancle.do")
+    public String getSubscribeCancle(Model model, @RequestParam Map<String, Object> param){
+
+        Map<String, Object> map = boardService.getSubscribeChk(param);
+
+        String processCode = "";
+        int dataChk = Integer.parseInt(String.valueOf(map.get("chk")));
+
+        if(dataChk == 1){
+            boardService.cancleSubscribe(param);
+            processCode = "SUCCESS";
+        }else{
+            processCode = "FAIL";
+        }
+
+        model.addAttribute("processCode", processCode);
+        return "jsonView";
+    }
+
+    /**
+     * 뉴스레터 구독 게시글 작성
      * */
     @RequestMapping("/camtic/news/insSubscribe.do")
     public String insSubscribe(Model model,@RequestParam Map<String, Object> params){

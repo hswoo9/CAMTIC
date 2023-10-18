@@ -28,6 +28,7 @@ public class PostResponse {
     private String CONFIRM1;
     private String CONFIRM2;
     private LocalDateTime APPLY_DATE;
+    private LocalDateTime CANCLE_DATE;
 
     public Long getBOARD_ARTICLE_ID() {
         return BOARD_ARTICLE_ID;
@@ -81,4 +82,5 @@ public class PostResponse {
     public String getCONFIRM1() { return CONFIRM1; }
     public String getCONFIRM2() { return CONFIRM2; }
     public LocalDateTime getAPPLY_DATE() { return APPLY_DATE; }
+    public LocalDateTime getCANCLE_DATE() { return CANCLE_DATE; }
 }
