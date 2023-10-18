@@ -267,5 +267,10 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     public Map<String, Object> getPjtDevSchData(Map<String, Object> params) {
         return projectRndRepository.getPjtDevSchData(params);
     }
+
+    @Override
+    public void tmpUpdDevPlanApprove(Map<String, Object> params) {
+        projectRndRepository.tmpUpdDevPlanApprove(params);
+    }
 }
 

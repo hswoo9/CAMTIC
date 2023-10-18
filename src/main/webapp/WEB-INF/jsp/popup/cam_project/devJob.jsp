@@ -137,7 +137,8 @@
                 $("#devSchCd").data("kendoDropDownList").value(rs.DEV_SCH_CD);
 
                 var fileData = ds.rs;
-                if(fileData.length != 0){
+                console.log(fileData);
+                if(fileData.length != 0 && fileData[0].file_path != null){
                     var html = '';
 
                     for(var i = 0; i < fileData.length; i++){

@@ -78,8 +78,14 @@ var rndDS = {
                     width: 180
                 }, {
                     title: "파일명",
-                    field: "",
-                    width: 180
+                    width: 180,
+                    template : function(e){
+                        if(e.file_org_name != null){
+                            return e.file_org_name + "." + e.file_ext;
+                        } else{
+                            return "";
+                        }
+                    }
                 }, {
                     title: "비고",
                     field: "DEV_SCH_ETC",

@@ -141,4 +141,8 @@ public class ProjectRndRepository extends AbstractDAO {
     public Map<String, Object> getPjtDevSchData(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("projectRnd.getPjtDevSchData", params);
     }
+
+    public void tmpUpdDevPlanApprove(Map<String, Object> params) {
+        update("projectRnd.tmpUpdDevPlanApprove", params);
+    }
 }

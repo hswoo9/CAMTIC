@@ -59,4 +59,6 @@ public interface ProjectRndService {
 
 
     Map<String, Object> getPjtDevSchData(Map<String, Object> params);
+
+    void tmpUpdDevPlanApprove(Map<String, Object> params);
 }

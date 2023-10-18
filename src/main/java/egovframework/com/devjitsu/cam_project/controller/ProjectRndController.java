@@ -674,4 +674,16 @@ public class ProjectRndController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/projectRnd/tmpUpdDevPlanApprove")
+    public String tmpUpdDevPlanApprove(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectRndService.tmpUpdDevPlanApprove(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }

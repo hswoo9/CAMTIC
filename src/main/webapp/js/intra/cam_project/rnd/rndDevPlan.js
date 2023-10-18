@@ -44,6 +44,17 @@ var rndDP = {
         }
 
         $("#verTable").append(html);
+
+        var resultMap = customKendo.fn_customAjax("/project/getDevelopPlan", data);
+
+        if(resultMap.rs.STATUS == 100){
+            $("#approveBtn").css("display", "none");
+            $("#rsBtn").css("display", "");
+        } else {
+            $("#approveBtn").css("display", "");
+            $("#rsBtn").css("display", "none");
+        }
+
     },
 
 
@@ -139,6 +150,10 @@ var rndDP = {
             dataType : "json",
             success : function(rs){
 
+                var resultMap = customKendo.fn_customAjax("/project/getDevelopPlan", data);
+
+                $("#devPlanCont").val(resultMap.rs.DEP_OBJ);
+                $("#devPlanIss").val(resultMap.rs.ETC);
                 var list = rs.list;
 
                 for(var i = 0 ; i < list.length ; i++){
@@ -380,11 +395,41 @@ var rndDP = {
     fn_save : function (){
 
         var data = {
+            pjtSn : $("#pjtSn").val(),
             devSn : $("#devSn").val(),
             devPlanCont : $("#devPlanCont").val(),
             devPlanIss : $("#devPlanIss").val()
         }
 
-        customKendo.fn_customAjax("/projectRnd/setDevInfo", data);
+        var rs = customKendo.fn_customAjax("/projectRnd/setDevInfo", data);
+
+        if(rs.flag){
+            window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=4";
+        }
+    },
+
+    fn_approve : function (){
+        if(!confirm("상신하시겠습니까?")){
+            return;
+        }
+        var data = {
+            pjtSn : $("#pjtSn").val()
+        }
+
+        $.ajax({
+            url : "/projectRnd/tmpUpdDevPlanApprove",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function (rs){
+                if(rs.code == 200){
+                    window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=4";
+                }
+            }
+        });
+    },
+
+    fn_docView : function (){
+        // alert("열람");
     }
 }
