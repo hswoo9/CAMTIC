@@ -191,7 +191,8 @@ html {font-size:14px;font-family:'Pretendard',sans-serif;color:#666;-webkit-text
 [class*='__btn'].blackLine {background:#fff;border-color:#464646;color:#464646;}
 
 .__btn1 {min-width:140px;height:50px;border-radius:5px;font-size:18px;padding:0 20px;}
-.__btn1 ~ .__btn1 {margin-left:12px;}
+/*.__btn1 ~ .__btn1 {margin-left:12px;} 20231018 수정*/
+.__btn1 ~ .__btn1 {margin-left:4px;}
 
 .__btn2 {height:40px;border-radius:5px;padding:0 25px;gap:10px;font-size:15px;color:#000;font-weight:600;}
 .__btn2:before {content:"";display:block;width:16px;height:16px;background:url(/images/camtic/ico-down.png) no-repeat 50% 50% / contain;}
