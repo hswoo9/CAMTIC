@@ -224,7 +224,14 @@
             const formattedMonth = String(item.apply_DATE.monthValue).padStart(2, '0');
             const formattedDay = String(item.apply_DATE.dayOfMonth).padStart(2, '0');
             html += '<td>'+ item.apply_DATE.year +'-'+ formattedMonth +'-'+ formattedDay +'</td>';
-            html += '<td></td>';
+
+            if(item.cancle_DATE != null){
+                const formattedMonth2 = String(item.cancle_DATE.monthValue).padStart(2, '0');
+                const formattedDay2 = String(item.cancle_DATE.dayOfMonth).padStart(2, '0');
+                html += '<td>'+ item.cancle_DATE.year +'-'+ formattedMonth2 +'-'+ formattedDay2 +'</td>';
+            }else{
+                html += '<td></td>';
+            }
 
             html += "</tr>";
         });

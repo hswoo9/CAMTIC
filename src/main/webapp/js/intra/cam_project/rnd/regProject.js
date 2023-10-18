@@ -107,13 +107,20 @@ var regRnd = {
             setParameters.pjtSn = setParameters.PJT_SN;
 
             var tabStrip = $("#tabstrip").data("kendoTabStrip");
-            tabStrip.enable(tabStrip.tabGroup.children());
-
+            tabStrip.disable(tabStrip.tabGroup.children());
+            tabStrip.enable(tabStrip.tabGroup.children().eq(0));
             if($("#tab").val() != null && $("#tab").val() != ""){
                 tabStrip.select($("#tab").val());
             } else {
                 tabStrip.select(0);
             }
+
+            var rndInfo = customKendo.fn_customAjax("/projectRnd/getRndDetail", setParameters);
+            if(rndInfo.map.STATUS == "100"){
+                tabStrip.enable(tabStrip.tabGroup.children());
+            }
+            console.log(rndInfo);
+
             // tabStrip.disable(tabStrip.tabGroup.children().eq(7));
             // tabStrip.disable(tabStrip.tabGroup.children().eq(8));
             regRnd.fn_setData(setParameters);

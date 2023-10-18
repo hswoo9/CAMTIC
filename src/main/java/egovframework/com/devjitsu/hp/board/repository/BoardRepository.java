@@ -73,6 +73,10 @@ public class BoardRepository extends AbstractDAO {
     public Map<String, Object> selectNewsView(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("boardCt.selectNewsView", params);
     }
+    public Map<String, Object> getSubscribeChk(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("boardCt.getSubscribeChk", params);
+    }
     public void insSubscribe(Map<String, Object> params) {insert("boardCt.insSubscribe", params); }
+    public void cancleSubscribe(Map<String, Object> param) {update("boardCt.cancleSubscribe", param); }
 
 }

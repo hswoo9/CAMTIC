@@ -630,4 +630,50 @@
         WHERE
             PJT_SN = #{pjtSn}
     </select>
+
+    <select id="getPurcProductList" parameterType="map" resultType="map">
+        /*getPurcProductList*/
+        SELECT
+            TOT.*,
+            (SELECT PRODUCT_DT_CODE_NM FROM CAM_PJT_MNG.DJ_PRODUCT_CODE WHERE ACTIVE = "Y" AND PRODUCT_GROUP_CODE_ID = 3 AND PARENT_CODE = TOT.PRODUCT_B AND PARENT_CODE_NM = TOT.PD_B AND PRODUCT_DT_CODE = TOT.PRODUCT_C) AS PD_C
+        FROM
+            (
+                SELECT
+                    A.*,
+                    (SELECT PRODUCT_DT_CODE_NM FROM CAM_PJT_MNG.DJ_PRODUCT_CODE WHERE PRODUCT_DT_CODE = A.PRODUCT_A AND PRODUCT_GROUP_CODE_ID = 1) AS PD_A,
+                    (SELECT PRODUCT_DT_CODE_NM FROM CAM_PJT_MNG.DJ_PRODUCT_CODE WHERE PARENT_CODE = A.PRODUCT_A AND PRODUCT_DT_CODE = A.PRODUCT_B AND PRODUCT_GROUP_CODE_ID = 2) AS PD_B,
+                    B.CRM_NM
+                FROM
+                    CAM_MNG.DJ_MNG_PURC_ITEM A
+                LEFT JOIN
+                    CAM_MNG.DJ_PURC_CLAIM B
+                    ON
+                        A.PURC_SN = B.PURC_SN
+                WHERE B.PURC_SN IS NOT NULL
+                  AND B.STATUS = 100
+            ) TOT
+        WHERE
+            1=1
+        <if test='searchKeyword != null and !"".equals(searchKeyword)'>
+            AND ${searchKeyword} LIKE CONCAT('%',#{searchValue},'%')
+        </if>
+        <if test='searchKeyword == null or "".equals(searchKeyword)'>
+            AND (PURC_ITEM_NAME LIKE CONCAT('%',#{searchValue},'%')
+                     OR PURC_ITEM_UNIT LIKE CONCAT('%',#{searchValue},'%')
+                     OR PURC_ITEM_STD LIKE CONCAT('%',#{searchValue},'%')
+                     OR CRM_NM  LIKE CONCAT('%',#{searchValue},'%'))
+        </if>
+        <if test='productA != null and !"".equals(productA)'>
+            AND PRODUCT_A = #{productA}
+        </if>
+        <if test='productB != null and !"".equals(productB)'>
+            AND PRODUCT_B = #{productB}
+        </if>
+        <if test='productC != null and !"".equals(productC)'>
+            AND PRODUCT_C = #{productC}
+        </if>
+        <if test='purcItemType != null and !"".equals(purcItemType)'>
+            AND PURC_ITEM_TYPE = #{purcItemType}
+        </if>
+    </select>
 </mapper>

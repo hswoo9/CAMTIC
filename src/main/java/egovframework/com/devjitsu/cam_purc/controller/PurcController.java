@@ -279,4 +279,20 @@ public class PurcController {
         model.addAttribute("data", data);
         return "jsonView";
     }
+
+    @RequestMapping("/purc/purcProductList.do")
+    public String purcProductList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("params", params);
+
+        return "cam_purc/user/purcProductList";
+    }
+
+    @RequestMapping("/purc/getPurcProductList")
+    public String getPurcProductList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list", purcService.getPurcProductList(params));
+
+        return "jsonView";
+    }
 }
