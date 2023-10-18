@@ -37,14 +37,14 @@
   }
   .file-and-table-container {
     display: flex;
-    margin-top: 50px;
+    /*margin-top: 50px;
     padding-top: 10px;
-    border-top: 1px solid #c9c9c9;
+    border-top: 1px solid #c9c9c9;*/
   }
   .fileTable {
     width: 80%;
     border-collapse: collapse;
-    margin : 0 0 0 20px;
+    /*margin : 0 0 0 20px;*/
   }
   .fileTable .fileTr .fileTh {
     border: 1px solid #ccc;
@@ -55,9 +55,17 @@
     text-align: center;
   }
 
+  .addFile td{padding-top: 10px;}
   .__btn1 {
-    min-width: 120px;
-    height: 40px;
+    min-width: 85px;
+    height: 38px;
+    font-size: 15px;
+  }
+  #fileUpload .__btn1 {
+    min-width: 90px;
+    height: 26px;
+    padding: 0;
+    font-size: 15px;
   }
 
   #title{
@@ -65,17 +73,34 @@
   }
 
   /*뉴스레터 게시판으로 인한 수정*/
+  .filebox2{
+    margin-bottom: 30px;
+  }
   .filebox2 .__btn1 {
-    min-width: 120px;
+    min-width: 100px;
     height: 35px;
+  }
+  .filebox2 .addBtn {
+    margin-top: 4px;
+    float: right;
+    position: relative;
+    top: -40px;
   }
   .filebox2 .addBtn .__btn1 {
     min-width: 70px;
-    height: 35px;
+    height: 75px;
+    font-size: 17px;
+  }
+  .filebox2 .addBtn2 {
+    margin-top: 4px;
+    float: right;
+    position: relative;
+    top: -40px;
   }
   .filebox2 .addBtn2 .__btn1 {
     min-width: 70px;
-    height: 35px;
+    height: 75px;
+    font-size: 17px;
   }
   .__boardView .con {
     font-size: 20px;
@@ -86,12 +111,13 @@
     width: 100%;
     margin-top: 10px;
     padding-top: 10px;
-    border-top: 1px solid #c9c9c9;
+    /*border-top: 1px solid #c9c9c9;*/
   }
 
   .file-and-table-container2 .notStyle_div{
     display: flex;
     width: 100%;
+    font-size: 17px;
   }
 
   .file-and-table-container2 .linkInfo{
@@ -105,8 +131,10 @@
   }
 
   @media (max-width: 1024px) {
-    .addBtn {margin-left: 29px;}
-    .addBtn2 {margin-left: 26px;}
+    .filebox2 .addBtn2 .__btn1 {
+      min-width: 65px;
+      height: 35px;
+    }
   }
 </style>
 
@@ -145,10 +173,57 @@
                     <input type="text" id="writer" class="inputText" value="${map.REG_EMP_NAME}" disabled/>
                   </td>
                 </tr>
-                <tr>
+                <tr style="border-bottom: 1px solid #ccc;">
                   <th>작성일자</th>
                   <td>
                     <input type="text" id="writeDate" class="inputText" value="<fmt:formatDate value="${map.REG_DATE}" pattern="yyyy-MM-dd" type="date"/>" disabled/>
+                  </td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ccc;">
+                  <th>내용</th>
+                  <td style="padding: 15px 0 15px 0;">
+                    <textarea class="txt_area_01" id="contents">
+                      ${map.BOARD_ARTICLE_CONTENT}
+                    </textarea>
+                  </td>
+                </tr>
+
+                <tr>
+                  <th>섬네일</th>
+                  <td style="line-height : 1;padding: 15px 0 15px 0;">
+                    <form>
+                      <div class="file-and-table-container">
+                        <table class="fileTable" style="width: 40%; margin-right: 15px;">
+                          <colgroup>
+                            <col width="50%">
+                            <col width="10%">
+                            <col width="30%">
+                            <col width="10%">
+                          </colgroup>
+                          <thead>
+                          <tr class="fileTr">
+                            <th class="fileTh">파일명</th>
+                            <th class="fileTh">확장자</th>
+                            <th class="fileTh">용량</th>
+                            <th class="fileTh">기타</th>
+                          </tr>
+                          </thead>
+                          <tbody id="fileGrid">
+                          <tr class="defultTr">
+                            <td colspan="4" style="text-align: center;padding-top: 10px;">선택된 파일이 없습니다.</td>
+                          </tr>
+                          </tbody>
+                        </table>
+                        <div>
+                          <div class="filebox">
+                            <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()" >
+                              <span class="__btn1 grayLine">이미지 첨부</span>
+                            </button>
+                            <input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" style="display: none"/>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
                   </td>
                 </tr>
               </table>
@@ -156,45 +231,6 @@
           </div>
 
           <div class="con">
-            <textarea class="txt_area_01" id="contents">
-              ${map.BOARD_ARTICLE_CONTENT}
-            </textarea>
-
-            <form>
-              <div class="file-and-table-container">
-                <div><span id="textMod">표지</span></div>
-                <table class="fileTable" style="width: 40%; margin-right: 15px;">
-                  <colgroup>
-                    <col width="50%">
-                    <col width="10%">
-                    <col width="30%">
-                    <col width="10%">
-                  </colgroup>
-                  <thead>
-                  <tr class="fileTr">
-                    <th class="fileTh">파일명</th>
-                    <th class="fileTh">확장자</th>
-                    <th class="fileTh">용량</th>
-                    <th class="fileTh">기타</th>
-                  </tr>
-                  </thead>
-                  <tbody id="fileGrid">
-                  <tr class="defultTr">
-                    <td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>
-                  </tr>
-                  </tbody>
-                </table>
-                <div>
-                  <div class="filebox">
-                    <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()" >
-                      <span class="__btn1 grayLine">이미지 첨부</span>
-                    </button>
-                    <input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" style="display: none"/>
-                  </div>
-                </div>
-              </div>
-            </form>
-
             <form id="linkTbl">
               <div class="file-and-table-container2" id="linkDiv1" name="linkDiv" data-number="1">
                 <div class="notStyle_div"><span>링크 생성</span></div>
@@ -205,15 +241,14 @@
 
                 <div class="linkInfo">
                   <div class="filebox2">
-                    <span>└&nbsp;</span>
 
                     <c:if test="${firstLinkInfo.GROUP_KEY ne '' and firstLinkInfo.GROUP_KEY ne null }">
-                      <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="padding-left: 2px;" onclick="groupKeyCreate()" disabled>
+                      <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="groupKeyCreate()" disabled>
                         <span class="__btn1 grayLine" disabled="disabled">그룹 생성</span>
                       </button>
                     </c:if>
                     <c:if test="${firstLinkInfo.GROUP_KEY eq '' or firstLinkInfo.GROUP_KEY eq null }">
-                      <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="padding-left: 2px;" onclick="groupKeyCreate()">
+                      <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="groupKeyCreate()">
                         <span class="__btn1 grayLine">그룹 생성</span>
                       </button>
                     </c:if>
@@ -222,7 +257,7 @@
                     <div>
                       <input type="hidden" id="linkKey1" value="${firstLinkInfo.LINK_KEY}" />
                       <c:if test="${firstLinkInfo.GROUP_KEY ne '' and firstLinkInfo.GROUP_KEY ne null }">
-                        <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="margin-left: 30px; margin-top: 4px;" onclick="linkCreate(1)" disabled>
+                        <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="margin-top: 4px;" onclick="linkCreate(1)" disabled>
                           <span class="__btn1 grayLine" disabled="disabled">링크 생성</span>
                         </button>
                         <input type="text" id="linkText1" name="linkText" style="width: 40%; margin: 0 5px 0 5px;" value="${firstLinkInfo.LINK}" readonly />
@@ -381,21 +416,21 @@
         html += '<div class="file-and-table-container2" id="linkDiv'+num+'" name="linkDiv" data-number="'+num+'">';
         html += '<div class="linkInfo">';
         html += '<div class="filebox2">';
-        html += '<span>└&nbsp</span>'
-        html += '<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="padding-left: 2px;" onclick="groupKeyCreate()" disabled>';
+        html += '<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="groupKeyCreate()" disabled>';
         html += '<span class="__btn1 grayLine">그룹 번호</span></button>';
         html += '<input type="text" id="groupKey" name="groupKey" style="margin: 0 5px 0 5px;text-align:center;" value="'+group+'" readonly />';
 
         html += '<div>'
         html += '<input type="hidden" id="linkKey'+num+'" value="'+linkInfo[cnt].LINK_KEY+'" />';
-        html += '<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="margin-left:26px;margin-top: 4px;" onclick="linkCreate('+num+')" disabled>';
+        html += '<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="margin-top: 4px;" onclick="linkCreate('+num+')" disabled>';
         html += '<span class="__btn1 grayLine" disabled="disabled">링크 생성</span></button>';
         html += '<input type="text" id="linkText'+num+'" name="linkText" style="width: 40%; margin: 4px 5px 0 5px;" value="'+linkInfo[cnt].LINK+'" readonly />';
         html += '<button type="button" id="copyBtn'+num+'" style="margin-top: 4px;" onclick="copyBtn('+num+')"><img src="/images/nav.png" style="background: white" alt="복사"></button>';
 
-
-        html += '<button type="button" class="addBtn2" style="margin-top: 4px;" onclick="delLinkDiv('+num+')" >';
+        html += '<button type="button" class="addBtn2" style="margin-left:2px;" onclick="delLinkDiv('+num+')" >';
         html += '<span class="__btn1 grayLine" >삭제</span></button>';
+        html += '<button type="button" id="groupFlag2" class="addBtn2" onclick="addLinkDiv()">';
+        html += '<span class="__btn1 grayLine">추가</span></button>';
         html += '</div>';
         html += '</div>';
         html += '</div>';
@@ -450,18 +485,19 @@
     html += '<div class="file-and-table-container2" id="linkDiv'+num+'" name="linkDiv" data-number="'+num+'">';
     html += '<div class="linkInfo">';
     html += '<div class="filebox2">';
-    html += '<span>└&nbsp</span>'
-    html += '<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="padding-left: 2px;" onclick="groupKeyCreate()" disabled>';
+    html += '<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="groupKeyCreate()" disabled>';
     html += '<span class="__btn1 grayLine">그룹 번호</span></button>';
     html += '<input type="text" id="groupKey" name="groupKey" style="margin: 0 5px 0 5px;text-align:center;" value="'+group+'" readonly />';
 
     html += '<div>'
     html += '<input type="hidden" id="linkKey'+num+'" value="" />';
-    html += '<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="margin-left:26px;margin-top: 4px;" onclick="linkCreate('+num+')">';
+    html += '<button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="margin-top: 4px;" onclick="linkCreate('+num+')">';
     html += '<span class="__btn1 grayLine">링크 생성</span></button>';
     html += '<input type="text" id="linkText'+num+'" name="linkText" style="width: 40%; margin: 4px 5px 0 5px;" value="" readonly />';
-    html += '<button type="button" class="addBtn2" style="margin-top: 4px;" onclick="delLinkDiv('+num+')" >';
+    html += '<button type="button" class="addBtn2" style="margin-left:2px;" onclick="delLinkDiv('+num+')" >';
     html += '<span class="__btn1 grayLine">삭제</span></button>';
+    html += '<button type="button" id="groupFlag2" class="addBtn2" onclick="addLinkDiv()">';
+    html += '<span class="__btn1 grayLine">추가</span></button>';
     html += '</div>';
     html += '</div>';
     html += '</div>';
