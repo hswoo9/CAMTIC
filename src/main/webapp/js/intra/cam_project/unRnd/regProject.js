@@ -8,17 +8,15 @@ var regUnRnd = {
         }
 
         customKendo.fn_textBox(["empName", "deptName", "pjtNm", "pjtSubNm", "rndCrmNm", "rndConCrmNm"
-                                ,"crmPartNm", "pjtExpAmt"]);
+                                ,"crmPartNm", "pjtExpAmt", "bsTitle"]);
 
         customKendo.fn_datePicker("sbjStrDe", "depth", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("sbjEndDe", "depth", "yyyy-MM-dd", new Date());
 
 
         var data = {
-            cmGroupCode : "RND_SUBJECT",
+
         }
-        var sbjDs = customKendo.fn_customAjax("/common/commonCodeList", data);
-        customKendo.fn_dropDownList("sbjClass", sbjDs.rs, "CM_CODE_NM", "CM_CODE", 2);
 
         data.cmGroupCode = "RND_SUBJECT_CHARACTER";
         var sbjDs = customKendo.fn_customAjax("/common/commonCodeList", data);
@@ -41,7 +39,7 @@ var regUnRnd = {
             customKendo.fn_dropDownList("supDepSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
         });
 
-        var tab0Url = "/projectRnd/researcherInfo.do";          // 사업정보
+        var tab0Url = "/projectUnRnd/detailInfo.do";          // 사업정보
         var tab1Url = "/projectRnd/rndDevPlan.do";              //
         var tab2Url = "/projectRnd/rndDevSchedule.do";          //
         var tab3Url = "/projectRnd/rndDevJob.do";               //
@@ -140,7 +138,7 @@ var regUnRnd = {
         $("#saveBtn").css("display", "none");
         $("#modBtn").css("display", "");
 
-        $("#sbjClass").data("kendoDropDownList").value(e.SBJ_CLASS);
+        $("#bsTitle").val(e.BS_TITLE);
         $("#supDep").data("kendoDropDownList").value(e.SBJ_DEP);
         $("#supDep").data("kendoDropDownList").trigger("change");
         $("#supDepSub").data("kendoDropDownList").value(e.SBJ_DEP_SUB);
@@ -163,7 +161,7 @@ var regUnRnd = {
         $("#pjtNm").val(e.PJT_NM);
         $("#pjtSubNm").val(e.PJT_SUB_NM);
 
-
+        $("#pjtExpAmt").val(comma(e.PJT_EXP_AMT));
         if(e.SBJ_SEP != undefined){
             if(e.SBJ_SEP == "Y"){
                 $("#sbjSepY").prop("checked", true);
@@ -184,7 +182,7 @@ var regUnRnd = {
         var parameters = {
             busnClass : "S",
             busnNm : "비R&D",
-            sbjClass : $("#sbjClass").val(),
+            bsTitle : $("#bsTitle").val(),
             sbjChar : $("#sbjChar").val(),
             sbjDep : $("#supDep").val(),
             sbjDepSub : $("#supDepSub").val(),
@@ -217,12 +215,11 @@ var regUnRnd = {
             parameters.sbjStatYn = "N";
         }
 
-
-
-        if(parameters.sbjClass == ""){
-            alert("과제구분을 선택해주세요.");
+        if(parameters.bsTitle == ""){
+            alert("사업명을 입력해주세요.")
             return;
         }
+
         if(parameters.sbjChar == ""){
             alert("과제성격을 선택해주세요.");
             return;
@@ -245,7 +242,7 @@ var regUnRnd = {
         }
 
         $.ajax({
-            url : "/projectRnd/setSubjectInfo",
+            url : "/projectUnRnd/setSubjectInfo",
             data : parameters,
             type: "post",
             dataType : "json",
@@ -260,7 +257,7 @@ var regUnRnd = {
     fn_mod : function (){
         var parameters = {
             pjtSn : $("#pjtSn").val(),
-            sbjClass : $("#sbjClass").val(),
+            bsTitle : $("#bsTitle").val(),
             sbjChar : $("#sbjChar").val(),
             sbjDep : $("#supDep").val(),
             sbjDepSub : $("#supDepSub").val(),
@@ -278,8 +275,8 @@ var regUnRnd = {
             pjtExpAmt : uncomma($("#pjtExpAmt").val()),
         }
 
-        if(parameters.sbjClass == ""){
-            alert("과제구분을 선택해주세요.");
+        if(parameters.bsTitle == ""){
+            alert("사업명을 입력해주세요.")
             return;
         }
         if(parameters.sbjChar == ""){
@@ -305,7 +302,7 @@ var regUnRnd = {
         }
 
         $.ajax({
-            url : "/projectRnd/setSubjectInfo",
+            url : "/projectUnRnd/setSubjectInfo",
             data : parameters,
             type: "post",
             dataType : "json",

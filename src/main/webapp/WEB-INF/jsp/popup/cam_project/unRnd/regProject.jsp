@@ -81,7 +81,7 @@
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">프로젝트 등록</span>
                 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
                 <input type="hidden" id="pjtStep" value="S">
-                <input type="hidden" id="pjtStepNm" value="과제등록">
+                <input type="hidden" id="pjtStepNm" value="사업등록">
             </h3>
 
             <div class="btn-st popButton">
@@ -101,20 +101,6 @@
                     <col width="35%">
                 </colgroup>
                 <thead>
-                <tr>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>과제구분
-                    </th>
-                    <td colspan="3">
-                        <input type="text" id="sbjClass" style="width: 40%;" value="">
-                    </td>
-<%--                    <th scope="row" class="text-center th-color">--%>
-<%--                        <span class="red-star">*</span>과제성격--%>
-<%--                    </th>--%>
-<%--                    <td>--%>
-<%--                        <input type="text" id="sbjChar" style="width: 90%;" value="">--%>
-<%--                    </td>--%>
-                </tr>
                 <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>지원부처</th>
                     <td>
@@ -166,7 +152,7 @@
                         <input type="text" id="sbjEndDe" style="width: 40%;">
                     </td>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>과제담당자
+                        <span class="red-star">*</span>사업담당자
                     </th>
                     <td>
                         <input type="text" id="deptName" style="width: 40%" disabled>
@@ -180,6 +166,14 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
+                        <span class="red-star">*</span>사업명
+                    </th>
+                    <td colspan="3">
+                        <input type="text" id="bsTitle" style="width: 95%;" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>과제명
                     </th>
                     <td colspan="3">
@@ -188,7 +182,7 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>과제명(약칭)
+                        <span class="red-star"></span>과제명(약칭)
                     </th>
                     <td colspan="3">
                         <input type="text" id="pjtSubNm" style="width: 95%;">
