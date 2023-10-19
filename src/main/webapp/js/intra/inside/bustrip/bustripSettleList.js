@@ -210,8 +210,8 @@ var bustripSettleList = {
                 }, {
                     title: "합계",
                     template: function(row){
-                        totalSum  += Number(row.PERSON_TOTAL) + Number(row.CORP_TOTAL);
-                        return "<div style='text-align: right'>"+fn_comma(row.PERSON_TOTAL+row.CORP_TOTAL)+"</div>";
+                        totalSum  += Number(row.PERSON_TOTAL) + Number(row.CORP_TOTAL) + Number(row.CAR_TOTAL);
+                        return "<div style='text-align: right'>"+fn_comma(row.PERSON_TOTAL+row.CORP_TOTAL+row.CAR_TOTAL)+"</div>";
                     },
                     width: 50,
                     footerTemplate: function(){
