@@ -11,8 +11,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">반품등록</h4>
-            <div class="title-road">캠아이템 > 아이템관리 > 출하관리 > 반품등록</div>
+            <h4 class="panel-title">반품현황</h4>
+            <div class="title-road">캠아이템 > 아이템관리 > 출하관리 > 반품현황</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
