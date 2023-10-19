@@ -24,7 +24,7 @@
             </div>
             <div style="padding-left : 20px; padding-right: 20px;">
                 <h4 class="panel-title">상신문서</h4>
-                <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠도큐먼트 > 상신/보관함 &gt; 상신문서</div>
+                <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠도큐먼트 > 전자결재 > 상신/보관함 &gt; 상신문서</div>
                 <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
             </div>
             <div class="panel-body">

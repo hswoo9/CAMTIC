@@ -40,8 +40,8 @@ var regUnRnd = {
         });
 
         var tab0Url = "/projectUnRnd/detailInfo.do";            // 사업정보
-        var tab1Url = "/projectRnd/rndDevPlan.do";              //
-        var tab2Url = "/projectRnd/rndDevSchedule.do";          //
+        var tab1Url = "/projectUnRnd/unRndDevPlan.do";          // 사업수행계획
+        var tab2Url = "/projectUnRnd/unRndUnitBusn.do";          //
         var tab3Url = "/projectRnd/rndDevJob.do";               //
 
         var tab4Url = "/projectRnd/payMvInfo.do";               //
@@ -84,12 +84,12 @@ var regUnRnd = {
             dataImageUrlField: "imageUrl",
             dataSource : [
                 {name: "사업정보", url: tab0Url, imageUrl : "/images/ico/etc_01_1.png"},
-                {name: "사업수행계획", url: tab1Url, imageUrl : "/images/ico/etc_01_1.png"},
-                {name: "단위사업", url: tab2Url},
-                {name: "현장교육", url: tab3Url},
-                {name: "사업비관리(예산/지급)", url: tab4Url},
-                {name: "협업", url: tab5Url}, // 지출내역조회와 같이 사용
-                {name: "참여율관리", url: tab6Url},
+                {name: "참여율관리", url: tab1Url},
+                {name: "사업수행계획", url: tab2Url, imageUrl : "/images/ico/etc_01_1.png"},
+                {name: "단위사업", url: tab3Url},
+                {name: "현장교육", url: tab4Url},
+                {name: "사업비관리(예산/지급)", url: tab5Url},
+                {name: "협업", url: tab6Url}, // 지출내역조회와 같이 사용
                 {name: "결과보고", url: tab7Url, imageUrl : "/images/ico/etc_01_1.png"}, // 지출내역조회와 같이 사용
                 {name: "출장", url: tab8Url},
                 {name: "구매", url: tab9Url},
@@ -110,9 +110,23 @@ var regUnRnd = {
 
             console.log(setParameters);
             if(setParameters.PJT_STEP >= "S2"){
-                tabStrip.enable(tabStrip.tabGroup.children().eq(1));
+                tabStrip.enable(tabStrip.tabGroup.children().eq(2));
+                tabStrip.enable(tabStrip.tabGroup.children().eq(3));
+                tabStrip.enable(tabStrip.tabGroup.children().eq(6));
+
+                tabStrip.enable(tabStrip.tabGroup.children().eq(8));
+                tabStrip.enable(tabStrip.tabGroup.children().eq(9));
+
             }
             regUnRnd.fn_setData(setParameters);
+
+            var tab = $("#tab").val();
+
+            if(tab != null && tab != ""){
+                tabStrip.activateTab(tabStrip.tabGroup.children().eq(tab));
+            } else {
+                tabStrip.activateTab(tabStrip.tabGroup.children().eq(0));
+            }
         }
 
         $("#viewBtn").on("click", function(){

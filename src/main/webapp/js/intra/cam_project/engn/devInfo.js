@@ -22,7 +22,6 @@ var devInfo = {
             var sdfDate = yyyy+'년 '+mm+'월 '+dd+'일';
 
 
-            console.log();
             var pjtStepNm = "상담";
             if(rs.list[i].PJT_STEP == "E0"){
                 pjtStepNm = "상담";
@@ -137,7 +136,6 @@ var devInfo = {
                 var list = rs.list;
 
                 for(var i = 0 ; i < list.length ; i++){
-                    console.log(list);
                     var idx = i+1;
                     var html = "";
                     html += '<tr id="tr'+idx+'">';
@@ -264,7 +262,6 @@ var devInfo = {
             dataType : "json",
             type : "post",
             success : function(rs){
-                console.log(rs);
                 var devFile = rs.devFile;
 
                 if(devFile.estFile != null && devFile.estFile != ""){
@@ -347,7 +344,6 @@ var devInfo = {
                                 dataType : "json",
                                 async : false,
                                 success : function(rs){
-                                    console.log(rs);
                                     if(rs.code == 200){
 
                                     }
@@ -811,7 +807,7 @@ var devInfo = {
         });
 
         alert("저장되었습니다.");
-        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=4";
+        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=3";
 
     },
 

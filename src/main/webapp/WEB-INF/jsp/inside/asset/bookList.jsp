@@ -11,7 +11,7 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">도서리스트</h4>
-            <div class="title-road">캠인사이드 > 도서관리 &gt; 도서리스트</div>
+            <div class="title-road">캠인사이드 > 자산관리 > 도서관리 &gt; 도서리스트</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">

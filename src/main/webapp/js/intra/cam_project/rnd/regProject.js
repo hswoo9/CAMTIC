@@ -45,7 +45,7 @@ var regRnd = {
         var tab2Url = "/projectRnd/reqPartRate.do";              // 참여율요청
         var tab3Url = "/projectRnd/partRate.do";                 // 참여율관리
 
-        var tab4Url = "/projectRnd/rndDevPlan.do";               // 개발계획
+        var tab4Url = "/projectRnd/rndDevPlan.do";               // 사업수행계획
         var tab5Url = "/projectRnd/rndDevSchedule.do";           // 개발일정
         // var tab6Url = "/projectRnd/rndDevJob.do";                    // 개발일지
         var tab6Url = "/intra/cam_project/teamInfo.do";          // 협업관리
@@ -131,9 +131,13 @@ var regRnd = {
             }
 
             var rndInfo = customKendo.fn_customAjax("/projectRnd/getRndDetail", setParameters);
-            if(rndInfo.map.STATUS == "100"){
-                tabStrip.enable(tabStrip.tabGroup.children());
+
+            if(rndInfo.map != null){
+                if(rndInfo.map.STATUS == "100"){
+                    tabStrip.enable(tabStrip.tabGroup.children());
+                }
             }
+
 
             // tabStrip.disable(tabStrip.tabGroup.children().eq(7));
             // tabStrip.disable(tabStrip.tabGroup.children().eq(8));

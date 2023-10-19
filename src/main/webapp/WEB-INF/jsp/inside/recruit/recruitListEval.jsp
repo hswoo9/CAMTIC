@@ -16,7 +16,7 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">채용관리(면접위원)</h4>
-            <div class="title-road">캠인사이드 > 채용관리 &gt; 채용관리(면접위원)</div>
+            <div class="title-road">캠인사이드 > 인사관리 > 채용관리 &gt; 채용관리(면접위원)</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">

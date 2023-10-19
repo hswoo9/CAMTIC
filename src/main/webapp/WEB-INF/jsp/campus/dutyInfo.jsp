@@ -9,8 +9,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">직무기술서 작성</h4>
-            <div class="title-road">직무기술서관리 > 직무기술서작성</div>
+            <h4 class="panel-title">직무기술서작성</h4>
+            <div class="title-road">캠퍼스 > 학습관리 > 직무관리 > 직무기술서작성</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">

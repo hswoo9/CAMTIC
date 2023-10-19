@@ -108,9 +108,7 @@
                     <li>
                         교육훈련
                     </li>
-                    <li>
-                        구매
-                    </li>
+
                     <li>
                         관계이력
                     </li>
@@ -123,9 +121,6 @@
                 </div>
                 <div class="histListDiv">
                     <div id="mainGrid3"></div>
-                </div>
-                <div class="histListDiv">
-                    <div id="mainGrid4"></div>
                 </div>
 
                 <div class="histListDiv">

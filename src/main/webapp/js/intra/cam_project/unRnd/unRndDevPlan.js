@@ -1,4 +1,4 @@
-var rndDP = {
+var unRndDP = {
 
     global: {
         devPjtVerList : [],
@@ -34,7 +34,7 @@ var rndDP = {
                 html += "<tr style='text-align: center'>";
                 html += "   <td>Ver."+(i+1)+"</td>";
                 html += "   <td>"+ docNo +"</td>";
-                html += "   <td><div onclick='rndDP.fn_viewVersion("+rs.list[i].DEV_SN+");' style='cursor : pointer; font-weight: bold'>"+ sdfDate +"</div></td>";
+                html += "   <td><div onclick='unRndDP.fn_viewVersion("+rs.list[i].DEV_SN+");' style='cursor : pointer; font-weight: bold'>"+ sdfDate +"</div></td>";
                 html += "   <td id='invAmt002'>"+comma(invAmt)+"</td>";
                 html += "   <td>"+rs.list[i].EMP_NAME_KR+"</td>";
                 html += "   <td></td>";
@@ -83,7 +83,7 @@ var rndDP = {
 
         rs = result.rs;
 
-        rndDP.global.devPjtVerList = rs;
+        unRndDP.global.devPjtVerList = rs;
         var html = "";
         for(var i = 0 ; i < rs.length ; i++){
             var date = new Date(rs[i].INV_DT);
@@ -125,7 +125,7 @@ var rndDP = {
             "                    <td><input type=\"text\" id=\"estTotAmt\" style=\"text-align: right\" class=\"estTotAmt\" onkeyup=\"inputNumberFormat(this)\" oninput=\"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\\..*)\\./g, '$1');\" /></td>\n" +
             "                    <td><input type=\"text\" id=\"estOfc\" class=\"estOfc\" /></td>\n" +
             "                    <td><input type=\"text\" id=\"invEtc\" class=\"invEtc\" /></td>\n" +
-            "                    <td style=\"text-align: center;\"><button type=\"button\" id=\"addBtn\" onclick=\"rndDP.fn_addInv()\" class=\"k-button k-button-solid-base\">추가</button></td>\n" +
+            "                    <td style=\"text-align: center;\"><button type=\"button\" id=\"addBtn\" onclick=\"unRndDP.fn_addInv()\" class=\"k-button k-button-solid-base\">추가</button></td>\n" +
             "                </tr>"
 
 
@@ -171,7 +171,7 @@ var rndDP = {
                         '       <td><input type="text" id="estOfc'+idx+'" class="estOfc" /></td>\n' +
                         '       <td><input type="text" id="invEtc'+idx+'" class="invEtc" /></td>\n' +
                         '       <td style="text-align: center;">' +
-                        '           <button type="button" id="delBtn" onclick="rndDP.fn_delInv('+idx+')" class="k-button k-button-solid-error">삭제</button>' +
+                        '           <button type="button" id="delBtn" onclick="unRndDP.fn_delInv('+idx+')" class="k-button k-button-solid-error">삭제</button>' +
                         '       </td>';
                     html += '</tr>';
                     $("#invTable").append(html);
@@ -259,7 +259,7 @@ var rndDP = {
             '       <td><input type="text" id="estOfc'+idx+'" class="estOfc" value="'+data.estOfc+'" /></td>\n' +
             '       <td><input type="text" id="invEtc'+idx+'" class="invEtc" value="'+data.invEtc+'" /></td>\n' +
             '       <td style="text-align: center;">' +
-            '           <button type="button" id="delBtn" onclick="rndDP.fn_delInv('+idx+')" class="k-button k-button-solid-error">삭제</button>' +
+            '           <button type="button" id="delBtn" onclick="unRndDP.fn_delInv('+idx+')" class="k-button k-button-solid-error">삭제</button>' +
             '       </td>';
         html += '</tr>';
 
@@ -342,10 +342,10 @@ var rndDP = {
                             $(this).children("td").last().children("button").each(function(x){
                                 if(x == 0){
                                     $(this).removeAttr("onclick");
-                                    $(this).attr("onclick", "rndDP.fn_addInv("+idx+")");
+                                    $(this).attr("onclick", "unRndDP.fn_addInv("+idx+")");
                                 } else {
                                     $(this).removeAttr("onclick");
-                                    $(this).attr("onclick", "rndDP.fn_delInv("+idx+")");
+                                    $(this).attr("onclick", "unRndDP.fn_delInv("+idx+")");
                                 }
                             });
 
@@ -404,7 +404,7 @@ var rndDP = {
         var rs = customKendo.fn_customAjax("/projectRnd/setDevInfo", data);
 
         if(rs.flag){
-            window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=4";
+            window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=1";
         }
     },
 
@@ -423,7 +423,7 @@ var rndDP = {
             dataType : "json",
             success : function (rs){
                 if(rs.code == 200){
-                    window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=4";
+                    window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=1";
                 }
             }
         });
