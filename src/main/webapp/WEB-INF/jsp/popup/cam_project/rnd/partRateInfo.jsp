@@ -72,8 +72,6 @@
                 <th style="width: 5%">총 참여율(%)</th>
                 <th style="width: 7%">인건비총액</th>
                 <th style="width: 7%">월 인건비</th>
-                <th style="width: 5%">참여율<br>조회</th>
-                <th style="width: 5%">삭제</th>
             </tr>
             </thead>
             <tbody id="partRateMember">
