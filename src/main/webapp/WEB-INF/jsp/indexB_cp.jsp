@@ -87,8 +87,10 @@
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs nav-justified">
                     <li class="active"><a href="#tab1" data-toggle="tab"><strong style="font-size:14px;">전체</strong></a></li>
-                    <li><a href="#tab2" data-toggle="tab"><strong style="font-size:14px;">공지</strong></a></li>
-                    <li><a href="#tab3" data-toggle="tab"><strong style="font-size:14px;">알림</strong></a></li>
+                    <li><a href="#tab2" data-toggle="tab"><strong style="font-size:14px;">공지사항</strong></a></li>
+                    <li><a href="#tab3" data-toggle="tab"><strong style="font-size:14px;">업무보고</strong></a></li>
+                    <li><a href="#tab3" data-toggle="tab"><strong style="font-size:14px;">업무메뉴얼</strong></a></li> <!--규정/지침/절차/양식-->
+                    <li><a href="#tab3" data-toggle="tab"><strong style="font-size:14px;">홍보자료</strong></a></li>
                 </ul>
 
                 <!-- Tab panes -->
@@ -263,7 +265,7 @@
     <div class="col-md-6 col-sm-6" style="padding-right:0;">
         <div class="panel" style="margin-bottom:10px;">
             <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" style="margin-right: 50px;"><i class="fa fa-shopping-cart" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">구매</span></a></h3>
+                <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" style="margin-right: 50px;" onclick="open_in_frame('/purc/purcReqList.do')"><i class="fa fa-shopping-cart" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">구매</span></a></h3>
             </div>
         </div><!-- panel -->
     </div>

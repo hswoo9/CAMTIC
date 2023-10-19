@@ -24,7 +24,7 @@
             <%--<table class="table table-bordered mb-0" style="border: 1px solid #dedfdf;" style="width: 600px;">--%>
             <table class="searchTable table table-bordered mb-0" style="border: 1px solid #dedfdf;">
                 <colgroup>
-                    <col width="10%">
+                    <col width="8%">
                 </colgroup>
                 <tbody>
                 <tr id="categoryTr" style="display: none">
@@ -76,7 +76,7 @@
                 </tr>
                 </tbody>
             </table>
-            <div class="btn-st">
+            <div class="btn-st" style="text-align: right">
                 <button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="normalArticleWrite.listPageMove()">
                     <span class="k-button-text">목록</span>
                 </button>
