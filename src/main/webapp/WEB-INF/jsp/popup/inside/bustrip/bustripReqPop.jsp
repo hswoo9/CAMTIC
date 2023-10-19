@@ -6,11 +6,11 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${toDate}"></script>
-<script type="text/javascript" src="/js/intra/inside/bustrip/bustripInit.js?v=${toDate}"></script>
-<script type="text/javascript" src="/js/intra/inside/bustrip/bustripPopup.js?v=${toDate}"></script>
-<script type="text/javascript" src="/js/intra/inside/bustrip/bustripReqPop.js?v=${toDate}"></script>
-<script type="text/javascript" src="/js/intra/inside/bustrip/carPop.js?v=${toDate}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripInit.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripPopup.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripReqPop.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/carPop.js?v=${today}"></script>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
@@ -86,11 +86,12 @@
                     <span id="project"></span>
                 </td>
             </tr>
-            <tr id="busnLine">
+            <tr id="busnLine" style="display:none">
                 <th><span class="red-star">*</span>사업명</th>
                 <td colspan="3">
-                    <input id="busnName" name="busnName" disabled style="width: 80%;">
-                    <button type="button" class="k-button k-button-solid-info" id="projectAddBtn" disabled>사업선택</button>
+                    <input type="text" id="busnName" name="busnName" style="width: 80%;" disabled />
+                    <input type="hidden" id="pjtSn" />
+                    <button type="button" class="k-button k-button-solid-info" onclick="bustripReq.fn_projectPop()" id="projectAddBtn">사업선택</button>
                 </td>
             </tr>
             <tr>
