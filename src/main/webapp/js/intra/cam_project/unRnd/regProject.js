@@ -40,7 +40,7 @@ var regUnRnd = {
         });
 
         var tab0Url = "/projectUnRnd/detailInfo.do";            // 사업정보
-        var tab1Url = "/projectRnd/rndDevPlan.do";              //
+        var tab1Url = "/projectUnRnd/unRndDevPlan.do";          // 사업수행계획
         var tab2Url = "/projectRnd/rndDevSchedule.do";          //
         var tab3Url = "/projectRnd/rndDevJob.do";               //
 
