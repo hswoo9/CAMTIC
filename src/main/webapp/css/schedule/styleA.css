@@ -1,0 +1,55 @@
+#calendar.fc .fc-view-container .fc-view.fc-basic-view>table>thead tr th.fc-widget-header, #calendar.fc .fc-view-container .fc-view.fc-basic-view>table>thead tr td.fc-widget-header, #calendar.fc .fc-view-container .fc-view.fc-agenda>table>thead tr th.fc-widget-header, #calendar.fc .fc-view-container .fc-view.fc-agenda>table>thead tr td.fc-widget-header {
+    color: #333537;
+    background: #E8E9E9;
+    border: 1px solid #f8f9fa;
+    padding: 5px;
+}
+
+.fc th.fc-widget-header {
+    background: #eaeaea !important;
+    font-size: 1.2rem;
+    line-height: 1.25rem;
+    padding: 0.625rem 0;
+    text-transform: uppercase;
+}
+
+.fc-widget-header {
+    border: 1px solid #eaeaea;
+    border-bottom: 0 !important;
+}
+
+.fc .fc-row .fc-content-skeleton table, .fc .fc-row .fc-content-skeleton td, .fc .fc-row .fc-helper-skeleton td {
+    border-color: #eaeaea;
+}
+
+.fc-unthemed .fc-today {
+    background: #F7FAFC !important;
+}
+
+#calendar.fc .fc-view-container .fc-other-month {
+    background: #f3f9ff;
+}
+
+body ::-webkit-scrollbar-thumb {
+    background: #c9d2dc /*#f8f9fa*/ /*#0a6583*/;
+}
+
+.fc-scroller.fc-day-grid-container {
+    overflow: hidden scroll !important;
+}
+
+.fc-basic-view .fc-body .fc-row {
+    min-height: 1rem;
+}
+
+.fc-scroller.fc-day-grid-container {
+    height: 490px !important;
+}
+
+.fc-widget-content {
+    background-color: #ffffff;
+}
+
+table {
+    background-color: unset;
+}
