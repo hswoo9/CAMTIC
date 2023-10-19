@@ -23,15 +23,15 @@
         <div class="media leftpanel-profile" style="text-align:center; background-color:#fff;">
             <div>
                 <a href="#">
-                    <img src="/images/photos/loggeduser1.png" alt="" class="media-object img-circle" style="text-align: center; margin: 0 auto; margin-bottom: 10px; width:100px;">
+                    <img src="/images/photos/loggeduser3.png" alt="" class="media-object img-circle" style="text-align: center; margin: 0 auto; margin-bottom: 10px; width:100px;">
                 </a>
             </div>
             <div class="media-body">
-                <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">김캠틱 선임</h4>
+                <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">관리자</h4>
                 <span style="color:#919191; font-size:15px;line-height:32px;letter-spacing: -2px;">경영지원실</span>
             </div>
             <div style="margin-top:10px;">
-                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">결재할 문서</span><span style="color:#919191;font-weight:600;">0</span></div>
+                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">결재할 문서</span><span style="color:#919191;font-weight:600;cursor:pointer;" onclick="open_in_frame('/approvalUser/approveWaitDocList.do')">0</span></div>
                 <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">오늘의 일정</span><span style="color:#919191;font-weight:600;">0</span></div>
                 <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">작성할 보고</span><span style="color:#919191;font-weight:600; color:#259dab;">120</span></div>
             </div>
@@ -42,19 +42,19 @@
             </div>
             <div class="panel-body" style="padding:5px;">
                 <div style="display:flex;justify-content: space-between; margin: 0 23px 10px 23px;">
-                    <div style="font-weight:600; font-size:15px;">2023.07</div>
+                    <div style="font-weight:600; font-size:15px;">2023.10</div>
                     <div style="font-weight:600; font-size:15px;"><span style="margin-right:10px;">&lt;</span><span>&gt;</span></div>
                 </div>
                 <div style="padding: 10px 25px; display:flex; justify-content: space-between;border-top: 1px solid #eee;">
                     <div style="display:flex;">
-                        <div style="font-weight:600; font-size:13px; margin-right:10px; width:50px;">07/02</div>
-                        <div>국민 선임</div>
+                        <div style="font-weight:600; font-size:13px; margin-right:10px; width:50px;">10/23</div>
+                        <div>주수빈 주임</div>
                     </div>
                 </div>
                 <div style="padding: 10px 25px; display:flex; justify-content: space-between;border-top: 1px solid #eee;">
                     <div style="display:flex;">
-                        <div style="font-weight:600; font-size:13px; margin-right:10px; width:50px;">07/05</div>
-                        <div>심형준 선임</div>
+                        <div style="font-weight:600; font-size:13px; margin-right:10px; width:50px;">10/24</div>
+                        <div>국민 선임</div>
                     </div>
                 </div>
             </div>
@@ -270,7 +270,7 @@
     <div class="col-md-6 col-sm-6" style="padding-right:0;">
         <div class="panel" style="margin-bottom:10px;">
             <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" style="margin-right: 50px;"><i class="fa fa-calendar-o" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">식단표</span></a></h3>
+                <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" style="margin-right: 50px;"  onclick="open_in_frame('/Inside/equipmentList.do')"><i class="fa fa-calendar-o" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">장비사용</span></a></h3>
             </div>
         </div><!-- panel -->
     </div>

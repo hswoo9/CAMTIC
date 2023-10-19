@@ -377,6 +377,15 @@
             <version>3.3.0</version>
         </dependency>
 
+        <!-- 바로빌 api
+        <dependency>
+            <groupId>com.baroservice</groupId>
+            <artifactId>barobill-api-sdk</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/barobill-api-sdk-java8.jar</systemPath>
+        </dependency>
+        -->
     </dependencies>
     <build>
         <defaultGoal>install</defaultGoal>
