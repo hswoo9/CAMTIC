@@ -690,6 +690,7 @@
             BD.*,
             IM.ITEM_NO,
             IM.ITEM_NAME,
+            IM.ITEM_TYPE,
             CONCAT(IM.ITEM_NO, ' [', IM.ITEM_NAME, '] X ', BD.REQ_QTY) AS TREE_NAME,
             IFNULL(MAX(II.UNIT_PRICE), 0) AS UNIT_PRICE,
             COUNT(II.INVEN_SN) AS INVEN_CNT,

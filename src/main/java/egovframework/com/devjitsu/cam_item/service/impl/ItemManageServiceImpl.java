@@ -242,7 +242,7 @@ public class ItemManageServiceImpl implements ItemManageService {
 
         for (Map<String, Object> map : bomDetailList) {
             map.put("expanded", true);
-            map.put("selected", "N");
+            map.put("base", "Y");
 
             Map<String, Object> searchMap = new HashMap<>();
             searchMap.put("masterSn", map.get("MASTER_SN"));
