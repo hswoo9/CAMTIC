@@ -903,6 +903,7 @@
         SELECT
             A.*,
             SUM(CORP_SUM) AS CORP_TOTAL,
+            SUM(CAR_SUM) AS CAR_TOTAL,
             SUM(PERSON_SUM) AS PERSON_TOTAL
         FROM (
             SELECT
