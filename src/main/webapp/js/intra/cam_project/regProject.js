@@ -218,14 +218,15 @@ var regPrj = {
 
                 if(setParameters.PJT_STEP >= "E3" && devMap.STATUS == "100"){
                     tabStrip.enable(tabStrip.tabGroup.children().eq(4));
-                }
-
-                if(setParameters.PJT_STEP >= "E4"){
                     tabStrip.enable(tabStrip.tabGroup.children().eq(6));
                 }
 
-                if(setParameters.PJT_STEP >= "E5"){
+                if(setParameters.PJT_STEP >= "E4"){
                     tabStrip.enable(tabStrip.tabGroup.children().eq(7));
+                }
+
+                if(setParameters.PJT_STEP >= "E5"){
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(10));
                 }
 
                 if(setParameters.PJT_STEP >= "E6"){

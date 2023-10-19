@@ -300,7 +300,7 @@
     <div class="col-md-6 col-sm-6" style="padding-right:0;">
         <div class="panel" style="margin-bottom:10px;">
             <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" style="margin-right: 40px;"><i class="fa fa-desktop" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">전산보완</span></a></h3>
+                <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" style="margin-right: 40px;" onclick="open_in_frame('/board/getBoardArticleList.do?')"><i class="fa fa-desktop" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">전산보완</span></a></h3>
             </div>
         </div><!-- panel -->
     </div>
@@ -337,7 +337,7 @@
     <div class="col-md-12 col-sm-12" style="padding-right:0;">
         <div class="panel" style="margin-bottom:10px;">
             <div class="panel-heading" style="background-color: #505b72; padding:5px;">
-                <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="https://www.microsoft.com/ko-kr/microsoft-teams/download-app" target='_blank'><i class="fa fa-download" style="font-size:20px;padding:11px 11px 11px 0;"></i>팀즈 다운로드</a></h3>
+                <h3 class="panel-title" style="color:#fff; text-align:center; font-weight:600;"><a href="https://www.microsoft.com/ko-kr/microsoft-teams/download-app" target='_blank'><i class="fa fa-download" style="font-size:20px;padding:11px 11px 11px 0;"></i>팀즈</a></h3>
             </div>
         </div><!-- panel -->
     </div>
