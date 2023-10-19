@@ -83,17 +83,17 @@ var regUnRnd = {
             dataContentUrlField: "url",
             dataImageUrlField: "imageUrl",
             dataSource : [
-                {name: "사업정보", url: tab0Url, imageUrl : "/images/ico/etc_01.png"},
-                {name: "사업수행계획", url: tab1Url, imageUrl : "/images/ico/etc_01.png"},
+                {name: "사업정보", url: tab0Url, imageUrl : "/images/ico/etc_01_1.png"},
+                {name: "사업수행계획", url: tab1Url, imageUrl : "/images/ico/etc_01_1.png"},
                 {name: "단위사업", url: tab2Url},
                 {name: "현장교육", url: tab3Url},
                 {name: "사업비관리(예산/지급)", url: tab4Url},
                 {name: "협업", url: tab5Url}, // 지출내역조회와 같이 사용
                 {name: "참여율관리", url: tab6Url},
-                {name: "결과보고", url: tab7Url, imageUrl : "/images/ico/etc_01.png"}, // 지출내역조회와 같이 사용
+                {name: "결과보고", url: tab7Url, imageUrl : "/images/ico/etc_01_1.png"}, // 지출내역조회와 같이 사용
                 {name: "출장", url: tab8Url},
                 {name: "구매", url: tab9Url},
-                {name: "정산/원가", url: tab10Url, imageUrl : "/images/ico/etc_01.png"}
+                {name: "정산/원가", url: tab10Url, imageUrl : "/images/ico/etc_01_1.png"}
             ],
         });
 
@@ -107,6 +107,8 @@ var regUnRnd = {
             tabStrip.disable(tabStrip.tabGroup.children());
             tabStrip.enable(tabStrip.tabGroup.children().eq(0));
             tabStrip.select(0);
+
+            console.log(setParameters);
             regUnRnd.fn_setData(setParameters);
         }
 

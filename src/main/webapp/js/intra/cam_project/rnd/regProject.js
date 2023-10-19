@@ -94,23 +94,23 @@ var regRnd = {
             dataContentUrlField: "url",
             dataImageUrlField: "imageUrl",
             dataSource : [
-                {name: "사업정보", url: tab0Url, imageUrl : "/images/ico/etc_01.png"},
+                {name: "사업정보", url: tab0Url, imageUrl : "/images/ico/etc_01_1.png"},
                 {name: "참여인력", url: tab1Url},
                 {name: "참여율요청", url: tab2Url},      // 지출내역조회와 같이 사용
                 {name: "참여율관리", url: tab3Url},      // 지출내역조회와 같이 사용
-                {name: "수행계획(공정)", url: tab4Url, imageUrl : "/images/ico/etc_01.png"},
+                {name: "수행계획(공정)", url: tab4Url, imageUrl : "/images/ico/etc_01_1.png"},
                 {name: "개발관리", url: tab5Url},
                 {name: "협업", url: tab6Url},
                 // {name: "입출금대장관리", url: tab5Url},
                 {name: "사업비관리(예산/지급)", url: tab7Url},        // 연구비 입금처리와 같이 사용
-                {name: "결과보고", url: tab8Url, imageUrl : "/images/ico/etc_01.png"},        // 연구비 입금처리와 같이 사용
+                {name: "결과보고", url: tab8Url, imageUrl : "/images/ico/etc_01_1.png"},        // 연구비 입금처리와 같이 사용
 
                 // {name: "지급관리", url: tab9Url},
                 {name: "출장", url: tab9Url},
                 // {name: "협업", url: tab10Url},
                 {name: "구매", url: tab11Url},
                 {name: "예산변경신청", url: tab12Url},
-                {name: "정산/원가", url: tab13Url, imageUrl : "/images/ico/etc_01.png"}
+                {name: "정산/원가", url: tab13Url, imageUrl : "/images/ico/etc_01_1.png"}
 
             ],
         });

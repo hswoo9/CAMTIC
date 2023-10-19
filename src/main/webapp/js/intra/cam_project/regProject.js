@@ -123,15 +123,15 @@ var regPrj = {
             dataSource : [
                 {name: "상담정보", url: tab0Url},
                 {name: "견적관리", url: tab1Url},
-                {name: "수주보고", url: tab2Url, imageUrl : "/images/ico/etc_01.png"},
-                {name: "수행계획(공정)", url: tab3Url, imageUrl : "/images/ico/etc_01.png"},
+                {name: "수주보고", url: tab2Url, imageUrl : "/images/ico/etc_01_1.png"},
+                {name: "수행계획(공정)", url: tab3Url, imageUrl : "/images/ico/etc_01_1.png"},
                 {name: "공정", url: tab4Url},
                 {name: "협업", url: tab5Url},
                 {name: "납품관리", url: tab6Url},
-                {name: "결과보고", url: tab7Url, imageUrl : "/images/ico/etc_01.png"},
+                {name: "결과보고", url: tab7Url, imageUrl : "/images/ico/etc_01_1.png"},
                 {name: "출장", url: tab8Url},
                 {name: "구매", url: tab9Url},
-                {name: "정산/원가", url: tab10Url, imageUrl : "/images/ico/etc_01.png"}
+                {name: "정산/원가", url: tab10Url, imageUrl : "/images/ico/etc_01_1.png"}
             ],
         });
 
