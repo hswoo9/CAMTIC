@@ -404,7 +404,7 @@ var unRndDP = {
         var rs = customKendo.fn_customAjax("/projectRnd/setDevInfo", data);
 
         if(rs.flag){
-            window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=4";
+            window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=1";
         }
     },
 
@@ -423,7 +423,7 @@ var unRndDP = {
             dataType : "json",
             success : function (rs){
                 if(rs.code == 200){
-                    window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=4";
+                    window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=1";
                 }
             }
         });
