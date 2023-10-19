@@ -57,7 +57,7 @@ var regCrmHist = {
         $("input[name='crmRelPjt']").change(function(){
             $("#pjtNm").hide();
             $("#pjtSelBtn").hide();
-            if(this.value == "rnd" || this.value == "bRnd"){
+            if(this.value == "R" || this.value == "S"){
                 $("#pjtNm").show();
                 $("#pjtSelBtn").show();
             }
@@ -80,8 +80,9 @@ var regCrmHist = {
             crmRelTp : $("#crmRelTp").val(),
             crmRelStrDt : $("#crmRelStrDt").val(),
             crmRelEndDt : $("#crmRelEndDt").val(),
-            crmRelPjt : $("#crmRelPjt").val(),
-            crmRelPjtNm : $("#crmRelPjt").data("kendoDropDownList").text(),
+            crmRelPjtSn : $("#pjtSn").val(),
+            crmRelPjt : $("input[name='crmRelPjt']:checked").val(),
+            crmRelPjtNm : $("label[for='" + $("input[name='crmRelPjt']:checked").val() + "']").text(),
             crmRelCont : regCrmHist.global.editor.getData(),
             crmShareEmp : $("#crmShareEmp").val(),
             empSeq : $("#empSeq").val()
@@ -141,69 +142,69 @@ var regCrmHist = {
         window.open("/user/pop/userMultiSelectPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
     },
 
-    mainCdChkBoxSetting : function(e){
-        for(var i = 0; i < e.length; i++){
-            regCrmHist.global.htmlStr = "";
-            regCrmHist.global.htmlStr += "" +
-                '<tr>' +
-                    '<td>' +
-                        '<div>' +
-                            '<input type="checkbox" id="' + e[i].CRM_CD_SN + '" name="crmInterLg" style="margin-right: 5px" grpSn="' + e[i].GRP_SN + '" value="' + e[i].LG_CD + '" onchange="regCrmHist.mainCdChkBoxChange(this)">' +
-                            '<label for="' + e[i].CRM_CD_SN + '">' + e[i].LG_CD_NM +'</label>' +
-                        '</div>' +
-                    '</td>' +
-                    '<td id="crmInterTd_' + e[i].LG_CD + '">' +
-                        '<div id="crmInterDiv_' + e[i].LG_CD + '" style="display: none">' +
-                        '</div>' +
-                    '</td>' +
-                '</tr>';
+    // mainCdChkBoxSetting : function(e){
+    //     for(var i = 0; i < e.length; i++){
+    //         regCrmHist.global.htmlStr = "";
+    //         regCrmHist.global.htmlStr += "" +
+    //             '<tr>' +
+    //                 '<td>' +
+    //                     '<div>' +
+    //                         '<input type="checkbox" id="' + e[i].CRM_CD_SN + '" name="crmInterLg" style="margin-right: 5px" grpSn="' + e[i].GRP_SN + '" value="' + e[i].LG_CD + '" onchange="regCrmHist.mainCdChkBoxChange(this)">' +
+    //                         '<label for="' + e[i].CRM_CD_SN + '">' + e[i].LG_CD_NM +'</label>' +
+    //                     '</div>' +
+    //                 '</td>' +
+    //                 '<td id="crmInterTd_' + e[i].LG_CD + '">' +
+    //                     '<div id="crmInterDiv_' + e[i].LG_CD + '" style="display: none">' +
+    //                     '</div>' +
+    //                 '</td>' +
+    //             '</tr>';
+    //
+    //         $("#codeTable").append(regCrmHist.global.htmlStr);
+    //
+    //         var result = customKendo.fn_customAjax("/crm/smCodeList", {
+    //             grpSn : e[i].GRP_SN,
+    //             lgCd : e[i].LG_CD
+    //         });
+    //         regCrmHist.subCheckBoxSetting(result, "crmInterDiv_" + e[i].LG_CD);
+    //     }
+    // },
 
-            $("#codeTable").append(regCrmHist.global.htmlStr);
+    // mainCdChkBoxChange : function(e){
+    //     if($(e).is(":checked")){
+    //         $("#crmInterDiv_" + $(e).val()).show();
+    //     }else{
+    //         $("#crmInterDiv_" + $(e).val()).hide();
+    //     }
+    // },
+    //
+    // subCheckBoxSetting : function(e, id){
+    //     regCrmHist.global.subHtmlStr = "";
+    //
+    //     for(var i = 0; i < e.length; i++) {
+    //         regCrmHist.global.subHtmlStr += "" +
+    //             '<input type="checkbox" id="' + e[i].CRM_CD_SN + '" grpSn="' + e[i].GRP_SN + '" lgCd="' + e[i].LG_CD + '" name="crmInter"  style="margin-left: 5px;margin-right: 5px" value="' + e[i].CRM_CD + '">' +
+    //             '<label for="' + e[i].CRM_CD_SN + '">' + e[i].CRM_CD_NM + '</label>';
+    //     }
+    //
+    //     $("#" + id).append(regCrmHist.global.subHtmlStr);
+    // },
 
-            var result = customKendo.fn_customAjax("/crm/smCodeList", {
-                grpSn : e[i].GRP_SN,
-                lgCd : e[i].LG_CD
-            });
-            regCrmHist.subCheckBoxSetting(result, "crmInterDiv_" + e[i].LG_CD);
-        }
-    },
+    // codeTableExpand : function(e){
+    //     if($(e).hasClass("active")){
+    //         $(e).text("▼");
+    //         $(e).removeClass("active");
+    //         $("#codeTable").hide();
+    //     }else{
+    //         $(e).text("▲");
+    //         $(e).addClass("active");
+    //         $("#codeTable").show();
+    //     }
+    // },
 
-    mainCdChkBoxChange : function(e){
-        if($(e).is(":checked")){
-            $("#crmInterDiv_" + $(e).val()).show();
-        }else{
-            $("#crmInterDiv_" + $(e).val()).hide();
-        }
-    },
-
-    subCheckBoxSetting : function(e, id){
-        regCrmHist.global.subHtmlStr = "";
-
-        for(var i = 0; i < e.length; i++) {
-            regCrmHist.global.subHtmlStr += "" +
-                '<input type="checkbox" id="' + e[i].CRM_CD_SN + '" grpSn="' + e[i].GRP_SN + '" lgCd="' + e[i].LG_CD + '" name="crmInter"  style="margin-left: 5px;margin-right: 5px" value="' + e[i].CRM_CD + '">' +
-                '<label for="' + e[i].CRM_CD_SN + '">' + e[i].CRM_CD_NM + '</label>';
-        }
-
-        $("#" + id).append(regCrmHist.global.subHtmlStr);
-    },
-
-    codeTableExpand : function(e){
-        if($(e).hasClass("active")){
-            $(e).text("▼");
-            $(e).removeClass("active");
-            $("#codeTable").hide();
-        }else{
-            $(e).text("▲");
-            $(e).addClass("active");
-            $("#codeTable").show();
-        }
-    },
-
-    rdTaskPopup : function(){
-        var url = "/Inside/Pop/rdTaskPop.do";
-        var name = "rdTaskPop";
-        var option = "width = 500, height = 200, top = 100, left = 200, location = no, _blank"
+    fn_projectPop : function (){
+        var url = "/project/pop/projectView.do?busnClass="+ $("input[name='crmRelPjt']:checked").val();
+        var name = "_blank";
+        var option = "width = 1100, height = 400, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
-    }
+    },
 }

@@ -403,6 +403,9 @@
                 CRM_INTER_VAL,
                 CRM_INTER_LG,
                 CRM_INTER,
+                <if test='crmRelPjtSn != null and !"".equals(crmRelPjtSn)'>
+                CRM_REL_PJT_SN,
+                </if>
                 CRM_REL_PJT,
                 CRM_REL_PJT_NM,
                 CRM_REL_CONT,
@@ -424,6 +427,9 @@
                 "",
                 #{crmInterLg},
                 #{crmInter},
+                <if test='crmRelPjtSn != null and !"".equals(crmRelPjtSn)'>
+                #{crmRelPjtSn},
+                </if>
                 #{crmRelPjt},
                 #{crmRelPjtNm},
                 #{crmRelCont},
