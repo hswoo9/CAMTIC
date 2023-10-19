@@ -68,7 +68,7 @@ var resultInfo = {
         html += '   <td style="text-align: center; background-color: #dee4ed"></td>';
         html += '   <td style="text-align: center; background-color: #dee4ed">총금액</td>';
         for(var i = 0 ; i < ls.length ; i++) {
-            html += '   <td colspan="2" style="text-align: center; background-color: #dee4ed">[' + ls[i].PS_PREP_NM + '] ' +ls[i].PS_EMP_NM+'</td>';
+            html += '   <td colspan="2" style="text-align: center; background-color: #dee4ed">'+ls[i].PS_EMP_NM+'</td>';
         }
         html += '</tr>';
 
@@ -370,6 +370,21 @@ var resultInfo = {
 
         if((Number(A) + Number(B) + Number(C)) > 100){
             alert("수익 실적률이 100%를 초과하였습니다.");
+            return;
+        }
+
+        if((Number(delvA) + Number(delvB) + Number(delvC)) < 100){
+            alert("수주 실적률이 100% 미만입니다.");
+            return;
+        }
+
+        if((Number(invA) + Number(invB) + Number(invC)) > 100){
+            alert("매출 실적률이 100% 미만입니다.");
+            return;
+        }
+
+        if((Number(A) + Number(B) + Number(C)) > 100){
+            alert("수익 실적률이 100% 미만입니다.");
             return;
         }
 
