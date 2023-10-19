@@ -4,19 +4,19 @@
 <jsp:useBean id="today" class="java.util.Date" />
 
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/cam_project/rnd/rndDevPlan.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/unRndDevPlan.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 
-<input type="hidden" id="step" value="R1" />
+<input type="hidden" id="step" value="S1" />
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="devSn" value="" />
 <div style="padding: 10px">
     <div class="table-responsive">
-        <button type="button" id="saveBtn2" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="rndDP.fn_save()">저장</button>
-        <button type="button" id="approveBtn2" style="float: right; margin-bottom: 5px; margin-right: 5px;" class="k-button k-button-solid-base" onclick="rndDP.fn_approve()">상신</button>
-        <button type="button" id="rsBtn2" style="float: right; margin-bottom: 5px; margin-right: 5px; display: none" class="k-button k-button-solid-base" disabled onclick="rndDP.fn_docView()">열람</button>
-        <button type="button" id="addVerBtn2" style="float: right; margin-bottom: 5px; margin-right: 5px;" class="k-button k-button-solid-base" onclick="rndDP.fn_addVersion()">예비원가 추가</button>
+        <button type="button" id="saveBtn2" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="unRndDP.fn_save()">저장</button>
+        <button type="button" id="approveBtn2" style="float: right; margin-bottom: 5px; margin-right: 5px;" class="k-button k-button-solid-base" onclick="unRndDP.fn_approve()">상신</button>
+        <button type="button" id="rsBtn2" style="float: right; margin-bottom: 5px; margin-right: 5px; display: none" class="k-button k-button-solid-base" disabled onclick="unRndDP.fn_docView()">열람</button>
+        <button type="button" id="addVerBtn2" style="float: right; margin-bottom: 5px; margin-right: 5px;" class="k-button k-button-solid-base" onclick="unRndDP.fn_addVersion()">예비원가 추가</button>
 
 
         <br><br>
@@ -107,7 +107,7 @@
                     <td><input type="text" id="estTotAmt" style="text-align: right" class="estTotAmt" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
                     <td><input type="text" id="estOfc" class="estOfc" /></td>
                     <td><input type="text" id="invEtc" class="invEtc" /></td>
-                    <td style="text-align: center;"><button type="button" id="addBtn" onclick="rndDP.fn_addInv()" class="k-button k-button-solid-base">추가</button></td>
+                    <td style="text-align: center;"><button type="button" id="addBtn" onclick="unRndDP.fn_addInv()" class="k-button k-button-solid-base">추가</button></td>
                 </tr>
                 </tbody>
             </table>
@@ -116,5 +116,5 @@
 </div>
 
 <script>
-    rndDP.fn_defaultScript();
+    unRndDP.fn_defaultScript();
 </script>
