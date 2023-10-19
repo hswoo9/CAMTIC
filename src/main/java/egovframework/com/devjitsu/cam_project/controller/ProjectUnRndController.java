@@ -113,4 +113,17 @@ public class ProjectUnRndController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/projectUnRnd/setDelvApprove")
+    public String setDelvApprove(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectUnRndService.setDelvApprove(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }

@@ -155,7 +155,7 @@
         var pjCodeDs = customKendo.fn_customAjax("/common/commonCodeList", data)
         customKendo.fn_dropDownList("pjCode", pjCodeDs.rs, "CM_CODE_NM", "CM_CODE");
 
-        $("#pjCode").data("kendoDropDownList").select(1);
+        $("#pjCode").data("kendoDropDownList").select(2);
 
         data.grpSn = "SUP_DEP";
         var lgCodeDs = customKendo.fn_customAjax("/project/selLgCode", data);

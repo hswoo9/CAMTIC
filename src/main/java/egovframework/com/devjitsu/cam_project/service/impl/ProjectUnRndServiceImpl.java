@@ -1,9 +1,11 @@
 package egovframework.com.devjitsu.cam_project.service.impl;
 
 import dev_jitsu.MainLib;
+import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectUnRndRepository;
 import egovframework.com.devjitsu.cam_project.service.ProjectUnRndService;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
+import egovframework.com.devjitsu.g20.repository.G20Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +25,12 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
 
     @Autowired
     private CommonRepository commonRepository;
+
+    @Autowired
+    private ProjectRepository projectRepository;
+
+    @Autowired
+    private G20Repository g20Repository;
 
     @Override
     public void setSubjectInfo(Map<String, Object> params) {
@@ -76,5 +84,29 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
         String path = base_dir + params.get("menuCd").toString()+"/" + fmtNow + "/";
 
         return path;
+    }
+
+    @Override
+    public void setDelvApprove(Map<String, Object> params) {
+
+        try{
+            projectRepository.updTmpProjectCode(params);
+            projectUnRndRepository.setDelvApprove(params);
+
+            // 결재 완료 처리
+            projectUnRndRepository.updUnRndProjectInfo(params);
+            int pjtCnt = g20Repository.getProjectCount(params);
+
+            params.put("pjtCd", params.get("pjtCd") + String.format("%02d", (pjtCnt + 1)) + "0");
+            params.put("pProjectCD", params.get("pjtCd"));
+
+            // G20 프로젝트 추가
+            g20Repository.insProject(params);
+            projectRepository.updProjectCode(params);
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 }

@@ -606,4 +606,5 @@
         WHERE
             PJT_SN = #{pjtSn}
     </update>
+
 </mapper>

@@ -144,7 +144,7 @@ var unRndDetail = {
         }
 
         $.ajax({
-            url : "/projectRnd/setDelvApprove",
+            url : "/projectUnRnd/setDelvApprove",
             data : parameters,
             type : "post",
             dataType : "json",
