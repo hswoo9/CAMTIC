@@ -15,9 +15,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title" style="margin-bottom: 5px;">인사관리(사용자)</h4>
-            <div>직원조회 목록</div>
-            <div class="title-road">캠인사이드 > 인사관리 &gt; 인사관리(사용자)</div>
+            <h4 class="panel-title" style="margin-bottom: 5px;">인사관리</h4>
+            <div class="title-road">캠인사이드 > 인사관리 > 인사관리 &gt; 인사관리</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">

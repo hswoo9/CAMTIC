@@ -16,7 +16,7 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">서류/면접직원(위원) 설정</h4>
-            <div class="title-road">캠인사이드 > 채용관리 &gt; 서류/면접직원(위원) 설정</div>
+            <div class="title-road">캠인사이드 > 인사관리 > 채용관리 &gt; 서류/면접직원(위원) 설정</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">

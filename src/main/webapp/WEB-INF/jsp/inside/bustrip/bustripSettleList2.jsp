@@ -29,8 +29,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">연구원 노임</h4>
-            <div class="title-road">캠인사이드 > 출장관리 &gt; 연구원 노임</div>
+            <h4 class="panel-title">출장정산 (관리자)</h4>
+            <div class="title-road">캠인사이드 > 출장관리 &gt; 출장정산 (관리자)</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
