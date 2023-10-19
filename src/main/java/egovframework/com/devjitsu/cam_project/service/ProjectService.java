@@ -143,4 +143,6 @@ public interface ProjectService {
     Map<String, Object> getMngPartRate(Map<String, Object> map);
 
     Map<String, Object> getProjectTotalData(Map<String, Object> params);
+
+    List<Map<String, Object>> getResultPsMember(Map<String, Object> params);
 }

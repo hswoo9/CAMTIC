@@ -56,7 +56,11 @@ var resultInfo = {
     },
 
     fn_makeRow: function(rs){
-        const ls = rs.list;
+        var data= {
+            pjtSn :$("#pjtSn").val()
+        }
+        const result = customKendo.fn_customAjax("/project/engn/getResultPsMember", data);
+        const ls = result.list;
         var html = "";
 
         /** 첫 행 */

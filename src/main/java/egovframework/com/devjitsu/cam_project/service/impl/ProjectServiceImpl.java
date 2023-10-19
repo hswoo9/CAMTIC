@@ -903,6 +903,11 @@ public class ProjectServiceImpl implements ProjectService {
     public Map<String, Object> getProjectTotalData(Map<String, Object> params) {
         return projectRepository.getProjectTotalData(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getResultPsMember(Map<String, Object> params) {
+        return projectRepository.getResultPsMember(params);
+    }
 }
 
 

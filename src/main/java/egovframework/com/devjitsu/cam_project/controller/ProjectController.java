@@ -408,6 +408,14 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/engn/getResultPsMember")
+    public String getResultPsMember(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list", projectService.getResultPsMember(params));
+
+        return "jsonView";
+    }
+
     @RequestMapping("/project/engn/getTeamList")
     public String getTeamList(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> map = new ArrayList<>();
