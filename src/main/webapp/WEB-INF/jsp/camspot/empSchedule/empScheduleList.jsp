@@ -32,7 +32,8 @@
         </div>
         <div class="panel-body">
 
-            <div style="text-align: right;float: right;">
+            <div style="text-align: right">
+                <input type="text" id="publicClass" style="width: 7%">
                 <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="esl.fn_popScheduleReg()">
                     일정등록
                 </button>
@@ -51,4 +52,8 @@
 <script src="/js/schedule/fullcalendar-init.js?v=${today}"></script>
 <script>
     jQuery.noConflict();
+    $("#publicClass").data("kendoDropDownList").bind("change", function(){
+        esl.global.cal.$calendar.fullCalendar("destroy")
+        esl.global.cal.init()
+    });
 </script>
