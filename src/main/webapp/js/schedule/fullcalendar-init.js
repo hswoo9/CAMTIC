@@ -86,7 +86,7 @@
                 t = o.$categoryForm.find("select[name='category-color']").val();
             null !== e && 0 != e.length && (o.$extEvents.append('<div class="external-event bg-' + t + '" data-class="bg-' + t + '" style="position: relative;"><i class="fa fa-move"></i>' + e + "</div>"), o.enableDrag())
         })
-    }, e.CalendarApp = new t, e.CalendarApp.Constructor = t
+    }, e.CalendarApp = new t, e.CalendarApp.Constructor = t, esl.global.cal = new t, esl.global.cal.Constructor = t
 }(window.jQuery),
 function(e) {
     "use strict";

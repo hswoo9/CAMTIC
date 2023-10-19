@@ -9,6 +9,7 @@ var esl = {
         data : new Array(),
         minuteList : new Array(),
         hourList : new Array(),
+        dropDownDataSource : "",
     },
 
     fn_defaultScript : function(){
@@ -25,59 +26,28 @@ var esl = {
             esl.global.hourList.push({HOUR_NM: hour, HOUR_CD: hour});
         }
 
+        esl.global.dropDownDataSource = [
+            { text : "직원일정", value : "ES" },
+            { text : "법인일정", value : "CS" },
+        ]
+        customKendo.fn_dropDownList("publicClass", esl.global.dropDownDataSource, "text", "value");
+    },
+
+    getScheduleData : function(){
+        var scheduleData = new Array();
+
         esl.global.searchAjaxData = {
             startDt : $("#startDt").val(),
             endDt : $("#endDt").val(),
             publicClass : $("#publicClass").val()
         }
 
+
         var ds = customKendo.fn_customAjax("/spot/getScheduleList.do", esl.global.searchAjaxData);
         if(ds.flag){
             esl.global.data = ds.list;
         }
-    },
 
-    fn_makerMinute : function(){
-        customKendo.fn_datePicker("selectDate", "month", "yyyy-MM-dd", esl.global.selectDate);
-
-        $("#startHour").kendoDropDownList({
-            dataSource : esl.global.hourList,
-            dataTextField: "HOUR_NM",
-            dataValueField: "HOUR_CD",
-            change : function(){
-                console.log(this);
-            }
-        });
-
-        $("#endHour").kendoDropDownList({
-            dataSource : esl.global.hourList,
-            dataTextField: "HOUR_NM",
-            dataValueField: "HOUR_CD",
-            change : function(){
-                console.log(this);
-            }
-        });
-
-        $("#startMinute").kendoDropDownList({
-            dataSource : esl.global.minuteList,
-            dataTextField: "MINUTE_NM",
-            dataValueField: "MINUTE_CD",
-            change : function(){
-                console.log(this);
-            }
-        });
-        $("#endMinute").kendoDropDownList({
-            dataSource : esl.global.minuteList,
-            dataTextField: "MINUTE_NM",
-            dataValueField: "MINUTE_CD",
-            change : function(){
-                console.log(this);
-            }
-        });
-    },
-
-    getScheduleData : function(){
-        var scheduleData = new Array();
         if(esl.global.data.length > 0){
             for(var i = 0 ; i < esl.global.data.length ; i++){
                 var row = {};
@@ -88,6 +58,7 @@ var esl = {
                 scheduleData.push(row);
             }
         }
+
         return scheduleData;
     },
 
