@@ -111,8 +111,22 @@ var regUnRnd = {
             console.log(setParameters);
             if(setParameters.PJT_STEP >= "S2"){
                 tabStrip.enable(tabStrip.tabGroup.children().eq(1));
+                tabStrip.enable(tabStrip.tabGroup.children().eq(2));
+                tabStrip.enable(tabStrip.tabGroup.children().eq(5));
+
+                tabStrip.enable(tabStrip.tabGroup.children().eq(8));
+                tabStrip.enable(tabStrip.tabGroup.children().eq(9));
+
             }
             regUnRnd.fn_setData(setParameters);
+
+            var tab = $("#tab").val();
+
+            if(tab != null && tab != ""){
+                tabStrip.activateTab(tabStrip.tabGroup.children().eq(tab));
+            } else {
+                tabStrip.activateTab(tabStrip.tabGroup.children().eq(0));
+            }
         }
 
         $("#viewBtn").on("click", function(){
