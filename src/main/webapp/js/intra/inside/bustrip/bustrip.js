@@ -148,10 +148,11 @@ var bustrip = {
         $("#project").data("kendoRadioGroup").value("1");
         $("#project").data("kendoRadioGroup").bind("change", function(){
             if($("#project").data("kendoRadioGroup").value() != ""){
-                $("#busnName").data("kendoTextBox").enable(true);
+                // $("#busnName").data("kendoTextBox").enable(true);
             }else{
                 $("#busnName").data("kendoTextBox").value("");
-                $("#busnName").data("kendoTextBox").enable(false);
+                $("#pjtSn").val("");
+                // $("#busnName").data("kendoTextBox").enable(false);
             }
         })
     },

@@ -98,6 +98,7 @@
                 <th><span class="red-star">*</span>사업명</th>
                 <td colspan="3">
                     <input id="busnName" name="busnName" disabled style="width: 80%;">
+                    <input type="hidden" id="pjtSn" />
                     <button type="button" class="k-button k-button-solid-info" id="projectAddBtn" disabled>사업선택</button>
                 </td>
             </tr>
