@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cb">
+
+    <select id="getScheduleList" parameterType="map" resultType="map">
+        /* getScheduleList */
+        SELECT
+            SC.SCHEDULE_TITLE AS title,
+            CONCAT(DATE_FORMAT(SC.START_DT, '%Y-%m-%d'), ' ', SC.START_TIME) AS start,
+            CONCAT(DATE_FORMAT(SC.END_DT, '%Y-%m-%d'), ' ', SC.END_TIME) AS end,
+            DATE_FORMAT(SC.START_DT, '%Y-%m-%d') AS startDate,
+            DATE_FORMAT(SC.END_DT, '%Y-%m-%d') AS endDate,
+            SC.*
+        FROM
+            CAM_BOARD.DJ_SCHEDULE_BOARD SC
+        WHERE 1=1
+        <if test='startDt != null and !"".equals(startDt)'>
+            <![CDATA[
+                SC.START_DT >= #{startDt} AND SC.END_DT <= #{endDt}
+            ]]>
+        </if>
+        <if test='publicClass != null and !"".equals(publicClass)'>
+        AND
+            PUBLIC_CLASS = #{publicClass}
+        </if>
+    </select>
+
+    <insert id="setScheduleReg" parameterType="map">
+        /* setScheduleReg */
+        INSERT INTO CAM_BOARD.DJ_SCHEDULE_BOARD
+        (
+            START_DT,
+            END_DT,
+            HOLIDAY_YN,
+            START_TIME,
+            END_TIME,
+            ALL_DAY_YN,
+            SCHEDULE_TYPE,
+            SCHEDULE_TITLE,
+            SCHEDULE_CONTENT,
+            SCHEDULE_PLACE,
+            PUBLIC_CLASS,
+            CAMS_POT_POST,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{startDt},
+            #{endDt},
+            #{holidayYn},
+            #{startTime},
+            #{endTime},
+            #{allDayYn},
+            #{scheduleType},
+            #{scheduleTitle},
+            #{scheduleContent},
+            #{schedulePlace},
+            #{publicClass},
+            #{camsPotPost},
+            #{empSeq}
+        )
+    </insert>
+
+    <update id="setScheduleRegUpd" parameterType="map">
+        UPDATE
+            CAM_BOARD.DJ_SCHEDULE_BOARD
+        SET
+            START_DT = #{startDt},
+            END_DT = #{endDt},
+            HOLIDAY_YN = #{holidayYn},
+            START_TIME = #{startTime},
+            END_TIME = #{endTime},
+            ALL_DAY_YN = #{allDayYn},
+            SCHEDULE_TYPE = #{scheduleType},
+            SCHEDULE_TITLE = #{scheduleTitle},
+            SCHEDULE_CONTENT = #{scheduleContent},
+            SCHEDULE_PLACE = #{schedulePlace},
+            PUBLIC_CLASS = #{publicClass},
+            CAMS_POT_POST = #{startDt},
+            MOD_EMP_SEQ = #{camsPotPost},
+            MOD_DATE = NOW()
+        WHERE
+            SCHEDULE_BOARD_ID = #{scheduleBoardId}
+    </update>
+
+    <select id="getSchedule" parameterType="map" resultType="map">
+        /* getSchedule */
+        SELECT
+            *
+        FROM
+            CAM_BOARD.DJ_SCHEDULE_BOARD
+        WHERE
+            SCHEDULE_BOARD_ID = #{scheduleBoardId}
+    </select>
+</mapper>
