@@ -109,6 +109,9 @@ var regUnRnd = {
             tabStrip.select(0);
 
             console.log(setParameters);
+            if(setParameters.PJT_STEP >= "S2"){
+                tabStrip.enable(tabStrip.tabGroup.children().eq(1));
+            }
             regUnRnd.fn_setData(setParameters);
         }
 
