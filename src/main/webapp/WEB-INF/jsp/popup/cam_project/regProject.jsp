@@ -53,6 +53,11 @@
         border-bottom: 0px !important;
     }
 
+    .k-window  div.k-window-content
+    {
+        overflow: hidden;
+    }
+
 
 </style>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/regProject.js?v=${today}'/>"></script>

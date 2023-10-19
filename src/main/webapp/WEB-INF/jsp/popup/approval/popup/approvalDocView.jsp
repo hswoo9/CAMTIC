@@ -153,7 +153,7 @@
 
                         </td>
                     </tr>
-                    <tr>
+                    <tr style="display : none">
                         <th class="th-color text-right">공개여부</th>
                         <td id="publicTypeKr">
 
@@ -165,25 +165,25 @@
 
                         </td>
                     </tr>
-                    <tr>
+                    <tr style="display : none">
                         <th class="th-color text-right">긴급여부</th>
                         <td id="urgentTypeKr">
 
                         </td>
                     </tr>
-                    <tr>
+                    <tr style="display : none">
                         <th class="th-color text-right">보안여부</th>
                         <td id="securityTypeKr">
 
                         </td>
                     </tr>
-                    <tr>
+                    <tr style="display : none">
                         <th class="th-color text-right">문서구분</th>
                         <td id="docGbnKr">
 
                         </td>
                     </tr>
-                    <tr>
+                    <tr style="display : none">
                         <th class="th-color text-right">기록물철</th>
                         <td id="aiTitle">
 

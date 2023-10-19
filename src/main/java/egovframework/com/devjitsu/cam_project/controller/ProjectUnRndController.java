@@ -148,4 +148,19 @@ public class ProjectUnRndController {
 
         return "popup/cam_project/unRnd/devPlanInfo";
     }
+
+    @RequestMapping("/projectUnRnd/unRndUnitBusn.do")
+    public String unRndUnitBusn(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String, Object> map = projectService.getProjectStep(params);
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("map", new Gson().toJson(map));
+        model.addAttribute("data", map);
+        model.addAttribute("params", params);
+
+        return "popup/cam_project/unRnd/unitBusnInfo";
+    }
 }

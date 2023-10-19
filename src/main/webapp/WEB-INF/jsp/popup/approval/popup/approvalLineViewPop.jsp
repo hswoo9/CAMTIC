@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/approval/approvalLineSettingPop.js?v="${toDate}"'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/approval/approvalLineSettingPop.js?v=${today}'/>"></script>
 <style>
 	.pop_head{height: 32px; position: relative; background: #1385db;}
 	.pop_head h1 {font-size: 12px; color: #fff; line-height: 32px; padding-left: 16px;}

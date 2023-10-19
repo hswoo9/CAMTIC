@@ -66,6 +66,8 @@
     <script type="text/javascript" src="<c:url value='/js/kendoui/jquery.min.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/js/kendoui/kendo.all.min.js'/>"></script>
     <script type="text/javascript" src="<c:url value='/js/kendoui/cultures/kendo.culture.ko-KR.min.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/js/kendoui/jszip.min.js'/>"></script>
+
     <link rel="stylesheet" href="/css/kendoui/kendo.default-main.min.css"/>
     <link rel="stylesheet" href="/css/kendoui/kendo.common.min.css"/>
     <link rel="stylesheet" href="/css/kendoui/kendo.default.min.css"/>

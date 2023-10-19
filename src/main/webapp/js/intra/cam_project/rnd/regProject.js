@@ -131,9 +131,13 @@ var regRnd = {
             }
 
             var rndInfo = customKendo.fn_customAjax("/projectRnd/getRndDetail", setParameters);
-            if(rndInfo.map.STATUS == "100"){
-                tabStrip.enable(tabStrip.tabGroup.children());
+
+            if(rndInfo.map != null){
+                if(rndInfo.map.STATUS == "100"){
+                    tabStrip.enable(tabStrip.tabGroup.children());
+                }
             }
+
 
             // tabStrip.disable(tabStrip.tabGroup.children().eq(7));
             // tabStrip.disable(tabStrip.tabGroup.children().eq(8));
