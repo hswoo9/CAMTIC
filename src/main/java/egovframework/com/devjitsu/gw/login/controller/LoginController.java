@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 @Controller
@@ -23,7 +24,9 @@ public class LoginController {
     private LoginService loginService;
 
     @RequestMapping("/login.do")
-    public String openLoginPage() {
+    public String openLoginPage(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.removeAttribute("menuNm");
         return "login";
     }
 

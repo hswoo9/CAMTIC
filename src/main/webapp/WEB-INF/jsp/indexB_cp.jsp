@@ -87,8 +87,10 @@
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs nav-justified">
                     <li class="active"><a href="#tab1" data-toggle="tab"><strong style="font-size:14px;">전체</strong></a></li>
-                    <li><a href="#tab2" data-toggle="tab"><strong style="font-size:14px;">공지</strong></a></li>
-                    <li><a href="#tab3" data-toggle="tab"><strong style="font-size:14px;">알림</strong></a></li>
+                    <li><a href="#tab2" data-toggle="tab"><strong style="font-size:14px;">공지사항</strong></a></li>
+                    <li><a href="#tab3" data-toggle="tab"><strong style="font-size:14px;">업무보고</strong></a></li>
+                    <li><a href="#tab3" data-toggle="tab"><strong style="font-size:14px;">업무메뉴얼</strong></a></li> <!--규정/지침/절차/양식-->
+                    <li><a href="#tab3" data-toggle="tab"><strong style="font-size:14px;">홍보자료</strong></a></li>
                 </ul>
 
                 <!-- Tab panes -->

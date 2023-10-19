@@ -92,11 +92,11 @@
                     <table class="searchTable table table-bordered mb-0" id="articleListTb" style="border: 1px solid #dedfdf;" >
                         <colgroup>
                             <col width="5%">
-                            <col width="auto">
-                            <col width="8%">
-                            <col width="20%">
-                            <col width="8%">
-                            <col width="5%">
+                            <col>
+                            <col width="6%">
+                            <col width="6%">
+                            <col width="6%">
+                            <col width="6%">
                         </colgroup>
                         <thead>
                         <tr>
@@ -112,7 +112,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="btn-st" style="margin:15px 0 0 0;">
+                <div class="btn-st" style="text-align:right;margin:15px 0 0 0;">
                     <button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="normalArticleList.writePageMove()" id="writeBtn" style="display: none">
                         <span clas s="k-button-text">글쓰기</span>
                     </button>
