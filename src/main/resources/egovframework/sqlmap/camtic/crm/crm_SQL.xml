@@ -37,10 +37,6 @@
                 CI.CRM_CLASS = #{ctmType}
         </if>
 
-        <if test='ctmGrade != null and !"".equals(ctmGrade)'>
-
-        </if>
-
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword)'>
                 AND

@@ -363,7 +363,7 @@ html {font-size:14px;font-family:'Pretendard',sans-serif;color:#666;-webkit-text
 .__boardView .head .info li:before {content:"";display:block;width:1px;height:12px;background:#464646;position:absolute;right:0;top:50%;margin-top:-6px;}
 .__boardView .head .info li:last-child {margin-right:0;padding-right:0;}
 .__boardView .head .info li:last-child:before {display:none;}
-.__boardView .con {font-size:18px;line-height:1.65;padding:50px 0 80px;border-bottom:1px solid #ccc;}
+.__boardView .con {padding:50px 0 80px;border-bottom:1px solid #ccc;}/* 2023-10-19 김병수 font-size:18px;line-height:1.65; 제거 */
 .__boardView .file {background:#f6fcff;padding:20px 20px 20px 50px;display:flex;}
 .__boardView .file dt {width:160px;position:relative;padding-left:50px;font-size:18px;color:#000;}
 .__boardView .file dt:before {content:'';display:block;width:33px;height:27px;position:absolute;left:0;top:-5px;background:url(/images/camtic/ico-file.svg) no-repeat 50% 50% / contain;}

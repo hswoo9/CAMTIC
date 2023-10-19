@@ -238,11 +238,11 @@ public class ItemManageServiceImpl implements ItemManageService {
         List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 
         bom.put("expanded", true);
-        bom.put("selected", "N");
+        bom.put("base", "Y");
 
         for (Map<String, Object> map : bomDetailList) {
             map.put("expanded", true);
-            map.put("selected", "N");
+            map.put("base", "Y");
 
             Map<String, Object> searchMap = new HashMap<>();
             searchMap.put("masterSn", map.get("MASTER_SN"));

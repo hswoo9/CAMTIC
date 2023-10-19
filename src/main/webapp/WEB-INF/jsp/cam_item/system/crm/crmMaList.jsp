@@ -35,10 +35,6 @@
                         <td>
                             <input type="text" id="ctmType" style="width: 150px;">
                         </td>
-                        <th class="text-center th-color">고객등급</th>
-                        <td>
-                            <input type="text" id="ctmGrade" style="width: 150px;">
-                        </td>
                         <th class="text-center th-color">검색어</th>
                         <td>
                             <input type="text" id="searchKeyword" style="width: 30%;"/>

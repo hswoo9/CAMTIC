@@ -2,6 +2,7 @@ var popBomView = {
     global : {
         dropDownDataSource : "",
         searchAjaxData : "",
+        treeUidChk : []
     },
 
     fn_defaultScript: function (){
@@ -27,11 +28,14 @@ var popBomView = {
 
     treeClick : function(e){
         var item = $("#treeView").data("kendoTreeView").dataItem(e.node);
-        if(item.selected != "N"){
-            var result = customKendo.fn_customAjax("/item/getBomDetailList.do", {bomSn : item.CHILDREN_BOM_CN});
-            if(result.flag){
-                if(result.list.length > 0){
-                    $("#treeView").data("kendoTreeView").append(result.list, $("#treeView").data("kendoTreeView").findByUid(item.uid));
+        if(item.base != "Y") {
+            if (popBomView.global.treeUidChk.find(element => element === item.uid) == null && item.ITEM_TYPE != "MA") {
+                var result = customKendo.fn_customAjax("/item/getBomDetailList.do", {bomSn : item.CHILDREN_BOM_CN});
+                if (result.flag) {
+                    if (result.list.length > 0) {
+                        $("#treeView").data("kendoTreeView").append(result.list, $("#treeView").data("kendoTreeView").findByUid(item.uid));
+                        popBomView.global.treeUidChk.push(item.uid)
+                    }
                 }
             }
         }
