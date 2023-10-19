@@ -128,7 +128,7 @@ var mov = {
                     field: "MF_NAME",
                     width: 200,
                     template: function(e){
-                        return "<a href='javascript:void(0);' onclick=\"mov.mfOverViewPopup(" + e.CRM_MF_SN + ")\">" + e.MF_NAME + "</a>";
+                        return "<a href='javascript:void(0);' onclick=\"mov.mfOverViewPopup(" + e.CRM_MF_SN + ", " + $("#searchYear").val() + ")\">" + e.MF_NAME + "</a>";
                     }
                 }, {
                     title: "사업자번호",
@@ -433,8 +433,8 @@ var mov = {
         return str.replace(/[^\d]+/g, '');
     },
 
-    mfOverViewPopup : function (e){
-        var url = "/crm/pop/mfOverviewPop.do?crmMfSn=" + e;
+    mfOverViewPopup : function (e, i){
+        var url = "/crm/pop/mfOverviewPop.do?crmMfSn=" + e + "&searchYear=" + i;
         var name = "_blank";
         var option = "width = 1300, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);

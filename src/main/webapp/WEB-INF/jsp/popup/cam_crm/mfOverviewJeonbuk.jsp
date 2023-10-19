@@ -16,6 +16,8 @@
 <%
     String crmMfSn = request.getParameter("crmMfSn");
     String mfNo = request.getParameter("mfNo");
+    String searchYear = request.getParameter("searchYear");
+
     if(crmMfSn == null){
         return ;
     }
@@ -24,11 +26,15 @@
         return ;
     }
 
+    if(searchYear == null){
+        return ;
+    }
+
 %>
 <input type="hidden" id="mfNo" value="<%=mfNo%>" />
 <div style="padding: 10px">
     <div style="text-align: right">
-        <input type="text" id="searchYear" style="width: 80px">
+        <input type="text" id="searchYear" style="width: 80px" value="<%=searchYear%>">
         <button type="button" id="saveBtn" style="margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="movJb.mfOverViewDataSet();">조회</button>
     </div>
     <div>

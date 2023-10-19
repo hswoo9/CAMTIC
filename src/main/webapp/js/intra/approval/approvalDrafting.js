@@ -718,34 +718,58 @@ var draft = {
             }
         }
 
-        if(!$(e).hasClass("draft") && !$(e).hasClass("temp")){
-            hwpDocCtrl.putFieldsText(
-                ["approval_st"],
-                8,
-                "\n"
-            )
+        function sleep(sec) {
+            return new Promise(resolve => setTimeout(resolve, sec * 1000));
         }
 
-        if(!$(e).hasClass("temp")){
-            hwpDocCtrl.putFieldText('approval_st' + draft.global.approversArr.find(element => element.approveEmpSeq === $("#empSeq").val()).approveOrder, draft.global.dataType.nowCom + "(결재)");
+        async function asyncCall() {
+            if(!$(e).hasClass("draft") && !$(e).hasClass("temp")){
+                hwpDocCtrl.putFieldsText(
+                    ["approval_st"],
+                    8,
+                    "\n"
+                )
+            }
+
+            if(!$(e).hasClass("temp")){
+                hwpDocCtrl.putFieldText('approval_st' + draft.global.approversArr.find(element => element.approveEmpSeq === $("#empSeq").val()).approveOrder, draft.global.dataType.nowCom + "(결재)");
+            }
+
+
+            hwpDocCtrl.global.HwpCtrl.GetTextFile("HTML", "", function(data) {
+                draft.global.htmlFileTextData = data;
+            })
+
+            var i = 1;
+            async function getDocDrawCall() {
+                i = i + 1;
+                hwpDocCtrl.global.HwpCtrl.GetTextFile("HWPML2X", "", function (data) {
+                    draft.global.hwpFileTextData = data;
+                })
+            }
+
+            getDocDrawCall().then(() => {
+                (async () => {
+                    getDocDrawCall();
+                    await sleep(i); // 2초대기
+
+                    if(draft.global.hwpFileTextData == '' || draft.global.hwpFileTextData == null || draft.global.hwpFileTextData == undefined){
+                        getDocDrawCall();
+                    }
+
+                })();
+            });
         }
 
-
-        hwpDocCtrl.global.HwpCtrl.GetTextFile("HWPML2X", "", function(data) {
-            draft.global.hwpFileTextData = data;
-        })
-
-        hwpDocCtrl.global.HwpCtrl.GetTextFile("HTML", "", function(data) {
-            draft.global.htmlFileTextData = data;
-        })
-
-        if($(e).hasClass("draft")){
-            setTimeout(() => draft.draftInit(e), 200);
-        }else if($(e).hasClass("reDraft")){
-            setTimeout(() => draft.reDraftInit(e), 200);
-        }else{
-            setTimeout(() => draft.docTempSave(e), 200);
-        }
+        asyncCall().then(() => {
+            if($(e).hasClass("draft")){
+                setTimeout(() => draft.draftInit(e), 2000);
+            }else if($(e).hasClass("reDraft")){
+                setTimeout(() => draft.reDraftInit(e), 2000);
+            }else{
+                setTimeout(() => draft.docTempSave(e), 2000);
+            }
+        });
     },
 
     draftInit : function(e){

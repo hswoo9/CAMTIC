@@ -24,11 +24,9 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
-                        <col width="25%">
-                        <col width="10%">
                         <col width="20%">
                         <col width="10%">
-                        <col width="25%">
+                        <col>
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">고객유형</th>
