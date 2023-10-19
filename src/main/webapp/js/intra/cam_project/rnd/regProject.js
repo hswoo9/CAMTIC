@@ -40,22 +40,29 @@ var regRnd = {
             customKendo.fn_dropDownList("supDepSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
         });
 
-        var tab0Url = "/projectRnd/detailInfo.do";              // 상세정보 (수주)
-        var tab1Url = "/projectRnd/researcherInfo.do";          // 연구원관리
-        var tab2Url = "/projectRnd/reqPartRate.do";             // 참여율요청
-        var tab3Url = "/projectRnd/partRate.do";                // 참여율관리
+        var tab0Url = "/projectRnd/detailInfo.do";               // 상세정보 (수주)
+        var tab1Url = "/projectRnd/researcherInfo.do";           // 연구원관리
+        var tab2Url = "/projectRnd/reqPartRate.do";              // 참여율요청
+        var tab3Url = "/projectRnd/partRate.do";                 // 참여율관리
 
-        var tab4Url = "/projectRnd/rndDevPlan.do";              // 개발계획
-        var tab5Url = "/projectRnd/rndDevSchedule.do";          // 개발일정
-        var tab6Url = "/projectRnd/rndDevJob.do";               // 개발일지
+        var tab4Url = "/projectRnd/rndDevPlan.do";               // 개발계획
+        var tab5Url = "/projectRnd/rndDevSchedule.do";           // 개발일정
+        // var tab6Url = "/projectRnd/rndDevJob.do";                    // 개발일지
+        var tab6Url = "/intra/cam_project/teamInfo.do";          // 협업관리
 
-        // var tab7Url = "/projectRnd/payMvInfo.do";               // 입출금대장관리
-        var tab7Url = "/projectRnd/budgetInfo.do";              // 예산관리
-        // var tab9Url = "/projectRnd/rschPayRepInfo.do";          // 연구비정산 -- 제외
+        // var tab7Url = "/projectRnd/payMvInfo.do";                    // 입출금대장관리
+        var tab7Url = "/projectRnd/budgetInfo.do";               // 예산관리
+        var tab8Url = "/projectRnd/resultInfo.do";               // 결과보고
+
+        // var tab9Url = "/projectRnd/rschPayRepInfo.do";               // 연구비정산 -- 제외
 
         var tab9Url = "/intra/cam_project/bustInfo.do";          // 출장관리
-        var tab10Url = "/intra/cam_project/teamInfo.do";         // 협업관리
+        // var tab10Url = "/intra/cam_project/teamInfo.do";             // 협업관리
         var tab11Url= "/intra/cam_project/purcInfo.do";          // 구매관리
+        var tab12Url= "/intra/cam_project/purcInfo.do";          // 세세목 변경신청
+        var tab13Url= "/intra/cam_project/purcInfo.do";          // 정산/원가
+
+
 
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -66,10 +73,12 @@ var regRnd = {
             tab5Url += "?pjtSn=" + setParameters.PJT_SN;
             tab6Url += "?pjtSn=" + setParameters.PJT_SN;
             tab7Url += "?pjtSn=" + setParameters.PJT_SN;
-            // tab8Url += "?pjtSn=" + setParameters.PJT_SN;
+            tab8Url += "?pjtSn=" + setParameters.PJT_SN;
             tab9Url += "?pjtSn=" + setParameters.PJT_SN;
-            tab10Url += "?pjtSn=" + setParameters.PJT_SN;
+            // tab10Url += "?pjtSn=" + setParameters.PJT_SN;
             tab11Url += "?pjtSn=" + setParameters.PJT_SN;
+            tab12Url += "?pjtSn=" + setParameters.PJT_SN;
+            tab13Url += "?pjtSn=" + setParameters.PJT_SN;
         }
 
         $("#tabstrip").kendoTabStrip({
@@ -83,20 +92,26 @@ var regRnd = {
             },
             dataTextField: "name",
             dataContentUrlField: "url",
+            dataImageUrlField: "imageUrl",
             dataSource : [
-                {name: "사업정보", url: tab0Url},
+                {name: "사업정보", url: tab0Url, imageUrl : "/images/ico/etc_01.png"},
                 {name: "참여인력", url: tab1Url},
                 {name: "참여율요청", url: tab2Url},      // 지출내역조회와 같이 사용
                 {name: "참여율관리", url: tab3Url},      // 지출내역조회와 같이 사용
-                {name: "수행계획(공정)", url: tab4Url},
-                {name: "개발일정", url: tab5Url},
-                {name: "개발일지", url: tab6Url},
+                {name: "수행계획(공정)", url: tab4Url, imageUrl : "/images/ico/etc_01.png"},
+                {name: "개발관리", url: tab5Url},
+                {name: "협업", url: tab6Url},
                 // {name: "입출금대장관리", url: tab5Url},
                 {name: "사업비관리(예산/지급)", url: tab7Url},        // 연구비 입금처리와 같이 사용
+                {name: "결과보고", url: tab8Url, imageUrl : "/images/ico/etc_01.png"},        // 연구비 입금처리와 같이 사용
+
                 // {name: "지급관리", url: tab9Url},
                 {name: "출장", url: tab9Url},
-                {name: "협업", url: tab10Url},
-                {name: "구매", url: tab11Url}
+                // {name: "협업", url: tab10Url},
+                {name: "구매", url: tab11Url},
+                {name: "예산변경신청", url: tab12Url},
+                {name: "정산/원가", url: tab13Url, imageUrl : "/images/ico/etc_01.png"}
+
             ],
         });
 
@@ -119,10 +134,14 @@ var regRnd = {
             if(rndInfo.map.STATUS == "100"){
                 tabStrip.enable(tabStrip.tabGroup.children());
             }
-            console.log(rndInfo);
 
             // tabStrip.disable(tabStrip.tabGroup.children().eq(7));
             // tabStrip.disable(tabStrip.tabGroup.children().eq(8));
+            tabStrip.disable(tabStrip.tabGroup.children().eq(8));
+            tabStrip.disable(tabStrip.tabGroup.children().eq(11));
+            tabStrip.disable(tabStrip.tabGroup.children().eq(12));
+
+
             regRnd.fn_setData(setParameters);
         }
 
@@ -143,7 +162,7 @@ var regRnd = {
 
         var html = '<div style="width:100%;"></div>';
         var doc = parser.parseFromString(html, 'text/html');
-        $("#tabstrip li")[7].after(doc.body.firstChild);
+        $("#tabstrip li")[8].after(doc.body.firstChild);
         
         var html2 = '<div style="padding: 6px 12px"><b style="color: red">사업관리</b></div>';
         var doc2 = parser.parseFromString(html2, 'text/html');
@@ -151,7 +170,7 @@ var regRnd = {
 
         var html3 = '<div style="padding: 6px 12px"><b style="color: blue">운영관리</b></div>';
         var doc3 = parser.parseFromString(html3, 'text/html');
-        $("#tabstrip li")[8].before(doc3.body.firstChild);
+        $("#tabstrip li")[9].before(doc3.body.firstChild);
     },
 
     fn_setData: function (e){

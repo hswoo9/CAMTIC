@@ -262,5 +262,15 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     public void setReqPartRateStatus(Map<String, Object> params) {
         projectRndRepository.updReqPartRateStatus(params);
     }
+
+    @Override
+    public Map<String, Object> getPjtDevSchData(Map<String, Object> params) {
+        return projectRndRepository.getPjtDevSchData(params);
+    }
+
+    @Override
+    public void tmpUpdDevPlanApprove(Map<String, Object> params) {
+        projectRndRepository.tmpUpdDevPlanApprove(params);
+    }
 }
 

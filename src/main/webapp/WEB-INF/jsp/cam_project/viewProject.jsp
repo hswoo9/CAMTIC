@@ -27,6 +27,36 @@
     .totalTable td {
         height: 38.14px;
     }
+
+    #tooltip span {
+        cursor: pointer;
+        display: block;
+        margin-top : 12px;
+        width: 20px;
+        height: 20px;
+        background-image: url("../images/ico/ico_alert.png");
+        background-size: 20px;
+        -moz-border-radius: 30px;
+        -webkit-border-radius: 30px;
+        border: none;
+        -moz-box-shadow: 0 0 0 1px rgba(0,0,0,0.5);
+        /*-webkit-box-shadow: 0 0 0 1px rgba(0,0,0,0.5);*/
+        /*box-shadow: 0 0 0 1px rgba(0,0,0,0.5);*/
+        -moz-transition:  -moz-box-shadow .3s;
+        -webkit-transition:  -webkit-box-shadow .3s;
+        transition:  box-shadow .3s;
+    }
+
+    #tooltip span:hover {
+        -moz-box-shadow: 0 0 0 15px rgba(0,0,0,0.5);
+        -webkit-box-shadow: 0 0 0 15px rgba(0,0,0,0.5);
+        box-shadow: 0 0 0 15px rgba(0,0,0,0.5);
+        -moz-transition:  -moz-box-shadow .3s;
+        -webkit-transition:  -webkit-box-shadow .3s;
+        transition:  box-shadow .3s;
+    }
+
+    #projectTooltip:hover
 </style>
 <div class="mainCard">
     <div class="panel">
@@ -160,7 +190,9 @@
                         </tr>
                     </thead>
                 </table>
-                <p style="text-align: right; margin-bottom: 15px;"><b>10만원 단위는 버림</b></p>
+                <div style="float: right; margin-bottom: 15px;" id="tooltip">
+                    <span href="#" title="10만원 단위는 내림" id="projectTooltip"></span>
+                </div>
 
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
@@ -208,6 +240,22 @@
 <script>
 
     camPrj.fn_defaultScript();
+
+    $(document).ready(function(){
+        var tooltip = $("#tooltip").kendoTooltip({
+            filter: "span",
+            width: 135,
+            position: "top",
+            animation: {
+                open: {
+                    effects: "zoom",
+                    duration: 150
+                }
+            }
+        }).data("kendoTooltip");
+
+        // tooltip.show($("#projectTooltip"));
+    });
 
     function fn_deptSelect() {
         window.open("/common/deptMultiPop.do","조직도","width=343,height=650");

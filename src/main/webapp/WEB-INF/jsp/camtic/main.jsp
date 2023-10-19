@@ -404,8 +404,7 @@
 
   function getFacebookData() {
     $.ajax({
-      url: 'https://graph.facebook.com/v18.0/10227379748894494/feed?fields=attachments,message,picture,link,name,caption,description,source,created_time&access_token=EAAFBOj38bsEBO720d0bohwQUZAE62Cnsd6dpsYb8s5RZCCrQabO6QrJ9QPHR3y1cqUr6fyHZClCyZB40eYX46HDOsvYEwGaVOb8N9XZA4AtNqcscfQYSvMCb3r9QZAFAb6GtnKrbXUAP64gZC3cD0KZCOeGNXTWbhSZCJxNZBQOfhBvWZACJPEN9yQNZATzTZBcpoZChCZAacU3nINSj6ajbcO9CdckjoulU5iZBI6pZAMZC7BIa3eh49YyAQ474TExcrgREkZD',
-      method: 'GET',
+      url: 'https://graph.facebook.com/v18.0/10227379748894494/feed?fields=attachments,message,picture,link,name,caption,description,source,created_time&access_token=EAAFBOj38bsEBOx1mx9Dwv8k9mxeasgB3HpIDIrddy9H4yhW6BZAjNetdVnEpEbBbhGZCK9sk7aixqonkdvaaSsqGOzHT9Pl5eF7RtUeDJtKYgbVL04AgxY4hcn7S5w8q9jeHHYbQQO9oJsl6oWK5KIw4tvCzJMZANEDFXHMRgI3UeUDYClLMKOh3ZCK5YI9QkXkU0dKXcwmV9O0GyG5S7JpAteCTqBu5pRj4x4PYdmoJaHjybHXzTcIRTWAZD',
       dataType : "json",
       async : false,
       success: function (response) {
@@ -428,20 +427,6 @@
     var html = "";
     for (var x = 0; x < maxLength; x++) {
 
-      if (x < instaData.length) {
-        let createdTime = new Date(instaData[x].timestamp).toLocaleString();
-
-        html += '<a href="' + instaData[x].media_url + '" class="swiper-slide">';
-        html += '<div class="img"><img src="' + instaData[x].media_url + '" width="340" height="255"></div>';
-        html += '<div class="info">';
-        html += '<p class="date">' + createdTime + '</p>';
-        html += '<p class="sum">' + instaData[x].caption + '</p>';
-        html += '<p class="sns"><span class="insta">인스타그램</span></p>';
-        html += '</div>';
-        html += '</a>';
-
-      }
-
       if (x < faceBookData.length) {
 
         let createdTime = faceBookData[x].created_time;
@@ -458,6 +443,20 @@
         html += '<p class="date">' + formattedTime + '</p>';
         html += '<p class="sum">' + faceBookData[x].message + '</p>';
         html += '<p class="sns"><span class="face">페이스북</span></p>';
+        html += '</div>';
+        html += '</a>';
+      }
+
+      if (x < instaData.length) {
+
+        let createdTime = new Date(instaData[x].timestamp).toLocaleString();
+
+        html += '<a href="' + instaData[x].media_url + '" class="swiper-slide">';
+        html += '<div class="img"><img src="' + instaData[x].media_url + '" width="340" height="255"></div>';
+        html += '<div class="info">';
+        html += '<p class="date">' + createdTime + '</p>';
+        html += '<p class="sum">' + instaData[x].caption + '</p>';
+        html += '<p class="sns"><span class="insta">인스타그램</span></p>';
         html += '</div>';
         html += '</a>';
       }

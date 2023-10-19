@@ -60,6 +60,9 @@ var rndDS = {
                 }, {
                     title: "업무내용",
                     field: "DEV_SCH_NM",
+                    template: function (e){
+                        return '<div style="font-weight: bold; cursor: pointer;" onclick="rndDS.fn_popAddJob('+e.DEV_SCH_SN+')">'+e.DEV_SCH_NM+'</div>'
+                    },
                     width: 150
                 }, {
                     title: "예정일",
@@ -75,8 +78,14 @@ var rndDS = {
                     width: 180
                 }, {
                     title: "파일명",
-                    field: "",
-                    width: 180
+                    width: 180,
+                    template : function(e){
+                        if(e.file_org_name != null){
+                            return e.file_org_name + "." + e.file_ext;
+                        } else{
+                            return "";
+                        }
+                    }
                 }, {
                     title: "비고",
                     field: "DEV_SCH_ETC",
@@ -117,6 +126,21 @@ var rndDS = {
         var url = "/projectRnd/pop/popTotDevSch.do?pjtSn="+data.pjtSn;
         var name = "_blank";
         var option = "width = 900, height = 540, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
+    fn_popAddJob : function (key){
+
+        var data = {
+            pjtSn : $("#pjtSn").val()
+        }
+        var url = "/projectRnd/pop/popDevJob.do?pjtSn="+data.pjtSn;
+
+        if(key != null && key != ""){
+            url = "/projectRnd/pop/popDevJob.do?pjtSn="+data.pjtSn + "&devSchSn=" + key;
+        }
+        var name = "_blank";
+        var option = "width = 900, height = 800, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
     }
 }
