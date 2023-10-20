@@ -259,6 +259,84 @@
           <div class="roll">
             <div id="snsPosts" class="swiper-wrapper">
 
+              <a href="#" class="swiper-slide">
+                <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
+                <div class="info">
+                  <p class="date">2023-01-20 오전 11:09</p>
+                  <p class="subject">캠틱종합기술원 뉴스레터 e-캠틱종합기술원 뉴스레터 e-NAR 캠틱종합기술원 뉴스레터 e-NAR</p>
+                  <p class="sum">
+                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
+                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
+                  </p>
+                  <p class="sns"><span class="face">페이스북</span></p>
+                </div>
+              </a>
+
+              <a href="#" class="swiper-slide">
+                <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
+                <div class="info">
+                  <p class="date">2023-01-20 오전 11:09</p>
+                  <p class="subject">캠틱종합기술원 뉴스레터 e-캠틱종합기술원 뉴스레터 e-NAR 캠틱종합기술원 뉴스레터 e-NAR</p>
+                  <p class="sum">
+                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
+                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
+                  </p>
+                  <p class="sns"><span class="insta">인스타그램</span></p>
+                </div>
+              </a>
+
+              <a href="#" class="swiper-slide">
+                <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
+                <div class="info">
+                  <p class="date">2023-01-20 오전 11:09</p>
+                  <p class="subject">캠틱종합기술원 뉴스레터 e-캠틱종합기술원 뉴스레터 e-NAR 캠틱종합기술원 뉴스레터 e-NAR</p>
+                  <p class="sum">
+                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
+                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
+                  </p>
+                  <p class="sns"><span class="face">페이스북</span></p>
+                </div>
+              </a>
+
+              <a href="#" class="swiper-slide">
+                <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
+                <div class="info">
+                  <p class="date">2023-01-20 오전 11:09</p>
+                  <p class="subject">캠틱종합기술원 뉴스레터 e-캠틱종합기술원 뉴스레터 e-NAR 캠틱종합기술원 뉴스레터 e-NAR</p>
+                  <p class="sum">
+                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
+                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
+                  </p>
+                  <p class="sns"><span class="insta">인스타그램</span></p>
+                </div>
+              </a>
+
+              <a href="#" class="swiper-slide">
+                <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
+                <div class="info">
+                  <p class="date">2023-01-20 오전 11:09</p>
+                  <p class="subject">캠틱종합기술원 뉴스레터 e-캠틱종합기술원 뉴스레터 e-NAR 캠틱종합기술원 뉴스레터 e-NAR</p>
+                  <p class="sum">
+                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
+                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
+                  </p>
+                  <p class="sns"><span class="face">페이스북</span></p>
+                </div>
+              </a>
+
+              <a href="#" class="swiper-slide">
+                <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
+                <div class="info">
+                  <p class="date">2023-01-20 오전 11:09</p>
+                  <p class="subject">캠틱종합기술원 뉴스레터 e-캠틱종합기술원 뉴스레터 e-NAR 캠틱종합기술원 뉴스레터 e-NAR</p>
+                  <p class="sum">
+                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
+                    함께 성장하는 행복한 일터 캠틱종합기술원의 소식을 전합니다
+                  </p>
+                  <p class="sns"><span class="insta">인스타그램</span></p>
+                </div>
+              </a>
+
             </div>
           </div><!--#roll-->
         </div><!--#rig-->
@@ -286,6 +364,7 @@
 
   midMain.init();
   sauMain.init();
+  snsMain.init();
 
   var faceBookData = [];
   var instaData = [];
@@ -301,8 +380,8 @@
 
   $(function () {
     fnDefaultScript();
-    getInstagramData();
-    getFacebookData();
+    /*getInstagramData();
+    getFacebookData();*/
     drawTable();
     drawTable2();
 
@@ -415,7 +494,7 @@
     });
   }
 
-  window.onload = function () {
+  /*window.onload = function () {
     const maxLength = Math.max(faceBookData.length, instaData.length);
 
     console.log("================");
@@ -464,7 +543,7 @@
     $('#snsPosts').append(html);
 
     snsMain.init();
-  }
+  }*/
 </script>
 </body>
 </html>
