@@ -248,8 +248,8 @@ public class BoardServiceImpl implements BoardService {
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         String fmtNow = now.format(fmt);
 
-        String devUrl = "http:\\\\218.158.231.186:8080";
-        String prodUrl = "http:\\\\218.158.231.186:8080";
+        String devUrl = "http:\\\\218.158.231.186";
+        String prodUrl = "http:\\\\218.158.231.186";
 
         if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1") || request.getServerName().contains("218.158.231.186")){
             path = devUrl + base_dir + "boardFile/" + params.get("menuCd").toString()+"File/" + fmtNow + "/";

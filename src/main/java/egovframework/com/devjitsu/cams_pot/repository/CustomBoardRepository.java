@@ -14,6 +14,13 @@ import java.util.Map;
 public class CustomBoardRepository extends AbstractDAO {
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(CustomBoardRepository.class);
 
+	public List<PostResponse> getSuggestionSystemList(ArticlePage articlePage){ return selectList("cb.getSuggestionSystemList", articlePage);}
+	public Map<String, Object> getSuggestionSystem(Map<String, Object> params) { return (Map<String, Object>) selectOne("cb.getSuggestionSystem", params);}
+	public int getSuggestionSystemListCnt(ArticlePage articlePage){ return (int) selectOne("cb.getSuggestionSystemListCnt", articlePage);}
+	public String getSuggestionSystemNo(Map<String, Object> params) { return (String) selectOne("cb.getSuggestionSystemNo", params);}
+	public void setSuggestionSystem(Map<String, Object> params) { insert("cb.setSuggestionSystem", params);}
+	public void setSuggestionSystemUpd(Map<String, Object> params) { update("cb.setSuggestionSystemUpd", params);}
+	public void setSuggestionSystemDel(Map<String, Object> params) { update("cb.setSuggestionSystemDel", params);}
 	public List<Map<String, Object>> getScheduleList(Map<String, Object> params) { return selectList("cb.getScheduleList", params);}
 	public void setScheduleReg(Map<String, Object> params) { insert("cb.setScheduleReg", params);}
 	public void setScheduleRegUpd(Map<String, Object> params) { update("cb.setScheduleRegUpd", params);}

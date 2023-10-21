@@ -3,6 +3,244 @@
 
 <mapper namespace="cb">
 
+    <select id="getSuggestionSystemList" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage"
+            resultType="egovframework.com.devjitsu.hp.board.util.PostResponse">
+        /* getSuggestionSystemList */
+        SELECT
+            SB.*,
+            CASE WHEN SB.SUGGESTION_TYPE = 'CP04' THEN '경영혁신'
+                WHEN SB.SUGGESTION_TYPE = 'CP05' THEN '업무/관리효율'
+                WHEN SB.SUGGESTION_TYPE = 'CP06' THEN '제품개선'
+                WHEN SB.SUGGESTION_TYPE = 'CP07' THEN '공정개선'
+                WHEN SB.SUGGESTION_TYPE = 'CP08' THEN '환경/청결'
+                WHEN SB.SUGGESTION_TYPE = 'CP09' THEN '직원단합'
+                WHEN SB.SUGGESTION_TYPE = 'CP10' THEN '사기진작'
+                WHEN SB.SUGGESTION_TYPE = 'CP11' THEN '사업아이템 제안'
+                WHEN SB.SUGGESTION_TYPE = 'CP11' THEN '단순건의'
+            END AS SUGGESTION_TYPE_TXT,
+
+            EI.EMP_SEQ AS REG_EMP_SEQ,
+            EI.EMP_NAME_KR AS REG_EMP_NAME,
+            EI2.EMP_SEQ AS EXECUTE_EMP_SEQ,
+            EI2.EMP_NAME_KR AS EXECUTE_EMP_NAME
+        FROM
+            CAM_BOARD.DJ_SUGGESTION_BOARD SB
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON SB.REG_EMP_SEQ = EI.EMP_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO EI2
+        ON SB.EXECUTE = EI2.EMP_SEQ
+        WHERE 1=1
+        AND
+            SB.ACTIVE = 'Y'
+        <if test='suggestionType != null and !"".equals(suggestionType)'>
+        AND
+            SB.SUGGESTION_TYPE = #{suggestionType}
+        </if>
+        <if test='status != null and !"".equals(status)'>
+        AND
+            SB.STATUS = #{status}
+        </if>
+
+        <if test='startDt != null and !"".equals(startDt)'>
+        <![CDATA[
+        AND
+            DATE_FORMAT(#{startDt}, '%Y%m%d') <= DATE_FORMAT(SB.SUGGESTION_DATE, '%Y%m%d')
+        AND
+            DATE_FORMAT(#{endDt}, '%Y%m%d') >= DATE_FORMAT(SB.SUGGESTION_DATE, '%Y%m%d')
+        ]]>
+        </if>
+
+        <choose>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "2".equals(searchColumn)'>
+                AND SB.SUGGESTION_TITLE LIKE CONCAT('%',#{searchContent},'%')
+            </when>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "3".equals(searchColumn)'>
+                AND (
+                    SB.SUGGESTION_CONTENT1 LIKE CONCAT('%',#{searchContent},'%') OR
+                    SB.SUGGESTION_CONTENT2 LIKE CONCAT('%',#{searchContent},'%') OR
+                    SB.SUGGESTION_CONTENT3 LIKE CONCAT('%',#{searchContent},'%')
+                )
+            </when>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "4".equals(searchColumn)'>
+                AND EI.EMP_NAME_KR LIKE CONCAT('%',#{searchContent},'%')
+            </when>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "5".equals(searchColumn)'>
+                AND EI2.EMP_NAME_KR LIKE CONCAT('%',#{searchContent},'%')
+            </when>
+            <otherwise>
+                AND (
+                    SB.SUGGESTION_TITLE LIKE CONCAT('%',#{searchContent},'%') OR
+                    SB.SUGGESTION_CONTENT1 LIKE CONCAT('%',#{searchContent},'%') OR
+                    SB.SUGGESTION_CONTENT2 LIKE CONCAT('%',#{searchContent},'%') OR
+                    SB.SUGGESTION_CONTENT3 LIKE CONCAT('%',#{searchContent},'%') OR
+                    EI.EMP_NAME_KR LIKE CONCAT('%',#{searchContent},'%') OR
+                    EI2.EMP_NAME_KR LIKE CONCAT('%',#{searchContent},'%')
+                )
+            </otherwise>
+        </choose>
+        ORDER BY SB.REG_DATE DESC
+        LIMIT #{pagination.limitStart}, #{recordSize}
+    </select>
+
+    <select id="getSuggestionSystemListCnt" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage"
+            resultType="int">
+        /* getSuggestionSystemListCnt */
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_BOARD.DJ_SUGGESTION_BOARD SB
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON SB.REG_EMP_SEQ = EI.EMP_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO EI2
+        ON SB.EXECUTE = EI2.EMP_SEQ
+        WHERE 1=1
+        AND
+            SB.ACTIVE = 'Y'
+        <if test='suggestionType != null and !"".equals(suggestionType)'>
+        AND
+            SB.SUGGESTION_TYPE = #{suggestionType}
+        </if>
+        <if test='status != null and !"".equals(status)'>
+        AND
+            SB.STATUS = #{status}
+        </if>
+
+        <if test='startDt != null and !"".equals(startDt)'>
+            <![CDATA[
+        AND
+            DATE_FORMAT(#{startDt}, '%Y%m%d') <= DATE_FORMAT(SB.SUGGESTION_DATE, '%Y%m%d')
+        AND
+            DATE_FORMAT(#{endDt}, '%Y%m%d') >= DATE_FORMAT(SB.SUGGESTION_DATE, '%Y%m%d')
+        ]]>
+        </if>
+
+        <choose>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "2".equals(searchColumn)'>
+                AND SB.SUGGESTION_TITLE LIKE CONCAT('%',#{searchContent},'%')
+            </when>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "3".equals(searchColumn)'>
+                AND (
+                    SB.SUGGESTION_CONTENT1 LIKE CONCAT('%',#{searchContent},'%') OR
+                    SB.SUGGESTION_CONTENT2 LIKE CONCAT('%',#{searchContent},'%') OR
+                    SB.SUGGESTION_CONTENT3 LIKE CONCAT('%',#{searchContent},'%')
+                )
+            </when>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "4".equals(searchColumn)'>
+                AND EI.EMP_NAME_KR LIKE CONCAT('%',#{searchContent},'%')
+            </when>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "5".equals(searchColumn)'>
+                AND EI2.EMP_NAME_KR LIKE CONCAT('%',#{searchContent},'%')
+            </when>
+            <otherwise>
+                AND (
+                    SB.SUGGESTION_TITLE LIKE CONCAT('%',#{searchContent},'%') OR
+                    SB.SUGGESTION_CONTENT1 LIKE CONCAT('%',#{searchContent},'%') OR
+                    SB.SUGGESTION_CONTENT2 LIKE CONCAT('%',#{searchContent},'%') OR
+                    SB.SUGGESTION_CONTENT3 LIKE CONCAT('%',#{searchContent},'%') OR
+                    EI.EMP_NAME_KR LIKE CONCAT('%',#{searchContent},'%') OR
+                    EI2.EMP_NAME_KR LIKE CONCAT('%',#{searchContent},'%')
+                )
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="getSuggestionSystem" parameterType="map" resultType="map">
+        /* getSuggestionSystem */
+        SELECT
+            SB.*,
+            CASE WHEN SB.SUGGESTION_TYPE = 'CP04' THEN '경영혁신'
+                 WHEN SB.SUGGESTION_TYPE = 'CP05' THEN '업무/관리효율'
+                 WHEN SB.SUGGESTION_TYPE = 'CP06' THEN '제품개선'
+                 WHEN SB.SUGGESTION_TYPE = 'CP07' THEN '공정개선'
+                 WHEN SB.SUGGESTION_TYPE = 'CP08' THEN '환경/청결'
+                 WHEN SB.SUGGESTION_TYPE = 'CP09' THEN '직원단합'
+                 WHEN SB.SUGGESTION_TYPE = 'CP10' THEN '사기진작'
+                 WHEN SB.SUGGESTION_TYPE = 'CP11' THEN '사업아이템 제안'
+                 WHEN SB.SUGGESTION_TYPE = 'CP11' THEN '단순건의'
+            END AS SUGGESTION_TYPE_TXT,
+            EI.EMP_SEQ AS REG_EMP_SEQ,
+            EI.EMP_NAME_KR AS REG_EMP_NAME
+        FROM
+            CAM_BOARD.DJ_SUGGESTION_BOARD SB
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON SB.REG_EMP_SEQ = EI.EMP_SEQ
+        WHERE
+            SB.SUGGESTION_BOARD_ID = #{suggestionBoardId}
+    </select>
+
+    <select id="getSuggestionSystemNo" parameterType="map" resultType="String">
+        /* getSuggestionSystemNo */
+        SELECT
+            CONCAT(SUGGESTION_TYPE, RIGHT(DATE_FORMAT(NOW(), '%Y'), 2), RIGHT(CONCAT('000', MAX(RIGHT(SUGGESTION_NO, 4)) + 1), 4))
+        FROM
+            CAM_BOARD.DJ_SUGGESTION_BOARD
+        WHERE
+            SUGGESTION_TYPE = #{suggestionType}
+    </select>
+
+    <insert id="setSuggestionSystem" parameterType="map">
+        /* setSuggestionSystem */
+        INSERT INTO CAM_BOARD.DJ_SUGGESTION_BOARD
+        (
+            SUGGESTION_NO,
+            SUGGESTION_DATE,
+            SUGGESTION_TYPE,
+            SUGGESTION_TITLE,
+            SUGGESTION_CONTENT1,
+            SUGGESTION_CONTENT2,
+            SUGGESTION_CONTENT3,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{suggestionNo},
+            DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            #{suggestionType},
+            #{suggestionTitle},
+            #{suggestionContent1},
+            #{suggestionContent2},
+            #{suggestionContent3},
+            #{empSeq}
+        )
+
+        <selectKey keyProperty="suggestionBoardId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_BOARD' AND TABLE_NAME = 'DJ_SUGGESTION_BOARD'
+        </selectKey>
+    </insert>
+
+    <update id="setSuggestionSystemUpd" parameterType="map">
+        /* setSuggestionSystemUpd */
+        UPDATE
+            CAM_BOARD.DJ_SUGGESTION_BOARD
+        SET
+            SUGGESTION_TYPE = #{suggestionType},
+            SUGGESTION_TITLE = #{suggestionTitle},
+            SUGGESTION_CONTENT1 = #{suggestionContent1},
+            SUGGESTION_CONTENT2 = #{suggestionContent2},
+            SUGGESTION_CONTENT3 = #{suggestionContent3},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            SUGGESTION_BOARD_ID = #{suggestionBoardId}
+    </update>
+
+    <update id="setSuggestionSystemDel" parameterType="map">
+        /* setSuggestionSystemDel */
+        UPDATE
+            CAM_BOARD.DJ_SUGGESTION_BOARD
+        SET
+            ACTIVE = 'N',
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            SUGGESTION_BOARD_ID = #{suggestionBoardId}
+    </update>
+
     <select id="getScheduleList" parameterType="map" resultType="map">
         /* getScheduleList */
         SELECT
