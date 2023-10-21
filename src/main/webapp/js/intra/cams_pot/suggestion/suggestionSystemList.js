@@ -116,7 +116,6 @@ var ssl = {
 
     drawList : function (list, num){
         let html;
-		console.log(list);
         var i = 0;
 		list.forEach(row => {
 			var suggestionTitle = "";
@@ -175,6 +174,6 @@ var ssl = {
             pageSize: 10
         }
 
-        ssl.mainGrid("/board/getCamsBoardArticleList.do?" + new URLSearchParams(queryParams).toString(), ssl.global.searchAjaxData);
+        ssl.mainGrid("/spot/getSuggestionSystemList.do?" + new URLSearchParams(queryParams).toString(), ssl.global.searchAjaxData);
     }
 }

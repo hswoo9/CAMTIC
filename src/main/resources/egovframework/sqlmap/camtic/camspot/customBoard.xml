@@ -331,4 +331,176 @@
         WHERE
             SCHEDULE_BOARD_ID = #{scheduleBoardId}
     </select>
+
+    <select id="getRequestBoardList" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage"
+            resultType="egovframework.com.devjitsu.hp.board.util.PostResponse">
+        /* getRequestBoardList */
+        SELECT
+            RB.REQUEST_BOARD_ID,
+            RB.REQUEST_TYPE,
+            RB.REQUEST_TITLE,
+            RB.REQUEST_CONTENT,
+            CASE WHEN RB.STATUS = '1' THEN '요청중'
+                 WHEN RB.STATUS = '2' THEN '접수완료'
+                 WHEN RB.STATUS = '3' THEN '처리완료'
+                 WHEN RB.STATUS = '-1' THEN '취소'
+                END AS STATUS,
+            DATE_FORMAT(RB.REG_DATE, '%Y-%m-%d') AS REG_DATE,
+            EI.EMP_SEQ AS REG_EMP_SEQ,
+            EI.EMP_NAME_KR AS REG_EMP_NAME
+        FROM
+            CAM_BOARD.DJ_REQUEST_BOARD RB
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON RB.REG_EMP_SEQ = EI.EMP_SEQ
+        WHERE
+            RB.ACTIVE = 'Y'
+        AND
+            RB.REQUEST_TYPE = #{requestType}
+        <if test='status != null and !"".equals(status)'>
+        AND
+            RB.STATUS = #{status}
+        </if>
+
+        <if test='startDt != null and !"".equals(startDt)'>
+        <![CDATA[
+        AND
+            DATE_FORMAT(#{startDt}, '%Y%m%d') <= DATE_FORMAT(RB.REG_DATE, '%Y%m%d')
+        AND
+            DATE_FORMAT(#{endDt}, '%Y%m%d') >= DATE_FORMAT(RB.REG_DATE, '%Y%m%d')
+        ]]>
+        </if>
+
+        <choose>
+            <when test='searchColumn != null and !"".equals(searchColumn)'>
+                AND RB.${searchColumn} LIKE CONCAT('%', #{searchContent}, '%')
+            </when>
+            <otherwise>
+                AND (
+                    RB.REQUEST_TITLE LIKE CONCAT('%',#{searchContent},'%') OR
+                    RB.REQUEST_CONTENT LIKE CONCAT('%',#{searchContent},'%')
+                )
+            </otherwise>
+        </choose>
+        ORDER BY RB.REG_DATE DESC
+        LIMIT #{pagination.limitStart}, #{recordSize}
+    </select>
+
+    <select id="getRequestBoardListCnt" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage"
+            resultType="int">
+        /* getRequestBoardListCnt */
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_BOARD.DJ_REQUEST_BOARD RB
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON RB.REG_EMP_SEQ = EI.EMP_SEQ
+        WHERE
+            RB.ACTIVE = 'Y'
+        AND
+            RB.REQUEST_TYPE = #{requestType}
+        <if test='status != null and !"".equals(status)'>
+        AND
+            RB.STATUS = #{status}
+        </if>
+
+        <if test='startDt != null and !"".equals(startDt)'>
+            <![CDATA[
+        AND
+            DATE_FORMAT(#{startDt}, '%Y%m%d') <= DATE_FORMAT(RB.REG_DATE, '%Y%m%d')
+        AND
+            DATE_FORMAT(#{endDt}, '%Y%m%d') >= DATE_FORMAT(RB.REG_DATE, '%Y%m%d')
+        ]]>
+        </if>
+
+        <choose>
+            <when test='searchColumn != null and !"".equals(searchColumn)'>
+                AND RB.${searchColumn} LIKE CONCAT('%', #{searchContent}, '%')
+            </when>
+            <otherwise>
+                AND (
+                    RB.REQUEST_TITLE LIKE CONCAT('%',#{searchContent},'%') OR
+                    RB.REQUEST_CONTENT LIKE CONCAT('%',#{searchContent},'%')
+                )
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="setRequestBoard" parameterType="map">
+        /* setRequestBoard */
+        INSERT INTO CAM_BOARD.DJ_REQUEST_BOARD
+        (
+            REQUEST_TYPE,
+            REQUEST_TITLE,
+            REQUEST_CONTENT,
+            DEADLINE_DATE,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{requestType},
+            #{requestTitle},
+            #{requestContent},
+            #{deadlineDate},
+            #{empSeq}
+        )
+
+        <selectKey keyProperty="requestBoardId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_BOARD' AND TABLE_NAME = 'DJ_REQUEST_BOARD'
+        </selectKey>
+    </insert>
+
+    <update id="setRequestBoardUpd" parameterType="map">
+        /* setRequestBoardUpd */
+        UPDATE
+            CAM_BOARD.DJ_REQUEST_BOARD
+        SET
+            REQUEST_TITLE = #{requestTitle},
+            REQUEST_CONTENT = #{requestContent},
+            DEADLINE_DATE = #{deadlineDate},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            REQUEST_BOARD_ID = #{requestBoardId}
+    </update>
+
+    <select id="getRequestBoard" parameterType="map" resultType="map">
+        /* getRequestBoard */
+        SELECT
+            RB.*,
+            CASE WHEN RB.STATUS = '1' THEN '요청중'
+                 WHEN RB.STATUS = '2' THEN '접수완료'
+                 WHEN RB.STATUS = '3' THEN '처리완료'
+                 WHEN RB.STATUS = '-1' THEN '취소'
+            END AS STATUS_TXT
+        FROM
+            CAM_BOARD.DJ_REQUEST_BOARD RB
+        WHERE
+            REQUEST_BOARD_ID = #{requestBoardId}
+    </select>
+
+    <update id="setRequestBoardStatusUpd" parameterType="map">
+        /* setRequestBoardStatusUpd */
+        UPDATE
+            CAM_BOARD.DJ_REQUEST_BOARD
+        SET
+            STATUS = #{status},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            REQUEST_BOARD_ID = #{requestBoardId}
+    </update>
+
+    <update id="setRequestBoardDel" parameterType="map">
+        /* setRequestBoardDel */
+        UPDATE
+            CAM_BOARD.DJ_REQUEST_BOARD
+        SET
+            ACTIVE = 'N',
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            REQUEST_BOARD_ID = #{requestBoardId}
+    </update>
 </mapper>

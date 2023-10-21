@@ -11,11 +11,11 @@ public class ArticlePage {
     private String SearchContent;
     private String anonymousActive;
 
-    /** 제안제도 */
     private String suggestionType;
     private String status;
     private String startDt;
     private String endDt;
+    private String requestType;
 
     private int page;             // 현재 페이지 번호
     private int recordSize;       // 페이지당 출력할 데이터 개수
@@ -27,6 +27,14 @@ public class ArticlePage {
         this.page = 1;
         this.recordSize = 10;
         this.pageSize = 10;
+    }
+
+    public String getRequestType() {
+        return requestType;
+    }
+
+    public void setRequestType(String requestType) {
+        this.requestType = requestType;
     }
 
     public String getSuggestionType() {

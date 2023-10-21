@@ -18,6 +18,13 @@ public class PostResponse {
     private String EXECUTE_EMP_NAME;
     /** 제안제도 종료 */
 
+    /** 요청 게시판 */
+    private Long REQUEST_BOARD_ID;
+    private String REQUEST_TYPE;
+    private String REQUEST_TITLE;
+    private String REQUEST_CONTENT;
+    /** 요청 게시판 종료 */
+
     private Long BOARD_ARTICLE_ID;                       // PK
     private String BOARD_ID;
     private String BOARD_ARTICLE_TITLE;                  // 제목
@@ -44,6 +51,22 @@ public class PostResponse {
     private String CONFIRM2;
     private LocalDateTime APPLY_DATE;
     private LocalDateTime CANCLE_DATE;
+
+    public Long getREQUEST_BOARD_ID() {
+        return REQUEST_BOARD_ID;
+    }
+
+    public String getREQUEST_TYPE() {
+        return REQUEST_TYPE;
+    }
+
+    public String getREQUEST_TITLE() {
+        return REQUEST_TITLE;
+    }
+
+    public String getREQUEST_CONTENT() {
+        return REQUEST_CONTENT;
+    }
 
     public Long getSUGGESTION_BOARD_ID() {
         return SUGGESTION_BOARD_ID;

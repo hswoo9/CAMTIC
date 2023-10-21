@@ -115,6 +115,44 @@ public class CustomBoardServiceImpl implements CustomBoardService {
         return customBoardRepository.getSchedule(params);
     }
 
+    @Override
+    public PagingResponse<PostResponse> getRequestBoardList(ArticlePage articlePage) {
+        int count = customBoardRepository.getRequestBoardListCnt(articlePage);
+        if (count < 1) {
+            return new PagingResponse<>(Collections.emptyList(), null);
+        }
+
+        Pagination pagination = new Pagination(count, articlePage);
+        articlePage.setPagination(pagination);
+
+        List<PostResponse> list = customBoardRepository.getRequestBoardList(articlePage);
+        return new PagingResponse<>(list, pagination);
+    }
+
+    @Override
+    public void setRequestBoard(Map<String, Object> params) {
+        if(StringUtils.isEmpty(params.get("requestBoardId"))){
+            customBoardRepository.setRequestBoard(params);
+        }else{
+            customBoardRepository.setRequestBoardUpd(params);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getRequestBoard(Map<String, Object> params) {
+        return customBoardRepository.getRequestBoard(params);
+    }
+
+    @Override
+    public void setRequestBoardDel(Map<String, Object> params) {
+        customBoardRepository.setRequestBoardDel(params);
+    }
+
+    @Override
+    public void setRequestBoardStatusUpd(Map<String, Object> params) {
+        customBoardRepository.setRequestBoardStatusUpd(params);
+    }
+
     private String filePath (Map<String, Object> params, String base_dir){
         LocalDate now = LocalDate.now();
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
