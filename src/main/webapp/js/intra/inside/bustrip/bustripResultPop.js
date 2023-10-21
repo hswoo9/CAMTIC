@@ -78,6 +78,7 @@ var bustripResultPop = {
         $("#time1").val(busInfo.TRIP_TIME_FR);
         $("#time2").val(busInfo.TRIP_TIME_TO);
 
+        console.log(busInfo);
         if(busInfo.PJT_SN != null){
             $("#project").data("kendoRadioGroup").value("2");
             $("input[name='project']").trigger("click");
@@ -290,7 +291,9 @@ var bustripResultPop = {
         formData.append("applyDate", $("#reqDate").val());
         formData.append("tripCode", $("#tripCode").data("kendoRadioGroup").value());
         formData.append("busnName", $("#busnName").val());
-        formData.append("pjtSn", $("#pjtSn").val());
+        if($("#pjtSn").val() != ""){
+            formData.append("pjtSn", $("#pjtSn").val());
+        }
         formData.append("compEmpSeq", $("#popEmpSeq").val());
         formData.append("compEmpName", $("#popEmpName").val());
         formData.append("compDeptSeq", $("#popDeptSeq").val());

@@ -174,7 +174,7 @@ public class ProjectServiceImpl implements ProjectService {
         if(modCheck == 0) {
             // 전자결재 개발 완료 시 결재완료 시점으로 이동
             projectRepository.updProject(params);
-            projectRepository.updEngn(params);
+//            projectRepository.updEngn(params);
         }
 
         MainLib mainLib = new MainLib();
@@ -757,7 +757,7 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.delEstSub(params);
 
         projectRepository.updProject(params);
-        projectRepository.updEngn(params);
+//        projectRepository.updEngn(params);
 
         return params;
     }
