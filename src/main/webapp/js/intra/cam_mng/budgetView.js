@@ -47,7 +47,7 @@ var bgView = {
             serverPaging: false,
             transport: {
                 read: {
-                    url: "/g20/getSubjectList",
+                    url: "/g20/getBudgetListDuplDel",
                     dataType: "json",
                     type: "post"
                 },
@@ -83,7 +83,6 @@ var bgView = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 600,
             pageable: {
                 refresh: true,
                 pageSizes: [ 10, 20, 30, 50, 100 ],
@@ -100,24 +99,12 @@ var bgView = {
                     width : 80
                 }, {
                     title: "장",
-                    width: 250,
-                    template: function (e){
-                        if(e.DIV_FG_NM == "장"){
-                            return "<div style='font-weight: bold'>"+e.BGT_NM+"</div>";
-                        } else {
-                            return "";
-                        }
-                    }
+                    width: 150,
+                    field : "BGT1_NM"
                 }, {
                     title: "관",
-                    width: 250,
-                    template: function (e){
-                        if(e.DIV_FG_NM == "관"){
-                            return e.BGT_NM;
-                        } else {
-                            return "";
-                        }
-                    }
+                    width: 150,
+                    field : "BGT2_NM"
                 }, {
                     title: "항",
                     width: 150,
@@ -139,41 +126,43 @@ var bgView = {
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(calcAmSum)+"</div>";
                     }
-                }, {
-                    title: "지출완료",
-                    width: 150,
-                    template: function(e){
-                        acctAm2Sum  += Number(e.ACCT_AM_2);
-                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_2)+"</div>";
-                    },
-                    footerTemplate: function(){
-                        return "<div style='text-align: right'>"+comma(acctAm2Sum)+"</div>";
-                    }
-                }, {
-                    title: "지출대기",
-                    width: 150,
-                    template: function(e){
-                        if(e.ACCT_AM_1 != null){
-                            acctAm1Sum += Number(e.ACCT_AM_1);
-                            return "<div style='text-align: right'>"+comma(e.ACCT_AM_1)+"</div>";
-                        } else {
-                            return "<div style='text-align: right'>0</div>";
-                        }
-                    },
-                    footerTemplate: function(){
-                        return "<div style='text-align: right'>"+comma(acctAm1Sum)+"</div>";
-                    }
-                }, {
-                    title: "승인",
-                    width: 150,
-                    template: function(e){
-                        acctAm3Sum += Number(e.ACCT_AM_3);
-                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_3)+"</div>";
-                    },
-                    footerTemplate: function(){
-                        return "<div style='text-align: right'>"+comma(acctAm3Sum)+"</div>";
-                    }
-                }, {
+                },
+                // , {
+                //     title: "지출완료",
+                //     width: 150,
+                //     template: function(e){
+                //         acctAm2Sum  += Number(e.ACCT_AM_2);
+                //         return "<div style='text-align: right'>"+comma(e.ACCT_AM_2)+"</div>";
+                //     },
+                //     footerTemplate: function(){
+                //         return "<div style='text-align: right'>"+comma(acctAm2Sum)+"</div>";
+                //     }
+                // }, {
+                //     title: "지출대기",
+                //     width: 150,
+                //     template: function(e){
+                //         if(e.ACCT_AM_1 != null){
+                //             acctAm1Sum += Number(e.ACCT_AM_1);
+                //             return "<div style='text-align: right'>"+comma(e.ACCT_AM_1)+"</div>";
+                //         } else {
+                //             return "<div style='text-align: right'>0</div>";
+                //         }
+                //     },
+                //     footerTemplate: function(){
+                //         return "<div style='text-align: right'>"+comma(acctAm1Sum)+"</div>";
+                //     }
+                // }, {
+                //     title: "승인",
+                //     width: 150,
+                //     template: function(e){
+                //         acctAm3Sum += Number(e.ACCT_AM_3);
+                //         return "<div style='text-align: right'>"+comma(e.ACCT_AM_3)+"</div>";
+                //     },
+                //     footerTemplate: function(){
+                //         return "<div style='text-align: right'>"+comma(acctAm3Sum)+"</div>";
+                //     }
+                // },
+                {
                     title: "예산잔액",
                     width: 150,
                     template: function(e){
@@ -182,6 +171,13 @@ var bgView = {
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(subAmSum)+"</div>";
+                    }
+                }, {
+                    title: "기타",
+                    width: 80,
+                    template: function(e){
+                        var bgtNm = e.BGT1_NM + " / " + e.BGT2_NM + " / " + e.BGT_NM;
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bgView.fn_selBudgetInfo(' + e.BGT_CD + ', \'' + bgtNm + '\')">선택</button>';
                     }
                 }
             ],
@@ -210,5 +206,11 @@ var bgView = {
         acctAm1Sum = 0;
         acctAm3Sum = 0;
         subAmSum = 0;
+    },
+
+    fn_selBudgetInfo: function (cd, name){
+        opener.parent.fn_selBudgetInfo(name, cd);
+
+        window.close();
     }
 }

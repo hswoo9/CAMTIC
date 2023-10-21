@@ -26,7 +26,7 @@ var regPay = {
             { label: "대체신청서", value: "4" }
         ]
         customKendo.fn_radioGroup("payAppType", regPay.global.radioGroupData, "horizontal");
-
+        $("#payAppType").data("kendoRadioGroup").value(1)
 
         var parameters = {
             payAppType : $("#payAppType").data("kendoRadioGroup").value(),
@@ -500,8 +500,15 @@ var regPay = {
         var url = "/mng/pop/budgetView.do?pjtSn=" + $("#pjtSn").val();
 
         var name = "_blank";
-        var option = "width = 1100, height = 400, top = 100, left = 400, location = no"
+        var option = "width = 1100, height = 650, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
 
     }
+}
+
+function fn_selBudgetInfo(bgtNm, bgtCd){
+    $("#budgetCd").val(bgtCd);
+    $("#budgetNm").val(bgtNm);
+
+
 }

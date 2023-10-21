@@ -26,10 +26,22 @@
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="mgtCd" value="${data.PJT_CD}" />
-<div style="padding: 10px">
-    <div class="table-responsive">
+<div>
+    <div class="card-header pop-header">
+        <h3 class="card-title title_NM">
+                <span style="position: relative; top: 3px;">
+                    예산 선택
+                </span>
+        </h3>
+        <div id="purcBtnDiv" class="btn-st popButton">
+            <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
+        </div>
+    </div>
+
+    <div class="" style="padding: 10px">
+
+
         <%--        <button type="button" id="budgetAddBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-base" onclick="bgView.fn_popBudgetAdd()">등록</button>--%>
-        <br><br>
         <div id="budgetMainGrid"></div>
 
     </div>

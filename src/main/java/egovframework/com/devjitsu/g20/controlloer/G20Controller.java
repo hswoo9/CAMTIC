@@ -64,4 +64,16 @@ public class G20Controller {
         model.addAttribute("list", list);
         return "jsonView";
     }
+
+    @RequestMapping("/g20/getBudgetListDuplDel")
+    public String getBudgetListDuplDel(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("erpCompSeq", "1212");
+        List<Map<String, Object>> list = g20Service.getSubjectList(params);
+
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
 }

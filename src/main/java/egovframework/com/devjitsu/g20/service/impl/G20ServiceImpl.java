@@ -38,7 +38,22 @@ public class G20ServiceImpl implements G20Service {
         for(Map<String, Object> map : budgetList){
 
             if(!"0".equals(map.get("DIV_FG"))){
-                result.add(map);
+
+                if(map.get("DIV_FG").equals("3")){
+                    String bgt1Cd = map.get("BGT_CD").toString().substring(0, 1);
+                    String bgt2Cd = map.get("BGT_CD").toString().substring(0, 3);
+
+                    for(Map<String, Object> subject : budgetList) {
+                        if (bgt1Cd.equals(subject.get("BGT_CD"))) {
+                            map.put("BGT1_NM", subject.get("BGT_NM"));
+                        }
+
+                        if(bgt2Cd.equals(subject.get("BGT_CD"))) {
+                            map.put("BGT2_NM", subject.get("BGT_NM"));
+                        }
+                    }
+                    result.add(map);
+                }
             }
         }
 
