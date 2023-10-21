@@ -190,6 +190,33 @@ var regPay = {
     }
 }
 
+
+var regPayDet = {
+
+    fn_defaultScript : function (){
+        $("#eviType0").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "선택", value: "" },
+                { text: "세금계산서", value: "1" },
+                { text: "계산서", value: "2" },
+                { text: "신용카드", value: "3" },
+                { text: "직원지급", value: "4" },
+                { text: "소득신고자", value: "5" },
+                { text: "기타", value: "6" },
+            ],
+            index: 0
+        });
+
+        customKendo.fn_textBox(["crmNm0", "crmBnkNm0", "crmAccHolder0", "crmAccNo0", "totCost0", "supCost0", "vatCost0"
+                                ,"card0", "etc0", "iss0"]);
+
+        customKendo.fn_datePicker("trDe0", "month", "yyyy-MM-dd", new Date());
+
+    }
+}
+
 function fn_selBudgetInfo(bgtNm, bgtCd){
     $("#budgetSn").val(bgtCd);
     $("#budgetNm").val(bgtNm);

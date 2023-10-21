@@ -135,120 +135,92 @@
 
                 <table class="popTable table table-bordered mb-0 mt-20">
                     <colgroup>
-                        <c:if test="${params.stat == 'v'}">
-                            <col style="width: 3%;">
-                        </c:if>
-                        <col style="width: 480px;">
-                        <col>
                         <col style="width: 6%;">
-                        <col style="width: 8%;">
+                        <col style="width: 6%;">
+                        <col style="width: 6%;">
+                        <col style="width: 6%;">
+                        <col style="width: 6%;">
+                        <col style="width: 6%;">
                         <col style="width: 5%;">
-                        <col style="width: 4%;">
-                        <col style="width: 10%;">
-                        <c:if test="${params.stat == 'v'}">
-                            <col style="width: 10%;">
-                        </c:if>
-                        <c:if test="${params.stat != 'v'}">
-                            <col style="width: 15%;">
-                        </c:if>
                         <col style="width: 5%;">
-                        <c:if test="${params.stat == 'v'}">
-                            <col style="width: 3%">
-                        </c:if>
-                        <c:if test="${params.stat != 'v'}">
-                            <col style="width: 3%">
-                        </c:if>
+                        <col style="width: 5%;">
+                        <col style="width: 5%;">
+                        <col style="width: 5%;">
+                        <col style="width: 5%;">
+                        <col style="width: 3%;">
                     </colgroup>
                     <thead>
                     <tr>
-                        <c:if test="${params.stat == 'v'}">
-                            <th>
-                                <input type="checkbox" id="checkAll" class="k-checkbox" style="margin-left: 2px;" />
-                            </th>
-                        </c:if>
-                        <th>구분</th>
-                        <th>품명</th>
-                        <th>규격</th>
-                        <th>단가</th>
-                        <th>수량</th>
-                        <th>단위</th>
-                        <th>금액</th>
-                        <th>업체명</th>
+                        <th>증빙유형</th>
+                        <th>상호</th>
+                        <th>은행명</th>
+                        <th>지급계좌</th>
+                        <th>예금주</th>
+                        <th>거래일</th>
+                        <th>총액</th>
+                        <th>공급가액</th>
+                        <th>세액</th>
+                        <th>신용카드</th>
                         <th>비고</th>
-                        <c:if test="${params.stat == 'v'}">
-                            <th>상태</th>
-                        </c:if>
-                        <c:if test="${params.stat != 'v'}">
-                            <th>삭제</th>
-                        </c:if>
+                        <th>관련근거</th>
+                        <th>명령</th>
                     </tr>
                     </thead>
                     <tbody id="purcItemTb">
                     <tr class="purcItemInfo newArray" id="item0">
-                        <c:if test="${params.stat == 'v'}">
-                            <td>
-                                <input type="checkbox" id="check0" class="childCheck k-checkbox" style="margin-left: 3px;" value="0" />
-                            </td>
-                        </c:if>
                         <td>
-                            <input type="hidden" id="purcItemSn0" name="purcItemSn0" class="purcItemSn">
-                            <input type="text" id="purcItemType0" class="purcItemType" style="width: 110px">
-                            <input type="text" id="productA0" class="productA" style="width: 110px">
-                            <input type="text" id="productB0" class="productB" style="width: 110px; display: none">
-                            <input type="text" id="productC0" class="productC" style="width: 110px; display: none">
+                            <input type="hidden" id="payDestSn0" name="payDestSn" class="payDestSn">
+                            <input type="text" id="eviType0" class="eviType" style="width: 100%">
                         </td>
                         <td>
-                            <input type="text" id="purcItemName0" class="purcItemName">
+                            <input type="text" id="crmNm0" class="crmNm">
                         </td>
                         <td>
-                            <input type="text" id="purcItemStd0" class="purcItemStd">
+                            <input type="text" id="crmBnkNm0" class="crmBnkNm">
                         </td>
                         <td>
-                            <input type="text" id="purcItemUnitPrice0" style="text-align: right" class="purcItemUnitPrice" onkeyup="regPay.fn_calc(0, this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            <input type="text" id="crmAccNo0" class="crmAccNo">
                         </td>
                         <td>
-                            <input type="text" id="purcItemQty0" style="text-align: right" class="purcItemQty" onkeyup="regPay.fn_calc(0, this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            <input type="text" id="crmAccHolder0" class="crmAccHolder">
                         </td>
                         <td>
-                            <input type="text" id="purcItemUnit0" class="purcItemUnit">
+                            <input type="text" id="trDe0" class="trDe">
                         </td>
                         <td>
-                            <input type="text" id="purcItemAmt0" class="purcItemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            <input type="text" id="totCost0" class="totCost" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                         </td>
                         <td>
-                            <input type="hidden" id="crmSn0" class="crmSn">
-                            <input type="text" id="crmNm0" disabled class="crmNm" style="width: 60%">
-                            <button type="button" id="crmSelBtn0" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPay.fn_popCamCrmList('crmSn0', 'crmNm0');">업체선택</button>
+                            <input type="text" id="supCost0" class="supCost" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                         </td>
                         <td>
-                            <input type="text" id="rmk0" class="rmk">
+                            <input type="text" id="vatCost0" class="vatCost" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                         </td>
-                        <c:if test="${params.stat == 'v'}">
-                            <td id="itemStatus0">
-                                <button type="button" id="retBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="regPay.fn_retItem(0)">
-                                    반려
-                                </button>
-                            </td>
-                        </c:if>
-                        <c:if test="${params.stat != 'v'}">
-                            <td>
-                                <button type="button" id="delRowBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="regPay.delRow(this)">
-                                    삭제
-                                </button>
-                            </td>
-                        </c:if>
+                        <td>
+                            <input type="text" disabled id="card0" class="card">
+                        </td>
+                        <td>
+                            <input type="text" id="etc0" class="etc">
+                        </td>
+                        <td>
+                            <input type="text" id="iss0" class="iss">
+                        </td>
+                        <td>
+                            <div style="text-align: center">
+                                <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(this)">삭제</button>
+                            </div>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
 
-                <input type="hidden" id="crmSn" onchange="regPay.crmInfoChange()">
-                <input type="hidden" id="crmNm">
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
     regPay.fn_defaultScript();
+    regPayDet.fn_defaultScript();
 
     if($("#stat").val() == "v"){
         $("input[type='text'], input[type='radio']").prop("disabled", true);
