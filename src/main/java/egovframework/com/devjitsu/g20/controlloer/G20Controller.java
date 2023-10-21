@@ -76,4 +76,12 @@ public class G20Controller {
         model.addAttribute("list", list);
         return "jsonView";
     }
+
+    @RequestMapping("/g20/getBankList")
+    public String getBankList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = g20Service.getBankList(params);
+
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
 }

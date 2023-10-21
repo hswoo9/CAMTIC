@@ -11,7 +11,7 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/regPayAppPop.js?v=${today}'/>"></script>
 
 <form id="purcDraftFrm" method="post">
-    <input type="hidden" id="purcSn" name="payAppSn" value="${params.payAppSn}">
+    <input type="hidden" id="payAppSn" name="payAppSn" value="${params.payAppSn}">
     <input type="hidden" id="menuCd" name="menuCd" value="purc">
     <input type="hidden" id="type" name="type" value="drafting">
     <input type="hidden" id="nowUrl" name="nowUrl" />
@@ -26,7 +26,8 @@
                 </span>
             </h3>
             <div id="purcBtnDiv" class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="regPay.setPayApp();">저장</button>
+                <button type="button" class="k-button k-button-solid-info" style="display: none" id="apprBtn" onclick="regPay.fn_approve();">결재</button>
+                <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="regPay.fn_save();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -37,7 +38,8 @@
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
                     <col width="10%">
-                    <col width="35%">
+                    <col width="10%">
+                    <col width="25%">
                     <col width="10%">
                     <col width="35%">
                 </colgroup>
@@ -45,17 +47,17 @@
                 <tr>
                 <tr>
                     <th scope="row" class="text-center th-color">신청유형</th>
-                    <td>
+                    <td colspan="2">
                         <span id="payAppType"></span>
                     </td>
                     <th scope="row" class="text-center th-color">신청일자</th>
-                    <td>
-                        <input type="text" id="appDe" style="width: 20%">
+                    <td colspan="2">
+                        <input type="text" id="appDe" style="width: 40%">
                     </td>
                 </tr>
                 <tr id="project">
                     <th scope="row" class="text-center th-color">사업명</th>
-                    <td colspan="3">
+                    <td colspan="4">
                         <span>
                             <input type="text" id="pjtNm" disabled value="${pjtData.PJT_NM}"  style="width: 40%;">
                             <input type="hidden" id="pjtSn" value="${pjtData.PJT_SN}" />
@@ -65,7 +67,7 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">예산비목</th>
-                    <td colspan="3">
+                    <td colspan="4">
                         <span>
                             <input type="text" id="budgetNm" disabled value=""  style="width: 40%;">
                             <input type="hidden" id="budgetSn" value="" />
@@ -75,14 +77,41 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">신청건명</th>
-                    <td colspan="3">
+                    <td colspan="4">
                         <input type="text" id="appTitle" style="width: 90%;">
                     </td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">신청내용</th>
-                    <td colspan="3">
+                    <td colspan="4">
                         <textarea type="text" id="appCont" style="width: 100%;"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th rowspan="3" scope="row" class="text-center th-color">출금계좌</th>
+                    <th style="width: 10%">계좌명</th>
+                    <td colspan="3">
+                        <input type="text" id="accNm" disabled style="width: 50%;">
+                        <button type="button" class="k-button k-button-solid-base" id="bnkSelBtn" onclick="regPay.fn_bankPop()">검색</button>
+                        <input type="hidden" id="bnkSn">
+                    </td>
+                </tr>
+                <tr>
+                    <th>계좌번호</th>
+                    <td colspan="3">
+                        <input type="text" id="accNo" disabled style="width: 60%;">
+                    </td>
+                </tr>
+                <tr>
+                    <th>은행명</th>
+                    <td colspan="3">
+                        <input type="text" id="bnkNm" disabled style="width: 60%;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">전결구분</th>
+                    <td colspan="4">
+                        <span id="payAppStat"></span>
                     </td>
                 </tr>
                 </thead>

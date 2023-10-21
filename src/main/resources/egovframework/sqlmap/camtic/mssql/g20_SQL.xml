@@ -215,4 +215,12 @@
             '1'
     </select>
 
+    <select id="getBankList" parameterType="map" resultType="map">
+        /*getBankList*/
+        SELECT TR_CD, TR_NM, BA_NB, DEPOSITOR, JIRO_NM
+        FROM ZA_TRADE_DAIKIN
+        WHERE TR_FG = '5'
+          AND (TR_NM LIKE CONCAT('%', #{searchValue}, '%') OR BA_NB LIKE CONCAT('%', #{searchValue}, '%'))
+    </select>
+
 </mapper>

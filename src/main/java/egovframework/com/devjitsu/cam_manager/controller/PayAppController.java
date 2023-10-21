@@ -24,7 +24,7 @@ public class PayAppController {
     @RequestMapping("/pay/paymentList.do")
     public String paymentList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
-        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
         model.addAttribute("loginVO", loginVO);
         session.setAttribute("menuNm", request.getRequestURI());
@@ -35,11 +35,35 @@ public class PayAppController {
     @RequestMapping("/payApp/pop/regPayAppPop.do")
     public String regPayAppPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
-        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
 
         return "popup/cam_manager/payApp/regPayAppPop";
+    }
+
+    @RequestMapping("/payApp/pop/getPayAppData")
+    public String getPayAppData(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> map = payAppService.getPayAppReqData(params);
+        model.addAttribute("map", map);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/payApp/payAppSetData")
+    public String payAppSetData(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            payAppService.payAppSetData(params);
+
+            model.addAttribute("code", 200);
+            model.addAttribute("params", params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+        return "jsonView";
     }
 }

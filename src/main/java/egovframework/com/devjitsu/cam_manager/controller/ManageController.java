@@ -52,4 +52,15 @@ public class ManageController {
 
         return "popup/cam_manager/budgetView";
     }
+
+    @RequestMapping("/mng/pop/bankView.do")
+    public String bankView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_manager/bankView";
+    }
 }

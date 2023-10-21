@@ -59,4 +59,9 @@ public class G20ServiceImpl implements G20Service {
 
         return result;
     }
+
+    @Override
+    public List<Map<String, Object>> getBankList(Map<String, Object> params) {
+        return g20Repository.getBankList(params);
+    }
 }
