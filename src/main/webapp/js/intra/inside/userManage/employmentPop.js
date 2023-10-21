@@ -41,14 +41,14 @@ var employmentPop = {
         var uri = employmentPop.global.params.hwpUrl;
         if(String(uri).indexOf("1.233.95.140") > -1){
             employmentPop.open(
-                "http://218.158.231.186:8080/upload/salaryForm/"+ "salaryCont.hwp",
+                "http://218.158.231.186/upload/salaryForm/"+ "salaryCont.hwp",
                 "HWP",
                 "",
                 {"userData" : "success"}
             )
         }else if(String(uri).indexOf("10.10.10.112") > -1){
             employmentPop.open(
-                "http://218.158.231.186:8080/upload/salaryForm/"+ "salaryCont.hwp",
+                "http://218.158.231.186/upload/salaryForm/"+ "salaryCont.hwp",
                 "HWP",
                 "",
                 {"userData" : "success"}

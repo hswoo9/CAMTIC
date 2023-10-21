@@ -3,6 +3,28 @@ package egovframework.com.devjitsu.hp.board.util;
 import java.time.LocalDateTime;
 
 public class PostResponse {
+    /** 제안제도 */
+    private Long SUGGESTION_BOARD_ID;
+    private String SUGGESTION_DATE;
+    private String SUGGESTION_TYPE;
+    private String SUGGESTION_TYPE_TXT;
+    private String SUGGESTION_TITLE;
+    private String SUGGESTION_CONTENT1;
+    private String SUGGESTION_CONTENT2;
+    private String SUGGESTION_CONTENT3;
+    private String EXECUTE;
+    private String STATUS;
+    private String EXECUTE_EMP_SEQ;
+    private String EXECUTE_EMP_NAME;
+    /** 제안제도 종료 */
+
+    /** 요청 게시판 */
+    private Long REQUEST_BOARD_ID;
+    private String REQUEST_TYPE;
+    private String REQUEST_TITLE;
+    private String REQUEST_CONTENT;
+    /** 요청 게시판 종료 */
+
     private Long BOARD_ARTICLE_ID;                       // PK
     private String BOARD_ID;
     private String BOARD_ARTICLE_TITLE;                  // 제목
@@ -29,6 +51,70 @@ public class PostResponse {
     private String CONFIRM2;
     private LocalDateTime APPLY_DATE;
     private LocalDateTime CANCLE_DATE;
+
+    public Long getREQUEST_BOARD_ID() {
+        return REQUEST_BOARD_ID;
+    }
+
+    public String getREQUEST_TYPE() {
+        return REQUEST_TYPE;
+    }
+
+    public String getREQUEST_TITLE() {
+        return REQUEST_TITLE;
+    }
+
+    public String getREQUEST_CONTENT() {
+        return REQUEST_CONTENT;
+    }
+
+    public Long getSUGGESTION_BOARD_ID() {
+        return SUGGESTION_BOARD_ID;
+    }
+
+    public String getSUGGESTION_DATE() {
+        return SUGGESTION_DATE;
+    }
+
+    public String getSUGGESTION_TYPE() {
+        return SUGGESTION_TYPE;
+    }
+
+    public String getSUGGESTION_TYPE_TXT() {
+        return SUGGESTION_TYPE_TXT;
+    }
+
+    public String getSUGGESTION_TITLE() {
+        return SUGGESTION_TITLE;
+    }
+
+    public String getSUGGESTION_CONTENT1() {
+        return SUGGESTION_CONTENT1;
+    }
+
+    public String getSUGGESTION_CONTENT2() {
+        return SUGGESTION_CONTENT2;
+    }
+
+    public String getSUGGESTION_CONTENT3() {
+        return SUGGESTION_CONTENT3;
+    }
+
+    public String getEXECUTE() {
+        return EXECUTE;
+    }
+
+    public String getSTATUS() {
+        return STATUS;
+    }
+
+    public String getEXECUTE_EMP_SEQ() {
+        return EXECUTE_EMP_SEQ;
+    }
+
+    public String getEXECUTE_EMP_NAME() {
+        return EXECUTE_EMP_NAME;
+    }
 
     public Long getBOARD_ARTICLE_ID() {
         return BOARD_ARTICLE_ID;

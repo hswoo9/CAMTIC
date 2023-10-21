@@ -183,7 +183,7 @@
     if(location.host.indexOf("127.0.0.1") > -1 || location.host.indexOf("localhost") > -1){
       var url = 'http://localhost:8080/newsPopup.do?groupKey='+ groupKey + '&linkKey=' + linkKey;
     }else{
-      var url = 'http://218.158.231.186:8080/newsPopup.do?groupKey='+ groupKey + '&linkKey=' + linkKey;
+      var url = 'http://218.158.231.186/newsPopup.do?groupKey='+ groupKey + '&linkKey=' + linkKey;
     }
 
     var popupWidth = 750;

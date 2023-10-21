@@ -5,6 +5,7 @@ import egovframework.com.devjitsu.cams_pot.repository.CustomBoardRepository;
 import egovframework.com.devjitsu.cams_pot.repository.camsBoardRepository;
 import egovframework.com.devjitsu.cams_pot.service.CustomBoardService;
 import egovframework.com.devjitsu.cams_pot.service.camsBoardService;
+import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.hp.board.util.ArticlePage;
 import egovframework.com.devjitsu.hp.board.util.Pagination;
 import egovframework.com.devjitsu.hp.board.util.PagingResponse;
@@ -16,7 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +33,68 @@ public class CustomBoardServiceImpl implements CustomBoardService {
 
     @Autowired
     private CustomBoardRepository customBoardRepository;
+
+    @Autowired
+    private CommonRepository commonRepository;
+
+    @Override
+    public PagingResponse<PostResponse> getSuggestionSystemList(ArticlePage articlePage) {
+        int count = customBoardRepository.getSuggestionSystemListCnt(articlePage);
+        if (count < 1) {
+            return new PagingResponse<>(Collections.emptyList(), null);
+        }
+
+        Pagination pagination = new Pagination(count, articlePage);
+        articlePage.setPagination(pagination);
+
+        List<PostResponse> list = customBoardRepository.getSuggestionSystemList(articlePage);
+        return new PagingResponse<>(list, pagination);
+    }
+
+    @Override
+    public Map<String, Object> getSuggestionSystem(Map<String, Object> params) {
+        Map<String, Object> returnMap = customBoardRepository.getSuggestionSystem(params);
+        if(returnMap != null){
+            params.put("contentId", "sb_" + returnMap.get("SUGGESTION_BOARD_ID"));
+            params.put("fileCd", "suggestion");
+
+            returnMap.put("fileList", commonRepository.getFileList(params));
+        }
+
+        return returnMap;
+    }
+
+    @Override
+    public void setSuggestionSystem(Map<String, Object> params) {
+        if(StringUtils.isEmpty(params.get("suggestionBoardId"))){
+            params.put("suggestionNo", customBoardRepository.getSuggestionSystemNo(params));
+            customBoardRepository.setSuggestionSystem(params);
+        }else{
+            customBoardRepository.setSuggestionSystemUpd(params);
+        }
+    }
+
+    @Override
+    public void setCustomBoardFileInit(Map<String, Object> params, MultipartFile[] mpfList, String server_dir, String base_dir) {
+        MainLib mainLib = new MainLib();
+        if(mpfList.length > 0){
+            List<Map<String, Object>> list = mainLib.multiFileUpload(mpfList, filePath(params, server_dir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", "sb_" + params.get("suggestionBoardId"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("filePath", filePath(params, base_dir));
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+                list.get(i).put("empSeq", params.get("empSeq"));
+            }
+            commonRepository.insFileInfo(list);
+        }
+    }
+
+    @Override
+    public void setSuggestionSystemDel(Map<String, Object> parmas) {
+        customBoardRepository.setSuggestionSystemDel(parmas);
+    }
 
     @Override
     public List<Map<String, Object>> getScheduleList(Map<String, Object> params) {
@@ -47,5 +113,53 @@ public class CustomBoardServiceImpl implements CustomBoardService {
     @Override
     public Map<String, Object> getSchedule(Map<String, Object> params) {
         return customBoardRepository.getSchedule(params);
+    }
+
+    @Override
+    public PagingResponse<PostResponse> getRequestBoardList(ArticlePage articlePage) {
+        int count = customBoardRepository.getRequestBoardListCnt(articlePage);
+        if (count < 1) {
+            return new PagingResponse<>(Collections.emptyList(), null);
+        }
+
+        Pagination pagination = new Pagination(count, articlePage);
+        articlePage.setPagination(pagination);
+
+        List<PostResponse> list = customBoardRepository.getRequestBoardList(articlePage);
+        return new PagingResponse<>(list, pagination);
+    }
+
+    @Override
+    public void setRequestBoard(Map<String, Object> params) {
+        if(StringUtils.isEmpty(params.get("requestBoardId"))){
+            customBoardRepository.setRequestBoard(params);
+        }else{
+            customBoardRepository.setRequestBoardUpd(params);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getRequestBoard(Map<String, Object> params) {
+        return customBoardRepository.getRequestBoard(params);
+    }
+
+    @Override
+    public void setRequestBoardDel(Map<String, Object> params) {
+        customBoardRepository.setRequestBoardDel(params);
+    }
+
+    @Override
+    public void setRequestBoardStatusUpd(Map<String, Object> params) {
+        customBoardRepository.setRequestBoardStatusUpd(params);
+    }
+
+    private String filePath (Map<String, Object> params, String base_dir){
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String fmtNow = now.format(fmt);
+
+        String path = base_dir + params.get("menuCd").toString()+"/" + fmtNow + "/";
+
+        return path;
     }
 }
