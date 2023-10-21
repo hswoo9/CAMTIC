@@ -167,7 +167,9 @@ const bustripReq = {
         formData.append("applyDate", $("#reqDate").val());
         formData.append("tripCode", $("#tripCode").data("kendoRadioGroup").value());
         formData.append("busnName", $("#busnName").val());
-        formData.append("pjtSn", $("#pjtSn").val());
+        if($("#pjtSn").val() != ""){
+            formData.append("pjtSn", $("#pjtSn").val());
+        }
         formData.append("compEmpSeq", $("#popEmpSeq").val());
         formData.append("compEmpName", $("#popEmpName").val());
         formData.append("compDeptSeq", $("#popDeptSeq").val());
