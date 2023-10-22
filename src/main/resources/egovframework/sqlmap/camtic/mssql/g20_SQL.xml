@@ -261,4 +261,22 @@
             AND
                 (TR_NM LIKE CONCAT('%', #{searchValue}, '%') OR BA_NB LIKE CONCAT('%', #{searchValue}, '%') OR REG_NB LIKE CONCAT('%', #{searchValue}, '%'))
     </select>
+
+    <select id="getCardList" parameterType="map" resultType="map">
+        /*getCardList*/
+        SELECT
+            A.TR_CD,
+            A.TR_NM,
+            A.BA_NB AS CARD_BA_NB,
+            B.JIRO_NM,
+            A.CLTTR_CD,
+            B.BA_NB,
+            B.DEPOSITOR
+        FROM ZA_TRADE_DAIKIN A
+        LEFT JOIN ZA_TRADE_DAIKIN B
+        ON A.CLTTR_CD = B.TR_CD
+        WHERE A.TR_FG = '9'
+            AND
+                (A.TR_NM LIKE CONCAT('%', #{searchValue}, '%') OR A.BA_NB LIKE CONCAT('%', #{searchValue}, '%') OR A.REG_NB LIKE CONCAT('%', #{searchValue}, '%'))
+    </select>
 </mapper>

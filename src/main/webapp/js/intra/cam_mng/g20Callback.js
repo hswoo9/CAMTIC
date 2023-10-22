@@ -48,3 +48,30 @@ function fn_selClientInfo(trCd, trNm, baNb, depositor, jiro, ceoNm, regNb, idx){
     $("#crmAccNo" + idx).val(baNb);
     $("#crmAccHolder" + idx).val(depositor);
 }
+
+function fn_selCardInfo(trCd, trNm, cardBaNb, jiro, clttrCd, baNb, depositor, idx){
+    if(trNm == null || trNm == "" || trNm == "undefined"){
+        trNm = "";
+    }
+    if(cardBaNb == null || cardBaNb == "" || cardBaNb == "undefined"){
+        cardBaNb = "";
+    }
+    if(baNb == null || baNb == "" || baNb == "undefined"){
+        baNb = "";
+    }
+    if(jiro == null || jiro == "" || jiro == "undefined"){
+        jiro = "";
+    }
+    if(depositor == null || depositor == "" || depositor == "undefined"){
+        depositor = "";
+    }
+    if(trCd == null || trCd == "" || trCd == "undefined"){
+        trCd = "";
+    }
+
+    $("#card" + idx).val(trNm);
+    $("#trCd" + idx).val(trCd);
+    $("#crmBnkNm" + idx).val(jiro);
+    $("#crmAccNo" + idx).val(baNb);
+    $("#crmAccHolder" + idx).val(depositor);
+}

@@ -79,4 +79,9 @@ public class G20ServiceImpl implements G20Service {
     public List<Map<String, Object>> getClientList(Map<String, Object> params) {
         return g20Repository.getClientList(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getCardList(Map<String, Object> params) {
+        return g20Repository.getCardList(params);
+    }
 }
