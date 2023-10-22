@@ -74,4 +74,9 @@ public class G20ServiceImpl implements G20Service {
     public void setCrmInfo(Map<String, Object> params) {
         g20Repository.insCrmInfo(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getClientList(Map<String, Object> params) {
+        return g20Repository.getClientList(params);
+    }
 }

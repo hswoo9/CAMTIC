@@ -24,3 +24,30 @@ function fn_selBankInfo(trCd, trNm, baNb, depositor, jiroNm){
     $("#accNo").val(baNb);
     $("#bnkNm").val(jiroNm);
 }
+
+function fn_selClientInfo(trCd, trNm, baNb, depositor, jiro, ceoNm, regNb, idx){
+    console.log(baNb);
+    console.log(depositor)
+    console.log(jiro)
+    if(trNm == null || trNm == "" || trNm == "undefined"){
+        trNm = "";
+    }
+    if(baNb == null || baNb == "" || baNb == "undefined"){
+        baNb = "";
+    }
+    if(depositor == null || depositor == "" || depositor == "undefined"){
+        depositor = "";
+    }
+    if(jiro == null || jiro == "" || jiro == "undefined"){
+        jiro = "";
+    }
+    if(trCd == null || trCd == "" || trCd == "undefined"){
+        trCd = "";
+    }
+
+    $("#crmNm" + idx).val(trNm);
+    $("#trCd" + idx).val(trCd);
+    $("#crmBnkNm" + idx).val(jiro);
+    $("#crmAccNo" + idx).val(baNb);
+    $("#crmAccHolder" + idx).val(depositor);
+}

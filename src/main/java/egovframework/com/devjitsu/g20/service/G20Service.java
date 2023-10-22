@@ -13,4 +13,6 @@ public interface G20Service {
     Map<String, Object> getCrmInfo(Map<String, Object> params);
 
     void setCrmInfo(Map<String, Object> params);
+
+    List<Map<String, Object>> getClientList(Map<String, Object> params);
 }

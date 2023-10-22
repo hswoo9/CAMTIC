@@ -252,4 +252,13 @@
             , #{ip}
     </insert>
 
+    <select id="getClientList" parameterType="map" resultType="map">
+        /*getClientList*/
+        SELECT
+            TR_CD, CEO_NM, REG_NB, JIRO_NM, BA_NB, DEPOSITOR, TR_NM
+        FROM ZA_TRADE_DAIKIN
+        WHERE TR_FG = '1'
+            AND
+                (TR_NM LIKE CONCAT('%', #{searchValue}, '%') OR BA_NB LIKE CONCAT('%', #{searchValue}, '%') OR REG_NB LIKE CONCAT('%', #{searchValue}, '%'))
+    </select>
 </mapper>

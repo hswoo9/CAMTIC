@@ -104,4 +104,12 @@ public class G20Controller {
 
         return "jsonView";
     }
+
+    @RequestMapping("/g20/getClientList")
+    public String getClientList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = g20Service.getClientList(params);
+
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
 }

@@ -214,12 +214,13 @@ var regPayDet = {
             index: 0,
             change : function (e){
                 var value = $("#eviType0").val();
+                var itemIndex = 0;
 
                 if(value != ""){
                     if(value == "6"){
                         alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
                     } else {
-                        regPayDet.fn_popRegDet(value);
+                        regPayDet.fn_popRegDet(value, itemIndex);
                     }
                 }
             }
@@ -232,8 +233,8 @@ var regPayDet = {
 
     },
 
-    fn_popRegDet : function (v){
-        var url = "/mng/pop/paymentDetView.do?type=" + v;
+    fn_popRegDet : function (v, i){
+        var url = "/mng/pop/paymentDetView.do?type=" + v + "&index=" + i;
 
         var name = "_blank";
         var option = "width = 1100, height = 650, top = 100, left = 400, location = no"
@@ -254,6 +255,7 @@ var regPayDet = {
             '   </td>' +
             '   <td>' +
             '       <input type="text" id="crmNm' + regPayDet.global.itemIndex + '" class="crmNm">' +
+            '       <input type="hidden" id="trCd' + regPayDet.global.itemIndex + '" class="trCd">' +
             '   </td>' +
             '   <td>' +
             '       <input type="text" id="crmBnkNm' + regPayDet.global.itemIndex + '" class="crmBnkNm">' +

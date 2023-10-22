@@ -3,13 +3,11 @@ var payDetView = {
     fn_defaultScript : function (){
 
         customKendo.fn_textBox(["searchValue"]);
-        this.fn_search();
 
-        $("#searchValue").on("keyup", function(key){
-            if(key.keyCode == 13){
-                payDetView.payDetMainGrid();
-            }
-        })
+
+        if($("#type").val() == 1 || $("#type").val() == 2){
+            payDetView.clientMainGrid();
+        }
     },
 
     fn_search: function (){
@@ -20,12 +18,12 @@ var payDetView = {
         $("#payDetMainGrid").data("kendoGrid").dataSource.read();
     },
 
-    payDetMainGrid : function (params) {
+    clientMainGrid : function (params) {
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
                 read: {
-                    url: "/g20/getBankList",
+                    url: "/g20/getClientList",
                     dataType: "json",
                     type: "post"
                 },
@@ -45,7 +43,7 @@ var payDetView = {
             pageSize: 10
         });
 
-        $("#payDetMainGrid").kendoGrid({
+        $("#clientMainGrid").kendoGrid({
             dataSource: dataSource,
             sortable: true,
             scrollable: true,
@@ -65,29 +63,69 @@ var payDetView = {
                     title: "번호",
                     width : 50
                 }, {
-                    title: "계좌명",
-                    width: 150,
-                    field : "TR_NM"
+                    title: "업체명",
+                    width: 200,
+                    template: function (e){
+                        return '<input type="hidden" id="trCd" value="' + e.TR_CD + '"/>' + e.TR_NM;
+                    }
                 }, {
-                    title: "계좌번호",
-                    width: 150,
-                    template: function(e){
-                        if(e.JIRO_NM != null){
-                            return "[" + e.JIRO_NM + "] " + e.BA_NB;
+                    title: "대표자",
+                    width: 80,
+                    template: function (e){
+                        if(e.CEO_NM != null){
+                            return e.CEO_NM;
                         } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    title: "사업자번호",
+                    width: 100,
+                    template: function (e){
+                        if(e.REG_NB != null){
+                            return e.REG_NB;
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    title: "은행명",
+                    width: 80,
+                    template: function (e){
+                        if(e.JIRO_NM != null){
+                            return e.JIRO_NM;
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    title: "지급계좌",
+                    width: 150,
+                    template: function (e){
+                        if(e.BA_NB != null){
                             return e.BA_NB;
+                        } else {
+                            return "";
                         }
                     }
                 }, {
                     title: "예금주",
-                    width: 100,
-                    field : "DEPOSITOR"
+                    width: 150,
+                    template: function (e){
+                        if(e.DEPOSITOR != null){
+                            return e.DEPOSITOR;
+                        } else {
+                            return "";
+                        }
+                    }
                 }, {
-                    title: "기타",
-                    width: 50,
+                    title: "",
+                    width: 80,
                     template: function(e){
-                        var bgtNm = e.BGT1_NM + " / " + e.BGT2_NM + " / " + e.BGT_NM;
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="payDetView.fn_selBankInfo(' + e.TR_CD + ', \'' + e.TR_NM + '\', \'' + e.BA_NB + '\', \'' + e.DEPOSITOR + '\', \'' + e.JIRO_NM + '\')">선택</button>';
+                        return '<button type="button" class="k-button k-button-solid-base" ' +
+                            'onclick="payDetView.fn_selClientInfo(\'' + e.TR_CD + '\', \'' + e.TR_NM + '\', \'' + e.BA_NB + '\', \'' + e.DEPOSITOR + '\', \'' + e.JIRO_NM + '\', \'' + e.CEO_NM + '\', \'' + e.REG_NB + '\')" style="font-size: 12px);">' +
+                            '   선택' +
+                            '</button>';
                     }
                 }
             ],
@@ -123,5 +161,12 @@ var payDetView = {
         var name = "_blank";
         var option = "width = 900, height = 470, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    fn_selClientInfo: function (trCd, trNm, baNb, depositor, jiro, ceoNm, regNb){
+        var idx = $("#index").val();
+        opener.parent.fn_selClientInfo(trCd, trNm, baNb, depositor, jiro, ceoNm, regNb, idx);
+
+        window.close();
     }
 }

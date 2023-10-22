@@ -175,6 +175,7 @@
                         </td>
                         <td>
                             <input type="text" id="crmNm0" class="crmNm">
+                            <input type="hidden" id="trCd0" class="trCd">
                         </td>
                         <td>
                             <input type="text" id="crmBnkNm0" class="crmBnkNm">

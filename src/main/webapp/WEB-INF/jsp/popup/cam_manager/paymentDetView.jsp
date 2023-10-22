@@ -5,7 +5,7 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/pamentDetView.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/paymentDetView.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?v=${today}'/>"></script>
 
 <style>
@@ -24,6 +24,8 @@
 </style>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="type" value="${params.type}" />
+<input type="hidden" id="index" value="${params.index}" />
 
 <div>
     <div class="card-header pop-header">
@@ -87,7 +89,25 @@
                 </c:choose>
 
         </span>
-        <div id="payDetMainGrid" style="margin-top:12px"></div>
+        <c:choose>
+            <c:when test="${params.type eq '1' }">
+                <div id="clientMainGrid" style="margin-top:12px"></div>
+            </c:when>
+            <c:when test="${params.type eq '2' }">
+                <div id="clientMainGrid" style="margin-top:12px"></div>
+            </c:when>
+            <c:when test="${params.type eq '3' }">
+                <div id="cardMainGrid" style="margin-top:12px"></div>
+            </c:when>
+            <c:when test="${params.type eq '4' }">
+                <div id="empMainGrid" style="margin-top:12px"></div>
+            </c:when>
+            <c:when test="${params.type eq '5' }">
+                <div id="otherMainGrid" style="margin-top:12px"></div>
+            </c:when>
+            <c:otherwise></c:otherwise>
+        </c:choose>
+
 
     </div>
 </div>
