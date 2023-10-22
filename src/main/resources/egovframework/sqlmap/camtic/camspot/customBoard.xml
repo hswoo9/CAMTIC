@@ -516,6 +516,8 @@
         ON FI.FILE_CD = 'watchBoard' AND CONTENT_ID = CONCAT('wb_', WB.WATCH_BOARD_ID)
         WHERE
             WB.ACTIVE = 'Y'
+        ORDER BY WB.REG_DATE DESC
+        LIMIT #{pagination.limitStart}, #{recordSize}
     </select>
 
     <select id="getWatchBoardListCnt" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage"

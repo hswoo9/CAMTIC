@@ -91,6 +91,8 @@ var wbr = {
 					$(e).next().text($(e)[0].files[0].name);
 				}
 			}
+		}else{
+			$(e).next().text($(e)[0].files[0].name);
 		}
 	},
 }

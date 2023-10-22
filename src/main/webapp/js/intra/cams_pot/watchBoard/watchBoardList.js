@@ -28,7 +28,7 @@ var wbl = {
 			}
 
 			var articleListStr = "";
-			$("#articleListTb tbody *").remove();
+			$("#listUl li").remove();
 			if(wbl.global.articleList.list.length > 0){
                 var list = wbl.global.articleList.list;
                 const pagination = wbl.global.articleList.pagination;
@@ -66,7 +66,6 @@ var wbl = {
         let html = "";
 
         var i = 0;
-		console.log(list);
 		list.forEach(row => {
 			var locationHost = "";
 			if(location.host.indexOf("127.0.0.1") > -1 || location.host.indexOf("localhost") > -1){
@@ -119,10 +118,10 @@ var wbl = {
     movePage : function (page){
         const queryParams = {
             page: (page) ? page : 1,
-            recordSize: 20,
+            recordSize: 8,
             pageSize: 10
         }
 
-        wbl.mainGrid("/spot/watchBoardList.do?" + new URLSearchParams(queryParams).toString(), wbl.global.searchAjaxData);
+        wbl.mainGrid("/spot/getWatchBoardList.do?" + new URLSearchParams(queryParams).toString(), wbl.global.searchAjaxData);
     }
 }

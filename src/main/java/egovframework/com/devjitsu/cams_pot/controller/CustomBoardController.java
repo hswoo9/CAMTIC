@@ -355,6 +355,7 @@ public class CustomBoardController {
      */
     @RequestMapping("/spot/getWatchBoardList.do")
     public String getWatchBoardList(ArticlePage articlePage, Model model){
+        articlePage.setRecordSize(8);
         PagingResponse<PostResponse> response = customBoardService.getWatchBoardList(articlePage);
 
         model.addAttribute("params", articlePage);
