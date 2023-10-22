@@ -25,6 +25,8 @@ public class PostResponse {
     private String REQUEST_CONTENT;
     /** 요청 게시판 종료 */
 
+    private Long WATCH_BOARD_ID;
+
     private Long BOARD_ARTICLE_ID;                       // PK
     private String BOARD_ID;
     private String BOARD_ARTICLE_TITLE;                  // 제목
@@ -39,6 +41,9 @@ public class PostResponse {
     private String EMP_SEQ;    // 작성자 사원번호
 
     private String FILE_PATH;
+    private String FILE_UUID;
+    private String FILE_ORG_NAME;
+
     private String BOARD_ARTICLE_CONTENT_URL;
     private String BOARD_ARTICLE_HASHTAG;
     private String STATE;
@@ -51,6 +56,11 @@ public class PostResponse {
     private String CONFIRM2;
     private LocalDateTime APPLY_DATE;
     private LocalDateTime CANCLE_DATE;
+
+
+    public Long getWATCH_BOARD_ID() {
+        return WATCH_BOARD_ID;
+    }
 
     public Long getREQUEST_BOARD_ID() {
         return REQUEST_BOARD_ID;
@@ -161,6 +171,12 @@ public class PostResponse {
 
     public String getFIle_PATH() {
         return FILE_PATH;
+    }
+    public String getFILE_UUID() {
+        return FILE_UUID;
+    }
+    public String getFILE_ORG_NAME() {
+        return FILE_ORG_NAME;
     }
     public String getSTATE() { return STATE; }
     public String getAPPLICANT() { return APPLICANT; }

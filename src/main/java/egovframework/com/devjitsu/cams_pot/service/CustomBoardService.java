@@ -24,4 +24,9 @@ public interface CustomBoardService {
     Map<String, Object> getRequestBoard(Map<String, Object> params);
     void setRequestBoardDel(Map<String, Object> params);
     void setRequestBoardStatusUpd(Map<String, Object> params);
+    PagingResponse<PostResponse> getWatchBoardList(ArticlePage articlePage);
+    void setWatchBoard(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
+    void setWatchBoardViewCount(Map<String, Object> params);
+    Map<String, Object> getWatchBoard(Map<String, Object> params);
+    void setWatchBoardDel(Map<String, Object> params);
 }

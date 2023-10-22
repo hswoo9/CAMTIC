@@ -333,5 +333,106 @@ public class CustomBoardController {
         return "jsonView";
     }
 
+    /** 함께보아요 */
+    /**
+     * 게시판 리스트
+     * @param request
+     * @return
+     */
+    @RequestMapping("/spot/watchBoardList.do")
+    public String watchBoardList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "camspot/watchBoard/watchBoardList";
+    }
+
+    /**
+     * 리스트 조회
+     * @param articlePage
+     * @param model
+     * @return
+     */
+    @RequestMapping("/spot/getWatchBoardList.do")
+    public String getWatchBoardList(ArticlePage articlePage, Model model){
+        PagingResponse<PostResponse> response = customBoardService.getWatchBoardList(articlePage);
+
+        model.addAttribute("params", articlePage);
+        model.addAttribute("boardArticleList", response);
+        return "jsonView";
+    }
+
+    /**
+     * 글쓰기
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/spot/watchBoardReg.do")
+    public String watchBoardReg(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI() + "?" + request.getQueryString());
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", new Gson().toJson(params));
+
+        return "camspot/watchBoard/watchBoardReg";
+    }
+
+    /**
+     * 저장/수정
+     * @param params
+     * @return
+     */
+    @RequestMapping("/spot/setWatchBoard.do")
+    public String setWatchBoard(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) {
+        customBoardService.setWatchBoard(params, request, SERVER_DIR, BASE_DIR);
+        return "jsonView";
+    }
+
+    /**
+     * 게시판 상세보기
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/spot/watchBoardDetail.do")
+    public String watchBoardDetail(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI() + "?" + request.getQueryString());
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        customBoardService.setWatchBoardViewCount(params);
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "camspot/watchBoard/watchBoardDetail";
+    }
+
+    /**
+     * 게시글 조회 (단일)
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/spot/getWatchBoard.do")
+    public String getWatchBoard(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", customBoardService.getWatchBoard(params));
+        return "jsonView";
+    }
+
+    /**
+     * 게시글 삭제
+     * @param params
+     * @return
+     */
+    @RequestMapping("/spot/setWatchBoardDel.do")
+    public String setWatchBoardDel(@RequestParam Map<String, Object> params){
+        customBoardService.setWatchBoardDel(params);
+        return "jsonView";
+    }
 
 }

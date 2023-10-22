@@ -153,6 +153,62 @@ public class CustomBoardServiceImpl implements CustomBoardService {
         customBoardRepository.setRequestBoardStatusUpd(params);
     }
 
+    @Override
+    public PagingResponse<PostResponse> getWatchBoardList(ArticlePage articlePage) {
+        int count = customBoardRepository.getWatchBoardListCnt(articlePage);
+        if (count < 1) {
+            return new PagingResponse<>(Collections.emptyList(), null);
+        }
+
+        Pagination pagination = new Pagination(count, articlePage);
+        articlePage.setPagination(pagination);
+
+        List<PostResponse> list = customBoardRepository.getWatchBoardList(articlePage);
+        return new PagingResponse<>(list, pagination);
+    }
+
+    @Override
+    public void setWatchBoard(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
+        if(StringUtils.isEmpty(params.get("watchBoardId"))){
+            customBoardRepository.setWatchBoard(params);
+        }else{
+            customBoardRepository.setWatchBoardUpd(params);
+        }
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        /** 썸네일 파일 */
+        MultipartFile file1 = request.getFile("file1");
+        if(file1 != null){
+            if(!file1.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file1, filePath(params, SERVER_DIR));
+                fileInsMap.put("contentId", "wb_" + params.get("watchBoardId"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("empSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+            }
+        }
+    }
+
+    @Override
+    public void setWatchBoardViewCount(Map<String, Object> params) {
+        customBoardRepository.setWatchBoardViewCount(params);
+    }
+
+    @Override
+    public Map<String, Object> getWatchBoard(Map<String, Object> params) {
+        return customBoardRepository.getWatchBoard(params);
+    }
+
+    @Override
+    public void setWatchBoardDel(Map<String, Object> params) {
+        customBoardRepository.setWatchBoardDel(params);
+    }
+
     private String filePath (Map<String, Object> params, String base_dir){
         LocalDate now = LocalDate.now();
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");

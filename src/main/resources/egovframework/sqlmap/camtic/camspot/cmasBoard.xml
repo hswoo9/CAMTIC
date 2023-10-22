@@ -433,7 +433,7 @@
         FROM
             CAM_BOARD.V_BOARD_ARTICLE_REPLY BAR
         LEFT JOIN
-            DJ_CAMTIC.V_EMP_INFO EI
+            CAM_HR.DJ_EMP_INFO EI
         ON BAR.REG_EMP_SEQ = EI.EMP_SEQ
         WHERE
             BAR.BOARD_ARTICLE_ID = #{boardArticleId}

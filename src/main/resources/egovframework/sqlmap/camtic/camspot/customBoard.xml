@@ -503,4 +503,109 @@
         WHERE
             REQUEST_BOARD_ID = #{requestBoardId}
     </update>
+
+    <select id="getWatchBoardList" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage"
+            resultType="egovframework.com.devjitsu.hp.board.util.PostResponse">
+        /* getWatchBoardList */
+        SELECT
+            *
+        FROM
+            CAM_BOARD.DJ_WATCH_BOARD WB
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO FI
+        ON FI.FILE_CD = 'watchBoard' AND CONTENT_ID = CONCAT('wb_', WB.WATCH_BOARD_ID)
+        WHERE
+            WB.ACTIVE = 'Y'
+    </select>
+
+    <select id="getWatchBoardListCnt" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage"
+            resultType="int">
+        /* getWatchBoardListCnt */
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_BOARD.DJ_WATCH_BOARD WB
+        WHERE
+            WB.ACTIVE = 'Y'
+    </select>
+
+    <update id="setWatchBoardViewCount" parameterType="map">
+        /*setWatchBoardViewCount*/
+        UPDATE
+            CAM_BOARD.DJ_WATCH_BOARD
+        SET
+            BOARD_ARTICLE_VIEW_COUNT = (BOARD_ARTICLE_VIEW_COUNT + 1)
+        WHERE
+            WATCH_BOARD_ID = #{watchBoardId}
+    </update>
+
+    <select id="getWatchBoard" parameterType="map" resultType="map">
+        /* getWatchBoard */
+        SELECT
+            WB.WATCH_BOARD_ID,
+            WB.BOARD_ARTICLE_TITLE,
+            WB.BOARD_ARTICLE_CONTENT,
+            WB.BOARD_ARTICLE_VIEW_COUNT,
+            DATE_FORMAT(WB.REG_DATE, '%Y-%m-%d') AS REG_DATE,
+            FI.FILE_NO,
+            FI.FILE_ORG_NAME,
+            FI.FILE_EXT,
+            EI.EMP_SEQ AS REG_EMP_SEQ,
+            EI.EMP_NAME_KR AS REG_EMP_NAME
+        FROM
+            CAM_BOARD.DJ_WATCH_BOARD WB
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON WB.REG_EMP_SEQ = EI.EMP_SEQ
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO FI
+        ON FI.FILE_CD = 'watchBoard' AND CONTENT_ID = CONCAT('wb_', WB.WATCH_BOARD_ID)
+        WHERE
+            WATCH_BOARD_ID = #{watchBoardId}
+    </select>
+
+    <insert id="setWatchBoard" parameterType="map">
+        /* setWatchBoard */
+        INSERT INTO CAM_BOARD.DJ_WATCH_BOARD
+        (
+            BOARD_ARTICLE_TITLE,
+            BOARD_ARTICLE_CONTENT,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{boardArticleTitle},
+            #{boardArticleContent},
+            #{empSeq}
+        )
+
+        <selectKey keyProperty="watchBoardId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_BOARD' AND TABLE_NAME = 'DJ_WATCH_BOARD'
+        </selectKey>
+    </insert>
+
+    <update id="setWatchBoardUpd" parameterType="map">
+        /* setWatchBoardUpd */
+        UPDATE
+            CAM_BOARD.DJ_WATCH_BOARD
+        SET
+            BOARD_ARTICLE_TITLE = #{boardArticleTitle},
+            BOARD_ARTICLE_CONTENT = #{boardArticleContent},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            WATCH_BOARD_ID = #{watchBoardId}
+    </update>
+
+    <update id="setWatchBoardDel" parameterType="map">
+        /* setWatchBoardDel */
+        UPDATE
+            CAM_BOARD.DJ_WATCH_BOARD
+        SET
+            ACTIVE = 'N',
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            WATCH_BOARD_ID = #{watchBoardId}
+    </update>
 </mapper>
