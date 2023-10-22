@@ -1,6 +1,8 @@
 package egovframework.com.devjitsu.cam_manager.controller;
 
+import com.google.gson.Gson;
 import egovframework.com.devjitsu.cam_manager.service.ManageService;
+import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
@@ -24,7 +26,7 @@ public class ManageController {
     private ManageService manageService;
 
     @Autowired
-    private CommonCodeService commonCodeService;
+    private ProjectService projectService;
 
     @Autowired
     private CommonService commonService;
@@ -35,4 +37,30 @@ public class ManageController {
     @Value("#{properties['File.Base.Directory']}")
     private String BASE_DIR;
 
+
+    @RequestMapping("/mng/pop/budgetView.do")
+    public String budgetView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+
+        Map<String, Object> map = projectService.getProjectStep(params);
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("map", new Gson().toJson(map));
+        model.addAttribute("data", map);
+        model.addAttribute("params", params);
+
+        return "popup/cam_manager/budgetView";
+    }
+
+    @RequestMapping("/mng/pop/bankView.do")
+    public String bankView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_manager/bankView";
+    }
 }

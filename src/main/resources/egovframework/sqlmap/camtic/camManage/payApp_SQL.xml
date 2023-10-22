@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="payApp">
+
+    <insert id="insPayAppData" parameterType="map">
+        /*insPayAppData*/
+        INSERT CAM_MNG.DJ_PAY_APP
+            (
+                PAY_APP_TYPE,
+                PJT_NM,
+                PJT_SN,
+                BUDGET_NM,
+                BUDGET_SN,
+                APP_DE,
+                APP_TITLE,
+                APP_CONT,
+                BNK_SN,
+                BNK_NM,
+                ACC_NO,
+                ACC_NM,
+                PAY_APP_STAT,
+                REG_EMP_SEQ
+
+            )
+        VALUES
+            (
+                #{payAppType},
+                #{pjtNm},
+                #{pjtSn},
+                #{budgetNm},
+                #{budgetSn},
+                #{appDe},
+                #{appTitle},
+                #{appCont},
+                #{bnkSn},
+                #{bnkNm},
+                #{accNo},
+                #{accNm},
+                #{payAppStat},
+                #{regEmpSeq}
+            )
+        <selectKey keyProperty="payAppSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_MNG' AND TABLE_NAME = 'DJ_PAY_APP'
+        </selectKey>
+    </insert>
+
+    <update id="updPayAppData" parameterType="map">
+        /*updPayAppData*/
+        UPDATE CAM_MNG.DJ_PAY_APP
+        SET
+            PAY_APP_TYPE = #{payAppType},
+            PJT_NM = #{pjtNm},
+            PJT_SN = #{pjtSn},
+            BUDGET_NM = #{budgetNm},
+            BUDGET_SN = #{budgetSn},
+            APP_DE = #{appDe},
+            APP_TITLE = #{appTitle},
+            APP_CONT = #{appCont},
+            BNK_SN = #{bnkSn},
+            BNK_NM = #{bnkNm},
+            ACC_NO = #{accNo},
+            ACC_NM = #{accNm},
+            PAY_APP_STAT = #{payAppStat},
+            MOD_DT = NOW(),
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            PAY_APP_SN = #{payAppSn}
+    </update>
+
+
+    <select id="getPayAppReqData" parameterType="map" resultType="map">
+        /*getPayAppReqData*/
+        SELECT *
+        FROM CAM_MNG.DJ_PAY_APP
+        WHERE PAY_APP_SN = #{payAppSn}
+    </select>
+
+</mapper>
