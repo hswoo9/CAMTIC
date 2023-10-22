@@ -103,7 +103,7 @@
                 <input type="hidden" id="menuNm" name="menuNm" value="${menuNm}">
                 <input type="hidden" id="isAdmin" name="isAdmin" value="${isAdmin}">
 
-                <ul id="listUl">
+                <ul id="listUl" style="border: 1px solid lightgray;padding:0;margin:0">
 
                 </ul>
             </div>

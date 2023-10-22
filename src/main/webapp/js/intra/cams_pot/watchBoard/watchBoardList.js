@@ -41,8 +41,11 @@ var wbl = {
                 wbl.drawPage(pagination, params);
 
 			}else{
-				articleListStr += "<div>데이터가 존재하지 않습니다.</div>";
-                $("#articleListTb tbody").append(articleListStr);
+				articleListStr += "" +
+					"<li style='width: 100%;height: 200px;margin: 0;text-align: center;display: flex;justify-content: center;align-items: center;'>" +
+						"<div>데이터가 존재하지 않습니다.</div>" +
+					"</li>";
+                $("#listUl").append(articleListStr);
 			}
 		}
 	},

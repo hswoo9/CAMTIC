@@ -26,7 +26,6 @@ var wbr = {
 
 			var result = customKendo.fn_customAjax("/spot/getWatchBoard.do", wbr.global.searchAjaxData);
 			if(result.flag){
-				console.log(result)
 				$("#boardArticleTitle").val(result.rs.BOARD_ARTICLE_TITLE);
 				CKEDITOR.instances.boardArticleContent.setData(result.rs.BOARD_ARTICLE_CONTENT);
 
