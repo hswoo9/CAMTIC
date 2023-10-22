@@ -193,8 +193,108 @@ var regPay = {
 
 var regPayDet = {
 
+    global : {
+        itemIndex : 0,
+        createHtmlStr : "",
+    },
+    
     fn_defaultScript : function (){
         $("#eviType0").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "선택", value: "" },
+                { text: "세금계산서", value: "1" },
+                { text: "계산서", value: "2" },
+                { text: "신용카드", value: "3" },
+                { text: "직원지급", value: "4" },
+                { text: "소득신고자", value: "5" },
+                { text: "기타", value: "6" },
+            ],
+            index: 0,
+            change : function (e){
+                var value = $("#eviType0").val();
+
+                if(value != ""){
+                    if(value == "6"){
+                        alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
+                    } else {
+                        regPayDet.fn_popRegDet(value);
+                    }
+                }
+            }
+        });
+
+        customKendo.fn_textBox(["crmNm0", "crmBnkNm0", "crmAccHolder0", "crmAccNo0", "totCost0", "supCost0", "vatCost0"
+        ,"card0", "etc0", "iss0"]);
+
+        customKendo.fn_datePicker("trDe0", "month", "yyyy-MM-dd", new Date());
+
+    },
+
+    fn_popRegDet : function (v){
+        var url = "/mng/pop/paymentDetView.do?type=" + v;
+
+        var name = "_blank";
+        var option = "width = 1100, height = 650, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+    
+    
+    addRow : function (){
+        regPayDet.global.createHtmlStr = "";
+
+        regPayDet.global.itemIndex++;
+
+        regPayDet.global.createHtmlStr = "" +
+            '<tr class="payDestInfo newArray" id="pay' + regPayDet.global.itemIndex + '">' +
+            '   <td>' +
+            '       <input type="hidden" id="payDestSn' + regPayDet.global.itemIndex + '" name="payDestSn" class="payDestSn">' +
+            '       <input type="text" id="eviType' + regPayDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="text" id="crmNm' + regPayDet.global.itemIndex + '" class="crmNm">' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="text" id="crmBnkNm' + regPayDet.global.itemIndex + '" class="crmBnkNm">' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="text" id="crmAccNo' + regPayDet.global.itemIndex + '" class="crmAccNo">' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="text" id="crmAccHolder' + regPayDet.global.itemIndex + '" class="crmAccHolder">' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="text" id="trDe' + regPayDet.global.itemIndex + '" class="trDe">' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="text" id="totCost' + regPayDet.global.itemIndex + '" class="totCost" style="text-align: right" onkeyup="regPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="text" id="supCost' + regPayDet.global.itemIndex + '" class="supCost" style="text-align: right" onkeyup="regPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="text" id="vatCost' + regPayDet.global.itemIndex + '" class="vatCost" style="text-align: right" onkeyup="regPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="text" disabled id="card' + regPayDet.global.itemIndex + '" class="card">' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="text" id="etc' + regPayDet.global.itemIndex + '" class="etc">' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="text" id="iss' + regPayDet.global.itemIndex + '" class="iss">' +
+            '   </td>' +
+            '   <td>' +
+            '       <div style="text-align: center">' +
+            '           <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(this)">삭제</button>' +
+            '       </div>' +
+            '   </td>'
+            '</tr>';
+
+        $("#payDestTb").append(regPayDet.global.createHtmlStr);
+
+        $("#eviType" + regPayDet.global.itemIndex).kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -209,24 +309,20 @@ var regPayDet = {
             index: 0
         });
 
-        customKendo.fn_textBox(["crmNm0", "crmBnkNm0", "crmAccHolder0", "crmAccNo0", "totCost0", "supCost0", "vatCost0"
-                                ,"card0", "etc0", "iss0"]);
+        customKendo.fn_textBox(["crmNm" + regPayDet.global.itemIndex, "crmBnkNm"  + regPayDet.global.itemIndex
+                                , "crmAccHolder" + regPayDet.global.itemIndex, "iss" + regPayDet.global.itemIndex
+                                , "crmAccNo" + regPayDet.global.itemIndex, "totCost" + regPayDet.global.itemIndex
+                                , "supCost" + regPayDet.global.itemIndex, "vatCost + regPayDet.global.itemIndex"
+                                ,"card" + regPayDet.global.itemIndex, "etc" + regPayDet.global.itemIndex]);
 
-        customKendo.fn_datePicker("trDe0", "month", "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("trDe" + regPayDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
+    },
 
+    delRow : function (){
+        if($(".payDestInfo").length > 1){
+            $("#pay" + regPayDet.global.itemIndex).remove();
+            regPayDet.global.itemIndex--;
+        }
     }
 }
 
-function fn_selBudgetInfo(bgtNm, bgtCd){
-    $("#budgetSn").val(bgtCd);
-    $("#budgetNm").val(bgtNm);
-
-
-}
-
-function fn_selBankInfo(trCd, trNm, baNb, depositor, jiroNm){
-    $("#bnkSn").val(trCd);
-    $("#accNm").val(trNm);
-    $("#accNo").val(baNb);
-    $("#bnkNm").val(jiroNm);
-}

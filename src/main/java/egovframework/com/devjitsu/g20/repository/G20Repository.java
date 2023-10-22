@@ -36,4 +36,12 @@ public class G20Repository extends AbstractDAO {
     public List<Map<String, Object>> getBankList(Map<String, Object> params) {
         return selectListMs("g20.getBankList", params);
     }
+
+    public Map<String, Object> getCrmInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOneMs("g20.getCrmInfo", params);
+    }
+
+    public void insCrmInfo(Map<String, Object> params) {
+        insertMs("g20.insCrmInfo", params);
+    }
 }

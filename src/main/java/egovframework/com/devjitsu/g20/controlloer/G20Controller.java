@@ -84,4 +84,24 @@ public class G20Controller {
         model.addAttribute("list", list);
         return "jsonView";
     }
+
+    @RequestMapping("/g20/getCrmInfo")
+    public String getCrmInfo(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> map = g20Service.getCrmInfo(params);
+
+        model.addAttribute("map", map);
+        return "jsonView";
+    }
+
+    @RequestMapping("/g20/setCrmInfo")
+    public String setCrmInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        try{
+            g20Service.setCrmInfo(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }

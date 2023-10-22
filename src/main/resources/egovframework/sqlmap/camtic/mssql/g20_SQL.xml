@@ -223,4 +223,33 @@
           AND (TR_NM LIKE CONCAT('%', #{searchValue}, '%') OR BA_NB LIKE CONCAT('%', #{searchValue}, '%'))
     </select>
 
+    <select id="getCrmInfo" parameterType="map" resultType="map">
+        SELECT
+            TR_NM, TR_CD
+        FROM ZA_TRADE_DAIKIN
+        WHERE REG_NB = #{crmNo} AND TR_FG = '1'
+    </select>
+
+    <insert id="insCrmInfo" parameterType="map">
+        /*insCrmInfo*/
+        EXEC USP_SAUTOABDOCU_TRADE_INSERT
+            '1212'
+            , #{crmNm}
+            , '1'
+            , #{crmNo}
+            , #{accNo}
+            , #{ceoNm}
+            , #{post}
+            , #{addr}
+            , ''
+            , #{crmTelNum}
+            , #{bankNm}
+            , #{bankMngNm}
+            , ''
+            , #{crmEvn}
+            , #{crmOcc}
+            , #{erpEmpCd}
+            , #{ip}
+    </insert>
+
 </mapper>

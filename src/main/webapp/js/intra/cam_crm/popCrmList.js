@@ -165,6 +165,10 @@ var popCrmList = {
             opener.parent.$("#crmPartSn").val(rs.CRM_SN);
         }
 
+        if(opener.parent.fn_selCrmInfo != undefined){
+            opener.parent.fn_selCrmInfo(rs);
+        }
+
 
 
 

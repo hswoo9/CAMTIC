@@ -9,6 +9,7 @@
 <script type="text/javascript" src="/js/intra/cam_crm/regCrmPop.js?v=${today}"/></script>
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/regPayAppPop.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/g20Callback.js?v=${today}'/>"></script>
 
 <form id="purcDraftFrm" method="post">
     <input type="hidden" id="payAppSn" name="payAppSn" value="${params.payAppSn}">
@@ -128,7 +129,7 @@
             </c:if>
             <div class="mt-20">
                 <div class="text-right">
-                    <button type="button" id="addBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPay.addRow()">
+                    <button type="button" id="addBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPayDet.addRow()">
                         <span class="k-button-text">추가</span>
                     </button>
                 </div>
@@ -166,8 +167,8 @@
                         <th>명령</th>
                     </tr>
                     </thead>
-                    <tbody id="purcItemTb">
-                    <tr class="purcItemInfo newArray" id="item0">
+                    <tbody id="payDestTb">
+                    <tr class="payDestInfo newArray" id="pay0">
                         <td>
                             <input type="hidden" id="payDestSn0" name="payDestSn" class="payDestSn">
                             <input type="text" id="eviType0" class="eviType" style="width: 100%">
@@ -188,13 +189,13 @@
                             <input type="text" id="trDe0" class="trDe">
                         </td>
                         <td>
-                            <input type="text" id="totCost0" class="totCost" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            <input type="text" id="totCost0" class="totCost" style="text-align: right" onkeyup="regPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                         </td>
                         <td>
-                            <input type="text" id="supCost0" class="supCost" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            <input type="text" id="supCost0" class="supCost" style="text-align: right" onkeyup="regPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                         </td>
                         <td>
-                            <input type="text" id="vatCost0" class="vatCost" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            <input type="text" id="vatCost0" class="vatCost" style="text-align: right" onkeyup="regPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                         </td>
                         <td>
                             <input type="text" disabled id="card0" class="card">

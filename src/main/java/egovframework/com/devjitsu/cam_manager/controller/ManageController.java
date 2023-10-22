@@ -41,7 +41,7 @@ public class ManageController {
     @RequestMapping("/mng/pop/budgetView.do")
     public String budgetView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
-        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
         Map<String, Object> map = projectService.getProjectStep(params);
 
@@ -56,11 +56,33 @@ public class ManageController {
     @RequestMapping("/mng/pop/bankView.do")
     public String bankView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
-        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
 
         return "popup/cam_manager/bankView";
+    }
+
+    @RequestMapping("/mng/pop/paymentDetView.do")
+    public String paymentDetView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_manager/paymentDetView";
+    }
+
+    @RequestMapping("/mng/pop/addClientView.do")
+    public String addClientView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_manager/addClientView";
     }
 }
