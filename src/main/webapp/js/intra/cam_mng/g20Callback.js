@@ -26,9 +26,6 @@ function fn_selBankInfo(trCd, trNm, baNb, depositor, jiroNm){
 }
 
 function fn_selClientInfo(trCd, trNm, baNb, depositor, jiro, ceoNm, regNb, idx){
-    console.log(baNb);
-    console.log(depositor)
-    console.log(jiro)
     if(trNm == null || trNm == "" || trNm == "undefined"){
         trNm = "";
     }

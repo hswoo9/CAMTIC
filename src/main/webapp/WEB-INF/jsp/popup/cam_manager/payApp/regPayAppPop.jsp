@@ -136,9 +136,9 @@
 
                 <table class="popTable table table-bordered mb-0 mt-20">
                     <colgroup>
+                        <col style="width: 5%;">
                         <col style="width: 6%;">
-                        <col style="width: 6%;">
-                        <col style="width: 6%;">
+                        <col style="width: 4%;">
                         <col style="width: 6%;">
                         <col style="width: 6%;">
                         <col style="width: 6%;">
@@ -168,7 +168,7 @@
                     </tr>
                     </thead>
                     <tbody id="payDestTb">
-                    <tr class="payDestInfo newArray" id="pay0">
+                    <tr class="payDestInfo newArray" id="pay0" style="text-align: center;">
                         <td>
                             <input type="hidden" id="payDestSn0" name="payDestSn" class="payDestSn">
                             <input type="text" id="eviType0" class="eviType" style="width: 100%">

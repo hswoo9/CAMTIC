@@ -248,7 +248,7 @@ var regPayDet = {
         regPayDet.global.itemIndex++;
 
         regPayDet.global.createHtmlStr = "" +
-            '<tr class="payDestInfo newArray" id="pay' + regPayDet.global.itemIndex + '">' +
+            '<tr class="payDestInfo newArray" id="pay' + regPayDet.global.itemIndex + '" style="text-align: center;">' +
             '   <td>' +
             '       <input type="hidden" id="payDestSn' + regPayDet.global.itemIndex + '" name="payDestSn" class="payDestSn">' +
             '       <input type="text" id="eviType' + regPayDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
@@ -296,6 +296,7 @@ var regPayDet = {
 
         $("#payDestTb").append(regPayDet.global.createHtmlStr);
 
+        var itemIndex = regPayDet.global.itemIndex;
         $("#eviType" + regPayDet.global.itemIndex).kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
@@ -308,13 +309,24 @@ var regPayDet = {
                 { text: "소득신고자", value: "5" },
                 { text: "기타", value: "6" },
             ],
-            index: 0
+            index: 0,
+            change : function (e){
+                var value = $("#eviType" + itemIndex).val();
+
+                if(value != ""){
+                    if(value == "6"){
+                        alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
+                    } else {
+                        regPayDet.fn_popRegDet(value, itemIndex);
+                    }
+                }
+            }
         });
 
         customKendo.fn_textBox(["crmNm" + regPayDet.global.itemIndex, "crmBnkNm"  + regPayDet.global.itemIndex
                                 , "crmAccHolder" + regPayDet.global.itemIndex, "iss" + regPayDet.global.itemIndex
                                 , "crmAccNo" + regPayDet.global.itemIndex, "totCost" + regPayDet.global.itemIndex
-                                , "supCost" + regPayDet.global.itemIndex, "vatCost + regPayDet.global.itemIndex"
+                                , "supCost" + regPayDet.global.itemIndex, "vatCost" + regPayDet.global.itemIndex
                                 ,"card" + regPayDet.global.itemIndex, "etc" + regPayDet.global.itemIndex]);
 
         customKendo.fn_datePicker("trDe" + regPayDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
