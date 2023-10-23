@@ -101,7 +101,7 @@ var mov = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="mov.templateExcelFormDown()">' +
                             '	<span class="k-button-text">등록양식 다운로드</span>' +
                             '</button>';
                     }
@@ -380,6 +380,12 @@ var mov = {
 
         mov.statGrid("/crm/getMfOverviewAreaStat", mov.global.searchAjaxData);
         mov.mainGrid("/crm/getMfOverviewList", mov.global.searchAjaxData);
+    },
+
+    templateExcelFormDown : function(){
+        kendo.saveAs({
+            dataURI: "/crm/templateExcelFormDown.do"
+        });
     },
 
     setMfOverviewDel : function(){
