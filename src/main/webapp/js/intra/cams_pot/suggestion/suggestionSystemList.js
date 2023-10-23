@@ -129,7 +129,7 @@ var ssl = {
 			html += "<tr>"
 			html += "	<td class='ta-center'>" + (i) + "</td>";
 			html += "	<td class='ta-center'>" + row.suggestion_TYPE_TXT + "</td>";
-			html += "	<td style='cursor:pointer'>";
+			html += "	<td>";
 			html += '		<a class="contentLink" href="javascript:ssl.detailPageMove(' + row.suggestion_BOARD_ID + ')">' + suggestionTitle + "</a>";
 			html += "	</td>";
 			html += "	<td class='ta-center'>" + row.suggestion_DATE + "</td>";

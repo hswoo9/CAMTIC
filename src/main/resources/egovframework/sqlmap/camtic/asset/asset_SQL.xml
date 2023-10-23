@@ -128,7 +128,7 @@
             CAM_INSIDE.DJ_INSIDE_CODE IC
         ON AI.AST_STS_CODE = IC.INSIDE_DT_CODE AND IC.INSIDE_MD_CODE = '03'
         WHERE
-            AST_INFO_SN = #{astInfoSn}
+            AI.AST_INFO_SN = #{astInfoSn}
     </select>
 
     <select id="getAstInfoModHistory" parameterType="map" resultType="map">

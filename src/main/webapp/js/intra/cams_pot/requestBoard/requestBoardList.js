@@ -107,7 +107,7 @@ var rbl = {
 			var dt = (row.reg_DATE.year + "-" + ('00' + row.reg_DATE.monthValue).slice(-2) + "-" + ('00' + row.reg_DATE.dayOfMonth).slice(-2));
 			html += "<tr>"
 			html += "	<td class='ta-center'>" + (i) + "</td>";
-			html += "	<td style='cursor:pointer'>";
+			html += "	<td>";
 			html += '		<a class="contentLink" href="javascript:rbl.detailPageMove(' + row.request_BOARD_ID + ')">' + requestTitle + "</a>";
 			html += "	</td>";
 			html += "	<td class='ta-center'>" + row.reg_EMP_NAME + "</td>";
