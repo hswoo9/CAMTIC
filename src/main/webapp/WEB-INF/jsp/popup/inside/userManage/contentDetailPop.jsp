@@ -182,12 +182,12 @@
     });
 
 
-    function retrieveData2(empSeq) {
-        // empSeq를 서버로 전송
+    function retrieveData2(cardNumber) {
+        // cardNumber를 서버로 전송
         $.ajax({
             type: "POST",
             url: "/Inside/getInterviewDetail.do",
-            data: { empSeq: empSeq }, // empSeq를 요청 데이터로 보내기
+            data: { cardNumber: cardNumber }, // cardNumber를 요청 데이터로 보내기
             success: function(response) {
                 // 응답 데이터 처리 로직
                 console.log(response);
@@ -228,8 +228,8 @@
     // empSeq 파라미터 값을 추출하여 retrieveData2 함수 호출하기
     $(document).ready(function() {
         var urlParams = new URLSearchParams(window.location.search);
-        var empSeq = urlParams.get("empSeq");
-        retrieveData2(empSeq);
+        var cardNumber = urlParams.get("cardNumber");
+        retrieveData2(cardNumber);
     });
 
 </script>
