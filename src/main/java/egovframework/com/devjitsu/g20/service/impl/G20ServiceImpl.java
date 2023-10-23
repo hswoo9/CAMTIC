@@ -64,4 +64,24 @@ public class G20ServiceImpl implements G20Service {
     public List<Map<String, Object>> getBankList(Map<String, Object> params) {
         return g20Repository.getBankList(params);
     }
+
+    @Override
+    public Map<String, Object> getCrmInfo(Map<String, Object> params) {
+        return g20Repository.getCrmInfo(params);
+    }
+
+    @Override
+    public void setCrmInfo(Map<String, Object> params) {
+        g20Repository.insCrmInfo(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getClientList(Map<String, Object> params) {
+        return g20Repository.getClientList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getCardList(Map<String, Object> params) {
+        return g20Repository.getCardList(params);
+    }
 }

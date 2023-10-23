@@ -35,10 +35,12 @@
                         <th class="text-center th-color">부서</th>
                         <td>
                             <input type="text" id="dept" style="width:160px;">
+                            <input type="hidden" id="dept_seq">
                         </td>
                         <th class="text-center th-color">팀</th>
                         <td>
                             <input type="text" id="team" style="width:165px;">
+                            <input type="hidden" id="team_seq">
                             <input type="text" id="searchText" style="width: 140px;">
                         </td>
                     </tr>
@@ -51,4 +53,13 @@
 
 <script type="text/javascript">
     employeeList.init();
+
+    function gridReload() {
+        var grid = $("#mainGrid").data("kendoGrid");
+        if (grid) {
+            grid.dataSource.read(); // 데이터 소스 새로고침
+        }
+    }
+
+
 </script>
