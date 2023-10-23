@@ -238,6 +238,7 @@ var userMultiSel = {
                                 "			<input type='hidden' id='approvePositionName' name='approvePositionName' value='"+result.POSITION_NAME+"'>" +
                                 "			<input type='hidden' id='approveDutyCode' name='approveDutyCode' value='"+result.DUTY_CODE+"'>" +
                                 "			<input type='hidden' id='approveDutyName' name='approveDutyName' value='"+result.DUTY_NAME+"'>" +
+                                "			<input type='hidden' id='loginId' name='loginId' value='"+result.LOGIN_ID+"'>" +
                                 "			<span id='approveOrder'>"+($("#approvalLineDataTb tbody tr").length+1)+"</span>"+
                                 "		</td>" +
                                 "		<td>"+result.EMP_NAME_KR+"</td>" +
@@ -305,7 +306,8 @@ var userMultiSel = {
                 positionName : $(this).find("#approvePositionName").val(),
                 dutyName : $(this).find("#approveDutyName").val(),
                 deptSeq : $(this).find("#approveDeptSeq").val(),
-                deptName : $(this).find("#approveDeptName").val()
+                deptName : $(this).find("#approveDeptName").val(),
+                loginId : $(this).find("#loginId").val()
             }
 
             empNameArr += data.empName + ",";

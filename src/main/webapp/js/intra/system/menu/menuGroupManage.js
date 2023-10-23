@@ -35,10 +35,18 @@ var menuGM = {
 
     mainGrid : function(url, params){
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource3(url, params),
+            dataSource: customKendo.fn_gridDataSource3(url, params, 13),
             height: 637,
             sortable: true,
             scrollable: false,
+            pageable: {
+                refresh: true,
+                pageSizes: [ 10, 20, 30, 50, 100 ],
+                buttonCount: 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
             toolbar : [
                 {
                     name: 'button',
