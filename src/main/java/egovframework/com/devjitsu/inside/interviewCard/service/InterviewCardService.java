@@ -21,4 +21,5 @@ public interface InterviewCardService {
 
     List<Map<String, Object>> getInterviewDetail(Map<String, Object> params);
 
+    List<Map<String, Object>> getInterviewCardByEmpSeq(Map<String, Object> params);
 }

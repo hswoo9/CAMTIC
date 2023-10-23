@@ -1924,7 +1924,7 @@
         // empSeq를 서버로 전송
         $.ajax({
             type: "POST",
-            url: "/Inside/getInterviewDetail.do",
+            url: "/Inside/getInterviewCardByEmpSeq.do",
             data: { empSeq: empSeq }, // empSeq를 요청 데이터로 보내기
             success: function(response) {
                 console.log(empSeq);

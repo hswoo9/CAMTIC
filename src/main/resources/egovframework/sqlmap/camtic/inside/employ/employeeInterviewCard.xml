@@ -10,6 +10,7 @@
         </selectKey>
     </insert>
 
+<!--    면담내용설정-->
     <select id="getTopicList" parameterType="map" resultType="map">
         SELECT
             interview_topic1 AS interview_topic1,
@@ -20,7 +21,8 @@
         from cam_inside.dj_employee_interview_topic
         order by interview_number desc LIMIT 1;
     </select>
-    
+
+<!--    면담카드등록-->
     <insert id="setInterviewContent" parameterType="Map">
         INSERT INTO cam_inside.dj_employee_interview_card
         (card_number,
@@ -50,6 +52,7 @@
              #{empSeq});
     </insert>
 
+<!--    리스트(조회)-->
     <select id="getInterviewCardList" parameterType="map" resultType="map">
         select
         DATE_FORMAT(deic.card_interview_date,'%Y-%m-%d') as card_interview_date,
@@ -106,13 +109,25 @@
         </if>
     </select>
 
+<!--    상세(팝업)-->
     <select id="getInterviewDetail" parameterType="map" resultType="map">
         SELECT dei.emp_name_kr,
                dei.dept_name,
                dei.dept_team_name,
                deic.*
-        FROM cam_inside.dj_employee_interview_card deic
-                 JOIN cam_hr.dj_emp_info dei ON deic.EMP_SEQ = dei.EMP_SEQ
+        FROM cam_hr.dj_emp_info dei
+                 LEFT JOIN cam_inside.dj_employee_interview_card deic ON deic.EMP_SEQ = dei.EMP_SEQ
+        WHERE deic.card_number = #{cardNumber}
+    </select>
+
+<!--    인사기록카드 - 직원면담카드 리스트 -->
+    <select id="getInterviewCardByEmpSeq" parameterType="map" resultType="map">
+        SELECT dei.emp_name_kr,
+               dei.dept_name,
+               dei.dept_team_name,
+               deic.*
+        FROM cam_hr.dj_emp_info dei
+                 LEFT JOIN cam_inside.dj_employee_interview_card deic ON deic.EMP_SEQ = dei.EMP_SEQ
         WHERE deic.EMP_SEQ = #{empSeq}
     </select>
 </mapper>

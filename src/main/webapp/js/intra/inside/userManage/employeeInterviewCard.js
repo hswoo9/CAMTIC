@@ -114,7 +114,7 @@ var employeeList = {
                     field: "emp_name_kr",
                     title: "피면담자",
                     template: function (e) {
-                        return "<a href='#' onclick='employeeList.contentDetailPop(" + e.EMP_SEQ + ");' style='color: blue; cursor: pointer;'>" + e.emp_name_kr + "</a>";
+                        return "<a href='#' onclick='employeeList.contentDetailPop(" + e.card_number + ");' style='color: blue; cursor: pointer;'>" + e.emp_name_kr + "</a>";
                     },
                     width: "10%"
                 }, {
@@ -167,8 +167,8 @@ var employeeList = {
         var popup = window.open(url, name, option);
     },
 
-    contentDetailPop: function (empSeq){
-        var url = "/Inside/pop/contentDetailPop.do?empSeq=" + empSeq; // EMP_SEQ 값을 URL에 추가
+    contentDetailPop: function (cardNumber){
+        var url = "/Inside/pop/contentDetailPop.do?cardNumber=" + cardNumber; // card_number 값을 URL에 추가
         var name = "contentDetailPop";
         var option = "width=850,height=800,top=100,left=200,location=no";
         var popup = window.open(url, name, option);
