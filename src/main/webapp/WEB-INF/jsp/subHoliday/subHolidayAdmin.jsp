@@ -27,17 +27,24 @@
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="10%">
-                        <col width="20%">
-                        <col width="10%">
-                        <col width="20%">
-                        <col width="10%">
-                        <col width="20%">
+                        <col width="8%">
+                        <col>
+                        <col width="8%">
+                        <col>
+                        <col width="8%">
+                        <col>
+                        <col width="8%">
+                        <col>
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">휴가 구분</th>
                         <td>
                             <input type="text" id="edtHolidayKindTop" style="width: 200px;">
+                        </td>
+                        <th class="text-center th-color">일자</th>
+                        <td>
+                            <input type="text" id="startDate" style="width: 110px;"> ~
+                            <input type="text" id="endDate" style="width: 110px;">
                         </td>
                         <th class="text-center th-color">상태</th>
                         <td>

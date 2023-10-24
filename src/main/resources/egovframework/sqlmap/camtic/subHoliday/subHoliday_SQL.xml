@@ -55,6 +55,14 @@
                     <if test='edtHolidayKindTop != null and !"".equals(edtHolidayKindTop)'>
                         AND VUH.SUBHOLIDAY_CODE_ID = #{edtHolidayKindTop}
                     </if>
+                    <if test='startDate != null and !"".equals(startDate)'>
+                        <![CDATA[
+                        AND
+                            DATE_FORMAT(#{startDate}, '%Y-%m-%d') <= DATE_FORMAT(VUH.SUBHOLIDAY_ST_DT, '%Y-%m-%d')
+                        AND
+                            DATE_FORMAT(#{endDate}, '%Y-%m-%d') >= DATE_FORMAT(VUH.SUBHOLIDAY_EN_DT, '%Y-%m-%d')
+                        ]]>
+                    </if>
                 ORDER BY VUH.APPLY_DATE
             ) RE
         ORDER BY RE.ROW_NUM DESC
@@ -217,7 +225,14 @@
         <if test='searchVal != null and !"".equals(searchVal)'>
             AND DEI.EMP_NAME_KR LIKE CONCAT('%',#{searchVal},'%')
         </if>
-
+        <if test='startDate != null and !"".equals(startDate)'>
+            <![CDATA[
+            AND
+                DATE_FORMAT(#{startDate}, '%Y-%m-%d') <= DATE_FORMAT(VUH.SUBHOLIDAY_ST_DT, '%Y-%m-%d')
+            AND
+                DATE_FORMAT(#{endDate}, '%Y-%m-%d') >= DATE_FORMAT(VUH.SUBHOLIDAY_EN_DT, '%Y-%m-%d')
+            ]]>
+        </if>
     </select>
 
     <select id="getVacUseHistoryOne" resultType="map" parameterType="map">

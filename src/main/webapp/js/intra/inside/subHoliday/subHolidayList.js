@@ -11,44 +11,14 @@ var subHolidayList = {
         hwpCtrl : "",
     },
 
-    init: function(params){
+    init: function(){
         subHolidayList.dataSet();
-        subHolidayList.mainGrid();
+        subHolidayList.gridReload();
     },
 
-    mainGrid: function(e){
-        let dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            pageSize: 10,
-            transport: {
-                read : {
-                    url : "/subHoliday/getVacUseHistoryList",
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data, operation) {
-                    data.mcCode = subHolidayList.global.mcCode;
-                    data.mdCode = subHolidayList.global.mdCode;
-                    data.empSeq = $("#empSeq").val();
-                    data.startDay = $("#startDay").val();
-                    data.endDay = $("#endDay").val();
-                    data.status = $("#status").val();
-                    data.edtHolidayKindTop = $("#edtHolidayKindTop").val();
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    return data.list;
-                },
-                total: function (data) {
-                    return data.list.totalCount;
-                },
-            }
-        });
-
+    mainGrid: function(url, params){
         $("#mainGrid").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             scrollable: true,
             height: 508,
@@ -61,7 +31,7 @@ var subHolidayList = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayList.gridReload();">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -228,6 +198,20 @@ var subHolidayList = {
         });
     },
 
+    gridReload: function (){
+        subHolidayList.global.searchAjaxData = {
+            mcCode : subHolidayList.global.mcCode,
+            mdCode : subHolidayList.global.mdCode,
+            empSeq : $("#empSeq").val(),
+            startDate : $("#startDate").val(),
+            endDate : $("#endDate").val(),
+            status : $("#status").val(),
+            edtHolidayKindTop : $("#edtHolidayKindTop").val()
+        }
+
+        subHolidayList.mainGrid("/subHoliday/getVacUseHistoryList", subHolidayList.global.searchAjaxData);
+    },
+
     dataSet : function() {
         $("#datePicker").kendoDatePicker({
             value: new Date(),
@@ -253,6 +237,9 @@ var subHolidayList = {
             dataTextField: "SUBHOLIDAY_DT_CODE_NM",
             dataValueField: "SUBHOLIDAY_CODE_ID",
         });
+
+        customKendo.fn_datePicker("startDate", '', "yyyy-MM-dd", new Date(subHolidayList.global.now.setMonth(subHolidayList.global.now.getMonth() - 1)));
+        customKendo.fn_datePicker("endDate", '', "yyyy-MM-dd", new Date());
 
         $("#status").kendoDropDownList({
             dataTextField: "text",
@@ -362,7 +349,7 @@ var subHolidayList = {
         var result = customKendo.fn_customAjax("/subHoliday/setVacUseHistDel.do", {subHolidayUseId : checkedList.join()});
         if(result.flag){
             alert("휴가 작성내역이 삭제되었습니다.");
-            gridReload();
+            subHolidayList.gridReload();
         }
     },
 }

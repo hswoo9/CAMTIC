@@ -15,10 +15,9 @@ var subHolidayAdmin = {
 
     init : function(params){
         subHolidayAdmin.dataSet();
-        subHolidayAdmin.mainGrid();
 
-        customKendo.fn_datePicker("startDay", "", "yyyy-MM-dd", new Date());
-        customKendo.fn_datePicker("endDay", "", "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("startDate", '', "yyyy-MM-dd", new Date(subHolidayAdmin.global.now.setMonth(subHolidayAdmin.global.now.getMonth() - 1)));
+        customKendo.fn_datePicker("endDate", '', "yyyy-MM-dd", new Date());
 
         var data = {
             mcCode : subHolidayAdmin.global.mcCode,
@@ -35,6 +34,8 @@ var subHolidayAdmin = {
             dataTextField: "SUBHOLIDAY_DT_CODE_NM",
             dataValueField: "SUBHOLIDAY_CODE_ID",
         });
+
+        subHolidayAdmin.gridReload();
     },
 
     dataSet : function() {
@@ -53,42 +54,9 @@ var subHolidayAdmin = {
         $("#searchVal").kendoTextBox();
     },
 
-    mainGrid : function(e){
-
-        var dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            pageSize: 10,
-            transport: {
-                read : {
-                    url : "/subHoliday/getVacUseHistoryListAdmin",
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data, operation) {
-                    data.mcCode = subHolidayAdmin.global.mcCode;
-                    data.mdCode = subHolidayAdmin.global.mdCode;
-                    data.empSeq = subHolidayAdmin.global.empSeq;
-                    data.startDay = $("#startDay").val();
-                    data.endDay = $("#endDay").val();
-                    data.status = $("#status").val();
-                    data.searchVal = $("#searchVal").val();
-                    data.edtHolidayKindTop = $("#edtHolidayKindTop").val();
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    return data.list;
-                },
-                total: function (data) {
-                    return data.totalCount;
-                },
-            }
-        });
-
-
+    mainGrid : function(url, params){
         $("#mainGrid").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource2(url, params),
             height: 538,
             sortable: true,
             scrollable: true,
@@ -215,11 +183,13 @@ var subHolidayAdmin = {
             empSeq : subHolidayAdmin.global.empSeq
         }
 
-        params.startDay = $("#startDay").val();
-        params.endDay = $("#endDay").val();
+        params.startDate = $("#startDate").val();
+        params.endDate = $("#endDate").val();
         params.status = $("#status").val();
         params.edtHolidayKindTop = $("#edtHolidayKindTop").val();
-        subHolidayAdmin.mainGrid(params);
+        params.searchVal = $("#searchVal").val();
+
+        subHolidayAdmin.mainGrid("/subHoliday/getVacUseHistoryListAdmin", params);
     },
 
     subHolidayReqBatchPop : function() {

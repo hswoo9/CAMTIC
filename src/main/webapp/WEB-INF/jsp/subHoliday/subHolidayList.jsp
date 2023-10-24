@@ -122,14 +122,21 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
-                        <col width="40%">
+                        <col>
                         <col width="10%">
-                        <col width="40%">
+                        <col>
+                        <col width="10%">
+                        <col>
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">신청 구분</th>
                         <td>
                             <input type="text" id="edtHolidayKindTop" name="edtHolidayKindTop" required="required" style="width:200px;">
+                        </td>
+                        <th class="text-center th-color">일자</th>
+                        <td>
+                            <input type="text" id="startDate" style="width: 110px;"> ~
+                            <input type="text" id="endDate" style="width: 110px;">
                         </td>
                         <th class="text-center th-color">처리상태</th>
                         <td>
