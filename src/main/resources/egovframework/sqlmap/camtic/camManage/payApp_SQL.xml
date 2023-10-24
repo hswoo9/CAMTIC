@@ -76,4 +76,48 @@
         WHERE PAY_APP_SN = #{payAppSn}
     </select>
 
+    <insert id="insPayAppDetailData" parameterType="map">
+        /*insPayAppDetailData*/
+        INSERT CAM_MNG.DJ_PAY_APP_DET
+            (
+                PAY_APP_SN,
+                EVID_TYPE,
+                TR_CD,
+                CRM_NM,
+                CRM_BNK_NM,
+                CRM_ACC_NO,
+                CRM_ACC_HOLDER,
+                TR_DE,
+                TOT_COST,
+                SUP_COST,
+                VAT_COST,
+                CARD,
+                ETC,
+                ISS
+            )
+        VALUES
+            (
+                #{payAppSn},
+                #{evidType},
+                #{trCd},
+                #{crmNm},
+                #{crmBnkNm},
+                #{crmAccNo},
+                #{crmAccHolder},
+                #{trDe},
+                #{totCost},
+                #{supCost},
+                #{vatCost},
+                #{card},
+                #{etc},
+                #{iss}
+            )
+    </insert>
+
+    <delete id="delPayAppDetailData" parameterType="map">
+        /*delPayAppDetailData*/
+        DELETE FROM CAM_MNG.DJ_PAY_APP_DET
+        WHERE PAY_APP_SN = #{payAppSn}
+    </delete>
+
 </mapper>
