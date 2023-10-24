@@ -190,13 +190,13 @@
                             <input type="text" id="trDe0" class="trDe">
                         </td>
                         <td>
-                            <input type="text" id="totCost0" class="totCost" style="text-align: right" onkeyup="regPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            <input type="text" id="totCost0" class="totCost" value="0" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                         </td>
                         <td>
-                            <input type="text" id="supCost0" class="supCost" style="text-align: right" onkeyup="regPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            <input type="text" id="supCost0" class="supCost" value="0" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                         </td>
                         <td>
-                            <input type="text" id="vatCost0" class="vatCost" style="text-align: right" onkeyup="regPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            <input type="text" id="vatCost0" class="vatCost" value="0" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                         </td>
                         <td>
                             <input type="text" disabled id="card0" class="card">
