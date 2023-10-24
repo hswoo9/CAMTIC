@@ -1,10 +1,12 @@
 package egovframework.com.devjitsu.inside.asset.controller;
 
+import com.google.gson.Gson;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import dev_jitsu.MainLib;
+import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.inside.asset.service.AssetService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
@@ -290,6 +292,41 @@ public class AssetController {
         return "jsonView";
     }
 
+    @Autowired
+    CommonCodeService commonCodeService;
+    @RequestMapping("/inside/pop/assetPrintPop.do")
+    public String assetPrintPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        String hwpUrl = "";
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+
+        params.put("hwpUrl", hwpUrl);
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("data", params);
+
+        return "popup/inside/asset/assetPrintPop";
+    }
+
+    /**
+     * 프로젝트 리스트
+     */
+    @RequestMapping("/inside/getPjtList")
+    public String getPjtList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String,Object>> list = assetService.getPjtList(params);
+
+        model.addAttribute("list", list);
+
+
+        return "jsonView";
+    }
     /**
      * 자산관리 > 분류관리 - 소속 등록/수정 팝업
      * @param request
@@ -1387,4 +1424,18 @@ public class AssetController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/inside/getastprint")
+    public String getastprint(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+
+        Map<String, Object> map = assetService.getastprint(params);
+
+        model.addAttribute("astInfo", assetService.getastData(params));
+        model.addAttribute("result", map);
+
+        return "jsonView";
+    }
+
+
 }

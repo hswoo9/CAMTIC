@@ -173,7 +173,10 @@ var userInfoMod = {
 					attributes : { style : "text-align : center;"},
 					width: "80px",
                     field: "EMP_NAME",
-                    title: "성명"
+                    title: "성명",
+					template: function(e) {
+						return "<a href='#' style='color: rgb(0, 51, 255);' onclick='userInfoMod.fn_openModDetail(\"" + e.key + "\", \"" + e.type + "\", \"" + e.ID + "\", \"" + e.typeName + "\")'>" + e.EMP_NAME + "</a>";
+					}
                 }, {
 					attributes : { style : "text-align : center;"},
 					width: "100px",	
@@ -218,7 +221,7 @@ var userInfoMod = {
         }).data("kendoGrid");
     },
 
-	onDataBound : function(){
+	/*onDataBound : function(){
 		var grid = this;
 		grid.tbody.find("tr").dblclick(function (e) {
 			var dataItem = grid.dataItem($(this));
@@ -229,15 +232,14 @@ var userInfoMod = {
 			}
 			userInfoMod.fn_openModDetail(data, dataItem.typeName);
 		});
-	},
+	},*/
 
-	fn_openModDetail : function(e,n) {
-		var typeName = n;
-		var url = "/userManage/modDetailPop.do?typeName="+typeName + "&key=" + e.key + "&type=" + e.type +"_tmp" + "&id=" + e.id;
+	fn_openModDetail: function(key, type, id, typeName) {
+		var url = "/userManage/modDetailPop.do?typeName=" + typeName + "&key=" + key + "&type=" + type + "_tmp" + "&id=" + id;
 		var name = "detail";
-		var option = "width = 600, height = 550, top = 100, left = 200, location = no"
+		var option = "width = 600, height = 550, top = 100, left = 200, location = no";
 		var popup = window.open(url, name, option);
-		userInfoMod.global.jsonData = e;
+		userInfoMod.global.jsonData = { key: key, type: type, id: id };
 	},
 
     fn_approvalTest : function(e) {

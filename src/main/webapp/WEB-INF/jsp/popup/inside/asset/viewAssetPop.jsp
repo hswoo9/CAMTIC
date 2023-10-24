@@ -17,7 +17,7 @@
             <h3 class="card-title title_NM">자산정보 조회</h3>
             <div class="btn-st popButton">
                 <c:if test="${astInfo eq 'Y'}">
-                    <button type="button" class="k-button k-button-solid-base" onclick="">자산관리카드 인쇄</button>
+                    <button type="button" class="k-button k-button-solid-base" onclick="printAssetCard()">자산관리카드 인쇄</button>
                 </c:if>
                 <button type="button" class="k-button k-button-solid-base" onclick="">바코드 출력(대)</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="">바코드 출력(소)</button>
@@ -332,6 +332,14 @@
 </div>
 </body>
 <script>
+    function printAssetCard() {
+        let astInfoSn = $("#astInfoSn").val();
+        var url = "/inside/pop/assetPrintPop.do?astInfoSn="+astInfoSn;
+        var name = "goodsPrintPop";
+        var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        var popup = window.open(url, name, option);
+    }
+
     function assetModPop(){
         self.location.href = "/inside/addAssetPop.do?astInfoSn=" + $("#astInfoSn").val() + "&modify=Y";
     }

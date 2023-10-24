@@ -107,14 +107,17 @@ var assetList = {
                     width : 100
                 }, {
                     field: "AST_NAME",
-                    title: "자산명"
+                    title: "자산명",
+                    template: function(e) {
+                        return "<a href='#' onclick='assetList.viewAssetPop(" + e.AST_INFO_SN + ")' style='color: rgb(0, 51, 255);'>" + e.AST_NAME + "</a>";
+                    }
                 }, {
                     field: "MODEL_NAME",
                     title: "모델명"
                 }, {
                     field: "MODEL_SIZE",
                     title: "규격"
-                }, {
+                },{
                     field: "AST_PLACE_NAME",
                     title: "설치 장소"
                 }, {
@@ -190,13 +193,7 @@ var assetList = {
         }
     },
 
-    onDataBound : function(){
-        var grid = this;
-        grid.tbody.find("tr").dblclick(function (e) {
-            var dataItem = grid.dataItem($(this));
-            assetList.viewAssetPop(dataItem.AST_INFO_SN);
-        });
-    },
+
 
     viewAssetPop : function(astInfoSn) {
         var url = "/inside/viewAssetPop.do?astInfoSn=" + astInfoSn;

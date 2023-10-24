@@ -306,7 +306,10 @@ public class AssetServiceImpl implements AssetService {
             }
         }
     }
-
+    @Override
+    public List<Map<String,Object>> getPjtList(Map<String,Object> params) {
+        return assetRepository.getPjtList(params);
+    }
     @Override
     public List<Map<String,Object>> getClassPositionList(Map<String,Object> params) {
         return assetRepository.getClassPositionList(params);
@@ -1300,5 +1303,19 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public void updQrFileSn(Map<String, Object> params) {
         assetRepository.updQrFileSn(params);
+    }
+
+    @Override
+    public Map<String, Object> getastprint(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+
+        Map<String, Object> map = assetRepository.getastprint(params);
+        result.put("map", map);
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> getastData(Map<String, Object> params) {
+        return assetRepository.getastData(params);
     }
 }
