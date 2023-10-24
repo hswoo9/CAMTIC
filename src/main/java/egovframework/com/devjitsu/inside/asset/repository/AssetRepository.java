@@ -31,6 +31,10 @@ public class AssetRepository extends AbstractDAO {
     public void setAstInfoModHistoryItem(List<Map<String, Object>> params) { insert("asset.setAstInfoModHistoryItem", params);}
     public void setAstInfoModHistoryDel(Map<String, Object> params) { insert("asset.setAstInfoModHistoryDel", params);}
 
+
+    /** 프로젝트 리스트 */
+    public List<Map<String,Object>> getPjtList(Map<String,Object> params) { return selectList("asset.getPjtList", params);}
+
     /** 분류관리 */
     /** 소속관리*/
     public List<Map<String,Object>> getClassPositionList(Map<String,Object> params) { return selectList("asset.getClassPositionList", params);}
@@ -262,4 +266,11 @@ public class AssetRepository extends AbstractDAO {
 
     public void setInRprRegFileNoUpd(Map<String, Object> params) { insert("asset.setInRprRegFileNoUpd", params);}
 
+    public Map<String, Object> getastprint(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("asset.getastprint", params);
+    }
+
+    public Map<String, Object> getastData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getastData", params);
+    }
 }

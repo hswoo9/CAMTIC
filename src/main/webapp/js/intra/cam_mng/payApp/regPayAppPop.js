@@ -40,6 +40,8 @@ var regPay = {
 
 
 
+
+
         if($("#payAppSn").val() != ""){
             regPay.setData();
         }
@@ -98,19 +100,53 @@ var regPay = {
             parameters.payAppSn = $("#payAppSn").val();
         }
 
+        var itemArr = new Array()
+        var flag = true;
+        $.each($(".payDestInfo"), function(i, v){
+            var data = {
+                eviType : $("#eviType" + i).val(),
+                crmNm : $("#crmNm" + i).val(),
+                trCd : $("#trCd" + i).val(),
+                crmBnkNm : $("#crmBnkNm" + i).val(),
+                crmAccNo : $("#crmAccNo" + i).val(),
+                crmAccHolder : $("#crmAccHolder" + i).val(),
+                trDe : $("#trDe" + i).val(),
+                totCost : regPay.uncomma($("#totCost" + i).val()),
+                supCost : regPay.uncomma($("#supCost" + i).val()),
+                vatCost : regPay.uncomma($("#vatCost" + i).val()),
+                card : $("#card" + i).val(),
+                etc : $("#etc" + i).val(),
+                iss : $("#iss" + i).val(),
+            }
+
+            if(data.eviType == ""){
+                flag = false;
+            }
+
+
+            itemArr.push(data);
+        })
+
+        if(!flag){
+            alert("구분값을 선택해주세요.");
+            return ;
+        }
+
+        parameters.itemArr = JSON.stringify(itemArr);
+
         console.log(parameters);
 
-        $.ajax({
-            url : "/payApp/payAppSetData",
-            data :parameters,
-            type : "post",
-            dataType : "json",
-            success : function(rs){
-                if(rs.code == 200){
-                    location.href="/payApp/pop/regPayAppPop.do?payAppSn=" + rs.params.payAppSn;
-                }
-            }
-        });
+        // $.ajax({
+        //     url : "/payApp/payAppSetData",
+        //     data : parameters,
+        //     type : "post",
+        //     dataType : "json",
+        //     success : function(rs){
+        //         if(rs.code == 200){
+        //             location.href="/payApp/pop/regPayAppPop.do?payAppSn=" + rs.params.payAppSn;
+        //         }
+        //     }
+        // });
     },
 
     crmInfoChange : function(){
@@ -141,6 +177,21 @@ var regPay = {
 
         $("#crmSn").val("")
         $("#crmNm").val("")
+    },
+
+    fn_calCost: function(obj){
+
+        var index = obj.id.substring(obj.id.length - 1);
+        if(obj.id.match("totCost")){
+            $("#vatCost" + index).val(regPay.comma(Math.round(Number(regPay.uncomma($("#totCost" + index).val())) / 10)));
+            $("#supCost" + index).val(regPay.comma(Number(regPay.uncomma($("#totCost" + index).val())) - Number(regPay.uncomma($("#vatCost" + index).val()))));
+        } else if(obj.id.match("supCost")){
+            $("#vatCost" + index).val(regPay.comma(Number(regPay.uncomma($("#totCost" + index).val())) - Number(regPay.uncomma($("#supCost" + index).val()))));
+        } else if (obj.id.match("vatCost")){
+            $("#supCost" + index).val(regPay.comma(Number(regPay.uncomma($("#totCost" + index).val())) - Number(regPay.uncomma($("#vatCost" + index).val()))));
+        }
+
+        regPay.inputNumberFormat(obj);
     },
 
     inputNumberFormat : function (obj){
@@ -270,13 +321,13 @@ var regPayDet = {
             '       <input type="text" id="trDe' + regPayDet.global.itemIndex + '" class="trDe">' +
             '   </td>' +
             '   <td>' +
-            '       <input type="text" id="totCost' + regPayDet.global.itemIndex + '" class="totCost" style="text-align: right" onkeyup="regPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+            '       <input type="text" id="totCost' + regPayDet.global.itemIndex + '" value="0" class="totCost" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
             '   </td>' +
             '   <td>' +
-            '       <input type="text" id="supCost' + regPayDet.global.itemIndex + '" class="supCost" style="text-align: right" onkeyup="regPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+            '       <input type="text" id="supCost' + regPayDet.global.itemIndex + '" value="0" class="supCost" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
             '   </td>' +
             '   <td>' +
-            '       <input type="text" id="vatCost' + regPayDet.global.itemIndex + '" class="vatCost" style="text-align: right" onkeyup="regPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+            '       <input type="text" id="vatCost' + regPayDet.global.itemIndex + '" value="0" class="vatCost" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
             '   </td>' +
             '   <td>' +
             '       <input type="text" disabled id="card' + regPayDet.global.itemIndex + '" class="card">' +

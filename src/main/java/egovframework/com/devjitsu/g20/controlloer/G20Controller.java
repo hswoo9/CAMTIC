@@ -120,4 +120,12 @@ public class G20Controller {
         model.addAttribute("list", list);
         return "jsonView";
     }
+
+    @RequestMapping("/g20/getOtherList")
+    public String getOtherList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = g20Service.getOtherList(params);
+
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
 }

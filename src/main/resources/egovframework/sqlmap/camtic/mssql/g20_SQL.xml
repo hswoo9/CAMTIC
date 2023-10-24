@@ -279,4 +279,20 @@
             AND
                 (A.TR_NM LIKE CONCAT('%', #{searchValue}, '%') OR A.BA_NB LIKE CONCAT('%', #{searchValue}, '%') OR A.REG_NB LIKE CONCAT('%', #{searchValue}, '%'))
     </select>
+
+    <select id="getOtherList" parameterType="map" resultType="map">
+        /*getOtherList*/
+        SELECT
+            PER_CD,
+            LEFT(REG_NO,6) AS REG_NO,
+            PER_NM,
+            ACCT_NO,
+            ACCT_NM,
+            BANK_NM
+        FROM VN_G20HEARNER_INFO
+        WHERE
+            PER_NM LIKE CONCAT('%', #{searchValue}, '%')
+        OR REG_NO LIKE CONCAT('%', #{searchValue}, '%')
+        OR ACCT_NO LIKE CONCAT('%', #{searchValue}, '%')
+    </select>
 </mapper>

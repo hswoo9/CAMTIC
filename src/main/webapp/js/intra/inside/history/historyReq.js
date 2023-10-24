@@ -2,9 +2,13 @@ now = new Date();
 
 var historyList = {
 
+    global : {
+        searchAjaxData : ""
+    },
+
     init : function(){
         historyList.dataSet();
-        historyList.mainGrid();
+        historyList.gridReload();
     },
 
     dataSet: function(){
@@ -90,39 +94,9 @@ var historyList = {
         fn_deptSetting();
     },
 
-    mainGrid: function(){
-        var dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read : {
-                    url : '/inside/getHistoryList',
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data) {
-                    data.historyType = $("#historyType").val();
-                    data.deptSeq = $("#team").val() == "" ? ($("#dept").val() == "" ? "" : $("#dept").val()) : $("#team").val(),
-                    data.start_date = $("#start_date").val().replace(/-/g, "");
-                    data.end_date = $("#end_date").val().replace(/-/g, "");
-                    data.gender = $("#gender").val();
-                    data.searchType = $("#searchType").val();
-                    data.searchText = $("#searchText").val();
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    return data.list;
-                },
-                total: function (data) {
-                    return data.list.length;
-                },
-            },
-            pageSize: 10,
-        });
-
+    mainGrid: function(url, params){
         $("#mainGrid").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             scrollable: true,
             selectable: "row",
@@ -136,7 +110,7 @@ var historyList = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="historyList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -218,6 +192,20 @@ var historyList = {
             const apntSn = dataItem.APNT_SN;
             historyList.historyViewPop(apntSn);
         });
+    },
+
+    gridReload: function (){
+        historyList.global.searchAjaxData = {
+            historyType : $("#historyType").val(),
+            deptSeq : $("#team").val() == "" ? ($("#dept").val() == "" ? "" : $("#dept").val()) : $("#team").val(),
+            start_date : $("#start_date").val().replace(/-/g, ""),
+            end_date : $("#end_date").val().replace(/-/g, ""),
+            gender : $("#gender").val(),
+            searchType : $("#searchType").val(),
+            searchText : $("#searchText").val(),
+        }
+
+        historyList.mainGrid("/inside/getHistoryList", historyList.global.searchAjaxData);
     },
 
     historyReqPop: function(mode, pk){

@@ -100,10 +100,10 @@
                         <input type="text" id="unitText" style="width: 75px;" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" disabled>
                         <input type="text" id="regType" style="width: 95px;">
                     </td>
-                    <th scope="row" class="text-center th-color">바코드 타입</th>
+                    <%--<th scope="row" class="text-center th-color">바코드 타입</th>
                     <td>
                         <input type="text" id="barcodeType" style="width: 100%;">
-                    </td>
+                    </td>--%>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
@@ -112,6 +112,7 @@
                     <td colspan="3">
                         <span id="fundingSource" style="gap: 0px;"></span>
                         <input type="text" id="expAccount" style="width: 50%;">
+                        <input type="hidden" id="pjtNm" value="${pjtData.PJT_NM}">
                         <button type="button" id="bizSearchBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="display: none;" onclick="addAssetPop.rdTaskPopup();">
                             <span class="k-button-text">사업 선택</span>
                         </button>
@@ -172,6 +173,11 @@
 
     function userSearch() {
         window.open("/common/deptListPop.do","조직도","width=750,height=650");
+    }
+
+    function selectProject(sn, nm){
+        $("#pjtSn").val(sn);
+        $("#pjtNm").val(nm);
     }
 </script>
 </body>

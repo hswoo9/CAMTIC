@@ -74,7 +74,7 @@ var popCrmList = {
             ],
             columns: [
                 {
-                    title: "업태",
+                    title: "업체",
                     field: "CRM_OCC",
                     width: 100,
                 }, {

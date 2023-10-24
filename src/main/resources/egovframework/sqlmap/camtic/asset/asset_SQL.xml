@@ -86,14 +86,13 @@
             AI.MF_COMPANY,
             CONCAT(AI.QTY, ' ', AI.UNIT) AS QTY,
             AI.ORG_COUNTRY,
-            CASE WHEN AI.FUNDING_SOURCE = 0 THEN CONCAT('[법인운영]', AI.EXP_ACCOUNT)
-                 WHEN AI.FUNDING_SOURCE = 1 THEN CONCAT('[연구개발]', AI.EXP_ACCOUNT)
-                 WHEN AI.FUNDING_SOURCE = 2 THEN CONCAT('[교육사업]', AI.EXP_ACCOUNT)
-                 WHEN AI.FUNDING_SOURCE = 4 THEN CONCAT('[개발사업]', AI.EXP_ACCOUNT)
-                 WHEN AI.FUNDING_SOURCE = 5 THEN CONCAT('[기능보강]', AI.EXP_ACCOUNT)
-                 WHEN AI.FUNDING_SOURCE = 6 THEN CONCAT('[지원사업]', AI.EXP_ACCOUNT)
-                 WHEN AI.FUNDING_SOURCE = 7 THEN CONCAT('[협의회]', AI.EXP_ACCOUNT)
-                 WHEN AI.FUNDING_SOURCE = 3 THEN CONCAT('[기타사업]', AI.EXP_ACCOUNT)
+            CASE
+                WHEN AI.FUNDING_SOURCE = '0' THEN CONCAT('[법인운영]', AI.PJT_NM)
+                WHEN AI.FUNDING_SOURCE = 'R' THEN CONCAT('[R&amp;D]', AI.PJT_NM)
+                WHEN AI.FUNDING_SOURCE = 'S' THEN CONCAT('[비R&amp;D]', AI.PJT_NM)
+                WHEN AI.FUNDING_SOURCE = 'D' THEN CONCAT('[엔지니어링]', AI.PJT_NM)
+                WHEN AI.FUNDING_SOURCE = 'V' THEN CONCAT('[용역/기타]', AI.PJT_NM)
+                WHEN AI.FUNDING_SOURCE = '3' THEN CONCAT('[기타]', AI.PJT_NM)
             END FUNDING_SOURCE_TXT,
             AP.AST_PLACE_NAME,
             AI.DEPT_SEQ,
@@ -229,7 +228,6 @@
                 QTY,
                 UNIT,
                 REG_TYPE,
-                BARCODE_TYPE,
                 FUNDING_SOURCE,
                 EXP_ACCOUNT,
                 DEPT_SEQ,
@@ -237,7 +235,8 @@
                 EMP_NAME,
                 PURPOSE,
                 REMARK,
-                REG_EMP_SEQ
+                REG_EMP_SEQ,
+                PJT_NM
             )
         VALUES
             (
@@ -260,7 +259,6 @@
                 #{qty},
                 #{unit},
                 #{regType},
-                #{barcodeType},
                 #{fundingSource},
                 #{expAccount},
                 #{deptSeq},
@@ -268,7 +266,8 @@
                 #{empName},
                 #{purpose},
                 #{remark},
-                #{regEmpSeq}
+                #{regEmpSeq},
+                #{pjtNm}
             )
 
         <selectKey keyProperty="astInfoSn" resultType="Integer" order="BEFORE">
@@ -2411,4 +2410,35 @@
         WHERE
             INVENTION_INFO_SN = #{inventionInfoSn}
     </update>
+
+        <select id="getPjtList" parameterType="map" resultType="map">
+            SELECT * FROM CAM_PJT_MNG.DJ_PROJECT A
+            WHERE
+            1=1
+            <if test='busnClass != null and busnClass != ""'>
+                AND
+                A.BUSN_CLASS = #{busnClass}
+            </if>
+            <if test='busnClass != null and fundingSource != "" and !"Y".equals(busnClass)'>
+                AND
+                A.PJT_STOP = "N"
+            </if>
+            <if test='busnClass == "Y" or "Y".equals(busnClass)'>
+                AND
+                A.PJT_STOP = "Y"
+            </if>
+            ORDER BY A.PJT_SN DESC
+    </select>
+
+    <select id="getastprint" parameterType="map" resultType="map">
+        SELECT *
+        FROM CAM_INSIDE.DJ_ASSET_INFO
+        WHERE AST_INFO_SN = #{astInfo}
+    </select>
+
+    <select id="getastData" parameterType="map" resultType="map">
+        SELECT *
+        FROM CAM_INSIDE.DJ_ASSET_INFO
+        WHERE AST_INFO_SN = #{astInfo}
+    </select>
 </mapper>

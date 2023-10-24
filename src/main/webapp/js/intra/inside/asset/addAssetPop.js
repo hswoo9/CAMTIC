@@ -20,14 +20,19 @@ var addAssetPop = {
         if($("#mod").val() == "Y"){
             addAssetPop.modDataInit()
         }
+
     },
 
-    rdTaskPopup : function() {
-        var url = "/Inside/Pop/rdTaskPop.do";
-        var name = "rdTaskPop";
-        var option = "width = 500, height = 200, top = 100, left = 200, location = no, _blank"
+    rdTaskPopup: function() {
+        var busnClass = $("input[name='fundingSource']:checked").val(); // busnClass 값 가져오기
+        var url = "/Inside/Pop/rdTaskPop.do?busnClass=" + busnClass; // busnClass 값을 url에 추가
+        var name = "_blank";
+        var option = "width=1100,height=400,top=100,left=400,location=no";
         var popup = window.open(url, name, option);
+
     },
+
+
 
     fn_saveAstInfo : function() {
         if(!$("#astCodeId1").val()){
@@ -74,9 +79,6 @@ var addAssetPop = {
             alert("구입 단위를 입력해주세요.");
             $("#unitText").focus();
             return;
-        }else if(!$("#barcodeType").val()){
-            alert("바코드 타입을 선택해주세요.");
-            return;
         }else if(!$("#fundingSource").data("kendoRadioGroup").value()){
             alert("자금출처를 선택해주세요.");
             return;
@@ -118,6 +120,7 @@ var addAssetPop = {
             formData.append("orgCountry", $("#orgCountry").val());
             formData.append("qty", $("#qty").val());
             formData.append("unit", $("#unitText").val());
+            formData.append("pjtNm", $("#pjtNm").val());
             formData.append("regType", $("#regType").val());
             formData.append("barcodeType", $("#barcodeType").val());
             formData.append("fundingSource", $("#fundingSource").data("kendoRadioGroup").value());
@@ -297,13 +300,15 @@ var addAssetPop = {
         $("#fundingSource").kendoRadioGroup({
             items: [
                 {label : "법인운영" , value : "0"},
-                {label : "연구개발" , value : "1"},
-                {label : "교육사업" , value : "2"},
-                {label : "개발사업" , value : "4"},
-                {label : "기능보강" , value : "5"},
-                {label : "지원사업" , value : "6"},
+                {label : "R&D" , value : "R"},
+                {label : "비R&D" , value : "S"},
+                {label : "엔지니어링" , value : "D"},
+                {label : "용역/기타" , value : "V"},
+                {label : "기타" , value : "3"},
+                /*
                 {label : "협의회" , value : "7"},
                 {label : "기타사업" , value : "3"},
+                */
             ],
             layout : "horizontal",
             labelPosition : "after",

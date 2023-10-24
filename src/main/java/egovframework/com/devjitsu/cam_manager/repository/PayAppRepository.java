@@ -18,4 +18,12 @@ public class PayAppRepository extends AbstractDAO {
     public Map<String, Object> getPayAppReqData(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("payApp.getPayAppReqData", params);
     }
+
+    public void insPayAppDetailData(Map<String, Object> map) {
+        insert("payApp.insPayAppDetailData", map);
+    }
+
+    public void delPayAppDetailData(Map<String, Object> params) {
+        delete("payApp.delPayAppDetailData", params);
+    }
 }

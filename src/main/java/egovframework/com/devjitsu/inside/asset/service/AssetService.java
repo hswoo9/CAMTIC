@@ -19,6 +19,8 @@ public interface AssetService {
     void setAstManage(Map<String, Object> params);
     void setAstInfoBatch(Map<String, Object> params);
 
+    /** 프로젝트 리스트 */
+    List<Map<String,Object>> getPjtList(Map<String,Object> params);
     /** 분류관리 */
     List<Map<String,Object>> getClassPositionList(Map<String,Object> map);
     Map<String, Object> getClassPosition(Map<String, Object> params);
@@ -169,4 +171,8 @@ public interface AssetService {
     void insFileInfo(Map<String, Object> fileInfo);
 
     void updQrFileSn(Map<String, Object> params);
+
+    Map<String, Object> getastData(Map<String, Object> params);
+
+    Map<String, Object> getastprint(Map<String, Object> params);
 }

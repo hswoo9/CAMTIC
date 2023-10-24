@@ -75,3 +75,51 @@ function fn_selCardInfo(trCd, trNm, cardBaNb, jiro, clttrCd, baNb, depositor, id
     $("#crmAccNo" + idx).val(baNb);
     $("#crmAccHolder" + idx).val(depositor);
 }
+
+function fn_selEmpInfo(trCd, bankName, accountHolder, accountNum, empNameKr, idx){
+    if(accountHolder == null || accountHolder == "" || accountHolder == "undefined"){
+        accountHolder = "";
+    }
+    if(accountNum == null || accountNum == "" || accountNum == "undefined"){
+        accountNum = "";
+    }
+    if(empNameKr == null || empNameKr == "" || empNameKr == "undefined"){
+        empNameKr = "";
+    }
+    if(bankName == null || bankName == "" || bankName == "undefined"){
+        bankName = "";
+    }
+    if(trCd == null || trCd == "" || trCd == "undefined"){
+        trCd = "";
+    }
+
+    $("#trCd" + idx).val(trCd);
+    $("#crmNm" + idx).val(empNameKr);
+    $("#crmBnkNm" + idx).val(bankName);
+    $("#crmAccNo" + idx).val(accountNum);
+    $("#crmAccHolder" + idx).val(accountHolder);
+}
+
+function fn_selOtherInfo(trCd, bankName, accountNum, accountHolder, empNameKr, idx){
+    if(accountHolder == null || accountHolder == "" || accountHolder == "undefined"){
+        accountHolder = "";
+    }
+    if(accountNum == null || accountNum == "" || accountNum == "undefined"){
+        accountNum = "";
+    }
+    if(empNameKr == null || empNameKr == "" || empNameKr == "undefined"){
+        empNameKr = "";
+    }
+    if(bankName == null || bankName == "" || bankName == "undefined"){
+        bankName = "";
+    }
+    if(trCd == null || trCd == "" || trCd == "undefined"){
+        trCd = "";
+    }
+
+    $("#trCd" + idx).val(trCd);
+    $("#crmNm" + idx).val(empNameKr);
+    $("#crmBnkNm" + idx).val(bankName);
+    $("#crmAccNo" + idx).val(accountNum);
+    $("#crmAccHolder" + idx).val(accountHolder);
+}

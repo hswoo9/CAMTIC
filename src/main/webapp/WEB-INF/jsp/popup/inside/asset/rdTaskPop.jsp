@@ -4,91 +4,31 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
-<link rel="stylesheet" href="/css/quirk.css">
-<link rel="stylesheet" href="/css/style.css">
-<style>
-    .removeDay{
-        text-decoration:line-through;
-        font-weight:700;
-        color:red
-    }
-    .k-grid-toolbar{
-        justify-content: flex-end !important;
-    }
-    .k-grid-norecords{
-        justify-content: space-around;
-    }
-    .k-grid tbody tr{
-        height: 38px;
-    }
-    #wptDiv{
-        margin: 0 auto;
-        width: 100px;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        justify-content: space-around;
-    }
-    #wptDiv > label {
-        margin : 0
-    }
-    #timeDiff{
-        height: 255px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-</style>
-<script type="text/javascript" src="/js/intra/inside/asset/rdTaskPop.js?v=${today}"/></script>
 
-<!DOCTYPE html>
-<html>
-<body>
-<div class="card">
-    <div class="card-header" style="padding:20px 0;">
-        <div class="col-lg-11" style="margin:0 auto;">
-            <div class="table-responsive">
-                <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
-                <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-                <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
-                <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
-                <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
-                <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
-                <table class="table table-bordered mb-0">
-                    <colgroup>
-                        <col width="20%">
-                        <col width="80%">
-                    </colgroup>
-                    <tbody>
-                    <tr>
-                        <th class="text-center th-color">
-                            사업명
-                        </th>
-                        <th>
-                            <input type="text" id="pjtNm" style="width: 100%;">
-                        </th>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color">
-                            프로젝트명
-                        </th>
-                        <td>
-                            <input type="text" id="taskName" style="width: 100%;">
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="btn-st">
-                <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick=""/>
-                <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소"  onclick=""/>
-            </div>
+<body class="font-opensans" style="background-color:#fff;">
+<script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/inside/asset/rdTaskPop.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
+
+
+<input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
+<input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
+<input type="hidden" id="busnClass" value="${param.busnClass}"/>
+<div style="padding:0;">
+    <div class="table-responsive">
+        <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
+        <div class="card-header pop-header">
+            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">프로젝트 선택</span>
+            </h3>
+
         </div>
+        <div>
+            <div id="popMainGrid" style="margin:20px 0;"></div>
+        </div>
+
     </div>
 </div>
-
-
-<script>
+<script type="text/javascript">
     rdTaskPop.fn_defaultScript();
 </script>
 </body>

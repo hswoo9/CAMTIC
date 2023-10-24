@@ -7,4 +7,5 @@ import java.util.Map;
 
 public interface ManageService {
 
+    List<Map<String, Object>> getMemList(Map<String, Object> params);
 }
