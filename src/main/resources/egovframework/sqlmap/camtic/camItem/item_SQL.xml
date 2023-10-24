@@ -690,12 +690,14 @@
             BD.*,
             IM.ITEM_NO,
             IM.ITEM_NAME,
+            IM.ITEM_TYPE,
             CONCAT(IM.ITEM_NO, ' [', IM.ITEM_NAME, '] X ', BD.REQ_QTY) AS TREE_NAME,
             IFNULL(MAX(II.UNIT_PRICE), 0) AS UNIT_PRICE,
             COUNT(II.INVEN_SN) AS INVEN_CNT,
             II.WH_CD,
             IFNULL(CAST(SUM(II.CURRENT_INVEN) AS SIGNED INTEGER), 0) AS CURRENT_INVEN,
-            IM.SAFETY_INVEN
+            IM.SAFETY_INVEN,
+            (SELECT B.BOM_SN FROM CAM_ITEM.DJ_BOM B WHERE B.MASTER_SN = BD.MASTER_SN GROUP BY BOM_SN) AS CHILDREN_BOM_CN
         FROM
             CAM_ITEM.DJ_BOM_DETAIL BD
         JOIN
@@ -847,8 +849,10 @@
         LEFT JOIN
             CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE CIU
         ON CIU.CRM_ITEM_SN = CIM.CRM_ITEM_SN AND CIU.ACTIVE = 'Y'
-        WHERE 1=1
-
+        WHERE
+            1=1
+        AND
+            CIM.BUS_CLASS = #{busClass}
         <if test='crmSn != null and !"".equals(crmSn)'>
             AND CI.CRM_SN = #{crmSn}
         </if>
@@ -963,6 +967,35 @@
         /* setCrmItemUnitPriceDel */
         DELETE FROM CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE WHERE CRM_ITEM_UNIT_PRICE_SN IN (${ciupSn})
     </delete>
+
+    <select id="getCrmItemUnitPrice" parameterType="map" resultType="map">
+        /* getCrmItemUnitPrice */
+        SELECT
+            CIUP.*
+        FROM
+            CAM_ITEM.DJ_CRM_ITEM_MANGE CIM
+        JOIN
+            CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE CIUP
+        ON CIM.CRM_ITEM_SN = CIUP.CRM_ITEM_SN AND CIUP.ACTIVE = 'Y'
+        WHERE
+            CIM.CRM_SN = #{crmSn}
+        AND
+            CIM.MASTER_SN = #{masterSn}
+        AND
+            CIM.BUS_CLASS = #{busClass}
+    </select>
+
+    <select id="getItemUnitPrice" parameterType="map" resultType="map">
+        /* getItemUnitPrice */
+        SELECT
+            *
+        FROM
+            CAM_ITEM.DJ_ITEM_MASTER_SD_UP
+        WHERE
+            ACTIVE = 'Y'
+        AND
+            MASTER_SN = #{masterSn}
+    </select>
 
     <update id="setCrmItemManageUpd" parameterType="map">
         UPDATE
@@ -1270,6 +1303,10 @@
                 </if>
             </otherwise>
         </choose>
+
+        <if test='"shipmentRecord".equals(reg)'>
+            AND II.WH_CD IN('PR', 'SM')
+        </if>
 
         ORDER BY
             CASE WHEN II.MOD_DT IS NULL THEN II.REG_DT

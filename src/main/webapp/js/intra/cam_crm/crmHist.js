@@ -7,17 +7,6 @@ var crmHist = {
     },
 
     fn_defaultScript : function(){
-
-        crmHist.global.dropDownDataSource = [
-            { text: "우량고객", value: "1" },
-            { text: "일반고객", value: "2" },
-            { text: "휴면고객", value: "3" },
-            { text: "잠재고객", value: "4" },
-            { text: "신규고객", value: "5" }
-        ]
-        customKendo.fn_dropDownList("ctmGrade", crmHist.global.dropDownDataSource, "text", "value");
-        $("#ctmGrade").data("kendoDropDownList").bind("change", crmHist.gridReload);
-
         crmHist.global.dropDownDataSource = [
             { text: "기업", value: "1" },
             { text: "기관", value: "2" }
@@ -118,7 +107,7 @@ var crmHist = {
                         return "0 건";
                     }
                 }, {
-                    title: "고객등급",
+                    title: "소재지",
                     width: 100,
                     template: function(e){
                         return "";
@@ -142,7 +131,6 @@ var crmHist = {
     gridReload : function(){
         crmHist.global.searchAjaxData = {
             ctmType : $("#ctmType").val(),
-            ctmGrade : $("#ctmGrade").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val()
         }

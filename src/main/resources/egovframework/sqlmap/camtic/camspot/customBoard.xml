@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cb">
+
+    <select id="getSuggestionSystemList" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage"
+            resultType="egovframework.com.devjitsu.hp.board.util.PostResponse">
+        /* getSuggestionSystemList */
+        SELECT
+            SB.*,
+            CASE WHEN SB.SUGGESTION_TYPE = 'CP04' THEN '경영혁신'
+                WHEN SB.SUGGESTION_TYPE = 'CP05' THEN '업무/관리효율'
+                WHEN SB.SUGGESTION_TYPE = 'CP06' THEN '제품개선'
+                WHEN SB.SUGGESTION_TYPE = 'CP07' THEN '공정개선'
+                WHEN SB.SUGGESTION_TYPE = 'CP08' THEN '환경/청결'
+                WHEN SB.SUGGESTION_TYPE = 'CP09' THEN '직원단합'
+                WHEN SB.SUGGESTION_TYPE = 'CP10' THEN '사기진작'
+                WHEN SB.SUGGESTION_TYPE = 'CP11' THEN '사업아이템 제안'
+                WHEN SB.SUGGESTION_TYPE = 'CP11' THEN '단순건의'
+            END AS SUGGESTION_TYPE_TXT,
+
+            EI.EMP_SEQ AS REG_EMP_SEQ,
+            EI.EMP_NAME_KR AS REG_EMP_NAME,
+            EI2.EMP_SEQ AS EXECUTE_EMP_SEQ,
+            EI2.EMP_NAME_KR AS EXECUTE_EMP_NAME
+        FROM
+            CAM_BOARD.DJ_SUGGESTION_BOARD SB
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON SB.REG_EMP_SEQ = EI.EMP_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO EI2
+        ON SB.EXECUTE = EI2.EMP_SEQ
+        WHERE 1=1
+        AND
+            SB.ACTIVE = 'Y'
+        <if test='suggestionType != null and !"".equals(suggestionType)'>
+        AND
+            SB.SUGGESTION_TYPE = #{suggestionType}
+        </if>
+        <if test='status != null and !"".equals(status)'>
+        AND
+            SB.STATUS = #{status}
+        </if>
+
+        <if test='startDt != null and !"".equals(startDt)'>
+        <![CDATA[
+        AND
+            DATE_FORMAT(#{startDt}, '%Y%m%d') <= DATE_FORMAT(SB.SUGGESTION_DATE, '%Y%m%d')
+        AND
+            DATE_FORMAT(#{endDt}, '%Y%m%d') >= DATE_FORMAT(SB.SUGGESTION_DATE, '%Y%m%d')
+        ]]>
+        </if>
+
+        <choose>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "2".equals(searchColumn)'>
+                AND SB.SUGGESTION_TITLE LIKE CONCAT('%',#{searchContent},'%')
+            </when>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "3".equals(searchColumn)'>
+                AND (
+                    SB.SUGGESTION_CONTENT1 LIKE CONCAT('%',#{searchContent},'%') OR
+                    SB.SUGGESTION_CONTENT2 LIKE CONCAT('%',#{searchContent},'%') OR
+                    SB.SUGGESTION_CONTENT3 LIKE CONCAT('%',#{searchContent},'%')
+                )
+            </when>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "4".equals(searchColumn)'>
+                AND EI.EMP_NAME_KR LIKE CONCAT('%',#{searchContent},'%')
+            </when>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "5".equals(searchColumn)'>
+                AND EI2.EMP_NAME_KR LIKE CONCAT('%',#{searchContent},'%')
+            </when>
+            <otherwise>
+                AND (
+                    SB.SUGGESTION_TITLE LIKE CONCAT('%',#{searchContent},'%') OR
+                    SB.SUGGESTION_CONTENT1 LIKE CONCAT('%',#{searchContent},'%') OR
+                    SB.SUGGESTION_CONTENT2 LIKE CONCAT('%',#{searchContent},'%') OR
+                    SB.SUGGESTION_CONTENT3 LIKE CONCAT('%',#{searchContent},'%') OR
+                    EI.EMP_NAME_KR LIKE CONCAT('%',#{searchContent},'%') OR
+                    EI2.EMP_NAME_KR LIKE CONCAT('%',#{searchContent},'%')
+                )
+            </otherwise>
+        </choose>
+        ORDER BY SB.REG_DATE DESC
+        LIMIT #{pagination.limitStart}, #{recordSize}
+    </select>
+
+    <select id="getSuggestionSystemListCnt" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage"
+            resultType="int">
+        /* getSuggestionSystemListCnt */
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_BOARD.DJ_SUGGESTION_BOARD SB
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON SB.REG_EMP_SEQ = EI.EMP_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO EI2
+        ON SB.EXECUTE = EI2.EMP_SEQ
+        WHERE 1=1
+        AND
+            SB.ACTIVE = 'Y'
+        <if test='suggestionType != null and !"".equals(suggestionType)'>
+        AND
+            SB.SUGGESTION_TYPE = #{suggestionType}
+        </if>
+        <if test='status != null and !"".equals(status)'>
+        AND
+            SB.STATUS = #{status}
+        </if>
+
+        <if test='startDt != null and !"".equals(startDt)'>
+            <![CDATA[
+        AND
+            DATE_FORMAT(#{startDt}, '%Y%m%d') <= DATE_FORMAT(SB.SUGGESTION_DATE, '%Y%m%d')
+        AND
+            DATE_FORMAT(#{endDt}, '%Y%m%d') >= DATE_FORMAT(SB.SUGGESTION_DATE, '%Y%m%d')
+        ]]>
+        </if>
+
+        <choose>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "2".equals(searchColumn)'>
+                AND SB.SUGGESTION_TITLE LIKE CONCAT('%',#{searchContent},'%')
+            </when>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "3".equals(searchColumn)'>
+                AND (
+                    SB.SUGGESTION_CONTENT1 LIKE CONCAT('%',#{searchContent},'%') OR
+                    SB.SUGGESTION_CONTENT2 LIKE CONCAT('%',#{searchContent},'%') OR
+                    SB.SUGGESTION_CONTENT3 LIKE CONCAT('%',#{searchContent},'%')
+                )
+            </when>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "4".equals(searchColumn)'>
+                AND EI.EMP_NAME_KR LIKE CONCAT('%',#{searchContent},'%')
+            </when>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "5".equals(searchColumn)'>
+                AND EI2.EMP_NAME_KR LIKE CONCAT('%',#{searchContent},'%')
+            </when>
+            <otherwise>
+                AND (
+                    SB.SUGGESTION_TITLE LIKE CONCAT('%',#{searchContent},'%') OR
+                    SB.SUGGESTION_CONTENT1 LIKE CONCAT('%',#{searchContent},'%') OR
+                    SB.SUGGESTION_CONTENT2 LIKE CONCAT('%',#{searchContent},'%') OR
+                    SB.SUGGESTION_CONTENT3 LIKE CONCAT('%',#{searchContent},'%') OR
+                    EI.EMP_NAME_KR LIKE CONCAT('%',#{searchContent},'%') OR
+                    EI2.EMP_NAME_KR LIKE CONCAT('%',#{searchContent},'%')
+                )
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="getSuggestionSystem" parameterType="map" resultType="map">
+        /* getSuggestionSystem */
+        SELECT
+            SB.*,
+            CASE WHEN SB.SUGGESTION_TYPE = 'CP04' THEN '경영혁신'
+                 WHEN SB.SUGGESTION_TYPE = 'CP05' THEN '업무/관리효율'
+                 WHEN SB.SUGGESTION_TYPE = 'CP06' THEN '제품개선'
+                 WHEN SB.SUGGESTION_TYPE = 'CP07' THEN '공정개선'
+                 WHEN SB.SUGGESTION_TYPE = 'CP08' THEN '환경/청결'
+                 WHEN SB.SUGGESTION_TYPE = 'CP09' THEN '직원단합'
+                 WHEN SB.SUGGESTION_TYPE = 'CP10' THEN '사기진작'
+                 WHEN SB.SUGGESTION_TYPE = 'CP11' THEN '사업아이템 제안'
+                 WHEN SB.SUGGESTION_TYPE = 'CP11' THEN '단순건의'
+            END AS SUGGESTION_TYPE_TXT,
+            EI.EMP_SEQ AS REG_EMP_SEQ,
+            EI.EMP_NAME_KR AS REG_EMP_NAME
+        FROM
+            CAM_BOARD.DJ_SUGGESTION_BOARD SB
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON SB.REG_EMP_SEQ = EI.EMP_SEQ
+        WHERE
+            SB.SUGGESTION_BOARD_ID = #{suggestionBoardId}
+    </select>
+
+    <select id="getSuggestionSystemNo" parameterType="map" resultType="String">
+        /* getSuggestionSystemNo */
+        SELECT
+            CONCAT(SUGGESTION_TYPE, RIGHT(DATE_FORMAT(NOW(), '%Y'), 2), RIGHT(CONCAT('000', MAX(RIGHT(SUGGESTION_NO, 4)) + 1), 4))
+        FROM
+            CAM_BOARD.DJ_SUGGESTION_BOARD
+        WHERE
+            SUGGESTION_TYPE = #{suggestionType}
+    </select>
+
+    <insert id="setSuggestionSystem" parameterType="map">
+        /* setSuggestionSystem */
+        INSERT INTO CAM_BOARD.DJ_SUGGESTION_BOARD
+        (
+            SUGGESTION_NO,
+            SUGGESTION_DATE,
+            SUGGESTION_TYPE,
+            SUGGESTION_TITLE,
+            SUGGESTION_CONTENT1,
+            SUGGESTION_CONTENT2,
+            SUGGESTION_CONTENT3,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{suggestionNo},
+            DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            #{suggestionType},
+            #{suggestionTitle},
+            #{suggestionContent1},
+            #{suggestionContent2},
+            #{suggestionContent3},
+            #{empSeq}
+        )
+
+        <selectKey keyProperty="suggestionBoardId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_BOARD' AND TABLE_NAME = 'DJ_SUGGESTION_BOARD'
+        </selectKey>
+    </insert>
+
+    <update id="setSuggestionSystemUpd" parameterType="map">
+        /* setSuggestionSystemUpd */
+        UPDATE
+            CAM_BOARD.DJ_SUGGESTION_BOARD
+        SET
+            SUGGESTION_TYPE = #{suggestionType},
+            SUGGESTION_TITLE = #{suggestionTitle},
+            SUGGESTION_CONTENT1 = #{suggestionContent1},
+            SUGGESTION_CONTENT2 = #{suggestionContent2},
+            SUGGESTION_CONTENT3 = #{suggestionContent3},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            SUGGESTION_BOARD_ID = #{suggestionBoardId}
+    </update>
+
+    <update id="setSuggestionSystemDel" parameterType="map">
+        /* setSuggestionSystemDel */
+        UPDATE
+            CAM_BOARD.DJ_SUGGESTION_BOARD
+        SET
+            ACTIVE = 'N',
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            SUGGESTION_BOARD_ID = #{suggestionBoardId}
+    </update>
+
+    <select id="getScheduleList" parameterType="map" resultType="map">
+        /* getScheduleList */
+        SELECT
+            SC.SCHEDULE_TITLE AS title,
+            CONCAT(DATE_FORMAT(SC.START_DT, '%Y-%m-%d'), ' ', SC.START_TIME) AS start,
+            CONCAT(DATE_FORMAT(SC.END_DT, '%Y-%m-%d'), ' ', SC.END_TIME) AS end,
+            DATE_FORMAT(SC.START_DT, '%Y-%m-%d') AS startDate,
+            DATE_FORMAT(SC.END_DT, '%Y-%m-%d') AS endDate,
+            SC.*
+        FROM
+            CAM_BOARD.DJ_SCHEDULE_BOARD SC
+        WHERE 1=1
+        <if test='startDt != null and !"".equals(startDt)'>
+            <![CDATA[
+                SC.START_DT >= #{startDt} AND SC.END_DT <= #{endDt}
+            ]]>
+        </if>
+        <if test='publicClass != null and !"".equals(publicClass)'>
+        AND
+            PUBLIC_CLASS = #{publicClass}
+        </if>
+    </select>
+
+    <insert id="setScheduleReg" parameterType="map">
+        /* setScheduleReg */
+        INSERT INTO CAM_BOARD.DJ_SCHEDULE_BOARD
+        (
+            START_DT,
+            END_DT,
+            HOLIDAY_YN,
+            START_TIME,
+            END_TIME,
+            ALL_DAY_YN,
+            SCHEDULE_TYPE,
+            SCHEDULE_TITLE,
+            SCHEDULE_CONTENT,
+            SCHEDULE_PLACE,
+            PUBLIC_CLASS,
+            CAMS_POT_POST,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{startDt},
+            #{endDt},
+            #{holidayYn},
+            #{startTime},
+            #{endTime},
+            #{allDayYn},
+            #{scheduleType},
+            #{scheduleTitle},
+            #{scheduleContent},
+            #{schedulePlace},
+            #{publicClass},
+            #{camsPotPost},
+            #{empSeq}
+        )
+    </insert>
+
+    <update id="setScheduleRegUpd" parameterType="map">
+        UPDATE
+            CAM_BOARD.DJ_SCHEDULE_BOARD
+        SET
+            START_DT = #{startDt},
+            END_DT = #{endDt},
+            HOLIDAY_YN = #{holidayYn},
+            START_TIME = #{startTime},
+            END_TIME = #{endTime},
+            ALL_DAY_YN = #{allDayYn},
+            SCHEDULE_TYPE = #{scheduleType},
+            SCHEDULE_TITLE = #{scheduleTitle},
+            SCHEDULE_CONTENT = #{scheduleContent},
+            SCHEDULE_PLACE = #{schedulePlace},
+            PUBLIC_CLASS = #{publicClass},
+            CAMS_POT_POST = #{startDt},
+            MOD_EMP_SEQ = #{camsPotPost},
+            MOD_DATE = NOW()
+        WHERE
+            SCHEDULE_BOARD_ID = #{scheduleBoardId}
+    </update>
+
+    <select id="getSchedule" parameterType="map" resultType="map">
+        /* getSchedule */
+        SELECT
+            *
+        FROM
+            CAM_BOARD.DJ_SCHEDULE_BOARD
+        WHERE
+            SCHEDULE_BOARD_ID = #{scheduleBoardId}
+    </select>
+
+    <select id="getRequestBoardList" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage"
+            resultType="egovframework.com.devjitsu.hp.board.util.PostResponse">
+        /* getRequestBoardList */
+        SELECT
+            RB.REQUEST_BOARD_ID,
+            RB.REQUEST_TYPE,
+            RB.REQUEST_TITLE,
+            RB.REQUEST_CONTENT,
+            CASE WHEN RB.STATUS = '1' THEN '요청중'
+                 WHEN RB.STATUS = '2' THEN '접수완료'
+                 WHEN RB.STATUS = '3' THEN '처리완료'
+                 WHEN RB.STATUS = '-1' THEN '취소'
+                END AS STATUS,
+            DATE_FORMAT(RB.REG_DATE, '%Y-%m-%d') AS REG_DATE,
+            EI.EMP_SEQ AS REG_EMP_SEQ,
+            EI.EMP_NAME_KR AS REG_EMP_NAME
+        FROM
+            CAM_BOARD.DJ_REQUEST_BOARD RB
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON RB.REG_EMP_SEQ = EI.EMP_SEQ
+        WHERE
+            RB.ACTIVE = 'Y'
+        AND
+            RB.REQUEST_TYPE = #{requestType}
+        <if test='status != null and !"".equals(status)'>
+        AND
+            RB.STATUS = #{status}
+        </if>
+
+        <if test='startDt != null and !"".equals(startDt)'>
+        <![CDATA[
+        AND
+            DATE_FORMAT(#{startDt}, '%Y%m%d') <= DATE_FORMAT(RB.REG_DATE, '%Y%m%d')
+        AND
+            DATE_FORMAT(#{endDt}, '%Y%m%d') >= DATE_FORMAT(RB.REG_DATE, '%Y%m%d')
+        ]]>
+        </if>
+
+        <choose>
+            <when test='searchColumn != null and !"".equals(searchColumn)'>
+                AND RB.${searchColumn} LIKE CONCAT('%', #{searchContent}, '%')
+            </when>
+            <otherwise>
+                AND (
+                    RB.REQUEST_TITLE LIKE CONCAT('%',#{searchContent},'%') OR
+                    RB.REQUEST_CONTENT LIKE CONCAT('%',#{searchContent},'%')
+                )
+            </otherwise>
+        </choose>
+        ORDER BY RB.REG_DATE DESC
+        LIMIT #{pagination.limitStart}, #{recordSize}
+    </select>
+
+    <select id="getRequestBoardListCnt" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage"
+            resultType="int">
+        /* getRequestBoardListCnt */
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_BOARD.DJ_REQUEST_BOARD RB
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON RB.REG_EMP_SEQ = EI.EMP_SEQ
+        WHERE
+            RB.ACTIVE = 'Y'
+        AND
+            RB.REQUEST_TYPE = #{requestType}
+        <if test='status != null and !"".equals(status)'>
+        AND
+            RB.STATUS = #{status}
+        </if>
+
+        <if test='startDt != null and !"".equals(startDt)'>
+            <![CDATA[
+        AND
+            DATE_FORMAT(#{startDt}, '%Y%m%d') <= DATE_FORMAT(RB.REG_DATE, '%Y%m%d')
+        AND
+            DATE_FORMAT(#{endDt}, '%Y%m%d') >= DATE_FORMAT(RB.REG_DATE, '%Y%m%d')
+        ]]>
+        </if>
+
+        <choose>
+            <when test='searchColumn != null and !"".equals(searchColumn)'>
+                AND RB.${searchColumn} LIKE CONCAT('%', #{searchContent}, '%')
+            </when>
+            <otherwise>
+                AND (
+                    RB.REQUEST_TITLE LIKE CONCAT('%',#{searchContent},'%') OR
+                    RB.REQUEST_CONTENT LIKE CONCAT('%',#{searchContent},'%')
+                )
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="setRequestBoard" parameterType="map">
+        /* setRequestBoard */
+        INSERT INTO CAM_BOARD.DJ_REQUEST_BOARD
+        (
+            REQUEST_TYPE,
+            REQUEST_TITLE,
+            REQUEST_CONTENT,
+            DEADLINE_DATE,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{requestType},
+            #{requestTitle},
+            #{requestContent},
+            #{deadlineDate},
+            #{empSeq}
+        )
+
+        <selectKey keyProperty="requestBoardId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_BOARD' AND TABLE_NAME = 'DJ_REQUEST_BOARD'
+        </selectKey>
+    </insert>
+
+    <update id="setRequestBoardUpd" parameterType="map">
+        /* setRequestBoardUpd */
+        UPDATE
+            CAM_BOARD.DJ_REQUEST_BOARD
+        SET
+            REQUEST_TITLE = #{requestTitle},
+            REQUEST_CONTENT = #{requestContent},
+            DEADLINE_DATE = #{deadlineDate},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            REQUEST_BOARD_ID = #{requestBoardId}
+    </update>
+
+    <select id="getRequestBoard" parameterType="map" resultType="map">
+        /* getRequestBoard */
+        SELECT
+            RB.*,
+            CASE WHEN RB.STATUS = '1' THEN '요청중'
+                 WHEN RB.STATUS = '2' THEN '접수완료'
+                 WHEN RB.STATUS = '3' THEN '처리완료'
+                 WHEN RB.STATUS = '-1' THEN '취소'
+            END AS STATUS_TXT
+        FROM
+            CAM_BOARD.DJ_REQUEST_BOARD RB
+        WHERE
+            REQUEST_BOARD_ID = #{requestBoardId}
+    </select>
+
+    <update id="setRequestBoardStatusUpd" parameterType="map">
+        /* setRequestBoardStatusUpd */
+        UPDATE
+            CAM_BOARD.DJ_REQUEST_BOARD
+        SET
+            STATUS = #{status},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            REQUEST_BOARD_ID = #{requestBoardId}
+    </update>
+
+    <update id="setRequestBoardDel" parameterType="map">
+        /* setRequestBoardDel */
+        UPDATE
+            CAM_BOARD.DJ_REQUEST_BOARD
+        SET
+            ACTIVE = 'N',
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            REQUEST_BOARD_ID = #{requestBoardId}
+    </update>
+
+    <select id="getWatchBoardList" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage"
+            resultType="egovframework.com.devjitsu.hp.board.util.PostResponse">
+        /* getWatchBoardList */
+        SELECT
+            *
+        FROM
+            CAM_BOARD.DJ_WATCH_BOARD WB
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO FI
+        ON FI.FILE_CD = 'watchBoard' AND CONTENT_ID = CONCAT('wb_', WB.WATCH_BOARD_ID)
+        WHERE
+            WB.ACTIVE = 'Y'
+        ORDER BY WB.REG_DATE DESC
+        LIMIT #{pagination.limitStart}, #{recordSize}
+    </select>
+
+    <select id="getWatchBoardListCnt" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage"
+            resultType="int">
+        /* getWatchBoardListCnt */
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_BOARD.DJ_WATCH_BOARD WB
+        WHERE
+            WB.ACTIVE = 'Y'
+    </select>
+
+    <update id="setWatchBoardViewCount" parameterType="map">
+        /*setWatchBoardViewCount*/
+        UPDATE
+            CAM_BOARD.DJ_WATCH_BOARD
+        SET
+            BOARD_ARTICLE_VIEW_COUNT = (BOARD_ARTICLE_VIEW_COUNT + 1)
+        WHERE
+            WATCH_BOARD_ID = #{watchBoardId}
+    </update>
+
+    <select id="getWatchBoard" parameterType="map" resultType="map">
+        /* getWatchBoard */
+        SELECT
+            WB.WATCH_BOARD_ID,
+            WB.BOARD_ARTICLE_TITLE,
+            WB.BOARD_ARTICLE_CONTENT,
+            WB.BOARD_ARTICLE_VIEW_COUNT,
+            DATE_FORMAT(WB.REG_DATE, '%Y-%m-%d') AS REG_DATE,
+            FI.FILE_NO,
+            FI.FILE_ORG_NAME,
+            FI.FILE_EXT,
+            EI.EMP_SEQ AS REG_EMP_SEQ,
+            EI.EMP_NAME_KR AS REG_EMP_NAME
+        FROM
+            CAM_BOARD.DJ_WATCH_BOARD WB
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON WB.REG_EMP_SEQ = EI.EMP_SEQ
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO FI
+        ON FI.FILE_CD = 'watchBoard' AND CONTENT_ID = CONCAT('wb_', WB.WATCH_BOARD_ID)
+        WHERE
+            WATCH_BOARD_ID = #{watchBoardId}
+    </select>
+
+    <insert id="setWatchBoard" parameterType="map">
+        /* setWatchBoard */
+        INSERT INTO CAM_BOARD.DJ_WATCH_BOARD
+        (
+            BOARD_ARTICLE_TITLE,
+            BOARD_ARTICLE_CONTENT,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{boardArticleTitle},
+            #{boardArticleContent},
+            #{empSeq}
+        )
+
+        <selectKey keyProperty="watchBoardId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_BOARD' AND TABLE_NAME = 'DJ_WATCH_BOARD'
+        </selectKey>
+    </insert>
+
+    <update id="setWatchBoardUpd" parameterType="map">
+        /* setWatchBoardUpd */
+        UPDATE
+            CAM_BOARD.DJ_WATCH_BOARD
+        SET
+            BOARD_ARTICLE_TITLE = #{boardArticleTitle},
+            BOARD_ARTICLE_CONTENT = #{boardArticleContent},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            WATCH_BOARD_ID = #{watchBoardId}
+    </update>
+
+    <update id="setWatchBoardDel" parameterType="map">
+        /* setWatchBoardDel */
+        UPDATE
+            CAM_BOARD.DJ_WATCH_BOARD
+        SET
+            ACTIVE = 'N',
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            WATCH_BOARD_ID = #{watchBoardId}
+    </update>
+</mapper>

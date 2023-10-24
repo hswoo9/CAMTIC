@@ -8,17 +8,15 @@ var regUnRnd = {
         }
 
         customKendo.fn_textBox(["empName", "deptName", "pjtNm", "pjtSubNm", "rndCrmNm", "rndConCrmNm"
-                                ,"crmPartNm", "pjtExpAmt"]);
+                                ,"crmPartNm", "pjtExpAmt", "bsTitle", "pjtConYear"]);
 
         customKendo.fn_datePicker("sbjStrDe", "depth", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("sbjEndDe", "depth", "yyyy-MM-dd", new Date());
 
 
         var data = {
-            cmGroupCode : "RND_SUBJECT",
+
         }
-        var sbjDs = customKendo.fn_customAjax("/common/commonCodeList", data);
-        customKendo.fn_dropDownList("sbjClass", sbjDs.rs, "CM_CODE_NM", "CM_CODE", 2);
 
         data.cmGroupCode = "RND_SUBJECT_CHARACTER";
         var sbjDs = customKendo.fn_customAjax("/common/commonCodeList", data);
@@ -41,20 +39,21 @@ var regUnRnd = {
             customKendo.fn_dropDownList("supDepSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
         });
 
-        var tab0Url = "/projectRnd/researcherInfo.do";          // 사업정보
-        var tab1Url = "/projectRnd/rndDevPlan.do";              //
-        var tab2Url = "/projectRnd/rndDevSchedule.do";          //
+        var tab0Url = "/projectUnRnd/detailInfo.do";            // 사업정보
+        var tab1Url = "/projectUnRnd/unRndDevPlan.do";          // 사업수행계획
+        var tab2Url = "/projectUnRnd/unRndUnitBusn.do";          //
         var tab3Url = "/projectRnd/rndDevJob.do";               //
 
         var tab4Url = "/projectRnd/payMvInfo.do";               //
         var tab5Url = "/projectRnd/budgetInfo.do";              //
         var tab6Url = "/projectRnd/rschPayReqInfo.do";          //
         var tab7Url = "/projectRnd/rschPayRepInfo.do";          //
+        var tab8Url = "/projectUnRnd/resultInfo.do";            // 결과보고
 
 
-        var tab8Url = "/intra/cam_project/bustInfo.do";         // 출장관리
-        var tab9Url = "/intra/cam_project/teamInfo.do";         //
-        var tab10Url= "/intra/cam_project/purcInfo.do";         //
+        var tab9Url = "/intra/cam_project/bustInfo.do";         // 출장관리
+        var tab10Url = "/intra/cam_project/teamInfo.do";        //
+        var tab11Url= "/intra/cam_project/purcInfo.do";         //
 
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -68,6 +67,7 @@ var regUnRnd = {
             tab8Url += "?pjtSn=" + setParameters.PJT_SN;
             tab9Url += "?pjtSn=" + setParameters.PJT_SN;
             tab10Url += "?pjtSn=" + setParameters.PJT_SN;
+            tab11Url += "?pjtSn=" + setParameters.PJT_SN;
         }
 
         $("#tabstrip").kendoTabStrip({
@@ -81,16 +81,19 @@ var regUnRnd = {
             },
             dataTextField: "name",
             dataContentUrlField: "url",
+            dataImageUrlField: "imageUrl",
             dataSource : [
-                {name: "사업정보", url: tab0Url},
-                {name: "사업수행계획", url: tab1Url},
-                {name: "단위사업", url: tab2Url},
-                {name: "현장교육", url: tab3Url},
-                {name: "EDU매니저", url: tab4Url},
-                {name: "참여율관리", url: tab7Url}, // 지출내역조회와 같이 사용
-                {name: "출장관리", url: tab8Url},
-                {name: "협업관리", url: tab9Url},
-                {name: "구매관리", url: tab10Url}
+                {name: "사업정보", url: tab0Url, imageUrl : "/images/ico/etc_01_1.png"},
+                {name: "참여율관리", url: tab1Url},
+                {name: "사업수행계획", url: tab2Url, imageUrl : "/images/ico/etc_01_1.png"},
+                {name: "단위사업", url: tab3Url},
+                {name: "현장교육", url: tab4Url},
+                {name: "사업비관리(예산/지급)", url: tab5Url},
+                {name: "협업", url: tab6Url}, // 지출내역조회와 같이 사용
+                {name: "결과보고", url: tab7Url, imageUrl : "/images/ico/etc_01_1.png"}, // 지출내역조회와 같이 사용
+                {name: "출장", url: tab8Url},
+                {name: "구매", url: tab9Url},
+                {name: "정산/원가", url: tab10Url, imageUrl : "/images/ico/etc_01_1.png"}
             ],
         });
 
@@ -101,10 +104,29 @@ var regUnRnd = {
             setParameters.pjtSn = setParameters.PJT_SN;
 
             var tabStrip = $("#tabstrip").data("kendoTabStrip");
-            tabStrip.enable(tabStrip.tabGroup.children());
-
+            tabStrip.disable(tabStrip.tabGroup.children());
+            tabStrip.enable(tabStrip.tabGroup.children().eq(0));
             tabStrip.select(0);
+
+            console.log(setParameters);
+            if(setParameters.PJT_STEP >= "S2"){
+                tabStrip.enable(tabStrip.tabGroup.children().eq(2));
+                tabStrip.enable(tabStrip.tabGroup.children().eq(3));
+                tabStrip.enable(tabStrip.tabGroup.children().eq(6));
+
+                tabStrip.enable(tabStrip.tabGroup.children().eq(8));
+                tabStrip.enable(tabStrip.tabGroup.children().eq(9));
+
+            }
             regUnRnd.fn_setData(setParameters);
+
+            var tab = $("#tab").val();
+
+            if(tab != null && tab != ""){
+                tabStrip.activateTab(tabStrip.tabGroup.children().eq(tab));
+            } else {
+                tabStrip.activateTab(tabStrip.tabGroup.children().eq(0));
+            }
         }
 
         $("#viewBtn").on("click", function(){
@@ -119,28 +141,30 @@ var regUnRnd = {
             }
         });
 
-        var len = $("#tabstrip li").length;
-        for(var i = 0 ; i < len ; i++){
-            console.log($("#tabstrip li")[i]);
-            if(i == 5){
-                var html = '<div style="width:100%;"></div>';
-                var parser = new DOMParser();
+        var parser = new DOMParser();
 
-                var doc = parser.parseFromString(html, 'text/html');
+        var html = '<div style="width:100%;"></div>';
+        var doc = parser.parseFromString(html, 'text/html');
+        $("#tabstrip li")[7].after(doc.body.firstChild);
 
-                console.log(doc)
-                $("#tabstrip li")[i].after(doc.body.firstChild);
-            }
-        }
+        var html2 = '<div style="padding: 6px 12px"><b style="color: red">사업관리</b></div>';
+        var doc2 = parser.parseFromString(html2, 'text/html');
+        $("#tabstrip li")[0].before(doc2.body.firstChild);
+
+        var html3 = '<div style="padding: 6px 12px"><b style="color: blue">운영관리</b></div>';
+        var doc3 = parser.parseFromString(html3, 'text/html');
+        $("#tabstrip li")[8].before(doc3.body.firstChild);
+
+
     },
 
     fn_setData: function (e){
-        $("#pjtTitle").text("프로젝트 - R&D");
+        $("#pjtTitle").text("프로젝트 - 비R&D");
 
         $("#saveBtn").css("display", "none");
         $("#modBtn").css("display", "");
 
-        $("#sbjClass").data("kendoDropDownList").value(e.SBJ_CLASS);
+        $("#bsTitle").val(e.BS_TITLE);
         $("#supDep").data("kendoDropDownList").value(e.SBJ_DEP);
         $("#supDep").data("kendoDropDownList").trigger("change");
         $("#supDepSub").data("kendoDropDownList").value(e.SBJ_DEP_SUB);
@@ -163,7 +187,7 @@ var regUnRnd = {
         $("#pjtNm").val(e.PJT_NM);
         $("#pjtSubNm").val(e.PJT_SUB_NM);
 
-
+        $("#pjtExpAmt").val(comma(e.PJT_EXP_AMT));
         if(e.SBJ_SEP != undefined){
             if(e.SBJ_SEP == "Y"){
                 $("#sbjSepY").prop("checked", true);
@@ -172,11 +196,9 @@ var regUnRnd = {
             }
         }
 
-        if(e.SBJ_STAT_YN != undefined){
-            if(e.SBJ_STAT_YN == "Y"){
-                $("#rndStatYn").prop("checked", true);
-            }
-        }
+        $("#pjtConYear").val(e.PJT_CON_YEAR);
+
+
 
     },
 
@@ -184,7 +206,7 @@ var regUnRnd = {
         var parameters = {
             busnClass : "S",
             busnNm : "비R&D",
-            sbjClass : $("#sbjClass").val(),
+            bsTitle : $("#bsTitle").val(),
             sbjChar : $("#sbjChar").val(),
             sbjDep : $("#supDep").val(),
             sbjDepSub : $("#supDepSub").val(),
@@ -203,6 +225,8 @@ var regUnRnd = {
 
             pjtStep : $("#pjtStep").val(),
             pjtStepNm : $("#pjtStepNm").val(),
+            pjtConYear : $("#pjtConYear").val()
+
         }
 
         $("input[name='sbjSepYn']").each(function(){
@@ -211,18 +235,11 @@ var regUnRnd = {
             }
         });
 
-        if($("#rndStatYn").is("checked")){
-            parameters.sbjStatYn = "Y";
-        } else {
-            parameters.sbjStatYn = "N";
-        }
-
-
-
-        if(parameters.sbjClass == ""){
-            alert("과제구분을 선택해주세요.");
+        if(parameters.bsTitle == ""){
+            alert("사업명을 입력해주세요.")
             return;
         }
+
         if(parameters.sbjChar == ""){
             alert("과제성격을 선택해주세요.");
             return;
@@ -245,7 +262,7 @@ var regUnRnd = {
         }
 
         $.ajax({
-            url : "/projectRnd/setSubjectInfo",
+            url : "/projectUnRnd/setSubjectInfo",
             data : parameters,
             type: "post",
             dataType : "json",
@@ -260,7 +277,7 @@ var regUnRnd = {
     fn_mod : function (){
         var parameters = {
             pjtSn : $("#pjtSn").val(),
-            sbjClass : $("#sbjClass").val(),
+            bsTitle : $("#bsTitle").val(),
             sbjChar : $("#sbjChar").val(),
             sbjDep : $("#supDep").val(),
             sbjDepSub : $("#supDepSub").val(),
@@ -276,10 +293,17 @@ var regUnRnd = {
             crmConSn : $("#rndConCrmSn").val(),
             crmSn : $("#rndCrmSn").val(),
             pjtExpAmt : uncomma($("#pjtExpAmt").val()),
+            pjtConYear : $("#pjtConYear").val()
         }
 
-        if(parameters.sbjClass == ""){
-            alert("과제구분을 선택해주세요.");
+        $("input[name='sbjSepYn']").each(function(){
+            if($(this).is(":checked")){
+                parameters.sbjSep = this.value;
+            }
+        });
+
+        if(parameters.bsTitle == ""){
+            alert("사업명을 입력해주세요.")
             return;
         }
         if(parameters.sbjChar == ""){
@@ -305,7 +329,7 @@ var regUnRnd = {
         }
 
         $.ajax({
-            url : "/projectRnd/setSubjectInfo",
+            url : "/projectUnRnd/setSubjectInfo",
             data : parameters,
             type: "post",
             dataType : "json",

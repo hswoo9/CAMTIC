@@ -45,6 +45,7 @@
         approvalParams.type = "drafting";
         approvalParams.menuCd = "bustrip";
         approvalParams.docType = "A";
+        approvalParams.docTitle = "[출장신청서]${loginVO.orgnztNm}-${loginVO.name}";
 
         approvalParams.linkageProcessId = "6";
         approvalParams.linkageType = "2";

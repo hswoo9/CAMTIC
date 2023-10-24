@@ -113,31 +113,31 @@
                     <input type="text" id="docTitle" name="docTitle" value="">
                 </td>
             </tr>
-            <tr class="text-right">
+            <tr class="text-right" style="display : none">
                 <th class="th-color">공개여부</th>
                 <td colspan="2">
                     <span id="publicType"></span>
                 </td>
             </tr>
-            <tr class="text-right">
+            <tr class="text-right" style="display : none">
                 <th class="th-color">긴급여부</th>
                 <td colspan="2">
                     <span id="urgentType"></span>
                 </td>
             </tr>
-            <tr class="text-right">
+            <tr class="text-right" style="display : none">
                 <th class="th-color">보안여부</th>
                 <td colspan="2">
                     <span id="securityType"></span>
                 </td>
             </tr>
-            <tr class="text-right">
+            <tr class="text-right" style="display : none">
                 <th class="th-color">문서구분</th>
                 <td colspan="2">
                     <span id="docGbn"></span>
                 </td>
             </tr>
-            <tr class="text-right">
+            <tr class="text-right" style="display : none">
                 <th class="th-color"><span class="red-star">*</span>기록물철</th>
                 <td style="border-right: none">
                     <input type="hidden" id="aiKeyCode" name="aiKeyCode">

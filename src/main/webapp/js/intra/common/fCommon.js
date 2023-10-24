@@ -18,7 +18,7 @@ var fCommon = {
 
             var html = '';
             for (var i = 0; i < fCommon.global.attFiles.length; i++) {
-                html += '<tr style="text-align: center" class="addFile">';
+                html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
                 html += '   <td>' + fCommon.global.attFiles[i].name.split(".")[0] + '</td>';
                 html += '   <td>' + fCommon.global.attFiles[i].name.split(".")[1] + '</td>';
                 html += '   <td>' + fCommon.global.attFiles[i].size + '</td>';
@@ -47,7 +47,7 @@ var fCommon = {
 
             var html = '';
             for (var i = 0; i <fCommon.global.attFiles.length; i++) {
-                html += '<tr style="text-align: center" class="addFile">';
+                html += '<tr style="text-align: center;" class="addFile">';
                 html += '   <td>' + fCommon.global.attFiles[i].name.split(".")[0] + '</td>';
                 html += '   <td>' + fCommon.global.attFiles[i].name.split(".")[1] + '</td>';
                 html += '   <td>' + fCommon.global.attFiles[i].size + '</td>';
@@ -63,7 +63,7 @@ var fCommon = {
 
             if($("#fileGrid").find("tr").length == 0){
                 $("#fileGrid").html('<tr>' +
-                    '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                    '	<td colspan="4" style="text-align: center;padding-top: 10px;">선택된 파일이 없습니다.</td>' +
                     '</tr>');
             }
         }
@@ -90,7 +90,7 @@ var fCommon = {
                         $(v).closest("tr").remove();
                         if($("#fileGrid").find("tr").length == 0){
                             $("#fileGrid").html('<tr>' +
-                                '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                                '	<td colspan="4" style="text-align: center;padding-top: 10px;">선택된 파일이 없습니다.</td>' +
                                 '</tr>');
                         }
                     }

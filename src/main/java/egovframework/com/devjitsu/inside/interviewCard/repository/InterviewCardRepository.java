@@ -24,4 +24,8 @@ public class InterviewCardRepository extends AbstractDAO {
     public List<Map<String, Object>> getInterviewDetail(Map<String, Object> params){
         return selectList("employInterviewCard.getInterviewDetail", params);
     }
+
+    public List<Map<String, Object>> getInterviewCardByEmpSeq(Map<String, Object> params){
+        return selectList("employInterviewCard.getInterviewCardByEmpSeq", params);
+    }
 }

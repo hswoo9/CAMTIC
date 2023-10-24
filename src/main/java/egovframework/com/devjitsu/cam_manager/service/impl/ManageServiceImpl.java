@@ -22,4 +22,11 @@ import java.util.Map;
 @Service
 public class ManageServiceImpl implements ManageService {
 
+    @Autowired
+    private ManageRepository manageRepository;
+
+    @Override
+    public List<Map<String, Object>> getMemList(Map<String, Object> params) {
+        return manageRepository.getMemList(params);
+    }
 }

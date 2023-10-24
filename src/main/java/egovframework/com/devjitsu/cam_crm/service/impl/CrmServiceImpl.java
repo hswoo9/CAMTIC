@@ -18,8 +18,12 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -363,6 +367,27 @@ public class CrmServiceImpl implements CrmService {
     }
 
     @Override
+    public List<Map<String, Object>> getMfOverviewStatInfo(Map<String, Object> params) {
+        List<Map<String, Object>> statList = new ArrayList<>();
+
+        LocalDate now = LocalDate.now();
+        int year = now.getYear();
+        for(int i = 0; i < 5; i++){
+            params.put("year", year-i);
+            Map<String, Object> stat = crmRepository.getMfOverviewStatInfo(params);
+            if(stat == null){
+                stat = new HashMap<>();
+                stat.put("year", year-i);
+            }
+
+            statList.add(stat);
+        }
+
+
+        return statList;
+    }
+
+    @Override
     public List<Map<String, Object>> getMfOverviewAreaStat(Map<String, Object> params) {
         return crmRepository.getMfOverviewAreaStat(params);
     }
@@ -373,6 +398,42 @@ public class CrmServiceImpl implements CrmService {
         returnMap.put("list", crmRepository.getMfOverviewList(params));
         returnMap.put("totalCount", crmRepository.getMfOverviewListCnt(params));
         return returnMap;
+    }
+
+    @Override
+    public void templateExcelFormDown(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String localPath = "/downloadFile/";
+        String fileName = "template.xlsx";
+        String viewFileNm = "실태조사 양식.xlsx";
+        File reFile = new File(request.getSession().getServletContext().getRealPath(localPath + fileName));
+
+        try {
+            if (reFile.exists() && reFile.isFile()) {
+                FileInputStream file = new FileInputStream(reFile);
+                XSSFWorkbook workbook = new XSSFWorkbook(file);
+                Cell cell = null;
+
+                Date now = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                String nowString = sdf.format(now);
+
+                XSSFSheet sheet = workbook.getSheetAt(0);
+                XSSFRow row = sheet.createRow(0);
+                cell = row.createCell(1);cell.setCellValue("기준일자");
+                cell = row.createCell(2);cell.setCellValue(nowString);
+
+                String browser = getBrowser(request);
+                String disposition = setDisposition(viewFileNm, browser);
+                response.setHeader("Content-Disposition", disposition);
+                response.setHeader("Content-Transfer-Encoding", "binary");
+                response.setContentType("ms-vnd/excel");
+
+                workbook.write(response.getOutputStream());
+                workbook.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -529,6 +590,47 @@ public class CrmServiceImpl implements CrmService {
         }
 
         return lgSmList;
+    }
+
+    private String getBrowser(HttpServletRequest request) {
+        String header = request.getHeader("User-Agent");
+        if (header.indexOf("MSIE") > -1) { // IE 10 �씠�븯
+            return "MSIE";
+        } else if (header.indexOf("Trident") > -1) { // IE 11
+            return "MSIE";
+        } else if (header.indexOf("Chrome") > -1) {
+            return "Chrome";
+        } else if (header.indexOf("Opera") > -1) {
+            return "Opera";
+        }
+        return "Firefox";
+    }
+
+    private String setDisposition(String filename, String browser) throws Exception {
+        String dispositionPrefix = "attachment; filename=";
+        String encodedFilename = null;
+
+        if (browser.equals("MSIE")) {
+            encodedFilename = URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
+        } else if (browser.equals("Firefox")) {
+            encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "ISO-8859-1") + "\"";
+        } else if (browser.equals("Opera")) {
+            encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "8859_1") + "\"";
+        } else if (browser.equals("Chrome")) {
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < filename.length(); i++) {
+                char c = filename.charAt(i);
+                if (c > '~') {
+                    sb.append(URLEncoder.encode("" + c, "UTF-8"));
+                } else {
+                    sb.append(c);
+                }
+            }
+            encodedFilename = sb.toString();
+        } else {
+
+        }
+        return dispositionPrefix + encodedFilename;
     }
 
     public String cellValueToString(XSSFCell cell){

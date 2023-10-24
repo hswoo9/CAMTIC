@@ -104,7 +104,16 @@
         <servlet-name>default</servlet-name>
         <url-pattern>*.zip</url-pattern>
     </servlet-mapping>
-	
+    <!-- 바로빌 테스트
+    <servlet>
+        <servlet-name>barobillTest</servlet-name>
+        <jsp-file>/WEB-INF/jsp/barobillTest.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>barobillTest</servlet-name>
+        <url-pattern>/barobillTest</url-pattern>
+    </servlet-mapping>
+	-->
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>

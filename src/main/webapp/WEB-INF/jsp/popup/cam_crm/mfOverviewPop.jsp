@@ -41,9 +41,11 @@
 <script type="text/javascript" src="/js/intra/cam_crm/mfOverviewPop.js?v=${today}"/></script>
 
 <input type="hidden" id="crmMfSn" value="${params.crmMfSn}" />
+
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
+
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;" id="pjtTitle">
@@ -142,12 +144,16 @@
                         <li>
                             완주군
                         </li>
+                        <li>
+                            통계
+                        </li>
                     </ul>
                     <div>
                         <div>
                             <jsp:include page="/WEB-INF/jsp/popup/cam_crm/mfOverviewJeonbuk.jsp" flush="true">
                                 <jsp:param name="crmMfSn" value="${data.CRM_MF_SN}"/>
                                 <jsp:param name="mfNo" value="${data.MF_NO}"/>
+                                <jsp:param name="mfNo" value="${params.searchYear}"/>
                             </jsp:include>
                         </div>
                     </div>
@@ -155,6 +161,12 @@
                         <div>
 
                         </div>
+                    </div>
+                    <div>
+                        <jsp:include page="/WEB-INF/jsp/popup/cam_crm/mfOverviewJeonbukStat.jsp" flush="true">
+                            <jsp:param name="crmMfSn" value="${data.CRM_MF_SN}"/>
+                            <jsp:param name="mfNo" value="${data.MF_NO}"/>
+                        </jsp:include>
                     </div>
                 </div>
             </div>

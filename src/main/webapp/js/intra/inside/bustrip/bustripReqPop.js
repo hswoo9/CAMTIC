@@ -22,6 +22,16 @@ const bustripReq = {
         bustrip.fn_carCodeSet();
         /** 경유지코드 세팅 */
         bustrip.fn_waypointCodeSet();
+
+        $("input[name='project']").click(function (){
+            if(this.value == "2"){
+                $("#busnLine").css("display", "");
+            } else {
+                $("#busnLine").css("display", "none");
+            }
+        });
+
+
     },
 
     dataSet: function(){
@@ -70,6 +80,17 @@ const bustripReq = {
         $("#time1").val(busInfo.TRIP_TIME_FR);
         $("#time2").val(busInfo.TRIP_TIME_TO);
 
+        if(busInfo.PJT_SN != null){
+            $("#project").data("kendoRadioGroup").value("2");
+            $("input[name='project']").trigger("click");
+        } else {
+            $("#project").data("kendoRadioGroup").value("1");
+        }
+
+
+        $("#busnName").val(busInfo.BUSN_NAME);
+        $("#pjtSn").val(busInfo.PJT_SN);
+
         /** 차량 */
         $("#carList").data("kendoDropDownList").value(busInfo.USE_TRSPT);
         if(busInfo.USE_CAR == "Y"){
@@ -83,6 +104,7 @@ const bustripReq = {
 
         /** 첨부파일 */
         bustripInit.settingTempFileDataInit(fileInfo);
+
 
         /** 상황에 따른 켄도 위젯 할성화/비활성화 */
         if((busInfo.STATUS != 0 && busInfo.STATUS != 30) || $("#mod").val() == "mng"){
@@ -145,6 +167,9 @@ const bustripReq = {
         formData.append("applyDate", $("#reqDate").val());
         formData.append("tripCode", $("#tripCode").data("kendoRadioGroup").value());
         formData.append("busnName", $("#busnName").val());
+        if($("#pjtSn").val() != ""){
+            formData.append("pjtSn", $("#pjtSn").val());
+        }
         formData.append("compEmpSeq", $("#popEmpSeq").val());
         formData.append("compEmpName", $("#popEmpName").val());
         formData.append("compDeptSeq", $("#popDeptSeq").val());
@@ -248,7 +273,16 @@ const bustripReq = {
         var name = "_blank";
         var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
-    }
+    },
+
+    fn_projectPop : function (){
+
+        var url = "/project/pop/projectView.do";
+
+        var name = "_blank";
+        var option = "width = 1100, height = 400, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
 }
 
 function userDataSet(userArr){
@@ -302,4 +336,9 @@ function externalDataSet(externalArr){
     $("#externalSpot").val(spotText);
     $("#externalName").val(nameText);
     $("#externalEtc").val(userDeptSn);
+}
+
+function selectProject(key, name){
+    $("#busnName").val(name);
+    $("#pjtSn").val(key);
 }

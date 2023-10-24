@@ -12,13 +12,12 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <!-- 페이지 로드시마다 페이지를 캐싱하지 않음. (HTTP 1.1) -->
   <meta http-equiv="Cache-Control" content="no-cache" />
-
   <meta charset="utf-8">
   <meta name="format-detection" content="telephone=no"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"/>
   <meta property="og:title" content="캠틱종합기술원"/>
-  <meta property="og:image" content="http://218.158.231.186:8080/camtic/images/camtic/logo.png"/>
-  <meta property="og:url" content="http://218.158.231.186:8080/camtic">
+  <meta property="og:image" content="http://218.158.231.186/camtic/images/camtic/logo.png"/>
+  <meta property="og:url" content="http://218.158.231.186/camtic">
   <meta property="og:description" content="함께 성장하는 행복한 일터"/>
   <meta name="description" content="">
   <meta name="author" content="">

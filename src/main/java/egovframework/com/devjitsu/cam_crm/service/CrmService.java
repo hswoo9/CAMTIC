@@ -2,6 +2,9 @@ package egovframework.com.devjitsu.cam_crm.service;
 
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -35,8 +38,10 @@ public interface CrmService {
     void setMfOverviewDel(Map<String, Object> params);
     void setMfOverviewByCrmInfoUpd(Map<String, Object> params);
     Map<String, Object> getMfOverviewInfo(Map<String, Object> params);
+    List<Map<String, Object>> getMfOverviewStatInfo(Map<String, Object> params);
     List<Map<String, Object>> getMfOverviewAreaStat(Map<String, Object> params);
     Map<String, Object> getMfOverviewList(Map<String, Object> params);
+    void templateExcelFormDown(HttpServletRequest request, HttpServletResponse response) throws IOException;
     void mfExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception;
     List<Map<String, Object>> groupCodeList(Map<String, Object> params);
     void saveGroupCode(Map<String, Object> params);

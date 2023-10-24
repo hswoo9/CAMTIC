@@ -10,11 +10,12 @@
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}" />
 <input type="hidden" id="devSchSn" value="${params.devSchSn}" />
+<input type="hidden" id="mapDevSchCd" value="${map.DEV_SCH_CD}" />
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
         <div class="card-header pop-header">
-            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">개발일지 등록</span>
+            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">개발일지</span>
             </h3>
             <button type="button" id="saveBtn" style="float: right; top:5px" class="k-button k-button-solid-base" onclick="save()">저장</button>
         </div>
@@ -118,6 +119,8 @@
         var schDs = customKendo.fn_customAjax("/projectRnd/getRndDevScheduleList", data);
         customKendo.fn_dropDownList("devSchCd", schDs.list, "DEV_SCH_NM", "DEV_SCH_CD");
 
+        $("#devSchCd").data("kendoDropDownList").value($("#mapDevSchCd").val());
+        $("#devSchCd").data("kendoDropDownList").enable(false);
         if($("#devSchSn") != ""){
             data.devSchSn = $("#devSchSn").val();
             data.devSchJob = "devSchJob";
@@ -125,30 +128,33 @@
             var ds = customKendo.fn_customAjax("/projectRnd/getDevSchInfo", data);
             var rs = ds.rs[0];
 
-            $("#devSchTitle").val(rs.DEV_SCH_TITLE);
+            if(rs != null){
+                $("#devSchTitle").val(rs.DEV_SCH_TITLE);
 
-            $("#devSchCont").val(rs.DEV_SCH_CONT);
-            $("#schEndDe").val(rs.SCH_END_DE);
+                $("#devSchCont").val(rs.DEV_SCH_CONT);
+                $("#schEndDe").val(rs.SCH_END_DE);
 
-            $("#devSchCd").data("kendoDropDownList").value(rs.DEV_SCH_CD);
+                $("#devSchCd").data("kendoDropDownList").value(rs.DEV_SCH_CD);
 
-            var fileData = ds.rs;
-            if(fileData.length != 0){
-                var html = '';
+                var fileData = ds.rs;
+                console.log(fileData);
+                if(fileData.length != 0 && fileData[0].file_path != null){
+                    var html = '';
 
-                for(var i = 0; i < fileData.length; i++){
-                    html += '<tr style="text-align: center">';
-                    html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+fileData[i].file_path+fileData[i].file_uuid+'\', \''+fileData[i].file_org_name+'.'+fileData[i].file_ext+'\')">'+fileData[i].file_org_name+'</span></td>';
-                    html += '   <td>'+ fileData[i].file_ext +'</td>';
-                    html += '   <td>'+ fileData[i].file_size +'</td>';
-                    html += '   <td>' +
-                        '           <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ fileData[i].file_no +', this)">' +
-                        '			    <span class="k-button-text">삭제</span>' +
-                        '		    </button>';
-                    html += '   </td>';
-                    html += '</tr>';
+                    for(var i = 0; i < fileData.length; i++){
+                        html += '<tr style="text-align: center">';
+                        html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+fileData[i].file_path+fileData[i].file_uuid+'\', \''+fileData[i].file_org_name+'.'+fileData[i].file_ext+'\')">'+fileData[i].file_org_name+'</span></td>';
+                        html += '   <td>'+ fileData[i].file_ext +'</td>';
+                        html += '   <td>'+ fileData[i].file_size +'</td>';
+                        html += '   <td>' +
+                            '           <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ fileData[i].file_no +', this)">' +
+                            '			    <span class="k-button-text">삭제</span>' +
+                            '		    </button>';
+                        html += '   </td>';
+                        html += '</tr>';
+                    }
+                    $("#fileGrid").html(html);
                 }
-                $("#fileGrid").html(html);
             }
         }
 
@@ -207,7 +213,7 @@
                 if(rs.code == 200){
                     alert("저장되었습니다.");
 
-                    opener.parent.rndDJ.gridReload();
+                    opener.parent.rndDS.gridReload();
 
                     window.close();
                 }

@@ -108,6 +108,7 @@ var camPrj = {
             dataSource: dataSource,
             sortable: true,
             scrollable: true,
+            selectable: "row",
             height: 489,
             pageable : {
                 refresh : true,
@@ -116,6 +117,9 @@ var camPrj = {
             },
             toolbar: [
                 {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function (e) {
                         return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="camPrj.gridReload()">' +
@@ -254,6 +258,8 @@ var camPrj = {
                         } else if(e.BUSN_CLASS == "S"){
                             if(e.PJT_STEP == "S"){
                                 pjtStepNm = "예상수주";
+                            } else if(e.PJT_STEP == "S2"){
+                                pjtStepNm = "수주보고";
                             }
                         } else {
                         }

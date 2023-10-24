@@ -65,9 +65,14 @@ public class InterviewCardController {
         return "jsonView";
     }
 
+    @RequestMapping(value = "/Inside/getInterviewCardByEmpSeq.do", method = RequestMethod.POST)
+    public String getInterviewCardByEmpSeq(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = interviewCardService.getInterviewCardByEmpSeq(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
 
 
-   //inside/userManage/employeeInterviewCard
 
 }
 

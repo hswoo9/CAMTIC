@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -473,6 +475,19 @@ public class CrmController {
     }
 
     /**
+     * 제조업체총람 상세보기 선택데이터 추이
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/getMfOverviewStatInfo.do")
+    public String getMfOverviewStatInfo(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", crmService.getMfOverviewStatInfo(params));
+        return "jsonView";
+    }
+
+
+    /**
      * 제조업체총람 지역별 통계
      * @param params
      * @param model
@@ -494,6 +509,16 @@ public class CrmController {
     public String getMfOverviewList(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("data", crmService.getMfOverviewList(params));
         return "jsonView";
+    }
+
+    /**
+     * 입고등록 양식 다운로드
+     * @param request
+     * @return
+     */
+    @RequestMapping("/crm/templateExcelFormDown.do")
+    public void templateExcelFormDown(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        crmService.templateExcelFormDown(request, response);
     }
 
     /**

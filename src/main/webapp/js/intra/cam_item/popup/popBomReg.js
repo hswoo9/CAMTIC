@@ -110,9 +110,9 @@ var bomReg = {
         }
 
         var url = "/item/pop/popItemNoList.do";
-        if(masterSnIndex != 999){
+        /*if(masterSnIndex != 999){
             url += "?itemType=" + $("#itemType999").val()
-        }
+        }*/
         var name = "_blank";
         var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);

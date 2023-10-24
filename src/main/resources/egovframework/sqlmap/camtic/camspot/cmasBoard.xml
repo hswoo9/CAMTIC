@@ -186,20 +186,20 @@
         SELECT
             count(*)
         FROM
-        CAM_BOARD.DJ_BOARD_ARTICLE BA
+            CAM_BOARD.DJ_BOARD_ARTICLE BA
         LEFT JOIN
-        CAM_BOARD.DJ_BOARD_CATEGORY BC
+            CAM_BOARD.DJ_BOARD_CATEGORY BC
         ON BA.BOARD_CATEGORY_ID = BC.BOARD_CATEGORY_ID
         LEFT JOIN
-        DJ_CAMTIC.V_EMP_INFO EI
+            DJ_CAMTIC.V_EMP_INFO EI
         ON BA.BOARD_ARTICLE_MNG_SEQ = EI.EMP_SEQ
         WHERE
-        BA.BOARD_ID = #{boardId}
+            BA.BOARD_ID = #{boardId}
         AND
-        BA.ACTIVE = 'Y'
+            BA.ACTIVE = 'Y'
         <if test='searchCategory != null and !"".equals(searchCategory)'>
             AND
-            BA.BOARD_CATEGORY_ID = #{searchCategory}
+                BA.BOARD_CATEGORY_ID = #{searchCategory}
         </if>
         <choose>
             <when test='searchColumn != null and !"".equals(searchColumn) and "2".equals(searchColumn)'>
@@ -211,8 +211,8 @@
             <otherwise>
                 AND
                 (
-                BA.BOARD_ARTICLE_TITLE LIKE CONCAT('%',#{searchContent},'%') OR
-                BA.BOARD_ARTICLE_CONTENT LIKE CONCAT('%',#{searchContent},'%')
+                    BA.BOARD_ARTICLE_TITLE LIKE CONCAT('%',#{searchContent},'%') OR
+                    BA.BOARD_ARTICLE_CONTENT LIKE CONCAT('%',#{searchContent},'%')
                 )
             </otherwise>
         </choose>
@@ -433,7 +433,7 @@
         FROM
             CAM_BOARD.V_BOARD_ARTICLE_REPLY BAR
         LEFT JOIN
-            DJ_CAMTIC.V_EMP_INFO EI
+            CAM_HR.DJ_EMP_INFO EI
         ON BAR.REG_EMP_SEQ = EI.EMP_SEQ
         WHERE
             BAR.BOARD_ARTICLE_ID = #{boardArticleId}

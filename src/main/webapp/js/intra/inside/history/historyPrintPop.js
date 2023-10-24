@@ -25,7 +25,7 @@ const historyPrintPop = {
     },
 
     editorComplete: function(){
-        let filePath = "http://218.158.231.186:8080/upload/templateForm/historyTmp.hwp";
+        let filePath = "http://218.158.231.186/upload/templateForm/historyTmp.hwp";
         historyPrintPop.global.hwpCtrl.Open(filePath, "HWP", "", function(){
             historyPrintPop.openCallBack();
             historyPrintPop.global.hwpCtrl.EditMode = 0;

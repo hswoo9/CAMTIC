@@ -187,15 +187,24 @@
     <select id="getRndDevScheduleList" parameterType="map" resultType="map">
         /*getRndDevScheduleList*/
         SELECT
-            *
+            A.*,
+            B.*,
+            C.file_org_name,
+            C.file_ext
         FROM
             CAM_PJT_MNG.DJ_PJT_DEV_SCH A
         LEFT JOIN
             CAM_HR.DJ_EMP_INFO B
         ON
             A.REG_EMP_SEQ = B.EMP_SEQ
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO C
+        ON
+            A.DEV_SCH_SN = C.CONTENT_ID AND
+            C.FILE_CD = 'devSchJob'
         WHERE
             PJT_SN = #{pjtSn}
+        ORDER BY A.DEV_SCH_CD
     </select>
 
     <insert id="insDevSchData" parameterType="map">
@@ -270,11 +279,9 @@
         LEFT JOIN
             CAM_COMMON.DJ_FILE_INFO B
         ON
-            A.DEV_SCH_SN = B.CONTENT_ID
+            A.DEV_SCH_SN = B.CONTENT_ID AND B.FILE_CD = #{devSchJob}
         WHERE
             A.DEV_SCH_SN = #{devSchSn}
-        AND
-            B.FILE_CD = #{devSchJob}
     </select>
 
     <select id="getRndDetail" parameterType="map" resultType="map">
@@ -580,4 +587,24 @@
         WHERE
             PART_RATE_VER_SN = #{partRateVerSn}
     </update>
+
+    <select id="getPjtDevSchData" parameterType="map" resultType="map">
+        /*getPjtDevSchData*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_DEV_SCH
+        WHERE
+            DEV_SCH_SN = #{devSchSn}
+    </select>
+
+    <update id="tmpUpdDevPlanApprove" parameterType="map">
+        /*tmpUpdDevPlanApprove*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_DEV
+        SET
+            STATUS = 100
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
 </mapper>

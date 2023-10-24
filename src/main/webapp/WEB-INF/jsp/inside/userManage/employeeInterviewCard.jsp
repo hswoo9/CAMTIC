@@ -13,7 +13,7 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">직원 면담 카드</h4>
-            <div class="title-road">캠인사이드 > 인사평가 > 직원 면담 카드</div>
+            <div class="title-road">캠인사이드 > 인사관리 > 인사평가 > 직원 면담 카드</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -35,10 +35,12 @@
                         <th class="text-center th-color">부서</th>
                         <td>
                             <input type="text" id="dept" style="width:160px;">
+                            <input type="hidden" id="dept_seq">
                         </td>
                         <th class="text-center th-color">팀</th>
                         <td>
                             <input type="text" id="team" style="width:165px;">
+                            <input type="hidden" id="team_seq">
                             <input type="text" id="searchText" style="width: 140px;">
                         </td>
                     </tr>
@@ -51,4 +53,13 @@
 
 <script type="text/javascript">
     employeeList.init();
+
+    function gridReload() {
+        var grid = $("#mainGrid").data("kendoGrid");
+        if (grid) {
+            grid.dataSource.read(); // 데이터 소스 새로고침
+        }
+    }
+
+
 </script>

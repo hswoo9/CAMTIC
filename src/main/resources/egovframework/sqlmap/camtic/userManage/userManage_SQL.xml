@@ -641,27 +641,34 @@
     </select>
     <select id="getEmpInfoDetailList" parameterType="map" resultType="map">
         select
-            A.*,
-            SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, A.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', 1) AS hire,
-            SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, A.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', -1) + 1 AS hire_mon
+        A.*,
+        SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, A.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', 1) AS hire,
+        SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, A.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', -1) + 1 AS hire_mon
         from
-        (SELECT
-            ROUND((TO_DAYS(NOW()) - (TO_DAYS(REPLACE(STR_TO_DATE(a.BDAY, '%Y-%m-%d'), "-", "")))) / 365) AS age,
-            a.*,
-            (select dept_seq from CAM_HR.dj_dept_info where dept_seq = a.dept_seq and dept_level =1) as dept_lv1,
-            (select parent_dept_seq from cam_hr.dj_dept_info where dept_seq = a.dept_seq and dept_level =2) as parent_dept_seq,
-            (select dept_seq from CAM_HR.dj_dept_info where dept_seq = a.dept_seq and dept_level =2) as dept_lv2,
-            date_format(a.JOIN_DAY,'%Y-%m-%d') AS JOIN_DAY2,
-            date_format(a.RESIGN_DAY,'%Y-%m-%d') AS RESIGN_DAY2,
-            case
-            when a.appoint_gubun = '04' then (SELECT c.hr_dt_code_nm FROM CAM_HR.dj_hr_code AS c WHERE c.HR_MD_CODE = '07' and c.HR_DT_CODE = a.appoint_gubun_detail)
-            else
-            (SELECT c.hr_dt_code_nm FROM CAM_HR.dj_hr_code AS c WHERE c.HR_MD_CODE = '06' and c.HR_DT_CODE = a.appoint_gubun)
-            END AS 'APPOINT_GUBUN_NM'
+        (
+        SELECT
+        ROUND((TO_DAYS(NOW()) - (TO_DAYS(REPLACE(STR_TO_DATE(a.BDAY, '%Y-%m-%d'), "-", "")))) / 365) AS age,
+        a.*,
+        (select dept_seq from CAM_HR.dj_dept_info where dept_seq = a.dept_seq and dept_level =1) as dept_lv1,
+        (select parent_dept_seq from cam_hr.dj_dept_info where dept_seq = a.dept_seq and dept_level =2) as parent_dept_seq,
+        (select dept_seq from CAM_HR.dj_dept_info where dept_seq = a.dept_seq and dept_level =2) as dept_lv2,
+        CASE WHEN DDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE DDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE a.DEPT_SEQ END AS DEPT_SEQ_NEW,
+        CASE WHEN DDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE DDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE a.DEPT_NAME END AS DEPT_NAME1,
+        CASE WHEN DDI.DEPT_LEVEL = 2 THEN a.DEPT_SEQ ELSE "" END AS TEAM_SEQ,
+        CASE WHEN DDI.DEPT_LEVEL = 2 THEN a.DEPT_NAME ELSE "" END AS TEAM_NAME,
+        date_format(a.JOIN_DAY,'%Y-%m-%d') AS JOIN_DAY2,
+        date_format(a.RESIGN_DAY,'%Y-%m-%d') AS RESIGN_DAY2,
+        case
+        when a.appoint_gubun = '04' then (SELECT c.hr_dt_code_nm FROM CAM_HR.dj_hr_code AS c WHERE c.HR_MD_CODE = '07' and c.HR_DT_CODE = a.appoint_gubun_detail)
+        else
+        (SELECT c.hr_dt_code_nm FROM CAM_HR.dj_hr_code AS c WHERE c.HR_MD_CODE = '06' and c.HR_DT_CODE = a.appoint_gubun)
+        END AS 'APPOINT_GUBUN_NM'
         FROM
-            CAM_HR.dj_emp_info	AS a) as A
-        WHERE
-            1=1
+        CAM_HR.dj_emp_info	AS a
+        LEFT JOIN
+        CAM_HR.DJ_DEPT_INFO DDI ON a.DEPT_SEQ = DDI.DEPT_SEQ) as A
+        where
+        1=1
             <if test='startDate != null and !"".equals(startDate)'>
                 <![CDATA[
             AND

@@ -20,8 +20,8 @@ var srr = {
                     '<input type="hidden" id="masterSn' + srr.global.smrIndex + '" class="masterSn">' +
                     '<input type="hidden" id="currentInven' + srr.global.smrIndex + '" class="currentInven">' +
                     '<input type="hidden" id="crmSn' + srr.global.smrIndex + '" class="crmSn">' +
-                    '<input type="text" id="crmNm' + srr.global.smrIndex + '" class="k-input k-textbox crmNm" readonly style="width: 83%" onclick="srr.fn_popCamCrmList(\'crmSn' + srr.global.smrIndex + '\', \'crmNm' + srr.global.smrIndex + '\');"/>' +
-                    '<button type="button" id="crmSelBtn' + srr.global.smrIndex + '" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="srr.fn_popCamCrmList(\'crmSn' + srr.global.smrIndex + '\', \'crmNm' + srr.global.smrIndex + '\');">선택</button>' +
+                    '<input type="text" id="crmNm' + srr.global.smrIndex + '" class="k-input k-textbox crmNm" readonly style="width: 83%" onclick="srr.fn_popCamCrmList(\'crmSn\', \'crmNm\',' + srr.global.smrIndex + ');"/>' +
+                    '<button type="button" id="crmSelBtn' + srr.global.smrIndex + '" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="srr.fn_popCamCrmList(\'crmSn\', \'crmNm\',' + srr.global.smrIndex + ');">선택</button>' +
                 '</td>' +
                 '<td>' +
                     '<input type="hidden" id="invenSn' + srr.global.smrIndex + '" class="invenSn">' +
@@ -160,9 +160,10 @@ var srr = {
         }
     },
 
-    fn_popCamCrmList : function (crmSnId, crmNmId){
-        srr.global.crmSnId = crmSnId;
-        srr.global.crmNmId = crmNmId;
+    fn_popCamCrmList : function (crmSnId, crmNmId, e){
+        srr.global.crmSnId = crmSnId + e;
+        srr.global.crmNmId = crmNmId + e;
+        srr.global.crmIndex = e;
 
         var url = "/crm/pop/popCrmList.do";
         var name = "_blank";
@@ -176,6 +177,8 @@ var srr = {
 
         $("#crmSn").val("")
         $("#crmNm").val("")
+
+        srr.getItemUnitPrice(srr.global.crmIndex);
     },
 
     fn_popCamItemList : function (invenSnIndex){
@@ -203,6 +206,8 @@ var srr = {
         $("#currentInven").val("")
         $("#whCd").val("")
         $("#whCdNm").val("")
+
+        srr.getItemUnitPrice(srr.global.invenSnIndex);
     },
 
     fn_popSrUnitPriceList : function(unitPriceId, i){
@@ -220,6 +225,27 @@ var srr = {
         var name = "_blank";
         var option = "width = 860, height = 670, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    getItemUnitPrice : function(e){
+        if(!$("#masterSn" + e).val()){
+            return;
+        }
+
+        srr.global.searchAjaxData = {
+            crmSn : $("#crmSn" + e).val(),
+            masterSn : $("#masterSn" + e).val(),
+            busClass : "R"
+        }
+
+        var result = customKendo.fn_customAjax("/item/getItemUnitPrice.do", srr.global.searchAjaxData);
+        if(result.flag){
+            if(result.rs != null){
+                srr.global.unitPriceId = "unitPrice" + e;
+                $("#unitPrice").val(result.rs.UNIT_PRICE);
+                srr.unitPriceChange();
+            }
+        }
     },
 
     unitPriceChange : function(){
@@ -251,9 +277,9 @@ var srr = {
             $(this).find("input.forwardingWhCd").attr("id", "forwardingWhCd" + i);
             $(this).find("input.crmSn").attr("id", "crmSn" + i);
             $(this).find("input.crmNm").attr("id", "crmNm" + i);
-            $(this).find("input.crmNm").attr("onClick", "srr.fn_popCamCrmList('crmSn" + i + "','crmNm" + i +"')");
+            $(this).find("input.crmNm").attr("onClick", "srr.fn_popCamCrmList('crmSn','crmNm', " + i + ")");
             $(this).find("button.crmSelBtn").attr("id", "crmSelBtn" + i);
-            $(this).find("button.crmSelBtn").attr("onClick", "srr.fn_popCamCrmList('crmSn" + i + "','crmNm" + i +"')");
+            $(this).find("button.crmSelBtn").attr("onClick", "srr.fn_popCamCrmList('crmSn','crmNm', " + i + ")");
 
 
             $(this).find("input.itemNo").attr("id", "itemNo" + i);

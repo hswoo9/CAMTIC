@@ -10,6 +10,7 @@
         </selectKey>
     </insert>
 
+<!--    면담내용설정-->
     <select id="getTopicList" parameterType="map" resultType="map">
         SELECT
             interview_topic1 AS interview_topic1,
@@ -20,7 +21,8 @@
         from cam_inside.dj_employee_interview_topic
         order by interview_number desc LIMIT 1;
     </select>
-    
+
+<!--    면담카드등록-->
     <insert id="setInterviewContent" parameterType="Map">
         INSERT INTO cam_inside.dj_employee_interview_card
         (card_number,
@@ -50,23 +52,82 @@
              #{empSeq});
     </insert>
 
+<!--    리스트(조회)-->
     <select id="getInterviewCardList" parameterType="map" resultType="map">
-        select dei.emp_name_kr,
-               dei.dept_name,
-               dei.dept_team_name,
-               deic.*
-        from cam_inside.dj_employee_interview_card deic
-                 join cam_hr.dj_emp_info dei
-                      on deic.EMP_SEQ = dei.EMP_SEQ
+        select
+        DATE_FORMAT(deic.card_interview_date,'%Y-%m-%d') as card_interview_date,
+        deic.EMP_SEQ,
+        deic.card_interviewer,
+        deic.card_number,
+        deic.card_superior_person,
+        deic.card_superior_person2,
+        deic.card_status,
+        car.dept_name,
+        car.dept_team_name,
+        car.emp_name_kr,
+        car.dept_seq,
+        car.team_seq
+        from (
+        select
+        CASE WHEN ddi.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE ddi.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE a.DEPT_SEQ END AS dept_seq,
+        CASE WHEN ddi.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE ddi.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE a.DEPT_NAME END AS dept_name,
+        CASE WHEN ddi.DEPT_LEVEL = 2 THEN a.DEPT_SEQ ELSE "" END AS team_seq,
+--         CASE WHEN ddi.DEPT_LEVEL = 2 THEN a.DEPT_NAME ELSE "" END AS dept_team_name,
+        a.emp_seq,
+        a.dept_team_name,
+        a.emp_name_kr
+        from cam_hr.dj_emp_info as a
+        join cam_hr.dj_dept_info ddi
+        on a.DEPT_SEQ = ddi.dept_seq
+        )as car
+        join cam_inside.dj_employee_interview_card deic
+        on car.emp_seq = deic.EMP_SEQ
+        where 1=1
+        <!-- searchDate 조건 -->
+        <if test='searchDate != null and !"".equals(searchDate)'>
+            AND YEAR(deic.card_interview_date) = YEAR(STR_TO_DATE(#{searchDate}, '%Y'))
+        </if>
+        <!-- dept 조건 -->
+        <if test='dept != null and !"".equals(dept)'>
+            AND
+            car.dept_seq = #{dept}
+        </if>
+        <!-- team 조건 -->
+        <if test='team != null and !"".equals(team)'>
+            AND
+            car.team_seq = #{team}
+        </if>
+        <!-- searchText 조건 -->
+        <if test='searchText != null and !"".equals(searchText)'>
+            AND (
+            car.dept_name LIKE CONCAT('%', #{searchText}, '%')
+            OR car.dept_team_name LIKE CONCAT('%', #{searchText}, '%')
+            OR car.emp_name_kr LIKE CONCAT('%', #{searchText}, '%')
+            OR deic.card_interviewer LIKE CONCAT('%', #{searchText}, '%')
+            OR deic.card_number = #{searchText}
+            )
+        </if>
     </select>
 
+<!--    상세(팝업)-->
     <select id="getInterviewDetail" parameterType="map" resultType="map">
         SELECT dei.emp_name_kr,
                dei.dept_name,
                dei.dept_team_name,
                deic.*
-        FROM cam_inside.dj_employee_interview_card deic
-                 JOIN cam_hr.dj_emp_info dei ON deic.EMP_SEQ = dei.EMP_SEQ
+        FROM cam_hr.dj_emp_info dei
+                 LEFT JOIN cam_inside.dj_employee_interview_card deic ON deic.EMP_SEQ = dei.EMP_SEQ
+        WHERE deic.card_number = #{cardNumber}
+    </select>
+
+<!--    인사기록카드 - 직원면담카드 리스트 -->
+    <select id="getInterviewCardByEmpSeq" parameterType="map" resultType="map">
+        SELECT dei.emp_name_kr,
+               dei.dept_name,
+               dei.dept_team_name,
+               deic.*
+        FROM cam_hr.dj_emp_info dei
+                 LEFT JOIN cam_inside.dj_employee_interview_card deic ON deic.EMP_SEQ = dei.EMP_SEQ
         WHERE deic.EMP_SEQ = #{empSeq}
     </select>
 </mapper>

@@ -89,11 +89,11 @@
                 <div class="line">
                   <div class="cer">
                     <div class="box">
-                      <h4 style="background:#41ace0;"><span>미래전략기획본부</span></h4>
+                      <h4 style="background:#41ace0;"><span>R&BD 사업본부</span></h4>
                       <div class="info _row" style="border-color:#41ace0;">
                         <ul>
-                          <li>미래전략기획팀</li>
-                          <li>J-밸리혁신팀</li>
+                          <li>신기술융합팀</li>
+                          <li>제조혁신팀</li>
                         </ul>
                       </div>
                     </div>
@@ -112,12 +112,12 @@
                         </ul>
                       </div>
                     </div>
-                    <div class="box">
+                    <%--<div class="box">
                       <h4 style="background:#fff;border:1px solid #305c9a;border-radius:5px;color:#305c9a;"><strong>전북조선업도약센터</strong></h4>
                     </div>
                     <div class="box">
                       <h4 style="background:#fff;border:1px solid #305c9a;border-radius:5px;color:#305c9a;"><strong>익산고용 안정일자리센터</strong></h4>
-                    </div>
+                    </div>--%>
                   </div>
                   <div class="cer">
                     <div class="box">
@@ -143,6 +143,20 @@
                       <h4 style="background:#22cab8;"><span>스마트제조사업부</span></h4>
                     </div>
                   </div>
+
+                  <div class="cer">
+                    <div class="box">
+                      <h4 style="background:#997000;"><span>일자리혁신지원센터</span></h4>
+                      <div class="info _row" style="border-color:#997000;">
+                        <ul>
+                          <li>일자리사업팀</li>
+                          <li>전북조선업도약팀</li>
+                          <li>익산고용안정팀</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
               </div>
             </div>

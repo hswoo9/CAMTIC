@@ -9,4 +9,7 @@ import java.util.Map;
 @Repository
 public class ManageRepository extends AbstractDAO {
 
+    public List<Map<String, Object>> getMemList(Map<String, Object> params) {
+        return selectList("manage.getMemList", params);
+    }
 }

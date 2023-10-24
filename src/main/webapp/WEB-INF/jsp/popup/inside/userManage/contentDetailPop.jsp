@@ -182,12 +182,12 @@
     });
 
 
-    function retrieveData2(empSeq) {
-        // empSeq를 서버로 전송
+    function retrieveData2(cardNumber) {
+        // cardNumber를 서버로 전송
         $.ajax({
             type: "POST",
             url: "/Inside/getInterviewDetail.do",
-            data: { empSeq: empSeq }, // empSeq를 요청 데이터로 보내기
+            data: { cardNumber: cardNumber }, // cardNumber를 요청 데이터로 보내기
             success: function(response) {
                 // 응답 데이터 처리 로직
                 console.log(response);
@@ -228,27 +228,10 @@
     // empSeq 파라미터 값을 추출하여 retrieveData2 함수 호출하기
     $(document).ready(function() {
         var urlParams = new URLSearchParams(window.location.search);
-        var empSeq = urlParams.get("empSeq");
-        retrieveData2(empSeq);
+        var cardNumber = urlParams.get("cardNumber");
+        retrieveData2(cardNumber);
     });
 
-// // 날짜 형식 변환
-//     // card_interview_date 값을 가져옴
-//     var cardInterviewDateValue = $("#card_interview_date").text();
-//
-//     // card_interview_date 값을 숫자로 변환
-//     var timestamp = parseInt(cardInterviewDateValue);
-//
-//     // Date 객체 생성
-//     var date = new Date(timestamp);
-//
-//     // 날짜를 원하는 형식으로 포맷팅 (예: "년-월-일 시:분:초")
-//     var formattedDate = date.getFullYear() + '-' +
-//         ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
-//         ('0' + date.getDate()).slice(-2);
-//
-//     // 변환된 날짜를 화면에 표시
-//     $("#card_interview_date").text(formattedDate);
 </script>
 </body>
 </html>

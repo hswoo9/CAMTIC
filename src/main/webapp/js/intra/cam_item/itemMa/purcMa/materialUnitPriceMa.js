@@ -125,8 +125,9 @@ var mup = {
     gridReload: function (e){
         mup.global.searchAjaxData = {
             crmSn : $("#crmSn").val(),
+            busClass : "W",
             searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val()
+            searchValue : $("#searchValue").val(),
         }
 
         mup.mainGrid("/item/getMaterialUnitPriceList.do", mup.global.searchAjaxData);
@@ -156,7 +157,7 @@ var mup = {
     },
 
     fn_popCrmItemUnitPriceReg : function (e, m){
-        var url = "/item/pop/popCrmItemUnitPriceReg.do?crmItemSn=" + e + "&masterSn=" + m;
+        var url = "/item/pop/popCrmItemUnitPriceReg.do?crmItemSn=" + e + "&masterSn=" + m + "&busClass=W";
         var name = "_blank";
         var option = "width = 785, height = 670, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);

@@ -6,9 +6,9 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${toDate}"></script>
-<script type="text/javascript" src="/js/intra/inside/bustrip/bustripInit.js?v=${toDate}"></script>
-<script type="text/javascript" src="/js/intra/inside/bustrip/bustripResultPop.js?v=${toDate}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripInit.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripResultPop.js?v=${today}"></script>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
@@ -98,6 +98,7 @@
                 <th><span class="red-star">*</span>사업명</th>
                 <td colspan="3">
                     <input id="busnName" name="busnName" disabled style="width: 80%;">
+                    <input type="hidden" id="pjtSn" />
                     <button type="button" class="k-button k-button-solid-info" id="projectAddBtn" disabled>사업선택</button>
                 </td>
             </tr>

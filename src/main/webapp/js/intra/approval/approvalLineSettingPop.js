@@ -533,7 +533,9 @@ var lineSettingPop = {
             var result = customKendo.fn_customAjax("/approvalUser/getUserFavApproveRouteDetail", lineSettingPop.global.searchAjaxData);
             if(result.flag){
                 lineSettingPop.global.flag = true;
-                result = result.rs;
+                // console.log(result);
+
+                // result = result.rs;
 
                 $("#approvalLineDataTb tbody tr:not(:eq(0))").remove();
 

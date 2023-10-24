@@ -269,6 +269,30 @@
             (#{applicant}, #{email}, #{belong}, #{confirm1}, #{confirm2})
     </insert>
 
+    <update id="cancleSubscribe" parameterType="map">
+        /*cancleSubscribe*/
+        UPDATE
+            CAM_COMMON.DJ_NEWS_BOARD_SUBSCRIBE
+        SET
+            cancleDate = NOW()
+        WHERE
+            EMAIL = #{email}
+        ORDER BY APPLY_DATE DESC
+        LIMIT 1
+    </update>
+
+    <select id="getSubscribeChk" parameterType="map" resultType="map">
+        /*getSubscribeChk*/
+        SELECT
+            COUNT(*) as chk
+        FROM
+            CAM_COMMON.DJ_NEWS_BOARD_SUBSCRIBE
+        WHERE
+            EMAIL = #{email}
+          AND
+            CANCLE_DATE IS NULL
+    </select>
+
     <select id="getNewsSubscribeList" resultType="egovframework.com.devjitsu.hp.board.util.PostResponse" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
         /*getNewsSubscribeList*/
         SELECT

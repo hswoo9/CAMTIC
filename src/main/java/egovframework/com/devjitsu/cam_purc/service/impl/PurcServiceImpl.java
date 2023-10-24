@@ -243,4 +243,9 @@ public class PurcServiceImpl implements PurcService {
     public Map<String, Object> getPurcSum(Map<String, Object> params) {
         return purcRepository.getPurcSum(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getPurcProductList(Map<String, Object> params) {
+        return purcRepository.getPurcProductList(params);
+    }
 }

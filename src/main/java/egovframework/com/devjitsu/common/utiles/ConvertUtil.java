@@ -142,8 +142,8 @@ public class ConvertUtil {
     private String dbFilePath(HttpServletRequest request, Map<String, Object> params, String base_dir){
         String path = "";
 
-        String devUrl = "http:\\\\218.158.231.186:8080";
-        String prodUrl = "http:\\\\218.158.231.186:8080";
+        String devUrl = "http:\\\\218.158.231.186";
+        String prodUrl = "http:\\\\218.158.231.186";
 
         if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1") || request.getServerName().contains("218.158.231.186")){
             path = devUrl + base_dir + "approveDocFile/" + params.get("menuCd");

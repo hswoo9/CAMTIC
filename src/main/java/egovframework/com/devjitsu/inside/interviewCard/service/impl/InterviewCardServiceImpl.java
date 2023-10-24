@@ -39,4 +39,9 @@ public class InterviewCardServiceImpl implements InterviewCardService {
     public List<Map<String, Object>> getInterviewDetail(Map<String, Object> params) {
         return interviewCardRepository.getInterviewDetail(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getInterviewCardByEmpSeq(Map<String, Object> params){
+        return interviewCardRepository.getInterviewCardByEmpSeq(params);
+    }
 }

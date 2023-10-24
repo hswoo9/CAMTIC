@@ -215,4 +215,68 @@
             '1'
     </select>
 
+    <select id="getBankList" parameterType="map" resultType="map">
+        /*getBankList*/
+        SELECT TR_CD, TR_NM, BA_NB, DEPOSITOR, JIRO_NM
+        FROM ZA_TRADE_DAIKIN
+        WHERE TR_FG = '5'
+          AND (TR_NM LIKE CONCAT('%', #{searchValue}, '%') OR BA_NB LIKE CONCAT('%', #{searchValue}, '%'))
+    </select>
+
+    <select id="getCrmInfo" parameterType="map" resultType="map">
+        SELECT
+            TR_NM, TR_CD
+        FROM ZA_TRADE_DAIKIN
+        WHERE REG_NB = #{crmNo} AND TR_FG = '1'
+    </select>
+
+    <insert id="insCrmInfo" parameterType="map">
+        /*insCrmInfo*/
+        EXEC USP_SAUTOABDOCU_TRADE_INSERT
+            '1212'
+            , #{crmNm}
+            , '1'
+            , #{crmNo}
+            , #{accNo}
+            , #{ceoNm}
+            , #{post}
+            , #{addr}
+            , ''
+            , #{crmTelNum}
+            , #{bankNm}
+            , #{bankMngNm}
+            , ''
+            , #{crmEvn}
+            , #{crmOcc}
+            , #{erpEmpCd}
+            , #{ip}
+    </insert>
+
+    <select id="getClientList" parameterType="map" resultType="map">
+        /*getClientList*/
+        SELECT
+            TR_CD, CEO_NM, REG_NB, JIRO_NM, BA_NB, DEPOSITOR, TR_NM
+        FROM ZA_TRADE_DAIKIN
+        WHERE TR_FG = '1'
+            AND
+                (TR_NM LIKE CONCAT('%', #{searchValue}, '%') OR BA_NB LIKE CONCAT('%', #{searchValue}, '%') OR REG_NB LIKE CONCAT('%', #{searchValue}, '%'))
+    </select>
+
+    <select id="getCardList" parameterType="map" resultType="map">
+        /*getCardList*/
+        SELECT
+            A.TR_CD,
+            A.TR_NM,
+            A.BA_NB AS CARD_BA_NB,
+            B.JIRO_NM,
+            A.CLTTR_CD,
+            B.BA_NB,
+            B.DEPOSITOR
+        FROM ZA_TRADE_DAIKIN A
+        LEFT JOIN ZA_TRADE_DAIKIN B
+        ON A.CLTTR_CD = B.TR_CD
+        WHERE A.TR_FG = '9'
+            AND
+                (A.TR_NM LIKE CONCAT('%', #{searchValue}, '%') OR A.BA_NB LIKE CONCAT('%', #{searchValue}, '%') OR A.REG_NB LIKE CONCAT('%', #{searchValue}, '%'))
+    </select>
 </mapper>

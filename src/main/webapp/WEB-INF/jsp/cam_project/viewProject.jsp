@@ -27,6 +27,36 @@
     .totalTable td {
         height: 38.14px;
     }
+
+    #tooltip span {
+        cursor: pointer;
+        display: block;
+        margin-top : 12px;
+        width: 20px;
+        height: 20px;
+        background-image: url("../images/ico/ico_alert.png");
+        background-size: 20px;
+        -moz-border-radius: 30px;
+        -webkit-border-radius: 30px;
+        border: none;
+        -moz-box-shadow: 0 0 0 1px rgba(0,0,0,0.5);
+        /*-webkit-box-shadow: 0 0 0 1px rgba(0,0,0,0.5);*/
+        /*box-shadow: 0 0 0 1px rgba(0,0,0,0.5);*/
+        -moz-transition:  -moz-box-shadow .3s;
+        -webkit-transition:  -webkit-box-shadow .3s;
+        transition:  box-shadow .3s;
+    }
+
+    #tooltip span:hover {
+        -moz-box-shadow: 0 0 0 15px rgba(0,0,0,0.5);
+        -webkit-box-shadow: 0 0 0 15px rgba(0,0,0,0.5);
+        box-shadow: 0 0 0 15px rgba(0,0,0,0.5);
+        -moz-transition:  -moz-box-shadow .3s;
+        -webkit-transition:  -webkit-box-shadow .3s;
+        transition:  box-shadow .3s;
+    }
+
+    #projectTooltip:hover
 </style>
 <div class="mainCard">
     <div class="panel">
@@ -61,16 +91,16 @@
                             <col width="5%">
                             <col width="11%">
                         </colgroup>
-                        <tr>
-                            <td colspan="6" style="text-align: center; background-color: #FCF5E7"><b>정부사업</b></td>
-                            <td colspan="6" style="text-align: center; background-color: #FCF5E7"><b>민간사업</b></td>
-                            <td colspan="2" rowspan="3" style="text-align: center; background-color: #EFF6E7"><b>합계</b></td>
+                        <tr style="color : white ; background-color: #698bb4;">
+                            <td colspan="6" style="text-align: center;"><b>정부사업</b></td>
+                            <td colspan="6" style="text-align: center; "><b>민간사업</b></td>
+                            <td colspan="2" rowspan="3" style="text-align: center;"><b>합계</b></td>
                         </tr>
-                        <tr>
-                            <td colspan="3" style="text-align: center; background-color: #FCF5E7"><b>R&D</b></td>
-                            <td colspan="3" style="text-align: center; background-color: #FCF5E7"><b>비R&D</b></td>
-                            <td colspan="3" style="text-align: center; background-color: #FCF5E7"><b>엔지니어링</b></td>
-                            <td colspan="3" style="text-align: center; background-color: #FCF5E7"><b>용역/기타</b></td>
+                        <tr style="color : black ; background-color: #f0f6ff;">
+                            <td colspan="3" style="text-align: center;"><b>R&D</b></td>
+                            <td colspan="3" style="text-align: center;"><b>비R&D</b></td>
+                            <td colspan="3" style="text-align: center;"><b>엔지니어링</b></td>
+                            <td colspan="3" style="text-align: center;"><b>용역/기타</b></td>
                         </tr>
                         <tr>
                             <td colspan="3" style="text-align: center; background-color: #FFFFFF">정부/지자체 R&D</td>
@@ -138,29 +168,31 @@
                             <td style="text-align: right; background-color: #EFF6E7"><b>28건</b></td>
                             <td style="text-align: right; background-color: #EFF6E7"><b>1,814백만원</b></td>
                         </tr>
-                        <tr>
-                            <td style="text-align: center; background-color: #F4DDED"><b>합계</b></td>
-                            <td style="text-align: right; background-color: #F4DDED"><b>43건</b></td>
-                            <td style="text-align: right; background-color: #F4DDED"><b>6,821백만원</b></td>
+                        <tr style="background-color: #f5f5f5;">
+                            <td style="text-align: center;"><b>합계</b></td>
+                            <td style="text-align: right;"><b>43건</b></td>
+                            <td style="text-align: right;"><b>6,821백만원</b></td>
 
-                            <td style="text-align: center; background-color: #F4DDED"><b>합계</b></td>
-                            <td style="text-align: right; background-color: #F4DDED"><b>13건</b></td>
-                            <td style="text-align: right; background-color: #F4DDED"><b>10,614백만원</b></td>
+                            <td style="text-align: center;"><b>합계</b></td>
+                            <td style="text-align: right;"><b>13건</b></td>
+                            <td style="text-align: right;"><b>10,614백만원</b></td>
 
-                            <td style="text-align: center; background-color: #F4DDED"><b>합계</b></td>
-                            <td style="text-align: right; background-color: #F4DDED"><b id="engnCount">0건</b></td>
-                            <td style="text-align: right; background-color: #F4DDED"><b id="engnSum">0백만원</b></td>
+                            <td style="text-align: center;"><b>합계</b></td>
+                            <td style="text-align: right;"><b id="engnCount">0건</b></td>
+                            <td style="text-align: right;"><b id="engnSum">0백만원</b></td>
 
-                            <td style="text-align: center; background-color: #F4DDED"><b>합계</b></td>
-                            <td style="text-align: right; background-color: #F4DDED"><b>7건</b></td>
-                            <td style="text-align: right; background-color: #F4DDED"><b>2,195백만원</b></td>
+                            <td style="text-align: center;"><b>합계</b></td>
+                            <td style="text-align: right; "><b>7건</b></td>
+                            <td style="text-align: right;"><b>2,195백만원</b></td>
 
-                            <td style="text-align: right; background-color: #F4DDED"><b>110건</b></td>
-                            <td style="text-align: right; background-color: #F4DDED"><b>31,082백만원</b></td>
+                            <td style="text-align: right;"><b>110건</b></td>
+                            <td style="text-align: right;"><b>31,082백만원</b></td>
                         </tr>
                     </thead>
                 </table>
-                <p style="text-align: right; margin-bottom: 15px;"><b>10만원 단위는 버림</b></p>
+                <div style="float: right; margin-bottom: 15px;" id="tooltip">
+                    <span href="#" title="10만원 단위는 내림" id="projectTooltip"></span>
+                </div>
 
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
@@ -208,6 +240,22 @@
 <script>
 
     camPrj.fn_defaultScript();
+
+    $(document).ready(function(){
+        var tooltip = $("#tooltip").kendoTooltip({
+            filter: "span",
+            width: 135,
+            position: "top",
+            animation: {
+                open: {
+                    effects: "zoom",
+                    duration: 150
+                }
+            }
+        }).data("kendoTooltip");
+
+        // tooltip.show($("#projectTooltip"));
+    });
 
     function fn_deptSelect() {
         window.open("/common/deptMultiPop.do","조직도","width=343,height=650");

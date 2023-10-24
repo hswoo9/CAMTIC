@@ -153,7 +153,14 @@
                         관계사업 선택
                     </th>
                     <td colspan="3">
-                        <input type="text" id="crmRelPjt" style="width: 15%;">
+                        <input type="radio" id="N" name="crmRelPjt" style="margin-right: 5px;" value="N" checked><label for="N">해당없음</label>
+                        <input type="radio" id="R" name="crmRelPjt" style="margin-right: 5px;" value="R"><label for="R">R&D</label>
+                        <input type="radio" id="S" name="crmRelPjt" style="margin-right: 5px;" value="S"><label for="S">비R&D</label>
+                        <input type="radio" id="D" name="crmRelPjt" style="margin-right: 5px;" value="D"><label for="D">엔지니어링</label>
+                        <input type="radio" id="V" name="crmRelPjt" style="margin-right: 5px;" value="V"><label for="V">용역/기타</label><br>
+                        <input type="hidden" id="pjtSn" name="pjtSn">
+                        <input type="text" id="pjtNm" name="pjtNm" class="k-input k-textbox" readonly style="width:90%;display: none" onclick="regCrmHist.fn_projectPop()">
+                        <button id="pjtSelBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="display: none" onclick="regCrmHist.fn_projectPop()">사업선택</button>
                     </td>
                 </tr>
                 <tr>
@@ -204,6 +211,12 @@
         $("#crmShareEmpName").val(empNameAr.substring(0, empNameAr.length-1));
         $("#crmShareEmp").val(empSeqAr.substring(0, empSeqAr.length-1));
     }
+
+    function selectProject(sn, nm){
+        $("#pjtSn").val(sn);
+        $("#pjtNm").val(nm);
+    }
+
 </script>
 </body>
 </html>

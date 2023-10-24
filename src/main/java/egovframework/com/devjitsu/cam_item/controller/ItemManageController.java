@@ -42,6 +42,22 @@ public class ItemManageController {
     /** 캠아이템 > 아이템관리 > 기준정보 */
 
     /**
+     * 고객단가관리 페이지
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/crmUnitPriceMa.do")
+    public String crmUnitPriceMa(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_item/itemMa/baseInfo/crmUnitPriceMa";
+    }
+
+    /**
      * 표준단가관리 페이지
      * @param params
      * @param request
@@ -123,6 +139,20 @@ public class ItemManageController {
         return "jsonView";
     }
 
+
+    /**
+     * 품목정보 페이지
+     * @param request
+     * @return
+     */
+    @RequestMapping("/item/itemList.do")
+    public String itemList(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_item/itemMa/baseInfo/itemList";
+    }
 
     /** 캠아이템 > 아이템관리 > 수주관리 */
 
@@ -775,6 +805,16 @@ public class ItemManageController {
         return "popup/cam_item/popItemNoList";
     }
 
+    /**
+     * 입고등록 데이터 저장
+     * @param params
+     * @return
+     */
+    @RequestMapping("/item/getItemUnitPrice.do")
+    public String getItemUnitPrice(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", itemManageService.getItemUnitPrice(params));
+        return "jsonView";
+    }
 
     /**
      * 입고단가이력팝업

@@ -8,16 +8,6 @@ var cml = {
 
     fn_defaultScript : function (){
         cml.global.dropDownDataSource = [
-            { text: "우량고객", value: "1" },
-            { text: "일반고객", value: "2" },
-            { text: "휴면고객", value: "3" },
-            { text: "잠재고객", value: "4" },
-            { text: "신규고객", value: "5" }
-        ]
-        customKendo.fn_dropDownList("ctmGrade", cml.global.dropDownDataSource, "text", "value");
-        $("#ctmGrade").data("kendoDropDownList").bind("change", cml.gridReload);
-
-        cml.global.dropDownDataSource = [
             { text : "기업", value : "1" },
             { text : "기관", value : "2" },
             { text : "기타", value : "3" }
@@ -149,7 +139,6 @@ var cml = {
     gridReload: function (){
         cml.global.searchAjaxData = {
             ctmType : $("#ctmType").val(),
-            ctmGrade : $("#ctmGrade").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val()
         }

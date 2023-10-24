@@ -78,6 +78,19 @@ var bustripResultPop = {
         $("#time1").val(busInfo.TRIP_TIME_FR);
         $("#time2").val(busInfo.TRIP_TIME_TO);
 
+        console.log(busInfo);
+        if(busInfo.PJT_SN != null){
+            $("#project").data("kendoRadioGroup").value("2");
+            $("input[name='project']").trigger("click");
+        } else {
+            $("#project").data("kendoRadioGroup").value("1");
+        }
+
+        $("#busnName").val(busInfo.BUSN_NAME);
+        $("#pjtSn").val(busInfo.PJT_SN);
+
+        $("#project").data("kendoRadioGroup").enable(false);
+
         /** 차량 */
         $("#carList").data("kendoDropDownList").value(busInfo.USE_TRSPT);
         if(busInfo.USE_CAR == "Y"){
@@ -278,6 +291,9 @@ var bustripResultPop = {
         formData.append("applyDate", $("#reqDate").val());
         formData.append("tripCode", $("#tripCode").data("kendoRadioGroup").value());
         formData.append("busnName", $("#busnName").val());
+        if($("#pjtSn").val() != ""){
+            formData.append("pjtSn", $("#pjtSn").val());
+        }
         formData.append("compEmpSeq", $("#popEmpSeq").val());
         formData.append("compEmpName", $("#popEmpName").val());
         formData.append("compDeptSeq", $("#popDeptSeq").val());

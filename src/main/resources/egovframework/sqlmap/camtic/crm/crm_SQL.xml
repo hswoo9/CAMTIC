@@ -37,10 +37,6 @@
                 CI.CRM_CLASS = #{ctmType}
         </if>
 
-        <if test='ctmGrade != null and !"".equals(ctmGrade)'>
-
-        </if>
-
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword)'>
                 AND
@@ -403,6 +399,9 @@
                 CRM_INTER_VAL,
                 CRM_INTER_LG,
                 CRM_INTER,
+                <if test='crmRelPjtSn != null and !"".equals(crmRelPjtSn)'>
+                CRM_REL_PJT_SN,
+                </if>
                 CRM_REL_PJT,
                 CRM_REL_PJT_NM,
                 CRM_REL_CONT,
@@ -424,6 +423,9 @@
                 "",
                 #{crmInterLg},
                 #{crmInter},
+                <if test='crmRelPjtSn != null and !"".equals(crmRelPjtSn)'>
+                #{crmRelPjtSn},
+                </if>
                 #{crmRelPjt},
                 #{crmRelPjtNm},
                 #{crmRelCont},
@@ -583,6 +585,18 @@
         AND
             BASE_DATE LIKE CONCAT('%', #{searchYear}, '%')
         </if>
+    </select>
+
+    <select id="getMfOverviewStatInfo" parameterType="map" resultType="map">
+        /* getMfOverviewStatInfo */
+        SELECT
+            ${searchContent}
+        FROM
+            CAM_CRM.DJ_CRM_MF_OVERVIEW
+        WHERE
+            MF_NO = #{mfNo}
+        AND
+            DATE_FORMAT(BASE_DATE, '%Y') = #{year}
     </select>
 
     <select id="getMfOverviewAreaStat" parameterType="map" resultType="map">

@@ -191,7 +191,8 @@ html {font-size:14px;font-family:'Pretendard',sans-serif;color:#666;-webkit-text
 [class*='__btn'].blackLine {background:#fff;border-color:#464646;color:#464646;}
 
 .__btn1 {min-width:140px;height:50px;border-radius:5px;font-size:18px;padding:0 20px;}
-.__btn1 ~ .__btn1 {margin-left:12px;}
+/*.__btn1 ~ .__btn1 {margin-left:12px;} 20231018 수정*/
+.__btn1 ~ .__btn1 {margin-left:4px;}
 
 .__btn2 {height:40px;border-radius:5px;padding:0 25px;gap:10px;font-size:15px;color:#000;font-weight:600;}
 .__btn2:before {content:"";display:block;width:16px;height:16px;background:url(/images/camtic/ico-down.png) no-repeat 50% 50% / contain;}
@@ -362,7 +363,7 @@ html {font-size:14px;font-family:'Pretendard',sans-serif;color:#666;-webkit-text
 .__boardView .head .info li:before {content:"";display:block;width:1px;height:12px;background:#464646;position:absolute;right:0;top:50%;margin-top:-6px;}
 .__boardView .head .info li:last-child {margin-right:0;padding-right:0;}
 .__boardView .head .info li:last-child:before {display:none;}
-.__boardView .con {font-size:18px;line-height:1.65;padding:50px 0 80px;border-bottom:1px solid #ccc;}
+.__boardView .con {padding:50px 0 80px;border-bottom:1px solid #ccc;}/* 2023-10-19 김병수 font-size:18px;line-height:1.65; 제거 */
 .__boardView .file {background:#f6fcff;padding:20px 20px 20px 50px;display:flex;}
 .__boardView .file dt {width:160px;position:relative;padding-left:50px;font-size:18px;color:#000;}
 .__boardView .file dt:before {content:'';display:block;width:33px;height:27px;position:absolute;left:0;top:-5px;background:url(/images/camtic/ico-file.svg) no-repeat 50% 50% / contain;}

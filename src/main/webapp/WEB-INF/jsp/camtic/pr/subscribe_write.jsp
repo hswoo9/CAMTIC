@@ -15,7 +15,7 @@
         border: 1px solid #c9c9c9;
         padding-left: 5px;
         margin-bottom: 5px;
-        font-size: 14px;
+        font-size: 15px;
     }
     .txt_area_01 {display: inline-block; width: 100%; height: 170px; border: 1px solid #c9c9c9; }
 
@@ -99,8 +99,12 @@
         padding: 0 0 40px 0px;
     }
 
+	.textarea_form p {
+		margin-left:13px;
+	}
     .head input[type=checkbox] { -webkit-appearance: checkbox; }
     .head input[type=checkbox]:before { display: none; }
+
 </style>
 
 
@@ -129,22 +133,24 @@
 							<div class="join_title02">개인정보 수집·이용 동의</div>
 							<div>
 								<div class="textarea_form h150p">
-									<b>개인정보의 수집 및 이용 동의</b><br>
-									<br>
+									<b>개인정보의 수집 및 이용 동의</b>
+									<br><br>
 									1. 개인정보의 수집·이용 목적<br>
-									법인의 교육 및 행사 안내, 사업안내·수요조사 등의 정보제공, 개발사업 참여에 대한 홍보, 소식지·경영뉴스레터 등의 정보제공 및 홍보 활용을 목적으로 한다.
+									<p>법인의 교육 및 행사 안내, 사업안내·수요조사 등의 정보제공, 개발사업 참여에 대한 홍보, 소식지·경영뉴스레터 등의 정보제공 및 홍보 활용을 목적으로 한다.</p><br>
 									<br>
 									2. 수집·이용하려는 개인정보의 항목
 									<br>
-									성명, 이메일, 소속<br>
+									<p>성명, 이메일, 소속</p><br>
 									<br>
 									3. 개인정보의 보유 및 이용 기간<br>
-									구독해지 요청시까지 계속 관리<br>
+									<p>구독해지 요청시까지 계속 관리</p><br>
 									<br>
+									<div class="info-section">
 									4. 기타사항
 									<br>
-									법인에서는 개인정보를 수집된 목적 범위에서 적합하게 처리하고 목적 외의 용도로 사용하지 않으며 개인정보를 제공한 제공자는 언제나 자신이 입력한 개인정보의 열람·수정을 신청할 수 있고 수집된 개인정보는 개인정보보호를 위하여 암호화되어 처리된다.<br>
-									상기사항에 명기되지 않은 사항은 개인정보보호법 및 표준 개인정보 보호지침에 의거하여 관리한다.<br>
+									<p>법인에서는 개인정보를 수집된 목적 범위에서 적합하게 처리하고 목적 외의 용도로 사용하지 않으며 개인정보를 제공한 제공자는 언제나 자신이 입력한 개인정보의 열람·수정을 신청할 수 있고 수집된 개인정보는 개인정보보호를 위하여 암호화되어 처리된다.</p><br>
+									<p>상기사항에 명기되지 않은 사항은 개인정보보호법 및 표준 개인정보 보호지침에 의거하여 관리한다.</p><br>
+									</div>
 									<br>
 								</div>
 								<div class="join_agree_check">
@@ -157,12 +163,12 @@
 							<div class="join_title02">정보제공 및 홍보활용 동의</div>
 							<div>
 								<div class="textarea_form h100p">
-									<b>개인정보의 수집 및 이용 동의</b><br>
-									<br>
+									<b>개인정보의 수집 및 이용 동의</b>
+									<br><br>
 									교육 및 행사 안내, 사업안내·수요조사 등의 정보제공, 개발사업 참여에 대한 홍보, 소식지·경영뉴스레터 등의 정보제공·홍보 활용에 대해 아래와 같이 동의합니다.
 								</div>
 								<div class="join_agree_check">
-									<input id="chkConfirm2" type="checkbox" name="chkConfirm2" checked="checked"><label for="chkConfirm2">정보제공 및 홍보활용에 동의합니다.</label>
+									<input id="chkConfirm2" type="checkbox" name="chkConfirm2" style="margin-right: 5px;"><label for="chkConfirm2">정보제공 및 홍보활용에 동의합니다.</label>
 								</div>
 							</div>
 						</fieldset>
@@ -196,7 +202,7 @@
 					<div class="__botArea">
 						<div class="rig">
 							<a href="javascript:void(0);" onclick="fn_saveSubscribe();" class="__btn1 grayLine"><span>뉴스레터 구독 신청</span></a>
-							<a href="javascript:void(0);" onclick="fn_goList();" class="__btn1 grayLine"><span>취소하기</span></a>
+							<a href="javascript:void(0);" onclick="fn_cancleSubscribe();" class="__btn1 grayLine"><span>뉴스레터 구독 취소</span></a>
 						</div>
 					</div>
 				</div>
@@ -220,6 +226,7 @@
     }
 
     function fn_saveSubscribe(){
+		var dataChk = true;
 
         var confirm1 = 'N';
         var confirm2 = 'N';
@@ -252,6 +259,24 @@
             confirm2 : confirm2
         }
 
+        $.ajax({
+            url : '/camtic/news/getSubscribeChk.do',
+            type : 'POST',
+            data: data,
+            dataType : "json",
+            async : false,
+            success: function(e) {
+                if(e.map.chk == 1){
+                    dataChk = false;
+                }
+            }
+        });
+
+        if(!dataChk){
+           alert("현재 해당 이메일에 구독신청이 되어있습니다.");
+           return false;
+        }
+
         if(!confirm("구독 신청을 완료하시겠습니까?")) {return false;}
 
         $.ajax({
@@ -265,7 +290,30 @@
                 location.href = '/camtic/pr/news.do';
             }
         });
+    }
 
+    function fn_cancleSubscribe(){
+        var cancleFlag = false;
+
+        $.ajax({
+            url : '/camtic/news/getSubscribeCancle.do',
+            type : 'POST',
+            data: {email : $("#email").val()},
+            dataType : "json",
+            async : false,
+            success: function(e) {
+                if(e.processCode == "SUCCESS"){
+					cancleFlag = true;
+                }
+            }
+        });
+
+        if(!cancleFlag){
+            alert("해당 이메일의 구독 신청 이력이 없습니다.");
+        }else{
+            alert("구독이 취소되었습니다.");
+            location.href = '/camtic/pr/news.do';
+        }
 
     }
 

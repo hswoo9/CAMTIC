@@ -13,7 +13,7 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">학습체계도 관리</h4>
-            <div class="title-road">직무관리 &gt; 학습체계도관리</div>
+            <div class="title-road">캠퍼스 > 학습관리 > 직무관리 &gt; 학습체계도관리</div>
         </div>
         <div class="panel-body">
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>

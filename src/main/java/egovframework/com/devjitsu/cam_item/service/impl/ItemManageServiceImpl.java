@@ -238,14 +238,16 @@ public class ItemManageServiceImpl implements ItemManageService {
         List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 
         bom.put("expanded", true);
+        bom.put("base", "Y");
 
         for (Map<String, Object> map : bomDetailList) {
             map.put("expanded", true);
+            map.put("base", "Y");
+
             Map<String, Object> searchMap = new HashMap<>();
             searchMap.put("masterSn", map.get("MASTER_SN"));
             searchMap.put("bomSn", itemManageRepository.getBomSn(searchMap));
             map.put("items", itemManageRepository.getBomDetailList(searchMap));
-
         }
 
         bom.put("items", bomDetailList);
@@ -404,6 +406,16 @@ public class ItemManageServiceImpl implements ItemManageService {
     @Override
     public void setCrmItemUnitPriceDel(Map<String, Object> params) {
         itemManageRepository.setCrmItemUnitPriceDel(params);
+    }
+
+    @Override
+    public Map<String, Object> getItemUnitPrice(Map<String, Object> params) {
+        Map<String, Object> returnMap = itemManageRepository.getCrmItemUnitPrice(params);
+        if(returnMap == null){
+            returnMap = itemManageRepository.getItemUnitPrice(params);
+        }
+
+        return returnMap;
     }
 
     @Override

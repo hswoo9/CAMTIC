@@ -101,7 +101,7 @@ var mov = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="mov.templateExcelFormDown()">' +
                             '	<span class="k-button-text">등록양식 다운로드</span>' +
                             '</button>';
                     }
@@ -128,7 +128,7 @@ var mov = {
                     field: "MF_NAME",
                     width: 200,
                     template: function(e){
-                        return "<a href='javascript:void(0);' onclick=\"mov.mfOverViewPopup(" + e.CRM_MF_SN + ")\">" + e.MF_NAME + "</a>";
+                        return "<a href='javascript:void(0);' onclick=\"mov.mfOverViewPopup(" + e.CRM_MF_SN + ", " + $("#searchYear").val() + ")\">" + e.MF_NAME + "</a>";
                     }
                 }, {
                     title: "사업자번호",
@@ -382,6 +382,12 @@ var mov = {
         mov.mainGrid("/crm/getMfOverviewList", mov.global.searchAjaxData);
     },
 
+    templateExcelFormDown : function(){
+        kendo.saveAs({
+            dataURI: "/crm/templateExcelFormDown.do"
+        });
+    },
+
     setMfOverviewDel : function(){
         if($("input[name='mf']:checked").length == 0){
             alert("삭제할 고객을 선택해주세요.");
@@ -433,8 +439,8 @@ var mov = {
         return str.replace(/[^\d]+/g, '');
     },
 
-    mfOverViewPopup : function (e){
-        var url = "/crm/pop/mfOverviewPop.do?crmMfSn=" + e;
+    mfOverViewPopup : function (e, i){
+        var url = "/crm/pop/mfOverviewPop.do?crmMfSn=" + e + "&searchYear=" + i;
         var name = "_blank";
         var option = "width = 1300, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);

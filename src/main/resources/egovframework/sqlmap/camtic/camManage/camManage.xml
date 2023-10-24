@@ -3,4 +3,13 @@
 
 <mapper namespace="manage">
 
+    <select id="getMemList" parameterType="map" resultType="map">
+        /*getClientList*/
+        SELECT
+            *
+        FROM CAM_HR.DJ_EMP_INFO
+        WHERE
+            (EMP_NAME_KR LIKE CONCAT('%', #{searchValue}, '%') OR ACCOUNT_NUM LIKE CONCAT('%', #{searchValue}, '%') OR RES_REGIS_NUM LIKE CONCAT('%', #{searchValue}, '%'))
+    </select>
+
 </mapper>
