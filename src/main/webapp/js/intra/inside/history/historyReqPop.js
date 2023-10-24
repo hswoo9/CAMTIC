@@ -670,7 +670,7 @@ const historyReq = {
         });
 
         alert("인사발령이 완료됐습니다.");
-        opener.gridReload();
+        opener.historyList.gridReload();
         window.close();
     },
 
