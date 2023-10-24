@@ -98,6 +98,40 @@ var regPay = {
             parameters.payAppSn = $("#payAppSn").val();
         }
 
+        var itemArr = new Array()
+        var flag = true;
+        $.each($(".payDestInfo"), function(i, v){
+            var data = {
+                eviType : $("#eviType" + i).val(),
+                crmNm : $("#crmNm" + i).val(),
+                trCd : $("#trCd" + i).val(),
+                crmBnkNm : $("#crmBnkNm" + i).val(),
+                crmAccNo : $("#crmAccNo" + i).val(),
+                crmAccHolder : $("#crmAccHolder" + i).val(),
+                trDe : $("#trDe" + i).val(),
+                totCost : regPay.uncomma($("#totCost" + i).val()),
+                supCost : regPay.uncomma($("#supCost" + i).val()),
+                vatCost : regPay.uncomma($("#vatCost" + i).val()),
+                card : $("#card" + i).val(),
+                etc : $("#etc" + i).val(),
+                iss : $("#iss" + i).val(),
+            }
+
+            if(data.eviType == ""){
+                flag = false;
+            }
+
+
+            itemArr.push(data);
+        })
+
+        if(!flag){
+            alert("구분값을 선택해주세요.");
+            return ;
+        }
+
+        parameters.itemArr = JSON.stringify(itemArr);
+
         console.log(parameters);
 
         $.ajax({

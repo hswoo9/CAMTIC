@@ -85,4 +85,13 @@ public class ManageController {
 
         return "popup/cam_manager/addClientView";
     }
+
+    @RequestMapping("/mng/getMemList")
+    public String getMemList(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = manageService.getMemList(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
 }

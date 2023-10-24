@@ -225,6 +225,204 @@ var payDetView = {
         }).data("kendoGrid");
     },
 
+    empMainGrid : function (params) {
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read: {
+                    url: "/mng/getMemList",
+                    dataType: "json",
+                    type: "post"
+                },
+                parameterMap: function(data){
+                    data.searchValue = $("#searchValue").val();
+                    return data;
+                }
+            },
+            schema: {
+                data: function(data){
+                    return data.list;
+                },
+                total: function(data){
+                    return data.list.length;
+                },
+            },
+            pageSize: 10
+        });
+
+        $("#empMainGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            pageable: {
+                refresh: true,
+                pageSizes: [ 10, 20, 30, 50, 100 ],
+                buttonCount: 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            dataBound: payDetView.onDataBound,
+            columns: [
+                {
+                    template: "#= ++record #",
+                    title: "번호",
+                    width : 50
+                }, {
+                    title: "이름",
+                    width: 100,
+                    template: function (e){
+                        return '<input type="hidden" id="trCd" value="' + e.ERP_EMP_SEQ + '"/>' + e.EMP_NAME_KR;
+                    }
+                }, {
+                    title: "주민번호",
+                    width: 200,
+                    field : "RES_REGIS_NUM"
+                }, {
+                    title: "지급계좌",
+                    width: 200,
+                    field : "ACCOUNT_NUM"
+                }, {
+                    title: "예금주",
+                    width: 100,
+                    field : "ACCOUNT_HOLDER"
+                }, {
+                    title: "",
+                    width: 80,
+                    template: function(e){
+                        return '<button type="button" class="k-button k-button-solid-base" ' +
+                            'onclick="payDetView.fn_selEmpInfo(\'' + e.ERP_EMP_SEQ + '\', \'' + e.BANK_NAME + '\', \'' + e.ACCOUNT_NUM + '\', \'' + e.ACCOUNT_HOLDER + '\', \'' + e.EMP_NAME_KR + '\')" style="font-size: 12px);">' +
+                            '   선택' +
+                            '</button>';
+                    }
+                }
+            ],
+
+            dataBinding: function() {
+                record = (this.dataSource.page() -1) * this.dataSource.pageSize();
+            }
+        }).data("kendoGrid");
+    },
+
+    otherMainGrid : function (params) {
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read: {
+                    url: "/g20/getOtherList",
+                    dataType: "json",
+                    type: "post"
+                },
+                parameterMap: function(data){
+                    data.searchValue = $("#searchValue").val();
+                    return data;
+                }
+            },
+            schema: {
+                data: function(data){
+                    return data.list;
+                },
+                total: function(data){
+                    return data.list.length;
+                },
+            },
+            pageSize: 10
+        });
+
+        $("#otherMainGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            pageable: {
+                refresh: true,
+                pageSizes: [ 10, 20, 30, 50, 100 ],
+                buttonCount: 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            dataBound: payDetView.onDataBound,
+            columns: [
+                {
+                    template: "#= ++record #",
+                    title: "번호",
+                    width : 50
+                }, {
+                    title: "업체명",
+                    width: 200,
+                    template: function (e){
+                        return '<input type="hidden" id="trCd" value="' + e.TR_CD + '"/>' + e.TR_NM;
+                    }
+                }, {
+                    title: "대표자",
+                    width: 80,
+                    template: function (e){
+                        if(e.CEO_NM != null){
+                            return e.CEO_NM;
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    title: "사업자번호",
+                    width: 100,
+                    template: function (e){
+                        if(e.REG_NB != null){
+                            return e.REG_NB;
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    title: "은행명",
+                    width: 80,
+                    template: function (e){
+                        if(e.JIRO_NM != null){
+                            return e.JIRO_NM;
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    title: "지급계좌",
+                    width: 150,
+                    template: function (e){
+                        if(e.BA_NB != null){
+                            return e.BA_NB;
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    title: "예금주",
+                    width: 150,
+                    template: function (e){
+                        if(e.DEPOSITOR != null){
+                            return e.DEPOSITOR;
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    title: "",
+                    width: 80,
+                    template: function(e){
+                        return '<button type="button" class="k-button k-button-solid-base" ' +
+                            'onclick="payDetView.fn_selClientInfo(\'' + e.TR_CD + '\', \'' + e.TR_NM + '\', \'' + e.BA_NB + '\', \'' + e.DEPOSITOR + '\', \'' + e.JIRO_NM + '\', \'' + e.CEO_NM + '\', \'' + e.REG_NB + '\')" style="font-size: 12px);">' +
+                            '   선택' +
+                            '</button>';
+                    }
+                }
+            ],
+
+            dataBinding: function() {
+                record = (this.dataSource.page() -1) * this.dataSource.pageSize();
+            }
+        }).data("kendoGrid");
+    },
+
 
     onDataBound: function(){
         calcAmSum = 0;
@@ -232,6 +430,13 @@ var payDetView = {
         acctAm1Sum = 0;
         acctAm3Sum = 0;
         subAmSum = 0;
+    },
+
+    fn_selEmpInfo : function (trCd, bankName, accountNum, accountHolder, empNameKr) {
+        var idx = $("#index").val();
+        opener.parent.fn_selEmpInfo(trCd, bankName, accountNum, accountHolder, empNameKr, idx);
+
+        window.close();
     },
 
     fn_selBankInfo: function (cd, nm, baNb, depositor, jiro){
