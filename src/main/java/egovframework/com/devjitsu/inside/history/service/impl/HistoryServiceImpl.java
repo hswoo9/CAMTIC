@@ -10,6 +10,7 @@ import egovframework.com.devjitsu.inside.history.repository.HistoryRepository;
 import egovframework.com.devjitsu.inside.history.service.HistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
@@ -73,7 +74,12 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Override
     public void setRewardInsert(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
-        historyRepository.setRewardInsert(params);
+        if(StringUtils.isEmpty(params.get("rewordId"))){
+            historyRepository.setRewardInsert(params);
+        }else{
+            historyRepository.setRewardUpdate(params);
+        }
+
 
         if(file.length > 0){
             MainLib mainLib = new MainLib();

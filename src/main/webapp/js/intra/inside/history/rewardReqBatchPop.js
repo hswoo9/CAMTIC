@@ -31,7 +31,6 @@ const rewardBatch = {
             const result = customKendo.fn_customAjax("/inside/getUpdRewardList", data);
             let grid = $("#popMainGrid").data("kendoGrid");
             let userArr = result.list;
-            console.log(userArr);
 
             for(let i=0; i<userArr.length; i++){
                 rewardBatch.global.userArr.push(userArr[i].EMP_SEQ);
@@ -40,8 +39,10 @@ const rewardBatch = {
             }
             rewardBatch.global.nowUserArr = rewardBatch.global.userArr;
 
+            if(userArr.length > 0){
+                $("#numberName").val(userArr[0].RWD_SN);
+            }
 
-            $("#numberName").val(userArr);
             rewardBatch.fn_popGridSetting();
         }
     },
@@ -190,13 +191,15 @@ const rewardBatch = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'checkUser\')" style="position: relative; top: 2px;" />',
-                    template : function (e){
-                        if(e.REWORD_ID != null){
-                            return "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.REWORD_ID+"' style='position: relative; top: 2px;'/>"
-                        }else{
-                            return "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.EMP_SEQ+"' style='position: relative; top: 2px;'/>"
-                        }
-                    },
+                    template : "<input type='checkbox' id='chk#=REWORD_ID#' name='checkUser' value='#=REWORD_ID#' style=\"top: 3px; position: relative\" />",
+                    // template : function (e){
+                    //     if(e.REWORD_ID != null){
+                    //
+                    //         return "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.REWORD_ID+"' style='position: relative; top: 2px;'/>"
+                    //     }else{
+                    //         return "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.EMP_SEQ+"' style='position: relative; top: 2px;'/>"
+                    //     }
+                    // },
                     width: 40,
                     attribute: {
                         style: "text-align:center",
@@ -321,6 +324,7 @@ const rewardBatch = {
         let grid = $("#popMainGrid").data("kendoGrid");
 
         for(let i=0; i<result.list.length; i++){
+            result.list[i].REWORD_ID = "";
             rewardBatch.global.userArr.push(userArr[i].EMP_SEQ);
             rewardBatch.global.editDataSource.data.push(result.list[i]);
             rewardBatch.editGrid();
@@ -369,6 +373,7 @@ const rewardBatch = {
             const dataItem = grid.dataItem($(this).closest("tr"));
             let empSeq = dataItem.EMP_SEQ;
             let formData = new FormData();
+            formData.append("rewordId", dataItem.REWORD_ID);
             formData.append("menuCd", "reward");
             formData.append("empSeq", String(empSeq));
             formData.append("empName", dataItem.EMP_NAME_KR);
@@ -391,23 +396,17 @@ const rewardBatch = {
             formData.append("regEmpSeq", $("#empSeq").val());
             formData.append("numberName", $("#numberName").val());
 
-            if($("#mode").val() != "upd") {
-                const result = customKendo.fn_customFormDataAjax("/inside/setRewardInsert", formData);
+            const result = customKendo.fn_customFormDataAjax("/inside/setRewardInsert", formData);
 
-                if (result.flag) {
-                    console.log(result);
-                } else {
-                    alert("결재 중 에러가 발생했습니다.");
-                }
-                fCommon.global.attFiles = [];
+            if (result.flag) {
+                console.log(result);
             }
+            fCommon.global.attFiles = [];
         });
 
-        if($("#mode").val() != "upd") {
-            alert("포상 등록이 완료되었습니다.");
-            opener.gridReload();
-            window.close();
-        }
+        alert("처리되었습니다.");
+        opener.gridReload();
+        window.close();
     },
 
     fn_delApnt : function(){

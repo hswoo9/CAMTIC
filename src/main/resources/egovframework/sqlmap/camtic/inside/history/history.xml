@@ -394,4 +394,22 @@
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_REWORD'
         </selectKey>
     </insert>
+
+    <update id="setRewardUpdate" parameterType="map">
+        /* setRewardUpdate */
+        UPDATE
+            CAM_HR.DJ_EMP_REWORD
+        SET
+            REWORD_TYPE = #{rewordType},
+            REWORD_TYPE_NAME = #{rewordName},
+            REWORD_DAY = #{rewordDay},
+            RWD_OFM = #{rwdOfm},
+            RWD_ST_COMP = #{rwdStComp},
+            RWD_ETC = #{rwdEtc},
+            RWD_SN = #{numberName},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            REWORD_ID = #{rewordId}
+    </update>
 </mapper>
