@@ -120,4 +120,10 @@
         WHERE PAY_APP_SN = #{payAppSn}
     </delete>
 
+    <select id="getPayAppDetailData" parameterType="map" resultType="map">
+        /*getPayAppDetailData*/
+        SELECT *
+        FROM CAM_MNG.DJ_PAY_APP_DET
+        WHERE PAY_APP_SN = #{payAppSn}
+    </select>
 </mapper>

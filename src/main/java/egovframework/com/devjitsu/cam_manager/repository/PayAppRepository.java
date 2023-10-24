@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.cam_manager.repository;
 import egovframework.com.devjitsu.gw.login.repository.AbstractDAO;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -25,5 +26,9 @@ public class PayAppRepository extends AbstractDAO {
 
     public void delPayAppDetailData(Map<String, Object> params) {
         delete("payApp.delPayAppDetailData", params);
+    }
+
+    public List<Map<String, Object>> getPayAppDetailData(Map<String, Object> params) {
+        return selectList("payApp.getPayAppDetailData", params);
     }
 }
