@@ -1,6 +1,7 @@
 var personAttendStat = {
     global : {
-        now: new Date()
+        now: new Date(),
+        searchAjaxData : ""
     },
 
     fn_defaultScript: function () {
@@ -10,44 +11,60 @@ var personAttendStat = {
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date("2023-08-31"));
         $("#startDt, #endDt").attr("readonly", true);
 
-        $("#dept").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "전체", value: "" },
-                {text: "미래전략기획본부", value: "미래전략기획본부"},
-                {text: "R&BD사업본부", value: "R&BD사업본부"},
-                {text: "기업성장지원본부", value: "기업성장지원본부"},
-                {text: "우주항공사업부", value: "우주항공사업부"},
-                {text: "드론사업부", value: "드론사업부"},
-                {text: "스마트제조사업부", value: "스마트제조사업부"},
-                {text: "경영지원실", value: "경영지원실"}
-            ],
-            index: 0
+        $.ajax({
+            url : "/userManage/getDeptCodeList2",
+            type : "post",
+            async: false,
+            dataType : "json",
+            success : function(result){
+                var ds = result.list;
+                ds.unshift({deptName: '선택하세요', deptSeq: ''});
+
+                $("#dept").kendoDropDownList({
+                    dataTextField: "deptName",
+                    dataValueField: "deptSeq",
+                    dataSource: ds,
+                    index: 0,
+                    change : function(){
+                        var data = {
+                            deptSeq : $("#dept").val()
+                        }
+
+                        $.ajax({
+                            url : "/userManage/getDeptCodeList",
+                            type : "post",
+                            async: false,
+                            data : data,
+                            dataType : "json",
+                            success : function(result){
+                                var ds = result.list;
+                                ds.unshift({text: '선택하세요', value: ''});
+
+                                $("#team").kendoDropDownList({
+                                    dataTextField: "text",
+                                    dataValueField: "value",
+                                    dataSource: ds,
+                                    index: 0,
+                                });
+                            }
+                        });
+                    }
+                });
+            }
         });
 
         $("#team").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
+            dataTextField: "TEXT",
+            dataValueField: "VALUE",
             dataSource: [
-                {text: "전체", value: "" },
-                {text: "제조혁신팀", value: "제조혁신팀"},
-                {text: "신기술융합팀", value: "신기술융합팀"},
-                {text: "우주개발팀", value: "우주개발팀"},
-                {text: "항공개발팀", value: "항공개발팀"},
-                {text: "사업지원팀", value: "사업지원팀"},
-                {text: "인재개발팀", value: "인재개발팀"},
-                {text: "일자리창업팀", value: "일자리창업팀"},
-                {text: "복합소재뿌리기술센터", value: "복합소재뿌리기술센터"},
-                {text: "지역산업육성팀", value: "지역산업육성팀"},
-                {text: "경영지원팀", value: "경영지원팀"},
-                {text: "미래전략기획팀", value: "미래전략기획팀"},
-                {text: "J-밸리혁신팀", value: "J-밸리혁신팀"},
-                {text: "전북 조선업 도약센터", value: "전북 조선업 도약센터"},
-                {text: "익산고용안정일자리센터", value: "익산고용안정일자리센터"}
+                {TEXT: '선택하세요', VALUE: ''}
             ],
-            index: 0
+            index: 0,
         });
+
+        $("#dept").data("kendoDropDownList").value($("#regDeptSeq").val())
+        $("#dept").data("kendoDropDownList").trigger("change");
+        $("#team").data("kendoDropDownList").value($("#regTeamSeq").val())
 
         $("#situation").kendoDropDownList({
             dataTextField: "text",
@@ -99,35 +116,13 @@ var personAttendStat = {
                 {text: "경비/환경", expanded: true}
             ]
         });
-    },
-    mainGrid: function () {
-        var dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read : {
-                    url : "/inside/getPersonAttendStat",
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data) {
-                    data.startDt = $("#startDt").val();
-                    data.endDt = $("#endDt").val();
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    return data.list;
-                },
-                total: function (data) {
-                    return data.list.length;
-                },
-            },
-            pageSize: 10,
-        });
 
+        personAttendStat.gridReload();
+    },
+
+    mainGrid: function (url, params) {
         $("#mainGrid").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             scrollable: true,
             height: 489,
@@ -191,7 +186,6 @@ var personAttendStat = {
                 }, {
                     title: "근태 항목",
                     template: function(row){
-                        console.log(row);
                         let text = "";
                         if(row.HOLIDAY != ""){
                             text += row.HOLIDAY
@@ -215,6 +209,17 @@ var personAttendStat = {
                 }
             ]
         }).data("kendoGrid");
+    },
+
+    gridReload: function (){
+        personAttendStat.global.searchAjaxData = {
+            startDt : $("#startDt").val(),
+            endDt : $("#endDt").val(),
+            dept : $("#dept").val(),
+            team : $("#team").val(),
+        }
+
+        personAttendStat.mainGrid("/inside/getPersonAttendStat", personAttendStat.global.searchAjaxData);
     },
 
     personAttendStatPopup : function(){

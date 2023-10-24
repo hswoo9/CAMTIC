@@ -25,65 +25,73 @@
         </div>
         <div class="panel-body">
             <div>
-                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
-                    <tr>
-                        <td style="border-bottom:0; background-color: white">
-                            <div style="display:flex;">
-                                <div class="mr10">
-                                    <span>조회 기간</span>
-                                    <input type="text" id="startDt" style="width: 130px;">
-                                    ~
-                                    <input type="text" id="endDt" style="width: 130px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>부서</span>
-                                    <input type="text" id="dept" style="width: 150px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>팀</span>
-                                    <input type="text" id="team" style="width: 200px;">
-                                </div>
-                                <div class="mr10">
-                                    <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">
-                                        <span>검색</span>
-                                    </button>
-                                </div>
-                                <div class="mr10">
-                                    <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="onDisplay();">
-                                        상세검색
-                                    </button>
-                                </div>
-                            </div>
-                            <div style="display: none;" id="noneDiv"> <%--상세검색 버튼을 클릭시 div가 보이도록--%>
-                                <div style="display:flex;" class="mt10">
-                                    <div class="mr10">
-                                        <span>상태</span>
-                                        <input type="text" id="situation" style="width: 100px; margin-left:28px;">
-                                    </div>
-                                    <div class="mr10">
-                                        <span>근태 항목</span>
-                                        <input type="text" id="attendanceItems" style="width: 200px;">
-                                    </div>
-                                    <div class="mr10">
-                                        <span>성명</span>
-                                        <input type="text" id="name" style="width: 200px;">
-                                    </div>
-                                </div>
-                                <div style="display:flex;" class="mt10">
-                                    <div class="mr10">
-                                        <span>직원 구분</span>
-                                        <input type="text" id="staffDivision" style="width: 200px;">
-                                    </div>
-                                    <div class="mr10">
-                                        <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">
-                                            검색 초기화
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
+                <div style="margin-bottom:10px;">
+                    <table class="searchTable table table-bordered mb-0" style="margin-bottom: 0">
+                        <colgroup>
+                            <col style="width: 8%">
+                            <col>
+                            <col style="width: 8%">
+                            <col>
+                            <col style="width: 8%">
+                            <col>
+                        </colgroup>
+                        <tr>
+                            <th class="text-center th-color">조회 기간</th>
+                            <td>
+                                <input type="text" id="startDt" style="width: 130px;"> ~
+                                <input type="text" id="endDt" style="width: 130px;">
+                            </td>
+                            <th class="text-center th-color">부서</th>
+                            <td>
+                                <input type="text" id="dept" style="width: 150px;">
+                            </td>
+                            <th class="text-center th-color">팀</th>
+                            <td>
+                                <input type="text" id="team" style="width: 200px;">
+                                <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="personAttendStat.gridReload()">
+                                    <span>검색</span>
+                                </button>
+                                <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="onDisplay();">
+                                    상세검색
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table class="searchTable table table-bordered mb-0" style="display: none" id="noneDiv">
+                        <colgroup>
+                            <col style="width: 8%">
+                            <col style="width: 9%">
+                            <col style="width: 8%">
+                            <col style="width: 11%">
+                            <col style="width: 8%">
+                            <col style="width: 16.4%">
+                            <col style="width: 8%">
+                            <col>
+                        </colgroup>
+                        <tr>
+                            <th class="text-center th-color">상태</th>
+                            <td>
+                                <input type="text" id="situation" style="width: 100px;">
+                            </td>
+                            <th class="text-center th-color">근태 항목</th>
+                            <td>
+                                <input type="text" id="attendanceItems">
+                            </td>
+                            <th class="text-center th-color">성명</th>
+                            <td>
+                                <input type="text" id="name" style="width: 200px;">
+                            </td>
+                            <th class="text-center th-color">직원 구분</th>
+                            <td>
+                                <input type="text" id="staffDivision" style="width: 200px;">
+                                <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">
+                                    검색 초기화
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
                 <h4 class="panel-title">* 부서</h4>
                 <div style="margin:20px 0;">
                     <div class="table-responsive">
@@ -153,7 +161,6 @@
 
 <script type="text/javascript">
     personAttendStat.fn_defaultScript();
-    personAttendStat.mainGrid();
     function onDisplay() {
         $('#noneDiv').show();
     }
