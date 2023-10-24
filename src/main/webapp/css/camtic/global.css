@@ -2795,7 +2795,7 @@ img {max-width:100%;}
 .__orga .head:before {content:"";display:block;width:1px;height:100%;background:#b7b7b7;position:absolute;left:50%;top:0;}
 .__orga .head h4 {}
 .__orga .bot {position:relative;}
-.__orga .bot:before {content:"";display:block;width:calc(100% - ((20% - (56px / 5))));height:1px;background:#b7b7b7;position:absolute;left:calc((20% - (56px / 5)) / 2);top:0;}
+.__orga .bot:before {content:"";display:block;width:calc(100% - ((16.5% - (56px / 5))));height:1px;background:#b7b7b7;position:absolute;left:calc((16.5% - (56px / 5)) / 2);top:0;}
 .__orga .line {display:flex;gap:14px;justify-content:space-between;position:relative;}
 .__orga .line ~ .line {margin-top:10px;}
 .__orga .line2 {margin-top:50px !important;}

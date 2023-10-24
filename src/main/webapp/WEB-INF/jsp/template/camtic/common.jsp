@@ -12,7 +12,6 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <!-- 페이지 로드시마다 페이지를 캐싱하지 않음. (HTTP 1.1) -->
   <meta http-equiv="Cache-Control" content="no-cache" />
-
   <meta charset="utf-8">
   <meta name="format-detection" content="telephone=no"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"/>
