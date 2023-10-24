@@ -11,9 +11,9 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/regPayAppPop.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/g20Callback.js?v=${today}'/>"></script>
 
-<form id="purcDraftFrm" method="post">
+<form id="payAppDraftFrm" method="post">
     <input type="hidden" id="payAppSn" name="payAppSn" value="${params.payAppSn}">
-    <input type="hidden" id="menuCd" name="menuCd" value="purc">
+    <input type="hidden" id="menuCd" name="menuCd" value="payApp">
     <input type="hidden" id="type" name="type" value="drafting">
     <input type="hidden" id="nowUrl" name="nowUrl" />
 </form>
@@ -26,8 +26,7 @@
                     지급신청서 작성
                 </span>
             </h3>
-            <div id="purcBtnDiv" class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" style="display: none" id="apprBtn" onclick="regPay.fn_approve();">결재</button>
+            <div id="payAppBtnDiv" class="btn-st popButton">
                 <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="regPay.fn_save();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>

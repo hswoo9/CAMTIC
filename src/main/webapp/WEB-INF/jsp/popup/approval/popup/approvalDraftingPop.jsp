@@ -2,6 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<jsp:useBean id="today" class="java.util.Date" />
+
 <c:set var="now" value="<%= new java.util.Date() %>" />
 <fmt:formatDate value="${now}" var="nowComSpace" pattern="yyyy. MM. dd" />
 <fmt:formatDate value="${now}" var="nowCom" pattern="yyyy.MM.dd" />
@@ -10,10 +12,10 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="false"/>
 <script type="text/javascript" src="${hwpUrl}js/hwpctrlapp/utils/util.js"></script>
 <script type="text/javascript" src="${hwpUrl}js/webhwpctrl.js"></script>
-<script type="text/javascript" src="<c:url value='/js/hancom/hwp_DocCtrl.js?v=${toDate}'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/hancom/hwpInit.js?v=${toDate}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/hancom/hwp_DocCtrl.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/hancom/hwpInit.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpCtrlApp.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/approval/approvalDrafting.js?v=${toDate}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/approval/approvalDrafting.js?v=${today}'/>"></script>
 
 <style>
     .pop_head {height: 32px; position: relative; background: #1385db;}
