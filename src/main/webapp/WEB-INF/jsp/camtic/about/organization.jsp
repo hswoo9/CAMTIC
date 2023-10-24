@@ -112,12 +112,12 @@
                         </ul>
                       </div>
                     </div>
-                    <div class="box">
+                    <%--<div class="box">
                       <h4 style="background:#fff;border:1px solid #305c9a;border-radius:5px;color:#305c9a;"><strong>전북조선업도약센터</strong></h4>
                     </div>
                     <div class="box">
                       <h4 style="background:#fff;border:1px solid #305c9a;border-radius:5px;color:#305c9a;"><strong>익산고용 안정일자리센터</strong></h4>
-                    </div>
+                    </div>--%>
                   </div>
                   <div class="cer">
                     <div class="box">
