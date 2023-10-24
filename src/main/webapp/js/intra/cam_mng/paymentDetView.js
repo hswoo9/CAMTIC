@@ -350,47 +350,37 @@ var payDetView = {
                     title: "번호",
                     width : 50
                 }, {
-                    title: "업체명",
+                    title: "이름",
                     width: 200,
                     template: function (e){
-                        return '<input type="hidden" id="trCd" value="' + e.TR_CD + '"/>' + e.TR_NM;
+                        return '<input type="hidden" id="trCd" value="' + e.PER_CD + '"/>' + e.PER_NM;
                     }
                 }, {
-                    title: "대표자",
+                    title: "주민번호",
                     width: 80,
                     template: function (e){
-                        if(e.CEO_NM != null){
-                            return e.CEO_NM;
-                        } else {
-                            return "";
-                        }
-                    }
-                }, {
-                    title: "사업자번호",
-                    width: 100,
-                    template: function (e){
-                        if(e.REG_NB != null){
-                            return e.REG_NB;
-                        } else {
-                            return "";
-                        }
-                    }
-                }, {
-                    title: "은행명",
-                    width: 80,
-                    template: function (e){
-                        if(e.JIRO_NM != null){
-                            return e.JIRO_NM;
+                        if(e.REG_NO != null){
+                            return e.REG_NO;
                         } else {
                             return "";
                         }
                     }
                 }, {
                     title: "지급계좌",
-                    width: 150,
+                    width: 100,
                     template: function (e){
-                        if(e.BA_NB != null){
-                            return e.BA_NB;
+                        if(e.ACCT_NO != null){
+                            return e.ACCT_NO;
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    title: "은행",
+                    width: 80,
+                    template: function (e){
+                        if(e.BANK_NM != null){
+                            return e.BANK_NM;
                         } else {
                             return "";
                         }
@@ -399,8 +389,8 @@ var payDetView = {
                     title: "예금주",
                     width: 150,
                     template: function (e){
-                        if(e.DEPOSITOR != null){
-                            return e.DEPOSITOR;
+                        if(e.ACCT_NM != null){
+                            return e.ACCT_NM;
                         } else {
                             return "";
                         }
@@ -410,7 +400,7 @@ var payDetView = {
                     width: 80,
                     template: function(e){
                         return '<button type="button" class="k-button k-button-solid-base" ' +
-                            'onclick="payDetView.fn_selClientInfo(\'' + e.TR_CD + '\', \'' + e.TR_NM + '\', \'' + e.BA_NB + '\', \'' + e.DEPOSITOR + '\', \'' + e.JIRO_NM + '\', \'' + e.CEO_NM + '\', \'' + e.REG_NB + '\')" style="font-size: 12px);">' +
+                            'onclick="payDetView.fn_selOtherInfo(\'' + e.PER_CD + '\', \'' + e.PER_NM + '\', \'' + e.ACCT_NO + '\', \'' + e.ACCT_NM + '\', \'' + e.BANK_NM + '\')" style="font-size: 12px);">' +
                             '   선택' +
                             '</button>';
                     }
@@ -430,6 +420,13 @@ var payDetView = {
         acctAm1Sum = 0;
         acctAm3Sum = 0;
         subAmSum = 0;
+    },
+
+    fn_selOtherInfo: function (trCd, perNm, acctNo, acctNm, bankNm){
+        var idx = $("#index").val();
+        opener.parent.fn_selOtherInfo(trCd, bankNm, acctNm, acctNo, perNm, idx);
+
+        window.close();
     },
 
     fn_selEmpInfo : function (trCd, bankName, accountNum, accountHolder, empNameKr) {
