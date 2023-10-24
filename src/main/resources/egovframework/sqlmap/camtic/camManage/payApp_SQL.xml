@@ -20,8 +20,8 @@
                 ACC_NO,
                 ACC_NM,
                 PAY_APP_STAT,
+                GUBUN,
                 REG_EMP_SEQ
-
             )
         VALUES
             (
@@ -38,6 +38,7 @@
                 #{accNo},
                 #{accNm},
                 #{payAppStat},
+                'W',
                 #{regEmpSeq}
             )
         <selectKey keyProperty="payAppSn" resultType="Integer" order="BEFORE">
@@ -125,5 +126,14 @@
         SELECT *
         FROM CAM_MNG.DJ_PAY_APP_DET
         WHERE PAY_APP_SN = #{payAppSn}
+    </select>
+
+    <select id="getPaymentList" parameterType="map" resultType="map">
+        /*getPaymentList*/
+        SELECT
+            A.*,
+            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = A.PAY_APP_SN) AS TOT_COST
+        FROM
+            CAM_MNG.DJ_PAY_APP A
     </select>
 </mapper>

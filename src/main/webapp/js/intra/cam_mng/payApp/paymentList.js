@@ -61,41 +61,74 @@ var paymentList = {
                     width: 50,
                     template: "#= --record #"
                 }, {
-                    title: "문서번호",
-                    field: "DOC_NO",
-                    width: 180,
+                    title: "문서유형",
+                    width: 100,
+                    template: function(e){
+                        if(e.PAY_APP_TYPE == 1){
+                            return "세금계산서";
+                        } else if (e.PAY_APP_TYPE == 2){
+                            return "계산서";
+                        } else if(e.PAY_APP_TYPE == 3){
+                            return "신용카드";
+                        } else if(e.PAY_APP_TYPE == 4){
+                            return "직원지급";
+                        } else if(e.PAY_APP_TYPE == 5){
+                            return "소득신고자";
+                        } else {
+                            return "기타";
+                        }
+                    }
                 }, {
-                    field: "PURC_REQ_DATE",
-                    title: "요청일",
+                    field: "DOC_NO",
+                    title: "문서번호",
                     width: 120,
                 }, {
-                    title: "요청자",
-                    field: "EMP_NAME_KR",
-                    width: 100
-                }, {
-                    title: "목적",
-                    field: "PURC_REQ_PURPOSE",
-                    template : function(e){
-                        return '<a onclick="paymentList.fn_reqRegPopup(' + e.PURC_SN + ')">' + e.PURC_REQ_PURPOSE + '</a>'
+                    title: "신청건명",
+                    field: "APP_TITLE",
+                    width: 300,
+                    template: function(e){
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="paymentList.fn_reqRegPopup('+e.PAY_APP_SN+')">'+e.APP_TITLE+'</div>';
                     }
                 }, {
-                    title: "구매",
-                    width: 100,
-                    template : function(e){
-                        return e.CP_CNT + "건 / " + '<span style="color:red;">'+e.RP_CNT+'</span>' + "건"
+                    title: "프로젝트 명",
+                    field: "PJT_NM",
+                    width: 200,
+                    template: function (e){
+                        var pjtNm = e.PJT_NM.toString().substring(0, 25);
+                        return pjtNm + "...";
                     }
                 }, {
-                    title: "외주",
-                    width: 100
+                    title: "신청일",
+                    width: 80,
+                    field: "REG_DT",
+                    template: function(e){
+
+                        return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
+                    }
+                }, {
+                    title: "지출요청일",
+                    width: 80,
+                    field: "APP_DE"
+                }, {
+                    title: "지출예정일",
+                    width: 80,
+                    field: ""
+                }, {
+                    title: "지출완료일",
+                    width: 80,
+                    field: ""
                 }, {
                     title: "상태",
-                    field: "STATUS",
-                    width: 100,
+                    width: 60,
                     template : function(e){
-                        if(e.STATUS == "W"){
+                        if(e.GUBUN == "W"){
                             return "작성중"
                         }else if(e.STATUS == "C"){
-                            return "요청완료"
+                            return "결재중"
+                        } else if(e.STATUS == "R"){
+                            return "결재완료"
+                        } else {
+                            return "작성중"
                         }
                     }
                 }
@@ -114,13 +147,13 @@ var paymentList = {
             searchValue : $("#searchValue").val()
         }
 
-        paymentList.mainGrid("/purc/getPurcReqList.do", paymentList.global.searchAjaxData);
+        paymentList.mainGrid("/pay/getPaymentList", paymentList.global.searchAjaxData);
     },
 
     fn_reqRegPopup : function (key){
         var url = "/payApp/pop/regPayAppPop.do";
         if(key != null && key != ""){
-            url = "/purc/pop/regPurcReqPop.do?purcSn=" + key;
+            url = "/payApp/pop/regPayAppPop.do?payAppSn=" + key;
         }
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"

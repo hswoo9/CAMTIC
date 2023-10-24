@@ -10,4 +10,6 @@ public interface PayAppService {
     Map<String, Object> getPayAppReqData(Map<String, Object> params);
 
     List<Map<String, Object>> getPayAppDetailData(Map<String, Object> params);
+
+    List<Map<String, Object>> getPaymentList(Map<String, Object> params);
 }

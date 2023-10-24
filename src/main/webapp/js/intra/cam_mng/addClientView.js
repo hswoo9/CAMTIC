@@ -51,7 +51,7 @@ var addCV = {
             dataType : "json",
             success : function(rs){
                 if(rs.map != null){
-                    alert("등록 요청한 사업자번호로 이미 등록된 거래처가 있습니다. \n 거래처명 : " + checkData.map.TR_NM);
+                    alert("등록 요청한 사업자번호로 이미 등록된 거래처가 있습니다. \n 거래처명 : " + rs.map.TR_NM);
                     return;
                 } else {
                     $.ajax({

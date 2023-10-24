@@ -44,4 +44,9 @@ public class PayAppServiceImpl implements PayAppService {
     public List<Map<String, Object>> getPayAppDetailData(Map<String, Object> params) {
         return payAppRepository.getPayAppDetailData(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getPaymentList(Map<String, Object> params) {
+        return payAppRepository.getPaymentList(params);
+    }
 }
