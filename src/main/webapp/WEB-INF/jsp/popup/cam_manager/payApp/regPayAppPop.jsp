@@ -221,8 +221,8 @@
     </div>
 </div>
 <script type="text/javascript">
-    regPay.fn_defaultScript();
     regPayDet.fn_defaultScript();
+    regPay.fn_defaultScript();
 
     if($("#stat").val() == "v"){
         $("input[type='text'], input[type='radio']").prop("disabled", true);

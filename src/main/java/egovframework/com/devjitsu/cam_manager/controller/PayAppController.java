@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -46,7 +47,9 @@ public class PayAppController {
     @RequestMapping("/payApp/pop/getPayAppData")
     public String getPayAppData(@RequestParam Map<String, Object> params, Model model){
         Map<String, Object> map = payAppService.getPayAppReqData(params);
+        List<Map<String, Object>> list = payAppService.getPayAppDetailData(params);
         model.addAttribute("map", map);
+        model.addAttribute("list", list);
 
         return "jsonView";
     }
