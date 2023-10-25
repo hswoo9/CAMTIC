@@ -113,11 +113,11 @@
 
         INSERT INTO CAM_COMMON.DJ_COM_GROUP_CODE
         (
-            CM_GROUP_CODE, CM_GROUP_CODE_NM, CM_GROUP_CODE_DESC, REG_EMP_SEQ
+            CM_GROUP_CODE, CM_GROUP_CODE_NM, CM_GROUP_CODE_DESC, ACTIVE, REG_EMP_SEQ
         )
         VALUES
         (
-            #{cmGroupCode}, #{cmGroupCodeNm}, #{cmGroupCodeDesc}, #{empSeq}
+            #{cmGroupCode}, #{cmGroupCodeNm}, #{cmGroupCodeDesc}, #{cmCodeActive}, #{empSeq}
         )
     </insert>
 
@@ -126,11 +126,11 @@
 
         INSERT INTO CAM_COMMON.DJ_COM_CODE
         (
-            CM_CODE, CM_GROUP_CODE_ID, CM_CODE_NM, CM_CODE_DESC, REG_EMP_SEQ
+            CM_CODE, CM_GROUP_CODE_ID, CM_CODE_NM, CM_CODE_DESC, ACTIVE, REG_EMP_SEQ
         )
         VALUES
         (
-            #{cmCode}, #{cmGroupCodeId}, #{cmCodeNm}, #{cmCodeDesc}, #{empSeq}
+            #{cmCode}, #{cmGroupCodeId}, #{cmCodeNm}, #{cmCodeDesc}, #{active}, #{empSeq}
         )
     </insert>
 
@@ -143,6 +143,7 @@
             CM_GROUP_CODE = #{cmGroupCode},
             CM_GROUP_CODE_NM = #{cmGroupCodeNm},
             CM_GROUP_CODE_DESC = #{cmGroupCodeDesc},
+            ACTIVE = #{cmCodeActive},
             MOD_EMP_SEQ = #{empSeq},
             MOD_DATE = NOW()
         WHERE
@@ -158,6 +159,7 @@
             CM_CODE = #{cmCode},
             CM_CODE_NM = #{cmCodeNm},
             CM_CODE_DESC = #{cmCodeDesc},
+            ACTIVE = #{cmCodeActive},
             MOD_EMP_SEQ = #{empSeq},
             MOD_DATE = NOW()
         WHERE
