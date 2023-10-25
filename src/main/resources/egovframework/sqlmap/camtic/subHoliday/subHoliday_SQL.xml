@@ -288,13 +288,23 @@
             CAM_HR.DJ_EMP_INFO VUI
         LEFT JOIN
             CAM_INSIDE.DJ_HOLIDAY VC
-        ON
-            VUI.EMP_SEQ = VC.EMP_SEQ AND VC.APPLY_YEAR = #{holidayYear}
+        ON VUI.EMP_SEQ = VC.EMP_SEQ AND VC.APPLY_YEAR = #{holidayYear}
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON VUI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE
         VUI.ACTIVE = "Y"
-        <if test='deptName != null and !"".equals(deptName)'>
-            AND VUI.DEPT_SEQ = #{deptSeq}
+
+        <if test='deptSeq != null and !"".equals(deptSeq)'>
+            AND (
+                VUI.DEPT_SEQ = #{deptSeq} OR
+                HDI.PARENT_DEPT_SEQ = #{deptSeq}
+            )
         </if>
+
+        <if test='teamSeq != null and !"".equals(teamSeq)'>
+            AND VUI.DEPT_SEQ = #{teamSeq}
+        </if>
+
         <if test='searchVal != null and !"".equals(searchVal)'>
             AND VUI.EMP_NAME_KR LIKE CONCAT('%',#{searchVal},'%')
         </if>
