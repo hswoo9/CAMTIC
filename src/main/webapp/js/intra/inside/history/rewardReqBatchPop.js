@@ -207,11 +207,11 @@ const rewardBatch = {
                 }, {
                     field: "ERP_EMP_SEQ",
                     title: "사번",
-                    width: 100
+                    width: 80
                 }, {
                     field: "EMP_NAME_KR",
                     title: "이름",
-                    width: 100
+                    width: 80
                 }, {
                     title: "포상구분",
                     template : function (row){
@@ -220,7 +220,8 @@ const rewardBatch = {
                         }else{
                             return "<input type='text' id='rewardTp"+row.EMP_SEQ+"' class='formData rewardTp'>";
                         }
-                    }
+                    },
+                    width : 180
                 }, {
                     title: "포상일자",
                     template : function(row){
@@ -230,7 +231,7 @@ const rewardBatch = {
                             return "<input type='text' id='rewardDay"+row.EMP_SEQ+"' name='rewardDay' class='formData rewardDay'>";
                         }
                     },
-                    width: 180
+                    width: 120
                 }, {
                     title: "공적사항",
                     template : function(row){
@@ -254,13 +255,19 @@ const rewardBatch = {
                 }, {
                     title: "스캔파일",
                     template : function(row){
-                        if(row.file_no > 0){
-                            return '<span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">보기</span>';
+                        if(row.file_no != 0){
+                            return '<span id="file' + row.EMP_SEQ + 'Name" style="font-size:11px;cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">' + row.file_org_name + '.' + row.file_ext + '</span>' +
+                                '<input type="hidden" id="file' + row.EMP_SEQ + 'Sn" name="file' + row.EMP_SEQ + 'Sn" value="' + row.file_no + '">' +
+                                '<label For="file' + row.EMP_SEQ + '" class="k-button k-button-solid-base" style="float:left;">파일첨부</label>' +
+                                '<input type="file" id="file' + row.EMP_SEQ + '" name="file' + row.EMP_SEQ + '" onChange="rewardBatch.fileChange(this)" style="display: none">';
                         }else{
-                            return "<input type='file' id='fileList"+row.EMP_SEQ+"' name='fileList' multiple/>";
+                            return '<span id="file' + row.EMP_SEQ + 'Name" style="font-size:11px"></span>' +
+                                '<input type="hidden" id="file' + row.EMP_SEQ + 'Sn" name="file' + row.EMP_SEQ + 'Sn">' +
+                                '<label For="file' + row.EMP_SEQ + '" class="k-button k-button-solid-base" style="float:left;">파일첨부</label>' +
+                                '<input type="file" id="file' + row.EMP_SEQ + '" name="file' + row.EMP_SEQ + '" onChange="rewardBatch.fileChange(this)" style="display: none">';
                         }
                     },
-                    width: 180
+                    width: 220
                 }, {
                     title: "비고",
                     template : function(row){
@@ -376,6 +383,7 @@ const rewardBatch = {
             formData.append("rewordId", dataItem.REWORD_ID);
             formData.append("menuCd", "reward");
             formData.append("empSeq", String(empSeq));
+            formData.append("erpEmpSeq", dataItem.ERP_EMP_SEQ);
             formData.append("empName", dataItem.EMP_NAME_KR);
             formData.append("deptSeq", dataItem.DEPT_SEQ);
             formData.append("deptName", dataItem.DEPT_NAME);
@@ -389,8 +397,8 @@ const rewardBatch = {
             formData.append("rwdEtc", $(v).find('#rwdEtc'+empSeq).val());
 
             /** 첨부파일 체크 1:1 */
-            if($("#fileList"+empSeq)[0].files[0] != null){
-                formData.append("rewardFile", $("#fileList"+empSeq)[0].files[0]);
+            if($("#file"+empSeq)[0].files[0] != null){
+                formData.append("rewardFile", $("#file"+empSeq)[0].files[0]);
             }
 
             formData.append("regEmpSeq", $("#empSeq").val());
@@ -437,5 +445,20 @@ const rewardBatch = {
         rewardBatch.global.userArr = [];
         rewardBatch.global.editDataSource.data = [];
         rewardBatch.editGrid();
-    }
+    },
+
+    fileChange : function(e){
+        if($("#" + $(e).attr("id") + "Sn").val()){
+            if(confirm("기존 파일은 삭제됩니다. 진행하시겠습니까?")){
+                var result = customKendo.fn_customAjax("/common/commonFileDel", {fileNo : $("#" + $(e).attr("id") + "Sn").val()})
+                if(result.flag){
+                    $(e).prev().prev().prev().text($(e)[0].files[0].name);
+                }
+            }
+        }else{
+            $(e).prev().prev().prev().text($(e)[0].files[0].name);
+        }
+
+
+    },
 }
