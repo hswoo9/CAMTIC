@@ -13,7 +13,7 @@
 
 <form id="payAppDraftFrm" method="post">
     <input type="hidden" id="exnpSn" name="exnpSn" value="${params.exnpSn}">
-    <input type="hidden" id="menuCd" name="menuCd" value="payApp">
+    <input type="hidden" id="menuCd" name="menuCd" value="exnp">
     <input type="hidden" id="type" name="type" value="drafting">
     <input type="hidden" id="nowUrl" name="nowUrl" />
 </form>

@@ -353,4 +353,16 @@ var hwpInit = {
         /** 1. 지급신청서 데이터 */
 
     },
+
+    exnpInit: function(exnpSn){
+        let data = {
+            exnpSn: exnpSn
+        }
+
+        const result = customKendo.fn_customAjax("/payApp/pop/getExnpData", data);
+        console.log("result", result);
+
+        /** 1. 지급신청서 데이터 */
+
+    },
 }

@@ -54,7 +54,7 @@ var rndBg = {
                 parameterMap: function(data){
                     var date = new Date();
                     var year = date.getFullYear().toString().substring(2,4);
-
+                    data.stat = "project";
                     data.gisu = year;
                     data.fromDate = date.getFullYear().toString() + "0101";
                     data.toDate = date.getFullYear().toString() + "1231";

@@ -235,11 +235,11 @@ var regExnp = {
 
     payAppDrafting: function() {
         $("#payAppDraftFrm").one("submit", function() {
-            var url = "/popup/payApp/approvalFormPopup/payAppApprovalPop.do";
+            var url = "/popup/exnp/approvalFormPopup/exnpApprovalPop.do";
             var name = "_self";
             var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
             var popup = window.open(url, name, option);
-            this.action = "/popup/payApp/approvalFormPopup/payAppApprovalPop.do";
+            this.action = "/popup/exnp/approvalFormPopup/exnpApprovalPop.do";
             this.method = 'POST';
             this.target = '_self';
         }).trigger("submit");

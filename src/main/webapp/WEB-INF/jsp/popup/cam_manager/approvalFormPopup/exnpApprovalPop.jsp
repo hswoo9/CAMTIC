@@ -13,18 +13,18 @@
     function approvalDataInit(){
         var approvalParams = {};
         approvalParams.mod = "W";
-        approvalParams.formId = "97";
+        approvalParams.formId = "96";
         approvalParams.compSeq = "1000";
         approvalParams.empSeq = "${loginVO.uniqId}";
         approvalParams.content = $("#approveDataPop")[0].innerHTML;
         approvalParams.type = "drafting";
-        approvalParams.menuCd = "payApp";
+        approvalParams.menuCd = "exnp";
         approvalParams.docType = "A";
 
         approvalParams.linkageProcessId = "15";
         approvalParams.linkageType = "2";
-        approvalParams.linkageProcessCode = "camticPayApp";
-        approvalParams.approKey = "camticPayApp_${params.payAppSn}";
+        approvalParams.linkageProcessCode = "camticExnp";
+        approvalParams.approKey = "camticExnp_${params.exnpSn}";
 
         linkageProcessOn(approvalParams);
     }

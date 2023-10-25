@@ -301,6 +301,27 @@
             PAY_APP_SN = #{payAppSn}
     </update>
 
+    <update id="updateExnpApprStat" parameterType="map">
+        /* updatePayAppApprStat */
+        UPDATE CAM_MNG.DJ_EXNP
+        SET
+            DOC_STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            EXNP_SN = #{exnpSn}
+    </update>
+
+    <update id="updateExnpFinalApprStat" parameterType="map">
+        /* updateExnpFinalApprStat */
+        UPDATE CAM_MNG.DJ_EXNP
+        SET
+            DOC_STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            EXNP_SN = #{exnpSn}
+    </update>
+
     <update id="updPayAppDetStat" parameterType="map">
         /*updPayAppDetStat*/
         UPDATE CAM_MNG.DJ_PAY_APP_DET
@@ -317,12 +338,17 @@
             B.EMP_SEQ,
             B.EMP_NAME_KR,
             B.DEPT_SEQ,
-            B.DEPT_NAME
+            B.DEPT_NAME,
+            C.DOC_NO
         FROM
             CAM_MNG.DJ_EXNP A
         LEFT JOIN
             CAM_HR.DJ_EMP_INFO B
         ON A.EXNP_EMP_SEQ = B.EMP_SEQ
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO C
+        ON
+            A.DOC_ID = C.DOC_ID
         WHERE
             EXNP_SN = #{exnpSn}
     </select>
@@ -340,9 +366,15 @@
     <select id="getExnpList" parameterType="map" resultType="map">
         /*getExnpList*/
         SELECT
-            A.*
+            A.*,
+            B.DOC_NO,
+            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_EXNP_DET WHERE EXNP_SN = A.EXNP_SN) AS TOT_COST
         FROM
             CAM_MNG.DJ_EXNP A
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO B
+        ON
+            A.DOC_ID = B.DOC_ID
     </select>
 
     <update id="updPayAppDetailStatus" parameterType="map">

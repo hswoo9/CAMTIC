@@ -100,6 +100,19 @@ public class PayAppController {
         return "popup/cam_manager/approvalFormPopup/payAppApprovalPop";
     }
 
+    @RequestMapping("/popup/exnp/approvalFormPopup/exnpApprovalPop.do")
+    public String exnpApprovalPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        model.addAttribute("payAppItemList", payAppService.getPayAppDetailData(params));
+        Map<String, Object> data = payAppService.getPayAppReqData(params);
+
+        return "popup/cam_manager/approvalFormPopup/exnpApprovalPop";
+    }
+
     /** 구매요청서 결재 상태값에 따른 UPDATE 메서드 */
     @RequestMapping(value = "/pay/payApp")
     public String payApp(@RequestParam Map<String, Object> bodyMap, Model model) {
@@ -108,6 +121,23 @@ public class PayAppController {
         String resultMessage = "성공하였습니다.";
         try{
             payAppService.updatePayAppDocState(bodyMap);
+        }catch(Exception e){
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    /** 구매요청서 결재 상태값에 따른 UPDATE 메서드 */
+    @RequestMapping(value = "/pay/exnpApp")
+    public String exnpApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            payAppService.updateExnpAppDocState(bodyMap);
         }catch(Exception e){
             resultCode = "FAIL";
             resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
