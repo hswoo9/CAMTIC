@@ -80,7 +80,9 @@
 						'		</tr>' +
 						'		<tr>' +
 						'			<th scope="row" class="text-center th-color">순서</th>' +
-						'			<td colspan="3"><input type="text" name="orderCmCR" id="orderCmCR" style="width:20%;"></td>' +
+						'			<td><input type="text" name="orderCmCR" id="orderCmCR" style="width:20%;"></td>' +
+                        '			<th scope="row" class="text-center th-color">사용유무</th>' +
+                        '			<td><input type="text" name="cmCodeActive" id="cmCodeActive" style="width:80%;"></td>' +
 						'		</tr>' +
 						'	</tbody>' +
 						'</table>';
@@ -110,6 +112,8 @@
 				$("#cmCode").val(result.CM_CODE);
 				$("#cmCodeNm").val(result.CM_CODE_NM);
 				$("#cmCodeDesc").val(result.CM_CODE_DESC);
+                $("#orderCmCR").val(result.SORT);
+                $("#cmCodeActive").data("kendoDropDownList").value(result.ACTIVE);
 			}
 		});
 	}
@@ -128,6 +132,15 @@
 		});
 
 		$("#mappingCodeCmCR, #g20mappingCodeCmCR, #orderCmCR, #cmCode, #cmCodeNm, #cmCodeDesc").kendoTextBox();
+
+        $("#cmCodeActive").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "사용", value: "Y" },
+                { text: "미사용", value: "N" }
+            ],
+        })
 	}
 
 	/** [코드 등록] 근무 코드 insert, update */
@@ -155,6 +168,8 @@
 					cmCode : $("#cmCode").val(),
 					cmCodeNm : $("#cmCodeNm").val(),
 					cmCodeDesc : $("#cmCodeDesc").val(),
+                    orderCmCR : $("#orderCmCR").val(),
+                    cmCodeActive : $("#cmCodeActive").val(),
 					empSeq : $("#empSeq").val(),
 				}
 

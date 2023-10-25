@@ -67,7 +67,9 @@
 						'		</tr>' +
 						'		<tr>' +
 						'			<th scope="row" class="text-center th-color">순서</th>' +
-						'			<td colspan="3"><input type="text" name="orderCmGCR" id="orderCmGCR" style="width:20%;"></td>' +
+						'			<td><input type="text" name="orderCmGCR" id="orderCmGCR" style="width:20%;"></td>' +
+                        '			<th scope="row" class="text-center th-color">사용유무</th>' +
+                        '			<td><input type="text" name="active" id="active" style="width:80%;"></td>' +
 						'		</tr>' +
 						'	</tbody>' +
 						'</table>';
@@ -97,6 +99,8 @@
 				$("#cmGroupCodeCR").val(result.CM_GROUP_CODE);
 				$("#cmGroupCodeNmCR").val(result.CM_GROUP_CODE_NM);
 				$("#cmGroupCodeDescCR").val(result.CM_GROUP_CODE_DESC);
+                $("#orderCmGCR").val(result.SORT);
+                $("#active").data("kendoDropDownList").value(result.ACTIVE);
 			}
 		});
 	}
@@ -104,6 +108,16 @@
 	/** kendo Setting */
 	function modalKendoSetCmGroupCM(){
 		$("#cmGroupCodeCR, #cmGroupCodeNmCR, #cmGroupCodeDescCR, #mappingCodeCmGCR, #g20mappingCodeCmGCR, #orderCmGCR").kendoTextBox();
+
+        $("#active").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "사용", value: "Y" },
+                { text: "미사용", value: "N" }
+            ],
+            index: 0
+        })
 	}
 
 	/** [코드 등록] 공통 코드 insert, update */
@@ -130,6 +144,8 @@
 					cmGroupCode : $("#cmGroupCodeCR").val(),
 					cmGroupCodeNm : $("#cmGroupCodeNmCR").val(),
 					cmGroupCodeDesc : $("#cmGroupCodeDescCR").val(),
+                    orderCmGCR : $("#orderCmGCR").val(),
+                    active : $("#active").val(),
 					empSeq : $("#empSeq").val(),
 				}
 

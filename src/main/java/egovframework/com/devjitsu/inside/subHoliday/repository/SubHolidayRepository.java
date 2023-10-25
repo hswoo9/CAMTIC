@@ -41,5 +41,27 @@ public class SubHolidayRepository extends AbstractDAO  {
     public Map<String, Object> getUserHolyData(Map<String, Object> params) {return (Map<String, Object>) selectOne("subHoliday.getUserHolyData", params);}
     public Map<String, Object> getUserBefHolyData(Map<String, Object> params) {return (Map<String, Object>) selectOne("subHoliday.getUserBefHolyData", params);}
     public void setUserVacList(List<Map<String, Object>> list) {update("subHoliday.setUserVacList", list);}
+
+    //공휴일 데이터 조회
+    public List<Map<String, Object>> getHolidayList(Map<String, Object> parmas){return selectList("subHoliday.getHolidayList", parmas); }
+
+    //공휴일 데이터 갯수 조회
+    public int getHoliday(Map<String, Object> params){return (int) selectOne ("subHoliday.getHoliday", params);}
+
+    //공휴일 수정
+    public void updateHoliday(Map<String, Object> params) {
+        update("subHoliday.updateHoliday", params);
+    }
+
+    //공휴일 삽입
+    public void insertHoliday(Map<String, Object> params) {
+        insert("subHoliday.insertHoliday", params);
+    }
+
+    //공휴일 삭제
+    public void deleteHoliday(Map<String, Object> params) {
+        delete("subHoliday.deleteHoliday", params);
+    }
+
 }
 

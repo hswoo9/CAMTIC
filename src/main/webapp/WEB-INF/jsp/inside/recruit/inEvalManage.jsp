@@ -25,9 +25,7 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
-                        <col width="40%">
-                        <col width="10%">
-                        <col width="40%">
+                        <col>
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">관리명</th>

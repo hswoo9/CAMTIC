@@ -6,12 +6,14 @@ import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.inside.subHoliday.service.SubHolidayService;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
+import egovframework.devjitsu.common.utiles.EgovUserDetailsHelper;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -298,6 +300,38 @@ public class SubHolidayController {
 //        Map<String, Object> map = mapper.readValue(params);
 
         subHolidayService.setUserVacList(list);
+        return "jsonView";
+    }
+
+    //공휴일관리 페이지
+    @RequestMapping("/subHoliday/holidayManagement.do")
+    public String holidayManagement(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "/subHoliday/holidayManagement";
+    }
+
+    /** 공휴일 데이터 조회 */
+    @RequestMapping("/subHoliday/getHolidayList.do")
+    public String getHolidayList(@RequestParam Map<String, Object> params, ModelMap model) {
+        model.addAttribute("rs", subHolidayService.getHolidayList(params));
+        return "jsonView";
+    }
+
+    /** 공휴일 저장(삽입,수정) */
+    @RequestMapping("/subHoliday/setHoliday.do")
+    public String setHoliday(@RequestParam Map<String, Object> params) {
+        subHolidayService.setHoliday(params);
+        return "jsonView";
+    }
+
+    /** 공휴일 삭제 */
+    @RequestMapping("/subHoliday/setHolidayDel.do")
+    public String setHolidayDel(@RequestParam Map<String, Object> params, ModelMap model) {
+        subHolidayService.deleteHoliday(params);
         return "jsonView";
     }
 
