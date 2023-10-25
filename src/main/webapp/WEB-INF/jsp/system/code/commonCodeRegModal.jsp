@@ -112,6 +112,7 @@
 				$("#cmCode").val(result.CM_CODE);
 				$("#cmCodeNm").val(result.CM_CODE_NM);
 				$("#cmCodeDesc").val(result.CM_CODE_DESC);
+                $("#orderCmCR").val(result.SORT);
                 $("#cmCodeActive").data("kendoDropDownList").value(result.ACTIVE);
 			}
 		});
@@ -167,6 +168,7 @@
 					cmCode : $("#cmCode").val(),
 					cmCodeNm : $("#cmCodeNm").val(),
 					cmCodeDesc : $("#cmCodeDesc").val(),
+                    orderCmCR : $("#orderCmCR").val(),
                     cmCodeActive : $("#cmCodeActive").val(),
 					empSeq : $("#empSeq").val(),
 				}

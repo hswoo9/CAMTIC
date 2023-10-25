@@ -99,6 +99,7 @@
 				$("#cmGroupCodeCR").val(result.CM_GROUP_CODE);
 				$("#cmGroupCodeNmCR").val(result.CM_GROUP_CODE_NM);
 				$("#cmGroupCodeDescCR").val(result.CM_GROUP_CODE_DESC);
+                $("#orderCmGCR").val(result.SORT);
                 $("#active").data("kendoDropDownList").value(result.ACTIVE);
 			}
 		});
@@ -143,6 +144,7 @@
 					cmGroupCode : $("#cmGroupCodeCR").val(),
 					cmGroupCodeNm : $("#cmGroupCodeNmCR").val(),
 					cmGroupCodeDesc : $("#cmGroupCodeDescCR").val(),
+                    orderCmGCR : $("#orderCmGCR").val(),
                     active : $("#active").val(),
 					empSeq : $("#empSeq").val(),
 				}
