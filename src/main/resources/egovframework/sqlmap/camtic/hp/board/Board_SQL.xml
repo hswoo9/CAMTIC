@@ -274,7 +274,7 @@
         UPDATE
             CAM_COMMON.DJ_NEWS_BOARD_SUBSCRIBE
         SET
-            cancleDate = NOW()
+            CANCLE_DATE = NOW()
         WHERE
             EMAIL = #{email}
         ORDER BY APPLY_DATE DESC

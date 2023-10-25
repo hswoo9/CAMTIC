@@ -43,6 +43,42 @@ var regPay = {
         }
     },
 
+    payAppBtnSet: function (data){
+        let buttonHtml = "";
+        if(data != null){
+            if(data.DOC_STATUS == "0"){
+                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save()">저장</button>';
+                buttonHtml += '<button type="button" id="reqBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.payAppDrafting()">상신</button>';
+            }else if(data.DOC_STATUS == "10"){
+                buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
+            }else if(data.DOC_STATUS == "30" || data.DOC_STATUS == "40"){
+                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save()">저장</button>';
+                buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \''+data.DOC_MENU_CD+'\', \''+data.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
+            }else if(data.DOC_STATUS == "100"){
+                buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', \''+data.DOC_MENU_CD+'\');">열람</button>';
+            }else{
+                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save()">저장</button>';
+            }
+        }else{
+            buttonHtml += '<button type="button" id="saveBtn" style="margin-right:5px; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="regPay.fn_save()">저장</button>';
+        }
+        buttonHtml += '<button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>';
+
+        $("#payAppBtnDiv").html(buttonHtml);
+    },
+
+    payAppDrafting: function() {
+        $("#payAppDraftFrm").one("submit", function() {
+            var url = "/popup/payApp/approvalFormPopup/payAppApprovalPop.do";
+            var name = "_self";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            var popup = window.open(url, name, option);
+            this.action = "/popup/payApp/approvalFormPopup/payAppApprovalPop.do";
+            this.method = 'POST';
+            this.target = '_self';
+        }).trigger("submit");
+    },
+
     setData : function (){
         var data = {
             payAppSn : $("#payAppSn").val()
@@ -52,6 +88,7 @@ var regPay = {
         var rs = result.map;
         var ls = result.list;
 
+        regPay.payAppBtnSet(rs);
         console.log(ls);
 
         $("#payAppType").data("kendoRadioGroup").value(rs.PAY_APP_TYPE)

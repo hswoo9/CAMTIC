@@ -20,8 +20,8 @@
                 ACC_NO,
                 ACC_NM,
                 PAY_APP_STAT,
+                GUBUN,
                 REG_EMP_SEQ
-
             )
         VALUES
             (
@@ -38,6 +38,7 @@
                 #{accNo},
                 #{accNm},
                 #{payAppStat},
+                'W',
                 #{regEmpSeq}
             )
         <selectKey keyProperty="payAppSn" resultType="Integer" order="BEFORE">
@@ -71,9 +72,24 @@
 
     <select id="getPayAppReqData" parameterType="map" resultType="map">
         /*getPayAppReqData*/
-        SELECT *
-        FROM CAM_MNG.DJ_PAY_APP
+        SELECT A.*, B.DOC_NO
+        FROM CAM_MNG.DJ_PAY_APP A
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO B
+        ON
+            A.DOC_ID = B.DOC_ID
         WHERE PAY_APP_SN = #{payAppSn}
+    </select>
+
+    <select id="getPayAppFinalData" parameterType="map" resultType="map">
+        /*getPayAppFinalData*/
+        SELECT A.*, B.DOC_NO
+        FROM CAM_MNG.DJ_PAY_APP A
+                 LEFT JOIN
+             DJ_CAMTIC.A_DOC_INFO B
+             ON
+                 A.DOC_ID = B.DOC_ID
+        WHERE A.PAY_APP_SN = #{payAppSn} AND A.DOC_STATUS = 100
     </select>
 
     <insert id="insPayAppDetailData" parameterType="map">
@@ -126,4 +142,42 @@
         FROM CAM_MNG.DJ_PAY_APP_DET
         WHERE PAY_APP_SN = #{payAppSn}
     </select>
+
+    <select id="getPaymentList" parameterType="map" resultType="map">
+        /*getPaymentList*/
+        SELECT
+            A.*,
+            B.DOC_NO,
+            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = A.PAY_APP_SN) AS TOT_COST
+        FROM
+            CAM_MNG.DJ_PAY_APP A
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO B
+        ON
+            A.DOC_ID = B.DOC_ID
+        <if test='docStatus != null and !"".equals(docStatus)'>
+            A.DOC_STATUS = #{docStatus}
+        </if>
+    </select>
+
+    <update id="updatePayAppApprStat" parameterType="map">
+        /* updatePayAppApprStat */
+        UPDATE CAM_MNG.DJ_PAY_APP
+        SET
+            DOC_STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            PAY_APP_SN = #{payAppSn}
+    </update>
+
+    <update id="updatePayAppFinalApprStat" parameterType="map">
+        /* updatePayAppFinalApprStat */
+        UPDATE CAM_MNG.DJ_PAY_APP
+        SET
+            DOC_STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            PAY_APP_SN = #{payAppSn}
+    </update>
 </mapper>

@@ -1,4 +1,4 @@
-var paymentList = {
+var paymentRevList = {
 
     global : {
         dropDownDataSource : "",
@@ -8,21 +8,21 @@ var paymentList = {
 
     fn_defaultScript : function (){
 
-        paymentList.global.dropDownDataSource = [
+        paymentRevList.global.dropDownDataSource = [
             { text: "작성중", value: "1" },
             { text: "결재대기", value: "2" },
             { text: "결재완료", value: "3" },
         ]
-        customKendo.fn_dropDownList("searchDept", paymentList.global.dropDownDataSource, "text", "value");
-        $("#searchDept").data("kendoDropDownList").bind("change", paymentList.gridReload);
+        customKendo.fn_dropDownList("searchDept", paymentRevList.global.dropDownDataSource, "text", "value");
+        $("#searchDept").data("kendoDropDownList").bind("change", paymentRevList.gridReload);
 
-        paymentList.global.dropDownDataSource = [
+        paymentRevList.global.dropDownDataSource = [
             { text: "문서번호", value: "DOC_NO" },
         ]
 
-        customKendo.fn_dropDownList("searchKeyword", paymentList.global.dropDownDataSource, "text", "value");
+        customKendo.fn_dropDownList("searchKeyword", paymentRevList.global.dropDownDataSource, "text", "value");
         customKendo.fn_textBox(["searchValue"]);
-        paymentList.gridReload();
+        paymentRevList.gridReload();
     },
 
     mainGrid: function(url, params){
@@ -43,14 +43,14 @@ var paymentList = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="paymentList.fn_reqRegPopup()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="paymentRevList.fn_reqRegPopup()">' +
                             '	<span class="k-button-text">지급신청서 작성</span>' +
                             '</button>';
                     }
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="paymentList.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="paymentRevList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -88,7 +88,7 @@ var paymentList = {
                     width: 300,
                     template: function(e){
                         console.log(e);
-                        return '<div style="cursor: pointer; font-weight: bold" onclick="paymentList.fn_reqRegPopup('+e.PAY_APP_SN+')">'+e.APP_TITLE+'</div>';
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="paymentRevList.fn_reqRegPopup('+e.PAY_APP_SN+')">'+e.APP_TITLE+'</div>';
                     }
                 }, {
                     title: "프로젝트 명",
@@ -137,14 +137,14 @@ var paymentList = {
     },
 
     gridReload: function (){
-        paymentList.global.searchAjaxData = {
+        paymentRevList.global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
             searchDept : $("#searchDept").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val()
         }
 
-        paymentList.mainGrid("/pay/getPaymentList", paymentList.global.searchAjaxData);
+        paymentRevList.mainGrid("/pay/getPaymentList", paymentRevList.global.searchAjaxData);
     },
 
     fn_reqRegPopup : function (key){

@@ -88,6 +88,7 @@
         <%--<li><a href="#" onclick="fn_wrap2(); return false;">이용약관</a></li>--%>
         <li><a href="#" onclick="fn_wrap3(); return false;">이메일무단수집거부</a></li>
         <li><a href="/camtic/about/location.do">찾아오시는 길</a></li>
+        <li><a href="/camtic/pr/news_subscribe.do?category=news">구독취소</a></li>
       </ul>
       <%--<div class="rig">
         <div class="site">

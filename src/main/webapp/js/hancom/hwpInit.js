@@ -339,5 +339,18 @@ var hwpInit = {
         hwpDocCtrl.putFieldText('DOC_NUM', "");
         hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
         hwpDocCtrl.putFieldText('TO_DEPT_NAME', result.DEPT_NAME);
-    }
+    },
+
+
+    payAppInit: function(payAppSn){
+        let data = {
+            payAppSn: payAppSn
+        }
+
+        const result = customKendo.fn_customAjax("/payApp/getPayAppData.do", data).data;
+        console.log(result);
+
+        /** 1. 지급신청서 데이터 */
+
+    },
 }
