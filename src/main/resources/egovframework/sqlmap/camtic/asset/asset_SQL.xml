@@ -102,7 +102,9 @@
             AI.REMARK,
             IC.INSIDE_DT_CODE_NM,
             AI.AST_FILE_NO,
-            AI.RELATED_FILE_NO
+            AI.RELATED_FILE_NO,
+            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_ASSET_INFO_OTHER_HISTORY WHERE AST_INFO_SN = AI.AST_INFO_SN AND TYPE = 'M') AS MCOUNT,
+            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_ASSET_INFO_OTHER_HISTORY WHERE AST_INFO_SN = AI.AST_INFO_SN AND TYPE = 'O') AS OCOUNT
         FROM
             CAM_INSIDE.DJ_ASSET_INFO AI
         JOIN
@@ -373,6 +375,58 @@
         WHERE
             AST_INFO_SN = #{astInfoSn}
     </select>
+
+    <select id="getAstOtherHistoryList" parameterType="map" resultType="map">
+        /* getAstOtherHistoryList */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_ASSET_INFO_OTHER_HISTORY OH
+        WHERE
+            AST_INFO_SN = #{astInfoSn}
+    </select>
+
+    <insert id="setAstOtherHistory" parameterType="map">
+        /* setAstOtherHistory */
+        INSERT INTO CAM_INSIDE.DJ_ASSET_INFO_OTHER_HISTORY
+        (
+            AST_INFO_SN,
+            TYPE,
+            OTHER_TITLE,
+            EXE_DATE,
+            UNIT_PRICE,
+            STANDARD,
+            ETC,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{astInfoSn},
+            #{type},
+            #{otherTitle},
+            #{exeDate},
+            #{unitPrice},
+            #{standard},
+            #{etc},
+            #{empSeq}
+        )
+    </insert>
+
+    <update id="setAstOtherHistoryUpd" parameterType="map">
+        /* setAstOtherHistory */
+        UPDATE
+            CAM_INSIDE.DJ_ASSET_INFO_OTHER_HISTORY
+        SET
+            OTHER_TITLE = #{otherTitle},
+            EXE_DATE = #{exeDate},
+            UNIT_PRICE = #{unitPrice},
+            STANDARD = #{standard},
+            ETC = #{etc},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            AST_INFO_OTHER_SN = #{astInfoOtherSn}
+    </update>
 
     <insert id="setAstManage" parameterType="map">
         /* setAstManage */

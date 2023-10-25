@@ -185,6 +185,35 @@ public class AssetController {
     }
 
     /**
+     * 유지보수, 기타 내역 추가 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/asset/pop/popAddHistory.do")
+    public String popAddHistory(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+
+        return "popup/inside/asset/popAddHistory";
+    }
+
+    /**
+     * 자산관리 > 유지보수, 기타내역 등록
+     * @param params
+     * @return
+     */
+    @RequestMapping("/asset/setAstOtherHistory.do")
+    public String setAstOtherHistory(@RequestParam Map<String,Object> params) {
+        assetService.setAstOtherHistory(params);
+        return "jsonView";
+    }
+
+    /**
      * 자산관리 > 자산리스트 - 물품관리관 등록/수정 팝업
      * @param request
      * @param model

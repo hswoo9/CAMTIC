@@ -18,6 +18,7 @@ public interface AssetService {
     Map<String, Object> getAssetInfo(Map<String, Object> params);
     Map<String, Object> getAssetInfoAll(Map<String, Object> params);
     Map<String, Object> getAstManage();
+    void setAstOtherHistory(Map<String, Object> params);
     void setAstManage(Map<String, Object> params);
     void setAstInfoBatch(Map<String, Object> params);
 

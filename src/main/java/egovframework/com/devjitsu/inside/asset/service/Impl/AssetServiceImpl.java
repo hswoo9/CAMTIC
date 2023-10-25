@@ -117,6 +117,7 @@ public class AssetServiceImpl implements AssetService {
 
         returnMap.put("history", assetRepository.getAstInfoModHistory(params));
         returnMap.put("historyItem", assetRepository.getAstInfoModHistoryItem(params));
+        returnMap.put("otherHistory", assetRepository.getAstOtherHistoryList(params));
 
         return returnMap;
     }
@@ -137,6 +138,15 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public Map<String, Object> getAstManage() {
         return assetRepository.getAstManage();
+    }
+
+    @Override
+    public void setAstOtherHistory(Map<String, Object> params) {
+        if(StringUtils.isEmpty(params.get("astInfoOtherSn"))){
+            assetRepository.setAstOtherHistory(params);
+        }else{
+            assetRepository.setAstOtherHistoryUpd(params);
+        }
     }
 
     @Override
