@@ -40,6 +40,8 @@ var regPay = {
 
         if($("#payAppSn").val() != ""){
             regPay.setData();
+
+            regPay.fn_viewStat();
         }
     },
 
@@ -155,9 +157,13 @@ var regPay = {
                 '       <input type="text" id="iss' + regPayDet.global.itemIndex + '" value="'+item.ISS+'"  class="iss">' +
                 '   </td>' +
                 '   <td>' +
-                '       <div style="text-align: center">' +
-                '           <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(this)">삭제</button>' +
-                '       </div>' +
+                '       <div style="text-align: center">';
+                if($("#status").val() == "rev"){
+                    regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="detDelBtn" value="'+item.PAY_APP_DET_SN+'" onclick="regPayDet.fn_revertDet(this)">반려</button>';
+                } else {
+                    regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(this)">삭제</button>';
+                }
+                regPayDet.global.createHtmlStr += '</div>' +
                 '   </td>'
             '</tr>';
 
@@ -211,6 +217,18 @@ var regPay = {
         }
 
         $("#apprBtn").css("display", "");
+    },
+
+    fn_viewStat: function (){
+        var stat = $("#status").val();
+
+        if(stat == "rev"){
+            $("#payAppType").data("kendoRadioGroup").enable(false);
+            $("#payAppStat").data("kendoRadioGroup").enable(false);
+            $("#appDe").data("kendoDatePicker").enable(false);
+            $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
+            $("#addBtn").css("display", "none");
+        }
     },
 
     fn_save : function (){
@@ -374,7 +392,9 @@ var regPay = {
         var name = "_blank";
         var option = "width = 1100, height = 650, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
-    }
+    },
+
+
 }
 
 
@@ -524,6 +544,26 @@ var regPayDet = {
             $("#pay" + regPayDet.global.itemIndex).remove();
             regPayDet.global.itemIndex--;
         }
+    },
+
+    fn_revertDet : function(obj){
+        if(!confirm("반려하시겠습니까?")){
+            return ;
+        }
+
+        var data = {
+            payAppDetSn : obj.value
+        }
+
+        $.ajax({
+            url : "/payApp/setPayAppDetData",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function(e){
+
+            }
+        })
     }
 }
 

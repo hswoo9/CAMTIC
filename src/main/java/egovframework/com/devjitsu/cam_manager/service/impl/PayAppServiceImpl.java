@@ -80,4 +80,9 @@ public class PayAppServiceImpl implements PayAppService {
 //            payAppRepository.updatePurcListFinalApprStat(params);
         }
     }
+
+    @Override
+    public void setPayAppDetData(Map<String, Object> params) {
+        payAppRepository.updPayAppDetStat(params);
+    }
 }
