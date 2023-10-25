@@ -148,14 +148,17 @@
         SELECT
             A.*,
             B.DOC_NO,
-            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = A.PAY_APP_SN) AS TOT_COST
+            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = A.PAY_APP_SN AND DET_STAT != "N") AS TOT_COST
         FROM
             CAM_MNG.DJ_PAY_APP A
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO B
         ON
             A.DOC_ID = B.DOC_ID
+        WHERE
+            1=1
         <if test='docStatus != null and !"".equals(docStatus)'>
+        AND
             A.DOC_STATUS = #{docStatus}
         </if>
     </select>
@@ -179,5 +182,14 @@
             APPROVAL_EMP_SEQ = #{empSeq}
         WHERE
             PAY_APP_SN = #{payAppSn}
+    </update>
+
+    <update id="updPayAppDetStat" parameterType="map">
+        /*updPayAppDetStat*/
+        UPDATE CAM_MNG.DJ_PAY_APP_DET
+        SET
+            DET_STAT = 'N'
+        WHERE
+            PAY_APP_DET_SN = #{payAppDetSn}
     </update>
 </mapper>

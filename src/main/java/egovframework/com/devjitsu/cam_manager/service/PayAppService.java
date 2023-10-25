@@ -14,4 +14,6 @@ public interface PayAppService {
     List<Map<String, Object>> getPaymentList(Map<String, Object> params);
 
     void updatePayAppDocState(Map<String, Object> bodyMap);
+
+    void setPayAppDetData(Map<String, Object> params);
 }

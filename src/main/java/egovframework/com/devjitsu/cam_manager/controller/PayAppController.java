@@ -127,4 +127,17 @@ public class PayAppController {
 
         return "cam_manager/payApp/paymentRevList";
     }
+
+    @RequestMapping("/payApp/setPayAppDetData")
+    public String setPayAppDetData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        try{
+            payAppService.setPayAppDetData(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }

@@ -43,13 +43,6 @@ var paymentRevList = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="paymentRevList.fn_reqRegPopup()">' +
-                            '	<span class="k-button-text">지급신청서 작성</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name: 'button',
-                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="paymentRevList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
@@ -88,7 +81,7 @@ var paymentRevList = {
                     width: 300,
                     template: function(e){
                         console.log(e);
-                        return '<div style="cursor: pointer; font-weight: bold" onclick="paymentRevList.fn_reqRegPopup('+e.PAY_APP_SN+')">'+e.APP_TITLE+'</div>';
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="paymentRevList.fn_reqRegPopup('+e.PAY_APP_SN+', \'rev\')">'+e.APP_TITLE+'</div>';
                     }
                 }, {
                     title: "프로젝트 명",
@@ -103,7 +96,6 @@ var paymentRevList = {
                     width: 80,
                     field: "REG_DT",
                     template: function(e){
-
                         return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
                     }
                 }, {
@@ -118,6 +110,17 @@ var paymentRevList = {
                     title: "지출완료일",
                     width: 80,
                     field: ""
+                }, {
+                    title: "지출금액",
+                    width: 120,
+                    template: function(e){
+                        var cost = e.TOT_COST;
+                        if(e.TOT_COST != null && e.TOT_COST != "" && e.TOT_COST != undefined){
+                            return '<div style="text-align: right">'+comma(e.TOT_COST)+'</div>';
+                        } else {
+                            return '<div style="text-align: right">'+0+'</div>';
+                        }
+                    }
                 }, {
                     title: "상태",
                     width: 60,
@@ -141,16 +144,21 @@ var paymentRevList = {
             empSeq : $("#myEmpSeq").val(),
             searchDept : $("#searchDept").val(),
             searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val()
+            searchValue : $("#searchValue").val(),
+            docStatus : 100
         }
 
         paymentRevList.mainGrid("/pay/getPaymentList", paymentRevList.global.searchAjaxData);
     },
 
-    fn_reqRegPopup : function (key){
+    fn_reqRegPopup : function (key, status){
         var url = "/payApp/pop/regPayAppPop.do";
         if(key != null && key != ""){
             url = "/payApp/pop/regPayAppPop.do?payAppSn=" + key;
+        }
+
+        if(status != null && status != ""){
+            url = url + "&status=" + status;
         }
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"

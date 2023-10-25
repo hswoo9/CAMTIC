@@ -18,6 +18,8 @@
     <input type="hidden" id="nowUrl" name="nowUrl" />
 </form>
 
+<input type="hidden" id="status" name="status" value="${params.status}" />
+
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
