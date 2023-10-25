@@ -160,12 +160,12 @@ var employmentPop = {
 
             if(employmentPop.global.hwpCtrl.FieldExist("monthSalary")){
                 employmentPop.global.hwpCtrl.MoveToField('monthSalary', true, true, false);
-                employmentPop.putFieldText('monthSalary', "금" + employmentPop.numToKOR(result.data.MONTH_SALARY) + "원(￦" + result.data.MONTH_SALARY.toString().toMoney() + ")");
+                employmentPop.putFieldText('monthSalary', "가. 월기준급여액 : 금" + employmentPop.numToKOR(result.data.MONTH_SALARY) + "원(￦" + result.data.MONTH_SALARY.toString().toMoney() + ") 으로 한다");
             }
 
             if(employmentPop.global.hwpCtrl.FieldExist("totalSalary")){
                 employmentPop.global.hwpCtrl.MoveToField('totalSalary', true, true, false);
-                employmentPop.putFieldText('totalSalary', "금" + employmentPop.numToKOR(result.data.TOTAL_SALARY) + "원(￦" + result.data.TOTAL_SALARY.toString().toMoney() + ")");
+                employmentPop.putFieldText('totalSalary', "나. 총연봉액(월기준급여액x12) : 금" + employmentPop.numToKOR(result.data.TOTAL_SALARY) + "원(￦" + result.data.TOTAL_SALARY.toString().toMoney() + ")");
             }
 
             if(employmentPop.global.hwpCtrl.FieldExist("regDt")){
