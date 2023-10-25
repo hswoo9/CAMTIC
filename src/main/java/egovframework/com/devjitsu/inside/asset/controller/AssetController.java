@@ -662,6 +662,16 @@ public class AssetController {
         return "jsonView";
     }
 
+    /**
+     * 앱 apk 파일 다운로드
+     * @param request
+     * @return
+     */
+    @RequestMapping("/asset/setAppApkDownLoad.do")
+    public void setAppApkDownLoad(HttpServletRequest request, HttpServletResponse response){
+        assetService.setAppApkDownLoad(request, response);
+    }
+
     //지식재산권리스트
     @RequestMapping("/Inside/rprList.do")
     public String rprList(HttpServletRequest request, Model model) {

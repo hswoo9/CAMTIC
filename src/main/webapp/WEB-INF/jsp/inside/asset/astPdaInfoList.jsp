@@ -74,6 +74,7 @@
                             <input type="text" id="searchContent" style="width: 72.3%;" onkeypress="if(window.event.keyCode==13){astPdaInfoList.gridReload()}">
                         </td>
                         <td colspan="4" style="text-align: right">
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="astPdaInfoList.setAppApkDownLoad()">재물조사 앱</button>
                             <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="astPdaInfoList.getAssetList()">가져오기</button>
                             <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="astPdaInfoList.setAssetUploadAll()">재물조사 업로드</button>
                             <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">바코드 출력(대)</button>
