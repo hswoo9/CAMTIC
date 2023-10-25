@@ -85,4 +85,47 @@ public class PayAppServiceImpl implements PayAppService {
     public void setPayAppDetData(Map<String, Object> params) {
         payAppRepository.updPayAppDetStat(params);
     }
+
+    @Override
+    public void setExnpData(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> itemArr = gson.fromJson((String) params.get("itemArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        if(!params.containsKey("exnpSn")){
+            payAppRepository.insExnpData(params);
+        } else {
+            payAppRepository.updExnpData(params);
+            payAppRepository.delExnpDetailData(params);
+        }
+
+        for(Map<String, Object> map : itemArr){
+            map.put("exnpSn", params.get("exnpSn"));
+            payAppRepository.insExnpDetailData(map);
+        }
+
+        if(params.containsKey("item")){
+            String[] items = params.get("item").toString().split(",");
+
+            for (String item : items){
+                params.put("item", item);
+                payAppRepository.updPayAppDetailStatus(params);
+            }
+        }
+
+    }
+
+    @Override
+    public Map<String, Object> getExnpData(Map<String, Object> params) {
+        return payAppRepository.getExnpData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getExnpDetailData(Map<String, Object> params) {
+        return payAppRepository.getExnpDetailData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getExnpList(Map<String, Object> params) {
+        return payAppRepository.getExnpList(params);
+    }
 }

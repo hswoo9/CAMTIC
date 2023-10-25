@@ -46,6 +46,53 @@
         </selectKey>
     </insert>
 
+    <insert id="insExnpData" parameterType="map">
+        /*insExnpData*/
+        INSERT CAM_MNG.DJ_EXNP
+            (
+                PAY_APP_SN,
+                PAY_APP_TYPE,
+                PJT_NM,
+                PJT_SN,
+                BUDGET_NM,
+                BUDGET_SN,
+                EXNP_DE,
+                EXNP_EMP_SEQ,
+                EXNP_BRIEFS,
+                ADD_EXNP_BRIEFS,
+                BUSN_CD,
+                BNK_SN,
+                BNK_NM,
+                ACC_NO,
+                ACC_NM,
+                GUBUN,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{payAppSn},
+                #{payAppType},
+                #{pjtNm},
+                #{pjtSn},
+                #{budgetNm},
+                #{budgetSn},
+                #{exnpDe},
+                #{exnpEmpSeq},
+                #{exnpBriefs},
+                #{addExnpBriefs},
+                #{busnCd},
+                #{bnkSn},
+                #{bnkNm},
+                #{accNo},
+                #{accNm},
+                'W',
+                #{regEmpSeq}
+            )
+        <selectKey keyProperty="exnpSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_MNG' AND TABLE_NAME = 'DJ_EXNP'
+        </selectKey>
+    </insert>
+
     <update id="updPayAppData" parameterType="map">
         /*updPayAppData*/
         UPDATE CAM_MNG.DJ_PAY_APP
@@ -67,6 +114,32 @@
             MOD_EMP_SEQ = #{regEmpSeq}
         WHERE
             PAY_APP_SN = #{payAppSn}
+    </update>
+
+    <update id="updExnpData" parameterType="map">
+        /*updExnpData*/
+        UPDATE
+            CAM_MNG.DJ_EXNP
+        SET
+            PAY_APP_SN = #{payAppSn},
+            PAY_APP_TYPE = #{payAppType},
+            PJT_NM = #{pjtNm},
+            PJT_SN = #{pjtSn},
+            BUDGET_NM = #{budgetNm},
+            BUDGET_SN = #{budgetSn},
+            EXNP_DE = #{exnpDe},
+            EXNP_EMP_SEQ = #{exnpEmpSeq},
+            EXNP_BRIEFS = #{exnpBriefs},
+            ADD_EXNP_BRIEFS = #{addExnpBriefs},
+            BUSN_CD = #{busnCd},
+            BNK_SN = #{bnkSn},
+            BNK_NM = #{bnkNm},
+            ACC_NO = #{accNo},
+            ACC_NM = #{accNm},
+            MOD_DT = NOW(),
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            EXNP_SN = #{exnpSn}
     </update>
 
 
@@ -130,10 +203,54 @@
             )
     </insert>
 
+    <insert id="insExnpDetailData" parameterType="map">
+        /*insExnpDetailData*/
+        INSERT CAM_MNG.DJ_EXNP_DET
+            (
+                EXNP_SN,
+                EVID_TYPE,
+                TR_CD,
+                CRM_NM,
+                CRM_BNK_NM,
+                CRM_ACC_NO,
+                CRM_ACC_HOLDER,
+                TR_DE,
+                TOT_COST,
+                SUP_COST,
+                VAT_COST,
+                CARD,
+                ETC,
+                ISS
+            )
+        VALUES
+            (
+                #{exnpSn},
+                #{evidType},
+                #{trCd},
+                #{crmNm},
+                #{crmBnkNm},
+                #{crmAccNo},
+                #{crmAccHolder},
+                #{trDe},
+                #{totCost},
+                #{supCost},
+                #{vatCost},
+                #{card},
+                #{etc},
+                #{iss}
+            )
+    </insert>
+
     <delete id="delPayAppDetailData" parameterType="map">
         /*delPayAppDetailData*/
         DELETE FROM CAM_MNG.DJ_PAY_APP_DET
         WHERE PAY_APP_SN = #{payAppSn}
+    </delete>
+
+    <delete id="delExnpDetailData" parameterType="map">
+        /*delExnpDetailData*/
+        DELETE FROM CAM_MNG.DJ_EXNP_DET
+        WHERE EXNP_SN = #{exnpSn}
     </delete>
 
     <select id="getPayAppDetailData" parameterType="map" resultType="map">
@@ -191,5 +308,50 @@
             DET_STAT = 'N'
         WHERE
             PAY_APP_DET_SN = #{payAppDetSn}
+    </update>
+
+    <select id="getExnpData" parameterType="map" resultType="map">
+        /*getExnpData*/
+        SELECT
+            A.*,
+            B.EMP_SEQ,
+            B.EMP_NAME_KR,
+            B.DEPT_SEQ,
+            B.DEPT_NAME
+        FROM
+            CAM_MNG.DJ_EXNP A
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO B
+        ON A.EXNP_EMP_SEQ = B.EMP_SEQ
+        WHERE
+            EXNP_SN = #{exnpSn}
+    </select>
+
+    <select id="getExnpDetailData" parameterType="map" resultType="map">
+        /*getExnpDetailData*/
+        SELECT
+            A.*
+        FROM
+            CAM_MNG.DJ_EXNP_DET A
+        WHERE
+            EXNP_SN = #{exnpSn}
+    </select>
+
+    <select id="getExnpList" parameterType="map" resultType="map">
+        /*getExnpList*/
+        SELECT
+            A.*
+        FROM
+            CAM_MNG.DJ_EXNP A
+    </select>
+
+    <update id="updPayAppDetailStatus" parameterType="map">
+        /*updPayAppDetailStatus*/
+        UPDATE
+            CAM_MNG.DJ_PAY_APP_DET
+        SET
+            EXNP_STAT = "Y"
+        WHERE
+            PAY_APP_SN = #{item}
     </update>
 </mapper>

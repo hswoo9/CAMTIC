@@ -47,4 +47,36 @@ public class PayAppRepository extends AbstractDAO {
     public void updPayAppDetStat(Map<String, Object> params) {
         update("payApp.updPayAppDetStat", params);
     }
+
+    public void insExnpData(Map<String, Object> params) {
+        insert("payApp.insExnpData", params);
+    }
+
+    public void updExnpData(Map<String, Object> params) {
+        update("payApp.updExnpData", params);
+    }
+
+    public void delExnpDetailData(Map<String, Object> params) {
+        delete("payApp.delExnpDetailData", params);
+    }
+
+    public void insExnpDetailData(Map<String, Object> map) {
+        insert("payApp.insExnpDetailData", map);
+    }
+
+    public Map<String, Object> getExnpData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("payApp.getExnpData", params);
+    }
+
+    public List<Map<String, Object>> getExnpDetailData(Map<String, Object> params) {
+        return selectList("payApp.getExnpDetailData", params);
+    }
+
+    public List<Map<String, Object>> getExnpList(Map<String, Object> params) {
+        return selectList("payApp.getExnpList", params);
+    }
+
+    public void updPayAppDetailStatus(Map<String, Object> params) {
+        update("payApp.updPayAppDetailStatus", params);
+    }
 }

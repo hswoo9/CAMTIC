@@ -43,27 +43,38 @@ var regPay = {
 
             regPay.fn_viewStat();
         }
+
+        $("#checkAll").click(function(){
+            if($(this).is(":checked")){
+                $("input[type='checkbox']").prop("checked", true);
+            }else{
+                $("input[type='checkbox']").prop("checked", false);
+            }
+        })
     },
 
     payAppBtnSet: function (data){
         let buttonHtml = "";
-        if(data != null){
-            if(data.DOC_STATUS == "0"){
-                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save()">저장</button>';
-                buttonHtml += '<button type="button" id="reqBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.payAppDrafting()">상신</button>';
-            }else if(data.DOC_STATUS == "10"){
-                buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
-            }else if(data.DOC_STATUS == "30" || data.DOC_STATUS == "40"){
-                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save()">저장</button>';
-                buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \''+data.DOC_MENU_CD+'\', \''+data.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
-            }else if(data.DOC_STATUS == "100"){
-                buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', \''+data.DOC_MENU_CD+'\');">열람</button>';
+        if($("#status").val() != "rev"){
+            if(data != null){
+                if(data.DOC_STATUS == "0"){
+                    buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save()">저장</button>';
+                    buttonHtml += '<button type="button" id="reqBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.payAppDrafting()">상신</button>';
+                }else if(data.DOC_STATUS == "10"){
+                    buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
+                }else if(data.DOC_STATUS == "30" || data.DOC_STATUS == "40"){
+                    buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save()">저장</button>';
+                    buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \''+data.DOC_MENU_CD+'\', \''+data.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
+                }else if(data.DOC_STATUS == "100"){
+                    buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', \''+data.DOC_MENU_CD+'\');">열람</button>';
+                }else{
+                    buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save()">저장</button>';
+                }
             }else{
-                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save()">저장</button>';
+                buttonHtml += '<button type="button" id="saveBtn" style="margin-right:5px; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="regPay.fn_save()">저장</button>';
             }
-        }else{
-            buttonHtml += '<button type="button" id="saveBtn" style="margin-right:5px; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="regPay.fn_save()">저장</button>';
         }
+
         buttonHtml += '<button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>';
 
         $("#payAppBtnDiv").html(buttonHtml);
@@ -116,8 +127,18 @@ var regPay = {
 
             regPayDet.global.createHtmlStr = "";
 
-            regPayDet.global.createHtmlStr = "" +
-                '<tr class="payDestInfo newArray" id="pay' + regPayDet.global.itemIndex + '" style="text-align: center;">' +
+            regPayDet.global.createHtmlStr += "" +
+                '<tr class="payDestInfo newArray" id="pay' + regPayDet.global.itemIndex + '" style="text-align: center;">';
+            if($("#status").val() == "rev"){
+                if(item.DET_STAT != "N"){
+                    regPayDet.global.createHtmlStr += "" +
+                        '   <td><input type="checkbox" id="check' + regPayDet.global.itemIndex + '" value='+item.PAY_APP_DET_SN+' style="position: relative; top: 5px;" class="check" /></td>';
+                } else {
+                    regPayDet.global.createHtmlStr += "" +
+                        '   <td></td>';
+                }
+            }
+            regPayDet.global.createHtmlStr += "" +
                 '   <td>' +
                 '       <input type="hidden" id="payDestSn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" name="payDestSn" class="payDestSn">' +
                 '       <input type="text" id="eviType' + regPayDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
@@ -159,15 +180,24 @@ var regPay = {
                 '   <td>' +
                 '       <div style="text-align: center">';
                 if($("#status").val() == "rev"){
-                    regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="detDelBtn" value="'+item.PAY_APP_DET_SN+'" onclick="regPayDet.fn_revertDet(this)">반려</button>';
+                    regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="revertBtn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" onclick="regPayDet.fn_revertDet(this)">반려</button>';
                 } else {
-                    regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(this)">삭제</button>';
+                    if(rs.DOC_STATUS == "0"){
+                        regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(this)">삭제</button>';
+                    } else {
+                        regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(this)" disabled>삭제</button>';
+                    }
                 }
                 regPayDet.global.createHtmlStr += '</div>' +
-                '   </td>'
-            '</tr>';
+                    '   </td>'
+                '</tr>';
 
             $("#payDestTb").append(regPayDet.global.createHtmlStr);
+
+            if(item.DET_STAT == "N"){
+                $("#revertBtn"+ regPayDet.global.itemIndex).css("display", "none");
+                $("#pay"+ regPayDet.global.itemIndex).css("background-color", "#afafaf");
+            }
 
             var itemIndex = regPayDet.global.itemIndex;
             $("#eviType" + regPayDet.global.itemIndex).kendoDropDownList({
@@ -228,6 +258,8 @@ var regPay = {
             $("#appDe").data("kendoDatePicker").enable(false);
             $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
             $("#addBtn").css("display", "none");
+            $("#exnpAddBtn").css("display", "");
+            $("#titleStat").text("검토")
         }
     },
 
@@ -560,10 +592,50 @@ var regPayDet = {
             data : data,
             type : "post",
             dataType : "json",
-            success : function(e){
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("반려되었습니다.");
 
+                    location.reload();
+                }
             }
         })
+    },
+
+    fn_exnpAdd : function (){
+
+        if(!confirm("지출결의를 작성하시겠습니까?")) {
+            return;
+        }
+
+        if($(".check:checked").length == 0){
+            alert("선택된 값이 없습니다.");
+            return ;
+        }
+
+        var keyArr = "";
+        $(".check:checked").each(function(){
+            keyArr += $(this).val() + ",";
+        });
+
+        keyArr = keyArr.substring(0, keyArr.length - 1);
+
+        var payAppSn = $("#payAppSn").val();
+
+        if($("#payAppSn").val() == ""){
+            alert("시스템 오류가 발생하였습니다.");
+            return;
+        }
+        regPayDet.fn_regExnpPop(keyArr, payAppSn);
+    },
+
+    fn_regExnpPop : function (keyArr, key){
+
+        var url = "/payApp/pop/regExnpPop.do?item=" + keyArr + "&payAppSn=" + key;
+
+        var name = "_blank";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
     }
 }
 

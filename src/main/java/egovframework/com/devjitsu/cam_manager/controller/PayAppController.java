@@ -140,4 +140,60 @@ public class PayAppController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/payApp/pop/regExnpPop.do")
+    public String reqExnpPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_manager/payApp/regExnpPop";
+    }
+
+    @RequestMapping("/payApp/setExnpData")
+    public String setExnpData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+
+        try{
+            payAppService.setExnpData(params);
+            model.addAttribute("code", 200);
+            model.addAttribute("params", params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/payApp/pop/getExnpData")
+    public String getExnpData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        Map<String, Object> map = payAppService.getExnpData(params);
+        List<Map<String, Object>> list = payAppService.getExnpDetailData(params);
+
+        model.addAttribute("map", map);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/pay/exnpList.do")
+    public String exnpList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_manager/payApp/exnpList";
+    }
+
+    @RequestMapping("/pay/getExnpList")
+    public String getExnpList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = payAppService.getExnpList(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
 }
