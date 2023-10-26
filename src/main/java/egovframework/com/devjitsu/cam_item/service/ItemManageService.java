@@ -31,6 +31,7 @@ public interface ItemManageService {
     String getStringBomList(Map<String, Object> params);
     Map<String, Object> getInvenChk(Map<String, Object> params);
     void setBomDel(Map<String, Object> params);
+    void setBomCopy(Map<String, Object> params);
     void setBomDetailDel(Map<String, Object> params);
     void setBom(Map<String, Object> params);
     void setOutput(Map<String, Object> params);

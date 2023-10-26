@@ -729,8 +729,54 @@
                 AND BOM_SN IN (${bomSn})
             </otherwise>
        </choose>
-
     </delete>
+
+    <insert id="setBomCopy" parameterType="map">
+        /* setBomCopy */
+        INSERT INTO CAM_ITEM.DJ_BOM
+        (
+            MASTER_SN,
+            BOM_COST_PRICE,
+            BOM_UNIT_PRICE,
+            REG_EMP_SEQ
+        )
+        SELECT
+            MASTER_SN,
+            BOM_COST_PRICE,
+            BOM_UNIT_PRICE,
+            #{empSeq}
+        FROM
+            CAM_ITEM.DJ_BOM
+        WHERE
+            BOM_SN = #{copyId}
+
+        <selectKey keyProperty="bomSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_ITEM' AND TABLE_NAME = 'DJ_BOM'
+        </selectKey>
+    </insert>
+
+    <insert id="setBomDetailCopy" parameterType="map">
+        /* setBomDetailCopy */
+        INSERT INTO CAM_ITEM.DJ_BOM_DETAIL
+        (
+            BOM_SN,
+            MASTER_SN,
+            REQ_QTY,
+            RMK,
+            REG_EMP_SEQ
+        )
+        SELECT
+            #{bomSn},
+            MASTER_SN,
+            REQ_QTY,
+            RMK,
+            #{empSeq}
+        FROM
+            CAM_ITEM.DJ_BOM_DETAIL
+        WHERE
+            BOM_SN = #{copyId}
+    </insert>
+
 
     <insert id="setBom" parameterType="map">
         /* setBom */
@@ -832,31 +878,25 @@
     <select id="getMaterialUnitPriceList" parameterType="map" resultType="map">
         /* getMaterialUnitPriceList */
         SELECT
-            CI.CRM_NM,
             IM.*,
-            CIM.*,
+            IFNULL(CIM.CRM_ITEM_SN, '') AS CRM_ITEM_SN,
+            IFNULL(CIM.CRM_SN, '') AS CRM_SN,
+            IFNULL(CIM.CRM_ITEM_NO, '') AS CRM_ITEM_NO,
+            IFNULL(CIM.CRM_ITEM_NAME, '') AS CRM_ITEM_NAME,
+            IFNULL(CIM.BUS_CLASS, '') AS BUS_CLASS,
             CIU.*,
             (SELECT REG_EMP_NAME FROM CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE WHERE CRM_ITEM_SN = CIM.CRM_ITEM_SN AND CHANGE_NUM = 1) AS REG_EMP_NAME,
             (SELECT REG_EMP_NAME FROM CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE WHERE CRM_ITEM_SN = CIM.CRM_ITEM_SN AND CHANGE_NUM != 1 ORDER BY CHANGE_NUM DESC LIMIT 1) AS MOD_EMP_NAME
         FROM
-            CAM_ITEM.DJ_CRM_ITEM_MANGE CIM
-        JOIN
-            CAM_CRM.DJ_CRM_INFO CI
-        ON CI.CRM_SN = CIM.CRM_SN
-        JOIN
             CAM_ITEM.DJ_ITEM_MASTER IM
-        ON IM.MASTER_SN = CIM.MASTER_SN
+        LEFT JOIN
+            CAM_ITEM.DJ_CRM_ITEM_MANGE CIM
+        ON IM.MASTER_SN = CIM.MASTER_SN AND CIM.BUS_CLASS = #{busClass} AND CIM.CRM_SN = #{crmSn}
         LEFT JOIN
             CAM_ITEM.DJ_CRM_ITEM_UNIT_PRICE CIU
         ON CIU.CRM_ITEM_SN = CIM.CRM_ITEM_SN AND CIU.ACTIVE = 'Y'
         WHERE
             1=1
-        AND
-            CIM.BUS_CLASS = #{busClass}
-        <if test='crmSn != null and !"".equals(crmSn)'>
-            AND CI.CRM_SN = #{crmSn}
-        </if>
-
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword)'>
                 AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')

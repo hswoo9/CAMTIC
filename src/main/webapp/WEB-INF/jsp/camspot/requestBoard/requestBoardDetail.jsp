@@ -33,6 +33,10 @@
 	.replyPadding {
 		padding-left: 25px !important;
 	}
+
+	#boardContentTable img {
+		width: 100%;
+	}
 </style>
 <div class="mainCard">
 	<div class="panel">
@@ -61,12 +65,10 @@
 				<input type="hidden" id="requestBoardId" name="requestBoardId" value="${params.requestBoardId}">
 				<input type="hidden" id="requestType" name="requestType" value="${params.requestType}">
 
-				<table class="searchTable table table-bordered mb-0" style="border: 1px solid #dedfdf;">  <%-- table mb-0 --%>
+				<table class="searchTable table table-bordered mb-0" style="border: 1px solid #dedfdf;" id="boardContentTable">  <%-- table mb-0 --%>
 					<colgroup>
 						<col width="10%">
-						<col width="40%">
-						<col width="10%">
-						<col width="40%">
+						<col>
 					</colgroup>
 					<tbody>
 					<tr>
