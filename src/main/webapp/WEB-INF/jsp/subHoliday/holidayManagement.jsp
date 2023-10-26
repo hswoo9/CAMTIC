@@ -126,8 +126,6 @@
     </div>
 </div>
 <script>
-
-    //subHolidayAdmin.init();
     //holidayManagement.init();
 
     // 검색 조건 설정
@@ -161,15 +159,15 @@
     mainGrid()
 
     /**
-     *  공휴일 목록 DataSource
-     *  url : /schedule/getHolidayList.do
+     *  공휴일 목록 데이터 조회 DataSource
+     *  url : /schedule/getHolidayList
      */
     function mainGrid() {
         var dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
                 read: {
-                    url: getContextPath() + '/subHoliday/getHolidayList.do',
+                    url: getContextPath() + '/subHoliday/getHolidayList',
                     dataType: "json",
                     type: "post"
                 },
@@ -202,7 +200,7 @@
 
         var mainGrid = $("#mainGrid").kendoGrid({
             dataSource: dataSource,
-            height: 595,
+            height: 508,
             scrollable: true,
             pageable: {
                 refresh: true,
@@ -294,6 +292,7 @@
         });
     }
 
+    /*최신년도*/
     function getCurrentYear() {
         var currentYear = new Date().getFullYear();
         return currentYear.toString();
@@ -345,7 +344,7 @@
 
 
     /**
-     * 신규/상세보기
+     * 공휴일 등록
      * */
 
     /** kendo setting */
@@ -387,7 +386,7 @@
 
         if (confirm("저장 하시겠습니까?")) {
             $.ajax({
-                url: getContextPath() + '/subHoliday/setHoliday.do',
+                url: getContextPath() + '/subHoliday/setHoliday',
                 data: {
                     h_day: h_day,
                     title: title,
@@ -418,7 +417,7 @@
         }
         if (confirm("삭제 하시겠습니까?")) {
             $.ajax({
-                url: getContextPath() + '/subHoliday/setHolidayDel.do',
+                url: getContextPath() + '/subHoliday/setHolidayDel',
                 data: {
                     h_day: h_day
                 },

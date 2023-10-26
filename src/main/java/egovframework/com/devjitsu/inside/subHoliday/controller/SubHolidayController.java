@@ -315,21 +315,21 @@ public class SubHolidayController {
     }
 
     /** 공휴일 데이터 조회 */
-    @RequestMapping("/subHoliday/getHolidayList.do")
+    @RequestMapping("/subHoliday/getHolidayList")
     public String getHolidayList(@RequestParam Map<String, Object> params, ModelMap model) {
         model.addAttribute("rs", subHolidayService.getHolidayList(params));
         return "jsonView";
     }
 
     /** 공휴일 저장(삽입,수정) */
-    @RequestMapping("/subHoliday/setHoliday.do")
+    @RequestMapping("/subHoliday/setHoliday")
     public String setHoliday(@RequestParam Map<String, Object> params) {
         subHolidayService.setHoliday(params);
         return "jsonView";
     }
 
     /** 공휴일 삭제 */
-    @RequestMapping("/subHoliday/setHolidayDel.do")
+    @RequestMapping("/subHoliday/setHolidayDel")
     public String setHolidayDel(@RequestParam Map<String, Object> params, ModelMap model) {
         subHolidayService.deleteHoliday(params);
         return "jsonView";
