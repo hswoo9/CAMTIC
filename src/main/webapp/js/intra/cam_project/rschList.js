@@ -102,15 +102,14 @@ var popRschList = {
             pjtSn : $("#pjtSn").val(),
             empSeq : $("#empSeq").val()
         }
-        var rs = customKendo.fn_customAjax("/projectRnd/getRschData", data);
+        var rs = customKendo.fn_customAjax("/projectRnd/getRschInfo", data);
+        var rs = rs.list.length;
 
-        var rs = rs.cnt;
-
-        if(rs == 0){
-            customKendo.fn_customAjax("/projectRnd/setRschData", data);
-        } else {
+        if(rs > 0){
             alert("이미 해당 연구원이 추가되어있습니다.");
             return;
+        } else {
+            customKendo.fn_customAjax("/projectRnd/setRschData", data);
         }
 
 

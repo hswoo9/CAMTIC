@@ -42,7 +42,7 @@ var regRnd = {
 
         var tab0Url = "/projectRnd/detailInfo.do";               // 상세정보 (수주)
         var tab1Url = "/projectRnd/researcherInfo.do";           // 연구원관리
-        var tab2Url = "/projectRnd/reqPartRate.do";              // 참여율요청
+        // var tab2Url = "/projectRnd/reqPartRate.do";              // 참여율요청
         var tab3Url = "/projectRnd/partRate.do";                 // 참여율관리
 
         var tab4Url = "/projectRnd/rndDevPlan.do";               // 사업수행계획
@@ -67,7 +67,7 @@ var regRnd = {
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
             tab1Url += "?pjtSn=" + setParameters.PJT_SN;
-            tab2Url += "?pjtSn=" + setParameters.PJT_SN;
+            // tab2Url += "?pjtSn=" + setParameters.PJT_SN;
             tab3Url += "?pjtSn=" + setParameters.PJT_SN;
             tab4Url += "?pjtSn=" + setParameters.PJT_SN;
             tab5Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -96,7 +96,7 @@ var regRnd = {
             dataSource : [
                 {name: "사업정보", url: tab0Url, imageUrl : "/images/ico/etc_01_1.png"},
                 {name: "참여인력", url: tab1Url},
-                {name: "참여율요청", url: tab2Url},      // 지출내역조회와 같이 사용
+                // {name: "참여율요청", url: tab2Url},      // 지출내역조회와 같이 사용
                 {name: "참여율관리", url: tab3Url},      // 지출내역조회와 같이 사용
                 {name: "수행계획(공정)", url: tab4Url, imageUrl : "/images/ico/etc_01_1.png"},
                 {name: "개발관리", url: tab5Url},

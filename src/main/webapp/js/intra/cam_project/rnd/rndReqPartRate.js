@@ -41,8 +41,7 @@ var rndRPR = {
             }
         }
 
-
-        if(pf.length != 0){
+        if(result.fileList != null && pf.length != 0){
             var html = '';
 
             for(var i = 0; i < pf.length; i++){

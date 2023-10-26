@@ -138,6 +138,9 @@
             CAM_PJT_MNG.DJ_PJT_RSCH
         WHERE
             PJT_SN = #{pjtSn}
+        <if test='rschSn != null and !"".equals(rschSn)'>
+            AND PJT_RSCH_EMP_SEQ = #{rschSn}
+        </if>
     </select>
 
     <select id="getRschCount" parameterType="map" resultType="int">
