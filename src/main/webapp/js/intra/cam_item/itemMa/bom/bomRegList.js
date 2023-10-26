@@ -17,6 +17,7 @@ var bomRegList = {
         $("#whCd").data("kendoDropDownList").bind("change", bomRegList.gridReload);
 
         bomRegList.global.dropDownDataSource = [
+            { text : "BOM명", value : "BOM_TITLE" },
             { text : "품번", value : "ITEM_NO" },
             { text : "품명", value : "ITEM_NAME" },
             { text : "규격", value : "STANDARD" },
@@ -89,18 +90,25 @@ var bomRegList = {
                 }, {
                     title: "순번",
                     template: "#= --record #",
-                    width: 30
+                    width: 50
+                }, {
+                    title: "BOM명",
+                    field: "BOM_TITLE",
+                    width: 150,
+                    template : function(e){
+                        return '<a class="title" onclick="bomRegList.fn_popBomReg(' + e.BOM_SN + ')" style="cursor: pointer;">' + e.BOM_TITLE + '</a>'
+                    }
                 }, {
                     title: "품번",
                     field: "ITEM_NO",
-                    width: 180,
+                    width: 120,
                     template : function(e){
                         return '<a class="title" onclick="bomRegList.fn_popBomReg(' + e.BOM_SN + ')" style="cursor: pointer;">' + e.ITEM_NO + '</a>'
                     }
                 }, {
                     title: "품명",
                     field: "ITEM_NAME",
-                    width: 180,
+                    width: 120,
                     template : function(e){
                         return '<a class="title" onclick="bomRegList.fn_popBomReg(' + e.BOM_SN + ')" style="cursor: pointer;">' + e.ITEM_NAME + '</a>'
                     }

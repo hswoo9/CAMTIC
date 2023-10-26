@@ -17,6 +17,7 @@ var po = {
         $("#whCd").data("kendoDropDownList").bind("change", po.gridReload);
 
         po.global.dropDownDataSource = [
+            { text : "BOM명", value : "BOM_TITLE" },
             { text : "품번", value : "ITEM_NO" },
             { text : "품명", value : "ITEM_NAME" },
             { text : "규격", value : "STANDARD" },
@@ -64,19 +65,23 @@ var po = {
                 {
                     title: "순번",
                     template: "#= --record #",
-                    width: 30
+                    width: 50
+                }, {
+                    title: "BOM명",
+                    field: "BOM_TITLE",
+                    width: 150
                 }, {
                     title: "품번",
                     field: "ITEM_NO",
-                    width: 180,
+                    width: 120,
                 }, {
                     title: "품명",
                     field: "ITEM_NAME",
-                    width: 180,
+                    width: 120,
                 }, {
                     title: "규격",
                     field: "STANDARD",
-                    width: 150
+                    width: 120
                 }, {
                     title: "원가",
                     field: "BOM_COST_PRICE",
@@ -146,7 +151,7 @@ var po = {
     fn_popBomView : function (e){
         var url = "/item/pop/popBomView.do?bomSn=" + e;
         var name = "_blank";
-        var option = "width = 400, height = 660, top = 100, left = 400, location = no"
+        var option = "width = 400, height = 705, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 
