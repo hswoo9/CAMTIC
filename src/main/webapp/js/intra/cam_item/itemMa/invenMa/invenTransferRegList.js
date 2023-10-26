@@ -150,7 +150,7 @@ var invenTrl = {
             receivingWhCd : $("#receivingWhCd").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
-            regEmpSeq : $("#regEmpSeq").val()
+            // regEmpSeq : $("#regEmpSeq").val()
         }
 
         invenTrl.mainGrid("/item/getInvenTransferHistoryList.do", invenTrl.global.searchAjaxData);
