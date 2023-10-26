@@ -130,6 +130,16 @@ var oosl = {
                         }
                     }
                 }, {
+                    title: "재고",
+                    field: "OVERALL_INVEN",
+                    width: 80,
+                    template : function (e){
+                        return oosl.comma(e.OVERALL_INVEN);
+                    },
+                    attributes : {
+                        style : "text-align : right;"
+                    }
+                }, {
                     title: "수주량",
                     field: "ORDER_VOLUME",
                     width: 80,

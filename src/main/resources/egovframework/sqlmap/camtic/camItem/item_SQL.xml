@@ -135,6 +135,7 @@
             EI.EMP_NAME_KR,
             IM.ITEM_NO,
             IM.ITEM_NAME,
+            (SELECT COUNT(*) FROM CAM_ITEM.dj_item_inventory WHERE MASTER_SN = OO.MASTER_SN) AS OVERALL_INVEN,
             CI.CRM_NM
         FROM
             CAM_ITEM.DJ_ITEM_OBTAIN_ORDER OO
