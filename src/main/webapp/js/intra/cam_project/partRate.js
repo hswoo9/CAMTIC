@@ -142,8 +142,8 @@ var partRate = {
                 memHtml += '   <td>';
                 memHtml += '        <input type="text" id="memChngSal'+i+'" name="chngSal" value="'+comma(mem[i].BASIC_SALARY)+'" style="text-align: right" onkeyup="partRate.fn_memCalc('+mem[i].BASIC_SALARY+','+rs.PAY_BUDGET+','+ i +', this);" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" />';
                 memHtml += '   </td>';
-                memHtml += '   <td><input type="text" id="memStrDt'+i+'" onkeyup="partRate.fn_memCalc('+mng.BASIC_SALARY+','+rs.PAY_BUDGET+','+ i +');" name="strDt" /></td>';
-                memHtml += '   <td><input type="text" id="memEndDt'+i+'" onkeyup="partRate.fn_memCalc('+mng.BASIC_SALARY+','+rs.PAY_BUDGET+','+ i +');"  name="endDt" /></td>';
+                memHtml += '   <td><input type="text" id="memStrDt'+i+'" onkeyup="partRate.fn_memCalc('+mng.BASIC_SALARY+','+rs.PAY_BUDGET+','+ i +'); onchange="partRate.fn_memCalc('+mng.BASIC_SALARY+','+rs.PAY_BUDGET+','+ i +');" name="strDt" /></td>';
+                memHtml += '   <td><input type="text" id="memEndDt'+i+'" onkeyup="partRate.fn_memCalc('+mng.BASIC_SALARY+','+rs.PAY_BUDGET+','+ i +');" onchange="partRate.fn_memCalc('+mng.BASIC_SALARY+','+rs.PAY_BUDGET+','+ i +');"  name="endDt" /></td>';
                 memHtml += '   <td><input type="text" id="memMon'+i+'" name="mon" style="text-align: right" disabled value="'+partRate.fn_monDiff(mem[i].PJT_STR_DT, mem[i].PJT_END_DT)+'"></td>';
                 memHtml += '   <td><input type="text" id="memPayRate'+i+'" name="payRate" style="text-align: right" disabled value="0"></td>';      // 참여율 현금(%)
                 memHtml += '   <td><input type="text" id="memTotPayBudget'+i+'" name="totPayBudget" style="text-align: right" disabled value="0"></td>';      // 인건비 현금 총액
@@ -159,11 +159,11 @@ var partRate = {
 
             $("#partRateMember").append(memHtml);
 
+            var item = 0;
             for(var i = 0 ; i < mem.length ; i++){
                 customKendo.fn_textBox(["memChngSal" + i, "memItemRate" + i, "memPayTotal" + i, "memMon" + i, "memPayRate" + i, "memTotPayBudget" + i, "memTotItemBudget" + i, "memTotRate" + i, "memMonSal" + i]);
                 customKendo.fn_datePicker("memStrDt" + i, "depth", "yyyy-MM-dd", new Date(mng.PJT_STR_DT));
                 customKendo.fn_datePicker("memEndDt" + i, "depth", "yyyy-MM-dd", new Date(mng.PJT_END_DT));
-
 
                 if(mem[i].CHNG_SAL != null){
                     $("#memChngSal" + i).val(comma(mem[i].CHNG_SAL));
