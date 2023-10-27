@@ -163,4 +163,22 @@ public class ProjectUnRndController {
 
         return "popup/cam_project/unRnd/unitBusnInfo";
     }
+
+    @RequestMapping("/projectUnRnd/lectureList.do")
+    public String lectureList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        Map<String, Object> map = projectService.getProjectStep(params);
+
+        model.addAttribute("map", new Gson().toJson(map));
+        model.addAttribute("data", map);
+        model.addAttribute("params", params);
+
+        return "popup/cam_project/unRnd/lectureList";
+    }
+
+    @RequestMapping("/projectUnRnd/getLectureList")
+    public String getLectureList(@RequestParam Map<String, Object> params, Model model){
+
+
+        return "jsonView";
+    }
 }

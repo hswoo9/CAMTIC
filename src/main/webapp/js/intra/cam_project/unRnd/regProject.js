@@ -47,7 +47,7 @@ var regUnRnd = {
         // var tab2Url = "/projectUnRnd/unRndUnitBusn.do";          //
         // var tab3Url = "/projectRnd/rndDevJob.do";               //
 
-        var tab4Url = "/projectRnd/payMvInfo.do";               //
+        var tab4Url = "/projectUnRnd/lectureList.do";               // 단위사업
         var tab5Url = "/projectRnd/budgetInfo.do";              //
         var tab6Url = "/projectRnd/rschPayReqInfo.do";          //
         var tab7Url = "/projectRnd/rschPayRepInfo.do";          //
@@ -116,6 +116,7 @@ var regUnRnd = {
                 tabStrip.enable(tabStrip.tabGroup.children().eq(1));
                 tabStrip.enable(tabStrip.tabGroup.children().eq(2));
                 tabStrip.enable(tabStrip.tabGroup.children().eq(3));
+                tabStrip.enable(tabStrip.tabGroup.children().eq(4));
                 tabStrip.enable(tabStrip.tabGroup.children().eq(6));
 
                 tabStrip.enable(tabStrip.tabGroup.children().eq(8));
