@@ -1,17 +1,17 @@
-const estPrintPop = {
+const assetPrint = {
     global: {
         hwpCtrl : "",
         params : "",
     },
 
     init: function(){
-        estPrintPop.dataSet();
+        assetPrint.dataSet();
     },
 
     dataSet: function(){
-        estPrintPop.loading();
-        estPrintPop.global.params = params;
-        estPrintPop.global.hwpCtrl = BuildWebHwpCtrl("hwpApproveContent", estPrintPop.global.params.hwpUrl, function () {estPrintPop.editorComplete();});
+        assetPrint.loading();
+        assetPrint.global.params = params;
+        assetPrint.global.hwpCtrl = BuildWebHwpCtrl("hwpApproveContent", assetPrint.global.params.hwpUrl, function () {assetPrint.editorComplete();});
     },
 
     loading: function(){
@@ -19,26 +19,26 @@ const estPrintPop = {
             background       : "rgba(0, 0, 0, 0.5)",
             image            : "",
             maxSize          : 60,
-            /*fontawesome      : "fa fa-spinner fa-pulse fa-fw",
-            fontawesomeColor : "#FFFFFF",*/
+            fontawesome      : "fa fa-spinner fa-pulse fa-fw",
+            fontawesomeColor : "#FFFFFF",
         });
     },
 
     editorComplete: function(){
-        let filePath = "http://localhost:8080/downloadFile/test.hwp";
+        let filePath = "http://218.158.231.186/upload/templateForm/assetPrintTmp.hwp";
         console.log(filePath);
-        estPrintPop.global.hwpCtrl.Open(filePath, "HWP", "", function(){
-            estPrintPop.openCallBack();
-            estPrintPop.global.hwpCtrl.EditMode = 0;
-            estPrintPop.global.hwpCtrl.SetToolBar(1, "TOOLBAR_MENU");
-            estPrintPop.global.hwpCtrl.SetToolBar(1, "TOOLBAR_STANDARD");
-            estPrintPop.global.hwpCtrl.ShowRibbon(false);
-            estPrintPop.global.hwpCtrl.ShowCaret(false);
-            estPrintPop.global.hwpCtrl.ShowStatusBar(false);
-            estPrintPop.global.hwpCtrl.SetFieldViewOption(1);
+        assetPrint.global.hwpCtrl.Open(filePath, "HWP", "", function(){
+            assetPrint.openCallBack();
+            assetPrint.global.hwpCtrl.EditMode = 0;
+            assetPrint.global.hwpCtrl.SetToolBar(1, "TOOLBAR_MENU");
+            assetPrint.global.hwpCtrl.SetToolBar(1, "TOOLBAR_STANDARD");
+            assetPrint.global.hwpCtrl.ShowRibbon(false);
+            assetPrint.global.hwpCtrl.ShowCaret(false);
+            assetPrint.global.hwpCtrl.ShowStatusBar(false);
+            assetPrint.global.hwpCtrl.SetFieldViewOption(1);
         }, {"userData" : "success"});
 
-        estPrintPop.resize();
+        assetPrint.resize();
         $.LoadingOverlay("hide", {});
     },
 
@@ -47,14 +47,22 @@ const estPrintPop = {
 
         const data = {astInfoSn: astInfoSn};
         const astMap = customKendo.fn_customAjax("/inside/getastprint", data).map;
-        const rs = customKendo.fn_customAjax("/inside/getastData", data);
-
-        const map = rs.hashMap;
-
-        estPrintPop.global.hwpCtrl.PutFieldText("AST_NAME", astMap.AST_NAME);
-
-        estPrintPop.global.hwpCtrl.PutFieldText("CRM_MANAGER", crmManager);
-        estPrintPop.global.hwpCtrl.PutFieldText("EMAIL", crmMap.CRM_NM);
+        console.log(astMap);
+        assetPrint.global.hwpCtrl.PutFieldText("AST_NAME", astMap.map.AST_NAME);
+        assetPrint.global.hwpCtrl.PutFieldText("AST_NO", astMap.map.AST_NO);
+        assetPrint.global.hwpCtrl.PutFieldText("AST_GUBUN", astMap.map.AST_GUBUN);
+        assetPrint.global.hwpCtrl.PutFieldText("PURC_DATE", astMap.map.PURC_DATE);
+        assetPrint.global.hwpCtrl.PutFieldText("AST_PLACE_SN", astMap.map.AST_PLACE_NAME);
+        assetPrint.global.hwpCtrl.PutFieldText("PURC_PRICE", astMap.map.PURC_PRICE);
+        assetPrint.global.hwpCtrl.PutFieldText("EMP_NAME", astMap.map.EMP_NAME);
+        assetPrint.global.hwpCtrl.PutFieldText("MODEL_NAME", astMap.map.MODEL_NAME);
+        assetPrint.global.hwpCtrl.PutFieldText("MODEL_SIZE", astMap.map.MODEL_SIZE);
+        assetPrint.global.hwpCtrl.PutFieldText("MF_COMPANY", astMap.map.MF_COMPANY);
+        assetPrint.global.hwpCtrl.PutFieldText("UNIT", astMap.map.UNIT);
+        assetPrint.global.hwpCtrl.PutFieldText("ORG_COUNTRY", astMap.map.ORG_COUNTRY);
+        assetPrint.global.hwpCtrl.PutFieldText("QTY", astMap.map.QTY);
+        assetPrint.global.hwpCtrl.PutFieldText("PURC_COMPANY_ID", astMap.map.PURC_COMPANY_ID);
+        assetPrint.global.hwpCtrl.PutFieldText("EXP_ACCOUNT", astMap.map.FUNDING_SOURCE_TXT);
     },
 
     resize: function() {
@@ -66,6 +74,6 @@ const estPrintPop = {
     },
 
     print: function() {
-        estPrintPop.global.hwpCtrl.PrintDocument();
+        assetPrint.global.hwpCtrl.PrintDocument();
     }
 }

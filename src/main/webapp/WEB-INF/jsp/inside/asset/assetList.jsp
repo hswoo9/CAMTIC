@@ -77,7 +77,7 @@
                         <td colspan="9" style="text-align: right">
                             <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">바코드 출력(대)</button>
                             <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">바코드 출력(소)</button>
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">자산관리카드 인쇄</button>
+
                         </td>
                     </tr>
                 </table>
