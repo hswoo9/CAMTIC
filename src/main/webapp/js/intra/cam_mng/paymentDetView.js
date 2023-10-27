@@ -430,6 +430,7 @@ var payDetView = {
     },
 
     fn_selEmpInfo : function (trCd, bankName, accountNum, accountHolder, empNameKr) {
+        console.log(accountHolder)
         var idx = $("#index").val();
         opener.parent.fn_selEmpInfo(trCd, bankName, accountNum, accountHolder, empNameKr, idx);
 

@@ -11,9 +11,65 @@ var personReqManage = {
 
     fn_defaultScript: function () {
 
-        customKendo.fn_datePicker("startDay", '', "yyyy-MM-dd", new Date(personReqManage.global.now.setMonth(personReqManage.global.now.getMonth() - 1)));
-        customKendo.fn_datePicker("endDay", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(personReqManage.global.now.setMonth(personReqManage.global.now.getMonth() - 1)));
+        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
+
         $("#startDay, #endDay").attr("readonly", true);
+
+        $.ajax({
+            url : "/userManage/getDeptCodeList2",
+            type : "post",
+            async: false,
+            dataType : "json",
+            success : function(result){
+                var ds = result.list;
+                ds.unshift({deptName: '선택하세요', deptSeq: ''});
+
+                $("#dept").kendoDropDownList({
+                    dataTextField: "deptName",
+                    dataValueField: "deptSeq",
+                    dataSource: ds,
+                    index: 0,
+                    change : function(){
+                        var data = {
+                            deptSeq : $("#dept").val()
+                        }
+
+                        $.ajax({
+                            url : "/userManage/getDeptCodeList",
+                            type : "post",
+                            async: false,
+                            data : data,
+                            dataType : "json",
+                            success : function(result){
+                                var ds = result.list;
+                                ds.unshift({text: '선택하세요', value: ''});
+
+                                $("#team").kendoDropDownList({
+                                    dataTextField: "text",
+                                    dataValueField: "value",
+                                    dataSource: ds,
+                                    index: 0,
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        $("#team").kendoDropDownList({
+            dataTextField: "TEXT",
+            dataValueField: "VALUE",
+            dataSource: [
+                {TEXT: '선택하세요', VALUE: ''}
+            ],
+            index: 0,
+        });
+
+        $("#dept").data("kendoDropDownList").value($("#regDeptSeq").val())
+        $("#dept").data("kendoDropDownList").trigger("change");
+        $("#team").data("kendoDropDownList").value($("#regTeamSeq").val())
 
         $("#situation").kendoDropDownList({
             dataTextField: "text",
@@ -47,33 +103,13 @@ var personReqManage = {
             ],
             index: 0
         });
-    },
-    mainGrid: function () {
-        var dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read : {
-                    url : '',
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data, operation) {
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    return data;
-                },
-                total: function (data) {
-                    return data.length;
-                },
-            },
-            pageSize: 10,
-        });
 
+        personReqManage.gridReload();
+    },
+
+    mainGrid: function (url, params) {
         $("#mainGrid").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             scrollable: true,
             height: 489,
@@ -134,6 +170,18 @@ var personReqManage = {
                     width: "20%"
                 }]
         }).data("kendoGrid");
-    }
+    },
+
+    gridReload: function (){
+        personReqManage.global.searchAjaxData = {
+            startDt : $("#startDt").val(),
+            endDt : $("#endDt").val(),
+            dept : $("#dept").val(),
+            team : $("#team").val(),
+            empSeq : $("#regEmpSeq").val()
+        }
+
+        personReqManage.mainGrid("/inside/getPersonAttendStat", personReqManage.global.searchAjaxData);
+    },
 }
 

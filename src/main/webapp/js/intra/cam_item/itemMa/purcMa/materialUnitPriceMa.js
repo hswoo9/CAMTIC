@@ -58,9 +58,6 @@ var mup = {
                     template: "#= --record #",
                     width: 50
                 }, {
-                    title: "거래처",
-                    field: "CRM_NM",
-                }, {
                     title: "품번",
                     field: "ITEM_NO",
                     width: 180,
@@ -83,16 +80,23 @@ var mup = {
                 }, {
                     title: "변경차수",
                     field: "CHANGE_NUM",
-                    width: 100
+                    width: 100,
+                    template : function(e){
+                        if(e.CHANGE_NUM != null){
+                            return e.CHANGE_NUM
+                        }else{
+                            return '0'
+                        }
+                    }
                 }, {
                     title: "단가",
                     field: "UNIT_PRICE",
                     width: 100,
                     template : function (e){
                         if(e.UNIT_PRICE != null && e.UNIT_PRICE != ""){
-                            return mup.comma(e.UNIT_PRICE) + "";
+                            return mup.comma(e.UNIT_PRICE);
                         }else{
-                            return "0";
+                            return "";
                         }
                     },
                     attributes : {
@@ -101,11 +105,12 @@ var mup = {
                 }, {
                     title: "비고",
                     field: "RMK",
+                    width: 300,
                 }, {
                     title: "단가관리",
                     width: 100,
                     template: function(e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="mup.fn_popCrmItemUnitPriceReg(' + e.CRM_ITEM_SN + ', ' + e.MASTER_SN + ')">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="mup.fn_popCrmItemUnitPriceReg(this)">' +
                             '	<span class="k-button-text">단가관리</span>' +
                             '</button>';
                     }
@@ -123,6 +128,14 @@ var mup = {
     },
 
     gridReload: function (e){
+        var url = "";
+        if(!$("#crmSn").val() && e != "load"){
+            alert("업체를 선택해주세요");
+            return;
+        }else if($("#crmSn").val()){
+            url = "/item/getMaterialUnitPriceList.do";
+        }
+
         mup.global.searchAjaxData = {
             crmSn : $("#crmSn").val(),
             busClass : "W",
@@ -130,7 +143,7 @@ var mup = {
             searchValue : $("#searchValue").val(),
         }
 
-        mup.mainGrid("/item/getMaterialUnitPriceList.do", mup.global.searchAjaxData);
+        mup.mainGrid(url, mup.global.searchAjaxData);
     },
 
     comma: function(str) {
@@ -156,8 +169,9 @@ var mup = {
         mup.gridReload()
     },
 
-    fn_popCrmItemUnitPriceReg : function (e, m){
-        var url = "/item/pop/popCrmItemUnitPriceReg.do?crmItemSn=" + e + "&masterSn=" + m + "&busClass=W";
+    fn_popCrmItemUnitPriceReg : function (e){
+        var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(e).closest("tr"));
+        var url = "/item/pop/popCrmItemUnitPriceReg.do?crmItemSn=" + (dataItem.CRM_ITEM_SN == null ? "" : dataItem.CRM_ITEM_SN) + "&masterSn=" + dataItem.MASTER_SN + "&busClass=W";
         var name = "_blank";
         var option = "width = 785, height = 670, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);

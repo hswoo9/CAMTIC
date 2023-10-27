@@ -182,7 +182,7 @@
     </select>
 
     <select id="getPersonAttendStat" parameterType="map" resultType="map">
-        /* personAttendList */
+        /* getPersonAttendStat */
         WITH RECURSIVE APPLY_DATE AS (
             SELECT #{startDt} AS START_DATE
 
@@ -263,6 +263,25 @@
         WHERE
             (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
         AND WORK_STATUS_CODE = 'Y'
+
+        <if test='dept != null and !"".equals(dept)'>
+            AND (
+                HEI.DEPT_SEQ = #{dept} OR
+                HDI.PARENT_DEPT_SEQ = #{dept}
+            )
+        </if>
+        <if test='team != null and !"".equals(team)'>
+            AND HEI.DEPT_SEQ = #{team}
+        </if>
+
+        <if test='startDt != null and !"".equals(startDt)'>
+            <![CDATA[
+            AND
+                DATE_FORMAT(#{startDt}, '%Y-%m-%d') <= DATE_FORMAT(AD.START_DATE, '%Y-%m-%d')
+            AND
+                DATE_FORMAT(#{endDt}, '%Y-%m-%d') >= DATE_FORMAT(AD.START_DATE, '%Y-%m-%d')
+            ]]>
+        </if>
     </select>
 
     <select id="personAnnvMainList" parameterType="map" resultType="map">

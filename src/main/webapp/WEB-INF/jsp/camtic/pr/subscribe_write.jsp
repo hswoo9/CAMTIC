@@ -231,6 +231,11 @@
         var confirm1 = 'N';
         var confirm2 = 'N';
 
+        var email = $("#email").val();
+        var emailFront= "";
+        var emailBack = "";
+
+
         if(!$('#chkConfirm1').is(':checked')){
             alert("개인정보 수집 및 이용에 동의하셔야만 구독신청이 가능합니다.");
             return false;
@@ -246,9 +251,22 @@
             alert("이름을 입력해주세요.");
             return false;
         }
-        if($("#email").val() == ""){
+        if(email == ""){
             alert("이메일을 입력해주세요.");
             return false;
+        }
+
+        if(email.indexOf('@') == -1){
+            alert("이메일 형식을 확인해주세요.");
+            return false;
+        }else if(email != ""){
+            emailFront = email.split("@")[0];
+            emailBack = email.split("@")[1];
+
+            if(emailFront == "" || emailBack == ""){
+                alert("이메일 형식을 확인해주세요.");
+                return false;
+            }
         }
 
         var data = {

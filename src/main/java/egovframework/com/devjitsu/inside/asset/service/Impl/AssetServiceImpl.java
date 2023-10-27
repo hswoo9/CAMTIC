@@ -10,10 +10,17 @@ import egovframework.com.devjitsu.inside.asset.service.AssetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -110,6 +117,7 @@ public class AssetServiceImpl implements AssetService {
 
         returnMap.put("history", assetRepository.getAstInfoModHistory(params));
         returnMap.put("historyItem", assetRepository.getAstInfoModHistoryItem(params));
+        returnMap.put("otherHistory", assetRepository.getAstOtherHistoryList(params));
 
         return returnMap;
     }
@@ -130,6 +138,15 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public Map<String, Object> getAstManage() {
         return assetRepository.getAstManage();
+    }
+
+    @Override
+    public void setAstOtherHistory(Map<String, Object> params) {
+        if(StringUtils.isEmpty(params.get("astInfoOtherSn"))){
+            assetRepository.setAstOtherHistory(params);
+        }else{
+            assetRepository.setAstOtherHistoryUpd(params);
+        }
     }
 
     @Override
@@ -306,6 +323,35 @@ public class AssetServiceImpl implements AssetService {
             }
         }
     }
+
+    @Override
+    public void setAppApkDownLoad(HttpServletRequest request, HttpServletResponse response) {
+        String fileName = "app-debug.apk";
+        String viewFileNm = "app-debug.apk";
+        File reFile = new File(request.getSession().getServletContext().getRealPath("/app/" + fileName));
+
+        try {
+            if (reFile.exists() && reFile.isFile()) {
+                response.setContentType("application/octet-stream; charset=utf-8");
+                response.setContentLength((int) reFile.length());
+                String browser = getBrowser(request);
+                String disposition = setDisposition(viewFileNm, browser);
+                response.setHeader("Content-Disposition", disposition);
+                response.setHeader("Content-Transfer-Encoding", "binary");
+                OutputStream out = response.getOutputStream();
+                FileInputStream fis = null;
+                fis = new FileInputStream(reFile);
+                FileCopyUtils.copy(fis, out);
+                if (fis != null)
+                    fis.close();
+                out.flush();
+                out.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public List<Map<String,Object>> getPjtList(Map<String,Object> params) {
         return assetRepository.getPjtList(params);
@@ -1317,5 +1363,46 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public Map<String, Object> getastData(Map<String, Object> params) {
         return assetRepository.getastData(params);
+    }
+
+    private String getBrowser(HttpServletRequest request) {
+        String header = request.getHeader("User-Agent");
+        if (header.indexOf("MSIE") > -1) { // IE 10 �씠�븯
+            return "MSIE";
+        } else if (header.indexOf("Trident") > -1) { // IE 11
+            return "MSIE";
+        } else if (header.indexOf("Chrome") > -1) {
+            return "Chrome";
+        } else if (header.indexOf("Opera") > -1) {
+            return "Opera";
+        }
+        return "Firefox";
+    }
+
+    private String setDisposition(String filename, String browser) throws Exception {
+        String dispositionPrefix = "attachment; filename=";
+        String encodedFilename = null;
+
+        if (browser.equals("MSIE")) {
+            encodedFilename = URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
+        } else if (browser.equals("Firefox")) {
+            encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "ISO-8859-1") + "\"";
+        } else if (browser.equals("Opera")) {
+            encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "8859_1") + "\"";
+        } else if (browser.equals("Chrome")) {
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < filename.length(); i++) {
+                char c = filename.charAt(i);
+                if (c > '~') {
+                    sb.append(URLEncoder.encode("" + c, "UTF-8"));
+                } else {
+                    sb.append(c);
+                }
+            }
+            encodedFilename = sb.toString();
+        } else {
+
+        }
+        return dispositionPrefix + encodedFilename;
     }
 }

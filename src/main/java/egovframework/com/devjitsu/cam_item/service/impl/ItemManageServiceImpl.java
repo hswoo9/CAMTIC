@@ -204,6 +204,18 @@ public class ItemManageServiceImpl implements ItemManageService {
     }
 
     @Override
+    public void setBomCopy(Map<String, Object> params) {
+        String[] mainId = params.get("bomSn").toString().split(",");
+        for(String id : mainId){
+            Map<String, Object> copyMap = new HashMap<>();
+            copyMap.put("empSeq", params.get("empSeq"));
+            copyMap.put("copyId", id);
+            itemManageRepository.setBomCopy(copyMap);
+            itemManageRepository.setBomDetailCopy(copyMap);
+        }
+    }
+
+    @Override
     public void setBomDetailDel(Map<String, Object> params) {
         itemManageRepository.setBomDetailDel(params);
     }

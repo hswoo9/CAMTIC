@@ -140,16 +140,29 @@ var purcClaim = {
                     }
                 }, {
                     title: "상태",
-                    width: 100,
+                    width: 150,
                     template: function (e){
                         if(e.STATUS != null && e.STATUS != ""){
                             if(e.STATUS == 100){
-                                return "구매청구완료";
+                                return "구매청구완료(결재완료)";
+                            }else if(e.STATUS > 0){
+                                return "구매청구완료(결재중)";
                             }else if(e.STATUS == 0){
                                 return "청구작업중";
                             }
                         }else{
                             return "미작성";
+                        }
+                    }
+                }, {
+                    width: 100,
+                    template: function (e){
+                        if(e.STATUS == 100){
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="purcClaim.fn_reqOrder(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">' +
+                                '	<span class="k-button-text">발주처리</span>' +
+                                '</button>';
+                        }else{
+                            return ""
                         }
                     }
                 }
@@ -175,6 +188,20 @@ var purcClaim = {
             }
         }
 
+        var name = "blank";
+        var option = "width = 1500, height = 840, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+
+    },
+
+    fn_reqOrder : function (key, subKey){
+        var url = "/purc/pop/reqOrder.do";
+        if(key != null && key != ""){
+            url = "/purc/pop/reqOrder.do?claimSn=" + key;
+            if(subKey != null && subKey != "" && subKey != "undefined"){
+                url += "&purcSn=" + subKey;
+            }
+        }
         var name = "blank";
         var option = "width = 1500, height = 840, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);

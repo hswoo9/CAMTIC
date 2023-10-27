@@ -216,6 +216,37 @@ public class PurcController {
         return "jsonView";
     }
 
+    /**
+     * 구매청구관리 (관리자) 페이지
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/purc/purcClaim.do")
+    public String purcClaim(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "cam_purc/mng/purcClaim";
+    }
+
+    @RequestMapping("/purc/getPurcClaimList")
+    public String getPurcClaimList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", purcService.getPurcClaimList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 구매청구서 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping("/purc/pop/reqClaiming.do")
     public String reqClaiming(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
 
@@ -253,24 +284,28 @@ public class PurcController {
         return "jsonView";
     }
 
-    @RequestMapping("/purc/purcClaim.do")
-    public String purcClaim(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+    /**
+     * 발주처리 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/purc/pop/reqOrder.do")
+    public String reqOrder(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
-        session.setAttribute("menuNm", request.getRequestURI());
+
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
+        if(params.containsKey("purcSn") || params.containsKey("claimSn")){
+            model.addAttribute("map", purcService.getPurcClaimData(params));
+        }
 
-        return "cam_purc/mng/purcClaim";
+        return "popup/cam_purc/mng/reqOrder";
     }
 
-    @RequestMapping("/purc/getPurcClaimList")
-    public String getPurcClaimList(@RequestParam Map<String, Object> params, Model model){
-
-        model.addAttribute("list", purcService.getPurcClaimList(params));
-
-        return "jsonView";
-    }
 
     /** 하나의 프로젝트에 대한 모든 구매 합계 pjtSn */
     @RequestMapping("/purc/getPurcSum")

@@ -264,7 +264,7 @@
                         <button type="button" id="copyBtn1'" onclick="copyBtn(1)"><img src="/images/nav.png" style="background: white" alt="복사"></button>
                       </c:if>
                       <c:if test="${firstLinkInfo.GROUP_KEY eq '' or firstLinkInfo.GROUP_KEY eq null }">
-                        <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="margin-left: 30px; margin-top: 4px;" onclick="linkCreate(1)">
+                        <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="margin-top: 4px;" onclick="linkCreate(1)">
                           <span class="__btn1 grayLine">링크 생성</span>
                         </button>
                         <input type="text" id="linkText1" name="linkText" style="width: 40%; margin: 0 5px 0 5px;" value="" readonly />

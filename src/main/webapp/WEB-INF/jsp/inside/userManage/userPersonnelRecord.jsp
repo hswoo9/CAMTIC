@@ -800,7 +800,7 @@
                                         <col width="9%">
                                         <col width="8%">
                                     </colgroup>
-                                    <thead>
+                                    <thead class="getInterviewCardList ">
                                     <tr>
                                         <th>순번</th>
                                         <th>부서명</th>
@@ -812,20 +812,21 @@
                                         <th>차차상급자</th>
                                         <th>상태</th>
                                     </tr>
-                                    <tr>
-                                        <td id="card_number"></td>
-                                        <td id="dept_name"></td>
-                                        <td id="dept_team_name"></td>
-                                        <td id="emp_name_kr">
-                                            <input type="hidden" id="empSeq" style="width: 50%;" value=""/>
-                                        </td>
-                                        <td id="card_interview_date"></td>
-                                        <td id="card_interviewer"></td>
-                                        <td id="card_superior_person"></td>
-                                        <td id="card_superior_person2"></td>
-                                        <td id="status"></td>
+
+
+                                    <tr class="tr">
+<%--                                        <td class="card_number"></td>--%>
+<%--                                        <td class="dept_name"></td>--%>
+<%--                                        <td class="dept_team_name"></td>--%>
+<%--                                        <td class="emp_name_kr"></td>--%>
+<%--                                        <td class="card_interview_date"></td>--%>
+<%--                                        <td class="card_interviewer"></td>--%>
+<%--                                        <td class="card_superior_person"></td>--%>
+<%--                                        <td class="card_superior_person2"></td>--%>
+<%--                                        <td class="card_status"></td>--%>
                                     </tr>
                                     </thead>
+
                                 </table>
                             </div>
                         </div>
@@ -1920,6 +1921,12 @@
      */
 
     // 인사기록카드 - 직원 면담 카드 조회
+
+    $(document).ready(function() {
+        var empSeq = $("#empSeq").val();
+        retrieveData3(empSeq);
+    });
+
     function retrieveData3(empSeq) {
         // empSeq를 서버로 전송
         $.ajax({
@@ -1929,30 +1936,31 @@
             success: function(response) {
                 console.log(empSeq);
                 // 응답 데이터 처리 로직
-                console.log(response);
+                console.log("response : " + response);
 
                 // 정보를 템플릿에 표시
+                // var tableRows = $(".getInterviewCardList tr");
+
                 if (response.list && response.list.length > 0) {
-                    $("#card_number").text(response.list[0].card_number);
-                    $("#dept_name").text(response.list[0].dept_name);
-                    $("#dept_team_name").text(response.list[0].dept_team_name);
-                    $("#emp_name_kr").text(response.list[0].emp_name_kr);
-                    $("#card_interview_date").text(response.list[0].card_interview_date);
-                    $("#card_interviewer").text(response.list[0].card_interviewer);
-                    $("#card_superior_person").text(response.list[0].card_superior_person);
-                    $("#card_superior_person2").text(response.list[0].card_superior_person2);
-                    $("#card_status").text(response.list[0].card_status);
+                    for (var i = 0; i < response.list.length; i++) {
+                        var card = response.list[i];
+                        console.log("Card " + i + ": ", card);
 
+                        var row = $("<tr></tr>"); // 새로운 행 생성
 
-                    // 면담일시 날짜 형식 변환 예시:
-                    var cardInterviewDateValue = response.list[0].card_interview_date;
-                    var date = new Date(cardInterviewDateValue);
-                    var formattedDate = date.getFullYear() + '-' +
-                        ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
-                        ('0' + date.getDate()).slice(-2);
+                        // 각 데이터를 해당 열에 추가
+                        row.append($("<td class='card_number'></td>").text(card.card_number));
+                        row.append($("<td class='dept_name'></td>").text(card.dept_name));
+                        row.append($("<td class='dept_team_name'></td>").text(card.dept_team_name));
+                        row.append($("<td class='emp_name_kr'></td>").text(card.emp_name_kr));
+                        row.append($("<td class='card_interview_date'></td>").text(card.card_interview_date));
+                        row.append($("<td class='card_interviewer'></td>").text(card.card_interviewer));
+                        row.append($("<td class='card_superior_person'></td>").text(card.card_superior_person));
+                        row.append($("<td class='card_superior_person2'></td>").text(card.card_superior_person2));
+                        row.append($("<td class='card_status'></td>").text(card.card_status));
 
-                    // 변환된 날짜를 화면에 표시
-                    $("#card_interview_date").html(formattedDate);
+                        $(".getInterviewCardList").append(row); // 생성한 행을 테이블에 추가
+                    }
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -1961,10 +1969,7 @@
         });
     }
 
-    $(document).ready(function() {
-        var empSeq = $("#empSeq").val(); // select 요소의 ID에 맞게 수정
-        retrieveData3(empSeq);
-    });
+
 
     //인사기록카드 - 제안 제도 수정
     function updateProposalBtn() {

@@ -163,4 +163,26 @@ public class SubHolidayServiceImpl implements SubHolidayService {
         subHolidayRepository.setUserVacList(list);
 
     }
+
+    //공휴일 데이터 조회
+    @Override
+    public List<Map<String, Object>> getHolidayList(Map<String, Object> params) {
+        return subHolidayRepository.getHolidayList(params);
+    }
+
+    //공휴일 저장(삽입,수정)
+    @Override
+    public void setHoliday(Map<String, Object> params) {
+        if(subHolidayRepository.getHoliday(params) == 0) {
+            subHolidayRepository.insertHoliday(params);
+        }else{
+            subHolidayRepository.updateHoliday(params);
+        }
+    }
+
+    //공휴일 삭제
+    @Override
+    public void deleteHoliday(Map<String, Object> params){
+        subHolidayRepository.deleteHoliday(params);
+    }
 }

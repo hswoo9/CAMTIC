@@ -68,7 +68,7 @@ var prm = {
                 }, {
                     field: "PURC_REQ_DATE",
                     title: "요청일",
-                    width: 120,
+                    width: 100,
                 }, {
                     title: "요청자",
                     field: "EMP_NAME_KR",
@@ -91,13 +91,30 @@ var prm = {
                 }, {
                     title: "상태",
                     field: "STATUS",
-                    width: 100,
+                    width: 200,
                     template : function(e){
-                        if(e.STATUS == "W"){
-                            return "작성중"
-                        }else if(e.STATUS == "C"){
-                            return "요청완료"
+                        var status = "";
+                        /** 구매요청서 */
+                        if(e.DOC_STATUS == "0"){
+                            status = "구매요청서 작성중"
+                        }else if(e.DOC_STATUS != "100" && e.DOC_STATUS != "101"){
+                            status = "구매요청서 요청완료(결재중)"
+                        }else if(e.DOC_STATUS == "100" || e.DOC_STATUS == "101"){
+                            status = "구매요청서 요청완료(결재완료)"
                         }
+
+                        /** 구매청구서 */
+                        if(e.CLAIM_STATUS == "CN"){
+                            status = "구매청구서 미작성";
+                        }else if(e.CLAIM_STATUS == "CAN"){
+                            status = "구매청구서 작성중";
+                        }else if(e.CLAIM_STATUS == "CAYSN"){
+                            status = "구매청구 완료(결재중)";
+                        }else if(e.CLAIM_STATUS == "CAYSY"){
+                            status = "구매청구 완료(결재완료)";
+                        }
+
+                        return status
                     }
                 }
             ],

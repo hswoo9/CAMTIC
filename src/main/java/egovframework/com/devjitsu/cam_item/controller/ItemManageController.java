@@ -492,6 +492,17 @@ public class ItemManageController {
     }
 
     /**
+     * BOM 복사
+     * @param params
+     * @return
+     */
+    @RequestMapping("/item/setBomCopy.do")
+    public String setBomCopy(@RequestParam Map<String, Object> params){
+        itemManageService.setBomCopy(params);
+        return "jsonView";
+    }
+
+    /**
      * BOM 부자재 삭제
      * @param params
      * @return

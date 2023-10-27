@@ -11,23 +11,26 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/regPayAppPop.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/g20Callback.js?v=${today}'/>"></script>
 
-<form id="purcDraftFrm" method="post">
+<form id="payAppDraftFrm" method="post">
     <input type="hidden" id="payAppSn" name="payAppSn" value="${params.payAppSn}">
-    <input type="hidden" id="menuCd" name="menuCd" value="purc">
+    <input type="hidden" id="menuCd" name="menuCd" value="payApp">
     <input type="hidden" id="type" name="type" value="drafting">
     <input type="hidden" id="nowUrl" name="nowUrl" />
 </form>
+
+<input type="hidden" id="status" name="status" value="${params.status}" />
 
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;">
-                    지급신청서 작성
+                    지급신청서
+
+                    <span id="titleStat">작성</span>
                 </span>
             </h3>
-            <div id="purcBtnDiv" class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" style="display: none" id="apprBtn" onclick="regPay.fn_approve();">결재</button>
+            <div id="payAppBtnDiv" class="btn-st popButton">
                 <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="regPay.fn_save();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>
@@ -129,6 +132,9 @@
             </c:if>
             <div class="mt-20">
                 <div class="text-right">
+                    <button type="button" id="exnpAddBtn" style="display: none" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPayDet.fn_exnpAdd()">
+                        <span class="k-button-text">지출결의서 작성</span>
+                    </button>
                     <button type="button" id="addBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPayDet.addRow()">
                         <span class="k-button-text">추가</span>
                     </button>
@@ -136,6 +142,9 @@
 
                 <table class="popTable table table-bordered mb-0 mt-20">
                     <colgroup>
+                        <c:if test="${'rev'.equals(params.status)}">
+                            <col style="width: 3%;">
+                        </c:if>
                         <col style="width: 5%;">
                         <col style="width: 6%;">
                         <col style="width: 4%;">
@@ -152,6 +161,9 @@
                     </colgroup>
                     <thead>
                     <tr>
+                        <c:if test="${'rev'.equals(params.status)}">
+                            <th><input type="checkbox" id="checkAll" /></th>
+                        </c:if>
                         <th>증빙유형</th>
                         <th>상호</th>
                         <th>은행명</th>
@@ -169,6 +181,9 @@
                     </thead>
                     <tbody id="payDestTb">
                     <tr class="payDestInfo newArray" id="pay0" style="text-align: center;">
+                        <c:if test="${'rev'.equals(params.status)}">
+                        <td><input type="checkbox" id="check0" class="check" /></td>
+                        </c:if>
                         <td>
                             <input type="hidden" id="payDestSn0" name="payDestSn" class="payDestSn">
                             <input type="text" id="eviType0" class="eviType" style="width: 100%">
@@ -221,8 +236,8 @@
     </div>
 </div>
 <script type="text/javascript">
-    regPay.fn_defaultScript();
     regPayDet.fn_defaultScript();
+    regPay.fn_defaultScript();
 
     if($("#stat").val() == "v"){
         $("input[type='text'], input[type='radio']").prop("disabled", true);

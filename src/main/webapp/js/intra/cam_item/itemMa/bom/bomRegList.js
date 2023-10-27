@@ -17,6 +17,7 @@ var bomRegList = {
         $("#whCd").data("kendoDropDownList").bind("change", bomRegList.gridReload);
 
         bomRegList.global.dropDownDataSource = [
+            { text : "BOM명", value : "BOM_TITLE" },
             { text : "품번", value : "ITEM_NO" },
             { text : "품명", value : "ITEM_NAME" },
             { text : "규격", value : "STANDARD" },
@@ -54,6 +55,13 @@ var bomRegList = {
                 }, {
                     name: 'button',
                     template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bomRegList.setBomCopy()">' +
+                            '	<span class="k-button-text">복사</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bomRegList.fn_popBomReg()">' +
                             '	<span class="k-button-text">등록</span>' +
                             '</button>';
@@ -82,18 +90,25 @@ var bomRegList = {
                 }, {
                     title: "순번",
                     template: "#= --record #",
-                    width: 30
+                    width: 50
+                }, {
+                    title: "BOM명",
+                    field: "BOM_TITLE",
+                    width: 150,
+                    template : function(e){
+                        return '<a class="title" onclick="bomRegList.fn_popBomReg(' + e.BOM_SN + ')" style="cursor: pointer;">' + e.BOM_TITLE + '</a>'
+                    }
                 }, {
                     title: "품번",
                     field: "ITEM_NO",
-                    width: 180,
+                    width: 120,
                     template : function(e){
                         return '<a class="title" onclick="bomRegList.fn_popBomReg(' + e.BOM_SN + ')" style="cursor: pointer;">' + e.ITEM_NO + '</a>'
                     }
                 }, {
                     title: "품명",
                     field: "ITEM_NAME",
-                    width: 180,
+                    width: 120,
                     template : function(e){
                         return '<a class="title" onclick="bomRegList.fn_popBomReg(' + e.BOM_SN + ')" style="cursor: pointer;">' + e.ITEM_NAME + '</a>'
                     }
@@ -181,6 +196,32 @@ var bomRegList = {
             }
 
             var result = customKendo.fn_customAjax("/item/setBomDel.do", ciupR.global.saveAjaxData);
+            if(result.flag){
+                alert("처리되었습니다.");
+                bomRegList.gridReload();
+            }
+        }
+    },
+
+    setBomCopy : function(){
+        if($("input[name='bomSn']:checked").length == 0){
+            alert("복사할 BOM을 선택해주세요.");
+            return
+        }
+
+        if(confirm("선택한 BOM을 복사하시겠습니까?")){
+            var bomSn = "";
+
+            $.each($("input[name='bomSn']:checked"), function(){
+                bomSn += "," + $(this).val()
+            })
+
+            bomRegList.global.saveAjaxData = {
+                empSeq : $("#empSeq").val(),
+                bomSn : bomSn.substring(1)
+            }
+
+            var result = customKendo.fn_customAjax("/item/setBomCopy.do", bomRegList.global.saveAjaxData);
             if(result.flag){
                 alert("처리되었습니다.");
                 bomRegList.gridReload();

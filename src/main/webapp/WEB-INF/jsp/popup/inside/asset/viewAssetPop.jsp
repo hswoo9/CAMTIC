@@ -298,7 +298,7 @@
                 <thead>
                 <tr>
                     <th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">
-                        정보갱신 이력(${fn:length(data.history)})
+                        정보갱신 이력(${fn:length(data.history)}건)
                     </th>
                 </tr>
                 </thead>
@@ -327,6 +327,76 @@
                     </tbody>
                 </table>
             </c:forEach>
+
+            <table class="table table-bordered mb-0 mt-20">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col width="15%">
+                    <col width="15%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">
+                        유지보수 내역(${data.MCOUNT}건)
+                        <button type="button" class="k-button k-button-solid-base" style="height: 23px;font-size: 11px;float: right;" onclick="fn_popAddHistory('M')">추가</button>
+                    </th>
+                </tr>
+                <tr>
+                    <th>유지보수내역</th>
+                    <th>관련</th>
+                    <th>금액</th>
+                    <th>날짜</th>
+                </tr>
+                <c:forEach var="o" items="${data.otherHistory}" varStatus="status">
+                    <c:if test="${o.TYPE eq 'M'}">
+                        <tr>
+                            <td class="text-center">${o.OTHER_TITLE}</td>
+                            <td class="text-center">${o.ETC}</td>
+                            <td style="text-align: right"><fmt:formatNumber value="${o.UNIT_PRICE}" pattern="#,###" /></td>
+                            <td class="text-center">${o.EXE_DATE}</td>
+                        </tr>
+                    </c:if>
+                </c:forEach>
+                </thead>
+            </table>
+
+            <table class="table table-bordered mb-0 mt-20">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col width="15%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th colspan="5" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">
+                        기타 내역(${data.OCOUNT}건)
+                        <button type="button" class="k-button k-button-solid-base" style="height: 23px;font-size: 11px;float: right;" onclick="fn_popAddHistory('O')">추가</button>
+                    </th>
+                </tr>
+                <tr>
+                    <th>품명</th>
+                    <th>모델명</th>
+                    <th>규격</th>
+                    <th>단가</th>
+                    <th>구입일</th>
+                </tr>
+                <c:forEach var="o" items="${data.otherHistory}" varStatus="status">
+                    <c:if test="${o.TYPE eq 'O'}">
+                        <tr>
+                            <td class="text-center">${o.OTHER_TITLE}</td>
+                            <td class="text-center">${o.ETC}</td>
+                            <td class="text-center">${o.STANDARD}</td>
+                            <td style="text-align: right"><fmt:formatNumber value="${o.UNIT_PRICE}" pattern="#,###" /></td>
+                            <td class="text-center">${o.EXE_DATE}</td>
+                        </tr>
+                    </c:if>
+                </c:forEach>
+                </thead>
+            </table>
+
         </div>
     </div>
 </div>
@@ -418,5 +488,12 @@
                 window.close();
             }
         }
+    }
+
+    function fn_popAddHistory(e){
+        var url = "/asset/pop/popAddHistory.do?type=" + e + "&astInfoSn=" + $("#astInfoSn").val();
+        var name = "_blank";
+        var option = "width = 786, height = 280, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
     }
 </script>

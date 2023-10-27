@@ -9,7 +9,7 @@ var bomReg = {
     },
 
     fn_defaultScript : function (){
-        customKendo.fn_textBox(["bomCostPrice", "bomUnitPrice"]);
+        customKendo.fn_textBox(["bomTitle", "bomCostPrice", "bomUnitPrice"]);
 
         if($("#bomSn").val()){
             bomReg.bomDataSet();
@@ -19,7 +19,11 @@ var bomReg = {
     },
 
     setBomReq : function(){
-        if(!$("#masterSn999").val()){
+        if(!$("#bomTitle").val()){
+            alert("BOM명을 입력해주세요.");
+            $("#bomTitle").focus()
+            return;
+        }else if(!$("#masterSn999").val()){
             alert("품번을 선택해주세요.");
             return;
         }else if(!$("#bomUnitPrice").val()){
@@ -46,6 +50,7 @@ var bomReg = {
 
             bomReg.global.saveAjaxData = {
                 bomSn : $("#bomSn").val(),
+                bomTitle : $("#bomTitle").val(),
                 masterSn : $("#masterSn999").val(),
                 bomCostPrice : bomReg.uncomma($("#bomCostPrice").val()),
                 bomUnitPrice : bomReg.uncomma($("#bomUnitPrice").val()),
@@ -80,7 +85,7 @@ var bomReg = {
                     '<input type="text" id="unitPrice' + bomReg.global.bomDetailIndex + '" class="unitPrice k-input k-textbox numberInput" style="text-align: right" readonly onClick="bomReg.fn_popItemNoList(' + bomReg.global.bomDetailIndex + ');" onchange="bomReg.costPriceChange()">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="reqQty' + bomReg.global.bomDetailIndex + '" class="reqQty numberInput" style="text-align: right" onkeyup="bomReg.costPriceChange()">' +
+                    '<input type="text" id="reqQty' + bomReg.global.bomDetailIndex + '" class="reqQty numberInput" style="text-align: right" onkeyup="bomReg.costPriceChange()" value="0">' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="rmk' + bomReg.global.bomDetailIndex + '" class="rmk">' +
@@ -167,6 +172,7 @@ var bomReg = {
         var result = customKendo.fn_customAjax("/item/getBom.do", bomReg.global.searchAjaxData);
         if(result.flag){
             var bom = result.bom;
+            $("#bomTitle").val(bom.BOM_TITLE);
             $("#masterSn999").val(bom.MASTER_SN);
             $("#itemNo999").val(bom.ITEM_NO);
             $("#itemName999").val(bom.ITEM_NAME);
