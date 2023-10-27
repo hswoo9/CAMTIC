@@ -111,8 +111,8 @@
                     </th>
                     <td colspan="3">
                         <span id="fundingSource" style="gap: 0px;"></span>
-                        <input type="text" id="expAccount" style="width: 50%;">
-                        <input type="hidden" id="pjtNm" value="${pjtData.PJT_NM}">
+                        <input type="hidden" id="expAccount" style="display: none;" readonly>
+                        <input type="text" id="pjtNm" value="${pjtData.PJT_NM}" style="width: 50%;" readonly >
                         <button type="button" id="bizSearchBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="display: none;" onclick="addAssetPop.rdTaskPopup();">
                             <span class="k-button-text">사업 선택</span>
                         </button>
