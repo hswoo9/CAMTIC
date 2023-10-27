@@ -149,7 +149,7 @@ var rndRschInfo = {
             dataType : "json",
             success : function(rs){
                if(rs.code == 200){
-                   $("#bustripMainGrid").data("kendoGrid").dataSource.read();
+                   $("#rschMainGrid").data("kendoGrid").dataSource.read();
                }
             }
         })

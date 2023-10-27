@@ -11,6 +11,7 @@
 <input type="hidden" id="step" value="R0" />
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
+<input type="hidden" id="partRateSn" value=""/>
 
 <div style="padding: 10px">
 <%--    <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="bustInfo.fn_save()">저장</button>--%>
