@@ -60,4 +60,20 @@ public class G20Repository extends AbstractDAO {
     public Map<String, Object> getSempData(Map<String, Object> params) {
         return (Map<String, Object>) selectOneMs("g20.getSempData", params);
     }
+
+    public Map<String, Object> getTradeInfo(Map<String, Object> data) {
+        return (Map<String, Object>) selectOneMs("g20.getTradeInfo", data);
+    }
+
+    public Map<String, Object> getHearnerInfo(Map<String, Object> data) {
+        return (Map<String, Object>) selectOneMs("g20.getHearnerInfo", data);
+    }
+
+    public void insZnSautoabdocu(Map<String, Object> data) {
+        insertMs("g20.insZnSautoabdocu", data);
+    }
+
+    public void execUspAncj080Insert00(Map<String, Object> data) {
+        insertMs("g20.execUspAncj080Insert00", data);
+    }
 }

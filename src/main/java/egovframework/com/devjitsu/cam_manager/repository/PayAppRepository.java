@@ -103,4 +103,8 @@ public class PayAppRepository extends AbstractDAO {
     public void updExnpStat(Map<String, Object> data) {
         update("payApp.updExnpStat", data);
     }
+
+    public Map<String, Object> getEmpInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("payApp.getEmpInfo", params);
+    }
 }

@@ -172,6 +172,7 @@ var regExnp = {
                     '   </td>' +
                     '   <td>' +
                     '       <input type="text" disabled id="card' + regExnpDet.global.itemIndex + '" value="'+item.CARD+'" class="card">' +
+                    '       <input type="hidden" id="cardNo'+regExnpDet.global.itemIndex+'" value="'+item.CARD_NO+'" className="cardNo" />' +
                     '   </td>' +
                     '</tr>';
 
@@ -312,6 +313,7 @@ var regExnp = {
                     '   </td>' +
                     '   <td>' +
                     '       <input type="text" disabled id="card' + regExnpDet.global.itemIndex + '" value="'+item.CARD+'" class="card">' +
+                    '       <input type="hidden" id="cardNo' + regExnpDet.global.itemIndex + '" className="cardNo" />' +
                     '   </td>' +
                     '</tr>';
 
@@ -433,6 +435,7 @@ var regExnp = {
                 supCost : regExnp.uncomma($("#supCost" + i).val()),
                 vatCost : regExnp.uncomma($("#vatCost" + i).val()),
                 card : $("#card" + i).val(),
+                cardNo : $("#cardNo" + i).val()
             }
 
             if(data.eviType == ""){

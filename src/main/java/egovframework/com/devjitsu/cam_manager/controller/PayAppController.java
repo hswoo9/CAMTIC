@@ -117,7 +117,7 @@ public class PayAppController {
         return "popup/cam_manager/approvalFormPopup/exnpApprovalPop";
     }
 
-    /** 구매요청서 결재 상태값에 따른 UPDATE 메서드 */
+    /** 지급요청서 결재 상태값에 따른 UPDATE 메서드 */
     @RequestMapping(value = "/pay/payApp")
     public String payApp(@RequestParam Map<String, Object> bodyMap, Model model) {
         System.out.println(bodyMap);
@@ -134,9 +134,9 @@ public class PayAppController {
         return "jsonView";
     }
 
-    /** 구매요청서 결재 상태값에 따른 UPDATE 메서드 */
+    /** 지출결의서 결재 상태값에 따른 UPDATE 메서드 */
     @RequestMapping(value = "/pay/exnpApp")
-    public String exnpApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+    public String exnpApp(@RequestParam Map<String, Object> bodyMap, Model model, HttpServletRequest request) {
         System.out.println(bodyMap);
         String resultCode = "SUCCESS";
         String resultMessage = "성공하였습니다.";
@@ -232,13 +232,13 @@ public class PayAppController {
 
         return "jsonView";
     }
-
-    @RequestMapping("/pay/exnpTest")
-    public String exnpTest(@RequestParam Map<String, Object> params, Model model){
-
-        payAppService.exnpTest(params);
-
-        model.addAttribute("params", params);
-        return "jsonView";
-    }
+//
+//    @RequestMapping("/pay/exnpTest")
+//    public String exnpTest(@RequestParam Map<String, Object> params, Model model){
+//
+//        payAppService.exnpTest(params);
+//
+//        model.addAttribute("params", params);
+//        return "jsonView";
+//    }
 }

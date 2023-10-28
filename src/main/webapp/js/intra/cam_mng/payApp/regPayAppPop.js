@@ -170,6 +170,7 @@ var regPay = {
                 '   </td>' +
                 '   <td>' +
                 '       <input type="text" disabled id="card' + regPayDet.global.itemIndex + '" value="'+item.CARD+'" class="card">' +
+                '       <input type="hidden" id="cardNo' + regPayDet.global.itemIndex + '" value="'+item.CARD_NO+'" class="cardNo">' +
                 '   </td>' +
                 '   <td>' +
                 '       <input type="text" id="etc' + regPayDet.global.itemIndex + '" value="'+item.ETC+'" class="etc">' +
@@ -301,6 +302,7 @@ var regPay = {
                 supCost : regPay.uncomma($("#supCost" + i).val()),
                 vatCost : regPay.uncomma($("#vatCost" + i).val()),
                 card : $("#card" + i).val(),
+                cardNo : $("#cardNo" + i).val(),
                 etc : $("#etc" + i).val(),
                 iss : $("#iss" + i).val(),
             }
@@ -519,6 +521,7 @@ var regPayDet = {
             '   </td>' +
             '   <td>' +
             '       <input type="text" disabled id="card' + regPayDet.global.itemIndex + '" class="card">' +
+            '       <input type="hidden" id="cardNo' + regPayDet.global.itemIndex + '" class="cardNo">' +
             '   </td>' +
             '   <td>' +
             '       <input type="text" id="etc' + regPayDet.global.itemIndex + '" class="etc">' +

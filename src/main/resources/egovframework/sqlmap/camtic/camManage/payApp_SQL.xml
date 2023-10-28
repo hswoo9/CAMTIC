@@ -187,6 +187,7 @@
                 SUP_COST,
                 VAT_COST,
                 CARD,
+                CARD_NO,
                 ETC,
                 ISS
             )
@@ -204,6 +205,7 @@
                 #{supCost},
                 #{vatCost},
                 #{card},
+                #{cardNo},
                 #{etc},
                 #{iss}
             )
@@ -225,6 +227,7 @@
                 SUP_COST,
                 VAT_COST,
                 CARD,
+                CARD_NO,
                 ETC,
                 ISS
             )
@@ -242,6 +245,7 @@
                 #{supCost},
                 #{vatCost},
                 #{card},
+                #{cardNo},
                 #{etc},
                 #{iss}
             )
@@ -373,13 +377,24 @@
     <select id="getExnpG20List" parameterType="map" resultType="map">
         /*getExnpG20List*/
         SELECT
+            1212 AS CO_CD,
             A.EXNP_DET_SN,
             A.EXNP_SN,
             A.EVID_TYPE,
             A.TR_CD,
+            B.BUDGET_SN AS BGT_CD,
             REPLACE(A.TR_DE, "-", "") AS IN_DT,
+            REPLACE(A.TR_DE, "-", "") AS TAX_DT,
+            REPLACE(D.APP_DE, "-", "") AS REG_DT,
+            REPLACE(D.PAY_EXNP_DE, "-", "") AS EXEC_DT,
+            DATE_FORMAT(now(), '%Y%m%d') AS TXT_DONE_DT,
+            "" AS RPMR_NO,
             A.TR_DE AS CNT_DT,
+            "" AS DUMMY1,
+            "" AS DUMMY2,
+            "" AS DUMMY3,
             B.BUSN_CD AS DIV_CD,
+            B.BUSN_CD AS DIV_CD2,
             B.G20_DEPT_CD AS DEPT_CD,
             B.G20_EMP_CD AS EMP_CD,
             C.PJT_CD AS MGT_CD,
@@ -397,8 +412,28 @@
             B.ACC_NM AS BANK_NM1,
             B.ACC_NO AS BA_NB1,
             A.EVID_TYPE,
-            A.ETC
-
+            A.ETC,
+            A.SUP_COST AS SUP_AM,
+            A.VAT_COST AS VAT_AM,
+            A.CRM_NM AS TR_NM,
+            A.CRM_BNK_NM AS BANK_NM2,
+            A.CRM_ACC_NO AS BA_NB2,
+            A.CRM_ACC_HOLDER AS DEPOSITOR,
+            A.CARD AS CTR_NM,
+            A.CARD_NO AS CTR_NB,
+            "" AS ETCDATA_CD,
+            "" AS ETCPER_CD,
+            "" AS ETCREG_NO,
+            "" AS ETCPER_NM,
+            "" AS ETCZIP_CD,
+            "" AS ETCADDR,
+            "" AS ETCPHONE,
+            "" AS ETCBANK_CD,
+            "" AS ETCACCT_NO,
+            "" AS ETCACCT_NM,
+            "" AS ETCRVRS_YM,
+            "" AS ETCDIV_CD,
+            "" AS ETCDUMMY1
         FROM
             CAM_MNG.DJ_EXNP_DET A
         LEFT JOIN
@@ -452,6 +487,16 @@
         WHERE
             EXNP_DET_SN = #{EXNP_DET_SN}
     </update>
+
+    <select id="getEmpInfo" parameterType="map" resultType="map">
+        /*getEmpInfo*/
+        SELECT
+            *
+        FROM
+            CAM_HR.DJ_EMP_INFO
+        WHERE
+            EMP_SEQ = #{empSeq}
+    </select>
 
     <select id="getExnpList" parameterType="map" resultType="map">
         /*getExnpList*/
