@@ -295,4 +295,9 @@
         OR REG_NO LIKE CONCAT('%', #{searchValue}, '%')
         OR ACCT_NO LIKE CONCAT('%', #{searchValue}, '%')
     </select>
+
+    <select id="getSempData" parameterType="map" resultType="map">
+        /*getSempData*/
+        SELECT * FROM SEMP WHERE EMP_CD = #{erpEmpSeq}
+    </select>
 </mapper>

@@ -58,6 +58,8 @@
                 BUDGET_SN,
                 EXNP_DE,
                 EXNP_EMP_SEQ,
+                G20_EMP_CD,
+                G20_DEPT_CD,
                 EXNP_BRIEFS,
                 ADD_EXNP_BRIEFS,
                 BUSN_CD,
@@ -78,6 +80,8 @@
                 #{budgetSn},
                 #{exnpDe},
                 #{exnpEmpSeq},
+                #{g20EmpCd},
+                #{g20DeptCd},
                 #{exnpBriefs},
                 #{addExnpBriefs},
                 #{busnCd},
@@ -129,6 +133,8 @@
             BUDGET_SN = #{budgetSn},
             EXNP_DE = #{exnpDe},
             EXNP_EMP_SEQ = #{exnpEmpSeq},
+            G20_EMP_CD = #{g20EmpCd},
+            G20_DEPT_CD = #{g20DeptCd},
             EXNP_BRIEFS = #{exnpBriefs},
             ADD_EXNP_BRIEFS = #{addExnpBriefs},
             BUSN_CD = #{busnCd},
@@ -336,6 +342,7 @@
         SELECT
             A.*,
             B.EMP_SEQ,
+            B.ERP_EMP_SEQ,
             B.EMP_NAME_KR,
             B.DEPT_SEQ,
             B.DEPT_NAME,
@@ -362,6 +369,89 @@
         WHERE
             EXNP_SN = #{exnpSn}
     </select>
+
+    <select id="getExnpG20List" parameterType="map" resultType="map">
+        /*getExnpG20List*/
+        SELECT
+            A.EXNP_DET_SN,
+            A.EXNP_SN,
+            A.EVID_TYPE,
+            A.TR_CD,
+            REPLACE(A.TR_DE, "-", "") AS IN_DT,
+            A.TR_DE AS CNT_DT,
+            B.BUSN_CD AS DIV_CD,
+            B.G20_DEPT_CD AS DEPT_CD,
+            B.G20_EMP_CD AS EMP_CD,
+            C.PJT_CD AS MGT_CD,
+            "" AS BOTTOM_CD,
+            CASE
+                WHEN D.PAY_APP_TYPE = '1'
+                    THEN '1'
+                WHEN D.PAY_APP_TYPE = '2'
+                    THEN '6'
+                WHEN D.PAY_APP_TYPE = '3'
+                    THEN '7'
+                ELSE '55'
+            END AS DOCU_FG,
+            B.EXNP_BRIEFS AS RMK_DC,
+            B.ACC_NM AS BANK_NM1,
+            B.ACC_NO AS BA_NB1,
+            A.EVID_TYPE,
+            A.ETC
+
+        FROM
+            CAM_MNG.DJ_EXNP_DET A
+        LEFT JOIN
+            CAM_MNG.DJ_EXNP B
+        ON
+            A.EXNP_SN = B.EXNP_SN
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PROJECT C
+        ON
+            B.PJT_SN = C.PJT_SN
+        LEFT JOIN
+            CAM_MNG.DJ_PAY_APP D
+        ON
+            B.PAY_APP_SN = D.PAY_APP_SN
+        WHERE
+            A.EXNP_SN = #{exnpSn}
+    </select>
+
+    <select id="getCountDoc" parameterType="map" resultType="int">
+        /*getCountDoc*/
+        SELECT
+            IFNULL(MAX(EXNP_CNT), 0)
+        FROM
+            CAM_MNG.DJ_EXNP_DET
+        WHERE
+            TR_DE = #{CNT_DT}
+        AND
+            EXNP_STAT = "Y"
+    </select>
+
+    <select id="getExnpCountDoc" parameterType="map" resultType="int">
+        /*getExnpCountDoc*/
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_MNG.DJ_EXNP_DET
+        WHERE
+            TR_DE = #{CNT_DT}
+        AND
+            EXNP_STAT = "Y"
+        AND
+            EXNP_SN = #{EXNP_SN}
+    </select>
+
+    <update id="updExnpStat" parameterType="map">
+        /*updExnpStat*/
+        UPDATE CAM_MNG.DJ_EXNP_DET
+        SET
+            EXNP_STAT = "Y",
+            EXNP_CNT = #{USER_SQ}
+        WHERE
+            EXNP_DET_SN = #{EXNP_DET_SN}
+    </update>
 
     <select id="getExnpList" parameterType="map" resultType="map">
         /*getExnpList*/

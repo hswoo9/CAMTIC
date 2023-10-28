@@ -396,6 +396,8 @@ var regExnp = {
             exnpBriefs : $("#exnpBriefs").val(),
             addExnpBriefs : $("#addExnpBriefs").val(),
             exnpEmpSeq : $("#exnpEmpSeq").val(),
+            g20EmpCd : $("#g20EmpCd").val(),
+            g20DeptCd : $("#g20DeptCd").val(),
             bnkSn : $("#bnkSn").val(),
             bnkNm : $("#bnkNm").val(),
             accNm : $("#accNm").val(),

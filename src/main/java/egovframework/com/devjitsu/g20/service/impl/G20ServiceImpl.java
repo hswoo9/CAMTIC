@@ -2,6 +2,7 @@ package egovframework.com.devjitsu.g20.service.impl;
 
 import egovframework.com.devjitsu.g20.repository.G20Repository;
 import egovframework.com.devjitsu.g20.service.G20Service;
+import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -98,5 +99,10 @@ public class G20ServiceImpl implements G20Service {
     @Override
     public List<Map<String, Object>> getOtherList(Map<String, Object> params) {
         return g20Repository.getOtherList(params);
+    }
+
+    @Override
+    public Map<String, Object> getSempData(Map<String, Object> params) {
+        return g20Repository.getSempData(params);
     }
 }

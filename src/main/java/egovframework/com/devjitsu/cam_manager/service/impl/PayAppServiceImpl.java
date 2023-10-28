@@ -7,6 +7,7 @@ import egovframework.com.devjitsu.cam_manager.service.PayAppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -106,6 +107,7 @@ public class PayAppServiceImpl implements PayAppService {
             payAppRepository.updateExnpApprStat(params);
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
+
             payAppRepository.updateExnpFinalApprStat(params);
 
             
@@ -159,5 +161,56 @@ public class PayAppServiceImpl implements PayAppService {
     @Override
     public List<Map<String, Object>> getExnpList(Map<String, Object> params) {
         return payAppRepository.getExnpList(params);
+    }
+
+    @Override
+    public void exnpTest(Map<String, Object> params) {
+        updateG20ExnpFinalAppr(params);
+    }
+
+    private void updateG20ExnpFinalAppr(Map<String, Object> params){
+        List<Map<String, Object>> list = new ArrayList<>();
+        list = payAppRepository.getExnpG20List(params);
+        int docNumber = 0;          // 전체 지출결의서 CNT
+        docNumber = payAppRepository.getCountDoc(list.get(0));
+        int userSq = docNumber + 1;
+
+        for(Map<String, Object> data : list) {
+            int exnpDocNumber = 0;      // 같은 지출결의서 CNT
+            exnpDocNumber = payAppRepository.getExnpCountDoc(data);
+            data.put("PMR_NO", data.get("IN_DT") + "-" + String.format("%02d", userSq) + "-" + String.format("%02d", exnpDocNumber + 1));
+            data.put("USER_SQ", userSq);
+
+            if(data.get("EVID_TYPE").toString().equals("1")){
+                data.put("SET_FG", "3");
+                data.put("VAT_FG", "3");
+                data.put("TR_FG", "1");
+            } else if(data.get("EVID_TYPE").toString().equals("2")){
+                data.put("SET_FG", "3");
+                data.put("VAT_FG", "2");
+                data.put("TR_FG", "1");
+            } else if(data.get("EVID_TYPE").toString().equals("3")){
+                data.put("SET_FG", "4");
+                data.put("VAT_FG", "3");
+                data.put("TR_FG", "3");
+            } else if(data.get("EVID_TYPE").toString().equals("4")){
+                data.put("SET_FG", "1");
+                data.put("VAT_FG", "3");
+                data.put("TR_FG", "3");
+            } else if(data.get("EVID_TYPE").toString().equals("5")){
+                data.put("SET_FG", "1");
+                data.put("VAT_FG", "3");
+                data.put("TR_FG", "4");
+            } else {
+                data.put("SET_FG", "1");
+                data.put("VAT_FG", "3");
+                data.put("TR_FG", "3");
+            }
+
+
+            payAppRepository.updExnpStat(data);
+            System.out.println(data);
+        }
+
     }
 }
