@@ -5,7 +5,6 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <body>
 <div id="approveDataPop">
-    ...
 </div>
 <script>
     window.resizeTo(965, 900);
@@ -18,7 +17,7 @@
         approvalParams.empSeq = "${loginVO.uniqId}";
         approvalParams.content = $("#approveDataPop")[0].innerHTML;
         approvalParams.type = "drafting";
-        approvalParams.menuCd = "delv";
+        approvalParams.menuCd = "rndDelv";
         approvalParams.docType = "A";
 
         approvalParams.linkageProcessId = "26";

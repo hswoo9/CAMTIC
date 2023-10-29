@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -515,12 +516,12 @@ public class ApprovalServiceImpl implements ApprovalService {
                 parameter += "&exnpType=" + params.get("exnpType");
             }
 
-            /** URL url = new URL("http://localhost:8080"+ urlStr); */
+            /** URL url = new URL("http://localhost"+ urlStr); */
             /** 서버 url */
             //URL url = new URL("http://127.0.0.1:8010"+ urlStr);
             //URL url = new URL("http://127.0.0.1:5959"+ urlStr);
-//            URL url = new URL("http://218.158.231.186"+ urlStr);
-            URL url = new URL("http://localhost:8080"+ urlStr);
+            URL url = new URL("http://218.158.231.186"+ urlStr);
+            //URL url = new URL("http://localhost"+ urlStr);
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");

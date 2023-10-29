@@ -147,9 +147,9 @@ public class ProjectRndRepository extends AbstractDAO {
     }
 
     public void updateRndDelvApprStat(Map<String, Object> params) {
-        update("project.updateRndDelvApprStat", params);
+        update("projectRnd.updateRndDelvApprStat", params);
     }
     public void updateRndDelvFinalApprStat(Map<String, Object> params) {
-        update("project.updateRndDelvFinalApprStat", params);
+        update("projectRnd.updateRndDelvFinalApprStat", params);
     }
 }

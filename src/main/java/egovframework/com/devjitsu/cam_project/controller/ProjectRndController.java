@@ -702,8 +702,8 @@ public class ProjectRndController {
     }
 
     /** 사업정보 결재 상태값에 따른 UPDATE 메서드 */
-    @RequestMapping(value = "/projectRnd/rndDelvReqApp")
-    public String rndDelvReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+    @RequestMapping(value = "/projectRnd/delvReqApp")
+    public String delvReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
         System.out.println("bodyMap");
         System.out.println(bodyMap);
         String resultCode = "SUCCESS";
