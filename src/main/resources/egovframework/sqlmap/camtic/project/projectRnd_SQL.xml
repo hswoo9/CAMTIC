@@ -610,4 +610,25 @@
             PJT_SN = #{pjtSn}
     </update>
 
+    <update id="updateRndDelvApprStat" parameterType="map">
+        /* updateRndDelvApprStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_RND
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updateRndDelvFinalApprStat" parameterType="map">
+        /* updateRndDelvFinalApprStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_RND
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
 </mapper>

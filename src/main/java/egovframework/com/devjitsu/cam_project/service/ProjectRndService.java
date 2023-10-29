@@ -61,4 +61,7 @@ public interface ProjectRndService {
     Map<String, Object> getPjtDevSchData(Map<String, Object> params);
 
     void tmpUpdDevPlanApprove(Map<String, Object> params);
+
+    /** 수주관리 결재 상태값에 따른 UPDATE 메서드 */
+    void updateRndDelvDocState(Map<String, Object> bodyMap) throws Exception;
 }
