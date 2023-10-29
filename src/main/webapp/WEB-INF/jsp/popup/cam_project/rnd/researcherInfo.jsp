@@ -183,7 +183,6 @@
 
 <script>
     rndRschInfo.fn_defaultScript();
-
     rndRPR.fn_defaultScript();
 
 
@@ -231,5 +230,10 @@
 
 
 
+    }
+
+    /** 참여인력 선택 */
+    function userSearch(type, pk) {
+        window.open("/common/deptListPop.do?type="+type+"&pk="+pk, "조직도", "width=750, height=650");
     }
 </script>

@@ -21,6 +21,8 @@ public interface ProjectRndService {
 
     void delRschData(Map<String, Object> params);
 
+    void updRschStatus(Map<String, Object> params);
+
     void setDevPjtVer(Map<String, Object> params);
 
     void setDevInfo(Map<String, Object> params);

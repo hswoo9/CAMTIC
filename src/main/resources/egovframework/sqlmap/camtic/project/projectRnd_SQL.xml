@@ -122,10 +122,10 @@
             (
                 #{pjtSn},
                 #{EMP_SEQ},
-                #{RSCH_COMP},
-                #{RSCH_NM},
-                #{RSCH_POSITION},
-                #{empSeq}
+                '캠틱',
+                #{EMP_NAME_KR},
+                '연구원',
+                #{regEmpSeq}
             )
 
     </insert>
@@ -159,6 +159,14 @@
         WHERE
             PJT_RSCH_SN = #{pjtRschSn}
     </delete>
+
+    <update id="updRschStatus" parameterType="map">
+        /*updRschStatus*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_RSCH
+        SET REAL_YN = #{status}
+        WHERE
+            PJT_RSCH_SN = #{pjtRschSn}
+    </update>
 
     <insert id="insDevPjtVer" parameterType="map">
         /*insDevPjtVer*/

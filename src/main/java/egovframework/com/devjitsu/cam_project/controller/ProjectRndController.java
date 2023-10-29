@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import egovframework.com.devjitsu.cam_project.service.ProjectRndService;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
+import egovframework.com.devjitsu.gw.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class ProjectRndController {
 
     @Autowired
     private ProjectRndService projectRndService;
+
+    @Autowired
+    private UserService userService;
 
 
     @Value("#{properties['File.Server.Dir']}")
@@ -497,9 +501,10 @@ public class ProjectRndController {
     public String setRschData(@RequestParam Map<String, Object> params, Model model){
         try{
             Map<String, Object> map = new HashMap<>();
-            map = projectRndService.getRschData(params);
+            //map = projectRndService.getRschData(params);
+            map = userService.getUserInfo(params);
             map.put("pjtSn", params.get("pjtSn"));
-            map.put("empSeq", params.get("empSeq"));
+            map.put("regEmpSeq", params.get("regEmpSeq"));
             projectRndService.setRschData(map);
         } catch (Exception e){
             e.printStackTrace();
@@ -519,6 +524,25 @@ public class ProjectRndController {
 
         try{
             projectRndService.delRschData(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    /**
+     * 연구원관리 > 실제 참여자 체크
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/projectRnd/updRschStatus")
+    public String updRschStatus(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectRndService.updRschStatus(params);
             model.addAttribute("code", 200);
         } catch (Exception e){
             e.printStackTrace();

@@ -74,6 +74,11 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     }
 
     @Override
+    public void updRschStatus(Map<String, Object> params) {
+        projectRndRepository.updRschStatus(params);
+    }
+
+    @Override
     public void setDevPjtVer(Map<String, Object> params) {
         projectRndRepository.insDevPjtVer(params);
     }
