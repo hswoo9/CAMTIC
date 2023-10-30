@@ -8,6 +8,7 @@ var fCommon = {
     },
 
     addFileInfoTable : function(){
+        let size = 0;
         for(var i = 0; i < $("input[name='fileList']")[0].files.length; i++){
             fCommon.global.attFiles.push($("input[name='fileList']")[0].files[i]);
         }
@@ -18,10 +19,11 @@ var fCommon = {
 
             var html = '';
             for (var i = 0; i < fCommon.global.attFiles.length; i++) {
+                size = fCommon.bytesToKB(fCommon.global.attFiles[i].size);
                 html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
                 html += '   <td>' + fCommon.global.attFiles[i].name.split(".")[0] + '</td>';
                 html += '   <td>' + fCommon.global.attFiles[i].name.split(".")[1] + '</td>';
-                html += '   <td>' + fCommon.global.attFiles[i].size + '</td>';
+                html += '   <td>' + size + '</td>';
                 html += '   <td>';
                 html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
                 html += '   </td>';
@@ -33,6 +35,7 @@ var fCommon = {
     },
 
     fnUploadFile : function(e) {
+        let size = 0;
         const dataTransfer = new DataTransfer();
         let fileArray = Array.from(fCommon.global.attFiles);
         fileArray.splice(e, 1);
@@ -47,10 +50,11 @@ var fCommon = {
 
             var html = '';
             for (var i = 0; i <fCommon.global.attFiles.length; i++) {
+                size = fCommon.bytesToKB(fCommon.global.attFiles[i].size);
                 html += '<tr style="text-align: center;" class="addFile">';
                 html += '   <td>' + fCommon.global.attFiles[i].name.split(".")[0] + '</td>';
                 html += '   <td>' + fCommon.global.attFiles[i].name.split(".")[1] + '</td>';
-                html += '   <td>' + fCommon.global.attFiles[i].size + '</td>';
+                html += '   <td>' + size + '</td>';
                 html += '   <td>';
                 html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">';
                 html += '   </td>';
@@ -97,5 +101,29 @@ var fCommon = {
                 }
             });
         }
+    },
+
+    bytesToSize : function(bytes) {
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
+        if (bytes === 0) return 'n/a'
+        const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)), 10)
+        if (i === 0) return `${bytes} ${sizes[i]})`
+        return `${(bytes / (1024 ** i)).toFixed(1)} ${sizes[i]}`
+    },
+
+    bytesToMB : function (bytes) {
+    const sizes = ['MB'];
+    if (bytes === 0) return '0 MB';
+
+    const megabytes = bytes / (1024 ** 2);
+    return `${megabytes.toFixed(2)} MB`;
+    },
+
+    bytesToKB : function (bytes) {
+    const sizes = ['KB'];
+    if (bytes === 0) return '0 KB';
+
+    const kilobytes = bytes / 1024;
+    return `${kilobytes.toFixed(2)} KB`;
     }
 }
