@@ -116,6 +116,7 @@
                 PJT_RSCH_COMP,
                 PJT_RSCH_NM,
                 PJT_RSCH_POSITION,
+                PJT_MNG_CHECK,
                 REG_EMP_SEQ
             )
         VALUES
@@ -125,10 +126,20 @@
                 '캠틱',
                 #{EMP_NAME_KR},
                 '연구원',
+                #{mngCheck},
                 #{regEmpSeq}
             )
-
     </insert>
+
+    <update id="updRschData" parameterType="map">
+        /*updRschData*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_RSCH
+        SET
+            PJT_RSCH_EMP_SEQ = #{EMP_SEQ},
+            PJT_RSCH_NM = #{EMP_NAME_KR}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
 
     <select id="getPjtRschInfo" parameterType="map" resultType="map">
         /*getPjtRschInfo*/

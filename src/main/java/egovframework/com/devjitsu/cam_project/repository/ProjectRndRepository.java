@@ -30,6 +30,10 @@ public class ProjectRndRepository extends AbstractDAO {
         insert("projectRnd.insPjtRschData", params);
     }
 
+    public void updRschData(Map<String, Object> params) {
+        update("projectRnd.updRschData", params);
+    }
+
     public List<Map<String, Object>> getPjtRschInfo(Map<String, Object> params) {
         return selectList("projectRnd.getPjtRschInfo", params);
     }

@@ -184,7 +184,7 @@ var regRnd = {
         $("#modBtn").css("display", "");
 
         $("#sbjClass").data("kendoDropDownList").value(e.SBJ_CLASS);
-        $("#sbjChar").data("kendoDropDownList").value(e.SBJ_CHAR);
+        //$("#sbjChar").data("kendoDropDownList").value(e.SBJ_CHAR);
         $("#supDep").data("kendoDropDownList").value(e.SBJ_DEP);
         $("#supDep").data("kendoDropDownList").trigger("change");
         $("#supDepSub").data("kendoDropDownList").value(e.SBJ_DEP_SUB);
@@ -229,7 +229,7 @@ var regRnd = {
             busnClass : "R",
             busnNm : "R&D",
             sbjClass : $("#sbjClass").val(),
-            sbjChar : $("#sbjChar").val(),
+            //sbjChar : $("#sbjChar").val(),
             sbjDep : $("#supDep").val(),
             sbjDepSub : $("#supDepSub").val(),
             strDt : $("#sbjStrDe").val(),
@@ -268,10 +268,10 @@ var regRnd = {
             alert("과제구분을 선택해주세요.");
             return;
         }
-        if(parameters.sbjChar == ""){
-            alert("과제성격을 선택해주세요.");
-            return;
-        }
+        //if(parameters.sbjChar == ""){
+        //    alert("과제성격을 선택해주세요.");
+        //    return;
+        //}
         if(parameters.supDep == ""){
             alert("지원부처를 선택해주세요.");
             return;
@@ -310,7 +310,7 @@ var regRnd = {
         var parameters = {
             pjtSn : $("#pjtSn").val(),
             sbjClass : $("#sbjClass").val(),
-            sbjChar : $("#sbjChar").val(),
+            //sbjChar : $("#sbjChar").val(),
             sbjDep : $("#supDep").val(),
             sbjDepSub : $("#supDepSub").val(),
 
@@ -345,10 +345,10 @@ var regRnd = {
             alert("과제구분을 선택해주세요.");
             return;
         }
-        if(parameters.sbjChar == ""){
-            alert("과제성격을 선택해주세요.");
-            return;
-        }
+        //if(parameters.sbjChar == ""){
+        //    alert("과제성격을 선택해주세요.");
+        //    return;
+        //}
         if(parameters.supDep == ""){
             alert("지원부처를 선택해주세요.");
             return;

@@ -103,13 +103,13 @@
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>과제구분
                     </th>
-                    <td>
-                        <input type="text" id="sbjClass" style="width: 90%;" value="">
+                    <td colspan="3">
+                        <input type="text" id="sbjClass" style="width: 96%;" value="">
                     </td>
-                    <th scope="row" class="text-center th-color">
+                    <th scope="row" class="text-center th-color" style="display: none">
                         <span class="red-star">*</span>과제성격
                     </th>
-                    <td>
+                    <td style="display: none">
                         <input type="text" id="sbjChar" style="width: 90%;" value="">
                     </td>
                 </tr>

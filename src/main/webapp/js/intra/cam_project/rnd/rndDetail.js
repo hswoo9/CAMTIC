@@ -40,6 +40,7 @@ var rndDetail = {
             mngEmpName : $("#mngEmpName").val(),
             mngDeptSeq : $("#mngDeptSeq").val(),
             mngEmpSeq : $("#mngEmpSeq").val(),
+            empSeq : $("#mngEmpSeq").val(),
 
             bankSn : $("#bank").val(),
             bankNm : $("#bank").data("kendoDropDownList").text(),
@@ -56,6 +57,8 @@ var rndDetail = {
 
             delvDay : $("#delvDay").val(),
             resDay : $("#resDay").val(),
+
+            regEmpSeq : $("#regEmpSeq").val()
         }
 
         if($("#rndSn").val() != "" && $("#rndSn").val() != null){
@@ -159,11 +162,6 @@ var rndDetail = {
         if(pjtStatSub == ""){
             alert("사업성격1을 선택해주세요.");
             return;
-        }
-
-
-        if(!confirm("수주확정을 하시겠습니까?")){
-            return ;
         }
 
         $.ajax({

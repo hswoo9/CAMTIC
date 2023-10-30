@@ -197,10 +197,9 @@ var deptListPop = {
             return;
         } else {
             customKendo.fn_customAjax("/projectRnd/setRschData", data);
+            opener.parent.rndRPR.fn_setData();
+            opener.parent.rndRschInfo.gridReload();
+            window.close();
         }
-
-
-        opener.parent.rndRschInfo.gridReload();
-        window.close();
     }
 }

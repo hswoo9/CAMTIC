@@ -6,6 +6,7 @@ import egovframework.com.devjitsu.cam_project.repository.ProjectRndRepository;
 import egovframework.com.devjitsu.cam_project.service.ProjectRndService;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
+import egovframework.com.devjitsu.gw.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +32,9 @@ public class ProjectRndServiceImpl implements ProjectRndService {
 
     @Autowired
     private G20Repository g20Repository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public void setSubjectInfo(Map<String, Object> params) {
@@ -159,10 +163,17 @@ public class ProjectRndServiceImpl implements ProjectRndService {
 
     @Override
     public void setRndDetail(Map<String, Object> params) {
+        Map<String, Object> map = userRepository.getUserInfo(params);
+        map.put("pjtSn", params.get("pjtSn"));
+        map.put("regEmpSeq", params.get("regEmpSeq"));
+        map.put("mngCheck", params.get("Y"));
+
         if(params.get("stat") == "ins" || "ins".equals(params.get("stat"))){
             projectRndRepository.insRndDetail(params);
+            projectRndRepository.insRschData(map);
         } else {
             projectRndRepository.updRndDetail(params);
+            projectRndRepository.updRschData(map);
         }
     }
 

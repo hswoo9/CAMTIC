@@ -10,6 +10,7 @@
 <input type="hidden" id="step" value="R0" />
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
 <input type="hidden" id="rndSn" value=""/>
+<input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 
 <form id="rndDelvDraftFrm" method="post">
     <input type="hidden" id="pjtSn" name="pjtSn" value="${params.pjtSn}" />
