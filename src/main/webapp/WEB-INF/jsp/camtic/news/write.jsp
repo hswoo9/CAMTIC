@@ -23,16 +23,17 @@
     width : 10%;
     text-align: left;
   }
+  /* margin,padding 숨김 2023-10-30 김병수*/
   .file-and-table-container {
     display: flex;
-    margin-top: 50px;
+    /*margin-top: 50px;
     padding-top: 10px;
-    border-top: 1px solid #c9c9c9;
+    border-top: 1px solid #c9c9c9;*/
   }
   .fileTable {
     width: 80%;
     border-collapse: collapse;
-    margin : 0 0 0 20px;
+    /*margin : 0 0 0 20px;*/
   }
   .fileTable .fileTr .fileTh {
     border: 1px solid #ccc;
@@ -42,10 +43,18 @@
     background-color: #f2f2f2;
     text-align: center;
   }
-
+  /* 파일첨부 버튼 수정 2023-10-30 김병수 */
+  #fileUpload .__btn1 {
+    min-width: 90px;
+    height: 26px;
+    padding: 0;
+    font-size: 15px;
+  }
+  /* 버튼 수정 2023-10-30 김병수 */
   .__btn1 {
-    min-width: 120px;
-    height: 40px;
+    min-width: 85px;
+    height: 38px;
+    font-size: 15px;
   }
 
   #title{
@@ -89,14 +98,14 @@
                     <input type="text" id="writer" class="inputText" value="관리자" disabled/>
                   </td>
                 </tr>
-                <tr>
+                <tr style="border-bottom: 1px solid #ccc;">
                   <th>작성일자</th>
                   <td>
                     <input type="text" id="writeDate" class="inputText" value="" disabled/>
                   </td>
                 </tr>
                 <c:if test="${categoryId eq 'business'}">
-                  <tr style="border-top: 1px solid #ccc;">
+                  <tr style="border-bottom: 1px solid #ccc;">
                     <th>사업기간</th>
                     <td>
                       <input type="datetime-local" id="startDate" style="width: 20%;" value="" />
@@ -105,6 +114,53 @@
                     </td>
                   </tr>
                 </c:if>
+
+                <tr style="border-bottom: 1px solid #ccc;">
+                  <th>내용</th>
+                  <td style="padding: 15px 0 15px 0;">
+                    <textarea class="txt_area_01" id="contents"></textarea>
+                  </td>
+                </tr>
+
+                <tr>
+                  <th>첨부파일</th>
+                  <td style="line-height : 1;padding: 15px 0 15px 0;">
+                    <form>
+                      <div class="file-and-table-container">
+                        <table class="fileTable" style="width: 40%; margin-right: 15px;">
+                          <colgroup>
+                            <col width="50%">
+                            <col width="10%">
+                            <col width="30%">
+                            <col width="10%">
+                          </colgroup>
+                          <thead>
+                          <tr class="fileTr">
+                            <th class="fileTh">파일명</th>
+                            <th class="fileTh">확장자</th>
+                            <th class="fileTh">용량(KB)</th>
+                            <th class="fileTh">기타</th>
+                          </tr>
+                          </thead>
+                          <tbody id="fileGrid">
+                          <tr class="defultTr">
+                            <td colspan="4" style="text-align: center;padding-top: 10px;">선택된 파일이 없습니다.</td>
+                          </tr>
+                          </tbody>
+                        </table>
+
+                        <div>
+                          <div class="filebox">
+                            <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
+                              <span class="__btn1 grayLine">파일첨부</span>
+                            </button>
+                            <input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" multiple style="display: none"/>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </td>
+                </tr>
               </table>
             </div>
           </div>
@@ -116,47 +172,7 @@
                   <p><a href="#">파일명이 노출됩니다.hwp</a></p>
               </dd>
           </dl> -->
-          <div class="con">
-            <textarea class="txt_area_01" id="contents"></textarea>
 
-            <form>
-              <div class="file-and-table-container">
-                <div><span>첨부파일</span></div>
-
-                <table class="fileTable" style="width: 40%; margin-right: 15px;">
-                  <colgroup>
-                    <col width="50%">
-                    <col width="10%">
-                    <col width="30%">
-                    <col width="10%">
-                  </colgroup>
-                  <thead>
-                  <tr class="fileTr">
-                    <th class="fileTh">파일명</th>
-                    <th class="fileTh">확장자</th>
-                    <th class="fileTh">용량</th>
-                    <th class="fileTh">기타</th>
-                  </tr>
-                  </thead>
-                  <tbody id="fileGrid">
-                  <tr class="defultTr">
-                    <td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>
-                  </tr>
-                  </tbody>
-                </table>
-
-                <div>
-                  <div class="filebox">
-                    <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
-                      <span class="__btn1 grayLine">파일첨부</span>
-                    </button>
-                    <input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" multiple style="display: none"/>
-                  </div>
-                </div>
-              </div>
-            </form>
-
-          </div>
 
           <div class="__botArea">
             <div class="rig">
@@ -192,7 +208,7 @@
     $("#endDate").val(year + "-" + formattedMonth + "-" + formattedDay2);
 
     CKEDITOR.replace('contents', {
-      height: 500
+      height: 250
     });
 
     if(categoryId == "notice"){

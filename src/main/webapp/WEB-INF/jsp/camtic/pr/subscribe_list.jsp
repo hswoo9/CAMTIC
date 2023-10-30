@@ -17,6 +17,13 @@
         -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; color: #252525; font-weight: 500; letter-spacing: -0.075em;}
     .__galListhead .boxHead .info .content{font-size: 15px; line-height:20px; color: #555;}
 
+	/* 버튼 수정 2023-10-30 김병수 */
+	.__btn1 {
+		min-width: 100px;
+		height: 40px;
+		font-size: 15px;
+	}
+
     @media (max-width: 1024px) {
         .__galListhead {gap: 10px;}
         .__galListhead .boxHead{width: calc((100% / 2) - (10px / 2));}

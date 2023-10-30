@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Repository
 public class camsBoardRepository extends AbstractDAO {
-	private static final Logger logger = (Logger) LoggerFactory.getLogger(camsBoardRepository.class);
+    private static final Logger logger = (Logger) LoggerFactory.getLogger(camsBoardRepository.class);
 
     public Map<String, Object> getBoardInfo(ArticlePage articlePage){ return (Map<String, Object>) selectOne("camsBoard.getBoardInfo", articlePage);}
 
