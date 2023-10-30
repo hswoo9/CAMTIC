@@ -17,13 +17,6 @@
   .__boardView .con {
     padding: 0px;
   }
-
-  /* 버튼 수정 2023-10-30 김병수 */
-  .__btn1 {
-    min-width: 85px;
-    height: 38px;
-    font-size: 15px;
-  }
 </style>
 
 <body>

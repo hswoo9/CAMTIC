@@ -33,7 +33,7 @@
             </div>
 
             <div class="rig">
-              <a href="javascript:void(0);" onclick="fn_writeBoard();" class="__btn1 blue" style="min-width:100px;height:40px;font-size:15px;"><span>게시글 작성</span></a>
+              <a href="javascript:void(0);" onclick="fn_writeBoard();" class="__btn1 blue"><span>게시글 작성</span></a>
             </div>
           </div>
         </div>
@@ -47,7 +47,7 @@
 <script>
   var categoryKey = "video";
 
-  var firstData = fn_customAjax('/board/getBoardArticleList.do?categoryId=' + categoryKey + '&recordSize=4','');
+  var firstData = fn_customAjax('/board/getBoardArticleList.do?categoryId=' + categoryKey + '&recordSize=5','');
   var flag = false;
 
   var paginationData;
@@ -148,10 +148,10 @@
   function movePage(page){
     const queryParams = {
       page: (page) ? page : 1,
-      recordSize: 4,
+      recordSize: 5,
       pageSize: 10
     }
-    var result = fn_customAjax("/board/getBoardArticleList.do?" + new URLSearchParams(queryParams).toString() + "&categoryId=" + categoryKey + "&recordSize=4", "");
+    var result = fn_customAjax("/board/getBoardArticleList.do?" + new URLSearchParams(queryParams).toString() + "&categoryId=" + categoryKey + "&recordSize=5", "");
 
     flag = true;
 

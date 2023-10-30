@@ -88,7 +88,7 @@
             </div>
 
             <div class="rig">
-              <a href="javascript:void(0);" onclick="fn_writeBoard();" class="__btn1 blue" style="min-width:100px;height:40px;font-size:15px;"><span>게시글 작성</span></a>
+              <a href="javascript:void(0);" onclick="fn_writeBoard();" class="__btn1 blue"><span>게시글 작성</span></a>
             </div>
 
 

@@ -5,14 +5,7 @@
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 </head>
-<style>
-  /* 버튼 수정 2023-10-30 김병수 */
-  .__btn1 {
-    min-width: 100px;
-    height: 40px;
-    font-size: 15px;
-  }
-</style>
+
 <body>
 <div id="wrap">
   <jsp:include page="/WEB-INF/jsp/template/camtic/head.jsp" flush="false"/>

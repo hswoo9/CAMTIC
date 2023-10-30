@@ -20,13 +20,6 @@
   .info table img{margin:0 auto;}
   .info img{margin-left: 18rem;}
 
-  /* 버튼 수정 2023-10-30 김병수 */
-  .__btn1 {
-    min-width: 100px;
-    height: 40px;
-    font-size: 15px;
-  }
-
   @media (max-width: 1024px) {
     .__newsListhead .newboxHead {width: calc((100% / 2) - (10px / 2));}
     .__newsListhead .newboxHead .info .subject {font-size: 14px; line-height: 1.2; height: 2.4em;}
