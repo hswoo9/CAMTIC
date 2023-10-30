@@ -67,12 +67,7 @@ var wbl = {
 
         var i = 0;
 		list.forEach(row => {
-			var locationHost = "";
-			if(location.host.indexOf("127.0.0.1") > -1 || location.host.indexOf("localhost") > -1){
-				locationHost = "http://218.158.231.186";
-			}else{
-				locationHost = location.host;
-			}
+			var locationHost = "http://218.158.231.186";
 
 			var articleTitle = "";
 			if(row.board_ARTICLE_TITLE != null && row.board_ARTICLE_TITLE != ""){
