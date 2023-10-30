@@ -166,7 +166,7 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         Map<String, Object> map = userRepository.getUserInfo(params);
         map.put("pjtSn", params.get("pjtSn"));
         map.put("regEmpSeq", params.get("regEmpSeq"));
-        map.put("mngCheck", params.get("Y"));
+        map.put("mngCheck", "Y");
 
         if(params.get("stat") == "ins" || "ins".equals(params.get("stat"))){
             projectRndRepository.insRndDetail(params);

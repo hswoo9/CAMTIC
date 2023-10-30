@@ -116,7 +116,10 @@
                 PJT_RSCH_COMP,
                 PJT_RSCH_NM,
                 PJT_RSCH_POSITION,
-                PJT_MNG_CHECK,
+                <if test='mngCheck != null and !"".equals(mngCheck)'>
+                    PJT_MNG_CHECK,
+                    REAL_YN,
+                </if>
                 REG_EMP_SEQ
             )
         VALUES
@@ -126,7 +129,10 @@
                 '캠틱',
                 #{EMP_NAME_KR},
                 '연구원',
-                #{mngCheck},
+                <if test='mngCheck != null and !"".equals(mngCheck)'>
+                    #{mngCheck},
+                    'Y',
+                </if>
                 #{regEmpSeq}
             )
     </insert>
