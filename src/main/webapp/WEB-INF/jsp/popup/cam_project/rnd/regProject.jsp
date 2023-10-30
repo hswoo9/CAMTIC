@@ -52,6 +52,10 @@
     .table-responsive {
         overflow-x: hidden !important;
     }
+
+    label {
+        margin: 0;
+    }
 </style>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/rnd/regProject.js?v=${today}'/>"></script>
@@ -103,13 +107,13 @@
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>과제구분
                     </th>
-                    <td>
-                        <input type="text" id="sbjClass" style="width: 90%;" value="">
+                    <td colspan="3">
+                        <input type="text" id="sbjClass" style="width: 10%;" value="">
                     </td>
-                    <th scope="row" class="text-center th-color">
+                    <th scope="row" class="text-center th-color" style="display: none">
                         <span class="red-star">*</span>과제성격
                     </th>
-                    <td>
+                    <td style="display: none">
                         <input type="text" id="sbjChar" style="width: 90%;" value="">
                     </td>
                 </tr>
@@ -198,10 +202,22 @@
                     </th>
                     <td>
                         <span>
-                            <input type="radio" id="sbjSepN" name="sbjSepYn" value="N" style="position: relative; top: 3px;">
-                            <label for="sbjSepN">없음</label>
-                            <input type="radio" id="sbjSepY" name="sbjSepYn" value="Y" style="position: relative; top: 3px;">
-                            <label for="sbjSepY">있음</label>
+                            <div style="float: left">
+                                <input type="radio" id="sbjSepN" name="sbjSepYn" value="N" style="position: relative; top: 3px;">
+                                <label for="sbjSepN">없음</label>
+                                <input type="radio" id="sbjSepY" name="sbjSepYn" value="Y" style="position: relative; top: 3px;">
+                                <label for="sbjSepY">있음</label>
+                            </div>
+                            <div style="float: left; padding-left: 10px;">
+                                <div id="checkboxDiv" style="display: none">
+                                    <label for="at1"><input type='checkbox' id='at1' name='accountType' class='accountType' value='1'/>국비&nbsp</label>
+                                    <label for="at2"><input type='checkbox' id='at2' name='accountType' class='accountType' value='2'/>도비&nbsp</label>
+                                    <label for="at3"><input type='checkbox' id='at3' name='accountType' class='accountType' value='3'/>시비&nbsp</label>
+                                    <label for="at4"><input type='checkbox' id='at4' name='accountType' class='accountType' value='4'/>자부담&nbsp</label>
+                                    <label for="at5"><input type='checkbox' id='at5' name='accountType' class='accountType' value='5'/>업체부담&nbsp</label>
+                                    <label for="at9"><input type='checkbox' id='at9' name='accountType' class='accountType' value='9'/>기타</label>
+                                </div>
+                            </div>
                         </span>
                     </td>
                     <th scope="row" class="text-center th-color">

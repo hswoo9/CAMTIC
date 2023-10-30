@@ -259,7 +259,7 @@
 
                             </tr>
                             <tr>
-                                <th class="text-center th-color"><span class="red-star">*</span>결재의견</th>
+                                <th class="text-center th-color">결재의견</th>
                                 <td>
                                     <textarea type="text" id="approveOpin" name="approveOpin"></textarea>
                                 </td>

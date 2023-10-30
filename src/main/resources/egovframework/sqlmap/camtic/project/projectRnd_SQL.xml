@@ -89,6 +89,35 @@
             PJT_SN = #{pjtSn}
     </update>
 
+    <insert id="insAccountInfo" parameterType="map">
+        /* insAccountInfo */
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_ACCOUNT
+            (
+                PJT_SN,
+                BUSN_CLASS,
+                BUSN_NM,
+                IS_TYPE,
+                REG_EMP_SEQ
+            )
+        VALUES
+        <foreach collection="accountList" item="item" separator=" , ">
+            (
+                #{pjtSn},
+                #{busnClass},
+                #{busnNm},
+                #{item.value},
+                #{regEmpSeq}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="delAccountInfo" parameterType="map">
+        /*delAccountInfo*/
+        DELETE FROM CAM_PJT_MNG.DJ_PJT_ACCOUNT
+        WHERE
+            PJT_SN = #{pjtSn}
+    </delete>
+
     <select id="getPopRschList" parameterType="map" resultType="map">
         /*getPopRschList*/
         SELECT
@@ -116,6 +145,10 @@
                 PJT_RSCH_COMP,
                 PJT_RSCH_NM,
                 PJT_RSCH_POSITION,
+                <if test='mngCheck != null and !"".equals(mngCheck)'>
+                    PJT_MNG_CHECK,
+                    REAL_YN,
+                </if>
                 REG_EMP_SEQ
             )
         VALUES
@@ -125,10 +158,23 @@
                 '캠틱',
                 #{EMP_NAME_KR},
                 '연구원',
+                <if test='mngCheck != null and !"".equals(mngCheck)'>
+                    #{mngCheck},
+                    'Y',
+                </if>
                 #{regEmpSeq}
             )
-
     </insert>
+
+    <update id="updRschData" parameterType="map">
+        /*updRschData*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_RSCH
+        SET
+            PJT_RSCH_EMP_SEQ = #{EMP_SEQ},
+            PJT_RSCH_NM = #{EMP_NAME_KR}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
 
     <select id="getPjtRschInfo" parameterType="map" resultType="map">
         /*getPjtRschInfo*/
@@ -480,6 +526,16 @@
             CAM_PJT_MNG.DJ_PJT_PART_RATE B
         ON
             A.PART_RATE_SN = B.PART_RATE_SN
+        WHERE
+            A.PJT_SN = #{pjtSn}
+    </select>
+
+    <select id="getAccountInfo" parameterType="map" resultType="map">
+        /*getAccountInfo*/
+        SELECT
+            A.*
+        FROM
+            CAM_PJT_MNG.DJ_PJT_ACCOUNT A
         WHERE
             A.PJT_SN = #{pjtSn}
     </select>

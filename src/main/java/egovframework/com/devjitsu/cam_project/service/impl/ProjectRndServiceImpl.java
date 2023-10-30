@@ -1,11 +1,14 @@
 package egovframework.com.devjitsu.cam_project.service.impl;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRndRepository;
 import egovframework.com.devjitsu.cam_project.service.ProjectRndService;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
+import egovframework.com.devjitsu.gw.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +16,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +36,9 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     @Autowired
     private G20Repository g20Repository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public void setSubjectInfo(Map<String, Object> params) {
 
@@ -39,6 +46,15 @@ public class ProjectRndServiceImpl implements ProjectRndService {
             projectRndRepository.insSubjectInfo(params);
         } else {
             projectRndRepository.updSubjectInfo(params);
+            projectRndRepository.delAccountInfo(params);
+        }
+
+        if(params.get("sbjSep").toString().equals("Y")){
+            Gson gson = new Gson();
+            List<Map<String, Object>> ACCOUNT_LIST = new ArrayList<>();
+            ACCOUNT_LIST = gson.fromJson((String) params.get("accountList"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+            params.put("accountList", ACCOUNT_LIST);
+            projectRndRepository.insAccountInfo(params);
         }
 
     }
@@ -159,10 +175,17 @@ public class ProjectRndServiceImpl implements ProjectRndService {
 
     @Override
     public void setRndDetail(Map<String, Object> params) {
+        Map<String, Object> map = userRepository.getUserInfo(params);
+        map.put("pjtSn", params.get("pjtSn"));
+        map.put("regEmpSeq", params.get("regEmpSeq"));
+        map.put("mngCheck", "Y");
+
         if(params.get("stat") == "ins" || "ins".equals(params.get("stat"))){
             projectRndRepository.insRndDetail(params);
+            projectRndRepository.insRschData(map);
         } else {
             projectRndRepository.updRndDetail(params);
+            projectRndRepository.updRschData(map);
         }
     }
 
@@ -250,6 +273,11 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     @Override
     public List<Map<String, Object>> getReqPartRateVerList(Map<String, Object> params) {
         return projectRndRepository.getReqPartRateVerList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getAccountInfo(Map<String, Object> params) {
+        return projectRndRepository.getAccountInfo(params);
     }
 
     @Override

@@ -162,6 +162,14 @@ var regRnd = {
 
         });
 
+        $("input[name='sbjSepYn']").change(function(){
+            if($("input[name='sbjSepYn']:checked").val() == "Y"){
+                $("#checkboxDiv").show();
+            }else{
+                $("#checkboxDiv").hide();
+            }
+        });
+
         var parser = new DOMParser();
 
         var html = '<div style="width:100%;"></div>';
@@ -184,7 +192,7 @@ var regRnd = {
         $("#modBtn").css("display", "");
 
         $("#sbjClass").data("kendoDropDownList").value(e.SBJ_CLASS);
-        $("#sbjChar").data("kendoDropDownList").value(e.SBJ_CHAR);
+        //$("#sbjChar").data("kendoDropDownList").value(e.SBJ_CHAR);
         $("#supDep").data("kendoDropDownList").value(e.SBJ_DEP);
         $("#supDep").data("kendoDropDownList").trigger("change");
         $("#supDepSub").data("kendoDropDownList").value(e.SBJ_DEP_SUB);
@@ -212,6 +220,14 @@ var regRnd = {
         if(e.SBJ_SEP != undefined){
             if(e.SBJ_SEP == "Y"){
                 $("#sbjSepY").prop("checked", true);
+                var data = {
+                    pjtSn: e.PJT_SN
+                }
+                let result = customKendo.fn_customAjax("/projectRnd/getAccountInfo", data);
+                $("#checkboxDiv").show();
+                for(let i=0; i<result.list.length; i++){
+                    $("#at" + result.list[i].IS_TYPE).prop('checked',true);
+                }
             } else {
                 $("#sbjSepN").prop("checked", true);
             }
@@ -229,7 +245,7 @@ var regRnd = {
             busnClass : "R",
             busnNm : "R&D",
             sbjClass : $("#sbjClass").val(),
-            sbjChar : $("#sbjChar").val(),
+            //sbjChar : $("#sbjChar").val(),
             sbjDep : $("#supDep").val(),
             sbjDepSub : $("#supDepSub").val(),
             strDt : $("#sbjStrDe").val(),
@@ -248,6 +264,8 @@ var regRnd = {
 
             pjtStep : $("#pjtStep").val(),
             pjtStepNm : $("#pjtStepNm").val(),
+
+            regEmpSeq : $("#regEmpSeq").val(),
         }
 
         $("input[name='sbjSepYn']").each(function(){
@@ -262,16 +280,36 @@ var regRnd = {
             parameters.sbjStatYn = "N";
         }
 
+        if($("input[name='sbjSepYn']:checked").val() == "Y"){
+            const checkBox = 'input[name="accountType"]:checked';
+            const selectedElements = document.querySelectorAll(checkBox);
+
+            let arr = new Array();
+            selectedElements.forEach((el) => {
+                let row = {
+                    value: el.value,
+                }
+                arr.push(row);
+            });
+
+            if(arr.length == 0) {
+                alert("사업비 항목이 선택되지 않았습니다.");
+                return;
+            }
+
+            parameters.accountList = JSON.stringify(arr);
+        }
+
 
 
         if(parameters.sbjClass == ""){
             alert("과제구분을 선택해주세요.");
             return;
         }
-        if(parameters.sbjChar == ""){
-            alert("과제성격을 선택해주세요.");
-            return;
-        }
+        //if(parameters.sbjChar == ""){
+        //    alert("과제성격을 선택해주세요.");
+        //    return;
+        //}
         if(parameters.supDep == ""){
             alert("지원부처를 선택해주세요.");
             return;
@@ -310,7 +348,7 @@ var regRnd = {
         var parameters = {
             pjtSn : $("#pjtSn").val(),
             sbjClass : $("#sbjClass").val(),
-            sbjChar : $("#sbjChar").val(),
+            //sbjChar : $("#sbjChar").val(),
             sbjDep : $("#supDep").val(),
             sbjDepSub : $("#supDepSub").val(),
 
@@ -341,14 +379,34 @@ var regRnd = {
             parameters.sbjStatYn = "N";
         }
 
+        if($("input[name='sbjSepYn']:checked").val() == "Y"){
+            const checkBox = 'input[name="accountType"]:checked';
+            const selectedElements = document.querySelectorAll(checkBox);
+
+            let arr = new Array();
+            selectedElements.forEach((el) => {
+                let row = {
+                    value: el.value,
+                }
+                arr.push(row);
+            });
+
+            if(arr.length == 0) {
+                alert("사업비 항목이 선택되지 않았습니다.");
+                return;
+            }
+
+            parameters.accountList = JSON.stringify(arr);
+        }
+
         if(parameters.sbjClass == ""){
             alert("과제구분을 선택해주세요.");
             return;
         }
-        if(parameters.sbjChar == ""){
-            alert("과제성격을 선택해주세요.");
-            return;
-        }
+        //if(parameters.sbjChar == ""){
+        //    alert("과제성격을 선택해주세요.");
+        //    return;
+        //}
         if(parameters.supDep == ""){
             alert("지원부처를 선택해주세요.");
             return;
