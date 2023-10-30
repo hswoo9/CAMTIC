@@ -487,6 +487,18 @@ public class ProjectRndController {
         return "jsonView";
     }
 
+    /**
+     * 프로젝트 RND > 사업비 분리사용시 분리사용 항목 조회
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/projectRnd/getAccountInfo")
+    public String getAccountInfo(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", projectRndService.getAccountInfo(params));
+        return "jsonView";
+    }
+
 
 
     /* Set Data Line ==================================================== */

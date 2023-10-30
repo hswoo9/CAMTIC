@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.cam_project.service.impl;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRndRepository;
@@ -14,6 +16,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +46,15 @@ public class ProjectRndServiceImpl implements ProjectRndService {
             projectRndRepository.insSubjectInfo(params);
         } else {
             projectRndRepository.updSubjectInfo(params);
+            projectRndRepository.delAccountInfo(params);
+        }
+
+        if(params.get("sbjSep").toString().equals("Y")){
+            Gson gson = new Gson();
+            List<Map<String, Object>> ACCOUNT_LIST = new ArrayList<>();
+            ACCOUNT_LIST = gson.fromJson((String) params.get("accountList"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+            params.put("accountList", ACCOUNT_LIST);
+            projectRndRepository.insAccountInfo(params);
         }
 
     }
@@ -261,6 +273,11 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     @Override
     public List<Map<String, Object>> getReqPartRateVerList(Map<String, Object> params) {
         return projectRndRepository.getReqPartRateVerList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getAccountInfo(Map<String, Object> params) {
+        return projectRndRepository.getAccountInfo(params);
     }
 
     @Override
