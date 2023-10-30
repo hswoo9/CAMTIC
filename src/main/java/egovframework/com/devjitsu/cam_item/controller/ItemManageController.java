@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.cam_item.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.cam_crm.service.CrmService;
 import egovframework.com.devjitsu.cam_item.service.ItemManageService;
 import egovframework.com.devjitsu.cam_item.service.ItemSystemService;
@@ -340,20 +342,66 @@ public class ItemManageController {
     }
 
     /**
-     * 출하실적등록 팝업
+     * 출하가능여부 체크 (자재 체크)
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getShipmentInvenChk.do")
+    public String getShipmentInvenChk(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", itemManageService.getShipmentInvenChk(params));
+        return "jsonView";
+    }
+
+    /**
+     * 출고 창고 지정 팝업
      * @param params
      * @param request
      * @param model
      * @return
      */
-    @RequestMapping("/item/pop/popShipmentRecordReg.do")
-    public String popShipmentRecordReg(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+    @RequestMapping("/item/pop/popOutputByShipment.do")
+    public String popOutputByShipment(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
 
-        return "popup/cam_item/popShipmentRecordReg";
+        return "popup/cam_item/popOutputByShipment";
+    }
+
+    /**
+     * 출하품목 상세 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getFwWhCdDesignList.do")
+    public String getFwWhCdDesignList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", itemManageService.getFwWhCdDesignList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 출하저장
+     * @param params
+     * @return
+     */
+    @RequestMapping("/item/getFwWhCdDesign.do")
+    public String getFwWhCdDesign(@RequestParam Map<String, Object> params){
+        itemManageService.getFwWhCdDesign(params);
+        return "jsonView";
+    }
+
+    /**
+     * 출하마감처리
+     * @param params
+     * @return
+     */
+    @RequestMapping("/item/setShipmentDeadlineUpd.do")
+    public String setShipmentDeadlineUpd(@RequestParam Map<String, Object> params){
+        itemManageService.setShipmentDeadlineUpd(params);
+        return "jsonView";
     }
 
     /**
@@ -368,18 +416,6 @@ public class ItemManageController {
         model.addAttribute("rs", itemSystemService.getItemMaster(params));
         model.addAttribute("params", params);
         return "popup/cam_item/popSrUnitPriceList";
-    }
-
-
-    /**
-     * 출하실적등록
-     * @param params
-     * @return
-     */
-    @RequestMapping("/item/setShipmentRecord.do")
-    public String setShipmentRecord(@RequestParam Map<String, Object> params){
-        itemManageService.setShipmentRecord(params);
-        return "jsonView";
     }
 
     /**

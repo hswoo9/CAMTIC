@@ -115,11 +115,6 @@ var oorm = {
         var popup = window.open(url, name, option);
     },
 
-    itemInfoChange : function(){
-        $("#whCd").data("kendoDropDownList").value($("#baseWhCd").val());
-        $("#baseWhCd").val("")
-    },
-
     comma: function(str) {
         str = String(str);
         return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');

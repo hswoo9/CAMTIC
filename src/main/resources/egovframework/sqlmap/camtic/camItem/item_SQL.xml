@@ -135,7 +135,7 @@
             EI.EMP_NAME_KR,
             IM.ITEM_NO,
             IM.ITEM_NAME,
-            (SELECT COUNT(*) FROM CAM_ITEM.dj_item_inventory WHERE MASTER_SN = OO.MASTER_SN) AS OVERALL_INVEN,
+            (SELECT SUM(CURRENT_INVEN) FROM CAM_ITEM.dj_item_inventory WHERE MASTER_SN = OO.MASTER_SN) AS OVERALL_INVEN,
             CI.CRM_NM
         FROM
             CAM_ITEM.DJ_ITEM_OBTAIN_ORDER OO
@@ -223,18 +223,6 @@
         WHERE 1=1
         AND OBTAIN_ORDER_SN = #{obtainOrderSn}
     </select>
-    <update id="setDeliveryAmtUpd" parameterType="map">
-        /* setDeliveryAmtUpd */
-        UPDATE
-            CAM_ITEM.DJ_ITEM_OBTAIN_ORDER
-        SET
-            DELIVERY_AMT = #{deliveryAmt},
-            ORDER_REMAIN = (ORDER_VOLUME - ${deliveryAmt}),
-            MOD_EMP_SEQ = #{empSeq},
-            MOD_DT = NOW()
-        WHERE
-            OBTAIN_ORDER_SN = #{obtainOrderSn}
-    </update>
 
     <update id="setDeadlineUpd" parameterType="map">
         /* setDeadlineUpd */
@@ -243,10 +231,10 @@
             CAM_ITEM.DJ_ITEM_OBTAIN_ORDER
         SET
             DEADLINE = 'Y',
-            UNPAID_TYPE = CASE WHEN CAST(ORDER_VOLUME AS UNSIGNED) = CAST(ORDER_REMAIN AS UNSIGNED) AND CAST(DELIVERY_AMT AS UNSIGNED) = 0 THEN 'C'
-                               WHEN CAST(ORDER_VOLUME AS UNSIGNED) > CAST(DELIVERY_AMT AS UNSIGNED) AND CAST(DELIVERY_AMT AS UNSIGNED) != 0 THEN 'P'
-                               WHEN CAST(ORDER_VOLUME AS UNSIGNED) = CAST(DELIVERY_AMT AS UNSIGNED) AND CAST(ORDER_REMAIN AS UNSIGNED) = 0 THEN 'N'
-                            END,
+--             UNPAID_TYPE = CASE WHEN CAST(ORDER_VOLUME AS UNSIGNED) = CAST(ORDER_REMAIN AS UNSIGNED) AND CAST(DELIVERY_AMT AS UNSIGNED) = 0 THEN 'C'
+--                                WHEN CAST(ORDER_VOLUME AS UNSIGNED) > CAST(DELIVERY_AMT AS UNSIGNED) AND CAST(DELIVERY_AMT AS UNSIGNED) != 0 THEN 'P'
+--                                WHEN CAST(ORDER_VOLUME AS UNSIGNED) = CAST(DELIVERY_AMT AS UNSIGNED) AND CAST(ORDER_REMAIN AS UNSIGNED) = 0 THEN 'N'
+--                             END,
             MOD_EMP_SEQ = #{empSeq},
             MOD_DT = NOW()
         WHERE
@@ -318,29 +306,31 @@
         /* getShipmentRecordList */
         SELECT
             SR.*,
+            (SELECT IFNULL(SUM(CURRENT_INVEN), 0) FROM CAM_ITEM.dj_item_inventory WHERE MASTER_SN = IM.MASTER_SN) AS OVERALL_INVEN,
             EI.EMP_NAME_KR,
+            IM.MASTER_SN,
             IM.ITEM_NO,
             IM.ITEM_NAME,
-            CI.CRM_NM,
-            WHC.ITEM_CD_NM AS WH_CD_NM
+            CI.CRM_NM
         FROM
             CAM_ITEM.DJ_ITEM_SM_RECORD SR
         JOIN
+            CAM_ITEM.DJ_ITEM_OBTAIN_ORDER OO
+        ON OO.OBTAIN_ORDER_SN = SR.OBTAIN_ORDER_SN
+        JOIN
             CAM_CRM.DJ_CRM_INFO CI
         ON SR.CRM_SN = CI.CRM_SN
-        JOIN
-            CAM_ITEM.DJ_ITEM_INVENTORY II
-        ON II.INVEN_SN = SR.INVEN_SN
         JOIN
             CAM_HR.DJ_EMP_INFO EI
         ON SR.REG_EMP_SEQ = EI.EMP_SEQ
         JOIN
             CAM_ITEM.DJ_ITEM_MASTER IM
-        ON IM.MASTER_SN = II.MASTER_SN
-        JOIN
-            CAM_ITEM.DJ_ITEM_CD WHC
-        ON WHC.LG_CD = 'WH' AND II.WH_CD = WHC.ITEM_CD
+        ON IM.MASTER_SN = OO.MASTER_SN
         WHERE 1=1
+
+        <if test='deadline != null and !"".equals(deadline)'>
+            AND SR.DEADLINE = #{deadline}
+        </if>
 
         <if test='startDt != null and !"".equals(startDt)'>
             <![CDATA[
@@ -355,14 +345,9 @@
             AND SR.CRM_SN = #{crmSn}
         </if>
 
-        <if test='whCd != null and !"".equals(whCd)'>
-            AND II.WH_CD = #{whCd}
-        </if>
-
         <if test='masterSn != null and !"".equals(masterSn)'>
             AND IM.MASTER_SN = #{masterSn}
         </if>
-
 
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword)'>
@@ -382,47 +367,114 @@
             AND SR.REG_EMP_SEQ = #{regEmpSeq}
         </if>
 
+        <if test='smRecordSnArr != null and !"".equals(smRecordSnArr)'>
+            AND SR.SM_RECORD_SN IN (${smRecordSnArr})
+        </if>
+
         ORDER BY SR.DELIVERY_DT DESC
+    </select>
+
+    <update id="setDeliveryAmtUpd" parameterType="map">
+        /* setDeliveryAmtUpd */
+        UPDATE
+            CAM_ITEM.DJ_ITEM_OBTAIN_ORDER
+        SET
+            DELIVERY_AMT = (IFNULL(DELIVERY_AMT, 0) + ${deliveryAmt}),
+            ORDER_REMAIN = (ORDER_VOLUME - IFNULL(DELIVERY_AMT, 0)),
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            OBTAIN_ORDER_SN = (SELECT OBTAIN_ORDER_SN FROM CAM_ITEM.DJ_ITEM_SM_RECORD WHERE SM_RECORD_SN = #{smRecordSn})
+    </update>
+
+    <update id="getShipmentDeliveryAmtUpd" parameterType="map">
+        /* getShipmentDeliveryAmtUpd */
+        UPDATE
+            CAM_ITEM.DJ_ITEM_SM_RECORD
+        SET
+            DELIVERY_AMT = (IFNULL(DELIVERY_AMT, 0) + ${deliveryAmt}),
+            DELIVERY_DT = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            SM_RECORD_SN = #{smRecordSn}
+    </update>
+
+    <select id="getShipmentList" parameterType="map" resultType="map">
+        /* getShipmentList */
+        SELECT
+            IM.ITEM_NO,
+            IM.ITEM_NAME,
+            IM.ITEM_TYPE,
+            IFNULL(MAX(II.UNIT_PRICE), 0) AS UNIT_PRICE,
+            COUNT(II.INVEN_SN) AS INVEN_CNT,
+            II.WH_CD,
+            IFNULL(CAST(SUM(II.CURRENT_INVEN) AS SIGNED INTEGER), 0) AS CURRENT_INVEN,
+            #{reqQty} AS REQ_QTY,
+            IM.SAFETY_INVEN
+        FROM
+            CAM_ITEM.DJ_ITEM_MASTER IM
+        LEFT JOIN
+            CAM_ITEM.DJ_ITEM_INVENTORY II
+        ON II.MASTER_SN = IM.MASTER_SN
+        WHERE
+            IM.MASTER_SN = #{masterSn}
+        GROUP BY IM.MASTER_SN
     </select>
 
     <insert id="setShipmentRecord" parameterType="map">
         /* setShipmentRecord */
         INSERT INTO CAM_ITEM.DJ_ITEM_SM_RECORD
         (
+            OBTAIN_ORDER_SN,
             CRM_SN,
-            INVEN_SN,
             DELIVERY_VOLUME,
-            DELIVERY_DT,
             UNIT_PRICE,
             AMT,
             RMK,
             REG_EMP_SEQ
         )
-        VALUES
-        (
-            #{crmSn},
-            #{invenSn},
-            #{deliveryVolume},
-            #{deliveryDt},
-            #{unitPrice},
-            #{amt},
-            #{rmk},
+        SELECT
+            OBTAIN_ORDER_SN,
+            CRM_SN,
+            ORDER_VOLUME,
+            UNIT_PRICE,
+            AMT,
+            RMK,
             #{empSeq}
-        )
+        FROM
+            CAM_ITEM.DJ_ITEM_OBTAIN_ORDER
+        WHERE
+            OBTAIN_ORDER_SN = #{obtainOrderSn}
     </insert>
 
-    <update id="setShipmentRecordUpd" parameterType="map">
-        /* setShipmentRecordUpd */
+    <update id="setUnPaidTypeUpd" parameterType="map">
+        /* setUnPaidTypeUpd */
+        <![CDATA[
+        UPDATE
+            CAM_ITEM.DJ_ITEM_OBTAIN_ORDER
+        SET
+            UNPAID_TYPE = CASE WHEN CAST(ORDER_VOLUME AS UNSIGNED) = CAST(ORDER_REMAIN AS UNSIGNED) AND CAST(DELIVERY_AMT AS UNSIGNED) = 0 THEN 'C'
+                               WHEN CAST(ORDER_VOLUME AS UNSIGNED) > CAST(DELIVERY_AMT AS UNSIGNED) AND CAST(DELIVERY_AMT AS UNSIGNED) != 0 THEN 'P'
+                               WHEN CAST(ORDER_VOLUME AS UNSIGNED) = CAST(DELIVERY_AMT AS UNSIGNED) AND CAST(ORDER_REMAIN AS UNSIGNED) = 0 THEN 'N'
+                            END,
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            OBTAIN_ORDER_SN = (SELECT OBTAIN_ORDER_SN FROM CAM_ITEM.DJ_ITEM_SM_RECORD WHERE SM_RECORD_SN = #{smRecordSn})
+        ]]>
+    </update>
+
+    <update id="setShipmentDeadlineUpd" parameterType="map">
+        /* setShipmentDeadlineUpd */
         UPDATE
             CAM_ITEM.DJ_ITEM_SM_RECORD
         SET
-            CRM_SN = #{crmSn},
-            INVEN_SN = #{invenSn},
-            DELIVERY_VOLUME = #{deliveryVolume},
-            DELIVERY_DT = #{deliveryDt},
-            UNIT_PRICE = #{unitPrice},
-            AMT = #{amt},
-            RMK = #{rmk},
+            DEADLINE = 'Y',
+            UNPAID_TYPE = CASE WHEN CAST(DELIVERY_VOLUME AS UNSIGNED) = CAST((DELIVERY_VOLUME - DELIVERY_AMT) AS UNSIGNED) AND CAST(DELIVERY_AMT AS UNSIGNED) = 0 THEN 'C'
+                               WHEN CAST(DELIVERY_VOLUME AS UNSIGNED) > CAST(DELIVERY_AMT AS UNSIGNED) AND CAST(DELIVERY_AMT AS UNSIGNED) != 0 THEN 'P'
+                               WHEN CAST(DELIVERY_VOLUME AS UNSIGNED) = CAST(DELIVERY_AMT AS UNSIGNED) AND CAST((DELIVERY_VOLUME - DELIVERY_AMT) AS UNSIGNED) = 0 THEN 'N'
+                            END,
             MOD_EMP_SEQ = #{empSeq},
             MOD_DT = NOW()
         WHERE
@@ -1275,8 +1327,10 @@
             CAM_ITEM.DJ_ITEM_INVENTORY
         WHERE
             MASTER_SN = #{masterSn}
-          AND
+        <if test='whCd != null and !"".equals(whCd)'>
+        AND
             WH_CD = #{whCd}
+        </if>
     </select>
     <insert id="setItemInven" parameterType="map">
         /* setItemInven */
@@ -1368,7 +1422,7 @@
         </choose>
 
         <if test='"shipmentRecord".equals(reg)'>
-            AND II.WH_CD IN('PR', 'SM')
+            AND II.CURRENT_INVEN > 0
         </if>
 
         ORDER BY

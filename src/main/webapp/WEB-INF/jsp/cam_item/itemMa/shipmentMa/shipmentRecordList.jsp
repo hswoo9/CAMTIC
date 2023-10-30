@@ -21,8 +21,6 @@
                     <colgroup>
                         <col width="5%">
                         <col width="20%">
-                        <col width="5%">
-                        <col width="10%">
                         <col width="7%">
                         <col width="18%">
                         <col width="5%">
@@ -39,10 +37,6 @@
                             <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="srl.crmSnReset()">
                                 초기화
                             </button>
-                        </td>
-                        <th class="text-center th-color">창고</th>
-                        <td>
-                            <input type="text" id="whCd" style="width: 150px;">
                         </td>
                         <th class="text-center th-color">납품일자</th>
                         <td>
