@@ -78,6 +78,20 @@ var srl = {
                     field: "ITEM_NAME",
                     width: 120
                 }, {
+                    title: "재고",
+                    field: "OVERALL_INVEN",
+                    width: 100,
+                    template : function (e){
+                        if(e.OVERALL_INVEN != null && e.OVERALL_INVEN != ""){
+                            return srl.comma(e.OVERALL_INVEN);
+                        }else{
+                            return "0";
+                        }
+                    },
+                    attributes : {
+                        style : "text-align : right;"
+                    }
+                }, {
                     title: "납품량",
                     field: "DELIVERY_AMT",
                     width: 100,
