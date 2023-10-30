@@ -83,9 +83,11 @@
                     <td colspan="2">
                         <span>
                             <input type="text" id="exnpEmpNm" disabled value="${loginVO.name}"  style="width: 20%;">
+                            <input type="hidden" id="g20EmpCd" value="${g20.EMP_CD}" />
                             <input type="hidden" id="exnpEmpSeq" value="${loginVO.uniqId}" />
                             <input type="text" id="exnpDeptNm" disabled value="${loginVO.orgnztNm}"  style="width: 30%;">
                             <input type="hidden" id="exnpDeptSeq" value="${loginVO.orgnztId}" />
+                            <input type="hidden" id="g20DeptCd" value="${g20.DEPT_CD}" />
                         </span>
                     </td>
                 </tr>
@@ -214,6 +216,7 @@
                         </td>
                         <td>
                             <input type="text" disabled id="card0" class="card">
+                            <input type="hidden" id="cardNo0" class="cardNo" />
                         </td>
                     </tr>
                     </tbody>

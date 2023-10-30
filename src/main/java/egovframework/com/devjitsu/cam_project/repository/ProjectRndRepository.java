@@ -42,6 +42,10 @@ public class ProjectRndRepository extends AbstractDAO {
         delete("projectRnd.delRschData", params);
     }
 
+    public void updRschStatus(Map<String, Object> params) {
+        update("projectRnd.updRschStatus", params);
+    }
+
     public void insDevPjtVer(Map<String, Object> params) {
         insert("projectRnd.insDevPjtVer", params);
     }
@@ -144,5 +148,12 @@ public class ProjectRndRepository extends AbstractDAO {
 
     public void tmpUpdDevPlanApprove(Map<String, Object> params) {
         update("projectRnd.tmpUpdDevPlanApprove", params);
+    }
+
+    public void updateRndDelvApprStat(Map<String, Object> params) {
+        update("projectRnd.updateRndDelvApprStat", params);
+    }
+    public void updateRndDelvFinalApprStat(Map<String, Object> params) {
+        update("projectRnd.updateRndDelvFinalApprStat", params);
     }
 }

@@ -252,6 +252,22 @@
             , #{ip}
     </insert>
 
+    <select id="getTradeInfo" parameterType="map" resultType="map">
+        /*getTradeInfo*/
+        SELECT
+            TR_NM, REG_NB, PPL_NB, CEO_NM, BUSINESS, JONGMOK, ZIP, DIV_ADDR1, ADDR2
+        FROM ZA_TRADE_DAIKIN
+        WHERE TR_CD = #{TR_CD}
+    </select>
+
+    <select id="getHearnerInfo" parameterType="map" resultType="map">
+        /*getHearnerInfo*/
+        SELECT
+            DATA_CD, PER_CD, REG_NO, PER_NM, ZIP_CD, ADDR, PHONE, ACCT_NO, ACCT_NM
+        FROM VN_G20HEARNER_INFO
+        WHERE PER_CD = #{TR_CD}
+    </select>
+
     <select id="getClientList" parameterType="map" resultType="map">
         /*getClientList*/
         SELECT
@@ -295,4 +311,149 @@
         OR REG_NO LIKE CONCAT('%', #{searchValue}, '%')
         OR ACCT_NO LIKE CONCAT('%', #{searchValue}, '%')
     </select>
+
+    <select id="getSempData" parameterType="map" resultType="map">
+        /*getSempData*/
+        SELECT * FROM SEMP WHERE EMP_CD = #{erpEmpSeq}
+    </select>
+
+    <insert id="insZnSautoabdocu" parameterType="map">
+        /*insZnSautoabdocu*/
+        INSERT INTO ZN_SAUTOABDOCU
+            (
+                CO_CD,
+                IN_DT,
+                PMR_NO,
+                BGT_CD,
+                USER_SQ,
+                DIV_CD,
+                DEPT_CD,
+                EMP_CD,
+                MGT_CD,
+                BOTTOM_CD,
+                DOCU_FG,
+                RMK_DC,
+                BANK_NM1,
+                BA_NB1,
+                TR_CD,
+                SET_FG,
+                VAT_FG,
+                TR_FG,
+                DRMK_DC,
+                SUP_AM,
+                VAT_AM,
+                TR_NM,
+                REG_NB,
+                PPL_NB,
+                CEO_NM,
+                BUSINESS,
+                JONGMOK,
+                ZIP,
+                DIV_ADDR1,
+                ADDR2,
+                BANK_NM2,
+                BA_NB2,
+                DEPOSITOR,
+                CTR_NB,
+                CTR_NM,
+                ETCDATA_CD,
+                ETCPER_CD,
+                ETCREG_NO,
+                ETCPER_NM,
+                ETCZIP_CD,
+                ETCADDR,
+                ETCPHONE,
+                ETCBANK_CD,
+                ETCACCT_NO,
+                ETCACCT_NM,
+                ETCRVRS_YM,
+                ETCDIV_CD,
+                ETCDUMMY1,
+                TAX_DT,
+                RPMR_NO,
+                REG_DT,
+                EXEC_DT,
+                DUMMY1,
+                DUMMY2,
+                DUMMY3,
+                DIV_CD2
+            )
+        VALUES
+            (
+                #{CO_CD},
+                #{IN_DT},
+                #{PMR_NO},
+                #{BGT_CD},
+                #{USER_SQ},
+                #{DIV_CD},
+                #{DEPT_CD},
+                #{EMP_CD},
+                #{MGT_CD},
+                #{BOTTOM_CD},
+                #{DOCU_FG},
+                #{RMK_DC},
+                #{BANK_NM1},
+                #{BA_NB1},
+                '',
+                #{SET_FG},
+                #{VAT_FG},
+                #{TR_FG},
+                #{DRMK_DC},
+                #{SUP_AM},
+                #{VAT_AM},
+                #{TR_NM},
+                #{REG_NB},
+                #{PPL_NB},
+                #{CEO_NM},
+                #{BUSINESS},
+                #{JONGMOK},
+                #{ZIP},
+                #{DIV_ADDR1},
+                #{ADDR2},
+                #{BANK_NM2},
+                #{BA_NB2},
+                #{DEPOSITOR},
+                #{CTR_NB},
+                #{CTR_NM},
+                #{ETCDATA_CD},
+                #{ETCPER_CD},
+                #{ETCREG_NO},
+                #{ETCPER_NM},
+                #{ETCZIP_CD},
+                #{ETCADDR},
+                #{ETCPHONE},
+                #{ETCBANK_CD},
+                #{ETCACCT_NO},
+                #{ETCACCT_NM},
+                #{ETCRVRS_YM},
+                #{ETCDIV_CD},
+                #{ETCDUMMY1},
+                #{TAX_DT},
+                #{RPMR_NO},
+                #{REG_DT},
+                #{EXEC_DT},
+                #{DUMMY1},
+                #{DUMMY2},
+                #{DUMMY3},
+                #{DIV_CD2}
+            )
+    </insert>
+
+    <insert id="execUspAncj080Insert00" parameterType="map">
+        /*execUspAncj080Insert00*/
+        Exec USP_ANCJ080_INSERT_00
+            #{CO_CD},
+            #{IN_DT},
+            #{PMR_NO},
+            #{IN_DT},
+            '',
+            '',
+            #{EMP_CD},
+            #{DIV_CD2},
+            #{DEPT_CD},
+            #{EMP_CD},
+            #{TXT_DONE_DT},
+            #{LOGIN_EMP_CD},
+            '';
+    </insert>
 </mapper>

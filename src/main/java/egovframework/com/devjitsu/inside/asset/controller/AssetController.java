@@ -1466,12 +1466,11 @@ public class AssetController {
 
     @RequestMapping("/inside/getastprint")
     public String getastprint(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
 
         Map<String, Object> map = assetService.getastprint(params);
 
-        model.addAttribute("astInfo", assetService.getastData(params));
-        model.addAttribute("result", map);
+        model.addAttribute("astMap", assetService.getastData(params));
+        model.addAttribute("map", map);
 
         return "jsonView";
     }

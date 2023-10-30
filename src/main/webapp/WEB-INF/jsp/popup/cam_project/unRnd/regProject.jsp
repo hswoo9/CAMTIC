@@ -73,7 +73,6 @@
 <input type="hidden" id="documentSn" value="${data.documentContractSn}"/>
 
 <input type="hidden" id="tab" value="${params.tab}" />
-
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">

@@ -215,6 +215,7 @@
                         </td>
                         <td>
                             <input type="text" disabled id="card0" class="card">
+                            <input type="hidden" id="cardNo0" class="cardNo">
                         </td>
                         <td>
                             <input type="text" id="etc0" class="etc">

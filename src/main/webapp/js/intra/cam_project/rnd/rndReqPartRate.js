@@ -39,6 +39,29 @@ var rndRPR = {
                 $("#saveBtn").css("display", "none");
                 $("#changeBtn").css("display", "");
             }
+        }else{
+            var userResult = customKendo.fn_customAjax("/projectRnd/getRschInfo", data);
+            var userSn = "";
+            var userName = "";
+            console.log(userResult.list);
+
+            /** 참여 연구원에 넣을 문자열 데이터 */
+            for(let i=0; i<userResult.list.length; i++){
+                let e = userResult.list[i];
+                if(userName != ""){
+                    userName += ",";
+                }
+                if(userSn != ""){
+                    userSn += ",";
+                }
+                userName += e.PJT_RSCH_NM;
+                userSn += e.PJT_RSCH_EMP_SEQ;
+            }
+
+            if(userName != ""){
+                $("#joinMember").val(userName);
+                $("#joinMemberSn").val(userSn);
+            }
         }
 
         if(result.fileList != null && pf.length != 0){
@@ -107,7 +130,11 @@ var rndRPR = {
             enctype : 'multipart/form-data',
             async: false,
             success: function(rs){
-                window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=2";
+                if($("#pjtStep").val().substring(0, 1) == "S"){
+                    window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=1";
+                } else {
+                    window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=2";
+                }
             }
         });
 
@@ -130,7 +157,11 @@ var rndRPR = {
 
         if(rs.code == 200){
             alert("요청되었습니다.");
-            window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=2";
+            if($("#pjtStep").val().substring(0, 1) == "S"){
+                window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=1";
+            } else {
+                window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=2";
+            }
         } else {
             alert("오류가 발생하였습니다. 관리자에게 문의바랍니다.");
         }

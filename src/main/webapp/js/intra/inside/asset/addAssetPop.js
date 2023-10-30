@@ -325,7 +325,7 @@ var addAssetPop = {
         }).data("kendoRadioGroup");
 
         customKendo.fn_textBox(["astName", "purcPrice", "modelSize", "modelName", "purcCompanyName",
-            "mfCompany", "orgCountry", "qty", "expAccount"])
+            "mfCompany", "orgCountry", "qty", "expAccount", "pjtNm"])
 
         $("#purpose, #remark").kendoTextArea({
             rows : 2,

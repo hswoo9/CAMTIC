@@ -70,6 +70,7 @@ function fn_selCardInfo(trCd, trNm, cardBaNb, jiro, clttrCd, baNb, depositor, id
     }
 
     $("#card" + idx).val(trNm);
+    $("#cardNo" + idx).val(cardBaNb);
     $("#trCd" + idx).val(trCd);
     $("#crmBnkNm" + idx).val(jiro);
     $("#crmAccNo" + idx).val(baNb);

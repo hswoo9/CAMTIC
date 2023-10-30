@@ -25,7 +25,7 @@
     </div>
 
     <div id="docControlBtnDiv">
-        <button type='button' class='k-button k-button-solid k-button-solid-base' id="docApprovalPDFDownBtn"  style="width: 70px; height: 25px; font-size: 12px;" onclick="estPrintPop.print()">
+        <button type='button' class='k-button k-button-solid k-button-solid-base' id="docApprovalPDFDownBtn"  style="width: 70px; height: 25px; font-size: 12px;" onclick="assetPrint.print()">
             <span class='k-icon k-i-file-pdf k-button-icon'></span>
             <span class='k-button-text'>인쇄</span>
         </button>
@@ -38,7 +38,7 @@
 
 <script type="text/javascript">
     let params = JSON.parse('${params}');
-    estPrintPop.init();
+    assetPrint.init();
 </script>
 </body>
 </html>

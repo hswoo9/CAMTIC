@@ -13,6 +13,8 @@
 	<a href="#n" class="clo"><img src="<c:url value='/images/btn/btn_pop_clo01.png'/>" alt=""></a>
 </div>
 <div style="padding: 20px">
+	<input type="hidden" id="type" name="type" value="${params.type}">
+	<input type="hidden" id="pk" name="pk" value="${params.pk}">
     <input type="hidden" id="status" name="status" value="${params.params}" />
 	<input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
 	<input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>

@@ -274,6 +274,6 @@ public class AssetRepository extends AbstractDAO {
     }
 
     public Map<String, Object> getastData(Map<String, Object> params) {
-        return (Map<String, Object>) selectOne("project.getastData", params);
+        return (Map<String, Object>) selectOne("asset.getastData", params);
     }
 }

@@ -138,36 +138,69 @@ var deptListPop = {
     },
 
     gridChoose : function (e) {
+        if(e != null){
+            if($("#type").val() == "rndResearcher"){
+                deptListPop.fn_selRsch(e);
+            }else if($("#type").val() == "testType"){
+
+            }else{
+                var tr = $(e).closest("tr");
+                var row = $('#userList').data("kendoGrid").dataItem(tr);
+
+                if($("#status").val() == "mng"){
+                    opener.parent.$("#mngDeptName").val(row.DEPT_NAME);
+                    opener.parent.$("#mngDeptSeq").val(row.DEPT_SEQ);
+                    opener.parent.$("#mngEmpName").val(row.EMP_NAME_KR);
+                    opener.parent.$("#mngEmpSeq").val(row.EMP_SEQ);
+                    opener.parent.$("#purcDeptName").val(row.DEPT_NAME);
+                    opener.parent.$("#purcDeptSeq").val(row.DEPT_SEQ);
+                    opener.parent.$("#purcEmpName").val(row.EMP_NAME_KR);
+                    opener.parent.$("#purcEmpSeq").val(row.EMP_SEQ);
+                } else {
+                    opener.parent.$("#regtrName").val(row.EMP_NAME_KR);
+                    opener.parent.$("#userName").val(row.EMP_NAME_KR);
+                    opener.parent.$("#empName").val(row.EMP_NAME_KR);
+                    opener.parent.$("#pmName").val(row.EMP_NAME_KR);
+                    //emp_seq, dept_seq, dept_name
+                    opener.parent.$("#empSeq").val(row.EMP_SEQ);
+                    opener.parent.$("#pmSeq").val(row.EMP_SEQ);
+
+                    opener.parent.$("#teamPMNm").val(row.EMP_NAME_KR);
+                    opener.parent.$("#teamPMSeq").val(row.EMP_SEQ);
+
+                    opener.parent.$("#deptSeq").val(row.DEPT_SEQ);
+                    opener.parent.$("#deptName").val(row.DEPT_NAME);
+                    opener.parent.$("#jobDetail").val(row.JOB_DETAIL);
+                }
+
+                window.close();
+            }
+        }
+    },
+
+    fn_selRsch: function (e){
         var tr = $(e).closest("tr");
         var row = $('#userList').data("kendoGrid").dataItem(tr);
+        console.log(row);
 
-        if($("#status").val() == "mng"){
-            opener.parent.$("#mngDeptName").val(row.DEPT_NAME);
-            opener.parent.$("#mngDeptSeq").val(row.DEPT_SEQ);
-            opener.parent.$("#mngEmpName").val(row.EMP_NAME_KR);
-            opener.parent.$("#mngEmpSeq").val(row.EMP_SEQ);
-            opener.parent.$("#purcDeptName").val(row.DEPT_NAME);
-            opener.parent.$("#purcDeptSeq").val(row.DEPT_SEQ);
-            opener.parent.$("#purcEmpName").val(row.EMP_NAME_KR);
-            opener.parent.$("#purcEmpSeq").val(row.EMP_SEQ);
+        var data = {
+            empSeq : row.EMP_SEQ,
+            rschSn : row.EMP_SEQ,
+            pjtSn : $("#pk").val(),
+            regEmpSeq : $("#empSeq").val()
+        }
+        var rs = customKendo.fn_customAjax("/projectRnd/getRschInfo", data);
+        var rs = rs.list.length;
+
+        if(rs > 0){
+            alert("이미 해당 연구원이 추가되어있습니다.");
+            return;
         } else {
-            opener.parent.$("#regtrName").val(row.EMP_NAME_KR);
-            opener.parent.$("#userName").val(row.EMP_NAME_KR);
-            opener.parent.$("#empName").val(row.EMP_NAME_KR);
-            opener.parent.$("#pmName").val(row.EMP_NAME_KR);
-            //emp_seq, dept_seq, dept_name
-            opener.parent.$("#empSeq").val(row.EMP_SEQ);
-            opener.parent.$("#pmSeq").val(row.EMP_SEQ);
-
-            opener.parent.$("#teamPMNm").val(row.EMP_NAME_KR);
-            opener.parent.$("#teamPMSeq").val(row.EMP_SEQ);
-
-            opener.parent.$("#deptSeq").val(row.DEPT_SEQ);
-            opener.parent.$("#deptName").val(row.DEPT_NAME);
-            opener.parent.$("#jobDetail").val(row.JOB_DETAIL);
+            customKendo.fn_customAjax("/projectRnd/setRschData", data);
         }
 
+
+        opener.parent.rndRschInfo.gridReload();
         window.close();
     }
-
 }

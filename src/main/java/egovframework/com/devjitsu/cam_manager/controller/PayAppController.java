@@ -2,6 +2,7 @@ package egovframework.com.devjitsu.cam_manager.controller;
 
 import egovframework.com.devjitsu.cam_manager.service.PayAppService;
 import egovframework.com.devjitsu.cam_manager.service.ResDocService;
+import egovframework.com.devjitsu.g20.service.G20Service;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +22,8 @@ public class PayAppController {
     @Autowired
     private PayAppService payAppService;
 
+    @Autowired
+    private G20Service g20Service;
 
 
     @RequestMapping("/pay/paymentList.do")
@@ -113,7 +117,7 @@ public class PayAppController {
         return "popup/cam_manager/approvalFormPopup/exnpApprovalPop";
     }
 
-    /** 구매요청서 결재 상태값에 따른 UPDATE 메서드 */
+    /** 지급요청서 결재 상태값에 따른 UPDATE 메서드 */
     @RequestMapping(value = "/pay/payApp")
     public String payApp(@RequestParam Map<String, Object> bodyMap, Model model) {
         System.out.println(bodyMap);
@@ -130,9 +134,9 @@ public class PayAppController {
         return "jsonView";
     }
 
-    /** 구매요청서 결재 상태값에 따른 UPDATE 메서드 */
+    /** 지출결의서 결재 상태값에 따른 UPDATE 메서드 */
     @RequestMapping(value = "/pay/exnpApp")
-    public String exnpApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+    public String exnpApp(@RequestParam Map<String, Object> bodyMap, Model model, HttpServletRequest request) {
         System.out.println(bodyMap);
         String resultCode = "SUCCESS";
         String resultMessage = "성공하였습니다.";
@@ -175,9 +179,11 @@ public class PayAppController {
     public String reqExnpPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
-
+        params.put("erpEmpSeq", loginVO.getErpEmpCd());
+        Map<String, Object> g20 = g20Service.getSempData(params);
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
+        model.addAttribute("g20", g20);
 
         return "popup/cam_manager/payApp/regExnpPop";
     }
@@ -226,4 +232,13 @@ public class PayAppController {
 
         return "jsonView";
     }
+//
+//    @RequestMapping("/pay/exnpTest")
+//    public String exnpTest(@RequestParam Map<String, Object> params, Model model){
+//
+//        payAppService.exnpTest(params);
+//
+//        model.addAttribute("params", params);
+//        return "jsonView";
+//    }
 }
