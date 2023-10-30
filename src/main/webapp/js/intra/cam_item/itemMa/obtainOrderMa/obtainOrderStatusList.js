@@ -12,13 +12,6 @@ var oosl = {
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
 
         oosl.global.dropDownDataSource = [
-            { text : "개시", value : "N" },
-            { text : "마감", value : "Y" }
-        ]
-        customKendo.fn_dropDownList("deadLine", oosl.global.dropDownDataSource, "text", "value");
-        $("#deadLine").data("kendoDropDownList").bind("change", oosl.gridReload);
-
-        oosl.global.dropDownDataSource = [
             { text : "완납", value : "N" },
             { text : "미납", value : "U" },
             { text : "일부미납", value : "P" },
@@ -134,7 +127,11 @@ var oosl = {
                     field: "OVERALL_INVEN",
                     width: 80,
                     template : function (e){
-                        return oosl.comma(e.OVERALL_INVEN);
+                        if(e.OVERALL_INVEN != null && e.OVERALL_INVEN != ""){
+                            return oosl.comma(e.OVERALL_INVEN);
+                        }else{
+                            return "0";
+                        }
                     },
                     attributes : {
                         style : "text-align : right;"
@@ -264,9 +261,9 @@ var oosl = {
                         }
                     },
                 }, {
-                    title: "마감",
+                    title: "수주마감",
                     field: "DEADLINE",
-                    width: 60,
+                    width: 80,
                     template : function (e){
                         if(e.DEADLINE == "Y"){
                             return "마감"
@@ -311,7 +308,7 @@ var oosl = {
             crmSn : $("#crmSn").val(),
             startDt : $("#startDt").val(),
             endDt : $("#endDt").val(),
-            deadLine : $("#deadLine").val(),
+            deadLine : "Y",
             unpaidType : $("#unpaidType").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),

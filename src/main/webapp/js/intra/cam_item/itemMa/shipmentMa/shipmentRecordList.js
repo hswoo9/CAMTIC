@@ -9,11 +9,9 @@ var srl = {
 
     fn_defaultScript : function (){
         srl.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
-        customKendo.fn_dropDownList("whCd", srl.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
-        $("#whCd").data("kendoDropDownList").bind("change", srl.gridReload);
 
-        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(srl.global.now.setMonth(srl.global.now.getMonth() - 1)));
-        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd");
+        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd");
 
         srl.global.dropDownDataSource = [
             { text : "품번", value : "ITEM_NO" },
@@ -81,14 +79,17 @@ var srl = {
                     width: 120
                 }, {
                     title: "납품량",
-                    field: "DELIVERY_VOLUME",
+                    field: "DELIVERY_AMT",
                     width: 100,
                     template : function (e){
-                        if(e.DELIVERY_VOLUME != null && e.DELIVERY_VOLUME != ""){
-                            return srl.comma(e.DELIVERY_VOLUME) + "";
+                        var str = "";
+                        if(e.DELIVERY_AMT != null && e.DELIVERY_AMT != ""){
+                            str = srl.comma(e.DELIVERY_AMT);
                         }else{
-                            return "0";
+                            str = "0";
                         }
+
+                        return str;
                     },
                     attributes : {
                         style : "text-align : right;"
@@ -122,9 +123,20 @@ var srl = {
                         style : "text-align : right;"
                     }
                 }, {
-                    title: "창고",
-                    field: "WH_CD_NM",
-                    width: 150,
+                    title: "미납구분",
+                    field: "UNPAID_TYPE",
+                    width: 80,
+                    template : function (e){
+                        if(e.UNPAID_TYPE == "N"){
+                            return "완납"
+                        }else if(e.UNPAID_TYPE == "P"){
+                            return "일부미납"
+                        }else if(e.UNPAID_TYPE == "C"){
+                            return "전체미납"
+                        }else if(e.UNPAID_TYPE == "Y"){
+                            return "진행중"
+                        }
+                    },
                 }, {
                     title: "비고",
                     field: "RMK",
@@ -149,9 +161,9 @@ var srl = {
     gridReload: function (){
         srl.global.searchAjaxData = {
             crmSn : $("#crmSn").val(),
-            whCd : $("#whCd").val(),
             startDt : $("#startDt").val(),
             endDt : $("#endDt").val(),
+            deadline : "Y",
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
         }
@@ -163,13 +175,6 @@ var srl = {
         $("#crmSn").val("");
         $("#crmNm").val("");
         srl.gridReload()
-    },
-
-    fn_popShipmentRecordReg : function (){
-        var url = "/item/pop/popShipmentRecordReg.do";
-        var name = "_blank";
-        var option = "width = 1680, height = 400, top = 200, left = 400, location = no"
-        var popup = window.open(url, name, option);
     },
 
     fn_popCamCrmList : function (){

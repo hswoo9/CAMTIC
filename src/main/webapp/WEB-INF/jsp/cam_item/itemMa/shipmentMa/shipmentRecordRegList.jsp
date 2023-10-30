@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
+<fmt:formatDate value="${today}" var="nowHyphen" pattern="yyyy-MM-dd" />
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_item/itemMa/shipmentMa/shipmentRecordRegList.js?v=${today}'/>"></script>
 
@@ -16,13 +17,12 @@
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
+            <input type="hidden" id="deliveryDt" name="deliveryDt" value="${nowHyphen}">
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="5%">
                         <col width="20%">
-                        <col width="5%">
-                        <col width="10%">
                         <col width="7%">
                         <col width="18%">
                         <col width="5%">
@@ -39,10 +39,6 @@
                             <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="srrl.crmSnReset()">
                                 초기화
                             </button>
-                        </td>
-                        <th class="text-center th-color">창고</th>
-                        <td>
-                            <input type="text" id="whCd" style="width: 150px;">
                         </td>
                         <th class="text-center th-color">납품일자</th>
                         <td>
@@ -61,6 +57,11 @@
             </div>
         </div>
     </div>
+    <form name="srForm">
+        <input type="hidden" id="smRecordSnArr" name="smRecordSnArr">
+        <input type="hidden" id="itemSnList" name="itemSnList">
+        <input type="hidden" id="qtyList" name="qtyList">
+    </form>
 </div><!-- col-md-9 -->
 
 <script>

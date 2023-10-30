@@ -62,7 +62,7 @@ var oorl = {
                 },*/ {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oorl.setDeadlineUpd()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-dark" onclick="oorl.setDeadlineUpd()">' +
                             '	<span class="k-button-text">마감</span>' +
                             '</button>';
                     }
@@ -153,7 +153,11 @@ var oorl = {
                     field: "OVERALL_INVEN",
                     width: 100,
                     template : function (e){
-                        return oorl.comma(e.OVERALL_INVEN);
+                        if(e.OVERALL_INVEN != null && e.OVERALL_INVEN != ""){
+                            return oorl.comma(e.OVERALL_INVEN);
+                        }else{
+                            return "0";
+                        }
                     },
                     attributes : {
                         style : "text-align : right;"
