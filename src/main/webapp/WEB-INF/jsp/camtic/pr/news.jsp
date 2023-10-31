@@ -20,6 +20,13 @@
   .info table img{margin:0 auto;}
   .info img{margin-left: 18rem;}
 
+  /* 버튼 수정 2023-10-30 김병수 */
+  .__btn1 {
+    min-width: 100px;
+    height: 40px;
+    font-size: 15px;
+  }
+
   @media (max-width: 1024px) {
     .__newsListhead .newboxHead {width: calc((100% / 2) - (10px / 2));}
     .__newsListhead .newboxHead .info .subject {font-size: 14px; line-height: 1.2; height: 2.4em;}
@@ -148,7 +155,7 @@
   }
 
   function fn_regist(){
-      location.href="/camtic/pr/news_register.do?boardArticleId=" + globalKey + "&category=" + categoryKey;
+    location.href="/camtic/pr/news_register.do?boardArticleId=" + globalKey + "&category=" + categoryKey;
   }
 
   //상세보기 이동
@@ -289,8 +296,8 @@
 
     for (let i =startPage; i <= endPage; i++) {
       html += (i !== page)
-          ? '<a href="javascript:void(0);" class="num" onclick="movePage('+i+');">'+ i +'</a>'
-          : '<strong class="num active">' + i + '</strong>'
+              ? '<a href="javascript:void(0);" class="num" onclick="movePage('+i+');">'+ i +'</a>'
+              : '<strong class="num active">' + i + '</strong>'
     }
 
     html += '<a href="javascript:void(0);" onclick="movePage(' + (page + 1) + ');" class="arr next"><span class="hide">다음 페이지</span></a>';

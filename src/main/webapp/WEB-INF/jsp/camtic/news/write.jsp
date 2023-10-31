@@ -138,7 +138,7 @@
                           <tr class="fileTr">
                             <th class="fileTh">파일명</th>
                             <th class="fileTh">확장자</th>
-                            <th class="fileTh">용량(KB)</th>
+                            <th class="fileTh">용량</th>
                             <th class="fileTh">기타</th>
                           </tr>
                           </thead>

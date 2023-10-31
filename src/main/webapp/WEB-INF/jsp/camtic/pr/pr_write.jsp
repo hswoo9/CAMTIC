@@ -7,42 +7,42 @@
 <script type="text/javascript" src="<c:url value='/js/intra/common/fCommon.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/ckEditor/ckeditor.js'/>"></script>
 <style>
-    input[type="text"] {
-        width: 50%;
-        height: 34px;
-        display: inline-block;
-        background: none;
-        border: 1px solid #c9c9c9;
-        padding-left: 5px;
-        margin-bottom: 5px;
-        font-size: 14px;
-    }
-    .txt_area_01 {display: inline-block; width: 100%; height: 170px; border: 1px solid #c9c9c9; }
+	input[type="text"] {
+		width: 50%;
+		height: 34px;
+		display: inline-block;
+		background: none;
+		border: 1px solid #c9c9c9;
+		padding-left: 5px;
+		margin-bottom: 5px;
+		font-size: 14px;
+	}
+	.txt_area_01 {display: inline-block; width: 100%; height: 170px; border: 1px solid #c9c9c9; }
 
-    table th{
-        width : 10%;
-        text-align: left;
-    }
+	table th{
+		width : 10%;
+		text-align: left;
+	}
 	/* margin,padding 숨김 2023-10-30 김병수*/
-    .file-and-table-container {
-        display: flex;
-        /*margin-top: 50px;
+	.file-and-table-container {
+		display: flex;
+		/*margin-top: 50px;
         padding-top: 10px;
         border-top: 1px solid #c9c9c9;*/
-    }
-    .fileTable {
-        width: 80%;
-        border-collapse: collapse;
-        /*margin : 0 0 0 20px;*/
-    }
-    .fileTable .fileTr .fileTh {
-        border: 1px solid #ccc;
-        padding: 5px;
-    }
-    .fileTable .fileTr .fileTh {
-        background-color: #f2f2f2;
-        text-align: center;
-    }
+	}
+	.fileTable {
+		width: 80%;
+		border-collapse: collapse;
+		/*margin : 0 0 0 20px;*/
+	}
+	.fileTable .fileTr .fileTh {
+		border: 1px solid #ccc;
+		padding: 5px;
+	}
+	.fileTable .fileTr .fileTh {
+		background-color: #f2f2f2;
+		text-align: center;
+	}
 
 	/* 버튼 수정 2023-10-30 김병수 */
 	.__btn1 {
@@ -59,9 +59,9 @@
 		font-size: 15px;
 	}
 
-    #title{
-        margin-bottom: 0;
-    }
+	#title{
+		margin-bottom: 0;
+	}
 
 </style>
 
@@ -109,9 +109,9 @@
 								<c:if test="${categoryId eq 'video'}">
 									<tr style="border-bottom: 1px solid #ccc;">
 										<th>유튜브 주소(URL)</th>
-									<td>
-										<input type="text" id="urlText" class="inputText" placeholder="재생중인 페이지의 주소를 입력해주세요." value="" />
-									</td>
+										<td>
+											<input type="text" id="urlText" class="inputText" placeholder="재생중인 페이지의 주소를 입력해주세요." value="" />
+										</td>
 									</tr>
 								</c:if>
 								<c:if test="${categoryId eq 'news'}">
@@ -150,7 +150,7 @@
 													<tr class="fileTr">
 														<th class="fileTh">파일명</th>
 														<th class="fileTh">확장자</th>
-														<th class="fileTh">용량(KB)</th>
+														<th class="fileTh">용량</th>
 														<th class="fileTh">기타</th>
 													</tr>
 													</thead>
@@ -198,130 +198,130 @@
 
 <input type="hidden" id="category" value="${categoryId}" />
 <script>
-    var categoryId = $("#category").val();
+	var categoryId = $("#category").val();
 
-    $(function () {
-        let today = new Date();
+	$(function () {
+		let today = new Date();
 
-        let year = today.getFullYear();
-        let month = today.getMonth() + 1;
-        let date = today.getDate();
-        let formattedMonth = String(month).padStart(2, '0');
-        let formattedDay = String(date).padStart(2, '0');
+		let year = today.getFullYear();
+		let month = today.getMonth() + 1;
+		let date = today.getDate();
+		let formattedMonth = String(month).padStart(2, '0');
+		let formattedDay = String(date).padStart(2, '0');
 
-        //$("#writeDate").val(year + "년 " + month + "월 " + date + "일");
-        $("#writeDate").val(year + "-" + formattedMonth + "-" + formattedDay);
+		//$("#writeDate").val(year + "년 " + month + "월 " + date + "일");
+		$("#writeDate").val(year + "-" + formattedMonth + "-" + formattedDay);
 
 		if(categoryId != 'video'){
-	        CKEDITOR.replace('contents', {
-	            height: 250
-	        });
+			CKEDITOR.replace('contents', {
+				height: 250
+			});
 		}
 
-        if(categoryId == "photo"){
-            $(".categoryName").text("포토뉴스");
-        }else if(categoryId == "report"){
-            $(".categoryName").text("보도자료");
-        }else if(categoryId == "news"){
-            $(".categoryName").text("뉴스레터");
-        }else if(categoryId == "video"){
-            $(".categoryName").text("홍보영상");
-        }
+		if(categoryId == "photo"){
+			$(".categoryName").text("포토뉴스");
+		}else if(categoryId == "report"){
+			$(".categoryName").text("보도자료");
+		}else if(categoryId == "news"){
+			$(".categoryName").text("뉴스레터");
+		}else if(categoryId == "video"){
+			$(".categoryName").text("홍보영상");
+		}
 
-        if(categoryId == "photo" || categoryId == "video" || categoryId == "news"){
-            $("#textMod").text("표지");
-            $("#fileUpload span").text("이미지 첨부");
-        }else if(categoryId == "report") {
-            $("#textMod").text("첨부 이미지");
-            $("#fileUpload span").text("이미지 첨부");
-        }
-    });
+		if(categoryId == "photo" || categoryId == "video" || categoryId == "news"){
+			$("#textMod").text("표지");
+			$("#fileUpload span").text("이미지 첨부");
+		}else if(categoryId == "report") {
+			$("#textMod").text("첨부 이미지");
+			$("#fileUpload span").text("이미지 첨부");
+		}
+	});
 
-    function fn_goList(){
+	function fn_goList(){
 
-        location.href = '/camtic/pr/'+categoryId+'.do';
-    }
+		location.href = '/camtic/pr/'+categoryId+'.do';
+	}
 
-    function fn_saveNotice(){
-        if(categoryId != "video"){
-            var content = CKEDITOR.instances.contents.getData();
-        }else{
-            if($("#urlText").val() == ""){
-                alert("유튜브 주소(URL)을 입력해주세요.");
-                return false;
-            }
-        }
-        /*var data = {
-	  boardId : categoryId,
-	  boardCategoryId : categoryId,
-	  noticeTitle : $("#noticeTitle").val(),
-	  writer : $("#writer").val().toString(),
-	  content : content
-	}*/
+	function fn_saveNotice(){
+		if(categoryId != "video"){
+			var content = CKEDITOR.instances.contents.getData();
+		}else{
+			if($("#urlText").val() == ""){
+				alert("유튜브 주소(URL)을 입력해주세요.");
+				return false;
+			}
+		}
+		/*var data = {
+      boardId : categoryId,
+      boardCategoryId : categoryId,
+      noticeTitle : $("#noticeTitle").val(),
+      writer : $("#writer").val().toString(),
+      content : content
+    }*/
 
-        if($("#noticeTitle").val() == ""){
-            alert("제목을 입력해주세요.");
-            return false;
-        }
+		if($("#noticeTitle").val() == ""){
+			alert("제목을 입력해주세요.");
+			return false;
+		}
 
-        if(content == "" && categoryId != "video"){
-            alert("내용을 입력해주세요.");
-            return false;
-        }
+		if(content == "" && categoryId != "video"){
+			alert("내용을 입력해주세요.");
+			return false;
+		}
 
-        if(categoryId == "news"){
-            if($("#hashText").val() == ""){
-                alert("해시태그를 입력해주세요.");
-                return false;
-            }
-        }
+		if(categoryId == "news"){
+			if($("#hashText").val() == ""){
+				alert("해시태그를 입력해주세요.");
+				return false;
+			}
+		}
 
-        var formData = new FormData();
+		var formData = new FormData();
 
-        formData.append("boardId", categoryId);
-        formData.append("boardCategoryId", categoryId);
-        formData.append("menuCd", categoryId);
-        formData.append("noticeTitle", $("#noticeTitle").val());
-        formData.append("writer", $("#writer").val().toString());
-        formData.append("content", content);
-        formData.append("urlText", $("#urlText").val());
-        formData.append("hashText", $("#hashText").val());
+		formData.append("boardId", categoryId);
+		formData.append("boardCategoryId", categoryId);
+		formData.append("menuCd", categoryId);
+		formData.append("noticeTitle", $("#noticeTitle").val());
+		formData.append("writer", $("#writer").val().toString());
+		formData.append("content", content);
+		formData.append("urlText", $("#urlText").val());
+		formData.append("hashText", $("#hashText").val());
 
-        if(fCommon.global.attFiles.length != 0){
-	        if(fCommon.global.attFiles.length > 1){
-	            alert("첨부 이미지는 1개만 업로드 가능합니다..");
-	            return false;
-	        }
+		if(fCommon.global.attFiles.length != 0){
+			if(fCommon.global.attFiles.length > 1){
+				alert("첨부 이미지는 1개만 업로드 가능합니다..");
+				return false;
+			}
 
-            console.log(fCommon.global.attFiles);
-            //첨부파일
-            if(fCommon.global.attFiles[0].name.split(".")[1] == "png" || fCommon.global.attFiles[0].name.split(".")[1] == "jpg") {
-            }else{
-                alert("파일 확장자를 확인해주세요. \n jpg, png 확장자만 업로드 가능합니다.");
-                return false;
-            }
-            formData.append("boardFile", fCommon.global.attFiles[0]);
-        }
+			console.log(fCommon.global.attFiles);
+			//첨부파일
+			if(fCommon.global.attFiles[0].name.split(".")[1] == "png" || fCommon.global.attFiles[0].name.split(".")[1] == "jpg") {
+			}else{
+				alert("파일 확장자를 확인해주세요. \n jpg, png 확장자만 업로드 가능합니다.");
+				return false;
+			}
+			formData.append("boardFile", fCommon.global.attFiles[0]);
+		}
 
-        if(!confirm("게시글을 등록하시겠습니까?")) {return false;}
+		if(!confirm("게시글을 등록하시겠습니까?")) {return false;}
 
-        $.ajax({
-            url : '/camtic/news/insNotice.do',
-            type : 'POST',
-            data: formData,
-            dataType : "json",
-            contentType: false,
-            processData: false,
-            enctype : 'multipart/form-data',
-            async : false,
-            success: function() {
+		$.ajax({
+			url : '/camtic/news/insNotice.do',
+			type : 'POST',
+			data: formData,
+			dataType : "json",
+			contentType: false,
+			processData: false,
+			enctype : 'multipart/form-data',
+			async : false,
+			success: function() {
 
-                location.href = '/camtic/pr/'+categoryId+'.do';
-            }
-        });
+				location.href = '/camtic/pr/'+categoryId+'.do';
+			}
+		});
 
 
-    }
+	}
 
 </script>
 </body>

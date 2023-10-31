@@ -33,7 +33,7 @@
             </div>
 
             <div class="rig">
-              <a href="javascript:void(0);" onclick="fn_writeBoard();" class="__btn1 blue"><span>게시글 작성</span></a>
+              <a href="javascript:void(0);" onclick="fn_writeBoard();" class="__btn1 blue" style="min-width:100px;height:40px;font-size:15px;"><span>게시글 작성</span></a>
             </div>
           </div>
         </div>
@@ -47,7 +47,7 @@
 <script>
   var categoryKey = "video";
 
-  var firstData = fn_customAjax('/board/getBoardArticleList.do?categoryId=' + categoryKey + '&recordSize=5','');
+  var firstData = fn_customAjax('/board/getBoardArticleList.do?categoryId=' + categoryKey + '&recordSize=4','');
   var flag = false;
 
   var paginationData;
@@ -148,10 +148,10 @@
   function movePage(page){
     const queryParams = {
       page: (page) ? page : 1,
-      recordSize: 5,
+      recordSize: 4,
       pageSize: 10
     }
-    var result = fn_customAjax("/board/getBoardArticleList.do?" + new URLSearchParams(queryParams).toString() + "&categoryId=" + categoryKey + "&recordSize=5", "");
+    var result = fn_customAjax("/board/getBoardArticleList.do?" + new URLSearchParams(queryParams).toString() + "&categoryId=" + categoryKey + "&recordSize=4", "");
 
     flag = true;
 
@@ -172,25 +172,25 @@
         videoId = item.board_ARTICLE_CONTENT_URL;
         videoId = videoId.split("v=")[1];
       }
-       if(index == 0) {
-         resultVideoId = videoId.toString();
-         $("#titleName").text(item.board_ARTICLE_TITLE);
-       }
+      if(index == 0) {
+        resultVideoId = videoId.toString();
+        $("#titleName").text(item.board_ARTICLE_TITLE);
+      }
 
-        html += "<a class='box'>";
-        if(item.file_PATH){
-          html += '<div class="img" style="cursor:pointer;" onclick="variableCon(\''+ videoId +'\',\''+ item.board_ARTICLE_TITLE +'\')"><img src='+item.file_PATH+' width="400" height="200"></div>';
-        }else{
-          html += '<div class="img" style="cursor:pointer;" onclick="variableCon(\''+ videoId +'\',\''+ item.board_ARTICLE_TITLE +'\')"><img src="https://fakeimg.pl/298x189/f3f3f3" width="400" height="200"></div>';
-        }
-        html += '<div class="info">';
-        html += '<p class="subject">'+ item.board_ARTICLE_TITLE +'</p>';
-        const formattedMonth = String(item.reg_DATE.monthValue).padStart(2, '0');
-        const formattedDay = String(item.reg_DATE.dayOfMonth).padStart(2, '0');
-        html += '<p class="date">'+ item.reg_DATE.year +'-'+ formattedMonth +'-'+ formattedDay +'</p>';
-        html += '<p class="modData" style="cursor:pointer;" onclick="fn_regist('+ item.board_ARTICLE_ID +')">수정</p>';
-        html += '</div>';
-        html += "</a>";
+      html += "<a class='box'>";
+      if(item.file_PATH){
+        html += '<div class="img" style="cursor:pointer;" onclick="variableCon(\''+ videoId +'\',\''+ item.board_ARTICLE_TITLE +'\')"><img src='+item.file_PATH+' width="400" height="200"></div>';
+      }else{
+        html += '<div class="img" style="cursor:pointer;" onclick="variableCon(\''+ videoId +'\',\''+ item.board_ARTICLE_TITLE +'\')"><img src="https://fakeimg.pl/298x189/f3f3f3" width="400" height="200"></div>';
+      }
+      html += '<div class="info">';
+      html += '<p class="subject">'+ item.board_ARTICLE_TITLE +'</p>';
+      const formattedMonth = String(item.reg_DATE.monthValue).padStart(2, '0');
+      const formattedDay = String(item.reg_DATE.dayOfMonth).padStart(2, '0');
+      html += '<p class="date">'+ item.reg_DATE.year +'-'+ formattedMonth +'-'+ formattedDay +'</p>';
+      html += '<p class="modData" style="cursor:pointer;" onclick="fn_regist('+ item.board_ARTICLE_ID +')">수정</p>';
+      html += '</div>';
+      html += "</a>";
     });
 
     $(".__galList").append(html);
@@ -204,8 +204,8 @@
 
     for (let i =startPage; i <= endPage; i++) {
       html += (i !== page)
-          ? '<a href="javascript:void(0);" class="num" onclick="movePage('+i+');">'+ i +'</a>'
-          : '<strong class="num active">' + i + '</strong>'
+              ? '<a href="javascript:void(0);" class="num" onclick="movePage('+i+');">'+ i +'</a>'
+              : '<strong class="num active">' + i + '</strong>'
     }
 
     html += '<a href="javascript:void(0);" onclick="movePage(' + (page + 1) + ');" class="arr next"><span class="hide">다음 페이지</span></a>';
