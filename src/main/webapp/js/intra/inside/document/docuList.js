@@ -19,6 +19,24 @@ var docuContractList = {
             {text: "계약업체", value: "3"}
         ]
         customKendo.fn_dropDownList("searchType", searchArr, "text", "value", 1);
+
+        $("#searchText").keyup(function(event) {
+            if (event.key === "Enter") {
+                gridReload();
+            }
+        });
+
+        $("#searchType").keyup(function(event) {
+            if (event.key === "Enter") {
+                gridReload();
+            }
+        });
+
+        $("#classType").keyup(function(event) {
+            if (event.key === "Enter") {
+                gridReload();
+            }
+        });
     },
 
     mainGrid: function (){

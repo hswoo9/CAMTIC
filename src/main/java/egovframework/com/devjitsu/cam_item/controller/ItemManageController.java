@@ -1071,7 +1071,7 @@ public class ItemManageController {
     }
 
     /**
-     * 재고이동등록
+     * 재고이동관리
      * @param request
      * @param model
      * @return
@@ -1125,7 +1125,7 @@ public class ItemManageController {
 
 
     /**
-     * 재고이동현황
+     * 재고이동현황(미사용)
      * @param request
      * @param model
      * @return
@@ -1138,6 +1138,33 @@ public class ItemManageController {
         model.addAttribute("loginVO", loginVO);
 
         return "cam_item/itemMa/invenMa/invenTransferHistory";
+    }
+
+    /**
+     * 안전재고마스터
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/safetyInvenMaster.do")
+    public String safetyInvenMaster(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+        model.addAttribute("loginVO", loginVO);
+
+        return "cam_item/itemMa/invenMa/safetyInvenMaster";
+    }
+
+    /**
+     * 안전재고 저장
+     * @param params
+     * @return
+     */
+    @RequestMapping("/item/setSafetyInvenUpd.do")
+    public String setSafetyInvenUpd(@RequestParam Map<String, Object> params){
+        itemManageService.setSafetyInvenUpd(params);
+        return "jsonView";
     }
 
     /** 캠아이템 > 아이템관리 > 마감관리 */

@@ -79,7 +79,7 @@
                         <th class="text-center th-color">검색어</th>
                         <td>
                             <input type="text" id="searchType" style="width: 70px;">
-                            <input type="text" id="searchText" style="width: 130px;">
+                            <input type="text" id="searchText"  onkeypress="if(window.event.keyCode==13){historyList.gridReload()}"style="width: 130px;">
                         </td>
                     </tr>
                 </table>

@@ -3,81 +3,55 @@ var now = new Date();
 var subHolidaySetting = {
     global : {
         selectEmpData : [],
-        searchAjaxData : ""
+        vacStatus: null
     },
 
     init : function(){
-        $("#holidayYear").kendoDatePicker({
-            format : "yyyy",
-            culture : "ko-KR",
-            depth: "decade",
-            start: "decade",
-            value : new Date()
-        });
 
-        $("#searchVal").kendoTextBox();
-
-        $.ajax({
-            url : "/userManage/getDeptCodeList2",
-            type : "post",
-            async: false,
-            dataType : "json",
-            success : function(result){
-                var ds = result.list;
-                ds.unshift({deptName: '선택하세요', deptSeq: ''});
-
-                $("#deptName").kendoDropDownList({
-                    dataTextField: "deptName",
-                    dataValueField: "deptSeq",
-                    dataSource: ds,
-                    index: 0,
-                    change : function(){
-                        var data = {
-                            deptSeq : $("#deptName").val()
-                        }
-
-                        $.ajax({
-                            url : "/userManage/getDeptCodeList",
-                            type : "post",
-                            async: false,
-                            data : data,
-                            dataType : "json",
-                            success : function(result){
-                                var ds = result.list;
-                                ds.unshift({text: '선택하세요', value: ''});
-
-                                $("#teamName").kendoDropDownList({
-                                    dataTextField: "text",
-                                    dataValueField: "value",
-                                    dataSource: ds,
-                                    index: 0,
-                                    change : subHolidaySetting.gridReload
-                                });
-                            }
-                        });
-
-                        subHolidaySetting.gridReload();
-                    }
-                });
-            }
-        });
-
-        $("#teamName").kendoDropDownList({
-            dataTextField: "TEXT",
-            dataValueField: "VALUE",
-            dataSource: [
-                {TEXT: '선택하세요', VALUE: ''}
-            ],
-            index: 0,
-        });
-
-        subHolidaySetting.gridReload();
+        subHolidaySetting.dataSet();
+        subHolidaySetting.fn_makerGrid();
 
     },
 
-    fn_makerGrid : function(url, params){
+    fn_makerGrid : function(){
+
+        var dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            pageSize : 10,
+            transport: {
+                read : {
+                    url : "/subHoliday/getUserVacList.do",
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data, operation) {
+                    data.holidayYear = $("#holidayYear").val();
+                    data.befYear = (data.holidayYear - 1);
+                    data.bef2Year = (data.holidayYear - 2);
+                    data.dept = $("#dept").val();
+                    data.team = $("#team").val();
+                    data.searchVal = $("#searchVal").val();
+
+                    if (subHolidaySetting.global.vacStatus !== null) {
+                        data.vacStatus = subHolidaySetting.global.vacStatus;
+                    }
+
+                    return data;
+                }
+            },
+            data : "result",
+            schema : {
+                data: function (data) {
+                    return data.result;
+                },
+                total: function (data) {
+                    return data.totalCount;
+                },
+            }
+        });
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             height: 538,
             sortable: true,
             scrollable: true,
@@ -183,18 +157,47 @@ var subHolidaySetting = {
         }).data("kendoGrid");
     },
 
+    dataSet:function (){
+        $("#holidayYear").kendoDatePicker({
+            format : "yyyy",
+            culture : "ko-KR",
+            depth: "decade",
+            start: "decade",
+            value : new Date()
+        });
+
+        $("#searchVal").kendoTextBox();
+
+        var dynamicVacStatusValue; // 동적으로 결정되는 값
+        subHolidaySetting.global.vacStatus = dynamicVacStatusValue;
+
+        console.log('Dynamic vacStatus Value:', dynamicVacStatusValue);
+
+        fn_deptSetting();
+    },
+
 
     gridReload : function(){
-        subHolidaySetting.global.searchAjaxData = {
-            holidayYear : $("#holidayYear").val(),
-            befYear : Number($("#holidayYear").val()) - 1,
-            bef2Year : Number($("#holidayYear").val()) - 2,
-            deptSeq : $("#deptName").val(),
-            teamSeq : $("#teamName").val(),
-            searchVal : $("#searchVal").val()
-        }
 
-        subHolidaySetting.fn_makerGrid("/subHoliday/getUserVacList.do", subHolidaySetting.global.searchAjaxData);
+        subHolidaySetting.global.selectEmpData = {
+            holidayYear : $('#holidayYear').val(),
+            dept: $("#dept").val(),
+            team: $("#team").val(),
+            searchVal : $('#searchVal').val()
+        };
+
+        var holidayYear = subHolidaySetting.global.selectEmpData.holidayYear;
+        var dept = subHolidaySetting.global.selectEmpData.dept;
+        var team = subHolidaySetting.global.selectEmpData.team;
+        var searchVal = subHolidaySetting.global.selectEmpData.searchVal;
+
+        // 콘솔 로그 추가
+        console.log('Search Date: ' + holidayYear);
+        console.log('Dept: ' + dept);
+        console.log('Team: ' + team);
+        console.log('Search Text: ' + searchVal);
+
+        $("#mainGrid").data("kendoGrid").dataSource.read();
     },
 
     fn_saveAll: function(e){
@@ -205,6 +208,7 @@ var subHolidaySetting = {
 
         var grid = $("#mainGrid").data("kendoGrid");
         var state = kendo.stringify(grid.getOptions());
+        console.log(state);
 
         $.ajax({
             url : "/subHoliday/setUserVacList",

@@ -170,19 +170,19 @@
    * pageSize : 페이징 넘버 수
    * ArticlePage.java 참조
    * */
-   function movePage(page){
+  function movePage(page){
     const queryParams = {
       page: (page) ? page : 1,
       recordSize: 10,
       pageSize: 10
     }
-     var result = fn_customAjax("/board/getBoardArticleList.do?" + new URLSearchParams(queryParams).toString() + "&categoryId=" + categoryKey + '&recordSize=10', "");
+    var result = fn_customAjax("/board/getBoardArticleList.do?" + new URLSearchParams(queryParams).toString() + "&categoryId=" + categoryKey + '&recordSize=10', "");
 
-     flag = true;
+    flag = true;
 
-     dataChk(result, flag);
-     drawTable(result.boardArticleList.list);
-     drawPage();
+    dataChk(result, flag);
+    drawTable(result.boardArticleList.list);
+    drawPage();
   }
 
   //게시글 리스트 그리기

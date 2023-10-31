@@ -93,6 +93,36 @@ var certificateList = {
             index: 0,
             change : gridReload
         });
+
+        $("#purpose").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "금융기관 제출용", value: "1" },
+                { text: "교육기관 제출용", value: "2" },
+                { text: "관공서 제출용", value: "3" },
+                { text: "타사 제출용", value: "4" },
+                { text: "개인증빙용", value: "5" },
+                { text: "기타사유", value: "6" }
+            ],
+            value : ""
+        });
+
+        $("#searchType").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "이름", value: "1" },
+                { text: "직위", value: "2" }
+
+            ],
+            index: 0
+        });
+
+        $("#searchText").kendoTextBox();
+
         $("#docuYearDe").attr("readonly", true);
 
     },

@@ -1,4 +1,9 @@
 var rprReceiptList = {
+
+    global : {
+        searchAjaxData : "",
+    },
+
     init(){
         rprReceiptList.dataSet();
         rprReceiptList.mainGrid();
@@ -7,18 +12,18 @@ var rprReceiptList = {
     dataSet(){
         customKendo.fn_textBox(["searchText"]);
         let rprClassSource = [
-            { text: "직무발명 신고서", value: "1" },
-            { text: "포상금지급 신청서", value: "3" }
+            { text: "직무발명 신고서", value: "직무발명 신고서" },
+            { text: "포상금지급 신청서", value: "포상금지급 신청서" }
         ]
         customKendo.fn_dropDownList("rprClass", rprClassSource, "text", "value", 2);
         let iprClassSource = [
-            { text: "특허", value: "1" },
-            { text: "실용신안", value: "2" },
-            { text: "상표권", value: "3" },
-            { text: "논문", value: "4" },
-            { text: "도서", value: "5" },
-            { text: "디자인권", value: "6" },
-            { text: "저작권", value: "7" }
+            { text: "특허", value: "특허" },
+            { text: "실용신안", value: "실용신안" },
+            { text: "상표권", value: "상표권" },
+            { text: "논문", value: "논문" },
+            { text: "도서", value: "도서" },
+            { text: "디자인권", value: "디자인권" },
+            { text: "저작권", value: "저작권" }
         ]
         customKendo.fn_dropDownList("iprClass", iprClassSource, "text", "value", 2);
         let searchTypeSource = [
@@ -27,7 +32,7 @@ var rprReceiptList = {
             { text: "발명자", value: "2" }
         ]
         customKendo.fn_dropDownList("searchType", searchTypeSource, "text", "value", 3);
-        $("#rprClass, #iprClass").data("kendoDropDownList").bind("change", gridReload);
+        // $("#rprClass, #iprClass").data("kendoDropDownList").bind("change", gridReload);
     },
 
     mainGrid(){
@@ -42,6 +47,9 @@ var rprReceiptList = {
                 },
                 parameterMap: function(data){
                     data.rprClass = $("#rprClass").val();
+                    data.iprClass = $("#iprClass").val();
+                    data.searchType = $("#searchType").val();
+                    data.searchText = $("#searchText").val();
                     data.mod = "receipt";
                     return data;
                 }
@@ -72,7 +80,7 @@ var rprReceiptList = {
                 {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rprReceiptList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -101,7 +109,7 @@ var rprReceiptList = {
                     width: 50
                 }, {
                     field: "REG_EMP_NAME",
-                    title: "신고자",
+                    title: "신청자",
                     width: 5
                 }, {
                     field: "SHARE_NAME",
@@ -180,5 +188,29 @@ var rprReceiptList = {
             const option = "width=965, height=600, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
             window.open(url, name, option);
         }
+    },
+
+    gridReload:function (){
+        console.log('접수내역 gridReload함수 실행됨');
+
+        rprReceiptList.global.searchAjaxData = {
+            rprClass : $('#rprClass').val(),
+            iprClass : $('#iprClass').val(),
+            searchType : $('#searchType').val(),
+            searchText : $('#searchText').val()
+        };
+
+        var searchText = rprReceiptList.global.searchAjaxData.searchText;
+        var searchType = rprReceiptList.global.searchAjaxData.searchType;
+        var rprClass = rprReceiptList.global.searchAjaxData.rprClass;
+        var iprClass = rprReceiptList.global.searchAjaxData.iprClass;
+
+        console.log('Search Text: ' + searchText);
+        console.log('Search Type: ' + searchType);
+        console.log('rpr: ' + rprClass);
+        console.log('ipr: ' + iprClass);
+
+        rprReceiptList.mainGrid('inside/getRprReceiptList', rprReceiptList.global.searchAjaxData);
     }
+
 }

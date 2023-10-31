@@ -20,12 +20,16 @@
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="10%">
-                        <col width="20%">
-                        <col width="10%">
-                        <col width="20%">
-                        <col width="10%">
-                        <col width="20%">
+                        <col width="15%">
+                        <col>
+                        <col width="15%">
+                        <col>
+                        <col width="15%">
+                        <col>
+                        <col>
+<%--                        <col width="20%">--%>
+<%--                        <col width="10%">--%>
+<%--                        <col width="20%">--%>
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회년도</th>
@@ -36,12 +40,13 @@
                         <td>
                             <input type="text" id="dept" style="width:160px;">
                             <input type="hidden" id="dept_seq">
-                        </td>
-                        <th class="text-center th-color">팀</th>
-                        <td>
                             <input type="text" id="team" style="width:165px;">
                             <input type="hidden" id="team_seq">
-                            <input type="text" id="searchText" style="width: 140px;">
+                        </td>
+                        <th class="text-center th-color">이름</th>
+                        <td>
+                            <input type="text" id="searchType" style="width: 80px;">
+                            <input type="text" id="searchText" onkeypress="if(window.event.keyCode==13){employeeList.gridReload()}" style="width: 140px;">
                         </td>
                     </tr>
                 </table>

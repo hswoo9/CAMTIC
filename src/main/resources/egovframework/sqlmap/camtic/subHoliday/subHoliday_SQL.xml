@@ -288,31 +288,33 @@
             CAM_HR.DJ_EMP_INFO VUI
         LEFT JOIN
             CAM_INSIDE.DJ_HOLIDAY VC
-        ON VUI.EMP_SEQ = VC.EMP_SEQ AND VC.APPLY_YEAR = #{holidayYear}
-        LEFT JOIN
-            CAM_HR.DJ_DEPT_INFO HDI ON VUI.DEPT_SEQ = HDI.DEPT_SEQ
+        ON
+            VUI.EMP_SEQ = VC.EMP_SEQ AND VC.APPLY_YEAR = #{holidayYear}
         WHERE
         VUI.ACTIVE = "Y"
-
-        <if test='deptSeq != null and !"".equals(deptSeq)'>
-            AND (
-                VUI.DEPT_SEQ = #{deptSeq} OR
-                HDI.PARENT_DEPT_SEQ = #{deptSeq}
-            )
+        <if test='dept != null and !"".equals(dept)'>
+            <if test='team != null and !"".equals(team)'>
+                AND (VUI.DEPT_SEQ = #{dept} OR VUI.DEPT_SEQ = #{team})
+            </if>
+            <if test='team == null or "".equals(team)'>
+                AND VUI.DEPT_SEQ = #{dept}
+            </if>
         </if>
-
-        <if test='teamSeq != null and !"".equals(teamSeq)'>
-            AND VUI.DEPT_SEQ = #{teamSeq}
+        <if test='dept == null or "".equals(dept)'>
+            <if test='team != null and !"".equals(team)'>
+                AND VUI.DEPT_SEQ = #{team}
+            </if>
         </if>
-
         <if test='searchVal != null and !"".equals(searchVal)'>
             AND VUI.EMP_NAME_KR LIKE CONCAT('%',#{searchVal},'%')
         </if>
-
         <choose>
             <when test='vacStatus != null and vacStatus.equals("Y")'>AND VC.APPLY_YEAR = DATE_FORMAT(NOW(), '%Y') AND VC.ACTIVE = #{vacStatus}</when>
             <when test='vacStatus != null and vacStatus.equals("N")'>AND VC.APPLY_YEAR = DATE_FORMAT(NOW(), '%Y') AND VC.ACTIVE = #{vacStatus}</when>
             <when test='vacStatus != null and vacStatus.equals("NULL")'>AND VC.APPLY_YEAR IS NULL</when>
+            <otherwise>
+                AND VC.APPLY_YEAR = #{holidayYear}
+            </otherwise>
         </choose>
     </select>
 

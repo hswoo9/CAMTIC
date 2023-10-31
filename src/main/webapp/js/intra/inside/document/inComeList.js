@@ -12,8 +12,8 @@ var regisList = {
     dataSet: function(){
         customKendo.fn_textBox(["searchText"]);
         let partArr = [
-            {text: "캠틱종합기술원", value: "1"},
-            {text: "발전협의회", value: "2"}
+            {text: "캠틱종합기술원", value: "1"}
+            // {text: "발전협의회", value: "2"}
         ]
         customKendo.fn_dropDownList("documentPart", partArr, "text", "value", 1);;
         let deptPartArr = [
@@ -35,6 +35,24 @@ var regisList = {
             {text: "참조자", value: "8"}
         ]
         customKendo.fn_dropDownList("searchType", searchTypeArr, "text", "value", 1);
+
+        $("#searchText").keydown(function(event) {
+            if (event.key === "Enter") {
+                regisList.gridReload();
+            }
+        });
+
+        $("#searchType").keyup(function(event) {
+            if (event.key === "Enter") {
+                regisList.gridReload();
+            }
+        });
+
+        $("#deptPart").keyup(function(event) {
+            if (event.key === "Enter") {
+                regisList.gridReload();
+            }
+        });
     },
 
     mainGrid: function (url, params) {

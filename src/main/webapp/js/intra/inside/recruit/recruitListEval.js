@@ -22,7 +22,7 @@ var recruitListEval = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "구분", value: "" },
+                { text: "전체", value: "" },
                 { text: "모집분야", value: "1" },
                 { text: "공고명", value: "2" },
                 { text: "공고번호", value: "3" },
@@ -144,12 +144,33 @@ var recruitListEval = {
     },
 
     gridReload : function(){
+        console.log('채용관리(면접위원) gridReload 함수 호출됨');
+
+        var recruitYear = $("#recruitYear").val();
+
+
+        if (recruitYear) {
+            var dateObj = new Date(recruitYear);
+            recruitYear = dateObj.toISOString().substr(0, 10);
+        }
         recruitListEval.global.searchAjaxData = {
+            recruitYear: $('#recruitYear').val(),
+            searchType:$('#searchType').val(),
+            searchVal:$('#searchVal').val(),
             empSeq : $("#empSeq").val(),
             page : "eval"
-        }
+        };
 
-        recruitListEval.mainGrid("inside/getRecruitList", recruitListEval.global.searchAjaxData)
+        var recruitYear = recruitListEval.global.searchAjaxData.recruitYear;
+        var searchType = recruitListEval.global.searchAjaxData.searchType;
+        var searchVal = recruitListEval.global.searchAjaxData.searchVal;
+
+        console.log('recruitYear: ' + recruitYear);
+        console.log('searchType: ' + searchType);
+        console.log('searchVal: ' + searchVal);
+
+
+        recruitListEval.mainGrid("inside/getRecruitList", recruitListEval.global.searchAjaxData);
     },
 
     detailInit : function(e){

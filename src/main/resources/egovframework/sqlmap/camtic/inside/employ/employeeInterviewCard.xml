@@ -98,14 +98,9 @@
             car.team_seq = #{team}
         </if>
         <!-- searchText 조건 -->
-        <if test='searchText != null and !"".equals(searchText)'>
-            AND (
-            car.dept_name LIKE CONCAT('%', #{searchText}, '%')
-            OR car.dept_team_name LIKE CONCAT('%', #{searchText}, '%')
-            OR car.emp_name_kr LIKE CONCAT('%', #{searchText}, '%')
-            OR deic.card_interviewer LIKE CONCAT('%', #{searchText}, '%')
-            OR deic.card_number = #{searchText}
-            )
+        <if test='searchText != null and !"1".equals(searchText)'>
+            AND
+            car.emp_name_kr LIKE CONCAT('%', #{searchText}, '%')
         </if>
     </select>
 

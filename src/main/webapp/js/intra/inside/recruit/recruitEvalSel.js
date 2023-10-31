@@ -22,7 +22,7 @@ var res = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "구분", value: "" },
+                { text: "전체", value: "" },
                 { text: "모집분야", value: "1" },
                 { text: "공고명", value: "2" },
                 { text: "공고번호", value: "3" },
@@ -149,7 +149,30 @@ var res = {
     },
 
     gridReload : function(){
-        res.mainGrid("inside/getRecruitList", {})
+        console.log('서류/면접직원(위원) gridReload 함수 호출됨');
+
+        var recruitYear = $("#recruitYear").val();
+
+// 입력에서 날짜를 구문 분석하고 "yyyy-MM-dd" 형식으로 포맷합니다.
+        if (recruitYear) {
+            var dateObj = new Date(recruitYear);
+            recruitYear = dateObj.toISOString().substr(0, 10);
+        }
+        res.global.searchAjaxData = {
+            recruitYear: $('#recruitYear').val(),
+            searchType: $("#searchType").val(),
+            searchVal: $("#searchVal").val()
+        };
+
+        var recruitYear = res.global.searchAjaxData.recruitYear;
+        var searchType = res.global.searchAjaxData.searchType;
+        var searchVal = res.global.searchAjaxData.searchVal;
+
+        console.log('recruitYear: ' + recruitYear);
+        console.log('SearchType: ' + searchType);
+        console.log('Search Val: ' + searchVal);
+
+        res.mainGrid("inside/getRecruitList", res.global.searchAjaxData);
     },
 
     recruitReqPop : function() {

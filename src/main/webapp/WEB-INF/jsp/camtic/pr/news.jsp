@@ -155,7 +155,7 @@
   }
 
   function fn_regist(){
-      location.href="/camtic/pr/news_register.do?boardArticleId=" + globalKey + "&category=" + categoryKey;
+    location.href="/camtic/pr/news_register.do?boardArticleId=" + globalKey + "&category=" + categoryKey;
   }
 
   //상세보기 이동
@@ -296,8 +296,8 @@
 
     for (let i =startPage; i <= endPage; i++) {
       html += (i !== page)
-          ? '<a href="javascript:void(0);" class="num" onclick="movePage('+i+');">'+ i +'</a>'
-          : '<strong class="num active">' + i + '</strong>'
+              ? '<a href="javascript:void(0);" class="num" onclick="movePage('+i+');">'+ i +'</a>'
+              : '<strong class="num active">' + i + '</strong>'
     }
 
     html += '<a href="javascript:void(0);" onclick="movePage(' + (page + 1) + ');" class="arr next"><span class="hide">다음 페이지</span></a>';

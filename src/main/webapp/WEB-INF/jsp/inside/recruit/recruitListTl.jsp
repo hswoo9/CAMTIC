@@ -31,14 +31,14 @@
                         <col width="40%">
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">연도</th>
+                        <th class="text-center th-color">조회 연도</th>
                         <td>
                             <input type="text" id="recruitYear" style="width: 110px;">
                         </td>
-                        <th class="text-center th-color">구분</th>
+                        <th class="text-center th-color">검색어</th>
                         <td>
                             <input type="text" id="searchType" style="width: 100px;">
-                            <input type="text" id="searchVal" style="width: 150px;">
+                            <input type="text" id="searchVal" onkeypress="if(window.event.keyCode==13){recruitListTl.gridReload();}" style="width: 150px;">
                         </td>
                     </tr>
                 </table>
