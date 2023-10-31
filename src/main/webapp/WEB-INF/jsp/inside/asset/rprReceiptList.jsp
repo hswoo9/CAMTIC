@@ -28,10 +28,10 @@
                             <input type="text" id="rprClass" style="width: 200px;">
                             <input type="text" id="iprClass" style="width: 200px;">
                         </td>
-                        <th class="text-center th-color">종류</th>
+                        <th class="text-center th-color">검색어</th>
                         <td>
                             <input type="text" id="searchType" style="width: 100px;">
-                            <input type="text" id="searchText" style="width: 140px;">
+                            <input type="text" id="searchText" onkeypress="if(window.event.keyCode==13){rprReceiptList.gridReload()}" style="width: 140px;">
                         </td>
                     </tr>
                 </table>

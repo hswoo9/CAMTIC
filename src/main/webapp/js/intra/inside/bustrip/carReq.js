@@ -1,11 +1,12 @@
 var carList = {
+
     init: function(){
         carList.dataSet();
         carList.mainScheduler();
     },
 
     dataSet: function(){
-        customKendo.fn_textBox(["searchText"]);
+        customKendo.fn_textBox(["enterSearch"]);
         customKendo.fn_datePicker("carReqDt", 'year', "yyyy-MM", new Date());
 
         const carArr = customKendo.fn_customAjax('/inside/getCarCode').list;
@@ -16,12 +17,12 @@ var carList = {
             {text: "개인 사유", value: "2"}
         ]
         customKendo.fn_dropDownList("carType", carTypeArr, "text", "value", 1);
-        let searchArr = [
-            {text: "목적지", value: "목적지"},
-            {text: "경유지", value: "경유지"},
-            {text: "운행자", value: "운행자"}
+        let searchWordArr = [
+            {text: "목적지", value: "1"},
+            {text: "경유지", value: "2"},
+            {text: "운행자", value: "3"}
         ]
-        customKendo.fn_dropDownList("searchType", searchArr, "text", "value", 1);
+        customKendo.fn_dropDownList("searchWordType", searchWordArr, "text", "value", 1);
     },
 
     mainScheduler: function(){
@@ -41,6 +42,11 @@ var carList = {
                 },
                 parameterMap: function(data) {
                     data.empSeq = $("#RegEmpSeq").val();
+                    data.carReqDt = $("#carReqDt").val();
+                    data.carClass = $("#carClass").val();
+                    data.carType = $("#carType").val();
+                    data.searchWordType = $("#searchWordType").val();
+                    data.enterSearch = $("#enterSearch").val();
                     return data;
                 }
             },

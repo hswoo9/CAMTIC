@@ -99,32 +99,22 @@ var itemM = {
                         return '<a class="title" onclick="itemM.fn_popItemNoReg(' + e.MASTER_SN + ')" style="cursor: pointer;">' + e.ITEM_NAME + '</a>'
                     }
                 }, {
-                    title: "규격",
-                    field: "STANDARD",
-                }, {
                     title: "단위",
                     field: "ITEM_UNIT_NM",
                     width: 80
                 }, {
-                    title: "창고",
+                    title: "규격",
+                    field: "STANDARD",
+                }, {
+                    title: "품목구분",
+                    field: "ITEM_TYPE_NM",
+                    width: 100
+                }, {
+                    title: "입고창고",
                     field: "WH_CD_NM",
                     width: 100
                 }, {
-                    title: "안전재고",
-                    field: "SAFETY_INVEN",
-                    width: 100,
-                    template : function (e){
-                        if(e.SAFETY_INVEN != null && e.SAFETY_INVEN != ""){
-                            return itemM.comma(e.SAFETY_INVEN) + "";
-                        }else{
-                            return "0";
-                        }
-                    },
-                    attributes : {
-                        style : "text-align : right;"
-                    }
-                }, {
-                    title: "사용구분",
+                    title: "사용여부",
                     field: "ACTIVE",
                     width: 100,
                     template : function (e){
@@ -165,7 +155,7 @@ var itemM = {
             url += "?masterSn=" + e
         }
         var name = "_blank";
-        var option = "width = 920, height = 310, top = 200, left = 400, location = no"
+        var option = "width = 920, height = 260, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 

@@ -51,6 +51,19 @@ var subHolidayAdmin = {
             index: 0
         });
 
+        $("#searchType").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: ""},
+                { text: "이름", value: "1" },
+                { text: "부서명", value: "2" },
+                { text: "팀명", value: "3" },
+                { text: "직위", value: "4" }
+            ],
+            index: 0
+        });
+
         $("#searchVal").kendoTextBox();
     },
 

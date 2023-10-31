@@ -50,11 +50,22 @@ var meetingRoomReq = {
             dataValueField: "value",
             dataSource: [
                 {text: "전체", value: ""},
-                {text: "교육1실 (본부동 3층)", value: "교육1실 (본부동 3층)"},
-                {text: "교육2실 (본부동 3층)", value: "교육2실 (본부동 3층)"},
-                {text: "교육4실 (본부동 지하)", value: "교육4실 (본부동 지하)"},
-                {text: "세미나실1 (본부동 3층)", value: "세미나실1 (본부동 3층)"},
-                {text: "세미나실2 (본부동 3층)", value: "세미나실2 (본부동 3층)"}
+                {text: "교육1실 (본부동 3층)", value: "1"},
+                {text: "교육2실 (본부동 3층)", value: "2"},
+                {text: "교육4실 (본부동 3층)", value: "4"},
+                {text: "세미나실1 (본부동 3층)", value: "5"},
+                {text: "교육준비실 (본부동 3층)", value: "8"},
+                {text: "2층 회의실 (본부동)", value: "9"},
+                {text: "세미나실2 (본부동 3층)", value: "12"},
+                {text: "5동 교육실 1 (5동 2층)", value: "14"},
+                {text: "일반교육실1 (창업동 3층)", value: "15"},
+                {text: "일반교육실2 (창업동 3층)", value: "16"},
+                {text: "전산교육실1 (창업동 3층)", value: "17"},
+                {text: "전산교육실2 (창업동 3층)", value: "18"},
+                {text: "전산교육실3 (창업동 3층)", value: "19"},
+                {text: "어울림스퀘어 (창업동 3층)", value: "20"},
+                {text: "나래홀 (창업동 2층)", value: "21"},
+                {text: "첨단누리홀(창업동 1층)", value: "22"}
             ],
             index: 0
         });
@@ -67,7 +78,8 @@ var meetingRoomReq = {
                 {text: "품질교육", value: "품질교육"},
                 {text: "기술교육", value: "기술교육"},
                 {text: "경영교육", value: "경영교육"},
-                {text: "일반회의", value: "일반회의"},
+                {text: "일반 회의", value: "일반 회의"},
+                {text: "교육 훈련", value: "교육 훈련"},
                 {text: "대관", value: "대관"},
                 {text: "기타", value: "기타"}
             ],
@@ -101,9 +113,9 @@ var meetingRoomReq = {
             dataValueField: "value",
             dataSource: [
                 {text: "전체", value: ""},
-                {text: "등록자", value: "등록자"},
-                {text: "담당자", value: "담당자"},
-                {text: "특이사항", value: "특이사항"}
+                {text: "등록자", value: "1"},
+                {text: "담당자", value: "2"},
+                {text: "특이사항", value: "3"}
             ],
             index: 0
         });
@@ -128,6 +140,12 @@ var meetingRoomReq = {
                 },
                 parameterMap: function(data) {
                     data.empSeq = $("#RegEmpSeq").val();
+                    data.datePicker = $("#datePicker").val(),
+                        data.meetingRoomDivision = $("#meetingRoomDivision").val(),
+                        data.usePurpose = $("#usePurpose").val(),
+                        data.rentalFee = $("#rentalFee").val(),
+                        data.searchDivision = $("#searchDivision").val(),
+                        data.name = $("#name").val()
                     return data;
                 }
             },
@@ -184,7 +202,13 @@ var meetingRoomReq = {
                     dataType : "json",
                     type : "post"
                 },
-                parameterMap: function(data, operation) {
+                parameterMap: function(data) {
+                    data.datePicker = $("#datePicker").val(),
+                        data.meetingRoomDivision = $("#meetingRoomDivision").val(),
+                    data.usePurpose = $("#usePurpose").val(),
+                    data.rentalFee = $("#rentalFee").val(),
+                        data.searchDivision = $("#searchDivision").val(),
+                        data.name = $("#name").val()
                     return data;
                 }
             },
@@ -266,5 +290,6 @@ var meetingRoomReq = {
 }
 
 function gridReload(){
+    $("#mainGrid").data("kendoGrid").dataSource.read();
     $("#scheduler").data("kendoScheduler").dataSource.read();
 }

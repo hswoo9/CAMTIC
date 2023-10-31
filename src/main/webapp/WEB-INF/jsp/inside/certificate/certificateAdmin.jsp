@@ -23,10 +23,14 @@
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="10%">
-                        <col width="40%">
-                        <col width="10%">
-                        <col width="40%">
+                        <col width="8%">
+                        <col>
+                        <col width="8%">
+                        <col>
+                        <col width="8%">
+                        <col>
+                        <col width="8%">
+                        <col>
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회연도</th>
@@ -35,11 +39,24 @@
                         </td>
                         <th class="text-center th-color">발급구분</th>
                         <td>
-                            <input type="text" id="proofType" style="width: 200px;">
+                            <input type="text" id="proofType" style="width: 150px;">
                             <div class="mr20" style="display: none">
                                 <span>처리상태</span>
-                                <input type="text" id="status" style="width: 150px;">
+                                <input type="text" id="status1" style="width: 150px;">
                             </div>
+                        </td>
+                        <th class="text-center th-color">용도</th>
+                        <td>
+                            <input type="text" id="purpose" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">처리상태</th>
+                        <td>
+                            <input type="text" id="status" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">검색어</th>
+                        <td>
+                            <input type="text" id="searchType" style="width: 80px;">
+                            <input type="text" id="searchText" style="width: 100px;">
                         </td>
                     </tr>
                 </table>

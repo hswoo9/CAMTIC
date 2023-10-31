@@ -95,7 +95,7 @@
                             AND IDO.PROJECT_NAME like CONCAT('%', #{searchText}, '%')
                         </when>
                         <when test='searchText != null and !"".equals(searchText) and "3".equals(searchType)'>
-                            AND DATE_FORMAT(IDO.CO_NAME, '%Y-%m-%d') like CONCAT('%', #{searchText}, '%')
+                            AND IDO.CO_NAME like CONCAT('%', #{searchText}, '%')
                         </when>
                     </choose>
                 ORDER BY IDO.REG_DT

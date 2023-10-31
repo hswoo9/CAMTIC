@@ -40,6 +40,36 @@ var regRnd = {
             customKendo.fn_dropDownList("supDepSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
         });
 
+
+        /** 사업비 분리사용 유무 change 이벤트 */
+        $("input[name='sbjSepYn']").change(function(){
+            if($("input[name='sbjSepYn']:checked").val() == "Y"){
+                $("#checkboxDiv").show();
+            }else{
+                $("#checkboxDiv").hide();
+            }
+        });
+
+        /** 탭 상위 정보 숨김/보임 이벤트 */
+        $("#viewBtn").on("click", function(){
+            if($("#viewStat").val() == "Y"){
+                $("#mainTable").css("display", "none");
+                $("#viewStat").val("N");
+                $("#viewText").html("&#9660;");
+            }else{
+                $("#mainTable").css("display", "");
+                $("#viewStat").val("Y");
+                $("#viewText").html("&#9650;");
+            }
+        });
+
+        /** 탭 관련 */
+        regRnd.fn_setTab(setParameters);
+
+        regRnd.fn_setData(setParameters);
+    },
+
+    fn_setTab: function(setParameters){
         var tab0Url = "/projectRnd/detailInfo.do";               // 상세정보 (수주)
         var tab1Url = "/projectRnd/researcherInfo.do";           // 연구원관리
         // var tab2Url = "/projectRnd/reqPartRate.do";              // 참여율요청
@@ -62,8 +92,6 @@ var regRnd = {
         var tab12Url= "/intra/cam_project/purcInfo.do";          // 세세목 변경신청
         var tab13Url= "/intra/cam_project/purcInfo.do";          // 정산/원가
 
-
-
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
             tab1Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -82,35 +110,35 @@ var regRnd = {
         }
 
         $("#tabstrip").kendoTabStrip({
-            animation:  {
+            animation: {
                 open: {
                     effects: "fadeIn"
                 }
             },
-            select : function (e){
+            select: function (e){
 
             },
             dataTextField: "name",
             dataContentUrlField: "url",
             dataImageUrlField: "imageUrl",
-            dataSource : [
-                {name: "사업정보", url: tab0Url, imageUrl : "/images/ico/etc_01_1.png"},
+            dataSource: [
+                {name: "사업정보", url: tab0Url, imageUrl: "/images/ico/etc_01_1.png"},
                 {name: "참여인력", url: tab1Url},
                 // {name: "참여율요청", url: tab2Url},      // 지출내역조회와 같이 사용
                 {name: "참여율관리", url: tab3Url},      // 지출내역조회와 같이 사용
-                {name: "수행계획(공정)", url: tab4Url, imageUrl : "/images/ico/etc_01_1.png"},
+                {name: "수행계획(공정)", url: tab4Url, imageUrl: "/images/ico/etc_01_1.png"},
                 {name: "개발관리", url: tab5Url},
                 {name: "협업", url: tab6Url},
                 // {name: "입출금대장관리", url: tab5Url},
                 {name: "사업비관리(예산/지급)", url: tab7Url},        // 연구비 입금처리와 같이 사용
-                {name: "결과보고", url: tab8Url, imageUrl : "/images/ico/etc_01_1.png"},        // 연구비 입금처리와 같이 사용
+                {name: "결과보고", url: tab8Url, imageUrl: "/images/ico/etc_01_1.png"},        // 연구비 입금처리와 같이 사용
 
                 // {name: "지급관리", url: tab9Url},
                 {name: "출장", url: tab9Url},
                 // {name: "협업", url: tab10Url},
                 {name: "구매", url: tab11Url},
                 {name: "예산변경신청", url: tab12Url},
-                {name: "정산/원가", url: tab13Url, imageUrl : "/images/ico/etc_01_1.png"}
+                {name: "정산/원가", url: tab13Url, imageUrl: "/images/ico/etc_01_1.png"}
 
             ],
         });
@@ -141,48 +169,24 @@ var regRnd = {
 
             // tabStrip.disable(tabStrip.tabGroup.children().eq(7));
             // tabStrip.disable(tabStrip.tabGroup.children().eq(8));
-            tabStrip.disable(tabStrip.tabGroup.children().eq(8));
-            tabStrip.disable(tabStrip.tabGroup.children().eq(11));
-            tabStrip.disable(tabStrip.tabGroup.children().eq(12));
-
-
-            regRnd.fn_setData(setParameters);
+            //tabStrip.disable(tabStrip.tabGroup.children().eq(7));
+            //tabStrip.disable(tabStrip.tabGroup.children().eq(10));
+            //tabStrip.disable(tabStrip.tabGroup.children().eq(11));
         }
-
-        $("#viewBtn").on("click", function(){
-            if($("#viewStat").val() == "Y"){
-                $("#mainTable").css("display", "none");
-                $("#viewStat").val("N");
-                $("#viewText").html("&#9660;");
-            }else{
-                $("#mainTable").css("display", "");
-                $("#viewStat").val("Y");
-                $("#viewText").html("&#9650;");
-            }
-
-        });
-
-        $("input[name='sbjSepYn']").change(function(){
-            if($("input[name='sbjSepYn']:checked").val() == "Y"){
-                $("#checkboxDiv").show();
-            }else{
-                $("#checkboxDiv").hide();
-            }
-        });
 
         var parser = new DOMParser();
 
         var html = '<div style="width:100%;"></div>';
         var doc = parser.parseFromString(html, 'text/html');
-        $("#tabstrip li")[8].after(doc.body.firstChild);
-        
+        $("#tabstrip li")[7].after(doc.body.firstChild);
+
         var html2 = '<div style="padding: 6px 12px"><b style="color: red">사업관리</b></div>';
         var doc2 = parser.parseFromString(html2, 'text/html');
         $("#tabstrip li")[0].before(doc2.body.firstChild);
 
         var html3 = '<div style="padding: 6px 12px"><b style="color: blue">운영관리</b></div>';
         var doc3 = parser.parseFromString(html3, 'text/html');
-        $("#tabstrip li")[9].before(doc3.body.firstChild);
+        $("#tabstrip li")[8].before(doc3.body.firstChild);
     },
 
     fn_setData: function (e){

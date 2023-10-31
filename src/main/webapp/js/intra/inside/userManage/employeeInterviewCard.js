@@ -13,8 +13,14 @@ var employeeList = {
 
     dataSet: function (){
         customKendo.fn_textBox(["searchText"]);
+        let searchArr = [
+            {text: "이름", value: "1"}
+        ]
+
+        customKendo.fn_dropDownList("searchType", searchArr, "text", "value", 3);
         customKendo.fn_datePicker("searchDate", 'decade', "yyyy", new Date());
         fn_deptSetting(2);
+
     },
 
     mainGrid: function() {

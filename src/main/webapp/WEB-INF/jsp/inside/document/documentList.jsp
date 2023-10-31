@@ -24,11 +24,11 @@
                         <col width="40%">
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">구분</th>
+                        <th class="text-center th-color">부서</th>
                         <td>
                             <input type="text" id="documentPart" style="width:160px;">
                         </td>
-                        <th class="text-center th-color">제목선택</th>
+                        <th class="text-center th-color">검색어</th>
                         <td>
                             <input type="text" id="searchType" style="width:200px;">
                             <input type="text" id="searchText" style="width: 200px;">

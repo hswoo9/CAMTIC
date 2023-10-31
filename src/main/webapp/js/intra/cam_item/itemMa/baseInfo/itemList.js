@@ -71,40 +71,19 @@ var itemL = {
                 }, {
                     title: "품번",
                     field: "ITEM_NO",
-                    // template : function(e){
-                    //     return '<a class="title" onclick="itemL.fn_popItemNoReg(' + e.MASTER_SN + ')" style="cursor: pointer;">' + e.ITEM_NO + '</a>'
-                    // }
                 }, {
                     title: "품명",
                     field: "ITEM_NAME",
-                    // template : function(e){
-                    //     return '<a class="title" onclick="itemL.fn_popItemNoReg(' + e.MASTER_SN + ')" style="cursor: pointer;">' + e.ITEM_NAME + '</a>'
-                    // }
+                }, {
+                    title: "단위",
+                    field: "ITEM_UNIT_NM",
+                    width: 120
                 }, {
                     title: "규격",
                     field: "STANDARD",
                 }, {
-                    title: "단위",
-                    field: "ITEM_UNIT_NM",
-                    width: 80
-                }, {
                     title: "창고",
                     field: "WH_CD_NM",
-                    width: 100
-                }, {
-                    title: "안전재고",
-                    field: "SAFETY_INVEN",
-                    width: 100,
-                    template : function (e){
-                        if(e.SAFETY_INVEN != null && e.SAFETY_INVEN != ""){
-                            return itemL.comma(e.SAFETY_INVEN) + "";
-                        }else{
-                            return "0";
-                        }
-                    },
-                    attributes : {
-                        style : "text-align : right;"
-                    }
                 }
             ],
             dataBinding: function(){
@@ -129,41 +108,6 @@ var itemL = {
         }
 
         itemL.mainGrid("/item/getItemMasterList.do", itemL.global.searchAjaxData);
-    },
-
-    fn_popItemNoReg : function (e){
-        var url = "/item/pop/itemNoReg.do";
-        if(e != null){
-            url += "?masterSn=" + e
-        }
-        var name = "_blank";
-        var option = "width = 920, height = 310, top = 200, left = 400, location = no"
-        var popup = window.open(url, name, option);
-    },
-
-    setItemMasterDel : function(){
-        if($("input[name='imSn']:checked").length == 0){
-            alert("삭제할 항목을 선택해주세요.");
-            return;
-        }
-
-        if(confirm("삭제하시겠습니까?\n삭제한 데이터는 복구 할 수 없습니다.")){
-            var masterSn = "";
-
-            $.each($("input[name='imSn']:checked"), function(){
-                masterSn += "," + $(this).val()
-            })
-
-            itemL.global.saveAjaxData = {
-                masterSn : masterSn.substring(1),
-            }
-
-            var result = customKendo.fn_customAjax("/item/setItemMasterDel.do", itemL.global.saveAjaxData);
-            if(result.flag){
-                alert("처리되었습니다.");
-                itemL.gridReload();
-            }
-        }
     },
 
     comma: function(str) {

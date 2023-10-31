@@ -11,57 +11,61 @@
     <select id="getRecruitList" parameterType="map" resultType="map">
         /* getRecruitList */
         SELECT
-            IRI.*,
-            GROUP_CONCAT(DISTINCT AI.CAREER_TYPE) AS CAREER_TYPE,
-            SUM(AI.RECRUITMENT) AS RECRUITMENT,
-            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN WHERE RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND SAVE_TYPE = 'S') as APPLICATION_CNT,
-            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN AM WHERE AM.RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT != 'S') AS DOC_SCREEN_CNT,
-            (
-                SELECT
-                    COUNT(*)
-                FROM (
-                    SELECT
-                        SB.*,
-                        AM.RECRUIT_INFO_SN
-                    FROM
-                        CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD SB
-                    JOIN
-                        CAM_INSIDE.DJ_APPLICATION_MAIN AM
-                    ON SB.APPLICATION_ID = AM.APPLICATION_ID
-                    WHERE
-                        SB.EVAL_SCREEN_TYPE = 'doc'
-                    GROUP BY
-                        SB.APPLICATION_ID
-                )A
-                WHERE
-                    IRI.RECRUIT_INFO_SN = A.RECRUIT_INFO_SN
-            ) AS DOC_SCREEN_RESULT,
-            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN AM WHERE AM.RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT = 'I' AND AM.IN_AVOID = 'N') AS IN_SCREEN_CNT,
-            (
-                SELECT
-                    COUNT(*)
-                FROM (
-                    SELECT
-                        SB.*,
-                        AM.RECRUIT_INFO_SN
-                    FROM
-                        CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD SB
-                    JOIN
-                        CAM_INSIDE.DJ_APPLICATION_MAIN AM
-                    ON SB.APPLICATION_ID = AM.APPLICATION_ID
-                    WHERE
-                        SB.EVAL_SCREEN_TYPE = 'in' AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT = 'I' AND AM.IN_AVOID = 'N'
-                    GROUP BY
-                        SB.APPLICATION_ID
-                )A
-                WHERE
-                    IRI.RECRUIT_INFO_SN = A.RECRUIT_INFO_SN
-            ) AS IN_SCREEN_RESULT
+        IRI.*,
+        AAA.USER_NAME,
+        GROUP_CONCAT(DISTINCT AI.CAREER_TYPE) AS CAREER_TYPE,
+        SUM(AI.RECRUITMENT) AS RECRUITMENT,
+        (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN WHERE RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND SAVE_TYPE = 'S') as APPLICATION_CNT,
+        (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN AM WHERE AM.RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT != 'S') AS DOC_SCREEN_CNT,
+        (
+        SELECT
+        COUNT(*)
+        FROM (
+        SELECT
+        SB.*,
+        AM.RECRUIT_INFO_SN
         FROM
-            CAM_INSIDE.DJ_RECRUIT_INFO IRI
+        CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD SB
         JOIN
-            CAM_INSIDE.DJ_RECRUIT_AREA_INFO AI
+        CAM_INSIDE.DJ_APPLICATION_MAIN AM
+        ON SB.APPLICATION_ID = AM.APPLICATION_ID
+        WHERE
+        SB.EVAL_SCREEN_TYPE = 'doc'
+        GROUP BY
+        SB.APPLICATION_ID
+        )A
+        WHERE
+        IRI.RECRUIT_INFO_SN = A.RECRUIT_INFO_SN
+        ) AS DOC_SCREEN_RESULT,
+        (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN AM WHERE AM.RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT = 'I' AND AM.IN_AVOID = 'N') AS IN_SCREEN_CNT,
+        (
+        SELECT
+        COUNT(*)
+        FROM (
+        SELECT
+        SB.*,
+        AM.RECRUIT_INFO_SN,
+        AM.USER_NAME
+        FROM
+        CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD SB
+        JOIN
+        CAM_INSIDE.DJ_APPLICATION_MAIN AM
+        ON SB.APPLICATION_ID = AM.APPLICATION_ID
+        WHERE
+        SB.EVAL_SCREEN_TYPE = 'in' AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT = 'I' AND AM.IN_AVOID = 'N'
+        GROUP BY
+        SB.APPLICATION_ID
+        )A
+        WHERE
+        IRI.RECRUIT_INFO_SN = A.RECRUIT_INFO_SN
+        ) AS IN_SCREEN_RESULT
+        FROM
+        CAM_INSIDE.DJ_RECRUIT_INFO IRI
+        JOIN
+        CAM_INSIDE.DJ_RECRUIT_AREA_INFO AI
         ON IRI.RECRUIT_INFO_SN = AI.RECRUIT_INFO_SN
+        LEFT JOIN CAM_INSIDE.DJ_APPLICATION_MAIN AAA
+        ON IRI.RECRUIT_INFO_SN = AAA.RECRUIT_INFO_SN
         <if test='page != null and !"".equals(page)'>
             <choose>
                 <when test='"tl".equals(page)'>
@@ -76,6 +80,30 @@
         </if>
         WHERE
             1=1
+        <if test='recruitYear != null and !"".equals(recruitYear)'>
+            AND YEAR(IRI.UPLOAD_DT) = YEAR(STR_TO_DATE(#{recruitYear}, '%Y'))
+        </if>
+        <choose>
+            <when test='searchVal != null and !"".equals(searchVal) and "3".equals(searchType)'>
+                AND IRI.RECRUIT_NUM LIKE CONCAT('%', #{searchVal}, '%')
+            </when>
+            <when test='searchVal != null and !"".equals(searchVal) and "2".equals(searchType)'>
+                AND IRI.RECRUIT_TITLE like CONCAT('%', #{searchVal}, '%')
+            </when>
+            <when test='searchVal != null and !"".equals(searchVal) and "1".equals(searchType)'>
+                AND IRI.JOB_POSITION_ETC like CONCAT('%', #{searchVal}, '%')
+            </when>
+            <when test='searchVal != null and !"".equals(searchVal) and "4".equals(searchType)'>
+                AND AAA.USER_NAME like CONCAT('%', #{searchVal}, '%')
+            </when>
+            <!-- 추가된 조건: "전체"를 선택한 경우 -->
+            <otherwise>
+                    AND (IRI.RECRUIT_NUM LIKE CONCAT('%', #{searchVal}, '%')
+                    OR IRI.RECRUIT_TITLE LIKE CONCAT('%', #{searchVal}, '%')
+                    OR IRI.JOB_POSITION_ETC LIKE CONCAT('%', #{searchVal}, '%')
+                    OR AAA.USER_NAME LIKE CONCAT('%', #{searchVal}, '%'))
+            </otherwise>
+        </choose>
         AND
             IRI.ACTIVE = 'Y'
         GROUP BY IRI.RECRUIT_INFO_SN
