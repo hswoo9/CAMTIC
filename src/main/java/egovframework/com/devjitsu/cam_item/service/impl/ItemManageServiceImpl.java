@@ -746,6 +746,17 @@ public class ItemManageServiceImpl implements ItemManageService {
         return itemManageRepository.getInvenTransferHistoryList(params);
     }
 
+    @Override
+    public void setSafetyInvenUpd(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> imArr = gson.fromJson((String) params.get("imArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        if(imArr.size() > 0){
+            for(Map<String, Object> map : imArr){
+                itemManageRepository.setSafetyInvenUpd(map);
+            }
+        }
+    }
+
     public String cellValueToString(XSSFCell cell){
         String txt = "";
 
