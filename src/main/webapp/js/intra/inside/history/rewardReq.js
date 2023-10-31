@@ -64,8 +64,15 @@ var rewardReq = {
                             '	<span class="k-button-text">포상 일괄등록</span>' +
                             '</button>';
                     }
+                }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
                 }
             ],
+            excel : {
+                fileName : "포상목록.xlsx",
+                filterable : true
+            },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },

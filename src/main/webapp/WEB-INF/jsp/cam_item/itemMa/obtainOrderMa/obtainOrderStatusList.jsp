@@ -23,8 +23,6 @@
                         <col width="5%">
                         <col width="17%">
                         <col width="6%">
-                        <col width="6%">
-                        <col width="6%">
                         <col width="8%">
                         <col width="5%">
                         <col>
@@ -45,10 +43,6 @@
                         <td>
                             <input type="text" id="startDt" style="width: 110px;"> ~
                             <input type="text" id="endDt" style="width: 110px;">
-                        </td>
-                        <th class="text-center th-color">마감구분</th>
-                        <td>
-                            <input type="text" id="deadLine"/>
                         </td>
                         <th class="text-center th-color">미납구분</th>
                         <td>

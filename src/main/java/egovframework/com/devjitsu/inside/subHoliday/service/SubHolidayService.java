@@ -68,4 +68,16 @@ public interface SubHolidayService {
     Map<String, Object> getuserHolyData(Map<String, Object> params);
 
     void setUserVacList(List<Map<String, Object>> list);
+
+    /**
+     * 공휴일 데이터 조회 */
+    public List<Map<String, Object>> getHolidayList(Map<String, Object> params);
+
+    /**
+     * 공휴일 저장(삽입,수정) */
+    void setHoliday(Map<String, Object> params);
+
+    /**
+     * 공휴일 삭제 */
+    void deleteHoliday(Map<String, Object> params);
 }

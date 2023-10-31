@@ -26,12 +26,12 @@
   }
   .file-and-table-container {
     display: flex;
-    margin-top: 30px;
+    /*margin-top: 30px;*/
   }
   .fileTable {
     width: 80%;
     border-collapse: collapse;
-    margin : 0 0 0 20px;
+    /*margin : 0 0 0 20px;*/
   }
   .fileTable .fileTr .fileTh {
     border: 1px solid #ccc;
@@ -41,16 +41,23 @@
     background-color: #f2f2f2;
     text-align: center;
   }
-
+  /* 버튼 수정 2023-10-30 김병수 */
   .__btn1 {
-    min-width: 120px;
-    height: 40px;
+    min-width: 85px;
+    height: 38px;
+    font-size: 15px;
+  }
+  /* 파일첨부 버튼 수정 2023-10-30 김병수 */
+  #fileUpload .__btn1 {
+    min-width: 90px;
+    height: 26px;
+    padding: 0;
+    font-size: 15px;
   }
 
   #title{
     margin-bottom: 0;
   }
-
   div#content img { max-width: 100%; height: auto; }
 </style>
 
@@ -89,14 +96,14 @@
                     <input type="text" id="writer" class="" value="${map.REG_EMP_NAME}" disabled/>
                   </td>
                 </tr>
-                <tr>
+                <tr style="border-bottom: 1px solid #ccc;">
                   <th>작성일자</th>
                   <td>
                     <input type="text" id="writeDate" class="" value="<fmt:formatDate value="${map.REG_DATE}" pattern="yyyy-MM-dd" type="date"/>" disabled/>
                   </td>
                 </tr>
                 <c:if test="${categoryId eq 'business'}">
-                  <tr style="border-top: 1px solid #ccc;">
+                  <tr style="border-bottom: 1px solid #ccc;">
                     <th>사업기간</th>
                     <td>
                       <input type="datetime-local" id="startDate" style="width: 20%;" value="${map.START_DT}" > ~
@@ -104,6 +111,55 @@
                     </td>
                   </tr>
                 </c:if>
+
+                <tr style="border-bottom: 1px solid #ccc;">
+                  <th>내용</th>
+                  <td style="padding: 15px 0 15px 0;">
+                    <textarea class="txt_area_01" id="contents">
+                      ${map.BOARD_ARTICLE_CONTENT}
+                    </textarea>
+                  </td>
+                </tr>
+
+                <tr>
+                  <th>첨부파일</th>
+                  <td style="line-height : 1;padding: 15px 0 15px 0;">
+                    <form>
+                      <div class="file-and-table-container">
+                        <table class="fileTable" style="width: 40%; margin-right: 15px;">
+                          <colgroup>
+                            <col width="50%">
+                            <col width="10%">
+                            <col width="30%">
+                            <col width="10%">
+                          </colgroup>
+                          <thead>
+                          <tr class="fileTr">
+                            <th class="fileTh">파일명</th>
+                            <th class="fileTh">확장자</th>
+                            <th class="fileTh">용량(KB)</th>
+                            <th class="fileTh">기타</th>
+                          </tr>
+                          </thead>
+                          <tbody id="fileGrid">
+                          <tr class="defultTr">
+                            <td colspan="4" style="text-align: center;padding-top: 10px;">선택된 파일이 없습니다.</td>
+                          </tr>
+                          </tbody>
+                        </table>
+
+                        <div>
+                          <div class="filebox">
+                            <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
+                              <span class="__btn1 grayLine">파일첨부</span>
+                            </button>
+                            <input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" multiple style="display: none"/>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </td>
+                </tr>
               </table>
             </div>
           </div>
@@ -115,48 +171,6 @@
                   <p><a href="#">파일명이 노출됩니다.hwp</a></p>
               </dd>
           </dl> -->
-          <div class="con">
-            <textarea class="txt_area_01" id="contents">
-              ${map.BOARD_ARTICLE_CONTENT}
-            </textarea>
-
-            <form>
-              <div class="file-and-table-container">
-                <div>
-                  <div class="filebox">
-                    <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
-                      <span class="__btn1 grayLine">파일첨부</span>
-                    </button>
-                    <input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" multiple style="display: none"/>
-                  </div>
-                </div>
-
-                <table class="fileTable" style="width: 50%;">
-                  <colgroup>
-                    <col width="50%">
-                    <col width="10%">
-                    <col width="30%">
-                    <col width="10%">
-                  </colgroup>
-                  <thead>
-                  <tr class="fileTr">
-                    <th class="fileTh">파일명</th>
-                    <th class="fileTh">확장자</th>
-                    <th class="fileTh">용량</th>
-                    <th class="fileTh">기타</th>
-                  </tr>
-                  </thead>
-                  <tbody id="fileGrid">
-                  <tr class="defultTr">
-                    <td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
-            </form>
-          </div>
-
-
           <div class="__botArea">
             <div class="rig">
               <a href="javascript:void(0);" onclick="fn_move();" class="__btn1 grayLine"><span>뒤로가기</span></a>
@@ -190,7 +204,7 @@
 
 
     CKEDITOR.replace('contents', {
-        height: 500
+        height: 250
       });
 
     /*CKEDITOR.instances.contents.setData($("#prevContent").val());*/
@@ -215,12 +229,14 @@
           $("#fileGrid").find(".defultTr").remove();
           $("#fileGrid").find(".addFile").remove();
 
+          let size = 0;
           var html = '';
           for (var i = 0; i < rs.fileMap.length; i++) {
+            size = bytesToKB(rs.fileMap[i].file_size);
             html += '<tr style="text-align: center" class="beforeAddFile">';
             html += '   <td>' + rs.fileMap[i].file_org_name + '</td>';
             html += '   <td>' + rs.fileMap[i].file_ext + '</td>';
-            html += '   <td>' + rs.fileMap[i].file_size + '</td>';
+            html += '   <td>' + size + '</td>';
             html += '   <td>';
             html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="commonFileDel(' + rs.fileMap[i].file_no + ', this)">'
             html += '   </td>';
@@ -232,6 +248,15 @@
       },
 
     });
+  }
+
+  function bytesToKB(bytes) {
+    const sizes = ['KB'];
+    if (bytes === 0) return '0 KB';
+
+    let kilobytes = bytes / 1024;
+    kilobytes = kilobytes.toFixed(2) + "KB";
+    return kilobytes;
   }
 
   function commonFileDel(e, v){

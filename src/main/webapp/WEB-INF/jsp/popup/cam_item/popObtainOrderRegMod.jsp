@@ -59,7 +59,7 @@
                 <tr>
                     <th>품번</th>
                     <td>
-                        <input type="hidden" id="masterSn" class="masterSn" onchange="oorm.itemInfoChange()">
+                        <input type="hidden" id="masterSn" class="masterSn">
                         <input type="text" id="itemNo" class="k-input k-textbox itemNo" readonly style="width: 78%" onclick="oorm.fn_popItemNoList();"/>
                         <button type="button" id="itemSelBtn" class="itemSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="oorm.fn_popItemNoList();">선택</button>
                     </td>

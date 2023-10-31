@@ -62,7 +62,7 @@ var oorl = {
                 },*/ {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oorl.setDeadlineUpd()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-dark" onclick="oorl.setDeadlineUpd()">' +
                             '	<span class="k-button-text">마감</span>' +
                             '</button>';
                     }
@@ -100,7 +100,6 @@ var oorl = {
                 }, {
                     title: "거래처",
                     field: "CRM_NM",
-                    width: 150,
                     template : function(e){
                         if(e.OBTAIN_ORDER_TYPE == "N"){
                             return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.CRM_NM + "</span>"
@@ -148,6 +147,20 @@ var oorl = {
                                 return e.ITEM_NAME
                             }
                         }
+                    }
+                }, {
+                    title: "재고",
+                    field: "OVERALL_INVEN",
+                    width: 100,
+                    template : function (e){
+                        if(e.OVERALL_INVEN != null && e.OVERALL_INVEN != ""){
+                            return oorl.comma(e.OVERALL_INVEN);
+                        }else{
+                            return "0";
+                        }
+                    },
+                    attributes : {
+                        style : "text-align : right;"
                     }
                 }, {
                     title: "수주량",
@@ -261,7 +274,7 @@ var oorl = {
                 }, {
                     title: "비고",
                     field: "RMK",
-                    width: 200,
+                    width: 160,
                     template : function(e){
                         if(e.OBTAIN_ORDER_TYPE == "N"){
                             return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.RMK + "</span>"

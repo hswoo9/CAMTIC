@@ -185,6 +185,35 @@ public class AssetController {
     }
 
     /**
+     * 유지보수, 기타 내역 추가 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/asset/pop/popAddHistory.do")
+    public String popAddHistory(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+
+        return "popup/inside/asset/popAddHistory";
+    }
+
+    /**
+     * 자산관리 > 유지보수, 기타내역 등록
+     * @param params
+     * @return
+     */
+    @RequestMapping("/asset/setAstOtherHistory.do")
+    public String setAstOtherHistory(@RequestParam Map<String,Object> params) {
+        assetService.setAstOtherHistory(params);
+        return "jsonView";
+    }
+
+    /**
      * 자산관리 > 자산리스트 - 물품관리관 등록/수정 팝업
      * @param request
      * @param model
@@ -660,6 +689,16 @@ public class AssetController {
         params.put("regEmpIp", request.getRemoteAddr());
         assetService.setAssetInspectionUpload(params);
         return "jsonView";
+    }
+
+    /**
+     * 앱 apk 파일 다운로드
+     * @param request
+     * @return
+     */
+    @RequestMapping("/asset/setAppApkDownLoad.do")
+    public void setAppApkDownLoad(HttpServletRequest request, HttpServletResponse response){
+        assetService.setAppApkDownLoad(request, response);
     }
 
     //지식재산권리스트
@@ -1427,12 +1466,11 @@ public class AssetController {
 
     @RequestMapping("/inside/getastprint")
     public String getastprint(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
 
         Map<String, Object> map = assetService.getastprint(params);
 
-        model.addAttribute("astInfo", assetService.getastData(params));
-        model.addAttribute("result", map);
+        model.addAttribute("astMap", assetService.getastData(params));
+        model.addAttribute("map", map);
 
         return "jsonView";
     }

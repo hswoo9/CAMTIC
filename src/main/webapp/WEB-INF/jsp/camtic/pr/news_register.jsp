@@ -204,7 +204,7 @@
                           <tr class="fileTr">
                             <th class="fileTh">파일명</th>
                             <th class="fileTh">확장자</th>
-                            <th class="fileTh">용량</th>
+                            <th class="fileTh">용량(KB)</th>
                             <th class="fileTh">기타</th>
                           </tr>
                           </thead>
@@ -264,7 +264,7 @@
                         <button type="button" id="copyBtn1'" onclick="copyBtn(1)"><img src="/images/nav.png" style="background: white" alt="복사"></button>
                       </c:if>
                       <c:if test="${firstLinkInfo.GROUP_KEY eq '' or firstLinkInfo.GROUP_KEY eq null }">
-                        <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="margin-left: 30px; margin-top: 4px;" onclick="linkCreate(1)">
+                        <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="margin-top: 4px;" onclick="linkCreate(1)">
                           <span class="__btn1 grayLine">링크 생성</span>
                         </button>
                         <input type="text" id="linkText1" name="linkText" style="width: 40%; margin: 0 5px 0 5px;" value="" readonly />
@@ -342,12 +342,14 @@
           $("#fileGrid").find(".defultTr").remove();
           $("#fileGrid").find(".addFile").remove();
 
+          let size = 0;
           var html = '';
           for (var i = 0; i < rs.fileMap.length; i++) {
+            size = bytesToKB(rs.fileMap[i].file_size);
             html += '<tr style="text-align: center" class="beforeAddFile">';
             html += '   <td>' + rs.fileMap[i].file_org_name + '</td>';
             html += '   <td>' + rs.fileMap[i].file_ext + '</td>';
-            html += '   <td>' + rs.fileMap[i].file_size + '</td>';
+            html += '   <td>' + size + '</td>';
             html += '   <td>';
             html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="commonFileDel(' + rs.fileMap[i].file_no + ', this)">'
             html += '   </td>';
@@ -360,6 +362,16 @@
 
     });
   }
+
+  function bytesToKB(bytes) {
+    const sizes = ['KB'];
+    if (bytes === 0) return '0 KB';
+
+    let kilobytes = bytes / 1024;
+    kilobytes = kilobytes.toFixed(2) + "KB";
+    return kilobytes;
+  }
+
 
   function commonFileDel(e, v){
     if(confirm("삭제한 파일은 복구할 수 없습니다.\n그래도 삭제하시겠습니까?")){

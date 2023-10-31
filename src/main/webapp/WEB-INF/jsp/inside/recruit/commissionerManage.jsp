@@ -5,7 +5,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/recruit/commissionerManage.js?v=${today}"/></script>
 <style>
-    a:hover {
+    #mainGrid a:hover {
         text-decoration: underline !important;
         color: blue !important;
     }

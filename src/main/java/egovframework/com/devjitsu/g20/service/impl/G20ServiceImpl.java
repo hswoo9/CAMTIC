@@ -2,6 +2,7 @@ package egovframework.com.devjitsu.g20.service.impl;
 
 import egovframework.com.devjitsu.g20.repository.G20Repository;
 import egovframework.com.devjitsu.g20.service.G20Service;
+import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,24 +36,34 @@ public class G20ServiceImpl implements G20Service {
         List<Map<String, Object>> budgetList = g20Repository.getBudgetInfo(params);
 
         List<Map<String, Object>> result = new ArrayList<>();
-        for(Map<String, Object> map : budgetList){
 
-            if(!"0".equals(map.get("DIV_FG"))){
+        if(params.containsKey("stat")){
+            for(Map<String, Object> map : budgetList){
 
-                if(map.get("DIV_FG").equals("3")){
-                    String bgt1Cd = map.get("BGT_CD").toString().substring(0, 1);
-                    String bgt2Cd = map.get("BGT_CD").toString().substring(0, 3);
-
-                    for(Map<String, Object> subject : budgetList) {
-                        if (bgt1Cd.equals(subject.get("BGT_CD"))) {
-                            map.put("BGT1_NM", subject.get("BGT_NM"));
-                        }
-
-                        if(bgt2Cd.equals(subject.get("BGT_CD"))) {
-                            map.put("BGT2_NM", subject.get("BGT_NM"));
-                        }
-                    }
+                if(!"0".equals(map.get("DIV_FG"))){
                     result.add(map);
+                }
+            }
+        } else {
+            for(Map<String, Object> map : budgetList){
+
+                if(!"0".equals(map.get("DIV_FG"))){
+
+                    if(map.get("DIV_FG").equals("3")){
+                        String bgt1Cd = map.get("BGT_CD").toString().substring(0, 1);
+                        String bgt2Cd = map.get("BGT_CD").toString().substring(0, 3);
+
+                        for(Map<String, Object> subject : budgetList) {
+                            if (bgt1Cd.equals(subject.get("BGT_CD"))) {
+                                map.put("BGT1_NM", subject.get("BGT_NM"));
+                            }
+
+                            if(bgt2Cd.equals(subject.get("BGT_CD"))) {
+                                map.put("BGT2_NM", subject.get("BGT_NM"));
+                            }
+                        }
+                        result.add(map);
+                    }
                 }
             }
         }
@@ -88,5 +99,10 @@ public class G20ServiceImpl implements G20Service {
     @Override
     public List<Map<String, Object>> getOtherList(Map<String, Object> params) {
         return g20Repository.getOtherList(params);
+    }
+
+    @Override
+    public Map<String, Object> getSempData(Map<String, Object> params) {
+        return g20Repository.getSempData(params);
     }
 }

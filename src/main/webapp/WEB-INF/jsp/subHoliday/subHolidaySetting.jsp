@@ -33,11 +33,13 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
-                        <col width="20%">
+                        <col>
                         <col width="10%">
-                        <col width="20%">
+                        <col>
                         <col width="10%">
-                        <col width="20%">
+                        <col>
+                        <col width="10%">
+                        <col>
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회 연도</th>
@@ -48,6 +50,10 @@
                         <td>
                             <input type="text" id="dept" style="width: 150px;">
                             <input type="text" id="team" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">팀</th>
+                        <td>
+                            <input type="text" id="teamName" style="width: 150px;">
                         </td>
                         <th class="text-center th-color">이름</th>
                         <td>

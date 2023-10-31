@@ -18,6 +18,14 @@ public class ProjectRndRepository extends AbstractDAO {
         update("projectRnd.updSubjectInfo", params);
     }
 
+    public void insAccountInfo(Map<String, Object> params) {
+        insert("projectRnd.insAccountInfo", params);
+    }
+
+    public void delAccountInfo(Map<String, Object> params) {
+        delete("projectRnd.delAccountInfo", params);
+    }
+
     public List<Map<String, Object>> getPopRschList(Map<String, Object> params) {
         return selectList("projectRnd.getPopRschList", params);
     }
@@ -30,6 +38,10 @@ public class ProjectRndRepository extends AbstractDAO {
         insert("projectRnd.insPjtRschData", params);
     }
 
+    public void updRschData(Map<String, Object> params) {
+        update("projectRnd.updRschData", params);
+    }
+
     public List<Map<String, Object>> getPjtRschInfo(Map<String, Object> params) {
         return selectList("projectRnd.getPjtRschInfo", params);
     }
@@ -40,6 +52,10 @@ public class ProjectRndRepository extends AbstractDAO {
 
     public void delRschData(Map<String, Object> params) {
         delete("projectRnd.delRschData", params);
+    }
+
+    public void updRschStatus(Map<String, Object> params) {
+        update("projectRnd.updRschStatus", params);
     }
 
     public void insDevPjtVer(Map<String, Object> params) {
@@ -118,6 +134,10 @@ public class ProjectRndRepository extends AbstractDAO {
         return selectList("projectRnd.getReqPartRateVerList", params);
     }
 
+    public List<Map<String, Object>> getAccountInfo(Map<String, Object> params) {
+        return selectList("projectRnd.getAccountInfo", params);
+    }
+
     public int getPartRateVerCount(Map<String, Object> map) {
         return (int) selectOne("projectRnd.getPartRateVerCount", map);
     }
@@ -144,5 +164,12 @@ public class ProjectRndRepository extends AbstractDAO {
 
     public void tmpUpdDevPlanApprove(Map<String, Object> params) {
         update("projectRnd.tmpUpdDevPlanApprove", params);
+    }
+
+    public void updateRndDelvApprStat(Map<String, Object> params) {
+        update("projectRnd.updateRndDelvApprStat", params);
+    }
+    public void updateRndDelvFinalApprStat(Map<String, Object> params) {
+        update("projectRnd.updateRndDelvFinalApprStat", params);
     }
 }

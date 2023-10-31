@@ -102,7 +102,9 @@
             AI.REMARK,
             IC.INSIDE_DT_CODE_NM,
             AI.AST_FILE_NO,
-            AI.RELATED_FILE_NO
+            AI.RELATED_FILE_NO,
+            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_ASSET_INFO_OTHER_HISTORY WHERE AST_INFO_SN = AI.AST_INFO_SN AND TYPE = 'M') AS MCOUNT,
+            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_ASSET_INFO_OTHER_HISTORY WHERE AST_INFO_SN = AI.AST_INFO_SN AND TYPE = 'O') AS OCOUNT
         FROM
             CAM_INSIDE.DJ_ASSET_INFO AI
         JOIN
@@ -373,6 +375,58 @@
         WHERE
             AST_INFO_SN = #{astInfoSn}
     </select>
+
+    <select id="getAstOtherHistoryList" parameterType="map" resultType="map">
+        /* getAstOtherHistoryList */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_ASSET_INFO_OTHER_HISTORY OH
+        WHERE
+            AST_INFO_SN = #{astInfoSn}
+    </select>
+
+    <insert id="setAstOtherHistory" parameterType="map">
+        /* setAstOtherHistory */
+        INSERT INTO CAM_INSIDE.DJ_ASSET_INFO_OTHER_HISTORY
+        (
+            AST_INFO_SN,
+            TYPE,
+            OTHER_TITLE,
+            EXE_DATE,
+            UNIT_PRICE,
+            STANDARD,
+            ETC,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{astInfoSn},
+            #{type},
+            #{otherTitle},
+            #{exeDate},
+            #{unitPrice},
+            #{standard},
+            #{etc},
+            #{empSeq}
+        )
+    </insert>
+
+    <update id="setAstOtherHistoryUpd" parameterType="map">
+        /* setAstOtherHistory */
+        UPDATE
+            CAM_INSIDE.DJ_ASSET_INFO_OTHER_HISTORY
+        SET
+            OTHER_TITLE = #{otherTitle},
+            EXE_DATE = #{exeDate},
+            UNIT_PRICE = #{unitPrice},
+            STANDARD = #{standard},
+            ETC = #{etc},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            AST_INFO_OTHER_SN = #{astInfoOtherSn}
+    </update>
 
     <insert id="setAstManage" parameterType="map">
         /* setAstManage */
@@ -2447,14 +2501,124 @@
     </select>
 
     <select id="getastprint" parameterType="map" resultType="map">
-        SELECT *
-        FROM CAM_INSIDE.DJ_ASSET_INFO
-        WHERE AST_INFO_SN = #{astInfo}
+        SELECT
+            AI.AST_INFO_SN,
+            CONCAT(ACP.AST_CP_CODE_NM, ' > ', ACC.AST_TYPE_CODE_NM, ' > ', AC1.AST_CODE_NM, ' > ', AC2.AST_CODE_NM, ' > ', AC3.AST_CODE_NM) AS AST_GUBUN,
+            AI.AST_NO,
+            AI.BARCODE_TYPE,
+            AI.AST_NAME,
+            DATE_FORMAT(AI.PURC_DATE, '%Y/%m/%d') AS PURC_DATE,
+            CONCAT(FORMAT(AI.PURC_PRICE, 0), ' 원') AS PURC_PRICE,
+            AI.MODEL_SIZE,
+            AI.MODEL_NAME,
+            AI.PURC_COMPANY_ID,
+            '-' AS PURC_COMPANY_NAME,
+            AI.MF_COMPANY,
+            AI.UNIT,
+            AI.QTY,
+            AI.ORG_COUNTRY,
+            CASE
+                WHEN AI.FUNDING_SOURCE = '0' THEN CONCAT('[법인운영]', AI.PJT_NM)
+                WHEN AI.FUNDING_SOURCE = 'R' THEN CONCAT('[R&amp;D]', AI.PJT_NM)
+                WHEN AI.FUNDING_SOURCE = 'S' THEN CONCAT('[비R&amp;D]', AI.PJT_NM)
+                WHEN AI.FUNDING_SOURCE = 'D' THEN CONCAT('[엔지니어링]', AI.PJT_NM)
+                WHEN AI.FUNDING_SOURCE = 'V' THEN CONCAT('[용역/기타]', AI.PJT_NM)
+                WHEN AI.FUNDING_SOURCE = '3' THEN CONCAT('[기타]', AI.PJT_NM)
+                END FUNDING_SOURCE_TXT,
+            AP.AST_PLACE_NAME,
+            AI.DEPT_SEQ,
+            AI.EMP_SEQ,
+            AI.EMP_NAME,
+            AI.PURPOSE,
+            AI.REMARK,
+            IC.INSIDE_DT_CODE_NM,
+            AI.AST_FILE_NO,
+            AI.RELATED_FILE_NO
+        FROM
+            CAM_INSIDE.DJ_ASSET_INFO AI
+                JOIN
+            CAM_INSIDE.DJ_ASSET_CODE_POSITION ACP
+            ON AI.AST_CODE_COMPANY_ID = ACP.AST_CP_CODE
+                JOIN
+            CAM_INSIDE.DJ_ASSET_CODE_CLASS ACC
+            ON AI.AST_TYPE_CODE = ACC.AST_TYPE_CODE
+                JOIN
+            CAM_INSIDE.DJ_ASSET_CODE AC1
+            ON AI.AST_CODE_ID_1 = AC1.AST_CODE
+                JOIN
+            CAM_INSIDE.DJ_ASSET_CODE AC2
+            ON AC2.AST_UPPER_CODE = AC1.AST_CODE_ID AND AI.AST_CODE_ID_2 = AC2.AST_CODE
+                JOIN
+            CAM_INSIDE.DJ_ASSET_CODE AC3
+            ON AC3.AST_UPPER_CODE = AC2.AST_CODE_ID AND AI.AST_CODE_ID_3 = AC3.AST_CODE
+                JOIN
+            CAM_INSIDE.DJ_ASSET_PLACE AP
+            ON AI.AST_PLACE_SN = AP.AST_PLACE_SN
+                JOIN
+            CAM_INSIDE.DJ_INSIDE_CODE IC
+            ON AI.AST_STS_CODE = IC.INSIDE_DT_CODE AND IC.INSIDE_MD_CODE = '03'
+        WHERE
+            AI.AST_INFO_SN = #{astInfoSn}
     </select>
 
-    <select id="getastData" parameterType="map" resultType="map">
-        SELECT *
-        FROM CAM_INSIDE.DJ_ASSET_INFO
-        WHERE AST_INFO_SN = #{astInfo}
+    <select id="getastData" resultType="map" parameterType="map">
+        SELECT
+            AI.AST_INFO_SN,
+            CONCAT(ACP.AST_CP_CODE_NM, ' > ', ACC.AST_TYPE_CODE_NM, ' > ', AC1.AST_CODE_NM, ' > ', AC2.AST_CODE_NM, ' > ', AC3.AST_CODE_NM) AS AST_GUBUN,
+            AI.AST_NO,
+            AI.BARCODE_TYPE,
+            AI.AST_NAME,
+            DATE_FORMAT(AI.PURC_DATE, '%Y/%m/%d') AS PURC_DATE,
+            CONCAT(FORMAT(AI.PURC_PRICE, 0), ' 원') AS PURC_PRICE,
+            AI.MODEL_SIZE,
+            AI.MODEL_NAME,
+            AI.PURC_COMPANY_ID,
+            '-' AS PURC_COMPANY_NAME,
+            AI.MF_COMPANY,
+            AI.UNIT,
+            AI.QTY,
+            AI.ORG_COUNTRY,
+            CASE
+                WHEN AI.FUNDING_SOURCE = '0' THEN CONCAT('[법인운영]', AI.PJT_NM)
+                WHEN AI.FUNDING_SOURCE = 'R' THEN CONCAT('[R&amp;D]', AI.PJT_NM)
+                WHEN AI.FUNDING_SOURCE = 'S' THEN CONCAT('[비R&amp;D]', AI.PJT_NM)
+                WHEN AI.FUNDING_SOURCE = 'D' THEN CONCAT('[엔지니어링]', AI.PJT_NM)
+                WHEN AI.FUNDING_SOURCE = 'V' THEN CONCAT('[용역/기타]', AI.PJT_NM)
+                WHEN AI.FUNDING_SOURCE = '3' THEN CONCAT('[기타]', AI.PJT_NM)
+                END FUNDING_SOURCE_TXT,
+            AP.AST_PLACE_NAME,
+            AI.DEPT_SEQ,
+            AI.EMP_SEQ,
+            AI.EMP_NAME,
+            AI.PURPOSE,
+            AI.REMARK,
+            IC.INSIDE_DT_CODE_NM,
+            AI.AST_FILE_NO,
+            AI.RELATED_FILE_NO
+        FROM
+            CAM_INSIDE.DJ_ASSET_INFO AI
+                JOIN
+            CAM_INSIDE.DJ_ASSET_CODE_POSITION ACP
+            ON AI.AST_CODE_COMPANY_ID = ACP.AST_CP_CODE
+                JOIN
+            CAM_INSIDE.DJ_ASSET_CODE_CLASS ACC
+            ON AI.AST_TYPE_CODE = ACC.AST_TYPE_CODE
+                JOIN
+            CAM_INSIDE.DJ_ASSET_CODE AC1
+            ON AI.AST_CODE_ID_1 = AC1.AST_CODE
+                JOIN
+            CAM_INSIDE.DJ_ASSET_CODE AC2
+            ON AC2.AST_UPPER_CODE = AC1.AST_CODE_ID AND AI.AST_CODE_ID_2 = AC2.AST_CODE
+                JOIN
+            CAM_INSIDE.DJ_ASSET_CODE AC3
+            ON AC3.AST_UPPER_CODE = AC2.AST_CODE_ID AND AI.AST_CODE_ID_3 = AC3.AST_CODE
+                JOIN
+            CAM_INSIDE.DJ_ASSET_PLACE AP
+            ON AI.AST_PLACE_SN = AP.AST_PLACE_SN
+                JOIN
+            CAM_INSIDE.DJ_INSIDE_CODE IC
+            ON AI.AST_STS_CODE = IC.INSIDE_DT_CODE AND IC.INSIDE_MD_CODE = '03'
+        WHERE
+            AI.AST_INFO_SN = #{astInfoSn}
     </select>
 </mapper>

@@ -26,33 +26,37 @@
         </div>
         <div class="panel-body">
             <div>
-                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
-                    <tr>
-                        <td style="border-bottom:0; background-color: white">
-                            <div style="display:flex;">
-                                <div class="mr10">
-                                    <span>조회 기간</span>
-                                    <input type="text" id="startDay" style="width: 130px;">
-                                    ~
-                                    <input type="text" id="endDay" style="width: 130px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>상태</span>
-                                    <input type="text" id="situation" style="width: 150px; margin-right:10px;">
-                                </div>
-                                <div class="mr10">
-                                    <span>근태 항목</span>
-                                    <input type="text" id="attendanceItems" style="width: 200px; margin-right:10px;">
-                                </div>
-                                <div>
-                                    <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">
-                                        <span>조회</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
+                <div style="margin-bottom:10px;">
+                    <table class="searchTable table table-bordered mb-0">
+                        <tr>
+                            <th class="text-center th-color">조회 기간</th>
+                            <td>
+                                <input type="text" id="startDt" style="width: 130px;"> ~
+                                <input type="text" id="endDt" style="width: 130px;">
+                            </td>
+                            <th class="text-center th-color">상태</th>
+                            <td>
+                                <input type="text" id="situation" style="width: 150px; margin-right:10px;">
+                            </td>
+                            <th class="text-center th-color">근태 항목</th>
+                            <td>
+                                <input type="text" id="attendanceItems" style="width: 200px; margin-right:10px;">
+                            </td>
+
+                            <th class="text-center th-color">부서</th>
+                            <td>
+                                <input type="text" id="dept" style="width: 150px;">
+                            </td>
+                            <th class="text-center th-color">팀</th>
+                            <td>
+                                <input type="text" id="team" style="width: 200px;">
+                                <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">
+                                    <span>조회</span>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
                 <h4 class="panel-title">* 신청 현황</h4>
                 <div style="margin:20px 0;">
                     <div class="table-responsive">
@@ -128,5 +132,4 @@
 
 <script type="text/javascript">
     personReqManage.fn_defaultScript();
-    personReqManage.mainGrid();
 </script>

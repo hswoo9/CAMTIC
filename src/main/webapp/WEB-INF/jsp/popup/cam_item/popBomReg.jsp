@@ -42,6 +42,14 @@
                 <thead>
                 <tr>
                     <th scope="row" class="text-center th-color">
+                        <span class="red-star">*</span>BOM명
+                    </th>
+                    <td colspan="3">
+                        <input type="text" id="bomTitle" class="k-input k-text">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>품번
                     </th>
                     <td>

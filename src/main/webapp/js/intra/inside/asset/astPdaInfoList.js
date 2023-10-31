@@ -284,5 +284,11 @@ var astPdaInfoList = {
                 alert("재물조사 업데이트가 완료되었습니다.");
             }
         }
+    },
+
+    setAppApkDownLoad : function(){
+        kendo.saveAs({
+            dataURI: "/asset/setAppApkDownLoad.do"
+        });
     }
 }

@@ -21,6 +21,8 @@ public interface ProjectRndService {
 
     void delRschData(Map<String, Object> params);
 
+    void updRschStatus(Map<String, Object> params);
+
     void setDevPjtVer(Map<String, Object> params);
 
     void setDevInfo(Map<String, Object> params);
@@ -51,6 +53,8 @@ public interface ProjectRndService {
 
     List<Map<String, Object>> getReqPartRateVerList(Map<String, Object> params);
 
+    List<Map<String, Object>> getAccountInfo(Map<String, Object> params);
+
     void setPartRateDetail(Map<String, Object> params);
 
     void checkPartRateDetail(Map<String, Object> params);
@@ -61,4 +65,7 @@ public interface ProjectRndService {
     Map<String, Object> getPjtDevSchData(Map<String, Object> params);
 
     void tmpUpdDevPlanApprove(Map<String, Object> params);
+
+    /** 수주관리 결재 상태값에 따른 UPDATE 메서드 */
+    void updateRndDelvDocState(Map<String, Object> bodyMap) throws Exception;
 }

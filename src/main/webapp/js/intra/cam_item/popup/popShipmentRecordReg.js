@@ -150,13 +150,6 @@ var srr = {
                 srArr : JSON.stringify(srArr),
                 transferArr : JSON.stringify(transferArr),
             }
-
-            var result = customKendo.fn_customAjax("/item/setShipmentRecord.do", srr.global.saveAjaxData);
-            if(result.flag){
-                alert("저장되었습니다.");
-                opener.srl.gridReload();
-                window.close();
-            }
         }
     },
 
@@ -184,7 +177,7 @@ var srr = {
     fn_popCamItemList : function (invenSnIndex){
         srr.global.invenSnIndex = invenSnIndex;
 
-        var url = "/item/pop/popItemInvenList.do?reg=shipmentRecord";
+        var url = "/item/pop/popItemInvenList.do";
         var name = "_blank";
         var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);

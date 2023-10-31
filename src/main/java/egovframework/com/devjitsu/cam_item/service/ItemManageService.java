@@ -21,7 +21,10 @@ public interface ItemManageService {
     void setObtainOrderUpd(Map<String, Object> params);
     void setObtainOrderCancel(Map<String, Object> params);
     List<Map<String, Object>> getShipmentRecordList(Map<String, Object> params);
-    void setShipmentRecord(Map<String, Object> params);
+    Map<String, Object> getShipmentInvenChk(Map<String, Object> params);
+    List<Map<String, Object>> getFwWhCdDesignList(Map<String, Object> params);
+    void getFwWhCdDesign(Map<String, Object> params);
+    void setShipmentDeadlineUpd(Map<String, Object> params);
     List<Map<String, Object>> getReturnRecordRegList(Map<String, Object> params);
     void setReturnRecord(Map<String, Object> params);
     List<Map<String, Object>> getBomList(Map<String, Object> params);
@@ -31,6 +34,7 @@ public interface ItemManageService {
     String getStringBomList(Map<String, Object> params);
     Map<String, Object> getInvenChk(Map<String, Object> params);
     void setBomDel(Map<String, Object> params);
+    void setBomCopy(Map<String, Object> params);
     void setBomDetailDel(Map<String, Object> params);
     void setBom(Map<String, Object> params);
     void setOutput(Map<String, Object> params);

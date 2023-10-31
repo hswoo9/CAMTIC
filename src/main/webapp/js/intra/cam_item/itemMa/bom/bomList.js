@@ -17,6 +17,7 @@ var bomList = {
         $("#whCd").data("kendoDropDownList").bind("change", bomList.gridReload);
 
         bomList.global.dropDownDataSource = [
+            { text : "BOM명", value : "BOM_TITLE" },
             { text : "품번", value : "ITEM_NO" },
             { text : "품명", value : "ITEM_NAME" },
             { text : "규격", value : "STANDARD" },
@@ -68,19 +69,23 @@ var bomList = {
                 }, {
                     title: "순번",
                     template: "#= --record #",
-                    width: 30
+                    width: 50
+                }, {
+                    title: "BOM명",
+                    field: "BOM_TITLE",
+                    width: 150
                 }, {
                     title: "품번",
                     field: "ITEM_NO",
-                    width: 180,
+                    width: 120,
                 }, {
                     title: "품명",
                     field: "ITEM_NAME",
-                    width: 180,
+                    width: 120,
                 }, {
                     title: "규격",
                     field: "STANDARD",
-                    width: 150
+                    width: 120
                 }, {
                     title: "원가",
                     field: "BOM_COST_PRICE",
@@ -140,78 +145,8 @@ var bomList = {
     fn_popBomView : function (e){
         var url = "/item/pop/popBomView.do?bomSn=" + e;
         var name = "_blank";
-        var option = "width = 400, height = 660, top = 100, left = 400, location = no"
+        var option = "width = 400, height = 705, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
-    },
-
-    fn_popOutputByBom : function (e){
-        var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(e).closest("tr"));
-        var result = bomList.getInvenChk(dataItem.BOM_SN);
-        if(result.message != null && result.message != ""){
-            alert("생산 불가능한 품목입니다.\n\n" + result.message);
-            if(result.whCd != null && result.error == null){
-                var url = "/item/pop/popOutputByBom.do?bomSn=" + dataItem.BOM_SN + "&outputCnt=1";
-                var name = "_blank";
-                var option = "width = 1055, height = 600, top = 100, left = 400, location = no"
-                var popup = window.open(url, name, option);
-            }
-        }else if(result.success == "200"){
-            if(confirm("헤딩 품목을 생산하시겠습니까?")){
-                bomList.global.saveAjaxData = {
-                    bomSn : dataItem.BOM_SN,
-                    masterSn : dataItem.MASTER_SN,
-                    whCd : dataItem.WH_CD,
-                    bomUnitPrice : dataItem.BOM_UNIT_PRICE,
-                    empSeq : $("#regEmpSeq").val(),
-                    outputCnt : "1",
-                }
-
-                var result = customKendo.fn_customAjax("/item/setOutput.do", bomList.global.saveAjaxData);
-                if(result.flag){
-                    alert("처리되었습니다.");
-                    bomList.gridReload();
-                }
-            }
-        }
-    },
-
-    getInvenChk : function(e){
-        var result = "";
-        bomList.global.searchAjaxData = {
-            bomSn : e
-        }
-
-        var rs = customKendo.fn_customAjax("/item/getInvenChk.do", bomList.global.searchAjaxData);
-        if(rs.flag){
-            result = rs.rs;
-        }
-
-        return result;
-    },
-
-    setBomDel : function(){
-        if($("input[name='bomSn']:checked").length == 0){
-            alert("삭제할 항목을 선택해주세요.");
-            return;
-        }
-
-        if(confirm("삭제하시겠습니까?\n삭제한 데이터는 복구 할 수 없습니다.")){
-            var bomSn = "";
-
-            $.each($("input[name='bomSn']:checked"), function(){
-                bomSn += "," + $(this).val()
-            })
-
-            ciupR.global.saveAjaxData = {
-                bomSn : bomSn.substring(1),
-            }
-
-            var result = customKendo.fn_customAjax("/item/setBomDel.do", ciupR.global.saveAjaxData);
-            if(result.flag){
-                alert("처리되었습니다.");
-                bomList.gridReload();
-            }
-        }
     },
 
     comma: function(str) {

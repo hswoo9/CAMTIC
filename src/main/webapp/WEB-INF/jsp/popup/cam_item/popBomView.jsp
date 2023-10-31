@@ -38,10 +38,16 @@
         <div>
             <table class="searchTable table table-bordered mb-0 mt-10">
                 <colgroup>
-                    <col width="15%">
+                    <col width="17%">
                     <col>
                 </colgroup>
                 <thead>
+                <tr>
+                    <th>BOM명</th>
+                    <td>
+                        ${rs.BOM_TITLE}
+                    </td>
+                </tr>
                 <tr>
                     <th>품명</th>
                     <td>

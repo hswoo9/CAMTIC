@@ -32,7 +32,6 @@ var rndDetail = {
         rndDetail.fn_setData();
     },
 
-
     fn_save : function(){
         var parameters = {
             pjtSn : $("#pjtSn").val(),
@@ -41,6 +40,7 @@ var rndDetail = {
             mngEmpName : $("#mngEmpName").val(),
             mngDeptSeq : $("#mngDeptSeq").val(),
             mngEmpSeq : $("#mngEmpSeq").val(),
+            empSeq : $("#mngEmpSeq").val(),
 
             bankSn : $("#bank").val(),
             bankNm : $("#bank").data("kendoDropDownList").text(),
@@ -57,6 +57,8 @@ var rndDetail = {
 
             delvDay : $("#delvDay").val(),
             resDay : $("#resDay").val(),
+
+            regEmpSeq : $("#regEmpSeq").val()
         }
 
         if($("#rndSn").val() != "" && $("#rndSn").val() != null){
@@ -64,6 +66,23 @@ var rndDetail = {
             parameters.stat = "upd"
         } else {
             parameters.stat = "ins"
+        }
+
+        if(parameters.mngEmpSeq == ""){
+            alert("연구책임자를 선택해주세요.");
+            return;
+        }
+        if(parameters.bankSn == ""){
+            alert("출금대표통장을 선택해주세요.");
+            return;
+        }
+        if(parameters.bankNo == ""){
+            alert("계좌번호를 작성해주세요.");
+            return;
+        }
+        if(parameters.accHold == ""){
+            alert("예금주를 작성해주세요.");
+            return;
         }
 
         $.ajax({
@@ -88,41 +107,39 @@ var rndDetail = {
 
         var rs = result.map;
 
-        if(rs.STATUS == 100){
-            $("#aBtn").css("display", "");
-        } else if(rs.RND_SN != "" && rs.RND_SN != null && rs.RND_SN != undefined){
-            $("#approveBtn").css("display", "");
+        rndDetail.fn_buttonSet(rs);
+
+        if(rs != null){
+            $("#rndSn").val(rs.RND_SN);
+            $("#mngDeptName").val(rs.MNG_DEPT_NAME);
+            $("#mngEmpName").val(rs.MNG_EMP_NAME);
+            $("#mngDeptSeq").val(rs.MNG_DEPT_SEQ);
+            $("#mngEmpSeq").val(rs.MNG_EMP_SEQ);
+
+            $("#bank").data("kendoDropDownList").value(rs.BANK_SN);
+            $("#bankNo").val(rs.BANK_NO);
+            $("#accHold").val(rs.ACC_HOLD);
+
+            $("#allResCost").val(comma(rs.ALL_RES_COST));
+            $("#peoResCost").val(comma(rs.PEO_RES_COST));
+            $("#peoResItem").val(comma(rs.PEO_RES_ITEM));
+            $("#totResCost").val(comma(rs.TOT_RES_COST));
+
+            if(rs.RES_CARD_CHECK == "Y"){
+                $("input[name='resCardCheck'][value='Y']").prop("checked", true);
+                $("#rccYRes").css("display", "");
+            }else{
+                $("input[name='resCardCheck'][value='N']").prop("checked", true);
+                $("#rccYRes").css("display", "none");
+            }
+            $("#resCardNo").val(rs.RES_CARD_NO);
+
+            $("#delvDay").val(rs.DELV_DAY);
+            $("#resDay").val(rs.RES_DAY);
         }
-
-        $("#rndSn").val(rs.RND_SN);
-        $("#mngDeptName").val(rs.MNG_DEPT_NAME);
-        $("#mngEmpName").val(rs.MNG_EMP_NAME);
-        $("#mngDeptSeq").val(rs.MNG_DEPT_SEQ);
-        $("#mngEmpSeq").val(rs.MNG_EMP_SEQ);
-
-        $("#bank").data("kendoDropDownList").value(rs.BANK_SN);
-        $("#bankNo").val(rs.BANK_NO);
-        $("#accHold").val(rs.ACC_HOLD);
-
-        $("#allResCost").val(comma(rs.ALL_RES_COST));
-        $("#peoResCost").val(comma(rs.PEO_RES_COST));
-        $("#peoResItem").val(comma(rs.PEO_RES_ITEM));
-        $("#totResCost").val(comma(rs.TOT_RES_COST));
-
-        if(rs.RES_CARD_CHECK == "Y"){
-            $("input[name='resCardCheck'][value='Y']").prop("checked", true);
-            $("#rccYRes").css("display", "");
-        }else{
-            $("input[name='resCardCheck'][value='N']").prop("checked", true);
-            $("#rccYRes").css("display", "none");
-        }
-        $("#resCardNo").val(rs.RES_CARD_NO);
-
-        $("#delvDay").val(rs.DELV_DAY);
-        $("#resDay").val(rs.RES_DAY);
-
     },
-    fn_approve : function() {
+
+    fn_approve : function(){
         var pjCode = $("#pjCode").val();
         var supDep = $("#supDep2").val();
         var supDepSub = $("#supDepSub2").val();
@@ -165,11 +182,6 @@ var rndDetail = {
             return;
         }
 
-
-        if(!confirm("수주확정을 하시겠습니까?")){
-            return ;
-        }
-
         $.ajax({
             url : "/projectRnd/setDelvApprove",
             data : parameters,
@@ -177,9 +189,41 @@ var rndDetail = {
             dataType : "json",
             success : function (rs){
                 if(rs.code == 200){
-                    location.reload();
+                    /** 저장 성공 시 전자결재 상신프로세스 시작 */
+                    $("#rndDelvDraftFrm").one("submit", function(){
+                        const url = "/popup/cam_project/approvalFormPopup/rndDelvApprovalPop.do";
+                        const name = "_self";
+                        const option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50";
+                        window.open(url, name, option);
+                        this.action = "/popup/cam_project/approvalFormPopup/rndDelvApprovalPop.do";
+                        this.method = 'POST';
+                        this.target = '_self';
+                    }).trigger("submit");
                 }
             }
         });
+    },
+
+    fn_buttonSet : function(rndMap){
+        let buttonHtml = "";
+        if(rndMap != null){
+            if(rndMap.STATUS == "0"){
+                buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="rndDetail.fn_save()">저장</button>';
+                buttonHtml += '<button type="button" id="approveBtn" style="float: right; margin-right:5px;" class="k-button k-button-solid-info" onclick="openModal()">상신</button>';
+            }else if(rndMap.STATUS == "10"){
+                buttonHtml += '<button type="button" id="canBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+rndMap.DOC_ID+'\', \''+rndMap.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
+            }else if(rndMap.STATUS == "30" || rndMap.STATUS == "40"){
+                buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="rndDetail.fn_save()">저장</button>';
+                buttonHtml += '<button type="button" id="canBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+rndMap.DOC_ID+'\', \''+rndMap.DOC_MENU_CD+'\', \''+rndMap.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
+            }else if(rndMap.STATUS == "100"){
+                buttonHtml += '<button type="button" id="canBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+rndMap.DOC_ID+'\', \''+rndMap.APPRO_KEY+'\', \''+rndMap.DOC_MENU_CD+'\');">열람</button>';
+            }else{
+                buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="rndDetail.fn_save()">저장</button>';
+            }
+        }else{
+            buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="rndDetail.fn_save()">저장</button>';
+        }
+
+        $("#detailBtnDiv").html(buttonHtml);
     }
 }

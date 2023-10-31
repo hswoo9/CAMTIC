@@ -51,7 +51,7 @@ var rndRschInfo = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="fn_popRschList('+$("#pjtSn").val()+')">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userSearch(\'rndResearcher\','+$("#pjtSn").val()+')">' +
                             '	    <span class="k-button-text">등록</span>' +
                             '   </button>';
                     }
@@ -86,7 +86,7 @@ var rndRschInfo = {
                             chk = "checked";
                         }
 
-                        return "<input type='checkbox' id='rsch_" + e.RECRUIT_COMMISSIONER_INFO_SN + "' name='rschChk' value='" + e.PJT_RSCH_SN + "' " + chk + "/>"
+                        return "<input type='checkbox' id='rsch_" + e.RECRUIT_COMMISSIONER_INFO_SN + "' name='rschChk' value='" + e.PJT_RSCH_SN + "' " + chk + "/>";
                     },
                     width: 50
                 }, {
@@ -117,10 +117,28 @@ var rndRschInfo = {
                         return "0%";
                     }
                 }, {
-                    title : "",
+                    title : "실제 참여 여부",
                     width: 100,
                     template: function(e){
-                        return '<button type="button" class="k-button k-button-solid-error" onclick="rndRschInfo.fn_del('+e.PJT_RSCH_SN+')">삭제</button>'
+                        if(e.PJT_MNG_CHECK == "Y"){
+                            return '연구책임자'
+                        }else{
+                            if(e.REAL_YN == "Y"){
+                                return '<button type="button" class="k-button k-button-solid-error" onclick="rndRschInfo.fn_realCheck('+e.PJT_RSCH_SN+', \'C\')">취소</button>'
+                            }else{
+                                return '<button type="button" class="k-button k-button-solid-info" onclick="rndRschInfo.fn_realCheck('+e.PJT_RSCH_SN+', \'Y\')">등록</button>'
+                            }
+                        }
+                    }
+                }, {
+                    title : "삭제",
+                    width: 100,
+                    template: function(e){
+                        if(e.PJT_MNG_CHECK == "Y"){
+                            return '연구책임자'
+                        }else{
+                            return '<button type="button" class="k-button k-button-solid-error" onclick="rndRschInfo.fn_del('+e.PJT_RSCH_SN+')">삭제</button>'
+                        }
                     }
                 }
             ],
@@ -149,10 +167,29 @@ var rndRschInfo = {
             dataType : "json",
             success : function(rs){
                if(rs.code == 200){
-                   $("#bustripMainGrid").data("kendoGrid").dataSource.read();
+                   $("#rschMainGrid").data("kendoGrid").dataSource.read();
                }
             }
         })
     },
+
+    fn_realCheck : function(key, status){
+        var data= {
+            pjtRschSn : key,
+            status: status
+        }
+
+        $.ajax({
+            url : "/projectRnd/updRschStatus",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    $("#rschMainGrid").data("kendoGrid").dataSource.read();
+                }
+            }
+        })
+    }
 
 }

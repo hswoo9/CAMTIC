@@ -1,11 +1,14 @@
 package egovframework.com.devjitsu.cam_project.service.impl;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRndRepository;
 import egovframework.com.devjitsu.cam_project.service.ProjectRndService;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
+import egovframework.com.devjitsu.gw.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +16,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +36,9 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     @Autowired
     private G20Repository g20Repository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public void setSubjectInfo(Map<String, Object> params) {
 
@@ -39,6 +46,15 @@ public class ProjectRndServiceImpl implements ProjectRndService {
             projectRndRepository.insSubjectInfo(params);
         } else {
             projectRndRepository.updSubjectInfo(params);
+            projectRndRepository.delAccountInfo(params);
+        }
+
+        if(params.get("sbjSep").toString().equals("Y")){
+            Gson gson = new Gson();
+            List<Map<String, Object>> ACCOUNT_LIST = new ArrayList<>();
+            ACCOUNT_LIST = gson.fromJson((String) params.get("accountList"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+            params.put("accountList", ACCOUNT_LIST);
+            projectRndRepository.insAccountInfo(params);
         }
 
     }
@@ -71,6 +87,11 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     @Override
     public void delRschData(Map<String, Object> params) {
         projectRndRepository.delRschData(params);
+    }
+
+    @Override
+    public void updRschStatus(Map<String, Object> params) {
+        projectRndRepository.updRschStatus(params);
     }
 
     @Override
@@ -154,10 +175,17 @@ public class ProjectRndServiceImpl implements ProjectRndService {
 
     @Override
     public void setRndDetail(Map<String, Object> params) {
+        Map<String, Object> map = userRepository.getUserInfo(params);
+        map.put("pjtSn", params.get("pjtSn"));
+        map.put("regEmpSeq", params.get("regEmpSeq"));
+        map.put("mngCheck", "Y");
+
         if(params.get("stat") == "ins" || "ins".equals(params.get("stat"))){
             projectRndRepository.insRndDetail(params);
+            projectRndRepository.insRschData(map);
         } else {
             projectRndRepository.updRndDetail(params);
+            projectRndRepository.updRschData(map);
         }
     }
 
@@ -167,7 +195,6 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         try{
 
             projectRepository.updTmpProjectCode(params);
-            projectRndRepository.setDelvApprove(params);
 
             // 결재 완료 처리
             projectRndRepository.updRndProjectInfo(params);
@@ -249,6 +276,11 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     }
 
     @Override
+    public List<Map<String, Object>> getAccountInfo(Map<String, Object> params) {
+        return projectRndRepository.getAccountInfo(params);
+    }
+
+    @Override
     public void setPartRateDetail(Map<String, Object> params) {
         projectRndRepository.insPartRateDetail(params);
     }
@@ -271,6 +303,37 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     @Override
     public void tmpUpdDevPlanApprove(Map<String, Object> params) {
         projectRndRepository.tmpUpdDevPlanApprove(params);
+    }
+
+    @Override
+    public void updateRndDelvDocState(Map<String, Object> bodyMap) throws Exception {
+        bodyMap.put("docSts", bodyMap.get("approveStatCode"));
+        String docSts = String.valueOf(bodyMap.get("docSts"));
+        String approKey = String.valueOf(bodyMap.get("approKey"));
+        String docId = String.valueOf(bodyMap.get("docId"));
+        String processId = String.valueOf(bodyMap.get("processId"));
+        String empSeq = String.valueOf(bodyMap.get("empSeq"));
+        approKey = approKey.split("_")[1];
+        System.out.println(approKey);
+        System.out.println(processId);
+        bodyMap.put("approKey", approKey);
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("pjtSn", approKey);
+        params.put("docName", bodyMap.get("formName"));
+        params.put("docId", docId);
+        params.put("docTitle", bodyMap.get("docTitle"));
+        params.put("approveStatCode", docSts);
+        params.put("empSeq", empSeq);
+
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+            projectRndRepository.updateRndDelvApprStat(params);
+        }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
+            projectRndRepository.updateRndDelvApprStat(params);
+        }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
+            params.put("approveStatCode", 100);
+            projectRndRepository.updateRndDelvFinalApprStat(params);
+        }
     }
 }
 

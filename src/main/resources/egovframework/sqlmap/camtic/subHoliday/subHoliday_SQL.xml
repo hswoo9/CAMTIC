@@ -531,4 +531,103 @@
                 HOLIDAY_ID = #{item.HOLIDAY_ID}
         </foreach>
     </update>
+
+    <select id="getHolidayList" parameterType="map" resultType="map">
+        /*getHolidayList*/
+        SELECT
+            HM.*,
+            DATE_FORMAT(HM.H_DAY, '%Y-%m-%d') AS hday,
+            CASE
+            WHEN HM.comp_seq = '1000' THEN '캠틱종합기술원'
+            END AS COMP_SEQ_NAME,
+            CASE
+                WHEN HM.use_yn = 'Y' THEN '사용'
+                WHEN HM.use_yn = 'N' THEN '미사용'
+            END AS USEYN
+        FROM
+            CAM_INSIDE.DJ_HOLIDAY_MANAGEMENT HM
+        WHERE
+            1=1
+        <if test='s_compSeq != null and s_compSeq != ""'>
+            AND HM.COMP_SEQ = #{s_compSeq}
+        </if>
+        <if test='s_useYn != null and s_useYn != ""'>
+            AND HM.USE_YN = #{s_useYn}
+        </if>
+        <if test='s_title != null and s_title != ""'>
+            AND HM.TITLE LIKE CONCAT('%', #{s_title}, '%')
+        </if>
+        <if test='year != null and year != ""'>
+            AND SUBSTRING(HM.H_DAY, 1, 4) = #{year}
+        </if>
+    </select>
+
+    <select id="getHoliday" parameterType="map" resultType="java.lang.Integer" >
+        /*공휴일자 갯수 조회*/
+        SELECT
+            count(*)
+        FROM
+            CAM_INSIDE.DJ_HOLIDAY_MANAGEMENT
+        WHERE
+            H_DAY = DATE_FORMAT(STR_TO_DATE(#{h_day}, '%Y-%m-%d'), '%Y%m%d')
+    </select>
+
+    <update id="updateHoliday" parameterType="map">
+        /*공휴일 수정*/
+        UPDATE
+            CAM_INSIDE.DJ_HOLIDAY_MANAGEMENT
+        SET
+            TITLE = #{title},
+            COMP_SEQ = #{comp_seq},
+            USE_YN = #{use_yn},
+            MODIFY_SEQ = #{loginVO.uniqId},
+            MODIFY_DATE = NOW()
+        WHERE
+            H_DAY = DATE_FORMAT(STR_TO_DATE(#{h_day}, '%Y-%m-%d'), '%Y%m%d')
+    </update>
+
+    <insert id="insertHoliday" parameterType="map">
+        /*공휴일 삽입*/
+        INSERT INTO
+            CAM_INSIDE.DJ_HOLIDAY_MANAGEMENT
+        (
+            H_DAY,
+            COMP_SEQ,
+            TITLE,
+            USE_YN,
+            REMARK,
+            CREATE_SEQ,
+            CREATE_DATE,
+            MODIFY_SEQ,
+            MODIFY_DATE,
+            TITLE_EN,
+            TITLE_JP,
+            TITLE_CN
+        )
+        VALUES
+            (
+                DATE_FORMAT(STR_TO_DATE(#{h_day}, '%Y-%m-%d'), '%Y%m%d'),
+                #{comp_seq},
+                #{title},
+                #{use_yn},
+                #{title},
+                #{loginVO.uniqId},
+                now(),
+                #{loginVO.uniqId},
+                now(),
+                NULL,
+                NULL,
+                NULL
+            )
+    </insert>
+
+    <delete id="deleteHoliday" parameterType="java.util.HashMap">
+        DELETE
+        FROM
+            CAM_INSIDE.DJ_HOLIDAY_MANAGEMENT
+        WHERE
+            H_DAY = DATE_FORMAT(STR_TO_DATE(#{h_day}, '%Y-%m-%d'), '%Y%m%d')
+    </delete>
+
+
 </mapper>

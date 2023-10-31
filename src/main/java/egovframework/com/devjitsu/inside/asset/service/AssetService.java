@@ -3,6 +3,8 @@ package egovframework.com.devjitsu.inside.asset.service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +18,7 @@ public interface AssetService {
     Map<String, Object> getAssetInfo(Map<String, Object> params);
     Map<String, Object> getAssetInfoAll(Map<String, Object> params);
     Map<String, Object> getAstManage();
+    void setAstOtherHistory(Map<String, Object> params);
     void setAstManage(Map<String, Object> params);
     void setAstInfoBatch(Map<String, Object> params);
 
@@ -65,6 +68,7 @@ public interface AssetService {
     Map<String, Object> getAstPdaInfo(Map<String, Object> params);
     void setAstPdaOptInspection(Map<String, Object> params);
     void setAssetInspectionUpload(Map<String, Object> params);
+    void setAppApkDownLoad(HttpServletRequest request, HttpServletResponse response);
 
 
     /** 지식재산권 */
