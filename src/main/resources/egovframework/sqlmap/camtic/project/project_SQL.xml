@@ -743,7 +743,13 @@
     </delete>
 
     <select id="getDevelopPlan" parameterType="map" resultType="map">
-        SELECT * FROM CAM_PJT_MNG.DJ_PJT_DEV
+        SELECT
+            A.*,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
+        FROM CAM_PJT_MNG.DJ_PJT_DEV A
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE PJT_SN = #{pjtSn}
         ORDER BY DEV_SN DESC LIMIT 1
     </select>

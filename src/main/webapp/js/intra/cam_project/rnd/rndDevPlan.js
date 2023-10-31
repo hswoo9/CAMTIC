@@ -47,14 +47,7 @@ var rndDP = {
 
         var resultMap = customKendo.fn_customAjax("/project/getDevelopPlan", data);
 
-        if(resultMap.rs.STATUS == 100){
-            $("#approveBtn2").css("display", "none");
-            $("#rsBtn2").css("display", "");
-        } else {
-            $("#approveBtn2").css("display", "");
-            $("#rsBtn2").css("display", "none");
-        }
-
+        rndDP.fn_buttonSet(resultMap.rs);
     },
 
 
@@ -431,5 +424,45 @@ var rndDP = {
 
     fn_docView : function (){
         // alert("열람");
+    },
+
+    fn_buttonSet : function(devMap){
+        var buttonHtml = "";
+        if(devMap != null){
+            var status = devMap.status;
+            if(status == "0"){
+                buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
+                buttonHtml += "<button type=\"button\" id=\"addVerBtn2\" style=\"float: right; margin-bottom: 5px; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"rndDP.fn_addVersion()\">예비원가 추가</button>";
+                buttonHtml += "<button type=\"button\" id=\"devAppBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.devDrafting()\">상신</button>";
+            }else if(status == "10"){
+                buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+devMap.DOC_ID+"', '"+devMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
+            }else if(status == "30" || status == "40"){
+                buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
+                buttonHtml += "<button type=\"button\" id=\"addVerBtn2\" style=\"float: right; margin-bottom: 5px; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"rndDP.fn_addVersion()\">예비원가 추가</button>";
+                buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('"+devMap.DOC_ID+"', '"+devMap.DOC_MENU_CD+"', '"+devMap.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
+
+            }else if(status == "100"){
+                buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+devMap.DOC_ID+"', '"+devMap.APPRO_KEY+"', '"+devMap.DOC_MENU_CD+"');\">열람</button>";
+            } else {
+                buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
+                buttonHtml += "<button type=\"button\" id=\"addVerBtn2\" style=\"float: right; margin-bottom: 5px; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"rndDP.fn_addVersion()\">예비원가 추가</button>";
+            }
+        } else {
+            buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
+            buttonHtml += "<button type=\"button\" id=\"addVerBtn2\" style=\"float: right; margin-bottom: 5px; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"rndDP.fn_addVersion()\">예비원가 추가</button>";
+        }
+        $("#devBtnDiv").html(buttonHtml);
+    },
+
+    devDrafting: function() {
+        $("#devDraftFrm").one("submit", function() {
+            var url = "/popup/cam_project/approvalFormPopup/rndDevApprovalPop.do";
+            var name = "_self";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            var popup = window.open(url, name, option);
+            this.action = "/popup/cam_project/approvalFormPopup/rndDevApprovalPop.do";
+            this.method = 'POST';
+            this.target = '_self';
+        }).trigger("submit");
     }
 }

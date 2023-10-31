@@ -678,6 +678,57 @@
             PJT_SN = #{pjtSn}
     </update>
 
+    <insert id="insPjtPsRnd" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_PS
+            (
+                PJT_SN,
+                PS_ROW,
+                PS_PREP,
+                PS_PREP_NM,
+                PS_NM,
+                PS_STR_DE,
+                PS_END_DE,
+                PS_EMP_SEQ,
+                PS_EMP_NM,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{pjtSn},
+                '0',
+                '0',
+                #{psPrepNm},
+                'RND',
+                DATE_FORMAT(NOW(), '%Y-%m-%d'),
+                DATE_FORMAT(NOW(), '%Y-%m-%d'),
+                #{EMP_SEQ},
+                #{EMP_NAME_KR},
+                #{regEmpSeq}
+            )
+        <selectKey keyProperty="PS_SN" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_PS'
+        </selectKey>
+    </insert>
+
+    <update id="updPjtPsRnd" parameterType="map">
+        /*updRschData*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_PS
+        SET
+            PS_EMP_SEQ = #{EMP_SEQ},
+            PS_EMP_NM = #{EMP_NAME_KR}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <delete id="delPjtPsRnd" parameterType="map">
+        /*delPjtPsRnd*/
+        DELETE FROM CAM_PJT_MNG.DJ_PJT_PS
+        WHERE
+            PJT_SN = #{pjtSn}
+        AND
+            PS_EMP_SEQ = #{empSeq}
+    </delete>
+
     <update id="updateRndDelvApprStat" parameterType="map">
         /* updateRndDelvApprStat */
         UPDATE CAM_PJT_MNG.DJ_PJT_RND
@@ -691,6 +742,48 @@
     <update id="updateRndDelvFinalApprStat" parameterType="map">
         /* updateRndDelvFinalApprStat */
         UPDATE CAM_PJT_MNG.DJ_PJT_RND
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updateRndDevApprStat" parameterType="map">
+        /* updateRndDevApprStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_DEV
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            DEV_SN = #{devSn}
+    </update>
+
+    <update id="updateRndDevFinalApprStat" parameterType="map">
+        /* updateRndDevFinalApprStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_DEV
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            DEV_SN = #{devSn}
+    </update>
+
+    <update id="updateRndResApprStat" parameterType="map">
+        /* updateRndResApprStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_RESULT
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updateRndResFinalApprStat" parameterType="map">
+        /* updateRndResFinalApprStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_RESULT
         SET
             STATUS = #{approveStatCode},
             APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),

@@ -8,6 +8,7 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/rnd/rndReqPartRate.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 
+<input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="step" value="R0" />
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="engnSn" value="${params.engnSn}" />

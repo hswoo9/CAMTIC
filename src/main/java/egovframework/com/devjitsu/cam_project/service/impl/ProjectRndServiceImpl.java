@@ -179,13 +179,16 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         map.put("pjtSn", params.get("pjtSn"));
         map.put("regEmpSeq", params.get("regEmpSeq"));
         map.put("mngCheck", "Y");
+        map.put("psPrepNm", "연구책임자");
 
         if(params.get("stat") == "ins" || "ins".equals(params.get("stat"))){
             projectRndRepository.insRndDetail(params);
             projectRndRepository.insRschData(map);
+            projectRndRepository.insPjtPsRnd(map);
         } else {
             projectRndRepository.updRndDetail(params);
             projectRndRepository.updRschData(map);
+            projectRndRepository.updPjtPsRnd(map);
         }
     }
 
@@ -306,6 +309,20 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     }
 
     @Override
+    public void delPjtPsRnd(Map<String, Object> params) {
+        projectRndRepository.delPjtPsRnd(params);
+    }
+
+    @Override
+    public void insPjtPsRnd(Map<String, Object> params) {
+        Map<String, Object> map = userRepository.getUserInfo(params);
+        params.put("EMP_SEQ", map.get("EMP_SEQ"));
+        params.put("EMP_NAME_KR", map.get("EMP_NAME_KR"));
+        params.put("psPrepNm", "참여인력");
+        projectRndRepository.insPjtPsRnd(params);
+    }
+
+    @Override
     public void updateRndDelvDocState(Map<String, Object> bodyMap) throws Exception {
         bodyMap.put("docSts", bodyMap.get("approveStatCode"));
         String docSts = String.valueOf(bodyMap.get("docSts"));
@@ -333,6 +350,68 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             projectRndRepository.updateRndDelvFinalApprStat(params);
+        }
+    }
+
+    @Override
+    public void updateRndDevDocState(Map<String, Object> bodyMap) throws Exception {
+        bodyMap.put("docSts", bodyMap.get("approveStatCode"));
+        String docSts = String.valueOf(bodyMap.get("docSts"));
+        String approKey = String.valueOf(bodyMap.get("approKey"));
+        String docId = String.valueOf(bodyMap.get("docId"));
+        String processId = String.valueOf(bodyMap.get("processId"));
+        String empSeq = String.valueOf(bodyMap.get("empSeq"));
+        approKey = approKey.split("_")[1];
+        System.out.println(approKey);
+        System.out.println(processId);
+        bodyMap.put("approKey", approKey);
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("pjtSn", approKey);
+        params.put("docName", bodyMap.get("formName"));
+        params.put("docId", docId);
+        params.put("docTitle", bodyMap.get("docTitle"));
+        params.put("approveStatCode", docSts);
+        params.put("empSeq", empSeq);
+
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+            projectRndRepository.updateRndDevApprStat(params);
+        }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
+            projectRndRepository.updateRndDevApprStat(params);
+        }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
+            params.put("approveStatCode", 100);
+            projectRndRepository.updateRndDevFinalApprStat(params);
+        }
+    }
+
+    @Override
+    public void updateRndResDocState(Map<String, Object> bodyMap) throws Exception {
+        bodyMap.put("docSts", bodyMap.get("approveStatCode"));
+        String docSts = String.valueOf(bodyMap.get("docSts"));
+        String approKey = String.valueOf(bodyMap.get("approKey"));
+        String docId = String.valueOf(bodyMap.get("docId"));
+        String processId = String.valueOf(bodyMap.get("processId"));
+        String empSeq = String.valueOf(bodyMap.get("empSeq"));
+        approKey = approKey.split("_")[1];
+        System.out.println(approKey);
+        System.out.println(processId);
+        bodyMap.put("approKey", approKey);
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("pjtSn", approKey);
+        params.put("docName", bodyMap.get("formName"));
+        params.put("docId", docId);
+        params.put("docTitle", bodyMap.get("docTitle"));
+        params.put("approveStatCode", docSts);
+        params.put("empSeq", empSeq);
+
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+            projectRndRepository.updateRndResApprStat(params);
+        }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
+            projectRndRepository.updateRndResApprStat(params);
+        }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
+            params.put("approveStatCode", 100);
+            projectRndRepository.updateRndResFinalApprStat(params);
         }
     }
 }

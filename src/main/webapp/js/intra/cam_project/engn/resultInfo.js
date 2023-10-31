@@ -1,9 +1,7 @@
 var resultInfo = {
 
-
-    fn_defaultScript : function (){
-
-        customKendo.fn_textBox(["rsPjtSn", "rsPjtNm","rsActEquip"])
+    fn_defaultScript: function(){
+        customKendo.fn_textBox(["rsPjtSn", "rsPjtNm", "rsActEquip"]);
 
         $("#rsPrototype").kendoDropDownList({
             dataTextField: "text",
@@ -17,47 +15,45 @@ var resultInfo = {
         customKendo.fn_datePicker("rsStrDt", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("rsEndDt", "month", "yyyy-MM-dd", new Date());
 
-        $("#rsSupCont, #rsIss, #rsEtc").kendoTextArea({
-            rows : 5
-        });
-        var data = {
-            pjtSn : $("#pjtSn").val(),
-        }
-        $.ajax({
-            url : "/project/engn/getResultInfo",
-            type : "post",
-            dataType : "json",
-            data : data,
-            success : function(rs){
-                if(rs.result.map != null){
-                    $("#rsIss").val(rs.result.map.RS_ISS);
-                    $("#rsSupCont").val(rs.result.map.SUP_CONT);
-                    $("#rsActEquip").val(rs.result.map.RS_ACT_EQUIP);
-                    $("#rsEndDt").val(rs.result.map.RS_END_DT);
-                    $("#rsStrDt").val(rs.result.map.RS_STR_DT);
-                    $("#rsEtc").val(rs.result.map.RS_ETC);
+        $("#rsSupCont, #rsIss, #rsEtc").kendoTextArea({ rows: 5 });
 
-                }
-
-                if(rs.result.designFileList != null){
-                    $("#designImgName").text(rs.result.designFileList.file_org_name + "." +rs.result.designFileList.file_ext);
-                }
-
-                if(rs.result.prodFileList != null){
-                    $("#prodImgName").text(rs.result.prodFileList.file_org_name + "." +rs.result.prodFileList.file_ext);
-                }
-
-                /** 버튼 세팅 */
-                resultInfo.buttonSet(rs.result.map);
-
-                resultInfo.fn_makeRow(rs);
-            }
-        });
+        resultInfo.fn_setData();
     },
 
-    fn_makeRow: function(rs){
-        var data= {
-            pjtSn :$("#pjtSn").val()
+    fn_setData: function(){
+        var data = {
+            pjtSn: $("#pjtSn").val(),
+        }
+
+        var resultMap = customKendo.fn_customAjax("/project/engn/getResultInfo", data);
+        var result = resultMap.result;
+        console.log(resultMap);
+
+        if(result.map != null){
+            $("#rsIss").val(result.map.RS_ISS);
+            $("#rsSupCont").val(result.map.SUP_CONT);
+            $("#rsActEquip").val(result.map.RS_ACT_EQUIP);
+            $("#rsEndDt").val(result.map.RS_END_DT);
+            $("#rsStrDt").val(result.map.RS_STR_DT);
+            $("#rsEtc").val(result.map.RS_ETC);
+
+            /** 버튼 세팅 */
+            resultInfo.fn_setButton(result.map);
+        }
+
+        if(result.designFileList != null){
+            $("#designImgName").text(result.designFileList.file_org_name + "." +result.designFileList.file_ext);
+        }
+
+        if(result.prodFileList != null){
+            $("#prodImgName").text(result.prodFileList.file_org_name + "." +result.prodFileList.file_ext);
+        }
+        resultInfo.fn_makeRowEngn(resultMap);
+    },
+
+    fn_makeRowEngn: function(rs){
+        var data = {
+            pjtSn: $("#pjtSn").val()
         }
         const result = customKendo.fn_customAjax("/project/engn/getResultPsMember", data);
         const ls = result.list;
@@ -67,14 +63,14 @@ var resultInfo = {
         html += '<tr>';
         html += '   <td style="text-align: center; background-color: #dee4ed"></td>';
         html += '   <td style="text-align: center; background-color: #dee4ed">총금액</td>';
-        for(var i = 0 ; i < ls.length ; i++) {
+        for(var i=0; i<ls.length; i++){
             html += '   <td colspan="2" style="text-align: center; background-color: #dee4ed">'+ls[i].PS_EMP_NM+'</td>';
         }
         html += '</tr>';
 
         /** 매출 금액 계산 */
         var invAmt = 0;
-        for(var i = 0; i < rs.invInfo.length ; i++){
+        for(var i=0; i<rs.invInfo.length; i++){
             invAmt += rs.invInfo[i].EST_TOT_AMT;
         }
 
@@ -84,25 +80,25 @@ var resultInfo = {
         html += '   <td>' +
             '           <input type="text" disabled id="resultDelvTotAmt" value="0" style="text-align: right" onkeyup="resultInfo.inputNumberFormat(this)" oninput="resultInfo.onlyNumber(this)" />' +
             '       </td>';
-        for(var i = 0 ; i < ls.length ; i++){
+        for(var i=0; i<ls.length; i++){
             var value = 0;
             var calcAmt = 0;
             var type = "";
-            if(ls[i].PS_PREP == 1){
+            if(ls[i].PS_PREP == 1 || (ls[i].PS_PREP == 0 && i==0)){
                 type = "A";
                 if(rs.result.map != undefined){
                     if(rs.result.map.DELV_PREP_A != null && rs.result.map.DELV_PREP_A != ""){
                         value = rs.result.map.DELV_PREP_A;
                     }
                 }
-            } else if (ls[i].PS_PREP == 2){
+            } else if (ls[i].PS_PREP == 2 || (ls[i].PS_PREP == 0 && i==1)){
                 type = "B";
                 if(rs.result.map != undefined) {
                     if (rs.result.map.DELV_PREP_B != null && rs.result.map.DELV_PREP_B != "") {
                         value = rs.result.map.DELV_PREP_B;
                     }
                 }
-            } else if (ls[i].PS_PREP == 3){
+            } else if (ls[i].PS_PREP == 3 || (ls[i].PS_PREP == 0 && i==2)){
                 type = "C";
                 if(rs.result.map != undefined) {
                     if (rs.result.map.DELV_PREP_C != null && rs.result.map.DELV_PREP_C != "") {
@@ -127,25 +123,26 @@ var resultInfo = {
         html += '   <td>' +
             '           <input type="text" disabled id="resultInvTotAmt" value="0" style="text-align: right" onkeyup="resultInfo.inputNumberFormat(this)" oninput="resultInfo.onlyNumber(this)" />' +
             '       </td>';
-        for(var i = 0 ; i < ls.length ; i++){
+
+        for(var i=0; i<ls.length; i++){
             var value = 0;
             var calcAmt = 0;
             var type = "";
-            if(ls[i].PS_PREP == 1){
+            if(ls[i].PS_PREP == 1 || (ls[i].PS_PREP == 0 && i==0)){
                 type = "A";
                 if(rs.result.map != undefined){
                     if(rs.result.map.INV_PREP_A != null && rs.result.map.INV_PREP_A != ""){
                         value = rs.result.map.INV_PREP_A;
                     }
                 }
-            } else if (ls[i].PS_PREP == 2){
+            } else if (ls[i].PS_PREP == 2 || (ls[i].PS_PREP == 0 && i==1)){
                 type = "B";
                 if(rs.result.map != undefined) {
                     if (rs.result.map.INV_PREP_B != null && rs.result.map.INV_PREP_B != "") {
                         value = rs.result.map.INV_PREP_B;
                     }
                 }
-            } else if (ls[i].PS_PREP == 3){
+            } else if (ls[i].PS_PREP == 3 || (ls[i].PS_PREP == 0 && i==2)){
                 type = "C";
                 if(rs.result.map != undefined) {
                     if (rs.result.map.INV_PREP_C != null && rs.result.map.INV_PREP_C != "") {
@@ -170,25 +167,26 @@ var resultInfo = {
         html += '   <td>' +
             '           <input type="text" disabled id="resultTotAmt" value="0" style="text-align: right" onkeyup="resultInfo.inputNumberFormat(this)" oninput="resultInfo.onlyNumber(this)" />' +
             '       </td>';
-        for(var i = 0 ; i < ls.length ; i++){
+
+        for(var i=0; i<ls.length; i++){
             var value = 0;
             var calcAmt = 0;
             var type = "";
-            if(ls[i].PS_PREP == 1){
+            if(ls[i].PS_PREP == 1 || (ls[i].PS_PREP == 0 && i==0)){
                 type = "A";
                 if(rs.result.map != undefined){
                     if(rs.result.map.PREP_A != null && rs.result.map.PREP_A != ""){
                         value = rs.result.map.PREP_A;
                     }
                 }
-            } else if (ls[i].PS_PREP == 2){
+            } else if (ls[i].PS_PREP == 2 || (ls[i].PS_PREP == 0 && i==1)){
                 type = "B";
                 if(rs.result.map != undefined) {
                     if (rs.result.map.PREP_B != null && rs.result.map.PREP_B != "") {
                         value = rs.result.map.PREP_B;
                     }
                 }
-            } else if (ls[i].PS_PREP == 3){
+            } else if (ls[i].PS_PREP == 3 || (ls[i].PS_PREP == 0 && i==2)){
                 type = "C";
                 if(rs.result.map != undefined) {
                     if (rs.result.map.PREP_C != null && rs.result.map.PREP_C != "") {
@@ -290,32 +288,26 @@ var resultInfo = {
         return resultInfo.inputNumberFormat(obj);
     },
 
-    buttonSet: function(resMap){
+    fn_setButton: function(resMap){
         let buttonHtml = "";
-        if(resMap != null){
-            if(resMap.STATUS == "0"){
-                buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>';
-                buttonHtml += '<button type="button" id="resAppBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-info" onclick="resultInfo.resDrafting()">상신</button>';
-            }else if(resMap.STATUS == "10"){
-                buttonHtml += '<button type="button" id="delvCanBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+resMap.DOC_ID+'\', \''+resMap.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
-            }else if(resMap.STATUS == "30" || resMap.STATUS == "40"){
-                buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>';
-                buttonHtml += '<button type="button" id="delvCanBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+resMap.DOC_ID+'\', \''+resMap.DOC_MENU_CD+'\', \''+resMap.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
-            }else if(resMap.STATUS == "100"){
-                buttonHtml += '<button type="button" id="delvCanBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+resMap.DOC_ID+'\', \''+resMap.APPRO_KEY+'\', \''+resMap.DOC_MENU_CD+'\');">열람</button>';
-            }else{
-                buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>';
-            }
-        } else {
+        if(resMap.STATUS == "0"){
+            buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>';
+            buttonHtml += '<button type="button" id="resAppBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-info" onclick="resultInfo.resDrafting()">상신</button>';
+        }else if(resMap.STATUS == "10"){
+            buttonHtml += '<button type="button" id="delvCanBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+resMap.DOC_ID+'\', \''+resMap.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
+        }else if(resMap.STATUS == "30" || resMap.STATUS == "40"){
+            buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>';
+            buttonHtml += '<button type="button" id="delvCanBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+resMap.DOC_ID+'\', \''+resMap.DOC_MENU_CD+'\', \''+resMap.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
+        }else if(resMap.STATUS == "100"){
+            buttonHtml += '<button type="button" id="delvCanBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+resMap.DOC_ID+'\', \''+resMap.APPRO_KEY+'\', \''+resMap.DOC_MENU_CD+'\');">열람</button>';
+        }else{
             buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>';
         }
 
         $("#resultBtnDiv").html(buttonHtml);
     },
 
-    fn_save : function (){
-
-
+    fn_save: function (){
         var delvA = $("#prepA").val();
         var delvB = $("#prepB").val();
         var delvC = $("#prepC").val();
@@ -328,35 +320,17 @@ var resultInfo = {
         var B = $("#prepB").val();
         var C = $("#prepC").val();
 
-        if(delvA == undefined){
-            delvA = 0;
-        }
-        if(delvB == undefined){
-            delvB = 0;
-        }
-        if(delvC == undefined){
-            delvC = 0;
-        }
+        if(delvA == undefined){ delvA = 0; }
+        if(delvB == undefined){ delvB = 0; }
+        if(delvC == undefined){ delvC = 0; }
 
-        if(invA == undefined){
-            invA = 0;
-        }
-        if(invB == undefined){
-            invB = 0;
-        }
-        if(invC == undefined){
-            invC = 0;
-        }
+        if(invA == undefined){ invA = 0; }
+        if(invB == undefined){ invB = 0; }
+        if(invC == undefined){ invC = 0; }
 
-        if(A == undefined){
-            A = 0;
-        }
-        if(B == undefined){
-            B = 0;
-        }
-        if(C == undefined){
-            C = 0;
-        }
+        if(A == undefined){ A = 0; }
+        if(B == undefined){ B = 0; }
+        if(C == undefined){ C = 0; }
 
         if((Number(delvA) + Number(delvB) + Number(delvC)) > 100){
             alert("수주 실적률이 100%를 초과하였습니다.");
@@ -389,25 +363,24 @@ var resultInfo = {
         }
 
         var data = {
-            pjtSn : $("#pjtSn").val(),
-            prototype : $("#rsPrototype").val(),
-            supCont : $("#rsSupCont").val(),
-            rsIss : $("#rsIss").val(),
-            rsEtc : $("#rsEtc").val(),
-            rsStrDt : $("#rsStrDt").val(),
-            rsEndDt : $("#rsEndDt").val(),
-            rsActEquip : $("#rsActEquip").val(),
-            empSeq : $("#empSeq").val(),
+            pjtSn: $("#pjtSn").val(),
+            prototype: $("#rsPrototype").val(),
+            supCont: $("#rsSupCont").val(),
+            rsIss: $("#rsIss").val(),
+            rsEtc: $("#rsEtc").val(),
+            rsStrDt: $("#rsStrDt").val(),
+            rsEndDt: $("#rsEndDt").val(),
+            rsActEquip: $("#rsActEquip").val(),
+            empSeq: $("#empSeq").val(),
 
-            step : $("#step").val(),
-            stepColumn : $("#stepColumn").val(),
-            nextStepColumn : $("#nextStepColumn").val(),
-            stepValue : $("#stepValue").val(),
-            nextStepValue : $("#nextStepValue").val(),
+            step: $("#step").val(),
+            stepColumn: $("#stepColumn").val(),
+            nextStepColumn: $("#nextStepColumn").val(),
+            stepValue: $("#stepValue").val(),
+            nextStepValue: $("#nextStepValue").val()
         }
 
         var fd = new FormData();
-
 
         if($("#delvPrepA").val() != undefined){
             data.delvPrepA = $("#delvPrepA").val();
@@ -448,7 +421,6 @@ var resultInfo = {
             fd.append("prepC", data.prepC);
         }
 
-
         fd.append("pjtSn", data.pjtSn);
         fd.append("prototype", data.prototype);
         fd.append("supCont", data.supCont);
@@ -474,39 +446,48 @@ var resultInfo = {
         }
 
         $.ajax({
-            url : "/project/engn/setResultInfo",
-            data : fd,
-            type : "post",
-            dataType : "json",
+            url: "/project/engn/setResultInfo",
+            data: fd,
+            type: "post",
+            dataType: "json",
             contentType: false,
             processData: false,
             enctype: 'multipart/form-data',
             async: false,
             success: function(rs){
                 if(rs.code == 200){
-                    window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=7";
+                    if($("#busnClass").val() == "D"){
+                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=7";
+                    }else if($("#busnClass").val() == "R"){
+                        window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=7";
+                    }
                 }
             }
         });
     },
 
-    fileChange : function(e){
+    fileChange: function(e){
         $(e).next().text($(e)[0].files[0].name);
     },
 
-    resDrafting: function() {
-        $("#resDraftFrm").one("submit", function() {
-            var url = "/popup/cam_project/approvalFormPopup/resApprovalPop.do";
+    resDrafting: function(){
+        $("#resDraftFrm").one("submit", function(){
+            var url = "";
+            if($("#busnClass").val() == "D"){
+                url = "/popup/cam_project/approvalFormPopup/resApprovalPop.do";
+            }else if($("#busnClass").val() == "R"){
+                url = "/popup/cam_project/approvalFormPopup/rndResApprovalPop.do";
+            }
             var name = "_self";
             var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
             var popup = window.open(url, name, option);
-            this.action = "/popup/cam_project/approvalFormPopup/resApprovalPop.do";
+            this.action = url;
             this.method = 'POST';
             this.target = '_self';
         }).trigger("submit");
     },
 
-    inputNumberFormat : function (obj){
+    inputNumberFormat: function(obj){
         obj.value = resultInfo.comma(resultInfo.uncomma(obj.value));
     },
 
@@ -514,12 +495,12 @@ var resultInfo = {
         e.value = e.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
     },
 
-    comma: function(str) {
+    comma: function(str){
         str = String(str);
         return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
     },
 
-    uncomma: function(str) {
+    uncomma: function(str){
         str = String(str);
         return str.replace(/[^\d]+/g, '');
     },
