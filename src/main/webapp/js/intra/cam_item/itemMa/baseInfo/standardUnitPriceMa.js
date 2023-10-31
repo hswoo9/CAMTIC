@@ -122,6 +122,7 @@ var supM = {
 
     gridReload: function (){
         supM.global.searchAjaxData = {
+            masterSn : $("#masterSn").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
         }
@@ -134,6 +135,13 @@ var supM = {
         var name = "_blank";
         var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    masterSnReset : function(){
+        $("#masterSn").val("");
+        $("#itemNo").val("");
+        $("#itemName").val("");
+        supM.gridReload()
     },
 
     fn_popStandardUnitPriceReg : function (e){

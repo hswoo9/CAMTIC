@@ -8,15 +8,35 @@
         SELECT
             IM.*,
             MSU.*,
+            ITC.ITEM_CD_NM AS ITEM_TYPE_NM,
+            WHC.ITEM_CD_NM AS WH_CD_NM,
+            IUC.ITEM_CD_NM AS ITEM_UNIT_NM,
             (SELECT REG_EMP_NAME FROM CAM_ITEM.DJ_ITEM_MASTER_SD_UP WHERE MASTER_SN = IM.MASTER_SN AND CHANGE_NUM = 1) AS REG_EMP_NAME,
             (SELECT REG_EMP_NAME FROM CAM_ITEM.DJ_ITEM_MASTER_SD_UP WHERE MASTER_SN = IM.MASTER_SN AND CHANGE_NUM != 1 ORDER BY CHANGE_NUM DESC LIMIT 1) AS MOD_EMP_NAME
         FROM
             CAM_ITEM.DJ_ITEM_MASTER IM
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD ITC
+        ON ITC.LG_CD = 'IT' AND IM.ITEM_TYPE = ITC.ITEM_CD
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD WHC
+        ON WHC.LG_CD = 'WH' AND IM.WH_CD = WHC.ITEM_CD
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD IUC
+        ON IUC.LG_CD = 'UNIT' AND IM.ITEM_UNIT_CD = IUC.ITEM_CD
         LEFT JOIN
             CAM_ITEM.DJ_ITEM_MASTER_SD_UP MSU
         ON MSU.MASTER_SN = IM.MASTER_SN AND MSU.ACTIVE = 'Y'
 
         WHERE 1=1
+        <if test='masterSn != null and !"".equals(masterSn)'>
+            AND IM.MASTER_SN = #{masterSn}
+        </if>
+
+        <if test='itemType != null and !"".equals(itemType)'>
+            AND IM.ITEM_TYPE = #{itemType}
+        </if>
+
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword)'>
                 AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
@@ -1594,5 +1614,17 @@
             </otherwise>
         </choose>
 
+    </update>
+
+    <update id="setSafetyInvenUpd" parameterType="map">
+        /* setSafetyInvenUpd */
+        UPDATE
+            CAM_ITEM.DJ_ITEM_MASTER
+        SET
+            SAFETY_INVEN = #{safetyInven},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            MASTER_SN = #{masterSn}
     </update>
 </mapper>

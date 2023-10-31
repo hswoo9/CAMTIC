@@ -78,22 +78,16 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>안전재고</th>
-                        <td>
-                            <input type="text" id="safetyInven" name="safetyInven" value="0">
-                        </td>
                         <th>
                             <span class="red-star">*</span>입고창고
                         </th>
                         <td>
                             <input type="text" id="whCd" name="whCd" style="width: 50%">
                         </td>
-                    </tr>
-                    <tr>
                         <th>
                             <span class="red-star">*</span>사용여부
                         </th>
-                        <td colspan="3">
+                        <td>
                             <input type="text" id="active" name="active" style="width: 150px">
                         </td>
                     </tr>
