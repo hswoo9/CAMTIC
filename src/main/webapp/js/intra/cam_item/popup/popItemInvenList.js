@@ -6,9 +6,6 @@ var popItemInvenList = {
 
     fn_defaultScript: function (){
         popItemInvenList.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
-        if($("#reg").val() == "shipmentRecord"){
-            popItemInvenList.global.dropDownDataSource = popItemInvenList.global.dropDownDataSource.filter(element => element.ITEM_CD == "PR" || element.ITEM_CD == "SM")
-        }
         customKendo.fn_dropDownList("whCd", popItemInvenList.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
         $("#whCd").data("kendoDropDownList").bind("change", popItemInvenList.gridReload);
 

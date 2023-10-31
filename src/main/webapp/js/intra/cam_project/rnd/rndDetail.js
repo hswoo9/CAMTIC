@@ -68,6 +68,23 @@ var rndDetail = {
             parameters.stat = "ins"
         }
 
+        if(parameters.mngEmpSeq == ""){
+            alert("연구책임자를 선택해주세요.");
+            return;
+        }
+        if(parameters.bankSn == ""){
+            alert("출금대표통장을 선택해주세요.");
+            return;
+        }
+        if(parameters.bankNo == ""){
+            alert("계좌번호를 작성해주세요.");
+            return;
+        }
+        if(parameters.accHold == ""){
+            alert("예금주를 작성해주세요.");
+            return;
+        }
+
         $.ajax({
             url : "/projectRnd/setRndDetail",
             data : parameters,

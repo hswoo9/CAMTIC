@@ -93,14 +93,30 @@ var oor = {
         }
 
         var flag = true;
+        var flagMessage = "";
         $.each($(".orInfo"), function(i, v){
-            if(!$(this).find("#crmSn" + i).val() || !$(this).find("#masterSn" + i).val() || !$(this).find("#orderVolume" + i).val()
-                || !$(this).find("#unitPrice" + i).val() || !$(this).find("#amt" + i).val()){
+            if(!$(this).find("#crmSn" + i).val()){
                 flag = false;
+                flagMessage = "업체를 선택해주세요.";
+            }else if(!$(this).find("#masterSn" + i).val()){
+                flag = false;
+                flagMessage = "품번을 선택해주세요.";
+            }else if(!$(this).find("#dueDt" + i).val()){
+                flag = false;
+                flagMessage = "납기일을 선택해주세요.";
+            }else if($(this).find("#orderVolume" + i).val() == '0'){
+                flag = false;
+                flagMessage = "수주량을 확인해주세요.";
+            }else if(!$(this).find("#unitPrice" + i).val()){
+                flag = false;
+                flagMessage = "단가를 확인해주세요.";
+            }else if(!$(this).find("#amt" + i).val()){
+                flag = false;
+                flagMessage = "수주금액을 확인해주세요.";
             }
 
             if(!flag){
-                alert("입력하지 않은 항목이 있습니다.");
+                alert(flagMessage);
                 return flag;
             }
         })
@@ -159,6 +175,8 @@ var oor = {
 
         $("#crmSn").val("")
         $("#crmNm").val("")
+
+        oor.getItemUnitPrice(oor.global.crmIndex);
     },
 
     fn_popItemNoList : function (masterSnIndex){
@@ -180,6 +198,41 @@ var oor = {
         $("#itemNo").val("")
         $("#itemName").val("")
         $("#standard").val("")
+
+        oor.getItemUnitPrice(oor.global.masterSnIndex);
+    },
+
+    getItemUnitPrice : function(e){
+        if(!$("#masterSn" + e).val()){
+            return;
+        }
+
+        oor.global.searchAjaxData = {
+            crmSn : $("#crmSn" + e).val(),
+            masterSn : $("#masterSn" + e).val(),
+            busClass : "R"
+        }
+
+        var result = customKendo.fn_customAjax("/item/getItemUnitPrice.do", oor.global.searchAjaxData);
+        if(result.flag){
+            if(result.rs != null){
+                oor.global.unitPriceId = "unitPrice" + e;
+                $("#unitPrice").val(result.rs.UNIT_PRICE);
+                oor.unitPriceChange();
+            }else{
+                $("#unitPrice").val(0);
+                oor.unitPriceChange();
+            }
+        }
+    },
+
+    unitPriceChange : function(){
+        $("#" + oor.global.unitPriceId).val(oor.comma($("#unitPrice").val()));
+        var orderVolume = Number(oor.uncomma($("#" + oor.global.unitPriceId).closest("tr").find("input.orderVolume").val()));
+        var unitPrice = Number($("#unitPrice").val());
+        $("#" + oor.global.unitPriceId).closest("tr").find("input.amt").val(oor.comma(Number(orderVolume * unitPrice)));
+
+        $("#unitPrice").val("")
     },
 
     comma: function(str) {

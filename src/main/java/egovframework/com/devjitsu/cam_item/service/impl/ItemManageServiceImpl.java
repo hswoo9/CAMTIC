@@ -108,6 +108,7 @@ public class ItemManageServiceImpl implements ItemManageService {
         if(oorlArr.size() > 0){
             for(Map<String, Object> map : oorlArr){
                 itemManageRepository.setDeadlineUpd(map);
+                itemManageRepository.setShipmentRecord(map);
             }
         }
     }
@@ -147,22 +148,115 @@ public class ItemManageServiceImpl implements ItemManageService {
     }
 
     @Override
-    public void setShipmentRecord(Map<String, Object> params) {
+    public Map<String, Object> getShipmentInvenChk(Map<String, Object> params) {
+        Map<String, Object> returnMap = new HashMap<>();
+        List<Map<String, Object>> shipmentlist = new ArrayList<>();
+        Gson gson = new Gson();
+        List<Map<String, Object>> shipmentArr = gson.fromJson((String) params.get("shipmentArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        for(Map<String, Object> map : shipmentArr){
+            shipmentlist.addAll(itemManageRepository.getShipmentList(map));
+        }
+
+        String message = "";
+        for(Map<String, Object> map : shipmentlist){
+
+            int reqQty = Integer.parseInt(map.get("REQ_QTY").toString());
+            int invenCnt = Integer.parseInt(map.get("INVEN_CNT").toString());
+            int currentInven = Integer.parseInt(map.get("CURRENT_INVEN").toString());
+            int safetyInven = Integer.parseInt(map.get("SAFETY_INVEN").toString());
+
+            if(reqQty > 0){
+                /** 재고 조회 */
+                if(currentInven == 0){
+                    returnMap.put("error", "999");
+                    message += map.get("ITEM_NO") + " " + map.get("ITEM_NAME")  + " - [재고 부족]\n";
+                }else if(reqQty > currentInven){
+                    returnMap.put("error", "999");
+                    message += map.get("ITEM_NO") + " " + map.get("ITEM_NAME")  + " - [재고 부족]\n";
+                }else if((currentInven - reqQty) < safetyInven){
+                    returnMap.put("error", "999");
+                    message += map.get("ITEM_NO") + " " + map.get("ITEM_NAME")  + " - [안전재고미달 부족]\n";
+                }else{
+                    returnMap.put("success", "200");
+                }
+
+                /** 창고 조회 */
+                if(!StringUtils.isEmpty(returnMap.get("success"))) {
+                    if (invenCnt == 0) {
+                        returnMap.put("error", "999");
+                        message += map.get("ITEM_NO") + " " + map.get("ITEM_NAME") + " - [미입고 재고]\n";
+                    } else if (invenCnt > 1) {
+                        returnMap.put("whCd", "whCd");
+                        message += map.get("ITEM_NO") + " " + map.get("ITEM_NAME") + " - [출고창고지정 필요]\n";
+                    } else {
+                        returnMap.put("success", "200");
+                    }
+                }
+            }else{
+                returnMap.put("success", "200");
+            }
+
+        }
+
+        returnMap.put("message", message);
+
+        return returnMap;
+    }
+
+    @Override
+    public List<Map<String, Object>> getFwWhCdDesignList(Map<String, Object> params) {
+        Map<String, Object> searchMap = new HashMap<>();
+        List<Map<String, Object>> itemMasterList = itemSystemRepository.getItemMasterList(params);
+        for(Map<String, Object> map : itemMasterList){
+            searchMap.put("masterSn", map.get("MASTER_SN"));
+            searchMap.put("reg", "shipmentRecord");
+            map.put("whCdList", itemManageRepository.getItemInvenList(searchMap));
+        }
+
+        return itemMasterList;
+    }
+
+    @Override
+    public void getFwWhCdDesign(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> smRecordSnArr = gson.fromJson((String) params.get("smRecordSnArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        List<Map<String, Object>> transferArr = gson.fromJson((String) params.get("transferArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        for(Map<String, Object> map : smRecordSnArr){
+            itemManageRepository.setDeliveryAmtUpd(map);
+            itemManageRepository.getShipmentDeliveryAmtUpd(map);
+        }
+
+        if(transferArr.size() > 0){
+            for(Map<String, Object> map : transferArr){
+                Map<String, Object> searchMap = new HashMap<>();
+                searchMap.put("masterSn", map.get("masterSn"));
+                if(!StringUtils.isEmpty(map.get("forwardingWhCd"))){
+                    searchMap.put("whCd", map.get("forwardingWhCd"));
+                }
+                searchMap = itemManageRepository.getItemInvenValidation(searchMap);
+
+                map.put("invenSn", searchMap.get("INVEN_SN"));
+                map.put("currentInven", searchMap.get("CURRENT_INVEN"));
+
+                if(StringUtils.isEmpty(map.get("forwardingWhCd"))){
+                    map.put("forwardingWhCd", searchMap.get("WH_CD"));
+                }
+            }
+
+            params.put("newRateArr", transferArr);
+            itemManageRepository.setInvenTransferReg(params);
+        }
+    }
+
+    @Override
+    public void setShipmentDeadlineUpd(Map<String, Object> params) {
         Gson gson = new Gson();
         List<Map<String, Object>> srArr = gson.fromJson((String) params.get("srArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
         if(srArr.size() > 0){
             for(Map<String, Object> map : srArr){
-                if(StringUtils.isEmpty(map.get("smRecordSn"))){
-                    itemManageRepository.setShipmentRecord(map);
-                }else{
-                    itemManageRepository.setShipmentRecordUpd(map);
-                }
+                itemManageRepository.setUnPaidTypeUpd(map);
+                itemManageRepository.setShipmentDeadlineUpd(map);
             }
-        }
-        List<Map<String, Object>> transferArr = gson.fromJson((String) params.get("transferArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
-        if(transferArr.size() > 0){
-            params.put("newRateArr", transferArr);
-            itemManageRepository.setInvenTransferReg(params);
         }
     }
 

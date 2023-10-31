@@ -263,6 +263,10 @@
             AND MASTER_SN NOT IN(SELECT MASTER_SN FROM CAM_ITEM.DJ_CRM_ITEM_MANGE WHERE CRM_SN = #{crmSn})
         </if>
 
+        <if test='itemSnList != null and !"".equals(itemSnList)'>
+            AND IM.MASTER_SN IN (${itemSnList})
+        </if>
+
         ORDER BY IM.REG_DT DESC
     </select>
 
