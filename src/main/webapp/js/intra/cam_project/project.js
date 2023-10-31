@@ -15,15 +15,9 @@ var camPrj = {
             dataValueField: "value",
             dataSource: [
                 { text: "전체", value: "" },
-                { text: "예상수주", value: "E" },
-                { text: "미수주", value: "Y" },
-                { text: "견적관리", value: "E1" },
-                { text: "수주보고", value: "E2" },
-                { text: "개발계획", value: "E3" },
-                { text: "공정", value: "E4" },
-                { text: "납품", value: "E5" },
-                { text: "결과보고", value: "E6" },
-                { text: "원가보고", value: "E7" }
+                { text: "예상", value: "'Y','E', 'R', 'S'" },
+                { text: "진행", value: "'E1','E2','E3','E4','E5','R2'" },
+                { text: "완료", value: "'E6','E7', 'R3'" }
             ],
             index: 0
         });
@@ -368,20 +362,25 @@ var camPrj = {
         const data = { busnClass: "D" };
         const engnData = customKendo.fn_customAjax("/project/getProjectTotalData", data).data;
         console.log(engnData);
-        $("#expectEngnCount").text(camPrj.comma(engnData.EXPECT_COUNT)+ "건");
+        $("#expectEngnCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"D\", 1)'>"+camPrj.comma(engnData.EXPECT_COUNT)+ "건</span>");
         let expectEngnSum = Math.floor(engnData.EXPECT_SUM / 1000000);
-        $("#expectEngnSum").text(camPrj.comma(expectEngnSum)+"백만원");
+        $("#expectEngnSum").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"D\", 1)'>"+camPrj.comma(expectEngnSum)+"백만원</span>");
 
-        $("#progressEngnCount").text(camPrj.comma(engnData.PROGRESS_COUNT)+ "건");
+        $("#progressEngnCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"D\", 2)'>"+camPrj.comma(engnData.PROGRESS_COUNT)+ "건</span>");
         let progressEngnSum = Math.floor(engnData.PROGRESS_SUM / 1000000);
-        $("#progressEngnSum").text(camPrj.comma(progressEngnSum)+"백만원");
+        $("#progressEngnSum").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"D\", 2)'>"+camPrj.comma(progressEngnSum)+"백만원</span>");
 
-        $("#completeEngnCount").text(camPrj.comma(engnData.COMPLETE_COUNT)+ "건");
+        $("#completeEngnCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"D\", 3)'>"+camPrj.comma(engnData.COMPLETE_COUNT)+ "건</span>");
         let completeEngnSum = Math.floor(engnData.COMPLETE_SUM / 1000000);
-        $("#completeEngnSum").text(camPrj.comma(completeEngnSum)+"백만원");
+        $("#completeEngnSum").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"D\", 3)'>"+camPrj.comma(completeEngnSum)+"백만원</span>");
 
-        $("#engnCount").text(camPrj.comma(engnData.EXPECT_COUNT + engnData.PROGRESS_COUNT + engnData.COMPLETE_COUNT)+ "건");
-        $("#engnSum").text(camPrj.comma(expectEngnSum + progressEngnSum + completeEngnSum)+"백만원");
+        $("#engnCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"D\", 0)'>"+camPrj.comma(engnData.EXPECT_COUNT + engnData.PROGRESS_COUNT + engnData.COMPLETE_COUNT)+ "건</span>");
+        $("#engnSum").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"D\", 0)'>"+camPrj.comma(expectEngnSum + progressEngnSum + completeEngnSum)+"백만원</span>");
+    },
+
+    searchGrid: function(busnClass, row){
+        $("#busnClass").data("kendoDropDownList").value(busnClass);
+        $("#busnSubClass").data("kendoDropDownList").select(row);
+        camPrj.gridReload();
     }
-
 }

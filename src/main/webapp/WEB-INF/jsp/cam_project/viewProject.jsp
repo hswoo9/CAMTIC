@@ -56,6 +56,10 @@
         transition:  box-shadow .3s;
     }
 
+    .hoverSpan:hover {
+        text-decoration: underline;
+    }
+
     #projectTooltip:hover
 </style>
 <div class="mainCard">

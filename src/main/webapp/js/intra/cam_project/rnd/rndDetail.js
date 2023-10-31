@@ -68,6 +68,23 @@ var rndDetail = {
             parameters.stat = "ins"
         }
 
+        if(parameters.mngEmpSeq == ""){
+            alert("연구책임자를 선택해주세요.");
+            return;
+        }
+        if(parameters.bankSn == ""){
+            alert("출금대표통장을 선택해주세요.");
+            return;
+        }
+        if(parameters.bankNo == ""){
+            alert("계좌번호를 작성해주세요.");
+            return;
+        }
+        if(parameters.accHold == ""){
+            alert("예금주를 작성해주세요.");
+            return;
+        }
+
         $.ajax({
             url : "/projectRnd/setRndDetail",
             data : parameters,
@@ -92,33 +109,34 @@ var rndDetail = {
 
         rndDetail.fn_buttonSet(rs);
 
-        $("#rndSn").val(rs.RND_SN);
-        $("#mngDeptName").val(rs.MNG_DEPT_NAME);
-        $("#mngEmpName").val(rs.MNG_EMP_NAME);
-        $("#mngDeptSeq").val(rs.MNG_DEPT_SEQ);
-        $("#mngEmpSeq").val(rs.MNG_EMP_SEQ);
+        if(rs != null){
+            $("#rndSn").val(rs.RND_SN);
+            $("#mngDeptName").val(rs.MNG_DEPT_NAME);
+            $("#mngEmpName").val(rs.MNG_EMP_NAME);
+            $("#mngDeptSeq").val(rs.MNG_DEPT_SEQ);
+            $("#mngEmpSeq").val(rs.MNG_EMP_SEQ);
 
-        $("#bank").data("kendoDropDownList").value(rs.BANK_SN);
-        $("#bankNo").val(rs.BANK_NO);
-        $("#accHold").val(rs.ACC_HOLD);
+            $("#bank").data("kendoDropDownList").value(rs.BANK_SN);
+            $("#bankNo").val(rs.BANK_NO);
+            $("#accHold").val(rs.ACC_HOLD);
 
-        $("#allResCost").val(comma(rs.ALL_RES_COST));
-        $("#peoResCost").val(comma(rs.PEO_RES_COST));
-        $("#peoResItem").val(comma(rs.PEO_RES_ITEM));
-        $("#totResCost").val(comma(rs.TOT_RES_COST));
+            $("#allResCost").val(comma(rs.ALL_RES_COST));
+            $("#peoResCost").val(comma(rs.PEO_RES_COST));
+            $("#peoResItem").val(comma(rs.PEO_RES_ITEM));
+            $("#totResCost").val(comma(rs.TOT_RES_COST));
 
-        if(rs.RES_CARD_CHECK == "Y"){
-            $("input[name='resCardCheck'][value='Y']").prop("checked", true);
-            $("#rccYRes").css("display", "");
-        }else{
-            $("input[name='resCardCheck'][value='N']").prop("checked", true);
-            $("#rccYRes").css("display", "none");
+            if(rs.RES_CARD_CHECK == "Y"){
+                $("input[name='resCardCheck'][value='Y']").prop("checked", true);
+                $("#rccYRes").css("display", "");
+            }else{
+                $("input[name='resCardCheck'][value='N']").prop("checked", true);
+                $("#rccYRes").css("display", "none");
+            }
+            $("#resCardNo").val(rs.RES_CARD_NO);
+
+            $("#delvDay").val(rs.DELV_DAY);
+            $("#resDay").val(rs.RES_DAY);
         }
-        $("#resCardNo").val(rs.RES_CARD_NO);
-
-        $("#delvDay").val(rs.DELV_DAY);
-        $("#resDay").val(rs.RES_DAY);
-
     },
 
     fn_approve : function(){
@@ -187,7 +205,6 @@ var rndDetail = {
     },
 
     fn_buttonSet : function(rndMap){
-        console.log(rndMap);
         let buttonHtml = "";
         if(rndMap != null){
             if(rndMap.STATUS == "0"){
