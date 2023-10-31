@@ -308,20 +308,6 @@
         <if test='searchVal != null and !"".equals(searchVal)'>
             AND VUI.EMP_NAME_KR LIKE CONCAT('%',#{searchVal},'%')
         </if>
-<!--        <choose>-->
-<!--            <when test='vacStatus != null and vacStatus.equals("Y")'>-->
-<!--                AND VC.APPLY_YEAR = #{holidayYear} AND VC.ACTIVE = #{vacStatus}-->
-<!--            </when>-->
-<!--            <when test='vacStatus != null and vacStatus.equals("N")'>-->
-<!--                AND VC.APPLY_YEAR = #{holidayYear} AND VC.ACTIVE = #{vacStatus}-->
-<!--            </when>-->
-<!--            <when test='vacStatus != null and vacStatus.equals("NULL")'>-->
-<!--                AND (VC.APPLY_YEAR IS NULL OR VC.APPLY_YEAR != #{holidayYear})-->
-<!--            </when>-->
-<!--            <otherwise>-->
-<!--                AND VC.APPLY_YEAR = #{holidayYear}-->
-<!--            </otherwise>-->
-<!--        </choose>-->
         <choose>
             <when test='vacStatus != null and vacStatus.equals("Y")'>AND VC.APPLY_YEAR = DATE_FORMAT(NOW(), '%Y') AND VC.ACTIVE = #{vacStatus}</when>
             <when test='vacStatus != null and vacStatus.equals("N")'>AND VC.APPLY_YEAR = DATE_FORMAT(NOW(), '%Y') AND VC.ACTIVE = #{vacStatus}</when>
