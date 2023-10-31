@@ -40,9 +40,29 @@
             <if test='gender != null and !"".equals(gender)'>
                 AND HEI.GENDER_CODE = #{gender}
             </if>
-            <if test='searchText != null and !"".equals(searchText)'>
-                AND 1 = 1
-            </if>
+        <choose>
+            <when test='searchText != null and !"".equals(searchText) and "7".equals(searchType)'>
+                AND HAI.ETC like CONCAT('%', #{searchText}, '%')
+            </when>
+            <when test='searchText != null and !"".equals(searchText) and "6".equals(searchType)'>
+                AND HAI.NUMBER_NAME like CONCAT('%', #{searchText}, '%')
+            </when>
+            <when test='searchText != null and !"".equals(searchText) and "1".equals(searchType)'>
+                AND HAI.EMP_NAME like CONCAT('%', #{searchText}, '%')
+            </when>
+            <when test='searchText != null and !"".equals(searchText) and "2".equals(searchType)'>
+                AND AF_POSITION_NAME like CONCAT('%', #{searchText}, '%')
+            </when>
+            <when test='searchText != null and !"".equals(searchText) and "5".equals(searchType)'>
+                AND HAI.AF_JOB_DETAIL like CONCAT('%', #{searchText}, '%')
+            </when>
+            <when test='searchText != null and !"".equals(searchText) and "4".equals(searchType)'>
+                AND HAI.AF_DUTY_NAME like CONCAT('%', #{searchText}, '%')
+            </when>
+            <when test='searchText != null and !"".equals(searchText) and "3".equals(searchType)'>
+                AND HEI.GRADE_NAME like CONCAT('%', #{searchText}, '%')
+            </when>
+        </choose>
             <if test='applyDt != null and !"".equals(applyDt)'>
                 AND DATE_FORMAT(HAI.HISTORY_DT, '%Y-%m') = #{applyDt}
             </if>

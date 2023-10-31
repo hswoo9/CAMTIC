@@ -37,21 +37,22 @@
                         <col>
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">휴가 구분</th>
-                        <td>
-                            <input type="text" id="edtHolidayKindTop" style="width: 200px;">
-                        </td>
-                        <th class="text-center th-color">일자</th>
+                        <th class="text-center th-color">조회 기간</th>
                         <td>
                             <input type="text" id="startDate" style="width: 110px;"> ~
                             <input type="text" id="endDate" style="width: 110px;">
+                        </td>
+                        <th class="text-center th-color">휴가 구분</th>
+                        <td>
+                            <input type="text" id="edtHolidayKindTop" style="width: 200px;">
                         </td>
                         <th class="text-center th-color">상태</th>
                         <td>
                             <input type="text" id="status" style="width: 200px;">
                         </td>
-                        <th class="text-center th-color">이름</th>
+                        <th class="text-center th-color">검색어</th>
                         <td>
+                            <input type="text" id="searchType" style="width:80px;">
                             <input type="text" id="searchVal" onkeypress="if(window.event.keyCode==13){subHolidayAdmin.gridReload()}" style="width: 150px;">
                         </td>
                     </tr>

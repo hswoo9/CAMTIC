@@ -156,7 +156,8 @@ var rewardReq = {
                 { text: "시행처", value: "3" },
                 { text: "포상번호", value: "4" }
             ],
-            index: 0
+            index: 0,
+            width: 300
         });
         fn_deptSetting();
     },

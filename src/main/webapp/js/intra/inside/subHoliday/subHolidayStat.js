@@ -46,6 +46,20 @@ var subHolidayStat = {
             value : new Date()
         });
 
+        $("#searchType").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: ""},
+                { text: "성명", value: "" },
+                { text: "직급", value: "" },
+                { text: "등급", value: "" },
+                { text: "직책", value: "" },
+                { text: "메일주소", value: "" }
+            ],
+            index: 0
+        });
+
         $.ajax({
             url : "/userManage/getDeptCodeList2",
             type : "post",

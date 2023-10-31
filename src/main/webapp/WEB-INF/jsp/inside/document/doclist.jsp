@@ -37,7 +37,7 @@
                         <th class="text-center th-color">제목선택</th>
                         <td>
                             <input type="text" id="searchType" style="width:100px;">
-                            <input type="text" id="searchText" style="width: 150px;">
+                            <input type="text" id="searchText" onkeypress="if(window.event.keyCode==13){archiveList.mainGrid()}" style="width: 150px;">
                         </td>
                     </tr>
                 </table>

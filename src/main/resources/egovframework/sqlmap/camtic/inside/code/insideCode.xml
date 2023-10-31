@@ -65,6 +65,36 @@
             CONCAT(IHCR.END_DT, ' ',IHCR.END_TIME) AS END_DATE
         FROM
             CAM_INSIDE.DJ_HR_CAR_REQ IHCR
+        where 1=1
+        <if test='carReqDt != null and !"".equals(carReqDt)'>
+            AND DATE_FORMAT(IHCR.START_DT, '%Y-%m') = #{carReqDt}
+        </if>
+        <if test='carClass != null and !"".equals(carClass)'>
+            AND
+            IHCR.CAR_CLASS_SN = #{carClass}
+        </if>
+        <if test='carType != null and !"".equals(carType)'>
+            AND
+            IHCR.CAR_TYPE_SN = #{carType}
+        </if>
+        <choose>
+            <when test='enterSearch != null and !"".equals(enterSearch) and "1".equals(searchWordType)'>
+                AND IHCR.VISIT_NAME like CONCAT('%', #{enterSearch}, '%')
+            </when>
+            <when test='enterSearch != null and !"".equals(enterSearch) and "2".equals(searchWordType)'>
+                AND IHCR.WAY_POINT_NAME like CONCAT('%', #{enterSearch}, '%')
+            </when>
+            <when test='enterSearch != null and !"".equals(enterSearch) and "3".equals(searchWordType)'>
+                AND IHCR.EMP_NAME like CONCAT('%', #{enterSearch}, '%')
+            </when>
+            <otherwise>
+                AND (
+                IHCR.VISIT_NAME like CONCAT('%', #{enterSearch}, '%') OR
+                IHCR.WAY_POINT_NAME like CONCAT('%', #{enterSearch}, '%') OR
+                IHCR.EMP_NAME like CONCAT('%', #{enterSearch}, '%')
+                )
+            </otherwise>
+        </choose>
     </select>
 
     <select id="searchDuplicateCar" parameterType="map" resultType="map">
@@ -172,6 +202,40 @@
             IRR.*
         FROM
             CAM_INSIDE.DJ_ROOM_REQ IRR
+        where 1=1
+        <if test='datePicker != null and !"".equals(datePicker)'>
+            AND DATE_FORMAT(IRR.START_DT, '%Y-%m') = #{datePicker}
+        </if>
+        <if test='meetingRoomDivision != null and !"".equals(meetingRoomDivision)'>
+            AND
+            IRR.ROOM_CLASS_SN = #{meetingRoomDivision}
+        </if>
+        <if test='usePurpose != null and !"".equals(usePurpose)'>
+            AND
+            IRR.USE_PURPOSE_TEXT = #{usePurpose}
+        </if>
+        <if test='rentalFee != null and !"".equals(rentalFee)'>
+            AND
+            IRR.RENTAL_FEE_TEXT = #{rentalFee}
+        </if>
+        <choose>
+            <when test='name != null and !"".equals(name) and "2".equals(searchDivision)'>
+                AND IRR.MANAGER_NAME like CONCAT('%', #{name}, '%')
+            </when>
+            <when test='name != null and !"".equals(name) and "1".equals(searchDivision)'>
+                AND IRR.REG_EMP_NAME like CONCAT('%', #{name}, '%')
+            </when>
+            <when test='name != null and !"".equals(name) and "3".equals(searchDivision)'>
+                AND IRR.REMARK_CN like CONCAT('%', #{name}, '%')
+            </when>
+            <otherwise>
+                AND (
+                IRR.MANAGER_NAME like CONCAT('%', #{name}, '%') OR
+                IRR.REG_EMP_NAME like CONCAT('%', #{name}, '%') OR
+                IRR.REMARK_CN like CONCAT('%', #{name}, '%')
+                )
+            </otherwise>
+        </choose>
     </select>
 
     <select id="searchDuplicateRoom" parameterType="map" resultType="map">

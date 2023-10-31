@@ -292,17 +292,43 @@
             VUI.EMP_SEQ = VC.EMP_SEQ AND VC.APPLY_YEAR = #{holidayYear}
         WHERE
         VUI.ACTIVE = "Y"
-        <if test='deptName != null and !"".equals(deptName)'>
-            AND VUI.DEPT_SEQ = #{deptSeq}
+        <if test='dept != null and !"".equals(dept)'>
+            <if test='team != null and !"".equals(team)'>
+                AND (VUI.DEPT_SEQ = #{dept} OR VUI.DEPT_SEQ = #{team})
+            </if>
+            <if test='team == null or "".equals(team)'>
+                AND VUI.DEPT_SEQ = #{dept}
+            </if>
+        </if>
+        <if test='dept == null or "".equals(dept)'>
+            <if test='team != null and !"".equals(team)'>
+                AND VUI.DEPT_SEQ = #{team}
+            </if>
         </if>
         <if test='searchVal != null and !"".equals(searchVal)'>
             AND VUI.EMP_NAME_KR LIKE CONCAT('%',#{searchVal},'%')
         </if>
-
+<!--        <choose>-->
+<!--            <when test='vacStatus != null and vacStatus.equals("Y")'>-->
+<!--                AND VC.APPLY_YEAR = #{holidayYear} AND VC.ACTIVE = #{vacStatus}-->
+<!--            </when>-->
+<!--            <when test='vacStatus != null and vacStatus.equals("N")'>-->
+<!--                AND VC.APPLY_YEAR = #{holidayYear} AND VC.ACTIVE = #{vacStatus}-->
+<!--            </when>-->
+<!--            <when test='vacStatus != null and vacStatus.equals("NULL")'>-->
+<!--                AND (VC.APPLY_YEAR IS NULL OR VC.APPLY_YEAR != #{holidayYear})-->
+<!--            </when>-->
+<!--            <otherwise>-->
+<!--                AND VC.APPLY_YEAR = #{holidayYear}-->
+<!--            </otherwise>-->
+<!--        </choose>-->
         <choose>
             <when test='vacStatus != null and vacStatus.equals("Y")'>AND VC.APPLY_YEAR = DATE_FORMAT(NOW(), '%Y') AND VC.ACTIVE = #{vacStatus}</when>
             <when test='vacStatus != null and vacStatus.equals("N")'>AND VC.APPLY_YEAR = DATE_FORMAT(NOW(), '%Y') AND VC.ACTIVE = #{vacStatus}</when>
             <when test='vacStatus != null and vacStatus.equals("NULL")'>AND VC.APPLY_YEAR IS NULL</when>
+            <otherwise>
+                AND VC.APPLY_YEAR = #{holidayYear}
+            </otherwise>
         </choose>
     </select>
 

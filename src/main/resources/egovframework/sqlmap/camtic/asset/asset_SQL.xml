@@ -1106,19 +1106,35 @@
                     (SELECT @ROWNUM := 0) TMP
                 WHERE
                     1=1
-                <if test="rprClass != null and rprClass != ''">
-                    AND RPR_CLASS = #{rprClass} AND STATUS != 0
-                </if>
+<!--                <if test="rprClass != null and rprClass != ''">-->
+<!--                    AND RPR_CLASS = #{rprClass} AND STATUS != 0-->
+<!--                </if>-->
                 <if test="rprClassNotStatus != null and rprClassNotStatus != ''">
                     AND RPR_CLASS = #{rprClassNotStatus}
                 </if>
-                <if test="'receipt'.equals(mod)">
-                    AND RPR_CLASS != 2
-                </if>
+<!--                <if test="'receipt'.equals(mod)">-->
+<!--                    AND RPR_CLASS != 2-->
+<!--                </if>-->
                 <if test="resYn != null and resYn != ''">
                     AND RES_YN = #{resYn}
                 </if>
-
+                <choose>
+                    <when test='searchText != null and !"".equals(searchText) and "1".equals(searchType)'>
+                        AND III.REG_EMP_NAME like CONCAT('%', #{searchText}, '%')
+                    </when>
+                    <when test='searchText != null and !"".equals(searchText) and "2".equals(searchType)'>
+                        AND III.SHARE_NAME like CONCAT('%', #{searchText}, '%')
+                    </when>
+                    <when test='searchText != null and !"".equals(searchText) and "".equals(searchType)'>
+                        AND III.TITLE like CONCAT('%', #{searchText}, '%')
+                    </when>
+                </choose>
+                <if test='rprClass !=null and !"". equals(rprClass)'>
+                    AND III.RPR_NAME = #{rprClass}
+                </if>
+                <if test='iprClass !=null and !"". equals(iprClass)'>
+                    AND III.IPR_NAME = #{iprClass}
+                </if>
                 <if test="dateType != null and dateType != ''">
                     <if test='dateType == 1'>
                     <![CDATA[
@@ -1133,9 +1149,9 @@
                     ]]>
                     </if>
                 </if>
-                <if test="iprClass != null and iprClass !=''">
-                    AND IPR_CLASS = #{iprClass}
-                </if>
+<!--                <if test="iprClass != null and iprClass !=''">-->
+<!--                    AND IPR_CLASS = #{iprClass}-->
+<!--                </if>-->
                 <if test="stateType != null and stateType !=''">
                     AND STATE_SN = #{stateType}
                 </if>
@@ -1148,20 +1164,20 @@
                 <if test="techType != null and techType !=''">
                     AND TECH_SN = #{techType}
                 </if>
-                <if test="searchType != null and searchType !=''">
-                    <if test="searchType == 1">
-                        AND SHARE_NAME LIKE CONCAT('%', #{searchVal},'%')
-                    </if>
-                    <if test="searchType == 2">
-                        AND APPLICANT_NUM LIKE CONCAT('%', #{searchVal},'%')
-                    </if>
-                    <if test="searchType == 3">
-                        AND REG_NUM LIKE CONCAT('%', #{searchVal},'%')
-                    </if>
-                    <if test="searchType == 4">
-                        AND TITLE LIKE CONCAT('%', #{searchVal},'%')
-                    </if>
-                </if>
+<!--                <if test="searchType != null and searchType !=''">-->
+<!--                    <if test="searchType == 1">-->
+<!--                        AND SHARE_NAME LIKE CONCAT('%', #{searchVal},'%')-->
+<!--                    </if>-->
+<!--                    <if test="searchType == 2">-->
+<!--                        AND APPLICANT_NUM LIKE CONCAT('%', #{searchVal},'%')-->
+<!--                    </if>-->
+<!--                    <if test="searchType == 3">-->
+<!--                        AND REG_NUM LIKE CONCAT('%', #{searchVal},'%')-->
+<!--                    </if>-->
+<!--                    <if test="searchType == 4">-->
+<!--                        AND TITLE LIKE CONCAT('%', #{searchVal},'%')-->
+<!--                    </if>-->
+<!--                </if>-->
                 <if test="beforeYn != null and beforeYn !=''">
                     AND STATUS != 100
                 </if>

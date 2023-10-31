@@ -40,13 +40,13 @@
                         <col width="%">
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">년월</th>
+                        <th class="text-center th-color">조회 연월</th>
                         <td>
                             <input type="text" id="datePicker" style="width: 110px;">
                         </td>
                         <th class="text-center th-color">회의실 구분</th>
                         <td>
-                            <input type="text" id="meetingRoomDivision" style="width: 170px;">
+                            <input type="text" id="meetingRoomDivision" style="width: 180px;">
                         </td>
                         <th class="text-center th-color">사용 목적</th>
                         <td>
@@ -56,15 +56,15 @@
                         <td>
                             <input type="text" id="rentalFee" style="width: 70px;">
                         </td>
-                        <th class="text-center th-color">검색구분</th>
+                        <th class="text-center th-color">검색어</th>
                         <td>
                             <input type="text" id="searchDivision" style="width: 100px;">
-                            <input type="text" id="name" style="width: 150px;">
+                            <input type="text" id="name" onkeypress="if(event.keyCode==13){ gridReload(); }" style="width: 150px;">
                         </td>
                     </tr>
                     <tr>
                         <td colspan="10" style="text-align: right">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">
                                 조회
                             </button>
                             <button type="button" id="searchRebutton" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">

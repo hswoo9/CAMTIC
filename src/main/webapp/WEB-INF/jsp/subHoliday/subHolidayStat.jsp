@@ -29,13 +29,14 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
+                        <col>
                         <col width="10%">
+                        <col>
                         <col width="10%">
+                        <col>
                         <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
+<%--                        <col width="10%">--%>
+<%--                        <col width="10%">--%>
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회 연도</th>
@@ -50,9 +51,10 @@
                         <td>
                             <input type="text" id="deptTeamName" style="width: 180px;">
                         </td>
-                        <th class="text-center th-color">이름</th>
-                        <td colspan="5">
-                            <input type="text" id="searchVal" onkeypress="if(window.event.keyCode==13){subHolidayStat.gridReload()}" style="width: 150px;">
+                        <th class="text-center th-color">검색어</th>
+                        <td>
+                            <input type="text" id="searchType" style="width: 100px;">
+                            <input type="text" id="searchVal" onkeypress="if(window.event.keyCode==13){subHolidayStat.gridReload()}" style="width: 120px;">
                         </td>
                     </tr>
                 </table>

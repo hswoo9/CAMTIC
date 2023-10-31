@@ -27,6 +27,14 @@ var docuList = {
             {text: "비고", value: "7"}
         ]
         customKendo.fn_dropDownList("searchType", searchArr, "text", "value", 1);
+
+        // Enter 키 이벤트 처리
+        $("#searchText").keydown(function(event) {
+            if (event.key === "Enter") {
+                docuList.gridReload();
+            }
+        });
+
     },
 
     mainGrid: function() {

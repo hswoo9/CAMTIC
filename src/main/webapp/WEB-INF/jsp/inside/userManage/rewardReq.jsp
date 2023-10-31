@@ -31,7 +31,7 @@
                         <col width="">
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">조회 연도</th>
+                        <th class="text-center th-color">조회 기간</th>
                         <td style="border-bottom:0; background-color: white">
                             <input type="text" id="start_date" style="width: 110px;">
                             ~
@@ -50,8 +50,8 @@
                             검색어
                         </th>
                         <td colspan="5">
-                            <input type="text" id="searchType" style="width: 70px;">
-                            <input type="text" id="searchText" style="width: 130px;">
+                            <input type="text" id="searchType" style="width: 95px;">
+                            <input type="text" id="searchText" onkeypress="if(window.event.keyCode==13){rewardReq.mainGrid()}" style="width: 130px;">
                         </td>
                     </tr>
                 </table>

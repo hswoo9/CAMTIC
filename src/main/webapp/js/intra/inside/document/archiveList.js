@@ -20,8 +20,14 @@ var archiveList = {
             {text: "폐기예정", value: "2"},
             {text: "폐기", value: "3"}
         ]
+
+
         customKendo.fn_dropDownList("doclistState", stateArr, "text", "value", 1);
         customKendo.fn_dropDownList("searchType", searchArr, "text", "value", 1);
+
+
+
+
     },
 
     mainGrid: function () {
@@ -36,7 +42,7 @@ var archiveList = {
                 parameterMap: function(data) {
                     data.searchDate = $("#searchDate").val();
                     data.doclistState = $("#doclistState").getKendoDropDownList().value();
-                    data.searchType = $("#searchType").getKendoDropDownList().value()
+                    data.searchType = $("#searchType").getKendoDropDownList().value();
                     /*if(searchType == 1) {
                         data.searchVal = "DOC_NUM"
                     }else if(searchType == 2) {

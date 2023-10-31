@@ -3,40 +3,12 @@ var now = new Date();
 var subHolidaySetting = {
     global : {
         selectEmpData : [],
+        vacStatus: null
     },
 
     init : function(){
-        $("#holidayYear").kendoDatePicker({
-            format : "yyyy",
-            culture : "ko-KR",
-            depth: "decade",
-            start: "decade",
-            value : new Date()
-        });
 
-        $("#searchVal").kendoTextBox();
-
-        $.ajax({
-            url : "/userManage/getDeptCodeList2",
-            type : "post",
-            async: false,
-            dataType : "json",
-            success : function(result){
-                var ds = result.list;
-                ds.unshift({deptName: '선택'});
-
-                $("#deptName").kendoDropDownList({
-                    dataTextField: "deptName",
-                    dataValueField: "deptSeq",
-                    dataSource: ds,
-                    index: 0,
-                    success : function(){
-                        subHolidaySetting.gridReload();
-                    }
-                });
-            }
-        });
-
+        subHolidaySetting.dataSet();
         subHolidaySetting.fn_makerGrid();
 
     },
@@ -56,9 +28,14 @@ var subHolidaySetting = {
                     data.holidayYear = $("#holidayYear").val();
                     data.befYear = (data.holidayYear - 1);
                     data.bef2Year = (data.holidayYear - 2);
-                    data.deptSeq = $("#deptName").val();
-                    data.deptTeamName = $("#deptTeamName").val();
+                    data.dept = $("#dept").val();
+                    data.team = $("#team").val();
                     data.searchVal = $("#searchVal").val();
+
+                    if (subHolidaySetting.global.vacStatus !== null) {
+                        data.vacStatus = subHolidaySetting.global.vacStatus;
+                    }
+
                     return data;
                 }
             },
@@ -180,8 +157,46 @@ var subHolidaySetting = {
         }).data("kendoGrid");
     },
 
+    dataSet:function (){
+        $("#holidayYear").kendoDatePicker({
+            format : "yyyy",
+            culture : "ko-KR",
+            depth: "decade",
+            start: "decade",
+            value : new Date()
+        });
+
+        $("#searchVal").kendoTextBox();
+
+        var dynamicVacStatusValue; // 동적으로 결정되는 값
+        subHolidaySetting.global.vacStatus = dynamicVacStatusValue;
+
+        console.log('Dynamic vacStatus Value:', dynamicVacStatusValue);
+
+        fn_deptSetting();
+    },
+
 
     gridReload : function(){
+
+        subHolidaySetting.global.selectEmpData = {
+            holidayYear : $('#holidayYear').val(),
+            dept: $("#dept").val(),
+            team: $("#team").val(),
+            searchVal : $('#searchVal').val()
+        };
+
+        var holidayYear = subHolidaySetting.global.selectEmpData.holidayYear;
+        var dept = subHolidaySetting.global.selectEmpData.dept;
+        var team = subHolidaySetting.global.selectEmpData.team;
+        var searchVal = subHolidaySetting.global.selectEmpData.searchVal;
+
+        // 콘솔 로그 추가
+        console.log('Search Date: ' + holidayYear);
+        console.log('Dept: ' + dept);
+        console.log('Team: ' + team);
+        console.log('Search Text: ' + searchVal);
+
         $("#mainGrid").data("kendoGrid").dataSource.read();
     },
 

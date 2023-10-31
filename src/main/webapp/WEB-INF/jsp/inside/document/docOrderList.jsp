@@ -28,7 +28,7 @@
                         <td>
                             <input type="text" id="classType" style="width:70px;">
                         </td>
-                        <th class="text-center th-color">제목선택</th>
+                        <th class="text-center th-color">검색어</th>
                         <td>
                             <input type="text" id="searchType" style="width:130px;">
                             <input type="text" id="searchText" style="width: 150px;">
