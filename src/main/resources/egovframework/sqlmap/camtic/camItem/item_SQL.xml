@@ -155,6 +155,7 @@
             EI.EMP_NAME_KR,
             IM.ITEM_NO,
             IM.ITEM_NAME,
+            IUC.ITEM_CD_NM AS UNIT,
             (SELECT SUM(CURRENT_INVEN) FROM CAM_ITEM.dj_item_inventory WHERE MASTER_SN = OO.MASTER_SN) AS OVERALL_INVEN,
             CI.CRM_NM
         FROM
@@ -168,7 +169,18 @@
         JOIN
             CAM_ITEM.DJ_ITEM_MASTER IM
         ON IM.MASTER_SN = OO.MASTER_SN
+        JOIN
+            CAM_ITEM.DJ_ITEM_CD IUC
+        ON IUC.LG_CD = 'UNIT' AND IM.ITEM_UNIT_CD = IUC.ITEM_CD
         WHERE 1=1
+
+        <if test='obtainOrderType != null and !"".equals(obtainOrderType)'>
+            AND OO.OBTAIN_ORDER_TYPE = #{obtainOrderType}
+        </if>
+
+        <if test='deadLine != null and !"".equals(deadLine)'>
+            AND OO.DEADLINE = #{deadLine}
+        </if>
 
         <if test='startDt != null and !"".equals(startDt)'>
             <![CDATA[
@@ -185,6 +197,10 @@
 
         <if test='masterSn != null and !"".equals(masterSn)'>
             AND IM.MASTER_SN = #{masterSn}
+        </if>
+
+        <if test='ooArr != null and !"".equals(ooArr)'>
+            AND OO.OBTAIN_ORDER_SN IN(${ooArr})
         </if>
 
         <if test='deadLine != null and !"".equals(deadLine)'>
@@ -321,6 +337,41 @@
         WHERE
             OBTAIN_ORDER_SN IN (${obtainOrderSn})
     </update>
+
+    <insert id="setItemEstPrint" parameterType="map">
+        /* setItemEstPrint */
+        INSERT INTO CAM_ITEM.DJ_ITEM_EST_PRINT
+            (
+                CRM_SN,
+                OBTAIN_ORDER_SN,
+                RMK,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{crmSn},
+                #{obtainOrderSn},
+                #{rmk},
+                #{empSeq}
+            )
+
+        <selectKey keyProperty="estPrintSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_ITEM' AND TABLE_NAME = 'DJ_ITEM_EST_PRINT'
+        </selectKey>
+    </insert>
+
+    <select id="getEstPrintSn" parameterType="map" resultType="map">
+        /* getEstPrintSn */
+        SELECT
+            *
+        FROM
+            CAM_ITEM.DJ_ITEM_EST_PRINT A
+        JOIN
+            CAM_CRM.DJ_CRM_INFO B
+        ON A.CRM_SN = B.CRM_SN
+        WHERE
+            A.EST_PRINT_SN = #{estPrintSn}
+    </select>
 
     <select id="getShipmentRecordList" parameterType="map" resultType="map">
         /* getShipmentRecordList */

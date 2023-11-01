@@ -43,10 +43,6 @@ var rbl = {
 			rbl.global.articleList = result.boardArticleList;
             rbl.global.params = result.params;
 
-			if(isAdmin) {
-				$("#writeBtn").show()
-			}
-
 			var articleListStr = "";
 			$("#articleListTb tbody *").remove();
 			if(rbl.global.articleList.list.length > 0){
