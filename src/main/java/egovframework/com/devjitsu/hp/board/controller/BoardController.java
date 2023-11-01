@@ -471,4 +471,14 @@ public class BoardController {
         model.addAttribute("rs", "sc");
         return "jsonView";
     }
+
+    /**
+     * 이전 소식지 페이지
+     * */
+    @RequestMapping("/camtic/pr/letterListOld.do")
+    public String letterListOld(Model model, @RequestParam Map<String, Object> params){
+
+        model.addAttribute("categoryId", params.get("category"));
+        return "camtic/pr/letterListOld";
+    }
 }
