@@ -16,6 +16,7 @@
         approvalParams.formId = "87";
         approvalParams.compSeq = "1000";
         approvalParams.empSeq = "${loginVO.uniqId}";
+        approvalParams.docTitle = "[휴일근로신청서]${loginVO.orgnztNm}-${loginVO.name}";
         approvalParams.content = $("#approveDataPop")[0].innerHTML;
         approvalParams.type = "drafting";
         approvalParams.menuCd = "subHoliday";
