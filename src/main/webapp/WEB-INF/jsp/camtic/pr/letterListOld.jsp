@@ -102,7 +102,7 @@
 
             html += '<li style="display: flex; flex-direction: column;">';
             html += '<div class="galleyImg" style="padding: 0 20px;">';
-            html += '<img src="' + item.IMG_URL + '" alt="" onclick="fileDown(\''+ item.FILE_URL +'\',\''+ item.FILE_ORG_NAME +'\');" style="width: 200px; height: 260px; margin: 20px 20px; cursor:pointer;">';
+            html += '<img src="' + item.IMAGE_URL + '" alt="" onclick="fileDown(\''+ item.FILE_URL +'\',\''+ item.FILE_ORG_NAME +'\');" style="width: 200px; height: 260px; margin: 20px 20px; cursor:pointer;">';
             html += '</div>';
             html += '<div class="galleryTxt">';
             html += '<a href="#">소식지 ' + item.SOSIK_HO + '호</a>';
