@@ -99,15 +99,17 @@
 
                 <table class="searchTable table table-bordered mb-0 mt-20">
                     <colgroup>
-                        <col>
-                        <col>
-                        <col style="width: 14%;">
-                        <col style="width: 12%;">
                         <col style="width: 20%;">
-                        <col style="width: 6%;">
+                        <col>
+                        <col>
+                        <col style="width: 12%;">
+                        <col style="width: 8%;">
+                        <col style="width: 15%;">
+                        <col style="width: 5%;">
                     </colgroup>
                     <thead>
                     <tr>
+                        <th>BOM</th>
                         <th>품번</th>
                         <th>품명</th>
                         <th>단가</th>

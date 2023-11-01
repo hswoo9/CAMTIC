@@ -351,8 +351,7 @@ public class ItemManageServiceImpl implements ItemManageService {
             map.put("base", "Y");
 
             Map<String, Object> searchMap = new HashMap<>();
-            searchMap.put("masterSn", map.get("MASTER_SN"));
-            searchMap.put("bomSn", itemManageRepository.getBomSn(searchMap));
+            searchMap.put("bomSn", map.get("MASTER_BOM_SN"));
             map.put("items", itemManageRepository.getBomDetailList(searchMap));
         }
 
