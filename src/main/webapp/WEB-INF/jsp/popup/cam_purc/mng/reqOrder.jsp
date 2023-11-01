@@ -84,7 +84,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">구매구분</th>
+                    <th scope="row" class="text-center th-color">사업구분</th>
                     <td>
                         <span id="purcType"></span>
                     </td>

@@ -21,6 +21,10 @@
             AND
             A.PJT_STOP = "Y"
         </if>
+        <if test='deptSeq != null and deptSeq != ""'>
+            AND
+            A.PJT_STOP = "Y"
+        </if>
         ORDER BY A.PJT_SN DESC
     </select>
 

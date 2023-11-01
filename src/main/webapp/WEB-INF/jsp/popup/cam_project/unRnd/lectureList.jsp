@@ -10,7 +10,7 @@
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 
 <div style="padding: 10px">
-    <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="unRndLectList.fn_popLectureSet()">단위사업 등록</button>
+    <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="unRndLectList.fn_unitBusinessReqPop()">단위사업 등록</button>
 
     <br>
     <span style=""> ◎ 단위사업 리스트</span>
