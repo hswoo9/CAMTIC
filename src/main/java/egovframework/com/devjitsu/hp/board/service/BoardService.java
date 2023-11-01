@@ -50,4 +50,6 @@ public interface BoardService {
 
     void insSubscribe(Map<String, Object> params);
     void cancleSubscribe(Map<String, Object> param);
+
+    List<Map<String, Object>>getLetterListOld(Map<String, Object> params);
 }
