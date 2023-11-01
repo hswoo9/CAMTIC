@@ -90,11 +90,10 @@ var rbl = {
 		open_in_frame('/spot/requestBoardReg.do?requestType=' + $("#requestType").val());
 	},
 
-    drawList : function (list, num){
-        let html;
+	drawList : function (list, num) {
+		let html = "";
+		let i = num;
 
-        var i = 0;
-		console.log(list);
 		list.forEach(row => {
 			var requestTitle = "";
 			if(row.request_TITLE != null && row.request_TITLE != ""){
@@ -103,10 +102,9 @@ var rbl = {
 				requestTitle = "제목없음";
 			}
 
-			i++;
 			var dt = (row.reg_DATE.year + "-" + ('00' + row.reg_DATE.monthValue).slice(-2) + "-" + ('00' + row.reg_DATE.dayOfMonth).slice(-2));
 			html += "<tr>"
-			html += "	<td class='ta-center'>" + (i) + "</td>";
+			html += "	<td class='ta-center'>" + i + "</td>";
 			html += "	<td>";
 			html += '		<a class="contentLink" href="javascript:rbl.detailPageMove(' + row.request_BOARD_ID + ')">' + requestTitle + "</a>";
 			html += "	</td>";
@@ -114,10 +112,12 @@ var rbl = {
 			html += "	<td class='ta-center'>" + dt + "</td>";
 			html += "	<td class='ta-center'>" + row.status + "</td>";
 			html += "</tr>";
+
+			i--;
 		});
 
-        $("#articleListTb tbody").append(html);
-    },
+		$("#articleListTb tbody").append(html);
+	},
 
     drawPage : function(pagination, params){
         if ( !pagination || !params ) {
@@ -143,7 +143,7 @@ var rbl = {
     movePage : function (page){
         const queryParams = {
             page: (page) ? page : 1,
-            recordSize: 20,
+            recordSize: 10,
             pageSize: 10
         }
 

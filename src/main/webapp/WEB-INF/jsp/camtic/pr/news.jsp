@@ -84,6 +84,7 @@
         <div class="__botArea __mt20">
           <div class="rig">
             <a href="#" onclick="fn_subscribe();" class="__btn1 blue"><span>구독 신청하기</span></a>
+            <a href="#" onclick="fn_letterListOld();" class="__btn1 blue"><span>이전 소식지 보기</span></a>
             <a href="#" onclick="fn_writeBoard();" class="__btn1 blue"><span>게시글 작성</span></a>
             <a href="#" onclick="fn_subscribeList();" class="__btn1 grayLine"><span>구독 현황</span></a>
           </div>
@@ -147,6 +148,11 @@
   function fn_subscribe(){
 
     location.href = '/camtic/pr/news_subscribe.do?category=' + categoryKey;
+  }
+  //구독 신청 이동
+  function fn_letterListOld(){
+
+    location.href = '/camtic/pr/letterListOld.do?category=' + categoryKey;
   }
   //구독 현황 이동
   function fn_subscribeList(){

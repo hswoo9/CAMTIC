@@ -170,9 +170,9 @@ var normalArticleList = {
 	},
 
     drawList : function (list, num){
-        let html;
+		let html = "";
+		let i = num;
 
-        var i = 0;
         list.forEach(row => {
 			var articleTitle = "";
 			if(row.board_ARTICLE_TITLE != null && row.board_ARTICLE_TITLE != ""){
@@ -182,7 +182,7 @@ var normalArticleList = {
 			}
 
             var dt = (row.reg_DATE.year + "-" + ('00' + row.reg_DATE.monthValue).slice(-2) + "-" + ('00' + row.reg_DATE.dayOfMonth).slice(-2));
-            i++;
+
             html += "<tr>"
             html += "	<td class='ta-center'>" + (i) + "</td>";
             html += "	<td style='cursor:pointer'>";
@@ -200,6 +200,8 @@ var normalArticleList = {
             html += "	<td class='ta-center'>" + dt + "</td>";
             html += "	<td class='ta-center'>" + row.board_ARTICLE_VIEW_COUNT + "</td>";
             html += "</tr>";
+
+			i--;
         });
 
         $("#articleListTb tbody").append(html);
@@ -230,7 +232,7 @@ var normalArticleList = {
     movePage : function (page){
         const queryParams = {
             page: (page) ? page : 1,
-            recordSize: 20,
+            recordSize: 10,
             pageSize: 10
         }
 

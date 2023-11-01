@@ -115,8 +115,9 @@ var ssl = {
 	},
 
     drawList : function (list, num){
-        let html;
-        var i = 0;
+		let html = "";
+		let i = num;
+
 		list.forEach(row => {
 			var suggestionTitle = "";
 			if(row.suggestion_TITLE != null && row.suggestion_TITLE != ""){
@@ -125,7 +126,7 @@ var ssl = {
 				suggestionTitle = "제목없음";
 			}
 
-			i++;
+
 			html += "<tr>"
 			html += "	<td class='ta-center'>" + (i) + "</td>";
 			html += "	<td class='ta-center'>" + row.suggestion_TYPE_TXT + "</td>";
@@ -141,6 +142,7 @@ var ssl = {
 			html += "	</td>";
 			html += "	<td class='ta-center'>" + row.status + "</td>";
 			html += "</tr>";
+			i--;
 		});
 
         $("#articleListTb tbody").append(html);
@@ -170,7 +172,7 @@ var ssl = {
     movePage : function (page){
         const queryParams = {
             page: (page) ? page : 1,
-            recordSize: 20,
+            recordSize: 10,
             pageSize: 10
         }
 
