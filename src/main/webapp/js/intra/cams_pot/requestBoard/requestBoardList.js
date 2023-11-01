@@ -116,7 +116,7 @@ var rbl = {
 			i--;
 		});
 
-		$("#articleListTb tbody").html(html); // 사용 중인 내용을 교체하는 대신 덮어쓰는 것으로 수정
+		$("#articleListTb tbody").append(html);
 	},
 
     drawPage : function(pagination, params){
