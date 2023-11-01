@@ -8,9 +8,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <style>
-    .custom-select {background:#fff url(/images/ico/ico-arr.png) no-repeat right 0.8rem center / 1.8rem auto; padding-left: 10px;text-align:left;border: 1px solid #a1a1a1;width:120px;height:33px;border-radius:5px;font-size: 15px; margin-bottom:10px;}
+    .custom-select {background:#fff url(/images/ico/ico-arr.png) no-repeat right 0.8rem center / 1.8rem auto; padding-left: 10px ;text-align:left;border: 1px solid #a1a1a1;width:120px;height:33px;border-radius:5px;font-size: 15px; margin-bottom:10px;}
     .custom-select::after {content: '\25BC';position: absolute;top: 0;right: 0;padding: 5px;pointer-events: none;}
-    .galleryList{text-align: center; display: flex; flex-wrap: wrap; line-height:40px; font-weight:bold; color: #333;overflow: hidden; background:#fff;}
+    .galleryList{text-align: center; display: flex; flex-wrap: wrap; line-height:40px; font-weight:bold; color: #333;overflow: hidden; background:#fff; margin-left: 57px;}
 </style>
 <body>
 <div id="wrap">
@@ -52,9 +52,7 @@
                     </select>
                 </div>
 
-                <ul id="galleryList" class="galleryList">
-
-                </ul>
+                <ul id="galleryList" class="galleryList"></ul>
 
                 <div style="text-align:center; margin-top:20px; border-top:1px solid #ccc;">
                     <div class="rig" style="margin-top:20px;">
@@ -99,7 +97,6 @@
         let html = "";
 
         data.forEach((item, index) => {
-
             html += '<li style="display: flex; flex-direction: column;">';
             html += '<div class="galleyImg" style="padding: 0 20px;">';
             html += '<img src="' + item.IMAGE_URL + '" alt="" onclick="fileDown(\''+ item.FILE_URL +'\',\''+ item.FILE_ORG_NAME +'\');" style="width: 200px; height: 260px; margin: 20px 20px; cursor:pointer;">';
