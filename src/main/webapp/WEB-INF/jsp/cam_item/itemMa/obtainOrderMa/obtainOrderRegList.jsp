@@ -25,11 +25,13 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="5%">
-                        <col width="20%">
+                        <col width="22%">
                         <col width="7%">
                         <col width="18%">
+                        <col width="7%">
+                        <col width="7%">
                         <col width="5%">
-                        <col width="25%">
+                        <col>
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">업체</th>
@@ -47,6 +49,10 @@
                         <td>
                             <input type="text" id="startDt" style="width: 110px;"> ~
                             <input type="text" id="endDt" style="width: 110px;">
+                        </td>
+                        <th class="text-center th-color">마감구분</th>
+                        <td>
+                            <input type="text" id="deadLine" style="width: 110px;">
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>

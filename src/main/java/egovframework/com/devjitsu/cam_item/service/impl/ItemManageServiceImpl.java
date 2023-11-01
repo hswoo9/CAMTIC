@@ -91,17 +91,6 @@ public class ItemManageServiceImpl implements ItemManageService {
     }
 
     @Override
-    public void setDeliveryAmtUpd(Map<String, Object> params) {
-        Gson gson = new Gson();
-        List<Map<String, Object>> oorlArr = gson.fromJson((String) params.get("oorlArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
-        if(oorlArr.size() > 0){
-            for(Map<String, Object> map : oorlArr){
-                itemManageRepository.setDeliveryAmtUpd(map);
-            }
-        }
-    }
-
-    @Override
     public void setDeadlineUpd(Map<String, Object> params) {
         Gson gson = new Gson();
         List<Map<String, Object>> oorlArr = gson.fromJson((String) params.get("oorlArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
@@ -140,6 +129,20 @@ public class ItemManageServiceImpl implements ItemManageService {
             itemManageRepository.setDeadlineUpd(map);
         }
 
+    }
+
+    @Override
+    public void setItemEstPrint(Map<String, Object> params) {
+        itemManageRepository.setItemEstPrint(params);
+    }
+
+    @Override
+    public Map<String, Object> getEstPrintSn(Map<String, Object> params) {
+        Map<String, Object> returnMap = itemManageRepository.getEstPrintSn(params);
+        params.put("ooArr", returnMap.get("OBTAIN_ORDER_SN"));
+        returnMap.put("obtainOrderList", itemManageRepository.getObtainOrderList(params));
+
+        return returnMap;
     }
 
     @Override
@@ -351,8 +354,7 @@ public class ItemManageServiceImpl implements ItemManageService {
             map.put("base", "Y");
 
             Map<String, Object> searchMap = new HashMap<>();
-            searchMap.put("masterSn", map.get("MASTER_SN"));
-            searchMap.put("bomSn", itemManageRepository.getBomSn(searchMap));
+            searchMap.put("bomSn", map.get("MASTER_BOM_SN"));
             map.put("items", itemManageRepository.getBomDetailList(searchMap));
         }
 

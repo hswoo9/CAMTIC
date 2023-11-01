@@ -174,7 +174,7 @@ var bomRegList = {
             url += "?bomSn=" + e
         }
         var name = "_blank";
-        var option = "width = 855, height = 600, top = 100, left = 400, location = no"
+        var option = "width = 1040, height = 600, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 
