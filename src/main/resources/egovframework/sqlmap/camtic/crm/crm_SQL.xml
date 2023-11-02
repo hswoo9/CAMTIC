@@ -43,7 +43,8 @@
         (
             SELECT
                 A.CRM_SN,
-                group_concat(B.EMP_NAME_KR) AS EMP_NAME_KR
+                GROUP_CONCAT(B.EMP_NAME_KR) AS EMP_NAME_KR,
+                GROUP_CONCAT(A.CRM_REL_CONT) AS CRM_REL_CONT
             FROM
                 CAM_CRM.DJ_CRM_HIST A
             JOIN
@@ -71,9 +72,13 @@
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword)'>
                 <choose>
-                    <when test='"CRM_HIST_TYPE_1".equals(searchKeyword)'>
+                    <when test='"CRM_HIST_REG_EMP".equals(searchKeyword)'>
                         AND
                             A.EMP_NAME_KR LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <when test='"CRM_HIST_REL_CONT".equals(searchKeyword)'>
+                        AND
+                            A.CRM_REL_CONT LIKE CONCAT('%', #{searchValue}, '%')
                     </when>
                     <otherwise>
                         AND
@@ -89,7 +94,8 @@
                         CI.TEL_NUM LIKE CONCAT('%', #{searchValue}, '%') OR
                         CI.FAX LIKE CONCAT('%', #{searchValue}, '%') OR
                         CI.CRM_CEO LIKE CONCAT('%', #{searchValue}, '%') OR
-                        A.EMP_NAME_KR LIKE CONCAT('%', #{searchValue}, '%')
+                        A.EMP_NAME_KR LIKE CONCAT('%', #{searchValue}, '%') OR
+                        A.CRM_REL_CONT LIKE CONCAT('%', #{searchValue}, '%')
                     )
                 </if>
             </otherwise>
