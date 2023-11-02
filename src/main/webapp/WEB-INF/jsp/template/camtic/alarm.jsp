@@ -19,7 +19,7 @@
     </div>
     <div class="svg_menu">
       <ul>
-        <li><a href="" class="menu_on"><span>주요 알림 모아보기</span></a></li>
+        <li><a href="" class="menu_on" style="pointer-events : none;"><span>주요 알림 모아보기</span></a></li>
         <!--<li><a href=""><span>민원 도우미</span></a></li>-->
       </ul>
     </div>
