@@ -1408,6 +1408,11 @@ img {max-width:100%;}
 .__ipjList .box .info .subject strong {font-size:22px;font-weight:600;color:#000;display:block;line-height:1.2;}
 .__ipjList .box .info .sum {font-size:14px;line-height:1.3;color:#000;margin-top:27px;}
 
+/*2023-11-01 김병수 통일성 변경 */
+.__ipjList1 {padding:0 100px 55px;}
+.__ipjList1 .head dt {font-size:52px;font-weight:200;color:#111;letter-spacing:-0.05em;}
+.__ipjList1 .head dd {font-size:22.5px;line-height:1.3;font-weight:600;color:#155996;letter-spacing:-0.05em;margin-top:20px;}
+
 .__ipjView {display:flex;justify-content:space-between;gap:30px;}
 .__ipjView .img {width:220px;}
 .__ipjView .img span {display:block;border:1px solid #b7b7b7;border-radius:5px;padding:10px;}
@@ -1467,9 +1472,10 @@ img {max-width:100%;}
 }
 
 /*배경색 변경 통일*/
-.__ipj1 {background:/*#f0f0f0;*/#fff;border-top:1px solid #252525;border-bottom:1px solid #252525;padding:45px 30px 25px;}
+/* 2023.11.01 김병수 시설 및 입주안내 테두리 주석 */
+.__ipj1 {background:/*#f0f0f0;*/#fff;/*border-top:1px solid #252525;border-bottom:1px solid #252525;*/padding:45px 0 25px;}
 .__ipj1 .area {display:flex;justify-content:center;gap:10px;margin-top:35px;}
-.__ipj1 .area .box {width:202px;text-align:center;}
+.__ipj1 .area .box {width:198px;text-align:center;}
 .__ipj1 .area .box .cir {width:152px;height:152px;border:1px solid #ddd;border-radius:50%;position:relative;background:#fff;padding-top:50px;margin:0 auto;}
 .__ipj1 .area .box .cir .step {width:38px;height:38px;border-radius:50%;position:absolute;left:50%;margin-left:-19px;top:-19px;color:#fff;background:#41ace0;}
 .__ipj1 .area .box .cir .step dt {font-size:9px;font-weight:500;padding-top:5px;}
@@ -2356,7 +2362,8 @@ img {max-width:100%;}
 	/*임시 수정*/
 #Service .svgroup_l .svg_menu a.menu_on span::before {content:'';position:absolute;left:14px;top:0;width:28px;height:51px;background:url(/images/camtic/logo2.png) left center no-repeat;display:inline-block;}
 #Service .svgroup_l .svg_menu ul li a:hover::after {display:none;}
-#Service .svgroup_l .svg_intro {position:absolute;left:0;top:0;width:100%;height:100%;background:url(/images/camtic/intro_bg.jpg) top center no-repeat;z-index:-1;}
+/* 2023-11-01 김병수 배경이미지 숨김 */
+#Service .svgroup_l .svg_intro {position:absolute;left:0;top:0;width:100%;height:100%;/*background:url(/images/camtic/intro_bg.jpg) top center no-repeat;*/z-index:-1;}
 #Service .svgroup_l .svg_intro::after {content:'';position:absolute;left:0;top:0;width:100%;height:100%;background-color:rgba(32,71,131,.9);}
 #Service .svgroup_l .svg_intro video {position:absolute;left:-65%;top:0;right:0;bottom:0;min-width:100%;min-height:100%;}
 #Service .svgroup_r {float:right;width:72%;min-height:100%;}
@@ -2369,7 +2376,8 @@ img {max-width:100%;}
 #Service .svgroup_r .svg_contents .notification h4:hover,
 #Service .svgroup_r .svg_contents .notification .on {background-color:#00ac6c;}
 #Service .svgroup_r .svg_contents .notification h4 a {font-size:18px;font-weight:400;color:#fff;display:block;}
-#Service .svgroup_r .svg_contents .notification .on a{text-decoration:underline}
+/* 2023-11-01 김병수 팝업존 모아보기 및줄 주석 */
+/*#Service .svgroup_r .svg_contents .notification .on a{text-decoration:underline}*/
 #Service .svgroup_r .svg_contents .notification .popupzone1 {position:relative;float:left;width:100%;min-height:850px;}
 /* 팝업존만 보이게 수정*/
 #Service .svgroup_r .svg_contents .notification .popupzone1 .poptit1 {left:-1px;border-radius:10px 10px 0 0;}

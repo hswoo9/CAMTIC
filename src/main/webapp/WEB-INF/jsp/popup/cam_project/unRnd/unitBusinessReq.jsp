@@ -1,0 +1,227 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<jsp:useBean id="today" class="java.util.Date" />
+<jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
+
+<body class="font-opensans" style="background-color:#fff;">
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/unitBusiness.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/unitBusinessReq.js?v=${today}'/>"></script>
+
+<input type="hidden" id="mod" name="mod" />
+<input type="hidden" id="type" name="type" />
+
+<div style="padding:0;">
+    <div class="table-responsive">
+        <div class="card-header pop-header">
+            <h3 class="card-title title_NM">
+                <span style="position: relative; top: 3px;">
+                    단위사업
+                    <c:if test="${params.stat != 'v'}">
+                        작성
+                    </c:if>
+                </span>
+            </h3>
+            <div id="purcBtnDiv" class="btn-st popButton">
+                <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="ubr.fn_saveBtn('W');">저장</button>
+                <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
+            </div>
+        </div>
+
+        <div style="padding: 20px 30px;">
+            <table class="popTable table table-bordered mb-0">
+                <colgroup>
+                    <col width="15%">
+                    <col width="35%">
+                    <col width="15%">
+                    <col width="35%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>사업구분</th>
+                    <td>
+                        <input id="projectType" style="width: 200px;">
+                    </td>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>교육분야</th>
+                    <td>
+                        <input id="fieldType" style="width: 200px;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>과목명</th>
+                    <td>
+                        <input id="curriculumType" style="width: 200px;">
+                    </td>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>과정명</th>
+                    <td>
+                        <input id="courseType" style="width: 200px;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>강좌명(사업명)</th>
+                    <td colspan="3">
+                        <input id="lectureName" style="width: 800px;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>강좌명(홍보용)</th>
+                    <td colspan="3">
+                        <input id="lectureNameEx" style="width: 800px;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>주제(CEO)</th>
+                    <td colspan="3">
+                        <input id="title" style="width: 800px;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">과정안내 문구1</th>
+                    <td colspan="3">
+                        <textarea id="content1" style="width: 800px; height: 100px"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">과정안내 문구2</th>
+                    <td colspan="3">
+                        <textarea id="content2" style="width: 800px; height: 100px"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>교육기간</th>
+                    <td>
+                        <input id="eduStartDt" style="width: 110px;">
+                        ~
+                        <input id="eduEndDt" style="width: 110px;">
+                    </td>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>모집기간</th>
+                    <td>
+                        <input id="recruitStartDt" style="width: 110px;">
+                        ~
+                        <input id="recruitEndDt" style="width: 110px;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>모집인원</th>
+                    <td>
+                        <input id="recruitNum" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 40px;"> 명
+                    </td>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>교육시간</th>
+                    <td>
+                        <input id="eduTime" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 40px;"> 시간/
+                        <input id="eduTimeEx" style="width: 140px;"> 예) 18:30~22:00
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>교육장소</th>
+                    <td>
+                        <input id="area" style="width: 400px;">
+                    </td>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>진행상태</th>
+                    <td>
+                        <input id="status" style="width: 200px;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">교육목표</th>
+                    <td colspan="3">
+                        <textarea id="goal" style="width: 800px; height: 100px"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">교육개요</th>
+                    <td colspan="3">
+                        <textarea id="intro" style="width: 800px; height: 150px"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">교육대상</th>
+                    <td colspan="3">
+                        <textarea id="targetUser" style="width: 800px; height: 100px"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">교육일정(내용)<br>(HTML)</th>
+                    <td colspan="3">
+                        <textarea id="scheduleHtml" style="width: 800px; height: 150px"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">교육문의</th>
+                    <td colspan="3">
+                        <textarea id="prospectus" style="width: 800px; height: 100px"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">준비물</th>
+                    <td colspan="3">
+                        <textarea id="materials" style="width: 800px; height: 100px"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>교육비(교재비)</th>
+                    <td>
+                        <input id="textbookFee" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 40px;" value="0"> 원 (없으면 0원 입력) / 안내 : <input id="textbookFeeEx" style="width: 100px;">
+                    </td>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>운영방법</th>
+                    <td>
+                        <span id="methodType" style="width: 300px;"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>인증서</th>
+                    <td colspan="3">
+                        <span id="certType" style="width: 300px;"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">교재 이미지</th>
+                    <td>
+                        <input type="hidden" id="file1Sn" name="file1Sn">
+                        <label for="file1" id="file1Label" class="k-button k-button-solid-base">파일첨부</label>
+                        <input type="file" id="file1" name="file1" onchange="prp.fileChange(this)" style="display: none">
+                        <span id="file1Name"></span>
+                    </td>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>메인게시여부</th>
+                    <td colspan="3">
+                        <span id="mainType" style="width: 300px;"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">수강신청서</th>
+                    <td colspan="3">
+                        <input type="hidden" id="file2Sn" name="file1Sn">
+                        <label for="file2" id="file2Label" class="k-button k-button-solid-base">파일첨부</label>
+                        <input type="file" id="file2" name="file2" onchange="prp.fileChange(this)" style="display: none">
+                        <span id="file2Name"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">메일첨부1</th>
+                    <td colspan="3">
+                        <input type="hidden" id="file3Sn" name="file1Sn">
+                        <label for="file2" id="file3Label" class="k-button k-button-solid-base">파일첨부</label>
+                        <input type="file" id="file3" name="file2" onchange="prp.fileChange(this)" style="display: none">
+                        <span id="file3Name"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">메일첨부2</th>
+                    <td colspan="3">
+                        <input type="hidden" id="file4Sn" name="file1Sn">
+                        <label for="file2" id="file4Label" class="k-button k-button-solid-base">파일첨부</label>
+                        <input type="file" id="file4" name="file2" onchange="prp.fileChange(this)" style="display: none">
+                        <span id="file4Name"></span>
+                    </td>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    ubr.fn_defaultScript();
+</script>
+</body>
+</html>

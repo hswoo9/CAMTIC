@@ -4,7 +4,7 @@
 <a href="javascript:popUpClick();" id="alarm">주요 알림 맞춤서비스</a>
 
 <div id="Service">
-  <h2>주요알림 모아보기 서비스</h2>
+  <%--<h2>주요알림 모아보기 서비스</h2> 2023-11-01 김병수 주요 알림 배경 제거 및 제목 숨김--%>
   <div class="svgroup_l">
     <div class="svg_logo">
       <%--<span class="hidden">한바탕전주 상단 로고</span>--%>
@@ -19,7 +19,7 @@
     </div>
     <div class="svg_menu">
       <ul>
-        <li><a href="" class="menu_on"><span>주요 알림 모아보기</span></a></li>
+        <li><a href="" class="menu_on" style="pointer-events : none;"><span>주요 알림 모아보기</span></a></li>
         <!--<li><a href=""><span>민원 도우미</span></a></li>-->
       </ul>
     </div>

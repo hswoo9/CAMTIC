@@ -181,4 +181,15 @@ public class ProjectUnRndController {
 
         return "jsonView";
     }
+
+    /** 단위사업 등록 팝업창 */
+    @RequestMapping("/projectUnRnd/unitBusinessReqPop.do")
+    public String unitBusinessReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_project/unRnd/unitBusinessReq";
+    }
 }

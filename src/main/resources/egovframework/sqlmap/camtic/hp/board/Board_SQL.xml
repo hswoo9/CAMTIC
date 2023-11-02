@@ -310,4 +310,16 @@
         FROM
             CAM_COMMON.DJ_NEWS_BOARD_SUBSCRIBE
     </select>
+
+    <select id="getLetterListOld" parameterType="map" resultType="map">
+        /*getLetterListOld*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_NEWS_OLD
+        WHERE
+            SOSIK_YEAR = #{year}
+    </select>
+
+
 </mapper>
