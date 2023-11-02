@@ -1786,12 +1786,13 @@
         ON
             D.PART_RATE_VER_SN = #{PART_RATE_VER_SN} AND D.PART_EMP_SEQ = A.MNG_EMP_SEQ AND D.PJT_SN = #{PJT_SN}
         WHERE A.PJT_SN = #{PJT_SN}
+        limit 1
         ]]>
     </select>
 
     <select id="getProjectMemberInfo" parameterType="map" resultType="map">
         <![CDATA[
-        /*getProjectManagerInfo*/
+        /*getProjectMemberInfo*/
         SELECT
             A.*,
             B.*,
@@ -1833,6 +1834,7 @@
         ON
             A.PART_RATE_VER_SN = D.PART_RATE_VER_SN AND D.PART_EMP_SEQ = #{MEMBER_SEQ} AND D.PJT_SN = #{PJT_SN}
         WHERE A.PJT_SN = #{PJT_SN}
+        limit 1
         ]]>
     </select>
 
