@@ -81,17 +81,6 @@ public class ItemSystemController {
     }
 
     /**
-     * 고객품번 데이터 저장
-     * @param params
-     * @return
-     */
-    @RequestMapping("/item/setCrmItemManage.do")
-    public String setCrmItemManage(@RequestParam Map<String, Object> params){
-        itemSystemService.setCrmItemManage(params);
-        return "jsonView";
-    }
-
-    /**
      * 고객품번 데이터 삭제
      * @param params
      * @return

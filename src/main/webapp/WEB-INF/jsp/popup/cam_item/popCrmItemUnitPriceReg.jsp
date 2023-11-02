@@ -29,6 +29,9 @@
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
         <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
         <input type="hidden" id="empName" name="empName" value="${loginVO.name}">
+        <input type="hidden" id="crmSn" name="crmSn" value="${params.crmSn}">
+        <input type="hidden" id="masterSn" name="masterSn" value="${params.masterSn}">
+        <input type="hidden" id="busClass" name="busClass" value="${params.busClass}">
         <input type="hidden" id="crmItemSn" name="crmItemSn" value="${params.crmItemSn}">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">

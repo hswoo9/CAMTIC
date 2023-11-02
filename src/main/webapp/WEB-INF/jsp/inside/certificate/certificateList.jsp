@@ -50,7 +50,7 @@
                         <th class="text-center th-color">검색어</th>
                         <td>
                             <input type="text" id="searchType" style="width: 80px;">
-                            <input type="text" id="searchText" style="width: 100px;">
+                            <input type="text" id="searchText" onkeypress="if(window.event.keyCode==13){certificateList.mainGrid();}" style="width: 100px;">
                         </td>
                     </tr>
                 </table>

@@ -4,14 +4,17 @@ var certificateAdmin = {
 
     init : function(){
         certificateAdmin.dataSet();
-
-        var data = {
-            manageCheck : "admin",
-            docuYearDe : $("#docuYearDe").val(),
-            proofType : $("#proofType").val(),
-            status : $("#status").val()
-        }
-        certificateAdmin.mainGrid("/inside/getCertificateList", data);
+        certificateAdmin.gridReload();
+        // var data = {
+        //     manageCheck : "admin",
+        //     docuYearDe : $("#docuYearDe").val(),
+        //     proofType : $("#proofType").val(),
+        //     purpose : $("#purpose").val(),
+        //     status : $("#status").val(),
+        //     searchType : $("#searchType").val(),
+        //     searchText : $("#searchText").val()
+        // }
+        // certificateAdmin.mainGrid("/inside/getCertificateList", data);
     },
 
     fn_setCertRep : function (p, key){
@@ -68,7 +71,8 @@ var certificateAdmin = {
                 { text: "승인", value: "100" },
                 { text: "반려", value: "30" }
             ],
-            index: 0
+            index: 0,
+            change : certificateAdmin.gridReload
         });
 
         $("#purpose").kendoDropDownList({
@@ -76,14 +80,15 @@ var certificateAdmin = {
             dataValueField: "value",
             dataSource: [
                 { text: "전체", value: "" },
-                { text: "금융기관 제출용", value: "1" },
-                { text: "교육기관 제출용", value: "2" },
-                { text: "관공서 제출용", value: "3" },
-                { text: "타사 제출용", value: "4" },
-                { text: "개인증빙용", value: "5" },
-                { text: "기타사유", value: "6" }
+                { text: "금융기관 제출용", value: "금융기관 제출용" },
+                { text: "교육기관 제출용", value: "교육기관 제출용" },
+                { text: "관공서 제출용", value: "관공서 제출용" },
+                { text: "타사 제출용", value: "타사 제출용" },
+                { text: "개인증빙용", value: "개인증빙용" },
+                { text: "기타사유", value: "기타사유" }
             ],
-            index: 0
+            index: 0,
+            change : certificateAdmin.gridReload
         });
 
         $("#searchType").kendoDropDownList({
@@ -97,6 +102,8 @@ var certificateAdmin = {
             ],
             index: 0
         });
+
+        $("#searchText").kendoTextBox();
 
         $("#docuYearDe").attr("readonly", true);
     },
@@ -185,7 +192,24 @@ var certificateAdmin = {
                     width: 100
                 }, {
                     field: "USAGE_NAME",
-                    title: "용도"
+                    title: "용도",
+                    template : function (row) {
+                        if (row.USAGE_NAME == "금융기관 제출용"){
+                            return "금융기관 제출용";
+                        }else if (row.USAGE_NAME == "교육기관 제출용"){
+                            return "교육기관 제출용";
+                        }else if (row.USAGE_NAME == "관공서 제출용") {
+                            return "관공서 제출용";
+                        }else if (row.USAGE_NAME == "타사 제출용"){
+                            return "타사 제출용";
+                        }else if (row.USAGE_NAME == "개인증빙용"){
+                            return "개인증빙용";
+                        }else if (row.USAGE_NAME == "기타사유"){
+                            return "기타사유";
+                        }else{
+                            return "데이터 오류";
+                        }
+                    }
                 }, {
                     field: "",
                     title: "비고",
@@ -219,7 +243,10 @@ var certificateAdmin = {
             manageCheck : "admin",
             docuYearDe : $("#docuYearDe").val(),
             proofType : $("#proofType").val(),
-            status : $("#status").val()
+            purpose : $("#purpose").val(),
+            status : $("#status").val(),
+            searchType : $("#searchType").val(),
+            searchText : $("#searchText").val()
         }
         certificateAdmin.mainGrid("/inside/getCertificateList", data);
     }

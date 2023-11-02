@@ -139,14 +139,21 @@ var ciupR = {
                 }
             })
             ciupR.global.saveAjaxData.empSeq = $("#empSeq").val();
+            ciupR.global.saveAjaxData.crmSn = $("#crmSn").val();
+            ciupR.global.saveAjaxData.masterSn = $("#masterSn").val();
+            ciupR.global.saveAjaxData.busClass = $("#busClass").val();
             ciupR.global.saveAjaxData.crmItemSn = $("#crmItemSn").val();
             ciupR.global.saveAjaxData.oldArr = JSON.stringify(oldArr)
+
 
             var result = customKendo.fn_customAjax("/item/setCrmItemUnitPriceReg.do", ciupR.global.saveAjaxData)
             if(result.flag){
                 alert("저장되었습니다.");
-                ciupR.global.ciupIndex = 0;
-                ciupR.setMakeTable();
+                // ciupR.global.ciupIndex = 0;
+                // ciupR.setMakeTable();
+                location.href = "/item/pop/popCrmItemUnitPriceReg.do?crmSn=" + $("#crmSn").val() + "&crmItemSn=" + result.params.crmItemSn + "&masterSn=" + $("#masterSn").val() + "&busClass=" + $("#busClass").val()
+                opener.parent.gridReload();
+
             }
         }
     },

@@ -27,9 +27,41 @@
     <select id="getCrmList" parameterType="map" resultType="map">
         /* getCrmList */
         SELECT
-            *
+            CI.*
+            <if test='target != null and !"".equals(target)'>
+                <if test='"mfOverView".equals(target)'>
+                    , MS.CRM_MG_SCALE_SN
+                    , DATE_FORMAT(MO.BASE_DATE, '%Y') AS BASE_DATE
+                    , MO.CAPITAL
+                    , MO.SALES
+                    , MO.EMP_CNT
+                </if>
+            </if>
         FROM
             CAM_CRM.DJ_CRM_INFO CI
+        LEFT JOIN
+        (
+            SELECT
+                A.CRM_SN,
+                GROUP_CONCAT(B.EMP_NAME_KR) AS EMP_NAME_KR,
+                GROUP_CONCAT(A.CRM_REL_CONT) AS CRM_REL_CONT
+            FROM
+                CAM_CRM.DJ_CRM_HIST A
+            JOIN
+                CAM_HR.DJ_EMP_INFO B ON A.REG_EMP_SEQ = B.EMP_SEQ
+            GROUP BY A.CRM_SN
+        )A
+        ON CI.CRM_SN = A.CRM_SN
+        <if test='target != null and !"".equals(target)'>
+            <if test='"mfOverView".equals(target)'>
+                LEFT JOIN
+                    CAM_CRM.DJ_CRM_MG_SCALE MS
+                ON CI.CRM_SN = MS.CRM_SN
+                LEFT JOIN
+                    CAM_CRM.DJ_CRM_MF_OVERVIEW MO
+                ON REPLACE(CI.CRM_NO, '-', '') = MO.MF_NO
+            </if>
+        </if>
         WHERE
             1 = 1
         <if test='ctmType != null and !"".equals(ctmType)'>
@@ -39,8 +71,20 @@
 
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword)'>
-                AND
-                    ${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+                <choose>
+                    <when test='"CRM_HIST_REG_EMP".equals(searchKeyword)'>
+                        AND
+                            A.EMP_NAME_KR LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <when test='"CRM_HIST_REL_CONT".equals(searchKeyword)'>
+                        AND
+                            A.CRM_REL_CONT LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <otherwise>
+                        AND
+                            ${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+                    </otherwise>
+                </choose>
             </when>
             <otherwise>
                 <if test='searchValue != null and !"".equals(searchValue)'>
@@ -49,7 +93,9 @@
                         CI.CRM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
                         CI.TEL_NUM LIKE CONCAT('%', #{searchValue}, '%') OR
                         CI.FAX LIKE CONCAT('%', #{searchValue}, '%') OR
-                        CI.CRM_CEO LIKE CONCAT('%', #{searchValue}, '%')
+                        CI.CRM_CEO LIKE CONCAT('%', #{searchValue}, '%') OR
+                        A.EMP_NAME_KR LIKE CONCAT('%', #{searchValue}, '%') OR
+                        A.CRM_REL_CONT LIKE CONCAT('%', #{searchValue}, '%')
                     )
                 </if>
             </otherwise>

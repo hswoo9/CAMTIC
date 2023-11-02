@@ -485,6 +485,12 @@ public class ItemManageServiceImpl implements ItemManageService {
 
     @Override
     public void setCrmItemUnitPriceReg(Map<String, Object> params) {
+        if(StringUtils.isEmpty(params.get("crmItemSn"))){
+            itemSystemRepository.setCrmItemManage(params);
+        }else{
+            itemSystemRepository.setCrmItemManageUpd(params);
+        }
+
         Gson gson = new Gson();
         if(!StringUtils.isEmpty(params.get("newData"))){
             params.put("changeNum", itemManageRepository.getCrmItemMaxChangeNum(params));
@@ -504,11 +510,13 @@ public class ItemManageServiceImpl implements ItemManageService {
         List<Map<String, Object>> oldArr = gson.fromJson((String) params.get("oldArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
         if(oldArr.size() > 0){
             for(Map<String, Object> map : oldArr){
+                if(StringUtils.isEmpty(map.get("crmItemSn"))){
+                    map.put("crmItemSn", params.get("crmItemSn"));
+                }
+
                 itemManageRepository.setCrmItemUnitPriceRegUpd(map);
             }
         }
-
-        itemManageRepository.setCrmItemManageUpd(params);
     }
 
     @Override
