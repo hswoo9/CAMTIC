@@ -38,13 +38,13 @@
   <div class="svgroup_r">
     <div class="svg_contents">
       <div class="service1" style="">
-        <h3 class="subject"><span>주요 알림 서비스</span></h3>
+        <h3 class="subject" style="pointer-events : none;" ><span>주요 알림 서비스</span></h3>
         <p class="txtst">
         </p>
         <div class="notification">
           <div class="popupzone1">
             <%--<h4 class="poptit1 on"><a href="" onclick="popUpView(this); return false;">팝업존 <span>모아보기</span></a></h4>--%>
-            <h4 class="poptit1 on"><a href="" style="pointer-events : none;" >팝업존</a></h4>
+            <h4 class="poptit1 on"><a href="" style="pointer-events : none;">팝업존</a></h4>
             <div class="popCon1" style="">
               <div class="readMore">
                 <ul>
