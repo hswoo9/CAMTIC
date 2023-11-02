@@ -39,13 +39,16 @@ var subHolidaySetting = {
                     return data;
                 }
             },
+            error: function (e) {
+                console.log("데이터 소스 오류: " + e.status, e.errorThrown);
+            },
             data : "result",
             schema : {
                 data: function (data) {
-                    return data.result;
+                    return data.list;
                 },
                 total: function (data) {
-                    return data.totalCount;
+                    return data.list.length;
                 },
             }
         });
