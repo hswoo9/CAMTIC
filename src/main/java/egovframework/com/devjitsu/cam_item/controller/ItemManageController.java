@@ -857,8 +857,9 @@ public class ItemManageController {
      * @return
      */
     @RequestMapping("/item/setCrmItemUnitPriceReg.do")
-    public String setCrmItemUnitPriceReg(@RequestParam Map<String, Object> params){
+    public String setCrmItemUnitPriceReg(@RequestParam Map<String, Object> params, Model model){
         itemManageService.setCrmItemUnitPriceReg(params);
+        model.addAttribute("params", params);
         return "jsonView";
     }
 

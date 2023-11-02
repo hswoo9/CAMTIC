@@ -171,9 +171,13 @@ var mup = {
 
     fn_popCrmItemUnitPriceReg : function (e){
         var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(e).closest("tr"));
-        var url = "/item/pop/popCrmItemUnitPriceReg.do?crmItemSn=" + (dataItem.CRM_ITEM_SN == null ? "" : dataItem.CRM_ITEM_SN) + "&masterSn=" + dataItem.MASTER_SN + "&busClass=W";
+        var url = "/item/pop/popCrmItemUnitPriceReg.do?crmSn=" + $("#crmSn").val() + "&crmItemSn=" + (dataItem.CRM_ITEM_SN == null ? "" : dataItem.CRM_ITEM_SN) + "&masterSn=" + dataItem.MASTER_SN + "&busClass=W";
         var name = "_blank";
         var option = "width = 785, height = 670, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
+}
+
+function gridReload(){
+    mup.gridReload();
 }
