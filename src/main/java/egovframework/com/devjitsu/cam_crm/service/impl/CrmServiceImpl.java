@@ -368,8 +368,32 @@ public class CrmServiceImpl implements CrmService {
                 Map<String, Object> saveMap = new HashMap<>();
                 saveMap.put("crmMgScaleSn", map.get("CRM_MG_SCALE_SN"));
                 saveMap.put("mgScaleYear", map.get("BASE_DATE"));
-                saveMap.put("capital", map.get("CAPITAL"));
-                saveMap.put("sales", map.get("SALES"));
+                saveMap.put("asset", "");
+                saveMap.put("liabilities", "");
+                saveMap.put("liabilitiesRatio", "");
+                saveMap.put("capitalTotal", "");
+                if(!StringUtils.isEmpty(map.get("CAPITAL"))){
+                    if(!map.get("CAPITAL").equals("미응답")){
+                        saveMap.put("capital", (Integer.parseInt(map.get("CAPITAL").toString()) * 1000000));
+                    }else{
+                        saveMap.put("capital", map.get("CAPITAL"));
+                    }
+                }else{
+                    saveMap.put("capital", "");
+                }
+                saveMap.put("capitalRatio", "");
+                if(!StringUtils.isEmpty(map.get("SALES"))){
+                    if(!map.get("SALES").equals("미응답")){
+                        saveMap.put("sales", (Integer.parseInt(map.get("SALES").toString()) * 1000000));
+                    }else{
+                        saveMap.put("sales", map.get("SALES"));
+                    }
+                }else{
+                    saveMap.put("sales", "");
+                }
+                saveMap.put("netIncome", "");
+                saveMap.put("operatProfit", "");
+                saveMap.put("operatProfitRatio", "");
                 saveMap.put("empCnt", map.get("EMP_CNT"));
                 saveMap.put("crmSn", map.get("CRM_SN"));
                 saveMap.put("regEmpSeq", params.get("empSeq"));
