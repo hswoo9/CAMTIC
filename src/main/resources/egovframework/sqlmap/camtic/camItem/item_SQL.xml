@@ -7,7 +7,11 @@
         /* getItemStandardUnitPriceList */
         SELECT
             IM.*,
-            MSU.*,
+            MSU.MASTER_SD_UP_SN,
+            MSU.UNIT_PRICE,
+            MSU.START_DT,
+            MSU.END_DT,
+            MSU.CHANGE_NUM,
             ITC.ITEM_CD_NM AS ITEM_TYPE_NM,
             WHC.ITEM_CD_NM AS WH_CD_NM,
             IUC.ITEM_CD_NM AS ITEM_UNIT_NM,
@@ -53,11 +57,7 @@
             </otherwise>
         </choose>
 
-        ORDER BY
-            CASE WHEN MSU.MOD_DT IS NULL THEN MSU.REG_DT
-                ELSE MSU.MOD_DT
-            END
-        DESC
+        ORDER BY IM.ITEM_NO ASC
     </select>
 
     <select id="getSdunitPriceList" parameterType="map" resultType="map">
