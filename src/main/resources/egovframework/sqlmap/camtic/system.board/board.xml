@@ -104,6 +104,7 @@
     </insert>
 
     <select id="getBoardCategoryList" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage" resultType="map">
+        /* getBoardCategoryList */
         SELECT
             BC.BOARD_CATEGORY_ID,
             BC.BOARD_CATEGORY_NAME,
@@ -111,9 +112,9 @@
             EI.EMP_NAME_KR
         FROM
             CAM_BOARD.DJ_BOARD_CATEGORY BC
-                LEFT JOIN
-            DJ_CAMTIC.V_EMP_INFO EI
-            ON BC.REG_EMP_SEQ = EI.EMP_SEQ
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON BC.REG_EMP_SEQ = EI.EMP_SEQ
         WHERE
             BC.BOARD_ID = #{boardId}
     </select>
