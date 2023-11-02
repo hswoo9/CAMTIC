@@ -183,13 +183,49 @@ public class ProjectUnRndController {
     }
 
     /** 단위사업 등록 팝업창 */
-    @RequestMapping("/projectUnRnd/unitBusinessReqPop.do")
+    @RequestMapping("/projectUnRnd/lectureReqPop.do")
     public String unitBusinessReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
 
-        return "popup/cam_project/unRnd/unitBusinessReq";
+        return "popup/cam_project/unRnd/lectureReq";
+    }
+
+    /** 단위사업 등록 */
+    @RequestMapping("/project/insLectureInfo")
+    public String insLectureInfo(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectUnRndService.insLectureInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    /** 단위사업 수정 */
+    @RequestMapping("/project/updLectureInfo")
+    public String updLectureInfo(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectUnRndService.updLectureInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    /** 단위사업 삭제 */
+    @RequestMapping("/project/delLectureInfo")
+    public String delLectureInfo(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectUnRndService.delLectureInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
     }
 }

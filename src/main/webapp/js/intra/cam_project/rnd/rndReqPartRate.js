@@ -107,6 +107,26 @@ var rndRPR = {
             parameters.partRateSn = $("#partRateSn").val();
         }
 
+        if(parameters.minPartRate == null || parameters.minPartRate == ""){
+            alert("최소 참여율을 입력해주세요");
+            return;
+        }
+
+        if(parameters.maxPartRate == null || parameters.maxPartRate == ""){
+            alert("최대 참여율을 입력해주세요");
+            return;
+        }
+
+        if(parameters.payBudget == null || parameters.payBudget == ""){
+            alert("인건비 예산(현금)을 입력해주세요");
+            return;
+        }
+
+        if(parameters.itemBudget == null || parameters.itemBudget == ""){
+            alert("인건비 예산(현물)을 입력해주세요");
+            return;
+        }
+
         var fd = new FormData();
         for (var key in parameters) {
             fd.append(key, parameters[key]);
@@ -133,7 +153,7 @@ var rndRPR = {
                 if($("#pjtStep").val().substring(0, 1) == "S"){
                     window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=1";
                 } else {
-                    window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=2";
+                    window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=1";
                 }
             }
         });

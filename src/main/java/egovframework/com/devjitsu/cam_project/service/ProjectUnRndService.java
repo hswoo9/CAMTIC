@@ -14,4 +14,8 @@ public interface ProjectUnRndService {
 
 
     void setDelvApprove(Map<String, Object> params);
+
+    void insLectureInfo(Map<String, Object> params);
+    void updLectureInfo(Map<String, Object> params);
+    void delLectureInfo(Map<String, Object> params);
 }

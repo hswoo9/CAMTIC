@@ -192,54 +192,57 @@ var regRnd = {
     fn_setData: function (e){
         $("#pjtTitle").text("프로젝트 - R&D");
 
-        $("#saveBtn").css("display", "none");
-        $("#modBtn").css("display", "");
+        if(e != null){
 
-        $("#sbjClass").data("kendoDropDownList").value(e.SBJ_CLASS);
-        //$("#sbjChar").data("kendoDropDownList").value(e.SBJ_CHAR);
-        $("#supDep").data("kendoDropDownList").value(e.SBJ_DEP);
-        $("#supDep").data("kendoDropDownList").trigger("change");
-        $("#supDepSub").data("kendoDropDownList").value(e.SBJ_DEP_SUB);
-        $("#sbjStrDe").data("kendoDatePicker").value(new Date(e.STR_DT));
-        $("#sbjEndDe").data("kendoDatePicker").value(new Date(e.END_DT));
+            $("#saveBtn").css("display", "none");
+            $("#modBtn").css("display", "");
 
-        $("#rndCrmNm").val(e.CRM_NM);
-        $("#rndCrmSn").val(e.CRM_SN);
-        $("#pjtExpAmt").val(comma(e.PJT_EXP_AMT));
+            $("#sbjClass").data("kendoDropDownList").value(e.SBJ_CLASS);
+            //$("#sbjChar").data("kendoDropDownList").value(e.SBJ_CHAR);
+            $("#supDep").data("kendoDropDownList").value(e.SBJ_DEP);
+            $("#supDep").data("kendoDropDownList").trigger("change");
+            $("#supDepSub").data("kendoDropDownList").value(e.SBJ_DEP_SUB);
+            $("#sbjStrDe").data("kendoDatePicker").value(new Date(e.STR_DT));
+            $("#sbjEndDe").data("kendoDatePicker").value(new Date(e.END_DT));
 
-        if(e.CRM_CON_NM = null && e.CRM_CON_NM != ""){
-            $("#rndConCrmNm").val(e.CRM_CON_SN);
-            $("#rndConCrmSn").val(e.CRM_CON_NM);
-        }
+            $("#rndCrmNm").val(e.CRM_NM);
+            $("#rndCrmSn").val(e.CRM_SN);
+            $("#pjtExpAmt").val(comma(e.PJT_EXP_AMT));
 
-        $("#deptName").val(e.DEPT_NAME);
-        $("#empName").val(e.EMP_NAME);
-        $("#empSeq").val(e.EMP_SEQ);
-        $("#deptSeq").val(e.DEPT_SEQ);
-
-        $("#pjtNm").val(e.PJT_NM);
-        $("#pjtSubNm").val(e.PJT_SUB_NM);
-
-
-        if(e.SBJ_SEP != undefined){
-            if(e.SBJ_SEP == "Y"){
-                $("#sbjSepY").prop("checked", true);
-                var data = {
-                    pjtSn: e.PJT_SN
-                }
-                let result = customKendo.fn_customAjax("/projectRnd/getAccountInfo", data);
-                $("#checkboxDiv").show();
-                for(let i=0; i<result.list.length; i++){
-                    $("#at" + result.list[i].IS_TYPE).prop('checked',true);
-                }
-            } else {
-                $("#sbjSepN").prop("checked", true);
+            if(e.CRM_CON_NM = null && e.CRM_CON_NM != ""){
+                $("#rndConCrmNm").val(e.CRM_CON_SN);
+                $("#rndConCrmSn").val(e.CRM_CON_NM);
             }
-        }
 
-        if(e.SBJ_STAT_YN != undefined){
-            if(e.SBJ_STAT_YN == "Y"){
-                $("#rndStatYn").prop("checked", true);
+            $("#deptName").val(e.DEPT_NAME);
+            $("#empName").val(e.EMP_NAME);
+            $("#empSeq").val(e.EMP_SEQ);
+            $("#deptSeq").val(e.DEPT_SEQ);
+
+            $("#pjtNm").val(e.PJT_NM);
+            $("#pjtSubNm").val(e.PJT_SUB_NM);
+
+
+            if(e.SBJ_SEP != undefined){
+                if(e.SBJ_SEP == "Y"){
+                    $("#sbjSepY").prop("checked", true);
+                    var data = {
+                        pjtSn: e.PJT_SN
+                    }
+                    let result = customKendo.fn_customAjax("/projectRnd/getAccountInfo", data);
+                    $("#checkboxDiv").show();
+                    for(let i=0; i<result.list.length; i++){
+                        $("#at" + result.list[i].IS_TYPE).prop('checked',true);
+                    }
+                } else {
+                    $("#sbjSepN").prop("checked", true);
+                }
+            }
+
+            if(e.SBJ_STAT_YN != undefined){
+                if(e.SBJ_STAT_YN == "Y"){
+                    $("#rndStatYn").prop("checked", true);
+                }
             }
         }
     },

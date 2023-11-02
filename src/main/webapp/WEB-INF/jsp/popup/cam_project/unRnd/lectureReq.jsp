@@ -6,8 +6,8 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 
 <body class="font-opensans" style="background-color:#fff;">
-<script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/unitBusiness.js?v=${today}'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/unitBusinessReq.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lecture.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lectureReq.js?v=${today}'/>"></script>
 
 <input type="hidden" id="mod" name="mod" />
 <input type="hidden" id="type" name="type" />

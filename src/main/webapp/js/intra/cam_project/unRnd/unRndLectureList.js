@@ -120,12 +120,12 @@ var unRndLectList = {
 
     },
 
-    fn_unitBusinessReqPop: function(pk){
-        let url = "/projectUnRnd/unitBusinessReqPop.do";
+    fn_lectureReqPop: function(pk){
+        let url = "/projectUnRnd/lectureReqPop.do";
         if(pk != null && pk != ""){
             url += "?pk="+pk;
         }
-        const name = "unitBusinessReqPop";
+        const name = "lectureReqPop";
         const option = "width = 1200, height = 800, top = 50, left = 300, location = no";
         window.open(url, name, option);
     }

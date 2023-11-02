@@ -19,7 +19,7 @@
     </div>
     <div class="svg_menu">
       <ul>
-        <li><a href="" class="menu_on" style="pointer-events : none;"><span>주요 알림 모아보기</span></a></li>
+        <li><a href="" class="menu_on" style="pointer-events : none;"><span>주요 알림</span></a></li>
         <!--<li><a href=""><span>민원 도우미</span></a></li>-->
       </ul>
     </div>
@@ -43,12 +43,13 @@
         </p>
         <div class="notification">
           <div class="popupzone1">
-            <h4 class="poptit1 on"><a href="" onclick="popUpView(this); return false;">팝업존 <span>모아보기</span></a></h4>
+            <%--<h4 class="poptit1 on"><a href="" onclick="popUpView(this); return false;">팝업존 <span>모아보기</span></a></h4>--%>
+            <h4 class="poptit1 on"><a href="" style="pointer-events : none;" >팝업존</a></h4>
             <div class="popCon1" style="">
               <div class="readMore">
                 <ul>
                     <li>
-                      <a href="#" title="test">
+                      <a href="/camtic/news/view.do?boardArticleId=40&category=study" title="test">
                         <div class="pop_thumb">
                           <img src="http://www.camtic.or.kr/camtic/etc/230207_2.jpg" alt="test" style="height: 217px;">
                         </div>
@@ -59,7 +60,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#" title="test">
+                      <a href="/camtic/news/view.do?boardArticleId=36&category=study" title="test">
                         <div class="pop_thumb">
                           <img src="http://www.camtic.or.kr/camtic/etc/230118_1.jpg" alt="test" style="height: 217px;">
                         </div>
@@ -70,7 +71,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#" title="test">
+                      <a href="/camtic/news/view.do?boardArticleId=39&category=partner" title="test">
                         <div class="pop_thumb">
                           <img src="http://www.camtic.or.kr/camtic/etc/230413_1.jpeg" alt="test" style="height: 217px;">
                         </div>
@@ -81,7 +82,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#" title="test">
+                      <a href="/camtic/news/view.do?boardArticleId=38&category=partner" title="test">
                         <div class="pop_thumb">
                           <img src="http://www.camtic.or.kr/camtic/etc/230412_1.jpg" alt="test" style="height: 217px;">
                         </div>
@@ -92,7 +93,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#" title="test">
+                      <a href="/camtic/news/view.do?boardArticleId=35&category=partner" title="test">
                         <div class="pop_thumb">
                           <img src="http://www.camtic.or.kr/camtic/etc/230410_1.png" alt="test" style="height: 217px;">
                         </div>
@@ -103,7 +104,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#" title="test">
+                      <a href="/camtic/news/view.do?boardArticleId=41495&category=partner" title="test">
                         <div class="pop_thumb">
                           <img src="http://www.camtic.or.kr/camtic/etc/230725_1.jpg" alt="test" style="height: 217px;">
                         </div>
@@ -114,7 +115,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#" title="test">
+                      <a href="/camtic/news/view.do?boardArticleId=22979&category=study" title="test">
                         <div class="pop_thumb">
                           <img src="http://www.camtic.or.kr/camtic/etc/230719_2.png" alt="test" style="height: 217px;">
                         </div>
@@ -125,7 +126,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#" title="test">
+                      <a href="/camtic/news/view.do?boardArticleId=22978&category=study" title="test">
                         <div class="pop_thumb">
                           <img src="http://www.camtic.or.kr/camtic/etc/230615_2.png" alt="test" style="height: 217px;">
                         </div>
