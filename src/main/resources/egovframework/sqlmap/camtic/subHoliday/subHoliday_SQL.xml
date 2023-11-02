@@ -285,11 +285,11 @@
         IFNULL((SELECT USE_DAY FROM CAM_INSIDE.DJ_HOLIDAY WHERE APPLY_YEAR = #{befYear} AND EMP_SEQ = VUI.EMP_SEQ), 0) AS befUseDay,
         IFNULL((SELECT USE_DAY FROM CAM_INSIDE.DJ_HOLIDAY WHERE APPLY_YEAR = #{bef2Year} AND EMP_SEQ = VUI.EMP_SEQ), 0) AS bef2UseDay
         FROM
-            CAM_HR.DJ_EMP_INFO VUI
+        CAM_HR.DJ_EMP_INFO VUI
         LEFT JOIN
-            CAM_INSIDE.DJ_HOLIDAY VC
+        CAM_INSIDE.DJ_HOLIDAY VC
         ON
-            VUI.EMP_SEQ = VC.EMP_SEQ AND VC.APPLY_YEAR = #{holidayYear}
+        VUI.EMP_SEQ = VC.EMP_SEQ AND VC.APPLY_YEAR = #{holidayYear}
         WHERE
         VUI.ACTIVE = "Y"
         <if test='dept != null and !"".equals(dept)'>

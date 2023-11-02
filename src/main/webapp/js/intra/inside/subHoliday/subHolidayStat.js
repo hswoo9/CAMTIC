@@ -51,11 +51,10 @@ var subHolidayStat = {
             dataValueField: "value",
             dataSource: [
                 { text: "전체", value: ""},
-                { text: "성명", value: "1" },
-                { text: "직급", value: "2" },
+                { text: "이름", value: "1" },
+                { text: "직위", value: "2" },
                 { text: "등급", value: "3" },
-                { text: "직책", value: "4" },
-                { text: "메일주소", value: "5" }
+                { text: "메일주소", value: "4" }
             ],
             index: 0
         });

@@ -22,7 +22,8 @@
                     DATE_FORMAT(IUP.APPROVAL_RESULT_DATE, '%Y-%m-%d') AS APPROVAL_RESULT_DATE,
                     HEI.EMP_NAME_KR AS APPROVAL_EMP_NAME,
                     IUP.NUMBER,
-                    IUP.DOCU_YEAR_DE
+                    IUP.DOCU_YEAR_DE,
+                    IUP.REG_DUTY_NAME
                 FROM
                     CAM_INSIDE.DJ_USER_PROOF IUP
                 LEFT JOIN
@@ -38,6 +39,9 @@
                 <if test='proofType != null and !"".equals(proofType)'>
                     AND PROOF_TYPE = #{proofType}
                 </if>
+                <if test='purpose != null and !"".equals(purpose)'>
+                    AND USAGE_NAME = #{purpose}
+                </if>
                 <if test='status != null and !"".equals(status)'>
                     AND STATUS = #{status}
                 </if>
@@ -45,6 +49,17 @@
                     AND
                         STATUS IN (10, 30, 100, 110)
                 </if>
+                <choose>
+                    <when test='(searchText == null or "".equals(searchText)) or (searchType == null or "".equals(searchType))'>
+                        AND (REGTR_NAME like CONCAT('%', COALESCE(#{searchText}, ''), '%') OR REG_DUTY_NAME like CONCAT('%', COALESCE(#{searchText}, ''), '%'))
+                    </when>
+                    <when test='searchText != null and !"".equals(searchText) and "1".equals(searchType)'>
+                        AND REGTR_NAME like CONCAT('%', #{searchText}, '%')
+                    </when>
+                    <when test='searchText != null and !"".equals(searchText) and "2".equals(searchType)'>
+                        AND REG_DUTY_NAME like CONCAT('%', #{searchText}, '%')
+                    </when>
+                </choose>
                 AND
                     IUP.ACTIVE = 'Y'
                 ORDER BY IUP.REG_DE

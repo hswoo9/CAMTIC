@@ -2,6 +2,10 @@ var now = new Date();
 
 var certificateList = {
 
+    global : {
+        selectEmpData : [],
+    },
+
     init : function(){
         certificateList.dataSet();
         certificateList.mainGrid();
@@ -80,6 +84,22 @@ var certificateList = {
             change : gridReload
         });
 
+        $("#purpose").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "금융기관 제출용", value: "금융기관 제출용" },
+                { text: "교육기관 제출용", value: "교육기관 제출용" },
+                { text: "관공서 제출용", value: "관공서 제출용" },
+                { text: "타사 제출용", value: "타사 제출용" },
+                { text: "개인증빙용", value: "개인증빙용" },
+                { text: "기타사유", value: "기타사유" }
+            ],
+            index: 0,
+            change : gridReload
+        });
+
         $("#status").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
@@ -94,20 +114,6 @@ var certificateList = {
             change : gridReload
         });
 
-        $("#purpose").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "전체", value: "" },
-                { text: "금융기관 제출용", value: "1" },
-                { text: "교육기관 제출용", value: "2" },
-                { text: "관공서 제출용", value: "3" },
-                { text: "타사 제출용", value: "4" },
-                { text: "개인증빙용", value: "5" },
-                { text: "기타사유", value: "6" }
-            ],
-            value : ""
-        });
 
         $("#searchType").kendoDropDownList({
             dataTextField: "text",
@@ -141,6 +147,9 @@ var certificateList = {
                     data.docuYearDe = $("#docuYearDe").val();
                     data.proofType = $("#proofType").val();
                     data.status = $("#status").val();
+                    data.purpose = $("#purpose").val();
+                    data.searchType = $("#searchType").val();
+                    data.searchText = $("#searchText").val();
                     return data;
                 }
             },
@@ -245,7 +254,24 @@ var certificateList = {
                     width: 130
                 }, {
                     field: "USAGE_NAME",
-                    title: "용도"
+                    title: "용도",
+                    template : function (row) {
+                        if (row.USAGE_NAME == "금융기관 제출용"){
+                            return "금융기관 제출용";
+                        }else if (row.USAGE_NAME == "교육기관 제출용"){
+                            return "교육기관 제출용";
+                        }else if (row.USAGE_NAME == "관공서 제출용") {
+                            return "관공서 제출용";
+                        }else if (row.USAGE_NAME == "타사 제출용"){
+                            return "타사 제출용";
+                        }else if (row.USAGE_NAME == "개인증빙용"){
+                            return "개인증빙용";
+                        }else if (row.USAGE_NAME == "기타사유"){
+                            return "기타사유";
+                        }else{
+                            return "데이터 오류";
+                        }
+                    }
                 }, {
                     title: "처리 상태",
                     template : function(row){
@@ -279,6 +305,7 @@ var certificateList = {
             ]
         }).data("kendoGrid");
     },
+
 
     onDataBound : function(){
         const grid = this;
