@@ -23,14 +23,23 @@ var meu = {
 
     setExcelFileUpload : function(){
         var formData = new FormData();
+        var url = "";
+
+        if($("#popType").val() == "mf"){
+            url = "/crm/mfExcelUpload.do";
+        }else{
+            url = "/crm/crmExcelUpload.do";
+        }
+
         formData.append("mfFile", $("#file")[0].files[0]);
         formData.append("empSeq", $("#empSeq").val());
 
+
         if(confirm("엑셀을 업로드 하시겠습니까?")){
-            var result = customKendo.fn_customFormDataAjax("/crm/mfExcelUpload.do", formData);
+            var result = customKendo.fn_customFormDataAjax(url, formData);
             if(result.flag){
                 alert("처리되었습니다.");
-                opener.parent.mov.gridReload();
+                opener.parent.gridReload();
                 window.close();
             }
         }

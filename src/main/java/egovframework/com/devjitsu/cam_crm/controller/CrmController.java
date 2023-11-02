@@ -83,11 +83,21 @@ public class CrmController {
         crmService.crmRegTemplateDown(request, response);
     }
 
+    /**
+     * crm 고객등록 엑셀 업로드
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/crmExcelUpload.do")
+    public String crmExcelUpload(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) throws Exception{
+        crmService.crmExcelUpload(params, request);
+        return "jsonView";
+    }
+
     @RequestMapping("/crm/pop/popCrmList.do")
     public String popCrmList(@RequestParam Map<String, Object> params, Model model){
-
         model.addAttribute("params", params);
-
         return "popup/cam_crm/popCrmList";
     }
 
@@ -538,10 +548,12 @@ public class CrmController {
      * @return
      */
     @RequestMapping("/crm/pop/mfExcelUploadPop.do")
-    public String mfExcelUploadPop(Model model, HttpServletRequest request){
+    public String mfExcelUploadPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
         return "popup/cam_crm/mfExcelUploadPop";
     }
 

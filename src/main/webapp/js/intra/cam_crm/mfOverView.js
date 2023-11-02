@@ -415,15 +415,17 @@ var mov = {
     },
 
     setMfOverviewByCrmInfoUpd : function(){
-        var result = customKendo.fn_customAjax("/crm/setMfOverviewByCrmInfoUpd.do", {empSeq : $("#myEmpSeq").val()});
-        if(result.flag){
-            alert("처리되었습니다.");
-            mov.gridReload();
+        if(confirm("고객정보를 업데이트 하시겠습니까?")){
+            var result = customKendo.fn_customAjax("/crm/setMfOverviewByCrmInfoUpd.do", {empSeq : $("#myEmpSeq").val()});
+            if(result.flag){
+                alert("처리되었습니다.");
+                mov.gridReload();
+            }
         }
     },
 
     fn_mfExcelUploadPop : function (){
-        var url = "/crm/pop/mfExcelUploadPop.do";
+        var url = "/crm/pop/mfExcelUploadPop.do?popType=mf";
         var name = "_blank";
         var option = "width = 500, height = 230, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
@@ -445,4 +447,8 @@ var mov = {
         var option = "width = 1300, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     }
+}
+
+function gridReload(){
+    mov.gridReload();
 }

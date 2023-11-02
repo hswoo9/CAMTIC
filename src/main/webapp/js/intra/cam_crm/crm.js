@@ -80,6 +80,13 @@ var crm = {
                             '</button>';
                     }
                 }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="crm.fn_crmExcelUploadPop()">' +
+                            '	<span class="k-button-text">고객등록양식 업로드</span>' +
+                            '</button>';
+                    }
+                }, {
                     name : 'excel',
                     text: '엑셀다운로드'
                 }
@@ -169,6 +176,13 @@ var crm = {
         });
     },
 
+    fn_crmExcelUploadPop : function (){
+        var url = "/crm/pop/mfExcelUploadPop.do?popType=crm";
+        var name = "_blank";
+        var option = "width = 500, height = 230, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
     setCrmDel : function(){
         if($("input[name='crmSn']:checked").length == 0){
             alert("삭제할 고객을 선택해주세요.");
@@ -204,4 +218,8 @@ var crm = {
         var option = "width = 1300, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     }
+}
+
+function gridReload(){
+    crm.gridReload();
 }

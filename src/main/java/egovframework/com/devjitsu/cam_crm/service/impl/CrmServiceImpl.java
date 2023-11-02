@@ -97,6 +97,120 @@ public class CrmServiceImpl implements CrmService {
     }
 
     @Override
+    public void crmExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception {
+        MultipartFile fileNm = request.getFile("mfFile");
+
+        File dest = new File(fileNm.getOriginalFilename());
+        fileNm.transferTo(dest);
+
+        XSSFRow row;
+        XSSFCell col0;
+        XSSFCell col1;
+        XSSFCell col2;
+        XSSFCell col3;
+
+        FileInputStream inputStream = new FileInputStream(dest);
+
+        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        int rows = sheet.getPhysicalNumberOfRows();
+
+        for(int i=4; i < rows; i++){
+            Map<String, Object> crmInfo = new HashMap<>();
+            Map<String, Object> crmMem = new HashMap<>();
+            Map<String, Object> crmCert = new HashMap<>();
+            Map<String, Object> crmAccounting = new HashMap<>();
+            Map<String, Object> crmScale = new HashMap<>();
+
+            row = sheet.getRow(i);
+            col0 = row.getCell(0);
+            col1 = row.getCell(1);
+            col2 = row.getCell(2);
+            col3 = row.getCell(3);
+
+            if(row != null){
+                if(cellValueToString(col0).equals("") || cellValueToString(col1).equals("") || cellValueToString(col2).equals("") || cellValueToString(col3).equals("")){
+                    return;
+                } else {
+
+                    crmInfo.put("crmNm", cellValueToString(row.getCell(0)));
+                    crmInfo.put("crmNo", cellValueToString(row.getCell(1)));
+                    crmInfo.put("crmCeo", cellValueToString(row.getCell(2)));
+                    crmInfo.put("email", cellValueToString(row.getCell(3)));
+                    crmInfo.put("telNum", cellValueToString(row.getCell(4)));
+                    crmInfo.put("phNum", cellValueToString(row.getCell(5)));
+                    crmInfo.put("fax", cellValueToString(row.getCell(6)));
+                    crmInfo.put("crmEstNo", cellValueToString(row.getCell(7)));
+                    crmInfo.put("post", cellValueToString(row.getCell(8)));
+                    crmInfo.put("addr", cellValueToString(row.getCell(9)));
+                    crmInfo.put("crmOcc", cellValueToString(row.getCell(10)));
+                    crmInfo.put("crmEvent", cellValueToString(row.getCell(11)));
+                    crmInfo.put("regEmpSeq", params.get("empSeq"));
+                    crmRepository.insCrmInfo(crmInfo);
+
+                    crmInfo.put("crmAtt", cellValueToString(row.getCell(12)));
+                    crmInfo.put("crmClass", cellValueToString(row.getCell(13)));
+                    crmInfo.put("crmSubClass", cellValueToString(row.getCell(14)));
+                    crmInfo.put("buyCl", cellValueToString(row.getCell(15)));
+                    crmInfo.put("miCl", cellValueToString(row.getCell(16)));
+                    crmInfo.put("homepage", cellValueToString(row.getCell(17)));
+                    crmInfo.put("crmProd", cellValueToString(row.getCell(18)));
+                    crmInfo.put("crmStat", cellValueToString(row.getCell(19)));
+                    crmInfo.put("etc", cellValueToString(row.getCell(20)));
+                    crmRepository.updCrmInfo(crmInfo);
+
+                    crmMem.put("crmSn", crmInfo.get("crmSn"));
+                    crmMem.put("crmMemNm", cellValueToString(row.getCell(21)));
+                    crmMem.put("crmMemDuty", cellValueToString(row.getCell(22)));
+                    crmMem.put("crmMemDept", cellValueToString(row.getCell(23)));
+                    crmMem.put("crmMemPhn", cellValueToString(row.getCell(24)));
+                    crmMem.put("crmMemEmail", cellValueToString(row.getCell(25)));
+                    crmMem.put("crmMemEtc", cellValueToString(row.getCell(26)));
+                    crmMem.put("crmMemClass", cellValueToString(row.getCell(27)));
+                    crmMem.put("regEmpSeq", params.get("empSeq"));
+                    crmRepository.insCrmMemInfo(crmMem);
+
+                    crmCert.put("crmSn", crmInfo.get("crmSn"));
+                    crmCert.put("venture", cellValueToString(row.getCell(28)));
+                    crmCert.put("ventureTxt", cellValueToString(row.getCell(29)));
+                    crmCert.put("innobiz", cellValueToString(row.getCell(30)));
+                    crmCert.put("innobizTxt", cellValueToString(row.getCell(31)));
+                    crmCert.put("mainbiz", cellValueToString(row.getCell(32)));
+                    crmCert.put("mainbizTxt", cellValueToString(row.getCell(33)));
+                    crmCert.put("otherCert", cellValueToString(row.getCell(34)));
+                    crmCert.put("regEmpSeq", params.get("empSeq"));
+                    crmRepository.setCrmCert(crmCert);
+
+                    crmAccounting.put("crmSn", crmInfo.get("crmSn"));
+                    crmAccounting.put("bankName", cellValueToString(row.getCell(35)));
+                    crmAccounting.put("accountNum", cellValueToString(row.getCell(36)));
+                    crmAccounting.put("accountHolder", cellValueToString(row.getCell(37)));
+                    crmAccounting.put("accountChargeNm", cellValueToString(row.getCell(38)));
+                    crmAccounting.put("accountChargeEmail", cellValueToString(row.getCell(39)));
+                    crmAccounting.put("regEmpSeq", params.get("empSeq"));
+                    crmRepository.setCrmAccounting(crmAccounting);
+
+                    crmScale.put("crmSn", crmInfo.get("crmSn"));
+                    crmScale.put("mgScaleYear", cellValueToString(row.getCell(40)));
+                    crmScale.put("asset", cellValueToString(row.getCell(41)));
+                    crmScale.put("liabilities", cellValueToString(row.getCell(42)));
+                    crmScale.put("liabilitiesRatio", cellValueToString(row.getCell(43)));
+                    crmScale.put("capitalTotal", cellValueToString(row.getCell(44)));
+                    crmScale.put("capital", cellValueToString(row.getCell(45)));
+                    crmScale.put("capitalRatio", cellValueToString(row.getCell(46)));
+                    crmScale.put("sales", cellValueToString(row.getCell(47)));
+                    crmScale.put("netIncome", cellValueToString(row.getCell(48)));
+                    crmScale.put("operatProfit", cellValueToString(row.getCell(49)));
+                    crmScale.put("operatProfitRatio", cellValueToString(row.getCell(50)));
+                    crmScale.put("empCnt", cellValueToString(row.getCell(51)));
+                    crmScale.put("regEmpSeq", params.get("empSeq"));
+                    crmRepository.setCrmMgScale(crmScale);
+                }
+            }
+        }
+    }
+
+    @Override
     public void setCrmInfo(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir) {
 
         try{
@@ -404,20 +518,20 @@ public class CrmServiceImpl implements CrmService {
                 saveMap.put("liabilitiesRatio", "");
                 saveMap.put("capitalTotal", "");
                 if(!StringUtils.isEmpty(map.get("CAPITAL"))){
-                    if(!map.get("CAPITAL").equals("미응답")){
-                        saveMap.put("capital", (Integer.parseInt(map.get("CAPITAL").toString()) * 1000000));
-                    }else{
+                    if(map.get("CAPITAL").equals("미응답")){
                         saveMap.put("capital", map.get("CAPITAL"));
+                    }else{
+                        saveMap.put("capital", (Integer.parseInt(map.get("CAPITAL").toString()) * 1000000));
                     }
                 }else{
                     saveMap.put("capital", "");
                 }
                 saveMap.put("capitalRatio", "");
                 if(!StringUtils.isEmpty(map.get("SALES"))){
-                    if(!map.get("SALES").equals("미응답")){
-                        saveMap.put("sales", (Integer.parseInt(map.get("SALES").toString()) * 1000000));
-                    }else{
+                    if(map.get("SALES").equals("미응답")){
                         saveMap.put("sales", map.get("SALES"));
+                    }else{
+                        saveMap.put("sales", (Integer.parseInt(map.get("SALES").toString()) * 1000000));
                     }
                 }else{
                     saveMap.put("sales", "");
