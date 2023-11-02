@@ -173,8 +173,8 @@
             PJT_SN = #{pjtSn}
     </update>
 
-    <insert id="insUnRndDetail" parameterType="map">
-        /*insUnRndDetail*/
+    <insert id="insLectureInfo" parameterType="map">
+        /*insLectureInfo*/
         INSERT INTO CAM_PJT_MNG.DJ_PJT_LECTURE
         (
         LEC_BUSN_CLASS,
