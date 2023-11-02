@@ -398,7 +398,7 @@ public class CrmServiceImpl implements CrmService {
                 saveMap.put("crmSn", map.get("CRM_SN"));
                 saveMap.put("regEmpSeq", params.get("empSeq"));
 
-                if(StringUtils.isEmpty(map.get("crmMgScaleSn"))){
+                if(StringUtils.isEmpty(saveMap.get("crmMgScaleSn"))){
                     crmRepository.setCrmMgScale(saveMap);
                 }else{
                     crmRepository.setCrmMgScaleUpd(saveMap);
