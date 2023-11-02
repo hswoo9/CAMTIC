@@ -38,7 +38,7 @@
                         <td>
                             <input type="text" id="ctmType" style="width: 150px;">
                         </td>
-                        <th class="text-center th-color">대상부서</th>
+                        <th class="text-center th-color">검색</th>
                         <td>
                             <input type="text" id="searchKeyword" style="width: 15%;"/>
                             <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){crmHist.gridReload()}"/>

@@ -39,6 +39,18 @@
             </if>
         FROM
             CAM_CRM.DJ_CRM_INFO CI
+        LEFT JOIN
+        (
+            SELECT
+                A.CRM_SN,
+                group_concat(B.EMP_NAME_KR) AS EMP_NAME_KR
+            FROM
+                CAM_CRM.DJ_CRM_HIST A
+            JOIN
+                CAM_HR.DJ_EMP_INFO B ON A.REG_EMP_SEQ = B.EMP_SEQ
+            GROUP BY A.CRM_SN
+        )A
+        ON CI.CRM_SN = A.CRM_SN
         <if test='target != null and !"".equals(target)'>
             <if test='"mfOverView".equals(target)'>
                 LEFT JOIN
@@ -58,8 +70,16 @@
 
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword)'>
-                AND
-                    ${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+                <choose>
+                    <when test='"CRM_HIST_TYPE_1".equals(searchKeyword)'>
+                        AND
+                            A.EMP_NAME_KR LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <otherwise>
+                        AND
+                            ${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+                    </otherwise>
+                </choose>
             </when>
             <otherwise>
                 <if test='searchValue != null and !"".equals(searchValue)'>
@@ -68,7 +88,8 @@
                         CI.CRM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
                         CI.TEL_NUM LIKE CONCAT('%', #{searchValue}, '%') OR
                         CI.FAX LIKE CONCAT('%', #{searchValue}, '%') OR
-                        CI.CRM_CEO LIKE CONCAT('%', #{searchValue}, '%')
+                        CI.CRM_CEO LIKE CONCAT('%', #{searchValue}, '%') OR
+                        A.EMP_NAME_KR LIKE CONCAT('%', #{searchValue}, '%')
                     )
                 </if>
             </otherwise>
