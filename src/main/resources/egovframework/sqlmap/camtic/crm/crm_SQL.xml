@@ -27,9 +27,28 @@
     <select id="getCrmList" parameterType="map" resultType="map">
         /* getCrmList */
         SELECT
-            *
+            CI.*
+            <if test='target != null and !"".equals(target)'>
+                <if test='"mfOverView".equals(target)'>
+                    , MS.CRM_MG_SCALE_SN
+                    , DATE_FORMAT(MO.BASE_DATE, '%Y') AS BASE_DATE
+                    , MO.CAPITAL
+                    , MO.SALES
+                    , MO.EMP_CNT
+                </if>
+            </if>
         FROM
             CAM_CRM.DJ_CRM_INFO CI
+        <if test='target != null and !"".equals(target)'>
+            <if test='"mfOverView".equals(target)'>
+                LEFT JOIN
+                    CAM_CRM.DJ_CRM_MG_SCALE MS
+                ON CI.CRM_SN = MS.CRM_SN
+                LEFT JOIN
+                    CAM_CRM.DJ_CRM_MF_OVERVIEW MO
+                ON REPLACE(CI.CRM_NO, '-', '') = MO.MF_NO
+            </if>
+        </if>
         WHERE
             1 = 1
         <if test='ctmType != null and !"".equals(ctmType)'>

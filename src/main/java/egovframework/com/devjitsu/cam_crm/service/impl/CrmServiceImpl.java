@@ -359,6 +359,28 @@ public class CrmServiceImpl implements CrmService {
     @Override
     public void setMfOverviewByCrmInfoUpd(Map<String, Object> params) {
         crmRepository.setMfOverviewByCrmInfoUpd(params);
+
+        params.put("target", "mfOverView");
+
+        List<Map<String, Object>> list = crmRepository.getCrmList(params);
+        for(Map<String, Object> map : list){
+            if(!StringUtils.isEmpty(map.get("BASE_DATE"))){
+                Map<String, Object> saveMap = new HashMap<>();
+                saveMap.put("crmMgScaleSn", map.get("CRM_MG_SCALE_SN"));
+                saveMap.put("mgScaleYear", map.get("BASE_DATE"));
+                saveMap.put("capital", map.get("CAPITAL"));
+                saveMap.put("sales", map.get("SALES"));
+                saveMap.put("empCnt", map.get("EMP_CNT"));
+                saveMap.put("crmSn", map.get("CRM_SN"));
+                saveMap.put("regEmpSeq", params.get("empSeq"));
+
+                if(StringUtils.isEmpty(map.get("crmMgScaleSn"))){
+                    crmRepository.setCrmMgScale(saveMap);
+                }else{
+                    crmRepository.setCrmMgScaleUpd(saveMap);
+                }
+            }
+        }
     }
 
     @Override
