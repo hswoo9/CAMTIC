@@ -100,6 +100,8 @@
                 </if>
             </otherwise>
         </choose>
+
+        GROUP BY CI.CRM_SN
     </select>
 
     <update id="setCrmDel" parameterType="map">

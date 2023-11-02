@@ -73,6 +73,13 @@ var crm = {
                             '</button>';
                     }
                 }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="crm.templateExcelFormDown()">' +
+                            '	<span class="k-button-text">고객등록양식 다운로드</span>' +
+                            '</button>';
+                    }
+                }, {
                     name : 'excel',
                     text: '엑셀다운로드'
                 }
@@ -154,6 +161,12 @@ var crm = {
         }
 
         crm.mainGrid("/crm/getCrmList", crm.global.searchAjaxData);
+    },
+
+    templateExcelFormDown : function(){
+        kendo.saveAs({
+            dataURI: "/crm/crmRegTemplateDown.do"
+        });
     },
 
     setCrmDel : function(){

@@ -73,6 +73,16 @@ public class CrmController {
         return "jsonView";
     }
 
+    /**
+     * 고객등록 양식 다운로드
+     * @param request
+     * @return
+     */
+    @RequestMapping("/crm/crmRegTemplateDown.do")
+    public void crmRegTemplateDown(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        crmService.crmRegTemplateDown(request, response);
+    }
+
     @RequestMapping("/crm/pop/popCrmList.do")
     public String popCrmList(@RequestParam Map<String, Object> params, Model model){
 
@@ -512,7 +522,7 @@ public class CrmController {
     }
 
     /**
-     * 입고등록 양식 다운로드
+     * 실태조사 양식 다운로드
      * @param request
      * @return
      */

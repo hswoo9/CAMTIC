@@ -14,6 +14,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -63,6 +65,35 @@ public class CrmServiceImpl implements CrmService {
     public void setCrmDel(Map<String, Object> params) {
         crmRepository.setCrmDel(params);
         crmRepository.setCrmHistDel(params);
+    }
+
+    @Override
+    public void crmRegTemplateDown(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String localPath = "/downloadFile/";
+        String fileName = "고객 등록 양식.xlsx";
+        String viewFileNm = "고객 등록 양식.xlsx";
+        File reFile = new File(request.getSession().getServletContext().getRealPath(localPath + fileName));
+
+        try {
+            if (reFile.exists() && reFile.isFile()) {
+                response.setContentType("application/octet-stream; charset=utf-8");
+                response.setContentLength((int) reFile.length());
+                String browser = getBrowser(request);
+                String disposition = setDisposition(viewFileNm, browser);
+                response.setHeader("Content-Disposition", disposition);
+                response.setHeader("Content-Transfer-Encoding", "binary");
+                OutputStream out = response.getOutputStream();
+                FileInputStream fis = null;
+                fis = new FileInputStream(reFile);
+                FileCopyUtils.copy(fis, out);
+                if (fis != null)
+                    fis.close();
+                out.flush();
+                out.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
