@@ -137,7 +137,7 @@
                           <tr class="fileTr">
                             <th class="fileTh">파일명</th>
                             <th class="fileTh">확장자</th>
-                            <th class="fileTh">용량(KB)</th>
+                            <th class="fileTh">용량</th>
                             <th class="fileTh">기타</th>
                           </tr>
                           </thead>
@@ -177,7 +177,7 @@
               <a href="javascript:void(0);" onclick="fn_updNotice();" class="__btn1 grayLine"><span>수정하기</span></a>
             </div>
           </div>
-      </div>
+        </div>
       </div>
     </div>
   </div>
@@ -204,13 +204,13 @@
 
 
     CKEDITOR.replace('contents', {
-        height: 250
-      });
+      height: 250
+    });
 
     /*CKEDITOR.instances.contents.setData($("#prevContent").val());*/
 
     fnDefaultScript();
-    });
+  });
 
   function fnDefaultScript() {
     var data = {
@@ -229,14 +229,12 @@
           $("#fileGrid").find(".defultTr").remove();
           $("#fileGrid").find(".addFile").remove();
 
-          let size = 0;
           var html = '';
           for (var i = 0; i < rs.fileMap.length; i++) {
-            size = bytesToKB(rs.fileMap[i].file_size);
             html += '<tr style="text-align: center" class="beforeAddFile">';
             html += '   <td>' + rs.fileMap[i].file_org_name + '</td>';
             html += '   <td>' + rs.fileMap[i].file_ext + '</td>';
-            html += '   <td>' + size + '</td>';
+            html += '   <td>' + rs.fileMap[i].file_size + '</td>';
             html += '   <td>';
             html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="commonFileDel(' + rs.fileMap[i].file_no + ', this)">'
             html += '   </td>';
@@ -248,15 +246,6 @@
       },
 
     });
-  }
-
-  function bytesToKB(bytes) {
-    const sizes = ['KB'];
-    if (bytes === 0) return '0 KB';
-
-    let kilobytes = bytes / 1024;
-    kilobytes = kilobytes.toFixed(2) + "KB";
-    return kilobytes;
   }
 
   function commonFileDel(e, v){

@@ -12,6 +12,13 @@ var oorl = {
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
 
         oorl.global.dropDownDataSource = [
+            { text : "개시", value : "N" },
+            { text : "마감", value : "Y" }
+        ]
+        customKendo.fn_dropDownList("deadLine", oorl.global.dropDownDataSource, "text", "value");
+        $("#deadLine").data("kendoDropDownList").bind("change", oorl.gridReload);
+
+        oorl.global.dropDownDataSource = [
             { text : "품번", value : "ITEM_NO" },
             { text : "품명", value : "ITEM_NAME" }
         ]
@@ -52,14 +59,7 @@ var oorl = {
                             '	<span class="k-button-text">수주취소</span>' +
                             '</button>';
                     }
-                },/* {
-                    name: 'button',
-                    template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oorl.setDeliveryAmtUpd()">' +
-                            '	<span class="k-button-text">납품누계저장</span>' +
-                            '</button>';
-                    }
-                },*/ {
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-dark" onclick="oorl.setDeadlineUpd()">' +
@@ -305,6 +305,13 @@ var oorl = {
                         }
                     },
                 }, {
+                    width: 80,
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="oorl.fn_popSelEstimate(this)">' +
+                            '	<span class="k-button-text">견적서</span>' +
+                            '</button>';
+                    }
+                }, {
                     title: "등록자",
                     field: "EMP_NAME_KR",
                     width: 80,
@@ -335,41 +342,13 @@ var oorl = {
             crmSn : $("#crmSn").val(),
             startDt : $("#startDt").val(),
             endDt : $("#endDt").val(),
+            deadLine : $("#deadLine").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
-            regEmpSeq : $("#regEmpSeq").val()
+            // regEmpSeq : $("#regEmpSeq").val()
         }
 
         oorl.mainGrid("/item/getObtainOrderList.do", oorl.global.searchAjaxData);
-    },
-
-    setDeliveryAmtUpd: function(){
-        if($("input[name=ooSn]:checked").length == 0){
-            alert("저장할 항목을 선택해주세요.");
-            return;
-        }
-
-        if(confirm("저장하시겠습니까?")){
-            var oorlArr = new Array()
-            $.each($("input[name=ooSn]"), function(){
-                var data = {
-                    obtainOrderSn : $(this).val(),
-                    deliveryAmt : $(this).closest("tr").find("input.deliveryAmtInput").val(),
-                    empSeq : $("#regEmpSeq").val()
-                }
-                oorlArr.push(data);
-            })
-
-            oorl.global.saveAjaxData = {
-                oorlArr : JSON.stringify(oorlArr)
-            }
-
-            var result = customKendo.fn_customAjax("/item/setDeliveryAmtUpd.do", oorl.global.saveAjaxData);
-            if(result.flag){
-                alert("처리되었습니다.");
-                oorl.gridReload();
-            }
-        }
     },
 
     setDeadlineUpd: function(){
@@ -451,6 +430,15 @@ var oorl = {
         var name = "_blank";
         var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    fn_popSelEstimate : function(e){
+        var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(e).closest("tr"));
+        var url = "/item/pop/popSelEstimate.do?crmSn="+dataItem.CRM_SN;
+        var name = "_blank";
+        var option = "width = 1300, height = 815, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
+
     },
 
     comma: function(str) {

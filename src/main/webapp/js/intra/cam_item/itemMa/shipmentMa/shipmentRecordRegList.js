@@ -80,11 +80,12 @@ var srrl = {
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" style="top: 3px; position: relative" />',
                     template : function(e){
-                        if(e.OVERALL_INVEN != "0"){
-                            return ""
-                        }else{
-                            return "<input type='checkbox' id='rcSn" + e.SM_RECORD_SN + "' name='rcSn' value='" + e.SM_RECORD_SN + "' style=\"top: 3px; position: relative\" />"
-                        }
+                        return "<input type='checkbox' id='rcSn" + e.SM_RECORD_SN + "' name='rcSn' value='" + e.SM_RECORD_SN + "' style=\"top: 3px; position: relative\" />"
+                        // if(e.OVERALL_INVEN != "0"){
+                        //
+                        // }else{
+                        //     return ""
+                        // }
                     },
                     width: 30,
                 }, {
@@ -122,7 +123,7 @@ var srrl = {
                         style : "text-align : right;"
                     }
                 }, {
-                    title: "실제 납품량",
+                    title: "납품잔량",
                     field: "DELIVERY_AMT",
                     width: 100,
                     template : function (e){
@@ -229,7 +230,7 @@ var srrl = {
 
         $(".numberInput").keyup(function(){
             if(Number(srrl.uncomma($(this).val())) > Number($(this).attr("maxOrderVolume"))){
-                alert("실제 납품량은 납품잔량을 초과할 수 없습니다.");
+                alert("납품잔량을 초과할 수 없습니다.");
                 $(this).val(srrl.comma($(this).attr("maxOrderVolume")));
             }
         });

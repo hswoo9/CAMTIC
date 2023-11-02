@@ -10,6 +10,7 @@
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
 <input type="hidden" id="estSn" value="${params.estSn}" />
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="busnClass" value="${hashMap.BUSN_CLASS}" />
 <form id="resDraftFrm" method="post">
     <input type="hidden" id="pjtSn" name="pjtSn" value="${params.pjtSn}" />
     <input type="hidden" id="menuCd" name="menuCd" value="dev">
@@ -26,7 +27,7 @@
 
 <div style="padding: 10px">
     <div id="resultBtnDiv">
-        <%--<button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>--%>
+        <button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>
     </div>
     <div class="table-responsive">
         <table class="popTable table table-bordered mb-0">

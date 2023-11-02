@@ -295,4 +295,9 @@ public class BoardServiceImpl implements BoardService {
 
     @Override public void insSubscribe(Map<String, Object> params) { boardRepository.insSubscribe(params); }
     @Override public void cancleSubscribe(Map<String, Object> param) { boardRepository.cancleSubscribe(param); }
+
+    @Override
+    public List<Map<String, Object>> getLetterListOld(Map<String, Object> params) {
+        return boardRepository.getLetterListOld(params);
+    }
 }

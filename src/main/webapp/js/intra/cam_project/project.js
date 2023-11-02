@@ -82,7 +82,7 @@ var camPrj = {
                     data.searchValue2 = $("#searchValue2").val();
                     data.searchText = $("#searchText").val();
                     data.deptSeq = $("#deptSeq").val();
-                    data.myEmpSeq = $("#myEmpSeq").val();
+                    data.regEmpSeq = $("#regEmpSeq").val();
                     data.myDeptSeq = $("#myDeptSeq").val();
                     return data;
                 }

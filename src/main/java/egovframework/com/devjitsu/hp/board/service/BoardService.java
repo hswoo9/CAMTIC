@@ -50,4 +50,7 @@ public interface BoardService {
 
     void insSubscribe(Map<String, Object> params);
     void cancleSubscribe(Map<String, Object> param);
+
+    /** 이전 소식지 년도별 데이터 조회*/
+    List<Map<String, Object>>getLetterListOld(Map<String, Object> params);
 }

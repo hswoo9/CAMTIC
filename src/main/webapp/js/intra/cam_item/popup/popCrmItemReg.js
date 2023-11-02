@@ -221,12 +221,12 @@ var cir = {
                 oldArr : JSON.stringify(oldArr)
             }
 
-            var result = customKendo.fn_customAjax("/item/setCrmItemManage.do", cir.global.saveAjaxData)
-            if(result.flag){
-                alert("저장되었습니다.");
-                cir.global.itemNoIndex = 0;
-                cir.setMakeTable();
-            }
+            // var result = customKendo.fn_customAjax("/item/setCrmItemManage.do", cir.global.saveAjaxData)
+            // if(result.flag){
+            //     alert("저장되었습니다.");
+            //     cir.global.itemNoIndex = 0;
+            //     cir.setMakeTable();
+            // }
         }
     },
 

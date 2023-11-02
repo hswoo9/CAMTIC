@@ -5,7 +5,6 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <body>
 <div id="approveDataPop">
-    ...
 </div>
 <script>
     window.resizeTo(965, 900);
@@ -13,19 +12,18 @@
     function approvalDataInit(){
         var approvalParams = {};
         approvalParams.mod = "W";
-        approvalParams.formId = "141";
+        approvalParams.formId = "150";
         approvalParams.compSeq = "1000";
         approvalParams.empSeq = "${loginVO.uniqId}";
-        approvalParams.docTitle = "[수주보고서]${loginVO.orgnztNm}-${loginVO.name}";
         approvalParams.content = $("#approveDataPop")[0].innerHTML;
         approvalParams.type = "drafting";
-        approvalParams.menuCd = "delv";
+        approvalParams.menuCd = "rndDev";
         approvalParams.docType = "A";
 
-        approvalParams.linkageProcessId = "11";
+        approvalParams.linkageProcessId = "27";
         approvalParams.linkageType = "2";
-        approvalParams.linkageProcessCode = "camticDelv";
-        approvalParams.approKey = "camticDelv_${params.pjtSn}";
+        approvalParams.linkageProcessCode = "camticRndDev";
+        approvalParams.approKey = "camticRndDev_${params.pjtSn}";
 
         linkageProcessOn(approvalParams);
     }

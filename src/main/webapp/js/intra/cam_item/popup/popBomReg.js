@@ -34,11 +34,18 @@ var bomReg = {
 
         if(confirm("등록하시겠습니까?")){
             var detailArr = new Array();
+            var flag = true;
+
             $.each($(".bomDetail"), function(i, v){
                 if($(this).find("#masterSn" + i).val()){
+                    if(!$(this).find("#masterBomSn" + i).val()){
+                        flag = false;
+                    }
+
                     var arrData = {
                         bomDetailSn : $(this).find("#bomDetailSn" + i).val(),
                         masterSn : $(this).find("#masterSn" + i).val(),
+                        masterBomSn : $(this).find("#masterBomSn" + i).val(),
                         reqQty : $(this).find("#reqQty" + i).val(),
                         rmk : $(this).find("#rmk" + i).val(),
                         empSeq : $("#empSeq").val()
@@ -46,7 +53,16 @@ var bomReg = {
 
                     detailArr.push(arrData);
                 }
+
+                if(!flag){
+                    alert("입력하지 않은 항목이 있습니다.");
+                    return flag;
+                }
             })
+
+            if(!flag){
+                return flag;
+            }
 
             bomReg.global.saveAjaxData = {
                 bomSn : $("#bomSn").val(),
@@ -72,6 +88,9 @@ var bomReg = {
 
         bomReg.global.createHtmlStr = "" +
             '<tr class="bomDetail" id="detail' + bomReg.global.bomDetailIndex + '">' +
+                '<td>' +
+                    '<input type="text" id="masterBomSn' + bomReg.global.bomDetailIndex + '" class="masterBomSn k-input k-textbox" disabled>' +
+                '</td>' +
                 '<td>' +
                     '<input type="hidden" id="bomDetailSn' + bomReg.global.bomDetailIndex + '" class="bomDetailSn">' +
                     '<input type="hidden" id="masterSn' + bomReg.global.bomDetailIndex + '" class="masterSn">' +
@@ -148,6 +167,7 @@ var bomReg = {
     rowAttrOverride : function(){
         $.each($(".bomDetail"), function(i, v){
             $(this).attr("id", "detail" + i);
+            $(this).find("input.masterBomSn").attr("id", "masterBomSn" + i);
             $(this).find("input.bomDetailSn").attr("id", "bomDetailSn" + i);
             $(this).find("input.masterSn").attr("id", "masterSn" + i);
             $(this).find("input.itemNo").attr("id", "itemNo" + i);
@@ -198,6 +218,23 @@ var bomReg = {
             $("#detail" + i).find("#unitPrice" + i).val(bomReg.comma(e[i].UNIT_PRICE));
             $("#detail" + i).find("#reqQty" + i).val(e[i].REQ_QTY)
             $("#detail" + i).find("#rmk" + i).val(e[i].RMK);
+
+            bomReg.global.searchAjaxData = {
+                masterSn : e[i].MASTER_SN
+            }
+
+            var result = customKendo.fn_customAjax("/item/getBomList.do", bomReg.global.searchAjaxData);
+            if(result.flag){
+                if(result.list.length > 1){
+                    $("#masterBomSn" + i).removeAttr("disabled");
+                    customKendo.fn_dropDownList("masterBomSn" + i, result.list, "BOM_TITLE", "BOM_SN", 2);
+                    $("#masterBomSn" + i).data("kendoDropDownList").enable(true);
+                }else{
+                    customKendo.fn_dropDownList("masterBomSn" + i, result.list, "BOM_TITLE", "BOM_SN", 3);
+                    $("#masterBomSn" + i).data("kendoDropDownList").enable(false);
+                }
+                $("#masterBomSn" + i).data("kendoDropDownList").value(e[i].MASTER_BOM_SN)
+            }
         }
 
         bomReg.costPriceChange();
@@ -215,6 +252,25 @@ var bomReg = {
             $("#itemType" + bomReg.global.masterSnIndex).val($("#itemType").val())
             $("#unitPrice" + bomReg.global.masterSnIndex).val(bomReg.comma($("#maxUnitPrice").val()))
             $("#unitPrice" + bomReg.global.masterSnIndex).change()
+
+
+            if(bomReg.global.masterSnIndex != "999"){
+                bomReg.global.searchAjaxData = {
+                    masterSn : $("#masterSn" + bomReg.global.masterSnIndex).val()
+                }
+
+                var result = customKendo.fn_customAjax("/item/getBomList.do", bomReg.global.searchAjaxData);
+                if(result.flag){
+                    if(result.list.length > 1){
+                        $("#masterBomSn" + bomReg.global.masterSnIndex).removeAttr("disabled");
+                        $("#masterBomSn" + bomReg.global.masterSnIndex).data("kendoDropDownList").enable(true);
+                        customKendo.fn_dropDownList("masterBomSn" + bomReg.global.masterSnIndex, result.list, "BOM_TITLE", "BOM_SN", 2);
+                    }else{
+                        customKendo.fn_dropDownList("masterBomSn" + bomReg.global.masterSnIndex, result.list, "BOM_TITLE", "BOM_SN", 3);
+                        $("#masterBomSn" + bomReg.global.masterSnIndex).data("kendoDropDownList").enable(false);
+                    }
+                }
+            }
         }else{
             alert("원자재는 BOM을 등록하실 수 없습니다.");
         }

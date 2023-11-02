@@ -118,7 +118,7 @@ var cml = {
                     template : function (e){
                         return "0 건";
                     }
-                }, {
+                }/*, {
                     title: "품번관리",
                     width: 80,
                     template: function(e){
@@ -126,7 +126,7 @@ var cml = {
                             '	<span class="k-button-text">품번관리</span>' +
                             '</button>';
                     }
-                }
+                }*/
             ]
         }).data("kendoGrid");
 

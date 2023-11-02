@@ -124,9 +124,9 @@ var rndRschInfo = {
                             return '연구책임자'
                         }else{
                             if(e.REAL_YN == "Y"){
-                                return '<button type="button" class="k-button k-button-solid-error" onclick="rndRschInfo.fn_realCheck('+e.PJT_RSCH_SN+', \'C\')">취소</button>'
+                                return '<button type="button" class="k-button k-button-solid-error" onclick="rndRschInfo.fn_realCheck('+e.PJT_RSCH_SN+', \'C\', '+e.PJT_RSCH_EMP_SEQ+')">취소</button>'
                             }else{
-                                return '<button type="button" class="k-button k-button-solid-info" onclick="rndRschInfo.fn_realCheck('+e.PJT_RSCH_SN+', \'Y\')">등록</button>'
+                                return '<button type="button" class="k-button k-button-solid-info" onclick="rndRschInfo.fn_realCheck('+e.PJT_RSCH_SN+', \'Y\', '+e.PJT_RSCH_EMP_SEQ+')">등록</button>'
                             }
                         }
                     }
@@ -173,12 +173,16 @@ var rndRschInfo = {
         })
     },
 
-    fn_realCheck : function(key, status){
+    fn_realCheck : function(key, status, empSeq){
         var data= {
             pjtRschSn : key,
-            status: status
+            status: status,
+            pjtSn: $("#pjtSn").val(),
+            empSeq: empSeq,
+            regEmpSeq: $("#regEmpSeq").val()
         }
 
+        /** 참여인력 테이블 업데이트 */
         $.ajax({
             url : "/projectRnd/updRschStatus",
             data : data,
@@ -189,7 +193,43 @@ var rndRschInfo = {
                     $("#rschMainGrid").data("kendoGrid").dataSource.read();
                 }
             }
-        })
-    }
+        });
 
+        if(status == "Y"){
+            rndRschInfo.fn_insPjtPsRnd(data);
+        }else{
+            rndRschInfo.fn_delPjtPsRnd(data);
+        }
+
+    },
+
+    fn_insPjtPsRnd: function(data){
+        /** 실제 참여자 등록시 결과보고 유저 테이블에 insert */
+        $.ajax({
+            url : "/projectRnd/insPjtPsRnd",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    $("#rschMainGrid").data("kendoGrid").dataSource.read();
+                }
+            }
+        });
+    },
+
+    fn_delPjtPsRnd: function(data){
+        /** 실제 참여자 취소시 결과보고 유저 테이블에 delete */
+        $.ajax({
+            url : "/projectRnd/delPjtPsRnd",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    $("#rschMainGrid").data("kendoGrid").dataSource.read();
+                }
+            }
+        });
+    }
 }

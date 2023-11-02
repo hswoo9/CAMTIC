@@ -261,6 +261,26 @@ public class ProjectRndController {
     }
 
     /**
+     * 프로젝트 R&D > TAB8 > 결과보고
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/projectRnd/resultInfo.do")
+    public String resultInfo(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        Map<String, Object> map = projectService.getProjectData(params);
+        model.addAttribute(map);
+
+        return "popup/cam_project/engineering/resultInfo";
+    }
+
+    /**
      * 프로젝트 R&D > TAB6 > 연구비신청
      * @param params
      * @param request
@@ -727,6 +747,44 @@ public class ProjectRndController {
         return "jsonView";
     }
 
+    /**
+     * 연구원관리 > 실제 참여자 등록시 결과보고 유저 테이블에 insert
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/projectRnd/insPjtPsRnd")
+    public String insPjtPsRnd(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectRndService.insPjtPsRnd(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    /**
+     * 연구원관리 > 실제 참여자 취소시 결과보고 유저 테이블에 delete
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/projectRnd/delPjtPsRnd")
+    public String delPjtPsRnd(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectRndService.delPjtPsRnd(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     /** 사업정보 전자결재 페이지*/
     @RequestMapping("/popup/cam_project/approvalFormPopup/rndDelvApprovalPop.do")
     public String rndDelvApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
@@ -735,6 +793,26 @@ public class ProjectRndController {
         model.addAttribute("params", params);
         model.addAttribute("loginVO", login);
         return "/popup/cam_project/approvalFormPopup/rndDelvApprovalPop";
+    }
+
+    /** 계획서보고 전자결재 페이지*/
+    @RequestMapping("/popup/cam_project/approvalFormPopup/rndDevApprovalPop.do")
+    public String rndDevApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/cam_project/approvalFormPopup/rndDevApprovalPop";
+    }
+
+    /** 결과보고 전자결재 페이지*/
+    @RequestMapping("/popup/cam_project/approvalFormPopup/rndResApprovalPop.do")
+    public String rndResApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/cam_project/approvalFormPopup/rndResApprovalPop";
     }
 
     /** 사업정보 결재 상태값에 따른 UPDATE 메서드 */
@@ -746,6 +824,44 @@ public class ProjectRndController {
         String resultMessage = "성공하였습니다.";
         try{
             projectRndService.updateRndDelvDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    /** 계획서보고 결재 상태값에 따른 UPDATE 메서드 */
+    @RequestMapping(value = "/projectRnd/devReqApp")
+    public String devReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            projectRndService.updateRndDevDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    /** 결과보고 결재 상태값에 따른 UPDATE 메서드 */
+    @RequestMapping(value = "/projectRnd/resReqApp")
+    public String resReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            projectRndService.updateRndResDocState(bodyMap);
         }catch(Exception e){
             logger.error(e.getMessage());
             resultCode = "FAIL";

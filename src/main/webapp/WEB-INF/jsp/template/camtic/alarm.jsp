@@ -4,7 +4,7 @@
 <a href="javascript:popUpClick();" id="alarm">주요 알림 맞춤서비스</a>
 
 <div id="Service">
-  <h2>주요알림 모아보기 서비스</h2>
+  <%--<h2>주요알림 모아보기 서비스</h2> 2023-11-01 김병수 주요 알림 배경 제거 및 제목 숨김--%>
   <div class="svgroup_l">
     <div class="svg_logo">
       <%--<span class="hidden">한바탕전주 상단 로고</span>--%>
@@ -19,7 +19,7 @@
     </div>
     <div class="svg_menu">
       <ul>
-        <li><a href="" class="menu_on"><span>주요 알림 모아보기</span></a></li>
+        <li><a href="" class="menu_on" style="pointer-events : none;"><span>주요 알림 모아보기</span></a></li>
         <!--<li><a href=""><span>민원 도우미</span></a></li>-->
       </ul>
     </div>
@@ -47,149 +47,94 @@
             <div class="popCon1" style="">
               <div class="readMore">
                 <ul>
-                  <li>
-                    <a href="#" title="test">
-                      <div class="pop_thumb">
-                        <img src="http://www.camtic.or.kr/CAMsPot/popup/MainSet/MainSet52.jpg" alt="test" style="height: 287px;">
-                      </div>
-                      <dl>
-                        <dt>2023 도전! 생활혁신</dt>
-                        <dd>2023-06-02</dd>
-                      </dl>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" title="test">
-                      <div class="pop_thumb">
-                        <img src="http://www.camtic.or.kr/CAMsPot/popup/MainSet/MainSet51.jpg" alt="test" style="height: 317px;">
-                      </div>
-                      <dl>
-                        <dt>스마트 기계 및 자동차 설계인력</dt>
-                        <dd>2023-06-02</dd>
-                      </dl>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" title="test">
-                      <div class="pop_thumb">
-                        <img src="http://www.camtic.or.kr/CAMsPot/popup/MainSet/MainSet50.jpg" alt="test" style="height: 267px;">
-                      </div>
-                      <dl>
-                        <dt>그린자동차 설계분야</dt>
-                        <dd>2023-06-02</dd>
-                      </dl>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" title="test">
-                      <div class="pop_thumb">
-                        <img src="http://www.camtic.or.kr/CAMsPot/popup/MainSet/MainSet49.jpg" alt="test" style="height: 317px;">
-                      </div>
-                      <dl>
-                        <dt>창업정책 한마당</dt>
-                        <dd>2023-06-02</dd>
-                      </dl>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" title="test">
-                      <div class="pop_thumb">
-                        <img src="http://www.camtic.or.kr/CAMsPot/popup/MainSet/MainSet48.jpg" alt="test" style="height: 257px;">
-                      </div>
-                      <dl>
-                        <dt>스마트팩토리·기계/자동차분야</dt>
-                        <dd>2023-06-02</dd>
-                      </dl>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" title="test">
-                      <div class="pop_thumb">
-                        <img src="http://www.camtic.or.kr/CAMsPot/popup/MainSet/MainSet47.jpg" alt="test" style="height: 287px;">
-                      </div>
-                      <dl>
-                        <dt>추석</dt>
-                        <dd>2023-06-02</dd>
-                      </dl>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" title="test">
-                      <div class="pop_thumb">
-                        <img src="http://www.camtic.or.kr/CAMsPot/popup/MainSet/MainSet46.jpg" alt="test" style="height: 287px;">
-                      </div>
-                      <dl>
-                        <dt>2022 전주국제드론산업박람회</dt>
-                        <dd>2023-06-02</dd>
-                      </dl>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" title="test">
-                      <div class="pop_thumb">
-                        <img src="http://www.camtic.or.kr/CAMsPot/popup/MainSet/MainSet45.jpg" alt="test" style="height: 257px;">
-                      </div>
-                      <dl>
-                        <dt>캠틱클러스터 알뜰마켓</dt>
-                        <dd>2023-06-02</dd>
-                      </dl>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" title="test">
-                      <div class="pop_thumb">
-                        <img src="http://www.camtic.or.kr/CAMsPot/popup/MainSet/MainSet44.jpg" alt="test" style="height: 277px;">
-                      </div>
-                      <dl>
-                        <dt>한가위</dt>
-                        <dd>2023-06-02</dd>
-                      </dl>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" title="test">
-                      <div class="pop_thumb">
-                        <img src="http://www.camtic.or.kr/CAMsPot/popup/MainSet/MainSet43.jpg" alt="test" style="height: 357px;">
-                      </div>
-                      <dl>
-                        <dt>신년인사</dt>
-                        <dd>2023-06-02</dd>
-                      </dl>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" title="test">
-                      <div class="pop_thumb">
-                        <img src="http://www.camtic.or.kr/CAMsPot/popup/MainSet/MainSet42.jpg" alt="test" style="height: 257px;">
-                      </div>
-                      <dl>
-                        <dt>2021 인공지능 학습용 데이터 활용 아이디어</dt>
-                        <dd>2023-06-02</dd>
-                      </dl>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" title="test">
-                      <div class="pop_thumb">
-                        <img src="http://www.camtic.or.kr/CAMsPot/popup/MainSet/MainSet41.jpg" alt="test" style="height: 217px;">
-                      </div>
-                      <dl>
-                        <dt>2021년 인공지능 학습용 데이터 구축사업</dt>
-                        <dd>2023-06-02</dd>
-                      </dl>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" title="test">
-                      <div class="pop_thumb">
-                        <img src="http://www.camtic.or.kr/CAMsPot/popup/MainSet/MainSet40.jpg" alt="test" style="height: 217px;">
-                      </div>
-                      <dl>
-                        <dt>2021년 인공지능 학습용 데이터 구축사업</dt>
-                        <dd>2023-06-02</dd>
-                      </dl>
-                    </a>
-                  </li>
+                    <li>
+                      <a href="#" title="test">
+                        <div class="pop_thumb">
+                          <img src="http://www.camtic.or.kr/camtic/etc/230207_2.jpg" alt="test" style="height: 217px;">
+                        </div>
+                        <dl>
+                          <dt>스마트팩토리·기계/자동차 분야 연수생 모집</dt>
+                          <dd>2023-07-26</dd>
+                        </dl>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" title="test">
+                        <div class="pop_thumb">
+                          <img src="http://www.camtic.or.kr/camtic/etc/230118_1.jpg" alt="test" style="height: 217px;">
+                        </div>
+                        <dl>
+                          <dt>드론산업혁신지원센터 1월 지원장비 공동활용 교육</dt>
+                          <dd>2023-07-26</dd>
+                        </dl>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" title="test">
+                        <div class="pop_thumb">
+                          <img src="http://www.camtic.or.kr/camtic/etc/230413_1.jpeg" alt="test" style="height: 217px;">
+                        </div>
+                        <dl>
+                          <dt>2023년 인쇄전자 공정장비 실습과정 교육 모집</dt>
+                          <dd>2023-07-26</dd>
+                        </dl>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" title="test">
+                        <div class="pop_thumb">
+                          <img src="http://www.camtic.or.kr/camtic/etc/230412_1.jpg" alt="test" style="height: 217px;">
+                        </div>
+                        <dl>
+                          <dt>위기근로자 취업장려금 지원사업 참여자 모집 공고</dt>
+                          <dd>2023-07-26</dd>
+                        </dl>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" title="test">
+                        <div class="pop_thumb">
+                          <img src="http://www.camtic.or.kr/camtic/etc/230410_1.png" alt="test" style="height: 217px;">
+                        </div>
+                        <dl>
+                          <dt>(KETI)2023년 전지소재부품 실증 Open Lab을 활용한 사업화지원 참여기업 모집 공고</dt>
+                          <dd>2023-07-26</dd>
+                        </dl>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" title="test">
+                        <div class="pop_thumb">
+                          <img src="http://www.camtic.or.kr/camtic/etc/230725_1.jpg" alt="test" style="height: 217px;">
+                        </div>
+                        <dl>
+                          <dt>익산형 로컬크리에이터 및 MVP지원사업 공고</dt>
+                          <dd>2023-07-25</dd>
+                        </dl>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" title="test">
+                        <div class="pop_thumb">
+                          <img src="http://www.camtic.or.kr/camtic/etc/230719_2.png" alt="test" style="height: 217px;">
+                        </div>
+                        <dl>
+                          <dt>드론기술개발지원센터 7월 지원장비 공동활용 교육 안내</dt>
+                          <dd>2023-07-19</dd>
+                        </dl>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" title="test">
+                        <div class="pop_thumb">
+                          <img src="http://www.camtic.or.kr/camtic/etc/230615_2.png" alt="test" style="height: 217px;">
+                        </div>
+                        <dl>
+                          <dt>스마트기계 및 자동차 취업성공반</dt>
+                          <dd>2023-06-15</dd>
+                        </dl>
+                      </a>
+                    </li>
                 </ul>
               </div>
             </div>

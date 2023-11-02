@@ -166,10 +166,36 @@ public class ProjectRndRepository extends AbstractDAO {
         update("projectRnd.tmpUpdDevPlanApprove", params);
     }
 
+    public void insPjtPsRnd(Map<String, Object> params) {
+        insert("projectRnd.insPjtPsRnd", params);
+    }
+
+    public void updPjtPsRnd(Map<String, Object> params) {
+        update("projectRnd.updPjtPsRnd", params);
+    }
+
+    public void delPjtPsRnd(Map<String, Object> params) {
+        delete("projectRnd.delPjtPsRnd", params);
+    }
+
     public void updateRndDelvApprStat(Map<String, Object> params) {
         update("projectRnd.updateRndDelvApprStat", params);
     }
     public void updateRndDelvFinalApprStat(Map<String, Object> params) {
         update("projectRnd.updateRndDelvFinalApprStat", params);
+    }
+
+    public void updateRndDevApprStat(Map<String, Object> params) {
+        update("projectRnd.updateRndDevApprStat", params);
+    }
+    public void updateRndDevFinalApprStat(Map<String, Object> params) {
+        update("projectRnd.updateRndDevFinalApprStat", params);
+    }
+
+    public void updateRndResApprStat(Map<String, Object> params) {
+        update("projectRnd.updateRndResApprStat", params);
+    }
+    public void updateRndResFinalApprStat(Map<String, Object> params) {
+        update("projectRnd.updateRndResFinalApprStat", params);
     }
 }

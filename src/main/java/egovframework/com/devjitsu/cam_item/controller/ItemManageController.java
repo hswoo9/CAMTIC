@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.cam_crm.service.CrmService;
 import egovframework.com.devjitsu.cam_item.service.ItemManageService;
 import egovframework.com.devjitsu.cam_item.service.ItemSystemService;
+import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +32,9 @@ public class ItemManageController {
 
     @Autowired
     private ItemSystemService itemSystemService;
+
+    @Autowired
+    private CommonCodeService commonCodeService;
 
     @Autowired
     private CrmService crmService;
@@ -173,17 +177,6 @@ public class ItemManageController {
     }
 
     /**
-     * 납품누계 업데이트
-     * @param params
-     * @return
-     */
-    @RequestMapping("/item/setDeliveryAmtUpd.do")
-    public String setDeliveryAmtUpd(@RequestParam Map<String, Object> params){
-        itemManageService.setDeliveryAmtUpd(params);
-        return "jsonView";
-    }
-
-    /**
      * 마감처리
      * @param params
      * @return
@@ -235,19 +228,6 @@ public class ItemManageController {
     }
 
     /**
-     * 수주등록 리스트
-     * @param params
-     * @param model
-     * @return
-     */
-    @RequestMapping("/item/getObtainOrder.do")
-    public String getObtainOrder(@RequestParam Map<String, Object> params, Model model) {
-        model.addAttribute("rs", itemManageService.getObtainOrder(params));
-        return "jsonView";
-    }
-
-
-    /**
      * 수주수정 팝업
      * @param params
      * @param request
@@ -262,6 +242,18 @@ public class ItemManageController {
         model.addAttribute("params", params);
 
         return "popup/cam_item/popObtainOrderRegMod";
+    }
+
+    /**
+     * 수주등록 상세데이터
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getObtainOrder.do")
+    public String getObtainOrder(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("rs", itemManageService.getObtainOrder(params));
+        return "jsonView";
     }
 
     /**
@@ -285,6 +277,77 @@ public class ItemManageController {
         itemManageService.setObtainOrderCancel(params);
         return "jsonView";
     }
+
+    /**
+     * 견적서 인쇄 수주 선택 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/pop/popSelEstimate.do")
+    public String popSelEstimate(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_item/popSelEstimate";
+    }
+
+    /**
+     * 수주 인쇄데이터 저장
+     * @param params
+     * @return
+     */
+    @RequestMapping("/item/setItemEstPrint.do")
+    public String setItemEstPrint(@RequestParam Map<String, Object> params, Model model){
+        itemManageService.setItemEstPrint(params);
+        model.addAttribute("rs", params);
+        return "jsonView";
+    }
+
+
+    /**
+     * 수주 인쇄 팝업
+     * @param params
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping("/item/pop/estPrintPop.do")
+    public String estPrintPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        String hwpUrl = "";
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+
+        params.put("hwpUrl", hwpUrl);
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("data", params);
+
+        return "popup/cam_item/estPrintPop";
+    }
+
+    /**
+     * 견적서 상세 데이터
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getEstPrintSn.do")
+    public String getEstPrintSn(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("rs", itemManageService.getEstPrintSn(params));
+        return "jsonView";
+    }
+
 
     /**
      * 수주현황 페이지
@@ -794,8 +857,9 @@ public class ItemManageController {
      * @return
      */
     @RequestMapping("/item/setCrmItemUnitPriceReg.do")
-    public String setCrmItemUnitPriceReg(@RequestParam Map<String, Object> params){
+    public String setCrmItemUnitPriceReg(@RequestParam Map<String, Object> params, Model model){
         itemManageService.setCrmItemUnitPriceReg(params);
+        model.addAttribute("params", params);
         return "jsonView";
     }
 

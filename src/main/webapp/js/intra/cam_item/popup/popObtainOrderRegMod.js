@@ -30,7 +30,6 @@ var oorm = {
 
         var result = customKendo.fn_customAjax("/item/getObtainOrder.do", oorm.global.searchAjaxData);
         if(result.flag){
-            console.log(result);
             $("#crmSn").val(result.rs.CRM_SN);
             $("#crmNm").val(result.rs.CRM_NM);
             $("#masterSn").val(result.rs.MASTER_SN);

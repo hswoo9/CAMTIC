@@ -4,7 +4,8 @@
 <mapper namespace="project">
 
     <select id="getProjectList" parameterType="map" resultType="map">
-        SELECT * FROM CAM_PJT_MNG.DJ_PROJECT A
+        SELECT A.* FROM CAM_PJT_MNG.DJ_PROJECT A
+        LEFT JOIN CAM_CRM.DJ_CRM_INFO B ON A.CRM_SN = B.CRM_SN
         WHERE
         1=1
         <if test='busnClass != null and busnClass != ""'>
@@ -20,6 +21,34 @@
         <if test='busnSubClass == "Y" or "Y".equals(busnSubClass)'>
             AND
             A.PJT_STOP = "Y"
+        </if>
+        <if test='deptSeq != null and deptSeq != ""'>
+            AND
+            A.DEPT_SEQ in (${deptSeq})
+        </if>
+        <if test= '"1".equals(searchValue)'>
+            AND
+            A.REG_EMP_SEQ = #{regEmpSeq} AND A.PJT_STEP in ('E1','E2','E3','E4','E5','R2')
+        </if>
+        <if test= '"2".equals(searchValue)'>
+            AND
+            A.REG_EMP_SEQ = #{regEmpSeq}
+        </if>
+        <if test='"1".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
+            AND
+            A.PJT_CD LIKE CONCAT('%', #{searchText}, '%')
+        </if>
+        <if test='"1".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
+            AND
+            (A.PJT_NM LIKE CONCAT('%', #{searchText}, '%') OR A.PJT_SUB_NM LIKE CONCAT('%', #{searchText}, '%'))
+        </if>
+        <if test='"3".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
+            AND
+            B.CRM_NM LIKE CONCAT('%', #{searchText}, '%')
+        </if>
+        <if test='"4".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
+            AND
+            A.PM LIKE CONCAT('%', #{searchText}, '%')
         </if>
         ORDER BY A.PJT_SN DESC
     </select>
@@ -743,7 +772,13 @@
     </delete>
 
     <select id="getDevelopPlan" parameterType="map" resultType="map">
-        SELECT * FROM CAM_PJT_MNG.DJ_PJT_DEV
+        SELECT
+            A.*,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
+        FROM CAM_PJT_MNG.DJ_PJT_DEV A
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE PJT_SN = #{pjtSn}
         ORDER BY DEV_SN DESC LIMIT 1
     </select>

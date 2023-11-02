@@ -84,6 +84,7 @@
         <div class="__botArea __mt20">
           <div class="rig">
             <a href="#" onclick="fn_subscribe();" class="__btn1 blue"><span>구독 신청하기</span></a>
+            <a href="#" onclick="fn_letterListOld();" class="__btn1 blue"><span>이전 소식지 보기</span></a>
             <a href="#" onclick="fn_writeBoard();" class="__btn1 blue"><span>게시글 작성</span></a>
             <a href="#" onclick="fn_subscribeList();" class="__btn1 grayLine"><span>구독 현황</span></a>
           </div>
@@ -148,6 +149,11 @@
 
     location.href = '/camtic/pr/news_subscribe.do?category=' + categoryKey;
   }
+  //구독 신청 이동
+  function fn_letterListOld(){
+
+    location.href = '/camtic/pr/letterListOld.do?category=' + categoryKey;
+  }
   //구독 현황 이동
   function fn_subscribeList(){
 
@@ -155,7 +161,7 @@
   }
 
   function fn_regist(){
-      location.href="/camtic/pr/news_register.do?boardArticleId=" + globalKey + "&category=" + categoryKey;
+    location.href="/camtic/pr/news_register.do?boardArticleId=" + globalKey + "&category=" + categoryKey;
   }
 
   //상세보기 이동
@@ -296,8 +302,8 @@
 
     for (let i =startPage; i <= endPage; i++) {
       html += (i !== page)
-          ? '<a href="javascript:void(0);" class="num" onclick="movePage('+i+');">'+ i +'</a>'
-          : '<strong class="num active">' + i + '</strong>'
+              ? '<a href="javascript:void(0);" class="num" onclick="movePage('+i+');">'+ i +'</a>'
+              : '<strong class="num active">' + i + '</strong>'
     }
 
     html += '<a href="javascript:void(0);" onclick="movePage(' + (page + 1) + ');" class="arr next"><span class="hide">다음 페이지</span></a>';

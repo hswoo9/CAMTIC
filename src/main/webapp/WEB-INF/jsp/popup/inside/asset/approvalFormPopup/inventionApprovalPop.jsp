@@ -16,6 +16,7 @@
         approvalParams.formId = "137";
         approvalParams.compSeq = "1000";
         approvalParams.empSeq = "${loginVO.uniqId}";
+        approvalParams.docTitle = "[직무발명신고서]${loginVO.orgnztNm}-${loginVO.name}";
         approvalParams.content = $("#approveDataPop")[0].innerHTML;
         approvalParams.type = "drafting";
         approvalParams.menuCd = "invention";

@@ -79,4 +79,8 @@ public class BoardRepository extends AbstractDAO {
     public void insSubscribe(Map<String, Object> params) {insert("boardCt.insSubscribe", params); }
     public void cancleSubscribe(Map<String, Object> param) {update("boardCt.cancleSubscribe", param); }
 
+    public List<Map<String, Object>> getLetterListOld(Map<String, Object> params) {
+        return selectList("boardCt.getLetterListOld", params);
+    }
+
 }
