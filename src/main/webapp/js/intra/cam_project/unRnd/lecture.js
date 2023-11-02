@@ -66,10 +66,12 @@ var ub = {
 
     fn_statusSet: function(){
         let statusDataSource = [
-            {text: "게시", value: "0"},
-            {text: "미게시", value: "1"}
+            {text: "강의개설중", value: "0"},
+            {text: "수강신청 진행중", value: "1"},
+            {text: "교육/실습 중", value: "2"},
+            {text: "교육/실습 완료", value: "3"}
         ];
-        customKendo.fn_dropDownList("status", statusDataSource, "text", "value", 2);
+        customKendo.fn_dropDownList("status", statusDataSource, "text", "value", 3);
     },
 
     fn_mainTypeSet: function(){
@@ -119,6 +121,7 @@ var ub = {
             { label: "연수생", value: "3" }
         ];
         customKendo.fn_radioGroup("methodType", methodTypeDataSource, "horizontal");
+        $("#methodType").data("kendoRadioGroup").value(1);
     },
 
     fn_certTypeSet: function(){

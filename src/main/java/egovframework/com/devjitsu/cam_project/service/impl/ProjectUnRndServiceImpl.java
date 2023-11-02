@@ -111,6 +111,20 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     }
 
     @Override
+    public List<Map<String, Object>> getLectureTeacherList(Map<String, Object> params) {
+        return projectUnRndRepository.getLectureTeacherList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getLectureList(Map<String, Object> params) {
+        return projectUnRndRepository.getLectureList(params);
+    }
+
+    @Override
+    public Map<String, Object> getLectureInfo(Map<String, Object> params) {
+        return projectUnRndRepository.getLectureInfo(params);
+    }
+    @Override
     public void insLectureInfo(Map<String, Object> params) {
         projectUnRndRepository.insLectureInfo(params);
     }

@@ -1,10 +1,6 @@
 var unRndLectList = {
-
-
-    fn_defaultScript : function (){
-
+    fn_defaultScript: function (){
         unRndLectList.mainGrid();
-
     },
 
     gridReload: function(){
@@ -16,12 +12,11 @@ var unRndLectList = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '/projectUnRnd/getLectureList',
+                    url : "/projectUnRnd/getLectureList",
                     dataType : "json",
                     type : "post"
                 },
-                parameterMap: function(data) {
-
+                parameterMap: function(data){
                     return data;
                 }
             },
@@ -61,72 +56,83 @@ var unRndLectList = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound: this.onDataBound,
             columns: [
                 {
                     title: "연번",
                     template: "#= --record #",
                     width: "3%"
                 }, {
-                    field: "",
+                    field: "LEC_FIELD_NAME",
                     title: "분야",
-                    width: "5%"
+                    width: "10%"
                 }, {
-                    field: "",
+                    field: "LEC_SBJ_CD_NAME",
                     title: "과목",
-                    width: "7%"
+                    width: "10%"
                 }, {
-
-                    field: "",
-                    title: "단위사업명",
-                    width: "7%"
+                    field: "LEC_TITLE_BS",
+                    title: "단위사업명"
                 }, {
-                    field: "",
                     title: "교육기간",
-                    width: "7%"
+                    width: "15%",
+                    template: function(e){
+                        return e.LEC_STR_DE + "~" + e.LEC_END_DE;
+                    }
                 }, {
-                    field: "",
                     title: "정원",
-                    width: "5%"
+                    width: "3%",
+                    template: function(e){
+                        return e.RECR_MEM_CNT+"명";
+                    }
                 }, {
-                    field: "",
                     title: "신청",
-                    width: "5%"
+                    width: "3%",
+                    template: function(e){
+                        return "0명";
+                    }
                 }, {
-                    field: "",
                     title: "대기",
-                    width: "5%"
+                    width: "3%",
+                    template: function(e){
+                        return "0명";
+                    }
                 }, {
-                    field: "",
                     title: "접수",
-                    width: "5%"
+                    width: "3%",
+                    template: function(e){
+                        return "0명";
+                    }
                 }, {
-                    field: "",
                     title: "취소",
-                    width: "5%"
+                    width: "3%",
+                    template: function(e){
+                        return "0명";
+                    }
                 }, {
-                    field: "",
                     title: "수료",
-                    width: "5%"
+                    width: "3%",
+                    template: function(e){
+                        return "0명";
+                    }
                 }, {
-                    field: "",
+                    field: "LEC_STATUS_NAME",
                     title: "현재상태",
-                    width: "5%"
+                    width: "10%"
                 }
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
-
     },
 
-    fn_lectureReqPop: function(pk){
-        let url = "/projectUnRnd/lectureReqPop.do";
-        if(pk != null && pk != ""){
-            url += "?pk="+pk;
-        }
-        const name = "lectureReqPop";
-        const option = "width = 1200, height = 800, top = 50, left = 300, location = no";
-        window.open(url, name, option);
+    onDataBound: function(){
+        const grid = this;
+        grid.element.off('dblclick');
+        grid.tbody.find("tr").dblclick(function(){
+            const dataItem = grid.dataItem($(this).closest("tr"));
+            lecturePop.fn_lectureReqPop($("#pjtSn").val(), dataItem.LEC_SN);
+        });
     }
 }

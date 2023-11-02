@@ -1,46 +1,8 @@
-const lectureReq = {
+const lectureTeacher = {
     fn_defaultScript: function(){
-        this.fn_pageSet();
-        if($("#pk").val() != ""){
-            this.fn_dataSet();
-        }else{
-            this.fn_testData();
-        }
-    },
-
-    fn_pageSet: function(){
-        customKendo.fn_textBox(["lectureName", "lectureNameEx", "title", "recruitNum", "eduTime", "eduTimeEx", "area", "textbookFee", "textbookFeeEx"]);
-        customKendo.fn_textArea(["content1", "content2", "goal", "intro", "targetUser", "scheduleHtml", "prospectus", "materials"]);
-
-        /** 사업구분 drop box */
-        ub.fn_projectTypeSet();
-
-        /** 교육분야 drop box */
-        ub.fn_fieldTypeSet();
-
-        /** 과목명 drop box */
-        ub.fn_curriculumTypeSet();
-
-        /** 과정명 drop box*/
-        ub.fn_courseTypeSet();
-
-        /** 진행상태 drop box */
-        ub.fn_statusSet();
-
-        /** 메인게시여부 drop box */
-        ub.fn_mainTypeSet();
-
-        /** 교육기간 date picker */
-        ub.fn_eduDtSet();
-
-        /** 모집기간 date picker */
-        ub.fn_recruitDtSet();
-
-        /** 운영방법 radio button */
-        ub.fn_methodTypeSet();
-
-        /** 인증서 radio button */
-        ub.fn_certTypeSet();
+        /*this.fn_pageSet();*/
+        this.fn_dataSet();
+        this.fn_mainGrid();
     },
 
     fn_dataSet: function(){
@@ -50,51 +12,56 @@ const lectureReq = {
         const result = customKendo.fn_customAjax("/projectUnRnd/getLectureInfo", data);
         const lecMap = result.data;
 
-        $("#projectType").data("kendoDropDownList").value(lecMap.LEC_BUSN_CLASS);
-        $("#fieldType").data("kendoDropDownList").value(lecMap.LEC_FIELD);
-        $("#curriculumType").data("kendoDropDownList").value(lecMap.LEC_SBJ_CD);
-        $("#courseType").data("kendoDropDownList").value(lecMap.LEC_PS_CD);
-
-        $("#lectureName").val(lecMap.LEC_TITLE_BS);
-        $("#lectureNameEx").val(lecMap.LEC_TITLE_PR);
-        $("#title").val(lecMap.LEC_TOPIC);
-        $("#content1").val(lecMap.LEC_PS_GUIDE_A);
-        $("#content2").val(lecMap.LEC_PS_GUIDE_B);
-
-        $("#eduStartDt").val(lecMap.LEC_STR_DE);
-        $("#eduEndDt").val(lecMap.LEC_END_DE);
-        $("#recruitStartDt").val(lecMap.RECR_STR_DE);
-        $("#recruitEndDt").val(lecMap.RECR_END_DE);
-
-        $("#recruitNum").val(lecMap.RECR_MEM_CNT);
-        $("#eduTime").val(lecMap.LEC_TIME);
-        $("#eduTimeEx").val(lecMap.LEC_TIME_RNG);
-
-        $("#area").val(lecMap.LEC_ADDR);
-        $("#status").data("kendoDropDownList").value(lecMap.LEC_STATUS);
-
-        $("#goal").val(lecMap.LEC_OBJ);
-        $("#intro").val(lecMap.LEC_SUMR);
-        $("#targetUser").val(lecMap.LEC_TARG);
-        $("#scheduleHtml").val(lecMap.LEC_SCH);
-        $("#prospectus").val(lecMap.LEC_INQ);
-        $("#materials").val(lecMap.LEC_MAT);
-
-        $("#textbookFee").val(lecMap.LEC_COST);
-        $("#textbookFeeEx").val(lecMap.LEC_COST_EX);
-        $("#methodType").data("kendoRadioGroup").value(lecMap.LEC_OPER);
-
-        $("#certType").data("kendoRadioGroup").value(lecMap.LEC_CERT);
-
-        $("#mainType").data("kendoDropDownList").value(lecMap.LEC_OPEN_BD);
-
-        this.fn_btnSet(lecMap);
+        $("#lecTitleBs").text(lecMap.LEC_TITLE_BS);
     },
 
-    fn_btnSet: function(lecMap){
-        if(lecMap != null){
-            $("#testBtn").show();
-        }
+    fn_mainGrid: function(){
+        let dataSourceA = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : "/projectUnRnd/getLectureTeacherListAll",
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data){
+                    data.pk = $("#start_date").val();
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
+        let dataSourceS = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : "/projectUnRnd/getLectureTeacherSelectList",
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data){
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
     },
 
     fn_saveBtn: function(){

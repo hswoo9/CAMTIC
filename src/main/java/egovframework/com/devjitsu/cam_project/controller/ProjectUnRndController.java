@@ -15,6 +15,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -175,26 +177,64 @@ public class ProjectUnRndController {
         return "popup/cam_project/unRnd/lectureList";
     }
 
-    @RequestMapping("/projectUnRnd/getLectureList")
-    public String getLectureList(@RequestParam Map<String, Object> params, Model model){
 
 
-        return "jsonView";
-    }
 
-    /** 단위사업 등록 팝업창 */
-    @RequestMapping("/projectUnRnd/lectureReqPop.do")
-    public String unitBusinessReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+    /** 단위사업 강사 관리 페이지 */
+    @RequestMapping("/projectUnRnd/lectureTeacherList.do")
+    public String lectureTeacherList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
+        return "cam_project/unRnd/lectureTeacherList";
+    }
 
+    /** 단위사업 등록 팝업창 */
+    @RequestMapping("/projectUnRnd/lectureReqPop.do")
+    public String lectureReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
         return "popup/cam_project/unRnd/lectureReq";
+    }
+    /** 단위사업 강사 관리 팝업창 */
+    @RequestMapping("/projectUnRnd/lectureTeacherPop.do")
+    public String lectureTeacherPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "popup/cam_project/unRnd/lectureTeacher";
+    }
+
+    /** 단위사업 강사 리스트 */
+    @RequestMapping("/projectUnRnd/getLectureTeacherList")
+    public String getLectureTeacherList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = projectUnRndService.getLectureTeacherList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /** 단위사업 리스트 */
+    @RequestMapping("/projectUnRnd/getLectureList")
+    public String getLectureList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = projectUnRndService.getLectureList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /** 단위사업 단일 데이터 */
+    @RequestMapping("/projectUnRnd/getLectureInfo")
+    public String getLectureInfo(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = projectUnRndService.getLectureInfo(params);
+        model.addAttribute("data", data);
+        return "jsonView";
     }
 
     /** 단위사업 등록 */
-    @RequestMapping("/project/insLectureInfo")
+    @RequestMapping("/projectUnRnd/insLectureInfo")
     public String insLectureInfo(@RequestParam Map<String, Object> params, Model model){
         try{
             projectUnRndService.insLectureInfo(params);
@@ -206,7 +246,7 @@ public class ProjectUnRndController {
     }
 
     /** 단위사업 수정 */
-    @RequestMapping("/project/updLectureInfo")
+    @RequestMapping("/projectUnRnd/updLectureInfo")
     public String updLectureInfo(@RequestParam Map<String, Object> params, Model model){
         try{
             projectUnRndService.updLectureInfo(params);
@@ -218,7 +258,7 @@ public class ProjectUnRndController {
     }
 
     /** 단위사업 삭제 */
-    @RequestMapping("/project/delLectureInfo")
+    @RequestMapping("/projectUnRnd/delLectureInfo")
     public String delLectureInfo(@RequestParam Map<String, Object> params, Model model){
         try{
             projectUnRndService.delLectureInfo(params);
