@@ -195,11 +195,11 @@ var menuAM = {
 
         /** 현재 클릭한 체크 박스 체크 여부 (체크된 노드 배열에 담아둠)*/
         if(!$(e).prop("checked")){
-            menuAM.global.chkArr = menuAM.global.chkArr.filter(element => element !== $(e.closest("li")).find("input")[0]);
+            // menuAM.global.chkArr = menuAM.global.chkArr.filter(element => element !== $(e.closest("li")).find("input")[0]);
             chkFlag = false;
             $(e.closest("li")).find("input").prop("checked", false);
         }else{
-            menuAM.global.chkArr.push($(e.closest("li")).find("input")[0]);
+            // menuAM.global.chkArr.push($(e.closest("li")).find("input")[0]);
             chkFlag = true;
             $(e.closest("li")).find("input").prop("checked", true);
         }
@@ -212,18 +212,29 @@ var menuAM = {
             }
         }
 
+        var idPath = $(e).attr("idPath").split("|");
+        for(var i = 0; i < idPath.length; i++){
+            if(idPath[i] != ''){
+                if($(e).val() != idPath[i]){
+                    $("input[value=" + idPath[i] + "][name='menuPkCheckBox']").prop("checked", true);
+                }
+            }
+        }
+
         /**
          * 현재 클릭된 체크박스 체크 해제시 동일 노드에 체크된 체크박스 있어도 상위 노드 체크 해제되는 이슈로 인해
          * 체크박스 배열 루프 돌면서 상위 노드 재체크
          * */
-        $.each(menuAM.global.chkArr, function(v, i){
-            var arrIdPath = $(i).attr("idPath").split("|");
-            if(i.checked){
-                $.each(arrIdPath, function(vv, ii){
-                    $("input[value=" + arrIdPath[vv] + "]").not( 'input[name=agiPk]' ).prop("checked", true);
-                })
-            }
-        })
+        // console.log(menuAM.global.chkArr);
+        // $.each(menuAM.global.chkArr, function(v, i){
+        //     var arrIdPath = $(i).attr("idPath").split("|");
+        //     if(i.checked){
+        //         $.each(arrIdPath.filter(element => element != ""), function(vv, ii){
+        //             console.log(arrIdPath[vv]);
+        //             $("input[value=" + arrIdPath[vv] + "]").not( 'input[name=agiPk]' ).prop("checked", true);
+        //         })
+        //     }
+        // })
     },
 
     getMenuAuthorityGroup(e){
