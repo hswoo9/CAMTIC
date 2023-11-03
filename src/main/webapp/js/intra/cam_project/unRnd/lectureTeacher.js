@@ -20,7 +20,7 @@ const lectureTeacher = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : "/projectUnRnd/getLectureTeacherListAll",
+                    url : "/projectUnRnd/getLectureTeacherList",
                     dataType : "json",
                     type : "post"
                 },
@@ -62,6 +62,49 @@ const lectureTeacher = {
             },
             pageSize: 10,
         });
+
+
+
+        $("#teacherGridA").kendoGrid({
+            dataSource: dataSourceA,
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            height: 489,
+            pageable : {
+                refresh : true,
+                pageSizes : [ 10, 20, 30, 50, 100 ],
+                buttonCount : 5
+            },
+            toolbar: [
+                {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="unRndLectList.gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }
+
+            ],
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            dataBound: this.onDataBound,
+            columns: [
+                {
+                    headerTemplate: '<input type="checkbox" id="checkAllA" name="checkAllA" onclick="fn_checkAll(\'checkAllA\', \'largeCategoryPk\');"/>',
+                    template : "<input type='checkbox' name='largeCategoryPk' class='largeCategoryPk' value='#=PRODUCT_CODE_ID#'/>",
+                    width: 50
+                }, {
+                    field: "NAME",
+                    title: "이름"
+                }
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
+        }).data("kendoGrid");
     },
 
     fn_saveBtn: function(){
