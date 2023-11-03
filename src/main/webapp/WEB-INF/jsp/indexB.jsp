@@ -15,19 +15,32 @@
     .col-lg-7{
         width: 55%!important;
     }
+    #idPhotoDiv {
+        height: 110px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 </style>
 
 <div id="mainContent">
     <div class="col-md-2 col-lg-2" style="margin-top:-10px;">
         <div class="media leftpanel-profile" style="text-align:center; background-color:#fff;">
-            <div>
+            <div id="idPhotoDiv">
                 <a href="#">
-                    <img src="/images/photos/loggeduser3.png" alt="" class="media-object img-circle" style="text-align: center; margin: 0 auto; margin-bottom: 10px; width:100px;">
+                    <c:choose>
+                        <c:when test="${loginVO.picFilePath ne '' and loginVO.picFilePath ne null}">
+                            <img src="${loginVO.picFilePath}" alt="" class="media-object img-circle" style="height: 100px;text-align: center; margin: 0 auto; margin-bottom: 10px; width:100px;">
+                        </c:when>
+                        <c:otherwise>
+                            등록된 증명사진이 없습니다.
+                        </c:otherwise>
+                    </c:choose>
                 </a>
             </div>
             <div class="media-body">
-                <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">관리자</h4>
-                <span style="color:#919191; font-size:15px;line-height:32px;letter-spacing: -2px;">경영지원실</span>
+                <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">${loginVO.name}</h4>
+                <span style="color:#919191; font-size:15px;line-height:32px;letter-spacing: -2px;">${loginVO.orgnztNm}</span>
             </div>
             <div style="margin-top:10px;">
                 <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">결재할 문서</span><span style="color:#919191;font-weight:600;cursor:pointer;" onclick="open_in_frame('/approvalUser/approveWaitDocList.do')">0</span></div>
