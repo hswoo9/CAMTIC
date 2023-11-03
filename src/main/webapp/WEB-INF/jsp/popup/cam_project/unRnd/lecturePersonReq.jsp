@@ -8,7 +8,7 @@
 <body class="font-opensans" style="background-color:#fff;">
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lecture.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lecturePopup.js?v=${today}'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lectureTeacher.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lecturePersonReq.js?v=${today}'/>"></script>
 
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
@@ -31,46 +31,22 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;">
-                    강사 관리
+                    수강자 추가
                 </span>
             </h3>
             <div id="purcBtnDiv" class="btn-st popButton">
+                <button type="button" class="k-button k-button-solid-info" onclick="lecturePersonReq.fn_saveBtn()">저장</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>
         </div>
 
         <div class="col-md-12 col-sm-12" style="padding: 20px 30px;">
-            <table class="popTable table table-bordered mb-0">
-                <colgroup>
-                    <col width="20%">
-                    <col width="80%">
-                </colgroup>
-                <thead>
-                <tr>
-                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>강좌명</th>
-                    <td id="lecTitleBs"></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>강사설정</th>
-                    <td style="display: flex">
-                        <div style="width: 47%">
-                            <b>전체강사</b>
-                            <div id="teacherGridA"></div>
-                        </div>
-                        <div id="btnDiv" style="width: 6%"></div>
-                        <div style="width: 47%">
-                            <b>선택된 강사</b>
-                            <div id="teacherGridS"></div>
-                        </div>
-                    </td>
-                </tr>
-                </thead>
-            </table>
+            <div id="personGrid"></div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
-    lectureTeacher.fn_defaultScript();
+    lecturePersonReq.fn_defaultScript();
 </script>
 </body>
 </html>

@@ -93,7 +93,8 @@ const lectureReq = {
 
     fn_btnSet: function(lecMap){
         if(lecMap != null){
-            $("#testBtn").show();
+            $("#teacherBtn").show();
+            $("#personBtn").show();
         }
     },
 

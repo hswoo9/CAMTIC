@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.cam_project.service.impl;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectUnRndRepository;
@@ -13,6 +15,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -114,6 +117,20 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     public List<Map<String, Object>> getLectureTeacherList(Map<String, Object> params) {
         return projectUnRndRepository.getLectureTeacherList(params);
     }
+    @Override
+    public List<Map<String, Object>> getPersonList(Map<String, Object> params) {
+        return projectUnRndRepository.getPersonList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getLectureTeacherReqList(Map<String, Object> params) {
+        return projectUnRndRepository.getLectureTeacherReqList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getLecturePersonReqList(Map<String, Object> params) {
+        return projectUnRndRepository.getLecturePersonReqList(params);
+    }
 
     @Override
     public List<Map<String, Object>> getLectureList(Map<String, Object> params) {
@@ -123,6 +140,20 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     @Override
     public Map<String, Object> getLectureInfo(Map<String, Object> params) {
         return projectUnRndRepository.getLectureInfo(params);
+    }
+    @Override
+    public void insLectureTeacherInfo(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> TEACHER_LIST = gson.fromJson((String) params.get("teacherList"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+        params.put("teacherList", TEACHER_LIST);
+        projectUnRndRepository.insLectureTeacherInfo(params);
+    }
+    @Override
+    public void insLecturePersonInfo(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> PERSON_LIST = gson.fromJson((String) params.get("personList"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+        params.put("personList", PERSON_LIST);
+        projectUnRndRepository.insLecturePersonInfo(params);
     }
     @Override
     public void insLectureInfo(Map<String, Object> params) {
@@ -135,5 +166,9 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     @Override
     public void delLectureInfo(Map<String, Object> params) {
         projectUnRndRepository.delLectureInfo(params);
+    }
+    @Override
+    public void delLectureTeacherInfo(Map<String, Object> params) {
+        projectUnRndRepository.delLectureTeacherInfo(params);
     }
 }

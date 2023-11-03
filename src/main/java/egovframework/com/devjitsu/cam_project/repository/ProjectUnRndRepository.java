@@ -45,11 +45,26 @@ public class ProjectUnRndRepository extends AbstractDAO {
     public List<Map<String, Object>> getLectureTeacherList(Map<String, Object> params) {
         return selectList("unRnd.getLectureTeacherList", params);
     }
+    public List<Map<String, Object>> getPersonList(Map<String, Object> params) {
+        return selectList("unRnd.getPersonList", params);
+    }
+    public List<Map<String, Object>> getLectureTeacherReqList(Map<String, Object> params) {
+        return selectList("unRnd.getLectureTeacherReqList", params);
+    }
+    public List<Map<String, Object>> getLecturePersonReqList(Map<String, Object> params) {
+        return selectList("unRnd.getLecturePersonReqList", params);
+    }
     public List<Map<String, Object>> getLectureList(Map<String, Object> params) {
         return selectList("unRnd.getLectureList", params);
     }
     public Map<String, Object> getLectureInfo(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("unRnd.getLectureInfo", params);
+    }
+    public void insLectureTeacherInfo(Map<String, Object> params) {
+        insert("unRnd.insLectureTeacherInfo", params);
+    }
+    public void insLecturePersonInfo(Map<String, Object> params) {
+        insert("unRnd.insLecturePersonInfo", params);
     }
     public void insLectureInfo(Map<String, Object> params) {
         insert("unRnd.insLectureInfo", params);
@@ -59,5 +74,8 @@ public class ProjectUnRndRepository extends AbstractDAO {
     }
     public void delLectureInfo(Map<String, Object> params) {
         update("unRnd.delLectureInfo", params);
+    }
+    public void delLectureTeacherInfo(Map<String, Object> params) {
+        update("unRnd.delLectureTeacherInfo", params);
     }
 }

@@ -173,15 +173,76 @@
             PJT_SN = #{pjtSn}
     </update>
 
+    <select id="getPersonList" parameterType="map" resultType="map">
+        /*getPersonList*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON
+        WHERE 1=1
+        <if test='notIn != null and !"".equals(notIn)'>
+            AND PERSON_SN NOT IN (
+                SELECT
+                    PERSON_SN
+                FROM
+                    CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ
+                WHERE
+                    PERSON_SN = #{notIn}
+            )
+        </if>
+        ORDER BY NAME
+    </select>
+
     <select id="getLectureTeacherList" parameterType="map" resultType="map">
+        /*getLectureTeacherList*/
         SELECT
             *
         FROM
             CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER
+        WHERE 1=1
+        <if test='notIn != null and !"".equals(notIn)'>
+            AND TEACHER_SN NOT IN (
+                SELECT
+                    TEACHER_SN
+                FROM
+                    CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER_REQ
+                WHERE
+                    LEC_SN = #{notIn}
+            )
+        </if>
+        ORDER BY NAME
+    </select>
+
+    <select id="getLectureTeacherReqList" parameterType="map" resultType="map">
+        /*getLectureTeacherReqList*/
+        SELECT
+            A.*,
+            B.NAME
+        FROM
+            CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER_REQ A
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER B ON A.TEACHER_SN = B.TEACHER_SN
+        WHERE
+            LEC_SN = #{pk}
+        ORDER BY NAME
+    </select>
+
+    <select id="getLecturePersonReqList" parameterType="map" resultType="map">
+        /*getLecturePersonReqList*/
+        SELECT
+            A.*,
+            B.NAME
+        FROM
+            CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ A
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON B ON A.PERSON_SN = B.PERSON_SN
+        WHERE
+            LEC_SN = #{pk}
         ORDER BY NAME
     </select>
 
     <select id="getLectureList" parameterType="map" resultType="map">
+        /*getLectureList*/
         SELECT
             *
         FROM
@@ -189,6 +250,7 @@
     </select>
 
     <select id="getLectureInfo" parameterType="map" resultType="map">
+        /*getLectureInfo*/
         SELECT
             *
         FROM
@@ -196,6 +258,38 @@
         WHERE
             LEC_SN = #{pk}
     </select>
+
+    <insert id="insLectureTeacherInfo" parameterType="map">
+        /*insLectureTeacherInfo*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER_REQ
+            (
+                LEC_SN,
+                TEACHER_SN
+            )
+        VALUES
+        <foreach collection="teacherList" item="item" separator=" , ">
+            (
+                #{pk},
+                #{item.value}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insLecturePersonInfo" parameterType="map">
+        /*insLecturePersonInfo*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ
+            (
+                LEC_SN,
+                PERSON_SN
+            )
+        VALUES
+        <foreach collection="personList" item="item" separator=" , ">
+            (
+                #{pk},
+                #{item.value}
+            )
+        </foreach>
+    </insert>
 
     <insert id="insLectureInfo" parameterType="map">
         /*insLectureInfo*/
@@ -305,4 +399,11 @@
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_LECTURE'
         </selectKey>
     </insert>
+
+    <delete id="delLectureTeacherInfo" parameterType="map">
+        /*delLectureTeacherInfo*/
+        DELETE FROM CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER_REQ
+        WHERE
+            TEACHER_REQ_SN in (${teacherList})
+    </delete>
 </mapper>

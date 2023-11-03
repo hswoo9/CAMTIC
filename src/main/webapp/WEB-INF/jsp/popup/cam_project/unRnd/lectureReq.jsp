@@ -39,7 +39,8 @@
                 </span>
             </h3>
             <div id="purcBtnDiv" class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-base" id="testBtn" style="display: none" onclick="lecturePop.lectureTeacherPop('${params.pk}');">강사관리</button>
+                <button type="button" class="k-button k-button-solid-base" id="teacherBtn" style="display: none" onclick="lecturePop.lectureTeacherPop('${params.pk}');">강사관리</button>
+                <button type="button" class="k-button k-button-solid-base" id="personBtn" style="display: none" onclick="lecturePop.lecturePersonPop('${params.pk}');">수강신청관리</button>
                 <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="lectureReq.fn_saveBtn('W');">저장</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>
