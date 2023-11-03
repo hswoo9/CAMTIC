@@ -61,6 +61,79 @@
         LIMIT #{pagination.limitStart}, #{recordSize}
     </select>
 
+    <select id="getBoardArticleList" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage"
+            resultType="egovframework.com.devjitsu.hp.board.util.PostResponse">
+        /* getBoardArticleList */
+        SELECT
+            (SELECT BOARD_NAME FROM CAM_BOARD.DJ_BOARD WHERE BOARD_ID = BA.BOARD_ID) AS BOARD_NAME,
+            BA.BOARD_ARTICLE_ID,
+            CASE WHEN BC.BOARD_CATEGORY_NAME IS NULL THEN BA.BOARD_ARTICLE_TITLE
+            ELSE CONCAT('[', BC.BOARD_CATEGORY_NAME,'] ', BA.BOARD_ARTICLE_TITLE)
+            END AS BOARD_ARTICLE_TITLE,
+            <choose>
+                <when test='anonymousActive != null and "N".equals(anonymousActive)'>
+                    REGEXP_REPLACE(BA.REG_EMP_NAME, '[가-힣]', '*') AS REG_EMP_NAME,
+                </when>
+                <otherwise>
+                    BA.REG_EMP_NAME,
+                </otherwise>
+            </choose>
+            DATE_FORMAT(BA.REG_DATE, '%Y-%m-%d') AS REG_DATE,
+            BA.BOARD_ARTICLE_VIEW_COUNT,
+            BA.BOARD_ARTICLE_GROUP,
+            BA.BOARD_ARTICLE_LEVEL,
+            EI.EMP_SEQ,
+            EI.EMP_NAME_KR,
+            BA.PUBLIC_YN,
+            BA.PRIVATE_PASS_WORD,
+            (SELECT IF(COUNT(*) > 0, 'Y', 'N') FROM CAM_BOARD.DJ_BOARD_ARTICLE_FILE WHERE BOARD_ARTICLE_ID = BA.BOARD_ARTICLE_ID) AS FILE_YN,
+            (SELECT COUNT(*) FROM CAM_BOARD.V_BOARD_ARTICLE_REPLY WHERE BOARD_ARTICLE_ID = BA.BOARD_ARTICLE_ID) AS REPLY_CNT
+        FROM
+            CAM_BOARD.DJ_BOARD_ARTICLE BA
+        LEFT JOIN
+            CAM_BOARD.DJ_BOARD_CATEGORY BC
+        ON BA.BOARD_CATEGORY_ID = BC.BOARD_CATEGORY_ID
+        LEFT JOIN
+            DJ_CAMTIC.V_EMP_INFO EI
+        ON BA.BOARD_ARTICLE_MNG_SEQ = EI.EMP_SEQ
+        WHERE 1=1
+        <choose>
+            <when test='"all".equals(boardId)'>
+                AND BA.BOARD_ID in(40,41,42,43)
+            </when>
+            <otherwise>
+                AND BA.BOARD_ID = #{boardId}
+            </otherwise>
+        </choose>
+
+        AND
+            BA.ACTIVE = 'Y'
+        <if test='searchCategory != null and !"".equals(searchCategory)'>
+            AND
+                BA.BOARD_CATEGORY_ID = #{searchCategory}
+        </if>
+        <choose>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "2".equals(searchColumn)'>
+                AND BA.BOARD_ARTICLE_TITLE LIKE CONCAT('%',#{searchContent},'%')
+            </when>
+            <when test='searchColumn != null and !"".equals(searchColumn) and "3".equals(searchColumn)'>
+                AND BA.BOARD_ARTICLE_CONTENT LIKE CONCAT('%',#{searchContent},'%')
+            </when>
+            <otherwise>
+                <if test='searchContent != null and !"".equals(searchContent)'>
+                    AND
+                    (
+                        BA.BOARD_ARTICLE_TITLE LIKE CONCAT('%',#{searchContent},'%') OR
+                        BA.BOARD_ARTICLE_CONTENT LIKE CONCAT('%',#{searchContent},'%')
+                    )
+                </if>
+            </otherwise>
+        </choose>
+
+        ORDER BY BA.REG_DATE DESC, BA.BOARD_ARTICLE_GROUP DESC, BA.BOARD_ARTICLE_ID ASC
+        LIMIT #{pagination.limitStart}, #{recordSize}
+    </select>
+
     <select id="getRecentBoardArticleListCnt" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage"
             resultType="int">
         /* getRecentBoardArticleListCnt */
@@ -119,69 +192,6 @@
             BOARD_ID = #{boardId}
     </select>
 
-    <select id="getBoardArticleList" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage"
-            resultType="egovframework.com.devjitsu.hp.board.util.PostResponse">
-        /* getBoardArticleList */
-        SELECT
-            BA.BOARD_ARTICLE_ID,
-            CASE WHEN BC.BOARD_CATEGORY_NAME IS NULL THEN BA.BOARD_ARTICLE_TITLE
-            ELSE CONCAT('[', BC.BOARD_CATEGORY_NAME,'] ', BA.BOARD_ARTICLE_TITLE)
-            END AS BOARD_ARTICLE_TITLE,
-            <choose>
-                <when test='anonymousActive != null and "N".equals(anonymousActive)'>
-                    REGEXP_REPLACE(BA.REG_EMP_NAME, '[가-힣]', '*') AS REG_EMP_NAME,
-                </when>
-                <otherwise>
-                    BA.REG_EMP_NAME,
-                </otherwise>
-            </choose>
-            DATE_FORMAT(BA.REG_DATE, '%Y-%m-%d') AS REG_DATE,
-            BA.BOARD_ARTICLE_VIEW_COUNT,
-            BA.BOARD_ARTICLE_GROUP,
-            BA.BOARD_ARTICLE_LEVEL,
-            EI.EMP_SEQ,
-            EI.EMP_NAME_KR,
-            BA.PUBLIC_YN,
-            BA.PRIVATE_PASS_WORD,
-            (SELECT IF(COUNT(*) > 0, 'Y', 'N') FROM CAM_BOARD.DJ_BOARD_ARTICLE_FILE WHERE BOARD_ARTICLE_ID = BA.BOARD_ARTICLE_ID) AS FILE_YN
-        FROM
-            CAM_BOARD.DJ_BOARD_ARTICLE BA
-        LEFT JOIN
-            CAM_BOARD.DJ_BOARD_CATEGORY BC
-        ON BA.BOARD_CATEGORY_ID = BC.BOARD_CATEGORY_ID
-        LEFT JOIN
-            DJ_CAMTIC.V_EMP_INFO EI
-        ON BA.BOARD_ARTICLE_MNG_SEQ = EI.EMP_SEQ
-        WHERE
-            BA.BOARD_ID = #{boardId}
-        AND
-            BA.ACTIVE = 'Y'
-        <if test='searchCategory != null and !"".equals(searchCategory)'>
-        AND
-            BA.BOARD_CATEGORY_ID = #{searchCategory}
-        </if>
-        <choose>
-            <when test='searchColumn != null and !"".equals(searchColumn) and "2".equals(searchColumn)'>
-                AND BA.BOARD_ARTICLE_TITLE LIKE CONCAT('%',#{searchContent},'%')
-            </when>
-            <when test='searchColumn != null and !"".equals(searchColumn) and "3".equals(searchColumn)'>
-                AND BA.BOARD_ARTICLE_CONTENT LIKE CONCAT('%',#{searchContent},'%')
-            </when>
-            <otherwise>
-                <if test='searchContent != null and !"".equals(searchContent)'>
-                    AND
-                    (
-                        BA.BOARD_ARTICLE_TITLE LIKE CONCAT('%',#{searchContent},'%') OR
-                        BA.BOARD_ARTICLE_CONTENT LIKE CONCAT('%',#{searchContent},'%')
-                    )
-                </if>
-            </otherwise>
-        </choose>
-
-        ORDER BY BA.REG_DATE DESC, BA.BOARD_ARTICLE_GROUP DESC, BA.BOARD_ARTICLE_ID ASC
-        LIMIT #{pagination.limitStart}, #{recordSize}
-    </select>
-
     <select id="getBoardArticleListCnt" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage"
             resultType="int">
         /* getBoardArticleListCnt */
@@ -195,8 +205,15 @@
         LEFT JOIN
             DJ_CAMTIC.V_EMP_INFO EI
         ON BA.BOARD_ARTICLE_MNG_SEQ = EI.EMP_SEQ
-        WHERE
-            BA.BOARD_ID = #{boardId}
+        WHERE 1=1
+        <choose>
+            <when test='"all".equals(boardId)'>
+                AND BA.BOARD_ID in(40,41,42,43)
+            </when>
+            <otherwise>
+                AND BA.BOARD_ID = #{boardId}
+            </otherwise>
+        </choose>
         AND
             BA.ACTIVE = 'Y'
         <if test='searchCategory != null and !"".equals(searchCategory)'>

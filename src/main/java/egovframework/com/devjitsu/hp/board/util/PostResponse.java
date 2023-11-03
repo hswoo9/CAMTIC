@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.hp.board.util;
 import java.time.LocalDateTime;
 
 public class PostResponse {
+    private String BOARD_NAME;
     /** 제안제도 */
     private Long SUGGESTION_BOARD_ID;
     private String SUGGESTION_DATE;
@@ -57,6 +58,15 @@ public class PostResponse {
     private LocalDateTime APPLY_DATE;
     private LocalDateTime CANCLE_DATE;
 
+    private String REPLY_CNT;
+
+    public String getBOARD_NAME() {
+        return BOARD_NAME;
+    }
+
+    public String getREPLY_CNT() {
+        return REPLY_CNT;
+    }
 
     public Long getWATCH_BOARD_ID() {
         return WATCH_BOARD_ID;

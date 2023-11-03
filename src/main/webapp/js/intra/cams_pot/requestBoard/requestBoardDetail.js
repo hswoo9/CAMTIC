@@ -219,12 +219,12 @@ var rbd = {
 
 	setArticleReplyDel : function(e){
 		if(confirm("댓글을 삭제하시겠습니까?\n삭제된 댓글은 복구가 할 수 없습니다.")){
-			normalArticleDetail.global.saveAjaxData = {
+			rbd.global.saveAjaxData = {
 				articleReplyId : $(e).closest("tr").find("#articleReplyId").val(),
 				empSeq : $("#empSeq").val()
 			}
 
-			var result = customKendo.fn_customAjax("/board/setArticleReplyActiveUpd.do", normalArticleDetail.global.saveAjaxData);
+			var result = customKendo.fn_customAjax("/board/setArticleReplyActiveUpd.do", rbd.global.saveAjaxData);
 			if(result.flag){
 				$(e).closest("tr").remove();
 			}
