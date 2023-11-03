@@ -321,8 +321,8 @@
             #{approveStatCodeDesc},
             #{approveStatCode},
         </if>
-        #{approvePositionName},
-        #{approveDutyName},
+        IFNULL(#{approvePositionName}, ''),
+        IFNULL(#{approveDutyName}, ''),
         #{approveDeptSeq},
         #{approveDeptName},
         #{approveType},

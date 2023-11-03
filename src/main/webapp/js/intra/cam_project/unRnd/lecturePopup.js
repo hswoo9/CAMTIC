@@ -12,7 +12,7 @@ var lecturePop = {
     lectureTeacherPop: function(pk){
         let url = "/projectUnRnd/lectureTeacherPop.do?pk="+pk;
         const name = "lectureTeacherPop";
-        const option = "width = 600, height = 400, top = 250, left = 500, location = no";
+        const option = "width = 1000, height = 670, top = 250, left = 400, location = no";
         window.open(url, name, option);
     }
 }
