@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -74,7 +75,9 @@ public class camsBoardController {
     @RequestMapping("/board/getCamsBoardArticleList.do")
     public String getNormalBoardList(ArticlePage articlePage, HttpServletRequest request, Model model){
         Map<String, Object> boardInfo = camsBoardService.getBoardInfo(articlePage);
-        articlePage.setAnonymousActive((String) ((Map<String, Object>)boardInfo.get("boardInfo")).get("ANONYMOUS_ACTIVE"));
+        if(!StringUtils.isEmpty(boardInfo.get("boardInfo"))){
+            articlePage.setAnonymousActive((String) ((Map<String, Object>)boardInfo.get("boardInfo")).get("ANONYMOUS_ACTIVE"));
+        }
 
         PagingResponse<PostResponse> response = camsBoardService.getBoardArticleList(articlePage);
 

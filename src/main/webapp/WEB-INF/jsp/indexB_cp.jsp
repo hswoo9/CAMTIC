@@ -99,70 +99,47 @@
             <div class="card">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs nav-justified">
-                    <li class="active"><a href="#tab1" data-toggle="tab"><strong style="font-size:14px;">전체</strong></a></li>
-                    <li><a href="#tab2" data-toggle="tab"><strong style="font-size:14px;">공지사항</strong></a></li>
-                    <li><a href="#tab3" data-toggle="tab"><strong style="font-size:14px;">업무보고</strong></a></li>
-                    <li><a href="#tab3" data-toggle="tab"><strong style="font-size:14px;">업무메뉴얼</strong></a></li> <!--규정/지침/절차/양식-->
-                    <li><a href="#tab3" data-toggle="tab"><strong style="font-size:14px;">홍보자료</strong></a></li>
+                    <li class="active"><a href="#tab1" data-toggle="tab" onclick="getActiveList('tab1Ul', 'all')"><strong style="font-size:14px;">전체</strong></a></li>
+                    <li><a href="#tab2" data-toggle="tab" onclick="getActiveList('tab2Ul', '40')"><strong style="font-size:14px;">공지사항</strong></a></li>
+                    <li><a href="#tab3" data-toggle="tab" onclick="getActiveList('tab3Ul', '41')"><strong style="font-size:14px;">업무보고</strong></a></li>
+                    <li><a href="#tab4" data-toggle="tab" onclick="getActiveList('tab4Ul', '42')"><strong style="font-size:14px;">업무메뉴얼</strong></a></li> <!--규정/지침/절차/양식-->
+                    <li><a href="#tab5" data-toggle="tab"onclick="getActiveList('tab5Ul', '43')"><strong style="font-size:14px;">홍보자료</strong></a></li>
                 </ul>
 
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab1" style="padding:20px 0; border-top: 1px solid #eee;border-bottom: 1px solid #eee;">
                         <div class="panel-body" style="padding:0 10px;">
-                            <ul class="nav nav-quirk" style="margin:0;">
-                                <li style="border-top:0; border-bottom:0; ">
-                                    <div style="padding: 10px 10px 0px;">
-                                        <span style="font-weight:600; font-size:15px;">외부전문가 및 강사 등에 지급하는 소득에 대한 소득신고(원천징수)관련 협조사항 안내</span><span>[1]</span>
-                                    </div>
-                                    <div style="padding: 5px 10px;">
-                                        <span style="margin-right:10px;">2023-07-11 12:20</span><span style="margin-right:10px;">박정아</span><span style="margin-right:10px;">|</span><span>공지</span>
-                                    </div>
-                                </li>
-                                <li style="border-top:0;">
-                                    <div style="padding: 10px 10px 0px;">
-                                        <span style="font-weight:600; font-size:15px;">캠틱 주간업무 보고(23.07.17. ~ 23.07.21.)</span><span>[1]</span>
-                                    </div>
-                                    <div style="padding: 5px 10px;">
-                                        <span style="margin-right:10px;">2023-07-11 10:22</span><span style="margin-right:10px;">유수영</span><span style="margin-right:10px;">|</span><span>업무보고</span>
-                                    </div>
-                                </li>
-                                <li style="border-top:0;">
-                                    <div style="padding: 10px 10px 0px;">
-                                        <span style="font-weight:600; font-size:15px;">[35회차] 2023년 7월 캠-퍼스 공통학습(캠.화.지) 일정 안내(7.18)</span><span>[1]</span>
-                                    </div>
-                                    <div style="padding: 5px 10px;">
-                                        <span style="margin-right:10px;">2023-07-05 17:22</span><span style="margin-right:10px;">송은화</span><span style="margin-right:10px;">|</span><span>공지</span>
-                                    </div>
-                                </li>
-                                <li style="border-top:0; border-bottom:0;">
-                                    <div style="padding: 10px 10px 0px;">
-                                        <span style="font-weight:600; font-size:15px;">국가연구개발사업 연구활동비-회의비 사용 서식에 대한 건의</span><span></span>
-                                    </div>
-                                    <div style="padding: 5px 10px;">
-                                        <span style="margin-right:10px;">2023-07-03 11:22</span><span style="margin-right:10px;">김광석</span><span style="margin-right:10px;">|</span><span>제안제도</span>
-                                    </div>
-                                </li>
+                            <ul class="nav nav-quirk" style="margin:0;" id="tab1Ul">
+
                             </ul>
                         </div>
                     </div>
                     <div class="tab-pane" id="tab2">
                         <div class="panel-body" style="padding:0 10px;">
-                            <ul class="nav nav-quirk" style="margin:0;">
-                                <li style="border-top:0;"><p style="padding: 10px 10px 0px;">	캠틱 주간업무 보고(22.11.07. ~ 22.11.11.)<span style="position:absolute; right:10px;">2022/11/10</span></p></li>
-                                <li><p style="padding: 10px 10px 0px;">	2022년 11월 정기월례회의 자료<span style="position:absolute; right:10px;">2022/10/31</span></p></li>
-                                <li><p style="padding: 10px 10px 0px;">	2022년 10월 4Re's Leader 소통회의<span style="position:absolute; right:10px;">2022/10/28</span></p></li>
-                                <li style="border-bottom:0;"><p style="padding: 10px 10px 0px;">	캠틱 주간업무 보고(22.10.24. ~ 22.10.28.)<span style="position:absolute; right:10px;">2022/10/26</span></p></li>
+                            <ul class="nav nav-quirk" style="margin:0;" id="tab2Ul">
+
                             </ul>
                         </div>
                     </div>
                     <div class="tab-pane" id="tab3">
                         <div class="panel-body" style="padding:0 10px;">
-                            <ul class="nav nav-quirk" style="margin:0;">
-                                <li style="border-top:0;"><p style="padding: 10px 10px 0px;">	캠틱종합기술원 규정집(2022.11.01. 기준)<span style="position:absolute; right:10px;">2022/11/10</span></p></li>
-                                <li><p style="padding: 10px 10px 0px;">예산변경매뉴얼(개정)<span style="position:absolute; right:10px;">2022/10/31</span></p></li>
-                                <li><p style="padding: 10px 10px 0px;">사업비 반납매뉴얼<span style="position:absolute; right:10px;">2022/10/28</span></p></li>
-                                <li style="border-bottom:0;"><p style="padding: 10px 10px 0px;">장비사용일지(2022.04.11. 개정)<span style="position:absolute; right:10px;">2022/10/26</span></p></li>
+                            <ul class="nav nav-quirk" style="margin:0;" id="tab3Ul">
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab4">
+                        <div class="panel-body" style="padding:0 10px;">
+                            <ul class="nav nav-quirk" style="margin:0;" id="tab4Ul">
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab5">
+                        <div class="panel-body" style="padding:0 10px;">
+                            <ul class="nav nav-quirk" style="margin:0;" id="tab5Ul">
+
                             </ul>
                         </div>
                     </div>
@@ -179,14 +156,14 @@
             <div class="card">
                 <!-- 메일함 -->
                 <ul class="nav nav-tabs nav-justified">
-                    <li class="active"><a href="#tab4" data-toggle="tab"><strong style="font-size:14px;">오픈스터디</strong></a></li>
-                    <li><a href="#tab5" data-toggle="tab"><strong style="font-size:14px;">법인일정</strong></a></li>
-                    <li><a href="#tab6" data-toggle="tab"><strong style="font-size:14px;">직원일정</strong></a></li>
+                    <li class="active"><a href="#tab6" data-toggle="tab"><strong style="font-size:14px;">오픈스터디</strong></a></li>
+                    <li><a href="#tab7" data-toggle="tab"><strong style="font-size:14px;">법인일정</strong></a></li>
+                    <li><a href="#tab8" data-toggle="tab"><strong style="font-size:14px;">직원일정</strong></a></li>
                 </ul>
 
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div class="tab-pane active" id="tab4" style="padding:20px 0; border-top: 1px solid #eee;border-bottom: 1px solid #eee;">
+                    <div class="tab-pane active" id="tab6" style="padding:20px 0; border-top: 1px solid #eee;border-bottom: 1px solid #eee;">
                         <div class="panel-body" style="padding:0 10px;">
                             <ul class="nav nav-quirk" style="margin:0;">
                                 <li style="border-top:0; border-bottom:0;">
@@ -204,7 +181,7 @@
                                             <div style="font-weight:600; font-size:13px; margin-right:10px; width:100px;">오픈스터디</div>
                                             <div>2023년 정부사업 수행 내 유의 및 이슈사항 안내(기성본부)</div>
                                         </div>
-                                        <div> 23/03/22 ~ 23/03/22</div>
+                                        <div>23/03/22 ~ 23/03/22</div>
                                     </div>
                                 </li>
                                 <li style="border-top:0; border-bottom:0;">
@@ -219,7 +196,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="tab-pane" id="tab5" style="padding:20px 0; border-top: 1px solid #eee;border-bottom: 1px solid #eee;">
+                    <div class="tab-pane" id="tab7" style="padding:20px 0; border-top: 1px solid #eee;border-bottom: 1px solid #eee;">
                         <div class="panel-body" style="padding:0 10px;">
                             <ul class="nav nav-quirk" style="margin:0;">
                                 <li style="border-top:0; border-bottom:0;">
@@ -243,7 +220,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="tab-pane" id="tab6" style="padding:20px 0; border-top: 1px solid #eee;border-bottom: 1px solid #eee;">
+                    <div class="tab-pane" id="tab8" style="padding:20px 0; border-top: 1px solid #eee;border-bottom: 1px solid #eee;">
                         <div class="panel-body" style="padding:0 10px;">
                             <ul class="nav nav-quirk" style="margin:0;">
                                 <li style="border-top:0; border-bottom:0;">
@@ -365,5 +342,54 @@
             open_in_frame(menuNm);
         }
     });
+
+    getActiveList('tab1Ul', 'all');
+
+    function getActiveList(v, e){
+        $("#" + v + " li").remove();
+
+        var data = {
+            recordSize : 5,
+            boardId : e,
+
+        }
+        var result = customKendo.fn_customAjax("/board/getCamsBoardArticleList.do", data);
+        if(result.flag){
+            var html = "";
+            if(result.boardArticleList.list.length > 0){
+                for(var i = 0; i < result.boardArticleList.list.length; i++){
+                    var article = result.boardArticleList.list[i];
+                    var dt = (article.reg_DATE.year + "-" + ('00' + article.reg_DATE.monthValue).slice(-2) + "-" + ('00' + article.reg_DATE.dayOfMonth).slice(-2));
+
+                    if(v == "tab1Ul"){
+                        html += '' +
+                            '<li style="border-top:0; border-bottom:0;">' +
+                            '<div style="padding: 10px 10px 0px;">' +
+                            '<span style="font-weight:600; font-size:15px;">' + article.board_ARTICLE_TITLE + '</span><span>[' + article.reply_CNT + ']</span>' +
+                            '</div>' +
+                            '<div style="padding: 5px 10px;">' +
+                            '<span style="margin-right:10px;">' + dt + '</span>' +
+                            '<span style="margin-right:10px;">' + article.reg_EMP_NAME+ '</span>' +
+                            '<span style="margin-right:10px;">|</span><span>' + article.board_NAME + '</span>' +
+                            '</div>' +
+                            '</li>';
+                    }else{
+                        html += '<li>' +
+                            '<p style="padding: 10px 10px 0px;">' +
+                            article.board_ARTICLE_TITLE +
+                            '<span style="position:absolute; right:10px;">' + dt + '</span>' +
+                            '</p>' +
+                            '</li>';
+                    }
+                }
+            }else{
+                html += '<li>' +
+                    '<p style="padding: 10px 10px 0px;">등록된 게시글이 없습니다.<span style="position:absolute; right:10px;"></span></p>' +
+                    '</li>';
+            }
+
+            $("#" + v).append(html);
+        }
+    }
 </script>
 
