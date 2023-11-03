@@ -131,6 +131,36 @@
 				</div>
 			</div>
 			<hr/>
+			<c:if test="${params.requestType eq 'R'}">
+				<div id="replyDiv">
+					<div style="margin-top:10px;">
+						<div style="display:flex; justify-content: space-between; align-items: center;">
+							<div class="spanft" style="font-weight: bold;">· 댓글</div>
+						</div>
+						<div style="margin-top:10px;">
+							<table class="table table-bordered replyTable" id="replyTable">
+								<colgroup>
+									<col width="8%">
+									<col width="65%">
+									<col width="16%">
+								</colgroup>
+								<tbody id="articleReplyTbody">
+								<tr>
+									<td class="text-center">댓글입력</td>
+									<td class="text-center" colspan="3">
+										<input type='hidden' id='articleReplyId' name='articleReplyId'>
+										<input type="text" id="articleReplyContent" name="articleReplyContent" style="width: 96%">
+										<button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="rbd.setArticleReply(this)">
+											<span class="k-button-text">등록</span>
+										</button>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</c:if>
 		</div>
 	</div> <%-- col-lg-11 --%>
 </div> <%-- col-lg-12 --%>

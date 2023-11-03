@@ -45,6 +45,8 @@ var rbd = {
 			$("#status").html(rbd.global.articleDetailInfo.STATUS_TXT);
 			$("#deadlineDate").html(rbd.global.articleDetailInfo.DEADLINE_DATE);
 		}
+
+		rbd.getArticleReplyGrid()
 	},
 
 	setArticleDel : function(){
@@ -90,6 +92,144 @@ var rbd = {
 	listPageMove : function(){
 		open_in_frame('/spot/requestBoardList.do?requestType=' + $("#requestType").val());
 	},
+
+	getArticleReplyGrid : function(){
+		rbd.global.searchAjaxData = {
+			requestBoardId : "request_" + $("#requestBoardId").val()
+		}
+
+		var result = customKendo.fn_customAjax("/board/getArticleReplyList.do", rbd.global.searchAjaxData);
+		if(result.flag){
+			rbd.addArticleReplyRow(result.rs);
+		}
+	},
+
+	addArticleReplyRow : function(rs){
+		rbd.global.articleReplyList = rs;
+
+		var articleReplyTr = "";
+
+		for(var i = 0; i < rs.length; i++){
+			var replyDivClass = "";
+			var replyContentClass= "";
+
+			if(rs[i].ARTICLE_REPLY_LEVEL > 0){
+				replyDivClass = "class='reply_row'";
+				replyContentClass = "class='replyPadding'";
+			}
+
+			articleReplyTr += "<tr>";
+			articleReplyTr += "	<td class=\"text-center\">";
+			articleReplyTr += "		<div " + replyDivClass + ">";
+			articleReplyTr += "			<input type='hidden' id='articleReplyId' name='articleReplyId' value='" + rs[i].ARTICLE_REPLY_ID + "'>";
+			articleReplyTr += "			<input type='hidden' id='articleReplyGroup' name='articleReplyGroup' value='" + rs[i].ARTICLE_REPLY_GROUP + "'>";
+			articleReplyTr += 			rs[i].EMP_NAME_KR;
+			articleReplyTr += "		</div>";
+			articleReplyTr += "	</td>"
+			articleReplyTr += "	<td id='articleReplyContentTd' " + replyContentClass + ">";
+			articleReplyTr += 		rs[i].ARTICLE_REPLY_CONTENT;
+			articleReplyTr += "	</td>"
+			if($("#empSeq").val() == rs[i].REG_EMP_SEQ){
+				articleReplyTr += "	<td class=\"text-right\" colspan='2'>";
+				articleReplyTr += 		rs[i].REG_DATE;
+				articleReplyTr += "		<button type=\"button\" class=\"k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base\" id='replyModSaveBtn' onclick=\"rbd.setArticleReply(this)\" style='margin-left: 15px;display: none'>";
+				articleReplyTr += "			<span class=\"k-button-text\">등록</span>";
+				articleReplyTr += "		</button>";
+				articleReplyTr += "		<button type=\"button\" class=\"k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base\" id='replyModBtn' onclick=\"rbd.setArticleReplyMod(this)\" style='margin-left: 15px'>";
+				articleReplyTr += "			<span class=\"k-button-text\">수정</span>";
+				articleReplyTr += "		</button>";
+				articleReplyTr += "		<button type=\"button\" class=\"k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base\" id='replyDelBtn' onclick=\"rbd.setArticleReplyDel(this)\">";
+				articleReplyTr += "			<span class=\"k-button-text\">삭제</span>";
+				articleReplyTr += "		</button>";
+				articleReplyTr += "	</td>";
+			}else{
+				articleReplyTr += "	<td class=\"text-right\" colspan='2'>";
+				articleReplyTr += 		rs[i].REG_DATE;
+				articleReplyTr += "		<button type=\"button\" class=\"k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base\" onclick=\"rbd.setArticleReReply(this)\" style='margin-left: 15px'>";
+				articleReplyTr += "			<span class=\"k-button-text\">답글</span>";
+				articleReplyTr += "		</button>";
+				articleReplyTr += "	</td>";
+			}
+			articleReplyTr += "</tr>";
+		}
+		$("#articleReplyTbody tr:not(:eq(0))").remove();
+		$("#articleReplyTbody").append(articleReplyTr);
+	},
+
+	setArticleReplyMod : function(e){
+		$(e).hide();
+		$(e).closest("tr").find("#replyModSaveBtn").show();
+		var rs = rbd.global.articleReplyList.filter(element => element.ARTICLE_REPLY_ID == $(e).closest("tr").find("#articleReplyId").val())
+		var input = "<input type='text' id='articleReplyContent' name='articleReplyContent' class='k-input k-textbox k-input-solid k-input-md k-rounded-md' value='" + rs[0].ARTICLE_REPLY_CONTENT +"'>";
+		$(e).closest("tr").find("#articleReplyContentTd").html(input);
+	},
+
+	setArticleReReply : function(e){
+		var articleReReplyTr = "";
+		var articleReplyOriginId = $(e).closest("tr").find("#articleReplyId").val();
+		var articleReplyGroup = $(e).closest("tr").find("#articleReplyGroup").val();
+
+		articleReReplyTr += "<tr id='reReplyTr' class='reReplyTr'>";
+		articleReReplyTr += "	<td class=\"text-center\">";
+		articleReReplyTr += "		<input type='hidden' id='articleReplyId' name='articleReplyId'>";
+		articleReReplyTr += "		<input type=\"hidden\" id=\"articleReplyOriginId\" name=\"articleReplyOriginId\" value='" + articleReplyOriginId + "'>";
+		articleReReplyTr += "		<input type=\"hidden\" id=\"articleReplyGroup\" name=\"articleReplyGroup\" value='" + articleReplyGroup + "'>";
+		articleReReplyTr += "		<div class=\"reply_row\" style='margin-left: 25px;padding-left: 5px !important;background: url(/images/ico/ico_reply01.png) no-repeat 8px 2px;'>";
+		articleReReplyTr += 			$("#empName").val();
+		articleReReplyTr += "		</div>"
+		articleReReplyTr += "	</td>";
+		articleReReplyTr += "	<td id='articleReplyContentTd' colspan='3' class='replyPadding' style=''>";
+		articleReReplyTr += "		<input type='text' id='articleReplyContent' name='articleReplyContent' class='k-input k-textbox k-input-solid k-input-md k-rounded-md' style='width: 95%'>";
+		articleReReplyTr += "		<button type=\"button\" class=\"k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base\" id='replyModSaveBtn' onclick=\"rbd.setArticleReply(this)\" style='margin-left: 11.6px;'>";
+		articleReReplyTr += "			<span class=\"k-button-text\">등록</span>";
+		articleReReplyTr += "		</button>";
+		articleReReplyTr += "	</td>"
+		articleReReplyTr += "</tr>";
+
+		$(e).closest("tr").after(articleReReplyTr);
+	},
+
+	setArticleReply : function(e){
+		var articleReplyLevel = 0;
+		var articleReplyStep = 0;
+
+		rbd.global.saveAjaxData = {
+			articleReplyId : $(e).closest("tr").find("#articleReplyId").val(),
+			boardArticleId : "request_" + $("#requestBoardId").val(),
+			articleReplyContent : $(e).closest("tr").find("#articleReplyContent").val(),
+			articleReplyOriginId : $(e).closest("tr").find("#articleReplyOriginId").val(),
+			articleReplyGroup : $(e).closest("tr").find("#articleReplyGroup").val(),
+			articleReplyStep : articleReplyStep,
+			articleReplyLevel : articleReplyLevel,
+			articleReplyPublicYn : "Y",
+			empSeq : $("#empSeq").val()
+		}
+
+		if(rbd.global.saveAjaxData.articleReplyPublicYn == "N"){
+			rbd.global.saveAjaxData.privatePassWord = $("#privatePassWord").val();
+		}
+
+		var result = customKendo.fn_customAjax("/board/setArticleReply.do", rbd.global.saveAjaxData);
+
+		if(result.flag){
+			rbd.getArticleReplyGrid();
+			$("#articleReplyContent").val("");
+		}
+	},
+
+	setArticleReplyDel : function(e){
+		if(confirm("댓글을 삭제하시겠습니까?\n삭제된 댓글은 복구가 할 수 없습니다.")){
+			normalArticleDetail.global.saveAjaxData = {
+				articleReplyId : $(e).closest("tr").find("#articleReplyId").val(),
+				empSeq : $("#empSeq").val()
+			}
+
+			var result = customKendo.fn_customAjax("/board/setArticleReplyActiveUpd.do", normalArticleDetail.global.saveAjaxData);
+			if(result.flag){
+				$(e).closest("tr").remove();
+			}
+		}
+	}
 }
 
 function formatBytes(bytes, decimals = 2) {
