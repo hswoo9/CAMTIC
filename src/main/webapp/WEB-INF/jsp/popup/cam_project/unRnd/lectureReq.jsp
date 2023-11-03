@@ -7,9 +7,24 @@
 
 <body class="font-opensans" style="background-color:#fff;">
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lecture.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lecturePopup.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lectureReq.js?v=${today}'/>"></script>
 
-<input type="hidden" id="mod" name="mod" />
+<input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="regEmpName" value="${loginVO.name}"/>
+<input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
+<input type="hidden" id="regDeptName" value="${loginVO.deptNm}"/>
+<input type="hidden" id="regTeamSeq" value="${loginVO.teamId}"/>
+<input type="hidden" id="regTeamName" value="${loginVO.teamNm}"/>
+<input type="hidden" id="regPositionCode" value="${loginVO.positionCode}"/>
+<input type="hidden" id="regPositionName" value="${loginVO.positionNm}"/>
+<input type="hidden" id="regDutyCode" value="${loginVO.dutyCode}"/>
+<input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
+<input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
+<input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
+<input type="hidden" id="pjtSn" value="${params.pjtSn}"/>
+<input type="hidden" id="pk" value="${params.pk}"/>
+<input type="hidden" id="mode" value="${params.mode}"/>
 <input type="hidden" id="type" name="type" />
 
 <div style="padding:0;">
@@ -24,7 +39,8 @@
                 </span>
             </h3>
             <div id="purcBtnDiv" class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="ubr.fn_saveBtn('W');">저장</button>
+                <button type="button" class="k-button k-button-solid-base" id="testBtn" style="display: none" onclick="lecturePop.lectureTeacherPop('${params.pk}');">강사관리</button>
+                <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="lectureReq.fn_saveBtn('W');">저장</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -162,7 +178,7 @@
                 <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>교육비(교재비)</th>
                     <td>
-                        <input id="textbookFee" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 40px;" value="0"> 원 (없으면 0원 입력) / 안내 : <input id="textbookFeeEx" style="width: 100px;">
+                        <input id="textbookFee" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 80px;" value="0"> 원 (없으면 0원 입력) / 안내 : <input id="textbookFeeEx" style="width: 140px;">
                     </td>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>운영방법</th>
                     <td>
@@ -221,7 +237,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    ubr.fn_defaultScript();
+    lectureReq.fn_defaultScript();
 </script>
 </body>
 </html>

@@ -2385,7 +2385,7 @@ img {max-width:100%;}
 #Service .svgroup_r .svg_contents .notification .popupzone2 ul,
 #Service .svgroup_r .svg_contents .notification .popupzone3 ul {position:relative;float:left;width:100%;padding:50px;}
 #Service .svgroup_r .svg_contents .notification .popupzone1 ul li,
-#Service .svgroup_r .svg_contents .notification .popupzone2 ul li {float:left;width:31.5%;margin:0 2.7% 2.7% 0;}
+#Service .svgroup_r .svg_contents .notification .popupzone2 ul li {float:left;width:31.5%;margin:0 2.7% 2.7% 0; height:248px;}
 #Service .svgroup_r .svg_contents .notification .popupzone1 ul li a,
 #Service .svgroup_r .svg_contents .notification .popupzone2 ul li a {height:100%;display:block;border:1px solid #e0e0e0;border-radius:10px;overflow:hidden;}
 #Service .svgroup_r .svg_contents .notification .popupzone1 ul li:nth-child(3n+3),

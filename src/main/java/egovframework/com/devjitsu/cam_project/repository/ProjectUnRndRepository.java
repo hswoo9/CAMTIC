@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.cam_project.repository;
 import egovframework.com.devjitsu.gw.login.repository.AbstractDAO;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -41,6 +42,15 @@ public class ProjectUnRndRepository extends AbstractDAO {
         update("unRnd.updUnRndProjectInfo", params);
     }
 
+    public List<Map<String, Object>> getLectureTeacherList(Map<String, Object> params) {
+        return selectList("unRnd.getLectureTeacherList", params);
+    }
+    public List<Map<String, Object>> getLectureList(Map<String, Object> params) {
+        return selectList("unRnd.getLectureList", params);
+    }
+    public Map<String, Object> getLectureInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("unRnd.getLectureInfo", params);
+    }
     public void insLectureInfo(Map<String, Object> params) {
         insert("unRnd.insLectureInfo", params);
     }
