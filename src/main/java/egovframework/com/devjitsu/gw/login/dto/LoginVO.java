@@ -40,6 +40,7 @@ public class LoginVO {
     private String bizSeq;
     private String compSeq;
     private String picFileId;
+    private String picFilePath;
     private String eaType;
     private String emailDomain;
     private String erpBizCd;
@@ -120,6 +121,14 @@ public class LoginVO {
     private String jobDetailNm;
 
     public LoginVO() {
+    }
+
+    public String getPicFilePath() {
+        return picFilePath;
+    }
+
+    public void setPicFilePath(String picFilePath) {
+        this.picFilePath = picFilePath;
     }
 
     public String getPicFileId() {

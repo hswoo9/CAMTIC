@@ -30,6 +30,14 @@ var bustripResultPop = {
         bustrip.fn_waypointCodeSet();
         /** 운행자리스트 세팅 */
         bustrip.fn_realDriverSet();
+
+        $("input[name='project']").click(function (){
+            if(this.value == "2"){
+                $("#busnLine").css("display", "");
+            } else {
+                $("#busnLine").css("display", "none");
+            }
+        });
     },
 
     reqDataSet: function(){
@@ -78,12 +86,12 @@ var bustripResultPop = {
         $("#time1").val(busInfo.TRIP_TIME_FR);
         $("#time2").val(busInfo.TRIP_TIME_TO);
 
-        console.log(busInfo);
         if(busInfo.PJT_SN != null){
             $("#project").data("kendoRadioGroup").value("2");
-            $("input[name='project']").trigger("click");
+            $("input[name='project'][value='2']").trigger("click");
         } else {
             $("#project").data("kendoRadioGroup").value("1");
+            $("input[name='project'][value='1']").trigger("click");
         }
 
         $("#busnName").val(busInfo.BUSN_NAME);
@@ -169,6 +177,14 @@ var bustripResultPop = {
 
         /** 관련사업, 프로젝트명 */
         bustripInit.settingProjectDataInit(resInfo);
+
+        if(resInfo.PJT_SN != null){
+            $("#project").data("kendoRadioGroup").value("2");
+            $("input[name='project'][value='2']").trigger("click");
+        } else {
+            $("#project").data("kendoRadioGroup").value("1");
+            $("input[name='project'][value='1']").trigger("click");
+        }
 
         /** 동반자 */
         bustripInit.settingCompanionDataInit(resList);

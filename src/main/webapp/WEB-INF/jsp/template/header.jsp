@@ -114,7 +114,7 @@
           </li>
           <li>
             <button class="btn btn-notice alert-notice" data-toggle="dropdown">
-              <img src="/images/photos/loggeduser3.png" alt="" class="media-object img-circle" style="width:40px;">
+              <img src="${loginVO.picFilePath}" alt="" class="media-object img-circle" style="width:40px;">
             </button>
             <div id="noticeDropdown1" class="dropdown-menu dm-notice pull-right">
               <div role="tabpanel">

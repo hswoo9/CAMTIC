@@ -168,11 +168,13 @@
                 AND BA.BOARD_ARTICLE_CONTENT LIKE CONCAT('%',#{searchContent},'%')
             </when>
             <otherwise>
-                AND
+                <if test='searchContent != null and !"".equals(searchContent)'>
+                    AND
                     (
                         BA.BOARD_ARTICLE_TITLE LIKE CONCAT('%',#{searchContent},'%') OR
                         BA.BOARD_ARTICLE_CONTENT LIKE CONCAT('%',#{searchContent},'%')
                     )
+                </if>
             </otherwise>
         </choose>
 
@@ -209,11 +211,13 @@
                 AND BA.BOARD_ARTICLE_CONTENT LIKE CONCAT('%',#{searchContent},'%')
             </when>
             <otherwise>
+                <if test='searchContent != null and !"".equals(searchContent)'>
                 AND
-                (
-                    BA.BOARD_ARTICLE_TITLE LIKE CONCAT('%',#{searchContent},'%') OR
-                    BA.BOARD_ARTICLE_CONTENT LIKE CONCAT('%',#{searchContent},'%')
-                )
+                    (
+                        BA.BOARD_ARTICLE_TITLE LIKE CONCAT('%',#{searchContent},'%') OR
+                        BA.BOARD_ARTICLE_CONTENT LIKE CONCAT('%',#{searchContent},'%')
+                    )
+                </if>
             </otherwise>
         </choose>
 
@@ -435,8 +439,16 @@
         LEFT JOIN
             CAM_HR.DJ_EMP_INFO EI
         ON BAR.REG_EMP_SEQ = EI.EMP_SEQ
-        WHERE
-            BAR.BOARD_ARTICLE_ID = #{boardArticleId}
+        WHERE 1=1
+            <choose>
+                <when test='requestBoardId != null and !"".equals(requestBoardId)'>
+                    AND BAR.BOARD_ARTICLE_ID = #{requestBoardId}
+                </when>
+                <otherwise>
+                    AND BAR.BOARD_ARTICLE_ID = #{boardArticleId}
+                </otherwise>
+            </choose>
+
         AND
             BAR.ACTIVE = 'Y'
         ORDER BY BAR.ARTICLE_REPLY_GROUP ASC, BAR.ARTICLE_REPLY_STEP ASC

@@ -128,7 +128,9 @@
                     </thead>
                 </table>
             </form>
-        <button type="button" class="k-button k-button-solid-info" onclick="empInfoFileSave();">저장</button>
+            <div style="text-align: right">
+                <button type="button" class="k-button k-button-solid-info" onclick="empInfoFileSave();">저장</button>
+            </div>
         </div>
     </div>
 </div>
