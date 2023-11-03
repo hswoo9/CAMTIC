@@ -840,7 +840,6 @@
                     EDU_MONEY,
                 </if>
                 EDU_MONEY_TYPE,
-                TRAVEL_MONEY_TYPE,
                 <if test='returnMoney != null and returnMoney != ""'>
                     RETURN_MONEY,
                 </if>
