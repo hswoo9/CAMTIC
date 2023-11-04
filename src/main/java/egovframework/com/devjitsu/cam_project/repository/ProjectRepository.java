@@ -470,4 +470,12 @@ public class ProjectRepository extends AbstractDAO {
     public List<Map<String, Object>> getResultPsMember(Map<String, Object> params) {
         return selectList("project.getResultPsMember", params);
     }
+
+    public void insTeamProject(Map<String, Object> params) {
+        insert("project.insTeamProject", params);
+    }
+
+    public void updTeamProject(Map<String, Object> params) {
+        update("project.updTeamProject", params);
+    }
 }

@@ -22,14 +22,19 @@ var teamInfo = {
         $("#exptCost").val($("#expAmt").val());
 
         $("#teamAmt, #exptProfitPer").on("keyup", function(){
-            $("#exptBalance").val(teamInfo.comma(teamInfo.uncomma($("#expAmt").val()) - teamInfo.uncomma($("#teamAmt").val())));
+            if($("#pjtStep").val() == "R"){
+                $("#exptBalance").val(teamInfo.comma(teamInfo.uncomma($("#pjtExpAmt").val()) - teamInfo.uncomma($("#teamAmt").val())));
+            } else {
+                $("#exptBalance").val(teamInfo.comma(teamInfo.uncomma($("#expAmt").val()) - teamInfo.uncomma($("#teamAmt").val())));
+            }
+
 
             if(teamInfo.uncomma($("#exptProfitPer").val()) >= 0 && teamInfo.uncomma($("#exptProfitPer").val()) <= 100){
-                $("#exptProfit").val(Math.round(teamInfo.uncomma($("#exptBalance").val()) * (teamInfo.uncomma($("#exptProfitPer").val()) * 0.01)));
-                $("#exptCost").val(teamInfo.uncomma($("#exptBalance").val()) - Math.round(teamInfo.uncomma($("#exptBalance").val()) * (teamInfo.uncomma($("#exptProfitPer").val()) * 0.01)));
+                $("#exptProfit").val(teamInfo.comma(Math.round(teamInfo.uncomma($("#exptBalance").val()) * (teamInfo.uncomma($("#exptProfitPer").val()) * 0.01))));
+                $("#exptCost").val(teamInfo.comma(teamInfo.uncomma($("#exptBalance").val()) - Math.round(teamInfo.uncomma($("#exptBalance").val()) * (teamInfo.uncomma($("#exptProfitPer").val()) * 0.01))));
             } else{
                 $("#exptProfit").val(0);
-                $("#exptCost").val(teamInfo.uncomma($("#exptBalance").val()));
+                $("#exptCost").val(teamInfo.comma($("#exptBalance").val()));
             }
         });
 
@@ -59,7 +64,12 @@ var teamInfo = {
             success : function (rs){
                 if(rs.code == 200){
                     alert("저장되었습니다.");
-                    window.location.href="/project/pop/viewRegProject.do?pjtSn=" + parameters.pjtSn + "&tab=9";
+
+                    if($("#pjtStep").val() == "R"){
+                        window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=9";
+                    } else {
+                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + parameters.pjtSn + "&tab=5";
+                    }
                 }
             }
         })

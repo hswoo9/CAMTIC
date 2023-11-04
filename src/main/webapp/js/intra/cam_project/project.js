@@ -168,7 +168,11 @@ var camPrj = {
                     title: "프로젝트 명",
                     width: "20%",
                     template: function(e){
-                        return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\")'>" + e.PJT_NM + "</a>";
+                        if(e.TEAM_STAT == "N"){
+                            return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\")'>" + e.PJT_NM + "</a>";
+                        } else {
+                            return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\", \"" + e.TEAM_STAT + "\")'>[협업] " + e.PJT_NM + "</a>";
+                        }
                     }
                 }, {
 
@@ -336,13 +340,17 @@ var camPrj = {
 
 
     // project 상세페이지
-    fn_projectPopView : function (key, cs){
+    fn_projectPopView : function (key, cs, tmStat){
         var url = "/project/pop/viewRegProject.do?pjtSn=" + key;
 
         if(cs == "R"){
             url = "/projectRnd/pop/regProject.do?pjtSn=" + key;
         } else if (cs == "S"){
             url = "/projectUnRnd/pop/regProject.do?pjtSn=" + key;
+        }
+
+        if(tmStat == "Y"){
+            url = url + "&tmStat=" + tmStat;
         }
         var name = "blank";
         var option = "width = 1680, height = 850, top = 100, left = 200, location = no";
