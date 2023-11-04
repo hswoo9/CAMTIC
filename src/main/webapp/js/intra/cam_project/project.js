@@ -268,7 +268,11 @@ var camPrj = {
                     title : "조회",
                     width: "5%",
                     template : function (e){
-                        return "<button type='button' onclick='camPrj.projectDoc("+e.PJT_SN+")' class='k-button k-button-solid-base'>조회</button>"
+                        if(e.TEAM_STAT == "Y"){
+                            return "";
+                        } else {
+                            return "<button type='button' onclick='camPrj.projectDoc("+e.PJT_SN+")' class='k-button k-button-solid-base'>조회</button>"
+                        }
                     }
                 }
             ],
