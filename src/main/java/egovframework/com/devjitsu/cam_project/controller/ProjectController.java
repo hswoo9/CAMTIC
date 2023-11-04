@@ -1143,4 +1143,16 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/delTeamProject")
+    public String delTeamProject(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectService.delTeamProject(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
 }

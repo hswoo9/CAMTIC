@@ -38,11 +38,20 @@ var teamInfo = {
             }
         });
 
+        if($("#pjtStep").val().toString().substring(0,1) == "R"){
+            $("#teamCrmSn").val($("#rndCrmSn").val());
+            $("#teamCrmNm").val($("#rndCrmNm").val());
+        }
+
 
         teamInfo.teamMainGrid();
     },
 
     fn_save:function(){
+        if(!confirm("협업요청을 하시겠습니까?")){
+            return;
+        }
+
         var parameters = {
             pjtSn : $("#pjtSn").val(),
             tmDeptSeq : $("#teamDept").val(),
@@ -56,6 +65,24 @@ var teamInfo = {
             tmExptCost : teamInfo.uncomma($("#exptCost").val())
         }
 
+        if(parameters.tmDeptSeq == ""){
+            alert("협업부서를 선택해주세요.");
+            return;
+        }
+        if(parameters.tmTeamSeq == ""){
+            alert("협업팀을 선택해주세요.");
+            return;
+        }
+        if(parameters.tmPMSeq == ""){
+            alert("담당자를 선택해주세요.");
+            return;
+        }
+        if(parameters.tmAmt == ""){
+            alert("배분금액을 선택해주세요.");
+            return;
+        }
+
+
         $.ajax({
             url : "/project/engn/setTeamInfo",
             data : parameters,
@@ -65,10 +92,10 @@ var teamInfo = {
                 if(rs.code == 200){
                     alert("저장되었습니다.");
 
-                    if($("#pjtStep").val() == "R"){
-                        window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=9";
+                    if($("#pjtStep").val().toString().substring(0,1) == "R"){
+                        window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=5";
                     } else {
-                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + parameters.pjtSn + "&tab=5";
+                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + parameters.pjtSn + "&tab=9";
                     }
                 }
             }
@@ -226,7 +253,11 @@ var teamInfo = {
                     title: "배분비율",
                     width: 100,
                     template: function (e){
-                        return e.TM_EXPT_PER + "%"
+                        if($("#pjtStep").val().toString().substring(0, 1) == "R"){
+                            return (Number(e.TM_AMT) / Number(uncomma($("#pjtExpAmt").val()))) * 100 + "%"
+                        } else {
+                            return (Number(e.TM_AMT) / Number(uncomma($("#pjtAmt").val()))) * 100 + "%"
+                        }
                     }
                 }, {
                     field: "",
@@ -245,9 +276,17 @@ var teamInfo = {
     },
 
     fn_cancel : function (key){
-        if(!confirm("등록된 협업을 취소하시겠습니까?"+ key)){
+        if(!confirm("등록된 협업을 취소하시겠습니까?")){
             return ;
         }
+
+        var data = {
+            tmSn : key
+        }
+        var rs = customKendo.fn_customAjax("/project/delTeamProject",data);
+
+        location.reload();
+
     },
 
     fn_reset: function (){

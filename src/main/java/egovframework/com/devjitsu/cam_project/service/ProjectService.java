@@ -145,4 +145,6 @@ public interface ProjectService {
     Map<String, Object> getProjectTotalData(Map<String, Object> params);
 
     List<Map<String, Object>> getResultPsMember(Map<String, Object> params);
+
+    void delTeamProject(Map<String, Object> params);
 }

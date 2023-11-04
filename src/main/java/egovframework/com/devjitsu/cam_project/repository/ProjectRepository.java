@@ -478,4 +478,9 @@ public class ProjectRepository extends AbstractDAO {
     public void updTeamProject(Map<String, Object> params) {
         update("project.updTeamProject", params);
     }
+
+    public void delTeamProject(Map<String, Object> params) {
+        delete("project.delTeamProject", params);
+        delete("project.delTeamProjectData", params);
+    }
 }
