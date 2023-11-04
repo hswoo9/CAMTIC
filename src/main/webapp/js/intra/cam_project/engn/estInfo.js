@@ -145,7 +145,11 @@ var estInfo = {
                     });
                     alert("저장되었습니다.");
 
-                    window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=2";
+                    if($("#tmSn").val() == "Y"){
+                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=2";
+                    } else {
+                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=1&tmStat=" + $("#tmStat").val();
+                    }
 
                 }
             }

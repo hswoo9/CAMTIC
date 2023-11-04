@@ -180,62 +180,116 @@ var regPrj = {
 
         if(setParameters != null){
 
-            var tab = $("#tab").val();
-            if(tab != null && tab != ""){
-                tabStrip.activateTab(tabStrip.tabGroup.children().eq(tab));
+            if(setParameters.TEAM_STAT == "Y"){
+                var tab = $("#tab").val();
+                if(tab != null && tab != ""){
+                    tabStrip.activateTab(tabStrip.tabGroup.children().eq(tab));
+                } else {
+                    tabStrip.activateTab(tabStrip.tabGroup.children().eq(0));
+                }
+
+                tabStrip.activateTab(tabStrip.tabGroup.children().eq(1));
+                // tabStrip.hidden(tabStrip.tabGroup.children().eq(0));
+                tabStrip.remove(tabStrip.tabGroup.children().eq(0));
+                tabStrip.remove(tabStrip.tabGroup.children().eq(1));
+                tabStrip.remove(tabStrip.tabGroup.children().eq(1));
+                tabStrip.remove(tabStrip.tabGroup.children().eq(4));
+                tabStrip.remove(tabStrip.tabGroup.children().eq(6));
+                tabStrip.remove(tabStrip.tabGroup.children().eq(2));
+
+                tabStrip.enable(tabStrip.tabGroup.children());
+
+                // setParameters.ENGN_SN;
+                regPrj.fn_setData(setParameters);
+
+
+                var parser = new DOMParser();
+
+                var html = '<div style="width:100%;"></div>';
+                var doc = parser.parseFromString(html, 'text/html');
+                $("#tabstrip li")[2].after(doc.body.firstChild);
+
+                var html2 = '<div style="padding: 6px 12px"><b style="color: red">사업관리</b></div>';
+                var doc2 = parser.parseFromString(html2, 'text/html');
+                $("#tabstrip li")[0].before(doc2.body.firstChild);
+
+                var html3 = '<div style="padding: 6px 12px"><b style="color: blue">운영관리</b></div>';
+                var doc3 = parser.parseFromString(html3, 'text/html');
+                $("#tabstrip li")[3].before(doc3.body.firstChild);
             } else {
-                tabStrip.activateTab(tabStrip.tabGroup.children().eq(0));
+                var tab = $("#tab").val();
+                if(tab != null && tab != ""){
+                    tabStrip.activateTab(tabStrip.tabGroup.children().eq(tab));
+                } else {
+                    tabStrip.activateTab(tabStrip.tabGroup.children().eq(0));
+                }
+
+                if(setParameters.PJT_SN){
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(0));
+                    // tabStrip.enable(tabStrip.tabGroup.children().eq(1));
+                }
+
+                // setParameters.ENGN_SN;
+                regPrj.fn_setData(setParameters);
+
+                if(setParameters.PJT_STEP == "E"){
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(0));
+                    // tabStrip.enable(tabStrip.tabGroup.children().eq(1));
+                }
+
+                if(setParameters.PJT_STOP != "Y"){
+                    if(setParameters.PJT_STEP >= "E0"){
+                        tabStrip.enable(tabStrip.tabGroup.children().eq(1));
+                        tabStrip.enable(tabStrip.tabGroup.children().eq(8));
+                        tabStrip.enable(tabStrip.tabGroup.children().eq(9));
+                    }
+
+                    if(setParameters.PJT_STEP >= "E1"){
+                        tabStrip.enable(tabStrip.tabGroup.children().eq(2));
+                        tabStrip.enable(tabStrip.tabGroup.children().eq(5));
+                    }
+
+                    if(setParameters.PJT_STEP >= "E2" && delvMap.DELV_STATUS == "100"){
+                        tabStrip.enable(tabStrip.tabGroup.children().eq(3));
+                    }
+
+                    if(setParameters.PJT_STEP >= "E3" && devMap.STATUS == "100"){
+                        tabStrip.enable(tabStrip.tabGroup.children().eq(4));
+                        tabStrip.enable(tabStrip.tabGroup.children().eq(6));
+                    }
+
+                    if(setParameters.PJT_STEP >= "E4"){
+                        tabStrip.enable(tabStrip.tabGroup.children().eq(7));
+                    }
+
+                    if(setParameters.PJT_STEP >= "E5"){
+                        tabStrip.enable(tabStrip.tabGroup.children().eq(10));
+                    }
+
+                    if(setParameters.PJT_STEP >= "E6"){
+                        tabStrip.enable(tabStrip.tabGroup.children().eq(10));
+                    }
+                } else {
+                    $("#modBtn").css("display", "none");
+                    alert("중단사유 : " + setParameters.PJT_STOP_RS);
+                }
+
+                var parser = new DOMParser();
+
+                var html = '<div style="width:100%;"></div>';
+                var doc = parser.parseFromString(html, 'text/html');
+                $("#tabstrip li")[7].after(doc.body.firstChild);
+
+                var html2 = '<div style="padding: 6px 12px"><b style="color: red">사업관리</b></div>';
+                var doc2 = parser.parseFromString(html2, 'text/html');
+                $("#tabstrip li")[0].before(doc2.body.firstChild);
+
+                var html3 = '<div style="padding: 6px 12px"><b style="color: blue">운영관리</b></div>';
+                var doc3 = parser.parseFromString(html3, 'text/html');
+                $("#tabstrip li")[8].before(doc3.body.firstChild);
             }
 
-            if(setParameters.PJT_SN){
-                tabStrip.enable(tabStrip.tabGroup.children().eq(0));
-                // tabStrip.enable(tabStrip.tabGroup.children().eq(1));
-            }
 
-            // setParameters.ENGN_SN;
-            regPrj.fn_setData(setParameters);
-
-            if(setParameters.PJT_STEP == "E"){
-                tabStrip.enable(tabStrip.tabGroup.children().eq(0));
-                // tabStrip.enable(tabStrip.tabGroup.children().eq(1));
-            }
-
-            if(setParameters.PJT_STOP != "Y"){
-                if(setParameters.PJT_STEP >= "E0"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(1));
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(8));
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(9));
-                }
-
-                if(setParameters.PJT_STEP >= "E1"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(2));
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(5));
-                }
-
-                if(setParameters.PJT_STEP >= "E2" && delvMap.DELV_STATUS == "100"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(3));
-                }
-
-                if(setParameters.PJT_STEP >= "E3" && devMap.STATUS == "100"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(4));
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(6));
-                }
-
-                if(setParameters.PJT_STEP >= "E4"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(7));
-                }
-
-                if(setParameters.PJT_STEP >= "E5"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(10));
-                }
-
-                if(setParameters.PJT_STEP >= "E6"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(10));
-                }
-            } else {
-                $("#modBtn").css("display", "none");
-                alert("중단사유 : " + setParameters.PJT_STOP_RS);
-            }
 
         }
 
@@ -256,19 +310,7 @@ var regPrj = {
 
         });
 
-        var parser = new DOMParser();
 
-        var html = '<div style="width:100%;"></div>';
-        var doc = parser.parseFromString(html, 'text/html');
-        $("#tabstrip li")[7].after(doc.body.firstChild);
-
-        var html2 = '<div style="padding: 6px 12px"><b style="color: red">사업관리</b></div>';
-        var doc2 = parser.parseFromString(html2, 'text/html');
-        $("#tabstrip li")[0].before(doc2.body.firstChild);
-
-        var html3 = '<div style="padding: 6px 12px"><b style="color: blue">운영관리</b></div>';
-        var doc3 = parser.parseFromString(html3, 'text/html');
-        $("#tabstrip li")[8].before(doc3.body.firstChild);
     },
 
 

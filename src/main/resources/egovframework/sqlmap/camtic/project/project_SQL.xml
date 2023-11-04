@@ -50,7 +50,7 @@
             AND
             A.PM LIKE CONCAT('%', #{searchText}, '%')
         </if>
-        ORDER BY A.PJT_SN DESC
+        ORDER BY A.REG_DT DESC
     </select>
 
     <select id="getProjectStep" parameterType="map" resultType="map">
@@ -1555,18 +1555,18 @@
     <insert id="insTeamInfo" parameterType="map">
         /*insTeamInfo*/
         INSERT INTO CAM_PJT_MNG.DJ_PJT_TEAM
-        (
-            PJT_SN,
-            TM_DEPT_SEQ,
-            TM_TEAM_SEQ,
-            TM_PM_SEQ,
-            TM_CRM_SN,
-            TM_AMT,
-            TM_BALANCE,
-            TM_EXPT_PROFIT,
-            TM_EXPT_PER,
-            TM_EXPT_COST
-        )
+            (
+                PJT_SN,
+                TM_DEPT_SEQ,
+                TM_TEAM_SEQ,
+                TM_PM_SEQ,
+                TM_CRM_SN,
+                TM_AMT,
+                TM_BALANCE,
+                TM_EXPT_PROFIT,
+                TM_EXPT_PER,
+                TM_EXPT_COST
+            )
         VALUES
             (
                 #{pjtSn},
@@ -1580,6 +1580,104 @@
                 #{tmExptPer},
                 #{tmExptCost}
             )
+
+        <selectKey keyProperty="tmSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_TEAM'
+        </selectKey>
+    </insert>
+
+    <update id="updTeamProject" parameterType="map">
+        /*updTeamProject*/
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            TM_SN = #{tmSn},
+            EMP_SEQ = #{tmPMSeq},
+            EMP_NAME = (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{tmPMSeq}),
+            DEPT_SEQ = #{tmTeamSeq},
+            DEPT_NAME = (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE EMP_SEQ = #{tmTeamSeq})
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <insert id="insTeamProject" parameterType="map">
+        /*insTeamProject*/
+        INSERT INTO CAM_PJT_MNG.DJ_PROJECT
+            (
+                EMP_SEQ,
+                EMP_NAME,
+                DEPT_SEQ,
+                DEPT_NAME,
+                BUSN_CLASS,
+                BUSN_NM,
+                TEAM_STAT,
+                SBJ_CLASS,
+                SBJ_CHAR,
+                SBJ_DEP,
+                SBJ_DEP_SUB,
+                SBJ_SEP,
+                SBJ_STAT_YN,
+                PJT_CON_YEAR,
+                PJT_CD,
+                PJT_TMP_CD,
+                BS_TITLE,
+                PJT_NM,
+                PJT_SUB_NM,
+                PJT_STEP,
+                PJT_STEP_NM,
+                CRM_SN,
+                CRM_MEM_SN,
+                CRM_MEM_TEMP_NM,
+                CRM_CON_SN,
+                CRM_PART_SN,
+                PM,
+                PJT_AMT,
+                PJT_EXP_AMT,
+                CONSULT_DT,
+                STR_DT,
+                ACTIVE,
+                REG_EMP_SEQ,
+                REG_DT
+            )
+            (SELECT
+                EMP_SEQ,
+                EMP_NAME,
+                DEPT_SEQ,
+                DEPT_NAME,
+                BUSN_CLASS,
+                BUSN_NM,
+                "Y" AS TEAM_STAT,
+                SBJ_CLASS,
+                SBJ_CHAR,
+                SBJ_DEP,
+                SBJ_DEP_SUB,
+                SBJ_SEP,
+                SBJ_STAT_YN,
+                PJT_CON_YEAR,
+                PJT_CD,
+                PJT_TMP_CD,
+                BS_TITLE,
+                CONCAT("[협업] ", PJT_NM) AS PJT_NM,
+                PJT_SUB_NM,
+                PJT_STEP,
+                PJT_STEP_NM,
+                CRM_SN,
+                CRM_MEM_SN,
+                CRM_MEM_TEMP_NM,
+                CRM_CON_SN,
+                CRM_PART_SN,
+                PM,
+                #{tmAmt},
+                #{tmAmt},
+                CONSULT_DT,
+                NOW(),
+                ACTIVE,
+                REG_EMP_SEQ,
+                REG_DT
+            FROM CAM_PJT_MNG.DJ_PROJECT
+            WHERE PJT_SN = #{pjtSn})
+        <selectKey keyProperty="PJT_SN" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PROJECT'
+        </selectKey>
     </insert>
 
     <select id="getTeamList" parameterType="map" resultType="map">
