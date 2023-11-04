@@ -116,7 +116,7 @@ const lecturePersonReq = {
         });
 
         if(arr.length == 0) {
-            alert("강사가 선택되지 않았습니다.");
+            alert("수강자가 선택되지 않았습니다.");
             return;
         }
         data.personList = JSON.stringify(arr);
@@ -126,7 +126,8 @@ const lecturePersonReq = {
         if(result.code != 200){
             alert("저장 중 오류가 발생하였습니다.");
         }else{
-            opener.lecturePerson.fn_mainGrid();
+            opener.gridReload();
+            window.close();
         }
     }
 }

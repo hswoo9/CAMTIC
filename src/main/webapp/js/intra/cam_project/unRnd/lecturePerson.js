@@ -1,4 +1,4 @@
-const lecturePerson = {
+let lecturePerson = {
     fn_defaultScript: function(){
         /*this.fn_pageSet();*/
         this.fn_mainGrid();
@@ -14,7 +14,7 @@ const lecturePerson = {
                     type : "post"
                 },
                 parameterMap: function(data){
-                    data.notIn = $("#pk").val();
+                    data.pk = $("#pk").val();
                     return data;
                 }
             },
@@ -25,7 +25,8 @@ const lecturePerson = {
                 total: function (data) {
                     return data.list.length;
                 },
-            }
+            },
+            pageSize: 10
         });
 
         $("#personGrid").kendoGrid({
@@ -34,6 +35,11 @@ const lecturePerson = {
             scrollable: true,
             selectable: "row",
             height: 489,
+            pageable : {
+                refresh : true,
+                pageSizes : [ 10, 20, 30, 50, 100 ],
+                buttonCount : 5
+            },
             toolbar: [
                 {
                     name: 'button',
@@ -52,67 +58,76 @@ const lecturePerson = {
                 const grid = this;
                 grid.tbody.find("tr").click(function(){
                     const dataItem = grid.dataItem($(this));
-                    const teacherSn = dataItem.TEACHER_SN;
-                    $("#teacherA"+teacherSn).trigger("click");
+                    const personSn = dataItem.PERSON_SN;
+                    $("#person"+personSn).trigger("click");
                 });
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAllA" name="checkAllA" onclick="fn_checkAll(\'checkAllA\', \'teacherA\');"/>',
-                    template : "<input type='checkbox' id='teacherA#=TEACHER_SN#' name='teacherA' class='teacherA' value='#=TEACHER_SN#'/>",
-                    width: "5%"
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'person\');"/>',
+                    template : "<input type='checkbox' id='person#=PERSON_SN#' name='person' class='person' value='#=PERSON_SN#'/>",
+                    width: "3%"
                 }, {
                     title: "번호",
                     template: "#= --record #",
-                    width: "5%"
+                    width: "3%"
                 }, {
                     field: "NAME",
                     title: "이름",
-                    width: "5%"
+                    width: "4%"
                 }, {
-                    field: "NAME",
+                    field: "CO_NAME",
                     title: "회사명",
                     width: "6%"
                 }, {
-                    field: "NAME",
+                    field: "PART",
                     title: "부서",
                     width: "5%"
                 }, {
-                    field: "NAME",
+                    field: "PLACE",
                     title: "직책",
                     width: "5%"
                 }, {
-                    field: "NAME",
+                    field: "BIRTH",
                     title: "생년월일",
                     width: "6%"
                 }, {
-                    field: "NAME",
+                    field: "TEL_NUM",
                     title: "전화번호",
                     width: "6%"
                 }, {
-                    field: "NAME",
+                    field: "HP_NUM",
                     title: "팩스번호",
                     width: "6%"
                 }, {
-                    field: "NAME",
+                    field: "HP_NUM",
                     title: "휴대폰",
                     width: "5%"
                 }, {
-                    field: "NAME",
+                    field: "REG_DATE",
                     title: "수강신청일",
                     width: "6%"
                 }, {
-                    field: "NAME",
+                    field: "REQ_STATUS_NAME",
                     title: "신청상태",
                     width: "5%"
                 }, {
                     field: "NAME",
-                    title: "수강료(계산서)",
-                    width: "5%"
+                    title: "수강료<br>(계산서)",
+                    width: "5%",
+                    template: function(row){
+                        let costText = "납부<br>";
+                        if(row.COST_YN != '"Y'){
+                            costText = "<span style='color: red'>미납</span><br>";
+                        }
+                        return costText += fn_numberWithCommas(row.LEC_COST)+"원";
+                    }
                 }, {
-                    field: "NAME",
-                    title: "불참사유서",
-                    width: "5%"
+                    title: "불참<br>사유서",
+                    width: "5%",
+                    template: function(row){
+                        return row.PARTIC_YN == 'Y' ? "접수" : "미접수";
+                    }
                 }
             ],
             dataBinding: function(){
@@ -121,25 +136,79 @@ const lecturePerson = {
         }).data("kendoGrid");
     },
 
-    fn_delBtn: function(){
-        let teacherArr = [];
-        $("input[name=teacherS]:checked").each(function(i){
-            teacherArr.push($(this).val());
+    fn_appBtn: function(stat){
+        let personArr = [];
+        $("input[name=person]:checked").each(function(i){
+            personArr.push($(this).val());
         })
         let data = {
-            teacherList: teacherArr.join()
+            personList: personArr.join(),
+            stat: stat,
+            pk: $("#pk").val(),
+            statText: stat == "Y" ? "신청완료": "수강취소"
         }
-        if($("input[name=teacherS]:checked").length == 0) {
-            alert("강사가 선택되지 않았습니다.");
+        if($("input[name=person]:checked").length == 0) {
+            alert("수강자가 선택되지 않았습니다.");
             return;
         }
 
-        const result = customKendo.fn_customAjax("/projectUnRnd/delLectureTeacherInfo", data);
+        const result = customKendo.fn_customAjax("/projectUnRnd/updPersonApp", data);
 
         if(result.code != 200){
             alert("삭제 중 오류가 발생하였습니다.");
         }else{
-            this.fn_mainGrid();
+            gridReload();
+        }
+    },
+
+    fn_particBtn: function(stat){
+        let personArr = [];
+        $("input[name=person]:checked").each(function(i){
+            personArr.push($(this).val());
+        })
+        let data = {
+            personList: personArr.join(),
+            stat: stat,
+            pk: $("#pk").val()
+        }
+        if($("input[name=person]:checked").length == 0) {
+            alert("수강자가 선택되지 않았습니다.");
+            return;
+        }
+
+        const result = customKendo.fn_customAjax("/projectUnRnd/updPersonPartic", data);
+
+        if(result.code != 200){
+            alert("삭제 중 오류가 발생하였습니다.");
+        }else{
+            gridReload();
+        }
+    },
+
+    fn_delBtn: function(){
+        let personArr = [];
+        $("input[name=person]:checked").each(function(i){
+            personArr.push($(this).val());
+        })
+        let data = {
+            personList: personArr.join(),
+            pk: $("#pk").val()
+        }
+        if($("input[name=person]:checked").length == 0) {
+            alert("수강자가 선택되지 않았습니다.");
+            return;
+        }
+
+        const result = customKendo.fn_customAjax("/projectUnRnd/delLecturePersonInfo", data);
+
+        if(result.code != 200){
+            alert("삭제 중 오류가 발생하였습니다.");
+        }else{
+            gridReload();
         }
     }
+}
+
+function gridReload() {
+    $("#personGrid").data("kendoGrid").dataSource.read();
 }

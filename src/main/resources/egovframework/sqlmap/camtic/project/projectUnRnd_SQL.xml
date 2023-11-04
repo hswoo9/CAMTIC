@@ -188,6 +188,7 @@
                     CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ
                 WHERE
                     PERSON_SN = #{notIn}
+                AND ACTIVE = 'Y'
             )
         </if>
         ORDER BY NAME
@@ -231,13 +232,18 @@
         /*getLecturePersonReqList*/
         SELECT
             A.*,
-            B.NAME
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DATE,
+            B.NAME,
+            C.LEC_COST
         FROM
             CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ A
         LEFT JOIN
             CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON B ON A.PERSON_SN = B.PERSON_SN
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_LECTURE C ON A.LEC_SN = C.LEC_SN
         WHERE
-            LEC_SN = #{pk}
+            A.LEC_SN = #{pk}
+        AND A.ACTIVE = 'Y'
         ORDER BY NAME
     </select>
 
@@ -399,6 +405,40 @@
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_LECTURE'
         </selectKey>
     </insert>
+
+    <update id="updPersonApp" parameterType="map">
+        /*updPersonApp*/
+        UPDATE
+            CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ
+        SET
+            REQ_STATUS = #{stat},
+            REQ_STATUS_NAME = #{statText}
+        WHERE
+            LEC_SN = #{pk}
+        AND PERSON_SN = (${personList})
+    </update>
+
+    <update id="updPersonPartic" parameterType="map">
+        /*updPersonPartic*/
+        UPDATE
+            CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ
+        SET
+            PARTIC_YN = #{stat}
+        WHERE
+            LEC_SN = #{pk}
+        AND PERSON_SN = (${personList})
+    </update>
+
+    <update id="delLecturePersonInfo" parameterType="map">
+        /*delLecturePersonInfo*/
+        UPDATE
+            CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ
+        SET
+            ACTIVE = 'N'
+        WHERE
+            LEC_SN = #{pk}
+        AND PERSON_SN = (${personList})
+    </update>
 
     <delete id="delLectureTeacherInfo" parameterType="map">
         /*delLectureTeacherInfo*/

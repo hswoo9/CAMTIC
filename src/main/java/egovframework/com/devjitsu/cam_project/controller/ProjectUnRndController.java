@@ -329,6 +329,42 @@ public class ProjectUnRndController {
         return "jsonView";
     }
 
+    /** 단위사업 수강자 수강신청 접수/취소 처리 */
+    @RequestMapping("/projectUnRnd/updPersonApp")
+    public String updPersonApp(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectUnRndService.updPersonApp(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    /** 단위사업 수강자 불참사유서 접수/취소 처리 */
+    @RequestMapping("/projectUnRnd/updPersonPartic")
+    public String updPersonPartic(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectUnRndService.updPersonPartic(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    /** 단위사업 수강자 삭제 */
+    @RequestMapping("/projectUnRnd/delLecturePersonInfo")
+    public String delLecturePersonInfo(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectUnRndService.delLecturePersonInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
     /** 단위사업 삭제 */
     @RequestMapping("/projectUnRnd/delLectureInfo")
     public String delLectureInfo(@RequestParam Map<String, Object> params, Model model){

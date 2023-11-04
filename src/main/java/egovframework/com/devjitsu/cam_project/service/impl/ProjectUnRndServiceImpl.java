@@ -164,6 +164,18 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
         projectUnRndRepository.updLectureInfo(params);
     }
     @Override
+    public void updPersonApp(Map<String, Object> params) {
+        projectUnRndRepository.updPersonApp(params);
+    }
+    @Override
+    public void updPersonPartic(Map<String, Object> params) {
+        projectUnRndRepository.updPersonPartic(params);
+    }
+    @Override
+    public void delLecturePersonInfo(Map<String, Object> params) {
+        projectUnRndRepository.delLecturePersonInfo(params);
+    }
+    @Override
     public void delLectureInfo(Map<String, Object> params) {
         projectUnRndRepository.delLectureInfo(params);
     }
