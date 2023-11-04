@@ -183,12 +183,6 @@ var regRnd = {
                     }
                 }
             }
-
-            //tabStrip.disable(tabStrip.tabGroup.children().eq(7));
-            //tabStrip.disable(tabStrip.tabGroup.children().eq(8));
-            //tabStrip.disable(tabStrip.tabGroup.children().eq(7));
-            //tabStrip.disable(tabStrip.tabGroup.children().eq(10));
-            //tabStrip.disable(tabStrip.tabGroup.children().eq(11));
         }
 
         if(setParameters.TEAM_STAT == "Y"){

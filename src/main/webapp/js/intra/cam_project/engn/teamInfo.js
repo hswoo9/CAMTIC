@@ -22,7 +22,7 @@ var teamInfo = {
         $("#exptCost").val($("#expAmt").val());
 
         $("#teamAmt, #exptProfitPer").on("keyup", function(){
-            if($("#pjtStep").val() == "R"){
+            if($("#pjtStep").val() == "R" || $("#pjtStep").val() == "S"){
                 $("#exptBalance").val(teamInfo.comma(teamInfo.uncomma($("#pjtExpAmt").val()) - teamInfo.uncomma($("#teamAmt").val())));
             } else {
                 $("#exptBalance").val(teamInfo.comma(teamInfo.uncomma($("#expAmt").val()) - teamInfo.uncomma($("#teamAmt").val())));
@@ -39,6 +39,9 @@ var teamInfo = {
         });
 
         if($("#pjtStep").val().toString().substring(0,1) == "R"){
+            $("#teamCrmSn").val($("#rndCrmSn").val());
+            $("#teamCrmNm").val($("#rndCrmNm").val());
+        } else if ( $("#pjtStep").val().toString().substring(0,1) == "S"){
             $("#teamCrmSn").val($("#rndCrmSn").val());
             $("#teamCrmNm").val($("#rndCrmNm").val());
         }
@@ -94,6 +97,8 @@ var teamInfo = {
 
                     if($("#pjtStep").val().toString().substring(0,1) == "R"){
                         window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=5";
+                    } else if ($("#pjtStep").val().toString().substring(0,1) == "R"){
+                        window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=5";
                     } else {
                         window.location.href="/project/pop/viewRegProject.do?pjtSn=" + parameters.pjtSn + "&tab=9";
                     }
