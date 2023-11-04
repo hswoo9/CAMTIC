@@ -82,6 +82,22 @@ var ub = {
         customKendo.fn_dropDownList("mainType", mainTypeDataSource, "text", "value", 2);
     },
 
+    fn_paySet: function(){
+        let statusDataSource = [
+            {text: "강의개설중", value: "0"},
+            {text: "수강신청 진행중", value: "1"}
+        ];
+        customKendo.fn_dropDownList("status", statusDataSource, "text", "value", 3);
+    },
+
+    fn_billSet: function(){
+        let statusDataSource = [
+            {text: "강의개설중", value: "0"},
+            {text: "수강신청 진행중", value: "1"}
+        ];
+        customKendo.fn_dropDownList("status", statusDataSource, "text", "value", 3);
+    },
+
     fn_eduDtSet: function(){
         customKendo.fn_datePicker("eduStartDt", 'month', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("eduEndDt", 'month', "yyyy-MM-dd", new Date());

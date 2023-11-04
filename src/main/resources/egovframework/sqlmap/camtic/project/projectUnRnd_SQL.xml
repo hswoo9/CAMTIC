@@ -429,6 +429,31 @@
         AND PERSON_SN = (${personList})
     </update>
 
+    <update id="updPersonAudit" parameterType="map">
+        /*updPersonAudit*/
+        UPDATE
+            CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ
+        SET
+            AUDIT_YN = 'Y'
+        WHERE
+            LEC_SN = #{pk}
+        AND PERSON_SN = (${personList})
+    </update>
+
+    <update id="updPersonRefund" parameterType="map">
+        /*updPersonRefund*/
+        UPDATE
+            CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ
+        SET
+            REFUND_TYPE = #{stat}
+            <if test='"R".equals(stat)'>
+                , COST_YN = #{stat}
+            </if>
+        WHERE
+            LEC_SN = #{pk}
+        AND PERSON_SN = (${personList})
+    </update>
+
     <update id="delLecturePersonInfo" parameterType="map">
         /*delLecturePersonInfo*/
         UPDATE

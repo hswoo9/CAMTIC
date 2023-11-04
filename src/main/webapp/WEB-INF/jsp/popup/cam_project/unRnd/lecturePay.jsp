@@ -9,6 +9,7 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lecture.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lecturePopup.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lecturePerson.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lecturePay.js?v=${today}'/>"></script>
 <style>
     .k-grid td {
         line-height: 18px;
@@ -35,17 +36,14 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;">
-                    수강신청관리
+                    교육비 관리
                 </span>
             </h3>
             <div id="purcBtnDiv" class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-base" onclick="lecturePop.lecturePersonReqPop(${params.pk})">수강자 추가</button>
-                <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_appBtn('Y')">접수처리</button>
-                <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_appBtn('N')">취소처리</button>
+                <button type="button" class="k-button k-button-solid-base" onclick="">입금처리</button>
+                <button type="button" class="k-button k-button-solid-base" onclick="lecturePay.fn_refundBtn('A')">환불요청</button>
+                <button type="button" class="k-button k-button-solid-base" onclick="lecturePay.fn_refundBtn('R')">환불처리</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_delBtn()">선택삭제</button>
-                <button type="button" class="k-button k-button-solid-base" onclick="">교육비납부</button>
-                <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_particBtn('N')">불참사유서 접수</button>
-                <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_particBtn('Y')">불참사유서 미접수</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -56,7 +54,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    lecturePerson.fn_defaultScript();
+    lecturePay.fn_defaultScript();
 </script>
 </body>
 </html>

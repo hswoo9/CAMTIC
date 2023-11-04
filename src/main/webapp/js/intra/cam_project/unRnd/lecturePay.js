@@ -1,4 +1,4 @@
-let lecturePerson = {
+let lecturePay = {
     fn_defaultScript: function(){
         /*this.fn_pageSet();*/
         this.fn_mainGrid();
@@ -80,53 +80,80 @@ let lecturePerson = {
                     title: "회사명",
                     width: "6%"
                 }, {
-                    field: "PART",
-                    title: "부서",
-                    width: "5%"
-                }, {
-                    field: "PLACE",
-                    title: "직책",
-                    width: "5%"
-                }, {
-                    field: "BIRTH",
-                    title: "생년월일",
-                    width: "6%"
-                }, {
-                    field: "TEL_NUM",
-                    title: "전화번호",
-                    width: "6%"
-                }, {
-                    field: "HP_NUM",
-                    title: "팩스번호",
-                    width: "6%"
-                }, {
                     field: "HP_NUM",
                     title: "휴대폰",
                     width: "5%"
                 }, {
-                    field: "REG_DATE",
-                    title: "수강신청일",
-                    width: "6%"
-                }, {
-                    field: "REQ_STATUS_NAME",
-                    title: "신청상태",
-                    width: "5%"
-                }, {
-                    field: "NAME",
-                    title: "수강료<br>(계산서)",
+                    title: "교육비",
                     width: "5%",
                     template: function(row){
-                        let costText = "납부<br>";
-                        if(row.COST_YN != '"Y'){
-                            costText = "<span style='color: red'>미납</span><br>";
-                        }
-                        return costText += fn_numberWithCommas(row.LEC_COST)+"원";
+                        return fn_numberWithCommas(row.LEC_COST);
                     }
                 }, {
-                    title: "불참<br>사유서",
+                    title: "납부방법",
+                    width: "6%",
+                    template: function(row){
+                        let payTypeText = "";
+                        if(row.PAY_TYPE == "0"){
+                            payTypeText = "무통장입금";
+                        }else if(row.PAY_TYPE == "1"){
+                            payTypeText = "신용카드";
+                        }
+                        return payTypeText;
+                    }
+                }, {
+                    title: "납부상태",
+                    width: "6%",
+                    template: function(row){
+                        let costText = "";
+                        if(row.COST_YN == "Y"){
+                            costText = "납부<br>";
+                        }else if(row.COST_YN == "N"){
+                            costText = "<span style='color: red'>미납</span><br>";
+                        }else if(row.COST_YN == "R") {
+                            costText = "<span style='color: red'>취소</span><br>";
+                        }
+                        return costText;
+                    }
+                }, {
+                    field: "PAY_DT",
+                    title: "납부일",
+                    width: "5%"
+                }, {
+                    title: "납부금액",
+                    width: "6%",
+                    template: function(row){
+                        return fn_numberWithCommas(row.PAY_AMT);
+                    }
+                }, {
+                    title: "계산서",
                     width: "5%",
                     template: function(row){
-                        return row.PARTIC_YN == 'Y' ? "접수" : "미접수";
+                        let billText = "";
+                        if(row.BILL_TYPE == "N"){
+                            billText = "요청안함";
+                        }else if(row.BILL_TYPE == "Y"){
+                            billText = "영수발행";
+                        }
+                        return billText;
+                    }
+                }, {
+                    title: "불참사유서",
+                    width: "5%",
+                    template: function(row){
+                        return row.PARTIC_YN == 'N' ? "접수" : "미접수";
+                    }
+                }, {
+                    title: "환불",
+                    width: "5%",
+                    template: function(row){
+                        let refundText = "";
+                        if(row.REFUND_TYPE == "A"){
+                            refundText = "환불요청";
+                        }else if(row.REFUND_TYPE == "R"){
+                            refundText = "환불완료";
+                        }
+                        return refundText;
                     }
                 }
             ],
@@ -136,44 +163,7 @@ let lecturePerson = {
         }).data("kendoGrid");
     },
 
-    fn_appBtn: function(stat){
-        let personArr = [];
-        $("input[name=person]:checked").each(function(i){
-            personArr.push($(this).val());
-        })
-        let statText = "";
-        if(stat == "Y"){
-            statText = "신청완료";
-        }else if(stat == "N"){
-            statText = "수강취소";
-        }else if(stat == "X"){
-            statText = "불참";
-        }else if(stat == "O"){
-            statText = "수료";
-        }else if(stat == "F"){
-            statText = "미수료";
-        }
-        let data = {
-            personList: personArr.join(),
-            stat: stat,
-            pk: $("#pk").val(),
-            statText: statText
-        }
-        if($("input[name=person]:checked").length == 0) {
-            alert("수강자가 선택되지 않았습니다.");
-            return;
-        }
-
-        const result = customKendo.fn_customAjax("/projectUnRnd/updPersonApp", data);
-
-        if(result.code != 200){
-            alert("저장 중 오류가 발생하였습니다.");
-        }else{
-            gridReload();
-        }
-    },
-
-    fn_particBtn: function(stat){
+    fn_refundBtn: function(stat){
         let personArr = [];
         $("input[name=person]:checked").each(function(i){
             personArr.push($(this).val());
@@ -188,39 +178,12 @@ let lecturePerson = {
             return;
         }
 
-        const result = customKendo.fn_customAjax("/projectUnRnd/updPersonPartic", data);
+        const result = customKendo.fn_customAjax("/projectUnRnd/updPersonRefund", data);
 
         if(result.code != 200){
             alert("저장 중 오류가 발생하였습니다.");
-        }else{
-            gridReload();
-        }
-    },
-
-    fn_delBtn: function(){
-        let personArr = [];
-        $("input[name=person]:checked").each(function(i){
-            personArr.push($(this).val());
-        })
-        let data = {
-            personList: personArr.join(),
-            pk: $("#pk").val()
-        }
-        if($("input[name=person]:checked").length == 0) {
-            alert("수강자가 선택되지 않았습니다.");
-            return;
-        }
-
-        const result = customKendo.fn_customAjax("/projectUnRnd/delLecturePersonInfo", data);
-
-        if(result.code != 200){
-            alert("삭제 중 오류가 발생하였습니다.");
         }else{
             gridReload();
         }
     }
-}
-
-function gridReload() {
-    $("#personGrid").data("kendoGrid").dataSource.read();
 }

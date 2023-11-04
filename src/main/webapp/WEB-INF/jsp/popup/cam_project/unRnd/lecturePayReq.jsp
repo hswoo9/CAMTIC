@@ -8,7 +8,7 @@
 <body class="font-opensans" style="background-color:#fff;">
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lecture.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lecturePopup.js?v=${today}'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lectureTeacher.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lecturePayReq.js?v=${today}'/>"></script>
 
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
@@ -31,10 +31,11 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;">
-                    강사 관리
+                    교육비 관리
                 </span>
             </h3>
             <div id="purcBtnDiv" class="btn-st popButton">
+                <button type="button" class="k-button k-button-solid-info" onclick="lecturePersonReq.fn_saveBtn()">저장</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -51,17 +52,40 @@
                     <td id="lecTitleBs"></td>
                 </tr>
                 <tr>
+                    <th scope="row" class="text-center th-color">이름</th>
+                    <td id="name"></td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">핸드폰</th>
+                    <td>선택회원</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">금액</th>
+                    <td>
+                        <input id="payAmt" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 100px" value="0">원
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">납부일자</th>
+                    <td>
+                        <input id="payDt" style="width: 120px">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">납부방법</th>
+                    <td>
+                        <input id="payType" style="width: 120px">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">계산서</th>
+                    <td>
+                        <input id="billType" style="width: 120px">
+                    </td>
+                </tr>
+                <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>강사설정</th>
-                    <td style="display: flex">
-                        <div style="width: 47%">
-                            <b>전체강사</b>
-                            <div id="teacherGridA"></div>
-                        </div>
-                        <div id="btnDiv" style="width: 6%"></div>
-                        <div style="width: 47%">
-                            <b>선택된 강사</b>
-                            <div id="teacherGridS"></div>
-                        </div>
+                    <td>
                     </td>
                 </tr>
                 </thead>
@@ -70,7 +94,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    lectureTeacher.fn_defaultScript();
+    lecturePayReq.fn_defaultScript();
 </script>
 </body>
 </html>

@@ -226,6 +226,24 @@ public class ProjectUnRndController {
         model.addAttribute("params", params);
         return "popup/cam_project/unRnd/lecturePerson";
     }
+    /** 단위사업 이수 관리 팝업창 */
+    @RequestMapping("/projectUnRnd/lectureEduPop.do")
+    public String lectureEduPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "popup/cam_project/unRnd/lectureEdu";
+    }
+    /** 단위사업 교육비 관리 팝업창 */
+    @RequestMapping("/projectUnRnd/lecturePayPop.do")
+    public String lecturePayPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "popup/cam_project/unRnd/lecturePay";
+    }
     /** 단위사업 수강자 추가 팝업창 */
     @RequestMapping("/projectUnRnd/lecturePersonReqPop.do")
     public String lecturePersonReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
@@ -234,6 +252,15 @@ public class ProjectUnRndController {
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
         return "popup/cam_project/unRnd/lecturePersonReq";
+    }
+    /** 단위사업 수강자 교육비납부/입금처리 팝업창 */
+    @RequestMapping("/projectUnRnd/lecturePayReqPop.do")
+    public String lecturePayReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "popup/cam_project/unRnd/lecturePayReq";
     }
 
     /** 단위사업 강사 리스트 */
@@ -346,6 +373,30 @@ public class ProjectUnRndController {
     public String updPersonPartic(@RequestParam Map<String, Object> params, Model model){
         try{
             projectUnRndService.updPersonPartic(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    /** 단위사업 수강자 청강 처리 */
+    @RequestMapping("/projectUnRnd/updPersonAudit")
+    public String updPersonAudit(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectUnRndService.updPersonAudit(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    /** 단위사업 수강자 환불 처리 */
+    @RequestMapping("/projectUnRnd/updPersonRefund")
+    public String updPersonRefund(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectUnRndService.updPersonRefund(params);
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();

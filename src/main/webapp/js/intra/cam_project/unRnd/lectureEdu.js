@@ -1,4 +1,4 @@
-let lecturePerson = {
+let lectureEdu = {
     fn_defaultScript: function(){
         /*this.fn_pageSet();*/
         this.fn_mainGrid();
@@ -104,20 +104,26 @@ let lecturePerson = {
                     title: "휴대폰",
                     width: "5%"
                 }, {
-                    field: "REG_DATE",
-                    title: "수강신청일",
-                    width: "6%"
-                }, {
-                    field: "REQ_STATUS_NAME",
-                    title: "신청상태",
-                    width: "5%"
+                    title: "수료(인증)",
+                    width: "5%",
+                    template: function(row){
+                        let ox = "X";
+                        if(row.REQ_STATUS == "O"){
+                            ox = "O";
+                        }
+                        let auditText = "";
+                        if(row.AUDIT_YN == "Y"){
+                            auditText += "<br>(청강)"
+                        }
+                        return row.REQ_STATUS_NAME+"("+ox+")"+auditText;
+                    }
                 }, {
                     field: "NAME",
                     title: "수강료<br>(계산서)",
                     width: "5%",
                     template: function(row){
                         let costText = "납부<br>";
-                        if(row.COST_YN != '"Y'){
+                        if(row.COST_YN != "Y"){
                             costText = "<span style='color: red'>미납</span><br>";
                         }
                         return costText += fn_numberWithCommas(row.LEC_COST)+"원";
@@ -126,7 +132,7 @@ let lecturePerson = {
                     title: "불참<br>사유서",
                     width: "5%",
                     template: function(row){
-                        return row.PARTIC_YN == 'Y' ? "접수" : "미접수";
+                        return row.PARTIC_YN == 'N' ? "접수" : "미접수";
                     }
                 }
             ],
@@ -136,51 +142,14 @@ let lecturePerson = {
         }).data("kendoGrid");
     },
 
-    fn_appBtn: function(stat){
-        let personArr = [];
-        $("input[name=person]:checked").each(function(i){
-            personArr.push($(this).val());
-        })
-        let statText = "";
-        if(stat == "Y"){
-            statText = "신청완료";
-        }else if(stat == "N"){
-            statText = "수강취소";
-        }else if(stat == "X"){
-            statText = "불참";
-        }else if(stat == "O"){
-            statText = "수료";
-        }else if(stat == "F"){
-            statText = "미수료";
-        }
-        let data = {
-            personList: personArr.join(),
-            stat: stat,
-            pk: $("#pk").val(),
-            statText: statText
-        }
-        if($("input[name=person]:checked").length == 0) {
-            alert("수강자가 선택되지 않았습니다.");
-            return;
-        }
-
-        const result = customKendo.fn_customAjax("/projectUnRnd/updPersonApp", data);
-
-        if(result.code != 200){
-            alert("저장 중 오류가 발생하였습니다.");
-        }else{
-            gridReload();
-        }
-    },
-
-    fn_particBtn: function(stat){
+    fn_auditBtn: function(){
         let personArr = [];
         $("input[name=person]:checked").each(function(i){
             personArr.push($(this).val());
         })
         let data = {
             personList: personArr.join(),
-            stat: stat,
+            stat: 'Y',
             pk: $("#pk").val()
         }
         if($("input[name=person]:checked").length == 0) {
@@ -188,39 +157,12 @@ let lecturePerson = {
             return;
         }
 
-        const result = customKendo.fn_customAjax("/projectUnRnd/updPersonPartic", data);
+        const result = customKendo.fn_customAjax("/projectUnRnd/updPersonAudit", data);
 
         if(result.code != 200){
             alert("저장 중 오류가 발생하였습니다.");
-        }else{
-            gridReload();
-        }
-    },
-
-    fn_delBtn: function(){
-        let personArr = [];
-        $("input[name=person]:checked").each(function(i){
-            personArr.push($(this).val());
-        })
-        let data = {
-            personList: personArr.join(),
-            pk: $("#pk").val()
-        }
-        if($("input[name=person]:checked").length == 0) {
-            alert("수강자가 선택되지 않았습니다.");
-            return;
-        }
-
-        const result = customKendo.fn_customAjax("/projectUnRnd/delLecturePersonInfo", data);
-
-        if(result.code != 200){
-            alert("삭제 중 오류가 발생하였습니다.");
         }else{
             gridReload();
         }
     }
-}
-
-function gridReload() {
-    $("#personGrid").data("kendoGrid").dataSource.read();
 }

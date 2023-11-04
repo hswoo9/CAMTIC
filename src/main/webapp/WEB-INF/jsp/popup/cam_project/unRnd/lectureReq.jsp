@@ -41,6 +41,9 @@
             <div id="purcBtnDiv" class="btn-st popButton">
                 <button type="button" class="k-button k-button-solid-base" id="teacherBtn" style="display: none" onclick="lecturePop.lectureTeacherPop('${params.pk}');">강사관리</button>
                 <button type="button" class="k-button k-button-solid-base" id="personBtn" style="display: none" onclick="lecturePop.lecturePersonPop('${params.pk}');">수강신청관리</button>
+                <button type="button" class="k-button k-button-solid-base" id="eduBtn" style="display: none" onclick="lecturePop.lectureEduPop('${params.pk}');">이수관리</button>
+                <button type="button" class="k-button k-button-solid-base" id="payBtn" style="display: none" onclick="lecturePop.lecturePayPop('${params.pk}');">교육비관리</button>
+                <button type="button" class="k-button k-button-solid-primary" id="modBtn" style="display: none" onclick="lectureReq.fn_modBtn('W');">수정</button>
                 <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="lectureReq.fn_saveBtn('W');">저장</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>

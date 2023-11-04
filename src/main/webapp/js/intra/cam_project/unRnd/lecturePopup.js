@@ -23,10 +23,31 @@ var lecturePop = {
         window.open(url, name, option);
     },
 
+    lectureEduPop: function(pk){
+        let url = "/projectUnRnd/lectureEduPop.do?pk="+pk;
+        const name = "lectureEduPop";
+        const option = "width = 1200, height = 589, top = 150, left = 300, location = no";
+        window.open(url, name, option);
+    },
+
+    lecturePayPop: function(pk){
+        let url = "/projectUnRnd/lecturePayPop.do?pk="+pk;
+        const name = "lectureEduPop";
+        const option = "width = 1200, height = 589, top = 150, left = 300, location = no";
+        window.open(url, name, option);
+    },
+
     lecturePersonReqPop: function(pk){
         let url = "/projectUnRnd/lecturePersonReqPop.do?pk="+pk;
         const name = "lecturePersonReqPop";
         const option = "width = 1000, height = 589, top = 150, left = 400, location = no";
         window.open(url, name, option);
-    }
+    },
+
+    lecturePayReqPop: function(pk){
+        let url = "/projectUnRnd/lecturePayReqPop.do?pk="+pk;
+        const name = "lecturePayReqPop";
+        const option = "width = 1000, height = 589, top = 150, left = 400, location = no";
+        window.open(url, name, option);
+    },
 }
