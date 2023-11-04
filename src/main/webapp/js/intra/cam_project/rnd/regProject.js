@@ -108,20 +108,19 @@ var regRnd = {
             tab12Url += "?pjtSn=" + setParameters.PJT_SN;
             tab13Url += "?pjtSn=" + setParameters.PJT_SN;
         }
+        var dataSource = []
 
-        $("#tabstrip").kendoTabStrip({
-            animation: {
-                open: {
-                    effects: "fadeIn"
-                }
-            },
-            select: function (e){
-
-            },
-            dataTextField: "name",
-            dataContentUrlField: "url",
-            dataImageUrlField: "imageUrl",
-            dataSource: [
+        if(setParameters != null && setParameters.TEAM_STAT == "Y"){
+            dataSource = [
+                {name: "견적관리", url: "/intra/cam_project/estInfo.do?pjtSn=" + setParameters.PJT_SN},
+                {name: "공정", url: "/intra/cam_project/processInfo.do?pjtSn=" + setParameters.PJT_SN},
+                // {name: "참여율요청", url: tab2Url},      // 지출내역조회와 같이 사용
+                {name: "납품관리", url: "/intra/cam_project/goodsInfo.do?pjtSn=" + setParameters.PJT_SN},      // 지출내역조회와 같이 사용
+                {name: "출장", url: "/intra/cam_project/bustInfo.do?pjtSn=" + setParameters.PJT_SN},
+                {name: "구매", url: "/intra/cam_project/purcInfo.do?pjtSn=" + setParameters.PJT_SN},
+            ]
+        } else {
+            dataSource = [
                 {name: "사업정보", url: tab0Url, imageUrl: "/images/ico/etc_01_1.png"},
                 {name: "참여인력", url: tab1Url},
                 // {name: "참여율요청", url: tab2Url},      // 지출내역조회와 같이 사용
@@ -139,8 +138,23 @@ var regRnd = {
                 {name: "구매", url: tab11Url},
                 {name: "예산변경신청", url: tab12Url},
                 {name: "정산/원가", url: tab13Url, imageUrl: "/images/ico/etc_01_1.png"}
+            ]
+        }
 
-            ],
+
+        $("#tabstrip").kendoTabStrip({
+            animation: {
+                open: {
+                    effects: "fadeIn"
+                }
+            },
+            select: function (e){
+
+            },
+            dataTextField: "name",
+            dataContentUrlField: "url",
+            dataImageUrlField: "imageUrl",
+            dataSource: dataSource,
         });
 
         var tabStrip = $("#tabstrip").data("kendoTabStrip");
@@ -158,35 +172,48 @@ var regRnd = {
                 tabStrip.select(0);
             }
 
-            var rndInfo = customKendo.fn_customAjax("/projectRnd/getRndDetail", setParameters);
+            if(setParameters.TEAM_STAT == "Y"){
+                tabStrip.enable(tabStrip.tabGroup.children());
+            } else {
+                var rndInfo = customKendo.fn_customAjax("/projectRnd/getRndDetail", setParameters);
 
-            if(rndInfo.map != null){
-                if(rndInfo.map.STATUS == "100"){
-                    tabStrip.enable(tabStrip.tabGroup.children());
+                if(rndInfo.map != null){
+                    if(rndInfo.map.STATUS == "100"){
+                        tabStrip.enable(tabStrip.tabGroup.children());
+                    }
                 }
             }
-
-
-            //tabStrip.disable(tabStrip.tabGroup.children().eq(7));
-            //tabStrip.disable(tabStrip.tabGroup.children().eq(8));
-            //tabStrip.disable(tabStrip.tabGroup.children().eq(7));
-            //tabStrip.disable(tabStrip.tabGroup.children().eq(10));
-            //tabStrip.disable(tabStrip.tabGroup.children().eq(11));
         }
 
-        var parser = new DOMParser();
+        if(setParameters.TEAM_STAT == "Y"){
+            var parser = new DOMParser();
 
-        var html = '<div style="width:100%;"></div>';
-        var doc = parser.parseFromString(html, 'text/html');
-        $("#tabstrip li")[7].after(doc.body.firstChild);
+            var html = '<div style="width:100%;"></div>';
+            var doc = parser.parseFromString(html, 'text/html');
+            $("#tabstrip li")[2].after(doc.body.firstChild);
 
-        var html2 = '<div style="padding: 6px 12px"><b style="color: red">사업관리</b></div>';
-        var doc2 = parser.parseFromString(html2, 'text/html');
-        $("#tabstrip li")[0].before(doc2.body.firstChild);
+            var html2 = '<div style="padding: 6px 12px"><b style="color: red">사업관리</b></div>';
+            var doc2 = parser.parseFromString(html2, 'text/html');
+            $("#tabstrip li")[0].before(doc2.body.firstChild);
 
-        var html3 = '<div style="padding: 6px 12px"><b style="color: blue">운영관리</b></div>';
-        var doc3 = parser.parseFromString(html3, 'text/html');
-        $("#tabstrip li")[8].before(doc3.body.firstChild);
+            var html3 = '<div style="padding: 6px 12px"><b style="color: blue">운영관리</b></div>';
+            var doc3 = parser.parseFromString(html3, 'text/html');
+            $("#tabstrip li")[3].before(doc3.body.firstChild);
+        } else {
+            var parser = new DOMParser();
+
+            var html = '<div style="width:100%;"></div>';
+            var doc = parser.parseFromString(html, 'text/html');
+            $("#tabstrip li")[7].after(doc.body.firstChild);
+
+            var html2 = '<div style="padding: 6px 12px"><b style="color: red">사업관리</b></div>';
+            var doc2 = parser.parseFromString(html2, 'text/html');
+            $("#tabstrip li")[0].before(doc2.body.firstChild);
+
+            var html3 = '<div style="padding: 6px 12px"><b style="color: blue">운영관리</b></div>';
+            var doc3 = parser.parseFromString(html3, 'text/html');
+            $("#tabstrip li")[8].before(doc3.body.firstChild);
+        }
     },
 
     fn_setData: function (e){

@@ -414,7 +414,7 @@ var regPrj = {
         if(p.PJT_AMT != null && p.PJT_AMT != "" && p.PJT_AMT != undefined){
             $("#expAmt").val(regPrj.comma(p.PJT_AMT));
         } else {
-            $("#expAmt").val(regPrj.comma(p.EXP_AMT));
+            $("#expAmt").val(regPrj.comma(p.PJT_EXP_AMT));
         }
 
 

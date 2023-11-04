@@ -146,7 +146,11 @@ var estInfo = {
                     alert("저장되었습니다.");
 
                     if($("#tmSn").val() == "Y"){
-                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=2";
+                        if($("#pjtStep").val().toString().substring(0, 1) == "R"){
+                            window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tmStat=Y&tab=1"
+                        } else {
+                            window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=2";
+                        }
                     } else {
                         window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=1&tmStat=" + $("#tmStat").val();
                     }
@@ -166,7 +170,7 @@ var estInfo = {
         $("#crmCompNm").val(rs.hashMap.CRM_NM);
         $("#crmMem").val(rs.hashMap.CRM_CEO);
         $("#estPjtNm").val(rs.hashMap.PJT_NM);
-        $("#estExpAmt").val(estInfo.comma(rs.result.estList.EXP_AMT));
+        $("#estExpAmt").val(0);
 
         var html = "";
         var len = 0;

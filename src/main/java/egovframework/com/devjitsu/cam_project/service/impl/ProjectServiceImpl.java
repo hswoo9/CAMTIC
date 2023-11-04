@@ -916,6 +916,11 @@ public class ProjectServiceImpl implements ProjectService {
     public List<Map<String, Object>> getResultPsMember(Map<String, Object> params) {
         return projectRepository.getResultPsMember(params);
     }
+
+    @Override
+    public void delTeamProject(Map<String, Object> params) {
+        projectRepository.delTeamProject(params);
+    }
 }
 
 

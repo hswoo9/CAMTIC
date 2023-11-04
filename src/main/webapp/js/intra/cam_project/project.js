@@ -171,7 +171,7 @@ var camPrj = {
                         if(e.TEAM_STAT == "N"){
                             return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\")'>" + e.PJT_NM + "</a>";
                         } else {
-                            return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\", \"" + e.TEAM_STAT + "\")'>[협업] " + e.PJT_NM + "</a>";
+                            return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\", \"" + e.TEAM_STAT + "\")'>" + e.PJT_NM + "</a>";
                         }
                     }
                 }, {
@@ -268,7 +268,11 @@ var camPrj = {
                     title : "조회",
                     width: "5%",
                     template : function (e){
-                        return "<button type='button' onclick='camPrj.projectDoc("+e.PJT_SN+")' class='k-button k-button-solid-base'>조회</button>"
+                        if(e.TEAM_STAT == "Y"){
+                            return "";
+                        } else {
+                            return "<button type='button' onclick='camPrj.projectDoc("+e.PJT_SN+")' class='k-button k-button-solid-base'>조회</button>"
+                        }
                     }
                 }
             ],
