@@ -409,6 +409,52 @@
         </selectKey>
     </insert>
 
+    <update id="updLectureInfo" parameterType="map">
+        /*updLectureInfo*/
+        UPDATE
+            CAM_PJT_MNG.DJ_PJT_LECTURE
+        SET
+            LEC_BUSN_CLASS = #{projectType},
+            LEC_BUSN_CLASS_NAME = #{projectTypeName},
+            LEC_FIELD = #{fieldType},
+            LEC_FIELD_NAME = #{fieldTypeName},
+            LEC_SBJ_CD = #{curriculumType},
+            LEC_SBJ_CD_NAME = #{curriculumTypeName},
+            LEC_PS_CD = #{courseType},
+            LEC_PS_CD_NAME = #{courseTypeName},
+            LEC_TITLE_BS = #{lectureName},
+            LEC_TITLE_PR = #{lectureNameEx},
+            LEC_TOPIC = #{title},
+            LEC_PS_GUIDE_A = #{content1},
+            LEC_PS_GUIDE_B = #{content2},
+            LEC_STR_DE = #{eduStartDt},
+            LEC_END_DE = #{eduEndDt},
+            RECR_STR_DE = #{recruitStartDt},
+            RECR_END_DE = #{recruitEndDt},
+            RECR_MEM_CNT = #{recruitNum},
+            LEC_TIME = #{eduTime},
+            LEC_TIME_RNG = #{eduTimeEx},
+            LEC_ADDR = #{area},
+            LEC_STATUS = #{status},
+            LEC_STATUS_NAME = #{statusName},
+            LEC_OBJ = #{goal},
+            LEC_SUMR = #{intro},
+            LEC_TARG = #{targetUser},
+            LEC_SCH = #{scheduleHtml},
+            LEC_INQ = #{prospectus},
+            LEC_MAT = #{materials},
+            LEC_COST = #{textbookFee},
+            LEC_COST_EX = #{textbookFeeEx},
+            LEC_OPER = #{methodType},
+            LEC_CERT = #{certType},
+            LEC_OPEN_BD = #{mainType},
+            LEC_OPEN_BD_NAME = #{mainTypeName},
+            MOD_EMP_SEQ = #{regEmpSeq},
+            MOD_DT = NOW()
+        WHERE
+            LEC_SN = #{pk}
+    </update>
+
     <update id="updPersonApp" parameterType="map">
         /*updPersonApp*/
         UPDATE

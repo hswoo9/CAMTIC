@@ -98,6 +98,8 @@ public class PurcServiceImpl implements PurcService {
             returnMap.put("estFile", purcRepository.getPurcReqFileInfo(searchMap));
             searchMap.put("contentId", "req_" + params.get("purcSn"));
             returnMap.put("reqFile", purcRepository.getPurcReqFileInfo(searchMap));
+            searchMap.put("contentId", "inspect_" + params.get("purcSn"));
+            returnMap.put("inspectFile", purcRepository.getPurcReqFileInfo(searchMap));
         }
 
         return returnMap;

@@ -92,6 +92,8 @@ var pri = {
             $("#purcReqDeptName").text(data.DEPT_NAME);
             $("#purcReqPurpose").text(data.PURC_REQ_PURPOSE);
             $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
+            $("#inspectEmpName").text(data.INSPECT_EMP_NAME);
+            $("#inspectDt").val(data.INSPECT_DT);
 
             if($("input[name='purcType']:checked").val() != ""){
                 $("#project").css("display", "");
@@ -101,16 +103,12 @@ var pri = {
                 $("#project").css("display", "none");
             }
 
-            if(data.estFile != null){
-                $("#file1Sn").val(data.estFile.file_no);
-                $("#file1Name").text(data.estFile.file_org_name + "." + data.estFile.file_ext);
+            if(data.inspectFile != null){
+                $("#file1Sn").val(data.inspectFile.file_no);
+                const e = data.inspectFile;
+                $("#file1Name").html('<span style="cursor: pointer" onclick="fileDown(\''+e.file_path+e.file_uuid+'\', \''+e.file_org_name+'.'+e.file_ext+'\')">'+ e.file_org_name+'.'+e.file_ext +'</span>');
             }
 
-            if(data.reqFile != null){
-                $("#file2Sn").val(data.reqFile.file_no);
-                $("#file2Name").text(data.reqFile.file_org_name + "." + data.reqFile.file_ext);
-            }
-            
             pri.purcItemDataSet(data);
         }
     },
@@ -313,11 +311,11 @@ var pri = {
     },
 
     crmInfoChange : function(){
-        $("#" + prp.global.crmSnId).val($("#crmSn").val())
-        $("#" + prp.global.crmNmId).val($("#crmNm").val())
+        $("#" + prp.global.crmSnId).val($("#crmSn").val());
+        $("#" + prp.global.crmNmId).val($("#crmNm").val());
 
-        $("#crmSn").val("")
-        $("#crmNm").val("")http://218.158.231.186/
+        $("#crmSn").val("");
+        $("#crmNm").val("");
     },
 
     setPurcReq : function(e){

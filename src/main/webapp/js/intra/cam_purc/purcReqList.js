@@ -117,7 +117,7 @@ var prm = {
                         return status
                     }
                 }, {
-                    title: "상태",
+                    title: "검수",
                     field: "STATUS",
                     width: 80,
                     template : function(e){

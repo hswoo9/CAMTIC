@@ -133,6 +133,7 @@ var regUnRnd = {
                     tabStrip.enable(tabStrip.tabGroup.children().eq(2));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(3));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(4));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(5));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(6));
 
                     tabStrip.enable(tabStrip.tabGroup.children().eq(8));

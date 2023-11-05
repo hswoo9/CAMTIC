@@ -81,7 +81,8 @@
             MC.STATUS AS MC_STATUS,
             MC.DOC_ID AS MC_DOC_ID,
             MDI.APPRO_KEY AS MC_APPRO_KEY,
-            MDI.DOC_MENU_CD AS MC_DOC_MENU_CD
+            MDI.DOC_MENU_CD AS MC_DOC_MENU_CD,
+            MP.INSPECT_YN
         FROM
             CAM_MNG.DJ_MNG_PURC MP
         JOIN
@@ -344,6 +345,8 @@
             CAM_COMMON.DJ_FILE_INFO
         WHERE
             CONTENT_ID = #{contentId}
+        ORDER BY REG_DATE DESC
+        LIMIT 1;
     </select>
 
     <update id="updatePurcApprStat" parameterType="map">
@@ -605,7 +608,8 @@
             CAM_HR.FN_GetName('DEPT', D.DEPT_SEQ, NULL) AS PURC_DEPT_NAME,
             C.DELV_DE,
             DI.DOC_NO,
-            A.STATUS
+            A.STATUS,
+            (SELECT INSPECT_YN FROM CAM_MNG.DJ_MNG_PURC SA WHERE SA.PURC_SN = A.PURC_SN) AS INSPECT_YN
         FROM
             CAM_MNG.DJ_PURC_CLAIM A
         LEFT JOIN

@@ -157,12 +157,18 @@ const lectureReq = {
         /** 유효성 검사 */
         this.fn_validationCheck(data);
 
+        let url = "/projectUnRnd/insLectureInfo";
+        if($("#pk").val() != ""){
+            data.pk = $("#pk").val();
+            url = "/projectUnRnd/updLectureInfo";
+        }
+
         const formData = new FormData();
         for (let key in data) {
             formData.append(key, data[key]);
         }
 
-        const result = customKendo.fn_customFormDataAjax("/projectUnRnd/insLectureInfo", formData);
+        const result = customKendo.fn_customFormDataAjax(url, formData);
 
         if(result.code != 200){
             alert("저장 중 오류가 발생하였습니다.");

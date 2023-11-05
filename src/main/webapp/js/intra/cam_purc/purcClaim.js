@@ -165,6 +165,16 @@ var purcClaim = {
                             return ""
                         }
                     }
+                }, {
+                    title: "검수여부",
+                    width: 80,
+                    template: function (e){
+                        if(e.INSPECT_YN == "Y"){
+                            return "검수완료";
+                        }else{
+                            return "검수미완료";
+                        }
+                    }
                 }
             ],
             dataBinding: function(){

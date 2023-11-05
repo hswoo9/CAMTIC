@@ -101,9 +101,9 @@
                     <th scope="row" class="text-center th-color">검수사진</th>
                     <td colspan="3">
                         <input type="hidden" id="file1Sn" name="file1Sn">
-                        <label for="file1" id="file1Label" class="k-button k-button-solid-base">파일첨부</label>
+                        <label style="float: left" for="file1" id="file1Label" class="k-button k-button-solid-base">파일첨부</label>
                         <input type="file" id="file1" name="file1" onchange="pri.fileChange(this)" style="display: none">
-                        <span id="file1Name"></span>
+                        <div style="float: left; margin-left: 7px; margin-top: 4px" id="file1Name"><span style="cursor: pointer" id=""></span></div>
                     </td>
                 </tr>
                 </thead>
