@@ -317,7 +317,7 @@ var pri = {
         $("#" + prp.global.crmNmId).val($("#crmNm").val())
 
         $("#crmSn").val("")
-        $("#crmNm").val("")
+        $("#crmNm").val("")http://218.158.231.186/
     },
 
     setPurcReq : function(e){
@@ -326,6 +326,7 @@ var pri = {
         formData.append("inspectEmpName", $("#purcReqEmpName").text());
         formData.append("inspectDt", $("#inspectDt").val());
         formData.append("menuCd", "inspect");
+        formData.append("empSeq", $("#purcReqEmpName").text());
 
         if($("#file1")[0].files.length == 1){
             formData.append("file1", $("#file1")[0].files[0]);
