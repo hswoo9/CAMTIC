@@ -456,4 +456,14 @@
             #{LOGIN_EMP_CD},
             '';
     </insert>
+
+    <select id="getProjectData" parameterType="map" resultType="map">
+        /*getProjectData*/
+        SELECT * FROM SPJT WHERE PJT_CD = #{pjtCd}
+    </select>
+
+    <select id="getBankData" parameterType="map" resultType="map">
+        /*getBankData*/
+        SELECT * FROM ZA_TRADE_DAIKIN WHERE TR_CD = #{TR_CD}
+    </select>
 </mapper>

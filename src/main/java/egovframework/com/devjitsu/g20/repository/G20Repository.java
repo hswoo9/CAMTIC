@@ -76,4 +76,12 @@ public class G20Repository extends AbstractDAO {
     public void execUspAncj080Insert00(Map<String, Object> data) {
         insertMs("g20.execUspAncj080Insert00", data);
     }
+
+    public Map<String, Object> getProjectData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOneMs("g20.getProjectData", params);
+    }
+
+    public Map<String, Object> getBankData(Map<String, Object> g20ProjectData) {
+        return (Map<String, Object>) selectOneMs("g20.getBankData", g20ProjectData);
+    }
 }

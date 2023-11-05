@@ -259,9 +259,23 @@
         window.open("/common/deptListPop.do", "조직도", "width=750, height=650");
     }
 
-    function selectProject(sn, nm){
+    function selectProject(sn, nm, cd){
         $("#pjtSn").val(sn);
         $("#pjtNm").val(nm);
+
+        var data = {
+            pjtCd : cd
+        }
+
+        var result = customKendo.fn_customAjax("/project/getBankData", data);
+        var rs = result.data;
+
+        if(rs != null){
+            $("#accNm").val(rs.TR_NM);
+            $("#bnkSn").val(rs.TR_CD);
+            $("#accNo").val(rs.BA_NB);
+            $("#bnkNm").val(rs.JIRO_NM);
+        }
     }
 </script>
 </body>

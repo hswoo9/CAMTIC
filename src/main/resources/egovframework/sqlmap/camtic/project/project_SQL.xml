@@ -1994,4 +1994,5 @@
         /*delTeamProjectData*/
         DELETE FROM CAM_PJT_MNG.DJ_PJT_TEAM WHERE TM_SN = #{tmSn}
     </delete>
+
 </mapper>
