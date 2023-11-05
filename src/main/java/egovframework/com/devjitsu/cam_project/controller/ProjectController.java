@@ -1155,4 +1155,12 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/getBankData")
+    public String getBankData(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("data", projectService.getBankData(params));
+
+        return "jsonView";
+    }
+
 }

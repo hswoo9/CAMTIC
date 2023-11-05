@@ -6,6 +6,8 @@ import egovframework.com.devjitsu.cam_crm.repository.CrmRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
+import egovframework.com.devjitsu.g20.repository.G20Repository;
+import egovframework.com.devjitsu.g20.service.G20Service;
 import egovframework.com.devjitsu.inside.bustrip.repository.BustripRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private CrmRepository crmRepository;
+
+    @Autowired
+    private G20Repository g20Repository;
 
     @Override
     public List<Map<String, Object>> getProjectList(Map<String, Object> params) {
@@ -920,6 +925,16 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void delTeamProject(Map<String, Object> params) {
         projectRepository.delTeamProject(params);
+    }
+
+    @Override
+    public Map<String, Object> getBankData(Map<String, Object> params) {
+        Map<String, Object> g20ProjectData = g20Repository.getProjectData(params);
+        Map<String, Object> map = new HashMap<>();
+        if(g20ProjectData != null){
+            map = g20Repository.getBankData(g20ProjectData);
+        }
+        return map;
     }
 }
 

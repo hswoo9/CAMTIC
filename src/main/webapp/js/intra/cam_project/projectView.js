@@ -155,15 +155,15 @@ var projectView = {
                     width: "5%",
                     template: function(e){
 
-                        return '<button type="button" class="k-button k-button-solid-base" onclick="projectView.fn_selectProject('+e.PJT_SN+', \''+e.PJT_NM+'\');">선택</button>';
+                        return '<button type="button" class="k-button k-button-solid-base" onclick="projectView.fn_selectProject('+e.PJT_SN+', \''+e.PJT_NM+'\', \''+e.PJT_CD+'\');">선택</button>';
                     }
                 }
             ],
         }).data("kendoGrid");
     },
 
-    fn_selectProject: function(key, name){
-        opener.parent.selectProject(key, name);
+    fn_selectProject: function(key, name, cd){
+        opener.parent.selectProject(key, name, cd);
 
         window.close();
     }
