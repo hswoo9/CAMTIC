@@ -404,6 +404,18 @@ public class ProjectUnRndController {
         return "jsonView";
     }
 
+    /** 단위사업 입금 처리 */
+    @RequestMapping("/projectUnRnd/updPersonPay")
+    public String updPersonPay(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectUnRndService.updPersonPay(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
     /** 단위사업 수강자 삭제 */
     @RequestMapping("/projectUnRnd/delLecturePersonInfo")
     public String delLecturePersonInfo(@RequestParam Map<String, Object> params, Model model){

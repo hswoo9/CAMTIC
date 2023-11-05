@@ -30,6 +30,7 @@ public interface ProjectUnRndService {
     void updPersonPartic(Map<String, Object> params);
     void updPersonAudit(Map<String, Object> params);
     void updPersonRefund(Map<String, Object> params);
+    void updPersonPay(Map<String, Object> params);
     void delLecturePersonInfo(Map<String, Object> params);
     void delLectureInfo(Map<String, Object> params);
     void delLectureTeacherInfo(Map<String, Object> params);

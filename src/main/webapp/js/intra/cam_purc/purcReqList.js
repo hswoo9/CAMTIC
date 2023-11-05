@@ -116,6 +116,20 @@ var prm = {
 
                         return status
                     }
+                }, {
+                    title: "상태",
+                    field: "STATUS",
+                    width: 80,
+                    template : function(e){
+                        /** 구매청구서 작성시 검수 버튼 생성*/
+                        let html = "";
+                        if(e.CLAIM_STATUS == "CAYSY"){
+                            html += '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                        }else{
+                            html += "-"
+                        }
+                        return html;
+                    }
                 }
             ],
             dataBinding: function(){
@@ -139,6 +153,16 @@ var prm = {
         var url = "/purc/pop/regPurcReqPop.do";
         if(key != null && key != ""){
             url = "/purc/pop/regPurcReqPop.do?purcSn=" + key;
+        }
+        var name = "blank";
+        var option = "width = 1690, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
+    fn_inspectionPopup : function (key){
+        var url = "/purc/pop/purcInspectionPop.do";
+        if(key != null && key != ""){
+            url = "/purc/pop/purcInspectionPop.do?purcSn=" + key;
         }
         var name = "blank";
         var option = "width = 1690, height = 820, top = 100, left = 400, location = no"

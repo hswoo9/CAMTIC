@@ -46,8 +46,20 @@ var lecturePop = {
 
     lecturePayReqPop: function(pk){
         let url = "/projectUnRnd/lecturePayReqPop.do?pk="+pk;
+
+        let personArr = [];
+        $("input[name=person]:checked").each(function(i){
+            personArr.push($(this).val());
+        });
+        if($("input[name=person]:checked").length == 0) {
+            alert("수강자가 선택되지 않았습니다.");
+            return;
+        }
+
+        url += "&list="+personArr.join();
+
         const name = "lecturePayReqPop";
-        const option = "width = 1000, height = 589, top = 150, left = 400, location = no";
+        const option = "width = 650, height = 445, top = 150, left = 500, location = no";
         window.open(url, name, option);
     },
 }

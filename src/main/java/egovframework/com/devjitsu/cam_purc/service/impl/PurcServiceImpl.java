@@ -248,4 +248,26 @@ public class PurcServiceImpl implements PurcService {
     public List<Map<String, Object>> getPurcProductList(Map<String, Object> params) {
         return purcRepository.getPurcProductList(params);
     }
+
+    @Override
+    public void updPurcInspect(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+        /** 검수 파일 */
+        MultipartFile file1 = request.getFile("file1");
+        if(file1 != null){
+            if(!file1.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file1, filePath(params, SERVER_DIR));
+                fileInsMap.put("contentId", "inspect_" + params.get("purcSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("empSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+            }
+        }
+        params.put("fileKey", fileInsMap.get("file_no"));
+        purcRepository.updPurcInspect(params);
+    }
 }

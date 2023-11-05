@@ -244,6 +244,9 @@
         WHERE
             A.LEC_SN = #{pk}
         AND A.ACTIVE = 'Y'
+        <if test='personList != null and !"".equals(personList)'>
+            AND A.PERSON_SN IN (${personList})
+        </if>
         ORDER BY NAME
     </select>
 
@@ -416,6 +419,7 @@
         WHERE
             LEC_SN = #{pk}
         AND PERSON_SN = (${personList})
+        AND ACTIVE = 'Y'
     </update>
 
     <update id="updPersonPartic" parameterType="map">
@@ -427,6 +431,7 @@
         WHERE
             LEC_SN = #{pk}
         AND PERSON_SN = (${personList})
+        AND ACTIVE = 'Y'
     </update>
 
     <update id="updPersonAudit" parameterType="map">
@@ -438,6 +443,7 @@
         WHERE
             LEC_SN = #{pk}
         AND PERSON_SN = (${personList})
+        AND ACTIVE = 'Y'
     </update>
 
     <update id="updPersonRefund" parameterType="map">
@@ -452,6 +458,23 @@
         WHERE
             LEC_SN = #{pk}
         AND PERSON_SN = (${personList})
+        AND ACTIVE = 'Y'
+    </update>
+
+    <update id="updPersonPay" parameterType="map">
+        /*updPersonPay*/
+        UPDATE
+            CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ
+        SET
+            PAY_TYPE = #{payType},
+            BILL_TYPE = #{billType},
+            PAY_DT = #{payDt},
+            COST_YN = 'Y',
+            PAY_AMT = #{payAmt}
+        WHERE
+            LEC_SN = #{pk}
+        AND PERSON_SN = (${personList})
+        AND ACTIVE = 'Y'
     </update>
 
     <update id="delLecturePersonInfo" parameterType="map">
@@ -463,6 +486,7 @@
         WHERE
             LEC_SN = #{pk}
         AND PERSON_SN = (${personList})
+        AND ACTIVE = 'Y'
     </update>
 
     <delete id="delLectureTeacherInfo" parameterType="map">

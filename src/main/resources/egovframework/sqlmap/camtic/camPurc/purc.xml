@@ -684,4 +684,17 @@
             AND PURC_ITEM_TYPE = #{purcItemType}
         </if>
     </select>
+
+    <update id="updPurcInspect" parameterType="map">
+        /* updPurcInspect */
+        UPDATE
+            CAM_MNG.DJ_MNG_PURC
+        SET
+            INSPECT_EMP_NAME = #{inspectEmpName},
+            INSPECT_DT = #{inspectDt},
+            INSPECT_FILE_KEY = #{fileKey},
+            INSPECT_YN = 'Y'
+        WHERE
+            PURC_SN = #{purcSn}
+    </update>
 </mapper>

@@ -84,18 +84,18 @@ var ub = {
 
     fn_paySet: function(){
         let statusDataSource = [
-            {text: "강의개설중", value: "0"},
-            {text: "수강신청 진행중", value: "1"}
+            {text: "무통장입금", value: "0"},
+            {text: "신용카드", value: "1"}
         ];
-        customKendo.fn_dropDownList("status", statusDataSource, "text", "value", 3);
+        customKendo.fn_dropDownList("payType", statusDataSource, "text", "value", 3);
     },
 
     fn_billSet: function(){
         let statusDataSource = [
-            {text: "강의개설중", value: "0"},
-            {text: "수강신청 진행중", value: "1"}
+            {text: "요청안함", value: "N"},
+            {text: "영수발행", value: "Y"}
         ];
-        customKendo.fn_dropDownList("status", statusDataSource, "text", "value", 3);
+        customKendo.fn_dropDownList("billType", statusDataSource, "text", "value", 3);
     },
 
     fn_eduDtSet: function(){

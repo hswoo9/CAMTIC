@@ -84,6 +84,9 @@ public class ProjectUnRndRepository extends AbstractDAO {
     public void updPersonRefund(Map<String, Object> params) {
         update("unRnd.updPersonRefund", params);
     }
+    public void updPersonPay(Map<String, Object> params) {
+        update("unRnd.updPersonPay", params);
+    }
     public void delLecturePersonInfo(Map<String, Object> params) {
         update("unRnd.delLecturePersonInfo", params);
     }

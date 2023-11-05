@@ -180,6 +180,10 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
         projectUnRndRepository.updPersonRefund(params);
     }
     @Override
+    public void updPersonPay(Map<String, Object> params) {
+        projectUnRndRepository.updPersonPay(params);
+    }
+    @Override
     public void delLecturePersonInfo(Map<String, Object> params) {
         projectUnRndRepository.delLecturePersonInfo(params);
     }

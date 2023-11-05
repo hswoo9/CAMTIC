@@ -40,7 +40,7 @@
                 </span>
             </h3>
             <div id="purcBtnDiv" class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-base" onclick="">입금처리</button>
+                <button type="button" class="k-button k-button-solid-base" onclick="lecturePop.lecturePayReqPop(${params.pk})">입금처리</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="lecturePay.fn_refundBtn('A')">환불요청</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="lecturePay.fn_refundBtn('R')">환불처리</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_delBtn()">선택삭제</button>

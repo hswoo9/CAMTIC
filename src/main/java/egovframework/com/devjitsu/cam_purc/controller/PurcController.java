@@ -330,4 +330,38 @@ public class PurcController {
 
         return "jsonView";
     }
+
+    /**
+     * 구매검수처리 작성페이지
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/purc/pop/purcInspectionPop.do")
+    public String purcInspectionPop(HttpServletRequest request, @RequestParam Map<String, Object> params, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        if(params.containsKey("pjtSn")){
+            model.addAttribute("pjtData", projectService.getProjectData(params));
+        }
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_purc/user/purcInspectionPop";
+    }
+
+
+    /**
+     * 구매검수처리 저장/수정
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/purc/updPurcInspect.do")
+    public String updPurcInspect(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request) {
+        purcService.updPurcInspect(params, request, SERVER_DIR, BASE_DIR);
+        return "jsonView";
+    }
 }

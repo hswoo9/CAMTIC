@@ -25,6 +25,7 @@
 <input type="hidden" id="pk" value="${params.pk}"/>
 <input type="hidden" id="mode" value="${params.mode}"/>
 <input type="hidden" id="type" name="type" />
+<input type="hidden" id="list" value="${params.list}"/>
 
 <div style="padding:0;">
     <div class="table-responsive">
@@ -35,7 +36,7 @@
                 </span>
             </h3>
             <div id="purcBtnDiv" class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" onclick="lecturePersonReq.fn_saveBtn()">저장</button>
+                <button type="button" class="k-button k-button-solid-info" onclick="lecturePayReq.fn_saveBtn()">저장</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -62,30 +63,25 @@
                 <tr>
                     <th scope="row" class="text-center th-color">금액</th>
                     <td>
-                        <input id="payAmt" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 100px" value="0">원
+                        <input id="payAmt" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 140px; text-align: right" value="0">원
                     </td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">납부일자</th>
                     <td>
-                        <input id="payDt" style="width: 120px">
+                        <input id="payDt" style="width: 150px">
                     </td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">납부방법</th>
                     <td>
-                        <input id="payType" style="width: 120px">
+                        <input id="payType" style="width: 150px">
                     </td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">계산서</th>
                     <td>
-                        <input id="billType" style="width: 120px">
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>강사설정</th>
-                    <td>
+                        <input id="billType" style="width: 150px">
                     </td>
                 </tr>
                 </thead>
