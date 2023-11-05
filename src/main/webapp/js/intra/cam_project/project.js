@@ -15,9 +15,9 @@ var camPrj = {
             dataValueField: "value",
             dataSource: [
                 { text: "전체", value: "" },
-                { text: "예상", value: "'Y','E', 'R', 'S'" },
-                { text: "진행", value: "'E1','E2','E3','E4','E5','R2'" },
-                { text: "완료", value: "'E6','E7', 'R3'" }
+                { text: "예상", value: "'Y', 'E', 'R', 'S'" },
+                { text: "진행", value: "'E1', 'E2', 'E3', 'E4', 'E5', 'R2'" },
+                { text: "완료", value: "'E6', 'E7', 'R3'" }
             ],
             index: 0
         });

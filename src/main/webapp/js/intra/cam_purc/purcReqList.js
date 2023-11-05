@@ -91,27 +91,31 @@ var prm = {
                 }, {
                     title: "상태",
                     field: "STATUS",
-                    width: 200,
+                    width: 120,
                     template : function(e){
                         var status = "";
                         /** 구매요청서 */
                         if(e.DOC_STATUS == "0"){
-                            status = "구매요청서 작성중"
+                            status = "구매요청작성중"
                         }else if(e.DOC_STATUS != "100" && e.DOC_STATUS != "101"){
-                            status = "구매요청서 요청완료(결재중)"
+                            status = "구매요청작성중"
                         }else if(e.DOC_STATUS == "100" || e.DOC_STATUS == "101"){
-                            status = "구매요청서 요청완료(결재완료)"
+                            status = "구매요청완료"
                         }
 
                         /** 구매청구서 */
                         if(e.CLAIM_STATUS == "CN"){
-                            status = "구매청구서 미작성";
+                            status = "구매요청완료";
                         }else if(e.CLAIM_STATUS == "CAN"){
-                            status = "구매청구서 작성중";
+                            status = "구매청구작성중";
                         }else if(e.CLAIM_STATUS == "CAYSN"){
-                            status = "구매청구 완료(결재중)";
+                            status = "구매청구작성중";
                         }else if(e.CLAIM_STATUS == "CAYSY"){
-                            status = "구매청구 완료(결재완료)";
+                            status = "구매청구완료";
+                        }
+
+                        if(e.INSPECT_YN == "Y"){
+                            status = "검수완료";
                         }
 
                         return status

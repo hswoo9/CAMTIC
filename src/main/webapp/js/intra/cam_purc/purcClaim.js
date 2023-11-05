@@ -140,15 +140,15 @@ var purcClaim = {
                     }
                 }, {
                     title: "상태",
-                    width: 150,
+                    width: 120,
                     template: function (e){
                         if(e.STATUS != null && e.STATUS != ""){
                             if(e.STATUS == 100){
-                                return "구매청구완료(결재완료)";
+                                return "구매청구완료";
                             }else if(e.STATUS > 0){
-                                return "구매청구완료(결재중)";
+                                return "구매청구작성중";
                             }else if(e.STATUS == 0){
-                                return "청구작업중";
+                                return "구매요청완료";
                             }
                         }else{
                             return "미작성";
