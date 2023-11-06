@@ -941,6 +941,14 @@ public class ProjectServiceImpl implements ProjectService {
     public List<Map<String, Object>> getTeamProjectList(Map<String, Object> params) {
         return projectRepository.getTeamProjectList(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getPartRateEmpInfo(Map<String, Object> params) {
+        String[] ar = params.get("empList").toString().split(",");
+
+
+        return projectRepository.partRateEmpInfo(ar);
+    }
 }
 
 

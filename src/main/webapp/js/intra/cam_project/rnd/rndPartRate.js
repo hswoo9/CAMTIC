@@ -6,6 +6,127 @@ var rndPR = {
         });
 
         rndPR.fn_setData();
+
+
+        $("#viewSubBtn").on("click", function(){
+            if($("#viewSubStat").val() == "Y"){
+                $("#viewSubStat").val("N");
+                $("#partRateMainGrid").css("display", "none");
+                $("#viewSubText").html("&#9650;");
+            }else{
+                $("#viewSubStat").val("Y");
+                $("#partRateMainGrid").css("display", "");
+                $("#viewSubText").html("&#9660;");
+            }
+        });
+
+        // rndPR.partRateMainGrid();
+    },
+
+    partRateMainGrid: function (){
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read: {
+                    url: "/project/partRateEmpInfo",
+                    dataType: "json",
+                    type: "post"
+                },
+                parameterMap: function(data){
+                    data.empList = $("#empList").val()
+                    return data;
+                }
+            },
+            schema: {
+                data: function(data){
+                    return data.list;
+                },
+                total: function(data){
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
+        $("#partRateMainGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            selectable: "row",
+            pageable: {
+                refresh: true,
+                pageSizes: [ 10, 20, 30, 50, 100 ],
+                buttonCount: 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    title: "성명",
+                    field: "EMP_NAME_KR",
+                    width: 100,
+                }, {
+                    field: "DEPT_NAME",
+                    title: "부서",
+                    width: 100
+                }, {
+                    title: "팀",
+                    field: "DEPT_TEAM_NAME",
+                    width: 100
+                }, {
+                    title: "직위",
+                    field: "POSITION_NAME",
+                    width: 100
+                }, {
+                    title: "입사일자",
+                    field: "JOIN_DAY",
+                    width: 100,
+                    template : function (e){
+                        var date = new Date(e.JOIN_DAY);
+                        var yyyy = date.getFullYear();
+                        var mm = date.getMonth()+1;
+                        mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
+                        var dd = date.getDate();
+                        dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
+                        return yyyy+'-'+mm+'-'+dd;
+                    }
+                }, {
+                    title: "주민등록번호",
+                    field: "RES_REGIS_NUM",
+                    width: 100
+                }, {
+                    title: "과학기술인번호",
+                    field: "",
+                    width: 100
+                }, {
+                    title: "최종학력",
+                    field: "LAST_DEGREE",
+                    width: 100
+                }, {
+                    title: "졸업연도",
+                    field: "GRADE",
+                    width: 100
+                }, {
+                    title: "학위",
+                    field: "DEGREE",
+                    width: 100
+                }, {
+                    title: "출신학교/전공",
+                    field: "SCHOOL",
+                    width: 100
+                }, {
+                    title: "메일",
+                    field: "EMAIL_ADDR",
+                    width: 100
+                }, {
+                    title: "휴대폰",
+                    field: "MOBILE_TEL_NUM",
+                    width: 100
+                }
+            ]
+        }).data("kendoGrid");
+
+        $("#partRateMainGrid").css("display", "none");
     },
 
 
@@ -33,11 +154,11 @@ var rndPR = {
         var mem = result.result.projectMemberInfo;
 
 
-
+        var empList = "";
         if(mng != null){
             $("#partRateMember").html("");
             var mngHtml = "";
-
+            empList += mng.MNG_EMP_SEQ
             mngHtml += '<tr style="text-align: center" class="bodyTr">';
             mngHtml += '   <td>책임자<input type="hidden" name="partEmpSeq" value="'+mng.MNG_EMP_SEQ+'" /></td>';
             mngHtml += '   <td>' + mng.MNG_EMP_NAME + '<input type="hidden" name="partEmpName" value="'+mng.MNG_EMP_NAME+'" /></td>';
@@ -113,6 +234,7 @@ var rndPR = {
             var memHtml = '';
 
             for(var i = 0 ; i < mem.length ; i++){
+                empList += "," + mem[i].EMP_SEQ;
                 memHtml += '<tr style="text-align: center" class="bodyTr">';
                 memHtml += '   <td>참여자<input type="hidden" name="partEmpSeq" value="'+mem[i].EMP_SEQ+'" /></td>';
                 memHtml += '   <td>' + mem[i].EMP_NAME + '<input type="hidden" name="partEmpName" value="'+mem[i].EMP_NAME+'" /></td>';
@@ -196,8 +318,11 @@ var rndPR = {
 
         $("#partRateMember").append(lastHtml);
 
+        $("#empList").val(empList);
 
         customKendo.fn_textBox(["allPayTotal"]);
+
+        $("#viewSubBtn").css("display", "");
     },
 
     fn_monDiff : function (_date1, _date2){

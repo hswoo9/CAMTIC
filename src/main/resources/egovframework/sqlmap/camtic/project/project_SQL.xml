@@ -2026,4 +2026,18 @@
             A.PNT_PJT_SN = #{pjtSn}
     </select>
 
+    <select id="partRateEmpInfo" parameterType="map" resultType="map">
+        /*partRateEmpInfo*/
+        SELECT
+            *
+        FROM
+            CAM_HR.DJ_EMP_INFO
+        WHERE
+            EMP_SEQ IN
+        <foreach item="item" index="index" collection="array"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
 </mapper>

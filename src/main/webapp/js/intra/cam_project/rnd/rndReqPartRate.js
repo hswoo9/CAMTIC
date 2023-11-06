@@ -82,8 +82,8 @@ var rndRPR = {
             $("#fileGrid").html(html);
         } else {
             $("#fileGrid").html('<tr>' +
-                '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
-                '</tr>');
+            '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
+            '</tr>');
         }
     },
 
@@ -219,7 +219,6 @@ var rndRPR = {
                 if(ls[i].MNG_COMM != null){
                     mngComm = ls[i].MNG_COMM;
                 }
-
                 html += '<tr style="text-align: center">';
                 html += '   <td>신규</td>';
                 html += '   <td>';
@@ -245,6 +244,8 @@ var rndRPR = {
             $("#partRateVerSn").val(key);
 
             rndPR.fn_getPartRateDetail();
+
+            rndPR.partRateMainGrid();
         } else {
             alert(key);
         }

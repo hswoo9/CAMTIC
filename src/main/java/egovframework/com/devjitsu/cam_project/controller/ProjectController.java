@@ -1171,4 +1171,11 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/partRateEmpInfo")
+    public String partRateEmpInfo(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list", projectService.getPartRateEmpInfo(params));
+
+        return "jsonView";
+    }
 }

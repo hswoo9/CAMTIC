@@ -79,6 +79,12 @@
             </tbody>
         </table>
     </div>
+    <input type="hidden" id="viewSubStat" value="N" />
+    <input type="hidden" id="empList" value="" />
+    <div style="text-align: center; cursor: pointer; margin-top: 15px; margin-bottom: 15px; background-color: #f1f7ff;display: none; border: 1px solid #c5c5c5" id="viewSubBtn"><span id="viewSubText">▲</span></div>
+
+
+    <div id="partRateMainGrid"></div>
 </div>
 
 <script>
