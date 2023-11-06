@@ -393,6 +393,11 @@ var camPrj = {
     searchGrid: function(busnClass, row){
         $("#busnClass").data("kendoDropDownList").value(busnClass);
         $("#busnSubClass").data("kendoDropDownList").select(row);
+        $("#deptName").val("");
+        $("#deptSeq").val("");
+        $("#searchValue").data("kendoDropDownList").select(0);
+        $("#searchValue2").data("kendoDropDownList").select(0);
+        $("#searchText").val("");
         camPrj.gridReload();
     }
 }

@@ -230,7 +230,7 @@
                         <td colspan="4">
                             <input type="text" id="searchValue" style="width: 150px;">
                             <input type="text" id="searchValue2" style="width: 150px;">
-                            <input type="text" id="searchText"onkeypress="if(event.keyCode==13){ camPrj.gridReload(); }" style="width: 200px;">
+                            <input type="text" id="searchText" onkeypress="if(event.keyCode==13){ camPrj.gridReload(); }" style="width: 200px;">
                         </td>
                     </tr>
                 </table>
