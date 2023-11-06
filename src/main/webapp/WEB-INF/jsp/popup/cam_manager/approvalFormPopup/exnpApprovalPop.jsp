@@ -22,7 +22,7 @@
         approvalParams.menuCd = "exnp";
         approvalParams.docType = "A";
 
-        approvalParams.linkageProcessId = "15";
+        approvalParams.linkageProcessId = "25";
         approvalParams.linkageType = "2";
         approvalParams.linkageProcessCode = "camticExnp";
         approvalParams.approKey = "camticExnp_${params.exnpSn}";

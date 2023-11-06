@@ -136,8 +136,8 @@ var regExnp = {
             var item = ls[i];
 
             regExnpDet.global.createHtmlStr = "";
-            regExnpDet.global.itemIndex++;
             var clIdx = regExnpDet.global.itemIndex;
+
             regExnpDet.global.createHtmlStr += "" +
                 '<tr class="payDestInfo newArray" id="pay' + regExnpDet.global.itemIndex + '" style="text-align: center;">';
             if(item.DET_STAT != "N"){

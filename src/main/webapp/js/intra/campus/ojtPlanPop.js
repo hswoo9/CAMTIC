@@ -61,6 +61,7 @@ const ojtPlan = {
         if(result.flag){
             opener.gridReload();
             location.reload();
+            window.opener.parent.location.reload();
         }
     },
 
