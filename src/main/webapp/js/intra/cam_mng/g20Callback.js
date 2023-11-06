@@ -3,9 +3,9 @@
  * @param bgtNm
  * @param bgtCd
  */
-function fn_selBudgetInfo(bgtNm, bgtCd){
-    $("#budgetSn").val(bgtCd);
-    $("#budgetNm").val(bgtNm);
+function fn_selBudgetInfo(bgtNm, bgtCd, idx){
+    $("#budgetSn" + idx).val(bgtCd);
+    $("#budgetNm" + idx).val(bgtNm);
 
 
 }

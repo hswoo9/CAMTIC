@@ -24,6 +24,7 @@
 </style>
 
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
+<input type="hidden" id="idx" value="${params.idx}" />
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="mgtCd" value="${data.PJT_CD}" />
 <div>

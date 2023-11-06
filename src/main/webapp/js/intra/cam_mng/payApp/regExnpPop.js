@@ -136,11 +136,16 @@ var regExnp = {
             var item = ls[i];
 
             regExnpDet.global.createHtmlStr = "";
-
+            regExnpDet.global.itemIndex++;
+            var clIdx = regExnpDet.global.itemIndex;
             regExnpDet.global.createHtmlStr += "" +
                 '<tr class="payDestInfo newArray" id="pay' + regExnpDet.global.itemIndex + '" style="text-align: center;">';
             if(item.DET_STAT != "N"){
                 regExnpDet.global.createHtmlStr += "" +
+                    '   <td>' +
+                    '       <input type="text" id="budgetNm' + regExnpDet.global.itemIndex + '" value="'+item.BUDGET_NM+'" onclick="regExnp.fn_budgetPop('+clIdx+')" style="width: 100%;">' +
+                    '       <input type="hidden" id="budgetSn' + regExnpDet.global.itemIndex + '" value="'+item.BUDGET_SN+'" />' +
+                    '   </td>' +
                     '   <td>' +
                     '       <input type="hidden" id="payDestSn' + regExnpDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" name="payDestSn" class="payDestSn">' +
                     '       <input type="text" id="eviType' + regExnpDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
@@ -214,7 +219,7 @@ var regExnp = {
                     , "crmAccHolder" + regExnpDet.global.itemIndex
                     , "crmAccNo" + regExnpDet.global.itemIndex, "totCost" + regExnpDet.global.itemIndex
                     , "supCost" + regExnpDet.global.itemIndex, "vatCost" + regExnpDet.global.itemIndex
-                    ,"card" + regExnpDet.global.itemIndex]);
+                    ,"card" + regExnpDet.global.itemIndex, "budgetNm" + regExnpDet.global.itemIndex]);
 
                 customKendo.fn_datePicker("trDe" + regExnpDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
 
@@ -278,10 +283,15 @@ var regExnp = {
 
             regExnpDet.global.createHtmlStr = "";
 
+            var clIdx = regExnpDet.global.itemIndex;
             regExnpDet.global.createHtmlStr += "" +
                 '<tr class="payDestInfo newArray" id="pay' + regExnpDet.global.itemIndex + '" style="text-align: center;">';
             if(item.DET_STAT != "N"){
                 regExnpDet.global.createHtmlStr += "" +
+                    '   <td>' +
+                    '       <input type="text" id="budgetNm' + regExnpDet.global.itemIndex + '" value="'+item.BUDGET_NM+'" onclick="regExnp.fn_budgetPop('+clIdx+')" style="width: 100%;">' +
+                    '       <input type="hidden" id="budgetSn' + regExnpDet.global.itemIndex + '" value="'+item.BUDGET_SN+'" />' +
+                    '   </td>' +
                     '   <td>' +
                     '       <input type="hidden" id="payDestSn' + regExnpDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" name="payDestSn" class="payDestSn">' +
                     '       <input type="text" id="eviType' + regExnpDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
@@ -355,7 +365,7 @@ var regExnp = {
                     , "crmAccHolder" + regExnpDet.global.itemIndex
                     , "crmAccNo" + regExnpDet.global.itemIndex, "totCost" + regExnpDet.global.itemIndex
                     , "supCost" + regExnpDet.global.itemIndex, "vatCost" + regExnpDet.global.itemIndex
-                    ,"card" + regExnpDet.global.itemIndex]);
+                    ,"card" + regExnpDet.global.itemIndex, "budgetNm" + regExnpDet.global.itemIndex]);
 
                 customKendo.fn_datePicker("trDe" + regExnpDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
 
@@ -393,8 +403,6 @@ var regExnp = {
             exnpDe : $("#exnpDe").val(),
             pjtNm : $("#pjtNm").val(),
             pjtSn : $("#pjtSn").val(),
-            budgetNm : $("#budgetNm").val(),
-            budgetSn : $("#budgetSn").val(),
             exnpBriefs : $("#exnpBriefs").val(),
             addExnpBriefs : $("#addExnpBriefs").val(),
             exnpEmpSeq : $("#exnpEmpSeq").val(),
@@ -425,6 +433,8 @@ var regExnp = {
         $.each($(".payDestInfo"), function(i, v){
             var data = {
                 evidType : $("#eviType" + i).val(),
+                budgetNm : $("#budgetNm" + i).val(),
+                budgetSn : $("#budgetSn" + i).val(),
                 crmNm : $("#crmNm" + i).val(),
                 trCd : $("#trCd" + i).val(),
                 crmBnkNm : $("#crmBnkNm" + i).val(),
@@ -536,14 +546,14 @@ var regExnp = {
         var popup = window.open(url, name, option);
     },
 
-    fn_budgetPop: function (){
+    fn_budgetPop: function (idx){
         if($("#pjtSn").val() == ""){
             alert("사업을 선택해주세요.");
             return ;
         }
 
 
-        var url = "/mng/pop/budgetView.do?pjtSn=" + $("#pjtSn").val();
+        var url = "/mng/pop/budgetView.do?pjtSn=" + $("#pjtSn").val() + "&idx=" + idx;
 
         var name = "_blank";
         var option = "width = 1100, height = 650, top = 100, left = 400, location = no"

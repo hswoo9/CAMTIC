@@ -54,8 +54,6 @@
                 PAY_APP_TYPE,
                 PJT_NM,
                 PJT_SN,
-                BUDGET_NM,
-                BUDGET_SN,
                 EXNP_DE,
                 EXNP_EMP_SEQ,
                 G20_EMP_CD,
@@ -129,8 +127,6 @@
             PAY_APP_TYPE = #{payAppType},
             PJT_NM = #{pjtNm},
             PJT_SN = #{pjtSn},
-            BUDGET_NM = #{budgetNm},
-            BUDGET_SN = #{budgetSn},
             EXNP_DE = #{exnpDe},
             EXNP_EMP_SEQ = #{exnpEmpSeq},
             G20_EMP_CD = #{g20EmpCd},
@@ -176,6 +172,8 @@
         INSERT CAM_MNG.DJ_PAY_APP_DET
             (
                 PAY_APP_SN,
+                BUDGET_NM,
+                BUDGET_SN,
                 EVID_TYPE,
                 TR_CD,
                 CRM_NM,
@@ -194,6 +192,8 @@
         VALUES
             (
                 #{payAppSn},
+                #{budgetNm},
+                #{budgetSn},
                 #{evidType},
                 #{trCd},
                 #{crmNm},
@@ -216,6 +216,8 @@
         INSERT CAM_MNG.DJ_EXNP_DET
             (
                 EXNP_SN,
+                BUDGET_SN,
+                BUDGET_NM,
                 EVID_TYPE,
                 TR_CD,
                 CRM_NM,
@@ -234,6 +236,8 @@
         VALUES
             (
                 #{exnpSn},
+                #{budgetSn},
+                #{budgetNm},
                 #{evidType},
                 #{trCd},
                 #{crmNm},

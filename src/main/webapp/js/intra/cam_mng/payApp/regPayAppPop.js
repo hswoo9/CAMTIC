@@ -13,7 +13,7 @@ var regPay = {
 
     fn_defaultScript : function (){
         customKendo.fn_datePicker("appDe", "month", "yyyy-MM-dd", new Date());
-        customKendo.fn_textBox(["pjtNm", "budgetNm", "appTitle", "accNm", "accNo", "bnkNm"]);
+        customKendo.fn_textBox(["pjtNm", "appTitle", "accNm", "accNo", "bnkNm"]);
 
         $("#appCont").kendoTextArea({
             rows: 5,
@@ -108,8 +108,8 @@ var regPay = {
         $("#appDe").val(rs.APP_DE)
         $("#pjtNm").val(rs.PJT_NM)
         $("#pjtSn").val(rs.PJT_SN)
-        $("#budgetNm").val(rs.BUDGET_NM)
-        $("#budgetSn").val(rs.BUDGET_SN)
+        // $("#budgetNm").val(rs.BUDGET_NM)
+        // $("#budgetSn").val(rs.BUDGET_SN)
         $("#appTitle").val(rs.APP_TITLE)
         $("#appCont").val(rs.APP_CONT)
 
@@ -138,7 +138,15 @@ var regPay = {
                         '   <td></td>';
                 }
             }
+
+            regPayDet.global.itemIndex++;
+            var clIdx = regPayDet.global.itemIndex;
+
             regPayDet.global.createHtmlStr += "" +
+                '   <td>' +
+                '       <input type="text" id="budgetNm' + regPayDet.global.itemIndex + '" value="'+item.BUDGET_NM+'" onclick="regPay.fn_budgetPop('+clIdx+')" style="width: 100%;">' +
+                '       <input type="hidden" id="budgetSn' + regPayDet.global.itemIndex + '" value="'+item.BUDGET_SN+'" />' +
+                '   </td>' +
                 '   <td>' +
                 '       <input type="hidden" id="payDestSn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" name="payDestSn" class="payDestSn">' +
                 '       <input type="text" id="eviType' + regPayDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
@@ -201,7 +209,7 @@ var regPay = {
             }
 
             var itemIndex = regPayDet.global.itemIndex;
-            $("#eviType" + regPayDet.global.itemIndex).kendoDropDownList({
+            $("#eviType" + itemIndex).kendoDropDownList({
                 dataTextField: "text",
                 dataValueField: "value",
                 dataSource: [
@@ -231,11 +239,11 @@ var regPay = {
                 , "crmAccHolder" + regPayDet.global.itemIndex, "iss" + regPayDet.global.itemIndex
                 , "crmAccNo" + regPayDet.global.itemIndex, "totCost" + regPayDet.global.itemIndex
                 , "supCost" + regPayDet.global.itemIndex, "vatCost" + regPayDet.global.itemIndex
-                ,"card" + regPayDet.global.itemIndex, "etc" + regPayDet.global.itemIndex]);
+                ,"card" + regPayDet.global.itemIndex, "etc" + regPayDet.global.itemIndex, "budgetNm" + regPayDet.global.itemIndex]);
 
             customKendo.fn_datePicker("trDe" + regPayDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
 
-            $("#eviType" + i).data("kendoDropDownList").value(item.EVID_TYPE);
+            $("#eviType" + itemIndex).data("kendoDropDownList").value(1);
 
 
 
@@ -270,8 +278,8 @@ var regPay = {
             appDe : $("#appDe").val(),
             pjtNm : $("#pjtNm").val(),
             pjtSn : $("#pjtSn").val(),
-            budgetNm : $("#budgetNm").val(),
-            budgetSn : $("#budgetSn").val(),
+            // budgetNm : $("#budgetNm").val(),
+            // budgetSn : $("#budgetSn").val(),
             appTitle : $("#appTitle").val(),
             appCont : $("#appCont").val(),
             bnkSn : $("#bnkSn").val(),
@@ -291,6 +299,8 @@ var regPay = {
         var flag = true;
         $.each($(".payDestInfo"), function(i, v){
             var data = {
+                budgetNm : $("#budgetNm" + i).val(),
+                budgetSn : $("#budgetSn" + i).val(),
                 evidType : $("#eviType" + i).val(),
                 crmNm : $("#crmNm" + i).val(),
                 trCd : $("#trCd" + i).val(),
@@ -405,14 +415,13 @@ var regPay = {
         var popup = window.open(url, name, option);
     },
 
-    fn_budgetPop: function (){
+    fn_budgetPop: function (idx){
         if($("#pjtSn").val() == ""){
             alert("사업을 선택해주세요.");
             return ;
         }
 
-
-        var url = "/mng/pop/budgetView.do?pjtSn=" + $("#pjtSn").val();
+        var url = "/mng/pop/budgetView.do?pjtSn=" + $("#pjtSn").val() + "&idx=" + idx;
 
         var name = "_blank";
         var option = "width = 1100, height = 650, top = 100, left = 400, location = no"
@@ -468,7 +477,7 @@ var regPayDet = {
         });
 
         customKendo.fn_textBox(["crmNm0", "crmBnkNm0", "crmAccHolder0", "crmAccNo0", "totCost0", "supCost0", "vatCost0"
-        ,"card0", "etc0", "iss0"]);
+        ,"card0", "etc0", "iss0", "budgetNm0"]);
 
         customKendo.fn_datePicker("trDe0", "month", "yyyy-MM-dd", new Date());
 
@@ -487,9 +496,14 @@ var regPayDet = {
         regPayDet.global.createHtmlStr = "";
 
         regPayDet.global.itemIndex++;
+        var clIdx = regPayDet.global.itemIndex;
 
         regPayDet.global.createHtmlStr = "" +
             '<tr class="payDestInfo newArray" id="pay' + regPayDet.global.itemIndex + '" style="text-align: center;">' +
+            '   <td>' +
+            '       <input type="text" id="budgetNm' + regPayDet.global.itemIndex + '" value="" onclick="regPay.fn_budgetPop(' + clIdx + ')" style="width: 100%;">' +
+            '       <input type="hidden" id="budgetSn' + regPayDet.global.itemIndex + '" value="" />' +
+            '   </td>' +
             '   <td>' +
             '       <input type="hidden" id="payDestSn' + regPayDet.global.itemIndex + '" name="payDestSn" class="payDestSn">' +
             '       <input type="text" id="eviType' + regPayDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
@@ -569,7 +583,7 @@ var regPayDet = {
                                 , "crmAccHolder" + regPayDet.global.itemIndex, "iss" + regPayDet.global.itemIndex
                                 , "crmAccNo" + regPayDet.global.itemIndex, "totCost" + regPayDet.global.itemIndex
                                 , "supCost" + regPayDet.global.itemIndex, "vatCost" + regPayDet.global.itemIndex
-                                ,"card" + regPayDet.global.itemIndex, "etc" + regPayDet.global.itemIndex]);
+                                ,"card" + regPayDet.global.itemIndex, "etc" + regPayDet.global.itemIndex, "budgetNm" + regPayDet.global.itemIndex]);
 
         customKendo.fn_datePicker("trDe" + regPayDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
     },

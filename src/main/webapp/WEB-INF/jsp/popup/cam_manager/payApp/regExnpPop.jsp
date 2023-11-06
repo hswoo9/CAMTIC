@@ -62,21 +62,11 @@
                 </tr>
                 <tr id="project">
                     <th scope="row" class="text-center th-color">사업명</th>
-                    <td colspan="4">
-                        <span>
-                            <input type="text" id="pjtNm" disabled value="${pjtData.PJT_NM}"  style="width: 40%;">
-                            <input type="hidden" id="pjtSn" value="${pjtData.PJT_SN}" />
-                            <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="regExnp.fn_projectPop()">검색</button>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">예산비목</th>
                     <td colspan="2">
                         <span>
-                            <input type="text" id="budgetNm" disabled value=""  style="width: 40%;">
-                            <input type="hidden" id="budgetSn" value="" />
-                            <button type="button" class="k-button k-button-solid-base" id="bgSelBtn" onclick="regExnp.fn_budgetPop()">검색</button>
+                            <input type="text" id="pjtNm" disabled value="${pjtData.PJT_NM}"  style="width: 80%;">
+                            <input type="hidden" id="pjtSn" value="${pjtData.PJT_SN}" />
+                            <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="regExnp.fn_projectPop()">검색</button>
                         </span>
                     </td>
                     <th scope="row" class="text-center th-color">결의자/부서</th>
@@ -153,6 +143,7 @@
                             <col style="width: 3%;">
                         </c:if>
                         <col style="width: 5%;">
+                        <col style="width: 5%;">
                         <col style="width: 6%;">
                         <col style="width: 4%;">
                         <col style="width: 6%;">
@@ -168,6 +159,7 @@
                         <c:if test="${'rev'.equals(params.status)}">
                             <th><input type="checkbox" id="checkAll" /></th>
                         </c:if>
+                        <th>예산비목</th>
                         <th>증빙유형</th>
                         <th>상호</th>
                         <th>은행명</th>
@@ -185,6 +177,12 @@
                         <c:if test="${'rev'.equals(params.status)}">
                             <td><input type="checkbox" id="check0" class="check" /></td>
                         </c:if>
+                        <td>
+                            <span>
+                                <input type="text" id="budgetNm0" value="" onclick="regExnp.fn_budgetPop(0)"  style="width: 100%;">
+                                <input type="hidden" id="budgetSn0" value="" />
+                            </span>
+                        </td>
                         <td>
                             <input type="hidden" id="payDestSn0" name="payDestSn" class="payDestSn">
                             <input type="text" id="eviType0" class="eviType" style="width: 100%">
