@@ -187,6 +187,8 @@ var bgView = {
                 record = (this.dataSource.page() -1) * this.dataSource.pageSize();
             }
         }).data("kendoGrid");
+
+
     },
 
 
@@ -207,6 +209,118 @@ var bgView = {
         acctAm1Sum = 0;
         acctAm3Sum = 0;
         subAmSum = 0;
+
+        $('#budgetMainGrid >.k-grid-content>table').each(function (index, item) {
+            var dimension_col = 1;
+            // First, scan first row of headers for the "Dimensions" column.
+            $('#budgetMainGrid >.k-grid-header>.k-grid-header-wrap>table').find('th').each(function () {
+                var _this = $(this);
+                if (_this.text() == "장") {
+                    var bgColor = _this.css('background-color');
+                    var foreColor = _this.css('color');
+                    var rightBorderColor = _this.css('border-right-color');
+
+                    // first_instance holds the first instance of identical td
+                    var first_instance = null;
+                    var cellText = '';
+                    var arrCells = [];
+                    $(item).find('tr').each(function () {
+                        // find the td of the correct column (determined by the colTitle)
+                        var dimension_td = $(this).find('td:nth-child(' + dimension_col + ')');
+
+                        if (first_instance == null) {
+                            first_instance = dimension_td;
+                            cellText = first_instance.text();
+                        } else if (dimension_td.text() == cellText) {
+                            // if current td is identical to the previous
+                            dimension_td.css('border-top', '0px');
+                        } else {
+                            // this cell is different from the last
+                            arrCells = ChangeMergedCells(arrCells, cellText, true);
+                            //first_instance = dimension_td;
+                            cellText = dimension_td.text();
+                        }
+                        arrCells.push(dimension_td);
+                        dimension_td.text("");
+                        dimension_td.css('background-color', 'white').css('color', 'black').css('border-bottom-color', 'transparent');
+                    });
+                    arrCells = ChangeMergedCells(arrCells, cellText, true);
+                    return;
+                }
+                dimension_col++;
+            });
+        });
+
+        $('#budgetMainGrid >.k-grid-content>table').each(function (index, item) {
+            var dimension_col = 1;
+            // First, scan first row of headers for the "Dimensions" column.
+            $('#budgetMainGrid >.k-grid-header>.k-grid-header-wrap>table').find('th').each(function () {
+                var _this = $(this);
+                if (_this.text() == "관") {
+                    var bgColor = _this.css('background-color');
+                    var foreColor = _this.css('color');
+                    var rightBorderColor = _this.css('border-right-color');
+
+                    // first_instance holds the first instance of identical td
+                    var first_instance = null;
+                    var cellText = '';
+                    var arrCells = [];
+                    $(item).find('tr').each(function () {
+                        // find the td of the correct column (determined by the colTitle)
+                        var dimension_td = $(this).find('td:nth-child(' + dimension_col + ')');
+
+                        if (first_instance == null) {
+                            first_instance = dimension_td;
+                            cellText = first_instance.text();
+                        } else if (dimension_td.text() == cellText) {
+                            // if current td is identical to the previous
+                            dimension_td.css('border-top', '0px');
+                        } else {
+                            // this cell is different from the last
+                            arrCells = ChangeMergedCells(arrCells, cellText, true);
+                            //first_instance = dimension_td;
+                            cellText = dimension_td.text();
+                        }
+                        arrCells.push(dimension_td);
+                        dimension_td.text("");
+                        dimension_td.css('background-color', 'white').css('color', 'black').css('border-bottom-color', 'transparent');
+                    });
+                    arrCells = ChangeMergedCells(arrCells, cellText, true);
+                    return;
+                }
+                dimension_col++;
+            });
+        });
+
+        function ChangeMergedCells(arrCells, cellText, addBorderToCell) {
+            var cellsCount = arrCells.length;
+            if (cellsCount > 1) {
+                var index = parseInt(cellsCount / 2);
+                var cell = null;
+                if (cellsCount % 2 == 0) { // even number
+                    cell = arrCells[index - 1];
+                    arrCells[index - 1].css('vertical-align', 'bottom');
+                }
+                else { // odd number
+                    cell = arrCells[index];
+                }
+                cell.text(cellText);
+                if (addBorderToCell) {
+                    arrCells[cellsCount - 1].css('border-bottom', 'solid 1px #ddd');
+
+                }
+
+                arrCells = []; // clear array for next item
+            }
+            if (cellsCount == 1) {
+                cell = arrCells[0];
+                cell.text(cellText);
+                arrCells[0].css('border-bottom', 'solid 1px #ddd');
+                arrCells = [];
+            }
+            return arrCells;
+        }
+
     },
 
     fn_selBudgetInfo: function (cd, name, idx){
