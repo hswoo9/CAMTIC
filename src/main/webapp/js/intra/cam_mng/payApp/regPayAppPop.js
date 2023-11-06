@@ -139,7 +139,6 @@ var regPay = {
                 }
             }
 
-            regPayDet.global.itemIndex++;
             var clIdx = regPayDet.global.itemIndex;
 
             regPayDet.global.createHtmlStr += "" +
@@ -494,9 +493,9 @@ var regPayDet = {
     
     addRow : function () {
         regPayDet.global.createHtmlStr = "";
-
-        regPayDet.global.itemIndex++;
         var clIdx = regPayDet.global.itemIndex;
+
+
 
         regPayDet.global.createHtmlStr = "" +
             '<tr class="payDestInfo newArray" id="pay' + regPayDet.global.itemIndex + '" style="text-align: center;">' +
@@ -586,6 +585,8 @@ var regPayDet = {
                                 ,"card" + regPayDet.global.itemIndex, "etc" + regPayDet.global.itemIndex, "budgetNm" + regPayDet.global.itemIndex]);
 
         customKendo.fn_datePicker("trDe" + regPayDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
+
+        regPayDet.global.itemIndex++;
     },
 
     delRow : function (){
