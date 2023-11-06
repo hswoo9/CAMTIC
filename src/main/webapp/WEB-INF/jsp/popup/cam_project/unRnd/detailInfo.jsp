@@ -8,14 +8,23 @@
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 
 <input type="hidden" id="step" value="S2" />
-<input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
 <input type="hidden" id="unRndSn" value=""/>
-<div style="padding: 10px">
+<input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 
-    <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="unRndDetail.fn_save()">저장</button>
-    <button type="button" id="approveBtn" style="display : none; float: right; margin-bottom: 5px; margin-right:5px;" class="k-button k-button-solid-base" onclick="openModal()">결재</button>
-    <button type="button" id="aBtn" style="display : none; float: right; margin-bottom: 5px; margin-right:5px;" class="k-button k-button-solid-base" onclick="">열람</button>
+<form id="unRndDelvDraftFrm" method="post">
+    <input type="hidden" id="pjtSn" name="pjtSn" value="${params.pjtSn}" />
+    <input type="hidden" id="menuCd" name="menuCd" value="rndDelv">
+    <input type="hidden" id="type" name="type" value="drafting">
+    <input type="hidden" id="nowUrl" name="nowUrl" />
+</form>
+
+<div style="padding: 10px">
+    <div id="detailBtnDiv">
+        <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="unRndDetail.fn_save()">저장</button>
+        <button type="button" id="approveBtn" style="display : none; float: right; margin-bottom: 5px; margin-right:5px;" class="k-button k-button-solid-base" onclick="openModal()">결재</button>
+        <button type="button" id="aBtn" style="display : none; float: right; margin-bottom: 5px; margin-right:5px;" class="k-button k-button-solid-base" onclick="">열람</button>
+    </div>
 
     <br><br>
 

@@ -458,7 +458,7 @@ var resultInfo = {
                 if(rs.code == 200){
                     if($("#busnClass").val() == "D"){
                         window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=7";
-                    }else if($("#busnClass").val() == "R"){
+                    }else if($("#busnClass").val() == "R" || $("#busnClass").val() == "S"){
                         window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=7";
                     }
                 }
