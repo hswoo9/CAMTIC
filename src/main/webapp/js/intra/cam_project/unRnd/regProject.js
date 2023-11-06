@@ -51,7 +51,7 @@ var regUnRnd = {
         var tab5Url = "/projectRnd/budgetInfo.do";              //
         var tab6Url = "/projectRnd/rschPayReqInfo.do";          //
         var tab7Url = "/projectRnd/rschPayRepInfo.do";          //
-        var tab8Url = "/projectUnRnd/resultInfo.do";            // 결과보고
+        var tab8Url = "/projectRnd/resultInfo.do";            // 결과보고
 
 
         var tab9Url = "/intra/cam_project/bustInfo.do";         // 출장관리
@@ -92,9 +92,9 @@ var regUnRnd = {
                 {name: "단위사업", url: tab4Url},
                 {name: "사업비관리(예산/지급)", url: tab5Url},
                 {name: "협업", url: tab10Url}, // 지출내역조회와 같이 사용
-                {name: "결과보고", url: tab7Url, imageUrl : "/images/ico/etc_01_1.png"}, // 지출내역조회와 같이 사용
-                {name: "출장", url: tab8Url},
-                {name: "구매", url: tab9Url},
+                {name: "결과보고", url: tab8Url, imageUrl : "/images/ico/etc_01_1.png"}, // 지출내역조회와 같이 사용
+                {name: "출장", url: tab9Url},
+                {name: "구매", url: tab11Url},
                 {name: "정산/원가", url: tab10Url, imageUrl : "/images/ico/etc_01_1.png"}
             ]
         }
@@ -135,6 +135,7 @@ var regUnRnd = {
                     tabStrip.enable(tabStrip.tabGroup.children().eq(4));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(5));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(6));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(7));
 
                     tabStrip.enable(tabStrip.tabGroup.children().eq(8));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(9));
