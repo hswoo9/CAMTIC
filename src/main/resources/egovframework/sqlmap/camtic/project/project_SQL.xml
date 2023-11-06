@@ -8,6 +8,7 @@
         LEFT JOIN CAM_CRM.DJ_CRM_INFO B ON A.CRM_SN = B.CRM_SN
         WHERE
         1=1
+        AND A.TEAM_STAT = "N"
         <if test='busnClass != null and busnClass != ""'>
             AND
             A.BUSN_CLASS = #{busnClass}
@@ -1609,6 +1610,7 @@
                 BUSN_CLASS,
                 BUSN_NM,
                 TEAM_STAT,
+                PNT_PJT_SN,
                 SBJ_CLASS,
                 SBJ_CHAR,
                 SBJ_DEP,
@@ -1645,6 +1647,7 @@
                 BUSN_CLASS,
                 BUSN_NM,
                 "Y" AS TEAM_STAT,
+                #{pjtSn} AS PNT_PJT_SN,
                 SBJ_CLASS,
                 SBJ_CHAR,
                 SBJ_DEP,
@@ -1994,5 +1997,19 @@
         /*delTeamProjectData*/
         DELETE FROM CAM_PJT_MNG.DJ_PJT_TEAM WHERE TM_SN = #{tmSn}
     </delete>
+
+    <select id="getTeamProjectList" parameterType="map" resultType="map">
+        /*getTeamProjectList*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PROJECT A
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_TEAM B
+        ON
+            A.PNT_PJT_SN = B.PJT_SN
+        WHERE
+            A.PNT_PJT_SN = #{pjtSn}
+    </select>
 
 </mapper>

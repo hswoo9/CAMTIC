@@ -936,6 +936,11 @@ public class ProjectServiceImpl implements ProjectService {
         }
         return map;
     }
+
+    @Override
+    public List<Map<String, Object>> getTeamProjectList(Map<String, Object> params) {
+        return projectRepository.getTeamProjectList(params);
+    }
 }
 
 

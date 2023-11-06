@@ -1163,4 +1163,12 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/getTeamProjectList")
+    public String getTeamProjectList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list", projectService.getTeamProjectList(params));
+
+        return "jsonView";
+    }
+
 }

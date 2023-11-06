@@ -484,4 +484,7 @@ public class ProjectRepository extends AbstractDAO {
         delete("project.delTeamProjectData", params);
     }
 
+    public List<Map<String, Object>> getTeamProjectList(Map<String, Object> params) {
+        return selectList("project.getTeamProjectList", params);
+    }
 }

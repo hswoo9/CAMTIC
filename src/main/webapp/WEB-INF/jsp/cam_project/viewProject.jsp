@@ -268,3 +268,6 @@
 
 
 </script>
+<script type="text/x-kendo-template" id="template">
+    <div class='subGrid'></div>
+</script>

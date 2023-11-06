@@ -140,6 +140,8 @@ var camPrj = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            detailTemplate : kendo.template($("#template").html()),
+            detailInit: camPrj.detailInit,
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="camPrj.fn_allCheck(this)" class=""/>',
@@ -158,15 +160,15 @@ var camPrj = {
                 }, {
                     field: "BUSN_NM",
                     title: "사업구분",
-                    width: "5%"
+                    width: 50
                 }, {
                     field: "PJT_CD",
                     title: "프로젝트 코드",
-                    width: "7%"
+                    width: 60
                 }, {
                     field: "PJT_NM",
                     title: "프로젝트 명",
-                    width: "20%",
+                    width: 250,
                     template: function(e){
                         if(e.TEAM_STAT == "N"){
                             return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\")'>" + e.PJT_NM + "</a>";
@@ -178,7 +180,7 @@ var camPrj = {
 
                     field: "STR_DT",
                     title: "수주일",
-                    width: "7%",
+                    width: 60,
                     template: function (e) {
                         if (e.STR_DT == null || e.STR_DT == "") {
                             return "";
@@ -194,7 +196,7 @@ var camPrj = {
                 }, {
                     field: "END_DT",
                     title: "종료일자",
-                    width: "7%",
+                    width: 60,
                     template: function(e){
                         if(e.END_DT == null || e.END_DT == ""){
                             return "";
@@ -210,7 +212,7 @@ var camPrj = {
                 }, {
                     field: "PJT_AMT",
                     title: "수주금액",
-                    width: "7%",
+                    width: 80,
                     template: function(e){
                         return '<div style="text-align: right;">'+camPrj.comma(e.PJT_AMT)+'</div>';
                     }
@@ -286,6 +288,63 @@ var camPrj = {
         // });
 
         camPrj.fn_tableSet();
+    },
+
+    detailInit : function(e) {
+        console.log(e);
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/project/getTeamProjectList',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.pjtSn = e.data.PJT_SN;
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
+        $("<div/>").appendTo(e.detailCell).kendoGrid({
+            dataSource: dataSource,
+            scrollable: false,
+            sortable: true,
+            pageable: true,
+            columns: [
+                {
+                    field: "BUSN_CLASS",
+                    title: "사업구분",
+                    width: "110px"
+                }, {
+                    field: "PJT_NM",
+                    title:"프로젝트명",
+                    template : function(e){
+                        if(e.TEAM_STAT == "N"){
+                            return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\")'>" + e.PJT_NM + "</a>";
+                        } else {
+                            return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\", \"" + e.TEAM_STAT + "\")'>" + e.PJT_NM + "</a>";
+                        }
+                    }
+                }, {
+                    title:"수주금액",
+                    template: function(e) {
+                        return '<div style="text-align: right">'+camPrj.comma(e.TM_AMT)+'</div>';
+                    },
+                    width: "150px"
+                },
+            ]
+        });
     },
 
     fn_allCheck : function (e){

@@ -149,4 +149,6 @@ public interface ProjectService {
     void delTeamProject(Map<String, Object> params);
 
     Map<String, Object> getBankData(Map<String, Object> params);
+
+    List<Map<String, Object>> getTeamProjectList(Map<String, Object> params);
 }
