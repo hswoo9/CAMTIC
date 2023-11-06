@@ -75,7 +75,7 @@ const commonEduUserAdd = {
         const grid = this;
         grid.tbody.find("tr").click(function(e){
             const dataItem = grid.dataItem($(this));
-            $(this).find('.userPk').trigger('click');
+            /*$(this).find('.userPk').trigger('click');*/
         });
     },
 
