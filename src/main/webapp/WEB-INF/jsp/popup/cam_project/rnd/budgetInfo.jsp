@@ -27,16 +27,16 @@
 <input type="hidden" id="mgtCd" value="${data.PJT_CD}" />
 <div style="padding: 10px">
     <div class="table-responsive">
-<%--        <button type="button" id="budgetAddBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-base" onclick="rndBg.fn_popBudgetAdd()">등록</button>--%>
-        <br><br>
+        <%--<button type="button" id="budgetAddBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-base" onclick="rndBg.fn_popBudgetAdd()">등록</button>--%>
+        </br>
+        <span id="budgetType"></span>
+        </br>
         <div id="budgetMainGrid"></div>
-
     </div>
 </div>
 
 <script>
     var inParameters = JSON.parse('${map}');
-
 
     rndBg.fn_defaultScript(inParameters);
 </script>

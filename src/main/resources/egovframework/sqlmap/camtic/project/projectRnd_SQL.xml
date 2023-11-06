@@ -446,6 +446,16 @@
             PJT_SN = #{pjtSn}
     </update>
 
+    <update id="updRndProjectInfoRes" parameterType="map">
+        /*updRndProjectInfo*/
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            PJT_STEP = "R3",
+            PJT_STEP_NM = "결과보고"
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
     <select id="getReqPartRateData" parameterType="map" resultType="map">
         /*getReqPartRateData*/
         SELECT

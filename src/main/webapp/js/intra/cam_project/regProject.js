@@ -411,10 +411,14 @@ var regPrj = {
         $("#pjtTitle").text("프로젝트 - " + p.BUSN_NM + pjtCode);
         $("#pjtNm").val(p.PJT_NM);
 
-        if(p.PJT_AMT != null && p.PJT_AMT != "" && p.PJT_AMT != undefined){
+        if(p.PJT_AMT != null && p.PJT_AMT != "" && p.PJT_AMT != undefined && p.PJT_AMT != 0){
             $("#expAmt").val(regPrj.comma(p.PJT_AMT));
         } else {
             $("#expAmt").val(regPrj.comma(p.PJT_EXP_AMT));
+        }
+
+        if(p.PJT_STEP == "E" || p.PJT_STEP == "E1" || p.PJT_STEP == "E2"){
+            $("#expAmt").val(regPrj.comma(p.EXP_AMT));
         }
 
 

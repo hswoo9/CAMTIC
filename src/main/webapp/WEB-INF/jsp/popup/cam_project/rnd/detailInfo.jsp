@@ -72,22 +72,22 @@
                 </td>
             </tr>
             <tr>
-                <th scope="row" class="text-center th-color"><span class="red-star"></span>전체연구비</th>
+                <th scope="row" class="text-center th-color"><span class="red-star">*</span>전체연구비</th>
                 <td>
                     <input type="text" id="allResCost" name="allResCost" style="width: 80%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
                 </td>
-                <th scope="row" class="text-center th-color"><span class="red-star"></span>민간부담금</th>
+                <th scope="row" class="text-center th-color"><span class="red-star">*</span>민간부담금</th>
                 <td>
                     현금 : <input type="text" id="peoResCost" value="0" name="peoResCost" style="width: 30%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
                     현물 : <input type="text" id="peoResItem" value="0" name="peoResItem" style="width: 30%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
                 </td>
             </tr>
             <tr>
-                <th scope="row" class="text-center th-color"><span class="red-star"></span>계</th>
+                <th scope="row" class="text-center th-color">계</th>
                 <td>
                     <input type="text" id="totResCost" name="totResCost" disabled style="width: 80%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
                 </td>
-                <th scope="row" class="text-center th-color"><span class="red-star"></span>연구카드사용여부</th>
+                <th scope="row" class="text-center th-color"><span class="red-star">*</span>연구카드사용여부</th>
                 <td>
                     <div>
                         <input type="radio" name="resCardCheck" id="rccY" value="Y" style="position: relative; top:4px;">
