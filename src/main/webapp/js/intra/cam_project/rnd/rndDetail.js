@@ -84,6 +84,22 @@ var rndDetail = {
             alert("예금주를 작성해주세요.");
             return;
         }
+        if(parameters.allResCost == ""){
+            alert("전체연구비를 작성해주세요.");
+            return;
+        }
+        if(parameters.peoResCost == ""){
+            alert("민간부담금 - 현금을 작성해주세요.");
+            return;
+        }
+        if(parameters.peoResItem == ""){
+            alert("민간부담금 - 현물을 작성해주세요.");
+            return;
+        }
+        if(parameters.resCardCheck == "" || parameters.resCardCheck == null){
+            alert("연구카드사용여부를 작성해주세요.");
+            return;
+        }
 
         $.ajax({
             url : "/projectRnd/setRndDetail",

@@ -15,9 +15,9 @@ var camPrj = {
             dataValueField: "value",
             dataSource: [
                 { text: "전체", value: "" },
-                { text: "예상", value: "'Y', 'E', 'R', 'S'" },
-                { text: "진행", value: "'E1', 'E2', 'E3', 'E4', 'E5', 'R2'" },
-                { text: "완료", value: "'E6', 'E7', 'R3'" }
+                { text: "예상", value: "'Y', 'E', 'E1', 'E2', 'R', 'S'" },
+                { text: "진행", value: "'E3', 'E4', 'E5', 'R2', 'R2', 'S2'" },
+                { text: "완료", value: "'E6', 'E7', 'R3', 'S3'" }
             ],
             index: 0
         });
@@ -431,22 +431,57 @@ var camPrj = {
 
     fn_tableSet: function(){
         const data = { busnClass: "D" };
-        const engnData = customKendo.fn_customAjax("/project/getProjectTotalData", data).data;
-        console.log(engnData);
-        $("#expectEngnCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"D\", 1)'>"+camPrj.comma(engnData.EXPECT_COUNT)+ "건</span>");
-        let expectEngnSum = Math.floor(engnData.EXPECT_SUM / 1000000);
+        const totalData = customKendo.fn_customAjax("/project/getProjectTotalData", data).data;
+
+        $("#expectEngnCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"D\", 1)'>"+camPrj.comma(totalData.ENGN_EXPECT_COUNT)+ "건</span>");
+        let expectEngnSum = Math.floor(totalData.ENGN_EXPECT_SUM / 1000000);
         $("#expectEngnSum").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"D\", 1)'>"+camPrj.comma(expectEngnSum)+"백만원</span>");
 
-        $("#progressEngnCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"D\", 2)'>"+camPrj.comma(engnData.PROGRESS_COUNT)+ "건</span>");
-        let progressEngnSum = Math.floor(engnData.PROGRESS_SUM / 1000000);
+        $("#progressEngnCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"D\", 2)'>"+camPrj.comma(totalData.ENGN_PROGRESS_COUNT)+ "건</span>");
+        let progressEngnSum = Math.floor(totalData.ENGN_PROGRESS_SUM / 1000000);
         $("#progressEngnSum").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"D\", 2)'>"+camPrj.comma(progressEngnSum)+"백만원</span>");
 
-        $("#completeEngnCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"D\", 3)'>"+camPrj.comma(engnData.COMPLETE_COUNT)+ "건</span>");
-        let completeEngnSum = Math.floor(engnData.COMPLETE_SUM / 1000000);
+        $("#completeEngnCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"D\", 3)'>"+camPrj.comma(totalData.ENGN_COMPLETE_COUNT)+ "건</span>");
+        let completeEngnSum = Math.floor(totalData.ENGN_COMPLETE_SUM / 1000000);
         $("#completeEngnSum").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"D\", 3)'>"+camPrj.comma(completeEngnSum)+"백만원</span>");
 
-        $("#engnCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"D\", 0)'>"+camPrj.comma(engnData.EXPECT_COUNT + engnData.PROGRESS_COUNT + engnData.COMPLETE_COUNT)+ "건</span>");
+        $("#engnCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"D\", 0)'>"+camPrj.comma(totalData.ENGN_EXPECT_COUNT + totalData.ENGN_PROGRESS_COUNT + totalData.ENGN_COMPLETE_COUNT)+ "건</span>");
         $("#engnSum").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"D\", 0)'>"+camPrj.comma(expectEngnSum + progressEngnSum + completeEngnSum)+"백만원</span>");
+
+
+        $("#expectRndCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"R\", 1)'>"+camPrj.comma(totalData.RND_EXPECT_COUNT)+ "건</span>");
+        let expectRndSum = Math.floor(totalData.RND_EXPECT_SUM / 1000000);
+        $("#expectRndSum").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"R\", 1)'>"+camPrj.comma(expectRndSum)+"백만원</span>");
+
+        $("#progressRndCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"R\", 2)'>"+camPrj.comma(totalData.RND_PROGRESS_COUNT)+ "건</span>");
+        let progressRndSum = Math.floor(totalData.RND_PROGRESS_SUM / 1000000);
+        $("#progressRndSum").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"R\", 2)'>"+camPrj.comma(progressRndSum)+"백만원</span>");
+
+        $("#completeRndCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"R\", 3)'>"+camPrj.comma(totalData.RND_COMPLETE_COUNT)+ "건</span>");
+        let completeRndSum = Math.floor(totalData.RND_COMPLETE_SUM / 1000000);
+        $("#completeRndSum").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"R\", 3)'>"+camPrj.comma(completeRndSum)+"백만원</span>");
+
+        $("#engnCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"R\", 0)'>"+camPrj.comma(totalData.RND_EXPECT_COUNT + totalData.RND_PROGRESS_COUNT + totalData.RND_COMPLETE_COUNT)+ "건</span>");
+        $("#engnSum").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"R\", 0)'>"+camPrj.comma(expectRndSum + progressRndSum + completeRndSum)+"백만원</span>");
+
+
+        $("#expectUrndCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"S\", 1)'>"+camPrj.comma(totalData.URND_EXPECT_COUNT)+ "건</span>");
+        let expectUrndSum = Math.floor(totalData.URND_EXPECT_SUM / 1000000);
+        $("#expectUrndSum").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"S\", 1)'>"+camPrj.comma(expectUrndSum)+"백만원</span>");
+
+        $("#progressUrndCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"S\", 2)'>"+camPrj.comma(totalData.URND_PROGRESS_COUNT)+ "건</span>");
+        let progressUrndSum = Math.floor(totalData.URND_PROGRESS_SUM / 1000000);
+        $("#progressUrndSum").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"S\", 2)'>"+camPrj.comma(progressUrndSum)+"백만원</span>");
+
+        $("#completeUrndCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"S\", 3)'>"+camPrj.comma(totalData.URND_COMPLETE_COUNT)+ "건</span>");
+        let completeUrndSum = Math.floor(totalData.URND_COMPLETE_SUM / 1000000);
+        $("#completeUrndSum").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"S\", 3)'>"+camPrj.comma(completeUrndSum)+"백만원</span>");
+
+        $("#engnCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"S\", 0)'>"+camPrj.comma(totalData.URND_EXPECT_COUNT + totalData.URND_PROGRESS_COUNT + totalData.URND_COMPLETE_COUNT)+ "건</span>");
+        $("#engnSum").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"S\", 0)'>"+camPrj.comma(expectUrndSum + progressUrndSum + completeUrndSum)+"백만원</span>");
+
+
+
     },
 
     searchGrid: function(busnClass, row){

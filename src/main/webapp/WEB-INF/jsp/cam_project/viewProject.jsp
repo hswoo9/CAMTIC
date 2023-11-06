@@ -114,12 +114,12 @@
                         </tr>
                         <tr>
                             <td style="text-align: center; background-color: #FFFFFF">예상</td>
-                            <td style="text-align: right; background-color: #FFFFFF">3건</td>
-                            <td style="text-align: right; background-color: #FFFFFF">360백만원</td>
+                            <td id="expectRndCount" style="text-align: right; background-color: #FFFFFF">0건</td>
+                            <td id="expectRndSum" style="text-align: right; background-color: #FFFFFF">0백만원</td>
 
                             <td style="text-align: center; background-color: #FFFFFF">예상</td>
-                            <td style="text-align: right; background-color: #FFFFFF">2건</td>
-                            <td style="text-align: right; background-color: #FFFFFF">663백만원</td>
+                            <td id="expectUrndCount" style="text-align: right; background-color: #FFFFFF">0건</td>
+                            <td id="expectUrndSum" style="text-align: right; background-color: #FFFFFF">0백만원</td>
 
                             <td style="text-align: center; background-color: #FFFFFF">예상</td>
                             <td id="expectEngnCount" style="text-align: right; background-color: #FFFFFF">0건</td>
@@ -134,12 +134,12 @@
                         </tr>
                         <tr>
                             <td style="text-align: center; background-color: #FFFFFF">진행</td>
-                            <td style="text-align: right; background-color: #FFFFFF">34건</td>
-                            <td style="text-align: right; background-color: #FFFFFF">6,461백만원</td>
+                            <td id="progressRndCount" style="text-align: right; background-color: #FFFFFF">0건</td>
+                            <td id="progressRndSum" style="text-align: right; background-color: #FFFFFF">0백만원</td>
 
                             <td style="text-align: center; background-color: #FFFFFF">진행</td>
-                            <td style="text-align: right; background-color: #FFFFFF">8건</td>
-                            <td style="text-align: right; background-color: #FFFFFF">9,951백만원</td>
+                            <td id="progressUrndCount" style="text-align: right; background-color: #FFFFFF">0건</td>
+                            <td id="progressUrndSum" style="text-align: right; background-color: #FFFFFF">0백만원</td>
 
                             <td style="text-align: center; background-color: #FFFFFF">진행</td>
                             <td id="progressEngnCount" style="text-align: right; background-color: #FFFFFF">0건</td>
@@ -154,12 +154,12 @@
                         </tr>
                         <tr>
                             <td style="text-align: center; background-color: #FFFFFF">완료</td>
-                            <td style="text-align: right; background-color: #FFFFFF">6건</td>
-                            <td style="text-align: right; background-color: #FFFFFF">1,026백만원</td>
+                            <td id="completeRndCount" style="text-align: right; background-color: #FFFFFF">0건</td>
+                            <td id="completeRndSum" style="text-align: right; background-color: #FFFFFF">0백만원</td>
 
                             <td style="text-align: center; background-color: #FFFFFF">완료</td>
-                            <td style="text-align: right; background-color: #FFFFFF">3건</td>
-                            <td style="text-align: right; background-color: #FFFFFF">520백만원</td>
+                            <td id="completeUrndCount" style="text-align: right; background-color: #FFFFFF">0건</td>
+                            <td id="completeUrndSum" style="text-align: right; background-color: #FFFFFF">0백만원</td>
 
                             <td style="text-align: center; background-color: #FFFFFF">완료</td>
                             <td id="completeEngnCount" style="text-align: right; background-color: #FFFFFF">0건</td>

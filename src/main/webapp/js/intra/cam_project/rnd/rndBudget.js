@@ -4,13 +4,55 @@ let acctAm1Sum = 0;
 let acctAm3Sum = 0;
 let subAmSum = 0;
 
-
 var rndBg = {
 
     fn_defaultScript : function (setParameters){
-
         var date = new Date();
         var year = date.getFullYear().toString().substring(2,4);
+
+        let params = {
+            pjtSn: $("#pjtSn").val()
+        }
+        const result = customKendo.fn_customAjax("/projectRnd/getAccountInfo", params);
+        const list = result.list;
+        let arr = [];
+        let firstValue = "";
+        for(let i=0; i<list.length; i++){
+            let label = "";
+            if(list[i].IS_TYPE == "1"){
+                label = "국비";
+            }else if(list[i].IS_TYPE == "2"){
+                label = "도비";
+            }else if(list[i].IS_TYPE == "3"){
+                label = "시비";
+            }else if(list[i].IS_TYPE == "4"){
+                label = "자부담";
+            }else if(list[i].IS_TYPE == "5"){
+                label = "업체부담";
+            }else if(list[i].IS_TYPE == "9"){
+                label = "기타";
+            }
+            let data = {
+                label: label,
+                value: $("#mgtCd").val().slice(0, -1) + list[i].IS_TYPE
+            };
+            arr.push(data);
+            if(i == 0){
+                firstValue = $("#mgtCd").val().slice(0, -1) + list[i].IS_TYPE;
+            }
+        }
+
+        if(list.length == 0){
+            arr = [
+                {
+                    label: "사업비",
+                    value: $("#mgtCd").val()
+                }
+            ];
+            firstValue = $("#mgtCd").val();
+        }
+        customKendo.fn_radioGroup("budgetType", arr, "horizontal");
+        $("#budgetType").data("kendoRadioGroup").value(firstValue);
 
         if(setParameters != null){
             var data = {
@@ -26,23 +68,13 @@ var rndBg = {
 
             rndBg.budgetMainGrid(data);
         }
-
-        // $.ajax({
-        //     url : "/g20/getSubjectList",
-        //     data : data,
-        //     type : "post",
-        //     dataType : "json",
-        //     success : function (rs){
-        //         console.log(rs);
-        //     }
-        // })
     },
 
     gridReload : function (){
         $("#budgetMainGrid").data("kendoGrid").dataSource.read();
     },
 
-    budgetMainGrid : function (params) {
+    budgetMainGrid : function(){
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -58,7 +90,7 @@ var rndBg = {
                     data.gisu = year;
                     data.fromDate = date.getFullYear().toString() + "0101";
                     data.toDate = date.getFullYear().toString() + "1231";
-                    data.mgtSeq = $("#mgtCd").val();
+                    data.mgtSeq = $("#budgetType").data("kendoRadioGroup").value();
                     data.opt01 = '3';
                     data.opt02 = '1';
                     data.opt03 = '2';
@@ -186,7 +218,7 @@ var rndBg = {
                 }
             ],
 
-            dataBinding: function() {
+            dataBinding: function(){
                 record = (this.dataSource.page() -1) * this.dataSource.pageSize();
             }
         }).data("kendoGrid");
@@ -204,7 +236,7 @@ var rndBg = {
         var popup = window.open(url, name, option);
     },
 
-    onDataBound: function(){
+    onDataBound : function(){
         calcAmSum = 0;
         acctAm2Sum = 0;
         acctAm1Sum = 0;
