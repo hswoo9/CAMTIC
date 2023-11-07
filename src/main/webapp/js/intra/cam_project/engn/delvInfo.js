@@ -203,7 +203,7 @@ var delvInfo = {
             success : function(rs){
                 alert("저장되었습니다.")
 
-                window.location.href="/project/pop/viewRegProject.do?pjtSn=" + parameters.pjtSn + "&tab=3";
+                window.location.href="/project/pop/viewRegProject.do?pjtSn=" + parameters.pjtSn + "&tab=2";
 
             }
         });
