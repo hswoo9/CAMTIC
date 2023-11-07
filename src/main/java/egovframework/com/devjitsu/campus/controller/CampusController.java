@@ -228,6 +228,7 @@ public class CampusController {
         model.addAttribute("loginVO", login);
         Map<String, Object> data = campusService.getEduResultOne(params);
         model.addAttribute("data", data);
+        model.addAttribute("params", params);
         String EDU_FORM_TYPE = data.get("EDU_FORM_TYPE").toString();
         model.addAttribute("eduFormType", EDU_FORM_TYPE);
 

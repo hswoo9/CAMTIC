@@ -8,6 +8,12 @@ var eduInfoViewPop = {
 
     init : function(){
         eduInfoViewPop.dataSet();
+
+        if($("#isAdmin").val() == "Y"){
+            $(".usrBtn").hide();
+        } else {
+            $(".usrBtn").show();
+        }
     },
 
     dataSet : function() {

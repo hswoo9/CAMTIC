@@ -69,6 +69,13 @@ var openStudy = {
                     field: "OPEN_STUDY_NAME",
                     title: "모임명"
                 }, {
+                    field: "MEMBER_COUNT_TOTAL",
+                    title: "참여신청자",
+                    width: 100,
+                    template: function (row){
+                        return row.MEMBER_COUNT_TOTAL + "명"
+                    }
+                }, {
                     title: "일시",
                     width: 300,
                     template: function(row){

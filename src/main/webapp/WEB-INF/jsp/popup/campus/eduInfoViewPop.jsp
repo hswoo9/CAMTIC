@@ -264,16 +264,16 @@
       <div class="btn-st" style="margin-top:10px; text-align:center;">
         <c:choose>
           <c:when test="${data.STATUS == 0}">
-            <input type="button" class="k-button k-button-solid-info" value="결재요청" onclick="eduInfoViewPop.campusDrafting();"/>
+            <input type="button" class="k-button k-button-solid-info usrBtn" value="결재요청" onclick="eduInfoViewPop.campusDrafting();"/>
           </c:when>
           <c:when test="${data.STATUS == 10}">
-            <input type="button" class="k-button k-button-solid-info" value="회수" onclick="docApprovalRetrieve('${data.DOC_ID}', '${data.APPRO_KEY}', 1, 'retrieve');"/>
+            <input type="button" class="k-button k-button-solid-info usrBtn" value="회수" onclick="docApprovalRetrieve('${data.DOC_ID}', '${data.APPRO_KEY}', 1, 'retrieve');"/>
           </c:when>
           <c:when test="${data.STATUS == 100}">
             <input type="button" class="k-button k-button-solid-info" value="학습신청서 결재조회" onclick="approveDocView('${data.DOC_ID}', '${data.APPRO_KEY}', '${data.DOC_MENU_CD}');"/>
             <c:choose>
               <c:when test="${data.RES_STATUS == 1}">
-                <input type="button" class="k-button k-button-solid-info" value="결과보고서 작성" onclick="eduInfoViewPop.eduResultReqPop();"/>
+                <input type="button" class="k-button k-button-solid-info usrBtn" value="결과보고서 작성" onclick="eduInfoViewPop.eduResultReqPop();"/>
               </c:when>
               <c:otherwise>
                 <input type="button" class="k-button k-button-solid-info" value="결과보고서 조회" onclick="eduInfoViewPop.eduResultViewPop();"/>
@@ -293,6 +293,7 @@
   <input type="hidden" id="nowUrl" name="nowUrl" />
   <input type="hidden" id="eduInfoId" name="eduInfoId" value="${data.EDU_INFO_ID}"/>
   <input type="hidden" id="eduFormType" name="eduFormType" value="${data.EDU_FORM_TYPE}"/>
+  <input type="hidden" id="isAdmin" name="isAdmin" value="${params.isAdmin}"/>
 </form>
 
 <script>
