@@ -462,6 +462,9 @@ public class ProjectServiceImpl implements ProjectService {
             projectRepository.updateDelvFinalApprStat(params);
             Map<String, Object> pjtMap = projectRepository.getProjectData(params);
             projectRepository.updEngnProjectCode(pjtMap);
+            params.put("pjtStep", "E3");
+            params.put("pjtStepNm", "수주보고");
+            projectRepository.updProjectStep(params);
         }
 
         /*if("10".equals(docSts) || "101".equals(docSts)){
