@@ -106,7 +106,8 @@ var sr = {
                 schedulePlace : $("#schedulePlace").val(),
                 publicClass : $("input[name='publicClass']:checked").val(),
                 camsPotPost : $("#camsPotPost").is(":checked") ? "Y" : "N",
-                empSeq : $("#empSeq").val()
+                empSeq : $("#empSeq").val(),
+                empName : $("#empName").val()
             }
 
             var result = customKendo.fn_customAjax("/spot/setScheduleReg.do", sr.global.saveAjaxData)

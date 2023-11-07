@@ -80,8 +80,8 @@
             </div>
         </div>
     </div>
-    </div>
-    <div class="col-md-7 col-lg-7" style="margin-top:-10px;">
+</div>
+<div class="col-md-7 col-lg-7" style="margin-top:-10px;">
     <div class="panel" style="margin-bottom:10px; height: 465px;">
         <div style="padding: 25px 0 0 25px;">
             <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">게시판 최근글</h4>
@@ -94,7 +94,7 @@
                     <li><a href="#tab2" data-toggle="tab" onclick="getActiveList('tab2Ul', '40')"><strong style="font-size:14px;">공지사항</strong></a></li>
                     <li><a href="#tab3" data-toggle="tab" onclick="getActiveList('tab3Ul', '41')"><strong style="font-size:14px;">업무보고</strong></a></li>
                     <li><a href="#tab4" data-toggle="tab" onclick="getActiveList('tab4Ul', '42')"><strong style="font-size:14px;">업무메뉴얼</strong></a></li> <!--규정/지침/절차/양식-->
-                     <li><a href="#tab5" data-toggle="tab"onclick="getActiveList('tab5Ul', '43')"><strong style="font-size:14px;">홍보자료</strong></a></li>
+                    <li><a href="#tab5" data-toggle="tab"onclick="getActiveList('tab5Ul', '43')"><strong style="font-size:14px;">홍보자료</strong></a></li>
                 </ul>
 
                 <!-- Tab panes -->
@@ -180,50 +180,50 @@
         </div>
     </div>
 </div>
-    <div class="col-md-3 col-sm-3" style="margin-top:-10px; padding-left:0;">
-        <div class="col-md-6 col-sm-6" style="padding-right:0;">
-            <div class="panel" style="margin-bottom:10px;">
-                <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" style="margin-right: 50px;" onclick="open_in_frame('/purc/purcReqList.do')"><i class="fa fa-shopping-cart" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">구매</span></a></h3>
-                </div>
-            </div><!-- panel -->
-        </div>
-        <div class="col-md-6 col-sm-6" style="padding-right:0;">
-            <div class="panel" style="margin-bottom:10px;">
-                <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" style="margin-right: 30px;" onclick="open_in_frame('/bustrip/bustripList.do')"><i class="fa fa-tasks" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">출장신청</span></a></h3>
-                </div>
-            </div><!-- panel -->
-        </div>
-        <div class="col-md-6 col-sm-6" style="padding-right:0;">
-            <div class="panel" style="margin-bottom:10px;">
-                <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" onclick="open_in_frame('/Inside/carReq.do')"><i class="fa fa-car" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">차량사용신청</span></a></h3>
-                </div>
-            </div><!-- panel -->
-        </div>
-        <div class="col-md-6 col-sm-6" style="padding-right:0;">
-            <div class="panel" style="margin-bottom:10px;">
-                <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" onclick="open_in_frame('/Inside/meetingRoomReq.do')"><i class="fa fa-building" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">회의실사용신청</span></a></h3>
+<div class="col-md-3 col-sm-3" style="margin-top:-10px; padding-left:0;">
+    <div class="col-md-6 col-sm-6" style="padding-right:0;">
+        <div class="panel" style="margin-bottom:10px;">
+            <div class="panel-heading" style="background-color: #fff; padding:5px;">
+                <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" style="margin-right: 50px;" onclick="open_in_frame('/purc/purcReqList.do')"><i class="fa fa-shopping-cart" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">구매</span></a></h3>
+            </div>
+        </div><!-- panel -->
+    </div>
+    <div class="col-md-6 col-sm-6" style="padding-right:0;">
+        <div class="panel" style="margin-bottom:10px;">
+            <div class="panel-heading" style="background-color: #fff; padding:5px;">
+                <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" style="margin-right: 30px;" onclick="open_in_frame('/bustrip/bustripList.do')"><i class="fa fa-tasks" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">출장신청</span></a></h3>
+            </div>
+        </div><!-- panel -->
+    </div>
+    <div class="col-md-6 col-sm-6" style="padding-right:0;">
+        <div class="panel" style="margin-bottom:10px;">
+            <div class="panel-heading" style="background-color: #fff; padding:5px;">
+                <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" onclick="open_in_frame('/Inside/carReq.do')"><i class="fa fa-car" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">차량사용신청</span></a></h3>
+            </div>
+        </div><!-- panel -->
+    </div>
+    <div class="col-md-6 col-sm-6" style="padding-right:0;">
+        <div class="panel" style="margin-bottom:10px;">
+            <div class="panel-heading" style="background-color: #fff; padding:5px;">
+                <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" onclick="open_in_frame('/Inside/meetingRoomReq.do')"><i class="fa fa-building" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">회의실사용신청</span></a></h3>
 
-                </div>
-            </div><!-- panel -->
-        </div>
-        <div class="col-md-6 col-sm-6" style="padding-right:0;">
-            <div class="panel" style="margin-bottom:10px;">
-                <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                    <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" style="margin-right: 20px;" onclick="open_in_frame('/Inside/equipmentList.do')"><i class="fa fa-calendar-o" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">장비활용</span></a></h3>
-                </div>
-            </div><!-- panel -->
-        </div>
-        <div class="col-md-6 col-sm-6" style="padding-right:0;">
-            <div class="panel" style="margin-bottom:10px;">
-                <div class="panel-heading" style="background-color: #fff; padding:5px;">
+            </div>
+        </div><!-- panel -->
+    </div>
+    <div class="col-md-6 col-sm-6" style="padding-right:0;">
+        <div class="panel" style="margin-bottom:10px;">
+            <div class="panel-heading" style="background-color: #fff; padding:5px;">
+                <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" style="margin-right: 20px;" onclick="open_in_frame('/Inside/equipmentList.do')"><i class="fa fa-calendar-o" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">장비활용</span></a></h3>
+            </div>
+        </div><!-- panel -->
+    </div>
+    <div class="col-md-6 col-sm-6" style="padding-right:0;">
+        <div class="panel" style="margin-bottom:10px;">
+            <div class="panel-heading" style="background-color: #fff; padding:5px;">
                 <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" style="margin-right: 40px;" onclick="open_in_frame('/spot/requestBoardList.do?requestType=R')"><i class="fa fa-desktop" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">전산보완</span></a></h3>
-                </div>
-            </div><!-- panel -->
-        </div>
+            </div>
+        </div><!-- panel -->
+    </div>
     <div class="col-md-12 col-sm-12" style="padding-right:0;">
         <div class="panel" style="margin-bottom:10px;">
             <div style="padding: 25px 0 0 25px;">
@@ -240,9 +240,9 @@
                         <div style="line-height:20px;"><span style="font-weight: 600; font-size: 14px;">· [캠인사이드] 자산관리</span></div>
                         <div style="line-height:20px;"><span style="font-weight: 600; font-size: 14px;">· [캠인사이드] 출장관리</span></div>
                     </div>
-                  <%--  <div style="border-top:1px solid #eee; text-align:center;">
-                        <span style="font-size: 15px; line-height: 45px; font-weight: 600;">즐겨찾기 설정</span>
-                    </div>--%>
+                    <%--  <div style="border-top:1px solid #eee; text-align:center;">
+                          <span style="font-size: 15px; line-height: 45px; font-weight: 600;">즐겨찾기 설정</span>
+                      </div>--%>
                 </div>
             </div>
         </div>
@@ -266,7 +266,7 @@
             </div>
         </div><!-- panel -->
     </div>
-    </div>
+</div>
 </div>
 
 <script>
@@ -309,33 +309,33 @@
                     if(v == "tab1Ul"){
                         html += '' +
                             '<li style="border-top:0; border-bottom:0;">' +
-                                '<div style="padding: 10px 10px 0px;">' +
-                                    '<a class="contentLink" onclick="open_in_frame(\'/board/normalBoardDetail.do?boardArticleId=' + article.board_ARTICLE_ID + '\')">' +
-                                    '<span style="font-weight:600; font-size:15px;">' + article.board_ARTICLE_TITLE + '</span><span>[' + article.reply_CNT + ']</span>' +
-                                    '</a>' +
-                                '</div>' +
-                                '<div style="padding: 5px 10px;">' +
-                                    '<span style="margin-right:10px;">' + dt + '</span>' +
-                                    '<span style="margin-right:10px;">' + article.reg_EMP_NAME + '</span>' +
-                                    '<span style="margin-right:10px;">|</span><span>' + article.board_NAME + '</span>' +
-                                '</div>' +
+                            '<div style="padding: 10px 10px 0px;">' +
+                            '<a class="contentLink" onclick="open_in_frame(\'/board/normalBoardDetail.do?boardArticleId=' + article.board_ARTICLE_ID + '\')">' +
+                            '<span style="font-weight:600; font-size:15px;">' + article.board_ARTICLE_TITLE + '</span><span>[' + article.reply_CNT + ']</span>' +
+                            '</a>' +
+                            '</div>' +
+                            '<div style="padding: 5px 10px;">' +
+                            '<span style="margin-right:10px;">' + dt + '</span>' +
+                            '<span style="margin-right:10px;">' + article.reg_EMP_NAME + '</span>' +
+                            '<span style="margin-right:10px;">|</span><span>' + article.board_NAME + '</span>' +
+                            '</div>' +
                             '</li>';
                     }else{
                         html += '<li>' +
 
-                                    '<p style="padding: 10px 10px 0px;">' +
-                                        '<a class="contentLink" onclick="open_in_frame(\'/board/normalBoardDetail.do?boardArticleId=' + article.board_ARTICLE_ID + '\')">' +
-                                            article.board_ARTICLE_TITLE +
-                                        '</a>' +
-                                        '<span style="position:absolute; right:10px;">' + dt + '</span>' +
-                                    '</p>' +
+                            '<p style="padding: 10px 10px 0px;">' +
+                            '<a class="contentLink" onclick="open_in_frame(\'/board/normalBoardDetail.do?boardArticleId=' + article.board_ARTICLE_ID + '\')">' +
+                            article.board_ARTICLE_TITLE +
+                            '</a>' +
+                            '<span style="position:absolute; right:10px;">' + dt + '</span>' +
+                            '</p>' +
 
-                                '</li>';
+                            '</li>';
                     }
                 }
             }else{
                 html += '<li>' +
-                        '<p style="padding: 10px 10px 0px;">등록된 게시글이 없습니다.<span style="position:absolute; right:10px;"></span></p>' +
+                    '<p style="padding: 10px 10px 0px;">등록된 게시글이 없습니다.<span style="position:absolute; right:10px;"></span></p>' +
                     '</li>';
             }
 
@@ -395,11 +395,11 @@
         if(result.flag){
             var html = "";
 
-                result.list.sort(function(a, b) {
-                    return new Date(b.start) - new Date(a.start);
-                });
+            result.list.sort(function(a, b) {
+                return new Date(b.start) - new Date(a.start);
+            });
 
-                if (result.list.length > 0){
+            if (result.list.length > 0){
                 var recentPosts = result.list.slice(0, 3);
                 for (var i = 0; i < recentPosts.length; i++) {
                     console.log(recentPosts);
@@ -446,8 +446,8 @@
                 }
             }else{
                 html += '<li>' +
-                    '<p style="padding: 10px 10px 0px;">등록된 게시글이 없습니다.<span style="position:absolute; right:10px;"></span></p>' +
-                    '</li>';
+                        '<p style="padding: 10px 10px 0px;">등록된 게시글이 없습니다.<span style="position:absolute; right:10px;"></span></p>' +
+                        '</li>';
             }
 
             $("#" + v).append(html);
@@ -473,7 +473,7 @@
     function openStudyReqPop(pk){
         let mode = "upd";
         let url = "/Campus/pop/openStudyReqPop.do?mode="+mode;
-            url += "&pk="+pk;
+        url += "&pk="+pk;
         const name = "openStudyReqPop";
         const option = "width = 990, height = 548, top = 100, left = 400, location = no";
         window.open(url, name, option);
@@ -491,12 +491,12 @@
             url: '/userManage/getEmpBirthDayInfoList',
             type: 'GET',
             success: function (data) {
-                drawTable(data.list);
+                birthDayTable(data.list);
             },
         });
     }
 
-    function drawTable(data){
+    function birthDayTable(data){
 
         $("#empBirthDayList").html('');
 
