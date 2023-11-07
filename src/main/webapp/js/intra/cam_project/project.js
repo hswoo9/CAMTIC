@@ -1,3 +1,4 @@
+let sum=0;
 var camPrj = {
 
     fn_defaultScript : function (){
@@ -15,6 +16,7 @@ var camPrj = {
             dataValueField: "value",
             dataSource: [
                 { text: "전체", value: "" },
+                { text: "미수주", value: "Y" },
                 { text: "예상", value: "'Y', 'E', 'E1', 'E2', 'R', 'S'" },
                 { text: "진행", value: "'E3', 'E4', 'E5', 'R2', 'R2', 'S2'" },
                 { text: "완료", value: "'E6', 'E7', 'R3', 'S3'" }
@@ -224,11 +226,19 @@ var camPrj = {
                         return yyyy+'-'+mm+'-'+dd;
                     }
                 }, {
+                    title: "종료예정일",
+                    width: 60,
+
+                }, {
                     field: "PJT_AMT",
                     title: "수주금액",
                     width: 80,
                     template: function(e){
+                        sum += Number(e.PJT_AMT);
                         return '<div style="text-align: right;">'+camPrj.comma(e.PJT_AMT)+'</div>';
+                    },
+                    footerTemplate : function () {
+                        return "<span id='total'></span>";
                     }
                 }, {
                     field: "PM",
@@ -292,6 +302,11 @@ var camPrj = {
                     }
                 }
             ],
+            dataBound: function(){
+
+                $("#total").text("총계 :" + fn_numberWithCommas(sum) + " 원");
+                sum = 0;
+            },
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);
             }

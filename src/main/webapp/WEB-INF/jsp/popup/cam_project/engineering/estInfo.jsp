@@ -119,10 +119,10 @@
                     <span class="red-star"></span>단위
                 </th>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>단가
+                    <span class="red-star"></span>단가(원)
                 </th>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>공급가액
+                    <span class="red-star"></span>합계(원)
                 </th>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>비고
