@@ -158,7 +158,8 @@ var normalArticleWrite = {
 			boardArticleId : $("#boardArticleId").val(),
 			boardArticleTitle : $("#boardArticleTitle").val(),
 			boardArticleContent : CKEDITOR.instances.boardArticleContent.getData(),
-			publicYn : $("#publicYn").data("kendoRadioGroup").value(),
+			/*publicYn : $("#publicYn").data("kendoRadioGroup").value(),*/
+			publicYn : "Y",
 			empName : $("#empName").val(),
 			empSeq : $("#empSeq").val(),
 		}

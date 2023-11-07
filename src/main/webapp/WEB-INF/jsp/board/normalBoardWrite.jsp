@@ -52,7 +52,7 @@
                         <input type="text" id="boardArticleContent" name="boardArticleContent" style="width: 100%;">
                     </td>
                 </tr>
-                <tr>
+                <tr class="publicYn">
                     <th scope="row" class="text-center th-color">공개여부</th>
                     <td>
                         <span id="publicYn" name="publicYn"></span>
@@ -89,6 +89,7 @@
 </div> <%-- col-lg-12 --%>
 <script>
     normalArticleWrite.fnDefaultScript(JSON.parse('${params}'));
+    $(".publicYn").hide();
 </script>
 </body>
 </html>
