@@ -33,6 +33,7 @@
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
         <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
+        <input type="hidden" id="empName" name="empName" value="${loginVO.name}">
         <input type="hidden" id="scheduleBoardId" name="scheduleBoardId" value="${params.scheduleBoardId}">
 
         <div class="card-header pop-header">
