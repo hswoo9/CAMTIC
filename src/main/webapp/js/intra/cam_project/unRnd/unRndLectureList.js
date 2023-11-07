@@ -89,31 +89,31 @@ var unRndLectList = {
                     title: "신청",
                     width: "3%",
                     template: function(e){
-                        return "0명";
+                        return e.TOT_B+"명";
                     }
                 }, {
                     title: "대기",
                     width: "3%",
                     template: function(e){
-                        return "0명";
+                        return e.TOT_C+"명";
                     }
                 }, {
                     title: "접수",
                     width: "3%",
                     template: function(e){
-                        return "0명";
+                        return e.TOT_D+"명";
                     }
                 }, {
                     title: "취소",
                     width: "3%",
                     template: function(e){
-                        return "0명";
+                        return e.TOT_E+"명";
                     }
                 }, {
                     title: "수료",
                     width: "3%",
                     template: function(e){
-                        return "0명";
+                        return e.TOT_F+"명";
                     }
                 }, {
                     field: "LEC_STATUS_NAME",
