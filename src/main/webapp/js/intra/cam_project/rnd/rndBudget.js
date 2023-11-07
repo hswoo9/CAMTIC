@@ -54,6 +54,10 @@ var rndBg = {
         customKendo.fn_radioGroup("budgetType", arr, "horizontal");
         $("#budgetType").data("kendoRadioGroup").value(firstValue);
 
+        $("#budgetType").data("kendoRadioGroup").bind("change", function(){
+            rndBg.gridReload();
+        })
+
         if(setParameters != null){
             var data = {
                 gisu : year,
