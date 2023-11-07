@@ -89,7 +89,7 @@ const commonEduUser = {
         grid.tbody.find("tr").click(function(e){
             const dataItem = grid.dataItem($(this));
             const empSeq = dataItem.REG_EMP_SEQ;
-            $(this).find('.userPk').trigger('click');
+            /*$(this).find('.userPk').trigger('click');*/
         });
         $(".eduTime").kendoTextBox();
     },
