@@ -363,6 +363,7 @@ public class CustomBoardController {
         return "jsonView";
     }
 
+
     /**
      * 글쓰기
      * @param params
@@ -433,6 +434,13 @@ public class CustomBoardController {
     @RequestMapping("/spot/setWatchBoardDel.do")
     public String setWatchBoardDel(@RequestParam Map<String, Object> params){
         customBoardService.setWatchBoardDel(params);
+        return "jsonView";
+    }
+
+
+    @RequestMapping("/spot/getWatchBoardOne")
+    public String getWatchBoardOne(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", customBoardService.getWatchBoardOne(params));
         return "jsonView";
     }
 
