@@ -1382,6 +1382,9 @@ public class UserManageController {
         return "jsonView";
     }
 
+    /**
+     * 임직원 생일 리스트 조회
+     */
     @RequestMapping("/userManage/getEmpBirthDayInfoList")
     public String getEmpBirthDayInfoList(@RequestParam Map<String,Object> map, Model model) {
         System.out.println("map : "+map);
