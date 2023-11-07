@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
+import egovframework.com.devjitsu.cam_project.repository.ProjectRndRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectUnRndRepository;
 import egovframework.com.devjitsu.cam_project.service.ProjectUnRndService;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
@@ -27,6 +28,9 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     private ProjectUnRndRepository projectUnRndRepository;
 
     @Autowired
+    private ProjectRndRepository projectRndRepository;
+
+    @Autowired
     private CommonRepository commonRepository;
 
     @Autowired
@@ -41,6 +45,15 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
             projectUnRndRepository.insSubjectInfo(params);
         } else {
             projectUnRndRepository.updSubjectInfo(params);
+            projectRndRepository.delAccountInfo(params);
+        }
+
+        if(params.get("sbjSep").toString().equals("Y")){
+            Gson gson = new Gson();
+            List<Map<String, Object>> ACCOUNT_LIST = new ArrayList<>();
+            ACCOUNT_LIST = gson.fromJson((String) params.get("accountList"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+            params.put("accountList", ACCOUNT_LIST);
+            projectRndRepository.insAccountInfo(params);
         }
     }
 

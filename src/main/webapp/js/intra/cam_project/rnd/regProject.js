@@ -108,8 +108,8 @@ var regRnd = {
             tab12Url += "?pjtSn=" + setParameters.PJT_SN;
             tab13Url += "?pjtSn=" + setParameters.PJT_SN;
         }
-        var dataSource = []
 
+        var dataSource = [];
         if(setParameters != null && setParameters.TEAM_STAT == "Y"){
             dataSource = [
                 {name: "견적관리", url: "/intra/cam_project/estInfo.do?pjtSn=" + setParameters.PJT_SN},
@@ -185,7 +185,7 @@ var regRnd = {
             }
         }
 
-        if(setParameters.TEAM_STAT == "Y"){
+        if(setParameters != null && setParameters.TEAM_STAT == "Y"){
             var parser = new DOMParser();
 
             var html = '<div style="width:100%;"></div>';

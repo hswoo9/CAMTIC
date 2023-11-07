@@ -39,6 +39,15 @@ var regUnRnd = {
             customKendo.fn_dropDownList("supDepSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
         });
 
+        /** 사업비 분리사용 유무 change 이벤트 */
+        $("input[name='sbjSepYn']").change(function(){
+            if($("input[name='sbjSepYn']:checked").val() == "Y"){
+                $("#checkboxDiv").show();
+            }else{
+                $("#checkboxDiv").hide();
+            }
+        });
+
         var tab0Url = "/projectUnRnd/detailInfo.do";            // 사업정보
         var tab1Url = "/projectRnd/researcherInfo.do";           // 연구원관리
         var tab2Url = "/projectRnd/partRate.do";                 // 참여율관리
@@ -166,7 +175,7 @@ var regUnRnd = {
             }
         });
 
-        if(setParameters.TEAM_STAT == "Y"){
+        if(setParameters != null && setParameters.TEAM_STAT == "Y"){
             var parser = new DOMParser();
 
             var html = '<div style="width:100%;"></div>';
@@ -226,6 +235,22 @@ var regUnRnd = {
         $("#pjtNm").val(e.PJT_NM);
         $("#pjtSubNm").val(e.PJT_SUB_NM);
 
+        if(e.SBJ_SEP != undefined){
+            if(e.SBJ_SEP == "Y"){
+                $("#sbjSepY").prop("checked", true);
+                var data = {
+                    pjtSn: e.PJT_SN
+                }
+                let result = customKendo.fn_customAjax("/projectRnd/getAccountInfo", data);
+                $("#checkboxDiv").show();
+                for(let i=0; i<result.list.length; i++){
+                    $("#at" + result.list[i].IS_TYPE).prop('checked',true);
+                }
+            } else {
+                $("#sbjSepN").prop("checked", true);
+            }
+        }
+
         $("#pjtExpAmt").val(comma(e.PJT_EXP_AMT));
         if(e.SBJ_SEP != undefined){
             if(e.SBJ_SEP == "Y"){
@@ -273,6 +298,26 @@ var regUnRnd = {
                 parameters.sbjSep = this.value;
             }
         });
+
+        if($("input[name='sbjSepYn']:checked").val() == "Y"){
+            const checkBox = 'input[name="accountType"]:checked';
+            const selectedElements = document.querySelectorAll(checkBox);
+
+            let arr = new Array();
+            selectedElements.forEach((el) => {
+                let row = {
+                    value: el.value,
+                }
+                arr.push(row);
+            });
+
+            if(arr.length == 0) {
+                alert("사업비 항목이 선택되지 않았습니다.");
+                return;
+            }
+
+            parameters.accountList = JSON.stringify(arr);
+        }
 
         if(parameters.bsTitle == ""){
             alert("사업명을 입력해주세요.")
@@ -340,6 +385,26 @@ var regUnRnd = {
                 parameters.sbjSep = this.value;
             }
         });
+
+        if($("input[name='sbjSepYn']:checked").val() == "Y"){
+            const checkBox = 'input[name="accountType"]:checked';
+            const selectedElements = document.querySelectorAll(checkBox);
+
+            let arr = new Array();
+            selectedElements.forEach((el) => {
+                let row = {
+                    value: el.value,
+                }
+                arr.push(row);
+            });
+
+            if(arr.length == 0) {
+                alert("사업비 항목이 선택되지 않았습니다.");
+                return;
+            }
+
+            parameters.accountList = JSON.stringify(arr);
+        }
 
         if(parameters.bsTitle == ""){
             alert("사업명을 입력해주세요.")

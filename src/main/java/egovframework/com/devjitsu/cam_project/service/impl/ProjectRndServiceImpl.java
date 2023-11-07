@@ -56,7 +56,6 @@ public class ProjectRndServiceImpl implements ProjectRndService {
             params.put("accountList", ACCOUNT_LIST);
             projectRndRepository.insAccountInfo(params);
         }
-
     }
 
     @Override
