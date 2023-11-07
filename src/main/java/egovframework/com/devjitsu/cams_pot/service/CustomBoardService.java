@@ -29,4 +29,6 @@ public interface CustomBoardService {
     void setWatchBoardViewCount(Map<String, Object> params);
     Map<String, Object> getWatchBoard(Map<String, Object> params);
     void setWatchBoardDel(Map<String, Object> params);
+
+    Map<String, Object> getWatchBoardOne(Map<String, Object> params);
 }

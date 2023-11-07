@@ -218,4 +218,9 @@ public class CustomBoardServiceImpl implements CustomBoardService {
 
         return path;
     }
+
+    @Override
+    public Map<String, Object> getWatchBoardOne(Map<String, Object> params) {
+        return customBoardRepository.getWatchBoardOne(params);
+    }
 }

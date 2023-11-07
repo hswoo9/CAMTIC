@@ -280,7 +280,8 @@
             SCHEDULE_PLACE,
             PUBLIC_CLASS,
             CAMS_POT_POST,
-            REG_EMP_SEQ
+            REG_EMP_SEQ,
+            REG_EMP_NAME
         )
         VALUES
         (
@@ -296,7 +297,8 @@
             #{schedulePlace},
             #{publicClass},
             #{camsPotPost},
-            #{empSeq}
+            #{empSeq},
+            #{empName}
         )
     </insert>
 
@@ -610,4 +612,24 @@
         WHERE
             WATCH_BOARD_ID = #{watchBoardId}
     </update>
+
+    <select id="getWatchBoardOne" parameterType="map" resultType="map">
+        /* getWatchBoardOne */
+        SELECT
+            *
+        FROM
+            CAM_BOARD.DJ_WATCH_BOARD WB
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO FI
+        ON
+            FI.FILE_CD = 'watchBoard' AND CONTENT_ID = CONCAT('wb_', WB.WATCH_BOARD_ID)
+        WHERE
+            WB.ACTIVE = 'Y'
+        ORDER BY
+            WB.REG_DATE
+        DESC
+            LIMIT 1
+    </select>
+
+
 </mapper>
