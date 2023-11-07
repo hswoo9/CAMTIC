@@ -12,7 +12,7 @@
     function approvalDataInit(){
         var approvalParams = {};
         approvalParams.mod = "W";
-        approvalParams.formId = "149";
+        approvalParams.formId = "152";
         approvalParams.compSeq = "1000";
         approvalParams.empSeq = "${loginVO.uniqId}";
         approvalParams.content = $("#approveDataPop")[0].innerHTML;
@@ -20,7 +20,7 @@
         approvalParams.menuCd = "unRndDelv";
         approvalParams.docType = "A";
 
-        approvalParams.linkageProcessId = "27";
+        approvalParams.linkageProcessId = "29";
         approvalParams.linkageType = "2";
         approvalParams.linkageProcessCode = "camticUnRndDelv";
         approvalParams.approKey = "camticUnRndDelv_${params.pjtSn}";

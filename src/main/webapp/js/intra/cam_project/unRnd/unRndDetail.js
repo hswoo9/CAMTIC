@@ -150,7 +150,7 @@ var unRndDetail = {
             success : function (rs){
                 if(rs.code == 200){
                     /** 저장 성공 시 전자결재 상신프로세스 시작 */
-                    $("#rndDelvDraftFrm").one("submit", function(){
+                    $("#unRndDelvDraftFrm").one("submit", function(){
                         const url = "/popup/cam_project/approvalFormPopup/unRndDelvApprovalPop.do";
                         const name = "_self";
                         const option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50";
