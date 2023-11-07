@@ -17,6 +17,7 @@ var unRndLectList = {
                     type : "post"
                 },
                 parameterMap: function(data){
+                    data.pjtSn = $("#pjtSn").val();
                     return data;
                 }
             },

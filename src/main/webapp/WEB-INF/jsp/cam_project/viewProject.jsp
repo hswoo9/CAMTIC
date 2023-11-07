@@ -61,6 +61,10 @@
     }
 
     #projectTooltip:hover
+
+    .hide {
+        display: none;
+    }
 </style>
 <div class="mainCard">
     <div class="panel">

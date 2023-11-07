@@ -267,6 +267,7 @@
             (SELECT IFNULL(COUNT(-1), 0) FROM CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ SLP WHERE PL.LEC_SN = SLP.LEC_SN AND SLP.REQ_STATUS = 'O') AS TOT_F
         FROM
             CAM_PJT_MNG.DJ_PJT_LECTURE PL
+        WHERE PJT_SN = #{pjtSn}
         ORDER BY LEC_SN DESC
     </select>
 
@@ -476,7 +477,7 @@
             REQ_STATUS_NAME = #{statText}
         WHERE
             LEC_SN = #{pk}
-        AND PERSON_SN = (${personList})
+        AND PERSON_SN IN (${personList})
         AND ACTIVE = 'Y'
     </update>
 
@@ -488,7 +489,7 @@
             PARTIC_YN = #{stat}
         WHERE
             LEC_SN = #{pk}
-        AND PERSON_SN = (${personList})
+        AND PERSON_SN IN (${personList})
         AND ACTIVE = 'Y'
     </update>
 
@@ -500,7 +501,7 @@
             AUDIT_YN = 'Y'
         WHERE
             LEC_SN = #{pk}
-        AND PERSON_SN = (${personList})
+        AND PERSON_SN IN (${personList})
         AND ACTIVE = 'Y'
     </update>
 
@@ -515,7 +516,7 @@
             </if>
         WHERE
             LEC_SN = #{pk}
-        AND PERSON_SN = (${personList})
+        AND PERSON_SN IN (${personList})
         AND ACTIVE = 'Y'
     </update>
 
@@ -531,7 +532,7 @@
             PAY_AMT = #{payAmt}
         WHERE
             LEC_SN = #{pk}
-        AND PERSON_SN = (${personList})
+        AND PERSON_SN IN (${personList})
         AND ACTIVE = 'Y'
     </update>
 
@@ -543,7 +544,7 @@
             ACTIVE = 'N'
         WHERE
             LEC_SN = #{pk}
-        AND PERSON_SN = (${personList})
+        AND PERSON_SN IN (${personList})
         AND ACTIVE = 'Y'
     </update>
 
@@ -551,7 +552,7 @@
         /*delLectureTeacherInfo*/
         DELETE FROM CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER_REQ
         WHERE
-            TEACHER_REQ_SN in (${teacherList})
+            TEACHER_REQ_SN IN (${teacherList})
     </delete>
 
     <update id="updUnRndProjectInfoRes" parameterType="map">

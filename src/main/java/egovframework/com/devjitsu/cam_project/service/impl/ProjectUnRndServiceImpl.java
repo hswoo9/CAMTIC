@@ -264,6 +264,9 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             projectUnRndRepository.updateUnRndDelvFinalApprStat(params);
+            params.put("pjtStep", "S2");
+            params.put("pjtStepNm", "수주보고");
+            projectRepository.updProjectStep(params);
         }
     }
 

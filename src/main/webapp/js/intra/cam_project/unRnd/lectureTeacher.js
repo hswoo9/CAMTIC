@@ -90,6 +90,10 @@ const lectureTeacher = {
                     const teacherSn = dataItem.TEACHER_SN;
                     $("#teacherA"+teacherSn).trigger("click");
                 });
+
+                grid.tbody.find("input").click(function(){
+                    $($(this)).trigger("click");
+                });
             },
             columns: [
                 {
@@ -131,6 +135,10 @@ const lectureTeacher = {
                     const dataItem = grid.dataItem($(this));
                     const teacherSn = dataItem.TEACHER_SN;
                     $("#teacherS"+teacherSn).trigger("click");
+                });
+
+                grid.tbody.find("input").click(function(){
+                    $($(this)).trigger("click");
                 });
             },
             columns: [

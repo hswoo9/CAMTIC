@@ -4,7 +4,7 @@ const lectureReq = {
         if($("#pk").val() != ""){
             this.fn_dataSet();
         }else{
-            this.fn_testData();
+            //this.fn_testData();
         }
     },
 

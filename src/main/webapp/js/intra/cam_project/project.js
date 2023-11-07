@@ -142,6 +142,20 @@ var camPrj = {
             },
             detailTemplate : kendo.template($("#template").html()),
             detailInit: camPrj.detailInit,
+            dataBound: function(e){
+                const grid = this;
+
+                /** 협업 없을때 조회 기능 숨김처리 */
+                grid.table.find("tr[role='row']").each(function () {
+
+                    var model = grid.dataItem(this);
+                    alert(model.PNT_PJT_SN);
+
+                    if (model.PNT_PJT_SN == null) {
+                        $(this).addClass("hide");
+                    }
+                });
+            },
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="camPrj.fn_allCheck(this)" class=""/>',

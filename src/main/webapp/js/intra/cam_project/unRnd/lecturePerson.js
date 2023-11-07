@@ -42,14 +42,9 @@ let lecturePerson = {
             },
             toolbar: [
                 {
-                    name: 'button',
-                    template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="lectureTeacher.fn_saveBtn()">' +
-                            '	<span class="k-button-text">등록</span>' +
-                            '</button>';
-                    }
+                    name: 'excel',
+                    text: '엑셀다운로드'
                 }
-
             ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
@@ -60,6 +55,10 @@ let lecturePerson = {
                     const dataItem = grid.dataItem($(this));
                     const personSn = dataItem.PERSON_SN;
                     $("#person"+personSn).trigger("click");
+                });
+
+                grid.tbody.find("input").click(function(){
+                    $($(this)).trigger("click");
                 });
             },
             columns: [

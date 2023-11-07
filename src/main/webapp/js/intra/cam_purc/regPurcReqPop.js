@@ -17,11 +17,11 @@ var prp = {
             "purcItemQty0", "purcItemUnit0", "purcItemAmt0", "crmNm0", "rmk0", "pjtNm"]);
 
         prp.global.radioGroupData = [
+            { label: "법인운영", value: "" },
             { label: "R&D", value: "R" },
             { label: "비R&D", value: "S" },
             { label: "엔지니어링", value: "D" },
             { label: "용역/기타", value: "V" },
-            { label: "기타", value: "" },
         ]
         customKendo.fn_radioGroup("purcType", prp.global.radioGroupData, "horizontal");
 

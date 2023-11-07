@@ -362,6 +362,9 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             projectRndRepository.updateRndDelvFinalApprStat(params);
+            params.put("pjtStep", "R2");
+            params.put("pjtStepNm", "수주보고");
+            projectRepository.updProjectStep(params);
         }
     }
 
