@@ -14,7 +14,7 @@
 
 <form id="unRndDelvDraftFrm" method="post">
     <input type="hidden" id="pjtSn" name="pjtSn" value="${params.pjtSn}" />
-    <input type="hidden" id="menuCd" name="menuCd" value="rndDelv">
+    <input type="hidden" id="menuCd" name="menuCd" value="unRndDelv">
     <input type="hidden" id="type" name="type" value="drafting">
     <input type="hidden" id="nowUrl" name="nowUrl" />
 </form>

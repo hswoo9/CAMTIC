@@ -34,4 +34,7 @@ public interface ProjectUnRndService {
     void delLecturePersonInfo(Map<String, Object> params);
     void delLectureInfo(Map<String, Object> params);
     void delLectureTeacherInfo(Map<String, Object> params);
+
+    /** 수주관리 결재 상태값에 따른 UPDATE 메서드 */
+    void updateUnRndDelvDocState(Map<String, Object> bodyMap) throws Exception;
 }

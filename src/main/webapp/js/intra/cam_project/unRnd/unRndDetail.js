@@ -78,6 +78,7 @@ var unRndDetail = {
         var rs = result.map;
 
         unRndDetail.fn_buttonSet(rs);
+        console.log(rs);
 
         if(rs != null){
             $("#rndSn").val(rs.RND_SN);
@@ -150,11 +151,11 @@ var unRndDetail = {
                 if(rs.code == 200){
                     /** 저장 성공 시 전자결재 상신프로세스 시작 */
                     $("#rndDelvDraftFrm").one("submit", function(){
-                        const url = "/popup/cam_project/approvalFormPopup/rndDelvApprovalPop.do";
+                        const url = "/popup/cam_project/approvalFormPopup/unRndDelvApprovalPop.do";
                         const name = "_self";
                         const option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50";
                         window.open(url, name, option);
-                        this.action = "/popup/cam_project/approvalFormPopup/rndDelvApprovalPop.do";
+                        this.action = "/popup/cam_project/approvalFormPopup/unRndDelvApprovalPop.do";
                         this.method = 'POST';
                         this.target = '_self';
                     }).trigger("submit");
@@ -163,19 +164,19 @@ var unRndDetail = {
         });
     },
 
-    fn_buttonSet : function(rndMap){
+    fn_buttonSet : function(unRndMap){
         let buttonHtml = "";
-        if(rndMap != null){
-            if(rndMap.STATUS == "0"){
+        if(unRndMap != null){
+            if(unRndMap.STATUS == "0"){
                 buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="unRndDetail.fn_save()">저장</button>';
                 buttonHtml += '<button type="button" id="approveBtn" style="float: right; margin-right:5px;" class="k-button k-button-solid-info" onclick="openModal()">상신</button>';
-            }else if(rndMap.STATUS == "10"){
-                buttonHtml += '<button type="button" id="canBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+rndMap.DOC_ID+'\', \''+rndMap.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
-            }else if(rndMap.STATUS == "30" || rndMap.STATUS == "40"){
+            }else if(unRndMap.STATUS == "10"){
+                buttonHtml += '<button type="button" id="canBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+unRndMap.DOC_ID+'\', \''+unRndMap.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
+            }else if(unRndMap.STATUS == "30" || unRndMap.STATUS == "40"){
                 buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="unRndDetail.fn_save()">저장</button>';
-                buttonHtml += '<button type="button" id="canBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+rndMap.DOC_ID+'\', \''+rndMap.DOC_MENU_CD+'\', \''+rndMap.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
-            }else if(rndMap.STATUS == "100"){
-                buttonHtml += '<button type="button" id="canBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+rndMap.DOC_ID+'\', \''+rndMap.APPRO_KEY+'\', \''+rndMap.DOC_MENU_CD+'\');">열람</button>';
+                buttonHtml += '<button type="button" id="canBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+unRndMap.DOC_ID+'\', \''+unRndMap.DOC_MENU_CD+'\', \''+unRndMap.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
+            }else if(unRndMap.STATUS == "100"){
+                buttonHtml += '<button type="button" id="canBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+unRndMap.DOC_ID+'\', \''+unRndMap.APPRO_KEY+'\', \''+unRndMap.DOC_MENU_CD+'\');">열람</button>';
             }else{
                 buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="unRndDetail.fn_save()">저장</button>';
             }

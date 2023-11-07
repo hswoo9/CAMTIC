@@ -92,13 +92,19 @@
     <select id="getUnRndDetail" parameterType="map" resultType="map">
         /*getUnRndDetail*/
         SELECT
-            *
+            A.*, B.*,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
         FROM
             CAM_PJT_MNG.DJ_PJT_UNRND A
         LEFT JOIN
             CAM_COMMON.DJ_FILE_INFO B
         ON
             A.UN_RND_FILE_SN = B.file_no
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI
+        ON
+            A.DOC_ID = DI.DOC_ID
         WHERE
             A.PJT_SN = #{pjtSn}
     </select>
@@ -541,4 +547,25 @@
         WHERE
             TEACHER_REQ_SN in (${teacherList})
     </delete>
+
+    <update id="updateUnRndDelvApprStat" parameterType="map">
+        /* updateUnRndDelvApprStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_UNRND
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updateUnRndDelvFinalApprStat" parameterType="map">
+        /* updateUnRndDelvFinalApprStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_UNRND
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
 </mapper>
