@@ -526,7 +526,9 @@ var camPrj = {
     },
 
     searchGrid: function(busnClass, row){
-        row = row + 1;
+        if(row != 0){
+            row = row + 1;
+        }
         $("#busnClass").data("kendoDropDownList").value(busnClass);
         $("#busnSubClass").data("kendoDropDownList").select(row);
         $("#deptName").val("");
