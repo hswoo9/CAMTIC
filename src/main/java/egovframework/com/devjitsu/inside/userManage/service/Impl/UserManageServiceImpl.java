@@ -810,4 +810,10 @@ public class UserManageServiceImpl implements UserManageService {
     public Map<String, Object> getJobinfoList(Map<String, Object> params) {
         return userManageRepository.getJobinfoList(params);
     }
+
+    // 직원 생일 리스트
+    @Override
+    public List<Map<String, Object>> getEmpBirthDayInfoList(Map<String, Object> map) {
+        return userManageRepository.getEmpBirthDayInfoList(map);
+    }
 }

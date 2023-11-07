@@ -1382,4 +1382,11 @@ public class UserManageController {
         return "jsonView";
     }
 
+    @RequestMapping("/userManage/getEmpBirthDayInfoList")
+    public String getEmpBirthDayInfoList(@RequestParam Map<String,Object> map, Model model) {
+        System.out.println("map : "+map);
+        model.addAttribute("list", userManageService.getEmpBirthDayInfoList(map));
+        return "jsonView";
+    }
+
 }

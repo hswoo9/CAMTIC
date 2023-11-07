@@ -278,4 +278,8 @@ public class UserManageRepository extends AbstractDAO {
     //상벌 사항 첨부파일 등록
     public void setInRewardAddFileNoUpd(Map<String, Object> params) { insert("userManage.setInRewardAddFileNoUpd", params);}
 
+    //직원 생일 리스트
+    public List<Map<String,Object>> getEmpBirthDayInfoList (Map<String,Object> map) {
+        return selectList("userManage.getEmpBirthDayInfoList", map);
+    }
 }
