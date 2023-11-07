@@ -458,8 +458,10 @@ var resultInfo = {
                 if(rs.code == 200){
                     if($("#busnClass").val() == "D"){
                         window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=7";
-                    }else if($("#busnClass").val() == "R" || $("#busnClass").val() == "S"){
+                    }else if($("#busnClass").val() == "R"){
                         window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=7";
+                    }else if($("#busnClass").val() == "S"){
+                        window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=7";
                     }
                 }
             }
@@ -475,7 +477,7 @@ var resultInfo = {
             var url = "";
             if($("#busnClass").val() == "D"){
                 url = "/popup/cam_project/approvalFormPopup/resApprovalPop.do";
-            }else if($("#busnClass").val() == "R"){
+            }else if($("#busnClass").val() == "R" || $("#busnClass").val() == "S"){
                 url = "/popup/cam_project/approvalFormPopup/rndResApprovalPop.do";
             }
             var name = "_self";

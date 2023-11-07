@@ -64,7 +64,7 @@ var regUnRnd = {
 
 
         var tab9Url = "/intra/cam_project/bustInfo.do";         // 출장관리
-        var tab10Url = "/intra/cam_project/teamInfo.do";        //
+        var tab10Url = "/intra/cam_project/teamInfo.do";        // 협업
         var tab11Url= "/intra/cam_project/purcInfo.do";         //
 
         if (setParameters != null && setParameters.PJT_SN != null) {

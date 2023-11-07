@@ -97,10 +97,21 @@ public class ProjectUnRndRepository extends AbstractDAO {
         update("unRnd.delLectureTeacherInfo", params);
     }
 
+    public void updUnRndProjectInfoRes(Map<String, Object> params) {
+        update("unRnd.updUnRndProjectInfoRes", params);
+    }
+
     public void updateUnRndDelvApprStat(Map<String, Object> params) {
         update("unRnd.updateUnRndDelvApprStat", params);
     }
     public void updateUnRndDelvFinalApprStat(Map<String, Object> params) {
         update("unRnd.updateUnRndDelvFinalApprStat", params);
+    }
+
+    public void updateUnRndResApprStat(Map<String, Object> params) {
+        update("unRnd.updateUnRndResApprStat", params);
+    }
+    public void updateUnRndResFinalApprStat(Map<String, Object> params) {
+        update("unRnd.updateUnRndResFinalApprStat", params);
     }
 }

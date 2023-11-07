@@ -37,4 +37,7 @@ public interface ProjectUnRndService {
 
     /** 수주관리 결재 상태값에 따른 UPDATE 메서드 */
     void updateUnRndDelvDocState(Map<String, Object> bodyMap) throws Exception;
+
+    /** 결과보고 결재 상태값에 따른 UPDATE 메서드 */
+    void updateUnRndResDocState(Map<String, Object> bodyMap) throws Exception;
 }

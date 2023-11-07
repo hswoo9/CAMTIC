@@ -554,6 +554,16 @@
             TEACHER_REQ_SN in (${teacherList})
     </delete>
 
+    <update id="updUnRndProjectInfoRes" parameterType="map">
+        /*updUnRndProjectInfoRes*/
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            PJT_STEP = "S3",
+            PJT_STEP_NM = "결과보고"
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
     <update id="updateUnRndDelvApprStat" parameterType="map">
         /* updateUnRndDelvApprStat */
         UPDATE CAM_PJT_MNG.DJ_PJT_UNRND
@@ -567,6 +577,27 @@
     <update id="updateUnRndDelvFinalApprStat" parameterType="map">
         /* updateUnRndDelvFinalApprStat */
         UPDATE CAM_PJT_MNG.DJ_PJT_UNRND
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updateUnRndResApprStat" parameterType="map">
+        /* updateUnRndResApprStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_RESULT
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updateUnRndResFinalApprStat" parameterType="map">
+        /* updateUnRndResFinalApprStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_RESULT
         SET
             STATUS = #{approveStatCode},
             APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
