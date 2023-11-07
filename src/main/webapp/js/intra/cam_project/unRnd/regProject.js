@@ -352,7 +352,7 @@ var regUnRnd = {
             dataType : "json",
             success : function (rs){
                 if(rs.code == 200){
-                    location.href="/projectRnd/pop/regProject.do?pjtSn=" + rs.params.pjtSn;
+                    location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + rs.params.pjtSn;
                 }
             }
         });
