@@ -26,7 +26,7 @@ var unRndDetail = {
             unRndObj : $("#unRndObj").val(),
             unRndCont : $("#unRndCont").val(),
 
-            empSeq: $("#empSeq").val(),
+            empSeq: $("#mngEmpSeq").val(),
             regEmpSeq : $("#empSeq").val(),
         }
 

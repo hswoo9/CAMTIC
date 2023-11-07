@@ -9,6 +9,7 @@ import egovframework.com.devjitsu.cam_project.repository.ProjectUnRndRepository;
 import egovframework.com.devjitsu.cam_project.service.ProjectUnRndService;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
+import egovframework.com.devjitsu.gw.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,6 +40,9 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     @Autowired
     private G20Repository g20Repository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public void setSubjectInfo(Map<String, Object> params) {
         if(!params.containsKey("pjtSn")){
@@ -64,10 +68,20 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
 
     @Override
     public void setUnRndDetail(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
+        Map<String, Object> map = userRepository.getUserInfo(params);
+        map.put("pjtSn", params.get("pjtSn"));
+        map.put("regEmpSeq", params.get("regEmpSeq"));
+        map.put("mngCheck", "Y");
+        map.put("psPrepNm", "연구책임자");
+
         if(params.get("stat") == "ins" || "ins".equals(params.get("stat"))){
             projectUnRndRepository.insUnRndDetail(params);
+            projectRndRepository.insRschData(map);
+            projectRndRepository.insPjtPsRnd(map);
         } else {
             projectUnRndRepository.updUnRndDetail(params);
+            projectRndRepository.updRschData(map);
+            projectRndRepository.updPjtPsRnd(map);
         }
 
         MainLib mainLib = new MainLib();
