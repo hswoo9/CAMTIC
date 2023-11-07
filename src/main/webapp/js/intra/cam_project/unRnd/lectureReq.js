@@ -175,6 +175,7 @@ const lectureReq = {
             window.close();
         }else{
             alert("단위사업이 등록되었습니다.");
+            opener.unRndLectList.mainGrid();
             window.close();
         }
     },

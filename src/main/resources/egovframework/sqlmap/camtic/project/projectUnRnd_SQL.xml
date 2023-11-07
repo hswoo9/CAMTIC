@@ -193,7 +193,7 @@
                 FROM
                     CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ
                 WHERE
-                    PERSON_SN = #{notIn}
+                    LEC_SN = #{notIn}
                 AND ACTIVE = 'Y'
             )
         </if>
@@ -262,6 +262,7 @@
             *
         FROM
             CAM_PJT_MNG.DJ_PJT_LECTURE
+        ORDER BY LEC_SN DESC
     </select>
 
     <select id="getLectureInfo" parameterType="map" resultType="map">

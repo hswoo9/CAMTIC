@@ -379,7 +379,7 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         bodyMap.put("approKey", approKey);
 
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("pjtSn", approKey);
+        params.put("devSn", approKey);
         params.put("docName", bodyMap.get("formName"));
         params.put("docId", docId);
         params.put("docTitle", bodyMap.get("docTitle"));

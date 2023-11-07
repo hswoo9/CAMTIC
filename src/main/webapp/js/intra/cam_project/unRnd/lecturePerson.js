@@ -126,7 +126,7 @@ let lecturePerson = {
                     title: "불참<br>사유서",
                     width: "5%",
                     template: function(row){
-                        return row.PARTIC_YN == 'Y' ? "접수" : "미접수";
+                        return row.PARTIC_YN == 'Y' ? "미접수" : "접수";
                     }
                 }
             ],

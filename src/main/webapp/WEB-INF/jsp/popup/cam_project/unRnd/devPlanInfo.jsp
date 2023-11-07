@@ -12,7 +12,7 @@
 
 <form id="unRndDevDraftFrm" method="post">
     <input type="hidden" id="pjtSn" name="pjtSn" value="${params.pjtSn}" />
-    <input type="hidden" id="devSn" value="" />
+    <input type="hidden" id="devSn" name="devSn" value="" />
     <input type="hidden" id="menuCd" name="menuCd" value="rndDev">
     <input type="hidden" id="type" name="type" value="drafting">
     <input type="hidden" id="nowUrl" name="nowUrl" />

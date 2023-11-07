@@ -23,7 +23,7 @@
         approvalParams.linkageProcessId = "27";
         approvalParams.linkageType = "2";
         approvalParams.linkageProcessCode = "camticRndDev";
-        approvalParams.approKey = "camticRndDev_${params.pjtSn}";
+        approvalParams.approKey = "camticRndDev_${params.devSn}";
 
         linkageProcessOn(approvalParams);
     }
