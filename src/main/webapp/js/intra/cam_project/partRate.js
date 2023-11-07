@@ -11,7 +11,8 @@ var partRate = {
 
     fn_setData : function (){
         var data = {
-            partRateVerSn : $("#partRateVerSn").val()
+            partRateVerSn : $("#partRateVerSn").val(),
+            pjtSn: $("#pjtSn").val()
         }
         var result = customKendo.fn_customAjax("/project/getPartRateVerData", data);
         var pf = result.fileList
@@ -135,6 +136,7 @@ var partRate = {
             var memHtml = '';
             
             for(var i = 0 ; i < mem.length ; i++){
+                console.log(mng)
                 memHtml += '<tr style="text-align: center" class="bodyTr">';
                 memHtml += '   <td>참여자<input type="hidden" name="partEmpSeq" value="'+mem[i].EMP_SEQ+'" /></td>';
                 memHtml += '   <td>' + mem[i].EMP_NAME + '<input type="hidden" name="partEmpName" value="'+mem[i].EMP_NAME+'" /></td>';

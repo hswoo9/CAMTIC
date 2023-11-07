@@ -1890,6 +1890,53 @@
         ]]>
     </select>
 
+    <select id="getProjectUnRndManagerInfo" parameterType="map" resultType="map"><![CDATA[
+        /*getProjectUnRndManagerInfo*/
+        SELECT
+            A.*,
+            B.*,
+            DATE_FORMAT(C.STR_DT, '%Y-%m-%d') AS PJT_STR_DT,
+            DATE_FORMAT(C.END_DT, '%Y-%m-%d') AS PJT_END_DT,
+            D.CHNG_SAL,
+            D.PART_DET_STR_DT,
+            D.PART_DET_END_DT,
+            D.PART_EMP_NM,
+            D.PART_EMP_SEQ,
+            D.PAY_RATE,
+            D.ITEM_RATE,
+            D.MON_SAL,
+            D.MON_DIFF,
+            D.TOT_PAY_BUDG,
+            D.TOT_ITEM_BUDG,
+            D.TOT_RATE,
+            D.PAY_TOTAL
+        FROM
+            CAM_PJT_MNG.DJ_PJT_UNRND A
+        LEFT JOIN
+            (SELECT
+                 *
+             FROM
+                 CAM_INSIDE.DJ_SALARY_MANAGE
+             WHERE
+                 DATE(START_DT) < (SELECT STR_DT FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{PJT_SN})
+            AND
+            IFNULL(IF(END_DT = "", null, END_DT), DATE('9999-12-31')) >= (SELECT STR_DT FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{PJT_SN})
+            ) B
+        ON
+            A.MNG_EMP_SEQ = B.EMP_SEQ
+            LEFT JOIN
+            CAM_PJT_MNG.DJ_PROJECT C
+            ON
+            A.PJT_SN = C.PJT_SN
+            LEFT JOIN
+            CAM_PJT_MNG.DJ_PART_RATE_DET D
+            ON
+            D.PART_RATE_VER_SN = #{PART_RATE_VER_SN} AND D.PART_EMP_SEQ = A.MNG_EMP_SEQ AND D.PJT_SN = #{PJT_SN}
+        WHERE A.PJT_SN = #{PJT_SN}
+            limit 1
+        ]]>
+    </select>
+
     <select id="getProjectMemberInfo" parameterType="map" resultType="map">
         <![CDATA[
         /*getProjectMemberInfo*/

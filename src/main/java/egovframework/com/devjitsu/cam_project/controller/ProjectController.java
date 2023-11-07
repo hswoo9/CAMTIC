@@ -1114,6 +1114,8 @@ public class ProjectController {
         Map<String, Object> map = projectService.getPartRateVer(params);
         model.addAttribute("map", map);
 
+        Map<String, Object> pjtMap = projectService.getProjectData(params);
+        map.put("busnClass", pjtMap.get("BUSN_CLASS"));
         Map<String, Object> result = projectService.getMngPartRate(map);
         model.addAttribute("result", result);
         if(map != null){

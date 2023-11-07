@@ -896,7 +896,13 @@ public class ProjectServiceImpl implements ProjectService {
         Map<String, Object> result = new HashMap<>();
         List<Map<String, Object>> projectMemberInfo = new ArrayList<>();
 
-        result.put("projectManagerInfo", projectRepository.getProjectManagerInfo(map));
+        String busnClass = map.get("busnClass").toString();
+        if(busnClass.equals("R")){
+            result.put("projectManagerInfo", projectRepository.getProjectManagerInfo(map));
+        }else if(busnClass.equals("S")){
+            result.put("projectManagerInfo", projectRepository.getProjectUnRndManagerInfo(map));
+        }
+
 
         String[] strArr = map.get("JOIN_MEM_SN").toString().split(",");
         for(String str : strArr){

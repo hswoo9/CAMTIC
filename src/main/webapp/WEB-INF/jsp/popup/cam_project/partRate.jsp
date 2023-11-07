@@ -29,6 +29,7 @@
 
 <input type="hidden" id="partRateVerSn" value="${params.partRateVerSn}" />
 <input type="hidden" id="pjtSn" value="${map.PJT_SN}" />
+<input type="hidden" id="busnClass" value="${map.BUSN_CLASS}"/>
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
