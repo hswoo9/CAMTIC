@@ -40,6 +40,8 @@ var unRndDP = {
                 html += "   <td></td>";
                 html += "   <td>개발계획 작성중</td>";
                 html += "</tr>";
+
+                $("#devSn").val(rs.list[i].DEV_SN);
             }
         }
 
