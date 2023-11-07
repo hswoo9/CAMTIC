@@ -573,7 +573,8 @@
                     @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
                     COSI.*,
                     IFNULL((SELECT SCOU.REG_EMP_NAME FROM CAMPUS.DJ_OPENSTUDY_USER SCOU WHERE COSI.OPEN_STUDY_INFO_SN = OPEN_STUDY_INFO_SN limit 1), '') AS MEMBER,
-                    IFNULL((SELECT COUNT(SCOU.REG_EMP_NAME)-1 FROM CAMPUS.DJ_OPENSTUDY_USER SCOU WHERE COSI.OPEN_STUDY_INFO_SN = OPEN_STUDY_INFO_SN), 0) AS MEMBER_COUNT
+                    IFNULL((SELECT COUNT(SCOU.REG_EMP_NAME)-1 FROM CAMPUS.DJ_OPENSTUDY_USER SCOU WHERE COSI.OPEN_STUDY_INFO_SN = OPEN_STUDY_INFO_SN), 0) AS MEMBER_COUNT,
+                    IFNULL((SELECT COUNT(SCOU.REG_EMP_NAME) FROM CAMPUS.DJ_OPENSTUDY_USER SCOU WHERE COSI.OPEN_STUDY_INFO_SN = OPEN_STUDY_INFO_SN), 0) AS MEMBER_COUNT_TOTAL
                 FROM
                     CAMPUS.DJ_OPENSTUDY_INFO COSI,
                     (SELECT @ROWNUM := 0) TMP
@@ -757,6 +758,9 @@
             (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
         <if test='empSeq != null and !"".equals(empSeq)'>
             AND HEI.EMP_SEQ = #{empSeq}
+        </if>
+        <if test='sEmpName != null and !"".equals(sEmpName)'>
+            AND HEI.EMP_NAME_KR LIKE CONCAT('%', #{sEmpName}, '%')
         </if>
         AND WORK_STATUS_CODE = 'Y'
         ORDER BY EMP_NAME_KR

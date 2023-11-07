@@ -47,6 +47,10 @@
                             <input type="text" id="dept" class="searchInput" style="width: 150px;">
                             <input type="text" id="team" class="searchInput" style="width: 150px;">
                         </td>
+                        <th class="text-center th-color">성명</th>
+                        <td>
+                            <input type="text" id="sEmpName" class="searchInput" style="width: 180px;">
+                        </td>
                         <th class="text-center th-color">퇴사자</th>
                         <td>
                             <input type="text" id="active" class="searchInput" style="width: 100px;">
