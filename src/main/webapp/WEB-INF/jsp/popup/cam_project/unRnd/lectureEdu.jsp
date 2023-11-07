@@ -47,7 +47,6 @@
                 <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_appBtn('F')">미수료처리</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="lectureEdu.fn_auditBtn()">청강처리</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_delBtn()">선택삭제</button>
-                <button type="button" class="k-button k-button-solid-base" onclick="">교육비납부</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_particBtn('N')">불참사유서 접수</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_particBtn('Y')">불참사유서 미접수</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
