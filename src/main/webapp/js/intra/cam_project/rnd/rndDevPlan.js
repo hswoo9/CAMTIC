@@ -397,48 +397,21 @@ var rndDP = {
         var rs = customKendo.fn_customAjax("/projectRnd/setDevInfo", data);
 
         if(rs.flag){
-            window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=4";
+            window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=3";
         }
-    },
-
-    fn_approve : function (){
-        if(!confirm("상신하시겠습니까?")){
-            return;
-        }
-        var data = {
-            pjtSn : $("#pjtSn").val()
-        }
-
-        $.ajax({
-            url : "/projectRnd/tmpUpdDevPlanApprove",
-            data : data,
-            type : "post",
-            dataType : "json",
-            success : function (rs){
-                if(rs.code == 200){
-                    window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=4";
-                }
-            }
-        });
-    },
-
-    fn_docView : function (){
-        // alert("열람");
     },
 
     fn_buttonSet : function(devMap){
         var buttonHtml = "";
         if(devMap != null){
-            var status = devMap.status;
+            var status = devMap.STATUS;
             if(status == "0"){
                 buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
-                buttonHtml += "<button type=\"button\" id=\"addVerBtn2\" style=\"float: right; margin-bottom: 5px; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"rndDP.fn_addVersion()\">예비원가 추가</button>";
                 buttonHtml += "<button type=\"button\" id=\"devAppBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.devDrafting()\">상신</button>";
             }else if(status == "10"){
                 buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+devMap.DOC_ID+"', '"+devMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
             }else if(status == "30" || status == "40"){
                 buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
-                buttonHtml += "<button type=\"button\" id=\"addVerBtn2\" style=\"float: right; margin-bottom: 5px; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"rndDP.fn_addVersion()\">예비원가 추가</button>";
                 buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('"+devMap.DOC_ID+"', '"+devMap.DOC_MENU_CD+"', '"+devMap.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
 
             }else if(status == "100"){
@@ -455,7 +428,7 @@ var rndDP = {
     },
 
     devDrafting: function() {
-        $("#devDraftFrm").one("submit", function() {
+        $("#rndDevDraftFrm").one("submit", function() {
             var url = "/popup/cam_project/approvalFormPopup/rndDevApprovalPop.do";
             var name = "_self";
             var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"

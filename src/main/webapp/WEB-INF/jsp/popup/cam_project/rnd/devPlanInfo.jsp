@@ -21,8 +21,6 @@
     <div class="table-responsive">
         <div id="devBtnDiv">
             <button type="button" id="saveBtn2" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="rndDP.fn_save()">저장</button>
-            <button type="button" id="approveBtn2" style="float: right; margin-bottom: 5px; margin-right: 5px;" class="k-button k-button-solid-base" onclick="rndDP.fn_approve()">상신</button>
-            <button type="button" id="rsBtn2" style="float: right; margin-bottom: 5px; margin-right: 5px; display: none" class="k-button k-button-solid-base" disabled onclick="rndDP.fn_docView()">열람</button>
             <button type="button" id="addVerBtn2" style="float: right; margin-bottom: 5px; margin-right: 5px;" class="k-button k-button-solid-base" onclick="rndDP.fn_addVersion()">예비원가 추가</button>
         </div>
 

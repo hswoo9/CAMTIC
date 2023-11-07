@@ -8,15 +8,22 @@
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 
 <input type="hidden" id="step" value="S1" />
-<input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
-<input type="hidden" id="devSn" value="" />
+
+<form id="unRndDevDraftFrm" method="post">
+    <input type="hidden" id="pjtSn" name="pjtSn" value="${params.pjtSn}" />
+    <input type="hidden" id="devSn" value="" />
+    <input type="hidden" id="menuCd" name="menuCd" value="rndDev">
+    <input type="hidden" id="type" name="type" value="drafting">
+    <input type="hidden" id="nowUrl" name="nowUrl" />
+</form>
+
 <div style="padding: 10px">
     <div class="table-responsive">
-        <button type="button" id="saveBtn2" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="unRndDP.fn_save()">저장</button>
-        <button type="button" id="approveBtn2" style="float: right; margin-bottom: 5px; margin-right: 5px;" class="k-button k-button-solid-base" onclick="unRndDP.fn_approve()">상신</button>
-        <button type="button" id="rsBtn2" style="float: right; margin-bottom: 5px; margin-right: 5px; display: none" class="k-button k-button-solid-base" disabled onclick="unRndDP.fn_docView()">열람</button>
-        <button type="button" id="addVerBtn2" style="float: right; margin-bottom: 5px; margin-right: 5px;" class="k-button k-button-solid-base" onclick="unRndDP.fn_addVersion()">예비원가 추가</button>
+        <div id="devBtnDiv">
+            <button type="button" id="saveBtn2" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="unRndDP.fn_save()">저장</button>
+            <button type="button" id="addVerBtn2" style="float: right; margin-bottom: 5px; margin-right: 5px;" class="k-button k-button-solid-base" onclick="unRndDP.fn_addVersion()">예비원가 추가</button>
+        </div>
 
 
         <br><br>

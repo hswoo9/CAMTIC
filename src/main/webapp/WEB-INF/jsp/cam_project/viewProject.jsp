@@ -174,12 +174,12 @@
                         </tr>
                         <tr style="background-color: #f5f5f5;">
                             <td style="text-align: center;"><b>합계</b></td>
-                            <td style="text-align: right;"><b>43건</b></td>
-                            <td style="text-align: right;"><b>6,821백만원</b></td>
+                            <td style="text-align: right;"><b id="rndCount">0건</b></td>
+                            <td style="text-align: right;"><b id="rndSum">0백만원</b></td>
 
                             <td style="text-align: center;"><b>합계</b></td>
-                            <td style="text-align: right;"><b>13건</b></td>
-                            <td style="text-align: right;"><b>10,614백만원</b></td>
+                            <td style="text-align: right;"><b id="unRndCount">0건</b></td>
+                            <td style="text-align: right;"><b id="unRndSum">0백만원</b></td>
 
                             <td style="text-align: center;"><b>합계</b></td>
                             <td style="text-align: right;"><b id="engnCount">0건</b></td>

@@ -47,14 +47,7 @@ var unRndDP = {
 
         var resultMap = customKendo.fn_customAjax("/project/getDevelopPlan", data);
 
-        if(resultMap.rs.STATUS == 100){
-            $("#approveBtn2").css("display", "none");
-            $("#rsBtn2").css("display", "");
-        } else {
-            $("#approveBtn2").css("display", "");
-            $("#rsBtn2").css("display", "none");
-        }
-
+        unRndDP.fn_buttonSet(resultMap.rs);
     },
 
 
@@ -404,32 +397,45 @@ var unRndDP = {
         var rs = customKendo.fn_customAjax("/projectRnd/setDevInfo", data);
 
         if(rs.flag){
-            window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=1";
+            window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=3";
         }
     },
 
-    fn_approve : function (){
-        if(!confirm("상신하시겠습니까?")){
-            return;
-        }
-        var data = {
-            pjtSn : $("#pjtSn").val()
-        }
+    fn_buttonSet : function(devMap){
+        var buttonHtml = "";
+        if(devMap != null){
+            var status = devMap.STATUS;
+            if(status == "0"){
+                buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"unRndDP.fn_save()\">저장</button>";
+                buttonHtml += "<button type=\"button\" id=\"devAppBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"unRndDP.devDrafting()\">상신</button>";
+            }else if(status == "10"){
+                buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+devMap.DOC_ID+"', '"+devMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
+            }else if(status == "30" || status == "40"){
+                buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"unRndDP.fn_save()\">저장</button>";
+                buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('"+devMap.DOC_ID+"', '"+devMap.DOC_MENU_CD+"', '"+devMap.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
 
-        $.ajax({
-            url : "/projectRnd/tmpUpdDevPlanApprove",
-            data : data,
-            type : "post",
-            dataType : "json",
-            success : function (rs){
-                if(rs.code == 200){
-                    window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=1";
-                }
+            }else if(status == "100"){
+                buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+devMap.DOC_ID+"', '"+devMap.APPRO_KEY+"', '"+devMap.DOC_MENU_CD+"');\">열람</button>";
+            } else {
+                buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"unRndDP.fn_save()\">저장</button>";
+                buttonHtml += "<button type=\"button\" id=\"addVerBtn2\" style=\"float: right; margin-bottom: 5px; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"unRndDP.fn_addVersion()\">예비원가 추가</button>";
             }
-        });
+        } else {
+            buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"unRndDP.fn_save()\">저장</button>";
+            buttonHtml += "<button type=\"button\" id=\"addVerBtn2\" style=\"float: right; margin-bottom: 5px; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"unRndDP.fn_addVersion()\">예비원가 추가</button>";
+        }
+        $("#devBtnDiv").html(buttonHtml);
     },
 
-    fn_docView : function (){
-        // alert("열람");
+    devDrafting: function() {
+        $("#unRndDevDraftFrm").one("submit", function() {
+            var url = "/popup/cam_project/approvalFormPopup/rndDevApprovalPop.do";
+            var name = "_self";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            var popup = window.open(url, name, option);
+            this.action = "/popup/cam_project/approvalFormPopup/rndDevApprovalPop.do";
+            this.method = 'POST';
+            this.target = '_self';
+        }).trigger("submit");
     }
 }
