@@ -2727,7 +2727,7 @@
             MONTH(HEI.BDAY) = MONTH(NOW())
         AND
         <![CDATA[
-            DAY(HEI.BDAY) <= DAY(NOW())
+            DAY(HEI.BDAY) >= DAY(NOW())
         ]]>
         ORDER BY
             DAY(HEI.BDAY)

@@ -1,6 +1,7 @@
 package egovframework.com.devjitsu.gw.main.controller;
 
 import egovframework.com.devjitsu.common.service.CommonService;
+import egovframework.com.devjitsu.doc.approval.service.ApprovalUserService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.hp.board.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,10 @@ public class MainController {
     @Autowired
     private BoardService boardService;
 
+    @Autowired
+    private ApprovalUserService approvalUserService;
+
+
     @RequestMapping("/")
     public String index(){
         return "indexA";
@@ -38,16 +43,24 @@ public class MainController {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
+
+        int strStatus = approvalUserService.getUserDocStorageBoxList(params).size();
+
+        model.addAttribute("strStatus", strStatus);
         model.addAttribute("menuList", commonService.getMenuFullJsonString(loginVO));
         model.addAttribute("loginVO", loginVO);
+
         return "indexB";
     }
 
     @RequestMapping("/indexBMain.do")
-    public String indexBMain(HttpServletRequest request, Model model){
+    public String indexBMain(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params){
         HttpSession session = request.getSession();
         session.setAttribute("menuNm", request.getRequestURI());
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        int strStatus = approvalUserService.getUserDocStorageBoxList(params).size();
+        model.addAttribute("strStatus", strStatus);
         model.addAttribute("loginVO", loginVO);
         return "indexB_cp";
     }
