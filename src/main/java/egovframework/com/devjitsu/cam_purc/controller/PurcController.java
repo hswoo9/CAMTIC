@@ -364,4 +364,17 @@ public class PurcController {
         purcService.updPurcInspect(params, request, SERVER_DIR, BASE_DIR);
         return "jsonView";
     }
+
+
+    /**
+     * 구매검수처리 저장/수정
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/purc/updPurcInspectStat.do")
+    public String updPurcInspectStat(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request) {
+        purcService.updPurcInspectStat(params, request, SERVER_DIR, BASE_DIR);
+        return "jsonView";
+    }
 }

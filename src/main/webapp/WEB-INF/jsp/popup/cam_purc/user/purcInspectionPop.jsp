@@ -11,14 +11,9 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_purc/purcInspectionPop.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_purc/purchase.js?v=${today}'/>"></script>
 <input type="hidden" id="stat" value="v" />
+<input type="hidden" id="purcSn" value="${params.purcSn}" />
+<input type="hidden" id="mode" value="${params.mode}" />
 <input type="hidden" id="busnClass" value="${pjtData.BUSN_CLASS}" />
-
-<form id="purcDraftFrm" method="post">
-    <input type="hidden" id="purcSn" name="purcSn" value="${params.purcSn}">
-    <input type="hidden" id="menuCd" name="menuCd" value="purc">
-    <input type="hidden" id="type" name="type" value="drafting">
-    <input type="hidden" id="nowUrl" name="nowUrl" />
-</form>
 
 <div style="padding:0;">
     <div class="table-responsive">
@@ -30,6 +25,7 @@
             </h3>
             <div id="purcBtnDiv" class="btn-st popButton">
                 <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="pri.setPurcReq('W');">저장</button>
+                <button type="button" class="k-button k-button-solid-info" id="inspectBtn" onclick="pri.setInspectApp('100');">검수</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -93,7 +89,7 @@
                         <div id="inspectEmpName" style="height: 27px; display: flex; align-items: center">${loginVO.name}</div>
                     </td>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>검수날짜</th>
-                    <td>
+                    <td id="inspectDtTd">
                         <input id="inspectDt" style="width: 180px">
                     </td>
                 </tr>

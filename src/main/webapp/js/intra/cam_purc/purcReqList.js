@@ -114,7 +114,11 @@ var prm = {
                             }
 
                             if(e.INSPECT_YN == "Y"){
-                                status = "검수완료";
+                                if(e.INSPECT_STATUS != "100"){
+                                    status = "검수완료";
+                                }else{
+                                    status = "검수승인완료";
+                                }
                             }
                         }
                         return status
@@ -127,7 +131,11 @@ var prm = {
                         /** 구매청구서 작성시 검수 버튼 생성*/
                         let html = "";
                         if(e.CLAIM_STATUS == "CAYSY"){
-                            html += '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                            if(e.INSPECT_STATUS != "100"){
+                                html += '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                            }else{
+                                status = "-";
+                            }
                         }else{
                             html += "-"
                         }

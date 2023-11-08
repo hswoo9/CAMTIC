@@ -167,12 +167,18 @@ var purcClaim = {
                     }
                 }, {
                     title: "검수여부",
-                    width: 80,
+                    width: 95,
                     template: function (e){
                         if(e.INSPECT_YN == "Y"){
-                            return "검수완료";
+                            let html = "";
+                            if(e.INSPECT_STATUS != "100"){
+                                html += '<button type="button" class="k-button k-button-solid-base" onclick="purcClaim.fn_inspectionPopup(' + e.PURC_SN + ', \'mng\')">검수</button>';
+                            }else{
+                                return '<a onclick="purcClaim.fn_inspectionPopup(' + e.PURC_SN + ', \'mng\')" style="font-weight: bold ">검수처리완료</a>'
+                            }
+                            return html;
                         }else{
-                            return "검수미완료";
+                            return "검수미작성";
                         }
                     }
                 }
@@ -217,4 +223,14 @@ var purcClaim = {
         var popup = window.open(url, name, option);
 
     },
+
+    fn_inspectionPopup : function (key, mod){
+        var url = "/purc/pop/purcInspectionPop.do";
+        if(key != null && key != ""){
+            url = "/purc/pop/purcInspectionPop.do?purcSn=" + key + "&mode=" + mod;
+        }
+        var name = "blank";
+        var option = "width = 1690, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    }
 }

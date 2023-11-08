@@ -272,4 +272,9 @@ public class PurcServiceImpl implements PurcService {
         params.put("fileKey", fileInsMap.get("file_no"));
         purcRepository.updPurcInspect(params);
     }
+
+    @Override
+    public void updPurcInspectStat(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
+        purcRepository.updPurcInspectStat(params);
+    }
 }

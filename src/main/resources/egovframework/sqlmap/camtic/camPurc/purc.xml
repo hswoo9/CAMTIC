@@ -21,7 +21,8 @@
             WHEN PC.CLAIM_SN IS NOT NULL AND PC.DOC_ID IS NOT NULL AND PC.STATUS != '100' AND PC.STATUS != '101' THEN 'CAYSN'
             WHEN PC.CLAIM_SN IS NOT NULL AND PC.DOC_ID IS NOT NULL AND (PC.STATUS = '100' OR PC.STATUS = '101') THEN 'CAYSY'
             ELSE '' END CLAIM_STATUS,
-            MP.INSPECT_YN
+            MP.INSPECT_YN,
+            MP.INSPECT_STATUS
         FROM
             CAM_MNG.DJ_MNG_PURC MP
         JOIN
@@ -83,7 +84,8 @@
             MC.DOC_ID AS MC_DOC_ID,
             MDI.APPRO_KEY AS MC_APPRO_KEY,
             MDI.DOC_MENU_CD AS MC_DOC_MENU_CD,
-            MP.INSPECT_YN
+            MP.INSPECT_YN,
+            MP.INSPECT_STATUS
         FROM
             CAM_MNG.DJ_MNG_PURC MP
         JOIN
@@ -610,7 +612,8 @@
             C.DELV_DE,
             DI.DOC_NO,
             A.STATUS,
-            (SELECT INSPECT_YN FROM CAM_MNG.DJ_MNG_PURC SA WHERE SA.PURC_SN = A.PURC_SN) AS INSPECT_YN
+            (SELECT INSPECT_YN FROM CAM_MNG.DJ_MNG_PURC SA WHERE SA.PURC_SN = A.PURC_SN) AS INSPECT_YN,
+            (SELECT INSPECT_STATUS FROM CAM_MNG.DJ_MNG_PURC SA WHERE SA.PURC_SN = A.PURC_SN) AS INSPECT_STATUS
         FROM
             CAM_MNG.DJ_PURC_CLAIM A
         LEFT JOIN
@@ -699,6 +702,16 @@
             INSPECT_DT = #{inspectDt},
             INSPECT_FILE_KEY = #{fileKey},
             INSPECT_YN = 'Y'
+        WHERE
+            PURC_SN = #{purcSn}
+    </update>
+
+    <update id="updPurcInspectStat" parameterType="map">
+        /* updPurcInspectStat */
+        UPDATE
+            CAM_MNG.DJ_MNG_PURC
+        SET
+            INSPECT_STATUS = #{status}
         WHERE
             PURC_SN = #{purcSn}
     </update>

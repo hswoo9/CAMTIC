@@ -34,4 +34,6 @@ public interface PurcService {
     List<Map<String, Object>> getPurcProductList(Map<String, Object> params);
 
     void updPurcInspect(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
+
+    void updPurcInspectStat(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
 }

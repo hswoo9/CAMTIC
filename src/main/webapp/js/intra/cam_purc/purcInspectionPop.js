@@ -71,6 +71,12 @@ var pri = {
 
         customKendo.fn_datePicker("inspectDt", 'month', "yyyy-MM-dd", new Date());
         $("#inspectDt").attr("readonly", true);
+
+        if($("#mode").val() == "mng"){
+            $("#saveBtn").hide();
+        }else{
+            $("#inspectBtn").hide();
+        }
     },
     
     purcDataSet : function(){
@@ -93,7 +99,13 @@ var pri = {
             $("#purcReqPurpose").text(data.PURC_REQ_PURPOSE);
             $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
             $("#inspectEmpName").text(data.INSPECT_EMP_NAME);
-            $("#inspectDt").val(data.INSPECT_DT);
+
+            if($("#mode").val() == "mng"){
+                $("#inspectDtTd").html("<div style='margin-top: 3px'>"+data.INSPECT_DT+"</div>");
+                $("#file1Label").hide();
+            }else{
+                $("#inspectDt").val(data.INSPECT_DT);
+            }
 
             if($("input[name='purcType']:checked").val() != ""){
                 $("#project").css("display", "");
@@ -107,6 +119,11 @@ var pri = {
                 $("#file1Sn").val(data.inspectFile.file_no);
                 const e = data.inspectFile;
                 $("#file1Name").html('<span style="cursor: pointer" onclick="fileDown(\''+e.file_path+e.file_uuid+'\', \''+e.file_org_name+'.'+e.file_ext+'\')">'+ e.file_org_name+'.'+e.file_ext +'</span>');
+            }
+
+            if(data.INSPECT_STATUS == "100"){
+                $("#saveBtn").hide();
+                $("#inspectBtn").hide();
             }
 
             pri.purcItemDataSet(data);
@@ -186,12 +203,6 @@ var pri = {
 
         pri.global.createHtmlStr = "" +
             '<tr class="purcItemInfo newArray" id="item' + pri.global.itemIndex + '">';
-        if($("#stat").val() == "v"){
-            pri.global.createHtmlStr += '' +
-                '<td>' +
-                '   <input type="checkbox" id="check'+ pri.global.itemIndex + '" class="childCheck k-checkbox" style="margin-left: 3px;" value="pri.global.itemIndex">' +
-                '</td>';
-        }
         pri.global.createHtmlStr += '' +
             '<td>' +
             '   <input type="hidden" id="purcItemSn' + pri.global.itemIndex + '" name="purcItemSn0" class="purcItemSn">' +
@@ -336,6 +347,19 @@ var pri = {
         if(result.flag){
             alert("저장되었습니다.");
             opener.parent.prm.gridReload();
+            window.close();
+        }
+    },
+
+    setInspectApp : function(status){
+        var formData = new FormData()
+        formData.append("purcSn", $("#purcSn").val())
+        formData.append("status", "100");
+
+        var result = customKendo.fn_customFormDataAjax("/purc/updPurcInspectStat.do", formData);
+        if(result.flag){
+            alert("검수 승인이 완료되었습니다.");
+            opener.parent.purcClaim.gridReload();
             window.close();
         }
     },
