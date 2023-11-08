@@ -19,8 +19,10 @@
         height: 110px;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: left;
     }
+
+
     .contentLink{
         cursor : pointer;
         color: #696C74;
@@ -37,18 +39,22 @@
                 <a href="#">
                     <c:choose>
                         <c:when test="${loginVO.picFilePath ne '' and loginVO.picFilePath ne null}">
-                            <img src="${loginVO.picFilePath}" alt="" class="media-object img-circle" style="height: 100px;text-align: center; margin: 0 auto; margin-bottom: 10px; width:100px;">
+                            <img src="${loginVO.picFilePath}" alt="" class="media-object img-circle" style="height: 100px;text-align: center; margin: 0 20px; margin-bottom: 10px; width:100px;">
                         </c:when>
                         <c:otherwise>
                             등록된 증명사진이 없습니다.
                         </c:otherwise>
                     </c:choose>
                 </a>
+                <div class="media-body" style="margin-right: 35px;">
+                    <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">${loginVO.name}</h4>
+                    <span style="color:#919191; font-size:15px;line-height:32px;letter-spacing: -2px;">${loginVO.orgnztNm}</span>
+                </div>
             </div>
-            <div class="media-body">
-                <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">${loginVO.name}</h4>
-                <span style="color:#919191; font-size:15px;line-height:32px;letter-spacing: -2px;">${loginVO.orgnztNm}</span>
-            </div>
+
+            <div id="date" class="date"></div>
+            <div id="time" class="time"></div>
+
             <div style="margin-top:10px;">
                 <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">결재할 문서</span><span style="color:#919191;font-weight:600;cursor:pointer;" onclick="open_in_frame('/approvalUser/approveWaitDocList.do')">0</span></div>
                 <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">오늘의 일정</span><span style="color:#919191;font-weight:600;">0</span></div>
@@ -283,12 +289,39 @@
         if(menuNm != '' && menuNm != null && menuNm != undefined && menuNm != '/indexBMain.do'){
             open_in_frame(menuNm);
         }
-        getOpenStudy();
-        getscheduleList();
-        getRecentImage();
-        getEmpBirthDayList();
+
+        showClock();
     });
 
+    function showClock()
+    {
+        var dateInfo = new Date();
+        var currentDate=new Date();
+        var divClock=document.getElementById("divClock");
+        var apm=currentDate.getHours();
+        if(apm<12)
+        {
+            apm="오전";
+        }
+        else
+        {
+            apm="오후";
+        }
+
+        var msg = "현재시간 : "+apm +(currentDate.getHours()-12)+"시";
+        msg += currentDate.getMinutes() + "분";
+        msg += currentDate.getSeconds() + "초";
+
+        divClock.innerText=msg;
+
+        setTimeout(showClock,1000);
+    }
+
+
+    getOpenStudy();
+    getscheduleList();
+    getRecentImage();
+    getEmpBirthDayList();
     getActiveList('tab1Ul', 'all');
 
     function getActiveList(v, e){
@@ -515,7 +548,4 @@
 
         $("#empBirthDayList").append(html);
     }
-
-
-
 </script>
