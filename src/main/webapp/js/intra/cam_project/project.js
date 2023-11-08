@@ -58,11 +58,11 @@ var camPrj = {
             index: 0
         });
 
-        this.gridReload();
+        this.mainGrid();
     },
 
     gridReload : function (){
-        this.mainGrid();
+        $("#mainGrid").data("kendoGrid").dataSource.read();
     },
 
     mainGrid: function (){
@@ -116,7 +116,7 @@ var camPrj = {
                 }, {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="camPrj.mainGrid()">' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="camPrj.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -143,18 +143,19 @@ var camPrj = {
             detailTemplate : kendo.template($("#template").html()),
             detailInit: camPrj.detailInit,
             dataBound: function(e){
-                const grid = this;
 
-                /** 협업 없을때 조회 기능 숨김처리 */
-                grid.table.find("tr[role='row']").each(function () {
+                /*const grid = this;
 
-                    var model = grid.dataItem(this);
-                    alert(model.PNT_PJT_SN);
-
-                    if (model.PNT_PJT_SN == null) {
-                        $(this).addClass("hide");
+                /!** 협업 없을때 조회 기능 숨김처리 *!/
+                grid.tbody.find("tr").each(function(){
+                    var dataItem = grid.dataItem($(this));
+                    console.log(12312312);
+                    console.log(dataItem.PNT_PJT_SN == null);
+                    console.log(dataItem);
+                    if(dataItem.PNT_PJT_SN == null){
+                        $(this).find(".k-i-expand").hide();
                     }
-                });
+                });*/
             },
             columns: [
                 {
