@@ -65,6 +65,30 @@
     .hide {
         display: none;
     }
+
+    .k-footer-template td:nth-child(1),
+    .k-footer-template td:nth-child(2),
+    .k-footer-template td:nth-child(3),
+    .k-footer-template td:nth-child(4),
+    .k-footer-template td:nth-child(5),
+    .k-footer-template td:nth-child(6),
+    .k-footer-template td:nth-child(7),
+    .k-footer-template td:nth-child(8),
+    .k-footer-template td:nth-child(9) {
+        border-width: 0;
+    }
+
+    .k-footer-template td:nth-child(12),
+    .k-footer-template td:nth-child(13) {
+        border-width: 0;
+    }
+
+    .k-footer-template td:nth-child(9),
+    .k-footer-template td:nth-child(10){
+        overflow: visible;
+        white-space: nowrap;
+        text-align: right;
+    }
 </style>
 <div class="mainCard">
     <div class="panel">

@@ -4,7 +4,7 @@
 <mapper namespace="project">
 
     <select id="getProjectList" parameterType="map" resultType="map">
-        SELECT A.* FROM CAM_PJT_MNG.DJ_PROJECT A
+        SELECT A.*, (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE A.PJT_SN = SP.PNT_PJT_SN) AS PNT_PJT_SN_CK FROM CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN CAM_CRM.DJ_CRM_INFO B ON A.CRM_SN = B.CRM_SN
         WHERE
         1=1

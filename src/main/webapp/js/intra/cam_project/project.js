@@ -105,7 +105,7 @@ var camPrj = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 489,
+            height: 551,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
@@ -145,19 +145,21 @@ var camPrj = {
             detailTemplate : kendo.template($("#template").html()),
             detailInit: camPrj.detailInit,
             dataBound: function(e){
+                /** 합계 */
+                $("#total").text(fn_numberWithCommas(sum));
+                sum = 0;
 
-                /*const grid = this;
-
-                /!** 협업 없을때 조회 기능 숨김처리 *!/
+                /** 협업 없을때 조회 기능 숨김처리 */
+                const grid = this;
                 grid.tbody.find("tr").each(function(){
                     var dataItem = grid.dataItem($(this));
                     console.log(12312312);
-                    console.log(dataItem.PNT_PJT_SN == null);
                     console.log(dataItem);
-                    if(dataItem.PNT_PJT_SN == null){
+                    console.log(dataItem.PNT_PJT_SN_CK);
+                    if(dataItem.PNT_PJT_SN_CK == null){
                         $(this).find(".k-i-expand").hide();
                     }
-                });*/
+                });
             },
             columns: [
                 {
@@ -229,7 +231,7 @@ var camPrj = {
                 }, {
                     title: "종료예정일",
                     width: 60,
-
+                    footerTemplate: "합계"
                 }, {
                     field: "PJT_AMT",
                     title: "수주금액",
@@ -303,11 +305,6 @@ var camPrj = {
                     }
                 }
             ],
-            dataBound: function(){
-
-                $("#total").text("총계 :" + fn_numberWithCommas(sum) + " 원");
-                sum = 0;
-            },
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);
             }

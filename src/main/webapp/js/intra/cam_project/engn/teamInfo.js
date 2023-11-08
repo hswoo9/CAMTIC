@@ -95,9 +95,9 @@ var teamInfo = {
                 if(rs.code == 200){
                     alert("저장되었습니다.");
 
-                    if($("#pjtSn").val().toString().substring(0,1) == "R"){
+                    if($("#pjtStep").val().toString().substring(0,1) == "R"){
                         window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=5";
-                    } else if ($("#pjtSn").val().toString().substring(0,1) == "R"){
+                    } else if ($("#pjtStep").val().toString().substring(0,1) == "S"){
                         window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=5";
                     } else {
                         window.location.href="/project/pop/viewRegProject.do?pjtSn=" + parameters.pjtSn + "&tab=9";
