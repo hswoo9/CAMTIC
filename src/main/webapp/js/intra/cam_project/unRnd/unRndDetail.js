@@ -13,6 +13,16 @@ var unRndDetail = {
         unRndDetail.fn_setData();
     },
 
+    loading: function(){
+        $.LoadingOverlay("show", {
+            background       : "rgba(0, 0, 0, 0.5)",
+            image            : "",
+            maxSize          : 60,
+            fontawesome      : "fa fa-spinner fa-pulse fa-fw",
+            fontawesomeColor : "#FFFFFF",
+        });
+    },
+
 
     fn_save : function(){
         var parameters = {
@@ -141,6 +151,7 @@ var unRndDetail = {
         if(!confirm("수주확정을 하시겠습니까?")){
             return ;
         }
+        unRndDetail.loading();
 
         $.ajax({
             url : "/projectUnRnd/setDelvApprove",

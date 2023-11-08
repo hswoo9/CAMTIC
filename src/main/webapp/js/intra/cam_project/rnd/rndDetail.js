@@ -32,6 +32,16 @@ var rndDetail = {
         rndDetail.fn_setData();
     },
 
+    loading: function() {
+        $.LoadingOverlay("show", {
+            background: "rgba(0, 0, 0, 0.5)",
+            image: "",
+            maxSize: 60,
+            fontawesome: "fa fa-spinner fa-pulse fa-fw",
+            fontawesomeColor: "#FFFFFF",
+        });
+    },
+
     fn_save : function(){
         var parameters = {
             pjtSn : $("#pjtSn").val(),
@@ -100,6 +110,7 @@ var rndDetail = {
             alert("연구카드사용여부를 작성해주세요.");
             return;
         }
+        unRndDetail.loading();
 
         $.ajax({
             url : "/projectRnd/setRndDetail",

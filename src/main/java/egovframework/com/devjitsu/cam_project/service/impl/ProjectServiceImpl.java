@@ -900,21 +900,24 @@ public class ProjectServiceImpl implements ProjectService {
         List<Map<String, Object>> projectMemberInfo = new ArrayList<>();
 
         String busnClass = map.get("busnClass").toString();
+        Map<String, Object> manageInfo = new HashMap<>();
         if(busnClass.equals("R")){
-            result.put("projectManagerInfo", projectRepository.getProjectManagerInfo(map));
+            manageInfo = projectRepository.getProjectManagerInfo(map);
         }else if(busnClass.equals("S")){
-            result.put("projectManagerInfo", projectRepository.getProjectUnRndManagerInfo(map));
+            manageInfo = projectRepository.getProjectUnRndManagerInfo(map);
         }
-
+        result.put("projectManagerInfo", manageInfo);
 
         String[] strArr = map.get("JOIN_MEM_SN").toString().split(",");
         for(String str : strArr){
-            map.put("MEMBER_SEQ", str);
-            Map<String, Object> memberData = new HashMap<>();
+            if(!str.equals(manageInfo.get("MNG_EMP_SEQ").toString())){
+                map.put("MEMBER_SEQ", str);
+                Map<String, Object> memberData = new HashMap<>();
 
-            memberData = projectRepository.getProjectMemberInfo(map);
+                memberData = projectRepository.getProjectMemberInfo(map);
 
-            projectMemberInfo.add(memberData);
+                projectMemberInfo.add(memberData);
+            }
         }
 
         result.put("projectMemberInfo", projectMemberInfo);

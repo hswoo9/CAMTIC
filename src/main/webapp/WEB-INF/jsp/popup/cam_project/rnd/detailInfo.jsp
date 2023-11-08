@@ -6,6 +6,7 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/rnd/rndDetail.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
+<script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 
 <input type="hidden" id="step" value="R0" />
 <input type="hidden" id="engnSn" value="${params.engnSn}" />

@@ -1823,6 +1823,7 @@
             AND
                 PJT_NM LIKE CONCAT('%', #{pjtNm}, '%')
         </if>
+        ORDER BY PART_RATE_VER_SN DESC
     </select>
 
     <select id="getPartRateVer" parameterType="map" resultType="map">
