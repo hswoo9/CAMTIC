@@ -104,8 +104,8 @@ var snackList = {
                         sum += Number(row.AMOUNT_SN);
                         return fn_numberWithCommas(row.AMOUNT_SN);
                     },
-                    footerTemplate: function(){
-                        return "총계 : "+fn_numberWithCommas(sum)+" 원";
+                    footerTemplate : function () {
+                        return "<span id='total'></span>";
                     }
                 }, {
                     field: "PAY_TYPE_TEXT",
@@ -141,7 +141,12 @@ var snackList = {
                     },
                     width: 100
                 }
-            ]
+            ],
+            dataBound: function(){
+
+                $("#total").text("총계 :" + fn_numberWithCommas(sum) + " 원");
+                sum = 0;
+            }
         }).data("kendoGrid");
     },
 
@@ -250,6 +255,5 @@ var snackList = {
 }
 
 function gridReload(){
-    sum = 0;
     $("#mainGrid").data("kendoGrid").dataSource.read();
 }
