@@ -64,9 +64,9 @@
                 <div style="clear: both;"></div>
             </div>
             <div style="margin-top:10px;">
-                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">상신 문서</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/approvalUser/storageBoxDraftDocList.do')">${strStatus}건</span></div>
-                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">결재할 문서</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/approvalUser/approveWaitDocList.do')">${waitStatus}건</span></div>
-                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">오늘의 일정</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/spot/empScheduleList.do')">${scheduleStatus}건</span></div>
+                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">상신 문서</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/approvalUser/storageBoxDraftDocList.do')">${strStatus} 건</span></div>
+                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">결재할 문서</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/approvalUser/approveWaitDocList.do')">${waitStatus} 건</span></div>
+                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">오늘의 일정</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/spot/empScheduleList.do')">${scheduleStatus} 건</span></div>
             </div>
         </div>
         <div class="panel" style="margin-top:10px;margin-bottom:10px;">
@@ -347,27 +347,23 @@
                     if(v == "tab1Ul"){
                         html += '' +
                             '<li style="border-top:0; border-bottom:0;">' +
-                            '<div style="padding: 10px 10px 0px;">' +
+                            '<p style="padding: 10px 10px 0px; display:flex;">' +
+                            '<span style="width:120px;">' + article.board_NAME + '</span><span style="margin-right:20px;">|</span>' +
                             '<a class="contentLink" onclick="open_in_frame(\'/board/normalBoardDetail.do?boardArticleId=' + article.board_ARTICLE_ID + '\')">' +
-                            '<span style="font-weight:600; font-size:15px;">' + article.board_ARTICLE_TITLE + '</span><span>[' + article.reply_CNT + ']</span>' +
+                            article.board_ARTICLE_TITLE + '[' + article.reply_CNT + ']' +
                             '</a>' +
-                            '</div>' +
-                            '<div style="padding: 5px 10px;">' +
-                            '<span style="margin-right:10px;">' + dt + '</span>' +
-                            '<span style="margin-right:10px;">' + article.reg_EMP_NAME + '</span>' +
-                            '<span style="margin-right:10px;">|</span><span>' + article.board_NAME + '</span>' +
-                            '</div>' +
+                            '<span style="position:absolute; right:10px;">' + dt + '</span>' +
+                            '</p>' +
                             '</li>';
                     }else{
-                        html += '<li>' +
-
+                        html += '' +
+                            '<li style="border-top:0; border-bottom:0;">' +
                             '<p style="padding: 10px 10px 0px;">' +
                             '<a class="contentLink" onclick="open_in_frame(\'/board/normalBoardDetail.do?boardArticleId=' + article.board_ARTICLE_ID + '\')">' +
                             article.board_ARTICLE_TITLE +
                             '</a>' +
                             '<span style="position:absolute; right:10px;">' + dt + '</span>' +
                             '</p>' +
-
                             '</li>';
                     }
                 }
@@ -411,13 +407,14 @@
                 '<div style="display:flex;">' +
                 '<div style="font-weight:600; font-size:13px; margin-right:10px; width:100px;">오픈스터디</div>' +
                 '<div><a href="javascript:openStudyReqPop('+item.OPEN_STUDY_INFO_SN+')">' + item.OPEN_STUDY_NAME + '</a></div>' +
+                '<div style="margin-left: 50px;">' + item.OPEN_STUDY_LOCATION + '</div>' +
+                '<div style="margin-left: 50px;">' + item.MEMBER_COUNT_TOTAL + "명" + '</div>' +
                 '</div>' +
-                '<div>' + item.OPEN_STUDY_DT + '</div>' +
+                '<div style="margin: 0 10px;">' + item.OPEN_STUDY_DT + ' ' + item.START_TIME + ' ~ ' + item.OPEN_STUDY_DT + ' ' + item.END_TIME + '</div>'
                 '</div>' +
                 '</li>';
         });
         $("#schedule1Ul").append(html);
-
     }
 
 
@@ -465,8 +462,8 @@
                             '<div style="margin-left: 20px;"><a href="javascript:fn_detailSchedule(' + article.SCHEDULE_BOARD_ID + ')">' + article.SCHEDULE_TITLE + '</a></div>' +
                             '</div>' +
                             '<div style="margin: 0 10px;">' + article.start + ' ~ ' + article.end + '</div>'
-                        '</div>' +
-                        '</li>';
+                            '</div>' +
+                            '</li>';
                     }else{
                         html += '' +
                             '<li style="border-top:0; border-bottom:0;">' +
@@ -478,8 +475,8 @@
                             '<div style="margin-left: 20px;"><a href="javascript:fn_detailSchedule(' + article.SCHEDULE_BOARD_ID + ')">' + article.SCHEDULE_TITLE + '</a></div>' +
                             '</div>' +
                             '<div style="margin: 0 10px;">' + article.start + ' ~ ' + article.end + '</div>'
-                        '</div>' +
-                        '</li>';
+                            '</div>' +
+                            '</li>';
                     }
                 }
             }else{
