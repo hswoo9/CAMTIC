@@ -249,12 +249,12 @@
             <div class="panel-body" style="padding:5px;">
                 <div class="list" style="border: 1px solid #eee; border-radius: 10px; width: 300px; height: 195px; margin: 10px auto; position: relative;">
                     <div style="display: flex; flex-wrap: wrap; height:100%;">
-                        <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 14px;">캠스팟>일정</span></div>
-                        <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 14px;">캠스팟>제안제도</span></div>
-                        <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 14px;">캠아이템>기준정보</span></div>
-                        <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 14px;">캠매니저>예산관리</span></div>
-                        <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 14px;">캠인사이드>인사관리</span></div>
-                        <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 14px;">캠인사이드>휴가관리</span></div>
+                        <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 13px;">캠스팟>일정</span></div>
+                        <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 13px;">캠스팟>제안제도</span></div>
+                        <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 13px;">캠아이템>기준정보</span></div>
+                        <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 13px;">캠매니저>예산관리</span></div>
+                        <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 13px;">캠인사이드>인사관리</span></div>
+                        <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 13px;">캠인사이드>휴가관리</span></div>
                     </div>
                 </div>
             </div>
