@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -105,5 +106,28 @@ public class ManageController {
         model.addAttribute("params", params);
 
         return "cam_manager/budget/budgetList";
+    }
+
+    @RequestMapping("/mng/budgetDetailList.do")
+    public String budgetDetailList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "cam_manager/budget/budgetDetailList";
+    }
+
+    @RequestMapping("/mng/getBudgetList")
+    public String getBudgetList(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = new ArrayList<>();
+
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
     }
 }

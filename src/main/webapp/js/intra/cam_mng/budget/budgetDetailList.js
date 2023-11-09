@@ -1,4 +1,4 @@
-var budgetList = {
+var budgetDetList = {
 
     global : {
         dropDownDataSource : []
@@ -6,26 +6,26 @@ var budgetList = {
 
     fn_defaultScript: function (){
 
-        budgetList.global.dropDownDataSource = [
+        budgetDetList.global.dropDownDataSource = [
             { text: "진행", value: "1" },
             { text: "종료", value: "2" }
         ]
-        customKendo.fn_dropDownList("searchDept", budgetList.global.dropDownDataSource, "text", "value");
-        $("#searchDept").data("kendoDropDownList").bind("change", budgetList.gridReload);
+        customKendo.fn_dropDownList("searchDept", budgetDetList.global.dropDownDataSource, "text", "value");
+        $("#searchDept").data("kendoDropDownList").bind("change", budgetDetList.gridReload);
 
         customKendo.fn_datePicker("strDate", "depth", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("endDate", "depth", "yyyy-MM-dd", new Date());
 
 
-        budgetList.global.dropDownDataSource = [
+        budgetDetList.global.dropDownDataSource = [
             { text: "프로젝트 명", value: "PJT_NM" },
             { text: "프로젝트 코드", value: "PJT_CD" },
         ]
 
-        customKendo.fn_dropDownList("searchKeyword", budgetList.global.dropDownDataSource, "text", "value");
+        customKendo.fn_dropDownList("searchKeyword", budgetDetList.global.dropDownDataSource, "text", "value");
         customKendo.fn_textBox(["searchValue"]);
 
-        budgetList.mainGrid();
+        budgetDetList.mainGrid();
 
     },
 
@@ -35,7 +35,7 @@ var budgetList = {
             serverPaging: false,
             transport: {
                 read : {
-                    url: '/mng/getBudgetList',
+                    url: '/mng/getbudgetDetList',
                     dataType: "json",
                     type: "post",
                     async: false
@@ -69,7 +69,7 @@ var budgetList = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="budgetList.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="budgetDetList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
