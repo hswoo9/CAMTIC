@@ -52,13 +52,22 @@
                 </div>
             </div>
 
-            <div id="date" class="date"></div>
-            <div id="time" class="time"></div>
+            <div id="timeDiv">
+                <div id="timeClock" style="float:left; text-align:left;">
+                    <div id="date" class="date"></div>
+                    <div id="time" class="time" style="font-size:30px;"></div>
+                </div>
+                <div id="timeWork" style="float:right; margin-right:10px; text-align:left;" >
+                    <p id="workingTime">출근 시간 &nbsp&nbsp 09:00:07</p>
+                    <p id="workTime">퇴근 시간 &nbsp&nbsp --:--:--</p>
+                </div>
+                <div style="clear: both;"></div>
+            </div>
 
             <div style="margin-top:10px;">
-                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">결재할 문서</span><span style="color:#919191;font-weight:600;cursor:pointer;" onclick="open_in_frame('/approvalUser/approveWaitDocList.do')">0</span></div>
-                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">오늘의 일정</span><span style="color:#919191;font-weight:600;">0</span></div>
-                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">작성할 보고</span><span style="color:#919191;font-weight:600; color:#259dab;">120</span></div>
+                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">상신 문서</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/approvalUser/storageBoxDraftDocList.do')">${strStatus}건</span></div>
+                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">결재할 문서</span><span style="color:#919191;font-weight:600;cursor:pointer;" onclick="open_in_frame('/approvalUser/approveWaitDocList.do')">${waitStatus}건</span></div>
+                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">오늘의 일정</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/spot/empScheduleList.do')">${scheduleStatus}건</span></div>
             </div>
         </div>
         <div class="panel" style="margin-top:10px;margin-bottom:10px;">
@@ -100,7 +109,7 @@
                     <li><a href="#tab2" data-toggle="tab" onclick="getActiveList('tab2Ul', '40')"><strong style="font-size:14px;">공지사항</strong></a></li>
                     <li><a href="#tab3" data-toggle="tab" onclick="getActiveList('tab3Ul', '41')"><strong style="font-size:14px;">업무보고</strong></a></li>
                     <li><a href="#tab4" data-toggle="tab" onclick="getActiveList('tab4Ul', '42')"><strong style="font-size:14px;">업무메뉴얼</strong></a></li> <!--규정/지침/절차/양식-->
-                    <li><a href="#tab5" data-toggle="tab"onclick="getActiveList('tab5Ul', '43')"><strong style="font-size:14px;">홍보자료</strong></a></li>
+                    <li><a href="#tab5" data-toggle="tab" onclick="getActiveList('tab5Ul', '43')"><strong style="font-size:14px;">홍보자료</strong></a></li>
                 </ul>
 
                 <!-- Tab panes -->
@@ -260,7 +269,9 @@
             </div>
             <div class="panel-body">
                 <div style="text-align:center;">
-                    <img id="recentImage" alt="" style="width:300px; height:244px;">
+                    <a class="contentLink" href="javascript:detailPageMove(${rs.WATCH_BOARD_ID})">
+                        <img id="recentImage" alt="" style="width:300px; height:244px; cursor:pointer;">
+                    </a>
                 </div>
             </div>
         </div>
@@ -276,12 +287,7 @@
 </div>
 
 <script>
-    var currentDate = new Date();
-    var currentYear = currentDate.getFullYear();
-    var currentMonth = currentDate.getMonth() + 1;
-    var currentYearMonth = currentYear + '.' + currentMonth;
-    var showCurrentMonth = document.querySelector('#currentYearMonth');
-    showCurrentMonth.textContent = currentYearMonth;
+
 
     $(function (){
         var menuNm = '${menuNm}';
@@ -289,33 +295,33 @@
         if(menuNm != '' && menuNm != null && menuNm != undefined && menuNm != '/indexBMain.do'){
             open_in_frame(menuNm);
         }
-        showClock();
     });
 
-    function showClock()
-    {
+    function setClock() {
         var dateInfo = new Date();
-        var currentDate=new Date();
-        var divClock=document.getElementById("divClock");
-        var apm=currentDate.getHours();
-        if(apm<12)
-        {
-            apm="오전";
-        }
-        else
-        {
-            apm="오후";
-        }
+        var hour = modifyNumber(dateInfo.getHours());
+        var min = modifyNumber(dateInfo.getMinutes());
+        var sec = modifyNumber(dateInfo.getSeconds());
+        var year = dateInfo.getFullYear();
+        var month = dateInfo.getMonth()+1
+        var date = dateInfo.getDate();
+        var days = ['일', '월', '화', '수', '목', '금', '토'];
+        var dayOfWeek = days[dateInfo.getDay()];
 
-        var msg = "현재시간 : "+apm +(currentDate.getHours()-12)+"시";
-        msg += currentDate.getMinutes() + "분";
-        msg += currentDate.getSeconds() + "초";
+        $("#date").html(year + "년 " + month + "월 " + date + "일 (" + dayOfWeek + ")");
+        $("#time").html(hour + ":" + min + ":" + sec);
 
-        divClock.innerText=msg;
-
-        setTimeout(showClock,1000);
+        requestAnimationFrame(setClock);
     }
 
+    function modifyNumber(time){
+        if(parseInt(time)<10){
+            return "0" + time;
+        }else
+            return time;
+    }
+
+    setClock();
     $("#calendar").kendoCalendar();
     getscheduleList();
     getRecentImage();
@@ -486,15 +492,17 @@
         }
     }
 
-    function getRecentImage() {
+    function getRecentImage(e) {
         $.ajax({
             url: "/spot/getWatchBoardOne",
+            data: {
+                watchBoardId: e
+            },
             async: false,
             type: "GET",
             success: function (data) {
-                var returnData = data.rs;
-                if (returnData.file_path && returnData.file_uuid) {
-                    var imageUrl = returnData.file_path + returnData.file_uuid;
+                if (data.rs.file_path && data.rs.file_uuid) {
+                    var imageUrl = data.rs.file_path + data.rs.file_uuid;
 
                     $("#recentImage").attr("src", imageUrl);
                 }

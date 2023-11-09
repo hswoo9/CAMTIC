@@ -64,9 +64,9 @@
                 <div style="clear: both;"></div>
             </div>
             <div style="margin-top:10px;">
-                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">상신 문서</span><span style="color:#919191;font-weight:600;">${strStatus}건</span></div>
-                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">결재할 문서</span><span style="color:#919191;font-weight:600;cursor:pointer;" onclick="open_in_frame('/approvalUser/approveWaitDocList.do')">0건</span></div>
-                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">오늘의 일정</span><span style="color:#919191;font-weight:600;">0건</span></div>
+                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">상신 문서</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/approvalUser/storageBoxDraftDocList.do')">${strStatus}건</span></div>
+                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">결재할 문서</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/approvalUser/approveWaitDocList.do')">${waitStatus}건</span></div>
+                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">오늘의 일정</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/spot/empScheduleList.do')">${scheduleStatus}건</span></div>
             </div>
         </div>
         <div class="panel" style="margin-top:10px;margin-bottom:10px;">
@@ -108,7 +108,7 @@
                     <li><a href="#tab2" data-toggle="tab" onclick="getActiveList('tab2Ul', '40')"><strong style="font-size:14px;">공지사항</strong></a></li>
                     <li><a href="#tab3" data-toggle="tab" onclick="getActiveList('tab3Ul', '41')"><strong style="font-size:14px;">업무보고</strong></a></li>
                     <li><a href="#tab4" data-toggle="tab" onclick="getActiveList('tab4Ul', '42')"><strong style="font-size:14px;">업무메뉴얼</strong></a></li> <!--규정/지침/절차/양식-->
-                    <li><a href="#tab5" data-toggle="tab"onclick="getActiveList('tab5Ul', '43')"><strong style="font-size:14px;">홍보자료</strong></a></li>
+                    <li><a href="#tab5" data-toggle="tab" onclick="getActiveList('tab5Ul', '43')"><strong style="font-size:14px;">홍보자료</strong></a></li>
                 </ul>
 
                 <!-- Tab panes -->
@@ -268,7 +268,9 @@
             </div>
             <div class="panel-body">
                 <div style="text-align:center;">
-                    <img id="recentImage" alt="" style="width:300px; height:244px;">
+                    <a class="contentLink" href="javascript:detailPageMove(${rs.WATCH_BOARD_ID})">
+                        <img id="recentImage" alt="" style="width:300px; height:244px; cursor:pointer;">
+                    </a>
                 </div>
             </div>
         </div>
@@ -381,7 +383,7 @@
             url: '/campus/getOpenStudyInfoList',
             type: 'GET',
             data: {
-                OPEN_STUDY_INFO_SN: e,
+                OPEN_STUDY_INFO_SN: e
             },
             success: function (data) {
                 const filteredData = data.list.filter(item => item.STEP === 'B');
@@ -487,20 +489,26 @@
         }
     }
 
-    function getRecentImage() {
+    function getRecentImage(e) {
         $.ajax({
             url: "/spot/getWatchBoardOne",
+            data: {
+                watchBoardId: e
+            },
             async: false,
             type: "GET",
             success: function (data) {
-                var returnData = data.rs;
-                if (returnData.file_path && returnData.file_uuid) {
-                    var imageUrl = returnData.file_path + returnData.file_uuid;
+                if (data.rs.file_path && data.rs.file_uuid) {
+                    var imageUrl = data.rs.file_path + data.rs.file_uuid;
 
                     $("#recentImage").attr("src", imageUrl);
                 }
             }
         });
+    }
+
+    function detailPageMove (watchBoardId){
+        open_in_frame('/spot/watchBoardDetail.do?watchBoardId='+ watchBoardId);
     }
 
     function openStudyReqPop(pk){
