@@ -94,4 +94,16 @@ public class ManageController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/mng/budgetList.do")
+    public String budgetList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "cam_manager/budget/budgetList";
+    }
 }
