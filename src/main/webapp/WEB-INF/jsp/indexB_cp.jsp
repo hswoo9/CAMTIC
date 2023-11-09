@@ -63,10 +63,9 @@
                 </div>
                 <div style="clear: both;"></div>
             </div>
-
             <div style="margin-top:10px;">
                 <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">상신 문서</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/approvalUser/storageBoxDraftDocList.do')">${strStatus}건</span></div>
-                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">결재할 문서</span><span style="color:#919191;font-weight:600;cursor:pointer;" onclick="open_in_frame('/approvalUser/approveWaitDocList.do')">${waitStatus}건</span></div>
+                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">결재할 문서</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/approvalUser/approveWaitDocList.do')">${waitStatus}건</span></div>
                 <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">오늘의 일정</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/spot/empScheduleList.do')">${scheduleStatus}건</span></div>
             </div>
         </div>
@@ -248,16 +247,15 @@
                 </h4>
             </div>
             <div class="panel-body" style="padding:5px;">
-                <div style="border:1px solid #eee; border-radius:10px; width:300px; height:195px; margin:10px auto; position:relative;">
-                    <div style="padding: 20px 0px 40px 20px;">
-                        <div style="line-height:20px;"><span style="font-weight: 600; font-size: 14px;">· 휴가관리</span></div>
-                        <div style="line-height:20px;"><span style="font-weight: 600; font-size: 14px;">· [캠인사이드] 인사관리</span></div>
-                        <div style="line-height:20px;"><span style="font-weight: 600; font-size: 14px;">· [캠인사이드] 자산관리</span></div>
-                        <div style="line-height:20px;"><span style="font-weight: 600; font-size: 14px;">· [캠인사이드] 출장관리</span></div>
+                <div class="list" style="border: 1px solid #eee; border-radius: 10px; width: 300px; height: 195px; margin: 10px auto; position: relative;">
+                    <div style="display: flex; flex-wrap: wrap; height:100%;">
+                        <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 14px;">캠스팟>일정</span></div>
+                        <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 14px;">캠스팟>제안제도</span></div>
+                        <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 14px;">캠아이템>기준정보</span></div>
+                        <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 14px;">캠매니저>예산관리</span></div>
+                        <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 14px;">캠인사이드>인사관리</span></div>
+                        <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 14px;">캠인사이드>휴가관리</span></div>
                     </div>
-                    <%--  <div style="border-top:1px solid #eee; text-align:center;">
-                          <span style="font-size: 15px; line-height: 45px; font-weight: 600;">즐겨찾기 설정</span>
-                      </div>--%>
                 </div>
             </div>
         </div>
@@ -269,7 +267,7 @@
             </div>
             <div class="panel-body">
                 <div style="text-align:center;">
-                    <a class="contentLink" href="javascript:detailPageMove(${rs.WATCH_BOARD_ID})">
+                    <a class="contentLink" href="javascript:detailPageMove()">
                         <img id="recentImage" alt="" style="width:300px; height:244px; cursor:pointer;">
                     </a>
                 </div>
@@ -287,7 +285,7 @@
 </div>
 
 <script>
-
+    var watchBoardId = "";
 
     $(function (){
         var menuNm = '${menuNm}';
@@ -321,12 +319,12 @@
             return time;
     }
 
-    setClock();
     $("#calendar").kendoCalendar();
+    setClock();
+    getOpenStudy();
     getscheduleList();
     getRecentImage();
     getEmpBirthDayList();
-    getOpenStudy();
     getActiveList('tab1Ul', 'all');
 
     function getActiveList(v, e){
@@ -386,7 +384,7 @@
             url: '/campus/getOpenStudyInfoList',
             type: 'GET',
             data: {
-                OPEN_STUDY_INFO_SN: e,
+                OPEN_STUDY_INFO_SN: e
             },
             success: function (data) {
                 const filteredData = data.list.filter(item => item.STEP === 'B');
@@ -495,12 +493,10 @@
     function getRecentImage(e) {
         $.ajax({
             url: "/spot/getWatchBoardOne",
-            data: {
-                watchBoardId: e
-            },
             async: false,
             type: "GET",
             success: function (data) {
+                watchBoardId = data.rs.WATCH_BOARD_ID;
                 if (data.rs.file_path && data.rs.file_uuid) {
                     var imageUrl = data.rs.file_path + data.rs.file_uuid;
 
@@ -508,6 +504,10 @@
                 }
             }
         });
+    }
+
+    function detailPageMove (){
+        open_in_frame('/spot/watchBoardDetail.do?watchBoardId='+ watchBoardId);
     }
 
     function openStudyReqPop(pk){
