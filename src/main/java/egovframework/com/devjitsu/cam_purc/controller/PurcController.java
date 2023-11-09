@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
@@ -240,6 +241,18 @@ public class PurcController {
         return "jsonView";
     }
 
+    @RequestMapping("/purc/getPurcClaimItemData")
+    public String getPurcClaimItemData(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", purcService.getPurcClaimItemData(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/purc/getPurcAssetList")
+    public String getPurcAssetList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", purcService.getPurcAssetList(params));
+        return "jsonView";
+    }
+
     /**
      * 구매청구서 팝업
      * @param params
@@ -361,7 +374,8 @@ public class PurcController {
      */
     @RequestMapping("/purc/updPurcInspect.do")
     public String updPurcInspect(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request) {
-        purcService.updPurcInspect(params, request, SERVER_DIR, BASE_DIR);
+        MultipartFile[] file = request.getFiles("file1").toArray(new MultipartFile[0]);
+        purcService.updPurcInspect(params, file, SERVER_DIR, BASE_DIR);
         return "jsonView";
     }
 
@@ -369,12 +383,33 @@ public class PurcController {
     /**
      * 구매검수처리 저장/수정
      * @param params
-     * @param model
      * @return
      */
     @RequestMapping("/purc/updPurcInspectStat.do")
-    public String updPurcInspectStat(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request) {
-        purcService.updPurcInspectStat(params, request, SERVER_DIR, BASE_DIR);
+    public String updPurcInspectStat(@RequestParam Map<String, Object> params, Model model) {
+        try{
+            purcService.updPurcInspectStat(params);
+            model.addAttribute("code", 200);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+
+    /**
+     * 구매내역 비자산처리
+     * @param params
+     * @return
+     */
+    @RequestMapping("/purc/updItemUnAssetStat")
+    public String updItemUnAssetStat(@RequestParam Map<String, Object> params, Model model) {
+        try{
+            purcService.updItemUnAssetStat(params);
+            model.addAttribute("code", 200);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         return "jsonView";
     }
 }

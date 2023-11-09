@@ -4,6 +4,13 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/asset/proposalList.js?v=${today}"/></script>
+<style>
+    a:hover {
+        color: blue;
+        text-decoration: underline !important;
+        cursor: pointer;
+    }
+</style>
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">

@@ -31,16 +31,16 @@ var crmSi = {
 
                 if(this.value() == "기관"){
                     var dataSource2 = [
-                        {text : "중앙부처", value : "1" },
-                        {text : "지자체", value : "2" },
-                        {text : "기술지원 및 진흥기관", value : "3" },
-                        {text : "교육기관", value : "4" },
-                        {text : "금융지원기관", value : "5" },
-                        {text : "경제진흥기관", value : "6" },
-                        {text : "협회", value : "7" },
-                        {text : "대학", value : "8" },
-                        {text : "연구소(원)", value : "9" },
-                        {text : "기타", value : "10" }
+                        {text : "중앙부처", value : "3" },
+                        {text : "지자체", value : "4" },
+                        {text : "기술지원 및 진흥기관", value : "5" },
+                        {text : "교육기관", value : "6" },
+                        {text : "금융지원기관", value : "7" },
+                        {text : "경제진흥기관", value : "8" },
+                        {text : "협회", value : "9" },
+                        {text : "대학", value : "10" },
+                        {text : "연구소(원)", value : "11" },
+                        {text : "기타", value : "12" }
                     ]
 
                     $("#crmSubClass").data("kendoDropDownList").setDataSource(dataSource2);
