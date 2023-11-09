@@ -244,7 +244,17 @@
             <tr>
               <th>관련사업</th>
               <td colspan="3">
-                임시사업
+                <span id="purcType"></span>
+              </td>
+            </tr>
+            <tr id="project" style="display: none;">
+              <th scope="row" class="text-center th-color">프로젝트</th>
+              <td colspan="3">
+                      <span>
+                          <input type="text" id="pjtNm" value="${pjtData.PJT_NM}"  style="width: 40%;">
+                          <input type="hidden" id="pjtSn" value="${pjtData.PJT_SN}" />
+                          <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="eduReq.fn_projectPop()">검색</button>
+                      </span>
               </td>
             </tr>
             <tr>
@@ -277,5 +287,10 @@
 </div>
 <script>
   eduReq.init();
+
+  function selectProject(sn, nm){
+    $("#pjtSn").val(sn);
+    $("#pjtNm").val(nm);
+  }
 </script>
 </body>

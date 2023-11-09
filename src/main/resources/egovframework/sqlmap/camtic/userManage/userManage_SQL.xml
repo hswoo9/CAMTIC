@@ -2731,7 +2731,7 @@
         ]]>
         ORDER BY
             DAY(HEI.BDAY)
-        DESC LIMIT 3;
+        ASC LIMIT 3;
     </select>
 
 </mapper>
