@@ -137,4 +137,13 @@ public class MainController {
     public String deliveryManagement(){
         return "/engineering/deliveryManagement";
     }
+
+    @RequestMapping("/main/getSearchMenu")
+    public String getSearchMenu(@RequestParam Map<String,Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("empSeq", loginVO.getUniqId());
+        model.addAttribute("ds", commonService.getSearchMenu(params));
+        return "jsonView";
+    }
 }

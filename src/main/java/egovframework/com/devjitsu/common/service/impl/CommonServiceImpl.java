@@ -299,4 +299,9 @@ public class CommonServiceImpl implements CommonService {
     public List<Map<String, Object>> teamList(Map<String, Object> params) {
         return commonRepository.teamList(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getSearchMenu(Map<String, Object> params) {
+        return commonRepository.getSearchMenu(params);
+    }
 }

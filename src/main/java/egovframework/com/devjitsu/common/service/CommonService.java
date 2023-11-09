@@ -45,4 +45,6 @@ public interface CommonService {
     void setDeptInfoDel(Map<String, Object> params);
 
     List<Map<String, Object>> teamList(Map<String, Object> params);
+
+    List<Map<String, Object>> getSearchMenu(Map<String, Object> params);
 }
