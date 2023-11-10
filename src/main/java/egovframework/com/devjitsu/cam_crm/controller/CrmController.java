@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
@@ -96,7 +97,12 @@ public class CrmController {
     }
 
     @RequestMapping("/crm/pop/popCrmList.do")
-    public String popCrmList(@RequestParam Map<String, Object> params, Model model){
+    public String popCrmList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
         return "popup/cam_crm/popCrmList";
     }
@@ -666,6 +672,83 @@ public class CrmController {
     @RequestMapping("/crm/selLgSmCode")
     public String selLgSmCode(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("rs", crmService.selLgSmCode(params));
+        return "jsonView";
+    }
+
+    /**
+     * mou 협약
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/mouAgreement.do")
+    public String mouAgreement(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "cam_crm/mouAgreement";
+    }
+
+    /** mou 둥록 팝업 */
+    @RequestMapping("/crm/pop/regMouAgrPop.do")
+    public String regMouAgrPop(HttpServletRequest request, @RequestParam Map<String, Object> params, Model model){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("menuCd", request.getServletPath().split("/")[1]);
+        model.addAttribute("data", commonService.commonCodeList(params));
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_crm/regMouAgrPop";
+    }
+
+    /** mou 정보 등록 */
+    @RequestMapping("/crm/setMouAgrInfo")
+    public String setMouAgrInfo(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
+        MultipartFile[] mouFiles = request.getFiles("mouFiles").toArray(new MultipartFile[0]);
+        crmService.setMouAgrInfo(params, mouFiles, SERVER_DIR, BASE_DIR);
+        model.addAttribute("params", params);
+        return "jsonView";
+    }
+
+    /** mou 리스트 조회 */
+    @RequestMapping("/crm/getMouAgrList")
+    public String getMouAgrList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", crmService.getMouAgrList(params));
+        return "jsonView";
+    }
+
+    /** mou 리스트 삭제 */
+    @RequestMapping("/crm/setMouAgrSnDel")
+    public String setMouAgrSnDel(@RequestParam Map<String, Object> params){
+        crmService.setMouAgrSnDel(params);
+        return "jsonView";
+    }
+
+    /** mou 체결기관 리스트 조회 */
+    @RequestMapping("/crm/getMouCrmList")
+    public String getMouCrmList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", crmService.getMouCrmList(params));
+        return "jsonView";
+    }
+
+    /** mou 체결기관 저장 */
+    @RequestMapping("/crm/setMouAgrCrmInfo")
+    public String setMouAgrCrmInfo(@RequestParam Map<String, Object> params){
+        crmService.setMouAgrCrmInfo(params);
+        return "jsonView";
+    }
+
+    /** mou 체결기관 삭제 */
+    @RequestMapping("/crm/setMouCrmSnDel")
+    public String setMouCrmSnDel(@RequestParam Map<String, Object> params){
+        crmService.setMouCrmSnDel(params);
         return "jsonView";
     }
 }

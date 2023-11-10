@@ -163,6 +163,22 @@ var popCrmList = {
         } else if ($("#status").val() == "part"){
             opener.parent.$("#crmPartNm").val(rs.CRM_NM);
             opener.parent.$("#crmPartSn").val(rs.CRM_SN);
+        } else if ($("#status").val() == "mou"){
+            var mouData = {
+                mouAgrSn : $("#mouKey").val(),
+                crmSn : rs.CRM_SN,
+                crmNm : rs.CRM_NM,
+                empSeq : $("#empSeq").val()
+            }
+
+            if(confirm('저장하시겠습니까?')){
+                var result = customKendo.fn_customAjax("/crm/setMouAgrCrmInfo", mouData);
+                if(result.flag){
+                    alert("저장되었습니다.");
+                    opener.mouAgr.fn_subGridReload($("#mouKey").val());
+                    window.close();
+                }
+            }
         }
 
         if(opener.parent.fn_selCrmInfo != undefined){

@@ -783,6 +783,63 @@ public class CrmServiceImpl implements CrmService {
         return lgSmList;
     }
 
+    @Override
+    public void setMouAgrInfo(Map<String, Object> params, MultipartFile[] mouFiles, String serverDir, String baseDir) {
+
+        try{
+            crmRepository.setMouAgrInfo(params);
+
+            if(mouFiles.length > 0){
+                MainLib mainLib = new MainLib();
+                List<Map<String, Object>> list = mainLib.multiFileUpload(mouFiles, filePath(params, serverDir));
+                for(int i = 0 ; i < list.size() ; i++){
+                    list.get(i).put("frKey", params.get("MOU_AGR_SN"));
+                    list.get(i).put("empSeq", params.get("regEmpSeq"));
+                    list.get(i).put("fileCd", params.get("menuCd"));
+                    list.get(i).put("filePath", filePath(params, baseDir));
+                    String[] org = list.get(i).get("orgFilename").toString().split("[.]");
+                    String fileOrgName = "";
+                    for(int z = 0 ; z < org.length ; z++){
+                        if(z != org.length - 1){
+                            fileOrgName += org[z];
+                        }
+                    }
+                    list.get(i).put("fileOrgName", fileOrgName);
+                    list.get(i).put("fileExt", org[org.length-1]);
+                }
+                commonRepository.insFileInfo(list);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> getMouAgrList(Map<String, Object> params){
+        return crmRepository.getMouAgrList(params);
+    }
+
+    @Override
+    public void setMouAgrSnDel(Map<String, Object> params) {
+        crmRepository.setMouAgrSnDel(params);
+        crmRepository.setMouCrmSnDel(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getMouCrmList(Map<String, Object> params){
+        return crmRepository.getMouCrmList(params);
+    }
+
+    @Override
+    public void setMouAgrCrmInfo(Map<String, Object> params){
+        crmRepository.setMouAgrCrmInfo(params);
+    }
+
+    @Override
+    public void setMouCrmSnDel(Map<String, Object> params){
+        crmRepository.setMouCrmSnDel(params);
+    }
+
     private String getBrowser(HttpServletRequest request) {
         String header = request.getHeader("User-Agent");
         if (header.indexOf("MSIE") > -1) { // IE 10 �씠�븯

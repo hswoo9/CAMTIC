@@ -70,4 +70,10 @@ public class CrmRepository extends AbstractDAO {
     public void insCrmCode(Map<String, Object> params) {insert("crm.insCrmCode", params);}
     public List<Map<String, Object>> selLgCode(Map<String, Object> params) {return selectList("crm.selLgCode", params);}
     public List<Map<String, Object>> selSmCode(Map<String, Object> params) {return selectList("crm.selSmCode", params);}
+    public Object setMouAgrInfo(Map<String, Object> params) {return insert("crm.setMouAgrInfo", params);}
+    public List<Map<String, Object>> getMouAgrList(Map<String, Object> params) {return selectList("crm.getMouAgrList", params);}
+    public void setMouAgrSnDel(Map<String, Object> params) {update("crm.setMouAgrSnDel", params);}
+    public List<Map<String, Object>> getMouCrmList(Map<String, Object> params) {return selectList("crm.getMouCrmList", params);}
+    public void setMouAgrCrmInfo(Map<String, Object> params) {insert("crm.setMouAgrCrmInfo", params);}
+    public void setMouCrmSnDel(Map<String, Object> params) {update("crm.setMouCrmSnDel", params);}
 }

@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.cam_crm.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,5 +55,10 @@ public interface CrmService {
     List<Map<String, Object>> selLgCode(Map<String, Object> params);
     List<Map<String, Object>> selSmCode(Map<String, Object> params);
     List<Map<String, Object>> selLgSmCode(Map<String, Object> params);
-
+    void setMouAgrInfo(Map<String, Object> params, MultipartFile[] mouFiles, String serverDir, String baseDir);
+    List<Map<String, Object>> getMouAgrList(Map<String, Object> params);
+    void setMouAgrSnDel(Map<String, Object> params);
+    List<Map<String, Object>> getMouCrmList(Map<String, Object> params);
+    void setMouAgrCrmInfo(Map<String, Object> params);
+    void setMouCrmSnDel(Map<String, Object> params);
 }

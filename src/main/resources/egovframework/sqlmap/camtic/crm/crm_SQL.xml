@@ -1291,4 +1291,116 @@
         AND
             CRM_SN = #{crmSn}
     </update>
+
+    <insert id="setMouAgrInfo" parameterType="map">
+        /* setMouAgrInfo */
+        INSERT INTO CAM_CRM.DJ_MOU_AGREEMENT_INFO
+        (
+            MOU_AGR_ST_DT,
+            MOU_AGR_EN_DT,
+            MOU_AGR_PURPOSE,
+            MOU_AGR_CONTENT,
+            MOU_AGR_MANAGER,
+            REG_EMP_SEQ,
+            REG_DATE
+        )
+        VALUES
+        (
+            #{mouStdt},
+            #{mouEndt},
+            #{mouPurpose},
+            #{mouContent},
+            #{mouManager},
+            #{regEmpSeq},
+            NOW()
+        )
+
+        <selectKey resultType="int" keyProperty="MOU_AGR_SN">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="getMouAgrList" parameterType="map" resultType="map">
+        /* getMouAgrList */
+        SELECT
+            MOU_AGR_SN,
+            MOU_AGR_ST_DT,
+            MOU_AGR_EN_DT,
+            MOU_AGR_PURPOSE,
+            MOU_AGR_CONTENT,
+            MOU_AGR_MANAGER
+        FROM
+            CAM_CRM.DJ_MOU_AGREEMENT_INFO
+        WHERE
+            1=1
+        AND
+            ACTIVE = 'Y'
+        ORDER BY MOU_AGR_SN DESC
+    </select>
+
+    <update id="setMouAgrSnDel" parameterType="map">
+        /* setMouAgrSnDel */
+        UPDATE
+            CAM_CRM.DJ_MOU_AGREEMENT_INFO
+        SET
+            ACTIVE = 'N',
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            MOU_AGR_SN IN (${mouAgrSn})
+    </update>
+
+    <select id="getMouCrmList" parameterType="map" resultType="map">
+        /* getMouCrmList */
+        SELECT
+            MOU_CRM_SN,
+            MOU_AGR_SN,
+            CRM_SN,
+            CRM_NM
+        FROM
+            CAM_CRM.DJ_MOU_AGR_CRM
+        WHERE
+            1=1
+        AND
+            ACTIVE = 'Y'
+        AND
+            MOU_AGR_SN = #{mouAgrSn}
+        ORDER BY MOU_CRM_SN DESC
+    </select>
+
+    <insert id="setMouAgrCrmInfo" parameterType="map">
+        /* setMouAgrCrmInfo */
+        INSERT INTO CAM_CRM.DJ_MOU_AGR_CRM
+        (
+            MOU_AGR_SN,
+            CRM_SN,
+            CRM_NM,
+            REG_EMP_SEQ,
+            REG_DATE
+        )
+        VALUES
+        (
+            #{mouAgrSn},
+            #{crmSn},
+            #{crmNm},
+            #{empSeq},
+            NOW()
+        )
+    </insert>
+
+    <update id="setMouCrmSnDel" parameterType="map">
+        /* setMouCrmSnDel */
+        UPDATE
+            CAM_CRM.DJ_MOU_AGR_CRM
+        SET
+            ACTIVE = 'N',
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            MOU_AGR_SN = #{mouAgrSn}
+        <if test='mouCrmSn != null and !"".equals(mouCrmSn)'>
+        AND
+            MOU_CRM_SN IN (${mouCrmSn})
+        </if>
+    </update>
 </mapper>
