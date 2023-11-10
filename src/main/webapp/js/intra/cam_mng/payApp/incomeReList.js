@@ -8,21 +8,21 @@ var incomeReList = {
 
     fn_defaultScript : function (){
 
-        exnpList.global.dropDownDataSource = [
+        incomeReList.global.dropDownDataSource = [
             { text: "작성중", value: "1" },
             { text: "결재대기", value: "2" },
             { text: "결재완료", value: "3" },
         ]
-        customKendo.fn_dropDownList("searchDept", exnpList.global.dropDownDataSource, "text", "value");
-        $("#searchDept").data("kendoDropDownList").bind("change", exnpList.gridReload);
+        customKendo.fn_dropDownList("searchDept", incomeReList.global.dropDownDataSource, "text", "value");
+        $("#searchDept").data("kendoDropDownList").bind("change",incomeReList.gridReload);
 
-        exnpList.global.dropDownDataSource = [
+        incomeReList.global.dropDownDataSource = [
             { text: "문서번호", value: "DOC_NO" },
         ]
 
-        customKendo.fn_dropDownList("searchKeyword", exnpList.global.dropDownDataSource, "text", "value");
+        customKendo.fn_dropDownList("searchKeyword", incomeReList.global.dropDownDataSource, "text", "value");
         customKendo.fn_textBox(["searchValue"]);
-        exnpList.gridReload();
+        incomeReList.gridReload();
     },
 
     mainGrid: function(url, params){
@@ -43,7 +43,7 @@ var incomeReList = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="exnpList.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="incomeReList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -81,7 +81,7 @@ var incomeReList = {
                     width: 300,
                     template: function(e){
                         console.log(e);
-                        return '<div style="cursor: pointer; font-weight: bold" onclick="exnpList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\')">'+e.EXNP_BRIEFS+'</div>';
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="incomeReList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\')">'+e.EXNP_BRIEFS+'</div>';
                     }
                 }, {
                     title: "프로젝트 명",
@@ -140,14 +140,14 @@ var incomeReList = {
     },
 
     gridReload: function (){
-        exnpList.global.searchAjaxData = {
+        incomeReList.global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
             searchDept : $("#searchDept").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val()
         }
 
-        exnpList.mainGrid("/pay/getExnpList", exnpList.global.searchAjaxData);
+        incomeReList.mainGrid("/pay/getExnpList", incomeReList.global.searchAjaxData);
     },
 
     fn_reqRegPopup : function (key, paySn){

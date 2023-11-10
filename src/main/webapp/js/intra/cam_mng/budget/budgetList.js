@@ -56,12 +56,21 @@ var budgetList = {
                 total: function (data) {
                     return data.list.length;
                 },
-            }
+            },
+            pageSize: 10,
         });
 
         $("#mainGrid").kendoGrid({
             dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
             selectable: "row",
+            height: 508,
+            pageable : {
+                refresh : true,
+                pageSizes : [ 10, 20, 30, 50, 100 ],
+                buttonCount : 5
+            },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -82,24 +91,34 @@ var budgetList = {
                     width: 50
                 }, {
                     title : "코드",
-                    field : "",
+                    field : "PJT_CD",
                     width: 150
                 }, {
                     title : "프로젝트 명",
-                    field : "",
-                    width: 500
+                    width: 500,
+                    template:function (e){
+                        return "<a href='javascript:void(0);' style='font-weight: bold' onclick=''>" + e.PJT_NM + "</a>";
+                    }
                 }, {
                     title : "프로젝트 등록",
                     field : "",
                     width: 150,
                 }, {
                     title : "프로젝트 시작",
-                    field : "",
+                    field : "FR_DT",
                     width: 150,
+                    template: function(e){
+                        var dt = e.FR_DT.toString().substring(0, 4) + "-" + e.FR_DT.toString().substring(4, 6) + "-" + e.FR_DT.toString().substring(6, 8)
+                        return dt
+                    }
                 }, {
                     title : "프로젝트 종료",
-                    field : "",
+                    field : "TO_DT",
                     width: 150,
+                    template: function(e){
+                        var dt = e.TO_DT.toString().substring(0, 4) + "-" + e.TO_DT.toString().substring(4, 6) + "-" + e.TO_DT.toString().substring(6, 8)
+                        return dt
+                    }
                 }
             ],
             dataBinding: function(){

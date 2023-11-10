@@ -3,6 +3,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
+<link href="/css/schedule/pignose.calendar.min.css" rel="stylesheet">
+
 <style>
     .boxCss{width:190px; height:90px; color:#fff; background-color:#259dab; text-align:center;}
     .boxCss:hover{background-image: linear-gradient(to right, #259dab 0%, #2574ab 100%);}
@@ -30,6 +32,7 @@
     a:hover {
         text-decoration: underline;
     }
+    .fc-box{border-top: 1px solid #eee; height: auto; font-weight:600; padding:10px; width:226px;}
 </style>
 
 <div id="mainContent">
@@ -83,14 +86,15 @@
             </div>
             <div class="panel-body" style="padding:5px;">
                 <div class="demo-section" style="text-align: center; width:300px; height: 343px;">
-                    <div id="calendar"></div>
+                  <%--  <div id="calendar"></div>--%>
+                      <div class="card" style="border-radius:0;">
+                          <div style="margin:10px 0 0 15px;">
+                              <div class="year-calendar"></div>
+                              <div class="fc-box"></div>
+                          </div>
+                      </div>
                 </div>
-                <script>
-                    $(document).ready(function() {
-                        // create Calendar from div HTML element
-                        $("#calendar").kendoCalendar();
-                    });
-                </script>
+
             </div>
         </div>
     </div>
@@ -407,8 +411,10 @@
                 '<div style="display:flex;">' +
                 '<div style="font-weight:600; font-size:13px; margin-right:10px; width:100px;">오픈스터디</div>' +
                 '<div><a href="javascript:openStudyReqPop('+item.OPEN_STUDY_INFO_SN+')">' + item.OPEN_STUDY_NAME + '</a></div>' +
-                '<div style="margin-left: 50px;">' + item.OPEN_STUDY_LOCATION + '</div>' +
-                '<div style="margin-left: 50px;">' + item.MEMBER_COUNT_TOTAL + "명" + '</div>' +
+                '</div>' +
+                '<div style="display:flex; margin-left:240px;">' +
+                '<div>' + item.OPEN_STUDY_LOCATION + '</div>' +
+                '<div style="margin-left:40px;">' + item.MEMBER_COUNT_TOTAL + "명" + '</div>' +
                 '</div>' +
                 '<div style="margin: 0 10px;">' + item.OPEN_STUDY_DT + ' ' + item.START_TIME + ' ~ ' + item.OPEN_STUDY_DT + ' ' + item.END_TIME + '</div>'
                 '</div>' +
@@ -555,3 +561,9 @@
         $("#empBirthDayList").append(html);
     }
 </script>
+<script src="/js/schedule/custom.min.js"></script>
+<script src="/js/vendors/chartist.min.js"></script>
+<script src="/js/vendors/moment.min.js"></script>
+<script src="/js/vendors/pignose.calendar.min.js"></script>
+<script src="/js/schedule/dashboard-2.js"></script>
+

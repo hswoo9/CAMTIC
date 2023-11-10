@@ -105,4 +105,9 @@ public class G20ServiceImpl implements G20Service {
     public Map<String, Object> getSempData(Map<String, Object> params) {
         return g20Repository.getSempData(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getBudgetList(Map<String, Object> params) {
+        return g20Repository.getBudgetList(params);
+    }
 }

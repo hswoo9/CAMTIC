@@ -6,5 +6,152 @@ var duzonlink = {
         saveAjaxData : "",
     },
 
+    fn_defaultScript : function (){
 
+        duzonlink.global.dropDownDataSource = [
+            { text: "작성중", value: "1" },
+            { text: "결재대기", value: "2" },
+            { text: "결재완료", value: "3" },
+        ]
+        customKendo.fn_dropDownList("searchDept", duzonlink.global.dropDownDataSource, "text", "value");
+        $("#searchDept").data("kendoDropDownList").bind("change", duzonlink.gridReload);
+
+        duzonlink.global.dropDownDataSource = [
+            { text: "문서번호", value: "DOC_NO" },
+        ]
+
+        customKendo.fn_dropDownList("searchKeyword", duzonlink.global.dropDownDataSource, "text", "value");
+        customKendo.fn_textBox(["searchValue"]);
+        duzonlink.gridReload();
+    },
+
+    mainGrid: function(url, params){
+        $("#mainGrid").kendoGrid({
+            dataSource: customKendo.fn_gridDataSource2(url, params),
+            sortable: true,
+            selectable: "row",
+            height : 525,
+            pageable: {
+                refresh: true,
+                pageSizes: [ 10, 20, 30, 50, 100 ],
+                buttonCount: 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            toolbar: [
+                {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="duzonlink.gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }],
+            columns: [
+                {
+                    title: "번호",
+                    width: 50,
+                    template: "#= --record #"
+                }, {
+                    title: "문서유형",
+                    width: 100,
+                    template: function(e){
+                        if(e.PAY_APP_TYPE == 1){
+                            return "세금계산서";
+                        } else if (e.PAY_APP_TYPE == 2){
+                            return "계산서";
+                        } else if(e.PAY_APP_TYPE == 3){
+                            return "신용카드";
+                        } else if(e.PAY_APP_TYPE == 4){
+                            return "직원지급";
+                        } else if(e.PAY_APP_TYPE == 5){
+                            return "소득신고자";
+                        } else {
+                            return "기타";
+                        }
+                    }
+                }, {
+                    field: "DOC_NO",
+                    title: "문서번호",
+                    width: 120,
+                }, {
+                    title: "문서명",
+                    field: "EXNP_BRIEFS",
+                    width: 200,
+                    template: function(e){
+                        console.log(e);
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="exnpReList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\')">'+e.EXNP_BRIEFS+'</div>';
+                    }
+                },{
+                    title: "프로젝트 명",
+                    field: "PJT_NM",
+                    width: 200,
+                    template: function (e){
+                        var pjtNm = e.PJT_NM.toString().substring(0, 25);
+                        return pjtNm + "...";
+                    }
+                }, {
+                    title: "신청일",
+                    width: 80,
+                    field: "REG_DT",
+                    template: function(e){
+                        return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
+                    }
+                }, {
+                    field: "",
+                    title: "결의일자",
+                    width: 100,
+                },{
+                    field: "",
+                    title: "결의구분",
+                    width: 120,
+                },{
+                    field: "",
+                    title: "처리일",
+                    width: 80,
+                },{
+                    field: "",
+                    title: "처리자",
+                    width: 80,
+                }, {
+                    field: "",
+                    title: "인트라넷",
+                    width: 100,
+                },{
+                    field: "",
+                    title: "더존(G20)",
+                    width: 100,
+                }
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
+        }).data("kendoGrid");
+    },
+
+    gridReload: function (){
+        duzonlink.global.searchAjaxData = {
+            empSeq : $("#myEmpSeq").val(),
+            searchDept : $("#searchDept").val(),
+            searchKeyword : $("#searchKeyword").val(),
+            searchValue : $("#searchValue").val()
+        }
+
+        duzonlink.mainGrid("/pay/getExnpList", duzonlink.global.searchAjaxData);
+    },
+
+    fn_reqRegPopup : function (key, paySn){
+        var url = "/payApp/pop/regExnpPop.do";
+        if(key != null && key != ""){
+            url = "/payApp/pop/regExnpPop.do?payAppSn=" + paySn + "&exnpSn=" + key;
+        }
+
+        if(status != null && status != ""){
+            url = url + "&status=" + status;
+        }
+        var name = "blank";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    }
 }

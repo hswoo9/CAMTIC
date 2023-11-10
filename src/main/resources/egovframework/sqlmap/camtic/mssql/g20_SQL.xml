@@ -466,4 +466,36 @@
         /*getBankData*/
         SELECT * FROM ZA_TRADE_DAIKIN WHERE TR_CD = #{TR_CD}
     </select>
+
+    <select id="getBudgetList" parameterType="map" resultType="map">
+        /*getBudgetList*/
+        SELECT
+            A.CO_CD,
+            A.PJT_CD,
+            A.PJT_NM,
+            A.FR_DT,
+            A.TO_DT,
+            A.TR_CD,
+            A.TR_NM,
+            A.BANK_CD,
+            A.BANK_NM,
+            A.BA_NB,
+            A.PJT_TY,
+            A.PJTGRP_CD,
+            A.DEPT_CD,
+            A.EMP_CD,
+            A.PROG_FG
+        FROM VN_G20SPJT_INFO AS A
+        WHERE
+            A.CO_CD NOT IN ('9999')
+            <if test='searchDept == "1" or "1".equals(searchDept)'>
+                AND
+                    A.PROG_FG = '1'
+            </if>
+            <if test='searchDept == "2" or "2".equals(searchDept)'>
+                AND
+                    (A.PROG_FG = '0' OR A.PROG_FG = '9')
+            </if>
+        ORDER BY A.FR_DT DESC
+    </select>
 </mapper>

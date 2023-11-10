@@ -6,9 +6,13 @@
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/camMng.js?v=${today}'/>"></script>
 
-<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/duzonlink.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/duzonlink.js?v=${today}'/>"></script>
 <style>
-
+    a:hover {
+        color: blue;
+        text-decoration: underline !important;
+        cursor: pointer;
+    }
 </style>
 <input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
 <input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
@@ -24,6 +28,27 @@
         </div>
         <div class="panel-body">
             <div>
+                <table class="searchTable table table-bordered mb-0">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="25%">
+                        <col width="10%">
+                        <col width="20%">
+                        <col width="10%">
+                        <col width="25%">
+                    </colgroup>
+                    <tr>
+                        <th class="text-center th-color">상태</th>
+                        <td>
+                            <input type="text" id="searchDept" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">검색어</th>
+                        <td>
+                            <input type="text" id="searchKeyword" style="width: 30%;"/>
+                            <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){crm.gridReload()}"/>
+                        </td>
+                    </tr>
+                </table>
 
                 <div id="mainGrid" style="margin:20px 0;"></div>
             </div>
@@ -32,5 +57,7 @@
 </div><!-- col-md-9 -->
 
 <script>
+
+    duzonlink.fn_defaultScript();
 
 </script>

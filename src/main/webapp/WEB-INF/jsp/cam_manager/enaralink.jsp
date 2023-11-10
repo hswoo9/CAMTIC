@@ -6,7 +6,8 @@
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/camMng.js?v=${today}'/>"></script>
 
-<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/enaralink.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/enaralink.js?v=${today}'/>"></script>
+
 <style>
 
 </style>

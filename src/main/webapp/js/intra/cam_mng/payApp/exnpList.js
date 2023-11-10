@@ -76,7 +76,7 @@ var exnpList = {
                     title: "문서번호",
                     width: 120,
                 }, {
-                    title: "적요",
+                    title: "지급신청서",
                     field: "EXNP_BRIEFS",
                     width: 300,
                     template: function(e){
@@ -90,6 +90,13 @@ var exnpList = {
                     template: function (e){
                         var pjtNm = e.PJT_NM.toString().substring(0, 25);
                         return pjtNm + "...";
+                    }
+                }, {
+                    title: "세출과목",
+                    field: "",
+                    width: 120,
+                    template: function (e){
+
                     }
                 }, {
                     title: "신청일",

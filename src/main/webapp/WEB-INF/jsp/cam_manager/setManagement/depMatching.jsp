@@ -6,7 +6,7 @@
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/camMng.js?v=${today}'/>"></script>
 
-<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/depMatching.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/setManagement/depMatching.js?v=${today}'/>"></script>
 <style>
 
 </style>
@@ -32,5 +32,7 @@
 </div><!-- col-md-9 -->
 
 <script>
+
+    depMatching.fn_defaultScript();
 
 </script>
