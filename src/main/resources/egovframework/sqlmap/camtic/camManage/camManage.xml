@@ -12,4 +12,16 @@
             (EMP_NAME_KR LIKE CONCAT('%', #{searchValue}, '%') OR ACCOUNT_NUM LIKE CONCAT('%', #{searchValue}, '%') OR RES_REGIS_NUM LIKE CONCAT('%', #{searchValue}, '%'))
     </select>
 
+    <select id="getProjectData" parameterType="map" resultType="map">
+        /*getProjectData*/
+        SELECT
+            A.*,
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d %H:%i') as PJT_REG_DT
+        FROM
+            CAM_PJT_MNG.DJ_PROJECT A
+        WHERE
+            A.PJT_CD = #{PJT_CD}
+        LIMIT 1
+    </select>
+
 </mapper>

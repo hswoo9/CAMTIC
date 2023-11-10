@@ -12,4 +12,8 @@ public class ManageRepository extends AbstractDAO {
     public List<Map<String, Object>> getMemList(Map<String, Object> params) {
         return selectList("manage.getMemList", params);
     }
+
+    public Map<String, Object> getProjectData(Map<String, Object> map) {
+        return (Map<String, Object>) selectOne("manage.getProjectData", map);
+    }
 }

@@ -5,6 +5,7 @@ import egovframework.com.devjitsu.cam_manager.service.ManageService;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.common.service.CommonService;
+import egovframework.com.devjitsu.g20.service.G20Service;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +33,9 @@ public class ManageController {
 
     @Autowired
     private CommonService commonService;
+
+    @Autowired
+    private G20Service g20Service;
 
     @Value("#{properties['File.Server.Dir']}")
     private String SERVER_DIR;
@@ -124,7 +129,18 @@ public class ManageController {
     public String getBudgetList(@RequestParam Map<String, Object> params, Model model){
 
         List<Map<String, Object>> list = new ArrayList<>();
+        list = g20Service.getBudgetList(params);
 
+        List<Map<String, Object>> listMap = new ArrayList<>();
+
+        for(int i = 0 ; i < list.size() ; i++){
+            Map<String, Object> bsMap = new HashMap<>();
+            bsMap = manageService.getProjectData(list.get(i));
+
+            if(bsMap != null){
+                list.get(i).put("REG_DT", bsMap.get("PJT_REG_DT"));
+            }
+        }
 
         model.addAttribute("list", list);
 

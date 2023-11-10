@@ -29,4 +29,9 @@ public class ManageServiceImpl implements ManageService {
     public List<Map<String, Object>> getMemList(Map<String, Object> params) {
         return manageRepository.getMemList(params);
     }
+
+    @Override
+    public Map<String, Object> getProjectData(Map<String, Object> map) {
+        return manageRepository.getProjectData(map);
+    }
 }

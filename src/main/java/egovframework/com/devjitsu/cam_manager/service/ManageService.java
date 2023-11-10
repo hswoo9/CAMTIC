@@ -8,4 +8,6 @@ import java.util.Map;
 public interface ManageService {
 
     List<Map<String, Object>> getMemList(Map<String, Object> params);
+
+    Map<String, Object> getProjectData(Map<String, Object> map);
 }
