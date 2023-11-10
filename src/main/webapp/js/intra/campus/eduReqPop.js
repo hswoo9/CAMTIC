@@ -1,5 +1,6 @@
 const eduReq = {
     global : {
+        radioGroupData : "",
     },
 
     init : function(){
@@ -244,6 +245,7 @@ const eduReq = {
         $("#secondCareTelNum").kendoTextBox();
         $("#thirdCareTelNum").kendoTextBox();
         $("#eduMoney").kendoTextBox();
+        $("#pjtNm").kendoTextBox();
         $("#eduMoneyType").kendoRadioGroup({
             items: [
                 { label : "법인카드", value : "1" },
@@ -310,5 +312,45 @@ const eduReq = {
             value : "1"
         });
         $("#eduCategoryDetailName, #levelId, #startDt, #endDt, #regDate").attr("readonly", true);
-    }
+
+        eduReq.global.radioGroupData = [
+            { label: "법인운영", value: "" },
+            { label: "R&D", value: "R" },
+            { label: "비R&D", value: "S" },
+            { label: "엔지니어링", value: "D" },
+            { label: "용역/기타", value: "V" },
+        ]
+        customKendo.fn_radioGroup("purcType", eduReq.global.radioGroupData, "horizontal");
+
+        $("input[name='purcType']").click(function(){
+            if($("input[name='purcType']:checked").val() != ""){
+                $("#project").css("display", "");
+            } else {
+                $("#project").css("display", "none");
+                $("#pjtSn").val("");
+                $("#pjtNm").val("");
+            }
+        });
+
+        if($("#pjtSn").val() != ""){
+            $("#purcType").data("kendoRadioGroup").value($("#busnClass").val());
+            $("input[name='purcType']").trigger("click");
+            $("#purcType").data("kendoRadioGroup").enable(false);
+            $("#pjtSelBtn").prop("disabled", true);
+            $("#pjtNm").prop("disabled", true);
+        }
+
+        if($("#purcSn").val()){
+            eduReq.purcDataSet();
+        }
+    },
+
+    fn_projectPop : function (){
+
+        var url = "/project/pop/projectView.do?busnClass="+ $("input[name='purcType']:checked").val();
+
+        var name = "_blank";
+        var option = "width = 1100, height = 400, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
 }

@@ -315,6 +315,19 @@
             CLAIM_SN = #{claimSn}
     </select>
 
+    <select id="getPurcClaimItemData" parameterType="map" resultType="map">
+        /*getPurcClaimItemData*/
+        SELECT
+            PC.CLAIM_DE,
+            PCI.*
+        FROM
+            CAM_MNG.DJ_PURC_CLAIM PC
+        LEFT JOIN
+            CAM_MNG.DJ_PURC_CLAIM_ITEM PCI ON PC.CLAIM_SN = PCI.CLAIM_SN
+        WHERE
+            CLAIM_ITEM_SN = #{claimItemSn}
+    </select>
+
     <select id="getPurcClaimItemAmtTotal" parameterType="map" resultType="map">
         /* getPurcItemList A합계 B세액 C소계 */
         SELECT
@@ -349,7 +362,6 @@
         WHERE
             CONTENT_ID = #{contentId}
         ORDER BY REG_DATE DESC
-        LIMIT 1;
     </select>
 
     <update id="updatePurcApprStat" parameterType="map">
@@ -636,6 +648,24 @@
             CLAIM_SN DESC
     </select>
 
+    <select id="getPurcAssetList" parameterType="map" resultType="map">
+        /*getPurcAssetList*/
+        SELECT
+            MP.INSPECT_STATUS,
+            PC.CLAIM_DE,
+            PCI.*
+        FROM
+            CAM_MNG.DJ_PURC_CLAIM_ITEM PCI
+        LEFT JOIN
+            CAM_MNG.DJ_PURC_CLAIM PC ON PCI.CLAIM_SN = PC.CLAIM_SN
+        LEFT JOIN
+            CAM_MNG.DJ_MNG_PURC MP ON PC.PURC_SN = MP.PURC_SN
+        WHERE
+            MP.INSPECT_STATUS = '100'
+        AND PROD_CD = 'A'
+        ORDER BY REG_DATE DESC, CLAIM_ITEM_SN
+    </select>
+
     <select id="getPurcSum" parameterType="map" resultType="map">
         /*getPurcSum*/
         SELECT
@@ -700,7 +730,6 @@
         SET
             INSPECT_EMP_NAME = #{inspectEmpName},
             INSPECT_DT = #{inspectDt},
-            INSPECT_FILE_KEY = #{fileKey},
             INSPECT_YN = 'Y'
         WHERE
             PURC_SN = #{purcSn}
@@ -714,5 +743,25 @@
             INSPECT_STATUS = #{status}
         WHERE
             PURC_SN = #{purcSn}
+    </update>
+
+    <update id="updPurcClaimItemStat" parameterType="map">
+        /* updPurcClaimItemStat */
+        UPDATE
+            CAM_MNG.DJ_PURC_CLAIM_ITEM
+        SET
+            PROD_SN = #{astInfoSn}
+        WHERE
+            CLAIM_ITEM_SN = #{itemSn}
+    </update>
+
+    <update id="updItemUnAssetStat" parameterType="map">
+        /* updItemUnAssetStat */
+        UPDATE
+            CAM_MNG.DJ_PURC_CLAIM_ITEM
+        SET
+            PROD_CD = 'N'
+        WHERE
+            CLAIM_ITEM_SN IN (${itemList})
     </update>
 </mapper>

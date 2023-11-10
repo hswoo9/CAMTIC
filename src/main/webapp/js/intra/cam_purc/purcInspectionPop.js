@@ -115,10 +115,9 @@ var pri = {
                 $("#project").css("display", "none");
             }
 
+            console.log(data.inspectFile);
             if(data.inspectFile != null){
-                $("#file1Sn").val(data.inspectFile.file_no);
-                const e = data.inspectFile;
-                $("#file1Name").html('<span style="cursor: pointer" onclick="fileDown(\''+e.file_path+e.file_uuid+'\', \''+e.file_org_name+'.'+e.file_ext+'\')">'+ e.file_org_name+'.'+e.file_ext +'</span>');
+                pri.settingTempFileDataInit(data.inspectFile);
             }
 
             if(data.INSPECT_STATUS == "100"){
@@ -337,8 +336,11 @@ var pri = {
         formData.append("menuCd", "inspect");
         formData.append("empSeq", $("#purcReqEmpName").text());
 
-        if($("#file1")[0].files.length == 1){
-            formData.append("file1", $("#file1")[0].files[0]);
+        /** 증빙파일 첨부파일 */
+        if(fCommon.global.attFiles != null){
+            for(var i = 0; i < fCommon.global.attFiles.length; i++){
+                formData.append("file1", fCommon.global.attFiles[i]);
+            }
         }
 
         if($("#inspectDt").val() == ""){ alert("검수날짜가 작성되지 않았습니다"); return; }
@@ -361,6 +363,30 @@ var pri = {
             alert("검수 승인이 완료되었습니다.");
             opener.parent.purcClaim.gridReload();
             window.close();
+        }
+    },
+
+    /** 첨부파일 데이터 세팅 */
+    settingTempFileDataInit: function(e){
+        var html = '';
+        if(e.length > 0){
+            for(var i = 0; i < e.length; i++){
+                html += '<tr style="text-align: center">';
+                html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+e[i].file_path+e[i].file_uuid+'\', \''+e[i].file_org_name+'.'+e[i].file_ext+'\')">'+e[i].file_org_name+'</span></td>';
+                html += '   <td>'+ e[i].file_ext +'</td>';
+                html += '   <td>'+ e[i].file_size +'</td>';
+                html += '   <td>';
+                html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e[i].file_no +', this)">' +
+                    '			<span class="k-button-text">삭제</span>' +
+                    '		</button>';
+                html += '   </td>';
+                html += '</tr>';
+            }
+            $("#fileGrid").html(html);
+        }else{
+            $("#fileGrid").html('<tr>' +
+                '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                '</tr>');
         }
     },
 }

@@ -23,6 +23,7 @@
             <input type="hidden" id="regEmpName" name="regEmpName" value="${loginVO.name}">
             <input type="hidden" id="astInfoSn" name="astInfoSn" value="${params.astInfoSn}">
             <input type="hidden" id="mod" name="mod" value="${params.modify}">
+            <input type="hidden" id="itemSn" value="${params.itemSn}"/>
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
                     <col width="18%">
@@ -39,7 +40,7 @@
                 </thead>
                 <thead>
                 <tr>
-                    <th scope="row" class="text-center th-color"><span class="red-star"></span>자산 구분</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>자산 구분</th>
                     <td colspan="3">
                         <input type="text" id="astCodeCompanyId" style="width: 18%;">
                         <input type="text" id="astTypeCode" style="width: 18%;">
@@ -53,24 +54,24 @@
                     <td colspan="3"><input type="text" id="astName" style="width: 100%;"></td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color"><span class="red-star"></span>구입 일자</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>구입 일자</th>
                     <td>
                         <input type="text" id="purcDate" style="width: 100%;">
                     </td>
                     <th scope="row" class="text-center th-color">구입 금액</th>
                     <td>
-                        <input type="text" id="purcPrice" style="width: 90%; text-align: right;">원
+                        <input id="purcPrice" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 90%; text-align: right;">원
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color"><span class="red-star"></span>규격</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>규격</th>
                     <td><input type="text" id="modelSize" style="width: 100%;">
-                    <th scope="row" class="text-center th-color">모델명</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>모델명</th>
                     <td><input type="text" id="modelName" style="width: 100%;">
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color"><span class="red-star"></span>구입 업체</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>구입 업체</th>
                     <td>
                         <input type="hidden" id="purcCompanyId" style="width: 70%;" value="1">
                         <input type="text" id="purcCompanyName" style="width: 70%;">
@@ -78,22 +79,22 @@
                             <span class="k-button-text">검색</span>
                         </button>
                     </td>
-                    <th scope="row" class="text-center th-color">제조사</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>제조사</th>
                     <td>
                         <input type="text" id="mfCompany" style="width: 100%;">
                     </td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>자산 상태
+                        <span class="red-star">*</span>자산 상태
                     </th>
                     <td><input type="text" id="astStsCode" style="width: 100%;">
-                    <th scope="row" class="text-center th-color">생산 국가</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>생산 국가</th>
                     <td><input type="text" id="orgCountry" style="width: 100%;">
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color"><span class="red-star"></span>구입 수량 / 단위</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>구입 수량 / 단위</th>
                     <td>
                         <input type="text" id="qty" style="width: 55px;" maxlength="5"> /
                         <input type="text" id="unit" style="width: 75px;">
@@ -107,7 +108,7 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>자금출처 및 지출계좌
+                        <span class="red-star">*</span>자금출처 및 지출계좌
                     </th>
                     <td colspan="3">
                         <span id="fundingSource" style="gap: 0px;"></span>
@@ -120,13 +121,13 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>설치 장소
+                        <span class="red-star">*</span>설치 장소
                     </th>
                     <td>
                         <input type="text" id="astPlaceSn" style="width: 100%;">
                     </td>
                     <th scope="row" class="text-center th-color">
-                        사용자
+                        <span class="red-star">*</span>사용자
                     </th>
                     <td>
                         <input type="hidden" id="empSeq" name="popEmpSeq">
@@ -136,7 +137,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">용도</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>용도</th>
                     <td colspan="3">
                         <textarea type="text" id="purpose" style="width: 100%;"></textarea>
                     </td>

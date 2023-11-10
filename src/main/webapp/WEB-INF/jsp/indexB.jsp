@@ -64,9 +64,9 @@
                 <div style="clear: both;"></div>
             </div>
             <div style="margin-top:10px;">
-                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">상신 문서</span><span style="color:#919191;font-weight:600;">${strStatus}건</span></div>
-                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">결재할 문서</span><span style="color:#919191;font-weight:600;cursor:pointer;" onclick="open_in_frame('/approvalUser/approveWaitDocList.do')">0건</span></div>
-                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">오늘의 일정</span><span style="color:#919191;font-weight:600;">0건</span></div>
+                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">상신 문서</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/approvalUser/storageBoxDraftDocList.do')">${strStatus} 건</span></div>
+                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">결재할 문서</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/approvalUser/approveWaitDocList.do')">${waitStatus} 건</span></div>
+                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">오늘의 일정</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/spot/empScheduleList.do')">${scheduleStatus} 건</span></div>
             </div>
         </div>
         <div class="panel" style="margin-top:10px;margin-bottom:10px;">
@@ -108,7 +108,7 @@
                     <li><a href="#tab2" data-toggle="tab" onclick="getActiveList('tab2Ul', '40')"><strong style="font-size:14px;">공지사항</strong></a></li>
                     <li><a href="#tab3" data-toggle="tab" onclick="getActiveList('tab3Ul', '41')"><strong style="font-size:14px;">업무보고</strong></a></li>
                     <li><a href="#tab4" data-toggle="tab" onclick="getActiveList('tab4Ul', '42')"><strong style="font-size:14px;">업무메뉴얼</strong></a></li> <!--규정/지침/절차/양식-->
-                    <li><a href="#tab5" data-toggle="tab"onclick="getActiveList('tab5Ul', '43')"><strong style="font-size:14px;">홍보자료</strong></a></li>
+                    <li><a href="#tab5" data-toggle="tab" onclick="getActiveList('tab5Ul', '43')"><strong style="font-size:14px;">홍보자료</strong></a></li>
                 </ul>
 
                 <!-- Tab panes -->
@@ -247,16 +247,17 @@
                 </h4>
             </div>
             <div class="panel-body" style="padding:5px;">
-                <div style="border:1px solid #eee; border-radius:10px; width:300px; height:195px; margin:10px auto; position:relative;">
-                    <div style="padding: 20px 0px 40px 20px;">
-                        <div style="line-height:20px;"><span style="font-weight: 600; font-size: 14px;">· 휴가관리</span></div>
-                        <div style="line-height:20px;"><span style="font-weight: 600; font-size: 14px;">· [캠인사이드] 인사관리</span></div>
-                        <div style="line-height:20px;"><span style="font-weight: 600; font-size: 14px;">· [캠인사이드] 자산관리</span></div>
-                        <div style="line-height:20px;"><span style="font-weight: 600; font-size: 14px;">· [캠인사이드] 출장관리</span></div>
+                <div class="list" style="border: 1px solid #eee; border-radius: 10px; width: 300px; height: 195px; margin: 10px auto; position: relative;">
+                    <div style="display: flex; flex-wrap: wrap; height:100%;">
+                        <div style="display: flex; flex-wrap: wrap; height:100%;">
+                            <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 13px;">캠스팟>일정</span></div>
+                            <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 13px;">캠스팟>제안제도</span></div>
+                            <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 13px;">캠아이템>기준정보</span></div>
+                            <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 13px;">캠매니저>예산관리</span></div>
+                            <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 13px;">캠인사이드>인사관리</span></div>
+                            <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 13px;">캠인사이드>휴가관리</span></div>
+                        </div>
                     </div>
-                    <%--  <div style="border-top:1px solid #eee; text-align:center;">
-                          <span style="font-size: 15px; line-height: 45px; font-weight: 600;">즐겨찾기 설정</span>
-                      </div>--%>
                 </div>
             </div>
         </div>
@@ -268,7 +269,9 @@
             </div>
             <div class="panel-body">
                 <div style="text-align:center;">
-                    <img id="recentImage" alt="" style="width:300px; height:244px;">
+                    <a class="contentLink" href="javascript:detailPageMove()">
+                        <img id="recentImage" alt="" style="width:300px; height:244px; cursor:pointer;">
+                    </a>
                 </div>
             </div>
         </div>
@@ -284,6 +287,8 @@
 </div>
 
 <script>
+    var watchBoardId = "";
+
     $(function (){
         var menuNm = '${menuNm}';
 
@@ -342,27 +347,23 @@
                     if(v == "tab1Ul"){
                         html += '' +
                             '<li style="border-top:0; border-bottom:0;">' +
-                            '<div style="padding: 10px 10px 0px;">' +
+                            '<p style="padding: 10px 10px 0px; display:flex;">' +
+                            '<span style="width:120px;">' + article.board_NAME + '</span><span style="margin-right:20px;">|</span>' +
                             '<a class="contentLink" onclick="open_in_frame(\'/board/normalBoardDetail.do?boardArticleId=' + article.board_ARTICLE_ID + '\')">' +
-                            '<span style="font-weight:600; font-size:15px;">' + article.board_ARTICLE_TITLE + '</span><span>[' + article.reply_CNT + ']</span>' +
+                            article.board_ARTICLE_TITLE + '[' + article.reply_CNT + ']' +
                             '</a>' +
-                            '</div>' +
-                            '<div style="padding: 5px 10px;">' +
-                            '<span style="margin-right:10px;">' + dt + '</span>' +
-                            '<span style="margin-right:10px;">' + article.reg_EMP_NAME + '</span>' +
-                            '<span style="margin-right:10px;">|</span><span>' + article.board_NAME + '</span>' +
-                            '</div>' +
+                            '<span style="position:absolute; right:10px;">' + dt + '</span>' +
+                            '</p>' +
                             '</li>';
                     }else{
-                        html += '<li>' +
-
+                        html += '' +
+                            '<li style="border-top:0; border-bottom:0;">' +
                             '<p style="padding: 10px 10px 0px;">' +
                             '<a class="contentLink" onclick="open_in_frame(\'/board/normalBoardDetail.do?boardArticleId=' + article.board_ARTICLE_ID + '\')">' +
                             article.board_ARTICLE_TITLE +
                             '</a>' +
                             '<span style="position:absolute; right:10px;">' + dt + '</span>' +
                             '</p>' +
-
                             '</li>';
                     }
                 }
@@ -381,7 +382,7 @@
             url: '/campus/getOpenStudyInfoList',
             type: 'GET',
             data: {
-                OPEN_STUDY_INFO_SN: e,
+                OPEN_STUDY_INFO_SN: e
             },
             success: function (data) {
                 const filteredData = data.list.filter(item => item.STEP === 'B');
@@ -406,13 +407,14 @@
                 '<div style="display:flex;">' +
                 '<div style="font-weight:600; font-size:13px; margin-right:10px; width:100px;">오픈스터디</div>' +
                 '<div><a href="javascript:openStudyReqPop('+item.OPEN_STUDY_INFO_SN+')">' + item.OPEN_STUDY_NAME + '</a></div>' +
+                '<div style="margin-left: 50px;">' + item.OPEN_STUDY_LOCATION + '</div>' +
+                '<div style="margin-left: 50px;">' + item.MEMBER_COUNT_TOTAL + "명" + '</div>' +
                 '</div>' +
-                '<div>' + item.OPEN_STUDY_DT + '</div>' +
+                '<div style="margin: 0 10px;">' + item.OPEN_STUDY_DT + ' ' + item.START_TIME + ' ~ ' + item.OPEN_STUDY_DT + ' ' + item.END_TIME + '</div>'
                 '</div>' +
                 '</li>';
         });
         $("#schedule1Ul").append(html);
-
     }
 
 
@@ -479,28 +481,32 @@
                 }
             }else{
                 html += '<li>' +
-                        '<p style="padding: 10px 10px 0px;">등록된 게시글이 없습니다.<span style="position:absolute; right:10px;"></span></p>' +
-                        '</li>';
+                    '<p style="padding: 10px 10px 0px;">등록된 게시글이 없습니다.<span style="position:absolute; right:10px;"></span></p>' +
+                    '</li>';
             }
 
             $("#" + v).append(html);
         }
     }
 
-    function getRecentImage() {
+    function getRecentImage(e) {
         $.ajax({
             url: "/spot/getWatchBoardOne",
             async: false,
             type: "GET",
             success: function (data) {
-                var returnData = data.rs;
-                if (returnData.file_path && returnData.file_uuid) {
-                    var imageUrl = returnData.file_path + returnData.file_uuid;
+                watchBoardId = data.rs.WATCH_BOARD_ID;
+                if (data.rs.file_path && data.rs.file_uuid) {
+                    var imageUrl = data.rs.file_path + data.rs.file_uuid;
 
                     $("#recentImage").attr("src", imageUrl);
                 }
             }
         });
+    }
+
+    function detailPageMove (){
+        open_in_frame('/spot/watchBoardDetail.do?watchBoardId='+ watchBoardId);
     }
 
     function openStudyReqPop(pk){

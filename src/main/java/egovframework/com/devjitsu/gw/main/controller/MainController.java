@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.gw.main.controller;
 
+import egovframework.com.devjitsu.cams_pot.service.CustomBoardService;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.doc.approval.service.ApprovalUserService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
@@ -27,6 +28,8 @@ public class MainController {
     @Autowired
     private ApprovalUserService approvalUserService;
 
+    @Autowired
+    private CustomBoardService customBoardService;
 
     @RequestMapping("/")
     public String index(){
@@ -43,10 +46,13 @@ public class MainController {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
-
         int strStatus = approvalUserService.getUserDocStorageBoxList(params).size();
+        int waitStatus = approvalUserService.getApproveDocBoxList(params).size();
+        int scheduleStatus = customBoardService.getScheduleList(params).size();
 
         model.addAttribute("strStatus", strStatus);
+        model.addAttribute("waitStatus", waitStatus);
+        model.addAttribute("scheduleStatus", scheduleStatus);
         model.addAttribute("menuList", commonService.getMenuFullJsonString(loginVO));
         model.addAttribute("loginVO", loginVO);
 
@@ -60,7 +66,12 @@ public class MainController {
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
         int strStatus = approvalUserService.getUserDocStorageBoxList(params).size();
+        int waitStatus = approvalUserService.getApproveDocBoxList(params).size();
+        int scheduleStatus = customBoardService.getScheduleList(params).size();
+
         model.addAttribute("strStatus", strStatus);
+        model.addAttribute("waitStatus", waitStatus);
+        model.addAttribute("scheduleStatus", scheduleStatus);
         model.addAttribute("loginVO", loginVO);
         return "indexB_cp";
     }
@@ -125,5 +136,14 @@ public class MainController {
     @RequestMapping("/engineering/deliveryManagement.do")
     public String deliveryManagement(){
         return "/engineering/deliveryManagement";
+    }
+
+    @RequestMapping("/main/getSearchMenu")
+    public String getSearchMenu(@RequestParam Map<String,Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("empSeq", loginVO.getUniqId());
+        model.addAttribute("ds", commonService.getSearchMenu(params));
+        return "jsonView";
     }
 }

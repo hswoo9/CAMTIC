@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.cam_purc.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
@@ -29,11 +30,17 @@ public interface PurcService {
 
     List<Map<String, Object>> getPurcClaimList(Map<String, Object> params);
 
+    Map<String, Object> getPurcClaimItemData(Map<String, Object> params);
+
+    List<Map<String, Object>> getPurcAssetList(Map<String, Object> params);
+
     Map<String, Object> getPurcSum(Map<String, Object> params);
 
     List<Map<String, Object>> getPurcProductList(Map<String, Object> params);
 
-    void updPurcInspect(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
+    void updPurcInspect(Map<String, Object> params, MultipartFile[] file, String SERVER_DIR, String BASE_DIR);
 
-    void updPurcInspectStat(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
+    void updPurcInspectStat(Map<String, Object> params);
+
+    void updItemUnAssetStat(Map<String, Object> params);
 }

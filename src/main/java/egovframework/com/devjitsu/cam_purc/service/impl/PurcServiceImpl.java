@@ -242,6 +242,17 @@ public class PurcServiceImpl implements PurcService {
     }
 
     @Override
+    public Map<String, Object> getPurcClaimItemData(Map<String, Object> params) {
+        Map<String, Object> result = purcRepository.getPurcClaimItemData(params);
+        return result;
+    }
+
+    @Override
+    public List<Map<String, Object>> getPurcAssetList(Map<String, Object> params) {
+        return purcRepository.getPurcAssetList(params);
+    }
+
+    @Override
     public Map<String, Object> getPurcSum(Map<String, Object> params) {
         return purcRepository.getPurcSum(params);
     }
@@ -252,29 +263,31 @@ public class PurcServiceImpl implements PurcService {
     }
 
     @Override
-    public void updPurcInspect(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
-        MainLib mainLib = new MainLib();
-        Map<String, Object> fileInsMap = new HashMap<>();
+    public void updPurcInspect(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
         /** 검수 파일 */
-        MultipartFile file1 = request.getFile("file1");
-        if(file1 != null){
-            if(!file1.isEmpty()){
-                fileInsMap = mainLib.fileUpload(file1, filePath(params, SERVER_DIR));
-                fileInsMap.put("contentId", "inspect_" + params.get("purcSn"));
-                fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
-                fileInsMap.put("filePath", filePath(params, BASE_DIR));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("empSeq"));
-                commonRepository.insOneFileInfo(fileInsMap);
+        if(file.length > 0){
+            MainLib mainLib = new MainLib();
+            List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, server_dir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", "inspect_" + params.get("purcSn"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, base_dir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
             }
+            commonRepository.insFileInfo(list);
         }
-        params.put("fileKey", fileInsMap.get("file_no"));
         purcRepository.updPurcInspect(params);
     }
 
     @Override
-    public void updPurcInspectStat(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
+    public void updPurcInspectStat(Map<String, Object> params) {
         purcRepository.updPurcInspectStat(params);
+    }
+
+    @Override
+    public void updItemUnAssetStat(Map<String, Object> params) {
+        purcRepository.updItemUnAssetStat(params);
     }
 }

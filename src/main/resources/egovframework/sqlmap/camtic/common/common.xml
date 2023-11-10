@@ -320,4 +320,46 @@
           AND
             CONTENT_ID = #{contentId}
     </select>
+
+    <select id="getSearchMenu" parameterType="map" resultType="map">
+        SELECT
+            M.MENU_ID,
+            M.UPPER_MENU_ID,
+            M.MENU_NAME,
+            M.MENU_TYPE,
+            M.SORT,
+            M.MENU_DEPTH,
+            M.MENU_PATH,
+            M.MENU_ICON,
+            M.ACTIVE,
+            M.LANG,
+            M.MENU_NAME TEXT,
+            M.MENU_NAME_PATH,
+            M.MENU_ID_PATH,
+            M.MENU_CHILDREN_YN,
+            M.MENU_FULL_PATH
+        FROM
+            CAM_COMMON.DJ_MENU_INFO M
+                JOIN
+            (
+                SELECT
+                    MENU_ID
+                FROM
+                    CAM_COMMON.DJ_MENU_AUTHORITY_GROUP MAG
+                        JOIN
+                    CAM_COMMON.DJ_MENU_ALLOW_ACCESS MAA
+                    ON MAA.AUTHORITY_GROUP_ID = MAG.AUTHORITY_GROUP_ID
+                        JOIN
+                    CAM_COMMON.DJ_MENU_AUTHORITY_GRANT MAGU
+                    ON MAG.AUTHORITY_GROUP_ID = MAGU.AUTHORITY_GROUP_ID AND EMP_SEQ = #{empSeq} AND MAGU.ACTIVE = 'Y'
+            )MAGU
+            on M.MENU_ID = MAGU.MENU_ID
+        WHERE
+            ACTIVE = 'Y'
+          AND
+            M.MENU_NAME_PATH LIKE CONCAT('%', #{menuName}, '%')
+        GROUP BY MENU_ID
+        ORDER BY MENU_FULL_PATH
+    </select>
+
 </mapper>

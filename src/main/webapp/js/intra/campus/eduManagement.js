@@ -27,7 +27,7 @@ var eduManagement = {
                     type : "post"
                 },
                 parameterMap: function(data) {
-                    data.empSeq = $("#empSeq").val();
+                    /*data.empSeq = $("#empSeq").val();*/
                     data.eduYear = $("#eduYear").val();
                     return data;
                 }
@@ -78,6 +78,10 @@ var eduManagement = {
                     title: "구분",
                     width: 50
                 }, {
+                    field: "EDU_NAME",
+                    title: "학습명",
+                    width: 200
+                }, {
                     title: "학습기간",
                     width: 150,
                     template: function(row){
@@ -86,20 +90,20 @@ var eduManagement = {
                 }, {
                     field: "EDU_TIME",
                     title: "교육시간",
-                    width: 80
+                    width: 50
                 }, {
                     field: "EDU_LOCATION",
                     title: "장소",
-                    width: 150
+                    width: 100
                 }, {
                     title: "수료/미수료",
-                    width: 80,
+                    width: 50,
                     template: function(row){
                         return row.PART_COUNT+"/"+row.NO_PART_COUNT;
                     }
                 }, {
                     title: "진행현황",
-                    width: 80,
+                    width: 50,
                     template: function(row){
                         if(row.STATUS == 0){
                             return "계획";

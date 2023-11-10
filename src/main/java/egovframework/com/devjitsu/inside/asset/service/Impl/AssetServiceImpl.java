@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.inside.asset.service.Impl;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
+import egovframework.com.devjitsu.cam_purc.repository.PurcRepository;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.common.utiles.CommonUtil;
 import egovframework.com.devjitsu.inside.asset.repository.AssetRepository;
@@ -36,6 +37,9 @@ public class AssetServiceImpl implements AssetService {
 
     @Autowired
     private CommonRepository commonRepository;
+
+    @Autowired
+    private PurcRepository purcRepository;
 
     @Override
     public List<Map<String, Object>> getAssetList(Map<String, Object> params) {
@@ -97,6 +101,11 @@ public class AssetServiceImpl implements AssetService {
                 fileInsMap.put("astFileNo", fileInsMap.get("file_no"));
                 assetRepository.setAstFileNoUpd(fileInsMap);
             }
+        }
+
+        /** 구매에서 자산처리한 데이터 등록할때 key 값 업데이트 */
+        if(params.containsKey("itemSn")){
+            purcRepository.updPurcClaimItemStat(params);
         }
     }
 

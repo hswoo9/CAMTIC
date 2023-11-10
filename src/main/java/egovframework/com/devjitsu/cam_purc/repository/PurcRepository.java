@@ -19,7 +19,7 @@ public class PurcRepository extends AbstractDAO {
     public List<Map<String, Object>> getPurcItemList(Map<String, Object> params) { return selectList("purc.getPurcItemList", params);}
     public Map<String, Object> getPurcItemAmtTotal(Map<String, Object> params) { return (Map<String, Object>) selectOne("purc.getPurcItemAmtTotal", params);}
     public Map<String, Object> getPurcClaimItemAmtTotal(Map<String, Object> params) { return (Map<String, Object>) selectOne("purc.getPurcClaimItemAmtTotal", params);}
-    public Map<String, Object> getPurcReqFileInfo(Map<String, Object> params) { return (Map<String, Object>) selectOne("purc.getPurcReqFileInfo", params);}
+    public List<Map<String, Object>> getPurcReqFileInfo(Map<String, Object> params) { return selectList("purc.getPurcReqFileInfo", params);}
     public void updatePurcApprStat(Map<String, Object> params) { update("purc.updatePurcApprStat", params); }
     public void updatePurcFinalApprStat(Map<String, Object> params) { update("purc.updatePurcFinalApprStat", params); }
     public void updatePurcListFinalApprStat(Map<String, Object> params) { update("purc.updatePurcListFinalApprStat", params); }
@@ -59,6 +59,10 @@ public class PurcRepository extends AbstractDAO {
         return selectList("purc.getPurcClaimItemList", params);
     }
 
+    public Map<String, Object> getPurcClaimItemData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("purc.getPurcClaimItemData", params);
+    }
+
     public void delPurcClaimItem(Map<String, Object> params) {
         delete("purc.delPurcClaimItem", params);
     }
@@ -69,6 +73,10 @@ public class PurcRepository extends AbstractDAO {
 
     public List<Map<String, Object>> getPurcClaimList(Map<String, Object> params) {
         return selectList("purc.getPurcClaimList", params);
+    }
+
+    public List<Map<String, Object>> getPurcAssetList(Map<String, Object> params) {
+        return selectList("purc.getPurcAssetList", params);
     }
 
     public Map<String, Object> getPurcSum(Map<String, Object> params) {
@@ -85,5 +93,13 @@ public class PurcRepository extends AbstractDAO {
 
     public void updPurcInspectStat(Map<String, Object> params) {
         update("purc.updPurcInspectStat", params);
+    }
+
+    public void updPurcClaimItemStat(Map<String, Object> params) {
+        update("purc.updPurcClaimItemStat", params);
+    }
+
+    public void updItemUnAssetStat(Map<String, Object> params) {
+        update("purc.updItemUnAssetStat", params);
     }
 }

@@ -146,4 +146,24 @@ public class ManageController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/mng/duzonlink.do")
+    public String duzonlink(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "cam_manager/duzonlink";
+    }
+
+    @RequestMapping("/mng/enaralink.do")
+    public String enaralink(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "cam_manager/enaralink";
+    }
 }

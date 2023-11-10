@@ -1,40 +1,49 @@
 var addAssetPop = {
 
     global: {
-        dropDownDataSource : "",
-        searchAjaxData : "",
-        saveAjaxData : "",
+        dropDownDataSource: "",
+        searchAjaxData: "",
+        saveAjaxData: "",
     },
 
-    fn_defaultScript: function () {
+    fn_defaultScript : function (){
         addAssetPop.kendoSetting();
 
-        $("#purcPrice").keyup(function(){
-            if($(this).val().toString().toMoney().charAt(0) == "0"){
-                $(this).val($(this).val().toString().substring(1).toMoney());
-            }else{
-                $(this).val($(this).val().toString().toMoney());
-            }
-        });
-
         if($("#mod").val() == "Y"){
-            addAssetPop.modDataInit()
+            addAssetPop.modDataInit();
         }
 
+        /** 구매에서 자산처리한 데이터 등록할때 */
+        if($("#itemSn").val() != ""){
+            const data = {
+                claimItemSn: $("#itemSn").val()
+            }
+            const result = customKendo.fn_customAjax("/purc/getPurcClaimItemData", data);
+            const itemMap = result.data;
+            console.log(result);
+
+            $("#astName").val(itemMap.ITEM_NM);
+            $("#purcDate").val(itemMap.CLAIM_DE);
+            $("#purcPrice").val(fn_numberWithCommas(itemMap.ITEM_AMT));
+            $("#modelSize").val(itemMap.ITEM_STD);
+            $("#qty").val(itemMap.ITEM_EA);
+            $("#unitText").removeAttr("disabled");
+            $("#unitText").val(itemMap.ITEM_UNIT);
+            $("#regType").data("kendoDropDownList").value("2");
+        }
     },
 
-    rdTaskPopup: function() {
+    rdTaskPopup : function(){
         var busnClass = $("input[name='fundingSource']:checked").val(); // busnClass 값 가져오기
         var url = "/Inside/Pop/rdTaskPop.do?busnClass=" + busnClass; // busnClass 값을 url에 추가
         var name = "_blank";
         var option = "width=1100,height=400,top=100,left=400,location=no";
         var popup = window.open(url, name, option);
-
     },
 
 
 
-    fn_saveAstInfo : function() {
+    fn_saveAstInfo : function(){
         if(!$("#astCodeId1").val()){
             alert("카테고리(대)를 선택해주세요.");
             return;
@@ -145,12 +154,14 @@ var addAssetPop = {
                 formData.append("astFile", $("#astFile")[0].files[0]);
             }
 
+            if($("#itemSn").val() != ""){
+                formData.append("itemSn", $("#itemSn").val());
+            }
 
 
 
             var result = customKendo.fn_customFormDataAjax('/inside/setAssetInfo.do', formData);
 
-            console.log(result);
             if(result.flag){
 
                 var parameters = {
@@ -161,7 +172,6 @@ var addAssetPop = {
                     modelNm : result.params.modelName,
                     empSeq : result.params.regEmpSeq
                 }
-
                 parameters.data = JSON.stringify(parameters);
 
                 $.ajax({
@@ -171,22 +181,25 @@ var addAssetPop = {
                     async : false,
                     success : function(rs){
                         alert("자산이 등록되었습니다.");
-                        opener.parent.assetList.gridReload();
+                        if($("#itemSn").val() != ""){
+                            opener.parent.proposalList.mainGrid();
+                        }else{
+                            opener.parent.assetList.gridReload();
+                        }
                         window.close();
                     }
                 });
             }
-
         }
     },
 
-    kendoSetting : function() {
+    kendoSetting : function(){
         $("#purcDate").kendoDatePicker({
             depth: "month",
             start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date()
+            culture: "ko-KR",
+            format: "yyyy-MM-dd",
+            value: new Date()
         });
 
         addAssetPop.global.dropDownDataSource = customKendo.fn_customAjax("/inside/getClassPositionList", {});
@@ -206,12 +219,12 @@ var addAssetPop = {
 
         /** 카테고리 드롭다운 */
         addAssetPop.global.searchAjaxData = {
-            astUpperCode : 0
+            astUpperCode: 0
         }
         addAssetPop.global.dropDownDataSource = customKendo.fn_customAjax("/asset/getAstCategoryList", addAssetPop.global.searchAjaxData);
         addAssetPop.global.dropDownDataSource.rs.unshift({
-            AST_CODE_NM : "카테고리(대)",
-            AST_CODE : "",
+            AST_CODE_NM: "카테고리(대)",
+            AST_CODE: "",
         })
         $("#astCodeId1").kendoDropDownList({
             dataTextField: "AST_CODE_NM",
@@ -223,8 +236,8 @@ var addAssetPop = {
         });
 
         addAssetPop.global.dropDownDataSource = [{
-            AST_CODE_NM : "카테고리(중)",
-            AST_CODE : "",
+            AST_CODE_NM: "카테고리(중)",
+            AST_CODE: "",
         }]
         $("#astCodeId2").kendoDropDownList({
             dataTextField: "AST_CODE_NM",
@@ -233,8 +246,8 @@ var addAssetPop = {
         });
 
         addAssetPop.global.dropDownDataSource = [{
-            AST_CODE_NM : "카테고리(소)",
-            AST_CODE : "",
+            AST_CODE_NM: "카테고리(소)",
+            AST_CODE: "",
         }]
         $("#astCodeId3").kendoDropDownList({
             dataTextField: "AST_CODE_NM",
@@ -244,7 +257,7 @@ var addAssetPop = {
         /** 카테고리 드롭다운 종료 */
 
         addAssetPop.global.searchAjaxData = {
-            insideMdCode : "03"
+            insideMdCode: "03"
         }
         addAssetPop.global.dropDownDataSource = customKendo.fn_customAjax("/inside/getInsideCodeList.do", addAssetPop.global.searchAjaxData);
         $("#astStsCode").kendoDropDownList({
@@ -299,36 +312,39 @@ var addAssetPop = {
 
         $("#fundingSource").kendoRadioGroup({
             items: [
-                {label : "법인운영" , value : "0"},
-                {label : "R&D" , value : "R"},
-                {label : "비R&D" , value : "S"},
-                {label : "엔지니어링" , value : "D"},
-                {label : "용역/기타" , value : "V"},
-                {label : "기타" , value : "3"},
+                {label: "법인운영" , value: "0"},
+                {label: "R&D" , value: "R"},
+                {label: "비R&D" , value: "S"},
+                {label: "엔지니어링" , value: "D"},
+                {label: "용역/기타" , value: "V"},
+                {label: "기타" , value: "3"},
                 /*
-                {label : "협의회" , value : "7"},
-                {label : "기타사업" , value : "3"},
+                {label: "협의회" , value: "7"},
+                {label: "기타사업" , value: "3"},
                 */
             ],
-            layout : "horizontal",
-            labelPosition : "after",
+            layout: "horizontal",
+            labelPosition: "after",
             change : function(){
                 if(this.value() != ""){
                     $("#expAccount").val(this._items.find(element => element.value === this.value()).label);
                     if(this.value() != "0" && this.value() != "3"){
                         $("#bizSearchBtn").show();
+                        $("#pjtNm").parent().show();
                     }else{
                         $("#bizSearchBtn").hide();
+                        $("#pjtNm").parent().hide();
                     }
                 }
             }
         }).data("kendoRadioGroup");
 
         customKendo.fn_textBox(["astName", "purcPrice", "modelSize", "modelName", "purcCompanyName",
-            "mfCompany", "orgCountry", "qty", "expAccount", "pjtNm"])
+            "mfCompany", "orgCountry", "qty", "expAccount", "pjtNm"]);
+        $("#pjtNm").parent().hide();
 
         $("#purpose, #remark").kendoTextArea({
-            rows : 2,
+            rows: 2,
         });
     },
 
@@ -344,24 +360,24 @@ var addAssetPop = {
         }
 
         if($("#" + id).val() != ""){
-            var result = customKendo.fn_customAjax("/asset/getAstCategoryList", {astUpperCode : astUpperCode});
+            var result = customKendo.fn_customAjax("/asset/getAstCategoryList", {astUpperCode: astUpperCode});
             if(result.flag){
                 $("#astCodeId3").data("kendoDropDownList").dataSource.data([{
-                    AST_CODE_NM : "카테고리(소)",
-                    AST_CODE    : "",
+                    AST_CODE_NM: "카테고리(소)",
+                    AST_CODE: "",
                 }]);
 
                 if(id == "astCodeId1"){
                     $("#astCodeId2").data("kendoDropDownList").dataSource.data([{
-                        AST_CODE_NM : "카테고리(중)",
-                        AST_CODE    : "",
+                        AST_CODE_NM: "카테고리(중)",
+                        AST_CODE: "",
                     }]);
                 }
 
                 addAssetPop.global.dropDownDataSource = result.rs;
                 addAssetPop.global.dropDownDataSource.unshift({
-                    AST_CODE_NM : defaultName,
-                    AST_CODE    : "",
+                    AST_CODE_NM: defaultName,
+                    AST_CODE: "",
                 })
 
                 $("#" + changeId).data("kendoDropDownList").dataSource.data(addAssetPop.global.dropDownDataSource)
@@ -427,7 +443,7 @@ var addAssetPop = {
                 $("#relatedFileName").text(result.data.relatedFile.file_org_name + "." + result.data.relatedFile.file_ext);
             }
         }
-    },
+    }
 }
 
 
