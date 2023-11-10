@@ -8,21 +8,21 @@ var replaceList = {
 
     fn_defaultScript : function (){
 
-        exnpList.global.dropDownDataSource = [
+        replaceList.global.dropDownDataSource = [
             { text: "작성중", value: "1" },
             { text: "결재대기", value: "2" },
             { text: "결재완료", value: "3" },
         ]
-        customKendo.fn_dropDownList("searchDept", exnpList.global.dropDownDataSource, "text", "value");
-        $("#searchDept").data("kendoDropDownList").bind("change", exnpList.gridReload);
+        customKendo.fn_dropDownList("searchDept", replaceList.global.dropDownDataSource, "text", "value");
+        $("#searchDept").data("kendoDropDownList").bind("change", replaceList.gridReload);
 
-        exnpList.global.dropDownDataSource = [
+        replaceList.global.dropDownDataSource = [
             { text: "문서번호", value: "DOC_NO" },
         ]
 
-        customKendo.fn_dropDownList("searchKeyword", exnpList.global.dropDownDataSource, "text", "value");
+        customKendo.fn_dropDownList("searchKeyword", replaceList.global.dropDownDataSource, "text", "value");
         customKendo.fn_textBox(["searchValue"]);
-        exnpList.gridReload();
+        replaceList.gridReload();
     },
 
     mainGrid: function(url, params){
@@ -43,7 +43,7 @@ var replaceList = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="exnpList.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="entryList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -76,20 +76,19 @@ var replaceList = {
                     title: "문서번호",
                     width: 120,
                 }, {
-                    title: "적요",
-                    field: "EXNP_BRIEFS",
-                    width: 300,
-                    template: function(e){
-                        console.log(e);
-                        return '<div style="cursor: pointer; font-weight: bold" onclick="exnpList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\')">'+e.EXNP_BRIEFS+'</div>';
-                    }
-                }, {
                     title: "프로젝트 명",
                     field: "PJT_NM",
                     width: 200,
                     template: function (e){
                         var pjtNm = e.PJT_NM.toString().substring(0, 25);
                         return pjtNm + "...";
+                    }
+                }, {
+                    title: "세출과목",
+                    field: "",
+                    width: 120,
+                    template: function (e){
+
                     }
                 }, {
                     title: "신청일",
@@ -140,14 +139,14 @@ var replaceList = {
     },
 
     gridReload: function (){
-        exnpList.global.searchAjaxData = {
+        replaceList.global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
             searchDept : $("#searchDept").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val()
         }
 
-        exnpList.mainGrid("/pay/getExnpList", exnpList.global.searchAjaxData);
+        replaceList.mainGrid("/pay/getExnpList", replaceList.global.searchAjaxData);
     },
 
     fn_reqRegPopup : function (key, paySn){

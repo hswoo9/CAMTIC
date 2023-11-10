@@ -22,7 +22,7 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">지급신청서 검토 (대체 결의서)</h4>
+            <h4 class="panel-title">대체 결의서</h4>
             <div class="title-road">캠매니저 > 결의서관리 &gt; 대체 결의서</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
