@@ -215,6 +215,11 @@ var rndRPR = {
                     repDate = new Date(ls[i].REP_DATE).toISOString().replace('T', ' ').slice(0, -5)
                 }
 
+                var confDate = "";
+                if(ls[i].CONF_DATE != null){
+                    confDate = new Date(ls[i].CONF_DATE).toISOString().replace('T', ' ').slice(0, -5)
+                }
+
                 var mngComm = "";
                 if(ls[i].MNG_COMM != null){
                     mngComm = ls[i].MNG_COMM;
@@ -228,7 +233,7 @@ var rndRPR = {
                 html += '   <td style="text-align: right">' + comma(Number(ls[i].PAY_BUDGET) + Number(ls[i].ITEM_BUDGET)) + '</td>';
                 html += '   <td>'+ new Date(ls[i].REQ_DATE).toISOString().replace('T', ' ').slice(0, -5) +'</td>';
                 html += '   <td>'+ repDate +'</td>';
-                html += '   <td></td>';
+                html += '   <td>'+ confDate +'</td>';
                 html += '   <td>'+mngComm+'</td>';
                 html += '   <td>'+mngStat+'</td>';
                 html += '</tr>';

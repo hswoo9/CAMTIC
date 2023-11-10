@@ -42,8 +42,9 @@
                 <c:if test='${data.MNG_STAT == "S"}'>
                     <button type="button" id="confirmBtn" class="k-button k-button-solid-info" onclick="partRate.fn_confirm()">참여율 확정</button>
                 </c:if>
-                <button type="button" id="saveBtn" class="k-button k-button-solid-info" onclick="partRate.fn_save()">저장</button>
-
+                <c:if test='${data.MNG_STAT != "C"}'>
+                    <button type="button" id="saveBtn" class="k-button k-button-solid-info" onclick="partRate.fn_save()">저장</button>
+                </c:if>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>
         </div>

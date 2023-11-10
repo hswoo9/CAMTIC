@@ -2097,7 +2097,7 @@
         UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
         SET
             MNG_STAT = 'C',
-            MOD_DT = now()
+            CONF_DATE = now()
         WHERE
             PART_RATE_VER_SN = #{partRateVerSn}
     </update>
