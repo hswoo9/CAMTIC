@@ -751,4 +751,28 @@ public class CrmController {
         crmService.setMouCrmSnDel(params);
         return "jsonView";
     }
+
+    @RequestMapping("/crm/customerCondition.do")
+    public String customerCondition(Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "/cam_crm/customerCondition";
+    }
+
+    @RequestMapping("/crm/variousCondition.do")
+    public String variousCondition(Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "/cam_crm/variousCondition";
+    }
 }
