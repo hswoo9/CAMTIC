@@ -2092,4 +2092,14 @@
         </foreach>
     </select>
 
+    <update id="confirmPartRate" parameterType="map">
+        /*confirmPartRate*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
+        SET
+            MNG_STAT = 'C',
+            MOD_DT = now()
+        WHERE
+            PART_RATE_VER_SN = #{partRateVerSn}
+    </update>
+
 </mapper>

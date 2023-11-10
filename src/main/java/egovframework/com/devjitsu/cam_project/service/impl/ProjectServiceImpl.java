@@ -961,6 +961,11 @@ public class ProjectServiceImpl implements ProjectService {
 
         return projectRepository.partRateEmpInfo(ar);
     }
+
+    @Override
+    public void confirmPartRate(Map<String, Object> params) {
+        projectRepository.confirmPartRate(params);
+    }
 }
 
 

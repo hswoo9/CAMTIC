@@ -43,7 +43,6 @@ var partRate = {
                 '	<td colspan="3" style="text-align: center">첨부된 파일이 없습니다.</td>' +
                 '</tr>');
         }
-        console.log()
         if(mng != null){
             var mngHtml = "";
 
@@ -65,7 +64,12 @@ var partRate = {
             mngHtml += '   <td><input type="text" id="mngPayTotal" name="payTotal" style="text-align: right" value="0" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"></td>';
             mngHtml += '   <td><input type="text" id="mngMonSal" name="monSal" style="text-align: right" disabled value="0"></td>';      // 월 인건비
             mngHtml += '   <td><button type="button" class="k-button k-button-solid-info">참여율</button></td>';      // 참여율 조회
-            mngHtml += '   <td><button type="button" class="k-button k-button-solid-error">삭제</button></td>';      // 삭제
+
+            if(rs.MNG_STAT == "R"){
+                mngHtml += '   <td><button type="button" class="k-button k-button-solid-error">삭제</button></td>';      // 삭제
+            } else {
+                memHtml += '   <td></td>';
+            }
             mngHtml += '</tr>';
 
             $("#partRateMember").append(mngHtml);
@@ -155,7 +159,11 @@ var partRate = {
                 memHtml += '   <td><input type="text" id="memPayTotal'+i+'" name="payTotal" style="text-align: right" value="0" onkeyup="partRate.fn_memCalc('+mng.BASIC_SALARY+','+rs.PAY_BUDGET+','+ i +', this);" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"></td>';
                 memHtml += '   <td><input type="text" id="memMonSal'+i+'" name="monSal" style="text-align: right" disabled value="0"></td>';      // 월 인건비
                 memHtml += '   <td><button type="button" class="k-button k-button-solid-info">참여율</button></td>';      // 참여율 조회
-                memHtml += '   <td><button type="button" class="k-button k-button-solid-error">삭제</button></td>';      // 삭제
+                if(rs.MNG_STAT == "R"){
+                    memHtml += '   <td><button type="button" class="k-button k-button-solid-error">삭제</button></td>';      // 삭제
+                } else {
+                    memHtml += '   <td></td>';
+                }
                 memHtml += '</tr>';
             }
 
@@ -410,5 +418,28 @@ var partRate = {
         }
 
 
+    },
+
+    fn_confirm: function(){
+        if(!confirm("참여율을 확정하시겠습니까?")){
+            return;
+        }
+
+        var data = {
+            partRateVerSn : $("#partRateVerSn").val()
+        }
+
+        $.ajax({
+            url : "/project/confirmPartRate",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("참여율이 확정되었습니다.");
+                    location.reload();
+                }
+            }
+        });
     }
 }

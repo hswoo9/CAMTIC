@@ -1108,6 +1108,19 @@ public class ProjectController {
         return "popup/cam_project/partRate";
     }
 
+    @RequestMapping("/project/confirmPartRate")
+    public String confirmPartRate(@RequestParam Map<String, Object> params, Model model) {
+
+        try{
+            projectService.confirmPartRate(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     @RequestMapping("/project/getPartRateVerData")
     public String getPartRateVerData(@RequestParam Map<String, Object> params, Model model){
 

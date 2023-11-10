@@ -38,7 +38,10 @@
 
             </h3>
 
-            <div class="btn-st popButton">
+            <div class="btn-st popButton" style="font-size: 13px;">
+                <c:if test='${data.MNG_STAT == "S"}'>
+                    <button type="button" id="confirmBtn" class="k-button k-button-solid-info" onclick="partRate.fn_confirm()">참여율 확정</button>
+                </c:if>
                 <button type="button" id="saveBtn" class="k-button k-button-solid-info" onclick="partRate.fn_save()">저장</button>
 
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>

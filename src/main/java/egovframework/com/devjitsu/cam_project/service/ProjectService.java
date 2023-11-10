@@ -153,4 +153,6 @@ public interface ProjectService {
     List<Map<String, Object>> getTeamProjectList(Map<String, Object> params);
 
     List<Map<String, Object>> getPartRateEmpInfo(Map<String, Object> params);
+
+    void confirmPartRate(Map<String, Object> params);
 }

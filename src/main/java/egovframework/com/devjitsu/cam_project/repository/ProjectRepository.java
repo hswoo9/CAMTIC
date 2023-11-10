@@ -495,4 +495,8 @@ public class ProjectRepository extends AbstractDAO {
     public List<Map<String, Object>> partRateEmpInfo(String[] params) {
         return selectList("project.partRateEmpInfo", params);
     }
+
+    public void confirmPartRate(Map<String, Object> params) {
+        update("project.confirmPartRate", params);
+    }
 }
