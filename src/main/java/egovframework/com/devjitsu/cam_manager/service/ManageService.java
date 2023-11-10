@@ -10,4 +10,6 @@ public interface ManageService {
     List<Map<String, Object>> getMemList(Map<String, Object> params);
 
     Map<String, Object> getProjectData(Map<String, Object> map);
+
+    Map<String, Object> getEmpInfo(Map<String, Object> params);
 }

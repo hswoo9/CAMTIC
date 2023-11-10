@@ -34,4 +34,9 @@ public class ManageServiceImpl implements ManageService {
     public Map<String, Object> getProjectData(Map<String, Object> map) {
         return manageRepository.getProjectData(map);
     }
+
+    @Override
+    public Map<String, Object> getEmpInfo(Map<String, Object> params) {
+        return manageRepository.getEmpInfo(params);
+    }
 }

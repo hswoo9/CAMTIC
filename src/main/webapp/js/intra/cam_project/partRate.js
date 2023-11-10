@@ -63,7 +63,7 @@ var partRate = {
             mngHtml += '   <td><input type="text" id="mngTotRate" name="totRate" style="text-align: right" disabled value="0"></td>';      // 총 참여율(%)
             mngHtml += '   <td><input type="text" id="mngPayTotal" name="payTotal" style="text-align: right" value="0" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"></td>';
             mngHtml += '   <td><input type="text" id="mngMonSal" name="monSal" style="text-align: right" disabled value="0"></td>';      // 월 인건비
-            mngHtml += '   <td><button type="button" class="k-button k-button-solid-info">참여율</button></td>';      // 참여율 조회
+            mngHtml += '   <td><button type="button" class="k-button k-button-solid-info" onclick="partRate.fn_userPartRatePop('+mng.MNG_EMP_SEQ+', '+data.pjtSn+')">참여율</button></td>';      // 참여율 조회
 
             if(rs.MNG_STAT == "R"){
                 mngHtml += '   <td><button type="button" class="k-button k-button-solid-error">삭제</button></td>';      // 삭제
@@ -158,7 +158,7 @@ var partRate = {
                 memHtml += '   <td><input type="text" id="memTotRate'+i+'" name="totRate" style="text-align: right" disabled value="0"></td>';      // 총 참여율(%)
                 memHtml += '   <td><input type="text" id="memPayTotal'+i+'" name="payTotal" style="text-align: right" value="0" onkeyup="partRate.fn_memCalc('+mng.BASIC_SALARY+','+rs.PAY_BUDGET+','+ i +', this);" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"></td>';
                 memHtml += '   <td><input type="text" id="memMonSal'+i+'" name="monSal" style="text-align: right" disabled value="0"></td>';      // 월 인건비
-                memHtml += '   <td><button type="button" class="k-button k-button-solid-info">참여율</button></td>';      // 참여율 조회
+                memHtml += '   <td><button type="button" class="k-button k-button-solid-info" onclick="partRate.fn_userPartRatePop('+mem[i].EMP_SEQ+', '+data.pjtSn+')">참여율</button></td>';      // 참여율 조회
                 if(rs.MNG_STAT == "R"){
                     memHtml += '   <td><button type="button" class="k-button k-button-solid-error">삭제</button></td>';      // 삭제
                 } else {
@@ -441,5 +441,19 @@ var partRate = {
                 }
             }
         });
+    },
+
+    /**
+     * 개인별 참여율 현황 팝업 페이지 VIEW
+     * @param sn
+     */
+    fn_userPartRatePop : function(sn, key){
+
+        var url = "/mng/pop/userPartRate.do?sn=" + sn + "&pjtSn=" + key;
+
+        var name = "_blank";
+        var option = "width = 1200, height = 600, top = 100, left = 200, location = no";
+
+        var popup = window.open(url, name, option);
     }
 }

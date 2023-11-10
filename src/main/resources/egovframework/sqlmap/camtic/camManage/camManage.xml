@@ -24,4 +24,14 @@
         LIMIT 1
     </select>
 
+    <select id="getEmpInfo" parameterType="map" resultType="map">
+        /*getEmpInfo*/
+        SELECT
+            *
+        FROM
+            CAM_HR.DJ_EMP_INFO
+        WHERE
+            EMP_SEQ = #{sn}
+    </select>
+
 </mapper>

@@ -1,0 +1,120 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<jsp:useBean id="today" class="java.util.Date" />
+<jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
+
+<style>
+    .table-responsive {
+        overflow-x: hidden !important;
+    }
+</style>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/partRate/userPartRate.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/partRate/partRateCommon.js?v=${today}'/>"></script>
+
+<input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="regEmpName" value="${loginVO.name}"/>
+<input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
+<input type="hidden" id="regDeptName" value="${loginVO.deptNm}"/>
+<input type="hidden" id="regTeamSeq" value="${loginVO.teamId}"/>
+<input type="hidden" id="regTeamName" value="${loginVO.teamNm}"/>
+<input type="hidden" id="regPositionCode" value="${loginVO.positionCode}"/>
+<input type="hidden" id="regPositionName" value="${loginVO.positionNm}"/>
+<input type="hidden" id="regDutyCode" value="${loginVO.dutyCode}"/>
+<input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
+<input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
+<input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
+
+<div style="padding:0;">
+    <div class="table-responsive">
+        <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
+        <div class="card-header pop-header">
+            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="title">직원 참여율 현황</span>
+
+            </h3>
+
+            <div class="btn-st popButton" style="font-size: 13px;">
+
+            </div>
+        </div>
+
+        <div>
+            <table class="popTable table table-bordered mb-0">
+                <colgroup>
+                    <col width="15%">
+                    <col width="35%">
+                    <col width="15%">
+                    <col width="35%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th colspan="4" style="font-weight: bold">직원정보</th>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        직원명
+                    </th>
+                    <td>
+                        ${empInfo.EMP_NAME_KR}
+                    </td>
+                    <th scope="row" class="text-center th-color">
+                        사번
+                    </th>
+                    <td colspan="3">
+                        ${empInfo.ERP_EMP_SEQ}
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        부서명
+                    </th>
+                    <td>
+                        ${empInfo.DEPT_NAME}
+                    </td>
+                    <th scope="row" class="text-center th-color">
+                        팀
+                    </th>
+                    <td>
+                        ${empInfo.DEPT_TEAM_NAME}
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        직위
+                    </th>
+                    <td>
+                        ${empInfo.POSITION_NAME}
+                    </td>
+                    <th scope="row" class="text-center th-color">
+                        입사일
+                    </th>
+                    <td>
+                        ${empInfo.JOIN_DAY}
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        프로젝트 시작
+                    </th>
+                    <td>
+                        ${projectInfo.PJT_START_DT}
+                    </td>
+                    <th scope="row" class="text-center th-color">
+                        프로젝트 종료
+                    </th>
+                    <td>
+                        ${projectInfo.PJT_END_DT}
+                    </td>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    userPartRate.fn_defaultScript();
+</script>
+</body>
+</html>

@@ -166,4 +166,15 @@ public class ManageController {
 
         return "cam_manager/enaralink";
     }
+
+    @RequestMapping("/mng/pop/userPartRate.do")
+    public String userPartRate(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("empInfo", manageService.getEmpInfo(params));
+        model.addAttribute("projectInfo", projectService.getProjectData(params));
+        return "popup/cam_manager/partRate/userPartRate";
+    }
 }
