@@ -964,6 +964,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void confirmPartRate(Map<String, Object> params) {
+        // 이전버전 STATUS = N 으로 변경
+        projectRepository.updPartRateBefVersionStatus(params);
+
         projectRepository.confirmPartRate(params);
     }
 }

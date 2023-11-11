@@ -426,7 +426,8 @@ var partRate = {
         }
 
         var data = {
-            partRateVerSn : $("#partRateVerSn").val()
+            partRateVerSn : $("#partRateVerSn").val(),
+            pjtSn : $("#pjtSn").val()
         }
 
         $.ajax({

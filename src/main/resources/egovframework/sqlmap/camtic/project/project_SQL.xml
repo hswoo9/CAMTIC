@@ -2098,9 +2098,21 @@
         UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
         SET
             MNG_STAT = 'C',
+            BEF_VER_CHECK = 'Y',
             CONF_DATE = now()
         WHERE
             PART_RATE_VER_SN = #{partRateVerSn}
+    </update>
+
+    <update id="updPartRateBefVersionStatus" parameterType="map">
+        /*updPartRateBefVersionStatus*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
+        SET
+            BEF_VER_CHECK = 'N'
+        WHERE
+            PJT_SN = #{pjtSn}
+        AND
+            PART_RATE_VER_SN != #{partRateVerSn}
     </update>
 
 </mapper>

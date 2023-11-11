@@ -499,4 +499,8 @@ public class ProjectRepository extends AbstractDAO {
     public void confirmPartRate(Map<String, Object> params) {
         update("project.confirmPartRate", params);
     }
+
+    public void updPartRateBefVersionStatus(Map<String, Object> params) {
+        update("project.updPartRateBefVersionStatus", params);
+    }
 }
