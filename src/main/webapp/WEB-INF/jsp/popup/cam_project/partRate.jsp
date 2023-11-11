@@ -91,15 +91,15 @@
                     <th scope="row" class="text-center th-color">
                         주관기관
                     </th>
-                    <td>
+                    <td colspan="3">
                         ${map.CRM_NM}
                     </td>
-                    <th scope="row" class="text-center th-color">
-                        사업명
-                    </th>
-                    <td>
-                        ${data.SBJ_CHAR_NM}
-                    </td>
+<%--                    <th scope="row" class="text-center th-color">--%>
+<%--                        사업명--%>
+<%--                    </th>--%>
+<%--                    <td>--%>
+<%--                        ${data.SBJ_CHAR_NM}--%>
+<%--                    </td>--%>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">

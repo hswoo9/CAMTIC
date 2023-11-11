@@ -503,4 +503,8 @@ public class ProjectRepository extends AbstractDAO {
     public void updPartRateBefVersionStatus(Map<String, Object> params) {
         update("project.updPartRateBefVersionStatus", params);
     }
+
+    public void updPMInfo(Map<String, Object> params) {
+        update("project.updPMInfo", params);
+    }
 }

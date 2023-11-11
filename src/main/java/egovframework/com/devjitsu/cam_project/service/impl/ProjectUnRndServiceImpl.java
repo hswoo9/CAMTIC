@@ -84,6 +84,9 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
             projectRndRepository.updPjtPsRnd(map);
         }
 
+        // 프로젝트 총괄 책임자 변경
+        projectRepository.updPMInfo(params);
+
         MainLib mainLib = new MainLib();
         Map<String, Object> fileInsMap = new HashMap<>();
 

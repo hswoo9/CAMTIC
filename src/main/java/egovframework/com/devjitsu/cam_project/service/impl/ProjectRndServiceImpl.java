@@ -189,6 +189,8 @@ public class ProjectRndServiceImpl implements ProjectRndService {
             projectRndRepository.updRschData(map);
             projectRndRepository.updPjtPsRnd(map);
         }
+
+        projectRepository.updPMInfo(params);
     }
 
     @Override

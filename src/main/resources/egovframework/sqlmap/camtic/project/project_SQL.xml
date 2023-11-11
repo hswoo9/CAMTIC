@@ -2115,4 +2115,14 @@
             PART_RATE_VER_SN != #{partRateVerSn}
     </update>
 
+    <update id="updPMInfo" parameterType="map">
+        /*updPMInfo*/
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            PM = #{mngEmpName},
+            PM_EMP_SEQ = #{mngEmpSeq}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
 </mapper>
