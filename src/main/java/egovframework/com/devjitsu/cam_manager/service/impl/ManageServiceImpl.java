@@ -39,4 +39,9 @@ public class ManageServiceImpl implements ManageService {
     public Map<String, Object> getEmpInfo(Map<String, Object> params) {
         return manageRepository.getEmpInfo(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getUserPartRateInfo(Map<String, Object> params) {
+        return manageRepository.getUserPartRateInfo(params);
+    }
 }

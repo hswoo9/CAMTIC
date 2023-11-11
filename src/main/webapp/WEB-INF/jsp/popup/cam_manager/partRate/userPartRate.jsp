@@ -29,6 +29,7 @@
 <input type="hidden" id="pjtStrDt" value="${projectInfo.PJT_START_DT}"/>
 <input type="hidden" id="pjtEndDt" value="${projectInfo.PJT_END_DT}"/>
 
+<input type="hidden" id="userEmpSeq" value="${empInfo.EMP_SEQ}"/>
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
@@ -119,9 +120,9 @@
                 <colgroup>
                     <col width="10%">
                     <col width="15%">
-                    <col width="8%">
-                    <col width="7%">
-                    <col>
+                    <col width="5%">
+                    <col width="5%">
+                    <col width="5%">
                     <col>
                     <col>
                     <col>
@@ -142,6 +143,11 @@
 
                 </tr>
                 </thead>
+                <tbody id="userPartRateBody">
+                    <tr>
+                        <td colspan="17" style="text-align: center">참여율 정보가 없습니다.</td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </div>

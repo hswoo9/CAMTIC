@@ -177,4 +177,14 @@ public class ManageController {
         model.addAttribute("projectInfo", projectService.getProjectData(params));
         return "popup/cam_manager/partRate/userPartRate";
     }
+
+    @RequestMapping("/mng/userPartRateInfo")
+    public String userPartRateInfo(@RequestParam Map<String, Object> params, Model model) {
+
+        List<Map<String, Object>> list = manageService.getUserPartRateInfo(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
 }
