@@ -24,4 +24,8 @@ public class ManageRepository extends AbstractDAO {
     public List<Map<String, Object>> getUserPartRateInfo(Map<String, Object> params) {
         return selectList("manage.getUserPartRateInfo", params);
     }
+
+    public Map<String, Object> getUserSalList(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("manage.getUserSalList", params);
+    }
 }

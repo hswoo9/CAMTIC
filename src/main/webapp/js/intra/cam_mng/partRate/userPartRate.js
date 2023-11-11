@@ -10,7 +10,7 @@ var userPartRate = {
         const strDe = $("#pjtStrDt").val().split("-");
         const endDe = $("#pjtEndDt").val().split("-");
 
-        const diffMonth = (endDe[0] - strDe[0]) * 12 + (endDe[1] - strDe[1]) + 1;
+        var diffMonth = (endDe[0] - strDe[0]) * 12 + (endDe[1] - strDe[1]) + 1;
 
         const projectStartMonth = strDe[0] + "-" + strDe[1];
         var date = new Date(projectStartMonth);
@@ -23,9 +23,15 @@ var userPartRate = {
         hdHtml += '<th scope="row" class="text-center th-color">참여구분</th>';
         hdHtml += '<th scope="row" class="text-center th-color">5공3책</th>';
 
+        if(diffMonth > 12){
+            diffMonth = 12;
+        }
         for(var i = 0 ; i < diffMonth ; i++){
-
-            hdHtml += '<th scope="row" class="text-center th-color">'+date.getFullYear()+'-'+(date.getMonth() + 1)+'</th>';
+            var dtMonth = date.getMonth() + 1;
+            if(dtMonth.toString().length == 1){
+                dtMonth = "0" + dtMonth;
+            }
+            hdHtml += '<th scope="row" class="text-center th-color">'+date.getFullYear() + '-' + dtMonth +'</th>';
 
             date.setMonth(date.getMonth() + 1);
 
@@ -36,6 +42,8 @@ var userPartRate = {
         var parameters = {
             empSeq : $("#userEmpSeq").val(),
             strDe : $("#pjtStrDt").val(),
+            diffMon : diffMonth,
+            strMonth : projectStartMonth + "-01",
         }
 
         $.ajax({
@@ -44,12 +52,22 @@ var userPartRate = {
             type : "post",
             dataType : "json",
             success : function (rs){
+                var salList = rs.userSalList;
                 var rs = rs.list;
+
+                console.log(salList);
 
                 $("#userPartRateBody").html("");
                 var bodyHtml = "";
-                for (var i = 0; i < rs.length; i++) {
 
+
+
+                var userChangeSalaryArr = fn_create2DArray(rs.length, diffMonth);
+                var userMonthSalaryArr = fn_create2DArray(rs.length, diffMonth);
+                var userTotRateArr = fn_create2DArray(rs.length, diffMonth);
+                var pmCnt = 0;
+                var sbjStatCnt = 0;
+                for (var i = 0; i < rs.length; i++) {
                     var pjtStatus = "진행중";
 
                     var projectEndDate = new Date();
@@ -57,9 +75,11 @@ var userPartRate = {
                         pjtStatus = "완료";
                     }
 
+
                     var pm = "";
                     if(parameters.empSeq == rs[i].PM_EMP_SEQ){
                         pm = "책임자";
+                        pmCnt++;
                     } else {
                         pm = "참여자";
                     }
@@ -67,6 +87,7 @@ var userPartRate = {
                     var sbjStat = "";
                     if(rs[i].SBJ_STAT_YN == "Y"){
                         sbjStat = "적용";
+                        sbjStatCnt++;
                     }
 
                     bodyHtml += '<tr style="text-align: center;">';
@@ -86,14 +107,25 @@ var userPartRate = {
 
                     var userDate = new Date(userStartMonth);
 
+
+
                     for(var j = 0 ; j < diffMonth ; j++){
                         var dt = date.getFullYear() + "-" + (date.getMonth() + 1);
                         var userDt = userDate.getFullYear() + "-" + (userDate.getMonth() + 1);
 
-                        if(dt == userDt){
-                            bodyHtml += '<td>'+rs[i].TOT_RATE+'</td>';
+                        userChangeSalaryArr[i][j] = 0;
+                        userMonthSalaryArr[i][j] = 0;
+                        userTotRateArr[i][j] = 0;
+                        if(dt == userDt && new Date(dt) <= new Date(userEndDeArr[0] + "-" + userEndDeArr[1])){
+                            bodyHtml += '<td>'+rs[i].TOT_RATE+'%</td>';
 
                             userDate.setMonth(userDate.getMonth() + 1);
+
+                            userChangeSalaryArr[i][j] = rs[i].CHNG_SAL;
+                            userMonthSalaryArr[i][j] = rs[i].MON_SAL;
+                            userTotRateArr[i][j] = rs[i].TOT_RATE;
+                        } else {
+                            bodyHtml += '<td></td>';
                         }
 
                         date.setMonth(date.getMonth() + 1);
@@ -101,6 +133,48 @@ var userPartRate = {
 
                     bodyHtml += '</tr>';
                 }
+
+                var userChangeSalary = 0;
+
+                bodyHtml += "<tr>";
+                bodyHtml += "   <td colspan='5' class='text-center' style='background-color: #8fa1c04a;'>월지급액</td>";
+
+                for(var j = 0 ; j< diffMonth; j++){
+                    var userMonthSalary = 0;
+                    for(var i = 0 ; i < rs.length; i++){
+                        userMonthSalary += userMonthSalaryArr[i][j];
+                    }
+
+                    bodyHtml += '<td style="text-align: right; font-weight: bold">'+comma(userMonthSalary)+'</td>';
+                }
+                bodyHtml += '</tr>';
+                bodyHtml += "<tr>";
+                bodyHtml += "   <td colspan='5' class='text-center' style='background-color: #8fa1c04a;'>기준급여</td>";
+                for(var j = 0 ; j< diffMonth; j++) {
+                    bodyHtml += '<td style="text-align: right; font-weight: bold">'+fn_monBasicSalary(salList[j])+'</td>';
+                }
+                bodyHtml += '</tr>';
+
+                bodyHtml += '<tr>';
+                bodyHtml += '   <td colspan="5" class="text-center" style="background-color: #8fa1c04a;">사업참여율</td>';
+                for(var j = 0 ; j< diffMonth; j++){
+                    var userTotRate = 0;
+                    for(var i = 0 ; i < rs.length; i++){
+                        userTotRate += Number(userTotRateArr[i][j]);
+                    }
+                    bodyHtml += '<td style="text-align: right; font-weight: bold">'+userTotRate.toFixed(1)+'%</td>';
+                }
+                bodyHtml += '</tr>';
+
+                bodyHtml += '<tr>';
+                bodyHtml += '   <td colspan="5" class="text-center" style="background-color: #8fa1c04a;">5공3책</td>';
+                for(var j = 0 ; j< diffMonth; j++){
+                    bodyHtml += '<td style="text-align: right; font-weight: bold">'+sbjStatCnt+'공 '+ pmCnt + '책</td>';
+                }
+                bodyHtml += '</tr>';
+
+
+
 
                 $("#userPartRateBody").html(bodyHtml);
             }

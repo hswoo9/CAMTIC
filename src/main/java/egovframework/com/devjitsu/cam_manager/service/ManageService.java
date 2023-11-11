@@ -14,4 +14,6 @@ public interface ManageService {
     Map<String, Object> getEmpInfo(Map<String, Object> params);
 
     List<Map<String, Object>> getUserPartRateInfo(Map<String, Object> params);
+
+    List<Map<String, Object>> getUserSalList(Map<String, Object> params);
 }

@@ -110,7 +110,7 @@ var rndDetail = {
             alert("연구카드사용여부를 작성해주세요.");
             return;
         }
-        unRndDetail.loading();
+        rndDetail.loading();
 
         $.ajax({
             url : "/projectRnd/setRndDetail",

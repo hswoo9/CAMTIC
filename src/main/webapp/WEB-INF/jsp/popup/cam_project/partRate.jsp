@@ -13,6 +13,7 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/partRate.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/inside/document/docuPop.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/partRate/partRateCommon.js?v=${today}'/>"></script>
 
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>

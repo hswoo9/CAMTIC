@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,5 +44,19 @@ public class ManageServiceImpl implements ManageService {
     @Override
     public List<Map<String, Object>> getUserPartRateInfo(Map<String, Object> params) {
         return manageRepository.getUserPartRateInfo(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getUserSalList(Map<String, Object> params) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        Map<String, Object> map = new HashMap<>();
+        for(int i = 0 ; i < Integer.parseInt(params.get("diffMon").toString()) ; i++){
+            map = manageRepository.getUserSalList(params);
+            list.add(map);
+
+            params.put("strMonth", LocalDate.parse(params.get("strMonth").toString()).plusMonths(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        }
+
+        return list;
     }
 }

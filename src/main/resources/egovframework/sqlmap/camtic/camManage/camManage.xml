@@ -38,6 +38,8 @@
         /*getUserPartRateInfo*/
         SELECT
             C.PJT_SN,
+            A.CHNG_SAL,
+            A.MON_SAL,
             A.PART_DET_STR_DT,
             A.PART_DET_END_DT,
             (SELECT LG_CD_NM FROM CAM_PJT_MNG.DJ_PJT_CD WHERE LG_CD = C.SBJ_DEP AND GRP_SN = 'SUP_DEP' LIMIT 1) AS SBJ_DEP_NM,
@@ -69,6 +71,19 @@
         ]]>
         </if>
 
+    </select>
+
+    <select id="getUserSalList" parameterType="map" resultType="map">
+        /*getUserSalList*/
+        SELECT *
+        FROM
+            CAM_MNG.V_BS_SALARY
+        WHERE
+            EMP_SEQ = #{empSeq}
+        <![CDATA[
+        AND
+            START_DT <= #{strMonth} AND END_DT >= #{strMonth}
+        ]]>
     </select>
 
 </mapper>

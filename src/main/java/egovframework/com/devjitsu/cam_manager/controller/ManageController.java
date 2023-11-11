@@ -182,9 +182,10 @@ public class ManageController {
     public String userPartRateInfo(@RequestParam Map<String, Object> params, Model model) {
 
         List<Map<String, Object>> list = manageService.getUserPartRateInfo(params);
+        List<Map<String, Object>> userSalList = manageService.getUserSalList(params);
 
         model.addAttribute("list", list);
-
+        model.addAttribute("userSalList", userSalList);
         return "jsonView";
     }
 }
