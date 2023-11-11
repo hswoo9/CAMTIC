@@ -26,6 +26,9 @@
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 
+<input type="hidden" id="pjtStrDt" value="${projectInfo.PJT_START_DT}"/>
+<input type="hidden" id="pjtEndDt" value="${projectInfo.PJT_END_DT}"/>
+
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
@@ -106,6 +109,37 @@
                     <td>
                         ${projectInfo.PJT_END_DT}
                     </td>
+                </tr>
+                </thead>
+            </table>
+        </div>
+
+        <div>
+            <table class="popTable table table-bordered mb-0">
+                <colgroup>
+                    <col width="10%">
+                    <col width="15%">
+                    <col width="8%">
+                    <col width="7%">
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th colspan="17" style="font-weight: bold">참여율 정보</th>
+                </tr>
+                <tr id="userPartRateHeader">
+
                 </tr>
                 </thead>
             </table>
