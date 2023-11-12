@@ -186,6 +186,9 @@ var regPay = {
                 '       <input type="text" id="iss' + regPayDet.global.itemIndex + '" value="'+item.ISS+'"  class="iss">' +
                 '   </td>' +
                 '   <td>' +
+                '       <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regPayDet.fn_regPayAttPop(' + regPayDet.global.itemIndex + ')">첨부</button>' +
+                '   </td>' +
+                '   <td>' +
                 '       <div style="text-align: center">';
                 if($("#status").val() == "rev"){
                     regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="revertBtn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" onclick="regPayDet.fn_revertDet(this)">반려</button>';
@@ -652,7 +655,21 @@ var regPayDet = {
         var url = "/payApp/pop/regExnpPop.do?item=" + keyArr + "&payAppSn=" + key;
 
         var name = "_blank";
-        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
+        var popup = window.open(url, name, option);
+    },
+
+    fn_regPayAttPop : function (row){
+        if($("#payAppSn").val() == ""){
+            alert("지급신청서 최초 1회 저장 후 진행 가능합니다.");
+            return;
+        }
+        let key = $("#payAppSn").val();
+        let eviType = $("#eviType"+row).data("kendoDropDownList").value();
+        var url = "/payApp/pop/regPayAttPop.do?payAppSn=" + key + "&eviType=" + eviType;
+
+        var name = "_blank";
+        var option = "width = 850, height = 400, top = 200, left = 350, location = no";
         var popup = window.open(url, name, option);
     }
 }

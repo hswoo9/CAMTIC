@@ -57,6 +57,17 @@ public class PayAppController {
         return "popup/cam_manager/payApp/regPayAppPop";
     }
 
+    @RequestMapping("/payApp/pop/regPayAttPop.do")
+    public String regPayAttPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_manager/payApp/regPayAttPop";
+    }
+
     @RequestMapping("/payApp/getPayAppReqData")
     public String getPayAppReqData(@RequestParam Map<String, Object> params, Model model){
         Map<String, Object> map = payAppService.getPayAppReqData(params);
@@ -188,6 +199,19 @@ public class PayAppController {
         return "popup/cam_manager/payApp/regExnpPop";
     }
 
+    @RequestMapping("/payApp/pop/regExnpRePop.do")
+    public String regExnpRePop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("erpEmpSeq", loginVO.getErpEmpCd());
+        Map<String, Object> g20 = g20Service.getSempData(params);
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        model.addAttribute("g20", g20);
+
+        return "popup/cam_manager/payApp/regExnpRePop";
+    }
+
     @RequestMapping("/payApp/setExnpData")
     public String setExnpData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
 
@@ -299,13 +323,25 @@ public class PayAppController {
 
         return "jsonView";
     }
-//
-//    @RequestMapping("/pay/exnpTest")
-//    public String exnpTest(@RequestParam Map<String, Object> params, Model model){
-//
-//        payAppService.exnpTest(params);
-//
-//        model.addAttribute("params", params);
-//        return "jsonView";
-//    }
+
+
+    @RequestMapping("/pay/getExnpReList")
+    public String getExnpReList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = payAppService.getExnpReList(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/pay/resolutionExnpAppr")
+    public String resolutionExnpAppr(@RequestParam Map<String, Object> params, Model model){
+        try {
+            payAppService.resolutionExnpAppr(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
 }

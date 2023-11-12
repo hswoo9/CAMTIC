@@ -450,6 +450,10 @@
             B.PAY_APP_SN = D.PAY_APP_SN
         WHERE
             A.EXNP_SN = #{exnpSn}
+        <if test='evidTypeArr != null and !"".equals(evidTypeArr)'>
+        AND
+            A.EVID_TYPE in (${evidTypeArr})
+        </if>
     </select>
 
     <select id="getCountDoc" parameterType="map" resultType="int">
@@ -512,6 +516,23 @@
             A.DOC_ID = B.DOC_ID
     </select>
 
+    <select id="getExnpReList" parameterType="map" resultType="map">
+        /*getExnpReList*/
+        SELECT
+            E.*,
+            DI.APPRO_KEY AS APPRO_KEY,
+            DI.DOC_MENU_CD AS DOC_MENU_CD
+        FROM
+            CAM_MNG.DJ_EXNP_DET ED
+        LEFT JOIN
+            CAM_MNG.DJ_EXNP E ON ED.EXNP_SN = E.EXNP_SN
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON E.DOC_ID = DI.DOC_ID
+        WHERE E.DOC_STATUS = '100'
+        AND ED.EVID_TYPE IN (1, 2, 3)
+        GROUP BY E.EXNP_SN
+    </select>
+
     <update id="updPayAppDetailStatus" parameterType="map">
         /*updPayAppDetailStatus*/
         UPDATE
@@ -520,5 +541,15 @@
             EXNP_STAT = "Y"
         WHERE
             PAY_APP_SN = #{item}
+    </update>
+
+    <update id="resolutionExnpStatus" parameterType="map">
+        /*resolutionExnpStatus*/
+        UPDATE
+            CAM_MNG.DJ_EXNP
+        SET
+            RE_STAT = "Y"
+        WHERE
+            EXNP_SN = #{exnpSn}
     </update>
 </mapper>

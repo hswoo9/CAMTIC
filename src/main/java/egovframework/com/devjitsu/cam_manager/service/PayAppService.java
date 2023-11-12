@@ -25,7 +25,9 @@ public interface PayAppService {
 
     List<Map<String, Object>> getExnpList(Map<String, Object> params);
 
+    List<Map<String, Object>> getExnpReList(Map<String, Object> params);
+
     void updateExnpAppDocState(Map<String, Object> bodyMap);
 
-    void exnpTest(Map<String, Object> params);
+    void resolutionExnpAppr(Map<String, Object> params);
 }

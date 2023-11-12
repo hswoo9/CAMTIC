@@ -455,7 +455,6 @@ public class ProjectController {
      */
     @RequestMapping("/project/engn/setDelvInfo")
     public String setDelvInfo(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request , Model model){
-
         try{
             projectService.setDelvInfo(params, request, SERVER_DIR, BASE_DIR);
             model.addAttribute("code", 200);
@@ -463,7 +462,6 @@ public class ProjectController {
         } catch(Exception e){
             e.printStackTrace();
         }
-
         return "jsonView";
     }
 

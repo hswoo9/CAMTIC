@@ -1,13 +1,12 @@
 var exnpReList = {
 
-    global : {
+    global: {
         dropDownDataSource : "",
         searchAjaxData : "",
         saveAjaxData : "",
     },
 
-    fn_defaultScript : function (){
-
+    fn_defaultScript: function (){
         exnpReList.global.dropDownDataSource = [
             { text: "작성중", value: "1" },
             { text: "결재대기", value: "2" },
@@ -15,13 +14,12 @@ var exnpReList = {
         ]
         customKendo.fn_dropDownList("searchDept", exnpReList.global.dropDownDataSource, "text", "value");
         $("#searchDept").data("kendoDropDownList").bind("change", exnpReList.gridReload);
-
         exnpReList.global.dropDownDataSource = [
             { text: "문서번호", value: "DOC_NO" },
         ]
-
         customKendo.fn_dropDownList("searchKeyword", exnpReList.global.dropDownDataSource, "text", "value");
         customKendo.fn_textBox(["searchValue"]);
+
         exnpReList.gridReload();
     },
 
@@ -30,7 +28,7 @@ var exnpReList = {
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             selectable: "row",
-            height : 525,
+            height: 525,
             pageable: {
                 refresh: true,
                 pageSizes: [ 10, 20, 30, 50, 100 ],
@@ -47,7 +45,8 @@ var exnpReList = {
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }],
+                }
+            ],
             columns: [
                 {
                     title: "번호",
@@ -74,9 +73,9 @@ var exnpReList = {
                 }, {
                     field: "DOC_NO",
                     title: "문서번호",
-                    width: 120,
+                    width: 100,
                 }, {
-                    title: "문서명",
+                    title: "적요",
                     field: "EXNP_BRIEFS",
                     width: 300,
                     template: function(e){
@@ -86,7 +85,7 @@ var exnpReList = {
                 }, {
                     title: "프로젝트 명",
                     field: "PJT_NM",
-                    width: 200,
+                    width: 220,
                     template: function (e){
                         var pjtNm = e.PJT_NM.toString().substring(0, 25);
                         return pjtNm + "...";
@@ -96,7 +95,7 @@ var exnpReList = {
                     field: "",
                     width: 120,
                     template: function (e){
-
+                        return "-";
                     }
                 }, {
                     title: "신청일",
@@ -132,10 +131,10 @@ var exnpReList = {
                     title: "상태",
                     width: 60,
                     template : function(e){
-                        if(e.DOC_STATUS == "100"){
-                            return "결재완료"
+                        if(e.RE_STAT == "N"){
+                            return "미승인"
                         } else {
-                            return "작성중"
+                            return "승인"
                         }
                     }
                 }
@@ -146,28 +145,21 @@ var exnpReList = {
         }).data("kendoGrid");
     },
 
-    gridReload: function (){
+    gridReload: function(){
         exnpReList.global.searchAjaxData = {
-            empSeq : $("#myEmpSeq").val(),
-            searchDept : $("#searchDept").val(),
-            searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val()
+            empSeq: $("#myEmpSeq").val(),
+            searchDept: $("#searchDept").val(),
+            searchKeyword: $("#searchKeyword").val(),
+            searchValue: $("#searchValue").val()
         }
 
-        exnpReList.mainGrid("/pay/getExnpList", exnpReList.global.searchAjaxData);
+        exnpReList.mainGrid("/pay/getExnpReList", exnpReList.global.searchAjaxData);
     },
 
-    fn_reqRegPopup : function (key, paySn){
-        var url = "/payApp/pop/regExnpPop.do";
-        if(key != null && key != ""){
-            url = "/payApp/pop/regExnpPop.do?payAppSn=" + paySn + "&exnpSn=" + key;
-        }
-
-        if(status != null && status != ""){
-            url = url + "&status=" + status;
-        }
+    fn_reqRegPopup: function(key, paySn){
+        url = "/payApp/pop/regExnpRePop.do?payAppSn=" + paySn + "&exnpSn=" + key;
         var name = "blank";
-        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
-        var popup = window.open(url, name, option);
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
+        window.open(url, name, option);
     }
 }

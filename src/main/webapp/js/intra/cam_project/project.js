@@ -350,7 +350,7 @@ var camPrj = {
             pageable: true,
             columns: [
                 {
-                    field: "BUSN_CLASS",
+                    field: "BUSN_NM",
                     title: "사업구분",
                     width: "110px"
                 }, {

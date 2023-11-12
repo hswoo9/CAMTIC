@@ -113,8 +113,7 @@ public class PayAppServiceImpl implements PayAppService {
             params.put("approveStatCode", 100);
 
             payAppRepository.updateExnpFinalApprStat(params);
-
-            updateG20ExnpFinalAppr(params);
+            updateG20ExnpFinalAppr(params, "app");
 //            payAppRepository.updatePurcListFinalApprStat(params);
         }
     }
@@ -168,13 +167,25 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
-    public void exnpTest(Map<String, Object> params) {
-        updateG20ExnpFinalAppr(params);
+    public List<Map<String, Object>> getExnpReList(Map<String, Object> params) {
+        return payAppRepository.getExnpReList(params);
     }
 
-    private void updateG20ExnpFinalAppr(Map<String, Object> params){
+    @Override
+    public void resolutionExnpAppr(Map<String, Object> params) {
+        updateG20ExnpFinalAppr(params, "resolution");
+        payAppRepository.resolutionExnpStatus(params);
+    }
+
+    private void updateG20ExnpFinalAppr(Map<String, Object> params, String type){
         List<Map<String, Object>> list = new ArrayList<>();
-        list = payAppRepository.getExnpG20List(params);
+        if(type.equals("resolution")){
+            params.put("evidTypeArr", "1,2,3");
+            list = payAppRepository.getExnpG20List(params);
+        }else{
+            params.put("evidTypeArr", "4,5");
+            list = payAppRepository.getExnpG20List(params);
+        }
         int docNumber = 0;          // 전체 지출결의서 CNT
         docNumber = payAppRepository.getCountDoc(list.get(0));
         int userSq = docNumber + 1;

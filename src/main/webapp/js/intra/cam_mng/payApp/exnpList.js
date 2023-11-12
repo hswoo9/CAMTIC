@@ -74,9 +74,9 @@ var exnpList = {
                 }, {
                     field: "DOC_NO",
                     title: "문서번호",
-                    width: 120,
+                    width: 100,
                 }, {
-                    title: "지급신청서",
+                    title: "적요",
                     field: "EXNP_BRIEFS",
                     width: 300,
                     template: function(e){
@@ -86,7 +86,7 @@ var exnpList = {
                 }, {
                     title: "프로젝트 명",
                     field: "PJT_NM",
-                    width: 200,
+                    width: 220,
                     template: function (e){
                         var pjtNm = e.PJT_NM.toString().substring(0, 25);
                         return pjtNm + "...";
@@ -96,7 +96,7 @@ var exnpList = {
                     field: "",
                     width: 120,
                     template: function (e){
-
+                        return "-";
                     }
                 }, {
                     title: "신청일",
