@@ -507,4 +507,16 @@ public class ProjectRepository extends AbstractDAO {
     public void updPMInfo(Map<String, Object> params) {
         update("project.updPMInfo", params);
     }
+
+    public List<Map<String, Object>> getPartRateDet(Map<String, Object> params) {
+        return selectList("project.getPartRateDet", params);
+    }
+
+    public void insPartRateMonth(Map<String, Object> userPRMap) {
+        insert("project.insPartRateMonth", userPRMap);
+    }
+
+    public void delPartRateMonthData(Map<String, Object> params) {
+        delete("project.delPartRateMonthData", params);
+    }
 }

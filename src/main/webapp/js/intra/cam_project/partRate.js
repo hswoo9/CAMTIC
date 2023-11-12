@@ -49,7 +49,7 @@ var partRate = {
             mngHtml += '<tr style="text-align: center" class="bodyTr">';
             mngHtml += '   <td>책임자<input type="hidden" name="partEmpSeq" value="'+mng.MNG_EMP_SEQ+'" /></td>';
             mngHtml += '   <td>' + mng.MNG_EMP_NAME + '<input type="hidden" name="partEmpName" value="'+mng.MNG_EMP_NAME+'" /></td>';
-            mngHtml += '   <td style="text-align: right">' + comma(mng.BASIC_SALARY) + '</td>';
+            mngHtml += '   <td style="text-align: right"><input type="hidden" id="basicSalary" name="basicSalary" value="'+mng.BASIC_SALARY+'" />' + comma(mng.BASIC_SALARY) + '</td>';
             mngHtml += '   <td>';
             mngHtml += '        <input type="text" id="mngChngSal" name="chngSal" value="'+comma(mng.BASIC_SALARY)+'" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" />';
             mngHtml += '   </td>';
@@ -144,7 +144,7 @@ var partRate = {
                 memHtml += '<tr style="text-align: center" class="bodyTr">';
                 memHtml += '   <td>참여자<input type="hidden" name="partEmpSeq" value="'+mem[i].EMP_SEQ+'" /></td>';
                 memHtml += '   <td>' + mem[i].EMP_NAME + '<input type="hidden" name="partEmpName" value="'+mem[i].EMP_NAME+'" /></td>';
-                memHtml += '   <td style="text-align: right">' + comma(mem[i].BASIC_SALARY) + '</td>';
+                memHtml += '   <td style="text-align: right"><input type="hidden" id="basicSalary" name="basicSalary" value="'+mem[i].BASIC_SALARY+'" /> ' + comma(mem[i].BASIC_SALARY) + '</td>';
                 memHtml += '   <td>';
                 memHtml += '        <input type="text" id="memChngSal'+i+'" name="chngSal" value="'+comma(mem[i].BASIC_SALARY)+'" style="text-align: right" onkeyup="partRate.fn_memCalc('+mem[i].BASIC_SALARY+','+rs.PAY_BUDGET+','+ i +', this);" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" />';
                 memHtml += '   </td>';
@@ -388,7 +388,7 @@ var partRate = {
             }
 
             $(body.get(i)).find("input").each(function(){
-                if($(this).attr("name") == "partEmpName" || $(this).attr("name") == "strDt" || $(this).attr("name") == "endDt"
+                if($(this).attr("name") == "basicSalary" || $(this).attr("name") == "partEmpName" || $(this).attr("name") == "strDt" || $(this).attr("name") == "endDt"
                   || $(this).attr("name") == "payRate" || $(this).attr("name") == "itemRate" || $(this).attr("name") == "mon"
                     || $(this).attr("name") == "totRate"){
                     parameters[$(this).attr("name")] = $(this).val();
