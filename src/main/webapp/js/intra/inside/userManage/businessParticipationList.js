@@ -107,92 +107,184 @@ var busnPartList = {
             columns: [
                 {
                     title : "상태",
-                    field : "",
                     width: 50,
+                    template: function (e){
+                        console.log(e);
+                        if(e.PJT_STEP == 'S3' || e.PJT_STEP == 'R3' || e.PJT_STEP ==  'E6'){
+                            return "완료";
+                        } else {
+                            return "진행";
+                        }
+                    }
                 }, {
                     title: "프로젝트명",
-                    field: "",
                     width: 200,
+                    template : function(e){
+                        return e.PJT_NM;
+                    }
                 }, {
                     title: "지원부처",
-                    field: "",
+                    width : 130,
+                    template : function(e){
+                        return e.SBJ_DEP_NM;
+                    }
                 }, {
                     title: "유형",
-                    field: "",
+                    width : 100,
+                    template : function (e){
+                        if(e.SBJ_CLASS == "1"){
+                            return "법인위탁과제";
+                        } else if(e.SBJ_CLASS == "2"){
+                            return "법인주관과제";
+                        } else if(e.SBJ_CLASS == "3"){
+                            return "법인참여과제";
+                        } else {
+                            return "";
+                        }
+                    }
                 }, {
                     title: "시작일",
-                    field: "",
+                    width: 80,
+                    field: "PJT_STR_DE",
                 }, {
                     title: "종료일",
-                    field: "",
+                    width: 80,
+                    field: "PJT_END_DE",
                 }, {
                     title: "구분",
-                    field: "",
+                    width: 70,
+                    template : function(e){
+                        if(e.PM_EMP_SEQ == e.PART_EMP_SEQ){
+                            return "책임자";
+                        } else {
+                            return "참여자";
+                        }
+                    }
                 }, {
                     title: "성명",
-                    field: "",
+                    width: 70,
+                    template : function(e){
+                        return e.PART_EMP_NM;
+                    }
                 }, {
                     title: "부서/팀",
-                    field: "",
+                    field: "DEPT_NAME",
+                    width: 150,
                 }, {
                     title: "참여시작",
-                    field: "",
+                    field: "PART_DET_STR_DT",
+                    width: 80,
                 }, {
                     title: "참여종료",
-                    field: "",
+                    field: "PART_DET_END_DT",
+                    width: 80,
                 }, {
                     title: "기준급여",
-                    field: "",
-                }, {
-                    title: "예산총액",
-                    field: "",
-                }, {
-                    title: "년도",
-                    field: "",
+                    width: 80,
+                    template : function (e){
+                        return '<div style="text-align: right;">'+comma(e.EMP_SAL)+'</div>';
+                    }
                 }, {
                     title: "총참여율",
-                    field: "",
+                    width: 70,
+                    template:function(e){
+                        return e.TOT_RATE + '%';
+                    }
                 }, {
                     title: "1월",
-                    field: "",
+                    width: 80,
+                    template : function (e){
+                        return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_01) + Number(e.MON_ITEM_01))+'%</div>';
+                    }
                 }, {
                     title: "2월",
-                    field: "",
+                    width: 80,
+                    template : function (e){
+                        return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_02) + Number(e.MON_ITEM_02))+'%</div>';
+                    }
                 }, {
                     title: "3월",
-                    field: "",
+                    width: 80,
+                    template : function (e){
+                        return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_03) + Number(e.MON_ITEM_03))+'%</div>';
+                    }
                 }, {
                     title: "4월",
-                    field: "",
+                    width: 80,
+                    template : function (e){
+                        return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_04) + Number(e.MON_ITEM_04))+'%</div>';
+                    }
                 }, {
                     title: "5월",
-                    field: "",
+                    width: 80,
+                    template : function (e){
+                        return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_05) + Number(e.MON_ITEM_05))+'%</div>';
+                    }
                 }, {
                     title: "6월",
-                    field: "",
+                    width: 80,
+                    template : function (e){
+                        return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_06) + Number(e.MON_ITEM_06))+'%</div>';
+                    }
                 }, {
                     title: "7월",
-                    field: "",
+                    width: 80,
+                    template : function (e){
+                        return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_07) + Number(e.MON_ITEM_07))+'%</div>';
+                    }
                 }, {
                     title: "8월",
-                    field: "",
+                    width: 80,
+                    template : function (e){
+                        return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_08) + Number(e.MON_ITEM_08))+'%</div>';
+                    }
                 }, {
                     title: "9월",
-                    field: "",
+                    width: 80,
+                    template : function (e){
+                        return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_09) + Number(e.MON_ITEM_09))+'%</div>';
+                    }
                 }, {
                     title: "10월",
-                    field: "",
+                    width: 80,
+                    template : function (e){
+                        return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_10) + Number(e.MON_ITEM_10))+'%</div>';
+                    }
                 }, {
                     title: "11월",
-                    field: "",
+                    width: 80,
+                    template : function (e){
+                        return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_11) + Number(e.MON_ITEM_11))+'%</div>';
+                    }
                 }, {
                     title: "12월",
-                    field: "",
-                }, {
-                    title: "지급총액",
-                    field: "",
+                    width: 80,
+                    template : function (e){
+                        return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_12) + Number(e.MON_ITEM_12))+'%</div>';
+                    }
                 }
+                // , {
+                //     title: "지급총액",
+                //     width: 80,
+                //     template : function(e){
+                //         return '<div style="text-align: right;">'+comma(e.EMP_SAL)+'</div>';
+                //     }
+                // }
             ],
         }).data("kendoGrid");
     }
+}
+
+function inputNumberFormat (obj){
+    obj.value = comma(uncomma(obj.value));
+}
+
+function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+
+function uncomma(str) {
+    str = String(str);
+    return str.replace(/[^\d]+/g, '');
 }

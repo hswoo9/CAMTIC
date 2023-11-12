@@ -163,6 +163,64 @@
         WHERE EMP_SEQ = #{targetEmpSeq}
     </update>
 
+    <select id="getBusinessParticipationList" parameterType="map" resultType="map">
+        /*getBusinessParticipationList*/
+        SELECT
+            C.PJT_SN,
+            C.PJT_NM,
+            C.SBJ_CLASS,
+            DATE_FORMAT(C.STR_DT, '%Y-%m-%d') AS PJT_STR_DE,
+            DATE_FORMAT(C.END_DT, '%Y-%m-%d') AS PJT_END_DE,
+            C.PM_EMP_SEQ,
+            A.PART_EMP_SEQ,
+            A.PART_EMP_NM,
+            REPLACE((SELECT PATH_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PART_EMP_SEQ)), '|', ' ') AS DEPT_NAME,
+            A.PART_DET_STR_DT,
+            A.PART_DET_END_DT,
+            A.EMP_SAL,
+            A.CHNG_SAL,
+            A.MON_SAL,
+            (SELECT LG_CD_NM FROM CAM_PJT_MNG.DJ_PJT_CD WHERE LG_CD = C.SBJ_DEP AND GRP_SN = 'SUP_DEP' LIMIT 1) AS SBJ_DEP_NM,
+            DATE_FORMAT(C.END_DT, '%Y-%m-%d') AS PJT_END_DT,
+            C.SBJ_STAT_YN,
+            C.PJT_STEP,
+            D.*,
+            A.TOT_RATE
+        FROM
+            CAM_PJT_MNG.DJ_PART_RATE_DET A
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_PART_RATE_VER B
+        ON
+            A.PART_RATE_VER_SN = B.PART_RATE_VER_SN
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PROJECT C
+        ON
+            B.PJT_SN = C.PJT_SN
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PART_RATE_MON D
+        ON
+            A.PJT_SN = D.PJT_SN AND D.BS_YEAR = #{pjtYear} AND A.PART_EMP_SEQ = D.EMP_SEQ
+        WHERE
+            B.MNG_STAT = 'C'
+        AND
+            B.BEF_VER_CHECK = 'Y'
+        <if test='busnClass != null and !"".equals(busnClass)'>
+            AND
+                C.BUSN_CLASS = #{busnClass}
+        </if>
+        <if test='pjtNm != null and !"".equals(pjtNm)'>
+            AND
+                C.PJT_NM LIKE CONCAT('%', #{pjtNm}, '%')
+        </if>
+        <if test='pjtStep == "I" or "I".equals(pjtStep)'>
+            AND
+                C.PJT_STEP NOT IN ('S3', 'R3', 'E6')
+        </if>
+        <if test='pjtStep == "C" or "C".equals(pjtStep)'>
+            AND
+                C.PJT_STEP IN ('S3', 'R3', 'E6')
+        </if>
+    </select>
 
 
 </mapper>
