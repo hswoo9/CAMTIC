@@ -7,7 +7,6 @@ import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
-import egovframework.com.devjitsu.g20.service.G20Service;
 import egovframework.com.devjitsu.inside.bustrip.repository.BustripRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -964,11 +963,154 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void confirmPartRate(Map<String, Object> params) {
+        projectRepository.delPartRateMonthData(params);
+
+        List<Map<String, Object>> list = projectRepository.getPartRateDet(params);
+
+        List<Map<String, Object>> listMap = new ArrayList<>();
+
+        for(Map<String, Object> map : list){
+            Map<String, Object> partRateMap = new HashMap<>();
+
+            String endDe = map.get("PART_DET_END_DT").toString().split("-")[0] + "-" + map.get("PART_DET_END_DT").toString().split("-")[1] + "-01";
+
+            String strDe = map.get("PART_DET_STR_DT").toString().split("-")[0] + "-" + map.get("PART_DET_STR_DT").toString().split("-")[1] + "-01";
+            partRateMap.put("PJT_SN", params.get("pjtSn"));
+            partRateMap.put("EMP_SEQ", map.get("PART_EMP_SEQ"));
+            partRateMap.put("BS_SAL", map.get("EMP_SAL"));
+            partRateMap.put("MON_SAL", map.get("MON_SAL"));
+            String year = "";
+            while(true){
+                if(!year.contains(strDe.split("-")[0])){
+                    year += strDe.split("-")[0] + ",";
+                }
+                partRateMap.put("YEAR", strDe.split("-")[0]);
+                partRateMap.put("MON_PAY_" + strDe.split("-")[1] + "_" + strDe.split("-")[0], map.get("PAY_RATE"));
+                partRateMap.put("MON_ITEM_" + strDe.split("-")[1] + "_" + strDe.split("-")[0], map.get("ITEM_RATE"));
+
+                if(strDe == endDe || strDe.equals(endDe)){
+                    break;
+                }
+
+                strDe = LocalDate.parse(strDe).plusMonths(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+            }
+            partRateMap.put("YEAR", year.substring(0, year.length() - 1));
+
+
+            listMap.add(partRateMap);
+        }
+
+        for(Map<String, Object> map : listMap){
+            String yearArr[] = map.get("YEAR").toString().split(",");
+
+            for(int i = 0; i < yearArr.length; i++){
+                Map<String, Object> userPRMap = new HashMap<>();
+                userPRMap.put("BS_YEAR", yearArr[i]);
+                userPRMap.put("PJT_SN", map.get("PJT_SN"));
+                userPRMap.put("EMP_SEQ", map.get("EMP_SEQ"));
+                userPRMap.put("BS_SAL", map.get("BS_SAL"));
+                userPRMap.put("MON_SAL", map.get("MON_SAL"));
+
+                for(int j = 1 ; j <= 12 ; j++){
+                    String key = String.format("%02d", j);
+                    if(map.containsKey("MON_PAY_" + key + "_" + yearArr[i])){
+                        userPRMap.put("MON_PAY_" + key, map.get("MON_PAY_" + key + "_" + yearArr[i]));
+                    } else {
+                        userPRMap.put("MON_PAY_" + key, 0);
+                    }
+                    if(map.containsKey("MON_ITEM_" + j + "_" + yearArr[i])){
+                        userPRMap.put("MON_ITEM_" + key, map.get("MON_ITEM_" + key + "_" + yearArr[i]));
+                    } else {
+                        userPRMap.put("MON_ITEM_" + key, 0);
+                    }
+                }
+
+                projectRepository.insPartRateMonth(userPRMap);
+            }
+
+        }
+
+
         // 이전버전 STATUS = N 으로 변경
         projectRepository.updPartRateBefVersionStatus(params);
 
         projectRepository.confirmPartRate(params);
     }
+
+    @Override
+    public List<Map<String, Object>> test(Map<String, Object> params) {
+        projectRepository.delPartRateMonthData(params);
+
+        List<Map<String, Object>> list = projectRepository.getPartRateDet(params);
+
+        List<Map<String, Object>> listMap = new ArrayList<>();
+
+        for(Map<String, Object> map : list){
+            Map<String, Object> partRateMap = new HashMap<>();
+
+            String endDe = map.get("PART_DET_END_DT").toString().split("-")[0] + "-" + map.get("PART_DET_END_DT").toString().split("-")[1] + "-01";
+
+            String strDe = map.get("PART_DET_STR_DT").toString().split("-")[0] + "-" + map.get("PART_DET_STR_DT").toString().split("-")[1] + "-01";
+            partRateMap.put("PJT_SN", params.get("pjtSn"));
+            partRateMap.put("EMP_SEQ", map.get("PART_EMP_SEQ"));
+            partRateMap.put("BS_SAL", map.get("EMP_SAL"));
+            partRateMap.put("MON_SAL", map.get("MON_SAL"));
+            String year = "";
+            while(true){
+                if(!year.contains(strDe.split("-")[0])){
+                    year += strDe.split("-")[0] + ",";
+                }
+                partRateMap.put("YEAR", strDe.split("-")[0]);
+                partRateMap.put("MON_PAY_" + strDe.split("-")[1] + "_" + strDe.split("-")[0], map.get("PAY_RATE"));
+                partRateMap.put("MON_ITEM_" + strDe.split("-")[1] + "_" + strDe.split("-")[0], map.get("ITEM_RATE"));
+
+                if(strDe == endDe || strDe.equals(endDe)){
+                    break;
+                }
+
+                strDe = LocalDate.parse(strDe).plusMonths(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+            }
+            partRateMap.put("YEAR", year.substring(0, year.length() - 1));
+
+
+            listMap.add(partRateMap);
+        }
+
+        for(Map<String, Object> map : listMap){
+            String yearArr[] = map.get("YEAR").toString().split(",");
+
+            for(int i = 0; i < yearArr.length; i++){
+                Map<String, Object> userPRMap = new HashMap<>();
+                userPRMap.put("BS_YEAR", yearArr[i]);
+                userPRMap.put("PJT_SN", map.get("PJT_SN"));
+                userPRMap.put("EMP_SEQ", map.get("EMP_SEQ"));
+                userPRMap.put("BS_SAL", map.get("BS_SAL"));
+                userPRMap.put("MON_SAL", map.get("MON_SAL"));
+
+                for(int j = 1 ; j <= 12 ; j++){
+                    String key = String.format("%02d", j);
+                    if(map.containsKey("MON_PAY_" + key + "_" + yearArr[i])){
+                        userPRMap.put("MON_PAY_" + key, map.get("MON_PAY_" + key + "_" + yearArr[i]));
+                    } else {
+                        userPRMap.put("MON_PAY_" + key, 0);
+                    }
+                    if(map.containsKey("MON_ITEM_" + j + "_" + yearArr[i])){
+                        userPRMap.put("MON_ITEM_" + key, map.get("MON_ITEM_" + key + "_" + yearArr[i]));
+                    } else {
+                        userPRMap.put("MON_ITEM_" + key, 0);
+                    }
+                }
+
+                projectRepository.insPartRateMonth(userPRMap);
+            }
+
+        }
+
+        return listMap;
+    }
+
 }
 
 

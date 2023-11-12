@@ -2125,4 +2125,89 @@
             PJT_SN = #{pjtSn}
     </update>
 
+    <select id="getPartRateDet" parameterType="map" resultType="map">
+        /*getPartRateDet*/
+        SELECT *
+        FROM
+            CAM_PJT_MNG.DJ_PART_RATE_DET
+        WHERE
+            PART_RATE_VER_SN = #{partRateVerSn}
+    </select>
+
+    <insert id="insPartRateMonth" parameterType="map">
+        /*insPartRateMonth*/
+        INSERT INTO CAM_PJT_MNG.DJ_PART_RATE_MON
+            (
+                PJT_SN,
+                BS_YEAR,
+                EMP_SEQ,
+                BS_SAL,
+                MON_SAL,
+                MON_PAY_01,
+                MON_PAY_02,
+                MON_PAY_03,
+                MON_PAY_04,
+                MON_PAY_05,
+                MON_PAY_06,
+                MON_PAY_07,
+                MON_PAY_08,
+                MON_PAY_09,
+                MON_PAY_10,
+                MON_PAY_11,
+                MON_PAY_12,
+                MON_ITEM_01,
+                MON_ITEM_02,
+                MON_ITEM_03,
+                MON_ITEM_04,
+                MON_ITEM_05,
+                MON_ITEM_06,
+                MON_ITEM_07,
+                MON_ITEM_08,
+                MON_ITEM_09,
+                MON_ITEM_10,
+                MON_ITEM_11,
+                MON_ITEM_12
+            )
+        VALUES
+            (
+                #{PJT_SN},
+                #{BS_YEAR},
+                #{EMP_SEQ},
+                #{BS_SAL},
+                #{MON_SAL},
+                #{MON_PAY_01},
+                #{MON_PAY_02},
+                #{MON_PAY_03},
+                #{MON_PAY_04},
+                #{MON_PAY_05},
+                #{MON_PAY_06},
+                #{MON_PAY_07},
+                #{MON_PAY_08},
+                #{MON_PAY_09},
+                #{MON_PAY_10},
+                #{MON_PAY_11},
+                #{MON_PAY_12},
+                #{MON_ITEM_01},
+                #{MON_ITEM_02},
+                #{MON_ITEM_03},
+                #{MON_ITEM_04},
+                #{MON_ITEM_05},
+                #{MON_ITEM_06},
+                #{MON_ITEM_07},
+                #{MON_ITEM_08},
+                #{MON_ITEM_09},
+                #{MON_ITEM_10},
+                #{MON_ITEM_11},
+                #{MON_ITEM_12}
+            )
+    </insert>
+
+    <delete id="delPartRateMonthData" parameterType="map">
+        /*delPartRateMonthData*/
+        DELETE FROM CAM_PJT_MNG.DJ_PART_RATE_MON
+        WHERE
+            PJT_SN = #{pjtSn}
+    </delete>
+
+
 </mapper>

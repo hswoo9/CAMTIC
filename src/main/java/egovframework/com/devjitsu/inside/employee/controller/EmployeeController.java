@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.inside.employee.controller;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
+import egovframework.com.devjitsu.inside.employee.service.EmployService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class EmployeeController {
@@ -26,6 +24,9 @@ public class EmployeeController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EmployService employService;
 
     @Autowired
     private ProjectService projectService;
@@ -62,13 +63,25 @@ public class EmployeeController {
     }
 
     //사업별참여현황
-    @RequestMapping("/Inside/businessParticipationList.do")
+    @RequestMapping("/inside/businessParticipationList.do")
     public String businessParticipationList(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
+        session.setAttribute("menuNm", request.getRequestURI());
+
         model.addAttribute("loginVO", login);
         return "inside/userManage/businessParticipationList";
+    }
+
+    @RequestMapping("/inside/getBusinessParticipationList")
+    public String getBusinessParticipationList(@RequestParam Map<String, Object> params, Model model) {
+
+        List<Map<String, Object>> list = new ArrayList<>();
+        list = employService.getBusinessParticipationList(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
     }
 
     //월별급여지급현황

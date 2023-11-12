@@ -22,6 +22,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -1190,6 +1192,14 @@ public class ProjectController {
     public String partRateEmpInfo(@RequestParam Map<String, Object> params, Model model){
 
         model.addAttribute("list", projectService.getPartRateEmpInfo(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/test/test123")
+    public String test(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("rs", projectService.test(params));
 
         return "jsonView";
     }

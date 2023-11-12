@@ -618,6 +618,7 @@
             (
                 PART_RATE_VER_SN,
                 PJT_SN,
+                EMP_SAL,
                 CHNG_SAL,
                 PART_DET_STR_DT,
                 PART_DET_END_DT,
@@ -636,6 +637,7 @@
             (
                 #{partRateVerSn},
                 #{pjtSn},
+                #{basicSalary},
                 #{chngSal},
                 #{strDt},
                 #{endDt},
