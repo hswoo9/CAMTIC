@@ -639,7 +639,7 @@
     function fn_detailSchedule(keys, selectedDate){
         if(keys.length>1){
             var key = keys[0];
-            var url = "/spot/pop/popScheduleView.do?scheduleBoardId=" + key + "&pazing=Y&selectedDate=" + selectedDate;
+            var url = "/spot/pop/popScheduleView.do?scheduleBoardId=" + key + "&selectedDate=" + selectedDate;
         }else{
             var url = "/spot/pop/popScheduleView.do?scheduleBoardId=" + keys;
         }
