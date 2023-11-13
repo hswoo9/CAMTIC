@@ -752,6 +752,19 @@ public class CrmController {
         return "jsonView";
     }
 
+    /** mou 수정시 데이터 조회 */
+    @RequestMapping("/crm/getMouArgInfo")
+    public String getMouArgInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+
+        model.addAttribute("data", crmService.getMouArgInfo(params));
+        model.addAttribute("fileInfo", crmService.getMouAgrFileInfo(params));
+        model.addAttribute("loginVO", loginVO);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/crm/customerCondition.do")
     public String customerCondition(Model model, HttpServletRequest request){
 

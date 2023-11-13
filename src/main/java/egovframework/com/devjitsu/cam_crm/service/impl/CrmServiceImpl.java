@@ -787,7 +787,11 @@ public class CrmServiceImpl implements CrmService {
     public void setMouAgrInfo(Map<String, Object> params, MultipartFile[] mouFiles, String serverDir, String baseDir) {
 
         try{
-            crmRepository.setMouAgrInfo(params);
+            if (params.containsKey("MOU_AGR_SN")){
+                crmRepository.updMouAgrInfo(params);
+            } else {
+                crmRepository.setMouAgrInfo(params);
+            }
 
             if(mouFiles.length > 0){
                 MainLib mainLib = new MainLib();
@@ -838,6 +842,16 @@ public class CrmServiceImpl implements CrmService {
     @Override
     public void setMouCrmSnDel(Map<String, Object> params){
         crmRepository.setMouCrmSnDel(params);
+    }
+
+    @Override
+    public Map<String, Object> getMouArgInfo(Map<String, Object> params){
+        return crmRepository.getMouArgInfo(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getMouAgrFileInfo(Map<String, Object> params){
+        return crmRepository.getMouAgrFileInfo(params);
     }
 
     private String getBrowser(HttpServletRequest request) {

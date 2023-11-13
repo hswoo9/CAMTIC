@@ -1320,22 +1320,39 @@
         </selectKey>
     </insert>
 
+    <update id="updMouAgrInfo" parameterType="map">
+        /* updMouAgrInfo */
+        UPDATE
+            CAM_CRM.DJ_MOU_AGREEMENT_INFO
+        SET
+            MOU_AGR_ST_DT = #{mouStdt},
+            MOU_AGR_EN_DT = #{mouEndt},
+            MOU_AGR_PURPOSE = #{mouPurpose},
+            MOU_AGR_CONTENT = #{mouContent},
+            MOU_AGR_MANAGER = #{mouManager},
+            MOD_EMP_SEQ = #{regEmpSeq},
+            MOD_DATE = NOW()
+        WHERE
+            MOU_AGR_SN = #{MOU_AGR_SN}
+    </update>
+
     <select id="getMouAgrList" parameterType="map" resultType="map">
         /* getMouAgrList */
         SELECT
-            MOU_AGR_SN,
-            MOU_AGR_ST_DT,
-            MOU_AGR_EN_DT,
-            MOU_AGR_PURPOSE,
-            MOU_AGR_CONTENT,
-            MOU_AGR_MANAGER
+            M.MOU_AGR_SN,
+            M.MOU_AGR_ST_DT,
+            M.MOU_AGR_EN_DT,
+            M.MOU_AGR_PURPOSE,
+            M.MOU_AGR_CONTENT,
+            M.MOU_AGR_MANAGER,
+            (SELECT COUNT(*) FROM CAM_COMMON.DJ_FILE_INFO F WHERE F.FR_KEY = M.MOU_AGR_SN) AS FILE_CNT
         FROM
-            CAM_CRM.DJ_MOU_AGREEMENT_INFO
+            CAM_CRM.DJ_MOU_AGREEMENT_INFO M
         WHERE
             1=1
         AND
-            ACTIVE = 'Y'
-        ORDER BY MOU_AGR_SN DESC
+            M.ACTIVE = 'Y'
+        ORDER BY M.MOU_AGR_SN DESC
     </select>
 
     <update id="setMouAgrSnDel" parameterType="map">
@@ -1403,4 +1420,31 @@
             MOU_CRM_SN IN (${mouCrmSn})
         </if>
     </update>
+
+    <select id="getMouArgInfo" parameterType="map" resultType="map">
+        /* getMouArgInfo */
+        SELECT
+            MOU_AGR_SN,
+            MOU_AGR_ST_DT,
+            MOU_AGR_EN_DT,
+            MOU_AGR_PURPOSE,
+            MOU_AGR_CONTENT,
+            MOU_AGR_MANAGER
+        FROM
+            CAM_CRM.DJ_MOU_AGREEMENT_INFO
+        WHERE
+            1=1
+          AND
+            MOU_AGR_SN = #{mouArgSn}
+    </select>
+
+    <select id="getMouAgrFileInfo" parameterType="map" resultType="map">
+        /* getMouAgrFileInfo */
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FR_KEY = #{mouArgSn}
+    </select>
 </mapper>
