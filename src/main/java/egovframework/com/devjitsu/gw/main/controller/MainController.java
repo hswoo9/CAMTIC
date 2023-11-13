@@ -146,4 +146,17 @@ public class MainController {
         model.addAttribute("ds", commonService.getSearchMenu(params));
         return "jsonView";
     }
+    @RequestMapping("/spot/pop/popStaffScheduleView.do")
+    public String popScheduleView(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", customBoardService.getSchedule(params));
+        return "popup/cams_pot/popStaffScheduleView";
+    }
+
+    @RequestMapping("/spot/getStaffScheduleList")
+    public String getMainScheduleList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("rs", customBoardService.getStaffScheduleList(params));
+        return "jsonView";
+    }
+
+
 }

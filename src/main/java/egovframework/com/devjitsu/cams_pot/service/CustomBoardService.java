@@ -31,4 +31,6 @@ public interface CustomBoardService {
     void setWatchBoardDel(Map<String, Object> params);
 
     Map<String, Object> getWatchBoardOne(Map<String, Object> params);
+
+    List<Map<String, Object>> getStaffScheduleList(Map<String, Object> params);
 }
