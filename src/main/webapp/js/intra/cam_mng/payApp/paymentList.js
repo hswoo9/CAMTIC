@@ -58,11 +58,11 @@ var paymentList = {
             columns: [
                 {
                     title: "번호",
-                    width: 50,
+                    width: 40,
                     template: "#= --record #"
                 }, {
                     title: "문서유형",
-                    width: 100,
+                    width: 90,
                     template: function(e){
                         if(e.PAY_APP_TYPE == 1){
                             return "세금계산서";
@@ -85,7 +85,7 @@ var paymentList = {
                 }, {
                     title: "신청건명",
                     field: "APP_TITLE",
-                    width: 300,
+                    width: 280,
                     template: function(e){
                         console.log(e);
                         return '<div style="cursor: pointer; font-weight: bold" onclick="paymentList.fn_reqRegPopup('+e.PAY_APP_SN+')">'+e.APP_TITLE+'</div>';
@@ -93,7 +93,7 @@ var paymentList = {
                 }, {
                     title: "프로젝트 명",
                     field: "PJT_NM",
-                    width: 200,
+                    width: 240,
                     template: function (e){
                         var pjtNm = e.PJT_NM.toString().substring(0, 25);
                         return pjtNm + "...";

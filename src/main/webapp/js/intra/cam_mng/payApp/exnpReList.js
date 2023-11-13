@@ -50,11 +50,11 @@ var exnpReList = {
             columns: [
                 {
                     title: "번호",
-                    width: 50,
+                    width: 40,
                     template: "#= --record #"
                 }, {
                     title: "문서유형",
-                    width: 100,
+                    width: 90,
                     template: function(e){
                         if(e.PAY_APP_TYPE == 1){
                             return "세금계산서";
@@ -73,11 +73,11 @@ var exnpReList = {
                 }, {
                     field: "DOC_NO",
                     title: "문서번호",
-                    width: 100,
+                    width: 120,
                 }, {
                     title: "적요",
                     field: "EXNP_BRIEFS",
-                    width: 300,
+                    width: 280,
                     template: function(e){
                         console.log(e);
                         return '<div style="cursor: pointer; font-weight: bold" onclick="exnpReList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\')">'+e.EXNP_BRIEFS+'</div>';
@@ -85,7 +85,7 @@ var exnpReList = {
                 }, {
                     title: "프로젝트 명",
                     field: "PJT_NM",
-                    width: 220,
+                    width: 240,
                     template: function (e){
                         var pjtNm = e.PJT_NM.toString().substring(0, 25);
                         return pjtNm + "...";
