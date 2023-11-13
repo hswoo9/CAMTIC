@@ -515,12 +515,242 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
+    public void updExnpAttDetData(Map<String, Object> params, MultipartHttpServletRequest request, MultipartFile[] file11, String SERVER_DIR, String BASE_DIR) {
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        /** 세금계산서/계산서 - 세금계산서/계산서 */
+        MultipartFile file1 = request.getFile("file1");
+        if(file1 != null){
+            if(!file1.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file1, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "FILE1");
+                fileInsMap.put("exnpDestSn", params.get("exnpDestSn"));
+                payAppRepository.updExnpAttDetData(fileInsMap);
+            }
+        }
+
+        /** 세금계산서/계산서 - 거래명세서 */
+        MultipartFile file2 = request.getFile("file2");
+        if(file2 != null){
+            if(!file2.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file2, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "FILE2");
+                fileInsMap.put("exnpDestSn", params.get("exnpDestSn"));
+
+                payAppRepository.updExnpAttDetData(fileInsMap);
+            }
+        }
+
+        /** 세금계산서/계산서 - 거래명세서 */
+        MultipartFile file3 = request.getFile("file3");
+        if(file3 != null){
+            if(!file3.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file3, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "file3");
+                fileInsMap.put("exnpDestSn", params.get("exnpDestSn"));
+
+                payAppRepository.updExnpAttDetData(fileInsMap);
+            }
+        }
+
+        /** 세금계산서/계산서 - 검수조서 */
+        MultipartFile file4 = request.getFile("file4");
+        if(file4 != null){
+            if(!file4.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file4, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "file4");
+                fileInsMap.put("exnpDestSn", params.get("exnpDestSn"));
+
+                payAppRepository.updExnpAttDetData(fileInsMap);
+            }
+        }
+
+        /** 세금계산서/계산서 - 납품사진 */
+        MultipartFile file5 = request.getFile("file5");
+        if(file5 != null){
+            if(!file5.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file5, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "file5");
+                fileInsMap.put("exnpDestSn", params.get("exnpDestSn"));
+
+                payAppRepository.updExnpAttDetData(fileInsMap);
+            }
+        }
+
+        /** 신용카드(재료비) - 매출전표 */
+        MultipartFile file6 = request.getFile("file6");
+        if(file6 != null){
+            if(!file6.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file6, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "file6");
+                fileInsMap.put("exnpDestSn", params.get("exnpDestSn"));
+
+                payAppRepository.updExnpAttDetData(fileInsMap);
+            }
+        }
+
+        /** 신용카드(재료비) - 거래명세서 */
+        MultipartFile file7 = request.getFile("file7");
+        if(file7 != null){
+            if(!file7.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file7, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "file7");
+                fileInsMap.put("exnpDestSn", params.get("exnpDestSn"));
+
+                payAppRepository.updExnpAttDetData(fileInsMap);
+            }
+        }
+
+        /** 신용카드(재료비) - 검수조서 */
+        MultipartFile file8 = request.getFile("file8");
+        if(file8 != null){
+            if(!file8.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file8, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "file8");
+                fileInsMap.put("exnpDestSn", params.get("exnpDestSn"));
+
+                payAppRepository.updExnpAttDetData(fileInsMap);
+            }
+        }
+
+        /** 신용카드(재료비) - 납품사진 */
+        MultipartFile file9 = request.getFile("file9");
+        if(file9 != null){
+            if(!file9.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file9, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "file9");
+                fileInsMap.put("exnpDestSn", params.get("exnpDestSn"));
+
+                payAppRepository.updExnpAttDetData(fileInsMap);
+            }
+        }
+
+        /** 소득신고자 - 계좌이체동의서 */
+        MultipartFile file10 = request.getFile("file10");
+        if(file10 != null){
+            if(!file10.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file10, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "file10");
+                fileInsMap.put("exnpDestSn", params.get("exnpDestSn"));
+
+                payAppRepository.updExnpAttDetData(fileInsMap);
+            }
+        }
+
+        /** 기타 첨부파일 */
+        if(file11.length > 0){
+            List<Map<String, Object>> list = mainLib.multiFileUpload(file11, filePath(params, SERVER_DIR));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", "exnpAtt_" + params.get("exnpDestSn"));
+                list.get(i).put("empSeq", params.get("regEmpSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, BASE_DIR));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+            }
+            commonRepository.insFileInfo(list);
+        }
+    }
+
+    @Override
     public Map<String, Object> getPayAttInfo(Map<String, Object> params) {
         Map<String, Object> returnMap = payAppRepository.getPayAttInfo(params);
         if(returnMap != null){
             Map<String, Object> searchMap = new HashMap<>();
             searchMap.put("contentId", "payAtt_" + params.get("payDestSn"));
             returnMap.put("etcFile", payAppRepository.getPayAttEtcInfo(searchMap));
+        }
+        return returnMap;
+    }
+
+    @Override
+    public Map<String, Object> getExnpAttInfo(Map<String, Object> params) {
+        Map<String, Object> returnMap = payAppRepository.getExnpAttInfo(params);
+        if(returnMap != null){
+            Map<String, Object> searchMap = new HashMap<>();
+            searchMap.put("contentId", "exnpAtt_" + params.get("exnpDestSn"));
+            returnMap.put("etcFile", payAppRepository.getExnpAttEtcInfo(searchMap));
         }
         return returnMap;
     }

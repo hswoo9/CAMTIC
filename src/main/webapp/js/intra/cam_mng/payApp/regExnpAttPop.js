@@ -1,4 +1,4 @@
-const regPayAtt = {
+const regExnpAtt = {
     global: {
         eviTypeA : ["세금계산서", "거래명세서", "견적서", "검수조서", "납품사진"],
         eviTypeB : ["계산서", "거래명세서", "견적서", "검수조서", "납품사진"],
@@ -8,18 +8,18 @@ const regPayAtt = {
 
     },
     fn_DefaultScript: function(){
-        regPayAtt.fn_fileHtmlSet();
-        regPayAtt.fn_dataSet();
-        regPayAtt.fn_mngMode();
+        regExnpAtt.fn_fileHtmlSet();
+        regExnpAtt.fn_dataSet();
+        regExnpAtt.fn_mngMode();
     },
 
     fn_dataSet: function(){
         let eviType = $("#eviType").val();
         let eviText = "";
 
-        const payDestSn = $("#payDestSn").val();
-        let url = "/pay/getPayAttInfo";
-        const data = { payDestSn: payDestSn };
+        const exnpDestSn = $("#exnpDestSn").val();
+        let url = "/pay/getExnpAttInfo";
+        const data = { exnpDestSn: exnpDestSn };
         const attInfo = customKendo.fn_customAjax(url, data).data;
         console.log(attInfo);
         
@@ -100,7 +100,7 @@ const regPayAtt = {
         $("#pjtTitle").text("증빙서류 - "+eviText);
 
         if(attInfo.etcFile != null){
-            regPayAtt.settingTempFileDataInit(attInfo.etcFile);
+            regExnpAtt.settingTempFileDataInit(attInfo.etcFile);
         }
     },
 
@@ -166,54 +166,54 @@ const regPayAtt = {
         if(eviType == "1" || eviType == "2"){
             html += '<td style="text-align: center">' +
                 '<label for="file1" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file1" name="file1" onchange="regPayAtt.fileChange(this)" style="display: none">' +
+                '<input type="file" id="file1" name="file1" onchange="regExnpAtt.fileChange(this)" style="display: none">' +
                 '<p style="margin-bottom: 0px; margin-top: 3px" id="file1Name"></p>' +
                 '</td>';
             html += '<td style="text-align: center">' +
                 '<label for="file2" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file2" name="file2" onchange="regPayAtt.fileChange(this)" style="display: none">' +
+                '<input type="file" id="file2" name="file2" onchange="regExnpAtt.fileChange(this)" style="display: none">' +
                 '<p style="margin-bottom: 0px; margin-top: 3px" id="file2Name"></p>' +
                 '</td>';
             html += '<td style="text-align: center">' +
                 '<label for="file3" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file3" name="file3" onchange="regPayAtt.fileChange(this)" style="display: none">' +
+                '<input type="file" id="file3" name="file3" onchange="regExnpAtt.fileChange(this)" style="display: none">' +
                 '<p style="margin-bottom: 0px; margin-top: 3px" id="file3Name"></p>' +
                 '</td>';
             html += '<td style="text-align: center">' +
                 '<label for="file4" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file4" name="file4" onchange="regPayAtt.fileChange(this)" style="display: none">' +
+                '<input type="file" id="file4" name="file4" onchange="regExnpAtt.fileChange(this)" style="display: none">' +
                 '<p style="margin-bottom: 0px; margin-top: 3px" id="file4Name"></p>' +
                 '</td>';
             html += '<td style="text-align: center">' +
                 '<label for="file5" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file5" name="file5" onchange="regPayAtt.fileChange(this)" style="display: none">' +
+                '<input type="file" id="file5" name="file5" onchange="regExnpAtt.fileChange(this)" style="display: none">' +
                 '<p style="margin-bottom: 0px; margin-top: 3px" id="file5Name"></p>' +
                 '</td>';
         }else if(eviType == "3"){
             html += '<td style="text-align: center">' +
                 '<label for="file6" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file6" name="file6" onchange="regPayAtt.fileChange(this)" style="display: none">' +
+                '<input type="file" id="file6" name="file6" onchange="regExnpAtt.fileChange(this)" style="display: none">' +
                 '<p style="margin-bottom: 0px; margin-top: 3px" id="file6Name"></p>' +
                 '</td>';
             html += '<td style="text-align: center">' +
                 '<label for="file7" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file7" name="file7" onchange="regPayAtt.fileChange(this)" style="display: none">' +
+                '<input type="file" id="file7" name="file7" onchange="regExnpAtt.fileChange(this)" style="display: none">' +
                 '<p style="margin-bottom: 0px; margin-top: 3px" id="file7Name"></p>' +
                 '</td>';
             html += '<td style="text-align: center">' +
                 '<label for="file8" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file8" name="file8" onchange="regPayAtt.fileChange(this)" style="display: none">' +
+                '<input type="file" id="file8" name="file8" onchange="regExnpAtt.fileChange(this)" style="display: none">' +
                 '<p style="margin-bottom: 0px; margin-top: 3px" id="file8Name"></p>' +
                 '</td>';
             html += '<td style="text-align: center">' +
                 '<label for="file9" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file9" name="file9" onchange="regPayAtt.fileChange(this)" style="display: none">' +
+                '<input type="file" id="file9" name="file9" onchange="regExnpAtt.fileChange(this)" style="display: none">' +
                 '<p style="margin-bottom: 0px; margin-top: 3px" id="file9Name"></p>' +
                 '</td>';
         }else if(eviType == "5"){
             html += '<td style="text-align: center">' +
                 '<label for="file10" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file10" name="file10" onchange="regPayAtt.fileChange(this)" style="display: none">' +
+                '<input type="file" id="file10" name="file10" onchange="regExnpAtt.fileChange(this)" style="display: none">' +
                 '<p style="margin-bottom: 0px; margin-top: 3px" id="file10Name"></p>' +
                 '</td>';
         }
@@ -277,8 +277,8 @@ const regPayAtt = {
         let eviType = $("#eviType").val();
 
         const formData = new FormData();
-        formData.append("payDestSn", $("#payDestSn").val());
-        formData.append("menuCd", "payAtt");
+        formData.append("exnpDestSn", $("#exnpDestSn").val());
+        formData.append("menuCd", "exnpAtt");
         formData.append("empSeq", $("#regEmpSeq").val());
         formData.append("regEmpSeq", $("#regEmpSeq").val());
 
@@ -377,7 +377,7 @@ const regPayAtt = {
             }
         }
 
-        const result = customKendo.fn_customFormDataAjax("/pay/updPayAttDetData", formData);
+        const result = customKendo.fn_customFormDataAjax("/pay/updExnpAttDetData", formData);
         if(result.flag){
             alert("저장되었습니다.");
             window.close();

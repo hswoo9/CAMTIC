@@ -77,6 +77,17 @@ public class PayAppController {
         return "popup/cam_manager/payApp/regPayAttPop";
     }
 
+    @RequestMapping("/payApp/pop/regExnpAttPop.do")
+    public String regExnpAttPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_manager/payApp/regExnpAttPop";
+    }
+
     @RequestMapping("/payApp/getPayAppReqData")
     public String getPayAppReqData(@RequestParam Map<String, Object> params, Model model){
         Map<String, Object> map = payAppService.getPayAppReqData(params);
@@ -199,6 +210,13 @@ public class PayAppController {
     public String updPayAttDetData(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request){
         MultipartFile[] file = request.getFiles("file11").toArray(new MultipartFile[0]);
         payAppService.updPayAttDetData(params, request, file, SERVER_DIR, BASE_DIR);
+        return "jsonView";
+    }
+
+    @RequestMapping("/pay/updExnpAttDetData")
+    public String updExnpAttDetData(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request){
+        MultipartFile[] file = request.getFiles("file11").toArray(new MultipartFile[0]);
+        payAppService.updExnpAttDetData(params, request, file, SERVER_DIR, BASE_DIR);
         return "jsonView";
     }
 
@@ -364,6 +382,12 @@ public class PayAppController {
     @RequestMapping("/pay/getPayAttInfo")
     public String getPayAttInfo(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("data", payAppService.getPayAttInfo(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/pay/getExnpAttInfo")
+    public String getExnpAttInfo(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", payAppService.getExnpAttInfo(params));
         return "jsonView";
     }
 }
