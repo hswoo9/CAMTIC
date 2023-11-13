@@ -262,9 +262,6 @@
         AND
             PUBLIC_CLASS = #{publicClass}
         </if>
-        <if test="selectDate != null and selectDate != ''">
-            AND DATE_FORMAT(#{selectDate}, '%Y-%m-%d') BETWEEN DATE_FORMAT(SC.START_DT, '%Y-%m-%d') AND DATE_FORMAT(SC.END_DT, '%Y-%m-%d')
-        </if>
         AND ACTIVE = 'Y'
     </select>
 
