@@ -143,7 +143,7 @@ var deptListPop = {
                 deptListPop.fn_selRsch(e);
             }else if($("#type").val() == "testType"){
 
-            }else{
+            } else {
                 var tr = $(e).closest("tr");
                 var row = $('#userList').data("kendoGrid").dataItem(tr);
 
@@ -172,6 +172,8 @@ var deptListPop = {
                     opener.parent.$("#deptName").val(row.DEPT_NAME);
                     opener.parent.$("#jobDetail").val(row.JOB_DETAIL);
                 }
+
+                opener.parent.userPayMngPop(row.EMP_SEQ);
 
                 window.close();
             }

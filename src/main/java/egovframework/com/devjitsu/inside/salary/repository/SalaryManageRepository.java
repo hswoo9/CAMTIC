@@ -14,5 +14,21 @@ public class SalaryManageRepository extends AbstractDAO  {
     public void setSocialRate(Map<String, Object> params) { insert("salaryManage.setSocialRate", params);}
     public void setSocialRateUpd(Map<String, Object> params) { insert("salaryManage.setSocialRateUpd", params);}
     public void setSocialRateDel(Map<String, Object> params) { update("salaryManage.setSocialRateDel", params);}
+
+    public List<Map<String, Object>> getEmpSalaryDataList(Map<String, Object> params) {
+        return selectList("salaryManage.getEmpSalaryDataList", params);
+    }
+
+    public void updBefEndDt(Map<String, Object> params) {
+        update("salaryManage.updBefEndDt", params);
+    }
+
+    public void insSalaryManage(Map<String, Object> params) {
+        insert("salaryManage.insSalaryManage", params);
+    }
+
+    public void updSalaryManage(Map<String, Object> params) {
+        update("salaryManage.updSalaryManage", params);
+    }
 }
 

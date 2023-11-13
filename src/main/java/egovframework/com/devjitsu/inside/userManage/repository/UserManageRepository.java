@@ -282,4 +282,8 @@ public class UserManageRepository extends AbstractDAO {
     public List<Map<String,Object>> getEmpBirthDayInfoList (Map<String,Object> map) {
         return selectList("userManage.getEmpBirthDayInfoList", map);
     }
+
+    public Map<String, Object> getEmpInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("userManage.getEmpInfo", params);
+    }
 }

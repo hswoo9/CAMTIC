@@ -2734,4 +2734,19 @@
         ASC LIMIT 3;
     </select>
 
+    <select id="getEmpInfo" parameterType="map" resultType="map">
+        /*getEmpInfo*/
+        SELECT
+            A.*,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ) AS DEPT_NAME,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ)) AS PARENT_DEPT_NAME,
+            CASE WHEN A.DIVISION = '0' THEN '정규직원'
+                WHEN A.DIVISION = '4' AND A.DIVISION_SUB = '1' THEN '계약직원'
+                WHEN A.DIVISION = '4' AND A.DIVISION_SUB = '2' THEN '인턴사원'
+            END AS DIVISION
+        FROM
+            CAM_HR.DJ_EMP_INFO A
+        WHERE
+            A.EMP_SEQ = #{empSeq}
+    </select>
 </mapper>

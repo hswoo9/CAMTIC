@@ -94,6 +94,13 @@ var esm = {
                 {
                     name: 'button',
                     template: function (e) {
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="userSearch()">' +
+                            '	<span class="k-button-text">급여관리</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function (e) {
                         return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="esm.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
@@ -229,7 +236,7 @@ var esm = {
                         var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
 
                         /** 국민연금 */
-                        var nationalPension = cnt * (e.NATIONAL_PENSION / 100);
+                        var nationalPension = Math.floor(cnt * (e.NATIONAL_PENSION / 100));
                         if(nationalPension > Number(e.LIMIT_AMT)){
                             nationalPension = e.LIMIT_AMT;
                         }
@@ -290,6 +297,8 @@ var esm = {
         });
     },
 
+
+
     gridReload : function() {
         esm.global.searchAjaxData = {
             workStatusCode : $("#workStatusCode").val(),
@@ -303,4 +312,9 @@ var esm = {
 
         esm.mainGrid("/salaryManage/getEmpSalaryManageList.do", esm.global.searchAjaxData);
     },
+}
+
+
+function userSearch() {
+    window.open("/common/deptListPop.do?type=pay", "조직도", "width=750, height=650");
 }

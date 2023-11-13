@@ -1392,4 +1392,16 @@ public class UserManageController {
         return "jsonView";
     }
 
+    @RequestMapping("/inside/pop/userPayMngPop.do")
+    public String userPayMngPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String, Object> data = userManageService.getEmpInfo(params);
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        model.addAttribute("data", data);
+        return "popup/inside/userManage/userPayMngPop";
+    }
+
 }

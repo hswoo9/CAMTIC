@@ -816,4 +816,9 @@ public class UserManageServiceImpl implements UserManageService {
     public List<Map<String, Object>> getEmpBirthDayInfoList(Map<String, Object> map) {
         return userManageRepository.getEmpBirthDayInfoList(map);
     }
+
+    @Override
+    public Map<String, Object> getEmpInfo(Map<String, Object> params) {
+        return userManageRepository.getEmpInfo(params);
+    }
 }

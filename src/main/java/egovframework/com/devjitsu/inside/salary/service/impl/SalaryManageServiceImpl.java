@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,5 +52,25 @@ public class SalaryManageServiceImpl implements SalaryManageService {
     @Override
     public void setSocialRateDel(Map<String, Object> params) {
         salaryManageRepository.setSocialRateDel(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getEmpSalaryDataList(Map<String, Object> params) {
+        return salaryManageRepository.getEmpSalaryDataList(params);
+    }
+
+    @Override
+    public void setSalaryManage(Map<String, Object> params) {
+
+        String BEF_END_DT = LocalDate.parse(params.get("startDt").toString()).plusDays(-1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+        params.put("befEndDt", BEF_END_DT);
+        salaryManageRepository.updBefEndDt(params);
+
+        if(!params.containsKey("salarySn")){
+            salaryManageRepository.insSalaryManage(params);
+        } else {
+            salaryManageRepository.updSalaryManage(params);
+        }
     }
 }
