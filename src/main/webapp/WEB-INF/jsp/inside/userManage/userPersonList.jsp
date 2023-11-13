@@ -47,7 +47,7 @@
                         <td>
                             <input type="text" id="userGender" style="width:70px;">
                         </td>
-                        <th class="text-center th-color">조회 기간</th>
+                        <th class="text-center th-color">조회기준일</th>
                         <td>
                             <input type="text" id="start_date" style="width: 110px;">
                         </td>
@@ -124,7 +124,7 @@
                         <td>
                             <input type="text" id="workStatusCode" style="width: 150px; margin-right:10px;">
                         </td>
-                        <th class="text-center th-color">조회 기간</th>
+                        <th class="text-center th-color">조회기준일</th>
                         <td>
                             <input type="text" id="start_date_detail" style="width: 140px;">
                             <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="detailSearchShow($('#detailSearchDiv').css('display'))" style="float:right;">돌아가기</button>

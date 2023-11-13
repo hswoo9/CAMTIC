@@ -33,4 +33,6 @@ public interface CustomBoardService {
     Map<String, Object> getWatchBoardOne(Map<String, Object> params);
 
     List<Map<String, Object>> getStaffScheduleList(Map<String, Object> params);
+
+    List<Map<String, Object>> getCustomSchedules(Map<String, Object> params);
 }

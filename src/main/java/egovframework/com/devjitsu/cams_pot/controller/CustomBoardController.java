@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -215,7 +216,11 @@ public class CustomBoardController {
     @RequestMapping("/spot/pop/popScheduleView.do")
     public String popScheduleView(@RequestParam Map<String, Object> params, Model model){
 
-        model.addAttribute("rs", customBoardService.getSchedule(params)).addAttribute("params", params);
+        Map<String, Object> map = customBoardService.getSchedule(params);
+
+        model.addAttribute("rs", customBoardService.getSchedule(params));
+        model.addAttribute("map", map);
+        model.addAttribute("params", params);
         return "popup/cams_pot/popScheduleView";
     }
 

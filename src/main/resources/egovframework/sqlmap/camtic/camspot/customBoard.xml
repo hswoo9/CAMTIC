@@ -336,24 +336,25 @@
     </select>
 
     <select id="getCustomSchedule" parameterType="map" resultType="map">
-        /* getSchedule */
+        /* getCustomSchedule */
         SELECT
-            *
+            *,
+            (SELECT SCHEDULE_BOARD_ID FROM CAM_BOARD.DJ_SCHEDULE_BOARD
+             WHERE <![CDATA[SCHEDULE_BOARD_ID <  #{scheduleBoardId}]]> AND #{selectedDate} BETWEEN START_DT AND END_DT and PUBLIC_CLASS = 'CS' ORDER BY SCHEDULE_BOARD_ID DESC LIMIT 1) as 'beforeKey',
+        (SELECT SCHEDULE_BOARD_ID FROM CAM_BOARD.DJ_SCHEDULE_BOARD
+        WHERE <![CDATA[SCHEDULE_BOARD_ID >  #{scheduleBoardId}]]> AND #{selectedDate} BETWEEN START_DT AND END_DT and PUBLIC_CLASS = 'CS' ORDER BY SCHEDULE_BOARD_ID ASC LIMIT 1) as 'afterKey'
         FROM
             CAM_BOARD.DJ_SCHEDULE_BOARD
-        WHERE
-            SCHEDULE_BOARD_ID IN (#{scheduleBoardId})
-    </select>
-    <select id="getCustomSchedules" parameterType="map" resultType="map">
-        SELECT
-            *
-        FROM
-            CAM_BOARD.DJ_SCHEDULE_BOARD
-        WHERE
-            SCHEDULE_BOARD_ID IN
-        <foreach collection="scheduleBoardIds" item="id" open="(" separator="," close=")">
-            #{id}
-        </foreach>
+        WHERE 1=1
+        <if test='publicClass != null and !"".equals(publicClass)'>
+            AND
+            PUBLIC_CLASS = #{publicClass}
+        </if>
+        <if test="selectedDate != null and selectedDate != ''">
+            AND #{selectedDate} BETWEEN START_DT AND END_DT
+        </if>
+        AND
+            SCHEDULE_BOARD_ID = #{scheduleBoardId}
     </select>
 
     <select id="getRequestBoardList" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage"
