@@ -91,6 +91,9 @@ var regPay = {
         for(var i=0; i < ls.length; i++) {
             var item = ls[i];
             var eviType = item.EVID_TYPE;
+            if(item.ADVANCES == "Y"){
+                continue;
+            }
             if(eviType == "1" || eviType == "2"){
                 if(item.FILE1 == null || item.FILE2 == null || item.FILE3 == null || item.FILE4 == null || item.FILE5 == null){
                     alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
@@ -218,6 +221,13 @@ var regPay = {
                 '   </td>' +
                 '   <td>' +
                 '       <input type="text" id="iss' + regPayDet.global.itemIndex + '" value="'+item.ISS+'"  class="iss">' +
+                '   </td>' +
+                '   <td>' +
+                '       <input type="checkbox" id="advances' + regPayDet.global.itemIndex + '" class="advances" style="width: 26px; height: 26px" ';
+                if(item.ADVANCES == "Y"){
+                    regPayDet.global.createHtmlStr += "checked";
+                }
+                regPayDet.global.createHtmlStr += '/>' +
                 '   </td>' +
                 '   <td>' +
                 '       <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regPayDet.fn_regPayAttPop(' + regPayDet.global.itemIndex + ')">첨부</button>' +
@@ -351,6 +361,7 @@ var regPay = {
                 cardNo : $("#cardNo" + i).val(),
                 etc : $("#etc" + i).val(),
                 iss : $("#iss" + i).val(),
+                advances : $("#advances" + i).is(':checked') ? "Y" : "N",
             }
 
             if(data.eviType == ""){
@@ -578,6 +589,9 @@ var regPayDet = {
             '   </td>' +
             '   <td>' +
             '       <input type="text" id="iss' + regPayDet.global.itemIndex + '" class="iss">' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="checkbox" id="advances' + regPayDet.global.itemIndex + '" class="advances" style="width: 26px; height: 26px">' +
             '   </td>' +
             '   <td>' +
             '       <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regPayDet.fn_regPayAttPop(' + regPayDet.global.itemIndex+1 + ')">첨부</button>' +

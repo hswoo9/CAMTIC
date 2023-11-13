@@ -160,6 +160,7 @@
                         <col style="width: 5%;">
                         <col style="width: 3%;">
                         <col style="width: 3%;">
+                        <col style="width: 3%;">
                     </colgroup>
                     <thead>
                     <tr>
@@ -179,6 +180,7 @@
                         <th>신용카드</th>
                         <th>비고</th>
                         <th>관련근거</th>
+                        <th>선지급</th>
                         <th>첨부파일</th>
                         <th>명령</th>
                     </tr>
@@ -234,8 +236,11 @@
                             <input type="text" id="iss0" class="iss">
                         </td>
                         <td>
+                            <input type="checkbox" id="advances0" class="advances" style="width: 26px; height: 26px;">
+                        </td>
+                        <td>
                             <div style="text-align: center">
-                                <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regPayDet.fn_regPayAttPop(this)">첨부</button>
+                                <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regPayDet.fn_regPayAttPop(0)">첨부</button>
                             </div>
                         </td>
                         <td>

@@ -183,7 +183,8 @@
                 CARD,
                 CARD_NO,
                 ETC,
-                ISS
+                ISS,
+                ADVANCES
             )
         VALUES
             (
@@ -203,7 +204,8 @@
                 #{card},
                 #{cardNo},
                 #{etc},
-                #{iss}
+                #{iss},
+                #{advances}
             )
     </insert>
 
