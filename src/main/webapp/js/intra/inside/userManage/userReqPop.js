@@ -821,7 +821,7 @@ var userReqPop = {
         if(!confirm("신청내용을 저장하시겠습니까?")){
             return ;
         }
-
+    console.log(data)
         var data = {
             //ERP_EMP_SEQ : "",
             EMP_NAME_KR : $("#empNameKr").val(), //이름

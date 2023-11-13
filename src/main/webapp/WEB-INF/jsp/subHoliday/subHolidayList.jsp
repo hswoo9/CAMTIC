@@ -43,7 +43,7 @@
                         <table class="popTable table table-bordered">
                             <colgroup>
                                 <col width="4%" >
-                                <col width="7%" >
+<%--                                <col width="7%" >--%>
                                 <col width="7%" >
                                 <col width="5%" >
                                 <col width="5%" >
@@ -56,22 +56,22 @@
                                 <col width="4%" >
                                 <col width="4%" >
                                 <col width="6%" >
-                                <col width="4%" >
+<%--                                <col width="4%" >--%>
                             </colgroup>
                             <thead>
                                 <tr>
-                                    <th colspan="6">연가(사용기간)</th>
+                                    <th colspan="5">연가(사용기간)</th>
                                     <th rowspan="3">병가</th>
                                     <th rowspan="3">공가</th>
                                     <th rowspan="3">경조휴가</th>
                                     <th rowspan="3">출산휴가</th>
                                     <th colspan="3">대체휴가</th>
                                     <th rowspan="3">근속<br>포상휴가</th>
-                                    <th rowspan="3">휴일근로</th>
+<%--                                    <th rowspan="3">휴일근로</th>--%>
                                 </tr>
                                 <tr>
                                     <th rowspan="2">발생</th>
-                                    <th rowspan="2">전 전년 사용</th>
+<%--                                    <th rowspan="2">전 전년 사용</th>--%>
                                     <th rowspan="2">전년 사용</th>
                                     <th colspan="2">금년 사용</th>
                                     <th rowspan="2">잔여</th>
