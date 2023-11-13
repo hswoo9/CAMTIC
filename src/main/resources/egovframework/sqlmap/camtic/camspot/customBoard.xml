@@ -262,6 +262,10 @@
         AND
             PUBLIC_CLASS = #{publicClass}
         </if>
+        <if test="selectDate != null and selectDate != ''">
+            AND DATE_FORMAT(#{selectDate}, '%Y-%m-%d') BETWEEN DATE_FORMAT(SC.START_DT, '%Y-%m-%d') AND DATE_FORMAT(SC.END_DT, '%Y-%m-%d')
+        </if>
+        AND ACTIVE = 'Y'
     </select>
 
     <insert id="setScheduleReg" parameterType="map">
@@ -332,6 +336,27 @@
             CAM_BOARD.DJ_SCHEDULE_BOARD
         WHERE
             SCHEDULE_BOARD_ID = #{scheduleBoardId}
+    </select>
+
+    <select id="getCustomSchedule" parameterType="map" resultType="map">
+        /* getSchedule */
+        SELECT
+            *
+        FROM
+            CAM_BOARD.DJ_SCHEDULE_BOARD
+        WHERE
+            SCHEDULE_BOARD_ID IN (#{scheduleBoardId})
+    </select>
+    <select id="getCustomSchedules" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_BOARD.DJ_SCHEDULE_BOARD
+        WHERE
+            SCHEDULE_BOARD_ID IN
+        <foreach collection="scheduleBoardIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
     </select>
 
     <select id="getRequestBoardList" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage"
@@ -631,5 +656,26 @@
             LIMIT 1
     </select>
 
+    <select id="getStaffScheduleList" parameterType="map" resultType="map">
+        /* getStaffScheduleList */
+        SELECT
+            SC.SCHEDULE_TITLE AS title,
+            CONCAT(DATE_FORMAT(SC.START_DT, '%Y-%m-%d'), ' ', SC.START_TIME) AS start,
+            CONCAT(DATE_FORMAT(SC.END_DT, '%Y-%m-%d'), ' ', SC.END_TIME) AS end,
+            DATE_FORMAT(SC.START_DT, '%Y-%m-%d') AS startDate,
+            DATE_FORMAT(SC.END_DT, '%Y-%m-%d') AS endDate,
+            SC.*
+        FROM
+            CAM_BOARD.DJ_SCHEDULE_BOARD SC
+        WHERE 1=1
+            <if test='publicClass != null and !"".equals(publicClass)'>
+                AND
+                PUBLIC_CLASS = #{publicClass}
+            </if>
+            <if test="selectedDate != null and selectedDate != ''">
+                AND #{selectedDate} BETWEEN SC.START_DT AND SC.END_DT
+            </if>
+        AND ACTIVE = 'Y'
+    </select>
 
 </mapper>

@@ -120,6 +120,12 @@
                     </tr>
                 </thead>
             </table>
+            <c:if test="${params.pazing eq 'Y'}">
+                <div style="text-align:right; margin-top:10px; ">
+                    <button onclick=""><</button>
+                    <button onclick="">></button>
+                </div>
+            </c:if>
         </div>
     </div>
 </div>

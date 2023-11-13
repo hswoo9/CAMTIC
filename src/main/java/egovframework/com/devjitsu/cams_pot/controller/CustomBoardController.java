@@ -214,7 +214,8 @@ public class CustomBoardController {
      */
     @RequestMapping("/spot/pop/popScheduleView.do")
     public String popScheduleView(@RequestParam Map<String, Object> params, Model model){
-        model.addAttribute("rs", customBoardService.getSchedule(params));
+
+        model.addAttribute("rs", customBoardService.getSchedule(params)).addAttribute("params", params);
         return "popup/cams_pot/popScheduleView";
     }
 
