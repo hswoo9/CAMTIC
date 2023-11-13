@@ -80,7 +80,40 @@ var regPay = {
         $("#payAppBtnDiv").html(buttonHtml);
     },
 
-    payAppDrafting: function() {
+    payAppDrafting: function(){
+        let checked = 0;
+        var data = {
+            payAppSn : $("#payAppSn").val()
+        }
+        var result = customKendo.fn_customAjax("/payApp/pop/getPayAppData", data);
+        var ls = result.list;
+        for(var i=0; i < ls.length; i++) {
+            var item = ls[i];
+            var eviType = item.EVID_TYPE;
+            if(eviType == "1" || eviType == "2"){
+                if(item.FILE1 == null || item.FILE2 == null || item.FILE3 == null || item.FILE4 == null || item.FILE5 == null){
+                    alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
+                    checked = 1;
+                    break;
+                }
+            }else if(eviType == "3"){
+                if(item.FILE6 == null || item.FILE7 == null || item.FILE8 == null || item.FILE9 == null){
+                    alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
+                    checked = 1;
+                    break;
+                }
+            }else if(eviType == "5"){
+                if(item.FILE10 == null){
+                    alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
+                    checked = 1;
+                    break;
+                }
+            }
+        }
+        if(checked == 1){
+            return;
+        }
+
         $("#payAppDraftFrm").one("submit", function() {
             var url = "/popup/payApp/approvalFormPopup/payAppApprovalPop.do";
             var name = "_self";
@@ -546,6 +579,9 @@ var regPayDet = {
             '       <input type="text" id="iss' + regPayDet.global.itemIndex + '" class="iss">' +
             '   </td>' +
             '   <td>' +
+            '       <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regPayDet.fn_regPayAttPop(' + regPayDet.global.itemIndex+1 + ')">첨부</button>' +
+            '   </td>' +
+            '   <td>' +
             '       <div style="text-align: center">' +
             '           <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(this)">삭제</button>' +
             '       </div>' +
@@ -660,13 +696,13 @@ var regPayDet = {
     },
 
     fn_regPayAttPop : function (row){
-        if($("#payAppSn").val() == ""){
+        let key = $("#payDestSn"+row).val();
+        if(key == "" || key == null){
             alert("지급신청서 최초 1회 저장 후 진행 가능합니다.");
             return;
         }
-        let key = $("#payAppSn").val();
         let eviType = $("#eviType"+row).data("kendoDropDownList").value();
-        var url = "/payApp/pop/regPayAttPop.do?payAppSn=" + key + "&eviType=" + eviType;
+        var url = "/payApp/pop/regPayAttPop.do?payDestSn=" + key + "&eviType=" + eviType;
 
         var name = "_blank";
         var option = "width = 850, height = 400, top = 200, left = 350, location = no";

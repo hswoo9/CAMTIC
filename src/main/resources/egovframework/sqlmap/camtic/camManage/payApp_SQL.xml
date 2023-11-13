@@ -552,4 +552,93 @@
         WHERE
             EXNP_SN = #{exnpSn}
     </update>
+
+    <update id="updPayAttDetData" parameterType="map">
+        /* updPayAttDetData */
+        UPDATE
+            CAM_MNG.DJ_PAY_APP_DET
+        SET
+            ${column} = #{value}
+        WHERE
+            PAY_APP_DET_SN = #{payDestSn}
+    </update>
+
+    <select id="getPayAttInfo" parameterType="map" resultType="map">
+        /* getPayAttInfo */
+        SELECT
+            FI.FILE_NO AS FILE1_NO,
+            CONCAT(FI.FILE_ORG_NAME, '.', FI.FILE_EXT) AS FILE1_NAME,
+            CONCAT(FI.FILE_PATH, FI.FILE_UUID) AS FILE1_PATH,
+
+            FI2.FILE_NO AS FILE2_NO,
+            CONCAT(FI2.FILE_ORG_NAME, '.', FI2.FILE_EXT) AS FILE2_NAME,
+            CONCAT(FI2.FILE_PATH, FI2.FILE_UUID) AS FILE2_PATH,
+
+            FI3.FILE_NO AS FILE3_NO,
+            CONCAT(FI3.FILE_ORG_NAME, '.', FI3.FILE_EXT) AS FILE3_NAME,
+            CONCAT(FI3.FILE_PATH, FI3.FILE_UUID) AS FILE3_PATH,
+
+            FI4.FILE_NO AS FILE4_NO,
+            CONCAT(FI4.FILE_ORG_NAME, '.', FI4.FILE_EXT) AS FILE4_NAME,
+            CONCAT(FI4.FILE_PATH, FI4.FILE_UUID) AS FILE4_PATH,
+
+            FI5.FILE_NO AS FILE5_NO,
+            CONCAT(FI5.FILE_ORG_NAME, '.', FI5.FILE_EXT) AS FILE5_NAME,
+            CONCAT(FI5.FILE_PATH, FI5.FILE_UUID) AS FILE5_PATH,
+
+            FI6.FILE_NO AS FILE6_NO,
+            CONCAT(FI6.FILE_ORG_NAME, '.', FI6.FILE_EXT) AS FILE6_NAME,
+            CONCAT(FI6.FILE_PATH, FI6.FILE_UUID) AS FILE6_PATH,
+
+            FI7.FILE_NO AS FILE7_NO,
+            CONCAT(FI7.FILE_ORG_NAME, '.', FI7.FILE_EXT) AS FILE7_NAME,
+            CONCAT(FI7.FILE_PATH, FI7.FILE_UUID) AS FILE7_PATH,
+
+            FI8.FILE_NO AS FILE8_NO,
+            CONCAT(FI8.FILE_ORG_NAME, '.', FI8.FILE_EXT) AS FILE8_NAME,
+            CONCAT(FI8.FILE_PATH, FI8.FILE_UUID) AS FILE8_PATH,
+
+            FI9.FILE_NO AS FILE9_NO,
+            CONCAT(FI9.FILE_ORG_NAME, '.', FI9.FILE_EXT) AS FILE9_NAME,
+            CONCAT(FI9.FILE_PATH, FI9.FILE_UUID) AS FILE9_PATH,
+
+            FI10.FILE_NO AS FILE10_NO,
+            CONCAT(FI10.FILE_ORG_NAME, '.', FI10.FILE_EXT) AS FILE10_NAME,
+            CONCAT(FI10.FILE_PATH, FI10.FILE_UUID) AS FILE10_PATH
+        FROM
+            CAM_MNG.DJ_PAY_APP_DET PA
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO FI ON PA.FILE1 = FI.FILE_NO
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO FI2 ON PA.FILE2 = FI2.FILE_NO
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO FI3 ON PA.FILE3 = FI3.FILE_NO
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO FI4 ON PA.FILE4 = FI4.FILE_NO
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO FI5 ON PA.FILE4 = FI5.FILE_NO
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO FI6 ON PA.FILE6 = FI6.FILE_NO
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO FI7 ON PA.FILE6 = FI7.FILE_NO
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO FI8 ON PA.FILE6 = FI8.FILE_NO
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO FI9 ON PA.FILE6 = FI9.FILE_NO
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO FI10 ON PA.FILE6 = FI10.FILE_NO
+        WHERE
+            PAY_APP_DET_SN = #{payDestSn}
+    </select>
+
+    <select id="getPayAttEtcInfo" parameterType="map" resultType="map">
+        /* getPayAttEtcInfo */
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            CONTENT_ID = #{contentId}
+        ORDER BY REG_DATE DESC
+    </select>
 </mapper>
