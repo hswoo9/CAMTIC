@@ -24,7 +24,7 @@
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
-            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">캠매니저 증빙서류</span>
+            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">증빙서류</span>
             </h3>
 
             <div class="btn-st popButton">
@@ -33,6 +33,11 @@
         </div>
         <div style="padding: 20px 30px;">
             <table id="popTable" class="popTable table table-bordered mb-0">
+                <td style="text-align: center">
+                    <label for="estFile" class="k-button k-button-solid-base">파일첨부</label>
+                    <input type="file" id="estFile" name="estFile" onchange="regPayAtt.fileChange(this)" style="display: none">
+                    <span id="estFileName"></span>
+                </td>
             </table>
         </div>
     </div>
