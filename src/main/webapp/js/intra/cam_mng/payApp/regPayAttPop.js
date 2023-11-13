@@ -25,74 +25,104 @@ const regPayAtt = {
         
         if(eviType == "1"){
             eviText = "세금계산서";
-            $("#file1Sn").val(attInfo.FILE1_NO);
-            $("#file1Name").text(attInfo.FILE1_NAME);
-            $("#file1Name").css("cursor", "pointer");
-            $("#file1Name").attr("onclick", "fileDown('" + attInfo.FILE1_PATH + "', '" + attInfo.FILE1_NAME + "')");
-            $("#file2Sn").val(attInfo.FILE2_NO);
-            $("#file2Name").text(attInfo.FILE2_NAME);
-            $("#file2Name").css("cursor", "pointer");
-            $("#file2Name").attr("onclick", "fileDown('" + attInfo.FILE2_PATH + "', '" + attInfo.FILE2_NAME + "')");
-            $("#file3Sn").val(attInfo.FILE3_NO);
-            $("#file3Name").text(attInfo.FILE3_NAME);
-            $("#file3Name").css("cursor", "pointer");
-            $("#file3Name").attr("onclick", "fileDown('" + attInfo.FILE3_PATH + "', '" + attInfo.FILE3_NAME + "')");
-            $("#file4Sn").val(attInfo.FILE4_NO);
-            $("#file4Name").text(attInfo.FILE4_NAME);
-            $("#file4Name").css("cursor", "pointer");
-            $("#file4Name").attr("onclick", "fileDown('" + attInfo.FILE4_PATH + "', '" + attInfo.FILE4_NAME + "')");
-            $("#file5Sn").val(attInfo.FILE5_NO);
-            $("#file5Name").text(attInfo.FILE5_NAME);
-            $("#file5Name").css("cursor", "pointer");
-            $("#file5Name").attr("onclick", "fileDown('" + attInfo.FILE5_PATH + "', '" + attInfo.FILE5_NAME + "')");
+            if(attInfo.FILE1_NO != ""){
+                $("#file1Sn").val(attInfo.FILE1_NO);
+                $("#file1Name").text(attInfo.FILE1_NAME);
+                $("#file1Name").css("cursor", "pointer");
+                $("#file1Name").attr("onclick", "fileDown('" + attInfo.FILE1_PATH + "', '" + attInfo.FILE1_NAME + "')");
+            }
+            if(attInfo.FILE2_NO != ""){
+                $("#file2Sn").val(attInfo.FILE2_NO);
+                $("#file2Name").text(attInfo.FILE2_NAME);
+                $("#file2Name").css("cursor", "pointer");
+                $("#file2Name").attr("onclick", "fileDown('" + attInfo.FILE2_PATH + "', '" + attInfo.FILE2_NAME + "')");
+            }
+            if(attInfo.FILE3_NO != ""){
+                $("#file3Sn").val(attInfo.FILE3_NO);
+                $("#file3Name").text(attInfo.FILE3_NAME);
+                $("#file3Name").css("cursor", "pointer");
+                $("#file3Name").attr("onclick", "fileDown('" + attInfo.FILE3_PATH + "', '" + attInfo.FILE3_NAME + "')");
+            }
+            if(attInfo.FILE4_NO != ""){
+                $("#file4Sn").val(attInfo.FILE4_NO);
+                $("#file4Name").text(attInfo.FILE4_NAME);
+                $("#file4Name").css("cursor", "pointer");
+                $("#file4Name").attr("onclick", "fileDown('" + attInfo.FILE4_PATH + "', '" + attInfo.FILE4_NAME + "')");
+            }
+            if(attInfo.FILE5_NO != ""){
+                $("#file5Sn").val(attInfo.FILE5_NO);
+                $("#file5Name").text(attInfo.FILE5_NAME);
+                $("#file5Name").css("cursor", "pointer");
+                $("#file5Name").attr("onclick", "fileDown('" + attInfo.FILE5_PATH + "', '" + attInfo.FILE5_NAME + "')");
+            }
         }else if(eviType == "2"){
             eviText = "계산서";
-            $("#file1Sn").val(attInfo.FILE1_NO);
-            $("#file1Name").text(attInfo.FILE1_NAME);
-            $("#file1Name").css("cursor", "pointer");
-            $("#file1Name").attr("onclick", "fileDown('" + attInfo.FILE1_PATH + "', '" + attInfo.FILE1_NAME + "')");
-            $("#file2Sn").val(attInfo.FILE2_NO);
-            $("#file2Name").text(attInfo.FILE2_NAME);
-            $("#file2Name").css("cursor", "pointer");
-            $("#file2Name").attr("onclick", "fileDown('" + attInfo.FILE2_PATH + "', '" + attInfo.FILE2_NAME + "')");
-            $("#file3Sn").val(attInfo.FILE3_NO);
-            $("#file3Name").text(attInfo.FILE3_NAME);
-            $("#file3Name").css("cursor", "pointer");
-            $("#file3Name").attr("onclick", "fileDown('" + attInfo.FILE3_PATH + "', '" + attInfo.FILE3_NAME + "')");
-            $("#file4Sn").val(attInfo.FILE4_NO);
-            $("#file4Name").text(attInfo.FILE4_NAME);
-            $("#file4Name").css("cursor", "pointer");
-            $("#file4Name").attr("onclick", "fileDown('" + attInfo.FILE4_PATH + "', '" + attInfo.FILE4_NAME + "')");
-            $("#file5Sn").val(attInfo.FILE5_NO);
-            $("#file5Name").text(attInfo.FILE5_NAME);
-            $("#file5Name").css("cursor", "pointer");
-            $("#file5Name").attr("onclick", "fileDown('" + attInfo.FILE5_PATH + "', '" + attInfo.FILE5_NAME + "')");
+            if(attInfo.FILE1_NO != ""){
+                $("#file1Sn").val(attInfo.FILE1_NO);
+                $("#file1Name").text(attInfo.FILE1_NAME);
+                $("#file1Name").css("cursor", "pointer");
+                $("#file1Name").attr("onclick", "fileDown('" + attInfo.FILE1_PATH + "', '" + attInfo.FILE1_NAME + "')");
+            }
+            if(attInfo.FILE2_NO != ""){
+                $("#file2Sn").val(attInfo.FILE2_NO);
+                $("#file2Name").text(attInfo.FILE2_NAME);
+                $("#file2Name").css("cursor", "pointer");
+                $("#file2Name").attr("onclick", "fileDown('" + attInfo.FILE2_PATH + "', '" + attInfo.FILE2_NAME + "')");
+            }
+            if(attInfo.FILE3_NO != ""){
+                $("#file3Sn").val(attInfo.FILE3_NO);
+                $("#file3Name").text(attInfo.FILE3_NAME);
+                $("#file3Name").css("cursor", "pointer");
+                $("#file3Name").attr("onclick", "fileDown('" + attInfo.FILE3_PATH + "', '" + attInfo.FILE3_NAME + "')");
+            }
+            if(attInfo.FILE4_NO != ""){
+                $("#file4Sn").val(attInfo.FILE4_NO);
+                $("#file4Name").text(attInfo.FILE4_NAME);
+                $("#file4Name").css("cursor", "pointer");
+                $("#file4Name").attr("onclick", "fileDown('" + attInfo.FILE4_PATH + "', '" + attInfo.FILE4_NAME + "')");
+            }
+            if(attInfo.FILE5_NO != ""){
+                $("#file5Sn").val(attInfo.FILE5_NO);
+                $("#file5Name").text(attInfo.FILE5_NAME);
+                $("#file5Name").css("cursor", "pointer");
+                $("#file5Name").attr("onclick", "fileDown('" + attInfo.FILE5_PATH + "', '" + attInfo.FILE5_NAME + "')");
+            }
         }else if(eviType == "3"){
             eviText = "신용카드";
-            $("#file6Sn").val(attInfo.FILE6_NO);
-            $("#file6Name").text(attInfo.FILE6_NAME);
-            $("#file6Name").css("cursor", "pointer");
-            $("#file6Name").attr("onclick", "fileDown('" + attInfo.FILE6_PATH + "', '" + attInfo.FILE6_NAME + "')");
-            $("#file7Sn").val(attInfo.FILE7_NO);
-            $("#file7Name").text(attInfo.FILE7_NAME);
-            $("#file7Name").css("cursor", "pointer");
-            $("#file7Name").attr("onclick", "fileDown('" + attInfo.FILE7_PATH + "', '" + attInfo.FILE7_NAME + "')");
-            $("#file8Sn").val(attInfo.FILE8_NO);
-            $("#file8Name").text(attInfo.FILE8_NAME);
-            $("#file8Name").css("cursor", "pointer");
-            $("#file8Name").attr("onclick", "fileDown('" + attInfo.FILE8_PATH + "', '" + attInfo.FILE8_NAME + "')");
-            $("#file9Sn").val(attInfo.FILE9_NO);
-            $("#file9Name").text(attInfo.FILE9_NAME);
-            $("#file9Name").css("cursor", "pointer");
-            $("#file9Name").attr("onclick", "fileDown('" + attInfo.FILE9_PATH + "', '" + attInfo.FILE9_NAME + "')");
+            if(attInfo.FILE6_NO != ""){
+                $("#file6Sn").val(attInfo.FILE6_NO);
+                $("#file6Name").text(attInfo.FILE6_NAME);
+                $("#file6Name").css("cursor", "pointer");
+                $("#file6Name").attr("onclick", "fileDown('" + attInfo.FILE6_PATH + "', '" + attInfo.FILE6_NAME + "')");
+            }
+            if(attInfo.FILE7_NO != ""){
+                $("#file7Sn").val(attInfo.FILE7_NO);
+                $("#file7Name").text(attInfo.FILE7_NAME);
+                $("#file7Name").css("cursor", "pointer");
+                $("#file7Name").attr("onclick", "fileDown('" + attInfo.FILE7_PATH + "', '" + attInfo.FILE7_NAME + "')");
+            }
+            if(attInfo.FILE8_NO != ""){
+                $("#file8Sn").val(attInfo.FILE8_NO);
+                $("#file8Name").text(attInfo.FILE8_NAME);
+                $("#file8Name").css("cursor", "pointer");
+                $("#file8Name").attr("onclick", "fileDown('" + attInfo.FILE8_PATH + "', '" + attInfo.FILE8_NAME + "')");
+            }
+            if(attInfo.FILE9_NO != ""){
+                $("#file9Sn").val(attInfo.FILE9_NO);
+                $("#file9Name").text(attInfo.FILE9_NAME);
+                $("#file9Name").css("cursor", "pointer");
+                $("#file9Name").attr("onclick", "fileDown('" + attInfo.FILE9_PATH + "', '" + attInfo.FILE9_NAME + "')");
+            }
         }else if(eviType == "4"){
             eviText = "직원지급";
         }else if(eviType == "5"){
             eviText = "소득신고자";
-            $("#file10Sn").val(attInfo.FILE10_NO);
-            $("#file10Name").text(attInfo.FILE10_NAME);
-            $("#file10Name").css("cursor", "pointer");
-            $("#file10Name").attr("onclick", "fileDown('" + attInfo.FILE10_PATH + "', '" + attInfo.FILE10_NAME + "')");
+            if(attInfo.FILE10_NO != ""){
+                $("#file10Sn").val(attInfo.FILE10_NO);
+                $("#file10Name").text(attInfo.FILE10_NAME);
+                $("#file10Name").css("cursor", "pointer");
+                $("#file10Name").attr("onclick", "fileDown('" + attInfo.FILE10_PATH + "', '" + attInfo.FILE10_NAME + "')");
+            }
         }else if(eviType == "6"){
             eviText = "기타";
         }
