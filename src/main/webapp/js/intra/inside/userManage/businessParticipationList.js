@@ -192,75 +192,124 @@ var busnPartList = {
                     }
                 }, {
                     title: "1월",
-                    width: 80,
+                    width: 60,
                     template : function (e){
-                        return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_01) + Number(e.MON_ITEM_01))+'%</div>';
+                        console.log(e);
+                        if(e.MON_PAY_01 != undefined){
+                            return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_01) + Number(e.MON_ITEM_01))+'%</div>';
+                        } else {
+                            return '<div style="text-align: right;">0%</div>';
+                        }
                     }
                 }, {
                     title: "2월",
-                    width: 80,
+                    width: 60,
                     template : function (e){
-                        return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_02) + Number(e.MON_ITEM_02))+'%</div>';
+                        if(e.MON_PAY_02 != undefined){
+                            return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_02) + Number(e.MON_ITEM_02))+'%</div>';
+                        } else {
+                            return '<div style="text-align: right;">0%</div>';
+                        }
                     }
                 }, {
                     title: "3월",
-                    width: 80,
+                    width: 60,
                     template : function (e){
-                        return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_03) + Number(e.MON_ITEM_03))+'%</div>';
+                        if(e.MON_PAY_03 != undefined){
+                            return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_03) + Number(e.MON_ITEM_03))+'%</div>';
+                        } else {
+                            return '<div style="text-align: right;">0%</div>';
+                        }
                     }
                 }, {
                     title: "4월",
-                    width: 80,
+                    width: 60,
                     template : function (e){
-                        return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_04) + Number(e.MON_ITEM_04))+'%</div>';
+                        if(e.MON_PAY_04 != undefined){
+                            return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_04) + Number(e.MON_ITEM_04))+'%</div>';
+                        } else {
+                            return '<div style="text-align: right;">0%</div>';
+                        }
                     }
                 }, {
                     title: "5월",
-                    width: 80,
+                    width: 60,
                     template : function (e){
-                        return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_05) + Number(e.MON_ITEM_05))+'%</div>';
+                        if(e.MON_PAY_05 != undefined){
+                            return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_05) + Number(e.MON_ITEM_05))+'%</div>';
+                        } else {
+                            return '<div style="text-align: right;">0%</div>';
+                        }
                     }
                 }, {
                     title: "6월",
-                    width: 80,
+                    width: 60,
                     template : function (e){
-                        return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_06) + Number(e.MON_ITEM_06))+'%</div>';
+                        if(e.MON_PAY_06 != undefined){
+                            return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_06) + Number(e.MON_ITEM_06))+'%</div>';
+                        } else {
+                            return '<div style="text-align: right;">0%</div>';
+                        }
                     }
                 }, {
                     title: "7월",
-                    width: 80,
+                    width: 60,
                     template : function (e){
-                        return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_07) + Number(e.MON_ITEM_07))+'%</div>';
+                        if(e.MON_PAY_07 != undefined){
+                            return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_07) + Number(e.MON_ITEM_07))+'%</div>';
+                        } else {
+                            return '<div style="text-align: right;">0%</div>';
+                        }
                     }
                 }, {
                     title: "8월",
-                    width: 80,
+                    width: 60,
                     template : function (e){
-                        return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_08) + Number(e.MON_ITEM_08))+'%</div>';
+                        if(e.MON_PAY_08 != undefined){
+                            return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_08) + Number(e.MON_ITEM_08))+'%</div>';
+                        } else {
+                            return '<div style="text-align: right;">0%</div>';
+                        }
                     }
                 }, {
                     title: "9월",
-                    width: 80,
+                    width: 60,
                     template : function (e){
-                        return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_09) + Number(e.MON_ITEM_09))+'%</div>';
+                        if(e.MON_PAY_09 != undefined){
+                            return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_09) + Number(e.MON_ITEM_09))+'%</div>';
+                        } else {
+                            return '<div style="text-align: right;">0%</div>';
+                        }
                     }
                 }, {
                     title: "10월",
-                    width: 80,
+                    width: 60,
                     template : function (e){
-                        return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_10) + Number(e.MON_ITEM_10))+'%</div>';
+                        if(e.MON_PAY_10 != undefined){
+                            return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_10) + Number(e.MON_ITEM_10))+'%</div>';
+                        } else {
+                            return '<div style="text-align: right;">0%</div>';
+                        }
                     }
                 }, {
                     title: "11월",
-                    width: 80,
+                    width: 60,
                     template : function (e){
-                        return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_11) + Number(e.MON_ITEM_11))+'%</div>';
+                        if(e.MON_PAY_11 != undefined){
+                            return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_11) + Number(e.MON_ITEM_11))+'%</div>';
+                        } else {
+                            return '<div style="text-align: right;">0%</div>';
+                        }
                     }
                 }, {
                     title: "12월",
-                    width: 80,
+                    width: 60,
                     template : function (e){
-                        return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_12) + Number(e.MON_ITEM_12))+'%</div>';
+                        if(e.MON_PAY_12 != undefined){
+                            return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_12) + Number(e.MON_ITEM_12))+'%</div>';
+                        } else {
+                            return '<div style="text-align: right;">0%</div>';
+                        }
                     }
                 }
                 // , {
