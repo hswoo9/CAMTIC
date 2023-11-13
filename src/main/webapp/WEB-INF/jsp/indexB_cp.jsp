@@ -82,7 +82,7 @@
         <div class="panel" style="margin-bottom:10px;">
             <div style="padding: 25px 0 0 25px; height: 53px;">
                 <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">일정</h4>
-                <div class="selectBtn" style="float: right; margin-top:-12px; margin-right:10px; ">
+                <div class="selectBtn" style="float: right; margin-top:-12px; margin-right:15px; ">
                     <label class="__lab">
                         <input type="radio" name="scheBtn" value="ES" checked onclick="updateScheduleCont(this.value)"/>
                         <i></i><span>직원일정</span>
@@ -230,7 +230,6 @@
         <div class="panel" style="margin-bottom:10px;">
             <div class="panel-heading" style="background-color: #fff; padding:5px;">
                 <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" onclick="open_in_frame('/Inside/meetingRoomReq.do')"><i class="fa fa-building" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">회의실사용신청</span></a></h3>
-
             </div>
         </div><!-- panel -->
     </div>
@@ -388,30 +387,22 @@
                         finalId.push(item.id);
                     }
                 });
-
-                console.log(finalId)
-
-                /*if(finalId.length == 1){
-                    boardId = finalId[0];
-                }*/
-
                 if (haveSchedule) {
                     if (publicClass === 'ES') {
                         openSchedulePopup(selectedDate);
                     } else if (publicClass === 'CS') {
-                        fn_detailSchedule(finalId);
+                        fn_detailSchedule(finalId, selectedDate);
                     }
                 }
             }
         });
     }
-
+    //직원일정 조회 팝업
     function openSchedulePopup(selectedDate) {
         var url = "/spot/pop/popStaffScheduleView.do?selectDate=" + selectedDate;
         var name = "_blank";
         var option = "width = 1000, height = 600, top = 50, left = 400, location = no, scrollbars=yes, resizable=yes"
         var popup = window.open(url, name, option);
-
     }
 
     //대쉬보드 시간 표시
@@ -645,11 +636,12 @@
     }
 
     //주요일정>법인or직원일정 데이터 연동
-    function fn_detailSchedule(key){
-        if(key.length>1){
-            var url = "/spot/pop/popScheduleView.do?scheduleBoardId=" + key + "&pazing=Y";
+    function fn_detailSchedule(keys, selectedDate){
+        if(keys.length>1){
+            var key = keys[0];
+            var url = "/spot/pop/popScheduleView.do?scheduleBoardId=" + key + "&pazing=Y&selectedDate=" + selectedDate;
         }else{
-            var url = "/spot/pop/popScheduleView.do?scheduleBoardId=" + key;
+            var url = "/spot/pop/popScheduleView.do?scheduleBoardId=" + keys;
         }
         var name = "_blank";
         var option = "width = 750, height = 440, top = 50, left = 400, location = no"
@@ -686,13 +678,9 @@
 
         $("#empBirthDayList").append(html);
     }
-
-
-
 </script>
 <script src="/js/schedule/custom.min.js"></script>
 <script src="/js/vendors/chartist.min.js"></script>
 <script src="/js/vendors/moment.min.js"></script>
 <script src="/js/vendors/pignose.calendar.min.js"></script>
-<%--<script src="/js/schedule/dashboard-2.js"></script>--%>
 
