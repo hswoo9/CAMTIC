@@ -154,6 +154,9 @@ var rndPR = {
         var mem = result.result.projectMemberInfo;
 
 
+        console.log(mng);
+
+        console.log(mem);
         var empList = "";
         if(mng != null){
             $("#partRateMember").html("");

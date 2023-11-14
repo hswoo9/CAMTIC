@@ -924,15 +924,17 @@ public class ProjectServiceImpl implements ProjectService {
         }
         result.put("projectManagerInfo", manageInfo);
 
-        String[] strArr = map.get("JOIN_MEM_SN").toString().split(",");
-        for(String str : strArr){
-            if(!str.equals(manageInfo.get("MNG_EMP_SEQ").toString())){
-                map.put("MEMBER_SEQ", str);
-                Map<String, Object> memberData = new HashMap<>();
+        if(!"".equals(map.get("JOIN_MEM_SN"))){
+            String[] strArr = map.get("JOIN_MEM_SN").toString().split(",");
+            for(String str : strArr){
+                if(!str.equals(manageInfo.get("MNG_EMP_SEQ").toString())){
+                    map.put("MEMBER_SEQ", str);
+                    Map<String, Object> memberData = new HashMap<>();
 
-                memberData = projectRepository.getProjectMemberInfo(map);
+                    memberData = projectRepository.getProjectMemberInfo(map);
 
-                projectMemberInfo.add(memberData);
+                    projectMemberInfo.add(memberData);
+                }
             }
         }
 
@@ -1128,6 +1130,10 @@ public class ProjectServiceImpl implements ProjectService {
         return listMap;
     }
 
+    @Override
+    public void updJoinMember(Map<String, Object> params) {
+        projectRepository.updJoinMember(params);
+    }
 }
 
 

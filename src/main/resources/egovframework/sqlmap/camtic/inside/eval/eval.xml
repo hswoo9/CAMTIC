@@ -155,6 +155,8 @@
                         ON EL.EVAL_LOGIN_ID = SB.EVAL_LOGIN_ID AND EL.EMP_SEQ = #{evalEmpSeq}
                         WHERE
                             EVAL_SCREEN_TYPE = #{evalScreenType}
+                        AND
+                            EL.RECRUIT_INFO_SN = '31'
                         GROUP BY APPLICATION_ID
                     )A
                 )
