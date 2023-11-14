@@ -42,6 +42,8 @@ var regPay = {
             regPay.setData();
 
             regPay.fn_viewStat();
+        }else{
+            regPayDet.global.itemIndex += 1;
         }
 
         $("#checkAll").click(function(){
@@ -542,6 +544,7 @@ var regPayDet = {
     addRow : function () {
         regPayDet.global.createHtmlStr = "";
         var clIdx = regPayDet.global.itemIndex;
+        alert(regPayDet.global.itemIndex);
 
 
 
