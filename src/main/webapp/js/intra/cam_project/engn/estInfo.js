@@ -308,7 +308,7 @@ var estInfo = {
             }
         });
 
-        estInfo.global.totAmt -= Number(estInfo.uncomma(inputData.supAmt));
+        // estInfo.global.totAmt -= Number(estInfo.uncomma(inputData.supAmt));
         $("#estExpAmt").val(estInfo.comma(estInfo.global.totAmt));
     },
 
