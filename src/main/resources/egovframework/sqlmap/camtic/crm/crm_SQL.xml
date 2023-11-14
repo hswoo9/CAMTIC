@@ -193,7 +193,8 @@
             ACNT_EMAIL = #{acntEmail},
             SAVE_STAT = "Y",
             ETC = #{etc},
-            HOMEPAGE = #{homepage}
+            HOMEPAGE = #{homepage},
+            CRM_LOC = #{crmLoc}
         WHERE
             CRM_SN = #{crmSn}
     </update>

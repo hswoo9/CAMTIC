@@ -19,6 +19,7 @@ var rndRPR = {
             pjtSn : $("#pjtSn").val()
         }
         var result = customKendo.fn_customAjax("/projectRnd/getReqPartRateData", data);
+
         var pf = result.fileList
         var rs = result.map;
 
@@ -59,8 +60,8 @@ var rndRPR = {
             }
 
             if(userName != ""){
-                $("#joinMember").val(userName);
-                $("#joinMemberSn").val(userSn);
+                // $("#joinMember").val(userName);
+                // $("#joinMemberSn").val(userSn);
             }
         }
 
@@ -81,7 +82,7 @@ var rndRPR = {
             }
             $("#fileGrid").html(html);
         } else {
-            $("#fileGrid").html('<tr>' +
+            $("#fileGrid").html('<tr class="defultTr">' +
             '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
             '</tr>');
         }
@@ -151,9 +152,9 @@ var rndRPR = {
             async: false,
             success: function(rs){
                 if($("#pjtStep").val().substring(0, 1) == "S"){
-                    window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=1";
+                    window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=2";
                 } else {
-                    window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=1";
+                    window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=2";
                 }
             }
         });
@@ -227,7 +228,7 @@ var rndRPR = {
                 html += '<tr style="text-align: center">';
                 html += '   <td>신규</td>';
                 html += '   <td>';
-                html += '       <span style="cursor : pointer;font-weight: bold" onclick="rndRPR.versionClickEvt(' + ls[i].PART_RATE_VER_SN + ')">ver.' + (i+1) + '</span>';
+                html += '       <span style="cursor : pointer;font-weight: bold" onclick="rndRPR.versionClickEvt(' + ls[i].PART_RATE_VER_SN + ', \''+ls[i].MNG_STAT+'\')">ver.' + (i+1) + '</span>';
                 html += '   </td>';
                 html += '   <td>'+ ls[i].REQ_EMP_NM +'</td>';
                 html += '   <td style="text-align: right">' + comma(Number(ls[i].PAY_BUDGET) + Number(ls[i].ITEM_BUDGET)) + '</td>';
@@ -243,7 +244,17 @@ var rndRPR = {
         }
     },
 
-    versionClickEvt: function (key){
+    versionClickEvt: function (key, stat){
+        if(stat == "S"){
+            $("#confBtn").prop("disabled", false);
+            $("#regBtn").prop("disabled", true);
+        } else if (stat == "C"){
+            $("#confBtn").prop("disabled", true);
+            $("#regBtn").prop("disabled", false);
+        } else {
+            $("#confBtn").prop("disabled", true);
+            $("#regBtn").prop("disabled", true);
+        }
 
         if($("#partRateMenuGubun").val() != undefined && $("#partRateMenuGubun").val() != null){
             $("#partRateVerSn").val(key);

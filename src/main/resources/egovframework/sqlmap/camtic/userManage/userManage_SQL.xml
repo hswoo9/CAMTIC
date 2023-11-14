@@ -22,7 +22,8 @@
             a.CAR_ACTIVE AS 'carActive',
             a.CAR_NUM AS 'carNum',
             a.JOIN_DAY AS 'joinDay',
-            a.RESIGN_DAY AS 'resignDay'
+            a.RESIGN_DAY AS 'resignDay',
+            a.RES_REGIS_NUM AS 'resRegisNum'
         FROM
             cam_hr.dj_emp_info AS a
         WHERE

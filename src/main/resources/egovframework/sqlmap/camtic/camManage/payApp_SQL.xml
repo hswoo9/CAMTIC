@@ -239,7 +239,8 @@
                 FILE7,
                 FILE8,
                 FILE9,
-                FILE10
+                FILE10,
+                ADVANCES
             )
         VALUES
             (
@@ -269,7 +270,8 @@
                 (SELECT FILE7 FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_DET_SN = #{payDestSn}),
                 (SELECT FILE8 FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_DET_SN = #{payDestSn}),
                 (SELECT FILE9 FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_DET_SN = #{payDestSn}),
-                (SELECT FILE10 FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_DET_SN = #{payDestSn})
+                (SELECT FILE10 FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_DET_SN = #{payDestSn}),
+                (SELECT ADVANCES FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_DET_SN = #{payDestSn})
             )
     </insert>
 
@@ -543,7 +545,8 @@
         SELECT
             E.*,
             DI.APPRO_KEY AS APPRO_KEY,
-            DI.DOC_MENU_CD AS DOC_MENU_CD
+            DI.DOC_MENU_CD AS DOC_MENU_CD,
+            IFNULL(SUM(ED.TOT_COST), 0) AS TOT_COST
         FROM
             CAM_MNG.DJ_EXNP_DET ED
         LEFT JOIN

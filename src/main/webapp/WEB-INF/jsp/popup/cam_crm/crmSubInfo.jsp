@@ -58,12 +58,20 @@
             <th scope="row" class="text-center th-color">
                 <span class="red-star">*</span>거래처분류
             </th>
-            <td colspan="3">
+            <td>
                 <span style="position: relative; top: 3px">
                     <input type="checkbox" id="buyCl" name="crmClientVal">
                     <label for="buyCl" style="margin-right: 15px;">구매거래처</label>
                     <input type="checkbox" id="miCl" name="crmClientVal">
                     <label for="miCl">입주기업</label>
+                </span>
+            </td>
+            <th scope="row" class="text-center th-color">
+                <span class="red-star"></span>소재지
+            </th>
+            <td>
+                <span style="position: relative; top: 3px">
+                    <input id="crmLoc" style="width: 90%;">
                 </span>
             </td>
         </tr>

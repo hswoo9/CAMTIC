@@ -16,12 +16,12 @@ var processInfo = {
             type : "post",
             success : function(rs){
 
+                console.log(rs);
                 if(rs.psFileList != null){
                     var pf1 = rs.psFileList.psFile1List;
                     var pf2 = rs.psFileList.psFile2List;
                     var pf3 = rs.psFileList.psFile3List;
-
-                    console.log(rs);
+                    var pf4 = rs.psFileList.psFile4List;
 
 
 
@@ -56,7 +56,7 @@ var processInfo = {
                             html += '   <td>'+ pf2[i].file_ext +'</td>';
                             html += '   <td>'+ pf2[i].file_size +'</td>';
                             html += '   <td>' +
-                                '           <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ pf1.file_no +', this)">' +
+                                '           <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ pf2.file_no +', this)">' +
                                 '			    <span class="k-button-text">삭제</span>' +
                                 '		    </button>';
                             html += '   </td>';
@@ -78,7 +78,7 @@ var processInfo = {
                             html += '   <td>'+ pf3[i].file_ext +'</td>';
                             html += '   <td>'+ pf3[i].file_size +'</td>';
                             html += '   <td>' +
-                                '           <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ pf1.file_no +', this)">' +
+                                '           <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ pf3.file_no +', this)">' +
                                 '			    <span class="k-button-text">삭제</span>' +
                                 '		    </button>';
                             html += '   </td>';
@@ -87,6 +87,28 @@ var processInfo = {
                         $("#fileGrid3").html(html);
                     } else {
                         $("#fileGrid3").html('<tr>' +
+                            '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                            '</tr>');
+                    }
+
+                    if(pf4.length != 0){
+                        var html = '';
+
+                        for(var i = 0; i < pf4.length; i++){
+                            html += '<tr style="text-align: center">';
+                            html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+pf4[i].file_path+pf3[i].file_uuid+'\', \''+pf4[i].file_org_name+'.'+pf4[i].file_ext+'\')">'+pf4[i].file_org_name+'</span></td>';
+                            html += '   <td>'+ pf4[i].file_ext +'</td>';
+                            html += '   <td>'+ pf4[i].file_size +'</td>';
+                            html += '   <td>' +
+                                '           <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ pf4.file_no +', this)">' +
+                                '			    <span class="k-button-text">삭제</span>' +
+                                '		    </button>';
+                            html += '   </td>';
+                            html += '</tr>';
+                        }
+                        $("#fileGrid4").html(html);
+                    } else {
+                        $("#fileGrid4").html('<tr>' +
                             '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
                             '</tr>');
                     }
@@ -115,10 +137,12 @@ var processInfo = {
                 $("#file1Etc").val(rs[0].FILE_ETC1);
                 $("#file2Etc").val(rs[0].FILE_ETC2);
                 $("#file3Etc").val(rs[0].FILE_ETC3);
+                $("#file4Etc").val(rs[0].FILE_ETC4);
+
             }
         });
 
-        $("#file1Etc, #file2Etc, #file3Etc").kendoTextArea({
+        $("#file1Etc, #file2Etc, #file3Etc, #file4Etc").kendoTextArea({
             rows: 5,
         })
 
@@ -152,6 +176,8 @@ var processInfo = {
         fd.append("fileEtc1", $("#file1Etc").val());
         fd.append("fileEtc2", $("#file2Etc").val());
         fd.append("fileEtc3", $("#file3Etc").val());
+        fd.append("fileEtc4", $("#file4Etc").val());
+
 
 
         if(fCommon.global.attFiles1 != null){
@@ -169,6 +195,12 @@ var processInfo = {
         if(fCommon.global.attFiles3 != null){
             for(var i = 0; i < fCommon.global.attFiles3.length; i++){
                 fd.append("fileList3", fCommon.global.attFiles3[i]);
+            }
+        }
+
+        if(fCommon.global.attFiles4 != null){
+            for(var i = 0; i < fCommon.global.attFiles4.length; i++){
+                fd.append("fileList4", fCommon.global.attFiles4[i]);
             }
         }
 

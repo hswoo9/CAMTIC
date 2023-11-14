@@ -154,6 +154,47 @@
                 </div>
             </form>
         </div>
+
+        <div id="commFileHtml4" style="margin-top:10px;">
+            <form style="padding: 0px 30px;">
+                <div class="card-header" style="padding: 5px;">
+                    <h3 class="card-title">기타</h3>
+                    <div class="card-options">
+                        <div class="filebox">
+                            <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload4" onclick="$('#fileList4').click()">
+                                <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
+                                <span class="k-button-text">파일첨부</span>
+                            </button>
+                            <input type="file" id="fileList4" name="fileList4" onchange="addFileInfoTable(4);" multiple style="display: none"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="popTable table table-bordered mb-0">
+                        <colgroup>
+                            <col width="50%">
+                            <col width="10%">
+                            <col width="30%">
+                            <col width="10%">
+                        </colgroup>
+                        <thead>
+                        <tr class="text-center th-color">
+                            <th>파일명</th>
+                            <th>확장자</th>
+                            <th>용량</th>
+                            <th>기타</th>
+                        </tr>
+                        </thead>
+                        <tbody id="fileGrid4">
+                        <tr class="defultTr">
+                            <td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <textarea id="file4Etc" style="margin-top:5px;"></textarea>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -224,6 +265,30 @@
                     html += '   <td>' + fCommon.global.attFiles3[i].name.split(".")[0] + '</td>';
                     html += '   <td>' + fCommon.global.attFiles3[i].name.split(".")[1] + '</td>';
                     html += '   <td>' + fCommon.global.attFiles3[i].size + '</td>';
+                    html += '   <td>';
+                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
+                    html += '   </td>';
+                    html += '</tr>';
+                }
+
+                $("#fileGrid" + idx).append(html);
+            }
+        } else if (idx == 4) {
+            fCommon.global.attFiles4 = new Array();
+            for(var i = 0; i < $("input[name='fileList"+idx+"']")[0].files.length; i++){
+                fCommon.global.attFiles4.push($("input[name='fileList"+idx+"']")[0].files[i]);
+            }
+
+            if(fCommon.global.attFiles4.length > 0){
+                $("#fileGrid" + idx).find(".defultTr").remove();
+                $("#fileGrid" + idx).find(".addFile").remove();
+
+                var html = '';
+                for (var i = 0; i < fCommon.global.attFiles4.length; i++) {
+                    html += '<tr style="text-align: center" class="addFile">';
+                    html += '   <td>' + fCommon.global.attFiles4[i].name.split(".")[0] + '</td>';
+                    html += '   <td>' + fCommon.global.attFiles4[i].name.split(".")[1] + '</td>';
+                    html += '   <td>' + fCommon.global.attFiles4[i].size + '</td>';
                     html += '   <td>';
                     html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
                     html += '   </td>';

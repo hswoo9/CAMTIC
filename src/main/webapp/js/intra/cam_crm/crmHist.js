@@ -109,11 +109,9 @@ var crmHist = {
                         return "0 건";
                     }
                 }, {
+                    field: "CRM_LOC",
                     title: "소재지",
-                    width: 100,
-                    template: function(e){
-                        return "";
-                    }
+                    width: 100
                 }, {
                     title: "최근수정일",
                     width: 100,

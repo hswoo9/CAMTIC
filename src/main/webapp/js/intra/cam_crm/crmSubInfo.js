@@ -71,7 +71,7 @@ var crmSi = {
 
 
 
-        customKendo.fn_textBox([ "homepage", "crmProd", "crmBn", "crmBnNum",
+        customKendo.fn_textBox([ "homepage", "crmLoc", "crmProd", "crmBn", "crmBnNum",
                                 "bnDepo", "acntNm", "acntEmail", "crmSubClassText"]);
 
         $("#crmStat").kendoDropDownList({
@@ -88,6 +88,30 @@ var crmSi = {
         $("#etc").kendoTextArea({
             rows : 5
         })
+
+        if($("#crmSn").val() != ""){
+            crmSi.fn_setData();
+        }
+    },
+
+    fn_setData : function(){
+        var data = {
+            crmSn : $("#crmSn").val()
+        }
+
+        $.ajax({
+            url : "/crm/getCrmInfo",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function (rs){
+                var rs = rs.data;
+
+                $("#crmLoc").val(rs.CRM_LOC);
+                $("#homepage").val(rs.HOMEPAGE);
+                $("#crmProd").val(rs.CRM_PROD);
+            }
+        });
     },
 
     fn_save : function(){
@@ -121,6 +145,7 @@ var crmSi = {
         formData.append("addr", $("#addr").val());
         formData.append("crmOcc", $("#crmOcc").val());
         formData.append("crmEvent", $("#crmEvent").val());
+        formData.append("crmLoc", $("#crmLoc").val());
         formData.append("homepage", $("#homepage").val());
         formData.append("crmProd", $("#crmProd").val());
         formData.append("crmBn", $("#crmBn").val());
