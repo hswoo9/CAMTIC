@@ -13,7 +13,13 @@ var bustripResList = {
         bustrip.fn_tripCodeSearchSet();
 
         /** 관련사업 */
-        bustrip.fn_projectSearchSet();
+        // bustrip.fn_projectSearchSet();
+        let projectDataSource = [
+                { text: "없음", value: "1" },
+                { text: "있음 (종료 이전)", value: "2" },
+                { text: "있음 (종료 이후)", value: "3" },
+            ]
+        customKendo.fn_dropDownList("project", projectDataSource, "text", "value", 1);
 
         customKendo.fn_textBox(["busnName"]);
     },
@@ -98,6 +104,10 @@ var bustripResList = {
                     template: function(row){
                         var busnName = "";
                         var project = "";
+                        var endYn = "";
+                        if(row.END_YN == 'Y'){
+                            endYn = "(종료 이후) ";
+                        }
                         if(row.BUSN_NAME != "" && row.BUSN_NAME != null && row.BUSN_NAME != undefined){
                             busnName = row.BUSN_NAME;
                         }
@@ -105,7 +115,7 @@ var bustripResList = {
                         if(row.PROJECT_CD != "" && row.PROJECT_CD != null){
                             project = "(" + row.PROJECT + ") ";
                         }
-                        return  project + busnName;
+                        return  endYn + project + busnName;
                     }
                 }, {
                     field: "EMP_NAME",
