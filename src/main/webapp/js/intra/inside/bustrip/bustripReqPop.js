@@ -3,6 +3,7 @@ const bustripReq = {
         bustrip.fn_setPageName();
         bustripReq.pageSet();
         bustripReq.dataSet();
+        bustripReq.fn_crmChk();
     },
 
     pageSet: function(){
@@ -62,6 +63,11 @@ const bustripReq = {
         /** 방문지 */
         $("#crmSn").val(busInfo.CRM_SN);
         $("#visitCrm").val(busInfo.VISIT_CRM);
+        if($("#crmSn").val() == "99999999"){
+            $("#crmYn").attr("checked", false);
+        } else {
+            $("#crmYn").attr("checked", true);
+        }
 
         /** 출장지역 */
         $("#visitLoc").val(busInfo.VISIT_LOC);
@@ -119,6 +125,7 @@ const bustripReq = {
             $("#visitCrm").data("kendoTextBox").enable(false);
             $("#visitLoc").data("kendoTextBox").enable(false);
             $("#crmBtn").css("display", "none");
+            $("#crmYn").attr("disabled", "true");
 
             $("#visitLocCode").data("kendoDropDownList").enable(false);
             if($("#visitLocCode").val() == "999"){
@@ -174,7 +181,11 @@ const bustripReq = {
         formData.append("compEmpName", $("#popEmpName").val());
         formData.append("compDeptSeq", $("#popDeptSeq").val());
         formData.append("compDeptName", $("#popDeptName").val());
-        formData.append("crmSn", $("#crmSn").val());
+        if($("#crmYn").is(':checked')){
+            formData.append("crmSn", $("#crmSn").val());
+        } else {
+            formData.append("crmSn", "99999999");
+        }
         formData.append("visitCrm", $("#visitCrm").val());
         formData.append("visitLoc", $("#visitLoc").val());
         formData.append("visitLocSub", $("#visitLocCode").val() == "999" || $("#visitLocCode").val() == "" ? $("#visitLocSub").val() : $("#visitLocCode").data("kendoDropDownList").text());
@@ -283,6 +294,16 @@ const bustripReq = {
         var option = "width = 1100, height = 400, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
+
+    fn_crmChk : function(){
+        if($("#crmYn").is(':checked')){
+            $("#visitCrm").attr("readonly", true)
+            $("#crmBtn").attr('disabled', false);
+        } else {
+            $("#visitCrm").attr('readonly', false);
+            $("#crmBtn").attr('disabled', true);
+        }
+    }
 }
 
 function userDataSet(userArr){
