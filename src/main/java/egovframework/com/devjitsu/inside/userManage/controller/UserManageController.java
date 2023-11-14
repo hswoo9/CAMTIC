@@ -218,6 +218,21 @@ public class UserManageController {
         return "popup/inside/userManage/userReqPop";
     }
 
+    @RequestMapping("/Inside/pop/personalInformation.do")
+    public String personalInformation(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String,Object> userPersonnelinformList = userManageService.getUserPersonnelinformList(params);
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        model.addAttribute("uprinfList", userPersonnelinformList);
+
+        return "popup/inside/userManage/personalInformation";
+    }
+
     /**
      * 인사관리 직원 퇴사처리 팝업
      * @param params
