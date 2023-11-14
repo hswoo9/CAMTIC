@@ -66,7 +66,6 @@ public class ProjectController {
 
         model.addAttribute("list", list);
 
-
         return "jsonView";
     }
 

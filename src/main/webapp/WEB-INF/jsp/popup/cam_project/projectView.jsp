@@ -14,6 +14,8 @@
 <input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
 <input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
 <input type="hidden" id="busnClass" value="${params.busnClass}"/>
+<input type="hidden" id="type" value="${params.type}" />
+
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
