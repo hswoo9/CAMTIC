@@ -79,7 +79,7 @@
                             퇴사직원
                         </c:if>
                         <c:if test="${uprinfList.DIVISION_SUB == '3'}">
-                            - 경비/환경
+                            - 시설/환경
                         </c:if>
                     </td>
                 </tr>

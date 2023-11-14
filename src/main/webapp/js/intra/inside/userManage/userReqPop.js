@@ -72,7 +72,7 @@ var userReqPop = {
                     detDs = [
                         {text: "계약직원", value: "1"},
                         {text: "인턴사원", value : "2"},
-                        {text: "경비/환경", value : "3"},
+                        {text: "시설/환경", value : "3"},
                     ];
 
                     $("#divisDet").data("kendoDropDownList").setDataSource(detDs);

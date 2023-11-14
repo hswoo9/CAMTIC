@@ -307,6 +307,13 @@ var hwpDocCtrl = {
                     hwpDocCtrl.global.HwpCtrl.MoveToField('positionName', true, true, false);
                     hwpDocCtrl.putFieldText('positionName', ResultData.POSITION_NAME);
 
+                    // 직무
+                    if (ResultData.JOB_TITLE === null || ResultData.JOB_TITLE === '') {
+                        hwpDocCtrl.putFieldText('jobTitle', ResultData.JOB_DETAIL);
+                    } else {
+                        hwpDocCtrl.putFieldText('jobTitle', ResultData.JOB_TITLE);
+                    }
+
                     //근무기간
                     let joinDay = ResultData.JOIN_DAY.split("-");
                     let joinDayText = joinDay[0]+"년"+joinDay[1]+"월"+joinDay[2]+"일";

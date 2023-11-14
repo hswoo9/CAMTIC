@@ -113,7 +113,7 @@ var personAttendStat = {
                 {text: "단기직원", expanded: true},
                 {text: "위촉직원", expanded: true},
                 {text: "연수생/학생연구원", expanded: true},
-                {text: "경비/환경", expanded: true}
+                {text: "시설/환경", expanded: true}
             ]
         });
 
