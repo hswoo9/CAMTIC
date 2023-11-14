@@ -51,6 +51,8 @@ var selEvalPop = {
             }
         });
 
+        $("#recruitAreaInfoSn").data("kendoDropDownList").select(1)
+
         $("#mainDiv").kendoTabStrip({
             animation:  {
                 open: {

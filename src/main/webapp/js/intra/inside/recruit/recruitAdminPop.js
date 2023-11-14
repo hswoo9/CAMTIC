@@ -432,9 +432,9 @@ var recruitAdminPop = {
         var result = customKendo.fn_customAjax("/inside/getRecruitAreaList.do", recruitAdminPop.global.searchAjaxData);
         customKendo.fn_dropDownList("recruitAreaInfoSn", result.recruitArea, "AREA_TITLE","RECRUIT_AREA_INFO_SN", 2);
         $("#recruitAreaInfoSn").data("kendoDropDownList").bind("change", recruitAdminPop.gridReload);
-
+        $("#recruitAreaInfoSn").data("kendoDropDownList").select(1)
         recruitAdminPop.global.dropDownDataSource = [
-            { text: "서류심사", value: "" },
+            { text: "전체", value: "" },
             { text: "서류심사 합격", value: "D" },
             { text: "서류심사 불합격", value: "DF" }
         ]
@@ -447,7 +447,7 @@ var recruitAdminPop = {
         });
 
         recruitAdminPop.global.dropDownDataSource = [
-            { text: "면접심사", value: "" },
+            { text: "전체", value: "" },
             { text: "면접심사 합격", value: "I" },
             { text: "면접심사 불합격", value: "if" },
             { text: "후보", value: "preliminaryPass" },

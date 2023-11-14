@@ -156,7 +156,7 @@
                         WHERE
                             EVAL_SCREEN_TYPE = #{evalScreenType}
                         AND
-                            EL.RECRUIT_INFO_SN = '31'
+                            EL.RECRUIT_INFO_SN = #{recruitInfoSn}
                         GROUP BY APPLICATION_ID
                     )A
                 )
