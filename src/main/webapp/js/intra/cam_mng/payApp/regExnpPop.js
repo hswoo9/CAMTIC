@@ -82,11 +82,13 @@ var regExnp = {
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_save()">저장</button>';
                     buttonHtml += '<button type="button" id="reqBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.payAppDrafting()">상신</button>';
                 }else if(data.DOC_STATUS == "10"){
+                    $("#mode").val("view");
                     buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
                 }else if(data.DOC_STATUS == "30" || data.DOC_STATUS == "40"){
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_save()">저장</button>';
                     buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \''+data.DOC_MENU_CD+'\', \''+data.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
                 }else if(data.DOC_STATUS == "100"){
+                    $("#mode").val("view");
                     buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', \''+data.DOC_MENU_CD+'\');">열람</button>';
                 }else{
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_save()">저장</button>';
@@ -181,6 +183,13 @@ var regExnp = {
                     '       <input type="hidden" id="cardNo'+regExnpDet.global.itemIndex+'" value="'+item.CARD_NO+'" className="cardNo" />' +
                     '   </td>' +
                     '   <td>' +
+                    '       <input type="checkbox" id="advances' + regExnpDet.global.itemIndex + '" class="advances" style="width: 26px; height: 26px" ';
+                    if(item.ADVANCES == "Y"){
+                        regExnpDet.global.createHtmlStr += "checked";
+                    }
+                    regExnpDet.global.createHtmlStr += '/>' +
+                    '   </td>' +
+                    '   <td>' +
                     '       <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regExnpDet.fn_regExnpAttPop(' + regExnpDet.global.itemIndex + ')">첨부</button>' +
                     '   </td>' +
                     '</tr>';
@@ -253,6 +262,9 @@ var regExnp = {
         for(var i=0; i < ls.length; i++) {
             var item = ls[i];
             var eviType = item.EVID_TYPE;
+            if(item.ADVANCES == "Y"){
+                continue;
+            }
             if(eviType == "1" || eviType == "2"){
                 if(item.FILE1 == null || item.FILE2 == null || item.FILE3 == null || item.FILE4 == null || item.FILE5 == null){
                     alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
@@ -361,6 +373,13 @@ var regExnp = {
                     '   <td>' +
                     '       <input type="text" disabled id="card' + regExnpDet.global.itemIndex + '" value="'+item.CARD+'" class="card">' +
                     '       <input type="hidden" id="cardNo' + regExnpDet.global.itemIndex + '" className="cardNo" />' +
+                    '   </td>' +
+                    '   <td>' +
+                    '       <input type="checkbox" id="advances' + regExnpDet.global.itemIndex + '" class="advances" style="width: 26px; height: 26px" ';
+                    if(item.ADVANCES == "Y"){
+                        regExnpDet.global.createHtmlStr += "checked";
+                    }
+                    regExnpDet.global.createHtmlStr += '/>' +
                     '   </td>' +
                     '   <td>' +
                     '       <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regExnpDet.fn_regPayAttPop(' + regExnpDet.global.itemIndex + ')">첨부</button>' +
@@ -486,7 +505,8 @@ var regExnp = {
                 supCost : regExnp.uncomma($("#supCost" + i).val()),
                 vatCost : regExnp.uncomma($("#vatCost" + i).val()),
                 card : $("#card" + i).val(),
-                cardNo : $("#cardNo" + i).val()
+                cardNo : $("#cardNo" + i).val(),
+                advances : $("#advances" + i).is(':checked') ? "Y" : "N",
             }
 
             if(data.eviType == ""){
