@@ -60,7 +60,7 @@
                                 <td>임용(인턴사원)</td>
                                 <td>임용(단기직원)</td>
                                 <td>임용(위촉직원)</td>
-                                <td>임용(경비/환경)</td>
+                                <td>임용(시설/환경)</td>
                                 <td>승진(직위)</td>
                             </tr>
                             <tr style="background-color: white;">

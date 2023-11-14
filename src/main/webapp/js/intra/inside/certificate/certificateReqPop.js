@@ -28,8 +28,8 @@ var certificateReqPop = {
         //출력매수
         let printSn = $("#printSn").val();
         //주민등록번호
-        let firstRrnName = $("#firstRrnName").val();
-        let secondRrnName = $("#secondRrnName").val();
+        /*let firstRrnName = $("#firstRrnName").val();
+        let secondRrnName = $("#secondRrnName").val();*/
         //용도
         let usageName = $("#usageName").val();
         //비고
@@ -46,14 +46,14 @@ var certificateReqPop = {
             alert("제출처가 작성되지 않았습니다.");
             return;
         }
-        if(firstRrnName == "") {
+        /*if(firstRrnName == "") {
             alert("주민등록번호 앞자리가 작성되지 않았습니다.");
             return;
         }
         if(secondRrnName == "") {
             alert("주민등록번호 뒷자리가 작성되지 않았습니다.");
             return;
-        }
+        }*/
         if(usageName == "") {
             alert("용도가 선택되지 않았습니다.");
             return;
@@ -69,8 +69,8 @@ var certificateReqPop = {
             submissionName : submissionName,
             submissionDe : submissionDe,
             printSn : printSn,
-            firstRrnName : firstRrnName,
-            secondRrnName : secondRrnName,
+            /*firstRrnName : firstRrnName,
+            secondRrnName : secondRrnName,*/
             usageName : usageName,
             remarkName : remarkName,
             empSeq : empSeq,
@@ -92,8 +92,8 @@ var certificateReqPop = {
 
     uptBtn: function(){
         $("#submissionName").data("kendoTextBox").enable(true);
-        $("#firstRrnName").data("kendoTextBox").enable(true);
-        $("#secondRrnName").data("kendoTextBox").enable(true);
+       /* $("#firstRrnName").data("kendoTextBox").enable(true);
+        $("#secondRrnName").data("kendoTextBox").enable(true);*/
         $("#remarkName").data("kendoTextBox").enable(true);
         $("#regDe").data("kendoDatePicker").enable(true);
         $("#submissionDe").data("kendoDatePicker").enable(true);

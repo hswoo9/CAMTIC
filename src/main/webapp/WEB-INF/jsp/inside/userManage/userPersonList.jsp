@@ -69,29 +69,28 @@
                             </style>
                             <div class="mt10">
                                 <input type="checkbox" class="detailSearch" division="0" id="dsA" checked>
-                                <label for="dsA">정규직원</label>
+                                <label for="dsA">정규직원 [${countMap.dsA}]</label>
                                 <input type="checkbox" class="detailSearch" division="4" divisionSub="1" style="margin-left: 10px;" id="dsB" checked>
-                                <label for="dsB">계약직원</label>
+                                <label for="dsB">계약직원 [${countMap.dsB}]</label>
                                 <input type="checkbox" class="detailSearch" division="4" divisionSub="2" style="margin-left: 10px;" id="dsC" checked>
-                                <label for="dsC">인턴사원</label>
-
-
-                                <input type="checkbox" class="detailSearch" division="4" divisionSub="3" style="margin-left: 10px;" id="dsD">
-                                <label for="dsD">경비/환경</label>
-                                <input type="checkbox" class="detailSearch" division="3" style="margin-left: 10px;" id="dsE">
-                                <label for="dsE">단기직원</label>
-
-                                <%--<input type="checkbox" class="detailSearch" division="1" divisionSub="1,2" style="margin-left: 10px;" id="dsF">--%>
+                                <label for="dsC">인턴사원 [${countMap.dsC}]</label>
                                 <input type="checkbox" class="detailSearch" division="1" divisionSub="6" style="margin-left: 10px;" id="dsF">
-                                <label for="dsF">위촉직원</label>
+                                <label for="dsF">위촉직원 [${countMap.dsF}]</label>
+                                <input type="checkbox" class="detailSearch" division="3" style="margin-left: 10px;" id="dsE">
+                                <label for="dsE">단기직원 [${countMap.dsE}]</label>
+                                <input type="checkbox" class="detailSearch" division="4" divisionSub="3" style="margin-left: 10px;" id="dsD">
+                                <label for="dsD">시설/환경 [${countMap.dsD}]</label>
+                                <%--<input type="checkbox" class="detailSearch" division="1" divisionSub="1,2" style="margin-left: 10px;" id="dsF">--%>
                                 <input type="checkbox" class="detailSearch" division="2" style="margin-left: 10px;" id="dsG">
-                                <label for="dsG">연수생/학생연구원</label>
+                                <label for="dsG">연수생/학생연구원 [${countMap.dsG}]</label>
                                 <input type="checkbox" class="detailSearch" division="10" style="margin-left: 10px;" id="dsH">
-                                <label for="dsH">기타</label>
+                                <label for="dsH">기타 [${countMap.dsH}]</label>
                                 <input type="checkbox" class="detailSearch" style="margin-left: 10px;" id="dsI">
-                                <label for="dsI">임시직원</label>
-                                <input type="checkbox" class="detailSearch" division="9999" style="margin-left: 10px;" id="dsJ">
-                                <label for="dsJ">퇴사직원</label>
+                                <label for="dsI">임시직원 [${countMap.dsI}]</label>
+                                <%--<input type="checkbox" class="detailSearch" division="9999" style="margin-left: 10px;" id="dsJ">--%>
+                                <input type="checkbox" class="detailSearch" division="9999" style="margin-left: 10px;" id="dsJ" onclick="uncheckOtherCheckboxes()">
+                                <label for="dsJ">퇴사직원 [${countMap.dsJ}]</label>
+
                                 <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="detailSearchShow($('#detailSearchDiv').css('display'))" style="float:right;bottom: 5px;">상세검색</button>
                             </div>
                         </td>
@@ -196,6 +195,21 @@
         }else{
             $("#mainCard").show()
             $("#detailSearchDiv").hide()
+        }
+    }
+
+    /* 퇴사직원 체크박스 선택 하면 나머지 체크박스들 체크 해제 */
+    function uncheckOtherCheckboxes() {
+        var dsJCheckbox = $('#dsJ');
+
+        if (dsJCheckbox.prop('checked')) {
+            var checkboxes = $('.detailSearch');
+            checkboxes.each(function() {
+                var checkbox = $(this);
+                if (!checkbox.is(dsJCheckbox)) {
+                    checkbox.prop('checked', false);
+                }
+            });
         }
     }
 </script>

@@ -232,3 +232,7 @@ var bustripResMngList = {
         var popup = window.open(url, name, option);
     }
 }
+
+function gridReload(){
+    bustripResMngList.mainGrid();
+}

@@ -61,6 +61,9 @@ public class UserManageController {
         HttpSession session = request.getSession();
         menuSession(request, session);
 
+        Map<String, Integer> countMap = userManageService.getCountMap();
+
+        model.addAttribute("countMap", countMap);
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
@@ -78,6 +81,9 @@ public class UserManageController {
         HttpSession session = request.getSession();
         menuSession(request, session);
 
+        Map<String, Integer> countMap = userManageService.getCountMap2();
+
+        model.addAttribute("countMap", countMap);
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);

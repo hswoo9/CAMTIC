@@ -264,3 +264,7 @@ var bustripResList = {
         }).trigger("submit");
     }
 }
+
+function gridReload(){
+    bustripResList.mainGrid();
+}

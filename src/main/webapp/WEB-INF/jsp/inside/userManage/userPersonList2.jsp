@@ -16,7 +16,7 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title" style="margin-bottom: 5px;">인사관리</h4>
-            <div class="title-road">캠인사이드 > 인사관리 > 인사관리 &gt; 인사관리</div>
+            <div class="title-road">캠인사이드 >  &gt; 인사관리</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -69,15 +69,17 @@
                             </style>
                             <div class="mt10">
                                 <input type="checkbox" class="detailSearch" id="dsA" checked>
-                                <label for="dsA">전담직원</label>
-                                <input type="checkbox" class="detailSearch" division="3" style="margin-left: 10px;" id="dsB">
-                                <label for="dsB">단기직원</label>
+                                <label for="dsA">전담직원 [${countMap.dsA}]</label>
                                 <input type="checkbox" class="detailSearch" division="1" divisionSub="6" style="margin-left: 10px;" id="dsC">
-                                <label for="dsC">위촉직원</label>
-                                <input type="checkbox" class="detailSearch" division="2" style="margin-left: 10px;" id="dsD">
-                                <label for="dsD">연수생/학생연구원</label>
+                                <label for="dsC">위촉직원 [${countMap.dsC}]</label>
+                                <input type="checkbox" class="detailSearch" division="3" style="margin-left: 10px;" id="dsB">
+                                <label for="dsB">단기직원 [${countMap.dsB}]</label>
+                                <input type="checkbox" class="detailSearch" division="4" divisionSub="3" style="margin-left: 10px;" id="dsD">
+                                <label for="dsD">시설/환경 [${countMap.dsD}]</label>
+                                <input type="checkbox" class="detailSearch" division="2" style="margin-left: 10px;" id="dsG">
+                                <label for="dsG">연수생/학생연구원 [${countMap.dsG}]</label>
                                 <input type="checkbox" class="detailSearch" division="10" style="margin-left: 10px;" id="dsE">
-                                <label for="dsE">기타</label>
+                                <label for="dsE">기타 [${countMap.dsE}]</label>
                             </div>
                         </td>
                     </tr>
