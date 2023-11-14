@@ -65,7 +65,7 @@
                         <span>
                             <input type="text" id="pjtNm" disabled value="${pjtData.PJT_NM}"  style="width: 40%;">
                             <input type="hidden" id="pjtSn" value="${pjtData.PJT_SN}" />
-                            <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="regPay.fn_projectPop()">검색</button>
+                            <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="regPay.fn_projectPop('regPay')">검색</button>
                         </span>
                     </td>
                 </tr>
@@ -112,7 +112,7 @@
                         <input type="text" id="bnkNm" disabled style="width: 60%;">
                     </td>
                 </tr>
-                <tr>
+                <tr style="display: none">
                     <th scope="row" class="text-center th-color">전결구분</th>
                     <td colspan="4">
                         <span id="payAppStat"></span>
@@ -193,7 +193,7 @@
                         <td>
                             <span>
                                 <input type="text" id="budgetNm0" value="" onclick="regPay.fn_budgetPop(0)" style="width: 100%;">
-                                <input type="hidden" id="budgetSn0" value="" />
+                                <input type="hidden" id="budgetSn0" value="" class="budgetSn"/>
                             </span>
                         </td>
                         <td>
@@ -245,7 +245,7 @@
                         </td>
                         <td>
                             <div style="text-align: center">
-                                <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(this)">삭제</button>
+                                <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(0)">삭제</button>
                             </div>
                         </td>
                     </tr>

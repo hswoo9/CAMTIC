@@ -74,16 +74,13 @@
                                 <label for="dsB">계약직원</label>
                                 <input type="checkbox" class="detailSearch" division="4" divisionSub="2" style="margin-left: 10px;" id="dsC" checked>
                                 <label for="dsC">인턴사원</label>
-
-
-                                <input type="checkbox" class="detailSearch" division="4" divisionSub="3" style="margin-left: 10px;" id="dsD">
-                                <label for="dsD">경비/환경</label>
-                                <input type="checkbox" class="detailSearch" division="3" style="margin-left: 10px;" id="dsE">
-                                <label for="dsE">단기직원</label>
-
-                                <%--<input type="checkbox" class="detailSearch" division="1" divisionSub="1,2" style="margin-left: 10px;" id="dsF">--%>
                                 <input type="checkbox" class="detailSearch" division="1" divisionSub="6" style="margin-left: 10px;" id="dsF">
                                 <label for="dsF">위촉직원</label>
+                                <input type="checkbox" class="detailSearch" division="3" style="margin-left: 10px;" id="dsE">
+                                <label for="dsE">단기직원</label>
+                                <input type="checkbox" class="detailSearch" division="4" divisionSub="3" style="margin-left: 10px;" id="dsD">
+                                <label for="dsD">시설/환경</label>
+                                <%--<input type="checkbox" class="detailSearch" division="1" divisionSub="1,2" style="margin-left: 10px;" id="dsF">--%>
                                 <input type="checkbox" class="detailSearch" division="2" style="margin-left: 10px;" id="dsG">
                                 <label for="dsG">연수생/학생연구원</label>
                                 <input type="checkbox" class="detailSearch" division="10" style="margin-left: 10px;" id="dsH">

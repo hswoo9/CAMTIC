@@ -83,9 +83,13 @@
                     </td>
                 </tr>
                 <tr>
+                    <<th>직무명</th>
+                    <td>
+                        <input type="text" id="jobTitle" style="width: 80%;" value="">
+                    </td>
                     <th>비고</th>
-                    <td colspan="3">
-                        <input type="text" id="remarkName" class="defaultVal" value="">
+                    <td>
+                        <input type="text" id="remarkName" class="defaultVal" style="width: 80%;"value="">
                     </td>
                 </tr>
                 </thead>

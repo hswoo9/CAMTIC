@@ -39,7 +39,7 @@
 
 
                                         <input type="checkbox" class="detailSearch" division="4" divisionSub="3" style="margin-left: 10px;" id="dsD">
-                                        <label for="dsD">경비/환경</label>
+                                        <label for="dsD">시설/환경</label>
                                         <input type="checkbox" class="detailSearch" division="3" style="margin-left: 10px;" id="dsE">
                                         <label for="dsE">단기직원</label>
 

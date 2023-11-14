@@ -39,6 +39,7 @@ var esm = {
         customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(esm.global.now.setFullYear(esm.global.now.getFullYear() - 2)));
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
 
+        customKendo.fn_datePicker("year", 'decade', "yyyy", new Date());
         $("#division").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
@@ -308,6 +309,7 @@ var esm = {
             division : $("#division").val(),
             searchKeyWord : $("#searchKeyWord").val(),
             searchText : $("#searchText").val(),
+            year : $("#year").val()
         }
 
         esm.mainGrid("/salaryManage/getEmpSalaryManageList.do", esm.global.searchAjaxData);

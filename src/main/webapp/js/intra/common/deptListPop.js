@@ -172,9 +172,11 @@ var deptListPop = {
                     opener.parent.$("#deptName").val(row.DEPT_NAME);
                     opener.parent.$("#jobDetail").val(row.JOB_DETAIL);
                 }
+                try {
+                    opener.parent.userPayMngPop(row.EMP_SEQ);
+                }catch{
 
-                opener.parent.userPayMngPop(row.EMP_SEQ);
-
+                }
                 window.close();
             }
         }

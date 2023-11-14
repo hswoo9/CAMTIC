@@ -75,6 +75,7 @@
             <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
             <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
             <input type="hidden" id="userProofSn" name="userProofSn" value="${userProofSn}">
+            <input type="hidden" id="jobTitle" name="jobTitle" value="${jobTitle}">
         </div>
         <div id="hwpApproveContent" style="height: 100%;border: 1px solid lightgray;"></div>
     </div>

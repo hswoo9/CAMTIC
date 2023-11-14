@@ -11,49 +11,56 @@
         AND A.TEAM_STAT = "N"
         <if test='busnClass != null and busnClass != ""'>
             AND
-            A.BUSN_CLASS = #{busnClass}
+                A.BUSN_CLASS = #{busnClass}
         </if>
         <if test='busnSubClass != null and busnSubClass != "" and !"Y".equals(busnSubClass)'>
             AND
-            A.PJT_STEP in (${busnSubClass})
+                A.PJT_STEP in (${busnSubClass})
             AND
-            A.PJT_STOP = "N"
+                A.PJT_STOP = "N"
         </if>
         <if test='busnSubClass == "Y" or "Y".equals(busnSubClass)'>
             AND
-            A.PJT_STOP = "Y"
+                A.PJT_STOP = "Y"
         </if>
         <if test='deptSeq != null and deptSeq != ""'>
             AND
-            A.DEPT_SEQ in (${deptSeq})
+                A.DEPT_SEQ in (${deptSeq})
         </if>
         <if test= '"1".equals(searchValue)'>
             AND
-            A.REG_EMP_SEQ = #{regEmpSeq} AND A.PJT_STEP in ('E1','E2','E3','E4','E5','R2')
+                A.REG_EMP_SEQ = #{regEmpSeq} AND A.PJT_STEP in ('E1','E2','E3','E4','E5','R2')
         </if>
         <if test= '"2".equals(searchValue)'>
             AND
-            A.REG_EMP_SEQ = #{regEmpSeq}
+                A.REG_EMP_SEQ = #{regEmpSeq}
         </if>
         <if test= '"3".equals(searchValue)'>
             AND
-            A.PJT_STEP in ('E1','E2','E3','E4','E5','R2')
+                A.PJT_STEP in ('E1','E2','E3','E4','E5','R2')
         </if>
         <if test='"1".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
             AND
-            A.PJT_CD LIKE CONCAT('%', #{searchText}, '%')
+                A.PJT_CD LIKE CONCAT('%', #{searchText}, '%')
         </if>
         <if test='"2".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
             AND
-            (A.PJT_NM LIKE CONCAT('%', #{searchText}, '%') OR A.PJT_SUB_NM LIKE CONCAT('%', #{searchText}, '%'))
+                (A.PJT_NM LIKE CONCAT('%', #{searchText}, '%') OR A.PJT_SUB_NM LIKE CONCAT('%', #{searchText}, '%'))
         </if>
         <if test='"3".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
             AND
-            B.CRM_NM LIKE CONCAT('%', #{searchText}, '%')
+                B.CRM_NM LIKE CONCAT('%', #{searchText}, '%')
         </if>
         <if test='"4".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
             AND
-            A.PM LIKE CONCAT('%', #{searchText}, '%')
+                A.PM LIKE CONCAT('%', #{searchText}, '%')
+        </if>
+        <if test='!"".equals(pjtNm) and pjtNm != null'>
+            AND
+            (A.PJT_NM LIKE CONCAT('%', #{pjtNm}, '%') OR A.PJT_SUB_NM LIKE CONCAT('%', #{pjtNm}, '%'))
+        </if>
+        <if test='type != null and !"".equals(type)'>
+            AND A.BUSN_CLASS IN ('S', 'R') AND A.PJT_CD IS NOT NULL
         </if>
         ORDER BY A.REG_DT DESC
     </select>
