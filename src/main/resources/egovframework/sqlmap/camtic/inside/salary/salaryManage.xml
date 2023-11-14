@@ -207,7 +207,12 @@
         <if test='socialRateSn != null and !"".equals(socialRateSn)'>
             AND A.SOCIAL_RATE_SN = #{socialRateSn}
         </if>
-        ORDER BY A.END_DATE DESC
+        <if test='mainType != null and !"".equals(mainType)'>
+            ORDER BY A.END_DATE ASC
+        </if>
+        <if test='mainType == null or "".equals(mainType)'>
+            ORDER BY A.END_DATE DESC
+        </if>
     </select>
 
     <insert id="setSocialRate" parameterType="map">
