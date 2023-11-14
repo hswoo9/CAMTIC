@@ -94,6 +94,9 @@
                 AND EI.EMP_NAME_KR LIKE CONCAT('%', #{searchText}, '%')
             </when>
         </choose>
+        <if test='year != null and !"".equals(year)'>
+            AND (YEAR(SM.START_DT) = #{year} OR YEAR(SM.END_DT) = #{year})
+        </if>
     </select>
 
     <select id="getEmpSalaryDataList" parameterType="map" resultType="map">

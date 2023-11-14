@@ -46,10 +46,15 @@
                         <td class="text-center th-color">
                             <input type="text" id="division" style="width: 100px">
                         </td>
+                        <th class="text-center th-color">적용연도</th>
+                        <td>
+                            <input type="text" id="year" style="width: 110px" onkeypress="if(window.event.keyCode==13){esm.gridReload();}">
+                        </td>
+
                         <th class="text-center th-color">검색어</th>
                         <td class="text-center th-color">
-                            <input type="text" id="searchKeyWord" style="width: 100px">
-                            <input type="text" id="searchText" style="width: 78%" onkeypress="if(window.event.keyCode==13){esm.gridReload();}">
+                            <input type="text" id="searchKeyWord" style="width: 80px">
+                            <input type="text" id="searchText" style="width: 60%" onkeypress="if(window.event.keyCode==13){esm.gridReload();}">
                         </td>
                     </tr>
                 </table>
