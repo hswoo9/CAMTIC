@@ -72,21 +72,13 @@ var mouReg = {
             alert("체결목적을 입력해주세요.");
             return false;
         }
-        if(!$("#mouContent").val()){
-            alert("협력내용을 입력해주세요.");
-            return false;
-        }
-        if(!$("#mouManager").val()){
-            alert("담당자를 입력해주세요.");
-            return false;
-        }
 
         var parameters = {
             mouStdt : $("#mouStdt").val(),
-            mouEndt : $("#mouEndt").val(),
+            // mouEndt : $("#mouEndt").val(),
             mouPurpose : $("#mouPurpose").val(),
-            mouContent : $("#mouContent").val(),
-            mouManager : $("#mouManager").val(),
+            // mouContent : $("#mouContent").val(),
+            // mouManager : $("#mouManager").val(),
             regEmpSeq : $("#empSeq").val(),
             menuCd : $("#menuCd").val()
         }
@@ -96,10 +88,10 @@ var mouReg = {
             formData.append("MOU_AGR_SN", $("#mouArgSn").val());
         }
         formData.append("mouStdt", parameters.mouStdt);
-        formData.append("mouEndt", parameters.mouEndt);
+        // formData.append("mouEndt", parameters.mouEndt);
         formData.append("mouPurpose", parameters.mouPurpose);
-        formData.append("mouContent", parameters.mouContent);
-        formData.append("mouManager", parameters.mouManager);
+        // formData.append("mouContent", parameters.mouContent);
+        // formData.append("mouManager", parameters.mouManager);
         formData.append("regEmpSeq", parameters.regEmpSeq);
         formData.append("menuCd", parameters.menuCd);
 
@@ -140,7 +132,7 @@ var mouReg = {
                 html += '<li>'
                 html += mouReg.global.attFiles[i].name.substring(0, mouReg.global.attFiles[i].name.lastIndexOf("."));
                 html += mouReg.global.attFiles[i].name.substring(mouReg.global.attFiles[i].name.lastIndexOf("."));
-                html += '<input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" style="margin-left: 5px;" onclick="mouReg.fnUploadFile(' + i + ')">';
+                html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="mouReg.fnUploadFile(' + i + ')">';
                 html += '</li>';
             }
 
@@ -167,7 +159,7 @@ var mouReg = {
                 html += '<li>'
                 html += mouReg.global.attFiles[i].name.substring(0, mouReg.global.attFiles[i].name.lastIndexOf("."));
                 html += mouReg.global.attFiles[i].name.substring(mouReg.global.attFiles[i].name.lastIndexOf("."));
-                html += '<input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" style="margin-left: 5px;" onclick="mouReg.fnUploadFile(' + i + ')">';
+                html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="mouReg.fnUploadFile(' + i + ')">';
                 html += '</li>';
             }
 

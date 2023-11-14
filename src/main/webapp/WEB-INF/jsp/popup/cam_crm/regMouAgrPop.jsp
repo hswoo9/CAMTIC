@@ -79,14 +79,8 @@
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>체결일자
                     </th>
-                    <td>
-                        <input type="text" id="mouStdt" style="width: 50%;" onchange="mouReg.dateValidationCheck('mouStdt', this.value)">
-                    </td>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>유효기간
-                    </th>
-                    <td>
-                        <input type="text" id="mouEndt" style="width: 50%;" onchange="mouReg.dateValidationCheck('mouEndt', this.value)">
+                    <td colspan="3">
+                        <input type="text" id="mouStdt" style="width: 20%;" onchange="mouReg.dateValidationCheck('mouStdt', this.value)">
                     </td>
                 </tr>
                 <tr>
@@ -95,22 +89,6 @@
                     </th>
                     <td colspan="3">
                         <input type="text" id="mouPurpose" style="width: 100%;">
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>협력내용
-                    </th>
-                    <td colspan="3">
-                        <input type="text" id="mouContent" style="width: 100%;">
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>담당자
-                    </th>
-                    <td colspan="3">
-                        <input type="text" id="mouManager" style="width: 100%;">
                     </td>
                 </tr>
                 <tr>
