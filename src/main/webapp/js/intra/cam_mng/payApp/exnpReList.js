@@ -121,8 +121,8 @@ var exnpReList = {
                     width: 120,
                     template: function(e){
                         var cost = e.TOT_COST;
-                        if(e.TOT_COST != null && e.TOT_COST != "" && e.TOT_COST != undefined){
-                            return '<div style="text-align: right">'+comma(e.TOT_COST)+'</div>';
+                        if(e.RE_STAT == "N"){
+                            return '<div style="text-align: right">'+comma(cost)+'</div>';
                         } else {
                             return '<div style="text-align: right">'+0+'</div>';
                         }

@@ -545,7 +545,8 @@
         SELECT
             E.*,
             DI.APPRO_KEY AS APPRO_KEY,
-            DI.DOC_MENU_CD AS DOC_MENU_CD
+            DI.DOC_MENU_CD AS DOC_MENU_CD,
+            IFNULL(SUM(ED.TOT_COST), 0) AS TOT_COST
         FROM
             CAM_MNG.DJ_EXNP_DET ED
         LEFT JOIN
