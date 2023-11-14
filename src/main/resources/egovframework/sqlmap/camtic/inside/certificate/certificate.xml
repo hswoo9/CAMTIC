@@ -23,7 +23,8 @@
                     HEI.EMP_NAME_KR AS APPROVAL_EMP_NAME,
                     IUP.NUMBER,
                     IUP.DOCU_YEAR_DE,
-                    IUP.REG_DUTY_NAME
+                    IUP.REG_DUTY_NAME,
+                    IUP.ISSUE
                 FROM
                     CAM_INSIDE.DJ_USER_PROOF IUP
                 LEFT JOIN
@@ -170,7 +171,7 @@
             USER_PROOF_SN = #{userProofSn}
     </update>
 
-    <update id="setCertificateDelete" parameterType="map">
+    <!--<update id="setCertificateDelete" parameterType="map">
         /* setCertificateDelete */
         UPDATE
             CAM_INSIDE.DJ_USER_PROOF
@@ -178,6 +179,15 @@
             ACTIVE = 'N'
         WHERE
             USER_PROOF_SN in (${userProofSn})
+    </update>-->
+    <update id="setCertificateDelete" parameterType="map">
+        /* setCertificateDelete */
+        UPDATE
+            CAM_INSIDE.DJ_USER_PROOF
+        SET
+            ACTIVE = 'N'
+        WHERE
+            USER_PROOF_SN = #{userProofSn}
     </update>
 
     <update id="updateCertifiApprStat" parameterType="map">
@@ -243,7 +253,8 @@
             APPROVAL_EMP_SEQ,
             APPROVAL_RESULT_DATE,
             STATUS,
-            NUMBER
+            NUMBER,
+            ISSUE
         )
         VALUES
             (
@@ -266,7 +277,8 @@
                 #{regEmpSeq},
                 NOW(),
                 100,
-                (SELECT MAX(IUP.NUMBER) +1 FROM CAM_INSIDE.DJ_USER_PROOF IUP WHERE IUP.DOCU_YEAR_DE = LEFT(#{regDe}, 4))
+                (SELECT MAX(IUP.NUMBER) +1 FROM CAM_INSIDE.DJ_USER_PROOF IUP WHERE IUP.DOCU_YEAR_DE = LEFT(#{regDe}, 4)),
+                'Y'
             )
 
         <selectKey keyProperty="userProofSn" resultType="Integer" order="BEFORE">
