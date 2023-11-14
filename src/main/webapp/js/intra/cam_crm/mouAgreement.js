@@ -77,26 +77,14 @@ var mouAgr = {
                 }, {
                     title: "체결일자",
                     field: "MOU_AGR_ST_DT",
-                    width: 60
+                    width: 50
                 }, {
                     title: "체결목적",
                     field: "MOU_AGR_PURPOSE",
-                    width: 120,
+                    width: 160,
                     template: function(e){
                         return "<a href='javascript:void(0);' style='font-weight: bold' onclick='mouAgr.fn_mouAgrRegPopup("+e.MOU_AGR_SN+")'>" + e.MOU_AGR_PURPOSE + "</a>";
                     }
-                }, {
-                    title: "협력내용",
-                    field: "MOU_AGR_CONTENT",
-                    width: 120
-                }, {
-                    title: "유효기간",
-                    field: "MOU_AGR_EN_DT",
-                    width: 60
-                }, {
-                    title: "담당자",
-                    field: "MOU_AGR_MANAGER",
-                    width: 60
                 }, {
                     title: "협약서 첨부",
                     width: 50,
