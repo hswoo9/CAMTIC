@@ -157,4 +157,6 @@ public interface ProjectService {
     void confirmPartRate(Map<String, Object> params);
 
     List<Map<String, Object>> test(Map<String, Object> params);
+
+    void updJoinMember(Map<String, Object> params);
 }

@@ -31,6 +31,9 @@
 <input type="hidden" id="partRateVerSn" value="${params.partRateVerSn}" />
 <input type="hidden" id="pjtSn" value="${map.PJT_SN}" />
 <input type="hidden" id="busnClass" value="${map.BUSN_CLASS}"/>
+
+<input type="hidden" id="joinMember" value=""/>
+<input type="hidden" id="joinMemberSn" value=""/>
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
@@ -40,9 +43,9 @@
             </h3>
 
             <div class="btn-st popButton" style="font-size: 13px;">
-<%--                <c:if test='${data.MNG_STAT == "S"}'>--%>
-<%--                    <button type="button" id="confirmBtn" class="k-button k-button-solid-info" onclick="partRate.fn_confirm()">참여율 확정</button>--%>
-<%--                </c:if>--%>
+                <%--                <c:if test='${data.MNG_STAT == "S"}'>--%>
+                <%--                    <button type="button" id="confirmBtn" class="k-button k-button-solid-info" onclick="partRate.fn_confirm()">참여율 확정</button>--%>
+                <%--                </c:if>--%>
                 <c:if test='${data.MNG_STAT != "C"}'>
                     <button type="button" id="saveBtn" class="k-button k-button-solid-info" onclick="partRate.fn_save()">저장</button>
                 </c:if>
@@ -95,12 +98,12 @@
                     <td colspan="3">
                         ${map.CRM_NM}
                     </td>
-<%--                    <th scope="row" class="text-center th-color">--%>
-<%--                        사업명--%>
-<%--                    </th>--%>
-<%--                    <td>--%>
-<%--                        ${data.SBJ_CHAR_NM}--%>
-<%--                    </td>--%>
+                    <%--                    <th scope="row" class="text-center th-color">--%>
+                    <%--                        사업명--%>
+                    <%--                    </th>--%>
+                    <%--                    <td>--%>
+                    <%--                        ${data.SBJ_CHAR_NM}--%>
+                    <%--                    </td>--%>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
@@ -239,6 +242,7 @@
         </div>
 
 
+        <button type="button" style="float: right; margin-top: 10px; font-size: 14px; margin-right: 5px;" onclick="fn_userMultiSelectPop();" class="k-button k-button-solid-base">추가</button>
         <div class="table-responsive" style="margin-bottom: 25px;">
             <table class="popTable table table-bordered mb-0">
                 <thead>
@@ -271,6 +275,29 @@
 
 <script>
     partRate.fn_defaultScript();
+
+    function userDataSet(arr){
+        var empSeq = "";
+        var empNm = "";
+        for(var i = 0 ; i < arr.length ; i++){
+            empSeq += arr[i].empSeq + ",";
+            empNm += arr[i].empName + ",";
+        }
+        $("#joinMember").val(empNm.slice(0, -1));
+        $("#joinMemberSn").val(empSeq.slice(0, -1));
+
+
+        var data = {
+            joinMemSn: $("#joinMemberSn").val(),
+            joinMem: $("#joinMember").val(),
+            partRateVerSn : $("#partRateVerSn").val()
+        }
+        var rs = customKendo.fn_customAjax("/project/updJoinMember", data);
+
+        if(rs.flag){
+            location.reload()
+        }
+    }
 </script>
 </body>
 </html>

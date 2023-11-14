@@ -525,4 +525,7 @@ public class ProjectRepository extends AbstractDAO {
     }
 
 
+    public void updJoinMember(Map<String, Object> params) {
+        update("project.updJoinMember", params);
+    }
 }

@@ -2229,5 +2229,14 @@
             PJT_SN = #{pjtSn}
     </delete>
 
+    <update id="updJoinMember" parameterType="map">
+        /*updJoinMember*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
+        SET
+            JOIN_MEM_SN = #{joinMemSn},
+            JOIN_MEM_NM = #{joinMem}
+        WHERE
+            PART_RATE_VER_SN = #{partRateVerSn}
+    </update>
 
 </mapper>

@@ -1201,4 +1201,12 @@ public class ProjectController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/project/updJoinMember")
+    public String updJoinMember(@RequestParam Map<String, Object> params, Model model){
+
+        projectService.updJoinMember(params);
+
+        return "jsonView";
+    }
 }
