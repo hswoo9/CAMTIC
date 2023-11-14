@@ -18,6 +18,7 @@
     .subTitSt{font-weight: 600; text-align: left; font-size: 13px; padding: 10px;}
     .table > thead > tr > th, .table > tfoot > tr > th{ background-color: #00397f96; color: white;}
     .table > thead > tr > td, .table > thead > tr > th{border: 1px solid #dee2e6;}
+    #filePrint{float: right; margin-right: 25px;}
 </style>
 
 
@@ -30,6 +31,7 @@
             <div class="title-road">캠인사이드 > 인사관리 > 인사관리 > 인사기록카드</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
+        <input type="button" id="filePrint" value="인쇄" onclick="" disabled>
         <div class="panel-body">
             <div>
                 <div id="tabstrip">
