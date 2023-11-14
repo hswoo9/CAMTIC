@@ -253,9 +253,11 @@ var regPrj = {
                         tabStrip.enable(tabStrip.tabGroup.children().eq(3));
                     }
 
-                    if(setParameters.PJT_STEP >= "E3" && devMap.STATUS == "100"){
-                        tabStrip.enable(tabStrip.tabGroup.children().eq(4));
-                        tabStrip.enable(tabStrip.tabGroup.children().eq(6));
+                    if(devMap != null){
+                        if(setParameters.PJT_STEP >= "E3" && devMap.STATUS == "100"){
+                            tabStrip.enable(tabStrip.tabGroup.children().eq(4));
+                            tabStrip.enable(tabStrip.tabGroup.children().eq(6));
+                        }
                     }
 
                     if(setParameters.PJT_STEP >= "E4"){
