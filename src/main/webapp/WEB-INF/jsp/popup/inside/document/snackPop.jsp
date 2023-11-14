@@ -20,6 +20,7 @@
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="snackInfoSn" value="${snackInfoSn}"/>
+<input type="hidden" id="mode" value="${params.mode}"/>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
@@ -29,6 +30,10 @@
                 <c:choose>
                     <c:when test="${status == null}">
                         <button type="button" class="k-button k-button-solid-info" onclick="snackReq.saveBtn();">저장</button>
+                        <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">취소</button>
+                    </c:when>
+                    <c:when test="${status == 0 && params.mode eq 'infoPop'}">
+                        <button type="button" class="k-button k-button-solid-info" onclick="snackReq.saveBtn();">수정</button>
                         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">취소</button>
                     </c:when>
                     <c:when test="${status == 10 && params.mode eq 'mng'}">

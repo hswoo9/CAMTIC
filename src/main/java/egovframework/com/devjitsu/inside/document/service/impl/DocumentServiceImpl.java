@@ -248,7 +248,13 @@ public class DocumentServiceImpl implements DocumentService {
     public void setSnackInsert(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
         Gson gson = new Gson();
         List<Map<String, Object>> amt = gson.fromJson((String) params.get("amtUser"), new TypeToken<List<Map<String, Object>>>(){}.getType());
-        documentRepository.setSnackInsert(params);
+
+        if(params.containsKey("snackInfoSn")){
+            documentRepository.setSnackUpdate(params);
+        } else {
+            documentRepository.setSnackInsert(params);
+        }
+
         if(!amt.isEmpty()) {
             params.put("amt", amt);
             documentRepository.setSnackCompanionInsert(params);
