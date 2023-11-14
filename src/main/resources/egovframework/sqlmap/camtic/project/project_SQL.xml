@@ -925,6 +925,19 @@
             CONTENT_ID = #{psFileSn}
     </select>
 
+
+    <select id="getPsFile4" parameterType="map" resultType="map">
+        /*getPsFile4*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_CD = "engnPsFile4"
+          AND
+            CONTENT_ID = #{psFileSn}
+    </select>
+
     <update id="updStep5" parameterType="map">
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET

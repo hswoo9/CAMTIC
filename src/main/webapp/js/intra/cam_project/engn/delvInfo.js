@@ -181,6 +181,7 @@ var delvInfo = {
 
         if($("#delvSn").val() != null && $("#delvSn").val() != ''){
             parameters.delvSn = $("#delvSn").val();
+            fd.append("delvSn", parameters.delvSn);
         }
 
         if(delvInfo.uncomma(parameters.delvAmt) != delvInfo.uncomma($("#delvExpAmt").val())){
@@ -202,6 +203,7 @@ var delvInfo = {
             async: false,
             success : function(rs){
                 alert("저장되었습니다.")
+                $("#delvSn").val(rs.rep.delvSn)
 
                 window.location.href="/project/pop/viewRegProject.do?pjtSn=" + parameters.pjtSn + "&tab=2";
 
