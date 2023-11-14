@@ -67,7 +67,7 @@ var bustripSettleList = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" disabled onclick="gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bustripSettleList.fn_reqRegPopup();">' +
                             '	<span class="k-button-text">지급신청</span>' +
                             '</button>';
                     }
@@ -228,4 +228,14 @@ var bustripSettleList = {
         carSum = 0;
         totalSum = 0;
     },
+
+    fn_reqRegPopup : function (key){
+        var url = "/payApp/pop/regPayAppPop.do";
+        if(key != null && key != ""){
+            url = "/payApp/pop/regPayAppPop.do?payAppSn=" + key;
+        }
+        var name = "blank";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    }
 }

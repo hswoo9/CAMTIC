@@ -57,6 +57,13 @@ var snackList = {
                 }, {
                     name: 'button',
                     template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="snackList.fn_reqRegPopup()">' +
+                            '	<span class="k-button-text">지급신청</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="snackList.snackPopup();">' +
                             '	<span class="k-button-text">식대 등록하기</span>' +
                             '</button>';
@@ -66,58 +73,69 @@ var snackList = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound : snackList.onDataBound,
+            // dataBound : snackList.onDataBound,
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'evalChk\');"/>',
+                    template : function(e){
+                        if(e.STATUS == "100"){
+                            return "<input type='checkbox' id='eval_" + e.SNACK_INFO_SN + "' name='evalChk' value='" + e.SNACK_INFO_SN + "'/>";
+                        } else {
+                            return '';
+                        }
+                    },
+                    width: 30
+                }, {
                     field: "SNACK_TYPE_TEXT",
                     title: "식대 구분",
-                    width: "10%"
+                    width: 80
                 }, {
                     field: "REG_DEPT_NAME",
                     title: "부서",
-                    width: "10%"
+                    width: 80
                 }, {
                     field: "USE_DT",
-                    title: "일시"
+                    title: "일시",
+                    width: 80
                 }, {
                     title: "이용자",
                     template : function(row){
                         let userText = row.USER_TEXT;
                         let userTextArr = userText.split(',');
                         if(userTextArr.length > 1) {
-                            return userTextArr[0]+" 외 "+(userTextArr.length-1)+"명";
+                            return '<a href="javascript:void(0);" style="font-weight: bold" onclick="snackList.snackPopup('+row.SNACK_INFO_SN+', \'infoPop\')">' + userTextArr[0]+' 외 '+(userTextArr.length-1)+'명</a>';
                         }else{
-                            return userTextArr[0];
+                            return '<a href="javascript:void(0);" style="font-weight: bold" onclick="snackList.snackPopup('+row.SNACK_INFO_SN+', \'infoPop\')">' + userTextArr[0]+ '</a>';
                         }
 
                     },
-                    width: "15%"
+                    width: 100
                 }, {
                     field: "AREA_NAME",
                     title: "주문처",
-                    width: "10%"
+                    width: 100
                 }, {
                     field: "AMOUNT_SN",
                     title: "이용금액(원)",
-                    width: "10%",
+                    width: 100,
                     template: function(row){
                         sum += Number(row.AMOUNT_SN);
-                        return fn_numberWithCommas(row.AMOUNT_SN);
+                        return "<div style='text-align: right'>" + fn_numberWithCommas(row.AMOUNT_SN) + "</div>";
                     },
                     footerTemplate : function () {
-                        return "<span id='total'></span>";
+                        return "<div style='text-align: right'><span id='total'></span></div>";
                     }
                 }, {
                     field: "PAY_TYPE_TEXT",
                     title: "결제 구분",
-                    width: "10%"
+                    width: 80
                 }, {
                     field: "RECIPIENT_EMP_NAME",
                     title: "증빙 수령자",
-                    width: "10%"
+                    width: 80
                 }, {
                     title: "영수증",
-                    width: "10%",
+                    width: 50,
                     template: function(row){
                         if(row.file_no > 0){
                             return '<span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">보기</span>';
@@ -135,11 +153,15 @@ var snackList = {
                             return "승인";
                         }else if(row.STATUS == "30") {
                             return "반려";
-                        }else {
+                        }else if(row.STATUS == "0") {
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button k-button-solid-base" onclick="snackList.fn_apprRequest('+row.SNACK_INFO_SN+')">' +
+                                   '	<span class="k-button-text">승인요청</span>' +
+                                   '</button>';
+                        } else {
                             return "데이터 오류"
                         }
                     },
-                    width: 100
+                    width: 80
                 }
             ],
             dataBound: function(){
@@ -232,13 +254,13 @@ var snackList = {
             }
             urlParams += "snackInfoSn=" + snackInfoSn;
         }
-        if(!isNaN(mode)){
+        if(mode != null){
             if(urlParams == "") {
                 urlParams += "?";
             }else {
                 urlParams += "&";
             }
-            urlParams += "&mode=" + mode;
+            urlParams += "mode=" + mode;
         }
         const url = "/Inside/pop/snackPop.do"+urlParams;
         const name = "popup test";
@@ -251,6 +273,32 @@ var snackList = {
         const name = "snackStatPop";
         const option = "width = 1600, height = 570, top = 100, left = 200, location = no";
         window.open(url, name, option);
+    },
+
+    fn_apprRequest : function(key){
+        if(confirm("승인 요청 하시겠습니까?")){
+            var data = {
+                snackInfoSn : key,
+                status : 10
+            }
+
+            var result = customKendo.fn_customAjax("/inside/setSnackReqCert", data);
+
+            if(result.flag){
+                alert("승인 요청이 완료되었습니다.");
+                snackList.mainGrid();
+            }
+        }
+    },
+
+    fn_reqRegPopup : function (key){
+        var url = "/payApp/pop/regPayAppPop.do";
+        if(key != null && key != ""){
+            url = "/payApp/pop/regPayAppPop.do?payAppSn=" + key;
+        }
+        var name = "blank";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
     }
 }
 
