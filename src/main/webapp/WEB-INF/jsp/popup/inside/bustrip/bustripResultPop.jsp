@@ -119,9 +119,13 @@
             <tr>
                 <th><span class="red-star">*</span>방문지</th>
                 <td>
-                    <input id="visitCrm" readonly style="width: 60%;">
+                    <input id="visitCrm" style="width: 60%;">
                     <input type="hidden" id="crmSn" />
                     <button id="crmBtn" type="button" class="k-button-solid-base k-button" onclick="bustripResultPop.fn_popCamCrmList()">업체선택</button>
+                    <span style="margin-left: 10px;">
+                        <input type="checkbox" id="crmYn" name="crmYn" checked onclick="bustripResultPop.fn_crmChk();"/>
+                        <label for="crmYn">CRM 연계</label>
+                    </span>
                 </td>
                 <th><span class="red-star">*</span>출장지역</th>
                 <td>
