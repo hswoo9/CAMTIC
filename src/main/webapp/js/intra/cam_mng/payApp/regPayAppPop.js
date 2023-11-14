@@ -430,7 +430,8 @@ var regPay = {
 
         var index = obj.id.substring(obj.id.length - 1);
         if(obj.id.match("totCost")){
-            $("#vatCost" + index).val(regPay.comma(Math.round(Number(regPay.uncomma($("#totCost" + index).val())) / 10)));
+
+            $("#vatCost" + index).val(regPay.comma(Number(regPay.uncomma($("#totCost" + index).val())) - Math.round(Number(regPay.uncomma($("#totCost" + index).val())) * 100 / 110)));
             $("#supCost" + index).val(regPay.comma(Number(regPay.uncomma($("#totCost" + index).val())) - Number(regPay.uncomma($("#vatCost" + index).val()))));
         } else if(obj.id.match("supCost")){
             $("#vatCost" + index).val(regPay.comma(Number(regPay.uncomma($("#totCost" + index).val())) - Number(regPay.uncomma($("#supCost" + index).val()))));
@@ -544,9 +545,6 @@ var regPayDet = {
     addRow : function () {
         regPayDet.global.createHtmlStr = "";
         var clIdx = regPayDet.global.itemIndex;
-        alert(regPayDet.global.itemIndex);
-
-
 
         regPayDet.global.createHtmlStr = "" +
             '<tr class="payDestInfo newArray" id="pay' + regPayDet.global.itemIndex + '" style="text-align: center;">' +

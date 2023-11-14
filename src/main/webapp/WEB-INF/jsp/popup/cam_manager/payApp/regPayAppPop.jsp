@@ -112,7 +112,7 @@
                         <input type="text" id="bnkNm" disabled style="width: 60%;">
                     </td>
                 </tr>
-                <tr>
+                <tr style="display: none">
                     <th scope="row" class="text-center th-color">전결구분</th>
                     <td colspan="4">
                         <span id="payAppStat"></span>
