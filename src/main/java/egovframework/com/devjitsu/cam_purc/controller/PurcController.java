@@ -329,7 +329,10 @@ public class PurcController {
     }
 
     @RequestMapping("/purc/purcProductList.do")
-    public String purcProductList(@RequestParam Map<String, Object> params, Model model){
+    public String purcProductList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
 
         model.addAttribute("params", params);
 

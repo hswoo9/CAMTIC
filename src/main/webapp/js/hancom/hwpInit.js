@@ -56,16 +56,16 @@ var hwpInit = {
         hwpDocCtrl.putFieldText('REVENUE_AMT', fn_numberWithCommas((map.PJT_AMT == null ? 0 : map.PJT_AMT) - invAmt));
         hwpDocCtrl.putFieldText('REVENUE_PER', (100 - planPer) + "%");
 
-        /** 5. 계획대비 실적률 */
+        /** 5. 계획대비 실적률
         let rs = customKendo.fn_customAjax("/project/engn/getResultInfo", data);
         const ls = rs.list;
 
         hwpDocCtrl.putFieldText('INV_AMT', String(fn_numberWithCommas(invAmt)));
         for(let i=0; i<ls.length; i++){
-            /** 인원(최대 3칸) */
+            /** 인원(최대 3칸)
             hwpDocCtrl.putFieldText('CELL'+(i+1), ls[i].PS_EMP_NM);
 
-            /** 수익 */
+            /** 수익
             var value = 0;
             var calcAmt = 0;
             var type = "";
@@ -97,7 +97,7 @@ var hwpInit = {
         }
 
         for(let i=0; i<ls.length; i++){
-            /** 매출 */
+            /** 매출
             var value = 0;
             var calcAmt = 0;
             var type = "";
@@ -129,7 +129,7 @@ var hwpInit = {
         }
 
         for(let i=0; i<ls.length; i++){
-            /** 수익 */
+            /** 수익
             var value = 0;
             var calcAmt = 0;
             var type = "";
@@ -159,7 +159,7 @@ var hwpInit = {
             hwpDocCtrl.putFieldText('CELL_AMT'+(i+1), String(fn_numberWithCommas(calcAmt)));
             hwpDocCtrl.putFieldText('CELL_PER'+(i+1), value + "%");
         }
-        hwpDocCtrl.putFieldText('EXP_AMT', fn_numberWithCommas(rs.pjtInfo.PJT_AMT-invAmt));
+        hwpDocCtrl.putFieldText('EXP_AMT', fn_numberWithCommas(rs.pjtInfo.PJT_AMT-invAmt)); */
     },
 
     pjtCostInit: function(pjtSn){

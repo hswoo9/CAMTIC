@@ -60,7 +60,7 @@
                     <input type="text" id="rsPjtNm" disabled value="${hashMap.PJT_NM}" style="width: 90%; text-align: left" />
                 </td>
             </tr>
-            <tr>
+            <%--<tr>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>실적률
                 </th>
@@ -71,7 +71,7 @@
                         </tbody>
                     </table>
                 </td>
-            </tr>
+            </tr>--%>
             <tr>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>지원내용
