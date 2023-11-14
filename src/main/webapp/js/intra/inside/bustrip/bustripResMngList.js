@@ -85,13 +85,13 @@ var bustripResMngList = {
             columns: [
                 {
                     title: "출장구분",
-                    width: 50,
+                    width: 80,
                     template: function(row){
                         return bustrip.fn_getTripCodeText(row);
                     }
                 }, {
                     title: "사업명",
-                    width: 140,
+                    width: 200,
                     template : function(row){
                         var busnName = "";
                         var project = "";
@@ -123,13 +123,13 @@ var bustripResMngList = {
                     template: function(row){
                         return row.TRIP_DAY_FR + " " + row.TRIP_TIME_FR;
                     },
-                    width: 80
+                    width: 120
                 }, {
                     title: "복귀일시",
                     template: function(row){
                         return row.TRIP_DAY_TO + " " + row.TRIP_TIME_TO;
                     },
-                    width: 80
+                    width: 120
                 }, {
                     title: "업무차량",
                     template : function(row){
@@ -146,7 +146,7 @@ var bustripResMngList = {
                             return "사용안함";
                         }
                     },
-                    width: 80
+                    width: 120
                 }, {
                     title: "운행거리",
                     template: function(row){
@@ -155,22 +155,40 @@ var bustripResMngList = {
                         }
                         return row.MOVE_DST+" km";
                     },
-                    width: 50
+                    width: 80
+                }, {
+                    title: "개인여비",
+                    template: function(row){
+                        return "<div style='text-align: right'>"+fn_comma(row.PERSON_TOTAL)+"</div>";
+                    },
+                    width: 100
+                }, {
+                    title: "법인카드",
+                    template: function(row){
+                        return "<div style='text-align: right'>"+fn_comma(row.CORP_TOTAL)+"</div>";
+                    },
+                    width: 100
+                }, {
+                    title: "법인차량",
+                    template: function(row){
+                        return "<div style='text-align: right'>"+fn_comma(row.CAR_TOTAL)+"</div>";
+                    },
+                    width: 100
                 }, {
                     title: "여비",
                     template: function(row){
                         if(row.TOT_COST == null || row.TOT_COST == 0){
                             return "-";
                         }
-                        return fn_numberWithCommas(row.TOT_COST)+" 원";
+                        return "<div style='text-align: right'>"+fn_numberWithCommas(row.TOT_COST)+"</div>";
                     },
-                    width: 70
+                    width: 100
                 }, {
                     title: "입금예정",
                     template: function(row){
                         return "-";
                     },
-                    width: 50
+                    width: 80
                 }, {
                     title: "여비정산",
                     template : function(row){
@@ -181,7 +199,7 @@ var bustripResMngList = {
                             return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResMngList.popBustripRes('+row.HR_BIZ_REQ_ID+', '+row.HR_BIZ_REQ_RESULT_ID+')">여비정산</button>'
                         }
                     },
-                    width: 80
+                    width: 85
                 }, {
                     title: "결재상태",
                     template: function(row){
@@ -209,7 +227,7 @@ var bustripResMngList = {
                             return "결과보고서 미작성";
                         }
                     },
-                    width: 100
+                    width: 140
                 }
             ]
         }).data("kendoGrid");
