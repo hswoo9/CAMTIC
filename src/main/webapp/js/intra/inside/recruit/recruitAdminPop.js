@@ -263,11 +263,10 @@ var recruitAdminPop = {
             if(result.flag){
                 alert("처리되었습니다.");
                 if(sts == "I" || sts == "IF"){
-                    window.reload();
+                    recruitAdminPop.gridReload();
                 }else{
                     recruitAdminPop.gridReload();
                 }
-
             }
         }
     },

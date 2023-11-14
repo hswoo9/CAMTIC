@@ -334,7 +334,7 @@ var screenViewPop = {
             }
 
             var result = customKendo.fn_customAjax("/recruit/manage/eval/getApplicationInterViewList.do", screenViewPop.global.searchAjaxData);
-
+            console.log(result);
             if(result.flag) {
                 $("#tbDiv *").remove();
                 var area = $("#recruitAreaInfoSn").data("kendoDropDownList").dataSource._data.find(element => element.RECRUIT_AREA_INFO_SN == $("#recruitAreaInfoSn").val())
