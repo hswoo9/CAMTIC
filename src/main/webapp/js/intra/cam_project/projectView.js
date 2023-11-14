@@ -6,6 +6,9 @@ var projectView = {
         projectView.fn_popMainGrid();
     },
 
+    gridReload: function(){
+        $("#popMainGrid").data("kendoGrid").dataSource.read();
+    },
 
     fn_popMainGrid : function (){
         let dataSource = new kendo.data.DataSource({
@@ -17,6 +20,8 @@ var projectView = {
                     type: "post"
                 },
                 parameterMap: function(data){
+                    data.type = $("#type").val();
+                    data.pjtNm = $("#pjtNm").val();
                     data.busnClass = $("#busnClass").val();
                     data.myEmpSeq = $("#myEmpSeq").val();
                     data.myDeptSeq = $("#myDeptSeq").val();
@@ -48,6 +53,22 @@ var projectView = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            toolbar : [
+                {
+                    name : 'text',
+                    template : function (e){
+                        return '<label for="pjtNm" class="k-label">프로젝트 명</label> ' +
+                            '<input type="text" class="k-input" id="pjtNm" style="width: 250px; margin-right: 5px;" onkeyup="projectView.fn_enterKey();"/>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="projectView.gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }
+            ],
             dataBound : function(e){
                 const grid = this;
                 grid.tbody.find("tr").dblclick(function (e) {
@@ -119,8 +140,9 @@ var projectView = {
                     title: "진행단계",
                     width: "5%",
                     template: function(e){
+                        var pjtStepNm = "";
                         if(e.BUSN_CLASS == "D"){
-                            var pjtStepNm = "상담";
+                            pjtStepNm = "상담";
                             if(e.PJT_STOP == "Y"){
                                 pjtStepNm = "미수주";
                             } else if(e.PJT_STEP == "E0"){
@@ -140,12 +162,24 @@ var projectView = {
                             } else if(e.PJT_STEP == "E7"){
                                 pjtStepNm = "원가보고";
                             }
-                        } else if (e.BUSN_CLASS = "R") {
+                        } else if (e.BUSN_CLASS == "R") {
                             if(e.PJT_STEP == "R"){
                                 pjtStepNm = "예상수주";
                             } else if(e.PJT_STEP == "R2"){
                                 pjtStepNm = "수주보고";
+                            } else if(e.PJT_STEP == "R3"){
+                                pjtStepNm = "결과보고";
                             }
+                        } else if(e.BUSN_CLASS == "S"){
+                            if(e.PJT_STEP == "S"){
+                                pjtStepNm = "예상수주";
+                            } else if(e.PJT_STEP == "S2"){
+                                pjtStepNm = "수주보고";
+                            } else if(e.PJT_STEP == "S3"){
+                                pjtStepNm = "결과보고";
+                            }
+                        } else {
+                            pjtStepNm = "";
                         }
 
                         return pjtStepNm;
@@ -160,6 +194,14 @@ var projectView = {
                 }
             ],
         }).data("kendoGrid");
+    },
+
+    fn_enterKey: function(){
+        $("#pjtNm").keydown(function(e){
+            if(e.keyCode == 13){
+                projectView.gridReload()
+            }
+        });
     },
 
     fn_selectProject: function(key, name, cd){

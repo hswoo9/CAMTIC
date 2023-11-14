@@ -456,9 +456,9 @@ var regPay = {
         return str.replace(/[^\d]+/g, '');
     },
 
-    fn_projectPop : function (){
+    fn_projectPop : function (type){
 
-        var url = "/project/pop/projectView.do";
+        var url = "/project/pop/projectView.do?type=" + type;
 
         var name = "_blank";
         var option = "width = 1100, height = 400, top = 100, left = 400, location = no"
