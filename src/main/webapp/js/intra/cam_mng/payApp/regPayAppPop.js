@@ -183,7 +183,7 @@ var regPay = {
             regPayDet.global.createHtmlStr += "" +
                 '   <td>' +
                 '       <input type="text" id="budgetNm' + regPayDet.global.itemIndex + '" value="'+item.BUDGET_NM+'" onclick="regPay.fn_budgetPop('+clIdx+')" style="width: 100%;">' +
-                '       <input type="hidden" id="budgetSn' + regPayDet.global.itemIndex + '" value="'+item.BUDGET_SN+'" />' +
+                '       <input type="hidden" id="budgetSn' + regPayDet.global.itemIndex + '" value="'+item.BUDGET_SN+'" class="budgetSn"/>' +
                 '   </td>' +
                 '   <td>' +
                 '       <input type="hidden" id="payDestSn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" name="payDestSn" class="payDestSn">' +
@@ -240,13 +240,13 @@ var regPay = {
                     regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="revertBtn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" onclick="regPayDet.fn_revertDet(this)">반려</button>';
                 } else {
                     if(rs.DOC_STATUS == "0"){
-                        regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(this)">삭제</button>';
+                        regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(' + regPayDet.global.itemIndex + ')">삭제</button>';
                     } else {
-                        regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(this)" disabled>삭제</button>';
+                        regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(' + regPayDet.global.itemIndex + ')" disabled>삭제</button>';
                     }
                 }
                 regPayDet.global.createHtmlStr += '</div>' +
-                    '   </td>'
+                    '   </td>'+
                 '</tr>';
 
             $("#payDestTb").append(regPayDet.global.createHtmlStr);
@@ -300,7 +300,7 @@ var regPay = {
         }
 
         if(ls.length > 0){
-            regPayDet.global.itemIndex--;
+            //regPayDet.global.itemIndex--;
         }
 
         $("#apprBtn").css("display", "");
@@ -346,24 +346,26 @@ var regPay = {
         var itemArr = new Array()
         var flag = true;
         $.each($(".payDestInfo"), function(i, v){
+            var index = $(this).find(".budgetSn").attr("id").slice(-1);
+
             var data = {
-                budgetNm : $("#budgetNm" + i).val(),
-                budgetSn : $("#budgetSn" + i).val(),
-                evidType : $("#eviType" + i).val(),
-                crmNm : $("#crmNm" + i).val(),
-                trCd : $("#trCd" + i).val(),
-                crmBnkNm : $("#crmBnkNm" + i).val(),
-                crmAccNo : $("#crmAccNo" + i).val(),
-                crmAccHolder : $("#crmAccHolder" + i).val(),
-                trDe : $("#trDe" + i).val(),
-                totCost : regPay.uncomma($("#totCost" + i).val()),
-                supCost : regPay.uncomma($("#supCost" + i).val()),
-                vatCost : regPay.uncomma($("#vatCost" + i).val()),
-                card : $("#card" + i).val(),
-                cardNo : $("#cardNo" + i).val(),
-                etc : $("#etc" + i).val(),
-                iss : $("#iss" + i).val(),
-                advances : $("#advances" + i).is(':checked') ? "Y" : "N",
+                budgetNm : $("#budgetNm" + index).val(),
+                budgetSn : $("#budgetSn" + index).val(),
+                evidType : $("#eviType" + index).val(),
+                crmNm : $("#crmNm" + index).val(),
+                trCd : $("#trCd" + index).val(),
+                crmBnkNm : $("#crmBnkNm" + index).val(),
+                crmAccNo : $("#crmAccNo" + index).val(),
+                crmAccHolder : $("#crmAccHolder" + index).val(),
+                trDe : $("#trDe" + index).val(),
+                totCost : regPay.uncomma($("#totCost" + index).val()),
+                supCost : regPay.uncomma($("#supCost" + index).val()),
+                vatCost : regPay.uncomma($("#vatCost" + index).val()),
+                card : $("#card" + index).val(),
+                cardNo : $("#cardNo" + index).val(),
+                etc : $("#etc" + index).val(),
+                iss : $("#iss" + index).val(),
+                advances : $("#advances" + index).is(':checked') ? "Y" : "N",
             }
 
             if(data.eviType == ""){
@@ -550,7 +552,7 @@ var regPayDet = {
             '<tr class="payDestInfo newArray" id="pay' + regPayDet.global.itemIndex + '" style="text-align: center;">' +
             '   <td>' +
             '       <input type="text" id="budgetNm' + regPayDet.global.itemIndex + '" value="" onclick="regPay.fn_budgetPop(' + clIdx + ')" style="width: 100%;">' +
-            '       <input type="hidden" id="budgetSn' + regPayDet.global.itemIndex + '" value="" />' +
+            '       <input type="hidden" id="budgetSn' + regPayDet.global.itemIndex + '" value="" class="budgetSn"/>' +
             '   </td>' +
             '   <td>' +
             '       <input type="hidden" id="payDestSn' + regPayDet.global.itemIndex + '" name="payDestSn" class="payDestSn">' +
@@ -595,11 +597,11 @@ var regPayDet = {
             '       <input type="checkbox" id="advances' + regPayDet.global.itemIndex + '" class="advances" style="width: 26px; height: 26px">' +
             '   </td>' +
             '   <td>' +
-            '       <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regPayDet.fn_regPayAttPop(' + regPayDet.global.itemIndex+1 + ')">첨부</button>' +
+            '       <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regPayDet.fn_regPayAttPop(' + regPayDet.global.itemIndex + ')">첨부</button>' +
             '   </td>' +
             '   <td>' +
             '       <div style="text-align: center">' +
-            '           <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(this)">삭제</button>' +
+            '           <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(' + regPayDet.global.itemIndex + ')">삭제</button>' +
             '       </div>' +
             '   </td>'
             '</tr>';
@@ -644,10 +646,10 @@ var regPayDet = {
         regPayDet.global.itemIndex++;
     },
 
-    delRow : function (){
+    delRow : function (row){
         if($(".payDestInfo").length > 1){
-            $("#pay" + regPayDet.global.itemIndex).remove();
-            regPayDet.global.itemIndex--;
+            $("#pay" + row).remove();
+            /*regPayDet.global.itemIndex--;*/
         }
     },
 
@@ -714,7 +716,7 @@ var regPayDet = {
     fn_regPayAttPop : function (row){
         let key = $("#payDestSn"+row).val();
         if(key == "" || key == null){
-            alert("지급신청서 최초 1회 저장 후 진행 가능합니다.");
+            alert("상호 최초 1회 저장 후 진행 가능합니다.");
             return;
         }
         let eviType = $("#eviType"+row).data("kendoDropDownList").value();

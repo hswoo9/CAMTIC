@@ -193,7 +193,7 @@
                         <td>
                             <span>
                                 <input type="text" id="budgetNm0" value="" onclick="regPay.fn_budgetPop(0)" style="width: 100%;">
-                                <input type="hidden" id="budgetSn0" value="" />
+                                <input type="hidden" id="budgetSn0" value="" class="budgetSn"/>
                             </span>
                         </td>
                         <td>
@@ -245,7 +245,7 @@
                         </td>
                         <td>
                             <div style="text-align: center">
-                                <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(this)">삭제</button>
+                                <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(0)">삭제</button>
                             </div>
                         </td>
                     </tr>
