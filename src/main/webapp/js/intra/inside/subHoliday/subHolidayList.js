@@ -303,7 +303,7 @@ var subHolidayList = {
         }
         html += '<tr style="text-align: center;">';
         html += '   <td>' + e.occDay + '일</td>';
-        html += '   <td>' + e.bef2Year + '일</td>';
+        // html += '   <td>' + e.bef2Year + '일</td>';
         html += '   <td>' + e.befYear + '일</td>';
         html += '   <td>' + e.ann + '일</td>';
         html += '   <td>' + halfAnn + '일</td>';
@@ -312,11 +312,11 @@ var subHolidayList = {
         html += '   <td>' + e.pubHoly + '일</td>';
         html += '   <td>' + e.congHoly + '일</td>';
         html += '   <td>' + e.matHoly + '일</td>';
-        html += '   <td>0일</td>';
+        html += '   <td>' + e.workHoly + '일</td>';
         html += '   <td>' + e.altHoly + '일</td>';
         html += '   <td>0일</td>';
         html += '   <td>' + e.compHoly + '일</td>';
-        html += '   <td>' + e.workHoly + '일</td>';
+        // html += '   <td>' + e.workHoly + '일</td>';
         html += '</tr>';
 
         $("#holyBody").html("");

@@ -153,6 +153,7 @@
                         <col style="width: 5%;">
                         <col style="width: 5%;">
                         <col style="width: 5%;">
+                        <col style="width: 3%;">
                     </colgroup>
                     <thead>
                     <tr>
@@ -170,6 +171,7 @@
                         <th>공급가액</th>
                         <th>세액</th>
                         <th>신용카드</th>
+                        <th>첨부파일</th>
                     </tr>
                     </thead>
                     <tbody id="payDestTb">

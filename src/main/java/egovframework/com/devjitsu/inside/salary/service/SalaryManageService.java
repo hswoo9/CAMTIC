@@ -9,4 +9,8 @@ public interface SalaryManageService {
     List<Map<String, Object>> getSocialRateManageList(Map<String, Object> params);
     void setSocialRate(Map<String, Object> params);
     void setSocialRateDel(Map<String, Object> params);
+
+    List<Map<String, Object>> getEmpSalaryDataList(Map<String, Object> params);
+
+    void setSalaryManage(Map<String, Object> params);
 }

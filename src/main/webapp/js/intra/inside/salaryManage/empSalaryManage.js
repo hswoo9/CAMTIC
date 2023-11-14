@@ -39,6 +39,7 @@ var esm = {
         customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(esm.global.now.setFullYear(esm.global.now.getFullYear() - 2)));
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
 
+        customKendo.fn_datePicker("year", 'decade', "yyyy", new Date());
         $("#division").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
@@ -92,6 +93,13 @@ var esm = {
             },
             toolbar : [
                 {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="userSearch()">' +
+                            '	<span class="k-button-text">급여관리</span>' +
+                            '</button>';
+                    }
+                }, {
                     name: 'button',
                     template: function (e) {
                         return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="esm.gridReload()">' +
@@ -229,7 +237,7 @@ var esm = {
                         var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
 
                         /** 국민연금 */
-                        var nationalPension = cnt * (e.NATIONAL_PENSION / 100);
+                        var nationalPension = Math.floor(cnt * (e.NATIONAL_PENSION / 100));
                         if(nationalPension > Number(e.LIMIT_AMT)){
                             nationalPension = e.LIMIT_AMT;
                         }
@@ -290,6 +298,8 @@ var esm = {
         });
     },
 
+
+
     gridReload : function() {
         esm.global.searchAjaxData = {
             workStatusCode : $("#workStatusCode").val(),
@@ -299,8 +309,14 @@ var esm = {
             division : $("#division").val(),
             searchKeyWord : $("#searchKeyWord").val(),
             searchText : $("#searchText").val(),
+            year : $("#year").val()
         }
 
         esm.mainGrid("/salaryManage/getEmpSalaryManageList.do", esm.global.searchAjaxData);
     },
+}
+
+
+function userSearch() {
+    window.open("/common/deptListPop.do?type=pay", "조직도", "width=750, height=650");
 }

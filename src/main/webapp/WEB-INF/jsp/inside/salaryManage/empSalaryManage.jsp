@@ -8,6 +8,7 @@
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 
+<input type="hidden" id="payEmpSeq" value="" />
 <div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
         <div class="panel-heading">
@@ -45,10 +46,15 @@
                         <td class="text-center th-color">
                             <input type="text" id="division" style="width: 100px">
                         </td>
+                        <th class="text-center th-color">적용연도</th>
+                        <td>
+                            <input type="text" id="year" style="width: 110px" onkeypress="if(window.event.keyCode==13){esm.gridReload();}">
+                        </td>
+
                         <th class="text-center th-color">검색어</th>
                         <td class="text-center th-color">
-                            <input type="text" id="searchKeyWord" style="width: 100px">
-                            <input type="text" id="searchText" style="width: 78%" onkeypress="if(window.event.keyCode==13){esm.gridReload();}">
+                            <input type="text" id="searchKeyWord" style="width: 80px">
+                            <input type="text" id="searchText" style="width: 60%" onkeypress="if(window.event.keyCode==13){esm.gridReload();}">
                         </td>
                     </tr>
                 </table>
@@ -61,4 +67,11 @@
 
 <script type="text/javascript">
     esm.fn_defaultScript();
+
+    function userPayMngPop(e){
+        var url = "/inside/pop/userPayMngPop.do?empSeq=" + e;
+        var name = "userPayMngPop";
+        var option = "width=1870, height=650, scrollbars=no, top=200, left=100, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    }
 </script>

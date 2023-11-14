@@ -262,6 +262,7 @@
         AND
             PUBLIC_CLASS = #{publicClass}
         </if>
+        AND ACTIVE = 'Y'
     </select>
 
     <insert id="setScheduleReg" parameterType="map">
@@ -331,6 +332,28 @@
         FROM
             CAM_BOARD.DJ_SCHEDULE_BOARD
         WHERE
+            SCHEDULE_BOARD_ID = #{scheduleBoardId}
+    </select>
+
+    <select id="getCustomSchedule" parameterType="map" resultType="map">
+        /* getCustomSchedule */
+        SELECT
+            *,
+            (SELECT SCHEDULE_BOARD_ID FROM CAM_BOARD.DJ_SCHEDULE_BOARD
+             WHERE <![CDATA[SCHEDULE_BOARD_ID <  #{scheduleBoardId}]]> AND #{selectedDate} BETWEEN START_DT AND END_DT and PUBLIC_CLASS = 'CS' ORDER BY SCHEDULE_BOARD_ID DESC LIMIT 1) as 'beforeKey',
+        (SELECT SCHEDULE_BOARD_ID FROM CAM_BOARD.DJ_SCHEDULE_BOARD
+        WHERE <![CDATA[SCHEDULE_BOARD_ID >  #{scheduleBoardId}]]> AND #{selectedDate} BETWEEN START_DT AND END_DT and PUBLIC_CLASS = 'CS' ORDER BY SCHEDULE_BOARD_ID ASC LIMIT 1) as 'afterKey'
+        FROM
+            CAM_BOARD.DJ_SCHEDULE_BOARD
+        WHERE 1=1
+        <if test='publicClass != null and !"".equals(publicClass)'>
+            AND
+            PUBLIC_CLASS = #{publicClass}
+        </if>
+        <if test="selectedDate != null and selectedDate != ''">
+            AND #{selectedDate} BETWEEN START_DT AND END_DT
+        </if>
+        AND
             SCHEDULE_BOARD_ID = #{scheduleBoardId}
     </select>
 
@@ -631,5 +654,26 @@
             LIMIT 1
     </select>
 
+    <select id="getStaffScheduleList" parameterType="map" resultType="map">
+        /* getStaffScheduleList */
+        SELECT
+            SC.SCHEDULE_TITLE AS title,
+            CONCAT(DATE_FORMAT(SC.START_DT, '%Y-%m-%d'), ' ', SC.START_TIME) AS start,
+            CONCAT(DATE_FORMAT(SC.END_DT, '%Y-%m-%d'), ' ', SC.END_TIME) AS end,
+            DATE_FORMAT(SC.START_DT, '%Y-%m-%d') AS startDate,
+            DATE_FORMAT(SC.END_DT, '%Y-%m-%d') AS endDate,
+            SC.*
+        FROM
+            CAM_BOARD.DJ_SCHEDULE_BOARD SC
+        WHERE 1=1
+            <if test='publicClass != null and !"".equals(publicClass)'>
+                AND
+                PUBLIC_CLASS = #{publicClass}
+            </if>
+            <if test="selectedDate != null and selectedDate != ''">
+                AND #{selectedDate} BETWEEN SC.START_DT AND SC.END_DT
+            </if>
+        AND ACTIVE = 'Y'
+    </select>
 
 </mapper>

@@ -5,10 +5,13 @@ import egovframework.com.devjitsu.cam_manager.service.ResDocService;
 import egovframework.com.devjitsu.g20.service.G20Service;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -24,6 +27,12 @@ public class PayAppController {
 
     @Autowired
     private G20Service g20Service;
+
+    @Value("#{properties['File.Server.Dir']}")
+    private String SERVER_DIR;
+
+    @Value("#{properties['File.Base.Directory']}")
+    private String BASE_DIR;
 
 
     @RequestMapping("/pay/paymentList.do")
@@ -66,6 +75,17 @@ public class PayAppController {
         model.addAttribute("params", params);
 
         return "popup/cam_manager/payApp/regPayAttPop";
+    }
+
+    @RequestMapping("/payApp/pop/regExnpAttPop.do")
+    public String regExnpAttPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_manager/payApp/regExnpAttPop";
     }
 
     @RequestMapping("/payApp/getPayAppReqData")
@@ -183,6 +203,20 @@ public class PayAppController {
             e.printStackTrace();
         }
 
+        return "jsonView";
+    }
+
+    @RequestMapping("/pay/updPayAttDetData")
+    public String updPayAttDetData(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request){
+        MultipartFile[] file = request.getFiles("file11").toArray(new MultipartFile[0]);
+        payAppService.updPayAttDetData(params, request, file, SERVER_DIR, BASE_DIR);
+        return "jsonView";
+    }
+
+    @RequestMapping("/pay/updExnpAttDetData")
+    public String updExnpAttDetData(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request){
+        MultipartFile[] file = request.getFiles("file11").toArray(new MultipartFile[0]);
+        payAppService.updExnpAttDetData(params, request, file, SERVER_DIR, BASE_DIR);
         return "jsonView";
     }
 
@@ -342,6 +376,18 @@ public class PayAppController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return "jsonView";
+    }
+
+    @RequestMapping("/pay/getPayAttInfo")
+    public String getPayAttInfo(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", payAppService.getPayAttInfo(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/pay/getExnpAttInfo")
+    public String getExnpAttInfo(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", payAppService.getExnpAttInfo(params));
         return "jsonView";
     }
 }

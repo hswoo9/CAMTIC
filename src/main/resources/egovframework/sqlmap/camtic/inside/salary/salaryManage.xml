@@ -94,16 +94,120 @@
                 AND EI.EMP_NAME_KR LIKE CONCAT('%', #{searchText}, '%')
             </when>
         </choose>
+        <if test='year != null and !"".equals(year)'>
+            AND (YEAR(SM.START_DT) = #{year} OR YEAR(SM.END_DT) = #{year})
+        </if>
     </select>
+
+    <select id="getEmpSalaryDataList" parameterType="map" resultType="map">
+        /* getEmpSalaryDataList */
+        SELECT
+            EI.EMP_SEQ,
+            EI.EMP_NAME_KR,
+            EI.RES_REGIS_NUM,
+            DATE_FORMAT(EI.JOIN_DAY, '%Y-%m-%d') AS JOIN_DAY,
+            CASE WHEN EI.DIVISION = '0' THEN '정규직원'
+                 WHEN EI.DIVISION = '4' AND EI.DIVISION_SUB = '1' THEN '계약직원'
+                 WHEN EI.DIVISION = '4' AND EI.DIVISION_SUB = '2' THEN '인턴사원'
+            END AS DIVISION,
+            CONCAT(EI.DEPT_NAME, IF(EI.DEPT_TEAM_NAME != '', CONCAT('/', EI.DEPT_TEAM_NAME), '')) AS DEPT_NAME,
+            SM.START_DT,
+            SM.END_DT,
+            SM.BASIC_SALARY,
+            SM.EXTRA_PAY,
+            SM.BONUS,
+            RS.NATIONAL_PENSION,
+            RS.LIMIT_AMT,
+            RS.HEALTH_INSURANCE,
+            RS.LONG_CARE_INSURANCE,
+            RS.EMPLOY_INSURANCE,
+            RS.ACCIDENT_INSURANCE,
+            SM.SOCIAL_RATE_SN,
+            SM.SALARY_SN
+        FROM
+            CAM_INSIDE.DJ_SALARY_MANAGE SM
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON SM.EMP_SEQ = EI.EMP_SEQ
+        JOIN
+            CAM_INSIDE.DJ_SOCIAL_RATE RS
+        ON SM.SOCIAL_RATE_SN = RS.SOCIAL_RATE_SN
+        WHERE
+            SM.EMP_SEQ = #{empSeq}
+        ORDER BY SM.START_DT DESC
+    </select>
+
+    <update id="updBefEndDt" parameterType="map">
+        /*updBefEndDt*/
+        UPDATE CAM_INSIDE.DJ_SALARY_MANAGE
+        SET
+            END_DT = #{befEndDt}
+        WHERE
+            EMP_SEQ = #{empSeq}
+        AND
+            END_DT = ""
+    </update>
+
+    <insert id="insSalaryManage" parameterType="map">
+        /*insSalaryManage*/
+        INSERT INTO CAM_INSIDE.DJ_SALARY_MANAGE
+        (
+            SOCIAL_RATE_SN,
+            EMP_SEQ,
+            EMP_NAME,
+            START_DT,
+            END_DT,
+            BASIC_SALARY,
+            FOOD_PAY,
+            EXTRA_PAY,
+            BONUS,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{socialRateSn},
+            #{empSeq},
+            #{empName},
+            #{startDt},
+            #{endDt},
+            #{basicSalary},
+            #{foodPay},
+            #{extraPay},
+            #{bonus},
+            #{loginEmpSeq}
+        )
+    </insert>
+
+    <update id="updSalaryManage" parameterType="map">
+        /*updSalaryManage*/
+        UPDATE CAM_INSIDE.DJ_SALARY_MANAGE
+        SET
+            SOCIAL_RATE_SN = #{socialRateSn},
+            START_DT = #{startDt},
+            END_DT = #{endDt},
+            BASIC_SALARY = #{basicSalary},
+            FOOD_PAY = #{foodPay},
+            EXTRA_PAY = #{extraPay},
+            BONUS = #{bonus},
+            MOD_EMP_SEQ = #{loginEmpSeq},
+            MOD_DATE = NOW()
+        WHERE
+            SALARY_SN = #{salarySn}
+    </update>
 
     <select id="getSocialRateManageList" parameterType="map" resultType="map">
         /* getSocialRateManageList */
         SELECT
-            *
+            A.*,
+            CONCAT(A.START_DATE, ' ~ ', A.END_DATE) AS DT_RNG
         FROM
-            CAM_INSIDE.DJ_SOCIAL_RATE
+            CAM_INSIDE.DJ_SOCIAL_RATE A
         WHERE
-            ACTIVE = 'Y'
+            A.ACTIVE = 'Y'
+        <if test='socialRateSn != null and !"".equals(socialRateSn)'>
+            AND A.SOCIAL_RATE_SN = #{socialRateSn}
+        </if>
+        ORDER BY A.END_DATE DESC
     </select>
 
     <insert id="setSocialRate" parameterType="map">

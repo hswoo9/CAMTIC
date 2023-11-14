@@ -1,4 +1,4 @@
-const regPayAtt = {
+const regExnpAtt = {
     global: {
         eviTypeA : ["세금계산서", "거래명세서", "견적서", "검수조서", "납품사진"],
         eviTypeB : ["계산서", "거래명세서", "견적서", "검수조서", "납품사진"],
@@ -8,121 +8,91 @@ const regPayAtt = {
 
     },
     fn_DefaultScript: function(){
-        regPayAtt.fn_fileHtmlSet();
-        regPayAtt.fn_dataSet();
-        regPayAtt.fn_mngMode();
+        regExnpAtt.fn_fileHtmlSet();
+        regExnpAtt.fn_dataSet();
+        regExnpAtt.fn_mngMode();
     },
 
     fn_dataSet: function(){
         let eviType = $("#eviType").val();
         let eviText = "";
 
-        const payDestSn = $("#payDestSn").val();
-        let url = "/pay/getPayAttInfo";
-        const data = { payDestSn: payDestSn };
+        const exnpDestSn = $("#exnpDestSn").val();
+        let url = "/pay/getExnpAttInfo";
+        const data = { exnpDestSn: exnpDestSn };
         const attInfo = customKendo.fn_customAjax(url, data).data;
         console.log(attInfo);
         
         if(eviType == "1"){
             eviText = "세금계산서";
-            if(attInfo.FILE1_NO != ""){
-                $("#file1Sn").val(attInfo.FILE1_NO);
-                $("#file1Name").text(attInfo.FILE1_NAME);
-                $("#file1Name").css("cursor", "pointer");
-                $("#file1Name").attr("onclick", "fileDown('" + attInfo.FILE1_PATH + "', '" + attInfo.FILE1_NAME + "')");
-            }
-            if(attInfo.FILE2_NO != ""){
-                $("#file2Sn").val(attInfo.FILE2_NO);
-                $("#file2Name").text(attInfo.FILE2_NAME);
-                $("#file2Name").css("cursor", "pointer");
-                $("#file2Name").attr("onclick", "fileDown('" + attInfo.FILE2_PATH + "', '" + attInfo.FILE2_NAME + "')");
-            }
-            if(attInfo.FILE3_NO != ""){
-                $("#file3Sn").val(attInfo.FILE3_NO);
-                $("#file3Name").text(attInfo.FILE3_NAME);
-                $("#file3Name").css("cursor", "pointer");
-                $("#file3Name").attr("onclick", "fileDown('" + attInfo.FILE3_PATH + "', '" + attInfo.FILE3_NAME + "')");
-            }
-            if(attInfo.FILE4_NO != ""){
-                $("#file4Sn").val(attInfo.FILE4_NO);
-                $("#file4Name").text(attInfo.FILE4_NAME);
-                $("#file4Name").css("cursor", "pointer");
-                $("#file4Name").attr("onclick", "fileDown('" + attInfo.FILE4_PATH + "', '" + attInfo.FILE4_NAME + "')");
-            }
-            if(attInfo.FILE5_NO != ""){
-                $("#file5Sn").val(attInfo.FILE5_NO);
-                $("#file5Name").text(attInfo.FILE5_NAME);
-                $("#file5Name").css("cursor", "pointer");
-                $("#file5Name").attr("onclick", "fileDown('" + attInfo.FILE5_PATH + "', '" + attInfo.FILE5_NAME + "')");
-            }
+            $("#file1Sn").val(attInfo.FILE1_NO);
+            $("#file1Name").text(attInfo.FILE1_NAME);
+            $("#file1Name").css("cursor", "pointer");
+            $("#file1Name").attr("onclick", "fileDown('" + attInfo.FILE1_PATH + "', '" + attInfo.FILE1_NAME + "')");
+            $("#file2Sn").val(attInfo.FILE2_NO);
+            $("#file2Name").text(attInfo.FILE2_NAME);
+            $("#file2Name").css("cursor", "pointer");
+            $("#file2Name").attr("onclick", "fileDown('" + attInfo.FILE2_PATH + "', '" + attInfo.FILE2_NAME + "')");
+            $("#file3Sn").val(attInfo.FILE3_NO);
+            $("#file3Name").text(attInfo.FILE3_NAME);
+            $("#file3Name").css("cursor", "pointer");
+            $("#file3Name").attr("onclick", "fileDown('" + attInfo.FILE3_PATH + "', '" + attInfo.FILE3_NAME + "')");
+            $("#file4Sn").val(attInfo.FILE4_NO);
+            $("#file4Name").text(attInfo.FILE4_NAME);
+            $("#file4Name").css("cursor", "pointer");
+            $("#file4Name").attr("onclick", "fileDown('" + attInfo.FILE4_PATH + "', '" + attInfo.FILE4_NAME + "')");
+            $("#file5Sn").val(attInfo.FILE5_NO);
+            $("#file5Name").text(attInfo.FILE5_NAME);
+            $("#file5Name").css("cursor", "pointer");
+            $("#file5Name").attr("onclick", "fileDown('" + attInfo.FILE5_PATH + "', '" + attInfo.FILE5_NAME + "')");
         }else if(eviType == "2"){
             eviText = "계산서";
-            if(attInfo.FILE1_NO != ""){
-                $("#file1Sn").val(attInfo.FILE1_NO);
-                $("#file1Name").text(attInfo.FILE1_NAME);
-                $("#file1Name").css("cursor", "pointer");
-                $("#file1Name").attr("onclick", "fileDown('" + attInfo.FILE1_PATH + "', '" + attInfo.FILE1_NAME + "')");
-            }
-            if(attInfo.FILE2_NO != ""){
-                $("#file2Sn").val(attInfo.FILE2_NO);
-                $("#file2Name").text(attInfo.FILE2_NAME);
-                $("#file2Name").css("cursor", "pointer");
-                $("#file2Name").attr("onclick", "fileDown('" + attInfo.FILE2_PATH + "', '" + attInfo.FILE2_NAME + "')");
-            }
-            if(attInfo.FILE3_NO != ""){
-                $("#file3Sn").val(attInfo.FILE3_NO);
-                $("#file3Name").text(attInfo.FILE3_NAME);
-                $("#file3Name").css("cursor", "pointer");
-                $("#file3Name").attr("onclick", "fileDown('" + attInfo.FILE3_PATH + "', '" + attInfo.FILE3_NAME + "')");
-            }
-            if(attInfo.FILE4_NO != ""){
-                $("#file4Sn").val(attInfo.FILE4_NO);
-                $("#file4Name").text(attInfo.FILE4_NAME);
-                $("#file4Name").css("cursor", "pointer");
-                $("#file4Name").attr("onclick", "fileDown('" + attInfo.FILE4_PATH + "', '" + attInfo.FILE4_NAME + "')");
-            }
-            if(attInfo.FILE5_NO != ""){
-                $("#file5Sn").val(attInfo.FILE5_NO);
-                $("#file5Name").text(attInfo.FILE5_NAME);
-                $("#file5Name").css("cursor", "pointer");
-                $("#file5Name").attr("onclick", "fileDown('" + attInfo.FILE5_PATH + "', '" + attInfo.FILE5_NAME + "')");
-            }
+            $("#file1Sn").val(attInfo.FILE1_NO);
+            $("#file1Name").text(attInfo.FILE1_NAME);
+            $("#file1Name").css("cursor", "pointer");
+            $("#file1Name").attr("onclick", "fileDown('" + attInfo.FILE1_PATH + "', '" + attInfo.FILE1_NAME + "')");
+            $("#file2Sn").val(attInfo.FILE2_NO);
+            $("#file2Name").text(attInfo.FILE2_NAME);
+            $("#file2Name").css("cursor", "pointer");
+            $("#file2Name").attr("onclick", "fileDown('" + attInfo.FILE2_PATH + "', '" + attInfo.FILE2_NAME + "')");
+            $("#file3Sn").val(attInfo.FILE3_NO);
+            $("#file3Name").text(attInfo.FILE3_NAME);
+            $("#file3Name").css("cursor", "pointer");
+            $("#file3Name").attr("onclick", "fileDown('" + attInfo.FILE3_PATH + "', '" + attInfo.FILE3_NAME + "')");
+            $("#file4Sn").val(attInfo.FILE4_NO);
+            $("#file4Name").text(attInfo.FILE4_NAME);
+            $("#file4Name").css("cursor", "pointer");
+            $("#file4Name").attr("onclick", "fileDown('" + attInfo.FILE4_PATH + "', '" + attInfo.FILE4_NAME + "')");
+            $("#file5Sn").val(attInfo.FILE5_NO);
+            $("#file5Name").text(attInfo.FILE5_NAME);
+            $("#file5Name").css("cursor", "pointer");
+            $("#file5Name").attr("onclick", "fileDown('" + attInfo.FILE5_PATH + "', '" + attInfo.FILE5_NAME + "')");
         }else if(eviType == "3"){
             eviText = "신용카드";
-            if(attInfo.FILE6_NO != ""){
-                $("#file6Sn").val(attInfo.FILE6_NO);
-                $("#file6Name").text(attInfo.FILE6_NAME);
-                $("#file6Name").css("cursor", "pointer");
-                $("#file6Name").attr("onclick", "fileDown('" + attInfo.FILE6_PATH + "', '" + attInfo.FILE6_NAME + "')");
-            }
-            if(attInfo.FILE7_NO != ""){
-                $("#file7Sn").val(attInfo.FILE7_NO);
-                $("#file7Name").text(attInfo.FILE7_NAME);
-                $("#file7Name").css("cursor", "pointer");
-                $("#file7Name").attr("onclick", "fileDown('" + attInfo.FILE7_PATH + "', '" + attInfo.FILE7_NAME + "')");
-            }
-            if(attInfo.FILE8_NO != ""){
-                $("#file8Sn").val(attInfo.FILE8_NO);
-                $("#file8Name").text(attInfo.FILE8_NAME);
-                $("#file8Name").css("cursor", "pointer");
-                $("#file8Name").attr("onclick", "fileDown('" + attInfo.FILE8_PATH + "', '" + attInfo.FILE8_NAME + "')");
-            }
-            if(attInfo.FILE9_NO != ""){
-                $("#file9Sn").val(attInfo.FILE9_NO);
-                $("#file9Name").text(attInfo.FILE9_NAME);
-                $("#file9Name").css("cursor", "pointer");
-                $("#file9Name").attr("onclick", "fileDown('" + attInfo.FILE9_PATH + "', '" + attInfo.FILE9_NAME + "')");
-            }
+            $("#file6Sn").val(attInfo.FILE6_NO);
+            $("#file6Name").text(attInfo.FILE6_NAME);
+            $("#file6Name").css("cursor", "pointer");
+            $("#file6Name").attr("onclick", "fileDown('" + attInfo.FILE6_PATH + "', '" + attInfo.FILE6_NAME + "')");
+            $("#file7Sn").val(attInfo.FILE7_NO);
+            $("#file7Name").text(attInfo.FILE7_NAME);
+            $("#file7Name").css("cursor", "pointer");
+            $("#file7Name").attr("onclick", "fileDown('" + attInfo.FILE7_PATH + "', '" + attInfo.FILE7_NAME + "')");
+            $("#file8Sn").val(attInfo.FILE8_NO);
+            $("#file8Name").text(attInfo.FILE8_NAME);
+            $("#file8Name").css("cursor", "pointer");
+            $("#file8Name").attr("onclick", "fileDown('" + attInfo.FILE8_PATH + "', '" + attInfo.FILE8_NAME + "')");
+            $("#file9Sn").val(attInfo.FILE9_NO);
+            $("#file9Name").text(attInfo.FILE9_NAME);
+            $("#file9Name").css("cursor", "pointer");
+            $("#file9Name").attr("onclick", "fileDown('" + attInfo.FILE9_PATH + "', '" + attInfo.FILE9_NAME + "')");
         }else if(eviType == "4"){
             eviText = "직원지급";
         }else if(eviType == "5"){
             eviText = "소득신고자";
-            if(attInfo.FILE10_NO != ""){
-                $("#file10Sn").val(attInfo.FILE10_NO);
-                $("#file10Name").text(attInfo.FILE10_NAME);
-                $("#file10Name").css("cursor", "pointer");
-                $("#file10Name").attr("onclick", "fileDown('" + attInfo.FILE10_PATH + "', '" + attInfo.FILE10_NAME + "')");
-            }
+            $("#file10Sn").val(attInfo.FILE10_NO);
+            $("#file10Name").text(attInfo.FILE10_NAME);
+            $("#file10Name").css("cursor", "pointer");
+            $("#file10Name").attr("onclick", "fileDown('" + attInfo.FILE10_PATH + "', '" + attInfo.FILE10_NAME + "')");
         }else if(eviType == "6"){
             eviText = "기타";
         }
@@ -130,7 +100,7 @@ const regPayAtt = {
         $("#pjtTitle").text("증빙서류 - "+eviText);
 
         if(attInfo.etcFile != null){
-            regPayAtt.settingTempFileDataInit(attInfo.etcFile);
+            regExnpAtt.settingTempFileDataInit(attInfo.etcFile);
         }
     },
 
@@ -196,54 +166,54 @@ const regPayAtt = {
         if(eviType == "1" || eviType == "2"){
             html += '<td style="text-align: center">' +
                 '<label for="file1" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file1" name="file1" onchange="regPayAtt.fileChange(this)" style="display: none">' +
+                '<input type="file" id="file1" name="file1" onchange="regExnpAtt.fileChange(this)" style="display: none">' +
                 '<p style="margin-bottom: 0px; margin-top: 3px" id="file1Name"></p>' +
                 '</td>';
             html += '<td style="text-align: center">' +
                 '<label for="file2" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file2" name="file2" onchange="regPayAtt.fileChange(this)" style="display: none">' +
+                '<input type="file" id="file2" name="file2" onchange="regExnpAtt.fileChange(this)" style="display: none">' +
                 '<p style="margin-bottom: 0px; margin-top: 3px" id="file2Name"></p>' +
                 '</td>';
             html += '<td style="text-align: center">' +
                 '<label for="file3" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file3" name="file3" onchange="regPayAtt.fileChange(this)" style="display: none">' +
+                '<input type="file" id="file3" name="file3" onchange="regExnpAtt.fileChange(this)" style="display: none">' +
                 '<p style="margin-bottom: 0px; margin-top: 3px" id="file3Name"></p>' +
                 '</td>';
             html += '<td style="text-align: center">' +
                 '<label for="file4" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file4" name="file4" onchange="regPayAtt.fileChange(this)" style="display: none">' +
+                '<input type="file" id="file4" name="file4" onchange="regExnpAtt.fileChange(this)" style="display: none">' +
                 '<p style="margin-bottom: 0px; margin-top: 3px" id="file4Name"></p>' +
                 '</td>';
             html += '<td style="text-align: center">' +
                 '<label for="file5" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file5" name="file5" onchange="regPayAtt.fileChange(this)" style="display: none">' +
+                '<input type="file" id="file5" name="file5" onchange="regExnpAtt.fileChange(this)" style="display: none">' +
                 '<p style="margin-bottom: 0px; margin-top: 3px" id="file5Name"></p>' +
                 '</td>';
         }else if(eviType == "3"){
             html += '<td style="text-align: center">' +
                 '<label for="file6" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file6" name="file6" onchange="regPayAtt.fileChange(this)" style="display: none">' +
+                '<input type="file" id="file6" name="file6" onchange="regExnpAtt.fileChange(this)" style="display: none">' +
                 '<p style="margin-bottom: 0px; margin-top: 3px" id="file6Name"></p>' +
                 '</td>';
             html += '<td style="text-align: center">' +
                 '<label for="file7" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file7" name="file7" onchange="regPayAtt.fileChange(this)" style="display: none">' +
+                '<input type="file" id="file7" name="file7" onchange="regExnpAtt.fileChange(this)" style="display: none">' +
                 '<p style="margin-bottom: 0px; margin-top: 3px" id="file7Name"></p>' +
                 '</td>';
             html += '<td style="text-align: center">' +
                 '<label for="file8" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file8" name="file8" onchange="regPayAtt.fileChange(this)" style="display: none">' +
+                '<input type="file" id="file8" name="file8" onchange="regExnpAtt.fileChange(this)" style="display: none">' +
                 '<p style="margin-bottom: 0px; margin-top: 3px" id="file8Name"></p>' +
                 '</td>';
             html += '<td style="text-align: center">' +
                 '<label for="file9" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file9" name="file9" onchange="regPayAtt.fileChange(this)" style="display: none">' +
+                '<input type="file" id="file9" name="file9" onchange="regExnpAtt.fileChange(this)" style="display: none">' +
                 '<p style="margin-bottom: 0px; margin-top: 3px" id="file9Name"></p>' +
                 '</td>';
         }else if(eviType == "5"){
             html += '<td style="text-align: center">' +
                 '<label for="file10" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file10" name="file10" onchange="regPayAtt.fileChange(this)" style="display: none">' +
+                '<input type="file" id="file10" name="file10" onchange="regExnpAtt.fileChange(this)" style="display: none">' +
                 '<p style="margin-bottom: 0px; margin-top: 3px" id="file10Name"></p>' +
                 '</td>';
         }
@@ -307,8 +277,8 @@ const regPayAtt = {
         let eviType = $("#eviType").val();
 
         const formData = new FormData();
-        formData.append("payDestSn", $("#payDestSn").val());
-        formData.append("menuCd", "payAtt");
+        formData.append("exnpDestSn", $("#exnpDestSn").val());
+        formData.append("menuCd", "exnpAtt");
         formData.append("empSeq", $("#regEmpSeq").val());
         formData.append("regEmpSeq", $("#regEmpSeq").val());
 
@@ -407,7 +377,7 @@ const regPayAtt = {
             }
         }
 
-        const result = customKendo.fn_customFormDataAjax("/pay/updPayAttDetData", formData);
+        const result = customKendo.fn_customFormDataAjax("/pay/updExnpAttDetData", formData);
         if(result.flag){
             alert("저장되었습니다.");
             window.close();

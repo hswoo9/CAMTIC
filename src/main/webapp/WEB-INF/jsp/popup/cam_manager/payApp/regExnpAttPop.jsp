@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
-<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/regPayAttPop.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/regExnpAttPop.js?v=${today}'/>"></script>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
 <input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
@@ -18,7 +18,7 @@
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 
-<input type="hidden" id="payDestSn" value="${params.payDestSn}" />
+<input type="hidden" id="exnpDestSn" value="${params.exnpDestSn}" />
 <input type="hidden" id="eviType" value="${params.eviType}" />
 
 <div style="padding:0;">
@@ -28,7 +28,7 @@
             </h3>
 
             <div id="payAppBtnDiv" class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="regPayAtt.fn_saveBtn();">저장</button>
+                <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="regExnpAtt.fn_saveBtn();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -36,7 +36,7 @@
             <table id="popTable" class="popTable table table-bordered mb-0">
                 <td style="text-align: center">
                     <label for="estFile" class="k-button k-button-solid-base">파일첨부</label>
-                    <input type="file" id="estFile" name="estFile" onchange="regPayAtt.fileChange(this)" style="display: none">
+                    <input type="file" id="estFile" name="estFile" onchange="regExnpAtt.fileChange(this)" style="display: none">
                     <span id="estFileName"></span>
                 </td>
             </table>
@@ -44,7 +44,7 @@
     </div>
 </div>
 <script>
-    regPayAtt.fn_DefaultScript();
+    regExnpAtt.fn_DefaultScript();
 </script>
 </body>
 </html>

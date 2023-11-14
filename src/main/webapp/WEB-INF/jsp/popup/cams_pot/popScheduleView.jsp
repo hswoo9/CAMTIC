@@ -47,6 +47,7 @@
                     <col style="width: 15%">
                 </colgroup>
                 <thead>
+
                     <tr>
                         <th>
                             날짜
@@ -120,12 +121,29 @@
                     </tr>
                 </thead>
             </table>
+
+            <div style="text-align:right; margin-top:10px; ">
+                <c:if test="${map.beforeKey ne '' && map.beforeKey ne null}">
+                    <button type=button" onclick="fn_Scheduledetail('${map.beforeKey}', '${params.selectedDate}')">< 이전</button>
+                </c:if>
+
+                <c:if test="${map.afterKey ne '' && map.afterKey ne null}">
+                    <button type=button" onclick="fn_Scheduledetail('${map.afterKey}', '${params.selectedDate}')">다음 ></button>
+                </c:if>
+            </div>
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
     sr.fn_defaultScript();
+
+    var publicClass = ${map.PUBLIC_CLASS};
+
+    function fn_Scheduledetail(key, selectedDate) {
+        location.href = "/spot/pop/popScheduleView.do?scheduleBoardId=" + key + "&pazing=Y&selectedDate=" + selectedDate;
+    }
+
 </script>
 </body>
 </html>

@@ -58,6 +58,23 @@ public class SalaryManageController {
         return "jsonView";
     }
 
+    @RequestMapping("/salaryManage/getEmpSalaryDataList")
+    public String getEmpSalaryManageListAll(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", salaryManageService.getEmpSalaryDataList(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/salaryManage/setSalaryManage")
+    public String setSalaryManage(@RequestParam Map<String, Object> params, Model model){
+        try{
+            salaryManageService.setSalaryManage(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
     /**
      * 캠인사이드 > 참여율관리 > 사대보험요율관리 페이지
      * @param request

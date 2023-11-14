@@ -42,7 +42,7 @@
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/inside/userManage/userReqPop.js?v=${today}'/>"></script>
 
-<input type="hidden" id="crmSn" value="${params.crmSn}" />
+<input type="hidden" id="mouArgSn" value="${params.mouArgSn}" />
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
@@ -50,7 +50,14 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;" id="pjtTitle">
-                    MOU 등록
+                    <c:choose>
+                        <c:when test="${params.mouArgSn eq null}">
+                            MOU 등록
+                        </c:when>
+                        <c:otherwise>
+                            MOU 수정
+                        </c:otherwise>
+                    </c:choose>
                 </span>
             </h3>
             <div class="btn-st popButton">
@@ -111,13 +118,12 @@
                         <span class="red-star">*</span>협약서
                     </th>
                     <td colspan="3" style="padding-bottom: 0">
-                        <div>
+                        <div style="margin-bottom: 5px;">
                             <label for="fileList" class="k-button k-button-solid-base">파일첨부</label>
                             <input type="file" id="fileList" name="fileList" onchange="mouReg.fileChange()" style="display: none" multiple>
                         </div>
-                        <ul id="ulFileName" style="padding-left: 20px; padding-top: 5px;">
-
-                        </ul>
+                        <ul id="ulSetFileName" style="padding-left: 20px;"></ul>
+                        <ul id="ulFileName" style="padding-left: 20px;"></ul>
                     </td>
                 </tr>
                 </thead>
