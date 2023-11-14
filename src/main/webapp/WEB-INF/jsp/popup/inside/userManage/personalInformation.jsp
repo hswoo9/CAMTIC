@@ -37,29 +37,11 @@
                     <th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">기본정보</th>
                 </tr>
                 <tr>
-                    <th><span class="red-star">*</span>이름</th>
+                    <th>사번</th>
                     <td>
-                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
-                            <input type="text" id="empNameKr" style="width: 50%;">
-                        </c:if>
-                        <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="empNameKr" style="width: 50%;" value="${uprinfList.EMP_NAME_KR}">
-                        </c:if>
+                        <input type="text" id="empSeq" style="width: 50%;" value="${uprinfList.EMP_SEQ}">
                     </td>
-                    <th><span class="red-star">*</span>직원구분</th>
-                    <td>
-                        <input type="text" id="divis" style="width: 40%;">
-                        <input type="text" id="divisDet" style="width: 35%; display: none">
-                        <c:if test="${uprinfList.TEMP_DIVISION == null || uprinfList.TEMP_DIVISION == 'N'}">
-                            <input type="checkbox" id="check1"> 임시직원
-                        </c:if>
-                        <c:if test="${uprinfList.TEMP_DIVISION != null && uprinfList.TEMP_DIVISION == 'Y'}">
-                            <input type="checkbox" id="check1" checked> 임시직원
-                        </c:if>
-                    </td>
-                </tr>
-                <tr>
-                    <th><span class="red-star">*</span>아이디</th>
+                    <th>아이디</th>
                     <td>
                         <c:if test="${params.empSeq == null || params.empSeq == ''}">
                             <input type="text" id="loginId" style="width: 50%;">
@@ -70,37 +52,66 @@
                             <input type="text" id="loginId" style="width: 50%;" value="${uprinfList.LOGIN_ID}" disabled="disabled">
                         </c:if>
                     </td>
-                    <th><span class="red-star">*</span>주민등록번호</th>
-                    <td>
-                        <input type="text" id="resRegisNum1" style="width: 30%;" value="${fn:split(uprinfList.RES_REGIS_NUM, "-")[0]}" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="6"> - <input type="text" id="resRegisNum2" value="${fn:split(uprinfList.RES_REGIS_NUM, "-")[1]}" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="7" style="width: 30%;">
-                    </td>
                 </tr>
                 <tr>
-                    <th><span class="red-star">*</span>비밀번호</th>
+                    <th>이름</th>
+                    <td>
+                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
+                            <input type="text" id="empNameKr" style="width: 50%;">
+                        </c:if>
+                        <c:if test="${params.empSeq != null && params.empSeq != ''}">
+                            <input type="text" id="empNameKr" style="width: 50%;" value="${uprinfList.EMP_NAME_KR}" disabled="disabled">
+                        </c:if>
+                    </td>
+                    <th>비밀번호</th>
                     <td>
                         <input type="password" id="loginPasswd" style="width: 50%;"> 미입력시 변경 안됨
                     </td>
-                    <th><span class="red-star">*</span>비밀번호 확인</th>
+                </tr>
+                <tr>
+                    <th>주민등록번호</th>
+                    <td>
+                        <input type="text" id="resRegisNum1" style="width: 30%;" value="${fn:split(uprinfList.RES_REGIS_NUM, "-")[0]}" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="6" disabled="disabled"> - <input type="text" id="resRegisNum2" value="${fn:split(uprinfList.RES_REGIS_NUM, "-")[1]}" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="7" style="width: 30%;" disabled="disabled">
+                    </td>
+                    <th>소속</th>
+                    <td>
+                        <input type="text" id="" style="width: 30%;" value="" disabled="disabled">
+                    </td>
+                    <%--<th><span class="red-star">*</span>비밀번호 확인</th>
                     <td>
                         <input type="password" id="checkPasswd" style="width: 50%;">
+                    </td>--%>
+                </tr>
+                <tr>
+                    <th>부서(실)</th>
+                    <td>
+                        <input type="text" id="deptName" style="width: 50%;" value="${uprinfList.DEPT_NAME}" disabled="disabled">
+                    </td>
+                    <th>부서(팀)</th>
+                    <td>
+                        <input type="text" id="deptTeamName" style="width: 50%;" value="${uprinfList.DEPT_TEAM_NAME}" disabled="disabled">
                     </td>
                 </tr>
                 <tr>
-                    <th>부서</th>
+                    <th>부서(파트)</th>
                     <td>
-                        <input type="text" id="deptName" style="width: 50%;">
+                        <input type="text" <%--id=""--%> style="width: 50%;" disabled="disabled">
                     </td>
-                    <th>팀</th>
+                    <th>직책</th>
                     <td>
-                        <input type="text" id="deptTeamName" style="width: 50%;">
+                        <input type="text" id="duty" style="width: 50%;" value="${uprinfList.DUTY_NAME}" disabled="disabled">
                     </td>
                 </tr>
                 <tr class="defaultCase defaultCaseA defaultCaseB defaultCaseC defaultCaseD">
-                    <th>직급/등급</th>
+                    <th>직급</th>
                     <td>
-                        <input type="text" id="position" style="width: 50%;">
+                        <input type="text" id="position" style="width: 50%;" value="${uprinfList.POSITION_NAME}" disabled="disabled">
                     </td>
-                    <th>CAPS 번호</th>
+                    <th>등급</th>
+                    <td>
+                        <input type="text" <%--id="position"--%> style="width: 50%;" value="${uprinfList.GRADE_NAME}" disabled="disabled">
+                    </td>
+                    <%--<th>CAPS 번호</th>
                     <td>
                         <c:if test="${params.empSeq == null || params.empSeq == ''}">
                             <input type="text" id="capsNum" style="width: 50%;">
@@ -108,9 +119,9 @@
                         <c:if test="${params.empSeq != null && params.empSeq != ''}">
                             <input type="text" id="capsNum" style="width: 50%;" value="${uprinfList.CAPS_NUM}">
                         </c:if>
-                    </td>
+                    </td>--%>
                 </tr>
-                <tr class="caseB" style="display: none">
+                <%--<tr class="caseB" style="display: none">
                     <th>CAPS 번호</th>
                     <td>
                         <c:if test="${params.empSeq == null || params.empSeq == ''}">
@@ -120,157 +131,42 @@
                             <input type="text" id="capsNumCaseB" style="width: 50%;" value="${uprinfList.CAPS_NUM}">
                         </c:if>
                     </td>
-                </tr>
+                </tr>--%>
                 <tr class="defaultCase defaultCaseA defaultCaseB defaultCaseC defaultCaseD">
-                    <th>직군</th>
+                    <%--<th>직군</th>
                     <td>
-                        <input type="text" id="occupationCode" style="width: 50%;">
-                    </td>
-                    <th>직책</th>
-                    <td>
-                        <input type="text" id="duty" style="width: 50%;">
-                    </td>
-                </tr>
-                <tr class="defaultCase defaultCaseA defaultCaseB defaultCaseC defaultCaseD">
-                    <th>직무사항</th>
-                    <td>
-                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
-                            <input type="text" id="jobDetail" style="width: 95%;">
-                        </c:if>
-                        <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="jobDetail" style="width: 95%;" value="${uprinfList.JOB_DETAIL}">
-                        </c:if>
-                    </td>
+                        <input type="text" id="occupationCode" style="width: 50%;" disabled="disabled">
+                    </td>--%>
                     <th>학위</th>
                     <td>
-                        <input type="text" id="degreeCode" style="width: 50%;">
+                        <input type="text" id="degreeCode" value="${uprinfList.DEGREE_CODE}" style="width: 50%;" disabled="disabled">
+                    </td>
+                    <th>직원구분</th>
+                    <td>
+                        <input type="text" id="divis" style="width: 40%;" disabled="disabled">
+                        <input type="text" id="divisDet" style="width: 35%; display: none" disabled="disabled">
+                        <c:if test="${uprinfList.TEMP_DIVISION == null || uprinfList.TEMP_DIVISION == 'N'}">
+                            <input type="checkbox" id="check1" disabled="disabled"> 임시직원
+                        </c:if>
+                        <c:if test="${uprinfList.TEMP_DIVISION != null && uprinfList.TEMP_DIVISION == 'Y'}">
+                            <input type="checkbox" id="check1" checked disabled="disabled"> 임시직원
+                        </c:if>
                     </td>
                 </tr>
                 <tr class="caseA caseB" style="display: none">
-                    <th>직무사항</th>
-                    <td>
-                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
-                            <input type="text" id="jobDetailCaseB" style="width: 95%;">
-                        </c:if>
-                        <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="jobDetailCaseB" style="width: 95%;" value="${uprinfList.JOB_DETAIL}">
-                        </c:if>
-                    </td>
                     <th>학위</th>
                     <td>
                         <input type="text" id="degreeCodeA" style="width: 50%;">
                     </td>
-                </tr>
-                <tr  class="caseD caseE" style="display: none">
-                    <th>직무사항</th>
+                    <th><span class="red-star">*</span>직원구분</th>
                     <td>
-                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
-                            <input type="text" id="jobDetailCaseA" style="width: 95%;">
+                        <input type="text" id="divis" style="width: 40%;" disabled="disabled">
+                        <input type="text" id="divisDet" style="width: 35%; display: none" disabled="disabled">
+                        <c:if test="${uprinfList.TEMP_DIVISION == null || uprinfList.TEMP_DIVISION == 'N'}">
+                            <input type="checkbox" id="check1" disabled="disabled"> 임시직원
                         </c:if>
-                        <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="jobDetailCaseA" style="width: 95%;" value="${uprinfList.JOB_DETAIL}">
-                        </c:if>
-                    </td>
-                    <th>CAPS 번호</th>
-                    <td>
-                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
-                            <input type="text" id="capsNumCaseC" style="width: 50%;">
-                        </c:if>
-                        <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="capsNumCaseC" style="width: 50%;" value="${uprinfList.CAPS_NUM}">
-                        </c:if>
-                    </td>
-                </tr>
-                <tr class="defaultCase defaultCaseC defaultCaseD">
-                    <th>입사 일자</th>
-                    <td <%--colspan="3"--%>>
-                        <input type="text" id="regDate" style="width: 50%;">
-                    </td>
-                    <th id="homePageActiveTh"><%--홈페이지 게시--%></th>
-                    <td>
-                        <%--<span type="text" id="homePageActive" name="homePageActive" style="width: 100%;"></span>--%>
-                    </td>
-                </tr>
-                <tr class="caseA" style="display: none">
-                    <th>입사 일자</th>
-                    <td>
-                        <input type="text" id="regDateCaseA" style="width: 50%;">
-                    </td>
-                    <th>CAPS 번호</th>
-                    <td>
-                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
-                            <input type="text" id="capsNumCaseA" style="width: 50%;">
-                        </c:if>
-                        <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="capsNumCaseA" style="width: 50%;" value="${uprinfList.CAPS_NUM}">
-                        </c:if>
-                    </td>
-                </tr>
-                <tr class="caseD" style="display: none">
-                    <th>입사 일자</th>
-                    <td>
-                        <input type="text" id="regDateCaseB" style="width: 50%;">
-                    </td>
-                    <th>호칭</th>
-                    <td>
-                        <input type="text" id="nicknameCaseA" style="width: 50%;"/>
-                    </td>
-                </tr>
-                <tr class="defaultCase defaultCaseA defaultCaseB defaultCaseC defaultCaseD">
-                    <th>전직경력</th>
-                    <td>
-                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
-                            <input type="text" id="beforCareer" maxlength="3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 15%;text-align: right" > 개월
-                        </c:if>
-                        <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="beforCareer" maxlength="3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 15%;text-align: right" value="${uprinfList.BEFOR_CAREER}"> 개월
-                        </c:if>
-                    </td>
-                    <th>경과년차</th>
-                    <td>
-                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
-                            <input type="text" id="elapsedYear1" maxlength="4" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 15%;text-align: right"> 년도기준
-                            <input type="text" id="elapsedYear2" maxlength="3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 15%;text-align: right"> 년차
-                        </c:if>
-                        <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="elapsedYear1" maxlength="4" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 15%;text-align: right" value="${uprinfList.BS_ELAPSED_YEAR}"> 년도기준
-                            <input type="text" id="elapsedYear2" maxlength="3" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 15%;text-align: right" value="${uprinfList.ELAPSED_YEAR}"> 년차
-                        </c:if>
-                    </td>
-                </tr>
-                <tr class="caseC" style="display: none">
-                    <th>호칭</th>
-                    <td>
-                        <input type="text" id="nickname" style="width: 50%;"/>
-                    </td>
-                    <th>생년월일</th>
-                    <td>
-                        <input type="text" id="birthDay" style="width: 50%;"/>
-                        <input type="checkbox" id="lunarYn1" style="position : relative ; top: 3px; margin-left: 5px;"/>
-                        <label for="lunarYn1" style="position : relative ; top: 1px;">음력</label>
-                        <span id="lunarBirthDay"></span>
-                    </td>
-                </tr>
-                <tr>
-                <tr>
-                    <th>계좌정보</th>
-                    <td colspan="3">
-                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
-                            예금주 <input type="text" id="accountHolder" style="width: 20%; margin-right:10px;"> 은행명 <input type="text" id="bankName" style="width: 20%; margin-right:10px;"> 계좌번호  <input type="text" id="accountNum" style="width: 30%;">
-                        </c:if>
-                        <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            예금주 <input type="text" id="accountHolder" style="width: 20%; margin-right:10px;" value="${uprinfList.ACCOUNT_HOLDER}"> 은행명 <input type="text" id="bankName" style="width: 20%; margin-right:10px;" value="${uprinfList.BANK_NAME}"> 계좌번호  <input type="text" id="accountNum" style="width: 30%;" value="${uprinfList.ACCOUNT_NUM}">
-                        </c:if>
-                    </td>
-                </tr>
-                <tr style="display:none;">
-                    <th>증명사진</th>
-                    <td colspan="3">
-                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
-                            <input type="file">
-                        </c:if>
-                        <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="file" value="${uprinfList.PHOTO_FILE_ID}" <%--disabled="disabled"--%>>
+                        <c:if test="${uprinfList.TEMP_DIVISION != null && uprinfList.TEMP_DIVISION == 'Y'}">
+                            <input type="checkbox" id="check1" checked disabled="disabled"> 임시직원
                         </c:if>
                     </td>
                 </tr>
@@ -315,16 +211,14 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>차량소유</th>
+                    <th>나의 한마디</th>
                     <td colspan="3">
-                        <input type="checkbox" <c:if test="${uprinfList.CAR_ACTIVE == Y}">checked</c:if> id="carActive"> 차량을 소유하고 있음
-                    </td>
-                </tr>
-                <tr>
-                    <th>차량번호</th>
-                    <td colspan="3">
-                        <input type="text" id="carNum1" style="width: 30%;" value="${uprinfList.CAR_NUM}">
-                        ex) 22 가 1111
+                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
+                            <input type="text" style="width: 95%;">
+                        </c:if>
+                        <c:if test="${params.empSeq != null && params.empSeq != ''}">
+                            <input type="text" style="width: 95%;" value="">
+                        </c:if>
                     </td>
                 </tr>
                 </thead>
@@ -374,14 +268,9 @@
                         <span id="lunarBday"></span>
 
                     </td>
-                    <th>긴급 연락처</th>
+                    <th>입사일자</th>
                     <td>
-                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
-                            <input type="text" id="emgTelNum" maxlength="13" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 50%;">
-                        </c:if>
-                        <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" id="emgTelNum" maxlength="13" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 50%;" value="${uprinfList.EMG_TEL_NUM}">
-                        </c:if>
+                        <input type="text" style="width: 50%;" value="${uprinfList.JOIN_DAY}">
                     </td>
                 </tr>
                 <tr>
@@ -396,6 +285,24 @@
                     </td>
                 </tr>
                 <tr>
+                    <th>거주지</th>
+                    <td colspan="3">
+                        <input type="text"  style="width: 95%;" value="">
+
+                    </td>
+                </tr>
+                <tr>
+                    <th>차량소유</th>
+                    <td>
+                        <input type="checkbox" <c:if test="${uprinfList.CAR_ACTIVE == Y}">checked</c:if> id="carActive"> 차량을 소유하고 있음
+                    </td>
+                    <th>차량번호</th>
+                    <td>
+                        <input type="text" id="carNum1" style="width: 30%;" value="${uprinfList.CAR_NUM}">
+                        ex) 22 가 1111
+                    </td>
+                </tr>
+                <tr>
                     <th>결혼 관계</th>
                     <td>
                         <span type="text" id="weddingActive" name="weddingActive" style="width: 100%;"></span>
@@ -403,13 +310,17 @@
                     </td>
                     <th>결혼기념일</th>
                     <td>
-                        <input type="text" id="weddingDay" style="width: 50%;">
+                        <input type="text" id="weddingDay" value="${uprinfList.WEDDING_DAY}" style="width: 50%;">
                     </td>
                 </tr>
                 <tr>
                     <th>혈액형</th>
-                    <td colspan="3">
-                        <span type="text" id="bloodType" name="bloodType" style="width: 100%;"></span>
+                    <td>
+                        <span type="text" id="bloodType" name="bloodType" value="${uprinfList.BLOOD_TYPE}" style="width: 100%;"></span>
+                    </td>
+                    <th>긴급 연락처</th>
+                    <td>
+                        <input type="text" id="emgTelNum" name="emgTelNum" class="userInfoTextBox notDisabled" placeholder="숫자만 입력" value="${uprList.emgTelNum}" style="width: 50%;">
                     </td>
                 </tr>
                 <tr>
