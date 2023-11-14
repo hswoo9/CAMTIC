@@ -48,7 +48,7 @@ var resultInfo = {
         if(result.prodFileList != null){
             $("#prodImgName").text(result.prodFileList.file_org_name + "." +result.prodFileList.file_ext);
         }
-        resultInfo.fn_makeRowEngn(resultMap);
+        //resultInfo.fn_makeRowEngn(resultMap);
     },
 
     fn_makeRowEngn: function(rs){
@@ -308,7 +308,7 @@ var resultInfo = {
     },
 
     fn_save: function (){
-        var delvA = $("#prepA").val();
+        /*var delvA = $("#prepA").val();
         var delvB = $("#prepB").val();
         var delvC = $("#prepC").val();
 
@@ -360,7 +360,7 @@ var resultInfo = {
         if((Number(A) + Number(B) + Number(C)) > 100){
             alert("수익 실적률이 100% 미만입니다.");
             return;
-        }
+        }*/
 
         var data = {
             pjtSn: $("#pjtSn").val(),
@@ -382,7 +382,7 @@ var resultInfo = {
 
         var fd = new FormData();
 
-        if($("#delvPrepA").val() != undefined){
+        /*if($("#delvPrepA").val() != undefined){
             data.delvPrepA = $("#delvPrepA").val();
             fd.append("delvPrepA", data.delvPrepA);
         }
@@ -419,7 +419,7 @@ var resultInfo = {
         if($("#prepC").val() != undefined){
             data.prepC = $("#prepC").val();
             fd.append("prepC", data.prepC);
-        }
+        }*/
 
         fd.append("pjtSn", data.pjtSn);
         fd.append("prototype", data.prototype);
