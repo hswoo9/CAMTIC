@@ -155,7 +155,18 @@ const lectureReq = {
         }
 
         /** 유효성 검사 */
-        this.fn_validationCheck(data);
+        if(data.projectType == ""){ alert("사업구분이 선택되지 않았습니다."); return; }
+        if(data.fieldType == ""){ alert("교육분야가 선택되지 않았습니다."); return; }
+        if(data.curriculumType == ""){ alert("과목명이 선택되지 않았습니다."); return; }
+        if(data.courseType == ""){ alert("과정명이 선택되지 않았습니다."); return; }
+        if(data.lectureName == ""){ alert("강좌명(사업명)이 작성되지 않았습니다."); return; }
+        if(data.lectureNameEx == ""){ alert("강좌명(홍보용)이 작성되지 않았습니다."); return; }
+        if(data.title == ""){ alert("주제(CEO)가 작성되지 않았습니다."); return; }
+        if(data.recruitNum == ""){ alert("모집인원이 작성되지 않았습니다."); return; }
+        if(data.eduTime == "" || data.eduTimeEx == ""){ alert("교육시간이 작성되지 않았습니다."); return; }
+        if(data.area == ""){ alert("교육장소가 작성되지 않았습니다."); return; }
+        if(data.textbookFee == "" || data.textbookFeeEx == ""){ alert("교육비가 작성되지 않았습니다."); return; }
+        if(data.courseType == ""){ alert("메인게시여부가 선택되지 않았습니다."); return; }
 
         let url = "/projectUnRnd/insLectureInfo";
         if($("#pk").val() != ""){
@@ -181,18 +192,6 @@ const lectureReq = {
     },
 
     fn_validationCheck: function(data){
-        if(data.projectType == ""){ alert("사업구분이 선택되지 않았습니다."); return; }
-        if(data.fieldType == ""){ alert("교육분야가 선택되지 않았습니다."); return; }
-        if(data.curriculumType == ""){ alert("과목명이 선택되지 않았습니다."); return; }
-        if(data.courseType == ""){ alert("과정명이 선택되지 않았습니다."); return; }
-        if(data.lectureName == ""){ alert("강좌명(사업명)이 작성되지 않았습니다."); return; }
-        if(data.lectureNameEx == ""){ alert("강좌명(홍보용)이 작성되지 않았습니다."); return; }
-        if(data.title == ""){ alert("주제(CEO)가 작성되지 않았습니다."); return; }
-        if(data.recruitNum == ""){ alert("모집인원이 작성되지 않았습니다."); return; }
-        if(data.eduTime == "" || data.eduTimeEx == ""){ alert("교육시간이 작성되지 않았습니다."); return; }
-        if(data.area == ""){ alert("교육장소가 작성되지 않았습니다."); return; }
-        if(data.textbookFee == "" || data.textbookFeeEx == ""){ alert("교육비가 작성되지 않았습니다."); return; }
-        if(data.courseType == ""){ alert("메인게시여부가 선택되지 않았습니다."); return; }
     },
 
     fn_testData: function(){
