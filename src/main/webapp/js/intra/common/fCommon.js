@@ -66,7 +66,7 @@ var fCommon = {
             $("#fileGrid").find(".addFile").remove();
 
             if($("#fileGrid").find("tr").length == 0){
-                $("#fileGrid").html('<tr>' +
+                $("#fileGrid").html('<tr class="defultTr">' +
                     '	<td colspan="4" style="text-align: center;padding-top: 10px;">선택된 파일이 없습니다.</td>' +
                     '</tr>');
             }
@@ -93,7 +93,7 @@ var fCommon = {
                     if(rs.code == "200"){
                         $(v).closest("tr").remove();
                         if($("#fileGrid").find("tr").length == 0){
-                            $("#fileGrid").html('<tr>' +
+                            $("#fileGrid").html('<tr class="defultTr">' +
                                 '	<td colspan="4" style="text-align: center;padding-top: 10px;">선택된 파일이 없습니다.</td>' +
                                 '</tr>');
                         }
