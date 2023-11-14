@@ -702,6 +702,7 @@ var regPayDet = {
             return;
         }
         regPayDet.fn_regExnpPop(keyArr, payAppSn);
+        window.close();
     },
 
     fn_regExnpPop : function (keyArr, key){

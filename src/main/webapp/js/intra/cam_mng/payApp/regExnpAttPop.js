@@ -409,7 +409,7 @@ const regExnpAtt = {
     },
 
     fn_mngMode: function(){
-        if(opener.parent.$("#status").val() == "rev"){
+        if(opener.parent.$("#mode").val() == "view"){
             $("#saveBtn").hide();
             $(".delBtn").text("-");
             $(".k-button-solid-base").hide();
