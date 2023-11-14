@@ -69,7 +69,7 @@ var bustripResList = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" disabled onclick="gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bustripResList.fn_reqRegPopup()">' +
                             '	<span class="k-button-text">지급신청</span>' +
                             '</button>';
                     }
@@ -89,7 +89,11 @@ var bustripResList = {
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'evalChk\');"/>',
                     template : function(e){
-                        return "<input type='checkbox' id='eval_" + e.HR_BIZ_REQ_RESULT_ID + "' name='evalChk' value='" + e.HR_BIZ_REQ_RESULT_ID + "'/>"
+                        if(e.RES_STATUS == 100 || e.RES_STATUS == 101) {
+                            return "<input type='checkbox' id='eval_" + e.HR_BIZ_REQ_RESULT_ID + "' name='evalChk' value='" + e.HR_BIZ_REQ_RESULT_ID + "'/>"
+                        } else {
+                            return '';
+                        }
                     },
                     width: 50
                 }, {
@@ -303,6 +307,16 @@ var bustripResList = {
             this.method = 'POST';
             this.target = 'bustripResApprovalPop';
         }).trigger("submit");
+    },
+
+    fn_reqRegPopup : function (key){
+        var url = "/payApp/pop/regPayAppPop.do";
+        if(key != null && key != ""){
+            url = "/payApp/pop/regPayAppPop.do?payAppSn=" + key;
+        }
+        var name = "blank";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
     }
 }
 
