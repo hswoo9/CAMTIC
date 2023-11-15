@@ -143,7 +143,7 @@
                     </td>
                     <th>직원구분</th>
                     <td>
-                        <input type="text" id="divis" style="width: 40%;" disabled="disabled">
+                        <input type="text" id="divis" value="${uprinfList.DIVISION}" style="width: 40%;" disabled="disabled">
                         <input type="text" id="divisDet" style="width: 35%; display: none" disabled="disabled">
                         <c:if test="${uprinfList.TEMP_DIVISION == null || uprinfList.TEMP_DIVISION == 'N'}">
                             <input type="checkbox" id="check1" disabled="disabled"> 임시직원
@@ -294,7 +294,7 @@
                 <tr>
                     <th>차량소유</th>
                     <td>
-                        <input type="checkbox" <c:if test="${uprinfList.CAR_ACTIVE == Y}">checked</c:if> id="carActive"> 차량을 소유하고 있음
+                        <input type="checkbox" <c:if test="${uprinfList.CAR_ACTIVE == 'Y'}">checked</c:if> id="carActive"> 차량을 소유하고 있음
                     </td>
                     <th>차량번호</th>
                     <td>
@@ -305,7 +305,12 @@
                 <tr>
                     <th>결혼 관계</th>
                     <td>
-                        <span type="text" id="weddingActive" name="weddingActive" style="width: 100%;"></span>
+                        <c:if test="${uprinfList.WEDDING_ACTIVE ==  'Y'}">
+                            기혼
+                        </c:if>
+                        <c:if test="${uprinfList.WEDDING_ACTIVE ==  'N'}">
+                            미혼
+                        </c:if>
                     </td>
                     </td>
                     <th>결혼기념일</th>
@@ -316,7 +321,7 @@
                 <tr>
                     <th>혈액형</th>
                     <td>
-                        <span type="text" id="bloodType" name="bloodType" value="${uprinfList.BLOOD_TYPE}" style="width: 100%;"></span>
+                        ${uprinfList.BLOOD_TYPE}
                     </td>
                     <th>긴급 연락처</th>
                     <td>

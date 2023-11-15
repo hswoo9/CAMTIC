@@ -185,14 +185,10 @@ var prp = {
         prp.global.itemIndex++
 
         prp.global.createHtmlStr = "" +
-            '<tr class="purcItemInfo newArray" id="item' + prp.global.itemIndex + '">';
-            if($("#stat").val() == "v"){
-                prp.global.createHtmlStr += '' +
-                    '<td>' +
-                    '   <input type="checkbox" id="check'+ prp.global.itemIndex + '" class="childCheck k-checkbox" style="margin-left: 3px;" value="prp.global.itemIndex">' +
-                    '</td>';
-            }
-        prp.global.createHtmlStr += '' +
+            '<tr class="purcItemInfo newArray" id="item' + prp.global.itemIndex + '">' +
+                '<td>' +
+                '   <input type="checkbox" id="check'+ prp.global.itemIndex + '" class="childCheck k-checkbox" style="margin-left: 4px;" value="prp.global.itemIndex">' +
+                '</td>' +
                 '<td>' +
                 '   <input type="hidden" id="purcItemSn' + prp.global.itemIndex + '" name="purcItemSn0" class="purcItemSn">' +
                 '   <input type="text" id="purcItemType' + prp.global.itemIndex + '" class="purcItemType" style="width: 110px">' +
@@ -273,11 +269,19 @@ var prp = {
 
     },
 
-    fn_productCodeSetting : function (productId){
+    fn_productCodeSetting : function(productId){
         var i = productId.slice(-1);
 
         $("#productA" + i).bind("change", function(){
-            if($("#productA" + i).data("kendoDropDownList").value() == ""){
+            if($("#productA" + i).data("kendoDropDownList").value() == "" || $("#productA" + i).data("kendoDropDownList").text() != "캠아이템"){
+                if($("#productA" + i).data("kendoDropDownList").text() != "캠아이템"){
+                    try{
+                        $("#productB" + i).data("kendoDropDownList").wrapper.hide();
+                        $("#productC" + i).data("kendoDropDownList").wrapper.hide();
+                    }catch{
+
+                    }
+                }
                 return;
             }
             $("#productB" +  i).val("");
@@ -323,7 +327,7 @@ var prp = {
         }
     },
 
-    fn_popCamCrmList : function (crmSnId, crmNmId){
+    fn_popCamCrmList : function(crmSnId, crmNmId){
         prp.global.crmSnId = crmSnId;
         prp.global.crmNmId = crmNmId;
 
@@ -392,6 +396,7 @@ var prp = {
             if(i != 0){
                 prp.addRow();
             }
+            console.log(e);
 
             $("#item" + i).find("#purcItemSn" + i).val(e[i].PURC_ITEM_SN);
             $("#item" + i).find("#purcItemType" + i).data("kendoDropDownList").value(e[i].PURC_ITEM_TYPE);
@@ -399,12 +404,14 @@ var prp = {
                 $("#item" + i).find("#productA" + i).data("kendoDropDownList").value(e[i].PRODUCT_A);
                 $("#productA" + i).trigger("change");
             }
-            if(e[i].PRODUCT_B != null){
-                $("#item" + i).find("#productB" + i).data("kendoDropDownList").value(e[i].PRODUCT_B);
-                $("#productB" + i).trigger("change");
-            }
-            if(e[i].PRODUCT_C != null){
-                $("#item" + i).find("#productC" + i).data("kendoDropDownList").value(e[i].PRODUCT_C);
+            if(e[i].PRODUCT_A == 3){
+                if(e[i].PRODUCT_B != null){
+                    $("#item" + i).find("#productB" + i).data("kendoDropDownList").value(e[i].PRODUCT_B);
+                    $("#productB" + i).trigger("change");
+                }
+                if(e[i].PRODUCT_C != null){
+                    $("#item" + i).find("#productC" + i).data("kendoDropDownList").value(e[i].PRODUCT_C);
+                }
             }
             $("#item" + i).find("#purcItemName" + i).val(e[i].PURC_ITEM_NAME);
             $("#item" + i).find("#purcItemStd" + i).val(e[i].PURC_ITEM_STD);
@@ -428,6 +435,7 @@ var prp = {
         if(data.DOC_ID != "" && data.DOC_ID != null){
             $("#totalPay").css("display", "");
             $("#totalPay").text("총 금액 : " + comma(totalPay));
+            $("#allModViewBtn").css("display", "none");
             $("#addBtn").css("display", "none");
         }
     },
@@ -464,17 +472,17 @@ var prp = {
         obj.value = prp.comma(prp.uncomma(obj.value));
     },
 
-    comma: function(str) {
+    comma : function(str){
         str = String(str);
         return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
     },
 
-    uncomma: function(str) {
+    uncomma : function(str){
         str = String(str);
         return str.replace(/[^\d]+/g, '');
     },
 
-    purcDrafting: function() {
+    purcDrafting: function(){
         $("#purcDraftFrm").one("submit", function() {
             var url = "/popup/cam_purc/approvalFormPopup/purcApprovalPop.do";
             var name = "_self";
@@ -495,7 +503,7 @@ var prp = {
         var popup = window.open(url, name, option);
     },
 
-    fn_retItem: function (idx) {
+    fn_retItem : function (idx){
 
         if(!confirm("해당 구매물품을 반려하시겠습니까?")){
             return ;
@@ -530,7 +538,69 @@ var prp = {
         window.close();
     },
 
-    fn_printEst: function (){
+    fn_printEst : function (){
 
+    },
+
+    allModViewBtn: function (){
+        $(".allMod").show();
+
+        let productsDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId: "38"});
+        customKendo.fn_dropDownList("purcItemTypeAll", productsDataSource, "CM_CODE_NM", "CM_CODE", 2);
+
+        let productADataSource = customKendo.fn_customAjax("/projectMng/getProductCodeInfo", {productGroupCodeId: 1}).list;
+        customKendo.fn_dropDownList("productAAll", productADataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
+
+        $("#productAAll").bind("change", function(){
+            if($("#productAAll").data("kendoDropDownList").value() == "" || $("#productAAll").data("kendoDropDownList").text() != "캠아이템"){
+                if($("#productAAll").data("kendoDropDownList").text() != "캠아이템"){
+                    try{
+                        $("#productBAll").data("kendoDropDownList").wrapper.hide();
+                        $("#productCAll").data("kendoDropDownList").wrapper.hide();
+                    }catch{
+
+                    }
+                }
+                return;
+            }
+            $("#productBAll").val("");
+            let data = {
+                productGroupCodeId: 2,
+                parentCodeId: $("#productAAll").data("kendoDropDownList").value(),
+                parentCodeName: $("#productAAll").data("kendoDropDownList").text(),
+            }
+            let productBDataSource = customKendo.fn_customAjax("/projectMng/getProductCodeInfo", data).list;
+            customKendo.fn_dropDownList("productBAll", productBDataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
+        });
+
+        $("#productBAll").bind("change", function(){
+            if($("#productBAll").data("kendoDropDownList").value() == ""){
+                return;
+            }
+            $("#productCAll").val("");
+            let data = {
+                productGroupCodeId: 3,
+                parentCodeId: $("#productBAll").data("kendoDropDownList").value(),
+                parentCodeName: $("#productBAll").data("kendoDropDownList").text(),
+            }
+            let productCDataSource = customKendo.fn_customAjax("/projectMng/getProductCodeInfo", data).list;
+            customKendo.fn_dropDownList("productCAll", productCDataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
+        });
+    },
+
+    allModBtn : function(){
+        $.each($(".childCheck:checked"), function(i, v){
+            $("#item" + i).find("#purcItemType" + i).data("kendoDropDownList").value($("#purcItemTypeAll").data("kendoDropDownList").value());
+            $("#item" + i).find("#productA" + i).data("kendoDropDownList").value($("#productAAll").data("kendoDropDownList").value());
+
+            if($("#productAAll").data("kendoDropDownList").value() != "3"){
+                //$("#item" + i).find("#productB" + i).data("kendoDropDownList").value($("#productBAll").data("kendoDropDownList").value());
+                //$("#productB" + i).trigger("change");
+            }
+
+            //if(e[i].PRODUCT_C != null){
+            //    $("#item" + i).find("#productC" + i).data("kendoDropDownList").value(e[i].PRODUCT_C);
+            //}
+        });
     }
 }

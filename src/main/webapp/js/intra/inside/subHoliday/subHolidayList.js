@@ -231,6 +231,9 @@ var subHolidayList = {
         }
         subHolidayList.global.vacGubun = customKendo.fn_customAjax("/subHoliday/getVacCodeList", data);
         const ds = subHolidayList.global.vacGubun;
+        // ds.list = ds.list.filter(function(item) {
+        //     return item.SUBHOLIDAY_CODE_ID !== "10";
+        // });
         ds.list.unshift({"SUBHOLIDAY_DT_CODE_NM" : "전체", "SUBHOLIDAY_CODE_ID" : "" });
         $("#edtHolidayKindTop").kendoDropDownList({
             dataSource : ds.list,
