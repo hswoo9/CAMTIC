@@ -141,6 +141,7 @@ var recruitAdminPop = {
                     title: "면접심사",
                     width : 120,
                     template : function(e){
+                        console.log(e);
                         if(e.IN_AVOID != "Y"){
                             var avg = e.IN_SCREEN_AVERAGE == null ? 0 : e.IN_SCREEN_AVERAGE;
                             var str = "";
