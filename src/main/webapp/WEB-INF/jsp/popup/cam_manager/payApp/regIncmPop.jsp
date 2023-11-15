@@ -97,7 +97,7 @@
                 <tr>
                     <th scope="row" class="text-center th-color">적요</th>
                     <td colspan="4">
-                        <textarea type="text" id="appCont" style="width: 100%;"></textarea>
+                        <input type="text" id="appCont" style="width: 100%;"/>
                     </td>
                 </tr>
                 <tr>
