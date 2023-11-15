@@ -331,6 +331,10 @@ public class ProjectRepository extends AbstractDAO {
         return selectList("project.getPsFile3", params);
     }
 
+    public List<Map<String, Object>> getPsFile4(Map<String, Object> params) {
+        return selectList("project.getPsFile4", params);
+    }
+
     public void updGoodsInfo(Map<String, Object> params) {
         update("project.updGoodInfo", params);
     }
@@ -518,5 +522,10 @@ public class ProjectRepository extends AbstractDAO {
 
     public void delPartRateMonthData(Map<String, Object> params) {
         delete("project.delPartRateMonthData", params);
+    }
+
+
+    public void updJoinMember(Map<String, Object> params) {
+        update("project.updJoinMember", params);
     }
 }

@@ -21,6 +21,7 @@
 <input type="hidden" id="item" name="item" value="${params.item}">
 <input type="hidden" id="payAppSn" name="payAppSn" value="${params.payAppSn}">
 <input type="hidden" id="status" name="status" value="${params.status}" />
+<input type="hidden" id="mode" name="mode" value="" />
 
 <div style="padding:0;">
     <div class="table-responsive">
@@ -153,6 +154,8 @@
                         <col style="width: 5%;">
                         <col style="width: 5%;">
                         <col style="width: 5%;">
+                        <col style="width: 3%;">
+                        <col style="width: 3%;">
                     </colgroup>
                     <thead>
                     <tr>
@@ -170,6 +173,8 @@
                         <th>공급가액</th>
                         <th>세액</th>
                         <th>신용카드</th>
+                        <th>선지급</th>
+                        <th>첨부파일</th>
                     </tr>
                     </thead>
                     <tbody id="payDestTb">

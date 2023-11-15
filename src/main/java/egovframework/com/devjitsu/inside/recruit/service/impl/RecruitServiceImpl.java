@@ -62,6 +62,7 @@ public class RecruitServiceImpl implements RecruitService {
         if(recruitList.size() > 0){
             for(int i = 0 ; i < recruitList.size() ; i++){
                 List<Map<String, Object>> recruitAreaList = recruitRepository.getRecruitAreaList(recruitList.get(i));
+                //System.out.println("채용서비스 : " + recruitAreaList);
                 if(recruitAreaList.size() > 0){
                     recruitList.get(i).put("recruitAreaList", recruitAreaList);
                 }

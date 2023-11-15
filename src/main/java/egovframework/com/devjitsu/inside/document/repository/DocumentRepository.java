@@ -63,6 +63,8 @@ public class DocumentRepository extends AbstractDAO {
 
     public int setSnackInsert(Map<String, Object> params) { int result = (int)insert("document.setSnackInsert", params); return result;}
 
+    public void setSnackUpdate(Map<String, Object> params) { update("document.setSnackUpdate", params);}
+
     public void setSnackCompanionInsert(Map<String, Object> params) { insert("document.setSnackCompanionInsert", params); }
 
     public void setSnackReqCert(Map<String, Object> params) {

@@ -253,9 +253,11 @@ var regPrj = {
                         tabStrip.enable(tabStrip.tabGroup.children().eq(3));
                     }
 
-                    if(setParameters.PJT_STEP >= "E3" && devMap.STATUS == "100"){
-                        tabStrip.enable(tabStrip.tabGroup.children().eq(4));
-                        tabStrip.enable(tabStrip.tabGroup.children().eq(6));
+                    if(devMap != null){
+                        if(setParameters.PJT_STEP >= "E3" && devMap.STATUS == "100"){
+                            tabStrip.enable(tabStrip.tabGroup.children().eq(4));
+                            tabStrip.enable(tabStrip.tabGroup.children().eq(6));
+                        }
                     }
 
                     if(setParameters.PJT_STEP >= "E4"){
@@ -413,8 +415,10 @@ var regPrj = {
 
         if(p.PJT_AMT != null && p.PJT_AMT != "" && p.PJT_AMT != undefined && p.PJT_AMT != 0){
             $("#expAmt").val(regPrj.comma(p.PJT_AMT));
-        } else {
+        } else if(p.PJT_EXP_AMT != null && p.PJT_EXP_AMT != "" && p.PJT_EXP_AMT != undefined && p.PJT_EXP_AMT != 0){
             $("#expAmt").val(regPrj.comma(p.PJT_EXP_AMT));
+        } else {
+            $("#expAmt").val(regPrj.comma(p.EXP_AMT));
         }
 
         if(p.PJT_STEP == "E" || p.PJT_STEP == "E1" || p.PJT_STEP == "E2"){

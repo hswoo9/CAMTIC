@@ -41,7 +41,7 @@ var snackReq = {
             $("#userText").val(data.USER_TEXT);
             $("#payType").data("kendoDropDownList").value(data.PAY_TYPE);
             $("#areaName").val(data.AREA_NAME);
-            $("#usAmount").val(data.AMOUNT_SN);
+            $("#usAmount").val(data.AMOUNT_SN.toString().toMoney());
             $("#useReason").val(data.USE_REASON);
 
             let userSn = snackData.USER_SN;
@@ -52,16 +52,26 @@ var snackReq = {
 
             let userArr = [];
             /** 결재선 */
-            for(let i=0; i<userSnArr.length; i++) {
+            for(let i= 0; i<userSnArr.length; i++) {
                 let data = {
                     empSeq: userSnArr[i],
                     empName: userTextArr[i]
                 }
                 userArr.push(data);
             }
-            customKendo.fn_dropDownList("chargeUser", userArr, "empName", "empSeq", 2);
+            snackReq.userDataSet2(userArr);
+            // customKendo.fn_dropDownList("chargeUser", userArr, "empName", "empSeq", 2);
             $("#chargeUser").data("kendoDropDownList").value(data.RECIPIENT_EMP_SEQ);
-            snackReq.enableSetting(false);
+            snackReq.splitBill2(data.AMOUNT_SN);
+
+            if(snackData.STATUS == 0 && $("#mode").val() == "infoPop"){
+                snackReq.enableSetting(true);
+                $("#restaurantSearch").attr("disabled", true);
+                $("#cardSearch").attr("disabled", true);
+            } else {
+                snackReq.enableSetting(false);
+            }
+
             snackReq.settingTempFileDataInit(data, 'result');
             snackReq.global.snackData = data;
         }
@@ -69,6 +79,7 @@ var snackReq = {
 
     settingTempFileDataInit : function(e, p){
         var html = '';
+        fCommon.global.attFiles.push(e);
 
         if(p == "result"){
             if(e.file_no > 0){
@@ -193,6 +204,9 @@ var snackReq = {
         }
 
         var formData = new FormData();
+        if($("#snackInfoSn").val() != null && $("#snackInfoSn").val() != ""){
+            formData.append("snackInfoSn", $("#snackInfoSn").val());
+        }
         formData.append("menuCd", "snack");
         formData.append("empSeq", empSeq);
         formData.append("empName", empName);
@@ -231,6 +245,7 @@ var snackReq = {
             if(!confirm("식대 사용 내역을 수정 하시겠습니까?")){
                 return;
             }
+            snackReq.setSnackInsert(formData);
         }
     },
 
@@ -280,7 +295,6 @@ var snackReq = {
             opener.gridReload();
             window.close();
         }
-
     },
 
     enableSetting: function(boolean){
@@ -337,6 +351,62 @@ var snackReq = {
                 $("#amt"+userArr[i].empSeq).val(fn_numberWithCommas(amt));
             }
         }
+    },
+
+    splitBill2: function(e){
+        fn_inputNumberFormat(this);
+
+        let userArr = snackReq.global.userArr;
+        let money = e;
+        let count = snackReq.global.userArr.length;
+
+        let chargeUser = $("#chargeUser").val() == '' ? userArr[0].empSeq : $("#chargeUser").val();
+
+        for(let i= 0; i<userArr.length; i++){
+            let amt = Math.floor(money/count);
+            let more = Math.floor(money%count);
+            if(userArr[i].empSeq == chargeUser){
+                $("#amt"+userArr[i].empSeq).val(fn_numberWithCommas(amt+more));
+            }else{
+                $("#amt"+userArr[i].empSeq).val(fn_numberWithCommas(amt));
+            }
+        }
+    },
+
+    userDataSet2 : function(userArr) {
+        console.log(userArr);
+        snackReq.global.userArr = userArr;
+        snackReq.global.userArr = snackReq.global.userArr.slice(0);
+
+        let userText = "";
+        let userSn = "";
+        for(let i=0; i<userArr.length; i++) {
+            if(userText != "") {
+                userText += ", ";
+                userSn += ",";
+            }
+            userText += userArr[i].empName;
+            userSn += userArr[i].empSeq;
+        }
+        $("#userText").val(userText);
+        $("#userSn").val(userSn);
+
+        let html = "";
+        html += "<table>";
+        for(let i=0; i<userArr.length; i++){
+            html += "<tr class='addData'>";
+            html += "<input type='hidden' class='amtEmpSeq' value='"+userArr[i].empSeq+"'/>";
+            html += "<th class='amtEmpName'>"+userArr[i].empName+"</th>";
+            html += "<td><input type='text' id='amt"+userArr[i].empSeq+"' style='width: 80%; text-align: right' class='amt' oninput='onlyNumber(this);'/> 원</td>";
+            html += "</tr>";
+        }
+        html += "</table>";
+        $("#amtTd").html(html);
+        $("#amtTd .amt").kendoTextBox();
+        $("#amtTr").hide();
+
+        customKendo.fn_dropDownList("chargeUser", userArr, "empName", "empSeq", 2);
+        $("#chargeUser").data("kendoDropDownList").enable(true);
     }
 }
 
@@ -369,7 +439,7 @@ function userDataSet(userArr) {
     html += "</table>";
     $("#amtTd").html(html);
     $("#amtTd .amt").kendoTextBox();
-    $("#amtTr").show();
+    $("#amtTr").hide();
 
     customKendo.fn_dropDownList("chargeUser", userArr, "empName", "empSeq", 3);
     $("#chargeUser").data("kendoDropDownList").enable(true);

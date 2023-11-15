@@ -18,6 +18,7 @@
     .subTitSt{font-weight: 600; text-align: left; font-size: 13px; padding: 10px;}
     .table > thead > tr > th, .table > tfoot > tr > th{ background-color: #00397f96; color: white;}
     .table > thead > tr > td, .table > thead > tr > th{border: 1px solid #dee2e6;}
+    #filePrint{float: right; margin-right: 25px;}
 </style>
 
 
@@ -30,6 +31,7 @@
             <div class="title-road">캠인사이드 > 인사관리 > 인사관리 > 인사기록카드</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
+        <input type="button" id="filePrint" value="인쇄" onclick="" disabled>
         <div class="panel-body">
             <div>
                 <div id="tabstrip">
@@ -107,7 +109,7 @@
                                         </td>
                                         <th>주민등록번호</th>
                                         <td>
-                                            <input type="text" id="" name="" class="userInfoTextBox" placeholder="숫자만 입력" value="" style="width: 50%;">
+                                            <input type="text" id="resRegisNum" name="resRegisNum" class="userInfoTextBox" placeholder="숫자만 입력" value="${uprList.resRegisNum}" style="width: 50%;">
                                         </td>
                                     </tr>
                                     <tr>
@@ -171,11 +173,13 @@
                     <div class="eduInfo">
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 학력 사항</div>
-                            <div id="eduInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
+                            <c:if test="${isAdmin}">
+                            <div id="eduInfoBtn" class="btn-st" style="margin-top:5px; /*display:none;*/">
                                 <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addDegreeBtn()"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick="updateDegreeBtn()"/>
                                 <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="delDegreeBtn()"/>
                             </div>
+                            </c:if>
                         </div>
                         <div class="table-responsive">
                             <div>
@@ -244,6 +248,40 @@
                                             </tr>
                                         </c:if>
                                     </c:forEach>
+                                           <%-- <tr>
+                                                <td>
+                                                    &lt;%&ndash;<input type='checkbox' name='eduChk' id='edu${l.EDUCATIONAL_ID}' &lt;%&ndash;class='k-checkbox checkbox eduCheckBox'&ndash;%&gt;>&ndash;%&gt;
+                                                </td>
+                                                <td>&lt;%&ndash;${fn:length (eList) - status.index}&ndash;%&gt;</td>
+                                                <td>
+                                                    <input type="text" id="gubun" style="width: 50%;">
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="sDate" style="width: 45%;"> ~ <input type="text" id="eDate" style="width: 45%;">
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="school" style="width: 50%;">
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="gkrdnl" value="test" style="width: 50%;">
+                                                </td>
+
+                                                <td style="cursor: pointer">
+                                                    <input type="file">
+                                                </td>
+                                                <td style="cursor: pointer">
+                                                    <input type="file">
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="whfdjq" style="width: 50%;">
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="score" style="width: 50%;">
+                                                </td>
+                                                <td>
+                                                    <textarea name="bmk" id="bmk" placeholder="비고" style="width: 100%;"></textarea>
+                                                </td>
+                                            </tr>--%>
                                     </thead>
                                 </table>
                             </div>
@@ -252,11 +290,13 @@
                     <div class="careerInfo">
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 경력 사항</div>
-                            <div id="careerInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
+                            <c:if test="${isAdmin}">
+                            <div id="careerInfoBtn" class="btn-st" style="margin-top:5px; /*display:none;*/">
                                 <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addCareerBtn()"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick="updateCareerBtn()"/>
                                 <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="delCareerBtn()"/>
                             </div>
+                            </c:if>
                         </div>
                         <div class="table-responsive">
                             <div>
@@ -325,10 +365,12 @@
                     <div class="armyInfo">
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 병력 사항</div>
-                            <div id="armyInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
+                            <c:if test="${isAdmin}">
+                            <div id="armyInfoBtn" class="btn-st" style="margin-top:5px; /*display:none;*/">
                                 <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addMilitaryBtn()"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick="updateMilitaryBtn('${mInfo.MSI_INFO_ID}')"/>
                             </div>
+                            </c:if>
                         </div>
                         <div class="table-responsive">
                             <div>
@@ -374,11 +416,13 @@
                     <div class="familyInfo">
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 가족 사항</div>
-                            <div id="familyInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
+                            <c:if test="${isAdmin}">
+                            <div id="familyInfoBtn" class="btn-st" style="margin-top:5px; /*display:none;*/">
                                 <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addFamilyBtn()"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick="updateFamilyBtn()"/>
                                 <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="delFamilyBtn()"/>
                             </div>
+                            </c:if>
                         </div>
                         <div class="table-responsive">
                             <div>
@@ -427,11 +471,13 @@
                     <div class="certificateInfo">
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 보유 면허</div>
-                            <div id="certificateInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
+                            <c:if test="${isAdmin}">
+                            <div id="certificateInfoBtn" class="btn-st" style="margin-top:5px; /*display:none;*/">
                                 <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addLicenseBtn()"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick="updateLicenseBtn()"/>
                                 <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="delLicenseBtn()"/>
                             </div>
+                            </c:if>
                         </div>
                         <div class="table-responsive">
                             <div>
@@ -490,11 +536,13 @@
                     <div class="dutiesInfo">
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 직무 사항</div>
-                            <div id="dutiesInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
+                            <c:if test="${isAdmin}">
+                            <div id="dutiesInfoBtn" class="btn-st" style="margin-top:5px; /*display:none;*/">
                                 <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addJobBtn()"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick="updateJobBtn()"/>
                                 <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="delJobBtn()"/>
                             </div>
+                            </c:if>
                         </div>
                         <div class="table-responsive">
                             <div>
@@ -533,7 +581,7 @@
                     <div class="orderInfo">
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 발령 사항</div>
-                            <div id="orderInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
+                            <div id="orderInfoBtn" class="btn-st" style="margin-top:5px; /*display:none;*/">
                                 <%--<input type="button" class="k-button k-button-solid-info" value="추가" onclick="addAppointingBtn(empSeq.value)"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
                                 <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>--%>
@@ -574,11 +622,13 @@
                     <div class="rewardpunishmentInfo">
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 상벌 사항</div>
-                            <div id="rewardpunishmentInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
+                            <c:if test="${isAdmin}">
+                            <div id="rewardpunishmentInfoBtn" class="btn-st" style="margin-top:5px; /*display:none;*/">
                                 <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addRewardBtn(empSeq.value)"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick="updateRewardBtn()"/>
                                 <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="delRewardBtn()"/>
                             </div>
+                            </c:if>
                         </div>
                         <div class="table-responsive">
                             <div>
@@ -834,11 +884,13 @@
                     <div class="proposalInfo">
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 제안 제도</div>
-                            <div id="proposalInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
+                            <c:if test="${isAdmin}">
+                            <div id="proposalInfoBtn" class="btn-st" style="margin-top:5px; /*display:none;*/">
                                 <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addProposalBtn()"/>
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick="updateProposalBtn()"/>
                                 <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="delProposalBtn()"/>
                             </div>
+                            </c:if>
                         </div>
                         <div class="table-responsive">
                             <div>
@@ -2068,5 +2120,6 @@
         });
     }
      */
+
 
 </script>

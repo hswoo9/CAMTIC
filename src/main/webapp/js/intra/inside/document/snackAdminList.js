@@ -44,6 +44,7 @@ var snackAdminList = {
                     data.mealsDivision = $("#mealsDivision").val();
                     data.payDivision = $("#payDivision").val();
                     data.approval = $("#approval").val();
+                    data.isAdmin = "Y";
                     return data;
                 }
             },
@@ -88,40 +89,41 @@ var snackAdminList = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound : snackAdminList.onDataBound,
+            // dataBound : snackAdminList.onDataBound,
             columns: [
                 {
                     field: "SNACK_TYPE_TEXT",
                     title: "식대 구분",
-                    width: "10%"
+                    width: 80
                 }, {
                     field: "REG_DEPT_NAME",
                     title: "부서",
-                    width: "10%"
+                    width: 100
                 }, {
                     field: "USE_DT",
-                    title: "일시"
+                    title: "일시",
+                    width: 80
                 }, {
                     title: "이용자",
                     template : function(row){
                         let userText = row.USER_TEXT;
                         let userTextArr = userText.split(',');
                         if(userTextArr.length > 1) {
-                            return userTextArr[0]+" 외 "+(userTextArr.length-1)+"명";
+                            return '<a href="javascript:void(0);" style="font-weight: bold" onclick="snackAdminList.snackPopup('+row.SNACK_INFO_SN+', \'isAdmin\')">' + userTextArr[0]+" 외 "+(userTextArr.length-1)+'명</a>';
                         }else{
-                            return userTextArr[0];
+                            return '<a href="javascript:void(0);" style="font-weight: bold" onclick="snackAdminList.snackPopup('+row.SNACK_INFO_SN+', \'isAdmin\')">' + userTextArr[0] + '</a>';
                         }
 
                     },
-                    width: "15%"
+                    width: 100
                 }, {
                     field: "AREA_NAME",
                     title: "주문처",
-                    width: "10%"
+                    width: 100
                 }, {
                     field: "AMOUNT_SN",
                     title: "이용금액(원)",
-                    width: "10%",
+                    width: 100,
                     template: function(row){
                         sum += Number(row.AMOUNT_SN);
                         return fn_numberWithCommas(row.AMOUNT_SN);
@@ -132,14 +134,14 @@ var snackAdminList = {
                 }, {
                     field: "PAY_TYPE_TEXT",
                     title: "결제 구분",
-                    width: "10%"
+                    width: 80
                 }, {
                     field: "RECIPIENT_EMP_NAME",
                     title: "증빙 수령자",
-                    width: "10%"
+                    width: 100
                 }, {
                     title: "영수증",
-                    width: "10%",
+                    width: 80,
                     template: function(row){
                         if(row.file_no > 0){
                             return '<span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">보기</span>';
@@ -161,7 +163,13 @@ var snackAdminList = {
                             return "";
                         }
                     },
-                    width: 150
+                    width: 100
+                }, {
+                    title: "지급신청서",
+                    template : function(e){
+                        return '미작성';
+                    },
+                    width: 80
                 }
             ]
         }).data("kendoGrid");

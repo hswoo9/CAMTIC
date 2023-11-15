@@ -282,4 +282,33 @@ public class UserManageRepository extends AbstractDAO {
     public List<Map<String,Object>> getEmpBirthDayInfoList (Map<String,Object> map) {
         return selectList("userManage.getEmpBirthDayInfoList", map);
     }
+
+    public Map<String, Object> getEmpInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("userManage.getEmpInfo", params);
+    }
+    public int getCountForDsA() {return (Integer) selectOne("userManage.getCountForDsA");}
+    public int getCountForDsB() {return (Integer) selectOne("userManage.getCountForDsB");}
+    public int getCountForDsC() {return (Integer) selectOne("userManage.getCountForDsC");}
+    public int getCountForDsD() {return (Integer) selectOne("userManage.getCountForDsD");}
+    public int getCountForDsE() {return (Integer) selectOne("userManage.getCountForDsE");}
+    public int getCountForDsF() {return (Integer) selectOne("userManage.getCountForDsF");}
+    public int getCountForDsG() {return (Integer) selectOne("userManage.getCountForDsG");}
+    public int getCountForDsH() {return (Integer) selectOne("userManage.getCountForDsH");}
+    public int getCountForDsI() {return (Integer) selectOne("userManage.getCountForDsI");}
+    public int getCountForDsJ() {return (Integer) selectOne("userManage.getCountForDsJ");}
+
+
+
+
+
+    public int getCountForDsA2() {return (Integer) selectOne("userManage.getCountForDsA2");}
+    public int getCountForDsB2() {return (Integer) selectOne("userManage.getCountForDsB2");}
+    public int getCountForDsC2() {return (Integer) selectOne("userManage.getCountForDsC2");}
+    public int getCountForDsD2() {return (Integer) selectOne("userManage.getCountForDsD2");}
+    public int getCountForDsE2() {return (Integer) selectOne("userManage.getCountForDsE2");}
+    public int getCountForDsF2() {return (Integer) selectOne("userManage.getCountForDsF2");}
+    public int getCountForDsG2() {return (Integer) selectOne("userManage.getCountForDsG2");}
+    public int getCountForDsH2() {return (Integer) selectOne("userManage.getCountForDsH2");}
+    public int getCountForDsI2() {return (Integer) selectOne("userManage.getCountForDsI2");}
+    public int getCountForDsJ2() {return (Integer) selectOne("userManage.getCountForDsJ2");}
 }

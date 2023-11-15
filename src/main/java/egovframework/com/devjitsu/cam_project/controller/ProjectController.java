@@ -66,7 +66,6 @@ public class ProjectController {
 
         model.addAttribute("list", list);
 
-
         return "jsonView";
     }
 
@@ -484,8 +483,9 @@ public class ProjectController {
         MultipartFile[] fileList1 = request.getFiles("fileList1").toArray(new MultipartFile[0]);
         MultipartFile[] fileList2 = request.getFiles("fileList2").toArray(new MultipartFile[0]);
         MultipartFile[] fileList3 = request.getFiles("fileList3").toArray(new MultipartFile[0]);
+        MultipartFile[] fileList4 = request.getFiles("fileList4").toArray(new MultipartFile[0]);
 
-        projectService.setProcessInfo(params, fileList1, fileList2, fileList3, SERVER_DIR, BASE_DIR);
+        projectService.setProcessInfo(params, fileList1, fileList2, fileList3, fileList4, SERVER_DIR, BASE_DIR);
 
         return "jsonView";
     }
@@ -1198,6 +1198,14 @@ public class ProjectController {
     public String test(@RequestParam Map<String, Object> params, Model model){
 
         model.addAttribute("rs", projectService.test(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/updJoinMember")
+    public String updJoinMember(@RequestParam Map<String, Object> params, Model model){
+
+        projectService.updJoinMember(params);
 
         return "jsonView";
     }

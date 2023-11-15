@@ -390,49 +390,89 @@
     <select id="getBustripReqCheck" parameterType="map" resultType="map">
         /* getBustripReqCheck */
         SELECT
-            IHBR.*,
-            IFNULL(B.HR_BIZ_REQ_RESULT_ID, "") AS HR_BIZ_REQ_RESULT_ID,
-            B.STATUS AS RES_STATUS,
-            B.EXP_STAT,
-            B.SAVE_YN,
-            B.DOC_ID AS RES_DOC_ID,
-            DI.APPRO_KEY,
-            DI.DOC_MENU_CD,
-            B.MOVE_DST,
-            IFNULL((SELECT SUM(REPLACE(SB.TOT_COST, ',', '')) FROM CAM_INSIDE.DJ_HR_BIZ_EXNP SB WHERE B.HR_BIZ_REQ_RESULT_ID = SB.HR_BIZ_REQ_RESULT_ID), 0) AS TOT_COST
-        FROM
-            CAM_INSIDE.DJ_HR_BIZ_REQ IHBR
-        LEFT JOIN
-            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT B ON IHBR.HR_BIZ_REQ_ID = B.HR_BIZ_REQ_ID
-        LEFT JOIN
-            DJ_CAMTIC.A_DOC_INFO DI ON B.DOC_ID = DI.DOC_ID
-        LEFT JOIN
-            CAM_HR.DJ_EMP_INFO HEI ON IHBR.EMP_SEQ = HEI.EMP_SEQ
-        WHERE
-            IHBR.STATUS IN ('100') AND
-        <![CDATA[
-            IHBR.TRIP_DAY_FR >= #{startDate} AND IHBR.TRIP_DAY_TO <= #{endDate}
-        ]]>
+            A.*,
+            SUM(CORP_SUM) AS CORP_TOTAL,
+            SUM(CAR_SUM) AS CAR_TOTAL,
+            SUM(PERSON_SUM) AS PERSON_TOTAL
+        FROM (
+            SELECT
+                IHBR.*,
+                IFNULL(B.HR_BIZ_REQ_RESULT_ID, "") AS HR_BIZ_REQ_RESULT_ID,
+                P.END_DT,
+                IF(DATE_FORMAT(IHBR.TRIP_DAY_FR, '%Y%m%d') <![CDATA[>]]> DATE_FORMAT(P.END_DT, '%Y%m%d'), 'Y', 'N') AS END_YN,
+                B.STATUS AS RES_STATUS,
+                B.EXP_STAT,
+                B.SAVE_YN,
+                B.DOC_ID AS RES_DOC_ID,
+                DI.APPRO_KEY,
+                DI.DOC_MENU_CD,
+                B.MOVE_DST,
+                IFNULL((SELECT SUM(REPLACE(SB.TOT_COST, ',', '')) FROM CAM_INSIDE.DJ_HR_BIZ_EXNP SB WHERE B.HR_BIZ_REQ_RESULT_ID = SB.HR_BIZ_REQ_RESULT_ID), 0) AS TOT_COST,
+                (
+                    (CASE WHEN IHBE.TRAF_CORP_YN = 'Y' THEN REPLACE(IHBE.TRAF_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.TRAF_DAY_CORP_YN = 'Y' THEN REPLACE(IHBE.TRAF_DAY_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.TOLL_CORP_YN = 'Y' THEN REPLACE(IHBE.TOLL_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.EAT_CORP_YN = 'Y' THEN REPLACE(IHBE.EAT_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.PARKING_CORP_YN = 'Y' THEN REPLACE(IHBE.PARKING_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.ETC_CORP_YN = 'Y' THEN REPLACE(IHBE.ETC_COST, ',', '') ELSE 0 END)
+                ) AS CORP_SUM,
+                (
+                    (CASE WHEN IHBE.OIL_CORP_YN = 'Y' THEN REPLACE(IHBE.OIL_COST, ',', '') ELSE 0 END)
+                ) AS CAR_SUM,
+                (
+                    (CASE WHEN IHBE.OIL_CORP_YN = 'N' THEN REPLACE(IHBE.OIL_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.TRAF_CORP_YN = 'N' THEN REPLACE(IHBE.TRAF_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.TRAF_DAY_CORP_YN = 'N' THEN REPLACE(IHBE.TRAF_DAY_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.TOLL_CORP_YN = 'N' THEN REPLACE(IHBE.TOLL_COST, ',', '') ELSE 0 END)+
+                    REPLACE(IHBE.DAY_COST, ',', '')+
+                    (CASE WHEN IHBE.EAT_CORP_YN = 'N' THEN REPLACE(IHBE.EAT_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.PARKING_CORP_YN = 'N' THEN REPLACE(IHBE.PARKING_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.ETC_CORP_YN = 'N' THEN REPLACE(IHBE.ETC_COST, ',', '') ELSE 0 END)
+                ) AS PERSON_SUM
+            FROM
+                CAM_INSIDE.DJ_HR_BIZ_REQ IHBR
+            LEFT JOIN
+                CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT B ON IHBR.HR_BIZ_REQ_ID = B.HR_BIZ_REQ_ID
+            LEFT JOIN
+                CAM_INSIDE.DJ_HR_BIZ_EXNP IHBE ON IHBE.HR_BIZ_REQ_RESULT_ID = B.HR_BIZ_REQ_RESULT_ID
+            LEFT JOIN
+                CAM_PJT_MNG.DJ_PROJECT P ON P.PJT_SN = IHBR.PJT_SN
+            LEFT JOIN
+                DJ_CAMTIC.A_DOC_INFO DI ON B.DOC_ID = DI.DOC_ID
+            LEFT JOIN
+                CAM_HR.DJ_EMP_INFO HEI ON IHBR.EMP_SEQ = HEI.EMP_SEQ
+            WHERE
+                IHBR.STATUS IN ('100') AND
+            <![CDATA[
+                IHBR.TRIP_DAY_FR >= #{startDate} AND IHBR.TRIP_DAY_TO <= #{endDate}
+            ]]>
 
-        <if test='deptSeq != null and !"".equals(deptSeq)'>
-            AND HEI.DEPT_SEQ = #{deptSeq}
-        </if>
-        <if test="tripCode != null and tripCode != ''">
-            AND IHBR.TRIP_CODE = #{tripCode}
-        </if>
-        <if test='"1".equals(project)'>
-            AND (IHBR.BUSN_NAME IS NULL OR IHBR.BUSN_NAME = "")
-        </if>
-        <if test='"2".equals(project)'>
-            AND (IHBR.BUSN_NAME IS NOT NULL AND IHBR.BUSN_NAME != "")
-        </if>
-        <if test="busnName != null and busnName != ''">
-            AND IHBR.BUSN_NAME like concat('%', #{busnName}, '%')
-        </if>
-        <if test="empSeq != null and !''.equals(empSeq)">
-            AND IHBR.REG_EMP_SEQ = #{empSeq}
-        </if>
-        ORDER BY IHBR.REG_DT DESC
+            <if test='deptSeq != null and !"".equals(deptSeq)'>
+                AND HEI.DEPT_SEQ = #{deptSeq}
+            </if>
+            <if test="tripCode != null and tripCode != ''">
+                AND IHBR.TRIP_CODE = #{tripCode}
+            </if>
+            <if test='"1".equals(project)'>
+                AND (IHBR.BUSN_NAME IS NULL OR IHBR.BUSN_NAME = "")
+            </if>
+            <if test='"2".equals(project)'>
+                AND (IHBR.BUSN_NAME IS NOT NULL AND IHBR.BUSN_NAME != "")
+                AND DATE_FORMAT(IHBR.TRIP_DAY_FR, '%Y%m%d') <![CDATA[<=]]> DATE_FORMAT(P.END_DT, '%Y%m%d')
+            </if>
+            <if test='"3".equals(project)'>
+                AND (IHBR.BUSN_NAME IS NOT NULL AND IHBR.BUSN_NAME != "")
+                AND DATE_FORMAT(IHBR.TRIP_DAY_FR, '%Y%m%d') <![CDATA[>]]> DATE_FORMAT(P.END_DT, '%Y%m%d')
+            </if>
+            <if test="busnName != null and busnName != ''">
+                AND IHBR.BUSN_NAME like concat('%', #{busnName}, '%')
+            </if>
+            <if test="empSeq != null and !''.equals(empSeq)">
+                AND IHBR.REG_EMP_SEQ = #{empSeq}
+            </if>
+        ) A
+        GROUP BY HR_BIZ_REQ_RESULT_ID
+        ORDER BY A.REG_DT DESC
     </select>
 
     <select id="getBustripTotInfo" parameterType="map" resultType="map">
@@ -560,6 +600,13 @@
             PARKING_COST = #{parkingCost},
             ETC_COST = #{etcCost},
             TOT_COST = #{totCost},
+            OIL_CORP_YN = #{oilCorpYn},
+            TRAF_CORP_YN = #{trafCorpYn},
+            TRAF_DAY_CORP_YN = #{trafDayCorpYn},
+            TOLL_CORP_YN = #{tollCorpYn},
+            EAT_CORP_YN = #{eatCorpYn},
+            PARKING_CORP_YN = #{parkingCorpYn},
+            ETC_CORP_YN = #{etcCorpYn},
             MOD_EMP_SEQ = #{regEmpSeq}
         WHERE
             HR_BIZ_EXNP_ID = #{hrBizExnpId}

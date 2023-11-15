@@ -108,7 +108,7 @@ public interface ProjectService {
 
     void stopProject(Map<String, Object> params);
 
-    void setProcessInfo(Map<String, Object> params, MultipartFile[] fileList1, MultipartFile[] fileList2, MultipartFile[] fileList3, String serverDir, String baseDir);
+    void setProcessInfo(Map<String, Object> params, MultipartFile[] fileList1, MultipartFile[] fileList2, MultipartFile[] fileList3, MultipartFile[] fileList4, String serverDir, String baseDir);
 
     Map<String, Object> getPsFile(Map<String, Object> params);
 
@@ -157,4 +157,6 @@ public interface ProjectService {
     void confirmPartRate(Map<String, Object> params);
 
     List<Map<String, Object>> test(Map<String, Object> params);
+
+    void updJoinMember(Map<String, Object> params);
 }

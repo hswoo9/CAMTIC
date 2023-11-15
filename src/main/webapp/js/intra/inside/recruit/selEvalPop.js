@@ -51,6 +51,8 @@ var selEvalPop = {
             }
         });
 
+        $("#recruitAreaInfoSn").data("kendoDropDownList").select(1)
+
         $("#mainDiv").kendoTabStrip({
             animation:  {
                 open: {
@@ -151,6 +153,8 @@ var selEvalPop = {
     },
 
     gridReload : function(id) {
+        console.log('서류/면접직원(위원) 설정 gridReload호출');
+
         var dutyCode = "";
         $.each($("#" + id + "ChkDiv input[name=dutyCode]:checked"), function(){
             dutyCode += "," + $(this).val()
@@ -166,7 +170,16 @@ var selEvalPop = {
             dutyCode : dutyCode.substr(1)
         }
 
-        selEvalPop.mainGrid("/inside/getCommissionerList", selEvalPop.global.searchAjaxData, id);
+        //selEvalPop.mainGrid("/inside/getCommissionerList", selEvalPop.global.searchAjaxData, id);
+
+        // id가 주어진 경우 해당 id 값을 사용하고 함수 실행
+        if (id) {
+            selEvalPop.mainGrid("/inside/getCommissionerList", selEvalPop.global.searchAjaxData, id);
+        } else {
+            // id가 주어지지 않은 경우 기본값을 사용하고 함수 실행
+            selEvalPop.mainGrid("/inside/getCommissionerList", selEvalPop.global.searchAjaxData, "mainGrid");
+            selEvalPop.mainGrid("/inside/getCommissionerList", selEvalPop.global.searchAjaxData, "mainGrid2");
+        }
     },
 
     setInEvalLogin : function(e){

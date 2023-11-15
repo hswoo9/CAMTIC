@@ -223,4 +223,14 @@ public class CustomBoardServiceImpl implements CustomBoardService {
     public Map<String, Object> getWatchBoardOne(Map<String, Object> params) {
         return customBoardRepository.getWatchBoardOne(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getStaffScheduleList(Map<String, Object> params) {
+        return customBoardRepository.getStaffScheduleList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getCustomSchedules(Map<String, Object> params) {
+        return customBoardRepository.getCustomSchedules(params);
+    }
 }

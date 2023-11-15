@@ -55,7 +55,7 @@ var lineSettingPop = {
             resizable: true,
             columns: [
                 {
-                    width : 18
+                    width : 20
                 }, {
                     title : "순번",
                     width : 24
@@ -64,7 +64,7 @@ var lineSettingPop = {
                     width : 36
                 }, {
                     title : "부서",
-                    width : 65
+                    width : 63
                 }, {
                     title : "직급",
                     width : 57

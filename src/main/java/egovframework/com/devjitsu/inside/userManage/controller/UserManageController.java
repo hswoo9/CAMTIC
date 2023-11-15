@@ -61,6 +61,9 @@ public class UserManageController {
         HttpSession session = request.getSession();
         menuSession(request, session);
 
+        Map<String, Integer> countMap = userManageService.getCountMap();
+
+        model.addAttribute("countMap", countMap);
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
@@ -78,6 +81,9 @@ public class UserManageController {
         HttpSession session = request.getSession();
         menuSession(request, session);
 
+        Map<String, Integer> countMap = userManageService.getCountMap2();
+
+        model.addAttribute("countMap", countMap);
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
@@ -210,6 +216,21 @@ public class UserManageController {
         model.addAttribute("uprinfList", userPersonnelinformList);
 
         return "popup/inside/userManage/userReqPop";
+    }
+
+    @RequestMapping("/Inside/pop/personalInformation.do")
+    public String personalInformation(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String,Object> userPersonnelinformList = userManageService.getUserPersonnelinformList(params);
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        model.addAttribute("uprinfList", userPersonnelinformList);
+
+        return "popup/inside/userManage/personalInformation";
     }
 
     /**
@@ -1390,6 +1411,18 @@ public class UserManageController {
         System.out.println("map : "+map);
         model.addAttribute("list", userManageService.getEmpBirthDayInfoList(map));
         return "jsonView";
+    }
+
+    @RequestMapping("/inside/pop/userPayMngPop.do")
+    public String userPayMngPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String, Object> data = userManageService.getEmpInfo(params);
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        model.addAttribute("data", data);
+        return "popup/inside/userManage/userPayMngPop";
     }
 
 }

@@ -41,8 +41,8 @@
                         <td colspan="2">
                             <input type="text" id="purcItemType0" class="purcItemType" style="width: 180px">
                             <input type="text" id="productA0" class="productA" style="width: 180px">
-                            <input type="text" id="productB0" class="productB" style="width: 180px;">
-                            <input type="text" id="productC0" class="productC" style="width: 180px;">
+<%--                            <input type="text" id="productB0" class="productB" style="width: 180px;">--%>
+<%--                            <input type="text" id="productC0" class="productC" style="width: 180px;">--%>
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td colspan="2">

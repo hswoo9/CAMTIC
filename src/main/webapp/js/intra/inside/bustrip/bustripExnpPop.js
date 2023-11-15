@@ -1,7 +1,8 @@
 const bustripExnpReq = {
     global: {
         costData: "",
-        bustripInfo: {}
+        bustripInfo: {},
+        flag : false
     },
 
     init: function(type){
@@ -261,6 +262,36 @@ const bustripExnpReq = {
         }
     },
 
+    fn_eatCostCheck : function (){
+        bustripExnpReq.global.flag =  false;
+        var frDate = new Date(tripDayFr);
+        var toDate = new Date(tripDayTo);
+
+        var diffDays = Math.abs((toDate.getTime() - frDate.getTime()) / (1000*60*60*24));   // 밀리세컨 * 초 * 분 * 시 = 일
+        var weekends = 0;
+
+        for(var i=0; i < diffDays; i++){
+            var currentDate = new Date(frDate.getTime() + i * (1000*3600*24));
+
+            if(currentDate.getDay() === 0 || currentDate.getDay() === 6){
+                weekends++;
+            }
+        }
+
+        var bustripDays = diffDays - weekends + 1;      // 주말제외한 출장일수
+        var bustripNum = tripNum;                        // 출장인원
+        var eatCostTotal = bustripDays * bustripNum * 30000;    // 식비 한도
+
+        if(Number($("#eatTotalCost").val().toString().toMoney2()) > Number(eatCostTotal)){
+            bustripExnpReq.global.flag = true;
+        }
+
+        if(bustripExnpReq.global.flag){
+            alert("사용 가능한 식비를 초과하였습니다.\n(식비 한도: 출장인원수 x 출장일수 x 30000)")
+            return;
+        }
+    },
+
     fn_setTableSum: function(){
         fn_inputNumberFormat(this);
         if(this.value == ""){
@@ -318,9 +349,18 @@ const bustripExnpReq = {
                 $(row.cells[tdsNum - 1]).find("input[type=text]").val(0);
             }
         }
+
+        if($(':focus').hasClass('eatCost')){
+            bustripExnpReq.fn_eatCostCheck();
+        }
     },
 
     fn_saveBtn: function(id, type){
+        if(bustripExnpReq.global.flag){
+            alert("사용 가능한 식비를 초과하였습니다.\n(식비 한도: 출장인원수 x 출장일수 x 30000)");
+            return;
+        }
+
         var bustExnpTb = document.getElementById('bustExnpTb');
         var rowList = bustExnpTb.rows;
 

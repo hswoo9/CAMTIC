@@ -42,6 +42,7 @@
             <th class="text-center th-color">검색어</th>
             <td>
               <input type="text" id="searchKeyWord" name="searchKeyWord" style="width: 140px">
+
               <input type="text" id="searchContent" onkeypress="if(window.event.keyCode==13){selEvalPop.gridReload()}" style="width: 70%">
             </td>
           </tr>

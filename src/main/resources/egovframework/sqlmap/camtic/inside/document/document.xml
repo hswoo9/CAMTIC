@@ -173,6 +173,9 @@
                 <if test="approval != null and approval != ''">
                     AND ISI.STATUS = #{approval}
                 </if>
+                <if test='"Y".equals(isAdmin)'>
+                    AND ISI.STATUS != '0'
+                </if>
                 AND DATE_FORMAT(USE_DT, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{startDt}, '%Y-%m-%d') AND DATE_FORMAT(#{endDt}, '%Y-%m-%d')
                 ORDER BY ISI.REG_DT
             ) RE
@@ -647,12 +650,34 @@
                 #{empName},
                 #{regDeptName},
                 #{regTeamName},
-                '10'
+                '0'
             )
         <selectKey keyProperty="snackInfoSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_SNACK_INFO'
         </selectKey>
     </insert>
+
+    <update id="setSnackUpdate" parameterType="map">
+        /* setSnackUpdate */
+        UPDATE CAM_INSIDE.DJ_SNACK_INFO
+        SET
+            USE_DT = #{useDt},
+            USE_TIME = CONCAT(#{useHour}, ':', #{useMin}),
+            SNACK_TYPE = #{snackType},
+            SNACK_TYPE_TEXT = #{snackTypeText},
+            USER_SN = #{userSn},
+            USER_TEXT = #{userText},
+            PAY_TYPE = #{payType},
+            PAY_TYPE_TEXT =  #{payTypeText},
+            RECIPIENT_EMP_SEQ = #{chargeUser},
+            RECIPIENT_EMP_NAME = #{chargeUserText},
+            AREA_SEQ = #{areaSn},
+            AREA_NAME = #{areaName},
+            AMOUNT_SN = #{usAmount},
+            USE_REASON = #{useReason}
+        WHERE
+            SNACK_INFO_SN = #{snackInfoSn}
+    </update>
 
     <insert id="setSnackCompanionInsert" parameterType="map">
         /* setSnackCompanionInsert */
@@ -679,7 +704,7 @@
         UPDATE
             CAM_INSIDE.DJ_SNACK_INFO
         SET
-        <if test='status != null and !"".equals(status) and !"110".equals(status)'>
+        <if test='status != null and !"".equals(status) and !"110".equals(status) and !"10".equals(status)'>
             APPROVAL_EMP_SEQ = #{empSeq},
             APPROVAL_RESULT_DATE = now(),
         </if>

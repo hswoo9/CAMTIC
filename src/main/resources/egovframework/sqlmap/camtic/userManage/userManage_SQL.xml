@@ -22,7 +22,8 @@
             a.CAR_ACTIVE AS 'carActive',
             a.CAR_NUM AS 'carNum',
             a.JOIN_DAY AS 'joinDay',
-            a.RESIGN_DAY AS 'resignDay'
+            a.RESIGN_DAY AS 'resignDay',
+            a.RES_REGIS_NUM AS 'resRegisNum'
         FROM
             cam_hr.dj_emp_info AS a
         WHERE
@@ -2732,6 +2733,88 @@
         ORDER BY
             DAY(HEI.BDAY)
         ASC LIMIT 3;
+    </select>
+
+    <select id="getEmpInfo" parameterType="map" resultType="map">
+        /*getEmpInfo*/
+        SELECT
+            A.*,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ) AS DEPT_NAME,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ)) AS PARENT_DEPT_NAME,
+            CASE WHEN A.DIVISION = '0' THEN '정규직원'
+                WHEN A.DIVISION = '4' AND A.DIVISION_SUB = '1' THEN '계약직원'
+                WHEN A.DIVISION = '4' AND A.DIVISION_SUB = '2' THEN '인턴사원'
+            END AS DIVISION
+        FROM
+            CAM_HR.DJ_EMP_INFO A
+        WHERE
+            A.EMP_SEQ = #{empSeq}
+    </select>
+
+    <!--인사관리(관리자) -->
+    <select id="getCountForDsA" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 0;
+    </select>
+
+    <select id="getCountForDsB" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 4 AND DIVISION_SUB = '1';
+    </select>
+
+    <select id="getCountForDsC" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 4 AND DIVISION_SUB = '2';
+    </select>
+
+    <select id="getCountForDsD" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 4 AND DIVISION_SUB = 3;
+    </select>
+
+    <select id="getCountForDsE" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 3;
+    </select>
+
+    <select id="getCountForDsF" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 1 AND DIVISION_SUB = 6;
+    </select>
+
+    <select id="getCountForDsG" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 2;
+    </select>
+
+    <select id="getCountForDsH" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 10;
+    </select>
+
+    <select id="getCountForDsI" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND TEMP_DIVISION = "Y";
+    </select>
+
+    <select id="getCountForDsJ" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 9999;
+    </select>
+
+    <!--인사관리 -->
+    <select id="getCountForDsA2" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND ((DIVISION IN (0)) OR(DIVISION IN (4) AND DIVISION_SUB IN (1, 2)))
+    </select>
+
+    <select id="getCountForDsB2" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 3;
+    </select>
+
+    <select id="getCountForDsC2" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 1 AND DIVISION_SUB = 6;
+    </select>
+
+    <select id="getCountForDsD2" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 4 AND DIVISION_SUB = 3;
+    </select>
+
+    <select id="getCountForDsE2" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 10;
+    </select>
+
+    <select id="getCountForDsG2" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 2;
     </select>
 
 </mapper>

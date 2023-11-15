@@ -13,7 +13,13 @@ var bustripResList = {
         bustrip.fn_tripCodeSearchSet();
 
         /** 관련사업 */
-        bustrip.fn_projectSearchSet();
+        // bustrip.fn_projectSearchSet();
+        let projectDataSource = [
+                { text: "없음", value: "1" },
+                { text: "있음 (종료 이전)", value: "2" },
+                { text: "있음 (종료 이후)", value: "3" },
+            ]
+        customKendo.fn_dropDownList("project", projectDataSource, "text", "value", 1);
 
         customKendo.fn_textBox(["busnName"]);
     },
@@ -62,6 +68,13 @@ var bustripResList = {
             toolbar: [
                 {
                     name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bustripResList.fn_reqRegPopup()">' +
+                            '	<span class="k-button-text">지급신청</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
                     template: function (){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bustripResList.mainGrid()">' +
                             '	<span class="k-button-text">조회</span>' +
@@ -74,17 +87,31 @@ var bustripResList = {
             },
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'evalChk\');"/>',
+                    template : function(e){
+                        if(e.RES_STATUS == 100 || e.RES_STATUS == 101) {
+                            return "<input type='checkbox' id='eval_" + e.HR_BIZ_REQ_RESULT_ID + "' name='evalChk' value='" + e.HR_BIZ_REQ_RESULT_ID + "'/>"
+                        } else {
+                            return '';
+                        }
+                    },
+                    width: 50
+                }, {
                     title: "출장구분",
-                    width: 50,
+                    width: 80,
                     template: function(row){
                         return bustrip.fn_getTripCodeText(row);
                     }
                 }, {
                     title: "사업명",
-                    width: 140,
+                    width: 200,
                     template: function(row){
                         var busnName = "";
                         var project = "";
+                        var endYn = "";
+                        if(row.END_YN == 'Y'){
+                            endYn = "(종료 이후) ";
+                        }
                         if(row.BUSN_NAME != "" && row.BUSN_NAME != null && row.BUSN_NAME != undefined){
                             busnName = row.BUSN_NAME;
                         }
@@ -92,7 +119,7 @@ var bustripResList = {
                         if(row.PROJECT_CD != "" && row.PROJECT_CD != null){
                             project = "(" + row.PROJECT + ") ";
                         }
-                        return  project + busnName;
+                        return  endYn + project + busnName;
                     }
                 }, {
                     field: "EMP_NAME",
@@ -113,13 +140,13 @@ var bustripResList = {
                     template: function(row){
                         return row.TRIP_DAY_FR + " " + row.TRIP_TIME_FR;
                     },
-                    width: 80
+                    width: 120
                 }, {
                     title: "복귀일시",
                     template: function(row){
                         return row.TRIP_DAY_TO + " " + row.TRIP_TIME_TO;
                     },
-                    width: 80
+                    width: 120
                 }, {
                     title: "업무차량",
                     template: function(row){
@@ -136,7 +163,7 @@ var bustripResList = {
                             return "사용안함";
                         }
                     },
-                    width: 80
+                    width: 120
                 }, {
                     title: "운행거리",
                     template: function(row){
@@ -145,22 +172,40 @@ var bustripResList = {
                         }
                         return row.MOVE_DST+" km";
                     },
-                    width: 50
+                    width: 80
+                }, {
+                    title: "개인여비",
+                    template: function(row){
+                        return "<div style='text-align: right'>"+fn_comma(row.PERSON_TOTAL)+"</div>";
+                    },
+                    width: 100
+                }, {
+                    title: "법인카드",
+                    template: function(row){
+                        return "<div style='text-align: right'>"+fn_comma(row.CORP_TOTAL)+"</div>";
+                    },
+                    width: 100
+                }, {
+                    title: "법인차량",
+                    template: function(row){
+                        return "<div style='text-align: right'>"+fn_comma(row.CAR_TOTAL)+"</div>";
+                    },
+                    width: 100
                 }, {
                     title: "여비",
                     template: function(row){
                         if(row.TOT_COST == null || row.TOT_COST == 0){
                             return "-";
                         }
-                        return fn_numberWithCommas(row.TOT_COST)+" 원";
+                        return "<div style='text-align: right'>"+fn_numberWithCommas(row.TOT_COST)+"</div>";
                     },
-                    width: 70
+                    width: 100
                 }, {
                     title: "입금예정",
                     template: function(row){
                         return "-";
                     },
-                    width: 50
+                    width: 80
                 }, {
                     title: "결과보고",
                     template: function(row){
@@ -174,7 +219,7 @@ var bustripResList = {
                             return "-";
                         }
                     },
-                    width: 80
+                    width: 85
                 }, {
                     title: "결재",
                     template: function(row){
@@ -206,7 +251,7 @@ var bustripResList = {
                             return "-"
                         }
                     },
-                    width: 80
+                    width: 85
                 }, {
                     title: "결재상태",
                     template: function(row){
@@ -234,7 +279,7 @@ var bustripResList = {
                             return "결과보고서 미작성";
                         }
                     },
-                    width: 100
+                    width: 140
                 }
             ]
         }).data("kendoGrid");
@@ -262,5 +307,19 @@ var bustripResList = {
             this.method = 'POST';
             this.target = 'bustripResApprovalPop';
         }).trigger("submit");
+    },
+
+    fn_reqRegPopup : function (key){
+        var url = "/payApp/pop/regPayAppPop.do";
+        if(key != null && key != ""){
+            url = "/payApp/pop/regPayAppPop.do?payAppSn=" + key;
+        }
+        var name = "blank";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
     }
+}
+
+function gridReload(){
+    bustripResList.mainGrid();
 }

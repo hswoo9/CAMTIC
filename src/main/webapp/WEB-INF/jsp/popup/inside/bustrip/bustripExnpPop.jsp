@@ -12,8 +12,8 @@
         padding-right: 5px !important;;
     }
 </style>
-<script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${toDate}"></script>
-<script type="text/javascript" src="/js/intra/inside/bustrip/bustripExnpPop.js?v=${toDate}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripExnpPop.js?v=${today}"></script>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
@@ -27,7 +27,7 @@
 <input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
-<input type="hidden" id="hrBizReqId" value="${params.hrBizReqId}"/>
+<input type="hidden" id="hrBizReqResultId" value="${params.hrBizReqResultId}"/>
 <input type="hidden" id="mod" value="${params.mode}"/>
 <input type="hidden" id="type" value="${type}"/>
 <div class="table-responsive">
@@ -39,7 +39,7 @@
                     <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="opener.gridReload(); window.close()" />
                 </c:when>
                 <c:when test="${rs.EXP_STAT != 10}">
-                    <input type="button" class="k-button k-button-solid-info" value="승인요청" onclick="bustripExnpReq.fn_saveBtn('${params.hrBizReqId}', '${type}')" />
+                    <input type="button" class="k-button k-button-solid-info" value="승인요청" onclick="bustripExnpReq.fn_saveBtn('${params.hrBizReqResultId}', '${type}')" />
                     <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="opener.gridReload(); window.close()" />
                 </c:when>
                 <c:otherwise>
@@ -99,7 +99,7 @@
                     </td>
                     <td>
                         <input id="eatCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn eatCorpYn" style="width: 40%" value="${list.EAT_CORP_YN}">
-                        <input type="text" id="eatCost${list.EMP_SEQ}" class="eatCost" value="${list.EAT_COST}" onkeyup="bustripExnpReq.fn_eatCheck(this);" oninput="onlyNumber(this)" style="width: 55%" />
+                        <input type="text" id="eatCost${list.EMP_SEQ}" class="eatCost" name="eatCost" value="${list.EAT_COST}"<%-- onkeyup="bustripExnpReq.fn_eatCostCheck(this);"--%> oninput="onlyNumber(this)" style="width: 55%" />
                     </td>
                     <td>
                         <input id="parkingCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.PARKING_CORP_YN}">
@@ -205,6 +205,10 @@
 </div>
 <script>
     const hrBizReqResultId = '${params.hrBizReqResultId}';
+    const tripDayFr = '${rs.TRIP_DAY_FR}';
+    const tripDayTo = '${rs.TRIP_DAY_TO}';
+    const tripNum = '${fn:length(list)}';
+
     bustripExnpReq.init('${type}');
 </script>
 </body>

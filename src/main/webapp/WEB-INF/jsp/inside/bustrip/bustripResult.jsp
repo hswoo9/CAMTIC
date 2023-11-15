@@ -24,9 +24,9 @@
                         <col width="10%">
                         <col width="10%">
                         <col width="10%">
+                        <col width="12%">
                         <col width="10%">
-                        <col width="10%">
-                        <col width="25%">
+                        <col width="22%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">출장 기간</th>

@@ -752,6 +752,33 @@ public class CrmController {
         return "jsonView";
     }
 
+    /** mou 수정시 데이터 조회 */
+    @RequestMapping("/crm/getMouArgInfo")
+    public String getMouArgInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+
+        model.addAttribute("data", crmService.getMouArgInfo(params));
+        model.addAttribute("fileInfo", crmService.getMouAgrFileInfo(params));
+        model.addAttribute("loginVO", loginVO);
+
+        return "jsonView";
+    }
+
+    /** mou 체결기관 등록 팝업창 */
+    @RequestMapping("/crm/pop/popMouAgrList.do")
+    public String popMouAgrList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("menuCd", request.getServletPath().split("/")[1]);
+        model.addAttribute("data", commonService.commonCodeList(params));
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_crm/popMouAgrList";
+    }
+
     @RequestMapping("/crm/customerCondition.do")
     public String customerCondition(Model model, HttpServletRequest request){
 

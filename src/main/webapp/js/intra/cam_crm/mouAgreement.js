@@ -10,6 +10,11 @@ var mouAgr = {
     fn_defaultScript : function (){
         mouAgr.fn_mainGridReload();
         mouAgr.fn_subGridReload();
+
+        $("#mainGrid tr button[name='selectBtn']").on('click',function(){
+            $("#mainGrid tr.activeRow").removeClass('activeRow'); //remove previous active row
+            $(this).closest('tr').addClass('activeRow');//set current row as active
+        });
     },
 
     fn_mainGridReload: function (){
@@ -77,29 +82,32 @@ var mouAgr = {
                 }, {
                     title: "체결일자",
                     field: "MOU_AGR_ST_DT",
-                    width: 80
+                    width: 50
                 }, {
                     title: "체결목적",
                     field: "MOU_AGR_PURPOSE",
-                    width: 120,
+                    width: 160,
                     template: function(e){
-                        return "<a href='javascript:void(0);' style='font-weight: bold' onclick='mouAgr.fn_subGridReload("+e.MOU_AGR_SN+")'>" + e.MOU_AGR_PURPOSE + "</a>";
+                        return "<a href='javascript:void(0);' style='font-weight: bold' onclick='mouAgr.fn_mouAgrRegPopup("+e.MOU_AGR_SN+")'>" + e.MOU_AGR_PURPOSE + "</a>";
                     }
                 }, {
-                    title: "협력내용",
-                    field: "MOU_AGR_CONTENT",
-                    width: 120
-                }, {
-                    title: "유효기간",
-                    field: "MOU_AGR_EN_DT",
-                    width: 80
-                }, {
-                    title: "담당자",
-                    field: "MOU_AGR_MANAGER",
-                    width: 80
-                }, {
                     title: "협약서 첨부",
-                    width: 100,
+                    width: 50,
+                    template: function(e){
+                        if(e.FILE_CNT > 0){
+                            return '<button class="k-icon k-i-paperclip k-button-icon" style="border: none; background-color: transparent;"></button>';
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    title: "체결기관",
+                    width: 50,
+                    template: function(e){
+                        return "<button type='button' class='k-grid-button k-button k-button-md k-button-solid k-button-solid-base' name='selectBtn' onclick='mouAgr.fn_subGridReload("+e.MOU_AGR_SN+")'>" +
+                               "	<span class='k-button-text'>조회</span>" +
+                               "</button>";
+                    }
                 },
             ],
             dataBinding: function(){
@@ -199,10 +207,10 @@ var mouAgr = {
     fn_mouAgrRegPopup : function (key){
         var url = "/crm/pop/regMouAgrPop.do";
         if(key != null && key != ""){
-            url = "/crm/pop/regCrmPop.do?crmSn=" + key;
+            url += "?mouArgSn=" + key;
         }
         var name = "_blank";
-        var option = "width = 1080, height = 420, top = 100, left = 400, location = no"
+        var option = "width = 1080, height = 360, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 
@@ -221,9 +229,10 @@ var mouAgr = {
             return;
         }
 
-        var url = "/crm/pop/popCrmList.do?status=mou&key=" + key;
+        // var url = "/crm/pop/popCrmList.do?status=mou&key=" + key;
+        var url = "/crm/pop/popMouAgrList.do?mouAgrSn=" + key;
         var name = "_blank";
-        var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
+        var option = "width = 600, height = 300, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 

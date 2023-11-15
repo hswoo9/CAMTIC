@@ -2,12 +2,19 @@ package egovframework.com.devjitsu.cam_manager.service.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_manager.repository.PayAppRepository;
 import egovframework.com.devjitsu.cam_manager.service.PayAppService;
+import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +28,9 @@ public class PayAppServiceImpl implements PayAppService {
 
     @Autowired
     private G20Repository g20Repository;
+
+    @Autowired
+    private CommonRepository commonRepository;
 
     @Override
     public void payAppSetData(Map<String, Object> params) {
@@ -111,10 +121,9 @@ public class PayAppServiceImpl implements PayAppService {
             payAppRepository.updateExnpApprStat(params);
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
-
             payAppRepository.updateExnpFinalApprStat(params);
             updateG20ExnpFinalAppr(params, "app");
-//            payAppRepository.updatePurcListFinalApprStat(params);
+            //payAppRepository.updatePurcListFinalApprStat(params);
         }
     }
 
@@ -186,102 +195,573 @@ public class PayAppServiceImpl implements PayAppService {
             params.put("evidTypeArr", "4,5");
             list = payAppRepository.getExnpG20List(params);
         }
-        int docNumber = 0;          // 전체 지출결의서 CNT
-        docNumber = payAppRepository.getCountDoc(list.get(0));
-        int userSq = docNumber + 1;
 
-        Map<String, Object> loginMap = payAppRepository.getEmpInfo(params);
-        Map<String, Object> execMap = new HashMap<>();
+        if(list.size() != 0){
+            int docNumber = 0;          // 전체 지출결의서 CNT
+            docNumber = payAppRepository.getCountDoc(list.get(0));
+            int userSq = docNumber + 1;
 
-        int i = 0;
-        for(Map<String, Object> data : list) {
-            int exnpDocNumber = 0;      // 같은 지출결의서 CNT
-            exnpDocNumber = payAppRepository.getExnpCountDoc(data);
-            data.put("PMR_NO", data.get("IN_DT") + "-" + String.format("%02d", userSq) + "-" + String.format("%02d", exnpDocNumber + 1));
-            data.put("USER_SQ", userSq);
+            Map<String, Object> loginMap = payAppRepository.getEmpInfo(params);
+            Map<String, Object> execMap = new HashMap<>();
 
-            Map<String, Object> tradeMap = g20Repository.getTradeInfo(data);
-            Map<String, Object> hearnerMap = g20Repository.getHearnerInfo(data);
+            int i = 0;
+            for(Map<String, Object> data : list) {
+                int exnpDocNumber = 0;      // 같은 지출결의서 CNT
+                exnpDocNumber = payAppRepository.getExnpCountDoc(data);
+                data.put("PMR_NO", data.get("IN_DT") + "-" + String.format("%02d", userSq) + "-" + String.format("%02d", exnpDocNumber + 1));
+                data.put("USER_SQ", userSq);
 
-            if(tradeMap != null) {
-                data.put("REG_NB", tradeMap.get("REG_NB"));
-                data.put("PPL_NB", tradeMap.get("PPL_NB"));
-                data.put("CEO_NM", tradeMap.get("CEO_NM"));
-                data.put("BUSINESS", tradeMap.get("BUSINESS"));
-                data.put("JONGMOK", tradeMap.get("JONGMOK"));
-                data.put("ZIP", tradeMap.get("ZIP"));
-                data.put("DIV_ADDR1", tradeMap.get("DIV_ADDR1"));
-                data.put("ADDR2", tradeMap.get("ADDR2"));
-            }
+                Map<String, Object> tradeMap = g20Repository.getTradeInfo(data);
+                Map<String, Object> hearnerMap = g20Repository.getHearnerInfo(data);
 
-            if(hearnerMap != null) {
-                data.put("ETCDATA_CD", hearnerMap.get("ETCDATA_CD"));
-                data.put("ETCPER_CD", hearnerMap.get("ETCPER_CD"));
-                data.put("ETCREG_NO", hearnerMap.get("ETCREG_NO"));
-                data.put("ETCPER_NM", hearnerMap.get("ETCPER_NM"));
-                data.put("ETCZIP_CD", hearnerMap.get("ETCZIP_CD"));
-                data.put("ETCADDR", hearnerMap.get("ETCADDR"));
-                data.put("ETCPHONE", hearnerMap.get("ETCPHONE"));
-                data.put("ETCBANK_CD", "");
-                data.put("ETCACCT_NO", hearnerMap.get("ETCACCT_NO"));
-                data.put("ETCACCT_NM", hearnerMap.get("ETCACCT_NM"));
-                data.put("ETCRVRS_YM", hearnerMap.get("ETCRVRS_YM"));
-                data.put("ETCDIV_CD", hearnerMap.get("ETCDIV_CD"));
-                data.put("ETCDUMMY1", "76");
-            }
+                if(tradeMap != null) {
+                    data.put("REG_NB", tradeMap.get("REG_NB"));
+                    data.put("PPL_NB", tradeMap.get("PPL_NB"));
+                    data.put("CEO_NM", tradeMap.get("CEO_NM"));
+                    data.put("BUSINESS", tradeMap.get("BUSINESS"));
+                    data.put("JONGMOK", tradeMap.get("JONGMOK"));
+                    data.put("ZIP", tradeMap.get("ZIP"));
+                    data.put("DIV_ADDR1", tradeMap.get("DIV_ADDR1"));
+                    data.put("ADDR2", tradeMap.get("ADDR2"));
+                }
 
-            if(data.get("EVID_TYPE").toString().equals("1")){
-                data.put("SET_FG", "3");
-                data.put("VAT_FG", "3");
-                data.put("TR_FG", "1");
-
-            } else if(data.get("EVID_TYPE").toString().equals("2")){
-                data.put("SET_FG", "3");
-                data.put("VAT_FG", "2");
-                data.put("TR_FG", "1");
-
-            } else if(data.get("EVID_TYPE").toString().equals("3")){
-                data.put("SET_FG", "4");
-                data.put("VAT_FG", "3");
-                data.put("TR_FG", "3");
-
-            } else if(data.get("EVID_TYPE").toString().equals("4")){
-                data.put("SET_FG", "1");
-                data.put("VAT_FG", "3");
-                data.put("TR_FG", "3");
-
-            } else if(data.get("EVID_TYPE").toString().equals("5")){
-                data.put("SET_FG", "1");
-                data.put("VAT_FG", "3");
-                data.put("TR_FG", "4");
-
-                if(hearnerMap == null){
-                    data.put("ETCPER_NM", data.get("TR_NM"));
-                    data.put("ETCACCT_NO", data.get("CRM_ACC_NO"));
-                    data.put("ETCACCT_NM", data.get("CRM_ACC_HOLDER"));
-                    data.put("ETCRVRS_YM", data.get("IN_DT").toString().substring(0, 6));
-                    data.put("ETCDIV_CD", data.get("DIV_CD"));
+                if(hearnerMap != null) {
+                    data.put("ETCDATA_CD", hearnerMap.get("ETCDATA_CD"));
+                    data.put("ETCPER_CD", hearnerMap.get("ETCPER_CD"));
+                    data.put("ETCREG_NO", hearnerMap.get("ETCREG_NO"));
+                    data.put("ETCPER_NM", hearnerMap.get("ETCPER_NM"));
+                    data.put("ETCZIP_CD", hearnerMap.get("ETCZIP_CD"));
+                    data.put("ETCADDR", hearnerMap.get("ETCADDR"));
+                    data.put("ETCPHONE", hearnerMap.get("ETCPHONE"));
+                    data.put("ETCBANK_CD", "");
+                    data.put("ETCACCT_NO", hearnerMap.get("ETCACCT_NO"));
+                    data.put("ETCACCT_NM", hearnerMap.get("ETCACCT_NM"));
+                    data.put("ETCRVRS_YM", hearnerMap.get("ETCRVRS_YM"));
+                    data.put("ETCDIV_CD", hearnerMap.get("ETCDIV_CD"));
                     data.put("ETCDUMMY1", "76");
                 }
-            } else {
-                data.put("SET_FG", "1");
-                data.put("VAT_FG", "3");
-                data.put("TR_FG", "3");
+
+                if(data.get("EVID_TYPE").toString().equals("1")){
+                    data.put("SET_FG", "3");
+                    data.put("VAT_FG", "3");
+                    data.put("TR_FG", "1");
+
+                } else if(data.get("EVID_TYPE").toString().equals("2")){
+                    data.put("SET_FG", "3");
+                    data.put("VAT_FG", "2");
+                    data.put("TR_FG", "1");
+
+                } else if(data.get("EVID_TYPE").toString().equals("3")){
+                    data.put("SET_FG", "4");
+                    data.put("VAT_FG", "3");
+                    data.put("TR_FG", "3");
+
+                } else if(data.get("EVID_TYPE").toString().equals("4")){
+                    data.put("SET_FG", "1");
+                    data.put("VAT_FG", "3");
+                    data.put("TR_FG", "3");
+
+                } else if(data.get("EVID_TYPE").toString().equals("5")){
+                    data.put("SET_FG", "1");
+                    data.put("VAT_FG", "3");
+                    data.put("TR_FG", "4");
+
+                    if(hearnerMap == null){
+                        data.put("ETCPER_NM", data.get("TR_NM"));
+                        data.put("ETCACCT_NO", data.get("CRM_ACC_NO"));
+                        data.put("ETCACCT_NM", data.get("CRM_ACC_HOLDER"));
+                        data.put("ETCRVRS_YM", data.get("IN_DT").toString().substring(0, 6));
+                        data.put("ETCDIV_CD", data.get("DIV_CD"));
+                        data.put("ETCDUMMY1", "76");
+                    }
+                } else {
+                    data.put("SET_FG", "1");
+                    data.put("VAT_FG", "3");
+                    data.put("TR_FG", "3");
+                }
+
+                g20Repository.insZnSautoabdocu(data);
+
+                payAppRepository.updExnpStat(data);
+
+                i++;
+
+                if(list.size() == i){
+                    data.put("LOGIN_EMP_CD", loginMap.get("ERP_EMP_SEQ"));
+                    g20Repository.execUspAncj080Insert00(data);
+                }
+
             }
+        }
+    }
 
-            g20Repository.insZnSautoabdocu(data);
+    @Override
+    public void updPayAttDetData(Map<String, Object> params, MultipartHttpServletRequest request, MultipartFile[] file11, String SERVER_DIR, String BASE_DIR) {
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
 
-            payAppRepository.updExnpStat(data);
+        /** 세금계산서/계산서 - 세금계산서/계산서 */
+        MultipartFile file1 = request.getFile("file1");
+        if(file1 != null){
+            if(!file1.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file1, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
 
-            i++;
-
-            if(list.size() == i){
-                data.put("LOGIN_EMP_CD", loginMap.get("ERP_EMP_SEQ"));
-                g20Repository.execUspAncj080Insert00(data);
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "FILE1");
+                fileInsMap.put("payDestSn", params.get("payDestSn"));
+                payAppRepository.updPayAttDetData(fileInsMap);
             }
-
         }
 
+        /** 세금계산서/계산서 - 거래명세서 */
+        MultipartFile file2 = request.getFile("file2");
+        if(file2 != null){
+            if(!file2.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file2, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
 
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "FILE2");
+                fileInsMap.put("payDestSn", params.get("payDestSn"));
+
+                payAppRepository.updPayAttDetData(fileInsMap);
+            }
+        }
+
+        /** 세금계산서/계산서 - 거래명세서 */
+        MultipartFile file3 = request.getFile("file3");
+        if(file3 != null){
+            if(!file3.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file3, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "file3");
+                fileInsMap.put("payDestSn", params.get("payDestSn"));
+
+                payAppRepository.updPayAttDetData(fileInsMap);
+            }
+        }
+
+        /** 세금계산서/계산서 - 검수조서 */
+        MultipartFile file4 = request.getFile("file4");
+        if(file4 != null){
+            if(!file4.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file4, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "file4");
+                fileInsMap.put("payDestSn", params.get("payDestSn"));
+
+                payAppRepository.updPayAttDetData(fileInsMap);
+            }
+        }
+
+        /** 세금계산서/계산서 - 납품사진 */
+        MultipartFile file5 = request.getFile("file5");
+        if(file5 != null){
+            if(!file5.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file5, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "file5");
+                fileInsMap.put("payDestSn", params.get("payDestSn"));
+
+                payAppRepository.updPayAttDetData(fileInsMap);
+            }
+        }
+
+        /** 신용카드(재료비) - 매출전표 */
+        MultipartFile file6 = request.getFile("file6");
+        if(file6 != null){
+            if(!file6.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file6, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "file6");
+                fileInsMap.put("payDestSn", params.get("payDestSn"));
+
+                payAppRepository.updPayAttDetData(fileInsMap);
+            }
+        }
+
+        /** 신용카드(재료비) - 거래명세서 */
+        MultipartFile file7 = request.getFile("file7");
+        if(file7 != null){
+            if(!file7.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file7, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "file7");
+                fileInsMap.put("payDestSn", params.get("payDestSn"));
+
+                payAppRepository.updPayAttDetData(fileInsMap);
+            }
+        }
+
+        /** 신용카드(재료비) - 검수조서 */
+        MultipartFile file8 = request.getFile("file8");
+        if(file8 != null){
+            if(!file8.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file8, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "file8");
+                fileInsMap.put("payDestSn", params.get("payDestSn"));
+
+                payAppRepository.updPayAttDetData(fileInsMap);
+            }
+        }
+
+        /** 신용카드(재료비) - 납품사진 */
+        MultipartFile file9 = request.getFile("file9");
+        if(file9 != null){
+            if(!file9.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file9, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "file9");
+                fileInsMap.put("payDestSn", params.get("payDestSn"));
+
+                payAppRepository.updPayAttDetData(fileInsMap);
+            }
+        }
+
+        /** 소득신고자 - 계좌이체동의서 */
+        MultipartFile file10 = request.getFile("file10");
+        if(file10 != null){
+            if(!file10.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file10, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "file10");
+                fileInsMap.put("payDestSn", params.get("payDestSn"));
+
+                payAppRepository.updPayAttDetData(fileInsMap);
+            }
+        }
+
+        /** 기타 첨부파일 */
+        if(file11.length > 0){
+            List<Map<String, Object>> list = mainLib.multiFileUpload(file11, filePath(params, SERVER_DIR));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", "payAtt_" + params.get("payDestSn"));
+                list.get(i).put("empSeq", params.get("regEmpSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, BASE_DIR));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+            }
+            commonRepository.insFileInfo(list);
+        }
+    }
+
+    @Override
+    public void updExnpAttDetData(Map<String, Object> params, MultipartHttpServletRequest request, MultipartFile[] file11, String SERVER_DIR, String BASE_DIR) {
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        /** 세금계산서/계산서 - 세금계산서/계산서 */
+        MultipartFile file1 = request.getFile("file1");
+        if(file1 != null){
+            if(!file1.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file1, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "FILE1");
+                fileInsMap.put("exnpDestSn", params.get("exnpDestSn"));
+                payAppRepository.updExnpAttDetData(fileInsMap);
+            }
+        }
+
+        /** 세금계산서/계산서 - 거래명세서 */
+        MultipartFile file2 = request.getFile("file2");
+        if(file2 != null){
+            if(!file2.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file2, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "FILE2");
+                fileInsMap.put("exnpDestSn", params.get("exnpDestSn"));
+
+                payAppRepository.updExnpAttDetData(fileInsMap);
+            }
+        }
+
+        /** 세금계산서/계산서 - 거래명세서 */
+        MultipartFile file3 = request.getFile("file3");
+        if(file3 != null){
+            if(!file3.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file3, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "file3");
+                fileInsMap.put("exnpDestSn", params.get("exnpDestSn"));
+
+                payAppRepository.updExnpAttDetData(fileInsMap);
+            }
+        }
+
+        /** 세금계산서/계산서 - 검수조서 */
+        MultipartFile file4 = request.getFile("file4");
+        if(file4 != null){
+            if(!file4.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file4, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "file4");
+                fileInsMap.put("exnpDestSn", params.get("exnpDestSn"));
+
+                payAppRepository.updExnpAttDetData(fileInsMap);
+            }
+        }
+
+        /** 세금계산서/계산서 - 납품사진 */
+        MultipartFile file5 = request.getFile("file5");
+        if(file5 != null){
+            if(!file5.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file5, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "file5");
+                fileInsMap.put("exnpDestSn", params.get("exnpDestSn"));
+
+                payAppRepository.updExnpAttDetData(fileInsMap);
+            }
+        }
+
+        /** 신용카드(재료비) - 매출전표 */
+        MultipartFile file6 = request.getFile("file6");
+        if(file6 != null){
+            if(!file6.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file6, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "file6");
+                fileInsMap.put("exnpDestSn", params.get("exnpDestSn"));
+
+                payAppRepository.updExnpAttDetData(fileInsMap);
+            }
+        }
+
+        /** 신용카드(재료비) - 거래명세서 */
+        MultipartFile file7 = request.getFile("file7");
+        if(file7 != null){
+            if(!file7.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file7, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "file7");
+                fileInsMap.put("exnpDestSn", params.get("exnpDestSn"));
+
+                payAppRepository.updExnpAttDetData(fileInsMap);
+            }
+        }
+
+        /** 신용카드(재료비) - 검수조서 */
+        MultipartFile file8 = request.getFile("file8");
+        if(file8 != null){
+            if(!file8.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file8, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "file8");
+                fileInsMap.put("exnpDestSn", params.get("exnpDestSn"));
+
+                payAppRepository.updExnpAttDetData(fileInsMap);
+            }
+        }
+
+        /** 신용카드(재료비) - 납품사진 */
+        MultipartFile file9 = request.getFile("file9");
+        if(file9 != null){
+            if(!file9.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file9, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "file9");
+                fileInsMap.put("exnpDestSn", params.get("exnpDestSn"));
+
+                payAppRepository.updExnpAttDetData(fileInsMap);
+            }
+        }
+
+        /** 소득신고자 - 계좌이체동의서 */
+        MultipartFile file10 = request.getFile("file10");
+        if(file10 != null){
+            if(!file10.isEmpty()){
+                fileInsMap = mainLib.fileUpload(file10, filePath(params, SERVER_DIR));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("value", fileInsMap.get("file_no"));
+                fileInsMap.put("column", "file10");
+                fileInsMap.put("exnpDestSn", params.get("exnpDestSn"));
+
+                payAppRepository.updExnpAttDetData(fileInsMap);
+            }
+        }
+
+        /** 기타 첨부파일 */
+        if(file11.length > 0){
+            List<Map<String, Object>> list = mainLib.multiFileUpload(file11, filePath(params, SERVER_DIR));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", "exnpAtt_" + params.get("exnpDestSn"));
+                list.get(i).put("empSeq", params.get("regEmpSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, BASE_DIR));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+            }
+            commonRepository.insFileInfo(list);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getPayAttInfo(Map<String, Object> params) {
+        Map<String, Object> returnMap = payAppRepository.getPayAttInfo(params);
+        if(returnMap != null){
+            Map<String, Object> searchMap = new HashMap<>();
+            searchMap.put("contentId", "payAtt_" + params.get("payDestSn"));
+            returnMap.put("etcFile", payAppRepository.getPayAttEtcInfo(searchMap));
+        }
+        return returnMap;
+    }
+
+    @Override
+    public Map<String, Object> getExnpAttInfo(Map<String, Object> params) {
+        Map<String, Object> returnMap = payAppRepository.getExnpAttInfo(params);
+        if(returnMap != null){
+            Map<String, Object> searchMap = new HashMap<>();
+            searchMap.put("contentId", "exnpAtt_" + params.get("exnpDestSn"));
+            returnMap.put("etcFile", payAppRepository.getExnpAttEtcInfo(searchMap));
+        }
+        return returnMap;
+    }
+
+    private String filePath (Map<String, Object> params, String base_dir){
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String fmtNow = now.format(fmt);
+
+        String path = base_dir + params.get("menuCd").toString()+"/" + fmtNow + "/";
+
+        return path;
     }
 }

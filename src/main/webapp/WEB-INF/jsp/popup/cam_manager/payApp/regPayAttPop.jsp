@@ -18,7 +18,7 @@
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 
-<input type="hidden" id="payAppSn" value="${params.payAppSn}" />
+<input type="hidden" id="payDestSn" value="${params.payDestSn}" />
 <input type="hidden" id="eviType" value="${params.eviType}" />
 
 <div style="padding:0;">
@@ -27,8 +27,9 @@
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">증빙서류</span>
             </h3>
 
-            <div class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
+            <div id="payAppBtnDiv" class="btn-st popButton">
+                <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="regPayAtt.fn_saveBtn();">저장</button>
+                <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>
         </div>
         <div style="padding: 20px 30px;">

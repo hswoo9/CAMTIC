@@ -207,4 +207,22 @@ public class UserController {
         model.addAttribute("loginVO", login);
         return "popup/user/userSetOrganizationPop";
     }
+
+    @RequestMapping("/user/pop/organizationHistoryPop.do")
+    public String organizationHistoryPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+        return "popup/user/organizationHistoryPop";
+    }
+
+    @RequestMapping("/user/pop/historyAddPop.do")
+    public String historyAddPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+        return "popup/user/historyAddPop";
+    }
 }

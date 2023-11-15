@@ -101,6 +101,7 @@ public class RecruitController {
     public String getRecruitList(@RequestParam Map<String,Object> params, Model model) {
         List<Map<String, Object>> list = recruitService.getRecruitList(params);
         model.addAttribute("list", list);
+        //System.out.println("컨트롤러 채용 리스트 목록" + list);
         return "jsonView";
     }
 

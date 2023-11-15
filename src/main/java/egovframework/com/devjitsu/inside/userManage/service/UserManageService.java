@@ -153,4 +153,10 @@ public interface UserManageService{
 
     /** 직원 생일 정보 조회 **/
     List<Map<String,Object>> getEmpBirthDayInfoList (Map<String,Object> map);
+
+    Map<String, Object> getEmpInfo(Map<String, Object> params);
+
+    Map<String, Integer> getCountMap();
+
+    Map<String, Integer> getCountMap2();
 }

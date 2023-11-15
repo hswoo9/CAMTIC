@@ -281,14 +281,19 @@ var camPrj = {
                                 pjtStepNm = "예상수주";
                             } else if(e.PJT_STEP == "R2"){
                                 pjtStepNm = "수주보고";
+                            } else if(e.PJT_STEP == "R3"){
+                                pjtStepNm = "결과보고";
                             }
                         } else if(e.BUSN_CLASS == "S"){
                             if(e.PJT_STEP == "S"){
                                 pjtStepNm = "예상수주";
                             } else if(e.PJT_STEP == "S2"){
                                 pjtStepNm = "수주보고";
+                            } else if(e.PJT_STEP == "S3"){
+                                pjtStepNm = "결과보고";
                             }
                         } else {
+                            pjtStepNm = "";
                         }
 
                         return pjtStepNm;

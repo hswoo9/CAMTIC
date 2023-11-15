@@ -6,7 +6,7 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<script type="text/javascript" src="/js/intra/inside/userManage/userViewPop.js?v=1"></script>
+<script type="text/javascript" src="/js/intra/inside/userManage/userViewPop.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/common/solarToLunar.js?v=${today}"></script>
 
 <body class="font-opensans" style="background-color:#fff;">
@@ -16,9 +16,10 @@
             <input type="hidden" id="regEmpSeq" name="regEmpSeq" value="${loginVO.uniqId}">
             <c:if test="${params.empSeq != null && params.empSeq != ''}">
                 <h3 class="card-title title_NM">직원 기본정보</h3>
-                <div class="btn-st popButton">
+                <div class="btn-st popButton" style="font-size : 13px;">
                     <c:if test="${isAdmin}">
                         <c:if test="${uprinfList.WORK_STATUS_CODE eq 'Y'}">
+<%--                            <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.userPayMngPop('${params.empSeq}')">급여 관리</button>--%>
                             <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.userImageReqPop('${params.empSeq}')">이미지 관리</button>
                             <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.certificateReqPop('${params.empSeq}')">증명서 발급</button>
                             <button type="button" class="k-button k-button-solid-info" onclick="userViewPop.moveToUserReqPop('${params.empSeq}')">편집</button>

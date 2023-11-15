@@ -4,6 +4,11 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/cam_crm/mouAgreement.js?v=${today}"/></script>
+<style>
+    tr.activeRow td{
+        background-color: #ffce60b0;
+    }
+</style>
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">

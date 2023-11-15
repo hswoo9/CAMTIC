@@ -42,6 +42,8 @@ var regPay = {
             regPay.setData();
 
             regPay.fn_viewStat();
+        }else{
+            regPayDet.global.itemIndex += 1;
         }
 
         $("#checkAll").click(function(){
@@ -67,6 +69,7 @@ var regPay = {
                     buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \''+data.DOC_MENU_CD+'\', \''+data.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
                 }else if(data.DOC_STATUS == "100"){
                     buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', \''+data.DOC_MENU_CD+'\');">열람</button>';
+                    $("#addBtn").hide();
                 }else{
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save()">저장</button>';
                 }
@@ -80,7 +83,43 @@ var regPay = {
         $("#payAppBtnDiv").html(buttonHtml);
     },
 
-    payAppDrafting: function() {
+    payAppDrafting: function(){
+        let checked = 0;
+        var data = {
+            payAppSn : $("#payAppSn").val()
+        }
+        var result = customKendo.fn_customAjax("/payApp/pop/getPayAppData", data);
+        var ls = result.list;
+        for(var i=0; i < ls.length; i++) {
+            var item = ls[i];
+            var eviType = item.EVID_TYPE;
+            if(item.ADVANCES == "Y"){
+                continue;
+            }
+            if(eviType == "1" || eviType == "2"){
+                if(item.FILE1 == null || item.FILE2 == null || item.FILE3 == null || item.FILE4 == null || item.FILE5 == null){
+                    alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
+                    checked = 1;
+                    break;
+                }
+            }else if(eviType == "3"){
+                if(item.FILE6 == null || item.FILE7 == null || item.FILE8 == null || item.FILE9 == null){
+                    alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
+                    checked = 1;
+                    break;
+                }
+            }else if(eviType == "5"){
+                if(item.FILE10 == null){
+                    alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
+                    checked = 1;
+                    break;
+                }
+            }
+        }
+        if(checked == 1){
+            return;
+        }
+
         $("#payAppDraftFrm").one("submit", function() {
             var url = "/popup/payApp/approvalFormPopup/payAppApprovalPop.do";
             var name = "_self";
@@ -144,7 +183,7 @@ var regPay = {
             regPayDet.global.createHtmlStr += "" +
                 '   <td>' +
                 '       <input type="text" id="budgetNm' + regPayDet.global.itemIndex + '" value="'+item.BUDGET_NM+'" onclick="regPay.fn_budgetPop('+clIdx+')" style="width: 100%;">' +
-                '       <input type="hidden" id="budgetSn' + regPayDet.global.itemIndex + '" value="'+item.BUDGET_SN+'" />' +
+                '       <input type="hidden" id="budgetSn' + regPayDet.global.itemIndex + '" value="'+item.BUDGET_SN+'" class="budgetSn"/>' +
                 '   </td>' +
                 '   <td>' +
                 '       <input type="hidden" id="payDestSn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" name="payDestSn" class="payDestSn">' +
@@ -186,6 +225,13 @@ var regPay = {
                 '       <input type="text" id="iss' + regPayDet.global.itemIndex + '" value="'+item.ISS+'"  class="iss">' +
                 '   </td>' +
                 '   <td>' +
+                '       <input type="checkbox" id="advances' + regPayDet.global.itemIndex + '" class="advances" style="width: 26px; height: 26px" ';
+                if(item.ADVANCES == "Y"){
+                    regPayDet.global.createHtmlStr += "checked";
+                }
+                regPayDet.global.createHtmlStr += '/>' +
+                '   </td>' +
+                '   <td>' +
                 '       <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regPayDet.fn_regPayAttPop(' + regPayDet.global.itemIndex + ')">첨부</button>' +
                 '   </td>' +
                 '   <td>' +
@@ -194,13 +240,13 @@ var regPay = {
                     regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="revertBtn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" onclick="regPayDet.fn_revertDet(this)">반려</button>';
                 } else {
                     if(rs.DOC_STATUS == "0"){
-                        regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(this)">삭제</button>';
+                        regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(' + regPayDet.global.itemIndex + ')">삭제</button>';
                     } else {
-                        regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(this)" disabled>삭제</button>';
+                        regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(' + regPayDet.global.itemIndex + ')" disabled>삭제</button>';
                     }
                 }
                 regPayDet.global.createHtmlStr += '</div>' +
-                    '   </td>'
+                    '   </td>'+
                 '</tr>';
 
             $("#payDestTb").append(regPayDet.global.createHtmlStr);
@@ -254,7 +300,7 @@ var regPay = {
         }
 
         if(ls.length > 0){
-            regPayDet.global.itemIndex--;
+            //regPayDet.global.itemIndex--;
         }
 
         $("#apprBtn").css("display", "");
@@ -300,23 +346,26 @@ var regPay = {
         var itemArr = new Array()
         var flag = true;
         $.each($(".payDestInfo"), function(i, v){
+            var index = $(this).find(".budgetSn").attr("id").slice(-1);
+
             var data = {
-                budgetNm : $("#budgetNm" + i).val(),
-                budgetSn : $("#budgetSn" + i).val(),
-                evidType : $("#eviType" + i).val(),
-                crmNm : $("#crmNm" + i).val(),
-                trCd : $("#trCd" + i).val(),
-                crmBnkNm : $("#crmBnkNm" + i).val(),
-                crmAccNo : $("#crmAccNo" + i).val(),
-                crmAccHolder : $("#crmAccHolder" + i).val(),
-                trDe : $("#trDe" + i).val(),
-                totCost : regPay.uncomma($("#totCost" + i).val()),
-                supCost : regPay.uncomma($("#supCost" + i).val()),
-                vatCost : regPay.uncomma($("#vatCost" + i).val()),
-                card : $("#card" + i).val(),
-                cardNo : $("#cardNo" + i).val(),
-                etc : $("#etc" + i).val(),
-                iss : $("#iss" + i).val(),
+                budgetNm : $("#budgetNm" + index).val(),
+                budgetSn : $("#budgetSn" + index).val(),
+                evidType : $("#eviType" + index).val(),
+                crmNm : $("#crmNm" + index).val(),
+                trCd : $("#trCd" + index).val(),
+                crmBnkNm : $("#crmBnkNm" + index).val(),
+                crmAccNo : $("#crmAccNo" + index).val(),
+                crmAccHolder : $("#crmAccHolder" + index).val(),
+                trDe : $("#trDe" + index).val(),
+                totCost : regPay.uncomma($("#totCost" + index).val()),
+                supCost : regPay.uncomma($("#supCost" + index).val()),
+                vatCost : regPay.uncomma($("#vatCost" + index).val()),
+                card : $("#card" + index).val(),
+                cardNo : $("#cardNo" + index).val(),
+                etc : $("#etc" + index).val(),
+                iss : $("#iss" + index).val(),
+                advances : $("#advances" + index).is(':checked') ? "Y" : "N",
             }
 
             if(data.eviType == ""){
@@ -383,7 +432,8 @@ var regPay = {
 
         var index = obj.id.substring(obj.id.length - 1);
         if(obj.id.match("totCost")){
-            $("#vatCost" + index).val(regPay.comma(Math.round(Number(regPay.uncomma($("#totCost" + index).val())) / 10)));
+
+            $("#vatCost" + index).val(regPay.comma(Number(regPay.uncomma($("#totCost" + index).val())) - Math.round(Number(regPay.uncomma($("#totCost" + index).val())) * 100 / 110)));
             $("#supCost" + index).val(regPay.comma(Number(regPay.uncomma($("#totCost" + index).val())) - Number(regPay.uncomma($("#vatCost" + index).val()))));
         } else if(obj.id.match("supCost")){
             $("#vatCost" + index).val(regPay.comma(Number(regPay.uncomma($("#totCost" + index).val())) - Number(regPay.uncomma($("#supCost" + index).val()))));
@@ -408,9 +458,9 @@ var regPay = {
         return str.replace(/[^\d]+/g, '');
     },
 
-    fn_projectPop : function (){
+    fn_projectPop : function (type){
 
-        var url = "/project/pop/projectView.do";
+        var url = "/project/pop/projectView.do?type=" + type;
 
         var name = "_blank";
         var option = "width = 1100, height = 400, top = 100, left = 400, location = no"
@@ -498,13 +548,11 @@ var regPayDet = {
         regPayDet.global.createHtmlStr = "";
         var clIdx = regPayDet.global.itemIndex;
 
-
-
         regPayDet.global.createHtmlStr = "" +
             '<tr class="payDestInfo newArray" id="pay' + regPayDet.global.itemIndex + '" style="text-align: center;">' +
             '   <td>' +
             '       <input type="text" id="budgetNm' + regPayDet.global.itemIndex + '" value="" onclick="regPay.fn_budgetPop(' + clIdx + ')" style="width: 100%;">' +
-            '       <input type="hidden" id="budgetSn' + regPayDet.global.itemIndex + '" value="" />' +
+            '       <input type="hidden" id="budgetSn' + regPayDet.global.itemIndex + '" value="" class="budgetSn"/>' +
             '   </td>' +
             '   <td>' +
             '       <input type="hidden" id="payDestSn' + regPayDet.global.itemIndex + '" name="payDestSn" class="payDestSn">' +
@@ -546,8 +594,14 @@ var regPayDet = {
             '       <input type="text" id="iss' + regPayDet.global.itemIndex + '" class="iss">' +
             '   </td>' +
             '   <td>' +
+            '       <input type="checkbox" id="advances' + regPayDet.global.itemIndex + '" class="advances" style="width: 26px; height: 26px">' +
+            '   </td>' +
+            '   <td>' +
+            '       <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regPayDet.fn_regPayAttPop(' + regPayDet.global.itemIndex + ')">첨부</button>' +
+            '   </td>' +
+            '   <td>' +
             '       <div style="text-align: center">' +
-            '           <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(this)">삭제</button>' +
+            '           <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(' + regPayDet.global.itemIndex + ')">삭제</button>' +
             '       </div>' +
             '   </td>'
             '</tr>';
@@ -592,10 +646,10 @@ var regPayDet = {
         regPayDet.global.itemIndex++;
     },
 
-    delRow : function (){
+    delRow : function (row){
         if($(".payDestInfo").length > 1){
-            $("#pay" + regPayDet.global.itemIndex).remove();
-            regPayDet.global.itemIndex--;
+            $("#pay" + row).remove();
+            /*regPayDet.global.itemIndex--;*/
         }
     },
 
@@ -648,6 +702,7 @@ var regPayDet = {
             return;
         }
         regPayDet.fn_regExnpPop(keyArr, payAppSn);
+        window.close();
     },
 
     fn_regExnpPop : function (keyArr, key){
@@ -660,13 +715,13 @@ var regPayDet = {
     },
 
     fn_regPayAttPop : function (row){
-        if($("#payAppSn").val() == ""){
-            alert("지급신청서 최초 1회 저장 후 진행 가능합니다.");
+        let key = $("#payDestSn"+row).val();
+        if(key == "" || key == null){
+            alert("상호 최초 1회 저장 후 진행 가능합니다.");
             return;
         }
-        let key = $("#payAppSn").val();
         let eviType = $("#eviType"+row).data("kendoDropDownList").value();
-        var url = "/payApp/pop/regPayAttPop.do?payAppSn=" + key + "&eviType=" + eviType;
+        var url = "/payApp/pop/regPayAttPop.do?payDestSn=" + key + "&eviType=" + eviType;
 
         var name = "_blank";
         var option = "width = 850, height = 400, top = 200, left = 350, location = no";

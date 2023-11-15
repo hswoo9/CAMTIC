@@ -92,21 +92,21 @@
                     <td>
                         <input type="text" id="printSn" style="width: 80%;" value="${data.PRINT_SN}">
                     </td>
-                    <th><span class="red-star">*</span>주민등록번호</th>
-                    <td>
-                        <input type="text" maxlength="6" id="firstRrnName" oninput="onlyNumber(this);" style="width: 40%;" value="${data.FIRST_RRN_NAME}">
-                        -
-                        <input type="text" maxlength="1" id="secondRrnName" oninput="onlyNumber(this);" style="width: 10%;" value="${data.SECOND_RRN_NAME}"> ******
-                    </td>
-                </tr>
-                <tr>
                     <th><span class="red-star">*</span>용도</th>
                     <td>
                         <input type="text" id="usageName" style="width: 80%;" value="${data.USAGE_NAME}">
                     </td>
-                    <th>비고</th>
+                    <%--<th><span class="red-star">*</span>주민등록번호</th>
                     <td>
-                        <input type="text" id="remarkName" class="defaultVal" style="width: 80%;" value="${data.REMARK_NAME}">
+                        <input type="text" maxlength="6" id="firstRrnName" oninput="onlyNumber(this);" style="width: 40%;" value="${data.FIRST_RRN_NAME}">
+                        -
+                        <input type="text" maxlength="1" id="secondRrnName" oninput="onlyNumber(this);" style="width: 10%;" value="${data.SECOND_RRN_NAME}"> ******
+                    </td>--%>
+                </tr>
+                <tr>
+                    <th>비고</th>
+                    <td colspan="4">
+                        <input type="text" id="remarkName" class="defaultVal" style="width: 100%;" value="${data.REMARK_NAME}">
                     </td>
                 </tr>
                 </thead>
@@ -129,8 +129,8 @@
 
     if(mode == "mng" || (dtStatus != null && dtStatus != '')){
         $("#submissionName").data("kendoTextBox").enable(false);
-        $("#firstRrnName").data("kendoTextBox").enable(false);
-        $("#secondRrnName").data("kendoTextBox").enable(false);
+        /*$("#firstRrnName").data("kendoTextBox").enable(false);
+        $("#secondRrnName").data("kendoTextBox").enable(false);*/
         $("#remarkName").data("kendoTextBox").enable(false);
         $("#regDe").data("kendoDatePicker").enable(false);
         $("#submissionDe").data("kendoDatePicker").enable(false);

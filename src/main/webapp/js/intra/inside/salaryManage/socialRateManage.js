@@ -20,13 +20,15 @@ var srm = {
     },
 
     setMakeTable : function() {
+        srm.global.searchAjaxData = {
+            mainType : 'M',
+        }
         var result = customKendo.fn_customAjax("/salaryManage/getSocialRateManageList.do", srm.global.searchAjaxData);
         if(result.flag){
             var list = result.list;
             $("#listTb tr").remove();
             for(var i = 0; i < list.length; i++){
                 srm.addRow('old');
-
                 $("#rate" + i).find("#socialRateSn" + i).val(list[i].SOCIAL_RATE_SN)
                 $("#rate" + i).find("#startDate" + i).val(list[i].START_DATE)
                 $("#rate" + i).find("#endDate" + i).val(list[i].END_DATE)
@@ -36,7 +38,6 @@ var srm = {
                 $("#rate" + i).find("#longCareInsurance" + i).val(list[i].LONG_CARE_INSURANCE)
                 $("#rate" + i).find("#employInsurance" + i).val(list[i].EMPLOY_INSURANCE)
                 $("#rate" + i).find("#accidentInsurance" + i).val(list[i].ACCIDENT_INSURANCE)
-
             }
         }
     },
@@ -84,6 +85,12 @@ var srm = {
             "healthInsurance" + srm.global.rateIndex, "longCareInsurance" + srm.global.rateIndex,
             "employInsurance" + srm.global.rateIndex, "accidentInsurance" + srm.global.rateIndex])
 
+        if(e == "new"){
+            var lastEndDe = new Date($("#endDate" + (srm.global.rateIndex - 1)).val());
+            lastEndDe.setDate(lastEndDe.getDate() + 1);
+            $("#startDate" + srm.global.rateIndex).val(lastEndDe.getFullYear() + "-" + String(lastEndDe.getMonth() + 1).padStart(2, "0") + "-" + String(lastEndDe.getDate()).padStart(2, "0"));
+        }
+        $("#endDate" + srm.global.rateIndex).val("");
         $(".numberInput").keyup(function(){
             $(this).val(srm.comma(srm.uncomma($(this).val())));
         });
@@ -106,44 +113,7 @@ var srm = {
         }
     },
 
-    setSocialRate : function(){
-        if(confirm("저장하시겠습니까?")){
-            var newRateArr = new Array();
-            var oldRateArr = new Array();
-            $.each($(".rateInfo"), function(i, v){
-                var arrData = {
-                    socialRateSn : $(this).find("#socialRateSn" + i).val(),
-                    startDate : $(this).find("#startDate" + i).val(),
-                    endDate : $(this).find("#endDate" + i).val(),
-                    nationalPension : $(this).find("#nationalPension" + i).val(),
-                    limitAmt : srm.uncomma($(this).find("#limitAmt" + i).val()),
-                    healthInsurance : $(this).find("#healthInsurance" + i).val(),
-                    longCareInsurance : $(this).find("#longCareInsurance" + i).val(),
-                    employInsurance : $(this).find("#employInsurance" + i).val(),
-                    accidentInsurance : $(this).find("#accidentInsurance" + i).val(),
-                    empSeq : $("#empSeq").val()
-                }
 
-                if($(this).hasClass("newRateInfo")){
-                    newRateArr.push(arrData);
-                }else{
-                    oldRateArr.push(arrData);
-                }
-            })
-
-            srm.global.saveAjaxData = {
-                newRateArr : JSON.stringify(newRateArr),
-                oldRateArr : JSON.stringify(oldRateArr)
-            }
-
-            var result = customKendo.fn_customAjax("/salaryManage/setSocialRate.do", srm.global.saveAjaxData)
-            if(result.flag){
-                alert("저장되었습니다.");
-                srm.global.rateIndex = 0;
-                srm.setMakeTable();
-            }
-        }
-    },
 
     comma: function(str) {
         str = String(str);
@@ -154,4 +124,30 @@ var srm = {
         str = String(str);
         return str.replace(/[^\d]+/g, '');
     },
+}
+
+function dateCheck(newRateArr, oldRateArr){
+
+    var flag = true;
+    for(var i = 0 ; i < oldRateArr.length ; i++){
+        for(var j = 0 ; j < newRateArr.length ; j++){
+            var start_expirationDate = oldRateArr[i].startDate.replace(/-/g, '');
+            var end_expirationDate = oldRateArr[i].endDate.replace(/-/g, '');
+            var bsDate = newRateArr[j].startDate.replace(/-/g, '');
+            var beDate = newRateArr[j].endDate.replace(/-/g, '');
+
+            if(bsDate >= start_expirationDate && bsDate <= end_expirationDate){
+                flag = false;
+            }
+
+            if(beDate >= start_expirationDate && beDate <= end_expirationDate){
+                flag = false;
+            }
+
+        }
+    }
+
+
+    return flag;
+
 }

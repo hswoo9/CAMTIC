@@ -136,20 +136,20 @@ var certificateAdmin = {
             },
             dataBound : certificateAdmin.onDataBound,
             columns: [
-                {
+              /*  {
                     field: "ROW_NUM",
                     title: "발급 번호",
                     width: 80
-                }, {
+                }, */{
                     title: "발급번호",
                     width: 150,
                     template: function(row){
-                        return "제"+row.DOCU_YEAR_DE+"-"+row.NUMBER+"호";
+                        return "제"+row.DOCU_YEAR_DE+"-"+row.ROW_NUM+"호";
                     }
                 }, {
                     field: "REG_DE",
                     title: "요청일",
-                    width: 85
+                    width: 100
                 }, {
                     title: "발급 구분",
                     template : function(row){
@@ -165,7 +165,7 @@ var certificateAdmin = {
                 }, {
                     field: "REG_DEPT_NAME",
                     title: "부서",
-                    width: 120
+                    width: 200
                 }, {
                     field: "REGTR_NAME",
                     title: "성명",
@@ -187,6 +187,16 @@ var certificateAdmin = {
                             return "발급완료";
                         }else {
                             return "데이터 오류"
+                        }
+                    },
+                    width: 100
+                }, {
+                    title: "발급자",
+                    template : function(row){
+                        if(row.ISSUE == "Y") {
+                            return "관리자";
+                        }else {
+                            return ""
                         }
                     },
                     width: 100

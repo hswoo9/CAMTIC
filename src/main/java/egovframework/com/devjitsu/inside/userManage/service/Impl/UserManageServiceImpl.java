@@ -816,4 +816,36 @@ public class UserManageServiceImpl implements UserManageService {
     public List<Map<String, Object>> getEmpBirthDayInfoList(Map<String, Object> map) {
         return userManageRepository.getEmpBirthDayInfoList(map);
     }
+
+    @Override
+    public Map<String, Object> getEmpInfo(Map<String, Object> params) {
+        return userManageRepository.getEmpInfo(params);
+    }
+    public Map<String, Integer> getCountMap() {
+        Map<String, Integer> countMap = new HashMap<>();
+        countMap.put("dsA", userManageRepository.getCountForDsA());
+        countMap.put("dsB", userManageRepository.getCountForDsB());
+        countMap.put("dsC", userManageRepository.getCountForDsC());
+        countMap.put("dsD", userManageRepository.getCountForDsD());
+        countMap.put("dsE", userManageRepository.getCountForDsE());
+        countMap.put("dsF", userManageRepository.getCountForDsF());
+        countMap.put("dsG", userManageRepository.getCountForDsG());
+        countMap.put("dsH", userManageRepository.getCountForDsH());
+        countMap.put("dsI", userManageRepository.getCountForDsI());
+        countMap.put("dsJ", userManageRepository.getCountForDsJ());
+
+        return countMap;
+    }
+    public Map<String, Integer> getCountMap2() {
+        Map<String, Integer> countMap = new HashMap<>();
+        countMap.put("dsA", userManageRepository.getCountForDsA2());
+        countMap.put("dsB", userManageRepository.getCountForDsB2());
+        countMap.put("dsC", userManageRepository.getCountForDsC2());
+        countMap.put("dsD", userManageRepository.getCountForDsD2());
+        countMap.put("dsE", userManageRepository.getCountForDsE2());
+        countMap.put("dsG", userManageRepository.getCountForDsG2());
+
+        return countMap;
+    }
+
 }

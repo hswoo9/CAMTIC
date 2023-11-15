@@ -9,6 +9,10 @@ var mouReg = {
 
         customKendo.fn_datePicker("mouStdt", '', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("mouEndt", '', "yyyy-MM-dd", new Date());
+
+        if($("#mouArgSn").val() != null && $("#mouArgSn").val() != ""){
+            mouReg.fn_setData()
+        }
     },
 
     dateValidationCheck : function(id, val){
@@ -26,36 +30,68 @@ var mouReg = {
         }
     },
 
+    fn_setData: function (){
+        var data = {
+            mouArgSn : $("#mouArgSn").val()
+        }
+
+        $.ajax({
+            url : "/crm/getMouArgInfo",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function (rs){
+                var fileInfo = rs.fileInfo;
+                var rs = rs.data;
+
+                $("#mouStdt").val(rs.MOU_AGR_ST_DT);
+                $("#mouEndt").val(rs.MOU_AGR_EN_DT);
+                $("#mouPurpose").val(rs.MOU_AGR_PURPOSE);
+                $("#mouContent").val(rs.MOU_AGR_CONTENT);
+                $("#mouManager").val(rs.MOU_AGR_MANAGER);
+
+                if(fileInfo.length > 0){
+                    var html = '';
+
+                    for(var i = 0; i < fileInfo.length; i++){
+                        html += '<li>';
+                        html += '   <span style="cursor: pointer" onclick="fileDown(\''+fileInfo[i].file_path+fileInfo[i].file_uuid+'\', \''+fileInfo[i].file_org_name+'.'+fileInfo[i].file_ext+'\')">'+fileInfo[i].file_org_name+'.'+fileInfo[i].file_ext+'</span>';
+                        html += '   <input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="mouReg.commonFileDel(' + fileInfo[i].file_no + ', this)">';
+                        html += '</li>';
+                    }
+                    $("#ulSetFileName").append(html);
+                } else {
+                    $("#ulSetFileName").empty();
+                }
+            }
+        });
+    },
+
     fn_save : function (){
         if(!$("#mouPurpose").val()){
             alert("체결목적을 입력해주세요.");
             return false;
         }
-        if(!$("#mouContent").val()){
-            alert("협력내용을 입력해주세요.");
-            return false;
-        }
-        if(!$("#mouManager").val()){
-            alert("담당자를 입력해주세요.");
-            return false;
-        }
 
         var parameters = {
             mouStdt : $("#mouStdt").val(),
-            mouEndt : $("#mouEndt").val(),
+            // mouEndt : $("#mouEndt").val(),
             mouPurpose : $("#mouPurpose").val(),
-            mouContent : $("#mouContent").val(),
-            mouManager : $("#mouManager").val(),
+            // mouContent : $("#mouContent").val(),
+            // mouManager : $("#mouManager").val(),
             regEmpSeq : $("#empSeq").val(),
             menuCd : $("#menuCd").val()
         }
 
         var formData = new FormData();
+        if($("#mouArgSn").val() != null && $("#mouArgSn").val() != ""){
+            formData.append("MOU_AGR_SN", $("#mouArgSn").val());
+        }
         formData.append("mouStdt", parameters.mouStdt);
-        formData.append("mouEndt", parameters.mouEndt);
+        // formData.append("mouEndt", parameters.mouEndt);
         formData.append("mouPurpose", parameters.mouPurpose);
-        formData.append("mouContent", parameters.mouContent);
-        formData.append("mouManager", parameters.mouManager);
+        // formData.append("mouContent", parameters.mouContent);
+        // formData.append("mouManager", parameters.mouManager);
         formData.append("regEmpSeq", parameters.regEmpSeq);
         formData.append("menuCd", parameters.menuCd);
 
@@ -83,7 +119,7 @@ var mouReg = {
         });
     },
 
-    fileChange : function(e){
+    fileChange : function(){
 
         for(var i = 0; i < $("input[name='fileList']")[0].files.length; i++){
             mouReg.global.attFiles.push($("input[name='fileList']")[0].files[i]);
@@ -96,10 +132,11 @@ var mouReg = {
                 html += '<li>'
                 html += mouReg.global.attFiles[i].name.substring(0, mouReg.global.attFiles[i].name.lastIndexOf("."));
                 html += mouReg.global.attFiles[i].name.substring(mouReg.global.attFiles[i].name.lastIndexOf("."));
-                html += '<input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" style="margin-left: 5px;" onclick="mouReg.fnUploadFile(' + i + ')">';
+                html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="mouReg.fnUploadFile(' + i + ')">';
                 html += '</li>';
             }
 
+            $("#ulSetFileName").css('margin-bottom', 0);
             $("#ulFileName").append(html);
         }
     },
@@ -118,11 +155,11 @@ var mouReg = {
             $("#ulFileName").empty();
 
             var html = '';
-            for (var i = 0; i <mouReg.global.attFiles.length; i++) {
+            for (var i = 0; i < mouReg.global.attFiles.length; i++) {
                 html += '<li>'
                 html += mouReg.global.attFiles[i].name.substring(0, mouReg.global.attFiles[i].name.lastIndexOf("."));
                 html += mouReg.global.attFiles[i].name.substring(mouReg.global.attFiles[i].name.lastIndexOf("."));
-                html += '<input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" style="margin-left: 5px;" onclick="mouReg.fnUploadFile(' + i + ')">';
+                html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="mouReg.fnUploadFile(' + i + ')">';
                 html += '</li>';
             }
 
@@ -133,6 +170,28 @@ var mouReg = {
 
         if(mouReg.global.attFiles.length == 0){
             mouReg.global.attFiles = new Array();
+        }
+
+        mouReg.global.attFiles = Array.from(mouReg.global.attFiles);
+    },
+
+    commonFileDel: function(e, v){
+        if(confirm("삭제한 파일은 복구할 수 없습니다.\n그래도 삭제하시겠습니까?")){
+            $.ajax({
+                url: "/common/commonFileDel",
+                data: {
+                    fileNo: e
+                },
+                type: "post",
+                datatype: "json",
+                success: function (rs) {
+                    var rs = rs.rs;
+                    alert(rs.message);
+                    if(rs.code == "200"){
+                        $(v).closest("li").remove();
+                    }
+                }
+            });
         }
     },
 }

@@ -23,8 +23,6 @@
         align-items: center;
         justify-content: left;
     }
-
-
     .contentLink{
         cursor : pointer;
         color: #696C74;
@@ -32,7 +30,8 @@
     a:hover {
         text-decoration: underline;
     }
-    .fc-box{border-top: 1px solid #eee; height: auto; font-weight:600; padding:10px; width:226px;}
+    .__lab {display:inline-flex;gap:0.2rem;align-items:center;position:relative;}
+    .__lab span{font-weight: normal;}
 </style>
 
 <div id="mainContent">
@@ -83,18 +82,25 @@
         <div class="panel" style="margin-bottom:10px;">
             <div style="padding: 25px 0 0 25px; height: 53px;">
                 <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">일정</h4>
+                <div class="selectBtn" style="float: right; margin-top:-12px; margin-right:15px; ">
+                    <label class="__lab">
+                        <input type="radio" name="scheBtn" value="CS" checked onclick="updateScheduleCont(this.value)"/>
+                        <i></i><span>법인일정</span>
+                    </label>
+                    <label class="__lab">
+                        <input type="radio" name="scheBtn" value="ES" onclick="updateScheduleCont(this.value)"/>
+                        <i></i><span>직원일정</span>
+                    </label>
+                </div>
             </div>
             <div class="panel-body" style="padding:5px;">
-                <div class="demo-section" style="text-align: center; width:300px; height: 343px;">
-                    <%--  <div id="calendar"></div>--%>
-                    <div class="card" style="border-radius:0;">
+                <div class="demo-section" style="text-align: center; width:300px; height: 323px;">
+                    <div class="card" style="border-radius:0; margin-top:20px;">
                         <div style="margin:10px 0 0 15px;">
                             <div class="year-calendar"></div>
-                            <div class="fc-box"></div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -165,9 +171,9 @@
             <div class="card">
                 <!-- 메일함 -->
                 <ul class="nav nav-tabs nav-justified">
-                    <li class="active"><a href="#tab6" data-toggle="tab" onclick="getOpenStudy();"><strong style="font-size:14px;">오픈스터디</strong></a></li>
-                    <li><a href="#tab7" data-toggle="tab" onclick="getscheduleList('schedule2Ul','CS');"><strong style="font-size:14px;">법인일정</strong></a></li>
-                    <li><a href="#tab8" data-toggle="tab" onclick="getscheduleList('schedule3Ul','ES');"><strong style="font-size:14px;">직원일정</strong></a></li>
+                    <li class="active"><a href="#tab6" data-toggle="tab" onclick="getscheduleList('schedule1Ul','CS');"><strong style="font-size:14px;">법인일정</strong></a></li>
+                    <li><a href="#tab7" data-toggle="tab" onclick="getscheduleList('schedule2Ul','ES');"><strong style="font-size:14px;">직원일정</strong></a></li>
+                    <li><a href="#tab8" data-toggle="tab" onclick="getOpenStudy();"><strong style="font-size:14px;">오픈스터디</strong></a></li>
                 </ul>
 
                 <!-- Tab panes -->
@@ -224,7 +230,6 @@
         <div class="panel" style="margin-bottom:10px;">
             <div class="panel-heading" style="background-color: #fff; padding:5px;">
                 <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" onclick="open_in_frame('/Inside/meetingRoomReq.do')"><i class="fa fa-building" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">회의실사용신청</span></a></h3>
-
             </div>
         </div><!-- panel -->
     </div>
@@ -291,7 +296,32 @@
 </div>
 
 <script>
+
     var watchBoardId = "";
+
+    var scheduleDate = {
+        labels: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+        series: [
+            [5, 4, 3, 7, 5, 10, 3, 4, 8, 10, 6, 8],
+            [3, 2, 9, 5, 4, 6, 4, 6, 7, 8, 7, 4],
+            [4, 6, 3, 9, 6, 5, 2, 8, 3, , 5, 4],
+        ]
+    };
+
+    var options = {
+        seriesBarDistance: 10
+    };
+
+    var responsiveOptions = [
+        ['screen and (max-width: 640px)', {
+            seriesBarDistance: 5,
+            axisX: {
+                labelInterpolationFnc: function(value) {
+                    return value[0];
+                }
+            }
+        }]
+    ];
 
     $(function (){
         var menuNm = '${menuNm}';
@@ -299,8 +329,83 @@
         if(menuNm != '' && menuNm != null && menuNm != undefined && menuNm != '/indexBMain.do'){
             open_in_frame(menuNm);
         }
+        updateScheduleCont();
     });
+    //대쉬보드 일정 표시
+    function updateScheduleCont() {
+        var publicClass = $("input[name='scheBtn']:checked").val();
 
+        new Chartist.Bar('.ct-bar-chart', scheduleDate, options, responsiveOptions);
+
+        var result = {"publicClass" : publicClass};
+        var ds = customKendo.fn_customAjax("/spot/getScheduleList.do", result);
+        var calendarData = new Array();
+        if (ds.flag) {
+            var data = ds.list;
+            for (var a = 0; a < data.length; a++) {
+                console.log(data);
+                var start = ds.list[a].startDate;
+                var end = ds.list[a].endDate;
+                var id = ds.list[a].SCHEDULE_BOARD_ID;
+                //날짜비교
+                if (end >= start) {
+                    for (var i = start; i <= end; i++) {
+
+                        var pushData = {
+                            name: "offer",
+                            date: i,
+                            id : id
+                        };
+                        calendarData.push(pushData);
+                    }
+                }
+            }
+
+        }
+        $('.year-calendar').pignoseCalendar({
+            scheduleOptions: {
+                colors: {
+                    offer: '#2fabb7',
+                    ad: '#5c6270'
+                },
+                lang: 'ko',
+            },
+            theme: 'blue', // light, dark, blue
+            schedules: calendarData,
+            select: function (dates, context) {
+                var selectedDate = dates[0].format('YYYY-MM-DD');
+
+                var haveSchedule = calendarData.some(function (schedule) {
+                    return schedule.date === selectedDate;
+                });
+
+                var finalId = [];
+                var boardId = "";
+
+                $.each(calendarData, function(inx, item){
+                    if(item.date == selectedDate){
+                        finalId.push(item.id);
+                    }
+                });
+                if (haveSchedule) {
+                    if (publicClass === 'ES') {
+                        openSchedulePopup(selectedDate);
+                    } else if (publicClass === 'CS') {
+                        fn_detailSchedule(finalId, selectedDate);
+                    }
+                }
+            }
+        });
+    }
+    //직원일정 조회 팝업
+    function openSchedulePopup(selectedDate) {
+        var url = "/spot/pop/popStaffScheduleView.do?selectDate=" + selectedDate;
+        var name = "_blank";
+        var option = "width = 1000, height = 600, top = 50, left = 400, location = no, scrollbars=yes, resizable=yes"
+        var popup = window.open(url, name, option);
+    }
+
+    //대쉬보드 시간 표시
     function setClock() {
         var dateInfo = new Date();
         var hour = modifyNumber(dateInfo.getHours());
@@ -325,14 +430,16 @@
             return time;
     }
 
+
     $("#calendar").kendoCalendar();
     setClock();
+    getActiveList('tab1Ul', 'all');
+    getscheduleList('schedule1Ul','CS')
     getOpenStudy();
-    getscheduleList();
     getRecentImage();
     getEmpBirthDayList();
-    getActiveList('tab1Ul', 'all');
 
+    //게시판 연동
     function getActiveList(v, e){
         $("#" + v + " li").remove();
 
@@ -381,6 +488,7 @@
         }
     }
 
+    //주요일정 > 오픈스터디
     function getOpenStudy(e) {
         $.ajax({
             url: '/campus/getOpenStudyInfoList',
@@ -399,7 +507,7 @@
 
     function drawTable(data){
 
-        $("#schedule1Ul").html('');
+        $("#schedule3Ul").html('');
 
         let html = "";
 
@@ -420,10 +528,11 @@
             '</div>' +
             '</li>';
         });
-        $("#schedule1Ul").append(html);
+        $("#schedule3Ul").append(html);
     }
 
 
+    //주요일정 > 법인or직원 일정
     function getscheduleList(v, e){
         $("#" + v + " li").remove();
 
@@ -459,7 +568,7 @@
 
                     console.log(result.list)
 
-                    if(v == "schedule2Ul"){
+                    if(v == "schedule1Ul"){
                         html += '' +
                             '<li style="border-top:0; border-bottom:0;">' +
                             '<div style="padding: 10px 10px 0px; display:flex; justify-content: space-between;">' +
@@ -495,6 +604,7 @@
         }
     }
 
+    //함께보아요 최근 이미지 가져오기
     function getRecentImage(e) {
         $.ajax({
             url: "/spot/getWatchBoardOne",
@@ -510,11 +620,12 @@
             }
         });
     }
-
+    //함께보아요 이미지 링크연동
     function detailPageMove (){
         open_in_frame('/spot/watchBoardDetail.do?watchBoardId='+ watchBoardId);
     }
 
+    //주요일정>오픈스터디 데이터 연동
     function openStudyReqPop(pk){
         let mode = "upd";
         let url = "/Campus/pop/openStudyReqPop.do?mode="+mode;
@@ -524,13 +635,20 @@
         window.open(url, name, option);
     }
 
-    function fn_detailSchedule(key){
-        var url = "/spot/pop/popScheduleView.do?scheduleBoardId=" + key;
+    //주요일정>법인or직원일정 데이터 연동
+    function fn_detailSchedule(keys, selectedDate){
+        if(keys.length>1){
+            var key = keys[0];
+            var url = "/spot/pop/popScheduleView.do?scheduleBoardId=" + key + "&selectedDate=" + selectedDate;
+        }else{
+            var url = "/spot/pop/popScheduleView.do?scheduleBoardId=" + keys;
+        }
         var name = "_blank";
         var option = "width = 750, height = 440, top = 50, left = 400, location = no"
         var popup = window.open(url, name, option);
     }
 
+    //임직원 생일 조회
     function getEmpBirthDayList() {
         $.ajax({
             url: '/userManage/getEmpBirthDayInfoList',
@@ -565,5 +683,4 @@
 <script src="/js/vendors/chartist.min.js"></script>
 <script src="/js/vendors/moment.min.js"></script>
 <script src="/js/vendors/pignose.calendar.min.js"></script>
-<script src="/js/schedule/dashboard-2.js"></script>
 

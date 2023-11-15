@@ -643,7 +643,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void setProcessInfo(Map<String, Object> params, MultipartFile[] fileList1, MultipartFile[] fileList2, MultipartFile[] fileList3, String serverDir, String baseDir) {
+    public void setProcessInfo(Map<String, Object> params, MultipartFile[] fileList1, MultipartFile[] fileList2, MultipartFile[] fileList3, MultipartFile[] fileList4, String serverDir, String baseDir) {
 
         Map<String, Object> psPrepMap = new HashMap<>();
 
@@ -704,6 +704,21 @@ public class ProjectServiceImpl implements ProjectService {
             commonRepository.insFileInfo(list);
         }
 
+        if(fileList4.length > 0){
+            params.put("menuCd", "engnPsFile4");
+
+            List<Map<String, Object>> list = mainLib.multiFileUpload(fileList4, filePath(params, serverDir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("psFileSn"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, baseDir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+            }
+            commonRepository.insFileInfo(list);
+        }
+
         projectRepository.updProject(params);
         projectRepository.updEngn(params);
     }
@@ -724,6 +739,8 @@ public class ProjectServiceImpl implements ProjectService {
         result.put("psFile1List", projectRepository.getPsFile1(params));
         result.put("psFile2List", projectRepository.getPsFile2(params));
         result.put("psFile3List", projectRepository.getPsFile3(params));
+        result.put("psFile4List", projectRepository.getPsFile4(params));
+
         return result;
     }
 
@@ -907,15 +924,17 @@ public class ProjectServiceImpl implements ProjectService {
         }
         result.put("projectManagerInfo", manageInfo);
 
-        String[] strArr = map.get("JOIN_MEM_SN").toString().split(",");
-        for(String str : strArr){
-            if(!str.equals(manageInfo.get("MNG_EMP_SEQ").toString())){
-                map.put("MEMBER_SEQ", str);
-                Map<String, Object> memberData = new HashMap<>();
+        if(!"".equals(map.get("JOIN_MEM_SN"))){
+            String[] strArr = map.get("JOIN_MEM_SN").toString().split(",");
+            for(String str : strArr){
+                if(!str.equals(manageInfo.get("MNG_EMP_SEQ").toString())){
+                    map.put("MEMBER_SEQ", str);
+                    Map<String, Object> memberData = new HashMap<>();
 
-                memberData = projectRepository.getProjectMemberInfo(map);
+                    memberData = projectRepository.getProjectMemberInfo(map);
 
-                projectMemberInfo.add(memberData);
+                    projectMemberInfo.add(memberData);
+                }
             }
         }
 
@@ -1111,6 +1130,10 @@ public class ProjectServiceImpl implements ProjectService {
         return listMap;
     }
 
+    @Override
+    public void updJoinMember(Map<String, Object> params) {
+        projectRepository.updJoinMember(params);
+    }
 }
 
 

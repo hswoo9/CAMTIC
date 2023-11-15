@@ -82,11 +82,13 @@ var regExnp = {
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_save()">저장</button>';
                     buttonHtml += '<button type="button" id="reqBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.payAppDrafting()">상신</button>';
                 }else if(data.DOC_STATUS == "10"){
+                    $("#mode").val("view");
                     buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
                 }else if(data.DOC_STATUS == "30" || data.DOC_STATUS == "40"){
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_save()">저장</button>';
                     buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \''+data.DOC_MENU_CD+'\', \''+data.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
                 }else if(data.DOC_STATUS == "100"){
+                    $("#mode").val("view");
                     buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', \''+data.DOC_MENU_CD+'\');">열람</button>';
                 }else{
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_save()">저장</button>';
@@ -148,6 +150,7 @@ var regExnp = {
                     '   </td>' +
                     '   <td>' +
                     '       <input type="hidden" id="payDestSn' + regExnpDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" name="payDestSn" class="payDestSn">' +
+                    '       <input type="hidden" id="exnpDestSn' + regExnpDet.global.itemIndex + '" value="'+item.EXNP_DET_SN+'" name="exnpDestSn" class="exnpDestSn">' +
                     '       <input type="text" id="eviType' + regExnpDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
                     '   </td>' +
                     '   <td>' +
@@ -178,6 +181,16 @@ var regExnp = {
                     '   <td>' +
                     '       <input type="text" disabled id="card' + regExnpDet.global.itemIndex + '" value="'+item.CARD+'" class="card">' +
                     '       <input type="hidden" id="cardNo'+regExnpDet.global.itemIndex+'" value="'+item.CARD_NO+'" className="cardNo" />' +
+                    '   </td>' +
+                    '   <td>' +
+                    '       <input type="checkbox" id="advances' + regExnpDet.global.itemIndex + '" class="advances" style="width: 26px; height: 26px" ';
+                    if(item.ADVANCES == "Y"){
+                        regExnpDet.global.createHtmlStr += "checked";
+                    }
+                    regExnpDet.global.createHtmlStr += '/>' +
+                    '   </td>' +
+                    '   <td>' +
+                    '       <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regExnpDet.fn_regExnpAttPop(' + regExnpDet.global.itemIndex + ')">첨부</button>' +
                     '   </td>' +
                     '</tr>';
 
@@ -240,6 +253,42 @@ var regExnp = {
     },
 
     payAppDrafting: function() {
+        let checked = 0;
+        var data = {
+            exnpSn : $("#exnpSn").val()
+        }
+        var result = customKendo.fn_customAjax("/payApp/pop/getExnpData", data);
+        var ls = result.list;
+        for(var i=0; i < ls.length; i++) {
+            var item = ls[i];
+            var eviType = item.EVID_TYPE;
+            if(item.ADVANCES == "Y"){
+                continue;
+            }
+            if(eviType == "1" || eviType == "2"){
+                if(item.FILE1 == null || item.FILE2 == null || item.FILE3 == null || item.FILE4 == null || item.FILE5 == null){
+                    alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
+                    checked = 1;
+                    break;
+                }
+            }else if(eviType == "3"){
+                if(item.FILE6 == null || item.FILE7 == null || item.FILE8 == null || item.FILE9 == null){
+                    alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
+                    checked = 1;
+                    break;
+                }
+            }else if(eviType == "5"){
+                if(item.FILE10 == null){
+                    alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
+                    checked = 1;
+                    break;
+                }
+            }
+        }
+        if(checked == 1){
+            return;
+        }
+
         $("#payAppDraftFrm").one("submit", function() {
             var url = "/popup/exnp/approvalFormPopup/exnpApprovalPop.do";
             var name = "_self";
@@ -324,6 +373,16 @@ var regExnp = {
                     '   <td>' +
                     '       <input type="text" disabled id="card' + regExnpDet.global.itemIndex + '" value="'+item.CARD+'" class="card">' +
                     '       <input type="hidden" id="cardNo' + regExnpDet.global.itemIndex + '" className="cardNo" />' +
+                    '   </td>' +
+                    '   <td>' +
+                    '       <input type="checkbox" id="advances' + regExnpDet.global.itemIndex + '" class="advances" style="width: 26px; height: 26px" ';
+                    if(item.ADVANCES == "Y"){
+                        regExnpDet.global.createHtmlStr += "checked";
+                    }
+                    regExnpDet.global.createHtmlStr += '/>' +
+                    '   </td>' +
+                    '   <td>' +
+                    '       <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regExnpDet.fn_regPayAttPop(' + regExnpDet.global.itemIndex + ')">첨부</button>' +
                     '   </td>' +
                     '</tr>';
 
@@ -432,6 +491,7 @@ var regExnp = {
         var flag = true;
         $.each($(".payDestInfo"), function(i, v){
             var data = {
+                payDestSn : $("#payDestSn" + i).val(),
                 evidType : $("#eviType" + i).val(),
                 budgetNm : $("#budgetNm" + i).val(),
                 budgetSn : $("#budgetSn" + i).val(),
@@ -445,7 +505,8 @@ var regExnp = {
                 supCost : regExnp.uncomma($("#supCost" + i).val()),
                 vatCost : regExnp.uncomma($("#vatCost" + i).val()),
                 card : $("#card" + i).val(),
-                cardNo : $("#cardNo" + i).val()
+                cardNo : $("#cardNo" + i).val(),
+                advances : $("#advances" + i).is(':checked') ? "Y" : "N",
             }
 
             if(data.eviType == ""){
@@ -653,6 +714,34 @@ var regExnpDet = {
 
         var name = "_blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
+    fn_regPayAttPop : function (row){
+        let key = $("#payDestSn"+row).val();
+        if(key == "" || key == null){
+            alert("지급신청서 최초 1회 저장 후 진행 가능합니다.");
+            return;
+        }
+        let eviType = $("#eviType"+row).data("kendoDropDownList").value();
+        var url = "/payApp/pop/regPayAttPop.do?payDestSn=" + key + "&eviType=" + eviType;
+
+        var name = "_blank";
+        var option = "width = 850, height = 400, top = 200, left = 350, location = no";
+        var popup = window.open(url, name, option);
+    },
+
+    fn_regExnpAttPop : function (row){
+        let key = $("#exnpDestSn"+row).val();
+        if(key == "" || key == null){
+            alert("첨부파일 조회중 오류가 발생하였습니다. 새로고침 후 진행 바랍니다.");
+            return;
+        }
+        let eviType = $("#eviType"+row).data("kendoDropDownList").value();
+        var url = "/payApp/pop/regExnpAttPop.do?exnpDestSn=" + key + "&eviType=" + eviType;
+
+        var name = "_blank";
+        var option = "width = 850, height = 400, top = 200, left = 350, location = no";
         var popup = window.open(url, name, option);
     }
 }

@@ -11,20 +11,23 @@ var certificateList = {
         certificateList.mainGrid();
     },
 
-    delBtn: function(){
+    delBtn: function(userProofSn){
         const ch = $('#mainGrid tbody .checkCert:checked');
         let checkedList = new Array();
         $.each(ch, function(i,v){
             checkedList.push( $("#mainGrid").data("kendoGrid").dataItem($(v).closest("tr")).USER_PROOF_SN);
         });
 
-        if(checkedList.length == 0){
+        /*if(checkedList.length == 0){
             alert('삭제 할 항목을 선택해 주세요.');
             return;
-        }
+        }*/
 
-        let data = {
+        /*let data = {
             userProofSn : checkedList.join()
+        }*/
+        let data = {
+            userProofSn : userProofSn
         }
 
         if(!confirm("삭제 하시겠습니까?")){
@@ -190,14 +193,14 @@ var certificateList = {
                             '	<span class="k-button-text">신청</span>' +
                             '</button>';
                     }
-                }, {
+                }/*, {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="certificateList.delBtn();">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
-                }
+                }*/
             ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
@@ -205,7 +208,7 @@ var certificateList = {
             dataBound : certificateList.onDataBound,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="certificateList.fn_checkAll();" style="position : relative; top : 2px;" />',
+                    /*headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="certificateList.fn_checkAll();" style="position : relative; top : 2px;" />',
                     template : function (e){
                         if(e.STATUS == "100" || e.STATUS == "10" || e.STATUS == "110"){
                             return "";
@@ -218,16 +221,16 @@ var certificateList = {
                     field: "ROW_NUM",
                     title: "순번",
                     width: 50
-                }, {
+                }, {*/
                     title: "발급번호",
                     width: 150,
                     template: function(row){
-                        return "제"+row.DOCU_YEAR_DE+"-"+row.NUMBER+"호";
+                        return "제"+row.DOCU_YEAR_DE+"-"+row.ROW_NUM+"호";
                     }
                 }, {
                     field: "REG_DE",
                     title: "요청일",
-                    width: 85
+                    width: 100
                 }, {
                     title: "발급 구분",
                     template : function(row){
@@ -243,7 +246,7 @@ var certificateList = {
                 }, {
                     field: "REG_DEPT_NAME",
                     title: "부서",
-                    width: 120
+                    width: 200
                 }, {
                     field: "REGTR_NAME",
                     title: "성명",
@@ -293,12 +296,17 @@ var certificateList = {
                 }, {
                     title: "발급",
                     template: function(e){
-                        if(e.STATUS == "100")
+                        if(e.STATUS == "100"){
                             return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="certificateList.certifiPrintPop('+e.USER_PROOF_SN+');">' +
-                                    '	<span class="k-button-text">발급</span>' +
-                                    '</button>';
-                        else
+                                '	<span class="k-button-text">발급</span>' +
+                                '</button>';
+                        }else if(e.STATUS == "10"){
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="certificateList.delBtn('+e.USER_PROOF_SN+');">' +
+                                '	<span class="k-button-text">삭제</span>' +
+                                '</button>';
+                        }else{
                             return '';
+                        }
                     },
                     width: 120
                 }

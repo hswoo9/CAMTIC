@@ -23,7 +23,8 @@
                     HEI.EMP_NAME_KR AS APPROVAL_EMP_NAME,
                     IUP.NUMBER,
                     IUP.DOCU_YEAR_DE,
-                    IUP.REG_DUTY_NAME
+                    IUP.REG_DUTY_NAME,
+                    IUP.ISSUE
                 FROM
                     CAM_INSIDE.DJ_USER_PROOF IUP
                 LEFT JOIN
@@ -82,6 +83,7 @@
             IUP.REMARK_NAME,
             IUP.STATUS,
             IUP.DOCU_YEAR_DE,
+            IUP.JOB_TITLE,
             IUP.NUMBER,
             DI.DOC_ID,
             DI.APPRO_KEY,
@@ -89,6 +91,7 @@
             HEI.EMP_NAME_KR,
             HEI.DEPT_NAME,
             HEI.DEPT_TEAM_NAME,
+            HEI.JOB_DETAIL,
             CASE WHEN HEI.DUTY_NAME IS NULL THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END AS POSITION_NAME,
             HEI.BDAY,
             HEI.ADDR,
@@ -120,8 +123,6 @@
             SUBMISSION_NAME,
             SUBMISSION_DE,
             PRINT_SN,
-            FIRST_RRN_NAME,
-            SECOND_RRN_NAME,
             USAGE_NAME,
             REMARK_NAME,
             DOCU_YEAR_DE,
@@ -140,8 +141,6 @@
             #{submissionName},
             #{submissionDe},
             #{printSn},
-            #{firstRrnName},
-            #{secondRrnName},
             #{usageName},
             #{remarkName},
             LEFT(#{regDe}, 4),
@@ -172,7 +171,7 @@
             USER_PROOF_SN = #{userProofSn}
     </update>
 
-    <update id="setCertificateDelete" parameterType="map">
+    <!--<update id="setCertificateDelete" parameterType="map">
         /* setCertificateDelete */
         UPDATE
             CAM_INSIDE.DJ_USER_PROOF
@@ -180,6 +179,15 @@
             ACTIVE = 'N'
         WHERE
             USER_PROOF_SN in (${userProofSn})
+    </update>-->
+    <update id="setCertificateDelete" parameterType="map">
+        /* setCertificateDelete */
+        UPDATE
+            CAM_INSIDE.DJ_USER_PROOF
+        SET
+            ACTIVE = 'N'
+        WHERE
+            USER_PROOF_SN = #{userProofSn}
     </update>
 
     <update id="updateCertifiApprStat" parameterType="map">
@@ -238,13 +246,15 @@
             FIRST_RRN_NAME,
             SECOND_RRN_NAME,
             USAGE_NAME,
+            JOB_TITLE,
             REMARK_NAME,
             DOCU_YEAR_DE,
             CRTR_SN,
             APPROVAL_EMP_SEQ,
             APPROVAL_RESULT_DATE,
             STATUS,
-            NUMBER
+            NUMBER,
+            ISSUE
         )
         VALUES
             (
@@ -260,13 +270,15 @@
                 #{firstRrnName},
                 #{secondRrnName},
                 #{usageName},
+                #{jobTitle},
                 #{remarkName},
                 LEFT(#{regDe}, 4),
                 #{empSeq},
                 #{regEmpSeq},
                 NOW(),
                 100,
-                (SELECT MAX(IUP.NUMBER) +1 FROM CAM_INSIDE.DJ_USER_PROOF IUP WHERE IUP.DOCU_YEAR_DE = LEFT(#{regDe}, 4))
+                (SELECT MAX(IUP.NUMBER) +1 FROM CAM_INSIDE.DJ_USER_PROOF IUP WHERE IUP.DOCU_YEAR_DE = LEFT(#{regDe}, 4)),
+                'Y'
             )
 
         <selectKey keyProperty="userProofSn" resultType="Integer" order="BEFORE">
