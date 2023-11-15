@@ -25,8 +25,9 @@
                 <colgroup>
                     <col width="10%">
                     <col width="35%">
-                    <col width="20%">
-                    <col width="20%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="10%">
                     <col width="15%">
                 </colgroup>
                 <thead>
@@ -36,9 +37,11 @@
                     <th>첨부파일1</th>
                     <th>첨부파일2</th>
                     <th>작성자</th>
+                    <th>작성일자</th>
                 </tr>
                 <%--<c:forEach var="l" items="${eList}" varStatus="status">--%>
                 <tr>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
