@@ -72,13 +72,6 @@ var recruitList = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
-                            '	<span class="k-button-text">결재상신</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name : 'button',
-                    template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="recruitList.recruitReqPop();">' +
                             '	<span class="k-button-text">채용공고등록</span>' +
                             '</button>';
@@ -109,12 +102,12 @@ var recruitList = {
                     width: 350,
                     template : function (e){
 
-                        return '<a href="javascript:void(0);" onclick="recruitList.recruitDetailPop(\''+e.RECRUIT_INFO_SN+'\');">'+e.RECRUIT_TITLE+'</a>';
+                        return '<a href="javascript:void(0);" onclick="recruitList.recruitAdminPop(' + e.RECRUIT_INFO_SN + ');">'+e.RECRUIT_TITLE+'</a>';
                     }
                 }, {
                     title: "모집기간",
                     template: function(row) {
-                        return row.START_DT+" "+row.START_TIME+" ~ "+row.END_DT+" "+row.END_TIME;
+                        return row.START_DT+" ~ "+row.END_DT;
                     },
                     width: 240
                 }, {
@@ -157,14 +150,6 @@ var recruitList = {
                         }
                     }
                 }, {
-                    title: "관리",
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitList.recruitAdminPop(' + e.RECRUIT_INFO_SN + ');">' +
-                            '	<span class="k-button-text">관리</span>' +
-                            '</button>';
-                    },
-                    width : 60
-                }, {
                     field: "RECRUIT_STATUS_SN",
                     title: "상태",
                     width : 90,
@@ -186,6 +171,12 @@ var recruitList = {
                                 return "미채용완료";
                             }
                         }
+                    }
+                }, {
+                    title: "결재",
+                    width : 90,
+                    template : function(e){
+                        return "<button type=\"button\" id=\"delvAppBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"recruitList.recruitDrafting('"+e.RECRUIT_INFO_SN+"')\">상신</button>";
                     }
                 }
             ],
@@ -342,5 +333,18 @@ var recruitList = {
                 recruitList.gridReload();
             }
         }
+    },
+
+    recruitDrafting : function(pk){
+        $("#recruitSn").val(pk);
+        $("#recruitDraftFrm").one("submit", function() {
+            var url = "/popup/inside/approvalFormPopup/recruitApprovalPop.do";
+            var name = "recruitApprovalPop";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            var popup = window.open(url, name, option);
+            this.action = "/popup/inside/approvalFormPopup/recruitApprovalPop.do";
+            this.method = 'POST';
+            this.target = 'recruitApprovalPop';
+        }).trigger("submit");
     }
 }

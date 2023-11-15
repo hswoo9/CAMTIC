@@ -11,6 +11,12 @@
     }
 </style>
 <div class="col-md-12 col-lg-12 dash-left">
+    <form id="recruitDraftFrm" method="post">
+        <input type="hidden" id="recruitSn" name="recruitSn" value="" />
+        <input type="hidden" id="menuCd" name="menuCd" value="recruit">
+        <input type="hidden" id="type" name="type" value="drafting">
+        <input type="hidden" id="nowUrl" name="nowUrl" />
+    </form>
     <div class="panel">
         <div class="panel-heading">
         </div>
