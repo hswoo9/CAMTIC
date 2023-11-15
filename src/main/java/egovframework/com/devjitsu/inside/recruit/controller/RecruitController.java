@@ -1,6 +1,7 @@
 package egovframework.com.devjitsu.inside.recruit.controller;
 
 import com.google.gson.Gson;
+import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.common.utiles.AESCipher;
 import egovframework.com.devjitsu.doc.config.EgovFileScrty;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
@@ -21,10 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class RecruitController {
@@ -42,6 +40,9 @@ public class RecruitController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CommonCodeService commonCodeService;
 
     /**
      * 채용관리 리스트 페이지(관리자)
@@ -693,4 +694,36 @@ public class RecruitController {
             str = str.replaceAll("&quot;", "\"");}
         return str;
     }
+
+    @RequestMapping("/Inside/pop/recruitPrintPop.do")
+    public String recruitPrintPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        String hwpUrl = "";
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+
+        List<Map<String, Object>> data = new ArrayList<>();
+        if(params.containsKey("recruitInfoSn")) {
+            data = recruitService.getApplicationList(params);
+            model.addAttribute("data",data);
+        }
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+        params.put("hwpUrl", hwpUrl);
+        params.put("menuCd", "certifi");
+
+        model.addAttribute("recruitInfoSn", params.get("recruitInfoSn"));
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("data", data);
+
+
+        return "popup/inside/recruit/recruitPrintPop";
+    }
+
 }
