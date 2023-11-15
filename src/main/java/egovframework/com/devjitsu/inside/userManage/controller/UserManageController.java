@@ -135,6 +135,41 @@ public class UserManageController {
         return "inside/userManage/userPersonnelRecord";
     }
 
+    @RequestMapping("/Inside/userPersonnelRecordOne.do")
+    public String userPersonnelRecordOne(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        menuSession(request, session);
+
+        Map<String,Object> map = new HashMap<>();
+        if(!StringUtils.isEmpty(params.get("admin")) && !StringUtils.isEmpty(params.get("empSeq"))){
+            map.put("empSeq", params.get("empSeq"));
+        }else{
+            map.put("empSeq", login.getUniqId());
+        }
+
+        Map<String,Object> userPersonnelRecordList = userManageService.getUserPersonnelRecordList(map); // 사용자 인사 기록 리스트
+        List<Map<String,Object>> educationalList = userManageService.getEducationalList(map); // 교육 사항
+        Map<String,Object> militarySvcInfo = userManageService.getMilitarySvcInfo(map); // 병력 사항
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("uprList", userPersonnelRecordList);
+        model.addAttribute("eList", educationalList);
+        model.addAttribute("mInfo", militarySvcInfo);
+
+
+        model.addAttribute("cList", userManageService.getCareerInfoList(map));
+        model.addAttribute("fList", userManageService.getFamilyInfoList(map));
+        model.addAttribute("lList", userManageService.getLicenceInfoList(map));
+        model.addAttribute("aList", userManageService.getAppointInfoList(map));
+        model.addAttribute("rList", userManageService.getRewardInfoList(map));
+        model.addAttribute("dList", userManageService.getDutyInfoList(map));
+        model.addAttribute("pList", userManageService.getProposalInfoList(map));
+        /*model.addAttribute("RewordList", userManageService.getReward2InfoList(map));*/
+
+        return "inside/userManage/userPersonnelRecordOne";
+    }
+
     /**
      * 직원 개인 기본정보 수정
      * @param params
