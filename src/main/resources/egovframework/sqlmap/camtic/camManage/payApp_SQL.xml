@@ -241,7 +241,8 @@
                 FILE8,
                 FILE9,
                 FILE10,
-                ADVANCES
+                ADVANCES,
+                BUSN_CD
             )
         VALUES
             (
@@ -272,7 +273,8 @@
                 (SELECT FILE8 FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_DET_SN = #{payDestSn}),
                 (SELECT FILE9 FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_DET_SN = #{payDestSn}),
                 (SELECT FILE10 FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_DET_SN = #{payDestSn}),
-                (SELECT ADVANCES FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_DET_SN = #{payDestSn})
+                #{advances},
+                #{busnCd}
             )
     </insert>
 

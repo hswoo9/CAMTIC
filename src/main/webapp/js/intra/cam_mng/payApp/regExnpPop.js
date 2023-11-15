@@ -167,6 +167,9 @@ var regExnp = {
                     '       <input type="text" id="trDe' + regExnpDet.global.itemIndex + '" value="'+item.TR_DE+'" class="trDe">' +
                     '   </td>' +
                     '   <td>' +
+                    '       <input type="text" id="busnCd' + regExnpDet.global.itemIndex + '" value="'+item.BUSN_CD+'" class="busnCd">' +
+                    '   </td>' +
+                    '   <td>' +
                     '       <input type="text" id="totCost' + regExnpDet.global.itemIndex + '" value="'+regExnp.comma(item.TOT_COST)+'" class="totCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                     '   </td>' +
                     '   <td>' +
@@ -224,6 +227,20 @@ var regExnp = {
                         }
                     }
                 });
+
+                $("#busnCd" + regExnpDet.global.itemIndex).kendoDropDownList({
+                    dataTextField: "text",
+                    dataValueField: "value",
+                    dataSource: [
+                        { text: "1000-(사)캠틱종합기술원", value: "1000" },
+                        { text: "2000-(사)캠틱종합기술원", value: "2000" },
+                        { text: "3000-(사)캠틱종합기술원", value: "3000" },
+                        { text: "4000-(사)캠틱종합기술원", value: "4000" },
+                        { text: "5000-(사)캠틱종합기술원", value: "5000" },
+                        { text: "6000-(사)캠틱종합기술원", value: "6000" },
+                        { text: "7000-(사)캠틱종합기술원", value: "7000" }
+                    ]
+                })
 
                 customKendo.fn_textBox(["crmNm" + regExnpDet.global.itemIndex, "crmBnkNm"  + regExnpDet.global.itemIndex
                     , "crmAccHolder" + regExnpDet.global.itemIndex
@@ -323,6 +340,8 @@ var regExnp = {
 
         if(rs.DIV_CD != ""){
             $("#busnCd").data("kendoDropDownList").value(rs.DIV_CD);
+        }else{
+            $("#busnCd").data("kendoDropDownList").value("2000");
         }
 
         if(ls.length > 0){
@@ -359,7 +378,19 @@ var regExnp = {
                     '   </td>' +
                     '   <td>' +
                     '       <input type="text" id="trDe' + regExnpDet.global.itemIndex + '" value="'+item.TR_DE+'" class="trDe">' +
-                    '   </td>' +
+                    '   </td>';
+                    if(rs.DIV_CD != ""){
+                        regExnpDet.global.createHtmlStr += "" +
+                        '   <td>' +
+                        '       <input id="busnCd' + regExnpDet.global.itemIndex + '" value="'+rs.DIV_CD+'" class="busnCd">' +
+                        '   </td>';
+                    }else{
+                        regExnpDet.global.createHtmlStr += "" +
+                            '   <td>' +
+                            '       <input id="busnCd' + regExnpDet.global.itemIndex + '" value="2000" class="busnCd">' +
+                            '   </td>';
+                    }
+                regExnpDet.global.createHtmlStr += "" +
                     '   <td>' +
                     '       <input type="text" id="totCost' + regExnpDet.global.itemIndex + '" value="'+regExnp.comma(item.TOT_COST)+'" class="totCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                     '   </td>' +
@@ -418,6 +449,20 @@ var regExnp = {
                         }
                     }
                 });
+
+                $("#busnCd" + regExnpDet.global.itemIndex).kendoDropDownList({
+                    dataTextField: "text",
+                    dataValueField: "value",
+                    dataSource: [
+                        { text: "1000-(사)캠틱종합기술원", value: "1000" },
+                        { text: "2000-(사)캠틱종합기술원", value: "2000" },
+                        { text: "3000-(사)캠틱종합기술원", value: "3000" },
+                        { text: "4000-(사)캠틱종합기술원", value: "4000" },
+                        { text: "5000-(사)캠틱종합기술원", value: "5000" },
+                        { text: "6000-(사)캠틱종합기술원", value: "6000" },
+                        { text: "7000-(사)캠틱종합기술원", value: "7000" }
+                    ]
+                })
 
                 customKendo.fn_textBox(["crmNm" + regExnpDet.global.itemIndex, "crmBnkNm"  + regExnpDet.global.itemIndex
                     , "crmAccHolder" + regExnpDet.global.itemIndex
@@ -506,6 +551,7 @@ var regExnp = {
                 card : $("#card" + i).val(),
                 cardNo : $("#cardNo" + i).val(),
                 advances : $("#advances" + i).is(':checked') ? "Y" : "N",
+                busnCd : $("#busnCd" + i).data("kendoDropDownList").value()
             }
 
             if(data.eviType == ""){

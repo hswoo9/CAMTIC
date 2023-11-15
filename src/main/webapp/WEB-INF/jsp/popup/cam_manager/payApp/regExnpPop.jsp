@@ -158,6 +158,7 @@
                         <col style="width: 5%;">
                         <col style="width: 5%;">
                         <col style="width: 5%;">
+                        <col style="width: 5%;">
                         <col style="width: 3%;">
                         <col style="width: 3%;">
                     </colgroup>
@@ -172,6 +173,7 @@
                         <th>지급계좌</th>
                         <th>예금주</th>
                         <th>거래일</th>
+                        <th>회계단위</th>
                         <th>총액</th>
                         <th>공급가액</th>
                         <th>세액</th>
@@ -204,6 +206,9 @@
                         </td>
                         <td>
                             <input type="text" id="trDe0" class="trDe">
+                        </td>
+                        <td>
+                            <input id="busnCd0" class="busnCd">
                         </td>
                         <td>
                             <input type="text" id="totCost0" class="totCost" value="0" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
