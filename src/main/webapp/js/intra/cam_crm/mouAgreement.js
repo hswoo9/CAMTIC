@@ -10,6 +10,11 @@ var mouAgr = {
     fn_defaultScript : function (){
         mouAgr.fn_mainGridReload();
         mouAgr.fn_subGridReload();
+
+        $("#mainGrid tr button[name='selectBtn']").on('click',function(){
+            $("#mainGrid tr.activeRow").removeClass('activeRow'); //remove previous active row
+            $(this).closest('tr').addClass('activeRow');//set current row as active
+        });
     },
 
     fn_mainGridReload: function (){
@@ -90,7 +95,7 @@ var mouAgr = {
                     width: 50,
                     template: function(e){
                         if(e.FILE_CNT > 0){
-                            return "<button class='k-icon k-i-paperclip k-button-icon' style='border: none; background-color: transparent;'></button>"
+                            return '<button class="k-icon k-i-paperclip k-button-icon" style="border: none; background-color: transparent;"></button>';
                         } else {
                             return "";
                         }
@@ -99,7 +104,7 @@ var mouAgr = {
                     title: "체결기관",
                     width: 50,
                     template: function(e){
-                        return "<button type='button' class='k-grid-button k-button k-button-md k-button-solid k-button-solid-base' onclick='mouAgr.fn_subGridReload("+e.MOU_AGR_SN+")'>" +
+                        return "<button type='button' class='k-grid-button k-button k-button-md k-button-solid k-button-solid-base' name='selectBtn' onclick='mouAgr.fn_subGridReload("+e.MOU_AGR_SN+")'>" +
                                "	<span class='k-button-text'>조회</span>" +
                                "</button>";
                     }
@@ -205,7 +210,7 @@ var mouAgr = {
             url += "?mouArgSn=" + key;
         }
         var name = "_blank";
-        var option = "width = 1080, height = 520, top = 100, left = 400, location = no"
+        var option = "width = 1080, height = 360, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 
@@ -224,9 +229,10 @@ var mouAgr = {
             return;
         }
 
-        var url = "/crm/pop/popCrmList.do?status=mou&key=" + key;
+        // var url = "/crm/pop/popCrmList.do?status=mou&key=" + key;
+        var url = "/crm/pop/popMouAgrList.do?mouAgrSn=" + key;
         var name = "_blank";
-        var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
+        var option = "width = 600, height = 300, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 
