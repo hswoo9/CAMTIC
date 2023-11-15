@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
@@ -209,6 +210,35 @@ public class AttendController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/attend/holidayWorkApplication";
+    }
+
+    //휴일근로신청내역(관리자)
+    @RequestMapping("/Inside/holidayWorkApplicationDetails.do")
+    public String holidayWorkApplicationDetails(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/attend/holidayWorkApplicationDetails";
+    }
+
+    // 휴일 근로 리스트 조회
+    @RequestMapping(value = "/Inside/holidayWorkApplication.do", method = RequestMethod.POST)
+    public String getSubHolidayApplyList(@RequestParam Map<String,Object> params, Model model) {
+        List<Map<String, Object>> list = attendService.getSubHolidayApplyList(params);
+        System.out.println("====컨트롤러 탔다 ====");
+        model.addAttribute("list", list);
+        System.out.println("================================");
+        System.out.println(model.addAttribute("list", list));
+        System.out.println("================================");
+        return "jsonView";
+    }
+
+    //휴일 근로 리스트 신청구분 코드
+    @RequestMapping("/attend/getVacCodeList2")
+    public String getVacCodeList2(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", attendService.getVacCodeList2(params));
+        return "jsonView";
     }
 
     //오늘날짜 구하기 yyyyMMddhhmmss
