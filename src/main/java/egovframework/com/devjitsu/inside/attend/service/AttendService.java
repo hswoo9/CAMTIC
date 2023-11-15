@@ -30,4 +30,8 @@ public interface AttendService {
 
     /** 직원별근태보고 부서별 직원 근태현황 */
     List<Map<String, Object>> getAttendPersonalCountMonthly(Map<String, Object> params);
+
+    List<Map<String, Object>> getSubHolidayApplyList(Map<String, Object> params);
+
+    List<Map<String, Object>> getVacCodeList2(Map<String, Object> params);
 }

@@ -43,4 +43,13 @@ public class AttendRepository extends AbstractDAO {
     public List<Map<String, Object>> getAttendPersonalCountMonthly(Map<String, Object> params) {
         return selectList("attend.getAttendPersonalCountMonthly", params);
     }
+
+    public List<Map<String, Object>> getSubHolidayApplyList(Map<String, Object> params){
+        System.out.println("------------------------------컨트롤러 탔다 --------------------------------------------------");
+        return selectList("attend.getSubHolidayApplyList", params);
+    }
+
+    public List<Map<String, Object>> getVacCodeList2(Map<String, Object> params) {
+        return selectList("attend.getVacCodeList2", params);
+    }
 }

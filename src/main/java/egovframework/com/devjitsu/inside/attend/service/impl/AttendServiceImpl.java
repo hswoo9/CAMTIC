@@ -58,4 +58,15 @@ public class AttendServiceImpl implements AttendService {
     public List<Map<String, Object>> getAttendPersonalCountMonthly(Map<String, Object> params) {
         return attendRepository.getAttendPersonalCountMonthly(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getSubHolidayApplyList(Map<String, Object> params){
+        System.out.println("------------------------------컨트롤러 탔다 --------------------------------------------------");
+        return attendRepository.getSubHolidayApplyList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getVacCodeList2(Map<String, Object> params) {
+        return attendRepository.getVacCodeList2(params);
+    }
 }
