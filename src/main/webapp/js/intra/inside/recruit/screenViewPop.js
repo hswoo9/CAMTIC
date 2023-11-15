@@ -79,7 +79,7 @@ var screenViewPop = {
         for(var i = 0; i < cnt.length; i++){
             html += '' +
                 '<div class="pdf_page mt-20">' +
-                    '<h2 class="text-center">채용 서류심사 평가표(신입)</h2>' +
+                    '<h2 class="text-center">채용 서류심사 평가표(경력)</h2>' +
                     '<table class="searchTable table table-bordered mb-0 mt-20">' +
                         '<colgroup>' +
                             '<col style="width: 10%">' +
@@ -212,7 +212,7 @@ var screenViewPop = {
         for(var i = 0; i < cnt.length; i++){
             html += '' +
                 '<div class="pdf_page mt-20">' +
-                    '<h2 class="text-center">채용 서류심사 평가표(경력)</h2>' +
+                    '<h2 class="text-center">채용 서류심사 평가표(신입)</h2>' +
                     '<table class="searchTable table table-bordered mb-0 mt-20">' +
                         '<colgroup>' +
                             '<col style="width: 10%">' +
