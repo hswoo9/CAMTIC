@@ -201,6 +201,16 @@ public class AttendController {
         return "inside/attend/holidayWorkReq";
     }
 
+    //휴일근로신청
+    @RequestMapping("/Inside/holidayWorkApplication.do")
+    public String holidayWorkApplication(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/attend/holidayWorkApplication";
+    }
+
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {
         Date today = new Date();

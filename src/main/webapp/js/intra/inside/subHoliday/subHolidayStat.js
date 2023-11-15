@@ -17,6 +17,11 @@ var subHolidayStat = {
     init : function(params){
         subHolidayStat.dataSet();
         subHolidayStat.fn_makerGrid();
+        subHolidayStat.gridReload();
+
+        $(".detailSearch").change(function(){
+            subHolidayStat.gridReload();
+        })
 
         var data = {
             mcCode : subHolidayStat.global.mcCode,
@@ -170,6 +175,10 @@ var subHolidayStat = {
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
+                },
+                {
+                    name: 'excel',
+                    text: '엑셀다운로드'
                 }
             ],
             dataBound: subHolidayStat.onDataBound,
@@ -295,6 +304,33 @@ var subHolidayStat = {
     },
 
     gridReload : function(){
-        $("#mainGrid").data("kendoGrid").dataSource.read();
+        subHolidayStat.global.searchAjaxData = {
+            holidayYear : $('#holidayYear').val(),
+            deptName : $("#deptName").val(),
+            deptTeamName : $("#deptTeamName").val(),
+            edtHolidayKindTop : $("#edtHolidayKindTop").val(),
+            searchVal : $("#searchVal").val()
+        }
+
+        var arr = "";
+        console.log('arr: ', arr);
+        if($(".detailSearch:checked").length == 0){
+            arr += "|999&N"
+        }else{
+            $(".detailSearch:checked").each(function(){
+                if($(this).attr("id") == "dsA"){
+                    arr += "|0&N|4&1,2"
+                }else{
+                    arr += "|" + $(this).attr("division") + '&' + ($(this).attr("divisionSub") == null ? "N" : $(this).attr("divisionSub"));
+                }
+
+            })
+        }
+
+        subHolidayStat.global.searchAjaxData.arr = arr.substring(1);
+
+        subHolidayStat.fn_makerGrid('/subHoliday/getUserVacListStat',subHolidayStat.global.searchAjaxData);
+
+        // $("#mainGrid").data("kendoGrid").dataSource.read();
     }
 }
