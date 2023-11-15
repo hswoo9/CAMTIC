@@ -317,6 +317,21 @@ public class PayAppController {
         return "popup/cam_manager/payApp/regIncmPop";
     }
 
+    @RequestMapping("/payApp/payIncpSetData")
+    public String payIncpSetData(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            payAppService.payIncpSetData(params);
+
+            model.addAttribute("code", 200);
+            model.addAttribute("params", params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     @RequestMapping("/pay/incomeReList.do")
     public String incomeReList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();

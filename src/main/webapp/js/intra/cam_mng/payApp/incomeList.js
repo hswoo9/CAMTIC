@@ -61,34 +61,19 @@ var incomeList = {
                     width: 50,
                     template: "#= --record #"
                 }, {
-                    title: "문서유형",
-                    width: 100,
+                    title: "결의일자",
+                    width: 80,
+                    field: "REG_DT",
                     template: function(e){
-                        if(e.PAY_APP_TYPE == 1){
-                            return "세금계산서";
-                        } else if (e.PAY_APP_TYPE == 2){
-                            return "계산서";
-                        } else if(e.PAY_APP_TYPE == 3){
-                            return "신용카드";
-                        } else if(e.PAY_APP_TYPE == 4){
-                            return "직원지급";
-                        } else if(e.PAY_APP_TYPE == 5){
-                            return "소득신고자";
-                        } else {
-                            return "기타";
-                        }
+                        return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
                     }
                 }, {
-                    field: "DOC_NO",
-                    title: "문서번호",
-                    width: 120,
-                }, {
                     title: "적요",
-                    field: "EXNP_BRIEFS",
+                    field: "APP_CONT",
                     width: 300,
                     template: function(e){
                         console.log(e);
-                        return '<div style="cursor: pointer; font-weight: bold" onclick="incomeList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\')">'+e.EXNP_BRIEFS+'</div>';
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="incomeList.fn_reqRegPopup('+e.PAY_INCP_SN+');">'+e.APP_CONT+'</div>';
                     }
                 }, {
                     title: "프로젝트 명",
@@ -106,24 +91,9 @@ var incomeList = {
 
                     }
                 }, {
-                    title: "신청일",
-                    width: 80,
-                    field: "REG_DT",
-                    template: function(e){
-                        return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
-                    }
-                }, {
-                    title: "지출요청일",
-                    width: 80,
-                    field: "APP_DE"
-                }, {
-                    title: "지출예정일",
-                    width: 80,
-                    field: ""
-                }, {
-                    title: "지출완료일",
-                    width: 80,
-                    field: ""
+                    title: "작성자",
+                    field: "EMP_NAME",
+                    width: 120,
                 }, {
                     title: "지출금액",
                     width: 120,
@@ -164,10 +134,10 @@ var incomeList = {
         incomeList.mainGrid("/pay/getIncpList", incomeList.global.searchAjaxData);
     },
 
-    fn_reqRegPopup : function (key, paySn){
+    fn_reqRegPopup : function (paySn){
         var url = "/payApp/pop/regIncmPop.do";
-        if(key != null && key != ""){
-            url = "/payApp/pop/regExnpPop.do?payAppSn=" + paySn + "&exnpSn=" + key;
+        if(paySn != null && paySn != ""){
+            url = "/payApp/pop/regIncmPop.do?payIncpSn=" + paySn;
         }
 
         if(status != null && status != ""){
