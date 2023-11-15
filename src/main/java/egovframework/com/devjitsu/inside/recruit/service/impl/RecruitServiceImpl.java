@@ -72,7 +72,7 @@ public class RecruitServiceImpl implements RecruitService {
                     if(careerType.indexOf(",") > -1){
                         careerType = "신입~경력";
                     }else{
-                        if(careerType == "1"){
+                        if("1".equals(careerType)){
                             careerType = "경력";
                         }else{
                             careerType = "신입";
