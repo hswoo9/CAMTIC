@@ -105,6 +105,13 @@ var regExnp = {
     },
 
     dataSet : function (){
+        /** 회계발의일, 등기일자, 지출부기재 일자 폼 추가 */
+        $("#dtTr").show();
+        customKendo.fn_datePicker("DT1", 'month', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("DT2", 'month', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("DT3", 'month', "yyyy-MM-dd", new Date());
+        $("#DT1, #DT2, #DT3").attr("readonly", true);
+
         var data = {
             exnpSn : $("#exnpSn").val()
         }
@@ -130,10 +137,21 @@ var regExnp = {
         $("#accNm").val(rs.ACC_NM);
         $("#accNo").val(rs.ACC_NO);
 
+        if(rs.DT_CK == "Y"){
+            $("#DT1").val(rs.DT1);
+            $("#DT2").val(rs.DT2);
+            $("#DT3").val(rs.DT3);
+        }
+
         if(ls.length > 0){
             $("#payDestTb").html("");
             $("#budgetNm").val(ls[0].BUDGET_NM);
             $("#budgetSn").val(ls[0].BUDGET_SN);
+            if(rs.DT_CK == "N"){
+                $("#DT1").val(ls[0].TR_DE);
+                $("#DT2").val(fn_stringToDate(ls[0].TR_DE, 5));
+                $("#DT3").val(fn_stringToDate(ls[0].TR_DE, 6));
+            }
         }
         for(var i=0; i < ls.length; i++) {
             var item = ls[i];
@@ -164,7 +182,7 @@ var regExnp = {
                     '       <input type="text" id="crmAccHolder' + regExnpDet.global.itemIndex + '" value="'+item.CRM_ACC_HOLDER+'" class="crmAccHolder">' +
                     '   </td>' +
                     '   <td>' +
-                    '       <input type="text" id="trDe' + regExnpDet.global.itemIndex + '" value="'+item.TR_DE+'" class="trDe">' +
+                    '       <input type="text" id="trDe' + regExnpDet.global.itemIndex + '" class="trDe">' +
                     '   </td>' +
                     '   <td>' +
                     '       <input type="text" id="busnCd' + regExnpDet.global.itemIndex + '" value="'+item.BUSN_CD+'" class="busnCd">' +
@@ -249,6 +267,7 @@ var regExnp = {
                     ,"card" + regExnpDet.global.itemIndex]);
 
                 customKendo.fn_datePicker("trDe" + regExnpDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
+                $("#trDe" + regExnpDet.global.itemIndex).val(item.TR_DE);
 
                 $("#eviType" + regExnpDet.global.itemIndex).data("kendoDropDownList").value(item.EVID_TYPE);
 
@@ -518,6 +537,9 @@ var regExnp = {
             busnCd : $("#busnCd").val(),
             payAppSn : $("#payAppSn").val(),
             item: $("#item").val(),
+            DT1 : $("#DT1").val(),
+            DT2 : $("#DT2").val(),
+            DT3: $("#DT3").val(),
 
             regEmpSeq : $("#regEmpSeq").val()
         }

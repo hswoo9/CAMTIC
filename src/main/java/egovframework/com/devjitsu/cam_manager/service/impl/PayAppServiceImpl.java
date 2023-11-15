@@ -150,11 +150,13 @@ public class PayAppServiceImpl implements PayAppService {
         }
 
         if(params.containsKey("item")){
-            String[] items = params.get("item").toString().split(",");
+            if(!"".equals(params.get("item").toString())){
+                String[] items = params.get("item").toString().split(",");
 
-            for (String item : items){
-                params.put("item", item);
-                payAppRepository.updPayAppDetailStatus(params);
+                for (String item : items){
+                    params.put("item", item);
+                    payAppRepository.updPayAppDetailStatus(params);
+                }
             }
         }
 
