@@ -104,11 +104,9 @@ var recruitReq = {
         let recruitTitle = $("#recruitTitle").val();
         let recruitDetail = $("#recruitDetail").val();
         let uploadDt = $("#uploadDt").val();
-        let uploadText = $("#uploadText").val();
+        let uploadText = "캠틱종합기술원 원장";
         let startDt = $("#startDt").val();
         let endDt = $("#endDt").val();
-        let startTime = $("#startTime").val();
-        let endTime = $("#endTime").val();
         let jobPositionEtc = $("#jobPositionEtc").val();
         let eligibilityEtc = $("#eligibilityEtc").val();
         let workType = $("#workType").val();
@@ -121,6 +119,8 @@ var recruitReq = {
         let regEmpSeq = $("#regEmpSeq").val();
         let regEmpName = $("#regEmpName").val();
         let areaArr = new Array();
+
+        let flag = true;
         
         $.each($('.addData'), function(i, v){
             let areaInfo = {
@@ -144,10 +144,20 @@ var recruitReq = {
             if($(v).find('#careerType_2_'+i).is(":checked")){
                 careerType += ",2"
             }
+
+            if($(v).find('#careerType_1_'+i).is(":checked") == false && $(v).find('#careerType_2_'+i).is(":checked") == false){
+                flag = false
+            }
+
             areaInfo.careerType = careerType.substring(1);
 
             areaArr.push(areaInfo);
         });
+
+        if(!flag){
+            alert("모집분야 경력여부를 체크해주세요");
+            return;
+        }
 
         let data = {
             recruitInfoSn : recruitInfoSn,
@@ -158,8 +168,6 @@ var recruitReq = {
             uploadText: uploadText,
             startDt: startDt,
             endDt: endDt,
-            startTime: startTime,
-            endTime: endTime,
             jobPositionEtc: jobPositionEtc,
             eligibilityEtc: eligibilityEtc,
             workType: workType,

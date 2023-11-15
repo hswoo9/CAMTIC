@@ -34,6 +34,9 @@ public interface PayAppService {
 
     void payIncpSetData(Map<String, Object> params);
 
+    Map<String, Object> getPayIncpReqData(Map<String, Object> params);
+    List<Map<String, Object>> getPayIncpDetailData(Map<String, Object> params);
+
     void updateExnpAppDocState(Map<String, Object> bodyMap);
 
     void resolutionExnpAppr(Map<String, Object> params);

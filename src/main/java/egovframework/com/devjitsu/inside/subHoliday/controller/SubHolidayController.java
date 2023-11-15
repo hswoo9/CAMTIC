@@ -92,6 +92,18 @@ public class SubHolidayController {
         return "/popup/subHoliday/subHolidayReqPop";
     }
 
+    //휴일근로신청 팝업
+    @RequestMapping("/subHoliday/pop/subHolidayReqPop2.do")
+    public String subHolidayReqPop2(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        LoginVO login = getLoginVO(request);
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        model.addAttribute("code", params.get("code"));
+        model.addAttribute("type", params.get("type"));
+        return "/popup/subHoliday/subHolidayReqPop2";
+    }
+
+
     //휴가신청 전자결재
     @RequestMapping("/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop.do")
     public String subHolidayApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
@@ -135,6 +147,7 @@ public class SubHolidayController {
         model.addAttribute("list", subHolidayService.getVacCodeList(params));
         return "jsonView";
     }
+
 
     /**
      * 캠인사이드 > 휴가관리 > 휴가신청 > 휴가사용내역

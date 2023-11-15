@@ -291,7 +291,7 @@ var regPay = {
 
             customKendo.fn_datePicker("trDe" + regPayDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
 
-            $("#eviType" + itemIndex).data("kendoDropDownList").value(1);
+            $("#eviType" + itemIndex).data("kendoDropDownList").value(item.EVID_TYPE);
 
 
 
@@ -345,6 +345,8 @@ var regPay = {
 
         var itemArr = new Array()
         var flag = true;
+        var flag2 = true;
+        var befAdvances = "";
         $.each($(".payDestInfo"), function(i, v){
             var index = $(this).find(".budgetSn").attr("id").slice(-1);
 
@@ -367,6 +369,12 @@ var regPay = {
                 iss : $("#iss" + index).val(),
                 advances : $("#advances" + index).is(':checked') ? "Y" : "N",
             }
+            if(i != 0){
+                if(befAdvances != ($("#advances" + index).is(':checked') ? "Y" : "N")){
+                    flag2 = false;
+                }
+            }
+            befAdvances = $("#advances" + index).is(':checked') ? "Y" : "N";
 
             if(data.eviType == ""){
                 flag = false;
@@ -374,10 +382,15 @@ var regPay = {
 
 
             itemArr.push(data);
-        })
+        });
 
         if(!flag){
             alert("구분값을 선택해주세요.");
+            return ;
+        }
+
+        if(!flag2){
+            alert("선지급과 선지급 아닌건은 동시에 신청할 수 없습니다.");
             return ;
         }
 

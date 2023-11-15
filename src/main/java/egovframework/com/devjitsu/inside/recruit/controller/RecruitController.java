@@ -726,4 +726,16 @@ public class RecruitController {
         return "popup/inside/recruit/recruitPrintPop";
     }
 
+    @RequestMapping("/popup/inside/approvalFormPopup/recruitApprovalPop.do")
+    public String recruitApprovalPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/inside/recruit/approvalFormPopup/recruitApprovalPop";
+    }
+
+
 }

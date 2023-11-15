@@ -332,6 +332,16 @@ public class PayAppController {
         return "jsonView";
     }
 
+    @RequestMapping("/payApp/pop/getPayIncpData")
+    public String getPayIncpData(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> map = payAppService.getPayIncpReqData(params);
+        List<Map<String, Object>> list = payAppService.getPayIncpDetailData(params);
+        model.addAttribute("map", map);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/pay/incomeReList.do")
     public String incomeReList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();

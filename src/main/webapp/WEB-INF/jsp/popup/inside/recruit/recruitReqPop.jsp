@@ -65,15 +65,12 @@
           <th style="text-align: center">공고일자</th>
           <td colspan="3">
             <input type="text" id="uploadDt" style="width: 15%">
-            <input type="text" id="uploadText" style="width: 84%">
           </td>
         </tr>
         <tr>
-          <th style="text-align: center">모집일시</th>
+          <th style="text-align: center">모집일자</th>
           <td colspan="3">
-            <input type="text" id="startDt" style="width: 15%">
-            <input type="text" id="startTime" style="width: 10%"> ~ <input type="text" id="endDt" style="width: 15%">
-            <input type="text" id="endTime" style="width: 10%">
+            <input type="text" id="startDt" style="width: 15%"> ~ <input type="text" id="endDt" style="width: 15%">
           </td>
         </tr>
         <tr id="areaTr">

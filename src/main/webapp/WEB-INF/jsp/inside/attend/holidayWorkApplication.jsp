@@ -10,7 +10,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<%--<script type="text/javascript" src="/js/intra/inside/userManage/employeeInterviewCard.js?v=${todate}"/></script>--%>
+<script type="text/javascript" src="/js/intra/inside/attend/holidayWorkApplication.js?v=${todate}"/></script>
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
@@ -19,51 +19,41 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">휴일 근로 신청</h4>
-            <div class="title-road">캠인사이드 > 근태관리 > 근태관리 > 휴일 근로 신청</div>
-            <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
+            <h4 class="panel-title" style="margin-bottom: 20px;">휴일 근로 신청</h4>
+            <div id="secondView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
-            <div>
+            <div style="margin-bottom:10px;">
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="15%">
+                        <col width="10%">
                         <col>
-                        <col width="15%">
+                        <col width="10%">
                         <col>
-                        <col width="15%">
+                        <col width="10%">
                         <col>
-                        <col>
-                        <%--                        <col width="20%">--%>
-                        <%--                        <col width="10%">--%>
-                        <%--                        <col width="20%">--%>
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">신청 구분</th>
                         <td>
-                            <input type="text" id="searchDate" style="width:110px;">
+                            <input type="text" id="edtHolidayKindTop" name="edtHolidayKindTop" required="required" style="width:200px;">
                         </td>
                         <th class="text-center th-color">일자</th>
                         <td>
-                            <input type="text" id="dept" style="width:160px;">
-                            <input type="hidden" id="dept_seq">
-                            <input type="text" id="team" style="width:165px;">
-                            <input type="hidden" id="team_seq">
+                            <input type="text" id="workDay" style="width: 110px;">
                         </td>
                         <th class="text-center th-color">처리상태</th>
                         <td>
-                            <input type="text" id="searchType" style="width: 80px;">
+                            <input type="text" id="status" style="width: 200px;">
                         </td>
                     </tr>
                 </table>
-                <div id="mainGrid" style="margin:20px 0;"></div>
             </div>
+            <div id="mainGrid" style="margin:20px 0;"></div>
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
-
-
-
+    holidayWorkApplication.init();
 </script>

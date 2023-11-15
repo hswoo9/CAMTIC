@@ -63,47 +63,61 @@
       </table>
 
       <div class="mt10" style="text-align: right">
-          <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="S" onclick="recruitAdminPop.recruitPrintPop(${params.recruitInfoSn})">
+          <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="font-size: 12px" value="S" onclick="recruitAdminPop.recruitPrintPop(${params.recruitInfoSn})">
               <span>총괄표 출력</span>
           </button>
-        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="docScreenPopBtn" value="S" onclick="recruitAdminPop.screenViewPop('doc')">
+        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="docScreenPopBtn" style="font-size: 12px" value="S" onclick="recruitAdminPop.screenViewPop('doc')">
           <span>서류심사 평가표</span>
         </button>
-        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" id="inScreenPopBtn" value="S" onclick="recruitAdminPop.screenViewPop('in')">
+        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" id="inScreenPopBtn" style="font-size: 12px" value="S" onclick="recruitAdminPop.screenViewPop('in')">
           <span>면접심사 평가표</span>
         </button>
-        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="S" onclick="recruitAdminPop.recruitDetailPop();">
+        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="font-size: 12px" value="S" onclick="recruitAdminPop.recruitDetailPop();">
           <span>공고내용 조회</span>
         </button>
       </div>
 
-      <div class="mt10" style="text-align: right">
-<%--        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="docUrl" onclick="recruitAdminPop.getEvalUrlSet('doc')">--%>
-<%--          <span>서류심사 바로가기</span>--%>
-<%--        </button>--%>
-        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="docPass" value="D" onclick="recruitAdminPop.setApplicationUpd(this.value, 'pass')">
-          <span>서류심사 합격</span>
-        </button>
-        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="docFail" value="DF" onclick="recruitAdminPop.setApplicationUpd(this.value, 'fail')">
-          <span>서류심사 불합격</span>
-        </button>
+        <div style="display: flex; justify-content: space-between">
+            <div class="mt10" style="text-align: right">
+            <%--        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="docUrl" onclick="recruitAdminPop.getEvalUrlSet('doc')">--%>
+            <%--          <span>서류심사 바로가기</span>--%>
+            <%--        </button>--%>
+                <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="docPass" style="font-size: 12px" value="D" onclick="">
+                    <span>SMS발송</span>
+                </button>
+                <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="docPass" style="font-size: 12px" value="D" onclick="">
+                    <span>메일발송</span>
+                </button>
+            </div>
 
-<%--        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" id="inUrl" onclick="recruitAdminPop.getEvalUrlSet('in')">--%>
-<%--          <span>면접심사 URL 생성</span>--%>
-<%--        </button>--%>
-        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info"onclick="recruitAdminPop.inTimeSetPop()">
-          <span>면접정보 설정</span>
-        </button>
-        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" id="inPass" value="I" onclick="recruitAdminPop.setApplicationUpd(this.value, 'pass')">
-          <span>면접심사 합격</span>
-        </button>
-        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" id="inFail" value="IF" onclick="recruitAdminPop.setApplicationUpd(this.value, 'fail')">
-          <span>면접심사 불합격</span>
-        </button>
-        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" id="inAvoid" value="I" onclick="recruitAdminPop.setInAvoidUpd()">
-          <span>면접불참</span>
-        </button>
-      </div>
+            <div class="mt10" style="text-align: right">
+            <%--        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="docUrl" onclick="recruitAdminPop.getEvalUrlSet('doc')">--%>
+            <%--          <span>서류심사 바로가기</span>--%>
+            <%--        </button>--%>
+            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="docPass" style="font-size: 12px" value="D" onclick="recruitAdminPop.setApplicationUpd(this.value, 'pass')">
+              <span>서류심사 합격</span>
+            </button>
+            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="docFail" style="font-size: 12px" value="DF" onclick="recruitAdminPop.setApplicationUpd(this.value, 'fail')">
+              <span>서류심사 불합격</span>
+            </button>
+
+            <%--        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" id="inUrl" onclick="recruitAdminPop.getEvalUrlSet('in')">--%>
+            <%--          <span>면접심사 URL 생성</span>--%>
+            <%--        </button>--%>
+            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" style="font-size: 12px" onclick="recruitAdminPop.inTimeSetPop()">
+              <span>면접정보 설정</span>
+            </button>
+            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" id="inPass" style="font-size: 12px" value="I" onclick="recruitAdminPop.setApplicationUpd(this.value, 'pass')">
+              <span>면접심사 합격</span>
+            </button>
+            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" id="inFail" style="font-size: 12px" value="IF" onclick="recruitAdminPop.setApplicationUpd(this.value, 'fail')">
+              <span>면접심사 불합격</span>
+            </button>
+            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" id="inAvoid" style="font-size: 12px" value="I" onclick="recruitAdminPop.setInAvoidUpd()">
+              <span>면접불참</span>
+            </button>
+            </div>
+        </div>
 
       <div>
         <div id="mainGrid" style="margin:20px 0;"></div>

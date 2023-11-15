@@ -17,9 +17,7 @@ var rcDetailPop = {
             $("#uploadDt").text(recruit.UPLOAD_DT);
             $("#uploadText").text(recruit.UPLOAD_TEXT);
             $("#startDt").text(recruit.START_DT);
-            $("#startTime").text(recruit.START_TIME);
             $("#endDt").text(recruit.END_DT);
-            $("#endTime").text(recruit.END_TIME);
 
             $("#jobPositionEtc").text(recruit.JOB_POSITION_ETC);
             $("#eligibilityEtc").text(recruit.ELIGIBILITY_ETC);
