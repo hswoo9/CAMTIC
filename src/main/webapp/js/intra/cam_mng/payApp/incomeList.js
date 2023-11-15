@@ -161,7 +161,7 @@ var incomeList = {
             searchValue : $("#searchValue").val()
         }
 
-        incomeList.mainGrid("/pay/getExnpList", incomeList.global.searchAjaxData);
+        incomeList.mainGrid("/pay/getIncpList", incomeList.global.searchAjaxData);
     },
 
     fn_reqRegPopup : function (key, paySn){

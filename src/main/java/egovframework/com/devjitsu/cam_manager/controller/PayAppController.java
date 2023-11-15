@@ -381,6 +381,13 @@ public class PayAppController {
         return "jsonView";
     }
 
+    @RequestMapping("/pay/getIncpList")
+    public String getIncpList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = payAppService.getIncpList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     @RequestMapping("/pay/resolutionExnpAppr")
     public String resolutionExnpAppr(@RequestParam Map<String, Object> params, Model model){
         try {

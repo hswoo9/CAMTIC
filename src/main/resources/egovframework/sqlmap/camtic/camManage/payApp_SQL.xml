@@ -558,6 +558,20 @@
         GROUP BY E.EXNP_SN
     </select>
 
+    <select id="getIncpList" parameterType="map" resultType="map">
+        /* getIncpList */
+        SELECT
+            A.*,
+            B.DOC_NO,
+            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_INCP_DET WHERE INCP_SN = A.INCP_SN) AS TOT_COST
+        FROM
+            CAM_MNG.DJ_INCP A
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO B
+        ON
+            A.DOC_ID = B.DOC_ID
+    </select>
+
     <update id="updPayAppDetailStatus" parameterType="map">
         /*updPayAppDetailStatus*/
         UPDATE
