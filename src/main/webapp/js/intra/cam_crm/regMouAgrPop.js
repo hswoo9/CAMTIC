@@ -56,7 +56,7 @@ var mouReg = {
                     for(var i = 0; i < fileInfo.length; i++){
                         html += '<li>';
                         html += '   <span style="cursor: pointer" onclick="fileDown(\''+fileInfo[i].file_path+fileInfo[i].file_uuid+'\', \''+fileInfo[i].file_org_name+'.'+fileInfo[i].file_ext+'\')">'+fileInfo[i].file_org_name+'.'+fileInfo[i].file_ext+'</span>';
-                        html += '   <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" style="margin-left: 5px;" onclick="mouReg.commonFileDel(' + fileInfo[i].file_no + ', this)">';
+                        html += '   <input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="mouReg.commonFileDel(' + fileInfo[i].file_no + ', this)">';
                         html += '</li>';
                     }
                     $("#ulSetFileName").append(html);
