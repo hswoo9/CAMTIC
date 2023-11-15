@@ -143,12 +143,13 @@
 
     <select id="getPayAppReqData" parameterType="map" resultType="map">
         /*getPayAppReqData*/
-        SELECT A.*, B.DOC_NO
+        SELECT A.*, B.DOC_NO,
+               IFNULL((SELECT SPCS.DIV_CD FROM CAM_MNG.DJ_PROJECT_CODE_SET SPCS WHERE SPCS.IS_CODE = LEFT(P.PJT_CD, 1)), '') AS DIV_CD
         FROM CAM_MNG.DJ_PAY_APP A
         LEFT JOIN
-            DJ_CAMTIC.A_DOC_INFO B
-        ON
-            A.DOC_ID = B.DOC_ID
+            DJ_CAMTIC.A_DOC_INFO B ON A.DOC_ID = B.DOC_ID
+        LEFT JOIN
+             CAM_PJT_MNG.DJ_PROJECT P ON A.PJT_SN = P.PJT_SN
         WHERE PAY_APP_SN = #{payAppSn}
     </select>
 

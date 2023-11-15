@@ -54,8 +54,8 @@ var regExnp = {
 
         if($("#exnpSn").val() == ""){
             if($("#payAppSn").val() != ""){
+                /** 지급신청서에서 지결 작성시 데이터 세팅 */
                 regExnp.setData();
-
                 regExnp.fn_viewStat();
             }
         } else {
@@ -309,25 +309,31 @@ var regExnp = {
         var rs = result.map;
         var ls = result.list;
 
+        console.log(result);
 
-        $("#payAppType").data("kendoRadioGroup").value(rs.PAY_APP_TYPE)
-        $("#exnpDe").val(rs.APP_DE)
-        $("#pjtNm").val(rs.PJT_NM)
-        $("#pjtSn").val(rs.PJT_SN)
-        $("#budgetNm").val(rs.BUDGET_NM)
-        $("#budgetSn").val(rs.BUDGET_SN)
-        $("#exnpBriefs").val(rs.APP_TITLE)
-        $("#addExnpBriefs").val(rs.APP_CONT)
 
-        $("#bnkSn").val(rs.BNK_SN)
-        $("#bnkNm").val(rs.BNK_NM)
-        $("#accNm").val(rs.ACC_NM)
-        $("#accNo").val(rs.ACC_NO)
+        $("#payAppType").data("kendoRadioGroup").value(rs.PAY_APP_TYPE);
+        $("#exnpDe").val(rs.APP_DE);
+        $("#pjtNm").val(rs.PJT_NM);
+        $("#pjtSn").val(rs.PJT_SN);
+        $("#budgetNm").val(rs.BUDGET_NM);
+        $("#budgetSn").val(rs.BUDGET_SN);
+        $("#exnpBriefs").val(rs.APP_TITLE);
+        $("#addExnpBriefs").val(rs.APP_CONT);
+
+        $("#bnkSn").val(rs.BNK_SN);
+        $("#bnkNm").val(rs.BNK_NM);
+        $("#accNm").val(rs.ACC_NM);
+        $("#accNo").val(rs.ACC_NO);
+
+        if(rs.DIV_CD != ""){
+            $("#busnCd").data("kendoDropDownList").value(rs.DIV_CD);
+        }
 
         if(ls.length > 0){
             $("#payDestTb").html("");
         }
-        for(var i=0; i < ls.length; i++) {
+        for(var i=0; i < ls.length; i++){
             var item = ls[i];
 
             regExnpDet.global.createHtmlStr = "";
