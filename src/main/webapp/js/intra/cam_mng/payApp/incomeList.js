@@ -43,6 +43,13 @@ var incomeList = {
                 {
                     name: 'button',
                     template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="incomeList.fn_reqRegPopup()">' +
+                            '	<span class="k-button-text">수입결의서 작성</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="incomeList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
@@ -158,7 +165,7 @@ var incomeList = {
     },
 
     fn_reqRegPopup : function (key, paySn){
-        var url = "/payApp/pop/regExnpPop.do";
+        var url = "/payApp/pop/regIncmPop.do";
         if(key != null && key != ""){
             url = "/payApp/pop/regExnpPop.do?payAppSn=" + paySn + "&exnpSn=" + key;
         }

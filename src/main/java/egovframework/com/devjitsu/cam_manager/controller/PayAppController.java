@@ -304,6 +304,19 @@ public class PayAppController {
         return "cam_manager/payApp/incomeList";
     }
 
+    @RequestMapping("/payApp/pop/regIncmPop.do")
+    public String regIncmPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("erpEmpSeq", loginVO.getErpEmpCd());
+        Map<String, Object> g20 = g20Service.getSempData(params);
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        model.addAttribute("g20", g20);
+
+        return "popup/cam_manager/payApp/regIncmPop";
+    }
+
     @RequestMapping("/pay/incomeReList.do")
     public String incomeReList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();

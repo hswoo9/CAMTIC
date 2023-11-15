@@ -123,6 +123,11 @@ var equipmentUsePop = {
     },
 
     equipUseSave : function (){
+        /** 사용대금 필수값 해제로 인하여 공백값일시 0원 들어가게 변경 */
+        let useAmt = $("#useAmt").val().replace(/,/g, '');
+        if($("#useAmt").val() == ""){
+            useAmt = 0;
+        }
 
         if(confirm("등록하시겠습니까?")){
             var data = {
@@ -136,7 +141,7 @@ var equipmentUsePop = {
                 userSn : $("#empSeq").val(), //사용자 사원번호
                 operCn : $("#operCn").val(), //작업내용
                 useTime : $("#useTime").val(), //사용시간
-                useAmt : $("#useAmt").val().replace(/,/g, ''), //사용대금
+                useAmt : useAmt, //사용대금
                 prtpcoGbnName : $("#prtpcoGbnName").data("kendoDropDownList").text(), //업체구분명
                 prtpcoGbnSn : $("#prtpcoGbnName").data("kendoDropDownList").value(), //업체구분 공통코드sn
                 regDe : $("#regDe").val().replaceAll('-',''), //작성일자
@@ -169,13 +174,7 @@ var equipmentUsePop = {
             }else if(data.useTime == null || data.useTime == '') {
                 alert("사용시간을 입력하세요.")
                 return false;
-            }else if(data.useAmt == null || data.useAmt == '') {
-                alert("사용대금을 입력하세요.")
-                return false;
-            }/*else if(data.clientPprtpcoName == null || data.clientPprtpcoName == '') {
-                alert("의뢰업체를 입력하세요.")
-                return false;
-            }*/else if(data.prtpcoGbnSn == null || data.prtpcoGbnSn == '') {
+            }else if(data.prtpcoGbnSn == null || data.prtpcoGbnSn == '') {
                 alert("업체구분을 선택하세요.")
                 return false;
             }else if(data.regDe == null || data.regDe == '') {

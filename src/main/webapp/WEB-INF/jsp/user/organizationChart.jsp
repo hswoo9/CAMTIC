@@ -46,7 +46,7 @@
                                     <%--<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userSetGrade.userSetGradePop();">직급/등급 관리</button>
                                     <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userSetDuty.userSetDutyPop();">직책관리</button>
                                     <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userSetRank.userSetRankPop();">서열관리</button>--%>
-                                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="organizationHistory.organizationHistoryPop();" disabled>이력관리</button>
+                                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="organizationHistory.organizationHistoryPop();">이력관리</button>
                                     <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="userSetOrganization.userSetOrganizationPop();">조직도관리</button>
                                 </div>
                             </div>
