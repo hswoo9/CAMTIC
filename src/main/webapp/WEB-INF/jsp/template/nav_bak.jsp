@@ -468,6 +468,7 @@
                                 <li>
                                     <a href="#" class="toggleMain">근태관리</a>
                                     <ul class="innerMain children c_o">
+                                        <li><a href="#" onclick="open_in_frame('')" class="toggleMain1">휴일근로신청</a></li>
                                         <li><a href="#" onclick="open_in_frame('/Inside/personAttendList.do?menu=c_o')" class="toggleMain1">개인근태현황</a></li>
                                         <li><a href="#" onclick="open_in_frame('/Inside/personAnnvMain.do?menu=c_o')" class="toggleMain1">개인연차현황</a></li>
                                         <li><a href="#" onclick="open_in_frame('/Inside/personReqManage.do?menu=c_o')" class="toggleMain1">근태신청현황</a></li>

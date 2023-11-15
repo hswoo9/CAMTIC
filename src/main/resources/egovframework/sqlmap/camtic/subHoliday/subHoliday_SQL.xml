@@ -22,6 +22,7 @@
             <if test="notCode != null and notCode!= ''">
                 AND SUBHOLIDAY_CODE_ID != '9'
             </if>
+        AND SUBHOLIDAY_CODE_ID != '11'
     </select>
 
     <select id="getVacUseHistoryList" parameterType="map" resultType="map">
@@ -340,6 +341,9 @@
                ( ( VC.grant_day + VC.mdtn_day + VC.extra_day ) - ( VC.use_day ) ) AS REMAIN_VAC,
                VC.active,
                VC.holiday_id,
+               CASE WHEN VUI.DUTY_CODE IS NOT NULL THEN (SELECT SORT FROM CAM_COMMON.dj_com_code WHERE CM_GROUP_CODE_ID = 3 AND CM_CODE = VUI.DUTY_CODE)
+               WHEN VUI.POSITION_CODE IS NOT NULL THEN (SELECT SORT FROM CAM_COMMON.dj_com_code WHERE CM_GROUP_CODE_ID = 4 AND CM_CODE = VUI.POSITION_CODE)
+               ELSE 999 END SORT,
                Sum(CASE
                        WHEN VUH.subholiday_code_id = 1 THEN 1
                        ELSE 0
@@ -400,6 +404,12 @@
         </if>
         <if test='searchVal != null and !"".equals(searchVal)'>
             AND VUI.EMP_NAME_KR LIKE CONCAT('%',#{searchVal},'%')
+        </if>
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                ${item}
+            </foreach>
         </if>
         GROUP BY VUI.emp_seq,
             VUI.emp_name_kr,

@@ -25,7 +25,8 @@ var personAttendStatPop = {
                 {text: "경조 휴가", value: "경조 휴가"},
                 {text: "선택 근로", value: "선택 근로"},
                 {text: "출장", value: "출장"},
-                {text: "대체 휴가", value: "대체 휴가"}
+                {text: "대체 휴가", value: "대체 휴가"},
+                {text: "휴일 근로", value: "휴일 근로"}
             ],
             index: 0
         });

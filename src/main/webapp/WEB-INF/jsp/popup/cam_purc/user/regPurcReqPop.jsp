@@ -121,17 +121,32 @@
                 </span>
             </c:if>
             <div class="mt-20">
-                <div class="text-right">
-                    <button type="button" id="addBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="prp.addRow()">
-                        <span class="k-button-text">추가</span>
-                    </button>
+                <div class="text-right" style="display: flex; justify-content: space-between">
+                    <div>
+                        <button type="button" id="allModViewBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="prp.allModViewBtn()" style="font-size: 12px">
+                            <span class="k-button-text">일괄변경</span>
+                        </button>
+                        <input type="text" id="purcItemTypeAll" class="purcItemType allMod" style="width: 110px; display: none">
+                        <input type="text" id="productAAll" class="productA allMod" style="width: 110px; display: none">
+                        <input type="text" id="productBAll" class="productB allModItem" style="width: 110px; display: none">
+                        <input type="text" id="productCAll" class="productC allModItem" style="width: 110px; display: none">
+                        <button type="button" id="allModBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info allMod" onclick="prp.allModBtn()" style="font-size: 12px; display: none">
+                            <span class="k-button-text">변경</span>
+                        </button>
+                        <button type="button" id="allCanBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error allMod" onclick="" style="font-size: 12px; display: none">
+                            <span class="k-button-text">취소</span>
+                        </button>
+                    </div>
+                    <div>
+                        <button type="button" id="addBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="prp.addRow()" style="font-size: 12px;">
+                            <span class="k-button-text">추가</span>
+                        </button>
+                    </div>
                 </div>
 
                 <table class="popTable table table-bordered mb-0 mt-20">
                     <colgroup>
-                        <c:if test="${params.stat == 'v'}">
-                            <col style="width: 3%;">
-                        </c:if>
+                        <col style="width: 3%;">
                         <col style="width: 480px;">
                         <col>
                         <col style="width: 6%;">
@@ -155,11 +170,9 @@
                     </colgroup>
                     <thead>
                     <tr>
-                        <c:if test="${params.stat == 'v'}">
-                            <th>
-                                <input type="checkbox" id="checkAll" class="k-checkbox" style="margin-left: 2px;" />
-                            </th>
-                        </c:if>
+                        <th>
+                            <input type="checkbox" id="checkAll" class="k-checkbox" />
+                        </th>
                         <th>구분</th>
                         <th>품명</th>
                         <th>규격</th>
@@ -179,11 +192,9 @@
                     </thead>
                     <tbody id="purcItemTb">
                     <tr class="purcItemInfo newArray" id="item0">
-                        <c:if test="${params.stat == 'v'}">
-                            <td>
-                                <input type="checkbox" id="check0" class="childCheck k-checkbox" style="margin-left: 3px;" value="0" />
-                            </td>
-                        </c:if>
+                        <td>
+                            <input type="checkbox" id="check0" class="childCheck k-checkbox" style="margin-left: 4px;" value="0" />
+                        </td>
                         <td>
                             <input type="hidden" id="purcItemSn0" name="purcItemSn0" class="purcItemSn">
                             <input type="text" id="purcItemType0" class="purcItemType" style="width: 110px">
