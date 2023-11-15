@@ -205,6 +205,16 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
+    public Map<String, Object> getPayIncpReqData(Map<String, Object> params) {
+        return payAppRepository.getPayIncpReqData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getPayIncpDetailData(Map<String, Object> params) {
+        return payAppRepository.getPayIncpDetailData(params);
+    }
+
+    @Override
     public void resolutionExnpAppr(Map<String, Object> params) {
         updateG20ExnpFinalAppr(params, "resolution");
         payAppRepository.resolutionExnpStatus(params);

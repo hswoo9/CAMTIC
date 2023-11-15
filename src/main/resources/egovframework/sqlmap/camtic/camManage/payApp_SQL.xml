@@ -777,6 +777,8 @@
             PJT_SN,
             BUDGET_NM,
             BUDGET_SN,
+            BUSN_CD,
+            BUSN_EX_CD
             APP_DE,
             APP_CONT,
             BNK_SN,
@@ -793,6 +795,8 @@
             #{pjtSn},
             #{budgetNm},
             #{budgetSn},
+            #{busnCd},
+            #{busnExCd},
             #{appDe},
             #{appCont},
             #{bnkSn},
@@ -816,6 +820,8 @@
             PJT_SN = #{pjtSn},
             APP_DE = #{appDe},
             APP_CONT = #{appCont},
+            BUSN_CD = #{busnCd},
+            BUSN_EX_CD = #{busnExCd},
             BNK_SN = #{bnkSn},
             BNK_NM = #{bnkNm},
             ACC_NO = #{accNo},
@@ -861,10 +867,27 @@
         )
     </insert>
 
-
     <delete id="delPayIncpDetailData" parameterType="map">
         /*delPayIncpDetailData*/
         DELETE FROM CAM_MNG.DJ_PAY_INCP_DET
         WHERE PAY_INCP_SN = #{payIncpSn}
     </delete>
+
+    <select id="getPayIncpReqData" parameterType="map" resultType="map">
+        /*getPayIncpReqData*/
+        SELECT A.*, B.DOC_NO
+        FROM CAM_MNG.DJ_PAY_INCP A
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO B
+        ON
+           A.DOC_ID = B.DOC_ID
+        WHERE PAY_INCP_SN = #{payIncpSn}
+    </select>
+
+    <select id="getPayIncpDetailData" parameterType="map" resultType="map">
+        /*getPayIncpDetailData*/
+        SELECT *
+        FROM CAM_MNG.DJ_PAY_INCP_DET
+        WHERE PAY_INCP_SN = #{payIncpSn}
+    </select>
 </mapper>

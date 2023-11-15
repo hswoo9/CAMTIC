@@ -157,26 +157,27 @@ var regIncm = {
             payIncpSn : $("#payIncpSn").val()
         }
 
-        var result = customKendo.fn_customAjax("/payApp/pop/getPayAppData", data);
+        var result = customKendo.fn_customAjax("/payApp/pop/getPayIncpData", data);
         var rs = result.map;
         var ls = result.list;
 
         regIncm.payAppBtnSet(rs);
         console.log(ls);
 
-        $("#appDe").val(rs.APP_DE)
-        $("#pjtNm").val(rs.PJT_NM)
-        $("#pjtSn").val(rs.PJT_SN)
-        // $("#budgetNm").val(rs.BUDGET_NM)
-        // $("#budgetSn").val(rs.BUDGET_SN)
-        $("#appTitle").val(rs.APP_TITLE)
-        $("#appCont").val(rs.APP_CONT)
+        $("#appDe").val(rs.APP_DE);
+        $("#pjtNm").val(rs.PJT_NM);
+        $("#pjtSn").val(rs.PJT_SN);
+        // $("#budgetNm").val(rs.BUDGET_NM);
+        // $("#budgetSn").val(rs.BUDGET_SN);
+        $("#appCont").val(rs.APP_CONT);
+        $("#busnCd").data("kendoDropDownList").value(rs.BUSN_CD);
+        $("#busnExCd").data("kendoDropDownList").value(rs.BUSN_EX_CD);
 
-        $("#bnkSn").val(rs.BNK_SN)
-        $("#bnkNm").val(rs.BNK_NM)
-        $("#accNm").val(rs.ACC_NM)
-        $("#accNo").val(rs.ACC_NO)
-        $("#payAppStat").data("kendoRadioGroup").value(rs.PAY_APP_STAT)
+        $("#bnkSn").val(rs.BNK_SN);
+        $("#bnkNm").val(rs.BNK_NM);
+        $("#accNm").val(rs.ACC_NM);
+        $("#accNo").val(rs.ACC_NO);
+        $("#payAppStat").data("kendoRadioGroup").value(rs.PAY_APP_STAT);
 
         if(ls.length > 0){
             $("#payDestTb").html("");
@@ -326,6 +327,8 @@ var regIncm = {
             pjtSn : $("#pjtSn").val(),
             budgetNm : $("#budgetNm").val(),
             budgetSn : $("#budgetSn").val(),
+            busnCd : $("#busnCd").val(),
+            busnExCd : $("#busnExCd").val(),
             appCont : $("#appCont").val(),
             bnkSn : $("#bnkSn").val(),
             bnkNm : $("#bnkNm").val(),

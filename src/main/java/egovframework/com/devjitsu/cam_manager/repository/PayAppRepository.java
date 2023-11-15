@@ -92,6 +92,13 @@ public class PayAppRepository extends AbstractDAO {
         insert("payApp.insPayIncpDetailData", map);
     }
 
+    public Map<String, Object> getPayIncpReqData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("payApp.getPayIncpReqData", params);
+    }
+    public List<Map<String, Object>> getPayIncpDetailData(Map<String, Object> params) {
+        return selectList("payApp.getPayIncpDetailData", params);
+    }
+
     public List<Map<String, Object>> getExnpReList(Map<String, Object> params) {
         return selectList("payApp.getExnpReList", params);
     }
