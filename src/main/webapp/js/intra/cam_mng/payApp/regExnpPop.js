@@ -59,6 +59,7 @@ var regExnp = {
                 regExnp.fn_viewStat();
             }
         } else {
+            /** 지결 최초 작성 후 데이터 세팅 */
             regExnp.dataSet();
         }
 
@@ -117,22 +118,22 @@ var regExnp = {
         }
 
         $("#busnCd").data("kendoDropDownList").value(rs.BUSN_CD);
-        $("#payAppType").data("kendoRadioGroup").value(rs.PAY_APP_TYPE)
-        $("#exnpDe").val(rs.EXNP_DE)
-        $("#pjtNm").val(rs.PJT_NM)
-        $("#pjtSn").val(rs.PJT_SN)
-        $("#budgetNm").val(rs.BUDGET_NM)
-        $("#budgetSn").val(rs.BUDGET_SN)
-        $("#exnpBriefs").val(rs.EXNP_BRIEFS)
-        $("#addExnpBriefs").val(rs.ADD_EXNP_BRIEFS)
+        $("#payAppType").data("kendoRadioGroup").value(rs.PAY_APP_TYPE);
+        $("#exnpDe").val(rs.EXNP_DE);
+        $("#pjtNm").val(rs.PJT_NM);
+        $("#pjtSn").val(rs.PJT_SN);
+        $("#exnpBriefs").val(rs.EXNP_BRIEFS);
+        $("#addExnpBriefs").val(rs.ADD_EXNP_BRIEFS);
 
-        $("#bnkSn").val(rs.BNK_SN)
-        $("#bnkNm").val(rs.BNK_NM)
-        $("#accNm").val(rs.ACC_NM)
-        $("#accNo").val(rs.ACC_NO)
+        $("#bnkSn").val(rs.BNK_SN);
+        $("#bnkNm").val(rs.BNK_NM);
+        $("#accNm").val(rs.ACC_NM);
+        $("#accNo").val(rs.ACC_NO);
 
         if(ls.length > 0){
             $("#payDestTb").html("");
+            $("#budgetNm").val(ls[0].BUDGET_NM);
+            $("#budgetSn").val(ls[0].BUDGET_SN);
         }
         for(var i=0; i < ls.length; i++) {
             var item = ls[i];
@@ -144,10 +145,6 @@ var regExnp = {
                 '<tr class="payDestInfo newArray" id="pay' + regExnpDet.global.itemIndex + '" style="text-align: center;">';
             if(item.DET_STAT != "N"){
                 regExnpDet.global.createHtmlStr += "" +
-                    '   <td>' +
-                    '       <input type="text" id="budgetNm' + regExnpDet.global.itemIndex + '" value="'+item.BUDGET_NM+'" onclick="regExnp.fn_budgetPop('+clIdx+')" style="width: 100%;">' +
-                    '       <input type="hidden" id="budgetSn' + regExnpDet.global.itemIndex + '" value="'+item.BUDGET_SN+'" />' +
-                    '   </td>' +
                     '   <td>' +
                     '       <input type="hidden" id="payDestSn' + regExnpDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" name="payDestSn" class="payDestSn">' +
                     '       <input type="hidden" id="exnpDestSn' + regExnpDet.global.itemIndex + '" value="'+item.EXNP_DET_SN+'" name="exnpDestSn" class="exnpDestSn">' +
@@ -232,7 +229,7 @@ var regExnp = {
                     , "crmAccHolder" + regExnpDet.global.itemIndex
                     , "crmAccNo" + regExnpDet.global.itemIndex, "totCost" + regExnpDet.global.itemIndex
                     , "supCost" + regExnpDet.global.itemIndex, "vatCost" + regExnpDet.global.itemIndex
-                    ,"card" + regExnpDet.global.itemIndex, "budgetNm" + regExnpDet.global.itemIndex]);
+                    ,"card" + regExnpDet.global.itemIndex]);
 
                 customKendo.fn_datePicker("trDe" + regExnpDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
 
@@ -316,8 +313,6 @@ var regExnp = {
         $("#exnpDe").val(rs.APP_DE);
         $("#pjtNm").val(rs.PJT_NM);
         $("#pjtSn").val(rs.PJT_SN);
-        $("#budgetNm").val(rs.BUDGET_NM);
-        $("#budgetSn").val(rs.BUDGET_SN);
         $("#exnpBriefs").val(rs.APP_TITLE);
         $("#addExnpBriefs").val(rs.APP_CONT);
 
@@ -332,6 +327,8 @@ var regExnp = {
 
         if(ls.length > 0){
             $("#payDestTb").html("");
+            $("#budgetNm").val(ls[0].BUDGET_NM);
+            $("#budgetSn").val(ls[0].BUDGET_SN);
         }
         for(var i=0; i < ls.length; i++){
             var item = ls[i];
@@ -343,10 +340,6 @@ var regExnp = {
                 '<tr class="payDestInfo newArray" id="pay' + regExnpDet.global.itemIndex + '" style="text-align: center;">';
             if(item.DET_STAT != "N"){
                 regExnpDet.global.createHtmlStr += "" +
-                    '   <td>' +
-                    '       <input type="text" id="budgetNm' + regExnpDet.global.itemIndex + '" value="'+item.BUDGET_NM+'" onclick="regExnp.fn_budgetPop('+clIdx+')" style="width: 100%;">' +
-                    '       <input type="hidden" id="budgetSn' + regExnpDet.global.itemIndex + '" value="'+item.BUDGET_SN+'" />' +
-                    '   </td>' +
                     '   <td>' +
                     '       <input type="hidden" id="payDestSn' + regExnpDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" name="payDestSn" class="payDestSn">' +
                     '       <input type="text" id="eviType' + regExnpDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
@@ -430,7 +423,7 @@ var regExnp = {
                     , "crmAccHolder" + regExnpDet.global.itemIndex
                     , "crmAccNo" + regExnpDet.global.itemIndex, "totCost" + regExnpDet.global.itemIndex
                     , "supCost" + regExnpDet.global.itemIndex, "vatCost" + regExnpDet.global.itemIndex
-                    ,"card" + regExnpDet.global.itemIndex, "budgetNm" + regExnpDet.global.itemIndex]);
+                    ,"card" + regExnpDet.global.itemIndex]);
 
                 customKendo.fn_datePicker("trDe" + regExnpDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
 
@@ -499,8 +492,8 @@ var regExnp = {
             var data = {
                 payDestSn : $("#payDestSn" + i).val(),
                 evidType : $("#eviType" + i).val(),
-                budgetNm : $("#budgetNm" + i).val(),
-                budgetSn : $("#budgetSn" + i).val(),
+                budgetNm : $("#budgetNm").val(),
+                budgetSn : $("#budgetSn").val(),
                 crmNm : $("#crmNm" + i).val(),
                 trCd : $("#trCd" + i).val(),
                 crmBnkNm : $("#crmBnkNm" + i).val(),

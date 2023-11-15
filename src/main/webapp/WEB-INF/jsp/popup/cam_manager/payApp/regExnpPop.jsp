@@ -84,8 +84,13 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">사업장</th>
-                    <td colspan="4">
+                    <td colspan="2">
                         <input type="text" id="busnCd" style="width: 15%;">
+                    </td>
+                    <th scope="row" class="text-center th-color">예산비목</th>
+                    <td colspan="2">
+                        <input type="text" id="budgetNm" value="" onclick="regExnp.fn_budgetPop('N')"  style="width: 100%;">
+                        <input type="hidden" id="budgetSn" value="" />
                     </td>
                 </tr>
                 <tr>
@@ -144,7 +149,6 @@
                             <col style="width: 3%;">
                         </c:if>
                         <col style="width: 5%;">
-                        <col style="width: 5%;">
                         <col style="width: 6%;">
                         <col style="width: 4%;">
                         <col style="width: 6%;">
@@ -162,7 +166,6 @@
                         <c:if test="${'rev'.equals(params.status)}">
                             <th><input type="checkbox" id="checkAll" /></th>
                         </c:if>
-                        <th>예산비목</th>
                         <th>증빙유형</th>
                         <th>상호</th>
                         <th>은행명</th>
@@ -182,12 +185,6 @@
                         <c:if test="${'rev'.equals(params.status)}">
                             <td><input type="checkbox" id="check0" class="check" /></td>
                         </c:if>
-                        <td>
-                            <span>
-                                <input type="text" id="budgetNm0" value="" onclick="regExnp.fn_budgetPop(0)"  style="width: 100%;">
-                                <input type="hidden" id="budgetSn0" value="" />
-                            </span>
-                        </td>
                         <td>
                             <input type="hidden" id="payDestSn0" name="payDestSn" class="payDestSn">
                             <input type="text" id="eviType0" class="eviType" style="width: 100%">
