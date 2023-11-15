@@ -13,14 +13,22 @@
 	<input type="hidden" id="userEmail" name="userEmail" value="${userEmail}">
 	<input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="${recruitInfoSn}">
 	<div class="inner">
-		위 사항에 동의합니다. <input type="checkbox" id="chk1" name="chk"><br>
-		위 사항에 동의합니다. <input type="checkbox" name="chk">
+		위 사항에 동의합니다. <input type="checkbox" id="chk1" name="chk" onchange="updateApplyButtonState()" required><br>
+		위 사항에 동의합니다. <input type="checkbox" id="chk2" name="chk" onchange="updateApplyButtonState()" required>
 	</div>
 	<div>
-		<button type="button" onclick="setApplicanUserAgree()">온라인 입사지원하기</button>
+		<button type="button" id="applyButton" onclick="setApplicanUserAgree()" disabled>온라인 입사지원하기</button>
 	</div>
 </div>
 <script>
+	function updateApplyButtonState() {
+		var chk1 = document.getElementById('chk1');
+		var chk2 = document.getElementById('chk2');
+		var applyButton = document.getElementById('applyButton');
+
+		applyButton.disabled = !(chk1.checked && chk2.checked);
+	}
+
 	function setApplicanUserAgree(){
 		var data = {
 			recruitInfoSn : $("#recruitInfoSn").val(),
@@ -29,7 +37,6 @@
 
 		var result = customKendo.fn_customAjax("/application/setUserAgree.do", data);
 		if(result.flag){
-			/** */
 			location.href = "/application/applicationForm1.do";
 		}
 	}
