@@ -84,12 +84,12 @@
                 <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">일정</h4>
                 <div class="selectBtn" style="float: right; margin-top:-12px; margin-right:15px; ">
                     <label class="__lab">
-                        <input type="radio" name="scheBtn" value="ES" checked onclick="updateScheduleCont(this.value)"/>
-                        <i></i><span>직원일정</span>
+                        <input type="radio" name="scheBtn" value="CS" checked onclick="updateScheduleCont(this.value)"/>
+                        <i></i><span>법인일정</span>
                     </label>
                     <label class="__lab">
-                        <input type="radio" name="scheBtn" value="CS" onclick="updateScheduleCont(this.value)"/>
-                        <i></i><span>법인일정</span>
+                        <input type="radio" name="scheBtn" value="ES" onclick="updateScheduleCont(this.value)"/>
+                        <i></i><span>직원일정</span>
                     </label>
                 </div>
             </div>
