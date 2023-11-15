@@ -171,7 +171,7 @@
         UPDATE
             CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN
         SET
-            <if test='evalScreenType == "in" or "in".equals(evalScreenType)"'>
+            <if test='"in".equals(evalScreenType)'>
                 EVAL_STATUS = 'E',
             </if>
             MOD_ID = #{evalEmpSeq}
