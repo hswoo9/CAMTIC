@@ -187,7 +187,7 @@ var prp = {
         prp.global.createHtmlStr = "" +
             '<tr class="purcItemInfo newArray" id="item' + prp.global.itemIndex + '">' +
                 '<td>' +
-                '   <input type="checkbox" id="check'+ prp.global.itemIndex + '" class="childCheck k-checkbox" style="margin-left: 4px;" value="prp.global.itemIndex">' +
+                '   <input type="checkbox" id="check'+ prp.global.itemIndex + '" class="childCheck k-checkbox" style="margin-left: 4px;" value="'+ prp.global.itemIndex + '">' +
                 '</td>' +
                 '<td>' +
                 '   <input type="hidden" id="purcItemSn' + prp.global.itemIndex + '" name="purcItemSn0" class="purcItemSn">' +
@@ -589,21 +589,31 @@ var prp = {
     },
 
     allModBtn : function(){
-        $.each($(".childCheck:checked"), function(i, v){
-            /*$("#item" + i).find("#purcItemType" + i).data("kendoDropDownList").value(e[i].PURC_ITEM_TYPE);
-            if(e[i].PRODUCT_A != null){
-                $("#item" + i).find("#productA" + i).data("kendoDropDownList").value(e[i].PRODUCT_A);
+        if($(".childCheck:checked").length == 0){
+            alert("변경하실 품명을 선택해주세요.");
+        }
+        $.each($(".childCheck:checked"), function(index, item){
+            let i = $(this).val();
+            $("#item" + i).find("#purcItemType" + i).data("kendoDropDownList").value($("#purcItemTypeAll").data("kendoDropDownList").value());
+            $("#item" + i).find("#productA" + i).data("kendoDropDownList").value($("#productAAll").data("kendoDropDownList").value());
+
+            if($("#productAAll").data("kendoDropDownList").value() == "3"){
                 $("#productA" + i).trigger("change");
+                $("#item" + i).find("#productB" + i).data("kendoDropDownList").value($("#productBAll").data("kendoDropDownList").value());
+                $("#productB" + i).trigger("change");
+                if($("#productBAll").val() != ""){
+                    $("#item" + i).find("#productC" + i).data("kendoDropDownList").value($("#productCAll").data("kendoDropDownList").value());
+                }
+            }else{
+                if($("#productAAll").data("kendoDropDownList").text() != "캠아이템"){
+                    try{
+                        $("#item" + i).find("#productB" + i).data("kendoDropDownList").wrapper.hide();
+                        $("#item" + i).find("#productC" + i).data("kendoDropDownList").wrapper.hide();
+                    }catch{
+
+                    }
+                }
             }
-            if($("#item" + i).find("#productA" + i).data("kendoDropDownList").value() == "3"){
-                if(e[i].PRODUCT_B != null){
-                    $("#item" + i).find("#productB" + i).data("kendoDropDownList").value(e[i].PRODUCT_B);
-                    $("#productB" + i).trigger("change");
-                }
-                if(e[i].PRODUCT_C != null){
-                    $("#item" + i).find("#productC" + i).data("kendoDropDownList").value(e[i].PRODUCT_C);
-                }
-            }*/
         });
     }
 }

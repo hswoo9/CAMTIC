@@ -181,6 +181,40 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
+    public List<Map<String, Object>> getIncpList(Map<String, Object> params) {
+        return payAppRepository.getIncpList(params);
+    }
+
+    @Override
+    public void payIncpSetData(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> itemArr = gson.fromJson((String) params.get("itemArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        if(!params.containsKey("payIncpSn")){
+            payAppRepository.insPayIncpData(params);
+        } else {
+            payAppRepository.updPayIncpData(params);
+            payAppRepository.delPayIncpDetailData(params);
+        }
+
+        for(Map<String, Object> map : itemArr){
+            map.put("payIncpSn", params.get("payIncpSn"));
+            payAppRepository.insPayIncpDetailData(map);
+        }
+
+    }
+
+    @Override
+    public Map<String, Object> getPayIncpReqData(Map<String, Object> params) {
+        return payAppRepository.getPayIncpReqData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getPayIncpDetailData(Map<String, Object> params) {
+        return payAppRepository.getPayIncpDetailData(params);
+    }
+
+    @Override
     public void resolutionExnpAppr(Map<String, Object> params) {
         updateG20ExnpFinalAppr(params, "resolution");
         payAppRepository.resolutionExnpStatus(params);

@@ -63,6 +63,9 @@
       </table>
 
       <div class="mt10" style="text-align: right">
+          <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="S" onclick="recruitAdminPop.recruitPrintPop(${params.recruitInfoSn})">
+              <span>총괄표 출력</span>
+          </button>
         <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="docScreenPopBtn" value="S" onclick="recruitAdminPop.screenViewPop('doc')">
           <span>서류심사 평가표</span>
         </button>
@@ -109,6 +112,10 @@
   </div>
 </div><!-- col-md-9 -->
 <script>
+    function callRecruitPrintPop() {
+        var recruitInfoSnValue = document.getElementById('recruitInfoSn').value;
+        recruitAdminPop.recruitPrintPop(recruitInfoSnValue);
+    }
   recruitAdminPop.init();
 </script>
 </body>
