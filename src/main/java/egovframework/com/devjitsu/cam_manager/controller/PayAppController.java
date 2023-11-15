@@ -317,6 +317,31 @@ public class PayAppController {
         return "popup/cam_manager/payApp/regIncmPop";
     }
 
+    @RequestMapping("/payApp/payIncpSetData")
+    public String payIncpSetData(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            payAppService.payIncpSetData(params);
+
+            model.addAttribute("code", 200);
+            model.addAttribute("params", params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/payApp/pop/getPayIncpData")
+    public String getPayIncpData(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> map = payAppService.getPayIncpReqData(params);
+        List<Map<String, Object>> list = payAppService.getPayIncpDetailData(params);
+        model.addAttribute("map", map);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/pay/incomeReList.do")
     public String incomeReList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -378,6 +403,13 @@ public class PayAppController {
 
         model.addAttribute("list", list);
 
+        return "jsonView";
+    }
+
+    @RequestMapping("/pay/getIncpList")
+    public String getIncpList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = payAppService.getIncpList(params);
+        model.addAttribute("list", list);
         return "jsonView";
     }
 

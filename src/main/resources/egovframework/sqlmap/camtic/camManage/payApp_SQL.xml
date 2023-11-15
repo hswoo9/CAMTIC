@@ -558,6 +558,19 @@
         GROUP BY E.EXNP_SN
     </select>
 
+    <select id="getIncpList" parameterType="map" resultType="map">
+        /* getIncpList */
+        SELECT
+            A.*,
+            B.EMP_NAME_KR AS EMP_NAME,
+            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_DET WHERE PAY_INCP_SN = A.PAY_INCP_SN) AS TOT_COST
+        FROM
+            CAM_MNG.DJ_PAY_INCP A
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO B
+        ON A.REG_EMP_SEQ = B.EMP_SEQ
+    </select>
+
     <update id="updPayAppDetailStatus" parameterType="map">
         /*updPayAppDetailStatus*/
         UPDATE
@@ -754,5 +767,127 @@
         WHERE
             CONTENT_ID = #{contentId}
         ORDER BY REG_DATE DESC
+    </select>
+
+    <insert id="insPayIncpData" parameterType="map">
+        /*insPayIncpData*/
+        INSERT CAM_MNG.DJ_PAY_INCP
+        (
+            PJT_NM,
+            PJT_SN,
+            BUDGET_NM,
+            BUDGET_SN,
+            BUSN_CD,
+            BUSN_EX_CD
+            APP_DE,
+            APP_CONT,
+            BNK_SN,
+            BNK_NM,
+            ACC_NO,
+            ACC_NM,
+            PAY_APP_STAT,
+            GUBUN,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{pjtNm},
+            #{pjtSn},
+            #{budgetNm},
+            #{budgetSn},
+            #{busnCd},
+            #{busnExCd},
+            #{appDe},
+            #{appCont},
+            #{bnkSn},
+            #{bnkNm},
+            #{accNo},
+            #{accNm},
+            #{payAppStat},
+            'W',
+            #{regEmpSeq}
+        )
+        <selectKey keyProperty="payIncpSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_MNG' AND TABLE_NAME = 'DJ_PAY_INCP'
+        </selectKey>
+    </insert>
+
+    <update id="updPayIncpData" parameterType="map">
+        /*updPayIncpData*/
+        UPDATE CAM_MNG.DJ_PAY_INCP
+        SET
+            PJT_NM = #{pjtNm},
+            PJT_SN = #{pjtSn},
+            APP_DE = #{appDe},
+            APP_CONT = #{appCont},
+            BUSN_CD = #{busnCd},
+            BUSN_EX_CD = #{busnExCd},
+            BNK_SN = #{bnkSn},
+            BNK_NM = #{bnkNm},
+            ACC_NO = #{accNo},
+            ACC_NM = #{accNm},
+            PAY_APP_STAT = #{payAppStat},
+            MOD_DT = NOW(),
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            PAY_INCP_SN = #{payIncpSn}
+    </update>
+
+    <insert id="insPayIncpDetailData" parameterType="map">
+        /*insPayIncpDetailData*/
+        INSERT CAM_MNG.DJ_PAY_INCP_DET
+        (
+            PAY_INCP_SN,
+            EVID_TYPE,
+            TR_CD,
+            CRM_NM,
+            TR_DE,
+            TOT_COST,
+            SUP_COST,
+            VAT_COST,
+            CARD,
+            CARD_NO,
+            ETC,
+            ISS
+        )
+        VALUES
+        (
+            #{payIncpSn},
+            #{evidType},
+            #{trCd},
+            #{crmNm},
+            #{trDe},
+            #{totCost},
+            #{supCost},
+            #{vatCost},
+            #{card},
+            #{cardNo},
+            #{etc},
+            #{iss}
+        )
+    </insert>
+
+    <delete id="delPayIncpDetailData" parameterType="map">
+        /*delPayIncpDetailData*/
+        DELETE FROM CAM_MNG.DJ_PAY_INCP_DET
+        WHERE PAY_INCP_SN = #{payIncpSn}
+    </delete>
+
+    <select id="getPayIncpReqData" parameterType="map" resultType="map">
+        /*getPayIncpReqData*/
+        SELECT A.*, B.DOC_NO
+        FROM CAM_MNG.DJ_PAY_INCP A
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO B
+        ON
+           A.DOC_ID = B.DOC_ID
+        WHERE PAY_INCP_SN = #{payIncpSn}
+    </select>
+
+    <select id="getPayIncpDetailData" parameterType="map" resultType="map">
+        /*getPayIncpDetailData*/
+        SELECT *
+        FROM CAM_MNG.DJ_PAY_INCP_DET
+        WHERE PAY_INCP_SN = #{payIncpSn}
     </select>
 </mapper>

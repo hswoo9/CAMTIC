@@ -59,7 +59,7 @@ var regIncm = {
 
         $("#payAppStat").data("kendoRadioGroup").value("N")
 
-        if($("#payAppSn").val() != ""){
+        if($("#payIncpSn").val() != ""){
             regIncm.setData();
 
             regIncm.fn_viewStat();
@@ -154,29 +154,30 @@ var regIncm = {
 
     setData : function (){
         var data = {
-            payAppSn : $("#payAppSn").val()
+            payIncpSn : $("#payIncpSn").val()
         }
 
-        var result = customKendo.fn_customAjax("/payApp/pop/getPayAppData", data);
+        var result = customKendo.fn_customAjax("/payApp/pop/getPayIncpData", data);
         var rs = result.map;
         var ls = result.list;
 
         regIncm.payAppBtnSet(rs);
         console.log(ls);
 
-        $("#appDe").val(rs.APP_DE)
-        $("#pjtNm").val(rs.PJT_NM)
-        $("#pjtSn").val(rs.PJT_SN)
-        // $("#budgetNm").val(rs.BUDGET_NM)
-        // $("#budgetSn").val(rs.BUDGET_SN)
-        $("#appTitle").val(rs.APP_TITLE)
-        $("#appCont").val(rs.APP_CONT)
+        $("#appDe").val(rs.APP_DE);
+        $("#pjtNm").val(rs.PJT_NM);
+        $("#pjtSn").val(rs.PJT_SN);
+        // $("#budgetNm").val(rs.BUDGET_NM);
+        // $("#budgetSn").val(rs.BUDGET_SN);
+        $("#appCont").val(rs.APP_CONT);
+        $("#busnCd").data("kendoDropDownList").value(rs.BUSN_CD);
+        $("#busnExCd").data("kendoDropDownList").value(rs.BUSN_EX_CD);
 
-        $("#bnkSn").val(rs.BNK_SN)
-        $("#bnkNm").val(rs.BNK_NM)
-        $("#accNm").val(rs.ACC_NM)
-        $("#accNo").val(rs.ACC_NO)
-        $("#payAppStat").data("kendoRadioGroup").value(rs.PAY_APP_STAT)
+        $("#bnkSn").val(rs.BNK_SN);
+        $("#bnkNm").val(rs.BNK_NM);
+        $("#accNm").val(rs.ACC_NM);
+        $("#accNo").val(rs.ACC_NO);
+        $("#payAppStat").data("kendoRadioGroup").value(rs.PAY_APP_STAT);
 
         if(ls.length > 0){
             $("#payDestTb").html("");
@@ -324,37 +325,32 @@ var regIncm = {
             appDe : $("#appDe").val(),
             pjtNm : $("#pjtNm").val(),
             pjtSn : $("#pjtSn").val(),
-            // budgetNm : $("#budgetNm").val(),
-            // budgetSn : $("#budgetSn").val(),
-            appTitle : $("#appTitle").val(),
+            budgetNm : $("#budgetNm").val(),
+            budgetSn : $("#budgetSn").val(),
+            busnCd : $("#busnCd").val(),
+            busnExCd : $("#busnExCd").val(),
             appCont : $("#appCont").val(),
             bnkSn : $("#bnkSn").val(),
             bnkNm : $("#bnkNm").val(),
             accNm : $("#accNm").val(),
             accNo : $("#accNo").val(),
             payAppStat : $("#payAppStat").data("kendoRadioGroup").value(),
-
             regEmpSeq : $("#regEmpSeq").val()
         }
 
-        if($("#payAppSn").val() != ""){
-            parameters.payAppSn = $("#payAppSn").val();
+        if($("#payIncpSn").val() != ""){
+            parameters.payIncpSn = $("#payIncpSn").val();
         }
 
         var itemArr = new Array()
         var flag = true;
         $.each($(".payDestInfo"), function(i, v){
-            var index = $(this).find(".budgetSn").attr("id").slice(-1);
+            var index = $(this).find(".payDestSn").attr("id").slice(-1);
 
             var data = {
-                budgetNm : $("#budgetNm" + index).val(),
-                budgetSn : $("#budgetSn" + index).val(),
                 evidType : $("#eviType" + index).val(),
                 crmNm : $("#crmNm" + index).val(),
                 trCd : $("#trCd" + index).val(),
-                crmBnkNm : $("#crmBnkNm" + index).val(),
-                crmAccNo : $("#crmAccNo" + index).val(),
-                crmAccHolder : $("#crmAccHolder" + index).val(),
                 trDe : $("#trDe" + index).val(),
                 totCost : regIncm.uncomma($("#totCost" + index).val()),
                 supCost : regIncm.uncomma($("#supCost" + index).val()),
@@ -363,13 +359,11 @@ var regIncm = {
                 cardNo : $("#cardNo" + index).val(),
                 etc : $("#etc" + index).val(),
                 iss : $("#iss" + index).val(),
-                advances : $("#advances" + index).is(':checked') ? "Y" : "N",
             }
 
             if(data.eviType == ""){
                 flag = false;
             }
-
 
             itemArr.push(data);
         })
@@ -384,7 +378,7 @@ var regIncm = {
         console.log(parameters);
 
         $.ajax({
-            url : "/payApp/payAppSetData",
+            url : "/payApp/payIncpSetData",
             data : parameters,
             type : "post",
             dataType : "json",
