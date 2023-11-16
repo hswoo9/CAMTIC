@@ -72,10 +72,7 @@
                 <tr>
                     <th style="text-align: center">모집일시</th>
                     <td colspan="3">
-                        <span id="startDt"></span>
-                        <span id="startTime"></span> ~
-                        <span id="endDt"></span>
-                        <span id="endTime"></span>
+                        <span id="startDt"></span> ~ <span id="endDt"></span>
                     </td>
                 </tr>
                 <tr id="areaTr">

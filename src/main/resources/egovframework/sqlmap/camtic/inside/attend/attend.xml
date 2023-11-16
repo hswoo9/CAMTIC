@@ -2,6 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="attend">
+    <select id="getVacCodeList2" parameterType="map" resultType="map">
+        /* getVacCodeList2 */
+        SELECT
+        *
+        FROM
+        CAM_INSIDE.DJ_SUBHOLIDAY_CODE
+        WHERE
+        ACTIVE = "Y"
+        AND
+        SUBHOLIDAY_MC_CODE = #{mcCode}
+        <if test="mdCode != null and mdCode !=''">
+            AND SUBHOLIDAY_MD_CODE = #{mdCode}
+        </if>
+        <if test="dtCode != null and dtCode !=''">
+            AND SUBHOLIDAY_DT_CODE = #{dtCode}
+        </if>
+        <if test="notCode != null and notCode!= ''">
+            AND SUBHOLIDAY_CODE_ID != '9'
+        </if>
+            AND SUBHOLIDAY_CODE_ID = '11'
+    </select>
     <select id="getPersonAttendList" parameterType="map" resultType="map">
         /* personAttendList */
         WITH RECURSIVE APPLY_DATE AS (
@@ -590,5 +611,26 @@
         WHERE START_TIME != '기록 없음' AND END_TIME != '기록 없음'
           AND timediff(END_TIME, START_TIME) > 0
         GROUP BY EMP_NAME
+    </select>
+
+<!--    휴가 근로 신청-->
+    <select id="getSubHolidayApplyList" parameterType="map" resultType="map">
+        SELECT *, ROW_NUMBER() OVER (ORDER BY sm.SUBHOLIDAY_CODE_ID) AS ROW_NUM
+        FROM cam_inside.dj_subholiday_use_hist sm
+                 JOIN cam_inside.dj_subholiday_code sc
+                      ON sm.SUBHOLIDAY_CODE_ID = sc.SUBHOLIDAY_CODE_ID
+        WHERE 1=1
+        AND
+            sm.SUBHOLIDAY_CODE_ID = 11
+        <if test='status != null and !"".equals(status)'>
+            AND sm.APPR_STAT = #{status}
+        </if>
+        <if test='edtHolidayKindTop != null and !"".equals(edtHolidayKindTop)'>
+            AND sm.SUBHOLIDAY_CODE_ID = #{edtHolidayKindTop}
+        </if>
+        <if test='workDay != null and !"".equals(workDay)'>
+            AND #{workDay} = sm.SUBHOLIDAY_WORK_DAY
+        </if>
+        ORDER BY ROW_NUM DESC
     </select>
 </mapper>

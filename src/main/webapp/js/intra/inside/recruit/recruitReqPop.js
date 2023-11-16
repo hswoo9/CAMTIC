@@ -104,11 +104,9 @@ var recruitReq = {
         let recruitTitle = $("#recruitTitle").val();
         let recruitDetail = $("#recruitDetail").val();
         let uploadDt = $("#uploadDt").val();
-        let uploadText = $("#uploadText").val();
+        let uploadText = "캠틱종합기술원 원장";
         let startDt = $("#startDt").val();
         let endDt = $("#endDt").val();
-        let startTime = $("#startTime").val();
-        let endTime = $("#endTime").val();
         let jobPositionEtc = $("#jobPositionEtc").val();
         let eligibilityEtc = $("#eligibilityEtc").val();
         let workType = $("#workType").val();
@@ -170,8 +168,6 @@ var recruitReq = {
             uploadText: uploadText,
             startDt: startDt,
             endDt: endDt,
-            startTime: startTime,
-            endTime: endTime,
             jobPositionEtc: jobPositionEtc,
             eligibilityEtc: eligibilityEtc,
             workType: workType,
