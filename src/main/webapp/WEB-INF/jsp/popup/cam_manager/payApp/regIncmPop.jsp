@@ -121,10 +121,10 @@
                         <input type="text" id="bnkNm" disabled style="width: 60%;">
                     </td>
                 </tr>
-                <tr style="display: none">
+                <tr>
                     <th scope="row" class="text-center th-color">반납결의서</th>
                     <td colspan="4">
-                        <span id="payAppStat"></span>
+
                     </td>
                 </tr>
                 </thead>
@@ -214,7 +214,7 @@
                             <input type="hidden" id="cardNo0" class="cardNo">
                         </td>
                         <td>
-                            <input type="text" id="iss0" class="iss">
+                            <input type="text" id="iss0" class="iss" style="display: none;">
                         </td>
                         <td>
                             <div style="text-align: center">

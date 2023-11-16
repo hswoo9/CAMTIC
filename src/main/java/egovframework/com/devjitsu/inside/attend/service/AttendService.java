@@ -34,4 +34,6 @@ public interface AttendService {
     List<Map<String, Object>> getSubHolidayApplyList(Map<String, Object> params);
 
     List<Map<String, Object>> getVacCodeList2(Map<String, Object> params);
+
+    void setHistoryWorkApplyDel(Map<String, Object> params);
 }

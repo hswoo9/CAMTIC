@@ -193,6 +193,17 @@ public class PayAppController {
         return "cam_manager/payApp/paymentRevList";
     }
 
+    @RequestMapping("/pay/paymentInList.do")
+    public String paymentInList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_manager/payApp/paymentInList";
+    }
+
     @RequestMapping("/payApp/setPayAppDetData")
     public String setPayAppDetData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
 
