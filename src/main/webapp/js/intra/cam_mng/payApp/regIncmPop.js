@@ -82,7 +82,7 @@ var regIncm = {
             if(data != null){
                 if(data.DOC_STATUS == "0"){
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncm.fn_save()">저장</button>';
-                    buttonHtml += '<button type="button" id="reqBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncm.payAppDrafting()">상신</button>';
+                    buttonHtml += '<button type="button" id="reqBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncm.payIncpDrafting()">상신</button>';
                 }else if(data.DOC_STATUS == "10"){
                     buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
                 }else if(data.DOC_STATUS == "30" || data.DOC_STATUS == "40"){
@@ -104,26 +104,13 @@ var regIncm = {
         $("#payAppBtnDiv").html(buttonHtml);
     },
 
-    payAppDrafting: function(){
-        var data = {
-            payIncpSn : $("#payIncpSn").val()
-        }
-        var result = customKendo.fn_customAjax("/payApp/pop/getPayIncpData", data);
-        var ls = result.list;
-        for(var i=0; i < ls.length; i++) {
-            var item = ls[i];
-            var eviType = item.EVID_TYPE;
-            if(item.ADVANCES == "Y"){
-                continue;
-            }
-        }
-
-        $("#payAppDraftFrm").one("submit", function() {
-            var url = "/popup/payApp/approvalFormPopup/payAppApprovalPop.do";
+    payIncpDrafting: function(){
+        $("#payIncpDraftFrm").one("submit", function() {
+            var url = "/popup/exnp/approvalFormPopup/payIncpApprovalPop.do";
             var name = "_self";
             var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
             var popup = window.open(url, name, option);
-            this.action = "/popup/payApp/approvalFormPopup/payAppApprovalPop.do";
+            this.action = "/popup/exnp/approvalFormPopup/payIncpApprovalPop.do";
             this.method = 'POST';
             this.target = '_self';
         }).trigger("submit");

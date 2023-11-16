@@ -384,6 +384,27 @@
             EXNP_SN = #{exnpSn}
     </update>
 
+    <update id="updateIncpApprStat" parameterType="map">
+        /* updateIncpApprStat */
+        UPDATE CAM_MNG.DJ_PAY_INCP
+        SET
+            DOC_STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            PAY_INCP_SN = #{payIncpSn}
+    </update>
+
+    <update id="updateIncpFinalApprStat" parameterType="map">
+        /* updateIncpFinalApprStat */
+        UPDATE CAM_MNG.DJ_PAY_INCP
+        SET
+            DOC_STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            PAY_INCP_SN = #{payIncpSn}
+    </update>
+
     <update id="updPayAppDetStat" parameterType="map">
         /*updPayAppDetStat*/
         UPDATE CAM_MNG.DJ_PAY_APP_DET
@@ -912,7 +933,7 @@
 
     <select id="getPayIncpReqData" parameterType="map" resultType="map">
         /*getPayIncpReqData*/
-        SELECT A.*, B.DOC_NO
+        SELECT A.*, B.DOC_NO, B.APPRO_KEY, B.DOC_MENU_CD
         FROM CAM_MNG.DJ_PAY_INCP A
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO B
