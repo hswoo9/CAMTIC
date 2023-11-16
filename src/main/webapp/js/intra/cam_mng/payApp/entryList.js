@@ -76,6 +76,14 @@ var entryList = {
                     title: "문서번호",
                     width: 120,
                 }, {
+                    title: "적요",
+                    field: "EXNP_BRIEFS",
+                    width: 280,
+                    template: function(e){
+                        console.log(e);
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="exnpList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\')">'+e.EXNP_BRIEFS+'</div>';
+                    }
+                }, {
                     title: "프로젝트 명",
                     field: "PJT_NM",
                     width: 200,
@@ -88,7 +96,7 @@ var entryList = {
                     field: "",
                     width: 120,
                     template: function (e){
-
+                        return "-";
                     }
                 }, {
                     title: "신청일",
