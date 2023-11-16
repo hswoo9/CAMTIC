@@ -85,11 +85,8 @@ var incomeList = {
                     }
                 }, {
                     title: "세출과목",
-                    field: "",
+                    field: "BUDGET_NM",
                     width: 120,
-                    template: function (e){
-
-                    }
                 }, {
                     title: "작성자",
                     field: "EMP_NAME",

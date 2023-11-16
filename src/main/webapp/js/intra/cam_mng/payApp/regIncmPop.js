@@ -321,6 +321,11 @@ var regIncm = {
     },
 
     fn_save : function (){
+        if(!$("#appCont").val() || $("#appCont").val() == ''){
+            alert("적요가 입력되지 않았습니다.");
+            return;
+        }
+
         var parameters = {
             appDe : $("#appDe").val(),
             pjtNm : $("#pjtNm").val(),
@@ -329,6 +334,9 @@ var regIncm = {
             budgetSn : $("#budgetSn").val(),
             busnCd : $("#busnCd").val(),
             busnExCd : $("#busnExCd").val(),
+            exnpEmpSeq : $("#exnpEmpSeq").val(),
+            g20EmpCd : $("#g20EmpCd").val(),
+            g20DeptCd : $("#g20DeptCd").val(),
             appCont : $("#appCont").val(),
             bnkSn : $("#bnkSn").val(),
             bnkNm : $("#bnkNm").val(),
@@ -384,7 +392,7 @@ var regIncm = {
             dataType : "json",
             success : function(rs){
                 if(rs.code == 200){
-                    location.href="/payApp/pop/regPayAppPop.do?payAppSn=" + rs.params.payAppSn;
+                    location.href="/payApp/pop/regIncmPop.do?payIncpSn=" + rs.params.payIncpSn;
                 }
             }
         });
@@ -459,13 +467,13 @@ var regIncm = {
         var popup = window.open(url, name, option);
     },
 
-    fn_budgetPop: function (idx){
+    fn_budgetPop: function (){
         if($("#pjtSn").val() == ""){
             alert("사업을 선택해주세요.");
             return ;
         }
 
-        var url = "/mng/pop/budgetView.do?pjtSn=" + $("#pjtSn").val() + "&idx=" + idx;
+        var url = "/mng/pop/budgetView.do?pjtSn=" + $("#pjtSn").val() + "&idx=N";
 
         var name = "_blank";
         var option = "width = 1100, height = 650, top = 100, left = 400, location = no"

@@ -583,7 +583,8 @@
             CAM_MNG.DJ_PAY_INCP A
         LEFT JOIN
             CAM_HR.DJ_EMP_INFO B
-        ON A.REG_EMP_SEQ = B.EMP_SEQ
+        ON A.EXNP_EMP_SEQ = B.EMP_SEQ
+        ORDER BY A.PAY_INCP_SN DESC
     </select>
 
     <update id="updPayAppDetailStatus" parameterType="map">
@@ -793,7 +794,10 @@
             BUDGET_NM,
             BUDGET_SN,
             BUSN_CD,
-            BUSN_EX_CD
+            BUSN_EX_CD,
+            EXNP_EMP_SEQ,
+            G20_EMP_CD,
+            G20_DEPT_CD,
             APP_DE,
             APP_CONT,
             BNK_SN,
@@ -812,6 +816,9 @@
             #{budgetSn},
             #{busnCd},
             #{busnExCd},
+            #{exnpEmpSeq},
+            #{g20EmpCd},
+            #{g20DeptCd},
             #{appDe},
             #{appCont},
             #{bnkSn},
