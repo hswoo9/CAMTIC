@@ -11,6 +11,16 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_purc/reqClaiming.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_purc/purchase.js?v=${today}'/>"></script>
 
+<style>
+    .k-list-horizontal .k-radio-item {
+        margin-right: 7px;
+    }
+
+    .k-radio-list.k-list-horizontal {
+        justify-content: space-around;
+    }
+</style>
+
 <input type="hidden" id="stat" value="${params.stat}" />
 
 <form id="claimDraftFrm" method="post">
@@ -198,16 +208,19 @@
 
                 <table class="popTable table table-bordered mb-0 mt-20">
                     <colgroup>
-                        <col style="width: 5%;">
+                        <col style="width: 3%;">
                         <col style="width: 10%;">
                         <col style="width: 5%;">
                         <col style="width: 5%;">
                         <col style="width: 7%;">
+
                         <col style="width: 5%;">
                         <col style="width: 7%;">
                         <col style="width: 7%;">
-                        <col style="width: 16%;">
-                        <col style="width: 5%;">
+                        <col style="width: 7%;">
+                        <col style="width: 7%;">
+                        <col style="width: 18%;">
+                        <col style="width: 4%;">
                     </colgroup>
                     <thead>
                         <tr>
@@ -216,8 +229,11 @@
                             <th>규격</th>
                             <th>수량</th>
                             <th>단가</th>
+
                             <th>단위</th>
                             <th>금액</th>
+                            <th>요청금액</th>
+                            <th>할인금액</th>
                             <th>비고</th>
                             <th>자산</th>
                             <th>명령</th>
@@ -246,6 +262,9 @@
                             </td>
                             <td>
                                 <input type="text" id="itemAmt" class="itemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            </td>
+                            <td>
+                                <input type="text" id="purcItemAmt" class="itemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                             </td>
                             <td>
                                 <label for="itemEtc"></label><input type="text" id="itemEtc" class="itemEtc">
