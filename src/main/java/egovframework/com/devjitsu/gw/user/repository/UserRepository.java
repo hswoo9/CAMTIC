@@ -41,4 +41,14 @@ public class UserRepository extends AbstractDAO {
     public Map<String, Object> getUserImageInfo(Map<String, Object> map){
         return (Map<String, Object>) selectOne("user.getUserImageInfo", map);
     }
+
+    public Object setHistoryInfo(Map<String, Object> params) {return insert("user.setHistoryInfo", params);}
+
+    public List<Map<String, Object>> getHistoryList(Map<String, Object> params) {return selectList("user.getHistoryList", params);}
+
+    public Map<String, Object> getHistoryOne(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("user.getHistoryOne", params);
+    }
+
+    public List<Map<String, Object>> getHistoryFileInfo(Map<String, Object> params) {return selectList("user.getHistoryFileInfo", params);}
 }

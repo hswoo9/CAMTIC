@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="/css/style.css">
 
 <script type="text/javascript" src="/js/intra/inside/userManage/organizationHistoryPop.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/userManage/historyInfo.js?v=${today}"/></script>
 
 <body class="font-opensans" style="background-color:#fff;">
 <div style="padding:0;">
@@ -20,43 +21,41 @@
                     <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="organizationHistory.fn_windowClose()">닫기</button>
                 </div>
             </div>
-            <div style="padding: 20px 30px;">
-            <table class="popTable table table-bordered mb-0">
+            <div style="padding: 20px 10px;">
+                <div class="col-md-9 col-lg-9" style="max-width: 100%;">
+                    <div id="mainGrid"></div>
+                </div>
+            <%--<table class="popTable table table-bordered mb-0">
                 <colgroup>
                     <col width="10%">
-                    <col width="35%">
+                    <col width="55%">
                     <col width="15%">
-                    <col width="15%">
-                    <col width="10%">
-                    <col width="15%">
+                    <col width="20%">
                 </colgroup>
                 <thead>
                 <tr>
                     <th>순번</th>
                     <th>제목</th>
-                    <th>첨부파일1</th>
-                    <th>첨부파일2</th>
                     <th>작성자</th>
                     <th>작성일자</th>
                 </tr>
-                <%--<c:forEach var="l" items="${eList}" varStatus="status">--%>
+                &lt;%&ndash;<c:forEach var="l" items="${eList}" varStatus="status">&ndash;%&gt;
                 <tr>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
                 </tr>
-                <%--</c:forEach>--%>
-            </table>
+                &lt;%&ndash;</c:forEach>&ndash;%&gt;
+            </table>--%>
             </div>
         </div>
     </div>
 </div><!-- col-md-9 -->
 
 <script>
-    organizationHistory.init();
+    organizationHistory.fn_defaultScript();
 </script>
 </body>
 </html>
