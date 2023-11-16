@@ -253,13 +253,21 @@ public class PayAppServiceImpl implements PayAppService {
 
     private void updateG20ExnpFinalAppr(Map<String, Object> params, String type){
         List<Map<String, Object>> list = new ArrayList<>();
-        if(type.equals("resolution")){
-            params.put("evidTypeArr", "1,2,3");
-            list = payAppRepository.getExnpG20List(params);
-        }else{
-            params.put("evidTypeArr", "4,5");
+
+        Map<String, Object> pkMap = payAppRepository.getExnpData(params);
+
+        if("1".equals(pkMap.get("PAY_APP_TYPE"))){
+            if(type.equals("resolution")){
+                params.put("evidTypeArr", "1,2,3");
+                list = payAppRepository.getExnpG20List(params);
+            }else{
+                params.put("evidTypeArr", "4,5");
+                list = payAppRepository.getExnpG20List(params);
+            }
+        } else if("2".equals(pkMap.get("PAY_APP_TYPE"))){
             list = payAppRepository.getExnpG20List(params);
         }
+
 
         if(list.size() != 0){
             int docNumber = 0;          // 전체 지출결의서 CNT

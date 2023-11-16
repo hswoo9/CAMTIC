@@ -300,32 +300,35 @@ var regExnp = {
         }
         var result = customKendo.fn_customAjax("/payApp/pop/getExnpData", data);
         var ls = result.list;
-        for(var i=0; i < ls.length; i++) {
-            var item = ls[i];
-            var eviType = item.EVID_TYPE;
-            if(item.ADVANCES == "Y"){
-                continue;
-            }
-            if(eviType == "1" || eviType == "2"){
-                if(item.FILE1 == null || item.FILE2 == null || item.FILE3 == null || item.FILE4 == null || item.FILE5 == null){
-                    alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
-                    checked = 1;
-                    break;
+        if($("#status").val() != "in"){
+            for(var i=0; i < ls.length; i++) {
+                var item = ls[i];
+                var eviType = item.EVID_TYPE;
+                if(item.ADVANCES == "Y"){
+                    continue;
                 }
-            }else if(eviType == "3"){
-                if(item.FILE6 == null || item.FILE7 == null || item.FILE8 == null || item.FILE9 == null){
-                    alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
-                    checked = 1;
-                    break;
-                }
-            }else if(eviType == "5"){
-                if(item.FILE10 == null){
-                    alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
-                    checked = 1;
-                    break;
+                if(eviType == "1" || eviType == "2"){
+                    if(item.FILE1 == null || item.FILE2 == null || item.FILE3 == null || item.FILE4 == null || item.FILE5 == null){
+                        alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
+                        checked = 1;
+                        break;
+                    }
+                }else if(eviType == "3"){
+                    if(item.FILE6 == null || item.FILE7 == null || item.FILE8 == null || item.FILE9 == null){
+                        alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
+                        checked = 1;
+                        break;
+                    }
+                }else if(eviType == "5"){
+                    if(item.FILE10 == null){
+                        alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
+                        checked = 1;
+                        break;
+                    }
                 }
             }
         }
+
         if(checked == 1){
             return;
         }
