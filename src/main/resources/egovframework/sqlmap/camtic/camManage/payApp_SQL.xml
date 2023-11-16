@@ -842,6 +842,8 @@
             PJT_SN = #{pjtSn},
             APP_DE = #{appDe},
             APP_CONT = #{appCont},
+            BUDGET_SN = #{budgetSn},
+            BUDGET_NM = #{budgetNm},
             BUSN_CD = #{busnCd},
             BUSN_EX_CD = #{busnExCd},
             BNK_SN = #{bnkSn},
