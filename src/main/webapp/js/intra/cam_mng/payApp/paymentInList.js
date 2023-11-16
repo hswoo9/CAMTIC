@@ -1,4 +1,4 @@
-var paymentRevList = {
+var paymentInList = {
 
     global : {
         dropDownDataSource : "",
@@ -8,21 +8,21 @@ var paymentRevList = {
 
     fn_defaultScript : function (){
 
-        paymentRevList.global.dropDownDataSource = [
+        paymentInList.global.dropDownDataSource = [
             { text: "작성중", value: "1" },
             { text: "결재대기", value: "2" },
             { text: "결재완료", value: "3" },
         ]
-        customKendo.fn_dropDownList("searchDept", paymentRevList.global.dropDownDataSource, "text", "value");
-        $("#searchDept").data("kendoDropDownList").bind("change", paymentRevList.gridReload);
+        customKendo.fn_dropDownList("searchDept", paymentInList.global.dropDownDataSource, "text", "value");
+        $("#searchDept").data("kendoDropDownList").bind("change", paymentInList.gridReload);
 
-        paymentRevList.global.dropDownDataSource = [
+        paymentInList.global.dropDownDataSource = [
             { text: "문서번호", value: "DOC_NO" },
         ]
 
-        customKendo.fn_dropDownList("searchKeyword", paymentRevList.global.dropDownDataSource, "text", "value");
+        customKendo.fn_dropDownList("searchKeyword", paymentInList.global.dropDownDataSource, "text", "value");
         customKendo.fn_textBox(["searchValue"]);
-        paymentRevList.gridReload();
+        paymentInList.gridReload();
     },
 
     mainGrid: function(url, params){
@@ -43,7 +43,7 @@ var paymentRevList = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="paymentRevList.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="paymentInList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -81,7 +81,7 @@ var paymentRevList = {
                     width: 400,
                     template: function(e){
                         console.log(e);
-                        return '<div style="cursor: pointer; font-weight: bold" onclick="paymentRevList.fn_reqRegPopup('+e.PAY_APP_SN+', \'rev\')">'+e.APP_TITLE+'</div>';
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="paymentInList.fn_reqRegPopup('+e.PAY_APP_SN+', \'in\')">'+e.APP_TITLE+'</div>';
                     }
                 }, {
                     title: "프로젝트 명",
@@ -140,16 +140,16 @@ var paymentRevList = {
     },
 
     gridReload: function (){
-        paymentRevList.global.searchAjaxData = {
+        paymentInList.global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
             searchDept : $("#searchDept").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
-            payAppType : '1',
+            payAppType : '2',
             docStatus : 100
         }
 
-        paymentRevList.mainGrid("/pay/getPaymentList", paymentRevList.global.searchAjaxData);
+        paymentInList.mainGrid("/pay/getPaymentList", paymentInList.global.searchAjaxData);
     },
 
     fn_reqRegPopup : function (key, status){

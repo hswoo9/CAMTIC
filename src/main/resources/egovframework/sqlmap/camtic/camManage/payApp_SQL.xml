@@ -323,10 +323,23 @@
             A.DOC_ID = B.DOC_ID
         WHERE
             1=1
+        <if test='payAppType == "1" or "1".equals(payAppType)'>
+        AND PAY_APP_TYPE = 1
+        </if>
+        <if test='payAppType == "2" or "2".equals(payAppType)'>
+        AND PAY_APP_TYPE = 2
+        </if>
+        <if test='payAppType == "3" or "3".equals(payAppType)'>
+            AND PAY_APP_TYPE = 3
+        </if>
+        <if test='payAppType == "4" or "4".equals(payAppType)'>
+            AND PAY_APP_TYPE = 4
+        </if>
         <if test='docStatus != null and !"".equals(docStatus)'>
         AND
             A.DOC_STATUS = #{docStatus}
         </if>
+        ORDER BY PAY_APP_SN DESC
     </select>
 
     <update id="updatePayAppApprStat" parameterType="map">
