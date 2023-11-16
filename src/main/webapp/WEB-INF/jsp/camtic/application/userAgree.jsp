@@ -34,9 +34,14 @@
 			recruitInfoSn : $("#recruitInfoSn").val(),
 			userEmail : $("#userEmail").val()
 		}
-
 		var result = customKendo.fn_customAjax("/application/setUserAgree.do", data);
 		if(result.flag){
+			/*
+			var url = "/application/applicationForm1.do";
+			var name = "applicationForm1";
+			var option = "width=1000,height=1200,scrollbars=no,top=100,left=200,resizable=no,toolbars=no,menubar=no";
+			var popup = window.open(url,name,option);
+			 */
 			location.href = "/application/applicationForm1.do";
 		}
 	}

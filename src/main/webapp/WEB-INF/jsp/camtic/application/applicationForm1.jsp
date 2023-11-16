@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: deer
-  Date: 2023-08-30
-  Time: 오후 3:56
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
@@ -13,32 +6,27 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<script>
-    function resizePopup(width, height) {
-        window.resizeTo(width, height);
-    }
-
-    resizePopup(1000, 1200);
-</script>
 <script type="text/javascript" src="/js/camtic/application/applicationForm1.js?v=${today}"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/postcode.v2.js?autoload=false'/>"></script>
 
 <body class="font-opensans" style="background-color:#fff;">
-<div class="col-lg-12" style="padding:0;">
+<div class="col-lg-12 pop_sign_wrap" style="width:1000px; padding:0;">
     <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="${recruitInfoSn}">
     <input type="hidden" id="applicationId" name="applicationId" value="${params.applicationId}">
     <input type="hidden" id="userEmail" name="userEmail" value="${userEmail}">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">캠틱 온라인 입사지원</h3>
             <div class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
+                <button type="button" class="k-button k-button-solid-info" onclick="applicationForm.setApplicationTempSave('temp')">임시저장</button>
+                <button type="button" class="k-button k-button-solid-info" onclick="applicationForm.setApplicationTempSave('next')">다음단계</button>
+                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">취소</button>
             </div>
         </div>
 
         <div style="padding: 20px">
             <table class="popTable table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
                 <colgroup>
-                    <col width="12%">
+                    <col width="14%">
                 </colgroup>
                 <thead>
                 <tr>
@@ -58,7 +46,9 @@
                 <table class="popTable table table-bordered mb-0 mt10">
                     <colgroup>
                         <col width="14%">
-                        <col>
+                        <col width="24%">
+                        <col width="24%">
+                        <col width="24%">
                         <col width="14%">
                     </colgroup>
                     <thead>
@@ -80,10 +70,10 @@
                         </td>
                         <td rowspan="3">
                             <div>
-                                <img id="photoView" width="85px;" height="110px;" style="cursor:pointer;">
+                                <img id="photoView" width="85px;" height="110px;" style="display:block; margin: 0 auto; cursor:pointer;">
                             </div>
                             <input type="hidden" id="photoFileNo" name="photoFileNo">
-                            <label for="photoFile" class="k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0; margin-top:13px;">파일첨부</label>
+                            <label for="photoFile" class="k-button k-button-clear-info k-rounded" style="display:block; vertical-align: bottom; margin:0 auto; margin-top:13px; text-align: center;">파일첨부</label>
                             <input type="file" id="photoFile" name="photoFile" onchange="applicationForm.viewPhoto(this)" style="display: none">
                         </td>
                     </tr>
@@ -160,17 +150,24 @@
             </div>
 
 
+            <input type="checkbox" id="armiYn" name="armiYn" onclick="applicationForm.checkBoxChk(this)">
+            <span style="padding-left: 5px; font-size: 12px">병력사항 미대상 (여성 및 외국인 등)</span>
+
             <div id="armiDiv" style="display: none">
                 <table class="popTable table table-bordered mb-0 mt10 text-center">
                     <colgroup>
                         <col width="15%">
                         <col>
-                        <col width="10%">
+                        <col width="15%">
                     </colgroup>
                     <thead>
+
                     <tr>
-                        <th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">병력사항</th>
+                        <th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">
+                            병력사항
+                        </th>
                     </tr>
+
                     <tr>
                         <th>군별</th>
                         <td>
@@ -235,11 +232,13 @@
                     </thead>
                 </table>
             </div>
+            <!--
             <div style="text-align: right">
                 <button class="__btn1 gray" onclick="window.close()"><span>취소</span></button>
                 <button class="__btn1 black" onclick="applicationForm.setApplicationTempSave('temp')"><span>임시저장</span></button>
                 <button class="__btn1 blue" onclick="applicationForm.setApplicationTempSave('next')"><span>다음단계</span></button>
             </div>
+            -->
         </div>
 </div><!-- col-md-9 -->
 <script>
