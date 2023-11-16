@@ -154,14 +154,17 @@
 
                 <table class="popTable table table-bordered mb-0 mt-20">
                     <colgroup>
-                        <c:if test="${'rev'.equals(params.status)}">
-                            <col style="width: 3%;">
+                        <c:if test="${params.exnpSn == null and params.exnpSn == ''}">
+                            <c:if test="${'rev'.equals(params.status)}">
+                                <col style="width: 3%;">
+                            </c:if>
                         </c:if>
+
                         <col style="width: 5%;">
                         <col style="width: 6%;">
                         <col style="width: 4%;">
-                        <col style="width: 6%;">
-                        <col style="width: 6%;">
+                        <col style="width: 4%;">
+                        <col style="width: 4%;">
                         <col style="width: 6%;">
                         <col style="width: 5%;">
                         <col style="width: 5%;">
@@ -176,8 +179,10 @@
                     </colgroup>
                     <thead>
                     <tr>
-                        <c:if test="${'rev'.equals(params.status)}">
-                            <th><input type="checkbox" id="checkAll" /></th>
+                        <c:if test="${params.exnpSn == null and params.exnpSn == ''}">
+                            <c:if test="${'rev'.equals(params.status)}">
+                                <th><input type="checkbox" id="checkAll" /></th>
+                            </c:if>
                         </c:if>
                         <th>증빙유형</th>
                         <th>상호</th>
@@ -199,8 +204,10 @@
                     </thead>
                     <tbody id="payDestTb">
                     <tr class="payDestInfo newArray" id="pay0" style="text-align: center;">
-                        <c:if test="${'rev'.equals(params.status)}">
-                            <td><input type="checkbox" id="check0" class="check" /></td>
+                        <c:if test="${params.exnpSn == null or params.exnpSn == ''}">
+                            <c:if test="${'rev'.equals(params.status)}">
+                                <td><input type="checkbox" id="check0" class="check" /></td>
+                            </c:if>
                         </c:if>
                         <td>
                             <input type="hidden" id="payDestSn0" name="payDestSn" class="payDestSn">

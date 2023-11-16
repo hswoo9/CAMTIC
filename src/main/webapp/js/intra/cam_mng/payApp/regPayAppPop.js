@@ -162,7 +162,6 @@ var regPay = {
         var ls = result.list;
 
         regPay.payAppBtnSet(rs);
-        console.log(ls);
 
         $("#payAppType").data("kendoRadioGroup").value(rs.PAY_APP_TYPE)
         $("#appDe").val(rs.APP_DE)
@@ -263,8 +262,19 @@ var regPay = {
             regPayDet.global.createHtmlStr += "" +
                 '   <td>' +
                 '       <div style="text-align: center">';
+
                 if($("#status").val() == "rev" || $("#status").val() == "in"){
-                    regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="revertBtn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" onclick="regPayDet.fn_revertDet(this)">반려</button>';
+                    if($("#auth").val() != "user"){
+                        if(item.EXNP_SAVE == "Y"){
+                            regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" disabled id="revertBtn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" onclick="regPayDet.fn_revertDet(this)">반려</button>';
+                        } else {
+                            regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="revertBtn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" onclick="regPayDet.fn_revertDet(this)">반려</button>';
+                        }
+                    } else if(rs.DOC_STATUS == "0"){
+                        regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(' + regPayDet.global.itemIndex + ')">삭제</button>';
+                    } else {
+                        regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(' + regPayDet.global.itemIndex + ')" disabled>삭제</button>';
+                    }
                 } else {
                     if(rs.DOC_STATUS == "0"){
                         regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(' + regPayDet.global.itemIndex + ')">삭제</button>';
@@ -337,17 +347,25 @@ var regPay = {
         var stat = $("#status").val();
 
         if(stat == "rev"){
+            if($("#auth").val() != "user"){
+                $("#titleStat").text("검토");
+            } else {
+                $("#titleStat").text("확인");
+            }
             $("#payAppType").data("kendoRadioGroup").enable(false);
             $("#payAppStat").data("kendoRadioGroup").enable(false);
             $("#appDe").data("kendoDatePicker").enable(false);
             $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
             $("#addBtn").css("display", "none");
             $("#exnpAddBtn").css("display", "");
-            $("#titleStat").text("검토")
         }
 
         if(stat == "in"){
-            $("#titleStat").text("검토")
+            if($("#auth").val() != "user"){
+                $("#titleStat").text("검토");
+            } else {
+                $("#titleStat").text("확인");
+            }
             $("#payAppType").data("kendoRadioGroup").enable(false);
             $("#payAppStat").data("kendoRadioGroup").enable(false);
             $("#appDe").data("kendoDatePicker").enable(false);
@@ -756,6 +774,24 @@ var regPayDet = {
         });
 
         keyArr = keyArr.substring(0, keyArr.length - 1);
+
+        var data= {
+            arr : keyArr,
+            payAppSn : $("#payAppSn").val()
+        }
+        var result = customKendo.fn_customAjax("/mng/checkExnpDetData", data);
+        var exnpSaveFlag = false;
+        for(var i = 0; i < result.list.length; i++){
+            if(result.list[i].EXNP_SAVE == "Y"){
+                exnpSaveFlag = true;
+                break;
+            }
+        }
+
+        if(exnpSaveFlag){
+            alert("현재 해당건으로 작성된 지출결의서가 있습니다.");
+            return ;
+        }
 
         var payAppSn = $("#payAppSn").val();
 

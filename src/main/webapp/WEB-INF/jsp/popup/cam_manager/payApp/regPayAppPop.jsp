@@ -19,7 +19,7 @@
 </form>
 
 <input type="hidden" id="status" name="status" value="${params.status}" />
-
+<input type="hidden" id="auth" name="auth" value="${params.auth}" />
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
@@ -133,9 +133,11 @@
             </c:if>
             <div class="mt-20">
                 <div class="text-right">
-                    <button type="button" id="exnpAddBtn" style="display: none" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPayDet.fn_exnpAdd()">
-                        <span class="k-button-text">지출결의서 작성</span>
-                    </button>
+                    <c:if test='${!"user".equals(params.auth)}'>
+                        <button type="button" id="exnpAddBtn" style="display: none" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPayDet.fn_exnpAdd()">
+                            <span class="k-button-text">지출결의서 작성</span>
+                        </button>
+                    </c:if>
                     <button type="button" id="addBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPayDet.addRow()">
                         <span class="k-button-text">추가</span>
                     </button>

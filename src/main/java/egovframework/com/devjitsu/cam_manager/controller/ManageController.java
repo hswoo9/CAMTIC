@@ -188,4 +188,16 @@ public class ManageController {
         model.addAttribute("userSalList", userSalList);
         return "jsonView";
     }
+
+    @RequestMapping("/mng/checkExnpDetData")
+    public String checkExnpDetData(@RequestParam Map<String, Object> params, Model model){
+        try{
+            List<Map<String, Object>> list = manageService.checkExnpDetData(params);
+            model.addAttribute("list", list);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }

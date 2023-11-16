@@ -28,4 +28,8 @@ public class ManageRepository extends AbstractDAO {
     public Map<String, Object> getUserSalList(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("manage.getUserSalList", params);
     }
+
+    public Map<String, Object> checkExnpDetData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("manage.checkExnpDetData", params);
+    }
 }

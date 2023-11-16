@@ -77,7 +77,8 @@ var regExnp = {
 
     payAppBtnSet: function (data){
         let buttonHtml = "";
-        if($("#status").val() != "rev"){
+        console.log(data);
+        if($("#status").val() == "rev" || $("#status").val() == "in"){
             if(data != null){
                 if(data.DOC_STATUS == "0"){
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_save()">저장</button>';
@@ -97,6 +98,8 @@ var regExnp = {
             }else{
                 buttonHtml += '<button type="button" id="saveBtn" style="margin-right:5px; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="regExnp.fn_save()">저장</button>';
             }
+        } else {
+            buttonHtml += '<button type="button" id="saveBtn" style="margin-right:5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_save()">저장</button>';
         }
 
         buttonHtml += '<button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>';
@@ -202,7 +205,7 @@ var regExnp = {
                     '   </td>' +
                     '   <td>' +
                     '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regExnpDet.fn_popRegDet(3, '+regExnpDet.global.itemIndex+')"></i>' +
-                    '       <input type="text" disabled style="width: 80%" id="card' + regExnpDet.global.itemIndex + '" value="'+item.CARD+'" class="card">' +
+                    '       <input type="text" disabled style="width: 70%" id="card' + regExnpDet.global.itemIndex + '" value="'+item.CARD+'" class="card">' +
                     '       <input type="hidden" id="cardNo'+regExnpDet.global.itemIndex+'" value="'+item.CARD_NO+'" className="cardNo" />' +
                     '   </td>';
 
@@ -300,7 +303,7 @@ var regExnp = {
         }
         var result = customKendo.fn_customAjax("/payApp/pop/getExnpData", data);
         var ls = result.list;
-        if($("#status").val() != "in"){
+        if($("#status").val() == "rev"){
             for(var i=0; i < ls.length; i++) {
                 var item = ls[i];
                 var eviType = item.EVID_TYPE;
@@ -352,9 +355,6 @@ var regExnp = {
         var result = customKendo.fn_customAjax("/payApp/pop/getPayAppData", data);
         var rs = result.map;
         var ls = result.list;
-
-        console.log(result);
-
 
         $("#payAppType").data("kendoRadioGroup").value(rs.PAY_APP_TYPE);
         $("#exnpDe").val(rs.APP_DE);
@@ -435,7 +435,7 @@ var regExnp = {
                     '   </td>' +
                     '   <td>' +
                     '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regExnpDet.fn_popRegDet(3, '+regExnpDet.global.itemIndex+')"></i>' +
-                    '       <input type="text" disabled style="width: 80%" id="card' + regExnpDet.global.itemIndex + '" value="'+item.CARD+'" class="card">' +
+                    '       <input type="text" disabled style="width: 70%" id="card' + regExnpDet.global.itemIndex + '" value="'+item.CARD+'" class="card">' +
                     '       <input type="hidden" id="cardNo' + regExnpDet.global.itemIndex + '" className="cardNo" />' +
                     '   </td>';
 
@@ -560,7 +560,7 @@ var regExnp = {
             DT2 : $("#DT2").val(),
             DT3: $("#DT3").val(),
 
-            regEmpSeq : $("#regEmpSeq").val()
+            regEmpSeq : $("#regEmpSeq").val(),
         }
 
         if($("#exnpSn").val() != ""){
@@ -610,8 +610,6 @@ var regExnp = {
 
         parameters.itemArr = JSON.stringify(itemArr);
 
-        console.log(parameters);
-
         $.ajax({
             url : "/payApp/setExnpData",
             data : parameters,
@@ -635,8 +633,6 @@ var regExnp = {
     },
 
     crmInfoChange : function(){
-        console.log(purcInfo.global.crmSnId, purcInfo.global.crmNmId)
-
         $("#" + purcInfo.global.crmSnId).val($("#purcCrmSn").val())
         $("#" + purcInfo.global.crmNmId).val($("#purcCrmNm").val())
 
