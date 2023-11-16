@@ -37,10 +37,10 @@
             <div>
                 <table class="popTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="15%">
-                        <col width="28%">
-                        <col width="28%">
-                        <col width="28%">
+                        <col width="25%">
+                        <col width="25%">
+                        <col width="25%">
+                        <col width="25%">
                     </colgroup>
                     <thead>
                     <tr>

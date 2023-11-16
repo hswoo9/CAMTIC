@@ -235,6 +235,24 @@ public class PurcController {
         return "cam_purc/mng/purcClaim";
     }
 
+    /**
+     * 구매할인조회 (관리자) 페이지
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/purc/purcDif.do")
+    public String purcDif(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "cam_purc/mng/purcDif";
+    }
+
     @RequestMapping("/purc/getPurcClaimList")
     public String getPurcClaimList(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("list", purcService.getPurcClaimList(params));
