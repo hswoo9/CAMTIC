@@ -615,11 +615,19 @@
 
 <!--    휴가 근로 신청-->
     <select id="getSubHolidayApplyList" parameterType="map" resultType="map">
-        SELECT *, ROW_NUMBER() OVER (ORDER BY sm.SUBHOLIDAY_CODE_ID) AS ROW_NUM
+        SELECT
+                *,
+                ROW_NUMBER() OVER (ORDER BY sm.SUBHOLIDAY_CODE_ID) AS ROW_NUM,
+                DI.APPRO_KEY,
+                DI.DOC_MENU_CD
         FROM cam_inside.dj_subholiday_use_hist sm
-                 JOIN cam_inside.dj_subholiday_code sc
-                      ON sm.SUBHOLIDAY_CODE_ID = sc.SUBHOLIDAY_CODE_ID
+        JOIN cam_inside.dj_subholiday_code sc
+            ON sm.SUBHOLIDAY_CODE_ID = sc.SUBHOLIDAY_CODE_ID
+        left join DJ_CAMTIC.A_DOC_INFO DI
+            on sm.DOC_ID = DI.DOC_ID
         WHERE 1=1
+        AND
+        sm.ACTIVE = 'Y'
         AND
             sm.SUBHOLIDAY_CODE_ID = 11
         <if test='status != null and !"".equals(status)'>
@@ -633,4 +641,15 @@
         </if>
         ORDER BY ROW_NUM DESC
     </select>
+
+<!--    휴일 근로 신청 리스트 삭제-->
+    <update id="setHistoryWorkApplyDel" parameterType="map">
+        /* setVacUseHistDel */
+        UPDATE
+            CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST
+        SET
+            ACTIVE = 'N'
+        WHERE
+            SUBHOLIDAY_USE_ID IN (${subHolidayUseId})
+    </update>
 </mapper>

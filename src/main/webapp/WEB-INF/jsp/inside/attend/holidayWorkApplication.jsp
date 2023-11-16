@@ -54,6 +54,13 @@
     </div>
 </div>
 
+<form id="subHolidayDraftFrm" method="post">
+    <input type="hidden" id="menuCd" name="menuCd" value="subHoliday">
+    <input type="hidden" id="type" name="type" value="drafting">
+    <input type="hidden" id="nowUrl" name="nowUrl" />
+    <input type="hidden" id="subHolidayId" name="subHolidayId" value=""/>
+</form>
+
 <script type="text/javascript">
     holidayWorkApplication.init();
 </script>
