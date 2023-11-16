@@ -296,6 +296,12 @@
 </div>
 
 <script>
+    var currentDate = new Date();
+    var currentYear = currentDate.getFullYear();
+    var currentMonth = currentDate.getMonth() + 1;
+    var currentYearMonth = currentYear + '.' + currentMonth;
+    var showCurrentMonth = document.querySelector('#currentYearMonth');
+    showCurrentMonth.textContent = currentYearMonth;
 
     var watchBoardId = "";
 
