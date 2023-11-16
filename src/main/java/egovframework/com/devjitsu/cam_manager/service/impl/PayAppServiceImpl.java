@@ -58,7 +58,23 @@ public class PayAppServiceImpl implements PayAppService {
 
     @Override
     public List<Map<String, Object>> getPayAppDetailData(Map<String, Object> params) {
-        return payAppRepository.getPayAppDetailData(params);
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        if(params.containsKey("payAppDetSn")){
+            String payAppDetSnArr[] = params.get("payAppDetSn").toString().split(",");
+            for(String payAppDetSn : payAppDetSnArr){
+                Map<String, Object> map = new HashMap<>();
+                params.put("payAppDetSn", payAppDetSn);
+                map = payAppRepository.getPayAppDetailInfo(params);
+                list.add(map);
+            }
+
+
+            return list;
+        } else {
+            return payAppRepository.getPayAppDetailData(params);
+        }
+
     }
 
     @Override

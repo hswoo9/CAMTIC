@@ -1027,7 +1027,7 @@
             A.PAY_INCP_SN,
             A.EVID_TYPE,
             A.TR_CD,
-            A.BUDGET_SN AS BGT_CD,
+            B.BUDGET_SN AS BGT_CD,
             REPLACE(A.TR_DE, "-", "") AS IN_DT,
             REPLACE(A.TR_DE, "-", "") AS TAX_DT,
             REPLACE(B.APP_DE, "-", "") AS REG_DT,
@@ -1087,5 +1087,15 @@
             AND
                 A.EVID_TYPE in (${evidTypeArr})
         </if>
+    </select>
+
+    <select id="getPayAppDetailInfo" parameterType="map" resultType="map">
+        /*getPayAppDetailInfo*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_PAY_APP_DET
+        WHERE
+            PAY_APP_DET_SN = #{payAppDetSn}
     </select>
 </mapper>
