@@ -53,6 +53,13 @@
                         <th>첨부파일</th>
                         <td colspan="3">
                             <ul id="ulSetFileName" style="padding-left: 20px;"></ul>
+                            <c:forEach var="fileInfo" items="${fileInfo}" varStatus="status">
+                                <li>
+                                    <span style="cursor: pointer" onclick="fileDown('${fileInfo.file_path}${fileInfo.file_uuid}', '${fileInfo.file_org_name}.${fileInfo.file_ext}')">
+                                        ${fileInfo.file_org_name}.${fileInfo.file_ext}
+                                    </span>
+                                </li>
+                            </c:forEach>
                             <ul id="ulFileName" style="padding-left: 20px;"></ul>
                         </td>
                     </tr>
@@ -63,7 +70,7 @@
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
-    historyInfo.fn_defaultScript();
+
 </script>
 </body>
 </html>

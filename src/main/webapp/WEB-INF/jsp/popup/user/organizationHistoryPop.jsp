@@ -25,30 +25,6 @@
                 <div class="col-md-9 col-lg-9" style="max-width: 100%;">
                     <div id="mainGrid"></div>
                 </div>
-            <%--<table class="popTable table table-bordered mb-0">
-                <colgroup>
-                    <col width="10%">
-                    <col width="55%">
-                    <col width="15%">
-                    <col width="20%">
-                </colgroup>
-                <thead>
-                <tr>
-                    <th>순번</th>
-                    <th>제목</th>
-                    <th>작성자</th>
-                    <th>작성일자</th>
-                </tr>
-                &lt;%&ndash;<c:forEach var="l" items="${eList}" varStatus="status">&ndash;%&gt;
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                &lt;%&ndash;</c:forEach>&ndash;%&gt;
-            </table>--%>
             </div>
         </div>
     </div>
