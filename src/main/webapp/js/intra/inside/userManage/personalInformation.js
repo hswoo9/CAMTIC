@@ -818,7 +818,7 @@ var personalInformation = {
 
     userReqSave : function (){
         //var chkVal = personalInformation.setUserReqDetail();
-        if(!confirm("신청내용을 저장하시겠습니까?")){
+        if(!confirm("내용을 저장하시겠습니까?")){
             return ;
         }
 
@@ -981,23 +981,6 @@ var personalInformation = {
             data.ACTIVE = "Y"
         }
 
-        if(data.EMP_NAME_KR == "" || data.EMP_NAME_KR == null){
-            alert("이름을 입력해주세요.");
-
-            return;
-        }
-
-        if(data.LOGIN_ID == "" || data.LOGIN_ID == null){
-            alert("아이디를 입력해주세요.");
-            return;
-        }
-
-
-
-        if(data.division == "" || data.division == null) {
-            alert("직원구분을 선택해주세요.");
-            return;
-        }
 
         if($("#targetEmpSeq").val() != ""){
             if(data.LOGIN_PASSWD != "" || data.LOGIN_PASSWD != null){
@@ -1014,11 +997,6 @@ var personalInformation = {
                 alert("비밀번호를 입력해주세요.");
                 return;
             }
-        }
-
-        if($("#resRegisNum1").val().length != 6 || $("#resRegisNum2").val().length != 7){
-            alert("주민등록번호의 입력이 잘못되었습니다.");
-            return;
         }
 
         if($("#loginPasswd").val() != $("#checkPasswd").val()){

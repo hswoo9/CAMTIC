@@ -52,4 +52,8 @@ public class AttendRepository extends AbstractDAO {
     public List<Map<String, Object>> getVacCodeList2(Map<String, Object> params) {
         return selectList("attend.getVacCodeList2", params);
     }
+
+    public void setHistoryWorkApplyDel(Map<String, Object> params){
+        update("attend.setHistoryWorkApplyDel", params);
+    }
 }

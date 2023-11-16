@@ -1,12 +1,16 @@
 package egovframework.com.devjitsu.gw.user.service.impl;
 
+import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.gw.user.repository.UserRepository;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -63,4 +67,63 @@ public class UserServiceImpl implements UserService {
 
         return commonRepository.getContentFileOne(params);
     }
+
+    private String filePath (Map<String, Object> params, String base_dir){
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String fmtNow = now.format(fmt);
+
+        String path = base_dir + params.get("menuCd").toString()+"/" + fmtNow + "/";
+
+        return path;
+    }
+    @Override
+    public void setHistoryAdd(Map<String, Object> params, MultipartFile[] historyFiles, String serverDir, String baseDir) {
+
+        try{
+            if (params.containsKey("HISTORY_SN")){
+                /*userRepository.updHistoryInfo(params);*/
+            } else {
+                userRepository.setHistoryInfo(params);
+            }
+
+            if(historyFiles.length > 0){
+                MainLib mainLib = new MainLib();
+                List<Map<String, Object>> list = mainLib.multiFileUpload(historyFiles, filePath(params, serverDir));
+                for(int i = 0 ; i < list.size() ; i++){
+                    list.get(i).put("frKey", params.get("HISTORY_SN"));
+                    list.get(i).put("empSeq", params.get("regEmpSeq"));
+                    list.get(i).put("fileCd", params.get("menuCd"));
+                    list.get(i).put("filePath", filePath(params, baseDir));
+                    String[] org = list.get(i).get("orgFilename").toString().split("[.]");
+                    String fileOrgName = "";
+                    for(int z = 0 ; z < org.length ; z++){
+                        if(z != org.length - 1){
+                            fileOrgName += org[z];
+                        }
+                    }
+                    list.get(i).put("fileOrgName", fileOrgName);
+                    list.get(i).put("fileExt", org[org.length-1]);
+                }
+                commonRepository.insFileInfo(list);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> getHistoryList(Map<String, Object> params){
+        return userRepository.getHistoryList(params);
+    }
+
+    @Override
+    public Map<String, Object> getHistoryOne(Map<String, Object> params) {return userRepository.getHistoryOne(params);}
+
+    @Override
+    public List<Map<String, Object>> getHistoryFileInfo(Map<String, Object> params){
+        return userRepository.getHistoryFileInfo(params);
+    }
+
+
 }

@@ -88,7 +88,13 @@ var paymentList = {
                     width: 280,
                     template: function(e){
                         console.log(e);
-                        return '<div style="cursor: pointer; font-weight: bold" onclick="paymentList.fn_reqRegPopup('+e.PAY_APP_SN+')">'+e.APP_TITLE+'</div>';
+                        var status = "";
+                        if(e.PAY_APP_TYPE == 1){
+                            status = "rev";
+                        } else if (e.PAY_APP_TYPE == 2){
+                            status = "in";
+                        }
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="paymentList.fn_reqRegPopup('+e.PAY_APP_SN+', \''+status+'\', \'user\')">'+e.APP_TITLE+'</div>';
                     }
                 }, {
                     title: "프로젝트 명",
@@ -158,10 +164,16 @@ var paymentList = {
         paymentList.mainGrid("/pay/getPaymentList", paymentList.global.searchAjaxData);
     },
 
-    fn_reqRegPopup : function (key){
+    fn_reqRegPopup : function (key, status, auth){
         var url = "/payApp/pop/regPayAppPop.do";
         if(key != null && key != ""){
             url = "/payApp/pop/regPayAppPop.do?payAppSn=" + key;
+        }
+        if(status != null && status != ""){
+            url += "&status=" + status;
+        }
+        if(auth != null && auth != ""){
+            url += "&auth=" + auth;
         }
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"

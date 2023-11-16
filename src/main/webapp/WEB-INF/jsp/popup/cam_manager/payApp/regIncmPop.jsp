@@ -11,9 +11,9 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/regIncmPop.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/g20Callback.js?v=${today}'/>"></script>
 
-<form id="payAppDraftFrm" method="post">
+<form id="payIncpDraftFrm" method="post">
     <input type="hidden" id="payIncpSn" name="payIncpSn" value="${params.payIncpSn}">
-    <input type="hidden" id="menuCd" name="menuCd" value="payApp">
+    <input type="hidden" id="menuCd" name="menuCd" value="incp">
     <input type="hidden" id="type" name="type" value="drafting">
     <input type="hidden" id="nowUrl" name="nowUrl" />
 </form>
@@ -121,10 +121,10 @@
                         <input type="text" id="bnkNm" disabled style="width: 60%;">
                     </td>
                 </tr>
-                <tr style="display: none">
+                <tr>
                     <th scope="row" class="text-center th-color">반납결의서</th>
                     <td colspan="4">
-                        <span id="payAppStat"></span>
+
                     </td>
                 </tr>
                 </thead>
@@ -214,7 +214,7 @@
                             <input type="hidden" id="cardNo0" class="cardNo">
                         </td>
                         <td>
-                            <input type="text" id="iss0" class="iss">
+                            <input type="text" id="iss0" class="iss" style="display: none;">
                         </td>
                         <td>
                             <div style="text-align: center">

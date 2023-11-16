@@ -86,4 +86,14 @@
         ]]>
     </select>
 
+    <select id="checkExnpDetData" parameterType="map" resultType="map">
+        /*checkExnpDetData*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_PAY_APP_DET
+        WHERE
+            PAY_APP_DET_SN = #{payAppDetSn}
+    </select>
+
 </mapper>

@@ -148,6 +148,17 @@ public class PayAppController {
         return "popup/cam_manager/approvalFormPopup/exnpApprovalPop";
     }
 
+    @RequestMapping("/popup/exnp/approvalFormPopup/payIncpApprovalPop.do")
+    public String payIncmApprovalPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_manager/approvalFormPopup/payIncpApprovalPop";
+    }
+
     /** 지급요청서 결재 상태값에 따른 UPDATE 메서드 */
     @RequestMapping(value = "/pay/payApp")
     public String payApp(@RequestParam Map<String, Object> bodyMap, Model model) {
@@ -182,6 +193,23 @@ public class PayAppController {
         return "jsonView";
     }
 
+    /** 수입결의서 결재 상태값에 따른 UPDATE 메서드 */
+    @RequestMapping(value = "/pay/incpApp")
+    public String incpApp(@RequestParam Map<String, Object> bodyMap, Model model, HttpServletRequest request) {
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            payAppService.updateIncpAppDocState(bodyMap);
+        }catch(Exception e){
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
     @RequestMapping("/pay/paymentRevList.do")
     public String paymentRevList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -191,6 +219,17 @@ public class PayAppController {
         session.setAttribute("menuNm", request.getRequestURI());
 
         return "cam_manager/payApp/paymentRevList";
+    }
+
+    @RequestMapping("/pay/paymentInList.do")
+    public String paymentInList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_manager/payApp/paymentInList";
     }
 
     @RequestMapping("/payApp/setPayAppDetData")

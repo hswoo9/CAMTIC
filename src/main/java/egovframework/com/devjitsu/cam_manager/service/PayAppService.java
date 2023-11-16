@@ -39,6 +39,8 @@ public interface PayAppService {
 
     void updateExnpAppDocState(Map<String, Object> bodyMap);
 
+    void updateIncpAppDocState(Map<String, Object> bodyMap);
+
     void resolutionExnpAppr(Map<String, Object> params);
 
     void updPayAttDetData(Map<String, Object> params, MultipartHttpServletRequest request, MultipartFile[] file, String SERVER_DIR, String BASE_DIR);

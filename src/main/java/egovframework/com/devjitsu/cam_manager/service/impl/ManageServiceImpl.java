@@ -59,4 +59,23 @@ public class ManageServiceImpl implements ManageService {
 
         return list;
     }
+
+    @Override
+    public List<Map<String, Object>> checkExnpDetData(Map<String, Object> params) {
+
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        String itemAr[] = params.get("arr").toString().split(",");
+
+        for(String item : itemAr){
+            Map<String, Object> map = new HashMap<>();
+            params.put("payAppDetSn", item);
+
+            map = manageRepository.checkExnpDetData(params);
+
+            list.add(map);
+        }
+
+        return list;
+    }
 }

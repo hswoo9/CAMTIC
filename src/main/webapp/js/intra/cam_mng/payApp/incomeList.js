@@ -85,18 +85,15 @@ var incomeList = {
                     }
                 }, {
                     title: "세출과목",
-                    field: "",
-                    width: 120,
-                    template: function (e){
-
-                    }
+                    field: "BUDGET_NM",
+                    width: 150,
                 }, {
                     title: "작성자",
                     field: "EMP_NAME",
-                    width: 120,
+                    width: 80,
                 }, {
                     title: "지출금액",
-                    width: 120,
+                    width: 100,
                     template: function(e){
                         var cost = e.TOT_COST;
                         if(e.TOT_COST != null && e.TOT_COST != "" && e.TOT_COST != undefined){
@@ -147,4 +144,8 @@ var incomeList = {
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     }
+}
+
+function gridReload(){
+    incomeList.gridReload();
 }

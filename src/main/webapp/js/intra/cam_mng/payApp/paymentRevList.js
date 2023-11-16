@@ -145,6 +145,7 @@ var paymentRevList = {
             searchDept : $("#searchDept").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
+            payAppType : '1',
             docStatus : 100
         }
 

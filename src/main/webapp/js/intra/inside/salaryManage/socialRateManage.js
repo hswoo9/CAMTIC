@@ -113,7 +113,58 @@ var srm = {
         }
     },
 
+    setSocialRate : function(){
+        if(confirm("저장하시겠습니까?")){
+            var newRateArr = new Array();
+            var oldRateArr = new Array();
+            $.each($(".rateInfo"), function(i, v){
+                var arrData = {
+                    socialRateSn : $(this).find("#socialRateSn" + i).val(),
+                    startDate : $(this).find("#startDate" + i).val(),
+                    endDate : $(this).find("#endDate" + i).val(),
+                    nationalPension : $(this).find("#nationalPension" + i).val(),
+                    limitAmt : srm.uncomma($(this).find("#limitAmt" + i).val()),
+                    healthInsurance : $(this).find("#healthInsurance" + i).val(),
+                    longCareInsurance : $(this).find("#longCareInsurance" + i).val(),
+                    employInsurance : $(this).find("#employInsurance" + i).val(),
+                    accidentInsurance : $(this).find("#accidentInsurance" + i).val(),
+                    empSeq : $("#empSeq").val()
+                }
 
+                if($(this).hasClass("newRateInfo")){
+                    if(arrData.startDate == "") {
+                        alert("적용시작 날짜를 선택해주세요.");
+                        return;
+                    }
+                    if(arrData.endDate == ""){
+                        alert("적용종료 날짜를 선택해주세요.");
+                        return;
+                    }
+
+                    newRateArr.push(arrData);
+                }else{
+                    oldRateArr.push(arrData);
+                }
+
+            })
+
+            if(dateCheck(newRateArr, oldRateArr)){
+                srm.global.saveAjaxData = {
+                    newRateArr : JSON.stringify(newRateArr),
+                    oldRateArr : JSON.stringify(oldRateArr)
+                }
+
+                var result = customKendo.fn_customAjax("/salaryManage/setSocialRate.do", srm.global.saveAjaxData)
+                if(result.flag){
+                    alert("저장되었습니다.");
+                    srm.global.rateIndex = 0;
+                    srm.setMakeTable();
+                }
+            } else {
+                alert("중복되는 기간이 존재합니다.");
+            }
+        }
+    },
 
     comma: function(str) {
         str = String(str);

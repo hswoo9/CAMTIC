@@ -69,4 +69,9 @@ public class AttendServiceImpl implements AttendService {
     public List<Map<String, Object>> getVacCodeList2(Map<String, Object> params) {
         return attendRepository.getVacCodeList2(params);
     }
+
+    @Override
+    public void setHistoryWorkApplyDel(Map<String, Object> params) {
+        attendRepository.setHistoryWorkApplyDel(params);
+    }
 }

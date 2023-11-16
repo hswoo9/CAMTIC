@@ -128,6 +128,35 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
+    public void updateIncpAppDocState(Map<String, Object> bodyMap) {
+        bodyMap.put("docSts", bodyMap.get("approveStatCode"));
+        String docSts = String.valueOf(bodyMap.get("docSts"));
+        String approKey = String.valueOf(bodyMap.get("approKey"));
+        String docId = String.valueOf(bodyMap.get("docId"));
+        String processId = String.valueOf(bodyMap.get("processId"));
+        String empSeq = String.valueOf(bodyMap.get("empSeq"));
+        approKey = approKey.split("_")[1];
+        bodyMap.put("approKey", approKey);
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("payIncpSn", approKey);
+        params.put("docName", bodyMap.get("formName"));
+        params.put("docId", docId);
+        params.put("docTitle", bodyMap.get("docTitle"));
+        params.put("approveStatCode", docSts);
+        params.put("empSeq", empSeq);
+
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+            payAppRepository.updateIncpApprStat(params);
+        }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
+            payAppRepository.updateIncpApprStat(params);
+        }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
+            params.put("approveStatCode", 100);
+            payAppRepository.updateIncpFinalApprStat(params);
+        }
+    }
+
+    @Override
     public void setPayAppDetData(Map<String, Object> params) {
         payAppRepository.updPayAppDetStat(params);
     }
@@ -224,13 +253,21 @@ public class PayAppServiceImpl implements PayAppService {
 
     private void updateG20ExnpFinalAppr(Map<String, Object> params, String type){
         List<Map<String, Object>> list = new ArrayList<>();
-        if(type.equals("resolution")){
-            params.put("evidTypeArr", "1,2,3");
-            list = payAppRepository.getExnpG20List(params);
-        }else{
-            params.put("evidTypeArr", "4,5");
+
+        Map<String, Object> pkMap = payAppRepository.getExnpData(params);
+
+        if("1".equals(pkMap.get("PAY_APP_TYPE"))){
+            if(type.equals("resolution")){
+                params.put("evidTypeArr", "1,2,3");
+                list = payAppRepository.getExnpG20List(params);
+            }else{
+                params.put("evidTypeArr", "4,5");
+                list = payAppRepository.getExnpG20List(params);
+            }
+        } else if("2".equals(pkMap.get("PAY_APP_TYPE"))){
             list = payAppRepository.getExnpG20List(params);
         }
+
 
         if(list.size() != 0){
             int docNumber = 0;          // 전체 지출결의서 CNT

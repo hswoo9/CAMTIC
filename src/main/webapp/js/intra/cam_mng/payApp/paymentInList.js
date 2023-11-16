@@ -1,4 +1,4 @@
-var exnpList = {
+var paymentInList = {
 
     global : {
         dropDownDataSource : "",
@@ -8,21 +8,21 @@ var exnpList = {
 
     fn_defaultScript : function (){
 
-        exnpList.global.dropDownDataSource = [
+        paymentInList.global.dropDownDataSource = [
             { text: "작성중", value: "1" },
             { text: "결재대기", value: "2" },
             { text: "결재완료", value: "3" },
         ]
-        customKendo.fn_dropDownList("searchDept", exnpList.global.dropDownDataSource, "text", "value");
-        $("#searchDept").data("kendoDropDownList").bind("change", exnpList.gridReload);
+        customKendo.fn_dropDownList("searchDept", paymentInList.global.dropDownDataSource, "text", "value");
+        $("#searchDept").data("kendoDropDownList").bind("change", paymentInList.gridReload);
 
-        exnpList.global.dropDownDataSource = [
+        paymentInList.global.dropDownDataSource = [
             { text: "문서번호", value: "DOC_NO" },
         ]
 
-        customKendo.fn_dropDownList("searchKeyword", exnpList.global.dropDownDataSource, "text", "value");
+        customKendo.fn_dropDownList("searchKeyword", paymentInList.global.dropDownDataSource, "text", "value");
         customKendo.fn_textBox(["searchValue"]);
-        exnpList.gridReload();
+        paymentInList.gridReload();
     },
 
     mainGrid: function(url, params){
@@ -43,7 +43,7 @@ var exnpList = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="exnpList.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="paymentInList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -76,12 +76,12 @@ var exnpList = {
                     title: "문서번호",
                     width: 120,
                 }, {
-                    title: "적요",
-                    field: "EXNP_BRIEFS",
-                    width: 280,
+                    title: "신청건명",
+                    field: "APP_TITLE",
+                    width: 400,
                     template: function(e){
                         console.log(e);
-                        return '<div style="cursor: pointer; font-weight: bold" onclick="exnpList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\', \'rev\')">'+e.EXNP_BRIEFS+'</div>';
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="paymentInList.fn_reqRegPopup('+e.PAY_APP_SN+', \'in\')">'+e.APP_TITLE+'</div>';
                     }
                 }, {
                     title: "프로젝트 명",
@@ -90,13 +90,6 @@ var exnpList = {
                     template: function (e){
                         var pjtNm = e.PJT_NM.toString().substring(0, 25);
                         return pjtNm + "...";
-                    }
-                }, {
-                    title: "세출과목",
-                    field: "",
-                    width: 120,
-                    template: function (e){
-                        return "-";
                     }
                 }, {
                     title: "신청일",
@@ -147,21 +140,22 @@ var exnpList = {
     },
 
     gridReload: function (){
-        exnpList.global.searchAjaxData = {
+        paymentInList.global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
             searchDept : $("#searchDept").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
-            payAppType : 1
+            payAppType : '2',
+            docStatus : 100
         }
 
-        exnpList.mainGrid("/pay/getExnpList", exnpList.global.searchAjaxData);
+        paymentInList.mainGrid("/pay/getPaymentList", paymentInList.global.searchAjaxData);
     },
 
-    fn_reqRegPopup : function (key, paySn, status){
-        var url = "/payApp/pop/regExnpPop.do";
+    fn_reqRegPopup : function (key, status){
+        var url = "/payApp/pop/regPayAppPop.do";
         if(key != null && key != ""){
-            url = "/payApp/pop/regExnpPop.do?payAppSn=" + paySn + "&exnpSn=" + key;
+            url = "/payApp/pop/regPayAppPop.do?payAppSn=" + key;
         }
 
         if(status != null && status != ""){
