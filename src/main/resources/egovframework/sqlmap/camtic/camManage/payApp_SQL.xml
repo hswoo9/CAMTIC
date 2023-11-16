@@ -566,6 +566,12 @@
             DJ_CAMTIC.A_DOC_INFO B
         ON
             A.DOC_ID = B.DOC_ID
+        WHERE
+            1 = 1
+        <if test='!"".equals(payAppType) and payAppType != null'>
+            AND
+                A.PAY_APP_TYPE = #{payAppType}
+        </if>
     </select>
 
     <select id="getExnpReList" parameterType="map" resultType="map">

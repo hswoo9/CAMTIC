@@ -28,7 +28,8 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;">
-                    지출결의서
+                    <c:if test='${params.status == "rev"}'>지출결의서</c:if>
+                    <c:if test='${params.status == "in"}'>여입결의서</c:if>
                     <span id="titleStat">작성</span>
                 </span>
             </h3>
@@ -156,7 +157,9 @@
                         <c:if test="${'rev'.equals(params.status)}">
                             <col style="width: 3%;">
                         </c:if>
-                        <col style="width: 5%;">
+                        <c:if test="${!'in'.equals(params.status)}">
+                            <col style="width: 5%;">
+                        </c:if>
                         <col style="width: 6%;">
                         <col style="width: 4%;">
                         <col style="width: 6%;">
@@ -164,18 +167,23 @@
                         <col style="width: 6%;">
                         <col style="width: 5%;">
                         <col style="width: 5%;">
+                        <col style="width: 4%;">
+                        <col style="width: 4%;">
                         <col style="width: 5%;">
-                        <col style="width: 5%;">
-                        <col style="width: 5%;">
-                        <col style="width: 3%;">
-                        <col style="width: 3%;">
+                        <c:if test="${!'in'.equals(params.status)}">
+                            <col style="width: 2%;">
+                            <col style="width: 3%;">
+                        </c:if>
+
                     </colgroup>
                     <thead>
                     <tr>
                         <c:if test="${'rev'.equals(params.status)}">
                             <th><input type="checkbox" id="checkAll" /></th>
                         </c:if>
-                        <th>증빙유형</th>
+                        <c:if test="${!'in'.equals(params.status)}">
+                            <th>증빙유형</th>
+                        </c:if>
                         <th>상호</th>
                         <th>은행명</th>
                         <th>지급계좌</th>
@@ -186,8 +194,11 @@
                         <th>공급가액</th>
                         <th>세액</th>
                         <th>신용카드</th>
-                        <th>선지급</th>
-                        <th>첨부파일</th>
+                        <c:if test="${!'in'.equals(params.status)}">
+                            <th>선지급</th>
+                            <th>첨부파일</th>
+                        </c:if>
+
                     </tr>
                     </thead>
                     <tbody id="payDestTb">
@@ -195,12 +206,15 @@
                         <c:if test="${'rev'.equals(params.status)}">
                             <td><input type="checkbox" id="check0" class="check" /></td>
                         </c:if>
+                        <c:if test="${!'in'.equals(params.status)}">
+                            <td>
+                                <input type="hidden" id="payDestSn0" name="payDestSn" class="payDestSn">
+                                <input type="text" id="eviType0" class="eviType" style="width: 100%">
+                            </td>
+                        </c:if>
                         <td>
-                            <input type="hidden" id="payDestSn0" name="payDestSn" class="payDestSn">
-                            <input type="text" id="eviType0" class="eviType" style="width: 100%">
-                        </td>
-                        <td>
-                            <input type="text" id="crmNm0" class="crmNm">
+                            <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regExnpDet.fn_popRegDet(1, 0)"></i>
+                            <input type="text" style="width: 80%;" id="crmNm0" class="crmNm">
                             <input type="hidden" id="trCd0" class="trCd">
                         </td>
                         <td>
@@ -228,6 +242,7 @@
                             <input type="text" id="vatCost0" class="vatCost" value="0" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                         </td>
                         <td>
+                            <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regExnpDet.fn_popRegDet(3, 0)"></i>
                             <input type="text" disabled id="card0" class="card">
                             <input type="hidden" id="cardNo0" class="cardNo" />
                         </td>
@@ -266,6 +281,7 @@
         $("#pjtSn").val(sn);
         $("#pjtNm").val(nm);
     }
+
 </script>
 </body>
 </html>

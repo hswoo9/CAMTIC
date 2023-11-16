@@ -244,17 +244,23 @@ var regPay = {
                 '   </td>' +
                 '   <td>' +
                 '       <input type="text" id="iss' + regPayDet.global.itemIndex + '" value="'+item.ISS+'"  class="iss">' +
-                '   </td>' +
-                '   <td>' +
-                '       <input type="checkbox" id="advances' + regPayDet.global.itemIndex + '" class="advances" style="width: 26px; height: 26px" ';
+                '   </td>';
+            if($("#status").val() != "in"){
+                regPayDet.global.createHtmlStr += "" +
+
+                    '   <td>' +
+                    '       <input type="checkbox" id="advances' + regPayDet.global.itemIndex + '" class="advances" style="width: 26px; height: 26px" ';
                 if(item.ADVANCES == "Y"){
                     regPayDet.global.createHtmlStr += "checked";
                 }
                 regPayDet.global.createHtmlStr += '/>' +
-                '   </td>' +
-                '   <td>' +
-                '       <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regPayDet.fn_regPayAttPop(' + regPayDet.global.itemIndex + ')">첨부</button>' +
-                '   </td>' +
+                    '   </td>' +
+                    '   <td>' +
+                    '       <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regPayDet.fn_regPayAttPop(' + regPayDet.global.itemIndex + ')">첨부</button>' +
+                    '   </td>';
+            }
+
+            regPayDet.global.createHtmlStr += "" +
                 '   <td>' +
                 '       <div style="text-align: center">';
                 if($("#status").val() == "rev" || $("#status").val() == "in"){
@@ -637,13 +643,17 @@ var regPayDet = {
             '   </td>' +
             '   <td>' +
             '       <input type="text" id="iss' + regPayDet.global.itemIndex + '" class="iss">' +
-            '   </td>' +
-            '   <td>' +
-            '       <input type="checkbox" id="advances' + regPayDet.global.itemIndex + '" class="advances" style="width: 26px; height: 26px">' +
-            '   </td>' +
-            '   <td>' +
-            '       <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regPayDet.fn_regPayAttPop(' + regPayDet.global.itemIndex + ')">첨부</button>' +
-            '   </td>' +
+            '   </td>' ;
+        if($("status").val() != "in"){
+            regPayDet.global.createHtmlStr = "" +
+                '   <td>' +
+                '       <input type="checkbox" id="advances' + regPayDet.global.itemIndex + '" class="advances" style="width: 26px; height: 26px">' +
+                '   </td>'+
+                '   <td>' +
+                '       <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regPayDet.fn_regPayAttPop(' + regPayDet.global.itemIndex + ')">첨부</button>' +
+                '   </td>';
+        }
+        regPayDet.global.createHtmlStr = "" +
             '   <td>' +
             '       <div style="text-align: center">' +
             '           <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(' + regPayDet.global.itemIndex + ')">삭제</button>' +

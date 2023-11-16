@@ -151,7 +151,8 @@ var exnpList = {
             empSeq : $("#myEmpSeq").val(),
             searchDept : $("#searchDept").val(),
             searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val()
+            searchValue : $("#searchValue").val(),
+            payAppType : 1
         }
 
         exnpList.mainGrid("/pay/getExnpList", exnpList.global.searchAjaxData);
