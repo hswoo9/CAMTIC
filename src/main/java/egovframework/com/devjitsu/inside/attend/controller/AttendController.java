@@ -241,6 +241,13 @@ public class AttendController {
         return "jsonView";
     }
 
+    // 휴일 근로 삭제
+    @RequestMapping("/Inside/setHistoryWorkApplyDel.do")
+    public String setHistoryWorkApplyDel(@RequestParam Map<String, Object> params){
+        attendService.setHistoryWorkApplyDel(params);
+        return "jsonView";
+    }
+
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {
         Date today = new Date();

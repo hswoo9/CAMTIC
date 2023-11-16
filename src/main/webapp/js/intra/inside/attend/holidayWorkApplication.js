@@ -175,9 +175,9 @@ var holidayWorkApplication ={
                     title: "승인요청",
                     template : function(e){
                         //휴가 전자결재
-                        if(e.SUBHOLIDAY_CODE_ID != "11") {
+                        if(e.SUBHOLIDAY_CODE_ID == "11") {
                             if(e.APPR_STAT == "N"){
-                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='subHolidayList.subHolidayDrafting(\""+e.SUBHOLIDAY_USE_ID+"\");'>" +
+                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='holidayWorkApplication.subHolidayDrafting(\""+e.SUBHOLIDAY_USE_ID+"\");'>" +
                                     "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                                     "<span class='k-button-text'>상신</span>" +
                                     "</button>";
@@ -216,7 +216,7 @@ var holidayWorkApplication ={
                             //휴일근로 전자결재
                         }else {
                             if(e.APPR_STAT == "N"){
-                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='subHolidayList.workHolidayDrafting(\""+e.SUBHOLIDAY_USE_ID+"\");'>" +
+                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='holidayWorkApplication.workHolidayDrafting(\""+e.SUBHOLIDAY_USE_ID+"\");'>" +
                                     "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                                     "<span class='k-button-text'>상신</span>" +
                                     "</button>";
@@ -263,6 +263,62 @@ var holidayWorkApplication ={
         var name = "subHolidayReqPop2";
         var option = "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+    },
+
+    subHolidayDrafting : function(subHolidayId) {
+        $("#subHolidayId").val(subHolidayId);
+        $("#subHolidayDraftFrm").one("submit", function() {
+            var url = "/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop.do";
+            var name = "subHolidayApprovalPop";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            var popup = window.open(url, name, option);
+            this.action = "/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop.do";
+            this.method = 'POST';
+            this.target = 'subHolidayApprovalPop';
+        }).trigger("submit");
+    },
+
+    workHolidayDrafting : function(subHolidayId) {
+        $("#subHolidayId").val(subHolidayId);
+        $("#subHolidayDraftFrm").one("submit", function() {
+            var url = "/popup/subHoliday/approvalFormPopup/workHolidayApprovalPop.do";
+            var name = "workHolidayApprovalPop";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            var popup = window.open(url, name, option);
+            this.action = "/popup/subHoliday/approvalFormPopup/workHolidayApprovalPop.do";
+            this.method = 'POST';
+            this.target = 'workHolidayApprovalPop';
+        }).trigger("submit");
+    },
+
+    fn_checkAll: function(){
+        if($("#checkAll").is(":checked")) {
+            $("input[name='hisPk']").prop("checked", true);
+        }else{
+            $("input[name='hisPk']").prop("checked", false);
+        }
+    },
+
+    delBtn: function(){
+        let checkedList = new Array();
+        $.each($("input[name='hisPk']:checked"), function(i,v){
+            checkedList.push(this.value);
+        });
+
+        if(checkedList.length == 0){
+            alert('삭제 할 항목을 선택해 주세요.');
+            return;
+        }
+
+        if(!confirm("삭제 하시겠습니까?")){
+            return;
+        }
+
+        var result = customKendo.fn_customAjax("/Inside/setHistoryWorkApplyDel.do", {subHolidayUseId : checkedList.join()});
+        if(result.flag){
+            alert("휴가 작성내역이 삭제되었습니다.");
+            holidayWorkApplication.gridReload();
+        }
     },
 
     gridReload: function (){

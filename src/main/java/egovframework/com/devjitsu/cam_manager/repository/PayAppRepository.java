@@ -119,6 +119,14 @@ public class PayAppRepository extends AbstractDAO {
         update("payApp.updateExnpFinalApprStat", params);
     }
 
+    public void updateIncpApprStat(Map<String, Object> params) {
+        update("payApp.updateIncpApprStat", params);
+    }
+
+    public void updateIncpFinalApprStat(Map<String, Object> params) {
+        update("payApp.updateIncpFinalApprStat", params);
+    }
+
     public List<Map<String, Object>> getExnpG20List(Map<String, Object> params) {
         return selectList("payApp.getExnpG20List", params);
     }
