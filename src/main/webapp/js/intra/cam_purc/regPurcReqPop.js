@@ -140,14 +140,15 @@ var prp = {
                 flag = false;
             }
 
-            if(data.productB == ""){
-                flag = false;
-            }
+            if($("#productA" + i).val() == "3"){
+                if(data.productB == ""){
+                    flag = false;
+                }
 
-            if(data.productC == ""){
-                flag = false;
+                if(data.productC == ""){
+                    flag = false;
+                }
             }
-
             itemArr.push(data);
         })
 
@@ -370,6 +371,7 @@ var prp = {
             } else {
                 $("#project").css("display", "none");
             }
+            console.log(data);
 
             if(data.estFile != null){
                 $("#file1Sn").val(data.estFile.file_no);
