@@ -391,7 +391,10 @@ var regExnp = {
     setData : function (){
         var data = {
             payAppSn : $("#payAppSn").val(),
-            payAppDetSn : $("#item").val()
+        }
+        
+        if($("#item").val() != "" && $("#item").val() != null){
+            data.payAppDetSn = $("#item").val();
         }
 
         var result = customKendo.fn_customAjax("/payApp/pop/getPayAppData", data);
