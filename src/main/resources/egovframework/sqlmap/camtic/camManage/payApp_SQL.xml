@@ -473,11 +473,11 @@
             C.PJT_CD AS MGT_CD,
             "" AS BOTTOM_CD,
             CASE
-                WHEN D.PAY_APP_TYPE = '1'
+                WHEN B.PAY_APP_TYPE = '1'
                     THEN '1'
-                WHEN D.PAY_APP_TYPE = '2'
+                WHEN B.PAY_APP_TYPE = '2'
                     THEN '6'
-                WHEN D.PAY_APP_TYPE = '3'
+                WHEN B.PAY_APP_TYPE = '3'
                     THEN '7'
                 ELSE '55'
             END AS DOCU_FG,
@@ -610,6 +610,7 @@
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON E.DOC_ID = DI.DOC_ID
         WHERE E.DOC_STATUS = '100'
+        AND E.PAY_APP_TYPE = 1
         AND ED.EVID_TYPE IN (1, 2, 3)
         GROUP BY E.EXNP_SN
     </select>

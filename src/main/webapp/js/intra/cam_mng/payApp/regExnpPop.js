@@ -50,8 +50,33 @@ var regExnp = {
             ]
         })
 
+        $("#busnCd0").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "1000-(사)캠틱종합기술원", value: "1000" },
+                { text: "2000-(사)캠틱종합기술원", value: "2000" },
+                { text: "3000-(사)캠틱종합기술원", value: "3000" },
+                { text: "4000-(사)캠틱종합기술원", value: "4000" },
+                { text: "5000-(사)캠틱종합기술원", value: "5000" },
+                { text: "6000-(사)캠틱종합기술원", value: "6000" },
+                { text: "7000-(사)캠틱종합기술원", value: "7000" }
+            ]
+        });
+
         $("#payAppType").data("kendoRadioGroup").value(1);
 
+        if($("#status").val() != "" && $("#status").val() != null){
+            if($("#status").val() == "rev"){
+                $("#payAppType").data("kendoRadioGroup").value(1);
+            } else if($("#status").val() == "in"){
+                $("#payAppType").data("kendoRadioGroup").value(2);
+            } else if($("#status").val() == "3"){
+                $("#payAppType").data("kendoRadioGroup").value(3);
+            } else if($("#status").val() == "4"){
+                $("#payAppType").data("kendoRadioGroup").value(4);
+            }
+        }
         if($("#exnpSn").val() == ""){
             if($("#payAppSn").val() != ""){
                 /** 지급신청서에서 지결 작성시 데이터 세팅 */
@@ -91,6 +116,9 @@ var regExnp = {
                     buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \''+data.DOC_MENU_CD+'\', \''+data.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
                 }else if(data.DOC_STATUS == "100"){
                     $("#mode").val("view");
+                    if($("#status").val() == "rev"){
+                        buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_regExnpInPop('+data.PAY_APP_SN+', '+data.EXNP_SN+')">여입결의서 작성</button>';
+                    }
                     buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', \''+data.DOC_MENU_CD+'\');">열람</button>';
                 }else{
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_save()">저장</button>';
@@ -131,6 +159,19 @@ var regExnp = {
 
         $("#busnCd").data("kendoDropDownList").value(rs.BUSN_CD);
         $("#payAppType").data("kendoRadioGroup").value(rs.PAY_APP_TYPE);
+
+        if($("#status").val() != "" && $("#status").val() != null){
+            if($("#status").val() == "rev"){
+                $("#payAppType").data("kendoRadioGroup").value(1);
+            } else if($("#status").val() == "in"){
+                $("#payAppType").data("kendoRadioGroup").value(2);
+            } else if($("#status").val() == "3"){
+                $("#payAppType").data("kendoRadioGroup").value(3);
+            } else if($("#status").val() == "4"){
+                $("#payAppType").data("kendoRadioGroup").value(4);
+            }
+        }
+
         $("#exnpDe").val(rs.EXNP_DE);
         $("#pjtNm").val(rs.PJT_NM);
         $("#pjtSn").val(rs.PJT_SN);
@@ -271,7 +312,7 @@ var regExnp = {
                         { text: "6000-(사)캠틱종합기술원", value: "6000" },
                         { text: "7000-(사)캠틱종합기술원", value: "7000" }
                     ]
-                })
+                });
 
                 customKendo.fn_textBox(["crmNm" + regExnpDet.global.itemIndex, "crmBnkNm"  + regExnpDet.global.itemIndex
                     , "crmAccHolder" + regExnpDet.global.itemIndex
@@ -357,6 +398,19 @@ var regExnp = {
         var ls = result.list;
 
         $("#payAppType").data("kendoRadioGroup").value(rs.PAY_APP_TYPE);
+
+        if($("#status").val() != "" && $("#status").val() != null){
+            if($("#status").val() == "rev"){
+                $("#payAppType").data("kendoRadioGroup").value(1);
+            } else if($("#status").val() == "in"){
+                $("#payAppType").data("kendoRadioGroup").value(2);
+            } else if($("#status").val() == "3"){
+                $("#payAppType").data("kendoRadioGroup").value(3);
+            } else if($("#status").val() == "4"){
+                $("#payAppType").data("kendoRadioGroup").value(4);
+            }
+        }
+
         $("#exnpDe").val(rs.APP_DE);
         $("#pjtNm").val(rs.PJT_NM);
         $("#pjtSn").val(rs.PJT_SN);
@@ -721,7 +775,13 @@ var regExnp = {
         var popup = window.open(url, name, option);
     },
 
+    fn_regExnpInPop: function(payAppSn, exnpSn){
+        var url = "/payApp/pop/regExnpPop.do?payAppSn=" + payAppSn + "&status=in";
 
+        var name = "blank";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    }
 }
 
 
@@ -765,6 +825,148 @@ var regExnpDet = {
 
         customKendo.fn_datePicker("trDe0", "month", "yyyy-MM-dd", new Date());
 
+    },
+
+    addRow : function () {
+
+        regExnpDet.global.createHtmlStr = "";
+        var clIdx = regExnpDet.global.itemIndex + 1;
+
+        regExnpDet.global.createHtmlStr += "" +
+            '<tr class="payDestInfo newArray" id="pay' + clIdx + '" style="text-align: center;">';
+        if(item.DET_STAT != "N"){
+            regExnpDet.global.createHtmlStr += "";
+            regExnpDet.global.createHtmlStr += '   <td>' +
+                '       <input type="text" id="eviType' + clIdx + '" class="eviType" style="width: 100%">' +
+                '   </td>';
+            regExnpDet.global.createHtmlStr += '' +
+                '   <td>' +
+                '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="regExnpDet.fn_popRegDet(1, '+clIdx+')"></i>' +
+                '       <input type="hidden" id="payDestSn' + clIdx + '" name="payDestSn" class="payDestSn">' +
+                '       <input type="hidden" id="exnpDestSn' + clIdx + '" name="exnpDestSn" class="exnpDestSn">' +
+                '       <input type="text" style="width: 80%;" id="crmNm' + clIdx + '" class="crmNm">' +
+                '       <input type="hidden" id="trCd' + clIdx + '" class="trCd">' +
+                '   </td>' +
+                '   <td>' +
+                '       <input type="text" id="crmBnkNm' + clIdx + '" class="crmBnkNm">' +
+                '   </td>' +
+                '   <td>' +
+                '       <input type="text" id="crmAccNo' + clIdx + '" class="crmAccNo">' +
+                '   </td>' +
+                '   <td>' +
+                '       <input type="text" id="crmAccHolder' + clIdx + '" class="crmAccHolder">' +
+                '   </td>' +
+                '   <td>' +
+                '       <input type="text" id="trDe' + clIdx + '" class="trDe">' +
+                '   </td>' +
+                '   <td>' +
+                '       <input type="text" id="busnCd' + clIdx + '" class="busnCd">' +
+                '   </td>' +
+                '   <td>' +
+                '       <input type="text" id="totCost' + clIdx + '" class="totCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                '   </td>' +
+                '   <td>' +
+                '       <input type="text" id="supCost' + clIdx + '" class="supCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                '   </td>' +
+                '   <td>' +
+                '       <input type="text" id="vatCost' + clIdx + '" class="vatCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                '   </td>' +
+                '   <td>' +
+                '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regExnpDet.fn_popRegDet(3, '+clIdx+')"></i>' +
+                '       <input type="text" disabled style="width: 70%" id="card' + clIdx + '" class="card">' +
+                '       <input type="hidden" id="cardNo'+clIdx+'" className="cardNo" />' +
+                '   </td>';
+
+            if($("#status").val() != 'in') {
+                regExnpDet.global.createHtmlStr += "" +
+                    '   <td>' +
+                    '       <input type="checkbox" id="advances' + clIdx + '" class="advances" style="width: 26px; height: 26px" ';
+                if (item.ADVANCES == "Y") {
+                    regExnpDet.global.createHtmlStr += "checked";
+                }
+                regExnpDet.global.createHtmlStr += '/>' +
+                    '   </td>' +
+                    '   <td>' +
+                    '       <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regExnpDet.fn_regExnpAttPop(' + clIdx + ')">첨부</button>' +
+                    '   </td>';
+            }
+            regExnpDet.global.createHtmlStr += "" +
+                '   <td>' +
+                '       <div style="text-align: center">' +
+                '           <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regExnpDet.delRow(' + clIdx + ')">삭제</button>' +
+                '       </div>' +
+                '   </td>'
+            '</tr>';
+
+            $("#payDestTb").append(regExnpDet.global.createHtmlStr);
+
+            if(item.DET_STAT == "N"){
+                $("#revertBtn"+ clIdx).css("display", "none");
+                $("#pay"+ clIdx).css("background-color", "#afafaf");
+            }
+
+            var itemIndex = clIdx;
+
+            $("#eviType" + clIdx).kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                dataSource: [
+                    { text: "선택", value: "" },
+                    { text: "세금계산서", value: "1" },
+                    { text: "계산서", value: "2" },
+                    { text: "신용카드", value: "3" },
+                    { text: "직원지급", value: "4" },
+                    { text: "소득신고자", value: "5" },
+                    { text: "기타", value: "6" },
+                ],
+                index: 0,
+                change : function (e){
+                    var value = $("#eviType" + clIdx).val();
+
+                    if(value != ""){
+                        if(value == "6"){
+                            alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
+                        } else {
+                            regExnpDet.fn_popRegDet(value, itemIndex);
+                        }
+                    }
+                }
+            });
+
+            $("#busnCd" + clIdx).kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                dataSource: [
+                    { text: "1000-(사)캠틱종합기술원", value: "1000" },
+                    { text: "2000-(사)캠틱종합기술원", value: "2000" },
+                    { text: "3000-(사)캠틱종합기술원", value: "3000" },
+                    { text: "4000-(사)캠틱종합기술원", value: "4000" },
+                    { text: "5000-(사)캠틱종합기술원", value: "5000" },
+                    { text: "6000-(사)캠틱종합기술원", value: "6000" },
+                    { text: "7000-(사)캠틱종합기술원", value: "7000" }
+                ]
+            })
+
+            customKendo.fn_textBox(["crmNm" + clIdx, "crmBnkNm"  + clIdx
+                , "crmAccHolder" + clIdx
+                , "crmAccNo" + clIdx, "totCost" + clIdx
+                , "supCost" + clIdx, "vatCost" + clIdx
+                ,"card" + clIdx]);
+
+            customKendo.fn_datePicker("trDe" + clIdx, "month", "yyyy-MM-dd", new Date());
+            $("#trDe" + clIdx).val();
+
+            $("#eviType" + clIdx).data("kendoDropDownList").value();
+
+            regExnpDet.global.itemIndex++;
+        }
+    },
+
+    delRow : function (row){
+        if($(".payDestInfo").length > 1){
+            $("#pay" + row).remove();
+            /*regPayDet.global.itemIndex--;*/
+        }
     },
 
     fn_popRegDet : function (v, i){
@@ -834,6 +1036,6 @@ var regExnpDet = {
         var name = "_blank";
         var option = "width = 850, height = 400, top = 200, left = 350, location = no";
         var popup = window.open(url, name, option);
-    }
+    },
 }
 

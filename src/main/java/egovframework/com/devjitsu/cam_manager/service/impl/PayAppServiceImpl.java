@@ -166,6 +166,9 @@ public class PayAppServiceImpl implements PayAppService {
         Gson gson = new Gson();
         List<Map<String, Object>> itemArr = gson.fromJson((String) params.get("itemArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
 
+        if("".equals(params.get("payAppSn")) || params.get("payAppSn") == null){
+            params.remove("payAppSn");
+        }
         if(!params.containsKey("exnpSn")){
             payAppRepository.insExnpData(params);
         } else {
