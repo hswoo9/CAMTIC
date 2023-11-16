@@ -48,13 +48,13 @@ var applicationForm3 = {
                     '<input type="file" id="certFile' + applicationForm3.global.certIndex + '" class="certFile" name="certFile' + applicationForm3.global.certIndex + '" style="display: none" onChange="applicationForm3.getFileName(this)">' +
                 '</td>' +
                 '<td>' +
-                    '<button type="button" class="__btn3 red" onclick="applicationForm3.delRow(\'cert\', this)"><span>삭제</span></button>' +
+                    '<button type="button" class="k-button k-button-solid-error" onclick="applicationForm3.delRow(\'cert\', this)"><span>삭제</span></button>' +
                 '</td>' +
             '</tr>' +
             '<tr id="cert' + applicationForm3.global.certIndex + '_1" class="cert_1">' +
-                '<th>활용능력</th>' +
+                '<th style="text-align: center;">활용능력</th>' +
                 '<td colSpan="6">' +
-                    '<textarea id="certContent' + applicationForm3.global.certIndex + '" class="certContent"></textarea>' +
+                    '<textarea id="certContent' + applicationForm3.global.certIndex + '" class="certContent" style="width: 100%; height: 100%; box-sizing: border-box; margin: 0; padding: 5px;"></textarea>' +
                 '</td>' +
             '</tr>';
 
@@ -85,13 +85,13 @@ var applicationForm3 = {
                     '<input type="file" id="langFile' + applicationForm3.global.langIndex + '" class="langFile" name="langFile' + applicationForm3.global.langIndex + '" style="display: none" onChange="applicationForm3.getFileName(this)">' +
                 '</td>' +
                 '<td>' +
-                    '<button type="button" class="__btn3 red" onclick="applicationForm3.delRow(\'lang\', this)"><span>삭제</span></button>' +
+                    '<button type="button" class="k-button k-button-solid-error" onclick="applicationForm3.delRow(\'lang\', this)"><span>삭제</span></button>' +
                 '</td>' +
             '</tr>' +
             '<tr id="lang' + applicationForm3.global.langIndex + '_1" class="lang_1">' +
-                '<th>활용능력</th>' +
+                '<th style="text-align: center;">활용능력</th>' +
                 '<td colSpan="6">' +
-                    '<textarea id="langContent' + applicationForm3.global.langIndex + '" class="langContent"></textarea>' +
+                    '<textarea id="langContent' + applicationForm3.global.langIndex + '" class="langContent" style="width: 100%; height: 100%; box-sizing: border-box; margin: 0; padding: 5px;"></textarea>' +
                 '</td>' +
             '</tr>';
 
@@ -355,10 +355,11 @@ var applicationForm3 = {
     },
 
     fnResizeForm : function() {
+        var strWidth = $('.pop_sign_wrap').outerWidth() + (window.outerWidth - window.innerWidth);
         var strHeight = $('.pop_sign_wrap').outerHeight() + (window.outerHeight - window.innerHeight) + 30;
         try{
             var childWindow = window.parent;
-            childWindow.resizeTo(930, strHeight);
+            childWindow.resizeTo((strWidth), strHeight);
         }catch(exception){
             console.log('window resizing cat not run dev mode.');
         }

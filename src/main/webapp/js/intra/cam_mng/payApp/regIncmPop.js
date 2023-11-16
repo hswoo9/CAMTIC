@@ -131,8 +131,8 @@ var regIncm = {
         $("#appDe").val(rs.APP_DE);
         $("#pjtNm").val(rs.PJT_NM);
         $("#pjtSn").val(rs.PJT_SN);
-        // $("#budgetNm").val(rs.BUDGET_NM);
-        // $("#budgetSn").val(rs.BUDGET_SN);
+        $("#budgetNm").val(rs.BUDGET_NM);
+        $("#budgetSn").val(rs.BUDGET_SN);
         $("#appCont").val(rs.APP_CONT);
         $("#busnCd").data("kendoDropDownList").value(rs.BUSN_CD);
         $("#busnExCd").data("kendoDropDownList").value(rs.BUSN_EX_CD);
@@ -167,7 +167,7 @@ var regIncm = {
 
             regIncmDet.global.createHtmlStr += "" +
                 '   <td>' +
-                '       <input type="hidden" id="payDestSn' + regIncmDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" name="payDestSn" class="payDestSn">' +
+                '       <input type="hidden" id="payDestSn' + regIncmDet.global.itemIndex + '" value="'+item.PAY_INCP_DET_SN+'" name="payDestSn" class="payDestSn">' +
                 '       <input type="text" id="eviType' + regIncmDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
                 '   </td>' +
                 '   <td>' +
@@ -196,13 +196,13 @@ var regIncm = {
                 '   </td>' +
 
                 '   <td>' +
-                '       <input type="text" id="iss' + regIncmDet.global.itemIndex + '" value="'+item.ISS+'"  class="iss">' +
+                '       <input type="text" id="iss' + regIncmDet.global.itemIndex + '" value="'+item.ISS+'"  class="iss" style="display: none;">' +
                 '   </td>' +
 
                 '   <td>' +
                 '       <div style="text-align: center">';
             if($("#status").val() == "rev"){
-                regIncmDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="revertBtn' + regIncmDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" onclick="regIncmDet.fn_revertDet(this)">반려</button>';
+                regIncmDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="revertBtn' + regIncmDet.global.itemIndex + '" value="'+item.PAY_INCP_DET_SN+'" onclick="regIncmDet.fn_revertDet(this)">반려</button>';
             } else {
                 if(rs.DOC_STATUS == "0"){
                     regIncmDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regIncmDet.delRow(' + regIncmDet.global.itemIndex + ')">삭제</button>';
@@ -227,21 +227,29 @@ var regIncm = {
                 dataValueField: "value",
                 dataSource: [
                     { text: "선택", value: "" },
-                    { text: "세금계산서", value: "1" },
-                    { text: "계산서", value: "2" },
-                    { text: "신용카드", value: "3" },
-                    { text: "직원지급", value: "4" },
-                    { text: "소득신고자", value: "5" },
-                    { text: "기타", value: "6" },
+                    { text: "세금계산서(청구)", value: "1" },
+                    { text: "세금계산서(영수)", value: "2" },
+                    { text: "계산서(청구)", value: "3" },
+                    { text: "계산서(영수)", value: "4" },
+                    { text: "신용카드(과세)", value: "5" },
+                    { text: "신용카드(면세)", value: "6" },
+                    { text: "증빙없음", value: "7" },
                 ],
                 index: 0,
                 change : function (e){
                     var value = $("#eviType" + itemIndex).val();
 
                     if(value != ""){
-                        if(value == "6"){
+                        if(value == "7"){
                             alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
                         } else {
+                            if(value == "1" || value == "2"){
+                                value = 1;
+                            } else if(value == "3" || value == "4") {
+                                value = 2;
+                            } else if(value == "5" || value == "6"){
+                                value = 3;
+                            }
                             regIncmDet.fn_popRegDet(value, itemIndex);
                         }
                     }
@@ -256,12 +264,9 @@ var regIncm = {
 
             customKendo.fn_datePicker("trDe" + regIncmDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
 
-            $("#eviType" + itemIndex).data("kendoDropDownList").value(1);
-
-
+            $("#eviType" + itemIndex).data("kendoDropDownList").value(item.EVID_TYPE);
 
             regIncmDet.global.itemIndex++;
-
         }
 
         if(ls.length > 0){
@@ -471,12 +476,13 @@ var regIncmDet = {
             dataValueField: "value",
             dataSource: [
                 { text: "선택", value: "" },
-                { text: "세금계산서", value: "1" },
-                { text: "계산서", value: "2" },
-                { text: "신용카드", value: "3" },
-                { text: "직원지급", value: "4" },
-                { text: "소득신고자", value: "5" },
-                { text: "기타", value: "6" },
+                { text: "세금계산서(청구)", value: "1" },
+                { text: "세금계산서(영수)", value: "2" },
+                { text: "계산서(청구)", value: "3" },
+                { text: "계산서(영수)", value: "4" },
+                { text: "신용카드(과세)", value: "5" },
+                { text: "신용카드(면세)", value: "6" },
+                { text: "증빙없음", value: "7" },
             ],
             index: 0,
             change : function (e){
@@ -484,9 +490,16 @@ var regIncmDet = {
                 var itemIndex = 0;
 
                 if(value != ""){
-                    if(value == "6"){
+                    if(value == "7"){
                         alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
                     } else {
+                        if(value == "1" || value == "2"){
+                            value = 1;
+                        } else if(value == "3" || value == "4") {
+                            value = 2;
+                        } else if(value == "5" || value == "6"){
+                            value = 3;
+                        }
                         regIncmDet.fn_popRegDet(value, itemIndex);
                     }
                 }
@@ -564,21 +577,29 @@ var regIncmDet = {
             dataValueField: "value",
             dataSource: [
                 { text: "선택", value: "" },
-                { text: "세금계산서", value: "1" },
-                { text: "계산서", value: "2" },
-                { text: "신용카드", value: "3" },
-                { text: "직원지급", value: "4" },
-                { text: "소득신고자", value: "5" },
-                { text: "기타", value: "6" },
+                { text: "세금계산서(청구)", value: "1" },
+                { text: "세금계산서(영수)", value: "2" },
+                { text: "계산서(청구)", value: "3" },
+                { text: "계산서(영수)", value: "4" },
+                { text: "신용카드(과세)", value: "5" },
+                { text: "신용카드(면세)", value: "6" },
+                { text: "증빙없음", value: "7" },
             ],
             index: 0,
             change : function (e){
                 var value = $("#eviType" + itemIndex).val();
 
                 if(value != ""){
-                    if(value == "6"){
+                    if(value == "7"){
                         alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
                     } else {
+                        if(value == "1" || value == "2"){
+                            value = 1;
+                        } else if(value == "3" || value == "4") {
+                            value = 2;
+                        } else if(value == "5" || value == "6"){
+                            value = 3;
+                        }
                         regIncmDet.fn_popRegDet(value, itemIndex);
                     }
                 }

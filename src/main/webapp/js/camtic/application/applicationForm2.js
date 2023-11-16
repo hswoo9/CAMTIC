@@ -62,7 +62,7 @@ var applicationForm2 = {
                 '<td>' +
                     '<input type="hidden" id="degreeFileNo' + applicationForm2.global.schoolIndex + '" class="degreeFileNo" name="degreeFileNo' + applicationForm2.global.schoolIndex + '">' +
                     '<input type="text" id="degreeFileName' + applicationForm2.global.schoolIndex + '" class="degreeFileName" style="width: 100px;">' +
-                    '<label for="degreeFile' + applicationForm2.global.schoolIndex + '" class="degreeFileLabel" class="k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>' +
+                    '<label for="degreeFile' + applicationForm2.global.schoolIndex + '" class="degreeFileLabel k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>' +
                     '<input type="file" id="degreeFile' + applicationForm2.global.schoolIndex + '" class="degreeFile" name="degreeFile' + applicationForm2.global.schoolIndex + '" style="display: none" onChange="applicationForm2.getFileName(this)">' +
                 '</td>' +
                 '<td>' +
@@ -72,7 +72,7 @@ var applicationForm2 = {
                     '<input type="file" id="sexualFile' + applicationForm2.global.schoolIndex + '" class="sexualFile" name="sexualFile' + applicationForm2.global.schoolIndex + '" style="display: none" onChange="applicationForm2.getFileName(this)">' +
                 '</td>' +
                 '<td>' +
-                    '<button type="button" class="__btn3 red" onClick="applicationForm2.delRow(\'schoolInfo\', this)"><span>삭제</span></button>' +
+                    '<button type="button" class="k-button k-button-solid-error" onClick="applicationForm2.delRow(\'schoolInfo\', this)"><span>삭제</span></button>' +
                 '</td>' +
             '</tr>';
 
@@ -121,13 +121,13 @@ var applicationForm2 = {
                     '<input type="file" id="careerFile' + applicationForm2.global.careerIndex + '" class="careerFile" name="careerFile' + applicationForm2.global.careerIndex + '" style="display: none" onChange="applicationForm2.getFileName(this)">' +
                 '</td>' +
                 '<td>' +
-                    '<button type="button" class="__btn3 red" onclick="applicationForm2.delRow(\'careerInfo\', this)"><span>삭제</span></button>' +
+                    '<button type="button" class="k-button k-button-solid-error" onclick="applicationForm2.delRow(\'careerInfo\', this)"><span>삭제</span></button>' +
                 '</td>' +
             '</tr>' +
             '<tr id="career' + applicationForm2.global.careerIndex + '_1" class="careerInfo_1">' +
                 '<th>담당업무 세부사항</th>' +
-                '<td colSpan="6">' +
-                    '<textarea id="careerContent' + applicationForm2.global.careerIndex + '" class="careerContent"></textarea>' +
+                '<td colSpan="7">' +
+                    '<textarea id="careerContent' + applicationForm2.global.careerIndex + '" class="careerContent" style="width: 100%; height: 100%; box-sizing: border-box; margin: 0; padding: 5px;"></textarea>' +
                 '</td>' +
             '</tr>';
 
@@ -433,12 +433,13 @@ var applicationForm2 = {
     },
 
     fnResizeForm : function() {
+        //var strWidth = $('.pop_sign_wrap').outerWidth() + (window.outerWidth - window.innerWidth);
         var strHeight = $('.pop_sign_wrap').outerHeight() + (window.outerHeight - window.innerHeight) + 10;
 
         //$('.pop_sign_wrap').css("overflow","auto");
         try{
             var childWindow = window.parent;
-            childWindow.resizeTo(1590, strHeight);
+            childWindow.resizeTo(1320, strHeight);
         }catch(exception){
             console.log('window resizing cat not run dev mode.');
         }

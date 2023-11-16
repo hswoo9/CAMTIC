@@ -99,7 +99,6 @@ public class CrmController {
     @RequestMapping("/crm/pop/popCrmList.do")
     public String popCrmList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
-        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
         model.addAttribute("loginVO", loginVO);

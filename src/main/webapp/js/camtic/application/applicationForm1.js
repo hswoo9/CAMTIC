@@ -316,7 +316,8 @@ var applicationForm = {
     },
 
     fnResizeForm : function() {
-        var strWidth = $('.pop_sign_wrap').outerWidth() + (window.outerWidth - window.innerWidth) + 50;
+        var strWidth = $('.pop_sign_wrap').outerWidth() + (window.outerWidth - window.innerWidth);
+        //var strWidth = $('.pop_sign_wrap').outerWidth();
         var strHeight = $('.pop_sign_wrap').outerHeight() + (window.outerHeight - window.innerHeight) + 10;
 
         //$('.pop_sign_wrap').css("overflow","auto");

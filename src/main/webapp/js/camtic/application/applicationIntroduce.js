@@ -77,10 +77,11 @@ var applicationIntroduce = {
     },
 
     fnResizeForm : function() {
+        var strWidth = $('.pop_sign_wrap').outerWidth() + (window.outerWidth - window.innerWidth);
         var strHeight = $('.pop_sign_wrap').outerHeight() + (window.outerHeight - window.innerHeight) + 30;
         try{
             var childWindow = window.parent;
-            childWindow.resizeTo(930, strHeight);
+            childWindow.resizeTo(( strWidth), strHeight);
         }catch(exception){
             console.log('window resizing cat not run dev mode.');
         }

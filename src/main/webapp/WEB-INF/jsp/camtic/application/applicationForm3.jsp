@@ -11,43 +11,52 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
+<link rel="stylesheet" href="/css/quirk.css">
+<link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/camtic/application/applicationForm3.js?v=${today}"></script>
+
 <body class="font-opensans" style="background-color:#fff;">
-<div class="col-md-12 col-lg-12 dash-left pop_sign_wrap" style="width:930px;padding: 50px;">
+<div class="col-lg-12 pop_sign_wrap" style="width:1000px;padding: 0;">
     <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="${recruitInfoSn}">
     <input type="hidden" id="applicationId" name="applicationId" value="${params.applicationId}">
     <input type="hidden" id="userEmail" name="userEmail" value="${userEmail}">
     <input type="hidden" id="recruitAreaInfoSn" name="recruitAreaInfoSn" value="${params.recruitAreaInfoSn}">
-    <div class="panel">
-        <div class="panel-heading">
-            <h4 class="panel-title">캠틱 온라인 입사지원</h4>
+    <div class="card-header pop-header">
+        <h3 class="card-title title_NM">캠틱 온라인 입사지원</h3>
+        <div class="btn-st popButton">
+            <button type="button" class="k-button k-button-solid-info" onclick="applicationForm3.setApplicationTempSave('prev')"><span>이전단계</span></button>
+            <button type="button" class="k-button k-button-solid-info" onclick="applicationForm3.setApplicationTempSave('temp')"><span>임시저장</span></button>
+            <button type="button" class="k-button k-button-solid-info" onclick="applicationForm3.setApplicationTempSave('next')"><span>다음단계</span></button>
+            <button type="button" class="k-button k-button-solid-error" onclick="window.close()"><span>취소</span></button>
         </div>
-
-        <div class="panel-body">
+    </div>
+        <div style="padding: 20px">
+            <table class="popTable table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                <colgroup>
+                    <col width="30%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>
+                        지원분야
+                    </th>
+                    <td>
+                        <span id="recruitAreaInfoSnTxt"></span>
+                    </td>
+                </tr>
+                </thead>
+            </table>
             <div>
-                <h4>자격/면허/어학</h4>
-                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
-                    <colgroup>
-                        <col width="30%">
-                    </colgroup>
-                    <tr>
-                        <th style="border-bottom:0; background-color: white">
-                            지원분야
-                        </th>
-                        <td colspan="4">
-                            <span id="recruitAreaInfoSnTxt"></span>
-                        </td>
-                    </tr>
-                </table>
-
-                <h5>자격/면허</h5>
-                <div>
-                    <div class="__btWrap rig __mt10" style="text-align: right">
-                        <button type="button" class="__btn3 blue" onclick="applicationForm3.addCertRow()"><span>추가</span></button>
-                    </div>
-
-                    <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                <div class="__btWrap rig __mt10" style="text-align: right; margin-right: 10px; margin-top: 10px;">
+                    <button type="button" class="k-button k-button-solid-info" onclick="applicationForm3.addCertRow()"><span>추가</span></button>
+                </div>
+                    <table class="popTable table table-bordered mb-0 mt10 text-center">
                         <thead>
+                        <tr>
+                            <th colspan="5" style="font-size: 14px; font-weight: 600; background-color: #00397f96; color: #fff;">
+                                자격/면허
+                            </th>
+                        </tr>
                         <tr>
                             <th>명칭</th>
                             <th>등급</th>
@@ -75,27 +84,32 @@
                                 <input type="file" id="certFile0" name="certFile0" class="certFile" style="display: none" onchange="applicationForm3.getFileName(this)">
                             </td>
                             <td>
-                                <button type="button" class="__btn3 red" onclick="applicationForm3.delRow('cert', this)"><span>삭제</span></button>
+                                <button type="button" class="k-button k-button-solid-error" onclick="applicationForm3.delRow('cert', this)"><span>삭제</span></button>
                             </td>
                         </tr>
                         <tr id="cert0_1" class="cert_1">
-                            <th>활용능력</th>
+                            <th style="text-align: center;">
+                                활용능력
+                            </th>
                             <td colspan="6">
-                                <textarea id="certContent0" class="certContent"></textarea>
+                                <textarea id="certContent0" class="certContent" style="width: 100%; height: 100%; box-sizing: border-box; margin: 0; padding: 5px;"></textarea>
                             </td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-            </div>
 
-            <h5>외국어</h5>
             <div id="langDiv">
-                <div class="__btWrap rig __mt10" style="text-align: right">
-                    <button type="button" class="__btn3 blue" onclick="applicationForm3.addLangRow()"><span>추가</span></button>
+                <div class="__btWrap rig __mt10" style="text-align: right;  margin-right: 10px; margin-top: 10px;">
+                    <button type="button" class="k-button k-button-solid-info" onclick="applicationForm3.addLangRow()"><span>추가</span></button>
                 </div>
-                <table class="table table-bordered mb-0" id="langInfo0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                <table class="popTable table table-bordered mb-0 mt10 text-center" id="langInfo0">
                     <thead>
+                    <tr>
+                        <th colspan="5" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">
+                            외국어
+                        </th>
+                    </tr>
                         <tr>
                             <th>명칭</th>
                             <th>취득시기</th>
@@ -123,34 +137,39 @@
                             <input type="file" id="langFile0" name="langFile0" class="langFile" style="display: none" onchange="applicationForm3.getFileName(this)">
                         </td>
                         <td>
-                            <button type="button" class="__btn3 red" onclick="applicationForm3.delRow('lang', this)"><span>삭제</span></button>
+                            <button type="button" class="k-button k-button-solid-error" onclick="applicationForm3.delRow('lang', this)"><span>삭제</span></button>
                         </td>
                     </tr>
                     <tr id="lang0_1" class="lang_1">
-                        <th>활용능력</th>
+                        <th style="text-align: center;">활용능력</th>
                         <td colspan="6">
-                            <textarea id="langContent0" class="langContent"></textarea>
+                            <textarea id="langContent0" class="langContent" style="width: 100%; height: 100%; box-sizing: border-box; margin: 0; padding: 5px;"></textarea>
                         </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
 
-            <h4>
-                기타 외국어 능력 입력
-                <input type="checkbox" id="otherYn" name="otherYn" onclick="applicationForm3.checkBoxChk(this)">
-            </h4>
-
-            <div id="otherDiv" style="display: none">
-                <textarea id="otherLang"></textarea>
+            <div style="margin-bottom: 10px">
+            <span style="padding-right: 5px; font-size: 12px">기타 외국어 능력 입력</span>
+            <input type="checkbox" id="otherYn" name="otherYn" onclick="applicationForm3.checkBoxChk(this)">
             </div>
 
+            <div id="otherDiv" style="display: none">
+                <table class="popTable table table-bordered mb-0 mt10 text-center">
+                    <tr>
+                    <textarea id="otherLang" style="width: 100%; height: 100%; box-sizing: border-box; margin: 0; padding: 5px;"></textarea>
+                    </tr>
+                </table>
+            </div>
+        <!--
             <div style="text-align: right">
                 <button class="__btn1 blue" onclick="applicationForm3.setApplicationTempSave('prev')"><span>이전단계</span></button>
                 <button class="__btn1 black" onclick="applicationForm3.setApplicationTempSave('temp')"><span>임시저장</span></button>
                 <button class="__btn1 blue" onclick="applicationForm3.setApplicationTempSave('next')"><span>다음단계</span></button>
                 <button class="__btn1 gray" onclick="window.close()"><span>취소</span></button>
             </div>
+            -->
         </div>
     </div>
 </div><!-- col-md-9 -->
