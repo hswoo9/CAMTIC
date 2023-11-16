@@ -66,6 +66,10 @@
                 ACC_NO,
                 ACC_NM,
                 GUBUN,
+                DT1,
+                DT2,
+                DT3,
+                DT_CK,
                 REG_EMP_SEQ
             )
         VALUES
@@ -86,6 +90,10 @@
                 #{accNo},
                 #{accNm},
                 'W',
+                #{DT1},
+                #{DT2},
+                #{DT3},
+                'Y',
                 #{regEmpSeq}
             )
         <selectKey keyProperty="exnpSn" resultType="Integer" order="BEFORE">
@@ -134,6 +142,10 @@
             BNK_NM = #{bnkNm},
             ACC_NO = #{accNo},
             ACC_NM = #{accNm},
+            DT1 = #{DT1},
+            DT2 = #{DT2},
+            DT3 = #{DT3},
+            DT_CK = 'Y',
             MOD_DT = NOW(),
             MOD_EMP_SEQ = #{regEmpSeq}
         WHERE
@@ -143,12 +155,13 @@
 
     <select id="getPayAppReqData" parameterType="map" resultType="map">
         /*getPayAppReqData*/
-        SELECT A.*, B.DOC_NO
+        SELECT A.*, B.DOC_NO,
+               IFNULL((SELECT SPCS.DIV_CD FROM CAM_MNG.DJ_PROJECT_CODE_SET SPCS WHERE SPCS.IS_CODE = LEFT(P.PJT_CD, 1)), '') AS DIV_CD
         FROM CAM_MNG.DJ_PAY_APP A
         LEFT JOIN
-            DJ_CAMTIC.A_DOC_INFO B
-        ON
-            A.DOC_ID = B.DOC_ID
+            DJ_CAMTIC.A_DOC_INFO B ON A.DOC_ID = B.DOC_ID
+        LEFT JOIN
+             CAM_PJT_MNG.DJ_PROJECT P ON A.PJT_SN = P.PJT_SN
         WHERE PAY_APP_SN = #{payAppSn}
     </select>
 
@@ -240,7 +253,8 @@
                 FILE8,
                 FILE9,
                 FILE10,
-                ADVANCES
+                ADVANCES,
+                BUSN_CD
             )
         VALUES
             (
@@ -271,7 +285,8 @@
                 (SELECT FILE8 FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_DET_SN = #{payDestSn}),
                 (SELECT FILE9 FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_DET_SN = #{payDestSn}),
                 (SELECT FILE10 FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_DET_SN = #{payDestSn}),
-                (SELECT ADVANCES FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_DET_SN = #{payDestSn})
+                #{advances},
+                #{busnCd}
             )
     </insert>
 
@@ -308,10 +323,23 @@
             A.DOC_ID = B.DOC_ID
         WHERE
             1=1
+        <if test='payAppType == "1" or "1".equals(payAppType)'>
+        AND PAY_APP_TYPE = 1
+        </if>
+        <if test='payAppType == "2" or "2".equals(payAppType)'>
+        AND PAY_APP_TYPE = 2
+        </if>
+        <if test='payAppType == "3" or "3".equals(payAppType)'>
+            AND PAY_APP_TYPE = 3
+        </if>
+        <if test='payAppType == "4" or "4".equals(payAppType)'>
+            AND PAY_APP_TYPE = 4
+        </if>
         <if test='docStatus != null and !"".equals(docStatus)'>
         AND
             A.DOC_STATUS = #{docStatus}
         </if>
+        ORDER BY PAY_APP_SN DESC
     </select>
 
     <update id="updatePayAppApprStat" parameterType="map">
@@ -568,7 +596,8 @@
             CAM_MNG.DJ_PAY_INCP A
         LEFT JOIN
             CAM_HR.DJ_EMP_INFO B
-        ON A.REG_EMP_SEQ = B.EMP_SEQ
+        ON A.EXNP_EMP_SEQ = B.EMP_SEQ
+        ORDER BY A.PAY_INCP_SN DESC
     </select>
 
     <update id="updPayAppDetailStatus" parameterType="map">
@@ -778,7 +807,10 @@
             BUDGET_NM,
             BUDGET_SN,
             BUSN_CD,
-            BUSN_EX_CD
+            BUSN_EX_CD,
+            EXNP_EMP_SEQ,
+            G20_EMP_CD,
+            G20_DEPT_CD,
             APP_DE,
             APP_CONT,
             BNK_SN,
@@ -797,6 +829,9 @@
             #{budgetSn},
             #{busnCd},
             #{busnExCd},
+            #{exnpEmpSeq},
+            #{g20EmpCd},
+            #{g20DeptCd},
             #{appDe},
             #{appCont},
             #{bnkSn},
@@ -820,6 +855,8 @@
             PJT_SN = #{pjtSn},
             APP_DE = #{appDe},
             APP_CONT = #{appCont},
+            BUDGET_SN = #{budgetSn},
+            BUDGET_NM = #{budgetNm},
             BUSN_CD = #{busnCd},
             BUSN_EX_CD = #{busnExCd},
             BNK_SN = #{bnkSn},

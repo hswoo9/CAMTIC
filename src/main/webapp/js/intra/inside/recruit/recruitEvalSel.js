@@ -81,7 +81,7 @@ var res = {
                 }, {
                     title: "모집기간",
                     template: function(row) {
-                        return row.START_DT+" "+row.START_TIME+" ~ "+row.END_DT+" "+row.END_TIME;
+                        return row.START_DT+" ~ "+row.END_DT;
                     },
                     width: 240
                 }, {

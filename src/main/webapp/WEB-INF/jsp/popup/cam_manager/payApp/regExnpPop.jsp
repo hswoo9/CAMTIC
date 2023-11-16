@@ -84,8 +84,13 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">사업장</th>
-                    <td colspan="4">
+                    <td colspan="2">
                         <input type="text" id="busnCd" style="width: 15%;">
+                    </td>
+                    <th scope="row" class="text-center th-color">예산비목</th>
+                    <td colspan="2">
+                        <input type="text" id="budgetNm" value="" onclick="regExnp.fn_budgetPop('N')"  style="width: 100%;">
+                        <input type="hidden" id="budgetSn" value="" />
                     </td>
                 </tr>
                 <tr>
@@ -121,6 +126,14 @@
                         <input type="text" id="bnkNm" disabled style="width: 60%;">
                     </td>
                 </tr>
+                <tr id="dtTr" style="display: none">
+                    <th scope="row" class="text-center th-color">결의서 날짜 설정</th>
+                    <td colspan="4">
+                        회계발의일 : <input id="DT1" style="width: 150px">&nbsp;
+                        등기일자 : <input id="DT2" style="width: 150px">&nbsp;
+                        지출부기재 일자 : <input id="DT3" style="width: 150px">&nbsp;
+                    </td>
+                </tr>
                 </thead>
             </table>
 
@@ -144,12 +157,12 @@
                             <col style="width: 3%;">
                         </c:if>
                         <col style="width: 5%;">
-                        <col style="width: 5%;">
                         <col style="width: 6%;">
                         <col style="width: 4%;">
                         <col style="width: 6%;">
                         <col style="width: 6%;">
                         <col style="width: 6%;">
+                        <col style="width: 5%;">
                         <col style="width: 5%;">
                         <col style="width: 5%;">
                         <col style="width: 5%;">
@@ -162,13 +175,13 @@
                         <c:if test="${'rev'.equals(params.status)}">
                             <th><input type="checkbox" id="checkAll" /></th>
                         </c:if>
-                        <th>예산비목</th>
                         <th>증빙유형</th>
                         <th>상호</th>
                         <th>은행명</th>
                         <th>지급계좌</th>
                         <th>예금주</th>
                         <th>거래일</th>
+                        <th>회계단위</th>
                         <th>총액</th>
                         <th>공급가액</th>
                         <th>세액</th>
@@ -182,12 +195,6 @@
                         <c:if test="${'rev'.equals(params.status)}">
                             <td><input type="checkbox" id="check0" class="check" /></td>
                         </c:if>
-                        <td>
-                            <span>
-                                <input type="text" id="budgetNm0" value="" onclick="regExnp.fn_budgetPop(0)"  style="width: 100%;">
-                                <input type="hidden" id="budgetSn0" value="" />
-                            </span>
-                        </td>
                         <td>
                             <input type="hidden" id="payDestSn0" name="payDestSn" class="payDestSn">
                             <input type="text" id="eviType0" class="eviType" style="width: 100%">
@@ -207,6 +214,9 @@
                         </td>
                         <td>
                             <input type="text" id="trDe0" class="trDe">
+                        </td>
+                        <td>
+                            <input id="busnCd0" class="busnCd">
                         </td>
                         <td>
                             <input type="text" id="totCost0" class="totCost" value="0" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">

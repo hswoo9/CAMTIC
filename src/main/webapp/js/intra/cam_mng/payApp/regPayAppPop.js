@@ -78,6 +78,27 @@ var regPay = {
             }
         }
 
+        if($("#status").val() != "in"){
+            if(data != null){
+                if(data.DOC_STATUS == "0"){
+                    buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save()">저장</button>';
+                    buttonHtml += '<button type="button" id="reqBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.payAppDrafting()">상신</button>';
+                }else if(data.DOC_STATUS == "10"){
+                    buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
+                }else if(data.DOC_STATUS == "30" || data.DOC_STATUS == "40"){
+                    buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save()">저장</button>';
+                    buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \''+data.DOC_MENU_CD+'\', \''+data.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
+                }else if(data.DOC_STATUS == "100"){
+                    buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', \''+data.DOC_MENU_CD+'\');">열람</button>';
+                    $("#addBtn").hide();
+                }else{
+                    buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save()">저장</button>';
+                }
+            }else{
+                buttonHtml += '<button type="button" id="saveBtn" style="margin-right:5px; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="regPay.fn_save()">저장</button>';
+            }
+        }
+
         buttonHtml += '<button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>';
 
         $("#payAppBtnDiv").html(buttonHtml);
@@ -168,7 +189,7 @@ var regPay = {
 
             regPayDet.global.createHtmlStr += "" +
                 '<tr class="payDestInfo newArray" id="pay' + regPayDet.global.itemIndex + '" style="text-align: center;">';
-            if($("#status").val() == "rev"){
+            if($("#status").val() == "rev" || $("#status").val() == "in"){
                 if(item.DET_STAT != "N"){
                     regPayDet.global.createHtmlStr += "" +
                         '   <td><input type="checkbox" id="check' + regPayDet.global.itemIndex + '" value='+item.PAY_APP_DET_SN+' style="position: relative; top: 5px;" class="check" /></td>';
@@ -236,7 +257,7 @@ var regPay = {
                 '   </td>' +
                 '   <td>' +
                 '       <div style="text-align: center">';
-                if($("#status").val() == "rev"){
+                if($("#status").val() == "rev" || $("#status").val() == "in"){
                     regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="revertBtn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" onclick="regPayDet.fn_revertDet(this)">반려</button>';
                 } else {
                     if(rs.DOC_STATUS == "0"){
@@ -317,6 +338,17 @@ var regPay = {
             $("#addBtn").css("display", "none");
             $("#exnpAddBtn").css("display", "");
             $("#titleStat").text("검토")
+        }
+
+        if(stat == "in"){
+            $("#titleStat").text("검토")
+            $("#payAppType").data("kendoRadioGroup").enable(false);
+            $("#payAppStat").data("kendoRadioGroup").enable(false);
+            $("#appDe").data("kendoDatePicker").enable(false);
+            $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
+            $("#exnpAddBtn").text("여입결의서 작성");
+            $("#addBtn").css("display", "none");
+            $("#exnpAddBtn").css("display", "");
         }
     },
 
@@ -692,9 +724,16 @@ var regPayDet = {
 
     fn_exnpAdd : function (){
 
-        if(!confirm("지출결의를 작성하시겠습니까?")) {
-            return;
+        if($("#status").val() == "rev"){
+            if(!confirm("지출결의를 작성하시겠습니까?")) {
+                return;
+            }
+        } else if($("#status").val() == "in"){
+            if(!confirm("여입결의를 작성하시겠습니까?")) {
+                return;
+            }
         }
+
 
         if($(".check:checked").length == 0){
             alert("선택된 값이 없습니다.");
@@ -722,6 +761,11 @@ var regPayDet = {
 
         var url = "/payApp/pop/regExnpPop.do?item=" + keyArr + "&payAppSn=" + key;
 
+        if($("#status").val() == "rev"){
+            url += "&status=" + $("#status").val();
+        } else if($("#status").val() == "in"){
+            url += "&status=" + $("#status").val();
+        }
         var name = "_blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);

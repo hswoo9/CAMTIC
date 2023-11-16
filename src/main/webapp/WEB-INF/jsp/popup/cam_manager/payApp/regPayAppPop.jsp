@@ -25,8 +25,9 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;">
-                    지급신청서
-
+                    <c:if test='${params.status == "rev"}'>지급신청서</c:if>
+                    <c:if test='${params.status == "in"}'>여입신청서</c:if>
+                    <c:if test='${params.status == "" || params.status == null}'>신청서</c:if>
                     <span id="titleStat">작성</span>
                 </span>
             </h3>
@@ -142,7 +143,7 @@
 
                 <table class="popTable table table-bordered mb-0 mt-20">
                     <colgroup>
-                        <c:if test="${'rev'.equals(params.status)}">
+                        <c:if test="${'rev'.equals(params.status) or 'in'.equals(params.status)}">
                             <col style="width: 3%;">
                         </c:if>
                         <col style="width: 5%;">
@@ -164,7 +165,7 @@
                     </colgroup>
                     <thead>
                     <tr>
-                        <c:if test="${'rev'.equals(params.status)}">
+                        <c:if test="${'rev'.equals(params.status) or 'in'.equals(params.status)}">
                             <th><input type="checkbox" id="checkAll" /></th>
                         </c:if>
                         <th>예산비목</th>
@@ -187,7 +188,7 @@
                     </thead>
                     <tbody id="payDestTb">
                     <tr class="payDestInfo newArray" id="pay0" style="text-align: center;">
-                        <c:if test="${'rev'.equals(params.status)}">
+                        <c:if test="${'rev'.equals(params.status) or 'in'.equals(params.status)}">
                         <td><input type="checkbox" id="check0" class="check" /></td>
                         </c:if>
                         <td>
