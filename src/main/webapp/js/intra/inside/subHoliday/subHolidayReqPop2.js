@@ -2,7 +2,7 @@ var now = new Date();
 var docContent = "";
 
 var check;
-var subHolidayReqPop = {
+var subHolidayReqPop2 = {
     global : {
         menuCd : $("#menuCd").val(),
         empSeq : $("#empSeq").val(),
@@ -25,15 +25,15 @@ var subHolidayReqPop = {
 
     fn_defaultScript: function(){
         var data = {
-            mcCode : subHolidayReqPop.global.mcCode,
-            mdCode : subHolidayReqPop.global.mdCode,
-            empSeq : subHolidayReqPop.global.empSeq
+            mcCode : subHolidayReqPop2.global.mcCode,
+            mdCode : subHolidayReqPop2.global.mdCode,
+            empSeq : subHolidayReqPop2.global.empSeq
         }
 
-        subHolidayReqPop.global.vacGubun = customKendo.fn_customAjax("/attend/getVacCodeList2", data);
+        subHolidayReqPop2.global.vacGubun = customKendo.fn_customAjax("/attend/getVacCodeList2", data);
 
-        subHolidayReqPop.fn_defaultScriptTopTable();
-        subHolidayReqPop.dataSet();
+        subHolidayReqPop2.fn_defaultScriptTopTable();
+        subHolidayReqPop2.dataSet();
 
         $("#empSeq, #empName, #deptName, #dutyName").kendoTextBox({
             enable: false
@@ -44,18 +44,18 @@ var subHolidayReqPop = {
         $("#other_emp").kendoTextBox();
 
         if($("#vacUseHistId").val()){
-            subHolidayReqPop.getVacUseHistoryOne();
+            subHolidayReqPop2.getVacUseHistoryOne();
         }
 
         //캠도큐먼트 양식목록에서 기안시 처리작업
         subHolidayReqPop.global.code = $("#code").val();
         subHolidayReqPop.global.type = $("#type").val();
-        if(subHolidayReqPop.global.code == "11"){
+        if(subHolidayReqPop2.global.code == "11"){
             $("#edtHolidayKindTop").data("kendoDropDownList").value(subHolidayReqPop.global.code);
-            subHolidayReqPop.dataSetChange();
+            subHolidayReqPop2.dataSetChange();
             $("#edtHolidayKindTop").data("kendoDropDownList").enable(false);
         }
-        if(subHolidayReqPop.global.type == "drafting"){
+        if(subHolidayReqPop2.global.type == "drafting"){
             $(".request").hide();
             $(".drafting").show();
         }else {
@@ -68,7 +68,7 @@ var subHolidayReqPop = {
         var flag = true;
         var startDay = $("#edtHolidayStartDateTop").val() + " " + $("#edtHolidayStartHourTop").val();
         var endDay = $("#edtHolidayEndDateTop").val() + " " + $("#edtHolidayEndHourTop").val();
-        var chkVal = subHolidayReqPop.getApplyDateAttCheck(startDay, endDay);
+        var chkVal = subHolidayReqPop2.getApplyDateAttCheck(startDay, endDay);
 
         /*if($("#apprStat").val() != "" && $("#apprStat").val() != null) {
             if ($("#apprStat").val() != "N") {
@@ -108,14 +108,14 @@ var subHolidayReqPop = {
 
         if (confirm("저장하시겠습니까?")) {
             if (flag) {
-                var monthStr = "00" + (subHolidayReqPop.global.now.getMonth()+1);
-                var dayStr = "00" + subHolidayReqPop.global.now.getDate();
+                var monthStr = "00" + (subHolidayReqPop2.global.now.getMonth()+1);
+                var dayStr = "00" + subHolidayReqPop2.global.now.getDate();
                 var data = {
                     vacCodeId: $("#edtHolidayKindTop").val(),
                     applySeq: $("#empSeq").val(),
-                    applyDate: subHolidayReqPop.global.now.getFullYear() + monthStr.substring(monthStr.length-2, monthStr.length) + dayStr.substring(dayStr.length-2, dayStr.length),
+                    applyDate: subHolidayReqPop2.global.now.getFullYear() + monthStr.substring(monthStr.length-2, monthStr.length) + dayStr.substring(dayStr.length-2, dayStr.length),
                     saveSeq: $("#empSeq").val(),
-                    saveDate: subHolidayReqPop.global.now.getFullYear() + monthStr.substring(monthStr.length-2, monthStr.length) + dayStr.substring(dayStr.length-2, dayStr.length),
+                    saveDate: subHolidayReqPop2.global.now.getFullYear() + monthStr.substring(monthStr.length-2, monthStr.length) + dayStr.substring(dayStr.length-2, dayStr.length),
                     rmk: $("#holiday_reason").val(),
                     rmkOther : $("#other_reason").val(),
                     vacTargetSeq: $("#empSeq").val(),
@@ -177,7 +177,7 @@ var subHolidayReqPop = {
                     alert("신청 데이터 저장이 완료되었습니다.");
                     //subHolidayReqPop.fn_topTableClear();
                     /* $("#scheduler").data("kendoScheduler").dataSource.read();*/
-                    if(subHolidayReqPop.global.type == "drafting") {
+                    if(subHolidayReqPop2.global.type == "drafting") {
                         if($("#edtHolidayKindTop").val() != 11){
                             $("#subHolidayId").val(rs.vacUseHistId);
                             $("#subHolidayDraftFrm").one("submit", function() {
@@ -241,22 +241,23 @@ var subHolidayReqPop = {
 
     fn_defaultScriptTopTable : function(){
 
-        var ds = subHolidayReqPop.global.vacGubun;
+        var ds = subHolidayReqPop2.global.vacGubun;
         console.log(ds);
-        ds.list.unshift({"SUBHOLIDAY_DT_CODE_NM" : "선택", "SUBHOLIDAY_CODE_ID" : ""});
+
         $("#edtHolidayKindTop").kendoDropDownList({
             dataSource : ds.list,
             dataTextField: "SUBHOLIDAY_DT_CODE_NM",
             dataValueField: "SUBHOLIDAY_CODE_ID",
+            index: 0, // 첫 번째 항목을 기본값으로 설정
             change : function(){
-                subHolidayReqPop.dataSetChange();
+                subHolidayReqPop2.dataSetChange();
                 /*if(this.value() != ''){
                     subHolidayReqPop.fn_getEmpWorkPlan(this.value());
                 }else{
                     subHolidayReqPop.fn_topTableClear();
                 }*/
             }
-        });
+        }).data("kendoDropDownList").trigger("change"); // DropDownList 생성 후 change 이벤트를 직접 발생시킵니다.
 
         $("#edtHolidayStartDateTop").kendoDatePicker({
             culture : "ko-KR",
@@ -359,6 +360,7 @@ var subHolidayReqPop = {
         document.getElementById('now_date').valueAsDate = new Date();
     },
 
+
     dataSetChange : function() {
         if($("#edtHolidayKindTop").val() != '' && $("#edtHolidayKindTop").val() == 11) {
             var html = '<table class="table table-bordered mb-0" id="holidayPlanReqPopTbVal">\n' +
@@ -403,7 +405,7 @@ var subHolidayReqPop = {
                 '                        <span style="width: 9%;"> ~ </span>\n' +
                 '                        <input type="text" id="edtHolidayEndHourTop_3" name="edtHolidayEndHourTop_3" className="timeInput" data-bind="value:end" style="width: 20%;">\n' +
                 '                       </td>\n' +
-                '                        <td style="text-align: center"><input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="초기화" onclick="" id="resetBtn"/></td>\n' +
+                '                        <td style="text-align: center"><input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="초기화" onclick="subHolidayReqPop2.dataClear()" id="resetBtn"/></td>\n' +
                 '                      </tr>\n' +
                 '                  </table>\n' +
                 '                </td>\n' +
@@ -423,7 +425,7 @@ var subHolidayReqPop = {
                 '              </thead>\n' +
                 '            </table>';
             $("#holidayPlanReqPopTbVal").html(html);
-            subHolidayReqPop.dataSet();
+            subHolidayReqPop2.dataSet();
 
             $("#holiday_reason").kendoTextBox();
 
@@ -504,314 +506,6 @@ var subHolidayReqPop = {
                 }
             });
 
-        }else if($("#edtHolidayKindTop").val() == 9) {
-            var html2 = '<table class="table table-bordered mb-0" id="holidayPlanReqPopTbVal">\n' +
-                '              <colgroup>\n' +
-                '                <col width="15%">\n' +
-                '                <col width="35%">\n' +
-                '                <col width="15%">\n' +
-                '                <col width="35%">\n' +
-                '              </colgroup>\n' +
-                '              <thead>\n' +
-                '              <tr>\n' +
-                '                <th>휴일 근로 일자</th>\n' +
-                '                <td colspan="3">\n' +
-                '                  <input id="edtHolidayWorkDay_3" style="width:20%; margin-right:5px;">\n' +
-                '                  <input type="hidden" id="hisPk" name="hisPk" value="${data.SUBHOLIDAY_USE_ID}">\n' +
-                '                   <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayReqPop.searchHolidayPop();" type="button" id="searchBtn"><i class="fa fa-search"></i></button>\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              <tr>\n' +
-                '                <th>기간</th>\n' +
-                '                <td colspan="3">\n' +
-                '                    <input type="text" id="edtHolidayStartDateTop_2" name="edtHolidayStartDateTop_2" data-bind="value:start" style="width: 20%;">\n' +
-                '                    <input type="text" id="edtHolidayStartHourTop_2" name="edtHolidayStartHourTop_2" className="timeInput" data-bind="value:start" style="width: 10%;">\n' +
-                '                    <span style="width: 9%;"> ~ </span>\n' +
-                '                    <input type="text" id="edtHolidayEndDateTop_2" name="edtHolidayEndDateTop_2" data-bind="value:end" style="width: 20%;">\n' +
-                '                    <input type="text" id="edtHolidayEndHourTop_2" name="edtHolidayEndHourTop_2" className="timeInput" data-bind="value:end" style="width: 10%;">\n' +
-                '                   <table style="width:100%; margin-top:5px; text-align:center;">\n' +
-                '                      <tr style="background-color:#d8dce36b;">\n' +
-                '                        <th rowspan="2">근무시간유형</th>\n' +
-                '                        <th>시차출근A</th>\n' +
-                '                        <th>기본</th>\n' +
-                '                        <th>시차출근B</th>\n' +
-                '                        <th>시차출근C</th>\n' +
-                '                      </tr>\n' +
-                '                      <tr style="background-color:#d8dce36b;">\n' +
-                '                        <th>08:00 ~ 17:00</th>\n' +
-                '                        <th>09:00 ~ 18:00</th>\n' +
-                '                        <th>10:00 ~ 19:00</th>\n' +
-                '                        <th>14:00 ~ 22:30</th>\n' +
-                '                      </tr>\n' +
-                '                      <tr style="background-color:#fff;">\n' +
-                '                        <td>오전반차</td>\n' +
-                '                        <td>08:00 ~ 13:00</td>\n' +
-                '                        <td>09:00 ~ 14:00</td>\n' +
-                '                        <td>10:00 ~ 15:00</td>\n' +
-                '                        <td>-</td>\n' +
-                '                      </tr>\n' +
-                '                      <tr style="background-color:#fff;">\n' +
-                '                        <td>오후반차</td>\n' +
-                '                        <td>13:00 ~ 17:00</td>\n' +
-                '                        <td>14:00 ~ 18:00</td>\n' +
-                '                        <td>15:00 ~ 19:00</td>\n' +
-                '                        <td>14:00 ~ 18:00</td>\n' +
-                '                      </tr>\n' +
-                '                  </table>\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              <tr>\n' +
-                '                <th scope="row" class="text-center th-color">사유</th>\n' +
-                '                <td colspan="3">\n' +
-                '                  <textarea name="holiday_reason" id="holiday_reason" rows="5" <!--style="width:100%; border: 1px solid #eee;padding-left: 10px;-->"></textarea>\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              <tr>\n' +
-                '                <th scope="row" class="text-center th-color">기타사항<br>(인수인계 등)</th>\n' +
-                '                <td colspan="3">\n' +
-                '                  <textarea name="other_reason" id="other_reason" rows="5" style="width:100%; /*border: 1px solid #eee;padding-left: 10px;*/"></textarea>\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              <tr>\n' +
-                '                <th scope="row" class="text-center th-color">업무인수자</th>\n' +
-                '                <td colspan="3">\n' +
-                '                  <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 30%;">\n' +
-                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="" id="otherEmpSearchBtn"/>\n' +
-                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick="" id="selectResetBtn"/>\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              <tr>\n' +
-                '                <th scope="row" class="text-center th-color">신청일</th>\n' +
-                '                <td colspan="3">\n' +
-                '                  <input type="date" id="now_date" style="width: 20%;">\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              </thead>\n' +
-                '            </table>';
-            $("#holidayPlanReqPopTbVal").html(html2);
-            subHolidayReqPop.dataSet();
-
-            $("#holiday_reason").kendoTextBox();
-            $("#other_reason").kendoTextBox();
-            $("#other_emp").kendoTextBox();
-
-            var data = "-"; // 적절한 값으로 초기화합니다.
-            function sendMeData(data) {
-                console.log(data);
-                document.getElementById("edtHolidayWorkDay_3").innerHTML = data;
-                return data; // 값을 반환합니다.
-            }
-
-            var result = sendMeData(data);
-            $("#edtHolidayWorkDay_3").kendoTextBox({
-                value: result,
-                enable: false
-            });
-
-            $("#edtHolidayStartDateTop_2").kendoDatePicker({
-                culture : "ko-KR",
-                format : "yyyy-MM-dd",
-                interval : 1,
-                value : new Date(),
-                //min : new Date(holiAnnLv.global.year, holiAnnLv.global.month, holiAnnLv.global.date),
-                change : function(){
-                    var startDate = new Date(this.value());
-                    var endDate = new Date($("#edtHolidayEndDateTop_2").val());
-                    if(startDate > endDate){
-                        $("#edtHolidayEndDateTop_2").data("kendoDatePicker").value($("#edtHolidayStartDateTop_2").val());
-                    }
-                    /*subHolidayReqPop.fn_getEmpWorkPlan($("#edtHolidayKindTop").val());*/
-                }
-            });
-
-            $("#edtHolidayStartHourTop_2").kendoTimePicker({
-                culture : "ko-KR",
-                format : "HH:mm",
-                interval : 10,
-                value : "09:00",
-                change : function(e){
-                    var startTime = new Date(this.value());
-                    var endTime = new Date($("#edtHolidayEndHourTop_2").val());
-                    if(startTime > endTime){
-                        $("#edtHolidayEndHourTop_2").data("kendoTimePicker").value($("#edtHolidayStartHourTop_2").val());
-                    }
-                    /*subHolidayReqPop.fn_getEmpWorkPlanTimeModal($("#edtHolidayKindTop").val());*/
-                }
-            });
-
-            $("#edtHolidayEndDateTop_2").kendoDatePicker({
-                culture : "ko-KR",
-                format : "yyyy-MM-dd",
-                interval : 1,
-                value : new Date(),
-                //min : new Date(holiAnnLv.global.year, holiAnnLv.global.month, holiAnnLv.global.date),
-                change : function(){
-                    var startDate = new Date($("#edtHolidayStartDateTop_2").val());
-                    var endDate = new Date(this.value());
-                    if(startDate > endDate){
-                        $("#edtHolidayStartDateTop_2").data("kendoDatePicker").value($("#edtHolidayEndDateTop_2").val());
-                    }
-                    /*subHolidayReqPop.fn_getEmpWorkPlanTimeModal($("#edtHolidayKindTop").val());*/
-                }
-            });
-            $("#edtHolidayEndHourTop_2").kendoTimePicker({
-                culture : "ko-KR",
-                format : "HH:mm",
-                interval : 10,
-                value : "18:00",
-                change : function(e){
-                    var startTime = new Date($("#edtHolidayStartTimeModal_2").val());
-                    var endTime = new Date(this.value());
-                    if(startTime > endTime){
-                        $("#edtHolidayStartHourTop_2").data("kendoTimePicker").value($("#edtHolidayEndHourTop_2").val());
-                    }
-                    /*subHolidayReqPop.fn_getEmpWorkPlanTimeModal($("#edtHolidayKindTop").val());*/
-                }
-            });
-        }else {
-            var html3 = '<table class="table table-bordered mb-0" id="holidayPlanReqPopTbVal">\n' +
-                '              <colgroup>\n' +
-                '                <col width="15%">\n' +
-                '                <col width="35%">\n' +
-                '                <col width="15%">\n' +
-                '                <col width="35%">\n' +
-                '              </colgroup>\n' +
-                '              <thead>\n' +
-                '              <tr>\n' +
-                '                <th>기간</th>\n' +
-                '                <td colspan="3">\n' +
-                '                    <input type="text" id="edtHolidayStartDateTop_1" name="edtHolidayStartDateTop_1" data-bind="value:start" style="width: 20%;">\n' +
-                '                    <input type="text" id="edtHolidayStartHourTop_1" name="edtHolidayStartHourTop_1" className="timeInput" data-bind="value:start" style="width: 10%;">\n' +
-                '                    <span style="width: 9%;"> ~ </span>\n' +
-                '                    <input type="text" id="edtHolidayEndDateTop_1" name="edtHolidayEndDateTop_1" data-bind="value:end" style="width: 20%;">\n' +
-                '                    <input type="text" id="edtHolidayEndHourTop_1" name="edtHolidayEndHourTop_1" className="timeInput" data-bind="value:end" style="width: 10%;">\n' +
-                '                  <table style="width:100%; margin-top:5px; text-align:center;">\n' +
-                '                      <tr style="background-color:#d8dce36b;">\n' +
-                '                        <th rowspan="2">근무시간유형</th>\n' +
-                '                        <th>시차출근A</th>\n' +
-                '                        <th>기본</th>\n' +
-                '                        <th>시차출근B</th>\n' +
-                '                        <th>시차출근C</th>\n' +
-                '                      </tr>\n' +
-                '                      <tr style="background-color:#d8dce36b;">\n' +
-                '                        <th>08:00 ~ 17:00</th>\n' +
-                '                        <th>09:00 ~ 18:00</th>\n' +
-                '                        <th>10:00 ~ 19:00</th>\n' +
-                '                        <th>14:00 ~ 22:30</th>\n' +
-                '                      </tr>\n' +
-                '                      <tr style="background-color:#fff;">\n' +
-                '                        <td>오전반차</td>\n' +
-                '                        <td>08:00 ~ 13:00</td>\n' +
-                '                        <td>09:00 ~ 14:00</td>\n' +
-                '                        <td>10:00 ~ 15:00</td>\n' +
-                '                        <td>-</td>\n' +
-                '                      </tr>\n' +
-                '                      <tr style="background-color:#fff;">\n' +
-                '                        <td>오후반차</td>\n' +
-                '                        <td>13:00 ~ 17:00</td>\n' +
-                '                        <td>14:00 ~ 18:00</td>\n' +
-                '                        <td>15:00 ~ 19:00</td>\n' +
-                '                        <td>14:00 ~ 18:00</td>\n' +
-                '                      </tr>\n' +
-                '                  </table>\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              <tr>\n' +
-                '                <th scope="row" class="text-center th-color">사유</th>\n' +
-                '                <td colspan="3">\n' +
-                '                  <textarea name="holiday_reason" id="holiday_reason" rows="5" <!--style="width:100%; border: 1px solid #eee;padding-left: 10px;-->"></textarea>\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              <tr>\n' +
-                '                <th scope="row" class="text-center th-color">기타사항<br>(인수인계 등)</th>\n' +
-                '                <td colspan="3">\n' +
-                '                  <textarea name="other_reason" id="other_reason" rows="5" style="width:100%; /*border: 1px solid #eee;padding-left: 10px;*/"></textarea>\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              <tr>\n' +
-                '                <th scope="row" class="text-center th-color">업무인수자</th>\n' +
-                '                <td colspan="3">\n' +
-                '                  <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 20%;">\n' +
-                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="" id="otherEmpSearchBtn"/>\n' +
-                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick="" id="selectResetBtn"/>\n' +
-                '                  <br>\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              <tr>\n' +
-                '                <th scope="row" class="text-center th-color">신청일</th>\n' +
-                '                <td colspan="3">\n' +
-                '                  <input type="date" id="now_date" style="width: 20%;">\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              </thead>\n' +
-                '            </table>';
-            $("#holidayPlanReqPopTbVal").html(html3);
-            subHolidayReqPop.dataSet();
-
-            $("#holiday_reason").kendoTextBox();
-            $("#other_reason").kendoTextBox();
-            $("#other_emp").kendoTextBox();
-
-            $("#edtHolidayStartDateTop_1").kendoDatePicker({
-                culture : "ko-KR",
-                format : "yyyy-MM-dd",
-                interval : 1,
-                value : new Date(),
-                //min : new Date(holiAnnLv.global.year, holiAnnLv.global.month, holiAnnLv.global.date),
-                change : function(){
-                    var startDate = new Date(this.value());
-                    var endDate = new Date($("#edtHolidayEndDateTop_1").val());
-                    if(startDate > endDate){
-                        $("#edtHolidayEndDateTop_1").data("kendoDatePicker").value($("#edtHolidayStartDateTop_1").val());
-                    }
-                    /*subHolidayReqPop.fn_getEmpWorkPlan($("#edtHolidayKindTop").val());*/
-                }
-            });
-
-            $("#edtHolidayStartHourTop_1").kendoTimePicker({
-                culture : "ko-KR",
-                format : "HH:mm",
-                interval : 10,
-                value : "09:00",
-                change : function(e){
-                    var startTime = new Date(this.value());
-                    var endTime = new Date($("#edtHolidayEndHourTop_1").val());
-                    if(startTime > endTime){
-                        $("#edtHolidayEndHourTop_1").data("kendoTimePicker").value($("#edtHolidayStartHourTop_1").val());
-                    }
-                    /*subHolidayReqPop.fn_getEmpWorkPlanTimeModal($("#edtHolidayKindTop").val());*/
-                }
-            });
-
-            $("#edtHolidayEndDateTop_1").kendoDatePicker({
-                culture : "ko-KR",
-                format : "yyyy-MM-dd",
-                interval : 1,
-                value : new Date(),
-                //min : new Date(holiAnnLv.global.year, holiAnnLv.global.month, holiAnnLv.global.date),
-                change : function(){
-                    var startDate = new Date($("#edtHolidayStartDateTop_1").val());
-                    var endDate = new Date(this.value());
-                    if(startDate > endDate){
-                        $("#edtHolidayStartDateTop_1").data("kendoDatePicker").value($("#edtHolidayEndDateTop_1").val());
-                    }
-                    /*subHolidayReqPop.fn_getEmpWorkPlanTimeModal($("#edtHolidayKindTop").val());*/
-                }
-            });
-            $("#edtHolidayEndHourTop_1").kendoTimePicker({
-                culture : "ko-KR",
-                format : "HH:mm",
-                interval : 10,
-                value : "18:00",
-                change : function(e){
-                    var startTime = new Date($("#edtHolidayStartTimeModal_1").val());
-                    var endTime = new Date(this.value());
-                    if(startTime > endTime){
-                        $("#edtHolidayStartHourTop_1").data("kendoTimePicker").value($("#edtHolidayEndHourTop_1").val());
-                    }
-                    /*subHolidayReqPop.fn_getEmpWorkPlanTimeModal($("#edtHolidayKindTop").val());*/
-                }
-            });
         }
     },
 
@@ -828,7 +522,12 @@ var subHolidayReqPop = {
     },
 
     dataClear : function () {
-        $("#other_emp").val("");
+        var initialStartDate = "09:00";
+        var initialEndDate = "18:00";
+        var initialDate = new Date();
+        $("#edtHolidayStartHourTop_3").data("kendoTimePicker").value(initialStartDate);
+        $("#edtHolidayEndHourTop_3").data("kendoTimePicker").value(initialEndDate);
+        $("#edtHolidayWorkDay_3").data("kendoDatePicker").value(initialDate);
     },
 
     getVacUseHistoryOne : function(){

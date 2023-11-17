@@ -7,19 +7,24 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
+<style>
+  .k-icon-button {
+    display: none;
+  }
+</style>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
   <div class="table-responsive">
     <div class="card-header pop-header">
       <h3 class="card-title title_NM">휴일근로신청</h3>
       <div class="btn-st popButton">
-        <button type="button" class="k-button k-button-solid-info request" onclick="subHolidayReqPop.fn_vacEdtHolidaySaveModal()" id="saveBtn">저장</button>
+        <button type="button" class="k-button k-button-solid-info request" onclick="subHolidayReqPop2.fn_vacEdtHolidaySaveModal()" id="saveBtn">저장</button>
         <%--<input type="button" class="k-button k-button-solid-info" value="결재" onclick=""/>--%>
-        <button type='button' class='k-button k-button-md k-button-solid k-button-solid-info drafting' onclick='subHolidayReqPop.fn_vacEdtHolidaySaveModal()' style="display: none">
+        <button type='button' class='k-button k-button-md k-button-solid k-button-solid-info drafting' onclick='subHolidayReqPop2.fn_vacEdtHolidaySaveModal()' style="display: none">
           <span class='k-icon k-i-track-changes-accept k-button-icon'></span>
           <span class='k-button-text'>상신</span>
         </button>
-        <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="subHolidayReqPop.fn_topTableClose()">닫기</button>
+        <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="subHolidayReqPop2.fn_topTableClose()">닫기</button>
       </div>
     </div>
     <form id="subHolidayReqPop" style="padding: 20px 30px;">
@@ -60,7 +65,7 @@
         <tr>
           <th>신청구분</th>
           <td colspan="3">
-            <input type="text" id="edtHolidayKindTop" name="edtHolidayKindTop" required="required" style="width:20%;">
+            <input type="text" id="edtHolidayKindTop" name="edtHolidayKindTop" required="required" value="휴일근로" style="width:20%;">
           </td>
         </tr>
         </thead>
@@ -153,24 +158,8 @@
 
 <script type="text/javascript" src="/js/intra/inside/subHoliday/subHolidayReqPop2.js?v=${today}"></script>
 <script>
-  subHolidayReqPop.fn_defaultScript();
+  subHolidayReqPop2.fn_defaultScript();
 
-  function userSearch() {
-    window.open("/subHoliday/subHolidayListPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
-  }
-
-  function userDataSet(userArr) {
-
-    let other_emp = "";
-    for(let i=0; i < userArr.length; i++) {
-      /*console.log(userArr[0].empName);*/
-      if(other_emp != ""){
-        other_emp += ", ";
-      }
-      other_emp += userArr[i].empName;
-    }
-    $("#other_emp").val(other_emp);
-  }
 
 
 </script>
