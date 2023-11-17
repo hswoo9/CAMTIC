@@ -453,8 +453,8 @@ public class PayAppServiceImpl implements PayAppService {
                     data.put("ETCACCT_NM", hearnerMap.get("ETCACCT_NM"));
                     data.put("ETCRVRS_YM", hearnerMap.get("ETCRVRS_YM"));
                     data.put("ETCDIV_CD", hearnerMap.get("ETCDIV_CD"));
-                    data.put("ETCDUMMY1", "76");
                 }
+                data.put("ETCDUMMY1", "76");
 
                 if(data.get("EVID_TYPE").toString().equals("1")){
                     data.put("SET_FG", "3");

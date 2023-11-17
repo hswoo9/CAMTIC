@@ -13,6 +13,7 @@
 
 <input type="hidden" id="item" name="item" value="${params.item}">
 <input type="hidden" id="payAppSn" name="payAppSn" value="${params.payAppSn}">
+<input type="hidden" id="exnpSn" name="exnpSn" value="${params.exnpSn}">
 <input type="hidden" id="status" name="status" value="${params.status}" />
 
 <div style="padding:0;">

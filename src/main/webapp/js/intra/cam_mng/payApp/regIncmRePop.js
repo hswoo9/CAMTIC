@@ -375,7 +375,8 @@ var regIncmRe = {
             return ;
         }
 
-        var url = "/mng/pop/budgetView.do?pjtSn=" + $("#pjtSn").val() + "&idx=N";
+        /** 추후 temp변수명 수정 예정 */
+        var url = "/mng/pop/budgetView.do?pjtSn=" + $("#pjtSn").val() + "&idx=N&temp=2";
 
         var name = "_blank";
         var option = "width = 1100, height = 650, top = 100, left = 400, location = no"
