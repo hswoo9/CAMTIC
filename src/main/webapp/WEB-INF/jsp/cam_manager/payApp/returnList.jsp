@@ -14,8 +14,6 @@
         cursor: pointer;
     }
 </style>
-<input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
-<input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
 
 <div class="mainCard">
     <div class="panel">

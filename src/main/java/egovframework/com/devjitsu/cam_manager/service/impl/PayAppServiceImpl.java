@@ -287,6 +287,7 @@ public class PayAppServiceImpl implements PayAppService {
 
         Map<String, Object> pkMap = payAppRepository.getExnpData(params);
 
+        /** 1.지출결의서 일때 세금계산서, 계산서, 신용카드는 반제결의 승인시 g20 프로시저 호출 해야 함 */
         if("1".equals(pkMap.get("PAY_APP_TYPE"))){
             if(type.equals("resolution")){
                 params.put("evidTypeArr", "1,2,3");
@@ -296,6 +297,8 @@ public class PayAppServiceImpl implements PayAppService {
                 list = payAppRepository.getExnpG20List(params);
             }
         } else if("2".equals(pkMap.get("PAY_APP_TYPE"))){
+            list = payAppRepository.getExnpG20List(params);
+        } else if("3".equals(pkMap.get("PAY_APP_TYPE"))){
             list = payAppRepository.getExnpG20List(params);
         }
 
