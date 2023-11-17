@@ -183,6 +183,13 @@ public class HistoryController {
         return "jsonView";
     }
 
+    @RequestMapping("/inside/getHistoryListAdmin")
+    public String getHistoryListAdmin(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = historyService.getHistoryListAdmin(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     /**
      * 발령조회
      * @param params
