@@ -1,0 +1,185 @@
+var holidayWorkApplicationDetails ={
+    global: {
+        now : new Date(),
+        empSeq : $("#empSeq").val(),
+        mcCode : "V",
+        mdCode : "",
+        params  : "",
+        data : "",
+        searchAjaxData : "",
+        saveAjaxData : "",
+        hwpCtrl : "",
+    },
+
+    init: function(){
+        holidayWorkApplicationDetails.dataSet();
+        holidayWorkApplicationDetails.mainGrid();
+    },
+
+    dataSet : function() {
+
+        let data = {
+            mcCode : holidayWorkApplicationDetails.global.mcCode,
+            mdCode : holidayWorkApplicationDetails.global.mdCode,
+            empSeq : holidayWorkApplicationDetails.global.empSeq
+        }
+
+        const ds = holidayWorkApplicationDetails.global.vacGubun;
+
+
+
+        customKendo.fn_datePicker("workDay", '', "yyyy-MM-dd", new Date());
+
+        customKendo.fn_textBox(["searchText"]);
+        let searchArr = [
+            {text: "이름", value: "1"}
+        ]
+
+        customKendo.fn_dropDownList("searchType", searchArr, "text", "value", 3);
+
+        $("#status").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "요청진행전", value: "N" },
+                { text: "승인", value: "Y" },
+                { text: "진행중", value: "C" },
+                { text: "반려", value: "E" }
+            ],
+            index: 0
+        });
+
+
+    },
+
+
+    mainGrid: function() {
+        var dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/Inside/holidayWorkApplicationDetails.do',
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.workDay = $("#workDay").val();
+                    data.status = $("#status").val();
+                    // data.searchType = $("#searchType").val();
+                    data.searchText = $("#searchText").val();
+
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
+        $("#mainGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
+            height: 508,
+            pageable : {
+                refresh : true,
+                pageSizes: [10, 20, "ALL"],
+                buttonCount : 5
+            },
+            dataBound: function(e) {
+                var gridData = this.dataSource.view(); // 현재 페이지의 데이터 가져오기
+                console.log("Kendo UI Grid 데이터:", gridData);
+            },
+            toolbar: [
+                {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="holidayWorkApplicationDetails.gridReload();">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }
+            ],
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+
+                {
+                    field: "ROW_NUM",
+                    title: "순번",
+                    width: 80
+                },
+                {
+                    field:"EMP_NAME_KR",
+                    title:"성명",
+                    width:250
+                },
+                {
+                    title:"구분",
+                    field: "SUBHOLIDAY_DT_CODE_NM",
+                    width:"15%"
+                },
+                {
+                    field: "APPLY_DAY",
+                    title: "신청일자",
+                    width: 200
+                },
+                {
+                    field: "SUBHOLIDAY_WORK_DAY",
+                    title: "근로일자",
+                    width: 200
+                },{
+                    field: "APPR_STAT",
+                    title: "승인상태",
+                    width: "20%",
+                    template : function(e){
+                        if(e.APPR_STAT == "N"){
+                            return "작성 중";
+                        } else if(e.APPR_STAT == "Y"){
+                            return "승인";
+                        } else if(e.APPR_STAT =="C"){
+                            return "제출";
+                        } else if(e.APPR_STAT =="E"){
+                            return "반려";
+                        }
+                    },
+                    width: 200,
+                }]
+        }).data("kendoGrid");
+    },
+
+
+
+
+    gridReload: function (){
+        console.log('gridReload 함수 호출됨');
+
+        holidayWorkApplicationDetails.global.searchAjaxData = {
+            workDay: $('#workDay').val(),
+            status: $('#status').val(),
+            searchType: $('#searchType').val(),
+            searchText: $('#searchText').val()
+        };
+
+        var workDay = holidayWorkApplicationDetails.global.searchAjaxData.workDay;
+        var status = holidayWorkApplicationDetails.global.searchAjaxData.status;
+        var searchType = holidayWorkApplicationDetails.global.searchAjaxData.searchType;
+        var searchText = holidayWorkApplicationDetails.global.searchAjaxData.searchText;
+
+        console.log('workDay:' + workDay);
+        console.log('status:' + status);
+        console.log('searchType:' + searchType);
+        console.log('searchText:' + searchText);
+
+        holidayWorkApplicationDetails.mainGrid('/Inside/holidayWorkApplicationDetails.do', holidayWorkApplicationDetails.global.searchAjaxData);
+    }
+
+
+}

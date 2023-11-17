@@ -226,7 +226,17 @@ public class AttendController {
     @RequestMapping(value = "/Inside/holidayWorkApplication.do", method = RequestMethod.POST)
     public String getSubHolidayApplyList(@RequestParam Map<String,Object> params, Model model) {
         List<Map<String, Object>> list = attendService.getSubHolidayApplyList(params);
-        System.out.println("====컨트롤러 탔다 ====");
+        model.addAttribute("list", list);
+        System.out.println("================================");
+        System.out.println(model.addAttribute("list", list));
+        System.out.println("================================");
+        return "jsonView";
+    }
+
+    // 휴일 근로 내역(관리자) 리스트 조회
+    @RequestMapping(value = "/Inside/holidayWorkApplicationDetails.do", method = RequestMethod.POST)
+    public String getHolidayDetailsAdmin(@RequestParam Map<String,Object> params, Model model) {
+        List<Map<String, Object>> list = attendService.getHolidayDetailsAdmin(params);
         model.addAttribute("list", list);
         System.out.println("================================");
         System.out.println(model.addAttribute("list", list));

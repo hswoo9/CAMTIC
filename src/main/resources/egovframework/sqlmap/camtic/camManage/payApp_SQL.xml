@@ -661,10 +661,26 @@
             (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_DET WHERE PAY_INCP_SN = A.PAY_INCP_SN) AS TOT_COST
         FROM
             CAM_MNG.DJ_PAY_INCP A
-        LEFT JOIN
+                LEFT JOIN
             CAM_HR.DJ_EMP_INFO B
-        ON A.EXNP_EMP_SEQ = B.EMP_SEQ
+            ON A.EXNP_EMP_SEQ = B.EMP_SEQ
         ORDER BY A.PAY_INCP_SN DESC
+    </select>
+
+    <select id="getIncpReList" parameterType="map" resultType="map">
+        /*getExnpReList*/
+        SELECT
+            I.*,
+            DI.APPRO_KEY AS APPRO_KEY,
+            DI.DOC_MENU_CD AS DOC_MENU_CD,
+            IFNULL(SUM(ID.TOT_COST), 0) AS TOT_COST
+        FROM
+            CAM_MNG.DJ_PAY_INCP_DET ID
+        LEFT JOIN CAM_MNG.DJ_PAY_INCP I ON ID.PAY_INCP_SN = I.PAY_INCP_SN
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON I.DOC_ID = DI.DOC_ID
+        WHERE I.DOC_STATUS = '100'
+          AND ID.EVID_TYPE IN (1, 2, 3, 4, 5 , 6)
+        GROUP BY I.PAY_INCP_SN
     </select>
 
     <update id="updPayAppDetailStatus" parameterType="map">
@@ -686,6 +702,16 @@
             RE_STAT = "Y"
         WHERE
             EXNP_SN = #{exnpSn}
+    </update>
+
+    <update id="resolutionIncmAppr" parameterType="map">
+        /*resolutionIncmAppr*/
+        UPDATE
+            CAM_MNG.DJ_PAY_INCP
+        SET
+            RE_STAT = "Y"
+        WHERE
+            PAY_INCP_SN = #{exnpSn}
     </update>
 
     <update id="updPayAttDetData" parameterType="map">
