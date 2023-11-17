@@ -486,10 +486,10 @@ public class PayAppController {
         return "jsonView";
     }
 
-    @RequestMapping("/pay/resolutionIncmAppr")
+    @RequestMapping("/pay/resolutionIncpAppr")
     public String resolutionIncmAppr(@RequestParam Map<String, Object> params, Model model){
         try {
-            payAppService.resolutionIncmAppr(params);
+            payAppService.resolutionIncpAppr(params);
             model.addAttribute("code", 200);
         } catch (Exception e) {
             e.printStackTrace();

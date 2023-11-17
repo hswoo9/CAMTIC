@@ -89,7 +89,7 @@ var incomeReList = {
                     width: 100,
                     template: function(e){
                         var cost = e.TOT_COST;
-                        if(e.RE_STAT == "N"){
+                        if(e.RE_STAT == "Y"){
                             return '<div style="text-align: right">'+comma(e.TOT_COST)+'</div>';
                         } else {
                             return '<div style="text-align: right">'+0+'</div>';

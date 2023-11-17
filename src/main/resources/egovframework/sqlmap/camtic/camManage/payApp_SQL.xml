@@ -651,6 +651,7 @@
         AND E.PAY_APP_TYPE = 1
         AND ED.EVID_TYPE IN (1, 2, 3)
         GROUP BY E.EXNP_SN
+        ORDER BY E.EXNP_SN DESC
     </select>
 
     <select id="getIncpList" parameterType="map" resultType="map">
@@ -681,6 +682,7 @@
         WHERE I.DOC_STATUS = '100'
           AND ID.EVID_TYPE IN (1, 2, 3, 4, 5 , 6)
         GROUP BY I.PAY_INCP_SN
+        ORDER BY I.PAY_INCP_SN DESC
     </select>
 
     <update id="updPayAppDetailStatus" parameterType="map">
@@ -704,14 +706,14 @@
             EXNP_SN = #{exnpSn}
     </update>
 
-    <update id="resolutionIncmAppr" parameterType="map">
-        /*resolutionIncmAppr*/
+    <update id="resolutionIncpAppr" parameterType="map">
+        /*resolutionIncpAppr*/
         UPDATE
             CAM_MNG.DJ_PAY_INCP
         SET
             RE_STAT = "Y"
         WHERE
-            PAY_INCP_SN = #{exnpSn}
+            PAY_INCP_SN = #{payIncpSn}
     </update>
 
     <update id="updPayAttDetData" parameterType="map">

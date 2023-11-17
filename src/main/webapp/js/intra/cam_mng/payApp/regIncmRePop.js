@@ -99,12 +99,12 @@ var regIncmRe = {
             return ;
         }
 
-        const result = customKendo.fn_customAjax("/pay/resolutionExnpAppr", parameters);
+        const result = customKendo.fn_customAjax("/pay/resolutionIncpAppr", parameters);
         if(result.flag){
             if(result.code == 200){
                 alert("승인이 완료되었습니다.");
                 try {
-                    opener.exnpReList.gridReload();
+                    opener.incomeReList.gridReload();
                 }catch{
                     alert("새로 고침중 오류가 발생하였습니다.");
                 }

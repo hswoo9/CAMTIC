@@ -277,9 +277,9 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
-    public void resolutionIncmAppr(Map<String, Object> params) {
-        updateG20ExnpFinalAppr(params, "resolution");
-        payAppRepository.resolutionIncmAppr(params);
+    public void resolutionIncpAppr(Map<String, Object> params) {
+        updateG20IncpFinalAppr(params, "resolution");
+        payAppRepository.resolutionIncpAppr(params);
     }
 
     private void updateG20ExnpFinalAppr(Map<String, Object> params, String type){
@@ -406,10 +406,8 @@ public class PayAppServiceImpl implements PayAppService {
 
         if(type.equals("resolution")){
             params.put("evidTypeArr", "1,2,3,4,5,6");
-            list = payAppRepository.getIncpG20List(params);
         }else{
             params.put("evidTypeArr", "7");
-            list = payAppRepository.getIncpG20List(params);
         }
         list = payAppRepository.getIncpG20List(params);
 
