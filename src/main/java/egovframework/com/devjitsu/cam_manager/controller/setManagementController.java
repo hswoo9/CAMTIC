@@ -33,7 +33,12 @@ public class setManagementController {
         return "cam_manager/setManagement/closingManagement";
     }
 
+    @RequestMapping("/setManagement/projectBgtManagement.do")
+    public String projectBgtManagement(Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
 
-
-
+        return "cam_manager/setManagement/projectBgtManagement";
+    }
 }
