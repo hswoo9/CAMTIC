@@ -115,6 +115,10 @@ public class PayAppRepository extends AbstractDAO {
         return selectList("payApp.getIncpList", params);
     }
 
+    public List<Map<String, Object>> getIncpReList(Map<String, Object> params) {
+        return selectList("payApp.getIncpReList", params);
+    }
+
     public void updPayAppDetailStatus(Map<String, Object> params) {
         update("payApp.updPayAppDetailStatus", params);
     }
@@ -164,6 +168,9 @@ public class PayAppRepository extends AbstractDAO {
     }
     public void resolutionExnpStatus(Map<String, Object> params) {
         update("payApp.resolutionExnpStatus", params);
+    }
+    public void resolutionIncmAppr(Map<String, Object> params) {
+        update("payApp.resolutionIncmAppr", params);
     }
 
     public void updPayAttDetData(Map<String, Object> params) {insert("payApp.updPayAttDetData", params);}

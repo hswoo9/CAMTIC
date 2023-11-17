@@ -54,34 +54,19 @@ var incomeReList = {
                     width: 50,
                     template: "#= --record #"
                 }, {
-                    title: "문서유형",
-                    width: 100,
+                    title: "결의일자",
+                    width: 80,
+                    field: "REG_DT",
                     template: function(e){
-                        if(e.PAY_APP_TYPE == 1){
-                            return "세금계산서";
-                        } else if (e.PAY_APP_TYPE == 2){
-                            return "계산서";
-                        } else if(e.PAY_APP_TYPE == 3){
-                            return "신용카드";
-                        } else if(e.PAY_APP_TYPE == 4){
-                            return "직원지급";
-                        } else if(e.PAY_APP_TYPE == 5){
-                            return "소득신고자";
-                        } else {
-                            return "기타";
-                        }
+                        return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
                     }
                 }, {
-                    field: "DOC_NO",
-                    title: "문서번호",
-                    width: 120,
-                }, {
                     title: "적요",
-                    field: "EXNP_BRIEFS",
-                    width: 300,
+                    field: "APP_CONT",
+                    width: 280,
                     template: function(e){
                         console.log(e);
-                        return '<div style="cursor: pointer; font-weight: bold" onclick="incomeReList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\')">'+e.EXNP_BRIEFS+'</div>';
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="incomeReList.fn_reqRegPopup('+e.PAY_INCP_SN+');">'+e.APP_CONT+'</div>';
                     }
                 }, {
                     title: "프로젝트 명",
@@ -92,30 +77,19 @@ var incomeReList = {
                         return pjtNm + "...";
                     }
                 }, {
-                    title: "신청일",
-                    width: 80,
-                    field: "REG_DT",
-                    template: function(e){
-                        return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
-                    }
+                    title: "세출과목",
+                    field: "BUDGET_NM",
+                    width: 170,
                 }, {
-                    title: "지출요청일",
+                    title: "작성자",
+                    field: "EMP_NAME",
                     width: 80,
-                    field: "APP_DE"
-                }, {
-                    title: "지출예정일",
-                    width: 80,
-                    field: ""
-                }, {
-                    title: "지출완료일",
-                    width: 80,
-                    field: ""
                 }, {
                     title: "지출금액",
-                    width: 120,
+                    width: 100,
                     template: function(e){
                         var cost = e.TOT_COST;
-                        if(e.TOT_COST != null && e.TOT_COST != "" && e.TOT_COST != undefined){
+                        if(e.RE_STAT == "N"){
                             return '<div style="text-align: right">'+comma(e.TOT_COST)+'</div>';
                         } else {
                             return '<div style="text-align: right">'+0+'</div>';
@@ -147,13 +121,13 @@ var incomeReList = {
             searchValue : $("#searchValue").val()
         }
 
-        incomeReList.mainGrid("/pay/getExnpList", incomeReList.global.searchAjaxData);
+        incomeReList.mainGrid("/pay/getIncpReList", incomeReList.global.searchAjaxData);
     },
 
-    fn_reqRegPopup : function (key, paySn){
-        var url = "/payApp/pop/regExnpPop.do";
-        if(key != null && key != ""){
-            url = "/payApp/pop/regExnpPop.do?payAppSn=" + paySn + "&exnpSn=" + key;
+    fn_reqRegPopup : function (paySn){
+        var url = "/payApp/pop/regIncmRePop.do";
+        if(paySn != null && paySn != ""){
+            url = "/payApp/pop/regIncmRePop.do?payIncpSn=" + paySn;
         }
 
         if(status != null && status != ""){

@@ -70,7 +70,7 @@ var incomeList = {
                 }, {
                     title: "적요",
                     field: "APP_CONT",
-                    width: 300,
+                    width: 280,
                     template: function(e){
                         console.log(e);
                         return '<div style="cursor: pointer; font-weight: bold" onclick="incomeList.fn_reqRegPopup('+e.PAY_INCP_SN+');">'+e.APP_CONT+'</div>';
@@ -86,7 +86,7 @@ var incomeList = {
                 }, {
                     title: "세출과목",
                     field: "BUDGET_NM",
-                    width: 150,
+                    width: 170,
                 }, {
                     title: "작성자",
                     field: "EMP_NAME",
