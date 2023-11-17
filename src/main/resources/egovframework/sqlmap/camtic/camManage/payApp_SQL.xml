@@ -1044,7 +1044,7 @@
             B.G20_EMP_CD AS EMP_CD,
             C.PJT_CD AS MGT_CD,
             "" AS BOTTOM_CD,
-            "55" AS DOCU_FG,
+            "5" AS DOCU_FG,
             B.APP_CONT AS RMK_DC,
             B.ACC_NM AS BANK_NM1,
             B.ACC_NO AS BA_NB1,
