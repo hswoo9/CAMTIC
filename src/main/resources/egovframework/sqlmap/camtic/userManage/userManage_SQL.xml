@@ -455,7 +455,8 @@
         MILITARY,
         SIGNIFICANT,
         BDAY,
-        TEMP_DIVISION
+        TEMP_DIVISION,
+        MY_COMENT
         )VALUES(
         (SELECT MAX(CAST(A.EMP_SEQ AS UNSIGNED))+1 FROM CAM_HR.DJ_EMP_INFO A),
         #{EMP_NAME_KR},
@@ -532,7 +533,8 @@
         #{MILITARY},
         #{SIGNIFICANT},
         #{BDAY},
-        #{TEMP_DIVISION}
+        #{TEMP_DIVISION},
+        #{MY_COMENT}
         )
 
         <selectKey keyProperty="empSeq" resultType="Integer" order="BEFORE">
@@ -1742,7 +1744,8 @@
             a.CAREER,
             a.MILITARY,
             a.SIGNIFICANT,
-            a.TEMP_DIVISION
+            a.TEMP_DIVISION,
+            a.MY_COMENT
         FROM
             cam_hr.dj_emp_info AS a
         WHERE
@@ -1961,7 +1964,8 @@
         MILITARY = #{MILITARY},
         SIGNIFICANT = #{SIGNIFICANT},
         BDAY = #{BDAY},
-        TEMP_DIVISION = #{TEMP_DIVISION}
+        TEMP_DIVISION = #{TEMP_DIVISION},
+        MY_COMENT = #{MY_COMENT}
         WHERE EMP_SEQ = #{TARGET_EMP_SEQ}
     </update>
 

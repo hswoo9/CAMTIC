@@ -9,7 +9,7 @@ var personalInformation = {
     },
 
     dataSet : function(){
-        $("#empNameKr, #loginPasswd, #loginId, #resRegisNum1, #resRegisNum2, #checkPasswd, #capsNum, #capsNumCaseA, #capsNumCaseB, #capsNumCaseC, #jobDetail, #jobDetailCaseA, #jobDetailCaseB, #beforCareer, #elapsedYear1, #elapsedYear2, #accountHolder, #bankName, #accountNum, #zipCode, #addr, #officeTelNum, #mobileTelNum, #emailAddr, #carNum, #empNameCn, #empNameEn, #emgTelNum, #legalDomicile, #hobby, #religion, #specialty, #weight, #height, #vision1, #vision2, #carNum1, #carNum2, #carNum3, #workTime, #school, #department, #grade, #studentId").kendoTextBox();
+        $("#empSeq, #dept, #deptPartName, #gradeName, #myComent, #empNameKr, #loginPasswd, #loginId, #resRegisNum1, #resRegisNum2, #checkPasswd, #capsNum, #capsNumCaseA, #capsNumCaseB, #capsNumCaseC, #jobDetail, #jobDetailCaseA, #jobDetailCaseB, #beforCareer, #elapsedYear1, #elapsedYear2, #accountHolder, #bankName, #accountNum, #zipCode, #addr, #officeTelNum, #mobileTelNum, #emailAddr, #carNum, #empNameCn, #empNameEn, #emgTelNum, #legalDomicile, #hobby, #religion, #specialty, #weight, #height, #vision1, #vision2, #carNum1, #carNum2, #carNum3, #workTime, #school, #department, #grade, #studentId").kendoTextBox();
         $("#contract, #qualification, #degreeT, #career, #military, #significant").kendoTextArea({
             rows : 5
         });
@@ -830,6 +830,7 @@ var personalInformation = {
             RES_REGIS_NUM : $("#resRegisNum1").val() + "-" + $("#resRegisNum2").val(), //주민등록번호
             CAPS_NUM : $("#capsNum").val(), //CAPS 번호
 
+            MY_COMENT : $("#myComent").val(), //나의 한마디
             division : $("#divis").val(), //직원구분
             divisionSub : $("#divisDet").val(), //직원구분
             DEPT_SEQ : $("#deptName").val(), //부서
@@ -1053,8 +1054,8 @@ var personalInformation = {
                 }else{
                     window.close();
                 }*/
-                window.reload();
-                opener.userPersonList.gridReload();
+                window.close();
+               /* opener.userPersonList.gridReload();*/
             },
 
         })
