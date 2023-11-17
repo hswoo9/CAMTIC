@@ -113,4 +113,24 @@ public class EmployeeController {
         return formatter.format(today);
     }
 
+    @RequestMapping("/inside/pop/busnPartRate.do")
+    public String popBusnPartRate(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+
+        return "popup/inside/userManage/popBusnPartRate";
+    }
+
+    @RequestMapping("/inside/getBusinessParticipationData")
+    public String getBusinessParticipationData(@RequestParam Map<String, Object> params, Model model) {
+
+        List<Map<String, Object>> list = new ArrayList<>();
+        list = employService.getBusinessParticipationData(params);
+
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
 }

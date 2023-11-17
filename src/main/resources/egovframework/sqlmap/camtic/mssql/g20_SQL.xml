@@ -3,7 +3,7 @@
 
 <mapper namespace="g20">
 
-    <select id="getProjectList" resultType="java.util.Map" parameterType="java.util.Map">
+    <select id=" " resultType="java.util.Map" parameterType="java.util.Map">
         <![CDATA[
         SELECT
             A.PJT_CD    					AS pjtSeq

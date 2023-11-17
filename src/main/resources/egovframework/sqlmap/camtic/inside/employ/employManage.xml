@@ -222,6 +222,42 @@
         </if>
     </select>
 
+    <select id="getBusinessParticipationData" parameterType="map" resultType="map">
+        /*getBusinessParticipationData*/
+        SELECT
+            C.PJT_SN,
+            A.CHNG_SAL,
+            A.MON_SAL,
+            A.PAY_RATE,
+            A.ITEM_RATE,
+            A.EMP_SAL,
+            A.PART_EMP_NM,
+            A.PART_DET_STR_DT,
+            A.PART_DET_END_DT,
+            (SELECT LG_CD_NM FROM CAM_PJT_MNG.DJ_PJT_CD WHERE LG_CD = C.SBJ_DEP AND GRP_SN = 'SUP_DEP' LIMIT 1) AS SBJ_DEP_NM,
+            C.PJT_NM,
+            DATE_FORMAT(C.END_DT, '%Y-%m-%d') AS PJT_END_DT,
+            C.PM_EMP_SEQ,
+            A.PART_EMP_SEQ,
+            C.SBJ_STAT_YN,
+            A.TOT_RATE
+        FROM
+            CAM_PJT_MNG.DJ_PART_RATE_DET A
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_PART_RATE_VER B
+        ON
+            A.PART_RATE_VER_SN = B.PART_RATE_VER_SN
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PROJECT C
+        ON
+            B.PJT_SN = C.PJT_SN
+        WHERE
+            B.MNG_STAT = 'C'
+        AND
+            B.BEF_VER_CHECK = 'Y'
+        AND C.PJT_SN = #{pjtSn}
+    </select>
+
 
 </mapper>
 
