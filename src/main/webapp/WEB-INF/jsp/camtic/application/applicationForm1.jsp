@@ -2,6 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ page import="java.util.regex.Pattern" %>
+<%@ page import="java.util.regex.Matcher" %>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
@@ -82,8 +84,8 @@
                             생년월일
                         </th>
                         <td>
-                            <input type="text" id="bDay" name="bDay">
-                            <input type="checkbox" id="lunarYn" name="lunarYn">
+                            <input type="text" id="bDay" name="bDay" style="width:130px">
+                            음력<input type="checkbox" id="lunarYn" name="lunarYn" style="vertical-align: middle; margin-left: 3px;">
                         </td>
                         <th>
                             성별
@@ -94,17 +96,13 @@
 
                     </tr>
                     <tr>
-                        <th>
-                            연락처
-                        </th>
+                        <th>연락처</th>
                         <td>
-                            <input type="text" id="telNum" name="telNum"  onkeydown="return onlyNumber(event)" onkeyup="removeChar(event);telFilter(this)" maxlength="13" placeholder="숫자만 기입 (일반전화)">
+                            <input type="text" id="telNum" name="telNum" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event); formatPhoneNumber(this);" maxlength="13" placeholder="숫자만 기입 (일반전화)" onblur="formatPhoneNumber(this)">
                         </td>
-                        <th>
-                            휴대폰
-                        </th>
+                        <th>휴대폰</th>
                         <td>
-                            <input type="text" id="mobileTelNum" name="mobileTelNum" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event);telFilter(this)" maxlength="14" placeholder="숫자만 기입 (휴대폰)">
+                            <input type="text" id="mobileTelNum" name="mobileTelNum" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event); formatMobilePhoneNumber(this);" maxlength="14" placeholder="숫자만 기입 (휴대폰)" onblur="formatPhoneNumber(this)">
                         </td>
                     </tr>
                     <tr>
@@ -244,6 +242,56 @@
 <script>
     applicationForm.fn_defaultScript();
     $("#armiDiv").show();
+
+    function formatPhoneNumber(input) {
+        let digits = input.value.replace(/\D/g, '');
+
+        if (digits.length === 9) {
+            let formattedNumber = digits.replace(/(\d{2})(\d{3})(\d{4})/, '$1-$2-$3');
+            input.value = formattedNumber;
+        } else if (digits.length === 10) {
+            let formattedNumber = digits.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+            input.value = formattedNumber;
+        }else if(digits.length === 11){
+            let formattedNumber = digits.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+            input.value = formattedNumber;
+        }
+
+        if (digits.length >= 12) {
+            input.value = digits.slice(0, 3) + '-' + digits.slice(3, 7) + '-' + digits.slice(7, 11);
+        }
+    };
+
+    function  formatMobilePhoneNumber(input) {
+        let digits = input.value.replace(/\D/g, '');
+        if(digits.length === 10){
+            let formattedNumber = digits.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+            input.value = formattedNumber;
+        }else if (digits.length === 11) {
+            let formattedNumber = digits.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+            input.value = formattedNumber;
+        }
+
+        if (digits.length >= 12) {
+            input.value = digits.slice(0, 3) + '-' + digits.slice(3, 7) + '-' + digits.slice(7, 11);
+        }
+    };
+
+    function onlyNumber(event) {
+        const key = event.keyCode;
+        return (key >= 48 && key <= 57) || (key >= 96 && key <= 105) || key == 8 || key == 9 || key == 37 || key == 39 || key == 46;
+    };
+
+    function removeChar(event) {
+        const key = event.keyCode;
+        if (key == 8 || key == 46) {
+            return;
+        }
+        const input = event.target;
+        let value = input.value;
+        value = value.replace(/-/g, '');
+        input.value = value;
+    };
 
 </script>
 </body>
