@@ -62,7 +62,7 @@ var holidayWorkApplication ={
                     type : "post"
                 },
                 parameterMap: function(data) {
-                    data.edtHolidayKindTop = $("#edtHolidayKindTop").val();
+                    // data.edtHolidayKindTop = $("#edtHolidayKindTop").val();
                     data.workDay = $("#workDay").val();
                     // data.endDate = $("#endDate").val();
                     data.status = $("#status").val();
@@ -123,7 +123,7 @@ var holidayWorkApplication ={
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            /*dataBound: ,*/
+            dataBound : holidayWorkApplication.onDataBound,
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="holidayWorkApplication.fn_checkAll();" class=""/>',
@@ -147,13 +147,13 @@ var holidayWorkApplication ={
                     width:250
                 },
                 {
-                    title:"기간",
-                    field: "SUBHOLIDAY_WORK_DAY",
+                    title:"신청일자",
+                    field: "APPLY_DAY",
                     width:"15%"
                 },
                 {
-                    field: "SUBHOLIDAY_USE_DAY",
-                    title: "사용일수",
+                    field: "SUBHOLIDAY_WORK_DAY",
+                    title: "근로일자",
                     width: 200
                 }, {
                     field: "APPR_STAT",
@@ -258,6 +258,19 @@ var holidayWorkApplication ={
         }).data("kendoGrid");
     },
 
+    onDataBound : function(){
+        var grid = this;
+
+        grid.tbody.find("tr").dblclick(function (e) {
+            var dataItem = grid.dataItem($(this));
+
+            var url = "/subHoliday/pop/subHolidayReqPop2.do?subholidayUseId=" + dataItem.SUBHOLIDAY_USE_ID + "&apprStat=" + dataItem.APPR_STAT;
+            var name = "subHolidayReqPop2";
+            var option = "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+            var popup = window.open(url, name, option);
+        });
+    },
+
     subHolidayReqPop2 : function() {
         var url = "/subHoliday/pop/subHolidayReqPop2.do";
         var name = "subHolidayReqPop2";
@@ -327,18 +340,18 @@ var holidayWorkApplication ={
         holidayWorkApplication.global.searchAjaxData = {
             workDay: $('#workDay').val(),
             // endDate: $('#endDate').val(),
-            edtHolidayKindTop: $('#edtHolidayKindTop').val(),
+            // edtHolidayKindTop: $('#edtHolidayKindTop').val(),
             status: $('#status').val()
         };
 
         var workDay = holidayWorkApplication.global.searchAjaxData.workDay;
-        var endDate = holidayWorkApplication.global.searchAjaxData.endDate;
-        var edtHolidayKindTop = holidayWorkApplication.global.searchAjaxData.edtHolidayKindTop;
+        // var endDate = holidayWorkApplication.global.searchAjaxData.endDate;
+        // var edtHolidayKindTop = holidayWorkApplication.global.searchAjaxData.edtHolidayKindTop;
         var status = holidayWorkApplication.global.searchAjaxData.status;
 
         console.log('workDay:' + workDay);
         // console.log('endDate:' + endDate);
-        console.log('edtHolidayKindTop' + edtHolidayKindTop);
+        // console.log('edtHolidayKindTop' + edtHolidayKindTop);
         console.log('status:' + status);
 
         holidayWorkApplication.mainGrid('/Inside/holidayWorkApplication.do', holidayWorkApplication.global.searchAjaxData);

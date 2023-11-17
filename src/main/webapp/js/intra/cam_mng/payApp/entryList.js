@@ -140,9 +140,9 @@ var entryList = {
                     width: 60,
                     template : function(e){
                         if(e.DOC_STATUS == "100"){
-                            return "결재완료"
+                            return "결재완료";
                         } else {
-                            return "작성중"
+                            return "작성중";
                         }
                     }
                 }
@@ -153,19 +153,19 @@ var entryList = {
         }).data("kendoGrid");
     },
 
-    gridReload: function (){
+    gridReload : function(){
         entryList.global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
             searchDept : $("#searchDept").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
-            payAppType : 2,
+            payAppType : 2
         }
 
         entryList.mainGrid("/pay/getExnpList", entryList.global.searchAjaxData);
     },
 
-    fn_reqRegPopup : function (key, paySn, status){
+    fn_reqRegPopup : function(key, paySn, status){
         var url = "/payApp/pop/regExnpPop.do";
         if(key != null && key != ""){
             url = "/payApp/pop/regExnpPop.do?payAppSn=" + paySn + "&exnpSn=" + key;
@@ -175,14 +175,14 @@ var entryList = {
             url = url + "&status=" + status;
         }
         var name = "blank";
-        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
     },
 
-    fn_regExnpInPop: function (){
+    fn_regExnpInPop : function(){
         var url = "/payApp/pop/regExnpPop.do?status=in";
         var name = "blank";
-        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
     }
 }

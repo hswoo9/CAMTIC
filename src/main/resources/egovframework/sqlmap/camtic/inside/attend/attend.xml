@@ -619,7 +619,8 @@
                 *,
                 ROW_NUMBER() OVER (ORDER BY sm.SUBHOLIDAY_CODE_ID) AS ROW_NUM,
                 DI.APPRO_KEY,
-                DI.DOC_MENU_CD
+                DI.DOC_MENU_CD,
+                DATE_FORMAT(sm.APPLY_DATE, '%Y-%m-%d') as APPLY_DAY
         FROM cam_inside.dj_subholiday_use_hist sm
         JOIN cam_inside.dj_subholiday_code sc
             ON sm.SUBHOLIDAY_CODE_ID = sc.SUBHOLIDAY_CODE_ID
@@ -633,11 +634,8 @@
         <if test='status != null and !"".equals(status)'>
             AND sm.APPR_STAT = #{status}
         </if>
-        <if test='edtHolidayKindTop != null and !"".equals(edtHolidayKindTop)'>
-            AND sm.SUBHOLIDAY_CODE_ID = #{edtHolidayKindTop}
-        </if>
         <if test='workDay != null and !"".equals(workDay)'>
-            AND #{workDay} = sm.SUBHOLIDAY_WORK_DAY
+            AND DATE_FORMAT(#{workDay}, '%Y-%m-%d') = DATE_FORMAT(sm.APPLY_DATE, '%Y-%m-%d')
         </if>
         ORDER BY ROW_NUM DESC
     </select>
@@ -652,4 +650,46 @@
         WHERE
             SUBHOLIDAY_USE_ID IN (${subHolidayUseId})
     </update>
+
+<!--    휴일 근로 신청 내역(관리자)-->
+    <select id="getHolidayDetailsAdmin" parameterType="map" resultType="map">
+    SELECT
+        sm.*,
+        DEI.EMP_NAME_KR,
+        sc.SUBHOLIDAY_DT_CODE_NM,
+        DI.DOC_ID,
+        DI.APPRO_KEY,
+        DI.DOC_MENU_CD,
+        DATE_FORMAT(sm.APPLY_DATE, '%Y-%m-%d') as APPLY_DAY,
+        ROW_NUMBER() OVER (ORDER BY sm.SUBHOLIDAY_CODE_ID) AS ROW_NUM
+    FROM
+    CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST sm
+    JOIN
+    CAM_INSIDE.DJ_SUBHOLIDAY_CODE sc
+    ON sm.SUBHOLIDAY_CODE_ID = sc.SUBHOLIDAY_CODE_ID
+    LEFT JOIN
+    CAM_HR.DJ_EMP_INFO DEI
+    ON sm.REG_EMP_SEQ = DEI.EMP_SEQ
+    LEFT JOIN
+    DJ_CAMTIC.A_DOC_INFO DI ON sm.DOC_ID = DI.DOC_ID
+    where
+        1=1
+    AND
+        sm.APPR_STAT != 'N'
+    AND
+        sm.ACTIVE = 'Y'
+    AND
+        sm.SUBHOLIDAY_CODE_ID = 11
+        <if test='status != null and !"".equals(status)'>
+            AND sm.APPR_STAT = #{status}
+        </if>
+        <if test='workDay != null and !"".equals(workDay)'>
+            AND DATE_FORMAT(#{workDay}, '%Y-%m-%d') = DATE_FORMAT(sm.APPLY_DATE, '%Y-%m-%d')
+        </if>
+        <if test='searchText != null and !"1".equals(searchText)'>
+            AND
+            dei.emp_name_kr LIKE CONCAT('%', #{searchText}, '%')
+        </if>
+    ORDER BY ROW_NUM DESC
+    </select>
 </mapper>

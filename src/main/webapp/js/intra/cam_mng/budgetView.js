@@ -64,6 +64,12 @@ var bgView = {
                     data.opt03 = '2';
                     data.baseDate = date.getFullYear().toString() + date.getMonth().toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0');
                     data.pjtSn = $("#pjtSn").val();
+
+                    if(temp == "2"){
+                        data.temp = 2;
+                    }else{
+                        data.temp = 1;
+                    }
                     return data;
                 }
             },
@@ -178,7 +184,7 @@ var bgView = {
                     template: function(e){
                         var bgtNm = e.BGT1_NM + " / " + e.BGT2_NM + " / " + e.BGT_NM;
                         var idx = $("#idx").val()
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bgView.fn_selBudgetInfo(' + e.BGT_CD + ', \'' + bgtNm + '\', \'' + idx + '\')">선택</button>';
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bgView.fn_selBudgetInfo(\'' + e.BGT_CD + '\', \'' + bgtNm + '\', \'' + idx + '\')">선택</button>';
                     }
                 }
             ],

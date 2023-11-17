@@ -200,4 +200,33 @@ public class ManageController {
 
         return "jsonView";
     }
+
+    /** 캠매니저 > 설정관리 > 프로젝트 관리 > 프로젝트 팝업창 */
+    @RequestMapping("/mng/pop/projectMngPop.do")
+    public String projectMngPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String, Object> map = projectService.getG20ProjectData(params);
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("map", new Gson().toJson(map));
+        model.addAttribute("data", map);
+        model.addAttribute("params", params);
+
+        return "popup/cam_manager/projectMngPop";
+    }
+
+    /** 캠매니저 > 설정관리 > 프로젝트 관리 > 프로젝트 팝업창 > 수익/비용 탭 */
+    @RequestMapping("/mng/pop/incmExpInfo.do")
+    public String incmExpInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        model.addAttribute("paramsMap", new Gson().toJson(params));
+
+        return "popup/cam_manager/incmExpInfo";
+    }
 }
