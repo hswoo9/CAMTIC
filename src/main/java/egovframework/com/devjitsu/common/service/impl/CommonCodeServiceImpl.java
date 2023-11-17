@@ -35,6 +35,19 @@ public class CommonCodeServiceImpl implements CommonCodeService {
     }
 
     @Override
+    public List<Map<String, Object>> getCmCodeListReward(Map<String, Object> params) {
+        if(!StringUtils.isEmpty(params.get("searchType")) && params.get("searchType").equals("1")){
+            Gson gson = new Gson();
+            List<String> cmGroupCodeId = gson.fromJson((String) params.get("cmGroupCodeId"),new TypeToken<List<String>>(){}.getType());
+            List<String> specificValue = gson.fromJson((String) params.get("specificValue"),new TypeToken<List<String>>(){}.getType());
+            params.put("cmGroupCodeId", cmGroupCodeId);
+            params.put("specificValue", specificValue);
+        }
+
+        return commonCommonCodeRepository.getCmCodeListReward(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getCustomCodeList(Map<String, Object> params) {
         return commonCommonCodeRepository.getCustomCodeList(params);
     }

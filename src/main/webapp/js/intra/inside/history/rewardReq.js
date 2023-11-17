@@ -17,6 +17,7 @@ var rewardReq = {
                     type : "post"
                 },
                 parameterMap: function(data) {
+                    data.rewardTypeA = $("#rewardTypeA").val();
                     data.rewardType = $("#rewardType").data("kendoDropDownList").value();
                     data.deptSeq = $("#dept").val();
                     data.teamSeq = $("#team").val();
@@ -151,6 +152,40 @@ var rewardReq = {
             format : "yyyy-MM-dd",
             value : new Date()
         });
+
+       /* let statusDataSource = [
+            { text: "내부표창", value: "내부표창" },
+            { text: "외부표창", value: "외부표창" }
+        ]
+        customKendo.fn_dropDownList("rewardTypeA", statusDataSource, "text", "value", 2);*/
+
+        $("#rewardTypeA").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "선택하세요", value: "" },
+                { text: "내부표창", value: "내부표창" },
+                { text: "외부표창", value: "외부표창" }
+            ],
+            index: 0,
+            width: 300,
+
+            change: function(e) {
+
+                var selectedValue = this.value();
+                if (selectedValue === "내부표창" || selectedValue === "외부표창" || selectedValue === "" ) {
+
+                    let rewardDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeListReward", { cmGroupCodeId: "32", specificValue: selectedValue });
+                    if(selectedValue === ""){
+                        customKendo.fn_dropDownList("rewardType", rewardDataSource, "CM_CODE_NM", "CM_CODE", "2");
+                    }else {
+                        customKendo.fn_dropDownList("rewardType", rewardDataSource, "CM_CODE_NMM", "CM_CODE", "2");
+                    }
+                }
+            }
+        });
+
+
         let rewardDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "32"});
         customKendo.fn_dropDownList("rewardType", rewardDataSource, "CM_CODE_NM", "CM_CODE", "2");
 

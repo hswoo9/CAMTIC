@@ -32,6 +32,12 @@ public class CommonCodeController {
         return commonCodeService.getCmCodeList(params);
     }
 
+    @RequestMapping("/system/commonCodeManagement/getCmCodeListReward")
+    @ResponseBody
+    public List<Map<String, Object>> getCmCodeListReward(Model model, @RequestParam Map<String, Object> params){
+        return commonCodeService.getCmCodeListReward(params);
+    }
+
     //공통 코드 관리
     @RequestMapping("/system/code/codeManagement.do")
     public String commonCodeManagement(HttpServletRequest request, Model model){
