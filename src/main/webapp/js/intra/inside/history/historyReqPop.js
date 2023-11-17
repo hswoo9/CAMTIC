@@ -418,11 +418,11 @@ const historyReq = {
         let userArr = [];
         $("input[name='checkEmp']").each(function(){
             if(this.checked){
-                /*if(historyReq.global.userArr.indexOf(this.value) < 0){*/
+                if(historyReq.global.userArr.indexOf(this.value) < 0){
                     userArr.push(this.value);
                     historyReq.global.userArr.push(this.value);
                     flag = true;
-                /*}*/
+                }
             }
         });
         if(!flag){
