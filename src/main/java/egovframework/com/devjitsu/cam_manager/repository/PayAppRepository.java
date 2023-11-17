@@ -99,6 +99,14 @@ public class PayAppRepository extends AbstractDAO {
         return selectList("payApp.getPayIncpDetailData", params);
     }
 
+    public Map<String, Object> getIncpData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("payApp.getIncpData", params);
+    }
+
+    public List<Map<String, Object>> getIncpG20List(Map<String, Object> params) {
+        return selectList("payApp.getIncpG20List", params);
+    }
+
     public List<Map<String, Object>> getExnpReList(Map<String, Object> params) {
         return selectList("payApp.getExnpReList", params);
     }
@@ -139,8 +147,16 @@ public class PayAppRepository extends AbstractDAO {
         return (int) selectOne("payApp.getExnpCountDoc", data);
     }
 
+    public int getIncpCountDoc(Map<String, Object> data) {
+        return (int) selectOne("payApp.getIncpCountDoc", data);
+    }
+
     public void updExnpStat(Map<String, Object> data) {
         update("payApp.updExnpStat", data);
+    }
+
+    public void updIncpStat(Map<String, Object> data) {
+        update("payApp.updIncpStat", data);
     }
 
     public Map<String, Object> getEmpInfo(Map<String, Object> params) {
@@ -156,4 +172,8 @@ public class PayAppRepository extends AbstractDAO {
     public List<Map<String, Object>> getPayAttEtcInfo(Map<String, Object> params) { return selectList("payApp.getPayAttEtcInfo", params);}
     public Map<String, Object> getExnpAttInfo(Map<String, Object> params) {return (Map<String, Object>) selectOne("payApp.getExnpAttInfo", params);}
     public List<Map<String, Object>> getExnpAttEtcInfo(Map<String, Object> params) { return selectList("payApp.getExnpAttEtcInfo", params);}
+
+    public Map<String, Object> getPayAppDetailInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("payApp.getPayAppDetailInfo", params);
+    }
 }

@@ -13,6 +13,7 @@ public interface HistoryService {
      * @return
      */
     List<Map<String, Object>> getHistoryList(Map<String, Object> params);
+    List<Map<String, Object>> getHistoryListAdmin(Map<String, Object> params);
 
     /**
      * 발령조회(수정팝업)

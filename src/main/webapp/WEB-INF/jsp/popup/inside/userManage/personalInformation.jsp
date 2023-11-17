@@ -81,7 +81,7 @@
                     </td>
                     <th>소속</th>
                     <td>
-                        <input type="text" id="" style="width: 30%;" value="" disabled="disabled">
+                        <input type="text" id="dept" style="width: 50%;" value="캠틱" disabled="disabled">
                     </td>
                 </tr>
                 <tr>
@@ -97,7 +97,7 @@
                 <tr>
                     <th>부서(파트)</th>
                     <td>
-                        <input type="text" <%--id=""--%> style="width: 50%;" disabled="disabled">
+                        <input type="text" id="deptPartName" style="width: 50%;" disabled="disabled">
                     </td>
                     <th>직책</th>
                     <td>
@@ -111,7 +111,7 @@
                     </td>
                     <th>등급</th>
                     <td>
-                        <input type="text" <%--id="position"--%> style="width: 50%;" value="${uprinfList.GRADE_NAME}" disabled="disabled">
+                        <input type="text" id="gradeName" style="width: 50%;" value="${uprinfList.GRADE_NAME}" disabled="disabled">
                     </td>
 
                 </tr>
@@ -192,12 +192,7 @@
                 <tr>
                     <th>나의 한마디</th>
                     <td colspan="3">
-                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
-                            <input type="text" style="width: 95%;">
-                        </c:if>
-                        <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                            <input type="text" style="width: 95%;" value="">
-                        </c:if>
+                            <input type="text" id="myComent" style="width: 95%;" value="${uprinfList.MY_COMENT}">
                     </td>
                 </tr>
                 </thead>
@@ -274,7 +269,7 @@
                 <tr>
                     <th>결혼 관계</th>
                     <td>
-                        <span type="text" id="weddingActive" name="weddingActive" style="width: 100%;"></span
+                        <span type="text" id="weddingActive" name="weddingActive" style="width: 100%;"></span>
                     </td>
                     </td>
                     <th>결혼기념일</th>
@@ -289,7 +284,12 @@
                     </td>
                     <th>긴급 연락처</th>
                     <td>
-                        <input type="text" id="emgTelNum" name="emgTelNum" class="userInfoTextBox notDisabled" placeholder="숫자만 입력" value="${uprList.emgTelNum}" style="width: 50%;">
+                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
+                            <input type="text" id="emgTelNum" maxlength="13" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 50%;">
+                        </c:if>
+                        <c:if test="${params.empSeq != null && params.empSeq != ''}">
+                            <input type="text" id="emgTelNum" maxlength="13" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" style="width: 50%;" value="${uprinfList.EMG_TEL_NUM}">
+                        </c:if>
                     </td>
                 </tr>
                 <tr>
@@ -631,7 +631,7 @@
         //직급/등급 ---insert
         $("#position").data("kendoDropDownList").value("${uprinfList.POSITION_CODE}");
         //직군 ---insert
-        $("#occupationCode").data("kendoDropDownList").value("${uprinfList.OCCUPATION_CODE}");
+/*        $("#occupationCode").data("kendoDropDownList").value("${uprinfList.OCCUPATION_CODE}");*/
         //직책
         $("#duty").data("kendoDropDownList").value("${uprinfList.DUTY_CODE}");
         //학위 ---insert

@@ -473,11 +473,11 @@
             C.PJT_CD AS MGT_CD,
             "" AS BOTTOM_CD,
             CASE
-                WHEN D.PAY_APP_TYPE = '1'
+                WHEN B.PAY_APP_TYPE = '1'
                     THEN '1'
-                WHEN D.PAY_APP_TYPE = '2'
+                WHEN B.PAY_APP_TYPE = '2'
                     THEN '6'
-                WHEN D.PAY_APP_TYPE = '3'
+                WHEN B.PAY_APP_TYPE = '3'
                     THEN '7'
                 ELSE '55'
             END AS DOCU_FG,
@@ -532,13 +532,27 @@
     <select id="getCountDoc" parameterType="map" resultType="int">
         /*getCountDoc*/
         SELECT
-            IFNULL(MAX(EXNP_CNT), 0)
-        FROM
-            CAM_MNG.DJ_EXNP_DET
-        WHERE
-            TR_DE = #{CNT_DT}
-        AND
-            EXNP_STAT = "Y"
+            A.countA + B.countB
+        FROM (
+            SELECT
+                IFNULL(MAX(EXNP_CNT), 0) AS countA
+            FROM
+                CAM_MNG.DJ_EXNP_DET
+            WHERE
+                TR_DE = #{CNT_DT}
+              AND
+                EXNP_STAT = 'Y'
+        ) A
+        JOIN (
+            SELECT
+                IFNULL(MAX(EXNP_CNT), 0) AS countB
+            FROM
+                CAM_MNG.DJ_PAY_INCP_DET
+            WHERE
+                TR_DE = #{CNT_DT}
+              AND
+                EXNP_STAT = 'Y'
+        ) B
     </select>
 
     <select id="getExnpCountDoc" parameterType="map" resultType="int">
@@ -550,9 +564,23 @@
         WHERE
             TR_DE = #{CNT_DT}
         AND
-            EXNP_STAT = "Y"
+            EXNP_STAT = 'Y'
         AND
             EXNP_SN = #{EXNP_SN}
+    </select>
+
+    <select id="getIncpCountDoc" parameterType="map" resultType="int">
+        /*getIncpCountDoc*/
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_MNG.DJ_PAY_INCP_DET
+        WHERE
+            TR_DE = #{CNT_DT}
+          AND
+            EXNP_STAT = 'Y'
+          AND
+            PAY_INCP_SN = #{PAY_INCP_SN}
     </select>
 
     <update id="updExnpStat" parameterType="map">
@@ -563,6 +591,16 @@
             EXNP_CNT = #{USER_SQ}
         WHERE
             EXNP_DET_SN = #{EXNP_DET_SN}
+    </update>
+
+    <update id="updIncpStat" parameterType="map">
+        /*updIncpStat*/
+        UPDATE CAM_MNG.DJ_PAY_INCP_DET
+        SET
+            EXNP_STAT = 'Y',
+            EXNP_CNT = #{USER_SQ}
+        WHERE
+            PAY_INCP_DET_SN = #{PAY_INCP_DET_SN}
     </update>
 
     <select id="getEmpInfo" parameterType="map" resultType="map">
@@ -610,6 +648,7 @@
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON E.DOC_ID = DI.DOC_ID
         WHERE E.DOC_STATUS = '100'
+        AND E.PAY_APP_TYPE = 1
         AND ED.EVID_TYPE IN (1, 2, 3)
         GROUP BY E.EXNP_SN
     </select>
@@ -955,5 +994,108 @@
         SELECT *
         FROM CAM_MNG.DJ_PAY_INCP_DET
         WHERE PAY_INCP_SN = #{payIncpSn}
+    </select>
+
+    <select id="getIncpData" parameterType="map" resultType="map">
+        /*getIncpData*/
+        SELECT
+            A.*,
+            B.EMP_SEQ,
+            B.ERP_EMP_SEQ,
+            B.EMP_NAME_KR,
+            B.DEPT_SEQ,
+            B.DEPT_NAME,
+            C.DOC_NO
+        FROM
+            CAM_MNG.DJ_PAY_INCP A
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO B
+        ON A.EXNP_EMP_SEQ = B.EMP_SEQ
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO C
+        ON
+            A.DOC_ID = C.DOC_ID
+        WHERE
+            PAY_INCP_SN = #{payIncpSn}
+    </select>
+
+    <select id="getIncpG20List" parameterType="map" resultType="map">
+        /*getIncpG20List*/
+        SELECT
+            1212 AS CO_CD,
+            A.PAY_INCP_DET_SN,
+            A.PAY_INCP_SN,
+            A.EVID_TYPE,
+            A.TR_CD,
+            B.BUDGET_SN AS BGT_CD,
+            REPLACE(A.TR_DE, "-", "") AS IN_DT,
+            REPLACE(A.TR_DE, "-", "") AS TAX_DT,
+            REPLACE(B.APP_DE, "-", "") AS REG_DT,
+            REPLACE(B.PAY_EXNP_DE, "-", "") AS EXEC_DT,
+            DATE_FORMAT(now(), '%Y%m%d') AS TXT_DONE_DT,
+            "" AS RPMR_NO,
+            A.TR_DE AS CNT_DT,
+            "" AS DUMMY1,
+            "" AS DUMMY2,
+            "" AS DUMMY3,
+            B.BUSN_CD AS DIV_CD,
+            B.BUSN_CD AS DIV_CD2,
+            B.G20_DEPT_CD AS DEPT_CD,
+            B.G20_EMP_CD AS EMP_CD,
+            C.PJT_CD AS MGT_CD,
+            "" AS BOTTOM_CD,
+            "5" AS DOCU_FG,
+            B.APP_CONT AS RMK_DC,
+            B.ACC_NM AS BANK_NM1,
+            B.ACC_NO AS BA_NB1,
+            A.EVID_TYPE,
+            A.ETC,
+            A.SUP_COST AS SUP_AM,
+            A.VAT_COST AS VAT_AM,
+            A.CRM_NM AS TR_NM,
+            A.CRM_BNK_NM AS BANK_NM2,
+            A.CRM_ACC_NO AS BA_NB2,
+            A.CRM_ACC_HOLDER AS DEPOSITOR,
+            A.CARD AS CTR_NM,
+            A.CARD_NO AS CTR_NB,
+            "" AS ETCDATA_CD,
+            "" AS ETCPER_CD,
+            "" AS ETCREG_NO,
+            "" AS ETCPER_NM,
+            "" AS ETCZIP_CD,
+            "" AS ETCADDR,
+            "" AS ETCPHONE,
+            "" AS ETCBANK_CD,
+            "" AS ETCACCT_NO,
+            "" AS ETCACCT_NM,
+            "" AS ETCRVRS_YM,
+            "" AS ETCDIV_CD,
+            "" AS ETCDUMMY1
+        FROM
+            CAM_MNG.DJ_PAY_INCP_DET A
+        LEFT JOIN
+            CAM_MNG.DJ_PAY_INCP B
+        ON
+            A.PAY_INCP_SN = B.PAY_INCP_SN
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PROJECT C
+        ON
+            B.PJT_SN = C.PJT_SN
+        WHERE
+            A.PAY_INCP_SN = #{payIncpSn}
+        <if test='evidTypeArr != null and !"".equals(evidTypeArr)'>
+            AND
+                A.EVID_TYPE in (${evidTypeArr})
+        </if>
+    </select>
+
+    <select id="getPayAppDetailInfo" parameterType="map" resultType="map">
+        /*getPayAppDetailInfo*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_PAY_APP_DET
+        WHERE
+            PAY_APP_DET_SN = #{payAppDetSn}
     </select>
 </mapper>

@@ -72,6 +72,72 @@
         ORDER BY HAI.APNT_SN DESC
     </select>
 
+    <select id="getHistoryListAdmin" resultType="map" parameterType="map">
+        /* getHistoryListAdmin */
+        SELECT
+        HAI.APNT_SN,
+        HAI.EMP_NAME,
+        HAI.APNT_NAME,
+        DATE_FORMAT(HAI.HISTORY_DT, '%Y-%m-%d') AS HISTORY_DT,
+        HAI.NUMBER_NAME,
+        IFNULL(HAI.AF_DEPT_NAME, '') AS AF_DEPT_NAME,
+        IFNULL(HAI.AF_TEAM_NAME, '') AS AF_TEAM_NAME,
+        IFNULL(HAI.AF_POSITION_NAME, '') AS AF_POSITION_NAME,
+        IFNULL(HAI.AF_DUTY_NAME, '') AS AF_DUTY_NAME,
+        HAI.ETC,
+        AHEI.EMP_NAME_KR AS APPROVE_EMP_NAME,
+        CFI.*
+        FROM
+        CAM_HR.DJ_APNT_INFO HAI
+        LEFT JOIN
+        CAM_HR.DJ_EMP_INFO HEI ON HAI.EMP_SEQ = HEI.EMP_SEQ
+        LEFT JOIN
+        CAM_HR.DJ_EMP_INFO AHEI ON HAI.REG_EMP_SEQ = AHEI.EMP_SEQ
+        LEFT JOIN
+        CAM_COMMON.DJ_FILE_INFO CFI ON HAI.APNT_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'history'
+        WHERE
+        1=1
+        <if test='historyType != null and !"".equals(historyType)'>
+            AND HAI.APNT_CD = #{historyType}
+        </if>
+        <if test='deptSeq != null and !"".equals(deptSeq)'>
+            AND HEI.DEPT_SEQ = #{deptSeq}
+        </if>
+        <if test='start_date != null and !"".equals(start_date)'>
+            AND DATE_FORMAT(HAI.HISTORY_DT, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{start_date}, '%Y-%m-%d') AND DATE_FORMAT(#{end_date}, '%Y-%m-%d')
+        </if>
+        <if test='gender != null and !"".equals(gender)'>
+            AND HEI.GENDER_CODE = #{gender}
+        </if>
+        <choose>
+            <when test='searchText != null and !"".equals(searchText) and "7".equals(searchType)'>
+                AND HAI.ETC like CONCAT('%', #{searchText}, '%')
+            </when>
+            <when test='searchText != null and !"".equals(searchText) and "6".equals(searchType)'>
+                AND HAI.NUMBER_NAME like CONCAT('%', #{searchText}, '%')
+            </when>
+            <when test='searchText != null and !"".equals(searchText) and "1".equals(searchType)'>
+                AND HAI.EMP_NAME like CONCAT('%', #{searchText}, '%')
+            </when>
+            <when test='searchText != null and !"".equals(searchText) and "2".equals(searchType)'>
+                AND AF_POSITION_NAME like CONCAT('%', #{searchText}, '%')
+            </when>
+            <when test='searchText != null and !"".equals(searchText) and "5".equals(searchType)'>
+                AND HAI.AF_JOB_DETAIL like CONCAT('%', #{searchText}, '%')
+            </when>
+            <when test='searchText != null and !"".equals(searchText) and "4".equals(searchType)'>
+                AND HAI.AF_DUTY_NAME like CONCAT('%', #{searchText}, '%')
+            </when>
+            <when test='searchText != null and !"".equals(searchText) and "3".equals(searchType)'>
+                AND AF_POSITION_NAME like CONCAT('%', #{searchText}, '%')
+            </when>
+        </choose>
+        <if test='applyDt != null and !"".equals(applyDt)'>
+            AND DATE_FORMAT(HAI.HISTORY_DT, '%Y-%m') = #{applyDt}
+        </if>
+        ORDER BY HAI.APNT_SN DESC
+    </select>
+
     <select id="getUpdHistoryList" resultType="map" parameterType="map">
         /* getUpdHistoryList */
         SELECT

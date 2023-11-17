@@ -9,6 +9,7 @@
 <script type="text/javascript" src="/js/intra/cam_crm/regCrmPop.js?v=${today}"/></script>
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/regExnpPop.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/regPayAppPop.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/g20Callback.js?v=${today}'/>"></script>
 
 <form id="payAppDraftFrm" method="post">
@@ -149,9 +150,10 @@
             </c:if>
             <div class="mt-20">
                 <div class="text-right">
-
+                    <button type="button" id="addBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regExnpDet.addRow()">
+                        <span class="k-button-text">추가</span>
+                    </button>
                 </div>
-
                 <table class="popTable table table-bordered mb-0 mt-20">
                     <colgroup>
                         <c:if test="${params.exnpSn == null and params.exnpSn == ''}">
@@ -175,7 +177,7 @@
                             <col style="width: 2%;">
                             <col style="width: 3%;">
                         </c:if>
-
+                        <col style="width: 3%;">
                     </colgroup>
                     <thead>
                     <tr>
@@ -199,7 +201,7 @@
                             <th>선지급</th>
                             <th>첨부파일</th>
                         </c:if>
-
+                        <th>삭제</th>
                     </tr>
                     </thead>
                     <tbody id="payDestTb">
@@ -244,8 +246,13 @@
                         </td>
                         <td>
                             <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regExnpDet.fn_popRegDet(3, 0)"></i>
-                            <input type="text" disabled id="card0" class="card">
+                            <input type="text" disabled style="width: 70%" id="card0" class="card">
                             <input type="hidden" id="cardNo0" class="cardNo" />
+                        </td>
+                        <td>
+                            <div style="text-align: center">
+                                <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(0)">삭제</button>
+                            </div>
                         </td>
                     </tr>
                     </tbody>
@@ -278,9 +285,23 @@
         window.open("/common/deptListPop.do", "조직도", "width=750, height=650");
     }
 
-    function selectProject(sn, nm){
+    function selectProject(sn, nm, cd){
         $("#pjtSn").val(sn);
         $("#pjtNm").val(nm);
+
+        var data = {
+            pjtCd : cd
+        }
+
+        var result = customKendo.fn_customAjax("/project/getBankData", data);
+        var rs = result.data;
+
+        if(rs != null){
+            $("#accNm").val(rs.TR_NM);
+            $("#bnkSn").val(rs.TR_CD);
+            $("#accNo").val(rs.BA_NB);
+            $("#bnkNm").val(rs.JIRO_NM);
+        }
     }
 
 </script>

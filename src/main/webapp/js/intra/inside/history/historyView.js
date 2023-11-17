@@ -2,19 +2,25 @@ var historyView = {
 
     init: function(){
         historyView.pageSet();
-        historyView.mainGrid();
+
+        var url = '/inside/getHistoryList';
+        if(isAdmin){
+            url = '/inside/getHistoryListAdmin';
+        }
+
+        historyView.mainGrid(url);
     },
 
     pageSet: function(){
         customKendo.fn_datePicker("applyDt", "year", "yyyy-MM", new Date());
     },
 
-    mainGrid: function(){
+    mainGrid: function(url){
         var dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
                 read : {
-                    url : '/inside/getHistoryList',
+                    url : url,
                     dataType : "json",
                     type : "post"
                 },
