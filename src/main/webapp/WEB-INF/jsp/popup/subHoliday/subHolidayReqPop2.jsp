@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <style>
-  .k-icon-button {
-    display: none;
-  }
+  /*.k-icon-button {*/
+  /*  display: none;*/
+  /*}*/
 </style>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
