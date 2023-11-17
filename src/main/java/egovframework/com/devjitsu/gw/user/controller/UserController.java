@@ -6,12 +6,15 @@ import egovframework.com.devjitsu.gw.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -31,6 +34,12 @@ public class UserController {
 
     @Autowired
     private CommonService commonService;
+
+    @Value("#{properties['File.Server.Dir']}")
+    private String SERVER_DIR;
+
+    @Value("#{properties['File.Base.Directory']}")
+    private String BASE_DIR;
 
     /** 직제관리 페이지 */
     @RequestMapping("/user/organizationChart.do")
@@ -212,9 +221,17 @@ public class UserController {
     public String organizationHistoryPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
 
         model.addAttribute("loginVO", login);
         return "popup/user/organizationHistoryPop";
+    }
+
+    /**이력관리 리스트 조회*/
+    @RequestMapping("/user/getHistoryList")
+    public String getHistoryList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", userService.getHistoryList(params));
+        return "jsonView";
     }
 
     @RequestMapping("/user/pop/historyAddPop.do")
@@ -222,7 +239,50 @@ public class UserController {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
+        model.addAttribute("menuCd", request.getServletPath().split("/")[1]);
+        model.addAttribute("data", commonService.commonCodeList(params));
         model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
         return "popup/user/historyAddPop";
     }
+
+    /** 직제관리 이력관리 등록*/
+    @RequestMapping("/user/historyAdd")
+    public String historyAdd(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        MultipartFile[] historyFiles = request.getFiles("historyFiles").toArray(new MultipartFile[0]);
+
+        model.addAttribute("loginVO", loginVO);
+        userService.setHistoryAdd(params, historyFiles, SERVER_DIR, BASE_DIR);
+        model.addAttribute("params", params);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/user/pop/historyInfo.do")
+    public String historyInfo(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+        model.addAttribute("data", userService.getHistoryOne(params));
+        model.addAttribute("fileInfo", userService.getHistoryFileInfo(params));
+        model.addAttribute("params", params);
+        return "popup/user/historyInfo";
+    }
+
+    /*@RequestMapping("/crm/getHistoryOne")
+    public String getHistoryOne(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+
+        model.addAttribute("data", userService.getHistoryOne(params));
+        model.addAttribute("fileInfo", userService.getHistoryFileInfo(params));
+        model.addAttribute("loginVO", loginVO);
+
+        return "jsonView";
+    }*/
+
+
 }

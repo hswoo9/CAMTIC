@@ -11,9 +11,9 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/regIncmPop.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/g20Callback.js?v=${today}'/>"></script>
 
-<form id="payAppDraftFrm" method="post">
+<form id="payIncpDraftFrm" method="post">
     <input type="hidden" id="payIncpSn" name="payIncpSn" value="${params.payIncpSn}">
-    <input type="hidden" id="menuCd" name="menuCd" value="payApp">
+    <input type="hidden" id="menuCd" name="menuCd" value="incp">
     <input type="hidden" id="type" name="type" value="drafting">
     <input type="hidden" id="nowUrl" name="nowUrl" />
 </form>

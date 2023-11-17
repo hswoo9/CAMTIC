@@ -11,43 +11,52 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
+<link rel="stylesheet" href="/css/quirk.css">
+<link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/camtic/application/applicationForm2.js?v=${today}"></script>
+
 <body class="font-opensans" style="background-color:#fff;">
-<div class="col-md-12 col-lg-12 dash-left pop_sign_wrap" style="width:1590px;padding: 50px;">
+<div class="col-lg-12 pop_sign_wrap" style="width:1300px; padding:0;">
     <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="${recruitInfoSn}">
     <input type="hidden" id="applicationId" name="applicationId" value="${params.applicationId}">
     <input type="hidden" id="userEmail" name="userEmail" value="${userEmail}">
     <input type="hidden" id="recruitAreaInfoSn" name="recruitAreaInfoSn" value="${params.recruitAreaInfoSn}">
-    <div class="panel">
-        <div class="panel-heading">
-            <h4 class="panel-title">캠틱 온라인 입사지원</h4>
+        <div class="card-header pop-header">
+            <h3 class="card-title title_NM">캠틱 온라인 입사지원</h3>
+            <div class="btn-st popButton">
+            <button type="button" class="k-button k-button-solid-info" onclick="applicationForm2.setApplicationTempSave('prev')"><span>이전단계</span></button>
+            <button type="button" class="k-button k-button-solid-info" onclick="applicationForm2.setApplicationTempSave('temp')"><span>임시저장</span></button>
+            <button type="button" class="k-button k-button-solid-info" onclick="applicationForm2.setApplicationTempSave('next')"><span>다음단계</span></button>
+            <button type="button" class="k-button k-button-solid-error" onclick="window.close()"><span>취소</span></button>
+            </div>
         </div>
-
-        <div class="panel-body">
-            <div>
-                <h4>학력/경력</h4>
-                <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+        <div style="padding: 20px">
+            <table class="popTable table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
                     <colgroup>
                         <col width="30%">
                     </colgroup>
-                    <tr>
-                        <th style="border-bottom:0; background-color: white">
-                            지원분야
-                        </th>
-                        <td colspan="4">
-                            <span id="recruitAreaInfoSnTxt"></span>
-                        </td>
-                    </tr>
-                </table>
-
-                <h5>학력사항</h5>
-                <div>
-                    <div class="__btWrap rig __mt10" style="text-align: right">
-                        <button type="button" class="__btn3 blue" onclick="applicationForm2.addSchoolRow()"><span>추가</span></button>
-                    </div>
-
-                    <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                <thead>
+                <tr>
+                    <th>
+                        지원분야
+                    </th>
+                    <td>
+                        <span id="recruitAreaInfoSnTxt"></span>
+                    </td>
+                </tr>
+                </thead>
+            </table>
+            <div style="width:1270px;">
+            <div class="__btWrap rig __mt10" style="text-align: right; margin-right: 10px; margin-top: 10px;">
+                <button type="button"  class="k-button k-button-solid-info" onclick="applicationForm2.addSchoolRow()"><span>추가</span></button>
+            </div>
+                    <table class="popTable table table-bordered mb-0 mt10 text-center">
                         <thead>
+                        <tr>
+                            <th colspan="10" style="font-size: 14px; font-weight: 600; background-color: #00397f96; color: #fff;">
+                                학력사항
+                            </th>
+                        </tr>
                         <tr>
                             <th>구분</th>
                             <th>기간</th>
@@ -112,21 +121,24 @@
                                 <input type="file" id="sexualFile0" class="sexualFile" name="sexualFile0" style="display: none" onchange="applicationForm2.getFileName(this)">
                             </td>
                             <td>
-                                <button type="button" class="__btn3 red" onClick="applicationForm2.delRow('schoolInfo', this)"><span>삭제</span></button>
+                                <button type="button" class="k-button k-button-solid-error" onClick="applicationForm2.delRow('schoolInfo', this)"><span>삭제</span></button>
                             </td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-            </div>
 
-            <h5>경력사항</h5>
-            <div id="careerDiv">
-                <div class="__btWrap rig __mt10" style="text-align: right">
-                    <button type="button" class="__btn3 blue" onclick="applicationForm2.addCareerRow()"><span>추가</span></button>
+            <div id="careerDiv" style="width:1270px;">
+                <div class="__btWrap rig __mt10" style="text-align: right; margin-right: 10px; margin-top: 10px;">
+                    <button type="button"  class="k-button k-button-solid-info" onclick="applicationForm2.addCareerRow()"><span>추가</span></button>
                 </div>
-                <table class="table table-bordered mb-0" id="careerInfo0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                <table  class="popTable table table-bordered mb-0 mt10 text-center" id="careerInfo0">
                     <thead>
+                    <tr>
+                        <th colspan="8" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">
+                            경력사항
+                        </th>
+                    </tr>
                         <tr>
                             <th>근무처</th>
                             <th>근무기간</th>
@@ -167,26 +179,27 @@
                             <input type="file" id="careerFile0" class="careerFile" name="careerFile0" style="display: none" onchange="applicationForm2.getFileName(this)">
                         </td>
                         <td>
-                            <button type="button" class="__btn3 red" onclick="applicationForm2.delRow('careerInfo', this)"><span>삭제</span></button>
+                            <button type="button" class="k-button k-button-solid-error" onclick="applicationForm2.delRow('careerInfo', this)"><span>삭제</span></button>
                         </td>
                     </tr>
                     <tr id="career0_1" class="careerInfo_1">
                         <th>담당업무 세부사항</th>
-                        <td colspan="6">
-                            <textarea id="careerContent0" class="careerContent"></textarea>
+                        <td colspan="7">
+                            <textarea id="careerContent0" class="careerContent"  style="width: 100%; height: 100%; box-sizing: border-box; margin: 0; padding: 5px;"></textarea>
                         </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
+                <!--
             <div style="text-align: right">
                 <button class="__btn1 blue" onclick="applicationForm2.setApplicationTempSave('prev')"><span>이전단계</span></button>
                 <button class="__btn1 black" onclick="applicationForm2.setApplicationTempSave('temp')"><span>임시저장</span></button>
                 <button class="__btn1 blue" onclick="applicationForm2.setApplicationTempSave('next')"><span>다음단계</span></button>
                 <button class="__btn1 gray" onclick="window.close()"><span>취소</span></button>
             </div>
-        </div>
-    </div>
+            -->
+</div>
 </div><!-- col-md-9 -->
 <script>
     applicationForm2.fn_defaultScript();

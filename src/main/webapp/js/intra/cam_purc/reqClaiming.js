@@ -201,6 +201,7 @@ var reqCl = {
 
     fn_calc : function (idx, e){
         $("#itemAmt" + idx).val(comma(uncomma($("#itemUnitAmt" + idx).val()) * uncomma($("#itemEa" + idx).val())));
+        $("#difAmt" + idx).val(comma(uncomma($("#purcItemAmt" + idx).val()) - uncomma($("#itemAmt" + idx).val())));
 
         reqCl.fn_amtCalculator();
 
@@ -235,6 +236,9 @@ var reqCl = {
             '           <input type="text" id="itemAmt'+len+'" class="itemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
             '       </td>' +
             '       <td>' +
+            '           <input type="text" id="purcItemAmt'+len+'" class="purcItemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+            '       </td>' +
+            '       <td>' +
             '           <label for="itemEtc'+len+'"></label><input type="text" id="itemEtc'+len+'" class="itemEtc">' +
             '       </td>' +
             '       <td>' +
@@ -250,7 +254,7 @@ var reqCl = {
         $("#claimTbody").append(html);
 
         customKendo.fn_textBox(["itemNm" + len, "itemStd" + len
-            ,"itemEa" + len, "itemUnitAmt" + len, "itemUnit" + len, "itemAmt" + len, "itemEtc" + len])
+            ,"itemEa" + len, "itemUnitAmt" + len, "itemUnit" + len, "itemAmt" + len, "purcItemAmt" + len, "itemEtc" + len])
 
         var radioProdDataSource = [
             { label: "해당없음", value: "N" },
@@ -349,6 +353,8 @@ var reqCl = {
                 itemParameters.itemUnitAmt = uncomma($("#itemUnitAmt").val());
                 itemParameters.itemUnit = $("#itemUnit").val();
                 itemParameters.itemAmt = uncomma($("#itemAmt").val());
+                itemParameters.purcItemAmt = uncomma($("#purcItemAmt").val());
+                itemParameters.difAmt = $("#difAmt").val().replace(',', '');
                 itemParameters.itemEtc = $("#itemEtc").val();
                 itemParameters.prodCd = $("#prodCd").data("kendoRadioGroup").value();
             } else {
@@ -361,6 +367,8 @@ var reqCl = {
                 itemParameters.itemUnitAmt = uncomma($("#itemUnitAmt" + i).val());
                 itemParameters.itemUnit = $("#itemUnit" + i).val();
                 itemParameters.itemAmt = uncomma($("#itemAmt" + i).val());
+                itemParameters.purcItemAmt = uncomma($("#purcItemAmt" + i).val());
+                itemParameters.difAmt = $("#difAmt" + i).val().replace(',', '');
                 itemParameters.itemEtc = $("#itemEtc" + i).val();
                 itemParameters.prodCd = $("#prodCd" + i).data("kendoRadioGroup").value();
             }
@@ -430,6 +438,12 @@ var reqCl = {
                         '           <input type="text" id="itemAmt" class="itemAmt" value="'+comma(e.itemList[i].PURC_ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                         '       </td>' +
                         '       <td>' +
+                        '           <input id="purcItemAmt" class="purcItemAmt" value="'+comma(e.itemList[i].PURC_ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                        '       </td>' +
+                        '       <td>' +
+                        '           <input id="difAmt" class="difAmt" value="'+comma(0)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                        '       </td>' +
+                        '       <td>' +
                         '           <label for="itemEtc"></label><input type="text" id="itemEtc" value="'+e.itemList[i].RMK+'" class="itemEtc">' +
                         '       </td>' +
                         '       <td>' +
@@ -466,6 +480,12 @@ var reqCl = {
                         '           <input type="text" id="itemAmt'+index+'" class="itemAmt" style="text-align: right" value="'+comma(e.itemList[i].PURC_ITEM_AMT)+'" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                         '       </td>' +
                         '       <td>' +
+                        '           <input id="purcItemAmt" class="purcItemAmt'+index+'" value="'+comma(e.itemList[i].PURC_ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                        '       </td>' +
+                        '       <td>' +
+                        '           <input id="difAmt" class="difAmt'+index+'" value="'+comma(0)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                        '       </td>' +
+                        '       <td>' +
                         '           <label for="itemEtc'+index+'"></label><input type="text" id="itemEtc'+index+'" value="'+e.itemList[i].RMK+'" class="itemEtc">' +
                         '       </td>' +
                         '       <td>' +
@@ -495,11 +515,11 @@ var reqCl = {
         ]
         for(var i = 0 ; i < tLen ; i++){
             if(i == 0){
-                customKendo.fn_textBox(["itemNm", "itemStd", "itemEa", "itemUnitAmt", "itemUnit", "itemAmt", "itemEtc"]);
+                customKendo.fn_textBox(["itemNm", "itemStd", "itemEa", "itemUnitAmt", "itemUnit", "itemAmt", "purcItemAmt", "difAmt", "itemEtc"]);
                 customKendo.fn_radioGroup("prodCd", radioProdDataSource, "horizontal");
             } else {
                 customKendo.fn_textBox(["itemNm" + i, "itemStd" + i
-                    ,"itemEa" + i, "itemUnitAmt" + i, "itemUnit" + i, "itemAmt" + i, "itemEtc" + i])
+                    ,"itemEa" + i, "itemUnitAmt" + i, "itemUnit" + i, "itemAmt" + i, "purcItemAmt" + i, "difAmt" + i, "itemEtc" + i])
 
                 customKendo.fn_radioGroup("prodCd" + i, radioProdDataSource, "horizontal");
             }
@@ -539,6 +559,12 @@ var reqCl = {
                     '           <input type="text" id="itemAmt" class="itemAmt" value="'+comma(e.itemList[i].ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                     '       </td>' +
                     '       <td>' +
+                    '           <input type="text" id="purcItemAmt" class="purcItemAmt" value="'+comma(e.itemList[i].PURC_ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '       </td>' +
+                    '       <td>' +
+                    '           <input type="text" id="difAmt" class="purcItemAmt" value="'+comma(e.itemList[i].DIF_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '       </td>' +
+                    '       <td>' +
                     '           <label for="itemEtc"></label><input type="text" id="itemEtc" value="'+e.itemList[i].ITEM_ETC+'" class="itemEtc">' +
                     '       </td>' +
                     '       <td>' +
@@ -575,6 +601,12 @@ var reqCl = {
                     '           <input type="text" id="itemAmt'+index+'" class="itemAmt" value="'+comma(e.itemList[i].ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                     '       </td>' +
                     '       <td>' +
+                    '           <input type="text" id="purcItemAmt'+index+'" class="purcItemAmt" value="'+comma(e.itemList[i].PURC_ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '       </td>' +
+                    '       <td>' +
+                    '           <input type="text" id="difItemAmt'+index+'" class="difItemAmt" value="'+comma(e.itemList[i].DIF_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '       </td>' +
+                    '       <td>' +
                     '           <label for="itemEtc'+index+'"></label><input type="text" id="itemEtc'+index+'" value="'+e.itemList[i].ITEM_ETC+'" class="itemEtc">' +
                     '       </td>' +
                     '       <td>' +
@@ -603,13 +635,13 @@ var reqCl = {
         ]
         for(var i = 0 ; i < tLen ; i++){
             if(i == 0){
-                customKendo.fn_textBox(["itemNm", "itemStd", "itemEa", "itemUnitAmt", "itemUnit", "itemAmt", "itemEtc"]);
+                customKendo.fn_textBox(["itemNm", "itemStd", "itemEa", "itemUnitAmt", "itemUnit", "itemAmt", "purcItemAmt", "difAmt", "itemEtc"]);
                 customKendo.fn_radioGroup("prodCd", radioProdDataSource, "horizontal");
 
                 $("#prodCd").data("kendoRadioGroup").value(e.itemList[i].PROD_CD);
             } else {
                 customKendo.fn_textBox(["itemNm" + i, "itemStd" + i
-                    ,"itemEa" + i, "itemUnitAmt" + i, "itemUnit" + i, "itemAmt" + i, "itemEtc" + i])
+                    ,"itemEa" + i, "itemUnitAmt" + i, "itemUnit" + i, "itemAmt" + i, "purcItemAmt" + i, "difAmt" + i, "itemEtc" + i])
 
                 customKendo.fn_radioGroup("prodCd" + i, radioProdDataSource, "horizontal");
                 $("#prodCd" + i).data("kendoRadioGroup").value(e.itemList[i].PROD_CD);
@@ -650,6 +682,9 @@ var reqCl = {
                 buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="reqCl.fn_save()">저장</button>';
                 buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+claimMap.DOC_ID+'\', \''+claimMap.DOC_MENU_CD+'\', \''+claimMap.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
             }else if(claimMap.STATUS == "100"){
+                if(claimMap.PAY_YN == "N"){
+                    buttonHtml += '<button type="button" id="payBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="">지급신청서 작성</button>';
+                }
                 buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+claimMap.DOC_ID+'\', \''+claimMap.APPRO_KEY+'\', \''+claimMap.DOC_MENU_CD+'\');">열람</button>';
             }else{
                 buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="reqCl.fn_save()">저장</button>';

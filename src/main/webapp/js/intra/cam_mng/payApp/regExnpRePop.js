@@ -240,7 +240,9 @@ var regExnpRe = {
         var data = {
             payAppSn : $("#payAppSn").val()
         }
-
+        if($("#item").val() != "" && $("#item").val() != null){
+            data.payAppDetSn = $("#item").val();
+        }
         var result = customKendo.fn_customAjax("/payApp/pop/getPayAppData", data);
         var rs = result.map;
         var ls = result.list;
@@ -572,6 +574,23 @@ var regExnpDet = {
 
         keyArr = keyArr.substring(0, keyArr.length - 1);
 
+        var data= {
+            arr : keyArr,
+            payAppSn : $("#payAppSn").val()
+        }
+        var result = customKendo.fn_customAjax("/mng/checkExnpDetData", data);
+        var exnpSaveFlag = false;
+        for(var i = 0; i < result.list.length; i++){
+            if(result.list[i].EXNP_SAVE == "Y"){
+                exnpSaveFlag = true;
+                break;
+            }
+        }
+
+        if(exnpSaveFlag){
+            alert("현재 해당건으로 작성된 지출결의서가 있습니다.");
+            return ;
+        }
 
         regExnpDet.fn_regExnpPop(keyArr);
 

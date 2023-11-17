@@ -151,7 +151,7 @@ var applicationForm = {
                     return;
                 }
 
-                if($("#clsftCode").val() != "2"){
+                if($("#clsftCode").val() != "2" && $("#clsftCode").val() !== "1"){
                     if(!$("#militarySvcType").val()){
                         alert("병역구분을 선택해주세요");
                         return;
@@ -172,10 +172,22 @@ var applicationForm = {
                     }
                 }
 
-                if(!$("#armiFileNo").val() && $("#armiFile")[0].files.length == 0){
+                if((!$("#armiFileNo").val() && $("#armiFile")[0].files.length == 0)&& $("#clsftCode").val() !== "1"){
                     alert("증빙파일을 선택해주세요.");
                     return;
                 }
+
+
+            }
+            if (!$("#telNum").val() || $("#telNum").val().replace(/\D/g, '').length < 9) {
+                alert("연락처의 양식이 잘못되었습니다.");
+                $("#telNum").focus();
+                return;
+            }
+            if (!$("#mobileTelNum").val() || $("#mobileTelNum").val().replace(/\D/g, '').length < 10) {
+                alert("휴대폰 번호의 양식이 잘못되었습니다.");
+                $("#mobileTelNum").focus();
+                return;
             }
         }
 
@@ -316,7 +328,8 @@ var applicationForm = {
     },
 
     fnResizeForm : function() {
-        var strWidth = $('.pop_sign_wrap').outerWidth() + (window.outerWidth - window.innerWidth) + 50;
+        var strWidth = $('.pop_sign_wrap').outerWidth() + (window.outerWidth - window.innerWidth);
+        //var strWidth = $('.pop_sign_wrap').outerWidth();
         var strHeight = $('.pop_sign_wrap').outerHeight() + (window.outerHeight - window.innerHeight) + 10;
 
         //$('.pop_sign_wrap').css("overflow","auto");

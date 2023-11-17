@@ -240,4 +240,72 @@
         WHERE
             IM.EMP_SEQ = #{pk}
     </select>
+
+    <insert id="setHistoryInfo" parameterType="map">
+        /* setHistoryInfo */
+        INSERT INTO CAM_INSIDE.DJ_ORGANIZATION_HISTORY
+        (
+        HISTORY_TITLE,
+        HISTORY_CONTENT,
+        REG_EMP_SEQ,
+        REG_DT
+        )
+        VALUES
+        (
+        #{historyTitle},
+        #{historyContent},
+        #{regEmpSeq},
+        NOW()
+        )
+
+        <selectKey resultType="int" keyProperty="HISTORY_SN">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="getHistoryList" parameterType="map" resultType="map">
+        /* getHistoryList */
+        SELECT
+            H.HISTORY_SN,
+            H.HISTORY_TITLE,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ=H.REG_EMP_SEQ) AS regEmpName,
+            (SELECT DATE_FORMAT(H.REG_DT, "%Y-%m-%d")) AS REG_DT
+        FROM
+            CAM_INSIDE.DJ_ORGANIZATION_HISTORY H
+        WHERE
+            1=1
+          AND
+            H.ACTIVE = 'Y'
+        ORDER BY H.HISTORY_SN DESC
+    </select>
+
+    <select id="getHistoryOne" parameterType="map" resultType="map">
+        /* getHistoryOne */
+        SELECT
+            H.HISTORY_SN,
+            H.HISTORY_TITLE,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ=H.REG_EMP_SEQ) AS regEmpName,
+            (SELECT DATE_FORMAT(H.REG_DT, "%Y-%m-%d")) AS REG_DT,
+            H.HISTORY_CONTENT
+        FROM
+            CAM_INSIDE.DJ_ORGANIZATION_HISTORY H
+        WHERE
+            1=1
+          AND
+            H.ACTIVE = 'Y'
+          AND
+            H.HISTORY_SN = #{historySn}
+    </select>
+
+    <select id="getHistoryFileInfo" parameterType="map" resultType="map">
+        /* getHistoryFileInfo */
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            file_cd = 'user'
+        AND
+            FR_KEY = #{historySn}
+    </select>
 </mapper>

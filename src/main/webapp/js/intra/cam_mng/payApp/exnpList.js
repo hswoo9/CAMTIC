@@ -81,7 +81,7 @@ var exnpList = {
                     width: 280,
                     template: function(e){
                         console.log(e);
-                        return '<div style="cursor: pointer; font-weight: bold" onclick="exnpList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\')">'+e.EXNP_BRIEFS+'</div>';
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="exnpList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\', \'rev\')">'+e.EXNP_BRIEFS+'</div>';
                     }
                 }, {
                     title: "프로젝트 명",
@@ -151,13 +151,14 @@ var exnpList = {
             empSeq : $("#myEmpSeq").val(),
             searchDept : $("#searchDept").val(),
             searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val()
+            searchValue : $("#searchValue").val(),
+            payAppType : 1
         }
 
         exnpList.mainGrid("/pay/getExnpList", exnpList.global.searchAjaxData);
     },
 
-    fn_reqRegPopup : function (key, paySn){
+    fn_reqRegPopup : function (key, paySn, status){
         var url = "/payApp/pop/regExnpPop.do";
         if(key != null && key != ""){
             url = "/payApp/pop/regExnpPop.do?payAppSn=" + paySn + "&exnpSn=" + key;

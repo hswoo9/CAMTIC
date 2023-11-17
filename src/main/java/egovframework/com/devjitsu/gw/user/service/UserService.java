@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.gw.user.service;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 import java.util.Map;
 
@@ -19,4 +21,12 @@ public interface UserService {
     Map<String,Object> getUserPersonnelOne (Map<String,Object> params);
 
     Map<String, Object> getUserIdPhotoInfo(Map<String, Object> params);
+
+    void setHistoryAdd(Map<String, Object> params, MultipartFile[] historyFiles, String serverDir, String baseDir);
+
+    List<Map<String, Object>> getHistoryList(Map<String, Object> params);
+
+    Map<String, Object> getHistoryOne(Map<String, Object> params);
+
+    List<Map<String, Object>> getHistoryFileInfo(Map<String, Object> params);
 }

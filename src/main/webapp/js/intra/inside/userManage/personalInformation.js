@@ -9,7 +9,7 @@ var personalInformation = {
     },
 
     dataSet : function(){
-        $("#empNameKr, #loginPasswd, #loginId, #resRegisNum1, #resRegisNum2, #checkPasswd, #capsNum, #capsNumCaseA, #capsNumCaseB, #capsNumCaseC, #jobDetail, #jobDetailCaseA, #jobDetailCaseB, #beforCareer, #elapsedYear1, #elapsedYear2, #accountHolder, #bankName, #accountNum, #zipCode, #addr, #officeTelNum, #mobileTelNum, #emailAddr, #carNum, #empNameCn, #empNameEn, #emgTelNum, #legalDomicile, #hobby, #religion, #specialty, #weight, #height, #vision1, #vision2, #carNum1, #carNum2, #carNum3, #workTime, #school, #department, #grade, #studentId").kendoTextBox();
+        $("#empSeq, #dept, #deptPartName, #gradeName, #myComent, #empNameKr, #loginPasswd, #loginId, #resRegisNum1, #resRegisNum2, #checkPasswd, #capsNum, #capsNumCaseA, #capsNumCaseB, #capsNumCaseC, #jobDetail, #jobDetailCaseA, #jobDetailCaseB, #beforCareer, #elapsedYear1, #elapsedYear2, #accountHolder, #bankName, #accountNum, #zipCode, #addr, #officeTelNum, #mobileTelNum, #emailAddr, #carNum, #empNameCn, #empNameEn, #emgTelNum, #legalDomicile, #hobby, #religion, #specialty, #weight, #height, #vision1, #vision2, #carNum1, #carNum2, #carNum3, #workTime, #school, #department, #grade, #studentId").kendoTextBox();
         $("#contract, #qualification, #degreeT, #career, #military, #significant").kendoTextArea({
             rows : 5
         });
@@ -818,7 +818,7 @@ var personalInformation = {
 
     userReqSave : function (){
         //var chkVal = personalInformation.setUserReqDetail();
-        if(!confirm("신청내용을 저장하시겠습니까?")){
+        if(!confirm("내용을 저장하시겠습니까?")){
             return ;
         }
 
@@ -830,6 +830,7 @@ var personalInformation = {
             RES_REGIS_NUM : $("#resRegisNum1").val() + "-" + $("#resRegisNum2").val(), //주민등록번호
             CAPS_NUM : $("#capsNum").val(), //CAPS 번호
 
+            MY_COMENT : $("#myComent").val(), //나의 한마디
             division : $("#divis").val(), //직원구분
             divisionSub : $("#divisDet").val(), //직원구분
             DEPT_SEQ : $("#deptName").val(), //부서
@@ -981,23 +982,6 @@ var personalInformation = {
             data.ACTIVE = "Y"
         }
 
-        if(data.EMP_NAME_KR == "" || data.EMP_NAME_KR == null){
-            alert("이름을 입력해주세요.");
-
-            return;
-        }
-
-        if(data.LOGIN_ID == "" || data.LOGIN_ID == null){
-            alert("아이디를 입력해주세요.");
-            return;
-        }
-
-
-
-        if(data.division == "" || data.division == null) {
-            alert("직원구분을 선택해주세요.");
-            return;
-        }
 
         if($("#targetEmpSeq").val() != ""){
             if(data.LOGIN_PASSWD != "" || data.LOGIN_PASSWD != null){
@@ -1014,11 +998,6 @@ var personalInformation = {
                 alert("비밀번호를 입력해주세요.");
                 return;
             }
-        }
-
-        if($("#resRegisNum1").val().length != 6 || $("#resRegisNum2").val().length != 7){
-            alert("주민등록번호의 입력이 잘못되었습니다.");
-            return;
         }
 
         if($("#loginPasswd").val() != $("#checkPasswd").val()){
@@ -1075,8 +1054,8 @@ var personalInformation = {
                 }else{
                     window.close();
                 }*/
-                window.reload();
-                opener.userPersonList.gridReload();
+                window.close();
+               /* opener.userPersonList.gridReload();*/
             },
 
         })
