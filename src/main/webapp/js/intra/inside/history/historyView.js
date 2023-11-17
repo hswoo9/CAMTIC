@@ -3,9 +3,7 @@ var historyView = {
     init: function(){
         historyView.pageSet();
 
-        var isAdmin = "${isAdmin}";
         var url = '/inside/getHistoryList';
-
         if(isAdmin){
             url = '/inside/getHistoryListAdmin';
         }

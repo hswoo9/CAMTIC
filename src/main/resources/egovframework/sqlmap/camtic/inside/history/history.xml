@@ -73,7 +73,7 @@
     </select>
 
     <select id="getHistoryListAdmin" resultType="map" parameterType="map">
-        /* getHistoryList */
+        /* getHistoryListAdmin */
         SELECT
         HAI.APNT_SN,
         HAI.EMP_NAME,

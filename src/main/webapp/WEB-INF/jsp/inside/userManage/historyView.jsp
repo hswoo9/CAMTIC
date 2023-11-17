@@ -33,5 +33,7 @@
     </div>
 </div><!-- col-md-9 -->
 <script type="text/javascript">
+    var isAdmin = "${isAdmin}" == "true" ? true : false;
+
     historyView.init();
 </script>
