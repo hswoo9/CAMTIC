@@ -76,6 +76,36 @@
             CC.CM_CODE_ID
     </select>
 
+    <select id="getCmCodeListReward" resultType="map" parameterType="map">
+        /* getCmCodeListReward */
+        SELECT
+        *,
+        SUBSTRING(CC.CM_CODE_NM, 8) AS CM_CODE_NMM
+        FROM
+        CAM_COMMON.DJ_COM_CODE CC
+        WHERE
+        1=1
+        <if test='cmGroupCodeId != null and !"".equals(cmGroupCodeId)'>
+            <choose>
+                <when test="searchType == 1">
+                    AND CC.CM_GROUP_CODE_ID IN
+                    <foreach collection="cmGroupCodeId" item="item" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </when>
+                <otherwise>
+                    AND
+                    CC.CM_GROUP_CODE_ID = #{cmGroupCodeId}
+                    <if test='specificValue != null and !"".equals(specificValue)'>
+                        AND CC.CM_CODE_NM like CONCAT('%', #{specificValue}, '%')
+                    </if>
+                </otherwise>
+            </choose>
+        </if>
+        ORDER BY
+        CC.CM_CODE_ID
+    </select>
+
     <select id="getCmCodeInfo" parameterType="map" resultType="map">
         /* getCmCodeInfo */
 

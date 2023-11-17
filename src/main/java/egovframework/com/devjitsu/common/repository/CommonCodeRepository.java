@@ -19,6 +19,7 @@ public class CommonCodeRepository extends AbstractDAO {
      * Common Code
      */
     public List<Map<String, Object>> getCmCodeList(Map<String, Object> params){ return selectList("commonCode.getCmCodeList", params);}
+    public List<Map<String, Object>> getCmCodeListReward(Map<String, Object> params){ return selectList("commonCode.getCmCodeListReward", params);}
     public List<Map<String, Object>> getCustomCodeList(Map<String, Object> params){ return selectList("commonCode.getCustomCodeList", params);}
     public Map<String, Object> getCmCodeInfo(Map<String, Object> params){ return (Map<String, Object>) selectOne("commonCode.getCmCodeInfo", params);}
     public List<Map<String, Object>> getCmGroupCodeList(Map<String, Object> params){ return selectList("commonCode.getCmGroupCodeList", params);}

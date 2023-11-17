@@ -32,6 +32,8 @@ public interface PayAppService {
 
     List<Map<String, Object>> getIncpList(Map<String, Object> params);
 
+    List<Map<String, Object>> getIncpReList(Map<String, Object> params);
+
     void payIncpSetData(Map<String, Object> params);
 
     Map<String, Object> getPayIncpReqData(Map<String, Object> params);
@@ -42,6 +44,8 @@ public interface PayAppService {
     void updateIncpAppDocState(Map<String, Object> bodyMap);
 
     void resolutionExnpAppr(Map<String, Object> params);
+
+    void resolutionIncpAppr(Map<String, Object> params);
 
     void updPayAttDetData(Map<String, Object> params, MultipartHttpServletRequest request, MultipartFile[] file, String SERVER_DIR, String BASE_DIR);
 

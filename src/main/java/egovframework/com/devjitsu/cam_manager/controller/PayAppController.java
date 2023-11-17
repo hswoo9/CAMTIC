@@ -356,6 +356,19 @@ public class PayAppController {
         return "popup/cam_manager/payApp/regIncmPop";
     }
 
+    @RequestMapping("/payApp/pop/regIncmRePop.do")
+    public String regIncmRePop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("erpEmpSeq", loginVO.getErpEmpCd());
+        Map<String, Object> g20 = g20Service.getSempData(params);
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        model.addAttribute("g20", g20);
+
+        return "popup/cam_manager/payApp/regIncmRePop";
+    }
+
     @RequestMapping("/payApp/payIncpSetData")
     public String payIncpSetData(@RequestParam Map<String, Object> params, Model model){
 
@@ -452,10 +465,31 @@ public class PayAppController {
         return "jsonView";
     }
 
+
+    @RequestMapping("/pay/getIncpReList")
+    public String getIncpReList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = payAppService.getIncpReList(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/pay/resolutionExnpAppr")
     public String resolutionExnpAppr(@RequestParam Map<String, Object> params, Model model){
         try {
             payAppService.resolutionExnpAppr(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    @RequestMapping("/pay/resolutionIncpAppr")
+    public String resolutionIncmAppr(@RequestParam Map<String, Object> params, Model model){
+        try {
+            payAppService.resolutionIncpAppr(params);
             model.addAttribute("code", 200);
         } catch (Exception e) {
             e.printStackTrace();

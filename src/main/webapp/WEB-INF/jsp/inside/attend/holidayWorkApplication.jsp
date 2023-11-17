@@ -30,14 +30,8 @@
                         <col>
                         <col width="10%">
                         <col>
-                        <col width="10%">
-                        <col>
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">신청 구분</th>
-                        <td>
-                            <input type="text" id="edtHolidayKindTop" name="edtHolidayKindTop" required="required" style="width:200px;">
-                        </td>
                         <th class="text-center th-color">일자</th>
                         <td>
                             <input type="text" id="workDay" style="width: 110px;">

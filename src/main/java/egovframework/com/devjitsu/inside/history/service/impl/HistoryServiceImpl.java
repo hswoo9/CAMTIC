@@ -34,6 +34,11 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
+    public List<Map<String, Object>> getHistoryListAdmin(Map<String, Object> params) {
+        return historyRepository.getHistoryListAdmin(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getUpdHistoryList(Map<String, Object> params) {
         return historyRepository.getUpdHistoryList(params);
     }

@@ -248,19 +248,19 @@ var regExnpRe = {
         var ls = result.list;
 
 
-        $("#payAppType").data("kendoRadioGroup").value(rs.PAY_APP_TYPE)
-        $("#exnpDe").val(rs.APP_DE)
-        $("#pjtNm").val(rs.PJT_NM)
-        $("#pjtSn").val(rs.PJT_SN)
-        $("#budgetNm").val(rs.BUDGET_NM)
-        $("#budgetSn").val(rs.BUDGET_SN)
-        $("#exnpBriefs").val(rs.APP_TITLE)
-        $("#addExnpBriefs").val(rs.APP_CONT)
+        $("#payAppType").data("kendoRadioGroup").value(rs.PAY_APP_TYPE);
+        $("#exnpDe").val(rs.APP_DE);
+        $("#pjtNm").val(rs.PJT_NM);
+        $("#pjtSn").val(rs.PJT_SN);
+        $("#budgetNm").val(rs.BUDGET_NM);
+        $("#budgetSn").val(rs.BUDGET_SN);
+        $("#exnpBriefs").val(rs.APP_TITLE);
+        $("#addExnpBriefs").val(rs.APP_CONT);
 
-        $("#bnkSn").val(rs.BNK_SN)
-        $("#bnkNm").val(rs.BNK_NM)
-        $("#accNm").val(rs.ACC_NM)
-        $("#accNo").val(rs.ACC_NO)
+        $("#bnkSn").val(rs.BNK_SN);
+        $("#bnkNm").val(rs.BNK_NM);
+        $("#accNm").val(rs.ACC_NM);
+        $("#accNo").val(rs.ACC_NO);
 
         if(ls.length > 0){
             $("#payDestTb").html("");
