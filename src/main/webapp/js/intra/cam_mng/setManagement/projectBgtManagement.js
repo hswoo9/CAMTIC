@@ -1,0 +1,119 @@
+let sum=0;
+var prjBgtMng = {
+
+    fn_defaultScript : function (){
+        customKendo.fn_textBox(["deptName", "searchText"]);
+
+        prjBgtMng.gridReload();
+    },
+
+    gridReload : function (){
+        prjBgtMng.mainGrid();
+    },
+
+    mainGrid: function (){
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/g20/getProjectList',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.pjtFromDate = '2023-01-01';
+                    data.pjtToDate = '2023-12-31';
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
+        $("#mainGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            height: 551,
+            pageable : {
+                refresh : true,
+                pageSizes : [ 10, 20, 30, 50, 100 ],
+                buttonCount : 5
+            },
+            toolbar: [
+                {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="prjBgtMng.gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                },
+
+            ],
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    title: "연번",
+                    template: "#= --record #",
+                    width: 30
+                }, {
+                    field: "pjtSeq",
+                    title: "프로젝트 코드",
+                    width: 80
+                }, {
+                    field: "pjtName",
+                    title: "프로젝트 명",
+                    width: 400,
+                    template: function(e){
+                       return '<a href="javascript:void(0);" style="font-weight: bold;" onclick="prjBgtMng.fn_projectPopView(\'' + e.pjtSeq + '\')";>' + e.pjtName + '</a>'
+                    }
+                }, {
+                    field: "pjtFromDate",
+                    title: "시작일자",
+                    width: 80,
+                }, {
+                    field: "pjtToDate",
+                    title: "종료일자",
+                    width: 80,
+                },
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
+        }).data("kendoGrid");
+    },
+
+    comma: function(str) {
+        str = String(str);
+        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+    },
+
+    uncomma: function(str) {
+        str = String(str);
+        return str.replace(/[^\d]+/g, '');
+    },
+
+    // project 상세페이지
+    fn_projectPopView : function (key){
+        var url = "/mng/pop/projectMngPop.do?pjtCd=" + key;
+
+        var name = "blank";
+        var option = "width = 1280, height = 850, top = 100, left = 200, location = no";
+
+        var popup = window.open(url, name, option);
+    },
+}
