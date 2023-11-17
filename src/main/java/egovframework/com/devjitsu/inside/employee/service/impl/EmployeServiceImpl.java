@@ -18,4 +18,9 @@ public class EmployeServiceImpl implements EmployService {
     public List<Map<String, Object>> getBusinessParticipationList(Map<String, Object> params) {
         return employRepository.getBusinessParticipationList(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getBusinessParticipationData(Map<String, Object> params) {
+        return employRepository.getBusinessParticipationData(params);
+    }
 }

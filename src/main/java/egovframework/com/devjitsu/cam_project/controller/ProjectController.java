@@ -69,6 +69,14 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/getProjectData")
+    public String getProjectData(@RequestParam Map<String, Object> params, Model model) {
+
+        model.addAttribute("data", projectService.getProjectData(params));
+
+        return "jsonView";
+    }
+
     @RequestMapping("/project/pop/viewRegProject.do")
     public String viewRegProject(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
 
