@@ -67,7 +67,7 @@ var popUserPay = {
 
         var dataSource = customKendo.fn_customAjax("/salaryManage/getSocialRateManageList.do", data);
 
-        console.log(list);
+        console.log(dataSource);
         for (var i = 0 ; i < list.length ; i++){
             var html = "";
 
@@ -103,7 +103,7 @@ var popUserPay = {
                 '   <td><input type="text" disabled style="text-align: right;font-size: 11px" id="bsPay'+count+'" /></td>' +
                 '   <td>' +
                 '       <button type="button" class="k-button k-button-solid-info" onclick="popUserPay.fn_save('+list[count].SALARY_SN+')">저장</button>' +
-                '       <button type="button" class="k-button k-button-solid-error">삭제</button>' +
+                '       <button type="button" class="k-button k-button-solid-error" onclick="popUserPay.fn_del('+list[count].SALARY_SN+')">삭제</button>' +
                 '   </td>' +
                 '</tr>'
             $("#userPayMngBody").prepend(html);
@@ -163,6 +163,8 @@ var popUserPay = {
                 $("#retirePay" + count).val(retirePay);
                 $("#bsPay" + count).val(bsPay);
             });
+
+            console.log(list[count].SOCIAL_RATE_SN);
             ddl.value(list[count].SOCIAL_RATE_SN);
             ddl.trigger("change");
         }
@@ -200,6 +202,24 @@ var popUserPay = {
         }
 
 
+        var duplFlag = true;
+        $("#userPayMngBody").find("tr").each(function(){
+            var startDt = $(this).find("td").eq(0).find("input").val();
+            var endDt = $(this).find("td").eq(1).find("input").val();
+            var btn = $(this).find("td").eq(15).find("button").length;
+
+            if(btn > 1){
+                if(!dateCheck(startDt, endDt)){
+                    alert("중복되는 날짜가 존재합니다.");
+                    duplFlag = false;
+                    return;
+                }
+            }
+        });
+
+        if(!duplFlag){
+            return;
+        }
 
         console.log(parameters);
 
@@ -230,6 +250,25 @@ var popUserPay = {
         str = String(str);
         return str.replace(/[^\d]+/g, '');
     },
+
+    fn_del : function (key){
+        var data = {
+            salarySn : key,
+        }
+
+        $.ajax({
+            url : "/salaryManage/delSalaryManage",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function (e){
+                if(e.code == 200){
+                    alert("삭제되었습니다.");
+                    location.reload();
+                }
+            }
+        });
+    }
 }
 
 function fn_nationalPay(e, id){
@@ -290,7 +329,7 @@ function fn_busnPay(e){
     /** 산재보험 = (기본급 + 상여금) / 산재보험요율(%)*/
     var accidentInsurance = Math.floor(Math.floor(cnt * (e.ACCIDENT_INSURANCE / 100))/10) * 10;
 
-    return (nationalPension + healthInsurance + longCareInsurance + employInsurance + accidentInsurance).toString().toMoney();
+    return (Number(nationalPension) + Number(healthInsurance) + Number(longCareInsurance) + Number(employInsurance) + Number(accidentInsurance)).toString().toMoney();
 }
 
 function fn_retirePay(e){
@@ -318,7 +357,29 @@ function fn_bsPay(e){
     /** 산재보험 = (기본급 + 상여금) / 산재보험요율(%)*/
     var accidentInsurance = Math.floor(Math.floor(cnt * (e.ACCIDENT_INSURANCE / 100))/10) * 10;
 
-    var sum = cnt + nationalPension + healthInsurance + longCareInsurance + employInsurance + accidentInsurance + (Math.floor((cnt/12)/10) * 10);
+    var sum = Number(cnt) + Number(nationalPension) + Number(healthInsurance) + Number(longCareInsurance) + Number(employInsurance) + Number(accidentInsurance) + (Math.floor((cnt/12)/10) * 10);
 
     return (Math.floor(sum/10) * 10).toString().toMoney();
+}
+
+function dateCheck(startDate, endDate){
+
+    var flag = true;
+    var start_expirationDate = startDate.replace(/-/g, '');
+    var end_expirationDate = endDate.replace(/-/g, '');
+    var bsDate = startDate.replace(/-/g, '');
+    var beDate = endDate.replace(/-/g, '');
+
+    if(bsDate >= start_expirationDate && bsDate <= end_expirationDate){
+        flag = false;
+    }
+
+    if(beDate >= start_expirationDate && beDate <= end_expirationDate){
+        flag = false;
+    }
+
+
+
+    return flag;
+
 }

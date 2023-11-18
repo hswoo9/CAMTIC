@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -141,6 +142,17 @@ public class SalaryManageController {
         return "inside/userManage/payslipList";
     }
 
+    @RequestMapping("/salaryManage/delSalaryManage")
+    public String delSalaryManage(@RequestParam Map<String, Object> params, Model model){
+        try{
+            salaryManageService.delSalaryManage(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {
         Date today = new Date();
@@ -152,5 +164,14 @@ public class SalaryManageController {
 
     private static void menuSession(HttpServletRequest request, HttpSession session) {
         session.setAttribute("menuNm", request.getRequestURI());
+    }
+
+    @RequestMapping("/test/testSal")
+    public String testSal(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = salaryManageService.getSalaryList(params);
+
+        model.addAttribute("list", list);
+        return "jsonView";
     }
 }

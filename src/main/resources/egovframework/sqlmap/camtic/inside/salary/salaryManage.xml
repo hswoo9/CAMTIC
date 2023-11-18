@@ -275,6 +275,69 @@
         WHERE
             SOCIAL_RATE_SN = #{socialRateSn}
     </update>
+
+    <select id="getSalaryList" parameterType="map" resultType="map">
+        /*getSalaryList*/
+        SELECT
+            EI.EMP_SEQ,
+            EI.EMP_NAME_KR,
+            CONCAT(EI.DEPT_NAME, IF(EI.DEPT_TEAM_NAME != '', CONCAT('/', EI.DEPT_TEAM_NAME), '')) AS DEPT_NAME,
+            SM.START_DT,
+            SM.END_DT,
+            TIMESTAMPDIFF(MONTH, SM.START_DT, SM.END_DT) + 1 AS DIFF_MON,
+            SM.BASIC_SALARY,
+            SM.EXTRA_PAY,
+            SM.BONUS,
+            SM.FOOD_PAY,
+            SM.SOCIAL_RATE_SN
+        FROM
+            CAM_INSIDE.DJ_SALARY_MANAGE SM
+                JOIN
+            CAM_HR.DJ_EMP_INFO EI
+            ON SM.EMP_SEQ = EI.EMP_SEQ
+        WHERE 1=1
+    </select>
+
+    <delete id="delSalaryManage" parameterType="map">
+        /*delSalaryManage*/
+        DELETE FROM CAM_INSIDE.DJ_SALARY_MANAGE
+        WHERE SALARY_SN = #{salarySn}
+    </delete>
+
+    <delete id="delSalaryManageList" parameterType="map">
+        /*delSalaryManageList*/
+        DELETE FROM CAM_INSIDE.DJ_MON_SALARY
+    </delete>
+
+    <insert id="insSalaryManageList" parameterType="map">
+        /*insSalaryManageList*/
+        INSERT INTO CAM_INSIDE.DJ_MON_SALARY
+        (
+            SOCIAL_RATE_SN,
+            EMP_SEQ,
+            EMP_NAME,
+            DEPT_NAME,
+            MON,
+            BASIC_SALARY,
+            EXTRA_PAY,
+            BONUS,
+            FOOD_PAY
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=" , ">
+            (
+                #{item.socialRateSn},
+                #{item.empSeq},
+                #{item.empName},
+                #{item.deptName},
+                #{item.mon},
+                #{item.bsSal},
+                #{item.extraPay},
+                #{item.bonus},
+                #{item.foodPay}
+            )
+        </foreach>
+    </insert>
 </mapper>
 
 

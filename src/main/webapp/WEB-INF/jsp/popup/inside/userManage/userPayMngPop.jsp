@@ -148,7 +148,6 @@
                     <td><input type="text" disabled style="text-align: right;font-size: 11px" id="bsPay" /></td>
                     <td>
                         <button type="button" class="k-button k-button-solid-info" onclick="popUserPay.fn_save()">저장</button>
-                        <button type="button" class="k-button k-button-solid-error">삭제</button>
                     </td>
                 </tr>
             </tbody>
