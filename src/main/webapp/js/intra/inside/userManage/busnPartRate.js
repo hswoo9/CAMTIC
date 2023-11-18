@@ -319,8 +319,10 @@ var busnPartRate = {
 
 
         var monA = $("#thHtml th input")[nameX].getAttribute("id").replace("ym", "").split("-")[1];
-        if(monA.toString().length == 1){
-            monA = "0" + monA;
+        if(monA == "11" || monA == "12"){
+            monA = monA;
+        } else {
+            monA = monA.substring(2,1);
         }
         if(nameLoc == 0){
             var payName = "pay" + $("#thHtml th input")[nameX].getAttribute("id").replace("ym", "").split("-")[0] + "-" + monA;
