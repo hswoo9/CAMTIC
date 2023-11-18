@@ -128,4 +128,13 @@ public class G20Controller {
         model.addAttribute("list", list);
         return "jsonView";
     }
+
+    @RequestMapping("/g20/getCorpProjectList")
+    public String getCorpProjectList(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = g20Service.getCorpProjectList(params);
+
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
 }

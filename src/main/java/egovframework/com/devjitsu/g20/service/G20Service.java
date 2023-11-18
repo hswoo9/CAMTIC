@@ -25,4 +25,6 @@ public interface G20Service {
     Map<String, Object> getSempData(Map<String, Object> params);
 
     List<Map<String, Object>> getBudgetList(Map<String, Object> params);
+
+    List<Map<String, Object>> getCorpProjectList(Map<String, Object> params);
 }
