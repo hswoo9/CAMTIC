@@ -7,6 +7,15 @@ function fn_create2DArray(rows, columns) {
 }
 
 function fn_monBasicSalary(e){
+    if(e.BASIC_SALARY == null){
+        e.BASIC_SALARY = 0
+    }
+    if(e.EXTRA_PAY == null){
+        e.EXTRA_PAY = 0
+    }
+    if(e.BONUS == null){
+        e.BONUS = 0
+    }
     var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
 
     /** 국민연금 */

@@ -174,7 +174,10 @@ public class ManageController {
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("empInfo", manageService.getEmpInfo(params));
-        model.addAttribute("projectInfo", projectService.getProjectData(params));
+        model.addAttribute("params", params);
+        if(params.containsKey("pjtSn")){
+            model.addAttribute("projectInfo", projectService.getProjectData(params));
+        }
         return "popup/cam_manager/partRate/userPartRate";
     }
 

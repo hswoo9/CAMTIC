@@ -29,6 +29,12 @@
 <input type="hidden" id="pjtStrDt" value="${projectInfo.PJT_START_DT}"/>
 <input type="hidden" id="pjtEndDt" value="${projectInfo.PJT_END_DT}"/>
 
+<input type="hidden" id="bsStrDt" value="${params.year}-01-01"/>
+<input type="hidden" id="bsEndDt" value="${params.year}-12-31"/>
+
+<input type="hidden" id="rateFlag" value="A" />
+
+
 <input type="hidden" id="userEmpSeq" value="${empInfo.EMP_SEQ}"/>
 <div style="padding:0;">
     <div class="table-responsive">
@@ -115,7 +121,12 @@
             </table>
         </div>
 
+
         <div>
+            <div id="divBtn" style="font-size: 12px; margin-top: 10px; float: right">
+                <button type="button" class="k-button k-button-solid-base k-button-sm" onclick="userPartRate.fn_setData('A')">참여율</button>
+                <button type="button" class="k-button k-button-solid-base k-button-sm" onclick="userPartRate.fn_setData('B')">월지급액</button>
+            </div>
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
                     <col width="10%">

@@ -6,9 +6,17 @@ var userPartRate = {
     },
 
 
-    fn_setData : function (){
-        const strDe = $("#pjtStrDt").val().split("-");
-        const endDe = $("#pjtEndDt").val().split("-");
+    fn_setData : function (type){
+        $("#rateFlag").val(type);
+
+        if($("#pjtStrDt").val() == ""){
+            var strDe = $("#bsStrDt").val().split("-");
+            var endDe = $("#bsEndDt").val().split("-");
+        } else {
+            var strDe = $("#pjtStrDt").val().split("-");
+            var endDe = $("#pjtEndDt").val().split("-");
+        }
+
 
         var diffMonth = (endDe[0] - strDe[0]) * 12 + (endDe[1] - strDe[1]) + 1;
 
@@ -44,6 +52,10 @@ var userPartRate = {
             strDe : $("#pjtStrDt").val(),
             diffMon : diffMonth,
             strMonth : projectStartMonth + "-01",
+        }
+
+        if(parameters.strDe == ""){
+            parameters.strDe = $("#bsStrDt").val();
         }
 
         $.ajax({
@@ -117,7 +129,11 @@ var userPartRate = {
                         userMonthSalaryArr[i][j] = 0;
                         userTotRateArr[i][j] = 0;
                         if(dt == userDt && new Date(dt) <= new Date(userEndDeArr[0] + "-" + userEndDeArr[1])){
-                            bodyHtml += '<td>'+rs[i].TOT_RATE+'%</td>';
+                            if($("#rateFlag").val() == "B"){
+                                bodyHtml += '<td style="text-align: right">'+comma(rs[i].MON_SAL)+'</td>';
+                            } else {
+                                bodyHtml += '<td>'+rs[i].TOT_RATE+'%</td>';
+                            }
 
                             userDate.setMonth(userDate.getMonth() + 1);
 
@@ -151,7 +167,11 @@ var userPartRate = {
                 bodyHtml += "<tr>";
                 bodyHtml += "   <td colspan='5' class='text-center' style='background-color: #8fa1c04a;'>기준급여</td>";
                 for(var j = 0 ; j< diffMonth; j++) {
-                    bodyHtml += '<td style="text-align: right; font-weight: bold">'+fn_monBasicSalary(salList[j])+'</td>';
+                    if(salList[j] == null){
+                        bodyHtml += '<td style="text-align: right; font-weight: bold">0</td>';
+                    } else {
+                        bodyHtml += '<td style="text-align: right; font-weight: bold">'+fn_monBasicSalary(salList[j])+'</td>';
+                    }
                 }
                 bodyHtml += '</tr>';
 
