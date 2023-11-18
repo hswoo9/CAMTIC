@@ -32,7 +32,7 @@ function fn_monBasicSalary(e){
     /** 산재보험 = (기본급 + 상여금) / 산재보험요율(%)*/
     var accidentInsurance = Math.floor(Math.floor(cnt * (e.ACCIDENT_INSURANCE / 100))/10) * 10;
 
-    var sum = cnt + nationalPension + healthInsurance + longCareInsurance + employInsurance + accidentInsurance + (Math.floor((cnt/12)/10) * 10);
+    var sum = Number(cnt) + Number(nationalPension) + Number(healthInsurance) + Number(longCareInsurance) + Number(employInsurance) + Number(accidentInsurance) + (Math.floor((cnt/12)/10) * 10);
 
     return (Math.floor(sum/10) * 10).toString().toMoney();
 }
