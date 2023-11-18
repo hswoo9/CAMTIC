@@ -32,6 +32,7 @@
                     <c:if test='${params.status == "rev"}'>지출결의서</c:if>
                     <c:if test='${params.status == "in"}'>여입결의서</c:if>
                     <c:if test='${params.status == "re"}'>반납결의서</c:if>
+                    <c:if test='${params.status == "alt"}'>대체결의서</c:if>
                     <span id="titleStat">작성</span>
                 </span>
             </h3>

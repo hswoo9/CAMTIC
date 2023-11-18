@@ -73,7 +73,7 @@ var regExnp = {
                 $("#payAppType").data("kendoRadioGroup").value(2);
             } else if($("#status").val() == "re"){
                 $("#payAppType").data("kendoRadioGroup").value(3);
-            } else if($("#status").val() == "4"){
+            } else if($("#status").val() == "alt"){
                 $("#payAppType").data("kendoRadioGroup").value(4);
             }
         }
@@ -103,7 +103,7 @@ var regExnp = {
     payAppBtnSet : function(data){
         let buttonHtml = "";
         console.log(data);
-        if($("#status").val() == "rev" || $("#status").val() == "in" || $("#status").val() == "re"){
+        if($("#status").val() == "rev" || $("#status").val() == "in" || $("#status").val() == "re" || $("#status").val() == "alt"){
             if(data != null){
                 if(data.DOC_STATUS == "0"){
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_save()">저장</button>';
@@ -167,7 +167,7 @@ var regExnp = {
                 $("#payAppType").data("kendoRadioGroup").value(2);
             } else if($("#status").val() == "re"){
                 $("#payAppType").data("kendoRadioGroup").value(3);
-            } else if($("#status").val() == "4"){
+            } else if($("#status").val() == "alt"){
                 $("#payAppType").data("kendoRadioGroup").value(4);
             }
         }
@@ -409,7 +409,7 @@ var regExnp = {
                 $("#payAppType").data("kendoRadioGroup").value(2);
             } else if($("#status").val() == "re"){
                 $("#payAppType").data("kendoRadioGroup").value(3);
-            } else if($("#status").val() == "4"){
+            } else if($("#status").val() == "alt"){
                 $("#payAppType").data("kendoRadioGroup").value(4);
             }
         }
@@ -681,6 +681,8 @@ var regExnp = {
                         url = "/payApp/pop/regExnpPop.do?payAppSn=" + rs.params.payAppSn + "&exnpSn=" + rs.params.exnpSn + "&status=in";
                     } else if ($("#status").val() == "re") {
                         url = "/payApp/pop/regExnpPop.do?exnpSn=" + rs.params.exnpSn + "&status=re";
+                    } else if ($("#status").val() == "alt") {
+                        url = "/payApp/pop/regExnpPop.do?exnpSn=" + rs.params.exnpSn + "&status=alt";
                     } else {
                         url = "/payApp/pop/regExnpPop.do?payAppSn=" + rs.params.payAppSn + "&exnpSn=" + rs.params.exnpSn;
                     }

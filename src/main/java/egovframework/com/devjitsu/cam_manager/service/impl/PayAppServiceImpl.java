@@ -300,6 +300,8 @@ public class PayAppServiceImpl implements PayAppService {
             list = payAppRepository.getExnpG20List(params);
         } else if("3".equals(pkMap.get("PAY_APP_TYPE"))){
             list = payAppRepository.getExnpG20List(params);
+        } else if("4".equals(pkMap.get("PAY_APP_TYPE"))){
+            list = payAppRepository.getExnpG20List(params);
         }
 
 

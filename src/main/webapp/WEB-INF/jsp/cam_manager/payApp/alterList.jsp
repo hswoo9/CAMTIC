@@ -6,7 +6,7 @@
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/camMng.js?v=${today}'/>"></script>
 
-<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/replaceList.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/alterList.js?v=${today}'/>"></script>
 <style>
     a:hover {
         color: blue;
@@ -14,8 +14,6 @@
         cursor: pointer;
     }
 </style>
-<input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
-<input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
 
 <div class="mainCard">
     <div class="panel">
@@ -58,6 +56,6 @@
 
 <script>
 
-    replaceList.fn_defaultScript();
+    alterList.fn_defaultScript();
 
 </script>
