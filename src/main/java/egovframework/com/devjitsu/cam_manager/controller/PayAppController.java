@@ -427,15 +427,15 @@ public class PayAppController {
         return "cam_manager/payApp/returnList";
     }
 
-    @RequestMapping("/pay/replaceList.do")
-    public String replaceList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+    @RequestMapping("/pay/alterList.do")
+    public String alterList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
         model.addAttribute("loginVO", loginVO);
         session.setAttribute("menuNm", request.getRequestURI());
 
-        return "cam_manager/payApp/replaceList";
+        return "cam_manager/payApp/alterList";
     }
 
 

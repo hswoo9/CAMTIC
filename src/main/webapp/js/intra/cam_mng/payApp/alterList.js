@@ -1,28 +1,28 @@
-var replaceList = {
+var alterList = {
 
     global : {
-        dropDownDataSource : "",
-        searchAjaxData : "",
-        saveAjaxData : "",
+        dropDownDataSource: "",
+        searchAjaxDat : "",
+        saveAjaxData: "",
     },
 
     fn_defaultScript : function (){
 
-        replaceList.global.dropDownDataSource = [
+        alterList.global.dropDownDataSource = [
             { text: "작성중", value: "1" },
             { text: "결재대기", value: "2" },
             { text: "결재완료", value: "3" },
         ]
-        customKendo.fn_dropDownList("searchDept", replaceList.global.dropDownDataSource, "text", "value");
-        $("#searchDept").data("kendoDropDownList").bind("change", replaceList.gridReload);
+        customKendo.fn_dropDownList("searchDept", alterList.global.dropDownDataSource, "text", "value");
+        $("#searchDept").data("kendoDropDownList").bind("change", alterList.gridReload);
 
-        replaceList.global.dropDownDataSource = [
+        alterList.global.dropDownDataSource = [
             { text: "문서번호", value: "DOC_NO" },
         ]
 
-        customKendo.fn_dropDownList("searchKeyword", replaceList.global.dropDownDataSource, "text", "value");
+        customKendo.fn_dropDownList("searchKeyword", alterList.global.dropDownDataSource, "text", "value");
         customKendo.fn_textBox(["searchValue"]);
-        replaceList.gridReload();
+        alterList.gridReload();
     },
 
     mainGrid: function(url, params){
@@ -30,7 +30,7 @@ var replaceList = {
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             selectable: "row",
-            height : 525,
+            height: 525,
             pageable: {
                 refresh: true,
                 pageSizes: [ 10, 20, 30, 50, 100 ],
@@ -43,11 +43,19 @@ var replaceList = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="entryList.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="alterList.fn_regExnpRePop()">' +
+                            '	<span class="k-button-text">대체결의서 작성</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="alterList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }],
+                }
+            ],
             columns: [
                 {
                     title: "번호",
@@ -75,6 +83,14 @@ var replaceList = {
                     field: "DOC_NO",
                     title: "문서번호",
                     width: 120,
+                }, {
+                    title: "적요",
+                    field: "EXNP_BRIEFS",
+                    width: 280,
+                    template: function(e){
+                        console.log(e);
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="alterList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\', \'alt\')">'+e.EXNP_BRIEFS+'</div>';
+                    }
                 }, {
                     title: "프로젝트 명",
                     field: "PJT_NM",
@@ -125,9 +141,9 @@ var replaceList = {
                     width: 60,
                     template : function(e){
                         if(e.DOC_STATUS == "100"){
-                            return "결재완료"
+                            return "결재완료";
                         } else {
-                            return "작성중"
+                            return "작성중";
                         }
                     }
                 }
@@ -138,28 +154,36 @@ var replaceList = {
         }).data("kendoGrid");
     },
 
-    gridReload: function (){
-        replaceList.global.searchAjaxData = {
+    gridReload : function(){
+        alterList.global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
             searchDept : $("#searchDept").val(),
             searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val()
+            searchValue : $("#searchValue").val(),
+            payAppType : 4
         }
 
-        replaceList.mainGrid("/pay/getExnpList", replaceList.global.searchAjaxData);
+        alterList.mainGrid("/pay/getExnpList", alterList.global.searchAjaxData);
     },
 
-    fn_reqRegPopup : function (key, paySn){
+    fn_reqRegPopup : function(key, paySn, status){
         var url = "/payApp/pop/regExnpPop.do";
         if(key != null && key != ""){
-            url = "/payApp/pop/regExnpPop.do?payAppSn=" + paySn + "&exnpSn=" + key;
+            url = "/payApp/pop/regExnpPop.do?exnpSn=" + key;
         }
 
         if(status != null && status != ""){
             url = url + "&status=" + status;
         }
         var name = "blank";
-        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
+        var popup = window.open(url, name, option);
+    },
+
+    fn_regExnpRePop : function(){
+        var url = "/payApp/pop/regExnpPop.do?status=alt";
+        var name = "blank";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
     }
 }
