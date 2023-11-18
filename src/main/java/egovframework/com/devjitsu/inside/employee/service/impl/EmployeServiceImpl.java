@@ -28,4 +28,9 @@ public class EmployeServiceImpl implements EmployService {
     public List<Map<String, Object>> getUserPartRateList(Map<String, Object> params) {
         return employRepository.getUserPartRateList(params);
     }
+
+    @Override
+    public void setBusnPartRatePay(Map<String, Object> params) {
+        employRepository.setBusnPartRatePay(params);
+    }
 }

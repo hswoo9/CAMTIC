@@ -183,4 +183,8 @@ public class PayAppRepository extends AbstractDAO {
     public Map<String, Object> getPayAppDetailInfo(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("payApp.getPayAppDetailInfo", params);
     }
+
+    public List<Map<String, Object>> getPartRatePay(Map<String, Object> params) {
+        return selectList("payApp.getPartRatePay", params);
+    }
 }

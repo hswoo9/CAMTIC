@@ -352,9 +352,15 @@ var busnPartRate = {
     },
 
     fn_reqRegPopup : function (key){
+
+        if($("input[name='ymRadio']:checked").attr("id") == undefined){
+            alert("지급신청할 날짜를 선택해주세요.");
+            return;
+        }
+
         var url = "/payApp/pop/regPayAppPop.do";
         if(key != null && key != ""){
-            url = "/payApp/pop/regPayAppPop.do?payAppSn=" + key;
+            url = "/payApp/pop/regPayAppPop.do?pjtSn=" + key + "&bsYm=" + $("input[name='ymRadio']:checked").attr("id").replace("ym", "") + "&reqType=partRate";
         }
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
@@ -363,8 +369,22 @@ var busnPartRate = {
 
     fn_save : function (){
         var data = {
-            pjtSn : $("#pjtSn").val()
+            pjtSn : $("#pjtSn").val(),
+            busnPartRateAr : JSON.stringify(busnPartRate.global.partRateAr)
         }
+
+        $.ajax({
+            url : "/inside/setBusnPartRatePay",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("저장되었습니다.");
+                    location.reload();
+                }
+            }
+        });
     }
 }
 

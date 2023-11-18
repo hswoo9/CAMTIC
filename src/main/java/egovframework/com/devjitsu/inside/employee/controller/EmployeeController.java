@@ -145,4 +145,16 @@ public class EmployeeController {
         return "jsonView";
     }
 
+    @RequestMapping("/inside/setBusnPartRatePay")
+    public String setBusnPartRatePay(@RequestParam Map<String, Object> params, Model model) {
+
+        try{
+            employService.setBusnPartRatePay(params);
+            model.addAttribute("code", 200);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
 }

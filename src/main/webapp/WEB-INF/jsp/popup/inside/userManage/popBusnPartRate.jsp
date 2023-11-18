@@ -73,7 +73,7 @@
         </table>
 
         <div id="btnDiv">
-            <button type="button" id="regPayBtn" style="float: right; margin-top: 10px; margin-bottom: 5px;margin-right : 5px"  class="k-button k-button-solid-info" onclick="busnPartRate.fn_reqRegPopup()">지급신청</button>
+            <button type="button" id="regPayBtn" style="float: right; margin-top: 10px; margin-bottom: 5px;margin-right : 5px"  class="k-button k-button-solid-info" onclick="busnPartRate.fn_reqRegPopup(${params.pjtSn})">지급신청</button>
             <button type="button" id="saveBtn" style="float: right; margin-top: 10px; margin-bottom: 5px; margin-right : 5px" class="k-button k-button-solid-base" onclick="busnPartRate.fn_save()">저장</button>
         </div>
         <table class="popTable table table-bordered mb-0">

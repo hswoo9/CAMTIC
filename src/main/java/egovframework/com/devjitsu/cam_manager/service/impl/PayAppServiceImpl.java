@@ -984,4 +984,9 @@ public class PayAppServiceImpl implements PayAppService {
 
         return path;
     }
+
+    @Override
+    public List<Map<String, Object>> getPartRatePay(Map<String, Object> params) {
+        return payAppRepository.getPartRatePay(params);
+    }
 }

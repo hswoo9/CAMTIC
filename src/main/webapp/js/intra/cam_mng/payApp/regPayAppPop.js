@@ -52,7 +52,43 @@ var regPay = {
             }else{
                 $("input[type='checkbox']").prop("checked", false);
             }
-        })
+        });
+
+
+        if($("#reqType").val() == "partRate"){
+            const data = {
+                pjtSn : $("#partRatePjtSn").val(),
+                bsYm : $("#bsYm").val()
+            }
+
+            $.ajax({
+                url : "/payApp/getPartRatePay",
+                data : data,
+                type : "POST",
+                dataType : "json",
+                success : function (rs){
+                    var rs = rs.data;
+                    console.log(rs);
+                    $("#pjtSn").val(rs[0].PJT_SN);
+                    $("#pjtNm").val(rs[0].PJT_NM);
+                    $("#appTitle").val(rs[0].PJT_NM + " 참여인력 인건비")
+
+                    for(let i = 1; i < rs.length; i++) {
+                        regPayDet.addRow()
+                    }
+                    for(let i = 0; i < rs.length; i++) {
+                        $("#crmNm" + i).val(rs[i].EMP_NAME_KR);
+                        $("#trCd" + i).val(rs[i].ERP_ERP_CD);
+                        $("#crmBnkNm" + i).val(rs[i].BANK_NAME);
+                        $("#crmAccNo" + i).val(rs[i].ACCOUNT_NUM);
+                        $("#crmAccHolder" + i).val(rs[i].ACCOUNT_HOLDER);
+                        $("#totCost" + i).val(regPay.comma(rs[i].MON_SAL));
+                        $("#supCost" + i).val(regPay.comma(rs[i].MON_SAL));
+                    }
+                    selectProject(rs[0].PJT_SN, rs[0].PJT_NM, rs[0].PJT_CD)
+                }
+            });
+        }
     },
 
     payAppBtnSet: function (data){
