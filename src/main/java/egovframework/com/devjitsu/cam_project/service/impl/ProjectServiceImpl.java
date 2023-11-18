@@ -1139,6 +1139,11 @@ public class ProjectServiceImpl implements ProjectService {
     public void updJoinMember(Map<String, Object> params) {
         projectRepository.updJoinMember(params);
     }
+
+    @Override
+    public Map<String, Object> getProjectByPjtCd(Map<String, Object> params) {
+        return projectRepository.getProjectByPjtCd(params);
+    }
 }
 
 

@@ -160,4 +160,6 @@ public interface ProjectService {
     List<Map<String, Object>> test(Map<String, Object> params);
 
     void updJoinMember(Map<String, Object> params);
+
+    Map<String, Object> getProjectByPjtCd(Map<String, Object> params);
 }

@@ -13,4 +13,8 @@ public interface SalaryManageService {
     List<Map<String, Object>> getEmpSalaryDataList(Map<String, Object> params);
 
     void setSalaryManage(Map<String, Object> params);
+
+    List<Map<String, Object>> getSalaryList(Map<String, Object> params);
+
+    void delSalaryManage(Map<String, Object> params);
 }
