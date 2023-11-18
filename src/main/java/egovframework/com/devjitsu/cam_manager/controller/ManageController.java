@@ -133,14 +133,14 @@ public class ManageController {
 
         List<Map<String, Object>> listMap = new ArrayList<>();
 
-        for(int i = 0 ; i < list.size() ; i++){
-            Map<String, Object> bsMap = new HashMap<>();
-            bsMap = manageService.getProjectData(list.get(i));
-
-            if(bsMap != null){
-                list.get(i).put("REG_DT", bsMap.get("PJT_REG_DT"));
-            }
-        }
+//        for(int i = 0 ; i < list.size() ; i++){
+//            Map<String, Object> bsMap = new HashMap<>();
+//            bsMap = manageService.getProjectData(list.get(i));
+//
+//            if(bsMap != null){
+//                list.get(i).put("REG_DT", bsMap.get("PJT_REG_DT"));
+//            }
+//        }
 
         model.addAttribute("list", list);
 
@@ -231,5 +231,18 @@ public class ManageController {
         model.addAttribute("paramsMap", new Gson().toJson(params));
 
         return "popup/cam_manager/incmExpInfo";
+    }
+
+
+    @RequestMapping("/mng/pop/budgetListDetail.do")
+    public String budgetListDetail(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        model.addAttribute("projectInfo", projectService.getProjectByPjtCd(params));
+
+        return "popup/cam_manager/budgetListDetail";
     }
 }

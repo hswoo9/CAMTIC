@@ -97,12 +97,8 @@ var budgetList = {
                     title : "프로젝트 명",
                     width: 500,
                     template:function (e){
-                        return "<a href='javascript:void(0);' style='font-weight: bold' onclick=''>" + e.PJT_NM + "</a>";
+                        return "<a href='javascript:void(0);' style='font-weight: bold' onclick='budgetList.fn_popBudgetDetail(\"" + e.PJT_CD + "\")'>" + e.PJT_NM + "</a>";
                     }
-                }, {
-                    title : "프로젝트 등록",
-                    field : "",
-                    width: 150,
                 }, {
                     title : "프로젝트 시작",
                     field : "FR_DT",
@@ -129,5 +125,14 @@ var budgetList = {
 
     gridReload : function (){
         $("#mainGrid").data("kendoGrid").dataSource.read();
+    },
+
+    fn_popBudgetDetail: function (pjtCd){
+        var url = "/mng/pop/budgetListDetail.do?pjtCd=" + pjtCd;
+
+        var name = "_blank";
+        var option = "width = 1800, height = 750, top = 100, left = 200, location = no";
+
+        var popup = window.open(url, name, option);
     }
 }
