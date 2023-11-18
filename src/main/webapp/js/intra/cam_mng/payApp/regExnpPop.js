@@ -760,7 +760,7 @@ var regExnp = {
             return ;
         }
 
-        var url = "/mng/pop/budgetView.do?pjtSn=" + $("#pjtSn").val() + "&idx=" + idx;
+        var url = "/mng/pop/budgetView.do?pjtSn=" + $("#pjtSn").val() + "&status="+$("#status").val()+"&idx=" + idx;
         var name = "_blank";
         var option = "width = 1100, height = 650, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);

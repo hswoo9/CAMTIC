@@ -138,7 +138,10 @@ public class PayAppServiceImpl implements PayAppService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             payAppRepository.updateExnpFinalApprStat(params);
-            updateG20ExnpFinalAppr(params, "app");
+            Map<String, Object> pkMap = payAppRepository.getExnpData(params);
+            if(!"4".equals(pkMap.get("PAY_APP_TYPE"))){
+                updateG20ExnpFinalAppr(params, "app");
+            }
             //payAppRepository.updatePurcListFinalApprStat(params);
         }
     }

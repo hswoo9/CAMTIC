@@ -65,7 +65,7 @@ var bgView = {
                     data.baseDate = date.getFullYear().toString() + date.getMonth().toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0');
                     data.pjtSn = $("#pjtSn").val();
 
-                    if(temp == "2"){
+                    if($("#status").val() != "incp"){
                         data.temp = 2;
                     }else{
                         data.temp = 1;
