@@ -27,7 +27,7 @@
 <input type="hidden" id="idx" value="${params.idx}" />
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="mgtCd" value="${data.PJT_CD}" />
-<input type="hidden" id="temp" value="${params.temp}" />
+<input type="hidden" id="status" value="${params.status}" />
 <div>
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">
