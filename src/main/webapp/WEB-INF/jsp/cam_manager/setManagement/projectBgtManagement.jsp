@@ -65,8 +65,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">프로젝트 관리</h4>
-            <div class="title-road">캠매니저 > 설정관리 &gt; 프로젝트 관리</div>
+            <h4 class="panel-title">프로젝트 예산관리</h4>
+            <div class="title-road">캠매니저 > 설정관리 &gt; 프로젝트 예산관리</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -81,10 +81,10 @@
                         <col width="25%">
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">검색</th>
-                        <td colspan="4">
-<%--                            <input type="text" id="searchValue" style="width: 150px;">--%>
-<%--                            <input type="text" id="searchText" onkeypress="if(event.keyCode==13){ prjBgtMng.gridReload(); }" style="width: 200px;">--%>
+                        <th class="text-center th-color">조회 기간</th>
+                        <td>
+                            <input type="text" id="frDt" style="width: 120px;" onchange="prjBgtMng.dateValidationCheck('frDt', this.value)"> ~
+                            <input type="text" id="toDt" style="width: 120px;" onchange="prjBgtMng.dateValidationCheck('enDt', this.value)">
                         </td>
                     </tr>
                 </table>

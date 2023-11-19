@@ -78,4 +78,25 @@ public class ManageServiceImpl implements ManageService {
 
         return list;
     }
+
+    @Override
+    public void insIncmExpInfo(Map<String, Object> params) {
+        Gson gson = new Gson();
+
+        if (!StringUtils.isEmpty(params.get("itemArr"))) {
+            manageRepository.incmExpInfoActiveN(params);
+            List<Map<String, Object>> itemList = gson.fromJson((String) params.get("itemArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+            manageRepository.insIncmExpInfo(itemList);
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> getProjectBgtList (Map<String, Object> params){
+        return manageRepository.getProjectBgtList(params);
+    }
+
+    @Override
+    public int getProjectBgtCheck (Map<String, Object> params){
+        return manageRepository.getProjectBgtCheck(params);
+    }
 }

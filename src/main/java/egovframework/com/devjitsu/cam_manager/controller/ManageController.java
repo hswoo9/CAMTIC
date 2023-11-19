@@ -227,12 +227,24 @@ public class ManageController {
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
         model.addAttribute("loginVO", loginVO);
+        params.put("chk", manageService.getProjectBgtCheck(params));
         model.addAttribute("params", params);
         model.addAttribute("paramsMap", new Gson().toJson(params));
 
         return "popup/cam_manager/incmExpInfo";
     }
 
+    @RequestMapping("/mng/insIncmExpInfo")
+    public String insIncmExpInfo(@RequestParam Map<String, Object> params){
+        manageService.insIncmExpInfo(params);
+        return "jsonView";
+    }
+
+    @RequestMapping("/mng/getProjectBgtList")
+    public String getProjectBgtList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", manageService.getProjectBgtList(params));
+        return "jsonView";
+    }
 
     @RequestMapping("/mng/pop/budgetListDetail.do")
     public String budgetListDetail(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){

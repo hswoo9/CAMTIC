@@ -5,8 +5,12 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/incmExpInfo.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 
+<style>
+    [type="radio"]{ vertical-align: middle; }
+</style>
 
-<input type="hidden" id="pjtCd" value="${params.pjtCd}" />
+<input type="hidden" id="subPjtCd" value="${params.pjtCd}" />
+<input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}" />
 
 <input type="hidden" id="step" value="E0" />
 <input type="hidden" id="stepColumn" value="STEP1" />

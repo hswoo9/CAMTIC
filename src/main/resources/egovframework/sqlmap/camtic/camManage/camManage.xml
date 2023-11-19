@@ -167,4 +167,73 @@
             CORP_PJT_SN = #{corpPjtSn}
     </update>
 
+    <insert id="insIncmExpInfo" parameterType="map">
+        /* insIncmExpInfo */
+        INSERT INTO CAM_MNG.DJ_PROJECT_BUDGET_MNG
+        (
+            PJT_CD,
+            BGT_CD,
+            BGT_AT,
+            BGT1_NM,
+            BGT2_NM,
+            BGT3_NM,
+            CALC_AM,
+            REG_EMP_SEQ,
+            REG_DATE
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.pjtCd},
+            #{item.bgtCd},
+            #{item.bgtAt},
+            #{item.bgt1Nm},
+            #{item.bgt2Nm},
+            #{item.bgt3Nm},
+            #{item.calcAm},
+            #{item.regEmpSeq},
+            NOW()
+        )
+        </foreach>
+    </insert>
+
+    <select id="getProjectBgtList" parameterType="map" resultType="map">
+        /* getProjectBgtList */
+        SELECT
+            PJT_CD,
+            BGT_CD,
+            BGT_AT,
+            BGT1_NM,
+            BGT2_NM,
+            BGT3_NM AS BGT_NM,
+            CALC_AM
+        FROM
+            CAM_MNG.DJ_PROJECT_BUDGET_MNG
+        WHERE
+            PJT_CD = #{pjtSn}
+        AND
+            ACTIVE = 'Y'
+    </select>
+
+    <select id="getProjectBgtCheck" parameterType="map" resultType="int">
+        /* getProjectBgtCheck */
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_MNG.DJ_PROJECT_BUDGET_MNG
+        WHERE
+            PJT_CD = #{pjtCd}
+        AND
+            ACTIVE = 'Y'
+    </select>
+
+    <update id="incmExpInfoActiveN" parameterType="map">
+        /* incmExpInfoActiveN */
+        UPDATE
+            CAM_MNG.DJ_PROJECT_BUDGET_MNG
+        SET
+            ACTIVE = 'N'
+        WHERE
+            PJT_CD = #{pjtCd}
+    </update>
 </mapper>

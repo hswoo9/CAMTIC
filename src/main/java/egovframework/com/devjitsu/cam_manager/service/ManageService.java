@@ -16,4 +16,7 @@ public interface ManageService {
     List<Map<String, Object>> getUserSalList(Map<String, Object> params);
 
     List<Map<String, Object>> checkExnpDetData(Map<String, Object> params);
+    void insIncmExpInfo(Map<String, Object> params);
+    List<Map<String, Object>> getProjectBgtList(Map<String, Object> params);
+    int getProjectBgtCheck(Map<String, Object> params);
 }

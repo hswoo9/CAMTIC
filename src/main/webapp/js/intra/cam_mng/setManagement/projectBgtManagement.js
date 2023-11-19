@@ -1,7 +1,16 @@
 let sum=0;
 var prjBgtMng = {
 
+    global : {
+        dropDownDataSource : "",
+        searchAjaxData : "",
+        saveAjaxData : "",
+        now : new Date()
+    },
+
     fn_defaultScript : function (){
+        customKendo.fn_datePicker("frDt", '', "yyyy-MM-dd", new Date(prjBgtMng.global.now.getFullYear() + '-01-01'));
+        customKendo.fn_datePicker("toDt", '', "yyyy-MM-dd", new Date(prjBgtMng.global.now.getFullYear() + '-12-31'));
         customKendo.fn_textBox(["deptName", "searchText"]);
 
         prjBgtMng.gridReload();
@@ -21,8 +30,8 @@ var prjBgtMng = {
                     type : "post"
                 },
                 parameterMap: function(data) {
-                    data.pjtFromDate = '2023-01-01';
-                    data.pjtToDate = '2023-12-31';
+                    data.pjtFromDate = $("#frDt").val();
+                    data.pjtToDate = $("#toDt").val();
                     return data;
                 }
             },
@@ -116,4 +125,19 @@ var prjBgtMng = {
 
         var popup = window.open(url, name, option);
     },
+
+    dateValidationCheck : function (id, val){
+        var sDt = new Date($("#frDt").val());
+        var nDt = new Date($("#toDt").val());
+
+        if(id == "frDt"){
+            if(sDt > nDt){
+                $("#toDt").val(val);
+            }
+        }else{
+            if(sDt > nDt){
+                $("#frDt").val(val);
+            }
+        }
+    }
 }
