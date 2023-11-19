@@ -681,9 +681,6 @@ var reqCl = {
                 buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="reqCl.fn_save()">저장</button>';
                 buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+claimMap.DOC_ID+'\', \''+claimMap.DOC_MENU_CD+'\', \''+claimMap.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
             }else if(claimMap.STATUS == "100"){
-                if(claimMap.PAY_YN == "N"){
-                    buttonHtml += '<button type="button" id="payBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="reqCl.fn_reqRegPopup(\''+claimSn+'\')">지급신청서 작성</button>';
-                }
                 buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+claimMap.DOC_ID+'\', \''+claimMap.APPRO_KEY+'\', \''+claimMap.DOC_MENU_CD+'\');">열람</button>';
             }else{
                 buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="reqCl.fn_save()">저장</button>';
@@ -706,21 +703,5 @@ var reqCl = {
             this.method = 'POST';
             this.target = '_self';
         }).trigger("submit");
-    },
-
-    fn_reqRegPopup : function(key, status, auth){
-        var url = "/payApp/pop/regPayAppPop.do";
-        if(key != null && key != ""){
-            url = "/payApp/pop/regPayAppPop.do?claimSn=" + key;
-        }
-        if(status != null && status != ""){
-            url += "&status=" + status;
-        }
-        if(auth != null && auth != ""){
-            url += "&auth=" + auth;
-        }
-        var name = "blank";
-        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
-        var popup = window.open(url, name, option);
     }
 }

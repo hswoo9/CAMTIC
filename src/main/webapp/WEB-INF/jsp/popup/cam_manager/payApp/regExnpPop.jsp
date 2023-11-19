@@ -21,6 +21,7 @@
 
 <input type="hidden" id="item" name="item" value="${params.item}">
 <input type="hidden" id="payAppSn" name="payAppSn" value="${params.payAppSn}">
+<input type="hidden" id="payIncpSn" name="payIncpSn" value="${params.payIncpSn}">
 <input type="hidden" id="status" name="status" value="${params.status}" />
 <input type="hidden" id="mode" name="mode" value="" />
 
