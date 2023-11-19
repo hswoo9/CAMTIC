@@ -346,12 +346,22 @@ var hwpInit = {
         let data = {
             payAppSn: payAppSn
         }
-
-        const result = customKendo.fn_customAjax("/payApp/getPayAppData.do", data).data;
-        console.log(result);
+        const result = customKendo.fn_customAjax("/payApp/pop/getPayAppData", data);
+        const rs = result.map;
+        const ls = result.list;
+        console.log(ls);
 
         /** 1. 지급신청서 데이터 */
+        hwpDocCtrl.putFieldText('DOC_NO', rs.DOC_NO);
+        hwpDocCtrl.putFieldText('REG_DATE', rs.REG_DATE);
+        hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
 
+        hwpDocCtrl.putFieldText('APP_TITLE', ls[0].CRM_NM);
+        hwpDocCtrl.putFieldText('ACC_NO', "("+ls[0].CRM_BNK_NM+") "+ls[0].CRM_ACC_NO+" "+ls[0].CRM_ACC_HOLDER);
+        let budgetArr = ls[0].BUDGET_NM.split(" / ");
+        hwpDocCtrl.putFieldText('BUDGET_NM1', budgetArr[0]);
+        hwpDocCtrl.putFieldText('BUDGET_NM2', budgetArr[1]);
+        hwpDocCtrl.putFieldText('BUDGET_NM3', budgetArr[2]);
     },
 
     exnpInit: function(exnpSn){
@@ -360,9 +370,29 @@ var hwpInit = {
         }
 
         const result = customKendo.fn_customAjax("/payApp/pop/getExnpData", data);
+        const rs = result.map;
+        const ls = result.list;
         console.log("result", result);
 
-        /** 1. 지급신청서 데이터 */
-
+        /** 1. 지출결의서 데이터 */
+        hwpDocCtrl.putFieldText('PJT_NM', rs.PJT_NM);
+        hwpDocCtrl.putFieldText('EMP_NAME', rs.REG_EMP_NAME);
+        hwpDocCtrl.putFieldText('DEPT_NAME', "경영지원실");
+        hwpDocCtrl.putFieldText('REG_ACC_NO', "("+rs.BNK_NM+") "+rs.ACC_NO+" "+rs.ACC_NM);
+        let budgetArr = ls[0].BUDGET_NM.split(" / ");
+        hwpDocCtrl.putFieldText('BUDGET_NM1', budgetArr[0]);
+        hwpDocCtrl.putFieldText('BUDGET_NM2', budgetArr[1]);
+        hwpDocCtrl.putFieldText('BUDGET_NM3', budgetArr[2]);
+        hwpDocCtrl.putFieldText('DATE1', rs.DATE1);
+        hwpDocCtrl.putFieldText('DATE2', rs.DATE2);
+        hwpDocCtrl.putFieldText('DATE3', rs.DATE3);
+        let totCost1 = "금 "+fn_numberWithCommas(rs.TOT_COST)+"원";
+        let totCost2 = "(금 "+fn_koreanNumber(rs.TOT_COST)+"원)";
+        hwpDocCtrl.putFieldText('TOT_COST', totCost1+""+totCost2);
+        hwpDocCtrl.putFieldText('APP_TITLE', rs.EXNP_BRIEFS);
+        hwpDocCtrl.putFieldText('CRM_NM', ls[0].CRM_NM);
+        hwpDocCtrl.putFieldText('CRM_ACC_NO', ls[0].CRM_ACC_NO);
+        hwpDocCtrl.putFieldText('ACC_NO', "("+ls[0].CRM_BNK_NM+") "+ls[0].CRM_ACC_NO);
+        hwpDocCtrl.putFieldText('CRM_ACC_HOLDER', rs.CRM_ACC_HOLDER);
     },
 }

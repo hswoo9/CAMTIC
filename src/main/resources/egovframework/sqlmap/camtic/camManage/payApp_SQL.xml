@@ -155,7 +155,7 @@
 
     <select id="getPayAppReqData" parameterType="map" resultType="map">
         /*getPayAppReqData*/
-        SELECT A.*, B.DOC_NO,
+        SELECT A.*, B.DOC_NO, DATE_FORMAT(A.REG_DT, '%Y년 %m월 %d일') AS REG_DATE,
                IFNULL((SELECT SPCS.DIV_CD FROM CAM_MNG.DJ_PROJECT_CODE_SET SPCS WHERE SPCS.IS_CODE = LEFT(P.PJT_CD, 1)), '') AS DIV_CD
         FROM CAM_MNG.DJ_PAY_APP A
         LEFT JOIN
@@ -304,9 +304,9 @@
 
     <select id="getPayAppDetailData" parameterType="map" resultType="map">
         /*getPayAppDetailData*/
-        SELECT *
-        FROM CAM_MNG.DJ_PAY_APP_DET
-        WHERE PAY_APP_SN = #{payAppSn}
+        SELECT PAD.*, FORMAT(TOT_COST , 0) AS TOT_COST_COMMA
+        FROM CAM_MNG.DJ_PAY_APP_DET PAD
+        WHERE PAD.PAY_APP_SN = #{payAppSn}
     </select>
 
     <select id="getPaymentList" parameterType="map" resultType="map">
@@ -423,7 +423,12 @@
             B.EMP_NAME_KR,
             B.DEPT_SEQ,
             B.DEPT_NAME,
-            C.DOC_NO
+            C.DOC_NO,
+            (SELECT SEI.EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO SEI WHERE SEI.EMP_SEQ = A.REG_EMP_SEQ) AS REG_EMP_NAME,
+            DATE_FORMAT(A.DT1, '%Y년 %m월 %d일') AS DATE1,
+            DATE_FORMAT(A.DT2, '%Y년 %m월 %d일') AS DATE2,
+            DATE_FORMAT(A.DT3, '%Y년 %m월 %d일') AS DATE3,
+            IFNULL((SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_EXNP_DET SED WHERE SED.EXNP_SN = A.EXNP_SN), 0) AS TOT_COST
         FROM
             CAM_MNG.DJ_EXNP A
         LEFT JOIN

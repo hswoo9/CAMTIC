@@ -236,3 +236,17 @@ function fn_stringToDate(date, n) {
         "-" + ((stringNewDate.getMonth() + 1) > 9 ? (stringNewDate.getMonth() + 1).toString() : "0" + (stringNewDate.getMonth() + 1)) +
         "-" + (stringNewDate.getDate() > 9 ? stringNewDate.getDate().toString() : "0" + stringNewDate.getDate().toString());
 }
+
+function fn_koreanNumber(number) {
+    const koreanUnits = ['조', '억', '만', ''];
+    const unit = 10000;
+    let answer = '';
+
+    while (number > 0) {
+        const mod = number % unit;
+        const modToString = mod.toString().replace(/(\d)(\d{3})/, '$1,$2');
+        number = Math.floor(number / unit);
+        answer = `${modToString}${koreanUnits.pop()}${answer}`;
+    }
+    return answer;
+}
