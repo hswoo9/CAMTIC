@@ -3,7 +3,7 @@
 
 <mapper namespace="g20">
 
-    <select id=" " resultType="java.util.Map" parameterType="java.util.Map">
+    <select id="getProjectList" resultType="java.util.Map" parameterType="java.util.Map">
         <![CDATA[
         SELECT
             A.PJT_CD    					AS pjtSeq
@@ -44,7 +44,7 @@
                 ELSE '1'
                 END
             ) = '1'
-        AND A.FR_DT BETWEEN #{pjtFromDate} AND #{pjtToDate}
+        AND ((A.FR_DT BETWEEN #{pjtFromDate} AND #{pjtToDate}) OR (A.TO_DT BETWEEN #{pjtFromDate} AND #{pjtToDate}))
         ]]>
     </select>
 
