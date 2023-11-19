@@ -89,6 +89,33 @@ var regPay = {
                 }
             });
         }
+
+        if($("#reqType").val() == "purc"){
+            const data = {
+                claimSn : $("#claimSn").val()
+            }
+
+            var result = customKendo.fn_customAjax("/purc/getPurcClaimData", data);
+            var rs = result.data;
+            console.log(result);
+            $("#pjtSn").val(rs.PJT_SN);
+            $("#pjtNm").val(rs.PJT_NM);
+            if($("#pjtSn").val() != ""){
+                selectProject(rs.PJT_SN, rs.PJT_NM, rs.PJT_CD)
+            }
+            $("#appTitle").val(rs.PURC_REQ_PURPOSE);
+
+            var ls = rs.itemList;
+            for(let i = 1; i < ls.length; i++) {
+                regPayDet.addRow();
+            }
+            for(let i = 0; i < ls.length; i++) {
+                console.log(ls[i]);
+                $("#crmNm" + i).val(rs.CRM_NM);
+                $("#totCost" + i).val(regPay.comma(ls[i].ITEM_AMT));
+                $("#supCost" + i).val(regPay.comma(ls[i].ITEM_AMT));
+            }
+        }
     },
 
     payAppBtnSet: function (data){

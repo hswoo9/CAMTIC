@@ -232,6 +232,28 @@ public class PayAppController {
         return "cam_manager/payApp/paymentInList";
     }
 
+    @RequestMapping("/pay/paymentReList.do")
+    public String paymentReList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_manager/payApp/paymentReList";
+    }
+
+    @RequestMapping("/pay/paymentAltList.do")
+    public String paymentAltList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_manager/payApp/paymentAltList";
+    }
+
     @RequestMapping("/payApp/setPayAppDetData")
     public String setPayAppDetData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
 

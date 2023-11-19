@@ -24,6 +24,7 @@
 <input type="hidden" id="reqType" value="${params.reqType}" />
 <input type="hidden" id="partRatePjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="bsYm" value="${params.bsYm}" />
+<input type="hidden" id="claimSn" value="${params.claimSn}" />
 
 <div style="padding:0;">
     <div class="table-responsive">
