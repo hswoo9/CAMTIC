@@ -173,11 +173,13 @@
             (BOARD_ID, BOARD_CATEGORY_ID, BOARD_ARTICLE_TITLE, BOARD_ARTICLE_CONTENT, BOARD_ARTICLE_CONTENT_URL, REG_EMP_NAME
             <if test="boardId == 'business'">, START_DT, END_DT</if>
             <if test="boardId == 'sns'">, SNS_TYPE</if>
+            <if test="boardId == 'sns'">, SNS_URL</if>
             )
         VALUE
             (#{boardId}, #{boardCategoryId}, #{noticeTitle}, #{content}, #{urlText}, #{writer}
             <if test="boardId == 'business'">, #{startDt}, #{endDt}</if>
             <if test="boardId == 'sns'">, #{snsType}</if>
+            <if test="boardId == 'sns'">, #{snsUrl}</if>
             )
 
         <selectKey keyProperty="boardArticleId" resultType="Integer" order="BEFORE">

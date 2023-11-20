@@ -119,6 +119,12 @@
 											</label>
 										</td>
 									</tr>
+									<tr style="border-bottom: 1px solid #ccc;">
+										<th>SNS 링크 주소</th>
+										<td>
+											<input type="text" id="snsUrl" class="inputText" placeholder="링크 주소를 입력해주세요." value="" />
+										</td>
+									</tr>
 								</c:if>
 								<tr style="border-bottom: 1px solid #ccc;">
 									<th>작성일자</th>
@@ -310,6 +316,7 @@
 		formData.append("urlText", $("#urlText").val());
 		formData.append("hashText", $("#hashText").val());
 		formData.append("snsType", snsType);
+		formData.append("snsUrl", $("#snsUrl").val());
 
 		if(fCommon.global.attFiles.length != 0){
 			if(fCommon.global.attFiles.length > 1){

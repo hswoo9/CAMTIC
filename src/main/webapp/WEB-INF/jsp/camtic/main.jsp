@@ -590,7 +590,7 @@
       var createdTime = item.REG_DATE;
       var formattedTime = new Date(createdTime).toLocaleString();
 
-      html += '<a href="#" class="swiper-slide">';
+      html += '<a href="' + item.SNS_URL + '" class="swiper-slide" target="_blank">';
       if (item.FILE_PATH) {
         html += '<div class="img"><img src=' + item.FILE_PATH + ' style="width:340px; height:255px;"></div>';
       }else{
