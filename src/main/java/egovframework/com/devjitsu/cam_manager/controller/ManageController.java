@@ -220,7 +220,7 @@ public class ManageController {
         return "popup/cam_manager/projectMngPop";
     }
 
-    /** 캠매니저 > 설정관리 > 프로젝트 관리 > 프로젝트 팝업창 > 수익/비용 탭 */
+    /** 캠매니저 > 설정관리 > 프로젝트 예산관리 > 프로젝트 팝업창 > 수익/비용 탭 */
     @RequestMapping("/mng/pop/incmExpInfo.do")
     public String incmExpInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -244,6 +244,21 @@ public class ManageController {
     public String getProjectBgtList(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("list", manageService.getProjectBgtList(params));
         return "jsonView";
+    }
+
+    /** 캠매니저 > 설정관리 > 프로젝트 예산관리 > 프로젝트 팝업창 > 예산비목 탭 */
+    @RequestMapping("/mng/pop/bgtItemInfo.do")
+    public String bgtItemInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        model.addAttribute("paramsMap", new Gson().toJson(params));
+        model.addAttribute("data", projectService.getG20ProjectData(params));
+
+
+        return "popup/cam_manager/bgtItemInfo";
     }
 
     @RequestMapping("/mng/pop/budgetListDetail.do")

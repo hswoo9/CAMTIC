@@ -18,7 +18,7 @@ var pjtMngPop = {
         customKendo.fn_textBox(["pjtCd", "pjtName"]);
 
         var tab0Url = "/mng/pop/incmExpInfo.do";
-        var tab1Url = "/mng/pop/incmExpInfo.do";
+        var tab1Url = "/mng/pop/bgtItemInfo.do";
 
         if (pjtMngPop.global.params != null && pjtMngPop.global.params.PJT_CD != null) {
             tab0Url += "?pjtCd=" + pjtMngPop.global.params.PJT_CD;
