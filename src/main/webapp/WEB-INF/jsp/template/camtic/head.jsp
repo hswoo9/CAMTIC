@@ -12,11 +12,12 @@
       <li><a href="/camtic/about/greetingENG.do"><span>ENG</span></a></li>
       <li><a href="#"><span>통합페이지</span></a></li>
       <%--<li><a href="#"><span>잡매칭센터</span></a></li>--%>
-      <li><a href="#"><span>전주첨단벤처단지</span></a></li>
+      <li><a href="http://www.jhitech.or.kr/"><span>전주첨단벤처단지</span></a></li>
     </ul>
     <div class="sns">
       <a href="https://www.instagram.com/camtic4u/?utm_medium=copy_link" target='_blank' class="insta">인스타그램</a>
       <a href="https://www.facebook.com/CAMTIC4U" target='_blank' class="face">페이스북</a>
+      <%--<a href="https://www.youtube.com/@camtic4u" target='_blank' class="youtube"><span>유튜브</span></a>--%>
       <%--<a href="https://pf.kakao.com/_Txmjps" target='_blank' class="kakao">카카오톡</a>--%>
     </div>
   </div>
