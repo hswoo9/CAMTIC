@@ -965,6 +965,11 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
+    public List<Map<String, Object>> getPayAttList(Map<String, Object> params) {
+        return payAppRepository.getPayAttList(params);
+    }
+
+    @Override
     public Map<String, Object> getExnpAttInfo(Map<String, Object> params) {
         Map<String, Object> returnMap = payAppRepository.getExnpAttInfo(params);
         if(returnMap != null){

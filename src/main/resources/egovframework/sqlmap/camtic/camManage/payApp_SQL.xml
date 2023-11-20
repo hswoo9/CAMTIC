@@ -820,6 +820,17 @@
         ORDER BY REG_DATE DESC
     </select>
 
+    <select id="getPayAttList" parameterType="map" resultType="map">
+        /* getPayAttList */
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_NO IN (${fileText})
+        ORDER BY REG_DATE DESC
+    </select>
+
     <select id="getExnpAttInfo" parameterType="map" resultType="map">
         /* getExnpAttInfo */
         SELECT

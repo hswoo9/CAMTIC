@@ -357,11 +357,26 @@ var hwpInit = {
         hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
 
         hwpDocCtrl.putFieldText('APP_TITLE', ls[0].CRM_NM);
+        hwpDocCtrl.putFieldText('APP_CONT', rs.APP_CONT);
         hwpDocCtrl.putFieldText('ACC_NO', "("+ls[0].CRM_BNK_NM+") "+ls[0].CRM_ACC_NO+" "+ls[0].CRM_ACC_HOLDER);
         let budgetArr = ls[0].BUDGET_NM.split(" / ");
         hwpDocCtrl.putFieldText('BUDGET_NM1', budgetArr[0]);
         hwpDocCtrl.putFieldText('BUDGET_NM2', budgetArr[1]);
         hwpDocCtrl.putFieldText('BUDGET_NM3', budgetArr[2]);
+
+        if(rs.PAY_APP_TYPE == 1){
+            hwpDocCtrl.putFieldText('DOC_TITLE', "지 급 신 청 서");
+            hwpDocCtrl.putFieldText('DOC_DETAIL', "아래와 같이 지급신청 합니다.");
+        }else if(rs.PAY_APP_TYPE == 2){
+            hwpDocCtrl.putFieldText('DOC_TITLE', "여 입 신 청 서");
+            hwpDocCtrl.putFieldText('DOC_DETAIL', "아래와 같이 여입신청 합니다.");
+        }else if(rs.PAY_APP_TYPE == 3){
+            hwpDocCtrl.putFieldText('DOC_TITLE', "반 납 신 청 서");
+            hwpDocCtrl.putFieldText('DOC_DETAIL', "아래와 같이 반납신청 합니다.");
+        }else if(rs.PAY_APP_TYPE == 4){
+            hwpDocCtrl.putFieldText('DOC_TITLE', "대 체 신 청 서");
+            hwpDocCtrl.putFieldText('DOC_DETAIL', "아래와 같이 대체신청 합니다.");
+        }
     },
 
     exnpInit: function(exnpSn){
@@ -372,7 +387,8 @@ var hwpInit = {
         const result = customKendo.fn_customAjax("/payApp/pop/getExnpData", data);
         const rs = result.map;
         const ls = result.list;
-        console.log("result", result);
+        console.log("result");
+        console.log(result);
 
         /** 1. 지출결의서 데이터 */
         hwpDocCtrl.putFieldText('PJT_NM', rs.PJT_NM);

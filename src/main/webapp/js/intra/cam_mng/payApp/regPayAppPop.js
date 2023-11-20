@@ -180,7 +180,7 @@ var regPay = {
         for(var i=0; i < ls.length; i++) {
             var item = ls[i];
             var eviType = item.EVID_TYPE;
-            if(item.ADVANCES == "Y"){
+            if(item.ADVANCES == "Y" || $("#payAppType").data("kendoRadioGroup").value() != "1"){
                 continue;
             }
             if(eviType == "1" || eviType == "2"){
@@ -790,7 +790,7 @@ var regPayDet = {
             '   <td>' +
             '       <input type="text" id="iss' + regPayDet.global.itemIndex + '" class="iss">' +
             '   </td>' ;
-        if($("status").val() != "in"){
+        if($("status").val() == "rev"){
             regPayDet.global.createHtmlStr += "" +
                 '   <td>' +
                 '       <input type="checkbox" id="advances' + regPayDet.global.itemIndex + '" class="advances" style="width: 26px; height: 26px">' +
