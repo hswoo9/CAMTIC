@@ -204,16 +204,17 @@
           </div>
           <div class="area">
             <div class="roll">
-              <div class="swiper-wrapper">
-                <a href="http://www.camtic.or.kr/CAMTIC/PR/pr_PhotoView?BBSNUM=862&&SearchText=&PAGE=1" class="swiper-slide">
+              <div id="focusList" class="swiper-wrapper">
+                <%--<a href="http://www.camtic.or.kr/CAMTIC/PR/pr_PhotoView?BBSNUM=862&&SearchText=&PAGE=1" class="swiper-slide">
                   <i style="background-image:url(/images/camtic/photo1-1.jpg);">동영상 제목</i>
+                  <div class="img"><img src='/images/camtic/photo1-1.jpg' width="577" height="285"></div>
                 </a>
                 <a href="http://www.camtic.or.kr/CAMTIC/PR/pr_letterlist" class="swiper-slide">
                   <i style="background-image:url(/images/camtic/photo1-2.jpg);">동영상 제목</i>
                 </a>
                 <a href="http://www.camtic.or.kr/CAMTIC/PR/pr_movielist" class="swiper-slide">
                   <i style="background-image:url(https://i.ytimg.com/vi_webp/HWn1OONOxEA/sddefault.webp);">동영상 제목</i>
-                </a>
+                </a>--%>
               </div>
             </div>
           </div>
@@ -369,10 +370,14 @@
   var faceBookData = [];
   var instaData = [];
 
+
+
   var data = {
     category : "notice"
   }
-
+  var data2 = {
+    focusCategory : "photo"
+  }
   var viewUrl = "";
 
   var resultData;
@@ -384,7 +389,8 @@
     getFacebookData();*/
     drawTable();
     drawTable2();
-
+    getFocusListData();
+    camticFocusList();
   });
 
   function goList(e){
@@ -470,7 +476,7 @@
 
   function getInstagramData() {
     $.ajax({
-      url: 'https://graph.instagram.com/6685068638249687/media?fields=id,media_type,media_url,permalink,thumbnail_url,username,caption,timestamp&access_token=IGQWRQcWVfT05rakN2T3daSndmSDhndW44aGZASbmx3ellPWHRSXzlUUTZAuT205ZAkJnaXdZAd3luMXlYMENGLTNUNE5PNkczcVBhNVZAwZAmxzSElzcWw4M2Yxc3NUOEtUTm1VR0JmWVp0X2gwQQZDZD',
+      url: 'https://graph.facebook.com/v18.0/17841446813393058/media?access_token=EAAMGG4sKh2UBO0mnzDyW6n5FRqbuq7iDw5ZC1FeeNgNZBZAmLT1TXsd90Gcm6d7YPz2Il0sRfzLZBhN44ynbRPvlqoSEKDXNjaLFyQqLQtLfOSwI2tUBrdbrzWy2mSfxvIdbwzQQ566ZC7GZARvgzZBbJFQHtkM74YllH60kSBEHreGKBDjxszeYyJSqG6ZBRABoFhLy2OiD&fields=id,media_type,media_url,permalink,thumbnail_url,username,caption,timestamp',
       dataType : "json",
       async : false,
       success: function(rs) {
@@ -544,6 +550,40 @@
 
     snsMain.init();
   }*/
+
+  //캠틱포커스 데이터조회
+  function getFocusListData() {
+    $.ajax({
+      url: '/board/getFocusList',
+      type: 'GET',
+      data: data2,
+      success: function (data) {
+        camticFocusList(data.list);
+      },
+    });
+  }
+
+  //캠틱포커스 게시글 리스트 HTML
+  function camticFocusList(data){
+
+    $("#focusList").html('');
+
+    let html = "";
+
+    data.forEach((item, index) => {
+      console.log(item);
+      html += "<a class='swiper-slide' style='cursor:pointer;' onclick='fn_focusDetailBoard("+item.BOARD_ARTICLE_ID+")'>";
+      html += '<div class="img"><img src='+item.FILE_PATH+' width="577" height="285"></div>';
+      html += '</a>';
+    });
+    $("#focusList").append(html);
+  }
+
+  //상세보기 이동
+  function fn_focusDetailBoard(key){
+    var categoryId = "photo";
+    location.href="/camtic/pr/pr_view.do?boardArticleId=" + key + "&category=" + categoryId;
+  }
 </script>
 </body>
 </html>

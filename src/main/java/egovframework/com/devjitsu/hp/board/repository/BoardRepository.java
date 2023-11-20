@@ -82,5 +82,8 @@ public class BoardRepository extends AbstractDAO {
     public List<Map<String, Object>> getLetterListOld(Map<String, Object> params) {
         return selectList("boardCt.getLetterListOld", params);
     }
+    public List<Map<String, Object>> getFocusList(Map<String, Object> params) {
+        return selectList("boardCt.getFocusList", params);
+    }
 
 }
