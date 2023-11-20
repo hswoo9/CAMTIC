@@ -100,8 +100,8 @@
             <li class="pr_report"><a href="/camtic/pr/report.do">보도자료</a></li>
             <li class="pr_news"><a href="/camtic/pr/news.do">뉴스레터</a></li>
             <li class="pr_video"><a href="/camtic/pr/video.do">홍보영상</a></li>
-            <li class="pr_ci"><a href="/camtic/pr/ci.do">CI 소개</a></li>
             <li class="pr_sns"><a href="/camtic/pr/sns.do">SNS</a></li>
+            <li class="pr_ci"><a href="/camtic/pr/ci.do">CI 소개</a></li>
             <li style="display: none" class="pr_view"><a href="/camtic/pr/view.do">게시판</a></li>
           </ul>
         </li>
