@@ -200,6 +200,8 @@ var applicationForm = {
 
         if(confirm(confirmText)){
             var formData = new FormData();
+            var genderValue = $("#gender").data("kendoRadioGroup").value();
+            var veteransValue = $("#veterans").data("kendoRadioGroup").value();
 
             formData.append("applicationId", $("#applicationId").val());
             formData.append("recruitInfoSn", $("#recruitInfoSn").val());
@@ -212,7 +214,8 @@ var applicationForm = {
             formData.append("userNameCn", $("#userNameCn").val());
             formData.append("bDay", $("#bDay").val());
             formData.append("lunarYn", $("#lunarYn").is(":checked") ? "Y" : "N");
-            formData.append("gender", $("#gender").data("kendoRadioGroup").value());
+            //formData.append("gender", $("#gender").data("kendoRadioGroup").value());
+            formData.append("gender", genderValue !== undefined ? genderValue : "");
             formData.append("photoFile", $("#photoFile")[0].files[0]);
             formData.append("telNum", $("#telNum").val());
             formData.append("mobileTelNum", $("#mobileTelNum").val());
@@ -223,11 +226,8 @@ var applicationForm = {
 
             formData.append("hobby", $("#hobby").val());
             formData.append("specialty", $("#specialty").val());
-            formData.append("veterans", $("#veterans").data("kendoRadioGroup").value());
-
-            if($("#veterans").data("kendoRadioGroup").value() == "Y"){
-                formData.append("veteransNum", $("#veteransNum").val());
-            }
+            //formData.append("veterans", $("#veterans").data("kendoRadioGroup").value());
+            formData.append("veterans", veteransValue !== undefined ? veteransValue : "");
 
             formData.append("armiYn", !$("#armiYn").is(":checked") ? "Y" : "N");
             if(!$("#armiYn").is(":checked")){
@@ -244,7 +244,8 @@ var applicationForm = {
 
                 formData.append("armiFile", $("#armiFile")[0].files[0]);
             }
-
+            console.log("userName : "+formData.get("userName"));
+            console.log("gender : "+formData.get("gender"));
             var result = customKendo.fn_customFormDataAjax("/application/setApplicationForm1.do", formData);
             if(result.flag){
                 if(type == "temp"){

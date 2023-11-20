@@ -71,7 +71,7 @@
                 <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">오늘의 일정</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/spot/empScheduleList.do')">${scheduleStatus} 건</span></div>
             </div>
         </div>
-        <div class="panel" style="margin-top:10px;margin-bottom:10px;">
+        <div class="panel" style="margin-top:10px;margin-bottom:10px; height:171px;">
             <div style="padding: 17px 0 0 25px; display: flex; align-items: center;">
                 <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">임직원 생일</h4>
                 <span id="currentYearMonth" style="font-weight:600; font-size:15px; margin-left: 120px;"></span>
@@ -252,7 +252,7 @@
             <div style="padding: 25px 0 0 25px;">
                 <h4 class="media-heading" style="color: #333; font-size: 18px; font-weight: 600; letter-spacing: -2px; position: relative;">
                     캠스팟 즐겨찾기
-                    <img src="/images/ico/ic_setting_on.png" alt="" class="media-object img-circle" style="position: absolute; top: 0; right: 46px; width: 20px;">
+                    <img src="/images/ico/ic_setting_on.png" alt="" id ="favoriteMenu" class="media-object img-circle" style="position: absolute; top: 0; right: 46px; width: 20px; cursor:pointer;" >
                 </h4>
             </div>
             <div class="panel-body" style="padding:5px;">
@@ -336,6 +336,10 @@
             open_in_frame(menuNm);
         }
         updateScheduleCont();
+
+        $("#favoriteMenu").click(function (){
+            fn_favoriteMenu();
+        })
     });
     //대쉬보드 일정 표시
     function updateScheduleCont() {
@@ -684,6 +688,60 @@
 
         $("#empBirthDayList").append(html);
     }
+
+
+    function fn_favoriteMenu(){
+        var searchData = {
+            menuName : $("#menuSearchToobar").val(),
+        }
+        var ds = customKendo.fn_customAjax("/main/getSearchMenu", searchData);
+        if(ds.flag){
+            console.log(ds.ds);
+
+            var menuKendoWindowTemplate = $('<div class="pop_wrap" id="biz_type_popupEnroll" style="min-width:400px; display:none;">\n' +
+                '<div class="pop_con">\n' +
+                '<div class="com_ta2" id="menuSearchDiv">\n' +
+                '<input type="text" id="menuSearchToobar" class="form-control" style="height:auto; margin-bottom:15px;" placeholder="메뉴를 검색하세요" onkeydown="if(window.event.keyCode==13){fn_searchMenu()}">' +
+                '</div>\n' +
+                '</div>\n' +
+                '</div>');
+
+            menuKendoWindowTemplate.kendoWindow({
+                width: "450px;",
+                height: "250px;",
+                title: "메뉴 검색",
+                visible: false,
+                modal : true,
+                close: function () {
+                    menuKendoWindowTemplate.remove();
+                }
+            }).data("kendoWindow");
+
+            var html = "";
+            if(ds.ds != null){
+
+                if(ds.ds.length > 0){
+                    for(var i = 0 ; i < ds.ds.length ; i++){
+                        html += '<div style="border-bottom: 1px solid lightgray; margin-top: 3px;">';
+                        html += "   <a href='#' style=\"display:flex;\" class=\"searchMenuATag\" menuPath=\""+ ds.ds[i].MENU_PATH +"\" menuNamePath='홈 > " + ds.ds[i].MENU_NAME_PATH + "' menuNameKr='" + ds.ds[i].MENU_NAME + "'>\n";
+                        html += ds.ds[i].MENU_NAME_PATH;
+                        html += '</a>';
+                        html += '</div>';
+                    }
+                }
+            }
+            $("#menuSearchDiv").append(html);
+            $(".searchMenuATag").on("click", function(){
+                var menuPath = $(this).attr("menuPath");
+                menuKendoWindowTemplate.data("kendoWindow").close();
+                $("#menuSearchToobar").val("");
+                open_in_frame(menuPath);
+            });
+            menuKendoWindowTemplate.data("kendoWindow").center().open();
+        }
+    }
+
+
 </script>
 <script src="/js/schedule/custom.min.js"></script>
 <script src="/js/vendors/chartist.min.js"></script>
