@@ -1217,4 +1217,15 @@ public class ProjectController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/intra/cam_project/budgetChangeInfo.do")
+    public String budgetChangeInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "popup/cam_project/budgetChangeInfo";
+    }
 }

@@ -89,7 +89,7 @@ var regRnd = {
         var tab9Url = "/intra/cam_project/bustInfo.do";          // 출장관리
         // var tab10Url = "/intra/cam_project/teamInfo.do";             // 협업관리
         var tab11Url= "/intra/cam_project/purcInfo.do";          // 구매관리
-        var tab12Url= "/intra/cam_project/purcInfo.do";          // 세세목 변경신청
+        var tab12Url= "/intra/cam_project/budgetChangeInfo.do";          // 세세목 변경신청
         var tab13Url= "/intra/cam_project/purcInfo.do";          // 정산/원가
 
         if (setParameters != null && setParameters.PJT_SN != null) {

@@ -76,6 +76,7 @@ var regPay = {
                     for(let i = 1; i < rs.length; i++) {
                         regPayDet.addRow()
                     }
+
                     for(let i = 0; i < rs.length; i++) {
                         $("#crmNm" + i).val(rs[i].EMP_NAME_KR);
                         $("#trCd" + i).val(rs[i].ERP_ERP_CD);
@@ -85,7 +86,9 @@ var regPay = {
                         $("#totCost" + i).val(regPay.comma(rs[i].MON_SAL));
                         $("#supCost" + i).val(regPay.comma(rs[i].MON_SAL));
                     }
+
                     selectProject(rs[0].PJT_SN, rs[0].PJT_NM, rs[0].PJT_CD)
+
                 }
             });
         }
