@@ -54,5 +54,9 @@ public interface BoardService {
     /** 이전 소식지 년도별 데이터 조회 */
     List<Map<String, Object>>getLetterListOld(Map<String, Object> params);
     /** 캠틱 메인홈페이지 캠틱포커스 데이터 연동 */
-    List<Map<String, Object>>getFocusList(Map<String, Object> params);
+    List<Map<String, Object>>getFocusList(Map<String, Object> param);
+
+    List<Map<String, Object>> getRecruitList(Map<String, Object> param);
+
+    List<Map<String, Object>> getSnsPosts(Map<String, Object> param);
 }

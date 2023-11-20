@@ -63,6 +63,11 @@
 		margin-bottom: 0;
 	}
 
+	/* 2023-11-20 김병수 radio 버튼 css추가 */
+	.__lab {display:inline-flex;gap:0.2rem;align-items:center;position:relative;}
+	.__lab span{font-weight: normal;}
+	input[type="radio"] {appearance: auto;-webkit-appearance: auto;-moz-appearance: auto;display: inline-block;box-sizing: border-box;margin: 0;font-size: inherit;line-height: normal;color: inherit;}
+
 </style>
 
 
@@ -100,6 +105,21 @@
 										<input type="text" id="writer" class="inputText" value="관리자" disabled/>
 									</td>
 								</tr>
+								<c:if test="${categoryId eq 'sns'}">
+									<tr style="border-bottom: 1px solid #ccc;">
+										<th>SNS 유형</th>
+										<td colspan="2">
+											<label class="__lab">
+												<input type="radio" id ="snsFaceBook" name="snsType" value="1" checked >
+												<i></i><span>페이스북</span>
+											</label>
+											<label class="__lab" style="margin-left:10px;">
+												<input type="radio" id ="snsInstaGram" name="snsType" value="2">
+												<i></i><span>인스타그램</span>
+											</label>
+										</td>
+									</tr>
+								</c:if>
 								<tr style="border-bottom: 1px solid #ccc;">
 									<th>작성일자</th>
 									<td>
@@ -226,9 +246,11 @@
 			$(".categoryName").text("뉴스레터");
 		}else if(categoryId == "video"){
 			$(".categoryName").text("홍보영상");
+		}else if(categoryId == "sns"){
+			$(".categoryName").text("SNS");
 		}
 
-		if(categoryId == "photo" || categoryId == "video" || categoryId == "news"){
+		if(categoryId == "photo" || categoryId == "video" || categoryId == "news" || categoryId =="sns"){
 			$("#textMod").text("표지");
 			$("#fileUpload span").text("이미지 첨부");
 		}else if(categoryId == "report") {
@@ -277,6 +299,7 @@
 		}
 
 		var formData = new FormData();
+		var snsType = $("input[name='snsType']:checked").val();
 
 		formData.append("boardId", categoryId);
 		formData.append("boardCategoryId", categoryId);
@@ -286,13 +309,13 @@
 		formData.append("content", content);
 		formData.append("urlText", $("#urlText").val());
 		formData.append("hashText", $("#hashText").val());
+		formData.append("snsType", snsType);
 
 		if(fCommon.global.attFiles.length != 0){
 			if(fCommon.global.attFiles.length > 1){
 				alert("첨부 이미지는 1개만 업로드 가능합니다..");
 				return false;
 			}
-
 			console.log(fCommon.global.attFiles);
 			//첨부파일
 			if(fCommon.global.attFiles[0].name.split(".")[1] == "png" || fCommon.global.attFiles[0].name.split(".")[1] == "jpg") {
@@ -319,8 +342,6 @@
 				location.href = '/camtic/pr/'+categoryId+'.do';
 			}
 		});
-
-
 	}
 
 </script>

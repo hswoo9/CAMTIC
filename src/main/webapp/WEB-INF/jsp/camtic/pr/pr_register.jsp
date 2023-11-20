@@ -62,6 +62,12 @@
   }
 
   div#content img { max-width: 100%; height: auto; }
+
+  /* 2023-11-20 김병수 radio 버튼 css추가 */
+  .__lab {display:inline-flex;gap:0.2rem;align-items:center;position:relative;}
+  .__lab span{font-weight: normal;}
+  input[type="radio"] {appearance: auto;-webkit-appearance: auto;-moz-appearance: auto;display: inline-block;box-sizing: border-box;margin: 0;font-size: inherit;line-height: normal;color: inherit;}
+
 </style>
 
 
@@ -99,6 +105,21 @@
                     <input type="text" id="writer" class="" value="${map.REG_EMP_NAME}" disabled/>
                   </td>
                 </tr>
+                <c:if test="${categoryId eq 'sns'}">
+                  <tr style="border-bottom: 1px solid #ccc;">
+                    <th>SNS 유형</th>
+                    <td colspan="2">
+                      <label class="__lab">
+                        <input type="radio" id="snsFaceBook" name="snsType" value="1" <c:if test="${map.SNS_TYPE eq 1}">checked</c:if>>
+                        <i></i><span>페이스북</span>
+                      </label>
+                      <label class="__lab" style="margin-left:10px;">
+                        <input type="radio" id="snsInstaGram" name="snsType" value="2" <c:if test="${map.SNS_TYPE eq 2}">checked</c:if>>
+                        <i></i><span>인스타그램</span>
+                      </label>
+                    </td>
+                  </tr>
+                </c:if>
                 <tr>
                   <th>작성일자</th>
                   <td>
@@ -344,6 +365,7 @@
     }
 
     var formData = new FormData();
+    var snsType = $("input[name='snsType']:checked").val();
 
     formData.append("boardId", categoryId);
     formData.append("category", categoryId);
@@ -354,6 +376,7 @@
     formData.append("content", content);
     formData.append("urlText", $("#urlText").val());
     formData.append("hashText", $("#hashText").val());
+    formData.append("snsType", snsType);
 
     //첨부파일
     if(fCommon.global.attFiles.length != 0){
