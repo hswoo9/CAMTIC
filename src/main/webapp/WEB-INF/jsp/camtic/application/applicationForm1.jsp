@@ -245,9 +245,13 @@
 
     function formatPhoneNumber(input) {
         let digits = input.value.replace(/\D/g, '');
+        var tmp = digits.substring(0,2);
 
         if (digits.length === 9) {
             let formattedNumber = digits.replace(/(\d{2})(\d{3})(\d{4})/, '$1-$2-$3');
+            input.value = formattedNumber;
+        }else if(digits.length === 10 && tmp === '02'){
+            let formattedNumber = digits.replace(/(\d{2})(\d{4})(\d{4})/, '$1-$2-$3');
             input.value = formattedNumber;
         } else if (digits.length === 10) {
             let formattedNumber = digits.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
