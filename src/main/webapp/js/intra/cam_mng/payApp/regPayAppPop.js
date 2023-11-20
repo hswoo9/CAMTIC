@@ -256,7 +256,7 @@ var regPay = {
 
             regPayDet.global.createHtmlStr += "" +
                 '<tr class="payDestInfo newArray" id="pay' + regPayDet.global.itemIndex + '" style="text-align: center;">';
-            if($("#status").val() == "rev" || $("#status").val() == "in"){
+            if($("#status").val() == "rev" || $("#status").val() == "in" || $("#status").val() == "re" || $("#status").val() == "alt"){
                 if(item.DET_STAT != "N"){
                     regPayDet.global.createHtmlStr += "" +
                         '   <td><input type="checkbox" id="check' + regPayDet.global.itemIndex + '" value='+item.PAY_APP_DET_SN+' style="position: relative; top: 5px;" class="check" /></td>';
@@ -312,7 +312,7 @@ var regPay = {
                 '   <td>' +
                 '       <input type="text" id="iss' + regPayDet.global.itemIndex + '" value="'+item.ISS+'"  class="iss">' +
                 '   </td>';
-            if($("#status").val() != "in"){
+            if($("#status").val() == "rev"){
                 regPayDet.global.createHtmlStr += "" +
 
                     '   <td>' +
@@ -331,7 +331,7 @@ var regPay = {
                 '   <td>' +
                 '       <div style="text-align: center">';
 
-                if($("#status").val() == "rev" || $("#status").val() == "in"){
+                if($("#status").val() == "rev" || $("#status").val() == "in" || $("#status").val() == "re" || $("#status").val() == "alt"){
                     if($("#auth").val() != "user"){
                         if(item.EXNP_SAVE == "Y"){
                             regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" disabled id="revertBtn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" onclick="regPayDet.fn_revertDet(this)">반려</button>';
@@ -441,6 +441,36 @@ var regPay = {
             $("#appDe").data("kendoDatePicker").enable(false);
             $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
             $("#exnpAddBtn").text("여입결의서 작성");
+            $("#addBtn").css("display", "none");
+            $("#exnpAddBtn").css("display", "");
+        }
+
+        if(stat == "re"){
+            if($("#auth").val() != "user"){
+                $("#titleStat").text("검토");
+            } else {
+                $("#titleStat").text("확인");
+            }
+            $("#payAppType").data("kendoRadioGroup").enable(false);
+            $("#payAppStat").data("kendoRadioGroup").enable(false);
+            $("#appDe").data("kendoDatePicker").enable(false);
+            $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
+            $("#exnpAddBtn").text("반납결의서 작성");
+            $("#addBtn").css("display", "none");
+            $("#exnpAddBtn").css("display", "");
+        }
+
+        if(stat == "alt"){
+            if($("#auth").val() != "user"){
+                $("#titleStat").text("검토");
+            } else {
+                $("#titleStat").text("확인");
+            }
+            $("#payAppType").data("kendoRadioGroup").enable(false);
+            $("#payAppStat").data("kendoRadioGroup").enable(false);
+            $("#appDe").data("kendoDatePicker").enable(false);
+            $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
+            $("#exnpAddBtn").text("대체결의서 작성");
             $("#addBtn").css("display", "none");
             $("#exnpAddBtn").css("display", "");
         }
@@ -863,6 +893,16 @@ var regPayDet = {
             if(!confirm("여입결의를 작성하시겠습니까?")) {
                 return;
             }
+        } else if($("#status").val() == "re"){
+            subject = "여입결의";
+            if(!confirm("반납결의를 작성하시겠습니까?")) {
+                return;
+            }
+        } else if($("#status").val() == "alt"){
+            subject = "여입결의";
+            if(!confirm("대체결의를 작성하시겠습니까?")) {
+                return;
+            }
         }
 
 
@@ -913,6 +953,10 @@ var regPayDet = {
         if($("#status").val() == "rev"){
             url += "&status=" + $("#status").val();
         } else if($("#status").val() == "in"){
+            url += "&status=" + $("#status").val();
+        } else if($("#status").val() == "re"){
+            url += "&status=" + $("#status").val();
+        } else if($("#status").val() == "alt"){
             url += "&status=" + $("#status").val();
         }
         var name = "_blank";
