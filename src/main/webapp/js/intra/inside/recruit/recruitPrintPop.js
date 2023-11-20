@@ -43,24 +43,33 @@ const recruitPrintPop = {
 
     openCallBack: function(){
         let recruitInfoSn = $("#recruitInfoSn").val();
+        let recruitAreaInfoSn = $("#recruitAreaInfoSn").val();
+        console.log("recruitInfoSn : "+recruitInfoSn);
+        console.log("recruitAreaInfoSn : "+recruitAreaInfoSn);
 
-        const data = { recruitInfoSn : recruitInfoSn };
-        const rs = customKendo.fn_customAjax("/inside/getRecruitList", data);
+        const data = {
+            recruitInfoSn: recruitInfoSn,
+            recruitAreaInfoSn: recruitAreaInfoSn
+        };
+        const rs = customKendo.fn_customAjax("/inside/getApplicationList", data);
 
         console.log("rs");
         console.log(rs);
 
-        //const map = rs.hashMap;
-        //const res = rs.result;
-        //const recruitList = res.recruitList;
         let recruitMap = "";
+
+        //console.log("map : " + map);
+        //console.log("res : "+ res);
 
         /**
         for(let i=0; i< recruitList.length; i++){
             if( recruitList[i].RECRUIT_INFO_SN == recruitInfoSn){
                 recruitMap = recruitList[i];
             }
-        }*/
+        }
+         */
+
+        //console.log("recruitMap : "+recruitMap);
 
         //console.log("recruitMap");
         //console.log(recruitMap);

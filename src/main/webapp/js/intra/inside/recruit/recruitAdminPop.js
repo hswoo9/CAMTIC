@@ -464,8 +464,11 @@ var recruitAdminPop = {
     },
     recruitPrintPop : function() {
         let recruitInfoSn = $("#recruitInfoSn").val();
+        let recruitAreaInfoSn = $("#recruitAreaInfoSn").val();
         console.log("Recruit Info Sn: " + recruitInfoSn);
-        var url = "/Inside/pop/recruitPrintPop.do?recruitInfoSn="+recruitInfoSn;
+        console.log("Recruit Area Info Sn : "+recruitAreaInfoSn);
+
+        var url = "/Inside/pop/recruitPrintPop.do?recruitInfoSn="+recruitInfoSn+"&recruitAreaInfoSn="+recruitAreaInfoSn;
         var name = "recruitPrintPop";
         var option = "width=1250, height=900, scrollbars=no, top=100, left=300, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
