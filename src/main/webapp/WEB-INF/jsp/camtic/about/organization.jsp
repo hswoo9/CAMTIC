@@ -135,7 +135,7 @@
                       <h4 style="background:#22ca55;"><span>드론사업부</span></h4>
                     </div>
                     <div class="box">
-                      <h4 style="background:#fff;border:1px solid #22ca55;border-radius:5px;color:#22ca55;"><strong>드론산업 혁신지원센터</strong></h4>
+                      <h4 style="background:#fff;border:1px solid #22ca55;border-radius:5px;color:#22ca55;"><strong>드론개발기술지원센터</strong></h4>
                     </div>
                   </div>
                   <div class="cer">

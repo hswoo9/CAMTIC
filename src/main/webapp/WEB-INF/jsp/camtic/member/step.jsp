@@ -16,8 +16,8 @@
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
         <div class="__tit1" style="padding: 0px 100px;">
-          <h3><strong>복리후생</strong></h3>
-          <p>
+          <%--<h3><strong>복리후생</strong></h3>--%>
+          <p style="font-size:18px;">
             조직과 직무에 적합한 인재를 채용하고자 아래와 같이 채용절차가 진행됩니다.
           </p>
         </div>
