@@ -321,5 +321,20 @@
             SOSIK_YEAR = #{year}
     </select>
 
+    <select id="getFocusList" resultType="map" parameterType="map">
+        /*getFocusList*/
+        SELECT
+            *,
+            (select concat(file_path,file_uuid) from cam_common.dj_file_info where fr_key = dba.board_article_id and file_cd = #{focusCategory}) AS FILE_PATH
+        FROM
+            CAM_COMMON.DJ_BOARD_ARTICLE DBA
+        WHERE
+            BOARD_CATEGORY_ID = #{focusCategory}
+          AND
+            ACTIVE = 'Y'
+        ORDER BY
+            REG_DATE DESC
+        LIMIT 3
+    </select>
 
 </mapper>

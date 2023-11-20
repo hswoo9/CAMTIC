@@ -496,6 +496,19 @@ public class BoardController {
         return "jsonView";
     }
 
+    /**
+     * 캠틱 메인홈페이지 캠틱포커스 데이터 연동
+     * */
+    @RequestMapping("/board/getFocusList")
+    public String getFocusList(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = boardService.getFocusList(params);
+
+        model.addAttribute("list", list);
+        model.addAttribute("categoryId", params.get("category"));
+        return "jsonView";
+    }
+
 
 
 }

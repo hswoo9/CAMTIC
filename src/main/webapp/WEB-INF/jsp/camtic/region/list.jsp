@@ -35,7 +35,7 @@
           <div class="__icoBox1">
             <%-- <div class="ico"><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div> --%>
             <div class="__fz18 __black">
-              <div class="img"><img src="/images/camtic/img-ndrone3-1.jpg" alt=""></div>
+              <div class="img"><img src="/images/camtic/img-facility.png" alt=""></div>
             </div>
           </div>
 
@@ -64,42 +64,42 @@
             <tr>
               <td class="fz18 __black">전주혁신창업허브(창업동)</td>
               <td class="tal">연면적 12,212㎡(지하 1층, 지상 6층)</td>
-              <td class="tal" style="text-align:center">2020.08</td>
+              <td class="tal">2020.08</td>
               <td class="tal">기업입주공간, 창업공간, 교육장, 회의실, 카페, 구내식당 등</td>
               <td class="tal">일반형 37개실 초기창업실 18개실</td>
             </tr>
             <tr>
               <td class="fz18 __black">전주혁신창업허브(성장동)</td>
               <td class="tal">연면적 9,980㎡(지하 1층, 지상 4층)</td>
-              <td class="tal" style="text-align:center">2024.08(예정)</td>
+              <td class="tal">2024.08(예정)</td>
               <td class="tal">창업성장지원센터, 스피드팩토리</td>
               <td class="tal">일반형 40개실</td>
             </tr>
             <tr>
               <td class="fz18 __black">전주드론제작소 윙윙 스테이션(1동)</td>
               <td class="tal">메이커공간 메이커제작 장비(12종)</td>
-              <td class="tal" style="text-align:center">2022.09</td>
+              <td class="tal">2022.09</td>
               <td class="tal">메이커스페이스, 기업입주공간</td>
               <td class="tal">일반형 7개실</td>
             </tr>
             <tr>
               <td class="fz18 __black">스마트공장배움터</td>
               <td class="tal">제조라인, 미니라인, 데이터센터 교육장비</td>
-              <td class="tal" style="text-align:center">2019.05</td>
+              <td class="tal">2019.05</td>
               <td class="tal">스마트공장 교육시설</td>
               <td class="tal"></td>
             </tr>
             <tr>
               <td class="fz18 __black">복합소재뿌리기술센터</td>
               <td class="tal">사출성형장비(6종) 압축/열 성형장비(3종) 금형가공 장비(4종)</td>
-              <td class="tal" style="text-align:center">2020.10</td>
+              <td class="tal">2020.10</td>
               <td class="tal">탄소복합재 부품/금형 생산기술 장비 구축</td>
               <td class="tal"></td>
             </tr>
             <tr>
               <td class="fz18 __black">드론산업혁신지원센터</td>
               <td class="tal">시제품제작장비(6종) 성능평가지원장비(5종) AI항공관제지원장비(4종)</td>
-              <td class="tal" style="text-align:center">2022.03</td>
+              <td class="tal">2022.03</td>
               <td class="tal">드론관련 산학연 집적공간</td>
               <td class="tal"></td>
             </tr>
