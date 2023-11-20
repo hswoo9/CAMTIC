@@ -38,7 +38,8 @@ var rndRPR = {
                 $("#reqBtn").css("display", "");
             }else {
                 $("#saveBtn").css("display", "none");
-                $("#changeBtn").css("display", "");
+                // $("#changeBtn").css("display", "");
+                $("#changeSaveBtn").css("display", "");
             }
         }else{
             var userResult = customKendo.fn_customAjax("/projectRnd/getRschInfo", data);
@@ -88,7 +89,7 @@ var rndRPR = {
         }
     },
 
-    fn_save : function (){
+    fn_save : function (type){
         var parameters = {
             joinMemNm : $("#joinMember").val(),
             joinMemSn : $("#joinMemberSn").val(),
@@ -106,6 +107,10 @@ var rndRPR = {
 
         if($("#partRateSn").val() != null && $("#partRateSn").val() != ""){
             parameters.partRateSn = $("#partRateSn").val();
+        }
+
+        if(type == "change"){
+            parameters.type = "change";
         }
 
         if(parameters.minPartRate == null || parameters.minPartRate == ""){
@@ -200,6 +205,7 @@ var rndRPR = {
         if(ls != null){
             var html = '';
             for(var i = 0; i < ls.length; i++){
+                console.log(ls);
                 $("#partRateVersion").html("");
                 $("#partRateVersion2").html("");
                 var mngStat = "";
@@ -209,6 +215,10 @@ var rndRPR = {
                     mngStat = "참여율확정";
                 } else {
                     mngStat = "검토중"
+                }
+                var gubun = "신규";
+                if(ls[i].PART_RATE_VER > 1){
+                    gubun = "변경요청";
                 }
 
                 var repDate = "";
@@ -225,8 +235,10 @@ var rndRPR = {
                 if(ls[i].MNG_COMM != null){
                     mngComm = ls[i].MNG_COMM;
                 }
+
+
                 html += '<tr style="text-align: center">';
-                html += '   <td>신규</td>';
+                html += '   <td>'+gubun+'</td>';
                 html += '   <td>';
                 html += '       <span style="cursor : pointer;font-weight: bold" onclick="rndRPR.versionClickEvt(' + ls[i].PART_RATE_VER_SN + ', \''+ls[i].MNG_STAT+'\')">ver.' + (i+1) + '</span>';
                 html += '   </td>';
@@ -268,6 +280,6 @@ var rndRPR = {
     },
 
     fn_changePartRate: function (){
-        alert("변경요청");
+        rndRPR.fn_save("change");
     }
 }

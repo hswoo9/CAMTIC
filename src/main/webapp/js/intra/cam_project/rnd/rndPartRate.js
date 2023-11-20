@@ -150,13 +150,15 @@ var rndPR = {
 
         var result = customKendo.fn_customAjax("/project/getPartRateVerData", data);
         var rs = result.map;
+        if(rs.PART_RATE_VER > 1 && rs.MNG_STAT == "C"){
+            $("#partRateChangeDoc").css("display", "");
+        } else {
+            $("#partRateChangeDoc").css("display", "none");
+
+        }
         var mng = result.result.projectManagerInfo;
         var mem = result.result.projectMemberInfo;
 
-
-        console.log(mng);
-
-        console.log(mem);
         var empList = "";
         if(mng != null){
             $("#partRateMember").html("");
