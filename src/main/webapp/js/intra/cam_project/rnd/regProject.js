@@ -90,7 +90,8 @@ var regRnd = {
         // var tab10Url = "/intra/cam_project/teamInfo.do";             // 협업관리
         var tab11Url= "/intra/cam_project/purcInfo.do";          // 구매관리
         var tab12Url= "/intra/cam_project/budgetChangeInfo.do";          // 세세목 변경신청
-        var tab13Url= "/intra/cam_project/purcInfo.do";          // 정산/원가
+        var tab13Url= "/intra/cam_project/budgetChangeInfo.do";          // 입금관리
+        var tab14Url= "/intra/cam_project/purcInfo.do";                 // 정산/원가
 
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -107,6 +108,8 @@ var regRnd = {
             tab11Url += "?pjtSn=" + setParameters.PJT_SN;
             tab12Url += "?pjtSn=" + setParameters.PJT_SN;
             tab13Url += "?pjtSn=" + setParameters.PJT_SN;
+            tab14Url += "?pjtSn=" + setParameters.PJT_SN;
+
         }
 
         var dataSource = [];
@@ -137,7 +140,8 @@ var regRnd = {
                 // {name: "협업", url: tab10Url},
                 {name: "구매", url: tab11Url},
                 {name: "예산변경신청", url: tab12Url},
-                {name: "정산/원가", url: tab13Url, imageUrl: "/images/ico/etc_01_1.png"}
+                {name: "입금관리", url: tab13Url},
+                {name: "정산/원가", url: tab14Url, imageUrl: "/images/ico/etc_01_1.png"}
             ]
         }
 
@@ -183,6 +187,10 @@ var regRnd = {
                     }
                 }
             }
+
+            tabStrip.disable(tabStrip.tabGroup.children().eq(11));
+            tabStrip.disable(tabStrip.tabGroup.children().eq(12));
+
         }
 
         if(setParameters != null && setParameters.TEAM_STAT == "Y"){
