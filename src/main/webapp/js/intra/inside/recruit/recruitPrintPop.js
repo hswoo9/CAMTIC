@@ -50,86 +50,73 @@ const recruitPrintPop = {
         console.log("rs");
         console.log(rs);
 
-        const map = rs.hashMap;
-        const res = rs.result;
-        const recruitList = res.recruitList;
-        //const estSubList = res.estSubList;
+        //const map = rs.hashMap;
+        //const res = rs.result;
+        //const recruitList = res.recruitList;
         let recruitMap = "";
-        //let estSubMap = [];
 
-        /** 현재 버전 견적 데이터 추출 */
+        /**
         for(let i=0; i< recruitList.length; i++){
             if( recruitList[i].RECRUIT_INFO_SN == recruitInfoSn){
                 recruitMap = recruitList[i];
             }
+        }*/
+
+        //console.log("recruitMap");
+        //console.log(recruitMap);
+
+        //if(recruitMap == ""){
+        //    alert("데이터 조회 중 오류가 발생하였습니다. 새로고침 후 진행바랍니다."); return;
+        //}
+
+        /** 채용부문 */
+        recruitPrintPop.global.hwpCtrl.PutFieldText("AREA_INFO", "1");
+
+        /** 마감일 */
+        recruitPrintPop.global.hwpCtrl.PutFieldText("DEADLINE_DT", "2");
+
+        /** 작성일 */
+        recruitPrintPop.global.hwpCtrl.PutFieldText("REG_DT", "3");
+
+        /** 작성자 */
+        recruitPrintPop.global.hwpCtrl.PutFieldText("EMP_NAME_SIGN", "4");
+
+        /** 지원자 리스트 */
+        let html = "";
+        html += '<table style="font-family:바탕체;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
+        html += '   <tr>';
+        html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
+        html += '           <table border="5.5" style="border-collapse: collapse; margin: 0px;">';
+        html += '               <tr>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 55px;"><p style="font-size:12px;"><b>번호</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 95px;"><p style="font-size:12px;"><b>성명</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 75px;"><p style="font-size:12px;"><b>연령</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 75px;"><p style="font-size:12px;"><b>성병</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 150px;"><p style="font-size:12px;"><b>학력</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 75px;"><p style="font-size:12px;"><b>경력</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 195px;"><p style="font-size:12px;"><b>직무관련\n자격/면혀증</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 195px;"><p style="font-size:12px;"><b>외국어\n점수</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 95px;"><p style="font-size:12px;"><b>비고</b></p></td>';
+        html += '               </tr>';
+        for(let i=0; i<2; i++){
+            html += '               <tr>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">1</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">2</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">3</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">4</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">5</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">6</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">7</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">8</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">9</p></td>';
+            html += '               </tr>';
         }
-
-        /** 현재 버전 견적 리스트 추출
-        for(let i=0; i<estSubList.length; i++){
-            if(estSubList[i].EST_SN == estSn){
-                estSubMap.push(estSubList[i]);
-            }
-        }
-         */
-
-        console.log("recruitMap");
-        console.log(recruitMap);
-        //console.log("estSubMap");
-        //console.log(estSubMap);
-
-        if(recruitMap == ""){
-            alert("데이터 조회 중 오류가 발생하였습니다. 새로고침 후 진행바랍니다."); return;
-        }
-
-        /** 1. 견젹 표
-        estPrintPop.global.hwpCtrl.PutFieldText("EST_DE", estMap.EST_DE);
-        estPrintPop.global.hwpCtrl.PutFieldText("PJT_CD", map.PJT_CD);
-        estPrintPop.global.hwpCtrl.PutFieldText("EST_CRM_NM", estMap.CRM_NM);
-        estPrintPop.global.hwpCtrl.PutFieldText("EST_CRM_NM", estMap.CRM_NM);
-        estPrintPop.global.hwpCtrl.PutFieldText("EST_NM", estMap.EST_NM);
-
-        2. CRM 정보
-        estPrintPop.global.hwpCtrl.PutFieldText("CRM_NM", crmMap.CRM_NM);
-        estPrintPop.global.hwpCtrl.PutFieldText("CRM_NO", crmMap.CRM_NO);
-        estPrintPop.global.hwpCtrl.PutFieldText("CRM_CEO", crmMap.CRM_CEO);
-        estPrintPop.global.hwpCtrl.PutFieldText("ADDR", crmMap.ADDR);
-        estPrintPop.global.hwpCtrl.PutFieldText("CRM_EVENT", crmMap.CRM_EVENT);
-        estPrintPop.global.hwpCtrl.PutFieldText("CRM_PROD", crmMap.CRM_PROD);
-
-        let crmManager = "";
-        let crmMemSn = "";
-        crmMemSn = map.CRM_MEM_SN;
-        if(crmMemSn != null){
-            crmManager = crmMap.CRM_MEM_NM + " / " + crmMap.CRM_MEM_PHN;
-        }else{
-            crmManager = map.CRM_MEM_TEMP_NM;
-        }
-        estPrintPop.global.hwpCtrl.PutFieldText("CRM_MANAGER", crmManager);
-        estPrintPop.global.hwpCtrl.PutFieldText("EMAIL", crmMap.CRM_NM);
-
-        let supAmtSum = 0;
-         3. 견적 리스트
-        for(let i=0; i<estSubMap.length; i++){
-            estPrintPop.global.hwpCtrl.PutFieldText("PROD_NM"+i, String(estSubMap[i].PROD_NM));
-            estPrintPop.global.hwpCtrl.PutFieldText("UNIT_AMT"+i, fn_numberWithCommas(estSubMap[i].UNIT_AMT));
-            estPrintPop.global.hwpCtrl.PutFieldText("PROD_CNT"+i, String(estSubMap[i].PROD_CNT));
-            estPrintPop.global.hwpCtrl.PutFieldText("UNIT"+i, estSubMap[i].UNIT);
-            estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT"+i, fn_numberWithCommas(estSubMap[i].SUP_AMT));
-            estPrintPop.global.hwpCtrl.PutFieldText("ETC"+i, estSubMap[i].ETC);
-            supAmtSum += estSubMap[i].SUP_AMT;
-        }
-
-         4. 견적 합계
-        const supAmtSum2 = Math.floor(supAmtSum/10);
-        const supAmtSum1 = supAmtSum - supAmtSum2;
-        estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum1));
-        estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", fn_numberWithCommas(supAmtSum2));
-        estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum));
-        estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM_TEXT", "총 견적금액 : "+fn_numberWithCommas(supAmtSum)+" 원");
-
-        5. 기타사항
-        estPrintPop.global.hwpCtrl.PutFieldText("EST_ISS", String(estMap.EST_ISS));
-       */
+        html += '           </table>';
+        html += '       </td>';
+        html += '   </tr>';
+        html += '</table>';
+        recruitPrintPop.global.hwpCtrl.MoveToField('RECRUIT_HTML', true, true, false);
+        recruitPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
     },
 
     resize: function() {

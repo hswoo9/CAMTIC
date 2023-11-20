@@ -467,7 +467,7 @@ var recruitAdminPop = {
         console.log("Recruit Info Sn: " + recruitInfoSn);
         var url = "/Inside/pop/recruitPrintPop.do?recruitInfoSn="+recruitInfoSn;
         var name = "recruitPrintPop";
-        var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1250, height=900, scrollbars=no, top=100, left=300, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
 }
