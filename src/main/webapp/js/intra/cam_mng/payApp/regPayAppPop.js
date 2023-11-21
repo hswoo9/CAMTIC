@@ -590,7 +590,20 @@ var regPay = {
             dataType : "json",
             success : function(rs){
                 if(rs.code == 200){
-                    location.href="/payApp/pop/regPayAppPop.do?payAppSn=" + rs.params.payAppSn;
+                    let status = "";
+                    if($("#payAppType").data("kendoRadioGroup").value() == 1){
+                        status = "rev";
+                    }else if($("#payAppType").data("kendoRadioGroup").value() == 2){
+                        status = "in";
+                    }else if($("#payAppType").data("kendoRadioGroup").value() == 3){
+                        status = "re";
+                    }else{
+                        status = "alt";
+                    }
+
+                    location.href="/payApp/pop/regPayAppPop.do?payAppSn=" + rs.params.payAppSn + "&status=" + status;
+
+                    opener.parent.paymentList.gridReload();
                 }
             }
         });

@@ -6,7 +6,7 @@ var entryList = {
         saveAjaxData : "",
     },
 
-    fn_defaultScript : function (){
+    fn_defaultScript : function(){
 
         entryList.global.dropDownDataSource = [
             { text: "작성중", value: "1" },
@@ -25,12 +25,12 @@ var entryList = {
         entryList.gridReload();
     },
 
-    mainGrid: function(url, params){
+    mainGrid : function(url, params){
         $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             selectable: "row",
-            height : 525,
+            height: 525,
             pageable: {
                 refresh: true,
                 pageSizes: [ 10, 20, 30, 50, 100 ],

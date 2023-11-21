@@ -6,7 +6,7 @@ var paymentList = {
         saveAjaxData : "",
     },
 
-    fn_defaultScript : function (){
+    fn_defaultScript : function(){
 
         paymentList.global.dropDownDataSource = [
             { text: "작성중", value: "1" },
@@ -25,12 +25,12 @@ var paymentList = {
         paymentList.gridReload();
     },
 
-    mainGrid: function(url, params){
+    mainGrid : function(url, params){
         $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             selectable: "row",
-            height : 525,
+            height: 525,
             pageable: {
                 refresh: true,
                 pageSizes: [ 10, 20, 30, 50, 100 ],
@@ -100,7 +100,7 @@ var paymentList = {
                     title: "프로젝트 명",
                     field: "PJT_NM",
                     width: 240,
-                    template: function (e){
+                    template: function(e){
                         var pjtNm = e.PJT_NM.toString().substring(0, 25);
                         return pjtNm + "...";
                     }
@@ -153,7 +153,7 @@ var paymentList = {
         }).data("kendoGrid");
     },
 
-    gridReload: function (){
+    gridReload : function(){
         paymentList.global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
             searchDept : $("#searchDept").val(),
@@ -164,7 +164,7 @@ var paymentList = {
         paymentList.mainGrid("/pay/getPaymentList", paymentList.global.searchAjaxData);
     },
 
-    fn_reqRegPopup : function (key, status, auth){
+    fn_reqRegPopup : function(key, status, auth){
         var url = "/payApp/pop/regPayAppPop.do";
         if(key != null && key != ""){
             url = "/payApp/pop/regPayAppPop.do?payAppSn=" + key;
