@@ -118,38 +118,10 @@ var subHolidayStat = {
         $("#searchVal").kendoTextBox();
     },
 
-    fn_makerGrid : function(e){
-
-        var dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            pageSize : 10,
-            transport: {
-                read : {
-                    url : "/subHoliday/getUserVacListStat.do",
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data, operation) {
-                    data.holidayYear = $("#holidayYear").val();
-                    data.deptName = $("#deptName").val();
-                    data.deptTeamName = $("#deptTeamName").val();
-                    data.edtHolidayKindTop = $("#edtHolidayKindTop").val();
-                    data.searchVal = $("#searchVal").val();
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    return data.result;
-                },
-                total: function (data) {
-                    return data.totalCount;
-                },
-            }
-        });
+    fn_makerGrid : function(url, params){
 
         $("#mainGrid").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource2(url, params),
             height: 568,
             sortable: true,
             scrollable: true,
@@ -329,7 +301,7 @@ var subHolidayStat = {
 
         subHolidayStat.global.searchAjaxData.arr = arr.substring(1);
 
-        subHolidayStat.fn_makerGrid('/subHoliday/getUserVacListStat',subHolidayStat.global.searchAjaxData);
+        subHolidayStat.fn_makerGrid('/subHoliday/getUserVacListStat.do',subHolidayStat.global.searchAjaxData);
 
         // $("#mainGrid").data("kendoGrid").dataSource.read();
     }

@@ -54,7 +54,7 @@ public interface SubHolidayService {
      */
     public List<Map<String, Object>> getUserVacList(Map<String, Object> params);
 
-    public List<Map<String, Object>> getUserVacListStat(Map<String, Object> params);
+    public List<Map<String, Object>> getUserVacListStat(Map<String, Object> map);
 
     void setUserVac(Map<String, Object> params);
 
@@ -80,4 +80,12 @@ public interface SubHolidayService {
     /**
      * 공휴일 삭제 */
     void deleteHoliday(Map<String, Object> params);
+
+    /**
+     * 연가 일괄 등록
+     */
+    List<Map<String,Object>> getUserInfoList (Map<String,Object> map);
+
+    Map<String, Integer> getCountMap2();
+
 }
