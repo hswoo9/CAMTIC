@@ -93,7 +93,7 @@
                 #{DT1},
                 #{DT2},
                 #{DT3},
-                'Y',
+                'N',
                 #{regEmpSeq}
             )
         <selectKey keyProperty="exnpSn" resultType="Integer" order="BEFORE">

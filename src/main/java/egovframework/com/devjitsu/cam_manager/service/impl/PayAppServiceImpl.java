@@ -980,6 +980,11 @@ public class PayAppServiceImpl implements PayAppService {
         return returnMap;
     }
 
+    @Override
+    public List<Map<String, Object>> getExnpAttList(Map<String, Object> params) {
+        return payAppRepository.getExnpAttList(params);
+    }
+
     private String filePath (Map<String, Object> params, String base_dir){
         LocalDate now = LocalDate.now();
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");

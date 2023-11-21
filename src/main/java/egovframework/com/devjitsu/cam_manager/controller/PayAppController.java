@@ -536,6 +536,11 @@ public class PayAppController {
         model.addAttribute("data", payAppService.getExnpAttInfo(params));
         return "jsonView";
     }
+    @RequestMapping("/pay/getExnpAttList")
+    public String getExnpAttList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", payAppService.getExnpAttList(params));
+        return "jsonView";
+    }
 
     @RequestMapping("/payApp/getPartRatePay")
     public String getPartRatePay(@RequestParam Map<String, Object> params, Model model){

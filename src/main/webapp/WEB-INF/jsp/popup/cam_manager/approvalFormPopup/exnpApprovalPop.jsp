@@ -9,6 +9,22 @@
 </div>
 <script>
     window.resizeTo(965, 900);
+    const result = customKendo.fn_customAjax("/payApp/pop/getExnpData", {
+        exnpSn: ${params.exnpSn}
+    });
+    const rs = result.map;
+    let formId = "97";
+    let docTitle = "";
+    if(rs.PAY_APP_TYPE == 1){
+        docTitle = "[지급결의서]${loginVO.orgnztNm}-${loginVO.name}";
+    }else if(rs.PAY_APP_TYPE == 2){
+        docTitle = "[여입결의서]${loginVO.orgnztNm}-${loginVO.name}";
+    }else if(rs.PAY_APP_TYPE == 3){
+        docTitle = "[반납결의서]${loginVO.orgnztNm}-${loginVO.name}";
+    }else if(rs.PAY_APP_TYPE == 4){
+        docTitle = "[대체결의서]${loginVO.orgnztNm}-${loginVO.name}";
+    }
+
     approvalDataInit();
     function approvalDataInit(){
         var approvalParams = {};
@@ -16,7 +32,7 @@
         approvalParams.formId = "96";
         approvalParams.compSeq = "1000";
         approvalParams.empSeq = "${loginVO.uniqId}";
-        approvalParams.docTitle = "[지출결의서]${loginVO.orgnztNm}-${loginVO.name}";
+        approvalParams.docTitle = docTitle;
         approvalParams.content = $("#approveDataPop")[0].innerHTML;
         approvalParams.type = "drafting";
         approvalParams.menuCd = "exnp";
