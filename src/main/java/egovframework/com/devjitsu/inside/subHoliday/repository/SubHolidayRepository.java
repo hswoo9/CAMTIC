@@ -80,5 +80,13 @@ public class SubHolidayRepository extends AbstractDAO  {
     public int getCountForDsI2() {return (Integer) selectOne("subHoliday.getCountForDsI2");}
     public int getCountForDsJ2() {return (Integer) selectOne("subHoliday.getCountForDsJ2");}
 
+    public void setSubHolidayByEmpInfo(Map<String, Object> params){
+        insert("subHoliday.setSubHolidayByEmpInfo", params);
+    }
+
+    public void setSubHolidayByEmpInfo2(Map<String, Object> params){
+        insert("subHoliday.setSubHolidayByEmpInfo2", params);
+    }
+
 }
 

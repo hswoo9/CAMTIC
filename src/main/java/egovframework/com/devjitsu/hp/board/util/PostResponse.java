@@ -65,6 +65,7 @@ public class PostResponse {
     private String RECRUIT_INFO_SN;
     private String RECRUIT_TITLE;
     private String REG_DT;
+    private int RECRUIT_VIEW_COUNT;
 
     public String getBOARD_NAME() {
         return BOARD_NAME;
@@ -205,4 +206,8 @@ public class PostResponse {
     public String getRECRUIT_INFO_SN() { return RECRUIT_INFO_SN; }
     public String getRECRUIT_TITLE() { return RECRUIT_TITLE; }
     public String getREG_DT() { return REG_DT; }
+
+    public int getRECRUIT_VIEW_COUNT() {
+        return RECRUIT_VIEW_COUNT;
+    }
 }

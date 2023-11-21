@@ -723,5 +723,37 @@
         SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 2;
     </select>
 
+    <insert id="setSubHolidayByEmpInfo">
+      INSERT INTO CAM_HR.DJ_EMP_INFO
+          (EMP_SEQ)
+      VALUES
+          #{empSeq}
+    </insert>
+
+    <insert id="setSubHolidayByEmpInfo2">
+        INSERT INTO CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST
+        (
+        SUBHOLIDAY_CODE_ID,
+        APPLY_SEQ,
+        APPLY_DATE,
+        SUBHOLIDAY_ST_DT,
+        SUBHOLIDAY_EN_DT,
+        APPROVAL_REASON
+
+        )
+        VALUES
+        (
+        '1',
+        #{applySeq},
+        #{applyDate},
+        #{startDate},
+        #{endDate},
+        #{holidayReason}
+
+        )
+        <selectKey keyProperty="vacUseHistId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_SUBHOLIDAY_USE_HIST'
+        </selectKey>
+    </insert>
 
 </mapper>
