@@ -141,10 +141,11 @@ public class SubHolidayController {
 
     //연차일괄신청
     @RequestMapping("/subHoliday/subHolidayReqBatchPop.do")
-    public String subHolidayReqBatchPop() {
+    public String subHolidayReqBatchPop(Model model) {
+        Map<String, Integer> countMap = subHolidayService.getCountMap2();
+        model.addAttribute("countMap", countMap);
         return "/popup/subHoliday/subHolidayReqBatchPop";
     }
-
 
     /**
      * 캠인사이드 > 휴가관리
@@ -381,6 +382,12 @@ public class SubHolidayController {
 
         model.addAttribute("countMap", countMap);
         model.addAttribute("list", subHolidayService.getUserInfoList(map));
+        return "jsonView";
+    }
+
+    @RequestMapping(value = "/subHoliday/setSubHolidayByEmpInfo.do", method = RequestMethod.POST)
+    public String setSubHoliday(@RequestParam Map<String, Object> params){
+        subHolidayService.setSubHolidayByEmpInfo(params);
         return "jsonView";
     }
 

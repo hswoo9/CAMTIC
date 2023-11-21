@@ -58,15 +58,15 @@
               <tr>
                 <th id="varianceTH">기간</th>
                 <td id="varianceTD" colspan="3">
-                  <input id="start_date" style="width:20%; margin-right:5px;">
+                  <input id="startDate" style="width:20%; margin-right:5px;">
                   ~
-                  <input id="end_date" style="width:20%; margin-right:5px;">
+                  <input id="endDate" style="width:20%; margin-right:5px;">
                 </td>
               </tr>
               <tr>
                 <th id="varianceTH2" scope="row" class="text-center th-color">사유</th>
                 <td id="varianceTD2" colspan="3">
-                  <textarea name="apply_reason" id="holiday_reason" rows="5" style="width:100%; border: 1px solid #eee;padding-left: 10px;"></textarea>
+                  <textarea name="apply_reason" id="holidayReason" rows="5" style="width:100%; border: 1px solid #eee;padding-left: 10px;"></textarea>
                 </td>
               </tr>
               </thead>
@@ -129,13 +129,44 @@
           </form>
         </div>
         <div class="btn-st" style="margin-top:10px; text-align:center;">
-          <input type="button" class="k-button k-button-solid-info" value="연가일괄등록" onclick=""/>
-          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick=""/>
+          <input type="button" class="k-button k-button-solid-info" value="연가일괄등록" onclick="saveData()"/>
+          <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick="window.close()"/>
         </div>
       </div>
     </div>
 </div>
 <script>
+
+
+  function saveData() {
+
+    var selectedEmpSeqs = [];
+    $("input[name='checkUser']:checked").each(function() {
+      selectedEmpSeqs.push($(this).parent().data("emp-seq"));
+    });
+
+    console.log(selectedEmpSeqs);
+    $.ajax({
+      type: "POST",
+      url: "/subHoliday/setSubHolidayByEmpInfo.do",
+      contentType: "application/json; charset=utf-8",
+      data: {
+        subHolidayCodeId: '1',
+        applySeq: $("#applySeq").val(),
+        applyDate: $("#applyDate").val(),
+        holidayReason: $("#holidayReason").val(),
+        startDate: $("#startDate").val(),
+        endDate: $("#endDate").val(),
+        empSeqs: selectedEmpSeqs
+      },
+      success: function(response) {
+        alert("Data saved successfully!");
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        alert("Error occurred while saving data:", textStatus);
+      }
+    });
+  }
 
   subHolidayReqBatchPop.init();
 </script>

@@ -18,7 +18,7 @@ var subHolidayReqBatchPop = {
 
     dataSet: function () {
 
-        $("#start_date").kendoDatePicker({
+        $("#startDate").kendoDatePicker({
             depth: "month",
             start: "month",
             culture: "ko-KR",
@@ -26,7 +26,7 @@ var subHolidayReqBatchPop = {
             value: new Date(now.setMonth(now.getMonth() - 1))
         });
 
-        $("#end_date").kendoDatePicker({
+        $("#endDate").kendoDatePicker({
             depth: "month",
             start: "month",
             culture: "ko-KR",
@@ -83,7 +83,9 @@ var subHolidayReqBatchPop = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll"  onclick="subHolidayReqBatchPop.fn_checkAll();" style="position : relative; top : 2px;"/>',
-                    template: "<input type='checkbox' id='' name='checkUser' value=''/>",
+                    template: function(e) {
+                        return "<div data-emp-seq='" + e.EMP_SEQ + "'><input type='checkbox' id='' name='checkUser' value=''/></div>";
+                    },
                     width: 50
                 }, {
                     field: "DEPT_NAME1",
