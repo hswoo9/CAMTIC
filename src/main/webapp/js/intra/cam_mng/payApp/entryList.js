@@ -135,7 +135,7 @@ var entryList = {
                 }, {
                     title: "상태",
                     width: 60,
-                    template : function(e){
+                    template: function(e){
                         if(e.DOC_STATUS == "100"){
                             return "결재완료";
                         } else {

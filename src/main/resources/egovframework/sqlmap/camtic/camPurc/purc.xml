@@ -65,6 +65,18 @@
                 )
             </otherwise>
         </choose>
+
+        <choose>
+            <when test='"1".equals(inspectStat)'>
+                AND MP.INSPECT_YN = 'N'
+            </when>
+            <when test='"2".equals(inspectStat)'>
+                AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '0'
+            </when>
+            <when test='"3".equals(inspectStat)'>
+                AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '100'
+            </when>
+        </choose>
         GROUP BY MP.PURC_SN
         ORDER BY MP.PURC_REQ_DATE DESC
     </select>
@@ -129,6 +141,17 @@
                     MP.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%')
                     )
                 </otherwise>
+            </choose>
+            <choose>
+                <when test='"1".equals(inspectStat)'>
+                    AND MP.INSPECT_YN = 'N'
+                </when>
+                <when test='"2".equals(inspectStat)'>
+                    AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '0'
+                </when>
+                <when test='"3".equals(inspectStat)'>
+                    AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '100'
+                </when>
             </choose>
             GROUP BY MP.PURC_SN
             ORDER BY MP.PURC_SN DESC
@@ -652,6 +675,47 @@
             DJ_CAMTIC.A_DOC_INFO DI
         ON
             A.DOC_ID = DI.DOC_ID
+        LEFT JOIN
+            CAM_MNG.DJ_MNG_PURC MP
+        ON A.PURC_SN = MP.PURC_SN
+        WHERE 1=1
+        <if test='searchDept != null and !"".equals(searchDept)'>
+            AND MP.PURC_REQ_EMP_SEQ = #{empSeq}
+        </if>
+        <if test='pjtSn != null and !"".equals(pjtSn)'>
+            AND MP.PJT_SN = #{pjtSn}
+        </if>
+
+        <choose>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "DOC_NO".equals(searchKeyword)'>
+                AND DI.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
+            </when>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_REQ_PURPOSE".equals(searchKeyword)'>
+                AND MP.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchKeyword},'%')
+            </when>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_ITEM_NAME".equals(searchKeyword)'>
+                AND DI.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
+            </when>
+            <otherwise>
+                AND
+                (
+                    DI.DOC_NO LIKE CONCAT('%',#{searchValue},'%') OR
+                    MP.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%')
+                )
+            </otherwise>
+        </choose>
+
+        <choose>
+            <when test='"1".equals(inspectStat)'>
+                AND MP.INSPECT_YN = 'N'
+            </when>
+            <when test='"2".equals(inspectStat)'>
+                AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '0'
+            </when>
+            <when test='"3".equals(inspectStat)'>
+                AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '100'
+            </when>
+        </choose>
         ORDER BY
             CLAIM_SN DESC
     </select>

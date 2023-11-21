@@ -127,7 +127,7 @@ var exnpReList = {
                 }, {
                     title: "상태",
                     width: 60,
-                    template : function(e){
+                    template: function(e){
                         if(e.RE_STAT == "N"){
                             return "미승인"
                         } else {

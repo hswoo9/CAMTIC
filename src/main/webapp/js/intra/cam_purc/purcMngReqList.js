@@ -1,11 +1,12 @@
 var purcMngReqList = {
 
     global : {
-        dropDownDataSource : []
+        dropDownDataSource : "",
+        searchAjaxData : "",
+        saveAjaxData : ""
     },
 
-
-    fn_defaultScript : function (){
+    fn_defaultScript : function(){
         purcMngReqList.global.dropDownDataSource = [
             { text: "내 구매만 조회", value: "empDept" },
         ]
@@ -21,40 +22,21 @@ var purcMngReqList = {
 
         customKendo.fn_dropDownList("searchKeyword", purcMngReqList.global.dropDownDataSource, "text", "value");
         customKendo.fn_textBox(["searchValue"]);
-        purcMngReqList.mainGrid();
+
+        purcMngReqList.global.dropDownDataSource = [
+            { text: "검수 미작성", value: "1" },
+            { text: "검수 작성 및 미승인", value: "2" },
+            { text: "검수 작성 및 승인", value: "3" }
+        ]
+
+        customKendo.fn_dropDownList("inspectStat", purcMngReqList.global.dropDownDataSource, "text", "value");
+        $("#inspectStat").data("kendoDropDownList").bind("change", purcMngReqList.gridReload);
+        purcMngReqList.gridReload();
     },
 
-    mainGrid: function(url, params){
-        let dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read: {
-                    url: '/purc/getMngReqPurcList',
-                    dataType: "json",
-                    type: "post"
-                },
-                parameterMap: function(data) {
-                    data.empSeq = $("#myEmpSeq").val();
-                    data.searchDept = $("#searchDept").val();
-                    data.searchKeyword = $("#searchKeyword").val();
-                    data.searchValue = $("#searchValue").val();
-
-                    return data;
-                }
-            },
-            schema: {
-                data: function (data) {
-                    return data.list;
-                },
-                total: function (data) {
-                    return data.list.length;
-                },
-            },
-            pageSize: 10,
-        });
-
+    mainGrid : function(url, params){
         $("#mainGrid").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             selectable: "row",
             height : 525,
@@ -145,28 +127,34 @@ var purcMngReqList = {
         }).data("kendoGrid");
     },
 
-    gridReload: function (){
-        $("#mainGrid").data("kendoGrid").dataSource.read();
+    gridReload : function(){
+        purcMngReqList.global.searchAjaxData = {
+            empSeq : $("#myEmpSeq").val(),
+            searchDept : $("#searchDept").val(),
+            searchKeyword : $("#searchKeyword").val(),
+            searchValue : $("#searchValue").val(),
+            inspectStat : $("#inspectStat").data("kendoDropDownList").value()
+        }
+
+        purcMngReqList.mainGrid("/purc/getMngReqPurcList", purcMngReqList.global.searchAjaxData);
     },
 
-    fn_reqRegPopup : function (key, stat){
+    fn_reqRegPopup : function(key, stat){
         var url = "/purc/pop/regPurcReqPop.do";
         if(key != null && key != ""){
             url = "/purc/pop/regPurcReqPop.do?purcSn=" + key + "&stat=" + stat;
         }
         var name = "blank";
-        var option = "width = 1690, height = 820, top = 100, left = 400, location = no"
+        var option = "width = 1690, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
     },
 
-    fn_reqClaiming : function (){
-
+    fn_reqClaiming : function(){
         var url = "/purc/pop/reqClaiming.do";
 
         var name = "_blank";
-        var option = "width = 1500, height = 840, top = 100, left = 400, location = no"
+        var option = "width = 1500, height = 840, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
-
     },
 
 }
