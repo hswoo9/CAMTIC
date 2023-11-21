@@ -171,11 +171,15 @@
         /*insertBoard*/
         INSERT INTO CAM_COMMON.DJ_BOARD_ARTICLE
             (BOARD_ID, BOARD_CATEGORY_ID, BOARD_ARTICLE_TITLE, BOARD_ARTICLE_CONTENT, BOARD_ARTICLE_CONTENT_URL, REG_EMP_NAME
-            <if test="category == 'business'">, START_DT, END_DT</if>
+            <if test="boardId == 'business'">, START_DT, END_DT</if>
+            <if test="boardId == 'sns'">, SNS_TYPE</if>
+            <if test="boardId == 'sns'">, SNS_URL</if>
             )
         VALUE
             (#{boardId}, #{boardCategoryId}, #{noticeTitle}, #{content}, #{urlText}, #{writer}
-            <if test="category == 'business'">, #{startDt}, #{endDt}</if>
+            <if test="boardId == 'business'">, #{startDt}, #{endDt}</if>
+            <if test="boardId == 'sns'">, #{snsType}</if>
+            <if test="boardId == 'sns'">, #{snsUrl}</if>
             )
 
         <selectKey keyProperty="boardArticleId" resultType="Integer" order="BEFORE">
@@ -191,7 +195,8 @@
             BOARD_ARTICLE_CONTENT_URL = #{urlText},
             BOARD_ARTICLE_CONTENT = #{content},
             START_DT = #{startDt},
-            END_DT = #{endDt}
+            END_DT = #{endDt},
+            SNS_TYPE = #{snsType}
         WHERE
             BOARD_ARTICLE_ID = #{boardArticleId}
         AND
@@ -329,12 +334,96 @@
         FROM
             CAM_COMMON.DJ_BOARD_ARTICLE DBA
         WHERE
-            BOARD_CATEGORY_ID = #{focusCategory}
+            BOARD_CATEGORY_ID = 'photo'
           AND
             ACTIVE = 'Y'
         ORDER BY
             REG_DATE DESC
         LIMIT 3
     </select>
+
+    <select id="getRecruitList" resultType="map" parameterType="map">
+        /*getRecruitList*/
+        SELECT
+            IRI.*,
+            AAA.USER_NAME,
+            GROUP_CONCAT(DISTINCT AI.CAREER_TYPE) AS CAREER_TYPE,
+            (SELECT SUM(SAI.RECRUITMENT) FROM CAM_INSIDE.DJ_RECRUIT_AREA_INFO SAI WHERE SAI.RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN) AS RECRUITMENT,
+            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN WHERE RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND SAVE_TYPE = 'S') as APPLICATION_CNT,
+            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN AM WHERE AM.RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT != 'S') AS DOC_SCREEN_CNT,
+            (
+        SELECT
+            COUNT(*)
+        FROM (
+            SELECT
+            SB.*,
+            AM.RECRUIT_INFO_SN
+            FROM
+            CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD SB
+            JOIN
+            CAM_INSIDE.DJ_APPLICATION_MAIN AM
+            ON SB.APPLICATION_ID = AM.APPLICATION_ID
+            WHERE
+            SB.EVAL_SCREEN_TYPE = 'doc'
+            GROUP BY
+            SB.APPLICATION_ID
+            )A
+        WHERE
+            IRI.RECRUIT_INFO_SN = A.RECRUIT_INFO_SN
+            ) AS DOC_SCREEN_RESULT,
+            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN AM WHERE AM.RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT = 'I' AND AM.IN_AVOID = 'N') AS IN_SCREEN_CNT,
+                                                                        (
+        SELECT
+            COUNT(*)
+        FROM (
+            SELECT
+            SB.*,
+            AM.RECRUIT_INFO_SN,
+            AM.USER_NAME
+            FROM
+            CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD SB
+            JOIN
+            CAM_INSIDE.DJ_APPLICATION_MAIN AM
+            ON SB.APPLICATION_ID = AM.APPLICATION_ID
+            WHERE
+            SB.EVAL_SCREEN_TYPE = 'in' AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT = 'I' AND AM.IN_AVOID = 'N'
+            GROUP BY
+            SB.APPLICATION_ID
+            )A
+        WHERE
+            IRI.RECRUIT_INFO_SN = A.RECRUIT_INFO_SN
+            ) AS IN_SCREEN_RESULT
+        FROM
+            CAM_INSIDE.DJ_RECRUIT_INFO IRI
+            JOIN
+            CAM_INSIDE.DJ_RECRUIT_AREA_INFO AI
+        ON IRI.RECRUIT_INFO_SN = AI.RECRUIT_INFO_SN
+            LEFT JOIN CAM_INSIDE.DJ_APPLICATION_MAIN AAA
+            ON IRI.RECRUIT_INFO_SN = AAA.RECRUIT_INFO_SN
+        WHERE
+            1=1
+          AND
+            IRI.ACTIVE = 'Y'
+          AND
+            IRI.RECRUIT_STATUS_SN IN ('2', '3', '4', 'E')
+        GROUP BY IRI.RECRUIT_INFO_SN
+        ORDER BY IRI.REG_DT DESC
+        LIMIT 3
+    </select>
+
+    <select id="getSnsPosts" resultType="map" parameterType="map">
+        /*selectPrBoardList*/
+        SELECT
+        *,
+        (select concat(file_path,file_uuid) from cam_common.dj_file_info where fr_key = dba.board_article_id and file_cd = 'sns') AS FILE_PATH
+        FROM
+        CAM_COMMON.DJ_BOARD_ARTICLE DBA
+        WHERE
+        BOARD_CATEGORY_ID = 'sns'
+        AND
+        ACTIVE = 'Y'
+        ORDER BY REG_DATE DESC
+    </select>
+
 
 </mapper>

@@ -20,6 +20,7 @@
         <button type="button" id="reqBtn" style="float: right; margin-bottom: 5px; display: none" class="k-button k-button-solid-base" onclick="rndRPR.fn_reqPartRate()">요청</button>
         <button type="button" id="changeBtn" style="float: right; margin-bottom: 5px; display: none" class="k-button k-button-solid-base" onclick="rndRPR.fn_changePartRate()">변경요청</button>
         <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px; margin-right:5px;" class="k-button k-button-solid-info" onclick="rndRPR.fn_save()">저장</button>
+        <button type="button" id="changeSaveBtn" style="float: right; margin-bottom: 5px; margin-right:5px; display: none" class="k-button k-button-solid-info" onclick="rndRPR.fn_save('change')">변경</button>
         <br><br>
 
         <div class="table-responsive">
@@ -144,6 +145,8 @@
 
     <button type="button" id="confBtn" style="float:right" class="k-button k-button-solid-base" onclick="fn_confirm()" disabled>참여율확정</button>
     <button type="button" disabled id="regBtn" style="float:right; margin-right: 5px" class="k-button k-button-solid-info" onclick="fn_reqRegPopup()">지급신청</button>
+    <button type="button" id="partRateChangeDoc" style="float:right; display:none; margin-right: 5px" class="k-button k-button-solid-info" onclick="fn_partRateDoc()">참여율 변경 공문 작성</button>
+
     <div class="table-responsive">
         <table class="popTable table table-bordered mb-0">
             <colgroup>
@@ -305,5 +308,9 @@
                 }
             }
         });
+    }
+
+    function fn_partRateDoc(){
+        alert("변경 공문 작업중");
     }
 </script>

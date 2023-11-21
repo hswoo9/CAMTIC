@@ -76,6 +76,7 @@ var regPay = {
                     for(let i = 1; i < rs.length; i++) {
                         regPayDet.addRow()
                     }
+
                     for(let i = 0; i < rs.length; i++) {
                         $("#crmNm" + i).val(rs[i].EMP_NAME_KR);
                         $("#trCd" + i).val(rs[i].ERP_ERP_CD);
@@ -85,7 +86,9 @@ var regPay = {
                         $("#totCost" + i).val(regPay.comma(rs[i].MON_SAL));
                         $("#supCost" + i).val(regPay.comma(rs[i].MON_SAL));
                     }
+
                     selectProject(rs[0].PJT_SN, rs[0].PJT_NM, rs[0].PJT_CD)
+
                 }
             });
         }
@@ -180,7 +183,7 @@ var regPay = {
         for(var i=0; i < ls.length; i++) {
             var item = ls[i];
             var eviType = item.EVID_TYPE;
-            if(item.ADVANCES == "Y"){
+            if(item.ADVANCES == "Y" || $("#payAppType").data("kendoRadioGroup").value() != "1"){
                 continue;
             }
             if(eviType == "1" || eviType == "2"){
@@ -790,7 +793,7 @@ var regPayDet = {
             '   <td>' +
             '       <input type="text" id="iss' + regPayDet.global.itemIndex + '" class="iss">' +
             '   </td>' ;
-        if($("status").val() != "in"){
+        if($("status").val() == "rev"){
             regPayDet.global.createHtmlStr += "" +
                 '   <td>' +
                 '       <input type="checkbox" id="advances' + regPayDet.global.itemIndex + '" class="advances" style="width: 26px; height: 26px">' +

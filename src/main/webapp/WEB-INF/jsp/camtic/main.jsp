@@ -138,7 +138,7 @@
         <div class="lef">
           <ul class="tab">
             <li class="active"><button type="button" role="tab" id="tab1" onclick="goList('notice')" aria-controls="tab-panel1" aria-selected="true">공지사항</button></li>
-            <li><button type="button" role="tab" id="tab2" aria-controls="tab-panel2" aria-selected="false">채용공고</button></li>
+            <li><button type="button" role="tab" id="tab2" onclick="getRecruitList();" aria-controls="tab-panel2" aria-selected="false">채용공고</button></li>
             <li><button type="button" role="tab" id="tab3" onclick="goList('report')" aria-controls="tab-panel3" aria-selected="false">보도자료</button></li>
           </ul>
           <div class="area">
@@ -148,36 +148,8 @@
               </div>
               <a href="/camtic/news/commonBoard.do?categoryKey=notice" class="more">+ 더보기</a>
             </div>
-
             <div class="item" id="tab-panel2" role="tabpanel" aria-labelledby="tab2" aria-selected="false">
               <div class="sec">
-                <a href="/camtic/member/view.do" class="box">
-                  <div class="ddakji ing"><span>진행중</span></div>
-                  <p class="subject">이영 중소벤처기업부 장관, 전주첨단벤처단지 방문 및 기업간담회</p>
-                  <p class="sum">
-                    방황하여도, 열락의 속잎나고, 맺어, 듣기만 싸인 눈이 칼이다. 하였으며, 청춘은 가슴에 교향악이다.
-                    이상은 따뜻한 그들에게 크고 주며, 아니다. 살았으며, 어디 품고 사랑의 지혜는 착목한는 그들은 때에, 칼이다.
-                  </p>
-                  <p class="date">2023-01-04</p>
-                </a>
-                <a href="/camtic/member/view.do" class="box">
-                  <div class="ddakji end"><span>완료</span></div>
-                  <p class="subject">2 이영 중소벤처기업부 장관, 전주첨단벤처단지 방문 및 기업간담회</p>
-                  <p class="sum">
-                    방황하여도, 열락의 속잎나고, 맺어, 듣기만 싸인 눈이 칼이다. 하였으며, 청춘은 가슴에 교향악이다.
-                    이상은 따뜻한 그들에게 크고 주며, 아니다. 살았으며, 어디 품고 사랑의 지혜는 착목한는 그들은 때에, 칼이다.
-                  </p>
-                  <p class="date">2023-01-04</p>
-                </a>
-                <a href="/camtic/member/view.do" class="box">
-                  <div class="ddakji ing"><span>진행중</span></div>
-                  <p class="subject">3 이영 중소벤처기업부 장관, 전주첨단벤처단지 방문 및 기업간담회</p>
-                  <p class="sum">
-                    방황하여도, 열락의 속잎나고, 맺어, 듣기만 싸인 눈이 칼이다. 하였으며, 청춘은 가슴에 교향악이다.
-                    이상은 따뜻한 그들에게 크고 주며, 아니다. 살았으며, 어디 품고 사랑의 지혜는 착목한는 그들은 때에, 칼이다.
-                  </p>
-                  <p class="date">2023-01-04</p>
-                </a>
               </div>
               <a href="/camtic/member/job.do" class="more">+ 더보기</a>
             </div>
@@ -258,9 +230,9 @@
         </div>
         <div class="rig">
           <div class="roll">
-            <div id="snsPosts" class="swiper-wrapper">
+            <div id="snsList" class="swiper-wrapper">
 
-              <a href="#" class="swiper-slide">
+              <%--<a href="#" class="swiper-slide">
                 <div class="img"><i style="background-image:url(https://fakeimg.pl/340x255);"></i></div>
                 <div class="info">
                   <p class="date">2023-01-20 오전 11:09</p>
@@ -336,7 +308,7 @@
                   </p>
                   <p class="sns"><span class="insta">인스타그램</span></p>
                 </div>
-              </a>
+              </a>--%>
 
             </div>
           </div><!--#roll-->
@@ -365,7 +337,6 @@
 
   midMain.init();
   sauMain.init();
-  snsMain.init();
 
   var faceBookData = [];
   var instaData = [];
@@ -375,13 +346,14 @@
   var data = {
     category : "notice"
   }
-  var data2 = {
-    focusCategory : "photo"
-  }
+
   var viewUrl = "";
 
   var resultData;
   var resultData2;
+  var resultData3;
+  var resultData4;
+  var resultData5;
 
   $(function () {
     fnDefaultScript();
@@ -389,8 +361,8 @@
     getFacebookData();*/
     drawTable();
     drawTable2();
-    getFocusListData();
     camticFocusList();
+    snsPosts();
   });
 
   function goList(e){
@@ -410,6 +382,9 @@
       success: function(rs) {
         resultData = rs.list;
         resultData2 = rs.list2;
+        resultData3 = rs.list3;
+        resultData4 = rs.list4;
+        resultData5 = rs.list5;
       }
     });
   }
@@ -445,6 +420,33 @@
     $(".sec").append(html);
   }
 
+  //채용공고 게시글 조회
+  function getRecruitList() {
+    $(".sec").html('');
+
+    let html = "";
+
+    resultData3.forEach((item, index) => {
+      html += "<a href='javascript:void(0);' onclick='openRecruitPopup(" + item.RECRUIT_INFO_SN + ")' class='box'>";
+      if(item.RECRUIT_STATUS_SN == 'E'){
+        html += '<div class="ddakji end"><span style="font-size:13px;">' + item.RECRUIT_STATUS_TEXT + '</span></div>';
+      }else{
+        html += '<div class="ddakji ing"><span style="font-size:13px;">' + item.RECRUIT_STATUS_TEXT + '</span></div>';
+      }
+      html += '<p class="subject" style="margin-top:31px;">' + item.RECRUIT_TITLE + '</p>';
+     /* let contents = item.RECRUIT_DETAIL.replace(/<\/?("[^"]*"|'[^']*'|[^>])*(>|$)/gi, "");
+      html += '<p class="sum">' + contents + '</p>';*/
+      html += '<p class="date">' + item.UPLOAD_DT + '</p>';
+      html += '</a>';
+    });
+    $(".sec").append(html);
+  }
+
+  function openRecruitPopup(recruitInfoSn) {
+    let popupUrl = "/inside/pop/recruitDetailPop.do?recruitInfoSn=" + recruitInfoSn;
+    window.open(popupUrl, "RecruitPopup", "width=1000, height=720, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+  }
+
   //사업공고 게시글 리스트 그리기
   function drawTable2() {
 
@@ -474,7 +476,7 @@
     $("#bsnsTable").append(html);
   }
 
-  function getInstagramData() {
+  /*function getInstagramData() {
     $.ajax({
       url: 'https://graph.facebook.com/v18.0/17841446813393058/media?access_token=EAAMGG4sKh2UBO0mnzDyW6n5FRqbuq7iDw5ZC1FeeNgNZBZAmLT1TXsd90Gcm6d7YPz2Il0sRfzLZBhN44ynbRPvlqoSEKDXNjaLFyQqLQtLfOSwI2tUBrdbrzWy2mSfxvIdbwzQQ566ZC7GZARvgzZBbJFQHtkM74YllH60kSBEHreGKBDjxszeYyJSqG6ZBRABoFhLy2OiD&fields=id,media_type,media_url,permalink,thumbnail_url,username,caption,timestamp',
       dataType : "json",
@@ -498,7 +500,7 @@
         }
       }
     });
-  }
+  }*/
 
   /*window.onload = function () {
     const maxLength = Math.max(faceBookData.length, instaData.length);
@@ -551,26 +553,16 @@
     snsMain.init();
   }*/
 
-  //캠틱포커스 데이터조회
-  function getFocusListData() {
-    $.ajax({
-      url: '/board/getFocusList',
-      type: 'GET',
-      data: data2,
-      success: function (data) {
-        camticFocusList(data.list);
-      },
-    });
-  }
 
   //캠틱포커스 게시글 리스트 HTML
-  function camticFocusList(data){
+  function camticFocusList(){
 
     $("#focusList").html('');
 
     let html = "";
 
-    data.forEach((item, index) => {
+    resultData4.forEach((item, index) => {
+
       console.log(item);
       html += "<a class='swiper-slide' style='cursor:pointer;' onclick='fn_focusDetailBoard("+item.BOARD_ARTICLE_ID+")'>";
       html += '<div class="img"><img src='+item.FILE_PATH+' width="577" height="285"></div>';
@@ -584,6 +576,45 @@
     var categoryId = "photo";
     location.href="/camtic/pr/pr_view.do?boardArticleId=" + key + "&category=" + categoryId;
   }
+
+
+  //sns 게시글 리스트 HTML
+  function snsPosts(){
+
+    $("#snsList").html('');
+
+    let html = "";
+
+    resultData5.forEach((item, index) => {
+      console.log(item);
+      var createdTime = item.REG_DATE;
+      var formattedTime = new Date(createdTime).toLocaleString();
+
+      html += '<a href="' + item.SNS_URL + '" class="swiper-slide" target="_blank">';
+      if (item.FILE_PATH) {
+        html += '<div class="img"><img src=' + item.FILE_PATH + ' style="width:340px; height:255px;"></div>';
+      }else{
+        html += '<div class="img"><i style="background-image:url(https://fakeimg.pl/340x255); width:340px; height:255px;"></i></div>';
+      }
+      html += '<div class="info">';
+      html += '<p class="date">' + formattedTime + '</p>';
+      let contents = item.BOARD_ARTICLE_CONTENT.replace(/<\/?("[^"]*"|'[^']*'|[^>])*(>|$)/gi, "");
+      html += '<div><p class="sum">'+ contents +'</p></div>';
+      if(item.SNS_TYPE == 1){
+        html += '<p class="sns"><span class="face">페이스북</span></p>';
+      }else{
+        html += '<p class="sns"><span class="insta">인스타그램</span></p>';
+      }
+
+      html += '</div>';
+      html += '</a>';
+    });
+    $('#snsList').append(html);
+
+    snsMain.init();
+  }
+
+
 </script>
 </body>
 </html>

@@ -464,6 +464,8 @@
             CAM_PJT_MNG.DJ_PJT_PART_RATE
         WHERE
             PJT_SN = #{pjtSn}
+        ORDER BY PART_RATE_SN DESC
+        LIMIT 1
     </select>
 
     <insert id="insReqPartRateData" parameterType="map">
@@ -557,7 +559,7 @@
         FROM
             CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
         WHERE
-            PART_RATE_SN = #{PART_RATE_SN}
+            PJT_SN = #{pjtSn}
     </select>
 
     <insert id="insReqPartRateVerData" parameterType="map">

@@ -237,7 +237,6 @@ var partRate = {
     },
 
     fn_mngCalc : function (bsSal, payBudget){
-
         if(Number(uncomma($("#mngChngSal").val())) > Number(bsSal)){
             alert("기준급여보다 클 수 없습니다.");
             $("#mngChngSal").val(comma(bsSal));

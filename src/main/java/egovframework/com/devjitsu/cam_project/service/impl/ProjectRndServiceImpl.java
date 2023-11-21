@@ -232,7 +232,7 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     @Override
     public void setReqPartRateData(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir) {
 
-        if(!params.containsKey("partRateSn")){
+        if(!params.containsKey("partRateSn") || params.containsKey("type")){
             projectRndRepository.insReqPartRateData(params);
         } else {
             projectRndRepository.updReqPartRateData(params);
@@ -277,6 +277,7 @@ public class ProjectRndServiceImpl implements ProjectRndService {
 
         Map<String, Object> map = projectRndRepository.getReqPartRateData(params);
 
+        map.put("pjtSn", map.get("PJT_SN"));
         int partRateCnt = projectRndRepository.getPartRateVerCount(map);
 
         map.put("PART_RATE_VER", (partRateCnt + 1));

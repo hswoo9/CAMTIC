@@ -87,7 +87,13 @@ public class MainController {
         List<Map<String, Object>> response = boardService.selectMainList(param);
         List<Map<String, Object>> response2 = boardService.selectBsnsMainList(param);
 
+        List<Map<String, Object>> response3 = boardService.getRecruitList(param);
+        List<Map<String, Object>> response4 = boardService.getFocusList(param);
+        List<Map<String, Object>> response5 = boardService.getSnsPosts(param);
+
         model.addAttribute("list", response).addAttribute("list2", response2);
+        model.addAttribute("list3", response3).addAttribute("list4", response4);
+        model.addAttribute("list5", response5);
         return "jsonView";
     }
 
@@ -157,6 +163,8 @@ public class MainController {
         model.addAttribute("rs", customBoardService.getStaffScheduleList(params));
         return "jsonView";
     }
+
+
 
 
 }

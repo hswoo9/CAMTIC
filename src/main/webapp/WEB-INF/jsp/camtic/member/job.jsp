@@ -16,7 +16,7 @@
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
         <div class="__topArea">
-          <div class="total">전체 <strong>1,450</strong>건</div>
+          <div class="total">전체 <strong><span id="totalCnt"></span></strong>건</div>
           <form class="__sch">
             <div class="inp">
               <label for="searchInput" class="hide">검색어 입력</label>
@@ -44,8 +44,8 @@
             <th scope="col">조회수</th>
           </tr>
           </thead>
-          <tbody>
-          <tr>
+          <tbody id="tableBody">
+          <%--<tr>
             <td>99999</td>
             <td class="subject"><a href="./view.do">이영 중소벤처기업부 장관, 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면 전주첨단공지사항은 글줄이길어지면</a></td>
             <td>관리자</td>
@@ -72,18 +72,14 @@
             <td>관리자</td>
             <td>2023-06-14 </td>
             <td>99999</td>
-          </tr>
+          </tr>--%>
           </tbody>
         </table>
 
         <div class="__botArea">
           <div class="cen">
             <div class="__paging">
-              <a href="#" class="arr prev"><span class="hide">이전 페이지</span></i></a>
-              <strong class="num active">1</strong>
-              <a href="#" class="num">2</a>
-              <a href="#" class="num">3</a>
-              <a href="#" class="arr next"><span class="hide">다음 페이지</span></i></a>
+
             </div>
           </div>
         </div>
@@ -93,5 +89,143 @@
   </div>
   <jsp:include page="/WEB-INF/jsp/template/camtic/foot.jsp" flush="false"/>
 </div>
+
+<script>
+  var categoryKey = "report";
+
+  var firstData = fn_customAjax('/board/getRecruitList');
+  var flag = false;
+
+  var paginationData;
+  var startPage;
+  var endPage;
+  var page;
+  var total = firstData.articlePage.pagination.totalRecordCount;
+
+  /** 최초의 데이터와 페이지 이동할 때의 데이터 구분 */
+  function dataChk(e, f) {
+    if(flag == false){
+      paginationData = firstData.articlePage.pagination;
+      startPage = paginationData.startPage;
+      endPage = paginationData.endPage;
+      page = firstData.articlePage.page;
+    }else if(flag == true){
+      paginationData = e.articlePage.pagination;
+      startPage = paginationData.startPage;
+      endPage = paginationData.endPage;
+      page = e.articlePage.page;
+    }
+  }
+
+  var data = firstData.boardArticleList.list;
+  $(function () {
+
+    $("#totalCnt").text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+
+    dataChk();
+
+    drawPage();
+    drawTable(data);
+  });
+
+  //작성 이동
+  function fn_writeBoard(){
+
+    location.href = '/camtic/pr/pr_write.do?category=' + categoryKey;
+  }
+
+  //상세보기 이동
+  function fn_detailBoard(key){
+
+    location.href="/camtic/pr/pr_view.do?boardArticleId=" + key + "&category=" + categoryKey;
+  }
+
+  /**
+   * 페이지 이동
+   * page : 페이지
+   * recordSize : 리스트에 출력할 데이터 수
+   * pageSize : 페이징 넘버 수
+   * ArticlePage.java 참조
+   * */
+  function movePage(page){
+    const queryParams = {
+      page: (page) ? page : 1,
+      recordSize: 10,
+      pageSize: 10
+    }
+    var result = fn_customAjax("/board/getBoardArticleList.do?" + new URLSearchParams(queryParams).toString() + "&categoryId=" + categoryKey + "&recordSize=10", "");
+
+    flag = true;
+
+    dataChk(result, flag);
+    drawTable(result.boardArticleList.list);
+    drawPage();
+  }
+
+  //게시글 리스트 그리기
+  function drawTable(data) {
+    //const tableBody = document.getElementById("tableBody");
+    $("#tableBody").html('');
+
+    let html = "";
+
+    let num = total + 1;
+
+    if(page != 1){
+      num = num - ((page - 1) * 10);
+    }
+    data.forEach((item, index) => {
+      num = num - 1;
+
+      html += "<tr>";
+      html += '<td>'+ (num) +'</td>';
+      html += '<td class="subject" onclick="fn_detailBoard('+item.RECRUIT_INFO+SN +')"><a href="#" onclick="fn_detailBoard('+item.board_ARTICLE_ID+')">'+ item.board_ARTICLE_TITLE +'</a></td>';
+      html += '<td>'+ item.REG_EMP_NAME +'</td>';
+      html += '<td>' +item.REG_DT+ '</td>';
+      html += '<td>'+ item.board_ARTICLE_VIEW_COUNT +'</td>';
+      html += "</tr>";
+    });
+
+    /*tableBody.innerHTML = html;*/
+    $("#tableBody").append(html);
+  }
+
+  //페이징 그리기
+  function drawPage(){
+    let html = '';
+    html += '<a href="javascript:void(0);" onclick="movePage(' + (page - 1) + ')" class="arr prev"><span class="hide">이전 페이지</span></a>';
+
+    for (let i =startPage; i <= endPage; i++) {
+      html += (i !== page)
+              ? '<a href="javascript:void(0);" class="num" onclick="movePage('+i+');">'+ i +'</a>'
+              : '<strong class="num active">' + i + '</strong>'
+    }
+
+    html += '<a href="javascript:void(0);" onclick="movePage(' + (page + 1) + ');" class="arr next"><span class="hide">다음 페이지</span></a>';
+    $(".__paging").html(html);
+  }
+
+  function fn_customAjax(url, data){
+    var result;
+
+    $.ajax({
+      url : url,
+      data : data,
+      type : "post",
+      dataType : "json",
+      async : false,
+      success : function(rs) {
+        result = rs;
+        result.flag = true;
+      },
+      error :function (e) {
+        result.flag = false;
+        console.log('error : ', e);
+      }
+    });
+
+    return result;
+  }
+</script>
 </body>
 </html>

@@ -301,7 +301,16 @@ public class BoardServiceImpl implements BoardService {
         return boardRepository.getLetterListOld(params);
     }
     @Override
-    public List<Map<String, Object>> getFocusList(Map<String, Object> params) {
-        return boardRepository.getFocusList(params);
+    public List<Map<String, Object>> getFocusList(Map<String, Object> param) {
+        return boardRepository.getFocusList(param);
+    }
+    @Override
+    public List<Map<String, Object>> getRecruitList(Map<String, Object> param) {
+        return boardRepository.getRecruitList(param);
+    }
+
+    @Override
+    public List<Map<String, Object>> getSnsPosts(Map<String, Object> param) {
+        return boardRepository.getSnsPosts(param);
     }
 }
