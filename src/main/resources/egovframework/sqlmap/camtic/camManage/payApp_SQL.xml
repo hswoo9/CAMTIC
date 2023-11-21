@@ -1026,12 +1026,13 @@
 
     <select id="getPayIncpReqData" parameterType="map" resultType="map">
         /*getPayIncpReqData*/
-        SELECT A.*, B.DOC_NO, B.APPRO_KEY, B.DOC_MENU_CD
+        SELECT A.*, B.DOC_NO, B.APPRO_KEY, B.DOC_MENU_CD, HEI.EMP_NAME_KR AS REG_EMP_NAME, HEI.DEPT_NAME AS REG_DEPT_NAME
         FROM CAM_MNG.DJ_PAY_INCP A
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO B
         ON
            A.DOC_ID = B.DOC_ID
+        LEFT JOIN CAM_HR.DJ_EMP_INFO HEI ON A.REG_EMP_SEQ = HEI.EMP_SEQ
         WHERE PAY_INCP_SN = #{payIncpSn}
     </select>
 

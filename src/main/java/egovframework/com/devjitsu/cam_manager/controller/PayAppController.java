@@ -155,6 +155,7 @@ public class PayAppController {
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
+        model.addAttribute("payIncpItemList", payAppService.getPayIncpDetailData(params));
 
         return "popup/cam_manager/approvalFormPopup/payIncpApprovalPop";
     }

@@ -425,4 +425,32 @@ var hwpInit = {
             hwpDocCtrl.putFieldText('DOC_DETAIL', "아래와 같이 지출하고자 합니다.");
         }
     },
+
+    payIncpInit: function(payIncpSn){
+        let data = {
+            payIncpSn: payIncpSn
+        }
+
+        const result = customKendo.fn_customAjax("/payApp/pop/getPayIncpData", data);
+        const rs = result.map;
+        const ls = result.list;
+        console.log("result");
+        console.log(result);
+
+        /** 1. 수입결의서 데이터 */
+        hwpDocCtrl.putFieldText('PJT_NM', rs.PJT_NM);
+        hwpDocCtrl.putFieldText('DOC_NO', rs.DOC_NO);
+        hwpDocCtrl.putFieldText('EMP_NAME', rs.REG_EMP_NAME);
+        hwpDocCtrl.putFieldText('DEPT_NAME', "경영지원실");
+
+        let budgetArr = rs.BUDGET_NM.split(" / ");
+        hwpDocCtrl.putFieldText('BUDGET_NM1', budgetArr[0]);
+        hwpDocCtrl.putFieldText('BUDGET_NM2', budgetArr[1]);
+        hwpDocCtrl.putFieldText('BUDGET_NM3', budgetArr[2]);
+        hwpDocCtrl.putFieldText('REG_DEPT_NAME', rs.REG_DEPT_NAME);
+        hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
+
+        hwpDocCtrl.putFieldText('APP_TITLE', rs.APP_CONT);
+        hwpDocCtrl.putFieldText('ACC_NO', "("+rs.BNK_NM+") "+rs.ACC_NO+" "+rs.ACC_NM);
+    },
 }
