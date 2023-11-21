@@ -16,6 +16,7 @@
 <script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 
 <input type="hidden" id="recruitInfoSn" value="${data.recruitInfoSn}"/>
+<input type="hidden" id="recruitAreaInfoSn" value="${data.recruitAreaInfoSn}"/>
 
 <style>
     .pop_head {height: 32px; position: relative; background: #1385db;}
@@ -59,6 +60,12 @@
 
 <script type="text/javascript">
    let params = JSON.parse('${params}');
+   var recruitInfoSn = params.recruitInfoSn;
+   var recruitAreaInfoSn = params.recruitAreaInfoSn;
+
+   console.log("Recruit Info Sn: " + recruitInfoSn);
+   console.log("Recruit Area Info Sn: " + recruitAreaInfoSn);
+
    recruitPrintPop.init();
 </script>
 </body>

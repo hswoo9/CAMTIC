@@ -17,14 +17,16 @@
 
 				<div class="__campus1 m0">
 					<dl class="head">
+<%--
 						<dt><span class="__nm">“</span><span class="mainCapyTitle" style="font-size: 43px !important; word-spacing: -0.3rem;">창의적으로 사고하고, 용기있게 도전하며, 즐겁게 소통하는 인재</span><span class="__nm">”</span></dt>
-						<%--<dt>캠 + 퍼스 <img src="/images/camtic/img-campus1-1.jpg" alt=""></dt>
-						<dd>캠틱 + 캠퍼스의 약칭으로 학습하고,만나며,나누고,성장하는 <strong> "학습과 소통의 장"</strong> 의미</dd>--%>
+--%>
+						<dt>캠 + 퍼스 <%--<img src="/images/camtic/img-campus1-1.jpg" alt="">--%><span style="font-size: 40px;color: #00529c;margin-left: 10px;">Cam</span><span style="font-size: 40px;">tic + cam</span><span style="font-size: 40px;color: #00529c;">pus</span></dt>
+						<dd>캠틱 + 캠퍼스의 약칭으로 학습하고,만나며,나누고,성장하는 <strong> "학습과 소통의 장"</strong> 의미</dd>
 					</dl>
 
 					<dl class="mid">
-						<%--<dt>인재상</dt>
-						<dd>창의적으로 사고하는,용기있게 도전하며,즐겁게 소통하는 인재</dd>--%>
+						<dt>인재상</dt>
+						<dd>창의적으로 사고하는,용기있게 도전하며,즐겁게 소통하는 인재</dd>
 					</dl>
 					<div class="img">
 						<!-- <img src="/images/camtic/img-campus1-2.jpg" alt=""> -->

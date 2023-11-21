@@ -310,7 +310,5 @@
         });
     }
 
-    function fn_partRateDoc(){
-        alert("변경 공문 작업중");
-    }
+
 </script>

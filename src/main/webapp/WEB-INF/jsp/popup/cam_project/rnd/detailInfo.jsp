@@ -73,6 +73,12 @@
                 </td>
             </tr>
             <tr>
+                <th scope="row" class="text-center th-color"><span class="red-star">*</span>총 사업비</th>
+                <td colspan="3">
+                    <input type="text" id="allBusnCost" name="allBusnCost" style="width: 40%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                </td>
+            </tr>
+            <tr>
                 <th scope="row" class="text-center th-color"><span class="red-star">*</span>전체연구비</th>
                 <td>
                     <input type="text" id="allResCost" name="allResCost" style="width: 80%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>

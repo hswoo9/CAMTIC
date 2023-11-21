@@ -15,13 +15,13 @@
 <div id="lnb">
   <h2></h2>
   <ul class="lnb">
-    <li class="about about_greeting"><a href="/camtic/about/greetingENG.do">Introduce</a></li>
+    <li class="about about_greeting"><a href="/camtic/about/greetingENG.do">CEO Greeting</a></li>
     <li class="about about_history"><a href="/camtic/about/historyENG.do">History</a></li>
     <li class="about about_business"><a href="/camtic/about/businessENG.do">Major Business Areas</a></li>
     <li class="about about_subBusiness"><a class="sub_menu" href="/camtic/about/businessENG1.do">Research & Business Development</a></li>
     <li class="about about_subBusiness"><a class="sub_menu" href="/camtic/about/businessENG2.do">Business Growth Support</a></li>
     <li class="about about_subBusiness"><a class="sub_menu" href="/camtic/about/businessENG3.do">Commercialization of key technologies</a></li>
-    <li class="about about_vision"><a href="/camtic/about/visionENG.do">CAMTIC Mission & Vision 2030</a></li>
+    <li class="about about_vision"><a href="/camtic/about/visionENG.do">VISION 2030</a></li>
     <li class="about about_location"><a href="/camtic/about/locationENG.do">Contect</a></li>
   </ul>
 </div>
