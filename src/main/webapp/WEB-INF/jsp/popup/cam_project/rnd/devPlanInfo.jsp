@@ -4,6 +4,8 @@
 <jsp:useBean id="today" class="java.util.Date" />
 
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/devInfo.js?v=${today}'/>"></script>
+
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/rnd/rndDevPlan.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 
@@ -50,6 +52,44 @@
             </thead>
             <tbody id="verTable">
 
+            </tbody>
+        </table>
+
+        <span style="position: relative; top:10px; font-size: 12px;">◎ 공정설정</span>
+        <table class="popTable table table-bordered mb-0">
+            <colgroup>
+                <col width="7%">
+                <col width="10%">
+                <col width="15%">
+                <col width="26%">
+                <col width="20%">
+                <col width="35%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>순번</th>
+                <th><span class="red-star">*</span>구분</th>
+                <th><span class="red-star">*</span>공정명</th>
+                <th>추진일정</th>
+                <th>담당자</th>
+                <th>처리명령</th>
+            </tr>
+            </thead>
+            <tbody id="psTable">
+            <tr>
+                <td style="text-align: center"><span style="position: relative; top:5px">추가</span></td>
+                <td><input type="text" class="prepList" id="prepList" /></td>
+                <td><input type="text" class="psNm" id="psNm" /> </td>
+                <td style="text-align: center"><input type="text" class="psStrDe" id="psStrDe" style="width: 45%" />~<input type="text" class="psEndDe" style="width: 45%" id="psEndDe" /></td>
+                <td>
+                    <input type="text" id="psEmpNm" disabled style="width: 100%" />
+                    <input type="hidden" id="psEmpSeq" />
+                </td>
+                <td style="text-align: center">
+                    <button type="button" class="k-button k-button-solid-base" onclick="devInfo.fn_addProcess('${params.pjtSn}')">공정저장</button>
+                    <button type="button" onclick="fn_userMultiSelectPop()" class="k-button k-button-solid-base">추진담당</button>
+                </td>
+            </tr>
             </tbody>
         </table>
 
@@ -123,4 +163,21 @@
 
 <script>
     rndDP.fn_defaultScript();
+
+    function fn_userMultiSelectPop(i) {
+        idx = i;
+        window.open("/user/pop/userMultiSelectPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+    }
+
+    function userDataSet(arr){
+        console.log(arr);
+        var psEmpSeq = "";
+        var psEmpNm = "";
+        for(var i = 0 ; i < arr.length ; i++){
+            psEmpSeq += arr[i].empSeq + ",";
+            psEmpNm += arr[i].empName + ",";
+        }
+        $("#psEmpNm").val(psEmpNm.slice(0, -1));
+        $("#psEmpSeq").val(psEmpSeq.slice(0, -1));
+    }
 </script>
