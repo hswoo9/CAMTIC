@@ -19,9 +19,9 @@
           <div class="total">전체 <strong><span id="totalCnt"></span></strong>건</div>
           <form class="__sch">
             <div class="inp">
-              <label for="searchInput" class="hide">검색어 입력</label>
-              <input type="text" id="searchInput" placeholder="검색어를 입력하세요">
-              <button type="submit">검색</button>
+              <label for="inputText" class="hide">검색어 입력</label>
+              <input type="text" id="inputText" placeholder="검색어를 입력하세요" onkeydown="searchOnEnter(event);">
+              <button type="button">검색</button>
             </div>
           </form>
         </div>
@@ -32,7 +32,7 @@
             <col style="width:100px;"/>
             <col/>
             <col style="width:100px;"/>
-            <col style="width:150px;"/>
+            <col style="width:200px;"/>
             <col style="width:100px;"/>
           </colgroup>
           <thead>
@@ -91,9 +91,9 @@
 </div>
 
 <script>
-  var categoryKey = "report";
 
-  var firstData = fn_customAjax('/board/getRecruitList');
+  var firstData = fn_customAjax('/board/getRecruitmentList?recordSize=10', '');
+
   var flag = false;
 
   var paginationData;
@@ -127,17 +127,10 @@
     drawPage();
     drawTable(data);
   });
-
-  //작성 이동
-  function fn_writeBoard(){
-
-    location.href = '/camtic/pr/pr_write.do?category=' + categoryKey;
-  }
-
   //상세보기 이동
   function fn_detailBoard(key){
 
-    location.href="/camtic/pr/pr_view.do?boardArticleId=" + key + "&category=" + categoryKey;
+    location.href="/camtic/member/job_view.do?RECRUIT_INFO_SN=" + key;
   }
 
   /**
@@ -153,25 +146,25 @@
       recordSize: 10,
       pageSize: 10
     }
-    var result = fn_customAjax("/board/getBoardArticleList.do?" + new URLSearchParams(queryParams).toString() + "&categoryId=" + categoryKey + "&recordSize=10", "");
-
+    var result = fn_customAjax("/board/getRecruitmentList.do?" + new URLSearchParams(queryParams).toString() + "&recordSize=10", "");
     flag = true;
 
     dataChk(result, flag);
     drawTable(result.boardArticleList.list);
+    console.log(drawTable);
     drawPage();
   }
 
   //게시글 리스트 그리기
   function drawTable(data) {
-    //const tableBody = document.getElementById("tableBody");
+
     $("#tableBody").html('');
 
     let html = "";
 
     let num = total + 1;
 
-    if(page != 1){
+    if(page != 1){ㄱ
       num = num - ((page - 1) * 10);
     }
     data.forEach((item, index) => {
@@ -179,9 +172,11 @@
 
       html += "<tr>";
       html += '<td>'+ (num) +'</td>';
-      html += '<td class="subject" onclick="fn_detailBoard('+item.RECRUIT_INFO+SN +')"><a href="#" onclick="fn_detailBoard('+item.board_ARTICLE_ID+')">'+ item.board_ARTICLE_TITLE +'</a></td>';
-      html += '<td>'+ item.REG_EMP_NAME +'</td>';
-      html += '<td>' +item.REG_DT+ '</td>';
+      html += '<td class="subject" onclick="fn_detailBoard('+item.recruit_INFO_SN +')"><a href="#" onclick="fn_detailBoard('+item.recruit_INFO_SN +')">'+ item.recruit_TITLE +'</a></td>';
+      html += '<td>'+ item.reg_EMP_NAME +'</td>';
+      var datetimeParts = item.reg_DT.split(' ');
+      var datePart = datetimeParts[0];
+      html += '<td>' + datePart + '</td>';
       html += '<td>'+ item.board_ARTICLE_VIEW_COUNT +'</td>';
       html += "</tr>";
     });
@@ -203,6 +198,28 @@
 
     html += '<a href="javascript:void(0);" onclick="movePage(' + (page + 1) + ');" class="arr next"><span class="hide">다음 페이지</span></a>';
     $(".__paging").html(html);
+  }
+
+  function searchOnEnter(event) {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Enter 키의 기본 동작 방지
+      fn_searchInput(); // 검색 함수 호출
+    }
+  }
+
+  function fn_searchInput(){
+    inputText = $("#inputText").val();
+    var result = fn_customAjax('/board/getRecruitmentList?recordSize=10&searchInput=' + encodeURI(inputText, "UTF-8"),'');
+
+    flag = true;
+
+    if(result.articlePage.pagination != null){
+      dataChk(result);
+      drawPage();
+    }
+    drawTable(result.boardArticleList.list);
+
+    $("#totalCnt").text(result.articlePage.pagination.totalRecordCount);
   }
 
   function fn_customAjax(url, data){
