@@ -728,5 +728,11 @@ public class RecruitController {
         return "popup/inside/recruit/approvalFormPopup/recruitApprovalPop";
     }
 
+    @RequestMapping("/inside/getRecruitPrint")
+    public String getRecruitPrint(@RequestParam Map<String,Object> params, Model model) {
+        model.addAttribute("list", recruitService.getRecruitPrint(params));
+        return "jsonView";
+    }
+
 
 }

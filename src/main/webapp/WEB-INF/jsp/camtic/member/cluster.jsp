@@ -5,7 +5,21 @@
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 </head>
-
+<style>
+	.__clu3 .area .box .txt{
+		font-size: 24px;
+		line-height: 1.27;
+		padding: 10px 30px;
+		font-weight: bold;
+		color:#fff;
+		border-radius: 10px;
+		margin-top: 7px;
+		position: relative;
+	}
+	.__imgW .wrap{
+		margin: 0px 100px;
+	}
+</style>
 <body>
 <div id="wrap">
 	<jsp:include page="/WEB-INF/jsp/template/camtic/head.jsp" flush="false"/>
@@ -92,9 +106,9 @@
 							<div class="txt">개인투자조합 활성화</div>
 						</div>--%>
 						<div class="box" style="display: flex; margin: 0 auto; gap: 80px;">
-							<div class="txt" style="font-size: 22px;">ㆍ 연대와 협력, 복리증진</div>
-							<div class="txt" style="font-size: 22px;">ㆍ 분사창업사 성장 조력</div>
-							<div class="txt" style="font-size: 22px;">ㆍ 개인투자조합 활성화</div>
+							<div class="txt" style="background-color: #234d88;">연대와 협력, 복리증진</div>
+							<div class="txt" style="background-color: #41ace0;">분사창업사 성장 조력</div>
+							<div class="txt" style="background-color: #22ca55;">개인투자조합 활성화</div>
 						</div>
 					</div>
 				</div>

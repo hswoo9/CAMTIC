@@ -25,7 +25,7 @@
       <h1 class="logoENG"><a href="/camtic">캠틱종합기술원</a></h1>
       <ul class="gnb">
         <li class="about_greeting">
-          <a href="/camtic/about/greetingENG.do"><span>Introduce</span></a>
+          <a href="/camtic/about/greetingENG.do"><span>CEO Greeting</span></a>
         </li>
         <li class="about_history">
           <a href="/camtic/about/historyENG.do"><span>History</span></a>
@@ -45,7 +45,7 @@
         </li>
 
         <li class="about_vision">
-          <a href="/camtic/about/visionENG.do"><span>CAMTIC Mission & Vision 2030</span></a>
+          <a href="/camtic/about/visionENG.do"><span>VISION 2030</span></a>
         </li>
         <li class="about_location">
           <a href="/camtic/about/locationENG.do"><span>Contect</span></a>

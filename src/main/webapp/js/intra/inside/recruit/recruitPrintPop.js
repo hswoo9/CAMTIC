@@ -43,43 +43,42 @@ const recruitPrintPop = {
 
     openCallBack: function(){
         let recruitInfoSn = $("#recruitInfoSn").val();
+        let recruitAreaInfoSn = $("#recruitAreaInfoSn").val();
+        console.log("recruitInfoSn : "+recruitInfoSn);
+        console.log("recruitAreaInfoSn : "+recruitAreaInfoSn);
 
-        const data = { recruitInfoSn : recruitInfoSn };
-        const rs = customKendo.fn_customAjax("/inside/getRecruitList", data);
+        const data = {
+            recruitInfoSn: recruitInfoSn,
+            recruitAreaInfoSn: recruitAreaInfoSn
+        };
+        const rs = customKendo.fn_customAjax("/inside/getRecruitPrint", data);
+
+
 
         console.log("rs");
         console.log(rs);
+        console.log("Is rs an array?", Array.isArray(rs));
+        console.log("rs object:", rs);
 
-        //const map = rs.hashMap;
-        //const res = rs.result;
-        //const recruitList = res.recruitList;
-        let recruitMap = "";
+        const recruitArray = rs.list;
 
-        /**
-        for(let i=0; i< recruitList.length; i++){
-            if( recruitList[i].RECRUIT_INFO_SN == recruitInfoSn){
-                recruitMap = recruitList[i];
-            }
-        }*/
+        const areaInfoValue = recruitArray[0].AREA_TITLE;
+        const deadLineValue = recruitArray[0].END_DT;
+        const startDayValue = recruitArray[0].START_DT;
+        const empNameValue = recruitArray[0].REG_EMP_NAME;
 
-        //console.log("recruitMap");
-        //console.log(recruitMap);
-
-        //if(recruitMap == ""){
-        //    alert("데이터 조회 중 오류가 발생하였습니다. 새로고침 후 진행바랍니다."); return;
-        //}
 
         /** 채용부문 */
-        recruitPrintPop.global.hwpCtrl.PutFieldText("AREA_INFO", "1");
+        recruitPrintPop.global.hwpCtrl.PutFieldText("AREA_INFO", areaInfoValue);
 
         /** 마감일 */
-        recruitPrintPop.global.hwpCtrl.PutFieldText("DEADLINE_DT", "2");
+        recruitPrintPop.global.hwpCtrl.PutFieldText("DEADLINE_DT", deadLineValue);
 
         /** 작성일 */
-        recruitPrintPop.global.hwpCtrl.PutFieldText("REG_DT", "3");
+        recruitPrintPop.global.hwpCtrl.PutFieldText("REG_DT", startDayValue);
 
         /** 작성자 */
-        recruitPrintPop.global.hwpCtrl.PutFieldText("EMP_NAME_SIGN", "4");
+        recruitPrintPop.global.hwpCtrl.PutFieldText("EMP_NAME_SIGN", empNameValue);
 
         /** 지원자 리스트 */
         let html = "";
@@ -91,24 +90,26 @@ const recruitPrintPop = {
         html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 55px;"><p style="font-size:12px;"><b>번호</b></p></td>';
         html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 95px;"><p style="font-size:12px;"><b>성명</b></p></td>';
         html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 75px;"><p style="font-size:12px;"><b>연령</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 75px;"><p style="font-size:12px;"><b>성병</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 75px;"><p style="font-size:12px;"><b>성별</b></p></td>';
         html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 150px;"><p style="font-size:12px;"><b>학력</b></p></td>';
         html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 75px;"><p style="font-size:12px;"><b>경력</b></p></td>';
         html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 195px;"><p style="font-size:12px;"><b>직무관련\n자격/면혀증</b></p></td>';
         html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 195px;"><p style="font-size:12px;"><b>외국어\n점수</b></p></td>';
         html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 95px;"><p style="font-size:12px;"><b>비고</b></p></td>';
         html += '               </tr>';
-        for(let i=0; i<2; i++){
+        for(let i=0;  i < recruitArray.length; i++){
+            const map =recruitArray[i];
+            console.log("map", map);
             html += '               <tr>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">1</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">2</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">3</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">4</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">5</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">6</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">7</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">8</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">9</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ (map.APPLICATION_ID || '') +'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ (map.USER_NAME || '') +'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+(map.AGE || '')+'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+(map.GENDER || '')+'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+(map.SCHOOL_NAME || '')+'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+(map.WORK_DATE || '')+'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+(map.CERT_AREA|| '')+'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+(map.LANG_NAME || '')+'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
             html += '               </tr>';
         }
         html += '           </table>';

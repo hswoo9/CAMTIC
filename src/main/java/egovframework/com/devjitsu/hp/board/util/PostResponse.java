@@ -60,6 +60,12 @@ public class PostResponse {
 
     private String REPLY_CNT;
 
+
+    /*캠-인크루트 > 채용공고 */
+    private String RECRUIT_INFO_SN;
+    private String RECRUIT_TITLE;
+    private String REG_DT;
+
     public String getBOARD_NAME() {
         return BOARD_NAME;
     }
@@ -195,4 +201,8 @@ public class PostResponse {
     public String getCONFIRM2() { return CONFIRM2; }
     public LocalDateTime getAPPLY_DATE() { return APPLY_DATE; }
     public LocalDateTime getCANCLE_DATE() { return CANCLE_DATE; }
+
+    public String getRECRUIT_INFO_SN() { return RECRUIT_INFO_SN; }
+    public String getRECRUIT_TITLE() { return RECRUIT_TITLE; }
+    public String getREG_DT() { return REG_DT; }
 }
