@@ -3,7 +3,7 @@ var rndDetail = {
 
     fn_defaultScript : function (){
 
-        customKendo.fn_textBox(["mngDeptName", "mngEmpName", "bankNo", "accHold", "allResCost", "peoResCost", "peoResItem", "totResCost", "resCardNo"]);
+        customKendo.fn_textBox(["mngDeptName", "allBusnCost", "mngEmpName", "bankNo", "accHold", "allResCost", "peoResCost", "peoResItem", "totResCost", "resCardNo"]);
 
         $("#bank").kendoDropDownList({
             dataTextField : "text",
@@ -46,6 +46,7 @@ var rndDetail = {
         var parameters = {
             pjtSn : $("#pjtSn").val(),
 
+            allBusnCost : uncomma($("#allBusnCost").val()),
             mngDeptName : $("#mngDeptName").val(),
             mngEmpName : $("#mngEmpName").val(),
             mngDeptSeq : $("#mngDeptSeq").val(),
