@@ -73,18 +73,59 @@
             </table>
 
             <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+              <colgroup>
+                <col width="11%">
+                <col>
+                <col width="15%">
+              </colgroup>
               <tr>
-                <td style="border-bottom:0; background-color: white">
+
                   <div style="display:flex;">
                     <div class="mr20">
-                      <input type="text" id="dept" style="width: 150px;">
-                      <input type="text" id="searchType" style="width: 150px;">
-                      <input type="text" id="searchVal" style="width: 150px;">
+                      <th class="text-center th-color" style="background-color: #d8dce3">부서</th>
+                      <td>
+                        <input type="text" id="dept" style="width:160px;">
+                        <input type="hidden" id="dept_seq">
+                        <input type="text" id="team" style="width:165px;">
+                        <input type="hidden" id="team_seq">
+                      </td>
+                      <th class="text-center th-color" style="background-color: #d8dce3">검색어</th>
+                      <td>
+                        <input type="text" id="searchType" style="width: 80px;">
+                        <input type="text" id="searchVal" onkeypress="if(window.event.keyCode==13){subHolidayReqBatchPop.gridReload()}" style="width: 140px;">
+                      </td>
                     </div>
+                  </div>
+
+              </tr>
+            </table>
+            <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+              <tr>
+                <td style="border-bottom:0; background-color: white">
+                  <style>
+                    label {
+                      position: relative;
+                      top: -1px;
+                    }
+                  </style>
+                  <div class="mt10">
+                    <input type="checkbox" class="detailSearch" id="dsA" checked>
+                    <label for="dsA">전담직원 [${countMap.dsA}]</label>
+                    <input type="checkbox" class="detailSearch" division="1" divisionSub="6" style="margin-left: 10px;" id="dsC">
+                    <label for="dsC">위촉직원 [${countMap.dsC}]</label>
+                    <input type="checkbox" class="detailSearch" division="3" style="margin-left: 10px;" id="dsB">
+                    <label for="dsB">단기직원 [${countMap.dsB}]</label>
+                    <input type="checkbox" class="detailSearch" division="4" divisionSub="3" style="margin-left: 10px;" id="dsD">
+                    <label for="dsD">시설/환경 [${countMap.dsD}]</label>
+                    <input type="checkbox" class="detailSearch" division="2" style="margin-left: 10px;" id="dsG">
+                    <label for="dsG">연수생/학생연구원 [${countMap.dsG}]</label>
+                    <input type="checkbox" class="detailSearch" division="10" style="margin-left: 10px;" id="dsE">
+                    <label for="dsE">기타 [${countMap.dsE}]</label>
                   </div>
                 </td>
               </tr>
             </table>
+            <div id="mainGrid" style="margin:20px 0;"></div>
           </form>
         </div>
         <div class="btn-st" style="margin-top:10px; text-align:center;">
@@ -95,6 +136,7 @@
     </div>
 </div>
 <script>
+
   subHolidayReqBatchPop.init();
 </script>
 </body>

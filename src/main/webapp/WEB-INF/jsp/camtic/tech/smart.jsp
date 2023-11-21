@@ -29,8 +29,8 @@
                         <dd><span class="subCapyTitle">스마트제조 분야의 R&D 및 사업화 추진</span></dd>
                     </dl>
                     </div>
-                    <div class="__icoBox pt0 __mt50">
-                        <div class="__tit1 __mt100 __mb20">
+                    <div class="__icoBox pt0 __mt70">
+                        <div class="__tit1 __mb20">
                             <h3><strong>주요업무</strong></h3>
                         </div>
 

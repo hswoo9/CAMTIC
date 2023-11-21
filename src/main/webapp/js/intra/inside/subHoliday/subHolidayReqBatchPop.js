@@ -2,288 +2,162 @@ var now = new Date();
 var docContent = "";
 
 var subHolidayReqBatchPop = {
-
-    init : function(){
-        subHolidayReqBatchPop.dataSet();
+    global : {
+        searchAjaxData : "",
     },
 
-    dataSet : function() {
+
+    init: function () {
+        subHolidayReqBatchPop.dataSet();
+        subHolidayReqBatchPop.gridReload();
+
+        $(".detailSearch").change(function(){
+            subHolidayReqBatchPop.gridReload();
+        })
+    },
+
+    dataSet: function () {
+
         $("#start_date").kendoDatePicker({
             depth: "month",
             start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth() - 1))
+            culture: "ko-KR",
+            format: "yyyy-MM-dd",
+            value: new Date(now.setMonth(now.getMonth() - 1))
         });
 
         $("#end_date").kendoDatePicker({
             depth: "month",
             start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date()
+            culture: "ko-KR",
+            format: "yyyy-MM-dd",
+            value: new Date()
         });
 
-        $("#dept").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "부서선택", value: "" },
-                { text: "미래전략기획본부", value: "1" },
-                { text: "R&BD사업본부", value: "2" },
-                { text: "기업성장지원본부", value: "3" },
-                { text: "우주항공사업부", value: "4" },
-                { text: "드론사업부", value: "5" },
-                { text: "스마트제조사업부", value: "6" },
-                { text: "경영지원실", value: "7" }
-            ],
-            index: 0
-        });
+        fn_deptSetting(2);
 
         $("#searchType").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "검색선택", value: "" },
-                { text: "성명", value: "" },
-                { text: "부서명", value: "1" },
-                { text: "팀명", value: "2" },
-                { text: "직급", value: "3" },
+                {text: "전체", value: ""},
+                {text: "직급", value: "1"},
+                {text: "성명", value: "2"}
+
             ],
             index: 0
         });
 
+        $("#searchVal").kendoTextBox();
+
     },
 
-    dataSetChange : function() {
-        if($("#holidayCate").val() != '' && $("#holidayCate").val() == 0) {
-            $("#varianceTH").text("대체휴가일자");
-            var html = '<table class="table table-bordered mb-0" id="holidayPlanReqPopTbVal">\n' +
-                '              <colgroup>\n' +
-                '                <col width="10%">\n' +
-                '                <col width="30%">\n' +
-                '                <col width="20%">\n' +
-                '                <col width="30%">\n' +
-                '              </colgroup>\n' +
-                '              <thead>\n' +
-                '              <tr>\n' +
-                '                <th>대체휴가일자</th>\n' +
-                '                <td colspan="3">\n' +
-                '                  <input id="start_date" style="width:20%; margin-right:5px;">\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              <tr>\n' +
-                '                <th scope="row" class="text-center th-color">안내사항</th>\n' +
-                '                <td colspan="3">\n' +
-                '                  * 휴일근로는 공휴일, 토요일, 일요일 등 휴무일에 근로가 필요한 경우 신청합니다.\n' +
-                '                <br>\n' +
-                '                  * 휴일근로는 대체휴가(1:1)로 처리하오니 대체휴가일을 선택해서 신청합니다.(필수)\n' +
-                '                <br>\n' +
-                '                  * 근로일자가 지정된 신청내용만 저장됩니다.\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              <tr>\n' +
-                '                <th scope="row" class="text-center th-color">근로일자</th>\n' +
-                '                <td colspan="3">\n' +
-                '                  <table style="width:100%; margin-top:5px;">\n' +
-                '                      <tr style="background-color:#d8dce36b;">\n' +
-                '                        <th>근로일자</th>\n' +
-                '                        <th>근로시간</th>\n' +
-                '                        <th>비고</th>\n' +
-                '                      </tr>\n' +
-                '                      <tr style="background-color:#fff;">\n' +
-                '                        <td style="text-align: center"><input id="end_date" style="width:150px; margin-right:5px;"></td>\n' +
-                '                        <td style="text-align: center"><input id="start_time" style="width:110px;"> ~ <input id="end_time" style="width:110px;"></td>\n' +
-                '                        <td style="text-align: center"><input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="초기화" onclick=""/></td>\n' +
-                '                      </tr>\n' +
-                '                  </table>\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              <tr>\n' +
-                '                <th scope="row" class="text-center th-color">사유</th>\n' +
-                '                <td colspan="3">\n' +
-                '                  <textarea name="apply_reason" id="holiday_reason" rows="5" style="width:100%; border: 1px solid #eee;padding-left: 10px;"></textarea>\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              <tr>\n' +
-                '                <th scope="row" class="text-center th-color">신청일</th>\n' +
-                '                <td colspan="3">\n' +
-                '                  <input type="date" id="now_date" style="width: 20%;">\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              </thead>\n' +
-                '            </table>';
-            $("#holidayPlanReqPopTbVal").html(html);
-            subHolidayReqBatchPop.dataSet();
-        }else if($("#holidayCate").val() == 8) {
-            var html2 = '<table class="table table-bordered mb-0" id="holidayPlanReqPopTbVal">\n' +
-                '              <colgroup>\n' +
-                '                <col width="10%">\n' +
-                '                <col width="30%">\n' +
-                '                <col width="20%">\n' +
-                '                <col width="30%">\n' +
-                '              </colgroup>\n' +
-                '              <thead>\n' +
-                '              <tr>\n' +
-                '                <th>휴일 근로 일자</th>\n' +
-                '                <td colspan="3">\n' +
-                '                  <input id="holiday_date" style="width:20%; margin-right:5px;">' +
-                '                   <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayReqBatchPop.searchHolidayPop();" type="button"><i class="fa fa-search"></i></button>\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              <tr>\n' +
-                '                <th>기간</th>\n' +
-                '                <td colspan="3">\n' +
-                '                  <input id="start_date" style="width:20%; margin-right:5px;"><input id="start_time" style="width:15%;">\n' +
-                '                  ~\n' +
-                '                  <input id="end_date" style="width:20%; margin-right:5px;"><input id="end_time" style="width:15%;">\n' +
-                '                  <table style="width:100%; margin-top:5px;">\n' +
-                '                      <tr style="background-color:#d8dce36b;">\n' +
-                '                        <th rowspan="2">근무시간유형</th>\n' +
-                '                        <th>시차출근A</th>\n' +
-                '                        <th>기본</th>\n' +
-                '                        <th>시차출근B</th>\n' +
-                '                        <th>시차출근C</th>\n' +
-                '                      </tr>\n' +
-                '                      <tr style="background-color:#d8dce36b;">\n' +
-                '                        <th>08:00 ~ 17:00</th>\n' +
-                '                        <th>09:00 ~ 18:00</th>\n' +
-                '                        <th>10:00 ~ 19:00</th>\n' +
-                '                        <th>14:00 ~ 22:30</th>\n' +
-                '                      </tr>\n' +
-                '                      <tr style="background-color:#fff;">\n' +
-                '                        <td>오전반차</td>\n' +
-                '                        <td>08:00 ~ 13:00</td>\n' +
-                '                        <td>09:00 ~ 14:00</td>\n' +
-                '                        <td>10:00 ~ 15:00</td>\n' +
-                '                        <td>-</td>\n' +
-                '                      </tr>\n' +
-                '                      <tr style="background-color:#fff;">\n' +
-                '                        <td>오후반차</td>\n' +
-                '                        <td>13:00 ~ 17:00</td>\n' +
-                '                        <td>14:00 ~ 18:00</td>\n' +
-                '                        <td>15:00 ~ 19:00</td>\n' +
-                '                        <td>14:00 ~ 18:00</td>\n' +
-                '                      </tr>\n' +
-                '                  </table>\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              <tr>\n' +
-                '                <th scope="row" class="text-center th-color">사유</th>\n' +
-                '                <td colspan="3">\n' +
-                '                  <textarea name="apply_reason" id="holiday_reason" rows="5" style="width:100%; border: 1px solid #eee;padding-left: 10px;"></textarea>\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              <tr>\n' +
-                '                <th scope="row" class="text-center th-color">기타사항<br>(인수인계 등)</th>\n' +
-                '                <td colspan="3">\n' +
-                '                  <textarea name="apply_reason" id="other_reason" rows="5" style="width:100%; border: 1px solid #eee;padding-left: 10px;"></textarea>\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              <tr>\n' +
-                '                <th scope="row" class="text-center th-color">업무인수자</th>\n' +
-                '                <td colspan="3">\n' +
-                '                  <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 20%;">\n' +
-                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick=""/>\n' +
-                '                  <br>\n' +
-                '                  <input type="button" class="mt10 k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick=""/>\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              <tr>\n' +
-                '                <th scope="row" class="text-center th-color">신청일</th>\n' +
-                '                <td colspan="3">\n' +
-                '                  <input type="date" id="now_date" style="width: 20%;">\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              </thead>\n' +
-                '            </table>';
-            $("#holidayPlanReqPopTbVal").html(html2);
-            subHolidayReqBatchPop.dataSet();
-        }else {
-            var html3 = '<table class="table table-bordered mb-0" id="holidayPlanReqPopTbVal">\n' +
-                '              <colgroup>\n' +
-                '                <col width="10%">\n' +
-                '                <col width="30%">\n' +
-                '                <col width="20%">\n' +
-                '                <col width="30%">\n' +
-                '              </colgroup>\n' +
-                '              <thead>\n' +
-                '              <tr>\n' +
-                '                <th>기간</th>\n' +
-                '                <td colspan="3">\n' +
-                '                  <input id="start_date" style="width:20%; margin-right:5px;"><input id="start_time" style="width:15%;">\n' +
-                '                  ~\n' +
-                '                  <input id="end_date" style="width:20%; margin-right:5px;"><input id="end_time" style="width:15%;">\n' +
-                '                  <table style="width:100%; margin-top:5px;">\n' +
-                '                      <tr style="background-color:#d8dce36b;">\n' +
-                '                        <th rowspan="2">근무시간유형</th>\n' +
-                '                        <th>시차출근A</th>\n' +
-                '                        <th>기본</th>\n' +
-                '                        <th>시차출근B</th>\n' +
-                '                        <th>시차출근C</th>\n' +
-                '                      </tr>\n' +
-                '                      <tr style="background-color:#d8dce36b;">\n' +
-                '                        <th>08:00 ~ 17:00</th>\n' +
-                '                        <th>09:00 ~ 18:00</th>\n' +
-                '                        <th>10:00 ~ 19:00</th>\n' +
-                '                        <th>14:00 ~ 22:30</th>\n' +
-                '                      </tr>\n' +
-                '                      <tr style="background-color:#fff;">\n' +
-                '                        <td>오전반차</td>\n' +
-                '                        <td>08:00 ~ 13:00</td>\n' +
-                '                        <td>09:00 ~ 14:00</td>\n' +
-                '                        <td>10:00 ~ 15:00</td>\n' +
-                '                        <td>-</td>\n' +
-                '                      </tr>\n' +
-                '                      <tr style="background-color:#fff;">\n' +
-                '                        <td>오후반차</td>\n' +
-                '                        <td>13:00 ~ 17:00</td>\n' +
-                '                        <td>14:00 ~ 18:00</td>\n' +
-                '                        <td>15:00 ~ 19:00</td>\n' +
-                '                        <td>14:00 ~ 18:00</td>\n' +
-                '                      </tr>\n' +
-                '                  </table>\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              <tr>\n' +
-                '                <th scope="row" class="text-center th-color">사유</th>\n' +
-                '                <td colspan="3">\n' +
-                '                  <textarea name="apply_reason" id="holiday_reason" rows="5" style="width:100%; border: 1px solid #eee;padding-left: 10px;"></textarea>\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              <tr>\n' +
-                '                <th scope="row" class="text-center th-color">기타사항<br>(인수인계 등)</th>\n' +
-                '                <td colspan="3">\n' +
-                '                  <textarea name="apply_reason" id="other_reason" rows="5" style="width:100%; border: 1px solid #eee;padding-left: 10px;"></textarea>\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              <tr>\n' +
-                '                <th scope="row" class="text-center th-color">업무인수자</th>\n' +
-                '                <td colspan="3">\n' +
-                '                  <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 20%;">\n' +
-                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick=""/>\n' +
-                '                  <br>\n' +
-                '                  <input type="button" class="mt10 k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick=""/>\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              <tr>\n' +
-                '                <th scope="row" class="text-center th-color">신청일</th>\n' +
-                '                <td colspan="3">\n' +
-                '                  <input type="date" id="now_date" style="width: 20%;">\n' +
-                '                </td>\n' +
-                '              </tr>\n' +
-                '              </thead>\n' +
-                '            </table>';
-            $("#holidayPlanReqPopTbVal").html(html3);
-            subHolidayReqBatchPop.dataSet();
+    mainGrid: function (url, params) {
+        $("#mainGrid").kendoGrid({
+            dataSource: customKendo.fn_gridDataSource2(url, params),
+            sortable: true,
+            scrollable: true,
+            height: 508,
+            pageable : {
+                refresh : true,
+                pageSizes: [10, 20, "ALL"],
+                buttonCount : 5
+            },
+            dataBound: function(e) {
+                var gridData = this.dataSource.view(); // 현재 페이지의 데이터 가져오기
+                console.log("Kendo UI Grid 데이터:", gridData);
+            },
+            toolbar: [
+                {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayReqBatchPop.gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }
+            ],
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    headerTemplate: '<input type="checkbox" id="checkAll"  onclick="subHolidayReqBatchPop.fn_checkAll();" style="position : relative; top : 2px;"/>',
+                    template: "<input type='checkbox' id='' name='checkUser' value=''/>",
+                    width: 50
+                }, {
+                    field: "DEPT_NAME1",
+                    title: "부서(실)",
+                    template:function(e){
+                        return '<input type="hidden" id="' + e.EMP_SEQ + '_dept_seq">' + e.DEPT_NAME1;
+                    }
+                }, {
+                    field: "DEPT_TEAM_NAME",
+                    title: "부서(팀)"
+                }, {
+                    title: "직위",
+                    template: function (row) {
+                        return fn_getSpot(row.DUTY_NAME, row.POSITION_NAME);
+                    }
+                },
+                {
+                    field: "EMP_NAME_KR",
+                    title: "성명",
+                    width: 100
+                }
+
+            ]
+        }).data("kendoGrid");
+    },
+
+    gridReload : function() {
+        console.log('gridReload 함수 호출됨');
+        subHolidayReqBatchPop.global.searchAjaxData = {
+            dept : $("#dept").val(),
+            searchVal: $("#searchVal").val(),
+            searchText: $("#searchText").val(),
+            team : $("#team").val()
+        };
+
+        // var dept = subHolidayReqBatchPop.global.searchAjaxData.dept;
+        // var team = subHolidayReqBatchPop.global.searchAjaxData.team;
+        // var searchVal = subHolidayReqBatchPop.global.searchAjaxData.searchVal;
+        // var searchType = subHolidayReqBatchPop.global.searchAjaxData.searchType;
+        //
+        // console.log('Dept: ' + dept);
+        // console.log('Team:' + team);
+        // console.log('searchType:' + searchType);
+        // console.log('searchVal:' + searchVal);
+
+        var arr = "";
+        if($(".detailSearch:checked").length == 0){
+            arr += "|999&N"
+        }else{
+            $(".detailSearch:checked").each(function(){
+                if($(this).attr("id") == "dsA"){
+                    arr += "|0&N|4&1,2"
+                }else{
+                    arr += "|" + $(this).attr("division") + '&' + ($(this).attr("divisionSub") == null ? "N" : $(this).attr("divisionSub"));
+                }
+
+            })
+        }
+
+
+        subHolidayReqBatchPop.global.searchAjaxData.arr = arr.substring(1);
+
+        subHolidayReqBatchPop.mainGrid('/subHoliday/getUserInfoList',subHolidayReqBatchPop.global.searchAjaxData);
+    },
+
+
+
+    fn_checkAll: function(){
+        if($("#checkAll").is(":checked")) {
+            $("input[name='checkUser']").prop("checked", true);
+        }else{
+            $("input[name='checkUser']").prop("checked", false);
         }
     },
-
-    searchHolidayPop : function() {
-        var url = "/subHoliday/searchHolidayPop.do";
-        var name = "searchHolidayPop";
-        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
-    }
 }
+
 
