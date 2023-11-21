@@ -59,11 +59,8 @@
                         </ul>
                     </div>
 
-
-
-
-                    <div class="con">
-                        <div class="txt_zone pr_view_content" style="line-height:25px;">
+                    <div class="con" >
+                        <div class="txt_zone pr_view_content" style="line-height:35px;">
                             <c:if test="${categoryId eq 'photo'}" >
                                 <div style="text-align:center">
                                     <c:forEach var="file" items="${fileMap}" varStatus="status">
@@ -74,7 +71,7 @@
 
                             <div id="con0">
                                 <span>${map.RECRUIT_NUM}</span>
-                                <div style="border:1px solid #ddd;">
+                                <div style="border:1px solid #ddd; text-align:center; padding:20px 0;">
                                     <span style="font-size:20px; line-height:30px;">${map.RECRUIT_DETAIL}</span>
                                 </div>
                                 <div style="float:right; margin-top:10px;">
@@ -94,22 +91,36 @@
                                         <col style="width:100px;"/>
                                         <col style="width:100px;"/>
                                         <col style="width:100px;"/>
-                                        <col style="width:100px;"/>
                                     </colgroup>
                                     <thead>
-                                    <tr>
-                                        <th>부서</th>
-                                        <th>팀</th>
-                                        <th>직무(모집분야)</th>
-                                        <th>채용인원</th>
-                                        <th>신입/경력(직급)</th>
-                                        <th>필요경력</th>
-                                        <th>근무형태</th>
-                                        <th>자격요건</th>
-                                    </tr>
+                                        <tr>
+                                            <th>부서</th>
+                                            <th>팀</th>
+                                            <th>직무(모집분야)</th>
+                                            <th>채용인원</th>
+                                            <th>신입/경력(직급)</th>
+                                            <th>필요경력</th>
+                                            <th>근무형태</th>
+                                        </tr>
                                     </thead>
-
-                                    <tbody id="tableBody">
+                                    <tbody>
+                                    <c:forEach var="area" items="${map.recruitArea}">
+                                        <tr style="border-top:1px solid #ddd;">
+                                            <td>${area.DEPT_NAME}</td>
+                                            <td>${area.TEAM_NAME}</td>
+                                            <td>${area.JOB}</td>
+                                            <td>${area.RECRUITMENT}</td>
+                                            <td>
+                                                <c:choose>
+                                                    <c:when test="${area.CAREER_TYPE eq '1'}">신입</c:when>
+                                                    <c:when test="${area.CAREER_TYPE eq '2'}">경력</c:when>
+                                                    <c:otherwise>신입/경력</c:otherwise>
+                                                </c:choose>
+                                            </td>
+                                            <td>${area.CARRER}</td>
+                                            <td>${area.WORK_TYPE}</td>
+                                        </tr>
+                                    </c:forEach>
                                     </tbody>
 
                                 </table>
@@ -118,19 +129,23 @@
                             <div id="con2" style="margin-top:30px;">
                                 <h3>응시자격</h3>
                                 <table class="table table-bordered mb-0" style="border:1px solid #ddd; text-align:center;margin-top:20px;">
+                                    <colgroup>
+                                        <col style="width:40%;"/>
+                                        <col style="width:60%; border-left:1px solid #ddd;"/>
+                                    </colgroup>
                                     <tr>
                                         <th>직무(모집분야)</th>
                                         <th>자격요건</th>
                                     </tr>
-                                    <tr>
-                                        <td>${map.Job}</td>
-                                        <td style="border-left:1px solid #ddd;">
-                                            <p>${map.QUALIFICATION}</p>
-                                        </td>
-                                    </tr>
+                                    <c:forEach var="area" items="${map.recruitArea}">
+                                        <tr style="border-top:1px solid #ddd;">
+                                            <td>${area.JOB}</td>
+                                            <td style="text-align:left; padding-left:10px;">${area.QUALIFICATION}</td>
+                                        </tr>
+                                    </c:forEach>
                                 </table>
                                 <div style="margin-top: 10px;">
-                                <p>${map.ELGIBILITY_ETC}</p>
+                                    <p>${map.ELGIBILITY_ETC}</p>
                                 </div>
                             </div>
 
@@ -152,7 +167,6 @@
                                 <h3>지원서류(온라인 등록)</h3>
                                 <div style="margin-top: 10px;">
                                     <p>${map.APPLICATION_DOC}</p>
-
                                 </div>
                             </div>
 
@@ -169,10 +183,7 @@
                                     <p>${map.REMARK}</p>
                                 </div>
                             </div>
-
-
                         </div>
-
                     </div>
 
 
@@ -213,52 +224,6 @@
 
 <input type="hidden" id="recruitInfoSn" value="${map.RECRUIT_INFO_SN}"/>
 <script>
-
-    $(function () {
-        areaTable();
-    });
-
-    function areaTable() {
-        var recruitInfoSn = $("#recruitInfoSn").val();
-        $.ajax({
-            url: '/camtic/member/job_view.do',
-            data: {
-                RECRUIT_INFO_SN: recruitInfoSn
-            },
-            type: 'GET',
-            success: function (data) {
-                areaTableList(data.map);
-            },
-        });
-    }
-
-    //캠틱포커스 게시글 리스트 HTML
-    function areaTableList(data){
-
-        $("#tableBody").html('');
-
-        let html = "";
-
-        data.forEach((item, index) => {
-            item.recruitArea.forEach((area, areaIndex) => {
-                console.log(area)
-
-                html += "<tr>";
-                html += "<td>" + area.DEPT_NAME + "</td>";
-                html += "<td>" + area.TEAM_NAME + "</td>";
-                html += "<td>" + area.JOB + "</td>";
-                html += "<td>" + area.RECRUITMENT + "</td>";
-                html += "<td>" + area.CAREER_TYPE + "</td>";
-                html += "<td>" + area.CAREER + "</td>";
-                html += "<td>" + area.WORK_TYPE + "</td>";
-                html += "<td>" + area.QUALIFICATION + "</td>";
-                html += "</tr>>";
-            });
-        });
-
-        $("#tableBody").append(html);
-    }
-
 
     function fileDown(filePath, fileName){
         kendo.saveAs({

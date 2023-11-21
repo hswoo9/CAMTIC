@@ -528,7 +528,6 @@ public class BoardController {
     public String jobView(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
         recruitService.setRecruitArticleViewCount(params);
 
-        //Map<String, Object> map = boardService.getDetailRecruit(params);
         List<Map<String, Object>> fileList = boardService.selectBoardFile(params);
         Map<String, Object> map = recruitService.getRecruit(params);
 
