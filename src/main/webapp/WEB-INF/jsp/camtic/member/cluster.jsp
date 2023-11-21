@@ -10,7 +10,6 @@
 		font-size: 24px;
 		line-height: 1.27;
 		padding: 10px 30px;
-		font-weight: bold;
 		color:#fff;
 		border-radius: 10px;
 		margin-top: 7px;
