@@ -20,15 +20,15 @@
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
         <div class="__tdrone3 m0">
-          <div class="__tit2 __mb50">
+          <div class="__tit2 __mb70">
             <dl class="head">
               <dt><span class="__nm">“</span><span class="mainCapyTitle">창업-혁신-성장</span><span class="__nm">”</span></dt>
               <dd><span class="subCapyTitle">제주창업 플랫폼 J-Valley</span></dd>
             </dl>
           </div>
 
-          <div class="__tit1 __mt10 __mb0">
-            <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>시설 및 입주안내</strong></h3>
+          <div class="__tit1 __mb0">
+            <h3 style="border-bottom: 1px dashed #b7b7b7; padding-bottom:30px;"><strong>시설 및 입주안내</strong></h3>
           </div>
 
 

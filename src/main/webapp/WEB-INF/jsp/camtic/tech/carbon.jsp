@@ -23,8 +23,8 @@
         </div>
 
         <div class="__root3 m0">
-          <div class="__tit1 __mt50 __mb20">
-            <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>기술개발</strong></h3>
+          <div class="__tit1 __mt70 __mb20">
+            <h3 style="border-bottom: 1px dashed #b7b7b7; padding-bottom:30px;"><strong>기술개발</strong></h3>
           </div>
 
           <div class="__icoBox pt0 __mt50">
