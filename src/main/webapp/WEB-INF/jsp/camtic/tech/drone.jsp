@@ -19,14 +19,14 @@
           <div class="head">
             <dl class="tit">
               <dt><span class="__nm">“</span><span class="mainCapyTitle">수요 제품개발, 우수 기업육성, 첨단 기술실증</span><span class="__nm">”</span></dt>
-              <dd style="margin-top: 10px;"><span class="subCapyTitle">첨단 기술 선도를 통한 국내 드론산업의 육성,시장 성장 도모</span></dd>
+              <dd style="margin-top: 15px;"><span class="subCapyTitle">첨단 기술 선도를 통한 국내 드론산업의 육성,시장 성장 도모</span></dd>
             </dl>
           </div>
 
 
           <div class="__tdrone4">
             <div class="tit">
-              <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0; margin-top: 70px;">산업용 플랫폼 드론 개발</h3>
+              <h3 style="border-bottom: 1px dashed #b7b7b7; padding-bottom:30px; margin-top: 70px;">산업용 플랫폼 드론 개발</h3>
               <dl>
                 <dt>
                   다양한 드론기반 임무수행이 가능한 산업용 드론(Multi-path)개발

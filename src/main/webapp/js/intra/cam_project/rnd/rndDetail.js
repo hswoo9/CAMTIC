@@ -79,6 +79,11 @@ var rndDetail = {
             parameters.stat = "ins"
         }
 
+        if(parameters.allBusnCost == ""){
+            alert("총 사업비를 입력해주세요.");
+            return;
+        }
+
         if(parameters.mngEmpSeq == ""){
             alert("연구책임자를 선택해주세요.");
             return;
@@ -139,6 +144,7 @@ var rndDetail = {
 
         if(rs != null){
             $("#rndSn").val(rs.RND_SN);
+            $("#allBusnCost").val(comma(rs.ALL_BUSN_COST));
             $("#mngDeptName").val(rs.MNG_DEPT_NAME);
             $("#mngEmpName").val(rs.MNG_EMP_NAME);
             $("#mngDeptSeq").val(rs.MNG_DEPT_SEQ);
