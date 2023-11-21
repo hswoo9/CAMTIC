@@ -54,7 +54,7 @@ var exnpReList = {
                     template: "#= --record #"
                 }, {
                     title: "문서유형",
-                    width: 90,
+                    width: 70,
                     template: function(e){
                         if(e.PAY_APP_TYPE == 1){
                             return "세금계산서";
@@ -85,40 +85,37 @@ var exnpReList = {
                 }, {
                     title: "프로젝트 명",
                     field: "PJT_NM",
-                    width: 240,
+                    width: 210,
                     template: function (e){
                         var pjtNm = e.PJT_NM.toString().substring(0, 25);
                         return pjtNm + "...";
                     }
                 }, {
                     title: "세출과목",
-                    field: "",
-                    width: 120,
-                    template: function (e){
-                        return "-";
-                    }
+                    field: "BUDGET_NM_EX",
+                    width: 210
                 }, {
                     title: "신청일",
-                    width: 80,
+                    width: 70,
                     field: "REG_DT",
                     template: function(e){
                         return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
                     }
                 }, {
                     title: "지출요청일",
-                    width: 80,
+                    width: 70,
                     field: "APP_DE"
                 }, {
                     title: "지출예정일",
-                    width: 80,
+                    width: 70,
                     field: ""
                 }, {
                     title: "지출완료일",
-                    width: 80,
+                    width: 70,
                     field: ""
                 }, {
                     title: "지출금액",
-                    width: 120,
+                    width: 80,
                     template: function(e){
                         var cost = e.TOT_COST;
                         if(e.RE_STAT == "N"){
