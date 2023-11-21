@@ -5,7 +5,33 @@
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 </head>
+<style>
+  .use3Container {
+    display: flex;
+    justify-content: center;
+  }
+  .use3 {
+    margin-top: 25px;
+  }
 
+  .use3 a {
+    display: inline-block;
+    max-width: 100%;
+    padding: 12px 15px;
+    width: 540px;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 300;
+    letter-spacing: -0.05em;
+    background: #111;
+    text-align: center;
+  }
+
+  .use3 a strong {
+    font-weight: 600;
+  }
+</style>
 <body>
 <div id="wrap">
   <jsp:include page="/WEB-INF/jsp/template/camtic/head.jsp" flush="false"/>
@@ -31,7 +57,7 @@
             </dl>
           </div>
 
-          <div class="__tit1 __mt10 __mb0">
+          <%--<div class="__tit1 __mt10 __mb0">
             <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>기술개발</strong></h3>
           </div>
           <div class="__root2">
@@ -43,7 +69,7 @@
             </dl>
 
 
-          </div>
+          </div>--%>
 
           <div class="__tdrone4 __mt20">
             <div class="tit">
@@ -394,14 +420,25 @@
               <td>전주시 덕진구 유상로 67 </td>
               <td>063-219-0314</td>
             </tr>
-            <tr>
+            <%--<tr>
               <td>캠틱종합기술원</td>
               <td>이영광 선임</td>
               <td>전주시 덕진구 유상로 67 </td>
               <td>063-219-0316</td>
+            </tr>--%>
+            <tr>
+              <td>캠틱종합기술원</td>
+              <td>오윤 선임연구원</td>
+              <td>전주시 덕진구 유상로 67 </td>
+              <td>063-219-0329</td>
             </tr>
             </tbody>
           </table>
+          <div class="use3Container">
+          <div class="use3">
+            <a href="http://mold.camtic.or.kr/main/" target="_blank"><strong>복합소재뿌리기술센터</strong> 바로가기</a>
+          </div>
+          </div>
         </div>
       </div>
     </div>

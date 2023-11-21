@@ -17,11 +17,11 @@
       <div id="content">
         <ul id="navigation">
           <li><a href="/camtic/about/greetingENG.do">HOME</a></li>
-          <li class="mdCategory">CAMTIC Mission & Vision 2030</li>
+          <li class="mdCategory">VISION 2030</li>
           <li class="smCategory" style="display: none;">CAMTIC Mission & Vision 2030</li>
         </ul>
         <div id="title">
-          <h3>CAMTIC Mission & Vision 2030</h3>
+          <h3>VISION 2030</h3>
         </div>
 
         <div class="__vision1 m0">

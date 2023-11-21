@@ -33,7 +33,7 @@
         <div class="__organization m0">
           <dl class="tit">
             <dt>조직체계</dt>
-            <dd>3본부 3사업부 1실 4센터 11팀, 현원 <strong>114</strong>명</dd>
+            <%--<dd>3본부 3사업부 1실 4센터 11팀, 현원 <strong>114</strong>명</dd>--%>
           </dl>
           <div class="img">
             <div class="__orga">
@@ -163,7 +163,7 @@
           </div>
         </div>
         <div class="imgList">
-          <p style="font-size: 24px; font-weight: 600; color: #000; margin-top: 30px;">부서 연락처</p>
+          <p style="font-size: 24px; font-weight: 600; color: #000;">부서 / 팀 연락처</p>
           <table class="__tblList respond1" style="margin-top:10px;">
             <caption>조직도 사원리스트</caption>
             <colgroup>

@@ -64,7 +64,7 @@
                       창업 -&gt; 혁신 -&gt; 성장까지<br>
                       단계적 맞춤 지원
                     </dt>
-                    <dd>
+                    <dd style="color: yellow;">
                       전주형 강소기업<br>
                       육성의 산실
                     </dd>
