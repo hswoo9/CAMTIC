@@ -224,6 +224,9 @@
             CAM_COMMON.DJ_FILE_INFO CFI ON HER.REWORD_ID = CFI.CONTENT_ID AND CFI.FILE_CD = 'reward'
         WHERE
             DATE_FORMAT(HER.REWORD_DAY, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{start_date}, '%Y-%m-%d') AND DATE_FORMAT(#{end_date}, '%Y-%m-%d')
+            <if test='rewardTypeA != null and !"".equals(rewardTypeA)'>
+                AND HER.REWORD_TYPE_NAME like CONCAT('%', #{rewardTypeA}, '%')
+            </if>
             <if test='rewardType != null and !"".equals(rewardType)'>
                 AND HER.REWORD_TYPE = #{rewardType}
             </if>
@@ -231,7 +234,7 @@
                 AND HER.DEPT_SEQ = #{deptSeq}
             </if>
             <if test='teamSeq != null and !"".equals(teamSeq)'>
-                AND HER.TEAM_SEQ = #{teamSeq}
+                AND HER.TEAM_SEQ = #{teamSeq}f
             </if>
             <choose>
                 <when test='searchText != null and !"".equals(searchText) and "1".equals(searchType)'>

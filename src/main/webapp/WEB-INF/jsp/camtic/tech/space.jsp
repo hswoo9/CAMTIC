@@ -185,10 +185,42 @@
               <li>군용 지상훈련장비(Simulator) 개발, KO-1, UH-60(조종석), 6축 모션(Payload 4톤</li>
             </ul>
           </div>
-
-
-
         </div>
+
+
+          <div class="__tit1 __mt50 __mb20">
+            <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>에너지, 환경</strong></h3>
+          </div>
+          <div class="__bio3">
+
+            <div class="__icoBox">
+              <%--<div class="ico"><span><img src="/images/camtic/ico-space2-2.png" alt=""></span></div>--%>
+
+              <div class="__fz18 __black __mt0">
+                신재생/그린 에너지 기술 개발을 위한 시험 장치 제작
+              </div>
+              <div class="__fz18 __black __mt5 fws">
+                -  시험설비 및 조립/측정 장비 개발<br>
+                -  연소기 제작 및 시험 Rig<br>
+                -  Battery Management System HILS Simulator<br>
+                -  태양전지 Cell 조립/검사 장비
+              </div>
+            </div>
+
+            <div class="area __mt60">
+        <%--      <div class="box"><div class="img"><img src="/images/camtic/img-sp_new17.png" alt=""></div><div class="txt"></div></div>
+              <div class="box"><div class="img"><img src="/images/camtic/img-sp_new18.png" alt=""></div><div class="txt"></div></div>--%>
+            </div>
+
+
+            <div class="__icoBox __mt60">
+              <%--<div class="ico"><span><img src="/images/camtic/ico-air1-1.png" alt=""></span></div>--%>
+              <h5 style="font-size:20px; color: #666;">참여사업</h5>
+              <ul class="__dotList bar __fz18 __black fwm">
+                <li>전북대학교 풍동시험 설비 이전, 도로안개 제거 시스템 시험 설비 제장 및 설치</li>
+              </ul>
+            </div>
+          </div>
         </div>
     </div>
   </div>

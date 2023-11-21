@@ -30,5 +30,21 @@ public class SalaryManageRepository extends AbstractDAO  {
     public void updSalaryManage(Map<String, Object> params) {
         update("salaryManage.updSalaryManage", params);
     }
+
+    public List<Map<String, Object>> getSalaryList(Map<String, Object> params) {
+        return selectList("salaryManage.getSalaryList", params);
+    }
+
+    public void delSalaryManage(Map<String, Object> params) {
+        delete("salaryManage.delSalaryManage", params);
+    }
+
+    public void delSalaryManageList(Map<String, Object> params) {
+        delete("salaryManage.delSalaryManageList", params);
+    }
+
+    public void insSalaryManageList(List<Map<String, Object>> newList) {
+        insert("salaryManage.insSalaryManageList", newList);
+    }
 }
 

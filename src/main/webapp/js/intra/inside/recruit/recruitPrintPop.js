@@ -1,83 +1,126 @@
-/**
- * 총괄표 출력 페이지
- * function / global variable / local variable setting
- */
-var recruitPrintPop = {
-    global : {
-        params                  : "",
-        type                    : "",
-        hwpCtrl                 : "",
-        flag                    : false,
-
-        /** 기안기 셋팅 옵션 (파일, editing mode)*/
-        templateFormFile : "",
-        templateFormOpt : "",
-        templateFormCustomField : "",
-        openFormat : "",
-        mod : "",
-
-        formData : new FormData(),
-        searchAjaxData : "",
+const recruitPrintPop = {
+    global: {
+        hwpCtrl : "",
+        params : "",
     },
 
-    init : function(params){
-        document.querySelector('body').style.overflow = 'hidden';
-        $("#loadingText").text("문서를 불러오는 중입니다.");
+    init: function(){
+        recruitPrintPop.dataSet();
+    },
+
+    dataSet: function(){
+        recruitPrintPop.loading();
         recruitPrintPop.global.params = params;
+        recruitPrintPop.global.hwpCtrl = BuildWebHwpCtrl("hwpApproveContent",recruitPrintPop.global.params.hwpUrl, function () {recruitPrintPop.editorComplete();});
+    },
 
-        $(document).ready(function() {
-            recruitPrintPop.global.hwpCtrl = BuildWebHwpCtrl("hwpApproveContent", recruitPrintPop.global.params.hwpUrl, function () {recruitPrintPop.editorComplete();});
-            window.onresize();
+    loading: function(){
+        $.LoadingOverlay("show", {
+            background       : "rgba(0, 0, 0, 0.5)",
+            image            : "",
+            maxSize          : 60,
+            fontawesome      : "fa fa-spinner fa-pulse fa-fw",
+            fontawesomeColor : "#FFFFFF",
         });
-
-        window.onresize = function () {recruitPrintPop.resize()};
     },
 
-    getDocFormTemplate : function(){
-        recruitPrintPop.global.searchAjaxData = {
-            formId : 133
-        }
+    editorComplete: function(){
+        let filePath = "http://218.158.231.186/upload/templateForm/recruitPrintPop.hwp";
+        recruitPrintPop.global.hwpCtrl.Open(filePath, "HWP", "", function(){
+            recruitPrintPop.openCallBack();
+            recruitPrintPop.global.hwpCtrl.EditMode = 0;
+            recruitPrintPop.global.hwpCtrl.SetToolBar(1, "TOOLBAR_MENU");
+            recruitPrintPop.global.hwpCtrl.SetToolBar(1, "TOOLBAR_STANDARD");
+            recruitPrintPop.global.hwpCtrl.ShowRibbon(false);
+            recruitPrintPop.global.hwpCtrl.ShowCaret(false);
+            recruitPrintPop.global.hwpCtrl.ShowStatusBar(false);
+            recruitPrintPop.global.hwpCtrl.SetFieldViewOption(1);
+        }, {"userData" : "success"});
 
-        var result = customKendo.fn_customAjax("/approval/getTemplateFormFile", recruitPrintPop.global.searchAjaxData);
-        recruitPrintPop.global.flag = result.flag;
-        if(result.flag){
-            return result;
-        }
+        recruitPrintPop.resize();
+        $.LoadingOverlay("hide", {});
     },
 
-    editorComplete : function() {
-        recruitPrintPop.global.mod = "W";
-        recruitPrintPop.global.openFormat = "HWP";
-        recruitPrintPop.global.templateFormFile = recruitPrintPop.getDocFormTemplate();
-        console.log("폼파일");
-        console.log(recruitPrintPop.global.templateFormFile);
-        var templateFlag = recruitPrintPop.global.flag;
+    openCallBack: function(){
+        let recruitInfoSn = $("#recruitInfoSn").val();
+        let recruitAreaInfoSn = $("#recruitAreaInfoSn").val();
+        console.log("recruitInfoSn : "+recruitInfoSn);
+        console.log("recruitAreaInfoSn : "+recruitAreaInfoSn);
 
-        if(!templateFlag || recruitPrintPop.global.templateFormFile.filter(element => element.FORM_FILE_TYPE === "form").length == 0){
-            alert("양식 정보가 존재하지 않습니다.\n관리자에게 문의하세요.");
-            window.close();
+        const data = {
+            recruitInfoSn: recruitInfoSn,
+            recruitAreaInfoSn: recruitAreaInfoSn
+        };
+        const rs = customKendo.fn_customAjax("/inside/getRecruitPrint", data);
+
+
+
+        console.log("rs");
+        console.log(rs);
+        console.log("Is rs an array?", Array.isArray(rs));
+        console.log("rs object:", rs);
+
+        const recruitArray = rs.list;
+
+        const areaInfoValue = recruitArray[0].AREA_TITLE;
+        const deadLineValue = recruitArray[0].END_DT;
+        const startDayValue = recruitArray[0].START_DT;
+        const empNameValue = recruitArray[0].REG_EMP_NAME;
+
+
+        /** 채용부문 */
+        recruitPrintPop.global.hwpCtrl.PutFieldText("AREA_INFO", areaInfoValue);
+
+        /** 마감일 */
+        recruitPrintPop.global.hwpCtrl.PutFieldText("DEADLINE_DT", deadLineValue);
+
+        /** 작성일 */
+        recruitPrintPop.global.hwpCtrl.PutFieldText("REG_DT", startDayValue);
+
+        /** 작성자 */
+        recruitPrintPop.global.hwpCtrl.PutFieldText("EMP_NAME_SIGN", empNameValue);
+
+        /** 지원자 리스트 */
+        let html = "";
+        html += '<table style="font-family:바탕체;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
+        html += '   <tr>';
+        html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
+        html += '           <table border="5.5" style="border-collapse: collapse; margin: 0px;">';
+        html += '               <tr>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 55px;"><p style="font-size:12px;"><b>번호</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 95px;"><p style="font-size:12px;"><b>성명</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 75px;"><p style="font-size:12px;"><b>연령</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 75px;"><p style="font-size:12px;"><b>성별</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 150px;"><p style="font-size:12px;"><b>학력</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 75px;"><p style="font-size:12px;"><b>경력</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 195px;"><p style="font-size:12px;"><b>직무관련\n자격/면혀증</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 195px;"><p style="font-size:12px;"><b>외국어\n점수</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 95px;"><p style="font-size:12px;"><b>비고</b></p></td>';
+        html += '               </tr>';
+        for(let i=0;  i < recruitArray.length; i++){
+            const map =recruitArray[i];
+            console.log("map", map);
+            html += '               <tr>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ (map.APPLICATION_ID || '') +'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ (map.USER_NAME || '') +'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+(map.AGE || '')+'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+(map.GENDER || '')+'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+(map.SCHOOL_NAME || '')+'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+(map.WORK_DATE || '')+'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+(map.CERT_AREA|| '')+'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+(map.LANG_NAME || '')+'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
+            html += '               </tr>';
         }
-
-        var optFlag = recruitPrintPop.global.flag;
-
-        if(!optFlag){
-            alert("양식 정보가 존재하지 않습니다.\n관리자에게 문의하세요.");
-            window.close();
-        }
-
-        hwpDocCtrl.defaultScript(
-            recruitPrintPop.global.hwpCtrl,
-            recruitPrintPop.global.openFormat,
-            recruitPrintPop.global.templateFormFile,
-            recruitPrintPop.global.templateFormOpt,
-            recruitPrintPop.global.templateFormCustomField,
-            recruitPrintPop.global.params,
-            $("#empSeq").val(),
-            recruitPrintPop.global.mod
-        );
+        html += '           </table>';
+        html += '       </td>';
+        html += '   </tr>';
+        html += '</table>';
+        recruitPrintPop.global.hwpCtrl.MoveToField('RECRUIT_HTML', true, true, false);
+        recruitPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
     },
 
-    resize : function() {
+    resize: function() {
         if (document.getElementById("hwpctrl_frame") != null && typeof(document.getElementById("hwpctrl_frame")) != "undefined") {
             var pHeight = (window.innerHeight - 20) + "px";
             document.getElementById("hwpctrl_frame").style.width = "100%";
@@ -86,17 +129,6 @@ var recruitPrintPop = {
     },
 
     print: function() {
-        var data = {
-            recruitInfoSn : $("#recruitInfoSn").val(),
-            empSeq : $("#empSeq").val(),
-            status : 110
-        }
-
-        var result = customKendo.fn_customAjax("/inside/setReqCert", data);
-
-        if(result.flag){
-            recruitPrintPop.global.hwpCtrl.PrintDocument();
-            opener.gridReload();
-        }
+        recruitPrintPop.global.hwpCtrl.PrintDocument();
     }
 }

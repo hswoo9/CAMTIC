@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
+<script type="text/javascript" src="/js/intra/inside/userManage/empPartRate.js?v=${today}"/></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
@@ -18,11 +19,46 @@
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
+            <div style="margin-bottom:10px;">
+                <table class="searchTable table table-bordered">
+                    <colgroup>
+                        <col width="8%">
+                        <col width="10%">
+                        <col width="8%">
+                        <col width="10%">
+                        <col width="8%">
+                        <col width="10%">
+                        <col width="8%">
+                        <col width="20%">
+                    </colgroup>
+                    <tr>
+                        <th class="text-center th-color">부서</th>
+                        <td>
+                            <input type="text" id="deptComp" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">팀</th>
+                        <td>
+                            <input type="text" id="deptTeam" style="width: 180px;">
+                        </td>
+                        <th class="text-center th-color">조회기준일</th>
+                        <td>
+                            <input type="text" id="bsYear" style="width: 110px;">
+                        </td>
+                        <th class="text-center th-color">검색어</th>
+                        <td colspan="3">
+                            <input type="text" id="userKind" style="width: 100px;">
+                            <input type="text" id="kindContent" style="width: 150px;">
+                        </td>
+                    </tr>
+                </table>
 
+                <div id="mainGrid" style="margin:20px 0;"></div>
+            </div>
         </div>
 
     </div>
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
+    empPartRate.fn_defaultScript();
 </script>

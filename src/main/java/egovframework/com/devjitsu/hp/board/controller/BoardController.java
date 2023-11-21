@@ -496,6 +496,39 @@ public class BoardController {
         return "jsonView";
     }
 
+    /**
+     * 채용공고 리스트 조회
+     * */
+    @RequestMapping("/board/getRecruitmentList")
+    public String getRecruitmentList(@RequestParam Map<String, Object> param, ArticlePage articlePage, HttpServletRequest request, Model model){
+        int recordSize = Integer.parseInt(String.valueOf(param.get("recordSize")));
 
+        articlePage.setSearchCategory((String) param.get("categoryId"));
+        articlePage.setSearchInput((String) param.get("searchInput"));
+        articlePage.setRecordSize(recordSize);
 
+        PagingResponse<PostResponse> response = boardService.getRecruitmentList(articlePage);
+
+        model.addAttribute("boardArticleList", response);
+
+        model.addAttribute("pagination", articlePage.getPagination());
+        model.addAttribute("page", articlePage.getPage());
+
+        return "jsonView";
+    }
+
+    /**
+     * 채용공고 상세보기 조회
+     * */
+    @RequestMapping("/camtic/member/job_view.do")
+    public String jobView(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
+        boardService.setBoardArticleViewCount(params);
+
+        Map<String, Object> map = boardService.selectBoard(params);
+        List<Map<String, Object>> fileList = boardService.selectBoardFile(params);
+        model.addAttribute("categoryId", params.get("category"));
+        model.addAttribute("map", map);
+        model.addAttribute("fileMap", fileList);
+        return "camtic/member/job_view";
+    }
 }

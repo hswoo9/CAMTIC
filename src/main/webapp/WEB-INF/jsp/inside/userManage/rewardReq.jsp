@@ -6,6 +6,7 @@
 <script type="text/javascript" src="/js/intra/inside/history/rewardReq.js?v=${today}"/></script>
 <style>
     .hover:hover {text-decoration: underline; cursor: pointer}
+    .dash-left .table > tbody > tr > td {padding-left: 10px; padding-right: 10px;}
 </style>
 
 <div class="col-md-12 col-lg-12 dash-left">
@@ -29,6 +30,8 @@
                         <col width="">
                         <col width="">
                         <col width="">
+                        <col width="">
+                        <col width="">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회 기간</th>
@@ -36,6 +39,10 @@
                             <input type="text" id="start_date" style="width: 110px;">
                             ~
                             <input type="text" id="end_date" style="width: 110px;">
+                        </td>
+                        <th class="text-center th-color">내/외부</th>
+                        <td>
+                            <input type="text" id="rewardTypeA" style="width: 140px;">
                         </td>
                         <th class="text-center th-color">포상 구분</th>
                         <td>
@@ -50,8 +57,8 @@
                             검색어
                         </th>
                         <td colspan="5">
-                            <input type="text" id="searchType" style="width: 95px;">
-                            <input type="text" id="searchText" onkeypress="if(window.event.keyCode==13){rewardReq.mainGrid()}" style="width: 130px;">
+                            <input type="text" id="searchType" style="width: 90px;">
+                            <input type="text" id="searchText" onkeypress="if(window.event.keyCode==13){rewardReq.mainGrid()}" style="width: 110px;">
                         </td>
                     </tr>
                 </table>

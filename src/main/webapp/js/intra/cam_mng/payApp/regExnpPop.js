@@ -11,7 +11,7 @@ var regExnp = {
         saveAjaxData : "",
     },
 
-    fn_defaultScript : function (){
+    fn_defaultScript : function(){
         customKendo.fn_datePicker("exnpDe", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_textBox(["pjtNm", "budgetNm", "appTitle", "accNm", "accNo", "bnkNm"
                                 ,"exnpEmpNm", "exnpDeptNm", "exnpBriefs"]);
@@ -71,9 +71,9 @@ var regExnp = {
                 $("#payAppType").data("kendoRadioGroup").value(1);
             } else if($("#status").val() == "in"){
                 $("#payAppType").data("kendoRadioGroup").value(2);
-            } else if($("#status").val() == "3"){
+            } else if($("#status").val() == "re"){
                 $("#payAppType").data("kendoRadioGroup").value(3);
-            } else if($("#status").val() == "4"){
+            } else if($("#status").val() == "alt"){
                 $("#payAppType").data("kendoRadioGroup").value(4);
             }
         }
@@ -82,6 +82,11 @@ var regExnp = {
                 /** 지급신청서에서 지결 작성시 데이터 세팅 */
                 regExnp.setData();
                 regExnp.fn_viewStat();
+            }
+            
+            if($("#payIncpSn").val() != ""){
+                /** 수입 결의서에서 반납결의서 작성시 데이터 세팅 */
+                regExnp.setIncpData();
             }
         } else {
             /** 지결 최초 작성 후 데이터 세팅 */
@@ -100,10 +105,10 @@ var regExnp = {
         $("#payAppType").data("kendoRadioGroup").enable(false);
     },
 
-    payAppBtnSet: function (data){
+    payAppBtnSet : function(data){
         let buttonHtml = "";
         console.log(data);
-        if($("#status").val() == "rev" || $("#status").val() == "in"){
+        if($("#status").val() == "rev" || $("#status").val() == "in" || $("#status").val() == "re" || $("#status").val() == "alt"){
             if(data != null){
                 if(data.DOC_STATUS == "0"){
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_save()">저장</button>';
@@ -165,9 +170,9 @@ var regExnp = {
                 $("#payAppType").data("kendoRadioGroup").value(1);
             } else if($("#status").val() == "in"){
                 $("#payAppType").data("kendoRadioGroup").value(2);
-            } else if($("#status").val() == "3"){
+            } else if($("#status").val() == "re"){
                 $("#payAppType").data("kendoRadioGroup").value(3);
-            } else if($("#status").val() == "4"){
+            } else if($("#status").val() == "alt"){
                 $("#payAppType").data("kendoRadioGroup").value(4);
             }
         }
@@ -250,7 +255,7 @@ var regExnp = {
                     '       <input type="hidden" id="cardNo'+regExnpDet.global.itemIndex+'" value="'+item.CARD_NO+'" className="cardNo" />' +
                     '   </td>';
 
-                if($("#status").val() != 'in') {
+                if($("#status").val() == "rev") {
                     regExnpDet.global.createHtmlStr += "" +
                         '   <td>' +
                         '       <input type="checkbox" id="advances' + regExnpDet.global.itemIndex + '" class="advances" style="width: 26px; height: 26px" ';
@@ -263,7 +268,6 @@ var regExnp = {
                         '       <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regExnpDet.fn_regExnpAttPop(' + regExnpDet.global.itemIndex + ')">첨부</button>' +
                         '   </td>';
                 }
-                    '</tr>';
 
                 $("#payDestTb").append(regExnpDet.global.createHtmlStr);
 
@@ -377,7 +381,7 @@ var regExnp = {
             return;
         }
 
-        $("#payAppDraftFrm").one("submit", function() {
+        $("#payAppDraftFrm").one("submit", function(){
             var url = "/popup/exnp/approvalFormPopup/exnpApprovalPop.do";
             var name = "_self";
             var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
@@ -388,7 +392,7 @@ var regExnp = {
         }).trigger("submit");
     },
 
-    setData : function (){
+    setData : function(){
         var data = {
             payAppSn : $("#payAppSn").val(),
         }
@@ -408,9 +412,9 @@ var regExnp = {
                 $("#payAppType").data("kendoRadioGroup").value(1);
             } else if($("#status").val() == "in"){
                 $("#payAppType").data("kendoRadioGroup").value(2);
-            } else if($("#status").val() == "3"){
+            } else if($("#status").val() == "re"){
                 $("#payAppType").data("kendoRadioGroup").value(3);
-            } else if($("#status").val() == "4"){
+            } else if($("#status").val() == "alt"){
                 $("#payAppType").data("kendoRadioGroup").value(4);
             }
         }
@@ -497,7 +501,7 @@ var regExnp = {
                     '       <input type="hidden" id="cardNo' + regExnpDet.global.itemIndex + '" className="cardNo" />' +
                     '   </td>';
 
-                if($("#status").val() != 'in') {
+                if($("#status").val() == "rev") {
                     regExnpDet.global.createHtmlStr += "" +
                         '   <td>' +
                         '       <input type="checkbox" id="advances' + regExnpDet.global.itemIndex + '" class="advances" style="width: 26px; height: 26px" ';
@@ -534,7 +538,7 @@ var regExnp = {
                         { text: "기타", value: "6" },
                     ],
                     index: 0,
-                    change : function (e){
+                    change : function(){
                         var value = $("#eviType" + itemIndex).val();
 
                         if(value != ""){
@@ -584,7 +588,188 @@ var regExnp = {
         $("#apprBtn").css("display", "");
     },
 
-    fn_viewStat: function (){
+    setIncpData : function(){
+        var data = {
+            payIncpSn : $("#payIncpSn").val()
+        }
+
+        var result = customKendo.fn_customAjax("/payApp/pop/getPayIncpData", data);
+        var rs = result.map;
+        var ls = result.list;
+
+        console.log(rs);
+        console.log(ls);
+
+        $("#exnpDe").val(rs.APP_DE);
+        $("#pjtNm").val(rs.PJT_NM);
+        $("#pjtSn").val(rs.PJT_SN);
+        $("#budgetNm").val(rs.BUDGET_NM);
+        $("#budgetSn").val(rs.BUDGET_SN);
+        $("#exnpBriefs").val(rs.APP_TITLE);
+        $("#addExnpBriefs").val(rs.APP_CONT);
+
+        $("#bnkSn").val(rs.BNK_SN);
+        $("#bnkNm").val(rs.BNK_NM);
+        $("#accNm").val(rs.ACC_NM);
+        $("#accNo").val(rs.ACC_NO);
+
+        if(rs.DIV_CD != ""){
+            $("#busnCd").data("kendoDropDownList").value(rs.DIV_CD);
+        }else{
+            $("#busnCd").data("kendoDropDownList").value("2000");
+        }
+
+        if(ls.length > 0){
+            $("#payDestTb").html("");
+            $("#budgetNm").val(ls[0].BUDGET_NM);
+            $("#budgetSn").val(ls[0].BUDGET_SN);
+        }
+        for(var i=0; i < ls.length; i++){
+            var item = ls[i];
+
+            regExnpDet.global.createHtmlStr = "";
+
+            var clIdx = regExnpDet.global.itemIndex;
+            regExnpDet.global.createHtmlStr += "" +
+                '<tr class="payDestInfo newArray" id="pay' + regExnpDet.global.itemIndex + '" style="text-align: center;">';
+            if(item.DET_STAT != "N"){
+                regExnpDet.global.createHtmlStr += "";
+
+                regExnpDet.global.createHtmlStr += '   <td>' +
+                    '       <input type="text" id="eviType' + regExnpDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
+                    '   </td>';
+
+                regExnpDet.global.createHtmlStr += '   <td>' +
+                    '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regExnpDet.fn_popRegDet(1, '+regExnpDet.global.itemIndex+')"></i>' +
+                    '       <input type="hidden" id="payDestSn' + regExnpDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" name="payDestSn" class="payDestSn">' +
+                    '       <input type="text" style="width: 80%;" id="crmNm' + regExnpDet.global.itemIndex + '" value="'+item.CRM_NM+'" class="crmNm">' +
+                    '       <input type="hidden" id="trCd' + regExnpDet.global.itemIndex + '" value="'+item.TR_CD+'" class="trCd">' +
+                    '   </td>' +
+                    '   <td>' +
+                    '       <input type="text" id="crmBnkNm' + regExnpDet.global.itemIndex + '" value="" class="crmBnkNm">' +
+                    '   </td>' +
+                    '   <td>' +
+                    '       <input type="text" id="crmAccNo' + regExnpDet.global.itemIndex + '" value="" class="crmAccNo">' +
+                    '   </td>' +
+                    '   <td>' +
+                    '       <input type="text" id="crmAccHolder' + regExnpDet.global.itemIndex + '" value="" class="crmAccHolder">' +
+                    '   </td>' +
+                    '   <td>' +
+                    '       <input type="text" id="trDe' + regExnpDet.global.itemIndex + '" value="'+item.TR_DE+'" class="trDe">' +
+                    '   </td>';
+                if(rs.DIV_CD != ""){
+                    regExnpDet.global.createHtmlStr += "" +
+                        '   <td>' +
+                        '       <input id="busnCd' + regExnpDet.global.itemIndex + '" value="'+rs.DIV_CD+'" class="busnCd">' +
+                        '   </td>';
+                }else{
+                    regExnpDet.global.createHtmlStr += "" +
+                        '   <td>' +
+                        '       <input id="busnCd' + regExnpDet.global.itemIndex + '" value="2000" class="busnCd">' +
+                        '   </td>';
+                }
+                regExnpDet.global.createHtmlStr += "" +
+                    '   <td>' +
+                    '       <input type="text" id="totCost' + regExnpDet.global.itemIndex + '" value="'+regExnp.comma(item.TOT_COST)+'" class="totCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '   </td>' +
+                    '   <td>' +
+                    '       <input type="text" id="supCost' + regExnpDet.global.itemIndex + '" value="'+regExnp.comma(item.SUP_COST)+'" class="supCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '   </td>' +
+                    '   <td>' +
+                    '       <input type="text" id="vatCost' + regExnpDet.global.itemIndex + '" value="'+regExnp.comma(item.VAT_COST)+'" class="vatCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '   </td>' +
+                    '   <td>' +
+                    '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regExnpDet.fn_popRegDet(3, '+regExnpDet.global.itemIndex+')"></i>' +
+                    '       <input type="text" disabled style="width: 70%" id="card' + regExnpDet.global.itemIndex + '" value="'+item.CARD+'" class="card">' +
+                    '       <input type="hidden" id="cardNo' + regExnpDet.global.itemIndex + '" className="cardNo" />' +
+                    '   </td>';
+
+                if($("#status").val() == "rev") {
+                    regExnpDet.global.createHtmlStr += "" +
+                        '   <td>' +
+                        '       <input type="checkbox" id="advances' + regExnpDet.global.itemIndex + '" class="advances" style="width: 26px; height: 26px" ';
+                    if (item.ADVANCES == "Y") {
+                        regExnpDet.global.createHtmlStr += "checked";
+                    }
+                    regExnpDet.global.createHtmlStr += '/>' +
+                        '   </td>' +
+                        '   <td>' +
+                        '       <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regExnpDet.fn_regPayAttPop(' + regExnpDet.global.itemIndex + ')">첨부</button>' +
+                        '   </td>' +
+                        '</tr>';
+                }
+
+                $("#payDestTb").append(regExnpDet.global.createHtmlStr);
+
+                if(item.DET_STAT == "N"){
+                    $("#revertBtn"+ regExnpDet.global.itemIndex).css("display", "none");
+                    $("#pay"+ regExnpDet.global.itemIndex).css("background-color", "#afafaf");
+                }
+
+                var itemIndex = regExnpDet.global.itemIndex;
+
+                $("#eviType" + regExnpDet.global.itemIndex).kendoDropDownList({
+                    dataTextField: "text",
+                    dataValueField: "value",
+                    dataSource: [
+                        { text: "선택", value: "" },
+                        { text: "세금계산서", value: "1" },
+                        { text: "계산서", value: "2" },
+                        { text: "신용카드", value: "3" },
+                        { text: "직원지급", value: "4" },
+                        { text: "소득신고자", value: "5" },
+                        { text: "기타", value: "6" },
+                    ],
+                    index: 0,
+                    change : function(){
+                        var value = $("#eviType" + itemIndex).val();
+
+                        if(value != ""){
+                            if(value == "6"){
+                                alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
+                            } else {
+                                regExnpDet.fn_popRegDet(value, itemIndex);
+                            }
+                        }
+                    }
+                });
+
+
+                $("#busnCd" + regExnpDet.global.itemIndex).kendoDropDownList({
+                    dataTextField: "text",
+                    dataValueField: "value",
+                    dataSource: [
+                        { text: "1000-(사)캠틱종합기술원", value: "1000" },
+                        { text: "2000-(사)캠틱종합기술원", value: "2000" },
+                        { text: "3000-(사)캠틱종합기술원", value: "3000" },
+                        { text: "4000-(사)캠틱종합기술원", value: "4000" },
+                        { text: "5000-(사)캠틱종합기술원", value: "5000" },
+                        { text: "6000-(사)캠틱종합기술원", value: "6000" },
+                        { text: "7000-(사)캠틱종합기술원", value: "7000" }
+                    ]
+                })
+
+                customKendo.fn_textBox(["crmNm" + regExnpDet.global.itemIndex, "crmBnkNm"  + regExnpDet.global.itemIndex
+                    , "crmAccHolder" + regExnpDet.global.itemIndex
+                    , "crmAccNo" + regExnpDet.global.itemIndex, "totCost" + regExnpDet.global.itemIndex
+                    , "supCost" + regExnpDet.global.itemIndex, "vatCost" + regExnpDet.global.itemIndex
+                    ,"card" + regExnpDet.global.itemIndex]);
+
+                customKendo.fn_datePicker("trDe" + regExnpDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
+
+                $("#eviType" + regExnpDet.global.itemIndex).data("kendoDropDownList").value(item.EVID_TYPE);
+
+                regExnpDet.global.itemIndex++;
+            }
+
+        }
+
+        if(ls.length > 0){
+            regExnpDet.global.itemIndex--;
+        }
+    },
+
+    fn_viewStat : function(){
         var stat = $("#status").val();
 
         if(stat == "rev"){
@@ -596,7 +781,7 @@ var regExnp = {
         }
     },
 
-    fn_save : function (){
+    fn_save : function(){
         var parameters = {
             payAppType : $("#payAppType").data("kendoRadioGroup").value(),
             exnpDe : $("#exnpDe").val(),
@@ -680,6 +865,10 @@ var regExnp = {
                         url = "/payApp/pop/regExnpPop.do?payAppSn=" + rs.params.payAppSn + "&exnpSn=" + rs.params.exnpSn + "&status=rev";
                     } else if ($("#status").val() == "in") {
                         url = "/payApp/pop/regExnpPop.do?payAppSn=" + rs.params.payAppSn + "&exnpSn=" + rs.params.exnpSn + "&status=in";
+                    } else if ($("#status").val() == "re") {
+                        url = "/payApp/pop/regExnpPop.do?exnpSn=" + rs.params.exnpSn + "&status=re";
+                    } else if ($("#status").val() == "alt") {
+                        url = "/payApp/pop/regExnpPop.do?exnpSn=" + rs.params.exnpSn + "&status=alt";
                     } else {
                         url = "/payApp/pop/regExnpPop.do?payAppSn=" + rs.params.payAppSn + "&exnpSn=" + rs.params.exnpSn;
                     }
@@ -696,11 +885,9 @@ var regExnp = {
 
         $("#purcCrmSn").val("")
         $("#purcCrmNm").val("")
-
-
     },
 
-    fn_popCamCrmList : function (crmSnId, crmNmId){
+    fn_popCamCrmList : function(crmSnId, crmNmId){
         regExnp.global.crmSnId = crmSnId;
         regExnp.global.crmNmId = crmNmId;
 
@@ -718,8 +905,7 @@ var regExnp = {
         $("#crmNm").val("")
     },
 
-    fn_calCost: function(obj){
-
+    fn_calCost : function(obj){
         var index = obj.id.substring(obj.id.length - 1);
         if(obj.id.match("totCost")){
             $("#vatCost" + index).val(regExnp.comma(Math.round(Number(regExnp.uncomma($("#totCost" + index).val())) / 10)));
@@ -729,61 +915,55 @@ var regExnp = {
         } else if (obj.id.match("vatCost")){
             $("#supCost" + index).val(regExnp.comma(Number(regExnp.uncomma($("#totCost" + index).val())) - Number(regExnp.uncomma($("#vatCost" + index).val()))));
         }
-
         regExnp.inputNumberFormat(obj);
     },
 
-    inputNumberFormat : function (obj){
+    inputNumberFormat : function(obj){
         obj.value = regExnp.comma(regExnp.uncomma(obj.value));
     },
 
-    comma: function(str) {
+    comma : function(str){
         str = String(str);
         return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
     },
 
-    uncomma: function(str) {
+    uncomma : function(str){
         str = String(str);
         return str.replace(/[^\d]+/g, '');
     },
 
-    fn_projectPop : function (){
-
+    fn_projectPop : function(){
         var url = "/project/pop/projectView.do";
 
         var name = "_blank";
-        var option = "width = 1100, height = 400, top = 100, left = 400, location = no"
+        var option = "width = 1100, height = 400, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
     },
 
-    fn_budgetPop: function (idx){
+    fn_budgetPop : function(idx){
         if($("#pjtSn").val() == ""){
             alert("사업을 선택해주세요.");
             return ;
         }
 
-
-        var url = "/mng/pop/budgetView.do?pjtSn=" + $("#pjtSn").val() + "&idx=" + idx;
-
+        var url = "/mng/pop/budgetView.do?pjtSn=" + $("#pjtSn").val() + "&status="+$("#status").val()+"&idx=" + idx;
         var name = "_blank";
-        var option = "width = 1100, height = 650, top = 100, left = 400, location = no"
+        var option = "width = 1100, height = 650, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
 
     },
 
-    fn_bankPop : function (){
+    fn_bankPop : function(){
         var url = "/mng/pop/bankView.do";
-
         var name = "_blank";
         var option = "width = 1100, height = 650, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 
-    fn_regExnpInPop: function(payAppSn, exnpSn){
+    fn_regExnpInPop : function(payAppSn){
         var url = "/payApp/pop/regExnpPop.do?payAppSn=" + payAppSn + "&status=in";
-
         var name = "blank";
-        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
     }
 }
@@ -796,7 +976,7 @@ var regExnpDet = {
         createHtmlStr : "",
     },
     
-    fn_defaultScript : function (){
+    fn_defaultScript : function(){
         $("#eviType0").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
@@ -810,13 +990,13 @@ var regExnpDet = {
                 { text: "기타", value: "6" },
             ],
             index: 0,
-            change : function (e){
+            change : function(){
                 var value = $("#eviType0").val();
                 var itemIndex = 0;
 
                 if(value != ""){
                     if(value == "6"){
-                        alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
+                        alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.");
                     } else {
                         regExnpDet.fn_popRegDet(value, itemIndex);
                     }
@@ -831,7 +1011,7 @@ var regExnpDet = {
 
     },
 
-    addRow : function () {
+    addRow : function (){
 
         regExnpDet.global.createHtmlStr = "";
         var clIdx = regExnpDet.global.itemIndex + 1;
@@ -881,7 +1061,7 @@ var regExnpDet = {
                 '       <input type="hidden" id="cardNo'+clIdx+'" className="cardNo" />' +
                 '   </td>';
 
-            if($("#status").val() != 'in') {
+            if($("#status").val() == "rev") {
                 regExnpDet.global.createHtmlStr += "" +
                     '   <td>' +
                     '       <input type="checkbox" id="advances' + clIdx + '" class="advances" style="width: 26px; height: 26px" ';
@@ -894,12 +1074,13 @@ var regExnpDet = {
                     '       <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regExnpDet.fn_regExnpAttPop(' + clIdx + ')">첨부</button>' +
                     '   </td>';
             }
+
             regExnpDet.global.createHtmlStr += "" +
                 '   <td>' +
                 '       <div style="text-align: center">' +
                 '           <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regExnpDet.delRow(' + clIdx + ')">삭제</button>' +
                 '       </div>' +
-                '   </td>'
+                '   </td>' +
             '</tr>';
 
             $("#payDestTb").append(regExnpDet.global.createHtmlStr);
@@ -924,12 +1105,12 @@ var regExnpDet = {
                     { text: "기타", value: "6" },
                 ],
                 index: 0,
-                change : function (e){
+                change : function(){
                     var value = $("#eviType" + clIdx).val();
 
                     if(value != ""){
                         if(value == "6"){
-                            alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
+                            alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.");
                         } else {
                             regExnpDet.fn_popRegDet(value, itemIndex);
                         }
@@ -949,7 +1130,7 @@ var regExnpDet = {
                     { text: "6000-(사)캠틱종합기술원", value: "6000" },
                     { text: "7000-(사)캠틱종합기술원", value: "7000" }
                 ]
-            })
+            });
 
             customKendo.fn_textBox(["crmNm" + clIdx, "crmBnkNm"  + clIdx
                 , "crmAccHolder" + clIdx
@@ -966,24 +1147,24 @@ var regExnpDet = {
         }
     },
 
-    delRow : function (row){
+    delRow : function(row){
         if($(".payDestInfo").length > 1){
             $("#pay" + row).remove();
             /*regPayDet.global.itemIndex--;*/
         }
     },
 
-    fn_popRegDet : function (v, i){
+    fn_popRegDet : function(v, i){
         var url = "/mng/pop/paymentDetView.do?type=" + v + "&index=" + i;
 
         var name = "_blank";
-        var option = "width = 1100, height = 650, top = 100, left = 400, location = no"
+        var option = "width = 1100, height = 650, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
     },
 
-    fn_exnpAdd : function (){
+    fn_exnpAdd : function(){
 
-        if(!confirm("지출결의를 작성하시겠습니까?")) {
+        if(!confirm("지출결의를 작성하시겠습니까?")){
             return;
         }
 
@@ -1005,16 +1186,16 @@ var regExnpDet = {
 
     },
 
-    fn_regExnpPop : function (keyArr){
+    fn_regExnpPop : function(keyArr){
 
         var url = "/payApp/pop/reqExnpPop.do?item=" + keyArr;
 
         var name = "_blank";
-        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
     },
 
-    fn_regPayAttPop : function (row){
+    fn_regPayAttPop : function(row){
         let key = $("#payDestSn"+row).val();
         if(key == "" || key == null){
             alert("지급신청서 최초 1회 저장 후 진행 가능합니다.");
@@ -1022,13 +1203,12 @@ var regExnpDet = {
         }
         let eviType = $("#eviType"+row).data("kendoDropDownList").value();
         var url = "/payApp/pop/regPayAttPop.do?payDestSn=" + key + "&eviType=" + eviType;
-
         var name = "_blank";
         var option = "width = 850, height = 400, top = 200, left = 350, location = no";
         var popup = window.open(url, name, option);
     },
 
-    fn_regExnpAttPop : function (row){
+    fn_regExnpAttPop : function(row){
         let key = $("#exnpDestSn"+row).val();
         if(key == "" || key == null){
             alert("첨부파일 조회중 오류가 발생하였습니다. 새로고침 후 진행 바랍니다.");
@@ -1036,7 +1216,6 @@ var regExnpDet = {
         }
         let eviType = $("#eviType"+row).data("kendoDropDownList").value();
         var url = "/payApp/pop/regExnpAttPop.do?exnpDestSn=" + key + "&eviType=" + eviType;
-
         var name = "_blank";
         var option = "width = 850, height = 400, top = 200, left = 350, location = no";
         var popup = window.open(url, name, option);

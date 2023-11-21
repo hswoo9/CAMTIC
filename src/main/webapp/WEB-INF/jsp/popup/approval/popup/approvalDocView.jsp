@@ -100,34 +100,34 @@
         <div id="docControlBtnDiv">
             <button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' id="approvalBtn" onclick="docView.approvalKendoSetting();" style="display: none">
                 <span class='k-icon k-i-track-changes-accept k-button-icon'></span>
-                <span class='k-button-text'>결재</span>
+                <span class='k-button-text' style="font-size: 13px">결재</span>
             </button>
             <button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' id="approvalCancelBtn" onclick="docView.docApproveCancel();" style="display: none">
                 <span class='k-icon k-i-track-changes-accept k-button-icon'></span>
-                <span class='k-button-text'>결재취소</span>
+                <span class='k-button-text' style="font-size: 13px">결재취소</span>
             </button>
             <button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' id="returnBtn" onclick="docView.returnKendoSetting()" style="display: none">
                 <span class='k-icon k-i-track-changes-reject k-button-icon'></span>
-                <span class='k-button-text'>반려</span>
+                <span class='k-button-text' style="font-size: 13px">반려</span>
             </button>
             <button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' id="docApprovalOpinViewBtn" onclick="docView.docApprovalOpinView()" style="display: none">
                 <span class='k-icon k-i-align-justify k-button-icon'></span>
-                <span class='k-button-text'>의견보기</span>
+                <span class='k-button-text' style="font-size: 13px">의견보기</span>
             </button>
             <button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' id="docApprovalRouteHistViewBtn" onclick="docView.docApprovalRouteHistView()" style="display: none">
                 <span class='k-icon k-i-list-unordered k-button-icon'></span>
-                <span class='k-button-text'>결재이력</span>
+                <span class='k-button-text' style="font-size: 13px">결재이력</span>
             </button>
             <button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' id="docReaderHistViewBtn" onclick="docView.docReaderHistView()">
                 <span class='k-icon k-i-list-unordered k-button-icon'></span>
-                <span class='k-button-text'>열람자이력</span>
+                <span class='k-button-text' style="font-size: 13px">열람자이력</span>
             </button>
             <button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' id="docApprovalPDFDownBtn" onclick="docView.docApprovalFileDown('main', 'pdf', 'single')">
                 <span class='k-icon k-i-file-pdf k-button-icon'></span>
-                <span class='k-button-text'>PDF 저장</span>
+                <span class='k-button-text' style="font-size: 13px">PDF 저장</span>
             </button>
             <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="closeBtn" onclick="window.close()">
-                <span class="k-button-text">닫기</span>
+                <span class="k-button-text" style="font-size: 13px">닫기</span>
             </button>
         </div>
         <div>

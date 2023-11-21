@@ -968,6 +968,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public Map<String, Object> getG20ProjectData(Map<String, Object> params) {
+        return g20Repository.getProjectData(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getTeamProjectList(Map<String, Object> params) {
         return projectRepository.getTeamProjectList(params);
     }
@@ -1133,6 +1138,11 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void updJoinMember(Map<String, Object> params) {
         projectRepository.updJoinMember(params);
+    }
+
+    @Override
+    public Map<String, Object> getProjectByPjtCd(Map<String, Object> params) {
+        return projectRepository.getProjectByPjtCd(params);
     }
 }
 

@@ -32,4 +32,20 @@ public class ManageRepository extends AbstractDAO {
     public Map<String, Object> checkExnpDetData(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("manage.checkExnpDetData", params);
     }
+
+    public void insIncmExpInfo(List<Map<String, Object>> params){
+        insert("manage.insIncmExpInfo", params);
+    }
+
+    public void incmExpInfoActiveN(Map<String, Object> params){
+        update("manage.incmExpInfoActiveN", params);
+    }
+
+    public List<Map<String, Object>> getProjectBgtList(Map<String, Object> params) {
+        return selectList("manage.getProjectBgtList", params);
+    }
+
+    public int getProjectBgtCheck(Map<String, Object> params) {
+        return (int) selectOne("manage.getProjectBgtCheck", params);
+    }
 }

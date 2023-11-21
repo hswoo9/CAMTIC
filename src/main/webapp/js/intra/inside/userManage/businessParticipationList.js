@@ -104,12 +104,12 @@ var busnPartList = {
                     text: '엑셀다운로드'
                 }
             ],
+            dataBound: busnPartList.onDataBound,
             columns: [
                 {
                     title : "상태",
                     width: 50,
                     template: function (e){
-                        console.log(e);
                         if(e.PJT_STEP == 'S3' || e.PJT_STEP == 'R3' || e.PJT_STEP ==  'E6'){
                             return "완료";
                         } else {
@@ -120,7 +120,7 @@ var busnPartList = {
                     title: "프로젝트명",
                     width: 200,
                     template : function(e){
-                        return e.PJT_NM;
+                        return '<div style="cursor: pointer; bold: weight" onclick="busnPartList.fn_projectPartRatePop('+e.PJT_SN+')">'+e.PJT_NM+'</div>';
                     }
                 }, {
                     title: "지원부처",
@@ -190,128 +190,129 @@ var busnPartList = {
                     template:function(e){
                         return e.TOT_RATE + '%';
                     }
-                }, {
-                    title: "1월",
-                    width: 60,
-                    template : function (e){
-                        console.log(e);
-                        if(e.MON_PAY_01 != undefined){
-                            return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_01) + Number(e.MON_ITEM_01))+'%</div>';
-                        } else {
-                            return '<div style="text-align: right;">0%</div>';
-                        }
-                    }
-                }, {
-                    title: "2월",
-                    width: 60,
-                    template : function (e){
-                        if(e.MON_PAY_02 != undefined){
-                            return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_02) + Number(e.MON_ITEM_02))+'%</div>';
-                        } else {
-                            return '<div style="text-align: right;">0%</div>';
-                        }
-                    }
-                }, {
-                    title: "3월",
-                    width: 60,
-                    template : function (e){
-                        if(e.MON_PAY_03 != undefined){
-                            return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_03) + Number(e.MON_ITEM_03))+'%</div>';
-                        } else {
-                            return '<div style="text-align: right;">0%</div>';
-                        }
-                    }
-                }, {
-                    title: "4월",
-                    width: 60,
-                    template : function (e){
-                        if(e.MON_PAY_04 != undefined){
-                            return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_04) + Number(e.MON_ITEM_04))+'%</div>';
-                        } else {
-                            return '<div style="text-align: right;">0%</div>';
-                        }
-                    }
-                }, {
-                    title: "5월",
-                    width: 60,
-                    template : function (e){
-                        if(e.MON_PAY_05 != undefined){
-                            return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_05) + Number(e.MON_ITEM_05))+'%</div>';
-                        } else {
-                            return '<div style="text-align: right;">0%</div>';
-                        }
-                    }
-                }, {
-                    title: "6월",
-                    width: 60,
-                    template : function (e){
-                        if(e.MON_PAY_06 != undefined){
-                            return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_06) + Number(e.MON_ITEM_06))+'%</div>';
-                        } else {
-                            return '<div style="text-align: right;">0%</div>';
-                        }
-                    }
-                }, {
-                    title: "7월",
-                    width: 60,
-                    template : function (e){
-                        if(e.MON_PAY_07 != undefined){
-                            return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_07) + Number(e.MON_ITEM_07))+'%</div>';
-                        } else {
-                            return '<div style="text-align: right;">0%</div>';
-                        }
-                    }
-                }, {
-                    title: "8월",
-                    width: 60,
-                    template : function (e){
-                        if(e.MON_PAY_08 != undefined){
-                            return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_08) + Number(e.MON_ITEM_08))+'%</div>';
-                        } else {
-                            return '<div style="text-align: right;">0%</div>';
-                        }
-                    }
-                }, {
-                    title: "9월",
-                    width: 60,
-                    template : function (e){
-                        if(e.MON_PAY_09 != undefined){
-                            return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_09) + Number(e.MON_ITEM_09))+'%</div>';
-                        } else {
-                            return '<div style="text-align: right;">0%</div>';
-                        }
-                    }
-                }, {
-                    title: "10월",
-                    width: 60,
-                    template : function (e){
-                        if(e.MON_PAY_10 != undefined){
-                            return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_10) + Number(e.MON_ITEM_10))+'%</div>';
-                        } else {
-                            return '<div style="text-align: right;">0%</div>';
-                        }
-                    }
-                }, {
-                    title: "11월",
-                    width: 60,
-                    template : function (e){
-                        if(e.MON_PAY_11 != undefined){
-                            return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_11) + Number(e.MON_ITEM_11))+'%</div>';
-                        } else {
-                            return '<div style="text-align: right;">0%</div>';
-                        }
-                    }
-                }, {
-                    title: "12월",
-                    width: 60,
-                    template : function (e){
-                        if(e.MON_PAY_12 != undefined){
-                            return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_12) + Number(e.MON_ITEM_12))+'%</div>';
-                        } else {
-                            return '<div style="text-align: right;">0%</div>';
-                        }
-                    }
                 }
+                // , {
+                //     title: "1월",
+                //     width: 60,
+                //     template : function (e){
+                //         console.log(e);
+                //         if(e.MON_PAY_01 != undefined){
+                //             return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_01) + Number(e.MON_ITEM_01))+'%</div>';
+                //         } else {
+                //             return '<div style="text-align: right;">0%</div>';
+                //         }
+                //     }
+                // }, {
+                //     title: "2월",
+                //     width: 60,
+                //     template : function (e){
+                //         if(e.MON_PAY_02 != undefined){
+                //             return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_02) + Number(e.MON_ITEM_02))+'%</div>';
+                //         } else {
+                //             return '<div style="text-align: right;">0%</div>';
+                //         }
+                //     }
+                // }, {
+                //     title: "3월",
+                //     width: 60,
+                //     template : function (e){
+                //         if(e.MON_PAY_03 != undefined){
+                //             return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_03) + Number(e.MON_ITEM_03))+'%</div>';
+                //         } else {
+                //             return '<div style="text-align: right;">0%</div>';
+                //         }
+                //     }
+                // }, {
+                //     title: "4월",
+                //     width: 60,
+                //     template : function (e){
+                //         if(e.MON_PAY_04 != undefined){
+                //             return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_04) + Number(e.MON_ITEM_04))+'%</div>';
+                //         } else {
+                //             return '<div style="text-align: right;">0%</div>';
+                //         }
+                //     }
+                // }, {
+                //     title: "5월",
+                //     width: 60,
+                //     template : function (e){
+                //         if(e.MON_PAY_05 != undefined){
+                //             return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_05) + Number(e.MON_ITEM_05))+'%</div>';
+                //         } else {
+                //             return '<div style="text-align: right;">0%</div>';
+                //         }
+                //     }
+                // }, {
+                //     title: "6월",
+                //     width: 60,
+                //     template : function (e){
+                //         if(e.MON_PAY_06 != undefined){
+                //             return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_06) + Number(e.MON_ITEM_06))+'%</div>';
+                //         } else {
+                //             return '<div style="text-align: right;">0%</div>';
+                //         }
+                //     }
+                // }, {
+                //     title: "7월",
+                //     width: 60,
+                //     template : function (e){
+                //         if(e.MON_PAY_07 != undefined){
+                //             return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_07) + Number(e.MON_ITEM_07))+'%</div>';
+                //         } else {
+                //             return '<div style="text-align: right;">0%</div>';
+                //         }
+                //     }
+                // }, {
+                //     title: "8월",
+                //     width: 60,
+                //     template : function (e){
+                //         if(e.MON_PAY_08 != undefined){
+                //             return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_08) + Number(e.MON_ITEM_08))+'%</div>';
+                //         } else {
+                //             return '<div style="text-align: right;">0%</div>';
+                //         }
+                //     }
+                // }, {
+                //     title: "9월",
+                //     width: 60,
+                //     template : function (e){
+                //         if(e.MON_PAY_09 != undefined){
+                //             return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_09) + Number(e.MON_ITEM_09))+'%</div>';
+                //         } else {
+                //             return '<div style="text-align: right;">0%</div>';
+                //         }
+                //     }
+                // }, {
+                //     title: "10월",
+                //     width: 60,
+                //     template : function (e){
+                //         if(e.MON_PAY_10 != undefined){
+                //             return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_10) + Number(e.MON_ITEM_10))+'%</div>';
+                //         } else {
+                //             return '<div style="text-align: right;">0%</div>';
+                //         }
+                //     }
+                // }, {
+                //     title: "11월",
+                //     width: 60,
+                //     template : function (e){
+                //         if(e.MON_PAY_11 != undefined){
+                //             return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_11) + Number(e.MON_ITEM_11))+'%</div>';
+                //         } else {
+                //             return '<div style="text-align: right;">0%</div>';
+                //         }
+                //     }
+                // }, {
+                //     title: "12월",
+                //     width: 60,
+                //     template : function (e){
+                //         if(e.MON_PAY_12 != undefined){
+                //             return '<div style="text-align: right;">'+comma(Number(e.MON_PAY_12) + Number(e.MON_ITEM_12))+'%</div>';
+                //         } else {
+                //             return '<div style="text-align: right;">0%</div>';
+                //         }
+                //     }
+                // }
                 // , {
                 //     title: "지급총액",
                 //     width: 80,
@@ -321,7 +322,158 @@ var busnPartList = {
                 // }
             ],
         }).data("kendoGrid");
+    },
+
+
+    onDataBound: function() {
+        calcAmSum = 0;
+        acctAm2Sum = 0;
+        acctAm1Sum = 0;
+        acctAm3Sum = 0;
+        subAmSum = 0;
+
+        var projectSn = "";
+        const grid = this;
+        grid.tbody.find("tr").each(function (e) {
+            const dataItem = grid.dataItem($(this));
+            console.log(dataItem);
+            var cnt = 0;
+            $(this).find("td").each(function(e){
+                cnt++;
+                if(cnt == 2){
+                    $(this).attr("onclick","busnPartList.fn_projectPartRatePop("+dataItem.PJT_SN+")");
+                }
+            });
+        });
+
+        $('#mainGrid >.k-grid-content>table').each(function (index, item) {
+            var dimension_col = 1;
+            // First, scan first row of headers for the "Dimensions" column.
+            $('#mainGrid >.k-grid-header>.k-grid-header-wrap>table').find('th').each(function () {
+                var _this = $(this);
+                if (_this.text() == "프로젝트명") {
+                    var bgColor = _this.css('background-color');
+                    var foreColor = _this.css('color');
+                    var rightBorderColor = _this.css('border-right-color');
+
+                    // first_instance holds the first instance of identical td
+                    var first_instance = null;
+                    var cellText = '';
+                    var arrCells = [];
+                    $(item).find('tr').each(function (e, v) {
+                        // find the td of the correct column (determined by the colTitle)
+                        var dimension_td = $(this).find('td:nth-child(' + dimension_col + ')');
+
+                        if (first_instance == null) {
+                            first_instance = dimension_td;
+                            cellText = first_instance.text();
+                        } else if (dimension_td.text() == cellText) {
+                            // if current td is identical to the previous
+                            dimension_td.css('border-top', '0px');
+                        } else {
+                            // this cell is different from the last
+                            arrCells = ChangeMergedCells(arrCells, cellText, true);
+                            //first_instance = dimension_td;
+                            cellText = dimension_td.text();
+                        }
+                        arrCells.push(dimension_td);
+                        dimension_td.text("");
+                        dimension_td.css('background-color', '#e3e4e6').css('color', 'black').css('border-bottom-color', 'transparent');
+                    });
+                    arrCells = ChangeMergedCells(arrCells, cellText, true, true);
+                    return;
+                }
+                dimension_col++;
+            });
+        });
+
+
+
+        $('#mainGrid >.k-grid-content>table').each(function (index, item) {
+            var dimension_col = 1;
+            // First, scan first row of headers for the "Dimensions" column.
+            $('#mainGrid >.k-grid-header>.k-grid-header-wrap>table').find('th').each(function () {
+                var _this = $(this);
+
+                if (_this.text() == "지원부처") {
+                    var bgColor = _this.css('background-color');
+                    var foreColor = _this.css('color');
+                    var rightBorderColor = _this.css('border-right-color');
+
+                    // first_instance holds the first instance of identical td
+                    var first_instance = null;
+                    var cellText = '';
+                    var arrCells = [];
+                    $(item).find('tr').each(function () {
+                        // find the td of the correct column (determined by the colTitle)
+                        var dimension_td = $(this).find('td:nth-child(' + dimension_col + ')');
+
+                        if (first_instance == null) {
+                            first_instance = dimension_td;
+                            cellText = first_instance.text();
+                        } else if (dimension_td.text() == cellText) {
+                            // if current td is identical to the previous
+                            dimension_td.css('border-top', '0px');
+                        } else {
+                            // this cell is different from the last
+                            arrCells = ChangeMergedCells(arrCells, cellText, true);
+                            //first_instance = dimension_td;
+                            cellText = dimension_td.text();
+                        }
+                        arrCells.push(dimension_td);
+                        dimension_td.text("");
+                        dimension_td.css('background-color', '#f0f1f4').css('color', 'black').css('border-bottom-color', 'transparent');
+                    });
+                    arrCells = ChangeMergedCells(arrCells, cellText, true , false);
+                    return;
+                }
+                dimension_col++;
+            });
+        });
+
+        function ChangeMergedCells(arrCells, cellText, addBorderToCell, flag) {
+            var cellsCount = arrCells.length;
+            if (cellsCount > 1) {
+                var index = parseInt(cellsCount / 2);
+                var cell = null;
+                if (cellsCount % 2 == 0) { // even number
+                    cell = arrCells[index - 1];
+                    arrCells[index - 1].css('vertical-align', 'bottom');
+                }
+                else { // odd number
+                    cell = arrCells[index];
+                }
+                cell.text(cellText);
+
+                cell.css("cursor", "pointer");
+                cell.css("font-weight", "bold");
+
+                if (addBorderToCell) {
+                    arrCells[cellsCount - 1].css('border-bottom', 'solid 1px #ddd');
+
+                }
+
+                arrCells = []; // clear array for next item
+            }
+            if (cellsCount == 1) {
+                cell = arrCells[0];
+                cell.text(cellText);
+                arrCells[0].css('border-bottom', 'solid 1px #ddd');
+                arrCells = [];
+            }
+            return arrCells;
+        }
+    },
+
+    fn_projectPartRatePop : function (key){
+
+        var url = "/inside/pop/busnPartRate.do?pjtSn="+key;
+
+        var name = "_blank";
+        var option = "width = 1800, height = 900, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
     }
+
 }
 
 function inputNumberFormat (obj){

@@ -57,9 +57,21 @@ public class EmployeeController {
     public String employeeParticipationList(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/userManage/employeeParticipationList";
+    }
+
+    @RequestMapping("/inside/userPartRateList")
+    public String userPartRateList(@RequestParam Map<String, Object> params, Model model) {
+
+        List<Map<String, Object>> list = new ArrayList<>();
+        list = employService.getUserPartRateList(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
     }
 
     //사업별참여현황
@@ -111,6 +123,38 @@ public class EmployeeController {
         String pattern = "yyyyMMddHHmmss";
         SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
         return formatter.format(today);
+    }
+
+    @RequestMapping("/inside/pop/busnPartRate.do")
+    public String popBusnPartRate(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+
+        return "popup/inside/userManage/popBusnPartRate";
+    }
+
+    @RequestMapping("/inside/getBusinessParticipationData")
+    public String getBusinessParticipationData(@RequestParam Map<String, Object> params, Model model) {
+
+        List<Map<String, Object>> list = new ArrayList<>();
+        list = employService.getBusinessParticipationData(params);
+
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/inside/setBusnPartRatePay")
+    public String setBusnPartRatePay(@RequestParam Map<String, Object> params, Model model) {
+
+        try{
+            employService.setBusnPartRatePay(params);
+            model.addAttribute("code", 200);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
     }
 
 }

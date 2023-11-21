@@ -110,4 +110,9 @@ public class G20ServiceImpl implements G20Service {
     public List<Map<String, Object>> getBudgetList(Map<String, Object> params) {
         return g20Repository.getBudgetList(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getCorpProjectList(Map<String, Object> params) {
+        return g20Repository.getCorpProjectList(params);
+    }
 }

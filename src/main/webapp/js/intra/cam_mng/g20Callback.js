@@ -82,7 +82,7 @@ function fn_selCardInfo(trCd, trNm, cardBaNb, jiro, clttrCd, baNb, depositor, id
     $("#crmAccHolder" + idx).val(depositor);
 }
 
-function fn_selEmpInfo(trCd, bankName, accountNum, accountHolder,  empNameKr, idx){
+function fn_selEmpInfo(trCd, bankName, accountNum, accountHolder, empNameKr, idx){
     console.log(accountHolder)
     if(accountHolder == null || accountHolder == "" || accountHolder == "undefined"){
         accountHolder = "";

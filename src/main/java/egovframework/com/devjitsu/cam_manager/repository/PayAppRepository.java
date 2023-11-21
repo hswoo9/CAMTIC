@@ -115,6 +115,10 @@ public class PayAppRepository extends AbstractDAO {
         return selectList("payApp.getIncpList", params);
     }
 
+    public List<Map<String, Object>> getIncpReList(Map<String, Object> params) {
+        return selectList("payApp.getIncpReList", params);
+    }
+
     public void updPayAppDetailStatus(Map<String, Object> params) {
         update("payApp.updPayAppDetailStatus", params);
     }
@@ -165,15 +169,24 @@ public class PayAppRepository extends AbstractDAO {
     public void resolutionExnpStatus(Map<String, Object> params) {
         update("payApp.resolutionExnpStatus", params);
     }
+    public void resolutionIncpAppr(Map<String, Object> params) {
+        update("payApp.resolutionIncpAppr", params);
+    }
 
     public void updPayAttDetData(Map<String, Object> params) {insert("payApp.updPayAttDetData", params);}
     public void updExnpAttDetData(Map<String, Object> params) {insert("payApp.updExnpAttDetData", params);}
     public Map<String, Object> getPayAttInfo(Map<String, Object> params) {return (Map<String, Object>) selectOne("payApp.getPayAttInfo", params);}
     public List<Map<String, Object>> getPayAttEtcInfo(Map<String, Object> params) { return selectList("payApp.getPayAttEtcInfo", params);}
-    public Map<String, Object> getExnpAttInfo(Map<String, Object> params) {return (Map<String, Object>) selectOne("payApp.getExnpAttInfo", params);}
+    public List<Map<String, Object>> getPayAttList(Map<String, Object> params) { return selectList("payApp.getPayAttList", params);}
+    public Map<String, Object> getExnpAttInfo(Map<String, Object> params) {return (Map<String, Object>) selectOne("payApp.getPayAttEtcInfo", params);}
+    public List<Map<String, Object>> getExnpAttList(Map<String, Object> params) { return selectList("payApp.getPayAttList", params);}
     public List<Map<String, Object>> getExnpAttEtcInfo(Map<String, Object> params) { return selectList("payApp.getExnpAttEtcInfo", params);}
 
     public Map<String, Object> getPayAppDetailInfo(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("payApp.getPayAppDetailInfo", params);
+    }
+
+    public List<Map<String, Object>> getPartRatePay(Map<String, Object> params) {
+        return selectList("payApp.getPartRatePay", params);
     }
 }

@@ -11,15 +11,9 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/regExnpRePop.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/g20Callback.js?v=${today}'/>"></script>
 
-<form id="payAppDraftFrm" method="post">
-    <input type="hidden" id="exnpSn" name="exnpSn" value="${params.exnpSn}">
-    <input type="hidden" id="menuCd" name="menuCd" value="exnp">
-    <input type="hidden" id="type" name="type" value="drafting">
-    <input type="hidden" id="nowUrl" name="nowUrl" />
-</form>
-
 <input type="hidden" id="item" name="item" value="${params.item}">
 <input type="hidden" id="payAppSn" name="payAppSn" value="${params.payAppSn}">
+<input type="hidden" id="exnpSn" name="exnpSn" value="${params.exnpSn}">
 <input type="hidden" id="status" name="status" value="${params.status}" />
 
 <div style="padding:0;">
@@ -27,12 +21,10 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;">
-                    지출결의서
-                    <span id="titleStat">작성</span>
+                    지출 반제결의 승인
                 </span>
             </h3>
             <div id="payAppBtnDiv" class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="regExnpRe.fn_save();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>
         </div>

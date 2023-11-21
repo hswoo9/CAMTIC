@@ -71,7 +71,7 @@
                 <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">오늘의 일정</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/spot/empScheduleList.do')">${scheduleStatus} 건</span></div>
             </div>
         </div>
-        <div class="panel" style="margin-top:10px;margin-bottom:10px;">
+        <div class="panel" style="margin-top:10px;margin-bottom:10px; height:171px;">
             <div style="padding: 17px 0 0 25px; display: flex; align-items: center;">
                 <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">임직원 생일</h4>
                 <span id="currentYearMonth" style="font-weight:600; font-size:15px; margin-left: 120px;"></span>

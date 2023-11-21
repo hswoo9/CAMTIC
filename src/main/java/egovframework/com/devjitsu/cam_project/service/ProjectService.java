@@ -149,6 +149,7 @@ public interface ProjectService {
     void delTeamProject(Map<String, Object> params);
 
     Map<String, Object> getBankData(Map<String, Object> params);
+    Map<String, Object> getG20ProjectData(Map<String, Object> params);
 
     List<Map<String, Object>> getTeamProjectList(Map<String, Object> params);
 
@@ -159,4 +160,6 @@ public interface ProjectService {
     List<Map<String, Object>> test(Map<String, Object> params);
 
     void updJoinMember(Map<String, Object> params);
+
+    Map<String, Object> getProjectByPjtCd(Map<String, Object> params);
 }

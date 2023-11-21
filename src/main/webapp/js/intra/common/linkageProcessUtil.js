@@ -137,6 +137,12 @@ function makeParams(params, form, url){
         form.append(processId);
         url += "&processId="+params.processId;
     }
+    if(params.pjtSn){
+        var pjtSn = $('<input type="hidden" name="pjtSn"/>');
+        pjtSn.val(params.pjtSn);
+        form.append(pjtSn);
+        url += "&pjtSn="+params.pjtSn;
+    }
 
 	return url;
 }

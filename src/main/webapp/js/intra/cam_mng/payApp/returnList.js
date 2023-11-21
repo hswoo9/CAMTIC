@@ -1,9 +1,9 @@
 var returnList = {
 
     global : {
-        dropDownDataSource : "",
-        searchAjaxData : "",
-        saveAjaxData : "",
+        dropDownDataSource: "",
+        searchAjaxDat : "",
+        saveAjaxData: "",
     },
 
     fn_defaultScript : function (){
@@ -30,7 +30,7 @@ var returnList = {
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             selectable: "row",
-            height : 525,
+            height: 525,
             pageable: {
                 refresh: true,
                 pageSizes: [ 10, 20, 30, 50, 100 ],
@@ -43,11 +43,19 @@ var returnList = {
                 {
                     name: 'button',
                     template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="returnList.fn_regExnpRePop()">' +
+                            '	<span class="k-button-text">반납결의서 작성</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="returnList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }],
+                }
+            ],
             columns: [
                 {
                     title: "번호",
@@ -75,6 +83,14 @@ var returnList = {
                     field: "DOC_NO",
                     title: "문서번호",
                     width: 120,
+                }, {
+                    title: "적요",
+                    field: "EXNP_BRIEFS",
+                    width: 280,
+                    template: function(e){
+                        console.log(e);
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="returnList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\', \'re\')">'+e.EXNP_BRIEFS+'</div>';
+                    }
                 }, {
                     title: "프로젝트 명",
                     field: "PJT_NM",
@@ -125,9 +141,9 @@ var returnList = {
                     width: 60,
                     template : function(e){
                         if(e.DOC_STATUS == "100"){
-                            return "결재완료"
+                            return "결재완료";
                         } else {
-                            return "작성중"
+                            return "작성중";
                         }
                     }
                 }
@@ -138,28 +154,36 @@ var returnList = {
         }).data("kendoGrid");
     },
 
-    gridReload: function (){
+    gridReload : function(){
         returnList.global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
             searchDept : $("#searchDept").val(),
             searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val()
+            searchValue : $("#searchValue").val(),
+            payAppType : 3
         }
 
         returnList.mainGrid("/pay/getExnpList", returnList.global.searchAjaxData);
     },
 
-    fn_reqRegPopup : function (key, paySn){
+    fn_reqRegPopup : function(key, paySn, status){
         var url = "/payApp/pop/regExnpPop.do";
         if(key != null && key != ""){
-            url = "/payApp/pop/regExnpPop.do?payAppSn=" + paySn + "&exnpSn=" + key;
+            url = "/payApp/pop/regExnpPop.do?exnpSn=" + key;
         }
 
         if(status != null && status != ""){
             url = url + "&status=" + status;
         }
         var name = "blank";
-        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
+        var popup = window.open(url, name, option);
+    },
+
+    fn_regExnpRePop : function(){
+        var url = "/payApp/pop/regExnpPop.do?status=re";
+        var name = "blank";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
     }
 }

@@ -300,4 +300,35 @@ public class BoardServiceImpl implements BoardService {
     public List<Map<String, Object>> getLetterListOld(Map<String, Object> params) {
         return boardRepository.getLetterListOld(params);
     }
+    @Override
+    public List<Map<String, Object>> getFocusList(Map<String, Object> param) {
+        return boardRepository.getFocusList(param);
+    }
+    @Override
+    public List<Map<String, Object>> getRecruitList(Map<String, Object> param) {
+        return boardRepository.getRecruitList(param);
+    }
+
+    @Override
+    public List<Map<String, Object>> getSnsPosts(Map<String, Object> param) {
+        return boardRepository.getSnsPosts(param);
+    }
+
+    @Override
+    public PagingResponse<PostResponse> getRecruitmentList(ArticlePage articlePage) {
+        List<PostResponse> list = new ArrayList<>();
+        String category = articlePage.getSearchCategory();
+
+        int count = (int) boardRepository.getRecruitmentListCount(articlePage);
+        if (count < 1) {
+            return new PagingResponse<>(Collections.emptyList(), null);
+        }
+
+        Pagination pagination = new Pagination(count, articlePage);
+        articlePage.setPagination(pagination);
+
+        list = boardRepository.getRecruitmentList(articlePage);
+
+        return new PagingResponse<>(list, pagination);
+    }
 }

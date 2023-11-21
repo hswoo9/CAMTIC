@@ -96,4 +96,144 @@
             PAY_APP_DET_SN = #{payAppDetSn}
     </select>
 
+    <insert id="insCorpProject" parameterType="map">
+        /*insCorpProject*/
+        INSERT INTO CAM_PJT_MNG.DJ_CORP_PROJECT
+        (
+            PM_EMP_SEQ,
+            PM_EMP_NAME,
+            PM_DEPT_SEQ,
+            PM_DEPT_NAME,
+            LINK_PJT,
+            CORP_PJT_NM,
+            CORP_PJT_SUB_NM,
+            STR_DT,
+            END_DT,
+            SBJ_SEP,
+            REG_EMP_SEQ
+        ) VALUES (
+            #{empSeq},
+            #{empName},
+            #{deptSeq},
+            #{deptName},
+            #{linkPjt},
+            #{pjtNm},
+            #{pjtSubNm},
+            #{strDt},
+            #{endDt},
+            #{sbjSep},
+            #{regEmpSeq}
+        )
+        <selectKey keyProperty="corpPjtSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_CORP_PROJECT'
+        </selectKey>
+    </insert>
+
+    <select id="getCorpProjectList" parameterType="map" resultType="map">
+        /*getCorpProjectList*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_CORP_PROJECT
+    </select>
+
+    <select id="getCorpProjectData" parameterType="map" resultType="map">
+        /*getCorpProjectData*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_CORP_PROJECT
+        WHERE
+            CORP_PJT_SN = #{corpPjtSn}
+    </select>
+
+    <update id="updCorpProject" parameterType="map">
+        /*updCorpProject*/
+        UPDATE
+            CAM_PJT_MNG.DJ_CORP_PROJECT
+        SET
+            PM_EMP_SEQ = #{empSeq},
+            PM_EMP_NAME = #{empName},
+            PM_DEPT_SEQ = #{deptSeq},
+            PM_DEPT_NAME = #{deptName},
+            LINK_PJT = #{linkPjt},
+            CORP_PJT_NM = #{pjtNm},
+            CORP_PJT_SUB_NM = #{pjtSubNm},
+            STR_DT = #{strDt},
+            END_DT = #{endDt},
+            SBJ_SEP = #{sbjSep},
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            CORP_PJT_SN = #{corpPjtSn}
+    </update>
+
+    <insert id="insIncmExpInfo" parameterType="map">
+        /* insIncmExpInfo */
+        INSERT INTO CAM_MNG.DJ_PROJECT_BUDGET_MNG
+        (
+            PJT_CD,
+            BGT_CD,
+            BGT_AT,
+            BGT1_NM,
+            BGT2_NM,
+            BGT3_NM,
+            CALC_AM,
+            REG_EMP_SEQ,
+            REG_DATE
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.pjtCd},
+            #{item.bgtCd},
+            #{item.bgtAt},
+            #{item.bgt1Nm},
+            #{item.bgt2Nm},
+            #{item.bgt3Nm},
+            #{item.calcAm},
+            #{item.regEmpSeq},
+            NOW()
+        )
+        </foreach>
+    </insert>
+
+    <select id="getProjectBgtList" parameterType="map" resultType="map">
+        /* getProjectBgtList */
+        SELECT
+            PJT_CD,
+            BGT_CD,
+            BGT_AT,
+            BGT1_NM,
+            BGT2_NM,
+            BGT3_NM AS BGT_NM,
+            CALC_AM
+        FROM
+            CAM_MNG.DJ_PROJECT_BUDGET_MNG
+        WHERE
+            PJT_CD = #{pjtSn}
+        AND
+            ACTIVE = 'Y'
+    </select>
+
+    <select id="getProjectBgtCheck" parameterType="map" resultType="int">
+        /* getProjectBgtCheck */
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_MNG.DJ_PROJECT_BUDGET_MNG
+        WHERE
+            PJT_CD = #{pjtCd}
+        AND
+            ACTIVE = 'Y'
+    </select>
+
+    <update id="incmExpInfoActiveN" parameterType="map">
+        /* incmExpInfoActiveN */
+        UPDATE
+            CAM_MNG.DJ_PROJECT_BUDGET_MNG
+        SET
+            ACTIVE = 'N'
+        WHERE
+            PJT_CD = #{pjtCd}
+    </update>
 </mapper>

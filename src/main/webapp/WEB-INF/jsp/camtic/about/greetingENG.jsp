@@ -17,11 +17,11 @@
       <div id="content">
         <ul id="navigation">
           <li><a href="/camtic/about/greetingENG.do">HOME</a></li>
-          <li class="mdCategory">Introduce</li>
-          <li class="smCategory" style="display: none;">Introduce</li>
+          <li class="mdCategory">CEO Greeting</li>
+          <li class="smCategory" style="display: none;">CEO Greeting</li>
         </ul>
         <div id="title">
-          <h3>Introduce</h3>
+          <h3>CEO Greeting</h3>
         </div>
 
         <div class="__greeting">

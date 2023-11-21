@@ -12,6 +12,7 @@ public interface CommonCodeService {
      */
     List<Map<String, Object>> getCmCodeList(Map<String, Object> params);
 
+    List<Map<String, Object>> getCmCodeListReward(Map<String, Object> params);
     /**
      * 커스텀 코드리스트
      * @param params

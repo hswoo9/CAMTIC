@@ -488,4 +488,11 @@ public class RecruitServiceImpl implements RecruitService {
             str = str.replaceAll("&quot;", "\"");}
         return str;
     }
+
+    @Override
+    public List<Map<String, Object>> getRecruitPrint(Map<String, Object> params) {
+        List<Map<String, Object>> list = recruitRepository.getRecruitPrint(params);
+
+        return list;
+    }
 }

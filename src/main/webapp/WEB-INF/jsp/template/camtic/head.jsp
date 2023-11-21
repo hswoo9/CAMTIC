@@ -12,11 +12,12 @@
       <li><a href="/camtic/about/greetingENG.do"><span>ENG</span></a></li>
       <li><a href="#"><span>통합페이지</span></a></li>
       <%--<li><a href="#"><span>잡매칭센터</span></a></li>--%>
-      <li><a href="#"><span>전주첨단벤처단지</span></a></li>
+      <li><a href="http://www.jhitech.or.kr/"><span>전주첨단벤처단지</span></a></li>
     </ul>
     <div class="sns">
       <a href="https://www.instagram.com/camtic4u/?utm_medium=copy_link" target='_blank' class="insta">인스타그램</a>
       <a href="https://www.facebook.com/CAMTIC4U" target='_blank' class="face">페이스북</a>
+      <%--<a href="https://www.youtube.com/@camtic4u" target='_blank' class="youtube"><span>유튜브</span></a>--%>
       <%--<a href="https://pf.kakao.com/_Txmjps" target='_blank' class="kakao">카카오톡</a>--%>
     </div>
   </div>
@@ -99,6 +100,7 @@
             <li class="pr_report"><a href="/camtic/pr/report.do">보도자료</a></li>
             <li class="pr_news"><a href="/camtic/pr/news.do">뉴스레터</a></li>
             <li class="pr_video"><a href="/camtic/pr/video.do">홍보영상</a></li>
+            <li class="pr_sns"><a href="/camtic/pr/sns.do">SNS</a></li>
             <li class="pr_ci"><a href="/camtic/pr/ci.do">CI 소개</a></li>
             <li style="display: none" class="pr_view"><a href="/camtic/pr/view.do">게시판</a></li>
           </ul>

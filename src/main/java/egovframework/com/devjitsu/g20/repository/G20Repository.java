@@ -88,4 +88,8 @@ public class G20Repository extends AbstractDAO {
     public List<Map<String, Object>> getBudgetList(Map<String, Object> params) {
         return selectListMs("g20.getBudgetList", params);
     }
+
+    public List<Map<String, Object>> getCorpProjectList(Map<String, Object> params) {
+        return selectListMs("g20.getCorpProjectList", params);
+    }
 }

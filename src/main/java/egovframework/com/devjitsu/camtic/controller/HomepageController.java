@@ -130,6 +130,10 @@ public class HomepageController {
     //CI소개
     @RequestMapping("/camtic/pr/ci.do")
     public String Pci(){ return "camtic/pr/ci"; }
+
+    //sns
+    @RequestMapping("/camtic/pr/sns.do")
+    public String Psns(){ return "camtic/pr/sns"; }
     @RequestMapping("/camtic/pr/view.do")
     public String Pview(){ return "camtic/pr/view"; }
 

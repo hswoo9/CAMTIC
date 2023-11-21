@@ -69,6 +69,14 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/getProjectData")
+    public String getProjectData(@RequestParam Map<String, Object> params, Model model) {
+
+        model.addAttribute("data", projectService.getProjectData(params));
+
+        return "jsonView";
+    }
+
     @RequestMapping("/project/pop/viewRegProject.do")
     public String viewRegProject(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
 
@@ -1208,5 +1216,16 @@ public class ProjectController {
         projectService.updJoinMember(params);
 
         return "jsonView";
+    }
+
+    @RequestMapping("/intra/cam_project/budgetChangeInfo.do")
+    public String budgetChangeInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "popup/cam_project/budgetChangeInfo";
     }
 }

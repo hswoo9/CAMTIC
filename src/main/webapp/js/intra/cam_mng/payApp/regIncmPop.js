@@ -56,6 +56,7 @@ var regIncm = {
                 { text: "7000 - 특수사업 (특수사업)", value: "7000" },
             ]
         });
+        $("#g20DeptCd").data("kendoDropDownList").value("2000");
 
         // $("#payAppStat").data("kendoRadioGroup").value("N")
 
@@ -89,6 +90,8 @@ var regIncm = {
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncm.fn_save()">저장</button>';
                     buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \''+data.DOC_MENU_CD+'\', \''+data.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
                 }else if(data.DOC_STATUS == "100"){
+                    buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncm.fn_regExnpRePop('+data.PAY_INCP_SN+')">반납결의서 작성</button>';
+                    buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncm.fn_regExnpAltPop('+data.PAY_INCP_SN+')">대체결의서 작성</button>';
                     buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', \''+data.DOC_MENU_CD+'\');">열람</button>';
                     $("#addBtn").hide();
                 }else{
@@ -297,6 +300,7 @@ var regIncm = {
 
         var parameters = {
             appDe : $("#appDe").val(),
+            payExnpDe : $("#trDe0").val(),
             pjtNm : $("#pjtNm").val(),
             pjtSn : $("#pjtSn").val(),
             budgetNm : $("#budgetNm").val(),
@@ -443,7 +447,8 @@ var regIncm = {
             return ;
         }
 
-        var url = "/mng/pop/budgetView.do?pjtSn=" + $("#pjtSn").val() + "&idx=N";
+        /** 추후 temp변수명 수정 예정 */
+        var url = "/mng/pop/budgetView.do?pjtSn=" + $("#pjtSn").val() + "&idx=N&temp=2";
 
         var name = "_blank";
         var option = "width = 1100, height = 650, top = 100, left = 400, location = no"
@@ -459,7 +464,19 @@ var regIncm = {
         var popup = window.open(url, name, option);
     },
 
+    fn_regExnpRePop : function(payAppSn){
+        var url = "/payApp/pop/regExnpPop.do?payIncpSn=" + payAppSn + "&status=re";
+        var name = "blank";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
+        var popup = window.open(url, name, option);
+    },
 
+    fn_regExnpAltPop : function(payAppSn){
+        var url = "/payApp/pop/regExnpPop.do?payIncpSn=" + payAppSn + "&status=alt";
+        var name = "blank";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
+        var popup = window.open(url, name, option);
+    }
 }
 
 

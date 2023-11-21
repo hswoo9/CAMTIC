@@ -138,7 +138,10 @@ public class PayAppServiceImpl implements PayAppService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             payAppRepository.updateExnpFinalApprStat(params);
-            updateG20ExnpFinalAppr(params, "app");
+            Map<String, Object> pkMap = payAppRepository.getExnpData(params);
+            if(!"4".equals(pkMap.get("PAY_APP_TYPE"))){
+                updateG20ExnpFinalAppr(params, "app");
+            }
             //payAppRepository.updatePurcListFinalApprStat(params);
         }
     }
@@ -169,7 +172,7 @@ public class PayAppServiceImpl implements PayAppService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             payAppRepository.updateIncpFinalApprStat(params);
-            updateG20IncpFinalAppr(params);
+            updateG20IncpFinalAppr(params, "app");
         }
     }
 
@@ -237,6 +240,11 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
+    public List<Map<String, Object>> getIncpReList(Map<String, Object> params) {
+        return payAppRepository.getIncpReList(params);
+    }
+
+    @Override
     public void payIncpSetData(Map<String, Object> params) {
         Gson gson = new Gson();
         List<Map<String, Object>> itemArr = gson.fromJson((String) params.get("itemArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
@@ -271,11 +279,18 @@ public class PayAppServiceImpl implements PayAppService {
         payAppRepository.resolutionExnpStatus(params);
     }
 
+    @Override
+    public void resolutionIncpAppr(Map<String, Object> params) {
+        updateG20IncpFinalAppr(params, "resolution");
+        payAppRepository.resolutionIncpAppr(params);
+    }
+
     private void updateG20ExnpFinalAppr(Map<String, Object> params, String type){
         List<Map<String, Object>> list = new ArrayList<>();
 
         Map<String, Object> pkMap = payAppRepository.getExnpData(params);
 
+        /** 1.지출결의서 일때 세금계산서, 계산서, 신용카드는 반제결의 승인시 g20 프로시저 호출 해야 함 */
         if("1".equals(pkMap.get("PAY_APP_TYPE"))){
             if(type.equals("resolution")){
                 params.put("evidTypeArr", "1,2,3");
@@ -285,6 +300,10 @@ public class PayAppServiceImpl implements PayAppService {
                 list = payAppRepository.getExnpG20List(params);
             }
         } else if("2".equals(pkMap.get("PAY_APP_TYPE"))){
+            list = payAppRepository.getExnpG20List(params);
+        } else if("3".equals(pkMap.get("PAY_APP_TYPE"))){
+            list = payAppRepository.getExnpG20List(params);
+        } else if("4".equals(pkMap.get("PAY_APP_TYPE"))){
             list = payAppRepository.getExnpG20List(params);
         }
 
@@ -388,10 +407,16 @@ public class PayAppServiceImpl implements PayAppService {
         }
     }
 
-    private void updateG20IncpFinalAppr(Map<String, Object> params){
+    private void updateG20IncpFinalAppr(Map<String, Object> params, String type){
         List<Map<String, Object>> list = new ArrayList<>();
 
         Map<String, Object> pkMap = payAppRepository.getIncpData(params);
+
+        if(type.equals("resolution")){
+            params.put("evidTypeArr", "1,2,3,4,5,6");
+        }else{
+            params.put("evidTypeArr", "7");
+        }
         list = payAppRepository.getIncpG20List(params);
 
         if(list.size() != 0){
@@ -436,8 +461,8 @@ public class PayAppServiceImpl implements PayAppService {
                     data.put("ETCACCT_NM", hearnerMap.get("ETCACCT_NM"));
                     data.put("ETCRVRS_YM", hearnerMap.get("ETCRVRS_YM"));
                     data.put("ETCDIV_CD", hearnerMap.get("ETCDIV_CD"));
-                    data.put("ETCDUMMY1", "76");
                 }
+                data.put("ETCDUMMY1", "76");
 
                 if(data.get("EVID_TYPE").toString().equals("1")){
                     data.put("SET_FG", "3");
@@ -940,6 +965,11 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
+    public List<Map<String, Object>> getPayAttList(Map<String, Object> params) {
+        return payAppRepository.getPayAttList(params);
+    }
+
+    @Override
     public Map<String, Object> getExnpAttInfo(Map<String, Object> params) {
         Map<String, Object> returnMap = payAppRepository.getExnpAttInfo(params);
         if(returnMap != null){
@@ -950,6 +980,11 @@ public class PayAppServiceImpl implements PayAppService {
         return returnMap;
     }
 
+    @Override
+    public List<Map<String, Object>> getExnpAttList(Map<String, Object> params) {
+        return payAppRepository.getExnpAttList(params);
+    }
+
     private String filePath (Map<String, Object> params, String base_dir){
         LocalDate now = LocalDate.now();
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
@@ -958,5 +993,10 @@ public class PayAppServiceImpl implements PayAppService {
         String path = base_dir + params.get("menuCd").toString()+"/" + fmtNow + "/";
 
         return path;
+    }
+
+    @Override
+    public List<Map<String, Object>> getPartRatePay(Map<String, Object> params) {
+        return payAppRepository.getPartRatePay(params);
     }
 }

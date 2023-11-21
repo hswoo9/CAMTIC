@@ -21,6 +21,7 @@
 
 <input type="hidden" id="item" name="item" value="${params.item}">
 <input type="hidden" id="payAppSn" name="payAppSn" value="${params.payAppSn}">
+<input type="hidden" id="payIncpSn" name="payIncpSn" value="${params.payIncpSn}">
 <input type="hidden" id="status" name="status" value="${params.status}" />
 <input type="hidden" id="mode" name="mode" value="" />
 
@@ -31,6 +32,8 @@
                 <span style="position: relative; top: 3px;">
                     <c:if test='${params.status == "rev"}'>지출결의서</c:if>
                     <c:if test='${params.status == "in"}'>여입결의서</c:if>
+                    <c:if test='${params.status == "re"}'>반납결의서</c:if>
+                    <c:if test='${params.status == "alt"}'>대체결의서</c:if>
                     <span id="titleStat">작성</span>
                 </span>
             </h3>
@@ -173,7 +176,7 @@
                         <col style="width: 4%;">
                         <col style="width: 4%;">
                         <col style="width: 5%;">
-                        <c:if test="${!'in'.equals(params.status)}">
+                        <c:if test="${'rev'.equals(params.status)}">
                             <col style="width: 2%;">
                             <col style="width: 3%;">
                         </c:if>
@@ -197,7 +200,7 @@
                         <th>공급가액</th>
                         <th>세액</th>
                         <th>신용카드</th>
-                        <c:if test="${!'in'.equals(params.status)}">
+                        <c:if test="${'rev'.equals(params.status)}">
                             <th>선지급</th>
                             <th>첨부파일</th>
                         </c:if>

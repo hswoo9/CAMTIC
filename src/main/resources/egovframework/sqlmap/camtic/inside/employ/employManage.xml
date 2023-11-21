@@ -222,6 +222,98 @@
         </if>
     </select>
 
+    <select id="getBusinessParticipationData" parameterType="map" resultType="map">
+        /*getBusinessParticipationData*/
+        SELECT
+            C.PJT_SN,
+            A.CHNG_SAL,
+            A.MON_SAL,
+            A.PAY_RATE,
+            A.ITEM_RATE,
+            A.EMP_SAL,
+            A.PART_EMP_NM,
+            A.PART_DET_STR_DT,
+            A.PART_DET_END_DT,
+            (SELECT LG_CD_NM FROM CAM_PJT_MNG.DJ_PJT_CD WHERE LG_CD = C.SBJ_DEP AND GRP_SN = 'SUP_DEP' LIMIT 1) AS SBJ_DEP_NM,
+            C.PJT_NM,
+            DATE_FORMAT(C.END_DT, '%Y-%m-%d') AS PJT_END_DT,
+            C.PM_EMP_SEQ,
+            A.PART_EMP_SEQ,
+            C.SBJ_STAT_YN,
+            A.TOT_RATE
+        FROM
+            CAM_PJT_MNG.DJ_PART_RATE_DET A
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_PART_RATE_VER B
+        ON
+            A.PART_RATE_VER_SN = B.PART_RATE_VER_SN
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PROJECT C
+        ON
+            B.PJT_SN = C.PJT_SN
+        WHERE
+            B.MNG_STAT = 'C'
+        AND
+            B.BEF_VER_CHECK = 'Y'
+        AND C.PJT_SN = #{pjtSn}
+    </select>
+
+    <select id="getUserPartRateList" parameterType="map" resultType="map">
+        /*getUserPartRateList*/
+        SELECT
+            AA.EMP_SEQ,
+            AA.EMP_NAME_KR,
+            AA.POSITION_NAME,
+            BB.*
+        FROM
+            CAM_HR.DJ_EMP_INFO AA
+        LEFT JOIN
+            (SELECT
+                C.PJT_SN,
+                A.PART_EMP_SEQ,
+                A.CHNG_SAL,
+                A.MON_SAL,
+                A.EMP_SAL,
+                A.PART_DET_STR_DT,
+                A.PART_DET_END_DT,
+                (SELECT LG_CD_NM FROM CAM_PJT_MNG.DJ_PJT_CD WHERE LG_CD = C.SBJ_DEP AND GRP_SN = 'SUP_DEP' LIMIT 1) AS SBJ_DEP_NM,
+                C.PJT_NM,
+                DATE_FORMAT(C.END_DT, '%Y-%m-%d') AS PJT_END_DT,
+                C.PM_EMP_SEQ,
+                C.SBJ_STAT_YN,
+                C.PJT_STEP,
+                A.TOT_RATE,
+                A.PAY_TOTAL,
+                REPLACE((SELECT PATH_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PART_EMP_SEQ)), '|', ' ') AS DEPT_NAME
+            FROM
+                CAM_PJT_MNG.DJ_PART_RATE_DET A
+            LEFT JOIN
+                CAM_PJT_MNG.DJ_PJT_PART_RATE_VER B
+            ON
+                A.PART_RATE_VER_SN = B.PART_RATE_VER_SN
+            LEFT JOIN
+                CAM_PJT_MNG.DJ_PROJECT C
+            ON
+                B.PJT_SN = C.PJT_SN
+            WHERE
+                1 = 1
+            AND
+                #{bsYear} BETWEEN DATE_FORMAT(A.PART_DET_STR_DT, '%Y') AND DATE_FORMAT(A.PART_DET_END_DT, '%Y')
+            AND B.MNG_STAT = 'C' AND B.BEF_VER_CHECK = 'Y') BB
+        ON
+            AA.EMP_SEQ = BB.PART_EMP_SEQ
+        WHERE
+            1 = 1
+        <if test='userKind != null and !"".equals(userKind)'>
+        AND
+            ${userKind} LIKE CONCAT('%', #{empNameKr}, '%')
+        </if>
+        <if test='deptTeam != null and !"".equals(deptTeam)'>
+        AND
+            AA.DEPT_SEQ LIKE CONCAT('%', #{deptTeam}, '%')
+        </if>
+        ORDER BY AA.EMP_NAME_KR
+    </select>
 
 </mapper>
 

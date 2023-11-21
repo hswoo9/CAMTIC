@@ -63,7 +63,7 @@
       </table>
 
       <div class="mt10" style="text-align: right">
-          <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="font-size: 12px" value="S" onclick="recruitAdminPop.recruitPrintPop(${params.recruitInfoSn})">
+          <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="font-size: 12px" value="S" onclick="recruitAdminPop.recruitPrintPop()">
               <span>총괄표 출력</span>
           </button>
         <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="docScreenPopBtn" style="font-size: 12px" value="S" onclick="recruitAdminPop.screenViewPop('doc')">
@@ -126,10 +126,6 @@
   </div>
 </div><!-- col-md-9 -->
 <script>
-    function callRecruitPrintPop() {
-        var recruitInfoSnValue = document.getElementById('recruitInfoSn').value;
-        recruitAdminPop.recruitPrintPop(recruitInfoSnValue);
-    }
   recruitAdminPop.init();
 </script>
 </body>

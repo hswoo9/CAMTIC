@@ -20,6 +20,12 @@
 
 <input type="hidden" id="status" name="status" value="${params.status}" />
 <input type="hidden" id="auth" name="auth" value="${params.auth}" />
+
+<input type="hidden" id="reqType" value="${params.reqType}" />
+<input type="hidden" id="partRatePjtSn" value="${params.pjtSn}" />
+<input type="hidden" id="bsYm" value="${params.bsYm}" />
+<input type="hidden" id="claimSn" value="${params.claimSn}" />
+
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
@@ -27,6 +33,8 @@
                 <span style="position: relative; top: 3px;">
                     <c:if test='${params.status == "rev"}'>지급신청서</c:if>
                     <c:if test='${params.status == "in"}'>여입신청서</c:if>
+                    <c:if test='${params.status == "re"}'>반납신청서</c:if>
+                    <c:if test='${params.status == "alt"}'>대체신청서</c:if>
                     <c:if test='${params.status == "" || params.status == null}'>신청서</c:if>
                     <span id="titleStat">작성</span>
                 </span>
@@ -145,7 +153,7 @@
 
                 <table class="popTable table table-bordered mb-0 mt-20">
                     <colgroup>
-                        <c:if test="${'rev'.equals(params.status) or 'in'.equals(params.status)}">
+                        <c:if test="${'rev'.equals(params.status) or 'in'.equals(params.status) or 're'.equals(params.status) or 'alt'.equals(params.status)}">
                             <col style="width: 3%;">
                         </c:if>
                         <col style="width: 5%;">
@@ -161,7 +169,7 @@
                         <col style="width: 5%;">
                         <col style="width: 5%;">
                         <col style="width: 5%;">
-                        <c:if test="${!'in'.equals(params.status)}">
+                        <c:if test="${'rev'.equals(params.status)}">
                             <col style="width: 3%;">
                             <col style="width: 3%;">
                         </c:if>
@@ -169,7 +177,7 @@
                     </colgroup>
                     <thead>
                     <tr>
-                        <c:if test="${'rev'.equals(params.status) or 'in'.equals(params.status)}">
+                        <c:if test="${'rev'.equals(params.status) or 'in'.equals(params.status) or 're'.equals(params.status) or 'alt'.equals(params.status)}">
                             <th><input type="checkbox" id="checkAll" /></th>
                         </c:if>
                         <th>예산비목</th>
@@ -185,7 +193,7 @@
                         <th>신용카드</th>
                         <th>비고</th>
                         <th>관련근거</th>
-                        <c:if test="${!'in'.equals(params.status)}">
+                        <c:if test="${'rev'.equals(params.status)}">
                             <th>선지급</th>
                             <th>첨부파일</th>
                         </c:if>
@@ -194,7 +202,7 @@
                     </thead>
                     <tbody id="payDestTb">
                     <tr class="payDestInfo newArray" id="pay0" style="text-align: center;">
-                        <c:if test="${'rev'.equals(params.status) or 'in'.equals(params.status)}">
+                        <c:if test="${'rev'.equals(params.status) or 'in'.equals(params.status) or 're'.equals(params.status) or 'alt'.equals(params.status)}">
                         <td><input type="checkbox" id="check0" class="check" /></td>
                         </c:if>
                         <td>
@@ -242,7 +250,7 @@
                         <td>
                             <input type="text" id="iss0" class="iss">
                         </td>
-                        <c:if test="${!'in'.equals(params.status)}">
+                        <c:if test="${'rev'.equals(params.status)}">
                             <td>
                                 <input type="checkbox" id="advances0" class="advances" style="width: 26px; height: 26px;">
                             </td>

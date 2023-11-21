@@ -64,8 +64,12 @@ var regUnRnd = {
 
 
         var tab9Url = "/intra/cam_project/bustInfo.do";         // 출장관리
-        var tab10Url = "/intra/cam_project/teamInfo.do";        // 협업
-        var tab11Url= "/intra/cam_project/purcInfo.do";         //
+        var tab10Url = "";
+        var tab11Url= "/intra/cam_project/purcInfo.do";
+        var tab12Url = "/intra/cam_project/budgetChangeInfo.do"; // 예산변경신청
+        var tab13Url = "/intra/cam_project/teamInfo.do";        // 입금관리
+        var tab14Url = "/intra/cam_project/teamInfo.do";        // 협업
+
 
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -80,6 +84,9 @@ var regUnRnd = {
             tab9Url += "?pjtSn=" + setParameters.PJT_SN;
             tab10Url += "?pjtSn=" + setParameters.PJT_SN;
             tab11Url += "?pjtSn=" + setParameters.PJT_SN;
+            tab12Url += "?pjtSn=" + setParameters.PJT_SN;
+            tab13Url += "?pjtSn=" + setParameters.PJT_SN;
+            tab14Url += "?pjtSn=" + setParameters.PJT_SN;
         }
 
         var dataSource = [];
@@ -104,7 +111,9 @@ var regUnRnd = {
                 {name: "결과보고", url: tab8Url, imageUrl : "/images/ico/etc_01_1.png"}, // 지출내역조회와 같이 사용
                 {name: "출장", url: tab9Url},
                 {name: "구매", url: tab11Url},
-                {name: "정산/원가", url: tab10Url, imageUrl : "/images/ico/etc_01_1.png"}
+                {name: "예산변경신청", url: tab12Url},
+                {name: "입금관리", url: tab13Url},
+                {name: "정산/원가", url: tab14Url, imageUrl : "/images/ico/etc_01_1.png"}
             ]
         }
 
@@ -148,6 +157,7 @@ var regUnRnd = {
 
                     tabStrip.enable(tabStrip.tabGroup.children().eq(8));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(9));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(10));
 
                 }
             }

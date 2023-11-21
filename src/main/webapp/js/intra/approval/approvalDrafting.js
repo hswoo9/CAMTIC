@@ -1076,6 +1076,7 @@ var draft = {
     setFileForm : function (params){
         console.log("params", params);
         var data = {}
+
         if(params.menuCd == "bustripRes"){
             data.hrBizReqResultId = params.APPRO_KEY.split("_")[1];
             let result = customKendo.fn_customAjax("/bustrip/getResultFileList", {
@@ -1085,6 +1086,7 @@ var draft = {
             draft.getDocFileSet(result.fileInfo);
             draft.setKendoUpload();
         }
+
         if(params.menuCd == "delv") {
             data.pjtSn = params.APPRO_KEY.split("_")[1];
             let result = customKendo.fn_customAjax("/project/engn/getDelvData", {
@@ -1096,6 +1098,7 @@ var draft = {
             draft.getDocFileSet(tempArr);
             draft.setKendoUpload();
         }
+
         if(params.menuCd == "dev") {
             data.devSn = params.APPRO_KEY.split("_")[1];
 
@@ -1113,6 +1116,7 @@ var draft = {
             draft.getDocFileSet(tempArr);
             draft.setKendoUpload();
         }
+
         if(params.menuCd == "pjtRes") {
             data.pjtSn = params.APPRO_KEY.split("_")[1];
 
@@ -1123,6 +1127,120 @@ var draft = {
             let tempArr = [];
             tempArr[0] = result.result.designFileList;
             tempArr[1] = result.result.prodFileList;
+            draft.getDocFileSet(tempArr);
+            draft.setKendoUpload();
+        }
+
+        if(params.menuCd == "payApp") {
+            data.payAppSn = params.APPRO_KEY.split("_")[1];
+
+            let result = customKendo.fn_customAjax("/payApp/pop/getPayAppData", {
+                payAppSn: data.payAppSn
+            });
+            console.log("항목 리스트 조회");
+            console.log(result);
+            const rs = result.map;
+            const ls = result.list;
+
+            if(rs.PAY_APP_TYPE == 1){
+
+            }
+
+            let attCount = 0;
+            let tempArr = [];
+            for(let i=0; i<ls.length; i++){
+                const eviType = ls[i].EVID_TYPE;
+                const advances = ls[i].ADVANCES;
+
+                let attList = [];
+
+                if(advances == "Y" || rs.PAY_APP_TYPE != "1"){
+                    continue;
+                }
+
+                if(eviType == "1" || eviType == "2"){
+                    let fileText = "";
+                    fileText += ls[i].FILE1+","+ls[i].FILE2+","+ls[i].FILE3+","+ls[i].FILE4+","+ls[i].FILE5;
+                    attList = customKendo.fn_customAjax("/pay/getPayAttList", { fileText: fileText }).list;;
+                    for(let j=0; j<attList.length; j++){
+                        tempArr[attCount] = attList[j];
+                        attCount++;
+                    }
+                }else if(eviType == "3"){
+                    let fileText = "";
+                    fileText += ls[i].FILE6+","+ls[i].FILE7+","+ls[i].FILE8+","+ls[i].FILE9+","+ls[i].FILE5;
+                    attList = customKendo.fn_customAjax("/pay/getPayAttList", { fileText: fileText }).list;
+                    for(let j=0; j<attList.length; j++){
+                        tempArr[attCount] = attList[j];
+                        attCount++;
+                    }
+                }else if(eviType == "5"){
+                    let fileText = "";
+                    fileText += ls[i].FILE10;
+                    attList = customKendo.fn_customAjax("/pay/getPayAttList", { fileText: fileText }).list;
+                    for(let j=0; j<attList.length; j++){
+                        tempArr[attCount] = attList[j];
+                        attCount++;
+                    }
+                }
+            }
+            draft.getDocFileSet(tempArr);
+            draft.setKendoUpload();
+        }
+
+        if(params.menuCd == "exnp") {
+            data.exnpSn = params.APPRO_KEY.split("_")[1];
+
+            let result = customKendo.fn_customAjax("/payApp/pop/getExnpData", {
+                exnpSn: data.exnpSn
+            });
+            console.log("항목 리스트 조회");
+            console.log(result);
+            const rs = result.map;
+            const ls = result.list;
+
+            if(rs.PAY_APP_TYPE == 1){
+
+            }
+
+            let attCount = 0;
+            let tempArr = [];
+            for(let i=0; i<ls.length; i++){
+                const eviType = ls[i].EVID_TYPE;
+                const advances = ls[i].ADVANCES;
+
+                let attList = [];
+
+                if(advances == "Y" || rs.PAY_APP_TYPE != "1"){
+                    continue;
+                }
+
+                if(eviType == "1" || eviType == "2"){
+                    let fileText = "";
+                    fileText += ls[i].FILE1+","+ls[i].FILE2+","+ls[i].FILE3+","+ls[i].FILE4+","+ls[i].FILE5;
+                    attList = customKendo.fn_customAjax("/pay/getExnpAttList", { fileText: fileText }).list;;
+                    for(let j=0; j<attList.length; j++){
+                        tempArr[attCount] = attList[j];
+                        attCount++;
+                    }
+                }else if(eviType == "3"){
+                    let fileText = "";
+                    fileText += ls[i].FILE6+","+ls[i].FILE7+","+ls[i].FILE8+","+ls[i].FILE9+","+ls[i].FILE5;
+                    attList = customKendo.fn_customAjax("/pay/getExnpAttList", { fileText: fileText }).list;
+                    for(let j=0; j<attList.length; j++){
+                        tempArr[attCount] = attList[j];
+                        attCount++;
+                    }
+                }else if(eviType == "5"){
+                    let fileText = "";
+                    fileText += ls[i].FILE10;
+                    attList = customKendo.fn_customAjax("/pay/getExnpAttList", { fileText: fileText }).list;
+                    for(let j=0; j<attList.length; j++){
+                        tempArr[attCount] = attList[j];
+                        attCount++;
+                    }
+                }
+            }
             draft.getDocFileSet(tempArr);
             draft.setKendoUpload();
         }

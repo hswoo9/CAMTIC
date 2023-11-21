@@ -52,7 +52,73 @@ var regPay = {
             }else{
                 $("input[type='checkbox']").prop("checked", false);
             }
-        })
+        });
+
+
+        if($("#reqType").val() == "partRate"){
+            const data = {
+                pjtSn : $("#partRatePjtSn").val(),
+                bsYm : $("#bsYm").val()
+            }
+
+            $.ajax({
+                url : "/payApp/getPartRatePay",
+                data : data,
+                type : "POST",
+                dataType : "json",
+                success : function (rs){
+                    var rs = rs.data;
+                    console.log(rs);
+                    $("#pjtSn").val(rs[0].PJT_SN);
+                    $("#pjtNm").val(rs[0].PJT_NM);
+                    $("#appTitle").val(rs[0].PJT_NM + " 참여인력 인건비")
+
+                    for(let i = 1; i < rs.length; i++) {
+                        regPayDet.addRow()
+                    }
+
+                    for(let i = 0; i < rs.length; i++) {
+                        $("#crmNm" + i).val(rs[i].EMP_NAME_KR);
+                        $("#trCd" + i).val(rs[i].ERP_ERP_CD);
+                        $("#crmBnkNm" + i).val(rs[i].BANK_NAME);
+                        $("#crmAccNo" + i).val(rs[i].ACCOUNT_NUM);
+                        $("#crmAccHolder" + i).val(rs[i].ACCOUNT_HOLDER);
+                        $("#totCost" + i).val(regPay.comma(rs[i].MON_SAL));
+                        $("#supCost" + i).val(regPay.comma(rs[i].MON_SAL));
+                    }
+
+                    selectProject(rs[0].PJT_SN, rs[0].PJT_NM, rs[0].PJT_CD)
+
+                }
+            });
+        }
+
+        if($("#reqType").val() == "purc"){
+            const data = {
+                claimSn : $("#claimSn").val()
+            }
+
+            var result = customKendo.fn_customAjax("/purc/getPurcClaimData", data);
+            var rs = result.data;
+            console.log(result);
+            $("#pjtSn").val(rs.PJT_SN);
+            $("#pjtNm").val(rs.PJT_NM);
+            if($("#pjtSn").val() != ""){
+                selectProject(rs.PJT_SN, rs.PJT_NM, rs.PJT_CD)
+            }
+            $("#appTitle").val(rs.PURC_REQ_PURPOSE);
+
+            var ls = rs.itemList;
+            for(let i = 1; i < ls.length; i++) {
+                regPayDet.addRow();
+            }
+            for(let i = 0; i < ls.length; i++) {
+                console.log(ls[i]);
+                $("#crmNm" + i).val(rs.CRM_NM);
+                $("#totCost" + i).val(regPay.comma(ls[i].ITEM_AMT));
+                $("#supCost" + i).val(regPay.comma(ls[i].ITEM_AMT));
+            }
+        }
     },
 
     payAppBtnSet: function (data){
@@ -117,7 +183,7 @@ var regPay = {
         for(var i=0; i < ls.length; i++) {
             var item = ls[i];
             var eviType = item.EVID_TYPE;
-            if(item.ADVANCES == "Y"){
+            if(item.ADVANCES == "Y" || $("#payAppType").data("kendoRadioGroup").value() != "1"){
                 continue;
             }
             if(eviType == "1" || eviType == "2"){
@@ -193,7 +259,7 @@ var regPay = {
 
             regPayDet.global.createHtmlStr += "" +
                 '<tr class="payDestInfo newArray" id="pay' + regPayDet.global.itemIndex + '" style="text-align: center;">';
-            if($("#status").val() == "rev" || $("#status").val() == "in"){
+            if($("#status").val() == "rev" || $("#status").val() == "in" || $("#status").val() == "re" || $("#status").val() == "alt"){
                 if(item.DET_STAT != "N"){
                     regPayDet.global.createHtmlStr += "" +
                         '   <td><input type="checkbox" id="check' + regPayDet.global.itemIndex + '" value='+item.PAY_APP_DET_SN+' style="position: relative; top: 5px;" class="check" /></td>';
@@ -249,7 +315,7 @@ var regPay = {
                 '   <td>' +
                 '       <input type="text" id="iss' + regPayDet.global.itemIndex + '" value="'+item.ISS+'"  class="iss">' +
                 '   </td>';
-            if($("#status").val() != "in"){
+            if($("#status").val() == "rev"){
                 regPayDet.global.createHtmlStr += "" +
 
                     '   <td>' +
@@ -268,7 +334,7 @@ var regPay = {
                 '   <td>' +
                 '       <div style="text-align: center">';
 
-                if($("#status").val() == "rev" || $("#status").val() == "in"){
+                if($("#status").val() == "rev" || $("#status").val() == "in" || $("#status").val() == "re" || $("#status").val() == "alt"){
                     if($("#auth").val() != "user"){
                         if(item.EXNP_SAVE == "Y"){
                             regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" disabled id="revertBtn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" onclick="regPayDet.fn_revertDet(this)">반려</button>';
@@ -378,6 +444,36 @@ var regPay = {
             $("#appDe").data("kendoDatePicker").enable(false);
             $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
             $("#exnpAddBtn").text("여입결의서 작성");
+            $("#addBtn").css("display", "none");
+            $("#exnpAddBtn").css("display", "");
+        }
+
+        if(stat == "re"){
+            if($("#auth").val() != "user"){
+                $("#titleStat").text("검토");
+            } else {
+                $("#titleStat").text("확인");
+            }
+            $("#payAppType").data("kendoRadioGroup").enable(false);
+            $("#payAppStat").data("kendoRadioGroup").enable(false);
+            $("#appDe").data("kendoDatePicker").enable(false);
+            $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
+            $("#exnpAddBtn").text("반납결의서 작성");
+            $("#addBtn").css("display", "none");
+            $("#exnpAddBtn").css("display", "");
+        }
+
+        if(stat == "alt"){
+            if($("#auth").val() != "user"){
+                $("#titleStat").text("검토");
+            } else {
+                $("#titleStat").text("확인");
+            }
+            $("#payAppType").data("kendoRadioGroup").enable(false);
+            $("#payAppStat").data("kendoRadioGroup").enable(false);
+            $("#appDe").data("kendoDatePicker").enable(false);
+            $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
+            $("#exnpAddBtn").text("대체결의서 작성");
             $("#addBtn").css("display", "none");
             $("#exnpAddBtn").css("display", "");
         }
@@ -494,7 +590,20 @@ var regPay = {
             dataType : "json",
             success : function(rs){
                 if(rs.code == 200){
-                    location.href="/payApp/pop/regPayAppPop.do?payAppSn=" + rs.params.payAppSn;
+                    let status = "";
+                    if($("#payAppType").data("kendoRadioGroup").value() == 1){
+                        status = "rev";
+                    }else if($("#payAppType").data("kendoRadioGroup").value() == 2){
+                        status = "in";
+                    }else if($("#payAppType").data("kendoRadioGroup").value() == 3){
+                        status = "re";
+                    }else{
+                        status = "alt";
+                    }
+
+                    location.href="/payApp/pop/regPayAppPop.do?payAppSn=" + rs.params.payAppSn + "&status=" + status;
+
+                    opener.parent.paymentList.gridReload();
                 }
             }
         });
@@ -697,7 +806,7 @@ var regPayDet = {
             '   <td>' +
             '       <input type="text" id="iss' + regPayDet.global.itemIndex + '" class="iss">' +
             '   </td>' ;
-        if($("status").val() != "in"){
+        if($("status").val() == "rev"){
             regPayDet.global.createHtmlStr += "" +
                 '   <td>' +
                 '       <input type="checkbox" id="advances' + regPayDet.global.itemIndex + '" class="advances" style="width: 26px; height: 26px">' +
@@ -800,6 +909,16 @@ var regPayDet = {
             if(!confirm("여입결의를 작성하시겠습니까?")) {
                 return;
             }
+        } else if($("#status").val() == "re"){
+            subject = "여입결의";
+            if(!confirm("반납결의를 작성하시겠습니까?")) {
+                return;
+            }
+        } else if($("#status").val() == "alt"){
+            subject = "여입결의";
+            if(!confirm("대체결의를 작성하시겠습니까?")) {
+                return;
+            }
         }
 
 
@@ -850,6 +969,10 @@ var regPayDet = {
         if($("#status").val() == "rev"){
             url += "&status=" + $("#status").val();
         } else if($("#status").val() == "in"){
+            url += "&status=" + $("#status").val();
+        } else if($("#status").val() == "re"){
+            url += "&status=" + $("#status").val();
+        } else if($("#status").val() == "alt"){
             url += "&status=" + $("#status").val();
         }
         var name = "_blank";

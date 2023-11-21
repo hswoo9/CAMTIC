@@ -219,7 +219,7 @@ html {font-size:14px;font-family:'Pretendard',sans-serif;color:#666;-webkit-text
 .__tit2 .head dd {font-size:20px;line-height:1.3;font-weight:600;color:#155996;letter-spacing:-0.05em;margin-top:15px;}
 .__tit2 h3 {color:#000;font-weight:300;letter-spacing:-0.05em;font-size:24px;line-height:1.2;}
 /*2023-09-19 캠틱소개 - 주요사업*/
-.__busi h3 {color:#000; margin-top: 100px; font-weight:300;letter-spacing:-0.05em;font-size:24px;line-height:1.2; text-align: left;}
+.__busi h3 {color:#000; margin-top: 70px; font-weight:300;letter-spacing:-0.05em;font-size:24px;line-height:1.2; text-align: left;}
 .__tit2 h3 strong {font-weight:600;}
 .__tit2 p {font-size:16px;font-weight:200;color:#000;letter-spacing:-0.05em;line-height:1.4;margin-top:7px;}
 .__busi h3 strong {font-weight:600;}
@@ -406,7 +406,7 @@ html {font-size:14px;font-family:'Pretendard',sans-serif;color:#666;-webkit-text
 .__tblList {border-top:2px solid #155996;table-layout:fixed;}
 .__tblList tr > * {text-align:center;padding:13px 10px;line-height:1.6;}
 .__tblList tr th {font-size:13px;color:#155996;background:#f2fcfe;border-bottom:1px solid #ccc;font-weight:600;letter-spacing:-0.05em;}
-.__tblList tr td {font-size:16px;padding:15px 10px;border-bottom:1px solid #ccc;}
+.__tblList tr td {font-size:16px;padding:8px 10px;border-bottom:1px solid #ccc;}
 .__tblList tr .subject {text-align:left;}
 .__tblList tr .subject a {display:inline-block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500;color:#000;}
 .__tblList .notice td {background:#f6fcff}
@@ -414,7 +414,7 @@ html {font-size:14px;font-family:'Pretendard',sans-serif;color:#666;-webkit-text
 .__tblList .ing td {background:#f6f6f6}
 .__tblList .ing td:first-child {color:#056caf;font-weight:500;}
 .__tblList .ing .subject a {font-weight:normal;}
-.__tblList .end td:first-child {color:#a1a1a1;font-weight:normal;}
+.__tblList .end td:first-child {color:#a1a1a1;font-weight:normal;}organization.do
 
 .__tblList.auto {table-layout:auto;}
 .__tblList.type2 {border-top:2px solid #19aad6;}

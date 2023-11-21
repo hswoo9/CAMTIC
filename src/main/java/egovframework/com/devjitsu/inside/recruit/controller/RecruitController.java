@@ -700,27 +700,18 @@ public class RecruitController {
         String hwpUrl = "";
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-
-        List<Map<String, Object>> data = new ArrayList<>();
-        if(params.containsKey("recruitInfoSn")) {
-            data = recruitService.getApplicationList(params);
-            model.addAttribute("data",data);
-        }
 
         if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
             hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
         }else{
             hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
         }
-        params.put("hwpUrl", hwpUrl);
-        params.put("menuCd", "certifi");
 
-        model.addAttribute("recruitInfoSn", params.get("recruitInfoSn"));
+        params.put("hwpUrl", hwpUrl);
         model.addAttribute("hwpUrl", hwpUrl);
         model.addAttribute("params", new Gson().toJson(params));
-        model.addAttribute("data", data);
+        model.addAttribute("data", params);
 
 
         return "popup/inside/recruit/recruitPrintPop";
@@ -735,6 +726,12 @@ public class RecruitController {
         model.addAttribute("params", params);
 
         return "popup/inside/recruit/approvalFormPopup/recruitApprovalPop";
+    }
+
+    @RequestMapping("/inside/getRecruitPrint")
+    public String getRecruitPrint(@RequestParam Map<String,Object> params, Model model) {
+        model.addAttribute("list", recruitService.getRecruitPrint(params));
+        return "jsonView";
     }
 
 

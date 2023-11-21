@@ -137,7 +137,7 @@
                             조회
                         </button>
                     </td>
-                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>예상수주금액</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>수주금액</th>
                     <td>
                         <input type="text" id="pjtExpAmt" name="pjtExpAmt" style="width: 80%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
                     </td>

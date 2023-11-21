@@ -5,4 +5,10 @@ import java.util.Map;
 
 public interface EmployService {
     List<Map<String, Object>> getBusinessParticipationList(Map<String, Object> params);
+
+    List<Map<String, Object>> getBusinessParticipationData(Map<String, Object> params);
+
+    List<Map<String, Object>> getUserPartRateList(Map<String, Object> params);
+
+    void setBusnPartRatePay(Map<String, Object> params);
 }

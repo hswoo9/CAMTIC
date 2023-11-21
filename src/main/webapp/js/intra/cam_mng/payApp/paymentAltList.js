@@ -1,4 +1,4 @@
-var replaceList = {
+var paymentAltList = {
 
     global : {
         dropDownDataSource : "",
@@ -8,21 +8,21 @@ var replaceList = {
 
     fn_defaultScript : function (){
 
-        replaceList.global.dropDownDataSource = [
+        paymentAltList.global.dropDownDataSource = [
             { text: "작성중", value: "1" },
             { text: "결재대기", value: "2" },
             { text: "결재완료", value: "3" },
         ]
-        customKendo.fn_dropDownList("searchDept", replaceList.global.dropDownDataSource, "text", "value");
-        $("#searchDept").data("kendoDropDownList").bind("change", replaceList.gridReload);
+        customKendo.fn_dropDownList("searchDept", paymentAltList.global.dropDownDataSource, "text", "value");
+        $("#searchDept").data("kendoDropDownList").bind("change", paymentAltList.gridReload);
 
-        replaceList.global.dropDownDataSource = [
+        paymentAltList.global.dropDownDataSource = [
             { text: "문서번호", value: "DOC_NO" },
         ]
 
-        customKendo.fn_dropDownList("searchKeyword", replaceList.global.dropDownDataSource, "text", "value");
+        customKendo.fn_dropDownList("searchKeyword", paymentAltList.global.dropDownDataSource, "text", "value");
         customKendo.fn_textBox(["searchValue"]);
-        replaceList.gridReload();
+        paymentAltList.gridReload();
     },
 
     mainGrid: function(url, params){
@@ -43,7 +43,7 @@ var replaceList = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="entryList.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="paymentAltList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -51,11 +51,11 @@ var replaceList = {
             columns: [
                 {
                     title: "번호",
-                    width: 50,
+                    width: 40,
                     template: "#= --record #"
                 }, {
                     title: "문서유형",
-                    width: 100,
+                    width: 90,
                     template: function(e){
                         if(e.PAY_APP_TYPE == 1){
                             return "세금계산서";
@@ -76,19 +76,20 @@ var replaceList = {
                     title: "문서번호",
                     width: 120,
                 }, {
+                    title: "신청건명",
+                    field: "APP_TITLE",
+                    width: 400,
+                    template: function(e){
+                        console.log(e);
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="paymentAltList.fn_reqRegPopup('+e.PAY_APP_SN+', \'re\')">'+e.APP_TITLE+'</div>';
+                    }
+                }, {
                     title: "프로젝트 명",
                     field: "PJT_NM",
-                    width: 200,
+                    width: 240,
                     template: function (e){
                         var pjtNm = e.PJT_NM.toString().substring(0, 25);
                         return pjtNm + "...";
-                    }
-                }, {
-                    title: "세출과목",
-                    field: "",
-                    width: 120,
-                    template: function (e){
-
                     }
                 }, {
                     title: "신청일",
@@ -139,20 +140,22 @@ var replaceList = {
     },
 
     gridReload: function (){
-        replaceList.global.searchAjaxData = {
+        paymentAltList.global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
             searchDept : $("#searchDept").val(),
             searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val()
+            searchValue : $("#searchValue").val(),
+            payAppType : '3',
+            docStatus : 100
         }
 
-        replaceList.mainGrid("/pay/getExnpList", replaceList.global.searchAjaxData);
+        paymentAltList.mainGrid("/pay/getPaymentList", paymentAltList.global.searchAjaxData);
     },
 
-    fn_reqRegPopup : function (key, paySn){
-        var url = "/payApp/pop/regExnpPop.do";
+    fn_reqRegPopup : function (key, status){
+        var url = "/payApp/pop/regPayAppPop.do";
         if(key != null && key != ""){
-            url = "/payApp/pop/regExnpPop.do?payAppSn=" + paySn + "&exnpSn=" + key;
+            url = "/payApp/pop/regPayAppPop.do?payAppSn=" + key;
         }
 
         if(status != null && status != ""){

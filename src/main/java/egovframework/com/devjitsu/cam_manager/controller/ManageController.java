@@ -133,14 +133,14 @@ public class ManageController {
 
         List<Map<String, Object>> listMap = new ArrayList<>();
 
-        for(int i = 0 ; i < list.size() ; i++){
-            Map<String, Object> bsMap = new HashMap<>();
-            bsMap = manageService.getProjectData(list.get(i));
-
-            if(bsMap != null){
-                list.get(i).put("REG_DT", bsMap.get("PJT_REG_DT"));
-            }
-        }
+//        for(int i = 0 ; i < list.size() ; i++){
+//            Map<String, Object> bsMap = new HashMap<>();
+//            bsMap = manageService.getProjectData(list.get(i));
+//
+//            if(bsMap != null){
+//                list.get(i).put("REG_DT", bsMap.get("PJT_REG_DT"));
+//            }
+//        }
 
         model.addAttribute("list", list);
 
@@ -174,7 +174,10 @@ public class ManageController {
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("empInfo", manageService.getEmpInfo(params));
-        model.addAttribute("projectInfo", projectService.getProjectData(params));
+        model.addAttribute("params", params);
+        if(params.containsKey("pjtSn")){
+            model.addAttribute("projectInfo", projectService.getProjectData(params));
+        }
         return "popup/cam_manager/partRate/userPartRate";
     }
 
@@ -199,5 +202,74 @@ public class ManageController {
         }
 
         return "jsonView";
+    }
+
+    /** 캠매니저 > 설정관리 > 프로젝트 관리 > 프로젝트 팝업창 */
+    @RequestMapping("/mng/pop/projectMngPop.do")
+    public String projectMngPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String, Object> map = projectService.getG20ProjectData(params);
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("map", new Gson().toJson(map));
+        model.addAttribute("data", map);
+        model.addAttribute("params", params);
+
+        return "popup/cam_manager/projectMngPop";
+    }
+
+    /** 캠매니저 > 설정관리 > 프로젝트 예산관리 > 프로젝트 팝업창 > 수익/비용 탭 */
+    @RequestMapping("/mng/pop/incmExpInfo.do")
+    public String incmExpInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        params.put("chk", manageService.getProjectBgtCheck(params));
+        model.addAttribute("params", params);
+        model.addAttribute("paramsMap", new Gson().toJson(params));
+
+        return "popup/cam_manager/incmExpInfo";
+    }
+
+    @RequestMapping("/mng/insIncmExpInfo")
+    public String insIncmExpInfo(@RequestParam Map<String, Object> params){
+        manageService.insIncmExpInfo(params);
+        return "jsonView";
+    }
+
+    @RequestMapping("/mng/getProjectBgtList")
+    public String getProjectBgtList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", manageService.getProjectBgtList(params));
+        return "jsonView";
+    }
+
+    /** 캠매니저 > 설정관리 > 프로젝트 예산관리 > 프로젝트 팝업창 > 예산비목 탭 */
+    @RequestMapping("/mng/pop/bgtItemInfo.do")
+    public String bgtItemInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        model.addAttribute("paramsMap", new Gson().toJson(params));
+        model.addAttribute("data", projectService.getG20ProjectData(params));
+
+
+        return "popup/cam_manager/bgtItemInfo";
+    }
+
+    @RequestMapping("/mng/pop/budgetListDetail.do")
+    public String budgetListDetail(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        model.addAttribute("projectInfo", projectService.getProjectByPjtCd(params));
+
+        return "popup/cam_manager/budgetListDetail";
     }
 }

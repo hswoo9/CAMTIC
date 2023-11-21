@@ -368,6 +368,7 @@
                 BANK_NM,
                 BANK_NO,
                 ACC_HOLD,
+                ALL_RES_COST,_BUSN_COST,
                 ALL_RES_COST,
                 PEO_RES_COST,
                 PEO_RES_ITEM,
@@ -388,6 +389,7 @@
                 #{bankNm},
                 #{bankNo},
                 #{accHold},
+                #{allBusnCost},
                 #{allResCost},
                 #{peoResCost},
                 #{peoResItem},
@@ -414,6 +416,7 @@
             BANK_NM = #{bankNm},
             BANK_NO = #{bankNo},
             ACC_HOLD = #{accHold},
+            ALL_BUSN_COST = #{allBusnCost},
             ALL_RES_COST = #{allResCost},
             PEO_RES_COST = #{peoResCost},
             PEO_RES_ITEM = #{peoResItem},
@@ -464,6 +467,8 @@
             CAM_PJT_MNG.DJ_PJT_PART_RATE
         WHERE
             PJT_SN = #{pjtSn}
+        ORDER BY PART_RATE_SN DESC
+        LIMIT 1
     </select>
 
     <insert id="insReqPartRateData" parameterType="map">
@@ -557,7 +562,7 @@
         FROM
             CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
         WHERE
-            PART_RATE_SN = #{PART_RATE_SN}
+            PJT_SN = #{pjtSn}
     </select>
 
     <insert id="insReqPartRateVerData" parameterType="map">

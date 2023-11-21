@@ -2,8 +2,7 @@ var reqCl = {
 
 
 
-
-    fn_defaultScript: function (){
+    fn_defaultScript : function(){
 
         customKendo.fn_textBox(["pjtNm", "purcDeptName", "purcEmpName", "claimEtc"
                                 ,"claimTitle", "purcReqPurpose", "crmNm"
@@ -164,10 +163,9 @@ var reqCl = {
             }
             $("#totAmt").val(comma(totAmt));
         });
-
     },
 
-    fn_amtCalculator : function (){
+    fn_amtCalculator : function(){
 
         var len = $("#claimTbody > tr").length;
         var vatAmt = 0;
@@ -192,14 +190,14 @@ var reqCl = {
         $("#totAmt").val(comma(totAmt));
     },
 
-    fn_popCamCrmList : function (){
+    fn_popCamCrmList : function(){
         var url = "/crm/pop/popCrmList.do";
         var name = "_blank";
         var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 
-    fn_calc : function (idx, e){
+    fn_calc : function(idx, e){
         $("#itemAmt" + idx).val(comma(uncomma($("#itemUnitAmt" + idx).val()) * uncomma($("#itemEa" + idx).val())));
         $("#difAmt" + idx).val(comma(uncomma($("#purcItemAmt" + idx).val()) - uncomma($("#itemAmt" + idx).val())));
 
@@ -209,7 +207,7 @@ var reqCl = {
         return inputNumberFormat(e);
     },
 
-    addRow: function (){
+    addRow : function(){
         var len = $("#claimTbody > tr").length;
         var html = '';
 
@@ -265,7 +263,7 @@ var reqCl = {
         customKendo.fn_radioGroup("prodCd" + len, radioProdDataSource, "horizontal");
     },
 
-    fn_delete: function (e){
+    fn_delete : function(e){
         var len = $("#claimTbody > tr").length
 
         if(len > 1){
@@ -273,7 +271,7 @@ var reqCl = {
         }
     },
 
-    fn_save : function (){
+    fn_save : function(){
         var parameters = {
             purcSn : $("#purcSn").val(),
             purcEmpSeq : $("#purcEmpSeq").val(),
@@ -394,7 +392,7 @@ var reqCl = {
             }
         });
     },
-    fn_projectPop : function (){
+    fn_projectPop : function(){
 
         var url = "/project/pop/projectView.do?busnClass="+ $("input[name='purcType']:checked").val();
 
@@ -403,7 +401,7 @@ var reqCl = {
         var popup = window.open(url, name, option);
     },
 
-    fn_setItem: function(e){
+    fn_setItem : function(e){
 
         console.log(e);
         var len = e.itemList.length;
@@ -528,7 +526,7 @@ var reqCl = {
         this.fn_amtCalculator();
     },
 
-    fn_setClaimItem: function(e){
+    fn_setClaimItem : function(e){
         var len = e.itemList.length;
         var index = 0;
         var html = '';
@@ -671,6 +669,7 @@ var reqCl = {
     fn_ClaimBtnSet : function(claimMap){
         console.log("fn_ClaimBtnSet");
         console.log(claimMap);
+        let claimSn = $("#claimSn").val();
         let buttonHtml = "";
         if(claimMap != null){
             if(claimMap.STATUS == "0"){
@@ -682,9 +681,6 @@ var reqCl = {
                 buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="reqCl.fn_save()">저장</button>';
                 buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+claimMap.DOC_ID+'\', \''+claimMap.DOC_MENU_CD+'\', \''+claimMap.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
             }else if(claimMap.STATUS == "100"){
-                if(claimMap.PAY_YN == "N"){
-                    buttonHtml += '<button type="button" id="payBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="">지급신청서 작성</button>';
-                }
                 buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+claimMap.DOC_ID+'\', \''+claimMap.APPRO_KEY+'\', \''+claimMap.DOC_MENU_CD+'\');">열람</button>';
             }else{
                 buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="reqCl.fn_save()">저장</button>';
@@ -697,7 +693,7 @@ var reqCl = {
         $("#reqPurcBtnDiv").html(buttonHtml);
     },
 
-    claimDrafting: function() {
+    claimDrafting : function(){
         $("#claimDraftFrm").one("submit", function() {
             var url = "/popup/cam_purc/approvalFormPopup/claimingApprovalPop.do";
             var name = "_self";
@@ -707,5 +703,5 @@ var reqCl = {
             this.method = 'POST';
             this.target = '_self';
         }).trigger("submit");
-    },
+    }
 }

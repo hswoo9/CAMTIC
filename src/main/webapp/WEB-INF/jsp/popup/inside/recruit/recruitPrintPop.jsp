@@ -12,7 +12,12 @@
 <script type="text/javascript" src="${hwpUrl}js/webhwpctrl.js"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwp_DocCtrl.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpCtrlApp.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/inside/certificate/certifiPrintPop.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/inside/recruit/recruitPrintPop.js'/>"></script>
+<script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
+
+<input type="hidden" id="recruitInfoSn" value="${data.recruitInfoSn}"/>
+<input type="hidden" id="recruitAreaInfoSn" value="${data.recruitAreaInfoSn}"/>
+
 <style>
     .pop_head {height: 32px; position: relative; background: #1385db;}
     .pop_head h1 {font-size: 12px; color: #fff; line-height: 32px; padding-left: 16px; margin: 0;}
@@ -40,48 +45,28 @@
     </div>
 
     <div id="docControlBtnDiv">
-        <button type='button' class='k-button k-button-solid k-button-solid-base' id="docApprovalPDFDownBtn"  style="width: 70px; height: 25px; font-size: 12px;" onclick="certifiPrintPop.print()">
+        <button type='button' class='k-button k-button-solid k-button-solid-base' id="docApprovalPDFDownBtn"  style="width: 70px; height: 25px; font-size: 12px;" onclick="recruitPrintPop.print()">
             <span class='k-icon k-i-file-pdf k-button-icon'></span>
             <span class='k-button-text'>인쇄</span>
         </button>
     </div>
 </div>
 
-<div id="loadingDiv">
-    <div id="loadingSpinner" class="d-flex justify-content-center">
-        <div class="spinner-border" role="status" style="color: #007bff!important"></div>
-        <span id="loadingText"></span>
-    </div>
-</div>
+
 
 <div style="padding: 20px;" id="test">
-    <div id="paramDiv">
-        <input type="hidden" id="menuCd" name="menuCd" value="">
-        <input type="hidden" id="type" name="type" value="">
-        <input type="hidden" id="formId" name="formId" value="">
-        <input type="hidden" id="formName" name="formName" value="">
-        <input type="hidden" id="docNo" name="docNo" value="">
-        <input type="hidden" id="docId" name="docId" value="">
-        <input type="hidden" id="docType" name="docType" value="">
-        <input type="hidden" id="docOpt" name="docOpt" value="">
-        <input type="hidden" id="atFileSn" name="atFileSn">
-        <input type="hidden" id="compSeq" name="compSeq" value="">
-        <input type="hidden" id="linkageType" name="linkageType" value="">
-        <input type="hidden" id="processId" name="processId" value="">
-        <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-        <input type="hidden" id="empName" name="empName" value="${loginVO.name}">
-        <input type="hidden" id="empPositionNm" name="empPositionNm" value="${loginVO.positionNm}">
-        <input type="hidden" id="empDutyNm" name="empDutyNm" value="${loginVO.dutyNm}">
-        <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
-        <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
-        <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="${recruitInfoSn}">
-        <input type="hidden" id="jobTitle" name="jobTitle" value="${jobTitle}">
-    </div>
     <div id="hwpApproveContent" style="height: 100%;border: 1px solid lightgray;"></div>
 </div>
+
 <script type="text/javascript">
-    recruitPrintPop.init(JSON.parse('${params}'));
-    opener.gridReload();
+   let params = JSON.parse('${params}');
+   var recruitInfoSn = params.recruitInfoSn;
+   var recruitAreaInfoSn = params.recruitAreaInfoSn;
+
+   console.log("Recruit Info Sn: " + recruitInfoSn);
+   console.log("Recruit Area Info Sn: " + recruitAreaInfoSn);
+
+   recruitPrintPop.init();
 </script>
 </body>
 </html>
