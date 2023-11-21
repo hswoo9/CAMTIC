@@ -483,14 +483,13 @@
         ON IRI.RECRUIT_INFO_SN = AI.RECRUIT_INFO_SN
         LEFT JOIN CAM_INSIDE.DJ_APPLICATION_MAIN AAA
         ON IRI.RECRUIT_INFO_SN = AAA.RECRUIT_INFO_SN
-
         WHERE
         1=1
         AND
         IRI.ACTIVE = 'Y'
         <if test="searchInput != null and searchInput != ''">
             AND
-            BOARD_ARTICLE_TITLE LIKE CONCAT('%', #{searchInput}, '%')
+            IRI.RECRUIT_TITLE LIKE CONCAT('%', #{searchInput}, '%')
         </if>
         GROUP BY IRI.RECRUIT_INFO_SN
         ORDER BY IRI.REG_DT DESC
@@ -561,6 +560,10 @@
             1=1
           AND
             IRI.ACTIVE = 'Y'
+        <if test="searchInput != null and searchInput != ''">
+            AND
+            IRI.RECRUIT_TITLE LIKE CONCAT('%', #{searchInput}, '%')
+        </if>
         GROUP BY IRI.RECRUIT_INFO_SN
             ) AS cnt
     </select>
