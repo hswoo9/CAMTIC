@@ -99,7 +99,7 @@ var subHolidayAdmin = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" disabled onclick="subHolidayAdmin.subHolidayReqBatchPop();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayAdmin.subHolidayReqBatchPop();">' +
                             '	<span class="k-button-text">연가일괄등록</span>' +
                             '</button>';
                     }

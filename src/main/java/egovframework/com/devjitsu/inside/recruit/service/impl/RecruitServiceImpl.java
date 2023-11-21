@@ -495,4 +495,7 @@ public class RecruitServiceImpl implements RecruitService {
 
         return list;
     }
+
+    @Override
+    public void setRecruitArticleViewCount(Map<String, Object> params) { recruitRepository.setRecruitArticleViewCount(params); }
 }

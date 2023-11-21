@@ -28,7 +28,7 @@ public class SubHolidayRepository extends AbstractDAO  {
     public List<Map<String, Object>> getVacUseHistoryWorkList(Map<String, Object> params){ return selectList("subHoliday.getVacUseHistoryWorkList", params);}
     public int getVacUseHistoryListTotal(Map<String, Object> params) {return (int) selectOne("subHoliday.getVacUseHistoryListTotal", params);}
     public List<Map<String, Object>> getUserVacList(Map<String, Object> params) { return selectList("subHoliday.getUserVacList", params);}
-    public List<Map<String, Object>> getUserVacListStat(Map<String, Object> params) { return selectList("subHoliday.getUserVacListStat", params);}
+    public List<Map<String, Object>> getUserVacListStat(Map<String, Object> map) { return selectList("subHoliday.getUserVacListStat", map);}
     public void updateApprStat(Map<String, Object> params) {
         update("subHoliday.updateApprStat", params);
     }
@@ -61,6 +61,31 @@ public class SubHolidayRepository extends AbstractDAO  {
     //공휴일 삭제
     public void deleteHoliday(Map<String, Object> params) {
         delete("subHoliday.deleteHoliday", params);
+    }
+
+    // 연가 일괄 등록
+    public List<Map<String,Object>> getUserInfoList (Map<String,Object> map) {
+        return selectList("subHoliday.getUserInfoList", map);
+    }
+
+
+    public int getCountForDsA2() {return (Integer) selectOne("subHoliday.getCountForDsA2");}
+    public int getCountForDsB2() {return (Integer) selectOne("subHoliday.getCountForDsB2");}
+    public int getCountForDsC2() {return (Integer) selectOne("subHoliday.getCountForDsC2");}
+    public int getCountForDsD2() {return (Integer) selectOne("subHoliday.getCountForDsD2");}
+    public int getCountForDsE2() {return (Integer) selectOne("subHoliday.getCountForDsE2");}
+    public int getCountForDsF2() {return (Integer) selectOne("subHoliday.getCountForDsF2");}
+    public int getCountForDsG2() {return (Integer) selectOne("subHoliday.getCountForDsG2");}
+    public int getCountForDsH2() {return (Integer) selectOne("subHoliday.getCountForDsH2");}
+    public int getCountForDsI2() {return (Integer) selectOne("subHoliday.getCountForDsI2");}
+    public int getCountForDsJ2() {return (Integer) selectOne("subHoliday.getCountForDsJ2");}
+
+    public void setSubHolidayByEmpInfo(Map<String, Object> params){
+        insert("subHoliday.setSubHolidayByEmpInfo", params);
+    }
+
+    public void setSubHolidayByEmpInfo2(Map<String, Object> params){
+        insert("subHoliday.setSubHolidayByEmpInfo2", params);
     }
 
 }

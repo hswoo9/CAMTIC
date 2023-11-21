@@ -411,6 +411,10 @@
                 ${item}
             </foreach>
         </if>
+        <if test='dsI == "Y" or "Y".equals(dsI)'>
+            AND
+            TEMP_DIVISION = "Y"
+        </if>
         GROUP BY VUI.emp_seq,
             VUI.emp_name_kr,
             VUI.dept_name,
@@ -558,6 +562,74 @@
         </if>
     </select>
 
+    <select id="getUserInfoList" parameterType="map" resultType="map">
+        SELECT
+            HEI.*,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS DEPT_SEQ,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS DEPT_NAME1,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS TEAM_SEQ,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS TEAM_NAME,
+            DATE_FORMAT(HEI.JOIN_DAY,'%Y-%m-%d') AS JOIN_DAY2,
+            IFNULL(CASE WHEN HEI.DUTY_NAME = "" THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END, "") AS SPOT,
+
+            CASE WHEN HEI.DUTY_CODE IS NOT NULL THEN (SELECT SORT FROM CAM_COMMON.dj_com_code WHERE CM_GROUP_CODE_ID = 3 AND CM_CODE = HEI.DUTY_CODE)
+                 WHEN HEI.POSITION_CODE IS NOT NULL THEN (SELECT SORT FROM CAM_COMMON.dj_com_code WHERE CM_GROUP_CODE_ID = 4 AND CM_CODE = HEI.POSITION_CODE)
+                 ELSE 999 END SORT
+
+        FROM
+        CAM_HR.DJ_EMP_INFO	AS HEI
+        LEFT JOIN
+        CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        WHERE
+            HEI.ACTIVE = 'Y'
+        <if test='dept != null and !"".equals(dept)'>
+            AND
+            HEI.DEPT_SEQ = #{dept}
+            <if test='team == team or "".equals(team)'>
+                OR
+                HEI.DEPT_SEQ IN (
+                SELECT
+                DEPT_SEQ
+                FROM
+                CAM_HR.DJ_DEPT_INFO
+                WHERE
+                DEPT_SEQ = #{dept}
+                OR
+                PARENT_DEPT_SEQ = #{dept}
+                )
+            </if>
+        </if>
+        <if test='team != null and !"".equals(team)'>
+            AND
+            HEI.DEPT_SEQ = #{team}
+        </if>
+        <choose>
+            <when test='searchType == "1" and searchVal != null and !"".equals(searchVal)'>
+                AND
+                HEI.DUTY_NAME = #{searchVal}
+            </when>
+            <when test='searchType == "2" and searchVal != null and !"".equals(searchVal)'>
+                AND
+                HEI.EMP_NAME_KR = #{searchVal}
+            </when>
+            <otherwise>
+                AND
+                (HEI.DUTY_NAME = #{searchVal} OR HEI.EMP_NAME_KR = #{searchVal})
+            </otherwise>
+        </choose>
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                ${item}
+            </foreach>
+        </if>
+        <if test='dsI == "Y" or "Y".equals(dsI)'>
+            AND
+            TEMP_DIVISION = "Y"
+        </if>
+        ORDER BY SORT
+    </select>
+
     <select id="getHoliday" parameterType="map" resultType="java.lang.Integer" >
         /*공휴일자 갯수 조회*/
         SELECT
@@ -617,6 +689,7 @@
             )
     </insert>
 
+
     <delete id="deleteHoliday" parameterType="java.util.HashMap">
         DELETE
         FROM
@@ -625,5 +698,62 @@
             H_DAY = DATE_FORMAT(STR_TO_DATE(#{h_day}, '%Y-%m-%d'), '%Y%m%d')
     </delete>
 
+    <!--인사관리 -->
+    <select id="getCountForDsA2" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND ((DIVISION IN (0)) OR(DIVISION IN (4) AND DIVISION_SUB IN (1, 2)))
+    </select>
+
+    <select id="getCountForDsB2" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 3;
+    </select>
+
+    <select id="getCountForDsC2" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 1 AND DIVISION_SUB = 6;
+    </select>
+
+    <select id="getCountForDsD2" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 4 AND DIVISION_SUB = 3;
+    </select>
+
+    <select id="getCountForDsE2" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 10;
+    </select>
+
+    <select id="getCountForDsG2" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 2;
+    </select>
+
+    <insert id="setSubHolidayByEmpInfo">
+      INSERT INTO CAM_HR.DJ_EMP_INFO
+          (EMP_SEQ)
+      VALUES
+          #{empSeq}
+    </insert>
+
+    <insert id="setSubHolidayByEmpInfo2">
+        INSERT INTO CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST
+        (
+        SUBHOLIDAY_CODE_ID,
+        APPLY_SEQ,
+        APPLY_DATE,
+        SUBHOLIDAY_ST_DT,
+        SUBHOLIDAY_EN_DT,
+        APPROVAL_REASON
+
+        )
+        VALUES
+        (
+        '1',
+        #{applySeq},
+        #{applyDate},
+        #{startDate},
+        #{endDate},
+        #{holidayReason}
+
+        )
+        <selectKey keyProperty="vacUseHistId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_SUBHOLIDAY_USE_HIST'
+        </selectKey>
+    </insert>
 
 </mapper>

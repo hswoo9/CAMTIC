@@ -111,7 +111,7 @@ var regUnRnd = {
                 {name: "결과보고", url: tab8Url, imageUrl : "/images/ico/etc_01_1.png"}, // 지출내역조회와 같이 사용
                 {name: "출장", url: tab9Url},
                 {name: "구매", url: tab11Url},
-                {name: "예산변경신청", url: tab12Url},
+                {name: "예산변경 및 반납", url: tab12Url},
                 {name: "입금관리", url: tab13Url},
                 {name: "정산/원가", url: tab14Url, imageUrl : "/images/ico/etc_01_1.png"}
             ]

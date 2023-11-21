@@ -73,7 +73,7 @@
 
           <div class="__tdrone4 __mt20">
             <div class="tit">
-              <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;">설계/해석</h3>
+              <h3 style="border-bottom: 1px dashed #b7b7b7; padding-bottom:30px;">설계/해석</h3>
               <dl>
                 <dt>사출제품 및 사출금형 설계를 위한 해석 시뮬레이션</dt>
                 <dd>

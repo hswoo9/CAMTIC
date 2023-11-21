@@ -422,12 +422,15 @@
 
   //채용공고 게시글 조회
   function getRecruitList() {
+
+    let linkUrl = "/camtic/member/job_view.do?recruitInfoSn="
     $(".sec").html('');
 
     let html = "";
 
     resultData3.forEach((item, index) => {
-      html += "<a href='javascript:void(0);' onclick='openRecruitPopup(" + item.RECRUIT_INFO_SN + ")' class='box'>";
+    
+      html += "<a href='"+ linkUrl +item.RECRUIT_INFO_SN+" ' class='box'>";
       if(item.RECRUIT_STATUS_SN == 'E'){
         html += '<div class="ddakji end"><span style="font-size:13px;">' + item.RECRUIT_STATUS_TEXT + '</span></div>';
       }else{

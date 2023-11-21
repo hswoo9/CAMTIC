@@ -81,8 +81,27 @@ public class SubHolidayServiceImpl implements SubHolidayService {
     }
 
     @Override
-    public List<Map<String, Object>> getUserVacListStat(Map<String, Object> params) {
-        return subHolidayRepository.getUserVacListStat(params);
+    public List<Map<String, Object>> getUserVacListStat(Map<String, Object> map) {
+        if(map.containsKey("arr") && !"".equals(map.get("arr").toString())){
+            String arrText = map.get("arr").toString();
+
+            String[] arr = arrText.split("[|]");
+            for(int i = 0; i < arr.length; i++){
+                String[] arrL = arr[i].split("&");
+
+                String returnTxt = "(DIVISION IN(" + arrL[0] + ")";
+                if(arrL.length > 1){
+                    if(!arrL[1].equals("N")){
+                        returnTxt += " AND DIVISION_SUB IN(" + arrL[1] + ")";
+                    }
+                }
+                returnTxt += ")";
+
+                arr[i] = returnTxt;
+            }
+            map.put("arr", arr);
+        }
+        return subHolidayRepository.getUserVacListStat(map);
     }
 
     @Override
@@ -185,4 +204,57 @@ public class SubHolidayServiceImpl implements SubHolidayService {
     public void deleteHoliday(Map<String, Object> params){
         subHolidayRepository.deleteHoliday(params);
     }
+
+    //연가 일괄 등록
+    @Override
+    public List<Map<String, Object>> getUserInfoList(Map<String, Object> map) {
+
+        if(map.containsKey("arr") && !"".equals(map.get("arr").toString())){
+            String arrText = map.get("arr").toString();
+
+            String[] arr = arrText.split("[|]");
+            for(int i = 0; i < arr.length; i++){
+                String[] arrL = arr[i].split("&");
+
+                String returnTxt = "(DIVISION IN(" + arrL[0] + ")";
+                if(arrL.length > 1){
+                    if(!arrL[1].equals("N")){
+                        returnTxt += " AND DIVISION_SUB IN(" + arrL[1] + ")";
+                    }
+                }
+                returnTxt += ")";
+
+                arr[i] = returnTxt;
+            }
+            map.put("arr", arr);
+        }
+
+        return subHolidayRepository.getUserInfoList(map);
+    }
+
+    public Map<String, Integer> getCountMap2() {
+        Map<String, Integer> countMap = new HashMap<>();
+        countMap.put("dsA", subHolidayRepository.getCountForDsA2());
+        countMap.put("dsB", subHolidayRepository.getCountForDsB2());
+        countMap.put("dsC", subHolidayRepository.getCountForDsC2());
+        countMap.put("dsD", subHolidayRepository.getCountForDsD2());
+        countMap.put("dsE", subHolidayRepository.getCountForDsE2());
+        countMap.put("dsG", subHolidayRepository.getCountForDsG2());
+
+        return countMap;
+    }
+
+
+    @Transactional
+    public void setSubHolidayByEmpInfo(Map<String, Object> params){
+        subHolidayRepository.setSubHolidayByEmpInfo(params);
+        subHolidayRepository.setSubHolidayByEmpInfo2(params);
+    }
+
+    @Override
+    public void setSubHolidayByEmpInfo2(Map<String, Object> params){
+        subHolidayRepository.setSubHolidayByEmpInfo(params);
+        subHolidayRepository.setSubHolidayByEmpInfo2(params);
+    }
+
 }

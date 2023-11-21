@@ -1,6 +1,7 @@
 package egovframework.com.devjitsu.hp.board.controller;
 
 import egovframework.com.devjitsu.gw.user.controller.UserController;
+import egovframework.com.devjitsu.inside.recruit.service.RecruitService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import egovframework.com.devjitsu.hp.board.service.BoardService;
@@ -48,6 +49,9 @@ public class BoardController {
 
     @Value("#{properties['File.Slash']}")
     private String slash;
+
+    @Autowired
+    private RecruitService recruitService;
 
     /**
      * 공통게시판 페이지
@@ -522,11 +526,11 @@ public class BoardController {
      * */
     @RequestMapping("/camtic/member/job_view.do")
     public String jobView(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
-        boardService.setBoardArticleViewCount(params);
+        recruitService.setRecruitArticleViewCount(params);
 
-        Map<String, Object> map = boardService.selectBoard(params);
         List<Map<String, Object>> fileList = boardService.selectBoardFile(params);
-        model.addAttribute("categoryId", params.get("category"));
+        Map<String, Object> map = recruitService.getRecruit(params);
+
         model.addAttribute("map", map);
         model.addAttribute("fileMap", fileList);
         return "camtic/member/job_view";

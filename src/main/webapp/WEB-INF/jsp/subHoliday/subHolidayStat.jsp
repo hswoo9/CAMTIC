@@ -70,12 +70,14 @@
                             <div class="mt10">
                                 <input type="checkbox" class="detailSearch" id="dsA" checked>
                                 <label for="dsA">전담직원</label>
-                                <input type="checkbox" class="detailSearch" division="3" style="margin-left: 10px;" id="dsB">
-                                <label for="dsB">단기직원</label>
                                 <input type="checkbox" class="detailSearch" division="1" divisionSub="6" style="margin-left: 10px;" id="dsC">
                                 <label for="dsC">위촉직원</label>
-                                <input type="checkbox" class="detailSearch" division="2" style="margin-left: 10px;" id="dsD">
-                                <label for="dsD">연수생/학생연구원</label>
+                                <input type="checkbox" class="detailSearch" division="3" style="margin-left: 10px;" id="dsB">
+                                <label for="dsB">단기직원</label>
+                                <input type="checkbox" class="detailSearch" division="4" divisionSub="3" style="margin-left: 10px;" id="dsD">
+                                <label for="dsD">시설/환경</label>
+                                <input type="checkbox" class="detailSearch" division="2" style="margin-left: 10px;" id="dsG">
+                                <label for="dsG">연수생/학생연구원</label>
                                 <input type="checkbox" class="detailSearch" division="10" style="margin-left: 10px;" id="dsE">
                                 <label for="dsE">기타</label>
                             </div>

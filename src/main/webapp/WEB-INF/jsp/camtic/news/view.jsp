@@ -70,7 +70,7 @@
           </dl> -->
           <script>console.log('${fn:length(fileMap)}' + "안녕하세요.")</script>
           <div class="con">
-            <div style="border-bottom: 1px solid #ccc; padding: 5px 0 5px 0; text-align: right; word-break:break-all; height: 55px;">
+            <%--<div style="border-bottom: 1px solid #ccc; padding: 5px 0 5px 0; text-align: right; word-break:break-all; height: 55px;">
               <c:choose>
                 <c:when test="${fn:length(fileMap) ne 0}">
                   <c:forEach var="file" items="${fileMap}" varStatus="status">
@@ -98,7 +98,7 @@
                   <span></span>
                 </c:otherwise>
               </c:choose>
-            </div>
+            </div>--%>
 
             <div class="txt_zone" style="line-height:25px;">
               <c:if test="${categoryId eq 'photo'}" >

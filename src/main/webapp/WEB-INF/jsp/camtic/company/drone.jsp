@@ -23,7 +23,7 @@
 						</dl>
 					</div>
 
-					<div class="foot">
+					<div class="foot" style="margin-top: 70px;">
 						<div class="__icoBox1">
 							<%-- <div class="ico"><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div> --%>
 							<div class="__fz18 __black">

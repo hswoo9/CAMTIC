@@ -24,8 +24,8 @@
           </div>
 
 
-          <div class="__icoBox pt0" style="margin-top: 50px;">
-            <div class="__tit1 __mt100 __mb20">
+          <div class="__icoBox pt0" style="margin-top: 70px;">
+            <div class="__tit1 __mb20">
               <h3><strong>전기방사장치 - 나노 섬유 생산</strong></h3>
             </div>
 
