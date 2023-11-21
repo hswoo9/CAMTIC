@@ -41,8 +41,14 @@ var selEvalPop = {
         selEvalPop.global.searchAjaxData = {
             recruitInfoSn : $("#recruitInfoSn").val()
         }
+
         var result = customKendo.fn_customAjax("/inside/getRecruitAreaList.do", selEvalPop.global.searchAjaxData);
+
+        console.log("result recruitArea : ",result.recruitArea);
+
         customKendo.fn_dropDownList("recruitAreaInfoSn", result.recruitArea, "JOB","RECRUIT_AREA_INFO_SN", 2);
+
+
         $("#recruitAreaInfoSn").data("kendoDropDownList").bind("change", function(){
             if($("#tabA").hasClass("k-state-active")){
                 selEvalPop.gridReload("mainGrid");
@@ -52,6 +58,8 @@ var selEvalPop = {
         });
 
         $("#recruitAreaInfoSn").data("kendoDropDownList").select(1)
+        var selectedValue = $("#recruitAreaInfoSn").data("kendoDropDownList").value();
+        console.log("선택된 드롭다운 : ",selectedValue);
 
         $("#mainDiv").kendoTabStrip({
             animation:  {
@@ -66,90 +74,127 @@ var selEvalPop = {
     },
 
     mainGrid : function(url, params, id) {
-        $("#" + id).kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
-            sortable: true,
-            scrollable: true,
-            selectable: "row",
-            height: 508,
-            pageable : {
-                refresh : true,
-                pageSizes: [10, 20, "ALL"],
-                buttonCount : 5
-            },
-            toolbar : [
-               {
-                    name : 'button',
-                    template : function (e){
-                        return  '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="margin-left: 5px" onclick="selEvalPop.gridReload()">' +
-                                '	<span class="k-button-text">조회</span>' +
-                                '</button>' +
-                            '</div>';
-                    }
-                }
-            ],
-            noRecords: {
-                template: "데이터가 존재하지 않습니다."
-            },
-            columns: [
-                {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
-                    template : function(e){
-                        var chk = "";
-                        if(e.CHK > 0){
-                            chk = "checked";
-                        }
-                        return "<input type='checkbox' id='eval_" + e.EMP_SEQ + "' name='evalChk' value='" + e.EMP_SEQ + "' " + chk + "/>"
-                    },
-                    width: 50
-                }, {
-                    title: "번호",
-                    width: 50,
-                    template: "#= --record #"
-                }, {
-                    field: "LOGIN_ID",
-                    title: "아이디"
-                }, {
-                    field: "EMP_NAME_KR",
-                    title: "성명"
-                }, {
-                    field: "GENDER",
-                    title: "성별",
-                    template: function(e){
-                        if(e.GENDER_CODE != null){
-                            if(e.GENDER_CODE == "M"){
-                                return "남";
-                            }else if(e.GENDER_CODE == "F"){
-                                return "여";
-                            }
-                        }else{
-                            return "-";
-                        }
-                    }
-                }, {
-                    field: "DEPT_NAME",
-                    title: "기관(소속)",
-                    width : 180
-                }, {
-                    field: "DUTY_NAME",
-                    title: "직위"
-                }, {
-                    field: "MOBILE_TEL_NUM",
-                    title: "휴대폰"
-                }, {
-                    field: "SIGNIFICANT",
-                    title: "비고"
-                }
-            ],
-            dataBinding: function(){
-                record = fn_getRowNum(this, 2);
-            }
-        }).data("kendoGrid");
+        var dataSource = customKendo.fn_gridDataSource2(url, params);
+        var defaultDeptName = selEvalPop.global.searchAjaxData.recruitAreaInfoSn;
+        $.ajax({
+            url: "/inside/getRecruitArea.do",
+            method: "GET",
+            data: { recruitAreaInfoSn: defaultDeptName },
+            success: function(response) {
+                console.log("Controller Response: ", response);
+                var deptNameFromResponse = response.recruitArea.DEPT_NAME;
+                console.log("DEPT_NAME : ",deptNameFromResponse);
 
+                $("#" + id).kendoGrid({
+                    dataSource: dataSource,
+                    sortable: true,
+                    scrollable: true,
+                    selectable: "row",
+                    height: 508,
+                    pageable : {
+                        refresh : true,
+                        pageSizes: [10, 20, "ALL"],
+                        buttonCount : 5
+                    },
+                    toolbar : [
+                        {
+                            name : 'button',
+                            template : function (e){
+                                return  '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="margin-left: 5px" onclick="selEvalPop.gridReload()">' +
+                                    '	<span class="k-button-text">조회</span>' +
+                                    '</button>' +
+                                    '</div>';
+                            }
+                        }
+                    ],
+                    noRecords: {
+                        template: "데이터가 존재하지 않습니다."
+                    },
+                    columns: [
+                        {
+                            headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
+                            template : function(e){
+                                console.log("DEPT_NAME: ", e.DEPT_NAME, " deptNameFromResponse: ", deptNameFromResponse);
+                                var checked = e.CHK > 0 || (
+                                    e.DEPT_NAME === deptNameFromResponse &&
+                                    ["팀장", "본부장", "센터장"].includes(e.DUTY_NAME)||
+                                    (e.DEPT_NAME === "경영지원실" && e.DUTY_NAME === "팀장")
+                                );
+                                return "<input type='checkbox' id='eval_" + e.EMP_SEQ + "' name='evalChk' value='" + e.EMP_SEQ + "' " + (checked ? "checked" : "") + "/>";
+                            },
+                            width: 50
+                        }, {
+                            title: "번호",
+                            width: 50,
+                            template: "#= --record #"
+                        }, {
+                            field: "LOGIN_ID",
+                            title: "아이디"
+                        }, {
+                            field: "EMP_NAME_KR",
+                            title: "성명"
+                        }, {
+                            field: "GENDER",
+                            title: "성별",
+                            template: function(e){
+                                if(e.GENDER_CODE != null){
+                                    if(e.GENDER_CODE == "M"){
+                                        return "남";
+                                    }else if(e.GENDER_CODE == "F"){
+                                        return "여";
+                                    }
+                                }else{
+                                    return "-";
+                                }
+                            }
+                        }, {
+                            field: "DEPT_NAME",
+                            title: "기관(소속)",
+                            width : 180
+                        }, {
+                            field: "DUTY_NAME",
+                            title: "직위"
+                        }, {
+                            field: "MOBILE_TEL_NUM",
+                            title: "휴대폰"
+                        }, {
+                            field: "SIGNIFICANT",
+                            title: "비고"
+                        }
+                    ],
+                    dataBinding: function(){
+                        record = fn_getRowNum(this, 2);
+                    }
+                }).data("kendoGrid");
+
+
+            },
+            error: function(error) {
+                console.error("Ajax Error: ", error);
+            }
+        });
+
+
+        /**
+         *
+         */
+
+        $(document).on("change", "#checkAll", function() {
+            if ($(this).is(":checked")) {
+                $("input[name=evalChk]").prop("checked", true);
+            } else {
+                $("input[name=evalChk]").prop("checked", false);
+            }
+        });
+
+        /*
         $("#checkAll").click(function(){
             if($(this).is(":checked")) $("input[name=evalChk]").prop("checked", true);
             else $("input[name=evalChk]").prop("checked", false);
         });
+         */
+
+
     },
 
     gridReload : function(id) {
