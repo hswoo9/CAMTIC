@@ -814,6 +814,100 @@
         WHERE
             APPLICATION_ID = #{applicationId}
     </update>
+
+    <select id="getRecruitPrint" parameterType="map" resultType="map">
+        /*getRecruitPrint*/
+        SELECT
+            AM.APPLICATION_ID,
+            AM.USER_EMAIL,
+            AM.RECRUIT_INFO_SN,
+            AM.RECRUIT_AREA_INFO_SN,
+            AM.CAREER_TYPE,
+            AM.USER_NAME,
+            ROUND((TO_DAYS(NOW()) - TO_DAYS(AM.BDAY)) / 365, 0) AS AGE,
+            CASE WHEN AM.GENDER = 'M' THEN '남자' ELSE '여자' END AS GENDER,
+            DAS.SCHOOL_NAME,
+            GROUP_CONCAT(DISTINCT AC.WORK_ST_DT, '~', AC.WORK_EN_DT SEPARATOR'|') AS WORK_DATE,
+            REPLACE(SUBSTRING_INDEX(REPLACE(AM.ADDR, ' ', '_'), '_', 2), '_', ' ') AS ADDR,
+            GROUP_CONCAT(DISTINCT LA.LANG_NAME SEPARATOR ', ') AS LANG_NAME,
+            AI.JOB,
+            CASE WHEN INSTR(DATE_FORMAT(AM.SAVE_DATE, '%Y-%m-%d %p %h:%i'), 'PM') > 0 THEN REPLACE(DATE_FORMAT(AM.SAVE_DATE, '%Y-%m-%d %p %h:%i'), 'PM', '오후')
+                 ELSE REPLACE(DATE_FORMAT(AM.SAVE_DATE, '%Y-%m-%d %p %h:%i'), 'AM', '오전') END AS SAVE_DATE,
+            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN WHERE SAVE_TYPE = 'S' AND AM.RECRUIT_INFO_SN != RECRUIT_INFO_SN AND AM.APPLICATION_ID != APPLICATION_ID AND AM.USER_EMAIL = USER_EMAIL) AS DUPLICATION_CNT,
+            (
+        SELECT TRUNCATE(SUM(A.EVAL_ITEM_SCORE)/COUNT(DISTINCT A.EVAL_LOGIN_ID), 1)
+        FROM CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD A
+            JOIN CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN B
+        ON A.EVAL_LOGIN_ID = B.EVAL_LOGIN_ID AND B.EVAL_STATUS = 'E'
+        WHERE APPLICATION_ID = AM.APPLICATION_ID
+          AND EVAL_ITEM_ID != 'otherRmk'
+          AND EVAL_SCREEN_TYPE = 'doc'
+        GROUP BY APPLICATION_ID
+            ) AS DOC_SCREEN_AVERAGE,
+            (
+        SELECT TRUNCATE(SUM(A.EVAL_ITEM_SCORE)/COUNT(DISTINCT A.EVAL_LOGIN_ID), 1)
+        FROM CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD A
+            LEFT JOIN CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN B
+        ON A.EVAL_LOGIN_ID = B.EVAL_LOGIN_ID AND B.EVAL_STATUS = 'E'
+        WHERE APPLICATION_ID = AM.APPLICATION_ID
+          AND EVAL_ITEM_ID != 'opinion'
+          AND EVAL_SCREEN_TYPE = 'in'
+        GROUP BY APPLICATION_ID
+            ) AS IN_SCREEN_AVERAGE,
+            AM.IN_AVOID,
+            CASE WHEN AM.IN_AVOID = 'Y' THEN '불참' ELSE '' END AS IN_AVOID_TXT,
+        AM.PRELIMINARY_PASS,
+        AM.APPLICATION_STAT,
+        RI.START_DT,
+        RI.END_DT,
+        RI.REG_EMP_NAME,
+        CONCAT(
+            '근무부서 - [', AI.DEPT_NAME, ' > ', AI.TEAM_NAME, '] ',
+            '채용부문 - [', AI.JOB, '] ',
+            '필요경력 - [', AI.CAREER, ']'
+        ) AS AREA_TITLE,
+        GROUP_CONCAT(DISTINCT RAC.CERT_NAME, '  ', RAC.CERT_CLASS SEPARATOR', ') AS CERT_AREA
+    FROM
+        CAM_INSIDE.DJ_APPLICATION_MAIN AM
+    JOIN (
+        SELECT
+            DAS.APPLICATION_ID,
+            MAX(SCHOOL_TYPE) AS SCHOOL_TYPE,
+            CONCAT(
+                SCHOOL_NAME,
+                ' ',
+                DEPT,
+                '(',
+                CASE WHEN MAX(SCHOOL_TYPE) = '1' THEN '고등학교'
+                    WHEN MAX(SCHOOL_TYPE) = '2' THEN '전문대학'
+                    WHEN MAX(SCHOOL_TYPE) = '3' OR MAX(SCHOOL_TYPE) = '4' THEN '대학교'
+                    WHEN MAX(SCHOOL_TYPE) = '5' THEN '석사'
+                    WHEN MAX(SCHOOL_TYPE) = '6' THEN '박사'
+                END,
+                CASE WHEN GRADUATE_TYPE = '1' THEN ''
+                    WHEN GRADUATE_TYPE = '2' THEN ' 졸업예정'
+                    WHEN GRADUATE_TYPE = '2' THEN ' 수료'
+                END,
+                ')'
+            ) AS SCHOOL_NAME
+        FROM
+            CAM_INSIDE.DJ_APPLICATION_SCHOOL DAS
+        GROUP BY DAS.APPLICATION_ID
+    ) DAS ON AM.APPLICATION_ID = DAS.APPLICATION_ID
+    LEFT JOIN CAM_INSIDE.DJ_APPLICATION_LANG_ABILITY LA ON AM.APPLICATION_ID = LA.APPLICATION_ID
+    LEFT JOIN CAM_INSIDE.DJ_APPLICATION_CAREER AC ON AM.APPLICATION_ID = AC.APPLICATION_ID
+    LEFT JOIN CAM_INSIDE.DJ_RECRUIT_AREA_INFO AI ON AM.RECRUIT_AREA_INFO_SN = AI.RECRUIT_AREA_INFO_SN
+    LEFT JOIN CAM_INSIDE.DJ_RECRUIT_INFO RI ON AM.RECRUIT_INFO_SN = RI.RECRUIT_INFO_SN
+    LEFT JOIN CAM_INSIDE.DJ_APPLICATION_CERT RAC ON AM.APPLICATION_ID = RAC.APPLICATION_ID
+    WHERE
+        AM.RECRUIT_INFO_SN = #{recruitInfoSn}
+        AND
+        AM.SAVE_TYPE = 'S'
+        AND
+        AM.RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
+        GROUP BY AM.APPLICATION_ID
+    </select>
+
 </mapper>
 
 
