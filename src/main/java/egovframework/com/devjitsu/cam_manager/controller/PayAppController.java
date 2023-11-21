@@ -155,6 +155,7 @@ public class PayAppController {
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
+        model.addAttribute("payIncpItemList", payAppService.getPayIncpDetailData(params));
 
         return "popup/cam_manager/approvalFormPopup/payIncpApprovalPop";
     }
@@ -534,6 +535,11 @@ public class PayAppController {
     @RequestMapping("/pay/getExnpAttInfo")
     public String getExnpAttInfo(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("data", payAppService.getExnpAttInfo(params));
+        return "jsonView";
+    }
+    @RequestMapping("/pay/getExnpAttList")
+    public String getExnpAttList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", payAppService.getExnpAttList(params));
         return "jsonView";
     }
 

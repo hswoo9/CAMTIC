@@ -402,13 +402,55 @@ var hwpInit = {
         hwpDocCtrl.putFieldText('DATE1', rs.DATE1);
         hwpDocCtrl.putFieldText('DATE2', rs.DATE2);
         hwpDocCtrl.putFieldText('DATE3', rs.DATE3);
-        let totCost1 = "금 "+fn_numberWithCommas(rs.TOT_COST)+"원";
-        let totCost2 = "(금 "+fn_koreanNumber(rs.TOT_COST)+"원)";
+        let totCost1 = "금"+fn_numberWithCommas(rs.TOT_COST)+"원     ";
+        let totCost2 = "금 "+fn_koreanNumber(rs.TOT_COST)+"정";
         hwpDocCtrl.putFieldText('TOT_COST', totCost1+""+totCost2);
         hwpDocCtrl.putFieldText('APP_TITLE', rs.EXNP_BRIEFS);
         hwpDocCtrl.putFieldText('CRM_NM', ls[0].CRM_NM);
         hwpDocCtrl.putFieldText('CRM_ACC_NO', ls[0].CRM_ACC_NO);
         hwpDocCtrl.putFieldText('ACC_NO', "("+ls[0].CRM_BNK_NM+") "+ls[0].CRM_ACC_NO);
-        hwpDocCtrl.putFieldText('CRM_ACC_HOLDER', rs.CRM_ACC_HOLDER);
+        hwpDocCtrl.putFieldText('CRM_ACC_HOLDER', ls[0].CRM_ACC_HOLDER);
+
+        if(rs.PAY_APP_TYPE == 1){
+            hwpDocCtrl.putFieldText('DOC_TITLE', "지 출 결 의 서");
+            hwpDocCtrl.putFieldText('DOC_DETAIL', "아래와 같이 지출하고자 합니다.");
+        }else if(rs.PAY_APP_TYPE == 2){
+            hwpDocCtrl.putFieldText('DOC_TITLE', "여 입 결 의 서");
+            hwpDocCtrl.putFieldText('DOC_DETAIL', "아래와 같이 입금처리 하고자 합니다.");
+        }else if(rs.PAY_APP_TYPE == 3){
+            hwpDocCtrl.putFieldText('DOC_TITLE', "반 납 결 의 서");
+            hwpDocCtrl.putFieldText('DOC_DETAIL', "아래와 같이 반납처리 하고자 합니다.");
+        }else if(rs.PAY_APP_TYPE == 4){
+            hwpDocCtrl.putFieldText('DOC_TITLE', "대 체 결 의 서");
+            hwpDocCtrl.putFieldText('DOC_DETAIL', "아래와 같이 지출하고자 합니다.");
+        }
+    },
+
+    payIncpInit: function(payIncpSn){
+        let data = {
+            payIncpSn: payIncpSn
+        }
+
+        const result = customKendo.fn_customAjax("/payApp/pop/getPayIncpData", data);
+        const rs = result.map;
+        const ls = result.list;
+        console.log("result");
+        console.log(result);
+
+        /** 1. 수입결의서 데이터 */
+        hwpDocCtrl.putFieldText('PJT_NM', rs.PJT_NM);
+        hwpDocCtrl.putFieldText('DOC_NO', rs.DOC_NO);
+        hwpDocCtrl.putFieldText('EMP_NAME', rs.REG_EMP_NAME);
+        hwpDocCtrl.putFieldText('DEPT_NAME', "경영지원실");
+
+        let budgetArr = rs.BUDGET_NM.split(" / ");
+        hwpDocCtrl.putFieldText('BUDGET_NM1', budgetArr[0]);
+        hwpDocCtrl.putFieldText('BUDGET_NM2', budgetArr[1]);
+        hwpDocCtrl.putFieldText('BUDGET_NM3', budgetArr[2]);
+        hwpDocCtrl.putFieldText('REG_DEPT_NAME', rs.REG_DEPT_NAME);
+        hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
+
+        hwpDocCtrl.putFieldText('APP_TITLE', rs.APP_CONT);
+        hwpDocCtrl.putFieldText('ACC_NO', "("+rs.BNK_NM+") "+rs.ACC_NO+" "+rs.ACC_NM);
     },
 }

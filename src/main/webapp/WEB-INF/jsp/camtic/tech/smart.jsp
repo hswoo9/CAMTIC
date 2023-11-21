@@ -23,9 +23,12 @@
                 </div>--%>
 
                 <div class="__smart1 m0">
+                    <div class="__clu1 mo">
                     <dl class="head">
                         <dt><span class="__nm">“</span><span class="mainCapyTitle">디지털제조시대 성장 파트너</span><span class="__nm">”</span></dt>
+                        <dd><span class="subCapyTitle">스마트제조 분야의 R&D 및 사업화 추진</span></dd>
                     </dl>
+                    </div>
                     <div class="__icoBox pt0 __mt50">
                         <div class="__tit1 __mt100 __mb20">
                             <h3><strong>주요업무</strong></h3>

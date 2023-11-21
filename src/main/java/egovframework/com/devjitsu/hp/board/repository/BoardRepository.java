@@ -94,4 +94,12 @@ public class BoardRepository extends AbstractDAO {
         return selectList("boardCt.getSnsPosts", param);
     }
 
+    public List<PostResponse> getRecruitmentList(ArticlePage articlePage) {
+        return selectList("boardCt.getRecruitmentList", articlePage);
+    }
+
+    public Object getRecruitmentListCount(ArticlePage articlePage) {
+        return (int) selectOne("boardCt.getRecruitmentListCount", articlePage);
+    }
+
 }

@@ -174,7 +174,7 @@
 
 
 					<div class="__tit1 __mt100 __mb20">
-						<h3><strong>전북 조선업도약센터</strong> <span class="fwl" style="font-size:0.85em;">(www.jumpjbjob.or.kr)</span></h3>
+						<h3><strong>전북 조선업도약센터</strong> <a href="http://www.jumpjbjob.or.kr" target="_blank" class="fwl" style="font-size: 0.85em;">(www.jumpjbjob.or.kr)</a><%--<span class="fwl" style="font-size:0.85em;">(www.jumpjbjob.or.kr)</span>--%></h3>
 					</div>
 					<div class="__job4">
 						<div class="head"><span class="__nm">“</span><span class="m">조선업 취업, 군산 주력산업(전기차.이차전지 등) <strong style="font-weight:600;">취업 원스톱 지원</strong></span><span class="__nm">”</span></div>
@@ -268,7 +268,8 @@
 
 
 					<div class="__tit1 __mt100 __mb20">
-						<h3><strong>익산고용안정일자리센터</strong> <span class="fwl" style="font-size:0.85em;">(www.jobiksan.or.kr)</span></h3>
+						<h3><strong>익산고용안정일자리센터</strong> <a href="http://www.jobiksan.or.kr" target="_blank" class="fwl" style="font-size: 0.85em;">(www.jobiksan.or.kr)</a></h3>
+
 					</div>
 					<div class="__job4">
 						<div class="head type2"><span class="__nm">“</span><span class="m">지역기업과 (위기)근로자를 연결하는 <strong>일자리 디딤돌</strong></span><span class="__nm">”</span></div>

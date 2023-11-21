@@ -237,16 +237,40 @@ function fn_stringToDate(date, n) {
         "-" + (stringNewDate.getDate() > 9 ? stringNewDate.getDate().toString() : "0" + stringNewDate.getDate().toString());
 }
 
-function fn_koreanNumber(number) {
-    const koreanUnits = ['조', '억', '만', ''];
-    const unit = 10000;
-    let answer = '';
+function fn_koreanNumber(num) {
+    //1 ~ 9 한글 표시
+    const arrNumberWord = new Array("", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구");
+    //10, 100, 100 자리수 한글 표시
+    const arrDigitWord = new Array("", "십", "백", "천");
+    //만단위 한글 표시
+    const arrManWord = new Array("", "만 ", "억 ", "조 ", "경 ", "해 ", "자 ", "양 ", "구 ", "간 ", "정 ", "재 ", "극 ", "항아사 ", "아승기 ", "나유타 ", "불가사의 ", "무량대수 ");
 
-    while (number > 0) {
-        const mod = number % unit;
-        const modToString = mod.toString().replace(/(\d)(\d{3})/, '$1,$2');
-        number = Math.floor(number / unit);
-        answer = `${modToString}${koreanUnits.pop()}${answer}`;
+    const num_value = String(num);
+    const num_length = String(num).length;
+
+    let han_value = "";
+    let man_count = 0;      //만단위 0이 아닌 금액 카운트.
+    for (let i=0; i<num_length; i++) {
+        //1단위의 문자로 표시.. (0은 제외)
+        let strTextWord = arrNumberWord[num_value.charAt(i)];
+
+        //0이 아닌경우만, 십/백/천 표시
+        if (strTextWord != "") {
+            man_count++;
+            strTextWord += arrDigitWord[(num_length - (i + 1)) % 4];
+        }
+
+        //만단위마다 표시 (0인경우에도 만단위는 표시한다)
+        if (man_count != 0 && (num_length - (i + 1)) % 4 == 0) {
+            man_count = 0;
+            strTextWord = strTextWord + arrManWord[(num_length - (i + 1)) / 4];
+        }
+        han_value += strTextWord;
     }
-    return answer;
+
+    if (num_value != 0){
+        han_value = "" + han_value + "원";
+    }
+
+    return han_value.trim();
 }
