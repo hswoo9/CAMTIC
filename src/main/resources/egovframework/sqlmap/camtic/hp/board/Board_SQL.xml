@@ -425,5 +425,145 @@
         ORDER BY REG_DATE DESC
     </select>
 
+    <select id="getRecruitmentList" resultType="egovframework.com.devjitsu.hp.board.util.PostResponse" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
+        /*getRecruitmentList*/
+        SELECT
+        IRI.*,
+        AAA.USER_NAME,
+        GROUP_CONCAT(DISTINCT AI.CAREER_TYPE) AS CAREER_TYPE,
+        (SELECT SUM(SAI.RECRUITMENT) FROM CAM_INSIDE.DJ_RECRUIT_AREA_INFO SAI WHERE SAI.RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN) AS RECRUITMENT,
+        (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN WHERE RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND SAVE_TYPE = 'S') as APPLICATION_CNT,
+        (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN AM WHERE AM.RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT != 'S') AS DOC_SCREEN_CNT,
+        (
+        SELECT
+        COUNT(*)
+        FROM (
+        SELECT
+        SB.*,
+        AM.RECRUIT_INFO_SN
+        FROM
+        CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD SB
+        JOIN
+        CAM_INSIDE.DJ_APPLICATION_MAIN AM
+        ON SB.APPLICATION_ID = AM.APPLICATION_ID
+        WHERE
+        SB.EVAL_SCREEN_TYPE = 'doc'
+        GROUP BY
+        SB.APPLICATION_ID
+        )A
+        WHERE
+        IRI.RECRUIT_INFO_SN = A.RECRUIT_INFO_SN
+        ) AS DOC_SCREEN_RESULT,
+        (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN AM WHERE AM.RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT = 'I' AND AM.IN_AVOID = 'N') AS IN_SCREEN_CNT,
+        (
+        SELECT
+        COUNT(*)
+        FROM (
+        SELECT
+        SB.*,
+        AM.RECRUIT_INFO_SN,
+        AM.USER_NAME
+        FROM
+        CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD SB
+        JOIN
+        CAM_INSIDE.DJ_APPLICATION_MAIN AM
+        ON SB.APPLICATION_ID = AM.APPLICATION_ID
+        WHERE
+        SB.EVAL_SCREEN_TYPE = 'in' AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT = 'I' AND AM.IN_AVOID = 'N'
+        GROUP BY
+        SB.APPLICATION_ID
+        )A
+        WHERE
+        IRI.RECRUIT_INFO_SN = A.RECRUIT_INFO_SN
+        ) AS IN_SCREEN_RESULT
+        FROM
+        CAM_INSIDE.DJ_RECRUIT_INFO IRI
+        JOIN
+        CAM_INSIDE.DJ_RECRUIT_AREA_INFO AI
+        ON IRI.RECRUIT_INFO_SN = AI.RECRUIT_INFO_SN
+        LEFT JOIN CAM_INSIDE.DJ_APPLICATION_MAIN AAA
+        ON IRI.RECRUIT_INFO_SN = AAA.RECRUIT_INFO_SN
+
+        WHERE
+        1=1
+        AND
+        IRI.ACTIVE = 'Y'
+        <if test="searchInput != null and searchInput != ''">
+            AND
+            BOARD_ARTICLE_TITLE LIKE CONCAT('%', #{searchInput}, '%')
+        </if>
+        GROUP BY IRI.RECRUIT_INFO_SN
+        ORDER BY IRI.REG_DT DESC
+        LIMIT #{pagination.limitStart}, #{recordSize}
+    </select>
+
+    <select id="getRecruitmentListCount" resultType="int" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
+        /*getRecruitmentListCount*/
+        SELECT COUNT(*) AS cnt
+        FROM (
+                 SELECT
+                     IRI.*,
+                     AAA.USER_NAME,
+                     GROUP_CONCAT(DISTINCT AI.CAREER_TYPE) AS CAREER_TYPE,
+                     (SELECT SUM(SAI.RECRUITMENT) FROM CAM_INSIDE.DJ_RECRUIT_AREA_INFO SAI WHERE SAI.RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN) AS RECRUITMENT,
+                     (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN WHERE RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND SAVE_TYPE = 'S') as APPLICATION_CNT,
+                     (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN AM WHERE AM.RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT != 'S') AS DOC_SCREEN_CNT,
+             (
+                 SELECT
+                     COUNT(*)
+                 FROM (
+                          SELECT
+                              SB.*,
+                              AM.RECRUIT_INFO_SN
+                          FROM
+                              CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD SB
+                                  JOIN
+                              CAM_INSIDE.DJ_APPLICATION_MAIN AM
+                              ON SB.APPLICATION_ID = AM.APPLICATION_ID
+                          WHERE
+                              SB.EVAL_SCREEN_TYPE = 'doc'
+                          GROUP BY
+                              SB.APPLICATION_ID
+                      ) A
+                 WHERE
+                     IRI.RECRUIT_INFO_SN = A.RECRUIT_INFO_SN
+             ) AS DOC_SCREEN_RESULT,
+             (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN AM WHERE AM.RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT = 'I' AND AM.IN_AVOID = 'N') AS IN_SCREEN_CNT,
+             (
+                 SELECT
+                     COUNT(*)
+                 FROM (
+                          SELECT
+                              SB.*,
+                              AM.RECRUIT_INFO_SN,
+                              AM.USER_NAME
+                          FROM
+                              CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD SB
+                                  JOIN
+                              CAM_INSIDE.DJ_APPLICATION_MAIN AM
+                              ON SB.APPLICATION_ID = AM.APPLICATION_ID
+                          WHERE
+                              SB.EVAL_SCREEN_TYPE = 'in' AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT = 'I' AND AM.IN_AVOID = 'N'
+                          GROUP BY
+                              SB.APPLICATION_ID
+                      ) A
+                 WHERE
+                     IRI.RECRUIT_INFO_SN = A.RECRUIT_INFO_SN
+             ) AS IN_SCREEN_RESULT
+            FROM
+        CAM_INSIDE.DJ_RECRUIT_INFO IRI
+    JOIN
+        CAM_INSIDE.DJ_RECRUIT_AREA_INFO AI
+        ON IRI.RECRUIT_INFO_SN = AI.RECRUIT_INFO_SN
+            LEFT JOIN CAM_INSIDE.DJ_APPLICATION_MAIN AAA
+            ON IRI.RECRUIT_INFO_SN = AAA.RECRUIT_INFO_SN
+        WHERE
+            1=1
+          AND
+            IRI.ACTIVE = 'Y'
+        GROUP BY IRI.RECRUIT_INFO_SN
+            ) AS cnt
+    </select>
+
 
 </mapper>

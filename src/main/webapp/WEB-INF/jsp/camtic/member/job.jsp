@@ -91,9 +91,9 @@
 </div>
 
 <script>
-  var categoryKey = "report";
 
-  var firstData = fn_customAjax('/board/getRecruitList');
+  var firstData = fn_customAjax('/board/getRecruitmentList?recordSize=10', '');
+
   var flag = false;
 
   var paginationData;
@@ -127,17 +127,10 @@
     drawPage();
     drawTable(data);
   });
-
-  //작성 이동
-  function fn_writeBoard(){
-
-    location.href = '/camtic/pr/pr_write.do?category=' + categoryKey;
-  }
-
   //상세보기 이동
   function fn_detailBoard(key){
 
-    location.href="/camtic/pr/pr_view.do?boardArticleId=" + key + "&category=" + categoryKey;
+    location.href="/camtic/member/job_view.do?RECRUIT_INFO_SN=" + key;
   }
 
   /**
@@ -153,18 +146,18 @@
       recordSize: 10,
       pageSize: 10
     }
-    var result = fn_customAjax("/board/getBoardArticleList.do?" + new URLSearchParams(queryParams).toString() + "&categoryId=" + categoryKey + "&recordSize=10", "");
-
+    var result = fn_customAjax("/board/getRecruitmentList.do?" + new URLSearchParams(queryParams).toString() + "&recordSize=10", "");
     flag = true;
 
     dataChk(result, flag);
     drawTable(result.boardArticleList.list);
+    console.log(drawTable);
     drawPage();
   }
 
   //게시글 리스트 그리기
   function drawTable(data) {
-    //const tableBody = document.getElementById("tableBody");
+
     $("#tableBody").html('');
 
     let html = "";
@@ -179,9 +172,9 @@
 
       html += "<tr>";
       html += '<td>'+ (num) +'</td>';
-      html += '<td class="subject" onclick="fn_detailBoard('+item.RECRUIT_INFO+SN +')"><a href="#" onclick="fn_detailBoard('+item.board_ARTICLE_ID+')">'+ item.board_ARTICLE_TITLE +'</a></td>';
-      html += '<td>'+ item.REG_EMP_NAME +'</td>';
-      html += '<td>' +item.REG_DT+ '</td>';
+      html += '<td class="subject" onclick="fn_detailBoard('+item.recruit_INFO_SN +')"><a href="#" onclick="fn_detailBoard('+item.recruit_INFO_SN +')">'+ item.recruit_TITLE +'</a></td>';
+      html += '<td>'+ item.reg_EMP_NAME +'</td>';
+      html += '<td>'+ item.reg_DT +'</td>';
       html += '<td>'+ item.board_ARTICLE_VIEW_COUNT +'</td>';
       html += "</tr>";
     });
