@@ -20,7 +20,7 @@
             <jsp:include page="/WEB-INF/jsp/template/camtic/lnb.jsp" flush="false"/>
             <div id="content">
                 <ul id="navigation">
-                    <li><a href="/camtic"><img src="/images/camtic/home_1.png" class="homeImage">홈으로</a></li>
+                    <li><a href="/camtic"><img src="/images/camtic/home_3.png" class="homeImage">홈으로</a></li>
                     <li class="">홍보관</li>
                     <li class="">뉴스레터</li>
                     <li class="">이전 소식지</li>

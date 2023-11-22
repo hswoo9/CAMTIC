@@ -16,7 +16,7 @@
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_titleENG.jsp" flush="false"/>--%>
       <div id="content">
         <ul id="navigation">
-          <li><a href="/camtic/about/greetingENG.do"><img src="/images/camtic/home_1.png" class="homeImage">HOME</a></li>
+          <li><a href="/camtic/about/greetingENG.do"><img src="/images/camtic/home_3.png" class="homeImage">HOME</a></li>
           <li class="mdCategory">CEO Greeting</li>
           <li class="smCategory" style="display: none;">CEO Greeting</li>
         </ul>
