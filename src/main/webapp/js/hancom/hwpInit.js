@@ -453,4 +453,25 @@ var hwpInit = {
         hwpDocCtrl.putFieldText('APP_TITLE', rs.APP_CONT);
         hwpDocCtrl.putFieldText('ACC_NO', "("+rs.BNK_NM+") "+rs.ACC_NO+" "+rs.ACC_NM);
     },
+
+    rndDelvInit: function(pjtSn){
+        const pjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: pjtSn});
+        const rndInfo = customKendo.fn_customAjax("/projectRnd/getRndDetail", {pjtSn: pjtSn});
+        const map = pjtInfo.rs;
+        const delvMap = rndInfo.map;
+
+        /** 1. 수주보고 정보 */
+        hwpDocCtrl.putFieldText('PJT_CD', map.PJT_TMP_CD);
+        hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
+        hwpDocCtrl.putFieldText('DEPT_NAME', delvMap.MNG_DEPT_NAME);
+        hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(map.PJT_AMT));
+        hwpDocCtrl.putFieldText('PM_EMP_NM', map.PM);
+        hwpDocCtrl.putFieldText("PJT_DT", map.STR_DT + " ~ " + map.END_DT);
+        hwpDocCtrl.putFieldText('CRM_NM', map.CRM_NM);
+        hwpDocCtrl.putFieldText('CRM_CEO', map.CRM_CEO);
+        hwpDocCtrl.putFieldText('ADDR', map.ADDR);
+        hwpDocCtrl.putFieldText('PH_NUM', map.PH_NUM);
+        hwpDocCtrl.putFieldText('CRM_MEM_NM', map.TEL_NUM == "" ? map.CRM_CEO : map.TEL_NUM);
+        hwpDocCtrl.putFieldText('CRM_MEM_PHN', map.PH_NUM);
+    }
 }
