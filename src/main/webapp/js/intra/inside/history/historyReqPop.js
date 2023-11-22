@@ -467,14 +467,14 @@ const historyReq = {
                 }
 
                 var ds = customKendo.fn_customAjax("/dept/getDeptAList", searchData);
-                ds.rs.unshift({"dept_name" : "선택", "dept_seq" : ""});
+                ds.rs.unshift({"dept_name" : "해당없음", "dept_seq" : ""});
                 $("#afTeam"+empSeq).data("kendoDropDownList").dataSource.data(ds.rs);
                 $("#afTeam"+empSeq).data("kendoDropDownList").value("");
             }
         });
 
         var dataSource = [{
-            "dept_name" : "선택",
+            "dept_name" : "해당없음",
             "dept_seq" : ""
         }];
 
@@ -491,7 +491,6 @@ const historyReq = {
             }
             let ds = customKendo.fn_customAjax("/dept/getDeptAList", searchData);
             ds.rs.unshift({"dept_name" : "해당없음", "dept_seq" : ""});
-            ds.rs.unshift({"dept_name" : "선택", "dept_seq" : ""});
             $("#afTeam"+v.EMP_SEQ).data("kendoDropDownList").dataSource.data(ds.rs);
             $("#afTeam"+v.EMP_SEQ).data("kendoDropDownList").value(v.AF_TEAM_SEQ == undefined ? v.TEAM_SEQ : v.AF_TEAM_SEQ);
         });
@@ -501,7 +500,6 @@ const historyReq = {
             dataValueField: "value",
             dataSource: [
                 { text: "선택", value: "" },
-                { text: "해당없음", value: "" },
                 { text: "임용 (정규직)", value: "1" },
                 { text: "임용 (계약직)", value: "2" },
                 { text: "임용 (인턴 사원)", value: "3" },
@@ -526,7 +524,6 @@ const historyReq = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                {text: "선택", value: ""},
                 {text: "해당없음", value: ""},
                 {text: "수석행정원 / 1급", value: "1"},
                 {text: "수석매니저 / 1급", value: "2"},
@@ -550,7 +547,6 @@ const historyReq = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                {text: "선택", value: ""},
                 {text: "해당없음", value: ""},
                 {text: "원장", value: "1"},
                 {text: "본부장", value: "2"},
