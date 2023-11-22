@@ -54,33 +54,37 @@ const recruitPrintPop = {
             recruitInfoSn: recruitInfoSn,
             recruitAreaInfoSn: recruitAreaInfoSn
         };
-        //const rsTitle = customKendo.fn_customAjax("/inside/getRecruitPrintTitle", data);
+        const data1 = {
+            recruitInfoSn: recruitInfoSn,
+        };
+        const rsTitle = customKendo.fn_customAjax("/inside/getRecruitPrintTitle", data1);
         const rs = customKendo.fn_customAjax("/inside/getRecruitPrint", data);
 
-        //console.log("rsTitle",rsTitle);
+        console.log("rsTitle",rsTitle);
 
         console.log("rs");
         console.log(rs);
         console.log("rs object:", rs);
 
 
-
+        const recruitArray = rs.list;
 
         let areaInfoValue, deadLineValue, startDayValue, empNameValue;
 
-        if (!recruitAreaInfoSn) {
+        if (!recruitAreaInfoSn || recruitAreaInfoSn === "") {
 
             areaInfoValue = "기본값";
             deadLineValue = "기본값";
             startDayValue = "기본값";
             empNameValue = "기본값";
-        } else {
-            const recruitArray = rs.list;
 
-            areaInfoValue = recruitArray[0].AREA_TITLE;
-            deadLineValue = recruitArray[0].END_DT;
-            startDayValue = recruitArray[0].START_DT;
-            empNameValue = recruitArray[0].REG_EMP_NAME;
+        } else {
+            const recruitArray1 = rs.list;
+
+            areaInfoValue = recruitArray1[0].AREA_TITLE;
+            deadLineValue = recruitArray1[0].END_DT;
+            startDayValue = recruitArray1[0].START_DT;
+            empNameValue = recruitArray1[0].REG_EMP_NAME;
         };
 
 
@@ -95,6 +99,7 @@ const recruitPrintPop = {
 
         /** 작성자 */
         recruitPrintPop.global.hwpCtrl.PutFieldText("EMP_NAME_SIGN", empNameValue);
+
 
         /** 지원자 리스트 */
         let html = "";
