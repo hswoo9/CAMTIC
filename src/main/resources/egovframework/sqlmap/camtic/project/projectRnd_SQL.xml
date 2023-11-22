@@ -848,7 +848,7 @@
             STATUS = #{approveStatCode},
             DOC_ID = #{docId}
         WHERE
-            PJT_CH_SN = (SELECT PJT_CH_SN FROM CAM_PJT_MNG.DJ_PJT_CHANGE WHERE PJT_SN = #{pjtSn})
+            PJT_CH_SN = (SELECT MAX(PJT_CH_SN) FROM CAM_PJT_MNG.DJ_PJT_CHANGE WHERE PJT_SN = #{pjtSn})
     </update>
 
     <update id="updateChangeFinalApprStat" parameterType="map">
@@ -859,7 +859,7 @@
             APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
             APPROVAL_EMP_SEQ = #{empSeq}
         WHERE
-            PJT_CH_SN = (SELECT PJT_CH_SN FROM CAM_PJT_MNG.DJ_PJT_CHANGE WHERE PJT_SN = #{pjtSn})
+            PJT_CH_SN = (SELECT MAX(PJT_CH_SN) FROM CAM_PJT_MNG.DJ_PJT_CHANGE WHERE PJT_SN = #{pjtSn})
     </update>
 
 </mapper>
