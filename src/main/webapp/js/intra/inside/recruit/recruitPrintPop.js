@@ -54,10 +54,13 @@ const recruitPrintPop = {
             recruitInfoSn: recruitInfoSn,
             recruitAreaInfoSn: recruitAreaInfoSn
         };
-        //const rsTitle = customKendo.fn_customAjax("/inside/getRecruitPrintTitle", data);
+        const data1 = {
+            recruitInfoSn: recruitInfoSn,
+        };
+        const rsTitle = customKendo.fn_customAjax("/inside/getRecruitPrintTitle", data1);
         const rs = customKendo.fn_customAjax("/inside/getRecruitPrint", data);
 
-        //console.log("rsTitle",rsTitle);
+        console.log("rsTitle",rsTitle);
 
         console.log("rs");
         console.log(rs);
