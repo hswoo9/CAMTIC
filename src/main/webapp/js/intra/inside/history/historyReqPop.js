@@ -552,11 +552,11 @@ const historyReq = {
             dataSource: [
                 {text: "선택", value: ""},
                 {text: "해당없음", value: ""},
-                {text: "원장", value: "원장"},
-                {text: "본부장", value: "본부장"},
-                {text: "사업부장", value: "사업부장"},
-                {text: "센터장", value: "센터장"},
-                {text: "팀장", value: "팀장"}
+                {text: "원장", value: "1"},
+                {text: "본부장", value: "2"},
+                {text: "사업부장", value: "3"},
+                {text: "센터장", value: "4"},
+                {text: "팀장", value: "5"}
             ]
         });
     },
