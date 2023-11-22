@@ -555,6 +555,20 @@
             A.PJT_SN = #{pjtSn}
     </select>
 
+    <select id="getChangeList" parameterType="map" resultType="map">
+        /*getChangeList*/
+        SELECT
+            PC.*,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
+        FROM
+            CAM_PJT_MNG.DJ_PJT_CHANGE PC
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON PC.DOC_ID = DI.DOC_ID
+        WHERE
+            PC.PJT_SN = #{pjtSn}
+    </select>
+
     <select id="getPartRateVerCount" parameterType="map" resultType="int">
         /*getPartRateVerCount*/
         SELECT
@@ -801,6 +815,40 @@
     <update id="updateRndResFinalApprStat" parameterType="map">
         /* updateRndResFinalApprStat */
         UPDATE CAM_PJT_MNG.DJ_PJT_RESULT
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <insert id="insChangeInfo" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_CHANGE
+            (
+                PJT_SN,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{pjtSn},
+                #{empSeq}
+            )
+    </insert>
+
+    <update id="updateChangeApprStat" parameterType="map">
+        /* updateChangeApprStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_CHANGE
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updateChangeFinalApprStat" parameterType="map">
+        /* updateChangeFinalApprStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_CHANGE
         SET
             STATUS = #{approveStatCode},
             APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),

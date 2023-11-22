@@ -55,6 +55,8 @@ public interface ProjectRndService {
 
     List<Map<String, Object>> getAccountInfo(Map<String, Object> params);
 
+    List<Map<String, Object>> getChangeList(Map<String, Object> params);
+
     void setPartRateDetail(Map<String, Object> params);
 
     void checkPartRateDetail(Map<String, Object> params);
@@ -78,4 +80,7 @@ public interface ProjectRndService {
 
     /** 결과보고 결재 상태값에 따른 UPDATE 메서드 */
     void updateRndResDocState(Map<String, Object> bodyMap) throws Exception;
+
+    /** 세세목변경서 결재 상태값에 따른 UPDATE 메서드 */
+    void updateChangeDocState(Map<String, Object> bodyMap) throws Exception;
 }
