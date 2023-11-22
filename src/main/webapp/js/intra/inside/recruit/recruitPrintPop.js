@@ -54,10 +54,10 @@ const recruitPrintPop = {
             recruitInfoSn: recruitInfoSn,
             recruitAreaInfoSn: recruitAreaInfoSn
         };
-        //const rsTitle = customKendo.fn_customAjax("/inside/getRecruitPrintTitle", data);
+        const rsTitle = customKendo.fn_customAjax("/inside/getRecruitPrintTitle", data);
         const rs = customKendo.fn_customAjax("/inside/getRecruitPrint", data);
 
-        //console.log("rsTitle",rsTitle);
+        console.log("rsTitle",rsTitle);
 
         console.log("rs");
         console.log(rs);
@@ -68,7 +68,7 @@ const recruitPrintPop = {
 
         let areaInfoValue, deadLineValue, startDayValue, empNameValue;
 
-        if (!recruitAreaInfoSn) {
+        if (!recruitAreaInfoSn || recruitAreaInfoSn === "") {
 
             areaInfoValue = "기본값";
             deadLineValue = "기본값";
