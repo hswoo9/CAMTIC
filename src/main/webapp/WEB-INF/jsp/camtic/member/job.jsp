@@ -164,7 +164,7 @@
 
     let num = total + 1;
 
-    if(page != 1){ㄱ
+    if(page != 1){
       num = num - ((page - 1) * 10);
     }
     data.forEach((item, index) => {

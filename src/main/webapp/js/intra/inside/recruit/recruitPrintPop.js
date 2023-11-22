@@ -44,28 +44,44 @@ const recruitPrintPop = {
     openCallBack: function(){
         let recruitInfoSn = $("#recruitInfoSn").val();
         let recruitAreaInfoSn = $("#recruitAreaInfoSn").val();
-        console.log("recruitInfoSn : "+recruitInfoSn);
-        console.log("recruitAreaInfoSn : "+recruitAreaInfoSn);
+        console.log("Before recruitAreaInfoSn log");
+        console.log("recruitInfoSn : ",recruitInfoSn);
+        console.log("recruitAreaInfoSn : ",recruitAreaInfoSn);
+        console.log("Is recruitAreaInfoSn an empty string?", recruitAreaInfoSn === "");
+        console.log("Is recruitAreaInfoSn undefined?", recruitAreaInfoSn === undefined);
 
         const data = {
             recruitInfoSn: recruitInfoSn,
             recruitAreaInfoSn: recruitAreaInfoSn
         };
+        //const rsTitle = customKendo.fn_customAjax("/inside/getRecruitPrintTitle", data);
         const rs = customKendo.fn_customAjax("/inside/getRecruitPrint", data);
 
-
+        //console.log("rsTitle",rsTitle);
 
         console.log("rs");
         console.log(rs);
-        console.log("Is rs an array?", Array.isArray(rs));
         console.log("rs object:", rs);
 
-        const recruitArray = rs.list;
 
-        const areaInfoValue = recruitArray[0].AREA_TITLE;
-        const deadLineValue = recruitArray[0].END_DT;
-        const startDayValue = recruitArray[0].START_DT;
-        const empNameValue = recruitArray[0].REG_EMP_NAME;
+
+
+        let areaInfoValue, deadLineValue, startDayValue, empNameValue;
+
+        if (!recruitAreaInfoSn) {
+
+            areaInfoValue = "기본값";
+            deadLineValue = "기본값";
+            startDayValue = "기본값";
+            empNameValue = "기본값";
+        } else {
+            const recruitArray = rs.list;
+
+            areaInfoValue = recruitArray[0].AREA_TITLE;
+            deadLineValue = recruitArray[0].END_DT;
+            startDayValue = recruitArray[0].START_DT;
+            empNameValue = recruitArray[0].REG_EMP_NAME;
+        };
 
 
         /** 채용부문 */

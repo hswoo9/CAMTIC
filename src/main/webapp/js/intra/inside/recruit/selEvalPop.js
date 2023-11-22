@@ -67,7 +67,9 @@ var selEvalPop = {
                     effects: "fadeIn"
                 }
             },
+            activate: selEvalPop.onActivate
         });
+
 
         selEvalPop.gridReload("mainGrid");
         selEvalPop.gridReload("mainGrid2");
@@ -200,6 +202,12 @@ var selEvalPop = {
     gridReload : function(id) {
         console.log('서류/면접직원(위원) 설정 gridReload호출');
 
+        if($("#divId").val() != ''){
+            id = $("#divId").val();
+        } else {
+            id = "mainGrid";
+        }
+
         var dutyCode = "";
         $.each($("#" + id + "ChkDiv input[name=dutyCode]:checked"), function(){
             dutyCode += "," + $(this).val()
@@ -223,6 +231,7 @@ var selEvalPop = {
         } else {
             // id가 주어지지 않은 경우 기본값을 사용하고 함수 실행
             selEvalPop.mainGrid("/inside/getCommissionerList", selEvalPop.global.searchAjaxData, "mainGrid");
+
             selEvalPop.mainGrid("/inside/getCommissionerList", selEvalPop.global.searchAjaxData, "mainGrid2");
         }
     },
@@ -258,6 +267,16 @@ var selEvalPop = {
                     alert("선택한 면접평가위원이 선발되었습니다.");
                 }
             }
+        }
+    },
+
+    onActivate : function (){
+        if($("#tabA").hasClass("k-state-active")){
+            $("#divId").val("mainGrid");
+            selEvalPop.gridReload();
+        }else{
+            $("#divId").val("mainGrid2")
+            selEvalPop.gridReload();
         }
     }
 }
