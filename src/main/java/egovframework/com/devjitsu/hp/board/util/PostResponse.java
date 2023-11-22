@@ -59,7 +59,7 @@ public class PostResponse {
     private LocalDateTime CANCLE_DATE;
 
     private String REPLY_CNT;
-
+    private String SNS_TYPE;
 
     /*캠-인크루트 > 채용공고 */
     private String RECRUIT_INFO_SN;
@@ -210,4 +210,7 @@ public class PostResponse {
     public int getRECRUIT_VIEW_COUNT() {
         return RECRUIT_VIEW_COUNT;
     }
+
+    public String getSNS_TYPE() { return SNS_TYPE; }
+
 }

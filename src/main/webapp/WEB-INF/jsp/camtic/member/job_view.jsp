@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
+<% pageContext.setAttribute("br", "\n"); %>
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 <script type="text/javascript" src="<c:url value='/js/kendoui/kendo.all.min.js'/>"></script>
 <style>
@@ -139,8 +139,12 @@
                                     </tr>
                                     <c:forEach var="area" items="${map.recruitArea}">
                                         <tr style="border-top:1px solid #ddd;">
-                                            <td>${area.JOB}</td>
-                                            <td style="text-align:left; padding-left:10px;">${area.QUALIFICATION}</td>
+                                            <td>
+                                                <c:out escapeXml="false" value="${fn:replace(area.JOB, br, '<br>')}" />
+                                            </td>
+                                            <td style="text-align:left; padding-left:10px;">
+                                                <c:out escapeXml="false" value="${fn:replace(area.QUALIFICATION, br, '<br>')}" />
+                                            </td>
                                         </tr>
                                     </c:forEach>
                                 </table>
@@ -152,35 +156,45 @@
                             <div id="con3" style="margin-top:30px;">
                                 <h3>근무형태</h3>
                                 <div style="margin-top: 10px;">
-                                    <p>${map.WORK_TYPE}</p>
+                                    <p>
+                                        <c:out escapeXml="false" value="${fn:replace(map.WORK_TYPE, br, '<br>')}" />
+                                    </p>
                                 </div>
                             </div>
 
                             <div id="con4" style="margin-top:30px;">
                                 <h3>전형방법</h3>
                                 <div style="margin-top: 10px;">
-                                    <p>${map.ADMISSION}</p>
+                                    <p>
+                                        <c:out escapeXml="false" value="${fn:replace(map.ADMISSION, br, '<br>')}" />
+                                    </p>
                                 </div>
                             </div>
 
                             <div id="con5" style="margin-top:30px;">
                                 <h3>지원서류(온라인 등록)</h3>
                                 <div style="margin-top: 10px;">
-                                    <p>${map.APPLICATION_DOC}</p>
+                                    <p>
+                                        <c:out escapeXml="false" value="${fn:replace(map.APPLICATION_DOC, br, '<br>')}" />
+                                    </p>
                                 </div>
                             </div>
 
                             <div id="con6" style="margin-top:30px;">
                                 <h3>원서접수</h3>
                                 <div style="margin-top: 10px;">
-                                    <p>${map.RECEIPT_DOCU}</p>
+                                    <p>
+                                        <c:out escapeXml="false" value="${fn:replace(map.RECEIPT_DOCU, br, '<br>')}" />
+                                    </p>
                                 </div>
                             </div>
 
                             <div id="con7" style="margin-top:30px;">
                                 <h3>기타사항</h3>
                                 <div style="margin-top: 10px;">
-                                    <p>${map.REMARK}</p>
+                                    <p>
+                                        <c:out escapeXml="false" value="${fn:replace(map.REMARK, br, '<br>')}" />
+                                    </p>
                                 </div>
                             </div>
                         </div>
