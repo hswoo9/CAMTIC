@@ -143,6 +143,12 @@ function makeParams(params, form, url){
         form.append(pjtSn);
         url += "&pjtSn="+params.pjtSn;
     }
+	if(params.docTitle){
+		var docTitle = $('<input type="hidden" name="docTitle"/>');
+		docTitle.val(params.docTitle);
+		form.append(docTitle);
+		url += "&docTitle="+params.docTitle;
+	}
 
 	return url;
 }
