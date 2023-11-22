@@ -75,7 +75,8 @@
                                     <span style="font-size:20px; line-height:30px;">${map.RECRUIT_DETAIL}</span>
                                 </div>
                                 <div style="float:right; margin-top:10px;">
-                                    <span>${map.UPLOAD_DT}&nbsp&nbsp${map.UPLOAD_TEXT}</span>
+                                    <p>${map.UPLOAD_TEXT}</p>
+                                    <p style="float:right; margin-top:-9px;">${map.UPLOAD_DT}</p>
                                 </div>
 
                             </div>
@@ -86,10 +87,10 @@
                                     <colgroup>
                                         <col style="width:150px;"/>
                                         <col style="width:150px;"/>
+                                        <col style="width:160px;"/>
+                                        <col style="width:70px;"/>
                                         <col style="width:100px;"/>
-                                        <col style="width:100px;"/>
-                                        <col style="width:100px;"/>
-                                        <col style="width:100px;"/>
+                                        <col style="width:70px;"/>
                                         <col style="width:100px;"/>
                                     </colgroup>
                                     <thead>
@@ -149,7 +150,9 @@
                                     </c:forEach>
                                 </table>
                                 <div style="margin-top: 10px;">
-                                    <p>${map.ELGIBILITY_ETC}</p>
+                                    <p>
+                                        <c:out escapeXml="false" value="${fn:replace(map.ELIGIBILITY_ETC, br, '<br>')}" />
+                                    </p>
                                 </div>
                             </div>
 
