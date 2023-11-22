@@ -298,15 +298,25 @@
                 BF_DUTY_CODE,
                 BF_DUTY_NAME,
                 BF_JOB_DETAIL,
-                AF_DEPT_NAME,
-                AF_DEPT_SEQ,
-                AF_TEAM_NAME,
-                AF_TEAM_SEQ,
-                AF_POSITION_CODE,
-                AF_POSITION_NAME,
-                AF_DUTY_CODE,
-                AF_DUTY_NAME,
-                AF_JOB_DETAIL,
+                <if test='afDeptSeq != null and !"".equals(afDeptSeq)'>
+                    AF_DEPT_NAME,
+                    AF_DEPT_SEQ,
+                </if>
+                <if test='deptSeq != null and !"".equals(deptSeq)'>
+                    AF_TEAM_NAME,
+                    AF_TEAM_SEQ,
+                </if>
+                <if test='afPositionCode != null and !"".equals(afPositionCode)'>
+                    AF_POSITION_CODE,
+                    AF_POSITION_NAME,
+                </if>
+                <if test='afDutyCode != null and !"".equals(afDutyCode)'>
+                    AF_DUTY_CODE,
+                    AF_DUTY_NAME,
+                </if>
+                <if test='afJobDetail != null and !"".equals(afJobDetail)'>
+                    AF_JOB_DETAIL,
+                </if>
                 ETC,
                 REG_EMP_SEQ,
                 REG_EMP_NAME,
@@ -329,15 +339,25 @@
                 #{bfDutyCode},
                 #{bfDutyName},
                 #{bfJobDetail},
-                #{afDeptName},
-                #{afDeptSeq},
-                #{afTeamName},
-                #{afTeamSeq},
-                #{afPositionCode},
-                #{afPositionName},
-                #{afDutyCode},
-                #{afDutyName},
-                #{afJobDetail},
+                <if test='afDeptSeq != null and !"".equals(afDeptSeq)'>
+                    #{afDeptName},
+                    #{afDeptSeq},
+                </if>
+                <if test='deptSeq != null and !"".equals(deptSeq)'>
+                    #{afTeamName},
+                    #{afTeamSeq},
+                </if>
+                <if test='afPositionCode != null and !"".equals(afPositionCode)'>
+                    #{afPositionCode},
+                    #{afPositionName},
+                </if>
+                <if test='afDutyCode != null and !"".equals(afDutyCode)'>
+                    #{afDutyCode},
+                    #{afDutyName},
+                </if>
+                <if test='afJobDetail != null and !"".equals(afJobDetail)'>
+                    #{afJobDetail},
+                </if>
                 #{afEtc},
                 #{empSeq},
                 #{regEmpName},
@@ -423,15 +443,25 @@
         SET
             APNT_CD = #{apntCd},
             APNT_NAME = #{apntName},
-            AF_DEPT_NAME = #{afDeptName},
-            AF_DEPT_SEQ = #{afDeptSeq},
-            AF_TEAM_NAME = #{afTeamName},
-            AF_TEAM_SEQ = #{afTeamSeq},
-            AF_POSITION_CODE = #{afPositionCode},
-            AF_POSITION_NAME = #{afPositionName},
-            AF_DUTY_CODE = #{afDutyCode},
-            AF_DUTY_NAME = #{afDutyName},
-            AF_JOB_DETAIL = #{afJobDetail},
+            <if test='afDeptSeq != null and !"".equals(afDeptSeq)'>
+                AF_DEPT_NAME = #{afDeptName},
+                AF_DEPT_SEQ = #{afDeptSeq},
+            </if>
+            <if test='deptSeq != null and !"".equals(deptSeq)'>
+                AF_TEAM_NAME = #{afTeamName},
+                AF_TEAM_SEQ = #{afTeamSeq},
+            </if>
+            <if test='afPositionCode != null and !"".equals(afPositionCode)'>
+                AF_POSITION_CODE = #{afPositionCode},
+                AF_POSITION_NAME = #{afPositionName},
+            </if>
+            <if test='afDutyCode != null and !"".equals(afDutyCode)'>
+                AF_DUTY_CODE = #{afDutyCode},
+                AF_DUTY_NAME = #{afDutyName},
+            </if>
+            <if test='afJobDetail != null and !"".equals(afJobDetail)'>
+                AF_JOB_DETAIL = #{afJobDetail},
+            </if>
             ETC = #{afEtc},
             NUMBER_NAME = #{numberName},
             RELEVANT_NAME = #{relevantName}
