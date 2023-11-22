@@ -88,6 +88,9 @@
                 <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="docPass" style="font-size: 12px" value="D" onclick="">
                     <span>메일발송</span>
                 </button>
+                <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="font-size: 12px" value="S" onclick="recruitAdminPop.getEvalSetPop()">
+                    <span>심사위원 설정</span>
+                </button>
             </div>
 
             <div class="mt10" style="text-align: right">
