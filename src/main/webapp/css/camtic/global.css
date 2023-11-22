@@ -3142,6 +3142,7 @@ img {max-width:100%;}
 	.__imgW4 .iw14{font-size:12px;}
 }
 
+.__imgW5 img {width:800px;}/* 231120 디크리에이티브 수정 */
 .__imgW5 .iw {/* background:red;opacity:0.5; */}
 .__imgW5 .iw1 {color:#fff;font-weight:bold;left:0%;top:13.4%;width:20.8%;height:37.6%;font-size:24px;}
 .__imgW5 .iw2 {color:#fff;font-weight:bold;left:0%;top:59.4%;width:20.8%;height:37.6%;font-size:24px;}
