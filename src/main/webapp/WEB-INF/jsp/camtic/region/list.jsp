@@ -35,7 +35,7 @@
           <div class="__icoBox1">
             <%-- <div class="ico"><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div> --%>
             <div class="__fz18 __black">
-              <div class="img"><img src="/images/camtic/img-facility.png" alt=""></div>
+              <div class="img"><img src="/images/camtic/img-facility.png" alt="" style="border-radius: 10px;"></div>
             </div>
           </div>
 
