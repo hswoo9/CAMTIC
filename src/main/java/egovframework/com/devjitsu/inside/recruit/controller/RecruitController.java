@@ -827,5 +827,12 @@ public class RecruitController {
         return "jsonView";
     }
 
+    @RequestMapping("/inside/getRecruitPrintTitle")
+    public String getRecruitPrintTitle(@RequestParam Map<String,Object> params, Model model) {
+        Map<String, Object> recruitPrintTitle = recruitService.getRecruitPrintTitle(params);
+        model.addAttribute("recruitPrintTitle", recruitPrintTitle);
+        return "jsonView";
+    }
+
 
 }
