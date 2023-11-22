@@ -330,7 +330,7 @@ var screenViewPop = {
             screenViewPop.global.searchAjaxData = {
                 recruitInfoSn : $("#recruitInfoSn").val(),
                 recruitAreaInfoSn : $("#recruitAreaInfoSn").val(),
-                searchTypeArr : "'D','I'"
+                searchTypeArr : "'D','I','IF'"
             }
 
             var result = customKendo.fn_customAjax("/recruit/manage/eval/getApplicationInterViewList.do", screenViewPop.global.searchAjaxData);
