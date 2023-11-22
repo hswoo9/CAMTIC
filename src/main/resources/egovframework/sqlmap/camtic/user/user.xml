@@ -115,15 +115,26 @@
         UPDATE
             CAM_HR.DJ_EMP_INFO
         SET
-            DEPT_SEQ = #{deptSeq},
-            DEPT_NAME = (CASE WHEN #{afTeamName} = '' THEN #{afDeptName} ELSE #{afTeamName} END),
-            DEPT_TEAM_NAME = #{afTeamName},
-            POSITION_CODE = #{afPositionCode},
-            POSITION_NAME = IFNULL(#{position}, ""),
-            GRADE_NAME = #{afGradeName},
-            DUTY_CODE = #{afDutyCode},
-            DUTY_NAME = IFNULL(#{afDutyName}, ""),
-            JOB_DETAIL = #{afJobDetail}
+            <if test='afDeptSeq != null and !"".equals(afDeptSeq)'>
+                DEPT_SEQ = #{deptSeq},
+                DEPT_NAME = (CASE WHEN #{afTeamName} = '' THEN #{afDeptName} ELSE #{afTeamName} END),
+            </if>
+            <if test='deptSeq != null and !"".equals(deptSeq)'>
+                DEPT_TEAM_NAME = #{afTeamName},
+            </if>
+            <if test='afPositionCode != null and !"".equals(afPositionCode)'>
+                POSITION_CODE = #{afPositionCode},
+                POSITION_NAME = IFNULL(#{position}, ""),
+                GRADE_NAME = #{afGradeName},
+            </if>
+            <if test='afDutyCode != null and !"".equals(afDutyCode)'>
+                DUTY_CODE = #{afDutyCode},
+                DUTY_NAME = IFNULL(#{afDutyName}, ""),
+            </if>
+            <if test='afJobDetail != null and !"".equals(afJobDetail)'>
+                JOB_DETAIL = #{afJobDetail},
+            </if>
+            EMP_SEQ = #{hisEmpSeq}
         WHERE
             EMP_SEQ = #{hisEmpSeq}
     </update>

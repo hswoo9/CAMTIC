@@ -281,4 +281,15 @@ public class HistoryController {
         return formatter.format(today);
     }
 
+    @RequestMapping("/inside/modAf")
+    public String modAf(@RequestParam Map<String, Object> params, Model model) {
+        try{
+            historyService.modAf(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
 }

@@ -429,12 +429,15 @@
     let html = "";
 
     resultData3.forEach((item, index) => {
-    
+
       html += "<a href='"+ linkUrl +item.RECRUIT_INFO_SN+" ' class='box'>";
+
       if(item.RECRUIT_STATUS_SN == 'E'){
-        html += '<div class="ddakji end"><span style="font-size:13px;">' + item.RECRUIT_STATUS_TEXT + '</span></div>';
-      }else{
-        html += '<div class="ddakji ing"><span style="font-size:13px;">' + item.RECRUIT_STATUS_TEXT + '</span></div>';
+        html += '<div class="ddakji end"><span style="font-size:13px;">' + item.RECRUIT_STATUS_TEXT  + '</span></div>';
+      }else if(item.RECRUIT_STATUS_SN == '3' || item.RECRUIT_STATUS_SN == '4'){
+        html += '<div class="ddakji ing"><span style="font-size:13px;">심사중</span></div>';
+      }else if(item.RECRUIT_STATUS_SN == '2'){
+        html += '<div class="ddakji ing"><span style="font-size:13px;">접수중</span></div>';
       }
       html += '<p class="subject" style="margin-top:31px;">' + item.RECRUIT_TITLE + '</p>';
      /* let contents = item.RECRUIT_DETAIL.replace(/<\/?("[^"]*"|'[^']*'|[^>])*(>|$)/gi, "");

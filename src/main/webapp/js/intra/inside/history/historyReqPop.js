@@ -418,11 +418,9 @@ const historyReq = {
         let userArr = [];
         $("input[name='checkEmp']").each(function(){
             if(this.checked){
-                if(historyReq.global.userArr.indexOf(this.value) < 0){
-                    userArr.push(this.value);
-                    historyReq.global.userArr.push(this.value);
-                    flag = true;
-                }
+                userArr.push(this.value);
+                historyReq.global.userArr.push(this.value);
+                flag = true;
             }
         });
         if(!flag){
@@ -454,6 +452,7 @@ const historyReq = {
         var data = {}
         data.deptLevel = 1;
         var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
+        deptDsA.rs.unshift({"dept_name" : "해당없음", "dept_seq" : ""});
         deptDsA.rs.unshift({"dept_name" : "선택", "dept_seq" : ""});
         $(".afDept").kendoDropDownList({
             dataSource : deptDsA.rs,
@@ -468,14 +467,14 @@ const historyReq = {
                 }
 
                 var ds = customKendo.fn_customAjax("/dept/getDeptAList", searchData);
-                ds.rs.unshift({"dept_name" : "선택", "dept_seq" : ""});
+                ds.rs.unshift({"dept_name" : "해당없음", "dept_seq" : ""});
                 $("#afTeam"+empSeq).data("kendoDropDownList").dataSource.data(ds.rs);
                 $("#afTeam"+empSeq).data("kendoDropDownList").value("");
             }
         });
 
         var dataSource = [{
-            "dept_name" : "선택",
+            "dept_name" : "해당없음",
             "dept_seq" : ""
         }];
 
@@ -490,9 +489,8 @@ const historyReq = {
                 parentDeptSeq : v.AF_DEPT_SEQ == undefined ? v.DEPT_SEQ : v.AF_DEPT_SEQ,
                 deptLevel : 2
             }
-            console.log(searchData);
             let ds = customKendo.fn_customAjax("/dept/getDeptAList", searchData);
-            ds.rs.unshift({"dept_name" : "선택", "dept_seq" : ""});
+            ds.rs.unshift({"dept_name" : "해당없음", "dept_seq" : ""});
             $("#afTeam"+v.EMP_SEQ).data("kendoDropDownList").dataSource.data(ds.rs);
             $("#afTeam"+v.EMP_SEQ).data("kendoDropDownList").value(v.AF_TEAM_SEQ == undefined ? v.TEAM_SEQ : v.AF_TEAM_SEQ);
         });
@@ -526,7 +524,7 @@ const historyReq = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                {text: "선택", value: ""},
+                {text: "해당없음", value: ""},
                 {text: "수석행정원 / 1급", value: "1"},
                 {text: "수석매니저 / 1급", value: "2"},
                 {text: "수석연구원 / 1급", value: "3"},
@@ -549,12 +547,12 @@ const historyReq = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                {text: "선택", value: ""},
-                {text: "원장", value: "원장"},
-                {text: "본부장", value: "본부장"},
-                {text: "사업부장", value: "사업부장"},
-                {text: "센터장", value: "센터장"},
-                {text: "팀장", value: "팀장"}
+                {text: "해당없음", value: ""},
+                {text: "원장", value: "1"},
+                {text: "본부장", value: "2"},
+                {text: "사업부장", value: "3"},
+                {text: "센터장", value: "4"},
+                {text: "팀장", value: "5"}
             ]
         });
     },
@@ -687,7 +685,6 @@ const historyReq = {
         let i=0;
         let it = setInterval(function(){
             if(i < arr.length){
-                console.log("index : "+i);
                 var toDate = new Date().getFullYear() + "년 " + (new Date().getMonth() + 1) + "월 " + new Date().getDate() + "일";
                 historyReq.global.hwpCtrl.PutFieldText("toDate", toDate);
                 historyReq.global.hwpCtrl.PutFieldText("position", arr[i].bfPositionName);
@@ -741,7 +738,6 @@ const historyReq = {
             dataType : "json",
             async : false,
             success : function(result){
-                console.log("ajax : "+index);
             },
             error : function(e) {
                 alert("데이터 저장 중 에러가 발생했습니다.");
@@ -759,20 +755,23 @@ const historyReq = {
     },
 
     fn_delApnt : function(){
-        const grid = $("#popMainGrid").data("kendoGrid");
-        let dataItem = {};
+        var grid = $("#popMainGrid").data("kendoGrid");
+        var dataItem = {};
         $("#popMainGrid").find("input[name='checkUser']:checked").each(function(){
+
             dataItem = grid.dataItem($(this).closest("tr"));
-            grid.removeRow($(this).closest('tr'));
+
             historyReq.global.userArr = historyReq.global.userArr.filter((value, index, arr) => {
-                return String(value) != String(dataItem.EMP_SEQ);
+                return String(value) != String($(this).val());
             });
+            historyReq.global.editDataSource.data = historyReq.global.editDataSource.data.filter(param => String(param.EMP_SEQ) != String($(this).val()));
 
-            historyReq.global.editDataSource.data = historyReq.global.editDataSource.data.filter(param => String(param.EMP_SEQ) != String(dataItem.EMP_SEQ));
+            grid.removeRow($(this).closest('tr'));
+
         });
-
         historyReq.editGrid();
         historyReq.fn_popGridSetting();
+
     },
 
     fn_delApntAll : function(){
