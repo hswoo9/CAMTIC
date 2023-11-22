@@ -17,6 +17,11 @@ var processInfo = {
             success : function(rs){
 
                 console.log(rs);
+
+                for(var i = 0 ; i < rs.psList.length ; i++){
+                    $("#commFileHtml" + rs.psList[i].PS_PREP).css("display", "");
+                }
+
                 if(rs.psFileList != null){
                     var pf1 = rs.psFileList.psFile1List;
                     var pf2 = rs.psFileList.psFile2List;

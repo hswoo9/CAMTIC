@@ -35,6 +35,8 @@ var regPrj = {
         var tab5Url = "/intra/cam_project/teamInfo.do";         // 협업관리
         var tab6Url = "/intra/cam_project/goodsInfo.do";
         var tab7Url = "/intra/cam_project/resultInfo.do";
+        var tab15Url = "/intra/cam_project/resultInfo.do";      // 실적관리
+
 
         var tab8Url = "/intra/cam_project/bustInfo.do";
         var tab9Url = "/intra/cam_project/purcInfo.do";         // 구매관리
@@ -65,6 +67,7 @@ var regPrj = {
             tab8Url += "&engnSn=" + setParameters.ENGN_SN;
             tab9Url += "&engnSn=" + setParameters.ENGN_SN;
             tab10Url += "&engnSn=" + setParameters.ENGN_SN;
+            tab15Url += "&engnSn=" + setParameters.ENGN_SN;
         }
 
 
@@ -129,6 +132,8 @@ var regPrj = {
                 {name: "협업", url: tab5Url},
                 {name: "납품관리", url: tab6Url},
                 {name: "결과보고", url: tab7Url, imageUrl : "/images/ico/etc_01_1.png"},
+                {name: "실적관리", url: tab15Url},
+
                 {name: "출장", url: tab8Url},
                 {name: "구매", url: tab9Url},
                 {name: "정산/원가", url: tab10Url, imageUrl : "/images/ico/etc_01_1.png"}
@@ -199,6 +204,7 @@ var regPrj = {
 
                 tabStrip.enable(tabStrip.tabGroup.children());
 
+
                 // setParameters.ENGN_SN;
                 regPrj.fn_setData(setParameters);
 
@@ -224,13 +230,18 @@ var regPrj = {
                     tabStrip.activateTab(tabStrip.tabGroup.children().eq(0));
                 }
 
-                if(setParameters.PJT_SN){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(0));
-                    // tabStrip.enable(tabStrip.tabGroup.children().eq(1));
-                }
-
                 // setParameters.ENGN_SN;
                 regPrj.fn_setData(setParameters);
+
+                tabStrip.disable(tabStrip.tabGroup.children().eq(8));
+
+                if(setParameters.PJT_SN){
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(0));
+                }
+
+                if(setParameters.PM_EMP_SEQ == $("#regEmpSeq").val()){
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(8));
+                }
 
                 if(setParameters.PJT_STEP == "E"){
                     tabStrip.enable(tabStrip.tabGroup.children().eq(0));
@@ -240,8 +251,8 @@ var regPrj = {
                 if(setParameters.PJT_STOP != "Y"){
                     if(setParameters.PJT_STEP >= "E0"){
                         tabStrip.enable(tabStrip.tabGroup.children().eq(1));
-                        tabStrip.enable(tabStrip.tabGroup.children().eq(8));
                         tabStrip.enable(tabStrip.tabGroup.children().eq(9));
+                        tabStrip.enable(tabStrip.tabGroup.children().eq(10));
                     }
 
                     if(setParameters.PJT_STEP >= "E1"){
@@ -265,11 +276,11 @@ var regPrj = {
                     }
 
                     if(setParameters.PJT_STEP >= "E5"){
-                        tabStrip.enable(tabStrip.tabGroup.children().eq(10));
+                        tabStrip.enable(tabStrip.tabGroup.children().eq(11));
                     }
 
                     if(setParameters.PJT_STEP >= "E6"){
-                        tabStrip.enable(tabStrip.tabGroup.children().eq(10));
+                        tabStrip.enable(tabStrip.tabGroup.children().eq(11));
                     }
                 } else {
                     $("#modBtn").css("display", "none");
@@ -280,7 +291,7 @@ var regPrj = {
 
                 var html = '<div style="width:100%;"></div>';
                 var doc = parser.parseFromString(html, 'text/html');
-                $("#tabstrip li")[7].after(doc.body.firstChild);
+                $("#tabstrip li")[8].after(doc.body.firstChild);
 
                 var html2 = '<div style="padding: 6px 12px"><b style="color: red">사업관리</b></div>';
                 var doc2 = parser.parseFromString(html2, 'text/html');
@@ -288,7 +299,7 @@ var regPrj = {
 
                 var html3 = '<div style="padding: 6px 12px"><b style="color: blue">운영관리</b></div>';
                 var doc3 = parser.parseFromString(html3, 'text/html');
-                $("#tabstrip li")[8].before(doc3.body.firstChild);
+                $("#tabstrip li")[9].before(doc3.body.firstChild);
             }
 
 
