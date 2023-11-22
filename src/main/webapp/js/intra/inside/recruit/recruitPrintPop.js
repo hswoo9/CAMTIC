@@ -54,10 +54,10 @@ const recruitPrintPop = {
             recruitInfoSn: recruitInfoSn,
             recruitAreaInfoSn: recruitAreaInfoSn
         };
-        const rsTitle = customKendo.fn_customAjax("/inside/getRecruitPrintTitle", data);
+        //const rsTitle = customKendo.fn_customAjax("/inside/getRecruitPrintTitle", data);
         const rs = customKendo.fn_customAjax("/inside/getRecruitPrint", data);
 
-        console.log("rsTitle",rsTitle);
+        //console.log("rsTitle",rsTitle);
 
         console.log("rs");
         console.log(rs);
@@ -74,17 +74,6 @@ const recruitPrintPop = {
             deadLineValue = "기본값";
             startDayValue = "기본값";
             empNameValue = "기본값";
-            /** 채용부문 */
-            recruitPrintPop.global.hwpCtrl.PutFieldText("AREA_INFO", areaInfoValue);
-
-            /** 마감일 */
-            recruitPrintPop.global.hwpCtrl.PutFieldText("DEADLINE_DT", deadLineValue);
-
-            /** 작성일 */
-            recruitPrintPop.global.hwpCtrl.PutFieldText("REG_DT", startDayValue);
-
-            /** 작성자 */
-            recruitPrintPop.global.hwpCtrl.PutFieldText("EMP_NAME_SIGN", empNameValue);
 
         } else {
             const recruitArray1 = rs.list;
@@ -93,7 +82,7 @@ const recruitPrintPop = {
             deadLineValue = recruitArray1[0].END_DT;
             startDayValue = recruitArray1[0].START_DT;
             empNameValue = recruitArray1[0].REG_EMP_NAME;
-
+        };
 
 
         /** 채용부문 */
@@ -108,7 +97,7 @@ const recruitPrintPop = {
         /** 작성자 */
         recruitPrintPop.global.hwpCtrl.PutFieldText("EMP_NAME_SIGN", empNameValue);
 
-        };
+
         /** 지원자 리스트 */
         let html = "";
         html += '<table style="font-family:바탕체;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
