@@ -171,9 +171,10 @@
             <h3>법인에서 운용하고 있는 웹사이트</h3>
             <div>
               <p>- 법인 홈페이지 (<a href="http://www.camtic.or.kr/camtic/intro.html" target="_blank" style="font-size: 15px; line-height: 1.6em;">www.camtic.or.kr</a>)</p>
-              <p class="mt5">- 상품화지원센터 홈페이지 (<a href="http://www.camtic.co.kr/CAMTIC/Development/Development00" target="_blank" style="font-size: 15px; line-height: 1.6em;">www.camtic.co.kr</a>)</p>
+              <p>- 통합 홈페이지 (<a href="http://www.camtic.or.kr/camtic/intro.html" target="_blank" style="font-size: 15px; line-height: 1.6em;">www.camtic.or.kr</a>)</p> <%--???????.camtic.or.kr 도메인 확정되면 업데이트--%>
+             <%-- <p class="mt5">- 상품화지원센터 홈페이지 (<a href="http://www.camtic.co.kr/CAMTIC/Development/Development00" target="_blank" style="font-size: 15px; line-height: 1.6em;">www.camtic.co.kr</a>)</p>
               <p class="mt5">- 인재개발지원 홈페이지 (<a href="http://edu.camtic.or.kr/HRD/index.aspx" target="_blank" style="font-size: 15px; line-height: 1.6em;">edu.camtic.or.kr</a>)</p>
-              <p class="mt5">- 전주벤처기업육성촉진지구발전협의회 홈페이지 (<a href="http://www.jvada.or.kr/" target="_blank" style="font-size: 15px; line-height: 1.6em;">www.jvada.or.kr</a>)</p>
+              <p class="mt5">- 전주벤처기업육성촉진지구발전협의회 홈페이지 (<a href="http://www.jvada.or.kr/" target="_blank" style="font-size: 15px; line-height: 1.6em;">www.jvada.or.kr</a>)</p>--%>
             </div>
           </div>
 
@@ -281,13 +282,14 @@
             ① 법인는 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 처리와 관련한 정보주체의 불만처리 및 피해구제 등을 위하여 아래와 같이 개인정보 보호책임자를 지정합니다.<br>
             <br>
             가. 개인정보 보호책임자<br>
-            - 성 명 : 노상흡<br>
-            - 직 책 : 본부장<br>
-            - 연락처 : 063-219-0339, camtic@camtic.or.kr, FAX)063-219-0303<br>
+            - 성 명 : 유지연<br>
+            - 직 책 : 팀장<br>
+            - 연락처 : 063-219-0300, camtic@camtic.or.kr, FAX)063-219-0303<br>
+            <br>
             나. 개인정보 보호 담당부서<br>
-            - 부서명 : 사무국<br>
-            - 담당자 : 김종대, 신재경<br>
-            - 연락처 : 063-219-0339, jdkim@camtic.or.kr, FAX)063-219-0303<br>
+            - 부서명 : 경영지원팀<br>
+            - 담당자 : 국민<br>
+            - 연락처 : 063-219-0300, mguk@camtic.or.kr, FAX)063-219-0303<br>
             <br>
             ② 정보주체가 법인의 서비스(또는 사업)을 이용하면서 발생한 모든 개인정보 보호 관련 문의, 불만처리, 피해구제 등에 관한 사항을 개인정보 보호책임자 및 담당부서로 문의할 수 있습니다.
             법인은 정보주체의 문의에 대해 지체 없이 답변 및 처리할 것입니다.
@@ -324,7 +326,7 @@
             <tbody>
             <tr>
               <th scope="row">관리책임자</th>
-              <td>노상흡</td>
+              <td>송기정</td>
               <td>본부장</td>
               <td>캠틱종합기술원</td>
               <td>063-219-0300</td>
@@ -332,7 +334,7 @@
             <tr>
               <th scope="row">관리권한자</th>
               <td>김종대</td>
-              <td>과장</td>
+              <td>책임</td>
               <td>캠틱종합기술원</td>
               <td>063-219-0339</td>
             </tr>
