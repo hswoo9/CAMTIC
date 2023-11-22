@@ -92,6 +92,7 @@ var regRnd = {
         var tab12Url= "/intra/cam_project/budgetChangeInfo.do";          // 세세목 변경신청
         var tab13Url= "/intra/cam_project/budgetChangeInfo.do";          // 입금관리
         var tab14Url= "/intra/cam_project/purcInfo.do";                 // 정산/원가
+        var tab15Url= "/intra/cam_project/purcInfo.do";                 // 실적관리
 
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -109,7 +110,7 @@ var regRnd = {
             tab12Url += "?pjtSn=" + setParameters.PJT_SN;
             tab13Url += "?pjtSn=" + setParameters.PJT_SN;
             tab14Url += "?pjtSn=" + setParameters.PJT_SN;
-
+            tab15Url += "?pjtSn=" + setParameters.PJT_SN;
         }
 
         var dataSource = [];
@@ -134,6 +135,7 @@ var regRnd = {
                 // {name: "입출금대장관리", url: tab5Url},
                 {name: "사업비관리(예산/지급)", url: tab7Url},        // 연구비 입금처리와 같이 사용
                 {name: "결과보고", url: tab8Url, imageUrl: "/images/ico/etc_01_1.png"},        // 연구비 입금처리와 같이 사용
+                {name: "실적관리", url: tab15Url},        // 연구비 입금처리와 같이 사용
 
                 // {name: "지급관리", url: tab9Url},
                 {name: "출장", url: tab9Url},
@@ -188,8 +190,14 @@ var regRnd = {
                 }
             }
 
-            tabStrip.disable(tabStrip.tabGroup.children().eq(11));
+            tabStrip.disable(tabStrip.tabGroup.children().eq(8));
+
+            if(setParameters.PM_EMP_SEQ == $("#regEmpSeq").val()){
+                tabStrip.enable(tabStrip.tabGroup.children().eq(8));
+            }
+
             tabStrip.disable(tabStrip.tabGroup.children().eq(12));
+            tabStrip.disable(tabStrip.tabGroup.children().eq(13));
 
         }
 
@@ -212,7 +220,7 @@ var regRnd = {
 
             var html = '<div style="width:100%;"></div>';
             var doc = parser.parseFromString(html, 'text/html');
-            $("#tabstrip li")[7].after(doc.body.firstChild);
+            $("#tabstrip li")[8].after(doc.body.firstChild);
 
             var html2 = '<div style="padding: 6px 12px"><b style="color: red">사업관리</b></div>';
             var doc2 = parser.parseFromString(html2, 'text/html');
@@ -220,7 +228,7 @@ var regRnd = {
 
             var html3 = '<div style="padding: 6px 12px"><b style="color: blue">운영관리</b></div>';
             var doc3 = parser.parseFromString(html3, 'text/html');
-            $("#tabstrip li")[8].before(doc3.body.firstChild);
+            $("#tabstrip li")[9].before(doc3.body.firstChild);
         }
     },
 

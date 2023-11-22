@@ -70,6 +70,8 @@ var regUnRnd = {
         var tab13Url = "/intra/cam_project/teamInfo.do";        // 입금관리
         var tab14Url = "/intra/cam_project/teamInfo.do";        // 협업
 
+        var tab15Url = "/intra/cam_project/teamInfo.do";        // 실적관리
+
 
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -87,6 +89,8 @@ var regUnRnd = {
             tab12Url += "?pjtSn=" + setParameters.PJT_SN;
             tab13Url += "?pjtSn=" + setParameters.PJT_SN;
             tab14Url += "?pjtSn=" + setParameters.PJT_SN;
+            tab15Url += "?pjtSn=" + setParameters.PJT_SN;
+
         }
 
         var dataSource = [];
@@ -109,6 +113,8 @@ var regUnRnd = {
                 {name: "사업비관리(예산/지급)", url: tab5Url},
                 {name: "협업", url: tab10Url}, // 지출내역조회와 같이 사용
                 {name: "결과보고", url: tab8Url, imageUrl : "/images/ico/etc_01_1.png"}, // 지출내역조회와 같이 사용
+                {name: "실적관리", url: tab15Url},
+
                 {name: "출장", url: tab9Url},
                 {name: "구매", url: tab11Url},
                 {name: "예산변경 및 반납", url: tab12Url},
@@ -155,10 +161,16 @@ var regUnRnd = {
                     tabStrip.enable(tabStrip.tabGroup.children().eq(6));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(7));
 
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(8));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(9));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(10));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(11));
 
+                }
+
+                tabStrip.disable(tabStrip.tabGroup.children().eq(8));
+
+                if(setParameters.PM_EMP_SEQ == $("#regEmpSeq").val()){
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(8));
                 }
             }
 
@@ -204,7 +216,7 @@ var regUnRnd = {
 
             var html = '<div style="width:100%;"></div>';
             var doc = parser.parseFromString(html, 'text/html');
-            $("#tabstrip li")[7].after(doc.body.firstChild);
+            $("#tabstrip li")[8].after(doc.body.firstChild);
 
             var html2 = '<div style="padding: 6px 12px"><b style="color: red">사업관리</b></div>';
             var doc2 = parser.parseFromString(html2, 'text/html');
@@ -212,7 +224,7 @@ var regUnRnd = {
 
             var html3 = '<div style="padding: 6px 12px"><b style="color: blue">운영관리</b></div>';
             var doc3 = parser.parseFromString(html3, 'text/html');
-            $("#tabstrip li")[8].before(doc3.body.firstChild);
+            $("#tabstrip li")[9].before(doc3.body.firstChild);
         }
     },
 
