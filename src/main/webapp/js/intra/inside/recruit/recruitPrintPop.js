@@ -44,28 +44,54 @@ const recruitPrintPop = {
     openCallBack: function(){
         let recruitInfoSn = $("#recruitInfoSn").val();
         let recruitAreaInfoSn = $("#recruitAreaInfoSn").val();
-        console.log("recruitInfoSn : "+recruitInfoSn);
-        console.log("recruitAreaInfoSn : "+recruitAreaInfoSn);
+        console.log("Before recruitAreaInfoSn log");
+        console.log("recruitInfoSn : ",recruitInfoSn);
+        console.log("recruitAreaInfoSn : ",recruitAreaInfoSn);
+        console.log("Is recruitAreaInfoSn an empty string?", recruitAreaInfoSn === "");
+        console.log("Is recruitAreaInfoSn undefined?", recruitAreaInfoSn === undefined);
 
         const data = {
             recruitInfoSn: recruitInfoSn,
             recruitAreaInfoSn: recruitAreaInfoSn
         };
+        const data1 = {
+            recruitInfoSn: recruitInfoSn,
+        };
+        const rsTitle = customKendo.fn_customAjax("/inside/getRecruitPrintTitle", data1);
         const rs = customKendo.fn_customAjax("/inside/getRecruitPrint", data);
 
-
+        console.log("rsTitle",rsTitle);
 
         console.log("rs");
         console.log(rs);
-        console.log("Is rs an array?", Array.isArray(rs));
         console.log("rs object:", rs);
+
 
         const recruitArray = rs.list;
 
-        const areaInfoValue = recruitArray[0].AREA_TITLE;
-        const deadLineValue = recruitArray[0].END_DT;
-        const startDayValue = recruitArray[0].START_DT;
-        const empNameValue = recruitArray[0].REG_EMP_NAME;
+        let areaInfoValue, deadLineValue, startDayValue, empNameValue;
+        let recruitPrintTitle = rsTitle.recruitPrintTitle;
+        console.log(recruitPrintTitle);
+
+        if (!recruitAreaInfoSn || recruitAreaInfoSn === "") {
+            /*
+            areaInfoValue = "기본값";
+            deadLineValue = "기본값";
+            startDayValue = "기본값";
+            empNameValue = "기본값";
+             */
+            areaInfoValue = recruitPrintTitle.RECRUIT_TITLE || "기본값";
+            deadLineValue = recruitPrintTitle.END_DT || "기본값";
+            startDayValue = recruitPrintTitle.START_DT || "기본값";
+            empNameValue = recruitPrintTitle.REG_EMP_NAME || "기본값";
+        } else {
+            const recruitArray1 = rs.list;
+
+            areaInfoValue = recruitArray1[0].AREA_TITLE;
+            deadLineValue = recruitArray1[0].END_DT;
+            startDayValue = recruitArray1[0].START_DT;
+            empNameValue = recruitArray1[0].REG_EMP_NAME;
+        };
 
 
         /** 채용부문 */
@@ -79,6 +105,7 @@ const recruitPrintPop = {
 
         /** 작성자 */
         recruitPrintPop.global.hwpCtrl.PutFieldText("EMP_NAME_SIGN", empNameValue);
+
 
         /** 지원자 리스트 */
         let html = "";

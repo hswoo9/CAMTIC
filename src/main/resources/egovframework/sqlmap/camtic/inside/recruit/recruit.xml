@@ -924,8 +924,10 @@
         AM.RECRUIT_INFO_SN = #{recruitInfoSn}
         AND
         AM.SAVE_TYPE = 'S'
+        <if test='recruitAreaInfoSn != null and !"".equals(recruitAreaInfoSn)'>
         AND
         AM.RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
+        </if>
         GROUP BY AM.APPLICATION_ID
     </select>
 
@@ -939,6 +941,20 @@
         WHERE
             RECRUIT_INFO_SN = #{recruitInfoSn}
     </update>
+
+
+    <select id="getRecruitPrintTitle" parameterType="map" resultType="map">
+        /*getRecruitPrintTitle*/
+        SELECT
+        b.RECRUIT_TITLE,
+        b.START_DT,
+        b.END_DT,
+        b.REG_EMP_NAME
+        FROM
+        cam_inside.dj_recruit_info b
+        WHERE
+        b.RECRUIT_INFO_SN = #{recruitInfoSn}
+    </select>
 </mapper>
 
 

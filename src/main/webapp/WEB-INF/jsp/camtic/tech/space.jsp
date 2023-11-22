@@ -208,8 +208,8 @@
             </div>
 
             <div class="area __mt60">
-        <%--      <div class="box"><div class="img"><img src="/images/camtic/img-sp_new17.png" alt=""></div><div class="txt"></div></div>
-              <div class="box"><div class="img"><img src="/images/camtic/img-sp_new18.png" alt=""></div><div class="txt"></div></div>--%>
+              <div class="box"><div class="img"><img src="/images/camtic/energy01.png" alt="" style="height: 200px; border-radius: 10px;"></div><div class="txt">도로 안개 제거 시스템 1</div></div>
+              <div class="box"><div class="img"><img src="/images/camtic/energy02.png" alt="" style="height: 200px; border-radius: 10px;"></div><div class="txt">도로 안개 제거 시스템 1</div></div>
             </div>
 
 

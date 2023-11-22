@@ -43,4 +43,5 @@ public class RecruitRepository extends AbstractDAO {
     public List<Map<String, Object>> getCommissionerListCustom(Map<String, Object> params) {
         return selectList("recruit.getCommissionerListCustom", params);
     }
+    public  Map<String, Object> getRecruitPrintTitle(Map<String, Object> params) { return (Map<String, Object>) selectOne("recruit.getRecruitPrintTitle", params); }
 }

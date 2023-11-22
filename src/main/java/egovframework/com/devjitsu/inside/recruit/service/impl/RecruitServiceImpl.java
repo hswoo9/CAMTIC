@@ -517,4 +517,9 @@ public class RecruitServiceImpl implements RecruitService {
     public List<Map<String, Object>> getCommissionerListCustom(Map<String, Object> params) {
         return recruitRepository.getCommissionerListCustom(params);
     }
+
+    @Override
+    public Map<String, Object> getRecruitPrintTitle(Map<String, Object> params){
+        return recruitRepository.getRecruitPrintTitle(params);
+    }
 }

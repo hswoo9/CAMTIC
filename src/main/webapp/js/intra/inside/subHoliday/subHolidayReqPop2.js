@@ -48,10 +48,10 @@ var subHolidayReqPop2 = {
         }
 
         //캠도큐먼트 양식목록에서 기안시 처리작업
-        subHolidayReqPop.global.code = $("#code").val();
-        subHolidayReqPop.global.type = $("#type").val();
+        subHolidayReqPop2.global.code = $("#code").val();
+        subHolidayReqPop2.global.type = $("#type").val();
         if(subHolidayReqPop2.global.code == "11"){
-            $("#edtHolidayKindTop").data("kendoDropDownList").value(subHolidayReqPop.global.code);
+            $("#edtHolidayKindTop").data("kendoDropDownList").value(subHolidayReqPop2.global.code);
             subHolidayReqPop2.dataSetChange();
             $("#edtHolidayKindTop").data("kendoDropDownList").enable(false);
         }

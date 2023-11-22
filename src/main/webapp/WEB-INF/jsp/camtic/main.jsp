@@ -103,7 +103,7 @@
                 접근성 관련 텍스트
               </div>
             </div>
-            <div class="vis swiper-slide" style="background-image:url(/images/camtic/business_4.jpg);">
+            <div class="vis swiper-slide" style="background-image:url(/images/camtic/business_5.jpg);">
               <div class="nimg"><img src="" alt=""><h1 style="color: #4bc1be; font-size: 80px"><%--vis2--%></h1></div>
               <div class="hide">
                 접근성 관련 텍스트
@@ -446,11 +446,6 @@
       html += '</a>';
     });
     $(".sec").append(html);
-  }
-
-  function openRecruitPopup(recruitInfoSn) {
-    let popupUrl = "/inside/pop/recruitDetailPop.do?recruitInfoSn=" + recruitInfoSn;
-    window.open(popupUrl, "RecruitPopup", "width=1000, height=720, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
   }
 
   //사업공고 게시글 리스트 그리기
