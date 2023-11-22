@@ -246,7 +246,7 @@
         GROUP BY AM.APPLICATION_ID
     </select>
 
-    <insert id="setRecruitInsert" parameterType="map">
+    <insert id="setRecruitInsert" parameterType="map" useGeneratedKeys="true" keyProperty="recruitInfoSn">
         /* setRecruitInsert */
         INSERT INTO CAM_INSIDE.DJ_RECRUIT_INFO
             (
