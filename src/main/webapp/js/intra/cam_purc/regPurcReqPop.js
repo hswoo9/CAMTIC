@@ -14,7 +14,7 @@ var prp = {
     fn_defaultScript : function (){
         customKendo.fn_datePicker("purcReqDate", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_textBox(["purcReqPurpose", "purcItemName0", "purcItemStd0", "purcItemUnitPrice0",
-            "purcItemQty0", "purcItemUnit0", "purcItemAmt0", "crmNm0", "rmk0", "pjtNm"]);
+            "purcItemQty0", "purcItemUnit0", "purcItemAmt0", "crmNm0", "rmk0", "pjtNm", "allCrmNm"]);
 
         prp.global.radioGroupData = [
             { label: "법인운영", value: "" },
@@ -619,6 +619,9 @@ var prp = {
                     }
                 }
             }
+
+            $("#item" + i).find("#crmSn" + i).val($("#allCrmSn").val());
+            $("#item" + i).find("#crmNm" + i).val($("#allCrmNm").val());
         });
     },
 
