@@ -466,6 +466,20 @@ public class ProjectUnRndController {
         return "/popup/cam_project/approvalFormPopup/unRndDelvApprovalPop";
     }
 
+    /** 계획서보고 전자결재 페이지*/
+    @RequestMapping("/popup/cam_project/approvalFormPopup/unRndDevApprovalPop.do")
+    public String unRndDevApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", login);
+        model.addAttribute("processList", projectService.getProcessList(params));
+        model.addAttribute("invList", projectService.getInvList(params));
+        Map<String, Object> map = projectService.getPjtSnToDev(params);
+        params.put("pjtSn", map.get("PJT_SN"));
+        return "/popup/cam_project/approvalFormPopup/unRndDevApprovalPop";
+    }
+
     /** 결과보고 전자결재 페이지*/
     @RequestMapping("/popup/cam_project/approvalFormPopup/unRndResApprovalPop.do")
     public String unRndResApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {

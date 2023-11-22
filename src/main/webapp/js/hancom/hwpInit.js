@@ -509,5 +509,62 @@ var hwpInit = {
         hwpDocCtrl.putFieldText('INV_PER', "100%");
         hwpDocCtrl.putFieldText('INV_PER2', invPer+"%");
         hwpDocCtrl.putFieldText('INV_PER3', (100-invPer)+"%");
-    }
+    },
+
+    unRndDelvInit: function(pjtSn){
+        const pjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: pjtSn});
+        const unRndInfo = customKendo.fn_customAjax("/projectUnRnd/getUnRndDetail", {pjtSn: pjtSn});
+        const map = pjtInfo.rs;
+        const delvMap = unRndInfo.map;
+
+        /** 1. 수주보고 정보 */
+        hwpDocCtrl.putFieldText('PJT_CD', map.PJT_TMP_CD);
+        hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
+        hwpDocCtrl.putFieldText('DEPT_NAME', delvMap.MNG_DEPT_NAME);
+        hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(map.PJT_AMT));
+        hwpDocCtrl.putFieldText('PM_EMP_NM', map.PM);
+        hwpDocCtrl.putFieldText("PJT_DT", map.PJT_STR_DT + " ~ " + map.PJT_END_DT);
+        hwpDocCtrl.putFieldText('CRM_NM', map.CRM_NM);
+        hwpDocCtrl.putFieldText('CRM_CEO', map.CRM_CEO);
+        hwpDocCtrl.putFieldText('ADDR', map.ADDR);
+        hwpDocCtrl.putFieldText('PH_NUM', map.PH_NUM);
+        hwpDocCtrl.putFieldText('CRM_MEM_NM', map.TEL_NUM == "" ? map.CRM_CEO : map.TEL_NUM);
+        hwpDocCtrl.putFieldText('CRM_MEM_PHN', map.PH_NUM);
+    },
+
+    unRndDevInit: function(devSn){
+        let pjtSn = customKendo.fn_customAjax("/project/getPjtSnToDev", {devSn: devSn}).rs.PJT_SN;
+        const pjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: pjtSn});
+        const unRndInfo = customKendo.fn_customAjax("/projectUnRnd/getUnRndDetail", {pjtSn: pjtSn});
+        const map = pjtInfo.rs;
+        const delvMap = unRndInfo.map;
+        const invList = customKendo.fn_customAjax("/project/getInvList", {pjtSn: pjtSn}).list;
+
+        /** 1. 프로젝트(수주보고) 정보 */
+        hwpDocCtrl.putFieldText('PJT_CD', map.PJT_TMP_CD);
+        hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
+        hwpDocCtrl.putFieldText('DEPT_NAME', delvMap.MNG_DEPT_NAME);
+        hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(map.PJT_AMT));
+        hwpDocCtrl.putFieldText('PM_EMP_NM', map.PM);
+        hwpDocCtrl.putFieldText("PJT_DT", map.PJT_STR_DT + " ~ " + map.PJT_END_DT);
+        hwpDocCtrl.putFieldText('CRM_NM', map.CRM_NM);
+        hwpDocCtrl.putFieldText('CRM_CEO', map.CRM_CEO);
+        hwpDocCtrl.putFieldText('ADDR', map.ADDR);
+        hwpDocCtrl.putFieldText('PH_NUM', map.PH_NUM);
+        hwpDocCtrl.putFieldText('CRM_MEM_NM', map.TEL_NUM == "" ? map.CRM_CEO : map.TEL_NUM);
+        hwpDocCtrl.putFieldText('CRM_MEM_PHN', map.PH_NUM);
+
+        /** 4. 예상 정산내역 */
+        var totAmt = 0;
+        var invPer = 0;
+        for(let i=0; i<invList.length; i++){
+            totAmt += invList[i].EST_TOT_AMT;
+        }
+        invPer = Math.round(totAmt / map.PJT_AMT * 100);
+        hwpDocCtrl.putFieldText('INV_AMT', fn_numberWithCommas(totAmt));
+        hwpDocCtrl.putFieldText('INV_AMT2', fn_numberWithCommas(map.PJT_AMT-totAmt));
+        hwpDocCtrl.putFieldText('INV_PER', "100%");
+        hwpDocCtrl.putFieldText('INV_PER2', invPer+"%");
+        hwpDocCtrl.putFieldText('INV_PER3', (100-invPer)+"%");
+    },
 }
