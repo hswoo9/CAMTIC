@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
+<% pageContext.setAttribute("br", "\n"); %>
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 <script type="text/javascript" src="<c:url value='/js/kendoui/kendo.all.min.js'/>"></script>
 <style>
@@ -25,6 +25,8 @@
         font-size: 15px;
     }
 
+    table th{border-bottom: 1px solid #ddd; background-color: #ddd;}
+
 </style>
 
 <body>
@@ -38,62 +40,27 @@
                 <ul id="navigation">
                     <li><a href="/camtic">홈으로</a></li>
                     <li class="">홍보관</li>
-                    <li class=""><span class="categoryName"></span></li>
+                    <li class=""><span>채용공고</span></li>
                 </ul>
                 <div id="title">
-                    <h3><span class="categoryName"></span></h3>
+                    <h3><span>채용공고</span></h3>
                 </div>
 
                 <div class="__boardView">
+
                     <div class="head">
-                        <h2>${map.BOARD_ARTICLE_TITLE}</h2>
+                        <h2>${map.RECRUIT_TITLE}</h2>
                         <ul class="info">
+                            <li><span>${map.RECRUIT_NUM}</span></li>
+                            <li>상태 : ${map.RECRUIT_STATUS_TEXT}</li>
                             <li>작성자 : ${map.REG_EMP_NAME}</li>
-                            <li>작성일 : <fmt:formatDate value="${map.REG_DATE}" pattern="yyyy-MM-dd" type="date"/></li>
-                            <li>조회수 : ${map.BOARD_ARTICLE_VIEW_COUNT}</li>
+                            <li>작성일 : <fmt:formatDate value="${map.REG_DT}" pattern="yyyy-MM-dd" type="date"/></li>
+                            <li>조회수 : ${map.RECRUIT_VIEW_COUNT}</li>
                         </ul>
                     </div>
 
-                    <!-- <dl class="file">
-                        <dt><span>첨부파일</span></dt>
-                        <dd>
-                            <p><a href="#">파일명이 노출됩니다.hwp</a></p>
-                            <p><a href="#">파일명이 노출됩니다.hwp</a></p>
-                            <p><a href="#">파일명이 노출됩니다.hwp</a></p>
-                        </dd>
-                    </dl> -->
-                    <div class="con">
-                        <%--<div style="border-bottom: 1px solid #ccc; padding: 5px 0 5px 0; text-align: right; word-break:break-all; height: 55px;">
-                          <c:choose>
-                            <c:when test="${fn:length(fileMap) ne 0}">
-                              <c:forEach var="file" items="${fileMap}" varStatus="status">
-                                <c:choose>
-                                  <c:when test="${file.file_down_path ne null}">
-                                    <img src="/images/camtic/ico-drone5-1.png" style="filter: opacity(0.5) drop-shadow(0 0 0 #666);">
-                                    <a href="${file.file_down_path}">${file.file_org_name}.${file.file_ext}</a>
-                                  </c:when>
-                                  <c:when test="${status.count eq 1}">
-                                    <img src="/images/camtic/ico-drone5-1.png" style="filter: opacity(0.5) drop-shadow(0 0 0 #666);">
-                                    <span style="cursor: pointer;" onclick="fileDown('${file.file_path}${file.file_uuid}', '${file.file_org_name}.${file.file_ext}')">
-                                        ${file.file_org_name}.${file.file_ext}
-                                    </span>
-                                  </c:when>
-                                  <c:otherwise>
-                                    <span style="cursor: pointer;" onclick="fileDown('${file.file_path}${file.file_uuid}', '${file.file_org_name}.${file.file_ext}')">
-                                        , <img src="/images/camtic/ico-drone5-1.png" style="filter: opacity(0.5) drop-shadow(0 0 0 #666); background-size: 15px;">
-                                        ${file.file_org_name}.${file.file_ext}
-                                    </span>
-                                  </c:otherwise>
-                                </c:choose>
-                              </c:forEach>
-                            </c:when>
-                            <c:otherwise>
-                              <span></span>
-                            </c:otherwise>
-                          </c:choose>
-                        </div>--%>
-
-                        <div class="txt_zone pr_view_content" style="line-height:25px;">
+                    <div class="con" >
+                        <div class="txt_zone pr_view_content" style="line-height:35px;">
                             <c:if test="${categoryId eq 'photo'}" >
                                 <div style="text-align:center">
                                     <c:forEach var="file" items="${fileMap}" varStatus="status">
@@ -102,9 +69,138 @@
                                 </div>
                             </c:if>
 
-                            ${map.BOARD_ARTICLE_CONTENT}
-                        </div>
+                            <div id="con0">
+                                <span>${map.RECRUIT_NUM}</span>
+                                <div style="border:1px solid #ddd; text-align:center; padding:20px 0;">
+                                    <span style="font-size:20px; line-height:30px;">${map.RECRUIT_DETAIL}</span>
+                                </div>
+                                <div style="float:right; margin-top:10px;">
+                                    <p>${map.UPLOAD_TEXT}</p>
+                                    <p style="float:right; margin-top:-9px;">${map.UPLOAD_DT}</p>
+                                </div>
 
+                            </div>
+
+                            <div id="con1" style="margin-top:50px;">
+                                <h3>모집분야</h3>
+                                <table class="table table-bordered mb-0" style="border:1px solid #ddd; text-align:center;margin-top:20px;">
+                                    <colgroup>
+                                        <col style="width:150px;"/>
+                                        <col style="width:150px;"/>
+                                        <col style="width:160px;"/>
+                                        <col style="width:70px;"/>
+                                        <col style="width:100px;"/>
+                                        <col style="width:70px;"/>
+                                        <col style="width:100px;"/>
+                                    </colgroup>
+                                    <thead>
+                                        <tr>
+                                            <th>부서</th>
+                                            <th>팀</th>
+                                            <th>직무(모집분야)</th>
+                                            <th>채용인원</th>
+                                            <th>신입/경력(직급)</th>
+                                            <th>필요경력</th>
+                                            <th>근무형태</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <c:forEach var="area" items="${map.recruitArea}">
+                                        <tr style="border-top:1px solid #ddd;">
+                                            <td>${area.DEPT_NAME}</td>
+                                            <td>${area.TEAM_NAME}</td>
+                                            <td>${area.JOB}</td>
+                                            <td>${area.RECRUITMENT}</td>
+                                            <td>
+                                                <c:choose>
+                                                    <c:when test="${area.CAREER_TYPE eq '1'}">신입</c:when>
+                                                    <c:when test="${area.CAREER_TYPE eq '2'}">경력</c:when>
+                                                    <c:otherwise>신입/경력</c:otherwise>
+                                                </c:choose>
+                                            </td>
+                                            <td>${area.CARRER}</td>
+                                            <td>${area.WORK_TYPE}</td>
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                            <div id="con2" style="margin-top:30px;">
+                                <h3>응시자격</h3>
+                                <table class="table table-bordered mb-0" style="border:1px solid #ddd; text-align:center;margin-top:20px;">
+                                    <colgroup>
+                                        <col style="width:40%;"/>
+                                        <col style="width:60%; border-left:1px solid #ddd;"/>
+                                    </colgroup>
+                                    <tr>
+                                        <th>직무(모집분야)</th>
+                                        <th>자격요건</th>
+                                    </tr>
+                                    <c:forEach var="area" items="${map.recruitArea}">
+                                        <tr style="border-top:1px solid #ddd;">
+                                            <td>
+                                                <c:out escapeXml="false" value="${fn:replace(area.JOB, br, '<br>')}" />
+                                            </td>
+                                            <td style="text-align:left; padding-left:10px;">
+                                                <c:out escapeXml="false" value="${fn:replace(area.QUALIFICATION, br, '<br>')}" />
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </table>
+                                <div style="margin-top: 10px;">
+                                    <p>
+                                        <c:out escapeXml="false" value="${fn:replace(map.ELIGIBILITY_ETC, br, '<br>')}" />
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div id="con3" style="margin-top:30px;">
+                                <h3>근무형태</h3>
+                                <div style="margin-top: 10px;">
+                                    <p>
+                                        <c:out escapeXml="false" value="${fn:replace(map.WORK_TYPE, br, '<br>')}" />
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div id="con4" style="margin-top:30px;">
+                                <h3>전형방법</h3>
+                                <div style="margin-top: 10px;">
+                                    <p>
+                                        <c:out escapeXml="false" value="${fn:replace(map.ADMISSION, br, '<br>')}" />
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div id="con5" style="margin-top:30px;">
+                                <h3>지원서류(온라인 등록)</h3>
+                                <div style="margin-top: 10px;">
+                                    <p>
+                                        <c:out escapeXml="false" value="${fn:replace(map.APPLICATION_DOC, br, '<br>')}" />
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div id="con6" style="margin-top:30px;">
+                                <h3>원서접수</h3>
+                                <div style="margin-top: 10px;">
+                                    <p>
+                                        <c:out escapeXml="false" value="${fn:replace(map.RECEIPT_DOCU, br, '<br>')}" />
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div id="con7" style="margin-top:30px;">
+                                <h3>기타사항</h3>
+                                <div style="margin-top: 10px;">
+                                    <p>
+                                        <c:out escapeXml="false" value="${fn:replace(map.REMARK, br, '<br>')}" />
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
 
@@ -134,21 +230,7 @@
                     <div style="text-align: center;">
                         <a href="javascript:void(0);" onclick="fn_goList();" class="__btn1 grayLine"><span>목록보기</span></a>
                     </div>
-                    <div class="rig">
-                        <%--            <a href="#" class="__btn1 blue"><span>온라인 입사지원하기</span></a>--%>
-                        <a href="javascript:void(0);" onclick="fn_regist('${map.BOARD_ARTICLE_ID}');" class="__btn1 grayLine"><span>수정</span></a>
-                        <a href="javascript:void(0);" onclick="fn_delNotice('${map.BOARD_ARTICLE_ID}');" class="__btn1 grayLine"><span>삭제</span></a>
-                    </div>
-                    <%--<div class="rig">
-                      <c:if test="${map.afterKey ne '' && map.afterKey ne null}">
-                        <a href="javascript:void(0);" onclick="fn_detailBoard('${map.afterKey}');" class="__btn1 grayLine"><span>다음글</span></a>
-                      </c:if>
-                      <c:if test="${map.beforeKey ne '' && map.beforeKey ne null}">
-                        <a href="javascript:void(0);" onclick="fn_detailBoard('${map.beforeKey}');" class="__btn1 grayLine"><span>이전글</span></a>
-                      </c:if>
-                    </div>--%>
                 </div>
-
             </div>
         </div>
     </div>
@@ -157,22 +239,8 @@
 </body>
 </html>
 
-<input type="hidden" id="boardArticleId" value="${map.BOARD_ARTICLE_ID}"/>
-<input type="hidden" id="category" value="${categoryId}" />
+<input type="hidden" id="recruitInfoSn" value="${map.RECRUIT_INFO_SN}"/>
 <script>
-    var categoryId = $("#category").val();
-
-    $(function () {
-        if(categoryId == "photo"){
-            $(".categoryName").text("포토뉴스");
-        }else if(categoryId == "report"){
-            $(".categoryName").text("보도자료");
-        }else if(categoryId == "news"){
-            $(".categoryName").text("뉴스레터");
-        }else if(categoryId == "video"){
-            $(".categoryName").text("홍보영상");
-        }
-    });
 
     function fileDown(filePath, fileName){
         kendo.saveAs({
@@ -181,7 +249,7 @@
     }
 
     function fn_goList(){
-        location.href = '/camtic/pr/'+categoryId+'.do';
+        location.href = '/camtic/member/job.do';
     }
 
     //상세보기 이동
@@ -195,28 +263,5 @@
         }else{
             location.href="/camtic/pr/pr_register.do?boardArticleId=" + key + "&category=" + categoryId;
         }
-    }
-
-    function fn_delNotice(){
-        var data = {
-            boardArticleId : $("#boardArticleId").val(),
-            boardId : categoryId,
-            category :categoryId,
-        }
-
-        if(!confirm("해당 게시글을 삭제하시겠습니까?")) {return false;}
-
-        $.ajax({
-            url : '/camtic/news/deleteBoard.do',
-            type : 'POST',
-            data: data,
-            dataType : "json",
-            async: false,
-            success: function() {
-                alert("삭제가 완료되었습니다.");
-
-                location.href = '/camtic/pr/'+categoryId+'.do';
-            }
-        });
     }
 </script>

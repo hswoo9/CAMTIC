@@ -33,4 +33,7 @@ public interface RecruitService {
     void setApplicationInTime(Map<String, Object> params);
     void setPrePassAppl(Map<String, Object> params);
     List<Map<String, Object>> getRecruitPrint(Map<String, Object> params);
+    void setRecruitArticleViewCount(Map<String, Object> params);
+
+    Map<String, Object> getRecruitPrintTitle(Map<String, Object> params);
 }

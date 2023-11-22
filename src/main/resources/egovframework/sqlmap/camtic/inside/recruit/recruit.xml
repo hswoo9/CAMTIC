@@ -246,7 +246,7 @@
         GROUP BY AM.APPLICATION_ID
     </select>
 
-    <insert id="setRecruitInsert" parameterType="map">
+    <insert id="setRecruitInsert" parameterType="map" useGeneratedKeys="true" keyProperty="recruitInfoSn">
         /* setRecruitInsert */
         INSERT INTO CAM_INSIDE.DJ_RECRUIT_INFO
             (
@@ -903,11 +903,44 @@
         AM.RECRUIT_INFO_SN = #{recruitInfoSn}
         AND
         AM.SAVE_TYPE = 'S'
+        <if test='recruitAreaInfoSn != null and !"".equals(recruitAreaInfoSn)'>
         AND
         AM.RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
+        </if>
         GROUP BY AM.APPLICATION_ID
     </select>
 
+
+    <update id="setRecruitArticleViewCount" parameterType="map">
+        /*setBoardArticleViewCount*/
+        UPDATE
+            CAM_INSIDE.DJ_RECRUIT_INFO
+        SET
+            RECRUIT_VIEW_COUNT = (RECRUIT_VIEW_COUNT + 1)
+        WHERE
+            RECRUIT_INFO_SN = #{recruitInfoSn}
+    </update>
+
+
+    <select id="getRecruitPrintTitle" parameterType="map" resultType="map">
+        /*getRecruitPrintTitle*/
+        SELECT
+        CASE
+        WHEN a.RECRUIT_AREA_INFO_SN IS NOT NULL THEN a.JOB
+        ELSE b.RECRUIT_TITLE
+        END AS TITLE_OR_JOB,
+        b.START_DT,
+        b.END_DT,
+        b.REG_EMP_NAME
+        FROM
+        cam_inside.dj_recruit_info b
+        <if test='recruitAreaInfoSn != null and !"".equals(recruitAreaInfoSn)'>
+            LEFT JOIN cam_inside.dj_recruit_area_info a ON a.RECRUIT_INFO_SN = b.RECRUIT_INFO_SN
+            AND a.RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
+        </if>
+        WHERE
+        b.RECRUIT_INFO_SN = #{recruitInfoSn}
+    </select>
 </mapper>
 
 

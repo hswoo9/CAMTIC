@@ -422,16 +422,22 @@
 
   //채용공고 게시글 조회
   function getRecruitList() {
+
+    let linkUrl = "/camtic/member/job_view.do?recruitInfoSn="
     $(".sec").html('');
 
     let html = "";
 
     resultData3.forEach((item, index) => {
-      html += "<a href='javascript:void(0);' onclick='openRecruitPopup(" + item.RECRUIT_INFO_SN + ")' class='box'>";
+
+      html += "<a href='"+ linkUrl +item.RECRUIT_INFO_SN+" ' class='box'>";
+
       if(item.RECRUIT_STATUS_SN == 'E'){
-        html += '<div class="ddakji end"><span style="font-size:13px;">' + item.RECRUIT_STATUS_TEXT + '</span></div>';
-      }else{
-        html += '<div class="ddakji ing"><span style="font-size:13px;">' + item.RECRUIT_STATUS_TEXT + '</span></div>';
+        html += '<div class="ddakji end"><span style="font-size:13px;">' + item.RECRUIT_STATUS_TEXT  + '</span></div>';
+      }else if(item.RECRUIT_STATUS_SN == '3' || item.RECRUIT_STATUS_SN == '4'){
+        html += '<div class="ddakji ing"><span style="font-size:13px;">심사중</span></div>';
+      }else if(item.RECRUIT_STATUS_SN == '2'){
+        html += '<div class="ddakji ing"><span style="font-size:13px;">접수중</span></div>';
       }
       html += '<p class="subject" style="margin-top:31px;">' + item.RECRUIT_TITLE + '</p>';
      /* let contents = item.RECRUIT_DETAIL.replace(/<\/?("[^"]*"|'[^']*'|[^>])*(>|$)/gi, "");
@@ -440,11 +446,6 @@
       html += '</a>';
     });
     $(".sec").append(html);
-  }
-
-  function openRecruitPopup(recruitInfoSn) {
-    let popupUrl = "/inside/pop/recruitDetailPop.do?recruitInfoSn=" + recruitInfoSn;
-    window.open(popupUrl, "RecruitPopup", "width=1000, height=720, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
   }
 
   //사업공고 게시글 리스트 그리기

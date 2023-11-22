@@ -130,7 +130,11 @@
                         <input type="text" id="productAAll" class="productA allMod" style="width: 110px; display: none">
                         <input type="text" id="productBAll" class="productB allModItem" style="width: 110px; display: none">
                         <input type="text" id="productCAll" class="productC allModItem" style="width: 110px; display: none">
-                        <button type="button" id="allModBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info allMod" onclick="prp.allModBtn()" style="font-size: 12px; display: none">
+                        <input type="text" id="allCrmNm" disabled class="allCrmNm allMod" style="width: 110px; display: none">
+                        <input type="hidden" id="allCrmSn" class="allCrmSn allMod" style="width: 110px; display: none">
+
+                        <button type="button" id="allCrmSelBtn" style="font-size: 12px; display: none" class="allMod allCrmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="prp.fn_popCamCrmList();">업체선택</button>
+                        <button type="button" id="allModBtn"  class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info allMod" onclick="prp.allModBtn()" style="font-size: 12px; display: none">
                             <span class="k-button-text">변경</span>
                         </button>
                         <button type="button" id="allCanBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error allMod" onclick="" style="font-size: 12px; display: none">
@@ -138,6 +142,9 @@
                         </button>
                     </div>
                     <div>
+                        <button type="button" id="excelUploadBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" disabled onclick="" style="font-size: 12px;">
+                            <span class="k-button-text">엑셀업로드</span>
+                        </button>
                         <button type="button" id="addBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="prp.addRow()" style="font-size: 12px;">
                             <span class="k-button-text">추가</span>
                         </button>

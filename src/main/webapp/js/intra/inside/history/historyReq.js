@@ -177,6 +177,22 @@ var historyList = {
                     field: "APPROVE_EMP_NAME",
                     title: "기록인",
                     width: 100
+                }, {
+                    title: "수정",
+                    width: 100,
+                    template: function(row){
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="historyList.fn_modAf('+row.APNT_SN+');">' +
+                            '	<span class="k-button-text">수정</span>' +
+                            '</button>';
+                    }
+                }, {
+                    title: "발령장",
+                    width: 100,
+                    template: function (row){
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="historyList.historyPrintPop('+row.APNT_SN+');">' +
+                            '	<span class="k-button-text">보기</span>' +
+                            '</button>';
+                    }
                 }
             ],
             dataBinding: function(){
@@ -223,5 +239,50 @@ var historyList = {
         var name = "historyViewPop";
         var option = "width=965, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+    },
+
+    historyPrintPop: function(userProofSn){
+        var url = "/Inside/pop/historyPrintPop.do?apntSn="+userProofSn;
+        var name = "historyPrintPop";
+        var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
+
+    fn_modAf : function (key){
+        $("#modAf").data("kendoWindow").open();
+
+        $("#selectKey").val(key);
+    },
+
+    saveChangeAf: function (){
+
+
+        if($("#chngAf").val() == ""){
+            alert("직무를 입력하세요.");
+            return;
+        }
+
+        var data = {
+            chngAf : $("#chngAf").val(),
+            apntSn : $("#selectKey").val()
+        }
+
+        $.ajax({
+            url : "/inside/modAf",
+            data : data,
+            type : "post",
+            dataType: "json",
+            success : function (rs){
+                if(rs.code == 200){
+                    $("#modAf").data("kendoWindow").close();
+                    historyList.gridReload();
+                }
+            }
+        });
+
+
+
     }
+
+
 }

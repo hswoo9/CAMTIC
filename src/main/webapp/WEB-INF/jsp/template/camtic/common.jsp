@@ -30,5 +30,6 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard-dynamic-subset.css" />
   <link rel="stylesheet" href="/css/camtic/common.css"/>
   <link rel="stylesheet" href="/css/camtic/global.css"/>
+
   <script src="/js/camtic/jquery.min.js"></script>
   <script src="/js/camtic/global.js"></script>

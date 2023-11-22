@@ -130,7 +130,7 @@
   //상세보기 이동
   function fn_detailBoard(key){
 
-    location.href="/camtic/member/job_view.do?RECRUIT_INFO_SN=" + key;
+    location.href="/camtic/member/job_view.do?recruitInfoSn=" + key;
   }
 
   /**
@@ -164,7 +164,7 @@
 
     let num = total + 1;
 
-    if(page != 1){ㄱ
+    if(page != 1){
       num = num - ((page - 1) * 10);
     }
     data.forEach((item, index) => {
@@ -177,7 +177,7 @@
       var datetimeParts = item.reg_DT.split(' ');
       var datePart = datetimeParts[0];
       html += '<td>' + datePart + '</td>';
-      html += '<td>'+ item.board_ARTICLE_VIEW_COUNT +'</td>';
+      html += '<td>'+ item.recruit_VIEW_COUNT +'</td>';
       html += "</tr>";
     });
 

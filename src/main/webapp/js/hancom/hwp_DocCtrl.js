@@ -1059,6 +1059,10 @@ var hwpDocCtrl = {
             const payIncpSn = data.approKey.split("_")[1];
             if (payIncpSn == null || payIncpSn == undefined || payIncpSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
             hwpInit.payIncpInit(payIncpSn);
+        } else if(data.menuCd == "rndDelv") {
+            const pjtSn = data.approKey.split("_")[1];
+            if (pjtSn == null || pjtSn == undefined || pjtSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
+            hwpInit.rndDelvInit(pjtSn);
         }
     },
 

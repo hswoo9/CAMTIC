@@ -100,4 +100,9 @@ public class HistoryServiceImpl implements HistoryService {
             commonRepository.insFileInfo(list);
         }
     }
+
+    @Override
+    public void modAf(Map<String, Object> params) {
+        historyRepository.modAf(params);
+    }
 }

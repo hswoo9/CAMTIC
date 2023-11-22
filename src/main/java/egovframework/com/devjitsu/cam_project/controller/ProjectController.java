@@ -333,6 +333,21 @@ public class ProjectController {
 
 
     /**
+     * 프로젝트 정보 Get Data
+     * @param params
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping("/project/getProjectStep")
+    public String getProjectStep(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        Map<String, Object> map = projectService.getProjectStep(params);
+        model.addAttribute("rs", map);
+
+        return "jsonView";
+    }
+
+    /**
      * 프로젝트 등록 > 업체정보 Get Data
      * @param params
      * @param model

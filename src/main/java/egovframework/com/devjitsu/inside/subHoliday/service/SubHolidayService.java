@@ -88,4 +88,8 @@ public interface SubHolidayService {
 
     Map<String, Integer> getCountMap2();
 
+    void setSubHolidayByEmpInfo(Map<String, Object> params);
+    void setSubHolidayByEmpInfo2(Map<String, Object> params);
+
+
 }

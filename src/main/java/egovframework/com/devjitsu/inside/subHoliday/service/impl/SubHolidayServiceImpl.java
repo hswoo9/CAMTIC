@@ -244,4 +244,17 @@ public class SubHolidayServiceImpl implements SubHolidayService {
         return countMap;
     }
 
+
+    @Transactional
+    public void setSubHolidayByEmpInfo(Map<String, Object> params){
+        subHolidayRepository.setSubHolidayByEmpInfo(params);
+        subHolidayRepository.setSubHolidayByEmpInfo2(params);
+    }
+
+    @Override
+    public void setSubHolidayByEmpInfo2(Map<String, Object> params){
+        subHolidayRepository.setSubHolidayByEmpInfo(params);
+        subHolidayRepository.setSubHolidayByEmpInfo2(params);
+    }
+
 }
