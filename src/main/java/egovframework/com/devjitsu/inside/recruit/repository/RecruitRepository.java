@@ -38,4 +38,9 @@ public class RecruitRepository extends AbstractDAO {
     public void setPrePassAppl(Map<String, Object> params) { update("recruit.setPrePassAppl", params);}
     public List<Map<String, Object>> getRecruitPrint(Map<String, Object> params) { return selectList("recruit.getRecruitPrint", params); }
     public void setRecruitArticleViewCount(Map<String, Object> params) { update("recruit.setRecruitArticleViewCount", params);}
+
+
+    public List<Map<String, Object>> getCommissionerListCustom(Map<String, Object> params) {
+        return selectList("recruit.getCommissionerListCustom", params);
+    }
 }

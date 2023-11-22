@@ -113,19 +113,20 @@ var selEvalPop = {
                         template: "데이터가 존재하지 않습니다."
                     },
                     columns: [
+                        // {
+                        //     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
+                        //     template : function(e){
+                        //         console.log("DEPT_NAME: ", e.DEPT_NAME, " deptNameFromResponse: ", deptNameFromResponse);
+                        //         var checked = e.CHK > 0 || (
+                        //             e.DEPT_NAME === deptNameFromResponse &&
+                        //             ["팀장", "본부장", "센터장"].includes(e.DUTY_NAME)||
+                        //             (e.DEPT_NAME === "경영지원실" && e.DUTY_NAME === "팀장")
+                        //         );
+                        //         return "<input type='checkbox' id='eval_" + e.EMP_SEQ + "' name='evalChk' value='" + e.EMP_SEQ + "' " + (checked ? "checked" : "") + "/>";
+                        //     },
+                        //     width: 50
+                        // },
                         {
-                            headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
-                            template : function(e){
-                                console.log("DEPT_NAME: ", e.DEPT_NAME, " deptNameFromResponse: ", deptNameFromResponse);
-                                var checked = e.CHK > 0 || (
-                                    e.DEPT_NAME === deptNameFromResponse &&
-                                    ["팀장", "본부장", "센터장"].includes(e.DUTY_NAME)||
-                                    (e.DEPT_NAME === "경영지원실" && e.DUTY_NAME === "팀장")
-                                );
-                                return "<input type='checkbox' id='eval_" + e.EMP_SEQ + "' name='evalChk' value='" + e.EMP_SEQ + "' " + (checked ? "checked" : "") + "/>";
-                            },
-                            width: 50
-                        }, {
                             title: "번호",
                             width: 50,
                             template: "#= --record #"
@@ -227,47 +228,60 @@ var selEvalPop = {
 
         // id가 주어진 경우 해당 id 값을 사용하고 함수 실행
         if (id) {
-            selEvalPop.mainGrid("/inside/getCommissionerList", selEvalPop.global.searchAjaxData, id);
+            selEvalPop.mainGrid("/inside/getCommissionerListCustom", selEvalPop.global.searchAjaxData, id);
         } else {
             // id가 주어지지 않은 경우 기본값을 사용하고 함수 실행
-            selEvalPop.mainGrid("/inside/getCommissionerList", selEvalPop.global.searchAjaxData, "mainGrid");
+            selEvalPop.mainGrid("/inside/getCommissionerListCustom", selEvalPop.global.searchAjaxData, "mainGrid");
 
-            selEvalPop.mainGrid("/inside/getCommissionerList", selEvalPop.global.searchAjaxData, "mainGrid2");
+            selEvalPop.mainGrid("/inside/getCommissionerListCustom", selEvalPop.global.searchAjaxData, "mainGrid2");
         }
     },
 
     setInEvalLogin : function(e){
-        if(!$("#recruitAreaInfoSn").val()){
-            alert("채용분야를 선택해주세요.");
-            return;
-        }else if($("input[name='evalChk']:checked").length == 0){
-            alert("선발할 평가위원을 선택해주세요.");
-            return;
-        }
+        // if(!$("#recruitAreaInfoSn").val()){
+        //     alert("채용분야를 선택해주세요.");
+        //     return;
+        // }else if($("input[name='evalChk']:checked").length == 0){
+        //     alert("선발할 평가위원을 선택해주세요.");
+        //     return;
+        // }
+        //
+        // if(confirm("선택한 평가위원을 선발하시겠습니까?")){
+        //     var evalEmpSeq = "";
+        //
+        //     if($("#divId").val() == "mainGrid2"){
+        //         $.each($("#mainGrid2").find("input[name='evalChk']:checked"), function(i, e){
+        //             evalEmpSeq += "," + $(this).val()
+        //         })
+        //
+        //     }else{
+        //         $.each($("#mainGrid").find("input[name='evalChk']:checked"), function(i, e){
+        //             evalEmpSeq += "," + $(this).val()
+        //         })
+        //     }
+        //
+        //
+        //
+        //     selEvalPop.global.saveAjaxData = {
+        //         evalEmpSeq : evalEmpSeq.substring(1),
+        //         recruitInfoSn : $("#recruitInfoSn").val(),
+        //         recruitAreaInfoSn : $("#recruitAreaInfoSn").val(),
+        //         evalType : $("#tabA").hasClass("k-state-active") ? "doc" : "in",
+        //         empSeq : $("#empSeq").val()
+        //     }
+        //
+        //     var result = customKendo.fn_customAjax("/inside/setEvalSelection.do", selEvalPop.global.saveAjaxData);
+        //     if(result.flag){
+        //         if(result.duplicationTxt != ""){
+        //             alert("선택한 면접평가위원이 선발되었습니다.\n중복 평가위원 [" + result.duplicationTxt + "]");
+        //         }else{
+        //             alert("선택한 면접평가위원이 선발되었습니다.");
+        //         }
+        //     }
+        // }
+        window.open("/user/pop/userMultiSelectPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
 
-        if(confirm("선택한 평가위원을 선발하시겠습니까?")){
-            var evalEmpSeq = "";
-            $.each($("input[name='evalChk']:checked"), function(i, e){
-                evalEmpSeq += "," + $(this).val()
-            })
 
-            selEvalPop.global.saveAjaxData = {
-                evalEmpSeq : evalEmpSeq.substring(1),
-                recruitInfoSn : $("#recruitInfoSn").val(),
-                recruitAreaInfoSn : $("#recruitAreaInfoSn").val(),
-                evalType : $("#tabA").hasClass("k-state-active") ? "doc" : "in",
-                empSeq : $("#empSeq").val()
-            }
-
-            var result = customKendo.fn_customAjax("/inside/setEvalSelection.do", selEvalPop.global.saveAjaxData);
-            if(result.flag){
-                if(result.duplicationTxt != ""){
-                    alert("선택한 면접평가위원이 선발되었습니다.\n중복 평가위원 [" + result.duplicationTxt + "]");
-                }else{
-                    alert("선택한 면접평가위원이 선발되었습니다.");
-                }
-            }
-        }
     },
 
     onActivate : function (){
@@ -279,4 +293,45 @@ var selEvalPop = {
             selEvalPop.gridReload();
         }
     }
+}
+
+function userDataSet(a){
+    var data = a
+
+    for(var i = 0; i < data.length; i++){
+        if($("#divId").val() == "mainGrid2"){
+            data[i].evalType = "in";
+        }else{
+            data[i].evalType = "doc";
+        }
+        data[i].evalEmpSeq = data[i].empSeq;
+        data[i].recruitInfoSn = $("#recruitInfoSn").val()
+        data[i].recruitAreaInfoSn = $("#recruitAreaInfoSn").val()
+        data[i].empSeq = $("#empSeq").val()
+    }
+
+    var parameters = {
+        array : JSON.stringify(data)
+    }
+
+
+    $.ajax({
+        url : "/inside/insRecruitMember",
+        data : parameters,
+        type : "post",
+        dataType : "json",
+        success : function(rs){
+            console.log(rs);
+            if(rs.code == 200){
+                alert("저장되었습니다.");
+                selEvalPop.gridReload();
+            }
+        }
+    })
+
+
+    console.log(data);
+
+
+
 }
