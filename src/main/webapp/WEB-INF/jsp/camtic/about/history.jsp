@@ -36,10 +36,6 @@
 
 								</div>
 							</div>
-							<%--<div class="img">
-								<img src="/images/camtic/img-history3.jpg" alt="">
-							</div>
-							<div class="txt">드론기술개발지원센터 개소식</div>--%>
 						</div>
 						<div class="box">
 							<div class="top">
