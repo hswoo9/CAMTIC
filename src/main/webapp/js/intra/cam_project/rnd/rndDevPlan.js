@@ -58,6 +58,7 @@ var rndDP = {
                 html += "   <td>개발계획 작성중</td>";
                 html += "</tr>";
 
+                console.log(rs.list[i]);
                 $("#devSn").val(rs.list[i].DEV_SN);
             }
         }
@@ -246,6 +247,8 @@ var rndDP = {
         }
 
         var data = {
+            divCd : $("#prepList").val(),
+            divNm : $("#prepList").data("kendoDropDownList").text(),
             invRow : idx,
             devSn : $("#devSn").val(),
             invNm : $("#invNm").val(),
