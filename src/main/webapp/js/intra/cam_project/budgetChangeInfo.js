@@ -41,7 +41,7 @@ var budgetChangeInfo = {
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="budgetChangeInfo.fn_reqRegPopup()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="budgetChangeInfo.reDrafting()">' +
                             '	<span class="k-button-text">사업비 반납</span>' +
                             '</button>';
                     }
@@ -62,6 +62,10 @@ var budgetChangeInfo = {
                     title: "문서번호",
                     field: "DOC_NO",
                     width: 180,
+                }, {
+                    field: "DOC_TITLE",
+                    title: "문서제목",
+                    width: 120,
                 }, {
                     field: "DOC_APPR_DT",
                     title: "요청일",
@@ -98,6 +102,18 @@ var budgetChangeInfo = {
             this.action = "/popup/cam_project/approvalFormPopup/changeApprovalPop.do";
             this.method = 'POST';
             this.target = 'changeApprovalPop';
+        }).trigger("submit");
+    },
+
+    reDrafting: function() {
+        $("#changeDraftFrm").one("submit", function() {
+            var url = "/popup/cam_project/approvalFormPopup/reApprovalPop.do";
+            var name = "reApprovalPop";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            var popup = window.open(url, name, option);
+            this.action = "/popup/cam_project/approvalFormPopup/reApprovalPop.do";
+            this.method = 'POST';
+            this.target = 'reApprovalPop';
         }).trigger("submit");
     },
 }

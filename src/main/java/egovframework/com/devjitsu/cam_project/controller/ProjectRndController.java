@@ -841,6 +841,16 @@ public class ProjectRndController {
         return "/popup/cam_project/approvalFormPopup/changeApprovalPop";
     }
 
+    /** 반납신청서 전자결재 페이지*/
+    @RequestMapping("/popup/cam_project/approvalFormPopup/reApprovalPop.do")
+    public String reApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/cam_project/approvalFormPopup/reApprovalPop";
+    }
+
     /** 사업정보 결재 상태값에 따른 UPDATE 메서드 */
     @RequestMapping(value = "/projectRnd/delvReqApp")
     public String delvReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
