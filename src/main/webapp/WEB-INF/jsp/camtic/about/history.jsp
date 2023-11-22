@@ -20,6 +20,29 @@
 					<div class="area">
 						<div class="box">
 							<div class="top">
+								<h4><span>2023</span></h4>
+								<div class="con">
+									<dl>
+										<dt>03.</dt>
+										<dd>
+											전주첨단벤처단지 기술창업성장지원센터(성장동)<br class="__p">
+											실시설계 완료
+										</dd>
+									</dl>
+									<dl class="blue">
+										<dt>03.</dt>
+										<dd>국토부지정 드론산업혁신 지원센터 개소</dd>
+									</dl>
+
+								</div>
+							</div>
+							<%--<div class="img">
+								<img src="/images/camtic/img-history3.jpg" alt="">
+							</div>
+							<div class="txt">드론기술개발지원센터 개소식</div>--%>
+						</div>
+						<div class="box">
+							<div class="top">
 								<h4><span>2022</span></h4>
 								<div class="con">
 									<dl>
