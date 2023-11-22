@@ -1240,6 +1240,7 @@ public class ProjectController {
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
         model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
 
         return "popup/cam_project/budgetChangeInfo";
     }

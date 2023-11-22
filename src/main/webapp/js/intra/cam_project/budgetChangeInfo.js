@@ -66,23 +66,26 @@ var budgetChangeInfo = {
                     field: "DOC_TITLE",
                     title: "문서제목",
                     width: 120,
+                    template : function(e){
+                        return '<a onclick="approveDocView(\''+e.DOC_ID+'\', \''+e.APPRO_KEY+'\', \''+e.DOC_MENU_CD+'\')" style="font-weight: bold ">' + e.DOC_TITLE + '</a>'
+                    }
                 }, {
-                    field: "DOC_APPR_DT",
+                    field: "DRAFT_DATE",
                     title: "요청일",
                     width: 120,
                 }, {
                     title: "요청자",
-                    field: "EMP_NAME_KR",
+                    field: "DRAFT_EMP_NAME",
                     width: 100
                 }, {
                     title: "상태",
                     field: "STATUS",
                     width: 100,
                     template: function(e){
-                        if(e.STATUS == "W"){
-                            return "작성중"
-                        }else if(e.STATUS == "C"){
-                            return "요청완료"
+                        if(e.STATUS != "100"){
+                            return "요청중"
+                        }else{
+                            return "결재완료"
                         }
                     },
                 }

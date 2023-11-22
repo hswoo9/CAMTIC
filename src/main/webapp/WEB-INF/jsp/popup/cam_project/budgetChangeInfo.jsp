@@ -16,7 +16,7 @@
 <input type="hidden" id="searchValue" />
 
 <form id="changeDraftFrm" method="post">
-    <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
+    <input type="hidden" id="pjtSn" name="pjtSn" value="${params.pjtSn}" />
     <input type="hidden" id="menuCd" name="menuCd" value="pjtChange">
     <input type="hidden" id="type" name="type" value="drafting">
     <input type="hidden" id="nowUrl" name="nowUrl" />
