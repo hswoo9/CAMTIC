@@ -24,8 +24,14 @@ var commissionerManage = {
                 pageSizes: [10, 20, "ALL"],
                 buttonCount : 5
             },
-            toolbar : [
-                {
+            toolbar : [{
+                name : 'button',
+                template : function (e){
+                    return '<button type="button" style="margin-right: auto;" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="commissionerManage.evalManagePop();">' +
+                        '	<span class="k-button-text">면접평가표 관리</span>' +
+                        '</button>';
+                }
+                },{
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="commissionerManage.gridReload();">' +
@@ -244,5 +250,12 @@ var commissionerManage = {
         var name = "evalHistoryPop";
         var option = "width=900, height=470, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+    },
+
+    evalManagePop : function(e){
+        var url = "/inside/inEvalManage.do";
+        var name = "inEvalManage";
+        var option = "width=1000, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        var popup = window.open(url,name,option);
     }
 }

@@ -1,7 +1,7 @@
 var regRnd = {
 
 
-    fn_defaultScript : function (setParameters){
+    fn_defaultScript : function(setParameters){
         if(setParameters != null && setParameters.PJT_SN != null){
             setParameters.pjtSn = setParameters.PJT_SN;
             $("#stopBtn").show();
@@ -69,7 +69,7 @@ var regRnd = {
         regRnd.fn_setData(setParameters);
     },
 
-    fn_setTab: function(setParameters){
+    fn_setTab : function(setParameters){
         var tab0Url = "/projectRnd/detailInfo.do";               // 상세정보 (수주)
         var tab1Url = "/projectRnd/researcherInfo.do";           // 연구원관리
         // var tab2Url = "/projectRnd/reqPartRate.do";              // 참여율요청
@@ -154,7 +154,7 @@ var regRnd = {
                     effects: "fadeIn"
                 }
             },
-            select: function (e){
+            select: function(e){
 
             },
             dataTextField: "name",
@@ -232,7 +232,7 @@ var regRnd = {
         }
     },
 
-    fn_setData: function (e){
+    fn_setData: function(e){
         $("#pjtTitle").text("프로젝트 - R&D");
 
         if(e != null){
@@ -290,7 +290,7 @@ var regRnd = {
         }
     },
 
-    fn_save : function (){
+    fn_save : function(){
         var parameters = {
             busnClass : "R",
             busnNm : "R&D",
@@ -382,11 +382,11 @@ var regRnd = {
         }
 
         $.ajax({
-            url : "/projectRnd/setSubjectInfo",
-            data : parameters,
+            url: "/projectRnd/setSubjectInfo",
+            data: parameters,
             type: "post",
-            dataType : "json",
-            success : function (rs){
+            dataType: "json",
+            success: function(rs){
                 if(rs.code == 200){
                     location.href="/projectRnd/pop/regProject.do?pjtSn=" + rs.params.pjtSn;
                 }
@@ -394,7 +394,7 @@ var regRnd = {
         });
     },
 
-    fn_mod : function (){
+    fn_mod : function(){
         var parameters = {
             pjtSn : $("#pjtSn").val(),
             sbjClass : $("#sbjClass").val(),
@@ -475,11 +475,11 @@ var regRnd = {
         }
 
         $.ajax({
-            url : "/projectRnd/setSubjectInfo",
-            data : parameters,
+            url: "/projectRnd/setSubjectInfo",
+            data: parameters,
             type: "post",
-            dataType : "json",
-            success : function (rs){
+            dataType: "json",
+            success: function(rs){
                 console.log(rs);
                 if(rs.code == 200){
                     location.href="/projectRnd/pop/regProject.do?pjtSn=" + rs.params.pjtSn;

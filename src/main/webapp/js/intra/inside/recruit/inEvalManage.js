@@ -9,8 +9,8 @@ var inEvalManage = {
         inEvalManage.gridReload();
     },
 
-    mainGrid : function(url, params) {
-        $("#mainGrid").kendoGrid({
+    mainGrid1 : function(url, params) {
+        $("#mainGrid1").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             scrollable: true,
@@ -101,7 +101,7 @@ var inEvalManage = {
             evalManageTitle : $("#evalManageTitle").val()
         }
 
-        inEvalManage.mainGrid("/inside/getEvalItemMainList.do", inEvalManage.global.searchAjaxData);
+        inEvalManage.mainGrid1("/inside/getEvalItemMainList.do", inEvalManage.global.searchAjaxData);
     },
 
     inEvalRegPop : function(e) {
