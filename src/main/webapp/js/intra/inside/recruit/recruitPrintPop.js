@@ -70,6 +70,8 @@ const recruitPrintPop = {
         const recruitArray = rs.list;
 
         let areaInfoValue, deadLineValue, startDayValue, empNameValue;
+        let recruitPrintTitle = rsTitle.recruitPrintTitle;
+        console.log(recruitPrintTitle);
 
         if (!recruitAreaInfoSn || recruitAreaInfoSn === "") {
             /*
@@ -78,10 +80,10 @@ const recruitPrintPop = {
             startDayValue = "기본값";
             empNameValue = "기본값";
              */
-            areaInfoValue = rsTitle["RECRUIT_TITLE"] || "기본값";
-            deadLineValue = rsTitle["END_DT"] || "기본값";
-            startDayValue = rsTitle["START_DT"] || "기본값";
-            empNameValue = rsTitle["REG_EMP_NAME"] || "기본값";
+            areaInfoValue = recruitPrintTitle.RECRUIT_TITLE || "기본값";
+            deadLineValue = recruitPrintTitle.END_DT || "기본값";
+            startDayValue = recruitPrintTitle.START_DT || "기본값";
+            empNameValue = recruitPrintTitle.REG_EMP_NAME || "기본값";
         } else {
             const recruitArray1 = rs.list;
 
