@@ -501,4 +501,12 @@
         WHERE
             REWORD_ID = #{rewordId}
     </update>
+
+    <update id="modAf" parameterType="map">
+        UPDATE CAM_HR.DJ_APNT_INFO
+        SET
+            CHNG_JOB = #{chngAf}
+        WHERE
+            APNT_SN = #{apntSn}
+    </update>
 </mapper>

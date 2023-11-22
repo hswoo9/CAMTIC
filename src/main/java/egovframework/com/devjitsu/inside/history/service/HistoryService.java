@@ -60,4 +60,6 @@ public interface HistoryService {
      * @param params
      */
     void setRewardInsert(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
+
+    void modAf(Map<String, Object> params);
 }
