@@ -448,11 +448,6 @@
     $(".sec").append(html);
   }
 
-  function openRecruitPopup(recruitInfoSn) {
-    let popupUrl = "/inside/pop/recruitDetailPop.do?recruitInfoSn=" + recruitInfoSn;
-    window.open(popupUrl, "RecruitPopup", "width=1000, height=720, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
-  }
-
   //사업공고 게시글 리스트 그리기
   function drawTable2() {
 
