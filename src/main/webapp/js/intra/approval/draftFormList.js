@@ -74,7 +74,8 @@ var draftFormList = {
                 linkageType: result.formInfoReqOpt.LINKAGE_TYPE,
                 linkagePopActive: result.formInfoReqOpt.LINKAGE_POP_ACTIVE,
                 linkagePopWidth: result.formInfoReqOpt.LINKAGE_POP_WIDTH,
-                linkagePopHeight: result.formInfoReqOpt.LINKAGE_POP_HEIGHT
+                linkagePopHeight: result.formInfoReqOpt.LINKAGE_POP_HEIGHT,
+                docTitle: "["+result.formInfoReqOpt.FORM_NAME+"]"+($("#regTeamName").val() == "" ? $("#regDeptName").val() : $("#regTeamName").val() )+"-"+$("#regEmpName").val()
             }
         }
     },
