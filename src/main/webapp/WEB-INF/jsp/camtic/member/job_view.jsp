@@ -38,7 +38,7 @@
             <div id="content">
 
                 <ul id="navigation">
-                    <li><a href="/camtic"><img src="/images/camtic/home_1.png" class="homeImage">홈으로</a></li>
+                    <li><a href="/camtic"><img src="/images/camtic/home_3.png" class="homeImage">홈으로</a></li>
                     <li class="">홍보관</li>
                     <li class=""><span>채용공고</span></li>
                 </ul>
@@ -228,7 +228,8 @@
 
                 <div class="__botArea">
                     <div style="text-align: center;">
-                        <a href="javascript:void(0);" onclick="fn_goList();" class="__btn1 grayLine"><span>목록보기</span></a>
+                        <a href="#" class="__btn1 blue" style="width:200px;"><span>온라인 입사지원하기</span></a>
+                        <a href="javascript:void(0);" onclick="fn_goList();" class="__btn1 blue" style="width:200px;"><span>목록보기</span></a>
                     </div>
                 </div>
             </div>

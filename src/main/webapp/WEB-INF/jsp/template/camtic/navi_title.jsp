@@ -2,7 +2,7 @@
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 
 <ul id="navigation">
-  <li><a href="/camtic"><img src="/images/camtic/home_1.png" class="homeImage">홈으로</a></li>
+  <li><a href="/camtic"><img src="/images/camtic/home_3.png" class="homeImage">홈으로</a></li>
   <li class="mdCategory">캠틱소개</li>
   <li class="smCategory">원장 인사말</li>
 </ul>

@@ -555,6 +555,25 @@
             A.PJT_SN = #{pjtSn}
     </select>
 
+    <select id="getChangeList" parameterType="map" resultType="map">
+        /*getChangeList*/
+        SELECT
+            PC.*,
+            DI.APPRO_KEY,
+            DI.DOC_NO,
+            DI.DOC_MENU_CD,
+            DI.DOC_TITLE,
+            DI.DRAFT_EMP_NAME,
+            DATE_FORMAT(DI.DRAFT_DT, '%Y-%m-%d') AS DRAFT_DATE
+        FROM
+            CAM_PJT_MNG.DJ_PJT_CHANGE PC
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON PC.DOC_ID = DI.DOC_ID
+        WHERE
+            PC.PJT_SN = #{pjtSn}
+        ORDER BY PJT_CH_SN DESC
+    </select>
+
     <select id="getPartRateVerCount" parameterType="map" resultType="int">
         /*getPartRateVerCount*/
         SELECT
@@ -807,6 +826,40 @@
             APPROVAL_EMP_SEQ = #{empSeq}
         WHERE
             PJT_SN = #{pjtSn}
+    </update>
+
+    <insert id="insChangeInfo" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_CHANGE
+            (
+                PJT_SN,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{pjtSn},
+                #{empSeq}
+            )
+    </insert>
+
+    <update id="updateChangeApprStat" parameterType="map">
+        /* updateChangeApprStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_CHANGE
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            PJT_CH_SN = (SELECT MAX(PJT_CH_SN) FROM CAM_PJT_MNG.DJ_PJT_CHANGE WHERE PJT_SN = #{pjtSn})
+    </update>
+
+    <update id="updateChangeFinalApprStat" parameterType="map">
+        /* updateChangeFinalApprStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_CHANGE
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            PJT_CH_SN = (SELECT MAX(PJT_CH_SN) FROM CAM_PJT_MNG.DJ_PJT_CHANGE WHERE PJT_SN = #{pjtSn})
     </update>
 
 </mapper>

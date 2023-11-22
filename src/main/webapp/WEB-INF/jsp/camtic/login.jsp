@@ -38,8 +38,9 @@
         letter-spacing: .5px;
     }
     .btn-success {
+        background: linear-gradient(to right, #007bb0 0%,#1bb1de 100%);
         color: #ffffff;
-        background-color: #259dab;
+        /*background-color: #259dab;*/
         border-color: transparent;
     }
     .btn {
@@ -58,7 +59,8 @@
         border-color: rgba(0, 0, 0, 0);
     }
     a {
-        color: #259dab;
+        /*color: #259dab;*/
+        color: #007bb0 ;
         text-decoration: none;
     }
     .btn-block {

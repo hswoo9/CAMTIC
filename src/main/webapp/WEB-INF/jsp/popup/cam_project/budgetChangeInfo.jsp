@@ -7,8 +7,6 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 
-<input type="hidden" id="pjtSn" value="${params.pjtSn}" />
-
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
 <input type="hidden" id="estSn" value="${params.estSn}" />
 <input type="hidden" id="loginEmpSeq" value="${loginVO.uniqId}"/>
@@ -17,12 +15,14 @@
 <input type="hidden" id="searchKeyword" />
 <input type="hidden" id="searchValue" />
 
-<div style="padding: 10px">
-    <div id="btnDiv">
-        <%--        <button type="button" class="k-button k-button-solid-info" style="float: right; margin-bottom: 10px; " id="reqBtn" onclick="purcInfo.setPurcReq('C');">요청하기</button>--%>
-        <%--        <button type="button" class="k-button k-button-solid-info" style="float: right; margin-bottom: 10px ; margin-right:5px;" id="saveBtn" onclick="purcInfo.setPurcReq('W');">저장</button>--%>
-    </div>
+<form id="changeDraftFrm" method="post">
+    <input type="hidden" id="pjtSn" name="pjtSn" value="${params.pjtSn}" />
+    <input type="hidden" id="menuCd" name="menuCd" value="pjtChange">
+    <input type="hidden" id="type" name="type" value="drafting">
+    <input type="hidden" id="nowUrl" name="nowUrl" />
+</form>
 
+<div style="padding: 10px">
     <div class="table-responsive">
         <input type="hidden" id="budgetChangeEmpSeq" value="${loginVO.uniqId}">
         <input type="hidden" id="budgetChangeDeptSeq" value="${loginVO.orgnztId}">
