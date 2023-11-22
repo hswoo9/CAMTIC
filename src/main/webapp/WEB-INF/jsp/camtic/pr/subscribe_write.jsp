@@ -117,7 +117,7 @@
 			<div id="content">
 
 				<ul id="navigation">
-					<li><a href="/camtic">홈으로</a></li>
+					<li><a href="/camtic"><img src="/images/camtic/home_3.png" class="homeImage">홈으로</a></li>
 					<li class="">캠틱소식</li>
 					<li class="">뉴스레터 구독 신청</li>
 					<li class="">게시글 등록</li>

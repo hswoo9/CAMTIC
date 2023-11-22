@@ -142,6 +142,10 @@ public class ProjectRndRepository extends AbstractDAO {
         return selectList("projectRnd.getAccountInfo", params);
     }
 
+    public List<Map<String, Object>> getChangeList(Map<String, Object> params) {
+        return selectList("projectRnd.getChangeList", params);
+    }
+
     public int getPartRateVerCount(Map<String, Object> map) {
         return (int) selectOne("projectRnd.getPartRateVerCount", map);
     }
@@ -201,5 +205,16 @@ public class ProjectRndRepository extends AbstractDAO {
     }
     public void updateRndResFinalApprStat(Map<String, Object> params) {
         update("projectRnd.updateRndResFinalApprStat", params);
+    }
+
+    public void insChangeInfo(Map<String, Object> params) {
+        insert("projectRnd.insChangeInfo", params);
+    }
+
+    public void updateChangeApprStat(Map<String, Object> params) {
+        update("projectRnd.updateChangeApprStat", params);
+    }
+    public void updateChangeFinalApprStat(Map<String, Object> params) {
+        update("projectRnd.updateChangeFinalApprStat", params);
     }
 }

@@ -38,7 +38,7 @@
       <jsp:include page="/WEB-INF/jsp/template/camtic/lnbENG.jsp" flush="false"/>
       <div id="content">
         <ul id="navigation">
-          <li><a href="/camtic/about/greetingENG.do">HOME</a></li>
+          <li><a href="/camtic/about/greetingENG.do"><img src="/images/camtic/home_3.png" class="homeImage">HOME</a></li>
           <li class="mdCategory">Major Business Areas</li>
           <li class="smCategory" style="display: none;">Major Business Areas</li>
         </ul>

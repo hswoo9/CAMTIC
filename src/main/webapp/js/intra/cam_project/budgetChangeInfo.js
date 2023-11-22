@@ -9,13 +9,10 @@ var budgetChangeInfo = {
 
     gridReload: function (){
         budgetChangeInfo.global.searchAjaxData = {
-            empSeq : $("#loginEmpSeq").val(),
-            pjtSn : $("#pjtSn").val(),
-            searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val()
+            pjtSn : $("#pjtSn").val()
         }
 
-        budgetChangeInfo.mainGrid("/purc/getPurcReqList.do", budgetChangeInfo.global.searchAjaxData);
+        budgetChangeInfo.mainGrid("/projectRnd/getChangeList", budgetChangeInfo.global.searchAjaxData);
     },
 
     mainGrid: function(url, params){
@@ -37,8 +34,15 @@ var budgetChangeInfo = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="budgetChangeInfo.fn_reqRegPopup()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="budgetChangeInfo.changeDrafting()">' +
                             '	<span class="k-button-text">세세목 변경서 작성</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="budgetChangeInfo.fn_reqRegPopup()">' +
+                            '	<span class="k-button-text">사업비 반납</span>' +
                             '</button>';
                     }
                 }, {
@@ -70,7 +74,7 @@ var budgetChangeInfo = {
                     title: "상태",
                     field: "STATUS",
                     width: 100,
-                    template : function(e){
+                    template: function(e){
                         if(e.STATUS == "W"){
                             return "작성중"
                         }else if(e.STATUS == "C"){
@@ -85,24 +89,15 @@ var budgetChangeInfo = {
         }).data("kendoGrid");
     },
 
-    fn_reqRegPopup : function (key){
-
-        var data = {
-            compSeq : 1000,
-            docType : "A",
-            empSeq : "1",
-            formId : 139,
-            linkagePopActive : "N",
-            linkagePopHeight : "900",
-            linkagePopWidth : "965",
-            linkageType : "1",
-            menuCd : "normal",
-            mod : "W",
-            type : "drafting",
-            pjtSn : $("#pjtSn").val(),
-        }
-
-        linkageProcessOn(data, "target");
-
+    changeDrafting: function() {
+        $("#changeDraftFrm").one("submit", function() {
+            var url = "/popup/cam_project/approvalFormPopup/changeApprovalPop.do";
+            var name = "changeApprovalPop";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            var popup = window.open(url, name, option);
+            this.action = "/popup/cam_project/approvalFormPopup/changeApprovalPop.do";
+            this.method = 'POST';
+            this.target = 'changeApprovalPop';
+        }).trigger("submit");
     },
 }

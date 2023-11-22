@@ -533,6 +533,7 @@ img {max-width:100%;}
 #navigation li ~ li {margin-left:10px;padding-left:11px;}
 #navigation li ~ li:before {content:"";display:block;width:1px;height:12px;background:#c2c2c2;position:absolute;left:0;top:50%;margin-top:-6px;}
 #navigation li a {color:inherit;}
+#navigation li a img {width: 15px;margin-bottom: 3px;margin-right: 3px;}
 
 /*타이틀 제목 높이 변경 2023-09-06*/
 #title {margin-bottom:55px;}

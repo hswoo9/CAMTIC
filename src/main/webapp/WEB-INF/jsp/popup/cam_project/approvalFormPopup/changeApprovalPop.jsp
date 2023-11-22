@@ -12,19 +12,19 @@
     function approvalDataInit(){
         var approvalParams = {};
         approvalParams.mod = "W";
-        approvalParams.formId = "152";
+        approvalParams.formId = "139";
         approvalParams.compSeq = "1000";
         approvalParams.empSeq = "${loginVO.uniqId}";
-        approvalParams.docTitle = "[수주보고_비R%26D]${loginVO.orgnztNm}-${loginVO.name}";
+        approvalParams.docTitle = "[세세목변경서]${loginVO.orgnztNm}-${loginVO.name}";
         approvalParams.content = $("#approveDataPop")[0].innerHTML;
         approvalParams.type = "drafting";
-        approvalParams.menuCd = "unRndDelv";
+        approvalParams.menuCd = "pjtChange";
         approvalParams.docType = "A";
 
-        approvalParams.linkageProcessId = "29";
+        approvalParams.linkageProcessId = "33";
         approvalParams.linkageType = "2";
-        approvalParams.linkageProcessCode = "camticUnRndDelv";
-        approvalParams.approKey = "camticUnRndDelv_${params.pjtSn}";
+        approvalParams.linkageProcessCode = "camticPjtChange";
+        approvalParams.approKey = "camticPjtChange_${params.pjtSn}";
 
         linkageProcessOn(approvalParams);
     }
