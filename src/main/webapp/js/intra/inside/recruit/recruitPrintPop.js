@@ -64,7 +64,7 @@ const recruitPrintPop = {
         console.log("rs object:", rs);
 
 
-
+        const recruitArray = rs.list;
 
         let areaInfoValue, deadLineValue, startDayValue, empNameValue;
 
@@ -74,14 +74,26 @@ const recruitPrintPop = {
             deadLineValue = "기본값";
             startDayValue = "기본값";
             empNameValue = "기본값";
-        } else {
-            const recruitArray = rs.list;
+            /** 채용부문 */
+            recruitPrintPop.global.hwpCtrl.PutFieldText("AREA_INFO", areaInfoValue);
 
-            areaInfoValue = recruitArray[0].AREA_TITLE;
-            deadLineValue = recruitArray[0].END_DT;
-            startDayValue = recruitArray[0].START_DT;
-            empNameValue = recruitArray[0].REG_EMP_NAME;
-        };
+            /** 마감일 */
+            recruitPrintPop.global.hwpCtrl.PutFieldText("DEADLINE_DT", deadLineValue);
+
+            /** 작성일 */
+            recruitPrintPop.global.hwpCtrl.PutFieldText("REG_DT", startDayValue);
+
+            /** 작성자 */
+            recruitPrintPop.global.hwpCtrl.PutFieldText("EMP_NAME_SIGN", empNameValue);
+
+        } else {
+            const recruitArray1 = rs.list;
+
+            areaInfoValue = recruitArray1[0].AREA_TITLE;
+            deadLineValue = recruitArray1[0].END_DT;
+            startDayValue = recruitArray1[0].START_DT;
+            empNameValue = recruitArray1[0].REG_EMP_NAME;
+
 
 
         /** 채용부문 */
@@ -96,6 +108,7 @@ const recruitPrintPop = {
         /** 작성자 */
         recruitPrintPop.global.hwpCtrl.PutFieldText("EMP_NAME_SIGN", empNameValue);
 
+        };
         /** 지원자 리스트 */
         let html = "";
         html += '<table style="font-family:바탕체;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
