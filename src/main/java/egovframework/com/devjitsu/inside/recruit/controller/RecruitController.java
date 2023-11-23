@@ -700,6 +700,14 @@ public class RecruitController {
         return "jsonView";
     }
 
+    @RequestMapping("/inside/getCommissionerListCustom")
+    public String getCommissionerListCustom(@RequestParam Map<String,Object> params, Model model) {
+        List<Map<String, Object>> list = recruitService.getCommissionerListCustom(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
     /**
      * 평가위원 등록양식 다운로드
      * @param request
@@ -948,5 +956,31 @@ public class RecruitController {
         return "jsonView";
     }
 
+
+    @RequestMapping("/inside/insRecruitMember")
+    public String insRecruitMember(@RequestParam Map<String,Object> params, Model model) {
+
+        try{
+            recruitService.insRecruitMember(params);
+            model.addAttribute("code", 200);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/inside/insRecruitMemberDelete")
+    public String insRecruitMemberDelete(@RequestParam Map<String,Object> params, Model model) {
+
+        try{
+            recruitService.insRecruitMemberDelete(params);
+            model.addAttribute("code", 200);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 
 }

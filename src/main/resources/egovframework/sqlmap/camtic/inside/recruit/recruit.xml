@@ -125,6 +125,27 @@
             RI.RECRUIT_INFO_SN = #{recruitInfoSn}
     </select>
 
+    <select id="getCommissionerListCustom" parameterType="map" resultType="map">
+        /*getCommissionerListCustom*/
+        SELECT
+            A.*,
+            B.*,
+            (SELECT CM_CODE_NM FROM CAM_COMMON.dj_com_code WHERE CM_GROUP_CODE_ID = '3' AND CM_CODE = B.DUTY_CODE) AS DUTY_NAME
+        FROM
+            CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN A
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO B
+        ON
+            A.EMP_SEQ = B.EMP_SEQ
+        WHERE 1=1
+        AND
+            A.RECRUIT_INFO_SN = #{recruitInfoSn}
+        AND
+            A.EVAL_TYPE = #{evalType}
+        AND
+            A.RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
+    </select>
+
     <select id="getCommissionerList" parameterType="map" resultType="map">
         /*getCommissionerList*/
         SELECT
@@ -936,6 +957,15 @@
         WHERE
         b.RECRUIT_INFO_SN = #{recruitInfoSn}
     </select>
+
+    <delete id="insRecruitMemberDelete" parameterType="map">
+        /*insRecruitMemberDelete*/
+        DELETE
+        FROM
+            CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN
+        WHERE
+            EVAL_LOGIN_ID = #{evalLoginId}
+    </delete>
 </mapper>
 
 

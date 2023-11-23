@@ -35,6 +35,7 @@ var evalDocScreen = {
         }
 
         var result = customKendo.fn_customAjax("/inside/getApplicationList", evalDocScreen.global.saveAjaxData);
+        console.log(result);
         if(result.flag){
             $("#tableDiv *").remove();
             evalDocScreen.global.test = result.list;

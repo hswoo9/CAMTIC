@@ -797,9 +797,8 @@
     </select>
 
     <select id="getPjtSnToDev" parameterType="map" resultType="map">
-        SELECT PJT_SN FROM CAM_PJT_MNG.DJ_PJT_DEV
+        SELECT MAX(PJT_SN) AS PJT_SN FROM CAM_PJT_MNG.DJ_PJT_DEV
         WHERE DEV_SN = #{devSn}
-        LIMIT 1
     </select>
 
     <select id="getPsList" parameterType="map" resultType="map">
