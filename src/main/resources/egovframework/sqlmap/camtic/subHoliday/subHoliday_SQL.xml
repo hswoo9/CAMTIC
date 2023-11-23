@@ -526,7 +526,8 @@
             UPDATE CAM_INSIDE.DJ_HOLIDAY
             SET
                 GRANT_DAY = #{item.GRANT_DAY},
-                COMP_VAC = #{item.COMP_VAC}
+                COMP_VAC = #{item.COMP_VAC},
+                MOD_DATE = NOW()
             WHERE
                 HOLIDAY_ID = #{item.HOLIDAY_ID}
         </foreach>
@@ -723,37 +724,63 @@
         SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 2;
     </select>
 
-    <insert id="setSubHolidayByEmpInfo">
-      INSERT INTO CAM_HR.DJ_EMP_INFO
-          (EMP_SEQ)
-      VALUES
-          #{empSeq}
-    </insert>
 
-    <insert id="setSubHolidayByEmpInfo2">
+    <insert id="setSubHolidayByEmpInfo2" parameterType="map">
         INSERT INTO CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST
         (
-        SUBHOLIDAY_CODE_ID,
-        APPLY_SEQ,
-        APPLY_DATE,
-        SUBHOLIDAY_ST_DT,
-        SUBHOLIDAY_EN_DT,
-        APPROVAL_REASON
-
+            SUBHOLIDAY_CODE_ID,
+            SAVE_SEQ,
+            SUBHOLIDAY_ST_DT,
+            SUBHOLIDAY_EN_DT,
+            SUBHOLIDAY_USE_DAY,
+            RMK,
+            RMK_OTHER,
+            APPR_STAT,
+            DOC_ID,
+            STATUS,
+            APPROVAL_REASON,
+            APPROVAL_EMP_SEQ,
+            APPROVAL_DATE,
+            APPROVAL_SEND_DATE,
+            SUBHOLIDAY_TARGET_SEQ,
+            REG_EMP_SEQ
         )
         VALUES
         (
-        '1',
-        #{applySeq},
-        #{applyDate},
-        #{startDate},
-        #{endDate},
-        #{holidayReason}
-
+            #{subHolidayCodeId},
+            #{saveSeq},
+            #{startDate},
+            #{endDate},
+            #{useDay},
+            #{rmk},
+            #{rmkOther},
+            'Y',
+            'AA',
+            'Y',
+            #{approvalReason},
+            #{approvalEmpSeq},
+            DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            #{subHolidayTargetSeq},
+            #{saveSeq}
         )
-        <selectKey keyProperty="vacUseHistId" resultType="Integer" order="BEFORE">
-            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_SUBHOLIDAY_USE_HIST'
+        <selectKey keyProperty="SUBHOLIDAY_USE_ID" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'dj_subholiday_use_hist'
         </selectKey>
     </insert>
+
+<!--    이력관리 조회-->
+<select id="getModVacList" parameterType="map" resultType="map">
+    SELECT DEI.DEPT_NAME,
+           DEI.DEPT_TEAM_NAME,
+           DEI.EMP_NAME_KR,
+           DEI.POSITION_NAME,
+           DH.GRANT_DAY,
+           DATE_FORMAT(DH.MOD_DATE, '%Y-%m-%d') AS MOD_DATE,
+           DEI.MOD_EMP_SEQ
+    FROM cam_hr.dj_emp_info dei
+             JOIN cam_inside.dj_holiday dh ON dei.MOD_EMP_SEQ = dh.MOD_EMP_SEQ
+
+</select>
 
 </mapper>

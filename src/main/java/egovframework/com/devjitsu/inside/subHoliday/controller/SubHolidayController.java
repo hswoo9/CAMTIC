@@ -114,6 +114,16 @@ public class SubHolidayController {
         return "/popup/subHoliday/subHolidayReqPop2";
     }
 
+    // 휴가 설정 -> 이력관리 버튼 팝업
+    @RequestMapping("/subHoliday/pop/subHolidaySettingPop.do")
+    public String subHolidaySettingPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        LoginVO login = getLoginVO(request);
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        model.addAttribute("code", params.get("code"));
+        model.addAttribute("type", params.get("type"));
+        return "/popup/subHoliday/subHolidaySettingPop";
+    }
 
     //휴가신청 전자결재
     @RequestMapping("/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop.do")
@@ -141,8 +151,10 @@ public class SubHolidayController {
 
     //연차일괄신청
     @RequestMapping("/subHoliday/subHolidayReqBatchPop.do")
-    public String subHolidayReqBatchPop(Model model) {
+    public String subHolidayReqBatchPop(HttpServletRequest request, Model model) {
         Map<String, Integer> countMap = subHolidayService.getCountMap2();
+        LoginVO login = getLoginVO(request);
+        model.addAttribute("loginVO", login);
         model.addAttribute("countMap", countMap);
         return "/popup/subHoliday/subHolidayReqBatchPop";
     }
@@ -387,7 +399,14 @@ public class SubHolidayController {
 
     @RequestMapping(value = "/subHoliday/setSubHolidayByEmpInfo.do", method = RequestMethod.POST)
     public String setSubHoliday(@RequestParam Map<String, Object> params){
-        subHolidayService.setSubHolidayByEmpInfo(params);
+        subHolidayService.setSubHolidayByEmpInfo2(params);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/subHoliday/getModVacList.do")
+    public String getModVacList(@RequestParam Map<String, Object> map, ModelMap model) {
+        model.addAttribute("list", subHolidayService.getModVacList(map));
         return "jsonView";
     }
 

@@ -60,11 +60,17 @@ var evalInApplicationList = {
                 }, {
                     field: "USER_NAME",
                     title: "성명",
-                    width : 100,
+                    width : 80,
                     template : function(e){
-                        return '<a style="cursor: pointer;" onclick="evalInApplicationList.applicationInfo(' + e.APPLICATION_ID + ')">' + e.USER_NAME + '</a>'
+                        return '<a style="cursor: pointer;" onclick="evalInApplicationList.applicationInfo(' + e.APPLICATION_ID + ')">' + e.USER_NAME + '</a>';
                     }
                 }, {
+                    title: "입사정보",
+                    width : 80,
+                    template : function(e){
+                        return '<button type="button" class="k-button k-button-solid-info" onclick="evalInApplicationList.applicationInfo(' + e.APPLICATION_ID + ')">조회</button>';
+                    }
+                },{
                     field: "AGE_GENDER",
                     title: "나이(성별)",
                     width : 80

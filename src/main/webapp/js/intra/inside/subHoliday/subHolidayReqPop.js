@@ -159,6 +159,7 @@ var subHolidayReqPop = {
                         firstDate = $("#edtHolidayStartDateTop_1").val().replace(/-/g, '');
                         secondDate = $("#edtHolidayEndDateTop_1").val().replace(/-/g, '');
                     }
+
                     var firstDateObj = new Date(firstDate.substring(0, 4), firstDate.substring(4, 6) - 1, firstDate.substring(6, 8));
                     var secondDateObj = new Date(secondDate.substring(0, 4), secondDate.substring(4, 6) - 1, secondDate.substring(6, 8));
                     var betweenTime = Math.abs(secondDateObj.getTime() - firstDateObj.getTime());

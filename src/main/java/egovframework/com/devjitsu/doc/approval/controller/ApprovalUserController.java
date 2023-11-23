@@ -185,6 +185,35 @@ public class ApprovalUserController {
     }
 
     /**
+     * 문서검색 (부서)
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/approvalUser/docSearchDeptAll.do")
+    public String docSearchDeptAll(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "approval/approvalUser/docSearchDeptAll";
+    }
+
+    /**
+     * 부서문서함, 문서검색(부서), 문서검색(전체) 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/approvalUser/getApprovalDocSearchList.do")
+    public String getApprovalDocSearchList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", approvalUserService.getApprovalDocSearchList(params));
+        return "jsonView";
+    }
+
+    /**
      * 전자문서 > 전자결재 > 결재설정
      */
 

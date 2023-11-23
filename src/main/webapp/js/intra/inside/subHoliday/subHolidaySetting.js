@@ -10,7 +10,6 @@ var subHolidaySetting = {
 
         subHolidaySetting.dataSet();
         subHolidaySetting.fn_makerGrid();
-
     },
 
     fn_makerGrid : function(){

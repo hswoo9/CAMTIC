@@ -68,7 +68,7 @@ public class SubHolidayRepository extends AbstractDAO  {
         return selectList("subHoliday.getUserInfoList", map);
     }
 
-
+    // 직원구분(수)
     public int getCountForDsA2() {return (Integer) selectOne("subHoliday.getCountForDsA2");}
     public int getCountForDsB2() {return (Integer) selectOne("subHoliday.getCountForDsB2");}
     public int getCountForDsC2() {return (Integer) selectOne("subHoliday.getCountForDsC2");}
@@ -80,13 +80,14 @@ public class SubHolidayRepository extends AbstractDAO  {
     public int getCountForDsI2() {return (Integer) selectOne("subHoliday.getCountForDsI2");}
     public int getCountForDsJ2() {return (Integer) selectOne("subHoliday.getCountForDsJ2");}
 
-    public void setSubHolidayByEmpInfo(Map<String, Object> params){
-        insert("subHoliday.setSubHolidayByEmpInfo", params);
-    }
 
+    // 일괄등록 저장
     public void setSubHolidayByEmpInfo2(Map<String, Object> params){
         insert("subHoliday.setSubHolidayByEmpInfo2", params);
     }
+
+    // 이력관리
+    public List<Map<String, Object>> getModVacList(Map<String, Object> map){return selectList("subHoliday.getModVacList", map); }
 
 }
 

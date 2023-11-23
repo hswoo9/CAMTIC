@@ -1,14 +1,20 @@
 package egovframework.com.devjitsu.inside.subHoliday.service.impl;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.inside.subHoliday.repository.SubHolidayRepository;
 import egovframework.com.devjitsu.inside.subHoliday.service.SubHolidayService;
+import egovframework.expend.common.helper.convert.CommonConvert;
+import egovframework.expend.common.helper.exception.NotFoundLoginSessionException;
+import egovframework.expend.common.vo.ConnectionVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -232,6 +238,7 @@ public class SubHolidayServiceImpl implements SubHolidayService {
         return subHolidayRepository.getUserInfoList(map);
     }
 
+    // 직원 구분(수)
     public Map<String, Integer> getCountMap2() {
         Map<String, Integer> countMap = new HashMap<>();
         countMap.put("dsA", subHolidayRepository.getCountForDsA2());
@@ -244,17 +251,26 @@ public class SubHolidayServiceImpl implements SubHolidayService {
         return countMap;
     }
 
-
-    @Transactional
-    public void setSubHolidayByEmpInfo(Map<String, Object> params){
-        subHolidayRepository.setSubHolidayByEmpInfo(params);
-        subHolidayRepository.setSubHolidayByEmpInfo2(params);
-    }
-
+    // 연가일괄등록 저장
     @Override
     public void setSubHolidayByEmpInfo2(Map<String, Object> params){
-        subHolidayRepository.setSubHolidayByEmpInfo(params);
-        subHolidayRepository.setSubHolidayByEmpInfo2(params);
+        Gson gson = new Gson();
+        List<Map<String, Object>> empArr = gson.fromJson((String) params.get("empArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+
+        if (empArr == null) {
+            throw new IllegalArgumentException("empArr must not be null");
+        }
+        if(empArr.size() > 0){
+            for(Map<String, Object> map : empArr){
+                subHolidayRepository.setSubHolidayByEmpInfo2(map);
+            }
+        }
+    }
+
+    //이력관리 조회
+    @Override
+    public List<Map<String, Object>> getModVacList(Map<String, Object> map) {
+        return subHolidayRepository.getModVacList(map);
     }
 
 }

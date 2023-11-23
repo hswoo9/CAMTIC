@@ -44,4 +44,7 @@ public class ApprovalUserRepository extends AbstractDAO {
     public void setAbsentInfoUpd(Map<String, Object> params) { update("approvalUser.setAbsentInfoUpd", params);}/** 완료 */
     public void setVicariousInfoUpd(Map<String, Object> params) { update("approvalUser.setVicariousInfoUpd", params); }
 
+    public List<Map<String, Object>> getApprovalDocSearchList(Map<String, Object> params) {
+        return selectList("approvalUser.getApprovalDocSearchList", params);
+    }
 }

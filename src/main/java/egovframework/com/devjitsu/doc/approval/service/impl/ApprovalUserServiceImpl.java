@@ -169,6 +169,14 @@ public class ApprovalUserServiceImpl implements ApprovalUserService {
         return map;
     }
 
+    @Override
+    public List<Map<String, Object>> getApprovalDocSearchList(Map<String, Object> params) {
+        StringBuilder deptPathQuery = new StringBuilder();
+        deptPathQuery = getDeptPathQuery(params);
+        params.put("deptPathQuery", deptPathQuery.toString());
+        return approvalUserRepository.getApprovalDocSearchList(params);
+    }
+
     /** 대결자 추출 */
     private StringBuilder getAbsentUserQuery(Map<String, Object> paramMap) {
         String np307 = "";

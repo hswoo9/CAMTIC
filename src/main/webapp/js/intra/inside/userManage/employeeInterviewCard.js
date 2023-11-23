@@ -142,14 +142,6 @@ var employeeList = {
                     title: "면담자",
                     width: "10%"
                 }, {
-                    field: "card_superior_person",
-                    title: "차상급자",
-                    width: "10%"
-                }, {
-                    field: "card_superior_person2",
-                    title: "차차상급자",
-                    width: "10%"
-                }, {
                     field: "card_status",
                     title: "상태",
                     width: "5%"
