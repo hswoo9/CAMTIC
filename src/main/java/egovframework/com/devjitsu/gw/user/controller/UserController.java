@@ -284,5 +284,13 @@ public class UserController {
         return "jsonView";
     }*/
 
+    @RequestMapping("/user/getUserPersonnelOne")
+    public String getUserPersonnelOne(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("data", userService.getUserPersonnelOne(params));
+
+        return "jsonView";
+    }
+
 
 }

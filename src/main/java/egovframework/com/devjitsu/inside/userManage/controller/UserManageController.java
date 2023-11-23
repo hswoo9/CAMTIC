@@ -1460,4 +1460,22 @@ public class UserManageController {
         return "popup/inside/userManage/userPayMngPop";
     }
 
+    @RequestMapping("/inside/pop/userPrintPop.do")
+    public String userPrintPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        String hwpUrl = "";
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", params);
+        return "popup/inside/userManage/userPrintPop";
+    }
+
 }
