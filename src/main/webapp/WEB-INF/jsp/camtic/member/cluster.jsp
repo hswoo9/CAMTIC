@@ -85,7 +85,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+
 
 				<div class="__tit1 __mt100">
 					<h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0; text-align: left;"><strong>캠틱 클러스터 기본원칙</strong></h3>
@@ -110,6 +110,7 @@
 							<div class="txt" style="background-color: #22ca55;">개인투자조합 활성화</div>
 						</div>
 					</div>
+				</div>
 				</div>
 			</div>
 		</div>
