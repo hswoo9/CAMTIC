@@ -74,23 +74,25 @@ const recruitPrintPop = {
         console.log(recruitPrintTitle);
 
         if (!recruitAreaInfoSn || recruitAreaInfoSn === "") {
-            /*
-            areaInfoValue = "기본값";
-            deadLineValue = "기본값";
-            startDayValue = "기본값";
-            empNameValue = "기본값";
-             */
+
             areaInfoValue = recruitPrintTitle.RECRUIT_TITLE || "기본값";
             deadLineValue = recruitPrintTitle.END_DT || "기본값";
             startDayValue = recruitPrintTitle.START_DT || "기본값";
             empNameValue = recruitPrintTitle.REG_EMP_NAME || "기본값";
         } else {
-            const recruitArray1 = rs.list;
+            if (rs.list && rs.list.length > 0) {
+                const recruitArray1 = rs.list;
 
-            areaInfoValue = recruitArray1[0].AREA_TITLE;
-            deadLineValue = recruitArray1[0].END_DT;
-            startDayValue = recruitArray1[0].START_DT;
-            empNameValue = recruitArray1[0].REG_EMP_NAME;
+                areaInfoValue = recruitArray1[0].JOB || "";  // 빈 문자열로 처리
+                deadLineValue = recruitArray1[0].END_DT || "";
+                startDayValue = recruitArray1[0].START_DT || "";
+                empNameValue = recruitArray1[0].REG_EMP_NAME || "";
+            } else {
+                areaInfoValue = "";
+                deadLineValue = "";
+                startDayValue = "";
+                empNameValue = "";
+            }
         };
 
 

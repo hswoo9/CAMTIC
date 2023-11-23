@@ -350,7 +350,7 @@
         filePath = "/upload/excelForm"
         fileName = "구매요청업로드양식.xlsx";
         kendo.saveAs({
-            dataURI: "/common/fileDownload.do?filePath=" + filePath + "/" + fileName + "&fileName=" + encodeURIComponent(fileName),
+            dataURI: "/common/fileDownload.do?filePath=" + filePath + "/purcReqExcelUpload.xlsx&fileName=" + encodeURIComponent(fileName),
         });
     }
 
