@@ -247,8 +247,6 @@ var rndDP = {
         }
 
         var data = {
-            divCd : $("#prepList").val(),
-            divNm : $("#prepList").data("kendoDropDownList").text(),
             invRow : idx,
             devSn : $("#devSn").val(),
             invNm : $("#invNm").val(),
