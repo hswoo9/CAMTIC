@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.gw.user.controller;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
+import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.HashMap;
 
 @Controller
 public class UserController {
@@ -31,6 +33,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserManageService userManageService;
 
     @Autowired
     private CommonService commonService;
@@ -291,6 +296,110 @@ public class UserController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/user/getEducationalList")
+    public String getEducationalList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list", userManageService.getEducationalList(params)); //학력사항
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/user/getCareerInfoList")
+    public String getCareerInfoList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list",  userManageService.getCareerInfoList(params));  //경력사항
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/user/getMilitarySvcInfo")
+    public String getMilitarySvcInfo(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("data",  userManageService.getMilitarySvcInfo(params)); // 병력 사항
+        /*Map<String,Object> militarySvcInfo = userManageService.getMilitarySvcInfo(map); */
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/user/getFamilyInfoList")
+    public String getFamilyInfoList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list",  userManageService.getFamilyInfoList(params)); //가족사항
+       /* model.addAttribute("fList", userManageService.getFamilyInfoList(map)); */
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/user/getLicenceInfoList")
+    public String getLicenceInfoList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list",  userManageService.getLicenceInfoList(params)); //자격증 및 면허, 어학능력
+        /* model.addAttribute("lList", userManageService.getLicenceInfoList(map));  */
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/user/getDutyInfoList")
+    public String getDutyInfoList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list",  userManageService.getDutyInfoList(params)); //직무사항
+        /* model.addAttribute("dList", userManageService.getDutyInfoList(map));   */
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/user/getAppointInfoList")
+    public String getAppointInfoList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list",  userManageService.getAppointInfoList(params)); //발령사항
+        /* model.addAttribute("aList", userManageService.getAppointInfoList(map));    */
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/user/getRewardInfoList")
+    public String getRewardInfoList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list",  userManageService.getRewardInfoList(params)); //포상
+        /* model.addAttribute("rList", userManageService.getRewardInfoList(map));   */
+
+        return "jsonView";
+    }
+
+   /* @RequestMapping("/user/")
+    public String (@RequestParam Map<String, Object> params, Model model){
+
+        평생학습
+
+        return "jsonView";
+    }*/
+
+    /* @RequestMapping("/user/")
+    public String (@RequestParam Map<String, Object> params, Model model){
+
+        근무평가
+
+        return "jsonView";
+    }*/
+
+    @RequestMapping("/user/getProposalInfoList")
+    public String getProposalInfoList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list",  userManageService.getProposalInfoList(params)); //제안제도
+        /* model.addAttribute("pList", userManageService.getProposalInfoList(map));    */
+
+        return "jsonView";
+    }
+
+
+
+
+
+
+
+
+
 
 
 }

@@ -31,23 +31,127 @@ const userPrintPop = {
     },
 
     openCallBack : function(){
-        const result = customKendo.fn_customAjax("/user/getUserPersonnelOne", {pk: $("#empSeq").val()});
-        const userMap = result.data;
-        let list = [];
-        console.log(userMap);
+        const result1 = customKendo.fn_customAjax("/user/getUserPersonnelOne", {pk: $("#empSeq").val()});
+        const userMap1 = result1.data;
 
-        if(userMap == null){ alert("데이터 조회 중 오류가 발생하였습니다. 새로고침 후 진행바랍니다."); return; }
+        const result2 = customKendo.fn_customAjax("/user/getEducationalList", {empSeq: $("#empSeq").val()});
+        const userMap2 = result2.list;
+
+        const result3 = customKendo.fn_customAjax("/user/getCareerInfoList", {empSeq: $("#empSeq").val()});
+        const userMap3 = result3.list;
+
+        const result4 = customKendo.fn_customAjax("/user/getMilitarySvcInfo", {empSeq: $("#empSeq").val()});
+        const userMap4 = result4.data;
+
+        const result5 = customKendo.fn_customAjax("/user/getFamilyInfoList", {empSeq: $("#empSeq").val()});
+        const userMap5 = result5.list;
+
+        const result6 = customKendo.fn_customAjax("/user/getLicenceInfoList", {empSeq: $("#empSeq").val()});
+        const userMap6 = result6.list;
+
+        const result7 = customKendo.fn_customAjax("/user/getDutyInfoList", {empSeq: $("#empSeq").val()});
+        const userMap7 = result7.list;
+
+        const result8 = customKendo.fn_customAjax("/user/getAppointInfoList", {empSeq: $("#empSeq").val()});
+        const userMap8 = result8.list;
+
+        const result9 = customKendo.fn_customAjax("/user/getRewardInfoList", {empSeq: $("#empSeq").val()});
+        const userMap9 = result9.list;
+
+        /*const result10 = customKendo.fn_customAjax("", {empSeq: $("#empSeq").val()});
+        const userMap10 = result10.list;
+
+        const result11 = customKendo.fn_customAjax("", {empSeq: $("#empSeq").val()});
+        const userMap11 = result11.list;*/
+
+        const result12 = customKendo.fn_customAjax("/user/getProposalInfoList", {empSeq: $("#empSeq").val()});
+        const userMap12 = result12.list;
+
+
+        if(userMap1 == null){ alert("데이터 조회 중 오류가 발생하였습니다. 새로고침 후 진행바랍니다."); return; }
 
         /** 인사정보 */
-        userPrintPop.global.hwpCtrl.PutFieldText("EMP_NAME", userMap.EMP_NAME_KR);
+        userPrintPop.global.hwpCtrl.PutFieldText("DEPT_NAME", userMap1.DEPT_NAME);
+        userPrintPop.global.hwpCtrl.PutFieldText("POSITION_NAME", userMap1.POSITION_NAME+"("+userMap1.DUTY_NAME+")");
+        userPrintPop.global.hwpCtrl.PutFieldText("DEPT_SEQ", userMap1.ERP_EMP_SEQ);
+        userPrintPop.global.hwpCtrl.PutFieldText("REG_DATE", userMap1.JOIN_DAY_F);
+        userPrintPop.global.hwpCtrl.PutFieldText("RESIGN_DAY", userMap1.RESIGN_DAY_F); 
+        userPrintPop.global.hwpCtrl.PutFieldText("EMP_NAME", userMap1.EMP_NAME_KR);
+        userPrintPop.global.hwpCtrl.PutFieldText("EMP_NAME_CN", userMap1.EMP_NAME_CN);
+        userPrintPop.global.hwpCtrl.PutFieldText("RES_REGIS_NUM", userMap1.RES_REGIS_NUM);
+        userPrintPop.global.hwpCtrl.PutFieldText("LEGAL_DOMICILE", userMap1.LEGAL_DOMICILE);
+        userPrintPop.global.hwpCtrl.PutFieldText("ADDR_DETAIL", userMap1.ADDR);
+        userPrintPop.global.hwpCtrl.PutFieldText("BDAY", userMap1.BDAY);
+        userPrintPop.global.hwpCtrl.PutFieldText("EMAIL_ADDR", userMap1.EMAIL_ADDR);
+        userPrintPop.global.hwpCtrl.PutFieldText("MOBILE_TEL_NUM", userMap1.MOBILE_TEL_NUM);
+        userPrintPop.global.hwpCtrl.PutFieldText("HOME_TEL_NUM", userMap1.HOME_TEL_NUM);
+        userPrintPop.global.hwpCtrl.PutFieldText("GENDER_CODE", userMap1.GENDER_CODE == "F" ? "여자" : userMap1.GENDER_CODE == "M" ? "남자" : " ");
+        userPrintPop.global.hwpCtrl.PutFieldText("CAR_NUM", userMap1.CAR_NUM);
+        userPrintPop.global.hwpCtrl.PutFieldText("WEDDING_ACTIVE", userMap1.WEDDING_ACTIVE == "Y" ? "기혼" : userMap1.GENDER_CODE == "N" ? "미혼" : " ");
+        userPrintPop.global.hwpCtrl.PutFieldText("HEIGHT", userMap1.HEIGHT);
+        userPrintPop.global.hwpCtrl.PutFieldText("WEIGHT", userMap1.WEIGHT);
+       userPrintPop.global.hwpCtrl.PutFieldText("VISION", "좌"+userMap1.VISIONL+" 우"+userMap1.VISIONR);
 
-        /** 학력사항 ~ 제안제도 */
-        var html = userPrintHtml.html1(list);
+        userPrintPop.global.hwpCtrl.PutFieldText("BLOOD_TYPE", userMap1.BLOOD_TYPE);
+        userPrintPop.global.hwpCtrl.PutFieldText("SPECIALITY", userMap1.SPECIALITY);
+        userPrintPop.global.hwpCtrl.PutFieldText("HOBBY", userMap1.HOBBY);
+        userPrintPop.global.hwpCtrl.PutFieldText("RELIGION", userMap1.RELIGION);
+
+        /** 학력사항 */
+        var html = userPrintHtml.html1(userMap2);
         userPrintPop.global.hwpCtrl.MoveToField('HTML1', true, true, false);
         userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
 
-        var html = userPrintHtml.html2();
+        /** 경력사항 */
+        var html = userPrintHtml.html2(userMap3);
+        userPrintPop.global.hwpCtrl.MoveToField('HTML2', true, true, false);userPrintPop.global.hwpCtrl.MoveToField('HTML1', true, true, false);
         userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
+
+        /** 병력사항 */
+        var html = userPrintHtml.html3(userMap4);
+        userPrintPop.global.hwpCtrl.MoveToField('HTML3', true, true, false);userPrintPop.global.hwpCtrl.MoveToField('HTML2', true, true, false);
+        userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
+
+        /** 가족사항 */
+        var html = userPrintHtml.html4(userMap5);
+        userPrintPop.global.hwpCtrl.MoveToField('HTML4', true, true, false);userPrintPop.global.hwpCtrl.MoveToField('HTML3', true, true, false);
+        userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
+
+        /** 자격증 및 면허, 어학능력*/
+        var html = userPrintHtml.html5(userMap6);
+        userPrintPop.global.hwpCtrl.MoveToField('HTML5', true, true, false);userPrintPop.global.hwpCtrl.MoveToField('HTML4', true, true, false);
+        userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
+
+        /** 직무사항 */
+        var html = userPrintHtml.html6(userMap7);
+        userPrintPop.global.hwpCtrl.MoveToField('HTML6', true, true, false);userPrintPop.global.hwpCtrl.MoveToField('HTML5', true, true, false);
+        userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
+
+        /** 발령사항 */
+        var html = userPrintHtml.html7(userMap8);
+        userPrintPop.global.hwpCtrl.MoveToField('HTML7', true, true, false);userPrintPop.global.hwpCtrl.MoveToField('HTML6', true, true, false);
+        userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
+
+        /** 상벌사항 */
+        var html = userPrintHtml.html8(userMap9);
+        userPrintPop.global.hwpCtrl.MoveToField('HTML8', true, true, false);userPrintPop.global.hwpCtrl.MoveToField('HTML7', true, true, false);
+        userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
+
+        /** 평생학습 */
+        var html = userPrintHtml.html9();
+        userPrintPop.global.hwpCtrl.MoveToField('HTML9', true, true, false);userPrintPop.global.hwpCtrl.MoveToField('HTML8', true, true, false);
+        userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
+
+        /** 근무평가 */
+        var html = userPrintHtml.html10();
+        userPrintPop.global.hwpCtrl.MoveToField('HTML10', true, true, false);userPrintPop.global.hwpCtrl.MoveToField('HTML9', true, true, false);
+        userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
+
+        /** 제안제도 */
+        var html = userPrintHtml.html11(userMap12);
+        userPrintPop.global.hwpCtrl.MoveToField('HTML11', true, true, false);userPrintPop.global.hwpCtrl.MoveToField('HTML10', true, true, false);
+        userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
+
     },
 
     print : function(){
