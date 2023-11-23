@@ -153,7 +153,8 @@
     $("input[name='checkUser']:checked").each(function() {
       var data = {
         subHolidayCodeId: '1',
-        saveSeq : $("#saveSeq").val(),
+        applySeq: $(this).val(),
+        saveSeq : $(this).val(),
         startDate: $("#startDate").val(), //시작일
         endDate: $("#endDate").val(), //종료일
         useDay : totalDays ,

@@ -217,6 +217,8 @@
             VUH.APPR_STAT != 'N'
         AND
             VUH.ACTIVE = 'Y'
+        AND
+            VUH.DOC_ID != 'AA'
         <if test='status != null and !"".equals(status)'>
             AND VUH.APPR_STAT = #{status}
         </if>
@@ -729,6 +731,7 @@
         INSERT INTO CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST
         (
             SUBHOLIDAY_CODE_ID,
+            APPLY_SEQ,
             SAVE_SEQ,
             SUBHOLIDAY_ST_DT,
             SUBHOLIDAY_EN_DT,
@@ -748,6 +751,7 @@
         VALUES
         (
             #{subHolidayCodeId},
+            #{applySeq},
             #{saveSeq},
             #{startDate},
             #{endDate},
