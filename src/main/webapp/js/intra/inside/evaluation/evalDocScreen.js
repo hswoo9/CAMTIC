@@ -66,6 +66,7 @@ var evalDocScreen = {
 
     makeType1ApplicationList : function(e){
         var html = "";
+        if(e != null && e.length > 0){
         html += '' +
             '<table class="searchTable table table-bordered mb-0 mt-20" style="text-align: center">' +
             '<colgroup>' +
@@ -104,7 +105,7 @@ var evalDocScreen = {
             '    <th>下(20)</th>' +
             '</tr>' +
             '<tbody id="applicationTb">';
-        if(e != null && e.length > 0){
+
             for(var i = 0; i < e.length; i++){
                 html += "" +
                     '<tr class="userEvalDocScreen careerType1">' +
@@ -148,15 +149,17 @@ var evalDocScreen = {
                         '</td>' +
                     '</tr>'
             }
-        }else{
-            html += "" +
-                '<tr>' +
-                    '<td colspan="13">데이터가 없습니다.</td>' +
-                '</tr>';
+            html += '</tbody>' +
+                '</table>';
         }
+        /*
 
-        html += '</tbody>' +
-            '</table>';
+        else{
+            html += "" +
+                '<p style="display: table; margin: 0 auto;">[경력]지원자가 없습니다.</p>';
+        }
+        */
+
 
         $("#tableDiv").append(html);
 
@@ -179,6 +182,7 @@ var evalDocScreen = {
 
     makeType2ApplicationList : function(e){
         var html = "";
+        if(e != null && e.length > 0){
         html += '' +
             '<table class="searchTable table table-bordered mb-0 mt-20" style="text-align: center">' +
             '<colgroup>' +
@@ -210,7 +214,7 @@ var evalDocScreen = {
             '    <th>下(40)</th>' +
             '</tr>' +
             '<tbody id="applicationTb">';
-        if(e != null && e.length > 0){
+
             for(var i = 0; i < e.length; i++){
                 html += "" +
                     '<tr class="userEvalDocScreen">' +
@@ -245,15 +249,19 @@ var evalDocScreen = {
                         '</td>' +
                     '</tr>'
             }
-        }else{
-            html += "" +
-                '<tr>' +
-                    '<td colspan="10">데이터가 없습니다.</td>' +
-                '</tr>';
-        }
+            html+=  '</tbody>' +
+                    '</table>';
 
-        html += '</tbody>' +
-            '</table>';
+        }
+        /*
+
+        else{
+            html += "" +
+                '<p style="display: table; margin: 0 auto;">[신입]지원자가 없습니다.</p>';
+        }
+        */
+
+
 
         $("#tableDiv").append(html);
 
