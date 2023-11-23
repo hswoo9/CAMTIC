@@ -31,7 +31,7 @@
             <div class="title-road">캠인사이드 > 인사관리 > 인사관리 > 인사기록카드</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
-        <input type="button" id="filePrint" value="인쇄" onclick="" disabled>
+        <input type="button" id="filePrint" value="인쇄" onclick="userPrintPop();">
         <div class="panel-body">
             <div>
                 <div id="tabstrip">
@@ -2122,4 +2122,10 @@
      */
 
 
+    function userPrintPop(){
+        let url = "/inside/pop/userPrintPop.do?empSeq="+$("#empSeq").val();
+        const name = "userPrintPop";
+        const option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        window.open(url, name, option);
+    }
 </script>

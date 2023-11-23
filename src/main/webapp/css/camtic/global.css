@@ -19,7 +19,7 @@ img {max-width:100%;}
 	#header .top .sns .insta {background-image:url(/images/camtic/ico-insta.png);}
 	#header .top .sns .face {background-image:url(/images/camtic/ico-face.png);}
 	#header .top .sns .kakao {background-image:url(/images/camtic/ico-kakao.png);}
-	#header .top .sns .youtube {background-image:url(/images/camtic/ico-youtube3.png);background-color: #FF3333;}
+	#header .top .sns .youtube {background-image:url(/images/camtic/ico-youtube.png);background-color: #FF3333;}
 	/*2023-09-05 서브메뉴바 배경색 변경*/
 	#header .bot {padding:0 40px;height:99px; background-color:white;}
 	#header .bot .inner {position:relative;padding:0 40px 0 183px;}
