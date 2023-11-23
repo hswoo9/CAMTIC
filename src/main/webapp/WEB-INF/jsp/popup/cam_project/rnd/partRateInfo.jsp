@@ -11,8 +11,13 @@
 
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
-<input type="hidden" id="partRateVerSn" value="" />
-<input type="hidden" id="partRateSn" value="" />
+<input type="hidden" id="partRateSn" name="partRateSn" value="" />
+<form id="rateDraftFrm" method="post">
+    <input type="hidden" id="partRateVerSn" name="partRateVerSn" value="" />
+    <input type="hidden" id="menuCd" name="menuCd" value="rndDev">
+    <input type="hidden" id="type" name="type" value="drafting">
+    <input type="hidden" id="nowUrl" name="nowUrl" />
+</form>
 
 <input type="hidden" id="partRateMenuGubun" value="DETAIL" />
 <div style="padding: 10px">
@@ -145,7 +150,10 @@
 
     <button type="button" id="confBtn" style="float:right" class="k-button k-button-solid-base" onclick="fn_confirm()" disabled>참여율확정</button>
     <button type="button" disabled id="regBtn" style="float:right; margin-right: 5px" class="k-button k-button-solid-info" onclick="fn_reqRegPopup()">지급신청</button>
-    <button type="button" id="partRateChangeDoc" style="float:right; display:none; margin-right: 5px" class="k-button k-button-solid-info" onclick="fn_partRateDoc()">참여율 변경 공문 작성</button>
+
+    <div id="rateBtnDiv">
+    </div>
+
 
     <div class="table-responsive">
         <table class="popTable table table-bordered mb-0">

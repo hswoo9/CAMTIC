@@ -1163,6 +1163,28 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/getPartRateVerInfo")
+    public String getPartRateVerInfo(@RequestParam Map<String, Object> params, Model model){
+
+        /** 파라미터로 pjtSn이 없을때 */
+        Map<String, Object> map = projectService.getPartRateVer(params);
+        model.addAttribute("map", map);
+        params.put("pjtSn", map.get("PJT_SN"));
+        Map<String, Object> pjtMap = projectService.getProjectData(params);
+        map.put("busnClass", pjtMap.get("BUSN_CLASS"));
+        Map<String, Object> result = projectService.getMngPartRate(map);
+        model.addAttribute("result", result);
+
+        /** 이전버전 정보 */
+        Map<String, Object> map2 = projectService.getPartRateBefVer(params);
+        model.addAttribute("map2", map2);
+        map2.put("busnClass", pjtMap.get("BUSN_CLASS"));
+        Map<String, Object> result2 = projectService.getMngPartRate(map2);
+        model.addAttribute("result2", result2);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/project/pop/projectView.do")
     public String projectView(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();

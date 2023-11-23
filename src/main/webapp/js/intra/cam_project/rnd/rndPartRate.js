@@ -150,12 +150,7 @@ var rndPR = {
 
         var result = customKendo.fn_customAjax("/project/getPartRateVerData", data);
         var rs = result.map;
-        if(rs.PART_RATE_VER > 1 && rs.MNG_STAT == "C"){
-            $("#partRateChangeDoc").css("display", "");
-        } else {
-            $("#partRateChangeDoc").css("display", "none");
-
-        }
+        rndPR.fn_buttonSet(rs);
         var mng = result.result.projectManagerInfo;
         var mem = result.result.projectMemberInfo;
 
@@ -365,4 +360,36 @@ var rndPR = {
         // return Math.round((diffDays / 30).toFixed(2) * 10) / 10;
         return pDateMonth;
     },
+
+    fn_buttonSet : function(rateMap){
+        console.log(rateMap);
+        var buttonHtml = "";
+        if(rateMap != null){
+            if(rateMap.PART_RATE_VER > 1 && rateMap.MNG_STAT == "C"){
+                var status = rateMap.STATUS;
+                if(status == "0"){
+                    buttonHtml += "<button type=\"button\" id=\"rateAppBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndPR.rateDrafting()\">참여율 변경 공문 작성</button>";
+                }else if(status == "10"){
+                    buttonHtml += "<button type=\"button\" id=\"rateCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+rateMap.DOC_ID+"', '"+rateMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
+                }else if(status == "30" || status == "40"){
+                    buttonHtml += "<button type=\"button\" id=\"rateCanBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('"+rateMap.DOC_ID+"', '"+rateMap.DOC_MENU_CD+"', '"+rateMap.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
+                }else if(status == "100"){
+                    buttonHtml += "<button type=\"button\" id=\"rateCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+rateMap.DOC_ID+"', '"+rateMap.APPRO_KEY+"', '"+rateMap.DOC_MENU_CD+"');\">열람</button>";
+                }
+            }
+        }
+        $("#rateBtnDiv").html(buttonHtml);
+    },
+
+    rateDrafting: function() {
+        $("#rateDraftFrm").one("submit", function() {
+            var url = "/popup/cam_project/approvalFormPopup/rateChangeApprovalPop.do";
+            var name = "rateChangeApprovalPop";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50";
+            var popup = window.open(url, name, option);
+            this.action = "/popup/cam_project/approvalFormPopup/rateChangeApprovalPop.do";
+            this.method = 'POST';
+            this.target = 'rateChangeApprovalPop';
+        }).trigger("submit");
+    }
 }

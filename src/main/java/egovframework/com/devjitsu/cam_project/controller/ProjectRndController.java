@@ -804,6 +804,7 @@ public class ProjectRndController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("params", params);
         model.addAttribute("loginVO", login);
+        model.addAttribute("processList", projectService.getProcessList(params));
         return "/popup/cam_project/approvalFormPopup/rndDelvApprovalPop";
     }
 
@@ -849,6 +850,16 @@ public class ProjectRndController {
         model.addAttribute("params", params);
         model.addAttribute("loginVO", login);
         return "/popup/cam_project/approvalFormPopup/reApprovalPop";
+    }
+
+    /** 참여율변경공문 전자결재 페이지*/
+    @RequestMapping("/popup/cam_project/approvalFormPopup/rateChangeApprovalPop.do")
+    public String rateChangeApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/cam_project/approvalFormPopup/rateChangeApprovalPop";
     }
 
     /** 사업정보 결재 상태값에 따른 UPDATE 메서드 */
@@ -917,6 +928,25 @@ public class ProjectRndController {
         String resultMessage = "성공하였습니다.";
         try{
             projectRndService.updateChangeDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    /** 참여연구원변경공문 결재 상태값에 따른 UPDATE 메서드 */
+    @RequestMapping(value = "/projectRnd/rateReqApp")
+    public String rateReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            projectRndService.updateRateDocState(bodyMap);
         }catch(Exception e){
             logger.error(e.getMessage());
             resultCode = "FAIL";

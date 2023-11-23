@@ -217,4 +217,11 @@ public class ProjectRndRepository extends AbstractDAO {
     public void updateChangeFinalApprStat(Map<String, Object> params) {
         update("projectRnd.updateChangeFinalApprStat", params);
     }
+
+    public void updateRateApprStat(Map<String, Object> params) {
+        update("projectRnd.updateRateApprStat", params);
+    }
+    public void updateRateFinalApprStat(Map<String, Object> params) {
+        update("projectRnd.updateRateFinalApprStat", params);
+    }
 }

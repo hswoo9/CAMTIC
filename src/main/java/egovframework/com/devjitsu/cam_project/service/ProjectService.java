@@ -140,6 +140,8 @@ public interface ProjectService {
 
     Map<String, Object> getPartRateVer(Map<String, Object> params);
 
+    Map<String, Object> getPartRateBefVer(Map<String, Object> params);
+
     Map<String, Object> getMngPartRate(Map<String, Object> map);
 
     Map<String, Object> getProjectTotalData(Map<String, Object> params);

@@ -911,6 +911,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public Map<String, Object> getPartRateBefVer(Map<String, Object> params) {
+        return projectRepository.getPartRateBefVer(params);
+    }
+
+    @Override
     public Map<String, Object> getMngPartRate(Map<String, Object> map) {
         Map<String, Object> result = new HashMap<>();
         List<Map<String, Object>> projectMemberInfo = new ArrayList<>();

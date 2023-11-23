@@ -274,3 +274,40 @@ function fn_koreanNumber(num) {
 
     return han_value.trim();
 }
+
+/** 두 날짜 사이의 개월수 구하기 */
+function fn_monDiff(_date1, _date2){
+    var pSDate = _date1; //참여 시작일
+    var pEDate = _date2; //참여 종료일
+
+    var pSDateArray = pSDate.split("-");
+    var pEDateArray = pEDate.split("-");
+
+    var pSDateSet = new Date(pSDateArray[0], pSDateArray[1], pSDateArray[2]);
+    var pEDateSet = new Date(pEDateArray[0], pEDateArray[1], pEDateArray[2]);
+
+    var pSDateLastSet = (new Date(pSDateArray[0], pSDateArray[1], 0)).getDate();
+    var pEDateLastSet = (new Date(pEDateArray[0], pEDateArray[1], 0)).getDate();
+
+    var pSDateYear = pSDateSet.getFullYear();
+    var pSDateMonth = pSDateSet.getMonth();
+    var pSDateDay = pSDateSet.getDate();
+
+    var pEDateYear = pEDateSet.getFullYear();
+    var pEDateMonth = pEDateSet.getMonth();
+    var pEDateDay = pEDateSet.getDate();
+
+    var pMonthSet = ((pEDateYear - pSDateYear) * 12) + (pEDateMonth - pSDateMonth + 1) - 2;
+
+    var pSDateDaySet = pSDateLastSet - pSDateDay + 1;
+    var pEDateDaySet = pEDateDay;
+
+    var pSDateDayPerSet = (pSDateDaySet / pSDateLastSet).toFixed(1);
+    var pEDateDayPerSet = (pEDateDaySet / pEDateLastSet).toFixed(1);
+
+    var pDateMonth = Number(pMonthSet) + Number(pSDateDayPerSet) + Number(pEDateDayPerSet);
+
+
+    // return Math.round((diffDays / 30).toFixed(2) * 10) / 10;
+    return pDateMonth;
+}

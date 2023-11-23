@@ -862,4 +862,25 @@
             PJT_CH_SN = (SELECT MAX(PJT_CH_SN) FROM CAM_PJT_MNG.DJ_PJT_CHANGE WHERE PJT_SN = #{pjtSn})
     </update>
 
+    <update id="updateRateApprStat" parameterType="map">
+        /* updateRateApprStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            PART_RATE_VER_SN = #{partRateVerSn}
+    </update>
+
+    <update id="updateRateFinalApprStat" parameterType="map">
+        /* updateRateFinalApprStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            PART_RATE_VER_SN = #{partRateVerSn}
+    </update>
+
 </mapper>

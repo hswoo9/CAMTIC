@@ -1828,13 +1828,19 @@
             DATE_FORMAT(B.STR_DT, '%Y-%m-%d') AS STR_DT,
             DATE_FORMAT(B.END_DT, '%Y-%m-%d') AS END_DT,
             DATE_FORMAT(A.REQ_DATE, '%Y-%m-%d') AS REQ_DT,
-            B.BUSN_NM
+            B.BUSN_NM,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
         FROM
             CAM_PJT_MNG.DJ_PJT_PART_RATE_VER A
         LEFT JOIN
             CAM_PJT_MNG.DJ_PROJECT B
         ON
             A.PJT_SN = B.PJT_SN
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI
+        ON
+            A.DOC_ID = DI.DOC_ID
         WHERE
             1 = 1
         <if test='busnClass != null and !"".equals(busnClass)'>
@@ -1868,6 +1874,29 @@
             A.PJT_SN = B.PJT_SN
         WHERE
             PART_RATE_VER_SN = #{partRateVerSn}
+    </select>
+
+    <select id="getPartRateBefVer" parameterType="map" resultType="map">
+        /*getPartRateBefVer*/
+        SELECT
+            A.*,
+            B.PJT_NM,
+            DATE_FORMAT(B.STR_DT, '%Y-%m-%d') AS STR_DT,
+            DATE_FORMAT(B.END_DT, '%Y-%m-%d') AS END_DT,
+            DATE_FORMAT(A.REQ_DATE, '%Y-%m-%d') AS REQ_DT,
+            (SELECT LG_CD_NM FROM CAM_PJT_MNG.DJ_PJT_CD WHERE LG_CD = B.SBJ_DEP AND GRP_SN = "SUP_DEP" LIMIT 1) AS SBJ_DEP_NM,
+            (SELECT PJT_CD_NM FROM CAM_PJT_MNG.DJ_PJT_CD WHERE LG_CD = B.SBJ_DEP AND GRP_SN = "SUP_DEP" AND PJT_CD = B.SBJ_DEP_SUB) AS SBJ_DEP_SUB_NM,
+            (SELECT CM_CODE_NM FROM CAM_COMMON.DJ_COM_CODE WHERE CM_GROUP_CODE_ID = 37 AND CM_CODE = B.SBJ_CHAR) AS SBJ_CHAR_NM,
+            B.BUSN_NM
+        FROM
+            CAM_PJT_MNG.DJ_PJT_PART_RATE_VER A
+            LEFT JOIN
+            CAM_PJT_MNG.DJ_PROJECT B
+        ON
+            A.PJT_SN = B.PJT_SN
+        WHERE
+            A.PJT_SN = (SELECT PJT_SN AS PART_RATE_VER FROM CAM_PJT_MNG.DJ_PJT_PART_RATE_VER WHERE PART_RATE_VER_SN = #{partRateVerSn})
+        AND A.PART_RATE_VER = (SELECT PART_RATE_VER-1 AS PART_RATE_VER FROM CAM_PJT_MNG.DJ_PJT_PART_RATE_VER WHERE PART_RATE_VER_SN = #{partRateVerSn})
     </select>
 
     <select id="getProjectManagerInfo" parameterType="map" resultType="map"><![CDATA[
