@@ -129,6 +129,7 @@
         /*getCommissionerList*/
         SELECT
             EI.*,
+            DI.PARENT_DEPT_SEQ,
             (SELECT B.CM_CODE_NM FROM CAM_COMMON.dj_com_code B WHERE B.CM_GROUP_CODE_ID = '3' AND B.CM_CODE = EI.DUTY_CODE) AS DUTY_NAME
             <if test='recruitInfoSn != null and !"".equals(recruitInfoSn)'>
             ,(
@@ -150,6 +151,7 @@
             </if>
         FROM
             CAM_HR.DJ_EMP_INFO EI
+        LEFT JOIN CAM_HR.DJ_DEPT_INFO DI ON EI.DEPT_SEQ = DI.DEPT_SEQ
         WHERE
             1=1
         AND
