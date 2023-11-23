@@ -9,6 +9,7 @@ var prp = {
         crmSnId : "",
         crmNmId : "",
         saveAjaxData : "",
+        event : ""
     },
 
     fn_defaultScript : function (){
@@ -70,6 +71,7 @@ var prp = {
 
         if($("#purcSn").val()){
             prp.purcDataSet();
+            $("#excelUploadBtn").css("display", "none");
         }
 
         $("#checkAll").click(function(){
@@ -633,5 +635,70 @@ var prp = {
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    fn_excelUpload : function(){
+        var excelArr = [];
+        var event = prp.global.event;
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function(){
+            var fdata = reader.result;
+            var read_buffer = XLSX.read(fdata, {type : 'binary'});
+            var index = 0;
+            read_buffer.SheetNames.forEach(function(sheetName){
+                var rowdata =XLSX.utils.sheet_to_json(read_buffer.Sheets[sheetName]);
+
+
+                for(var i = 0 ; i < rowdata.length ; i++){
+                    $("#purcItemType" + index).data("kendoDropDownList").text(rowdata[index]['구분']);
+                    $("#productA" + index).data("kendoDropDownList").text(rowdata[index]['대분류']);
+                    $("#productA" + index).trigger("change");
+
+                    if(rowdata[index]['중분류'] != ""){
+                        $("#productB" + index).data("kendoDropDownList").text(rowdata[index]['중분류']);
+                        $("#productB" + index).trigger("change");
+
+                        $("#productC" + index).data("kendoDropDownList").text(rowdata[index]['소분류']);
+                    }
+
+                    $("#purcItemName" + index).val(rowdata[index]['품명']);
+                    $("#purcItemStd" + index).val(rowdata[index]['규격']);
+                    $("#purcItemUnitPrice" + index).val(comma(rowdata[index]['단가']));
+                    $("#purcItemQty" + index).val(rowdata[index]['수량']);
+                    $("#purcItemUnit" + index).val(rowdata[index]['단위']);
+                    $("#purcItemAmt" + index).val(comma(rowdata[index]['금액']));
+                    $("#rmk" + index).val(rowdata[index]['비고']);
+
+                    var data = {
+                        excelCrmNm : rowdata[index]['업체명'],
+                        excelCrmNo : rowdata[index]['사업자번호'].replace(/-/g, '')
+                    }
+
+                    $.ajax({
+                        url : "/purc/getCrmInfo",
+                        data : data,
+                        async : false,
+                        type : "post",
+                        dataType : "json",
+                        success :function (rs){
+                            $("#crmSn" + index).val(rs.data.CRM_SN);
+                            $("#crmNm" + index).val(rs.data.CRM_NM);
+
+                            prp.addRow();
+                            index++;
+                        }, error : function (){
+                            alert("에러가 발생하였습니다.");
+                        }
+                    });
+                }
+
+            });
+            $("#delRowBtn" + index).click();
+
+        };
+        reader.readAsBinaryString(input.files[0]);
+
+        $('#excelUpload').data('kendoWindow').close();
     }
 }

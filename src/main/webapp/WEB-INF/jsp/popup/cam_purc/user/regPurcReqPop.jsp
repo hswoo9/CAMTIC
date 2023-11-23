@@ -7,12 +7,18 @@
 
 <body class="font-opensans" style="background-color:#fff;">
 <script type="text/javascript" src="/js/intra/cam_crm/regCrmPop.js?v=${today}"/></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_purc/regPurcReqPop.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_purc/purchase.js?v=${today}'/>"></script>
 <input type="hidden" id="stat" value="${params.stat}" />
 <input type="hidden" id="busnClass" value="${pjtData.BUSN_CLASS}" />
 
+<style>
+    #excelUpload {
+        overflow-x: hidden;
+    }
+</style>
 <form id="purcDraftFrm" method="post">
     <input type="hidden" id="purcSn" name="purcSn" value="${params.purcSn}">
     <input type="hidden" id="menuCd" name="menuCd" value="purc">
@@ -142,7 +148,7 @@
                         </button>
                     </div>
                     <div>
-                        <button type="button" id="excelUploadBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" disabled onclick="" style="font-size: 12px;">
+                        <button type="button" id="excelUploadBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="fn_excelUploadModal()" style="font-size: 12px;">
                             <span class="k-button-text">엑셀업로드</span>
                         </button>
                         <button type="button" id="addBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="prp.addRow()" style="font-size: 12px;">
@@ -259,6 +265,8 @@
         </div>
     </div>
 </div>
+
+<div id="excelUpload"></div>
 <script type="text/javascript">
     prp.fn_defaultScript();
 
@@ -275,8 +283,52 @@
             $("#productB" + i).data("kendoDropDownList").enable(false);
             $("#productC" + i).data("kendoDropDownList").enable(false);
         }
-
     }
+
+    $("#excelUpload").kendoWindow({
+        title : "엑셀업로드",
+        width: "700px",
+        visible: false,
+        modal: true,
+        position : {
+            top : 200,
+            left : 400
+        },
+        open : function (){
+            var htmlStr =
+                '<div class="mb-10" style="text-align: right;">' +
+                '	<button type="button" id="download" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="fileDown()">양식다운로드</button>' +
+                '	<button type="button" id="upload" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="prp.fn_excelUpload()">업로드</button>' +
+                '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#excelUpload \').data(\'kendoWindow\').close()">닫기</button>' +
+                '</div>' +
+                '<table class="table table-bordered mb-0" style="margin-top: 10px">' +
+                '	<colgroup>' +
+                '		<col width="20%">' +
+                '		<col width="80%">' +
+                '	</colgroup>' +
+                '	<tbody>' +
+                '		<tr>' +
+                '			<th scope="row" class="text-center th-color"><span style="position:relative; top: 9px;">엑셀업로드</span></th>' +
+                '			<td>' +
+                '               <div>' +
+                '	                <input type="file" id="excelUploadFile" onchange="fileSv(event)" /> ' +
+                '               </div>';
+                '			</td>' +
+                '		</tr>' +
+                '	</tbody>' +
+                '</table>';
+
+
+            $("#excelUpload").html(htmlStr);
+
+            // modalKendoSetCmCodeCM();
+            $("#excelUploadFile").kendoTextBox();
+        },
+        close: function () {
+            $("#excelUpload").empty();
+        }
+    });
+
     function userSearch() {
         window.open("/common/deptListPop.do", "조직도", "width=750, height=650");
     }
@@ -285,6 +337,23 @@
         $("#pjtSn").val(sn);
         $("#pjtNm").val(nm);
     }
+
+    function fn_excelUploadModal(){
+        $("#excelUpload").data("kendoWindow").open();
+    }
+
+    function fileSv(event){
+        prp.global.event = event;
+    }
+
+    function fileDown(filePath, fileName){
+        filePath = "/upload/excelForm"
+        fileName = "구매요청업로드양식.xlsx";
+        kendo.saveAs({
+            dataURI: "/common/fileDownload.do?filePath=" + filePath + "/" + fileName + "&fileName=" + encodeURIComponent(fileName),
+        });
+    }
+
 </script>
 </body>
 </html>

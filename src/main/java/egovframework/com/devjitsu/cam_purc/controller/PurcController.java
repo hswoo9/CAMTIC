@@ -433,4 +433,12 @@ public class PurcController {
         }
         return "jsonView";
     }
+
+    @RequestMapping("/purc/getCrmInfo")
+    public String getCrmInfo(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("data", purcService.getCrmInfo(params));
+
+        return "jsonView";
+    }
 }

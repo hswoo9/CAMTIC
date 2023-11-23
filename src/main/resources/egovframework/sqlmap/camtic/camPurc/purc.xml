@@ -836,4 +836,16 @@
         WHERE
             CLAIM_ITEM_SN IN (${itemList})
     </update>
+
+    <select id="getCrmInfo" parameterType="map" resultType="map">
+        /*purc.getCrmInfo*/
+        SELECT
+            *
+        FROM
+            CAM_CRM.DJ_CRM_INFO
+        WHERE
+            CRM_NM LIKE CONCAT('%', #{excelCrmNm}, '%')
+        AND
+            REPLACE(CRM_NO, '-', '') LIKE CONCAT('%', #{excelCrmNo}, '%')
+    </select>
 </mapper>

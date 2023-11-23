@@ -290,4 +290,9 @@ public class PurcServiceImpl implements PurcService {
     public void updItemUnAssetStat(Map<String, Object> params) {
         purcRepository.updItemUnAssetStat(params);
     }
+
+    @Override
+    public Map<String, Object> getCrmInfo(Map<String, Object> params) {
+        return purcRepository.getCrmInfo(params);
+    }
 }

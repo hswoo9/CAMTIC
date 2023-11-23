@@ -103,4 +103,8 @@ public class PurcRepository extends AbstractDAO {
     public void updItemUnAssetStat(Map<String, Object> params) {
         update("purc.updItemUnAssetStat", params);
     }
+
+    public Map<String, Object> getCrmInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("purc.getCrmInfo", params);
+    }
 }
