@@ -743,7 +743,7 @@
             APPROVAL_DATE,
             APPROVAL_SEND_DATE,
             SUBHOLIDAY_TARGET_SEQ,
-            REG_EMP_SEQ,
+            REG_EMP_SEQ
         )
         VALUES
         (

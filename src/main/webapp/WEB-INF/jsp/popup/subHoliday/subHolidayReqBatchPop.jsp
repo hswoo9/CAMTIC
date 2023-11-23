@@ -47,7 +47,8 @@
         <div class="table-responsive">
           <div class="popupTitleSt">연가일괄등록</div>
           <form id="subHolidayReqPop">
-            <input type="hidden" id="empSeq" name="empNumber" class="defaultVal" value="${loginVO.uniqId}" style="width: 80%;">
+            <input type="hidden" id="saveSeq" name="empNumber" class="defaultVal" value="${loginVO.uniqId}" style="width: 80%;">
+            <input type="hidden" id="approvalSeq" name="empNumber" class="defaultVal" value="${loginVO.uniqId}" style="width: 80%;">
             <table class="table table-bordered mb-0" id="holidayPlanReqPopTbVal">
               <colgroup>
                 <col width="10%">
@@ -152,12 +153,12 @@
     $("input[name='checkUser']:checked").each(function() {
       var data = {
         subHolidayCodeId: '1',
-        saveSeq : $("#empSeq").val(),
+        saveSeq : $("#saveSeq").val(),
         startDate: $("#startDate").val(), //시작일
         endDate: $("#endDate").val(), //종료일
         useDay : totalDays ,
         approvalReason: $("#approvalReason").val(), //사유
-        approvalEmpSeq: $("#empSeq").val(),
+        approvalEmpSeq: $("#approvalSeq").val(),
         subHolidayTargetSeq : $(this).val()
       }
 
@@ -169,9 +170,10 @@
 
     $.ajax({
       type: "POST",
-      url: "/subHoliday/setSubHolidayByEmpInfo.do",
-      contentType: "application/json; charset=utf-8",
-      data: JSON.stringify({empArr: empArr}),
+      url: "<c:url value='/subHoliday/setSubHolidayByEmpInfo.do'/>",
+      data: {
+        empArr : JSON.stringify(empArr)
+      },
       success: function(response) {
         alert("데이터가 성공적으로 저장되었습니다!");
       },

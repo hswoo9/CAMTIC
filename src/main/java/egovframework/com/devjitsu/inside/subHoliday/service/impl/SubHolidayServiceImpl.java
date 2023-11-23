@@ -257,9 +257,9 @@ public class SubHolidayServiceImpl implements SubHolidayService {
         Gson gson = new Gson();
         List<Map<String, Object>> empArr = gson.fromJson((String) params.get("empArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
 
-//        if (empArr == null) {
-//            throw new IllegalArgumentException("empArr must not be null");
-//        }
+        if (empArr == null) {
+            throw new IllegalArgumentException("empArr must not be null");
+        }
         if(empArr.size() > 0){
             for(Map<String, Object> map : empArr){
                 subHolidayRepository.setSubHolidayByEmpInfo2(map);

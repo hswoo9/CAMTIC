@@ -151,8 +151,10 @@ public class SubHolidayController {
 
     //연차일괄신청
     @RequestMapping("/subHoliday/subHolidayReqBatchPop.do")
-    public String subHolidayReqBatchPop(Model model) {
+    public String subHolidayReqBatchPop(HttpServletRequest request, Model model) {
         Map<String, Integer> countMap = subHolidayService.getCountMap2();
+        LoginVO login = getLoginVO(request);
+        model.addAttribute("loginVO", login);
         model.addAttribute("countMap", countMap);
         return "/popup/subHoliday/subHolidayReqBatchPop";
     }
