@@ -473,10 +473,10 @@ public class ProjectUnRndController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("params", params);
         model.addAttribute("loginVO", login);
-        model.addAttribute("processList", projectService.getProcessList(params));
-        model.addAttribute("invList", projectService.getInvList(params));
         Map<String, Object> map = projectService.getPjtSnToDev(params);
         params.put("pjtSn", map.get("PJT_SN"));
+        model.addAttribute("processList", projectService.getProcessList(params));
+        model.addAttribute("invList", projectService.getInvList(params));
         return "/popup/cam_project/approvalFormPopup/unRndDevApprovalPop";
     }
 
