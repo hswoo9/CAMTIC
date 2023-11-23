@@ -1440,6 +1440,76 @@
         </selectKey>
     </insert>
 
+    <insert id="insPerformanceInfo" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_RESULT
+        (
+        PJT_SN,
+        <if test='delvPrepA != null and !"".equals(delvPrepA)'>
+            DELV_PREP_A,
+        </if>
+        <if test='delvPrepB != null and !"".equals(delvPrepB)'>
+            DELV_PREP_B,
+        </if>
+        <if test='delvPrepC != null and !"".equals(delvPrepC)'>
+            DELV_PREP_C,
+        </if>
+        <if test='invPrepA != null and !"".equals(invPrepA)'>
+            INV_PREP_A,
+        </if>
+        <if test='invPrepB != null and !"".equals(invPrepB)'>
+            INV_PREP_B,
+        </if>
+        <if test='invPrepC != null and !"".equals(invPrepC)'>
+            INV_PREP_C,
+        </if>
+        <if test='prepA != null and !"".equals(prepA)'>
+            PREP_A,
+        </if>
+        <if test='prepB != null and !"".equals(prepB)'>
+            PREP_B,
+        </if>
+        <if test='prepC != null and !"".equals(prepC)'>
+            PREP_C,
+        </if>
+        REG_EMP_SEQ
+        )
+        VALUES
+        (
+        #{pjtSn},
+        <if test='delvPrepA != null and !"".equals(delvPrepA)'>
+            #{delvPrepA},
+        </if>
+        <if test='delvPrepB != null and !"".equals(delvPrepB)'>
+            #{delvPrepB},
+        </if>
+        <if test='delvPrepC != null and !"".equals(delvPrepC)'>
+            #{delvPrepC},
+        </if>
+        <if test='invPrepA != null and !"".equals(invPrepA)'>
+            #{invPrepA},
+        </if>
+        <if test='invPrepB != null and !"".equals(invPrepB)'>
+            #{invPrepB},
+        </if>
+        <if test='invPrepC != null and !"".equals(invPrepC)'>
+            #{invPrepC},
+        </if>
+        <if test='prepA != null and !"".equals(prepA)'>
+            #{prepA},
+        </if>
+        <if test='prepB != null and !"".equals(prepB)'>
+            #{prepB},
+        </if>
+        <if test='prepC != null and !"".equals(prepC)'>
+            #{prepC},
+        </if>
+        #{empSeq}
+        )
+        <selectKey keyProperty="rsSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_RESULT'
+        </selectKey>
+    </insert>
+
     <update id="updResultInfo" parameterType="map">
         /*updResultInfo*/
         UPDATE CAM_PJT_MNG.DJ_PJT_RESULT
@@ -1481,6 +1551,42 @@
         MOD_EMP_SEQ = #{empSeq}
         WHERE
         RS_SN = #{rsSn}
+    </update>
+
+    <update id="setPerformanceInfo" parameterType="map">
+        /*setPerformanceInfo*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_RESULT
+        SET
+        <if test='delvPrepA != null and !"".equals(delvPrepA)'>
+            DELV_PREP_A = #{delvPrepA},
+        </if>
+        <if test='delvPrepB != null and !"".equals(delvPrepB)'>
+            DELV_PREP_B = #{delvPrepB},
+        </if>
+        <if test='delvPrepC != null and !"".equals(delvPrepC)'>
+            DELV_PREP_C = #{delvPrepC},
+        </if>
+        <if test='invPrepA != null and !"".equals(invPrepA)'>
+            INV_PREP_A = #{invPrepA},
+        </if>
+        <if test='invPrepB != null and !"".equals(invPrepB)'>
+            INV_PREP_B = #{invPrepB},
+        </if>
+        <if test='invPrepC != null and !"".equals(invPrepC)'>
+            INV_PREP_C = #{invPrepC},
+        </if>
+        <if test='prepA != null and !"".equals(prepA)'>
+            PREP_A = #{prepA},
+        </if>
+        <if test='prepB != null and !"".equals(prepB)'>
+            PREP_B = #{prepB},
+        </if>
+        <if test='prepC != null and !"".equals(prepC)'>
+            PREP_C = #{prepB},
+        </if>
+            MOD_EMP_SEQ = #{empSeq}
+        WHERE
+            RS_SN = #{rsSn}
     </update>
 
     <update id="updResultDesignFile" parameterType="map">

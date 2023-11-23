@@ -285,6 +285,27 @@ public class ProjectController {
         return "popup/cam_project/engineering/resultInfo";
     }
 
+
+    /**
+     * TAB > 실적률
+     * @param params
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping("/intra/cam_project/performanceInfo.do")
+    public String performanceInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        Map<String, Object> map = projectService.getProjectData(params);
+        model.addAttribute(map);
+
+        return "popup/cam_project/engineering/performanceInfo";
+    }
+
     @RequestMapping("/intra/cam_project/costPriceInfo.do")
     public String costInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -572,6 +593,19 @@ public class ProjectController {
     public String setResultInfo(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
         try{
             projectService.setResultInfo(params, request, SERVER_DIR, BASE_DIR);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/engn/setPerformanceInfo")
+    public String setPerformanceInfo(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
+        try{
+            projectService.setPerformanceInfo(params, request, SERVER_DIR, BASE_DIR);
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();

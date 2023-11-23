@@ -45,7 +45,7 @@
                     <col width="10%">
                     <col width="35%">
                 </colgroup>
-                <thead>
+                <thead id="order">
                 <tr>
                     <th scope="row" class="text-center th-color">청구부서</th>
                     <td>
@@ -182,11 +182,6 @@
 
 
             <div class="mt-20">
-                <div class="text-right">
-                    <button type="button" id="addBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="reqCl.addRow()">
-                        <span class="k-button-text">추가</span>
-                    </button>
-                </div>
 
                 <table class="popTable table table-bordered mb-0 mt-20">
                     <colgroup>

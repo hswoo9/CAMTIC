@@ -35,7 +35,7 @@ var regPrj = {
         var tab5Url = "/intra/cam_project/teamInfo.do";         // 협업관리
         var tab6Url = "/intra/cam_project/goodsInfo.do";
         var tab7Url = "/intra/cam_project/resultInfo.do";
-        var tab15Url = "/intra/cam_project/resultInfo.do";      // 실적관리
+        var tab15Url = "/intra/cam_project/performanceInfo.do";      // 실적관리
 
 
         var tab8Url = "/intra/cam_project/bustInfo.do";
@@ -54,6 +54,7 @@ var regPrj = {
             tab8Url += "?pjtSn=" + setParameters.PJT_SN;
             tab9Url += "?pjtSn=" + setParameters.PJT_SN;
             tab10Url += "?pjtSn=" + setParameters.PJT_SN;
+            tab15Url += "?pjtSn=" + setParameters.PJT_SN;
         }
         if(setParameters != null && setParameters.ENGN_SN != null) {
             tab0Url += "&engnSn=" + setParameters.ENGN_SN;
@@ -239,7 +240,7 @@ var regPrj = {
                     tabStrip.enable(tabStrip.tabGroup.children().eq(0));
                 }
 
-                if(setParameters.PM_EMP_SEQ == $("#regEmpSeq").val()){
+                if(setParameters.PM_EMP_SEQ == $("#regEmpSeq").val() && setParameters.PJT_STEP >= "E6"){
                     tabStrip.enable(tabStrip.tabGroup.children().eq(8));
                 }
 

@@ -107,4 +107,8 @@ public class PurcRepository extends AbstractDAO {
     public Map<String, Object> getCrmInfo(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("purc.getCrmInfo", params);
     }
+
+    public void setOrderInfo(Map<String, Object> params) {
+        update("purc.setOrderInfo", params);
+    }
 }

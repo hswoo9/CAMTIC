@@ -295,4 +295,9 @@ public class PurcServiceImpl implements PurcService {
     public Map<String, Object> getCrmInfo(Map<String, Object> params) {
         return purcRepository.getCrmInfo(params);
     }
+
+    @Override
+    public void setOrderInfo(Map<String, Object> params) {
+        purcRepository.setOrderInfo(params);
+    }
 }

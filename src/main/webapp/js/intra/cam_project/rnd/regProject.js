@@ -92,7 +92,7 @@ var regRnd = {
         var tab12Url= "/intra/cam_project/budgetChangeInfo.do";          // 세세목 변경신청
         var tab13Url= "/intra/cam_project/budgetChangeInfo.do";          // 입금관리
         var tab14Url= "/intra/cam_project/purcInfo.do";                 // 정산/원가
-        var tab15Url= "/intra/cam_project/purcInfo.do";                 // 실적관리
+        var tab15Url= "/intra/cam_project/performanceInfo.do";                 // 실적관리
 
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -191,7 +191,6 @@ var regRnd = {
             }
 
             tabStrip.disable(tabStrip.tabGroup.children().eq(8));
-
             if(setParameters.PM_EMP_SEQ == $("#regEmpSeq").val()){
                 tabStrip.enable(tabStrip.tabGroup.children().eq(8));
             }
