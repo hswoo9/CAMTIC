@@ -655,7 +655,7 @@ var prp = {
                     $("#productA" + index).data("kendoDropDownList").text(rowdata[index]['대분류']);
                     $("#productA" + index).trigger("change");
 
-                    if(rowdata[index]['중분류'] != ""){
+                    if(rowdata[index]['중분류'] != undefined && rowdata[index]['중분류'] != null && rowdata[index]['중분류'] != ""){
                         $("#productB" + index).data("kendoDropDownList").text(rowdata[index]['중분류']);
                         $("#productB" + index).trigger("change");
 
