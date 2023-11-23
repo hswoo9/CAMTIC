@@ -139,7 +139,13 @@ var approveWaitDocList = {
         approveWaitDocList.global.searchAjaxData = {
             empSeq : $("#empSeq").val(),
             deptSeq : $("#deptSeq").val(),
-            approveStat : "wait"
+            sEmpSeq : $("#sEmpSeq").val(),
+            sDeptSeq : $("#sDeptSeq").val(),
+            docTitle : $("#docTitle").val(),
+            startDay : $("#startDay").val(),
+            endDay : $("#endDay").val(),
+            approveType : "wait",
+            resType : "Y",
         }
 
         approveWaitDocList.mainGrid("/approvalUser/getApproveDocBoxList", approveWaitDocList.global.searchAjaxData);

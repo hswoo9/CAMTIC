@@ -621,7 +621,7 @@ var draft = {
 
     draftInitValidation : function(e) {
         draft.global.flag = true;
-        if (draft.global.approversArr.length < 1) {
+        if (draft.global.approversArr.length < 2 && draft.global.approversArr[0].approveType != "2") {
             alert("결재선을 지정해주세요.");
             draft.global.flag = false;
             return;

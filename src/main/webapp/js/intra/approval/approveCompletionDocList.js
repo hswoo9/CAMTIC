@@ -139,7 +139,13 @@ var approveCompletion = {
         approveCompletion.global.searchAjaxData = {
             empSeq : $("#empSeq").val(),
             deptSeq : $("#deptSeq").val(),
-            approveStat : "completion"
+            sEmpSeq : $("#sEmpSeq").val(),
+            sDeptSeq : $("#sDeptSeq").val(),
+            docTitle : $("#docTitle").val(),
+            startDay : $("#startDay").val(),
+            endDay : $("#endDay").val(),
+            approveType : "completion",
+            resType : "Y",
         }
 
         approveCompletion.mainGrid("/approvalUser/getApproveDocBoxList", approveCompletion.global.searchAjaxData);
