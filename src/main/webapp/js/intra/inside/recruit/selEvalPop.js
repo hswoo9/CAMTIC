@@ -132,10 +132,12 @@ var selEvalPop = {
                             template: "#= --record #"
                         }, {
                             field: "LOGIN_ID",
-                            title: "아이디"
+                            title: "아이디",
+                            width: 70,
                         }, {
                             field: "EMP_NAME_KR",
-                            title: "성명"
+                            title: "성명",
+                            width: 70,
                         }, {
                             field: "GENDER",
                             title: "성별",
@@ -149,20 +151,30 @@ var selEvalPop = {
                                 }else{
                                     return "-";
                                 }
-                            }
+                            },
+                            width: 50,
                         }, {
                             field: "DEPT_NAME",
                             title: "기관(소속)",
                             width : 180
                         }, {
                             field: "DUTY_NAME",
-                            title: "직위"
+                            title: "직위",
+                            width: 70,
                         }, {
                             field: "MOBILE_TEL_NUM",
                             title: "휴대폰"
                         }, {
                             field: "SIGNIFICANT",
-                            title: "비고"
+                            title: "비고",
+                            width: 70,
+                        }, {
+                            title : "",
+                            template : function(e){
+                                console.log(e);
+                                return '<button type="button" id="delBtn" class="k-button k-button-solid-error" onclick="selEvalPop.fn_del(' + e.EVAL_LOGIN_ID + ')">삭제</button>'
+                            },
+                            width: 70,
                         }
                     ],
                     dataBinding: function(){
@@ -197,6 +209,26 @@ var selEvalPop = {
         });
          */
 
+
+    },
+
+    fn_del:function(evalLoginId) {
+        var parameters = {
+            evalLoginId: evalLoginId,
+        }
+
+        $.ajax({
+            url : "/inside/insRecruitMemberDelete",
+            data : parameters,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("삭제되었습니다.");
+                    selEvalPop.gridReload();
+                }
+            }
+        })
 
     },
 

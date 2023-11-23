@@ -955,6 +955,15 @@
         WHERE
         b.RECRUIT_INFO_SN = #{recruitInfoSn}
     </select>
+
+    <delete id="insRecruitMemberDelete" parameterType="map">
+        /*insRecruitMemberDelete*/
+        DELETE
+        FROM
+            CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN
+        WHERE
+            EVAL_LOGIN_ID = #{evalLoginId}
+    </delete>
 </mapper>
 
 

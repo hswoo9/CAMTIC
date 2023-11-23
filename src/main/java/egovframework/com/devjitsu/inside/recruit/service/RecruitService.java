@@ -40,4 +40,6 @@ public interface RecruitService {
     List<Map<String, Object>> getCommissionerListCustom(Map<String, Object> params);
 
     Map<String, Object> getRecruitPrintTitle(Map<String, Object> params);
+
+    void insRecruitMemberDelete(Map<String, Object> params);
 }

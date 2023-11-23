@@ -856,4 +856,17 @@ public class RecruitController {
         return "jsonView";
     }
 
+    @RequestMapping("/inside/insRecruitMemberDelete")
+    public String insRecruitMemberDelete(@RequestParam Map<String,Object> params, Model model) {
+
+        try{
+            recruitService.insRecruitMemberDelete(params);
+            model.addAttribute("code", 200);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
 }

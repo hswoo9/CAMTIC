@@ -522,4 +522,9 @@ public class RecruitServiceImpl implements RecruitService {
     public Map<String, Object> getRecruitPrintTitle(Map<String, Object> params){
         return recruitRepository.getRecruitPrintTitle(params);
     }
+
+    @Override
+    public void insRecruitMemberDelete(Map<String, Object> params) {
+        recruitRepository.insRecruitMemberDelete(params);
+    }
 }
