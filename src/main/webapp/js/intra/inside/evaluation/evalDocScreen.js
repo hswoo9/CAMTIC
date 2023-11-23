@@ -73,23 +73,25 @@ var evalDocScreen = {
             html += '' +
                 '<table class="searchTable table table-bordered mb-0 mt-20" style="text-align: center">' +
                 '<colgroup>' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
                 '    <col style="width: 8%">' +
-                '    <col style="width: 8%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 11%">' +
                 '    <col>' +
                 '</colgroup>' +
                 '<tr>' +
                 '    <th rowSpan="2">번호</th>' +
                 '    <th rowSpan="2">성명</th>' +
+                '    <th rowSpan="2">입사정보</th>' +
                 '    <th colSpan="3">학력(20점)</th>' +
                 '    <th colSpan="3">경력(50점)</th>' +
                 '    <th colSpan="3">전문성(30점)</th>' +
@@ -116,6 +118,10 @@ var evalDocScreen = {
                     '<td>' +
                     '<input type="hidden" id="applicationId" name="applicationId" value="' + e[i].APPLICATION_ID + '">' +
                     '<a style="cursor: pointer;" onclick="evalDocScreen.applicationInfo(' + e[i].APPLICATION_ID + ')">' + e[i].USER_NAME + '</a>' +
+                    '</td>' +
+                    '<td>' +
+                    '<input type="hidden" id="applicationId" name="applicationId" value="' + e[i].APPLICATION_ID + '">' +
+                    '<button type="button" class="k-button k-button-solid-info" onclick="evalDocScreen.applicationInfo(' + e[i].APPLICATION_ID + ')">조회</button>'+
                     '</td>' +
                     '<td>' +
                     '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_1_' + e[i].APPLICATION_ID + '" value="20"> ' +
@@ -189,20 +195,22 @@ var evalDocScreen = {
             html += '' +
                 '<table class="searchTable table table-bordered mb-0 mt-20" style="text-align: center">' +
                 '<colgroup>' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
                 '    <col style="width: 8%">' +
-                '    <col style="width: 8%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 11%">' +
                 '    <col>' +
                 '</colgroup>' +
                 '<tr>' +
                 '    <th rowSpan="2">번호</th>' +
                 '    <th rowSpan="2">성명</th>' +
+                '    <th rowSpan="2">입사정보</th>' +
                 '    <th colSpan="3">학력/전공(40점)</th>' +
                 '    <th colSpan="3">서류충실도(60점)</th>' +
                 '    <th rowSpan="2">평가점수(100점)</th>' +
@@ -225,6 +233,10 @@ var evalDocScreen = {
                     '<td>' +
                     '<input type="hidden" id="applicationId" name="applicationId" value="' + e[i].APPLICATION_ID + '">' +
                     '<a style="cursor: pointer;" onclick="evalDocScreen.applicationInfo(' + e[i].APPLICATION_ID + ')">' + e[i].USER_NAME + '</a>' +
+                    '</td>' +
+                    '<td>' +
+                    '<input type="hidden" id="applicationId" name="applicationId" value="' + e[i].APPLICATION_ID + '">' +
+                    '<button type="button" class="k-button k-button-solid-info" onclick="evalDocScreen.applicationInfo(' + e[i].APPLICATION_ID + ')">조회</button>'+
                     '</td>' +
                     '<td>' +
                     '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_1_' + e[i].APPLICATION_ID + '" value="40"> ' +
