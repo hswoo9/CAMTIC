@@ -100,11 +100,11 @@ var recruitAdminPop = {
                     width : 120
                 }, {
                     field: "LANG_NAME",
-                    title: "외국어"
+                    title: "외국어",
+                    width : 120
                 }, {
                     field: "JOB",
-                    title: "채용분야",
-                    width : 120
+                    title: "채용분야"
                 }, {
                     field: "SAVE_DATE",
                     title: "지원일시",
@@ -123,7 +123,7 @@ var recruitAdminPop = {
                 }, {
                     field: "DOC_SCREEN_AVERAGE",
                     title: "서류심사",
-                    width : 120,
+                    width : 100,
                     template : function(e){
                         var str = "";
                         var avg = e.DOC_SCREEN_AVERAGE == null ? 0 : e.DOC_SCREEN_AVERAGE;
@@ -141,7 +141,7 @@ var recruitAdminPop = {
                 }, {
                     field: "IN_SCREEN_AVERAGE",
                     title: "면접심사",
-                    width : 120,
+                    width : 100,
                     template : function(e){
                         console.log(e);
                         if(e.IN_AVOID != "Y"){
@@ -432,7 +432,7 @@ var recruitAdminPop = {
         }
 
         var result = customKendo.fn_customAjax("/inside/getRecruitAreaList.do", recruitAdminPop.global.searchAjaxData);
-        customKendo.fn_dropDownList("recruitAreaInfoSn", result.recruitArea, "AREA_TITLE","RECRUIT_AREA_INFO_SN", 10);
+        customKendo.fn_dropDownList("recruitAreaInfoSn", result.recruitArea, "JOB","RECRUIT_AREA_INFO_SN", 10);
 
         $("#recruitAreaInfoSn").data("kendoDropDownList").bind("change", recruitAdminPop.gridReload);
         $("#recruitAreaInfoSn").data("kendoDropDownList").select(1)

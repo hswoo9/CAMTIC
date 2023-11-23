@@ -27,6 +27,7 @@ var evalDocScreen = {
 
     getApplicationList : function(){
         evalDocScreen.global.careerType = this.dataSource._data.find(element => element.RECRUIT_AREA_INFO_SN == this.value()).CAREER_TYPE;
+        console.log("evalDocScreen.global.careerType",evalDocScreen.global.careerType);
 
         evalDocScreen.global.saveAjaxData = {
             recruitInfoSn : $("#recruitInfoSn").val(),
@@ -36,6 +37,8 @@ var evalDocScreen = {
 
         var result = customKendo.fn_customAjax("/inside/getApplicationList", evalDocScreen.global.saveAjaxData);
         console.log(result);
+        const rsArray = result.list;
+        console.log("rsArray의 첫번째 배열",rsArray[0]);
         if(result.flag){
             $("#tableDiv *").remove();
             evalDocScreen.global.test = result.list;
@@ -66,97 +69,100 @@ var evalDocScreen = {
 
     makeType1ApplicationList : function(e){
         var html = "";
-        html += '' +
-            '<table class="searchTable table table-bordered mb-0 mt-20" style="text-align: center">' +
-            '<colgroup>' +
-            '    <col style="width: 8%">' +
-            '    <col style="width: 8%">' +
-            '    <col style="width: 6%">' +
-            '    <col style="width: 6%">' +
-            '    <col style="width: 6%">' +
-            '    <col style="width: 6%">' +
-            '    <col style="width: 6%">' +
-            '    <col style="width: 6%">' +
-            '    <col style="width: 6%">' +
-            '    <col style="width: 6%">' +
-            '    <col style="width: 6%">' +
-            '    <col style="width: 11%">' +
-            '    <col>' +
-            '</colgroup>' +
-            '<tr>' +
-            '    <th rowSpan="2">번호</th>' +
-            '    <th rowSpan="2">성명</th>' +
-            '    <th colSpan="3">학력(20점)</th>' +
-            '    <th colSpan="3">경력(50점)</th>' +
-            '    <th colSpan="3">전문성(30점)</th>' +
-            '    <th rowSpan="2">평가점수(100점)</th>' +
-            '    <th rowspan="2">기타의견</th>' +
-            '</tr>' +
-            '<tr>' +
-            '    <th>上(20)</th>' +
-            '    <th>中(15)</th>' +
-            '    <th>下(10)</th>' +
-            '    <th>上(50)</th>' +
-            '    <th>中(40)</th>' +
-            '    <th>下(30)</th>' +
-            '    <th>上(30)</th>' +
-            '    <th>中(25)</th>' +
-            '    <th>下(20)</th>' +
-            '</tr>' +
-            '<tbody id="applicationTb">';
         if(e != null && e.length > 0){
+            html += '' +
+                '<table class="searchTable table table-bordered mb-0 mt-20" style="text-align: center">' +
+                '<colgroup>' +
+                '    <col style="width: 8%">' +
+                '    <col style="width: 8%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 11%">' +
+                '    <col>' +
+                '</colgroup>' +
+                '<tr>' +
+                '    <th rowSpan="2">번호</th>' +
+                '    <th rowSpan="2">성명</th>' +
+                '    <th colSpan="3">학력(20점)</th>' +
+                '    <th colSpan="3">경력(50점)</th>' +
+                '    <th colSpan="3">전문성(30점)</th>' +
+                '    <th rowSpan="2">평가점수(100점)</th>' +
+                '    <th rowspan="2">기타의견</th>' +
+                '</tr>' +
+                '<tr>' +
+                '    <th>上(20)</th>' +
+                '    <th>中(15)</th>' +
+                '    <th>下(10)</th>' +
+                '    <th>上(50)</th>' +
+                '    <th>中(40)</th>' +
+                '    <th>下(30)</th>' +
+                '    <th>上(30)</th>' +
+                '    <th>中(25)</th>' +
+                '    <th>下(20)</th>' +
+                '</tr>' +
+                '<tbody id="applicationTb">';
+
             for(var i = 0; i < e.length; i++){
                 html += "" +
                     '<tr class="userEvalDocScreen careerType1">' +
-                        '<td>' + (i + 1) + '</td>' +
-                        '<td>' +
-                            '<input type="hidden" id="applicationId" name="applicationId" value="' + e[i].APPLICATION_ID + '">' +
-                            '<a style="cursor: pointer;" onclick="evalDocScreen.applicationInfo(' + e[i].APPLICATION_ID + ')">' + e[i].USER_NAME + '</a>' +
-                        '</td>' +
-                        '<td>' +
-                            '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_1_' + e[i].APPLICATION_ID + '" value="20"> ' +
-                        '</td>' +
-                        '<td>' +
-                            '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_2_' + e[i].APPLICATION_ID + '" value="15"> ' +
-                        '</td>' +
-                        '<td>' +
-                            '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_3_' + e[i].APPLICATION_ID + '" value="10"> ' +
-                        '</td>' +
-                        '<td>' +
-                            '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_1_' + e[i].APPLICATION_ID + '" value="50"> ' +
-                        '</td>' +
-                        '<td>' +
-                            '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_2_' + e[i].APPLICATION_ID + '" value="40"> ' +
-                        '</td>' +
-                        '<td>' +
-                            '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_3_' + e[i].APPLICATION_ID + '" value="30"> ' +
-                        '</td>' +
-                        '<td>' +
-                            '<input type="radio" class="evalRadio" name="evalItemVal_doc3_' + e[i].APPLICATION_ID + '" id="itemScore_doc3_1_' + e[i].APPLICATION_ID + '" value="30"> ' +
-                        '</td>' +
-                        '<td>' +
-                            '<input type="radio" class="evalRadio" name="evalItemVal_doc3_' + e[i].APPLICATION_ID + '" id="itemScore_doc3_2_' + e[i].APPLICATION_ID + '" value="25"> ' +
-                        '</td>' +
-                        '<td>' +
-                            '<input type="radio" class="evalRadio" name="evalItemVal_doc3_' + e[i].APPLICATION_ID + '" id="itemScore_doc3_3_' + e[i].APPLICATION_ID + '" value="20"> ' +
-                        '</td>' +
-                        '<td>' +
-                            '<input type="text" id="sum_' + e[i].APPLICATION_ID  + '" name="sum" disabled> ' +
-                        '</td>' +
-                        '<td>' +
-                            '<input type="text" id="otherRmk_' + e[i].APPLICATION_ID  + '" name="otherRmk"> ' +
-                        '</td>' +
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td>' +
+                    '<input type="hidden" id="applicationId" name="applicationId" value="' + e[i].APPLICATION_ID + '">' +
+                    '<a style="cursor: pointer;" onclick="evalDocScreen.applicationInfo(' + e[i].APPLICATION_ID + ')">' + e[i].USER_NAME + '</a>' +
+                    '</td>' +
+                    '<td>' +
+                    '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_1_' + e[i].APPLICATION_ID + '" value="20"> ' +
+                    '</td>' +
+                    '<td>' +
+                    '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_2_' + e[i].APPLICATION_ID + '" value="15"> ' +
+                    '</td>' +
+                    '<td>' +
+                    '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_3_' + e[i].APPLICATION_ID + '" value="10"> ' +
+                    '</td>' +
+                    '<td>' +
+                    '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_1_' + e[i].APPLICATION_ID + '" value="50"> ' +
+                    '</td>' +
+                    '<td>' +
+                    '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_2_' + e[i].APPLICATION_ID + '" value="40"> ' +
+                    '</td>' +
+                    '<td>' +
+                    '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_3_' + e[i].APPLICATION_ID + '" value="30"> ' +
+                    '</td>' +
+                    '<td>' +
+                    '<input type="radio" class="evalRadio" name="evalItemVal_doc3_' + e[i].APPLICATION_ID + '" id="itemScore_doc3_1_' + e[i].APPLICATION_ID + '" value="30"> ' +
+                    '</td>' +
+                    '<td>' +
+                    '<input type="radio" class="evalRadio" name="evalItemVal_doc3_' + e[i].APPLICATION_ID + '" id="itemScore_doc3_2_' + e[i].APPLICATION_ID + '" value="25"> ' +
+                    '</td>' +
+                    '<td>' +
+                    '<input type="radio" class="evalRadio" name="evalItemVal_doc3_' + e[i].APPLICATION_ID + '" id="itemScore_doc3_3_' + e[i].APPLICATION_ID + '" value="20"> ' +
+                    '</td>' +
+                    '<td>' +
+                    '<input type="text" id="sum_' + e[i].APPLICATION_ID  + '" name="sum" disabled> ' +
+                    '</td>' +
+                    '<td>' +
+                    '<input type="text" id="otherRmk_' + e[i].APPLICATION_ID  + '" name="otherRmk"> ' +
+                    '</td>' +
                     '</tr>'
             }
-        }else{
-            html += "" +
-                '<tr>' +
-                    '<td colspan="13">데이터가 없습니다.</td>' +
-                '</tr>';
+            html += '</tbody>' +
+                '</table>';
         }
+        /*
 
-        html += '</tbody>' +
-            '</table>';
+        else{
+            html += "" +
+                '<p style="display: table; margin: 0 auto;">[경력]지원자가 없습니다.</p>';
+        }
+        */
+
 
         $("#tableDiv").append(html);
 
@@ -179,81 +185,88 @@ var evalDocScreen = {
 
     makeType2ApplicationList : function(e){
         var html = "";
-        html += '' +
-            '<table class="searchTable table table-bordered mb-0 mt-20" style="text-align: center">' +
-            '<colgroup>' +
-            '    <col style="width: 8%">' +
-            '    <col style="width: 8%">' +
-            '    <col style="width: 6%">' +
-            '    <col style="width: 6%">' +
-            '    <col style="width: 6%">' +
-            '    <col style="width: 6%">' +
-            '    <col style="width: 6%">' +
-            '    <col style="width: 6%">' +
-            '    <col style="width: 11%">' +
-            '    <col>' +
-            '</colgroup>' +
-            '<tr>' +
-            '    <th rowSpan="2">번호</th>' +
-            '    <th rowSpan="2">성명</th>' +
-            '    <th colSpan="3">학력/전공(40점)</th>' +
-            '    <th colSpan="3">서류충실도(60점)</th>' +
-            '    <th rowSpan="2">평가점수(100점)</th>' +
-            '    <th rowspan="2">기타의견</th>' +
-            '</tr>' +
-            '<tr>' +
-            '    <th>上(40)</th>' +
-            '    <th>中(30)</th>' +
-            '    <th>下(20)</th>' +
-            '    <th>上(60)</th>' +
-            '    <th>中(50)</th>' +
-            '    <th>下(40)</th>' +
-            '</tr>' +
-            '<tbody id="applicationTb">';
         if(e != null && e.length > 0){
+            html += '' +
+                '<table class="searchTable table table-bordered mb-0 mt-20" style="text-align: center">' +
+                '<colgroup>' +
+                '    <col style="width: 8%">' +
+                '    <col style="width: 8%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 11%">' +
+                '    <col>' +
+                '</colgroup>' +
+                '<tr>' +
+                '    <th rowSpan="2">번호</th>' +
+                '    <th rowSpan="2">성명</th>' +
+                '    <th colSpan="3">학력/전공(40점)</th>' +
+                '    <th colSpan="3">서류충실도(60점)</th>' +
+                '    <th rowSpan="2">평가점수(100점)</th>' +
+                '    <th rowspan="2">기타의견</th>' +
+                '</tr>' +
+                '<tr>' +
+                '    <th>上(40)</th>' +
+                '    <th>中(30)</th>' +
+                '    <th>下(20)</th>' +
+                '    <th>上(60)</th>' +
+                '    <th>中(50)</th>' +
+                '    <th>下(40)</th>' +
+                '</tr>' +
+                '<tbody id="applicationTb">';
+
             for(var i = 0; i < e.length; i++){
                 html += "" +
                     '<tr class="userEvalDocScreen">' +
-                        '<td>' + (i + 1) + '</td>' +
-                        '<td>' +
-                            '<input type="hidden" id="applicationId" name="applicationId" value="' + e[i].APPLICATION_ID + '">' +
-                            '<a style="cursor: pointer;" onclick="evalDocScreen.applicationInfo(' + e[i].APPLICATION_ID + ')">' + e[i].USER_NAME + '</a>' +
-                        '</td>' +
-                        '<td>' +
-                            '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_1_' + e[i].APPLICATION_ID + '" value="40"> ' +
-                        '</td>' +
-                        '<td>' +
-                            '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_2_' + e[i].APPLICATION_ID + '" value="30"> ' +
-                        '</td>' +
-                        '<td>' +
-                            '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_3_' + e[i].APPLICATION_ID + '" value="20"> ' +
-                        '</td>' +
-                        '<td>' +
-                            '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_1_' + e[i].APPLICATION_ID + '" value="60"> ' +
-                        '</td>' +
-                        '<td>' +
-                            '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_2_' + e[i].APPLICATION_ID + '" value="50"> ' +
-                        '</td>' +
-                        '<td>' +
-                            '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_3_' + e[i].APPLICATION_ID + '" value="40"> ' +
-                        '</td>' +
-                        '<td>' +
-                            '<input type="text" id="sum_' + e[i].APPLICATION_ID  + '" name="sum" disabled> ' +
-                        '</td>' +
-                        '<td>' +
-                            '<input type="text" id="otherRmk_' + e[i].APPLICATION_ID  + '" name="otherRmk"> ' +
-                        '</td>' +
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td>' +
+                    '<input type="hidden" id="applicationId" name="applicationId" value="' + e[i].APPLICATION_ID + '">' +
+                    '<a style="cursor: pointer;" onclick="evalDocScreen.applicationInfo(' + e[i].APPLICATION_ID + ')">' + e[i].USER_NAME + '</a>' +
+                    '</td>' +
+                    '<td>' +
+                    '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_1_' + e[i].APPLICATION_ID + '" value="40"> ' +
+                    '</td>' +
+                    '<td>' +
+                    '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_2_' + e[i].APPLICATION_ID + '" value="30"> ' +
+                    '</td>' +
+                    '<td>' +
+                    '<input type="radio" class="evalRadio" name="evalItemVal_doc1_' + e[i].APPLICATION_ID + '" id="itemScore_doc1_3_' + e[i].APPLICATION_ID + '" value="20"> ' +
+                    '</td>' +
+                    '<td>' +
+                    '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_1_' + e[i].APPLICATION_ID + '" value="60"> ' +
+                    '</td>' +
+                    '<td>' +
+                    '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_2_' + e[i].APPLICATION_ID + '" value="50"> ' +
+                    '</td>' +
+                    '<td>' +
+                    '<input type="radio" class="evalRadio" name="evalItemVal_doc2_' + e[i].APPLICATION_ID + '" id="itemScore_doc2_3_' + e[i].APPLICATION_ID + '" value="40"> ' +
+                    '</td>' +
+                    '<td>' +
+                    '<input type="text" id="sum_' + e[i].APPLICATION_ID  + '" name="sum" disabled> ' +
+                    '</td>' +
+                    '<td>' +
+                    '<input type="text" id="otherRmk_' + e[i].APPLICATION_ID  + '" name="otherRmk"> ' +
+                    '</td>' +
                     '</tr>'
             }
-        }else{
-            html += "" +
-                '<tr>' +
-                    '<td colspan="10">데이터가 없습니다.</td>' +
-                '</tr>';
-        }
+            html+=  '</tbody>' +
+                '</table>';
 
-        html += '</tbody>' +
-            '</table>';
+        }
+        /*
+
+        else{
+            html += "" +
+                '<p style="display: table; margin: 0 auto;">[신입]지원자가 없습니다.</p>';
+        }
+        */
+
+
+
+
 
         $("#tableDiv").append(html);
 
