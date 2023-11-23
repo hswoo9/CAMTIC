@@ -80,12 +80,19 @@ const recruitPrintPop = {
             startDayValue = recruitPrintTitle.START_DT || "기본값";
             empNameValue = recruitPrintTitle.REG_EMP_NAME || "기본값";
         } else {
-            const recruitArray1 = rs.list;
+            if (rs.list && rs.list.length > 0) {
+                const recruitArray1 = rs.list;
 
-            areaInfoValue = recruitArray1[0].AREA_TITLE || "기본값";;
-            deadLineValue = recruitArray1[0].END_DT || "기본값";
-            startDayValue = recruitArray1[0].START_DT || "기본값";
-            empNameValue = recruitArray1[0].REG_EMP_NAME || "기본값";
+                areaInfoValue = recruitArray1[0].JOB || "";  // 빈 문자열로 처리
+                deadLineValue = recruitArray1[0].END_DT || "";
+                startDayValue = recruitArray1[0].START_DT || "";
+                empNameValue = recruitArray1[0].REG_EMP_NAME || "";
+            } else {
+                areaInfoValue = "";
+                deadLineValue = "";
+                startDayValue = "";
+                empNameValue = "";
+            }
         };
 
 

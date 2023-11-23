@@ -111,7 +111,7 @@ var recruitList = {
                     },
                     width: 240
                 }, {
-                    field: "JOB_POSITION_ETC",
+                    field: "JOB_TYPE",
                     title: "모집분야",
                     width: 200
                 }, {
