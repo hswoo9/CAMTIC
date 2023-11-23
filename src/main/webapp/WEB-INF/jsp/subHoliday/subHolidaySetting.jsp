@@ -63,12 +63,23 @@
 
 <script type="text/x-kendo-template" id="toolbarTemplate">
     <div>
+        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidaySettingPop()">이력관리</button>
+    </div>
+    <div>
         <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidaySetting.gridReload();">조회</button>
     </div>
     <div>
         <button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="subHolidaySetting.fn_saveAll();">저장</button>
     </div>
+
 </script>
 <script type="text/javascript">
     subHolidaySetting.init();
+
+    function subHolidaySettingPop() {
+        var url = "/subHoliday/pop/subHolidaySettingPop.do";
+        var name = "subHolidaySettingPop";
+        var option = "width=1500, height=460, top=100, left=200, location=no";
+        var popup = window.open(url, name, option);
+    }
 </script>

@@ -83,13 +83,20 @@ public interface SubHolidayService {
 
     /**
      * 연가 일괄 등록
+     * 리스트
+     * 직원구분(수)
+     * 연가 신청
      */
     List<Map<String,Object>> getUserInfoList (Map<String,Object> map);
 
     Map<String, Integer> getCountMap2();
 
-    void setSubHolidayByEmpInfo(Map<String, Object> params);
     void setSubHolidayByEmpInfo2(Map<String, Object> params);
 
+    /**
+     * 이력관리(발생 연차 수정 내역)
+     * 리스트
+     */
+    List<Map<String,Object>> getModVacList (Map<String,Object> map);
 
 }

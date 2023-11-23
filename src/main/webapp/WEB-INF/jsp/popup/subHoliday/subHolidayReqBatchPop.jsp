@@ -47,6 +47,7 @@
         <div class="table-responsive">
           <div class="popupTitleSt">연가일괄등록</div>
           <form id="subHolidayReqPop">
+            <input type="hidden" id="empSeq" name="empNumber" class="defaultVal" value="${loginVO.uniqId}" style="width: 80%;">
             <table class="table table-bordered mb-0" id="holidayPlanReqPopTbVal">
               <colgroup>
                 <col width="10%">
@@ -66,7 +67,7 @@
               <tr>
                 <th id="varianceTH2" scope="row" class="text-center th-color">사유</th>
                 <td id="varianceTD2" colspan="3">
-                  <textarea name="apply_reason" id="holidayReason" rows="5" style="width:100%; border: 1px solid #eee;padding-left: 10px;"></textarea>
+                  <textarea name="apply_reason" id="approvalReason" rows="5" style="width:100%; border: 1px solid #eee;padding-left: 10px;"></textarea>
                 </td>
               </tr>
               </thead>
@@ -137,33 +138,45 @@
 </div>
 <script>
 
-
   function saveData() {
+    var empArr = new Array();
+    /** 사용일수 체크 */
+    var startDateStr = $("#startDate").val().replace(/\//g, '-');
+    var endDateStr = $("#endDate").val().replace(/\//g, '-');
 
-    var selectedEmpSeqs = [];
+    var startDate = new Date(startDateStr);
+    var endDate = new Date(endDateStr);
+
+    var totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24) + 1;
+
     $("input[name='checkUser']:checked").each(function() {
-      selectedEmpSeqs.push($(this).parent().data("emp-seq"));
-    });
+      var data = {
+        subHolidayCodeId: '1',
+        saveSeq : $("#empSeq").val(),
+        startDate: $("#startDate").val(), //시작일
+        endDate: $("#endDate").val(), //종료일
+        useDay : totalDays ,
+        approvalReason: $("#approvalReason").val(), //사유
+        approvalEmpSeq: $("#empSeq").val(),
+        subHolidayTargetSeq : $(this).val()
+      }
 
-    console.log(selectedEmpSeqs);
+      empArr.push(data);
+      console.log("saveSeq:", data.saveSeq);
+    });
+    console.log("empArr:", empArr);
+
+
     $.ajax({
       type: "POST",
       url: "/subHoliday/setSubHolidayByEmpInfo.do",
       contentType: "application/json; charset=utf-8",
-      data: {
-        subHolidayCodeId: '1',
-        applySeq: $("#applySeq").val(),
-        applyDate: $("#applyDate").val(),
-        holidayReason: $("#holidayReason").val(),
-        startDate: $("#startDate").val(),
-        endDate: $("#endDate").val(),
-        empSeqs: selectedEmpSeqs
-      },
+      data: JSON.stringify({empArr: empArr}),
       success: function(response) {
-        alert("Data saved successfully!");
+        alert("데이터가 성공적으로 저장되었습니다!");
       },
       error: function(jqXHR, textStatus, errorThrown) {
-        alert("Error occurred while saving data:", textStatus);
+        alert("데이터 저장 중 오류가 발생했습니다: " + textStatus);
       }
     });
   }

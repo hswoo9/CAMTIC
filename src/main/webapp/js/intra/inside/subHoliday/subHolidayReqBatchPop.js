@@ -84,7 +84,7 @@ var subHolidayReqBatchPop = {
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll"  onclick="subHolidayReqBatchPop.fn_checkAll();" style="position : relative; top : 2px;"/>',
                     template: function(e) {
-                        return "<div data-emp-seq='" + e.EMP_SEQ + "'><input type='checkbox' id='' name='checkUser' value=''/></div>";
+                        return "<div data-emp-seq='" + e.EMP_SEQ + "'><input type='checkbox' id='empSeq' name='checkUser' value='" + e.EMP_SEQ + "'/></div>";
                     },
                     width: 50
                 }, {

@@ -31,20 +31,14 @@ var holidayWorkApplicationDetails ={
         customKendo.fn_datePicker("workDay", '', "yyyy-MM-dd", new Date());
 
         customKendo.fn_textBox(["searchText"]);
-        let searchArr = [
-            {text: "이름", value: "1"}
-        ]
 
-        customKendo.fn_dropDownList("searchType", searchArr, "text", "value", 3);
 
         $("#status").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
                 { text: "전체", value: "" },
-                { text: "요청진행전", value: "N" },
                 { text: "승인", value: "Y" },
-                { text: "진행중", value: "C" },
                 { text: "반려", value: "E" }
             ],
             index: 0

@@ -41,10 +41,11 @@ var holidayWorkApplication ={
             dataValueField: "value",
             dataSource: [
                 { text: "전체", value: "" },
-                { text: "요청진행전", value: "N" },
+                { text: "작성중", value: "N" },
+                { text: "제출", value: "C" },
                 { text: "승인", value: "Y" },
-                { text: "진행중", value: "C" },
-                { text: "반려", value: "E" }
+                { text: "반려", value: "E" },
+                { text: "회수", value: "D" }
             ],
             index: 0
         });
@@ -168,6 +169,8 @@ var holidayWorkApplication ={
                             return "제출";
                         } else if(e.APPR_STAT =="E"){
                             return "반려";
+                        }else if(e.APPR_STAT =="D"){
+                            return "회수";
                         }
                     },
                     width: 200,
