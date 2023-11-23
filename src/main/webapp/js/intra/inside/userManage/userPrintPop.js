@@ -48,9 +48,6 @@ const userPrintPop = {
 
         var html = userPrintHtml.html2();
         userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
-
-        var html = userPrintHtml.html3();
-        userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
     },
 
     print : function(){
