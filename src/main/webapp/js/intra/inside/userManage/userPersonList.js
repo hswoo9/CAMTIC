@@ -18,6 +18,11 @@ var userPersonList = {
         userPersonList.gridReload();
 
         $(".detailSearch").change(function(){
+
+            if($(this).attr("division") != "9999"){
+                $("#dsJ").prop("checked", false);
+            }
+
             userPersonList.gridReload();
         })
     },
@@ -365,10 +370,115 @@ var userPersonList = {
                             '	<span class="k-button-text">인사기록카드<span>' +
                             '</button>';
                     }
-                }
-            ]
+                }]
         }).data("kendoGrid");
     },
+
+    mainGridSub : function(url,params) {
+        var mainGridSub = $("#mainGridSub").kendoGrid({
+            dataSource: customKendo.fn_gridDataSource2(url, params),
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            height: 508,
+            pageable: {
+                refresh: true,
+                pageSizes: [10, 20, "ALL"],
+                buttonCount: 5
+            },
+            toolbar: [
+                {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                },
+                {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.userReqPop();">' +
+                            '	<span class="k-button-text">직원 추가</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" disabled onclick="">' +
+                            '	<span class="k-button-text">SMS 발송</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'excel',
+                    template: function (e) {
+
+                        return '<button type="button" class="k-grid-excel k-button k-button-md k-button-solid k-button-solid-base" disabled>' +
+                            '	<span class="k-button-text">엑셀다운로드</span>' +
+                            '</button>';
+                        /*name: 'excel',
+                        text: '엑셀다운로드'*/
+                    }
+                },
+            ],
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    headerTemplate: '<input type="checkbox" id="checkAll"  onclick="userPersonList.fn_checkAll();" style="position : relative; top : 2px;"/>',
+                    template: "<input type='checkbox' id='' name='checkUser' value=''/>",
+                    width: 50
+                }, {
+                    field: "EMP_NAME_KR",
+                    title: "성명",
+                    template : function (e){
+                        if(e.EMP_NAME_KR == null || +e.EMP_NAME_KR == ""){
+                            return "";
+                        }else {
+                            if(e.DIVISION == '4' && e.DIVISION_SUB == '3'){ /*경비/환경*/
+                                return "<a href='#' onclick='userPersonList.userViewContractPop("+e.EMP_SEQ+")' style='color: rgb(0, 51, 255);'>"+e.EMP_NAME_KR+"</a>";
+                            }else if(e.DIVISION == '3' || e.DIVISION == '1' || e.DIVISION == '10'){ /*단기직원, 위촉직원, 기타*/
+                                return "<a href='#' onclick='userPersonList.userViewContractPop("+e.EMP_SEQ+")' style='color: rgb(0, 51, 255);'>"+e.EMP_NAME_KR+"</a>";
+                            }else if(e.DIVISION == '3' || e.DIVISION == '2'){ /*연수생/학생연구원*/
+                                return "<a href='#' onclick='userPersonList.userViewTraineePop("+e.EMP_SEQ+")' style='color: rgb(0, 51, 255);'>"+e.EMP_NAME_KR+"</a>";
+                            }  else{
+                                return "<a href='#' onclick='userPersonList.userViewPop("+e.EMP_SEQ+")' style='color: rgb(0, 51, 255);'>"+e.EMP_NAME_KR+"</a>";
+                            }
+                        }
+                    },
+                    width : 100
+                }, {
+                    field: "DEPT_NAME1",
+                    title: "부서(실)"
+                }, {
+                    field: "DEPT_TEAM_NAME",
+                    title: "부서(팀)"
+                }, {
+                    title: "직위",
+                    template: function(row){
+                        return fn_getSpot(row.DUTY_NAME, row.POSITION_NAME);
+                    }
+                }, {
+                    field: "OFFICE_TEL_NUM",
+                    title: "전화번호"
+                }, {
+                    field: "MOBILE_TEL_NUM",
+                    title: "핸드폰"
+                }, {
+                    title: "퇴사일",
+                    field: "RESIGN_DAY",
+                }, {
+                    title: "인사기록카드",
+                    template : function(e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.userPersonnelRecord(' + e.EMP_SEQ + ')">' +
+                            '	<span class="k-button-text">인사기록카드<span>' +
+                            '</button>';
+                    }
+                }]
+        }).data("kendoGrid");
+    },
+
     mainGrid2 : function(url,params) {
         $("#mainGrid2").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
@@ -565,7 +675,16 @@ var userPersonList = {
 
         userPersonList.global.searchAjaxData.arr = arr.substring(1);
 
-        userPersonList.mainGrid('/userManage/getEmpInfoList',userPersonList.global.searchAjaxData);
+        if($("#dsJ").is(":checked")){
+            $("#mainGrid").css("display", "none");
+            $("#mainGridSub").css("display", "");
+            userPersonList.mainGridSub('/userManage/getEmpInfoList',userPersonList.global.searchAjaxData);
+        } else {
+            $("#mainGrid").css("display", "");
+            $("#mainGridSub").css("display", "none");
+
+            userPersonList.mainGrid('/userManage/getEmpInfoList',userPersonList.global.searchAjaxData);
+        }
     },
 
     gridReloadDetail : function() {

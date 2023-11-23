@@ -103,7 +103,7 @@
                 접근성 관련 텍스트
               </div>
             </div>
-            <div class="vis swiper-slide" style="background-image:url(/images/camtic/business_4.jpg);">
+            <div class="vis swiper-slide" style="background-image:url(/images/camtic/business_5.jpg);">
               <div class="nimg"><img src="" alt=""><h1 style="color: #4bc1be; font-size: 80px"><%--vis2--%></h1></div>
               <div class="hide">
                 접근성 관련 텍스트
@@ -429,12 +429,15 @@
     let html = "";
 
     resultData3.forEach((item, index) => {
-    
+
       html += "<a href='"+ linkUrl +item.RECRUIT_INFO_SN+" ' class='box'>";
+
       if(item.RECRUIT_STATUS_SN == 'E'){
-        html += '<div class="ddakji end"><span style="font-size:13px;">' + item.RECRUIT_STATUS_TEXT + '</span></div>';
-      }else{
-        html += '<div class="ddakji ing"><span style="font-size:13px;">' + item.RECRUIT_STATUS_TEXT + '</span></div>';
+        html += '<div class="ddakji end"><span style="font-size:13px;">' + item.RECRUIT_STATUS_TEXT  + '</span></div>';
+      }else if(item.RECRUIT_STATUS_SN == '3' || item.RECRUIT_STATUS_SN == '4'){
+        html += '<div class="ddakji ing"><span style="font-size:13px;">심사중</span></div>';
+      }else if(item.RECRUIT_STATUS_SN == '2'){
+        html += '<div class="ddakji ing"><span style="font-size:13px;">접수중</span></div>';
       }
       html += '<p class="subject" style="margin-top:31px;">' + item.RECRUIT_TITLE + '</p>';
      /* let contents = item.RECRUIT_DETAIL.replace(/<\/?("[^"]*"|'[^']*'|[^>])*(>|$)/gi, "");
@@ -443,11 +446,6 @@
       html += '</a>';
     });
     $(".sec").append(html);
-  }
-
-  function openRecruitPopup(recruitInfoSn) {
-    let popupUrl = "/inside/pop/recruitDetailPop.do?recruitInfoSn=" + recruitInfoSn;
-    window.open(popupUrl, "RecruitPopup", "width=1000, height=720, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
   }
 
   //사업공고 게시글 리스트 그리기

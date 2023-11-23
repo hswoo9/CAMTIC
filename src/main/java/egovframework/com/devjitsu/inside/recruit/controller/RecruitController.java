@@ -182,8 +182,215 @@ public class RecruitController {
     @RequestMapping("/inside/setRecruitInsert")
     public String setRecruitInsert(@RequestParam Map<String, Object> params, Model model) {
         recruitService.setRecruitInsert(params);
+
+        Integer recruitInfoSn = (Integer) params.get("recruitInfoSn");
+        System.out.println("******recruitInfoSn******* : " + recruitInfoSn);
+        Map<String, Object> resultMap = new HashMap<>(params);
+        resultMap.put("recruitInfoSn", recruitInfoSn);
+
+        List<Map<String, Object>> recruitAreaList = recruitService.getRecruitAreaList(resultMap);
+        System.out.println("******recruitAreaList******* : " + recruitAreaList);
+
+        processRecruitAreaList(recruitInfoSn, recruitAreaList);
+
         return "jsonView";
     }
+
+    private void processRecruitAreaList(Integer recruitInfoSn, List<Map<String, Object>> recruitAreaList) {
+        Map<String, Object> newMap = new HashMap<>();
+        newMap.put("tempDivision", "N");
+        newMap.put("recruitInfoSn", recruitInfoSn);
+
+        for (Map<String, Object> area : recruitAreaList) {
+            processRecruitArea(newMap, area);
+        }
+    }
+
+    private void processRecruitArea(Map<String, Object> newMap, Map<String, Object> area) {
+        //String deptName = (String) area.get("DEPT_NAME");
+
+        Integer recruitAreaInfoSn = (Integer) area.get("RECRUIT_AREA_INFO_SN");
+        Integer recruitInfoSn = (Integer) area.get("RECRUIT_INFO_SN");
+        String deptSeq = (String) area.get("DEPT_SEQ");
+        String teamSeq = (String) area.get("TEAM_SEQ");
+        //System.out.println("DEPT_NAME: " + deptName);
+        System.out.println("DEPT_SEQ: " + deptSeq);
+        System.out.println("TEAM_SEQ: " + teamSeq);
+        System.out.println("RECRUIT_AREA_INFO_SN: " + recruitAreaInfoSn);
+        System.out.println("RECRUIT_INFO_SN: " + recruitInfoSn);
+
+        //newMap.put("deptName", deptName);
+        newMap.put("recruitAreaInfoSn", recruitAreaInfoSn);
+        newMap.put("deptSeq", deptSeq);
+        newMap.put("teamSeq", teamSeq);
+
+        System.out.println("******newMap******* : " + newMap);
+
+        List<Map<String, Object>> matchingDeptMaps = getMatchingDeptMaps(newMap);
+
+        processMatchingDeptMaps(recruitInfoSn, recruitAreaInfoSn, matchingDeptMaps);
+    }
+
+    private List<Map<String, Object>> getMatchingDeptMaps(Map<String, Object> newMap) {
+        List<Map<String, Object>> newListMap = recruitService.getCommissionerList(newMap);
+        List<Map<String, Object>> allMatchingDeptMaps = new ArrayList<>();
+
+        for (Map<String, Object> commissionerMap : newListMap) {
+            String commissionerDeptSeq = (String) commissionerMap.get("DEPT_SEQ");
+            String commissionerDutyName = (String) commissionerMap.get("DUTY_NAME");
+            String commissionerPDeptName = (String) commissionerMap.get("PARENT_DEPT_SEQ");
+
+            if ("1221".equals(commissionerDeptSeq) && "팀장".equals(commissionerDutyName)) {
+                allMatchingDeptMaps.add(commissionerMap);
+                System.out.println("********allMatchingDeptMaps******* :" + allMatchingDeptMaps);
+            }
+
+            if (comparatorMatches(commissionerDeptSeq, newMap.get("deptSeq"))) {
+                if ("본부장".equals(commissionerDutyName) || "센터장".equals(commissionerDutyName)) {
+                    allMatchingDeptMaps.add(commissionerMap);
+                    System.out.println("********allMatchingDeptMaps******* :" + allMatchingDeptMaps);
+                }
+            } else if (comparatorMatches(commissionerDeptSeq, newMap.get("teamSeq"))) {
+                // TEAM_SEQ와 비교
+                if ("팀장".equals(commissionerDutyName)) {
+                    allMatchingDeptMaps.add(commissionerMap);
+                    System.out.println("********allMatchingDeptMaps******* :" + allMatchingDeptMaps);
+                }
+            }
+        }
+
+        return allMatchingDeptMaps;
+    }
+    // 값을 비교하기 위한 메서드
+    private boolean comparatorMatches(String value1, Object value2) {
+        return value1 != null && value1.equals(value2);
+    }
+
+    private void processMatchingDeptMaps(Integer recruitInfoSn, Integer recruitAreaInfoSn, List<Map<String, Object>> matchingDeptMaps) {
+        for (Map<String, Object> matchingDeptMap : matchingDeptMaps) {
+            Integer empSeq = (Integer) matchingDeptMap.get("EMP_SEQ");
+            System.out.println("**********emp_seq******** : " +empSeq);
+            processEvalSelection(recruitInfoSn, recruitAreaInfoSn, empSeq, "doc");
+            processEvalSelection(recruitInfoSn, recruitAreaInfoSn, empSeq, "in");
+        }
+    }
+
+    private void processEvalSelection(Integer recruitInfoSn, Integer recruitAreaInfoSn, Integer empSeq, String evalType) {
+        Map<String, Object> evalSelectionParams = new HashMap<>();
+        evalSelectionParams.put("recruitInfoSn", recruitInfoSn);
+        evalSelectionParams.put("recruitAreaInfoSn", recruitAreaInfoSn);
+        evalSelectionParams.put("evalType", evalType);
+        evalSelectionParams.put("empSeq", empSeq);
+        evalSelectionParams.put("evalEmpSeq", empSeq);
+
+        String result = evalManageService.setEvalSelection(evalSelectionParams);
+    }
+
+
+    /*
+    @RequestMapping("/inside/setRecruitInsert")
+    public String setRecruitInsert(@RequestParam Map<String, Object> params, Model model) {
+        recruitService.setRecruitInsert(params);
+
+        Integer recruitInfoSn = (Integer) params.get("recruitInfoSn");
+        System.out.println("******recruitInfoSn******* : "+recruitInfoSn);
+        Map<String, Object> resultMap = new HashMap<>(params);
+        resultMap.put("recruitInfoSn", recruitInfoSn);
+
+        List<Map<String, Object>> recruitAreaList = recruitService.getRecruitAreaList(resultMap);
+        System.out.println("******recruitAreaList******* : "+recruitAreaList);
+
+        Map<String, Object> newMap = new HashMap<>();
+        newMap.put("tempDivision", "N");
+        newMap.put("recruitInfoSn", recruitInfoSn);
+
+
+
+        for (Map<String, Object> area : recruitAreaList) {
+            String deptName = (String) area.get("DEPT_NAME");
+            Integer recruitAreaInfoSn = (Integer) area.get("RECRUIT_AREA_INFO_SN");
+            System.out.println("DEPT_NAME: " + deptName);
+            System.out.println("RECRUIT_AREA_INFO_SN: " + recruitAreaInfoSn);
+
+            newMap.put("deptName", deptName);
+            newMap.put("recruitAreaInfoSn", recruitAreaInfoSn);
+
+            System.out.println("******newMap******* : " + newMap);
+            List<Map<String, Object>> newListMap = recruitService.getCommissionerList(newMap);
+            List<Map<String, Object>> allMatchingDeptMaps = new ArrayList<>();
+
+            for (Map<String, Object> commissionerMap : newListMap) {
+                String commissionerDeptName = (String) commissionerMap.get("DEPT_NAME");
+                String commissionerDutyName = (String) commissionerMap.get("DUTY_NAME");
+                String commissionerPDeptName = (String) commissionerMap.get("PARENT_DEPT_SEQ");
+
+                if (deptName.equals(commissionerDeptName) &&
+                        ("팀장".equals(commissionerDutyName) || "본부장".equals(commissionerDutyName) || "센터장".equals(commissionerDutyName))) {
+                    allMatchingDeptMaps.add(commissionerMap);
+
+                    System.out.println("********allMatchingDeptMaps******* :"+allMatchingDeptMaps);
+
+                    for (Map<String, Object> matchingDeptMap : allMatchingDeptMaps) {
+                        Integer empSeq = (Integer) matchingDeptMap.get("EMP_SEQ");
+
+                        Map<String, Object> evalSelectionParams = new HashMap<>();
+                        evalSelectionParams.put("recruitInfoSn", recruitInfoSn);
+                        evalSelectionParams.put("recruitAreaInfoSn", recruitAreaInfoSn);
+                        evalSelectionParams.put("evalType", "doc");
+                        evalSelectionParams.put("empSeq", empSeq);
+                        evalSelectionParams.put("evalEmpSeq", empSeq);
+
+                        String result1 = evalManageService.setEvalSelection(evalSelectionParams);
+
+                        Map<String, Object> inEvalSelectionParams = new HashMap<>();
+                        inEvalSelectionParams.put("recruitInfoSn", recruitInfoSn);
+                        inEvalSelectionParams.put("recruitAreaInfoSn", recruitAreaInfoSn);
+                        inEvalSelectionParams.put("evalType", "in");
+                        inEvalSelectionParams.put("empSeq", empSeq);
+                        inEvalSelectionParams.put("evalEmpSeq", empSeq);
+
+                        String result2 = evalManageService.setEvalSelection(inEvalSelectionParams);
+
+
+
+
+                    }
+
+                }
+            }
+
+            Map<String, Object> evalSelectionParamsY = new HashMap<>();
+            evalSelectionParamsY.put("recruitInfoSn", recruitInfoSn);
+            evalSelectionParamsY.put("recruitAreaInfoSn", recruitAreaInfoSn);
+            evalSelectionParamsY.put("evalType", "doc");
+            evalSelectionParamsY.put("empSeq", "31");
+            evalSelectionParamsY.put("evalEmpSeq", "31");
+
+            String result3 = evalManageService.setEvalSelection(evalSelectionParamsY);
+
+            Map<String, Object> inEvalSelectionParamsY = new HashMap<>();
+            inEvalSelectionParamsY.put("recruitInfoSn", recruitInfoSn);
+            inEvalSelectionParamsY.put("recruitAreaInfoSn", recruitAreaInfoSn);
+            inEvalSelectionParamsY.put("evalType", "in");
+            inEvalSelectionParamsY.put("empSeq", "31");
+            inEvalSelectionParamsY.put("evalEmpSeq", "31");
+
+            String result4 = evalManageService.setEvalSelection(inEvalSelectionParamsY);
+
+        }
+
+
+
+
+
+
+
+        return "jsonView";
+    }
+     */
+
+
+
 
     /**
      * 채용공고관리 팝업
@@ -493,6 +700,14 @@ public class RecruitController {
         return "jsonView";
     }
 
+    @RequestMapping("/inside/getCommissionerListCustom")
+    public String getCommissionerListCustom(@RequestParam Map<String,Object> params, Model model) {
+        List<Map<String, Object>> list = recruitService.getCommissionerListCustom(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
     /**
      * 평가위원 등록양식 다운로드
      * @param request
@@ -734,5 +949,38 @@ public class RecruitController {
         return "jsonView";
     }
 
+    @RequestMapping("/inside/getRecruitPrintTitle")
+    public String getRecruitPrintTitle(@RequestParam Map<String,Object> params, Model model) {
+        Map<String, Object> recruitPrintTitle = recruitService.getRecruitPrintTitle(params);
+        model.addAttribute("recruitPrintTitle", recruitPrintTitle);
+        return "jsonView";
+    }
+
+
+    @RequestMapping("/inside/insRecruitMember")
+    public String insRecruitMember(@RequestParam Map<String,Object> params, Model model) {
+
+        try{
+            recruitService.insRecruitMember(params);
+            model.addAttribute("code", 200);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/inside/insRecruitMemberDelete")
+    public String insRecruitMemberDelete(@RequestParam Map<String,Object> params, Model model) {
+
+        try{
+            recruitService.insRecruitMemberDelete(params);
+            model.addAttribute("code", 200);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 
 }

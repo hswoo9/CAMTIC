@@ -424,7 +424,7 @@
         JOIN
             CAM_INSIDE.DJ_RECRUIT_AREA_INFO AI
         ON AM.RECRUIT_AREA_INFO_SN = AI.RECRUIT_AREA_INFO_SN
-        JOIN (
+        LEFT JOIN (
             SELECT
                 A.APPLICATION_ID,
                 B.EVAL_LOGIN_ID,
@@ -444,7 +444,7 @@
                 ) AS OPINION
             FROM
                 CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD A
-            JOIN
+            LEFT JOIN
                 CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN B
             ON A.EVAL_LOGIN_ID = B.EVAL_LOGIN_ID AND B.EVAL_STATUS = 'E'
             WHERE
@@ -470,4 +470,17 @@
         GROUP BY AM.APPLICATION_ID, A.EVAL_LOGIN_ID
         ORDER BY AM.APPLICATION_ID
     </select>
+
+    <delete id="delLoginChk" parameterType="map">
+        /*delLoginChk*/
+        DELETE
+        FROM
+            CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN
+        WHERE
+            1 = 1
+        AND
+            RECRUIT_INFO_SN = #{recruitInfoSn}
+        AND
+            EVAL_TYPE = #{evalType}
+    </delete>
 </mapper>

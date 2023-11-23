@@ -55,6 +55,8 @@ var draft = {
         }
 
         draft.global.params = params;
+        console.log("params");
+        console.log(params);
 
         $("#menuCd").val(draft.global.params.menuCd);
         $("#type").val(draft.global.params.type);
@@ -64,7 +66,7 @@ var draft = {
         $("#compSeq").val(draft.global.params.compSeq);
         $("#linkageType").val(draft.global.params.linkageType);
         $("#processId").val(draft.global.params.processId);
-        $("#docTitle").val(draft.global.params.DOC_TITLE);
+        $("#docTitle").val(draft.global.params.docTitle);
 
 
         customKendo.fn_textBox(["docTitle"]);
@@ -619,7 +621,7 @@ var draft = {
 
     draftInitValidation : function(e) {
         draft.global.flag = true;
-        if (draft.global.approversArr.length < 1) {
+        if (draft.global.approversArr.length < 2 && draft.global.approversArr[0].approveType != "2") {
             alert("결재선을 지정해주세요.");
             draft.global.flag = false;
             return;

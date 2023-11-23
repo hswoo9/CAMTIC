@@ -20,6 +20,49 @@
 					<div class="area">
 						<div class="box">
 							<div class="top">
+								<h4><span>2023</span></h4>
+								<div class="con">
+									<dl>
+										<dt>02.</dt>
+										<dd>
+											전주기술창업성장지원센터 건립 착공식 개최
+										</dd>
+									</dl>
+									<dl>
+										<dt>03.</dt>
+										<dd>
+											중소벤처기업부 이영 장관, 전주첨단벤처단지 방문 및 기업간담회 개최
+										</dd>
+									</dl>
+									<dl>
+										<dt>03.</dt>
+										<dd>
+											고용부, 전북조선업도약센터 개소식
+										</dd>
+									</dl>
+									<dl>
+										<dt>05.</dt>
+										<dd>
+											제1회 FIDA(국제드론축구연맹) 세계드론축구대회 개최
+										</dd>
+									</dl>
+									<dl>
+										<dt>06.</dt>
+										<dd>
+											전북대학교 발전기금 기증식
+										</dd>
+									</dl>
+									<dl>
+										<dt>06.</dt>
+										<dd>
+											국토교통부, (사)국제드론축구연맹(FIDA) 설립 허가
+										</dd>
+									</dl>
+								</div>
+							</div>
+						</div>
+						<div class="box">
+							<div class="top">
 								<h4><span>2022</span></h4>
 								<div class="con">
 									<dl>

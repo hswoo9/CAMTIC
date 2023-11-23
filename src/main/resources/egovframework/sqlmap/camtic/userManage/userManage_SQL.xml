@@ -1655,6 +1655,7 @@
             a.POSITION_CODE,
             a.POSITION_NAME,
             a.DUTY_CODE,
+            /*a.DUTY_NAME,*/
             (SELECT CM_CODE_NM FROM CAM_COMMON.DJ_COM_CODE WHERE CM_GROUP_CODE_ID = '3' AND CM_CODE = a.DUTY_CODE AND ACTIVE = 'Y') AS DUTY_NAME,
             a.GRADE_CODE,
             a.GRADE_NAME,

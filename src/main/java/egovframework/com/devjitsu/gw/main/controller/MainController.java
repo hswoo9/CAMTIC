@@ -97,6 +97,13 @@ public class MainController {
         return "jsonView";
     }
 
+    @RequestMapping("/camtic/login.do")
+    public String openLoginPage(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.removeAttribute("menuNm");
+        return "/camtic/login";
+    }
+
     @RequestMapping("/subHoliday/subHolidayApplication.do")
     public String subHolidayApplication(){
         return "/subHoliday/subHolidayApplication";

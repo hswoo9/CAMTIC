@@ -37,13 +37,13 @@
         </colgroup>
         <tr>
           <th>공고명</th>
-          <td>
+          <td colspan="4">
             <span id="recruitTitle" name="recruitTitle">${recruit.RECRUIT_TITLE}</span>
           </td>
         </tr>
         <tr>
           <th>채용구분</th>
-          <td>
+          <td colspan="4">
             <span id="recruitAreaInfoSn" name="recruitAreaInfoSn">${application.JOB}</span>
           </td>
         </tr>

@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
+<% pageContext.setAttribute("br", "\n"); %>
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 <script type="text/javascript" src="<c:url value='/js/kendoui/kendo.all.min.js'/>"></script>
 <style>
@@ -38,7 +38,7 @@
             <div id="content">
 
                 <ul id="navigation">
-                    <li><a href="/camtic">홈으로</a></li>
+                    <li><a href="/camtic"><img src="/images/camtic/home_3.png" class="homeImage">홈으로</a></li>
                     <li class="">홍보관</li>
                     <li class=""><span>채용공고</span></li>
                 </ul>
@@ -59,11 +59,8 @@
                         </ul>
                     </div>
 
-
-
-
-                    <div class="con">
-                        <div class="txt_zone pr_view_content" style="line-height:25px;">
+                    <div class="con" >
+                        <div class="txt_zone pr_view_content" style="line-height:35px;">
                             <c:if test="${categoryId eq 'photo'}" >
                                 <div style="text-align:center">
                                     <c:forEach var="file" items="${fileMap}" varStatus="status">
@@ -74,11 +71,12 @@
 
                             <div id="con0">
                                 <span>${map.RECRUIT_NUM}</span>
-                                <div style="border:1px solid #ddd;">
+                                <div style="border:1px solid #ddd; text-align:center; padding:20px 0;">
                                     <span style="font-size:20px; line-height:30px;">${map.RECRUIT_DETAIL}</span>
                                 </div>
                                 <div style="float:right; margin-top:10px;">
-                                    <span>${map.UPLOAD_DT}&nbsp&nbsp${map.UPLOAD_TEXT}</span>
+                                    <p>${map.UPLOAD_TEXT}</p>
+                                    <p style="float:right; margin-top:-9px;">${map.UPLOAD_DT}</p>
                                 </div>
 
                             </div>
@@ -89,27 +87,41 @@
                                     <colgroup>
                                         <col style="width:150px;"/>
                                         <col style="width:150px;"/>
+                                        <col style="width:160px;"/>
+                                        <col style="width:70px;"/>
                                         <col style="width:100px;"/>
-                                        <col style="width:100px;"/>
-                                        <col style="width:100px;"/>
-                                        <col style="width:100px;"/>
-                                        <col style="width:100px;"/>
+                                        <col style="width:70px;"/>
                                         <col style="width:100px;"/>
                                     </colgroup>
                                     <thead>
-                                    <tr>
-                                        <th>부서</th>
-                                        <th>팀</th>
-                                        <th>직무(모집분야)</th>
-                                        <th>채용인원</th>
-                                        <th>신입/경력(직급)</th>
-                                        <th>필요경력</th>
-                                        <th>근무형태</th>
-                                        <th>자격요건</th>
-                                    </tr>
+                                        <tr>
+                                            <th>부서</th>
+                                            <th>팀</th>
+                                            <th>직무(모집분야)</th>
+                                            <th>채용인원</th>
+                                            <th>신입/경력(직급)</th>
+                                            <th>필요경력</th>
+                                            <th>근무형태</th>
+                                        </tr>
                                     </thead>
-
-                                    <tbody id="tableBody">
+                                    <tbody>
+                                    <c:forEach var="area" items="${map.recruitArea}">
+                                        <tr style="border-top:1px solid #ddd;">
+                                            <td>${area.DEPT_NAME}</td>
+                                            <td>${area.TEAM_NAME}</td>
+                                            <td>${area.JOB}</td>
+                                            <td>${area.RECRUITMENT}</td>
+                                            <td>
+                                                <c:choose>
+                                                    <c:when test="${area.CAREER_TYPE eq '1'}">신입</c:when>
+                                                    <c:when test="${area.CAREER_TYPE eq '2'}">경력</c:when>
+                                                    <c:otherwise>신입/경력</c:otherwise>
+                                                </c:choose>
+                                            </td>
+                                            <td>${area.CARRER}</td>
+                                            <td>${area.WORK_TYPE}</td>
+                                        </tr>
+                                    </c:forEach>
                                     </tbody>
 
                                 </table>
@@ -118,61 +130,77 @@
                             <div id="con2" style="margin-top:30px;">
                                 <h3>응시자격</h3>
                                 <table class="table table-bordered mb-0" style="border:1px solid #ddd; text-align:center;margin-top:20px;">
+                                    <colgroup>
+                                        <col style="width:40%;"/>
+                                        <col style="width:60%; border-left:1px solid #ddd;"/>
+                                    </colgroup>
                                     <tr>
                                         <th>직무(모집분야)</th>
                                         <th>자격요건</th>
                                     </tr>
-                                    <tr>
-                                        <td>${map.Job}</td>
-                                        <td style="border-left:1px solid #ddd;">
-                                            <p>${map.QUALIFICATION}</p>
-                                        </td>
-                                    </tr>
+                                    <c:forEach var="area" items="${map.recruitArea}">
+                                        <tr style="border-top:1px solid #ddd;">
+                                            <td>
+                                                <c:out escapeXml="false" value="${fn:replace(area.JOB, br, '<br>')}" />
+                                            </td>
+                                            <td style="text-align:left; padding-left:10px;">
+                                                <c:out escapeXml="false" value="${fn:replace(area.QUALIFICATION, br, '<br>')}" />
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
                                 </table>
                                 <div style="margin-top: 10px;">
-                                <p>${map.ELGIBILITY_ETC}</p>
+                                    <p>
+                                        <c:out escapeXml="false" value="${fn:replace(map.ELIGIBILITY_ETC, br, '<br>')}" />
+                                    </p>
                                 </div>
                             </div>
 
                             <div id="con3" style="margin-top:30px;">
                                 <h3>근무형태</h3>
                                 <div style="margin-top: 10px;">
-                                    <p>${map.WORK_TYPE}</p>
+                                    <p>
+                                        <c:out escapeXml="false" value="${fn:replace(map.WORK_TYPE, br, '<br>')}" />
+                                    </p>
                                 </div>
                             </div>
 
                             <div id="con4" style="margin-top:30px;">
                                 <h3>전형방법</h3>
                                 <div style="margin-top: 10px;">
-                                    <p>${map.ADMISSION}</p>
+                                    <p>
+                                        <c:out escapeXml="false" value="${fn:replace(map.ADMISSION, br, '<br>')}" />
+                                    </p>
                                 </div>
                             </div>
 
                             <div id="con5" style="margin-top:30px;">
                                 <h3>지원서류(온라인 등록)</h3>
                                 <div style="margin-top: 10px;">
-                                    <p>${map.APPLICATION_DOC}</p>
-
+                                    <p>
+                                        <c:out escapeXml="false" value="${fn:replace(map.APPLICATION_DOC, br, '<br>')}" />
+                                    </p>
                                 </div>
                             </div>
 
                             <div id="con6" style="margin-top:30px;">
                                 <h3>원서접수</h3>
                                 <div style="margin-top: 10px;">
-                                    <p>${map.RECEIPT_DOCU}</p>
+                                    <p>
+                                        <c:out escapeXml="false" value="${fn:replace(map.RECEIPT_DOCU, br, '<br>')}" />
+                                    </p>
                                 </div>
                             </div>
 
                             <div id="con7" style="margin-top:30px;">
                                 <h3>기타사항</h3>
                                 <div style="margin-top: 10px;">
-                                    <p>${map.REMARK}</p>
+                                    <p>
+                                        <c:out escapeXml="false" value="${fn:replace(map.REMARK, br, '<br>')}" />
+                                    </p>
                                 </div>
                             </div>
-
-
                         </div>
-
                     </div>
 
 
@@ -200,7 +228,8 @@
 
                 <div class="__botArea">
                     <div style="text-align: center;">
-                        <a href="javascript:void(0);" onclick="fn_goList();" class="__btn1 grayLine"><span>목록보기</span></a>
+                        <a href="#" class="__btn1 blue" style="width:200px;"><span>온라인 입사지원하기</span></a>
+                        <a href="javascript:void(0);" onclick="fn_goList();" class="__btn1 blue" style="width:200px;"><span>목록보기</span></a>
                     </div>
                 </div>
             </div>
@@ -213,52 +242,6 @@
 
 <input type="hidden" id="recruitInfoSn" value="${map.RECRUIT_INFO_SN}"/>
 <script>
-
-    $(function () {
-        areaTable();
-    });
-
-    function areaTable() {
-        var recruitInfoSn = $("#recruitInfoSn").val();
-        $.ajax({
-            url: '/camtic/member/job_view.do',
-            data: {
-                RECRUIT_INFO_SN: recruitInfoSn
-            },
-            type: 'GET',
-            success: function (data) {
-                areaTableList(data.map);
-            },
-        });
-    }
-
-    //캠틱포커스 게시글 리스트 HTML
-    function areaTableList(data){
-
-        $("#tableBody").html('');
-
-        let html = "";
-
-        data.forEach((item, index) => {
-            item.recruitArea.forEach((area, areaIndex) => {
-                console.log(area)
-
-                html += "<tr>";
-                html += "<td>" + area.DEPT_NAME + "</td>";
-                html += "<td>" + area.TEAM_NAME + "</td>";
-                html += "<td>" + area.JOB + "</td>";
-                html += "<td>" + area.RECRUITMENT + "</td>";
-                html += "<td>" + area.CAREER_TYPE + "</td>";
-                html += "<td>" + area.CAREER + "</td>";
-                html += "<td>" + area.WORK_TYPE + "</td>";
-                html += "<td>" + area.QUALIFICATION + "</td>";
-                html += "</tr>>";
-            });
-        });
-
-        $("#tableBody").append(html);
-    }
-
 
     function fileDown(filePath, fileName){
         kendo.saveAs({

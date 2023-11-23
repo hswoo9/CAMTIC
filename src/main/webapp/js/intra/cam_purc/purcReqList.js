@@ -3,10 +3,10 @@ var prm = {
     global : {
         dropDownDataSource : "",
         searchAjaxData : "",
-        saveAjaxData : "",
+        saveAjaxData : ""
     },
 
-    fn_defaultScript : function (){
+    fn_defaultScript : function(){
 
         prm.global.dropDownDataSource = [
             { text: "내 구매만 조회", value: "empDept" },
@@ -23,10 +23,19 @@ var prm = {
 
         customKendo.fn_dropDownList("searchKeyword", prm.global.dropDownDataSource, "text", "value");
         customKendo.fn_textBox(["searchValue"]);
+
+        prm.global.dropDownDataSource = [
+            { text: "검수 미작성", value: "1" },
+            { text: "검수 작성 및 미승인", value: "2" },
+            { text: "검수 작성 및 승인", value: "3" }
+        ]
+
+        customKendo.fn_dropDownList("inspectStat", prm.global.dropDownDataSource, "text", "value");
+        $("#inspectStat").data("kendoDropDownList").bind("change", prm.gridReload);
         prm.gridReload();
     },
 
-    mainGrid: function(url, params){
+    mainGrid : function(url, params){
         $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
@@ -149,34 +158,35 @@ var prm = {
         }).data("kendoGrid");
     },
 
-    gridReload: function (){
+    gridReload : function(){
         prm.global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
             searchDept : $("#searchDept").val(),
             searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val()
+            searchValue : $("#searchValue").val(),
+            inspectStat : $("#inspectStat").data("kendoDropDownList").value()
         }
 
         prm.mainGrid("/purc/getPurcReqList.do", prm.global.searchAjaxData);
     },
 
-    fn_reqRegPopup : function (key){
+    fn_reqRegPopup : function(key){
         var url = "/purc/pop/regPurcReqPop.do";
         if(key != null && key != ""){
             url = "/purc/pop/regPurcReqPop.do?purcSn=" + key;
         }
         var name = "blank";
-        var option = "width = 1690, height = 820, top = 100, left = 400, location = no"
+        var option = "width = 1690, height = 820, top = 100, left = 400, location = no";;
         var popup = window.open(url, name, option);
     },
 
-    fn_inspectionPopup : function (key){
+    fn_inspectionPopup : function(key){
         var url = "/purc/pop/purcInspectionPop.do";
         if(key != null && key != ""){
             url = "/purc/pop/purcInspectionPop.do?purcSn=" + key;
         }
         var name = "blank";
-        var option = "width = 1690, height = 820, top = 100, left = 400, location = no"
+        var option = "width = 1690, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
     }
 }

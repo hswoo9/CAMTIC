@@ -66,8 +66,9 @@
     </select>
 
     <select id="getProjectStep" parameterType="map" resultType="map">
+        /*getProjectStep*/
         SELECT
-            *
+            *, DATE_FORMAT(A.STR_DT, '%Y-%m-%d') AS PJT_STR_DT, DATE_FORMAT(A.END_DT, '%Y-%m-%d') AS PJT_END_DT
         FROM
             CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN
@@ -796,7 +797,7 @@
     </select>
 
     <select id="getPjtSnToDev" parameterType="map" resultType="map">
-        SELECT PJT_SN FROM CAM_PJT_MNG.DJ_PJT_DEV
+        SELECT MAX(PJT_SN) AS PJT_SN FROM CAM_PJT_MNG.DJ_PJT_DEV
         WHERE DEV_SN = #{devSn}
     </select>
 

@@ -5,7 +5,8 @@ const historyReq = {
         hwpCtrl: "",
         params: "",
         editDataSource: {},
-        test: []
+        test: [],
+        index : 0,
     },
 
     init: function(){
@@ -57,6 +58,8 @@ const historyReq = {
             let userArr = result.list;
 
             for(let i=0; i<userArr.length; i++){
+                userArr[i].INDEX = i + historyReq.global.index;
+                historyReq.global.index++;
                 historyReq.global.userArr.push(userArr[i].EMP_SEQ);
                 historyReq.global.editDataSource.data.push(userArr[i]);
                 grid.dataSource.read();
@@ -229,11 +232,11 @@ const historyReq = {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'checkUser\')" style="position: relative; top: 2px;" />',
                     template: function (e){
                         if(e.APNT_SN != null){
-                            return "<input type='hidden' id='apntSn"+e.EMP_SEQ+"' name='apntSn' value='"+e.APNT_SN+"'/>" +
-                                "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.EMP_SEQ+"' style='position: relative; top: 2px;'/>";
+                            return "<input type='hidden' id='apntSn"+e.EMP_SEQ + "_" + e.INDEX +"' name='apntSn' value='"+e.APNT_SN+"'/>" +
+                                "<input type='checkbox' id='chk"+e.EMP_SEQ + "_" + e.INDEX + "' name='checkUser' value='"+e.EMP_SEQ+ "_" + e.INDEX + "' style='position: relative; top: 2px;'/>";
                         }else{
-                            return "<input type='hidden' id='apntSn"+e.EMP_SEQ+"' name='apntSn' value=''/>" +
-                                "<input type='checkbox' id='chk"+e.EMP_SEQ+"' name='checkUser' value='"+e.EMP_SEQ+"' style='position: relative; top: 2px;'/>";
+                            return "<input type='hidden' id='apntSn"+e.EMP_SEQ+ "_" + e.INDEX + "' name='apntSn' value=''/>" +
+                                "<input type='checkbox' id='chk"+e.EMP_SEQ+ "_" + e.INDEX + "' name='checkUser' value='"+e.EMP_SEQ+ "_" + e.INDEX + "' style='position: relative; top: 2px;'/>";
                         }
                     },
                     width: 40,
@@ -254,9 +257,9 @@ const historyReq = {
                     width: 170,
                     template: function (e){
                         if(e.APNT_CD != null){
-                            return "<input type='text' id='apntCd"+e.EMP_SEQ+"' class='formData apntCd' value="+ e.APNT_CD + ">";
+                            return "<input type='text' id='apntCd"+e.EMP_SEQ+ "_" + e.INDEX + "' class='formData apntCd' value="+ e.APNT_CD + ">";
                         }else{
-                            return "<input type='text' id='apntCd"+e.EMP_SEQ+"' class='formData apntCd' />";
+                            return "<input type='text' id='apntCd"+e.EMP_SEQ+ "_" + e.INDEX + "' class='formData apntCd' />";
                         }
 
                     }
@@ -302,11 +305,11 @@ const historyReq = {
                                 if(e.AF_DEPT_SEQ != null){
                                     return '<input type="hidden" id="bfDeptSeq" name="bfDeptSeq" class="bfDeptSeq" value="' + e.DEPT_SEQ + '">' +
                                         '<input type="hidden" id="bfDeptName" name="bfDeptName" class="bfDeptName" value="' + e.DEPT_NAME + '">' +
-                                        '<input type="text" id="afDept'+e.EMP_SEQ+'" name="afDept" class="formData afDept" value="' + e.AF_DEPT_SEQ + '">';
+                                        '<input type="text" id="afDept'+e.EMP_SEQ+ "_" + e.INDEX + '" name="afDept" class="formData afDept" value="' + e.AF_DEPT_SEQ + '">';
                                 }else{
                                     return '<input type="hidden" id="bfDeptSeq" name="bfDeptSeq" class="bfDeptSeq" value="' + e.DEPT_SEQ + '">' +
                                         '<input type="hidden" id="bfDeptName" name="bfDeptName" class="bfDeptName" value="' + e.DEPT_NAME + '">' +
-                                        '<input type="text" id="afDept'+e.EMP_SEQ+'" name="afDept" class="formData afDept" value="' + e.DEPT_SEQ + '">';
+                                        '<input type="text" id="afDept'+e.EMP_SEQ+ "_" + e.INDEX + '" name="afDept" class="formData afDept" value="' + e.DEPT_SEQ + '">';
                                 }
                             },
                             width: 170
@@ -317,11 +320,11 @@ const historyReq = {
                                 if(e.AF_TEAM_SEQ != null) {
                                     return '<input type="hidden" id="bfTeamSeq" name="bfTeamSeq" class="bfTeamSeq" value="' + e.TEAM_SEQ + '">' +
                                         '<input type="hidden" id="bfTeamName" name="bfTeamName" class="bfTeamName" value="' + e.TEAM_NAME + '">' +
-                                        '<input type="text" id="afTeam' + e.EMP_SEQ + '" name="afTeamSeq" class="formData afTeam" value="' + e.AF_TEAM_SEQ + '">';
+                                        '<input type="text" id="afTeam' + e.EMP_SEQ + "_" + e.INDEX +  '" name="afTeamSeq" class="formData afTeam" value="' + e.AF_TEAM_SEQ + '">';
                                 }else{
                                     return '<input type="hidden" id="bfTeamSeq" name="bfTeamSeq" class="bfTeamSeq" value="' + e.TEAM_SEQ + '">' +
                                         '<input type="hidden" id="bfTeamName" name="bfTeamName" class="bfTeamName" value="' + e.TEAM_NAME + '">' +
-                                        '<input type="text" id="afTeam' + e.EMP_SEQ + '" name="afTeamSeq" class="formData afTeam" value="' + e.TEAM_SEQ + '">';
+                                        '<input type="text" id="afTeam' + e.EMP_SEQ + "_" + e.INDEX +  '" name="afTeamSeq" class="formData afTeam" value="' + e.TEAM_SEQ + '">';
                                 }
                             },
                             width: 170
@@ -332,11 +335,11 @@ const historyReq = {
                                 if(e.AF_POSITION_CODE != null) {
                                     return '<input type="hidden" id="bfPositionSeq" name="bfPositionSeq" class="bfPositionSeq" value="' + e.POSITION_CODE + '">' +
                                         '<input type="hidden" id="bfPositionName" name="bfPositionName" class="bfPositionName" value="' + e.POSITION_NAME + '">' +
-                                        '<input type="text" id="afPosition'+e.EMP_SEQ+'" name="afPosition" class="formData afPosition" value="' + e.AF_POSITION_CODE + '">';
+                                        '<input type="text" id="afPosition'+e.EMP_SEQ+ "_" + e.INDEX + '" name="afPosition" class="formData afPosition" value="' + e.AF_POSITION_CODE + '">';
                                 }else{
                                     return '<input type="hidden" id="bfPositionSeq" name="bfPositionSeq" class="bfPositionSeq" value="' + e.POSITION_CODE + '">' +
                                         '<input type="hidden" id="bfPositionName" name="bfPositionName" class="bfPositionName" value="' + e.POSITION_NAME + '">' +
-                                        '<input type="text" id="afPosition'+e.EMP_SEQ+'" name="afPosition" class="formData afPosition" value="' + e.POSITION_SEQ + '">';
+                                        '<input type="text" id="afPosition'+e.EMP_SEQ+ "_" + e.INDEX + '" name="afPosition" class="formData afPosition" value="' + e.POSITION_SEQ + '">';
                                 }
                             },
                             width: 160
@@ -347,11 +350,11 @@ const historyReq = {
                                 if(e.AF_DUTY_CODE != null) {
                                     return '<input type="hidden" id="bfDutySeq" name="bfDutySeq" class="bfDutySeq" value="' + e.DUTY_CODE + '">' +
                                         '<input type="hidden" id="bfDutyName" name="bfDutyName" class="bfDutyName" value="' + e.DUTY_NAME + '">' +
-                                        '<input type="text" id="afDuty'+e.EMP_SEQ+'" name="afDuty" class="formData afDuty" value="' + e.AF_DUTY_CODE + '">';
+                                        '<input type="text" id="afDuty'+e.EMP_SEQ+ "_" + e.INDEX + '" name="afDuty" class="formData afDuty" value="' + e.AF_DUTY_CODE + '">';
                                 }else{
                                     return '<input type="hidden" id="bfDutySeq" name="bfDutySeq" class="bfDutySeq" value="' + e.DUTY_CODE + '">' +
                                         '<input type="hidden" id="bfDutyName" name="bfDutyName" class="bfDutyName" value="' + e.DUTY_NAME + '">' +
-                                        '<input type="text" id="afDuty'+e.EMP_SEQ+'" name="afDuty" class="formData afDuty" value="' + e.DUTY_SEQ + '">';
+                                        '<input type="text" id="afDuty'+e.EMP_SEQ+ "_" + e.INDEX + '" name="afDuty" class="formData afDuty" value="' + e.DUTY_SEQ + '">';
                                 }
                             },
                             width: 120
@@ -361,10 +364,10 @@ const historyReq = {
                             template: function (e){
                                 if(e.AF_JOB_DETAIL != null) {
                                     return '<input type="hidden" id="bfJobDetail" name="bfJobDetail" class="bfJobDetail" value="' + e.JOB_DETAIL + '">' +
-                                        '<input type="text" id="afJobDetail'+e.EMP_SEQ+'" name="afJobDetail" class="formData afJobDetail" value="' + e.AF_JOB_DETAIL + '">';
+                                        '<input type="text" id="afJobDetail'+e.EMP_SEQ+ "_" + e.INDEX + '" name="afJobDetail" class="formData afJobDetail" value="' + e.AF_JOB_DETAIL + '">';
                                 }else{
                                     return '<input type="hidden" id="bfJobDetail" name="bfJobDetail" class="bfJobDetail" value="' + e.JOB_DETAIL + '">' +
-                                        '<input type="text" id="afJobDetail'+e.EMP_SEQ+'" name="afJobDetail" class="formData afJobDetail" value="' + e.JOB_DETAIL + '">';
+                                        '<input type="text" id="afJobDetail'+e.EMP_SEQ+ "_" + e.INDEX + '" name="afJobDetail" class="formData afJobDetail" value="' + e.JOB_DETAIL + '">';
                                 }
                             },
                             width: 200
@@ -375,9 +378,9 @@ const historyReq = {
                     title: "비고",
                     template: function(e){
                         if(e.ETC != null) {
-                            return '<input type="text" id="afEtc'+e.EMP_SEQ+'" name="afEtc" class="formData afEtc" value="' + e.ETC + '">';
+                            return '<input type="text" id="afEtc'+e.EMP_SEQ+ "_" + e.INDEX + '" name="afEtc" class="formData afEtc" value="' + e.ETC + '">';
                         }else{
-                            return '<input type="text" id="afEtc'+e.EMP_SEQ+'" name="afEtc" class="formData afEtc">';
+                            return '<input type="text" id="afEtc'+e.EMP_SEQ+ "_" + e.INDEX + '" name="afEtc" class="formData afEtc">';
                         }
                     },
                     width: 120
@@ -391,15 +394,16 @@ const historyReq = {
     dataBinding: function(){
         $(document).on("focusout change", ".formData", function(){
             var dataItem = $("#popMainGrid").data("kendoGrid").dataItem($(this).closest("tr"));
-            var APNT_CD = $("#apntCd"+dataItem.EMP_SEQ).data("kendoDropDownList").value();
-            var AF_DEPT_SEQ = $("#afDept"+dataItem.EMP_SEQ).data("kendoDropDownList").value();
-            var AF_TEAM_SEQ = $("#afTeam"+dataItem.EMP_SEQ).data("kendoDropDownList").value();
-            var AF_POSITION_CODE = $("#afPosition"+dataItem.EMP_SEQ).data("kendoDropDownList").value();
-            var AF_DUTY_CODE = $("#afDuty"+dataItem.EMP_SEQ).data("kendoDropDownList").value();
-            var AF_JOB_DETAIL = $("#afJobDetail"+dataItem.EMP_SEQ).val();
-            var ETC = $("#afEtc"+dataItem.EMP_SEQ).val();
 
             $.each(historyReq.global.editDataSource.data, function(i, v){
+                var APNT_CD = $("#apntCd"+dataItem.EMP_SEQ+"_"+dataItem.INDEX).data("kendoDropDownList").value();
+                var AF_DEPT_SEQ = $("#afDept"+dataItem.EMP_SEQ+"_"+dataItem.INDEX).data("kendoDropDownList").value();
+                var AF_TEAM_SEQ = $("#afTeam"+dataItem.EMP_SEQ+"_"+dataItem.INDEX).data("kendoDropDownList").value();
+                var AF_POSITION_CODE = $("#afPosition"+dataItem.EMP_SEQ+"_"+dataItem.INDEX).data("kendoDropDownList").value();
+                var AF_DUTY_CODE = $("#afDuty"+dataItem.EMP_SEQ+"_"+dataItem.INDEX).data("kendoDropDownList").value();
+                var AF_JOB_DETAIL = $("#afJobDetail"+dataItem.EMP_SEQ+"_"+dataItem.INDEX).val();
+                var ETC = $("#afEtc"+dataItem.EMP_SEQ+"_"+dataItem.INDEX).val();
+
                 if(v.EMP_SEQ == dataItem.EMP_SEQ){
                     v.APNT_CD = APNT_CD;
                     v.AF_DEPT_SEQ = AF_DEPT_SEQ;
@@ -418,11 +422,9 @@ const historyReq = {
         let userArr = [];
         $("input[name='checkEmp']").each(function(){
             if(this.checked){
-                if(historyReq.global.userArr.indexOf(this.value) < 0){
-                    userArr.push(this.value);
-                    historyReq.global.userArr.push(this.value);
-                    flag = true;
-                }
+                userArr.push(this.value);
+                historyReq.global.userArr.push(this.value);
+                flag = true;
             }
         });
         if(!flag){
@@ -438,6 +440,8 @@ const historyReq = {
         let grid = $("#popMainGrid").data("kendoGrid");
 
         for(let i=0; i<result.list.length; i++){
+            result.list[i].INDEX = historyReq.global.index;
+            historyReq.global.index++;
             historyReq.global.userArr.push(userArr[i].EMP_SEQ);
             historyReq.global.editDataSource.data.push(result.list[i]);
             //grid.dataSource._data = historyReq.global.editDataSource.data;
@@ -454,6 +458,7 @@ const historyReq = {
         var data = {}
         data.deptLevel = 1;
         var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
+        deptDsA.rs.unshift({"dept_name" : "해당없음", "dept_seq" : ""});
         deptDsA.rs.unshift({"dept_name" : "선택", "dept_seq" : ""});
         $(".afDept").kendoDropDownList({
             dataSource : deptDsA.rs,
@@ -468,14 +473,14 @@ const historyReq = {
                 }
 
                 var ds = customKendo.fn_customAjax("/dept/getDeptAList", searchData);
-                ds.rs.unshift({"dept_name" : "선택", "dept_seq" : ""});
+                ds.rs.unshift({"dept_name" : "해당없음", "dept_seq" : ""});
                 $("#afTeam"+empSeq).data("kendoDropDownList").dataSource.data(ds.rs);
                 $("#afTeam"+empSeq).data("kendoDropDownList").value("");
             }
         });
 
         var dataSource = [{
-            "dept_name" : "선택",
+            "dept_name" : "해당없음",
             "dept_seq" : ""
         }];
 
@@ -490,11 +495,10 @@ const historyReq = {
                 parentDeptSeq : v.AF_DEPT_SEQ == undefined ? v.DEPT_SEQ : v.AF_DEPT_SEQ,
                 deptLevel : 2
             }
-            console.log(searchData);
             let ds = customKendo.fn_customAjax("/dept/getDeptAList", searchData);
-            ds.rs.unshift({"dept_name" : "선택", "dept_seq" : ""});
-            $("#afTeam"+v.EMP_SEQ).data("kendoDropDownList").dataSource.data(ds.rs);
-            $("#afTeam"+v.EMP_SEQ).data("kendoDropDownList").value(v.AF_TEAM_SEQ == undefined ? v.TEAM_SEQ : v.AF_TEAM_SEQ);
+            ds.rs.unshift({"dept_name" : "해당없음", "dept_seq" : ""});
+            $("#afTeam"+v.EMP_SEQ +"_"+i).data("kendoDropDownList").dataSource.data(ds.rs);
+            $("#afTeam"+v.EMP_SEQ +"_"+i).data("kendoDropDownList").value(v.AF_TEAM_SEQ == undefined ? v.TEAM_SEQ : v.AF_TEAM_SEQ);
         });
 
         $(".apntCd").kendoDropDownList({
@@ -526,7 +530,7 @@ const historyReq = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                {text: "선택", value: ""},
+                {text: "해당없음", value: ""},
                 {text: "수석행정원 / 1급", value: "1"},
                 {text: "수석매니저 / 1급", value: "2"},
                 {text: "수석연구원 / 1급", value: "3"},
@@ -549,12 +553,12 @@ const historyReq = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                {text: "선택", value: ""},
-                {text: "원장", value: "원장"},
-                {text: "본부장", value: "본부장"},
-                {text: "사업부장", value: "사업부장"},
-                {text: "센터장", value: "센터장"},
-                {text: "팀장", value: "팀장"}
+                {text: "해당없음", value: ""},
+                {text: "원장", value: "1"},
+                {text: "본부장", value: "2"},
+                {text: "사업부장", value: "3"},
+                {text: "센터장", value: "4"},
+                {text: "팀장", value: "5"}
             ]
         });
     },
@@ -687,7 +691,6 @@ const historyReq = {
         let i=0;
         let it = setInterval(function(){
             if(i < arr.length){
-                console.log("index : "+i);
                 var toDate = new Date().getFullYear() + "년 " + (new Date().getMonth() + 1) + "월 " + new Date().getDate() + "일";
                 historyReq.global.hwpCtrl.PutFieldText("toDate", toDate);
                 historyReq.global.hwpCtrl.PutFieldText("position", arr[i].bfPositionName);
@@ -741,7 +744,6 @@ const historyReq = {
             dataType : "json",
             async : false,
             success : function(result){
-                console.log("ajax : "+index);
             },
             error : function(e) {
                 alert("데이터 저장 중 에러가 발생했습니다.");
@@ -759,20 +761,23 @@ const historyReq = {
     },
 
     fn_delApnt : function(){
-        const grid = $("#popMainGrid").data("kendoGrid");
-        let dataItem = {};
+        var grid = $("#popMainGrid").data("kendoGrid");
+        var dataItem = {};
         $("#popMainGrid").find("input[name='checkUser']:checked").each(function(){
+
             dataItem = grid.dataItem($(this).closest("tr"));
-            grid.removeRow($(this).closest('tr'));
+
             historyReq.global.userArr = historyReq.global.userArr.filter((value, index, arr) => {
-                return String(value) != String(dataItem.EMP_SEQ);
+                return String(value) != String($(this).val());
             });
+            historyReq.global.editDataSource.data = historyReq.global.editDataSource.data.filter(param => String(param.EMP_SEQ) != String($(this).val()));
 
-            historyReq.global.editDataSource.data = historyReq.global.editDataSource.data.filter(param => String(param.EMP_SEQ) != String(dataItem.EMP_SEQ));
+            grid.removeRow($(this).closest('tr'));
+
         });
-
         historyReq.editGrid();
         historyReq.fn_popGridSetting();
+
     },
 
     fn_delApntAll : function(){

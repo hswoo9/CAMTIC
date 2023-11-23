@@ -35,9 +35,11 @@ var recruitAdminPop = {
 
     mainGrid : function(url, params) {
         var record = 0;
-
+        var datasource = customKendo.fn_gridDataSource2(url, params);
+        console.log(datasource);
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+
+            dataSource: datasource,
             sortable: true,
             scrollable: true,
             height: 489,
@@ -98,11 +100,11 @@ var recruitAdminPop = {
                     width : 120
                 }, {
                     field: "LANG_NAME",
-                    title: "외국어"
+                    title: "외국어",
+                    width : 120
                 }, {
                     field: "JOB",
-                    title: "채용분야",
-                    width : 120
+                    title: "채용분야"
                 }, {
                     field: "SAVE_DATE",
                     title: "지원일시",
@@ -121,7 +123,7 @@ var recruitAdminPop = {
                 }, {
                     field: "DOC_SCREEN_AVERAGE",
                     title: "서류심사",
-                    width : 120,
+                    width : 100,
                     template : function(e){
                         var str = "";
                         var avg = e.DOC_SCREEN_AVERAGE == null ? 0 : e.DOC_SCREEN_AVERAGE;
@@ -139,7 +141,7 @@ var recruitAdminPop = {
                 }, {
                     field: "IN_SCREEN_AVERAGE",
                     title: "면접심사",
-                    width : 120,
+                    width : 100,
                     template : function(e){
                         console.log(e);
                         if(e.IN_AVOID != "Y"){
@@ -430,7 +432,8 @@ var recruitAdminPop = {
         }
 
         var result = customKendo.fn_customAjax("/inside/getRecruitAreaList.do", recruitAdminPop.global.searchAjaxData);
-        customKendo.fn_dropDownList("recruitAreaInfoSn", result.recruitArea, "AREA_TITLE","RECRUIT_AREA_INFO_SN", 2);
+        customKendo.fn_dropDownList("recruitAreaInfoSn", result.recruitArea, "JOB","RECRUIT_AREA_INFO_SN", 10);
+
         $("#recruitAreaInfoSn").data("kendoDropDownList").bind("change", recruitAdminPop.gridReload);
         $("#recruitAreaInfoSn").data("kendoDropDownList").select(1)
         recruitAdminPop.global.dropDownDataSource = [
@@ -472,5 +475,17 @@ var recruitAdminPop = {
         var name = "recruitPrintPop";
         var option = "width=1250, height=900, scrollbars=no, top=100, left=300, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+    },
+
+    getEvalSetPop : function(e){
+        let recruitInfoSn = $("#recruitInfoSn").val();
+        let recruitAreaInfoSn = $("#recruitAreaInfoSn").val();
+        console.log("Recruit Info Sn: " + recruitInfoSn);
+        console.log("Recruit Area Info Sn : "+recruitAreaInfoSn);
+        var url = "/inside/pop/selEvalPop.do?recruitInfoSn=" + recruitInfoSn;
+        var name = "selInEvalItemPop";
+        var option = "width=1000, height=870, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
     }
+
 }

@@ -97,6 +97,8 @@
                     </tr>
                 </table>
                 <div id="mainGrid" style="margin:20px 0;"></div>
+
+                <div id="mainGridSub" style="margin:20px 0; display: none;"></div>
             </div>
         </div>
     </div>
@@ -200,8 +202,8 @@
 
     /* 퇴사직원 체크박스 선택 하면 나머지 체크박스들 체크 해제 */
     function uncheckOtherCheckboxes() {
+        var grid = $("#mainGrid").data("kendoGrid");
         var dsJCheckbox = $('#dsJ');
-
         if (dsJCheckbox.prop('checked')) {
             var checkboxes = $('.detailSearch');
             checkboxes.each(function() {

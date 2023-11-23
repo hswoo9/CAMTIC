@@ -507,7 +507,6 @@ public class BoardController {
     public String getRecruitmentList(@RequestParam Map<String, Object> param, ArticlePage articlePage, HttpServletRequest request, Model model){
         int recordSize = Integer.parseInt(String.valueOf(param.get("recordSize")));
 
-        articlePage.setSearchCategory((String) param.get("categoryId"));
         articlePage.setSearchInput((String) param.get("searchInput"));
         articlePage.setRecordSize(recordSize);
 
@@ -528,7 +527,6 @@ public class BoardController {
     public String jobView(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
         recruitService.setRecruitArticleViewCount(params);
 
-        //Map<String, Object> map = boardService.getDetailRecruit(params);
         List<Map<String, Object>> fileList = boardService.selectBoardFile(params);
         Map<String, Object> map = recruitService.getRecruit(params);
 

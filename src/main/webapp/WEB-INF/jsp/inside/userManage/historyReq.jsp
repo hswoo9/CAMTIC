@@ -89,6 +89,50 @@
     </div>
 </div><!-- col-md-9 -->
 
+<div id="modAf">
+</div>
 <script type="text/javascript">
     historyList.init();
+
+    $("#modAf").kendoWindow({
+        title : "직무 변경",
+        width: "700px",
+        visible: false,
+        modal: true,
+        position : {
+            top : 200,
+            left : 600
+        },
+        open : function (){
+            var htmlStr =
+                '<input type="hidden" id="selectKey" />' +
+                '<div class="mb-10" style="text-align: right;">' +
+                '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="historyList.saveChangeAf()">저장</button>' +
+                '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#modAf \').data(\'kendoWindow\').close()">닫기</button>' +
+                '</div>' +
+                '<table class="table table-bordered mb-0" style="margin-top: 10px">' +
+                '	<colgroup>' +
+                '		<col width="20%">' +
+                '		<col width="80%">' +
+                '	</colgroup>' +
+                '	<tbody>' +
+                '		<tr>' +
+                '			<th scope="row" class="text-center th-color"><span class="red-star">*</span>직무</th>' +
+                '			<td>' +
+                '				<input type="text" id="chngAf" name="chngAf" style="width: 90%"/>' +
+                '			</td>' +
+                '		</tr>' +
+                '	</tbody>' +
+                '</table>';
+
+            $("#modAf").html(htmlStr);
+
+            // modalKendoSetCmCodeCM();
+
+            $("#chngAf").kendoTextBox();
+        },
+        close: function () {
+            // $("#pjtStopModal").empty();
+        }
+    });
 </script>

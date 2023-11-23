@@ -75,4 +75,5 @@ public interface ApprovalUserService {
      */
     Map<String, Object> getAbsentDuplicate(Map<String, Object> params);
 
+    List<Map<String, Object>> getApprovalDocSearchList(Map<String, Object> params);
 }

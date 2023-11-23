@@ -31,7 +31,7 @@
         <button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="processInfo.fn_save()">저장</button>
     </div>
     <div class="table-responsive">
-        <div id="commFileHtml1" style="margin-top:10px;">
+        <div id="commFileHtml1" style="margin-top:10px; display :none">
             <form style="padding: 0px 30px;">
                 <div class="card-header" style="padding: 5px;">
                     <h3 class="card-title">설계관리</h3>
@@ -73,7 +73,7 @@
             </form>
         </div>
 
-        <div id="commFileHtml2" style="margin-top:10px;">
+        <div id="commFileHtml2" style="margin-top:10px; display :none">
             <form style="padding: 0px 30px;">
                 <div class="card-header" style="padding: 5px;">
                     <h3 class="card-title">제작관리</h3>
@@ -114,7 +114,7 @@
             </form>
         </div>
 
-        <div id="commFileHtml3" style="margin-top:10px;">
+        <div id="commFileHtml3" style="margin-top:10px; display :none">
             <form style="padding: 0px 30px;">
                 <div class="card-header" style="padding: 5px;">
                     <h3 class="card-title">품질관리</h3>
@@ -155,7 +155,7 @@
             </form>
         </div>
 
-        <div id="commFileHtml4" style="margin-top:10px;">
+        <div id="commFileHtml4" style="margin-top:10px">
             <form style="padding: 0px 30px;">
                 <div class="card-header" style="padding: 5px;">
                     <h3 class="card-title">기타</h3>

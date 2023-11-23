@@ -51,6 +51,7 @@
                                 <col/>
                                 <col style="width:100px;"/>
                                 <col style="width:100px;"/>
+                                <col style="width:100px;"/>
                                 <col style="width:150px;"/>
                                 <col style="width:100px;"/>
                             </c:otherwise>
@@ -63,7 +64,7 @@
                         <th scope="col">번호</th>
                         <th scope="col">제목</th>
                         <th scope="col">첨부파일</th>
-                        <c:if test="${categoryKey eq 'business'}"><th scope="col">사업상태</th></c:if>
+                        <th scope="col">유형</th>
                         <th scope="col">작성자</th>
                         <th scope="col">작성일</th>
                         <th scope="col">조회수</th>
@@ -192,6 +193,11 @@
                 html += '<td><img src="/images/camtic/ico-drone5-1.png" style="filter: opacity(0.5) drop-shadow(0 0 0 #666);"></td>';
             }else{
                 html += '<td></td>';
+            }
+            if(item.sns_TYPE == '1'){
+                html += '<td>페이스북</td>';
+            }else{
+                html += '<td>인스타그램</td>'
             }
             html += '<td>'+ item.reg_EMP_NAME +'</td>';
 

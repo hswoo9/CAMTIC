@@ -7,6 +7,7 @@ import egovframework.com.devjitsu.camtic.repository.ApplicationRepository;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.common.utiles.AESCipher;
 import egovframework.com.devjitsu.doc.config.EgovFileScrty;
+import egovframework.com.devjitsu.inside.recruit.repository.EvalManageRepository;
 import egovframework.com.devjitsu.inside.recruit.repository.RecruitRepository;
 import egovframework.com.devjitsu.inside.recruit.service.RecruitService;
 import egovframework.com.devjitsu.inside.userManage.repository.UserManageRepository;
@@ -50,6 +51,10 @@ public class RecruitServiceImpl implements RecruitService {
 
     @Autowired
     private CommonRepository commonRepository;
+
+    @Autowired
+    private EvalManageRepository evalManageRepository;
+
 
     @Override
     public Map<String, Object> getRecruitNum(){
@@ -498,4 +503,28 @@ public class RecruitServiceImpl implements RecruitService {
 
     @Override
     public void setRecruitArticleViewCount(Map<String, Object> params) { recruitRepository.setRecruitArticleViewCount(params); }
+
+    @Override
+    public void insRecruitMember(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> array = gson.fromJson((String) params.get("array"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+        for(Map<String, Object> map : array){
+            evalManageRepository.setEvalSelection(map);
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> getCommissionerListCustom(Map<String, Object> params) {
+        return recruitRepository.getCommissionerListCustom(params);
+    }
+
+    @Override
+    public Map<String, Object> getRecruitPrintTitle(Map<String, Object> params){
+        return recruitRepository.getRecruitPrintTitle(params);
+    }
+
+    @Override
+    public void insRecruitMemberDelete(Map<String, Object> params) {
+        recruitRepository.insRecruitMemberDelete(params);
+    }
 }

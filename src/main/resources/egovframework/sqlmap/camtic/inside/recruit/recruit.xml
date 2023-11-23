@@ -13,6 +13,7 @@
         SELECT
         IRI.*,
         AAA.USER_NAME,
+        GROUP_CONCAT(DISTINCT AI.JOB) as JOB_TYPE,
         GROUP_CONCAT(DISTINCT AI.CAREER_TYPE) AS CAREER_TYPE,
         (SELECT SUM(SAI.RECRUITMENT) FROM CAM_INSIDE.DJ_RECRUIT_AREA_INFO SAI WHERE SAI.RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN) AS RECRUITMENT,
         (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN WHERE RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND SAVE_TYPE = 'S') as APPLICATION_CNT,
@@ -125,10 +126,32 @@
             RI.RECRUIT_INFO_SN = #{recruitInfoSn}
     </select>
 
+    <select id="getCommissionerListCustom" parameterType="map" resultType="map">
+        /*getCommissionerListCustom*/
+        SELECT
+            A.*,
+            B.*,
+            (SELECT CM_CODE_NM FROM CAM_COMMON.dj_com_code WHERE CM_GROUP_CODE_ID = '3' AND CM_CODE = B.DUTY_CODE) AS DUTY_NAME
+        FROM
+            CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN A
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO B
+        ON
+            A.EMP_SEQ = B.EMP_SEQ
+        WHERE 1=1
+        AND
+            A.RECRUIT_INFO_SN = #{recruitInfoSn}
+        AND
+            A.EVAL_TYPE = #{evalType}
+        AND
+            A.RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
+    </select>
+
     <select id="getCommissionerList" parameterType="map" resultType="map">
         /*getCommissionerList*/
         SELECT
             EI.*,
+            DI.PARENT_DEPT_SEQ,
             (SELECT B.CM_CODE_NM FROM CAM_COMMON.dj_com_code B WHERE B.CM_GROUP_CODE_ID = '3' AND B.CM_CODE = EI.DUTY_CODE) AS DUTY_NAME
             <if test='recruitInfoSn != null and !"".equals(recruitInfoSn)'>
             ,(
@@ -150,6 +173,7 @@
             </if>
         FROM
             CAM_HR.DJ_EMP_INFO EI
+        LEFT JOIN CAM_HR.DJ_DEPT_INFO DI ON EI.DEPT_SEQ = DI.DEPT_SEQ
         WHERE
             1=1
         AND
@@ -246,7 +270,7 @@
         GROUP BY AM.APPLICATION_ID
     </select>
 
-    <insert id="setRecruitInsert" parameterType="map">
+    <insert id="setRecruitInsert" parameterType="map" useGeneratedKeys="true" keyProperty="recruitInfoSn">
         /* setRecruitInsert */
         INSERT INTO CAM_INSIDE.DJ_RECRUIT_INFO
             (
@@ -903,8 +927,10 @@
         AM.RECRUIT_INFO_SN = #{recruitInfoSn}
         AND
         AM.SAVE_TYPE = 'S'
+        <if test='recruitAreaInfoSn != null and !"".equals(recruitAreaInfoSn)'>
         AND
         AM.RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
+        </if>
         GROUP BY AM.APPLICATION_ID
     </select>
 
@@ -918,6 +944,29 @@
         WHERE
             RECRUIT_INFO_SN = #{recruitInfoSn}
     </update>
+
+
+    <select id="getRecruitPrintTitle" parameterType="map" resultType="map">
+        /*getRecruitPrintTitle*/
+        SELECT
+        b.RECRUIT_TITLE,
+        b.START_DT,
+        b.END_DT,
+        b.REG_EMP_NAME
+        FROM
+        cam_inside.dj_recruit_info b
+        WHERE
+        b.RECRUIT_INFO_SN = #{recruitInfoSn}
+    </select>
+
+    <delete id="insRecruitMemberDelete" parameterType="map">
+        /*insRecruitMemberDelete*/
+        DELETE
+        FROM
+            CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN
+        WHERE
+            EVAL_LOGIN_ID = #{evalLoginId}
+    </delete>
 </mapper>
 
 

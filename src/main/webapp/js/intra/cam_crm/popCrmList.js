@@ -157,6 +157,9 @@ var popCrmList = {
             opener.parent.$("#crmSn").change();
 
             opener.parent.$("#purcCrmSn").change();
+
+            opener.parent.$("#allCrmNm").val(rs.CRM_NM);
+            opener.parent.$("#allCrmSn").val(rs.CRM_SN);
         } else if($("#status").val() == "con") {
             opener.parent.$("#rndConCrmNm").val(rs.CRM_NM);
             opener.parent.$("#rndConCrmSn").val(rs.CRM_SN);

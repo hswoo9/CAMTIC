@@ -10,7 +10,6 @@
 		font-size: 24px;
 		line-height: 1.27;
 		padding: 10px 30px;
-		font-weight: bold;
 		color:#fff;
 		border-radius: 10px;
 		margin-top: 7px;
@@ -41,7 +40,7 @@
 
 						<div class="__imgW __imgW4">
 							<div class="wrap">
-								<img src="/images/camtic/img-clu1-1.png" alt="">
+								<img src="/images/camtic/img-clu1-2.png" alt="">
 								<div class="iw iw1"><span>캠틱클러스터</span></div>
 								<div class="iw iw2"><span>수익창출</span></div>
 								<div class="iw iw3"><div><span>캠틱클러스터</span> <strong>금융플랫폼</strong></div></div>
@@ -86,7 +85,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+
 
 				<div class="__tit1 __mt100">
 					<h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0; text-align: left;"><strong>캠틱 클러스터 기본원칙</strong></h3>
@@ -111,6 +110,7 @@
 							<div class="txt" style="background-color: #22ca55;">개인투자조합 활성화</div>
 						</div>
 					</div>
+				</div>
 				</div>
 			</div>
 		</div>
