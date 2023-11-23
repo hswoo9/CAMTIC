@@ -370,11 +370,11 @@ var rndPR = {
                 if(status == "0"){
                     buttonHtml += "<button type=\"button\" id=\"rateAppBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndPR.rateDrafting()\">참여율 변경 공문 작성</button>";
                 }else if(status == "10"){
-                    buttonHtml += "<button type=\"button\" id=\"rateCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+rateMap.DOC_ID+"', '"+rateMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
+                    buttonHtml += "<button type=\"button\" id=\"rateCanBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+rateMap.DOC_ID+"', '"+rateMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
                 }else if(status == "30" || status == "40"){
                     buttonHtml += "<button type=\"button\" id=\"rateCanBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('"+rateMap.DOC_ID+"', '"+rateMap.DOC_MENU_CD+"', '"+rateMap.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
                 }else if(status == "100"){
-                    buttonHtml += "<button type=\"button\" id=\"rateCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+rateMap.DOC_ID+"', '"+rateMap.APPRO_KEY+"', '"+rateMap.DOC_MENU_CD+"');\">열람</button>";
+                    buttonHtml += "<button type=\"button\" id=\"rateCanBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+rateMap.DOC_ID+"', '"+rateMap.APPRO_KEY+"', '"+rateMap.DOC_MENU_CD+"');\">열람</button>";
                 }
             }
         }
@@ -384,12 +384,12 @@ var rndPR = {
     rateDrafting: function() {
         $("#rateDraftFrm").one("submit", function() {
             var url = "/popup/cam_project/approvalFormPopup/rateChangeApprovalPop.do";
-            var name = "rateChangeApprovalPop";
+            var name = "_self";
             var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50";
             var popup = window.open(url, name, option);
             this.action = "/popup/cam_project/approvalFormPopup/rateChangeApprovalPop.do";
             this.method = 'POST';
-            this.target = 'rateChangeApprovalPop';
+            this.target = '_self';
         }).trigger("submit");
     }
 }

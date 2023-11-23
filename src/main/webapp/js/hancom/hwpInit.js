@@ -478,6 +478,8 @@ var hwpInit = {
     rndDevInit: function(devSn){
         let pjtSn = customKendo.fn_customAjax("/project/getPjtSnToDev", {devSn: devSn}).rs.PJT_SN;
         const pjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: pjtSn});
+        console.log("pjtInfo");
+        console.log(pjtInfo);
         const rndInfo = customKendo.fn_customAjax("/projectRnd/getRndDetail", {pjtSn: pjtSn});
         const map = pjtInfo.rs;
         const delvMap = rndInfo.map;
