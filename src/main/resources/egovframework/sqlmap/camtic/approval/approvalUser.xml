@@ -327,6 +327,34 @@
             DI.ACTIVE = 'Y'
         AND
             DI.DEL_FLAG = 'N'
+
+        <if test='startDay != null and !"".equals(startDay)'>
+            <![CDATA[
+             AND
+                 DATE_FORMAT(#{startDay}, '%Y%m%d') <= DATE_FORMAT(DI.REG_DATE, '%Y%m%d')
+             AND
+                 DATE_FORMAT(#{endDay}, '%Y%m%d') >= DATE_FORMAT(DI.REG_DATE, '%Y%m%d')
+             ]]>
+        </if>
+
+        <if test='resType == "Y" and resType != null'>
+            AND DI.APPRO_KEY NOT LIKE '%EXNPRESI_NP%'
+        </if>
+
+        <if test='docTitle != null and !"".equals(docTitle)'>
+            AND
+            DI.DOC_TITLE LIKE CONCAT('%', #{docTitle}, '%')
+        </if>
+
+        <if test='sEmpSeq != null and !"".equals(sEmpSeq)'>
+            AND
+            DI.DRAFT_EMP_SEQ = #{sEmpSeq}
+        </if>
+        <if test='sDeptSeq != null and !"".equals(sDeptSeq)'>
+            AND
+            DI.DRAFT_DEPT_SEQ IN (SELECT dept.DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO dept WHERE dept.PATH LIKE CONCAT('%', #{sDeptSeq} ,'%'))
+        </if>
+
         <choose>
             <when test='approveType != null and "completion".equals(approveType)'>
                 AND (
@@ -355,6 +383,9 @@
                     (DAR.APPROVE_EMP_SEQ = #{empSeq} AND DAR.APPROVE_DEPT_SEQ = #{deptSeq}) OR
                     (DAR.PROXY_APPROVE_EMP_SEQ = #{empSeq} AND DAR.PROXY_APPROVE_DEPT_SEQ = #{deptSeq})
                 )
+            </when>
+            <when test='approveType != null and "reference".equals(approveType)'>
+                AND DI.APPROVE_STAT_CODE IN (100, 101)
             </when>
             <otherwise>
                 AND DAR.APPROVE_STAT_CODE IS NULL
@@ -525,6 +556,225 @@
         SEQ = #{c_oiorgcode}
         AND GBN_ORG = 'd'
 
+    </select>
+
+    <select id="getApprovalDocSearchList" resultType="map" parameterType="map">
+        /* getApprovalDocSearchList */
+        SELECT
+            DI.DOC_ID,
+            DO.DOC_OPT_ID,
+            DI.DOC_GBN_SN,
+            IF(DI.DOC_GBN_SN = '000', '생산문서', '접수문서') AS DOC_GBN_KR,
+            DO.SECURITY_TYPE,
+            DI.DOC_MENU_CD,
+            DI.APPRO_KEY,
+            FORM.FORM_NAME,
+            FORM.LINKAGE_TYPE,
+            DI.DOC_NO,
+            DI.DOC_TITLE,
+            DI.APPROVE_STAT_CODE,
+            DI.DRAFT_EMP_NAME,
+            DATE_FORMAT(DI.DRAFT_DT,'%Y-%m-%d') AS DRAFT_DT,
+            DATE_FORMAT(DI.REG_DATE, '%Y-%m-%d') AS REG_DATE,
+            DATE_FORMAT(DI.LAST_APPROVE_DT,'%Y-%m-%d') AS APPROVE_DT,
+            (SELECT CM_CODE_NM FROM DJ_CAMTIC.V_COM_CODE CC WHERE CC.CM_GROUP_CODE_ID = 30 AND CC.CM_CODE = DO.DOC_GBN) AS DOC_GBN,
+            DI.DOC_FLAG,
+            DI.DEL_FLAG
+        FROM
+            DJ_CAMTIC.A_DOC_INFO DI
+        JOIN
+            DJ_CAMTIC.A_DOC_OPT DO
+        ON DI.DOC_ID = DO.DOC_ID
+        JOIN
+            DJ_CAMTIC.A_FORM FORM
+        ON DI.FORM_ID = FORM.FORM_ID
+        LEFT JOIN (
+            SELECT
+                DOC_ID,
+                MIN(DATE_FORMAT(DRD.REG_DATE, '%Y%m%d')) AS READER_DAY,
+                MIN(DATE_FORMAT(DRD.REG_DATE, '%H%i%s')) AS READER_TIME,
+                ACTIVE AS ACTIVE,
+                MIN(IF(DATE_FORMAT(DRD.REG_DATE, '%Y%m%d') = DATE_FORMAT(DRD.MOD_DATE, '%Y%m%d'), DATE_FORMAT(DRD.REG_DATE, '%Y%m%d'), DATE_FORMAT(DRD.MOD_DATE, '%Y%m%d'))) as RDDAY ,
+                MIN(IF(DATE_FORMAT(DRD.REG_DATE, '%H%i%s') = DATE_FORMAT(DRD.MOD_DATE, '%H%i%s'), DATE_FORMAT(DRD.REG_DATE, '%H%i%s'), DATE_FORMAT(DRD.MOD_DATE, '%H%i%s'))) as RDTIME
+            FROM
+                DJ_CAMTIC.A_DOC_READER DRD
+            INNER JOIN (
+                ${deptPathQuery}
+            )OC
+            ON OC.GBN_ORG = DRD.SEQ_TYPE AND OC.GROUP_SEQ = 'camtic_new' AND OC.COMP_SEQ = '1000' AND OC.DEPT_SEQ = DRD.READER_DEPT_SEQ AND OC.EMP_SEQ = DRD.READER_EMP_SEQ
+            WHERE 1=1
+            <![CDATA[
+                AND
+                    DATE_FORMAT(NOW(), '%Y%m%d') >= DATE_FORMAT(DRD.READING_START_DT, '%Y%m%d')
+                AND
+                    DATE_FORMAT(NOW(), '%Y%m%d') <= DATE_FORMAT(DRD.READING_END_DT, '%Y%m%d')
+            ]]>
+            GROUP BY DOC_ID
+        ) DRD
+        ON DI.DOC_ID = DRD.DOC_ID
+        WHERE
+            DI.ACTIVE = 'Y'
+        <if test='deptSeq != null and !"".equals(deptSeq)'>
+        AND
+            DI.DRAFT_DEPT_SEQ IN (SELECT dept.DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO dept WHERE dept.PATH LIKE CONCAT('%', #{deptSeq} ,'%'))
+        </if>
+        AND (
+                DI.APPROVE_STAT_CODE = 100 OR
+                DI.APPROVE_STAT_CODE = 101
+            )
+        <if test='startDay != null and !"".equals(startDay)'>
+            <![CDATA[
+                AND
+                    DATE_FORMAT(#{startDay}, '%Y%m%d') <= DATE_FORMAT(DI.REG_DATE, '%Y%m%d')
+                AND
+                    DATE_FORMAT(#{endDay}, '%Y%m%d') >= DATE_FORMAT(DI.REG_DATE, '%Y%m%d')
+            ]]>
+        </if>
+        <if test='searchCategory != null and !"".equals(searchCategory)'>
+            AND DOC_GBN_SN = #{searchCategory}
+        </if>
+        <choose>
+            <when test='searchKeyWord != null and "T".equals(searchKeyWord)'>
+                AND DI.DOC_TITLE REGEXP #{searchContent}
+            </when>
+            <when test='searchKeyWord != null and "N".equals(searchKeyWord)'>
+                AND DI.DOC_NO REGEXP #{searchContent}
+            </when>
+            <when test='searchKeyWord != null and "DN".equals(searchKeyWord)'>
+                AND DI.DRAFT_EMP_NAME REGEXP #{searchContent}
+            </when>
+            <when test='searchKeyWord != null and "FN".equals(searchKeyWord)'>
+                AND FORM.FORM_NAME REGEXP #{searchContent}
+            </when>
+            <when test='searchKeyWord != null and "SE".equals(searchKeyWord)'>
+                AND AAA.ORGAN LIKE REGEXP #{searchContent}
+            </when>
+            <when test='searchKeyWord != null and "RE".equals(searchKeyWord)'>
+                AND BBB.C_SIRECEIVENAME REGEXP #{searchContent}
+            </when>
+            <otherwise>
+                AND (
+                    DI.DOC_TITLE REGEXP #{searchContent} OR
+                    DI.DOC_NO REGEXP #{searchContent} OR
+                    DI.DRAFT_EMP_NAME REGEXP #{searchContent} OR
+                    FORM.FORM_NAME REGEXP #{searchContent}
+                )
+            </otherwise>
+        </choose>
+        ORDER BY IF(DI.DRAFT_DT IS NULL, DI.REG_DATE, IF(DI.REPTIT_DRFT_DT IS NULL, DI.DRAFT_DT, DI.REPTIT_DRFT_DT)) DESC
+    </select>
+
+    <select id="getApprovalDocSearchListLimitDept" resultType="map" parameterType="map">
+        /* getApprovalDocSearchListLimitDept */
+        SELECT
+            DI.DOC_ID,
+            DO.DOC_OPT_ID,
+            DI.DOC_GBN_SN,
+            DO.SECURITY_TYPE,
+            DI.DOC_MENU_CD,
+            DI.APPRO_KEY,
+            FORM.FORM_NAME,
+            FORM.LINKAGE_TYPE,
+            DI.DOC_NO,
+            DI.DOC_TITLE,
+            DI.APPROVE_STAT_CODE,
+            DI.DRAFT_EMP_NAME,
+            DATE_FORMAT(DI.DRAFT_DT,'%Y-%m-%d') AS DRAFT_DT,
+            DATE_FORMAT(DI.REG_DATE, '%Y-%m-%d') AS REG_DATE,
+            DATE_FORMAT(DI.LAST_APPROVE_DT,'%Y-%m-%d') AS APPROVE_DT,
+            (SELECT CM_CODE_NM FROM DJ_CAMTIC.V_COM_CODE CC WHERE CC.CM_GROUP_CODE_ID = 30 AND CC.CM_CODE = DO.DOC_GBN) AS DOC_GBN,
+            DI.DOC_FLAG,
+            DI.DEL_FLAG,
+            AAA.ORGAN,
+            BBB.C_SIRECEIVENAME
+        FROM
+            DJ_CAMTIC.A_DOC_INFO DI
+        JOIN
+            DJ_CAMTIC.A_DOC_OPT DO
+        ON DI.DOC_ID = DO.DOC_ID
+        JOIN
+            DJ_CAMTIC.A_FORM FORM
+        ON DI.FORM_ID = FORM.FORM_ID
+        LEFT JOIN (
+            SELECT
+                DOC_ID,
+                MIN(DATE_FORMAT(DRD.REG_DATE, '%Y%m%d')) AS READER_DAY,
+                MIN(DATE_FORMAT(DRD.REG_DATE, '%H%i%s')) AS READER_TIME,
+                ACTIVE AS ACTIVE,
+                MIN(IF(DATE_FORMAT(DRD.REG_DATE, '%Y%m%d') = DATE_FORMAT(DRD.MOD_DATE, '%Y%m%d'), DATE_FORMAT(DRD.REG_DATE, '%Y%m%d'), DATE_FORMAT(DRD.MOD_DATE, '%Y%m%d'))) as RDDAY ,
+                MIN(IF(DATE_FORMAT(DRD.REG_DATE, '%H%i%s') = DATE_FORMAT(DRD.MOD_DATE, '%H%i%s'), DATE_FORMAT(DRD.REG_DATE, '%H%i%s'), DATE_FORMAT(DRD.MOD_DATE, '%H%i%s'))) as RDTIME
+            FROM
+                DJ_CAMTIC.A_DOC_READER DRD
+            INNER JOIN (
+                ${deptPathQuery}
+            )OC
+            ON OC.GBN_ORG = DRD.SEQ_TYPE AND OC.COMP_SEQ = '1000' AND OC.DEPT_SEQ = DRD.READER_DEPT_SEQ AND OC.EMP_SEQ = DRD.READER_EMP_SEQ
+            WHERE 1=1
+            <![CDATA[
+                AND
+                    DATE_FORMAT(NOW(), '%Y%m%d') >= DATE_FORMAT(DRD.READING_START_DT, '%Y%m%d')
+                AND
+                    DATE_FORMAT(NOW(), '%Y%m%d') <= DATE_FORMAT(DRD.READING_END_DT, '%Y%m%d')
+            ]]>
+            GROUP BY DOC_ID
+        )DRD
+        ON DI.DOC_ID = DRD.DOC_ID
+        WHERE
+            DI.ACTIVE = 'Y'
+        AND
+            DI.DRAFT_DEPT_SEQ NOT IN (SELECT dept.DEPT_SEQ FROM NEOS.T_CO_DEPT dept WHERE dept.PATH LIKE CONCAT('%', '1204' ,'%'))
+        AND
+            DI.DRAFT_DEPT_SEQ NOT IN (SELECT dept.DEPT_SEQ FROM NEOS.T_CO_DEPT dept WHERE dept.PATH LIKE CONCAT('%', '1236' ,'%'))
+        <if test='deptSeq != null and !"".equals(deptSeq)'>
+            AND
+                DI.DRAFT_DEPT_SEQ IN (SELECT dept.DEPT_SEQ FROM NEOS.T_CO_DEPT dept WHERE dept.PATH LIKE CONCAT('%', #{deptSeq} ,'%'))
+        </if>
+        AND (
+            DI.APPROVE_STAT_CODE = 100 OR
+            DI.APPROVE_STAT_CODE = 101
+        )
+        <if test='startDay != null and !"".equals(startDay)'>
+            <![CDATA[
+            AND
+                DATE_FORMAT(#{startDay}, '%Y%m%d') <= DATE_FORMAT(DI.REG_DATE, '%Y%m%d')
+            AND
+                DATE_FORMAT(#{endDay}, '%Y%m%d') >= DATE_FORMAT(DI.REG_DATE, '%Y%m%d')
+        ]]>
+        </if>
+        <if test='searchCategory != null and !"".equals(searchCategory)'>
+            AND DOC_GBN_SN = #{searchCategory}
+        </if>
+        <choose>
+            <when test='searchKeyWord != null and "T".equals(searchKeyWord)'>
+                AND DI.DOC_TITLE REGEXP #{searchContent}
+            </when>
+            <when test='searchKeyWord != null and "N".equals(searchKeyWord)'>
+                AND DI.DOC_NO REGEXP #{searchContent}
+            </when>
+            <when test='searchKeyWord != null and "DN".equals(searchKeyWord)'>
+                AND DI.DRAFT_EMP_NAME REGEXP #{searchContent}
+            </when>
+            <when test='searchKeyWord != null and "FN".equals(searchKeyWord)'>
+                AND FORM.FORM_NAME REGEXP #{searchContent}
+            </when>
+            <when test='searchKeyWord != null and "SE".equals(searchKeyWord)'>
+                AND AAA.ORGAN REGEXP #{searchContent}
+            </when>
+            <when test='searchKeyWord != null and "RE".equals(searchKeyWord)'>
+                AND BBB.C_SIRECEIVENAME REGEXP #{searchContent}
+            </when>
+            <otherwise>
+                AND (
+                    DI.DOC_TITLE REGEXP #{searchContent} OR
+                    DI.DOC_NO REGEXP #{searchContent} OR
+                    DI.DRAFT_EMP_NAME REGEXP #{searchContent} OR
+                    FORM.FORM_NAME REGEXP #{searchContent} OR
+                    AAA.ORGAN REGEXP #{searchContent} OR
+                    BBB.C_SIRECEIVENAME REGEXP #{searchContent}
+                )
+            </otherwise>
+        </choose>
+        ORDER BY IF(DI.DRAFT_DT IS NULL, DI.REG_DATE, IF(DI.REPTIT_DRFT_DT IS NULL, DI.DRAFT_DT, DI.REPTIT_DRFT_DT)) DESC
     </select>
 
 </mapper>

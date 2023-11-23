@@ -139,7 +139,13 @@ var approveReturn = {
         approveReturn.global.searchAjaxData = {
             empSeq : $("#empSeq").val(),
             deptSeq : $("#deptSeq").val(),
-            approveStat : "return"
+            sEmpSeq : $("#sEmpSeq").val(),
+            sDeptSeq : $("#sDeptSeq").val(),
+            docTitle : $("#docTitle").val(),
+            startDay : $("#startDay").val(),
+            endDay : $("#endDay").val(),
+            approveType : "return",
+            resType : "Y",
         }
 
         approveReturn.mainGrid("/approvalUser/getApproveDocBoxList", approveReturn.global.searchAjaxData);
