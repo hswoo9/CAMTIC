@@ -56,4 +56,10 @@ public interface PayAppService {
     List<Map<String, Object>> getExnpAttList(Map<String, Object> params);
 
     List<Map<String, Object>> getPartRatePay(Map<String, Object> params);
+
+    List<Map<String, Object>> getDepositList(Map<String, Object> params);
+
+    void setPayDepo(Map<String, Object> params);
+
+    Map<String, Object> getPayDepoData(Map<String, Object> params);
 }

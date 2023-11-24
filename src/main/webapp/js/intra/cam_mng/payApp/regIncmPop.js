@@ -432,9 +432,9 @@ var regIncm = {
         return str.replace(/[^\d]+/g, '');
     },
 
-    fn_projectPop : function (type){
+    fn_projectPop : function (){
 
-        var url = "/project/pop/projectView.do?type=" + type;
+        var url = "/project/pop/projectView.do";
 
         var name = "_blank";
         var option = "width = 1100, height = 400, top = 100, left = 400, location = no"

@@ -66,6 +66,17 @@ public class PayAppController {
         return "popup/cam_manager/payApp/regPayAppPop";
     }
 
+    @RequestMapping("/pay/pop/regPayDepoPop.do")
+    public String regPayDepoPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_manager/payDepo/regPayDepoPop";
+    }
+
     @RequestMapping("/payApp/pop/regPayAttPop.do")
     public String regPayAttPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -75,6 +86,14 @@ public class PayAppController {
         model.addAttribute("params", params);
 
         return "popup/cam_manager/payApp/regPayAttPop";
+    }
+
+    @RequestMapping("/pay/getPayDepoData")
+    public String getPayDepoData(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> map = payAppService.getPayDepoData(params);
+        model.addAttribute("data", map);
+
+        return "jsonView";
     }
 
     @RequestMapping("/payApp/pop/regExnpAttPop.do")
@@ -547,6 +566,37 @@ public class PayAppController {
     public String getPartRatePay(@RequestParam Map<String, Object> params, Model model){
 
         model.addAttribute("data", payAppService.getPartRatePay(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/pay/payDeposit.do")
+    public String payDeposit(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_manager/deposit/depositList";
+    }
+
+    @RequestMapping("/pay/getDepositList")
+    public String getDepositList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = payAppService.getDepositList(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/pay/setPayDepo")
+    public String setPayDepo(@RequestParam Map<String, Object> params, Model model){
+        try{
+            payAppService.setPayDepo(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
         return "jsonView";
     }
