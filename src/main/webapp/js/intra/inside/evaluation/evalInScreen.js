@@ -129,7 +129,7 @@ var evalInScreen = {
     },
 
     setEvalScoreBoard : function(){
-        if(confirm("해당 지원자의 면접평가를 완료 하시겠습니까?\n완료 이후에는 평가 내역을 수정 할 수 없습니다.")){
+        if(confirm("해당 지원자의 면접평가를 저장하시겠습니까?")){
             var evalArr = new Array()
             $.each($("#evalTb tr.userEvalInScreen"), function(i, e){
                 var data = {

@@ -96,11 +96,7 @@ var evalInApplicationList = {
                     title: "평가",
                     width : 100,
                     template : function(e){
-                        var chk = "";
-                        if(e.INSCREEN_YN){
-                            chk = "disabled"
-                        }
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="evalInApplicationList.evalInScreenPop(this)" ' + chk + '>' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="evalInApplicationList.evalInScreenPop(this)">' +
                             '	<span class="k-button-text">면접심사</span>' +
                             '</button>';
 
