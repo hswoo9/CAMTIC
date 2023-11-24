@@ -14,16 +14,6 @@ const historyPrintPop = {
         historyPrintPop.global.hwpCtrl = BuildWebHwpCtrl("hwpApproveContent", historyPrintPop.global.params.hwpUrl, function () {historyPrintPop.editorComplete();});
     },
 
-    loading: function(){
-        $.LoadingOverlay("show", {
-            background       : "rgba(0, 0, 0, 0.5)",
-            image            : "",
-            maxSize          : 60,
-            fontawesome      : "fa fa-spinner fa-pulse fa-fw",
-            fontawesomeColor : "#FFFFFF",
-        });
-    },
-
     editorComplete: function(){
         let filePath = "http://218.158.231.186/upload/templateForm/historyTmp.hwp";
         historyPrintPop.global.hwpCtrl.Open(filePath, "HWP", "", function(){
@@ -65,6 +55,13 @@ const historyPrintPop = {
         let historyDt = data.HISTORY_DT.split("-")[0]+ "년 "+data.HISTORY_DT.split("-")[1]+ "월 "+data.HISTORY_DT.split("-")[2]+ "일";
         historyPrintPop.global.hwpCtrl.PutFieldText("historyDt", historyDt);
         historyPrintPop.global.hwpCtrl.PutFieldText("regEmpName", data.REG_EMP_NAME);
+        let jobText = "";
+        if(data.CHNG_JOB == ""){
+            jobText = data.AF_JOB_DETAIL;
+        }else{
+            jobText = data.CHNG_JOB;
+        }
+        historyPrintPop.global.hwpCtrl.PutFieldText("JOB_DETAIL", jobText);
     },
 
     resize: function() {
@@ -78,5 +75,15 @@ const historyPrintPop = {
     print: function() {
         historyPrintPop.global.hwpCtrl.PrintDocument();
         opener.gridReload();
+    },
+
+    loading: function(){
+        $.LoadingOverlay("show", {
+            background       : "rgba(0, 0, 0, 0.5)",
+            image            : "",
+            maxSize          : 60,
+            fontawesome      : "fa fa-spinner fa-pulse fa-fw",
+            fontawesomeColor : "#FFFFFF",
+        });
     }
 }

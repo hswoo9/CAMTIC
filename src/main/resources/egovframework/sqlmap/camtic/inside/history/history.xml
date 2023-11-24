@@ -185,7 +185,8 @@
             IFNULL(HAI.AF_JOB_DETAIL, '-') AS AF_JOB_DETAIL,
 
             HAI.ETC,
-
+            IFNULL(HAI.CHNG_JOB, '') AS CHNG_JOB,
+            IFNULL(HAI.AF_JOB_DETAIL, '') AS AF_JOB_DETAIL,
             CFI.*
         FROM
             CAM_HR.DJ_APNT_INFO HAI
