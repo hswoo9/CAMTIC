@@ -780,6 +780,7 @@
            DEI.EMP_NAME_KR,
            DEI.POSITION_NAME,
            DH.GRANT_DAY,
+           DH.PREVIOUS_GRANT_DAY,
            DATE_FORMAT(DH.MOD_DATE, '%Y-%m-%d') AS MOD_DATE,
            DEI.MOD_EMP_SEQ
     FROM cam_hr.dj_emp_info dei

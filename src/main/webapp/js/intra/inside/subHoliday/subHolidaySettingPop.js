@@ -98,7 +98,7 @@ var subHolidaySettingPop = {
             },
             columns: [
                 {
-                    field : "DEPT_NAME",
+                    field : "",
                     title : "순번",
                     width : 90,
                     editable: function(){
@@ -142,7 +142,7 @@ var subHolidaySettingPop = {
                             title : "발생연차",
                             columns : [
                                 {
-                                    field : "",
+                                    field : "PREVIOUS_GRANT_DAY",
                                     title : "수정전",
                                     width : 90,
                                     editable: function(){
