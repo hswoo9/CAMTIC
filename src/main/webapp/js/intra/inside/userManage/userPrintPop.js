@@ -99,58 +99,69 @@ const userPrintPop = {
 
         /** 학력사항 */
         var html = userPrintHtml.html1(userMap2);
+        html += userPrintHtml.html2(userMap3);
+        html += userPrintHtml.html3(userMap4);
+        html += userPrintHtml.html4(userMap5);
+        html += userPrintHtml.html5(userMap6);
+        html += userPrintHtml.html6(userMap7);
+        html += userPrintHtml.html7(userMap8);
+        html += userPrintHtml.html8(userMap9);
+        html += userPrintHtml.html9();
+        html += userPrintHtml.html10();
+        html += userPrintHtml.html11(userMap12);
+
         userPrintPop.global.hwpCtrl.MoveToField('HTML1', true, true, false);
         userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
 
-        /** 경력사항 */
-        var html = userPrintHtml.html2(userMap3);
-        userPrintPop.global.hwpCtrl.MoveToField('HTML2', true, true, false);userPrintPop.global.hwpCtrl.MoveToField('HTML1', true, true, false);
-        userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
-
-        /** 병력사항 */
-        var html = userPrintHtml.html3(userMap4);
-        userPrintPop.global.hwpCtrl.MoveToField('HTML3', true, true, false);userPrintPop.global.hwpCtrl.MoveToField('HTML2', true, true, false);
-        userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
-
-        /** 가족사항 */
-        var html = userPrintHtml.html4(userMap5);
-        userPrintPop.global.hwpCtrl.MoveToField('HTML4', true, true, false);userPrintPop.global.hwpCtrl.MoveToField('HTML3', true, true, false);
-        userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
-
-        /** 자격증 및 면허, 어학능력*/
-        var html = userPrintHtml.html5(userMap6);
-        userPrintPop.global.hwpCtrl.MoveToField('HTML5', true, true, false);userPrintPop.global.hwpCtrl.MoveToField('HTML4', true, true, false);
-        userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
-
-        /** 직무사항 */
-        var html = userPrintHtml.html6(userMap7);
-        userPrintPop.global.hwpCtrl.MoveToField('HTML6', true, true, false);userPrintPop.global.hwpCtrl.MoveToField('HTML5', true, true, false);
-        userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
-
-        /** 발령사항 */
-        var html = userPrintHtml.html7(userMap8);
-        userPrintPop.global.hwpCtrl.MoveToField('HTML7', true, true, false);userPrintPop.global.hwpCtrl.MoveToField('HTML6', true, true, false);
-        userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
-
-        /** 상벌사항 */
-        var html = userPrintHtml.html8(userMap9);
-        userPrintPop.global.hwpCtrl.MoveToField('HTML8', true, true, false);userPrintPop.global.hwpCtrl.MoveToField('HTML7', true, true, false);
-        userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
-
-        /** 평생학습 */
-        var html = userPrintHtml.html9();
-        userPrintPop.global.hwpCtrl.MoveToField('HTML9', true, true, false);userPrintPop.global.hwpCtrl.MoveToField('HTML8', true, true, false);
-        userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
-
-        /** 근무평가 */
-        var html = userPrintHtml.html10();
-        userPrintPop.global.hwpCtrl.MoveToField('HTML10', true, true, false);userPrintPop.global.hwpCtrl.MoveToField('HTML9', true, true, false);
-        userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
-
-        /** 제안제도 */
-        var html = userPrintHtml.html11(userMap12);
-        userPrintPop.global.hwpCtrl.MoveToField('HTML11', true, true, false);userPrintPop.global.hwpCtrl.MoveToField('HTML10', true, true, false);
-        userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
+        // /** 경력사항 */
+        // html += userPrintHtml.html2(userMap3);
+        // userPrintPop.global.hwpCtrl.MoveToField('HTML2', true, true, false);
+        // userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
+        //
+        // /** 병력사항 */
+        // var html = userPrintHtml.html3(userMap4);
+        // userPrintPop.global.hwpCtrl.MoveToField('HTML3', true, true, false);
+        // userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
+        //
+        // /** 가족사항 */
+        // var html = userPrintHtml.html4(userMap5);
+        // userPrintPop.global.hwpCtrl.MoveToField('HTML4', true, true, false);
+        // userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
+        //
+        // /** 자격증 및 면허, 어학능력*/
+        // var html = userPrintHtml.html5(userMap6);
+        // userPrintPop.global.hwpCtrl.MoveToField('HTML5', true, true, false);
+        // userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
+        //
+        // /** 직무사항 */
+        // var html = userPrintHtml.html6(userMap7);
+        // userPrintPop.global.hwpCtrl.MoveToField('HTML6', true, true, false);
+        // userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
+        //
+        // /** 발령사항 */
+        // var html = userPrintHtml.html7(userMap8);
+        // userPrintPop.global.hwpCtrl.MoveToField('HTML7', true, true, false);
+        // userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
+        //
+        // /** 상벌사항 */
+        // var html = userPrintHtml.html8(userMap9);
+        // userPrintPop.global.hwpCtrl.MoveToField('HTML8', true, true, false);
+        // userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
+        //
+        // /** 평생학습 */
+        // var html = userPrintHtml.html9();
+        // userPrintPop.global.hwpCtrl.MoveToField('HTML9', true, true, false);
+        // userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
+        //
+        // /** 근무평가 */
+        // var html = userPrintHtml.html10();
+        // userPrintPop.global.hwpCtrl.MoveToField('HTML10', true, true, false);
+        // userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
+        //
+        // /** 제안제도 */
+        // var html = userPrintHtml.html11(userMap12);
+        // userPrintPop.global.hwpCtrl.MoveToField('HTML11', true, true, false);
+        // userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
 
     },
 
@@ -174,5 +185,5 @@ const userPrintPop = {
             fontawesome      : "fa fa-spinner fa-pulse fa-fw",
             fontawesomeColor : "#FFFFFF",
         });
-    },
-}
+    }
+};
