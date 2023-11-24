@@ -42,4 +42,9 @@ public interface RecruitService {
     Map<String, Object> getRecruitPrintTitle(Map<String, Object> params);
 
     void insRecruitMemberDelete(Map<String, Object> params);
+
+    List<Map<String, Object>> getDraftingList(Map<String, Object> params);
+
+    /** 채용 결재 상태값에 따른 UPDATE 메서드 */
+    void updateDraftDocState(Map<String, Object> bodyMap) throws Exception;
 }
