@@ -410,4 +410,10 @@ public class SubHolidayController {
         return "jsonView";
     }
 
+    @RequestMapping("/subHoliday/getGrantDay")
+    public String getGrantDay(@RequestParam Map<String, Object> map, ModelMap model) {
+        model.addAttribute("list", subHolidayService.getGrantDay(map));
+        return "jsonView";
+    }
+
 }

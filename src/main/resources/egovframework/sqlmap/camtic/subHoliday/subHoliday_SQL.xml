@@ -527,6 +527,7 @@
         <foreach collection="list" item="item" index="index" separator=";">
             UPDATE CAM_INSIDE.DJ_HOLIDAY
             SET
+                PREVIOUS_GRANT_DAY = #{item.PREVIOUS_GRANT_DAY},
                 GRANT_DAY = #{item.GRANT_DAY},
                 COMP_VAC = #{item.COMP_VAC},
                 MOD_DATE = NOW()
@@ -774,18 +775,30 @@
     </insert>
 
 <!--    이력관리 조회-->
-<select id="getModVacList" parameterType="map" resultType="map">
-    SELECT DEI.DEPT_NAME,
-           DEI.DEPT_TEAM_NAME,
-           DEI.EMP_NAME_KR,
-           DEI.POSITION_NAME,
-           DH.GRANT_DAY,
-           DH.PREVIOUS_GRANT_DAY,
-           DATE_FORMAT(DH.MOD_DATE, '%Y-%m-%d') AS MOD_DATE,
-           DEI.MOD_EMP_SEQ
-    FROM cam_hr.dj_emp_info dei
-             JOIN cam_inside.dj_holiday dh ON dei.MOD_EMP_SEQ = dh.MOD_EMP_SEQ
+    <select id="getGrantDay" parameterType="map" resultType="map">
+        select GRANT_DAY
+        from cam_inside.dj_holiday
+    </select>
 
-</select>
+    <select id="getModVacList" parameterType="map" resultType="map">
+        SELECT DEI.DEPT_NAME,
+        DEI.DEPT_TEAM_NAME,
+        DEI.EMP_NAME_KR,
+        DEI.POSITION_NAME,
+        DH.GRANT_DAY,
+        DH.PREVIOUS_GRANT_DAY,
+        DH.HOLIDAY_ID,
+        DATE_FORMAT(DH.MOD_DATE, '%Y-%m-%d') AS MOD_DATE,
+        DEI.MOD_EMP_SEQ
+        FROM cam_hr.dj_emp_info DEI
+        JOIN cam_inside.dj_holiday DH
+        WHERE 1=1
+        <if test='modDate != null and !"".equals(modDate)'>
+            AND  DATE_FORMAT(DH.MOD_DATE, '%Y-%m-%d') = #{modDate}
+        </if>
+        <if test='searchVal != null and !"".equals(searchVal)'>
+            AND DEI.MOD_EMP_SEQ LIKE CONCAT('%', #{searchVal}, '%')
+        </if>
+    </select>
 
 </mapper>

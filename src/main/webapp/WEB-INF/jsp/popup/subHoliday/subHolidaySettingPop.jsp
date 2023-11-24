@@ -47,6 +47,7 @@
             <div class="table-responsive">
                 <div class="popupTitleSt">이력관리</div>
                 <form id="subHolidayReqPop">
+                    <input type="hidden" id="modEmpSeq" name="modEmpSeq" value="${loginVO.uniqId}">
                     <table class="searchTable table table-bordered mb-0">
                         <colgroup>
                             <col width="10%">

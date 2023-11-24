@@ -89,5 +89,10 @@ public class SubHolidayRepository extends AbstractDAO  {
     // 이력관리
     public List<Map<String, Object>> getModVacList(Map<String, Object> map){return selectList("subHoliday.getModVacList", map); }
 
+    public List<Map<String, Object>> getGrantDay(Map<String, Object> map){
+        return selectList("subHoliday.getGrantDay", map);
+    }
+
+
 }
 
