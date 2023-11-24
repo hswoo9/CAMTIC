@@ -331,7 +331,7 @@
         /*getFocusList*/
         SELECT
             *,
-            (select concat(file_path,file_uuid) from cam_common.dj_file_info where fr_key = dba.board_article_id and file_cd = #{focusCategory}) AS FILE_PATH
+            (select concat(file_path,file_uuid) from cam_common.dj_file_info where fr_key = dba.board_article_id and file_cd = 'photo') AS FILE_PATH
         FROM
             CAM_COMMON.DJ_BOARD_ARTICLE DBA
         WHERE
