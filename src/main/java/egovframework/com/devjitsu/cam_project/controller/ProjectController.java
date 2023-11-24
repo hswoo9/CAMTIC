@@ -339,6 +339,19 @@ public class ProjectController {
         return "popup/cam_project/engineering/teamInfo";
     }
 
+    @RequestMapping("/intra/cam_project/depositInfo.do")
+    public String depositInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        Map<String, Object> map = projectService.getProjectData(params);
+        model.addAttribute(map);
+
+        return "popup/cam_project/engineering/depositInfo";
+    }
+
     @RequestMapping("/intra/cam_project/purcInfo.do")
     public String purcInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -1299,5 +1312,13 @@ public class ProjectController {
         model.addAttribute("params", params);
 
         return "popup/cam_project/budgetChangeInfo";
+    }
+
+    @RequestMapping("/project/getDepositList")
+    public String getDepositList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list", projectService.getDepositList(params));
+
+        return "jsonView";
     }
 }

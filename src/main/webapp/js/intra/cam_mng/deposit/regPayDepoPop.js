@@ -55,6 +55,10 @@ var regPayDepo = {
         if($("#payDepoSn").val() != ""){
             regPayDepo.fn_setData();
         }
+
+        if($("#paramPjtSn").val() != ""){
+            regPayDepo.fn_setProjectData();
+        }
     },
 
     fn_setData: function (){
@@ -71,6 +75,27 @@ var regPayDepo = {
 
             }
         })
+    },
+
+    fn_setProjectData: function (){
+        var data = {
+            pjtSn : $("#paramPjtSn").val()
+        }
+
+        $.ajax({
+            url : "/project/getProjectData",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                var rs = rs.data;
+                console.log(rs)
+                $("#pjtSn").val(rs.PJT_SN);
+                $("#pjtNm").val(rs.PJT_NM);
+
+                $("#depoTitle").val("입금신청 - " + rs.PJT_NM);
+            }
+        });
     },
 
     fn_save : function (){

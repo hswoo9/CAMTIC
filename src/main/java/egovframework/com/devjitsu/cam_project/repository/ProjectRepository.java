@@ -544,4 +544,8 @@ public class ProjectRepository extends AbstractDAO {
     public Map<String, Object> getProjectByPjtCd(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("project.getProjectByPjtCd", params);
     }
+
+    public List<Map<String, Object>> getDepositList(Map<String, Object> params) {
+        return selectList("project.getDepositList", params);
+    }
 }

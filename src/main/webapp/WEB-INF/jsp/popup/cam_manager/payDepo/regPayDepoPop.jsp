@@ -90,7 +90,7 @@
                 <tr>
                     <th scope="row" class="text-center th-color">입금액(VAT포함)</th>
                     <td colspan="2">
-                        <input type="text" id="depoAmt" style="text-align: right; width: 90%;" onkeyup="regPayDepo.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                        <input type="text" id="depoAmt" style="text-align: right; width: 90%;" value="0" onkeyup="regPayDepo.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                     </td>
                     <th scope="row" class="text-center th-color">담당자</th>
                     <td colspan="2">
