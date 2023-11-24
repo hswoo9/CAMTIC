@@ -51,7 +51,7 @@ var incmExpInfo = {
                     '</td>';
                 tblHtml += '<td><span id="BGT1_NM">' + rs[i].BGT1_NM + '</span></td>';
                 tblHtml += '<td><span id="BGT2_NM">' + rs[i].BGT2_NM + '</span></td>';
-                if(rs[i].DIV_FG_NM == "항"){
+                if(rs[i].DIV_FG_NM == "항" || $("#setYn").val() == "Y"){
                     tblHtml += '<td><span id="BGT_NM">' + rs[i].BGT_NM + '</span></td>';
                 } else {
                     tblHtml += '<td></td>';
