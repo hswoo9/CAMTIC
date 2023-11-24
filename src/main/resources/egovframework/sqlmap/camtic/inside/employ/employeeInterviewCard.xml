@@ -55,6 +55,7 @@
 <!--    리스트(조회)-->
     <select id="getInterviewCardList" parameterType="map" resultType="map">
         select
+        row_number() OVER (ORDER BY card_number ASC) AS row_num,
         DATE_FORMAT(deic.card_interview_date,'%Y-%m-%d') as card_interview_date,
         deic.EMP_SEQ,
         deic.card_interviewer,

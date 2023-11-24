@@ -96,7 +96,7 @@ var employeeList = {
             /*dataBound: ,*/
             columns: [
                 {
-                    field: "card_number",
+                    field: "row_num",
                     title: "순번",
                     width: "5%"
                 },
