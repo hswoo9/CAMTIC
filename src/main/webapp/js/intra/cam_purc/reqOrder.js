@@ -1,12 +1,13 @@
 var reqOr = {
-    
+
     global : {
         
     },
-    fn_defaultScript: function (){
+
+    fn_defaultScript : function(){
         customKendo.fn_textBox(["crmNm"
                                 ,"estAmt", "vatAmt", "totAmt", "itemNm", "itemStd"
-                                ,"itemEa", "itemUnitAmt", "itemUnit", "itemAmt", "itemEtc"])
+                                ,"itemEa", "itemUnitAmt", "itemUnit", "itemAmt", "itemEtc"]);
 
         var radioDataSource = [
             { label: "R&D", value: "R" },
@@ -142,9 +143,81 @@ var reqOr = {
             $("#totAmt").val(comma(totAmt));
         });
 
+        reqOr.fn_orderHtmlSet();
     },
 
-    fn_amtCalculator : function (){
+    fn_orderHtmlSet : function(){
+        let html = ''
+        html += '<tr>';
+        html += '   <th scope="row" class="text-center th-color">발주일</th>';
+        html += '   <td>';
+        html += '       <input id="orderDt" style="width: 150px"/>';
+        html += '   </td>';
+        html += '   <th scope="row" class="text-center th-color">납품 요청일</th>';
+        html += '   <td>';
+        html += '       <input id="goodsDt" style="width: 150px"/>';
+        html += '   </td>';
+        html += '</tr>';
+        html += '<tr>';
+        html += '   <th scope="row" class="text-center th-color">전화번호</th>';
+        html += '   <td>';
+        html += '       <input id="PHNum" style="width: 300px"/>';
+        html += '   </td>';
+        html += '   <th scope="row" class="text-center th-color">팩스번호</th>';
+        html += '   <td>';
+        html += '       <input id="FaxNum" style="width: 300px"/>';
+        html += '   </td>';
+        html += '</tr>';
+        html += '<tr>';
+        html += '   <th scope="row" class="text-center th-color">특이사항</th>';
+        html += '   <td colspan="3">';
+        html += '       <textarea id="significant" style="width: 1080px; height: 100px"></textarea>';
+        html += '   </td>';
+        html += '</tr>';
+        $("#order").append(html);
+
+        customKendo.fn_datePicker("orderDt", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("goodsDt", '', "yyyy-MM-dd", new Date());
+        $("#orderDt, #goodsDt").attr("readonly", true);
+        customKendo.fn_textBox(["PHNum", "FaxNum"]);
+        customKendo.fn_textArea(["significant"]);
+
+        const result = customKendo.fn_customAjax("/purc/getPurcClaimData", {
+            claimSn : $("#claimSn").val(),
+            purcSn : $("#purcSn").val()
+        });
+        const claimMap = result.data;
+        if(claimMap != null){
+            $("#orderDt").val(claimMap.ORDER_DT);
+            $("#goodsDt").val(claimMap.GOODS_DT);
+            $("#PHNum").val(claimMap.PH_NUM);
+            $("#FaxNum").val(claimMap.FAX_NUM);
+            $("#significant").val(claimMap.SIGNIFICANT);
+        }
+    },
+
+    fn_orderSave : function(){
+        const data = {
+            claimSn: $("#claimSn").val(),
+            orderDt: $("#orderDt").val(),
+            goodsDt: $("#goodsDt").val(),
+            PHNum: $("#PHNum").val(),
+            FaxNum: $("#FaxNum").val(),
+            significant: $("#significant").val()
+        }
+
+        if(data.orderDt == ""){alert("발주일을 입력해주세요"); return;}
+        if(data.goodsDt == ""){alert("납품요청일를 입력해주세요"); return;}
+
+        var result = customKendo.fn_customAjax("/purc/setOrderInfo", data);
+        if(result.flag){
+            alert("데이터 저장이 완료되었습니다.");
+        }else{
+            alert("저장 중 오류가 발생하였습니다.");
+        }
+    },
+
+    fn_amtCalculator : function(){
 
         var len = $("#claimTbody > tr").length;
         var vatAmt = 0;
@@ -169,7 +242,7 @@ var reqOr = {
         $("#totAmt").val(comma(totAmt));
     },
 
-    fn_popCamCrmList : function (){
+    fn_popCamCrmList : function(){
         var url = "/crm/pop/popCrmList.do";
         var name = "_blank";
         var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
@@ -185,60 +258,7 @@ var reqOr = {
         return inputNumberFormat(e);
     },
 
-    addRow: function (){
-        var len = $("#claimTbody > tr").length;
-        var html = '';
-
-        html += '<tr class="claimItem newArray" id="item'+len+'">';
-        html += '   <td style="text-align: center">' +
-            '           <div id="claimIndex">'+(len + 1)+'</div>' +
-            '       </td>' +
-            '       <td>' +
-            '           <input type="text" id="itemNm'+len+'" class="itemNm">' +
-            '       </td>' +
-            '       <td>' +
-            '           <input type="text" id="itemStd'+len+'" class="itemStd">' +
-            '       </td>' +
-            '       <td>' +
-            '           <input type="text" id="itemEa'+len+'" style="text-align: right" class="itemEa" onkeyup="reqOr.fn_calc(\''+len+'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-            '       </td>' +
-            '       <td>' +
-            '           <input type="text" id="itemUnitAmt'+len+'" style="text-align: right" class="itemUnitAmt" onkeyup="reqOr.fn_calc(\''+len+'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-            '       </td>' +
-            '       <td>' +
-            '           <input type="text" id="itemUnit'+len+'" class="itemUnit">' +
-            '       </td>' +
-            '       <td>' +
-            '           <input type="text" id="itemAmt'+len+'" class="itemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-            '       </td>' +
-            '       <td>' +
-            '           <label for="itemEtc'+len+'"></label><input type="text" id="itemEtc'+len+'" class="itemEtc">' +
-            '       </td>' +
-            '       <td>' +
-            '           <span id="prodCd'+len+'"></span>' +
-            '       </td>' +
-            '       <td style="text-align: center" class="listDelBtn">' +
-            '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqOr.fn_delete(this)">' +
-            '               <span class="k-button-text">삭제</span>' +
-            '           </button>' +
-            '       </td>';
-        html += '</tr>';
-
-        $("#claimTbody").append(html);
-
-        customKendo.fn_textBox(["itemNm" + len, "itemStd" + len
-            ,"itemEa" + len, "itemUnitAmt" + len, "itemUnit" + len, "itemAmt" + len, "itemEtc" + len])
-
-        var radioProdDataSource = [
-            { label: "해당없음", value: "N" },
-            { label: "자산", value: "A" },
-            { label: "유지보수", value: "E" },
-        ]
-
-        customKendo.fn_radioGroup("prodCd" + len, radioProdDataSource, "horizontal");
-    },
-
-    fn_delete: function (e){
+    fn_delete : function(e){
         var len = $("#claimTbody > tr").length
 
         if(len > 1){
@@ -246,7 +266,7 @@ var reqOr = {
         }
     },
 
-    fn_save : function (){
+    fn_save : function(){
         var parameters = {
             purcSn : $("#purcSn").val(),
             purcType : $("#purcType").data("kendoRadioGroup").value(),
@@ -338,7 +358,8 @@ var reqOr = {
             }
         });
     },
-    fn_projectPop : function (){
+
+    fn_projectPop : function(){
 
         var url = "/project/pop/projectView.do?busnClass="+ $("input[name='purcType']:checked").val();
 
@@ -347,7 +368,7 @@ var reqOr = {
         var popup = window.open(url, name, option);
     },
 
-    fn_setItem: function(e){
+    fn_setItem : function(e){
 
         var len = e.itemList.length;
         var index = 0;
@@ -459,7 +480,7 @@ var reqOr = {
         this.fn_amtCalculator();
     },
 
-    fn_setClaimItem: function(e){
+    fn_setClaimItem : function(e){
         var len = e.itemList.length;
         var index = 0;
         var html = '';
@@ -579,7 +600,6 @@ var reqOr = {
                 $("#pjtSelBtn").css("display", "none");
                 $("#crmSelBtn").css("display", "none");
                 $(".listDelBtn").text("-");
-                $("#addBtn").css("display", "none");
             }
         }
     },
@@ -598,6 +618,7 @@ var reqOr = {
                 buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="reqOr.fn_save()">저장</button>';
                 buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+claimMap.DOC_ID+'\', \''+claimMap.DOC_MENU_CD+'\', \''+claimMap.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
             }else if(claimMap.STATUS == "100"){
+                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="reqOr.fn_orderSave()">발주 저장</button>';
                 buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+claimMap.DOC_ID+'\', \''+claimMap.APPRO_KEY+'\', \''+claimMap.DOC_MENU_CD+'\');">열람</button>';
             }else{
                 buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="reqOr.fn_save()">저장</button>';
@@ -610,7 +631,7 @@ var reqOr = {
         $("#reqPurcBtnDiv").html(buttonHtml);
     },
 
-    claimDrafting: function() {
+    claimDrafting : function() {
         $("#claimDraftFrm").one("submit", function() {
             var url = "/popup/cam_purc/approvalFormPopup/claimingApprovalPop.do";
             var name = "_self";

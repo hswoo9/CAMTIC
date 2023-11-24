@@ -45,4 +45,6 @@ public interface PurcService {
     void updItemUnAssetStat(Map<String, Object> params);
 
     Map<String, Object> getCrmInfo(Map<String, Object> params);
+
+    void setOrderInfo(Map<String, Object> params);
 }

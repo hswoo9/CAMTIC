@@ -70,7 +70,7 @@ var regUnRnd = {
         var tab13Url = "/intra/cam_project/teamInfo.do";        // 입금관리
         var tab14Url = "/intra/cam_project/teamInfo.do";        // 협업
 
-        var tab15Url = "/intra/cam_project/teamInfo.do";        // 실적관리
+        var tab15Url = "/intra/cam_project/performanceInfo.do";        // 실적관리
 
 
         if (setParameters != null && setParameters.PJT_SN != null) {

@@ -355,8 +355,16 @@ public class ProjectRepository extends AbstractDAO {
         insert("project.insResultInfo", params);
     }
 
+    public void insPerformanceInfo(Map<String, Object> params) {
+        insert("project.insPerformanceInfo", params);
+    }
+
     public void updResultInfo(Map<String, Object> params) {
         update("project.updResultInfo", params);
+    }
+
+    public void setPerformanceInfo(Map<String, Object> params) {
+        update("project.setPerformanceInfo", params);
     }
 
     public void updResultDesignFile(Map<String, Object> fileInsMap) {

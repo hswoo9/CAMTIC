@@ -848,4 +848,18 @@
         AND
             REPLACE(CRM_NO, '-', '') LIKE CONCAT('%', #{excelCrmNo}, '%')
     </select>
+
+    <update id="setOrderInfo" parameterType="map">
+        /* setOrderInfo */
+        UPDATE
+            CAM_MNG.DJ_PURC_CLAIM
+        SET
+            ORDER_DT = #{orderDt}
+            , GOODS_DT = #{goodsDt}
+            , PH_NUM = #{PHNum}
+            , FAX_NUM = #{FaxNum}
+            , SIGNIFICANT = #{significant}
+        WHERE
+            CLAIM_SN = #{claimSn}
+    </update>
 </mapper>

@@ -441,4 +441,21 @@ public class PurcController {
 
         return "jsonView";
     }
+
+
+    /**
+     * 구매내역 비자산처리
+     * @param params
+     * @return
+     */
+    @RequestMapping("/purc/setOrderInfo")
+    public String setOrderInfo(@RequestParam Map<String, Object> params, Model model) {
+        try{
+            purcService.setOrderInfo(params);
+            model.addAttribute("code", 200);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
 }

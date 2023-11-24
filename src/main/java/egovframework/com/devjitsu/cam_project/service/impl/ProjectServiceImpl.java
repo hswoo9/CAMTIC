@@ -854,6 +854,18 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public void setPerformanceInfo(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir) {
+        Map<String, Object> map = new HashMap<>();
+        map = projectRepository.getResultInfo(params);
+        if(map == null){
+            projectRepository.insPerformanceInfo(params);
+        } else {
+            params.put("rsSn", map.get("RS_SN"));
+            projectRepository.setPerformanceInfo(params);
+        }
+    }
+
+    @Override
     public Map<String, Object> getResultInfo(Map<String, Object> params) {
         Map<String, Object> result = new HashMap<>();
 
