@@ -477,8 +477,10 @@ var resultInfo = {
             var url = "";
             if($("#busnClass").val() == "D"){
                 url = "/popup/cam_project/approvalFormPopup/resApprovalPop.do";
-            }else if($("#busnClass").val() == "R" || $("#busnClass").val() == "S"){
+            }else if($("#busnClass").val() == "R"){
                 url = "/popup/cam_project/approvalFormPopup/rndResApprovalPop.do";
+            }else if($("#busnClass").val() == "S"){
+                url = "/popup/cam_project/approvalFormPopup/unRndResApprovalPop.do";
             }
             var name = "_self";
             var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"

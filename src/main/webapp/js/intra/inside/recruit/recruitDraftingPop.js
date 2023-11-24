@@ -1,18 +1,20 @@
-var budgetChangeInfo = {
-    global : {
-        searchAjaxData : {}
+var recruitDrafting = {
+    global: {
+        searchAjaxData: {}
     },
 
     fn_defaultScript : function(){
         this.gridReload();
     },
 
-    gridReload: function (){
-        budgetChangeInfo.global.searchAjaxData = {
-            pjtSn : $("#pjtSn").val()
+    gridReload : function() {
+        this.global.searchAjaxData = {
+            recruitInfoSn: $("recruitInfoSn").val()
         }
 
-        budgetChangeInfo.mainGrid("/projectRnd/getChangeList", budgetChangeInfo.global.searchAjaxData);
+        this.mainGrid("/inside/getDraftingList", {
+            recruitInfoSn: $("#recruitInfoSn").val()
+        });
     },
 
     mainGrid: function(url, params){
@@ -29,26 +31,25 @@ var budgetChangeInfo = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound: budgetChangeInfo.onDataBound,
             toolbar: [
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="budgetChangeInfo.changeDrafting()">' +
-                            '	<span class="k-button-text">세세목 변경서 작성</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="recruitDrafting.normalDrafting()">' +
+                            '	<span class="k-button-text">일반 기안문 작성</span>' +
                             '</button>';
                     }
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="budgetChangeInfo.reDrafting()">' +
-                            '	<span class="k-button-text">사업비 반납</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="recruitDrafting.officialDrafting()">' +
+                            '	<span class="k-button-text">공문 작성</span>' +
                             '</button>';
                     }
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="budgetChangeInfo.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="recruitDrafting.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -66,7 +67,7 @@ var budgetChangeInfo = {
                     field: "DOC_TITLE",
                     title: "문서제목",
                     template : function(e){
-                        return '<a onclick="approveDocView(\''+e.DOC_ID+'\', \''+e.APPRO_KEY+'\', \''+e.DOC_MENU_CD+'\')" style="font-weight: bold ">' + e.DOC_TITLE + '</a>'
+                        return '<a onclick="approveDocView(\''+e.DOC_ID+'\', \''+e.APPRO_KEY+'\', \''+e.DOC_MENU_CD+'\')" style="font-weight: bold ">' + e.DOC_TITLE + '</a>';
                     }
                 }, {
                     field: "DRAFT_DATE",
@@ -82,9 +83,9 @@ var budgetChangeInfo = {
                     width: 100,
                     template: function(e){
                         if(e.STATUS != "100"){
-                            return "요청중"
+                            return "요청중";
                         }else{
-                            return "결재완료"
+                            return "결재완료";
                         }
                     },
                 }
@@ -95,27 +96,27 @@ var budgetChangeInfo = {
         }).data("kendoGrid");
     },
 
-    changeDrafting: function() {
-        $("#changeDraftFrm").one("submit", function() {
-            var url = "/popup/cam_project/approvalFormPopup/changeApprovalPop.do";
-            var name = "changeApprovalPop";
-            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+    normalDrafting: function() {
+        $("#recruitDraftFrm").one("submit", function() {
+            var url = "/popup/inside/approvalFormPopup/recruitApprovalPop.do";
+            var name = "recruitApprovalPop";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50";
             var popup = window.open(url, name, option);
-            this.action = "/popup/cam_project/approvalFormPopup/changeApprovalPop.do";
+            this.action = "/popup/inside/approvalFormPopup/recruitApprovalPop.do";
             this.method = 'POST';
-            this.target = 'changeApprovalPop';
+            this.target = 'recruitApprovalPop';
         }).trigger("submit");
     },
 
-    reDrafting: function() {
-        $("#changeDraftFrm").one("submit", function() {
-            var url = "/popup/cam_project/approvalFormPopup/reApprovalPop.do";
-            var name = "reApprovalPop";
-            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+    officialDrafting: function() {
+        $("#recruitDraftFrm").one("submit", function() {
+            var url = "/popup/inside/approvalFormPopup/recruitOfficialApprovalPop.do";
+            var name = "recruitOfficialApprovalPop";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50";
             var popup = window.open(url, name, option);
-            this.action = "/popup/cam_project/approvalFormPopup/reApprovalPop.do";
+            this.action = "/popup/inside/approvalFormPopup/recruitOfficialApprovalPop.do";
             this.method = 'POST';
-            this.target = 'reApprovalPop';
+            this.target = 'recruitOfficialApprovalPop';
         }).trigger("submit");
-    },
+    }
 }

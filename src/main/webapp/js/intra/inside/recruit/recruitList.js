@@ -176,7 +176,7 @@ var recruitList = {
                     title: "결재",
                     width : 90,
                     template : function(e){
-                        return "<button type=\"button\" id=\"delvAppBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"recruitList.recruitDrafting('"+e.RECRUIT_INFO_SN+"')\">상신</button>";
+                        return "<button type=\"button\" id=\"delvAppBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"recruitList.recruitDraftingPop('"+e.RECRUIT_INFO_SN+"')\">결재</button>";
                     }
                 }
             ],
@@ -335,16 +335,10 @@ var recruitList = {
         }
     },
 
-    recruitDrafting : function(pk){
-        $("#recruitSn").val(pk);
-        $("#recruitDraftFrm").one("submit", function() {
-            var url = "/popup/inside/approvalFormPopup/recruitApprovalPop.do";
-            var name = "recruitApprovalPop";
-            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
-            var popup = window.open(url, name, option);
-            this.action = "/popup/inside/approvalFormPopup/recruitApprovalPop.do";
-            this.method = 'POST';
-            this.target = 'recruitApprovalPop';
-        }).trigger("submit");
+    recruitDraftingPop : function(pk){
+        var url = "/inside/pop/recruitDraftingPop.do?recruitInfoSn=" + pk;
+        var name = "recruitDraftingPop";
+        var option = "width=1000, height=598, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
     }
 }

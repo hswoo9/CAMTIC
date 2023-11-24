@@ -48,4 +48,18 @@ public class RecruitRepository extends AbstractDAO {
     public void insRecruitMemberDelete(Map<String, Object> params) {
         delete("recruit.insRecruitMemberDelete", params);
     }
+
+    public List<Map<String, Object>> getDraftingList(Map<String, Object> params) {
+        return selectList("recruit.getDraftingList", params);
+    }
+
+    public void insDraftInfo(Map<String, Object> params) {
+        insert("recruit.insDraftInfo", params);
+    }
+    public void updateDraftApprStat(Map<String, Object> params) {
+        update("recruit.updateDraftApprStat", params);
+    }
+    public void updateDraftFinalApprStat(Map<String, Object> params) {
+        update("recruit.updateDraftFinalApprStat", params);
+    }
 }

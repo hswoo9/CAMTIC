@@ -967,6 +967,59 @@
         WHERE
             EVAL_LOGIN_ID = #{evalLoginId}
     </delete>
+
+    <select id="getDraftingList" parameterType="map" resultType="map">
+        /*getDraftingList*/
+        SELECT
+            PC.*,
+            DI.APPRO_KEY,
+            DI.DOC_NO,
+            DI.DOC_MENU_CD,
+            DI.DOC_TITLE,
+            DI.DRAFT_EMP_NAME,
+            DATE_FORMAT(DI.DRAFT_DT, '%Y-%m-%d') AS DRAFT_DATE
+        FROM
+            CAM_INSIDE.DJ_RECRUIT_DRAFT PC
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON PC.DOC_ID = DI.DOC_ID
+        WHERE
+            PC.RECRUIT_INFO_SN = #{pjtSn}
+        ORDER BY RECRUIT_DRAFT_SN DESC
+    </select>
+
+    <insert id="insChangeInfo" parameterType="map">
+        INSERT INTO CAM_INSIDE.DJ_RECRUIT_DRAFT
+            (
+                RECRUIT_INFO_SN,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{recruitInfoSn},
+                #{empSeq}
+            )
+    </insert>
+
+    <update id="updateChangeApprStat" parameterType="map">
+        /* updateChangeApprStat */
+        UPDATE CAM_INSIDE.DJ_RECRUIT_DRAFT
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            RECRUIT_DRAFT_SN = (SELECT MAX(RECRUIT_DRAFT_SN) FROM CAM_INSIDE.DJ_RECRUIT_DRAFT WHERE RECRUIT_INFO_SN = #{recruitInfoSn})
+    </update>
+
+    <update id="updateChangeFinalApprStat" parameterType="map">
+        /* updateChangeFinalApprStat */
+        UPDATE CAM_INSIDE.DJ_PJT_CHANGE
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            RECRUIT_DRAFT_SN = (SELECT MAX(RECRUIT_DRAFT_SN) FROM CAM_INSIDE.DJ_RECRUIT_DRAFT WHERE RECRUIT_INFO_SN = #{recruitInfoSn})
+    </update>
 </mapper>
 
 

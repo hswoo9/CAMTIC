@@ -141,11 +141,11 @@ var employeeList = {
                     field: "card_interviewer",
                     title: "면담자",
                     width: "10%"
-                }, {
+                }, /*{
                     field: "card_status",
                     title: "상태",
                     width: "5%"
-                }]
+                }*/]
         }).data("kendoGrid");
     },
 

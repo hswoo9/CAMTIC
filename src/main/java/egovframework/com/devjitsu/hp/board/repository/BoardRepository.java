@@ -86,8 +86,8 @@ public class BoardRepository extends AbstractDAO {
         return selectList("boardCt.getFocusList", param);
     }
 
-    public List<Map<String, Object>> getRecruitList(Map<String, Object> param) {
-        return selectList("boardCt.getRecruitList", param);
+    public List<Map<String, Object>> getMainRecruitList(Map<String, Object> param) {
+        return selectList("boardCt.getMainRecruitList", param);
     }
 
     public List<Map<String, Object>> getSnsPosts(Map<String, Object> param) {

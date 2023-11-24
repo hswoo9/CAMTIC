@@ -38,6 +38,38 @@
                 </table>
             </td>
         </tr>
+        <tr>
+            <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">
+                <table border="3" style="border-collapse: collapse; margin: 0px;">
+                    <tr>
+                        <td colspan="7" style="height:25px;background-color:#FFFFFF; text-align:left; width: 60px; border-top: none; border-right: none; border-left: none; border-bottom: none;"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="7" style="height:30px;background-color:#FFFFFF; text-align:left; width: 60px; border-top: none; border-right: none; border-left: none"><p style="font-size:17px;"><b>4. 구매예정</b></p></td>
+                    </tr>
+                    <tr>
+                        <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 74px"><p style="font-size:12px;"><b>구분</b></p></td>
+                        <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 80px"><p style="font-size:12px;"><b>구분</b></p></td>
+                        <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 96px"><p style="font-size:12px;"><b>건명</b></p></td>
+                        <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 96px"><p style="font-size:12px;"><b>수량</b></p></td>
+                        <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 96px"><p style="font-size:12px;"><b>단위</b></p></td>
+                        <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 96px"><p style="font-size:12px;"><b>견정금액</b></p></td>
+                        <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 96px"><p style="font-size:12px;"><b>거래처</b></p></td>
+                    </tr>
+                    <c:forEach var="list" items="${invList}" varStatus="status">
+                        <tr>
+                            <td style="height:30px; background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">단독</p></td>
+                            <td style="height:30px; background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">구매</p></td>
+                            <td style="height:30px; background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><c:out value="${list.INV_NM}"/></p></td>
+                            <td style="height:30px; background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><c:out value="${list.INV_CNT}"/></p></td>
+                            <td style="height:30px; background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><c:out value="${list.INV_UNIT}"/></p></td>
+                            <td style="height:30px; background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><fmt:formatNumber value="${list.EST_TOT_AMT}" pattern="#,###" /></p></td>
+                            <td style="height:30px; background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><c:out value="${list.EST_OFC}"/></p></td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </td>
+        </tr>
     </table>
 </div>
 <script>
@@ -46,7 +78,7 @@
     function approvalDataInit(){
         var approvalParams = {};
         approvalParams.mod = "W";
-        approvalParams.formId = "143";
+        approvalParams.formId = "151";
         approvalParams.compSeq = "1000";
         approvalParams.empSeq = "${loginVO.uniqId}";
         approvalParams.docTitle = "[결과보고서]${loginVO.orgnztNm}-${loginVO.name}";

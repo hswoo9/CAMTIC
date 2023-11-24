@@ -18,7 +18,7 @@ var evalInApplicationList = {
         var result = customKendo.fn_customAjax("/inside/getRecruit.do", evalInApplicationList.global.saveAjaxData);
         if(result.flag){
             $("#recruitTitle").text(result.recruit.RECRUIT_TITLE);
-            customKendo.fn_dropDownList("recruitAreaInfoSn", result.recruit.recruitArea, "AREA_TITLE", "RECRUIT_AREA_INFO_SN", "2")
+            customKendo.fn_dropDownList("recruitAreaInfoSn", result.recruit.recruitArea, "JOB", "RECRUIT_AREA_INFO_SN", "2")
             $("#recruitAreaInfoSn").data("kendoDropDownList").bind("change", evalInApplicationList.gridReload);
         }
     },
@@ -96,11 +96,7 @@ var evalInApplicationList = {
                     title: "평가",
                     width : 100,
                     template : function(e){
-                        var chk = "";
-                        if(e.INSCREEN_YN){
-                            chk = "disabled"
-                        }
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="evalInApplicationList.evalInScreenPop(this)" ' + chk + '>' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="evalInApplicationList.evalInScreenPop(this)">' +
                             '	<span class="k-button-text">면접심사</span>' +
                             '</button>';
 
