@@ -196,7 +196,7 @@
             BOARD_ARTICLE_CONTENT = #{content},
             START_DT = #{startDt},
             END_DT = #{endDt},
-            SNS_TYPE = #{snsType}
+            SNS_TYPE = #{snsType},
             SNS_URL = #{snsUrl}
         WHERE
             BOARD_ARTICLE_ID = #{boardArticleId}
