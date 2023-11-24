@@ -987,7 +987,7 @@
         ORDER BY RECRUIT_DRAFT_SN DESC
     </select>
 
-    <insert id="insChangeInfo" parameterType="map">
+    <insert id="insDraftInfo" parameterType="map">
         INSERT INTO CAM_INSIDE.DJ_RECRUIT_DRAFT
             (
                 RECRUIT_INFO_SN,
@@ -1000,8 +1000,8 @@
             )
     </insert>
 
-    <update id="updateChangeApprStat" parameterType="map">
-        /* updateChangeApprStat */
+    <update id="updateDraftApprStat" parameterType="map">
+        /* updateDraftApprStat */
         UPDATE CAM_INSIDE.DJ_RECRUIT_DRAFT
         SET
             STATUS = #{approveStatCode},
@@ -1010,9 +1010,9 @@
             RECRUIT_DRAFT_SN = (SELECT MAX(RECRUIT_DRAFT_SN) FROM CAM_INSIDE.DJ_RECRUIT_DRAFT WHERE RECRUIT_INFO_SN = #{recruitInfoSn})
     </update>
 
-    <update id="updateChangeFinalApprStat" parameterType="map">
-        /* updateChangeFinalApprStat */
-        UPDATE CAM_INSIDE.DJ_PJT_CHANGE
+    <update id="updateDraftFinalApprStat" parameterType="map">
+        /* updateDraftFinalApprStat */
+        UPDATE CAM_INSIDE.DJ_RECRUIT_DRAFT
         SET
             STATUS = #{approveStatCode},
             APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
