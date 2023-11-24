@@ -983,7 +983,7 @@
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON PC.DOC_ID = DI.DOC_ID
         WHERE
-            PC.RECRUIT_INFO_SN = #{pjtSn}
+            PC.RECRUIT_INFO_SN = #{recruitInfoSn}
         ORDER BY RECRUIT_DRAFT_SN DESC
     </select>
 
