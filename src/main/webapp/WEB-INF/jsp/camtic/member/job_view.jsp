@@ -36,10 +36,9 @@
         <div class="inner">
             <jsp:include page="/WEB-INF/jsp/template/camtic/lnb.jsp" flush="false"/>
             <div id="content">
-
                 <ul id="navigation">
                     <li><a href="/camtic"><img src="/images/camtic/home_3.png" class="homeImage">홈으로</a></li>
-                    <li class="">홍보관</li>
+                    <li class="">직원과 함께</li>
                     <li class=""><span>채용공고</span></li>
                 </ul>
                 <div id="title">
