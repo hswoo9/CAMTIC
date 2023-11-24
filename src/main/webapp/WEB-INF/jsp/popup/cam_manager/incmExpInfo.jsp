@@ -11,6 +11,7 @@
 
 <input type="hidden" id="subPjtCd" value="${params.pjtCd}" />
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}" />
+<input type="hidden" id="setYn" value="" />
 
 <input type="hidden" id="step" value="E0" />
 <input type="hidden" id="stepColumn" value="STEP1" />

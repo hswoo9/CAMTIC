@@ -53,7 +53,7 @@
                         <span>
                             <input type="text" id="pjtNm" disabled value="${pjtData.PJT_NM}"  style="width: 40%;">
                             <input type="hidden" id="pjtSn" value="${pjtData.PJT_SN}" />
-                            <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="regIncm.fn_projectPop('regPay')">검색</button>
+                            <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="regIncm.fn_projectPop()">검색</button>
                         </span>
                     </td>
                 </tr>

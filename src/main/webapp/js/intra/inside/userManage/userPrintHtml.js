@@ -408,5 +408,4 @@ var userPrintHtml = {
 
         return html;
     }
-
-}
+};

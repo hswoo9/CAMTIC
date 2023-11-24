@@ -144,7 +144,13 @@ var inTimeSetPop = {
     },
 
     selInEvalItemPop : function(){
-        var url = "/inside/pop/selInEvalItemPop.do?recruitInfoSn=" + $("#recruitInfoSn").val() + "&recruitEvalSheetId=" + $("#recruitEvalSheetId").val();
+        let recruitAreaInfoSn = $("#recruitAreaInfoSn").val();
+        console.log("recruitAreaInfoSn",recruitAreaInfoSn);
+        if(!recruitAreaInfoSn || recruitAreaInfoSn === ""){
+            var url = "/inside/pop/selInEvalItemPop.do?recruitInfoSn=" + $("#recruitInfoSn").val() + "&recruitEvalSheetId=" + $("#recruitEvalSheetId").val();
+        }else {
+            var url = "/inside/pop/selInEvalItemPop.do?recruitInfoSn=" + $("#recruitInfoSn").val() + "&recruitEvalSheetId=" + $("#recruitEvalSheetId").val() + "&recruitAreaInfoSn=" + recruitAreaInfoSn;
+        }
         var name = "selInEvalItemPop";
         var option = "width=1000, height=680, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);

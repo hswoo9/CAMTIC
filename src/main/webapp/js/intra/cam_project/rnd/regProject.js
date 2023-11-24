@@ -72,7 +72,7 @@ var regRnd = {
     fn_setTab : function(setParameters){
         var tab0Url = "/projectRnd/detailInfo.do";               // 상세정보 (수주)
         var tab1Url = "/projectRnd/researcherInfo.do";           // 연구원관리
-        // var tab2Url = "/projectRnd/reqPartRate.do";              // 참여율요청
+        // var tab2Url = "/projectRnd/reqPartRate.do";                  // 참여율요청
         var tab3Url = "/projectRnd/partRate.do";                 // 참여율관리
 
         var tab4Url = "/projectRnd/rndDevPlan.do";               // 사업수행계획
@@ -89,10 +89,10 @@ var regRnd = {
         var tab9Url = "/intra/cam_project/bustInfo.do";          // 출장관리
         // var tab10Url = "/intra/cam_project/teamInfo.do";             // 협업관리
         var tab11Url= "/intra/cam_project/purcInfo.do";          // 구매관리
-        var tab12Url= "/intra/cam_project/budgetChangeInfo.do";          // 세세목 변경신청
-        var tab13Url= "/intra/cam_project/budgetChangeInfo.do";          // 입금관리
-        var tab14Url= "/intra/cam_project/purcInfo.do";                 // 정산/원가
-        var tab15Url= "/intra/cam_project/performanceInfo.do";                 // 실적관리
+        var tab12Url= "/intra/cam_project/budgetChangeInfo.do";  // 세세목 변경신청
+        var tab13Url= "/intra/cam_project/depositInfo.do";       // 입금관리
+        var tab14Url= "/intra/cam_project/purcInfo.do";          // 정산/원가
+        var tab15Url= "/intra/cam_project/performanceInfo.do";   // 실적관리
 
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -195,7 +195,7 @@ var regRnd = {
                 tabStrip.enable(tabStrip.tabGroup.children().eq(8));
             }
 
-            tabStrip.disable(tabStrip.tabGroup.children().eq(12));
+            // tabStrip.disable(tabStrip.tabGroup.children().eq(12));
             tabStrip.disable(tabStrip.tabGroup.children().eq(13));
 
         }

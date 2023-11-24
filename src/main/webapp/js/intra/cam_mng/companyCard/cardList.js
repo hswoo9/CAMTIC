@@ -7,6 +7,7 @@ var cardList = {
     },
 
     fn_defaultScript : function(){
+        customKendo.fn_textBox(["searchValue"])
         cardList.mainGrid();
     },
 

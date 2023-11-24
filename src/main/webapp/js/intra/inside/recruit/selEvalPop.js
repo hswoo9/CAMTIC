@@ -43,11 +43,7 @@ var selEvalPop = {
         }
 
         var result = customKendo.fn_customAjax("/inside/getRecruitAreaList.do", selEvalPop.global.searchAjaxData);
-
-        console.log("result recruitArea : ",result.recruitArea);
-
         customKendo.fn_dropDownList("recruitAreaInfoSn", result.recruitArea, "JOB","RECRUIT_AREA_INFO_SN", 2);
-
 
         $("#recruitAreaInfoSn").data("kendoDropDownList").bind("change", function(){
             if($("#tabA").hasClass("k-state-active")){
@@ -59,7 +55,6 @@ var selEvalPop = {
 
         $("#recruitAreaInfoSn").data("kendoDropDownList").select(1)
         var selectedValue = $("#recruitAreaInfoSn").data("kendoDropDownList").value();
-        console.log("선택된 드롭다운 : ",selectedValue);
 
         $("#mainDiv").kendoTabStrip({
             animation:  {
@@ -83,10 +78,7 @@ var selEvalPop = {
             method: "GET",
             data: { recruitAreaInfoSn: defaultDeptName },
             success: function(response) {
-                console.log("Controller Response: ", response);
                 var deptNameFromResponse = response.recruitArea.DEPT_NAME;
-                console.log("DEPT_NAME : ",deptNameFromResponse);
-
                 $("#" + id).kendoGrid({
                     dataSource: dataSource,
                     sortable: true,
@@ -116,7 +108,6 @@ var selEvalPop = {
                         // {
                         //     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
                         //     template : function(e){
-                        //         console.log("DEPT_NAME: ", e.DEPT_NAME, " deptNameFromResponse: ", deptNameFromResponse);
                         //         var checked = e.CHK > 0 || (
                         //             e.DEPT_NAME === deptNameFromResponse &&
                         //             ["팀장", "본부장", "센터장"].includes(e.DUTY_NAME)||
@@ -171,7 +162,6 @@ var selEvalPop = {
                         }, {
                             title : "",
                             template : function(e){
-                                console.log(e);
                                 return '<button type="button" id="delBtn" class="k-button k-button-solid-error" onclick="selEvalPop.fn_del(' + e.EVAL_LOGIN_ID + ')">삭제</button>'
                             },
                             width: 70,
@@ -233,8 +223,6 @@ var selEvalPop = {
     },
 
     gridReload : function(id) {
-        console.log('서류/면접직원(위원) 설정 gridReload호출');
-
         if($("#divId").val() != ''){
             id = $("#divId").val();
         } else {
@@ -328,24 +316,36 @@ var selEvalPop = {
 }
 
 function userDataSet(a){
-    var data = a
+    var evalArr = new Array();
+    var gridId = $("#divId").val() == "" ? "mainGrid" : "mainGrid2"
 
-    for(var i = 0; i < data.length; i++){
-        if($("#divId").val() == "mainGrid2"){
-            data[i].evalType = "in";
-        }else{
-            data[i].evalType = "doc";
+    for(var i = 0; i < a.length; i++){
+        var flag = true;
+        $.each($("#" + gridId + " tbody tr"), function(){
+            var dataItem = $("#" + gridId).data("kendoGrid").dataItem($(this));
+            if(a[i].empSeq == dataItem.EMP_SEQ){
+                flag = false;
+            }
+        })
+
+        if(flag){
+            if($("#divId").val() == "mainGrid2"){
+                a[i].evalType = "in";
+            }else{
+                a[i].evalType = "doc";
+            }
+            a[i].evalEmpSeq = a[i].empSeq;
+            a[i].recruitInfoSn = $("#recruitInfoSn").val()
+            a[i].recruitAreaInfoSn = $("#recruitAreaInfoSn").val()
+            a[i].empSeq = $("#empSeq").val()
+
+            evalArr.push(a[i]);
         }
-        data[i].evalEmpSeq = data[i].empSeq;
-        data[i].recruitInfoSn = $("#recruitInfoSn").val()
-        data[i].recruitAreaInfoSn = $("#recruitAreaInfoSn").val()
-        data[i].empSeq = $("#empSeq").val()
     }
 
     var parameters = {
-        array : JSON.stringify(data)
+        array : JSON.stringify(evalArr)
     }
-
 
     $.ajax({
         url : "/inside/insRecruitMember",
@@ -353,17 +353,10 @@ function userDataSet(a){
         type : "post",
         dataType : "json",
         success : function(rs){
-            console.log(rs);
             if(rs.code == 200){
                 alert("저장되었습니다.");
                 selEvalPop.gridReload();
             }
         }
     })
-
-
-    console.log(data);
-
-
-
 }

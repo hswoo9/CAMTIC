@@ -999,4 +999,23 @@ public class PayAppServiceImpl implements PayAppService {
     public List<Map<String, Object>> getPartRatePay(Map<String, Object> params) {
         return payAppRepository.getPartRatePay(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getDepositList(Map<String, Object> params) {
+        return payAppRepository.getDepositList(params);
+    }
+
+    @Override
+    public void setPayDepo(Map<String, Object> params) {
+        if(params.containsKey("payDepoSn")){
+            payAppRepository.updPayDepo(params);
+        } else {
+            payAppRepository.insPayDepo(params);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getPayDepoData(Map<String, Object> params) {
+        return payAppRepository.getPayDepoData(params);
+    }
 }

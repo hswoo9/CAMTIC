@@ -1161,6 +1161,11 @@ public class ProjectServiceImpl implements ProjectService {
     public Map<String, Object> getProjectByPjtCd(Map<String, Object> params) {
         return projectRepository.getProjectByPjtCd(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getDepositList(Map<String, Object> params) {
+        return projectRepository.getDepositList(params);
+    }
 }
 
 

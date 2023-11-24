@@ -32,6 +32,7 @@
     }
     .__lab {display:inline-flex;gap:0.2rem;align-items:center;position:relative;}
     .__lab span{font-weight: normal;}
+
 </style>
 
 <div id="mainContent">
@@ -252,20 +253,13 @@
             <div style="padding: 25px 0 0 25px;">
                 <h4 class="media-heading" style="color: #333; font-size: 18px; font-weight: 600; letter-spacing: -2px; position: relative;">
                     캠스팟 즐겨찾기
-                    <img src="/images/ico/ic_setting_on.png" alt="" id ="favoriteMenu" class="media-object img-circle" style="position: absolute; top: 0; right: 46px; width: 20px; cursor:pointer;" >
+                    <img src="/images/ico/ic_setting.png" alt="" id ="favoriteMenu" onclick="fn_favoriteMenu();" class="media-object img-circle" style="position: absolute; top: 0; right: 46px; width: 20px; cursor:pointer;" >
                 </h4>
             </div>
-            <div class="panel-body" style="padding:5px;">
-                <div class="list" style="border: 1px solid #eee; border-radius: 10px; width: 300px; height: 195px; margin: 10px auto; position: relative;">
-                    <div style="display: flex; flex-wrap: wrap; height:100%;">
-                        <div style="display: flex; flex-wrap: wrap; height:100%;">
-                            <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 13px;">캠스팟>일정</span></div>
-                            <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 13px;">캠스팟>제안제도</span></div>
-                            <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 13px;">캠아이템>기준정보</span></div>
-                            <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 13px;">캠매니저>예산관리</span></div>
-                            <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 13px;">캠인사이드>인사관리</span></div>
-                            <div style="line-height: 30px; width: 50%; box-sizing: border-box; padding: 10px; border: 1px solid #eee;"><span style="font-weight: 600; font-size: 13px;">캠인사이드>휴가관리</span></div>
-                        </div>
+            <div class="panel-body" style="padding: 5px;">
+                <div style="border: 1px solid #eee; border-radius: 10px; width: 267px; height: 170px; margin: 23px auto; position: relative;">
+                    <div class="fvList" style="display: flex; flex-wrap: wrap; align-content: flex-start; margin-top:16px; margin-left:27px; width:80%; height:80%;">
+
                     </div>
                 </div>
             </div>
@@ -337,9 +331,6 @@
         }
         updateScheduleCont();
 
-        $("#favoriteMenu").click(function (){
-            fn_favoriteMenu();
-        })
     });
     //대쉬보드 일정 표시
     function updateScheduleCont() {
@@ -440,7 +431,6 @@
             return time;
     }
 
-
     $("#calendar").kendoCalendar();
     setClock();
     getActiveList('tab1Ul', 'all');
@@ -448,6 +438,7 @@
     getOpenStudy();
     getRecentImage();
     getEmpBirthDayList();
+    getFvList();
 
     //게시판 연동
     function getActiveList(v, e){
@@ -688,60 +679,48 @@
 
         $("#empBirthDayList").append(html);
     }
-
-
-    function fn_favoriteMenu(){
-        var searchData = {
-            menuName : $("#menuSearchToobar").val(),
-        }
-        var ds = customKendo.fn_customAjax("/main/getSearchMenu", searchData);
-        if(ds.flag){
-            console.log(ds.ds);
-
-            var menuKendoWindowTemplate = $('<div class="pop_wrap" id="biz_type_popupEnroll" style="min-width:400px; display:none;">\n' +
-                '<div class="pop_con">\n' +
-                '<div class="com_ta2" id="menuSearchDiv">\n' +
-                '<input type="text" id="menuSearchToobar" class="form-control" style="height:auto; margin-bottom:15px;" placeholder="메뉴를 검색하세요" onkeydown="if(window.event.keyCode==13){fn_searchMenu()}">' +
-                '</div>\n' +
-                '</div>\n' +
-                '</div>');
-
-            menuKendoWindowTemplate.kendoWindow({
-                width: "450px;",
-                height: "250px;",
-                title: "메뉴 검색",
-                visible: false,
-                modal : true,
-                close: function () {
-                    menuKendoWindowTemplate.remove();
-                }
-            }).data("kendoWindow");
-
-            var html = "";
-            if(ds.ds != null){
-
-                if(ds.ds.length > 0){
-                    for(var i = 0 ; i < ds.ds.length ; i++){
-                        html += '<div style="border-bottom: 1px solid lightgray; margin-top: 3px;">';
-                        html += "   <a href='#' style=\"display:flex;\" class=\"searchMenuATag\" menuPath=\""+ ds.ds[i].MENU_PATH +"\" menuNamePath='홈 > " + ds.ds[i].MENU_NAME_PATH + "' menuNameKr='" + ds.ds[i].MENU_NAME + "'>\n";
-                        html += ds.ds[i].MENU_NAME_PATH;
-                        html += '</a>';
-                        html += '</div>';
-                    }
-                }
-            }
-            $("#menuSearchDiv").append(html);
-            $(".searchMenuATag").on("click", function(){
-                var menuPath = $(this).attr("menuPath");
-                menuKendoWindowTemplate.data("kendoWindow").close();
-                $("#menuSearchToobar").val("");
-                open_in_frame(menuPath);
-            });
-            menuKendoWindowTemplate.data("kendoWindow").center().open();
-        }
+    function fn_favoriteMenu() {
+        let popupUrl = "/pop/popFvMenu.do"
+        window.open(popupUrl, "RecruitPopup", "width=800, height=620, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
     }
 
+    //즐겨찾기 메뉴
+    function getFvList() {
+        $.ajax({
+            url: '/main/getFvMenu',
+            type: 'GET',
+            async: false,
+            success: function (data) {
+                fvTable(data.fs);
+            },
+        });
+    }
 
+    function fvTable(data){
+
+        $(".fvList").html('');
+
+        let html = "";
+
+        if(data.length>0){
+            data.forEach((item, index) => {
+                html += '' +
+                    '   <div style="width:42%;height:28%; margin-top:5px; margin-left:10px; border:1px solid #ddd; display: flex; align-items: center; justify-content: center; border-radius:5px;">' +
+                    "       <a href='#' class=\"searchMenuATag\" menuPath='" + item.MENU_PATH + "' menuNamePath=\'홈 > " + item.MENU_NAME_PATH + "\' menuNameKr='" + item.MENU_NAME + "'>" + item.MENU_NAME + "</a>" +
+                    '   </div>';
+            });
+        }else{
+            html += '' +
+                "<span style='color: #999; margin-top:59px; margin-left:26px;'>등록된 즐겨찾기가 없습니다.</span>" ;
+        }
+        $(".fvList").append(html);
+
+        $(".searchMenuATag").on("click", function(){
+            var menuPath = $(this).attr("menuPath");
+            open_in_frame(menuPath);
+        });
+        data.data("kendoWindow").center().open();
+    }
 </script>
 <script src="/js/schedule/custom.min.js"></script>
 <script src="/js/vendors/chartist.min.js"></script>

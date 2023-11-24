@@ -131,7 +131,7 @@
                         <input type="text" id="bnkNm" disabled style="width: 60%;">
                     </td>
                 </tr>
-                <tr id="dtTr" style="display: none">
+                <tr id="dtTr">
                     <th scope="row" class="text-center th-color">결의서 날짜 설정</th>
                     <td colspan="4">
                         회계발의일 : <input id="DT1" style="width: 150px">&nbsp;

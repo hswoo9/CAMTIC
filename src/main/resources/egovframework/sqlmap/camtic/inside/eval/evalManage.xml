@@ -166,7 +166,8 @@
         SELECT
             RECRUIT_EVAL_SHEET_ID,
             RECRUIT_INFO_SN,
-            INTERVIEW_EVAL_SHEET
+            INTERVIEW_EVAL_SHEET,
+            RECRUIT_AREA_INFO_SN
         FROM
             CAM_INSIDE.DJ_RECRUIT_EVAL_SHEET
         WHERE 1=1
@@ -176,6 +177,9 @@
         <if test='recruitInfoSn != null and !"".equals(recruitInfoSn)'>
             AND RECRUIT_INFO_SN = #{recruitInfoSn}
         </if>
+        <if test='recruitAreaInfoSn != null and !"".equals(recruitAreaInfoSn)'>
+            AND RECRUIT_AREA_INFO_SN =#{recruitAreaInfoSn}
+        </if>
     </select>
 
     <insert id="setRecruitEvalSelSheet" parameterType="map">
@@ -184,13 +188,17 @@
             (
                 RECRUIT_INFO_SN,
                 INTERVIEW_EVAL_SHEET,
-                REG_EMP_SEQ
+                REG_EMP_SEQ,
+                RECRUIT_AREA_INFO_SN
             )
         VALUES
             (
                 #{recruitInfoSn},
                 #{interviewEvalSheet},
                 #{empSeq}
+                <if test='recruitAreaInfoSn != null and !"".equals(recruitAreaInfoSn)'>
+                ,#{recruitAreaInfoSn}
+                </if>
             )
 
         <selectKey keyProperty="recruitEvalSheetId" resultType="Integer" order="BEFORE">
@@ -205,6 +213,9 @@
         SET
             INTERVIEW_EVAL_SHEET = #{interviewEvalSheet},
             MOD_EMP_SEQ = #{empSeq}
+        <if test='recruitAreaInfoSn != null and !"".equals(recruitAreaInfoSn)'>
+            , RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
+        </if>
         WHERE
             RECRUIT_EVAL_SHEET_ID = #{recruitEvalSheetId}
     </update>

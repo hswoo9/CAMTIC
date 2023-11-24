@@ -2391,4 +2391,17 @@
             TEAM_STAT = 'N';
     </select>
 
+    <select id="getDepositList" parameterType="map" resultType="map">
+        /*getDepositList*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_PAY_DEPO A
+        LEFT JOIN
+            CAM_MNG.DJ_PAY_INCP B
+        ON A.PAY_INCP_SN = B.PAY_INCP_SN
+        WHERE
+            A.PJT_SN = #{pjtSn}
+    </select>
+
 </mapper>

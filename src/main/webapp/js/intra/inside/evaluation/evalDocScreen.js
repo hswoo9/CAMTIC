@@ -20,7 +20,7 @@ var evalDocScreen = {
         var result = customKendo.fn_customAjax("/inside/getRecruit.do", evalDocScreen.global.saveAjaxData);
         if(result.flag){
             $("#recruitTitle").text(result.recruit.RECRUIT_TITLE);
-            customKendo.fn_dropDownList("recruitAreaInfoSn", result.recruit.recruitArea, "AREA_TITLE", "RECRUIT_AREA_INFO_SN", "2")
+            customKendo.fn_dropDownList("recruitAreaInfoSn", result.recruit.recruitArea, "JOB", "RECRUIT_AREA_INFO_SN", "2")
             $("#recruitAreaInfoSn").data("kendoDropDownList").bind("change", evalDocScreen.getApplicationList);
         }
     },
@@ -75,17 +75,17 @@ var evalDocScreen = {
                 '<colgroup>' +
                 '    <col style="width: 6%">' +
                 '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
                 '    <col style="width: 8%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 11%">' +
                 '    <col>' +
                 '</colgroup>' +
                 '<tr>' +
@@ -197,14 +197,14 @@ var evalDocScreen = {
                 '<colgroup>' +
                 '    <col style="width: 6%">' +
                 '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
-                '    <col style="width: 6%">' +
                 '    <col style="width: 8%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 6%">' +
+                '    <col style="width: 11%">' +
                 '    <col>' +
                 '</colgroup>' +
                 '<tr>' +
