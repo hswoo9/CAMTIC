@@ -18,7 +18,7 @@ var evalInApplicationList = {
         var result = customKendo.fn_customAjax("/inside/getRecruit.do", evalInApplicationList.global.saveAjaxData);
         if(result.flag){
             $("#recruitTitle").text(result.recruit.RECRUIT_TITLE);
-            customKendo.fn_dropDownList("recruitAreaInfoSn", result.recruit.recruitArea, "AREA_TITLE", "RECRUIT_AREA_INFO_SN", "2")
+            customKendo.fn_dropDownList("recruitAreaInfoSn", result.recruit.recruitArea, "JOB", "RECRUIT_AREA_INFO_SN", "2")
             $("#recruitAreaInfoSn").data("kendoDropDownList").bind("change", evalInApplicationList.gridReload);
         }
     },

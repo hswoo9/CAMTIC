@@ -14,7 +14,7 @@ var screenViewPop = {
         }
 
         var result = customKendo.fn_customAjax("/inside/getRecruitAreaList.do", screenViewPop.global.searchAjaxData);
-        customKendo.fn_dropDownList("recruitAreaInfoSn", result.recruitArea, "AREA_TITLE","RECRUIT_AREA_INFO_SN", 2);
+        customKendo.fn_dropDownList("recruitAreaInfoSn", result.recruitArea, "JOB","RECRUIT_AREA_INFO_SN", 2);
 
         if($("#type").val() == "doc"){
             $("#recruitAreaInfoSn").data("kendoDropDownList").bind("change", screenViewPop.makeDocScreenTable);
