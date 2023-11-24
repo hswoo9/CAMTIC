@@ -172,11 +172,12 @@
             CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN
         SET
             EVAL_STATUS = 'E',
-            MOD_ID = #{evalEmpSeq},
-            EVAL_TYPE = #{evalScreenType}
+            MOD_ID = #{evalEmpSeq}
         WHERE
             RECRUIT_INFO_SN = #{recruitInfoSn}
         AND
             EMP_SEQ = #{evalEmpSeq}
+        AND
+            EVAL_TYPE = #{evalScreenType}
     </update>
 </mapper>
