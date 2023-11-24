@@ -702,14 +702,17 @@
 
         let html = "";
 
-        data.forEach((item, index) => {
-            console.log(item);
-            console.log(135);
+        if(data.length>0){
+            data.forEach((item, index) => {
+                html += '' +
+                    '   <div style="width:42%;height:28%; margin-top:5px; margin-left:10px; border:1px solid #ddd; display: flex; align-items: center; justify-content: center; border-radius:5px;">' +
+                    "       <a href='#' class=\"searchMenuATag\" menuPath='" + item.MENU_PATH + "' menuNamePath=\'홈 > " + item.MENU_NAME_PATH + "\' menuNameKr='" + item.MENU_NAME + "'>" + item.MENU_NAME + "</a>" +
+                    '   </div>';
+            });
+        }else{
             html += '' +
-                '   <div style="width:42%;height:28%; margin-top:5px; margin-left:10px; border:1px solid #ddd; display: flex; align-items: center; justify-content: center; border-radius:5px;">' +
-                "       <a href='#' class=\"searchMenuATag\" menuPath='" + item.MENU_PATH + "' menuNamePath=\'홈 > " + item.MENU_NAME_PATH + "\' menuNameKr='" + item.MENU_NAME + "'>" + item.MENU_NAME + "</a>" +
-                '   </div>' ;
-        });
+                "<span style='color: #999; margin-top:59px; margin-left:26px;'>등록된 즐겨찾기가 없습니다.</span>" ;
+        }
         $(".fvList").append(html);
 
         $(".searchMenuATag").on("click", function(){
@@ -717,7 +720,6 @@
             open_in_frame(menuPath);
         });
         data.data("kendoWindow").center().open();
-
     }
 </script>
 <script src="/js/schedule/custom.min.js"></script>
