@@ -65,7 +65,6 @@ var budgetChangeInfo = {
                 }, {
                     field: "DOC_TITLE",
                     title: "문서제목",
-                    width: 120,
                     template : function(e){
                         return '<a onclick="approveDocView(\''+e.DOC_ID+'\', \''+e.APPRO_KEY+'\', \''+e.DOC_MENU_CD+'\')" style="font-weight: bold ">' + e.DOC_TITLE + '</a>'
                     }
