@@ -78,23 +78,23 @@
 
                     </tr>
 
-                    <tr>
+                   <%-- <tr>
 
                         <th scope="row" class="text-center th-color">
                             <span class="red-star"></span>차상급자
                         </th>
                         <td id="card_superior_person" colspan="3"></td>
 
-                    </tr>
+                    </tr>--%>
 
-                    <tr>
+                    <%--<tr>
 
                         <th scope="row" class="text-center th-color">
                             <span class="red-star"></span>차차상급자
                         </th>
                         <td id="card_superior_person2" colspan="3"></td>
 
-                    </tr>
+                    </tr>--%>
 
                     </thead>
                 </table>

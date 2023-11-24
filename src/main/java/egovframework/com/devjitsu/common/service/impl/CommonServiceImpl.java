@@ -1,6 +1,7 @@
 package egovframework.com.devjitsu.common.service.impl;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.common.utiles.CommonUtil;
@@ -304,4 +305,31 @@ public class CommonServiceImpl implements CommonService {
     public List<Map<String, Object>> getSearchMenu(Map<String, Object> params) {
         return commonRepository.getSearchMenu(params);
     }
+
+    @Override
+    public Map<String, Object> getSearchMenuCnt(Map<String, Object> params) {
+
+        Map<String, Object> resultMap = new HashMap<>();
+
+        int cnt = commonRepository.getSearchMenuCnt(params);
+        if (cnt == 6) {
+            resultMap.put("status", 500);
+        } else {
+            commonRepository.setFavoriteMenuInsert(params);
+            resultMap.put("status", 200);
+        }
+        return resultMap;
+    }
+
+    @Override
+    public List<Map<String, Object>> getFvMenu(Map<String, Object> params) {
+        return commonRepository.getFvMenu(params);
+    }
+    @Override
+    public void setDelFvMenu(Map<String, Object> params) {
+        commonRepository.setDelFvMenu(params);
+    }
+
+
+
 }

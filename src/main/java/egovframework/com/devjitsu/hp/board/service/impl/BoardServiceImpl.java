@@ -305,8 +305,8 @@ public class BoardServiceImpl implements BoardService {
         return boardRepository.getFocusList(param);
     }
     @Override
-    public List<Map<String, Object>> getRecruitList(Map<String, Object> param) {
-        return boardRepository.getRecruitList(param);
+    public List<Map<String, Object>> getMainRecruitList(Map<String, Object> param) {
+        return boardRepository.getMainRecruitList(param);
     }
 
     @Override

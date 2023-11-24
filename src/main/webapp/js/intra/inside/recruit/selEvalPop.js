@@ -323,7 +323,6 @@ function userDataSet(a){
         var flag = true;
         $.each($("#" + gridId + " tbody tr"), function(){
             var dataItem = $("#" + gridId).data("kendoGrid").dataItem($(this));
-            console.log(dataItem.EMP_SEQ);
             if(a[i].empSeq == dataItem.EMP_SEQ){
                 flag = false;
             }

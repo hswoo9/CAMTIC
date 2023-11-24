@@ -57,7 +57,7 @@ public interface BoardService {
     List<Map<String, Object>>getFocusList(Map<String, Object> param);
 
     /** 캠틱 메인홈페이지 채용공고 연동 */
-    List<Map<String, Object>> getRecruitList(Map<String, Object> param);
+    List<Map<String, Object>> getMainRecruitList(Map<String, Object> param);
 
     /** 캠틱 메인홈페이지 SNS 게시판 */
     List<Map<String, Object>> getSnsPosts(Map<String, Object> param);
