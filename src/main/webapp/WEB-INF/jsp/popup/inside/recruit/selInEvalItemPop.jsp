@@ -28,6 +28,7 @@
 
     <div class="panel-body">
       <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="${params.recruitInfoSn}">
+      <input type="hidden" id="recruitAreaInfoSn" name="recruitInfoSn" value="${params.recruitAreaInfoSn}">
       <input type="hidden" id="recruitEvalSheetId" name="recruitEvalSheetId" value="${params.recruitEvalSheetId}">
       <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
 

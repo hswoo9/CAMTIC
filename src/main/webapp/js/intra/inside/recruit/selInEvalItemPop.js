@@ -82,9 +82,12 @@ var selInEvalItemPop = {
     },
 
     selEvalItem : function(e){
+        var recruitAreaInfoSn = $("#recruitEvalSheetId").val();
+        console.log("recruitAreaInfoSn",recruitAreaInfoSn);
         if(confirm("면접 평가표를 설정하시겠습니까?")){
             selInEvalItemPop.global.saveAjaxData = {
                 recruitInfoSn : $("#recruitInfoSn").val(),
+                recruitAreaInfoSn : $("#recruitAreaInfoSn").val(),
                 recruitEvalSheetId : $("#recruitEvalSheetId").val(),
                 interviewEvalSheet : e,
                 empSeq : $("#empSeq").val(),

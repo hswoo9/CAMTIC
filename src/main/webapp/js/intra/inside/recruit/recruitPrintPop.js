@@ -130,7 +130,7 @@ const recruitPrintPop = {
             const map =recruitArray[i];
             console.log("map", map);
             html += '               <tr>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ (map.APPLICATION_ID || '') +'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ (i+1 || '') +'</p></td>';
             html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ (map.USER_NAME || '') +'</p></td>';
             html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+(map.AGE || '')+'</p></td>';
             html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+(map.GENDER || '')+'</p></td>';
