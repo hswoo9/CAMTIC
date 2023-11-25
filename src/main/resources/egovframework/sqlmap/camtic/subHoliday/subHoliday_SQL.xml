@@ -781,7 +781,8 @@
     </select>
 
     <select id="getModVacList" parameterType="map" resultType="map">
-        SELECT DEI.DEPT_NAME,
+        SELECT
+        DEI.DEPT_NAME,
         DEI.DEPT_TEAM_NAME,
         DEI.EMP_NAME_KR,
         DEI.POSITION_NAME,

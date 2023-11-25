@@ -21,7 +21,7 @@ var subHolidaySettingPop = {
             start: "month",
             culture: "ko-KR",
             format: "yyyy-MM-dd",
-            value: new Date(now.setMonth(now.getMonth() - 1))
+            value: now
         });
 
 
@@ -180,8 +180,7 @@ var subHolidaySettingPop = {
         console.log('gridReload 함수 호출됨');
         subHolidaySettingPop.global.searchAjaxData = {
             modDate : $("#modDate").val(),
-            searchVal: $("#searchVal").val(),
-            searchType: $("#searchType").val(),
+            searchVal: $("#searchVal").val()
         };
 
 
