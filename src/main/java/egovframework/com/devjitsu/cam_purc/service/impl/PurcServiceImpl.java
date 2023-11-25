@@ -283,115 +283,116 @@ public class PurcServiceImpl implements PurcService {
                 list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
                 list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
 
-                try{
-                    File sourceImageFile = new File("/home/upload/inspect/2023/11/25/3d578c63fcc1455c8e6fbabfe3c62ff6.jpg");
-                    File destImageFile = new File("/home/upload/inspect/2023/11/25/3d578c63fcc1455c8e6fbabfe3c62ff6.jpg");
+                if("jpg".equals(list.get(i).get("fileExt")) || "JPG".equals(list.get(i).get("fileExt")) || "png".equals(list.get(i).get("fileExt")) || "PNG".equals(list.get(i).get("fileExt"))) {
+                    try{
+                        File sourceImageFile = new File(list.get(i).get("filePath").toString() + list.get(i).get("fileUUID").toString());
+                        File destImageFile = sourceImageFile;
 
-                    BufferedImage sourceImage = ImageIO.read(sourceImageFile);
+                        BufferedImage sourceImage = ImageIO.read(sourceImageFile);
 
-                    Graphics2D g2d = (Graphics2D) sourceImage.getGraphics();
+                        Graphics2D g2d = (Graphics2D) sourceImage.getGraphics();
 
-                    g2d.scale(1, 1);
-                    g2d.addRenderingHints(
-                            new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
-                    g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+                        g2d.scale(1, 1);
+                        g2d.addRenderingHints(
+                                new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
+                        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-                    Font font = new Font("나눔고딕", Font.PLAIN, 18);
+                        Font font = new Font("나눔고딕", Font.PLAIN, 18);
 
-                    GlyphVector fontGV = font.createGlyphVector(g2d.getFontRenderContext(), strWText);
+                        GlyphVector fontGV = font.createGlyphVector(g2d.getFontRenderContext(), strWText);
 
-                    Rectangle size = fontGV.getPixelBounds(g2d.getFontRenderContext(),0,0);
+                        Rectangle size = fontGV.getPixelBounds(g2d.getFontRenderContext(),0,0);
 
-                    Shape textShape = fontGV.getOutline();
+                        Shape textShape = fontGV.getOutline();
 
-                    //double textWidth = size.getWidth();
+                        //double textWidth = size.getWidth();
 
-                    double textWidth = size.getWidth();
-
-
-
-                    //double textHeight = size.getHeight();
-
-                    double textHeight = size.getHeight()*3; // 텍스트 간격이다.
-
-                    //AffineTransform rotate45 = AffineTransform.getRotateInstance(Math.PI / 4d);
-
-                    AffineTransform rotate45 = AffineTransform.getRotateInstance(Math.PI / 5d);
-
-                    Shape rotatedText = rotate45.createTransformedShape(textShape);
+                        double textWidth = size.getWidth();
 
 
 
-                    // use a gradient that repeats 4 times
+                        //double textHeight = size.getHeight();
 
-                    g2d.setPaint(new GradientPaint(0, 0,
+                        double textHeight = size.getHeight()*3; // 텍스트 간격이다.
 
-                            new Color(0f, 0f, 0f, 0.1f),
+                        //AffineTransform rotate45 = AffineTransform.getRotateInstance(Math.PI / 4d);
 
-                            sourceImage.getWidth() / 2, sourceImage.getHeight() / 2,
+                        AffineTransform rotate45 = AffineTransform.getRotateInstance(Math.PI / 5d);
 
-                            new Color(0f, 0f, 0f, 0.1f)));
-
-                    //new Color(1f, 1f, 1f, 0.1f)));
-
-                    //g2d.setStroke(new BasicStroke(0.5f));
-
-                    g2d.setStroke(new BasicStroke(1f));
+                        Shape rotatedText = rotate45.createTransformedShape(textShape);
 
 
 
-                    // step in y direction is calc'ed using pythagoras + 5 pixel padding
+                        // use a gradient that repeats 4 times
 
-                    //double yStep = Math.sqrt(textWidth * textWidth / 2) + 2;
+                        g2d.setPaint(new GradientPaint(0, 0,
 
-                    double yStep = Math.sqrt(textWidth * textWidth / 2); //
+                                new Color(0f, 0f, 0f, 0.1f),
 
+                                sourceImage.getWidth() / 2, sourceImage.getHeight() / 2,
 
+                                new Color(0f, 0f, 0f, 0.1f)));
 
-                    System.out.println("yStep : " + yStep);
+                        //new Color(1f, 1f, 1f, 0.1f)));
 
+                        //g2d.setStroke(new BasicStroke(0.5f));
 
-
-                    // step over image rendering watermark text
-
-                    //for (double x = -textHeight * 3; x < sourceImage.getWidth(); x += (textHeight * 3)) {
-
-
-
-                    for (double x = -textHeight; x < sourceImage.getWidth()/2; x += textHeight) {
+                        g2d.setStroke(new BasicStroke(1f));
 
 
 
-                        double y = -yStep;
+                        // step in y direction is calc'ed using pythagoras + 5 pixel padding
+
+                        //double yStep = Math.sqrt(textWidth * textWidth / 2) + 2;
+
+                        double yStep = Math.sqrt(textWidth * textWidth / 2); //
 
 
 
-                        for (; y < sourceImage.getHeight(); y += yStep) {
+                        System.out.println("yStep : " + yStep);
 
-                            g2d.draw(rotatedText);
 
-                            g2d.fill(rotatedText);
 
-                            g2d.translate(0, yStep);
+                        // step over image rendering watermark text
+
+                        //for (double x = -textHeight * 3; x < sourceImage.getWidth(); x += (textHeight * 3)) {
+
+
+
+                        for (double x = -textHeight; x < sourceImage.getWidth()/2; x += textHeight) {
+
+
+
+                            double y = -yStep;
+
+
+
+                            for (; y < sourceImage.getHeight(); y += yStep) {
+
+                                g2d.draw(rotatedText);
+
+                                g2d.fill(rotatedText);
+
+                                g2d.translate(0, yStep);
+
+                            }
+
+
+
+                            g2d.translate(textHeight * 3, -(y + yStep));
 
                         }
 
 
 
-                        g2d.translate(textHeight * 3, -(y + yStep));
+                        ImageIO.write(sourceImage, "jpg", destImageFile);
 
+                        g2d.dispose();
+
+                    } catch (Exception e){
+                        e.printStackTrace();
                     }
-
-
-
-                    ImageIO.write(sourceImage, "jpg", destImageFile);
-
-                    g2d.dispose();
-
-                } catch (Exception e){
-                    e.printStackTrace();
                 }
-
             }
             commonRepository.insFileInfo(list);
         }

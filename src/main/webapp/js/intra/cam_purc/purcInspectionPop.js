@@ -376,17 +376,59 @@ var pri = {
                 html += '   <td>'+ e[i].file_ext +'</td>';
                 html += '   <td>'+ e[i].file_size +'</td>';
                 html += '   <td>';
+                if(e[i].file_ext == "png" || e[i].file_ext == "pdf" || e[i].file_ext == "jpg" || e[i].file_ext == "PNG" || e[i].file_ext == "JPG"){
+                    html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="pri.fileViewer(\''+e[i].file_path+e[i].file_uuid+'\', \''+e[i].file_org_name+'.'+e[i].file_ext+'\')">' +
+                        '			    <span class="k-button-text">뷰어</span>' +
+                        '		    </button>';
+                }
+                html += '   </td>';
+                html += '   <td>';
                 html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e[i].file_no +', this)">' +
-                    '			<span class="k-button-text">삭제</span>' +
-                    '		</button>';
+                    '			    <span class="k-button-text">삭제</span>' +
+                    '		    </button>';
                 html += '   </td>';
                 html += '</tr>';
             }
             $("#fileGrid").html(html);
         }else{
             $("#fileGrid").html('<tr>' +
-                '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                '	<td colspan="5" style="text-align: center">선택된 파일이 없습니다.</td>' +
                 '</tr>');
         }
     },
+
+    fileViewer : function (path, name){
+        var name = "_blank";
+        var option = "width = 1300, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open("http://218.158.231.186" + path, name, option);
+    },
+
+    addFileInfoTable : function (){
+        let size = 0;
+        for(var i = 0; i < $("input[name='fileList']")[0].files.length; i++){
+            fCommon.global.attFiles.push($("input[name='fileList']")[0].files[i]);
+        }
+
+        if(fCommon.global.attFiles.length > 0){
+            $("#fileGrid").find(".defultTr").remove();
+            $("#fileGrid").find(".addFile").remove();
+
+            var html = '';
+            for (var i = 0; i < fCommon.global.attFiles.length; i++) {
+                size = fCommon.bytesToKB(fCommon.global.attFiles[i].size);
+                html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
+                html += '   <td>' + fCommon.global.attFiles[i].name.split(".")[0] + '</td>';
+                html += '   <td>' + fCommon.global.attFiles[i].name.split(".")[1] + '</td>';
+                html += '   <td>' + size + '</td>';
+                html += '   <td>';
+                html += '   </td>';
+                html += '   <td>';
+                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
+                html += '   </td>';
+                html += '</tr>';
+            }
+
+            $("#fileGrid").append(html);
+        }
+    }
 }

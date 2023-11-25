@@ -109,7 +109,7 @@
                                             <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
                                             <span class="k-button-text">파일첨부</span>
                                         </button>
-                                        <input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" multiple style="display: none"/>
+                                        <input type="file" id="fileList" name="fileList" onchange="pri.addFileInfoTable();" multiple style="display: none"/>
                                     </div>
                                 </div>
                             </div>
@@ -120,12 +120,14 @@
                                         <col width="10%">
                                         <col width="30%">
                                         <col width="10%">
+                                        <col width="10%">
                                     </colgroup>
                                     <thead>
                                     <tr class="text-center th-color">
                                         <th>파일명</th>
                                         <th>확장자</th>
                                         <th>용량</th>
+                                        <th>보기</th>
                                         <th>기타</th>
                                     </tr>
                                     </thead>
