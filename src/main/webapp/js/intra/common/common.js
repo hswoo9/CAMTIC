@@ -178,7 +178,7 @@ function fileDown(filePath, fileName){
 
 function fileWaterMarkDown(filePath, fileName){
     kendo.saveAs({
-        dataURI: "/common/fileWaterMarkDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent(fileName),
+        dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent(fileName),
     });
 }
 
