@@ -793,6 +793,7 @@
         DEI.MOD_EMP_SEQ
         FROM cam_hr.dj_emp_info DEI
         JOIN cam_inside.dj_holiday DH
+        on DEI.EMP_SEQ = DH.EMP_SEQ;
         WHERE 1=1
         <if test='modDate != null and !"".equals(modDate)'>
             AND  DATE_FORMAT(DH.MOD_DATE, '%Y-%m-%d') = #{modDate}
