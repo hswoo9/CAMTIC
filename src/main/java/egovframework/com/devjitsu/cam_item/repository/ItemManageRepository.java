@@ -75,4 +75,5 @@ public class ItemManageRepository extends AbstractDAO {
     public List<Map<String, Object>> getInvenTransferHistoryList(Map<String, Object> params) { return selectList("item.getInvenTransferHistoryList", params);}
     public void setCurrentInvenUpd(Map<String, Object> params) { update("item.setCurrentInvenUpd", params);}
     public void setSafetyInvenUpd(Map<String, Object> params) { update("item.setSafetyInvenUpd", params);}
+    public List<Map<String, Object>> getCrmSalesConfirmList(Map<String, Object> params) { return selectList("item.getCrmSalesConfirmList", params);}
 }

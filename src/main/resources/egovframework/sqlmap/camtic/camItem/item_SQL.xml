@@ -465,6 +465,7 @@
         SET
             DELIVERY_AMT = (IFNULL(DELIVERY_AMT, 0) + ${deliveryAmt}),
             DELIVERY_DT = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            RMK = #{rmk},
             MOD_EMP_SEQ = #{empSeq},
             MOD_DT = NOW()
         WHERE
@@ -1686,4 +1687,55 @@
         WHERE
             MASTER_SN = #{masterSn}
     </update>
+
+    <select id="getCrmSalesConfirmList" parameterType="map" resultType="map">
+        /* getCrmSalesConfirmList */
+        SELECT
+            CI.CRM_SN,
+            CI.CRM_NM,
+            IFNULL(CSC.CRM_SALES_CONFIRM_SN, '') AS CRM_SALES_CONFIRM_SN,
+            IFNULL(SR.SALES_MONTH, 0) AS SALES_MONTH,
+            IFNULL(CSC.DEPOSIT_AMT, 0) AS DEPOSIT_AMT,
+            IFNULL(CSC.CONFIRM_AMT, 0) AS CONFIRM_AMT,
+            IFNULL(CSC.CONFIRM_YN, 'N') AS CONFIRM_YN,
+            EI.EMP_SEQ,
+            EI.EMP_NAME_KR
+        FROM
+            CAM_CRM.DJ_CRM_INFO CI
+        LEFT JOIN
+            CAM_ITEM.DJ_CRM_SALES_CONFIRM CSC
+        ON CI.CRM_SN = CSC.CRM_SN AND DATE_FORMAT(CSC.CONFIRM_DATE, '%Y-%m') = #{yearMonth}
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON CSC.CONFIRM_EMP_SEQ = EI.EMP_SEQ
+        LEFT JOIN (
+            SELECT
+                SR.CRM_SN,
+                SUM(DELIVERY_AMT * UNIT_PRICE) AS SALES_MONTH
+            FROM
+                CAM_ITEM.DJ_ITEM_SM_RECORD SR
+            WHERE
+                SR.DEADLINE = 'Y'
+            AND
+                SR.UNPAID_TYPE != 'C'
+            AND
+                DATE_FORMAT(SR.DELIVERY_DT, '%Y-%m') = #{yearMonth}
+            GROUP BY CRM_SN
+        )SR
+        ON CI.CRM_SN = SR.CRM_SN
+        WHERE 1=1
+        <if test='crmSn != null and !"".equals(crmSn)'>
+            AND CI.CRM_SN = #{crmSn}
+        </if>
+        <if test='confirmYn != null and !"".equals(confirmYn)'>
+            <choose>
+                <when test='"N".equals(confirmYn)'>
+                    AND CSC.CONFIRM_YN = 'N' OR CSC.CONFIRM_YN IS NULL
+                </when>
+                <otherwise>
+                    AND CSC.CONFIRM_YN = 'Y'
+                </otherwise>
+            </choose>
+        </if>
+    </select>
 </mapper>
