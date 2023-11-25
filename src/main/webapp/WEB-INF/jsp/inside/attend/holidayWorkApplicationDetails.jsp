@@ -44,7 +44,6 @@
                         </td>
                         <th class="text-center th-color">성명</th>
                         <td>
-                            <input type="text" id="searchType" style="width: 100px;">
                             <input type="text" id="searchText" onkeypress="if(window.event.keyCode==13){holidayWorkApplicationDetails.gridReload()}" style="width: 200px;">
                         </td>
                     </tr>

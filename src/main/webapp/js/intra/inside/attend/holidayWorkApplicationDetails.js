@@ -103,6 +103,7 @@ var holidayWorkApplicationDetails ={
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            // dataBound : holidayWorkApplicationDetails.onDataBound,
             columns: [
 
                 {
@@ -149,7 +150,26 @@ var holidayWorkApplicationDetails ={
         }).data("kendoGrid");
     },
 
-
+    // onDataBound: function(){
+    //     var grid = this;
+    //
+    //     grid.tbody.find("tr").dblclick(function (e) {
+    //         var dataItem = grid.dataItem($(this));
+    //
+    //
+    //         var docId = dataItem.DOC_ID;
+    //         var menuCd = dataItem.MENU_CD;
+    //         var approKey = dataItem.APPRO_KEY;
+    //
+    //         var mod = "V";
+    //         var url = '/approval/approvalDocView.do?docId=' + docId + '&menuCd=' + menuCd + '&mod=' + mod + '&approKey=' + approKey;
+    //         var width = "1000";
+    //         var height = "950";
+    //         var windowX = Math.ceil((window.screen.width - width) / 2);
+    //         var windowY = Math.ceil((window.screen.height - height) / 2);
+    //         var pop = window.open(url, '결재 문서_' + approKey, "width=" + width + ", height=" + height + ", top=" + windowY + ", left=" + windowX + ", resizable=NO, scrollbars=NO");
+    //     });
+    // },
 
 
     gridReload: function (){
