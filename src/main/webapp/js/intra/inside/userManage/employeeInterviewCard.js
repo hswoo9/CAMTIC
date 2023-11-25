@@ -96,7 +96,7 @@ var employeeList = {
             /*dataBound: ,*/
             columns: [
                 {
-                    field: "card_number",
+                    field: "row_num",
                     title: "순번",
                     width: "5%"
                 },
@@ -141,11 +141,11 @@ var employeeList = {
                     field: "card_interviewer",
                     title: "면담자",
                     width: "10%"
-                }, {
+                }, /*{
                     field: "card_status",
                     title: "상태",
                     width: "5%"
-                }]
+                }*/]
         }).data("kendoGrid");
     },
 

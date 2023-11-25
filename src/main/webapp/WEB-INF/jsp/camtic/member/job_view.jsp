@@ -36,10 +36,9 @@
         <div class="inner">
             <jsp:include page="/WEB-INF/jsp/template/camtic/lnb.jsp" flush="false"/>
             <div id="content">
-
                 <ul id="navigation">
                     <li><a href="/camtic"><img src="/images/camtic/home_3.png" class="homeImage">홈으로</a></li>
-                    <li class="">홍보관</li>
+                    <li class="">직원과 함께</li>
                     <li class=""><span>채용공고</span></li>
                 </ul>
                 <div id="title">
@@ -228,7 +227,9 @@
 
                 <div class="__botArea">
                     <div style="text-align: center;">
-                        <a href="#" class="__btn1 blue" style="width:200px;"><span>온라인 입사지원하기</span></a>
+                        <c:if test="${map.RECRUIT_STATUS_SN == '2'}">
+                            <a href="#" class="__btn1 blue" style="width:200px;"><span>온라인 입사지원하기</span></a>
+                        </c:if>
                         <a href="javascript:void(0);" onclick="fn_goList();" class="__btn1 blue" style="width:200px;"><span>목록보기</span></a>
                     </div>
                 </div>

@@ -932,17 +932,6 @@ public class RecruitController {
         return "popup/inside/recruit/recruitPrintPop";
     }
 
-    @RequestMapping("/popup/inside/approvalFormPopup/recruitApprovalPop.do")
-    public String recruitApprovalPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
-        HttpSession session = request.getSession();
-        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
-
-        model.addAttribute("loginVO", loginVO);
-        model.addAttribute("params", params);
-
-        return "popup/inside/recruit/approvalFormPopup/recruitApprovalPop";
-    }
-
     @RequestMapping("/inside/getRecruitPrint")
     public String getRecruitPrint(@RequestParam Map<String,Object> params, Model model) {
         model.addAttribute("list", recruitService.getRecruitPrint(params));
@@ -980,6 +969,77 @@ public class RecruitController {
             e.printStackTrace();
         }
 
+        return "jsonView";
+    }
+
+    /**
+     * 채용공고 전자결재 관리 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/pop/recruitDraftingPop.do")
+    public String recruitDrafting(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+
+        return "popup/inside/recruit/recruitDraftingPop";
+    }
+
+    /** 채용 전자결재 팝업*/
+    @RequestMapping("/popup/inside/approvalFormPopup/recruitApprovalPop.do")
+    public String recruitApprovalPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/inside/recruit/approvalFormPopup/recruitApprovalPop";
+    }
+
+    /** 채용 전자결재 팝업*/
+    @RequestMapping("/popup/inside/approvalFormPopup/recruitOfficialApprovalPop.do")
+    public String recruitOfficialApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", login);
+        return "popup/inside/recruit/approvalFormPopup/recruitOfficialApprovalPop";
+    }
+
+    /**
+     * 채용 > 예산변경 및 반납 전자결재 리스트 조회
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/getDraftingList")
+    public String getDraftingList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", recruitService.getDraftingList(params));
+        return "jsonView";
+    }
+
+    /** 채용 결재 상태값에 따른 UPDATE 메서드 */
+    @RequestMapping(value = "/inside/recruitReqApp")
+    public String changeReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            recruitService.updateDraftDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
         return "jsonView";
     }
 

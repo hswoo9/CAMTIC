@@ -176,6 +176,12 @@ function fileDown(filePath, fileName){
     });
 }
 
+function fileWaterMarkDown(filePath, fileName){
+    kendo.saveAs({
+        dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent(fileName),
+    });
+}
+
 function fn_searchBind(){
     $(".searchInput").bind("change", function(){
         gridReload();

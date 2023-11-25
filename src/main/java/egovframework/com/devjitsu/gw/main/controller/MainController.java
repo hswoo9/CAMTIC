@@ -10,9 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -87,7 +89,7 @@ public class MainController {
         List<Map<String, Object>> response = boardService.selectMainList(param);
         List<Map<String, Object>> response2 = boardService.selectBsnsMainList(param);
 
-        List<Map<String, Object>> response3 = boardService.getRecruitList(param);
+        List<Map<String, Object>> response3 = boardService.getMainRecruitList(param);
         List<Map<String, Object>> response4 = boardService.getFocusList(param);
         List<Map<String, Object>> response5 = boardService.getSnsPosts(param);
 
@@ -171,6 +173,47 @@ public class MainController {
         return "jsonView";
     }
 
+    @RequestMapping("/pop/popFvMenu.do")
+    public String popupTest(@RequestParam Map<String, Object> params, Model model){
+        return "popup/cams_pot/popFvMenu";
+    }
+
+    /**
+     * 즐겨찾기 갯수 카운트
+     * */
+    @RequestMapping("/main/getSearchMenuCnt")
+    public String getSearchMenuCnt(@RequestParam Map<String,Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("empSeq", loginVO.getUniqId());
+
+        model.addAttribute("rs", commonService.getSearchMenuCnt(params));
+        return "jsonView";
+    }
+
+    /**
+     * 즐겨찾기 메뉴 리스트 조회
+     * */
+    @RequestMapping("/main/getFvMenu")
+    public String getFvMenu(@RequestParam Map<String,Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("empSeq", loginVO.getUniqId());
+        model.addAttribute("fs", commonService.getFvMenu(params));
+        return "jsonView";
+    }
+
+    /**
+     * 즐겨찾기 메뉴 삭제
+     * */
+    @RequestMapping("/main/setDelFvMenu")
+    public String setDelFvMenu(@RequestParam Map<String,Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("empSeq", loginVO.getUniqId());
+        commonService.setDelFvMenu(params);
+        return "jsonView";
+    }
 
 
 

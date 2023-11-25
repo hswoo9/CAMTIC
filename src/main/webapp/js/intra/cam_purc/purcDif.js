@@ -150,23 +150,24 @@ var purcDif = {
                     template: function (e){
                         return '<div style="text-align: right">'+comma(e.TOT_DIF_AMT)+'</div>'
                     }
-                }, {
-                    title: "상태",
-                    width: 120,
-                    template: function (e){
-                        if(e.STATUS != null && e.STATUS != ""){
-                            if(e.STATUS == 100){
-                                return "구매청구완료";
-                            }else if(e.STATUS > 0){
-                                return "구매청구작성중";
-                            }else if(e.STATUS == 0){
-                                return "구매요청완료";
-                            }
-                        }else{
-                            return "미작성";
-                        }
-                    }
                 }
+                // , {
+                //     title: "상태",
+                //     width: 120,
+                //     template: function (e){
+                //         if(e.STATUS != null && e.STATUS != ""){
+                //             if(e.STATUS == 100){
+                //                 return "구매청구완료";
+                //             }else if(e.STATUS > 0){
+                //                 return "구매청구작성중";
+                //             }else if(e.STATUS == 0){
+                //                 return "구매요청완료";
+                //             }
+                //         }else{
+                //             return "미작성";
+                //         }
+                //     }
+                // }
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);

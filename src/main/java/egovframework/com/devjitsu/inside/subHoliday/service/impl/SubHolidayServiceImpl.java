@@ -184,9 +184,19 @@ public class SubHolidayServiceImpl implements SubHolidayService {
 
     @Override
     public void setUserVacList(List<Map<String, Object>> list) {
+        for (int i = 0; i < list.size(); i++) {
+            Map<String, Object> item = list.get(i);
+            List<Map<String, Object>> previousGrantDayList = subHolidayRepository.getGrantDay(item);
 
+            if (!previousGrantDayList.isEmpty()) {
+                Map<String, Object> previousGrantDayMap = previousGrantDayList.get(i);
+                Object grantDay = previousGrantDayMap.get("GRANT_DAY");
+                item.put("PREVIOUS_GRANT_DAY", grantDay);
+                System.out.println("grantDay[" + i + "]: " + grantDay);
+                System.out.println("previousGrantDayList[" + i + "]: " + previousGrantDayList);
+            }
+        }
         subHolidayRepository.setUserVacList(list);
-
     }
 
     //공휴일 데이터 조회
@@ -267,42 +277,42 @@ public class SubHolidayServiceImpl implements SubHolidayService {
         }
     }
 
+
     //이력관리 조회
+
     @Override
     public List<Map<String, Object>> getModVacList(Map<String, Object> map) {
-        List<Map<String, Object>> modifiedVacList = subHolidayRepository.getModVacList(map);
+//        List<Map<String, Object>> modifiedVacList = subHolidayRepository.getModVacList(map);
 
-        for (Map<String, Object> vac : modifiedVacList) {
-            Object grantDaysObj = vac.get("GRANT_DAY");
-            Object previousGrantDaysObj = vac.get("PREVIOUS_GRANT_DAY");
-
-            if (grantDaysObj != null && grantDaysObj instanceof Integer) {
-                // GRANT_DAY가 정수형일 때만 처리
-                int grantDays = (int) grantDaysObj;
-                int previousGrantDays = previousGrantDaysObj != null ? (int) previousGrantDaysObj : grantDays;
-                vac.put("PREVIOUS_GRANT_DAY", previousGrantDays);
-            } else {
-                // GRANT_DAY가 정수형이 아닐 경우 PREVIOUS_GRANT_DAY에 null 설정
-                vac.put("PREVIOUS_GRANT_DAY", null);
-            }
-
-            // 출력해보기
-            Object previousGrantDays = vac.get("PREVIOUS_GRANT_DAY");
-            Object modifiedGrantDays = vac.get("GRANT_DAY");
-            System.out.println("이전 GRANT_DAY: " + previousGrantDays);
-            System.out.println("수정된 GRANT_DAY: " + modifiedGrantDays);
-        }
-
-        return modifiedVacList;
+//        for (Map<String, Object> vac : modifiedVacList) {
+//            Object grantDaysObj = vac.get("GRANT_DAY");
+//            Object previousGrantDays = getPreviousGrantDays(vac);
+//            vac.put("PREVIOUS_GRANT_DAY", previousGrantDays != null ? previousGrantDays.toString() : null);
+//        }
+//
+//        for (Map<String, Object> vacation : modifiedVacList) {
+//            Object previousGrantDays = vacation.get("PREVIOUS_GRANT_DAY");
+//            Object modifiedGrantDays = vacation.get("GRANT_DAY");
+//
+//            // 변환된 값 출력
+//            System.out.println("이전 GRANT_DAY: " + previousGrantDays);
+//            System.out.println("수정된 GRANT_DAY: " + modifiedGrantDays);
+//        }
+//        return modifiedVacList;
+        return subHolidayRepository.getModVacList(map);
     }
-    private Object getPreviousGrantDays(Map<String, Object> vac) {
-        Object grantDaysObj = vac.get("GRANT_DAY");
-        Object previousGrantDaysObj = vac.get("PREVIOUS_GRANT_DAY");
 
-        if (grantDaysObj instanceof Integer || grantDaysObj instanceof String) {
-            return previousGrantDaysObj != null ? previousGrantDaysObj : grantDaysObj;
-        }
-        return null; // 또는 다른 처리 방식 선택
+//    private Object getPreviousGrantDays(Map<String, Object> vac) {
+//        Object grantDaysObj = vac.get("GRANT_DAY");
+//        if (grantDaysObj instanceof Integer || grantDaysObj instanceof String) {
+//            return grantDaysObj;
+//        }
+//        return null; // 또는 다른 처리 방식 선택
+//    }
+
+    @Override
+    public List<Map<String, Object>> getGrantDay(Map<String, Object> map){
+       return subHolidayRepository.getGrantDay(map);
     }
 
 }

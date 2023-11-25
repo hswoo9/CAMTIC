@@ -1166,4 +1166,106 @@
           AND
             #{bsYm} BETWEEN DATE_FORMAT(A.PART_DET_STR_DT, '%Y-%m') AND DATE_FORMAT(A.PART_DET_END_DT, '%Y-%m')
     </select>
+
+    <select id="getDepositList" parameterType="map" resultType="map">
+        /*getDepositList*/
+        SELECT
+            A.*,
+            B.DOC_NO,
+            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_DEPO_DET WHERE PAY_DEPO_SN = A.PAY_DEPO_SN AND DET_STAT != "N") AS TOT_COST
+        FROM
+            CAM_MNG.DJ_PAY_DEPO A
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO B
+        ON
+            A.DOC_ID = B.DOC_ID
+        WHERE
+            1=1
+        <if test='docStatus != null and !"".equals(docStatus)'>
+            AND
+                A.DOC_STATUS = #{docStatus}
+        </if>
+        ORDER BY PAY_DEPO_SN DESC
+    </select>
+
+    <insert id="insPayDepo" parameterType="map">
+        /*insPayDepo*/
+        INSERT INTO CAM_MNG.DJ_PAY_DEPO
+            (
+                APP_DE,
+                PAY_INCP_DE,
+                PJT_NM,
+                PJT_SN,
+                BUDGET_NM,
+                BUDGET_SN,
+                DEPO_TITLE,
+                DEPO_CONT,
+                BNK_SN,
+                BNK_NM,
+                ACC_NM,
+                ACC_NO,
+                DEPO_AMT,
+                GUBUN,
+                DEPO_STAT,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{appDe},
+                #{payIncpDe},
+                #{pjtNm},
+                #{pjtSn},
+                #{budgetNm},
+                #{budgetSn},
+                #{depoTitle},
+                #{depoCont},
+                #{bnkSn},
+                #{bnkNm},
+                #{accNm},
+                #{accNo},
+                #{depoAmt},
+                #{gubun},
+                #{depoStat},
+                #{regEmpSeq}
+            )
+    </insert>
+
+    <update id="updPayDepo" parameterType="map">
+        /*updPayDepo*/
+        UPDATE CAM_MNG.DJ_PAY_DEPO
+        SET
+            APP_DE = #{appDe},
+            PAY_INCP_DE = #{payIncpDe},
+            PJT_NM = #{pjtNm},
+            PJT_SN = #{pjtSn},
+            BUDGET_NM = #{budgetNm},
+            BUDGET_SN = #{budgetSn},
+            DEPO_TITLE = #{depoTitle},
+            DEPO_CONT = #{depoCont},
+            BNK_SN = #{bnkSn},
+            BNK_NM = #{bnkNm},
+            ACC_NM = #{accNm},
+            ACC_NO = #{accNo},
+            DEPO_AMT = #{depoAmt},
+            GUBUN = #{gubun},
+            DEPO_STAT = #{depoStat},
+            MOD_DT = NOW(),
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            PAY_DEPO_SN = #{payDepoSn}
+    </update>
+
+    <select id="getPayDepoData" parameterType="map" resultType="map">
+        /*getPayDepoData*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_PAY_DEPO A
+        LEFT JOIN
+            CAM_MNG.DJ_PAY_INCP B
+        ON
+            A.PAY_INCP_SN = B.PAY_INCP_SN
+        WHERE
+            PAY_DEPO_SN = #{payDepoSn}
+    </select>
 </mapper>

@@ -2001,7 +2001,7 @@
                         var row = $("<tr></tr>"); // 새로운 행 생성
 
                         // 각 데이터를 해당 열에 추가
-                        row.append($("<td class='card_number'></td>").text(card.card_number));
+                        row.append($("<td class='row_num'></td>").text(card.row_num));
                         row.append($("<td class='dept_name'></td>").text(card.dept_name));
                         row.append($("<td class='dept_team_name'></td>").text(card.dept_team_name));
                         row.append($("<td class='emp_name_kr'></td>").text(card.emp_name_kr));

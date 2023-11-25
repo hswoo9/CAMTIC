@@ -21,7 +21,7 @@ var subHolidaySettingPop = {
             start: "month",
             culture: "ko-KR",
             format: "yyyy-MM-dd",
-            value: new Date(now.setMonth(now.getMonth() - 1))
+            value: now
         });
 
 
@@ -52,9 +52,8 @@ var subHolidaySettingPop = {
                     type : "post"
                 },
                 parameterMap: function(data, operation) {
-                    // data.searchType = $("#searchType").val();
-                    // data.searchVal = $("#searchVal").val();
-                    // data.modDate = $("#modDate").val();
+                    data.searchVal = $("#searchVal").val();
+                    data.modDate = $("#modDate").val();
 
                     return data;
                 }
@@ -98,11 +97,11 @@ var subHolidaySettingPop = {
             },
             columns: [
                 {
-                    field : "",
+                    field : "HOLIDAY_ID",
                     title : "순번",
                     width : 90,
                     editable: function(){
-                        return false;
+                        return '<input type="hidden" id="holidayId" value="' + params.data.HOLIDAY_ID + '" />' + params.data.HOLIDAY_ID;
                     },
                 },{
                     title : "변경사항",
@@ -165,7 +164,7 @@ var subHolidaySettingPop = {
                         return false;
                     },
                 }, {
-                    field : "MOD_EMP_SEQ",
+                    field : "EMP_NAME_KR",
                     title : "수정자",
                     width : 90,
                     editable: function(){
@@ -181,8 +180,7 @@ var subHolidaySettingPop = {
         console.log('gridReload 함수 호출됨');
         subHolidaySettingPop.global.searchAjaxData = {
             modDate : $("#modDate").val(),
-            searchVal: $("#searchVal").val(),
-            searchType: $("#searchType").val(),
+            searchVal: $("#searchVal").val()
         };
 
 

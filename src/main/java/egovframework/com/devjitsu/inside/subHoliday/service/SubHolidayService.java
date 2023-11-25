@@ -99,4 +99,6 @@ public interface SubHolidayService {
      */
     List<Map<String,Object>> getModVacList (Map<String,Object> map);
 
+    List<Map<String, Object>> getGrantDay(Map<String, Object > map);
+
 }
