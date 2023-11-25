@@ -92,22 +92,23 @@ var depoInfo = {
                 }, {
                     title: "공급가액",
                     template : function(e){
-                        return '';
+                        return "<div style='text-align:right;'>" + comma(e.DEPO_AMT - (e.DEPO_AMT / 10)) + "</div>";
                     }
                 }, {
                     title: "세엑",
                     template : function(e){
-                        return '';
+                        return "<div style='text-align:right;'>" + comma(e.DEPO_AMT / 10) + "</div>";
                     }
                 }, {
                     title: "합계",
                     template : function(e){
-                        return '';
+                        return "<div style='text-align:right;'>" + comma(e.DEPO_AMT) + "</div>";
+
                     }
                 }, {
                     title: "입금예정일",
                     template : function(e){
-                        return '';
+                        return e.PAY_INCP_DE;
                     }
                 }, {
                     title: "입금일",
@@ -117,18 +118,22 @@ var depoInfo = {
                 }, {
                     title: "입금액",
                     template : function(e){
-                        return '';
+                        return "<div style='text-align:right;'>" + comma(0) + "</div>";
                     }
                 }, {
                     title: "잔액",
                     template : function(e){
-                        return '';
+                        return "<div style='text-align:right;'>" + comma(e.DEPO_AMT) + "</div>";
                     }
                 }, {
                     title: "상태",
                     width: 100,
                     template: function(e){
-                        return '';
+                        if(e.DOC_STATUS == "100"){
+                            return "결재완료"
+                        } else {
+                            return "작성중"
+                        }
                     },
                 }
             ],

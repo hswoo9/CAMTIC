@@ -213,7 +213,6 @@
                         <col style="width: 5%;">
                         <col style="width: 5%;">
                         <col style="width: 7%;">
-
                         <col style="width: 5%;">
                         <col style="width: 7%;">
                         <col style="width: 7%;">
@@ -229,7 +228,6 @@
                             <th>규격</th>
                             <th>수량</th>
                             <th>단가</th>
-
                             <th>단위</th>
                             <th>금액</th>
                             <th>요청금액</th>
@@ -265,6 +263,9 @@
                             </td>
                             <td>
                                 <input type="text" id="purcItemAmt" class="itemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            </td>
+                            <td>
+                                <input id="difAmt" class="difAmt" disabled value="0" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                             </td>
                             <td>
                                 <label for="itemEtc"></label><input type="text" id="itemEtc" class="itemEtc">

@@ -205,4 +205,8 @@ public class PayAppRepository extends AbstractDAO {
     public Map<String, Object> getPayDepoData(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("payApp.getPayDepoData", params);
     }
+
+    public void updPayDepoData(Map<String, Object> params) {
+        update("payApp.updPayDepoData", params);
+    }
 }

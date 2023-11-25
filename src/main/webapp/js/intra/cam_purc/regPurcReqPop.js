@@ -109,6 +109,12 @@ var prp = {
         formData.append("status", e);
         formData.append("empSeq", $("#purcReqEmpSeq").val());
 
+        if($("#checkProfit").prop("checked")){
+            formData.append("checkProfit", "Y");
+        } else {
+            formData.append("checkProfit", "N");
+        }
+
         if($("#file1")[0].files.length == 1){
             formData.append("file1", $("#file1")[0].files[0]);
         }
@@ -365,6 +371,10 @@ var prp = {
             $("#purcReqDeptName").text(data.DEPT_NAME);
             $("#purcReqPurpose").val(data.PURC_REQ_PURPOSE);
             $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
+
+            if(data.CHECK_PROFIT == "Y"){
+                $("#checkProfit").prop("checked", true);
+            }
 
             if($("input[name='purcType']:checked").val() != ""){
                 $("#project").css("display", "");

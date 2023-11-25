@@ -42,14 +42,14 @@ var depositList = {
                 template: "데이터가 존재하지 않습니다."
             },
             toolbar: [
-                {
-                    name: 'button',
-                    template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="depositList.fn_reqRegPopup()">' +
-                            '	<span class="k-button-text">입금신청서 작성</span>' +
-                            '</button>';
-                    }
-                },
+                // {
+                //     name: 'button',
+                //     template: function(){
+                //         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="depositList.fn_reqRegPopup()">' +
+                //             '	<span class="k-button-text">입금신청서 작성</span>' +
+                //             '</button>';
+                //     }
+                // },
                 {
                     name: 'button',
                     template: function(){
@@ -64,56 +64,55 @@ var depositList = {
                     width: 40,
                     template: "#= --record #"
                 }, {
-                    title: "문서유형",
+                    title: "구분",
                     width: 90,
                     template: function(e){
-                        if(e.PAY_APP_TYPE == 1){
-                            return "세금계산서";
-                        } else if (e.PAY_APP_TYPE == 2){
-                            return "계산서";
-                        } else if(e.PAY_APP_TYPE == 3){
-                            return "신용카드";
-                        } else if(e.PAY_APP_TYPE == 4){
-                            return "직원지급";
-                        } else if(e.PAY_APP_TYPE == 5){
-                            return "소득신고자";
-                        } else {
-                            return "기타";
+                        var gubun = "";
+                        if(e.GUBUN == "a"){
+                            gubun = "입금";
+                        }else if(e.GUBUN == "b"){
+                            gubun = "설치";
+                        } else if (e.GUBUN == "c"){
+                            gubun = "사급";
                         }
+                        return gubun;
                     }
                 }, {
                     field: "DOC_NO",
                     title: "문서번호",
                     width: 120,
                 }, {
-                    title: "신청건명",
-                    field: "APP_TITLE",
-                    width: 280,
+                    title: "입금여부",
+                    width: 120,
                     template: function(e){
-                        console.log(e);
-                        var status = "";
-                        if(e.PAY_APP_TYPE == 1){
-                            status = "rev";
-                        } else if (e.PAY_APP_TYPE == 2){
-                            status = "in";
+                        var depoStat = "";
+                        if(e.DEPO_STAT == "1"){
+                            depoStat = "전액";
+                        }else if(e.DEPO_STAT == "2"){
+                            depoStat = "선금";
+                        } else if (e.DEPO_STAT == "3"){
+                            depoStat = "중도금";
+                        } else if (e.DEPO_STAT == "4"){
+                            depoStat = "잔금";
                         }
-                        return '<div style="cursor: pointer; font-weight: bold" onclick="paymentList.fn_reqRegPopup('+e.PAY_APP_SN+', \''+status+'\', \'user\')">'+e.APP_TITLE+'</div>';
+                        return depoStat;
+                    }
+                }, {
+                    title: "신청건명",
+                    field: "DEPO_TITLE",
+                    width: 350,
+                    template: function(e){
+                        var status = "";
+
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="depositList.fn_reqRegPopup('+e.PAY_DEPO_SN+', \''+status+'\', \'user\')">'+e.DEPO_TITLE+'</div>';
                     }
                 }, {
                     title: "프로젝트 명",
                     field: "PJT_NM",
-                    width: 240,
+                    width: 130,
                     template: function(e){
                         var pjtNm = e.PJT_NM.toString().substring(0, 25);
                         return pjtNm + "...";
-                    }
-                }, {
-                    title: "신청일",
-                    width: 80,
-                    field: "REG_DT",
-                    template: function(e){
-
-                        return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
                     }
                 }, {
                     title: "입금요청일",
@@ -122,7 +121,7 @@ var depositList = {
                 }, {
                     title: "입금예정일",
                     width: 80,
-                    field: ""
+                    field: "PAY_INCP_DE"
                 }, {
                     title: "입금완료일",
                     width: 80,

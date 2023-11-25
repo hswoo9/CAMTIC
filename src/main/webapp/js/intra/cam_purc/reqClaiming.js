@@ -7,7 +7,7 @@ var reqCl = {
         customKendo.fn_textBox(["pjtNm", "purcDeptName", "purcEmpName", "claimEtc"
                                 ,"claimTitle", "purcReqPurpose", "crmNm"
                                 ,"estAmt", "vatAmt", "totAmt", "itemNm", "itemStd"
-                                ,"itemEa", "itemUnitAmt", "itemUnit", "itemAmt", "itemEtc"])
+                                ,"itemEa", "itemUnitAmt", "itemUnit", "purcItemAmt", "itemAmt", "itemEtc", "difAmt"])
 
         var radioDataSource = [
             { label: "R&D", value: "R" },
@@ -237,6 +237,9 @@ var reqCl = {
             '           <input type="text" id="purcItemAmt'+len+'" class="purcItemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
             '       </td>' +
             '       <td>' +
+            '           <input id="difAmt'+len+'" class="difAmt" value="'+comma(0)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+            '       </td>' +
+            '       <td>' +
             '           <label for="itemEtc'+len+'"></label><input type="text" id="itemEtc'+len+'" class="itemEtc">' +
             '       </td>' +
             '       <td>' +
@@ -251,7 +254,7 @@ var reqCl = {
 
         $("#claimTbody").append(html);
 
-        customKendo.fn_textBox(["itemNm" + len, "itemStd" + len
+        customKendo.fn_textBox(["itemNm" + len, "itemStd" + len, "difAmt" + len
             ,"itemEa" + len, "itemUnitAmt" + len, "itemUnit" + len, "itemAmt" + len, "purcItemAmt" + len, "itemEtc" + len])
 
         var radioProdDataSource = [

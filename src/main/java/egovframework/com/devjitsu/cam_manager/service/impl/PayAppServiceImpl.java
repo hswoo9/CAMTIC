@@ -256,6 +256,10 @@ public class PayAppServiceImpl implements PayAppService {
             payAppRepository.delPayIncpDetailData(params);
         }
 
+        if(params.containsKey("payDepoSn")){
+            payAppRepository.updPayDepoData(params);
+        }
+
         for(Map<String, Object> map : itemArr){
             map.put("payIncpSn", params.get("payIncpSn"));
             payAppRepository.insPayIncpDetailData(map);

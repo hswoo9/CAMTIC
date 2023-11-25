@@ -2394,7 +2394,11 @@
     <select id="getDepositList" parameterType="map" resultType="map">
         /*getDepositList*/
         SELECT
-            *
+            A.*,
+            B.PJT_NM,
+            B.DOC_ID,
+            B.DOC_STATUS,
+            B.PAY_EXNP_DE
         FROM
             CAM_MNG.DJ_PAY_DEPO A
         LEFT JOIN
