@@ -143,6 +143,20 @@ var incomeList = {
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    fn_incomePopup : function (payDepoSn){
+        var url = "/payApp/pop/regIncmPop.do";
+        if(payDepoSn != null && payDepoSn != ""){
+            url = "/payApp/pop/regIncmPop.do?payDepoSn=" + payDepoSn;
+        }
+
+        if(status != null && status != ""){
+            url = url + "&status=" + status;
+        }
+        var name = "blank";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
     }
 }
 

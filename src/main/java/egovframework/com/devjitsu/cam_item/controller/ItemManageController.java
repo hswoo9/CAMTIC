@@ -1233,5 +1233,31 @@ public class ItemManageController {
 
     /** 캠아이템 > 아이템관리 > 마감관리 */
 
+    /**
+     * 매출확정
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/crmSalesConfirmList.do")
+    public String deadlineManageList(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+        model.addAttribute("loginVO", loginVO);
 
+        return "cam_item/itemMa/deadlineMa/crmSalesConfirmList";
+    }
+
+    /**
+     * 매출확정 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getCrmSalesConfirmList.do")
+    public String getDeadLineManageList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", itemManageService.getCrmSalesConfirmList(params));
+        return "jsonView";
+    }
 }

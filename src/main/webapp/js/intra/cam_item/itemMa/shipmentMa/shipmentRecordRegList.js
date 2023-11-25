@@ -206,6 +206,13 @@ var srrl = {
                     title: "비고",
                     field: "RMK",
                     width: 200,
+                    template : function(e){
+                        if(e.DELIVERY_AMT == e.DELIVERY_VOLUME){
+                            return e.RMK;
+                        }else {
+                            return "<input type='text' class='k-input k-textbox' id='rmk" + e.SM_RECORD_SN + "' value='" + e.RMK + "'>";
+                        }
+                    }
                 }, {
                     title: "상태",
                     width: 80,
@@ -275,7 +282,7 @@ var srrl = {
         $.each($("input[name=rcSn]:checked"), function(){
             var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(this).closest("tr"));
             if(Number(dataItem.DELIVERY_AMT) < Number(dataItem.DELIVERY_VOLUME)){
-                smRecordSnArr += "|smRecordSn_" + $(this).val() + ",deliveryAmt_" + String(Number($("#deliveryVolume" + dataItem.SM_RECORD_SN).val()))
+                smRecordSnArr += "|smRecordSn_" + $(this).val() + ",deliveryAmt_" + String(Number($("#deliveryVolume" + dataItem.SM_RECORD_SN).val())) + ",rmk_" + $("#rmk" + dataItem.SM_RECORD_SN).val()
                 if(!shipmentArr.find(element => element.masterSn == dataItem.MASTER_SN)){
                     var data = {
                         masterSn : String(dataItem.MASTER_SN),

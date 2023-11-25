@@ -9,6 +9,8 @@
 <script type="text/javascript" src="/js/intra/cam_crm/regCrmPop.js?v=${today}"/></script>
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/deposit/regPayDepoPop.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/incomeList.js?v=${today}'/>"></script>
+
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/g20Callback.js?v=${today}'/>"></script>
 
 <input type="hidden" id="payDepoSn" name="payDepoSn" value="${params.payDepoSn }" />
@@ -23,6 +25,7 @@
                 </span>
             </h3>
             <div id="payAppBtnDiv" class="btn-st popButton">
+                <button type="button" class="k-button k-button-solid-info" style="display: none;" id="incpBtn" onclick="incomeList.fn_incomePopup('${params.payDepoSn}')">수입결의서 작성</button>
                 <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="regPayDepo.fn_save();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>

@@ -767,6 +767,11 @@ public class ItemManageServiceImpl implements ItemManageService {
         }
     }
 
+    @Override
+    public List<Map<String, Object>> getCrmSalesConfirmList(Map<String, Object> params) {
+        return itemManageRepository.getCrmSalesConfirmList(params);
+    }
+
     public String cellValueToString(XSSFCell cell){
         String txt = "";
 

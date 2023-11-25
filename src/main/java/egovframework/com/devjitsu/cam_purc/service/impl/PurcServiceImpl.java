@@ -13,6 +13,12 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.font.GlyphVector;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -265,6 +271,7 @@ public class PurcServiceImpl implements PurcService {
     @Override
     public void updPurcInspect(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
         /** 검수 파일 */
+        String strWText = "Camtic";
         if(file.length > 0){
             MainLib mainLib = new MainLib();
             List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, server_dir));
@@ -275,6 +282,117 @@ public class PurcServiceImpl implements PurcService {
                 list.get(i).put("filePath", filePath(params, base_dir));
                 list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
                 list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+
+                if("jpg".equals(list.get(i).get("fileExt")) || "JPG".equals(list.get(i).get("fileExt")) || "png".equals(list.get(i).get("fileExt")) || "PNG".equals(list.get(i).get("fileExt"))) {
+                    try{
+                        File sourceImageFile = new File(list.get(i).get("filePath").toString() + list.get(i).get("fileUUID").toString());
+                        File destImageFile = sourceImageFile;
+
+                        BufferedImage sourceImage = ImageIO.read(sourceImageFile);
+
+                        Graphics2D g2d = (Graphics2D) sourceImage.getGraphics();
+
+                        g2d.scale(1, 1);
+                        g2d.addRenderingHints(
+                                new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
+                        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+                        Font font = new Font("나눔고딕", Font.PLAIN, 18);
+
+                        GlyphVector fontGV = font.createGlyphVector(g2d.getFontRenderContext(), strWText);
+
+                        Rectangle size = fontGV.getPixelBounds(g2d.getFontRenderContext(),0,0);
+
+                        Shape textShape = fontGV.getOutline();
+
+                        //double textWidth = size.getWidth();
+
+                        double textWidth = size.getWidth();
+
+
+
+                        //double textHeight = size.getHeight();
+
+                        double textHeight = size.getHeight()*3; // 텍스트 간격이다.
+
+                        //AffineTransform rotate45 = AffineTransform.getRotateInstance(Math.PI / 4d);
+
+                        AffineTransform rotate45 = AffineTransform.getRotateInstance(Math.PI / 5d);
+
+                        Shape rotatedText = rotate45.createTransformedShape(textShape);
+
+
+
+                        // use a gradient that repeats 4 times
+
+                        g2d.setPaint(new GradientPaint(0, 0,
+
+                                new Color(0f, 0f, 0f, 0.1f),
+
+                                sourceImage.getWidth() / 2, sourceImage.getHeight() / 2,
+
+                                new Color(0f, 0f, 0f, 0.1f)));
+
+                        //new Color(1f, 1f, 1f, 0.1f)));
+
+                        //g2d.setStroke(new BasicStroke(0.5f));
+
+                        g2d.setStroke(new BasicStroke(1f));
+
+
+
+                        // step in y direction is calc'ed using pythagoras + 5 pixel padding
+
+                        //double yStep = Math.sqrt(textWidth * textWidth / 2) + 2;
+
+                        double yStep = Math.sqrt(textWidth * textWidth / 2); //
+
+
+
+                        System.out.println("yStep : " + yStep);
+
+
+
+                        // step over image rendering watermark text
+
+                        //for (double x = -textHeight * 3; x < sourceImage.getWidth(); x += (textHeight * 3)) {
+
+
+
+                        for (double x = -textHeight; x < sourceImage.getWidth()/2; x += textHeight) {
+
+
+
+                            double y = -yStep;
+
+
+
+                            for (; y < sourceImage.getHeight(); y += yStep) {
+
+                                g2d.draw(rotatedText);
+
+                                g2d.fill(rotatedText);
+
+                                g2d.translate(0, yStep);
+
+                            }
+
+
+
+                            g2d.translate(textHeight * 3, -(y + yStep));
+
+                        }
+
+
+
+                        ImageIO.write(sourceImage, "jpg", destImageFile);
+
+                        g2d.dispose();
+
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
             }
             commonRepository.insFileInfo(list);
         }

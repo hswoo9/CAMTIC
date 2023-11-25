@@ -104,7 +104,7 @@ public class CommFileUtil {
     }
 
 
-    private String uploadPath = "/usr/local/tomcat8/dj_camtic/upload/";
+    private String uploadPath = "/home/upload/";
     private String ADDRESS = "218.158.231.186";
     private int PORT = 20022;
     private String USERNAME = "root";
