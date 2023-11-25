@@ -99,23 +99,23 @@ var prdList = {
                     title: "품명",
                     width: 150
                 }, {
-                    title: "단가",
+                    title: "구매업체",
                     width: 100,
-                    template : function(e){
-                        return '<div style="text-align: right">'+comma(e.PURC_ITEM_UNIT_PRICE)+' 원</div>'
-                    }
-                }, {
-                    title: "단위",
-                    field: "PURC_ITEM_UNIT",
-                    width: 100,
+                    field: "CRM_NM"
                 }, {
                     title: "규격",
                     field: "PURC_ITEM_STD",
                     width: 100,
                 }, {
-                    title: "구매업체",
+                    title: "단위",
+                    field: "PURC_ITEM_UNIT",
                     width: 100,
-                    field: "CRM_NM"
+                }, {
+                    title: "단가",
+                    width: 100,
+                    template : function(e){
+                        return '<div style="text-align: right">'+comma(e.PURC_ITEM_UNIT_PRICE)+' 원</div>'
+                    }
                 }
             ],
             dataBinding: function(){

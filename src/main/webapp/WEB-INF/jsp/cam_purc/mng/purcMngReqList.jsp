@@ -29,11 +29,13 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
-                        <col width="23%">
                         <col width="10%">
-                        <col width="23%">
                         <col width="10%">
-                        <col width="24%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="30%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회유형</th>
@@ -43,6 +45,10 @@
                         <th class="text-center th-color">검수상태</th>
                         <td>
                             <input type="text" id="inspectStat" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">프로젝트</th>
+                        <td>
+                            <input type="text" id="busnClass" style="width: 150px;">
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>

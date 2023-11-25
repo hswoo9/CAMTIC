@@ -29,6 +29,18 @@ var purcMngReqList = {
             { text: "검수 작성 및 승인", value: "3" }
         ]
 
+        $("#busnClass").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: "전체", value: ""},
+                {text: "R&D", value: "R"},
+                {text: "비R&D", value: "S"},
+                {text: "엔지니어링", value: "D"},
+                {text: "기타/용역", value: "N"},
+            ],
+        });
+
         customKendo.fn_dropDownList("inspectStat", purcMngReqList.global.dropDownDataSource, "text", "value");
         $("#inspectStat").data("kendoDropDownList").bind("change", purcMngReqList.gridReload);
         purcMngReqList.gridReload();
@@ -89,37 +101,39 @@ var purcMngReqList = {
                 }, {
                     title: "외주",
                     width: 100
-                }, {
-                    title: "상태",
-                    width: 150,
-                    template: function (e){
-                        if(e.MC_STATUS != null && e.MC_STATUS != ""){
-                            if(e.MC_STATUS == 100){
-                                return '<a onclick="approveDocView(\''+e.MC_DOC_ID+'\', \''+e.MC_APPRO_KEY+'\', \''+e.MC_DOC_MENU_CD+'\')" style="font-weight: bold ">구매청구완료(결재완료)</a>';
-                            }else if(e.MC_STATUS > 0){
-                                return '<a onclick="approveDocView(\''+e.MC_DOC_ID+'\', \''+e.MC_APPRO_KEY+'\', \''+e.MC_DOC_MENU_CD+'\')" style="font-weight: bold ">구매청구완료(결재중)</a>';
-                            }else if(e.MC_STATUS == 0){
-                                return "청구작업중";
-                            }
-                        }else{
-                            return "미작성";
-                        }
-                    }
-                }, {
-                    title: "검수여부",
-                    width: 90,
-                    template: function (e){
-                        if(e.INSPECT_YN == "Y"){
-                            if(e.INSPECT_STATUS != "100"){
-                                return "검수완료";
-                            }else{
-                                return "검수승인완료";
-                            }
-                        }else{
-                            return "검수미작성";
-                        }
-                    }
                 }
+                // , {
+                //     title: "상태",
+                //     width: 150,
+                //     template: function (e){
+                //         if(e.MC_STATUS != null && e.MC_STATUS != ""){
+                //             if(e.MC_STATUS == 100){
+                //                 return '<a onclick="approveDocView(\''+e.MC_DOC_ID+'\', \''+e.MC_APPRO_KEY+'\', \''+e.MC_DOC_MENU_CD+'\')" style="font-weight: bold ">구매청구완료(결재완료)</a>';
+                //             }else if(e.MC_STATUS > 0){
+                //                 return '<a onclick="approveDocView(\''+e.MC_DOC_ID+'\', \''+e.MC_APPRO_KEY+'\', \''+e.MC_DOC_MENU_CD+'\')" style="font-weight: bold ">구매청구완료(결재중)</a>';
+                //             }else if(e.MC_STATUS == 0){
+                //                 return "청구작업중";
+                //             }
+                //         }else{
+                //             return "미작성";
+                //         }
+                //     }
+                // }
+                // , {
+                //     title: "검수여부",
+                //     width: 90,
+                //     template: function (e){
+                //         if(e.INSPECT_YN == "Y"){
+                //             if(e.INSPECT_STATUS != "100"){
+                //                 return "검수완료";
+                //             }else{
+                //                 return "검수승인완료";
+                //             }
+                //         }else{
+                //             return "검수미작성";
+                //         }
+                //     }
+                // }
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);

@@ -101,6 +101,10 @@
                                 <h3 class="card-title">첨부파일</h3>
                                 <div class="card-options">
                                     <div class="filebox">
+                                        <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-info" id="fileDownload" onclick="docDown();">
+                                            <span class="k-icon k-i-track-changes-accept k-button-icon"></span>
+                                            <span class="k-button-text">양식다운로드</span>
+                                        </button>
                                         <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
                                             <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
                                             <span class="k-button-text">파일첨부</span>
@@ -222,6 +226,14 @@
             $("#productB" + i).data("kendoDropDownList").enable(false);
             $("#productC" + i).data("kendoDropDownList").enable(false);
         }
+    }
+
+    function docDown(filePath, fileName){
+        filePath = "/upload/docForm"
+        fileName = "검사검수조서.hwp";
+        kendo.saveAs({
+            dataURI: "/common/fileDownload.do?filePath=" + filePath + "/formA.hwp&fileName=" + encodeURIComponent(fileName),
+        });
     }
 </script>
 </body>
