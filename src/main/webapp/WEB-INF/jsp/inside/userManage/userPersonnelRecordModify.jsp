@@ -342,15 +342,15 @@
                                             <tr>
                                                 <td>${fn:length (cList) - status.index}</td>
                                                 <td><input type="text" id="sDate2" value='${l.JOIN_DAY}' style="width: 45%;"> ~ <input type="text" id="eDate2" value= '${l.RESIGN_DAY}' style="width: 45%;"></td>
-                                                <td><input type="text" id="place2" value='${l.EMPLOY_DEPT_NAME}' style="width: 95%;"> </td>
-                                                <td><input type="text" id="position2" value='${l.POSITION_OR_DUTY}' style="width: 50%;"> </td>
-                                                <td><input type="text" id="workType2" value='${l.MAIN_TASK}' style="width: 50%;"> </td>
+                                                <td><input type="text" id="place2" value='${l.EMPLOY_DEPT_NAME}' style="width: 100%;"> </td>
+                                                <td><input type="text" id="position2" value='${l.POSITION_OR_DUTY}' style="width: 100%;"> </td>
+                                                <td><input type="text" id="workType2" value='${l.MAIN_TASK}' style="width: 100%;"> </td>
                                                 <td>
                                                     <c:if test="${l.CAREER_PERIOD ne null and l.CAREER_PERIOD ne ''}">
-                                                        <input type="text" id="dateY2" value='${l.CAREER_PERIOD}' style="width: 10%;">년
+                                                        <input type="text" id="dateY2" value='${l.CAREER_PERIOD}' style="width: 25%;">년
                                                     </c:if>
                                                     <c:if test="${l.CAREER_MONTH ne null and l.CAREER_MONTH ne ''}">
-                                                       <input type="text" id="dateM2" value='${l.CAREER_MONTH}' style="width: 10%;">개월
+                                                       <input type="text" id="dateM2" value='${l.CAREER_MONTH}' style="width: 25%;">개월
                                                     </c:if>
                                                 </td>
 
@@ -376,10 +376,10 @@
                                         <tr>
                                             <td></td>
                                             <td><input type="text" id="sDate3" style="width: 45%;"> ~ <input type="text" id="eDate3" style="width: 45%;"></td>
-                                            <td><input type="text" id="place3" style="width: 95%;"> </td>
-                                            <td><input type="text" id="position3" style="width: 50%;"> </td>
-                                            <td><input type="text" id="workType3" style="width: 50%;"> </td>
-                                            <td><input type="text" id="dateY3" style="width: 10%;">년 <input type="text" id="dateM3" style="width: 10%;">개월
+                                            <td><input type="text" id="place3" style="width: 100%;"> </td>
+                                            <td><input type="text" id="position3" style="width: 100%;"> </td>
+                                            <td><input type="text" id="workType3" style="width: 100%;"> </td>
+                                            <td><input type="text" id="dateY3" style="width: 25%;">년 <input type="text" id="dateM3" style="width: 25%;">개월
                                             </td>
                                             <td>
                                                 <label for="addFile" class="k-button k-button-solid-base">파일첨부</label>
@@ -474,10 +474,10 @@
                                         <c:if test="${l.FAMILY_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
                                                 <td>${fn:length (fList) - status.index}</td>
-                                                <td><input type="text" id="relation" class="relation" value="${l.FAMILY_CODE}" style="width: 50%;"></td>
-                                                <td><input type="text" id="fName" value="${l.FAMILY_NAME}" style="width: 50%;"></td>
-                                                <td><input type="text" id="bDay1" value="${l.FAMILY_BIRTH}" style="width: 50%;"></td>
-                                                <td><input type="text" id="job" value="${l.FAMILY_JOB}" style="width: 50%;"></td>
+                                                <td><input type="text" id="relation" class="relation" value="${l.FAMILY_CODE}" style="width: 100%;"></td>
+                                                <td><input type="text" id="fName" value="${l.FAMILY_NAME}" style="width: 100%;"></td>
+                                                <td><input type="text" id="bDay1" value="${l.FAMILY_BIRTH}" style="width: 100%;"></td>
+                                                <td><input type="text" id="job" value="${l.FAMILY_JOB}" style="width: 100%;"></td>
                                                 <td><span type="text" id="includeType${l.FAMILY_ID}" class="includeType" name="includeType" value="${l.INCLUDE_YN}" style="width: 100%;"></span></td>
                                                 <td>
                                                     <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_familyModifyInfo(${l.FAMILY_ID})"/>
@@ -488,10 +488,10 @@
                                     </c:forEach>
                                     <tr>
                                         <td></td>
-                                        <td><input type="text" id="relation1" class="relation" style="width: 50%;"></td>
-                                        <td><input type="text" id="fName1"  style="width: 50%;"></td>
-                                        <td><input type="text" id="bDay2" style="width: 50%;"></td>
-                                        <td><input type="text" id="job1" style="width: 50%;"></td>
+                                        <td><input type="text" id="relation1" class="relation" style="width: 100%;"></td>
+                                        <td><input type="text" id="fName1"  style="width: 100%;"></td>
+                                        <td><input type="text" id="bDay2" style="width: 100%;"></td>
+                                        <td><input type="text" id="job1" style="width: 100%;"></td>
                                         <td><span type="text" id="includeType1" class="includeType" name="includeType" style="width: 100%;"></span></td>
                                         <td>
                                             <input type="button" class="k-button k-button-solid-info" value="추가" onclick="fu_familyAddInfo()"/>
@@ -534,10 +534,10 @@
                                         <c:if test="${l.CERTIFICATE_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
                                                 <td>${fn:length (lList) - status.index}</td>
-                                                <td><input type="text" id="licenseName" value="${l.CERTIFICATE_NAME}" style="width: 90%;"></td>
-                                                <td><input type="text" id="sDate5" value="${l.ACQUISITION_DAY}" style="width: 45%;"></td>
-                                                <td><input type="text" id="licenseNum" value="${l.CERTIFICATE_NUM}" style="width: 90%;"></td>
-                                                <td><input type="text" id="agency" value="${l.ISSUER}" style="width: 90%;"></td>
+                                                <td><input type="text" id="licenseName" value="${l.CERTIFICATE_NAME}" style="width: 100%;"></td>
+                                                <td><input type="text" id="sDate5" value="${l.ACQUISITION_DAY}" style="width: 100%;"></td>
+                                                <td><input type="text" id="licenseNum" value="${l.CERTIFICATE_NUM}" style="width: 100%;"></td>
+                                                <td><input type="text" id="agency" value="${l.ISSUER}" style="width: 100%;"></td>
 
                                                 <c:if test="${l.certificateAddFile == null}">
                                                     <td></td>
@@ -559,10 +559,10 @@
                                     </c:forEach>
                                     <tr>
                                         <td></td>
-                                        <td><input type="text" id="licenseName1" style="width: 90%;"></td>
-                                        <td><input type="text" id="sDate6" style="width: 45%;"></td>
-                                        <td><input type="text" id="licenseNum1" style="width: 90%;"></td>
-                                        <td><input type="text" id="agency1" style="width: 90%;"></td>
+                                        <td><input type="text" id="licenseName1" style="width: 100%;"></td>
+                                        <td><input type="text" id="sDate6" style="width: 100%;"></td>
+                                        <td><input type="text" id="licenseNum1" style="width: 100%;"></td>
+                                        <td><input type="text" id="agency1" style="width: 100%;"></td>
 
                                         <td>
                                             <label for="certificateAddFile" class="k-button k-button-solid-base">파일첨부</label>
@@ -607,9 +607,9 @@
                                             <tr>
                                                 <td>${fn:length (dList) - status.index}</td>
                                                 <td><input type="text" id="sDate7" value="${l.WORK_JOIN_DAY}" style="width: 45%;"> ~ <input type="text" id="eDate7" value="${l.WORK_LEAVE_DAY}" style="width: 45%;"></td>
-                                                <td><input type="text" id="pay" value="${l.WORK_PAY}" style="width: 95%;"></td>
-                                                <td><input type="text" id="work" value="${l.DUTY_DETAIL}" style="width: 95%;"></td>
-                                                <td><input type="text" id="rank1" value="${l.POSITON_NAME}" style="width: 50%;"></td>
+                                                <td><input type="text" id="pay" value="${l.WORK_PAY}" style="width: 100%;"></td>
+                                                <td><input type="text" id="work" value="${l.DUTY_DETAIL}" style="width: 100%;"></td>
+                                                <td><input type="text" id="rank1" value="${l.POSITON_NAME}" style="width: 100%;"></td>
                                                 <td>
                                                     <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_JobModifyInfo(${l.DUTY_ID})"/>
                                                     <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="fu_JobDelInfo(${l.DUTY_ID})"/>
@@ -620,9 +620,9 @@
                                     <tr>
                                         <td>${fn:length (dList) - status.index}</td>
                                         <td><input type="text" id="sDate8" style="width: 45%;"> ~ <input type="text" id="eDate8" value="${l.WORK_LEAVE_DAY}" style="width: 45%;"></td>
-                                        <td><input type="text" id="pay1" style="width: 95%;"></td>
-                                        <td><input type="text" id="work1" style="width: 95%;"></td>
-                                        <td><input type="text" id="rank2"  style="width: 50%;"></td>
+                                        <td><input type="text" id="pay1" style="width: 100%;"></td>
+                                        <td><input type="text" id="work1" style="width: 100%;"></td>
+                                        <td><input type="text" id="rank2"  style="width: 100%;"></td>
                                         <td>
                                             <input type="button" class="k-button k-button-solid-info" value="추가" onclick="fu_JobAddInfo()"/>
                                         </td>
