@@ -277,8 +277,9 @@ public class InsideCodeController {
 
     //차량사용신청 등록
     @RequestMapping("/inside/setCarRequestInsert")
-    public String setCarRequestInsert(@RequestParam Map<String, Object> params) {
+    public String setCarRequestInsert(@RequestParam Map<String, Object> params, Model model) {
         insideCodeService.setCarRequestInsert(params);
+        model.addAttribute("params", params);
         return "jsonView";
     }
 
@@ -345,6 +346,35 @@ public class InsideCodeController {
         String pattern = "yyyyMMddHHmmss";
         SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
         return formatter.format(today);
+    }
+
+    /** 개인차량 전자결재 팝업*/
+    @RequestMapping("/popup/inside/approvalFormPopup/carApprovalPop.do")
+    public String recruitOfficialApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", login);
+        return "popup/inside/car/approvalFormPopup/carApprovalPop";
+    }
+
+    /** 개인차량 결재 상태값에 따른 UPDATE 메서드 */
+    @RequestMapping(value = "/inside/carReqApp")
+    public String carReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            insideCodeService.updateCarDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
     }
 
 }

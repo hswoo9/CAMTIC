@@ -50,9 +50,16 @@
             IHCR.EMERGENCY_NAME,
             IHCR.EMERGENCY_TEL,
             IHCR.REG_EMP_SEQ,
-            IHCR.REG_EMP_NAME
+            IHCR.REG_EMP_NAME,
+            IHCR.DOC_ID,
+            IHCR.STATUS,
+            IHCR.APPROVAL_EMP_SEQ,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
         FROM
             CAM_INSIDE.DJ_HR_CAR_REQ IHCR
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON IHCR.DOC_ID = DI.DOC_ID
         WHERE IHCR.CAR_REQ_SN = #{carReqSn}
     </select>
 
@@ -303,7 +310,7 @@
                 WAY_POINT_NAME,
                 EMP_SEQ,
                 EMP_NAME,
-                <if test='"1".equals(carType)'>
+                <if test='"2".equals(carTypeSn)'>
                     EMERGENCY_NAME,
                     EMERGENCY_TEL,
                 </if>
@@ -328,7 +335,7 @@
                 #{waypointName},
                 #{empSeq},
                 #{empName},
-                <if test='"1".equals(carType)'>
+                <if test='"2".equals(carTypeSn)'>
                     #{emergencyName},
                     #{emergencyTel},
                 </if>
@@ -336,6 +343,9 @@
                 #{regEmpName},
                 NOW()
             )
+        <selectKey keyProperty="carReqSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_HR_CAR_REQ'
+        </selectKey>
     </insert>
 
     <update id="setCarRequestUpdate" parameterType="map">
@@ -343,24 +353,24 @@
         UPDATE
             CAM_INSIDE.DJ_HR_CAR_REQ
         SET
-            START_DT = #{startDt},
-            END_DT = #{endDt},
-            START_TIME = #{startTime},
-            END_TIME = #{endTime},
-            USE_DEPT_SEQ = #{useDeptSeq},
-            USE_DEPT_NAME = #{useDeptName},
-            CAR_CLASS_SN = #{carClassSn},
-            CAR_CLASS_TEXT = #{carClassText},
-            CAR_TYPE_SN = #{carTypeSn},
-            CAR_TYPE_TEXT = #{carTypeText},
-            CAR_TITLE_NAME = #{carTitleName},
-            VISIT_NAME = #{visitName},
-            WAY_POINT_NAME = #{waypointName},
-            EMP_SEQ = #{empSeq},
-            EMP_NAME = #{empName},
-            <if test='"1".equals(carType)'>
-                EMERGENCY_NAME = #{emergencyName},
-                EMERGENCY_TEL = #{emergencyTel},
+            START_DT = #{startDt}
+            , END_DT = #{endDt}
+            , START_TIME = #{startTime}
+            , END_TIME = #{endTime}
+            , USE_DEPT_SEQ = #{useDeptSeq}
+            , USE_DEPT_NAME = #{useDeptName}
+            , CAR_CLASS_SN = #{carClassSn}
+            , CAR_CLASS_TEXT = #{carClassText}
+            , CAR_TYPE_SN = #{carTypeSn}
+            , CAR_TYPE_TEXT = #{carTypeText}
+            , CAR_TITLE_NAME = #{carTitleName}
+            , VISIT_NAME = #{visitName}
+            , WAY_POINT_NAME = #{waypointName}
+            , EMP_SEQ = #{empSeq}
+            , EMP_NAME = #{empName}
+            <if test='"2".equals(carTypeSn)'>
+                , EMERGENCY_NAME = #{emergencyName}
+                , EMERGENCY_TEL = #{emergencyTel}
             </if>
         WHERE
             CAR_REQ_SN = #{carReqSn}
@@ -553,6 +563,27 @@
             VISIBLE = 'N'
         WHERE
             ROOM_CODE_SN in (${roomCodeSn})
+    </update>
+
+    <update id="updateCarApprStat" parameterType="map">
+        /* updateCarApprStat */
+        UPDATE CAM_INSIDE.DJ_HR_CAR_REQ
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            CAR_REQ_SN = #{carReqSn}
+    </update>
+
+    <update id="updateCarFinalApprStat" parameterType="map">
+        /* updateCarFinalApprStat */
+        UPDATE CAM_INSIDE.DJ_HR_CAR_REQ
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            CAR_REQ_SN = #{carReqSn}
     </update>
 </mapper>
 

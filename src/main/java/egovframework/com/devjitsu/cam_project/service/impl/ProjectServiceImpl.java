@@ -882,6 +882,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public Map<String, Object> getTeamInfo(Map<String, Object> params) {
+        return projectRepository.getTeamInfo(params);
+    }
+
+    @Override
     public void setTeamInfo(Map<String, Object> params) {
         try{
             projectRepository.insTeamProject(params);

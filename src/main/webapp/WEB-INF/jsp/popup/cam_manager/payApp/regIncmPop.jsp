@@ -19,6 +19,7 @@
 </form>
 
 <input type="hidden" id="status" name="status" value="${params.status}" />
+<input type="hidden" id="payDepoSn" name="payDepoSn" value="${params.payDepoSn}" />
 
 <div style="padding:0;">
     <div class="table-responsive">

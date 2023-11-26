@@ -2822,4 +2822,35 @@
         SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 2;
     </select>
 
+    <select id="getTotalEmpCount" parameterType="map" resultType="map">
+        SELECT
+            join_year,
+            employees_joined,
+            employees_resigned
+        FROM (
+                 SELECT
+                     YEAR(JOIN_DAY) AS join_year,
+                     COUNT(*) AS employees_joined
+                 FROM
+                     cam_hr.dj_emp_info
+                 WHERE
+                     JOIN_DAY IS NOT NULL AND YEAR(JOIN_DAY) BETWEEN 1999 AND 2023
+                 GROUP BY
+                     join_year
+             ) AS joined
+                 LEFT JOIN (
+            SELECT
+                YEAR(RESIGN_DAY) AS resign_year,
+                COUNT(*) AS employees_resigned
+            FROM
+                cam_hr.dj_emp_info
+            WHERE
+                RESIGN_DAY IS NOT NULL AND YEAR(RESIGN_DAY) BETWEEN 1999 AND 2023
+            GROUP BY
+                resign_year
+        ) AS resigned ON joined.join_year = resigned.resign_year
+        ORDER BY
+            join_year
+    </select>
+
 </mapper>

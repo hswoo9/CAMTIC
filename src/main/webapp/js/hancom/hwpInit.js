@@ -882,5 +882,17 @@ var hwpInit = {
         hwpDocCtrl.putFieldText('INV_PER', "100%");
         hwpDocCtrl.putFieldText('INV_PER2', invPer+"%");
         hwpDocCtrl.putFieldText('INV_PER3', (100-invPer)+"%");
+    },
+
+    carInit: function(carReqSn){
+        const carInfo = customKendo.fn_customAjax("/bustrip/getCarRequestInfo", {carReqSn: carReqSn});
+        const map = carInfo.data;
+        hwpDocCtrl.putFieldText('CAR_DT', map.START_DT+" "+map.START_TIME+" ~ "+map.END_DT+" "+map.END_TIME);
+        hwpDocCtrl.putFieldText('CAR_CLASS_TEXT', map.CAR_CLASS_TEXT);
+        hwpDocCtrl.putFieldText('CAR_TITLE_NAME', map.CAR_TITLE_NAME);
+        hwpDocCtrl.putFieldText('VISIT_NAME', map.VISIT_NAME);
+        hwpDocCtrl.putFieldText('EMERGENCY_NAME', map.EMERGENCY_NAME+" "+map.EMERGENCY_TEL);
+        hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
+        hwpDocCtrl.putFieldText('EMP_NAME', map.REG_EMP_NAME);
     }
 }

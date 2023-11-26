@@ -159,4 +159,7 @@ public interface UserManageService{
     Map<String, Integer> getCountMap();
 
     Map<String, Integer> getCountMap2();
+
+    /** 입/퇴사 현황 **/
+    List<Map<String, Object>> getTotalEmpCount(Map<String, Object> params);
 }

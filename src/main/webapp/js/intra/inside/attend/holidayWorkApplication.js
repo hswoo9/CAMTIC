@@ -260,8 +260,8 @@ var holidayWorkApplication ={
         console.log('gridReload 함수 호출됨');
 
         holidayWorkApplication.global.searchAjaxData = {
-            data: $("#workDay").val(),
-            data: $("#status").val()
+            workDay: $("#workDay").val(),
+            status: $("#status").val()
         };
 
         var workDay = holidayWorkApplication.global.searchAjaxData.workDay;

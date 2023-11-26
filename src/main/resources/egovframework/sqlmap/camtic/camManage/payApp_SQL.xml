@@ -1171,14 +1171,16 @@
         /*getDepositList*/
         SELECT
             A.*,
-            B.DOC_NO,
-            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_DEPO_DET WHERE PAY_DEPO_SN = A.PAY_DEPO_SN AND DET_STAT != "N") AS TOT_COST
+            B.PJT_NM,
+            B.DOC_ID,
+            B.DOC_STATUS,
+            B.PAY_EXNP_DE
         FROM
             CAM_MNG.DJ_PAY_DEPO A
         LEFT JOIN
-            DJ_CAMTIC.A_DOC_INFO B
+            CAM_MNG.DJ_PAY_INCP B
         ON
-            A.DOC_ID = B.DOC_ID
+            A.PAY_INCP_SN = B.PAY_INCP_SN
         WHERE
             1=1
         <if test='docStatus != null and !"".equals(docStatus)'>
@@ -1268,4 +1270,13 @@
         WHERE
             PAY_DEPO_SN = #{payDepoSn}
     </select>
+
+    <update id="updPayDepoData" parameterType="map">
+        /*updPayDepoData*/
+        UPDATE CAM_MNG.DJ_PAY_DEPO
+        SET
+            PAY_INCP_SN = #{payIncpSn}
+        WHERE
+            PAY_DEPO_SN = #{payDepoSn}
+    </update>
 </mapper>

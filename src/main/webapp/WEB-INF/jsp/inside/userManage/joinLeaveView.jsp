@@ -75,13 +75,17 @@
                             <tbody>
                             <tr style="background-color: #d8dce3;">
                                 <td>년 도</td>
-                                <td>2023년</td>
-                                <td>2022년</td>
-                                <td>2021년</td>
-                                <td>2020년</td>
-                                <td>2019년</td>
-                                <td>2018년</td>
-                                <td>2017년</td>
+                                <c:forEach var="empCountMap" items="${empTotalList}">
+                                    <c:out value="${empCountMap['join_year']}" />
+                                    ${empCountMap.join_year}
+                                </c:forEach>
+<%--                                <td>2023년</td>--%>
+<%--                                <td>2022년</td>--%>
+<%--                                <td>2021년</td>--%>
+<%--                                <td>2020년</td>--%>
+<%--                                <td>2019년</td>--%>
+<%--                                <td>2018년</td>--%>
+<%--                                <td>2017년</td>--%>
                             </tr>
                             <tr style="background-color: #e1ecff;">
                                 <td> 입 사</td>
@@ -203,4 +207,15 @@
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
+    $.ajax({
+        type: "GET",
+        url: "/Inside/getTotalEmpCount.do",
+        success: function(data) {
+            // 받아온 데이터를 처리하는 코드
+            console.log(data);
+        },
+        error: function(error) {
+            console.error("Error fetching data:", error);
+        }
+    });
 </script>

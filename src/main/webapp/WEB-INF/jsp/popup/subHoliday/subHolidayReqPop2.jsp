@@ -161,6 +161,16 @@
   subHolidayReqPop2.fn_defaultScript();
 
 
+  // URL에서 승인 상태 값을 가져오기
+  var urlParams = new URLSearchParams(window.location.search);
+  var apprStat = urlParams.get('apprStat');
 
+  // 승인 상태에 따라 저장 버튼 숨기기
+  if (apprStat === 'Y') {
+    var saveBtn = document.getElementById("saveBtn");
+    if (saveBtn) {
+      saveBtn.style.display = "none";
+    }
+  }
 </script>
 </body>

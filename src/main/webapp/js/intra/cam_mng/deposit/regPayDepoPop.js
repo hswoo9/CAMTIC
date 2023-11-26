@@ -72,7 +72,27 @@ var regPayDepo = {
             type : "post",
             dataType : "json",
             success : function(rs){
+                var rs = rs.data;
 
+                $("#appDe").val(new Date(rs.REG_DT + 3240 * 10000).toISOString().split("T")[0]);
+                $("#payIncpDe").val(rs.PAY_INCP_DE);
+                $("#pjtNm").val(rs.PJT_NM);
+                $("#pjtSn").val(rs.PJT_SN);
+                $("#budgetNm").val(rs.BUDGET_NM);
+                $("#budgetSn").val(rs.BUDGET_SN);
+                $("#depoTitle").val(rs.DEPO_TITLE);
+                $("#gubun").data("kendoDropDownList").value(rs.GUBUN);
+                $("#depoStat").data("kendoDropDownList").value(rs.DEPO_STAT);
+                $("#depoAmt").val(regPayDepo.comma(rs.DEPO_AMT));
+                $("#depoManager").val(rs.DEPO_MANAGER);
+                $("#depoCont").val(rs.DEPO_CONT);
+                $("#accNm").val(rs.ACC_NM);
+                $("#bnkSn").val(rs.BNK_SN);
+                $("#accNo").val(rs.ACC_NO);
+                $("#bnkNm").val(rs.BNK_NM);
+
+                $("#saveBtn").css("display", "none");
+                $("#incpBtn").css("display", "");
             }
         })
     },

@@ -75,6 +75,10 @@ var regIncm = {
                 $("input[type='checkbox']").prop("checked", false);
             }
         })
+
+        if($("#payDepoSn").val() != ""){
+            regIncm.setData2();
+        }
     },
 
     payAppBtnSet: function (data){
@@ -279,6 +283,38 @@ var regIncm = {
         $("#apprBtn").css("display", "");
     },
 
+    setData2 : function (){
+        var data = {
+            payDepoSn : $("#payDepoSn").val(),
+        }
+
+        $.ajax({
+            url: "/pay/getPayDepoData",
+            data: data,
+            type: "post",
+            dataType: "json",
+            success: function (rs) {
+                var rs = rs.data;
+                $("#appDe").val(rs.PAY_INCP_DE);
+
+                $("#pjtNm").val(rs.PJT_NM);
+                $("#pjtSn").val(rs.PJT_SN);
+                $("#budgetNm").val(rs.BUDGET_NM);
+                $("#budgetSn").val(rs.BUDGET_SN);
+                $("#appCont").val(rs.DEPO_CONT);
+
+                $("#accNm").val(rs.ACC_NM);
+                $("#bnkSn").val(rs.BNK_SN);
+                $("#accNo").val(rs.ACC_NO);
+                $("#bnkNm").val(rs.BNK_NM);
+
+                $("#supCost0").val(regIncm.comma(rs.DEPO_AMT));
+                $("#totCost0").val(regIncm.comma(rs.DEPO_AMT));
+                $("#supCost0").trigger("keyup");
+            }
+        });
+    },
+
     fn_viewStat: function (){
         var stat = $("#status").val();
 
@@ -321,6 +357,10 @@ var regIncm = {
 
         if($("#payIncpSn").val() != ""){
             parameters.payIncpSn = $("#payIncpSn").val();
+        }
+
+        if($("#payDepoSn").val() != ""){
+            parameters.payDepoSn = $("#payDepoSn").val();
         }
 
         var itemArr = new Array()

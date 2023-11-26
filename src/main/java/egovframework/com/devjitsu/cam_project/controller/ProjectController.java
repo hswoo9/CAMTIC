@@ -485,6 +485,13 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/engn/getTeamInfo")
+    public String getTeamInfo(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> map = projectService.getTeamInfo(params);
+        model.addAttribute("map", map);
+        return "jsonView";
+    }
+
     /**
      * 프로젝트 > 엔지니어링 > 수주보고 Set Data
      * @param params

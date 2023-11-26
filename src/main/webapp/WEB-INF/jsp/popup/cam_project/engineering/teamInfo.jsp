@@ -3,6 +3,7 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:useBean id="today" class="java.util.Date" />
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/teamInfo.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 
@@ -85,7 +86,7 @@
                     <span class="red-star"></span>배분금액
                 </th>
                 <td colspan="3">
-                    <input type="text" id="teamAmt" value="0" onkeyup="teamInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 40%; text-align: right" /> 원
+                    <input type="text" id="teamAmt" value="0" onkeyup="inputNumberFormat(this)" oninput="onlyNumber(this)" style="width: 40%; text-align: right" /> 원
                 </td>
             </tr>
             <tr>
@@ -93,13 +94,13 @@
                     <span class="red-star"></span>수주부서 예상잔액
                 </th>
                 <td>
-                    <input type="text" id="exptBalance" disabled onkeyup="teamInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 90%; text-align: right" /> 원
+                    <input type="text" id="exptBalance" disabled onkeyup="inputNumberFormat(this)" oninput="onlyNumber(this)" style="width: 90%; text-align: right" /> 원
                 </td>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>수주부서 예상수익
                 </th>
                 <td>
-                    <input type="text" id="exptProfit" value="0" disabled onkeyup="teamInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 90%; text-align: right" /> 원
+                    <input type="text" id="exptProfit" value="0" disabled onkeyup="inputNumberFormat(this)" oninput="onlyNumber(this)" style="width: 90%; text-align: right" /> 원
                 </td>
             </tr>
             <tr>
@@ -107,13 +108,13 @@
                     <span class="red-star"></span>수주부서 예상수익률
                 </th>
                 <td>
-                    <input type="text" id="exptProfitPer" value="0" onkeyup="teamInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 90%; text-align: right"> %
+                    <input type="text" id="exptProfitPer" value="0" onkeyup="inputNumberFormat(this)" oninput="onlyNumber(this)" style="width: 90%; text-align: right"> %
                 </td>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>수주부서 예상비용
                 </th>
                 <td>
-                    <input type="text" id="exptCost" disabled onkeyup="teamInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 90%; text-align: right"> 원
+                    <input type="text" id="exptCost" disabled onkeyup="inputNumberFormat(this)" oninput="onlyNumber(this)" style="width: 90%; text-align: right"> 원
                 </td>
             </tr>
             </thead>

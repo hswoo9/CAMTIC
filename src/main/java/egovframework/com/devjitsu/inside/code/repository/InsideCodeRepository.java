@@ -106,4 +106,10 @@ public class InsideCodeRepository extends AbstractDAO {
     public void setRoomCodeDelete(Map<String, Object> params) {
         update("insideCode.setRoomCodeDelete", params);
     }
+    public void updateCarApprStat(Map<String, Object> params) {
+        update("insideCode.updateCarApprStat", params);
+    }
+    public void updateCarFinalApprStat(Map<String, Object> params) {
+        update("insideCode.updateCarFinalApprStat", params);
+    }
 }
