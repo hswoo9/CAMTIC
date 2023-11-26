@@ -227,6 +227,10 @@ public class ItemManageServiceImpl implements ItemManageService {
         for(Map<String, Object> map : smRecordSnArr){
             itemManageRepository.setDeliveryAmtUpd(map);
             itemManageRepository.getShipmentDeliveryAmtUpd(map);
+
+            if(Integer.parseInt(map.get("deliveryAmt").toString()) > 0){
+                itemManageRepository.setItemSmRecordHist(map);
+            }
         }
 
         if(transferArr.size() > 0){

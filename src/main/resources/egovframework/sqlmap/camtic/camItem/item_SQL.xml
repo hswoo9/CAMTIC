@@ -472,6 +472,34 @@
             SM_RECORD_SN = #{smRecordSn}
     </update>
 
+    <insert id="setItemSmRecordHist" parameterType="map">
+        /* setItemSmRecordHist */
+        INSERT INTO CAM_ITEM.DJ_ITEM_SM_RECORD_HIST
+        (
+            SM_RECORD_SN,
+            CRM_SN,
+            DELIVERY_VOLUME,
+            DELIVERY_DT,
+            UNIT_PRICE,
+            AMT,
+            RMK,
+            REG_EMP_SEQ
+        )
+        SELECT
+            SM_RECORD_SN,
+            CRM_SN,
+            ${deliveryAmt},
+            DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            UNIT_PRICE,
+            ${deliveryAmt} * UNIT_PRICE,
+            #{rmk},
+            #{empSeq}
+        FROM
+            CAM_ITEM.DJ_ITEM_SM_RECORD
+        WHERE
+            SM_RECORD_SN = #{smRecordSn}
+    </insert>
+
     <select id="getShipmentList" parameterType="map" resultType="map">
         /* getShipmentList */
         SELECT
@@ -1693,6 +1721,7 @@
         SELECT
             CI.CRM_SN,
             CI.CRM_NM,
+            SR.OBTAIN_ORDER_SN,
             IFNULL(CSC.CRM_SALES_CONFIRM_SN, '') AS CRM_SALES_CONFIRM_SN,
             IFNULL(SR.SALES_MONTH, 0) AS SALES_MONTH,
             IFNULL(CSC.DEPOSIT_AMT, 0) AS DEPOSIT_AMT,
@@ -1710,17 +1739,21 @@
         ON CSC.CONFIRM_EMP_SEQ = EI.EMP_SEQ
         LEFT JOIN (
             SELECT
+                SR.OBTAIN_ORDER_SN,
                 SR.CRM_SN,
-                SUM(DELIVERY_AMT * UNIT_PRICE) AS SALES_MONTH
+                SUM(SRH.AMT) AS SALES_MONTH
             FROM
-                CAM_ITEM.DJ_ITEM_SM_RECORD SR
+                CAM_ITEM.DJ_ITEM_SM_RECORD_HIST SRH
+            JOIN
+                CAM_ITEM.dj_item_sm_record SR
+            ON SRH.SM_RECORD_SN = SR.SM_RECORD_SN
             WHERE
                 SR.DEADLINE = 'Y'
             AND
                 SR.UNPAID_TYPE != 'C'
             AND
-                DATE_FORMAT(SR.DELIVERY_DT, '%Y-%m') = #{yearMonth}
-            GROUP BY CRM_SN
+                DATE_FORMAT(SRH.DELIVERY_DT, '%Y-%m') = #{yearMonth}
+            GROUP BY SRH.CRM_SN
         )SR
         ON CI.CRM_SN = SR.CRM_SN
         WHERE 1=1
