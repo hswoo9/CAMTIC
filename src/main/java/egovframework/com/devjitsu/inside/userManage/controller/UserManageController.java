@@ -136,6 +136,364 @@ public class UserManageController {
         return "inside/userManage/userPersonnelRecord";
     }
 
+    @RequestMapping("/Inside/userPersonnelRecordModify.do")
+    public String userPersonnelRecordModify(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        menuSession(request, session);
+
+        Map<String,Object> map = new HashMap<>();
+        if(!StringUtils.isEmpty(params.get("admin")) && !StringUtils.isEmpty(params.get("empSeq"))){
+            map.put("empSeq", params.get("empSeq"));
+        }else{
+            map.put("empSeq", login.getUniqId());
+        }
+
+        Map<String,Object> userPersonnelRecordList = userManageService.getUserPersonnelRecordList(map); // 사용자 인사 기록 리스트
+        List<Map<String,Object>> educationalList = userManageService.getEducationalList(map); // 교육 사항
+        Map<String,Object> militarySvcInfo = userManageService.getMilitarySvcInfo(map); // 병력 사항
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("uprList", userPersonnelRecordList);
+        model.addAttribute("eList", educationalList);
+        model.addAttribute("mInfo", militarySvcInfo);
+
+
+        model.addAttribute("cList", userManageService.getCareerInfoList(map));
+        model.addAttribute("fList", userManageService.getFamilyInfoList(map));
+        model.addAttribute("lList", userManageService.getLicenceInfoList(map));
+        model.addAttribute("aList", userManageService.getAppointInfoList(map));
+        model.addAttribute("rList", userManageService.getRewardInfoList(map));
+        model.addAttribute("dList", userManageService.getDutyInfoList(map));
+        model.addAttribute("pList", userManageService.getProposalInfoList(map));
+        /*model.addAttribute("RewordList", userManageService.getReward2InfoList(map));*/
+
+        return "inside/userManage/userPersonnelRecordModify";
+    }
+
+    /*학력사항 추가*/
+    @RequestMapping("/useManage/userDegreeInfoInsert")
+    public String userDegreeInfoInsert(@RequestParam Map<String,Object> map, Model model,MultipartHttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        Map<String,Object> params = new HashMap<>();
+        params.put("modifyEmpSeq", login.getUniqId());
+        params.put("modifyEmpName", login.getName());
+        params.putAll(map);
+
+        try {
+            /*userManageService.setEducationalInfo(params, request, SERVER_DIR, BASE_DIR);*/
+            userManageService.userDegreeInfoInsert(params, request, SERVER_DIR, BASE_DIR);
+            model.addAttribute("rs", "SUCCESS");
+        }catch (Exception e) {
+            model.addAttribute("rs", "FAILED");
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    /*학력사항 수정*/
+    @RequestMapping("/useManage/userDegreeInfoModify")
+    public String userDegreeInfoModify(@RequestParam Map<String,Object> map, Model model,MultipartHttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        Map<String,Object> params = new HashMap<>();
+        params.put("modifyEmpSeq", login.getUniqId());
+        params.put("modifyEmpName", login.getName());
+        params.putAll(map);
+
+        try {
+            /*userManageService.setEducationalInfo(params, request, SERVER_DIR, BASE_DIR);*/
+            userManageService.userDegreeInfoModify(params, request, SERVER_DIR, BASE_DIR);
+            model.addAttribute("rs", "SUCCESS");
+        }catch (Exception e) {
+            model.addAttribute("rs", "FAILED");
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    /*학력사항 삭제*/
+    @RequestMapping("/useManage/userDegreeInfoDelete")
+    public String userDegreeInfoDelete(@RequestParam Map<String,Object> params) {
+        userManageService.userDegreeInfoDelete(params);
+        return "jsonView";
+    }
+
+    /*경력사항 추가*/
+    @RequestMapping("/useManage/userCareerInfoInsert")
+    public String userCareerInfoInsert(@RequestParam Map<String,Object> map, Model model,MultipartHttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        Map<String,Object> params = new HashMap<>();
+        params.put("modifyEmpSeq", login.getUniqId());
+        params.put("modifyEmpName", login.getName());
+        params.putAll(map);
+
+        try {
+            userManageService.userCareerInfoInsert(params, request, SERVER_DIR, BASE_DIR);
+            model.addAttribute("rs", "SUCCESS");
+        }catch (Exception e) {
+            model.addAttribute("rs", "FAILED");
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    /*경력사항 수정*/
+    @RequestMapping("/useManage/userCareerInfoModify")
+    public String userCareerInfoModify(@RequestParam Map<String,Object> map, Model model,MultipartHttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        Map<String,Object> params = new HashMap<>();
+        params.put("modifyEmpSeq", login.getUniqId());
+        params.put("modifyEmpName", login.getName());
+        params.putAll(map);
+
+        try {
+            userManageService.userCareerInfoModify(params, request, SERVER_DIR, BASE_DIR);
+            model.addAttribute("rs", "SUCCESS");
+        }catch (Exception e) {
+            model.addAttribute("rs", "FAILED");
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    /*경력사항 삭제*/
+    @RequestMapping("/useManage/userCareerInfoDelete")
+    public String userCareerInfoDelete(@RequestParam Map<String,Object> params) {
+        userManageService.userCareerInfoDelete(params);
+        return "jsonView";
+    }
+
+    /*병력사항 수정*/
+    @RequestMapping("/useManage/userMilitaryInfoModify")
+    public String userMilitaryInfoModify(@RequestParam Map<String,Object> map, Model model,MultipartHttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        Map<String,Object> params = new HashMap<>();
+        params.put("modifyEmpSeq", login.getUniqId());
+        params.put("modifyEmpName", login.getName());
+        params.putAll(map);
+
+        try {
+            userManageService.userMilitaryInfoModify(params, request, SERVER_DIR, BASE_DIR);
+            model.addAttribute("rs", "SUCCESS");
+        }catch (Exception e) {
+            model.addAttribute("rs", "FAILED");
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    /*가족사항 추가*/
+    @RequestMapping("/useManage/userFamilyInfoInsert")
+    public String userFamilyInfoInsert(@RequestParam Map<String,Object> map, Model model,MultipartHttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        Map<String,Object> params = new HashMap<>();
+        params.put("modifyEmpSeq", login.getUniqId());
+        params.put("modifyEmpName", login.getName());
+        params.putAll(map);
+
+        try {
+            userManageService.userFamilyInfoInsert(params, request, SERVER_DIR, BASE_DIR);
+            model.addAttribute("rs", "SUCCESS");
+        }catch (Exception e) {
+            model.addAttribute("rs", "FAILED");
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    /*가족사항 수정*/
+    @RequestMapping("/useManage/userFamilyInfoModify")
+    public String userFamilyInfoModify(@RequestParam Map<String,Object> map, Model model,MultipartHttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        Map<String,Object> params = new HashMap<>();
+        params.put("modifyEmpSeq", login.getUniqId());
+        params.put("modifyEmpName", login.getName());
+        params.putAll(map);
+
+        try {
+            userManageService.userFamilyInfoModify(params, request, SERVER_DIR, BASE_DIR);
+            model.addAttribute("rs", "SUCCESS");
+        }catch (Exception e) {
+            model.addAttribute("rs", "FAILED");
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    /*가족사항 삭제*/
+    @RequestMapping("/useManage/userFamilyInfoDelete")
+    public String userFamilyInfoDelete(@RequestParam Map<String,Object> params) {
+        userManageService.userFamilyInfoDelete(params);
+        return "jsonView";
+    }
+
+    /*면허사항 추가*/
+    @RequestMapping("/useManage/userLinInfoInsert")
+    public String userLinInfoInsert(@RequestParam Map<String,Object> map, Model model,MultipartHttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        Map<String,Object> params = new HashMap<>();
+        params.put("modifyEmpSeq", login.getUniqId());
+        params.put("modifyEmpName", login.getName());
+        params.putAll(map);
+
+        try {
+            userManageService.userLinInfoInsert(params, request, SERVER_DIR, BASE_DIR);
+            model.addAttribute("rs", "SUCCESS");
+        }catch (Exception e) {
+            model.addAttribute("rs", "FAILED");
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    /*면허사항 수정*/
+    @RequestMapping("/useManage/userLinInfoModify")
+    public String userLinInfoModify(@RequestParam Map<String,Object> map, Model model,MultipartHttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        Map<String,Object> params = new HashMap<>();
+        params.put("modifyEmpSeq", login.getUniqId());
+        params.put("modifyEmpName", login.getName());
+        params.putAll(map);
+
+        try {
+            userManageService.userLinInfoModify(params, request, SERVER_DIR, BASE_DIR);
+            model.addAttribute("rs", "SUCCESS");
+        }catch (Exception e) {
+            model.addAttribute("rs", "FAILED");
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    /*면허사항 삭제*/
+    @RequestMapping("/useManage/userLinInfoDelete")
+    public String userLinInfoDelete(@RequestParam Map<String,Object> params) {
+        userManageService.userLinInfoDelete(params);
+        return "jsonView";
+    }
+
+    /*직무사항 추가*/
+    @RequestMapping("/useManage/userJobInfoInsert")
+    public String userJobInfoInsert(@RequestParam Map<String,Object> map, Model model,MultipartHttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        Map<String,Object> params = new HashMap<>();
+        params.put("modifyEmpSeq", login.getUniqId());
+        params.put("modifyEmpName", login.getName());
+        params.putAll(map);
+
+        try {
+            userManageService.userJobInfoInsert(params, request, SERVER_DIR, BASE_DIR);
+            model.addAttribute("rs", "SUCCESS");
+        }catch (Exception e) {
+            model.addAttribute("rs", "FAILED");
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    /*직무사항 수정*/
+    @RequestMapping("/useManage/userJobInfoModify")
+    public String userJobInfoModify(@RequestParam Map<String,Object> map, Model model,MultipartHttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        Map<String,Object> params = new HashMap<>();
+        params.put("modifyEmpSeq", login.getUniqId());
+        params.put("modifyEmpName", login.getName());
+        params.putAll(map);
+
+        try {
+            userManageService.userJobInfoModify(params, request, SERVER_DIR, BASE_DIR);
+            model.addAttribute("rs", "SUCCESS");
+        }catch (Exception e) {
+            model.addAttribute("rs", "FAILED");
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    /*직무사항 삭제*/
+    @RequestMapping("/useManage/userJobInfoDelete")
+    public String userJobInfoDelete(@RequestParam Map<String,Object> params) {
+        userManageService.userJobInfoDelete(params);
+        return "jsonView";
+    }
+
+    /*상벌사항 추가*/
+    @RequestMapping("/useManage/userRewInfoInsert")
+    public String userRewInfoInsert(@RequestParam Map<String,Object> map, Model model,MultipartHttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        Map<String,Object> params = new HashMap<>();
+        params.put("modifyEmpSeq", login.getUniqId());
+        params.put("modifyEmpName", login.getName());
+        params.putAll(map);
+
+        try {
+            userManageService.userRewInfoInsert(params, request, SERVER_DIR, BASE_DIR);
+            model.addAttribute("rs", "SUCCESS");
+        }catch (Exception e) {
+            model.addAttribute("rs", "FAILED");
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    /*상벌사항 수정*/
+    @RequestMapping("/useManage/userRewInfoModify")
+    public String userRewInfoModify(@RequestParam Map<String,Object> map, Model model,MultipartHttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        Map<String,Object> params = new HashMap<>();
+        params.put("modifyEmpSeq", login.getUniqId());
+        params.put("modifyEmpName", login.getName());
+        params.put("regErpEmpCd", login.getErpEmpCd());
+        params.put("regDeptSeq", login.getDeptId());
+        params.put("regDeptName", login.getDeptNm());
+        params.put("regTeamSeq", login.getTeamId());
+        params.put("regTeamName", login.getTeamNm());
+        params.putAll(map);
+
+        try {
+            userManageService.userRewInfoModify(params, request, SERVER_DIR, BASE_DIR);
+            model.addAttribute("rs", "SUCCESS");
+        }catch (Exception e) {
+            model.addAttribute("rs", "FAILED");
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    /*상벌사항 삭제*/
+    @RequestMapping("/useManage/userRewInfoDelete")
+    public String userRewInfoDelete(@RequestParam Map<String,Object> params) {
+        userManageService.userRewInfoDelete(params);
+        return "jsonView";
+    }
+
+
     @RequestMapping("/Inside/userPersonnelRecordOne.do")
     public String userPersonnelRecordOne(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
@@ -170,6 +528,8 @@ public class UserManageController {
 
         return "inside/userManage/userPersonnelRecordOne";
     }
+
+
 
     /**
      * 직원 개인 기본정보 수정

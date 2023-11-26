@@ -911,19 +911,19 @@ var hwpDocCtrl = {
         } else if(data.menuCd == "rndDelv") {
             const pjtSn = data.approKey.split("_")[1];
             if (pjtSn == null || pjtSn == undefined || pjtSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
-            hwpInit.rndDelvInit(pjtSn);
+            rndInit.delvInit(pjtSn);
         } else if(data.menuCd == "rndDev") {
             const devSn = data.approKey.split("_")[1];
             if (devSn == null || devSn == undefined || devSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
-            hwpInit.rndDevInit(devSn);
+            rndInit.devInit(devSn);
         } else if(data.menuCd == "unRndDelv") {
             const pjtSn = data.approKey.split("_")[1];
             if (pjtSn == null || pjtSn == undefined || pjtSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
-            hwpInit.unRndDelvInit(pjtSn);
+            unRndInit.delvInit(pjtSn);
         } else if(data.menuCd == "unRndDev") {
             const devSn = data.approKey.split("_")[1];
             if (devSn == null || devSn == undefined || devSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
-            hwpInit.unRndDevInit(devSn);
+            unRndInit.devInit(devSn);
         } else if(data.menuCd == "pjtRate") {
             const partRateVerSn = data.approKey.split("_")[1];
             if (partRateVerSn == null || partRateVerSn == undefined || partRateVerSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
@@ -931,11 +931,11 @@ var hwpDocCtrl = {
         } else if(data.menuCd == "rndRes") {
             const pjtSn = data.approKey.split("_")[1];
             if (pjtSn == null || pjtSn == undefined || pjtSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
-            hwpInit.rndResInit(pjtSn);
+            rndInit.resInit(pjtSn);
         } else if(data.menuCd == "unRndRes") {
             const pjtSn = data.approKey.split("_")[1];
             if (pjtSn == null || pjtSn == undefined || pjtSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
-            hwpInit.unRndResInit(pjtSn);
+            unRndInit.resInit(pjtSn);
         } else if(data.menuCd == "car") {
             const carReqSn = data.approKey.split("_")[1];
             if (carReqSn == null || carReqSn == undefined || carReqSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }

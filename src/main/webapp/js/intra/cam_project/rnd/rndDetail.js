@@ -32,16 +32,6 @@ var rndDetail = {
         rndDetail.fn_setData();
     },
 
-    loading: function() {
-        $.LoadingOverlay("show", {
-            background: "rgba(0, 0, 0, 0.5)",
-            image: "",
-            maxSize: 60,
-            fontawesome: "fa fa-spinner fa-pulse fa-fw",
-            fontawesomeColor: "#FFFFFF",
-        });
-    },
-
     fn_save : function(){
         var parameters = {
             pjtSn : $("#pjtSn").val(),
@@ -116,7 +106,6 @@ var rndDetail = {
             alert("연구카드사용여부를 작성해주세요.");
             return;
         }
-        rndDetail.loading();
 
         $.ajax({
             url : "/projectRnd/setRndDetail",
@@ -183,8 +172,6 @@ var rndDetail = {
         var date = new Date();
         var year = date.getFullYear().toString().substring(2,4);
 
-
-
         var parameters = {
             pjtSn : $("#pjtSn").val(),
             rndSn : $("#rndSn").val(),
@@ -215,6 +202,7 @@ var rndDetail = {
             alert("사업성격1을 선택해주세요.");
             return;
         }
+        rndDetail.loading();
 
         $.ajax({
             url : "/projectRnd/setDelvApprove",
@@ -259,5 +247,15 @@ var rndDetail = {
         }
 
         $("#detailBtnDiv").html(buttonHtml);
+    },
+
+    loading : function(){
+        $.LoadingOverlay("show", {
+            background: "rgba(0, 0, 0, 0.5)",
+            image: "",
+            maxSize: 60,
+            fontawesome: "fa fa-spinner fa-pulse fa-fw",
+            fontawesomeColor: "#FFFFFF",
+        });
     }
 }

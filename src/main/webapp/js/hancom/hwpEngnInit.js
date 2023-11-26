@@ -30,7 +30,7 @@ var engnInit = {
         hwpDocCtrl.putFieldText('DELV_LOC', delvMap.DELV_LOC);
 
         if(map.TM_YN == "Y"){
-            const teamResult = customKendo.fn_customAjax("/project/engn/getTeamInfo", {pjtSn: pjtSn});
+            const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: pjtSn});
             const team = teamResult.map;
 
             /** 3. 협업사항 */
@@ -75,8 +75,9 @@ var engnInit = {
         hwpDocCtrl.putFieldText('DELV_DE', delvMap.DELV_DE);
         hwpDocCtrl.putFieldText('DELV_LOC', delvMap.DELV_LOC);
 
+        console.log(map)
         if(map.TM_YN == "Y"){
-            const teamResult = customKendo.fn_customAjax("/project/engn/getTeamInfo", {pjtSn: pjtSn});
+            const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: pjtSn});
             const team = teamResult.map;
 
             /** 3. 협업사항 */
@@ -154,11 +155,11 @@ var engnInit = {
         hwpDocCtrl.putFieldText('DELV_DE', delvMap.DELV_DE);
         hwpDocCtrl.putFieldText('DELV_LOC', delvMap.DELV_LOC);
 
+        /** 3. 협업사항 */
         if(map.TM_YN == "Y"){
-            const teamResult = customKendo.fn_customAjax("/project/engn/getTeamInfo", data);
+            const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", data);
             const team = teamResult.map;
 
-            /** 3. 협업사항 */
             hwpDocCtrl.putFieldText('TM_NAME', team.TEAM_NAME);
             hwpDocCtrl.putFieldText('TM_EMP_NAME', team.EMP_NAME);
             hwpDocCtrl.putFieldText('TM_AMT', fn_numberWithCommas(team.TM_AMT));
@@ -204,8 +205,6 @@ var engnInit = {
     },
 
     htmlDev: function(list, pjtSn, tmYn){
-        const teamResult = customKendo.fn_customAjax("/project/engn/getTeamInfo", {pjtSn: pjtSn});
-        const team = teamResult.map;
         let html = '';
         html += '<table style="font-family:굴림체;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
         html += '   <tr>';
@@ -227,6 +226,8 @@ var engnInit = {
             html += '               </tr>';
         }
         if(tmYn == "Y"){
+            const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: pjtSn});
+            const team = teamResult.map;
             html += '               <tr>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">협업</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ team.TEAM_NAME +'</p></td>';

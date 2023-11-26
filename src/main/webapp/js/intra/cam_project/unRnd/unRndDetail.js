@@ -1,7 +1,7 @@
 var unRndDetail = {
 
 
-    fn_defaultScript : function (){
+    fn_defaultScript : function(){
 
         customKendo.fn_textBox(["mngDeptName", "mngEmpName"]);
 
@@ -11,16 +11,6 @@ var unRndDetail = {
         });
 
         unRndDetail.fn_setData();
-    },
-
-    loading: function(){
-        $.LoadingOverlay("show", {
-            background       : "rgba(0, 0, 0, 0.5)",
-            image            : "",
-            maxSize          : 60,
-            fontawesome      : "fa fa-spinner fa-pulse fa-fw",
-            fontawesomeColor : "#FFFFFF",
-        });
     },
 
 
@@ -78,7 +68,7 @@ var unRndDetail = {
         })
     },
 
-    fn_setData : function (){
+    fn_setData : function(){
         var parameters = {
             pjtSn : $("#pjtSn").val(),
         }
@@ -104,7 +94,7 @@ var unRndDetail = {
         }
     },
 
-    fn_approve : function() {
+    fn_approve : function(){
         var pjCode = $("#pjCode").val();
         var supDep = $("#supDep2").val();
         var supDepSub = $("#supDepSub2").val();
@@ -201,4 +191,14 @@ var unRndDetail = {
     fileChange : function(e){
         $(e).next().text($(e)[0].files[0].name);
     },
+
+    loading: function(){
+        $.LoadingOverlay("show", {
+            background       : "rgba(0, 0, 0, 0.5)",
+            image            : "",
+            maxSize          : 60,
+            fontawesome      : "fa fa-spinner fa-pulse fa-fw",
+            fontawesomeColor : "#FFFFFF",
+        });
+    }
 }

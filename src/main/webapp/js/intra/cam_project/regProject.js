@@ -36,11 +36,12 @@ var regPrj = {
         var tab6Url = "/intra/cam_project/goodsInfo.do";
         var tab7Url = "/intra/cam_project/resultInfo.do";
         var tab15Url = "/intra/cam_project/performanceInfo.do";      // 실적관리
+        var tab10Url = "/intra/cam_project/costPriceInfo.do";
 
 
         var tab8Url = "/intra/cam_project/bustInfo.do";
         var tab9Url = "/intra/cam_project/purcInfo.do";         // 구매관리
-        var tab10Url = "/intra/cam_project/costPriceInfo.do";
+        var tab16Url = "/intra/cam_project/costPriceInfoAdmin.do";
 
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -55,6 +56,7 @@ var regPrj = {
             tab9Url += "?pjtSn=" + setParameters.PJT_SN;
             tab10Url += "?pjtSn=" + setParameters.PJT_SN;
             tab15Url += "?pjtSn=" + setParameters.PJT_SN;
+            tab16Url += "?pjtSn=" + setParameters.PJT_SN;
         }
         if(setParameters != null && setParameters.ENGN_SN != null) {
             tab0Url += "&engnSn=" + setParameters.ENGN_SN;
@@ -69,6 +71,7 @@ var regPrj = {
             tab9Url += "&engnSn=" + setParameters.ENGN_SN;
             tab10Url += "&engnSn=" + setParameters.ENGN_SN;
             tab15Url += "&engnSn=" + setParameters.ENGN_SN;
+            tab16Url += "&engnSn=" + setParameters.ENGN_SN;
         }
 
 
@@ -134,10 +137,11 @@ var regPrj = {
                 {name: "납품관리", url: tab6Url},
                 {name: "결과보고", url: tab7Url, imageUrl : "/images/ico/etc_01_1.png"},
                 {name: "실적관리", url: tab15Url},
+                {name: "원가보고", url: tab10Url, imageUrl : "/images/ico/etc_01_1.png"},
 
                 {name: "출장", url: tab8Url},
                 {name: "구매", url: tab9Url},
-                {name: "정산/원가", url: tab10Url, imageUrl : "/images/ico/etc_01_1.png"}
+                {name: "정산서", url: tab16Url}
             ],
         });
 
@@ -200,6 +204,7 @@ var regPrj = {
                 tabStrip.remove(tabStrip.tabGroup.children().eq(1));
                 tabStrip.remove(tabStrip.tabGroup.children().eq(1));
                 tabStrip.remove(tabStrip.tabGroup.children().eq(4));
+                tabStrip.remove(tabStrip.tabGroup.children().eq(4));
                 tabStrip.remove(tabStrip.tabGroup.children().eq(6));
                 tabStrip.remove(tabStrip.tabGroup.children().eq(2));
 
@@ -252,8 +257,8 @@ var regPrj = {
                 if(setParameters.PJT_STOP != "Y"){
                     if(setParameters.PJT_STEP >= "E0"){
                         tabStrip.enable(tabStrip.tabGroup.children().eq(1));
-                        tabStrip.enable(tabStrip.tabGroup.children().eq(9));
                         tabStrip.enable(tabStrip.tabGroup.children().eq(10));
+                        tabStrip.enable(tabStrip.tabGroup.children().eq(11));
                     }
 
                     if(setParameters.PJT_STEP >= "E1"){
@@ -276,12 +281,9 @@ var regPrj = {
                         tabStrip.enable(tabStrip.tabGroup.children().eq(7));
                     }
 
-                    if(setParameters.PJT_STEP >= "E5"){
-                        tabStrip.enable(tabStrip.tabGroup.children().eq(11));
-                    }
-
                     if(setParameters.PJT_STEP >= "E6"){
-                        tabStrip.enable(tabStrip.tabGroup.children().eq(11));
+                        tabStrip.enable(tabStrip.tabGroup.children().eq(9));
+                        tabStrip.enable(tabStrip.tabGroup.children().eq(12));
                     }
                 } else {
                     $("#modBtn").css("display", "none");
@@ -292,7 +294,7 @@ var regPrj = {
 
                 var html = '<div style="width:100%;"></div>';
                 var doc = parser.parseFromString(html, 'text/html');
-                $("#tabstrip li")[8].after(doc.body.firstChild);
+                $("#tabstrip li")[9].after(doc.body.firstChild);
 
                 var html2 = '<div style="padding: 6px 12px"><b style="color: red">사업관리</b></div>';
                 var doc2 = parser.parseFromString(html2, 'text/html');
@@ -300,7 +302,7 @@ var regPrj = {
 
                 var html3 = '<div style="padding: 6px 12px"><b style="color: blue">운영관리</b></div>';
                 var doc3 = parser.parseFromString(html3, 'text/html');
-                $("#tabstrip li")[9].before(doc3.body.firstChild);
+                $("#tabstrip li")[10].before(doc3.body.firstChild);
             }
 
 

@@ -319,6 +319,19 @@ public class ProjectController {
         return "popup/cam_project/engineering/costInfo";
     }
 
+    @RequestMapping("/intra/cam_project/costPriceInfoAdmin.do")
+    public String costInfoAdmin(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        Map<String, Object> map = projectService.getProjectData(params);
+        model.addAttribute(map);
+
+        return "popup/cam_project/engineering/costInfoAdmin";
+    }
+
     /**
      * TAB > 협업관리
      * @param params
@@ -485,7 +498,7 @@ public class ProjectController {
         return "jsonView";
     }
 
-    @RequestMapping("/project/engn/getTeamInfo")
+    @RequestMapping("/project/getTeamInfo")
     public String getTeamInfo(@RequestParam Map<String, Object> params, Model model){
         Map<String, Object> map = projectService.getTeamInfo(params);
         model.addAttribute("map", map);
