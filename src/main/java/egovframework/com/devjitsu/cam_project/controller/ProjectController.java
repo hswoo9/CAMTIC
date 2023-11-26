@@ -485,7 +485,7 @@ public class ProjectController {
         return "jsonView";
     }
 
-    @RequestMapping("/project/engn/getTeamInfo")
+    @RequestMapping("/project/getTeamInfo")
     public String getTeamInfo(@RequestParam Map<String, Object> params, Model model){
         Map<String, Object> map = projectService.getTeamInfo(params);
         model.addAttribute("map", map);
