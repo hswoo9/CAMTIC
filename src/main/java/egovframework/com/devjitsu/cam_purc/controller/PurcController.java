@@ -17,6 +17,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -456,6 +458,14 @@ public class PurcController {
         }catch(Exception e){
             e.printStackTrace();
         }
+        return "jsonView";
+    }
+
+    @RequestMapping("/purc/getProjectPurcList")
+    public String getProjectPurcList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = purcService.getProjectPurcList(params);
+        model.addAttribute("list", list);
+
         return "jsonView";
     }
 }

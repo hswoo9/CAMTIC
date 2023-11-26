@@ -872,4 +872,17 @@
         WHERE
             CLAIM_SN = #{claimSn}
     </update>
+
+    <select id="getProjectPurcList" parameterType="map" resultType="map">
+        /*getProjectPurcList*/
+        SELECT
+            B.*,
+            C.CRM_NM
+        FROM
+            CAM_MNG.DJ_MNG_PURC A
+        LEFT JOIN CAM_MNG.DJ_MNG_PURC_ITEM B ON A.PURC_SN = B.PURC_SN
+        LEFT JOIN CAM_CRM.DJ_CRM_INFO C ON B.CRM_SN = C.CRM_SN
+        WHERE
+            A.PJT_SN = #{pjtSn}
+    </select>
 </mapper>

@@ -317,7 +317,7 @@
                 '			<td>' +
                 '               <div>' +
                 '	                <input type="file" id="excelUploadFile" onchange="fileSv(event)" /> ' +
-                '               </div>';
+                '               </div>' +
                 '			</td>' +
                 '		</tr>' +
                 '	</tbody>' +
