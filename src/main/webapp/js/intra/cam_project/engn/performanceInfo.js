@@ -66,6 +66,27 @@ var resultInfo = {
                         value = rs.result.map.DELV_PREP_C;
                     }
                 }
+            } else if (ls[i].PS_PREP == 4 || (ls[i].PS_PREP == 0 && i==2)){
+                type = "D";
+                if(rs.result.map != undefined) {
+                    if (rs.result.map.DELV_PREP_D != null && rs.result.map.DELV_PREP_D != "") {
+                        value = rs.result.map.DELV_PREP_D;
+                    }
+                }
+            } else if (ls[i].PS_PREP == 5 || (ls[i].PS_PREP == 0 && i==2)){
+                type = "E";
+                if(rs.result.map != undefined) {
+                    if (rs.result.map.DELV_PREP_E != null && rs.result.map.DELV_PREP_E != "") {
+                        value = rs.result.map.DELV_PREP_E;
+                    }
+                }
+            } else if (ls[i].PS_PREP == 6 || (ls[i].PS_PREP == 0 && i==2)){
+                type = "F";
+                if(rs.result.map != undefined) {
+                    if (rs.result.map.DELV_PREP_F != null && rs.result.map.DELV_PREP_F != "") {
+                        value = rs.result.map.DELV_PREP_F;
+                    }
+                }
             }
             calcAmt = Math.round(rs.pjtInfo.PJT_AMT * (value * 0.01));
 
@@ -108,6 +129,27 @@ var resultInfo = {
                 if(rs.result.map != undefined) {
                     if (rs.result.map.INV_PREP_C != null && rs.result.map.INV_PREP_C != "") {
                         value = rs.result.map.INV_PREP_C;
+                    }
+                }
+            } else if (ls[i].PS_PREP == 4 || (ls[i].PS_PREP == 0 && i==2)){
+                type = "D";
+                if(rs.result.map != undefined) {
+                    if (rs.result.map.INV_PREP_D != null && rs.result.map.INV_PREP_D != "") {
+                        value = rs.result.map.INV_PREP_D;
+                    }
+                }
+            } else if (ls[i].PS_PREP == 5 || (ls[i].PS_PREP == 0 && i==2)){
+                type = "E";
+                if(rs.result.map != undefined) {
+                    if (rs.result.map.INV_PREP_E != null && rs.result.map.INV_PREP_E != "") {
+                        value = rs.result.map.INV_PREP_E;
+                    }
+                }
+            } else if (ls[i].PS_PREP == 6 || (ls[i].PS_PREP == 0 && i==2)){
+                type = "F";
+                if(rs.result.map != undefined) {
+                    if (rs.result.map.INV_PREP_F != null && rs.result.map.INV_PREP_F != "") {
+                        value = rs.result.map.INV_PREP_F;
                     }
                 }
             }
@@ -154,6 +196,27 @@ var resultInfo = {
                         value = rs.result.map.PREP_C;
                     }
                 }
+            } else if (ls[i].PS_PREP == 4 || (ls[i].PS_PREP == 0 && i==2)){
+                type = "D";
+                if(rs.result.map != undefined) {
+                    if (rs.result.map.PREP_D != null && rs.result.map.PREP_D != "") {
+                        value = rs.result.map.PREP_D;
+                    }
+                }
+            } else if (ls[i].PS_PREP == 5 || (ls[i].PS_PREP == 0 && i==2)){
+                type = "E";
+                if(rs.result.map != undefined) {
+                    if (rs.result.map.PREP_E != null && rs.result.map.PREP_E != "") {
+                        value = rs.result.map.PREP_E;
+                    }
+                }
+            } else if (ls[i].PS_PREP == 6 || (ls[i].PS_PREP == 0 && i==2)){
+                type = "F";
+                if(rs.result.map != undefined) {
+                    if (rs.result.map.PREP_F != null && rs.result.map.PREP_F != "") {
+                        value = rs.result.map.PREP_F;
+                    }
+                }
             }
             calcAmt = Math.round((rs.pjtInfo.PJT_AMT - invAmt) * (value * 0.01));
 
@@ -178,6 +241,9 @@ var resultInfo = {
         var A = $("#delvPrepA").val();
         var B = $("#delvPrepB").val();
         var C = $("#delvPrepC").val();
+        var D = $("#delvPrepD").val();
+        var E = $("#delvPrepE").val();
+        var F = $("#delvPrepF").val();
 
         if(A == undefined){
             A = 0;
@@ -188,8 +254,17 @@ var resultInfo = {
         if(C == undefined){
             C = 0;
         }
+        if(D == undefined){
+            D = 0;
+        }
+        if(E == undefined){
+            E = 0;
+        }
+        if(F == undefined){
+            F = 0;
+        }
 
-        if((Number(A) + Number(B) + Number(C)) > 100){
+        if((Number(A) + Number(B) + Number(C) + Number(D) + Number(E) + Number(F)) > 100){
             alert("실적률이 100%를 초과하였습니다.");
             return;
         }
@@ -203,6 +278,9 @@ var resultInfo = {
         var A = $("#invPrepA").val();
         var B = $("#invPrepB").val();
         var C = $("#invPrepC").val();
+        var D = $("#invPrepD").val();
+        var E = $("#invPrepE").val();
+        var F = $("#invPrepF").val();
 
         if(A == undefined){
             A = 0;
@@ -213,8 +291,17 @@ var resultInfo = {
         if(C == undefined){
             C = 0;
         }
+        if(D == undefined){
+            D = 0;
+        }
+        if(E == undefined){
+            E = 0;
+        }
+        if(F == undefined){
+            F = 0;
+        }
 
-        if((Number(A) + Number(B) + Number(C)) > 100){
+        if((Number(A) + Number(B) + Number(C) + Number(D) + Number(E) + Number(F)) > 100){
             alert("실적률이 100%를 초과하였습니다.");
             return;
         }
@@ -228,6 +315,9 @@ var resultInfo = {
         var A = $("#prepA").val();
         var B = $("#prepB").val();
         var C = $("#prepC").val();
+        var D = $("#prepD").val();
+        var E = $("#prepE").val();
+        var F = $("#prepF").val();
 
         if(A == undefined){
             A = 0;
@@ -238,8 +328,17 @@ var resultInfo = {
         if(C == undefined){
             C = 0;
         }
+        if(D == undefined){
+            D = 0;
+        }
+        if(E == undefined){
+            E = 0;
+        }
+        if(F == undefined){
+            F = 0;
+        }
 
-        if((Number(A) + Number(B) + Number(C)) > 100){
+        if((Number(A) + Number(B) + Number(C) + Number(D) + Number(E) + Number(F)) > 100){
             alert("실적률이 100%를 초과하였습니다.");
             return;
         }
@@ -250,56 +349,74 @@ var resultInfo = {
     },
 
     fn_save : function (){
-        var delvA = $("#prepA").val();
-        var delvB = $("#prepB").val();
-        var delvC = $("#prepC").val();
+        var delvA = $("#delvPrepA").val();
+        var delvB = $("#delvPrepB").val();
+        var delvC = $("#delvPrepC").val();
+        var delvD = $("#delvPrepD").val();
+        var delvE = $("#delvPrepE").val();
+        var delvF = $("#delvPrepF").val();
 
-        var invA = $("#prepA").val();
-        var invB = $("#prepB").val();
-        var invC = $("#prepC").val();
+        var invA = $("#invPrepA").val();
+        var invB = $("#invPrepB").val();
+        var invC = $("#invPrepC").val();
+        var invD = $("#invPrepD").val();
+        var invE = $("#invPrepE").val();
+        var invF = $("#invPrepF").val();
 
         var A = $("#prepA").val();
         var B = $("#prepB").val();
         var C = $("#prepC").val();
+        var D = $("#prepD").val();
+        var E = $("#prepE").val();
+        var F = $("#prepF").val();
 
         if(delvA == undefined){ delvA = 0; }
         if(delvB == undefined){ delvB = 0; }
         if(delvC == undefined){ delvC = 0; }
+        if(delvD == undefined){ delvD = 0; }
+        if(delvE == undefined){ delvE = 0; }
+        if(delvF == undefined){ delvF = 0; }
 
         if(invA == undefined){ invA = 0; }
         if(invB == undefined){ invB = 0; }
         if(invC == undefined){ invC = 0; }
+        if(invD == undefined){ invD = 0; }
+        if(invE == undefined){ invE = 0; }
+        if(invF == undefined){ invF = 0; }
 
         if(A == undefined){ A = 0; }
         if(B == undefined){ B = 0; }
         if(C == undefined){ C = 0; }
+        if(D == undefined){ D = 0; }
+        if(E == undefined){ E = 0; }
+        if(F == undefined){ F = 0; }
 
-        if((Number(delvA) + Number(delvB) + Number(delvC)) > 100){
+        if((Number(delvA) + Number(delvB) + Number(delvC) + Number(delvD) + Number(delvE) + Number(delvF)) > 100){
             alert("수주 실적률이 100%를 초과하였습니다.");
             return;
         }
 
-        if((Number(invA) + Number(invB) + Number(invC)) > 100){
+        if((Number(invA) + Number(invB) + Number(invC) + Number(invD) + Number(invE) + Number(invF)) > 100){
             alert("매출 실적률이 100%를 초과하였습니다.");
             return;
         }
 
-        if((Number(A) + Number(B) + Number(C)) > 100){
+        if((Number(A) + Number(B) + Number(C) + Number(D) + Number(E) + Number(F)) > 100){
             alert("수익 실적률이 100%를 초과하였습니다.");
             return;
         }
 
-        if((Number(delvA) + Number(delvB) + Number(delvC)) < 100){
+        if((Number(delvA) + Number(delvB) + Number(delvC) + Number(delvD) + Number(delvE) + Number(delvF)) < 100){
             alert("수주 실적률이 100% 미만입니다.");
             return;
         }
 
-        if((Number(invA) + Number(invB) + Number(invC)) > 100){
+        if((Number(invA) + Number(invB) + Number(invC) + Number(invD) + Number(invE) + Number(invF)) < 100){
             alert("매출 실적률이 100% 미만입니다.");
             return;
         }
 
-        if((Number(A) + Number(B) + Number(C)) > 100){
+        if((Number(A) + Number(B) + Number(C) + Number(D) + Number(E) + Number(F)) < 100){
             alert("수익 실적률이 100% 미만입니다.");
             return;
         }
@@ -323,6 +440,18 @@ var resultInfo = {
             data.delvPrepC = $("#delvPrepC").val();
             fd.append("delvPrepC", data.delvPrepC);
         }
+        if($("#delvPrepD").val() != undefined){
+            data.delvPrepD = $("#delvPrepD").val();
+            fd.append("delvPrepD", data.delvPrepD);
+        }
+        if($("#delvPrepE").val() != undefined){
+            data.delvPrepE = $("#delvPrepE").val();
+            fd.append("delvPrepE", data.delvPrepE);
+        }
+        if($("#delvPrepF").val() != undefined){
+            data.delvPrepF = $("#delvPrepF").val();
+            fd.append("delvPrepF", data.delvPrepF);
+        }
 
         if($("#invPrepA").val() != undefined){
             data.invPrepA = $("#invPrepA").val();
@@ -336,6 +465,18 @@ var resultInfo = {
             data.invPrepC = $("#invPrepC").val();
             fd.append("invPrepC", data.invPrepC);
         }
+        if($("#invPrepD").val() != undefined){
+            data.invPrepD = $("#invPrepD").val();
+            fd.append("invPrepD", data.invPrepD);
+        }
+        if($("#invPrepE").val() != undefined){
+            data.invPrepE = $("#invPrepE").val();
+            fd.append("invPrepE", data.invPrepE);
+        }
+        if($("#invPrepF").val() != undefined){
+            data.invPrepF = $("#invPrepF").val();
+            fd.append("invPrepF", data.invPrepF);
+        }
 
         if($("#prepA").val() != undefined){
             data.prepA = $("#prepA").val();
@@ -348,6 +489,18 @@ var resultInfo = {
         if($("#prepC").val() != undefined){
             data.prepC = $("#prepC").val();
             fd.append("prepC", data.prepC);
+        }
+        if($("#prepD").val() != undefined){
+            data.prepD = $("#prepD").val();
+            fd.append("prepD", data.prepD);
+        }
+        if($("#prepE").val() != undefined){
+            data.prepE = $("#prepE").val();
+            fd.append("prepE", data.prepE);
+        }
+        if($("#prepF").val() != undefined){
+            data.prepF = $("#prepF").val();
+            fd.append("prepF", data.prepF);
         }
 
         fd.append("pjtSn", data.pjtSn);

@@ -160,6 +160,33 @@ public interface UserManageService{
 
     Map<String, Integer> getCountMap2();
 
+    void userDegreeInfoInsert(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
+    void userDegreeInfoModify(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
+    void userDegreeInfoDelete(Map<String, Object> params);
+
+    void userCareerInfoInsert(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
+    void userCareerInfoModify(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
+    void userCareerInfoDelete(Map<String, Object> params);
+
+    void userMilitaryInfoModify(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
+
+    void userFamilyInfoInsert(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
+    void userFamilyInfoModify(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
+    void userFamilyInfoDelete(Map<String, Object> params);
+
+    void userLinInfoInsert(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
+    void userLinInfoModify(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
+    void userLinInfoDelete(Map<String, Object> params);
+
+    void userJobInfoInsert(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
+    void userJobInfoModify(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
+    void userJobInfoDelete(Map<String, Object> params);
+
+    void userRewInfoInsert(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
+    void userRewInfoModify(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
+    void userRewInfoDelete(Map<String, Object> params);
+
+
     /** 입/퇴사 현황 **/
     List<Map<String, Object>> getTotalEmpCount(Map<String, Object> params);
 }

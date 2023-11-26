@@ -325,7 +325,7 @@ var srrl = {
                 srForm.submit();
             }
         }else if(result.success == "200"){
-            if(confirm("헤딩 품목을 출하하시겠습니까?")){
+            if(confirm("해당 품목을 출하하시겠습니까?")){
                 var transferArr = new Array()
                 $.each($("input[name=rcSn]:checked"), function(i, v){
                     var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(this).closest("tr"));

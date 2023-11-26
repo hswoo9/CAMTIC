@@ -111,4 +111,8 @@ public class PurcRepository extends AbstractDAO {
     public void setOrderInfo(Map<String, Object> params) {
         update("purc.setOrderInfo", params);
     }
+
+    public List<Map<String, Object>> getProjectPurcList(Map<String, Object> params) {
+        return selectList("purc.getProjectPurcList", params);
+    }
 }

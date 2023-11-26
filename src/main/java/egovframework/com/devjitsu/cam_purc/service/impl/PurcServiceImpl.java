@@ -418,4 +418,9 @@ public class PurcServiceImpl implements PurcService {
     public void setOrderInfo(Map<String, Object> params) {
         purcRepository.setOrderInfo(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getProjectPurcList(Map<String, Object> params) {
+        return purcRepository.getProjectPurcList(params);
+    }
 }
