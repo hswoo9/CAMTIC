@@ -567,6 +567,7 @@
                 AF_GRANT_DAY,
                 BF_COMP_VAC,
                 AF_COMP_VAC,
+                REASON,
                 MOD_DT,
                 REG_EMP_SEQ,
                 REG_DATE
@@ -578,6 +579,7 @@
                 #{GRANT_DAY},
                 (SELECT SH.COMP_VAC FROM CAM_INSIDE.DJ_HOLIDAY SH WHERE SH.HOLIDAY_ID = #{HOLIDAY_ID}),
                 #{COMP_VAC},
+                #{reason},
                 DATE_FORMAT(NOW(), '%Y-%m-%d'),
                 #{emqSeq},
                 now()

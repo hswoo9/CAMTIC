@@ -69,7 +69,7 @@ public interface SubHolidayService {
 
     void setUserVacList(List<Map<String, Object>> list);
 
-    void setUserVacList2(List<Map<String, Object>> list, String uniqId);
+    void setUserVacList2(List<Map<String, Object>> list, String uniqId, String reason);
 
     /**
      * 공휴일 데이터 조회 */

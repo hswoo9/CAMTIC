@@ -117,6 +117,10 @@ const holidayHist = {
                         },
                     ]
                 }, {
+                    field: "REASON",
+                    title: "변경사유",
+                    width: 120
+                }, {
                     field: "MOD_DT",
                     title: "수정일자",
                     width: 60

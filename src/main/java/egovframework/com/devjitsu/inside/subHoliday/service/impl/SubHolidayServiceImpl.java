@@ -200,7 +200,7 @@ public class SubHolidayServiceImpl implements SubHolidayService {
     }
 
     @Override
-    public void setUserVacList2(List<Map<String, Object>> list, String uniqId) {
+    public void setUserVacList2(List<Map<String, Object>> list, String uniqId, String reason) {
         for (int i = 0; i < list.size(); i++) {
             Map<String, Object> json = list.get(i);
             Map<String, Object> data = subHolidayRepository.getUserVacInfo(json);
@@ -209,6 +209,7 @@ public class SubHolidayServiceImpl implements SubHolidayService {
             if(!json.get("GRANT_DAY").toString().equals(data.get("GRANT_DAY").toString())
             || !json.get("COMP_VAC").toString().equals(data.get("COMP_VAC").toString())){
                 json.put("emqSeq", uniqId);
+                json.put("reason", reason);
                 subHolidayRepository.insUserVacChangeHist(json);
                 subHolidayRepository.updUserVacInfo(json);
             }

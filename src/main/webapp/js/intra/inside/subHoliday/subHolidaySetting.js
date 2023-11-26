@@ -96,7 +96,7 @@ var subHolidaySetting = {
                 }, {
                     name: 'update',
                     template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="subHolidaySetting.fn_saveAll();">저장</button>';
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="openModal()">저장</button>';
                     }
                 },
 
@@ -232,17 +232,22 @@ var subHolidaySetting = {
         if(!confirm("저장하시겠습니까?")){
             return false;
         }
+        if($("#modReason").val() == ""){
+            alert("수정사유를 입력하십시오."); return;
+        }
 
         var grid = $("#mainGrid").data("kendoGrid");
         var state = kendo.stringify(grid.getOptions());
         console.log(state);
 
         var result = customKendo.fn_customAjax("/subHoliday/setUserVacList2", {
-            param : state
+            param: state,
+            reason: $("#modReason").val()
         });
         if(!result.flag){
             alert("시스템 오류가 발생했습니다.");
         }
         subHolidaySetting.gridReload();
+        $("#modal").data("kendoWindow").close();
     }
 }

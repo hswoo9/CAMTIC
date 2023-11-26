@@ -348,7 +348,7 @@ public class SubHolidayController {
     }
 
     @RequestMapping("/subHoliday/setUserVacList2")
-    public String setUserVacList2(@RequestParam("param") String params, Model model, HttpServletRequest request) {
+    public String setUserVacList2(@RequestParam("param") String params, @RequestParam("reason") String reason, Model model, HttpServletRequest request) {
         LoginVO loginVO = getLoginVO(request);
         JsonParser p = new JsonParser();
         JsonElement element = p.parse(params);
@@ -361,7 +361,7 @@ public class SubHolidayController {
             }.getType());
             list.add(jsonObject);
         }
-        subHolidayService.setUserVacList2(list, loginVO.getUniqId());
+        subHolidayService.setUserVacList2(list, loginVO.getUniqId(), reason);
         return "jsonView";
     }
 
