@@ -1238,7 +1238,8 @@
             DELV_STAT = 'Y',
             STR_DT = #{estDe},
             END_EXP_DT = #{delvDe},
-            PM = #{pmEmpNm}
+            PM = #{pmEmpNm},
+            PM_EMP_SEQ = #{pmEmpSeq}
         WHERE
             PJT_SN = #{pjtSn}
     </update>
@@ -1454,6 +1455,15 @@
         <if test='delvPrepC != null and !"".equals(delvPrepC)'>
             DELV_PREP_C,
         </if>
+        <if test='delvPrepD != null and !"".equals(delvPrepD)'>
+            DELV_PREP_D,
+        </if>
+        <if test='delvPrepE != null and !"".equals(delvPrepE)'>
+            DELV_PREP_E,
+        </if>
+        <if test='delvPrepF != null and !"".equals(delvPrepF)'>
+            DELV_PREP_F,
+        </if>
         <if test='invPrepA != null and !"".equals(invPrepA)'>
             INV_PREP_A,
         </if>
@@ -1463,6 +1473,15 @@
         <if test='invPrepC != null and !"".equals(invPrepC)'>
             INV_PREP_C,
         </if>
+        <if test='invPrepD != null and !"".equals(invPrepD)'>
+            INV_PREP_D,
+        </if>
+        <if test='invPrepE != null and !"".equals(invPrepE)'>
+            INV_PREP_E,
+        </if>
+        <if test='invPrepF != null and !"".equals(invPrepF)'>
+            INV_PREP_F,
+        </if>
         <if test='prepA != null and !"".equals(prepA)'>
             PREP_A,
         </if>
@@ -1471,6 +1490,15 @@
         </if>
         <if test='prepC != null and !"".equals(prepC)'>
             PREP_C,
+        </if>
+        <if test='prepD != null and !"".equals(prepD)'>
+            PREP_D,
+        </if>
+        <if test='prepE != null and !"".equals(prepE)'>
+            PREP_E,
+        </if>
+        <if test='prepF != null and !"".equals(prepF)'>
+            PREP_F,
         </if>
         REG_EMP_SEQ
         )
@@ -1486,6 +1514,15 @@
         <if test='delvPrepC != null and !"".equals(delvPrepC)'>
             #{delvPrepC},
         </if>
+        <if test='delvPrepD != null and !"".equals(delvPrepD)'>
+            #{delvPrepD},
+        </if>
+        <if test='delvPrepE != null and !"".equals(delvPrepE)'>
+            #{delvPrepE},
+        </if>
+        <if test='delvPrepF != null and !"".equals(delvPrepF)'>
+            #{delvPrepF},
+        </if>
         <if test='invPrepA != null and !"".equals(invPrepA)'>
             #{invPrepA},
         </if>
@@ -1495,6 +1532,15 @@
         <if test='invPrepC != null and !"".equals(invPrepC)'>
             #{invPrepC},
         </if>
+        <if test='invPrepD != null and !"".equals(invPrepD)'>
+            #{invPrepD},
+        </if>
+        <if test='invPrepE != null and !"".equals(invPrepE)'>
+            #{invPrepE},
+        </if>
+        <if test='invPrepF != null and !"".equals(invPrepF)'>
+            #{invPrepF},
+        </if>
         <if test='prepA != null and !"".equals(prepA)'>
             #{prepA},
         </if>
@@ -1503,6 +1549,15 @@
         </if>
         <if test='prepC != null and !"".equals(prepC)'>
             #{prepC},
+        </if>
+        <if test='prepD != null and !"".equals(prepD)'>
+            #{prepD},
+        </if>
+        <if test='prepE != null and !"".equals(prepE)'>
+            #{prepE},
+        </if>
+        <if test='prepF != null and !"".equals(prepF)'>
+            #{prepF},
         </if>
         #{empSeq}
         )
@@ -1519,33 +1574,6 @@
         SUP_CONT = #{supCont},
         RS_ISS = #{rsIss},
         RS_ETC = #{rsEtc},
-        <if test='delvPrepA != null and !"".equals(delvPrepA)'>
-            DELV_PREP_A = #{delvPrepA},
-        </if>
-        <if test='delvPrepB != null and !"".equals(delvPrepB)'>
-            DELV_PREP_B = #{delvPrepB},
-        </if>
-        <if test='delvPrepC != null and !"".equals(delvPrepC)'>
-            DELV_PREP_C = #{delvPrepC},
-        </if>
-        <if test='invPrepA != null and !"".equals(invPrepA)'>
-            INV_PREP_A = #{invPrepA},
-        </if>
-        <if test='invPrepB != null and !"".equals(invPrepB)'>
-            INV_PREP_B = #{invPrepB},
-        </if>
-        <if test='invPrepC != null and !"".equals(invPrepC)'>
-            INV_PREP_C = #{invPrepC},
-        </if>
-        <if test='prepA != null and !"".equals(prepA)'>
-            PREP_A = #{prepA},
-        </if>
-        <if test='prepB != null and !"".equals(prepB)'>
-            PREP_B = #{prepB},
-        </if>
-        <if test='prepC != null and !"".equals(prepC)'>
-            PREP_C = #{prepB},
-        </if>
         RS_STR_DT = #{rsStrDt},
         RS_END_DT = #{rsEndDt},
         RS_ACT_EQUIP = #{rsActEquip},
@@ -1567,6 +1595,15 @@
         <if test='delvPrepC != null and !"".equals(delvPrepC)'>
             DELV_PREP_C = #{delvPrepC},
         </if>
+        <if test='delvPrepD != null and !"".equals(delvPrepD)'>
+            DELV_PREP_D = #{delvPrepD},
+        </if>
+        <if test='delvPrepE != null and !"".equals(delvPrepE)'>
+            DELV_PREP_E = #{delvPrepE},
+        </if>
+        <if test='delvPrepF != null and !"".equals(delvPrepF)'>
+            DELV_PREP_F = #{delvPrepF},
+        </if>
         <if test='invPrepA != null and !"".equals(invPrepA)'>
             INV_PREP_A = #{invPrepA},
         </if>
@@ -1576,6 +1613,15 @@
         <if test='invPrepC != null and !"".equals(invPrepC)'>
             INV_PREP_C = #{invPrepC},
         </if>
+        <if test='invPrepD != null and !"".equals(invPrepD)'>
+            INV_PREP_D = #{invPrepD},
+        </if>
+        <if test='invPrepE != null and !"".equals(invPrepE)'>
+            INV_PREP_E = #{invPrepE},
+        </if>
+        <if test='invPrepF != null and !"".equals(invPrepF)'>
+            INV_PREP_F = #{invPrepF},
+        </if>
         <if test='prepA != null and !"".equals(prepA)'>
             PREP_A = #{prepA},
         </if>
@@ -1584,6 +1630,15 @@
         </if>
         <if test='prepC != null and !"".equals(prepC)'>
             PREP_C = #{prepB},
+        </if>
+        <if test='prepD != null and !"".equals(prepD)'>
+            PREP_D = #{prepD},
+        </if>
+        <if test='prepE != null and !"".equals(prepE)'>
+            PREP_E = #{prepE},
+        </if>
+        <if test='prepF != null and !"".equals(prepF)'>
+            PREP_F = #{prepF},
         </if>
             MOD_EMP_SEQ = #{empSeq}
         WHERE

@@ -571,6 +571,9 @@ public class ProjectServiceImpl implements ProjectService {
             projectRepository.updateResFinalApprStat(params);
             Map<String, Object> pjtMap = projectRepository.getProjectData(params);
             crmRepository.insCrmEngnHist(pjtMap);
+            params.put("pjtStep", "E6");
+            params.put("pjtStepNm", "결과보고");
+            projectRepository.updProjectStep(params);
         }
         /*if("10".equals(docSts) || "101".equals(docSts)){
             *//** STEP1. pjtSn 으로 resultData 호출 *//*
