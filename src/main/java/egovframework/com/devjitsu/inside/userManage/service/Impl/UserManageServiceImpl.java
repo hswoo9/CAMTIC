@@ -848,4 +848,9 @@ public class UserManageServiceImpl implements UserManageService {
         return countMap;
     }
 
+    @Override
+    public List<Map<String, Object>> getTotalEmpCount(Map<String, Object> parmas){
+        return userManageRepository.getTotalEmpCount(parmas);
+    }
+
 }
