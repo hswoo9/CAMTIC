@@ -312,6 +312,45 @@ public class UserManageRepository extends AbstractDAO {
     public int getCountForDsI2() {return (Integer) selectOne("userManage.getCountForDsI2");}
     public int getCountForDsJ2() {return (Integer) selectOne("userManage.getCountForDsJ2");}
 
+    public void userDegreeInfoInsert(Map<String, Object> map) {insert("userManage.userDegreeInfoInsert", map);}
+    public void userDegreeInfoModify (Map<String,Object> map) {
+        update("userManage.userDegreeInfoModify", map);
+    }
+    public void userDegreeInfoDelete(Map<String, Object> params) { update("userManage.userDegreeInfoDelete", params);}
+
+    public void userCareerInfoInsert(Map<String, Object> map) {insert("userManage.userCareerInfoInsert", map);}
+    public void userCareerInfoModify (Map<String,Object> map) {
+        update("userManage.userCareerInfoModify", map);
+    }
+    public void userCareerInfoDelete(Map<String, Object> params) { update("userManage.userCareerInfoDelete", params);}
+
+    public void userMilitaryInfoModify(Map<String, Object> params) {update("userManage.userMilitaryInfoModify", params);}
+
+
+
+
+    public void userLinInfoInsert(Map<String, Object> map) {insert("userManage.userLinInfoInsert", map);}
+    public void userLinInfoModify (Map<String,Object> map) {
+        update("userManage.userLinInfoModify", map);
+    }
+    public void userLinInfoDelete(Map<String, Object> params) { update("userManage.userLinInfoDelete", params);}
+
+    public void userJobInfoInsert(Map<String, Object> map) {insert("userManage.userJobInfoInsert", map);}
+    public void userJobInfoModify (Map<String,Object> map) {
+        update("userManage.userJobInfoModify", map);
+    }
+    public void userJobInfoDelete(Map<String, Object> params) { update("userManage.userJobInfoDelete", params);}
+
+    public void userRewInfoInsert(Map<String, Object> map) {insert("userManage.userRewInfoInsert", map);}
+    public void userRewInfoModify (Map<String,Object> map) {
+        update("userManage.userRewInfoModify", map);
+    }
+    public void userRewInfoDelete(Map<String, Object> params) { update("userManage.userRewInfoDelete", params);}
+
+
+
+
+
 
     public List<Map<String, Object>> getTotalEmpCount(Map<String, Object> params){
         return selectList("userManage.getTotalEmpCount", params);
