@@ -347,6 +347,24 @@ public class SubHolidayController {
         return "jsonView";
     }
 
+    @RequestMapping("/subHoliday/setUserVacList2")
+    public String setUserVacList2(@RequestParam("param") String params, Model model, HttpServletRequest request) {
+        LoginVO loginVO = getLoginVO(request);
+        JsonParser p = new JsonParser();
+        JsonElement element = p.parse(params);
+        JsonArray jsonArray = element.getAsJsonObject().getAsJsonObject("dataSource").getAsJsonArray("data");
+
+        Gson gson = new Gson();
+        List<Map<String, Object>> list = new ArrayList<>();
+        for (JsonElement jsonElement : jsonArray) {
+            Map<String, Object> jsonObject = gson.fromJson(jsonElement, new TypeToken<Map<String, Object>>() {
+            }.getType());
+            list.add(jsonObject);
+        }
+        subHolidayService.setUserVacList2(list, loginVO.getUniqId());
+        return "jsonView";
+    }
+
     //공휴일관리 페이지
     @RequestMapping("/subHoliday/holidayManagement.do")
     public String holidayManagement(HttpServletRequest request, Model model) {
@@ -404,7 +422,7 @@ public class SubHolidayController {
         return "jsonView";
     }
 
-    @RequestMapping("/subHoliday/getModVacList.do")
+    @RequestMapping("/subHoliday/getModVacList")
     public String getModVacList(@RequestParam Map<String, Object> map, ModelMap model) {
         model.addAttribute("list", subHolidayService.getModVacList(map));
         return "jsonView";

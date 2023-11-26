@@ -52,6 +52,8 @@
                                 </td>
                             </tr>
                         </table>
+                        <div id="countTable">
+                        <!--
                         <table class="centerTable table table-bordered">
                             <colgroup>
                                 <col width="35%" >
@@ -71,21 +73,21 @@
                             </tr>
                             </tbody>
                         </table>
+                        -->
+                        </div>
+                        <div id="mainTable">
+                            <!--
                         <table class="centerTable table table-bordered">
                             <tbody>
                             <tr style="background-color: #d8dce3;">
-                                <td>년 도</td>
-                                <c:forEach var="empCountMap" items="${empTotalList}">
-                                    <c:out value="${empCountMap['join_year']}" />
-                                    ${empCountMap.join_year}
-                                </c:forEach>
-<%--                                <td>2023년</td>--%>
-<%--                                <td>2022년</td>--%>
-<%--                                <td>2021년</td>--%>
-<%--                                <td>2020년</td>--%>
-<%--                                <td>2019년</td>--%>
-<%--                                <td>2018년</td>--%>
-<%--                                <td>2017년</td>--%>
+                                <td>년 도 </td>
+                                <td>2023년</td>
+                                <td>2022년</td>
+                                <td>2021년</td>
+                                <td>2020년</td>
+                                <td>2019년</td>
+                                <td>2018년</td>
+                                <td>2017년</td>
                             </tr>
                             <tr style="background-color: #e1ecff;">
                                 <td> 입 사</td>
@@ -198,7 +200,9 @@
                                 <td> </td>
                             </tr>
                             </tbody>
-                        </table>
+                            </table>
+                        -->
+                        </div>
                     </div><!-- table-responsive -->
                 </div>
             </div>
@@ -207,6 +211,9 @@
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
+joinLeaveView.fn_defaultScript();
+
+    /*
     $.ajax({
         type: "GET",
         url: "/Inside/getTotalEmpCount.do",
@@ -218,4 +225,6 @@
             console.error("Error fetching data:", error);
         }
     });
+    */
+
 </script>

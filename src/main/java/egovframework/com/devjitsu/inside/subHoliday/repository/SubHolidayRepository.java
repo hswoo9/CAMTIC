@@ -41,6 +41,15 @@ public class SubHolidayRepository extends AbstractDAO  {
     public Map<String, Object> getUserHolyData(Map<String, Object> params) {return (Map<String, Object>) selectOne("subHoliday.getUserHolyData", params);}
     public Map<String, Object> getUserBefHolyData(Map<String, Object> params) {return (Map<String, Object>) selectOne("subHoliday.getUserBefHolyData", params);}
     public void setUserVacList(List<Map<String, Object>> list) {update("subHoliday.setUserVacList", list);}
+    public Map<String, Object> getUserVacInfo(Map<String, Object> params){
+        return (Map<String, Object>)selectOne("subHoliday.getUserVacInfo", params);
+    }
+    public void updUserVacInfo(Map<String, Object> params) {
+        update("subHoliday.setUserVacInfo", params);
+    }
+    public void insUserVacChangeHist(Map<String, Object> params){
+        insert("subHoliday.insUserVacChangeHist", params);
+    }
 
     //공휴일 데이터 조회
     public List<Map<String, Object>> getHolidayList(Map<String, Object> parmas){return selectList("subHoliday.getHolidayList", parmas); }
@@ -87,7 +96,9 @@ public class SubHolidayRepository extends AbstractDAO  {
     }
 
     // 이력관리
-    public List<Map<String, Object>> getModVacList(Map<String, Object> map){return selectList("subHoliday.getModVacList", map); }
+    public List<Map<String, Object>> getModVacList(Map<String, Object> map){
+        return selectList("subHoliday.getModVacList", map);
+    }
 
     public List<Map<String, Object>> getGrantDay(Map<String, Object> map){
         return selectList("subHoliday.getGrantDay", map);

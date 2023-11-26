@@ -171,10 +171,10 @@
                 // ... 나머지 필드들도 동일한 방식으로 추가 ...
             },
             success: function(response) {
-                alert("Data saved successfully!");
+                alert("저장이 완료되었습니다.");
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                alert("Error occurred while saving data:", textStatus);
+                alert("다시 시도해주세요.", textStatus);
             }
         });
     }
