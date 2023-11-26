@@ -18,6 +18,7 @@ const studyReq = {
             { text: "OJT", value: "3" }
         ]
         customKendo.fn_dropDownList("studyClass", studyDataSource, "text", "value", 3);
+
         $("#studyClass").data("kendoDropDownList").bind("change", studyReq.dataSet);
         $("#studyUserName, #startDt, #endDt, #regDate, #startTime, #endTime").attr("readonly", true);
     },
@@ -27,14 +28,33 @@ const studyReq = {
         if(studyClass == 1){
             $(".study").show();
             $(".propag").hide();
+            $("#subjectCont").text("학습내용")
+            $("#titleCol").text("학습조명");
+            $("#subjectLoc").text("학습장소");
+            $("#subjectDe").text("학습기간");
+
+            $(".subjectObj").show();
         }else if(studyClass == 2){
+            $("#titleCol").text("학습주제");
+            $("#subjectCont").text("학습내용")
+            $("#subjectLoc").text("학습장소");
+            $("#subjectDe").text("학습기간");
+
             $(".study").hide();
             $(".propag").show();
+            $(".subjectObj").show();
         }else if(studyClass == 3){
+            $("#titleCol").text("지도명칭");
+            $("#subjectCont").text("지도목적");
+
+            $("#subjectLoc").text("지도장소");
+            $("#subjectDe").text("지도기간");
+
             $(".study").hide();
             $(".propag").hide();
+            $(".subjectObj").hide();
             $(".ojt").show();
-            $(".notOjt").hide();
+
         }
     },
 
@@ -139,7 +159,7 @@ const studyReq = {
         }else {
             alert("데이터 저장 중 에러가 발생했습니다.");
         }
-    }
+    },
 }
 
 function userDataSet(userArr){
