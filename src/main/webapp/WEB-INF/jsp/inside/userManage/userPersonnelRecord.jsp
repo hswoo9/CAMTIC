@@ -2077,8 +2077,9 @@
      */
 
 
-    function userPrintPop(){
-        let url = "/inside/pop/userPrintPop.do?empSeq="+$("#empSeq").val();
+    function userPrintPop(empSeq){
+        /*let url = "/inside/pop/userPrintPop.do?empSeq="+$("#empSeq").val();*/
+        let url = "/inside/pop/userPrintPop.do?empSeq="+ empSeq + "&admin=Y";
         const name = "userPrintPop";
         const option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
         window.open(url, name, option);

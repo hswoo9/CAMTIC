@@ -110,7 +110,7 @@
                                     <tr>
                                         <th>생년월일</th>
                                         <td>
-                                            <input type="text" id="bDay" name="bDay" class="userInfoDatePicker notDisabled" value="${uprList.bDay}" style="width: 40%;">
+                                            <input type="text" id="bDay" class="bDay" name="bDay" class="userInfoDatePicker notDisabled" value="${uprList.bDay}" style="width: 40%;">
                                         </td>
                                         <th>주민등록번호</th>
                                         <td>
@@ -185,14 +185,14 @@
                                     <colgroup>
                                         <col width="5%">
                                         <col width="8%">
-                                        <col width="15%">
+                                        <col width="20%">
                                         <col width="11%">
                                         <col width="6%">
-                                        <col width="10%">
-                                        <col width="10%">
+                                        <col width="8%">
+                                        <col width="8%">
                                         <col width="8%">
                                         <col width="5%">
-                                        <col width="12%">
+                                        <col width="10%">
                                         <col width="12%">
                                     </colgroup>
                                     <thead>
@@ -217,7 +217,7 @@
                                                     <input type="text" id="gubun" class="gubun" value='${l.GUBUN_CODE}' style="width: 100%;">
                                                 </td>
                                                 <td>
-                                                    <input type="text" id="sDate" value='${l.ADMISSION_DAY}' style="width: 45%;"> ~ <input type="text" id="eDate" value='${l.GRADUATION_DAY}' style="width: 45%;">
+                                                    <input type="text" id="sDate" class="sDate" value='${l.ADMISSION_DAY}' style="width: 45%;"> ~ <input type="text" id="eDate" class="eDate" value='${l.GRADUATION_DAY}' style="width: 45%;">
                                                 </td>
                                                 <td>
                                                     <input type="text" id="school" value='${l.SCHOOL_NAME}' style="width: 100%;">
@@ -268,7 +268,7 @@
                                                     <input type="text" id="gubun1" class="gubun" style="width: 100%;">
                                                 </td>
                                                 <td>
-                                                    <input type="text" id="sDate1" style="width: 45%;"> ~ <input type="text" id="eDate1" style="width: 45%;">
+                                                    <input type="text" id="sDate1" class="sDate" class="sDate" style="width: 45%;"> ~ <input type="text" id="eDate1" class="eDate" class="eDate" style="width: 45%;">
                                                 </td>
                                                 <td>
                                                     <input type="text" id="school1" style="width: 100%;">
@@ -341,7 +341,7 @@
                                         <c:if test="${l.CAREER_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
                                                 <td>${fn:length (cList) - status.index}</td>
-                                                <td><input type="text" id="sDate2" value='${l.JOIN_DAY}' style="width: 45%;"> ~ <input type="text" id="eDate2" value= '${l.RESIGN_DAY}' style="width: 45%;"></td>
+                                                <td><input type="text" id="sDate2" class="sDate" value='${l.JOIN_DAY}' style="width: 45%;"> ~ <input type="text" id="eDate2" class="eDate" value= '${l.RESIGN_DAY}' style="width: 45%;"></td>
                                                 <td><input type="text" id="place2" value='${l.EMPLOY_DEPT_NAME}' style="width: 100%;"> </td>
                                                 <td><input type="text" id="position2" value='${l.POSITION_OR_DUTY}' style="width: 100%;"> </td>
                                                 <td><input type="text" id="workType2" value='${l.MAIN_TASK}' style="width: 100%;"> </td>
@@ -375,7 +375,7 @@
                                     </c:forEach>
                                         <tr>
                                             <td></td>
-                                            <td><input type="text" id="sDate3" style="width: 45%;"> ~ <input type="text" id="eDate3" style="width: 45%;"></td>
+                                            <td><input type="text" id="sDate3" class="sDate" style="width: 45%;"> ~ <input type="text" id="eDate3" class="eDate" style="width: 45%;"></td>
                                             <td><input type="text" id="place3" style="width: 100%;"> </td>
                                             <td><input type="text" id="position3" style="width: 100%;"> </td>
                                             <td><input type="text" id="workType3" style="width: 100%;"> </td>
@@ -422,7 +422,7 @@
                                     <tr>
                                         <th>복무기간</th>
                                         <td>
-                                            <input type="text" id="sDate4" value="${mInfo.M_ENLIST_DAY}" style="width: 45%;"> ~ <input type="text" id="eDate4" value="${mInfo.M_DISCHARGE_DAY}" style="width: 45%;">
+                                            <input type="text" id="sDate4" class="sDate" value="${mInfo.M_ENLIST_DAY}" style="width: 45%;"> ~ <input type="text" id="eDate4" class="eDate" value="${mInfo.M_DISCHARGE_DAY}" style="width: 45%;">
                                         </td>
                                         <th>최종계급</th>
                                         <td>
@@ -476,7 +476,7 @@
                                                 <td>${fn:length (fList) - status.index}</td>
                                                 <td><input type="text" id="relation" class="relation" value="${l.FAMILY_CODE}" style="width: 100%;"></td>
                                                 <td><input type="text" id="fName" value="${l.FAMILY_NAME}" style="width: 100%;"></td>
-                                                <td><input type="text" id="bDay1" value="${l.FAMILY_BIRTH}" style="width: 100%;"></td>
+                                                <td><input type="text" id="bDay1" class="bDay" value="${l.FAMILY_BIRTH}" style="width: 100%;"></td>
                                                 <td><input type="text" id="job" value="${l.FAMILY_JOB}" style="width: 100%;"></td>
                                                 <td><span type="text" id="includeType${l.FAMILY_ID}" class="includeType" name="includeType" value="${l.INCLUDE_YN}" style="width: 100%;"></span></td>
                                                 <td>
@@ -490,7 +490,7 @@
                                         <td></td>
                                         <td><input type="text" id="relation1" class="relation" style="width: 100%;"></td>
                                         <td><input type="text" id="fName1"  style="width: 100%;"></td>
-                                        <td><input type="text" id="bDay2" style="width: 100%;"></td>
+                                        <td><input type="text" id="bDay2" class="bDay" style="width: 100%;"></td>
                                         <td><input type="text" id="job1" style="width: 100%;"></td>
                                         <td><span type="text" id="includeType1" class="includeType" name="includeType" style="width: 100%;"></span></td>
                                         <td>
@@ -535,7 +535,7 @@
                                             <tr>
                                                 <td>${fn:length (lList) - status.index}</td>
                                                 <td><input type="text" id="licenseName" value="${l.CERTIFICATE_NAME}" style="width: 100%;"></td>
-                                                <td><input type="text" id="sDate5" value="${l.ACQUISITION_DAY}" style="width: 100%;"></td>
+                                                <td><input type="text" id="sDate5" class="sDate" value="${l.ACQUISITION_DAY}" style="width: 100%;"></td>
                                                 <td><input type="text" id="licenseNum" value="${l.CERTIFICATE_NUM}" style="width: 100%;"></td>
                                                 <td><input type="text" id="agency" value="${l.ISSUER}" style="width: 100%;"></td>
 
@@ -560,7 +560,7 @@
                                     <tr>
                                         <td></td>
                                         <td><input type="text" id="licenseName1" style="width: 100%;"></td>
-                                        <td><input type="text" id="sDate6" style="width: 100%;"></td>
+                                        <td><input type="text" id="sDate6" class="sDate" style="width: 100%;"></td>
                                         <td><input type="text" id="licenseNum1" style="width: 100%;"></td>
                                         <td><input type="text" id="agency1" style="width: 100%;"></td>
 
@@ -606,7 +606,7 @@
                                         <c:if test="${l.DUTY_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
                                                 <td>${fn:length (dList) - status.index}</td>
-                                                <td><input type="text" id="sDate7" value="${l.WORK_JOIN_DAY}" style="width: 45%;"> ~ <input type="text" id="eDate7" value="${l.WORK_LEAVE_DAY}" style="width: 45%;"></td>
+                                                <td><input type="text" id="sDate7" class="sDate" value="${l.WORK_JOIN_DAY}" style="width: 45%;"> ~ <input type="text" id="eDate7" class="eDate" value="${l.WORK_LEAVE_DAY}" style="width: 45%;"></td>
                                                 <td><input type="text" id="pay" value="${l.WORK_PAY}" style="width: 100%;"></td>
                                                 <td><input type="text" id="work" value="${l.DUTY_DETAIL}" style="width: 100%;"></td>
                                                 <td><input type="text" id="rank1" value="${l.POSITON_NAME}" style="width: 100%;"></td>
@@ -619,7 +619,7 @@
                                     </c:forEach>
                                     <tr>
                                         <td>${fn:length (dList) - status.index}</td>
-                                        <td><input type="text" id="sDate8" style="width: 45%;"> ~ <input type="text" id="eDate8" value="${l.WORK_LEAVE_DAY}" style="width: 45%;"></td>
+                                        <td><input type="text" id="sDate8" class="sDate" style="width: 45%;"> ~ <input type="text" id="eDate8" class="eDate"value="${l.WORK_LEAVE_DAY}" style="width: 45%;"></td>
                                         <td><input type="text" id="pay1" style="width: 100%;"></td>
                                         <td><input type="text" id="work1" style="width: 100%;"></td>
                                         <td><input type="text" id="rank2"  style="width: 100%;"></td>
@@ -712,7 +712,7 @@
                                                 <td>${fn:length (rList) - status.index}</td>
                                                 <td><input type="text" id="rGubunOutIn" class="rGubunOutIn" value="${l.REWORD_TYPE}" style="width: 100%;"></td>
                                                 <td><input type="text" id="rGubun" value="${l.REWORD_TYPE_NAME1}" style="width: 100%;"></td>
-                                                <td><input type="text" id="sDate9" value="${l.REWORD_DAY}" style="width: 100%;"></td>
+                                                <td><input type="text" id="sDate9" class="sDate" value="${l.REWORD_DAY}" style="width: 100%;"></td>
                                                 <td><input type="text" id="rwdSn" value="${l.RWD_SN}" style="width: 100%;"></td>
                                                 <td><input type="text" id="rIssue" value="${l.RWD_OFM}" style="width: 100%;"></td>
                                                 <td><input type="text" id="agency2" value="${l.RWD_ST_COMP}" style="width: 100%;"></td>
@@ -738,7 +738,7 @@
                                         <td>${fn:length (rList) - status.index}</td>
                                         <td><input type="text" id="rGubunOutIn1" class="rGubunOutIn" style="width: 100%;"></td>
                                         <td><input type="text" id="rGubun1" style="width: 100%;"></td>
-                                        <td><input type="text" id="sDate10" style="width: 100%;"></td>
+                                        <td><input type="text" id="sDate10" class="sDate" style="width: 100%;"></td>
                                         <td><input type="text" id="rwdSn1" style="width: 100%;"></td>
                                         <td><input type="text" id="rIssue1"  style="width: 100%;"></td>
                                         <td><input type="text" id="agency3" style="width: 100%;"></td>
@@ -1072,15 +1072,6 @@
         dataSource: edCodeDataSource("B05")
     });
 
-    $(".includeType").kendoRadioGroup({
-        items: [
-            {label: "예", value: "Y"},
-            {label: "아니오", value: "N"}
-        ],
-        layout: "horizontal",
-        labelPosition: "after"
-    });
-
     $(".rGubunOutIn").kendoDropDownList({
         dataTextField: "text",
         dataValueField: "value",
@@ -1092,13 +1083,90 @@
         index: 0
     });
 
+    $("#carActive").kendoRadioGroup({
+        items: [
+            { label : "예", value : "Y" },
+            { label : "아니오", value : "N" }
+        ],
+        layout : "horizontal",
+        labelPosition : "after",
+        value : '${uprList.carActive}'
+    });
+    $("#joinDay").kendoDatePicker({
+        depth: "month",
+        start: "month",
+        culture : "ko-KR",
+        format : "yyyy-MM-dd",
+        value : "${data.JOIN_DAY}"
+    });
+
+    $(".bDay").kendoDatePicker({
+        depth: "month",
+        start: "month",
+        culture : "ko-KR",
+        format : "yyyy-MM-dd",
+   /*     value : "${data.BDAY}"*/
+    });
+
+    $("#resignDay").kendoDatePicker({
+        depth: "month",
+        start: "month",
+        culture : "ko-KR",
+        format : "yyyy-MM-dd",
+        value : "${data.RESIGN_DAY}"
+    });
+
+    $(".sDate").kendoDatePicker({
+        depth: "month",
+        start: "month",
+        culture : "ko-KR",
+        format : "yyyy-MM-dd"
+    });
+
+    $(".eDate").kendoDatePicker({
+        depth: "month",
+        start: "month",
+        culture : "ko-KR",
+        format : "yyyy-MM-dd"
+    });
+
+    $(".includeType").kendoRadioGroup({
+        items: [
+            {label: "예", value: "Y"},
+            {label: "아니오", value: "N"}
+        ],
+        layout: "horizontal",
+        labelPosition: "after"
+    });
+
     // Y 이면 예 , N 이면 아니오
-    var flag = "Y";
+    /*var flag = "Y";
 
     if(false) {
         flag = "N"
     }
-    $("#includeType").data("kendoRadioGroup").value(flag);
+    $("#includeType${l.FAMILY_ID}").data("kendoRadioGroup").value(flag);*/
+  /*  $("input[name='includeType'][value='" + e.INCLUDE_YN + "']").prop('checked', true);*/
+
+    $.each($(".includeType input"), function(){
+        var flag = "Y";
+
+        if(false) {
+            flag = "N"
+        }
+        var familyId = $(this).attr('id').replace('includeType', '');
+        $("#includeType" + familyId).data("kendoRadioGroup").value(flag);
+    })
+
+   /* $(".includeType").each(function () {
+        var flag = "Y";
+
+        if(false) {
+            flag = "N"
+        }
+        var familyId = $(this).attr('id').replace('includeType', '');
+        $("#includeType" + familyId).data("kendoRadioGroup").value(flag);
+    });*/
 
 
     $(function(){
@@ -1183,7 +1251,7 @@
 
         $(".userInfoTextBox").kendoTextBox();
 
-        $("#carActive").kendoRadioGroup({
+       /* $("#carActive").kendoRadioGroup({
             items: [
                 { label : "예", value : "Y" },
                 { label : "아니오", value : "N" }
@@ -1191,7 +1259,7 @@
             layout : "horizontal",
             labelPosition : "after",
             value : '${uprList.carActive}'
-        });
+        });*/
 
         $.each($(".userInfoTextBox input"), function(){
             if($("#regEmpSeq").val() != $("#empSeq").val() || !$(this).hasClass("notDisabled")){
@@ -1204,15 +1272,15 @@
 
     function userInfoDatePickerSetting(){
 
-        $("#joinDay").kendoDatePicker({
+        /*$("#joinDay").kendoDatePicker({
             depth: "month",
             start: "month",
             culture : "ko-KR",
             format : "yyyy-MM-dd",
             value : "${data.JOIN_DAY}"
-        });
+        });*/
 
-        $("#bDay").kendoDatePicker({
+        /*$("#bDay").kendoDatePicker({
             depth: "month",
             start: "month",
             culture : "ko-KR",
@@ -1227,7 +1295,7 @@
             format : "yyyy-MM-dd",
             value : "${data.RESIGN_DAY}"
         });
-
+*/
         $.each($(".userInfoDatePicker input"), function(){
             if($("#regEmpSeq").val() != $("#empSeq").val() || !$(this).hasClass("notDisabled")){
                 $(this).data("kendoDatePicker").enable(false);
@@ -1680,7 +1748,7 @@
             bDay : $("#bDay1").val(),
             job : $("#job").val(),
             fName : $("#fName").val(),
-            includeType : $("#includeType").getKendoRadioGroup().value(),
+            includeType :  $("#includeType").getKendoRadioGroup().value(),
             pk: key
         }
 
