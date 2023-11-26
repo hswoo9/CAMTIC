@@ -19,7 +19,13 @@
 <input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
-<input type="hidden" id="carReqSn" value="${carReqSn}"/>
+<input type="hidden" id="mode" name="mode" value="${params.mode}">
+<form id="carDraftFrm" method="post">
+    <input type="hidden" id="carReqSn" name="carReqSn" value="${carReqSn}"/>
+    <input type="hidden" id="menuCd" name="menuCd" value="car">
+    <input type="hidden" id="type" name="type" value="drafting">
+    <input type="hidden" id="nowUrl" name="nowUrl" />
+</form>
 <html>
 <body class="font-opensans" style="background-color:#fff;">
     <div class="table-responsive">

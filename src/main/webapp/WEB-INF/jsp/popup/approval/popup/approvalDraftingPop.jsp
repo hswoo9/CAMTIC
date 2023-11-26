@@ -14,6 +14,7 @@
 <script type="text/javascript" src="${hwpUrl}js/webhwpctrl.js"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwp_DocCtrl.js?v=2'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpInit.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/hancom/hwpEngnInit.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpCtrlApp.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/approval/approvalDrafting.js?v=${today}'/>"></script>
 

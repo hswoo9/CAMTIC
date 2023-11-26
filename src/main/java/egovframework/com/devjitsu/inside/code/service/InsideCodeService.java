@@ -68,4 +68,9 @@ public interface InsideCodeService {
 
     //회의실관리 회의실코드 삭제
     void setRoomCodeDelete(Map<String, Object> params);
+
+
+
+    /** 개인차량 결재 상태값에 따른 UPDATE 메서드 */
+    void updateCarDocState(Map<String, Object> bodyMap) throws Exception;
 }

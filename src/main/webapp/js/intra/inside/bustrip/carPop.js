@@ -17,6 +17,11 @@ var carReq = {
             {text: "개인 사유", value: "2"}
         ]
         customKendo.fn_dropDownList("carType", carTypeArr, "text", "value", 2);
+        if($("#mode").val() == "drafting"){
+            $("#carType").data("kendoDropDownList").value("2");
+            $("#carType").data("kendoDropDownList").enable(false);
+            carReq.fn_toggleEmergency();
+        }
         $("#carType").data("kendoDropDownList").bind("change", carReq.fn_toggleEmergency)
         $("#startTime").kendoTimePicker({culture : "ko-KR", format : "HH:mm", value : "09:00"});
         $("#endTime").kendoTimePicker({culture : "ko-KR", format : "HH:mm", value : "18:00"});
@@ -38,10 +43,9 @@ var carReq = {
             $("#empSeq").val(data.EMP_SEQ);
             $("#empName").val(data.EMP_NAME);
             carReq.fn_toggleEmergency();
-            if(carType == 2) {
-                $("#emergencyName").val(data.EMERGENCY_NAME);
-                $("#emergencyTel").val(data.EMERGENCY_TEL);
-            }
+            $("#emergencyName").val(data.EMERGENCY_NAME);
+            $("#emergencyTel").val(data.EMERGENCY_TEL);
+            carReq.fn_buttonSet(data);
         }
     },
 
@@ -51,11 +55,11 @@ var carReq = {
         let endDt = $("#endDt").val();
         let startTime = $("#startTime").val();
         let endTime = $("#endTime").val();
-        let useDeptSeq = $("#dept").val();
+        let useDeptSeq = $("#dept").data("kendoDropDownList").value();
         let useDeptName = $("#dept").data("kendoDropDownList").text();
-        let carClassSn = $("#carClass").val();
+        let carClassSn = $("#carClass").data("kendoDropDownList").value();
         let carClassText = $("#carClass").data("kendoDropDownList").text();
-        let carTypeSn = $("#carType").val();
+        let carTypeSn = $("#carType").data("kendoDropDownList").value();
         let carTypeText = $("#carType").data("kendoDropDownList").text();
         let carTitle = $("#carTitle").val();
         let visit = $("#visit").val();
@@ -158,8 +162,23 @@ var carReq = {
                 console.log(result);
                 if(data.type != "bustripReq") {
                     alert("차량 사용 신청이 완료되었습니다.");
-                    opener.gridReload();
-                    window.close();
+                    try {
+                        opener.gridReload();
+                        window.close();
+                    }catch{
+                    }
+                    if($("#type").val() == "drafting"){
+                        $("#carReqSn").val(result.params.carReqSn);
+                        $("#carDraftFrm").one("submit", function() {
+                            var url = "/popup/inside/approvalFormPopup/carApprovalPop.do";
+                            var name = "_self";
+                            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+                            var popup = window.open(url, name, option);
+                            this.action = "/popup/inside/approvalFormPopup/carApprovalPop.do";
+                            this.method = 'POST';
+                            this.target = '_self';
+                        }).trigger("submit");
+                    }
                 }
             },
             error : function() {
@@ -196,5 +215,47 @@ var carReq = {
         }else {
             $(".varTR").hide();
         }
+    },
+
+    fn_buttonSet : function(carMap){
+        console.log(carMap);
+        var buttonHtml = "";
+        if(carMap != null){
+            if(carMap.CAR_TYPE_SN == "2"){
+                var status = carMap.STATUS;
+                if(status == "0"){
+                    buttonHtml += "<button type=\"button\" id=\"carSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.saveBtn()\">저장</button>";
+                    buttonHtml += "<button type=\"button\" id=\"carAppBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.carDrafting()\">상신</button>";
+                }else if(status == "10"){
+                    buttonHtml += "<button type=\"button\" id=\"carCanBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+carMap.DOC_ID+"', '"+carMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
+                }else if(status == "30" || status == "40"){
+                    buttonHtml += "<button type=\"button\" id=\"carSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.saveBtn()\">저장</button>";
+                    buttonHtml += "<button type=\"button\" id=\"carCanBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('"+carMap.DOC_ID+"', '"+carMap.DOC_MENU_CD+"', '"+carMap.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
+
+                }else if(status == "100"){
+                    buttonHtml += "<button type=\"button\" id=\"carCanBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+carMap.DOC_ID+"', '"+carMap.APPRO_KEY+"', '"+carMap.DOC_MENU_CD+"');\">열람</button>";
+                } else {
+                    buttonHtml += "<button type=\"button\" id=\"carSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.saveBtn()\">저장</button>";
+                }
+            }else{
+                buttonHtml += "<button type=\"button\" id=\"carSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.saveBtn()\">저장</button>";
+            }
+        }else{
+            buttonHtml += "<button type=\"button\" id=\"carSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.saveBtn()\">저장</button>";
+        }
+        buttonHtml += "<button type=\"button\" class=\"k-button k-button-solid-error\" style=\"margin-right:5px;\" onclick=\"window.close();\">취소</button>";
+        $("#carBtn").html(buttonHtml);
+    },
+
+    carDrafting: function() {
+        $("#carDraftFrm").one("submit", function() {
+            var url = "/popup/inside/approvalFormPopup/carApprovalPop.do";
+            var name = "_self";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            var popup = window.open(url, name, option);
+            this.action = "/popup/inside/approvalFormPopup/carApprovalPop.do";
+            this.method = 'POST';
+            this.target = '_self';
+        }).trigger("submit");
     }
 }

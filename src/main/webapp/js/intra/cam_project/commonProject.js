@@ -45,6 +45,10 @@ function uncomma(str) {
     return str.replace(/[^\d]+/g, '');
 }
 
+function onlyNumber(e) {
+    e.value = e.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+}
+
 function fn_getProject(key){
     var data = {
 
