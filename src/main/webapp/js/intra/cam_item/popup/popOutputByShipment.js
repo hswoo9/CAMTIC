@@ -80,6 +80,7 @@ var popOutputShipment = {
                 var data = {
                     smRecordSn : this.split(",")[0].split("_")[1],
                     deliveryAmt : this.split(",")[1].split("_")[1],
+                    rmk : this.split(",")[2].split("_")[1],
                     empSeq : $("#empSeq").val(),
                 }
                 popOutputShipment.global.smRecordSnArr.push(data)

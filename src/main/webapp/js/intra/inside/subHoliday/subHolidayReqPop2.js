@@ -560,7 +560,7 @@ var subHolidayReqPop2 = {
             $("#holiday_reason").val(result.data.RMK);
             $("#now_date").val(result.data.SAVE_DT);
 
-            if(result.data.APPR_STAT != "N"){
+            if(result.data.APPR_STAT === "Y" || result.data.APPR_STAT === "C"){
                 $("#saveBtn").hide();
 
                 $("#edtHolidayKindTop").data("kendoDropDownList").enable(false);
