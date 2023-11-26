@@ -2823,6 +2823,7 @@
     </select>
 
     <select id="getTotalEmpCount" parameterType="map" resultType="map">
+        /*getTotalEmpCount*/
         SELECT
             join_year,
             employees_joined,
@@ -2850,7 +2851,7 @@
                 resign_year
         ) AS resigned ON joined.join_year = resigned.resign_year
         ORDER BY
-            join_year
+            join_year desc
     </select>
 
 </mapper>
