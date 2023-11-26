@@ -1258,6 +1258,22 @@ public class UserManageServiceImpl implements UserManageService {
         userManageRepository.userRewInfoDelete(params);
     }
 
+    @Override
+    public void userFamilyInfoInsert(Map<String, Object> params, MultipartHttpServletRequest request, String server_dir, String base_dir) {
+        userManageRepository.userFamilyInfoInsert(params);
+    }
+
+    @Override
+    public void userFamilyInfoModify(Map<String, Object> params, MultipartHttpServletRequest request, String server_dir, String base_dir) {
+        userManageRepository.userFamilyInfoModify(params);
+    }
+
+    @Override
+    public void userFamilyInfoDelete(Map<String, Object> params) {
+        userManageRepository.userFamilyInfoDelete(params);
+    }
+
+
 
 
 

@@ -303,7 +303,7 @@ public class UserManageController {
         params.putAll(map);
 
         try {
-            /*userManageService.userFamilyInfoInsert(params, request, SERVER_DIR, BASE_DIR);*/
+            userManageService.userFamilyInfoInsert(params, request, SERVER_DIR, BASE_DIR);
             model.addAttribute("rs", "SUCCESS");
         }catch (Exception e) {
             model.addAttribute("rs", "FAILED");
@@ -324,7 +324,7 @@ public class UserManageController {
         params.putAll(map);
 
         try {
-           /* userManageService.userFamilyInfoModify(params, request, SERVER_DIR, BASE_DIR);*/
+            userManageService.userFamilyInfoModify(params, request, SERVER_DIR, BASE_DIR);
             model.addAttribute("rs", "SUCCESS");
         }catch (Exception e) {
             model.addAttribute("rs", "FAILED");
@@ -337,7 +337,7 @@ public class UserManageController {
     /*가족사항 삭제*/
     @RequestMapping("/useManage/userFamilyInfoDelete")
     public String userFamilyInfoDelete(@RequestParam Map<String,Object> params) {
-       /* userManageService.userFamilyInfoDelete(params);*/
+        userManageService.userFamilyInfoDelete(params);
         return "jsonView";
     }
 

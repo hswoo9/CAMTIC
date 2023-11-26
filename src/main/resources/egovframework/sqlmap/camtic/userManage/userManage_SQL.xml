@@ -2922,7 +2922,7 @@
     </update>
 
     <insert id="userCareerInfoInsert" parameterType="map">
-        /* serCareerInfoInsert */
+        /* userCareerInfoInsert */
         INSERT INTO CAM_HR.DJ_EMP_CAREER(
         EMP_SEQ
         ,EMP_NAME
@@ -2974,7 +2974,7 @@
     </update>
 
     <update id="userCareerInfoDelete" parameterType="map">
-        /* userDegreeInfoDelete */
+        /* userCareerInfoDelete */
         UPDATE
             CAM_HR.DJ_EMP_CAREER
         SET
@@ -2984,7 +2984,7 @@
     </update>
 
     <update id="userMilitaryInfoModify" parameterType="map">
-        /* userCareerInfoModify */
+        /* userMilitaryInfoModify */
         UPDATE
             CAM_HR.DJ_EMP_MILITARY_SVC_INFO
         SET
@@ -2999,6 +2999,57 @@
             ,MOS = #{mDept}
         WHERE
             MSI_INFO_ID = #{pk}
+    </update>
+
+    <insert id="userFamilyInfoInsert" parameterType="map">
+        /* userFamilyInfoInsert */
+        INSERT INTO CAM_HR.DJ_EMP_FAMILY_INFO(
+                  EMP_SEQ
+                 ,EMP_NAME
+                 ,FAMILY_CODE
+                 ,FAMILY_NAME
+                 ,FAMILY_BIRTH
+                 ,FAMILY_JOB
+                 ,INCLUDE_YN
+                 ,REG_EMP_SEQ
+                 ,REG_DATE
+                 ,ADMIN_APPROVAL
+        )VALUES (
+                #{empSeq}
+                ,#{empName}
+                ,#{relation}
+                ,#{fName}
+                ,#{bDay}
+                ,#{job}
+                ,#{includeType}
+                ,#{modifyEmpSeq}
+                ,now()
+                ,'Y'
+                )
+    </insert>
+
+    <update id="userFamilyInfoModify" parameterType="map">
+        /* userFamilyInfoModify */
+        UPDATE
+            CAM_HR.DJ_EMP_FAMILY_INFO
+        SET
+            FAMILY_CODE = #{relation}
+            ,FAMILY_NAME = #{fName}
+            ,FAMILY_BIRTH = #{bDay}
+            ,FAMILY_JOB = #{job}
+            ,INCLUDE_YN = #{includeType}
+        WHERE
+            FAMILY_ID = #{pk}
+    </update>
+
+    <update id="userFamilyInfoDelete" parameterType="map">
+        /* userFamilyInfoDelete */
+        UPDATE
+            CAM_HR.DJ_EMP_FAMILY_INFO
+        SET
+            ACTIVE = 'N'
+        WHERE
+            FAMILY_ID = #{key}
     </update>
 
     <insert id="userLinInfoInsert" parameterType="map">

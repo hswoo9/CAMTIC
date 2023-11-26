@@ -480,8 +480,8 @@
                                                 <td><input type="text" id="job" value="${l.FAMILY_JOB}" style="width: 50%;"></td>
                                                 <td><span type="text" id="includeType${l.FAMILY_ID}" class="includeType" name="includeType" value="${l.INCLUDE_YN}" style="width: 100%;"></span></td>
                                                 <td>
-                                                    <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_careerModifyInfo(${l.CAREER_ID})"/>
-                                                    <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="fu_careerDelInfo(${l.CAREER_ID})"/>
+                                                    <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_familyModifyInfo(${l.FAMILY_ID})"/>
+                                                    <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="fu_familyDelInfo(${l.FAMILY_ID})"/>
                                                 </td>
                                             </tr>
                                         </c:if>
@@ -494,7 +494,7 @@
                                         <td><input type="text" id="job1" style="width: 50%;"></td>
                                         <td><span type="text" id="includeType1" class="includeType" name="includeType" style="width: 100%;"></span></td>
                                         <td>
-                                            <input type="button" class="k-button k-button-solid-info" value="추가" onclick="fu_careerAddInfo()"/>
+                                            <input type="button" class="k-button k-button-solid-info" value="추가" onclick="fu_familyAddInfo()"/>
                                         </td>
                                     </tr>
                                     </thead>
@@ -1078,8 +1078,7 @@
             {label: "아니오", value: "N"}
         ],
         layout: "horizontal",
-        labelPosition: "after",
-        value: "${l.INCLUDE_YN}"
+        labelPosition: "after"
     });
 
     $(".rGubunOutIn").kendoDropDownList({
@@ -1640,40 +1639,27 @@
             alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
         }
     }
+
     // 가족사항 추가
     function fu_familyAddInfo(){
         var data = {
-             empSeq : $("#empSeq1").val(),
+            empSeq : $("#empSeq1").val(),
             empName : $("#empName1").val(),
-            place : $("#place3").val(),
-            sDate : $("#sDate3").val(),
-            eDate : $("#eDate3").val(),
-            position : $("#position3").val(),
-            workType : $("#workType3").val(),
-            dateY : $("#dateY3").val(),
-            dateM : $("#dateM3").val(),
-            bmk : $("#bmk3").val(),
-            workType : $("#workType3").val(),
+            relation : $("#relation1").val(),
+            bDay : $("#bDay2").val(),
+            job : $("#job1").val(),
+            fName : $("#fName1").val(),
+            includeType : $("#includeType1").getKendoRadioGroup().value(),
         }
 
         var formData = new FormData();
         formData.append("empSeq", data.empSeq);
         formData.append("empName", data.empName);
-        formData.append("place", data.place);
-        formData.append("sDate", data.sDate);
-        formData.append("eDate", data.eDate);
-        formData.append("position", data.position);
-        formData.append("workType", data.workType);
-        formData.append("dateY", data.dateY);
-        formData.append("dateM", data.dateM);
-        formData.append("bmk", data.bmk);
-        formData.append("workType", data.workType);
-        formData.append("menuCd", "career");
-
-        if($("#addFile")[0].files.length == 1){
-            formData.append("addFile", $("#addFile")[0].files[0]);
-        }
-
+        formData.append("relation", data.relation);
+        formData.append("bDay", data.bDay);
+        formData.append("job", data.job);
+        formData.append("fName", data.fName);
+        formData.append("includeType", data.includeType);
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userFamilyInfoInsert',formData);
         if(result.flag){
@@ -1690,33 +1676,21 @@
     // 가족사항 수정
     function fu_familyModifyInfo(key) {
         var data = {
-            place: $("#place2").val(),
-            sDate: $("#sDate2").val(),
-            eDate: $("#eDate2").val(),
-            position: $("#position2").val(),
-            workType: $("#workType2").val(),
-            dateY: $("#dateY2").val(),
-            dateM: $("#dateM2").val(),
-            bmk: $("#bmk2").val(),
-            workType: $("#workType2").val(),
+            relation : $("#relation").val(),
+            bDay : $("#bDay1").val(),
+            job : $("#job").val(),
+            fName : $("#fName").val(),
+            includeType : $("#includeType").getKendoRadioGroup().value(),
             pk: key
         }
 
         var formData = new FormData();
-        formData.append("place", data.place);
-        formData.append("sDate", data.sDate);
-        formData.append("eDate", data.eDate);
-        formData.append("position", data.position);
-        formData.append("workType", data.workType);
-        formData.append("dateY", data.dateY);
-        formData.append("dateM", data.dateM);
-        formData.append("bmk", data.bmk);
-        formData.append("workType", data.workType);
+        formData.append("relation", data.relation);
+        formData.append("bDay", data.bDay);
+        formData.append("job", data.job);
+        formData.append("fName", data.fName);
+        formData.append("includeType", data.includeType);
         formData.append("pk", data.pk);
-
-        if ($("#addFile")[0].files.length == 1) {
-            formData.append("addFile", $("#addFile")[0].files[0]);
-        }
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userFamilyInfoModify',formData);
         if(result.flag){

@@ -170,6 +170,9 @@ public interface UserManageService{
 
     void userMilitaryInfoModify(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
 
+    void userFamilyInfoInsert(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
+    void userFamilyInfoModify(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
+    void userFamilyInfoDelete(Map<String, Object> params);
 
     void userLinInfoInsert(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
     void userLinInfoModify(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
