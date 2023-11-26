@@ -63,13 +63,33 @@ const studyJournal = {
         let data = {
             studyJournalSn: $("#studyJournalSn").val()
         }
+
+        if(data.studyJournalSn != ""){
+            $("#saveBtn").css("display", "none");
+            $("#selMemBtn").css("display", "none");
+        }
+
         const info = customKendo.fn_customAjax("/campus/getStudyJournalOne", data).data;
+        console.log(info);
+        if(info.file_no != undefined && info.file_no != null && info.file_no != ""){
+
+            $("#fileHeader").html("");
+            var html = "";
+            html += '   <span style="cursor: pointer" onclick="fileDown(\''+info.file_path + info.file_uuid+'\', \''+info.file_org_name+'.'+info.file_ext+'\')">'+info.file_org_name+'</span>';
+            $("#fileHeader").html(html);
+        }
+
+        $("#studyUserName").val(info.STUDY_EMP_NAME);
+        $("#studyUserSeq").val(info.STUDY_EMP_SEQ);
+
+
+        $("#studyNameTd").text(info.STUDY_NAME);
         $("#journalDt").val(info.JOURNAL_DT);
         $("#journalStartTime").val(info.JOURNAL_START_TIME);
         $("#journalEndTime").val(info.JOURNAL_END_TIME);
         $("#studyLocation").val(info.JOURNAL_LOCATE);
         $("#studyContent").val(info.JOURNAL_CONTENT);
-        $("#studyMoney").val(info.JOURNAL_AMT);
+        $("#studyMoney").val(comma(info.JOURNAL_AMT));
         $("#journalAmtClass").data("kendoDropDownList").value(info.JOURNAL_AMT_CLASS);
         if($("#journalAmtClass").val() == "2"){
             $("#journalAmtEtc").parent().show();
@@ -87,13 +107,15 @@ const studyJournal = {
         let journalEndTime = $("#journalEndTime").val();
         let studyLocation = $("#studyLocation").val();
         let studyUserSeq = $("#studyUserSeq").val();
+        let studyUserName = $("#studyUserName").val();
         let studyContent = $("#studyContent").val();
-        let studyMoney = $("#studyMoney").val();
+        let studyMoney = uncomma($("#studyMoney").val());
         let journalAmtClass = $("#journalAmtClass").val();
         let journalAmtClassText = $("#journalAmtClass").data("kendoDropDownList").text();
         let journalAmtEtc = $("#journalAmtEtc").val();
         let regEmpName = $("#regEmpName").val();
         let empSeq = $("#regEmpSeq").val();
+        let regEmpSeq = $("#regEmpSeq").val();
         let eduTime = 0;
 
         if(studyUserSeq == ""){ alert("학습자가 선택되지 않았습니다."); return; }
@@ -119,11 +141,11 @@ const studyJournal = {
         var diffMin = diffSec / 1000 / 60 / 60;
 
         /** 건당 최대 2시간 */
-        if(diffMin > 2){
-            eduTime = 2
-        }else{
+        // if(diffMin > 2){
+        //     eduTime = 2
+        // }else{
             eduTime = diffMin;
-        }
+        // }
 
         /** 주당 최대 2시간 체크 */
         let realEduTimeYear = customKendo.fn_customAjax("/campus/getRealEduTimeStudyWeekly", {
@@ -140,6 +162,8 @@ const studyJournal = {
         let data = {
             studyInfoSn: studyInfoSn,
             studyName: studyNameTd,
+            studyEmpSeq : studyUserSeq,
+            studyEmpName : studyUserName,
             journalDt: journalDt,
             journalStartTime: journalStartTime,
             journalEndTime: journalEndTime,
@@ -150,33 +174,43 @@ const studyJournal = {
             journalAmtClassText: journalAmtClassText,
             journalAmtEtc: journalAmtEtc,
             regEmpName: regEmpName,
-            realEduTime: realEduTime
+            realEduTime: realEduTime,
+            regEmpSeq : regEmpSeq
+        }
+
+        var fd = new FormData();
+        for (var key in data) {
+            fd.append(key, data[key]);
+        }
+
+        if($("#files")[0].files.length == 1){
+            fd.append("files", $("#files")[0].files[0]);
         }
 
         if(!confirm("운영일지를 저장하시겠습니까?")){
             return;
         }
-        studyJournal.setStudyJournalInsert(data);
-    },
 
-    setStudyJournalInsert: function(data){
         $.ajax({
             url: "/campus/setStudyJournalInsert",
-            data: data,
-            type: "post",
-            dataType: "json",
+            data : fd,
+            type : "post",
+            dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
             async: false,
             success: function(result){
                 console.log(result);
                 alert("운영일지 저장이 완료되었습니다.");
                 opener.gridReload();
                 window.close();
-
             },
             error: function() {
                 alert("데이터 저장 중 에러가 발생했습니다.");
             }
         });
+
     },
 
     appBtn: function(){

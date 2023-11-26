@@ -56,7 +56,7 @@
             CAMPUS.DJ_STUDY_USER CSU ON CSJ.STUDY_INFO_SN = CSU.STUDY_INFO_SN
         WHERE
             CSJ.STUDY_INFO_SN = #{studyInfoSn}
-        AND STUDY_EMP_SEQ = #{empSeq}
+        AND CSU.STUDY_EMP_SEQ = #{empSeq}
         AND CSJ.ACTIVE = 'Y'
         AND JOURNAL_DT BETWEEN (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 0 ) AS MONDAY) AND (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 6 ) AS MONDAY)
     </select>
@@ -489,18 +489,13 @@
     <select id="getStudyJournalOne" resultType="map" parameterType="map">
         /* getStudyJournalOne */
         SELECT
-            JOURNAL_DT,
-            JOURNAL_START_TIME,
-            JOURNAL_END_TIME,
-            JOURNAL_LOCATE,
-            JOURNAL_CONTENT,
-            JOURNAL_AMT,
-            JOURNAL_AMT_CLASS,
-            JOURNAL_AMT_ETC,
-            CAPTAIN_APPOVAL_YN,
-            ASSISTANT_APPOVAL_YN
+            *
         FROM
             CAMPUS.DJ_STUDY_JOURNAL CSJ
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO DFI
+        ON
+            CSJ.JOURNAL_FILE_SN = DFI.FILE_NO
         WHERE STUDY_JOURNAL_SN = #{studyJournalSn}
     </select>
 
@@ -1003,6 +998,7 @@
                 STUDY_CONTENT,
                 STUDY_MONEY,
                 STUDY_MONEY_VAL,
+                ATTACH,
                 <if test='startTime != null and startTime != ""'>
                     START_TIME,
                 </if>
@@ -1032,6 +1028,7 @@
                 #{studyContent},
                 #{studyMoney},
                 #{studyMoneyVal},
+                #{attach},
                 <if test='startTime != null and startTime != ""'>
                     #{startTime},
                 </if>
@@ -1128,6 +1125,8 @@
             (
                 STUDY_INFO_SN,
                 STUDY_NAME,
+                STUDY_EMP_SEQ,
+                STUDY_EMP_NAME,
                 JOURNAL_DT,
                 JOURNAL_START_TIME,
                 JOURNAL_END_TIME,
@@ -1144,6 +1143,8 @@
             (
                 #{studyInfoSn},
                 #{studyName},
+                #{studyEmpSeq},
+                #{studyEmpName},
                 #{journalDt},
                 #{journalStartTime},
                 #{journalEndTime},
@@ -1156,7 +1157,63 @@
                 #{journalAmtEtc},
                 #{regEmpName}
             )
+        <selectKey keyProperty="studyJournalSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAMPUS' AND TABLE_NAME = 'DJ_STUDY_JOURNAL'
+        </selectKey>
     </insert>
+
+    <insert id="setStudyResult" parameterType="map">
+        /*setStudyResult*/
+        INSERT INTO CAMPUS.DJ_STUDY_RESULT
+            (
+                STUDY_INFO_SN,
+                STUDY_NAME,
+                STUDY_EMP_SEQ,
+                STUDY_EMP_NAME,
+                STUDY_RESULT_DT,
+                STUDY_RESULT_START_TIME,
+                STUDY_RESULT_END_TIME,
+                STUDY_RESULT_TIME,
+                STUDY_RESULT_LOCATE,
+                STUDY_RESULT_CONTENT,
+                STUDY_RESULT_AMT,
+                REG_EMP_NAME
+            )
+        VALUES
+            (
+                #{studyInfoSn},
+                #{studyName},
+                #{studyEmpSeq},
+                #{studyEmpName},
+                #{studyResultDt},
+                #{studyResultStartTime},
+                #{studyResultEndTime},
+                #{studyResultTime},
+                #{studyResultLocate},
+                #{studyResultContent},
+                #{studyResultAmt},
+                #{regEmpName}
+            )
+        <selectKey keyProperty="studyResultSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAMPUS' AND TABLE_NAME = 'DJ_STUDY_RESULT'
+        </selectKey>
+    </insert>
+
+    <delete id="deleteStudyJournal" parameterType="map">
+        /* deleteStudyJournal */
+        DELETE FROM CAMPUS.DJ_STUDY_JOURNAL
+        WHERE
+            STUDY_JOURNAL_SN = #{studyJournalSn}
+    </delete>
+
+    <update id="setStudyJournalUpdate" parameterType="map">
+        /*setStudyJournalUpdate*/
+        UPDATE CAMPUS.DJ_STUDY_JOURNAL
+        SET
+            JOURNAL_FILE_SN = #{file_no}
+        WHERE
+            STUDY_JOURNAL_SN = #{studyJournalSn}
+    </update>
 
     <update id="setStudyJournalApp" parameterType="map">
         /* setStudyJournalApp */
@@ -1196,6 +1253,13 @@
                 #{regEmpName}
             )
     </insert>
+
+    <select id="getStudyResultData" parameterType="map" resultType="map">
+        /*getStudyResultData*/
+        SELECT * FROM CAMPUS.DJ_STUDY_RESULT
+        WHERE
+            STUDY_RESULT_SN = #{studyResultSn}
+    </select>
 
     <update id="setOjtPlanUpdate" parameterType="map">
         /* setOjtPlanUpdate */
@@ -1894,4 +1958,34 @@
         WHERE
             DUTY_INFO_SN = #{pk}
     </update>
+
+    <update id="setStudyInfoComplete" parameterType="map">
+        /*setStudyInfoComplete*/
+        UPDATE CAMPUS.DJ_STUDY_INFO
+        SET
+            ADD_STATUS = "Y"
+        WHERE
+            STUDY_INFO_SN = #{studyInfoSn}
+    </update>
+
+    <update id="setStudyResultComplete" parameterType="map">
+        /*setStudyResultComplete*/
+        UPDATE CAMPUS.DJ_STUDY_INFO
+        SET
+            ADD_STATUS = "C"
+        WHERE
+            STUDY_INFO_SN = #{studyInfoSn}
+    </update>
+
+    <select id="getStudyResultOne" parameterType="map" resultType="map">
+        /*getStudyResultOne*/
+        SELECT
+            *
+        FROM
+            CAMPUS.DJ_STUDY_RESULT
+        WHERE
+            STUDY_INFO_SN = #{pk}
+        ORDER BY STUDY_RESULT_SN
+        LIMIT 1
+    </select>
 </mapper>

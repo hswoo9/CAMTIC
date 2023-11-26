@@ -294,6 +294,10 @@
         WHERE A.TR_FG = '9'
             AND
                 (A.TR_NM LIKE CONCAT('%', #{searchValue}, '%') OR A.BA_NB LIKE CONCAT('%', #{searchValue}, '%') OR A.REG_NB LIKE CONCAT('%', #{searchValue}, '%'))
+        <if test='cardName != null and !"".equals(cardName)'>
+            AND
+                A.TR_NM LIKE CONCAT('%',#{cardName},'%')
+        </if>
     </select>
 
     <select id="getOtherList" parameterType="map" resultType="map">

@@ -25,67 +25,67 @@
 <input type="hidden" id="mode" value=""/>
 <input type="hidden" id="suerSelType" value="0">
 <div class="col-lg-12" style="padding:0;">
-  <div class="table-responsive">
-    <div class="card-header pop-header">
-      <h3 class="card-title title_NM">OJT 학습일지 작성</h3>
-      <div class="btn-st popButton">
-        <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="ojtResult.saveBtn();">저장</button>
-        <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
-      </div>
-    </div>
-    <div class="card-header" style="padding-top:15px;">
-      <div class="col-lg-12" style="margin:0 auto;">
-        <div class="table-responsive">
-          <div class="popupTitleSt">OJT 학습일지</div>
-          <form id="studyJournalForm">
-          <table class="table table-bordered mt20" id="studyJournalTable" style="width: 1000px;">
-            <colgroup>
-              <col width="20%">
-              <col width="80%">
-            </colgroup>
-            <thead>
-            <tr>
-              <th>지도일시</th>
-              <td>
-                <input type="text" id="ojtDt" style="width: 150px"> <input type="text" id="startTime" style="width: 100px"> ~ <input type="text" id="endTime" style="width: 100px">
-              </td>
-            </tr>
-            <tr>
-              <th>지 도 자</th>
-              <td>
-                <input type="text" id="readerUserName" style="width: 600px">
-                <input type="hidden" id="readerUserSeq">
-                <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="지도자 선택" onclick="$('#suerSelType').val('2'); fn_userMultiSelectPop()"/>
-              </td>
-            </tr>
-            <tr>
-              <th>학 습 자</th>
-              <td>
-                <input type="text" id="studyUserName" style="width: 600px">
-                <input type="hidden" id="studyUserSeq">
-                <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="학습자 선택" onclick="$('#suerSelType').val('1'); fn_userMultiSelectPop()"/>
-              </td>
-            </tr>
-            <tr>
-              <th>지도장소</th>
-              <td>
-                <input type="text" id="location" style="width: 800px">
-              </td>
-            </tr>
-            <tr>
-              <th>내용저장 방법</th>
-              <td>
-                <input type="text" id="saveType" style="width: 800px">
-              </td>
-            </tr>
-          </table>
-        </form>
+    <div class="table-responsive">
+        <div class="card-header pop-header">
+            <h3 class="card-title title_NM">OJT 학습일지 작성</h3>
+            <div class="btn-st popButton">
+                <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="ojtResult.saveBtn();">저장</button>
+                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
+            </div>
         </div>
-      </div>
+        <div class="card-header" style="padding-top:15px;">
+            <div class="col-lg-12" style="margin:0 auto;">
+                <div class="table-responsive">
+                    <div class="popupTitleSt">OJT 학습일지</div>
+                    <form id="studyJournalForm">
+                        <table class="table table-bordered mt20" id="studyJournalTable" style="width: 1000px;">
+                            <colgroup>
+                                <col width="20%">
+                                <col width="80%">
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>지도일시</th>
+                                <td>
+                                    <input type="text" id="ojtDt" style="width: 150px"> <input type="text" id="startTime" style="width: 100px"> ~ <input type="text" id="endTime" style="width: 100px">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>지 도 자</th>
+                                <td>
+                                    <input type="text" id="readerUserName" style="width: 600px">
+                                    <input type="hidden" id="readerUserSeq">
+                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="지도자 선택" onclick="$('#suerSelType').val('2'); fn_userMultiSelectPop()"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>학 습 자</th>
+                                <td>
+                                    <input type="text" id="studyUserName" style="width: 600px">
+                                    <input type="hidden" id="studyUserSeq">
+                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="학습자 선택" onclick="$('#suerSelType').val('1'); fn_userMultiSelectPop()"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>지도장소</th>
+                                <td>
+                                    <input type="text" id="location" style="width: 800px">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>내용저장 방법</th>
+                                <td>
+                                    <input type="text" id="saveType" style="width: 800px">
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <script>
-  ojtResult.init();
+    ojtResult.init();
 </script>
 </body>

@@ -24,124 +24,158 @@
 <input type="hidden" id="pk" value="${params.pk}"/>
 <input type="hidden" id="mode" value="${params.mode}"/>
 <input type="hidden" id="status" value="${data.STATUS}"/>
-<div class="col-lg-12" style="padding:0;">
-  <div class="card-header" style="padding-top:45px;">
-    <div class="col-lg-11" style="margin:0 auto;">
-      <div class="table-responsive">
-        <div class="popupTitleSt">학습조 내용 조회</div>
-        <table class="table table-bordered mt20" id="studyReqTable" style="width: 1000px;">
-          <colgroup>
+<input type="hidden" id="studyResultSn" value="${resultData.STUDY_RESULT_SN}" />
+
+<input type="hidden" id="addStatus" value="${data.ADD_STATUS}"/>
+<div class="table-responsive">
+    <div class="card-header pop-header">
+        <h3 class="card-title title_NM">
+                <span style="">
+                    학습조 내용 조회
+                </span>
+        </h3>
+        <div class="btn-st popButton">
+            <input type="button" style="display: none;" class="k-button k-button-solid-info" value="결과보고서" id="resultBtn" onclick="studyView.fn_resultDocPop();"/>
+            <input type="button" style="display: none;" class="k-button k-button-solid-info" value="학습완료" id="compBtn" onclick="studyView.fn_studyComplete();"/>
+<%--            <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick="window.close();"/>--%>
+        </div>
+    </div>
+
+    <table class="table table-bordered mt20" id="studyReqTable">
+        <colgroup>
             <col width="260px">
             <col width="740px">
-          </colgroup>
-          <thead>
-          <tr>
+        </colgroup>
+        <thead>
+        <tr>
             <th>학습조명</th>
             <td>
-              ${data.STUDY_NAME}
+                ${data.STUDY_NAME}
             </td>
-          </tr>
-          <tr>
+        </tr>
+        <tr>
             <th>학습기간</th>
             <td>
-              ${data.START_DT} ~ ${data.END_DT}
+                ${data.START_DT} ~ ${data.END_DT}
             </td>
-          </tr>
-          <tr>
+        </tr>
+        <tr>
             <th>학습장소</th>
             <td>
-              ${data.END_DT}
+                ${data.STUDY_LOCATION}
             </td>
-          </tr>
-          <tr>
+        </tr>
+        <tr>
             <th>학습목표</th>
             <td>
-              ${data.STUDY_OBJECT}
+                ${data.STUDY_OBJECT}
             </td>
-          </tr>
-          <tr>
+        </tr>
+        <tr>
             <th>학습내용</th>
             <td>
-              ${data.STUDY_CONTENT}
+                ${data.STUDY_CONTENT}
             </td>
-          </tr>
-          <tr>
+        </tr>
+        <tr>
             <th>소요비용</th>
             <td>
-              ${data.STUDY_MONEY} 원
+                <fmt:formatNumber value="${data.STUDY_MONEY }" pattern="#,###" /> 원
             </td>
-          </tr>
-          <tr>
+        </tr>
+        <tr>
             <th>산출내역</th>
             <td>
-              ${data.STUDY_MONEY_VAL}
+                ${data.STUDY_MONEY_VAL}
             </td>
-          </tr>
-          <tr>
+        </tr>
+        <tr>
             <th>첨부서류</th>
             <td>
-              ${data.ATTACH}
+                ${data.ATTACH}
             </td>
-          </tr>
-          <tr>
+        </tr>
+        <tr>
             <th>신청날짜</th>
             <td>
-              ${data.REG_DT}
+                ${data.REG_DT}
             </td>
-          </tr>
-          <tr>
+        </tr>
+        <tr>
+            <th>결과보고서</th>
+            <td id="resultDoc">
+
+            </td>
+        </tr>
+        <tr>
             <th>상태</th>
             <td>
-              <c:choose>
-                <c:when test="${data.STATUS eq '0'}">
-                  신청서 작성중
-                </c:when>
-                <c:when test="${data.STATUS eq '10'}">
-                  신청서 승인요청중
-                </c:when>
-                <c:when test="${data.STATUS eq '100'}">
-                  신청서 제출
-                </c:when>
-                <c:when test="${data.STATUS eq '110'}">
-                  이수완료
-                </c:when>
-              </c:choose>
+                <c:choose>
+                    <c:when test="${data.STATUS eq '0'}">
+                        신청서 작성중
+                    </c:when>
+                    <c:when test="${data.STATUS eq '10'}">
+                        신청서 승인요청중
+                    </c:when>
+                    <c:when test="${data.STATUS eq '100'}">
+                        <c:if test="${data.ADD_STATUS eq 'Y'}">
+                            학습 완료
+                        </c:if>
+                        <c:if test="${data.ADD_STATUS eq 'C' or data.ADD_STATUS eq 'N' }">
+                            학습 진행중
+                        </c:if>
+
+                    </c:when>
+                    <c:when test="${data.STATUS eq '110'}">
+                        이수완료
+                    </c:when>
+                </c:choose>
             </td>
-          </tr>
-        </table>
-      </div>
-      <div class="btn-st" style="margin-top:10px; text-align:center;">
-        <input type="button" id="studyModBtn" style="display: none" class="k-button k-button-solid-primary" value="수정" onclick="studyView.studyUpdatePop();"/>
-        <input type="button" id="studyReqBtn" style="display: none" class="k-button k-button-solid-info" value="승인요청" onclick="studyView.studyReq(10);"/>
-        <input type="button" id="studyCancelBtn" style="display: none" class="k-button k-button-solid-info" value="승인요청취소" onclick="studyView.studyReq(0);"/>
-        <input type="button" id="studyAppBtn" style="display: none" class="k-button k-button-solid-info" value="승인" onclick="studyView.studyReq(100);"/>
-        <input type="button" id="studyComBtn" style="display: none" class="k-button k-button-solid-error" value="반려" onclick="studyView.studyReq(30);"/>
-      </div>
-    </div>
-  </div>
-
-  <div class="card-header" style="padding-top:45px;">
-    <div class="col-lg-11" style="margin:0 auto;">
-      <div class="table-responsive">
-        <div class="popupTitleSt">학습자</div>
-        <form id="studyReqForm">
-          <table class="table table-bordered mt20" id="studyUserTable" style="width: 1000px;">
-          </table>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <div class="card-header" style="padding-top:45px;">
-    <div class="col-lg-11" style="margin:0 auto;">
-      <div class="table-responsive">
-        <div class="popupTitleSt">학습일지</div>
-        <div id="mainGrid"></div>
-      </div>
-    </div>
-  </div>
+        </tr>
+    </table>
 </div>
+
+<div class="btn-st" style="margin-top:10px; text-align:center;">
+    <input type="button" id="studyModBtn" style="display: none" class="k-button k-button-solid-primary" value="수정" onclick="studyView.studyUpdatePop();"/>
+    <input type="button" id="studyReqBtn" style="display: none" class="k-button k-button-solid-info" value="승인요청" onclick="studyView.studyReq(10);"/>
+    <input type="button" id="studyCancelBtn" style="display: none" class="k-button k-button-solid-info" value="승인요청취소" onclick="studyView.studyReq(0);"/>
+    <input type="button" id="studyAppBtn" style="display: none" class="k-button k-button-solid-info" value="승인" onclick="studyView.studyReq(100);"/>
+    <input type="button" id="studyComBtn" style="display: none" class="k-button k-button-solid-error" value="반려" onclick="studyView.studyReq(30);"/>
+</div>
+
+<div class="table-responsive">
+    <div class="card-header pop-header">
+        <h3 class="card-title title_NM">
+                <span style="">
+                    학습자
+                </span>
+        </h3>
+        <div class="btn-st popButton">
+
+        </div>
+    </div>
+    <form id="studyReqForm">
+        <table class="table table-bordered mt20" id="studyUserTable">
+        </table>
+    </form>
+</div>
+
+
+<div class="table-responsive" style="margin-top: 15px;">
+    <div class="card-header pop-header" style="margin-bottom: 15px;">
+        <h3 class="card-title title_NM">
+                <span style="">
+                    학습일지
+                </span>
+        </h3>
+        <div class="btn-st popButton">
+
+        </div>
+    </div>
+    <div id="mainGrid" style=""></div>
+</div>
+
 <script>
-  studyView.init();
+    studyView.init();
 </script>
 </body>
