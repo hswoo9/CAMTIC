@@ -55,7 +55,7 @@
                         </td>
                     </tr>
                 </table>
-                <div id="mainGrid" style="margin:20px 0;"></div>
+                <div id="mainGrid"></div>
             </div>
         </div>
     </div>
@@ -79,7 +79,7 @@
     function subHolidaySettingPop() {
         var url = "/subHoliday/pop/subHolidaySettingPop.do";
         var name = "subHolidaySettingPop";
-        var option = "width=1500, height=460, top=100, left=200, location=no";
+        var option = "width=1528, height=700, top=100, left=200, location=no";
         var popup = window.open(url, name, option);
     }
 </script>

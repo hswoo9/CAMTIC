@@ -18,24 +18,27 @@ var subHolidaySetting = {
             serverPaging: false,
             pageSize : 10,
             transport: {
-                read : {
+                read: {
                     url : "/subHoliday/getUserVacList.do",
                     dataType : "json",
                     type : "post"
                 },
-                parameterMap: function(data, operation) {
-                    data.holidayYear = $("#holidayYear").val();
-                    data.befYear = (data.holidayYear - 1);
-                    data.bef2Year = (data.holidayYear - 2);
-                    data.dept = $("#dept").val();
-                    data.team = $("#team").val();
-                    data.searchVal = $("#searchVal").val();
+                parameterMap: function(data, type) {
+                    if(type == "read"){
+                        data.holidayYear = $("#holidayYear").val();
+                        data.befYear = (data.holidayYear - 1);
+                        data.bef2Year = (data.holidayYear - 2);
+                        data.dept = $("#dept").val();
+                        data.team = $("#team").val();
+                        data.searchVal = $("#searchVal").val();
 
-                    if (subHolidaySetting.global.vacStatus !== null) {
-                        data.vacStatus = subHolidaySetting.global.vacStatus;
+                        if (subHolidaySetting.global.vacStatus !== null) {
+                            data.vacStatus = subHolidaySetting.global.vacStatus;
+                        }
+                        return data;
+                    }else{
+                        console.log(data);
                     }
-
-                    return data;
                 }
             },
             error: function (e) {
@@ -49,6 +52,11 @@ var subHolidaySetting = {
                 total: function (data) {
                     return data.list.length;
                 },
+                model: {
+                    id: "GRANT_DAY",
+                    id: "HOLIDAY_ID",
+                    id: "COMP_VAC"
+                }
             }
         });
 
@@ -74,7 +82,25 @@ var subHolidaySetting = {
             editable : function (){
                 return true;
             },
-            toolbar: kendo.template($("#toolbarTemplate").html()),
+            toolbar: [
+                 {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidaySettingPop()">이력관리</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidaySetting.gridReload();">조회</button>';
+                    }
+                }, {
+                    name: 'update',
+                    template: function (e) {
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="subHolidaySetting.fn_saveAll();">저장</button>';
+                    }
+                },
+
+            ],
             columns: [
                 {
                     field : "DEPT_NAME",
@@ -84,7 +110,7 @@ var subHolidaySetting = {
                         return false;
                     },
                 }, {
-                    field : "DEPT_TEAM_NAME",
+                    field : "TEAM_NAME",
                     title : "팀",
                     width : 90,
                     editable: function(){
@@ -98,7 +124,7 @@ var subHolidaySetting = {
                         return false;
                     },
                 }, {
-                    field : "POSITION_NAME",
+                    field : "SPOT",
                     title : "직급",
                     width : 90,
                     editable: function(){
@@ -204,7 +230,6 @@ var subHolidaySetting = {
 
     fn_saveAll: function(e){
         if(!confirm("저장하시겠습니까?")){
-
             return false;
         }
 
@@ -212,17 +237,12 @@ var subHolidaySetting = {
         var state = kendo.stringify(grid.getOptions());
         console.log(state);
 
-        $.ajax({
-            url : "/subHoliday/setUserVacList",
-            data : {
-                param : state
-            },
-            type : "post",
-            success : function(rs){
-                console.log(rs);
-            }
-        })
-
-
+        var result = customKendo.fn_customAjax("/subHoliday/setUserVacList2", {
+            param : state
+        });
+        if(!result.flag){
+            alert("시스템 오류가 발생했습니다.");
+        }
+        subHolidaySetting.gridReload();
     }
 }
