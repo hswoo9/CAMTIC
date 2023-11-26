@@ -154,11 +154,11 @@ var engnInit = {
         hwpDocCtrl.putFieldText('DELV_DE', delvMap.DELV_DE);
         hwpDocCtrl.putFieldText('DELV_LOC', delvMap.DELV_LOC);
 
+        /** 3. 협업사항 */
         if(map.TM_YN == "Y"){
             const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", data);
             const team = teamResult.map;
 
-            /** 3. 협업사항 */
             hwpDocCtrl.putFieldText('TM_NAME', team.TEAM_NAME);
             hwpDocCtrl.putFieldText('TM_EMP_NAME', team.EMP_NAME);
             hwpDocCtrl.putFieldText('TM_AMT', fn_numberWithCommas(team.TM_AMT));
