@@ -26,6 +26,7 @@ public interface ItemManageService {
     List<Map<String, Object>> getFwWhCdDesignList(Map<String, Object> params);
     void getFwWhCdDesign(Map<String, Object> params);
     void setShipmentDeadlineUpd(Map<String, Object> params);
+    List<Map<String, Object>> getShipmentTrendList(Map<String, Object> params);
     List<Map<String, Object>> getReturnRecordRegList(Map<String, Object> params);
     void setReturnRecord(Map<String, Object> params);
     List<Map<String, Object>> getBomList(Map<String, Object> params);
@@ -58,4 +59,7 @@ public interface ItemManageService {
     List<Map<String, Object>> getInvenTransferHistoryList(Map<String, Object> params);
     void setSafetyInvenUpd(Map<String, Object> params);
     List<Map<String, Object>> getCrmSalesConfirmList(Map<String, Object> params);
+    void setCrmSalesConfirm(Map<String, Object> params);
+    List<Map<String, Object>> getDepositStatList(Map<String, Object> params);
+    void setDepositConfirm(Map<String, Object> params);
 }

@@ -39,14 +39,14 @@ var cscl = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-dark" onclick="cscl.setCrmSalesConfirm()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-dark" onclick="cscl.setCrmSalesConfirm(\'confirm\')">' +
                             '	<span class="k-button-text">확정</span>' +
                             '</button>';
                     }
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="cscl.setCrmSalesConfirmCancel()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="cscl.setCrmSalesConfirm(\'cancel\')">' +
                             '	<span class="k-button-text">확정취소</span>' +
                             '</button>';
                     }
@@ -104,17 +104,16 @@ var cscl = {
                     field : "CONFIRM_AMT",
                     width : 120,
                     template : function (e){
-                        return cscl.comma(e.DEPOSIT_AMT);
+                        return cscl.comma(e.CONFIRM_AMT);
                     },
                     attributes : {
                         style : "text-align : right;"
                     }
                 }, {
                     title: "부가세액",
-                    field: "ORDER_VOLUME",
                     width: 100,
                     template : function (e){
-                        return cscl.comma(e.DEPOSIT_AMT);
+                        return cscl.comma(e.CONFIRM_AMT * 0.1);
                     },
                     attributes : {
                         style : "text-align : right;"
@@ -141,7 +140,19 @@ var cscl = {
                             return '';
                         }
                     }
+                }, {
+                    width: 80,
+                    template: function(e){
+                        if(e.SALES_MONTH > 0){
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="cscl.fn_popDepositStat(' + e.CRM_SN + ')">' +
+                                '	<span class="k-button-text">입금현황</span>' +
+                                '</button>';
+                        }else{
+                            return "";
+                        }
+                    }
                 }
+
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 3);
@@ -164,21 +175,37 @@ var cscl = {
         cscl.mainGrid("/item/getCrmSalesConfirmList.do", cscl.global.searchAjaxData);
     },
 
-    setCrmSalesConfirm: function(){
+    setCrmSalesConfirm: function(c){
         if($("input[name=cscSn]:checked").length == 0){
             alert("확정 거래처를 선택해주세요.");
             return;
         }
 
-        if(confirm("선택한 항목을 확정처리하시겠습니까?")){
+        var confirmTxt = "";
+        if(c == "confirm"){
+            confirmTxt = "선택한 항목을 확정하시겠습니까?";
+        }else{
+            confirmTxt = "선택한 항목을 확정취소하시겠습니까?";
+        }
+
+        if(confirm(confirmTxt)){
             var cscArr = new Array()
             $.each($("input[name=cscSn]:checked"), function(){
-                var dateItem = $("#mainGrid").data("kendoGrid").dataItem($(this).closest("tr"));
+                var dataItem = $("#mainGrid").data("kendoGrid").dataItem($(this).closest("tr"));
                 var data = {
                     crmSalesConfirmSn : $(this).val(),
-                    crmSn : dateItem.CRM_SN,
+                    crmSn : String(dataItem.CRM_SN),
                     empSeq : $("#regEmpSeq").val()
                 }
+
+                if(c == "confirm"){
+                    data.confirmYn = "Y";
+                    data.confirmAmt = String(dataItem.DEPOSIT_AMT);
+                }else{
+                    data.confirmYn = "N";
+                    data.confirmAmt = "0";
+                }
+
                 cscArr.push(data);
             })
 
@@ -194,42 +221,16 @@ var cscl = {
         }
     },
 
-    setCrmSalesConfirmCancel : function(){
-        if($("input[name=cscSn]:checked").length == 0){
-            alert("항목을 선택해주세요.");
-            return;
-        }
-
-        if(confirm("선택한 거래처 확정을 취소하시겠습니까?")){
-            var crmSalesConfirmSn = "";
-
-            $.each($("input[name='cscSn']:checked"), function(){
-                crmSalesConfirmSn += "," + $(this).val()
-            })
-
-            cscl.global.saveAjaxData = {
-                crmSalesConfirmSn : crmSalesConfirmSn.substring(1),
-                empSeq : $("#regEmpSeq").val()
-            }
-
-            var result = customKendo.fn_customAjax("/item/setCrmSalesConfirmCancel.do", cscl.global.saveAjaxData);
-            if(result.flag){
-                alert("처리되었습니다.");
-                cscl.gridReload();
-            }
-        }
-    },
-
     crmSnReset : function(){
         $("#crmSn").val("");
         $("#crmNm").val("");
         cscl.gridReload()
     },
 
-    fn_popItemSmRecordList : function (e, y){
-        var url = "/item/pop/popItemSmRecordList.do?crmSn=" + e + "&yearMonth=" + y;
+    fn_popDepositStat : function (e){
+        var url = "/item/pop/popDepositStat.do?crmSn=" + e + "&yearMonth=" + $("#yearMonth").val();
         var name = "_blank";
-        var option = "width = 1550, height = 505, top = 200, left = 400, location = no"
+        var option = "width = 900, height = 405, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 

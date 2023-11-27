@@ -227,23 +227,33 @@
                                                 </td>
 
                                                 <c:if test="${l.gradeFile == null}">
-                                                    <td></td>
+                                                    <td style="cursor: pointer">
+                                                        <label for="gradeFile${l.EDUCATIONAL_ID}" class="k-button k-button-solid-base">파일첨부</label>
+                                                        <input type="file" id="gradeFile${l.EDUCATIONAL_ID}" name="gradeFile${l.EDUCATIONAL_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                                        <span id="gradeFileName${l.EDUCATIONAL_ID}"></span>
+                                                    </td>
                                                 </c:if>
                                                 <c:if test="${l.gradeFile ne null}">
                                                     <td style="cursor: pointer">
-                                                  <span onclick="fileDown('${l.gradeFile.file_path}${l.gradeFile.file_uuid}', '${l.gradeFile.file_org_name}.${l.gradeFile.file_ext}')">
-                                                      ${l.gradeFile.file_org_name}.${l.gradeFile.file_ext}
-                                                  </span>
+                                                        <label for="gradeFile${l.EDUCATIONAL_ID}" class="k-button k-button-solid-base">파일첨부</label>
+                                                        <input type="file" id="gradeFile${l.EDUCATIONAL_ID}" name="gradeFile${l.EDUCATIONAL_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                                        <span id="gradeFileName${l.EDUCATIONAL_ID}" onclick="fileDown('${l.gradeFile.file_path}${l.gradeFile.file_uuid}', '${l.gradeFile.file_org_name}.${l.gradeFile.file_ext}')">
+                                                      ${l.gradeFile.file_org_name}.${l.gradeFile.file_ext}</span>
                                                     </td>
                                                 </c:if>
                                                 <c:if test="${l.socreFile == null}">
-                                                    <td></td>
+                                                    <td style="cursor: pointer">
+                                                        <label for="socreFile${l.EDUCATIONAL_ID}" class="k-button k-button-solid-base">파일첨부</label>
+                                                        <input type="file" id="socreFile${l.EDUCATIONAL_ID}" name="socreFile${l.EDUCATIONAL_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                                        <span id="socreFileName${l.EDUCATIONAL_ID}"></span>
+                                                    </td>
                                                 </c:if>
                                                 <c:if test="${l.socreFile ne null}">
                                                     <td style="cursor: pointer">
-                                                  <span onclick="fileDown('${l.socreFile.file_path}${l.socreFile.file_uuid}', '${l.socreFile.file_org_name}.${l.socreFile.file_ext}')">
-                                                      ${l.socreFile.file_org_name}.${l.socreFile.file_ext}
-                                                  </span>
+                                                        <label for="socreFile${l.EDUCATIONAL_ID}" class="k-button k-button-solid-base">파일첨부</label>
+                                                        <input type="file" id="socreFile${l.EDUCATIONAL_ID}" name="socreFile${l.EDUCATIONAL_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                                        <span id="socreFileName${l.EDUCATIONAL_ID}" onclick="fileDown('${l.socreFile.file_path}${l.socreFile.file_uuid}', '${l.socreFile.file_org_name}.${l.socreFile.file_ext}')">
+                                                      ${l.socreFile.file_org_name}.${l.socreFile.file_ext}</span>
                                                     </td>
                                                 </c:if>
                                                 <td>
@@ -274,7 +284,7 @@
                                                     <input type="text" id="school1" style="width: 100%;">
                                                 </td>
                                                 <td>
-                                                    <input type="text" <%--id="gkrdnl" class="gkrdnl"--%>id="degree1" class="degree" style="width: 100%;">
+                                                    <input type="text" id="degree1" class="degree" style="width: 100%;">
                                                 </td>
 
                                                 <td style="cursor: pointer">
@@ -282,7 +292,6 @@
                                                     <input type="file" id="gradeFile" name="gradeFile" onchange="fileChange(this)" style="display: none" multiple="multiple">
                                                     <span id="gradeFileName"></span>
                                                 </td>
-
 
                                                 <td style="cursor: pointer">
                                                     <label for="socreFile" class="k-button k-button-solid-base">파일첨부</label>
@@ -355,14 +364,20 @@
                                                 </td>
 
                                                     <c:if test="${l.addFile == null}">
-                                                        <td></td>
+                                                        <td>
+                                                            <label for="addFile${l.CAREER_ID}" class="k-button k-button-solid-base">파일첨부</label>
+                                                            <input type="file" id="addFile${l.CAREER_ID}" name="addFile${l.CAREER_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                                            <span id="addFileName${l.CAREER_ID}"></span>
+                                                        </td>
                                                     </c:if>
                                                     <c:if test="${l.addFile ne null}">
-                                                    <td style="cursor: pointer">
-                                                      <span onclick="fileDown('${l.addFile.file_path}${l.addFile.file_uuid}', '${l.addFile.file_org_name}.${l.addFile.file_ext}')">
+                                                        <td>
+                                                            <label for="addFile${l.CAREER_ID}" class="k-button k-button-solid-base">파일첨부</label>
+                                                            <input type="file" id="addFile${l.CAREER_ID}" name="addFile${l.CAREER_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                                            <span id="addFileName${l.CAREER_ID}" onclick="fileDown('${l.addFile.file_path}${l.addFile.file_uuid}', '${l.addFile.file_org_name}.${l.addFile.file_ext}')">
                                                           ${l.addFile.file_org_name}.${l.addFile.file_ext}
                                                       </span>
-                                                    </td>
+                                                        </td>
                                                     </c:if>
 
                                                 <td><input type="text" id="bmk2" value='${l.RMK}' style="width: 100%;"></td>
@@ -540,14 +555,20 @@
                                                 <td><input type="text" id="agency" value="${l.ISSUER}" style="width: 100%;"></td>
 
                                                 <c:if test="${l.certificateAddFile == null}">
-                                                    <td></td>
+                                                    <td>
+                                                        <label for="certificateAddFile${l.CERTIFICATE_ID}" class="k-button k-button-solid-base">파일첨부</label>
+                                                        <input type="file" id="certificateAddFile${l.CERTIFICATE_ID}" name="certificateAddFile${l.CERTIFICATE_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                                        <span id="certificateAddFileName${l.CERTIFICATE_ID}"></span>
+                                                    </td>
                                                 </c:if>
                                                 <c:if test="${l.certificateAddFile ne null}">
-                                                <td style="cursor: pointer">
-                                                  <span onclick="fileDown('${l.certificateAddFile.file_path}${l.certificateAddFile.file_uuid}', '${l.certificateAddFile.file_org_name}.${l.certificateAddFile.file_ext}')">
-                                                      ${l.certificateAddFile.file_org_name}.${l.certificateAddFile.file_ext}
-                                                  </span>
-                                                </td>
+                                                    <td>
+                                                        <label for="certificateAddFile${l.CERTIFICATE_ID}" class="k-button k-button-solid-base">파일첨부</label>
+                                                        <input type="file" id="certificateAddFile${l.CERTIFICATE_ID}" name="certificateAddFile${l.CERTIFICATE_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                                        <span id="certificateAddFileName${l.CERTIFICATE_ID}" onclick="fileDown('${l.certificateAddFile.file_path}${l.certificateAddFile.file_uuid}', '${l.certificateAddFile.file_org_name}.${l.certificateAddFile.file_ext}')">
+                                                             ${l.certificateAddFile.file_org_name}.${l.certificateAddFile.file_ext}
+                                                         </span>
+                                                    </td>
                                                 </c:if>
                                                 <td><input type="text" id="bmk4" value='${l.RMK}' style="width: 100%;"></td>
                                                 <td>
@@ -682,7 +703,6 @@
                             <div>
                                 <table class="searchTable table" style="text-align:center;">
                                     <colgroup>
-
                                         <col width="6%">
                                         <col width="10%">
                                         <col width="10%">
@@ -695,7 +715,6 @@
                                     </colgroup>
                                     <thead>
                                     <tr>
-
                                         <th>번호</th>
                                         <th>내/외부</th>
                                         <th>포상/징계 구분</th>
@@ -718,14 +737,20 @@
                                                 <td><input type="text" id="agency2" value="${l.RWD_ST_COMP}" style="width: 100%;"></td>
 
                                                 <c:if test="${l.rewardAddFile == null}">
-                                                    <td></td>
+                                                    <td>
+                                                        <label for="rewardAddFile${l.REWORD_ID}" class="k-button k-button-solid-base">파일첨부</label>
+                                                        <input type="file" id="rewardAddFile${l.REWORD_ID}" name="rewardAddFile${l.REWORD_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                                        <span id="rewardAddFileName${l.REWORD_ID}"></span>
+                                                    </td>
                                                 </c:if>
                                                 <c:if test="${l.rewardAddFile ne null}">
-                                                <td style="cursor: pointer">
-                                                  <span onclick="fileDown('${l.rewardAddFile.file_path}${l.rewardAddFile.file_uuid}', '${l.rewardAddFile.file_org_name}.${l.rewardAddFile.file_ext}')">
-                                                      ${l.rewardAddFile.file_org_name}.${l.rewardAddFile.file_ext}
-                                                  </span>
-                                                </td>
+                                                    <td>
+                                                        <label for="rewardAddFile${l.REWORD_ID}" class="k-button k-button-solid-base">파일첨부</label>
+                                                        <input type="file" id="rewardAddFile${l.REWORD_ID}" name="rewardAddFile${l.REWORD_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                                        <span id="rewardAddFileName${l.REWORD_ID}" onclick="fileDown('${l.rewardAddFile.file_path}${l.rewardAddFile.file_uuid}', '${l.rewardAddFile.file_org_name}.${l.rewardAddFile.file_ext}')">
+                                                            ${l.rewardAddFile.file_org_name}.${l.rewardAddFile.file_ext}
+                                                         </span>
+                                                    </td>
                                                 </c:if>
                                                 <td>
                                                     <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_RewModifyInfo(${l.REWORD_ID})"/>
@@ -742,7 +767,6 @@
                                         <td><input type="text" id="rwdSn1" style="width: 100%;"></td>
                                         <td><input type="text" id="rIssue1"  style="width: 100%;"></td>
                                         <td><input type="text" id="agency3" style="width: 100%;"></td>
-1
                                         <td>
                                             <label for="rewardAddFile" class="k-button k-button-solid-base">파일첨부</label>
                                             <input type="file" id="rewardAddFile" name="rewardAddFile" onchange="fileChange(this)" style="display: none" multiple="multiple">
@@ -1429,10 +1453,10 @@
     }
 
     // 학력사항 추가
-    function fu_addInfo(key){
+    function fu_addInfo(){
         var data = {
-            empSeq : $("#empSeq1").val(),
-            empName : $("#empName1").val(),
+            empSeq1 : $("#empSeq1").val(),
+            empName1 : $("#empName1").val(),
             gubun : $("#gubun1").val(),
             sDate : $("#sDate1").val(),
             eDate : $("#eDate1").val(),
@@ -1444,8 +1468,8 @@
         }
 
         var formData = new FormData();
-        formData.append("empSeq", data.empSeq);
-        formData.append("empName", data.empName);
+        formData.append("empSeq1", data.empSeq1);
+        formData.append("empName1", data.empName1);
         formData.append("gubun", data.gubun);
         formData.append("sDate", data.sDate);
         formData.append("eDate", data.eDate);
@@ -1454,6 +1478,7 @@
         formData.append("graduation", data.graduation);
         formData.append("score", data.score);
         formData.append("bmk", data.bmk);
+        formData.append("menuCd", "degree");
 
         if($("#gradeFile")[0].files.length == 1){
             formData.append("gradeFile", $("#gradeFile")[0].files[0]);
@@ -1488,9 +1513,7 @@
             graduation : $("#graduation").val(),
             score : $("#score").val(),
             bmk : $("#bmk").val(),
-            type : "degree",
-            pk : key,
-            applicationactive : "수정",
+            pk : key
         }
 
         var formData = new FormData();
@@ -1503,17 +1526,25 @@
         formData.append("score", data.score);
         formData.append("bmk", data.bmk);
         formData.append("menuCd", "degree");
-        formData.append("type", "degree");
         formData.append("pk", data.pk);
+        formData.append("educationalId", data.pk);
 
-        if($("#gradeFile")[0].files.length == 1){
-            formData.append("gradeFile", $("#gradeFile")[0].files[0]);
+        if($("#gradeFile"+ key)[0].files.length == 1){
+            formData.append("gradeFile", $("#gradeFile"+ key)[0].files[0]);
         }
 
-        if($("#socreFile")[0].files.length == 1){
-            formData.append("socreFile", $("#socreFile")[0].files[0]);
+        if($("#socreFile"+ key)[0].files.length == 1){
+            formData.append("socreFile", $("#socreFile"+ key)[0].files[0]);
         }
 
+       /* if ($("#gradeFile" + l.EDUCATIONAL_ID).prop("files").length === 1) {
+            formData.append("gradeFile", $("#gradeFile" + l.EDUCATIONAL_ID).prop("files")[0]);
+        }
+
+        if ($("#socreFile" + l.EDUCATIONAL_ID).prop("files").length === 1) {
+            formData.append("scoreFile", $("#socreFile" + l.EDUCATIONAL_ID).prop("files")[0]);
+        }
+*/
         var result = customKendo.fn_customFormDataAjax('/useManage/userDegreeInfoModify',formData);
         /*var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);*/
         console.log(result.rs);
@@ -1547,8 +1578,8 @@
     // 경력사항 추가
     function fu_careerAddInfo(){
         var data = {
-            empSeq : $("#empSeq1").val(),
-            empName : $("#empName1").val(),
+            empSeq1 : $("#empSeq1").val(),
+            empName1 : $("#empName1").val(),
             place : $("#place3").val(),
             sDate : $("#sDate3").val(),
             eDate : $("#eDate3").val(),
@@ -1557,12 +1588,12 @@
             dateY : $("#dateY3").val(),
             dateM : $("#dateM3").val(),
             bmk : $("#bmk3").val(),
-            workType : $("#workType3").val(),
+            workType : $("#workType3").val()
         }
 
         var formData = new FormData();
-        formData.append("empSeq", data.empSeq);
-        formData.append("empName", data.empName);
+        formData.append("empSeq1", data.empSeq1);
+        formData.append("empName1", data.empName1);
         formData.append("place", data.place);
         formData.append("sDate", data.sDate);
         formData.append("eDate", data.eDate);
@@ -1577,7 +1608,6 @@
         if($("#addFile")[0].files.length == 1){
             formData.append("addFile", $("#addFile")[0].files[0]);
         }
-
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userCareerInfoInsert',formData);
         /*var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);*/
@@ -1618,9 +1648,11 @@
         formData.append("bmk", data.bmk);
         formData.append("workType", data.workType);
         formData.append("pk", data.pk);
+        formData.append("careerId", data.pk);
+        formData.append("menuCd", "career");
 
-        if ($("#addFile")[0].files.length == 1) {
-            formData.append("addFile", $("#addFile")[0].files[0]);
+        if($("#addFile"+ key)[0].files.length == 1){
+            formData.append("addFile", $("#addFile" + key)[0].files[0]);
         }
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userCareerInfoModify',formData);
@@ -1693,8 +1725,8 @@
     // 가족사항 추가
     function fu_familyAddInfo(){
         var data = {
-            empSeq : $("#empSeq1").val(),
-            empName : $("#empName1").val(),
+            empSeq1 : $("#empSeq1").val(),
+            empName1 : $("#empName1").val(),
             relation : $("#relation1").val(),
             bDay : $("#bDay2").val(),
             job : $("#job1").val(),
@@ -1703,8 +1735,8 @@
         }
 
         var formData = new FormData();
-        formData.append("empSeq", data.empSeq);
-        formData.append("empName", data.empName);
+        formData.append("empSeq1", data.empSeq1);
+        formData.append("empName1", data.empName1);
         formData.append("relation", data.relation);
         formData.append("bDay", data.bDay);
         formData.append("job", data.job);
@@ -1772,8 +1804,8 @@
     // 보유면허 추가
     function fu_LinAddInfo(){
         var data = {
-            empSeq : $("#empSeq1").val(),
-            empName : $("#empName1").val(),
+            empSeq1 : $("#empSeq1").val(),
+            empName1 : $("#empName1").val(),
             licenseName : $("#licenseName1").val(),
             sDate : $("#sDate6").val(),
             licenseNum : $("#licenseNum1").val(),
@@ -1782,8 +1814,8 @@
         }
 
         var formData = new FormData();
-        formData.append("empSeq", data.empSeq);
-        formData.append("empName", data.empName);
+        formData.append("empSeq1", data.empSeq1);
+        formData.append("empName1", data.empName1);
         formData.append("licenseName", data.licenseName);
         formData.append("sDate", data.sDate);
         formData.append("licenseNum", data.licenseNum);
@@ -1791,11 +1823,9 @@
         formData.append("bmk", data.bmk);
         formData.append("menuCd", "license");
 
-
-        if($("#addFile")[0].files.length == 1){
-            formData.append("addFile", $("#addFile")[0].files[0]);
+        if($("#certificateAddFile")[0].files.length == 1){
+            formData.append("certificateAddFile", $("#certificateAddFile")[0].files[0]);
         }
-
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userLinInfoInsert',formData);
         if(result.flag){
@@ -1830,10 +1860,10 @@
         formData.append("bmk", data.bmk);
         formData.append("menuCd", "license");
         formData.append("pk", data.pk);
+        formData.append("certificateId", data.pk);
 
-
-        if ($("#addFile")[0].files.length == 1) {
-            formData.append("addFile", $("#addFile")[0].files[0]);
+        if($("#certificateAddFile"+key)[0].files.length == 1){
+            formData.append("certificateAddFile", $("#certificateAddFile"+key)[0].files[0]);
         }
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userLinInfoModify',formData);
@@ -1866,8 +1896,8 @@
     // 직무사항 추가
     function fu_JobAddInfo(){
         var data = {
-            empSeq : $("#empSeq1").val(),
-            empName : $("#empName1").val(),
+            empSeq1 : $("#empSeq1").val(),
+            empName1 : $("#empName1").val(),
             WORK_PAY : $("#pay1").val(),
             sDate : $("#sDate8").val(),
             eDate : $("#eDate8").val(),
@@ -1876,8 +1906,8 @@
         }
 
         var formData = new FormData();
-        formData.append("empSeq", data.empSeq);
-        formData.append("empName", data.empName);
+        formData.append("empSeq1", data.empSeq1);
+        formData.append("empName1", data.empName1);
         formData.append("WORK_PAY", data.WORK_PAY);
         formData.append("sDate", data.sDate);
         formData.append("eDate", data.eDate);
@@ -1945,8 +1975,8 @@
     // 상벌사항 추가
     function fu_RewAddInfo(){
         var data = {
-            empSeq : $("#empSeq1").val(),
-            empName : $("#empName1").val(),
+            empSeq1 : $("#empSeq1").val(),
+            empName1 : $("#empName1").val(),
             erpEmpSeq : $("#erpEmpSeq1").val(),
             deptSeq : $("#deptSeq1").val(),
             deptName : $("#deptName1").val(),
@@ -1962,8 +1992,8 @@
         }
 
         var formData = new FormData();
-        formData.append("empSeq", data.empSeq);
-        formData.append("empName", data.empName);
+        formData.append("empSeq1", data.empSeq1);
+        formData.append("empName1", data.empName1);
         formData.append("erpEmpSeq", data.erpEmpSeq);
         formData.append("deptSeq", data.deptSeq);
         formData.append("deptName", data.deptName);
@@ -1977,7 +2007,6 @@
         formData.append("rIssue", data.rIssue);
         formData.append("agency", data.agency);
         formData.append("menuCd", "reward");
-        formData.append("type", "reward");
         formData.append("applicationactive", data.applicationactive);
 
         if($("#rewardAddFile")[0].files.length == 1){
@@ -2008,7 +2037,6 @@
             rIssue : $("#rIssue").val(),
             agency : $("#agency2").val(),
             pk : key
-
         }
 
         var formData = new FormData();
@@ -2021,12 +2049,12 @@
         formData.append("rIssue", data.rIssue);
         formData.append("agency", data.agency);
         formData.append("menuCd", "reward");
-        formData.append("type", "reward");
         formData.append("pk", data.pk);
         formData.append("applicationactive", data.applicationactive);
+        formData.append("rewordId", data.pk);
 
-        if($("#rewardAddFile")[0].files.length == 1){
-            formData.append("rewardAddFile", $("#rewardAddFile")[0].files[0]);
+        if($("#rewardAddFile"+key)[0].files.length == 1){
+            formData.append("rewardAddFile", $("#rewardAddFile"+key)[0].files[0]);
         }
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userRewInfoModify',formData);
@@ -2054,6 +2082,10 @@
                 alert("오류가 발생하였습니다.");
             }
         }
+    }
+
+    function fileChange(e){
+        $(e).next().text($(e)[0].files[0].name);
     }
 
 </script>

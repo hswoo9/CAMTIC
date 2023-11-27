@@ -130,7 +130,7 @@
                 },
                 success : function (data){
                     if(data.rs.status == 500){
-                        alert("최대 6개까지만 선택 가능합니다.");
+                        alert("최대 9개까지만 선택 가능합니다.");
                         return;
                     }else if(data.rs.status ==200){
                         $("#" + imgId).attr("src", "/images/ico/ico_book01_on.png").addClass("favorite");

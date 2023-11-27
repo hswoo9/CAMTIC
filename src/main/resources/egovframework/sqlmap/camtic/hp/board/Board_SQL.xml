@@ -170,16 +170,23 @@
     <insert id="insertBoard" parameterType="map">
         /*insertBoard*/
         INSERT INTO CAM_COMMON.DJ_BOARD_ARTICLE
-            (BOARD_ID, BOARD_CATEGORY_ID, BOARD_ARTICLE_TITLE, BOARD_ARTICLE_CONTENT, BOARD_ARTICLE_CONTENT_URL, REG_EMP_NAME
-            <if test="boardId == 'business'">, START_DT, END_DT</if>
-            <if test="boardId == 'sns'">, SNS_TYPE</if>
-            <if test="boardId == 'sns'">, SNS_URL</if>
+            (BOARD_ID, BOARD_CATEGORY_ID, BOARD_ARTICLE_TITLE, BOARD_ARTICLE_CONTENT, BOARD_ARTICLE_CONTENT_URL, REG_EMP_NAME,
+            <if test="boardId == 'business'">START_DT, END_DT,</if>
+            <if test="boardId == 'sns'">SNS_TYPE, SNS_URL,</if>
+            REG_DATE
             )
         VALUE
-            (#{boardId}, #{boardCategoryId}, #{noticeTitle}, #{content}, #{urlText}, #{writer}
-            <if test="boardId == 'business'">, #{startDt}, #{endDt}</if>
-            <if test="boardId == 'sns'">, #{snsType}</if>
-            <if test="boardId == 'sns'">, #{snsUrl}</if>
+            (#{boardId}, #{boardCategoryId}, #{noticeTitle}, #{content}, #{urlText}, #{writer},
+            <if test="boardId == 'business'">#{startDt}, #{endDt},</if>
+            <if test="boardId == 'sns'">#{snsType}, #{snsUrl},</if>
+            <choose>
+                <when test="boardId == 'sns'">
+                    #{snsDate}
+                </when>
+                <otherwise>
+                    current_timestamp()
+                </otherwise>
+            </choose>
             )
 
         <selectKey keyProperty="boardArticleId" resultType="Integer" order="BEFORE">
@@ -197,7 +204,8 @@
             START_DT = #{startDt},
             END_DT = #{endDt},
             SNS_TYPE = #{snsType},
-            SNS_URL = #{snsUrl}
+            SNS_URL = #{snsUrl},
+            REG_DATE = #{snsDate}
         WHERE
             BOARD_ARTICLE_ID = #{boardArticleId}
         AND

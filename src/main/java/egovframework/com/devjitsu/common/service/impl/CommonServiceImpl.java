@@ -312,7 +312,7 @@ public class CommonServiceImpl implements CommonService {
         Map<String, Object> resultMap = new HashMap<>();
 
         int cnt = commonRepository.getSearchMenuCnt(params);
-        if (cnt == 6) {
+        if (cnt == 9) {
             resultMap.put("status", 500);
         } else {
             commonRepository.setFavoriteMenuInsert(params);

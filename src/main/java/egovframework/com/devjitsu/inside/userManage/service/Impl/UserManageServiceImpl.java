@@ -892,11 +892,11 @@ public class UserManageServiceImpl implements UserManageService {
                 fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
                 fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("EMP_SEQ"));
+                fileInsMap.put("empSeq", params.get("empSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
                 fileInsMap.put("gradeFileNo", fileInsMap.get("file_no"));
-                userManageRepository.setInGradeFileNoUpd(fileInsMap);
+                userManageRepository.setInGradeFileNoUpdAdmin(fileInsMap);
             }
         }
 
@@ -909,11 +909,11 @@ public class UserManageServiceImpl implements UserManageService {
                 fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
                 fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("EMP_SEQ"));
+                fileInsMap.put("empSeq", params.get("empSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
                 fileInsMap.put("socreFileNo", fileInsMap.get("file_no"));
-                userManageRepository.setInScoreFileNoUpd(fileInsMap);
+                userManageRepository.setInScoreFileNoUpdAdmin(fileInsMap);
             }
         }
     }
@@ -937,11 +937,11 @@ public class UserManageServiceImpl implements UserManageService {
                 fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
                 fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("EMP_SEQ"));
+                fileInsMap.put("empSeq", params.get("empSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
                 fileInsMap.put("gradeFileNo", fileInsMap.get("file_no"));
-                userManageRepository.setInGradeFileNoUpd(fileInsMap);
+                userManageRepository.setInGradeFileNoUpdAdmin(fileInsMap);
             }
         }
 
@@ -954,11 +954,11 @@ public class UserManageServiceImpl implements UserManageService {
                 fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
                 fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("EMP_SEQ"));
+                fileInsMap.put("empSeq", params.get("empSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
                 fileInsMap.put("socreFileNo", fileInsMap.get("file_no"));
-                userManageRepository.setInScoreFileNoUpd(fileInsMap);
+                userManageRepository.setInScoreFileNoUpdAdmin(fileInsMap);
             }
         }
     }
@@ -976,42 +976,26 @@ public class UserManageServiceImpl implements UserManageService {
         MainLib mainLib = new MainLib();
         Map<String, Object> fileInsMap = new HashMap<>();
 
-        MultipartFile gradeFile = request.getFile("gradeFile");
-        MultipartFile socreFile = request.getFile("socreFile");
+        MultipartFile addFile = request.getFile("addFile");
 
-        if(gradeFile != null){
-            if(!gradeFile.isEmpty()){
-                fileInsMap = mainLib.fileUpload(gradeFile, filePath(params, server_dir));
-                fileInsMap.put("contentId", params.get("educationalId"));
-                fileInsMap.put("educationalId", params.get("educationalId"));
+        if(addFile != null){
+            if(!addFile.isEmpty()){
+                fileInsMap = mainLib.fileUpload(addFile, filePath(params, server_dir));
+                fileInsMap.put("contentId", params.get("careerId"));
+                fileInsMap.put("careerId", params.get("careerId"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
                 fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
                 fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("EMP_SEQ"));
+                fileInsMap.put("empSeq", params.get("empSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
-                fileInsMap.put("gradeFileNo", fileInsMap.get("file_no"));
-                userManageRepository.setInGradeFileNoUpd(fileInsMap);
+                fileInsMap.put("addFileNo", fileInsMap.get("file_no"));
+                userManageRepository.setInAddFileNoUpdAdmin(fileInsMap);
             }
         }
 
-        if(socreFile != null){
-            if(!socreFile.isEmpty()){
-                fileInsMap = mainLib.fileUpload(socreFile, filePath(params, server_dir));
-                fileInsMap.put("contentId", params.get("educationalId"));
-                fileInsMap.put("educationalId", params.get("educationalId"));
-                fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
-                fileInsMap.put("filePath", filePath(params, base_dir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("EMP_SEQ"));
-                commonRepository.insOneFileInfo(fileInsMap);
 
-                fileInsMap.put("socreFileNo", fileInsMap.get("file_no"));
-                userManageRepository.setInScoreFileNoUpd(fileInsMap);
-            }
-        }
     }
 
     @Override
@@ -1021,40 +1005,22 @@ public class UserManageServiceImpl implements UserManageService {
         MainLib mainLib = new MainLib();
         Map<String, Object> fileInsMap = new HashMap<>();
 
-        MultipartFile gradeFile = request.getFile("gradeFile");
-        MultipartFile socreFile = request.getFile("socreFile");
+        MultipartFile addFile = request.getFile("addFile");
 
-        if(gradeFile != null){
-            if(!gradeFile.isEmpty()){
-                fileInsMap = mainLib.fileUpload(gradeFile, filePath(params, server_dir));
-                fileInsMap.put("contentId", params.get("educationalId"));
-                fileInsMap.put("educationalId", params.get("educationalId"));
+        if(addFile != null){
+            if(!addFile.isEmpty()){
+                fileInsMap = mainLib.fileUpload(addFile, filePath(params, server_dir));
+                fileInsMap.put("contentId", params.get("careerId"));
+                fileInsMap.put("careerId", params.get("careerId"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
                 fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
                 fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("EMP_SEQ"));
+                fileInsMap.put("empSeq", params.get("empSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
-                fileInsMap.put("gradeFileNo", fileInsMap.get("file_no"));
-                userManageRepository.setInGradeFileNoUpd(fileInsMap);
-            }
-        }
-
-        if(socreFile != null){
-            if(!socreFile.isEmpty()){
-                fileInsMap = mainLib.fileUpload(socreFile, filePath(params, server_dir));
-                fileInsMap.put("contentId", params.get("educationalId"));
-                fileInsMap.put("educationalId", params.get("educationalId"));
-                fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
-                fileInsMap.put("filePath", filePath(params, base_dir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("EMP_SEQ"));
-                commonRepository.insOneFileInfo(fileInsMap);
-
-                fileInsMap.put("socreFileNo", fileInsMap.get("file_no"));
-                userManageRepository.setInScoreFileNoUpd(fileInsMap);
+                fileInsMap.put("addFileNo", fileInsMap.get("file_no"));
+                userManageRepository.setInAddFileNoUpdAdmin(fileInsMap);
             }
         }
     }
@@ -1079,40 +1045,22 @@ public class UserManageServiceImpl implements UserManageService {
         MainLib mainLib = new MainLib();
         Map<String, Object> fileInsMap = new HashMap<>();
 
-        MultipartFile gradeFile = request.getFile("gradeFile");
-        MultipartFile socreFile = request.getFile("socreFile");
+        MultipartFile certificateAddFile = request.getFile("certificateAddFile");
 
-        if(gradeFile != null){
-            if(!gradeFile.isEmpty()){
-                fileInsMap = mainLib.fileUpload(gradeFile, filePath(params, server_dir));
-                fileInsMap.put("contentId", params.get("educationalId"));
-                fileInsMap.put("educationalId", params.get("educationalId"));
+        if(certificateAddFile != null){
+            if(!certificateAddFile.isEmpty()){
+                fileInsMap = mainLib.fileUpload(certificateAddFile, filePath(params, server_dir));
+                fileInsMap.put("contentId", params.get("certificateId"));
+                fileInsMap.put("certificateId", params.get("certificateId"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
                 fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
                 fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("EMP_SEQ"));
+                fileInsMap.put("empSeq", params.get("empSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
-                fileInsMap.put("gradeFileNo", fileInsMap.get("file_no"));
-                userManageRepository.setInGradeFileNoUpd(fileInsMap);
-            }
-        }
-
-        if(socreFile != null){
-            if(!socreFile.isEmpty()){
-                fileInsMap = mainLib.fileUpload(socreFile, filePath(params, server_dir));
-                fileInsMap.put("contentId", params.get("educationalId"));
-                fileInsMap.put("educationalId", params.get("educationalId"));
-                fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
-                fileInsMap.put("filePath", filePath(params, base_dir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("EMP_SEQ"));
-                commonRepository.insOneFileInfo(fileInsMap);
-
-                fileInsMap.put("socreFileNo", fileInsMap.get("file_no"));
-                userManageRepository.setInScoreFileNoUpd(fileInsMap);
+                fileInsMap.put("certificateFileNo", fileInsMap.get("file_no"));
+                userManageRepository.setInCertificateFileNoUpdAdmin(fileInsMap);
             }
         }
     }
@@ -1124,40 +1072,22 @@ public class UserManageServiceImpl implements UserManageService {
         MainLib mainLib = new MainLib();
         Map<String, Object> fileInsMap = new HashMap<>();
 
-        MultipartFile gradeFile = request.getFile("gradeFile");
-        MultipartFile socreFile = request.getFile("socreFile");
+        MultipartFile certificateAddFile = request.getFile("certificateAddFile");
 
-        if(gradeFile != null){
-            if(!gradeFile.isEmpty()){
-                fileInsMap = mainLib.fileUpload(gradeFile, filePath(params, server_dir));
-                fileInsMap.put("contentId", params.get("educationalId"));
-                fileInsMap.put("educationalId", params.get("educationalId"));
+        if(certificateAddFile != null){
+            if(!certificateAddFile.isEmpty()){
+                fileInsMap = mainLib.fileUpload(certificateAddFile, filePath(params, server_dir));
+                fileInsMap.put("contentId", params.get("certificateId"));
+                fileInsMap.put("certificateId", params.get("certificateId"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
                 fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
                 fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("EMP_SEQ"));
+                fileInsMap.put("empSeq", params.get("empSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
-                fileInsMap.put("gradeFileNo", fileInsMap.get("file_no"));
-                userManageRepository.setInGradeFileNoUpd(fileInsMap);
-            }
-        }
-
-        if(socreFile != null){
-            if(!socreFile.isEmpty()){
-                fileInsMap = mainLib.fileUpload(socreFile, filePath(params, server_dir));
-                fileInsMap.put("contentId", params.get("educationalId"));
-                fileInsMap.put("educationalId", params.get("educationalId"));
-                fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
-                fileInsMap.put("filePath", filePath(params, base_dir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("EMP_SEQ"));
-                commonRepository.insOneFileInfo(fileInsMap);
-
-                fileInsMap.put("socreFileNo", fileInsMap.get("file_no"));
-                userManageRepository.setInScoreFileNoUpd(fileInsMap);
+                fileInsMap.put("certificateFileNo", fileInsMap.get("file_no"));
+                userManageRepository.setInCertificateFileNoUpdAdmin(fileInsMap);
             }
         }
     }
@@ -1189,40 +1119,22 @@ public class UserManageServiceImpl implements UserManageService {
         MainLib mainLib = new MainLib();
         Map<String, Object> fileInsMap = new HashMap<>();
 
-        MultipartFile gradeFile = request.getFile("gradeFile");
-        MultipartFile socreFile = request.getFile("socreFile");
+        MultipartFile rewardAddFile = request.getFile("rewardAddFile");
 
-        if(gradeFile != null){
-            if(!gradeFile.isEmpty()){
-                fileInsMap = mainLib.fileUpload(gradeFile, filePath(params, server_dir));
-                fileInsMap.put("contentId", params.get("educationalId"));
-                fileInsMap.put("educationalId", params.get("educationalId"));
+        if(rewardAddFile != null){
+            if(!rewardAddFile.isEmpty()){
+                fileInsMap = mainLib.fileUpload(rewardAddFile, filePath(params, server_dir));
+                fileInsMap.put("contentId", params.get("rewordId"));
+                fileInsMap.put("rewordId", params.get("rewordId"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
                 fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
                 fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("EMP_SEQ"));
+                fileInsMap.put("empSeq", params.get("empSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
-                fileInsMap.put("gradeFileNo", fileInsMap.get("file_no"));
-                userManageRepository.setInGradeFileNoUpd(fileInsMap);
-            }
-        }
-
-        if(socreFile != null){
-            if(!socreFile.isEmpty()){
-                fileInsMap = mainLib.fileUpload(socreFile, filePath(params, server_dir));
-                fileInsMap.put("contentId", params.get("educationalId"));
-                fileInsMap.put("educationalId", params.get("educationalId"));
-                fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
-                fileInsMap.put("filePath", filePath(params, base_dir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("EMP_SEQ"));
-                commonRepository.insOneFileInfo(fileInsMap);
-
-                fileInsMap.put("socreFileNo", fileInsMap.get("file_no"));
-                userManageRepository.setInScoreFileNoUpd(fileInsMap);
+                fileInsMap.put("rewardAddFileNo", fileInsMap.get("file_no"));
+                userManageRepository.setInRewardAddFileNoUpdAdmin(fileInsMap);
             }
         }
     }
@@ -1234,40 +1146,22 @@ public class UserManageServiceImpl implements UserManageService {
         MainLib mainLib = new MainLib();
         Map<String, Object> fileInsMap = new HashMap<>();
 
-        MultipartFile gradeFile = request.getFile("gradeFile");
-        MultipartFile socreFile = request.getFile("socreFile");
+        MultipartFile rewardAddFile = request.getFile("rewardAddFile");
 
-        if(gradeFile != null){
-            if(!gradeFile.isEmpty()){
-                fileInsMap = mainLib.fileUpload(gradeFile, filePath(params, server_dir));
-                fileInsMap.put("contentId", params.get("educationalId"));
-                fileInsMap.put("educationalId", params.get("educationalId"));
+        if(rewardAddFile != null){
+            if(!rewardAddFile.isEmpty()){
+                fileInsMap = mainLib.fileUpload(rewardAddFile, filePath(params, server_dir));
+                fileInsMap.put("contentId", params.get("rewordId"));
+                fileInsMap.put("rewordId", params.get("rewordId"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
                 fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
                 fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("EMP_SEQ"));
+                fileInsMap.put("empSeq", params.get("empSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
-                fileInsMap.put("gradeFileNo", fileInsMap.get("file_no"));
-                userManageRepository.setInGradeFileNoUpd(fileInsMap);
-            }
-        }
-
-        if(socreFile != null){
-            if(!socreFile.isEmpty()){
-                fileInsMap = mainLib.fileUpload(socreFile, filePath(params, server_dir));
-                fileInsMap.put("contentId", params.get("educationalId"));
-                fileInsMap.put("educationalId", params.get("educationalId"));
-                fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
-                fileInsMap.put("filePath", filePath(params, base_dir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("EMP_SEQ"));
-                commonRepository.insOneFileInfo(fileInsMap);
-
-                fileInsMap.put("socreFileNo", fileInsMap.get("file_no"));
-                userManageRepository.setInScoreFileNoUpd(fileInsMap);
+                fileInsMap.put("rewardAddFileNo", fileInsMap.get("file_no"));
+                userManageRepository.setInRewardAddFileNoUpdAdmin(fileInsMap);
             }
         }
     }

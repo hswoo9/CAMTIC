@@ -268,6 +268,11 @@ public class ItemManageServiceImpl implements ItemManageService {
     }
 
     @Override
+    public List<Map<String, Object>> getShipmentTrendList(Map<String, Object> params) {
+        return itemManageRepository.getShipmentTrendList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getReturnRecordRegList(Map<String, Object> params) {
         return itemManageRepository.getReturnRecordRegList(params);
     }
@@ -774,6 +779,37 @@ public class ItemManageServiceImpl implements ItemManageService {
     @Override
     public List<Map<String, Object>> getCrmSalesConfirmList(Map<String, Object> params) {
         return itemManageRepository.getCrmSalesConfirmList(params);
+    }
+
+    @Override
+    public void setCrmSalesConfirm(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> cscArr = gson.fromJson((String) params.get("cscArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        if(cscArr.size() > 0){
+            for(Map<String, Object> map : cscArr){
+                if(StringUtils.isEmpty(map.get("crmSalesConfirmSn"))){
+                    itemManageRepository.setCrmSalesConfirm(map);
+                }else{
+                    itemManageRepository.setCrmSalesConfirmUpd(map);
+                }
+            }
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> getDepositStatList(Map<String, Object> params) {
+        return itemManageRepository.getDepositStatList(params);
+    }
+
+    @Override
+    public void setDepositConfirm(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> depositArr = gson.fromJson((String) params.get("depositArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        if(depositArr.size() > 0){
+            for(Map<String, Object> map : depositArr){
+                itemManageRepository.setDepositConfirm(map);
+            }
+        }
     }
 
     public String cellValueToString(XSSFCell cell){

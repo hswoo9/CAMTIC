@@ -32,6 +32,7 @@ public class ItemManageRepository extends AbstractDAO {
     public void setShipmentRecord(Map<String, Object> params) { insert("item.setShipmentRecord", params);}
     public void setUnPaidTypeUpd(Map<String, Object> params) { update("item.setUnPaidTypeUpd", params);}
     public void setShipmentDeadlineUpd(Map<String, Object> params) { update("item.setShipmentDeadlineUpd", params);}
+    public List<Map<String, Object>> getShipmentTrendList(Map<String, Object> params) { return selectList("item.getShipmentTrendList", params);}
     public List<Map<String, Object>> getReturnRecordRegList(Map<String, Object> params) { return selectList("item.getReturnRecordRegList", params);}
     public void setReturnRecord(Map<String, Object> params) { insert("item.setReturnRecord", params);}
     public void setReturnRecordUpd(Map<String, Object> params) { update("item.setReturnRecordUpd", params);}
@@ -77,4 +78,8 @@ public class ItemManageRepository extends AbstractDAO {
     public void setCurrentInvenUpd(Map<String, Object> params) { update("item.setCurrentInvenUpd", params);}
     public void setSafetyInvenUpd(Map<String, Object> params) { update("item.setSafetyInvenUpd", params);}
     public List<Map<String, Object>> getCrmSalesConfirmList(Map<String, Object> params) { return selectList("item.getCrmSalesConfirmList", params);}
+    public void setCrmSalesConfirm(Map<String, Object> params) { insert("item.setCrmSalesConfirm", params);}
+    public void setCrmSalesConfirmUpd(Map<String, Object> params) { update("item.setCrmSalesConfirmUpd", params);}
+    public List<Map<String, Object>> getDepositStatList(Map<String, Object> params) { return selectList("item.getDepositStatList", params);}
+    public void setDepositConfirm(Map<String, Object> params) { update("item.setDepositConfirm", params);}
 }
