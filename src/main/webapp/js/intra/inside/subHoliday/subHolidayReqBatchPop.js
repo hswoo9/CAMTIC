@@ -23,7 +23,7 @@ var subHolidayReqBatchPop = {
             start: "month",
             culture: "ko-KR",
             format: "yyyy-MM-dd",
-            value: new Date(now.setMonth(now.getMonth() - 1))
+            value: new Date()
         });
 
         $("#endDate").kendoDatePicker({

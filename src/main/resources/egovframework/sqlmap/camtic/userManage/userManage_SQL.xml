@@ -2842,6 +2842,12 @@
                      cam_hr.dj_emp_info
                  WHERE
                      JOIN_DAY IS NOT NULL AND YEAR(JOIN_DAY) BETWEEN 1999 AND 2023
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                ${item}
+            </foreach>
+        </if>
                  GROUP BY
                      join_year
              ) AS joined
@@ -2853,6 +2859,12 @@
                 cam_hr.dj_emp_info
             WHERE
                 RESIGN_DAY IS NOT NULL AND YEAR(RESIGN_DAY) BETWEEN 1999 AND 2023
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                ${item}
+            </foreach>
+        </if>
             GROUP BY
                 resign_year
         ) AS resigned ON joined.join_year = resigned.resign_year
@@ -2865,6 +2877,12 @@
             WHERE
                 JOIN_DAY IS NOT NULL AND YEAR(JOIN_DAY) BETWEEN 1999 AND 2023
               AND WORK_STATUS_CODE = 'Y'
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                ${item}
+            </foreach>
+        </if>
             GROUP BY
                 active_year
         ) AS active ON joined.join_year = active.active_year
