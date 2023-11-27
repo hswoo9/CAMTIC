@@ -872,6 +872,11 @@ public class UserManageServiceImpl implements UserManageService {
         return userManageRepository.getTotalEmpCount(params);
     }
 
+    @Override
+    public List<Map<String, Object>> getJoinResignEmpList(Map<String, Object> params){
+        return userManageRepository.getJoinResignEmpList(params);
+    }
+
 
     @Override
     public void userDegreeInfoInsert(Map<String, Object> params, MultipartHttpServletRequest request, String server_dir, String base_dir) {
