@@ -344,7 +344,6 @@
         if (ds.flag) {
             var data = ds.list;
             for (var a = 0; a < data.length; a++) {
-                console.log(data);
                 var start = ds.list[a].startDate;
                 var end = ds.list[a].endDate;
                 var id = ds.list[a].SCHEDULE_BOARD_ID;

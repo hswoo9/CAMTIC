@@ -1724,7 +1724,7 @@
             SR.OBTAIN_ORDER_SN,
             IFNULL(CSC.CRM_SALES_CONFIRM_SN, '') AS CRM_SALES_CONFIRM_SN,
             IFNULL(SR.SALES_MONTH, 0) AS SALES_MONTH,
-            IFNULL(CSC.DEPOSIT_AMT, 0) AS DEPOSIT_AMT,
+            IFNULL(SR.DEPOSIT_AMT, 0) AS DEPOSIT_AMT,
             IFNULL(CSC.CONFIRM_AMT, 0) AS CONFIRM_AMT,
             IFNULL(CSC.CONFIRM_YN, 'N') AS CONFIRM_YN,
             EI.EMP_SEQ,
@@ -1741,11 +1741,12 @@
             SELECT
                 SR.OBTAIN_ORDER_SN,
                 SR.CRM_SN,
-                SUM(SRH.AMT) AS SALES_MONTH
+                SUM(SRH.AMT) AS SALES_MONTH,
+                SUM(DISTINCT SR.DEPOSIT_AMT) AS DEPOSIT_AMT
             FROM
                 CAM_ITEM.DJ_ITEM_SM_RECORD_HIST SRH
             JOIN
-                CAM_ITEM.dj_item_sm_record SR
+                CAM_ITEM.DJ_ITEM_SM_RECORD SR
             ON SRH.SM_RECORD_SN = SR.SM_RECORD_SN
             WHERE
                 SR.DEADLINE = 'Y'
@@ -1771,4 +1772,78 @@
             </choose>
         </if>
     </select>
+
+    <insert id="setCrmSalesConfirm" parameterType="map">
+        /* setCrmSalesConfirmUpd */
+        INSERT INTO CAM_ITEM.DJ_CRM_SALES_CONFIRM
+        (
+            CRM_SN,
+            CONFIRM_AMT,
+            CONFIRM_YN,
+            CONFIRM_EMP_SEQ,
+            CONFIRM_DATE,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{crmSn},
+            #{confirmAmt},
+            #{confirmYn},
+            #{empSeq},
+            DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            #{empSeq}
+        )
+    </insert>
+
+    <update id="setCrmSalesConfirmUpd" parameterType="map">
+        UPDATE
+            CAM_ITEM.DJ_CRM_SALES_CONFIRM
+        SET
+            CONFIRM_AMT = #{confirmAmt},
+            CONFIRM_YN = #{confirmYn},
+            CONFIRM_EMP_SEQ = #{empSeq},
+            CONFIRM_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            CRM_SALES_CONFIRM_SN = #{crmSalesConfirmSn}
+    </update>
+
+    <select id="getDepositStatList" parameterType="map" resultType="map">
+        /* getDepositStatList */
+        SELECT
+            SR.SM_RECORD_SN,
+            CI.CRM_NM,
+            SRH.DELIVERY_DT,
+            SUM(SRH.AMT) AS AMT,
+            SRH.REG_DT,
+            (SELECT RMK FROM CAM_ITEM.DJ_ITEM_SM_RECORD_HIST WHERE HIST_SN = MAX(SRH.HIST_SN)) AS RMK,
+            SR.DEPOSIT
+        FROM
+            CAM_ITEM.DJ_ITEM_SM_RECORD_HIST SRH
+        JOIN
+            CAM_ITEM.DJ_ITEM_SM_RECORD SR
+        ON SRH.SM_RECORD_SN = SR.SM_RECORD_SN
+        JOIN
+            CAM_CRM.DJ_CRM_INFO CI
+        ON SRH.CRM_SN = CI.CRM_SN
+        WHERE
+            SR.CRM_SN = #{crmSn}
+        AND
+            DATE_FORMAT(SRH.DELIVERY_DT, '%Y-%m') = #{yearMonth}
+        GROUP BY SRH.SM_RECORD_SN
+    </select>
+
+    <update id="setDepositConfirm" parameterType="map">
+        /* setDepositConfirm */
+        UPDATE
+            CAM_ITEM.DJ_ITEM_SM_RECORD
+        SET
+            DEPOSIT = 'Y',
+            DEPOSIT_AMT = #{depositAmt},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            SM_RECORD_SN = #{smRecordSn}
+    </update>
 </mapper>

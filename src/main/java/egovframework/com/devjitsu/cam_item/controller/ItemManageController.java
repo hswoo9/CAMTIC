@@ -1260,4 +1260,56 @@ public class ItemManageController {
         model.addAttribute("list", itemManageService.getCrmSalesConfirmList(params));
         return "jsonView";
     }
+
+    /**
+     * 매출확정
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/setCrmSalesConfirm.do")
+    public String setCrmSalesConfirm(@RequestParam Map<String, Object> params, Model model){
+        itemManageService.setCrmSalesConfirm(params);
+        return "jsonView";
+    }
+
+    /**
+     * 입금현황 팝업
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/pop/popDepositStat.do")
+    public String popDepositStat(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_item/popDepositStat";
+    }
+
+    /**
+     * 입금현황 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getDepositStatList.do")
+    public String getDepositStatList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", itemManageService.getDepositStatList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 입금확정
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/setDepositConfirm.do")
+    public String setDepositConfirm(@RequestParam Map<String, Object> params, Model model){
+        itemManageService.setDepositConfirm(params);
+        return "jsonView";
+    }
 }
