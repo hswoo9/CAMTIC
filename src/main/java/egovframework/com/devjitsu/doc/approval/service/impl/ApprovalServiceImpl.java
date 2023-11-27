@@ -2,6 +2,7 @@ package egovframework.com.devjitsu.doc.approval.service.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.doc.approval.repository.ApprovalRepository;
 import egovframework.com.devjitsu.doc.approval.repository.ApprovalUserRepository;
 import egovframework.com.devjitsu.doc.approval.service.ApprovalService;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
@@ -26,6 +28,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -449,6 +453,45 @@ public class ApprovalServiceImpl implements ApprovalService {
         }
 
         return returnMap;
+    }
+
+    @Override
+    public void setApproveDraftFile(Map<String, Object> params, MultipartFile[] mpfList, String serverDir, String baseDir) {
+        //결재문서 관련 파일 저장
+        MainLib mainLib = new MainLib();
+        if(mpfList.length > 0){
+            List<Map<String, Object>> list = mainLib.multiFileUpload(mpfList, filePath(params, serverDir));
+            for(int i = 0 ; i < list.size() ; i++){
+                if(params.get("DOC_ID") != null) {
+                    list.get(i).put("docId", params.get("DOC_ID"));
+                }else if(params.get("docId") != null) {
+                    list.get(i).put("docId", params.get("docId"));
+                }
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd").toString());
+                list.get(i).put("filePath", filePath(params, baseDir));
+                String[] org = list.get(i).get("orgFilename").toString().split("[.]");
+                String fileOrgName = "";
+                for(int z = 0 ; z < org.length ; z++){
+                    if(z != org.length - 1){
+                        fileOrgName += org[z];
+                    }
+                }
+                list.get(i).put("fileOrgName", fileOrgName);
+                list.get(i).put("fileExt", org[org.length-1]);
+            }
+            commonRepository.insFileInfo(list);
+        }
+    }
+
+    private String filePath (Map<String, Object> params, String base_dir){
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String fmtNow = now.format(fmt);
+
+        String path = base_dir + params.get("menuCd").toString()+"/" + fmtNow + "/";
+
+        return path;
     }
 
     @Override

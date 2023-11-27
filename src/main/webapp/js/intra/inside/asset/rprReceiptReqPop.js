@@ -20,7 +20,8 @@ const rprReceiptReq = {
             { text: "등록", value: "1" },
             { text: "출원", value: "2" },
             { text: "거절", value: "3" },
-            { text: "소멸", value: "4" }
+            { text: "소멸", value: "4" },
+            { text: "취하", value: "5" }
         ]
         customKendo.fn_dropDownList("state", stateDataSource, "text", "value", 2);
         let tainDataSource = [
@@ -32,8 +33,11 @@ const rprReceiptReq = {
         customKendo.fn_dropDownList("tain", tainDataSource, "text", "value", 2);
         let techDataSource = [
             { text: "해당없음", value: "1" },
+            { text: "이전가능", value: "3" },
             { text: "이전완료", value: "2" },
-            { text: "이전가능", value: "3" }
+            { text: "이전완료(전부양도)", value: "4" },
+            { text: "이전완료(전용실시)", value: "5" },
+            { text: "이전완료(통상실시)", value: "6" }
         ]
         customKendo.fn_dropDownList("tech", techDataSource, "text", "value", 2);
         let confidentialityDataSource = [
