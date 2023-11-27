@@ -1,13 +1,14 @@
 const eduReq = {
-    global : {
+
+    global: {
         radioGroupData : "",
     },
 
-    init : function(){
+    init: function(){
         eduReq.dataSet();
     },
 
-    saveEduInfo : function() {
+    saveEduInfo: function(){
         if(!confirm("교육수강 신청서를 저장하시겠습니까?")){
             return;
         }
@@ -31,9 +32,9 @@ const eduReq = {
         let firstCareTelNum = $("#firstCareTelNum").val();
         let secondCareTelNum = $("#secondCareTelNum").val();
         let thirdCareTelNum = $("#thirdCareTelNum").val();
-        let eduMoney = $("#eduMoney").val();
+        let eduMoney = $("#eduMoney").val().replace(/,/g, "");
         let eduMoneyType = "";
-        let returnMoney = $("#returnMoney").val();
+        let returnMoney = $("#returnMoney").val().replace(/,/g, "");;
         let returnDoc = $("#returnDoc").val();
         let attachDocName = $("#attachDocName").val();
         let regDate = $("#regDate").val();
@@ -51,181 +52,193 @@ const eduReq = {
         let bookUnit = $("#bookUnit").val();
         let compType = "";
 
-        if(eduCategoryDetailName == "") {
+        if(eduCategoryDetailName == ""){
             alert("목표기술서가 선택되지 않았습니다.");
             return;
         }
-        if(eduName == "") {
+        if(eduName == ""){
             alert("과정명이 작성되지 않았습니다.");
             return;
         }
-        if(!eduFormType == "3") {
-            if(eduObject == "") {
+        if(eduFormType != "3"){
+            if(eduObject == ""){
                 alert("학습목적이 작성되지 않았습니다.");
                 return;
             }
         }
-        if(startDt == "" || endDt == "") {
+        if(startDt == "" || endDt == ""){
             alert("학습기간이 작성되지 않았습니다.");
             return;
         }
-        if(termDay == "" || termTime == "") {
+        if(termDay == "" || termTime == ""){
             alert("학습시간이 작성되지 않았습니다.");
             return;
         }
-        if(eduMoney == "") {
+        if(eduMoney == ""){
             alert("교육비가 작성되지 않았습니다.");
             return;
         }
-        if(eduMoney == "") {
+        if(eduMoney == ""){
             alert("환급예상액이 작성되지 않았습니다.");
             return;
         }
-        if(eduFormType != "11") {
+        if(eduFormType != "11"){
             eduMoneyType = $("label[for='"+$("input:radio[name=eduMoneyType]:checked").attr("id")+"']").text();
         }
-        if(eduFormType == "3") {
+        if(eduFormType == "3"){
             objectForumType = $("label[for='"+$("input:radio[name=objectForumType]:checked").attr("id")+"']").text();
             objectForumText = $("label[for='"+$("input:radio[name=objectForumType]:checked").attr("id")+"']").text();
             objectForumVal = $("#objectForumVal").val();
-            if ($("#objectForumType").data("kendoRadioGroup").value() == "1" && objectForumVal == "") {
+            if($("#objectForumType").data("kendoRadioGroup").value() == "1" && objectForumVal == ""){
                 alert("발표제목 작성되지 않았습니다.");
                 return;
             }
-        } else if(eduFormType == "5") {
-            if (bookWriter == "") {
+        }else if(eduFormType == "5"){
+            if(bookWriter == ""){
                 alert("작가명이 작성되지 않았습니다.");
                 return;
             }
-            if (bookPage == "") {
+            if(bookPage == ""){
                 alert("페이지수가 작성되지 않았습니다.");
                 return;
             }
-            if (bookPulish == "") {
+            if(bookPulish == ""){
                 alert("출판사명이 작성되지 않았습니다.");
                 return;
             }
-        } else if(eduFormType == "6") {
+        }else if(eduFormType == "6"){
             treaOrigin = $("#treaOrigin").val();
             treaUnit = $("#treaUnit").val();
-            if (treaOrigin == "") {
+            if(treaOrigin == ""){
                 alert("출처가 작성되지 않았습니다.");
                 return;
             }
-            if (treaUnit == "") {
+            if(treaUnit == ""){
                 alert("편수가 작성되지 않았습니다.");
                 return;
             }
-        }else if(eduFormType == "7") {
+        }else if(eduFormType == "7"){
             treaType = $("label[for='"+$("input:radio[name=treaType]:checked").attr("id")+"']").text();
             treaUser = $("label[for='"+$("input:radio[name=treaUser]:checked").attr("id")+"']").text();
-        }else if(eduFormType == "8") {
-            if(bookUnit == "") {
+        }else if(eduFormType == "8"){
+            if(bookUnit == ""){
                 alert("권수가 작성되지 않았습니다.");
                 return;
             }
-        }else if(eduFormType == "10") {
+        }else if(eduFormType == "10"){
             compType = $("label[for='"+$("input:radio[name=compType]:checked").attr("id")+"']").text();
         }
 
         let data = {
-            empSeq : empSeq,
-            empName : empName,
-            deptName : deptName,
-            eduCategoryDetailId : eduCategoryDetailId,
-            eduCategoryDetailName : eduCategoryDetailName,
-            levelId : levelId,
-            dutyClass : dutyClass,
-            eduName : eduName,
-            eduObject : eduObject,
-            eduContent : eduContent,
-            startDt : startDt,
-            endDt : endDt,
-            termDay : termDay,
-            termTime : termTime,
-            careName : careName,
-            careLocation : careLocation,
-            careTelNum : firstCareTelNum + secondCareTelNum + thirdCareTelNum,
-            eduMoney : eduMoney,
-            eduMoneyType : eduMoneyType,
-            objectForumText : objectForumText,
-            returnMoney : returnMoney,
-            returnDoc : returnDoc,
-            attachDocName : attachDocName,
-            regDate : regDate,
-            eduFormType : eduFormType,
-            objectForumType : objectForumType,
-            objectForumVal : objectForumVal,
-            bookWriter : bookWriter,
-            bookPage : bookPage,
-            bookPulish : bookPulish,
-            treaOrigin : treaOrigin,
-            treaUnit : treaUnit,
-            treaType : treaType,
-            treaUser : treaUser,
-            bookUnit : bookUnit,
-            compType : compType
+            empSeq: empSeq,
+            empName: empName,
+            deptName: deptName,
+            eduCategoryDetailId: eduCategoryDetailId,
+            eduCategoryDetailName: eduCategoryDetailName,
+            levelId: levelId,
+            dutyClass: dutyClass,
+            eduName: eduName,
+            eduObject: eduObject,
+            eduContent: eduContent,
+            startDt: startDt,
+            endDt: endDt,
+            termDay: termDay,
+            termTime: termTime,
+            careName: careName,
+            careLocation: careLocation,
+            careTelNum: firstCareTelNum + secondCareTelNum + thirdCareTelNum,
+            eduMoney: eduMoney,
+            eduMoneyType: eduMoneyType,
+            objectForumText: objectForumText,
+            returnMoney: returnMoney,
+            returnDoc: returnDoc,
+            attachDocName: attachDocName,
+            regDate: regDate,
+            eduFormType: eduFormType,
+            objectForumType: objectForumType,
+            objectForumVal: objectForumVal,
+            bookWriter: bookWriter,
+            bookPage: bookPage,
+            bookPulish: bookPulish,
+            treaOrigin: treaOrigin,
+            treaUnit: treaUnit,
+            treaType: treaType,
+            treaUser: treaUser,
+            bookUnit: bookUnit,
+            compType: compType
         }
 
-        if($("#eduInfoId").val() == "") {
-            eduReq.setEduInfoInsert(data);
+        var fd = new FormData();
+        for (var key in data) {
+            fd.append(key, data[key]);
+        }
+
+        if($("#eduFile")[0].files.length == 1){
+            fd.append("eduFile", $("#eduFile")[0].files[0]);
+        }
+
+        if($("#eduInfoId").val() == ""){
+            eduReq.setEduInfoInsert(fd);
         }else {
             eduReq.setEduInfoUpdate(data);
         }
     },
 
-    setEduInfoInsert: function(data) {
+    setEduInfoInsert: function(data){
         $.ajax({
-            url : "/campus/setEduInfoInsert",
-            data : data,
-            type : "post",
-            dataType : "json",
-            async : false,
-            success : function(result){
+            url: "/campus/setEduInfoInsert",
+            data: data,
+            type: "post",
+            dataType: "json",
+            contentType: false,
+            processData: false,
+            enctype: 'multipart/form-data',
+            async: false,
+            success: function(result){
                 console.log(result);
                 alert("교육수강 신청서 저장이 완료되었습니다.");
-                //opener.parent.location.href('/Campus/eduInfo.do?menu=d_a');
+                opener.parent.open_in_frame("/Campus/eduInfo.do");
                 window.close();
 
             },
-            error : function() {
+            error: function(){
                 alert("데이터 저장 중 에러가 발생했습니다.");
                 window.close();
             }
         });
     },
 
-    setEduInfoUpdate: function() {
+    setEduInfoUpdate: function(){
         $.ajax({
-            url : "/campus/setEduPlanUpdate",
-            data : {
-                eduPlanId : $("#eduPlanId").val(),
-                eduPlan : $("#eduPlan").val()
+            url: "/campus/setEduPlanUpdate",
+            data: {
+                eduPlanId: $("#eduPlanId").val(),
+                eduPlan: $("#eduPlan").val()
             },
-            type : "post",
-            dataType : "json",
-            async : false,
-            success : function(result){
+            type: "post",
+            dataType: "json",
+            async: false,
+            success: function(result){
                 console.log(result);
                 alert("학습계획 저장이 완료되었습니다.");
                 window.close();
                 opener.targetInfo.tableSet();
             },
-            error : function() {
+            error: function() {
                 alert("데이터 저장 중 에러가 발생했습니다.");
                 window.close();
             }
         });
     },
 
-    targetEduSetPop: function() {
-        var url = "/Campus/pop/targetEduSetPop.do?targetYear="+$("#regDate").val().substring(0,4);
-        var name = "targetEduSetPop";
-        var option = "width = 1200, height = 800, top = 100, left = 200, location = no";
-        var popup = window.open(url, name, option);
+    targetEduSetPop: function(){
+        let url = "/Campus/pop/targetEduSetPop.do?targetYear="+$("#regDate").val().substring(0,4);
+        const name = "targetEduSetPop";
+        const option = "width = 1200, height = 800, top = 100, left = 200, location = no";
+        window.open(url, name, option);
     },
 
-    dataSet : function() {
+    dataSet: function(){
         $("#eduCategoryDetailName").kendoTextBox();
         $("#levelId").kendoTextBox();
         $("#eduName").kendoTextBox();
@@ -345,12 +358,14 @@ const eduReq = {
         }
     },
 
-    fn_projectPop : function (){
+    fn_projectPop: function (){
+        let url = "/project/pop/projectView.do?busnClass="+ $("input[name='purcType']:checked").val();
+        const name = "_blank";
+        const option = "width = 1100, height = 400, top = 100, left = 400, location = no"
+        window.open(url, name, option);
+    },
 
-        var url = "/project/pop/projectView.do?busnClass="+ $("input[name='purcType']:checked").val();
-
-        var name = "_blank";
-        var option = "width = 1100, height = 400, top = 100, left = 400, location = no"
-        var popup = window.open(url, name, option);
+    fileChange: function(e){
+        $(e).next().text($(e)[0].files[0].name);
     },
 }

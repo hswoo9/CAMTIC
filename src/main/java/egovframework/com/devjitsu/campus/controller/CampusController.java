@@ -1390,8 +1390,13 @@ public class CampusController {
 
     /** 교육수강신청서 저장 */
     @RequestMapping("/campus/setEduInfoInsert")
-    public String setEduInfoInsert(@RequestParam Map<String, Object> params) {
-        campusService.setEduInfoInsert(params);
+    public String setEduInfoInsert(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) {
+        try{
+            campusService.setEduInfoInsert(params, request, SERVER_DIR, BASE_DIR);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
         return "jsonView";
     }
 
