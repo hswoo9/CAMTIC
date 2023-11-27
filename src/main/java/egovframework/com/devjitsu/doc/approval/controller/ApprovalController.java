@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -351,6 +352,16 @@ public class ApprovalController {
         model.addAttribute("comCode", commonCodeService.getCmCodeInfo(params));
         return "jsonView";
     }
+
+    /** 상신, 재상신 문서저장 후 파일 업로드 */
+    @RequestMapping("/approval/setApproveDraftFileInit.do")
+    public String setApproveDraftFileInit(@RequestParam Map<String, Object> params, @RequestParam("files") MultipartFile[] mpf, HttpServletRequest request, Model model) throws IOException {
+        System.out.println("----------------------------------------- [ /approval/setApproveDraftFileInit.do ] -----------------------------------------");
+        approvalService.setApproveDraftFile(params, mpf, SERVER_DIR, BASE_DIR);
+        model.addAttribute("params", params);
+        return "jsonView";
+    }
+
 
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {

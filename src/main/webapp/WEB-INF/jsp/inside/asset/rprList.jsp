@@ -82,5 +82,5 @@
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
-    rprList.init();
+    rprList.fn_defaultScript();
 </script>

@@ -77,6 +77,19 @@ var regExnp = {
                 $("#payAppType").data("kendoRadioGroup").value(4);
             }
         }
+
+
+        /** 회계발의일, 등기일자, 지출부기재 일자 폼 추가 */
+        if($("#status").val() == "rev"){
+            $("#dtTr").show();
+            customKendo.fn_datePicker("DT1", 'month', "yyyy-MM-dd", new Date());
+            customKendo.fn_datePicker("DT2", 'month', "yyyy-MM-dd", new Date());
+            customKendo.fn_datePicker("DT3", 'month', "yyyy-MM-dd", new Date());
+            $("#DT1, #DT2, #DT3").attr("readonly", true);
+        }
+
+
+
         if($("#exnpSn").val() == ""){
             if($("#payAppSn").val() != ""){
                 /** 지급신청서에서 지결 작성시 데이터 세팅 */
@@ -141,14 +154,7 @@ var regExnp = {
     },
 
     dataSet : function (){
-        /** 회계발의일, 등기일자, 지출부기재 일자 폼 추가 */
-        if($("#status").val() == "rev"){
-            $("#dtTr").show();
-            customKendo.fn_datePicker("DT1", 'month', "yyyy-MM-dd", new Date());
-            customKendo.fn_datePicker("DT2", 'month', "yyyy-MM-dd", new Date());
-            customKendo.fn_datePicker("DT3", 'month', "yyyy-MM-dd", new Date());
-            $("#DT1, #DT2, #DT3").attr("readonly", true);
-        }
+
 
         var data = {
             exnpSn : $("#exnpSn").val()

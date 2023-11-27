@@ -447,7 +447,7 @@ var draft = {
     setKendoUpload : function(){
         $("#files").kendoUpload({
             async : {
-                saveUrl : getContextPath() + "/approval/setApproveDraftFileInit.do",
+                saveUrl : "/approval/setApproveDraftFileInit.do",
                 //removeUrl : "remove",
                 autoUpload : false
             },
@@ -491,7 +491,7 @@ var draft = {
             alert("첨부파일 등록 중 에러가 발생했습니다.");
         }else{
             if(draft.global.fileUploadFlag.draftDocInfo == null){
-                window.close();
+                // window.close();
             }
         }
     },

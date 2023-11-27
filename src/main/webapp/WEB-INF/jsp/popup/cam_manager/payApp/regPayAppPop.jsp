@@ -26,6 +26,8 @@
 <input type="hidden" id="bsYm" value="${params.bsYm}" />
 <input type="hidden" id="claimSn" value="${params.claimSn}" />
 
+<input type="hidden" id="docStatus" value=""/>
+
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
@@ -153,8 +155,10 @@
 
                 <table class="popTable table table-bordered mb-0 mt-20">
                     <colgroup>
-                        <c:if test="${'rev'.equals(params.status) or 'in'.equals(params.status) or 're'.equals(params.status) or 'alt'.equals(params.status)}">
-                            <col style="width: 3%;">
+                        <c:if test="${!'user'.equals(params.auth)}">
+                            <c:if test="${'rev'.equals(params.status) or 'in'.equals(params.status) or 're'.equals(params.status) or 'alt'.equals(params.status)}">
+                                <col style="width: 3%;">
+                            </c:if>
                         </c:if>
                         <col style="width: 5%;">
                         <col style="width: 6%;">
@@ -169,17 +173,20 @@
                         <col style="width: 5%;">
                         <col style="width: 5%;">
                         <col style="width: 5%;">
-                        <c:if test="${'rev'.equals(params.status)}">
+<%--                        <c:if test="${'rev'.equals(params.status)}">--%>
                             <col style="width: 3%;">
                             <col style="width: 3%;">
-                        </c:if>
+<%--                        </c:if>--%>
                         <col style="width: 3%;">
                     </colgroup>
                     <thead>
                     <tr>
-                        <c:if test="${'rev'.equals(params.status) or 'in'.equals(params.status) or 're'.equals(params.status) or 'alt'.equals(params.status)}">
-                            <th><input type="checkbox" id="checkAll" /></th>
+                        <c:if test="${!'user'.equals(params.auth)}">
+                            <c:if test="${'rev'.equals(params.status) or 'in'.equals(params.status) or 're'.equals(params.status) or 'alt'.equals(params.status)}">
+                                <th><input type="checkbox" id="checkAll" /></th>
+                            </c:if>
                         </c:if>
+
                         <th>예산비목</th>
                         <th>증빙유형</th>
                         <th>상호</th>
@@ -193,17 +200,19 @@
                         <th>신용카드</th>
                         <th>비고</th>
                         <th>관련근거</th>
-                        <c:if test="${'rev'.equals(params.status)}">
+<%--                        <c:if test="${'rev'.equals(params.status)}">--%>
                             <th>선지급</th>
                             <th>첨부파일</th>
-                        </c:if>
+<%--                        </c:if>--%>
                         <th>명령</th>
                     </tr>
                     </thead>
                     <tbody id="payDestTb">
                     <tr class="payDestInfo newArray" id="pay0" style="text-align: center;">
-                        <c:if test="${'rev'.equals(params.status) or 'in'.equals(params.status) or 're'.equals(params.status) or 'alt'.equals(params.status)}">
-                        <td><input type="checkbox" id="check0" class="check" /></td>
+                        <c:if test="${!'user'.equals(params.auth)}">
+                            <c:if test="${'rev'.equals(params.status) or 'in'.equals(params.status) or 're'.equals(params.status) or 'alt'.equals(params.status)}">
+                                <td><input type="checkbox" id="check0" class="check" /></td>
+                            </c:if>
                         </c:if>
                         <td>
                             <span>
@@ -250,7 +259,7 @@
                         <td>
                             <input type="text" id="iss0" class="iss">
                         </td>
-                        <c:if test="${'rev'.equals(params.status)}">
+<%--                        <c:if test="${'rev'.equals(params.status)}">--%>
                             <td>
                                 <input type="checkbox" id="advances0" class="advances" style="width: 26px; height: 26px;">
                             </td>
@@ -259,7 +268,7 @@
                                     <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regPayDet.fn_regPayAttPop(0)">첨부</button>
                                 </div>
                             </td>
-                        </c:if>
+<%--                        </c:if>--%>
                         <td>
                             <div style="text-align: center">
                                 <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(0)">삭제</button>
