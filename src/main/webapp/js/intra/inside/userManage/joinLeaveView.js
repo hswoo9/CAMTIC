@@ -76,6 +76,7 @@ var joinLeaveView = {
 
 
     getTotalEmpCountTable2 : function(e){
+        var arr = e.arr;
         var html = "";
         html = '<table class="centerTable table table-bordered"><tbody>';
 
