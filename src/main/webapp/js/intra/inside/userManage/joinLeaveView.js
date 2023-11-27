@@ -83,7 +83,8 @@ var joinLeaveView = {
             html += '<tr style="background-color: #d8dce3;"><td>년 도 </td>';
             // 년도 반복 부분
             for (var j = 0; j < 7 && (i + j) < e.length; j++) {
-                html += '<td style="width: 200px;">' + e[i + j].join_year + '년</td>';
+                var currentYear = e[i + j].join_year;
+                html += '<td style="width: 200px;">' + currentYear + '년</td>';
             }
             html += '</tr>';
 
@@ -97,11 +98,13 @@ var joinLeaveView = {
                 html += '<tr style="background-color: ' + sections[s].color + ';"><td>' + sections[s].title + '</td>';
 
                 for (var j = 0; j < 7 && (i + j) < e.length; j++) {
+                    var sectionTitle = sections[s].dataKey;
+                    var currentYear = e[i + j].join_year;
                     var sectionValue = e[i + j][sections[s].dataKey];
                         sectionValue = (sectionValue !== undefined) ? sectionValue : 0;
                     html +=
                         '<td style="width: 200px;">' +
-                        '<a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();">' +
+                        '<a href="javascript:void(0);" onclick="joinLeaveView.userViewPop(\'' + currentYear +'\', \'' + sectionTitle + '\');">' +
                         '<span>' + sectionValue + '명</span>' +
                         '</a>' +
                         '</td>';
@@ -139,8 +142,8 @@ var joinLeaveView = {
 
 
 
-    userViewPop : function() {
-        var url = "/Inside/pop/joinLeaveViewPop.do";
+    userViewPop : function(currentYear,sectionTitle) {
+        var url = "/Inside/pop/joinLeaveViewPop.do?currentYear="+currentYear+ "&sectionTitle=" +sectionTitle;
         var name = "joinLeaveViewPop";
         var option = "width=1000, height=420, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         window.open(url, name, option);

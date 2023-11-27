@@ -99,6 +99,10 @@ var myEdu = {
                     title: "목표레벨",
                     width: 100
                 }, {
+                    field: "REAL_EDU_TIME",
+                    title: "인정시간",
+                    width: 100
+                }, {
                     title: "이수상태",
                     width: 180,
                     template: function(row){

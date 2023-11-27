@@ -1847,4 +1847,23 @@ public class UserManageController {
         return "jsonView";
     }
 
+    @RequestMapping(value = "/Inside/getJoinResignEmpList.do", method = RequestMethod.POST)
+    public String getJoinResignEmpList(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> map = new HashMap<>();
+        Object joinYear = params.get("joinyear");
+        Object sectionTitle = params.get("sectionTitle");
+
+        if ("employees_resigned".equals(sectionTitle)) {
+            map.put("resignDay", joinYear);
+        } else if ("employees_joined".equals(sectionTitle)) {
+            map.put("joinYear", joinYear);
+        }
+
+        System.out.println("****map**** : " + map);
+
+        List<Map<String, Object>> list = userManageService.getJoinResignEmpList(map);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
 }
