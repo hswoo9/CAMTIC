@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.doc.approval.service;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -123,4 +125,5 @@ public interface ApprovalService {
     List<Map<String, Object>> getDocReaderHistList(Map<String, Object> params);
 
 
+    void setApproveDraftFile(Map<String, Object> params, MultipartFile[] mpf, String serverDir, String baseDir);
 }

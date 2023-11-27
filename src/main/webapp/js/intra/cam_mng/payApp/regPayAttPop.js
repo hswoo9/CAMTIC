@@ -439,7 +439,7 @@ const regPayAtt = {
     },
 
     fn_mngMode: function(){
-        if(opener.parent.$("#status").val() == "rev"){
+        if(opener.parent.$("#auth").val() != "user"){
             $("#saveBtn").hide();
             $(".delBtn").text("-");
             $(".k-button-solid-base").hide();

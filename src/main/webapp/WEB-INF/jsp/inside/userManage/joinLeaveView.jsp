@@ -36,13 +36,10 @@
                                         <label for="dsB">계약직원</label>
                                         <input type="checkbox" class="detailSearch" division="4" divisionSub="2" style="margin-left: 10px;" id="dsC" checked>
                                         <label for="dsC">인턴사원</label>
-
-
                                         <input type="checkbox" class="detailSearch" division="4" divisionSub="3" style="margin-left: 10px;" id="dsD">
                                         <label for="dsD">시설/환경</label>
                                         <input type="checkbox" class="detailSearch" division="3" style="margin-left: 10px;" id="dsE">
                                         <label for="dsE">단기직원</label>
-
                                         <input type="checkbox" class="detailSearch" division="1" divisionSub="6" style="margin-left: 10px;" id="dsF">
                                         <label for="dsF">위촉직원</label>
                                         <input type="checkbox" class="detailSearch" division="2" style="margin-left: 10px;" id="dsG">
@@ -53,155 +50,8 @@
                             </tr>
                         </table>
                         <div id="countTable">
-                        <!--
-                        <table class="centerTable table table-bordered">
-                            <colgroup>
-                                <col width="35%" >
-                                <col width="35%" >
-                                <col width="30%" >
-                            </colgroup>
-                            <tbody>
-                            <tr>
-                                <td style="background-color: #e1ecff;">입사인원</td>
-                                <td style="background-color: #ffddd8;">퇴사인원</td>
-                                <td style="background-color: #d8dce3;">현재인원</td>
-                            </tr>
-                            <tr>
-                                <td style="background-color: #e1ecff;"> 명</td>
-                                <td style="background-color: #ffddd8;"> 명</td>
-                                <td style="background-color: #d8dce3;"> 명</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        -->
                         </div>
                         <div id="mainTable">
-                            <!--
-                        <table class="centerTable table table-bordered">
-                            <tbody>
-                            <tr style="background-color: #d8dce3;">
-                                <td>년 도 </td>
-                                <td>2023년</td>
-                                <td>2022년</td>
-                                <td>2021년</td>
-                                <td>2020년</td>
-                                <td>2019년</td>
-                                <td>2018년</td>
-                                <td>2017년</td>
-                            </tr>
-                            <tr style="background-color: #e1ecff;">
-                                <td> 입 사</td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                            </tr>
-                            <tr style="background-color: #ffddd8;">
-                                <td> 퇴 사</td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                            </tr>
-                            <tr style="background-color: #d8dce3;">
-                                <td>년 도</td>
-                                <td>2016년</td>
-                                <td>2015년</td>
-                                <td>2014년</td>
-                                <td>2013년</td>
-                                <td>2012년</td>
-                                <td>2011년</td>
-                                <td>2010년</td>
-                            </tr>
-                            <tr style="background-color: #e1ecff;">
-                                <td> 입 사</td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                            </tr>
-                            <tr style="background-color: #ffddd8;">
-                                <td> 퇴 사</td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                            </tr>
-                            <tr style="background-color: #d8dce3;">
-                                <td>년 도</td>
-                                <td>2009년</td>
-                                <td>2008년</td>
-                                <td>2007년</td>
-                                <td>2006년</td>
-                                <td>2005년</td>
-                                <td>2004년</td>
-                                <td>2003년</td>
-                            </tr>
-                            <tr style="background-color: #e1ecff;">
-                                <td> 입 사</td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                            </tr>
-                            <tr style="background-color: #ffddd8;">
-                                <td> 퇴 사</td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                            </tr>
-                            <tr style="background-color: #d8dce3;">
-                                <td>년 도</td>
-                                <td>2002년</td>
-                                <td>2001년</td>
-                                <td>2000년</td>
-                                <td>1999년</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr style="background-color: #e1ecff;">
-                                <td> 입 사</td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td> </td>
-                                <td> </td>
-                                <td> </td>
-                            </tr>
-                            <tr style="background-color: #ffddd8;">
-                                <td> 퇴 사</td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td><a href="javascript:void(0);" onclick="joinLeaveView.userViewPop();"><span>명</span></a></td>
-                                <td> </td>
-                                <td> </td>
-                                <td> </td>
-                            </tr>
-                            </tbody>
-                            </table>
-                        -->
                         </div>
                     </div><!-- table-responsive -->
                 </div>
@@ -212,19 +62,5 @@
 
 <script type="text/javascript">
 joinLeaveView.fn_defaultScript();
-
-    /*
-    $.ajax({
-        type: "GET",
-        url: "/Inside/getTotalEmpCount.do",
-        success: function(data) {
-            // 받아온 데이터를 처리하는 코드
-            console.log(data);
-        },
-        error: function(error) {
-            console.error("Error fetching data:", error);
-        }
-    });
-    */
 
 </script>

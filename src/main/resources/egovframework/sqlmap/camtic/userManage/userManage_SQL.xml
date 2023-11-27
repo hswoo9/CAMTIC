@@ -2674,10 +2674,30 @@
             EDUCATIONAL_ID = #{educationalId}
     </update>
 
+    <update id="setInGradeFileNoUpdAdmin" parameterType="map">
+        /* setInGradeFileNoUpdAdmin */
+        UPDATE
+            CAM_HR.DJ_EMP_EDUCATIONAL
+        SET
+            GRADE_NO = #{gradeFileNo}
+        WHERE
+            EDUCATIONAL_ID = #{educationalId}
+    </update>
+
     <update id="setInScoreFileNoUpd" parameterType="map">
         /* setInScoreFileNoUpd */
         UPDATE
             CAM_HR.DJ_EMP_EDUCATIONAL_TMP
+        SET
+            SCORE_NO = #{socreFileNo}
+        WHERE
+            EDUCATIONAL_ID = #{educationalId}
+    </update>
+
+    <update id="setInScoreFileNoUpdAdmin" parameterType="map">
+        /* setInScoreFileNoUpdAdmin */
+        UPDATE
+            CAM_HR.DJ_EMP_EDUCATIONAL
         SET
             SCORE_NO = #{socreFileNo}
         WHERE
@@ -2694,6 +2714,16 @@
             CAREER_ID = #{careerId}
     </update>
 
+    <update id="setInAddFileNoUpdAdmin" parameterType="map">
+        /* setInAddFileNoUpdAdmin */
+        UPDATE
+            CAM_HR.DJ_EMP_CAREER
+        SET
+            ADD_NO = #{addFileNo}
+        WHERE
+            CAREER_ID = #{careerId}
+    </update>
+
     <update id="setInCertificateFileNoUpd" parameterType="map">
         /* setInCertificateFileNoUpd */
         UPDATE
@@ -2704,10 +2734,30 @@
             CERTIFICATE_ID = #{certificateId}
     </update>
 
+    <update id="setInCertificateFileNoUpdAdmin" parameterType="map">
+        /* setInCertificateFileNoUpdAdmin */
+        UPDATE
+            CAM_HR.DJ_EMP_CERTIFICATE
+        SET
+            CERTIFICATE_ADD_NO = #{certificateFileNo}
+        WHERE
+            CERTIFICATE_ID = #{certificateId}
+    </update>
+
     <update id="setInRewardAddFileNoUpd" parameterType="map">
         /* setInRewardAddFileNoUpd */
         UPDATE
             CAM_HR.DJ_EMP_REWORD_TMP
+        SET
+            REWARD_ADD_NO = #{rewardAddFileNo}
+        WHERE
+            REWORD_ID = #{rewordId}
+    </update>
+
+    <update id="setInRewardAddFileNoUpdAdmin" parameterType="map">
+        /* setInRewardAddFileNoUpdAdmin */
+        UPDATE
+            CAM_HR.DJ_EMP_REWORD
         SET
             REWARD_ADD_NO = #{rewardAddFileNo}
         WHERE
@@ -2827,7 +2877,7 @@
         SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 2;
     </select>
 
-    <select id="getTotalEmpCount" parameterType="map" resultType="map">
+    <select id="getTotalEmpCount" parameterType="java.util.Map" resultType="map">
         /*getTotalEmpCount*/
         SELECT
             join_year,
@@ -2844,7 +2894,7 @@
                      JOIN_DAY IS NOT NULL AND YEAR(JOIN_DAY) BETWEEN 1999 AND 2023
         <if test='arr != null and !"".equals(arr)'>
             AND
-            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+            <foreach collection="arr" item="item" separator=" OR " open="(" close=")">
                 ${item}
             </foreach>
         </if>
@@ -2861,7 +2911,7 @@
                 RESIGN_DAY IS NOT NULL AND YEAR(RESIGN_DAY) BETWEEN 1999 AND 2023
         <if test='arr != null and !"".equals(arr)'>
             AND
-            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+            <foreach collection="arr" item="item" separator=" OR " open="(" close=")">
                 ${item}
             </foreach>
         </if>
@@ -2879,7 +2929,7 @@
               AND WORK_STATUS_CODE = 'Y'
         <if test='arr != null and !"".equals(arr)'>
             AND
-            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+            <foreach collection="arr" item="item" separator=" OR " open="(" close=")">
                 ${item}
             </foreach>
         </if>
@@ -2908,12 +2958,12 @@
             ,SCORE
             ,admin_approval
             )VALUES (
-            #{empSeq}
-            ,#{empName}
+            #{empSeq1}
+            ,#{empName1}
             ,#{sDate}
             ,#{eDate}
             ,#{degree}
-            ,#{modifyEmpSeq}
+            ,#{empSeq}
             ,NOW()
             ,#{school}
             ,#{bmk}
@@ -2922,6 +2972,9 @@
             ,#{score}
             ,'Y'
             )
+        <selectKey keyProperty="educationalId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_EDUCATIONAL'
+        </selectKey>
     </insert>
 
     <update id="userDegreeInfoModify" parameterType="map">
@@ -2937,7 +2990,7 @@
             ,GRADUATION_CODE = #{graduation}
             ,SCORE = #{score}
             ,RMK = #{bmk}
-            ,MOD_EMP_SEQ = #{modifyEmpSeq}
+            ,MOD_EMP_SEQ = #{empSeq}
             ,MOD_DATE = NOW()
         WHERE
             EDUCATIONAL_ID = #{pk}
@@ -2970,20 +3023,23 @@
         ,CAREER_MONTH
         ,ADMIN_APPROVAL
         )VALUES (
-        #{empSeq}
-        ,#{empName}
+        #{empSeq1}
+        ,#{empName1}
         ,#{place}
         ,#{sDate}
         ,#{eDate}
         ,#{position}
         ,#{dateY}
-        ,#{modifyEmpSeq}
+        ,#{empSeq}
         ,NOW()
         ,#{bmk}
         ,#{workType}
         ,#{dateM}
         ,'Y'
         )
+        <selectKey keyProperty="careerId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_CAREER'
+        </selectKey>
     </insert>
 
     <update id="userCareerInfoModify" parameterType="map">
@@ -2999,7 +3055,7 @@
           ,CAREER_MONTH = #{dateM}
           ,RMK = #{bmk}
           ,MAIN_TASK = #{workType}
-          ,MOD_EMP_SEQ = #{modifyEmpSeq}
+          ,MOD_EMP_SEQ = #{empSeq}
           ,MOD_DATE = NOW()
         WHERE
             CAREER_ID = #{pk}
@@ -3024,7 +3080,7 @@
             ,M_UNFUL_REASON = #{reason}
             ,M_ENLIST_DAY = #{sDate}
             ,M_DISCHARGE_DAY = #{eDate}
-            ,MOD_EMP_SEQ = #{modifyEmpSeq}
+            ,MOD_EMP_SEQ = #{empSeq}
             ,MOD_DATE = now()
             ,M_LAST_RANK = #{rank}
             ,M_DIVISION = #{mType}
@@ -3047,14 +3103,14 @@
                  ,REG_DATE
                  ,ADMIN_APPROVAL
         )VALUES (
-                #{empSeq}
-                ,#{empName}
+                #{empSeq1}
+                ,#{empName1}
                 ,#{relation}
                 ,#{fName}
                 ,#{bDay}
                 ,#{job}
                 ,#{includeType}
-                ,#{modifyEmpSeq}
+                ,#{empSeq}
                 ,now()
                 ,'Y'
                 )
@@ -3098,17 +3154,20 @@
                  ,REG_DATE
                  ,ADMIN_APPROVAL
         )VALUES (
-                #{empSeq}
-                ,#{empName}
+                #{empSeq1}
+                ,#{empName1}
                 ,#{licenseName}
                 ,#{licenseNum}
                 ,#{sDate}
                 ,#{agency}
                 ,#{bmk}
-                ,#{modifyEmpSeq}
+                ,#{empSeq}
                 ,now()
                 ,'Y'
                 )
+        <selectKey keyProperty="certificateId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_CERTIFICATE'
+        </selectKey>
     </insert>
 
     <update id="userLinInfoModify" parameterType="map">
@@ -3121,7 +3180,7 @@
           ,ACQUISITION_DAY = #{sDate}
           ,ISSUER = #{agency}
           ,RMK = #{bmk}
-          ,MOD_EMP_SEQ = #{modifyEmpSeq}
+          ,MOD_EMP_SEQ = #{empSeq}
           ,MOD_DATE = NOW()
         WHERE
             CERTIFICATE_ID = #{pk}
@@ -3152,14 +3211,14 @@
                 , ADMIN_APPROVAL
 
         )VALUES (
-                #{empSeq}
-                , #{empName}
+                #{empSeq1}
+                , #{empName1}
                 , #{POSITON_NAME}
                 , #{WORK_PAY}
                 , #{DUTY_DETAIL}
                 , #{sDate}
                 , #{eDate}
-                , #{modifyEmpSeq}
+                , #{empSeq}
                 , NOW()
                 , 'Y'
                 )
@@ -3175,7 +3234,7 @@
           , DUTY_DETAIL = #{DUTY_DETAIL}
           , WORK_JOIN_DAY = #{sDate}
           , WORK_LEAVE_DAY = #{eDate}
-          ,MOD_EMP_SEQ = #{modifyEmpSeq}
+          ,MOD_EMP_SEQ = #{empSeq}
           ,MOD_DATE = NOW()
         WHERE
             DUTY_ID = #{pk}
@@ -3212,8 +3271,8 @@
                 ,RWD_ETC
                 ,ADMIN_APPROVAL
         )VALUES (
-                #{empSeq}
-                ,#{erpEmpSeq}
+                #{empSeq1}
+                ,#{erpEmpSeq1}
                 ,#{empName}
                 ,#{deptSeq}
                 ,#{deptName}
@@ -3225,11 +3284,14 @@
                 ,#{rGubunAll}
                 ,#{agency}
                 ,#{rIssue}
-                ,#{modifyEmpSeq}
+                ,#{empSeq}
                 ,now()
                 ,''
                 ,'Y'
                 )
+        <selectKey keyProperty="rewordId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_REWORD'
+        </selectKey>
     </insert>
 
     <update id="userRewInfoModify" parameterType="map">
@@ -3242,7 +3304,7 @@
           ,REWORD_TYPE_NAME = #{rGubunAll}
           ,RWD_ST_COMP = #{agency}
           ,RWD_OFM = #{rIssue}
-          ,MOD_EMP_SEQ = #{modifyEmpSeq}
+          ,MOD_EMP_SEQ = #{empSeq}
           ,MOD_DATE = NOW()
           ,RWD_SN = #{rwdSn}
         WHERE

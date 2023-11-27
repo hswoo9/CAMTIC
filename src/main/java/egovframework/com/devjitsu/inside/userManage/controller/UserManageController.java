@@ -177,8 +177,8 @@ public class UserManageController {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         Map<String,Object> params = new HashMap<>();
-        params.put("modifyEmpSeq", login.getUniqId());
-        params.put("modifyEmpName", login.getName());
+        params.put("empSeq", login.getUniqId());
+        params.put("empName", login.getName());
         params.putAll(map);
 
         try {
@@ -199,12 +199,11 @@ public class UserManageController {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         Map<String,Object> params = new HashMap<>();
-        params.put("modifyEmpSeq", login.getUniqId());
-        params.put("modifyEmpName", login.getName());
+        params.put("empSeq", login.getUniqId());
+        params.put("empName", login.getName());
         params.putAll(map);
 
         try {
-            /*userManageService.setEducationalInfo(params, request, SERVER_DIR, BASE_DIR);*/
             userManageService.userDegreeInfoModify(params, request, SERVER_DIR, BASE_DIR);
             model.addAttribute("rs", "SUCCESS");
         }catch (Exception e) {
@@ -228,8 +227,8 @@ public class UserManageController {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         Map<String,Object> params = new HashMap<>();
-        params.put("modifyEmpSeq", login.getUniqId());
-        params.put("modifyEmpName", login.getName());
+        params.put("empSeq", login.getUniqId());
+        params.put("empName", login.getName());
         params.putAll(map);
 
         try {
@@ -249,8 +248,8 @@ public class UserManageController {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         Map<String,Object> params = new HashMap<>();
-        params.put("modifyEmpSeq", login.getUniqId());
-        params.put("modifyEmpName", login.getName());
+        params.put("empSeq", login.getUniqId());
+        params.put("empName", login.getName());
         params.putAll(map);
 
         try {
@@ -277,8 +276,8 @@ public class UserManageController {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         Map<String,Object> params = new HashMap<>();
-        params.put("modifyEmpSeq", login.getUniqId());
-        params.put("modifyEmpName", login.getName());
+        params.put("empSeq", login.getUniqId());
+        params.put("empName", login.getName());
         params.putAll(map);
 
         try {
@@ -298,8 +297,8 @@ public class UserManageController {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         Map<String,Object> params = new HashMap<>();
-        params.put("modifyEmpSeq", login.getUniqId());
-        params.put("modifyEmpName", login.getName());
+        params.put("empSeq", login.getUniqId());
+        params.put("empName", login.getName());
         params.putAll(map);
 
         try {
@@ -319,8 +318,8 @@ public class UserManageController {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         Map<String,Object> params = new HashMap<>();
-        params.put("modifyEmpSeq", login.getUniqId());
-        params.put("modifyEmpName", login.getName());
+        params.put("empSeq", login.getUniqId());
+        params.put("empName", login.getName());
         params.putAll(map);
 
         try {
@@ -347,8 +346,8 @@ public class UserManageController {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         Map<String,Object> params = new HashMap<>();
-        params.put("modifyEmpSeq", login.getUniqId());
-        params.put("modifyEmpName", login.getName());
+        params.put("empSeq", login.getUniqId());
+        params.put("empName", login.getName());
         params.putAll(map);
 
         try {
@@ -368,8 +367,8 @@ public class UserManageController {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         Map<String,Object> params = new HashMap<>();
-        params.put("modifyEmpSeq", login.getUniqId());
-        params.put("modifyEmpName", login.getName());
+        params.put("empSeq", login.getUniqId());
+        params.put("empName", login.getName());
         params.putAll(map);
 
         try {
@@ -396,8 +395,8 @@ public class UserManageController {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         Map<String,Object> params = new HashMap<>();
-        params.put("modifyEmpSeq", login.getUniqId());
-        params.put("modifyEmpName", login.getName());
+        params.put("empSeq", login.getUniqId());
+        params.put("empName", login.getName());
         params.putAll(map);
 
         try {
@@ -417,8 +416,8 @@ public class UserManageController {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         Map<String,Object> params = new HashMap<>();
-        params.put("modifyEmpSeq", login.getUniqId());
-        params.put("modifyEmpName", login.getName());
+        params.put("empSeq", login.getUniqId());
+        params.put("empName", login.getName());
         params.putAll(map);
 
         try {
@@ -445,8 +444,8 @@ public class UserManageController {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         Map<String,Object> params = new HashMap<>();
-        params.put("modifyEmpSeq", login.getUniqId());
-        params.put("modifyEmpName", login.getName());
+        params.put("empSeq", login.getUniqId());
+        params.put("empName", login.getName());
         params.putAll(map);
 
         try {
@@ -466,13 +465,13 @@ public class UserManageController {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         Map<String,Object> params = new HashMap<>();
-        params.put("modifyEmpSeq", login.getUniqId());
-        params.put("modifyEmpName", login.getName());
-        params.put("regErpEmpCd", login.getErpEmpCd());
+        params.put("empSeq", login.getUniqId());
+        params.put("empName", login.getName());
+      /*  params.put("regErpEmpCd", login.getErpEmpCd());
         params.put("regDeptSeq", login.getDeptId());
         params.put("regDeptName", login.getDeptNm());
         params.put("regTeamSeq", login.getTeamId());
-        params.put("regTeamName", login.getTeamNm());
+        params.put("regTeamName", login.getTeamNm());*/
         params.putAll(map);
 
         try {
@@ -1842,6 +1841,7 @@ public class UserManageController {
     @RequestMapping(value = "/Inside/getTotalEmpCount.do", method = RequestMethod.GET)
     public String getTotalEmpCount(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> empTotalList = userManageService.getTotalEmpCount(params);
+        System.out.println("params : "+ params);
         model.addAttribute("empTotalList", empTotalList);
         System.out.println("empTotalList: " + empTotalList);
         return "jsonView";

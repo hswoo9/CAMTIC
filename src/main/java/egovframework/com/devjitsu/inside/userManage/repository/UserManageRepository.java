@@ -276,7 +276,21 @@ public class UserManageRepository extends AbstractDAO {
     public void setInCertificateFileNoUpd(Map<String, Object> params) { insert("userManage.setInCertificateFileNoUpd", params);}
     
     //상벌 사항 첨부파일 등록
-    public void setInRewardAddFileNoUpd(Map<String, Object> params) { insert("userManage.setInRewardAddFileNoUpd", params);}
+    public void setInRewardAddFileNoUpd(Map<String, Object> params) { insert("userManage.setInRewardAddFileNoUpdAdmin", params);}
+
+    // 관리자 학력 사항 첨부파일 등록
+    public void setInGradeFileNoUpdAdmin(Map<String, Object> params) { insert("userManage.setInGradeFileNoUpdAdmin", params);}
+
+    public void setInScoreFileNoUpdAdmin(Map<String, Object> params) { insert("userManage.setInScoreFileNoUpdAdmin", params);}
+
+    // 관리자 경력 사항 첨부파일 등록
+    public void setInAddFileNoUpdAdmin(Map<String, Object> params) { insert("userManage.setInAddFileNoUpdAdmin", params);}
+
+    // 관리자 보유 면허 첨부파일 등록
+    public void setInCertificateFileNoUpdAdmin(Map<String, Object> params) { insert("userManage.setInCertificateFileNoUpdAdmin", params);}
+
+    // 관리자 상벌 사항 첨부파일 등록
+    public void setInRewardAddFileNoUpdAdmin(Map<String, Object> params) { insert("userManage.setInRewardAddFileNoUpdAdmin", params);}
 
     //직원 생일 리스트
     public List<Map<String,Object>> getEmpBirthDayInfoList (Map<String,Object> map) {
@@ -348,4 +362,5 @@ public class UserManageRepository extends AbstractDAO {
     public List<Map<String, Object>> getTotalEmpCount(Map<String, Object> params){
         return selectList("userManage.getTotalEmpCount", params);
     }
+
 }
