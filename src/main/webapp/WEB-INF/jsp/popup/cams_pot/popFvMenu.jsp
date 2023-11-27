@@ -109,9 +109,6 @@
 
         var isFavorite = $("#" + imgId).hasClass("favorite");
 
-        console.log(isFavorite);
-        console.log(369);
-
         if (isFavorite) {
             $.ajax({
                 url : "/main/setDelFvMenu",
@@ -179,9 +176,7 @@
 
     function closeAndRefresh() {
         window.close();
-        if (window.opener && !window.opener.closed) {
-            window.opener.getFvList();
-        }
+        window.opener.getFvList();
     }
 </script>
 </body>

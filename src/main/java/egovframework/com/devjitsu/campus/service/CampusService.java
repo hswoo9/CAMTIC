@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.campus.service;
 
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 import java.util.List;
 import java.util.Map;
 
@@ -77,7 +79,7 @@ public interface CampusService {
 
 
     /** 개인학습 시작 */
-    void setEduInfoInsert(Map<String, Object> params);
+    void setEduInfoInsert(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
     void setEduResultInsert(Map<String, Object> params);
     void setMngCheckUpd(Map<String, Object> params);
     /** 개인학습 끝 */
@@ -86,7 +88,7 @@ public interface CampusService {
     void setStudyInfoInsert(Map<String, Object> params);
     void setStudyUserMngUpdate(Map<String, Object> params);
     void studyReq(Map<String, Object> params);
-    void setStudyJournalInsert(Map<String, Object> params);
+    void setStudyJournalInsert(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
     void setStudyJournalApp(Map<String, Object> params);
     void setOjtPlanInsert(Map<String, Object> params);
     void setOjtPlanUpdate(Map<String, Object> params);
@@ -140,5 +142,15 @@ public interface CampusService {
     /** 전자결재 시작 */
     void updateDocState(Map<String, Object> bodyMap) throws Exception;
     void updateResDocState(Map<String, Object> bodyMap) throws Exception;
+
+    void deleteStudyJournal(Map<String, Object> params);
+
+    void setStudyInfoComplete(Map<String, Object> params);
+
+    void setStudyResult(Map<String, Object> params);
+
+    Map<String, Object> getStudyResultData(Map<String, Object> params);
+
+    Map<String, Object> getStudyResultOne(Map<String, Object> params);
     /** 전자결재 끝 */
 }

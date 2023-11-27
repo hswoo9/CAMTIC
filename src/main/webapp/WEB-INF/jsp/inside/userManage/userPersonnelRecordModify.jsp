@@ -28,12 +28,10 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">인사기록카드</h4>
-            <div class="title-road">캠인사이드 > 인사관리 > 인사관리 > 인사기록카드</div>
+            <div class="title-road">캠인사이드 > 인사관리 > 인사관리 > 인사기록카드 수정</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
-        <input type="button" id="filePrint" value="인쇄" onclick="userPrintPop(${uprList.empSeq});">
         <div class="panel-body">
-            <input type="hidden"
             <div>
                 <div id="tabstrip">
                     <ul class="likeTab">
@@ -51,9 +49,6 @@
                         <li id="TabJ">교육 사항</li>
                         <li id="TabL">제안 제도</li>
                     </ul>
-                    <div id="infoModifyBtn" class="btn-st" style="margin-top:5px; margin-left: 1520px;">
-                        <input type="button" class="k-button k-button-solid-info" value="수정" onclick="setInfoModify(${uprList.empSeq})"/>
-                    </div>
                     <div class="empInfo">
                         <div style="display:flex; justify-content: space-between;">
                             <div class="subTitSt">· 직원 기본 정보</div>
@@ -66,6 +61,12 @@
                         <div class="table-responsive">
                             <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
                             <input type="hidden" id="msiInfoId" name="msiInfoId" value="${data.MSI_INFO_ID}">
+                            <input type="hidden" id="empSeq1" name="empSeq" value="${uprList.empSeq}">
+                            <input type="hidden" id="empName1" name="empName" value="${uprList.empName}">
+                            <input type="hidden" id="erpEmpSeq1" name="empSeq" value="${uprList.erpEmpSeq}">
+                            <input type="hidden" id="deptSeq1" name="empName" value="${uprList.deptSeq}">
+                            <input type="hidden" id="deptName1" name="empName" value="${uprList.deptName}">
+                            <input type="hidden" id="teamName1" name="empName" value="${uprList.teamName}">
                             <div>
                                 <table class="searchTable table table-bordered">
                                     <colgroup>
@@ -109,7 +110,7 @@
                                     <tr>
                                         <th>생년월일</th>
                                         <td>
-                                            <input type="text" id="bDay" name="bDay" class="userInfoDatePicker notDisabled" value="${uprList.bDay}" style="width: 40%;">
+                                            <input type="text" id="bDay" class="bDay" name="bDay" class="userInfoDatePicker notDisabled" value="${uprList.bDay}" style="width: 40%;">
                                         </td>
                                         <th>주민등록번호</th>
                                         <td>
@@ -151,7 +152,6 @@
                                         <th>계좌정보</th>
                                         <td colspan="3">
                                             <input type="text" id="ACCOUNT_NUM" name="" placeholder="" class="userInfoTextBox" value="${uprList.BANK_NAME} ${uprList.ACCOUNT_NUM}"  style="width: 100%;">
-
                                         </td>
                                     </tr>
                                     <tr>
@@ -183,21 +183,20 @@
                             <div>
                                 <table class="searchTable table" style="text-align:center;">
                                     <colgroup>
-                                        <col width="1%">
                                         <col width="5%">
-                                        <col width="9%">
-                                        <col width="15%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
+                                        <col width="8%">
+                                        <col width="20%">
+                                        <col width="11%">
+                                        <col width="6%">
+                                        <col width="8%">
+                                        <col width="8%">
+                                        <col width="8%">
                                         <col width="5%">
-                                        <col width="15%">
+                                        <col width="10%">
+                                        <col width="12%">
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th><input type='checkbox' name='eduAllChk' id="eduAllChk" <%--class='k-checkbox checkbox'--%> onclick="chkBoxAllChk(this, 'eduChk')"></th>
                                         <th>번호</th>
                                         <th>구분</th>
                                         <th>기간</th>
@@ -208,78 +207,101 @@
                                         <th>졸업</th>
                                         <th>성적</th>
                                         <th>비고</th>
+                                        <th></th>
                                     </tr>
                                     <c:forEach var="l" items="${eList}" varStatus="status">
                                         <c:if test="${l.EDUCATIONAL_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
-                                                <td>
-                                                    <input type='checkbox' name='eduChk' id='edu${l.EDUCATIONAL_ID}' <%--class='k-checkbox checkbox eduCheckBox'--%>>
-                                                </td>
                                                 <td>${fn:length (eList) - status.index}</td>
-                                                <td>${l.GUBUN_CODE_NM}</td>
-                                                <td>${l.ADMISSION_DAY}~${l.GRADUATION_DAY}</td>
-                                                <td>${l.SCHOOL_NAME}</td>
-                                                <td>${l.DEGREE_CODE_NM}</td>
+                                                <td>
+                                                    <input type="text" id="gubun" class="gubun" value='${l.GUBUN_CODE}' style="width: 100%;">
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="sDate" class="sDate" value='${l.ADMISSION_DAY}' style="width: 45%;"> ~ <input type="text" id="eDate" class="eDate" value='${l.GRADUATION_DAY}' style="width: 45%;">
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="school" value='${l.SCHOOL_NAME}' style="width: 100%;">
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="degree" class="degree" value='${l.DEGREE_CODE}' style="width: 100%;">
+                                                </td>
+
                                                 <c:if test="${l.gradeFile == null}">
                                                     <td></td>
                                                 </c:if>
                                                 <c:if test="${l.gradeFile ne null}">
-                                                <td style="cursor: pointer">
+                                                    <td style="cursor: pointer">
                                                   <span onclick="fileDown('${l.gradeFile.file_path}${l.gradeFile.file_uuid}', '${l.gradeFile.file_org_name}.${l.gradeFile.file_ext}')">
                                                       ${l.gradeFile.file_org_name}.${l.gradeFile.file_ext}
                                                   </span>
-                                                </td>
+                                                    </td>
                                                 </c:if>
                                                 <c:if test="${l.socreFile == null}">
                                                     <td></td>
                                                 </c:if>
                                                 <c:if test="${l.socreFile ne null}">
-                                                <td style="cursor: pointer">
+                                                    <td style="cursor: pointer">
                                                   <span onclick="fileDown('${l.socreFile.file_path}${l.socreFile.file_uuid}', '${l.socreFile.file_org_name}.${l.socreFile.file_ext}')">
                                                       ${l.socreFile.file_org_name}.${l.socreFile.file_ext}
                                                   </span>
-                                                </td>
+                                                    </td>
                                                 </c:if>
-                                                <td>${l.GRADUATION_CODE_NM}</td>
-                                                <td>${l.SCORE}</td>
-                                                <td>${l.RMK}</td>
+                                                <td>
+                                                    <input type="text" id="graduation" class="graduation" value='${l.GRADUATION_CODE}' style="width: 100%;">
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="score" value='${l.SCORE}' style="width: 100%;">
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="bmk" value='${l.RMK}' style="width: 100%;">
+                                                </td>
+                                                <td>
+                                                    <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_EduModifyInfo(${l.EDUCATIONAL_ID})"/>
+                                                    <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="fu_delInfo(${l.EDUCATIONAL_ID})"/>
+                                                </td>
                                             </tr>
                                         </c:if>
                                     </c:forEach>
-                                           <%-- <tr>
+                                            <tr>
+                                                <td></td>
                                                 <td>
-                                                    &lt;%&ndash;<input type='checkbox' name='eduChk' id='edu${l.EDUCATIONAL_ID}' &lt;%&ndash;class='k-checkbox checkbox eduCheckBox'&ndash;%&gt;>&ndash;%&gt;
-                                                </td>
-                                                <td>&lt;%&ndash;${fn:length (eList) - status.index}&ndash;%&gt;</td>
-                                                <td>
-                                                    <input type="text" id="gubun" style="width: 50%;">
+                                                    <input type="text" id="gubun1" class="gubun" style="width: 100%;">
                                                 </td>
                                                 <td>
-                                                    <input type="text" id="sDate" style="width: 45%;"> ~ <input type="text" id="eDate" style="width: 45%;">
+                                                    <input type="text" id="sDate1" class="sDate" class="sDate" style="width: 45%;"> ~ <input type="text" id="eDate1" class="eDate" class="eDate" style="width: 45%;">
                                                 </td>
                                                 <td>
-                                                    <input type="text" id="school" style="width: 50%;">
+                                                    <input type="text" id="school1" style="width: 100%;">
                                                 </td>
                                                 <td>
-                                                    <input type="text" id="gkrdnl" value="test" style="width: 50%;">
+                                                    <input type="text" <%--id="gkrdnl" class="gkrdnl"--%>id="degree1" class="degree" style="width: 100%;">
                                                 </td>
 
                                                 <td style="cursor: pointer">
-                                                    <input type="file">
+                                                    <label for="gradeFile" class="k-button k-button-solid-base">파일첨부</label>
+                                                    <input type="file" id="gradeFile" name="gradeFile" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                                    <span id="gradeFileName"></span>
                                                 </td>
+
+
                                                 <td style="cursor: pointer">
-                                                    <input type="file">
+                                                    <label for="socreFile" class="k-button k-button-solid-base">파일첨부</label>
+                                                    <input type="file" id="socreFile" name="socreFile" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                                    <span id="socreFileName"></span>
                                                 </td>
                                                 <td>
-                                                    <input type="text" id="whfdjq" style="width: 50%;">
+                                                    <input type="text" <%--id="whfdjq"id--%>id="graduation1" class="graduation" style="width: 100%;">
                                                 </td>
                                                 <td>
-                                                    <input type="text" id="score" style="width: 50%;">
+                                                    <input type="text" id="score1" style="width: 100%;">
                                                 </td>
                                                 <td>
-                                                    <textarea name="bmk" id="bmk" placeholder="비고" style="width: 100%;"></textarea>
+                                                    <input type="text" id="bmk1" style="width: 100%;">
                                                 </td>
-                                            </tr>--%>
+                                                <td>
+                                                    <input type="button" class="k-button k-button-solid-info" value="추가" onclick="fu_addInfo()"/>
+                                                </td>
+                                            </tr>
                                     </thead>
                                 </table>
                             </div>
@@ -293,21 +315,18 @@
                             <div>
                                 <table class="searchTable table" style="text-align:center;">
                                     <colgroup>
-                                        <col width="1%">
-                                        <col width="6%">
+                                        <col width="5%">
                                         <col width="20%">
-                                        <col width="15%">
+                                        <col width="12%">
                                         <col width="10%">
-                                        <col width="15%">
                                         <col width="10%">
-                                        <col width="8%">
+                                        <col width="10%">
+                                        <col width="9%">
+                                        <col width="12%">
                                         <col width="15%">
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th>
-                                            <input type='checkbox' name='employAllChk' id="employAllChk" <%--class='k-checkbox checkbox'--%> onclick="chkBoxAllChk(this, 'employChk')">
-                                        </th>
                                         <th>번호</th>
                                         <th>기간</th>
                                         <th>근무처</th>
@@ -316,24 +335,25 @@
                                         <th>근무년수</th>
                                         <th>증명서</th>
                                         <th>비고</th>
+                                        <th></th>
                                     </tr>
                                     <c:forEach var="l" items="${cList}" varStatus="status">
                                         <c:if test="${l.CAREER_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
-                                                <td><input type='checkbox' name='employChk' id='employ${l.CAREER_ID}' <%--class='k-checkbox checkbox'--%>></td>
                                                 <td>${fn:length (cList) - status.index}</td>
-                                                <td>${l.JOIN_DAY} ~ ${l.RESIGN_DAY}</td>
-                                                <td>${l.EMPLOY_DEPT_NAME}</td>
-                                                <td>${l.POSITION_OR_DUTY}</td>
-                                                <td>${l.MAIN_TASK}</td>
+                                                <td><input type="text" id="sDate2" class="sDate" value='${l.JOIN_DAY}' style="width: 45%;"> ~ <input type="text" id="eDate2" class="eDate" value= '${l.RESIGN_DAY}' style="width: 45%;"></td>
+                                                <td><input type="text" id="place2" value='${l.EMPLOY_DEPT_NAME}' style="width: 100%;"> </td>
+                                                <td><input type="text" id="position2" value='${l.POSITION_OR_DUTY}' style="width: 100%;"> </td>
+                                                <td><input type="text" id="workType2" value='${l.MAIN_TASK}' style="width: 100%;"> </td>
                                                 <td>
                                                     <c:if test="${l.CAREER_PERIOD ne null and l.CAREER_PERIOD ne ''}">
-                                                        ${l.CAREER_PERIOD}년
+                                                        <input type="text" id="dateY2" value='${l.CAREER_PERIOD}' style="width: 25%;">년
                                                     </c:if>
                                                     <c:if test="${l.CAREER_MONTH ne null and l.CAREER_MONTH ne ''}">
-                                                        ${l.CAREER_MONTH}개월
+                                                       <input type="text" id="dateM2" value='${l.CAREER_MONTH}' style="width: 25%;">개월
                                                     </c:if>
                                                 </td>
+
                                                     <c:if test="${l.addFile == null}">
                                                         <td></td>
                                                     </c:if>
@@ -344,10 +364,33 @@
                                                       </span>
                                                     </td>
                                                     </c:if>
-                                                <td>${l.RMK}</td>
+
+                                                <td><input type="text" id="bmk2" value='${l.RMK}' style="width: 100%;"></td>
+                                                <td>
+                                                    <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_careerModifyInfo(${l.CAREER_ID})"/>
+                                                    <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="fu_careerDelInfo(${l.CAREER_ID})"/>
+                                                </td>
                                             </tr>
                                         </c:if>
                                     </c:forEach>
+                                        <tr>
+                                            <td></td>
+                                            <td><input type="text" id="sDate3" class="sDate" style="width: 45%;"> ~ <input type="text" id="eDate3" class="eDate" style="width: 45%;"></td>
+                                            <td><input type="text" id="place3" style="width: 100%;"> </td>
+                                            <td><input type="text" id="position3" style="width: 100%;"> </td>
+                                            <td><input type="text" id="workType3" style="width: 100%;"> </td>
+                                            <td><input type="text" id="dateY3" style="width: 25%;">년 <input type="text" id="dateM3" style="width: 25%;">개월
+                                            </td>
+                                            <td>
+                                                <label for="addFile" class="k-button k-button-solid-base">파일첨부</label>
+                                                <input type="file" id="addFile" name="addFile" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                                <span id="addFileName"></span>
+                                            </td>
+                                            <td><input type="text" id="bmk3" style="width: 100%;"></td>
+                                            <td>
+                                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="fu_careerAddInfo()"/>
+                                            </td>
+                                        </tr>
                                     </thead>
                                 </table>
                             </div>
@@ -356,6 +399,9 @@
                     <div class="armyInfo">
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 병력 사항</div>
+                            <div id="armyInfoBtn" class="btn-st" style="margin-top:5px; /*display:none;*/">
+                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_milModifyInfo(${mInfo.MSI_INFO_ID})"/>
+                            </div>
                         </div>
                         <div class="table-responsive">
                             <div>
@@ -369,28 +415,28 @@
                                     <thead>
                                     <tr>
                                         <th>전역 여부</th>
-                                        <td>${mInfo.MILITARY_SVC_TYPE_NM}</td>
+                                        <td><input type="text" id="mGubun" value="${mInfo.MILITARY_SVC_TYPE}" style="width: 50%;"></td>
                                         <th>사유</th>
-                                        <td>${mInfo.M_UNFUL_REASON}</td>
+                                        <td><input type="text" id="reason" value="${mInfo.M_UNFUL_REASON}" style="width: 50%;"></td>
                                     </tr>
                                     <tr>
                                         <th>복무기간</th>
                                         <td>
-                                            ${mInfo.M_ENLIST_DAY} ~ ${mInfo.M_DISCHARGE_DAY}
+                                            <input type="text" id="sDate4" class="sDate" value="${mInfo.M_ENLIST_DAY}" style="width: 45%;"> ~ <input type="text" id="eDate4" class="eDate" value="${mInfo.M_DISCHARGE_DAY}" style="width: 45%;">
                                         </td>
                                         <th>최종계급</th>
                                         <td>
-                                            ${mInfo.M_LAST_RANK}
+                                            <input type="text" id="rank" value="${mInfo.M_LAST_RANK}" style="width: 50%;">
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>군별</th>
                                         <td>
-                                            ${mInfo.M_DIVISION}
+                                            <input type="text" id="mType" value="${mInfo.M_DIVISION}" style="width: 50%;">
                                         </td>
                                         <th>병과</th>
                                         <td>
-                                            ${mInfo.MOS}
+                                            <input type="text" id="mDept" value="${mInfo.MOS}" style="width: 50%;">
                                         </td>
                                     </tr>
                                     </thead>
@@ -406,41 +452,51 @@
                             <div>
                                 <table class="searchTable table" style="text-align:center;">
                                     <colgroup>
-                                        <col width="1%">
                                         <col width="6%">
-                                        <col width="20%">
-                                        <col width="20%">
-                                        <col width="20%">
-                                        <col width="20%">
-                                        <col width="13%">
+                                        <col width="15%">
+                                        <col width="15%">
+                                        <col width="15%">
+                                        <col width="15%">
+                                        <col width="15%">
+                                        <col width="15%">
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th>
-                                            <input type='checkbox' name='familyAllChk' id="familyAllChk" <%--class='k-checkbox checkbox'--%> onclick="chkBoxAllChk(this, 'familyChk')">
-                                        </th>
                                         <th>번호</th>
                                         <th>관계</th>
                                         <th>성명</th>
                                         <th>생년월일</th>
                                         <th>직업</th>
                                         <th>동거여부</th>
+                                        <th></th>
                                     </tr>
                                     <c:forEach var="l" items="${fList}" varStatus="status">
                                         <c:if test="${l.FAMILY_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
-                                                <td>
-                                                    <input type='checkbox' name='familyChk' id='familyChk${l.FAMILY_ID}' <%--class='k-checkbox checkbox'--%>>
-                                                </td>
                                                 <td>${fn:length (fList) - status.index}</td>
-                                                <td>${l.FAMILY_CODE_TYPE_NM}</td>
-                                                <td>${l.FAMILY_NAME}</td>
-                                                <td>${l.FAMILY_BIRTH}</td>
-                                                <td>${l.FAMILY_JOB}</td>
-                                                <td>${l.INCLUDE_TXT}</td>
+                                                <td><input type="text" id="relation" class="relation" value="${l.FAMILY_CODE}" style="width: 100%;"></td>
+                                                <td><input type="text" id="fName" value="${l.FAMILY_NAME}" style="width: 100%;"></td>
+                                                <td><input type="text" id="bDay1" class="bDay" value="${l.FAMILY_BIRTH}" style="width: 100%;"></td>
+                                                <td><input type="text" id="job" value="${l.FAMILY_JOB}" style="width: 100%;"></td>
+                                                <td><span type="text" id="includeType${l.FAMILY_ID}" class="includeType" name="includeType${l.FAMILY_ID}" inCludeYn="${l.INCLUDE_YN}" style="width: 100%;"></span></td>
+                                                <td>
+                                                    <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_familyModifyInfo(${l.FAMILY_ID})"/>
+                                                    <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="fu_familyDelInfo(${l.FAMILY_ID})"/>
+                                                </td>
                                             </tr>
                                         </c:if>
                                     </c:forEach>
+                                    <tr>
+                                        <td></td>
+                                        <td><input type="text" id="relation1" class="relation" style="width: 100%;"></td>
+                                        <td><input type="text" id="fName1"  style="width: 100%;"></td>
+                                        <td><input type="text" id="bDay2" class="bDay" style="width: 100%;"></td>
+                                        <td><input type="text" id="job1" style="width: 100%;"></td>
+                                        <td><span type="text" id="includeType" class="includeType" name="includeType" style="width: 100%;"></span></td>
+                                        <td>
+                                            <input type="button" class="k-button k-button-solid-info" value="추가" onclick="fu_familyAddInfo()"/>
+                                        </td>
+                                    </tr>
                                     </thead>
                                 </table>
                             </div>
@@ -454,20 +510,17 @@
                             <div>
                                 <table class="searchTable table" style="text-align:center;">
                                     <colgroup>
-                                        <col width="1%">
                                         <col width="6%">
-                                        <col width="20%">
-                                        <col width="20%">
+                                        <col width="15%">
+                                        <col width="15%">
                                         <col width="15%">
                                         <col width="18%">
                                         <col width="10%">
                                         <col width="10%">
+                                        <col width="20%">
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th>
-                                            <input type='checkbox' name='certAllChk' id="certAllChk" <%--class='k-checkbox checkbox'--%> onclick="chkBoxAllChk(this, 'certChk')">
-                                        </th>
                                         <th>번호</th>
                                         <th>종류</th>
                                         <th>취득일</th>
@@ -475,16 +528,17 @@
                                         <th>발급기관</th>
                                         <th>증명서</th>
                                         <th>비고</th>
+                                        <th></th>
                                     </tr>
                                     <c:forEach var="l" items="${lList}" varStatus="status">
                                         <c:if test="${l.CERTIFICATE_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
-                                                <td><input type='checkbox' name='certChk' id='certChk${l.CERTIFICATE_ID}' <%--class='k-checkbox checkbox'--%>></td>
                                                 <td>${fn:length (lList) - status.index}</td>
-                                                <td>${l.CERTIFICATE_NAME}</td>
-                                                <td>${l.ACQUISITION_DAY}</td>
-                                                <td>${l.CERTIFICATE_NUM}</td>
-                                                <td>${l.ISSUER}</td>
+                                                <td><input type="text" id="licenseName" value="${l.CERTIFICATE_NAME}" style="width: 100%;"></td>
+                                                <td><input type="text" id="sDate5" class="sDate" value="${l.ACQUISITION_DAY}" style="width: 100%;"></td>
+                                                <td><input type="text" id="licenseNum" value="${l.CERTIFICATE_NUM}" style="width: 100%;"></td>
+                                                <td><input type="text" id="agency" value="${l.ISSUER}" style="width: 100%;"></td>
+
                                                 <c:if test="${l.certificateAddFile == null}">
                                                     <td></td>
                                                 </c:if>
@@ -495,10 +549,31 @@
                                                   </span>
                                                 </td>
                                                 </c:if>
-                                                <td>${l.RMK}</td>
+                                                <td><input type="text" id="bmk4" value='${l.RMK}' style="width: 100%;"></td>
+                                                <td>
+                                                    <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_LinModifyInfo(${l.CERTIFICATE_ID})"/>
+                                                    <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="fu_LinDelInfo(${l.CERTIFICATE_ID})"/>
+                                                </td>
                                             </tr>
                                         </c:if>
                                     </c:forEach>
+                                    <tr>
+                                        <td></td>
+                                        <td><input type="text" id="licenseName1" style="width: 100%;"></td>
+                                        <td><input type="text" id="sDate6" class="sDate" style="width: 100%;"></td>
+                                        <td><input type="text" id="licenseNum1" style="width: 100%;"></td>
+                                        <td><input type="text" id="agency1" style="width: 100%;"></td>
+
+                                        <td>
+                                            <label for="certificateAddFile" class="k-button k-button-solid-base">파일첨부</label>
+                                            <input type="file" id="certificateAddFile" name="certificateAddFile" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                            <span id="certificateAddFileName"></span>
+                                        </td>
+                                        <td><input type="text" id="bmk5" value='${l.RMK}' style="width: 100%;"></td>
+                                        <td>
+                                            <input type="button" class="k-button k-button-solid-info" value="추가" onclick="fu_LinAddInfo()"/>
+                                        </td>
+                                    </tr>
                                     </thead>
                                 </table>
                             </div>
@@ -512,31 +587,47 @@
                             <div>
                                 <table class="searchTable table" style="text-align:center;">
                                     <colgroup>
-                                        <col width="1%">
                                         <col width="6%">
-                                        <col width="35%">
-                                        <col width="35%">
-                                        <col width="23%">
+                                        <col width="20%">
+                                        <col width="20%">
+                                        <col width="20%">
+                                        <col width="20%">
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th><input type='checkbox' name='dutyInfoAllChk' id='dutyInfoAllChk' <%--class='k-checkbox checkbox'--%> onclick="chkBoxAllChk(this, 'dutyInfoChk')"></th>
                                         <th>번호</th>
                                         <th>근무 기간</th>
+                                        <th>계약연봉</th>
                                         <th>주요 직무</th>
                                         <th>직급</th>
+                                        <th></th>
                                     </tr>
                                     <c:forEach var="l" items="${dList}" varStatus="status">
                                         <c:if test="${l.DUTY_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
-                                                <td><input type='checkbox' name='dutyInfoChk' id='dutyInfoChk${l.DUTY_ID}' <%--class='k-checkbox checkbox'--%>></td>
                                                 <td>${fn:length (dList) - status.index}</td>
-                                                <td>${l.WORK_JOIN_DAY}~${l.WORK_LEAVE_DAY}</td>
-                                                <td>${l.DUTY_DETAIL}</td>
-                                                <td>${l.POSITON_NAME}</td>
+                                                <td><input type="text" id="sDate7" class="sDate" value="${l.WORK_JOIN_DAY}" style="width: 45%;"> ~ <input type="text" id="eDate7" class="eDate" value="${l.WORK_LEAVE_DAY}" style="width: 45%;"></td>
+                                                <td><input type="text" id="pay" value="${l.WORK_PAY}" style="width: 100%;"></td>
+                                                <td><input type="text" id="work" value="${l.DUTY_DETAIL}" style="width: 100%;"></td>
+                                                <td><input type="text" id="rank1" value="${l.POSITON_NAME}" style="width: 100%;"></td>
+                                                <td>
+                                                    <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_JobModifyInfo(${l.DUTY_ID})"/>
+                                                    <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="fu_JobDelInfo(${l.DUTY_ID})"/>
+                                                </td>
                                             </tr>
                                         </c:if>
                                     </c:forEach>
+                                    <tr>
+                                        <td>${fn:length (dList) - status.index}</td>
+                                        <td><input type="text" id="sDate8" class="sDate" style="width: 45%;"> ~ <input type="text" id="eDate8" class="eDate"value="${l.WORK_LEAVE_DAY}" style="width: 45%;"></td>
+                                        <td><input type="text" id="pay1" style="width: 100%;"></td>
+                                        <td><input type="text" id="work1" style="width: 100%;"></td>
+                                        <td><input type="text" id="rank2"  style="width: 100%;"></td>
+                                        <td>
+                                            <input type="button" class="k-button k-button-solid-info" value="추가" onclick="fu_JobAddInfo()"/>
+                                        </td>
+                                    </tr>
+
                                     </thead>
                                 </table>
                             </div>
@@ -591,38 +682,41 @@
                             <div>
                                 <table class="searchTable table" style="text-align:center;">
                                     <colgroup>
-                                        <col width="1%">
+
                                         <col width="6%">
                                         <col width="10%">
-                                        <col width="15%">
-                                        <col width="18%">
-                                        <col width="25%">
-                                        <col width="15%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
                                         <col width="10%">
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th>
-                                            <input type='checkbox' name='rewordAllChk' id='rewordAllChk#=REWORD_ID#' name='rewordAllChk' value='#=REWORD_ID#' <%--class='k-checkbox checkbox'--%> onclick="chkBoxAllChk(this, 'rewordChk')">
-                                        </th>
+
                                         <th>번호</th>
                                         <th>내/외부</th>
                                         <th>포상/징계 구분</th>
                                         <th>포상/징계 일자</th>
+                                        <th>포상/징계 번호</th>
                                         <th>공적 (징계) 사항</th>
                                         <th>시행처</th>
                                         <th>증명서</th>
+                                        <th></th>
                                     </tr>
                                     <c:forEach var="l" items="${rList}" varStatus="status">
                                         <c:if test="${l.REWORD_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
-                                                <td><input type='checkbox' name='rewordChk' id='rewordChk${l.REWORD_ID}' <%--class='k-checkbox checkbox'--%>></td>
                                                 <td>${fn:length (rList) - status.index}</td>
-                                                <td>${l.SIDE_NAME}</td>
-                                                <td>${l.REWORD_TYPE_NAME1}</td>
-                                                <td>${l.REWORD_DAY}</td>
-                                                <td>${l.RWD_OFM}</td>
-                                                <td>${l.RWD_ST_COMP}</td>
+                                                <td><input type="text" id="rGubunOutIn" class="rGubunOutIn" value="${l.REWORD_TYPE}" style="width: 100%;"></td>
+                                                <td><input type="text" id="rGubun" value="${l.REWORD_TYPE_NAME1}" style="width: 100%;"></td>
+                                                <td><input type="text" id="sDate9" class="sDate" value="${l.REWORD_DAY}" style="width: 100%;"></td>
+                                                <td><input type="text" id="rwdSn" value="${l.RWD_SN}" style="width: 100%;"></td>
+                                                <td><input type="text" id="rIssue" value="${l.RWD_OFM}" style="width: 100%;"></td>
+                                                <td><input type="text" id="agency2" value="${l.RWD_ST_COMP}" style="width: 100%;"></td>
+
                                                 <c:if test="${l.rewardAddFile == null}">
                                                     <td></td>
                                                 </c:if>
@@ -633,23 +727,31 @@
                                                   </span>
                                                 </td>
                                                 </c:if>
+                                                <td>
+                                                    <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_RewModifyInfo(${l.REWORD_ID})"/>
+                                                    <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="fu_RewDelInfo(${l.REWORD_ID})"/>
+                                                </td>
                                             </tr>
                                         </c:if>
                                     </c:forEach>
-                                    <%--<c:forEach var="l" items="${RewordList}" varStatus="status">
-                                        <c:if test="${l.REWORD_ID ne null}">
-                                            <tr>
-                                                <td><input type='checkbox' name='rewordChk2' id='rewordChk2${l.REWORD_ID}' class='k-checkbox checkbox'></td>
-                                                <td>${status.index + 1}</td>
-                                                <td>${l.SIDE_NAME}</td>
-                                                <td>${l.REWORD_TYPE_NAME1}</td>
-                                                <td>${l.REWORD_DAY}</td>
-                                                <td>${l.RWD_OFM}</td>
-                                                <td>${l.RWD_ST_COMP}</td>
-                                                <td></td>
-                                            </tr>
-                                        </c:if>
-                                    </c:forEach>--%>
+                                    <tr>
+                                        <td>${fn:length (rList) - status.index}</td>
+                                        <td><input type="text" id="rGubunOutIn1" class="rGubunOutIn" style="width: 100%;"></td>
+                                        <td><input type="text" id="rGubun1" style="width: 100%;"></td>
+                                        <td><input type="text" id="sDate10" class="sDate" style="width: 100%;"></td>
+                                        <td><input type="text" id="rwdSn1" style="width: 100%;"></td>
+                                        <td><input type="text" id="rIssue1"  style="width: 100%;"></td>
+                                        <td><input type="text" id="agency3" style="width: 100%;"></td>
+1
+                                        <td>
+                                            <label for="rewardAddFile" class="k-button k-button-solid-base">파일첨부</label>
+                                            <input type="file" id="rewardAddFile" name="rewardAddFile" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                            <span id="rewardAddFileName"></span>
+                                        </td>
+                                        <td>
+                                            <input type="button" class="k-button k-button-solid-info" value="추가" onclick="fu_RewAddInfo()"/>
+                                        </td>
+                                    </tr>
                                     </thead>
                                 </table>
                             </div>
@@ -803,9 +905,9 @@
                                         <col width="11%">
                                         <col width="18%">
                                         <col width="13%">
-                                      <%--  <col width="9%">
                                         <col width="9%">
-                                        <col width="8%">--%>
+                                        <col width="9%">
+                                        <col width="8%">
                                     </colgroup>
                                     <thead class="getInterviewCardList ">
                                     <tr>
@@ -815,9 +917,9 @@
                                         <th>피면담자</th>
                                         <th>면담일시</th>
                                         <th>면담자</th>
-                                       <%-- <th>차상급자</th>
+                                        <th>차상급자</th>
                                         <th>차차상급자</th>
-                                        <th>상태</th>--%>
+                                        <th>상태</th>
                                     </tr>
 
 
@@ -846,7 +948,6 @@
                             <div>
                                 <table class="searchTable table" style="text-align:center;">
                                     <colgroup>
-                                        <col width="1%">
                                         <col width="6%">
                                         <col width="28%">
                                         <col width="20%">
@@ -855,9 +956,6 @@
                                     </colgroup>
                                     <thead>
                                     <tr>
-                                        <th>
-                                            <input type='checkbox' name='propAllChk' id='propAllChk' <%--class='k-checkbox checkbox'--%> onclick="chkBoxAllChk(this, 'propChk')">
-                                        </th>
                                         <th>번호</th>
                                         <th>구분</th>
                                         <th>년월일</th>
@@ -871,9 +969,6 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <tr>
-                                                    <td>
-                                                        <input type='checkbox' name='propChk' id='propChk${l.PROPOSAL_ID}' <%--class='k-checkbox checkbox'--%> >
-                                                    </td>
                                                     <td>${fn:length (pList) - status.index}</td>
                                                     <td>${l.PROPOSAL_GUBUN}</td>
                                                     <td>${l.PROPOSAL_DATE}</td>
@@ -896,6 +991,166 @@
 
 
 <script>
+    var codeSet;
+    var codeDropDown=[];
+    function fn_codeSet() {
+        $.ajax({
+            url : '/userManage/getCodeList',
+            type : "post",
+            async : false,
+            dataType : "json",
+            success : function(result) {
+                codeSet = result.rs;
+                codeDropDown = result.rs;
+            }
+        })
+    }
+    fn_codeSet();
+    function edCodeDataSource(code) {
+        var data = [];
+        var defaultCode = "";
+        if(code != ""){
+            switch (code){
+                case "B01" :
+                    defaultCode = "선택하세요"
+                    break
+                case "B02" :
+                    defaultCode = "선택하세요"
+                    break
+                case "B03" :
+                    defaultCode = "선택하세요"
+                    break
+                case "B04" :
+                    defaultCode = "전역여부"
+                    break
+                case "B05" :
+                    defaultCode = "가족관계"
+                    break
+            }
+            data.push({"HR_DT_CODE_NM": defaultCode, "value" : ""});
+        }else {
+            data.push({"HR_DT_CODE_NM": "선택하세요", "value" : ""});
+        }
+
+        for(var i = 0 ; i < codeDropDown.length ; i++){
+            codeDropDown[i].value = codeDropDown[i].HR_MC_CODE + codeDropDown[i].HR_MD_CODE + codeDropDown[i].HR_DT_CODE;
+            if(codeDropDown[i].HR_MC_CODE + codeDropDown[i].HR_MD_CODE == code){
+                data.push(codeDropDown[i]);
+            }
+        }
+        return data;
+    }
+
+    $(".gubun").kendoDropDownList({
+        dataTextField: "HR_DT_CODE_NM",
+        dataValueField: "value",
+        dataSource: edCodeDataSource("B01"),
+
+    });
+
+    $(".degree").kendoDropDownList({
+        dataTextField: "HR_DT_CODE_NM",
+        dataValueField: "value",
+        dataSource: edCodeDataSource("B02")
+    });
+
+    $(".graduation").kendoDropDownList({
+        dataTextField: "HR_DT_CODE_NM",
+        dataValueField: "value",
+        dataSource: edCodeDataSource("B03")
+    });
+
+    $("#mGubun").kendoDropDownList({
+        dataTextField: "HR_DT_CODE_NM",
+        dataValueField: "value",
+        dataSource: edCodeDataSource("B04")
+    });
+
+    $(".relation").kendoDropDownList({
+        dataTextField: "HR_DT_CODE_NM",
+        dataValueField: "value",
+        dataSource: edCodeDataSource("B05")
+    });
+
+    $(".rGubunOutIn").kendoDropDownList({
+        dataTextField: "text",
+        dataValueField: "value",
+        dataSource: [
+            { text: "선택하세요", value: "" },
+            { text: "[내부표창] ", value: "22" },
+            { text: "[외부표창] ", value: "33" }
+        ],
+        index: 0
+    });
+
+    $("#carActive").kendoRadioGroup({
+        items: [
+            { label : "예", value : "Y" },
+            { label : "아니오", value : "N" }
+        ],
+        layout : "horizontal",
+        labelPosition : "after",
+        value : '${uprList.carActive}'
+    });
+    $("#joinDay").kendoDatePicker({
+        depth: "month",
+        start: "month",
+        culture : "ko-KR",
+        format : "yyyy-MM-dd",
+        value : "${data.JOIN_DAY}"
+    });
+
+    $(".bDay").kendoDatePicker({
+        depth: "month",
+        start: "month",
+        culture : "ko-KR",
+        format : "yyyy-MM-dd",
+   /*     value : "${data.BDAY}"*/
+    });
+
+    $("#resignDay").kendoDatePicker({
+        depth: "month",
+        start: "month",
+        culture : "ko-KR",
+        format : "yyyy-MM-dd",
+        value : "${data.RESIGN_DAY}"
+    });
+
+    $(".sDate").kendoDatePicker({
+        depth: "month",
+        start: "month",
+        culture : "ko-KR",
+        format : "yyyy-MM-dd"
+    });
+
+    $(".eDate").kendoDatePicker({
+        depth: "month",
+        start: "month",
+        culture : "ko-KR",
+        format : "yyyy-MM-dd"
+    });
+
+    $(".includeType").kendoRadioGroup({
+        items: [
+            {label: "예", value: "Y"},
+            {label: "아니오", value: "N"}
+        ],
+        layout: "horizontal",
+        labelPosition: "after",
+    });
+
+    // Y 이면 예 , N 이면 아니오
+    var flag = "Y";
+
+    if(false) {
+        flag = "N"
+    }
+
+    $.each($(".includeType"), function(){
+        $(this).data("kendoRadioGroup").value($(this).attr("inCludeYn"));
+    })
+
+
     $(function(){
         $("#TabA").on("click",function(){
             $(".likeTab li.activeY").removeClass("activeY");
@@ -977,9 +1232,8 @@
         });
 
         $(".userInfoTextBox").kendoTextBox();
-        // $("#addrDetail, #addrReferences, #mobileTelNum, #officeTelNum").kendoTextBox();
 
-        $("#carActive").kendoRadioGroup({
+       /* $("#carActive").kendoRadioGroup({
             items: [
                 { label : "예", value : "Y" },
                 { label : "아니오", value : "N" }
@@ -987,7 +1241,7 @@
             layout : "horizontal",
             labelPosition : "after",
             value : '${uprList.carActive}'
-        });
+        });*/
 
         $.each($(".userInfoTextBox input"), function(){
             if($("#regEmpSeq").val() != $("#empSeq").val() || !$(this).hasClass("notDisabled")){
@@ -1000,15 +1254,15 @@
 
     function userInfoDatePickerSetting(){
 
-        $("#joinDay").kendoDatePicker({
+        /*$("#joinDay").kendoDatePicker({
             depth: "month",
             start: "month",
             culture : "ko-KR",
             format : "yyyy-MM-dd",
             value : "${data.JOIN_DAY}"
-        });
+        });*/
 
-        $("#bDay").kendoDatePicker({
+        /*$("#bDay").kendoDatePicker({
             depth: "month",
             start: "month",
             culture : "ko-KR",
@@ -1023,15 +1277,13 @@
             format : "yyyy-MM-dd",
             value : "${data.RESIGN_DAY}"
         });
-
+*/
         $.each($(".userInfoDatePicker input"), function(){
             if($("#regEmpSeq").val() != $("#empSeq").val() || !$(this).hasClass("notDisabled")){
                 $(this).data("kendoDatePicker").enable(false);
             }
-        })
+        });
     }
-
-
 
     // 주소 검색
     function addrSearch(){
@@ -1089,7 +1341,7 @@
         });
     }
 
-
+    //직원 기본정보 저장
     function setBasicInfo(){
         if(confirm("저장하시겠습니까?")){
             var data = {
@@ -1112,13 +1364,9 @@
                 alert("저장되었습니다.");
                 open_in_frame('/Inside/userPersonnelRecord.do');
             }
-
         }
     }
 
-    function setInfoModify(empSeq){
-        open_in_frame('/Inside/userPersonnelRecordModify.do?empSeq='+ empSeq + '&admin=Y');
-    }
     //학력 degree
     //경력 careerInfo
     //병력 military
@@ -1130,805 +1378,9 @@
     //교육 edu
     //근무평가 workEval
     //제안제도 proposal
-    //학력추가
 
-    function chkBoxAllChk(e, chkName){
-        if($(e).is(":checked")) $("input[name=" + chkName + "]").prop("checked", true);
-        else $("input[name=" + chkName + "]").prop("checked", false);
-    }
-
-    //학력추가
-    function addDegreeBtn() {
-        var url = "/useManage/userPersonnelRecordPop.do?popName=degree";
-        var name = "userPersonnelRecordEduAddPop";
-        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
-
-        // 페이지가 열린 후 버튼을 숨깁니다.
-        popup.onload = function() {
-            var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info:nth-child(n+2)');
-            for(var i = 0; i < buttons.length; i++) {
-                buttons[i].style.display = 'none';
-            }
-        }
-    }
-    //경력추가
-    function addCareerBtn() {
-        var url = "/useManage/userPersonnelRecordPop.do?popName=career";
-        var name = "userPersonnelRecordEduAddPop";
-        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
-
-        // 페이지가 열린 후 버튼을 숨깁니다.
-        popup.onload = function() {
-            var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info:nth-child(n+2)');
-            for(var i = 0; i < buttons.length; i++) {
-                buttons[i].style.display = 'none';
-            }
-        }
-    }
-    //병력추가
-    function addMilitaryBtn(e) {
-        var url = "/useManage/userPersonnelRecordPop.do?popName=military";
-        var name = "userPersonnelRecordEduAddPop";
-        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
-
-        popup.onload = function() {
-            var titleElement = popup.document.querySelector('.card-title.title_NM');
-            titleElement.textContent = '병력 등록';
-
-            var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
-            for(var i = 0; i < buttons.length; i++) {
-                buttons[i].style.display = (i == 0) ? 'inline-block' : 'none';
-            }
-        }
-    }
-    //가족추가
-    function addFamilyBtn() {
-        var url = "/useManage/userPersonnelRecordPop.do?popName=family";
-        var name = "userPersonnelRecordEduAddPop";
-        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
-
-        popup.onload = function() {
-            var titleElement = popup.document.querySelector('.card-title.title_NM');
-            titleElement.textContent = '가족 등록';
-
-            var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
-            for(var i = 0; i < buttons.length; i++) {
-                buttons[i].style.display = (i == 0) ? 'inline-block' : 'none';
-            }
-        }
-    }
-    //보유면허추가
-    function addLicenseBtn() {
-        var url = "/useManage/userPersonnelRecordPop.do?popName=license";
-        var name = "userPersonnelRecordEduAddPop";
-        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
-
-        popup.onload = function() {
-            var titleElement = popup.document.querySelector('.card-title.title_NM');
-            titleElement.textContent = '보유면허 추가';
-
-            var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
-            for(var i = 0; i < buttons.length; i++) {
-                buttons[i].style.display = (i == 0) ? 'inline-block' : 'none';
-            }
-        }
-    }
-    //직무사항추가
-    function addJobBtn() {
-        var url = "/useManage/userPersonnelRecordPop.do?popName=job";
-        var name = "userPersonnelRecordEduAddPop";
-        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
-        popup.onload = function() {
-            var titleElement = popup.document.querySelector('.card-title.title_NM');
-            titleElement.textContent = '직무사항 추가';
-
-            var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
-            for(var i = 0; i < buttons.length; i++) {
-                buttons[i].style.display = (i == 0) ? 'inline-block' : 'none';
-            }
-        }
-    }
-    /*//발령사항추가
-    function addAppointingBtn() {
-        var url = "/useManage/userPersonnelRecordPop.do?popName=appointing";
-        var name = "userPersonnelRecordEduAddPop";
-        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
-    }*/
-    //상벌사항추가
-    function addRewardBtn() {
-        var url = "/useManage/userPersonnelRecordPop.do?popName=reward";
-        var name = "userPersonnelRecordEduAddPop";
-        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
-        popup.onload = function() {
-            var titleElement = popup.document.querySelector('.card-title.title_NM');
-            titleElement.textContent = '상벌 사항 추가';
-
-            var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
-            for(var i = 0; i < buttons.length; i++) {
-                buttons[i].style.display = (i == 0) ? 'inline-block' : 'none';
-            }
-        }
-    }
-    //교육사항추가
-    function addEduBtn() {
-        var url = "/useManage/userPersonnelRecordPop.do?popName=edu";
-        var name = "userPersonnelRecordEduAddPop";
-        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
-    }
-    //근무평가추가
-    function addWorkEvalBtn() {
-        var url = "/useManage/userPersonnelRecordPop.do?popName=workEval";
-        var name = "userPersonnelRecordEduAddPop";
-        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
-    }
-    //제안제도추가
-    function addProposalBtn() {
-        var url = "/useManage/userPersonnelRecordPop.do?popName=proposal";
-        var name = "userPersonnelRecordEduAddPop";
-        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
-        popup.onload = function() {
-            var titleElement = popup.document.querySelector('.card-title.title_NM');
-            titleElement.textContent = '제안 제도 추가';
-
-            var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
-            for(var i = 0; i < buttons.length; i++) {
-                buttons[i].style.display = (i == 0) ? 'inline-block' : 'none';
-            }
-        }
-    }
-
-    //인사기록카드 - 학력 사항 수정
-    function updateDegreeBtn() {
-        if ($('input[name=eduChk]:checked').length == 0) {
-            alert("수정할 항목을 선택해주세요.");
-        } else if ($('input[name=eduChk]:checked').length > 1) {
-            alert("한개의 항목만 선택해주세요.");
-        } else {
-            var eduChk = new Array();
-            $("input[name='eduChk']").each(function () {
-                if (this.checked) {
-                    var id = $(this).attr("id").replace($(this).attr("name"), "");
-                    id = id.replace("edu", "");
-                    eduChk.push(id);
-                }
-            })
-
-            var url = "/useManage/userPersonnelRecordPop.do?popName=degree" + "&pk=" + eduChk;
-            var name = "userPersonnelRecordEduAddPop";
-            var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-            var popup = window.open(url, name, option);
-
-            popup.onload = function() {
-                var titleElement = popup.document.querySelector('.card-title.title_NM');
-                titleElement.textContent = '학력 수정';
-
-                var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
-                for(var i = 0; i < buttons.length; i++) {
-                    buttons[i].style.display = (i == 1) ? 'inline-block' : 'none';
-                }
-                var tds = popup.document.querySelectorAll('tr');
-                for(var i = 0; i < tds.length; i++) {
-                    tds[i].setAttribute('disabled', 'true');
-                }
-                $("#gubun").data("kendoDropDownList").enable(false);
-            }
-        }
-    }
-    //인사기록카드 - 학력 사항 삭제
-    /*
-    function delDegreeBtn() {
-        if ($('input[name=eduChk]:checked').length == 0) {
-            alert("삭제할 항목을 선택해주세요.");
-        } else if ($('input[name=eduChk]:checked').length > 1) {
-            alert("한개의 항목만 선택해주세요.");
-        } else {
-            var eduChk = new Array();
-            $("input[name='eduChk']").each(function () {
-                if (this.checked) {
-                    var id = $(this).attr("id").replace($(this).attr("name"), "");
-                    id = id.replace("edu", "");
-                    eduChk.push(id);
-                }
-            })
-
-            var url = "/useManage/userPersonnelRecordPop.do?popName=degree" + "&pk=" + eduChk;
-            var name = "userPersonnelRecordEduAddPop";
-            var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-            var popup = window.open(url, name, option);
-
-            popup.onload = function () {
-                var titleElement = popup.document.querySelector('.card-title.title_NM');
-                titleElement.textContent = '학력 삭제';
-
-                var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
-                for (var i = 0; i < buttons.length; i++) {
-                    buttons[i].style.display = (i == 2) ? 'inline-block' : 'none';
-                }
-            }
-        }
-    }
-    */
-
-    //인사기록카드 - 학력사항삭제 요청(_Tmp 테이블로 카피)
-    function delDegreeBtn() {
-        if($('input[name=eduChk]:checked').length == 0){
-            alert("삭제할 항목을 선택해주세요.");
-            return;
-        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
-            return;
-        }
-
-        var eduChk = new Array();
-        $("input[name='eduChk']").each(function(){
-            if(this.checked){
-                var id = $(this).attr("id"); // id 속성 값
-                var eduId = parseInt(id.replace("edu", ""), 10); // "edu"를 제거하고 정수로 변환
-                eduChk.push(eduId);
-            }
-        })
-
-          $.ajax({
-            type: "POST",
-            url: "/userManage/setEduDeleteTmp", // 컨트롤러 엔드포인트 URL
-            data: { eduChk: eduChk }, // 전송할 데이터
-            success: function (response) {
-                // AJAX 요청이 성공했을 때 실행되는 코드
-                console.log("요청이 성공했습니다.");
-                alert("삭제 요청이 완료되었습니다.")
-            },
-            error: function (error) {
-                // AJAX 요청이 실패했을 때 실행되는 코드
-                console.error("요청이 실패했습니다.");
-                alert("삭제 요청이 실패했습니다.")
-            }
-        });
-    }
-
-    //인사기록카드 - 경력 사항 수정
-    function updateCareerBtn() {
-        if($('input[name=employChk]:checked').length == 0){
-            alert("수정할 항목을 선택해주세요.");
-        }else if($('input[name=employChk]:checked').length > 1){
-            alert("한개의 항목만 선택해주세요.");
-        }else{
-            var employChk = new Array();
-            $("input[name='employChk']").each(function () {
-                if (this.checked) {
-                    var id = $(this).attr("id").replace($(this).attr("name"), "");
-                    id = id.replace("employ", "");
-                    employChk.push(id);
-                }
-            })
-
-            var url = "/useManage/userPersonnelRecordPop.do?popName=career" + "&pk=" + employChk;
-            var name = "userPersonnelRecordEduAddPop";
-            var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-            var popup = window.open(url, name, option);
-
-            popup.onload = function() {
-                var titleElement = popup.document.querySelector('.card-title.title_NM');
-                titleElement.textContent = '경력 수정';
-
-                var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
-                for(var i = 0; i < buttons.length; i++) {
-                    buttons[i].style.display = (i == 1) ? 'inline-block' : 'none';
-                }
-                var tds = popup.document.querySelectorAll('tr');
-                for(var i = 0; i < tds.length; i++) {
-                    tds[i].setAttribute('disabled', 'true');
-                }
-            }
-        }
-    }
-
-    //인사기록카드 - 경력 사항 삭제 요청(_Tmp 테이블로 카피)
-    function delCareerBtn() {
-        if($('input[name=employChk]:checked').length == 0){
-            alert("삭제할 항목을 선택해주세요.");
-            return;
-        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
-            return;
-        }
-
-        var employChk = new Array();
-        $("input[name='employChk']").each(function(){
-            if(this.checked){
-                var id = $(this).attr("id").replace($(this).attr("name"), "");
-                id = id.replace("employ", "");
-                employChk.push(id);
-                //employChk.push(parseInt($(this).attr("id").replace($(this).attr("name"), ""),10));
-            }
-        })
-
-        $.ajax({
-            type: "POST",
-            url: "/userManage/setCareerDeleteTmp", // 컨트롤러 엔드포인트 URL
-            data: { employChk:employChk }, // 전송할 데이터
-            success: function (response) {
-                // AJAX 요청이 성공했을 때 실행되는 코드
-                console.log("요청이 성공했습니다.");
-                console.log(employChk);
-                alert("삭제 요청이 완료되었습니다.");
-            },
-            error: function (error) {
-                // AJAX 요청이 실패했을 때 실행되는 코드
-                console.error("요청이 실패했습니다.");
-                console.log(employChk);
-                alert("삭제 요청이 실패했습니다.");
-            }
-        });
-    }
-
-    /*
-    //인사기록카드 - 경력 사항 삭제
-    function delCareerBtn() {
-        if($('input[name=employChk]:checked').length == 0){
-            alert("수정할 항목을 선택해주세요.");
-        }else if($('input[name=employChk]:checked').length > 1){
-            alert("한개의 항목만 선택해주세요.");
-        }else{
-            var employChk = new Array();
-            $("input[name='employChk']").each(function () {
-                if (this.checked) {
-                    var id = $(this).attr("id").replace($(this).attr("name"), "");
-                    id = id.replace("employ", "");
-                    employChk.push(id);
-                }
-            })
-
-            var url = "/useManage/userPersonnelRecordPop.do?popName=career" + "&pk=" + employChk;
-            var name = "userPersonnelRecordEduAddPop";
-            var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-            var popup = window.open(url, name, option);
-
-            popup.onload = function() {
-                var titleElement = popup.document.querySelector('.card-title.title_NM');
-                titleElement.textContent = '경력 삭제';
-
-                var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
-                for(var i = 0; i < buttons.length; i++) {
-                    buttons[i].style.display = (i == 2) ? 'inline-block' : 'none';
-                }
-
-
-            }
-        }
-    }
-     */
-
-    //인사기록카드 - 병력 사항 수정
-    function updateMilitaryBtn(e) {
-        var url = "/useManage/userPersonnelRecordPop.do?popName=military&msiInfoId=" + e;
-        var name = "userPersonnelRecordEduAddPop";
-        var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
-
-        popup.onload = function() {
-            var titleElement = popup.document.querySelector('.card-title.title_NM');
-            titleElement.textContent = '병력 수정';
-
-            var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
-            for (var i = 0; i < buttons.length; i++) {
-                buttons[i].style.display = (i == 1) ? 'inline-block' : 'none';
-            }
-        }
-    }
-
-
-    //인사기록카드 - 가족 사항 수정
-    function updateFamilyBtn() {
-        if($('input[name=familyChk]:checked').length == 0){
-            alert("수정할 항목을 선택해주세요.");
-        }else if($('input[name=familyChk]:checked').length > 1){
-            alert("한개의 항목만 선택해주세요.");
-        }else{
-            var familyChk = new Array();
-            $("input[name='familyChk']").each(function () {
-                if (this.checked) {
-                    var id = $(this).attr("id").replace($(this).attr("name"), "");
-                    id = id.replace("family", "");
-                    familyChk.push(id);
-                }
-            })
-
-            var url = "/useManage/userPersonnelRecordPop.do?popName=family" + "&pk=" + familyChk;
-            var name = "userPersonnelRecordEduAddPop";
-            var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-            var popup = window.open(url, name, option);
-
-            popup.onload = function() {
-                var titleElement = popup.document.querySelector('.card-title.title_NM');
-                titleElement.textContent = '가족사항 수정';
-
-                var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
-                for(var i = 0; i < buttons.length; i++) {
-                    buttons[i].style.display = (i == 1) ? 'inline-block' : 'none';
-                }
-
-            }
-        }
-    }
-
-    /*//인사기록카드 - 가족 사항 삭제
-    function delFamilyBtn() {
-        if($('input[name=familyChk]:checked').length == 0){
-            alert("삭제할 항목을 선택해주세요.");
-            return;
-        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
-            return;
-        }
-
-        var familyChk = new Array();
-        $("input[name='familyChk']").each(function(){
-            if(this.checked){
-                familyChk.push($(this).attr("id").replace($(this).attr("name"), ""));
-            }
-        })
-
-        $.ajax({
-            url : '/userManage/setFamilyDelete',
-            data : {
-                familyChk : familyChk
-            },
-            dataType: "json",
-            type : "POST",
-            success : function (rs){
-                var rs = rs.rs;
-                alert(rs.message);
-            }
-        });
-    }*/
-
-    //인사기록카드 - 가족사항삭제 요청(_Tmp 테이블로 카피)
-    function delFamilyBtn() {
-        if($('input[name=familyChk]:checked').length == 0){
-            alert("삭제할 항목을 선택해주세요.");
-            return;
-        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
-            return;
-        }
-
-        var familyChk = new Array();
-        $("input[name='familyChk']").each(function(){
-            if(this.checked){
-                //var id = $(this).attr("id"); // id 속성 값
-                //var familyId = parseInt(id.replace("family", ""), 10); // "family"를 제거하고 정수로 변환
-                //familyChk.push(familyId);
-                familyChk.push(parseInt($(this).attr("id").replace($(this).attr("name"), ""),10));
-            }
-        })
-
-        $.ajax({
-            type: "POST",
-            url: "/userManage/setFamilyDeleteTmp", // 컨트롤러 엔드포인트 URL
-            data: { familyChk:familyChk }, // 전송할 데이터
-            success: function (response) {
-                // AJAX 요청이 성공했을 때 실행되는 코드
-                console.log("요청이 성공했습니다.");
-                console.log(familyChk);
-                alert("삭제 요청이 완료되었습니다.");
-            },
-            error: function (error) {
-                // AJAX 요청이 실패했을 때 실행되는 코드
-                console.error("요청이 실패했습니다.");
-                console.log(familyChk);
-                alert("삭제 요청이 실패했습니다.");
-            }
-        });
-    }
-
-    //인사기록카드 - 보유 면허 수정
-    function updateLicenseBtn() {
-        if($('input[name=certChk]:checked').length == 0){
-            alert("수정할 항목을 선택해주세요.");
-        }else if($('input[name=certChk]:checked').length > 1){
-            alert("한개의 항목만 선택해주세요.");
-        }else{
-            var certChk = new Array();
-            $("input[name='certChk']").each(function () {
-                if (this.checked) {
-                    var id = $(this).attr("id").replace($(this).attr("name"), "");
-                    id = id.replace("cert", "");
-                    certChk.push(id);
-                }
-            })
-
-            var url = "/useManage/userPersonnelRecordPop.do?popName=license" + "&pk=" + certChk;
-            var name = "userPersonnelRecordEduAddPop";
-            var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-            var popup = window.open(url, name, option);
-
-            popup.onload = function() {
-                var titleElement = popup.document.querySelector('.card-title.title_NM');
-                titleElement.textContent = '보유 면허 수정';
-
-                var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
-                for(var i = 0; i < buttons.length; i++) {
-                    buttons[i].style.display = (i == 1) ? 'inline-block' : 'none';
-                }
-
-            }
-        }
-    }
-
-    //인사기록카드 - 보유면허 삭제 요청(_Tmp 테이블로 카피)
-    function delLicenseBtn() {
-        if($('input[name=certChk]:checked').length == 0){
-            alert("삭제할 항목을 선택해주세요.");
-            return;
-        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
-            return;
-        }
-
-        var certChk = new Array();
-        $("input[name='certChk']").each(function(){
-            if(this.checked){
-                certChk.push(parseInt($(this).attr("id").replace($(this).attr("name"), ""),10));
-            }
-        })
-
-        $.ajax({
-            type: "POST",
-            url: "/userManage/setLicenseDeleteTmp", // 컨트롤러 엔드포인트 URL
-            data: { certChk:certChk }, // 전송할 데이터
-            success: function (response) {
-                // AJAX 요청이 성공했을 때 실행되는 코드
-                console.log("요청이 성공했습니다.");
-                console.log(certChk);
-                alert("삭제 요청이 완료되었습니다.");
-            },
-            error: function (error) {
-                // AJAX 요청이 실패했을 때 실행되는 코드
-                console.error("요청이 실패했습니다.");
-                console.log(certChk);
-                alert("삭제 요청이 실패했습니다.");
-            }
-        });
-    }
-
-   /* //인사기록카드 - 보유 면허 삭제
-    function delLicenseBtn() {
-        if($('input[name=certChk]:checked').length == 0){
-            alert("삭제할 항목을 선택해주세요.");
-            return;
-        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
-            return;
-        }
-
-        var certChk = new Array();
-        $("input[name='certChk']").each(function(){
-            if(this.checked){
-                certChk.push($(this).attr("id").replace($(this).attr("name"), ""));
-            }
-        })
-
-        $.ajax({
-            url : '/userManage/setLicenseDelete',
-            data : {
-                certChk : certChk
-            },
-            dataType: "json",
-            type : "POST",
-            success : function (rs){
-                var rs = rs.rs;
-                alert(rs.message);
-            }
-        });
-    }
-    */
-
-    //인사기록카드 - 직무 사항 수정
-    function updateJobBtn() {
-        if($('input[name=dutyInfoChk]:checked').length == 0){
-            alert("수정할 항목을 선택해주세요.");
-        }else if($('input[name=dutyInfoChk]:checked').length > 1){
-            alert("한개의 항목만 선택해주세요.");
-        }else{
-            var dutyInfoChk = new Array();
-            $("input[name='dutyInfoChk']").each(function () {
-                if (this.checked) {
-                    var id = $(this).attr("id").replace($(this).attr("name"), "");
-                    id = id.replace("dutyInfo", "");
-                    dutyInfoChk.push(id);
-                }
-            })
-            var url = "/useManage/userPersonnelRecordPop.do?popName=job" + "&pk=" + dutyInfoChk;
-            var name = "userPersonnelRecordEduAddPop";
-            var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-            var popup = window.open(url, name, option);
-
-            popup.onload = function() {
-                var titleElement = popup.document.querySelector('.card-title.title_NM');
-                titleElement.textContent = '직무 사항 수정';
-
-                var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
-                for(var i = 0; i < buttons.length; i++) {
-                    buttons[i].style.display = (i == 1) ? 'inline-block' : 'none';
-                }
-            }
-        }
-    }
-
-    //인사기록카드 - 직무 사항 삭제 요청(_Tmp 테이블로 카피)
-    function delJobBtn() {
-        if($('input[name=dutyInfoChk]:checked').length == 0){
-            alert("삭제할 항목을 선택해주세요.");
-            return;
-        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
-            return;
-        }
-
-        var dutyInfoChk = new Array();
-        $("input[name='dutyInfoChk']").each(function(){
-            if(this.checked){
-                dutyInfoChk.push(parseInt($(this).attr("id").replace($(this).attr("name"), ""),10));
-            }
-        })
-
-        $.ajax({
-            type: "POST",
-            url: "/userManage/setJobDeleteTmp", // 컨트롤러 엔드포인트 URL
-            data: { dutyInfoChk:dutyInfoChk }, // 전송할 데이터
-            success: function (response) {
-                // AJAX 요청이 성공했을 때 실행되는 코드
-                console.log("요청이 성공했습니다.");
-                console.log(dutyInfoChk);
-                alert("삭제 요청이 완료되었습니다.");
-            },
-            error: function (error) {
-                // AJAX 요청이 실패했을 때 실행되는 코드
-                console.error("요청이 실패했습니다.");
-                console.log(dutyInfoChk);
-                alert("삭제 요청이 실패했습니다.");
-            }
-        });
-    }
-
-
-    /*
-    //인사기록카드 - 직무 사항 삭제
-    function delJobBtn() {
-        if($('input[name=dutyInfoChk]:checked').length == 0){
-            alert("삭제할 항목을 선택해주세요.");
-            return;
-        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
-            return;
-        }
-
-        var dutyInfoChk = new Array();
-        $("input[name='dutyInfoChk']").each(function(){
-            if(this.checked){
-                dutyInfoChk.push($(this).attr("id").replace($(this).attr("name"), ""));
-            }
-        })
-
-        $.ajax({
-            url : '/userManage/setJobDelete',
-            data : {
-                dutyInfoChk : dutyInfoChk
-            },
-            dataType: "json",
-            type : "POST",
-            success : function (rs){
-                var rs = rs.rs;
-                alert(rs.message);
-            }
-        });
-    }
-     */
-
-    //인사기록카드 - 상벌 사항 수정
-    function updateRewardBtn() {
-        if($('input[name=rewordChk]:checked').length == 0){
-            alert("수정할 항목을 선택해주세요.");
-        }else if($('input[name=rewordChk]:checked').length > 1){
-            alert("한개의 항목만 선택해주세요.");
-        }else{
-            var rewordChk = new Array();
-            $("input[name='rewordChk']").each(function () {
-                if (this.checked) {
-                    var id = $(this).attr("id").replace($(this).attr("name"), "");
-                    id = id.replace("reword", "");
-                    rewordChk.push(id);
-                }
-            })
-            var url = "/useManage/userPersonnelRecordPop.do?popName=reward" + "&pk=" + rewordChk;
-            var name = "userPersonnelRecordEduAddPop";
-            var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-            var popup = window.open(url, name, option);
-
-            popup.onload = function() {
-                var titleElement = popup.document.querySelector('.card-title.title_NM');
-                titleElement.textContent = '상벌 사항 수정';
-
-                var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
-                for(var i = 0; i < buttons.length; i++) {
-                    buttons[i].style.display = (i == 1) ? 'inline-block' : 'none';
-                }
-            }
-        }
-    }
-
-    //인사기록카드 - 상벌 사항 삭제 요청(_Tmp 테이블로 카피)
-    function delRewardBtn() {
-        if($('input[name=rewordChk]:checked').length == 0){
-            alert("삭제할 항목을 선택해주세요.");
-            return;
-        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
-            return;
-        }
-
-        var rewordChk = new Array();
-        $("input[name='rewordChk']").each(function(){
-            if(this.checked){
-                rewordChk.push(parseInt($(this).attr("id").replace($(this).attr("name"), ""),10));
-            }
-        })
-
-        $.ajax({
-            type: "POST",
-            url: "/userManage/setRewordDeleteTmp", // 컨트롤러 엔드포인트 URL
-            data: { rewordChk:rewordChk }, // 전송할 데이터
-            success: function (response) {
-                // AJAX 요청이 성공했을 때 실행되는 코드
-                console.log("요청이 성공했습니다.");
-                console.log(rewordChk);
-                alert("삭제 요청이 완료되었습니다.");
-            },
-            error: function (error) {
-                // AJAX 요청이 실패했을 때 실행되는 코드
-                console.error("요청이 실패했습니다.");
-                console.log(rewordChk);
-                alert("삭제 요청이 실패했습니다.");
-            }
-        });
-    }
-
-    /*
-    //인사기록카드 - 상벌 사항 삭제
-    function delRewardBtn() {
-        if($('input[name=rewordChk]:checked').length == 0){
-            alert("삭제할 항목을 선택해주세요.");
-            return;
-        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
-            return;
-        }
-
-        var rewordChk = new Array();
-        $("input[name='rewordChk']").each(function(){
-            if(this.checked){
-                rewordChk.push($(this).attr("id").replace($(this).attr("name"), ""));
-            }
-        })
-
-        $.ajax({
-            url : '/userManage/setRewordDelete',
-            data : {
-                rewordChk : rewordChk
-            },
-            dataType: "json",
-            type : "POST",
-            success : function (rs){
-                var rs = rs.rs;
-                alert(rs.message);
-            }
-        });
-    }
-     */
 
     // 인사기록카드 - 직원 면담 카드 조회
-
     $(document).ready(function() {
         var empSeq = $("#empSeq").val();
         retrieveData3(empSeq);
@@ -1962,9 +1414,9 @@
                         row.append($("<td class='emp_name_kr'></td>").text(card.emp_name_kr));
                         row.append($("<td class='card_interview_date'></td>").text(card.card_interview_date));
                         row.append($("<td class='card_interviewer'></td>").text(card.card_interviewer));
-                     /*   row.append($("<td class='card_superior_person'></td>").text(card.card_superior_person));
+                        row.append($("<td class='card_superior_person'></td>").text(card.card_superior_person));
                         row.append($("<td class='card_superior_person2'></td>").text(card.card_superior_person2));
-                        row.append($("<td class='card_status'></td>").text(card.card_status));*/
+                        row.append($("<td class='card_status'></td>").text(card.card_status));
 
                         $(".getInterviewCardList").append(row); // 생성한 행을 테이블에 추가
                     }
@@ -1976,112 +1428,632 @@
         });
     }
 
+    // 학력사항 추가
+    function fu_addInfo(key){
+        var data = {
+            empSeq : $("#empSeq1").val(),
+            empName : $("#empName1").val(),
+            gubun : $("#gubun1").val(),
+            sDate : $("#sDate1").val(),
+            eDate : $("#eDate1").val(),
+            school : $("#school1").val(),
+            degree : $("#degree1").val(),
+            graduation : $("#graduation1").val(),
+            score : $("#score1").val(),
+            bmk : $("#bmk1").val(),
+        }
 
+        var formData = new FormData();
+        formData.append("empSeq", data.empSeq);
+        formData.append("empName", data.empName);
+        formData.append("gubun", data.gubun);
+        formData.append("sDate", data.sDate);
+        formData.append("eDate", data.eDate);
+        formData.append("school", data.school);
+        formData.append("degree", data.degree);
+        formData.append("graduation", data.graduation);
+        formData.append("score", data.score);
+        formData.append("bmk", data.bmk);
 
-    //인사기록카드 - 제안 제도 수정
-    function updateProposalBtn() {
-        if($('input[name=propChk]:checked').length == 0){
-            alert("수정할 항목을 선택해주세요.");
-        }else if($('input[name=propChk]:checked').length > 1){
-            alert("한개의 항목만 선택해주세요.");
+        if($("#gradeFile")[0].files.length == 1){
+            formData.append("gradeFile", $("#gradeFile")[0].files[0]);
+        }
+
+        if($("#socreFile")[0].files.length == 1){
+            formData.append("socreFile", $("#socreFile")[0].files[0]);
+        }
+
+        var result = customKendo.fn_customFormDataAjax('/useManage/userDegreeInfoInsert',formData);
+        /*var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);*/
+        console.log(result.rs);
+        if(result.flag){
+            if(result.rs == "SUCCESS") {
+                alert("등록이 완료 되었습니다.");
+
+            }else{
+                alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
+            }
         }else{
-            var propChk = new Array();
-            $("input[name='propChk']").each(function () {
-                if (this.checked) {
-                    var id = $(this).attr("id").replace($(this).attr("name"), "");
-                    id = id.replace("prop", "");
-                    propChk.push(id);
-                }
-            })
-            var url = "/useManage/userPersonnelRecordPop.do?popName=proposal" + "&pk=" + propChk;
-            var name = "userPersonnelRecordEduAddPop";
-            var option = "width=600, height=550, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-            var popup = window.open(url, name, option);
-            popup.onload = function() {
-                var titleElement = popup.document.querySelector('.card-title.title_NM');
-                titleElement.textContent = '제안 제도 수정';
+            alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
+        }
+    }
+    // 학력사항 수정
+    function fu_EduModifyInfo(key) {
+        var data = {
+            gubun : $("#gubun").val(),
+            sDate : $("#sDate").val(),
+            eDate : $("#eDate").val(),
+            school : $("#school").val(),
+            degree : $("#degree").val(),
+            graduation : $("#graduation").val(),
+            score : $("#score").val(),
+            bmk : $("#bmk").val(),
+            type : "degree",
+            pk : key,
+            applicationactive : "수정",
+        }
 
-                var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
-                for(var i = 0; i < buttons.length; i++) {
-                    buttons[i].style.display = (i == 1) ? 'inline-block' : 'none';
-                }
+        var formData = new FormData();
+        formData.append("gubun", data.gubun);
+        formData.append("sDate", data.sDate);
+        formData.append("eDate", data.eDate);
+        formData.append("school", data.school);
+        formData.append("degree", data.degree);
+        formData.append("graduation", data.graduation);
+        formData.append("score", data.score);
+        formData.append("bmk", data.bmk);
+        formData.append("menuCd", "degree");
+        formData.append("type", "degree");
+        formData.append("pk", data.pk);
+
+        if($("#gradeFile")[0].files.length == 1){
+            formData.append("gradeFile", $("#gradeFile")[0].files[0]);
+        }
+
+        if($("#socreFile")[0].files.length == 1){
+            formData.append("socreFile", $("#socreFile")[0].files[0]);
+        }
+
+        var result = customKendo.fn_customFormDataAjax('/useManage/userDegreeInfoModify',formData);
+        /*var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);*/
+        console.log(result.rs);
+        if(result.flag){
+            if(result.rs == "SUCCESS") {
+                alert("수정이 완료 되었습니다.");
+            }else{
+                alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
+            }
+        }else{
+            alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
+        }
+    }
+    // 학력사항 삭제
+    function fu_delInfo(key) {
+        if(confirm("삭제하시겠습니까?")){
+            var data = {
+                key : key
+            }
+            var result = customKendo.fn_customAjax('/useManage/userDegreeInfoDelete',data);
+            if(result.flag){
+                alert("삭제되었습니다.");
+
+            }else {
+                alert("오류가 발생하였습니다.");
             }
         }
     }
 
-    //인사기록카드 - 제안 사항 삭제 요청(_Tmp 테이블로 카피)
-    function delProposalBtn() {
-        if($('input[name=propChk]:checked').length == 0){
-            alert("삭제할 항목을 선택해주세요.");
-            return;
-        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
-            return;
+
+    // 경력사항 추가
+    function fu_careerAddInfo(){
+        var data = {
+            empSeq : $("#empSeq1").val(),
+            empName : $("#empName1").val(),
+            place : $("#place3").val(),
+            sDate : $("#sDate3").val(),
+            eDate : $("#eDate3").val(),
+            position : $("#position3").val(),
+            workType : $("#workType3").val(),
+            dateY : $("#dateY3").val(),
+            dateM : $("#dateM3").val(),
+            bmk : $("#bmk3").val(),
+            workType : $("#workType3").val(),
         }
 
-        var propChk = new Array();
-        $("input[name='propChk']").each(function(){
-            if(this.checked){
-                propChk.push(parseInt($(this).attr("id").replace($(this).attr("name"), ""),10));
-            }
-        })
+        var formData = new FormData();
+        formData.append("empSeq", data.empSeq);
+        formData.append("empName", data.empName);
+        formData.append("place", data.place);
+        formData.append("sDate", data.sDate);
+        formData.append("eDate", data.eDate);
+        formData.append("position", data.position);
+        formData.append("workType", data.workType);
+        formData.append("dateY", data.dateY);
+        formData.append("dateM", data.dateM);
+        formData.append("bmk", data.bmk);
+        formData.append("workType", data.workType);
+        formData.append("menuCd", "career");
 
-        $.ajax({
-            type: "POST",
-            url: "/userManage/setProposalDeleteTmp", // 컨트롤러 엔드포인트 URL
-            data: { propChk:propChk }, // 전송할 데이터
-            success: function (response) {
-                // AJAX 요청이 성공했을 때 실행되는 코드
-                console.log("요청이 성공했습니다.");
-                console.log(propChk);
-                alert("삭제 요청이 완료되었습니다.");
-            },
-            error: function (error) {
-                // AJAX 요청이 실패했을 때 실행되는 코드
-                console.error("요청이 실패했습니다.");
-                console.log(propChk);
-                alert("삭제 요청이 실패했습니다.");
-            }
-        });
-    }
-
-    /*
-    //인사기록카드 - 제안 제도 삭제
-    function delProposalBtn() {
-        if($('input[name=propChk]:checked').length == 0){
-            alert("삭제할 항목을 선택해주세요.");
-            return;
-        }else if(!confirm("선택한 항목을 삭제하시겠습니까?")){
-            return;
+        if($("#addFile")[0].files.length == 1){
+            formData.append("addFile", $("#addFile")[0].files[0]);
         }
 
-        var propChk = new Array();
-        $("input[name='propChk']").each(function(){
-            if(this.checked){
-                propChk.push($(this).attr("id").replace($(this).attr("name"), ""));
+
+        var result = customKendo.fn_customFormDataAjax('/useManage/userCareerInfoInsert',formData);
+        /*var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);*/
+        if(result.flag){
+            if(result.rs == "SUCCESS") {
+                alert("등록을 성공하였습니다.");
+                fn_windowClose();
+            }else{
+                alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
             }
-        })
+        }else{
+            alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
+        }
+    }
+    // 경력사항 수정
+    function fu_careerModifyInfo(key) {
+        var data = {
+            place: $("#place2").val(),
+            sDate: $("#sDate2").val(),
+            eDate: $("#eDate2").val(),
+            position: $("#position2").val(),
+            workType: $("#workType2").val(),
+            dateY: $("#dateY2").val(),
+            dateM: $("#dateM2").val(),
+            bmk: $("#bmk2").val(),
+            workType: $("#workType2").val(),
+            pk: key
+        }
 
-        $.ajax({
-            url : '/userManage/setProposalDelete',
-            data : {
-                propChk : propChk
-            },
-            dataType: "json",
-            type : "POST",
-            success : function (rs){
-                var rs = rs.rs;
-                alert(rs.message);
+        var formData = new FormData();
+        formData.append("place", data.place);
+        formData.append("sDate", data.sDate);
+        formData.append("eDate", data.eDate);
+        formData.append("position", data.position);
+        formData.append("workType", data.workType);
+        formData.append("dateY", data.dateY);
+        formData.append("dateM", data.dateM);
+        formData.append("bmk", data.bmk);
+        formData.append("workType", data.workType);
+        formData.append("pk", data.pk);
+
+        if ($("#addFile")[0].files.length == 1) {
+            formData.append("addFile", $("#addFile")[0].files[0]);
+        }
+
+        var result = customKendo.fn_customFormDataAjax('/useManage/userCareerInfoModify',formData);
+        if(result.flag){
+            if(result.rs == "SUCCESS") {
+                alert("수정이 완료 되었습니다.");
+            }else{
+                alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
             }
-        });
+        }else{
+            alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
+        }
     }
-     */
+    // 경력사항 삭제
+    function fu_careerDelInfo(key) {
+        if(confirm("삭제하시겠습니까?")){
+            var data = {
+                key : key
+            }
+            var result = customKendo.fn_customAjax('/useManage/userCareerInfoDelete',data);
+            if(result.flag){
+                alert("삭제되었습니다.");
+
+            }else {
+                alert("오류가 발생하였습니다.");
+            }
+        }
+    }
+
+    // 병력사항 수정
+    function fu_milModifyInfo(key){
+        var data = {
+            msiInfoId : $("#msiInfoId").val(),
+            mGubun : $("#mGubun").val(),
+            sDate : $("#sDate4").val(),
+            eDate : $("#eDate4").val(),
+            reason : $("#reason").val(),
+            rank : $("#rank").val(),
+            mType : $("#mType").val(),
+            mDept : $("#mDept").val(),
+            pk : key
+        }
+
+        var formData = new FormData();
+        formData.append("msiInfoId", data.msiInfoId);
+        formData.append("mGubun", data.mGubun);
+        formData.append("sDate", data.sDate);
+        formData.append("eDate", data.eDate);
+        formData.append("reason", data.reason);
+        formData.append("rank", data.rank);
+        formData.append("score", data.score);
+        formData.append("mType", data.mType);
+        formData.append("mDept", data.mDept);
+        formData.append("pk", data.pk);
+
+        var result = customKendo.fn_customFormDataAjax('/useManage/userMilitaryInfoModify',formData);
+        console.log(result.rs);
+        if(result.flag){
+            if(result.rs == "SUCCESS") {
+                alert("수정을 성공하였습니다.");
+                fn_windowClose();
+            }else{
+                alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
+            }
+        }else{
+            alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
+        }
+    }
+
+    // 가족사항 추가
+    function fu_familyAddInfo(){
+        var data = {
+            empSeq : $("#empSeq1").val(),
+            empName : $("#empName1").val(),
+            relation : $("#relation1").val(),
+            bDay : $("#bDay2").val(),
+            job : $("#job1").val(),
+            fName : $("#fName1").val(),
+            includeType : $("#includeType").getKendoRadioGroup().value()
+        }
+
+        var formData = new FormData();
+        formData.append("empSeq", data.empSeq);
+        formData.append("empName", data.empName);
+        formData.append("relation", data.relation);
+        formData.append("bDay", data.bDay);
+        formData.append("job", data.job);
+        formData.append("fName", data.fName);
+        formData.append("includeType", data.includeType);
+
+        var result = customKendo.fn_customFormDataAjax('/useManage/userFamilyInfoInsert',formData);
+        if(result.flag){
+            if(result.rs == "SUCCESS") {
+                alert("등록을 성공하였습니다.");
+                fn_windowClose();
+            }else{
+                alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
+            }
+        }else{
+            alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
+        }
+    }
+    // 가족사항 수정
+    function fu_familyModifyInfo(key) {
+        var data = {
+            relation : $("#relation").val(),
+            bDay : $("#bDay1").val(),
+            job : $("#job").val(),
+            fName : $("#fName").val(),
+            includeType :  $("#includeType"+key).getKendoRadioGroup().value(),
+            pk: key
+        }
+
+        var formData = new FormData();
+        formData.append("relation", data.relation);
+        formData.append("bDay", data.bDay);
+        formData.append("job", data.job);
+        formData.append("fName", data.fName);
+        formData.append("includeType", data.includeType);
+        formData.append("pk", data.pk);
+
+        var result = customKendo.fn_customFormDataAjax('/useManage/userFamilyInfoModify',formData);
+        if(result.flag){
+            if(result.rs == "SUCCESS") {
+                alert("수정이 완료 되었습니다.");
+            }else{
+                alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
+            }
+        }else{
+            alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
+        }
+    }
+    // 가족사항 삭제
+    function fu_familyDelInfo(key) {
+        if(confirm("삭제하시겠습니까?")){
+            var data = {
+                key : key
+            }
+            var result = customKendo.fn_customAjax('/useManage/userFamilyInfoDelete',data);
+            if(result.flag){
+                alert("삭제되었습니다.");
+
+            }else {
+                alert("오류가 발생하였습니다.");
+            }
+        }
+    }
+
+    // 보유면허 추가
+    function fu_LinAddInfo(){
+        var data = {
+            empSeq : $("#empSeq1").val(),
+            empName : $("#empName1").val(),
+            licenseName : $("#licenseName1").val(),
+            sDate : $("#sDate6").val(),
+            licenseNum : $("#licenseNum1").val(),
+            agency : $("#agency1").val(),
+            bmk : $("#bmk5").val()
+        }
+
+        var formData = new FormData();
+        formData.append("empSeq", data.empSeq);
+        formData.append("empName", data.empName);
+        formData.append("licenseName", data.licenseName);
+        formData.append("sDate", data.sDate);
+        formData.append("licenseNum", data.licenseNum);
+        formData.append("agency", data.agency);
+        formData.append("bmk", data.bmk);
+        formData.append("menuCd", "license");
 
 
-    function userPrintPop(empSeq){
-        /*let url = "/inside/pop/userPrintPop.do?empSeq="+$("#empSeq").val();*/
-        let url = "/inside/pop/userPrintPop.do?empSeq="+ empSeq + "&admin=Y";
-        const name = "userPrintPop";
-        const option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
-        window.open(url, name, option);
+        if($("#addFile")[0].files.length == 1){
+            formData.append("addFile", $("#addFile")[0].files[0]);
+        }
+
+
+        var result = customKendo.fn_customFormDataAjax('/useManage/userLinInfoInsert',formData);
+        if(result.flag){
+            if(result.rs == "SUCCESS") {
+                alert("등록을 성공하였습니다.");
+                fn_windowClose();
+            }else{
+                alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
+            }
+        }else{
+            alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
+        }
     }
+    // 보유면허 수정
+    function fu_LinModifyInfo(key) {
+        var data = {
+            licenseName : $("#licenseName").val(),
+            sDate : $("#sDate5").val(),
+          /*  eDate : $("#eDate").val(),*/
+            licenseNum : $("#licenseNum").val(),
+            agency : $("#agency").val(),
+            bmk : $("#bmk4").val(),
+            pk : key
+
+        }
+        var formData = new FormData();
+        formData.append("licenseName", data.licenseName);
+        formData.append("sDate", data.sDate);
+        formData.append("eDate", data.eDate);
+        formData.append("licenseNum", data.licenseNum);
+        formData.append("agency", data.agency);
+        formData.append("bmk", data.bmk);
+        formData.append("menuCd", "license");
+        formData.append("pk", data.pk);
+
+
+        if ($("#addFile")[0].files.length == 1) {
+            formData.append("addFile", $("#addFile")[0].files[0]);
+        }
+
+        var result = customKendo.fn_customFormDataAjax('/useManage/userLinInfoModify',formData);
+        if(result.flag){
+            if(result.rs == "SUCCESS") {
+                alert("수정이 완료 되었습니다.");
+            }else{
+                alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
+            }
+        }else{
+            alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
+        }
+    }
+    // 보유면허 삭제
+    function fu_LinDelInfo(key) {
+        if(confirm("삭제하시겠습니까?")){
+            var data = {
+                key : key
+            }
+            var result = customKendo.fn_customAjax('/useManage/userLinInfoDelete',data);
+            if(result.flag){
+                alert("삭제되었습니다.");
+
+            }else {
+                alert("오류가 발생하였습니다.");
+            }
+        }
+    }
+
+    // 직무사항 추가
+    function fu_JobAddInfo(){
+        var data = {
+            empSeq : $("#empSeq1").val(),
+            empName : $("#empName1").val(),
+            WORK_PAY : $("#pay1").val(),
+            sDate : $("#sDate8").val(),
+            eDate : $("#eDate8").val(),
+            DUTY_DETAIL : $("#work1").val(),
+            POSITON_NAME : $("#rank2").val()
+        }
+
+        var formData = new FormData();
+        formData.append("empSeq", data.empSeq);
+        formData.append("empName", data.empName);
+        formData.append("WORK_PAY", data.WORK_PAY);
+        formData.append("sDate", data.sDate);
+        formData.append("eDate", data.eDate);
+        formData.append("DUTY_DETAIL", data.DUTY_DETAIL);
+        formData.append("POSITON_NAME", data.POSITON_NAME);
+
+
+        var result = customKendo.fn_customFormDataAjax('/useManage/userJobInfoInsert',formData);
+        if(result.flag){
+            if(result.rs == "SUCCESS") {
+                alert("등록을 성공하였습니다.");
+                fn_windowClose();
+            }else{
+                alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
+            }
+        }else{
+            alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
+        }
+    }
+    // 직무사항 수정
+    function fu_JobModifyInfo(key) {
+        var data = {
+            WORK_PAY : $("#pay").val(),
+            sDate : $("#sDate7").val(),
+            eDate : $("#eDate7").val(),
+            DUTY_DETAIL : $("#work").val(),
+            POSITON_NAME : $("#rank1").val(),
+            pk : key
+        }
+        var formData = new FormData();
+        formData.append("WORK_PAY", data.WORK_PAY);
+        formData.append("sDate", data.sDate);
+        formData.append("eDate", data.eDate);
+        formData.append("DUTY_DETAIL", data.DUTY_DETAIL);
+        formData.append("POSITON_NAME", data.POSITON_NAME);
+        formData.append("pk", data.pk);
+
+        var result = customKendo.fn_customFormDataAjax('/useManage/userJobInfoModify',formData);
+        if(result.flag){
+            if(result.rs == "SUCCESS") {
+                alert("수정이 완료 되었습니다.");
+            }else{
+                alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
+            }
+        }else{
+            alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
+        }
+    }
+    // 직무 삭제
+    function fu_JobDelInfo(key) {
+        if (confirm("삭제하시겠습니까?")) {
+            var data = {
+                key: key
+            }
+            var result = customKendo.fn_customAjax('/useManage/userJobInfoDelete', data);
+            if (result.flag) {
+                alert("삭제되었습니다.");
+
+            } else {
+                alert("오류가 발생하였습니다.");
+            }
+        }
+    }
+
+    // 상벌사항 추가
+    function fu_RewAddInfo(){
+        var data = {
+            empSeq : $("#empSeq1").val(),
+            empName : $("#empName1").val(),
+            erpEmpSeq : $("#erpEmpSeq1").val(),
+            deptSeq : $("#deptSeq1").val(),
+            deptName : $("#deptName1").val(),
+            teamName : $("#teamName1").val(),
+            rGubunOutInType : $("#rGubunOutIn1").data("kendoDropDownList").value(),
+            rGubunOutInName : $("#rGubunOutIn1").data("kendoDropDownList").text(),
+            rGubun : $("#rGubun1").val(),
+            rGubunAll : ($("#rGubunOutIn1").data("kendoDropDownList").text() + $("#rGubun").val()),
+            sDate : $("#sDate10").val(),
+            rwdSn : $("#rwdSn1").val(),
+            rIssue : $("#rIssue1").val(),
+            agency : $("#agency3").val()
+        }
+
+        var formData = new FormData();
+        formData.append("empSeq", data.empSeq);
+        formData.append("empName", data.empName);
+        formData.append("erpEmpSeq", data.erpEmpSeq);
+        formData.append("deptSeq", data.deptSeq);
+        formData.append("deptName", data.deptName);
+        formData.append("teamName", data.teamName);
+        formData.append("rGubunOutInType", data.rGubunOutInType);
+        formData.append("rGubunOutInName", data.rGubunOutInName);
+        formData.append("rGubun", data.rGubun);
+        formData.append("rGubunAll", data.rGubunAll);
+        formData.append("sDate", data.sDate);
+        formData.append("rwdSn", data.rwdSn);
+        formData.append("rIssue", data.rIssue);
+        formData.append("agency", data.agency);
+        formData.append("menuCd", "reward");
+        formData.append("type", "reward");
+        formData.append("applicationactive", data.applicationactive);
+
+        if($("#rewardAddFile")[0].files.length == 1){
+            formData.append("rewardAddFile", $("#rewardAddFile")[0].files[0]);
+        }
+
+        var result = customKendo.fn_customFormDataAjax('/useManage/userRewInfoInsert',formData);
+        if(result.flag){
+            if(result.rs == "SUCCESS") {
+                alert("등록을 성공하였습니다.");
+                fn_windowClose();
+            }else{
+                alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
+            }
+        }else{
+            alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
+        }
+    }
+    // 싱발사항 수정
+    function fu_RewModifyInfo(key) {
+        var data = {
+            rGubunOutInType : $("#rGubunOutIn").data("kendoDropDownList").value(),
+            rGubunOutInName : $("#rGubunOutIn").data("kendoDropDownList").text(),
+            rGubun : $("#rGubun").val(),
+            rGubunAll : ($("#rGubunOutIn").data("kendoDropDownList").text() + $("#rGubun").val()),
+            sDate : $("#sDate9").val(),
+            rwdSn : $("#rwdSn").val(),
+            rIssue : $("#rIssue").val(),
+            agency : $("#agency2").val(),
+            pk : key
+
+        }
+
+        var formData = new FormData();
+        formData.append("rGubunOutInType", data.rGubunOutInType);
+        formData.append("rGubunOutInName", data.rGubunOutInName);
+        formData.append("rGubun", data.rGubun);
+        formData.append("rGubunAll", data.rGubunAll);
+        formData.append("rwdSn", data.rwdSn);
+        formData.append("sDate", data.sDate);
+        formData.append("rIssue", data.rIssue);
+        formData.append("agency", data.agency);
+        formData.append("menuCd", "reward");
+        formData.append("type", "reward");
+        formData.append("pk", data.pk);
+        formData.append("applicationactive", data.applicationactive);
+
+        if($("#rewardAddFile")[0].files.length == 1){
+            formData.append("rewardAddFile", $("#rewardAddFile")[0].files[0]);
+        }
+
+        var result = customKendo.fn_customFormDataAjax('/useManage/userRewInfoModify',formData);
+        if(result.flag){
+            if(result.rs == "SUCCESS") {
+                alert("수정이 완료 되었습니다.");
+            }else{
+                alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
+            }
+        }else{
+            alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
+        }
+    }
+    // 상벌사항 삭제
+    function fu_RewDelInfo(key) {
+        if (confirm("삭제하시겠습니까?")) {
+            var data = {
+                key: key
+            }
+            var result = customKendo.fn_customAjax('/useManage/userRewInfoDelete', data);
+            if (result.flag) {
+                alert("삭제되었습니다.");
+
+            } else {
+                alert("오류가 발생하였습니다.");
+            }
+        }
+    }
+
 </script>

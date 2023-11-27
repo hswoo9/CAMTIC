@@ -1,92 +1,61 @@
-var now = new Date();
-var docContent = "";
+const holidayHist = {
 
-var subHolidaySettingPop = {
-    global : {
-        searchAjaxData : "",
+    global: {
+        searchAjaxData : ""
     },
 
-
-    init: function () {
-        subHolidaySettingPop.dataSet();
-        subHolidaySettingPop.gridReload();
-
-
+    fn_defaultScript: function(){
+        holidayHist.pageSet();
+        holidayHist.gridReload();
     },
 
-    dataSet: function () {
-
-        $("#modDate").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture: "ko-KR",
-            format: "yyyy-MM-dd",
-            value: now
-        });
-
-
-        $("#searchType").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "전체", value: ""},
-                {text: "직급", value: "1"},
-                {text: "성명", value: "2"}
-
-            ],
-            index: 0
-        });
-
-        $("#searchVal").kendoTextBox();
-
-    },
-
-    mainGrid: function () {
-        var dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            pageSize : 10,
-            transport: {
-                read : {
-                    url : "/subHoliday/getModVacList.do",
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data, operation) {
-                    data.searchVal = $("#searchVal").val();
-                    data.modDate = $("#modDate").val();
-
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    return data.list;
-                },
-                total: function (data) {
-                    return data.list.length;
-                },
+    pageSet: function(){
+        customKendo.fn_datePicker("startDt", 'month', "yyyy-MM-dd", new Date(now.setMonth(now.getMonth() - 1)));
+        customKendo.fn_datePicker("endDt", 'month', "yyyy-MM-dd", new Date());
+        $("#startDt").on("change", function(){
+            if($(this).val() > $("#endDt").val()){
+                $("#endDt").val($(this).val());
             }
+            holidayHist.gridReload();
         });
+        $("#endDt").on("change", function(){
+            if($(this).val() < $("#startDt").val()){
+                $("#startDt").val($(this).val());
+            }
+            holidayHist.gridReload();
+        });
+        $("#startDt, #endDt").attr("readonly", true);
+        customKendo.fn_textBox(["searchVal"]);
+    },
 
+    gridReload: function(){
+        holidayHist.global.searchAjaxData = {
+            startDt : $("#startDt").val(),
+            endDt : $("#endDt").val(),
+            searchVal: $("#searchVal").val()
+        };
+        holidayHist.mainGrid("/subHoliday/getModVacList", holidayHist.global.searchAjaxData);
+    },
+
+    mainGrid: function(url, params){
         $("#mainGrid").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
-            scrollable: true,
-            height: 508,
-            pageable : {
-                refresh : true,
-                pageSizes: [10, 20, "ALL"],
-                buttonCount : 5
+            selectable: "row",
+            height : 525,
+            pageable: {
+                refresh: true,
+                pageSizes: [ 10, 20, 30, 50, 100 ],
+                buttonCount: 5
             },
-            dataBound: function(e) {
-                var gridData = this.dataSource.view(); // 현재 페이지의 데이터 가져오기
-                console.log("Kendo UI Grid 데이터:", gridData);
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
             },
             toolbar: [
                 {
                     name: 'button',
-                    template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidaySettingPop.gridReload()">' +
+                    template: function(){
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="holidayHist.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -97,100 +66,75 @@ var subHolidaySettingPop = {
             },
             columns: [
                 {
-                    field : "HOLIDAY_ID",
-                    title : "순번",
-                    width : 90,
-                    editable: function(){
-                        return '<input type="hidden" id="holidayId" value="' + params.data.HOLIDAY_ID + '" />' + params.data.HOLIDAY_ID;
-                    },
-                },{
-                    title : "변경사항",
-                    columns : [
+                    title: "번호",
+                    width: 50,
+                    template: "#= --record #"
+                }, {
+                    title: "변경사항",
+                    columns: [
                         {
-                            field : "DEPT_NAME",
-                            title : "부서",
-                            width : 90,
-                            editable: function(){
-                                return false;
-                            },
+                            field: "DEPT_NAME",
+                            title: "부서",
+                            width: 90
                         }, {
-                            field : "DEPT_TEAM_NAME",
-                            title : "팀",
-                            width : 90,
-                            editable: function(){
-                                return false;
-                            },
+                            field: "TEAM_NAME",
+                            title: "팀",
+                            width: 90
                         }, {
-                            field : "EMP_NAME_KR",
-                            title : "이름",
-                            width : 60,
-                            editable: function(){
-                                return false;
-                            },
+                            field: "EMP_NAME_KR",
+                            title: "이름",
+                            width: 60
                         }, {
-                            field : "POSITION_NAME",
-                            title : "직급",
-                            width : 90,
-                            editable: function(){
-                                return false;
-                            }
+                            field: "SPOT",
+                            title: "직급",
+                            width: 90
                         },
-                        ]
-                },
-                        {
-                            title : "발생연차",
-                            columns : [
-                                {
-                                    field : "PREVIOUS_GRANT_DAY",
-                                    title : "수정전",
-                                    width : 90,
-                                    editable: function(){
-                                        return false;
-                                    },
-                                }, {
-                                    field : "GRANT_DAY",
-                                    title : "수정후",
-                                    width : 90,
-                                    editable: function(){
-                                        return false;
-                                    },
-                                },
                     ]
                 }, {
-                    field : "MOD_DATE",
-                    title : "수정일자",
-                    width : 60,
-                    editable: function(){
-                        return false;
-                    },
+                    title: "기존발생연차",
+                    columns: [
+                        {
+                            field: "BF_GRANT_DAY",
+                            title: "수정전",
+                            width: 90
+                        }, {
+                            field: "AF_GRANT_DAY",
+                            title: "수정후",
+                            width: 90
+                        },
+                    ]
                 }, {
-                    field : "EMP_NAME_KR",
-                    title : "수정자",
-                    width : 90,
-                    editable: function(){
-                        return false;
-                    },
+                    title: "보상발생연차",
+                    columns: [
+                        {
+                            field: "BF_COMP_VAC",
+                            title: "수정전",
+                            width: 90
+                        }, {
+                            field: "AF_COMP_VAC",
+                            title: "수정후",
+                            width: 90
+                        },
+                    ]
+                }, {
+                    field: "REASON",
+                    title: "변경사유",
+                    width: 120
+                }, {
+                    field: "MOD_DT",
+                    title: "수정일자",
+                    width: 60
+                }, {
+                    field: "REG_EMP_NAME",
+                    title: "수정자",
+                    width: 90
                 }
-
-            ]
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
-    },
-
-    gridReload : function() {
-        console.log('gridReload 함수 호출됨');
-        subHolidaySettingPop.global.searchAjaxData = {
-            modDate : $("#modDate").val(),
-            searchVal: $("#searchVal").val()
-        };
-
-
-
-        subHolidaySettingPop.mainGrid('/subHoliday/getModVacList.do',subHolidaySettingPop.global.searchAjaxData);
-    },
-
-
-
-
+    }
 }
 
 

@@ -256,12 +256,14 @@
 			$(".categoryName").text("SNS");
 		}
 
-		if(categoryId == "photo" || categoryId == "video" || categoryId == "news" || categoryId =="sns"){
+		if(categoryId == "photo" || categoryId == "video" || categoryId == "news" ){
 			$("#textMod").text("표지");
 			$("#fileUpload span").text("이미지 첨부");
 		}else if(categoryId == "report") {
 			$("#textMod").text("첨부 이미지");
 			$("#fileUpload span").text("이미지 첨부");
+		}else if(categoryId == "sns"){
+			$("#textMod").text("표지(340 x 255)")
 		}
 	});
 

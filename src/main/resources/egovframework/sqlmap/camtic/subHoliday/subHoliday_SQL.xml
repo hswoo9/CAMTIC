@@ -264,37 +264,38 @@
     <select id="getUserVacList" resultType="map" parameterType="map">
         /* getUserVacList */
         SELECT
-        VUI.EMP_SEQ,
-        VUI.EMP_NAME_KR,
-        VUI.DEPT_NAME,
-        VUI.POSITION_NAME,
-        VUI.DEPT_TEAM_NAME,
-        VUI.DUTY_NAME,
-        DATE_FORMAT(VUI.JOIN_DAY, '%Y-%m-%d') AS JOIN_DAY,
-        VUI.ACTIVE,
-        VC.APPLY_YEAR,
-        CONCAT(VC.APPLY_YEAR, '-01-01') AS ST_APPLY_DATE,
-        CONCAT(VC.APPLY_YEAR, '-12-31') AS EN_APPLY_DATE,
-        VC.GRANT_DAY,
-        VC.MDTN_DAY,
-        VC.EXTRA_DAY,
-        VC.USE_DAY,
-        VC.CARRYOVER_DAY,
-        VC.ADJUSTMENT_USE_DAY,
-        VC.COMP_VAC,
-        ((VC.GRANT_DAY + VC.MDTN_DAY + VC.EXTRA_DAY) - (VC.USE_DAY)) AS REMAIN_VAC,
-        VC.ACTIVE,
-        VC.HOLIDAY_ID,
-        IFNULL((SELECT USE_DAY FROM CAM_INSIDE.DJ_HOLIDAY WHERE APPLY_YEAR = #{befYear} AND EMP_SEQ = VUI.EMP_SEQ), 0) AS befUseDay,
-        IFNULL((SELECT USE_DAY FROM CAM_INSIDE.DJ_HOLIDAY WHERE APPLY_YEAR = #{bef2Year} AND EMP_SEQ = VUI.EMP_SEQ), 0) AS bef2UseDay
+            VUI.EMP_SEQ,
+            VUI.EMP_NAME_KR,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE VUI.DEPT_NAME END AS DEPT_NAME,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN VUI.DEPT_NAME ELSE "" END AS TEAM_NAME,
+            CASE WHEN VUI.DUTY_NAME IS NULL OR VUI.DUTY_NAME = "" THEN VUI.POSITION_NAME ELSE VUI.DUTY_NAME END AS SPOT,
+            DATE_FORMAT(VUI.JOIN_DAY, '%Y-%m-%d') AS JOIN_DAY,
+            VUI.ACTIVE,
+            VC.APPLY_YEAR,
+            CONCAT(VC.APPLY_YEAR, '-01-01') AS ST_APPLY_DATE,
+            CONCAT(VC.APPLY_YEAR, '-12-31') AS EN_APPLY_DATE,
+            VC.GRANT_DAY,
+            VC.MDTN_DAY,
+            VC.EXTRA_DAY,
+            VC.USE_DAY,
+            VC.CARRYOVER_DAY,
+            VC.ADJUSTMENT_USE_DAY,
+            VC.COMP_VAC,
+            ((VC.GRANT_DAY + VC.MDTN_DAY + VC.EXTRA_DAY) - (VC.USE_DAY)) AS REMAIN_VAC,
+            VC.ACTIVE,
+            VC.HOLIDAY_ID,
+            IFNULL((SELECT USE_DAY FROM CAM_INSIDE.DJ_HOLIDAY WHERE APPLY_YEAR = #{befYear} AND EMP_SEQ = VUI.EMP_SEQ), 0) AS befUseDay,
+            IFNULL((SELECT USE_DAY FROM CAM_INSIDE.DJ_HOLIDAY WHERE APPLY_YEAR = #{bef2Year} AND EMP_SEQ = VUI.EMP_SEQ), 0) AS bef2UseDay
         FROM
-        CAM_HR.DJ_EMP_INFO VUI
+            CAM_HR.DJ_EMP_INFO VUI
         LEFT JOIN
-        CAM_INSIDE.DJ_HOLIDAY VC
+            CAM_INSIDE.DJ_HOLIDAY VC
         ON
-        VUI.EMP_SEQ = VC.EMP_SEQ AND VC.APPLY_YEAR = #{holidayYear}
+            VUI.EMP_SEQ = VC.EMP_SEQ AND VC.APPLY_YEAR = #{holidayYear}
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON VUI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE
-        VUI.ACTIVE = "Y"
+            VUI.ACTIVE = "Y"
         <if test='dept != null and !"".equals(dept)'>
             <if test='team != null and !"".equals(team)'>
                 AND (VUI.DEPT_SEQ = #{dept} OR VUI.DEPT_SEQ = #{team})
@@ -535,6 +536,55 @@
                 HOLIDAY_ID = #{item.HOLIDAY_ID}
         </foreach>
     </update>
+
+    <select id="getUserVacInfo" parameterType="map" resultType="map">
+        /*getUserVacInfo*/
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HOLIDAY
+        WHERE
+            HOLIDAY_ID = #{HOLIDAY_ID}
+    </select>
+
+    <update id="setUserVacInfo" parameterType="map">
+        /*setUserVacInfo*/
+        UPDATE CAM_INSIDE.DJ_HOLIDAY
+        SET
+            GRANT_DAY = #{GRANT_DAY},
+            COMP_VAC = #{COMP_VAC},
+            MOD_DATE = NOW()
+        WHERE
+            HOLIDAY_ID = #{HOLIDAY_ID}
+    </update>
+
+    <insert id="insUserVacChangeHist" parameterType="map">
+        /*insUserVacChangeHist*/
+        INSERT INTO CAM_INSIDE.DJ_HOLIDAY_HIST
+            (
+                HOLIDAY_ID,
+                BF_GRANT_DAY,
+                AF_GRANT_DAY,
+                BF_COMP_VAC,
+                AF_COMP_VAC,
+                REASON,
+                MOD_DT,
+                REG_EMP_SEQ,
+                REG_DATE
+            )
+        VALUES
+            (
+                CAST(#{HOLIDAY_ID} AS signed integer),
+                (SELECT SH.GRANT_DAY FROM CAM_INSIDE.DJ_HOLIDAY SH WHERE SH.HOLIDAY_ID = #{HOLIDAY_ID}),
+                #{GRANT_DAY},
+                (SELECT SH.COMP_VAC FROM CAM_INSIDE.DJ_HOLIDAY SH WHERE SH.HOLIDAY_ID = #{HOLIDAY_ID}),
+                #{COMP_VAC},
+                #{reason},
+                DATE_FORMAT(NOW(), '%Y-%m-%d'),
+                #{emqSeq},
+                now()
+            )
+    </insert>
 
     <select id="getHolidayList" parameterType="map" resultType="map">
         /*getHolidayList*/
@@ -782,26 +832,33 @@
 
     <select id="getModVacList" parameterType="map" resultType="map">
         SELECT
-        DEI.DEPT_NAME,
-        DEI.DEPT_TEAM_NAME,
-        DEI.EMP_NAME_KR,
-        DEI.POSITION_NAME,
-        DH.GRANT_DAY,
-        DH.PREVIOUS_GRANT_DAY,
-        DH.HOLIDAY_ID,
-        DATE_FORMAT(DH.MOD_DATE, '%Y-%m-%d') AS MOD_DATE,
-        DEI.MOD_EMP_SEQ
-        FROM cam_hr.dj_emp_info DEI
-        JOIN cam_inside.dj_holiday DH
-        on DEI.EMP_SEQ = DH.EMP_SEQ;
+            HH.*,
+            HEI.EMP_NAME_KR,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS DEPT_NAME,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS TEAM_NAME,
+            CASE WHEN HEI.DUTY_NAME IS NULL OR HEI.DUTY_NAME = "" THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END AS SPOT,
+            REI.EMP_NAME_KR AS REG_EMP_NAME
+        FROM
+            CAM_INSIDE.DJ_HOLIDAY_HIST HH
+        LEFT JOIN
+            CAM_INSIDE.DJ_HOLIDAY H ON HH.HOLIDAY_ID = H.HOLIDAY_ID
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON H.EMP_SEQ = HEI.EMP_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO REI ON HH.REG_EMP_SEQ = REI.EMP_SEQ
         WHERE 1=1
-        <if test='modDate != null and !"".equals(modDate)'>
-            AND  DATE_FORMAT(DH.MOD_DATE, '%Y-%m-%d') = #{modDate}
-        </if>
+        <![CDATA[
+            AND
+                DATE_FORMAT(#{startDt}, '%Y%m%d') <= DATE_FORMAT(HH.MOD_DT, '%Y%m%d')
+            AND
+                DATE_FORMAT(#{endDt}, '%Y%m%d') >= DATE_FORMAT(HH.MOD_DT, '%Y%m%d')
+        ]]>
         <if test='searchVal != null and !"".equals(searchVal)'>
-            AND DEI.MOD_EMP_SEQ LIKE CONCAT('%', #{searchVal}, '%')
+            AND HEI.EMP_NAME_KR LIKE CONCAT('%', #{searchVal}, '%')
         </if>
-
+        ORDER BY HH.HOLIDAY_HIST_SN DESC
     </select>
 
 </mapper>

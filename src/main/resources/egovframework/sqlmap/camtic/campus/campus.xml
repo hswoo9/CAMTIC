@@ -56,7 +56,7 @@
             CAMPUS.DJ_STUDY_USER CSU ON CSJ.STUDY_INFO_SN = CSU.STUDY_INFO_SN
         WHERE
             CSJ.STUDY_INFO_SN = #{studyInfoSn}
-        AND STUDY_EMP_SEQ = #{empSeq}
+        AND CSU.STUDY_EMP_SEQ = #{empSeq}
         AND CSJ.ACTIVE = 'Y'
         AND JOURNAL_DT BETWEEN (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 0 ) AS MONDAY) AND (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 6 ) AS MONDAY)
     </select>
@@ -489,18 +489,13 @@
     <select id="getStudyJournalOne" resultType="map" parameterType="map">
         /* getStudyJournalOne */
         SELECT
-            JOURNAL_DT,
-            JOURNAL_START_TIME,
-            JOURNAL_END_TIME,
-            JOURNAL_LOCATE,
-            JOURNAL_CONTENT,
-            JOURNAL_AMT,
-            JOURNAL_AMT_CLASS,
-            JOURNAL_AMT_ETC,
-            CAPTAIN_APPOVAL_YN,
-            ASSISTANT_APPOVAL_YN
+            *
         FROM
             CAMPUS.DJ_STUDY_JOURNAL CSJ
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO DFI
+        ON
+            CSJ.JOURNAL_FILE_SN = DFI.FILE_NO
         WHERE STUDY_JOURNAL_SN = #{studyJournalSn}
     </select>
 
@@ -622,7 +617,7 @@
     </select>
 
     <select id="getCommonEduStatList" resultType="map" parameterType="map">
-        /* getCommonEduList */
+        /* getCommonEduStatList */
         SELECT
             CCE.*,
             (SELECT COUNT(*) FROM CAMPUS.DJ_COMMON_EDU_USER SCCEU WHERE SCCEU.COMMON_EDU_SN = CCE.COMMON_EDU_SN AND PART_YN = 'Y' AND ACTIVE = 'Y') AS PART_COUNT,
@@ -641,22 +636,21 @@
     <select id="getCommonEduList" resultType="map" parameterType="map">
         /* getCommonEduList */
         SELECT
-            RE.*
+            CE.*,
+            (SELECT COUNT(*) FROM CAMPUS.DJ_COMMON_EDU_USER SCEU WHERE SCEU.COMMON_EDU_SN = CE.COMMON_EDU_SN AND PART_YN = 'Y' AND ACTIVE = 'Y') AS PART_COUNT,
+            (SELECT COUNT(*) FROM CAMPUS.DJ_COMMON_EDU_USER SCEU WHERE SCEU.COMMON_EDU_SN = CE.COMMON_EDU_SN AND PART_YN = 'N' AND ACTIVE = 'Y') AS NO_PART_COUNT
         FROM
-            (
-                SELECT
-                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
-                    CCE.*,
-                    (SELECT COUNT(*) FROM CAMPUS.DJ_COMMON_EDU_USER SCCEU WHERE SCCEU.COMMON_EDU_SN = CCE.COMMON_EDU_SN AND PART_YN = 'Y' AND ACTIVE = 'Y') AS PART_COUNT,
-                    (SELECT COUNT(*) FROM CAMPUS.DJ_COMMON_EDU_USER SCCEU WHERE SCCEU.COMMON_EDU_SN = CCE.COMMON_EDU_SN AND PART_YN = 'N' AND ACTIVE = 'Y') AS NO_PART_COUNT
-                FROM
-                    CAMPUS.DJ_COMMON_EDU CCE,
-                    (SELECT @ROWNUM := 0) TMP
-                WHERE
-                    1=1
-                ORDER BY CCE.REG_DT
-            ) RE
-        ORDER BY RE.COMMON_EDU_SN DESC
+            CAMPUS.DJ_COMMON_EDU CE
+        LEFT JOIN CAMPUS.DJ_COMMON_EDU_USER CEU ON CE.COMMON_EDU_SN = CEU.COMMON_EDU_SN
+        WHERE
+            1=1
+    <![CDATA[
+        AND
+            (DATE_FORMAT(CE.START_DT, '%Y') = #{eduYear} OR DATE_FORMAT(CE.END_DT, '%Y') = #{eduYear})
+    ]]>
+        AND CEU.REG_EMP_SEQ = #{empSeq}
+        AND CEU.ACTIVE = 'Y'
+        ORDER BY CE.COMMON_EDU_SN DESC
     </select>
 
     <select id="getCommonEduOne" resultType="map" parameterType="map">
@@ -740,10 +734,10 @@
             HEI.EMP_NAME_KR AS EMP_NAME,
             IFNULL((SELECT SUM(CER.REAL_EDU_TIME) FROM CAMPUS.DJ_EDU_INFO CEI LEFT JOIN CAMPUS.DJ_EDU_RESULT CER ON CEI.EDU_INFO_ID = CER.EDU_INFO_ID WHERE CEI.REG_EMP_SEQ = HEI.EMP_SEQ AND CEI.ACTIVE = 'Y' AND CER.STATUS = 100 AND CER.MNG_CHECK = 'Y' AND DATE_FORMAT(CER.APPROVAL_SEND_DATE, '%Y') = #{eduYear}), 0) AS PERSONAL_TIME,
             (SELECT COUNT(CER.REAL_EDU_TIME) FROM CAMPUS.DJ_EDU_INFO CEI LEFT JOIN CAMPUS.DJ_EDU_RESULT CER ON CEI.EDU_INFO_ID = CER.EDU_INFO_ID WHERE CEI.REG_EMP_SEQ = HEI.EMP_SEQ AND CEI.ACTIVE = 'Y' AND CER.STATUS = 100 AND CER.MNG_CHECK = 'Y' AND DATE_FORMAT(CER.APPROVAL_SEND_DATE, '%Y') = #{eduYear}) AS PERSONAL_COUNT,
-            IFNULL((SELECT SUM(JOURNAL_TIME) FROM CAMPUS.DJ_STUDY_JOURNAL CSJ LEFT JOIN CAMPUS.DJ_STUDY_USER CSU ON CSJ.STUDY_INFO_SN = CSU.STUDY_INFO_SN WHERE STUDY_EMP_SEQ = HEI.EMP_SEQ AND ACTIVE = 'Y' AND CAPTAIN_APPOVAL_YN = 'Y' AND ASSISTANT_APPOVAL_YN = 'Y' AND DATE_FORMAT(CSJ.JOURNAL_DT, '%Y') = #{eduYear}), 0) AS STUDY_TIME,
-            (SELECT COUNT(JOURNAL_TIME) FROM CAMPUS.DJ_STUDY_JOURNAL CSJ LEFT JOIN CAMPUS.DJ_STUDY_USER CSU ON CSJ.STUDY_INFO_SN = CSU.STUDY_INFO_SN WHERE STUDY_EMP_SEQ = HEI.EMP_SEQ AND ACTIVE = 'Y' AND CAPTAIN_APPOVAL_YN = 'Y' AND ASSISTANT_APPOVAL_YN = 'Y' AND DATE_FORMAT(CSJ.JOURNAL_DT, '%Y') = #{eduYear}) AS STUDY_COUNT,
-            IFNULL((SELECT SUM(EDU_TIME) FROM CAMPUS.DJ_STUDY_INFO CSI LEFT JOIN CAMPUS.DJ_STUDY_USER CSU ON CSI.STUDY_INFO_SN = CSU.STUDY_INFO_SN WHERE STUDY_EMP_SEQ = HEI.EMP_SEQ AND CSI.STATUS = '100' AND CSI.STUDY_CLASS_SN = 2 AND DATE_FORMAT(CSI.START_DT, '%Y') = #{eduYear}), 0) AS PROPAG_TIME,
-            IFNULL((SELECT COUNT(EDU_TIME) FROM CAMPUS.DJ_STUDY_INFO CSI LEFT JOIN CAMPUS.DJ_STUDY_USER CSU ON CSI.STUDY_INFO_SN = CSU.STUDY_INFO_SN WHERE STUDY_EMP_SEQ = HEI.EMP_SEQ AND CSI.STATUS = '100' AND CSI.STUDY_CLASS_SN = 2 AND DATE_FORMAT(CSI.START_DT, '%Y') = #{eduYear}), 0) AS PROPAG_COUNT,
+            IFNULL((SELECT SUM(JOURNAL_TIME) FROM CAMPUS.DJ_STUDY_JOURNAL CSJ LEFT JOIN CAMPUS.DJ_STUDY_USER CSU ON CSJ.STUDY_INFO_SN = CSU.STUDY_INFO_SN WHERE CSU.STUDY_EMP_SEQ = HEI.EMP_SEQ AND ACTIVE = 'Y' AND CAPTAIN_APPOVAL_YN = 'Y' AND ASSISTANT_APPOVAL_YN = 'Y' AND DATE_FORMAT(CSJ.JOURNAL_DT, '%Y') = #{eduYear}), 0) AS STUDY_TIME,
+            (SELECT COUNT(JOURNAL_TIME) FROM CAMPUS.DJ_STUDY_JOURNAL CSJ LEFT JOIN CAMPUS.DJ_STUDY_USER CSU ON CSJ.STUDY_INFO_SN = CSU.STUDY_INFO_SN WHERE CSU.STUDY_EMP_SEQ = HEI.EMP_SEQ AND ACTIVE = 'Y' AND CAPTAIN_APPOVAL_YN = 'Y' AND ASSISTANT_APPOVAL_YN = 'Y' AND DATE_FORMAT(CSJ.JOURNAL_DT, '%Y') = #{eduYear}) AS STUDY_COUNT,
+            IFNULL((SELECT SUM(EDU_TIME) FROM CAMPUS.DJ_STUDY_INFO CSI LEFT JOIN CAMPUS.DJ_STUDY_USER CSU ON CSI.STUDY_INFO_SN = CSU.STUDY_INFO_SN WHERE CSU.STUDY_EMP_SEQ = HEI.EMP_SEQ AND CSI.STATUS = '100' AND CSI.STUDY_CLASS_SN = 2 AND DATE_FORMAT(CSI.START_DT, '%Y') = #{eduYear}), 0) AS PROPAG_TIME,
+            IFNULL((SELECT COUNT(EDU_TIME) FROM CAMPUS.DJ_STUDY_INFO CSI LEFT JOIN CAMPUS.DJ_STUDY_USER CSU ON CSI.STUDY_INFO_SN = CSU.STUDY_INFO_SN WHERE CSU.STUDY_EMP_SEQ = HEI.EMP_SEQ AND CSI.STATUS = '100' AND CSI.STUDY_CLASS_SN = 2 AND DATE_FORMAT(CSI.START_DT, '%Y') = #{eduYear}), 0) AS PROPAG_COUNT,
             IFNULL((SELECT SUM(COR.EDU_TIME) FROM CAMPUS.DJ_STUDY_INFO CSI LEFT JOIN CAMPUS.DJ_OJT_RESULT COR ON COR.STUDY_INFO_SN = CSI.STUDY_INFO_SN LEFT JOIN CAMPUS.DJ_OJT_USER COU ON COR.OJT_RESULT_SN = COU.OJT_RESULT_SN WHERE COU.OJT_EMP_SEQ = HEI.EMP_SEQ AND CSI.STATUS = '101' AND ACTIVE = 'Y' AND DATE_FORMAT(COR.OJT_DT, '%Y') = #{eduYear}), 0) AS OJT_TIME,
             IFNULL((SELECT COUNT(COR.EDU_TIME) FROM CAMPUS.DJ_STUDY_INFO CSI LEFT JOIN CAMPUS.DJ_OJT_RESULT COR ON COR.STUDY_INFO_SN = CSI.STUDY_INFO_SN LEFT JOIN CAMPUS.DJ_OJT_USER COU ON COR.OJT_RESULT_SN = COU.OJT_RESULT_SN WHERE COU.OJT_EMP_SEQ = HEI.EMP_SEQ AND CSI.STATUS = '101' AND ACTIVE = 'Y' AND DATE_FORMAT(COR.OJT_DT, '%Y') = #{eduYear}), 0) AS OJT_COUNT,
             IFNULL((SELECT SUM(EDU_TIME) FROM CAMPUS.DJ_OPENSTUDY_INFO COI LEFT JOIN CAMPUS.DJ_OPENSTUDY_USER COU ON COI.OPEN_STUDY_INFO_SN = COU.OPEN_STUDY_INFO_SN WHERE COU.REG_EMP_SEQ = HEI.EMP_SEQ AND COI.STATUS = 100 AND COU.PART_YN = 'Y' AND DATE_FORMAT(COI.OPEN_STUDY_DT, '%Y') = #{eduYear}), 0) AS OPEN_STUDY_TIME,
@@ -762,7 +756,7 @@
         <if test='sEmpName != null and !"".equals(sEmpName)'>
             AND HEI.EMP_NAME_KR LIKE CONCAT('%', #{sEmpName}, '%')
         </if>
-        AND WORK_STATUS_CODE = 'Y'
+            AND WORK_STATUS_CODE = 'Y'
         ORDER BY EMP_NAME_KR
     </select>
 
@@ -817,6 +811,17 @@
             (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
         AND WORK_STATUS_CODE = 'Y'
         ORDER BY EMP_NAME_KR
+    </select>
+
+    <select id="getEduInfoFile" parameterType="map" resultType="map">
+        /*getEduInfoFile*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_CD = 'eduReq'
+        AND CONTENT_ID = CONCAT('eduInfo_', #{EDU_INFO_ID})
     </select>
 
     <insert id="setEduInfoInsert" parameterType="map">
@@ -933,6 +938,9 @@
                 </if>
                 #{eduFormType}
             )
+        <selectKey keyProperty="eduInfoId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAMPUS' AND TABLE_NAME = 'DJ_EDU_INFO'
+        </selectKey>
     </insert>
 
     <update id="setEduInfoUpdate" parameterType="map">
@@ -1003,6 +1011,7 @@
                 STUDY_CONTENT,
                 STUDY_MONEY,
                 STUDY_MONEY_VAL,
+                ATTACH,
                 <if test='startTime != null and startTime != ""'>
                     START_TIME,
                 </if>
@@ -1032,6 +1041,7 @@
                 #{studyContent},
                 #{studyMoney},
                 #{studyMoneyVal},
+                #{attach},
                 <if test='startTime != null and startTime != ""'>
                     #{startTime},
                 </if>
@@ -1128,6 +1138,8 @@
             (
                 STUDY_INFO_SN,
                 STUDY_NAME,
+                STUDY_EMP_SEQ,
+                STUDY_EMP_NAME,
                 JOURNAL_DT,
                 JOURNAL_START_TIME,
                 JOURNAL_END_TIME,
@@ -1144,6 +1156,8 @@
             (
                 #{studyInfoSn},
                 #{studyName},
+                #{studyEmpSeq},
+                #{studyEmpName},
                 #{journalDt},
                 #{journalStartTime},
                 #{journalEndTime},
@@ -1156,7 +1170,63 @@
                 #{journalAmtEtc},
                 #{regEmpName}
             )
+        <selectKey keyProperty="studyJournalSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAMPUS' AND TABLE_NAME = 'DJ_STUDY_JOURNAL'
+        </selectKey>
     </insert>
+
+    <insert id="setStudyResult" parameterType="map">
+        /*setStudyResult*/
+        INSERT INTO CAMPUS.DJ_STUDY_RESULT
+            (
+                STUDY_INFO_SN,
+                STUDY_NAME,
+                STUDY_EMP_SEQ,
+                STUDY_EMP_NAME,
+                STUDY_RESULT_DT,
+                STUDY_RESULT_START_TIME,
+                STUDY_RESULT_END_TIME,
+                STUDY_RESULT_TIME,
+                STUDY_RESULT_LOCATE,
+                STUDY_RESULT_CONTENT,
+                STUDY_RESULT_AMT,
+                REG_EMP_NAME
+            )
+        VALUES
+            (
+                #{studyInfoSn},
+                #{studyName},
+                #{studyEmpSeq},
+                #{studyEmpName},
+                #{studyResultDt},
+                #{studyResultStartTime},
+                #{studyResultEndTime},
+                #{studyResultTime},
+                #{studyResultLocate},
+                #{studyResultContent},
+                #{studyResultAmt},
+                #{regEmpName}
+            )
+        <selectKey keyProperty="studyResultSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAMPUS' AND TABLE_NAME = 'DJ_STUDY_RESULT'
+        </selectKey>
+    </insert>
+
+    <delete id="deleteStudyJournal" parameterType="map">
+        /* deleteStudyJournal */
+        DELETE FROM CAMPUS.DJ_STUDY_JOURNAL
+        WHERE
+            STUDY_JOURNAL_SN = #{studyJournalSn}
+    </delete>
+
+    <update id="setStudyJournalUpdate" parameterType="map">
+        /*setStudyJournalUpdate*/
+        UPDATE CAMPUS.DJ_STUDY_JOURNAL
+        SET
+            JOURNAL_FILE_SN = #{file_no}
+        WHERE
+            STUDY_JOURNAL_SN = #{studyJournalSn}
+    </update>
 
     <update id="setStudyJournalApp" parameterType="map">
         /* setStudyJournalApp */
@@ -1196,6 +1266,13 @@
                 #{regEmpName}
             )
     </insert>
+
+    <select id="getStudyResultData" parameterType="map" resultType="map">
+        /*getStudyResultData*/
+        SELECT * FROM CAMPUS.DJ_STUDY_RESULT
+        WHERE
+            STUDY_RESULT_SN = #{studyResultSn}
+    </select>
 
     <update id="setOjtPlanUpdate" parameterType="map">
         /* setOjtPlanUpdate */
@@ -1894,4 +1971,34 @@
         WHERE
             DUTY_INFO_SN = #{pk}
     </update>
+
+    <update id="setStudyInfoComplete" parameterType="map">
+        /*setStudyInfoComplete*/
+        UPDATE CAMPUS.DJ_STUDY_INFO
+        SET
+            ADD_STATUS = "Y"
+        WHERE
+            STUDY_INFO_SN = #{studyInfoSn}
+    </update>
+
+    <update id="setStudyResultComplete" parameterType="map">
+        /*setStudyResultComplete*/
+        UPDATE CAMPUS.DJ_STUDY_INFO
+        SET
+            ADD_STATUS = "C"
+        WHERE
+            STUDY_INFO_SN = #{studyInfoSn}
+    </update>
+
+    <select id="getStudyResultOne" parameterType="map" resultType="map">
+        /*getStudyResultOne*/
+        SELECT
+            *
+        FROM
+            CAMPUS.DJ_STUDY_RESULT
+        WHERE
+            STUDY_INFO_SN = #{pk}
+        ORDER BY STUDY_RESULT_SN
+        LIMIT 1
+    </select>
 </mapper>

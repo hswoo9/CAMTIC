@@ -96,6 +96,7 @@ var studyInfo = {
                     title: "진행현황",
                     width: 120,
                     template: function(row){
+                        console.log(row)
                         let studyClass = row.STUDY_CLASS_SN;
                         if(studyClass == 1){
                             if(row.STATUS == 0){
@@ -103,7 +104,11 @@ var studyInfo = {
                             }else if(row.STATUS == 10) {
                                 return "신청서 승인요청중"
                             }else if(row.STATUS == 100){
-                                return "신청서 제출"
+                                if(row.ADD_STATUS == "Y"){
+                                    return "학습완료";
+                                } else {
+                                    return "학습 진행중"
+                                }
                             }
                         }else if(studyClass == 2){
                             if(row.STATUS == 0){

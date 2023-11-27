@@ -19,6 +19,7 @@
       </div>
     </div>
 
+
     <form id="subHolidayReqPop" style="padding: 20px 30px;">
       <input type="hidden" id="pk" name="pk" value="${pk}">
       <%--<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">

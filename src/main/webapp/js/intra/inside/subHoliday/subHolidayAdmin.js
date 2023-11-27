@@ -208,7 +208,7 @@ var subHolidayAdmin = {
     subHolidayReqBatchPop : function() {
         var url = "/subHoliday/subHolidayReqBatchPop.do";
         var name = "subHolidayReqBatchPop";
-        var option = "width=1030, height=450, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1030, height=1000, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     },
 }

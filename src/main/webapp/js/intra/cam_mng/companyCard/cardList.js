@@ -22,6 +22,7 @@ var cardList = {
                 },
                 parameterMap: function(data){
                     data.searchValue = $("#searchValue").val();
+                    data.cardName = "법인카드"
                     return data;
                 }
             },

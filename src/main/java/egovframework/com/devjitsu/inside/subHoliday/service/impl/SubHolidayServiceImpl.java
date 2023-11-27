@@ -199,6 +199,24 @@ public class SubHolidayServiceImpl implements SubHolidayService {
         subHolidayRepository.setUserVacList(list);
     }
 
+    @Override
+    public void setUserVacList2(List<Map<String, Object>> list, String uniqId, String reason) {
+        for (int i = 0; i < list.size(); i++) {
+            Map<String, Object> json = list.get(i);
+            Map<String, Object> data = subHolidayRepository.getUserVacInfo(json);
+
+            /** 기존발생연차나 보상발생연차가 수정이 되었을 경우 */
+            if(!json.get("GRANT_DAY").toString().equals(data.get("GRANT_DAY").toString())
+            || !json.get("COMP_VAC").toString().equals(data.get("COMP_VAC").toString())){
+                json.put("emqSeq", uniqId);
+                json.put("reason", reason);
+                subHolidayRepository.insUserVacChangeHist(json);
+                subHolidayRepository.updUserVacInfo(json);
+            }
+            System.out.println(data);
+        }
+    }
+
     //공휴일 데이터 조회
     @Override
     public List<Map<String, Object>> getHolidayList(Map<String, Object> params) {
@@ -282,23 +300,6 @@ public class SubHolidayServiceImpl implements SubHolidayService {
 
     @Override
     public List<Map<String, Object>> getModVacList(Map<String, Object> map) {
-//        List<Map<String, Object>> modifiedVacList = subHolidayRepository.getModVacList(map);
-
-//        for (Map<String, Object> vac : modifiedVacList) {
-//            Object grantDaysObj = vac.get("GRANT_DAY");
-//            Object previousGrantDays = getPreviousGrantDays(vac);
-//            vac.put("PREVIOUS_GRANT_DAY", previousGrantDays != null ? previousGrantDays.toString() : null);
-//        }
-//
-//        for (Map<String, Object> vacation : modifiedVacList) {
-//            Object previousGrantDays = vacation.get("PREVIOUS_GRANT_DAY");
-//            Object modifiedGrantDays = vacation.get("GRANT_DAY");
-//
-//            // 변환된 값 출력
-//            System.out.println("이전 GRANT_DAY: " + previousGrantDays);
-//            System.out.println("수정된 GRANT_DAY: " + modifiedGrantDays);
-//        }
-//        return modifiedVacList;
         return subHolidayRepository.getModVacList(map);
     }
 

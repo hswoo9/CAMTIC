@@ -15,6 +15,9 @@ var rndDP = {
                 {text : "설계", value : "1"},
                 {text : "제작", value : "2"},
                 {text : "품질", value : "3"},
+                {text : "참여", value : "4"},
+                {text : "기획", value : "5"},
+                {text : "기타", value : "6"}
             ],
             dataTextField : "text",
             dataValueField : "value"

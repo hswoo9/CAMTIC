@@ -2,13 +2,19 @@ package egovframework.com.devjitsu.campus.service.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.campus.repository.CampusRepository;
 import egovframework.com.devjitsu.campus.service.CampusService;
+import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.gw.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +26,9 @@ public class CampusServiceImpl implements CampusService {
     private UserRepository userRepository;
     @Autowired
     private CampusRepository campusRepository;
+
+    @Autowired
+    private CommonRepository commonRepository;
 
     @Override
     public List<Map<String, Object>> getCodeList(Map<String, Object> params){
@@ -53,7 +62,9 @@ public class CampusServiceImpl implements CampusService {
 
     @Override
     public Map<String, Object> getEduInfoOne(Map<String, Object> params){
-        return campusRepository.getEduInfoOne(params);
+        Map<String, Object> result = campusRepository.getEduInfoOne(params);
+        result.put("eduFileList", campusRepository.getEduInfoFile(result));
+        return result;
     }
 
     @Override
@@ -241,8 +252,28 @@ public class CampusServiceImpl implements CampusService {
 
 
     @Override
-    public void setEduInfoInsert(Map<String, Object> params) {
+    public void setEduInfoInsert(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir) {
         campusRepository.setEduInfoInsert(params);
+        params.put("menuCd", "eduReq");
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile eduFile = request.getFile("eduFile");
+
+        if(eduFile != null){
+            if(!eduFile.isEmpty()){
+                fileInsMap = mainLib.fileUpload(eduFile, filePath(params, serverDir));
+                fileInsMap.put("contentId", "eduInfo_" + params.get("eduInfoId"));
+                fileInsMap.put("crmSn", params.get("rsSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, baseDir));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("empSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+            }
+        }
     }
 
     @Override
@@ -313,8 +344,39 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
-    public void setStudyJournalInsert(Map<String, Object> params) {
+    public void setStudyJournalInsert(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
         campusRepository.setStudyJournalInsert(params);
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile files = request.getFile("files");
+        params.put("menuCd", "studyJournal");
+        if(files != null){
+            if(!files.isEmpty()){
+                fileInsMap = mainLib.fileUpload(files, filePath(params, SERVER_DIR));
+                fileInsMap.put("studyJournalSn", params.get("studyJournalSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("file_no", fileInsMap.get("file_no"));
+                campusRepository.setStudyJournalUpdate(fileInsMap);
+            }
+        }
+    }
+
+    private String filePath (Map<String, Object> params, String base_dir){
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String fmtNow = now.format(fmt);
+
+        String path = base_dir + params.get("menuCd").toString()+"/" + fmtNow + "/";
+
+        return path;
     }
 
     @Override
@@ -713,5 +775,32 @@ public class CampusServiceImpl implements CampusService {
             params.put("status", "100");
             campusRepository.updateEduResultFinalApprStat(params);
         }
+    }
+
+    @Override
+    public void deleteStudyJournal(Map<String, Object> params) {
+        campusRepository.deleteStudyJournal(params);
+    }
+
+    @Override
+    public void setStudyInfoComplete(Map<String, Object> params) {
+        campusRepository.setStudyInfoComplete(params);
+    }
+
+    @Override
+    public void setStudyResult(Map<String, Object> params) {
+        campusRepository.setStudyResult(params);
+
+        campusRepository.setStudyResultComplete(params);
+    }
+
+    @Override
+    public Map<String, Object> getStudyResultData(Map<String, Object> params) {
+        return campusRepository.getStudyResultData(params);
+    }
+
+    @Override
+    public Map<String, Object> getStudyResultOne(Map<String, Object> params) {
+        return campusRepository.getStudyResultOne(params);
     }
 }

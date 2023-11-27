@@ -62,7 +62,7 @@ var prp = {
 
         if($("#pjtSn").val() != ""){
             $("#purcType").data("kendoRadioGroup").value($("#busnClass").val());
-            $("input[name='purcType']").trigger("click");
+            $("#project").css("display", "");
             $("#purcType").data("kendoRadioGroup").enable(false);
             $("#pjtSelBtn").prop("disabled", true);
             $("#pjtNm").prop("disabled", true);

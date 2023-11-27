@@ -55,31 +55,67 @@
                         </td>
                     </tr>
                 </table>
-                <div id="mainGrid" style="margin:20px 0;"></div>
+                <div id="mainGrid"></div>
             </div>
         </div>
     </div>
 </div><!-- col-md-9 -->
+<div id="modal" class="pop_wrap_dir"></div>
 
-<script type="text/x-kendo-template" id="toolbarTemplate">
-    <div>
-        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidaySettingPop()">이력관리</button>
-    </div>
-    <div>
-        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidaySetting.gridReload();">조회</button>
-    </div>
-    <div>
-        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="subHolidaySetting.fn_saveAll();">저장</button>
-    </div>
-
-</script>
 <script type="text/javascript">
     subHolidaySetting.init();
+
+    $("#modal").kendoWindow({
+        title : "수정 사유",
+        width: "1000px",
+        visible: false,
+        modal: true,
+        position : {
+            top : 300,
+            left : 480
+        },
+        open : function (){
+            var htmlStr = '<div class="mb-10" style="text-align: right;">' +
+                '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="subHolidaySetting.fn_saveAll()">저장</button>' +
+                '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#modal\').data(\'kendoWindow\').close()">닫기</button>' +
+                '</div>' +
+                '<table class="table table-bordered mb-0" style="margin-top: 10px">' +
+                '	<colgroup>' +
+                '		<col width="20%">' +
+                '		<col width="35%">' +
+                '		<col width="15%">' +
+                '		<col width="30%">' +
+                '	</colgroup>' +
+                '	<tbody>' +
+                '		<tr>' +
+                '			<th scope="row" class="text-center th-color"><span class="red-star">*</span>수정사유</th>' +
+                '			<td colspan="3">' +
+                '				<input id="modReason" style="width: 80.5%"/>' +
+                '			</td>' +
+                '		</tr>' +
+                '	</tbody>' +
+                '</table>';
+
+            $("#modal").html(htmlStr);
+            modalKendoSet();
+        },
+        close: function () {
+            $("#modal").empty();
+        }
+    });
 
     function subHolidaySettingPop() {
         var url = "/subHoliday/pop/subHolidaySettingPop.do";
         var name = "subHolidaySettingPop";
-        var option = "width=1500, height=460, top=100, left=200, location=no";
+        var option = "width=1528, height=700, top=100, left=200, location=no";
         var popup = window.open(url, name, option);
+    }
+
+    function modalKendoSet(){
+        $("#modReason").kendoTextBox();
+    }
+
+    function openModal(){
+        $("#modal").data("kendoWindow").open();
     }
 </script>

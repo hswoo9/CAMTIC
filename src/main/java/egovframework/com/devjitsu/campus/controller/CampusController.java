@@ -6,11 +6,13 @@ import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -24,6 +26,12 @@ public class CampusController {
 
     @Autowired
     private CampusService campusService;
+
+    @Value("#{properties['File.Server.Dir']}")
+    private String SERVER_DIR;
+
+    @Value("#{properties['File.Base.Directory']}")
+    private String BASE_DIR;
 
     /** 나의학습현황 페이지 */
     @RequestMapping("/Campus/myEduStatus.do")
@@ -609,6 +617,8 @@ public class CampusController {
         model.addAttribute("loginVO", login);
         Map<String, Object> data = campusService.getStudyInfoOne(params);
         model.addAttribute("data", data);
+        Map<String, Object> resultData = campusService.getStudyResultOne(params);
+        model.addAttribute("resultData", resultData);
         List<Map<String, Object>> list = campusService.getStudyUserList(params);
         model.addAttribute("params", params);
         model.addAttribute("list", list);
@@ -746,7 +756,6 @@ public class CampusController {
         HttpSession session = request.getSession();
         session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "campus/commonEduList";
     }
@@ -1381,8 +1390,13 @@ public class CampusController {
 
     /** 교육수강신청서 저장 */
     @RequestMapping("/campus/setEduInfoInsert")
-    public String setEduInfoInsert(@RequestParam Map<String, Object> params) {
-        campusService.setEduInfoInsert(params);
+    public String setEduInfoInsert(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) {
+        try{
+            campusService.setEduInfoInsert(params, request, SERVER_DIR, BASE_DIR);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
         return "jsonView";
     }
 
@@ -1423,8 +1437,8 @@ public class CampusController {
 
     /** 학습조 학습일지 저장 */
     @RequestMapping("/campus/setStudyJournalInsert")
-    public String setStudyJournalInsert(@RequestParam Map<String, Object> params) {
-        campusService.setStudyJournalInsert(params);
+    public String setStudyJournalInsert(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) {
+        campusService.setStudyJournalInsert(params, request, SERVER_DIR, BASE_DIR);
         return "jsonView";
     }
 
@@ -1733,6 +1747,77 @@ public class CampusController {
         String pattern = "yyyyMMddHHmmss";
         SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
         return formatter.format(today);
+    }
+
+    @RequestMapping("/campus/pop/popSubjectMember.do")
+    public String popSubjectMember(@RequestParam Map<String, Object> params, Model model) {
+
+        model.addAttribute("params", params);
+
+        return "popup/campus/popSubjectMember";
+    }
+
+    @RequestMapping("/campus/deleteStudyJournal")
+    public String deleteStudyJournal(@RequestParam Map<String, Object> params, Model model) {
+        try{
+            campusService.deleteStudyJournal(params);
+            model.addAttribute("code", 200);
+            model.addAttribute("msg", "삭제되었습니다.");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/campus/setStudyInfoComplete")
+    public String setStudyInfoComplete(@RequestParam Map<String, Object> params, Model model) {
+        try{
+            campusService.setStudyInfoComplete(params);
+            model.addAttribute("code", 200);
+            model.addAttribute("msg", "학습이 완료되었습니다.");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/campus/pop/resultDocPop.do")
+    public String resultDocPop(@RequestParam Map<String, Object> params, Model model,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        Map<String, Object> data = campusService.getStudyInfoOne(params);
+        model.addAttribute("data", data);
+        model.addAttribute("params", params);
+
+        return "popup/campus/resultDocPop";
+    }
+
+    @RequestMapping("/campus/setStudyResult")
+    public String setStudyResult(@RequestParam Map<String, Object> params, Model model) {
+
+        try{
+            campusService.setStudyResult(params);
+            model.addAttribute("code", 200);
+            model.addAttribute("params", params);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/campus/getStudyResultData")
+    public String getStudyResultData(@RequestParam Map<String, Object> params, Model model) {
+
+        Map<String, Object> data = campusService.getStudyResultData(params);
+
+        model.addAttribute("data", data);
+
+        return "jsonView";
     }
 
 }

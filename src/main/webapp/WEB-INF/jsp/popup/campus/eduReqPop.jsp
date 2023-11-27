@@ -218,7 +218,7 @@
                 <tr>
                   <th>${eduMoneyVar}</th>
                   <td>
-                    <input type="text" id="eduMoney" style="width: 150px" value="0"> 원
+                    <input type="text" id="eduMoney" style="width: 150px; text-align: right" value="0" onkeyup="fn_inputNumberFormat(this)" oninput="onlyNumber(this)"> 원
                   </td>
                   <th>결제수단</th>
                   <td>
@@ -232,7 +232,7 @@
                 <tr>
                   <th>환급 예상액</th>
                   <td>
-                    <input type="text" id="returnMoney" style="width: 150px" value="0"> 원
+                    <input type="text" id="returnMoney" style="width: 150px; text-align: right" value="0" onkeyup="fn_inputNumberFormat(this)" oninput="onlyNumber(this)"> 원
                   </td>
                   <th>환급 필요서류</th>
                   <td>
@@ -266,7 +266,9 @@
             <tr>
               <th>첨부파일</th>
               <td colspan="3">
-                <input type="file">
+                <label for="eduFile" class="k-button k-button-solid-base">파일첨부</label>
+                <input type="file" id="eduFile" name="eduFile" onchange="eduReq.fileChange(this)" style="display: none">
+                <span id="fileText"></span>
               </td>
             </tr>
             <tr>

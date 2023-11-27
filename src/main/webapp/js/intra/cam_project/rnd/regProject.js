@@ -93,6 +93,7 @@ var regRnd = {
         var tab13Url= "/intra/cam_project/depositInfo.do";       // 입금관리
         var tab14Url= "/intra/cam_project/purcInfo.do";          // 정산/원가
         var tab15Url= "/intra/cam_project/performanceInfo.do";   // 실적관리
+        var tab16Url = "/intra/cam_project/costPriceInfoAdmin.do"; // 정산서
 
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -111,6 +112,7 @@ var regRnd = {
             tab13Url += "?pjtSn=" + setParameters.PJT_SN;
             tab14Url += "?pjtSn=" + setParameters.PJT_SN;
             tab15Url += "?pjtSn=" + setParameters.PJT_SN;
+            tab16Url += "?pjtSn=" + setParameters.PJT_SN;
         }
 
         var dataSource = [];
@@ -121,7 +123,7 @@ var regRnd = {
                 // {name: "참여율요청", url: tab2Url},      // 지출내역조회와 같이 사용
                 {name: "납품관리", url: "/intra/cam_project/goodsInfo.do?pjtSn=" + setParameters.PJT_SN},      // 지출내역조회와 같이 사용
                 {name: "출장", url: "/intra/cam_project/bustInfo.do?pjtSn=" + setParameters.PJT_SN},
-                {name: "구매", url: "/intra/cam_project/purcInfo.do?pjtSn=" + setParameters.PJT_SN},
+                {name: "구매", url: "/intra/cam_project/purcInfo.do?pjtSn=" + setParameters.PJT_SN}
             ]
         } else {
             dataSource = [
@@ -135,7 +137,8 @@ var regRnd = {
                 // {name: "입출금대장관리", url: tab5Url},
                 {name: "사업비관리(예산/지급)", url: tab7Url},        // 연구비 입금처리와 같이 사용
                 {name: "결과보고", url: tab8Url, imageUrl: "/images/ico/etc_01_1.png"},        // 연구비 입금처리와 같이 사용
-                {name: "실적관리", url: tab15Url},        // 연구비 입금처리와 같이 사용
+                {name: "실적관리", url: tab15Url},        // 연구비 입금처리와 같이 사용,
+                {name: "원가보고", url: tab14Url, imageUrl: "/images/ico/etc_01_1.png"},
 
                 // {name: "지급관리", url: tab9Url},
                 {name: "출장", url: tab9Url},
@@ -143,7 +146,7 @@ var regRnd = {
                 {name: "구매", url: tab11Url},
                 {name: "예산변경 및 반납", url: tab12Url},
                 {name: "입금관리", url: tab13Url},
-                {name: "정산/원가", url: tab14Url, imageUrl: "/images/ico/etc_01_1.png"}
+                {name: "정산서", url: tab16Url}
             ]
         }
 
@@ -196,7 +199,8 @@ var regRnd = {
             }
 
             // tabStrip.disable(tabStrip.tabGroup.children().eq(12));
-            tabStrip.disable(tabStrip.tabGroup.children().eq(13));
+            tabStrip.disable(tabStrip.tabGroup.children().eq(9));
+            tabStrip.disable(tabStrip.tabGroup.children().eq(14));
 
         }
 
@@ -219,7 +223,7 @@ var regRnd = {
 
             var html = '<div style="width:100%;"></div>';
             var doc = parser.parseFromString(html, 'text/html');
-            $("#tabstrip li")[8].after(doc.body.firstChild);
+            $("#tabstrip li")[9].after(doc.body.firstChild);
 
             var html2 = '<div style="padding: 6px 12px"><b style="color: red">사업관리</b></div>';
             var doc2 = parser.parseFromString(html2, 'text/html');
@@ -227,7 +231,7 @@ var regRnd = {
 
             var html3 = '<div style="padding: 6px 12px"><b style="color: blue">운영관리</b></div>';
             var doc3 = parser.parseFromString(html3, 'text/html');
-            $("#tabstrip li")[9].before(doc3.body.firstChild);
+            $("#tabstrip li")[10].before(doc3.body.firstChild);
         }
     },
 

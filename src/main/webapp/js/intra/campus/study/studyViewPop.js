@@ -10,6 +10,12 @@ const studyView = {
     },
 
     dataSet: function(){
+
+        if($("#addStatus").val() == "Y" || $("#addStatus").val() == "C"){
+            $("#resultDoc").html("<div style='color : red'> 결과보고서가 등록되지 않았습니다.</div>")
+            $("#resultBtn").css("display", "");
+        }
+
         studyView.studyUserSetting();
         studyView.studyBtnSetting();
     },
@@ -134,6 +140,7 @@ const studyView = {
                     title: "일시",
                     width: 250,
                     template: function(row){
+                        console.log(row);
                         return row.JOURNAL_DT + " (" + row.JOURNAL_START_TIME +"~"+row.JOURNAL_END_TIME+" / "+row.JOURNAL_TIME+")";
                     }
                 }, {
@@ -153,6 +160,12 @@ const studyView = {
                     title: "간사검토",
                     width: 100,
                     template: function(row){
+                        if(row.CAPTAIN_APPOVAL_YN == 'Y' && row.ASSISTANT_APPOVAL_YN == 'Y' && $("#addStatus").val() == "N"){
+                            $("#compBtn").css("display", "");
+                        } else {
+                            $("#compBtn").css("display", "none");
+                        }
+
                         if(row.ASSISTANT_APPOVAL_YN == 'Y'){
                             return "검토완료";
                         }else{
@@ -162,8 +175,8 @@ const studyView = {
                 }, {
                     width: 150,
                     template: function(row){
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="studyView.tmp('+row.STUDY_JOURNAL_SN+')">인쇄</button> ' +
-                            '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-error" onclick="studyView.tmp('+row.STUDY_JOURNAL_SN+')">삭제</button>';
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" disabled onclick="studyView.tmp('+row.STUDY_JOURNAL_SN+')">인쇄</button> ' +
+                            '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-error" onclick="studyView.fn_delete('+row.STUDY_JOURNAL_SN+')">삭제</button>';
                     }
                 }
             ]
@@ -177,6 +190,8 @@ const studyView = {
             const dataItem = grid.dataItem($(this).closest("tr"));
             studyView.studyJournalPop(2, dataItem.STUDY_INFO_SN, dataItem.STUDY_JOURNAL_SN);
         });
+
+
     },
 
     studyReq: function(status){
@@ -251,6 +266,58 @@ const studyView = {
         }
         let name = "studyJournalPop";
         let option = "width = 800, height = 600, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    },
+
+    fn_delete : function (key){
+        $.ajax({
+            url : "/campus/deleteStudyJournal",
+            data : {
+                studyJournalSn : key
+            },
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert(rs.msg);
+                    studyView.mainGrid();
+                }
+            }
+        })
+    },
+
+    fn_studyComplete : function (){
+        var data = {
+            studyInfoSn : $("#pk").val()
+        }
+
+        $.ajax({
+            url : "/campus/setStudyInfoComplete",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success: function(rs){
+                if(rs.code == 200){
+                    alert(rs.msg);
+                    location.reload();
+                }
+            }
+        });
+    },
+
+    fn_resultDocPop : function (){
+        let url = "/campus/pop/resultDocPop.do?pk="+$("#pk").val();
+
+        let name = "studyJournalPop";
+        let option = "width = 800, height = 700, top = 100, left = 200, location = no";
+
+        if($("#studyResultSn").val() != ""){
+            url += "&studyResultSn="+$("#studyResultSn").val();
+        } else {
+            name = "studyJournalPop";
+            option = "width = 800, height = 600, top = 100, left = 200, location = no";
+        }
+
         window.open(url, name, option);
     }
 }

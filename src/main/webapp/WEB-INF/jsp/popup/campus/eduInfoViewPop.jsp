@@ -249,7 +249,7 @@
             </tr>
             <tr>
               <th>첨부파일</th>
-              <td colspan="3">
+              <td colspan="3" id="eduFile">
               </td>
             </tr>
             <tr>

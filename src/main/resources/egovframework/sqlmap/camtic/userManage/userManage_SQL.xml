@@ -23,7 +23,12 @@
             a.CAR_NUM AS 'carNum',
             a.JOIN_DAY AS 'joinDay',
             a.RESIGN_DAY AS 'resignDay',
-            a.RES_REGIS_NUM AS 'resRegisNum'
+            a.RES_REGIS_NUM AS 'resRegisNum',
+            a.BANK_NAME AS 'BANK_NAME',
+            a.ACCOUNT_NUM AS 'ACCOUNT_NUM',
+            a.DEPT_SEQ AS 'deptSeq',
+            a.DEPT_NAME AS 'deptName',
+            a.DEPT_TEAM_NAME AS 'teamName'
         FROM
             cam_hr.dj_emp_info AS a
         WHERE
@@ -2823,10 +2828,12 @@
     </select>
 
     <select id="getTotalEmpCount" parameterType="map" resultType="map">
+        /*getTotalEmpCount*/
         SELECT
             join_year,
             employees_joined,
-            employees_resigned
+            employees_resigned,
+            active_emp_count
         FROM (
                  SELECT
                      YEAR(JOIN_DAY) AS join_year,
@@ -2835,6 +2842,12 @@
                      cam_hr.dj_emp_info
                  WHERE
                      JOIN_DAY IS NOT NULL AND YEAR(JOIN_DAY) BETWEEN 1999 AND 2023
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                ${item}
+            </foreach>
+        </if>
                  GROUP BY
                      join_year
              ) AS joined
@@ -2846,11 +2859,405 @@
                 cam_hr.dj_emp_info
             WHERE
                 RESIGN_DAY IS NOT NULL AND YEAR(RESIGN_DAY) BETWEEN 1999 AND 2023
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                ${item}
+            </foreach>
+        </if>
             GROUP BY
                 resign_year
         ) AS resigned ON joined.join_year = resigned.resign_year
+                 LEFT JOIN (
+            SELECT
+                YEAR(JOIN_DAY) AS active_year,
+                COUNT(*) AS active_emp_count
+            FROM
+                cam_hr.dj_emp_info
+            WHERE
+                JOIN_DAY IS NOT NULL AND YEAR(JOIN_DAY) BETWEEN 1999 AND 2023
+              AND WORK_STATUS_CODE = 'Y'
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                ${item}
+            </foreach>
+        </if>
+            GROUP BY
+                active_year
+        ) AS active ON joined.join_year = active.active_year
         ORDER BY
-            join_year
+            join_year desc
     </select>
+
+    <insert id="userDegreeInfoInsert" parameterType="map">
+        /* userDegreeInfoInsert */
+
+            INSERT INTO CAM_HR.DJ_EMP_EDUCATIONAL(
+            EMP_SEQ
+            ,EMP_NAME
+            ,ADMISSION_DAY
+            ,GRADUATION_DAY
+            ,DEGREE_CODE
+            ,REG_EMP_SEQ
+            ,REG_DATE
+            ,SCHOOL_NAME
+            ,RMK
+            ,GUBUN_CODE
+            ,GRADUATION_CODE
+            ,SCORE
+            ,admin_approval
+            )VALUES (
+            #{empSeq}
+            ,#{empName}
+            ,#{sDate}
+            ,#{eDate}
+            ,#{degree}
+            ,#{modifyEmpSeq}
+            ,NOW()
+            ,#{school}
+            ,#{bmk}
+            ,#{gubun}
+            ,#{graduation}
+            ,#{score}
+            ,'Y'
+            )
+    </insert>
+
+    <update id="userDegreeInfoModify" parameterType="map">
+        /* userDegreeInfoModify */
+        UPDATE
+            CAM_HR.DJ_EMP_EDUCATIONAL
+        SET
+             GUBUN_CODE = #{gubun}
+            ,ADMISSION_DAY = #{sDate}
+            ,GRADUATION_DAY = #{eDate}
+            ,SCHOOL_NAME = #{school}
+            ,DEGREE_CODE = #{degree}
+            ,GRADUATION_CODE = #{graduation}
+            ,SCORE = #{score}
+            ,RMK = #{bmk}
+            ,MOD_EMP_SEQ = #{modifyEmpSeq}
+            ,MOD_DATE = NOW()
+        WHERE
+            EDUCATIONAL_ID = #{pk}
+    </update>
+
+    <update id="userDegreeInfoDelete" parameterType="map">
+        /* userDegreeInfoDelete */
+        UPDATE
+            CAM_HR.DJ_EMP_EDUCATIONAL
+        SET
+            ACTIVE = 'N'
+        WHERE
+            EDUCATIONAL_ID = #{key}
+    </update>
+
+    <insert id="userCareerInfoInsert" parameterType="map">
+        /* userCareerInfoInsert */
+        INSERT INTO CAM_HR.DJ_EMP_CAREER(
+        EMP_SEQ
+        ,EMP_NAME
+        ,EMPLOY_DEPT_NAME
+        ,JOIN_DAY
+        ,RESIGN_DAY
+        ,POSITION_OR_DUTY
+        ,CAREER_PERIOD
+        ,REG_EMP_SEQ
+        ,REG_DATE
+        ,RMK
+        ,MAIN_TASK
+        ,CAREER_MONTH
+        ,ADMIN_APPROVAL
+        )VALUES (
+        #{empSeq}
+        ,#{empName}
+        ,#{place}
+        ,#{sDate}
+        ,#{eDate}
+        ,#{position}
+        ,#{dateY}
+        ,#{modifyEmpSeq}
+        ,NOW()
+        ,#{bmk}
+        ,#{workType}
+        ,#{dateM}
+        ,'Y'
+        )
+    </insert>
+
+    <update id="userCareerInfoModify" parameterType="map">
+        /* userCareerInfoModify */
+        UPDATE
+            CAM_HR.DJ_EMP_CAREER
+        SET
+            EMPLOY_DEPT_NAME = #{place}
+          ,JOIN_DAY = #{sDate}
+          ,RESIGN_DAY = #{eDate}
+          ,POSITION_OR_DUTY = #{position}
+          ,CAREER_PERIOD = #{dateY}
+          ,CAREER_MONTH = #{dateM}
+          ,RMK = #{bmk}
+          ,MAIN_TASK = #{workType}
+          ,MOD_EMP_SEQ = #{modifyEmpSeq}
+          ,MOD_DATE = NOW()
+        WHERE
+            CAREER_ID = #{pk}
+    </update>
+
+    <update id="userCareerInfoDelete" parameterType="map">
+        /* userCareerInfoDelete */
+        UPDATE
+            CAM_HR.DJ_EMP_CAREER
+        SET
+            ACTIVE = 'N'
+        WHERE
+            CAREER_ID = #{key}
+    </update>
+
+    <update id="userMilitaryInfoModify" parameterType="map">
+        /* userMilitaryInfoModify */
+        UPDATE
+            CAM_HR.DJ_EMP_MILITARY_SVC_INFO
+        SET
+            MILITARY_SVC_TYPE = #{mGubun}
+            ,M_UNFUL_REASON = #{reason}
+            ,M_ENLIST_DAY = #{sDate}
+            ,M_DISCHARGE_DAY = #{eDate}
+            ,MOD_EMP_SEQ = #{modifyEmpSeq}
+            ,MOD_DATE = now()
+            ,M_LAST_RANK = #{rank}
+            ,M_DIVISION = #{mType}
+            ,MOS = #{mDept}
+        WHERE
+            MSI_INFO_ID = #{pk}
+    </update>
+
+    <insert id="userFamilyInfoInsert" parameterType="map">
+        /* userFamilyInfoInsert */
+        INSERT INTO CAM_HR.DJ_EMP_FAMILY_INFO(
+                  EMP_SEQ
+                 ,EMP_NAME
+                 ,FAMILY_CODE
+                 ,FAMILY_NAME
+                 ,FAMILY_BIRTH
+                 ,FAMILY_JOB
+                 ,INCLUDE_YN
+                 ,REG_EMP_SEQ
+                 ,REG_DATE
+                 ,ADMIN_APPROVAL
+        )VALUES (
+                #{empSeq}
+                ,#{empName}
+                ,#{relation}
+                ,#{fName}
+                ,#{bDay}
+                ,#{job}
+                ,#{includeType}
+                ,#{modifyEmpSeq}
+                ,now()
+                ,'Y'
+                )
+    </insert>
+
+    <update id="userFamilyInfoModify" parameterType="map">
+        /* userFamilyInfoModify */
+        UPDATE
+            CAM_HR.DJ_EMP_FAMILY_INFO
+        SET
+            FAMILY_CODE = #{relation}
+            ,FAMILY_NAME = #{fName}
+            ,FAMILY_BIRTH = #{bDay}
+            ,FAMILY_JOB = #{job}
+            ,INCLUDE_YN = #{includeType}
+        WHERE
+            FAMILY_ID = #{pk}
+    </update>
+
+    <update id="userFamilyInfoDelete" parameterType="map">
+        /* userFamilyInfoDelete */
+        UPDATE
+            CAM_HR.DJ_EMP_FAMILY_INFO
+        SET
+            ACTIVE = 'N'
+        WHERE
+            FAMILY_ID = #{key}
+    </update>
+
+    <insert id="userLinInfoInsert" parameterType="map">
+        /* userLinInfoInsert */
+        INSERT INTO CAM_HR.DJ_EMP_CERTIFICATE(
+                  EMP_SEQ
+                 ,EMP_NAME
+                 ,CERTIFICATE_NAME
+                 ,CERTIFICATE_NUM
+                 ,ACQUISITION_DAY
+                 ,ISSUER
+                 ,RMK
+                 ,REG_EMP_SEQ
+                 ,REG_DATE
+                 ,ADMIN_APPROVAL
+        )VALUES (
+                #{empSeq}
+                ,#{empName}
+                ,#{licenseName}
+                ,#{licenseNum}
+                ,#{sDate}
+                ,#{agency}
+                ,#{bmk}
+                ,#{modifyEmpSeq}
+                ,now()
+                ,'Y'
+                )
+    </insert>
+
+    <update id="userLinInfoModify" parameterType="map">
+        /* userLinInfoModify */
+        UPDATE
+            CAM_HR.DJ_EMP_CERTIFICATE
+        SET
+          CERTIFICATE_NAME = #{licenseName}
+          ,CERTIFICATE_NUM = #{licenseNum}
+          ,ACQUISITION_DAY = #{sDate}
+          ,ISSUER = #{agency}
+          ,RMK = #{bmk}
+          ,MOD_EMP_SEQ = #{modifyEmpSeq}
+          ,MOD_DATE = NOW()
+        WHERE
+            CERTIFICATE_ID = #{pk}
+    </update>
+
+    <update id="userLinInfoDelete" parameterType="map">
+        /* userLinInfoDelete */
+        UPDATE
+            CAM_HR.DJ_EMP_CERTIFICATE
+        SET
+            ACTIVE = 'N'
+        WHERE
+            CERTIFICATE_ID = #{key}
+    </update>
+
+    <insert id="userJobInfoInsert" parameterType="map">
+        /* userJobInfoInsert */
+        INSERT INTO CAM_HR.DJ_EMP_DUTY_INFO(
+                 EMP_SEQ
+               , EMP_NAME
+               , POSITON_NAME
+               , WORK_PAY
+               , DUTY_DETAIL
+               , WORK_JOIN_DAY
+               , WORK_LEAVE_DAY
+               , REG_EMP_SEQ
+               , REG_DATE
+                , ADMIN_APPROVAL
+
+        )VALUES (
+                #{empSeq}
+                , #{empName}
+                , #{POSITON_NAME}
+                , #{WORK_PAY}
+                , #{DUTY_DETAIL}
+                , #{sDate}
+                , #{eDate}
+                , #{modifyEmpSeq}
+                , NOW()
+                , 'Y'
+                )
+    </insert>
+
+    <update id="userJobInfoModify" parameterType="map">
+        /* userJobInfoModify */
+        UPDATE
+            CAM_HR.DJ_EMP_DUTY_INFO
+        SET
+            POSITON_NAME = #{POSITON_NAME}
+          , WORK_PAY = #{WORK_PAY}
+          , DUTY_DETAIL = #{DUTY_DETAIL}
+          , WORK_JOIN_DAY = #{sDate}
+          , WORK_LEAVE_DAY = #{eDate}
+          ,MOD_EMP_SEQ = #{modifyEmpSeq}
+          ,MOD_DATE = NOW()
+        WHERE
+            DUTY_ID = #{pk}
+    </update>
+
+    <update id="userJobInfoDelete" parameterType="map">
+        /* userJobInfoDelete */
+        UPDATE
+            CAM_HR.DJ_EMP_DUTY_INFO
+        SET
+            ACTIVE = 'N'
+        WHERE
+            DUTY_ID = #{key}
+    </update>
+
+    <insert id="userRewInfoInsert" parameterType="map">
+        /* userRewInfoInsert */
+        INSERT INTO CAM_HR.DJ_EMP_REWORD(
+                 EMP_SEQ
+                ,ERP_EMP_SEQ
+                ,EMP_NAME
+                ,DEPT_SEQ
+                ,DEPT_NAME
+                ,TEAM_SEQ
+                ,TEAM_NAME
+                ,REWORD_DAY
+                ,RWD_SN
+                ,REWORD_TYPE
+                ,REWORD_TYPE_NAME
+                ,RWD_ST_COMP
+                ,RWD_OFM
+                ,REG_EMP_SEQ
+                ,REG_DATE
+                ,RWD_ETC
+                ,ADMIN_APPROVAL
+        )VALUES (
+                #{empSeq}
+                ,#{erpEmpSeq}
+                ,#{empName}
+                ,#{deptSeq}
+                ,#{deptName}
+                ,#{deptSeq}
+                ,#{teamName}
+                ,#{sDate}
+                ,#{rwdSn}
+                ,#{rGubunOutInType}
+                ,#{rGubunAll}
+                ,#{agency}
+                ,#{rIssue}
+                ,#{modifyEmpSeq}
+                ,now()
+                ,''
+                ,'Y'
+                )
+    </insert>
+
+    <update id="userRewInfoModify" parameterType="map">
+        /* userRewInfoModify */
+        UPDATE
+            CAM_HR.DJ_EMP_REWORD
+        SET
+          REWORD_DAY = #{sDate}
+          ,REWORD_TYPE = #{rGubunOutInType}
+          ,REWORD_TYPE_NAME = #{rGubunAll}
+          ,RWD_ST_COMP = #{agency}
+          ,RWD_OFM = #{rIssue}
+          ,MOD_EMP_SEQ = #{modifyEmpSeq}
+          ,MOD_DATE = NOW()
+          ,RWD_SN = #{rwdSn}
+        WHERE
+            REWORD_ID = #{pk}
+    </update>
+
+    <update id="userRewInfoDelete" parameterType="map">
+        /* userRewInfoDelete */
+        UPDATE
+            CAM_HR.DJ_EMP_REWORD
+        SET
+            ACTIVE = 'N'
+        WHERE
+            REWORD_ID = #{key}
+    </update>
+
 
 </mapper>

@@ -47,4 +47,6 @@ public interface PurcService {
     Map<String, Object> getCrmInfo(Map<String, Object> params);
 
     void setOrderInfo(Map<String, Object> params);
+
+    List<Map<String, Object>> getProjectPurcList(Map<String, Object> params);
 }

@@ -1,66 +1,61 @@
 var commonEdu = {
 
-    init : function(){
-        commonEdu.dataSet();
-        commonEdu.mainGrid();
+    global: {
+        searchAjaxData : "",
     },
 
-    dataSet() {
-        $("#eduYear").kendoDatePicker({
-            start: "decade",
-            depth: "decade",
-            culture : "ko-KR",
-            format : "yyyy",
-            value : new Date()
+    init: function(){
+        commonEdu.pageSet();
+        commonEdu.gridReload();
+    },
+
+    pageSet: function(){
+        customKendo.fn_datePicker("eduYear", 'decade', "yyyy", new Date());
+        $("#eduYear").attr("readonly", true);
+        $("#eduYear").on("change", function(){
+            commonEdu.gridReload();
         });
     },
 
-    mainGrid : function() {
-        var dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read : {
-                    url : '/campus/getCommonEduList',
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data) {
-                    data.empSeq = $("#regEmpSeq").val();
-                    data.eduYear = $("#eduYear").val();
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    return data.list;
-                },
-                total: function (data) {
-                    return data.list.length;
-                },
-            },
-            pageSize: 10,
-        });
+    gridReload: function(){
+        commonEdu.global.searchAjaxData = {
+            empSeq: $("#regEmpSeq").val(),
+            eduYear: $("#eduYear").val()
+        }
+        commonEdu.mainGrid("/campus/getCommonEduList", commonEdu.global.searchAjaxData);
+    },
 
+    mainGrid: function(url, params){
         $("#mainGrid").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             scrollable: true,
             selectable: "row",
             height: 489,
-            pageable : {
-                refresh : true,
-                pageSizes : [ 10, 20, 30, 50, 100 ],
-                buttonCount : 5
+            pageable: {
+                refresh: true,
+                pageSizes: [ 10, 20, 30, 50, 100 ],
+                buttonCount: 5
             },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound : commonEdu.onDataBound,
+            toolbar: [
+                {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="commonEdu.gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }
+            ],
+            dataBound: commonEdu.onDataBound,
             columns: [
                 {
-                    field: "ROW_NUM",
-                    title: "순번",
-                    width: 50
+                    title: "번호",
+                    width: 50,
+                    template: "#= --record #"
                 }, {
                     field: "COMMON_CLASS_TEXT",
                     title: "구분",
@@ -100,7 +95,10 @@ var commonEdu = {
                         }
                     }
                 }
-            ]
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
     },
 
