@@ -34,6 +34,7 @@ var joinLeaveView = {
     getTotalEmpCountTable1: function(e) {
         var totalJoined = 0;
         var totalResigned = 0;
+        var totalEmpCount = 0;
 
         // employees_joined의 총 합 계산
         for (var i = 0; i < e.length; i++) {
@@ -42,6 +43,10 @@ var joinLeaveView = {
         for (var i = 0; i < e.length; i++) {
             totalResigned += e[i].employees_resigned || 0; 
         }
+        for (var i = 0; i < e.length; i++) {
+            totalEmpCount += e[i].active_emp_count || 0;
+        }
+
         var html = "";
         html = '<table class="centerTable table table-bordered"><colgroup><col width="35%"><col width="35%"><col width="30%"></colgroup><tbody>'+
             '<tr>'+
@@ -52,7 +57,7 @@ var joinLeaveView = {
             '<tr>'+
             '<td style="background-color: #e1ecff;">' + totalJoined + '명</td>' +
             '<td style="background-color: #ffddd8;">' + totalResigned + '명</td>' +
-            '<td style="background-color: #d8dce3;">명</td>' +
+            '<td style="background-color: #d8dce3;">' + totalEmpCount + '명</td>' +
             '</tr>'+
             '</tbody>' +
             '</table>';

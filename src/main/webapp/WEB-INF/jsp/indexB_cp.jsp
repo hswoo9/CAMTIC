@@ -445,7 +445,7 @@
         $("#" + v + " li").remove();
 
         var data = {
-            recordSize : 5,
+            recordSize : 8,
             boardId : e,
         }
         var result = customKendo.fn_customAjax("/board/getCamsBoardArticleList.do", data);
