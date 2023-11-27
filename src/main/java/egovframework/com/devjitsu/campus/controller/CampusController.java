@@ -649,6 +649,19 @@ public class CampusController {
         return "popup/campus/propagViewPop";
     }
 
+    /** 전파학습 학습일지 작성 팝업 */
+    @RequestMapping("/Campus/pop/studyPropagPop.do")
+    public String studyPropagPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        Map<String, Object> data = campusService.getStudyInfoOne(params);
+        model.addAttribute("data", data);
+        model.addAttribute("params", params);
+        return "popup/campus/studyPropagPop";
+    }
+
     /** OJT 조회 팝업 */
     @RequestMapping("/Campus/pop/ojtViewPop.do")
     public String ojtViewPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
@@ -1238,6 +1251,14 @@ public class CampusController {
         return "jsonView";
     }
 
+    /** 전파학습 학습일지 리스트 */
+    @RequestMapping("/campus/getStudyPropagList")
+    public String getStudyPropagList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = campusService.getStudyPropagList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     /** OJT 학습계획 리스트 */
     @RequestMapping("/campus/getOjtPlanList")
     public String getOjtPlanList(@RequestParam Map<String, Object> params, Model model) {
@@ -1458,6 +1479,13 @@ public class CampusController {
     @RequestMapping("/campus/setStudyJournalApp")
     public String setStudyJournalApp(@RequestParam Map<String, Object> params) {
         campusService.setStudyJournalApp(params);
+        return "jsonView";
+    }
+
+    /** 전파학습 학습일지 저장 */
+    @RequestMapping("/campus/setStudyPropagInsert")
+    public String setStudyPropagInsert(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) {
+        campusService.setStudyPropagInsert(params, request, SERVER_DIR, BASE_DIR);
         return "jsonView";
     }
 

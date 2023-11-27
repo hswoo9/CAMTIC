@@ -83,7 +83,7 @@ const ojtResult = {
     fn_setSubjectMember : function (pk, type){
         var url = "/campus/pop/popSubjectMember.do?studyInfoSn=" + pk + "&ojtType=" + type;
 
-        var name = "inEvalRegPop";
+        var name = "popSubjectMember";
         var option = "width=800, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }

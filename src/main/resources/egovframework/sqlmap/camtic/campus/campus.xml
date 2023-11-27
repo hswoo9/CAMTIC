@@ -504,6 +504,16 @@
         WHERE STUDY_JOURNAL_SN = #{studyJournalSn}
     </select>
 
+    <select id="getStudyPropagList" resultType="map" parameterType="map">
+        /* getStudyPropagList */
+        SELECT
+            CSJ.*
+        FROM
+            CAMPUS.DJ_STUDY_PROPAG CSJ
+        WHERE CSJ.STUDY_INFO_SN = #{studyInfoSn}
+        ORDER BY CSJ.PROPAG_DT DESC
+    </select>
+
     <select id="getOjtPlanList" resultType="map" parameterType="map">
         /* getOjtPlanList */
         SELECT
@@ -1236,6 +1246,15 @@
             STUDY_JOURNAL_SN = #{studyJournalSn}
     </update>
 
+    <update id="setStudyPropagUpdate" parameterType="map">
+        /*setStudyPropagUpdate*/
+        UPDATE CAMPUS.DJ_STUDY_PROPAG
+        SET
+            PROPAG_FILE_SN = #{file_no}
+        WHERE
+            STUDY_PROPAG_SN = #{studyPropagSn}
+    </update>
+
     <update id="setStudyJournalApp" parameterType="map">
         /* setStudyJournalApp */
         UPDATE
@@ -1370,6 +1389,75 @@
                 #{studyPositionName},
                 #{studyDutyName}
             )
+    </insert>
+
+    <insert id="setPropagUserInsert" parameterType="map">
+        /* setPropagUserInsert */
+        INSERT INTO CAMPUS.DJ_PROPAG_USER
+            (
+                STUDY_PROPAG_SN,
+                <if test='studyClassSn != null and studyClassSn != ""'>
+                    PROPAG_CLASS_SN,
+                </if>
+                <if test='studyClassText != null and studyClassText != ""'>
+                    PROPAG_CLASS_TEXT,
+                </if>
+                PROPAG_EMP_SEQ,
+                PROPAG_EMP_NAME,
+                PROPAG_DEPT_NAME,
+                PROPAG_TEAM_NAME,
+                PROPAG_POSITION_NAME,
+                PROPAG_DUTY_NAME
+            )
+        VALUES
+            (
+                #{studyPropagSn},
+                <if test='studyClassSn != null and studyClassSn != ""'>
+                    #{studyClassSn},
+                </if>
+                <if test='studyClassText != null and studyClassText != ""'>
+                    #{studyClassText},
+                </if>
+                #{empSeq},
+                #{studyEmpName},
+                #{studyDeptName},
+                #{studyTeamName},
+                #{studyPositionName},
+                #{studyDutyName}
+            )
+    </insert>
+
+    <insert id="setStudyPropagInsert" parameterType="map">
+        /* setStudyPropagInsert */
+        INSERT INTO CAMPUS.DJ_STUDY_PROPAG
+            (
+                STUDY_INFO_SN,
+                PROPAG_DT,
+                START_TIME,
+                END_TIME,
+                EDU_TIME,
+                LOCATION,
+                SAVE_TYPE,
+                PROPAG_CONTENT,
+                REG_EMP_SEQ,
+                REG_EMP_NAME
+            )
+        VALUES
+            (
+                #{studyInfoSn},
+                #{propagDt},
+                #{startTime},
+                #{endTime},
+                CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600),
+                #{location},
+                #{saveType},
+                #{propagContent},
+                #{regEmpSeq},
+                #{regEmpName}
+            )
+        <selectKey keyProperty="ojtResultSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAMPUS' AND TABLE_NAME = 'DJ_OJT_RESULT'
+        </selectKey>
     </insert>
 
     <insert id="setOpenStudyInfoIns" parameterType="map">

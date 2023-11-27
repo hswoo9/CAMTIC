@@ -31,7 +31,9 @@ const propagView = {
         }else if(propagInfo.STATUS == 30){
             $("#statusTd").text("신청서 반려됨");
         }else if(propagInfo.STATUS == 100){
-            $("#statusTd").text("학습종료");
+            $("#statusTd").text("학습 진행중");
+            $("#propagGrid").show();
+            propagView.mainGrid3();
         }
 
         $("#regDeptTd").text(propagInfo.deptNm + " " + propagInfo.teamNm);
@@ -46,16 +48,17 @@ const propagView = {
     buttonSet: function(){
         let mode = $("#mode").val();
         let status = propagView.global.propagInfo.STATUS;
+        console.log(propagView.global.propagInfo)
         if(mode == "upd"){
-            if(status == 0 || status == 30){
+            if(status == "0" || status == "30"){
                 $("#appBtn").show();
-            }else if(status == 10){
+            }else if(status == "10"){
                 $("#canBtn").show();
             }
         }
         if(mode == "mng"){
             $("#saveBtn").hide();
-            if(status == 10){
+            if(status == "10"){
                 $("#recBtn").show();
                 $("#comBtn").show();
             }
@@ -182,6 +185,114 @@ const propagView = {
         }).data("kendoGrid");
     },
 
+    mainGrid3: function(){
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : "/campus/getStudyPropagList",
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.studyInfoSn = $("#pk").val();
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
+        $("#mainGrid3").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            height: 508,
+            pageable : {
+                refresh : true,
+                pageSizes : [ 10, 20, 30, 50, 100 ],
+                buttonCount : 5
+            },
+            toolbar : [
+                {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" id="journalPopBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="propagView.studyPropagPop(1, '+$("#pk").val()+');">' +
+                            '	<span class="k-button-text">추가</span>' +
+                            '</button>';
+                    }
+                }
+            ],
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            dataBound: function(){
+                let grid = this;
+                grid.element.off('dblclick');
+                grid.tbody.find("tr").dblclick(function(){
+                    const dataItem = grid.dataItem($(this).closest("tr"));
+                    studyView.studyJournalPop(2, dataItem.STUDY_INFO_SN, dataItem.STUDY_JOURNAL_SN);
+                });
+            },
+            columns: [
+                {
+                    title: "번호",
+                    width: 50,
+                    template: "#= --record #"
+                }, {
+                    title: "일시",
+                    template: function(row){
+                        console.log(row);
+                        return row.PROPAG_DT + " (" + row.START_TIME +"~"+row.END_TIME+" / "+row.EDU_TIME+")";
+                    }
+                }, {
+                    title: "학습시간",
+                    width: 150,
+                    template: function(row){
+                        console.log(row);
+                        return row.EDU_TIME + "시간";
+                    }
+                }, {
+                    title: "인정시간",
+                    columns : [
+                        {
+                            title: "지도자",
+                            width: 150,
+                            template: function(row){
+                                console.log(row);
+                                return row.EDU_TIME + "시간";
+                            }
+                        }, {
+                            title: "학습자",
+                            width: 150,
+                            template: function(row){
+                                console.log(row);
+                                return Number(row.EDU_TIME * 1.5) + "시간";
+                            }
+                        }
+                    ]
+                }, {
+                    title: "처리명령",
+                    template: function(row){
+                        return '<button type="button" style="margin-right:5px;" class="k-button k-button-solid-base" onclick="regExnpRe.fn_printEst()">인쇄</button>' +
+                            '<button type="button" class="k-button k-button-solid-error" onclick="regExnpRe.fn_printEst()">삭제</button>';
+                    }
+                }
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
+        }).data("kendoGrid");
+    },
+
     fn_propagCertReq: function(status){
         let data = {
             studyInfoSn : $("#pk").val(),
@@ -203,5 +314,23 @@ const propagView = {
             opener.gridReload();
             window.close();
         }
+    },
+
+    studyPropagPop: function(type, fk, pk){
+        let url = "";
+        if(fk == null || fk == "" || fk == undefined){
+            url = "/Campus/pop/studyPropagPop.do";
+        }else if(type == 1){
+            url = "/Campus/pop/studyPropagPop.do?pk="+fk;
+        }else if(type == 2){
+            url = "/Campus/pop/studyPropagPop.do?pk="+fk+"&studyPropagSn="+pk;
+        }
+        let name = "studyPropagPop";
+        let option = "width = 800, height = 600, top = 100, left = 200, location = no";
+        window.open(url, name, option);
     }
+}
+
+function gridReload(){
+    propagView.mainGrid3();
 }

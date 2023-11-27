@@ -39,6 +39,7 @@ const studyReq = {
             $("#subjectCont").text("학습내용")
             $("#subjectLoc").text("학습장소");
             $("#subjectDe").text("학습기간");
+            $("#subjectStudyMoney").text("비용내역");
 
             $(".study").hide();
             $(".propag").show();

@@ -104,6 +104,11 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public List<Map<String, Object>> getStudyPropagList(Map<String, Object> params){
+        return campusRepository.getStudyPropagList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getOjtPlanList(Map<String, Object> params){
         return campusRepository.getOjtPlanList(params);
     }
@@ -461,6 +466,70 @@ public class CampusServiceImpl implements CampusService {
                 params.put("studyClassText", "지도자");
 
                 campusRepository.setOjtUserInsert(params);
+            }
+        }
+    }
+
+    @Override
+    public void setStudyPropagInsert(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
+        campusRepository.setStudyPropagInsert(params);
+
+        if(params.get("studyUserSeq") != null && !params.get("studyUserSeq").equals("")){
+            String studyUserSeq = params.get("studyUserSeq").toString();
+            String[] studyUserSeqArr = studyUserSeq.split(",");
+
+            for(String str: studyUserSeqArr){
+                params.put("empSeq", str);
+                Map<String, Object> userMap = userRepository.getUserInfo(params);
+                params.put("studyEmpName", userMap.get("EMP_NAME_KR"));
+                params.put("studyDeptName", userMap.get("deptNm"));
+                params.put("studyTeamName", userMap.get("teamNm"));
+                params.put("studyPositionName", userMap.get("POSITION_NAME"));
+                params.put("studyDutyName", userMap.get("DUTY_NAME"));
+                params.put("studyClassSn", 5);
+                params.put("studyClassText", "학습자");
+
+                campusRepository.setPropagUserInsert(params);
+            }
+        }
+
+        if(params.get("readerUserSeq") != null && !params.get("readerUserSeq").equals("")){
+            String readerUserSeq = params.get("readerUserSeq").toString();
+            String[] readerUserSeqArr = readerUserSeq.split(",");
+
+            for(String str: readerUserSeqArr){
+                params.put("empSeq", str);
+                Map<String, Object> userMap = userRepository.getUserInfo(params);
+                params.put("studyEmpName", userMap.get("EMP_NAME_KR"));
+                params.put("studyDeptName", userMap.get("deptNm"));
+                params.put("studyTeamName", userMap.get("teamNm"));
+                params.put("studyPositionName", userMap.get("POSITION_NAME"));
+                params.put("studyDutyName", userMap.get("DUTY_NAME"));
+                params.put("studyClassSn", 4);
+                params.put("studyClassText", "지도자");
+
+                campusRepository.setPropagUserInsert(params);
+            }
+        }
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile files = request.getFile("files");
+        params.put("menuCd", "studyJournal");
+        if(files != null){
+            if(!files.isEmpty()){
+                fileInsMap = mainLib.fileUpload(files, filePath(params, SERVER_DIR));
+                fileInsMap.put("studyPropagSn", params.get("studyPropagSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("file_no", fileInsMap.get("file_no"));
+                campusRepository.setStudyPropagUpdate(fileInsMap);
             }
         }
     }

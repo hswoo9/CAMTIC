@@ -108,7 +108,7 @@
                 </td>
             </tr>
             <tr>
-                <th>산출내역</th>
+                <th id="subjectStudyMoney">산출내역</th>
                 <td>
                     <textarea id="studyMoneyVal" style="width: 800px; height: 100px"></textarea>
                 </td>

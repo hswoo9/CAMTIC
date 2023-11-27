@@ -28,7 +28,7 @@
             <div class="btn-st popButton">
                 <button type="button" id="recBtn" style="display: none" class="k-button k-button-solid-info" onclick="propagView.fn_propagCertReq(100);">승인</button>
                 <button type="button" id="comBtn" style="display: none" class="k-button k-button-solid-error" onclick="propagView.fn_propagCertReq(30);">반려</button>
-                <button type="button" id="canBtn" style="display: none" class="k-button k-button-solid-info" onclick="propagView.fn_propagCertReq(0);">승인요청</button>
+                <button type="button" id="canBtn" style="display: none" class="k-button k-button-solid-error" onclick="propagView.fn_propagCertReq(0);">요청취소</button>
                 <button type="button" id="appBtn" style="display: none" class="k-button k-button-solid-info" onclick="propagView.fn_propagCertReq(10);">승인요청</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
             </div>
@@ -96,7 +96,7 @@
                     </colgroup>
                     <thead>
                     <tr>
-                        <th>전파학습명</th>
+                        <th>학습주제</th>
                         <td id="propagNameTd"></td>
                     </tr>
                     <tr>
@@ -120,7 +120,7 @@
                         <td id="propagAmtTd"></td>
                     </tr>
                     <tr>
-                        <th>산출내역</th>
+                        <th>비용내역</th>
                         <td id="propagAmtTextTd"></td>
                     </tr>
                     <tr>
@@ -138,6 +138,22 @@
         </div>
     </div>
 </div>
+
+
+<div id="propagGrid" class="table-responsive" style="margin-top: 15px; display: none">
+    <div class="card-header pop-header" style="margin-bottom: 15px;">
+        <h3 class="card-title title_NM">
+                <span style="">
+                    학습일지
+                </span>
+        </h3>
+        <div class="btn-st popButton">
+
+        </div>
+    </div>
+    <div id="mainGrid3" style=""></div>
+</div>
+
 
 <script>
     propagView.init();

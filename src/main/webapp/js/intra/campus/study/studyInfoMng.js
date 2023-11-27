@@ -98,7 +98,7 @@ var studyMng = {
                                 } else if (row.ADD_STATUS == "S") {
                                     return "이수완료";
                                 } else {
-                                    return "학습 진행중"
+                                    return "학습 진행중";
                                 }
                             }
                         }else if(studyClass == 2){
@@ -109,7 +109,7 @@ var studyMng = {
                             }else if(row.STATUS == 30) {
                                 return "신청서 반려됨"
                             }else if(row.STATUS == 100){
-                                return "학습종료"
+                                return "학습 진행중"
                             }
                         }else if(studyClass == 3){
                             if(row.STATUS == 0){
