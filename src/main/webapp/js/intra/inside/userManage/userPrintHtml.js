@@ -81,6 +81,16 @@ var userPrintHtml = {
     html3 : function(userMap4){
         var html = '';
 
+        if(userMap4 == null){
+            userMap4 = {};
+            userMap4.MILITARY_SVC_TYPE_NM=" ";
+            userMap4.M_UNFUL_REASON=" ";
+            userMap4.M_ENLIST_DAY=" ";
+            userMap4.M_DISCHARGE_DAY=" ";
+            userMap4.M_LAST_RANK=" ";
+            userMap4.M_DIVISION=" ";
+            userMap4.MOS=" ";
+        }
         html += '<table style="font-family:굴림;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
         html += '   <tr>';
         html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
