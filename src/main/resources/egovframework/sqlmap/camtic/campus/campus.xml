@@ -813,6 +813,17 @@
         ORDER BY EMP_NAME_KR
     </select>
 
+    <select id="getEduInfoFile" parameterType="map" resultType="map">
+        /*getEduInfoFile*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_CD = 'eduReq'
+        AND CONTENT_ID = CONCAT('eduInfo_', #{EDU_INFO_ID})
+    </select>
+
     <insert id="setEduInfoInsert" parameterType="map">
         /* setEduInfoInsert */
         INSERT INTO CAMPUS.DJ_EDU_INFO
@@ -927,6 +938,9 @@
                 </if>
                 #{eduFormType}
             )
+        <selectKey keyProperty="eduInfoId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAMPUS' AND TABLE_NAME = 'DJ_EDU_INFO'
+        </selectKey>
     </insert>
 
     <update id="setEduInfoUpdate" parameterType="map">
