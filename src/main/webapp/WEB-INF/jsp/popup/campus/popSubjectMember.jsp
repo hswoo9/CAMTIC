@@ -11,13 +11,19 @@
 <body class="font-opensans" style="background-color:#fff;">
 
 <input type="hidden" id="pk" value="${params.studyInfoSn}"/>
-
+<input type="hidden" id="ojtType" value="${params.ojtType}" />
 
 <div class="table-responsive">
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">
                 <span style="">
-                    학습자 선택
+                    <c:if test="${params.ojtType != '4'}">
+                        학습자
+                    </c:if>
+                    <c:if test="${params.ojtType == '4'}">
+                        지도자
+                    </c:if>
+                    선택
                 </span>
         </h3>
     </div>
@@ -43,6 +49,7 @@
                 },
                 parameterMap: function(data) {
                     data.pk = $("#pk").val();
+                    data.studyClassSn = $("#ojtType").val();
                     return data;
                 }
             },
@@ -128,8 +135,15 @@
         if(!flag){
             alert("학습자를 선택해주세요.");
         } else {
-            opener.parent.$("#studyUserName").val(empName);
-            opener.parent.$("#studyUserSeq").val(empSeq);
+
+            if($("#ojtType").val() == "4"){
+                opener.parent.$("#readerUserName").val(empName);
+                opener.parent.$("#readerUserSeq").val(empSeq);
+            } else {
+                opener.parent.$("#studyUserName").val(empName);
+                opener.parent.$("#studyUserSeq").val(empSeq);
+            }
+
             window.close();
         }
 

@@ -50,7 +50,7 @@ const ojtView = {
             $("#regPositionTd").text(ojtInfo.dutyNm);
         }
         $("#regEmpNameTd").text(ojtInfo.REG_EMP_NAME);
-        $("jobDetailNmTd").text(ojtInfo.jobDetailNm);
+        $("#jobDetailNmTd").text(ojtInfo.jobDetailNm);
     },
 
     buttonSet: function(){
@@ -197,13 +197,13 @@ const ojtView = {
     },
 
     fn_ojtCertReq: function(status){
-        if(status == 10 && ojtView.global.ojtPlanLength == 0){
-            alert("지도계획이 작성되지 않았습니다"); return;
-        }
+        // if(status == 10 && ojtView.global.ojtPlanLength == 0){
+        //     alert("지도계획이 작성되지 않았습니다"); return;
+        // }
 
-        if(status == 100 && ojtView.global.ojtResultLength == 0){
-            alert("학습일지가 작성되지 않았습니다"); return;
-        }
+        // if(status == 100 && ojtView.global.ojtResultLength == 0){
+        //     alert("학습일지가 작성되지 않았습니다"); return;
+        // }
 
         let data = {
             studyInfoSn : $("#pk").val(),

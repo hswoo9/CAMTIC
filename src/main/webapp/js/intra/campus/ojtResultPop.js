@@ -55,7 +55,7 @@ const ojtResult = {
         let url = "/campus/setOjtResultInsert";
         const result = customKendo.fn_customAjax(url, data);
         if(result.flag){
-            $("#ojtResultGrid").data("kendoGrid").dataSource.read();
+            opener.parent.$("#ojtResultGrid").data("kendoGrid").dataSource.read();
             window.close();
         }
     },
@@ -78,6 +78,14 @@ const ojtResult = {
             opener.gridReload();
             location.reload();
         }
+    },
+
+    fn_setSubjectMember : function (pk, type){
+        var url = "/campus/pop/popSubjectMember.do?studyInfoSn=" + pk + "&ojtType=" + type;
+
+        var name = "inEvalRegPop";
+        var option = "width=800, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
     }
 }
 
