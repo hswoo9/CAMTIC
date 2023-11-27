@@ -617,7 +617,7 @@
     </select>
 
     <select id="getCommonEduStatList" resultType="map" parameterType="map">
-        /* getCommonEduList */
+        /* getCommonEduStatList */
         SELECT
             CCE.*,
             (SELECT COUNT(*) FROM CAMPUS.DJ_COMMON_EDU_USER SCCEU WHERE SCCEU.COMMON_EDU_SN = CCE.COMMON_EDU_SN AND PART_YN = 'Y' AND ACTIVE = 'Y') AS PART_COUNT,
@@ -636,22 +636,21 @@
     <select id="getCommonEduList" resultType="map" parameterType="map">
         /* getCommonEduList */
         SELECT
-            RE.*
+            CE.*,
+            (SELECT COUNT(*) FROM CAMPUS.DJ_COMMON_EDU_USER SCEU WHERE SCEU.COMMON_EDU_SN = CE.COMMON_EDU_SN AND PART_YN = 'Y' AND ACTIVE = 'Y') AS PART_COUNT,
+            (SELECT COUNT(*) FROM CAMPUS.DJ_COMMON_EDU_USER SCEU WHERE SCEU.COMMON_EDU_SN = CE.COMMON_EDU_SN AND PART_YN = 'N' AND ACTIVE = 'Y') AS NO_PART_COUNT
         FROM
-            (
-                SELECT
-                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
-                    CCE.*,
-                    (SELECT COUNT(*) FROM CAMPUS.DJ_COMMON_EDU_USER SCCEU WHERE SCCEU.COMMON_EDU_SN = CCE.COMMON_EDU_SN AND PART_YN = 'Y' AND ACTIVE = 'Y') AS PART_COUNT,
-                    (SELECT COUNT(*) FROM CAMPUS.DJ_COMMON_EDU_USER SCCEU WHERE SCCEU.COMMON_EDU_SN = CCE.COMMON_EDU_SN AND PART_YN = 'N' AND ACTIVE = 'Y') AS NO_PART_COUNT
-                FROM
-                    CAMPUS.DJ_COMMON_EDU CCE,
-                    (SELECT @ROWNUM := 0) TMP
-                WHERE
-                    1=1
-                ORDER BY CCE.REG_DT
-            ) RE
-        ORDER BY RE.COMMON_EDU_SN DESC
+            CAMPUS.DJ_COMMON_EDU CE
+        LEFT JOIN CAMPUS.DJ_COMMON_EDU_USER CEU ON CE.COMMON_EDU_SN = CEU.COMMON_EDU_SN
+        WHERE
+            1=1
+    <![CDATA[
+        AND
+            (DATE_FORMAT(CE.START_DT, '%Y') = #{eduYear} OR DATE_FORMAT(CE.END_DT, '%Y') = #{eduYear})
+    ]]>
+        AND CEU.REG_EMP_SEQ = #{empSeq}
+        AND CEU.ACTIVE = 'Y'
+        ORDER BY CE.COMMON_EDU_SN DESC
     </select>
 
     <select id="getCommonEduOne" resultType="map" parameterType="map">
