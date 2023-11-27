@@ -227,7 +227,7 @@
                                                 </td>
 
                                                 <c:if test="${l.gradeFile == null}">
-                                                    <td style="cursor: pointer">
+                                                    <td>
                                                         <label for="gradeFile${l.EDUCATIONAL_ID}" class="k-button k-button-solid-base">파일첨부</label>
                                                         <input type="file" id="gradeFile${l.EDUCATIONAL_ID}" name="gradeFile${l.EDUCATIONAL_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
                                                         <span id="gradeFileName${l.EDUCATIONAL_ID}"></span>
@@ -237,12 +237,12 @@
                                                     <td style="cursor: pointer">
                                                         <label for="gradeFile${l.EDUCATIONAL_ID}" class="k-button k-button-solid-base">파일첨부</label>
                                                         <input type="file" id="gradeFile${l.EDUCATIONAL_ID}" name="gradeFile${l.EDUCATIONAL_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
-                                                        <span id="gradeFileName${l.EDUCATIONAL_ID}" onclick="fileDown('${l.gradeFile.file_path}${l.gradeFile.file_uuid}', '${l.gradeFile.file_org_name}.${l.gradeFile.file_ext}')">
+                                                        <span id="gradeFileName${l.EDUCATIONAL_ID}" style="cursor: pointer" onclick="fileDown('${l.gradeFile.file_path}${l.gradeFile.file_uuid}', '${l.gradeFile.file_org_name}.${l.gradeFile.file_ext}')">
                                                       ${l.gradeFile.file_org_name}.${l.gradeFile.file_ext}</span>
                                                     </td>
                                                 </c:if>
                                                 <c:if test="${l.socreFile == null}">
-                                                    <td style="cursor: pointer">
+                                                    <td>
                                                         <label for="socreFile${l.EDUCATIONAL_ID}" class="k-button k-button-solid-base">파일첨부</label>
                                                         <input type="file" id="socreFile${l.EDUCATIONAL_ID}" name="socreFile${l.EDUCATIONAL_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
                                                         <span id="socreFileName${l.EDUCATIONAL_ID}"></span>
@@ -252,7 +252,7 @@
                                                     <td style="cursor: pointer">
                                                         <label for="socreFile${l.EDUCATIONAL_ID}" class="k-button k-button-solid-base">파일첨부</label>
                                                         <input type="file" id="socreFile${l.EDUCATIONAL_ID}" name="socreFile${l.EDUCATIONAL_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
-                                                        <span id="socreFileName${l.EDUCATIONAL_ID}" onclick="fileDown('${l.socreFile.file_path}${l.socreFile.file_uuid}', '${l.socreFile.file_org_name}.${l.socreFile.file_ext}')">
+                                                        <span id="socreFileName${l.EDUCATIONAL_ID}" style="cursor: pointer" onclick="fileDown('${l.socreFile.file_path}${l.socreFile.file_uuid}', '${l.socreFile.file_org_name}.${l.socreFile.file_ext}')">
                                                       ${l.socreFile.file_org_name}.${l.socreFile.file_ext}</span>
                                                     </td>
                                                 </c:if>
@@ -287,13 +287,13 @@
                                                     <input type="text" id="degree1" class="degree" style="width: 100%;">
                                                 </td>
 
-                                                <td style="cursor: pointer">
+                                                <td>
                                                     <label for="gradeFile" class="k-button k-button-solid-base">파일첨부</label>
                                                     <input type="file" id="gradeFile" name="gradeFile" onchange="fileChange(this)" style="display: none" multiple="multiple">
                                                     <span id="gradeFileName"></span>
                                                 </td>
 
-                                                <td style="cursor: pointer">
+                                                <td>
                                                     <label for="socreFile" class="k-button k-button-solid-base">파일첨부</label>
                                                     <input type="file" id="socreFile" name="socreFile" onchange="fileChange(this)" style="display: none" multiple="multiple">
                                                     <span id="socreFileName"></span>
@@ -370,7 +370,7 @@
                                                         <td>
                                                             <label for="addFile${l.CAREER_ID}" class="k-button k-button-solid-base">파일첨부</label>
                                                             <input type="file" id="addFile${l.CAREER_ID}" name="addFile${l.CAREER_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
-                                                            <span id="addFileName${l.CAREER_ID}" onclick="fileDown('${l.addFile.file_path}${l.addFile.file_uuid}', '${l.addFile.file_org_name}.${l.addFile.file_ext}')">
+                                                            <span id="addFileName${l.CAREER_ID}" style="cursor: pointer" onclick="fileDown('${l.addFile.file_path}${l.addFile.file_uuid}', '${l.addFile.file_org_name}.${l.addFile.file_ext}')">
                                                           ${l.addFile.file_org_name}.${l.addFile.file_ext}
                                                       </span>
                                                         </td>
@@ -561,7 +561,7 @@
                                                     <td>
                                                         <label for="certificateAddFile${l.CERTIFICATE_ID}" class="k-button k-button-solid-base">파일첨부</label>
                                                         <input type="file" id="certificateAddFile${l.CERTIFICATE_ID}" name="certificateAddFile${l.CERTIFICATE_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
-                                                        <span id="certificateAddFileName${l.CERTIFICATE_ID}" onclick="fileDown('${l.certificateAddFile.file_path}${l.certificateAddFile.file_uuid}', '${l.certificateAddFile.file_org_name}.${l.certificateAddFile.file_ext}')">
+                                                        <span id="certificateAddFileName${l.CERTIFICATE_ID}" style="cursor: pointer" onclick="fileDown('${l.certificateAddFile.file_path}${l.certificateAddFile.file_uuid}', '${l.certificateAddFile.file_org_name}.${l.certificateAddFile.file_ext}')">
                                                              ${l.certificateAddFile.file_org_name}.${l.certificateAddFile.file_ext}
                                                          </span>
                                                     </td>
@@ -635,7 +635,7 @@
                                         </c:if>
                                     </c:forEach>
                                     <tr>
-                                        <td>${fn:length (dList) - status.index}</td>
+                                        <td></td>
                                         <td><input type="text" id="sDate8" class="sDate" style="width: 45%;"> ~ <input type="text" id="eDate8" class="eDate"value="${l.WORK_LEAVE_DAY}" style="width: 45%;"></td>
                                         <td><input type="text" id="pay1" style="width: 100%;"></td>
                                         <td><input type="text" id="work1" style="width: 100%;"></td>
@@ -743,7 +743,7 @@
                                                     <td>
                                                         <label for="rewardAddFile${l.REWORD_ID}" class="k-button k-button-solid-base">파일첨부</label>
                                                         <input type="file" id="rewardAddFile${l.REWORD_ID}" name="rewardAddFile${l.REWORD_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
-                                                        <span id="rewardAddFileName${l.REWORD_ID}" onclick="fileDown('${l.rewardAddFile.file_path}${l.rewardAddFile.file_uuid}', '${l.rewardAddFile.file_org_name}.${l.rewardAddFile.file_ext}')">
+                                                        <span id="rewardAddFileName${l.REWORD_ID}" style="cursor: pointer" onclick="fileDown('${l.rewardAddFile.file_path}${l.rewardAddFile.file_uuid}', '${l.rewardAddFile.file_org_name}.${l.rewardAddFile.file_ext}')">
                                                             ${l.rewardAddFile.file_org_name}.${l.rewardAddFile.file_ext}
                                                          </span>
                                                     </td>
@@ -756,7 +756,7 @@
                                         </c:if>
                                     </c:forEach>
                                     <tr>
-                                        <td>${fn:length (rList) - status.index}</td>
+                                        <td></td>
                                         <td><input type="text" id="rGubunOutIn1" class="rGubunOutIn" style="width: 100%;"></td>
                                         <td><input type="text" id="rGubun1" style="width: 100%;"></td>
                                         <td><input type="text" id="sDate10" class="sDate" style="width: 100%;"></td>
