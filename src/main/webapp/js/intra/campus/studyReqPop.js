@@ -87,7 +87,11 @@ const studyReq = {
         if(studyClassSn == ""){ alert("내부학습 구분이 선택되지 않았습니다."); return; }
         if(studyUserSeq == ""){ alert("학습자가 선택되지 않았습니다."); return; }
         if(startDt == "" || endDt == ""){ alert("학습기간이 작성되지 않았습니다."); return; }
-        if(studyObject == ""){ alert("학습목표가 작성되지 않았습니다."); return; }
+
+        if($("#studyClass").data("kendoDropDownList").value() != 3){
+            if(studyObject == ""){ alert("학습목표가 작성되지 않았습니다."); return; }
+        }
+
         if(studyMoney == ""){ alert("소모비용이 작성되지 않았습니다."); return; }
         if(studyMoneyVal == ""){ alert("산출내역이 작성되지 않았습니다."); return; }
         if(regDate == ""){ alert("신청날짜가 작성되지 않았습니다."); return; }
