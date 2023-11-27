@@ -1847,4 +1847,11 @@ public class UserManageController {
         return "jsonView";
     }
 
+    @RequestMapping(value = "/Inside/getJoinResignEmpList.do", method = RequestMethod.POST)
+    public String getJoinResignEmpList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = userManageService.getJoinResignEmpList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
 }
