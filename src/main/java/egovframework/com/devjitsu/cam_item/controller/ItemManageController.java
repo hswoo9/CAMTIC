@@ -496,6 +496,18 @@ public class ItemManageController {
     }
 
     /**
+     * 출하실적추이분석 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getShipmentTrendList.do")
+    public String getShipmentTrendList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", itemManageService.getShipmentTrendList(params));
+        return "jsonView";
+    }
+
+    /**
      * 반품등록리스트
      * @param request
      * @return

@@ -581,6 +581,32 @@
             SM_RECORD_SN = #{smRecordSn}
     </update>
 
+    <select id="getShipmentTrendList" parameterType="map" resultType="map">
+        /* getShipmentTrendList */
+
+        SELECT
+            A.MONTH_DATA,
+            SUM(IFNULL(B.CONFIRM_AMT, 0)) AS CONFIRM_AMT
+        FROM (
+            <![CDATA[
+            SELECT
+                DATE_FORMAT(CONCAT(#{year}, '-12-01') + INTERVAL -SEQ MONTH, '%Y-%m') MONTH_DATA
+            FROM
+                SEQ_0_TO_99 A
+            WHERE
+                SEQ < 60
+            ]]>
+        )A
+        LEFT JOIN
+            CAM_ITEM.DJ_CRM_SALES_CONFIRM B
+        ON A.MONTH_DATA = DATE_FORMAT(B.CONFIRM_DATE, '%Y-%m')
+        <if test='crmSn != null and !"".equals(crmSn)'>
+            AND B.CRM_SN = #{crmSn}
+        </if>
+        GROUP BY MONTH_DATA
+
+    </select>
+
     <select id="getReturnRecordRegList" parameterType="map" resultType="map">
         /* getReturnRecordRegList */
         SELECT

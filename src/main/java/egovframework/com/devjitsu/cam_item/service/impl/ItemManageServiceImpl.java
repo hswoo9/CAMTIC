@@ -268,6 +268,11 @@ public class ItemManageServiceImpl implements ItemManageService {
     }
 
     @Override
+    public List<Map<String, Object>> getShipmentTrendList(Map<String, Object> params) {
+        return itemManageRepository.getShipmentTrendList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getReturnRecordRegList(Map<String, Object> params) {
         return itemManageRepository.getReturnRecordRegList(params);
     }
