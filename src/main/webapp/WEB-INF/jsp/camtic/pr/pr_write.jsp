@@ -17,6 +17,17 @@
 		margin-bottom: 5px;
 		font-size: 14px;
 	}
+
+	input[type="date"] {
+		width: 19.5%;
+		height: 34px;
+		display: inline-block;
+		background: none;
+		border: 1px solid #c9c9c9;
+		padding-left: 5px;
+		margin-bottom: 5px;
+		font-size: 14px;
+	}
 	.txt_area_01 {display: inline-block; width: 100%; height: 170px; border: 1px solid #c9c9c9; }
 
 	table th{
@@ -117,6 +128,10 @@
 												<input type="radio" id ="snsInstaGram" name="snsType" value="2">
 												<i></i><span>인스타그램</span>
 											</label>
+											<label class="__lab" style="margin-left:10px;">
+												<input type="radio" id ="snsYoutube" name="snsType" value="3">
+												<i></i><span>유튜브</span>
+											</label>
 										</td>
 									</tr>
 									<tr style="border-bottom: 1px solid #ccc;">
@@ -126,10 +141,19 @@
 										</td>
 									</tr>
 								</c:if>
+
 								<tr style="border-bottom: 1px solid #ccc;">
 									<th>작성일자</th>
 									<td>
-										<input type="text" id="writeDate" class="inputText" value="" disabled/>
+										<%--<input type="text" id="writeDate" class="inputText" value="" disabled/>--%>
+										<c:choose>
+											<c:when test="${categoryId eq 'sns'}">
+												<input type="date" id="snsDate" class="inputText" value="" />
+											</c:when>
+											<c:otherwise>
+												<input type="text" id="writeDate" class="inputText" value="" disabled/>
+											</c:otherwise>
+										</c:choose>
 									</td>
 								</tr>
 								<c:if test="${categoryId eq 'video'}">
@@ -237,6 +261,7 @@
 
 		//$("#writeDate").val(year + "년 " + month + "월 " + date + "일");
 		$("#writeDate").val(year + "-" + formattedMonth + "-" + formattedDay);
+		$("#snsDate").val(year + "-" + formattedMonth + "-" + formattedDay);
 
 		if(categoryId != 'video'){
 			CKEDITOR.replace('contents', {
@@ -265,7 +290,10 @@
 		}else if(categoryId == "sns"){
 			$("#textMod").text("표지(340 x 255)")
 		}
+
 	});
+
+
 
 	function fn_goList(){
 
@@ -319,6 +347,7 @@
 		formData.append("hashText", $("#hashText").val());
 		formData.append("snsType", snsType);
 		formData.append("snsUrl", $("#snsUrl").val());
+		formData.append("snsDate", $("#snsDate").val());
 
 		if(fCommon.global.attFiles.length != 0){
 			if(fCommon.global.attFiles.length > 1){

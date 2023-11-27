@@ -217,6 +217,7 @@
           <ul class="sns">
             <li><a href="https://www.facebook.com/CAMTIC4U" target='_blank'><span>페이스북</span></a></li>
             <li><a href="https://www.instagram.com/camtic4u/?utm_medium=copy_link" target='_blank'><span>인스타그램</span></a></li>
+            <li><a href="https://www.youtube.com/@camtic4u" target='_blank'><span>유튜브</span></a></li>
             <%--<li><a href="https://pf.kakao.com/_Txmjps" target='_blank' class="kakao"><span>카카오톡</span></a></li>--%>
           </ul>
           <dl class="tit">
@@ -588,8 +589,8 @@
 
     resultData5.forEach((item, index) => {
       console.log(item);
-      var createdTime = item.REG_DATE;
-      var formattedTime = new Date(createdTime).toLocaleString();
+      /*var createdTime = item.REG_DATE;
+      var formattedTime = new Date(createdTime).toLocaleString();*/
 
       if (item.SNS_URL){
         html += '<a href="' + item.SNS_URL + '" class="swiper-slide" target="_blank">';
@@ -597,20 +598,21 @@
         html += '<a href="javascript:void(0);" class="swiper-slide">';
       }
       if (item.FILE_PATH) {
-        html += '<div class="img"><img src=' + item.FILE_PATH + ' style="width:340px; height:255px;"></div>';
+        html += '<div class="img"><img src=' + item.FILE_PATH + ' style="width:255px; height:255px;"></div>';
       }else{
-        html += '<div class="img"><i style="background-image:url(https://fakeimg.pl/340x255); width:340px; height:255px;"></i></div>';
+        html += '<div class="img"><i style="background-image:url(https://fakeimg.pl/340x255); width:255px; height:255px;"></i></div>';
       }
-      html += '<div class="info">';
-      html += '<p class="date">' + formattedTime + '</p>';
+      html += '<div class="info" style="width:255px;">';
+      /*html += '<p class="date">' + formattedTime + '</p>';*/
       let contents = item.BOARD_ARTICLE_CONTENT.replace(/<\/?("[^"]*"|'[^']*'|[^>])*(>|$)/gi, "");
       html += '<div><p class="sum">'+ contents +'</p></div>';
       if(item.SNS_TYPE == 1){
         html += '<p class="sns"><span class="face">페이스북</span></p>';
-      }else{
+      }else if(item.SNS_TYPE == 2){
         html += '<p class="sns"><span class="insta">인스타그램</span></p>';
+      }else {
+        html += '<p class="sns"><span class="youtube">유튜브</span></p>';
       }
-
       html += '</div>';
       html += '</a>';
     });

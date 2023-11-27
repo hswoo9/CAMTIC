@@ -18,6 +18,17 @@
     margin-bottom: 5px;
     font-size: 14px;
   }
+
+  input[type="date"] {
+    width: 19.5%;
+    height: 34px;
+    display: inline-block;
+    background: none;
+    border: 1px solid #c9c9c9;
+    padding-left: 5px;
+    margin-bottom: 5px;
+    font-size: 14px;
+  }
   .txt_area_01 {display: inline-block; width: 100%; height: 170px; border: 1px solid #c9c9c9; }
 
   table th{
@@ -117,6 +128,10 @@
                         <input type="radio" id="snsInstaGram" name="snsType" value="2" <c:if test="${map.SNS_TYPE eq 2}">checked</c:if>>
                         <i></i><span>인스타그램</span>
                       </label>
+                      <label class="__lab" style="margin-left:10px;">
+                        <input type="radio" id="snsYoutube" name="snsType" value="3" <c:if test="${map.SNS_TYPE eq 3}">checked</c:if>>
+                        <i></i><span>유튜브</span>
+                      </label>
                     </td>
                   </tr>
                   <tr style="border-bottom: 1px solid #ccc;">
@@ -129,7 +144,14 @@
                 <tr>
                   <th>작성일자</th>
                   <td>
-                    <input type="text" id="writeDate" class="" value="<fmt:formatDate value="${map.REG_DATE}" pattern="yyyy-MM-dd" type="date"/>" disabled/>
+                    <c:choose>
+                      <c:when test="${categoryId eq 'sns'}">
+                        <input type="date" id="snsDate" class="" value="<fmt:formatDate value="${map.REG_DATE}" pattern="yyyy-MM-dd" type="date"/>"/>
+                      </c:when>
+                      <c:otherwise>
+                        <input type="text" id="writeDate" class="" value="<fmt:formatDate value="${map.REG_DATE}" pattern="yyyy-MM-dd" type="date"/>" disabled/>
+                      </c:otherwise>
+                    </c:choose>
                   </td>
                 </tr>
                 <c:if test="${categoryId eq 'video'}">
@@ -388,6 +410,7 @@
     formData.append("hashText", $("#hashText").val());
     formData.append("snsType", snsType);
     formData.append("snsUrl", $("#snsUrl").val());
+    formData.append("snsDate", $("#snsDate").val());
 
     //첨부파일
     if(fCommon.global.attFiles.length != 0){
