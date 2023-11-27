@@ -2,8 +2,9 @@
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<script type="text/javascript" src="/js/intra/campus/campus.js?v=${toDate}"/></script>
-<script type="text/javascript" src="/js/intra/campus/commonEduList.js?v=${toDate}"/></script>
+<jsp:useBean id="today" class="java.util.Date" />
+<script type="text/javascript" src="/js/intra/campus/campus.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/campus/commonEduList.js?v=${today}"/></script>
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">

@@ -478,7 +478,7 @@
                                                 <td><input type="text" id="fName" value="${l.FAMILY_NAME}" style="width: 100%;"></td>
                                                 <td><input type="text" id="bDay1" class="bDay" value="${l.FAMILY_BIRTH}" style="width: 100%;"></td>
                                                 <td><input type="text" id="job" value="${l.FAMILY_JOB}" style="width: 100%;"></td>
-                                                <td><span type="text" id="includeType${l.FAMILY_ID}" class="includeType" name="includeType" value="${l.INCLUDE_YN}" style="width: 100%;"></span></td>
+                                                <td><span type="text" id="includeType${l.FAMILY_ID}" class="includeType" name="includeType${l.FAMILY_ID}" inCludeYn="${l.INCLUDE_YN}" style="width: 100%;"></span></td>
                                                 <td>
                                                     <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_familyModifyInfo(${l.FAMILY_ID})"/>
                                                     <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="fu_familyDelInfo(${l.FAMILY_ID})"/>
@@ -492,7 +492,7 @@
                                         <td><input type="text" id="fName1"  style="width: 100%;"></td>
                                         <td><input type="text" id="bDay2" class="bDay" style="width: 100%;"></td>
                                         <td><input type="text" id="job1" style="width: 100%;"></td>
-                                        <td><span type="text" id="includeType1" class="includeType" name="includeType" style="width: 100%;"></span></td>
+                                        <td><span type="text" id="includeType" class="includeType" name="includeType" style="width: 100%;"></span></td>
                                         <td>
                                             <input type="button" class="k-button k-button-solid-info" value="추가" onclick="fu_familyAddInfo()"/>
                                         </td>
@@ -1136,37 +1136,19 @@
             {label: "아니오", value: "N"}
         ],
         layout: "horizontal",
-        labelPosition: "after"
+        labelPosition: "after",
     });
 
     // Y 이면 예 , N 이면 아니오
-    /*var flag = "Y";
+    var flag = "Y";
 
     if(false) {
         flag = "N"
     }
-    $("#includeType${l.FAMILY_ID}").data("kendoRadioGroup").value(flag);*/
-  /*  $("input[name='includeType'][value='" + e.INCLUDE_YN + "']").prop('checked', true);*/
 
-    $.each($(".includeType input"), function(){
-        var flag = "Y";
-
-        if(false) {
-            flag = "N"
-        }
-        var familyId = $(this).attr('id').replace('includeType', '');
-        $("#includeType" + familyId).data("kendoRadioGroup").value(flag);
+    $.each($(".includeType"), function(){
+        $(this).data("kendoRadioGroup").value($(this).attr("inCludeYn"));
     })
-
-   /* $(".includeType").each(function () {
-        var flag = "Y";
-
-        if(false) {
-            flag = "N"
-        }
-        var familyId = $(this).attr('id').replace('includeType', '');
-        $("#includeType" + familyId).data("kendoRadioGroup").value(flag);
-    });*/
 
 
     $(function(){
@@ -1717,7 +1699,7 @@
             bDay : $("#bDay2").val(),
             job : $("#job1").val(),
             fName : $("#fName1").val(),
-            includeType : $("#includeType1").getKendoRadioGroup().value(),
+            includeType : $("#includeType").getKendoRadioGroup().value()
         }
 
         var formData = new FormData();
@@ -1748,7 +1730,7 @@
             bDay : $("#bDay1").val(),
             job : $("#job").val(),
             fName : $("#fName").val(),
-            includeType :  $("#includeType").getKendoRadioGroup().value(),
+            includeType :  $("#includeType"+key).getKendoRadioGroup().value(),
             pk: key
         }
 
