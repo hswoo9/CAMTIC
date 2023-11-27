@@ -15,7 +15,8 @@ var rprChangePop = {
                 { text: "등록", value: "1" },
                 { text: "출원", value: "2" },
                 { text: "거절", value: "3" },
-                { text: "소멸", value: "4" }
+                { text: "소멸", value: "4" },
+                { text: "취하", value: "5" }
             ],
             index: 0
         });
@@ -39,8 +40,11 @@ var rprChangePop = {
             dataSource: [
                 { text: "선택하세요", value: "" },
                 { text: "해당없음", value: "1" },
+                { text: "이전가능", value: "3" },
                 { text: "이전완료", value: "2" },
-                { text: "이전가능", value: "3" }
+                { text: "이전완료(전부양도)", value: "4" },
+                { text: "이전완료(전용실시)", value: "5" },
+                { text: "이전완료(통상실시)", value: "6" }
             ],
             index: 0
         });

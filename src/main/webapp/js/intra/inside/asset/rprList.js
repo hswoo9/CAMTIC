@@ -1,25 +1,13 @@
 var rprList = {
-    init(){
-        rprList.dataSet();
+    fn_defaultScript: function(){
+        rprList.pageSet();
         rprList.mainGrid();
     },
 
-    dataSet(){
-        $("#start_date").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth() - 1))
-        });
-
-        $("#end_date").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date()
-        });
+    pageSet: function(){
+        customKendo.fn_datePicker("start_date", '', "yyyy-MM-dd", new Date(now.setMonth(now.getMonth() - 1)));
+        customKendo.fn_datePicker("end_date", '', "yyyy-MM-dd", new Date());
+        $("#start_date, #end_date").attr("readonly", true);
 
         $("#drop1").kendoDropDownList({
             dataTextField: "text",
@@ -56,7 +44,8 @@ var rprList = {
                 { text: "등록", value: "1" },
                 { text: "출원", value: "2" },
                 { text: "거절", value: "3" },
-                { text: "소멸", value: "4" }
+                { text: "소멸", value: "4" },
+                { text: "취하", value: "5" }
             ],
             index: 0
         });
@@ -91,8 +80,11 @@ var rprList = {
             dataSource: [
                 { text: "전체", value: "" },
                 { text: "해당없음", value: "1" },
+                { text: "이전가능", value: "3" },
                 { text: "이전완료", value: "2" },
-                { text: "이전가능", value: "3" }
+                { text: "이전완료(전부양도)", value: "4" },
+                { text: "이전완료(전용실시)", value: "5" },
+                { text: "이전완료(통상실시)", value: "6" }
             ],
             index: 0
         });
@@ -203,44 +195,73 @@ var rprList = {
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="rprList.fn_checkAll();" style="position : relative; top : 2px;"/>',
                     template : "<input type='checkbox' id='rprPk#=INVENTION_INFO_SN#' name='rprPk' value='#=INVENTION_INFO_SN#'/>",
-                    width: 50
+                    width: 30
                 }, {
-                    field: "ROW_NUM",
-                    title: "순번"
+                    title: "번호",
+                    width: 50,
+                    template: "#= --record #"
                 }, {
                     field: "APPLICANT_DT",
-                    title: "출원일자"
+                    title: "출원일자",
+                    width: 80,
+                    template: function(row){
+                        return row.APPLICANT_DT == "1900-01-00" ? "-" : row.APPLICANT_DT
+                    }
                 }, {
                     field: "REG_DATE",
-                    title: "등록일자"
+                    title: "등록일자",
+                    width: 80,
+                    template: function(row){
+                        return row.REG_DATE == "1900-01-00" ? "-" : row.REG_DATE
+                    }
                 }, {
                     field: "IPR_NAME",
-                    title: "구분"
+                    title: "구분",
+                    width: 70
                 }, {
                     field: "STATE_NAME",
-                    title: "상태"
+                    title: "상태",
+                    width: 50
                 }, {
                     field: "TECH_NAME",
-                    title: "기술이전"
+                    title: "기술이전",
+                    width: 70
                 }, {
                     field: "TAIN_NAME",
-                    title: "유지여부"
+                    title: "유지여부",
+                    width: 120
                 }, {
                     field: "EXPIRATION_DT",
-                    title: "존속만료일"
+                    title: "존속만료일",
+                    width: 80,
+                    template: function(row){
+                        return row.EXPIRATION_DT == "1900-01-00" ? "-" : row.EXPIRATION_DT
+                    }
                 }, {
                     field: "TITLE",
-                    title: "지식재산권 명칭",
-                    width: "10%"
+                    title: "지식재산권 명칭"
                 }, {
                     field: "SHARE_NAME",
-                    title: "발명자"
+                    title: "발명자",
+                    template: function(row){
+                        let shareArr = row.SHARE_NAME.split(',');
+                        let count = shareArr.length;
+
+                        if(count > 1){
+                            return shareArr[0]+"외 "+(count-1)+"명";
+                        }else{
+                            return shareArr[0];
+                        }
+                    },
+                    width: 90
                 }, {
                     field: "APPLICANT_NUM",
-                    title: "출원번호"
+                    title: "출원번호",
+                    width: 120
                 }, {
                     field: "REG_NUM",
-                    title: "등록번호"
+                    title: "등록번호",
+                    width: 120
                 }, {
                     title: "신고서",
                     template : function(row){
@@ -251,7 +272,8 @@ var rprList = {
                         } else {
                             return "";
                         }
-                    }
+                    },
+                    width: 70
                 }, {
                     title: "출원증",
                     template: function(row){
@@ -265,7 +287,8 @@ var rprList = {
                         }else{
                             return '-';
                         }
-                    }
+                    },
+                    width: 70
                 }, {
                     title: "등록증",
                     template: function(row){
@@ -279,7 +302,8 @@ var rprList = {
                         }else{
                             return '-';
                         }
-                    }
+                    },
+                    width: 70
                 }, {
                     field: "",
                     title: "포상금",
@@ -289,9 +313,13 @@ var rprList = {
                         }else{
                             return "미지급"
                         }
-                    }
+                    },
+                    width: 70
                 }
-            ]
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
 
         //지식재산권 리스트 더블 클릭시 수정 팝업창
