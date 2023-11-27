@@ -1,3 +1,7 @@
+let sum1 = 0;
+let sum2 = 0;
+let sum3 = 0;
+
 var purcDif = {
 
     global : {
@@ -80,7 +84,13 @@ var purcDif = {
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }],
+                }
+            ],
+            dataBound : function(e){
+                sum1 = 0;
+                sum2 = 0;
+                sum3 = 0;
+            },
             columns: [
                 {
                     title: "번호",
@@ -89,7 +99,7 @@ var purcDif = {
                 }, {
                     title: "문서번호",
                     field: "DOC_NO",
-                    width: 180,
+                    width: 160,
                 }, {
                     field: "CLAIM_DE",
                     title: "청구일",
@@ -123,32 +133,45 @@ var purcDif = {
                     width: 100,
                     template: function(e){
                         if(e.PURC_DEPT_NAME != null && e.PURC_DEPT_NAME != ""){
-                            return e.PURC_DEPT_NAME.toString().split(" ")[0] + "<br>" + e.PURC_DEPT_NAME.toString().split(" ")[1];
-                        } else {
-                            return e.CLAIM_DEPT_NAME.toString().split(" ")[0] + "<br>" + e.CLAIM_DEPT_NAME.toString().split(" ")[1];
+                            return e.PURC_DEPT_NAME;
+                        }else{
+                            return e.CLAIM_DEPT_NAME;
                         }
                     }
                 }, {
                     title: "업체명",
-                    width: 100,
-                    field: "CRM_NM"
+                    width: 160,
+                    field: "CRM_NM",
+                    footerTemplate: "합계"
                 }, {
                     title: "요청금액",
                     width: 100,
                     template: function (e){
+                        sum1  += Number(e.TOT_PURC_ITEM_AMT);
                         return '<div style="text-align: right">'+comma(e.TOT_PURC_ITEM_AMT)+'</div>'
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(sum1)+"</div>";
                     }
                 }, {
                     title: "청구금액",
                     width: 100,
                     template: function (e){
+                        sum2  += Number(e.TOT_AMT);
                         return '<div style="text-align: right">'+comma(e.TOT_AMT)+'</div>'
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(sum2)+"</div>";
                     }
                 }, {
                     title: "할인금액",
                     width: 100,
                     template: function (e){
+                        sum3  += Number(e.TOT_DIF_AMT);
                         return '<div style="text-align: right">'+comma(e.TOT_DIF_AMT)+'</div>'
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(sum3)+"</div>";
                     }
                 }
                 // , {
