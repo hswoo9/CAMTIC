@@ -1442,6 +1442,18 @@ public class CampusController {
         return "jsonView";
     }
 
+    @RequestMapping("/campus/setStudyResultSc")
+    public String setStudyResultSc(@RequestParam Map<String, Object> params, Model model) {
+        try{
+            campusService.setStudyResultSc(params);
+            model.addAttribute("code",200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     /** 학습조 조장, 간사 검토완료 처리 */
     @RequestMapping("/campus/setStudyJournalApp")
     public String setStudyJournalApp(@RequestParam Map<String, Object> params) {
@@ -1816,6 +1828,14 @@ public class CampusController {
         Map<String, Object> data = campusService.getStudyResultData(params);
 
         model.addAttribute("data", data);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/campus/getStudyResultList")
+    public String getStudyResultList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = campusService.getStudyResultList(params);
+        model.addAttribute("list", list);
 
         return "jsonView";
     }

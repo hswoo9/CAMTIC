@@ -104,8 +104,10 @@ var studyInfo = {
                             }else if(row.STATUS == 10) {
                                 return "신청서 승인요청중"
                             }else if(row.STATUS == 100){
-                                if(row.ADD_STATUS == "Y"){
+                                if(row.ADD_STATUS == "Y"|| row.ADD_STATUS == "C"){
                                     return "학습완료";
+                                } else if (row.ADD_STATUS == "S") {
+                                    return "이수완료";
                                 } else {
                                     return "학습 진행중"
                                 }

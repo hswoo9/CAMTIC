@@ -155,9 +155,9 @@ const studyJournal = {
         }).data.REAL_EDU_TIME;
 
         let realEduTime = eduTime;
-        if(realEduTimeYear + realEduTime > 2){
-            realEduTime = 2 - realEduTimeYear;
-        }
+        // if(realEduTimeYear + realEduTime > 2){
+        //     realEduTime = 2 - realEduTimeYear;
+        // }
 
         let data = {
             studyInfoSn: studyInfoSn,

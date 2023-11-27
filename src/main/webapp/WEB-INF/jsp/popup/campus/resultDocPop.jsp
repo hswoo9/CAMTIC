@@ -17,6 +17,8 @@
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
 
+<input type="hidden" id="resultMode" value="${params.mode}" />
+
 <div class="table-responsive">
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">
@@ -25,6 +27,7 @@
                 </span>
         </h3>
         <div class="btn-st popButton">
+            <input type="button" id="apprBtn" style="margin-right:5px; display:none;" class="k-button k-button-solid-info" value="승인" onclick="fn_approval();"/>
             <input type="button" id="saveBtn" style="margin-right:5px;" class="k-button k-button-solid-info" value="저장" onclick="fn_save();"/>
             <input type="button" id="cancelBtn" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close();"/>
         </div>
@@ -106,6 +109,19 @@
         var popup = window.open(url, name, option);
     }
 
+    if($("#resultMode").val() == "mng"){
+        $("#apprBtn").css("display", "");
+
+        var studyParam ={
+            pk : $("#pk").val()
+        }
+        var rs = customKendo.fn_customAjax("/campus/getStudyInfoOne", studyParam);
+        console.log(rs);
+        if(rs.data.ADD_STATUS == "S"){
+            $("#apprBtn").css("display", "none");
+        }
+    }
+
     if($("#studyResultSn").val() != ""){
         $.ajax({
             url : "/campus/getStudyResultData",
@@ -115,7 +131,7 @@
             type: "post",
             dataType : "json",
             success :function(rs){
-                console.log(rs);
+                $("#journalDt").val(rs.data.STUDY_RESULT_DT);
                 $("#journalDt").val(rs.data.STUDY_RESULT_DT);
                 $("#journalStartTime").val(rs.data.STUDY_RESULT_START_TIME);
                 $("#journalEndTime").val(rs.data.STUDY_RESULT_END_TIME);
@@ -130,7 +146,7 @@
         $("#main2").css("display", "");
 
         $("#saveBtn").css("display", "none");
-        studyView.studyUserSetting();
+        studyUserSetting();
     } else {
         $.ajax({
             url : "/campus/getStudyJournalList",
@@ -149,6 +165,49 @@
                 $("#studyMoney").val(comma(cost));
             }
         });
+    }
+
+    function studyUserSetting(){
+        let data = {
+            pk: $("#pk").val()
+        }
+        // const result = customKendo.fn_customAjax("/campus/getStudyUserList", data);
+        const result = customKendo.fn_customAjax("/campus/getStudyResultList", data);
+
+        studyView.global.studyUserList = result.list;
+
+
+        let list = studyView.global.studyUserList;
+
+        let html = '';
+        html += '<colgroup>';
+        html += '<col width="8%"><col width="25%"><col width="20%"><col width="20%"><col width="12%"><col width="12%">';
+        html += '</colgroup>';
+
+        html += '<thead>';
+        html += '<tr>';
+        html += '<th>구분</th>';
+        html += '<th>부서명</th>';
+        html += '<th>직위</th>';
+        html += '<th>성명</th>';
+        html += '<th>이수횟수</th>';
+        html += '<th>이수시간</th>';
+        html += '</tr>';
+
+        for(let i=0; i<list.length; i++){
+            html += '<tr>';
+            html += '<td style="text-align: center">'+list[i].STUDY_CLASS_TEXT+'</td>';
+            html += '<td style="text-align: center">'+list[i].STUDY_DEPT_NAME+' '+list[i].STUDY_TEAM_NAME+'</td>';
+            html += '<td style="text-align: center">'+list[i].STUDY_POSITION_NAME+'</td>';
+            html += '<td style="text-align: center">'+list[i].STUDY_EMP_NAME+'</td>';
+            html += '<td style="text-align: center">'+list[i].STUDY_EMP_CNT+'</td>';
+            html += '<td style="text-align: center">'+list[i].STUDY_TIME+'</td>';
+            html += '</tr>';
+            if(list[i].STUDY_CLASS_TEXT == "조장"){
+                studyView.global.mngEmpSeq = list[i].STUDY_EMP_SEQ;
+            }
+        }
+        $("#studyUserTable").html(html);
     }
 
 
@@ -256,6 +315,26 @@
                 }
             }
         })
+    }
+
+    function fn_approval(){
+        if($("#resultMode").val() == "mng"){
+            var data = {
+                studyInfoSn : $("#pk").val(),
+            }
+            $.ajax({
+                url : "/campus/setStudyResultSc",
+                data : data,
+                type : "post",
+                dataType: "json",
+                success :function(rs){
+                    if(rs.code == 200){
+                        alert("승인되었습니다.");
+                        window.close();
+                    }
+                }
+            });
+        }
     }
 </script>
 </body>

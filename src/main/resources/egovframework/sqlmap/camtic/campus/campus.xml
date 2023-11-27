@@ -1990,6 +1990,15 @@
             STUDY_INFO_SN = #{studyInfoSn}
     </update>
 
+    <update id="setStudyResultSc" parameterType="map">
+        /*setStudyResultSc*/
+        UPDATE CAMPUS.DJ_STUDY_INFO
+        SET
+            ADD_STATUS = "S"
+        WHERE
+            STUDY_INFO_SN = #{studyInfoSn}
+    </update>
+
     <select id="getStudyResultOne" parameterType="map" resultType="map">
         /*getStudyResultOne*/
         SELECT
@@ -2001,4 +2010,77 @@
         ORDER BY STUDY_RESULT_SN
         LIMIT 1
     </select>
+
+    <select id="getStudyResultList" parameterType="map" resultType="map">
+        /*getStudyResultList*/
+        SELECT
+            STUDY_CLASS_SN,
+            STUDY_CLASS_TEXT,
+            STUDY_EMP_SEQ,
+            STUDY_EMP_NAME,
+            STUDY_DEPT_NAME,
+            STUDY_TEAM_NAME,
+            STUDY_POSITION_NAME,
+            STUDY_DUTY_NAME,
+            SUM(STUDY_TIME) as STUDY_TIME,
+            COUNT(STUDY_EMP_SEQ) as STUDY_EMP_CNT
+        FROM
+            CAMPUS.DJ_STUDY_RESULT_USER
+        WHERE
+            STUDY_INFO_SN = #{pk}
+        GROUP BY STUDY_EMP_SEQ
+    </select>
+
+    <select id="getStudyUserInfo" parameterType="map" resultType="map">
+        /*getStudyUserInfo*/
+        SELECT
+            *
+        FROM
+            CAMPUS.DJ_STUDY_USER
+        WHERE
+            STUDY_INFO_SN = #{studyInfoSn}
+        AND
+            STUDY_EMP_SEQ = #{studyEmpSeq}
+    </select>
+
+    <select id="setStudyResultUserInsert" parameterType="map">
+        /*setStudyResultUserInsert*/
+        INSERT INTO CAMPUS.DJ_STUDY_RESULT_USER
+            (
+                STUDY_INFO_SN,
+                STUDY_JOURNAL_SN,
+                STUDY_EMP_SEQ,
+                STUDY_EMP_NAME,
+                STUDY_DEPT_NAME,
+                STUDY_TEAM_NAME,
+                STUDY_POSITION_NAME,
+                STUDY_DUTY_NAME,
+                STUDY_TIME,
+                STUDY_CLASS_SN,
+                STUDY_CLASS_TEXT
+            )
+        VALUES
+            (
+                #{studyInfoSn},
+                #{studyJournalSn},
+                #{studyEmpSeq},
+                #{studyEmpName},
+                #{studyDeptName},
+                #{studyTeamName},
+                #{studyPositionName},
+                #{studyDutyName},
+                #{realEduTime},
+                #{studyClassSn},
+                #{studyClassText}
+            )
+    </select>
+
+    <delete id="deleteStudyResultUser" parameterType="map">
+        /*deleteStudyResultUser*/
+        DELETE
+        FROM
+            CAMPUS.DJ_STUDY_RESULT_USER
+        WHERE
+            STUDY_JOURNAL_SN = #{studyJournalSn}
+    </delete>
 </mapper>

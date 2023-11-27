@@ -226,4 +226,24 @@ public class CampusRepository extends AbstractDAO  {
     public Map<String, Object> getStudyResultOne(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("campus.getStudyResultOne", params);
     }
+
+    public List<Map<String, Object>> getStudyResultList(Map<String, Object> params) {
+        return selectList("campus.getStudyResultList", params);
+    }
+
+    public Map<String, Object> getStudyUserInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("campus.getStudyUserInfo", params);
+    }
+
+    public void setStudyResultUserInsert(Map<String, Object> params) {
+        insert("campus.setStudyResultUserInsert", params);
+    }
+
+    public void deleteStudyResultUser(Map<String, Object> params) {
+        delete("campus.deleteStudyResultUser", params);
+    }
+
+    public void setStudyResultSc(Map<String, Object> params) {
+        update("campus.setStudyResultSc", params);
+    }
 }
