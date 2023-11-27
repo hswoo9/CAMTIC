@@ -2832,7 +2832,8 @@
         SELECT
             join_year,
             employees_joined,
-            employees_resigned
+            employees_resigned,
+            active_emp_count
         FROM (
                  SELECT
                      YEAR(JOIN_DAY) AS join_year,
@@ -2855,6 +2856,18 @@
             GROUP BY
                 resign_year
         ) AS resigned ON joined.join_year = resigned.resign_year
+                 LEFT JOIN (
+            SELECT
+                YEAR(JOIN_DAY) AS active_year,
+                COUNT(*) AS active_emp_count
+            FROM
+                cam_hr.dj_emp_info
+            WHERE
+                JOIN_DAY IS NOT NULL AND YEAR(JOIN_DAY) BETWEEN 1999 AND 2023
+              AND WORK_STATUS_CODE = 'Y'
+            GROUP BY
+                active_year
+        ) AS active ON joined.join_year = active.active_year
         ORDER BY
             join_year desc
     </select>
