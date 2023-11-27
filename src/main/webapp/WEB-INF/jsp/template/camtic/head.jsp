@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
-
 <div id="skip">
   <a href="#header" style="font-size: 0">메뉴</a>
   <a href="#content" style="font-size: 0">본문</a>
@@ -9,8 +8,15 @@
 <header id="header">
   <div class="top">
     <ul class="link" style="margin-right:37px;">
-      <li><a href="/camtic/login.do"><span>로그인</span></a></li>
-      <li><a href="/indexB.do"><span>캠스팟</span></a></li>
+     <c:choose>
+       <c:when test="${LoginVO ne null}">
+         <li><a href="/camtic/logoutAction"><span>로그아웃</span></a></li>
+         <li><a href="/indexB.do"><span>캠스팟</span></a></li>
+       </c:when>
+       <c:otherwise>
+         <li><a href="/camtic/hpLogin.do"><span>로그인</span></a></li>
+       </c:otherwise>
+     </c:choose>
       <li><a href="/camtic/about/greetingENG.do"><span>ENG</span></a></li>
       <li><a href="#"><span>통합페이지</span></a></li>
       <%--<li><a href="#"><span>잡매칭센터</span></a></li>--%>

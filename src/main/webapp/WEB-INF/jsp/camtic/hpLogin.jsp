@@ -5,6 +5,8 @@
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 </head>
 
+<script type="text/javascript" src="/js/intra/login/hpLogin.js?v=1"></script>
+
 <style>
     .signin{
         top: -4%;
@@ -124,11 +126,11 @@
                                             </div>
                                             <div class="form-group mb10">
                                                 <div class="input-group" style="margin-top:20px;">
-                                                    <input type="text" id="password" name="password" class="form-control" placeholder="비밀번호를 입력하세요." value="******">
+                                                    <input type="password" id="password" name="password" class="form-control" placeholder="비밀번호를 입력하세요." value="******">
                                                 </div>
                                             </div>
                                             <div>
-                                                <button class="btn btn-success btn-quirk btn-block" style="font-size:16px; margin-top:20px;" id="mvBtn" onclick="login.actionLogin();">확인</button>
+                                                <button class="btn btn-success btn-quirk btn-block" style="font-size:16px; margin-top:20px;" id="mvBtn" onclick="hpLogin.actionLogin();">확인</button>
                                             </div>
                                             <div style="display:flex; margin-top:20px; justify-content: space-between;">
                                                 <div><input type="checkbox" name="" value="" style="margin-right:5px;"><a href="" class="forgot">아이디저장</a></div>
@@ -148,5 +150,8 @@
     </div>
     <jsp:include page="/WEB-INF/jsp/template/camtic/foot.jsp" flush="false"/>
 </div>
+<script>
+    hpLogin.init();
+</script>
 </body>
 </html>

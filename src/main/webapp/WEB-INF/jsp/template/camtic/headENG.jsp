@@ -8,7 +8,7 @@
 
 <header id="header">
   <div class="top">
-    <ul class="link">
+    <ul class="link" style="margin-right:30px;">
       <li><a href="/camtic"><span>KOR</span></a></li>
       <li><a href="#"><span>통합페이지</span></a></li>
       <%--<li><a href="#"><span>잡매칭센터</span></a></li>--%>

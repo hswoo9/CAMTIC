@@ -3,11 +3,17 @@ package egovframework.com.devjitsu.gw.main.controller;
 import egovframework.com.devjitsu.cams_pot.service.CustomBoardService;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.doc.approval.service.ApprovalUserService;
+import egovframework.com.devjitsu.gw.login.controller.LoginController;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
+import egovframework.com.devjitsu.gw.login.service.LoginService;
 import egovframework.com.devjitsu.hp.board.service.BoardService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -99,19 +105,10 @@ public class MainController {
         return "jsonView";
     }
 
-    @RequestMapping("/camtic/login.do")
-    public String openLoginPage(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        session.removeAttribute("menuNm");
-        return "/camtic/login";
-    }
-
     @RequestMapping("/subHoliday/subHolidayApplication.do")
     public String subHolidayApplication(){
         return "/subHoliday/subHolidayApplication";
     }
-
-
 
     @RequestMapping("/subHoliday/org.do")
     public String org(){
@@ -214,6 +211,7 @@ public class MainController {
         commonService.setDelFvMenu(params);
         return "jsonView";
     }
+
 
 
 
