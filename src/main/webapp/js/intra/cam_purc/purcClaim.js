@@ -72,7 +72,7 @@ var purcClaim = {
                 }, {
                     title: "문서번호",
                     field: "DOC_NO",
-                    width: 180,
+                    width: 160,
                 }, {
                     field: "CLAIM_DE",
                     title: "청구일",
@@ -106,14 +106,14 @@ var purcClaim = {
                     width: 100,
                     template: function(e){
                         if(e.PURC_DEPT_NAME != null && e.PURC_DEPT_NAME != ""){
-                            return e.PURC_DEPT_NAME.toString().split(" ")[0] + "<br>" + e.PURC_DEPT_NAME.toString().split(" ")[1];
-                        } else {
-                            return e.CLAIM_DEPT_NAME.toString().split(" ")[0] + "<br>" + e.CLAIM_DEPT_NAME.toString().split(" ")[1];
+                            return e.PURC_DEPT_NAME;
+                        }else{
+                            return e.CLAIM_DEPT_NAME;
                         }
                     }
                 }, {
                     title: "업체명",
-                    width: 100,
+                    width: 160,
                     field: "CRM_NM"
                 }, {
                     title: "금액",
