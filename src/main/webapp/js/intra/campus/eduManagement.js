@@ -70,9 +70,9 @@ var eduManagement = {
             dataBound : eduManagement.onDataBound,
             columns: [
                 {
-                    field: "ROW_NUM",
-                    title: "순번",
-                    width: 50
+                    title: "번호",
+                    width: 50,
+                    template: "#= --record #"
                 }, {
                     field: "COMMON_CLASS_TEXT",
                     title: "구분",
@@ -112,7 +112,10 @@ var eduManagement = {
                         }
                     }
                 }
-            ]
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
     },
 

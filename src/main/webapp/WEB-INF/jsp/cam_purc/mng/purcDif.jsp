@@ -8,6 +8,23 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_purc/purchase.js?v=${today}'/>"></script>
 
 <style>
+    .k-footer-template td:nth-child(9) {
+        overflow: visible;
+        white-space: nowrap;
+        text-align: right;
+    }
+
+    .k-footer-template td:nth-child(1),
+    .k-footer-template td:nth-child(2),
+    .k-footer-template td:nth-child(3),
+    .k-footer-template td:nth-child(4),
+    .k-footer-template td:nth-child(5),
+    .k-footer-template td:nth-child(6),
+    .k-footer-template td:nth-child(7),
+    .k-footer-template td:nth-child(8) {
+        border-width: 0;
+    }
+
     a:hover {
         color: blue;
         text-decoration: underline !important;
@@ -22,8 +39,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">구매할인조회 (관리자)</h4>
-            <div class="title-road">캠매니저 > 구매관리 &gt; 구매할인조회(관리자)</div>
+            <h4 class="panel-title">구매성과조회 (관리자)</h4>
+            <div class="title-road">캠매니저 > 구매관리 &gt; 구매성과조회(관리자)</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">

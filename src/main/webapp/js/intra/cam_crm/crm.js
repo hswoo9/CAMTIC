@@ -21,7 +21,8 @@ var crm = {
             { text: "사업자번호", value: "CRM_NO" },
             { text: "전화번호", value: "TEL_NUM" },
             { text: "팩스번호", value: "FAX" },
-            { text: "대표자", value: "CRM_CEO" }
+            { text: "대표자", value: "CRM_CEO" },
+            { text: "담당자", value: "CRM_MEM" }
         ]
         customKendo.fn_dropDownList("searchKeyword", crm.global.dropDownDataSource, "text", "value");
         $("#searchKeyword").data("kendoDropDownList").bind("change", function(){

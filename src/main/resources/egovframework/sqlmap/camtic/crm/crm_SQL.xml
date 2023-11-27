@@ -52,6 +52,9 @@
             GROUP BY A.CRM_SN
         )A
         ON CI.CRM_SN = A.CRM_SN
+        LEFT JOIN
+            CAM_CRM.DJ_CRM_MEM CM
+        ON CI.CRM_SN = CM.CRM_SN
         <if test='target != null and !"".equals(target)'>
             <if test='"mfOverView".equals(target)'>
                 LEFT JOIN
@@ -79,6 +82,10 @@
                     <when test='"CRM_HIST_REL_CONT".equals(searchKeyword)'>
                         AND
                             A.CRM_REL_CONT LIKE CONCAT('%', #{searchValue}, '%')
+                    </when>
+                    <when test='"CRM_MEM".equals(searchKeyword)'>
+                        AND
+                            CM.CRM_MEM_NM LIKE CONCAT('%', #{searchValue}, '%')
                     </when>
                     <otherwise>
                         AND
