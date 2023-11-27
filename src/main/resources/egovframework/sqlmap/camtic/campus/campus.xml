@@ -184,6 +184,9 @@
             DI.DOC_ID,
             DI.APPRO_KEY,
             DI.DOC_MENU_CD,
+            RDI.DOC_ID AS RES_DOC_ID,
+            RDI.APPRO_KEY AS RES_APPRO_KEY,
+            RDI.DOC_MENU_CD AS RES_DOC_MENU_CD,
             EP.EDU_PLAN,
             ECD.EDU_CATEGORY_NAME
         FROM
@@ -200,6 +203,8 @@
             CAM_HR.DJ_EMP_INFO HEI ON HEI.EMP_SEQ = EI.REG_EMP_SEQ
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON DI.DOC_ID = EI.DOC_ID
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO RDI ON RDI.DOC_ID = ER.DOC_ID
         WHERE
             EI.EDU_INFO_ID = #{eduInfoId}
     </select>
@@ -648,8 +653,11 @@
         AND
             (DATE_FORMAT(CE.START_DT, '%Y') = #{eduYear} OR DATE_FORMAT(CE.END_DT, '%Y') = #{eduYear})
     ]]>
-        AND CEU.REG_EMP_SEQ = #{empSeq}
+        <if test='empSeq != null and !"".equals(empSeq)'>
+            AND CEU.REG_EMP_SEQ = #{empSeq}
+        </if>
         AND CEU.ACTIVE = 'Y'
+        GROUP BY CE.COMMON_EDU_SN
         ORDER BY CE.COMMON_EDU_SN DESC
     </select>
 
