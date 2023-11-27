@@ -84,7 +84,6 @@
                             <a href="javascript:void(0);" onclick="fn_writeBoard();" class="__btn1 blue" style="min-width:100px;height:40px;font-size:15px;"><span>게시글 작성</span></a>
                         </div>
 
-
                     </div>
                 </div>
 
@@ -196,8 +195,10 @@
             }
             if(item.sns_TYPE == '1'){
                 html += '<td>페이스북</td>';
-            }else{
+            }else if(item.sns_TYPE == '2'){
                 html += '<td>인스타그램</td>'
+            }else{
+                html += '<td>유튜브</td>'
             }
             html += '<td>'+ item.reg_EMP_NAME +'</td>';
 
