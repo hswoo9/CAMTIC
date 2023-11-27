@@ -98,11 +98,13 @@ var joinLeaveView = {
                 html += '<tr style="background-color: ' + sections[s].color + ';"><td>' + sections[s].title + '</td>';
 
                 for (var j = 0; j < 7 && (i + j) < e.length; j++) {
+                    var sectionTitle = sections[s].dataKey;
+                    var currentYear = e[i + j].join_year;
                     var sectionValue = e[i + j][sections[s].dataKey];
                         sectionValue = (sectionValue !== undefined) ? sectionValue : 0;
                     html +=
                         '<td style="width: 200px;">' +
-                        '<a href="javascript:void(0);" onclick="joinLeaveView.userViewPop(' + currentYear +');">' +
+                        '<a href="javascript:void(0);" onclick="joinLeaveView.userViewPop(\'' + currentYear +'\', \'' + sectionTitle + '\');">' +
                         '<span>' + sectionValue + '명</span>' +
                         '</a>' +
                         '</td>';
@@ -140,8 +142,8 @@ var joinLeaveView = {
 
 
 
-    userViewPop : function(year) {
-        var url = "/Inside/pop/joinLeaveViewPop.do?year="+year;
+    userViewPop : function(currentYear,sectionTitle) {
+        var url = "/Inside/pop/joinLeaveViewPop.do?currentYear="+currentYear+ "&sectionTitle=" +sectionTitle;
         var name = "joinLeaveViewPop";
         var option = "width=1000, height=420, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         window.open(url, name, option);

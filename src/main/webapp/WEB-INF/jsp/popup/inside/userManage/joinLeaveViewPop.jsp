@@ -4,8 +4,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
+<script type="text/javascript" src="<c:url value='/js/intra/inside/userManage/joinLeaveViewPop.js'/>"></script>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
+<script>
+    var currentYear = '${param.currentYear}';
+    var sectionTitle = '${param.sectionTitle}';
+
+    $(document).ready(function() {
+        $("#joinYear").val(currentYear);
+        $("#sectionTitle").val(sectionTitle);
+    });
+</script>
 
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
@@ -21,6 +31,9 @@
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="documentSn" value="${data.documentSn}"/>
+
+<input type="hidden" id="joinYear" value="${param.currentYear}">
+<input type="hidden" id="sectionTitle" value="${param.sectionTitle}">
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
@@ -29,7 +42,8 @@
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
-        <div style="padding: 20px 30px;">
+        <div id="mainGrid" style="padding: 20px 30px;">
+            <!--
             <table class="table table-bordered mb-0" style="text-align: center;">
                 <tbody>
                 <tr style="background-color: #d8dce3;">
@@ -62,12 +76,22 @@
                 </tr>
                 </tbody>
             </table>
+            -->
         </div>
     </div>
 </div>
 
 
 <script>
+    joinLeaveViewPop.fn_defaultScript();
+
+    /*
+    var joinYear = $("#joinYear").val();
+    var sectionTitle = $("#sectionTitle").val();
+
+    console.log("Join Year: " + joinYear);
+    console.log("Section Title: " + sectionTitle);
+    */
 
 </script>
 </body>
