@@ -252,4 +252,12 @@ public class CampusRepository extends AbstractDAO  {
     public void setStudyResultSc(Map<String, Object> params) {
         update("campus.setStudyResultSc", params);
     }
+
+    public void deleteOjtResult(Map<String, Object> params) {
+        delete("campus.deleteOjtResult", params);
+    }
+
+    public void setOjtResultUpdate(Map<String, Object> fileInsMap) {
+        update("campus.setOjtResultUpdate", fileInsMap);
+    }
 }

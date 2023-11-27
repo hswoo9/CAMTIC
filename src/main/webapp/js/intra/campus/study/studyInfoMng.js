@@ -69,6 +69,25 @@ var studyMng = {
                     field: "STUDY_NAME",
                     title: "학습명"
                 }, {
+                    field: "STUDY_NAME",
+                    title: "지도자(조장)",
+                    template : function (e){
+                        if(e.STUDY_CLASS_SN == "2" || e.STUDY_CLASS_SN == "3"){
+                            if(e.OJT_READER != "" && e.OJT_READER != null){
+                                return e.OJT_READER;
+                            } else {
+                                return "";
+                            }
+                        } else {
+                            if(e.STUDY_READER != "" && e.STUDY_READER != null){
+                                return e.STUDY_READER;
+                            } else {
+                                return "";
+                            }
+                        }
+                    },
+                    width: 100
+                }, {
                     title: "학습기간",
                     width: 200,
                     template: function(row){
@@ -77,7 +96,23 @@ var studyMng = {
                 }, {
                     field: "EDU_TIME_TOTAL",
                     title: "교육시간",
-                    width: 150
+                    width: 150,
+                    template : function (e){
+                        console.log(e);
+                        if(e.STUDY_CLASS_SN == "3"){
+                            if(e.ST_SUM != "" && e.ST_SUM != null){
+                                return e.ST_SUM;
+                            } else {
+                                return "0";
+                            }
+                        } else {
+                            if(e.EDU_TIME_TOTAL != "" && e.EDU_TIME_TOTAL != null){
+                                return e.EDU_TIME_TOTAL;
+                            } else {
+                                return "0";
+                            }
+                        }
+                    }
                 }, {
                     field: "STUDY_LOCATION",
                     title: "장소",

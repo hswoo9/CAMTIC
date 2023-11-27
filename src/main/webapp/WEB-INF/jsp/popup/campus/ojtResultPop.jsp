@@ -79,7 +79,29 @@
                             <tr>
                                 <th>내용저장 방법</th>
                                 <td>
-                                    <input type="text" id="saveType" style="width: 800px">
+                                    <span type="text" id="studySaveType" style="width: 400px;"></span>
+                                </td>
+                            </tr>
+                            <tr id="hideCol" style="display: none">
+                                <th>교육내용</th>
+                                <td>
+                                    <textarea type="text" id="studyContent" style="width: 100%; height: 100px"></textarea>
+                                </td>
+                            </tr>
+                            <tr id="hideColB" style="display: none">
+                                <th>지도자의견</th>
+                                <td>
+                                    <textarea type="text" id="studyContent2" style="width: 100%; height: 100px"></textarea>
+                                </td>
+                            </tr>
+                            <tr id="hideColC" style="display: none">
+                                <th>첨부파일</th>
+                                <td colspan="3">
+                                    <div style="max-width: 100% !important;">
+                                        <div style="width:100%;" id="fileHeader">
+                                            <input name="files" id="files" type="file" aria-label="files" />
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         </table>

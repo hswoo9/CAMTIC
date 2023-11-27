@@ -94,7 +94,7 @@ public interface CampusService {
     void setOjtPlanInsert(Map<String, Object> params);
     void setOjtPlanUpdate(Map<String, Object> params);
     void setOjtPlanDelete(Map<String, Object> params);
-    void setOjtResultInsert(Map<String, Object> params);
+    void setOjtResultInsert(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
     /** 학습조 끝 */
 
     /** */
@@ -161,5 +161,9 @@ public interface CampusService {
     List<Map<String, Object>> getStudyResultList(Map<String, Object> params);
 
     void setStudyResultSc(Map<String, Object> params);
+
+    void deleteOjtResult(Map<String, Object> params);
+
+    void setStudyResultComplete(Map<String, Object> params);
     /** 전자결재 끝 */
 }

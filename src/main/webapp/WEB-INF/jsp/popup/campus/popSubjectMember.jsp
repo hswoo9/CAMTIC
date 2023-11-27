@@ -98,9 +98,13 @@
                         return e.STUDY_DEPT_NAME + " " + e.STUDY_TEAM_NAME
                     }
                 }, {
-                    title: "직급",
+                    title: "직위",
                     template : function (e){
-                        return e.STUDY_DUTY_NAME;
+                        if(e.STUDY_DUTY_NAME != null && e.STUDY_DUTY_NAME != ""){
+                            return e.STUDY_DUTY_NAME;
+                        } else {
+                            return e.STUDY_POSITION_NAME;
+                        }
                     }
                 }, {
                     field: "STUDY_EMP_NAME",

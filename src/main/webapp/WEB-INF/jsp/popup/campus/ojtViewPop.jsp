@@ -26,6 +26,7 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">OJT 신청서 조회</h3>
             <div class="btn-st popButton">
+                <button type="button" id="resultBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_resultPop()">결과보고서</button>
                 <button type="button" id="finBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_ojtCertReq(101);">지도완료</button>
                 <button type="button" id="recBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_ojtCertReq(100);">승인</button>
                 <button type="button" id="comBtn" style="display: none" class="k-button k-button-solid-error" onclick="ojtView.fn_ojtCertReq(30);">반려</button>
@@ -140,7 +141,7 @@
                         <td id="ojtAmtTd"></td>
                     </tr>
                     <tr>
-                        <th>산출내역</th>
+                        <th>비용내역</th>
                         <td id="ojtAmtTextTd"></td>
                     </tr>
                     <tr>

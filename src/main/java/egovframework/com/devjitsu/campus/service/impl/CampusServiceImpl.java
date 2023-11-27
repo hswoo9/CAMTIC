@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -428,7 +427,7 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
-    public void setOjtResultInsert(Map<String, Object> params) {
+    public void setOjtResultInsert(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
         campusRepository.setOjtResultInsert(params);
 
         if(params.get("studyUserSeq") != null && !params.get("studyUserSeq").equals("")){
@@ -447,6 +446,27 @@ public class CampusServiceImpl implements CampusService {
                 params.put("studyClassText", "학습자");
 
                 campusRepository.setOjtUserInsert(params);
+            }
+        }
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile files = request.getFile("files");
+        params.put("menuCd", "ojtResult");
+        if(files != null){
+            if(!files.isEmpty()){
+                fileInsMap = mainLib.fileUpload(files, filePath(params, SERVER_DIR));
+                fileInsMap.put("ojtResultSn", params.get("ojtResultSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("file_no", fileInsMap.get("file_no"));
+                campusRepository.setOjtResultUpdate(fileInsMap);
             }
         }
 
@@ -903,5 +923,16 @@ public class CampusServiceImpl implements CampusService {
         List<Map<String, Object>> list = campusRepository.getStudyResultList(params);
 
         return list;
+    }
+
+    @Override
+    public void deleteOjtResult(Map<String, Object> params) {
+        campusRepository.deleteOjtResult(params);
+    }
+
+
+    @Override
+    public void setStudyResultComplete(Map<String, Object> params) {
+        campusRepository.setStudyResultComplete(params);
     }
 }

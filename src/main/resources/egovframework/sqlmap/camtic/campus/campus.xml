@@ -432,7 +432,11 @@
                 SELECT
                     @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
                     CSI.*,
-                    IFNULL((SELECT SUM(JOURNAL_TIME) FROM CAMPUS.DJ_STUDY_JOURNAL SCSJ WHERE CSI.STUDY_INFO_SN = SCSJ.STUDY_INFO_SN AND CAPTAIN_APPOVAL_YN = 'Y' AND ASSISTANT_APPOVAL_YN = 'Y'), 0) AS EDU_TIME_TOTAL
+                    IFNULL((SELECT SUM(JOURNAL_TIME) FROM CAMPUS.DJ_STUDY_JOURNAL SCSJ WHERE CSI.STUDY_INFO_SN = SCSJ.STUDY_INFO_SN AND CAPTAIN_APPOVAL_YN = 'Y' AND ASSISTANT_APPOVAL_YN = 'Y'), 0) AS EDU_TIME_TOTAL,
+                    (SELECT COUNT(*) FROM CAMPUS.DJ_OJT_RESULT WHERE STUDY_INFO_SN = CSI.STUDY_INFO_SN) as ST_CNT,
+                    (SELECT SUM(EDU_FULL_TIME) FROM CAMPUS.DJ_OJT_RESULT WHERE STUDY_INFO_SN = CSI.STUDY_INFO_SN) as ST_SUM,
+                    (SELECT STUDY_EMP_NAME FROM CAMPUS.DJ_STUDY_USER WHERE STUDY_INFO_SN = CSI.STUDY_INFO_SN AND STUDY_CLASS_SN = 4 LIMIT 1) as OJT_READER,
+                    (SELECT STUDY_EMP_NAME FROM CAMPUS.DJ_STUDY_USER WHERE STUDY_INFO_SN = CSI.STUDY_INFO_SN AND STUDY_CLASS_SN = 1 LIMIT 1) as STUDY_READER
                 FROM
                     CAMPUS.DJ_STUDY_INFO CSI,
                     (SELECT @ROWNUM := 0) TMP
@@ -1328,9 +1332,13 @@
             (
                 STUDY_INFO_SN,
                 OJT_DT,
+                STUDY_CONT_A,
+                STUDY_CONT_B,
                 START_TIME,
                 END_TIME,
+                EDU_FULL_TIME,
                 EDU_TIME,
+                EDU_TIME_HALF,
                 LOCATION,
                 SAVE_TYPE,
                 SAVE_TYPE_TEXT,
@@ -1341,9 +1349,13 @@
             (
                 #{studyInfoSn},
                 #{ojtDt},
+                #{studyContA},
+                #{studyContB},
                 #{startTime},
                 #{endTime},
                 CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600),
+                IF(CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600) > 2, 2,CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600)),
+                IF((CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600) / 2) > 2, 2, (CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600) / 2)),
                 #{location},
                 #{saveType},
                 #{saveTypeText},
@@ -1354,6 +1366,16 @@
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAMPUS' AND TABLE_NAME = 'DJ_OJT_RESULT'
         </selectKey>
     </insert>
+
+    <update id="setOjtResultUpdate" parameterType="map">
+        /*setOjtResultUpdate*/
+        UPDATE
+            CAMPUS.DJ_OJT_RESULT
+        SET
+            FILE_SN = #{file_no}
+        WHERE
+            OJT_RESULT_SN = #{ojtResultSn}
+    </update>
 
     <insert id="setOjtUserInsert" parameterType="map">
         /* setOjtUserInsert */
@@ -2178,5 +2200,12 @@
             CAMPUS.DJ_STUDY_RESULT_USER
         WHERE
             STUDY_JOURNAL_SN = #{studyJournalSn}
+    </delete>
+
+    <delete id="deleteOjtResult" parameterType="map">
+        /*deleteOjtResult*/
+        DELETE FROM CAMPUS.DJ_OJT_RESULT
+        WHERE
+            OJT_RESULT_SN = #{ojtResultSn}
     </delete>
 </mapper>

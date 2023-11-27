@@ -41,6 +41,10 @@ const ojtView = {
             $("#statusTd").text("OJT완료");
             $(".ojtResult").show();
             ojtView.ojtResultGrid();
+
+            if(ojtInfo.ADD_STATUS == "Y" || ojtInfo.ADD_STATUS == "C" || ojtInfo.ADD_STATUS == "S"){
+                $("#resultBtn").css("display", "");
+            }
         }
 
         $("#regDeptTd").text(ojtInfo.deptNm + " " + ojtInfo.teamNm);
@@ -210,6 +214,7 @@ const ojtView = {
             status : status
         }
 
+        customKendo.fn_customAjax("/campus/setStudyInfoComplete", data);
         var result = customKendo.fn_customAjax("/campus/studyReq", data);
 
         if(result.flag){
@@ -366,9 +371,31 @@ const ojtView = {
                         return row.OJT_DT + " " + row.START_TIME + " ~ " + row.END_TIME;
                     }
                 }, {
-                    field: "EDU_TIME",
                     title: "지도시간",
-                    template: "#= EDU_TIME #시간",
+                    field: "EDU_FULL_TIME",
+                    width : 100,
+                }, {
+                    field: "EDU_TIME",
+                    title: "인정시간",
+                    columns : [{
+                        field: "EDU_TIME",
+                        title : "지도자",
+                        width: 200
+                    },{
+                        title : "학습자",
+                        width: 200,
+                        template : function (e){
+                            return e.EDU_TIME_HALF.toString().substring(0,3)
+                        }
+                    }],
+                }, {
+                    field: "",
+                    title: "처리명령",
+                    width: 200,
+                    template: function(row){
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" disabled onclick="studyView.tmp('+row.OJT_RESULT_SN+')">인쇄</button> ' +
+                            '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-error" onclick="ojtView.fn_delete('+row.OJT_RESULT_SN+')">삭제</button>';
+                    }
                 }
             ],
             dataBinding: function() {
@@ -388,6 +415,43 @@ const ojtView = {
         let url = "/Campus/pop/ojtResultPop.do?mode="+mode+"&pk="+pk;
         let name = "ojtResultPop";
         let option = "width = 1060, height = 600, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    },
+
+    fn_delete: function (ojtResultSn){
+        $.ajax({
+            url : "/campus/deleteOjtResult",
+            data : {
+                ojtResultSn : ojtResultSn
+            },
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert(rs.msg);
+                    $("#ojtResultGrid").data("kendoGrid").dataSource.read();
+                }
+            }
+        })
+    },
+
+    fn_resultPop: function (){
+        let url = "/campus/pop/resultOjtDocPop.do?pk="+$("#pk").val();
+
+        let name = "studyOjtPop";
+        let option = "width = 800, height = 700, top = 100, left = 200, location = no";
+
+        if($("#mode").val() != ""){
+            url += "&mode="+$("#mode").val();
+        }
+
+        if($("#studyResultSn").val() != "" && $("#studyResultSn").val() != "undefined" && $("#studyResultSn").val() != null){
+            url += "&studyResultSn="+$("#studyResultSn").val();
+        } else {
+            name = "studyJournalPop";
+            option = "width = 800, height = 600, top = 100, left = 200, location = no";
+        }
+
         window.open(url, name, option);
     }
 }
