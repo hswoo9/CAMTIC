@@ -1850,19 +1850,26 @@ public class UserManageController {
     @RequestMapping(value = "/Inside/getJoinResignEmpList.do", method = RequestMethod.POST)
     public String getJoinResignEmpList(@RequestParam Map<String, Object> params, Model model){
         Map<String, Object> map = new HashMap<>();
-        Object joinYear = params.get("joinyear");
+        Object joinYear = params.get("joinYear");
         Object sectionTitle = params.get("sectionTitle");
+        System.out.println("params : " + params);
+        System.out.println("joinYear: " + joinYear);
+        System.out.println("sectionTitle: " + sectionTitle);
 
-        if ("employees_resigned".equals(sectionTitle)) {
-            map.put("resignDay", joinYear);
-        } else if ("employees_joined".equals(sectionTitle)) {
-            map.put("joinYear", joinYear);
+        if (joinYear != null && sectionTitle != null) {
+            if ("employees_resigned".equals(sectionTitle)) {
+                map.put("resignDay", joinYear);
+                System.out.println("****map**** : " + map);
+                List<Map<String, Object>> list = userManageService.getJoinResignEmpList(map);
+                model.addAttribute("list", list);
+            } else if ("employees_joined".equals(sectionTitle)) {
+                map.put("joinYear", joinYear);
+                List<Map<String, Object>> list = userManageService.getJoinResignEmpList(map);
+                model.addAttribute("list", list);
+            } else {
+                System.out.println("Not entering the if block");
+            }
         }
-
-        System.out.println("****map**** : " + map);
-
-        List<Map<String, Object>> list = userManageService.getJoinResignEmpList(map);
-        model.addAttribute("list", list);
         return "jsonView";
     }
 

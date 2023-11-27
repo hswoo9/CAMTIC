@@ -1,27 +1,121 @@
 package egovframework.com.devjitsu.camtic.controller;
 
+import egovframework.com.devjitsu.gw.login.controller.LoginController;
+import egovframework.com.devjitsu.gw.login.dto.LoginVO;
+import egovframework.com.devjitsu.gw.login.service.LoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 
-import javax.enterprise.inject.Model;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 @Controller
 public class HomepageController {
 
     private static final Logger logger = LoggerFactory.getLogger(HomepageController.class);
 
+    @Autowired
+    private LoginService loginService;
     //메인 홈페이지
     @RequestMapping("/camtic")
-    public String homepageIndexA(){ return "camtic/main"; }
+    public String homepageIndexA(@RequestParam Map<String,Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        /*params.put("empSeq", loginVO.getUniqId());*/
+        model.addAttribute("loginVO", loginVO);
+        return "camtic/main";
+    }
     @RequestMapping("/camtic/")
-    public String homepageIndexB(){ return "camtic/main"; }
+    public String homepageIndexB(@RequestParam Map<String,Object> params, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        /* params.put("empSeq", loginVO.getUniqId());*/
+        return "camtic/main";
+    }
     @RequestMapping("/camtic/index.do")
-    public String homepageIndexC(){ return "camtic/main"; }
+    public String homepageIndexC(@RequestParam Map<String,Object> params, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        /*  params.put("empSeq", loginVO.getUniqId());*/
+        return "camtic/main";
+    }
 
+    /**
+     * 로그인 페이지 이동
+     * @param request
+     * @return
+     */
+    @RequestMapping("/camtic/hpLogin.do")
+    public String mainLoginPage(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.removeAttribute("menuNm");
+        return "/camtic/hpLogin";
+    }
 
+    /**
+     * 로그인
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/camtic/loginAccess")
+    public String loginAccess(@RequestParam Map<String, Object> params, @ModelAttribute("loginVO") LoginVO loginVO, HttpServletRequest request, ModelMap model) throws Exception {
+
+        if (params != null && params.get("id") != null && !params.get("id").equals("")) {
+            boolean isAdmin = false;
+            logger.info("params : " + params);
+            LoginVO login = new LoginVO();
+
+            login.setId(params.get("id").toString());
+            login = loginService.actionLogin(loginVO);
+
+            logger.info("LoginVO : " + login);
+
+            if (login != null) {
+                if (login.getUniqId().equals("1")) {
+                    isAdmin = true;
+                    login.setUserSe("ADMIN");
+                }
+                request.getSession().setAttribute("LoginVO", login);
+                request.getSession().setAttribute("isAdmin", isAdmin);
+
+                logger.info("이름은 : " + login.getName());
+                //Map<String, Object> loginMsMap = loginService.actionLoginMs(params);
+
+                return "redirect:/camtic";
+            } else {
+                model.addAttribute("message", "Login failed.");
+                return "forward:/camtic/hpLogin.do";
+            }
+        } else {
+            model.addAttribute("message", "Login failed.");
+            return "forward:/camtic/hpLogin.do";
+        }
+    }
+
+    /**
+     * 로그아웃
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/camtic/logoutAction")
+    public String logout(HttpServletRequest request, ModelMap model){
+        RequestContextHolder.getRequestAttributes().removeAttribute("loginVO", RequestAttributes.SCOPE_SESSION);
+        HttpSession session = request.getSession();
+        session.invalidate();
+        return "redirect:/camtic";
+    }
 
     //원장인사말 페이지
     @RequestMapping("/camtic/about/greeting.do")
