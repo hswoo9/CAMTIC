@@ -355,12 +355,8 @@
                                                 <td><input type="text" id="position2" value='${l.POSITION_OR_DUTY}' style="width: 100%;"> </td>
                                                 <td><input type="text" id="workType2" value='${l.MAIN_TASK}' style="width: 100%;"> </td>
                                                 <td>
-                                                    <c:if test="${l.CAREER_PERIOD ne null and l.CAREER_PERIOD ne ''}">
-                                                        <input type="text" id="dateY2" value='${l.CAREER_PERIOD}' style="width: 25%;">년
-                                                    </c:if>
-                                                    <c:if test="${l.CAREER_MONTH ne null and l.CAREER_MONTH ne ''}">
-                                                       <input type="text" id="dateM2" value='${l.CAREER_MONTH}' style="width: 25%;">개월
-                                                    </c:if>
+                                                    <input type="text" id="dateY2" value='${l.CAREER_PERIOD}' style="width: 25%;">년
+                                                    <input type="text" id="dateM2" value='${l.CAREER_MONTH}' style="width: 25%;">개월
                                                 </td>
 
                                                     <c:if test="${l.addFile == null}">
