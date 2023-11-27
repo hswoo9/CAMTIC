@@ -118,16 +118,26 @@
                         신청서 승인요청중
                     </c:when>
                     <c:when test="${data.STATUS eq '100'}">
-                        <c:if test="${data.ADD_STATUS eq 'Y'}">
+                        <c:if test="${data.ADD_STATUS eq 'Y' or data.ADD_STATUS eq 'C'}">
                             학습 완료
                         </c:if>
-                        <c:if test="${data.ADD_STATUS eq 'C' or data.ADD_STATUS eq 'N' }">
+                        <c:if test="${data.ADD_STATUS eq 'N' }">
                             학습 진행중
                         </c:if>
-
+                        <c:if test="${data.ADD_STATUS eq 'S' }">
+                            이수완료
+                        </c:if>
                     </c:when>
                     <c:when test="${data.STATUS eq '110'}">
-                        이수완료
+                        <c:if test="${data.ADD_STATUS eq 'Y' or data.ADD_STATUS eq 'C'}">
+                            학습 완료
+                        </c:if>
+                        <c:if test="${data.ADD_STATUS eq 'N' }">
+                            학습 진행중
+                        </c:if>
+                        <c:if test="${data.ADD_STATUS eq 'S' }">
+                            이수완료
+                        </c:if>
                     </c:when>
                 </c:choose>
             </td>

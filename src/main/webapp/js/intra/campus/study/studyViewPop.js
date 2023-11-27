@@ -11,8 +11,11 @@ const studyView = {
 
     dataSet: function(){
 
-        if($("#addStatus").val() == "Y" || $("#addStatus").val() == "C"){
-            $("#resultDoc").html("<div style='color : red'> 결과보고서가 등록되지 않았습니다.</div>")
+        if($("#addStatus").val() == "Y"){
+            $("#resultDoc").html("<div style='color : red'> 결과보고서가 등록되지 않았습니다.</div>");
+            $("#resultBtn").css("display", "");
+        } else if($("#addStatus").val() == "S") {
+            $("#resultDoc").html("<div style='color : blue'> 결과보고서가 등록되어 있습니다. 결과보고서 버튼으로 조회가 가능합니다.</div>");
             $("#resultBtn").css("display", "");
         }
 
@@ -310,6 +313,10 @@ const studyView = {
 
         let name = "studyJournalPop";
         let option = "width = 800, height = 700, top = 100, left = 200, location = no";
+
+        if($("#mode").val() != ""){
+            url += "&mode="+$("#mode").val();
+        }
 
         if($("#studyResultSn").val() != ""){
             url += "&studyResultSn="+$("#studyResultSn").val();

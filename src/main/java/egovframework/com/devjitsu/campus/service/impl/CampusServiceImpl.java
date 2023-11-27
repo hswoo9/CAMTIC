@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -347,6 +348,23 @@ public class CampusServiceImpl implements CampusService {
     public void setStudyJournalInsert(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
         campusRepository.setStudyJournalInsert(params);
 
+        String[] seqArr = params.get("studyEmpSeq").toString().split(",");
+        String[] nameArr = params.get("studyEmpName").toString().split(",");
+
+        for(int i = 0 ; i < seqArr.length ; i++){
+            params.put("studyEmpSeq", seqArr[i]);
+            params.put("studyEmpName", nameArr[i]);
+            Map<String, Object> userMap = campusRepository.getStudyUserInfo(params);
+            params.put("studyDeptName", userMap.get("STUDY_DEPT_NAME"));
+            params.put("studyTeamName", userMap.get("STUDY_TEAM_NAME"));
+            params.put("studyPositionName", userMap.get("STUDY_POSITION_NAME"));
+            params.put("studyDutyName", userMap.get("STUDY_DUTY_NAME"));
+            params.put("studyClassSn", userMap.get("STUDY_CLASS_SN"));
+            params.put("studyClassText", userMap.get("STUDY_CLASS_TEXT"));
+
+            campusRepository.setStudyResultUserInsert(params);
+        }
+
         MainLib mainLib = new MainLib();
         Map<String, Object> fileInsMap = new HashMap<>();
 
@@ -392,6 +410,11 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public void setOjtPlanUpdate(Map<String, Object> params) {
         campusRepository.setOjtPlanUpdate(params);
+    }
+
+    @Override
+    public void setStudyResultSc(Map<String, Object> params) {
+        campusRepository.setStudyResultSc(params);
     }
 
     @Override
@@ -780,6 +803,7 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public void deleteStudyJournal(Map<String, Object> params) {
         campusRepository.deleteStudyJournal(params);
+        campusRepository.deleteStudyResultUser(params);
     }
 
     @Override
@@ -802,5 +826,13 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public Map<String, Object> getStudyResultOne(Map<String, Object> params) {
         return campusRepository.getStudyResultOne(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getStudyResultList(Map<String, Object> params) {
+
+        List<Map<String, Object>> list = campusRepository.getStudyResultList(params);
+
+        return list;
     }
 }

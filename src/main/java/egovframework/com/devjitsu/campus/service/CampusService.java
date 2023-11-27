@@ -152,5 +152,9 @@ public interface CampusService {
     Map<String, Object> getStudyResultData(Map<String, Object> params);
 
     Map<String, Object> getStudyResultOne(Map<String, Object> params);
+
+    List<Map<String, Object>> getStudyResultList(Map<String, Object> params);
+
+    void setStudyResultSc(Map<String, Object> params);
     /** 전자결재 끝 */
 }

@@ -93,7 +93,13 @@ var studyMng = {
                             }else if(row.STATUS == 10) {
                                 return "신청서 승인요청중"
                             }else if(row.STATUS == 100){
-                                return "신청서 제출"
+                                if(row.ADD_STATUS == "Y"|| row.ADD_STATUS == "C"){
+                                    return "학습완료";
+                                } else if (row.ADD_STATUS == "S") {
+                                    return "이수완료";
+                                } else {
+                                    return "학습 진행중"
+                                }
                             }
                         }else if(studyClass == 2){
                             if(row.STATUS == 0){
