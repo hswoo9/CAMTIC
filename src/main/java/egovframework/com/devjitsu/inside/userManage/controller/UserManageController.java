@@ -1842,6 +1842,7 @@ public class UserManageController {
     @RequestMapping(value = "/Inside/getTotalEmpCount.do", method = RequestMethod.GET)
     public String getTotalEmpCount(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> empTotalList = userManageService.getTotalEmpCount(params);
+        System.out.println("params : "+ params);
         model.addAttribute("empTotalList", empTotalList);
         System.out.println("empTotalList: " + empTotalList);
         return "jsonView";

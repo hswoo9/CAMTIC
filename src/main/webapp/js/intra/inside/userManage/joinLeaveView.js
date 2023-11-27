@@ -7,12 +7,21 @@ var joinLeaveView = {
     },
 
     fn_defaultScript : function (){
-      joinLeaveView.getTotalEmpCount();
+        joinLeaveView.gridReload();
+
+        $('.detailSearch').on('change', function () {
+            joinLeaveView.gridReload();
+        });
+
     },
 
-    getTotalEmpCount: function() {
+
+    getTotalEmpCount: function(arr) {
+        console.log("ajax arr : ",arr);
+
         $.ajax({
             type: "GET",
+            data: { arr : arr },
             url: "/Inside/getTotalEmpCount.do",
             dataType: "json",
             success: function(data) {
@@ -105,6 +114,26 @@ var joinLeaveView = {
         $("#mainTable").append(html);
     },
 
+    gridReload : function(){
+        var requestArr = "";
+        if($(".detailSearch:checked").length == 0){
+            requestArr += "|999&N"
+        }else{
+            $(".detailSearch:checked").each(function(){
+                if($(this).attr("id") == "dsA"){
+                    requestArr += "|0&N|4&1,2"
+                }else{
+                    requestArr += "|" + $(this).attr("division") + '&' + ($(this).attr("divisionSub") == null ? "N" : $(this).attr("divisionSub"));
+                }
+
+            })
+        }
+        console.log("requestArr:", requestArr);
+        var arr = requestArr.substring(1);
+        console.log("arr :",arr);
+
+        joinLeaveView.getTotalEmpCount(arr);
+    },
 
 
 

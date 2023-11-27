@@ -521,7 +521,7 @@ var userPersonList2 = {
 
             })
         }
-
+        console.log("userList arr : ",arr);
         userPersonList2.global.searchAjaxData.arr = arr.substring(1);
 
         userPersonList2.mainGrid('/userManage/getEmpInfoList',userPersonList2.global.searchAjaxData);
