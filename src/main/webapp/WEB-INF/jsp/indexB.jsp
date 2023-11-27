@@ -257,8 +257,8 @@
                 </h4>
             </div>
             <div class="panel-body" style="padding: 5px;">
-                <div style="border: 1px solid #eee; border-radius: 10px; width: 267px; height: 170px; margin: 23px auto; position: relative;">
-                    <div class="fvList" style="display: flex; flex-wrap: wrap; align-content: flex-start; margin-top:16px; margin-left:27px; width:80%; height:80%;">
+                <div style="border: 1px solid #eee; border-radius: 10px; width: 330px; height: 170px; margin: 23px auto; position: relative;">
+                    <div class="fvList" style="display: flex; flex-wrap: wrap; align-content: flex-start; margin-top:17px; margin-left:29px; width:80%; height:80%;">
 
                     </div>
                 </div>
@@ -704,7 +704,7 @@
         if(data.length>0){
             data.forEach((item, index) => {
                 html += '' +
-                    '   <div style="width:42%;height:28%; margin-top:5px; margin-left:10px; border:1px solid #ddd; display: flex; align-items: center; justify-content: center; border-radius:5px;">' +
+                    '   <div style="width:31%;height:28%; margin-top:5px; margin-left:6px; border:1px solid #ddd; display: flex; align-items: center; justify-content: center; border-radius:5px;">' +
                     "       <a href='#' class=\"searchMenuATag\" menuPath='" + item.MENU_PATH + "' menuNamePath=\'홈 > " + item.MENU_NAME_PATH + "\' menuNameKr='" + item.MENU_NAME + "'>" + item.MENU_NAME + "</a>" +
                     '   </div>';
             });
