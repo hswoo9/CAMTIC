@@ -109,7 +109,7 @@
             </div>
             <div class="rig" style="width: 600px; padding-top: 45px;">
               <%--<img src="/images/camtic/img-greeting1.png" style="max-width: 100%; width: auto;" alt="원장 노상흡">--%>
-              <img src="/images/camtic/greetingTest3.png" class="is-m" style="max-width: 132%; width: auto; border-radius: 70px; height: 525px;" alt="원장 노상흡">
+              <img src="/images/camtic/greetingTest3.png" class="is-m" style="max-width: 132%; width: auto; border-radius: 70px; height: 525px; filter: drop-shadow(10px 6px 6px #c3c3c3);" alt="원장 노상흡">
             </div>
           </div>
         </div>
