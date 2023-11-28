@@ -80,7 +80,7 @@ var regExnp = {
 
 
         /** 회계발의일, 등기일자, 지출부기재 일자 폼 추가 */
-        if($("#status").val() == "rev"){
+        if($("#status").val() == "rev" || $("#status").val() == "in"){
             $("#dtTr").show();
             customKendo.fn_datePicker("DT1", 'month', "yyyy-MM-dd", new Date());
             customKendo.fn_datePicker("DT2", 'month', "yyyy-MM-dd", new Date());
@@ -557,7 +557,7 @@ var regExnp = {
                                 regExnpDet.fn_popRegDet(value, e.sender.element[0].id.replace("eviType", ""));
                             }
                         }
-                    }
+                    },
                 });
 
 
@@ -585,6 +585,7 @@ var regExnp = {
 
                 $("#eviType" + regExnpDet.global.itemIndex).data("kendoDropDownList").value(item.EVID_TYPE);
 
+
                 regExnpDet.global.itemIndex++;
             }
 
@@ -595,6 +596,8 @@ var regExnp = {
         }
 
         $("#apprBtn").css("display", "");
+
+
     },
 
     setIncpData : function(){
@@ -767,7 +770,7 @@ var regExnp = {
                 customKendo.fn_datePicker("trDe" + regExnpDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
 
                 $("#eviType" + regExnpDet.global.itemIndex).data("kendoDropDownList").value(item.EVID_TYPE);
-
+                $("#eviType" + regExnpDet.global.itemIndex).data("kendoDropDownList").enable(false)
                 regExnpDet.global.itemIndex++;
             }
 
@@ -986,32 +989,6 @@ var regExnpDet = {
     },
     
     fn_defaultScript : function(){
-        $("#eviType0").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "선택", value: "" },
-                { text: "세금계산서", value: "1" },
-                { text: "계산서", value: "2" },
-                { text: "신용카드", value: "3" },
-                { text: "직원지급", value: "4" },
-                { text: "소득신고자", value: "5" },
-                { text: "기타", value: "6" },
-            ],
-            index: 0,
-            change : function(){
-                var value = $("#eviType0").val();
-                var itemIndex = 0;
-
-                if(value != ""){
-                    if(value == "6"){
-                        alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.");
-                    } else {
-                        regExnpDet.fn_popRegDet(value, itemIndex);
-                    }
-                }
-            }
-        });
 
         customKendo.fn_textBox(["crmNm0", "crmBnkNm0", "crmAccHolder0", "crmAccNo0", "totCost0", "supCost0", "vatCost0"
         ,"card0"]);

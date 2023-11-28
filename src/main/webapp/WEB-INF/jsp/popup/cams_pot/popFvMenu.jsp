@@ -75,6 +75,7 @@
             url: "/main/getSearchMenu",
             type: 'GET',
             data: {
+                empSeq : $("#empSeq").val(),
                 menuName : $("#menuSearchToobar").val()
             },
             success: function (data) {
@@ -114,6 +115,7 @@
                 url : "/main/setDelFvMenu",
                 type : "GET",
                 data : {
+                    empSeq : $("#empSeq").val(),
                     menuID : menuID
                 },
                 success : function (data){

@@ -13,6 +13,7 @@ var regPay = {
 
     fn_defaultScript : function (){
         customKendo.fn_datePicker("appDe", "month", "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("reqDe", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_textBox(["pjtNm", "appTitle", "accNm", "accNo", "bnkNm"]);
 
         $("#appCont").kendoTextArea({
@@ -134,22 +135,22 @@ var regPay = {
 
         if(data != null){
             if(data.DOC_STATUS == "0"){
-                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save()">저장</button>';
+                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save(\'user\')">저장</button>';
                 buttonHtml += '<button type="button" id="reqBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.payAppDrafting()">상신</button>';
             }else if(data.DOC_STATUS == "10"){
                 buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
             }else if(data.DOC_STATUS == "30" || data.DOC_STATUS == "40"){
-                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save()">저장</button>';
+                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save(\'user\')">저장</button>';
                 buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \''+data.DOC_MENU_CD+'\', \''+data.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
             }else if(data.DOC_STATUS == "100"){
                 buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', \''+data.DOC_MENU_CD+'\');">열람</button>';
                 $("#addBtn").hide();
                 $("#exnpAddBtn").show();
             }else{
-                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save()">저장</button>';
+                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save(\'user\')">저장</button>';
             }
         }else{
-            buttonHtml += '<button type="button" id="saveBtn" style="margin-right:5px; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="regPay.fn_save()">저장</button>';
+            buttonHtml += '<button type="button" id="saveBtn" style="margin-right:5px; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="regPay.fn_save(\'user\')">저장</button>';
         }
 
         // if($("#status").val() != "in"){
@@ -412,7 +413,7 @@ var regPay = {
                 change : function (e){
 
                     var value = this.value();
-                    // regPay.fn_save("user");
+                    regPay.fn_save("user");
 
                     if(value != ""){
                         if(value == "6"){
@@ -467,9 +468,6 @@ var regPay = {
             } else {
                 $("#titleStat").text("확인");
             }
-            $("#payAppType").data("kendoRadioGroup").enable(false);
-            $("#payAppStat").data("kendoRadioGroup").enable(false);
-            $("#appDe").data("kendoDatePicker").enable(false);
             // $("#addBtn").css("display", "none");
             // $("#exnpAddBtn").css("display", "");
         }
@@ -477,16 +475,14 @@ var regPay = {
         if(stat == "in"){
             if($("#auth").val() != "user"){
                 $("#titleStat").text("검토");
+                $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
+                $("#exnpAddBtn").text("여입결의서 작성");
+                $("#addBtn").css("display", "none");
+                $("#exnpAddBtn").css("display", "");
             } else {
                 $("#titleStat").text("확인");
             }
-            $("#payAppType").data("kendoRadioGroup").enable(false);
-            $("#payAppStat").data("kendoRadioGroup").enable(false);
-            $("#appDe").data("kendoDatePicker").enable(false);
-            $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
-            $("#exnpAddBtn").text("여입결의서 작성");
-            $("#addBtn").css("display", "none");
-            $("#exnpAddBtn").css("display", "");
+
         }
 
         if(stat == "re"){
@@ -495,9 +491,6 @@ var regPay = {
             } else {
                 $("#titleStat").text("확인");
             }
-            $("#payAppType").data("kendoRadioGroup").enable(false);
-            $("#payAppStat").data("kendoRadioGroup").enable(false);
-            $("#appDe").data("kendoDatePicker").enable(false);
             $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
             $("#exnpAddBtn").text("반납결의서 작성");
             $("#addBtn").css("display", "none");
@@ -510,9 +503,6 @@ var regPay = {
             } else {
                 $("#titleStat").text("확인");
             }
-            $("#payAppType").data("kendoRadioGroup").enable(false);
-            $("#payAppStat").data("kendoRadioGroup").enable(false);
-            $("#appDe").data("kendoDatePicker").enable(false);
             $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
             $("#exnpAddBtn").text("대체결의서 작성");
             $("#addBtn").css("display", "none");
@@ -526,6 +516,7 @@ var regPay = {
             appDe : $("#appDe").val(),
             pjtNm : $("#pjtNm").val(),
             pjtSn : $("#pjtSn").val(),
+            reqDe : $("#reqDe").val(),
             // budgetNm : $("#budgetNm").val(),
             // budgetSn : $("#budgetSn").val(),
             appTitle : $("#appTitle").val(),
@@ -776,7 +767,7 @@ var regPayDet = {
                 var value = $("#eviType0").val();
                 var itemIndex = 0;
 
-                // regPay.fn_save("user");
+                regPay.fn_save("user");
 
                 if(value != ""){
                     if(value == "6"){
@@ -864,7 +855,7 @@ var regPayDet = {
             '   <td>' +
             '       <input type="text" id="iss' + regPayDet.global.itemIndex + '" class="iss">' +
             '   </td>' ;
-        // if($("status").val() == "rev"){
+        if($("#status").val() == "rev"){
             regPayDet.global.createHtmlStr += "" +
                 '   <td>' +
                 '       <input type="checkbox" id="advances' + regPayDet.global.itemIndex + '" class="advances" style="width: 26px; height: 26px">' +
@@ -872,7 +863,7 @@ var regPayDet = {
                 '   <td>' +
                 '       <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regPayDet.fn_regPayAttPop(' + regPayDet.global.itemIndex + ')">첨부</button>' +
                 '   </td>';
-        // }
+        }
         regPayDet.global.createHtmlStr += "" +
             '   <td>' +
             '       <div style="text-align: center">' +
@@ -900,7 +891,7 @@ var regPayDet = {
             change : function (e){
                 var value = $("#eviType" + itemIndex).val();
 
-                // regPay.fn_save("user");
+                regPay.fn_save("user");
 
                 if(value != ""){
                     if(value == "6"){
@@ -1042,10 +1033,12 @@ var regPayDet = {
 
     fn_regPayAttPop : function (row){
         let key = $("#payDestSn"+row).val();
+
         if(key == "" || key == null){
-            regPay.fn_save();
+            regPay.fn_save("user");
             return;
         }
+
         let eviType = $("#eviType"+row).data("kendoDropDownList").value();
         var url = "/payApp/pop/regPayAttPop.do?payDestSn=" + key + "&eviType=" + eviType;
 

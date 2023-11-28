@@ -77,7 +77,7 @@
                 <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">임직원 생일</h4>
                 <span id="currentYearMonth" style="font-weight:600; font-size:15px; margin-left: 120px;"></span>
             </div>
-            <div class="panel-body" id="empBirthDayList" style="padding:5px;">
+            <div class="panel-body" id="empBirthDayList" style="padding:0; width:285px; height:120px; margin-left:10px; margin-top:4px;">
             </div>
         </div>
         <div class="panel" style="margin-bottom:10px;">
@@ -665,16 +665,24 @@
 
         let html = "";
 
-        data.forEach((item, index) => {
-            console.log(item);
+        if(data.length > 0){
+            data.forEach((item, index) => {
+                console.log(item);
+                html += '' +
+                    '<div style="padding: 10px 25px; display:flex; justify-content: space-between; border-top: 1px solid #eee;">' +
+                    '<div style="display:flex;">' +
+                    '<div style="font-weight:600; font-size:13px; margin-right:10px; width:50px;">' + item.EMPBDAY + '</div>' +
+                    '<div>' + item.EMP_NAME_KR  + ' ' + item.SPOT + '</div>' +
+                    '</div>' +
+                    '</div>';
+            });
+        }else{
             html += '' +
                 '<div style="padding: 10px 25px; display:flex; justify-content: space-between; border-top: 1px solid #eee;">' +
-                '<div style="display:flex;">' +
-                '<div style="font-weight:600; font-size:13px; margin-right:10px; width:50px;">' + item.EMPBDAY + '</div>' +
-                '<div>' + item.EMP_NAME_KR  + ' ' + item.SPOT + '</div>' +
-                '</div>' +
-                '</div>';
-        });
+                "<span style='color: #999; margin-top:26px; margin-left:50px;'>임직원 생일이 없습니다.</span>" ;
+            '</div>';
+        }
+
 
         $("#empBirthDayList").append(html);
     }
@@ -710,7 +718,7 @@
             });
         }else{
             html += '' +
-                "<span style='color: #999; margin-top:59px; margin-left:26px;'>등록된 즐겨찾기가 없습니다.</span>" ;
+                "<span style='color: #999; margin-top:59px; margin-left:55px;'>등록된 즐겨찾기가 없습니다.</span>" ;
         }
         $(".fvList").append(html);
 

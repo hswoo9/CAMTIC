@@ -127,7 +127,7 @@ const regPayAtt = {
             eviText = "기타";
         }
 
-        $("#pjtTitle").text("증빙서류 - "+eviText);
+        $("#pjtTitle").text("증빙서류 - " + eviText);
 
         if(attInfo.etcFile != null){
             regPayAtt.settingTempFileDataInit(attInfo.etcFile);

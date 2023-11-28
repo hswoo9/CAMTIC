@@ -397,7 +397,7 @@
             ) MAGU
             ON M.MENU_ID = MAGU.MENU_ID
                 LEFT JOIN CAM_COMMON.DJ_FAVORITE_MENU FM
-                          ON M.MENU_ID = FM.MENU_ID
+                          ON M.MENU_ID = FM.MENU_ID AND FM.REG_EMP_SEQ = #{empSeq}
         WHERE
             ACTIVE = 'Y'
           AND

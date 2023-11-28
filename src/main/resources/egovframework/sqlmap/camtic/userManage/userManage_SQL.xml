@@ -2785,6 +2785,8 @@
         WHERE
             HEI.ACTIVE = 'Y'
         AND
+            HEI.WORK_STATUS_CODE = 'Y'
+        AND
             MONTH(HEI.BDAY) = MONTH(NOW())
         AND
         <![CDATA[
