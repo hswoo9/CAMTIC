@@ -1162,7 +1162,7 @@ var draft = {
 
                 if(eviType == "1" || eviType == "2"){
                     let fileText = "";
-                    fileText += ls[i].FILE1+","+ls[i].FILE2+","+ls[i].FILE3+","+ls[i].FILE4+","+ls[i].FILE5;
+                    fileText += ls[i].FILE2+","+ls[i].FILE3+","+ls[i].FILE4+","+ls[i].FILE5;
                     attList = customKendo.fn_customAjax("/pay/getPayAttList", { fileText: fileText }).list;;
                     for(let j=0; j<attList.length; j++){
                         tempArr[attCount] = attList[j];
@@ -1170,7 +1170,7 @@ var draft = {
                     }
                 }else if(eviType == "3"){
                     let fileText = "";
-                    fileText += ls[i].FILE6+","+ls[i].FILE7+","+ls[i].FILE8+","+ls[i].FILE9+","+ls[i].FILE5;
+                    fileText += ls[i].FILE7+","+ls[i].FILE8+","+ls[i].FILE9+","+ls[i].FILE5;
                     attList = customKendo.fn_customAjax("/pay/getPayAttList", { fileText: fileText }).list;
                     for(let j=0; j<attList.length; j++){
                         tempArr[attCount] = attList[j];
@@ -1219,7 +1219,7 @@ var draft = {
 
                 if(eviType == "1" || eviType == "2"){
                     let fileText = "";
-                    fileText += ls[i].FILE1+","+ls[i].FILE2+","+ls[i].FILE3+","+ls[i].FILE4+","+ls[i].FILE5;
+                    fileText += ls[i].FILE2+","+ls[i].FILE3+","+ls[i].FILE4+","+ls[i].FILE5;
                     attList = customKendo.fn_customAjax("/pay/getExnpAttList", { fileText: fileText }).list;;
                     for(let j=0; j<attList.length; j++){
                         tempArr[attCount] = attList[j];
@@ -1227,7 +1227,7 @@ var draft = {
                     }
                 }else if(eviType == "3"){
                     let fileText = "";
-                    fileText += ls[i].FILE6+","+ls[i].FILE7+","+ls[i].FILE8+","+ls[i].FILE9+","+ls[i].FILE5;
+                    fileText += ls[i].FILE7+","+ls[i].FILE8+","+ls[i].FILE9+","+ls[i].FILE5;
                     attList = customKendo.fn_customAjax("/pay/getExnpAttList", { fileText: fileText }).list;
                     for(let j=0; j<attList.length; j++){
                         tempArr[attCount] = attList[j];
