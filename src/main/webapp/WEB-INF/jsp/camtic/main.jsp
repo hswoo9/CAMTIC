@@ -443,7 +443,8 @@
       html += '<p class="subject" style="margin-top:31px;">' + item.RECRUIT_TITLE + '</p>';
      /* let contents = item.RECRUIT_DETAIL.replace(/<\/?("[^"]*"|'[^']*'|[^>])*(>|$)/gi, "");
       html += '<p class="sum">' + contents + '</p>';*/
-      html += '<p class="date">' + item.UPLOAD_DT + '</p>';
+      /*html += '<p class="date">' + item.UPLOAD_DT + '</p>';*/
+      html += '<p class="date">' + item.START_DT + ' ~ ' + item.END_DT + '</p>';
       html += '</a>';
     });
     $(".sec").append(html);
