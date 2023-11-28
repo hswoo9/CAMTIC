@@ -48,7 +48,7 @@ var regExnp = {
                 { text: "6000", value: "6000" },
                 { text: "7000", value: "7000" },
             ]
-        })
+        });
 
         $("#busnCd0").kendoDropDownList({
             dataTextField: "text",
@@ -138,6 +138,7 @@ var regExnp = {
                         buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_regExnpInPop('+data.PAY_APP_SN+', '+data.EXNP_SN+')">여입결의서 작성</button>';
                     }
                     buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', \''+data.DOC_MENU_CD+'\');">열람</button>';
+                    $("#addBtn").hide();
                 }else{
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_save()">저장</button>';
                 }
