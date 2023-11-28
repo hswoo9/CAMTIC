@@ -180,7 +180,7 @@ var joinLeaveView = {
         console.log("userViewPop 함수 인코딩arr:"+encodedArr);
         var url = "/Inside/pop/joinLeaveViewPop.do?currentYear="+currentYear+ "&sectionTitle=" +sectionTitle+ "&encodedArr="+encodedArr;
         var name = "joinLeaveViewPop";
-        var option = "width=1000, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1800, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         window.open(url, name, option);
     }
 }
