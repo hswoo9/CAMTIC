@@ -236,4 +236,27 @@
         WHERE
             PJT_CD = #{pjtCd}
     </update>
+
+    <delete id="delDjCardList" parameterType="map">
+        /*delDjCardList*/
+        DELETE FROM CAM_MNG.DJ_CARD_INFO
+    </delete>
+
+    <insert id="insDjCardList" parameterType="java.util.List">
+        /*insDjCardList*/
+        INSERT INTO CAM_MNG.DJ_CARD_INFO(CLTTR_CD, TR_CD, JIRO_NM, BA_NB, DEPOSITOR, TR_NM, CARD_BA_NB)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+                #{item.TR_CD},
+                #{item.TR_CD},
+                #{item.JIRO_NM},
+                #{item.BA_NB},
+                #{item.DEPOSITOR},
+                #{item.TR_NM},
+                #{item.CARD_BA_NB}
+            )
+        </foreach>
+
+    </insert>
 </mapper>

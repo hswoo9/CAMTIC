@@ -6,7 +6,7 @@
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/camMng.js?v=${today}'/>"></script>
 
-<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/companyCard/outUseList.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/tax/taxList.js?v=${today}'/>"></script>
 <style>
 
 </style>
@@ -18,20 +18,31 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">반출/사용</h4>
-            <div class="title-road">캠매니저 > 법인카드 관리 &gt; 반출/사용</div>
+            <h4 class="panel-title">입/출금 현황</h4>
+            <div class="title-road">캠매니저 > 예산관리 &gt; 입/출금 현황</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
             <div>
+                <table class="searchTable table table-bordered mb-0">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="25%">
+                        <col width="10%">
+                        <col width="20%">
+                        <col width="10%">
+                        <col width="25%">
+                    </colgroup>
+                </table>
+            </div>
 
-                <div id="mainGrid" style="margin:20px 0;"></div>
+            <div id="mainGrid" style="margin:20px 0;">
+
             </div>
         </div>
     </div>
 </div><!-- col-md-9 -->
 
 <script>
-
-    outUseList.fn_defaultScript();
+    taxList.fn_defaultScript();
 </script>

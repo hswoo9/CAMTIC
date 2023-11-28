@@ -48,4 +48,12 @@ public class ManageRepository extends AbstractDAO {
     public int getProjectBgtCheck(Map<String, Object> params) {
         return (int) selectOne("manage.getProjectBgtCheck", params);
     }
+
+    public void delDjCardList(Map<String, Object> params) {
+        delete("manage.delDjCardList", params);
+    }
+
+    public void insDjCardList(List<Map<String, Object>> list) {
+        insert("manage.insDjCardList", list);
+    }
 }
