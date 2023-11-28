@@ -63,7 +63,8 @@
               </dd>
           </dl> -->
           <div class="con">
-            <%--<div style="border-bottom: 1px solid #ccc; padding: 5px 0 5px 0; text-align: right; word-break:break-all; height: 55px;">
+
+            <div style="border-bottom: 1px solid #ccc; padding: 5px 0 5px 0; text-align: right; word-break:break-all; height: 55px; display: ${fn:length(fileMap) ne 0 ? 'block' : 'none'};">
               <c:choose>
                 <c:when test="${fn:length(fileMap) ne 0}">
                   <c:forEach var="file" items="${fileMap}" varStatus="status">
@@ -91,7 +92,7 @@
                   <span></span>
                 </c:otherwise>
               </c:choose>
-            </div>--%>
+            </div>
 
             <div class="txt_zone pr_view_content" style="line-height:25px;">
               <c:if test="${categoryId eq 'photo'}" >
@@ -106,7 +107,6 @@
             </div>
 
           </div>
-
 
           <div class="con">
             <table>
@@ -124,10 +124,8 @@
                     <a href="#" onclick="fn_detailBoard('${map.beforeKey}')">${map.beforeName}</a></td>
                 </tr>
               </c:if>
-
             </table>
           </div>
-
         </div>
 
         <div class="__botArea">

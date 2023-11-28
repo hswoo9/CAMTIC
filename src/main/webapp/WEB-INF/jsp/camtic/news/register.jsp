@@ -309,9 +309,12 @@
     formData.append("menuCd", categoryId);
     formData.append("noticeTitle", $("#noticeTitle").val());
     formData.append("writer", $("#writer").val().toString());
-    formData.append("startDt", $("#startDate").val());
-    formData.append("endDt", $("#endDate").val());
     formData.append("content", content);
+
+    if(categoryId == "business"){
+      formData.append("startDt", $("#startDate").val());
+      formData.append("endDt", $("#endDate").val());
+    }
 
     //첨부파일
     if(fCommon.global.attFiles != null){
