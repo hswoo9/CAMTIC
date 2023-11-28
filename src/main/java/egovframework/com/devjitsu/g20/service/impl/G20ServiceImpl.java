@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.g20.service.impl;
 
+import egovframework.com.devjitsu.cam_manager.repository.ManageRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
 import egovframework.com.devjitsu.g20.service.G20Service;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +17,9 @@ public class G20ServiceImpl implements G20Service {
 
     @Autowired
     private G20Repository g20Repository;
+
+    @Autowired
+    private ManageRepository manageRepository;
 
     @Override
     public List<Map<String, Object>> getProjectList(Map<String, Object> params) {
@@ -114,5 +119,13 @@ public class G20ServiceImpl implements G20Service {
     @Override
     public List<Map<String, Object>> getCorpProjectList(Map<String, Object> params) {
         return g20Repository.getCorpProjectList(params);
+    }
+
+    @Override
+    public void setDjCardList(List<Map<String, Object>> list) {
+        Map<String, Object> params = new HashMap<>();
+        manageRepository.delDjCardList(params);
+
+        manageRepository.insDjCardList(list);
     }
 }

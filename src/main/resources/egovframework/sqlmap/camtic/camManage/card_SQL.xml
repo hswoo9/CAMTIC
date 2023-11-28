@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="card">
+
+    <select id="cardUseList" parameterType="map" resultType="map">
+        /*cardUseList*/
+        SELECT * FROM CAM_HR.ERP_HIST_CORPCD_USE A
+        LEFT JOIN CAM_MNG.DJ_CARD_INFO B
+        ON A.CARD_NO = REPLACE(B.CARD_BA_NB, '-', '')
+        ORDER BY A.AUTH_DD DESC
+    </select>
+
+</mapper>

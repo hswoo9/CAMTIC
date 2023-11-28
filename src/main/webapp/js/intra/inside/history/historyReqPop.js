@@ -337,9 +337,10 @@ const historyReq = {
                                         '<input type="hidden" id="bfPositionName" name="bfPositionName" class="bfPositionName" value="' + e.POSITION_NAME + '">' +
                                         '<input type="text" id="afPosition'+e.EMP_SEQ+ "_" + e.INDEX + '" name="afPosition" class="formData afPosition" value="' + e.AF_POSITION_CODE + '">';
                                 }else{
+                                    console.log(e);
                                     return '<input type="hidden" id="bfPositionSeq" name="bfPositionSeq" class="bfPositionSeq" value="' + e.POSITION_CODE + '">' +
                                         '<input type="hidden" id="bfPositionName" name="bfPositionName" class="bfPositionName" value="' + e.POSITION_NAME + '">' +
-                                        '<input type="text" id="afPosition'+e.EMP_SEQ+ "_" + e.INDEX + '" name="afPosition" class="formData afPosition" value="' + e.POSITION_SEQ + '">';
+                                        '<input type="text" id="afPosition'+e.EMP_SEQ+ "_" + e.INDEX + '" name="afPosition" class="formData afPosition" value="' + e.POSITION_CODE + '">';
                                 }
                             },
                             width: 160
@@ -354,7 +355,7 @@ const historyReq = {
                                 }else{
                                     return '<input type="hidden" id="bfDutySeq" name="bfDutySeq" class="bfDutySeq" value="' + e.DUTY_CODE + '">' +
                                         '<input type="hidden" id="bfDutyName" name="bfDutyName" class="bfDutyName" value="' + e.DUTY_NAME + '">' +
-                                        '<input type="text" id="afDuty'+e.EMP_SEQ+ "_" + e.INDEX + '" name="afDuty" class="formData afDuty" value="' + e.DUTY_SEQ + '">';
+                                        '<input type="text" id="afDuty'+e.EMP_SEQ+ "_" + e.INDEX + '" name="afDuty" class="formData afDuty" value="' + e.DUTY_CODE + '">';
                                 }
                             },
                             width: 120
@@ -594,7 +595,7 @@ const historyReq = {
         $.each($('#popMainGrid .k-master-row'), function(i, v) {
             const dataItem = grid.dataItem($(this).closest("tr"));
             let empSeq = dataItem.EMP_SEQ;
-            if ($(v).find('#apntCd' + empSeq).data("kendoDropDownList").value() == "") {
+            if ($(v).find('#apntCd' + empSeq + "_" + i).data("kendoDropDownList").value() == "") {
                 alert("발령기준을 선택해주세요.");
                 flag = false;
                 return flag;
@@ -620,8 +621,8 @@ const historyReq = {
 
                 hisEmpSeq         : empSeq,
                 empName           : dataItem.EMP_NAME_KR,
-                apntCd			  : $(v).find('#apntCd'+empSeq).data("kendoDropDownList").value(),
-                apntName		  : $(v).find('#apntCd'+empSeq).data("kendoDropDownList").text(),
+                apntCd			  : $(v).find('#apntCd'+empSeq+'_'+i).data("kendoDropDownList").value(),
+                apntName		  : $(v).find('#apntCd'+empSeq+'_'+i).data("kendoDropDownList").text(),
 
                 bfDeptSeq         : dataItem.DEPT_SEQ,
                 bfDeptName        : dataItem.DEPT_NAME,
@@ -633,26 +634,26 @@ const historyReq = {
                 bfDutyName        : dataItem.DUTY_NAME,
                 bfJobDetail       : dataItem.JOB_DETAIL,
 
-                afDeptSeq         : $(v).find('#afDept'+empSeq).data("kendoDropDownList").value(),
-                afDeptName        : $(v).find('#afDept'+empSeq).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afDept'+empSeq).data("kendoDropDownList").text(),
+                afDeptSeq         : $(v).find('#afDept'+empSeq+'_'+i).data("kendoDropDownList").value(),
+                afDeptName        : $(v).find('#afDept'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afDept'+empSeq+'_'+i).data("kendoDropDownList").text(),
 
-                afTeamSeq         : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").value(),
-                afTeamName        : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").text(),
+                afTeamSeq         : $(v).find('#afTeam'+empSeq+'_'+i).data("kendoDropDownList").value(),
+                afTeamName        : $(v).find('#afTeam'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afTeam'+empSeq+'_'+i).data("kendoDropDownList").text(),
 
-                afPositionCode    : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").value(),
-                afPositionName    : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text(),
+                afPositionCode    : $(v).find('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").value(),
+                afPositionName    : $(v).find('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").text(),
 
-                afDutyCode        : $(v).find('#afDuty'+empSeq).data("kendoDropDownList").value(),
-                afDutyName        : $(v).find('#afDuty'+empSeq).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afDuty'+empSeq).data("kendoDropDownList").text(),
+                afDutyCode        : $(v).find('#afDuty'+empSeq+'_'+i).data("kendoDropDownList").value(),
+                afDutyName        : $(v).find('#afDuty'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afDuty'+empSeq+'_'+i).data("kendoDropDownList").text(),
 
-                afGradeName       : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text().split("/")[1].trim(),
+                afGradeName       : $(v).find('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").text().split("/")[1].trim(),
 
-                afJobDetail       : $(v).find('#afJobDetail'+empSeq).val(),
+                afJobDetail       : $(v).find('#afJobDetail'+empSeq+'_'+i).val(),
 
-                deptSeq           : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").value() == "" ? $(v).find('#afDept'+empSeq).data("kendoDropDownList").value() : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").value(),
-                position          : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afPosition'+empSeq).data("kendoDropDownList").text().split("/")[0].trim(),
+                deptSeq           : $(v).find('#afTeam'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? $(v).find('#afDept'+empSeq+'_'+i).data("kendoDropDownList").value() : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").value(),
+                position          : $(v).find('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").text().split("/")[0].trim(),
 
-                afEtc             : $(v).find('#afEtc'+empSeq).val(),
+                afEtc             : $('#afEtc'+empSeq+'_'+i).val(),
 
                 empSeq: regEmpSeq,
                 regEmpName: regEmpName,
@@ -660,7 +661,7 @@ const historyReq = {
                 relevantName: relevantName,
                 historyDate: historyDate,
 
-                apntSn: $(v).find('#apntSn'+empSeq).val()
+                apntSn: $('#apntSn'+empSeq+'_'+i).val()
             }
             arr.push(data);
 
@@ -675,7 +676,7 @@ const historyReq = {
 
         alert("인사발령이 완료됐습니다.");
         opener.historyList.gridReload();
-        window.close();
+        //window.close();
     },
 
     fn_SetHtml : function(arr){

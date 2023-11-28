@@ -1,0 +1,10 @@
+package egovframework.com.devjitsu.cam_manager.service;
+
+import java.util.List;
+import java.util.Map;
+
+public interface CompanyCardService {
+
+
+    List<Map<String, Object>> cardUseList(Map<String, Object> params);
+}
