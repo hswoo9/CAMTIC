@@ -1842,6 +1842,7 @@ public class UserManageController {
     public String getTotalEmpCount(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> empTotalList = userManageService.getTotalEmpCount(params);
         System.out.println("params : "+ params);
+        empTotalList.add(params);
         model.addAttribute("empTotalList", empTotalList);
         System.out.println("empTotalList: " + empTotalList);
         return "jsonView";
