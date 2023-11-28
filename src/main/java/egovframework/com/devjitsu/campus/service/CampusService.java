@@ -28,6 +28,8 @@ public interface CampusService {
     List<Map<String, Object>> getStudyUserList(Map<String, Object> params);
     List<Map<String, Object>> getStudyJournalList(Map<String, Object> params);
     Map<String, Object> getStudyJournalOne(Map<String, Object> params);
+    List<Map<String, Object>> getStudyPropagList(Map<String, Object> params);
+    List<Map<String, Object>> getStudyPropagUserList(Map<String, Object> params);
     List<Map<String, Object>> getOjtPlanList(Map<String, Object> params);
     Map<String, Object> getOjtPlanOne(Map<String, Object> params);
     List<Map<String, Object>> getOjtResultList(Map<String, Object> params);
@@ -93,8 +95,14 @@ public interface CampusService {
     void setOjtPlanInsert(Map<String, Object> params);
     void setOjtPlanUpdate(Map<String, Object> params);
     void setOjtPlanDelete(Map<String, Object> params);
-    void setOjtResultInsert(Map<String, Object> params);
+    void setOjtResultInsert(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
     /** 학습조 끝 */
+
+    /** 전파학습 삭제 */
+    void setStudyPropagInsert(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
+    void setPropagDelete(Map<String, Object> params);
+    void setResultPropagUpd(Map<String, Object> params);
+    /** */
 
     /** 오픈스터디 시작 */
     void setOpenStudyInfoIns(Map<String, Object> params);
@@ -147,6 +155,8 @@ public interface CampusService {
 
     void setStudyInfoComplete(Map<String, Object> params);
 
+    void setPropagInfoComplete(Map<String, Object> params);
+
     void setStudyResult(Map<String, Object> params);
 
     Map<String, Object> getStudyResultData(Map<String, Object> params);
@@ -156,5 +166,9 @@ public interface CampusService {
     List<Map<String, Object>> getStudyResultList(Map<String, Object> params);
 
     void setStudyResultSc(Map<String, Object> params);
+
+    void deleteOjtResult(Map<String, Object> params);
+
+    void setStudyResultComplete(Map<String, Object> params);
     /** 전자결재 끝 */
 }

@@ -8,6 +8,41 @@ const propagView = {
         propagView.dataSet();
         propagView.buttonSet();
         propagView.mainGrid();
+        propagView.mainGrid3();
+        propagView.makeTable();
+    },
+
+    makeTable: function(){
+        let list = customKendo.fn_customAjax("/campus/getStudyPropagList", {
+            studyInfoSn: $("#pk").val()
+        }).list;
+        console.log(list);
+        let html = '';
+        for(let i=0; i<list.length; i++){
+            html = '';
+            const map = list[i];
+            html += '<tr class="addRow">';
+            html += '   <td style="text-align: center"><input type="hidden" id="studyPropagSn'+i+'" value="'+map.STUDY_PROPAG_SN+'"/>'+(i+1)+'</td>';
+            html += '   <td>'+map.PROPAG_DT + " (" + map.START_TIME +"~"+map.END_TIME+" / "+map.EDU_TIME+")"+'</td>';
+            html += '   <td><input id="mng'+i+'" class="mng'+i+'" value="'+map.EDU_MNG_TIME+'"/></td>';
+            html += '   <td><input id="user'+i+'" class="user'+i+'" value="'+map.EDU_TIME+'"/></td>';
+            let userList = customKendo.fn_customAjax("/campus/getStudyPropagUserList", {
+                studyPropagSn: map.STUDY_PROPAG_SN
+            }).list;
+            html += '   <td>';
+                for(let j=0; j<userList.length; j++){
+                    const userMap = userList[j];
+                    if(j != 0){
+                        html += ',';
+                    }
+                    html += userMap.PROPAG_EMP_NAME;
+                }
+            html += '   </td>';
+            html += '</tr>';
+            $("#table").append(html);
+            $("#mng"+i).kendoTextBox();
+            $("#user"+i).kendoTextBox();
+        }
     },
 
     dataSet: function(){
@@ -24,28 +59,6 @@ const propagView = {
         $("#propagAmtTd").text(fn_numberWithCommas(propagInfo.STUDY_MONEY));
         $("#propagAmtTextTd").text(propagInfo.STUDY_MONEY_VAL);
         $("#regDateTd").text(propagInfo.REG_DT);
-        if(propagInfo.STATUS == 0){
-            $("#statusTd").text("신청서 작성중");
-        }else if(propagInfo.STATUS == 10){
-            $("#statusTd").text("신청서 승인요청중");
-        }else if(propagInfo.STATUS == 30){
-            $("#statusTd").text("신청서 반려됨");
-        }else if(propagInfo.STATUS == 100){
-            $("#statusTd").text("학습 진행중");
-            $("#propagGrid").show();
-            propagView.mainGrid3();
-            if(propagInfo.ADD_STATUS == "N"){
-                let count = customKendo.fn_customAjax("/campus/getStudyPropagList", {
-                    studyInfoSn: $("#pk").val()
-                }).list.length;
-                if(count > 0){
-                    $("#compBtn").show();
-                }
-            }else{
-                $("#resultBtn").show();
-            }
-        }
-
         $("#regDeptTd").text(propagInfo.deptNm + " " + propagInfo.teamNm);
         if(propagInfo.dutyNm == ""){
             $("#regPositionTd").text(propagInfo.positionNm);
@@ -53,6 +66,10 @@ const propagView = {
             $("#regPositionTd").text(propagInfo.dutyNm);
         }
         $("#regEmpNameTd").text(propagInfo.REG_EMP_NAME);
+        console.log(propagInfo);
+        if(propagInfo.ADD_STATUS == "C" || propagInfo.ADD_STATUS == "S"){
+            $("#saveBtn").hide();
+        }
     },
 
     buttonSet: function(){
@@ -231,16 +248,6 @@ const propagView = {
                 pageSizes : [ 10, 20, 30, 50, 100 ],
                 buttonCount : 5
             },
-            toolbar : [
-                {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" id="journalPopBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="propagView.studyPropagPop(1, '+$("#pk").val()+');">' +
-                            '	<span class="k-button-text">추가</span>' +
-                            '</button>';
-                    }
-                }
-            ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -289,101 +296,12 @@ const propagView = {
                             }
                         }
                     ]
-                }, {
-                    title: "처리명령",
-                    template: function(row){
-                        return '<button type="button" style="margin-right:5px;" class="k-button k-button-solid-base" onclick="">인쇄</button>' +
-                            '<button type="button" class="k-button k-button-solid-error" onclick="propagView.fn_delBtn('+row.STUDY_PROPAG_SN+')">삭제</button>';
-                    }
                 }
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
-    },
-
-    fn_propagCertReq: function(status){
-        let data = {
-            studyInfoSn : $("#pk").val(),
-            status : status
-        }
-
-        var result = customKendo.fn_customAjax("/campus/studyReq", data);
-
-        if(result.flag){
-            if(status == 10){
-                alert("승인 요청이 완료되었습니다.");
-            }else if(status == 100){
-                alert("승인되었습니다.");
-            }else if(status == 30){
-                alert("반려되었습니다.");
-            }else if(status == 0){
-                alert("승인요청이 취소되었습니다.");
-            }
-            opener.gridReload();
-            window.close();
-        }
-    },
-
-    studyPropagPop: function(type, fk, pk){
-        let url = "";
-        if(fk == null || fk == "" || fk == undefined){
-            url = "/Campus/pop/studyPropagPop.do";
-        }else if(type == 1){
-            url = "/Campus/pop/studyPropagPop.do?pk="+fk;
-        }else if(type == 2){
-            url = "/Campus/pop/studyPropagPop.do?pk="+fk+"&studyPropagSn="+pk;
-        }
-        let name = "studyPropagPop";
-        let option = "width = 800, height = 600, top = 100, left = 200, location = no";
-        window.open(url, name, option);
-    },
-
-    fn_delBtn: function(pk){
-        customKendo.fn_customAjax("/campus/setPropagDelete", {
-            pk: pk
-        });
-        gridReload();
-    },
-
-    fn_studyComplete : function (){
-        var data = {
-            studyInfoSn : $("#pk").val()
-        }
-
-        $.ajax({
-            url : "/campus/setStudyInfoComplete",
-            data : data,
-            type : "post",
-            dataType : "json",
-            success: function(rs){
-                if(rs.code == 200){
-                    alert(rs.msg);
-                    location.reload();
-                }
-            }
-        });
-    },
-
-    fn_resultDocPop : function (){
-        let url = "/campus/pop/resultPropagDocPop.do?pk="+$("#pk").val();
-
-        let name = "resultPropagDocPop";
-        let option = "width = 1200, height = 900, top = 100, left = 200, location = no";
-
-        if($("#mode").val() != ""){
-            url += "&mode="+$("#mode").val();
-        }
-
-        if($("#studyResultSn").val() != ""){
-            url += "&studyResultSn="+$("#studyResultSn").val();
-        } else {
-            name = "resultPropagDocPop";
-            option = "width = 1200, height = 900, top = 100, left = 200, location = no";
-        }
-
-        window.open(url, name, option);
     }
 }
 

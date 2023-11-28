@@ -11,7 +11,7 @@ const studyView = {
 
     dataSet: function(){
 
-        if($("#addStatus").val() == "Y"){
+        if($("#addStatus").val() == "Y" || $("#addStatus").val() == "C") {
             $("#resultDoc").html("<div style='color : red'> 결과보고서가 등록되지 않았습니다.</div>");
             $("#resultBtn").css("display", "");
         } else if($("#addStatus").val() == "S") {

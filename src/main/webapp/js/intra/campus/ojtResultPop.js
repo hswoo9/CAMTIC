@@ -11,11 +11,25 @@ const ojtResult = {
         customKendo.fn_datePicker("ojtDt", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_timePicker("startTime", '10', "HH:mm", "09:00");
         customKendo.fn_timePicker("endTime", '10', "HH:mm", "18:00");
-        let saveDataSource = [
-            { text: "전산등록", value: "0" },
-            { text: "스캔파일 저장", value: "1" }
+
+        let codeDataSource = [
+            { label: "전산등록", value: "0" },
+            { label: "스캔파일 저장", value: "1" }
         ]
-        customKendo.fn_dropDownList("saveType", saveDataSource, "text", "value", 2);
+        customKendo.fn_radioGroup("studySaveType", codeDataSource, "horizontal");
+
+        $("#studySaveType").data("kendoRadioGroup").bind("change", function(){
+            if($("#studySaveType").data("kendoRadioGroup").value() == 0){
+                $("#hideCol, #hideColB").show();
+                $("#hideColC").hide();
+            } else {
+                $("#hideCol, #hideColB").hide();
+                $("#hideColC").show();
+            }
+        })
+
+        customKendo.fn_textArea(["studyContent", "studyContent2"]);
+
         $("#ojtDt, #startTime, #endTime, #readerUserName, #studyUserName").attr("readonly", true);
     },
 
@@ -25,8 +39,16 @@ const ojtResult = {
         let startTime = $("#startTime").val();
         let endTime = $("#endTime").val();
         let location = $("#location").val();
-        let saveType = $("#saveType").val();
-        let saveTypeText = $("#saveType").data("kendoDropDownList").text();
+        let saveType = $("#studySaveType").data("kendoRadioGroup").value();
+        let saveTypeText = "";
+
+        if($("#studySaveType").data("kendoRadioGroup").value() == 0){
+            saveTypeText = "전산등록";
+        } else {
+            saveTypeText = "스캔파일 저장";
+        }
+        let studyContA = $("#studyContent").val();
+        let studyContB = $("#studyContent2").val();
         let regEmpSeq = $("#regEmpSeq").val();
         let regEmpName = $("#regEmpName").val();
         
@@ -42,6 +64,8 @@ const ojtResult = {
         let data = {
             studyInfoSn: studyInfoSn,
             ojtDt: ojtDt,
+            studyContA : studyContA,
+            studyContB : studyContB,
             startTime: startTime,
             endTime: endTime,
             location: location,
@@ -52,12 +76,39 @@ const ojtResult = {
             readerUserSeq: readerUserSeq,
             studyUserSeq: studyUserSeq
         }
-        let url = "/campus/setOjtResultInsert";
-        const result = customKendo.fn_customAjax(url, data);
-        if(result.flag){
-            $("#ojtResultGrid").data("kendoGrid").dataSource.read();
-            window.close();
+
+        var fd = new FormData();
+        for (var key in data) {
+            fd.append(key, data[key]);
         }
+
+        if($("#files")[0].files.length == 1){
+            fd.append("files", $("#files")[0].files[0]);
+        }
+
+        if(!confirm("OJT 학습일지를 저장하시겠습니까?")){
+            return;
+        }
+
+
+        $.ajax({
+            url: "/campus/setOjtResultInsert",
+            data : fd,
+            type : "post",
+            dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async: false,
+            success: function(result){
+                alert("OJT 학습일지 저장이 완료되었습니다.");
+                opener.$("#ojtResultGrid").data("kendoGrid").dataSource.read();
+                window.close();
+            },
+            error: function() {
+                alert("데이터 저장 중 에러가 발생했습니다.");
+            }
+        });
     },
 
     updBtn: function(pk){
@@ -78,6 +129,14 @@ const ojtResult = {
             opener.gridReload();
             location.reload();
         }
+    },
+
+    fn_setSubjectMember : function (pk, type){
+        var url = "/campus/pop/popSubjectMember.do?studyInfoSn=" + pk + "&ojtType=" + type;
+
+        var name = "popSubjectMember";
+        var option = "width=800, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
     }
 }
 

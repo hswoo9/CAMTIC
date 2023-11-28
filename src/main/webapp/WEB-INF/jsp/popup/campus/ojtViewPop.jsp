@@ -26,6 +26,7 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">OJT 신청서 조회</h3>
             <div class="btn-st popButton">
+                <button type="button" id="resultBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_resultPop()">결과보고서</button>
                 <button type="button" id="finBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_ojtCertReq(101);">지도완료</button>
                 <button type="button" id="recBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_ojtCertReq(100);">승인</button>
                 <button type="button" id="comBtn" style="display: none" class="k-button k-button-solid-error" onclick="ojtView.fn_ojtCertReq(30);">반려</button>
@@ -37,7 +38,11 @@
         <div class="card-header" style="padding-top:25px;">
             <div class="col-lg-12" style="margin:0 auto;">
                 <div class="table-responsive">
-                    <div class="popupTitleSt">신청인</div>
+                    <div class="table-responsive" style="margin-bottom: 5px;">
+                        <div class="card-header pop-header">
+                            <h3 class="card-title title_NM">신청인</h3>
+                        </div>
+                    </div>
                     <form id="table-responsive">
                         <table class="popTable table table-bordered mb-0">
                             <colgroup>
@@ -75,16 +80,21 @@
                 </div>
             </div>
         </div>
+
         <div class="card-header" style="padding-top:15px;">
             <div class="col-lg-6" style="margin:0 auto;">
-                <div class="table-responsive">
-                    <div class="popupTitleSt">지도자</div>
+                <div class="table-responsive" style="margin-bottom: 5px;">
+                    <div class="card-header pop-header">
+                        <h3 class="card-title title_NM">지도자</h3>
+                    </div>
                 </div>
                 <div id="mainGrid"></div>
             </div>
             <div class="col-lg-6" style="margin:0 auto;">
-                <div class="table-responsive">
-                    <div class="popupTitleSt">학습자</div>
+                <div class="table-responsive" style="margin-bottom: 5px;">
+                    <div class="card-header pop-header">
+                        <h3 class="card-title title_NM">학습자</h3>
+                    </div>
                 </div>
                 <div id="subGrid"></div>
             </div>
@@ -93,7 +103,11 @@
         <div class="card-header" style="padding-top:15px;">
             <div class="col-lg-12" style="margin:0 auto;">
                 <div class="table-responsive">
-                    <div class="popupTitleSt">지도내용</div>
+                    <div class="table-responsive" style="margin-bottom: 5px;">
+                        <div class="card-header pop-header">
+                            <h3 class="card-title title_NM">지도계획</h3>
+                        </div>
+                    </div>
                 </div>
                 <form id="" style="";>
                 <table class="popTable table table-bordered mb-0">
@@ -107,19 +121,19 @@
                         <td id="ojtNameTd"></td>
                     </tr>
                     <tr>
-                        <th>학습기간</th>
+                        <th>지도기간</th>
                         <td id="ojtDtTd"></td>
                     </tr>
                     <tr>
-                        <th>학습장소</th>
+                        <th>지도장소</th>
                         <td id="ojtLocationTd"></td>
                     </tr>
-                    <tr>
+                    <tr style="display: none;">
                         <th>학습목표</th>
-                        <td id="ojtObjectTd"></td>
+                        <td id="ojtObjectTd">a</td>
                     </tr>
                     <tr>
-                        <th>학습내용</th>
+                        <th>지도목적</th>
                         <td id="ojtContentTd"></td>
                     </tr>
                     <tr>
@@ -127,7 +141,7 @@
                         <td id="ojtAmtTd"></td>
                     </tr>
                     <tr>
-                        <th>산출내역</th>
+                        <th>비용내역</th>
                         <td id="ojtAmtTextTd"></td>
                     </tr>
                     <tr>
@@ -147,7 +161,11 @@
         <div class="card-header" style="padding-top:45px;">
             <div class="col-lg-12" style="margin:0 auto;">
                 <div class="table-responsive">
-                    <div class="popupTitleSt">지도계획</div>
+                    <div class="table-responsive" style="margin-bottom: 5px;">
+                        <div class="card-header pop-header">
+                            <h3 class="card-title title_NM">지도내용</h3>
+                        </div>
+                    </div>
                     <div id="ojtPlanGrid"></div>
                 </div>
             </div>
@@ -156,7 +174,11 @@
         <div class="ojtResult card-header" style="padding-top:45px; display: none">
             <div class="col-lg-12" style="margin:0 auto;">
                 <div class="table-responsive">
-                    <div class="popupTitleSt">학습일지</div>
+                    <div class="table-responsive" style="margin-bottom: 5px;">
+                        <div class="card-header pop-header">
+                            <h3 class="card-title title_NM">학습일지</h3>
+                        </div>
+                    </div>
                     <div id="ojtResultGrid"></div>
                 </div>
             </div>

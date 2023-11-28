@@ -32,6 +32,7 @@ const studyReq = {
             $("#titleCol").text("학습조명");
             $("#subjectLoc").text("학습장소");
             $("#subjectDe").text("학습기간");
+            $("#subjectStudyMoney").text("산출내역");
 
             $(".subjectObj").show();
         }else if(studyClass == 2){
@@ -39,6 +40,7 @@ const studyReq = {
             $("#subjectCont").text("학습내용")
             $("#subjectLoc").text("학습장소");
             $("#subjectDe").text("학습기간");
+            $("#subjectStudyMoney").text("비용내역");
 
             $(".study").hide();
             $(".propag").show();
@@ -49,6 +51,7 @@ const studyReq = {
 
             $("#subjectLoc").text("지도장소");
             $("#subjectDe").text("지도기간");
+            $("#subjectStudyMoney").text("비용내역");
 
             $(".study").hide();
             $(".propag").hide();

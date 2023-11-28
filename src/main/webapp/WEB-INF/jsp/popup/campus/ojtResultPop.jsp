@@ -36,9 +36,13 @@
         <div class="card-header" style="padding-top:15px;">
             <div class="col-lg-12" style="margin:0 auto;">
                 <div class="table-responsive">
-                    <div class="popupTitleSt">OJT 학습일지</div>
+                    <div class="table-responsive" style="margin-bottom: 5px;">
+                        <div class="card-header pop-header">
+                            <h3 class="card-title title_NM">OJT 학습일지</h3>
+                        </div>
+                    </div>
                     <form id="studyJournalForm">
-                        <table class="table table-bordered mt20" id="studyJournalTable" style="width: 1000px;">
+                        <table class="table table-bordered" id="studyJournalTable" style="width: 1000px;">
                             <colgroup>
                                 <col width="20%">
                                 <col width="80%">
@@ -55,7 +59,7 @@
                                 <td>
                                     <input type="text" id="readerUserName" style="width: 600px">
                                     <input type="hidden" id="readerUserSeq">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="지도자 선택" onclick="$('#suerSelType').val('2'); fn_userMultiSelectPop()"/>
+                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="지도자 선택" onclick="$('#suerSelType').val('2'); ojtResult.fn_setSubjectMember('${params.pk}', 4)"/>
                                 </td>
                             </tr>
                             <tr>
@@ -63,7 +67,7 @@
                                 <td>
                                     <input type="text" id="studyUserName" style="width: 600px">
                                     <input type="hidden" id="studyUserSeq">
-                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="학습자 선택" onclick="$('#suerSelType').val('1'); fn_userMultiSelectPop()"/>
+                                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="학습자 선택" onclick="$('#suerSelType').val('1'); ojtResult.fn_setSubjectMember('${params.pk}', 5)"/>
                                 </td>
                             </tr>
                             <tr>
@@ -75,7 +79,29 @@
                             <tr>
                                 <th>내용저장 방법</th>
                                 <td>
-                                    <input type="text" id="saveType" style="width: 800px">
+                                    <span type="text" id="studySaveType" style="width: 400px;"></span>
+                                </td>
+                            </tr>
+                            <tr id="hideCol" style="display: none">
+                                <th>교육내용</th>
+                                <td>
+                                    <textarea type="text" id="studyContent" style="width: 100%; height: 100px"></textarea>
+                                </td>
+                            </tr>
+                            <tr id="hideColB" style="display: none">
+                                <th>지도자의견</th>
+                                <td>
+                                    <textarea type="text" id="studyContent2" style="width: 100%; height: 100px"></textarea>
+                                </td>
+                            </tr>
+                            <tr id="hideColC" style="display: none">
+                                <th>첨부파일</th>
+                                <td colspan="3">
+                                    <div style="max-width: 100% !important;">
+                                        <div style="width:100%;" id="fileHeader">
+                                            <input name="files" id="files" type="file" aria-label="files" />
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         </table>
