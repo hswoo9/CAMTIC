@@ -155,7 +155,7 @@ var paymentRevList = {
     fn_reqRegPopup : function (key, status){
         var url = "/payApp/pop/regPayAppPop.do";
         if(key != null && key != ""){
-            url = "/payApp/pop/regPayAppPop.do?payAppSn=" + key;
+            url = "/payApp/pop/regPayAppPop.do?payAppSn=" + key + "&auth=mng";
         }
 
         if(status != null && status != ""){
