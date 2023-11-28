@@ -34,6 +34,7 @@
 
 <input type="hidden" id="joinYear" value="${param.currentYear}">
 <input type="hidden" id="sectionTitle" value="${param.sectionTitle}">
+<input type="hidden" id="encodedArr" value="${param.encodedArr}">
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
@@ -43,40 +44,7 @@
             </div>
         </div>
         <div id="mainGrid" style="padding: 20px 30px;">
-            <!--
-            <table class="table table-bordered mb-0" style="text-align: center;">
-                <tbody>
-                <tr style="background-color: #d8dce3;">
-                    <td>순번</td>
-                    <td>성명</td>
-                    <td>부서</td>
-                    <td>팀</td>
-                    <td>직위</td>
-                    <td>직급</td>
-                    <td>성별</td>
-                    <td>유형</td>
-                    <td>나이</td>
-                    <td>근속년수</td>
-                    <td>입사일</td>
-                    <td>퇴사일</td>
-                </tr>
-                <tr style="background-color: white;">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                </tbody>
-            </table>
-            -->
+
         </div>
     </div>
 </div>
@@ -84,15 +52,6 @@
 
 <script>
     joinLeaveViewPop.fn_defaultScript();
-
-    /*
-    var joinYear = $("#joinYear").val();
-    var sectionTitle = $("#sectionTitle").val();
-
-    console.log("Join Year: " + joinYear);
-    console.log("Section Title: " + sectionTitle);
-    */
-
 </script>
 </body>
 </html>
