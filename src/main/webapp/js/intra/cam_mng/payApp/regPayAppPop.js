@@ -783,7 +783,7 @@ var regPayDet = {
         var url = "/mng/pop/paymentCardHistory.do?type=" + v + "&index=" + i;
 
         var name = "_blank";
-        var option = "width = 1100, height = 650, top = 100, left = 400, location = no"
+        var option = "width = 1500, height = 700, top = 100, left = 300, location = no"
         var popup = window.open(url, name, option);
     },
     
