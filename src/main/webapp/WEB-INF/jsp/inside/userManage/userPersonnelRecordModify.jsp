@@ -209,21 +209,60 @@
                                         <th>비고</th>
                                         <th></th>
                                     </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <input type="text" id="gubun1" class="gubun" style="width: 100%;">
+                                        </td>
+                                        <td>
+                                            <input type="text" id="sDate1" class="sDate" class="sDate" style="width: 45%;"> ~ <input type="text" id="eDate1" class="eDate" class="eDate" style="width: 45%;">
+                                        </td>
+                                        <td>
+                                            <input type="text" id="school1" style="width: 100%;">
+                                        </td>
+                                        <td>
+                                            <input type="text" id="degree1" class="degree" style="width: 100%;">
+                                        </td>
+
+                                        <td>
+                                            <label for="gradeFile" class="k-button k-button-solid-base">파일첨부</label>
+                                            <input type="file" id="gradeFile" name="gradeFile" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                            <span id="gradeFileName"></span>
+                                        </td>
+
+                                        <td>
+                                            <label for="socreFile" class="k-button k-button-solid-base">파일첨부</label>
+                                            <input type="file" id="socreFile" name="socreFile" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                            <span id="socreFileName"></span>
+                                        </td>
+                                        <td>
+                                            <input type="text" <%--id="whfdjq"id--%>id="graduation1" class="graduation" style="width: 100%;">
+                                        </td>
+                                        <td>
+                                            <input type="text" id="score1" style="width: 100%;">
+                                        </td>
+                                        <td>
+                                            <input type="text" id="bmk1" style="width: 100%;">
+                                        </td>
+                                        <td>
+                                            <input type="button" class="k-button k-button-solid-info" value="추가" onclick="fu_addInfo()"/>
+                                        </td>
+                                    </tr>
                                     <c:forEach var="l" items="${eList}" varStatus="status">
                                         <c:if test="${l.EDUCATIONAL_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
                                                 <td>${fn:length (eList) - status.index}</td>
                                                 <td>
-                                                    <input type="text" id="gubun" class="gubun" value='${l.GUBUN_CODE}' style="width: 100%;">
+                                                    <input type="text" id="gubun${l.EDUCATIONAL_ID}" class="gubun" value='${l.GUBUN_CODE}' style="width: 100%;">
                                                 </td>
                                                 <td>
-                                                    <input type="text" id="sDate" class="sDate" value='${l.ADMISSION_DAY}' style="width: 45%;"> ~ <input type="text" id="eDate" class="eDate" value='${l.GRADUATION_DAY}' style="width: 45%;">
+                                                    <input type="text" id="sDate${l.EDUCATIONAL_ID}" class="sDate" value='${l.ADMISSION_DAY}' style="width: 45%;"> ~ <input type="text" id="eDate${l.EDUCATIONAL_ID}" class="eDate" value='${l.GRADUATION_DAY}' style="width: 45%;">
                                                 </td>
                                                 <td>
-                                                    <input type="text" id="school" value='${l.SCHOOL_NAME}' style="width: 100%;">
+                                                    <input type="text" id="school${l.EDUCATIONAL_ID}" value='${l.SCHOOL_NAME}' style="width: 100%;">
                                                 </td>
                                                 <td>
-                                                    <input type="text" id="degree" class="degree" value='${l.DEGREE_CODE}' style="width: 100%;">
+                                                    <input type="text" id="degree${l.EDUCATIONAL_ID}" class="degree" value='${l.DEGREE_CODE}' style="width: 100%;">
                                                 </td>
 
                                                 <c:if test="${l.gradeFile == null}">
@@ -257,13 +296,13 @@
                                                     </td>
                                                 </c:if>
                                                 <td>
-                                                    <input type="text" id="graduation" class="graduation" value='${l.GRADUATION_CODE}' style="width: 100%;">
+                                                    <input type="text" id="graduation${l.EDUCATIONAL_ID}" class="graduation" value='${l.GRADUATION_CODE}' style="width: 100%;">
                                                 </td>
                                                 <td>
-                                                    <input type="text" id="score" value='${l.SCORE}' style="width: 100%;">
+                                                    <input type="text" id="score${l.EDUCATIONAL_ID}" value='${l.SCORE}' style="width: 100%;">
                                                 </td>
                                                 <td>
-                                                    <input type="text" id="bmk" value='${l.RMK}' style="width: 100%;">
+                                                    <input type="text" id="bmk${l.EDUCATIONAL_ID}" value='${l.RMK}' style="width: 100%;">
                                                 </td>
                                                 <td>
                                                     <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_EduModifyInfo(${l.EDUCATIONAL_ID})"/>
@@ -272,45 +311,6 @@
                                             </tr>
                                         </c:if>
                                     </c:forEach>
-                                            <tr>
-                                                <td></td>
-                                                <td>
-                                                    <input type="text" id="gubun1" class="gubun" style="width: 100%;">
-                                                </td>
-                                                <td>
-                                                    <input type="text" id="sDate1" class="sDate" class="sDate" style="width: 45%;"> ~ <input type="text" id="eDate1" class="eDate" class="eDate" style="width: 45%;">
-                                                </td>
-                                                <td>
-                                                    <input type="text" id="school1" style="width: 100%;">
-                                                </td>
-                                                <td>
-                                                    <input type="text" id="degree1" class="degree" style="width: 100%;">
-                                                </td>
-
-                                                <td>
-                                                    <label for="gradeFile" class="k-button k-button-solid-base">파일첨부</label>
-                                                    <input type="file" id="gradeFile" name="gradeFile" onchange="fileChange(this)" style="display: none" multiple="multiple">
-                                                    <span id="gradeFileName"></span>
-                                                </td>
-
-                                                <td>
-                                                    <label for="socreFile" class="k-button k-button-solid-base">파일첨부</label>
-                                                    <input type="file" id="socreFile" name="socreFile" onchange="fileChange(this)" style="display: none" multiple="multiple">
-                                                    <span id="socreFileName"></span>
-                                                </td>
-                                                <td>
-                                                    <input type="text" <%--id="whfdjq"id--%>id="graduation1" class="graduation" style="width: 100%;">
-                                                </td>
-                                                <td>
-                                                    <input type="text" id="score1" style="width: 100%;">
-                                                </td>
-                                                <td>
-                                                    <input type="text" id="bmk1" style="width: 100%;">
-                                                </td>
-                                                <td>
-                                                    <input type="button" class="k-button k-button-solid-info" value="추가" onclick="fu_addInfo()"/>
-                                                </td>
-                                            </tr>
                                     </thead>
                                 </table>
                             </div>
@@ -346,17 +346,35 @@
                                         <th>비고</th>
                                         <th></th>
                                     </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td><input type="text" id="sDate3" class="sDate" style="width: 45%;"> ~ <input type="text" id="eDate3" class="eDate" style="width: 45%;"></td>
+                                        <td><input type="text" id="place3" style="width: 100%;"> </td>
+                                        <td><input type="text" id="position3" style="width: 100%;"> </td>
+                                        <td><input type="text" id="workType3" style="width: 100%;"> </td>
+                                        <td><input type="text" id="dateY3" style="width: 25%;">년 <input type="text" id="dateM3" style="width: 25%;">개월
+                                        </td>
+                                        <td>
+                                            <label for="addFile" class="k-button k-button-solid-base">파일첨부</label>
+                                            <input type="file" id="addFile" name="addFile" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                            <span id="addFileName"></span>
+                                        </td>
+                                        <td><input type="text" id="bmk3" style="width: 100%;"></td>
+                                        <td>
+                                            <input type="button" class="k-button k-button-solid-info" value="추가" onclick="fu_careerAddInfo()"/>
+                                        </td>
+                                    </tr>
                                     <c:forEach var="l" items="${cList}" varStatus="status">
                                         <c:if test="${l.CAREER_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
                                                 <td>${fn:length (cList) - status.index}</td>
-                                                <td><input type="text" id="sDate2" class="sDate" value='${l.JOIN_DAY}' style="width: 45%;"> ~ <input type="text" id="eDate2" class="eDate" value= '${l.RESIGN_DAY}' style="width: 45%;"></td>
-                                                <td><input type="text" id="place2" value='${l.EMPLOY_DEPT_NAME}' style="width: 100%;"> </td>
-                                                <td><input type="text" id="position2" value='${l.POSITION_OR_DUTY}' style="width: 100%;"> </td>
-                                                <td><input type="text" id="workType2" value='${l.MAIN_TASK}' style="width: 100%;"> </td>
+                                                <td><input type="text" id="sDate2${l.CAREER_ID}" class="sDate" value='${l.JOIN_DAY}' style="width: 45%;"> ~ <input type="text" id="eDate2${l.CAREER_ID}" class="eDate" value= '${l.RESIGN_DAY}' style="width: 45%;"></td>
+                                                <td><input type="text" id="place2${l.CAREER_ID}" value='${l.EMPLOY_DEPT_NAME}' style="width: 100%;"> </td>
+                                                <td><input type="text" id="position2${l.CAREER_ID}" value='${l.POSITION_OR_DUTY}' style="width: 100%;"> </td>
+                                                <td><input type="text" id="workType2${l.CAREER_ID}" value='${l.MAIN_TASK}' style="width: 100%;"> </td>
                                                 <td>
-                                                    <input type="text" id="dateY2" value='${l.CAREER_PERIOD}' style="width: 25%;">년
-                                                    <input type="text" id="dateM2" value='${l.CAREER_MONTH}' style="width: 25%;">개월
+                                                    <input type="text" id="dateY2${l.CAREER_ID}" value='${l.CAREER_PERIOD}' style="width: 25%;">년
+                                                    <input type="text" id="dateM2${l.CAREER_ID}" value='${l.CAREER_MONTH}' style="width: 25%;">개월
                                                 </td>
 
                                                     <c:if test="${l.addFile == null}">
@@ -376,7 +394,7 @@
                                                         </td>
                                                     </c:if>
 
-                                                <td><input type="text" id="bmk2" value='${l.RMK}' style="width: 100%;"></td>
+                                                <td><input type="text" id="bmk2${l.CAREER_ID}" value='${l.RMK}' style="width: 100%;"></td>
                                                 <td>
                                                     <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_careerModifyInfo(${l.CAREER_ID})"/>
                                                     <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="fu_careerDelInfo(${l.CAREER_ID})"/>
@@ -384,24 +402,6 @@
                                             </tr>
                                         </c:if>
                                     </c:forEach>
-                                        <tr>
-                                            <td></td>
-                                            <td><input type="text" id="sDate3" class="sDate" style="width: 45%;"> ~ <input type="text" id="eDate3" class="eDate" style="width: 45%;"></td>
-                                            <td><input type="text" id="place3" style="width: 100%;"> </td>
-                                            <td><input type="text" id="position3" style="width: 100%;"> </td>
-                                            <td><input type="text" id="workType3" style="width: 100%;"> </td>
-                                            <td><input type="text" id="dateY3" style="width: 25%;">년 <input type="text" id="dateM3" style="width: 25%;">개월
-                                            </td>
-                                            <td>
-                                                <label for="addFile" class="k-button k-button-solid-base">파일첨부</label>
-                                                <input type="file" id="addFile" name="addFile" onchange="fileChange(this)" style="display: none" multiple="multiple">
-                                                <span id="addFileName"></span>
-                                            </td>
-                                            <td><input type="text" id="bmk3" style="width: 100%;"></td>
-                                            <td>
-                                                <input type="button" class="k-button k-button-solid-info" value="추가" onclick="fu_careerAddInfo()"/>
-                                            </td>
-                                        </tr>
                                     </thead>
                                 </table>
                             </div>
@@ -481,22 +481,6 @@
                                         <th>동거여부</th>
                                         <th></th>
                                     </tr>
-                                    <c:forEach var="l" items="${fList}" varStatus="status">
-                                        <c:if test="${l.FAMILY_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
-                                            <tr>
-                                                <td>${fn:length (fList) - status.index}</td>
-                                                <td><input type="text" id="relation" class="relation" value="${l.FAMILY_CODE}" style="width: 100%;"></td>
-                                                <td><input type="text" id="fName" value="${l.FAMILY_NAME}" style="width: 100%;"></td>
-                                                <td><input type="text" id="bDay1" class="bDay" value="${l.FAMILY_BIRTH}" style="width: 100%;"></td>
-                                                <td><input type="text" id="job" value="${l.FAMILY_JOB}" style="width: 100%;"></td>
-                                                <td><span type="text" id="includeType${l.FAMILY_ID}" class="includeType" name="includeType${l.FAMILY_ID}" inCludeYn="${l.INCLUDE_YN}" style="width: 100%;"></span></td>
-                                                <td>
-                                                    <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_familyModifyInfo(${l.FAMILY_ID})"/>
-                                                    <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="fu_familyDelInfo(${l.FAMILY_ID})"/>
-                                                </td>
-                                            </tr>
-                                        </c:if>
-                                    </c:forEach>
                                     <tr>
                                         <td></td>
                                         <td><input type="text" id="relation1" class="relation" style="width: 100%;"></td>
@@ -508,6 +492,22 @@
                                             <input type="button" class="k-button k-button-solid-info" value="추가" onclick="fu_familyAddInfo()"/>
                                         </td>
                                     </tr>
+                                    <c:forEach var="l" items="${fList}" varStatus="status">
+                                        <c:if test="${l.FAMILY_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
+                                            <tr>
+                                                <td>${fn:length (fList) - status.index}</td>
+                                                <td><input type="text" id="relation${l.FAMILY_ID}" class="relation" value="${l.FAMILY_CODE}" style="width: 100%;"></td>
+                                                <td><input type="text" id="fName${l.FAMILY_ID}" value="${l.FAMILY_NAME}" style="width: 100%;"></td>
+                                                <td><input type="text" id="bDay1${l.FAMILY_ID}" class="bDay" value="${l.FAMILY_BIRTH}" style="width: 100%;"></td>
+                                                <td><input type="text" id="job${l.FAMILY_ID}" value="${l.FAMILY_JOB}" style="width: 100%;"></td>
+                                                <td><span type="text" id="includeType${l.FAMILY_ID}" class="includeType" name="includeType${l.FAMILY_ID}" inCludeYn="${l.INCLUDE_YN}" style="width: 100%;"></span></td>
+                                                <td>
+                                                    <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_familyModifyInfo(${l.FAMILY_ID})"/>
+                                                    <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="fu_familyDelInfo(${l.FAMILY_ID})"/>
+                                                </td>
+                                            </tr>
+                                        </c:if>
+                                    </c:forEach>
                                     </thead>
                                 </table>
                             </div>
@@ -541,39 +541,6 @@
                                         <th>비고</th>
                                         <th></th>
                                     </tr>
-                                    <c:forEach var="l" items="${lList}" varStatus="status">
-                                        <c:if test="${l.CERTIFICATE_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
-                                            <tr>
-                                                <td>${fn:length (lList) - status.index}</td>
-                                                <td><input type="text" id="licenseName" value="${l.CERTIFICATE_NAME}" style="width: 100%;"></td>
-                                                <td><input type="text" id="sDate5" class="sDate" value="${l.ACQUISITION_DAY}" style="width: 100%;"></td>
-                                                <td><input type="text" id="licenseNum" value="${l.CERTIFICATE_NUM}" style="width: 100%;"></td>
-                                                <td><input type="text" id="agency" value="${l.ISSUER}" style="width: 100%;"></td>
-
-                                                <c:if test="${l.certificateAddFile == null}">
-                                                    <td>
-                                                        <label for="certificateAddFile${l.CERTIFICATE_ID}" class="k-button k-button-solid-base">파일첨부</label>
-                                                        <input type="file" id="certificateAddFile${l.CERTIFICATE_ID}" name="certificateAddFile${l.CERTIFICATE_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
-                                                        <span id="certificateAddFileName${l.CERTIFICATE_ID}"></span>
-                                                    </td>
-                                                </c:if>
-                                                <c:if test="${l.certificateAddFile ne null}">
-                                                    <td>
-                                                        <label for="certificateAddFile${l.CERTIFICATE_ID}" class="k-button k-button-solid-base">파일첨부</label>
-                                                        <input type="file" id="certificateAddFile${l.CERTIFICATE_ID}" name="certificateAddFile${l.CERTIFICATE_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
-                                                        <span id="certificateAddFileName${l.CERTIFICATE_ID}" style="cursor: pointer" onclick="fileDown('${l.certificateAddFile.file_path}${l.certificateAddFile.file_uuid}', '${l.certificateAddFile.file_org_name}.${l.certificateAddFile.file_ext}')">
-                                                             ${l.certificateAddFile.file_org_name}.${l.certificateAddFile.file_ext}
-                                                         </span>
-                                                    </td>
-                                                </c:if>
-                                                <td><input type="text" id="bmk4" value='${l.RMK}' style="width: 100%;"></td>
-                                                <td>
-                                                    <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_LinModifyInfo(${l.CERTIFICATE_ID})"/>
-                                                    <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="fu_LinDelInfo(${l.CERTIFICATE_ID})"/>
-                                                </td>
-                                            </tr>
-                                        </c:if>
-                                    </c:forEach>
                                     <tr>
                                         <td></td>
                                         <td><input type="text" id="licenseName1" style="width: 100%;"></td>
@@ -591,6 +558,39 @@
                                             <input type="button" class="k-button k-button-solid-info" value="추가" onclick="fu_LinAddInfo()"/>
                                         </td>
                                     </tr>
+                                    <c:forEach var="l" items="${lList}" varStatus="status">
+                                        <c:if test="${l.CERTIFICATE_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
+                                            <tr>
+                                                <td>${fn:length (lList) - status.index}</td>
+                                                <td><input type="text" id="licenseName${l.CERTIFICATE_ID}" value="${l.CERTIFICATE_NAME}" style="width: 100%;"></td>
+                                                <td><input type="text" id="sDate5${l.CERTIFICATE_ID}" class="sDate" value="${l.ACQUISITION_DAY}" style="width: 100%;"></td>
+                                                <td><input type="text" id="licenseNum${l.CERTIFICATE_ID}" value="${l.CERTIFICATE_NUM}" style="width: 100%;"></td>
+                                                <td><input type="text" id="agency${l.CERTIFICATE_ID}" value="${l.ISSUER}" style="width: 100%;"></td>
+
+                                                <c:if test="${l.certificateAddFile == null}">
+                                                    <td>
+                                                        <label for="certificateAddFile${l.CERTIFICATE_ID}" class="k-button k-button-solid-base">파일첨부</label>
+                                                        <input type="file" id="certificateAddFile${l.CERTIFICATE_ID}" name="certificateAddFile${l.CERTIFICATE_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                                        <span id="certificateAddFileName${l.CERTIFICATE_ID}"></span>
+                                                    </td>
+                                                </c:if>
+                                                <c:if test="${l.certificateAddFile ne null}">
+                                                    <td>
+                                                        <label for="certificateAddFile${l.CERTIFICATE_ID}" class="k-button k-button-solid-base">파일첨부</label>
+                                                        <input type="file" id="certificateAddFile${l.CERTIFICATE_ID}" name="certificateAddFile${l.CERTIFICATE_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                                        <span id="certificateAddFileName${l.CERTIFICATE_ID}" style="cursor: pointer" onclick="fileDown('${l.certificateAddFile.file_path}${l.certificateAddFile.file_uuid}', '${l.certificateAddFile.file_org_name}.${l.certificateAddFile.file_ext}')">
+                                                             ${l.certificateAddFile.file_org_name}.${l.certificateAddFile.file_ext}
+                                                         </span>
+                                                    </td>
+                                                </c:if>
+                                                <td><input type="text" id="bmk4${l.CERTIFICATE_ID}" value='${l.RMK}' style="width: 100%;"></td>
+                                                <td>
+                                                    <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_LinModifyInfo(${l.CERTIFICATE_ID})"/>
+                                                    <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="fu_LinDelInfo(${l.CERTIFICATE_ID})"/>
+                                                </td>
+                                            </tr>
+                                        </c:if>
+                                    </c:forEach>
                                     </thead>
                                 </table>
                             </div>
@@ -619,21 +619,6 @@
                                         <th>직급</th>
                                         <th></th>
                                     </tr>
-                                    <c:forEach var="l" items="${dList}" varStatus="status">
-                                        <c:if test="${l.DUTY_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
-                                            <tr>
-                                                <td>${fn:length (dList) - status.index}</td>
-                                                <td><input type="text" id="sDate7" class="sDate" value="${l.WORK_JOIN_DAY}" style="width: 45%;"> ~ <input type="text" id="eDate7" class="eDate" value="${l.WORK_LEAVE_DAY}" style="width: 45%;"></td>
-                                                <td><input type="text" id="pay" value="${l.WORK_PAY}" style="width: 100%;"></td>
-                                                <td><input type="text" id="work" value="${l.DUTY_DETAIL}" style="width: 100%;"></td>
-                                                <td><input type="text" id="rank1" value="${l.POSITON_NAME}" style="width: 100%;"></td>
-                                                <td>
-                                                    <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_JobModifyInfo(${l.DUTY_ID})"/>
-                                                    <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="fu_JobDelInfo(${l.DUTY_ID})"/>
-                                                </td>
-                                            </tr>
-                                        </c:if>
-                                    </c:forEach>
                                     <tr>
                                         <td></td>
                                         <td><input type="text" id="sDate8" class="sDate" style="width: 45%;"> ~ <input type="text" id="eDate8" class="eDate"value="${l.WORK_LEAVE_DAY}" style="width: 45%;"></td>
@@ -644,7 +629,21 @@
                                             <input type="button" class="k-button k-button-solid-info" value="추가" onclick="fu_JobAddInfo()"/>
                                         </td>
                                     </tr>
-
+                                    <c:forEach var="l" items="${dList}" varStatus="status">
+                                        <c:if test="${l.DUTY_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
+                                            <tr>
+                                                <td>${fn:length (dList) - status.index}</td>
+                                                <td><input type="text" id="sDate7${l.DUTY_ID}" class="sDate" value="${l.WORK_JOIN_DAY}" style="width: 45%;"> ~ <input type="text" id="eDate7${l.DUTY_ID}" class="eDate" value="${l.WORK_LEAVE_DAY}" style="width: 45%;"></td>
+                                                <td><input type="text" id="pay${l.DUTY_ID}" value="${l.WORK_PAY}" style="width: 100%;"></td>
+                                                <td><input type="text" id="work${l.DUTY_ID}" value="${l.DUTY_DETAIL}" style="width: 100%;"></td>
+                                                <td><input type="text" id="rank1${l.DUTY_ID}" value="${l.POSITON_NAME}" style="width: 100%;"></td>
+                                                <td>
+                                                    <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_JobModifyInfo(${l.DUTY_ID})"/>
+                                                    <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="fu_JobDelInfo(${l.DUTY_ID})"/>
+                                                </td>
+                                            </tr>
+                                        </c:if>
+                                    </c:forEach>
                                     </thead>
                                 </table>
                             </div>
@@ -721,6 +720,23 @@
                                         <th>증명서</th>
                                         <th></th>
                                     </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td><input type="text" id="rGubunOutIn1" class="rGubunOutIn" style="width: 100%;"></td>
+                                        <td><input type="text" id="rGubun1" style="width: 100%;"></td>
+                                        <td><input type="text" id="sDate10" class="sDate" style="width: 100%;"></td>
+                                        <td><input type="text" id="rwdSn1" style="width: 100%;"></td>
+                                        <td><input type="text" id="rIssue1"  style="width: 100%;"></td>
+                                        <td><input type="text" id="agency3" style="width: 100%;"></td>
+                                        <td>
+                                            <label for="rewardAddFile" class="k-button k-button-solid-base">파일첨부</label>
+                                            <input type="file" id="rewardAddFile" name="rewardAddFile" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                            <span id="rewardAddFileName"></span>
+                                        </td>
+                                        <td>
+                                            <input type="button" class="k-button k-button-solid-info" value="추가" onclick="fu_RewAddInfo()"/>
+                                        </td>
+                                    </tr>
                                     <c:forEach var="l" items="${rList}" varStatus="status">
                                         <c:if test="${l.REWORD_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
@@ -755,23 +771,6 @@
                                             </tr>
                                         </c:if>
                                     </c:forEach>
-                                    <tr>
-                                        <td></td>
-                                        <td><input type="text" id="rGubunOutIn1" class="rGubunOutIn" style="width: 100%;"></td>
-                                        <td><input type="text" id="rGubun1" style="width: 100%;"></td>
-                                        <td><input type="text" id="sDate10" class="sDate" style="width: 100%;"></td>
-                                        <td><input type="text" id="rwdSn1" style="width: 100%;"></td>
-                                        <td><input type="text" id="rIssue1"  style="width: 100%;"></td>
-                                        <td><input type="text" id="agency3" style="width: 100%;"></td>
-                                        <td>
-                                            <label for="rewardAddFile" class="k-button k-button-solid-base">파일첨부</label>
-                                            <input type="file" id="rewardAddFile" name="rewardAddFile" onchange="fileChange(this)" style="display: none" multiple="multiple">
-                                            <span id="rewardAddFileName"></span>
-                                        </td>
-                                        <td>
-                                            <input type="button" class="k-button k-button-solid-info" value="추가" onclick="fu_RewAddInfo()"/>
-                                        </td>
-                                    </tr>
                                     </thead>
                                 </table>
                             </div>
@@ -1484,6 +1483,17 @@
             formData.append("socreFile", $("#socreFile")[0].files[0]);
         }
 
+        if($("#gubun1").val()==""){ alert("학력구분을 입력해주세요."); return;}
+        if($("#sDate1").val()==""){ alert("기간을 입력해주세요."); return;}
+        if($("#eDate1").val()==""){ alert("기간을 입력해주세요."); return;}
+        if($("#school1").val()==""){ alert("학교 및 학과를 입력해주세요."); return;}
+        if($("#degree1").val()==""){ alert("학위를 입력해주세요."); return;}
+        if($("#gradeFile").val()==""){ alert("증명서를 첨부해주세요."); return;}
+        if($("#socreFile").val()==""){ alert("증명서를 첨부해주세요."); return;}
+        if($("#graduation1").val()==""){ alert("졸업여부를 입력해주세요."); return;}
+        if($("#score1").val()==""){ alert("성적을 입력해주세요."); return;}
+
+
         var result = customKendo.fn_customFormDataAjax('/useManage/userDegreeInfoInsert',formData);
         /*var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);*/
         console.log(result.rs);
@@ -1501,14 +1511,14 @@
     // 학력사항 수정
     function fu_EduModifyInfo(key) {
         var data = {
-            gubun : $("#gubun").val(),
-            sDate : $("#sDate").val(),
-            eDate : $("#eDate").val(),
-            school : $("#school").val(),
-            degree : $("#degree").val(),
-            graduation : $("#graduation").val(),
-            score : $("#score").val(),
-            bmk : $("#bmk").val(),
+            gubun : $("#gubun"+ key).val(),
+            sDate : $("#sDate"+ key).val(),
+            eDate : $("#eDate"+ key).val(),
+            school : $("#school"+ key).val(),
+            degree : $("#degree"+ key).val(),
+            graduation : $("#graduation"+ key).val(),
+            score : $("#score"+ key).val(),
+            bmk : $("#bmk"+ key).val(),
             pk : key
         }
 
@@ -1533,14 +1543,16 @@
             formData.append("socreFile", $("#socreFile"+ key)[0].files[0]);
         }
 
-       /* if ($("#gradeFile" + l.EDUCATIONAL_ID).prop("files").length === 1) {
-            formData.append("gradeFile", $("#gradeFile" + l.EDUCATIONAL_ID).prop("files")[0]);
-        }
+        if($("#gubun"+ key).val()==""){ alert("학력구분을 입력해주세요."); return;}
+        if($("#sDate"+ key).val()==""){ alert("기간을 입력해주세요."); return;}
+        if($("#eDate"+ key).val()==""){ alert("기간을 입력해주세요."); return;}
+        if($("#school"+ key).val()==""){ alert("학교 및 학과를 입력해주세요."); return;}
+        if($("#degree"+ key).val()==""){ alert("학위를 입력해주세요."); return;}
+     /*   if($("#gradeFile"+ key)[0].files.length == 1){ alert("학위증명서를 첨부해주세요."); return;}
+        if($("#socreFile"+ key)[0].files.length == 1){ alert("성적증명서를 첨부해주세요."); return;}*/
+        if($("#graduation"+ key).val()==""){ alert("졸업여부를 입력해주세요."); return;}
+        if($("#score"+ key).val()==""){ alert("성적을 입력해주세요."); return;}
 
-        if ($("#socreFile" + l.EDUCATIONAL_ID).prop("files").length === 1) {
-            formData.append("scoreFile", $("#socreFile" + l.EDUCATIONAL_ID).prop("files")[0]);
-        }
-*/
         var result = customKendo.fn_customFormDataAjax('/useManage/userDegreeInfoModify',formData);
         /*var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);*/
         console.log(result.rs);
@@ -1605,6 +1617,14 @@
             formData.append("addFile", $("#addFile")[0].files[0]);
         }
 
+        if($("#sDate3").val()==""){ alert("기간을 입력해주세요."); return;}
+        if($("#eDate3").val()==""){ alert("기간을 입력해주세요."); return;}
+        if($("#place3").val()==""){ alert("근무처를 입력해주세요."); return;}
+        if($("#position3").val()==""){ alert("직위(급)을 입력해주세요."); return;}
+        if($("#workType3").val()==""){ alert("담당업무를 입력해주세요."); return;}
+        if($("#dateY3").val()=="" && $("#dateM3").val()==""){ alert("근무년수를 입력해주세요."); return;}
+        if($("#addFile").val()==""){ alert("증명서를 첨부해주세요."); return;}
+
         var result = customKendo.fn_customFormDataAjax('/useManage/userCareerInfoInsert',formData);
         /*var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);*/
         if(result.flag){
@@ -1621,15 +1641,15 @@
     // 경력사항 수정
     function fu_careerModifyInfo(key) {
         var data = {
-            place: $("#place2").val(),
-            sDate: $("#sDate2").val(),
-            eDate: $("#eDate2").val(),
-            position: $("#position2").val(),
-            workType: $("#workType2").val(),
-            dateY: $("#dateY2").val(),
-            dateM: $("#dateM2").val(),
-            bmk: $("#bmk2").val(),
-            workType: $("#workType2").val(),
+            place: $("#place2"+ key).val(),
+            sDate: $("#sDate2"+ key).val(),
+            eDate: $("#eDate2"+ key).val(),
+            position: $("#position2"+ key).val(),
+            workType: $("#workType2"+ key).val(),
+            dateY: $("#dateY2"+ key).val(),
+            dateM: $("#dateM2"+ key).val(),
+            bmk: $("#bmk2"+ key).val(),
+            workType: $("#workType2"+ key).val(),
             pk: key
         }
 
@@ -1650,6 +1670,14 @@
         if($("#addFile"+ key)[0].files.length == 1){
             formData.append("addFile", $("#addFile" + key)[0].files[0]);
         }
+
+        if($("#sDate2"+ key).val()==""){ alert("기간을 입력해주세요."); return;}
+        if($("#eDate2"+ key).val()==""){ alert("기간을 입력해주세요."); return;}
+        if($("#place2"+ key).val()==""){ alert("근무처를 입력해주세요."); return;}
+        if($("#position2"+ key).val()==""){ alert("직위(급)을 입력해주세요."); return;}
+        if($("#workType2"+ key).val()==""){ alert("담당업무를 입력해주세요."); return;}
+        if($("#dateY2"+ key).val()=="" && $("#dateM2"+ key).val()==""){ alert("근무년수를 입력해주세요."); return;}
+      /*  if($("#addFile"+ key).val()==""){ alert("증명서를 첨부해주세요."); return;}*/
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userCareerInfoModify',formData);
         if(result.flag){
@@ -1704,6 +1732,14 @@
         formData.append("mDept", data.mDept);
         formData.append("pk", data.pk);
 
+        if($("#mGubun").val()==""){ alert("전역여부를 입력해주세요."); return;}
+       /* if($("#reason").val()==""){ alert("사유를 입력해주세요."); return;}
+        if($("#sDate4").val()==""){ alert("복무기간을 입력해주세요."); return;}
+        if($("#eDate4").val()==""){ alert("복무기간을 입력해주세요."); return;}
+        if($("#rank").val()==""){ alert("최종계급을 입력해주세요."); return;}
+        if($("#mType").val()==""){ alert("군별을 입력해주세요."); return;}
+        if($("#mDept").val()==""){ alert("병과를 입력해주세요."); return;}*/
+
         var result = customKendo.fn_customFormDataAjax('/useManage/userMilitaryInfoModify',formData);
         console.log(result.rs);
         if(result.flag){
@@ -1730,6 +1766,11 @@
             includeType : $("#includeType").getKendoRadioGroup().value()
         }
 
+        if($("#relation1").val()==""){ alert("관계를 입력해주세요."); return;}
+        if($("#fName1").val()==""){ alert("성명을 입력해주세요."); return;}
+        if($("#bDay2").val()==""){ alert("생년월일을 입력해주세요."); return;}
+        if($("#includeType").getKendoRadioGroup().value()== null ){ alert("동거여부를 선택해주세요."); return;}
+
         var formData = new FormData();
         formData.append("empSeq1", data.empSeq1);
         formData.append("empName1", data.empName1);
@@ -1754,10 +1795,10 @@
     // 가족사항 수정
     function fu_familyModifyInfo(key) {
         var data = {
-            relation : $("#relation").val(),
-            bDay : $("#bDay1").val(),
-            job : $("#job").val(),
-            fName : $("#fName").val(),
+            relation : $("#relation"+ key).val(),
+            bDay : $("#bDay1"+ key).val(),
+            job : $("#job"+ key).val(),
+            fName : $("#fName"+ key).val(),
             includeType :  $("#includeType"+key).getKendoRadioGroup().value(),
             pk: key
         }
@@ -1769,6 +1810,11 @@
         formData.append("fName", data.fName);
         formData.append("includeType", data.includeType);
         formData.append("pk", data.pk);
+
+        if($("#relation" + key).val()==""){ alert("관계를 입력해주세요."); return;}
+        if($("#fName"+ key).val()==""){ alert("성명을 입력해주세요."); return;}
+        if($("#bDay1"+ key).val()==""){ alert("생년월일을 입력해주세요."); return;}
+        if($("#includeType"+ key).getKendoRadioGroup().value()== null ){ alert("동거여부를 선택해주세요."); return;}
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userFamilyInfoModify',formData);
         if(result.flag){
@@ -1823,6 +1869,13 @@
             formData.append("certificateAddFile", $("#certificateAddFile")[0].files[0]);
         }
 
+        if($("#licenseName1").val()==""){ alert("면허 종류를 입력해주세요."); return;}
+        if($("#sDate6").val()==""){ alert("취득일을 입력해주세요."); return;}
+        if($("#licenseNum1").val()==""){ alert("자격번호를 입력해주세요."); return;}
+        if($("#agency1").val()==""){ alert("발급기관을 입력해주세요."); return;}
+        if($("#certificateAddFile").val()==""){ alert("증명서를 첨부해주세요."); return;}
+
+
         var result = customKendo.fn_customFormDataAjax('/useManage/userLinInfoInsert',formData);
         if(result.flag){
             if(result.rs == "SUCCESS") {
@@ -1838,12 +1891,11 @@
     // 보유면허 수정
     function fu_LinModifyInfo(key) {
         var data = {
-            licenseName : $("#licenseName").val(),
-            sDate : $("#sDate5").val(),
-          /*  eDate : $("#eDate").val(),*/
-            licenseNum : $("#licenseNum").val(),
-            agency : $("#agency").val(),
-            bmk : $("#bmk4").val(),
+            licenseName : $("#licenseName"+key).val(),
+            sDate : $("#sDate5"+key).val(),
+            licenseNum : $("#licenseNum"+key).val(),
+            agency : $("#agency"+key).val(),
+            bmk : $("#bmk4"+key).val(),
             pk : key
 
         }
@@ -1861,6 +1913,12 @@
         if($("#certificateAddFile"+key)[0].files.length == 1){
             formData.append("certificateAddFile", $("#certificateAddFile"+key)[0].files[0]);
         }
+
+        if($("#licenseName"+key).val()==""){ alert("면허 종류를 입력해주세요."); return;}
+        if($("#sDate5"+key).val()==""){ alert("취득일을 입력해주세요."); return;}
+        if($("#licenseNum"+key).val()==""){ alert("자격번호를 입력해주세요."); return;}
+        if($("#agency"+key).val()==""){ alert("발급기관을 입력해주세요."); return;}
+        if($("#certificateAddFile"+key).val()==""){ alert("증명서를 첨부해주세요."); return;}
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userLinInfoModify',formData);
         if(result.flag){
@@ -1910,6 +1968,11 @@
         formData.append("DUTY_DETAIL", data.DUTY_DETAIL);
         formData.append("POSITON_NAME", data.POSITON_NAME);
 
+        if($("#sDate8").val()==""){ alert("기간을 입력해주세요."); return;}
+        if($("#eDate8").val()==""){ alert("기간를 입력해주세요."); return;}
+        if($("#pay1").val()==""){ alert("계약연봉을 입력해주세요."); return;}
+        if($("#work1").val()==""){ alert("주요직무를 입력해주세요."); return;}
+        if($("#rank2").val()==""){ alert("직급을 입력해주세요."); return;}
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userJobInfoInsert',formData);
         if(result.flag){
@@ -1926,11 +1989,11 @@
     // 직무사항 수정
     function fu_JobModifyInfo(key) {
         var data = {
-            WORK_PAY : $("#pay").val(),
-            sDate : $("#sDate7").val(),
-            eDate : $("#eDate7").val(),
-            DUTY_DETAIL : $("#work").val(),
-            POSITON_NAME : $("#rank1").val(),
+            WORK_PAY : $("#pay"+ key).val(),
+            sDate : $("#sDate7"+ key).val(),
+            eDate : $("#eDate7"+ key).val(),
+            DUTY_DETAIL : $("#work"+ key).val(),
+            POSITON_NAME : $("#rank1"+ key).val(),
             pk : key
         }
         var formData = new FormData();
@@ -1940,6 +2003,12 @@
         formData.append("DUTY_DETAIL", data.DUTY_DETAIL);
         formData.append("POSITON_NAME", data.POSITON_NAME);
         formData.append("pk", data.pk);
+
+        if($("#sDate7"+ key).val()==""){ alert("기간을 입력해주세요."); return;}
+        if($("#eDate7"+ key).val()==""){ alert("기간를 입력해주세요."); return;}
+        if($("#pay"+ key).val()==""){ alert("계약연봉을 입력해주세요."); return;}
+        if($("#work"+ key).val()==""){ alert("주요직무를 입력해주세요."); return;}
+        if($("#rank1"+ key).val()==""){ alert("직급을 입력해주세요."); return;}
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userJobInfoModify',formData);
         if(result.flag){
@@ -2083,5 +2152,6 @@
     function fileChange(e){
         $(e).next().text($(e)[0].files[0].name);
     }
+
 
 </script>
