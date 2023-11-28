@@ -32,7 +32,7 @@
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
         <div class="__organization m0">
           <dl class="tit">
-            <dt>조직체계</dt>
+            <%--<dt>조직체계</dt>--%>
             <%--<dd>3본부 3사업부 1실 4센터 11팀, 현원 <strong>114</strong>명</dd>--%>
           </dl>
           <div class="img">
