@@ -13,6 +13,7 @@ var regPay = {
 
     fn_defaultScript : function (){
         customKendo.fn_datePicker("appDe", "month", "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("reqDe", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_textBox(["pjtNm", "appTitle", "accNm", "accNo", "bnkNm"]);
 
         $("#appCont").kendoTextArea({
@@ -412,7 +413,7 @@ var regPay = {
                 change : function (e){
 
                     var value = this.value();
-                    // regPay.fn_save("user");
+                    regPay.fn_save("user");
 
                     if(value != ""){
                         if(value == "6"){
@@ -467,9 +468,6 @@ var regPay = {
             } else {
                 $("#titleStat").text("확인");
             }
-            $("#payAppType").data("kendoRadioGroup").enable(false);
-            $("#payAppStat").data("kendoRadioGroup").enable(false);
-            $("#appDe").data("kendoDatePicker").enable(false);
             // $("#addBtn").css("display", "none");
             // $("#exnpAddBtn").css("display", "");
         }
@@ -480,9 +478,6 @@ var regPay = {
             } else {
                 $("#titleStat").text("확인");
             }
-            $("#payAppType").data("kendoRadioGroup").enable(false);
-            $("#payAppStat").data("kendoRadioGroup").enable(false);
-            $("#appDe").data("kendoDatePicker").enable(false);
             $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
             $("#exnpAddBtn").text("여입결의서 작성");
             $("#addBtn").css("display", "none");
@@ -495,9 +490,6 @@ var regPay = {
             } else {
                 $("#titleStat").text("확인");
             }
-            $("#payAppType").data("kendoRadioGroup").enable(false);
-            $("#payAppStat").data("kendoRadioGroup").enable(false);
-            $("#appDe").data("kendoDatePicker").enable(false);
             $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
             $("#exnpAddBtn").text("반납결의서 작성");
             $("#addBtn").css("display", "none");
@@ -510,9 +502,6 @@ var regPay = {
             } else {
                 $("#titleStat").text("확인");
             }
-            $("#payAppType").data("kendoRadioGroup").enable(false);
-            $("#payAppStat").data("kendoRadioGroup").enable(false);
-            $("#appDe").data("kendoDatePicker").enable(false);
             $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
             $("#exnpAddBtn").text("대체결의서 작성");
             $("#addBtn").css("display", "none");
@@ -526,6 +515,7 @@ var regPay = {
             appDe : $("#appDe").val(),
             pjtNm : $("#pjtNm").val(),
             pjtSn : $("#pjtSn").val(),
+            reqDe : $("#reqDe").val(),
             // budgetNm : $("#budgetNm").val(),
             // budgetSn : $("#budgetSn").val(),
             appTitle : $("#appTitle").val(),
@@ -776,7 +766,7 @@ var regPayDet = {
                 var value = $("#eviType0").val();
                 var itemIndex = 0;
 
-                // regPay.fn_save("user");
+                regPay.fn_save("user");
 
                 if(value != ""){
                     if(value == "6"){
@@ -900,7 +890,7 @@ var regPayDet = {
             change : function (e){
                 var value = $("#eviType" + itemIndex).val();
 
-                // regPay.fn_save("user");
+                regPay.fn_save("user");
 
                 if(value != ""){
                     if(value == "6"){
@@ -1042,10 +1032,12 @@ var regPayDet = {
 
     fn_regPayAttPop : function (row){
         let key = $("#payDestSn"+row).val();
+
         if(key == "" || key == null){
             regPay.fn_save();
             return;
         }
+
         let eviType = $("#eviType"+row).data("kendoDropDownList").value();
         var url = "/payApp/pop/regPayAttPop.do?payDestSn=" + key + "&eviType=" + eviType;
 
