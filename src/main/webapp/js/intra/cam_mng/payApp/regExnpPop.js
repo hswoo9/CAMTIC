@@ -363,13 +363,13 @@ var regExnp = {
                     continue;
                 }
                 if(eviType == "1" || eviType == "2"){
-                    if(item.FILE1 == null || item.FILE2 == null || item.FILE3 == null || item.FILE4 == null || item.FILE5 == null){
+                    if(item.FILE2 == null || item.FILE3 == null || item.FILE4 == null || item.FILE5 == null){
                         alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
                         checked = 1;
                         break;
                     }
                 }else if(eviType == "3"){
-                    if(item.FILE6 == null || item.FILE7 == null || item.FILE8 == null || item.FILE9 == null){
+                    if(item.FILE7 == null || item.FILE8 == null || item.FILE9 == null){
                         alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
                         checked = 1;
                         break;

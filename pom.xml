@@ -376,7 +376,6 @@
             <artifactId>javase</artifactId>
             <version>3.3.0</version>
         </dependency>
-
         <!-- 바로빌 api
         <dependency>
             <groupId>com.baroservice</groupId>
@@ -390,7 +389,7 @@
     <build>
         <defaultGoal>install</defaultGoal>
         <directory>${basedir}/target</directory>
-        <finalName>sht_webapp</finalName>
+        <finalName>dj_camtic</finalName>
         <pluginManagement>
             <plugins>
                 <plugin>
