@@ -102,7 +102,8 @@
                 // ... 나머지 필드들도 동일한 방식으로 추가 ...
             },
             success: function(response) {
-                alert("Data saved successfully!");
+                alert("설정이 완료되었습니다.");
+                window.close();
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 alert("Error occurred while saving data:", textStatus);
