@@ -29,7 +29,7 @@
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">
                 <span style="">
-                    학습조 운영일지
+                    전파학습 정보
                 </span>
         </h3>
         <div class="btn-st popButton">
@@ -46,7 +46,7 @@
             </colgroup>
             <thead>
             <tr>
-                <th>학습조명</th>
+                <th>학습주제</th>
                 <td id="studyNameTd">${data.STUDY_NAME}</td>
             </tr>
             <tr>

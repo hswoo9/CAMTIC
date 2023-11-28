@@ -115,7 +115,9 @@ var studyInfo = {
                             } else {
                                 return "0";
                             }
-                        } else {
+                        } else if(e.STUDY_CLASS_SN == "2"){
+                            return e.PROPAG_SUM == null ? "0" : e.PROPAG_SUM;
+                        } else{
                             if(e.EDU_TIME_TOTAL != "" && e.EDU_TIME_TOTAL != null){
                                 return e.EDU_TIME_TOTAL;
                             } else {
@@ -155,7 +157,13 @@ var studyInfo = {
                             }else if(row.STATUS == 30) {
                                 return "신청서 반려됨"
                             }else if(row.STATUS == 100){
-                                return "학습 진행중"
+                                if(row.ADD_STATUS == "Y"|| row.ADD_STATUS == "C"){
+                                    return "학습완료";
+                                } else if (row.ADD_STATUS == "S") {
+                                    return "이수완료";
+                                } else {
+                                    return "학습 진행중"
+                                }
                             }
                         }else if(studyClass == 3){
                             if(row.STATUS == 0){

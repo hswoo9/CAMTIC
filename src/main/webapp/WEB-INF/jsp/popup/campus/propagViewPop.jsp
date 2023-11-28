@@ -20,6 +20,7 @@
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="mode" value="${params.mode}"/>
 <input type="hidden" id="pk" value="${params.pk}"/>
+<input type="hidden" id="studyResultSn" value="${resultData.STUDY_RESULT_SN}" />
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
@@ -30,6 +31,8 @@
                 <button type="button" id="comBtn" style="display: none" class="k-button k-button-solid-error" onclick="propagView.fn_propagCertReq(30);">반려</button>
                 <button type="button" id="canBtn" style="display: none" class="k-button k-button-solid-error" onclick="propagView.fn_propagCertReq(0);">요청취소</button>
                 <button type="button" id="appBtn" style="display: none" class="k-button k-button-solid-info" onclick="propagView.fn_propagCertReq(10);">승인요청</button>
+                <button type="button" id="compBtn" style="display: none" class="k-button k-button-solid-info" onclick="propagView.fn_studyComplete();">학습완료</button>
+                <button type="button" id="resultBtn" style="display: none" class="k-button k-button-solid-info" onclick="propagView.fn_resultDocPop();">결과보고서</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
             </div>
         </div>

@@ -155,7 +155,9 @@ const studyPropag = {
             saveType: studySaveType,
             propagContent: studyContent,
             regEmpSeq : regEmpSeq,
-            regEmpName: regEmpName
+            regEmpName: regEmpName,
+            readerUserSeq: readerUserSeq,
+            studyUserSeq: studyUserSeq
         }
 
         var fd = new FormData();

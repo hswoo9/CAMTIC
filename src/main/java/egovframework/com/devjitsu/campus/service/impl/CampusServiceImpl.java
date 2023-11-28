@@ -108,6 +108,11 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public List<Map<String, Object>> getStudyPropagUserList(Map<String, Object> params){
+        return campusRepository.getStudyPropagUserList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getOjtPlanList(Map<String, Object> params){
         return campusRepository.getOjtPlanList(params);
     }
@@ -555,6 +560,23 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public void setPropagDelete(Map<String, Object> params) {
+        campusRepository.setPropagDelete(params);
+    }
+
+    @Override
+    public void setResultPropagUpd(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> arr = gson.fromJson((String) params.get("arr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+        if(arr.size() > 0){
+            for(int i = 0; i < arr.size(); i++){
+                campusRepository.setResultPropagUpd(arr.get(i));
+            }
+        }
+        campusRepository.setStudyResultComplete(params);
+    }
+
+    @Override
     public void setOpenStudyInfoIns(Map<String, Object> params) {
         campusRepository.setOpenStudyInfoIns(params);
     }
@@ -898,6 +920,11 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public void setStudyInfoComplete(Map<String, Object> params) {
         campusRepository.setStudyInfoComplete(params);
+    }
+
+    @Override
+    public void setPropagInfoComplete(Map<String, Object> params) {
+        campusRepository.setPropagInfoComplete(params);
     }
 
     @Override
