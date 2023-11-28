@@ -530,7 +530,9 @@ var regExnp = {
                     $("#pay"+ regExnpDet.global.itemIndex).css("background-color", "#afafaf");
                 }
 
-                var itemIndex = regExnpDet.global.itemIndex;
+
+                var itemIndex = 0 ;
+                itemIndex = regExnpDet.global.itemIndex;
 
                 $("#eviType" + regExnpDet.global.itemIndex).kendoDropDownList({
                     dataTextField: "text",
@@ -545,14 +547,14 @@ var regExnp = {
                         { text: "기타", value: "6" },
                     ],
                     index: 0,
-                    change : function(){
-                        var value = $("#eviType" + itemIndex).val();
+                    change : function(e){
+                        var value = this.value();
 
                         if(value != ""){
                             if(value == "6"){
                                 alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
                             } else {
-                                regExnpDet.fn_popRegDet(value, itemIndex);
+                                regExnpDet.fn_popRegDet(value, e.sender.element[0].id.replace("eviType", ""));
                             }
                         }
                     }
@@ -781,7 +783,7 @@ var regExnp = {
 
         if(stat == "rev"){
             $("#payAppType").data("kendoRadioGroup").enable(false);
-            $("#appDe").data("kendoDatePicker").enable(false);
+            // $("#appDe").data("kendoDatePicker").enable(false);
             $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
             $("#exnpAddBtn").css("display", "");
             $("#titleStat").text("검토")

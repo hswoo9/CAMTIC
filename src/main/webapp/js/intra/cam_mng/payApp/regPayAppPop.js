@@ -275,9 +275,10 @@ var regPay = {
         if(ls.length > 0){
             $("#payDestTb").html("");
         }
-        var cnt = 0;
-        for(var i=0; i < ls.length; i++) {
+
+        for(var i= 0; i < ls.length; i++) {
             var item = ls[i];
+
 
             regPayDet.global.createHtmlStr = "";
 
@@ -392,7 +393,9 @@ var regPay = {
                 $("#pay"+ regPayDet.global.itemIndex).css("background-color", "#afafaf");
             }
 
-            var itemIndex = regPayDet.global.itemIndex;
+            var itemIndex = 0 ;
+            itemIndex = regPayDet.global.itemIndex;
+
             $("#eviType" + itemIndex).kendoDropDownList({
                 dataTextField: "text",
                 dataValueField: "value",
@@ -407,17 +410,17 @@ var regPay = {
                 ],
                 index: 0,
                 change : function (e){
-                    var value = $("#eviType" + itemIndex).val();
 
+                    var value = this.value();
                     // regPay.fn_save("user");
 
                     if(value != ""){
                         if(value == "6"){
                             alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
                         } else if(value == "3"){
-                            regPayDet.fn_paymentCardHistory(value, itemIndex);
+                            regPayDet.fn_paymentCardHistory(value, e.sender.element[0].id.replace("eviType", ""));
                         } else {
-                            regPayDet.fn_popRegDet(value, itemIndex);
+                            regPayDet.fn_popRegDet(value, e.sender.element[0].id.replace("eviType", ""));
                         }
                     }
                 }
@@ -434,9 +437,7 @@ var regPay = {
             $("#eviType" + itemIndex).data("kendoDropDownList").value(item.EVID_TYPE);
 
 
-
             regPayDet.global.itemIndex++;
-            cnt++;
         }
 
         if(ls.length > 0){
