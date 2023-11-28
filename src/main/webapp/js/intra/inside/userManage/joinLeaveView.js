@@ -27,12 +27,16 @@ var joinLeaveView = {
             success: function(data) {
                 console.log("js data : ",data);
                 const empTotalList = data.empTotalList;
+                const arr = joinLeaveView.transformedArr(data.arr);
+
                 console.log("empTotalList : "+ JSON.stringify(empTotalList));
+                console.log("ajax arr:",arr);
+
                 $("#countTable *").remove();
                 $("#mainTable *").remove();
                 joinLeaveView.global.test = empTotalList;
                 joinLeaveView.getTotalEmpCountTable1(empTotalList);
-                joinLeaveView.getTotalEmpCountTable2(empTotalList);
+                joinLeaveView.getTotalEmpCountTable2(empTotalList,arr);
             },
             error: function(error) {
                 console.error("Error fetching data:", error);
@@ -75,37 +79,37 @@ var joinLeaveView = {
     },
 
 
-    getTotalEmpCountTable2 : function(e){
-        var arr = e.arr;
+    getTotalEmpCountTable2 : function(empTotalList,arr){
+        console.log("getTotalEmpCountTable2 arr",arr);
         var html = "";
         html = '<table class="centerTable table table-bordered"><tbody>';
 
-        for (var i = 0; i < e.length; i += 7) {
+        for (var i = 0; i < empTotalList.length; i += 7) {
             html += '<tr style="background-color: #d8dce3;"><td>년 도 </td>';
             // 년도 반복 부분
-            for (var j = 0; j < 7 && (i + j) < e.length; j++) {
-                var currentYear = e[i + j].join_year;
+            for (var j = 0; j < 7 && (i + j) < empTotalList.length; j++) {
+                var currentYear = empTotalList[i + j].join_year;
                 html += '<td style="width: 200px;">' + currentYear + '년</td>';
             }
             html += '</tr>';
 
             // 섹션 반복 부분 (입사, 퇴사)
             var sections = [
-                { title: '입 사', dataKey: 'employees_joined', color: '#e1ecff' },
-                { title: '퇴 사', dataKey: 'employees_resigned', color: '#ffddd8' }
+                { title: '입 사', dataKey: 'employees_joined', source: 'empTotalList', color: '#e1ecff' },
+                { title: '퇴 사', dataKey: 'employees_resigned', source: 'empTotalList', color: '#ffddd8' }
             ];
 
             for (var s = 0; s < sections.length; s++) {
                 html += '<tr style="background-color: ' + sections[s].color + ';"><td>' + sections[s].title + '</td>';
 
-                for (var j = 0; j < 7 && (i + j) < e.length; j++) {
+                for (var j = 0; j < 7 && (i + j) < empTotalList.length; j++) {
                     var sectionTitle = sections[s].dataKey;
-                    var currentYear = e[i + j].join_year;
-                    var sectionValue = e[i + j][sections[s].dataKey];
+                    var currentYear = empTotalList[i + j].join_year;
+                    var sectionValue = empTotalList[i + j][sections[s].dataKey];
                         sectionValue = (sectionValue !== undefined) ? sectionValue : 0;
                     html +=
                         '<td style="width: 200px;">' +
-                        '<a href="javascript:void(0);" onclick="joinLeaveView.userViewPop(\'' + currentYear +'\', \'' + sectionTitle + '\');">' +
+                        '<a href="javascript:void(0);" onclick="joinLeaveView.userViewPop(\'' + currentYear +'\', \'' + sectionTitle + '\', \'' + arr + '\');">' +
                         '<span>' + sectionValue + '명</span>' +
                         '</a>' +
                         '</td>';
@@ -116,6 +120,34 @@ var joinLeaveView = {
         }
         html += '</tbody></table>';
         $("#mainTable").append(html);
+    },
+
+    transformedArr : function (e){
+        console.log("transformedArr input arr:", e.arr);
+        var transformedArr = [];
+
+        for (var i = 0; i < e.arr.length; i++) {
+            var item = e.arr[i];
+            console.log("arr item",item);
+
+            var divisionMatch = item.match(/DIVISION\s*IN\((\d+)\)/);
+            var divisionSubMatch = item.match(/DIVISION_SUB\s*IN\(([^)]+)\)/);
+
+            var division = divisionMatch ? divisionMatch[1] : "";
+            var divisionSub = divisionSubMatch ? divisionSubMatch[1].replace(/\s/g, '').split(',') : [];
+
+            // DIVISION_SUB가 없으면 "N"으로 표현
+            var divisionSubString = divisionSub.length > 0 ? '&' + divisionSub.join(',') : '&N';
+
+            var transformedItem = division + divisionSubString;
+
+            transformedArr.push(transformedItem);
+        }
+
+        var resultString = transformedArr.join('|');
+        console.log("Transformed arr:", resultString);
+
+        return resultString;
     },
 
     gridReload : function(){
@@ -143,8 +175,10 @@ var joinLeaveView = {
 
 
 
-    userViewPop : function(currentYear,sectionTitle) {
-        var url = "/Inside/pop/joinLeaveViewPop.do?currentYear="+currentYear+ "&sectionTitle=" +sectionTitle;
+    userViewPop : function(currentYear,sectionTitle,arr) {
+        var encodedArr = encodeURIComponent(arr);
+        console.log("userViewPop 함수 인코딩arr:"+encodedArr);
+        var url = "/Inside/pop/joinLeaveViewPop.do?currentYear="+currentYear+ "&sectionTitle=" +sectionTitle+ "&encodedArr="+encodedArr;
         var name = "joinLeaveViewPop";
         var option = "width=1000, height=420, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         window.open(url, name, option);

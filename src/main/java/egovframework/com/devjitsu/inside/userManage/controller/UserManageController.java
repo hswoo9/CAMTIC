@@ -1842,7 +1842,7 @@ public class UserManageController {
     public String getTotalEmpCount(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> empTotalList = userManageService.getTotalEmpCount(params);
         System.out.println("params : "+ params);
-        empTotalList.add(params);
+        model.addAttribute("arr",params);
         model.addAttribute("empTotalList", empTotalList);
         System.out.println("empTotalList: " + empTotalList);
         return "jsonView";
@@ -1853,18 +1853,22 @@ public class UserManageController {
         Map<String, Object> map = new HashMap<>();
         Object joinYear = params.get("joinYear");
         Object sectionTitle = params.get("sectionTitle");
+        Object arr = params.get("arr");
         System.out.println("params : " + params);
         System.out.println("joinYear: " + joinYear);
         System.out.println("sectionTitle: " + sectionTitle);
+        System.out.println("arr: "+arr);
 
         if (joinYear != null && sectionTitle != null) {
             if ("employees_resigned".equals(sectionTitle)) {
                 map.put("resignDay", joinYear);
+                map.put("arr",arr);
                 System.out.println("****map**** : " + map);
                 List<Map<String, Object>> list = userManageService.getJoinResignEmpList(map);
                 model.addAttribute("list", list);
             } else if ("employees_joined".equals(sectionTitle)) {
                 map.put("joinYear", joinYear);
+                map.put("arr",arr);
                 List<Map<String, Object>> list = userManageService.getJoinResignEmpList(map);
                 model.addAttribute("list", list);
             } else {

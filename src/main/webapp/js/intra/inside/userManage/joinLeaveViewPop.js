@@ -7,15 +7,20 @@ var joinLeaveViewPop = {
     fn_defaultScript : function (){
         var joinYear = $("#joinYear").val();
         var sectionTitle = $("#sectionTitle").val();
+        var encodedArr = $("#encodedArr").val();
+        var arr = decodeURIComponent(encodedArr);
 
         console.log("Js.Join Year: " + joinYear);
         console.log("Js.Section Title: " + sectionTitle);
+        console.log("Js.arr: ",arr);
+
 
         var data = {};
 
         if (sectionTitle === "employees_joined" || sectionTitle === "employees_resigned") {
             data.joinYear = joinYear;
             data.sectionTitle = sectionTitle;
+            data.arr = arr;
 
             console.log("data :",data);
 
@@ -90,17 +95,8 @@ var joinLeaveViewPop = {
 
                     }
                 }, {
-                    field: "JOIN_DAY",
+                    field: "JOIN_DAY2",
                     title: "입사일",
-                    template: function (dataItem) {
-                        var joinDay = new Date(dataItem.JOIN_DAY);
-
-                        var formattedJoinDay = joinDay.getFullYear() + '-' +
-                            ('0' + (joinDay.getMonth() + 1)).slice(-2) + '-' +
-                            ('0' + joinDay.getDate()).slice(-2);
-
-                        return formattedJoinDay;
-                    }
                 }, {
                     field: "RESIGN_DAY",
                     title: "퇴사일"

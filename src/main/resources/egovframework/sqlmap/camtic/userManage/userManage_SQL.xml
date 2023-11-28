@@ -2956,8 +2956,20 @@
             CAM_HR.DJ_EMP_INFO AS HEI
                 LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE
-            YEAR(HEI.JOIN_DAY) = #{joinYear}
-           OR YEAR(HEI.RESIGN_DAY) = #{resignDay}
+        <choose>
+        <when test='joinYear != null and joinYear != ""'>
+            YEAR(HEI.JOIN_DAY) = #{joinYear} AND WORK_STATUS_CODE = 'Y'
+        </when>
+        <when test='resignDay != null and resignDay != ""'>
+            YEAR(HEI.RESIGN_DAY) = #{resignDay}
+        </when>
+        </choose>
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator=" OR " open="(" close=")">
+                ${item}
+            </foreach>
+        </if>
     </select>
 
     <insert id="userDegreeInfoInsert" parameterType="map">
