@@ -64,6 +64,7 @@
           </dl> -->
           <div class="con">
 
+            <c:if test="${categoryId ne 'photo'}" >
             <div style="border-bottom: 1px solid #ccc; padding: 5px 0 5px 0; text-align: right; word-break:break-all; height: 55px; display: ${fn:length(fileMap) ne 0 ? 'block' : 'none'};">
               <c:choose>
                 <c:when test="${fn:length(fileMap) ne 0}">
@@ -93,6 +94,8 @@
                 </c:otherwise>
               </c:choose>
             </div>
+            </c:if>
+
 
             <div class="txt_zone pr_view_content" style="line-height:25px;">
               <c:if test="${categoryId eq 'photo'}" >
