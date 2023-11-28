@@ -193,9 +193,9 @@ var hwpInit = {
         hwpDocCtrl.putFieldText('REG_DATE', rs.REG_DATE);
         hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
 
-        hwpDocCtrl.putFieldText('APP_TITLE', ls[0].CRM_NM);
+        hwpDocCtrl.putFieldText('APP_TITLE', rs.APP_TITLE);
         hwpDocCtrl.putFieldText('APP_CONT', rs.APP_CONT);
-        hwpDocCtrl.putFieldText('ACC_NO', "("+ls[0].CRM_BNK_NM+") "+ls[0].CRM_ACC_NO+" "+ls[0].CRM_ACC_HOLDER);
+        hwpDocCtrl.putFieldText('ACC_NO', "("+rs.BNK_NM+") "+rs.ACC_NO+" "+rs.ACC_NM);
         let budgetArr = ls[0].BUDGET_NM.split(" / ");
         hwpDocCtrl.putFieldText('BUDGET_NM1', budgetArr[0]);
         hwpDocCtrl.putFieldText('BUDGET_NM2', budgetArr[1]);

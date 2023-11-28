@@ -25,12 +25,12 @@ const regPayAtt = {
         
         if(eviType == "1"){
             eviText = "세금계산서";
-            if(attInfo.FILE1_NO != ""){
-                $("#file1Sn").val(attInfo.FILE1_NO);
-                $("#file1Name").text(attInfo.FILE1_NAME);
-                $("#file1Name").css("cursor", "pointer");
-                $("#file1Name").attr("onclick", "fileDown('" + attInfo.FILE1_PATH + "', '" + attInfo.FILE1_NAME + "')");
-            }
+            // if(attInfo.FILE1_NO != ""){
+            //     $("#file1Sn").val(attInfo.FILE1_NO);
+            //     $("#file1Name").text(attInfo.FILE1_NAME);
+            //     $("#file1Name").css("cursor", "pointer");
+            //     $("#file1Name").attr("onclick", "fileDown('" + attInfo.FILE1_PATH + "', '" + attInfo.FILE1_NAME + "')");
+            // }
             if(attInfo.FILE2_NO != ""){
                 $("#file2Sn").val(attInfo.FILE2_NO);
                 $("#file2Name").text(attInfo.FILE2_NAME);
@@ -57,12 +57,12 @@ const regPayAtt = {
             }
         }else if(eviType == "2"){
             eviText = "계산서";
-            if(attInfo.FILE1_NO != ""){
-                $("#file1Sn").val(attInfo.FILE1_NO);
-                $("#file1Name").text(attInfo.FILE1_NAME);
-                $("#file1Name").css("cursor", "pointer");
-                $("#file1Name").attr("onclick", "fileDown('" + attInfo.FILE1_PATH + "', '" + attInfo.FILE1_NAME + "')");
-            }
+            // if(attInfo.FILE1_NO != ""){
+            //     $("#file1Sn").val(attInfo.FILE1_NO);
+            //     $("#file1Name").text(attInfo.FILE1_NAME);
+            //     $("#file1Name").css("cursor", "pointer");
+            //     $("#file1Name").attr("onclick", "fileDown('" + attInfo.FILE1_PATH + "', '" + attInfo.FILE1_NAME + "')");
+            // }
             if(attInfo.FILE2_NO != ""){
                 $("#file2Sn").val(attInfo.FILE2_NO);
                 $("#file2Name").text(attInfo.FILE2_NAME);
@@ -89,12 +89,12 @@ const regPayAtt = {
             }
         }else if(eviType == "3"){
             eviText = "신용카드";
-            if(attInfo.FILE6_NO != ""){
-                $("#file6Sn").val(attInfo.FILE6_NO);
-                $("#file6Name").text(attInfo.FILE6_NAME);
-                $("#file6Name").css("cursor", "pointer");
-                $("#file6Name").attr("onclick", "fileDown('" + attInfo.FILE6_PATH + "', '" + attInfo.FILE6_NAME + "')");
-            }
+            // if(attInfo.FILE6_NO != ""){
+            //     $("#file6Sn").val(attInfo.FILE6_NO);
+            //     $("#file6Name").text(attInfo.FILE6_NAME);
+            //     $("#file6Name").css("cursor", "pointer");
+            //     $("#file6Name").attr("onclick", "fileDown('" + attInfo.FILE6_PATH + "', '" + attInfo.FILE6_NAME + "')");
+            // }
             if(attInfo.FILE7_NO != ""){
                 $("#file7Sn").val(attInfo.FILE7_NO);
                 $("#file7Name").text(attInfo.FILE7_NAME);
@@ -157,9 +157,9 @@ const regPayAtt = {
         html += '<thead>';
         html += '<tr>';
         if(eviType == "1" || eviType == "2"){
-            html += '   <th scope="row" class="text-center th-color">';
-            html += '       <span class="red-star"></span><b>세금계산서/계산서</b>';
-            html += '   </th>';
+            // html += '   <th scope="row" class="text-center th-color">';
+            // html += '       <span class="red-star"></span><b>세금계산서/계산서</b>';
+            // html += '   </th>';
             html += '   <th scope="row" class="text-center th-color">';
             html += '       <span class="red-star"></span><b>거래명세서</b>';
             html += '   </th>';
@@ -173,9 +173,9 @@ const regPayAtt = {
             html += '       <span class="red-star"></span><b>납품사진</b>';
             html += '   </th>';
         }else if(eviType == "3"){
-            html += '   <th scope="row" class="text-center th-color">';
-            html += '       <span class="red-star"></span><b>매출전표</b>';
-            html += '   </th>';
+            // html += '   <th scope="row" class="text-center th-color">';
+            // html += '       <span class="red-star"></span><b>매출전표</b>';
+            // html += '   </th>';
             html += '   <th scope="row" class="text-center th-color">';
             html += '       <span class="red-star"></span><b>거래명세서</b>';
             html += '   </th>';
@@ -194,11 +194,11 @@ const regPayAtt = {
         html += '<tr>';
 
         if(eviType == "1" || eviType == "2"){
-            html += '<td style="text-align: center">' +
-                '<label for="file1" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file1" name="file1" onchange="regPayAtt.fileChange(this)" style="display: none">' +
-                '<p style="margin-bottom: 0px; margin-top: 3px" id="file1Name"></p>' +
-                '</td>';
+            // html += '<td style="text-align: center">' +
+            //     '<label for="file1" class="k-button k-button-solid-base">파일첨부</label>' +
+            //     '<input type="file" id="file1" name="file1" onchange="regPayAtt.fileChange(this)" style="display: none">' +
+            //     '<p style="margin-bottom: 0px; margin-top: 3px" id="file1Name"></p>' +
+            //     '</td>';
             html += '<td style="text-align: center">' +
                 '<label for="file2" class="k-button k-button-solid-base">파일첨부</label>' +
                 '<input type="file" id="file2" name="file2" onchange="regPayAtt.fileChange(this)" style="display: none">' +
@@ -220,11 +220,11 @@ const regPayAtt = {
                 '<p style="margin-bottom: 0px; margin-top: 3px" id="file5Name"></p>' +
                 '</td>';
         }else if(eviType == "3"){
-            html += '<td style="text-align: center">' +
-                '<label for="file6" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file6" name="file6" onchange="regPayAtt.fileChange(this)" style="display: none">' +
-                '<p style="margin-bottom: 0px; margin-top: 3px" id="file6Name"></p>' +
-                '</td>';
+            // html += '<td style="text-align: center">' +
+            //     '<label for="file6" class="k-button k-button-solid-base">파일첨부</label>' +
+            //     '<input type="file" id="file6" name="file6" onchange="regPayAtt.fileChange(this)" style="display: none">' +
+            //     '<p style="margin-bottom: 0px; margin-top: 3px" id="file6Name"></p>' +
+            //     '</td>';
             html += '<td style="text-align: center">' +
                 '<label for="file7" class="k-button k-button-solid-base">파일첨부</label>' +
                 '<input type="file" id="file7" name="file7" onchange="regPayAtt.fileChange(this)" style="display: none">' +
@@ -314,13 +314,13 @@ const regPayAtt = {
 
         if(eviType == "1" || eviType == "2"){
 
-            if($("#file1")[0].files.length == 1){
-                formData.append("file1", $("#file1")[0].files[0]);
-            }else{
-                if($("#file1Name").text() == ""){
-                    alert("세금계산서/계산서 첨부파일이 등록되지 않았습니다"); return;
-                }
-            }
+            // if($("#file1")[0].files.length == 1){
+            //     formData.append("file1", $("#file1")[0].files[0]);
+            // }else{
+            //     if($("#file1Name").text() == ""){
+            //         alert("세금계산서/계산서 첨부파일이 등록되지 않았습니다"); return;
+            //     }
+            // }
 
             if($("#file2")[0].files.length == 1){
                 formData.append("file2", $("#file2")[0].files[0]);
@@ -356,13 +356,13 @@ const regPayAtt = {
 
         }else if(eviType == "3"){
 
-            if($("#file6")[0].files.length == 1){
-                formData.append("file6", $("#file6")[0].files[0]);
-            }else{
-                if($("#file6Name").text() == ""){
-                    alert("매출전표 첨부파일이 등록되지 않았습니다"); return;
-                }
-            }
+            // if($("#file6")[0].files.length == 1){
+            //     formData.append("file6", $("#file6")[0].files[0]);
+            // }else{
+            //     if($("#file6Name").text() == ""){
+            //         alert("매출전표 첨부파일이 등록되지 않았습니다"); return;
+            //     }
+            // }
 
             if($("#file7")[0].files.length == 1){
                 formData.append("file7", $("#file7")[0].files[0]);

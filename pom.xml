@@ -389,7 +389,7 @@
     <build>
         <defaultGoal>install</defaultGoal>
         <directory>${basedir}/target</directory>
-        <finalName>sht_webapp</finalName>
+        <finalName>dj_camtic</finalName>
         <pluginManagement>
             <plugins>
                 <plugin>

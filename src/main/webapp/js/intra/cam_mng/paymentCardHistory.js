@@ -63,12 +63,6 @@ var payCardHist = {
                     template : "<input type='checkbox' id='cardPk#=AUTH_NO#' name='cardPk' class='cardPk' value='#=AUTH_NO#'/>",
                     width: 50
                 }, {
-                    title: "구분",
-                    width: 50,
-                    template: function (){
-                        return "승인"
-                    }
-                }, {
                     title: "승인일시",
                     width: 130,
                     template : function (e){
@@ -103,30 +97,45 @@ var payCardHist = {
                     }
                 }, {
                     title: "금액",
-                    width: 80,
+                    width: 120,
                     template : function(e){
                         return '<div style="text-align: right;">' + comma(e.AUTH_AMT) + '</div>';
-                    }
-                }, {
-                    title: "공급가액",
-                    width: 80,
-                    template : function(e){
-                        return '<div style="text-align: right;">' + comma(e.SUPP_PRICE) + '</div>';
-                    }
-                }, {
-                    title: "부가세",
-                    width: 60,
-                    template : function(e){
-                        return '<div style="text-align: right;">' + comma(e.SURTAX) + '</div>';
-                    }
-                }, {
-                    title: "결의상태",
-                    width: 70,
-                    template : function(e){
-                        return "미결의"
                     }
                 }
             ]
         }).data("kendoGrid");
+    },
+
+    fn_selectCard : function (){
+        var grid = $("#mainGrid").data("kendoGrid");
+        var cnt = 0;
+        var index = $("#index").val();
+
+        var data = {}
+        grid.tbody.find("tr").each(function(){
+
+            if($(this).find("input")[0].checked){
+                data = grid.dataItem($(this));
+                cnt++;
+            }
+        })
+
+        console.log(data);
+
+        if(cnt > 1){
+            alert("여러개의 항목이 선택되었습니다. 확인해주세요.");
+            return;
+        }
+
+        opener.parent.$("#crmNm" + index).val(data.MER_NM);
+        opener.parent.$("#trDe" + index).val(data.AUTH_DD.substring(0,4) + "-" + data.AUTH_DD.substring(4,6) + "-" + data.AUTH_DD.substring(6,8));
+        opener.parent.$("#trCd" + index).val(data.TR_CD);
+        opener.parent.$("#totCost" + index).val(comma(data.AUTH_AMT));
+        opener.parent.$("#supCost" + index).val(comma(data.SUPP_PRICE));
+        opener.parent.$("#vatCost" + index).val(comma(data.SURTAX));
+        opener.parent.$("#cardNo" + index).val(data.CARD_NO.substring(0,4) + "-" + data.CARD_NO.substring(4,8) + "-" + data.CARD_NO.substring(8,12) + "-" + data.CARD_NO.substring(12,16));
+        opener.parent.$("#card" + index).val(data.TR_NM);
+
+        window.close();
     }
 }

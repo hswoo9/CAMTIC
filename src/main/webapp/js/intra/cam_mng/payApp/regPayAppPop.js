@@ -171,6 +171,8 @@ var regPay = {
     },
 
     payAppDrafting: function(){
+
+        regPay.fn_save("", "drafting");
         let checked = 0;
         var data = {
             payAppSn : $("#payAppSn").val()
@@ -189,13 +191,13 @@ var regPay = {
                 continue;
             }
             if(eviType == "1" || eviType == "2"){
-                if(item.FILE1 == null || item.FILE2 == null || item.FILE3 == null || item.FILE4 == null || item.FILE5 == null){
+                if(item.FILE2 == null || item.FILE3 == null || item.FILE4 == null || item.FILE5 == null){
                     alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
                     checked = 1;
                     break;
                 }
             }else if(eviType == "3"){
-                if(item.FILE6 == null || item.FILE7 == null || item.FILE8 == null || item.FILE9 == null){
+                if(item.FILE7 == null || item.FILE8 == null || item.FILE9 == null){
                     alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
                     checked = 1;
                     break;
@@ -285,7 +287,8 @@ var regPay = {
                 '       <input type="text" id="eviType' + regPayDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
                 '   </td>' +
                 '   <td>' +
-                '       <input type="text" id="crmNm' + regPayDet.global.itemIndex + '" value="'+item.CRM_NM+'" class="crmNm">' +
+                '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regPayDet.fn_popRegDet(1, '+regPayDet.global.itemIndex+')"></i>' +
+                '       <input type="text" style="width: 70%" id="crmNm' + regPayDet.global.itemIndex + '" value="'+item.CRM_NM+'" class="crmNm">' +
                 '       <input type="hidden" id="trCd' + regPayDet.global.itemIndex + '" value="'+item.TR_CD+'" class="trCd">' +
                 '   </td>' +
                 '   <td>' +
@@ -310,7 +313,8 @@ var regPay = {
                 '       <input type="text" id="vatCost' + regPayDet.global.itemIndex + '" value="'+regPay.comma(item.VAT_COST)+'" class="vatCost" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                 '   </td>' +
                 '   <td>' +
-                '       <input type="text" disabled id="card' + regPayDet.global.itemIndex + '" value="'+item.CARD+'" class="card">' +
+                '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regPayDet.fn_popRegDet(3, '+regPayDet.global.itemIndex+')"></i>' +
+                '       <input type="text" style="width: 70%;" disabled id="card' + regPayDet.global.itemIndex + '" value="'+item.CARD+'" class="card">' +
                 '       <input type="hidden" id="cardNo' + regPayDet.global.itemIndex + '" value="'+item.CARD_NO+'" class="cardNo">' +
                 '   </td>' +
                 '   <td>' +
@@ -341,9 +345,9 @@ var regPay = {
                 if($("#status").val() == "rev" || $("#status").val() == "in" || $("#status").val() == "re" || $("#status").val() == "alt"){
                     if($("#auth").val() != "user"){
                         if(item.EXNP_SAVE == "Y"){
-                            regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" disabled id="revertBtn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" onclick="regPayDet.fn_revertDet(this)">반려</button>';
+                            // regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" disabled id="revertBtn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" onclick="regPayDet.fn_revertDet(this)">반려</button>';
                         } else {
-                            regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="revertBtn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" onclick="regPayDet.fn_revertDet(this)">반려</button>';
+                            // regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="revertBtn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" onclick="regPayDet.fn_revertDet(this)">반려</button>';
                         }
                     } else if(rs.DOC_STATUS == "0"){
                         regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(' + regPayDet.global.itemIndex + ')">삭제</button>';
@@ -496,7 +500,7 @@ var regPay = {
         }
     },
 
-    fn_save : function (auth){
+    fn_save : function (auth, type){
         var parameters = {
             payAppType : $("#payAppType").data("kendoRadioGroup").value(),
             appDe : $("#appDe").val(),
@@ -607,24 +611,26 @@ var regPay = {
             dataType : "json",
             success : function(rs){
                 if(rs.code == 200){
-                    let status = "";
-                    if($("#payAppType").data("kendoRadioGroup").value() == 1){
-                        status = "rev";
-                    }else if($("#payAppType").data("kendoRadioGroup").value() == 2){
-                        status = "in";
-                    }else if($("#payAppType").data("kendoRadioGroup").value() == 3){
-                        status = "re";
-                    }else{
-                        status = "alt";
-                    }
+                    if(type != "drafting"){
+                        let status = "";
+                        if($("#payAppType").data("kendoRadioGroup").value() == 1){
+                            status = "rev";
+                        }else if($("#payAppType").data("kendoRadioGroup").value() == 2){
+                            status = "in";
+                        }else if($("#payAppType").data("kendoRadioGroup").value() == 3){
+                            status = "re";
+                        }else{
+                            status = "alt";
+                        }
 
-                    var url = "/payApp/pop/regPayAppPop.do?payAppSn=" + rs.params.payAppSn + "&status=" + status;
-                    if(auth != "" && auth != null && auth != undefined){
-                        url += "&auth=" + auth;
-                    }
-                    location.href = url;
+                        var url = "/payApp/pop/regPayAppPop.do?payAppSn=" + rs.params.payAppSn + "&status=" + status;
+                        if(auth != "" && auth != null && auth != undefined){
+                            url += "&auth=" + auth;
+                        }
+                        location.href = url;
 
-                    opener.parent.paymentList.gridReload();
+                        opener.parent.paymentList.gridReload();
+                    }
                 }
             }
         });
@@ -799,11 +805,11 @@ var regPayDet = {
             '       <input type="hidden" id="budgetSn' + regPayDet.global.itemIndex + '" value="" class="budgetSn"/>' +
             '   </td>' +
             '   <td>' +
-            '       <input type="hidden" id="payDestSn' + regPayDet.global.itemIndex + '" name="payDestSn" class="payDestSn">' +
-            '       <input type="text" id="eviType' + regPayDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
+            '       <input type="hidden" style="width: 70%" id="payDestSn' + regPayDet.global.itemIndex + '" name="payDestSn" class="payDestSn">' +            '       <input type="text" id="eviType' + regPayDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
             '   </td>' +
             '   <td>' +
-            '       <input type="text" id="crmNm' + regPayDet.global.itemIndex + '" class="crmNm">' +
+            '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regPayDet.fn_popRegDet(1, '+regPayDet.global.itemIndex+')"></i>' +
+            '       <input type="text" style="width: 70%" id="crmNm' + regPayDet.global.itemIndex + '" class="crmNm">' +
             '       <input type="hidden" id="trCd' + regPayDet.global.itemIndex + '" class="trCd">' +
             '   </td>' +
             '   <td>' +
@@ -828,7 +834,8 @@ var regPayDet = {
             '       <input type="text" id="vatCost' + regPayDet.global.itemIndex + '" value="0" class="vatCost" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
             '   </td>' +
             '   <td>' +
-            '       <input type="text" disabled id="card' + regPayDet.global.itemIndex + '" class="card">' +
+            '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regPayDet.fn_popRegDet(3, '+regPayDet.global.itemIndex+')"></i>' +
+            '       <input type="text" style="width: 70%" disabled id="card' + regPayDet.global.itemIndex + '" class="card">' +
             '       <input type="hidden" id="cardNo' + regPayDet.global.itemIndex + '" class="cardNo">' +
             '   </td>' +
             '   <td>' +
