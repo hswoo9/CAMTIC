@@ -38,6 +38,14 @@ var regPay = {
         $("#payAppType").data("kendoRadioGroup").value(1);
         $("#payAppStat").data("kendoRadioGroup").value("N")
 
+        $("#payAppType").data("kendoRadioGroup").bind("change", function (e){
+            if($("#payAppType").data("kendoRadioGroup").value() == "2"){
+                $("#trBank").text("입금계좌");
+            } else {
+                $("#trBank").text("출금계좌");
+            }
+        })
+
         if($("#payAppSn").val() != ""){
             regPay.setData();
 
@@ -238,7 +246,18 @@ var regPay = {
 
         regPay.payAppBtnSet(rs);
 
+        $("#docStatus").val(rs.DOC_STATUS)
+        if(rs.DOC_STATUS != 0){
+            $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
+        }
+
         $("#payAppType").data("kendoRadioGroup").value(rs.PAY_APP_TYPE)
+
+        if(rs.PAY_APP_TYPE == "2"){
+            $("#trBank").text("입금계좌");
+        } else {
+            $("#trBank").text("출금계좌");
+        }
         $("#appDe").val(rs.APP_DE)
         $("#pjtNm").val(rs.PJT_NM)
         $("#pjtSn").val(rs.PJT_SN)
@@ -256,6 +275,7 @@ var regPay = {
         if(ls.length > 0){
             $("#payDestTb").html("");
         }
+        var cnt = 0;
         for(var i=0; i < ls.length; i++) {
             var item = ls[i];
 
@@ -389,7 +409,7 @@ var regPay = {
                 change : function (e){
                     var value = $("#eviType" + itemIndex).val();
 
-                    regPay.fn_save("user");
+                    // regPay.fn_save("user");
 
                     if(value != ""){
                         if(value == "6"){
@@ -416,7 +436,7 @@ var regPay = {
 
 
             regPayDet.global.itemIndex++;
-
+            cnt++;
         }
 
         if(ls.length > 0){
@@ -449,7 +469,6 @@ var regPay = {
             $("#payAppType").data("kendoRadioGroup").enable(false);
             $("#payAppStat").data("kendoRadioGroup").enable(false);
             $("#appDe").data("kendoDatePicker").enable(false);
-            $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
             // $("#addBtn").css("display", "none");
             // $("#exnpAddBtn").css("display", "");
         }
@@ -756,7 +775,7 @@ var regPayDet = {
                 var value = $("#eviType0").val();
                 var itemIndex = 0;
 
-                regPay.fn_save("user");
+                // regPay.fn_save("user");
 
                 if(value != ""){
                     if(value == "6"){
@@ -864,7 +883,7 @@ var regPayDet = {
         $("#payDestTb").append(regPayDet.global.createHtmlStr);
 
         var itemIndex = regPayDet.global.itemIndex;
-        $("#eviType" + regPayDet.global.itemIndex).kendoDropDownList({
+        $("#eviType" + itemIndex).kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -880,7 +899,7 @@ var regPayDet = {
             change : function (e){
                 var value = $("#eviType" + itemIndex).val();
 
-                regPay.fn_save("user");
+                // regPay.fn_save("user");
 
                 if(value != ""){
                     if(value == "6"){

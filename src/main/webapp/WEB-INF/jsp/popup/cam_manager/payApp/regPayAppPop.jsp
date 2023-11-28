@@ -103,7 +103,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th rowspan="3" scope="row" class="text-center th-color">출금계좌</th>
+                    <th rowspan="3" scope="row" class="text-center th-color" id="trBank">출금계좌</th>
                     <th style="width: 10%">계좌명</th>
                     <td colspan="3">
                         <input type="text" id="accNm" disabled style="width: 50%;">
