@@ -275,7 +275,7 @@
       $("#textMod").text("첨부 이미지");
       $("#fileUpload span").text("이미지 첨부");
     }else if(categoryId == "sns"){
-      $("#textMod").text("표지(340 x 255)")
+      $("#textMod").text("표지(255 x 255)")
     }
 
     if(categoryId != 'video'){

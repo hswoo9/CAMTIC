@@ -65,6 +65,10 @@ public class PostResponse {
     private String RECRUIT_INFO_SN;
     private String RECRUIT_TITLE;
     private String REG_DT;
+    private String START_DT;
+    private String END_DT;
+    private String RECRUIT_STATUS_TEXT;
+    private String RECRUIT_STATUS_SN;
     private int RECRUIT_VIEW_COUNT;
 
     public String getBOARD_NAME() {
@@ -206,7 +210,10 @@ public class PostResponse {
     public String getRECRUIT_INFO_SN() { return RECRUIT_INFO_SN; }
     public String getRECRUIT_TITLE() { return RECRUIT_TITLE; }
     public String getREG_DT() { return REG_DT; }
-
+    public String getSTART_DT() { return START_DT; }
+    public String getEND_DT() { return END_DT; }
+    public String getRECRUIT_STATUS_TEXT() { return RECRUIT_STATUS_TEXT; }
+    public String getRECRUIT_STATUS_SN() { return RECRUIT_STATUS_SN; }
     public int getRECRUIT_VIEW_COUNT() {
         return RECRUIT_VIEW_COUNT;
     }
