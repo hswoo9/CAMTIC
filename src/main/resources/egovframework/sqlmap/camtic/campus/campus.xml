@@ -1433,6 +1433,7 @@
                 START_TIME,
                 END_TIME,
                 EDU_TIME,
+                EDU_MNG_TIME,
                 LOCATION,
                 SAVE_TYPE,
                 PROPAG_CONTENT,
@@ -1446,6 +1447,7 @@
                 #{startTime},
                 #{endTime},
                 CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600),
+                (CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600))*1.5,
                 #{location},
                 #{saveType},
                 #{propagContent},
@@ -1505,6 +1507,17 @@
 
     <update id="setResultPropagUpd" parameterType="map">
         /* setResultPropagUpd */
+        UPDATE
+            CAMPUS.DJ_STUDY_PROPAG A
+        SET
+            EDU_TIME = #{user}
+            , EDU_MNG_TIME = #{mng}
+        WHERE
+            STUDY_PROPAG_SN = #{studyPropagSn}
+    </update>
+
+    <update id="setResultPropagUserUpd" parameterType="map">
+        /* setResultPropagUserUpd */
         UPDATE
             CAMPUS.DJ_PROPAG_USER A
         SET

@@ -315,7 +315,9 @@
                 success :function(rs){
                     if(rs.code == 200){
                         alert("승인되었습니다.");
-                        window.cleos();
+                        opener.location.reload();
+                        opener.opener.gridReload();
+                        window.close();
                     }
                 }
             });

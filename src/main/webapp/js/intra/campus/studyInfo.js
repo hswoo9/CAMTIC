@@ -228,3 +228,7 @@ var studyInfo = {
         window.open(url, name, option);
     }
 }
+
+function gridReload(){
+    studyInfo.mainGrid();
+}

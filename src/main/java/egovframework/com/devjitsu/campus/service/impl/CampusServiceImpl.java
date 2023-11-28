@@ -571,6 +571,7 @@ public class CampusServiceImpl implements CampusService {
         if(arr.size() > 0){
             for(int i = 0; i < arr.size(); i++){
                 campusRepository.setResultPropagUpd(arr.get(i));
+                campusRepository.setResultPropagUserUpd(arr.get(i));
             }
         }
         campusRepository.setStudyResultComplete(params);

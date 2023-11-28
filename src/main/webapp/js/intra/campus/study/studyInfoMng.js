@@ -210,3 +210,7 @@ var studyMng = {
         window.open(url, name, option);
     }
 }
+
+function gridReload(){
+    studyMng.mainGrid();
+}
