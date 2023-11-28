@@ -152,7 +152,7 @@
                 </span>
             </c:if>
             <div class="mt-20">
-                <div class="text-right">
+                <div class="text-right" style="display: none;">
                     <button type="button" id="addBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regExnpDet.addRow()">
                         <span class="k-button-text">추가</span>
                     </button>
@@ -268,6 +268,13 @@
 <script type="text/javascript">
     regExnpDet.fn_defaultScript();
     regExnp.fn_defaultScript();
+
+    var aCnt = 0
+    $(".eviType").each(function(){
+        $("#eviType" + aCnt).data("kendoDropDownList").enable(false);
+        aCnt++
+    });
+
 
     if($("#stat").val() == "v"){
         $("input[type='text'], input[type='radio']").prop("disabled", true);
