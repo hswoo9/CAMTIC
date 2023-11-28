@@ -56,7 +56,8 @@ var joinLeaveViewPop = {
             columns: [
                 {
                     title: "순번",
-                    template: "<span></span>"
+                    template: "<span></span>",
+                    width: 60
                 },{
                     field: "EMP_NAME_KR",
                     title: "성명",
@@ -72,7 +73,42 @@ var joinLeaveViewPop = {
                 },{
                     field: "POSITION_NAME",
                     title: "직급",
-                }, {
+                },
+                {
+                    field: "GENDER_CODE",
+                    title: "성별",
+                    template: function (e){
+                    if (e.GENDER_CODE == 'M'){
+                        return '남자';
+                    }else{
+                        return '여자';
+                    }
+                }
+                },
+                {
+                    field: "",
+                    title: "유형",
+                    template: function (e){
+                        if(e.DIVISION == 0){
+                            return '정규직원';
+                        }else if(e.DIVISION == 4 && e.DIVISION_SUB == 1){
+                            return '계약직원';
+                        }else if(e.DIVISION == 4 && e.DIVISION_SUB == 2){
+                            return '인턴사원';
+                        }else if(e.DIVISION == 4 && e.DIVISION_SUB == 3){
+                            return '시설/환경';
+                        }else if(e.DIVISION == 3){
+                            return '단기직원';
+                        }else if(e.DIVISION == 1 && e.DIVISION_SUB == 6){
+                            return '위촉직원';
+                        }else if(e.DIVISION ==2){
+                            return '연수생/학생연구원';
+                        }else{
+                            return "-";
+                        }
+                    }
+                },
+                {
                     field: "",
                     title: "나이",
                     template : function(e){
