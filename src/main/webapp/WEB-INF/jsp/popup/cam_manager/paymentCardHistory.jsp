@@ -35,18 +35,23 @@
                 </span>
         </h3>
         <div id="purcBtnDiv" class="btn-st popButton">
-            <button type="button" class="k-button k-button-solid-error" onclick="window.close()">반영</button>
+            <button type="button" class="k-button k-button-solid-info" onclick="window.close()">반영</button>
             <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
         </div>
     </div>
 
     <div class="" style="padding: 10px">
-        <span>
-            <input type="text" id="searchValue" style="width: 20%;">
-            <button type="button" style="font-size: 12px" class="k-button k-button-sm k-button-solid-base" id="cardSelBtn" onclick="payCardHist.fn_search('${params.type}')">선택</button>
-            <button type="button" style="font-size: 12px" class="k-button k-button-sm k-button-solid-base" id="bnkSelBtn" onclick="payCardHist.fn_search('${params.type}')">검색</button>
+        <span style="margin-right: 10px">
+            <b style="font-size: 12px">승인일시</b>
+            <input id="startDt" style="width: 150px"> ~ <input id="endDt" style="width: 150px">
         </span>
-        <div id="cardMainGrid" style="margin-top:12px"></div>
+        <span>
+            <b style="font-size: 12px">카드정보</b>
+            <input id="searchValue" style="width: 20%;">
+            <button type="button" style="font-size: 12px" class="k-button k-button-sm k-button-solid-base" id="cardSelBtn" onclick="payCardHist.gridReload()">선택</button>
+            <button type="button" style="font-size: 12px" class="k-button k-button-sm k-button-solid-base" id="bnkSelBtn" onkeypress="if(window.event.keyCode==13){payCardHist.gridReload()}">검색</button>
+        </span>
+        <div id="mainGrid" style="margin-top:12px"></div>
 
 
     </div>

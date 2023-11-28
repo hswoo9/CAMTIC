@@ -8,6 +8,19 @@
         SELECT * FROM CAM_HR.ERP_HIST_CORPCD_USE A
         LEFT JOIN CAM_MNG.DJ_CARD_INFO B
         ON A.CARD_NO = REPLACE(B.CARD_BA_NB, '-', '')
+        WHERE 1=1
+        <if test='startDt != null and !"".equals(startDt)'>
+        <![CDATA[
+            AND
+                DATE_FORMAT(#{startDt}, '%Y%m%d') <= A.AUTH_DD
+            AND
+                DATE_FORMAT(#{endDt}, '%Y%m%d') >= A.AUTH_DD
+        ]]>
+        </if>
+        <if test='searchValue != null and !"".equals(searchValue)'>
+            AND (A.TR_NM = CONCAT('%', #{searchValue}, '%')
+                OR A.CARD_NO = CONCAT('%', #{searchValue}, '%'))
+        </if>
         ORDER BY A.AUTH_DD DESC
     </select>
 

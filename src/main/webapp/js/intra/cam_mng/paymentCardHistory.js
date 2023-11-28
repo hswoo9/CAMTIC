@@ -1,146 +1,132 @@
 var payCardHist = {
 
-    fn_defaultScript : function (){
+    global : {
+        searchAjaxData : ""
+    },
 
+    fn_defaultScript : function (){
+        customKendo.fn_datePicker("startDt", 'month', "yyyy-MM-dd", new Date(now.setMonth(now.getMonth() - 1)));
+        customKendo.fn_datePicker("endDt", 'month', "yyyy-MM-dd", new Date());
+        $("#startDt, #endDt").attr("readonly", true);
+        $("#startDt").on("change", function(){
+            if($(this).val() > $("#endDt").val()){
+                $("#endDt").val($(this).val());
+            }
+        });
+        $("#endDt").on("change", function(){
+            if($(this).val() < $("#startDt").val()){
+                $("#startDt").val($(this).val());
+            }
+        });
         customKendo.fn_textBox(["searchValue"]);
 
-
-        payCardHist.cardMainGrid();
+        payCardHist.gridReload();
     },
 
-    fn_search: function (type){
-
-        $("#cardMainGrid").data("kendoGrid").dataSource.read();
+    gridReload: function (){
+        payCardHist.global.searchAjaxData = {
+            startDt: $("#startDt").val(),
+            endDt: $("#endDt").val(),
+            searchValue: $("#searchValue").val()
+        }
+        payCardHist.mainGrid("/card/cardUseList", payCardHist.global.searchAjaxData);
     },
 
-    cardMainGrid : function (params) {
-        let dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read: {
-                    url: "/payment/getCardHistData",
-                    dataType: "json",
-                    type: "post"
-                },
-                parameterMap: function(data){
-                    data.searchValue = $("#searchValue").val();
-                    return data;
-                }
-            },
-            schema: {
-                data: function(data){
-                    return data.list;
-                },
-                total: function(data){
-                    return data.list.length;
-                },
-            },
-            pageSize: 10
-        });
-
-        $("#cardMainGrid").kendoGrid({
-            dataSource: dataSource,
+    mainGrid : function (url, params) {
+        $("#mainGrid").kendoGrid({
+            dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             scrollable: true,
             selectable: "row",
+            height: 508,
             pageable: {
-                refresh: true,
-                pageSizes: [ 10, 20, 30, 50, 100 ],
-                buttonCount: 5
+                refresh : true,
+                pageSizes : [ 10, 20, 30, 50, 100 ],
+                buttonCount : 5
             },
-            noRecords: {
-                template: "데이터가 존재하지 않습니다."
-            },
-            dataBound: payCardHist.onDataBound,
-            columns: [
+            toolbar: [
                 {
-                    template: "#= ++record #",
-                    title: "번호",
-                    width : 50
-                }, {
-                    field: "MER_NM",
-                    title: "카드명",
-                    width: 300
-                }, {
-                    title: "카드번호",
-                    width: 250,
-                    template: function (e){
-                        if(e.CARD_BA_NB != null){
-                            return e.CARD_BA_NB;
-                        } else {
-                            return "";
-                        }
-                    }
-                }, {
-                    title: "",
-                    width: 80,
-                    template: function(e){
-                        return '<button type="button" class="k-button k-button-solid-base" ' +
-                            'onclick="payCardHist.fn_selCardInfo(\'' + e.TR_CD + '\', \'' + e.TR_NM + '\', \'' + e.CARD_BA_NB + '\', \'' + e.JIRO_NM + '\', \'' + e.CLTTR_CD + '\', \'' + e.BA_NB + '\', \'' + e.DEPOSITOR + '\')" style="font-size: 12px);">' +
-                            '   선택' +
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="outUseList.gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
                 }
             ],
-
-            dataBinding: function() {
-                record = (this.dataSource.page() -1) * this.dataSource.pageSize();
-            }
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'cardPk\');"/>',
+                    template : "<input type='checkbox' id='cardPk#=AUTH_NO#' name='cardPk' class='cardPk' value='#=AUTH_NO#'/>",
+                    width: 50
+                }, {
+                    title: "구분",
+                    width: 50,
+                    template: function (){
+                        return "승인"
+                    }
+                }, {
+                    title: "승인일시",
+                    width: 130,
+                    template : function (e){
+                        return e.AUTH_DD.substring(0, 4) + "-" + e.AUTH_DD.substring(4, 6) + "-" + e.AUTH_DD.substring(6, 8) + " " + e.AUTH_HH.substring(0, 2) + ":" + e.AUTH_HH.substring(2, 4) + ":" + e.AUTH_HH.substring(4, 6);
+                    }
+                }, {
+                    title: "승인번호",
+                    width: 80,
+                    template : function (e){
+                        return e.AUTH_NO;
+                    }
+                }, {
+                    title: "사용처",
+                    field: "MER_NM",
+                    width: 250
+                }, {
+                    title: "사업자번호",
+                    field : "MER_BIZNO",
+                    width: 120,
+                    template : function(e){
+                        return e.MER_BIZNO.substring(0, 3) + "-" + e.MER_BIZNO.substring(3, 5) + "-" + e.MER_BIZNO.substring(5, 11);
+                    }
+                }, {
+                    title: "카드명",
+                    field: "TR_NM"
+                }, {
+                    title: "카드번호",
+                    field: "CARD_NO",
+                    width: 160,
+                    template : function (e){
+                        return e.CARD_NO.substring(0,4) + "-" + e.CARD_NO.substring(4,8) + "-" + e.CARD_NO.substring(8,12) + "-" + e.CARD_NO.substring(12,16);
+                    }
+                }, {
+                    title: "금액",
+                    width: 80,
+                    template : function(e){
+                        return '<div style="text-align: right;">' + comma(e.AUTH_AMT) + '</div>';
+                    }
+                }, {
+                    title: "공급가액",
+                    width: 80,
+                    template : function(e){
+                        return '<div style="text-align: right;">' + comma(e.SUPP_PRICE) + '</div>';
+                    }
+                }, {
+                    title: "부가세",
+                    width: 60,
+                    template : function(e){
+                        return '<div style="text-align: right;">' + comma(e.SURTAX) + '</div>';
+                    }
+                }, {
+                    title: "결의상태",
+                    width: 70,
+                    template : function(e){
+                        return "미결의"
+                    }
+                }
+            ]
         }).data("kendoGrid");
-    },
-
-    onDataBound: function(){
-        calcAmSum = 0;
-        acctAm2Sum = 0;
-        acctAm1Sum = 0;
-        acctAm3Sum = 0;
-        subAmSum = 0;
-    },
-
-    fn_selOtherInfo: function (trCd, perNm, acctNo, acctNm, bankNm){
-        var idx = $("#index").val();
-        opener.parent.fn_selOtherInfo(trCd, bankNm, acctNm, acctNo, perNm, idx);
-
-        window.close();
-    },
-
-    fn_selEmpInfo : function (trCd, bankName, accountNum, accountHolder, empNameKr) {
-        console.log(accountHolder)
-        var idx = $("#index").val();
-        opener.parent.fn_selEmpInfo(trCd, bankName, accountNum, accountHolder, empNameKr, idx);
-
-        window.close();
-    },
-
-    fn_selBankInfo: function (cd, nm, baNb, depositor, jiro){
-        opener.parent.fn_selBankInfo(cd, nm, baNb, depositor, jiro);
-
-        window.close();
-    },
-
-    fn_popAddData : function (type){
-        var url = "";
-
-        if(type == "1" || type == "2"){
-            url = "/mng/pop/addClientView.do?type=" + type;
-        }
-
-        var name = "_blank";
-        var option = "width = 900, height = 470, top = 200, left = 400, location = no"
-        var popup = window.open(url, name, option);
-    },
-
-    fn_selClientInfo: function (trCd, trNm, baNb, depositor, jiro, ceoNm, regNb){
-        var idx = $("#index").val();
-        opener.parent.fn_selClientInfo(trCd, trNm, baNb, depositor, jiro, ceoNm, regNb, idx);
-
-        window.close();
-    },
-
-    fn_selCardInfo: function (trCd, trNm, cardBaNb, jiro, clttrCd, baNb, depositor){
-        var idx = $("#index").val();
-        opener.parent.fn_selCardInfo(trCd, trNm, cardBaNb, jiro, clttrCd, baNb, depositor, idx);
-
-        window.close();
     }
 }
