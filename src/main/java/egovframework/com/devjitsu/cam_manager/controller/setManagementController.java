@@ -59,6 +59,18 @@ public class setManagementController {
         return "cam_manager/setManagement/projectCorp";
     }
 
+    @RequestMapping("/setManagement/projectCorpMng.do")
+    public String projectCorpMng(Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        model.addAttribute("loginVO", loginVO);
+
+
+        return "cam_manager/setManagement/projectCorpMng";
+    }
+
     @RequestMapping("/setManagement/getCorpProjectList")
     public String getCorpProjectList(@RequestParam Map<String, Object> params, Model model){
 
@@ -97,6 +109,26 @@ public class setManagementController {
 
         model.addAttribute("data", setManagementService.getCorpProjectData(params));
 
+        return "jsonView";
+    }
+
+    @RequestMapping("/setManagement/setRequest")
+    public String setRequest(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        try{
+            setManagementService.setRequest(params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    @RequestMapping("/setManagement/setApprove")
+    public String setApprove(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        try{
+            setManagementService.setApprove(params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         return "jsonView";
     }
 }

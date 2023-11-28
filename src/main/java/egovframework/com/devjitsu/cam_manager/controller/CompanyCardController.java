@@ -32,6 +32,17 @@ public class CompanyCardController {
         return "cam_manager/companyCard/cardList";
     }
 
+    @RequestMapping("/card/cardListMng.do")
+    public String cardListMng(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "cam_manager/companyCard/cardListMng";
+    }
+
     @RequestMapping("/card/outUseList.do")
     public String outUseList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();

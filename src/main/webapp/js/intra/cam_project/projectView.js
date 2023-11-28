@@ -15,7 +15,7 @@ var projectView = {
             serverPaging: false,
             transport: {
                 read: {
-                    url: "/project/getProjectList",
+                    url: "/project/getAllProjectList",
                     dataType: "json",
                     type: "post"
                 },

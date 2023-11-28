@@ -726,12 +726,12 @@ var regPay = {
     },
 
     fn_budgetPop: function (idx){
-        if($("#pjtSn").val() == ""){
+        if($("#pjtCd").val() == ""){
             alert("사업을 선택해주세요.");
             return ;
         }
 
-        var url = "/mng/pop/budgetView.do?pjtSn=" + $("#pjtSn").val() + "&idx=" + idx;
+        var url = "/mng/pop/budgetView.do?pjtCd=" + $("#pjtCd").val() + "&idx=" + idx;
 
         var name = "_blank";
         var option = "width = 1100, height = 650, top = 100, left = 400, location = no"

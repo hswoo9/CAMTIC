@@ -26,4 +26,12 @@ public class SetManagementRepository extends AbstractDAO {
     public void updCorpProject(Map<String, Object> params) {
         update("manage.updCorpProject", params);
     }
+
+    public void setRequest(Map<String, Object> params) {
+        update("manage.setRequest", params);
+    }
+
+    public void setApprove(Map<String, Object> params) {
+        update("manage.setApprove", params);
+    }
 }

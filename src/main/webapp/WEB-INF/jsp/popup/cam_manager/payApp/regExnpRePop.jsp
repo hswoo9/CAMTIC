@@ -237,9 +237,10 @@
         window.open("/common/deptListPop.do", "조직도", "width=750, height=650");
     }
 
-    function selectProject(sn, nm){
+    function selectProject(sn, nm, cd){
         $("#pjtSn").val(sn);
         $("#pjtNm").val(nm);
+        $("#pjtCd").val(cd);
     }
 </script>
 </body>

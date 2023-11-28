@@ -23,12 +23,6 @@ var setCorpPjt = {
 
     fn_setData : function (){
 
-        if($("#corpPjtSn").val() != ""){
-            $("#saveBtn").css("display", "none");
-            $("#modBtn").css("display", "");
-            $("#approveBtn").css("display", "");
-        }
-
         var parameters = {
             corpPjtSn : $("#corpPjtSn").val()
         }
@@ -41,7 +35,7 @@ var setCorpPjt = {
                 var rs = rs.data;
 
                 console.log(rs);
-                $("#pjtCd").val();
+                $("#pjtCd").val(rs.CORP_PJT_CD);
                 $("#pjtNm").val(rs.CORP_PJT_NM);
                 $("#linkPjt").val(rs.LINK_PJT);
                 $("#strDt").val(rs.STR_DT);
@@ -56,6 +50,8 @@ var setCorpPjt = {
                 $("#empName").val(rs.PM_EMP_NAME);
                 $("#empSeq").val(rs.PM_EMP_SEQ);
                 $("#deptSeq").val(rs.PM_DEPT_SEQ);
+
+                setCorpPjt.fn_btnSet(rs);
             }
         });
     },
@@ -112,5 +108,90 @@ var setCorpPjt = {
                 }
             }
         });
+    },
+
+    fn_request: function(status){
+        var pjCode = $("#pjCode").val();
+        var supDep = $("#supDep2").val();
+        var supDepSub = $("#supDepSub2").val();
+        var pjtStat = $("#pjtStat").val();
+        var pjtStatSub = $("#pjtStatSub").val();
+
+        var date = new Date();
+        var year = date.getFullYear().toString().substring(2,4);
+
+        if(supDep == ""){
+            alert("지원부처를 선택해주세요.");
+            return;
+        }
+        if(supDepSub == ""){
+            alert("전담기관을 선택해주세요.");
+            return;
+        }
+        if(pjtStat == ""){
+            alert("사업성격을 선택해주세요.");
+            return;
+        }
+        if(pjtStatSub == ""){
+            alert("사업성격1을 선택해주세요.");
+            return;
+        }
+
+        const result = customKendo.fn_customAjax("/setManagement/setRequest", {
+            pjtTmpCd : pjCode + supDep + supDepSub + pjtStat + pjtStatSub + year,
+            pjtCd : pjCode + supDep + supDepSub + pjtStat + pjtStatSub + year,
+            corpPjtSn : $("#corpPjtSn").val(),
+            status : status
+        });
+
+        if(result.flag){
+            alert("승인 요청이 완료되었습니다.");
+            opener.gridReload();
+            window.close();
+        }else{
+            alert("처리 중 오류가 발생하였습니다.");
+        }
+
+    },
+
+    fn_approve: function(status){
+
+        const result = customKendo.fn_customAjax("/setManagement/setApprove", {
+            corpPjtSn : $("#corpPjtSn").val(),
+            status : status
+        });
+
+        if(result.flag){
+            alert("승인이 완료되었습니다.");
+            opener.gridReload();
+            window.close();
+        }else{
+            alert("처리 중 오류가 발생하였습니다.");
+        }
+
+    },
+
+    fn_btnSet: function(pjtMap){
+        if(pjtMap != null){
+            const status = pjtMap.STATUS;
+
+            if($("#mode").val() != "mng"){
+                if(status == "0"){
+                    $("#saveBtn").hide();
+                    $("#modBtn").show();
+                    $("#reqBtn").show();
+                }else{
+                    $("#saveBtn").hide();
+                }
+            }else{
+                if(status == "10"){
+                    $("#saveBtn").hide();
+                    $("#appBtn").show();
+                }else{
+                    $("#saveBtn").hide();
+                    $("#appBtn").hide();
+                }
+            }
+        }
     }
 }

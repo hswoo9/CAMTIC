@@ -1,23 +1,46 @@
-var prjCorp = {
+var prjCorpMng = {
 
     global : {
         searchAjaxData : ""
     },
 
     fn_defaultScript : function (){
-        prjCorp.gridReload();
+        prjCorpMng.gridReload();
     },
 
     gridReload : function (){
-        prjCorp.global.searchAjaxData = {
+        prjCorpMng.global.searchAjaxData = {
         }
 
-        prjCorp.mainGrid("/setManagement/getCorpProjectList", prjCorp.global.searchAjaxData);
+        prjCorpMng.mainGrid("/setManagement/getCorpProjectList", prjCorpMng.global.searchAjaxData);
     },
 
     mainGrid : function (url, params){
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/setManagement/getCorpProjectList',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             sortable: true,
             scrollable: true,
             selectable: "row",
@@ -31,7 +54,7 @@ var prjCorp = {
                 {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="prjCorp.gridReload()">' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="prjCorpMng.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -55,7 +78,7 @@ var prjCorp = {
                     title: "프로젝트 명",
                     width: 400,
                     template: function(e){
-                        return '<a href="javascript:void(0);" style="font-weight: bold;" onclick="prjCorp.fn_popCorpProject(\'' + e.CORP_PJT_SN + '\')";>' + e.CORP_PJT_NM + '</a>'
+                        return '<a href="javascript:void(0);" style="font-weight: bold;" onclick="prjCorpMng.fn_popCorpProject(\'' + e.CORP_PJT_SN + '\')";>' + e.CORP_PJT_NM + '</a>'
                     }
                 }, {
                     field: "STR_DT",
@@ -69,9 +92,11 @@ var prjCorp = {
                     title: "상태",
                     width: 80,
                     template: function(e){
-                        if(e.CONFIRM_YN == 'N'){
+                        if(e.STATUS == "0"){
                             return '작성중';
-                        } else {
+                        }else if(e.STATUS == "10"){
+                            return '승인요청 중';
+                        }else{
                             return '승인';
                         }
                     }
@@ -87,7 +112,7 @@ var prjCorp = {
         var url = "/setManagement/pop/setCorpProject.do";
 
         if(key != null && key != "" && key != undefined){
-            url += "?corpPjtSn=" + key + "&mode=user";
+            url += "?corpPjtSn=" + key + "&mode=mng";
         }
         var name = "_blank";
         var option = "width = 900, height = 700, top = 200, left = 400, location = no"
@@ -97,5 +122,5 @@ var prjCorp = {
 }
 
 function gridReload(){
-    prjCorp.gridReload();
+    prjCorpMng.gridReload();
 }

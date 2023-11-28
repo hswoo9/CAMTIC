@@ -259,4 +259,25 @@
         </foreach>
 
     </insert>
+
+    <update id="setRequest" parameterType="map">
+        /*setRequest*/
+        UPDATE
+            CAM_PJT_MNG.DJ_CORP_PROJECT
+        SET
+            CORP_PJT_CD = #{pjtCd},
+            STATUS = #{status}
+        WHERE
+            CORP_PJT_SN = #{corpPjtSn}
+    </update>
+
+    <update id="setApprove" parameterType="map">
+        /*setApprove*/
+        UPDATE
+            CAM_PJT_MNG.DJ_CORP_PROJECT
+        SET
+            STATUS = #{status}
+        WHERE
+            CORP_PJT_SN = #{corpPjtSn}
+    </update>
 </mapper>
