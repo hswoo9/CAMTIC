@@ -7,6 +7,9 @@ import egovframework.com.devjitsu.gw.login.controller.LoginController;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.login.service.LoginService;
 import egovframework.com.devjitsu.hp.board.service.BoardService;
+import egovframework.com.devjitsu.hp.board.util.ArticlePage;
+import egovframework.com.devjitsu.hp.board.util.PagingResponse;
+import egovframework.com.devjitsu.hp.board.util.PostResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -158,18 +161,41 @@ public class MainController {
         model.addAttribute("ds", commonService.getSearchMenu(params));
         return "jsonView";
     }
-    @RequestMapping("/spot/pop/popStaffScheduleView.do")
+
+    /**
+     * 일정 팝업
+     * */
+    @RequestMapping("/spot/pop/popMainScheduleView.do")
     public String popScheduleView(@RequestParam Map<String, Object> params, Model model){
-        model.addAttribute("rs", customBoardService.getSchedule(params));
-        return "popup/cams_pot/popStaffScheduleView";
+
+        model.addAttribute("params", params);
+        return "popup/cams_pot/popMainScheduleView";
     }
 
-    @RequestMapping("/spot/getStaffScheduleList")
-    public String getMainScheduleList(@RequestParam Map<String, Object> params, Model model) {
-        model.addAttribute("rs", customBoardService.getStaffScheduleList(params));
+    /**
+     * 일정 팝업 리스트 조회
+     * */
+    @RequestMapping("/spot/getMainScheduleList")
+    public String getMainScheduleList(@RequestParam Map<String, Object> param, ArticlePage articlePage, HttpServletRequest request, Model model){
+
+        int recordSize = Integer.parseInt(String.valueOf(param.get("recordSize")));
+
+        articlePage.setSearchInput((String) param.get("searchInput"));
+        articlePage.setRecordSize(recordSize);
+
+        PagingResponse<PostResponse> response = customBoardService.getMainScheduleList(articlePage);
+
+        model.addAttribute("rs", response);
+
+        /*model.addAttribute("rs", customBoardService.getStaffScheduleList(params));*/
+        model.addAttribute("pagination", articlePage.getPagination());
+        model.addAttribute("page", articlePage.getPage());
         return "jsonView";
     }
 
+    /**
+     * 즐겨찾기 팝업
+     * */
     @RequestMapping("/pop/popFvMenu.do")
     public String popupTest(@RequestParam Map<String, Object> params, Model model){
         return "popup/cams_pot/popFvMenu";

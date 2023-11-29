@@ -1390,6 +1390,14 @@ public class CampusController {
         return "jsonView";
     }
 
+    /** 개인학습 통계 리스트 */
+    @RequestMapping("/campus/getEduMyStatList")
+    public String getEduMyStatList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = campusService.getEduMyStatList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     /** 직무기술서 리스트 조회 */
     @RequestMapping("/campus/getDutyInfoList")
     public String getDutyInfoList(@RequestParam Map<String, Object> params, Model model) {

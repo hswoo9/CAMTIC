@@ -98,7 +98,6 @@ var studyMng = {
                     title: "교육시간",
                     width: 150,
                     template : function (e){
-                        console.log(e);
                         if(e.STUDY_CLASS_SN == "3"){
                             if(e.ST_SUM != "" && e.ST_SUM != null){
                                 return e.ST_SUM;

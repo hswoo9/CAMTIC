@@ -24,7 +24,7 @@ public class CustomBoardRepository extends AbstractDAO {
 	public List<Map<String, Object>> getScheduleList(Map<String, Object> params) { return selectList("cb.getScheduleList", params);}
 	public void setScheduleReg(Map<String, Object> params) { insert("cb.setScheduleReg", params);}
 	public void setScheduleRegUpd(Map<String, Object> params) { update("cb.setScheduleRegUpd", params);}
-	public Map<String, Object> getSchedule(Map<String, Object> params) { return (Map<String, Object>) selectOne("cb.getCustomSchedule", params);}
+	public Map<String, Object> getSchedule(Map<String, Object> params) { return (Map<String, Object>) selectOne("cb.getSchedule", params);}
 	public List<PostResponse> getRequestBoardList(ArticlePage articlePage){ return selectList("cb.getRequestBoardList", articlePage);}
 	public int getRequestBoardListCnt(ArticlePage articlePage){ return (int) selectOne("cb.getRequestBoardListCnt", articlePage);}
 	public void setRequestBoard(Map<String, Object> params) { insert("cb.setRequestBoard", params);}
@@ -40,7 +40,11 @@ public class CustomBoardRepository extends AbstractDAO {
 	public Map<String, Object> getWatchBoard(Map<String, Object> params) { return (Map<String, Object>) selectOne("cb.getWatchBoard", params);}
 	public void setWatchBoardDel(Map<String, Object> params) { update("cb.setWatchBoardDel", params);}
 	public Map<String, Object> getWatchBoardOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("cb.getWatchBoardOne", params);}
-	public List<Map<String, Object>> getStaffScheduleList(Map<String, Object> params) { return selectList("cb.getStaffScheduleList", params);}
+	public List<PostResponse> getMainScheduleList(ArticlePage articlePage) { return selectList("cb.getMainScheduleList", articlePage);}
+
+	public Object getMainScheduleListCnt(ArticlePage articlePage) {
+		return (int) selectOne("cb.getMainScheduleListCnt", articlePage);
+	}
 
 	public List<Map<String, Object>> getCustomSchedules(Map<String, Object> params) { return selectList("cb.getCustomSchedules", params);}
 

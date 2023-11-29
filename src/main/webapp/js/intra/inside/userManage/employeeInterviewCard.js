@@ -125,7 +125,7 @@ var employeeList = {
                     width: "10%"
                 }, {
                     field: "card_interview_date",
-                    title: "면담일시",
+                    title: "면담일자",
                     width: "20%",
                     template: function (dataItem) {
                         var unixTime = dataItem.card_interview_date; // Unix 시간 데이터
@@ -137,7 +137,15 @@ var employeeList = {
 
                         return formattedDate;
                     }
+                },{
+                    field: "sTime",
+                    title: "시작시간",
+                    width: "10%"
                 }, {
+                    field: "eTime",
+                    title: "종료시간",
+                    width: "10%"
+                },{
                     field: "card_interviewer",
                     title: "면담자",
                     width: "10%"

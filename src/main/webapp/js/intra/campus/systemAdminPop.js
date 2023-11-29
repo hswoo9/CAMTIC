@@ -82,8 +82,6 @@ const systemAdmin = {
                     const dataItem = grid.dataItem($(this));
                     systemAdmin.global.largeCategoryId = dataItem.CAMPUS_DT_CODE;
                     systemAdmin.global.largeCategoryName = dataItem.CAMPUS_DT_CODE_NM;
-                    console.log(systemAdmin.global.largeCategoryId);
-                    console.log(systemAdmin.global.largeCategoryName);
                     gridReload("categoryGridB");
                     systemAdmin.global.eduCategoryId = "";
                     gridReload("categoryGridC");
@@ -176,8 +174,6 @@ const systemAdmin = {
                     const dataItem = grid.dataItem($(this));
                     systemAdmin.global.eduCategoryId = dataItem.EDU_CATEGORY_ID;
                     systemAdmin.global.eduCategoryName = dataItem.EDU_CATEGORY_NAME;
-                    console.log(systemAdmin.global.eduCategoryId);
-                    console.log(systemAdmin.global.eduCategoryName);
                     gridReload("categoryGridC");
                 });
             },

@@ -58,7 +58,6 @@ const propagView = {
     buttonSet: function(){
         let mode = $("#mode").val();
         let status = propagView.global.propagInfo.STATUS;
-        console.log(propagView.global.propagInfo)
         if(mode == "upd"){
             if(status == "0" || status == "30"){
                 $("#appBtn").show();
@@ -260,14 +259,12 @@ const propagView = {
                 }, {
                     title: "일시",
                     template: function(row){
-                        console.log(row);
                         return row.PROPAG_DT + " (" + row.START_TIME +"~"+row.END_TIME+" / "+row.EDU_TIME+")";
                     }
                 }, {
                     title: "학습시간",
                     width: 150,
                     template: function(row){
-                        console.log(row);
                         return row.EDU_TIME + "시간";
                     }
                 }, {
@@ -277,14 +274,12 @@ const propagView = {
                             title: "지도자",
                             width: 150,
                             template: function(row){
-                                console.log(row);
                                 return Number(row.EDU_TIME * 1.5) + "시간";
                             }
                         }, {
                             title: "학습자",
                             width: 150,
                             template: function(row){
-                                console.log(row);
                                 return row.EDU_TIME + "시간";
                             }
                         }

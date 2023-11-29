@@ -77,7 +77,7 @@
                     <c:choose>
                       <c:when test="${file.file_down_path ne null}">
                         <img src="/images/camtic/ico-drone5-1.png" style="filter: opacity(0.5) drop-shadow(0 0 0 #666);">
-                        <a href="${file.file_down_path}">${file.file_org_name}.${file.file_ext}</a>
+                        <a href="${file.file_down_path}">${file.file_org_name}${file.file_ext}</a>
                       </c:when>
                       <c:when test="${status.count eq 1}">
                         <img src="/images/camtic/ico-drone5-1.png" style="filter: opacity(0.5) drop-shadow(0 0 0 #666);">
@@ -143,8 +143,10 @@
           </div>
           <div class="rig">
             <%--            <a href="#" class="__btn1 blue"><span>온라인 입사지원하기</span></a>--%>
-            <a href="javascript:void(0);" onclick="fn_regist('${map.BOARD_ARTICLE_ID}');" class="__btn1 grayLine"><span>수정</span></a>
-            <a href="javascript:void(0);" onclick="fn_delNotice('${map.BOARD_ARTICLE_ID}');" class="__btn1 grayLine"><span>삭제</span></a>
+            <c:if test="${loginVO.uniqId eq '1'}">
+              <a href="javascript:void(0);" onclick="fn_regist('${map.BOARD_ARTICLE_ID}');" class="__btn1 grayLine"><span>수정</span></a>
+              <a href="javascript:void(0);" onclick="fn_delNotice('${map.BOARD_ARTICLE_ID}');" class="__btn1 grayLine"><span>삭제</span></a>
+            </c:if>
           </div>
           <%--<div class="rig">
           <c:if test="${map.afterKey ne '' && map.afterKey ne null}">

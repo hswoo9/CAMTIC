@@ -54,6 +54,7 @@ public interface CampusService {
     /** 학습통계 시작 */
     List<Map<String, Object>> getEduStat(Map<String, Object> params);
     List<Map<String, Object>> getEduAllStatList(Map<String, Object> params);
+    List<Map<String, Object>> getEduMyStatList(Map<String, Object> params);
     /** 학습통계 끝 */
 
     /** 목표기술서 시작 */

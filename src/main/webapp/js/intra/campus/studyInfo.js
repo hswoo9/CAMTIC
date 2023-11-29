@@ -108,7 +108,6 @@ var studyInfo = {
                     title: "교육시간",
                     width: 150,
                     template : function (e){
-                        console.log(e);
                         if(e.STUDY_CLASS_SN == "3"){
                             if(e.ST_SUM != "" && e.ST_SUM != null){
                                 return e.ST_SUM;
@@ -133,7 +132,6 @@ var studyInfo = {
                     title: "진행현황",
                     width: 120,
                     template: function(row){
-                        console.log(row)
                         let studyClass = row.STUDY_CLASS_SN;
                         if(studyClass == 1){
                             if(row.STATUS == 0){

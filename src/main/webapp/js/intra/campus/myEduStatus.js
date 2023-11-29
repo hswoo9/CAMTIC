@@ -12,7 +12,7 @@ var myEdu = {
     },
 
     dataSet: function(){
-        let data = customKendo.fn_customAjax("/campus/getEduAllStatList", {
+        let data = customKendo.fn_customAjax("/campus/getEduMyStatList", {
             empSeq: $("#regEmpSeq").val(),
             eduYear: $("#applyYear").val().replace("년", "")
         }).list[0];

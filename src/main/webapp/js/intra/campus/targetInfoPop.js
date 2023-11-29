@@ -24,7 +24,6 @@ var targetInfoPop = {
             dataType : "json",
             async: false,
             success : function(result){
-                console.log(result.list);
                 targetInfoPop.global.codeDropDown = result.list;
             }
         });
@@ -118,8 +117,6 @@ var targetInfoPop = {
             dataType : "json",
             async: false,
             success : function(result){
-                console.log(result.list);
-
                 var list = result.list;
                 var html = "";
 
@@ -227,7 +224,6 @@ var targetInfoPop = {
             alert("직무분야가 선택되지 않았습니다.");
             return;
         }
-        console.log(eduCategoryDetailIdArr);
 
 
         $.ajax({
@@ -242,7 +238,6 @@ var targetInfoPop = {
             dataType : "json",
             async : false,
             success : function(result){
-                console.log(result);
                 alert("직무분야 저장이 완료되었습니다.");
                 window.close();
                 opener.targetInfo.tableSet();

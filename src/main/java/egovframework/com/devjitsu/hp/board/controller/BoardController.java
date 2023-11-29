@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.hp.board.controller;
 
+import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.controller.UserController;
 import egovframework.com.devjitsu.inside.recruit.service.RecruitService;
 import org.slf4j.Logger;
@@ -25,6 +26,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -78,7 +80,6 @@ public class BoardController {
         PagingResponse<PostResponse> response = boardService.selectBoardList(articlePage);
 
         model.addAttribute("boardArticleList", response);
-
         model.addAttribute("pagination", articlePage.getPagination());
         model.addAttribute("page", articlePage.getPage());
         /*model.addAttribute("boardCnt", boardService.selectBoardListCnt(articlePage));*/
@@ -322,10 +323,15 @@ public class BoardController {
      * */
     @RequestMapping("/camtic/pr/pr_view.do")
     public String prBoardView(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
         boardService.setBoardArticleViewCount(params);
 
         Map<String, Object> map = boardService.selectBoard(params);
         List<Map<String, Object>> fileList = boardService.selectBoardFile(params);
+        /*params.put("empSeq", loginVO.getUniqId());*/
+        model.addAttribute("loginVO", loginVO);
         model.addAttribute("categoryId", params.get("category"));
         model.addAttribute("map", map);
         model.addAttribute("fileMap", fileList);
