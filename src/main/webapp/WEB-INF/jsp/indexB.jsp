@@ -403,7 +403,7 @@
         var url = "/spot/pop/popMainScheduleView.do?selectDate=" + selectedDate + "&publicClass=" + publicClass;
         /*var url = "/spot/pop/popStaffScheduleView.do?selectDate=" + selectedDate;*/
         var name = "_blank";
-        var option = "width = 1000, height = 600, top = 50, left = 400, location = no, scrollbars=yes, resizable=yes"
+        var option = "width = 1000, height = 700, top = 50, left = 400, location = no, scrollbars=yes, resizable=yes"
         var popup = window.open(url, name, option);
     }
 

@@ -367,4 +367,15 @@ public class UserManageRepository extends AbstractDAO {
         return selectList("userManage.getJoinResignEmpList", params);
     }
 
+
+    public List<Map<String, Object>> getDeptEmpCount(Map<String, Object> params){
+        return selectList("userManage.getDeptEmpCount",params);
+    }
+
+    public List<Map<String, Object>> getTeamEmpCount(Map<String, Object> params){
+        return selectList("userManage.getTeamEmpCount",params);
+    }
+
+
+
 }

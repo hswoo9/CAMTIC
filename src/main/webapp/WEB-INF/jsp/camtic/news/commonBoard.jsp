@@ -8,7 +8,7 @@
   .subject{
     cursor: pointer;
   }
-
+  .__tblList tr {height:62px;}
 </style>
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
@@ -88,10 +88,11 @@
 
             </div>
 
-            <div class="rig">
-              <a href="javascript:void(0);" onclick="fn_writeBoard();" class="__btn1 blue" style="min-width:100px;height:40px;font-size:15px;"><span>게시글 작성</span></a>
-            </div>
-
+            <c:if test="${loginVO.uniqId eq '1'}">
+              <div class="rig">
+                <a href="javascript:void(0);" onclick="fn_writeBoard();" class="__btn1 blue" style="min-width:100px;height:40px;font-size:15px;"><span>게시글 작성</span></a>
+              </div>
+            </c:if>
 
           </div>
         </div>

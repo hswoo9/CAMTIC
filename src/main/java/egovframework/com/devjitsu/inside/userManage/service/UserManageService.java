@@ -190,4 +190,7 @@ public interface UserManageService{
     /** 입/퇴사 현황 **/
     List<Map<String, Object>> getTotalEmpCount(Map<String, Object> params);
     List<Map<String, Object>> getJoinResignEmpList(Map<String, Object> params);
+
+    /**소속 현황**/
+    List<Map<String, Object>> getDeptTeamEmpCount(Map<String, Object> params);
 }

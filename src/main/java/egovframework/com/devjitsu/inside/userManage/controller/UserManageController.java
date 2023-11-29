@@ -1878,4 +1878,46 @@ public class UserManageController {
         return "jsonView";
     }
 
+    @RequestMapping("Inside/getDeptTeamEmpCount")
+    public String getDeptTeamEmpCount (@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> empDeptTeamList = userManageService.getDeptTeamEmpCount(params);
+
+        empDeptTeamList = processEmpDeptTeamList(empDeptTeamList);
+
+        model.addAttribute("empDeptTeamList",empDeptTeamList);
+        System.out.println("***********empDeptTeamList**********" + empDeptTeamList);
+        return "jsonView";
+    }
+
+    private List<Map<String, Object>> processEmpDeptTeamList(List<Map<String, Object>> empDeptTeamList) {
+        Map<Object, Map<String, Object>> deptMap = new HashMap<>();
+        List<Map<String, Object>> processedList = new ArrayList<>();
+
+        for (Map<String, Object> entry : empDeptTeamList) {
+            Object deptId = entry.get("DeptID");
+            Object parentDeptId = entry.get("ParentDeptID");
+
+            if (deptId != null) {
+                deptMap.put(deptId, entry);
+                processedList.add(entry);
+            } else if (parentDeptId != null) {
+                Map<String, Object> parentDept = deptMap.get(parentDeptId);
+                if (parentDept != null) {
+
+                    processedList.add(entry);
+
+                    int teamEmployeesCount = Integer.parseInt(entry.get("TeamEmployeesCount").toString());
+                    int deptEmployeesCount = Integer.parseInt(parentDept.get("DeptEmployeesCount").toString());
+
+                    parentDept.put("DeptEmployeesCount", deptEmployeesCount + teamEmployeesCount);
+                }
+            }
+        }
+
+        return processedList;
+    }
+
+
+
+
 }

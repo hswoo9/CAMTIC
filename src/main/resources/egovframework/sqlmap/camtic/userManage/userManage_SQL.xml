@@ -2787,8 +2787,10 @@
         AND
             HEI.WORK_STATUS_CODE = 'Y'
         AND
+            MONTH(HEI.BDAY) = MONTH(NOW())
+        AND
         <![CDATA[
-            DATE_FORMAT(HEI.BDAY, '%m/%d') >= DATE_FORMAT(DATE(NOW()), '%m/%d')
+            DAY(HEI.BDAY) >= DAY(NOW())
         ]]>
         ORDER BY
             DAY(HEI.BDAY)
@@ -3355,6 +3357,55 @@
         WHERE
             REWORD_ID = #{key}
     </update>
+
+    <!-- 인사통계 - 소속현황 : 부서 정보 조회 (부서 레벨 1) -->
+    <select id="getDeptEmpCount" resultType="map" parameterType="map">
+        /*getDeptEmpCount*/
+        SELECT
+        dept.DEPT_SEQ AS DeptID,
+        dept.DEPT_NAME AS DeptName,
+        IFNULL(SUM(CASE WHEN emp.WORK_STATUS_CODE = 'Y' THEN 1 ELSE 0 END), 0) AS DeptEmployeesCount
+        FROM
+        cam_hr.dj_dept_info AS dept
+        LEFT JOIN
+        cam_hr.dj_emp_info AS emp
+        ON emp.DEPT_SEQ = dept.DEPT_SEQ
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator=" OR " open="(" close=")">
+                ${item}
+            </foreach>
+        </if>
+        WHERE
+        dept.DEPT_LEVEL = 1
+        GROUP BY
+        dept.DEPT_SEQ, dept.DEPT_NAME
+    </select>
+
+    <!-- 인사통계 - 소속현황 :  팀 정보 조회 (부서 레벨 2) -->
+    <select id="getTeamEmpCount" resultType="map" parameterType="map">
+        /*getTeamEmpCount*/
+        SELECT
+        dept.DEPT_SEQ AS TeamID,
+        dept.PARENT_DEPT_SEQ AS ParentDeptID,
+        dept.DEPT_NAME AS TeamName,
+        IFNULL(SUM(CASE WHEN emp.WORK_STATUS_CODE = 'Y' THEN 1 ELSE 0 END), 0) AS TeamEmployeesCount
+        FROM
+        cam_hr.dj_dept_info AS dept
+        LEFT JOIN
+        cam_hr.dj_emp_info AS emp
+        ON emp.DEPT_SEQ = dept.DEPT_SEQ
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator=" OR " open="(" close=")">
+                ${item}
+            </foreach>
+        </if>
+        WHERE
+        dept.DEPT_LEVEL = 2
+        GROUP BY
+        dept.PARENT_DEPT_SEQ, dept.DEPT_NAME
+    </select>
 
 
 </mapper>
