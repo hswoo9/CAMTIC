@@ -1898,17 +1898,14 @@ public class UserManageController {
             Object parentDeptId = entry.get("ParentDeptID");
 
             if (deptId != null) {
-                // 부서의 경우, Map에 추가
                 deptMap.put(deptId, entry);
                 processedList.add(entry);
             } else if (parentDeptId != null) {
-                // 팀의 경우, 부서의 정보를 찾아서 추가
                 Map<String, Object> parentDept = deptMap.get(parentDeptId);
                 if (parentDept != null) {
-                    // 원하는 가공 로직을 여기에 추가
+
                     processedList.add(entry);
 
-                    // 부서의 DeptEmployeesCount 값에 팀의 TeamEmployeesCount 값 누적
                     int teamEmployeesCount = Integer.parseInt(entry.get("TeamEmployeesCount").toString());
                     int deptEmployeesCount = Integer.parseInt(parentDept.get("DeptEmployeesCount").toString());
 
