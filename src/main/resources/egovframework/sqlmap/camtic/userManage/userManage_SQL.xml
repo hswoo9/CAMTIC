@@ -3355,6 +3355,19 @@
         WHERE
             REWORD_ID = #{key}
     </update>
-
+    
+<!--    년도별 직급 현황-->
+    <select id="getPositionNameByYear" parameterType="map" resultType="map">
+        SELECT YEAR(JOIN_DAY) AS join_year, POSITION_NAME, COUNT(*) AS emp_count
+        FROM CAM_HR.dj_emp_info
+        where
+        <if test='arr != null and !"".equals(arr)'>
+            <foreach collection="arr" item="item" separator=" OR " open="(" close=")">
+                ${item}
+            </foreach>
+        </if>
+        GROUP BY YEAR(JOIN_DAY), POSITION_NAME
+        ORDER BY join_year DESC
+    </select>
 
 </mapper>

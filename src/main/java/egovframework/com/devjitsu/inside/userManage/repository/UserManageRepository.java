@@ -358,7 +358,7 @@ public class UserManageRepository extends AbstractDAO {
 
 
 
-
+//    입/퇴사 현황
     public List<Map<String, Object>> getTotalEmpCount(Map<String, Object> params){
         return selectList("userManage.getTotalEmpCount", params);
     }
@@ -367,4 +367,8 @@ public class UserManageRepository extends AbstractDAO {
         return selectList("userManage.getJoinResignEmpList", params);
     }
 
+//    년도별 직급 현황
+    public List<Map<String, Object>> getPositionNameByYear(Map<String, Object> params){
+        return selectList("userManage.getPositionNameByYear", params);
+    }
 }

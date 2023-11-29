@@ -1838,6 +1838,7 @@ public class UserManageController {
         return "popup/inside/userManage/userPrintPop";
     }
 
+//    입/퇴사 현황
     @RequestMapping(value = "/Inside/getTotalEmpCount.do", method = RequestMethod.GET)
     public String getTotalEmpCount(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> empTotalList = userManageService.getTotalEmpCount(params);
@@ -1878,4 +1879,14 @@ public class UserManageController {
         return "jsonView";
     }
 
+//    년도별 직급 현황
+    @RequestMapping(value = "/Inside/getPositionNameByYear.do", method = RequestMethod.GET)
+        public String getPositionNameByYear(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> positionList = userManageService.getPositionNameByYear(params);
+        System.out.println("params : "+ params);
+        model.addAttribute("arr",params);
+        model.addAttribute("positionList", positionList);
+        System.out.println("positionList: " + positionList);
+        return "jsonView";
+    }
 }
