@@ -2005,7 +2005,7 @@
                         row.append($("<td class='dept_name'></td>").text(card.dept_name));
                         row.append($("<td class='dept_team_name'></td>").text(card.dept_team_name));
                         row.append($("<td class='emp_name_kr'></td>").text(card.emp_name_kr));
-                        row.append($("<td class='card_interview_date'></td>").text(card.card_interview_date));
+                        row.append($("<td class='card_interview_date' onClick='cardDetailPop(" + card.card_number + ")'></td>").text(card.card_interview_date+' '+ card.stime + '~' + card.etime));
                         row.append($("<td class='card_interviewer'></td>").text(card.card_interviewer));
                         row.append($("<td class='card_superior_person'></td>").text(card.card_superior_person));
                         row.append($("<td class='card_superior_person2'></td>").text(card.card_superior_person2));
@@ -2021,6 +2021,13 @@
         });
     }
 
+
+    function cardDetailPop(cardNumber){
+        var url = "/Inside/pop/contentDetailPop.do?cardNumber=" + cardNumber;
+        var name = "contentDetailPop";
+        var option = "width=850,height=800,top=100,left=200,location=no";
+        var popup = window.open(url, name, option);
+    }
 
 
     //인사기록카드 - 제안 제도 수정
