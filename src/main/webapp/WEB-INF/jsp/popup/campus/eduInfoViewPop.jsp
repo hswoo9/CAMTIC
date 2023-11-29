@@ -181,6 +181,7 @@
             <tr>
               <th>${eduDateVar}</th>
               <td colspan="3">
+                <div style="float: left">
                 ${data.START_DT} ~ ${data.END_DT}
                 <c:choose>
                   <c:when test="${eduFormType == 1 || eduFormType == 2 || eduFormType == 3 || eduFormType == 4 || eduFormType == 5 || eduFormType == 6 || eduFormType == 9}">
@@ -195,6 +196,8 @@
                     </c:choose>
                   </c:when>
                 </c:choose>
+                </div>
+                <div id="realTime"></div>
               </td>
             </tr>
             <c:choose>

@@ -28,6 +28,18 @@ var eduInfoViewPop = {
         if(eduMap.eduFileList != null){
             $("#eduFile").text(eduMap.eduFileList.file_org_name + "." +eduMap.eduFileList.file_ext);
         }
+
+        const real = customKendo.fn_customAjax("/campus/getEduResultOne", {
+            eduInfoId: eduInfoId
+        }).data;
+
+        console.log(real);
+
+        if(real != null){
+            if(real.MNG_CHECK == "Y"){
+                $("#realTime").html("<span>&nbsp;/ 인정시간 : "+real.REAL_EDU_TIME+" 시간</span>");
+            }
+        }
     },
 
     targetEduSetPop: function() {

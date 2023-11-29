@@ -606,14 +606,14 @@ public class CampusServiceImpl implements CampusService {
     public void setOpenStudyUser(Map<String, Object> params) {
         campusRepository.setOpenStudyUser(params);
         List<Map<String, Object>> list = campusRepository.getOpenStudyUserList(params);
-        /** 참여자가 5명 이상일시 자동으로 모임확정단계로 넘어감 */
+        /** 참여자가 5명 이상일시 자동으로 모임확정단계로 넘어감
         if(list.size() > 4){
             Map<String, Object> data = campusRepository.getOpenStudyInfoOne(params);
             if(data.get("STEP").equals("B")){
                 params.put("step", "C");
                 campusRepository.setOpenNextStep(params);
             }
-        }
+        }*/
     }
 
     @Override

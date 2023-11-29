@@ -24,7 +24,6 @@ var eduInfoMng = {
                     type: "post"
                 },
                 parameterMap: function(data) {
-                    data.empSeq = $("#regEmpSeq").val();
                     data.eduYear = $("#eduYear").val();
                     return data;
                 }

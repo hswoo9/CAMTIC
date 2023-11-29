@@ -100,7 +100,7 @@ const openStudyRes = {
                     title: "소속",
                     width: 300,
                     template: function(row){
-                        return row.REG_DEPT_NAME + " " + row.REG_TEAM_NAME;
+                        return row.DEPT_FULL_NAME;
                     }
                 }, {
                     title: "직위",
@@ -160,7 +160,7 @@ const openStudyRes = {
                     width: 300,
                     title: "모임명",
                     template: function(row){
-                        return row.REG_DEPT_NAME + " " + row.REG_TEAM_NAME
+                        return row.DEPT_FULL_NAME;
                     }
                 }, {
                     title: "직위",
