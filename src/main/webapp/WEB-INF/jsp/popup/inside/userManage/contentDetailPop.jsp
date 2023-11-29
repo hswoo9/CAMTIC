@@ -215,6 +215,12 @@
                         ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
                         ('0' + date.getDate()).slice(-2);
 
+                    var formattedDate = date.getFullYear() + '-' +
+                        ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
+                        ('0' + date.getDate()).slice(-2) + ' ' +
+                        response.list[0].stime + '~' +
+                        response.list[0].etime;
+
                     // 변환된 날짜를 화면에 표시
                     $("#card_interview_date").html(formattedDate);
                 }

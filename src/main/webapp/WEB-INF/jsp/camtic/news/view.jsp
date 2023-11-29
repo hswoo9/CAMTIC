@@ -77,7 +77,7 @@
                     <c:choose>
                       <c:when test="${file.file_down_path ne null}">
                         <img src="/images/camtic/ico-drone5-1.png" style="filter: opacity(0.5) drop-shadow(0 0 0 #666);">
-                        <a href="${file.file_down_path}">${file.file_org_name}.${file.file_ext}</a>
+                        <a href="${file.file_down_path}">${file.file_org_name}${file.file_ext}</a>
                       </c:when>
                       <c:when test="${status.count eq 1}">
                         <img src="/images/camtic/ico-drone5-1.png" style="filter: opacity(0.5) drop-shadow(0 0 0 #666);">
