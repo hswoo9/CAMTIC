@@ -377,22 +377,22 @@
                                                     <input type="text" id="dateM2${l.CAREER_ID}" class ="textBox" value='${l.CAREER_MONTH}' style="width: 25%;">개월
                                                 </td>
 
-                                                    <c:if test="${l.addFile == null}">
-                                                        <td>
-                                                            <label for="addFile${l.CAREER_ID}" class="k-button k-button-solid-base">파일첨부</label>
-                                                            <input type="file" id="addFile${l.CAREER_ID}" name="addFile${l.CAREER_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
-                                                            <span id="addFileName${l.CAREER_ID}"></span>
-                                                        </td>
-                                                    </c:if>
-                                                    <c:if test="${l.addFile ne null}">
-                                                        <td>
-                                                            <label for="addFile${l.CAREER_ID}" class="k-button k-button-solid-base">파일첨부</label>
-                                                            <input type="file" id="addFile${l.CAREER_ID}" name="addFile${l.CAREER_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
-                                                            <span id="addFileName${l.CAREER_ID}" style="cursor: pointer" onclick="fileDown('${l.addFile.file_path}${l.addFile.file_uuid}', '${l.addFile.file_org_name}.${l.addFile.file_ext}')">
+                                                <c:if test="${l.addFile == null}">
+                                                    <td>
+                                                        <label for="addFile${l.CAREER_ID}" class="k-button k-button-solid-base">파일첨부</label>
+                                                        <input type="file" id="addFile${l.CAREER_ID}" name="addFile${l.CAREER_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                                        <span id="addFileName${l.CAREER_ID}"></span>
+                                                    </td>
+                                                </c:if>
+                                                <c:if test="${l.addFile ne null}">
+                                                    <td>
+                                                        <label for="addFile${l.CAREER_ID}" class="k-button k-button-solid-base">파일첨부</label>
+                                                        <input type="file" id="addFile${l.CAREER_ID}" name="addFile${l.CAREER_ID}" onchange="fileChange(this)" style="display: none" multiple="multiple">
+                                                        <span id="addFileName${l.CAREER_ID}" style="cursor: pointer" onclick="fileDown('${l.addFile.file_path}${l.addFile.file_uuid}', '${l.addFile.file_org_name}.${l.addFile.file_ext}')">
                                                           ${l.addFile.file_org_name}.${l.addFile.file_ext}
                                                       </span>
-                                                        </td>
-                                                    </c:if>
+                                                    </td>
+                                                </c:if>
 
                                                 <td><input type="text" id="bmk2${l.CAREER_ID}" class ="textBox" value='${l.RMK}' style="width: 100%;"></td>
                                                 <td>
@@ -942,15 +942,15 @@
 
 
                                     <tr class="tr">
-<%--                                        <td class="card_number"></td>--%>
-<%--                                        <td class="dept_name"></td>--%>
-<%--                                        <td class="dept_team_name"></td>--%>
-<%--                                        <td class="emp_name_kr"></td>--%>
-<%--                                        <td class="card_interview_date"></td>--%>
-<%--                                        <td class="card_interviewer"></td>--%>
-<%--                                        <td class="card_superior_person"></td>--%>
-<%--                                        <td class="card_superior_person2"></td>--%>
-<%--                                        <td class="card_status"></td>--%>
+                                        <%--                                        <td class="card_number"></td>--%>
+                                        <%--                                        <td class="dept_name"></td>--%>
+                                        <%--                                        <td class="dept_team_name"></td>--%>
+                                        <%--                                        <td class="emp_name_kr"></td>--%>
+                                        <%--                                        <td class="card_interview_date"></td>--%>
+                                        <%--                                        <td class="card_interviewer"></td>--%>
+                                        <%--                                        <td class="card_superior_person"></td>--%>
+                                        <%--                                        <td class="card_superior_person2"></td>--%>
+                                        <%--                                        <td class="card_status"></td>--%>
                                     </tr>
                                     </thead>
 
@@ -1123,7 +1123,7 @@
         start: "month",
         culture : "ko-KR",
         format : "yyyy-MM-dd",
-   /*     value : "${data.BDAY}"*/
+        /*     value : "${data.BDAY}"*/
     });
 
     $("#resignDay").kendoDatePicker({
@@ -1253,14 +1253,14 @@
 
         $(".userInfoTextBox").kendoTextBox();
 
-       /* $("#carActive").kendoRadioGroup({
-            items: [
-                { label : "예", value : "Y" },
-                { label : "아니오", value : "N" }
-            ],
-            layout : "horizontal",
-            labelPosition : "after",
-            value : '${uprList.carActive}'
+        /* $("#carActive").kendoRadioGroup({
+             items: [
+                 { label : "예", value : "Y" },
+                 { label : "아니오", value : "N" }
+             ],
+             layout : "horizontal",
+             labelPosition : "after",
+             value : '${uprList.carActive}'
         });*/
 
         $.each($(".userInfoTextBox input"), function(){
@@ -1509,6 +1509,7 @@
         if(result.flag){
             if(result.rs == "SUCCESS") {
                 alert("등록이 완료 되었습니다.");
+                location.reload();
 
             }else{
                 alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
@@ -1557,8 +1558,8 @@
         if($("#eDate"+ key).val()==""){ alert("기간을 입력해주세요."); return;}
         if($("#school"+ key).val()==""){ alert("학교 및 학과를 입력해주세요."); return;}
         if($("#degree"+ key).val()==""){ alert("학위를 입력해주세요."); return;}
-     /*   if($("#gradeFile"+ key)[0].files.length == 1){ alert("학위증명서를 첨부해주세요."); return;}
-        if($("#socreFile"+ key)[0].files.length == 1){ alert("성적증명서를 첨부해주세요."); return;}*/
+        /*   if($("#gradeFile"+ key)[0].files.length == 1){ alert("학위증명서를 첨부해주세요."); return;}
+           if($("#socreFile"+ key)[0].files.length == 1){ alert("성적증명서를 첨부해주세요."); return;}*/
         if($("#graduation"+ key).val()==""){ alert("졸업여부를 입력해주세요."); return;}
         if($("#score"+ key).val()==""){ alert("성적을 입력해주세요."); return;}
 
@@ -1568,6 +1569,7 @@
         if(result.flag){
             if(result.rs == "SUCCESS") {
                 alert("수정이 완료 되었습니다.");
+                location.reload();
 
             }else{
                 alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
@@ -1585,15 +1587,7 @@
             var result = customKendo.fn_customAjax('/useManage/userDegreeInfoDelete',data);
             if(result.flag){
                 alert("삭제되었습니다.");
-                /*closeModal();
-                $('#eduInfo').load(window.location.href + ' #eduInfo');*/
-                /*$("#eduInfo").load(window.location.href + "#eduInfo");*/
-               /* $('#eduInfo').load(location.href+'#eduInfo');*/
-                /*complete: function() {
-                    closeModal();
-                    $('#eduInfo').load(location.href+' #eduInfo');
-
-                }*/
+                location.reload();
 
             }else {
                 alert("오류가 발생하였습니다.");
@@ -1649,7 +1643,7 @@
         if(result.flag){
             if(result.rs == "SUCCESS") {
                 alert("등록을 성공하였습니다.");
-                fn_windowClose();
+                location.reload();
             }else{
                 alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
             }
@@ -1696,12 +1690,13 @@
         if($("#position2"+ key).val()==""){ alert("직위(급)을 입력해주세요."); return;}
         if($("#workType2"+ key).val()==""){ alert("담당업무를 입력해주세요."); return;}
         if($("#dateY2"+ key).val()=="" && $("#dateM2"+ key).val()==""){ alert("근무년수를 입력해주세요."); return;}
-      /*  if($("#addFile"+ key).val()==""){ alert("증명서를 첨부해주세요."); return;}*/
+        /*  if($("#addFile"+ key).val()==""){ alert("증명서를 첨부해주세요."); return;}*/
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userCareerInfoModify',formData);
         if(result.flag){
             if(result.rs == "SUCCESS") {
                 alert("수정이 완료 되었습니다.");
+                location.reload();
             }else{
                 alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
             }
@@ -1718,6 +1713,7 @@
             var result = customKendo.fn_customAjax('/useManage/userCareerInfoDelete',data);
             if(result.flag){
                 alert("삭제되었습니다.");
+                location.reload();
 
             }else {
                 alert("오류가 발생하였습니다.");
@@ -1752,19 +1748,19 @@
         formData.append("pk", data.pk);
 
         if($("#mGubun").val()==""){ alert("전역여부를 입력해주세요."); return;}
-       /* if($("#reason").val()==""){ alert("사유를 입력해주세요."); return;}
-        if($("#sDate4").val()==""){ alert("복무기간을 입력해주세요."); return;}
-        if($("#eDate4").val()==""){ alert("복무기간을 입력해주세요."); return;}
-        if($("#rank").val()==""){ alert("최종계급을 입력해주세요."); return;}
-        if($("#mType").val()==""){ alert("군별을 입력해주세요."); return;}
-        if($("#mDept").val()==""){ alert("병과를 입력해주세요."); return;}*/
+        /* if($("#reason").val()==""){ alert("사유를 입력해주세요."); return;}
+         if($("#sDate4").val()==""){ alert("복무기간을 입력해주세요."); return;}
+         if($("#eDate4").val()==""){ alert("복무기간을 입력해주세요."); return;}
+         if($("#rank").val()==""){ alert("최종계급을 입력해주세요."); return;}
+         if($("#mType").val()==""){ alert("군별을 입력해주세요."); return;}
+         if($("#mDept").val()==""){ alert("병과를 입력해주세요."); return;}*/
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userMilitaryInfoModify',formData);
         console.log(result.rs);
         if(result.flag){
             if(result.rs == "SUCCESS") {
                 alert("수정을 성공하였습니다.");
-                fn_windowClose();
+                location.reload();
             }else{
                 alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
             }
@@ -1803,7 +1799,7 @@
         if(result.flag){
             if(result.rs == "SUCCESS") {
                 alert("등록을 성공하였습니다.");
-                fn_windowClose();
+                location.reload();
             }else{
                 alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
             }
@@ -1839,6 +1835,7 @@
         if(result.flag){
             if(result.rs == "SUCCESS") {
                 alert("수정이 완료 되었습니다.");
+                location.reload();
             }else{
                 alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
             }
@@ -1855,6 +1852,7 @@
             var result = customKendo.fn_customAjax('/useManage/userFamilyInfoDelete',data);
             if(result.flag){
                 alert("삭제되었습니다.");
+                location.reload();
 
             }else {
                 alert("오류가 발생하였습니다.");
@@ -1899,7 +1897,7 @@
         if(result.flag){
             if(result.rs == "SUCCESS") {
                 alert("등록을 성공하였습니다.");
-                fn_windowClose();
+                location.reload();
             }else{
                 alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
             }
@@ -1937,12 +1935,13 @@
         if($("#sDate5"+key).val()==""){ alert("취득일을 입력해주세요."); return;}
         if($("#licenseNum"+key).val()==""){ alert("자격번호를 입력해주세요."); return;}
         if($("#agency"+key).val()==""){ alert("발급기관을 입력해주세요."); return;}
-        if($("#certificateAddFile"+key).val()==""){ alert("증명서를 첨부해주세요."); return;}
+       /* if($("#certificateAddFile"+key).val()==""){ alert("증명서를 첨부해주세요."); return;}*/
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userLinInfoModify',formData);
         if(result.flag){
             if(result.rs == "SUCCESS") {
                 alert("수정이 완료 되었습니다.");
+                location.reload();
             }else{
                 alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
             }
@@ -1959,6 +1958,7 @@
             var result = customKendo.fn_customAjax('/useManage/userLinInfoDelete',data);
             if(result.flag){
                 alert("삭제되었습니다.");
+                location.reload();
 
             }else {
                 alert("오류가 발생하였습니다.");
@@ -1997,7 +1997,7 @@
         if(result.flag){
             if(result.rs == "SUCCESS") {
                 alert("등록을 성공하였습니다.");
-                fn_windowClose();
+                location.reload();
             }else{
                 alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
             }
@@ -2033,6 +2033,7 @@
         if(result.flag){
             if(result.rs == "SUCCESS") {
                 alert("수정이 완료 되었습니다.");
+                location.reload();
             }else{
                 alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
             }
@@ -2049,7 +2050,7 @@
             var result = customKendo.fn_customAjax('/useManage/userJobInfoDelete', data);
             if (result.flag) {
                 alert("삭제되었습니다.");
-
+                location.reload();
             } else {
                 alert("오류가 발생하였습니다.");
             }
@@ -2109,7 +2110,7 @@
         if(result.flag){
             if(result.rs == "SUCCESS") {
                 alert("등록을 성공하였습니다.");
-                fn_windowClose();
+                location.reload();
             }else{
                 alert("등록에 실패하였습니다. 다시 확인부탁드립니다.");
             }
@@ -2155,12 +2156,13 @@
         if($("#rwdSn"+key).val()==""){ alert("포상/징계 번호를 입력해주세요."); return;}
         if($("#rIssue"+key).val()==""){ alert("공적사항을 입력해주세요."); return;}
         if($("#agency2"+key).val()==""){ alert("시행처을 입력해주세요."); return;}
-        if($("#rewardAddFile"+key).val()==""){ alert("증명서를 첨부해주세요."); return;}
+     /*   if($("#rewardAddFile"+key).val()==""){ alert("증명서를 첨부해주세요."); return;}*/
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userRewInfoModify',formData);
         if(result.flag){
             if(result.rs == "SUCCESS") {
                 alert("수정이 완료 되었습니다.");
+                location.reload();
             }else{
                 alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
             }
@@ -2177,6 +2179,7 @@
             var result = customKendo.fn_customAjax('/useManage/userRewInfoDelete', data);
             if (result.flag) {
                 alert("삭제되었습니다.");
+                location.reload();
 
             } else {
                 alert("오류가 발생하였습니다.");
