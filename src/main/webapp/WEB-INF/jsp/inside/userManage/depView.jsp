@@ -51,6 +51,7 @@
                         </table>
                         <div id="mainChart">
                         </div>
+                        <div id="teamChart"></div>
                     </div><!-- table-responsive -->
                 </div>
             </div>
