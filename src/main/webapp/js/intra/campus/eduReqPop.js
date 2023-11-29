@@ -195,7 +195,6 @@ const eduReq = {
             enctype: 'multipart/form-data',
             async: false,
             success: function(result){
-                console.log(result);
                 alert("교육수강 신청서 저장이 완료되었습니다.");
                 opener.parent.open_in_frame("/Campus/eduInfo.do");
                 window.close();
@@ -219,7 +218,6 @@ const eduReq = {
             dataType: "json",
             async: false,
             success: function(result){
-                console.log(result);
                 alert("학습계획 저장이 완료되었습니다.");
                 window.close();
                 opener.targetInfo.tableSet();

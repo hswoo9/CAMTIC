@@ -101,7 +101,6 @@ var eduResultReqPop = {
             dataType : "json",
             async : false,
             success : function(result){
-                console.log(result);
                 alert("교육 결과보고서 저장이 완료되었습니다.");
                 opener.parent.$("#mainGrid").data("kendoGrid").dataSource.read();
                 window.close();

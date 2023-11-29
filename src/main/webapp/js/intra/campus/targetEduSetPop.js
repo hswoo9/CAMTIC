@@ -80,13 +80,6 @@ var targetEduSetPop = {
 
     tableSet: function () {
         targetEduSetPop.tableDetailSet();
-        console.log("데이터 확인");
-        console.log(targetEduSetPop.global.targetCategoryMainList);
-        console.log(targetEduSetPop.global.targetCategorySubList);
-        console.log(targetEduSetPop.global.targetCategoryMainDetailList);
-        console.log(targetEduSetPop.global.targetCategorySubDetailList);
-        console.log("끝");
-
         const list = targetEduSetPop.global.targetCategoryMainList;
         const subList = targetEduSetPop.global.targetCategorySubList;
         const detailList = targetEduSetPop.global.targetCategoryMainDetailList;

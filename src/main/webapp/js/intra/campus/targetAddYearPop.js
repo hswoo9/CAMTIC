@@ -48,7 +48,6 @@ var targetAddYearPop = {
                 dataType : "json",
                 async : false,
                 success : function(result){
-                    console.log(result);
                     alert("년도 저장이 완료되었습니다.");
                     window.close();
                     opener.window.location.reload();

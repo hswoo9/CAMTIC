@@ -70,7 +70,6 @@ const studyJournal = {
         }
 
         const info = customKendo.fn_customAjax("/campus/getStudyJournalOne", data).data;
-        console.log(info);
         if(info.file_no != undefined && info.file_no != null && info.file_no != ""){
 
             $("#fileHeader").html("");
@@ -201,7 +200,6 @@ const studyJournal = {
             enctype : 'multipart/form-data',
             async: false,
             success: function(result){
-                console.log(result);
                 alert("운영일지 저장이 완료되었습니다.");
                 opener.gridReload();
                 window.close();
@@ -229,7 +227,6 @@ const studyJournal = {
             dataType: "json",
             async: false,
             success: function(result){
-                console.log(result);
                 alert("검토완료 되었습니다.");
                 opener.gridReload();
                 window.close();

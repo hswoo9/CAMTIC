@@ -24,7 +24,6 @@ var eduInfoViewPop = {
             eduInfoId: eduInfoId
         });
         const eduMap = result.data;
-        console.log(eduMap)
 
         if(eduMap.eduFileList != null){
             $("#eduFile").text(eduMap.eduFileList.file_org_name + "." +eduMap.eduFileList.file_ext);
