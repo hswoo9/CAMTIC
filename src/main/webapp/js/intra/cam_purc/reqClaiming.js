@@ -10,19 +10,19 @@ var reqCl = {
                                 ,"itemEa", "itemUnitAmt", "itemUnit", "purcItemAmt", "itemAmt", "itemEtc", "difAmt"])
 
         var radioDataSource = [
+            { label: "법인운영", value: "" },
             { label: "R&D", value: "R" },
             { label: "비R&D", value: "S" },
             { label: "엔지니어링", value: "D" },
             { label: "용역/기타", value: "V" },
-            { label: "기타", value: "" },
         ]
 
         var radioExpDataSource = [
+            { label: "법인운영", value: "" },
             { label: "R&D", value: "R" },
             { label: "비R&D", value: "S" },
             { label: "엔지니어링", value: "D" },
             { label: "용역/기타", value: "V" },
-            { label: "기타", value: "" },
         ]
 
         var radioVatDataSource = [
