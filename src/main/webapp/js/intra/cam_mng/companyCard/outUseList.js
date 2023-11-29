@@ -84,8 +84,10 @@ var outUseList = {
                     }
                 }, {
                     title: "사용처",
-                    field: "MER_NM",
-                    width: 200
+                    width: 200,
+                    template: function(e){
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="outUseList.fn_useCardDetailPop(\''+e.AUTH_NO+'\', \''+e.AUTH_DD+'\', \''+e.AUTH_HH+'\', \''+e.CARD_NO+'\', \''+e.BUY_STS+'\')">'+e.MER_NM+'</div>'
+                    }
                 }, {
                     title: "사업자번호",
                     field : "MER_BIZNO",
@@ -147,5 +149,20 @@ var outUseList = {
         return str.replace(/[^\d]+/g, '');
     },
 
+    fn_useCardDetailPop : function (authNo, authDate, authTime, cardNo, buySts){
+        var params = {
+            authNo : authNo,
+            authDate : authDate,
+            authTime : authTime,
+            cardNo : cardNo,
+            buySts : buySts
+        };
+
+        var url = "/cam_mng/companyCard/useCardDetailPop.do?authNo=" + authNo + "&authDate=" + authDate + "&authTime=" + authTime + "&cardNo=" + cardNo + "&buySts=" + buySts;
+        var name = "_blank";
+        var option = "width = 600, height = 700, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
+
+    }
 
 }

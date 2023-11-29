@@ -24,4 +24,18 @@
         ORDER BY A.AUTH_DD DESC
     </select>
 
+    <select id="useCardDetailInfo" parameterType="map" resultType="map">
+        /*useCardDetailInfo*/
+        SELECT
+            *
+        FROM
+            CAM_HR.ERP_HIST_CORPCD_USE
+        WHERE
+            AUTH_NO = #{authNo} AND CARD_NO = #{cardNo}
+        AND
+            AUTH_DD = #{authDate} AND AUTH_HH = #{authTime}
+        AND
+            BUY_STS = #{buySts}
+    </select>
+
 </mapper>

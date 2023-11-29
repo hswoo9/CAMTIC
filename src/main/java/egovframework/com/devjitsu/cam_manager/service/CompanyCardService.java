@@ -7,4 +7,6 @@ public interface CompanyCardService {
 
 
     List<Map<String, Object>> cardUseList(Map<String, Object> params);
+
+    Map<String, Object> useCardDetailInfo(Map<String, Object> params);
 }
