@@ -225,7 +225,7 @@ var delvInfo = {
 
         /** 협업 체크를 했으면 협업을 등록해야 다음 단계로 이동 가능*/
         if(delvMap.DELV_DEPT == "1" && map.TM_YN == "N"){
-            alert("협업 등록 후 전자결재 상신이 가능합니다.");
+            alert("협업 등록 후 전자결재 상신이 가능합니다."); return;
         }
         $("#delvDraftFrm").one("submit", function() {
             var url = "/popup/cam_project/approvalFormPopup/delvApprovalPop.do";
