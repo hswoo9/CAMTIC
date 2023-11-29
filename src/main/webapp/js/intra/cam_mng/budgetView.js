@@ -12,12 +12,12 @@ var bgView = {
         var date = new Date();
         var year = date.getFullYear().toString().substring(2,4);
 
-        if(setParameters != null){
+        if($("#pjtCd").val() != ""){
             var data = {
                 gisu : year,
                 fromDate : date.getFullYear().toString() + "0101",
                 toDate : date.getFullYear().toString() + "1231",
-                mgtSeq : setParameters.PJT_CD,
+                mgtSeq : $("#pjtCd").val(),
                 opt01 : '3',
                 opt02 : '1',
                 opt03 : '2',
@@ -58,7 +58,7 @@ var bgView = {
                     data.gisu = year;
                     data.fromDate = date.getFullYear().toString() + "0101";
                     data.toDate = date.getFullYear().toString() + "1231";
-                    data.mgtSeq = $("#mgtCd").val();
+                    data.mgtSeq = $("#pjtCd").val();
                     data.opt01 = '3';
                     data.opt02 = '1';
                     data.opt03 = '2';

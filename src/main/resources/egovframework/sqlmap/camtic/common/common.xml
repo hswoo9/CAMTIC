@@ -31,6 +31,10 @@
         WHERE
             1 = 1
         AND VEI.ACTIVE = 'Y'
+        <if test="fullTime != null and fullTime != ''">
+            AND (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
+            AND WORK_STATUS_CODE = 'Y'
+        </if>
         <if test="notDivision != null and notDivision != ''">
             AND VEI.DIVISION != #{notDivision}
         </if>
@@ -397,7 +401,7 @@
             ) MAGU
             ON M.MENU_ID = MAGU.MENU_ID
                 LEFT JOIN CAM_COMMON.DJ_FAVORITE_MENU FM
-                          ON M.MENU_ID = FM.MENU_ID
+                          ON M.MENU_ID = FM.MENU_ID AND FM.REG_EMP_SEQ = #{empSeq}
         WHERE
             ACTIVE = 'Y'
           AND

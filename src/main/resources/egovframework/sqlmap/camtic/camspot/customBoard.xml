@@ -654,8 +654,8 @@
             LIMIT 1
     </select>
 
-    <select id="getStaffScheduleList" parameterType="map" resultType="map">
-        /* getStaffScheduleList */
+    <select id="getMainScheduleList" resultType="egovframework.com.devjitsu.hp.board.util.PostResponse" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
+        /* getMainScheduleList */
         SELECT
             SC.SCHEDULE_TITLE AS title,
             CONCAT(DATE_FORMAT(SC.START_DT, '%Y-%m-%d'), ' ', SC.START_TIME) AS start,
@@ -673,6 +673,33 @@
             <if test="selectedDate != null and selectedDate != ''">
                 AND #{selectedDate} BETWEEN SC.START_DT AND SC.END_DT
             </if>
+            <if test="searchInput != null and searchInput != ''">
+                AND
+                SCHEDULE_TITLE LIKE CONCAT('%', #{searchInput}, '%')
+            </if>
+        AND ACTIVE = 'Y'
+        ORDER BY REG_DATE DESC
+        LIMIT #{pagination.limitStart}, #{recordSize}
+    </select>
+
+    <select id="getMainScheduleListCnt" resultType="int" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
+        /*getMainScheduleListCnt*/
+        SELECT
+        COUNT(*)
+        FROM
+        CAM_BOARD.DJ_SCHEDULE_BOARD
+        WHERE 1=1
+        <if test='publicClass != null and !"".equals(publicClass)'>
+            AND
+            PUBLIC_CLASS = #{publicClass}
+        </if>
+        <if test="selectedDate != null and selectedDate != ''">
+            AND #{selectedDate} BETWEEN SC.START_DT AND SC.END_DT
+        </if>
+        <if test="searchInput != null and searchInput != ''">
+            AND
+            SCHEDULE_TITLE LIKE CONCAT('%', #{searchInput}, '%')
+        </if>
         AND ACTIVE = 'Y'
     </select>
 

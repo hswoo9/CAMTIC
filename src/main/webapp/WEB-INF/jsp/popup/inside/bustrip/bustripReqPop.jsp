@@ -91,6 +91,7 @@
                 <td colspan="3">
                     <input type="text" id="busnName" name="busnName" style="width: 80%;" disabled />
                     <input type="hidden" id="pjtSn" />
+                    <input type="hidden" id="pjtCd" name="pjtCd">
                     <button type="button" class="k-button k-button-solid-info" onclick="bustripReq.fn_projectPop()" id="projectAddBtn">사업선택</button>
                 </td>
             </tr>

@@ -127,7 +127,7 @@ const regPayAtt = {
             eviText = "기타";
         }
 
-        $("#pjtTitle").text("증빙서류 - "+eviText);
+        $("#pjtTitle").text("증빙서류 - " + eviText);
 
         if(attInfo.etcFile != null){
             regPayAtt.settingTempFileDataInit(attInfo.etcFile);
@@ -140,16 +140,14 @@ const regPayAtt = {
         let html = '';
         html += '<colgroup>';
         if(eviType == "1" || eviType == "2"){
-            html += '   <col width="20%">';
-            html += '   <col width="20%">';
-            html += '   <col width="20%">';
-            html += '   <col width="20%">';
-            html += '   <col width="20%">';
+            html += '   <col width="25%">';
+            html += '   <col width="25%">';
+            html += '   <col width="25%">';
+            html += '   <col width="25%">';
         }else if(eviType == "3"){
-            html += '   <col width="25%">';
-            html += '   <col width="25%">';
-            html += '   <col width="25%">';
-            html += '   <col width="25%">';
+            html += '   <col width="33%">';
+            html += '   <col width="33%">';
+            html += '   <col width="33%">';
         }else if(eviType == "5"){
             html += '   <col width="100%">';
         }

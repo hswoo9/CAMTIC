@@ -9,6 +9,7 @@ import java.util.Map;
 public interface ProjectService {
 
     List<Map<String, Object>> getProjectList(Map<String, Object> params);
+    List<Map<String, Object>> getAllProjectList(Map<String, Object> params);
 
     void setProject(Map<String, Object> params);
 

@@ -159,6 +159,7 @@
                         <input type="radio" id="D" name="crmRelPjt" style="margin-right: 5px;" value="D"><label for="D">엔지니어링</label>
                         <input type="radio" id="V" name="crmRelPjt" style="margin-right: 5px;" value="V"><label for="V">용역/기타</label><br>
                         <input type="hidden" id="pjtSn" name="pjtSn">
+                        <input type="hidden" id="pjtCd" name="pjtCd">
                         <input type="text" id="pjtNm" name="pjtNm" class="k-input k-textbox" readonly style="width:90%;display: none" onclick="regCrmHist.fn_projectPop()">
                         <button id="pjtSelBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="display: none" onclick="regCrmHist.fn_projectPop()">사업선택</button>
                     </td>
@@ -212,9 +213,10 @@
         $("#crmShareEmp").val(empSeqAr.substring(0, empSeqAr.length-1));
     }
 
-    function selectProject(sn, nm){
+    function selectProject(sn, nm, cd){
         $("#pjtSn").val(sn);
         $("#pjtNm").val(nm);
+        $("#pjtCd").val(cd);
     }
 
 </script>

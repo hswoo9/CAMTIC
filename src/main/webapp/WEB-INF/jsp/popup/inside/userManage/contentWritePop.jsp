@@ -48,7 +48,8 @@
                         <span class="red-star"></span>면담일시
                     </th>
                     <td colspan="3">
-                        <input type="text" id="cardDate" style="width: 100%;">
+                        <input type="text" id="cardDate" style="width: 25%;">
+                        <input type="text" id="sTime" style="width: 25%;"> ~ <input type="text" id="eTime" style="width: 25%;">
                     </td>
                 </tr>
                 <tr>
@@ -69,7 +70,7 @@
                         <span class="red-star"></span>면담자
                     </th>
                     <td colspan="3">
-                        <input type="text" id="cardInterviewer" style="width: 100%;">
+                        <input type="text" id="cardInterviewer" style="width: 100%;" value="${loginVO.name}" disabled>
                     </td>
                 </thead>
             </table>
@@ -129,6 +130,28 @@
 
 
 <script>
+    $("#cardDate").kendoDatePicker({
+        depth: "month",
+        start: "month",
+        culture : "ko-KR",
+        format : "yyyy-MM-dd",
+        value : new Date()
+    });
+
+    $("#sTime").kendoTimePicker({
+        culture : "ko-KR",
+        format : "HH:mm",
+        interval : 10,
+        value : new Date()
+    });
+
+    $("#eTime").kendoTimePicker({
+        culture : "ko-KR",
+        format : "HH:mm",
+        interval : 10,
+        value : new Date()
+    });
+
     function retrieveData() {
         $.ajax({
             type: "GET",
@@ -161,6 +184,8 @@
             url: "/Inside/setInterviewContent.do",  // 실제 데이터 저장 처리를 담당하는 컨트롤러 메서드의 URL
             data: {
                 cardDate: $("#cardDate").val(),
+                sTime: $("#sTime").val(),
+                eTime: $("#eTime").val(),
                 empSeq: $("#empSeq").val(),
                 cardInterviewer: $("#cardInterviewer").val(),
                 interviewContent1: $("#interviewContent1").val(),
@@ -178,7 +203,6 @@
             }
         });
     }
-
 
     contentWritePop.init();
 </script>

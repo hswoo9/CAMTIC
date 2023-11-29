@@ -102,7 +102,6 @@ var devInfo = {
         devInfo.fn_setData();
 
         var rs = devInfo.global.devPjtVerList.list;
-        console.log(rs);
         if(rs.length > 0){
             var status = rs[0].STATUS;
             var buttonHtml = "";

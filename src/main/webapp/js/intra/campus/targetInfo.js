@@ -26,8 +26,6 @@ var targetInfo = {
             dataType : "json",
             async: false,
             success : function(result){
-                console.log("result");
-                console.log(result);
                 targetInfo.global.yearDropDown = result.list;
             }
         });
@@ -52,8 +50,6 @@ var targetInfo = {
             }).list[0];
             targetInfo.global.targetInfo = dutyInfo;
             let status = targetInfo.global.targetInfo.STATUS;
-            console.log(status);
-
             if(status == 10){
                 $("#stat").text("승인요청 중");
                 $(".appBtn").hide();
@@ -172,14 +168,6 @@ var targetInfo = {
 
     tableSet: function () {
         targetInfo.tableDetailSet();
-        console.log("데이터 확인");
-        console.log(targetInfo.global.targetCategoryMainList);
-        console.log(targetInfo.global.targetCategorySubList);
-        console.log(targetInfo.global.targetCategoryMainDetailList);
-        console.log(targetInfo.global.targetCategorySubDetailList);
-        console.log(targetInfo.global.eduPlanList);
-        console.log(targetInfo.global.subEduPlanList);
-        console.log("끝");
 
         const list = targetInfo.global.targetCategoryMainList;
         const subList = targetInfo.global.targetCategorySubList;

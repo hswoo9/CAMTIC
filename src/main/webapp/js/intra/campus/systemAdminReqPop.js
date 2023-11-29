@@ -83,7 +83,6 @@ const systemAdminReq = {
             dataType: "json",
             async: false,
             success: function(result){
-                console.log(result);
                 alert("학습체계도 저장이 완료되었습니다.");
                 opener.gridReload("categoryGridA");
                 window.close();
@@ -103,7 +102,6 @@ const systemAdminReq = {
             dataType: "json",
             async: false,
             success: function(result){
-                console.log(result);
                 alert("학습체계도 저장이 완료되었습니다.");
                 opener.gridReload("categoryGridA");
                 window.close();
@@ -123,7 +121,6 @@ const systemAdminReq = {
             dataType: "json",
             async: false,
             success: function(result){
-                console.log(result);
                 alert("학습체계도 저장이 완료되었습니다.");
                 opener.gridReload("categoryGridB");
                 window.close();
@@ -143,7 +140,6 @@ const systemAdminReq = {
             dataType: "json",
             async: false,
             success: function(result){
-                console.log(result);
                 alert("학습체계도 저장이 완료되었습니다.");
                 opener.gridReload("categoryGridB");
                 window.close();
@@ -163,7 +159,6 @@ const systemAdminReq = {
             dataType: "json",
             async: false,
             success: function(result){
-                console.log(result);
                 alert("학습체계도 저장이 완료되었습니다.");
                 opener.gridReload("categoryGridC");
                 window.close();
@@ -183,7 +178,6 @@ const systemAdminReq = {
             dataType: "json",
             async: false,
             success: function(result){
-                console.log(result);
                 alert("학습체계도 저장이 완료되었습니다.");
                 opener.gridReload("categoryGridC");
                 window.close();

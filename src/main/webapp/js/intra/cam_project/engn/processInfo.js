@@ -15,9 +15,6 @@ var processInfo = {
             dataType : "json",
             type : "post",
             success : function(rs){
-
-                console.log(rs);
-
                 for(var i = 0 ; i < rs.psList.length ; i++){
                     $("#commFileHtml" + rs.psList[i].PS_PREP).css("display", "");
                 }

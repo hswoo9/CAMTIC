@@ -450,7 +450,7 @@
     </update>
 
     <update id="updRndProjectInfoRes" parameterType="map">
-        /*updRndProjectInfo*/
+        /*updRndProjectInfoRes*/
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET
             PJT_STEP = "R3",

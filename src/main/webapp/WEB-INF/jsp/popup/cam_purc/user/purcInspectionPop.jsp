@@ -79,6 +79,7 @@
                         <span>
                             <input type="text" id="pjtNm" value="${pjtData.PJT_NM}"  style="width: 40%;">
                             <input type="hidden" id="pjtSn" value="${pjtData.PJT_SN}" />
+                            <input type="hidden" id="pjtCd" name="pjtCd">
                             <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="pri.fn_projectPop()">검색</button>
                         </span>
                     </td>

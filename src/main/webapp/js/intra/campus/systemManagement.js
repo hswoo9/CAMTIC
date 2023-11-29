@@ -23,7 +23,6 @@ var systemManagement = {
             dataType : "json",
             async: false,
             success : function(result){
-                console.log(result.list);
                 systemManagement.global.codeDropDown = result.list;
             }
         });
@@ -117,8 +116,6 @@ var systemManagement = {
             dataType : "json",
             async: false,
             success : function(result){
-                console.log(result.list);
-
                 var list = result.list;
                 var mColor = "#ffffff";
                 var html = "";
@@ -163,7 +160,6 @@ var systemManagement = {
                             html += detailList2[j].EDU_CATEGORY_DETAIL_NAME+"<br>";
                         }
                     }
-                    console.log(systemManagement.global.level2List);
 
                     html += "   </td>";
                     html += "   <td style='text-align: left; background-color: "+mColor+"'>";

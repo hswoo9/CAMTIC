@@ -97,6 +97,7 @@
                         <span>
                             <input type="text" id="pjtNm" value="${pjtData.PJT_NM}"  style="width: 40%;">
                             <input type="hidden" id="pjtSn" value="${pjtData.PJT_SN}" />
+                            <input type="hidden" id="pjtCd" name="pjtCd">
                             <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="prp.fn_projectPop()">검색</button>
                         </span>
                     </td>
@@ -285,8 +286,10 @@
         for(var i = 0 ; i < len ; i++){
             $("#purcItemType" + i).data("kendoDropDownList").enable(false);
             $("#productA" + i).data("kendoDropDownList").enable(false);
-            $("#productB" + i).data("kendoDropDownList").enable(false);
-            $("#productC" + i).data("kendoDropDownList").enable(false);
+            if($("#productA" + i).data("kendoDropDownList").value == "3"){
+                $("#productB" + i).data("kendoDropDownList").enable(false);
+                $("#productC" + i).data("kendoDropDownList").enable(false);
+            }
         }
     }
 
@@ -338,9 +341,10 @@
         window.open("/common/deptListPop.do", "조직도", "width=750, height=650");
     }
 
-    function selectProject(sn, nm){
+    function selectProject(sn, nm, cd){
         $("#pjtSn").val(sn);
         $("#pjtNm").val(nm);
+        $("#pjtCd").val(cd);
     }
 
     function fn_excelUploadModal(){

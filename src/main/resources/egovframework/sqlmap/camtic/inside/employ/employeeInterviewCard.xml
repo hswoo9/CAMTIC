@@ -27,6 +27,8 @@
         INSERT INTO cam_inside.dj_employee_interview_card
         (
          card_interview_date,
+         stime,
+         etime,
          card_interviewer,
          interview_content1,
          interview_content2,
@@ -37,6 +39,8 @@
         VALUES
             (
              #{cardDate},
+             #{sTime},
+             #{eTime},
              #{cardInterviewer},
              #{interviewContent1},
              #{interviewContent2},
@@ -54,6 +58,8 @@
         DATE_FORMAT(deic.card_interview_date,'%Y-%m-%d') as card_interview_date,
         deic.EMP_SEQ,
         deic.card_interviewer,
+        deic.sTime,
+        deic.eTime,
         deic.card_number,
         deic.card_superior_person,
         deic.card_superior_person2,
@@ -118,6 +124,8 @@
         DATE_FORMAT(deic.card_interview_date, '%Y-%m-%d') as card_interview_date,
         deic.EMP_SEQ,
         deic.card_interviewer,
+        deic.stime,
+        deic.etime,
         deic.card_number,
         deic.card_superior_person,
         deic.card_superior_person2,

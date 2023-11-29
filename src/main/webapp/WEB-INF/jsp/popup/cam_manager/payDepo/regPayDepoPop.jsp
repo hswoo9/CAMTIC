@@ -10,6 +10,7 @@
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/deposit/regPayDepoPop.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/incomeList.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/regIncmPop.js?v=${today}'/>"></script>
 
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/g20Callback.js?v=${today}'/>"></script>
 
@@ -60,6 +61,7 @@
                         <span>
                             <input type="text" id="pjtNm" disabled value="${pjtData.PJT_NM}"  style="width: 30%;">
                             <input type="hidden" id="pjtSn" value="${pjtData.PJT_SN}" />
+                            <input type="hidden" id="pjtCd" name="pjtCd">
                             <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="regPayDepo.fn_projectPop('regPay')">검색</button>
                         </span>
                     </td>
@@ -138,6 +140,7 @@
     function selectProject(sn, nm, cd){
         $("#pjtSn").val(sn);
         $("#pjtNm").val(nm);
+        $("#pjtCd").val(cd);
 
         var data = {
             pjtCd : cd

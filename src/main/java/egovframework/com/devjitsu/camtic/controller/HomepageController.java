@@ -36,17 +36,19 @@ public class HomepageController {
         return "camtic/main";
     }
     @RequestMapping("/camtic/")
-    public String homepageIndexB(@RequestParam Map<String,Object> params, HttpServletRequest request){
+    public String homepageIndexB(@RequestParam Map<String,Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         /* params.put("empSeq", loginVO.getUniqId());*/
+        model.addAttribute("loginVO", loginVO);
         return "camtic/main";
     }
     @RequestMapping("/camtic/index.do")
-    public String homepageIndexC(@RequestParam Map<String,Object> params, HttpServletRequest request){
+    public String homepageIndexC(@RequestParam Map<String,Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
-        /*  params.put("empSeq", loginVO.getUniqId());*/
+          /*params.put("empSeq", loginVO.getUniqId());*/
+        model.addAttribute("loginVO", loginVO);
         return "camtic/main";
     }
 
@@ -86,7 +88,7 @@ public class HomepageController {
                     isAdmin = true;
                     login.setUserSe("ADMIN");
                 }
-                request.getSession().setAttribute("LoginVO", login);
+                request.getSession().setAttribute("loginVO", login);
                 request.getSession().setAttribute("isAdmin", isAdmin);
 
                 logger.info("이름은 : " + login.getName());
@@ -211,25 +213,55 @@ public class HomepageController {
 
     //포토뉴스
     @RequestMapping("/camtic/pr/photo.do")
-    public String Pphoto(){ return "camtic/pr/photo"; }
+    public String Pphoto(@RequestParam Map<String,Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        /*params.put("empSeq", loginVO.getUniqId());*/
+        model.addAttribute("loginVO", loginVO);
+        return "camtic/pr/photo"; }
     //보도자료
     @RequestMapping("/camtic/pr/report.do")
-    public String Preport(){ return "camtic/pr/report"; }
+    public String Preport(@RequestParam Map<String,Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        /*params.put("empSeq", loginVO.getUniqId());*/
+        model.addAttribute("loginVO", loginVO);
+        return "camtic/pr/report"; }
     //뉴스레터
     @RequestMapping("/camtic/pr/news.do")
-    public String Pnews(){ return "camtic/pr/news"; }
+    public String Pnews(@RequestParam Map<String,Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        /*params.put("empSeq", loginVO.getUniqId());*/
+        model.addAttribute("loginVO", loginVO);
+        return "camtic/pr/news"; }
     //홍보영상
     @RequestMapping("/camtic/pr/video.do")
-    public String Pvideo(){ return "camtic/pr/video"; }
+    public String Pvideo(@RequestParam Map<String,Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        /*params.put("empSeq", loginVO.getUniqId());*/
+        model.addAttribute("loginVO", loginVO);
+        return "camtic/pr/video"; }
     //CI소개
     @RequestMapping("/camtic/pr/ci.do")
     public String Pci(){ return "camtic/pr/ci"; }
 
     //sns
     @RequestMapping("/camtic/pr/sns.do")
-    public String Psns(){ return "camtic/pr/sns"; }
+    public String Psns(@RequestParam Map<String,Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        /*params.put("empSeq", loginVO.getUniqId());*/
+        model.addAttribute("loginVO", loginVO);
+        return "camtic/pr/sns"; }
     @RequestMapping("/camtic/pr/view.do")
-    public String Pview(){ return "camtic/pr/view"; }
+    public String Pview(@RequestParam Map<String,Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        /*params.put("empSeq", loginVO.getUniqId());*/
+        model.addAttribute("loginVO", loginVO);
+        return "camtic/pr/view"; }
 
     //이메일무단수집거부
     @RequestMapping("/camtic/etc/privacy.do")

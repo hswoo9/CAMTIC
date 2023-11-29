@@ -9,4 +9,8 @@ public interface SetManagementService {
     List<Map<String, Object>> getCorpProjectList(Map<String, Object> params);
 
     Map<String, Object> getCorpProjectData(Map<String, Object> params);
+
+    void setRequest(Map<String, Object> params);
+
+    void setApprove(Map<String, Object> params);
 }

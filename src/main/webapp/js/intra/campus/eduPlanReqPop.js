@@ -13,7 +13,6 @@ const eduPlanReq = {
             dataType : "json",
             async: false,
             success : function(result){
-                console.log(result.data.EDU_CATEGORY_NAME);
                 try {
                     let dutyClass = $("#dutyClass").val() == 2 ? "연계업무" : "주업무";
                     $("#categoryRange").text(dutyClass+" > "+result.data.EDU_CATEGORY_NAME);

@@ -171,6 +171,25 @@ public class UserManageController {
         return "inside/userManage/userPersonnelRecordModify";
     }
 
+    @RequestMapping("/useManage/getEduList")
+    public String getEduList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        menuSession(request, session);
+
+        Map<String,Object> map = new HashMap<>();
+        if(!StringUtils.isEmpty(params.get("admin")) && !StringUtils.isEmpty(params.get("empSeq"))){
+            map.put("empSeq", params.get("empSeq"));
+        }else{
+            map.put("empSeq", login.getUniqId());
+        }
+
+        List<Map<String,Object>> educationalList = userManageService.getEducationalList(map); // 교육 사항
+        model.addAttribute("eList", educationalList);
+
+        return "jsonView";
+    }
+
     /*학력사항 추가*/
     @RequestMapping("/useManage/userDegreeInfoInsert")
     public String userDegreeInfoInsert(@RequestParam Map<String,Object> map, Model model,MultipartHttpServletRequest request) {

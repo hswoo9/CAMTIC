@@ -92,6 +92,10 @@ public class CampusRepository extends AbstractDAO  {
         return selectList("campus.getEduAllStatList", params);
     }
 
+    public List<Map<String, Object>> getEduMyStatList(Map<String, Object> params) {
+        return selectList("campus.getEduMyStatList", params);
+    }
+
     public List<Map<String, Object>> getDutyInfoList(Map<String, Object> params) {
         return selectList("campus.getDutyInfoList", params);
     }

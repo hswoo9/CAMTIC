@@ -30,7 +30,7 @@
                 <button type="button" id="finBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_ojtCertReq(101);">지도완료</button>
                 <button type="button" id="recBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_ojtCertReq(100);">승인</button>
                 <button type="button" id="comBtn" style="display: none" class="k-button k-button-solid-error" onclick="ojtView.fn_ojtCertReq(30);">반려</button>
-                <button type="button" id="canBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_ojtCertReq(0);">승인요청</button>
+                <button type="button" id="canBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_ojtCertReq(0);">취소</button>
                 <button type="button" id="appBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_ojtCertReq(10);">승인요청</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
             </div>

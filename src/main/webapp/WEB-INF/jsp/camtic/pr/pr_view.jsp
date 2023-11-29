@@ -63,7 +63,9 @@
               </dd>
           </dl> -->
           <div class="con">
-            <%--<div style="border-bottom: 1px solid #ccc; padding: 5px 0 5px 0; text-align: right; word-break:break-all; height: 55px;">
+
+            <c:if test="${categoryId ne 'photo' and categoryId ne 'sns'}" >
+            <div style="border-bottom: 1px solid #ccc; padding: 5px 0 5px 0; text-align: right; word-break:break-all; height: 55px; display: ${fn:length(fileMap) ne 0 ? 'block' : 'none'};">
               <c:choose>
                 <c:when test="${fn:length(fileMap) ne 0}">
                   <c:forEach var="file" items="${fileMap}" varStatus="status">
@@ -91,7 +93,9 @@
                   <span></span>
                 </c:otherwise>
               </c:choose>
-            </div>--%>
+            </div>
+            </c:if>
+
 
             <div class="txt_zone pr_view_content" style="line-height:25px;">
               <c:if test="${categoryId eq 'photo'}" >
@@ -106,7 +110,6 @@
             </div>
 
           </div>
-
 
           <div class="con">
             <table>
@@ -124,10 +127,8 @@
                     <a href="#" onclick="fn_detailBoard('${map.beforeKey}')">${map.beforeName}</a></td>
                 </tr>
               </c:if>
-
             </table>
           </div>
-
         </div>
 
         <div class="__botArea">
@@ -136,8 +137,10 @@
           </div>
           <div class="rig">
             <%--            <a href="#" class="__btn1 blue"><span>온라인 입사지원하기</span></a>--%>
+          <c:if test="${loginVO.uniqId eq '1'}">
             <a href="javascript:void(0);" onclick="fn_regist('${map.BOARD_ARTICLE_ID}');" class="__btn1 grayLine"><span>수정</span></a>
             <a href="javascript:void(0);" onclick="fn_delNotice('${map.BOARD_ARTICLE_ID}');" class="__btn1 grayLine"><span>삭제</span></a>
+          </c:if>
           </div>
           <%--<div class="rig">
             <c:if test="${map.afterKey ne '' && map.afterKey ne null}">

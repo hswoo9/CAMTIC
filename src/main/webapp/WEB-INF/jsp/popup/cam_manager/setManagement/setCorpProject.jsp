@@ -20,6 +20,7 @@
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 
 <input type="hidden" id="corpPjtSn" value="${params.corpPjtSn}"/>
+<input type="hidden" id="mode" value="${params.mode}"/>
 
 <div style="padding:0;">
     <div class="table-responsive">
@@ -30,10 +31,11 @@
             </h3>
 
             <div class="btn-st popButton" style="font-size: 13px">
-                <button type="button" id="approveBtn" class="k-button k-button-solid-info" style="display: none;" onclick="setCorpPjt.fn_approve()">승인요청</button>
+                <button type="button" id="reqBtn" class="k-button k-button-solid-info" style="display: none;" onclick="openModal();">승인요청</button>
+                <button type="button" id="appBtn" class="k-button k-button-solid-info" style="display: none;" onclick="setCorpPjt.fn_approve(100)">승인</button>
                 <button type="button" id="saveBtn" class="k-button k-button-solid-info" onclick="setCorpPjt.fn_save()">저장</button>
                 <button type="button" id="modBtn" class="k-button k-button-solid-primary" style="display: none;" onclick="setCorpPjt.fn_save()">수정</button>
-                <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
+                <button type="button" id="canBtn"  class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>
         </div>
         <div style="padding : 10px">
@@ -133,13 +135,132 @@
         </div>
     </div>
 </div>
+<div id="dialog"></div>
 
 <script>
 
     setCorpPjt.fn_defaultScript();
 
+    $("#dialog").kendoWindow({
+        title : "프로젝트 분류",
+        width: "700px",
+        visible: false,
+        modal: true,
+        position : {
+            top : 30,
+            left : 100
+        },
+        open : function (){
+            var htmlStr =
+                '<div class="mb-10" style="text-align: right;">' +
+                '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="setCorpPjt.fn_request(\'10\')">승인요청</button>' +
+                '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#dialog \').data(\'kendoWindow\').close()">닫기</button>' +
+                '</div>' +
+                '<table class="table table-bordered mb-0" style="margin-top: 10px">' +
+                '	<colgroup>' +
+                '		<col width="20%">' +
+                '		<col width="35%">' +
+                '		<col width="15%">' +
+                '		<col width="30%">' +
+                '	</colgroup>' +
+                '	<tbody>' +
+                '		<tr>' +
+                '			<th scope="row" class="text-center th-color"><span class="red-star">*</span>프로젝트 구분</th>' +
+                '			<td colspan="3">' +
+                '				<input type="text" disabled id="pjCode" name="pjCode" style="width: 90%"/>' +
+                '			</td>' +
+                '		</tr>' +
+                '		<tr>' +
+                '			<th scope="row" class="text-center th-color"><span class="red-star">*</span>지원부처</th>' +
+                '			<td>' +
+                '				<input type="text" id="supDep2" name="supDep" style="width: 90%"/>' +
+                '			</td>' +
+                '			<th scope="row" class="text-center th-color"><span class="red-star">*</span>전담기관</th>' +
+                '			<td>' +
+                '				<input type="text" id="supDepSub2" name="supDepSub" style="width: 90%"/>' +
+                '			</td>' +
+                '		</tr>' +
+                '		<tr>' +
+                '			<th scope="row" class="text-center th-color"><span class="red-star">*</span>사업성격</th>' +
+                '			<td>' +
+                '				<input type="text" id="pjtStat" name="pjtStat" style="width: 90%"/>' +
+                '			</td>' +
+                '			<th scope="row" class="text-center th-color"><span class="red-star">*</span>사업성격2</th>' +
+                '			<td>' +
+                '				<input type="text" id="pjtStatSub" name="pjtStatSub" style="width: 90%"/>' +
+                '			</td>' +
+                '		</tr>' +
+                '	</tbody>' +
+                '</table>';
+
+            $("#dialog").html(htmlStr);
+
+            // modalKendoSetCmCodeCM();
+            modalSetData()
+        },
+        close: function () {
+            $("#dialog").empty();
+        }
+    });
+
     function userSearch(type, pk) {
         window.open("/common/deptListPop.do?type="+type+"&pk="+pk, "조직도", "width=750, height=650");
+    }
+
+    function openModal(){
+
+        $("#dialog").data("kendoWindow").open();
+    }
+
+    function modalSetData(){
+        var data= {
+            cmGroupCode : "BUSN_CLASS"
+        }
+
+        var pjCodeDs = customKendo.fn_customAjax("/common/commonCodeList", data);
+        customKendo.fn_dropDownList("pjCode", pjCodeDs.rs, "CM_CODE_NM", "CM_CODE");
+
+        $("#pjCode").data("kendoDropDownList").select(5);
+
+        data.grpSn = "SUP_DEP";
+        var lgCodeDs = customKendo.fn_customAjax("/project/selLgCode", data);
+        customKendo.fn_dropDownList("supDep2", lgCodeDs.rs, "LG_CD_NM", "LG_CD");
+
+        $("#supDepSub2").kendoDropDownList({
+            dataSource : [{text : "선택", value : ""}],
+            dataTextField : "text",
+            dataValueField : "value"
+        });
+
+        $("#supDep2").data("kendoDropDownList").bind("change", function(){
+            data.lgCd = $("#supDep2").val();
+            data.grpSn = "SUP_DEP";
+            var smCodeDs = customKendo.fn_customAjax("/project/selSmCode", data);
+            customKendo.fn_dropDownList("supDepSub2", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
+        });
+
+        data.grpSn = "BUS_STAT";
+        var lgCodeDs = customKendo.fn_customAjax("/project/selLgCode", data);
+        customKendo.fn_dropDownList("pjtStat", lgCodeDs.rs, "LG_CD_NM", "LG_CD");
+
+        $("#pjtStatSub").kendoDropDownList({
+            dataSource : [{text : "선택", value : ""}],
+            dataTextField : "text",
+            dataValueField : "value"
+        });
+        $("#pjtStat").data("kendoDropDownList").bind("change", function(){
+            data.lgCd = $("#pjtStat").val();
+            data.grpSn = "BUS_STAT";
+            var smCodeDs = customKendo.fn_customAjax("/project/selSmCode", data);
+            customKendo.fn_dropDownList("pjtStatSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
+        });
+
+        $("#supDep2").data("kendoDropDownList").value($("#supDep").val());
+        $("#supDep2").data("kendoDropDownList").trigger("change");
+
+        $("#supDepSub2").data("kendoDropDownList").value($("#supDepSub").val());
+
+        $("#dialog").css("overflow", "hidden");
     }
 
 </script>

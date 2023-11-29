@@ -109,6 +109,7 @@
                         <span>
                             <input type="text" id="pjtNm" style="width: 40%;">
                             <input type="hidden" id="pjtSn" />
+                            <input type="hidden" id="pjtCd" name="pjtCd">
                             <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="reqCl.fn_projectPop()">검색</button>
                         </span>
                     </td>
@@ -292,9 +293,10 @@
         window.open("/common/deptListPop.do?params=" + p , "조직도", "width=750, height=650");
     }
 
-    function selectProject(sn, nm){
+    function selectProject(sn, nm, cd){
         $("#pjtSn").val(sn);
         $("#pjtNm").val(nm);
+        $("#pjtCd").val(cd);
     }
 </script>
 </body>

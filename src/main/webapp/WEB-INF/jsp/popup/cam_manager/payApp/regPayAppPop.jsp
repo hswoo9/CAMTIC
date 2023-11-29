@@ -72,12 +72,17 @@
                 </tr>
                 <tr id="project">
                     <th scope="row" class="text-center th-color">사업명</th>
-                    <td colspan="4">
+                    <td colspan="2">
                         <span>
                             <input type="text" id="pjtNm" disabled value="${pjtData.PJT_NM}"  style="width: 40%;">
                             <input type="hidden" id="pjtSn" value="${pjtData.PJT_SN}" />
+                            <input type="hidden" id="pjtCd" value="${pjtData.PJT_CD}" />
                             <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="regPay.fn_projectPop('regPay')">검색</button>
                         </span>
+                    </td>
+                    <th scope="row" class="text-center th-color">지출요청일</th>
+                    <td colspan="2">
+                        <input type="text" id="reqDe" style="width: 40%" />
                     </td>
                 </tr>
 <%--                <tr>--%>
@@ -103,7 +108,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th rowspan="3" scope="row" class="text-center th-color">출금계좌</th>
+                    <th rowspan="3" scope="row" class="text-center th-color" id="trBank">출금계좌</th>
                     <th style="width: 10%">계좌명</th>
                     <td colspan="3">
                         <input type="text" id="accNm" disabled style="width: 50%;">
@@ -173,10 +178,10 @@
                         <col style="width: 5%;">
                         <col style="width: 5%;">
                         <col style="width: 5%;">
-<%--                        <c:if test="${'rev'.equals(params.status)}">--%>
+                        <c:if test="${'rev'.equals(params.status)}">
                             <col style="width: 3%;">
                             <col style="width: 3%;">
-<%--                        </c:if>--%>
+                        </c:if>
                         <col style="width: 3%;">
                     </colgroup>
                     <thead>
@@ -200,10 +205,10 @@
                         <th>신용카드</th>
                         <th>비고</th>
                         <th>관련근거</th>
-<%--                        <c:if test="${'rev'.equals(params.status)}">--%>
+                        <c:if test="${'rev'.equals(params.status)}">
                             <th>선지급</th>
                             <th>첨부파일</th>
-<%--                        </c:if>--%>
+                        </c:if>
                         <th>명령</th>
                     </tr>
                     </thead>
@@ -259,7 +264,7 @@
                         <td>
                             <input type="text" id="iss0" class="iss">
                         </td>
-<%--                        <c:if test="${'rev'.equals(params.status)}">--%>
+                        <c:if test="${'rev'.equals(params.status)}">
                             <td>
                                 <input type="checkbox" id="advances0" class="advances" style="width: 26px; height: 26px;">
                             </td>
@@ -268,7 +273,7 @@
                                     <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regPayDet.fn_regPayAttPop(0)">첨부</button>
                                 </div>
                             </td>
-<%--                        </c:if>--%>
+                        </c:if>
                         <td>
                             <div style="text-align: center">
                                 <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(0)">삭제</button>
@@ -308,6 +313,7 @@
     function selectProject(sn, nm, cd){
         $("#pjtSn").val(sn);
         $("#pjtNm").val(nm);
+        $("#pjtCd").val(cd);
 
         var data = {
             pjtCd : cd

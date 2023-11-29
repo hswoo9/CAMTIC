@@ -31,16 +31,18 @@
           <colgroup>
             <col style="width:100px;"/>
             <col/>
+            <%--<col style="width:70px;"/>--%>
+            <col style="width:280px;"/>
             <col style="width:100px;"/>
-            <col style="width:200px;"/>
             <col style="width:100px;"/>
           </colgroup>
           <thead>
           <tr>
             <th scope="col">번호</th>
-            <th scope="col">제목</th>
-            <th scope="col">작성자</th>
-            <th scope="col">작성일</th>
+            <th scope="col">공고명</th>
+           <%-- <th scope="col">작성자</th>--%>
+            <th scope="col">모집기간</th>
+            <th scope="col">상태</th>
             <th scope="col">조회수</th>
           </tr>
           </thead>
@@ -129,7 +131,12 @@
 
   //게시글 리스트 그리기
   function drawTable(data) {
-
+    if (data.length == 0) {
+      document.querySelector('.__paging').innerHTML = '';
+      $("#totalCnt").text(0);
+      $("#tableBody").html('');
+      return;
+    }
     $("#tableBody").html('');
 
     let html = "";
@@ -144,12 +151,19 @@
 
       html += "<tr>";
       html += '<td>'+ (num) +'</td>';
-      html += '<td class="subject" onclick="fn_detailBoard('+item.recruit_INFO_SN +')"><a href="#" onclick="fn_detailBoard('+item.recruit_INFO_SN +')">'+ item.recruit_TITLE +'</a></td>';
-      html += '<td>'+ item.reg_EMP_NAME +'</td>';
-      var datetimeParts = item.reg_DT.split(' ');
-      var datePart = datetimeParts[0];
-      html += '<td>' + datePart + '</td>';
-      html += '<td>'+ item.recruit_VIEW_COUNT +'</td>';
+      html += '<td class="subject"><a href="#" onclick="fn_detailBoard('+ item.recruit_INFO_SN +')">'+ item.recruit_TITLE +'</a></td>';
+      /*html += '<td>'+ item.reg_EMP_NAME +'</td>';*/
+      /*var datetimeParts = item.reg_DT.split(' ');
+      var datePart = datetimeParts[0];*/
+      html += '<td>' + item.start_DT + ' <span style="margin-left:5px; margin-right:5px;">~</span> ' + item.end_DT + '</td>';
+      if(item.recruit_STATUS_SN == 'E') {
+        html += '<td>' + item.recruit_STATUS_TEXT + '</td>';
+      }else if(item.recruit_STATUS_SN == '3' || item.recruit_STATUS_SN == '4' ) {
+        html += '<td>심사중</td>';
+      }else if(item.recruit_STATUS_SN == '2'){
+        html += '<td>접수중</td>';
+      }
+      html += '<td>' + item.recruit_VIEW_COUNT + '</td>';
       html += "</tr>";
     });
 

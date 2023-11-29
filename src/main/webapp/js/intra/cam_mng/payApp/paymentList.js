@@ -65,17 +65,13 @@ var paymentList = {
                     width: 90,
                     template: function(e){
                         if(e.PAY_APP_TYPE == 1){
-                            return "세금계산서";
+                            return "지급신청서";
                         } else if (e.PAY_APP_TYPE == 2){
-                            return "계산서";
+                            return "여입신청서";
                         } else if(e.PAY_APP_TYPE == 3){
-                            return "신용카드";
+                            return "반납신청서";
                         } else if(e.PAY_APP_TYPE == 4){
-                            return "직원지급";
-                        } else if(e.PAY_APP_TYPE == 5){
-                            return "소득신고자";
-                        } else {
-                            return "기타";
+                            return "대체신청서";
                         }
                     }
                 }, {

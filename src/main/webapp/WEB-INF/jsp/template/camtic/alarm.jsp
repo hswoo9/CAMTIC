@@ -51,7 +51,7 @@
                     <li>
                       <a href="/camtic/news/view.do?boardArticleId=40&category=study" title="test">
                         <div class="pop_thumb">
-                          <img src="http://www.camtic.or.kr/camtic/etc/230207_2.jpg" alt="test" style="height: 217px;">
+                          <img src="http://www.camtic.or.kr/camtic/etc/230207_2.jpg" alt="test" style="height: 450px;">
                         </div>
                         <dl>
                           <dt>스마트팩토리·기계/자동차 분야 연수생 모집</dt>
@@ -62,7 +62,7 @@
                     <li>
                       <a href="/camtic/news/view.do?boardArticleId=36&category=study" title="test">
                         <div class="pop_thumb">
-                          <img src="http://www.camtic.or.kr/camtic/etc/230118_1.jpg" alt="test" style="height: 217px;">
+                          <img src="http://www.camtic.or.kr/camtic/etc/230118_1.jpg" alt="test" style="height: 450px;">
                         </div>
                         <dl>
                           <dt>드론산업혁신지원센터 1월 지원장비 공동활용 교육</dt>
@@ -73,7 +73,7 @@
                     <li>
                       <a href="/camtic/news/view.do?boardArticleId=39&category=partner" title="test">
                         <div class="pop_thumb">
-                          <img src="http://www.camtic.or.kr/camtic/etc/230413_1.jpeg" alt="test" style="height: 217px;">
+                          <img src="http://www.camtic.or.kr/camtic/etc/230413_1.jpeg" alt="test" style="height: 450px;">
                         </div>
                         <dl>
                           <dt>2023년 인쇄전자 공정장비 실습과정 교육 모집</dt>
@@ -84,7 +84,7 @@
                     <li>
                       <a href="/camtic/news/view.do?boardArticleId=38&category=partner" title="test">
                         <div class="pop_thumb">
-                          <img src="http://www.camtic.or.kr/camtic/etc/230412_1.jpg" alt="test" style="height: 217px;">
+                          <img src="http://www.camtic.or.kr/camtic/etc/230412_1.jpg" alt="test" style="height: 450px;">
                         </div>
                         <dl>
                           <dt>위기근로자 취업장려금 지원사업 참여자 모집 공고</dt>
@@ -95,7 +95,7 @@
                     <li>
                       <a href="/camtic/news/view.do?boardArticleId=35&category=partner" title="test">
                         <div class="pop_thumb">
-                          <img src="http://www.camtic.or.kr/camtic/etc/230410_1.png" alt="test" style="height: 217px;">
+                          <img src="http://www.camtic.or.kr/camtic/etc/230410_1.png" alt="test" style="height: 450px;">
                         </div>
                         <dl>
                           <dt>(KETI)2023년 전지소재부품 실증 Open Lab을 활용한 사업화지원 참여기업 모집 공고</dt>
@@ -106,7 +106,7 @@
                     <li>
                       <a href="/camtic/news/view.do?boardArticleId=41495&category=partner" title="test">
                         <div class="pop_thumb">
-                          <img src="http://www.camtic.or.kr/camtic/etc/230725_1.jpg" alt="test" style="height: 217px;">
+                          <img src="http://www.camtic.or.kr/camtic/etc/230725_1.jpg" alt="test" style="height: 450px;">
                         </div>
                         <dl>
                           <dt>익산형 로컬크리에이터 및 MVP지원사업 공고</dt>
@@ -117,7 +117,7 @@
                     <li>
                       <a href="/camtic/news/view.do?boardArticleId=22979&category=study" title="test">
                         <div class="pop_thumb">
-                          <img src="http://www.camtic.or.kr/camtic/etc/230719_2.png" alt="test" style="height: 217px;">
+                          <img src="http://www.camtic.or.kr/camtic/etc/230719_2.png" alt="test" style="height: 450px;">
                         </div>
                         <dl>
                           <dt>드론기술개발지원센터 7월 지원장비 공동활용 교육 안내</dt>
@@ -128,7 +128,7 @@
                     <li>
                       <a href="/camtic/news/view.do?boardArticleId=22978&category=study" title="test">
                         <div class="pop_thumb">
-                          <img src="http://www.camtic.or.kr/camtic/etc/230615_2.png" alt="test" style="height: 217px;">
+                          <img src="http://www.camtic.or.kr/camtic/etc/230615_2.png" alt="test" style="height: 450px;">
                         </div>
                         <dl>
                           <dt>스마트기계 및 자동차 취업성공반</dt>

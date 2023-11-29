@@ -188,6 +188,11 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public List<Map<String, Object>> getEduMyStatList(Map<String, Object> params){
+        return campusRepository.getEduMyStatList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getTargetYearList(Map<String, Object> params){
         return campusRepository.getTargetYearList(params);
     }

@@ -249,13 +249,13 @@ var regPayDepo = {
     },
 
     fn_budgetPop: function (){
-        if($("#pjtSn").val() == ""){
+        if($("#pjtCd").val() == ""){
             alert("사업을 선택해주세요.");
             return ;
         }
 
         /** 추후 temp변수명 수정 예정 */
-        var url = "/mng/pop/budgetView.do?pjtSn=" + $("#pjtSn").val() + "&idx=N&temp=2";
+        var url = "/mng/pop/budgetView.do?pjtCd=" + $("#pjtCd").val() + "&idx=N&temp=2";
 
         var name = "_blank";
         var option = "width = 1100, height = 650, top = 100, left = 400, location = no"

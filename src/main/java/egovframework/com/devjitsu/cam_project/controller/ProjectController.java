@@ -69,6 +69,17 @@ public class ProjectController {
         return "jsonView";
     }
 
+    /** 법인프로젝트 포함 프로젝트 선택 리스 */
+    @RequestMapping("/project/getAllProjectList")
+    public String getAllProjectList(@RequestParam Map<String, Object> params, Model model) {
+
+        List<Map<String,Object>> list = projectService.getAllProjectList(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/project/getProjectData")
     public String getProjectData(@RequestParam Map<String, Object> params, Model model) {
 

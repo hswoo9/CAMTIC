@@ -6,6 +6,7 @@ import egovframework.com.devjitsu.cam_manager.repository.SetManagementRepository
 import egovframework.com.devjitsu.cam_manager.service.SetManagementService;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRndRepository;
 import egovframework.com.devjitsu.cam_project.service.impl.ProjectRndServiceImpl;
+import egovframework.com.devjitsu.g20.repository.G20Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,9 @@ public class SetManagementServiceImpl implements SetManagementService {
 
     @Autowired
     private ProjectRndRepository projectRndRepository;
+
+    @Autowired
+    private G20Repository g20Repository;
 
     @Override
     public void setProject(Map<String, Object> params) {
@@ -48,5 +52,37 @@ public class SetManagementServiceImpl implements SetManagementService {
     @Override
     public Map<String, Object> getCorpProjectData(Map<String, Object> params) {
         return setManagementRepository.getCorpProjectData(params);
+    }
+
+    @Override
+    public void setRequest(Map<String, Object> params) {
+        /** 사업비 분리 : 테이블 조회해서 데이터 없으면 단일(0)으로 생성, 있으면 for문 */
+        params.put("pjtSn", params.get("corpPjtSn").toString());
+        List<Map<String, Object>> list = projectRndRepository.getAccountInfo(params);
+        int pjtCnt = g20Repository.getProjectCount(params);
+        String pjtCd = params.get("pjtCd").toString();
+        String cntCode = String.format("%02d", (pjtCnt + 1));
+        if(list.size() == 0){
+            params.put("pjtCd", pjtCd + cntCode + "0");
+            params.put("pProjectCD", params.get("pjtCd"));
+            // G20 프로젝트 추가
+            g20Repository.insProject(params);
+            setManagementRepository.setRequest(params);
+        }else{
+            for(int i = 0 ; i < list.size() ; i++){
+                params.put("pProjectCD", pjtCd + cntCode + list.get(i).get("IS_TYPE"));
+                if(i == 0){
+                    params.put("pjtCd", params.get("pProjectCD"));
+                    setManagementRepository.setRequest(params);
+                }
+                // G20 프로젝트 추가
+                g20Repository.insProject(params);
+            }
+        }
+    }
+
+    @Override
+    public void setApprove(Map<String, Object> params) {
+        setManagementRepository.setApprove(params);
     }
 }

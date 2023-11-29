@@ -78,6 +78,7 @@ var userMultiSel = {
                     } else {
                         data.sEmpName = $("#sEmpName").val();
                     }
+                    data.fullTime = "1";
                     return data;
                 }
             },

@@ -62,7 +62,13 @@ const ojtView = {
         let status = ojtView.global.ojtInfo.STATUS;
         if(mode == "upd"){
             if(status == 0 || status == 30){
-                $("#appBtn").show();
+                const count = customKendo.fn_customAjax("/campus/getOjtPlanList", {
+                    pk: $("#pk")
+                }).list.length;
+
+                if(count > 1){
+                    $("#appBtn").show();
+                }
             }else if(status == 10){
                 $("#canBtn").show();
             }else if(status == 100){
