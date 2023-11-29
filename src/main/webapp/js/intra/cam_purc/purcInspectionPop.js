@@ -20,11 +20,11 @@ var pri = {
             "purcItemQty0", "purcItemUnit0", "purcItemAmt0", "crmNm0", "rmk0", "pjtNm"]);
 
         pri.global.radioGroupData = [
+            { label: "법인운영", value: "" },
             { label: "R&D", value: "R" },
             { label: "비R&D", value: "S" },
             { label: "엔지니어링", value: "D" },
             { label: "용역/기타", value: "V" },
-            { label: "기타", value: "" },
         ]
         customKendo.fn_radioGroup("purcType", pri.global.radioGroupData, "horizontal");
 
@@ -138,18 +138,22 @@ var pri = {
                 pri.addRow();
             }
 
+            console.log(e[i]);
             $("#item" + i).find("#purcItemSn" + i).val(e[i].PURC_ITEM_SN);
             $("#item" + i).find("#purcItemType" + i).data("kendoDropDownList").value(e[i].PURC_ITEM_TYPE);
             if(e[i].PRODUCT_A != null){
                 $("#item" + i).find("#productA" + i).data("kendoDropDownList").value(e[i].PRODUCT_A);
-                $("#productA" + i).trigger("change");
-            }
-            if(e[i].PRODUCT_B != null){
-                $("#item" + i).find("#productB" + i).data("kendoDropDownList").value(e[i].PRODUCT_B);
-                $("#productB" + i).trigger("change");
-            }
-            if(e[i].PRODUCT_C != null){
-                $("#item" + i).find("#productC" + i).data("kendoDropDownList").value(e[i].PRODUCT_C);
+
+                if(e[i].PRODUCT_A == "3"){
+                    $("#productA" + i).trigger("change");
+                    if(e[i].PRODUCT_B != null){
+                        $("#item" + i).find("#productB" + i).data("kendoDropDownList").value(e[i].PRODUCT_B);
+                        $("#productB" + i).trigger("change");
+                    }
+                    if(e[i].PRODUCT_C != null){
+                        $("#item" + i).find("#productC" + i).data("kendoDropDownList").value(e[i].PRODUCT_C);
+                    }
+                }
             }
             $("#item" + i).find("#purcItemName" + i).val(e[i].PURC_ITEM_NAME);
             $("#item" + i).find("#purcItemStd" + i).val(e[i].PURC_ITEM_STD);

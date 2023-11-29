@@ -226,8 +226,10 @@
         for(var i = 0 ; i < len ; i++){
             $("#purcItemType" + i).data("kendoDropDownList").enable(false);
             $("#productA" + i).data("kendoDropDownList").enable(false);
-            $("#productB" + i).data("kendoDropDownList").enable(false);
-            $("#productC" + i).data("kendoDropDownList").enable(false);
+            if($("#productA" + i).data("kendoDropDownList").value == "3"){
+                $("#productB" + i).data("kendoDropDownList").enable(false);
+                $("#productC" + i).data("kendoDropDownList").enable(false);
+            }
         }
     }
 

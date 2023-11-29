@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<script type="text/javascript" src="/js/intra/inside/bustrip/bustripSettleList.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripSettleListMng.js?v=${today}"/></script>
 <style>
     .k-footer-template td:nth-child(4) {
         overflow: visible;

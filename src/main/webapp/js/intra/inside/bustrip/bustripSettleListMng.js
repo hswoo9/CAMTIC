@@ -38,7 +38,6 @@ var bustripSettleList = {
                     data.teamSeq = $("#team").val();
                     data.startDate = $('#start_date').val();
                     data.endDate = $("#end_date").val();
-                    data.empSeq = $("#regEmpSeq").val();
                     return data;
                 }
             },

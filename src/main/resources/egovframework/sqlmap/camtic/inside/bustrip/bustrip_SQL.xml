@@ -1030,6 +1030,10 @@
                 AND
                 IHBRR.DEPT_SEQ = #{teamSeq}
             </if>
+            <if test='empSeq != null and !"".equals(empSeq)'>
+                AND
+                IHBRR.EMP_SEQ = #{empSeq}
+            </if>
         ) A
         GROUP BY HR_BIZ_REQ_RESULT_ID
     </select>
