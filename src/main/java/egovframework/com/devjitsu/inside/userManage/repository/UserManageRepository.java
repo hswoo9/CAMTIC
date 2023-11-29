@@ -376,6 +376,11 @@ public class UserManageRepository extends AbstractDAO {
         return selectList("userManage.getTeamEmpCount",params);
     }
 
+    /**년도별 직급 현황**/
+    public List<Map<String, Object>> getPositionNameByYear(Map<String, Object> params){
+        return selectList("userManage.getPositionNameByYear", params);
+    }
+
 
 
 }

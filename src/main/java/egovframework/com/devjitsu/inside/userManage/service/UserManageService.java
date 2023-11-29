@@ -193,4 +193,7 @@ public interface UserManageService{
 
     /**소속 현황**/
     List<Map<String, Object>> getDeptTeamEmpCount(Map<String, Object> params);
+
+    /**년도별 직급 현황**/
+    List<Map<String, Object>> getPositionNameByYear(Map<String, Object> params);
 }

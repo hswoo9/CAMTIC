@@ -1917,6 +1917,17 @@ public class UserManageController {
         return processedList;
     }
 
+    /**년도별 직급 현황 **/
+    @RequestMapping(value = "/Inside/getPositionNameByYear.do", method = RequestMethod.GET)
+    public String getPositionNameByYear(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> positionList = userManageService.getPositionNameByYear(params);
+        System.out.println("params : "+ params);
+        model.addAttribute("arr",params);
+        model.addAttribute("positionList", positionList);
+        System.out.println("positionList: " + positionList);
+        return "jsonView";
+    }
+
 
 
 
