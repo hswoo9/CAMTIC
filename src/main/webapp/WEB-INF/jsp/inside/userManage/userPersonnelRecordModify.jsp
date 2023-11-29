@@ -741,12 +741,12 @@
                                         <c:if test="${l.REWORD_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
                                                 <td>${fn:length (rList) - status.index}</td>
-                                                <td><input type="text" id="rGubunOutIn" class="rGubunOutIn" value="${l.REWORD_TYPE}" style="width: 100%;"></td>
-                                                <td><input type="text" id="rGubun" value="${l.REWORD_TYPE_NAME1}" style="width: 100%;"></td>
-                                                <td><input type="text" id="sDate9" class="sDate" value="${l.REWORD_DAY}" style="width: 100%;"></td>
-                                                <td><input type="text" id="rwdSn" value="${l.RWD_SN}" style="width: 100%;"></td>
-                                                <td><input type="text" id="rIssue" value="${l.RWD_OFM}" style="width: 100%;"></td>
-                                                <td><input type="text" id="agency2" value="${l.RWD_ST_COMP}" style="width: 100%;"></td>
+                                                <td><input type="text" id="rGubunOutIn${l.REWORD_ID}" class="rGubunOutIn" value="${l.REWORD_TYPE}" style="width: 100%;"></td>
+                                                <td><input type="text" id="rGubun${l.REWORD_ID}" value="${l.REWORD_TYPE_NAME1}" style="width: 100%;"></td>
+                                                <td><input type="text" id="sDate9${l.REWORD_ID}" class="sDate" value="${l.REWORD_DAY}" style="width: 100%;"></td>
+                                                <td><input type="text" id="rwdSn${l.REWORD_ID}" value="${l.RWD_SN}" style="width: 100%;"></td>
+                                                <td><input type="text" id="rIssue${l.REWORD_ID}" value="${l.RWD_OFM}" style="width: 100%;"></td>
+                                                <td><input type="text" id="agency2${l.REWORD_ID}" value="${l.RWD_ST_COMP}" style="width: 100%;"></td>
 
                                                 <c:if test="${l.rewardAddFile == null}">
                                                     <td>
@@ -2096,6 +2096,14 @@
             formData.append("rewardAddFile", $("#rewardAddFile")[0].files[0]);
         }
 
+        if($("#rGubunOutIn1").data("kendoDropDownList").value()==""){ alert("내/외부를 선택해주세요."); return;}
+        if($("#rGubun1").val()==""){ alert("포상/징계 구분을 입력해주세요."); return;}
+        if($("#sDate10").val()==""){ alert("포상/징계 일자를 입력해주세요."); return;}
+        if($("#rwdSn1").val()==""){ alert("포상/징계 번호를 입력해주세요."); return;}
+        if($("#rIssue1").val()==""){ alert("공적사항을 입력해주세요."); return;}
+        if($("#agency3").val()==""){ alert("시행처을 입력해주세요."); return;}
+        if($("#rewardAddFile").val()==""){ alert("증명서를 첨부해주세요."); return;}
+
         var result = customKendo.fn_customFormDataAjax('/useManage/userRewInfoInsert',formData);
         if(result.flag){
             if(result.rs == "SUCCESS") {
@@ -2111,14 +2119,14 @@
     // 싱발사항 수정
     function fu_RewModifyInfo(key) {
         var data = {
-            rGubunOutInType : $("#rGubunOutIn").data("kendoDropDownList").value(),
-            rGubunOutInName : $("#rGubunOutIn").data("kendoDropDownList").text(),
-            rGubun : $("#rGubun").val(),
-            rGubunAll : ($("#rGubunOutIn").data("kendoDropDownList").text() + $("#rGubun").val()),
-            sDate : $("#sDate9").val(),
-            rwdSn : $("#rwdSn").val(),
-            rIssue : $("#rIssue").val(),
-            agency : $("#agency2").val(),
+            rGubunOutInType : $("#rGubunOutIn"+key).data("kendoDropDownList").value(),
+            rGubunOutInName : $("#rGubunOutIn"+key).data("kendoDropDownList").text(),
+            rGubun : $("#rGubun"+key).val(),
+            rGubunAll : ($("#rGubunOutIn"+key).data("kendoDropDownList").text() + $("#rGubun"+key).val()),
+            sDate : $("#sDate9"+key).val(),
+            rwdSn : $("#rwdSn"+key).val(),
+            rIssue : $("#rIssue"+key).val(),
+            agency : $("#agency2"+key).val(),
             pk : key
         }
 
@@ -2139,6 +2147,14 @@
         if($("#rewardAddFile"+key)[0].files.length == 1){
             formData.append("rewardAddFile", $("#rewardAddFile"+key)[0].files[0]);
         }
+
+        if($("#rGubunOutIn"+key).data("kendoDropDownList").value()==""){ alert("내/외부를 선택해주세요."); return;}
+        if($("#rGubun"+key).val()==""){ alert("포상/징계 구분을 입력해주세요."); return;}
+        if($("#sDate9"+key).val()==""){ alert("포상/징계 일자를 입력해주세요."); return;}
+        if($("#rwdSn"+key).val()==""){ alert("포상/징계 번호를 입력해주세요."); return;}
+        if($("#rIssue"+key).val()==""){ alert("공적사항을 입력해주세요."); return;}
+        if($("#agency2"+key).val()==""){ alert("시행처을 입력해주세요."); return;}
+        if($("#rewardAddFile"+key).val()==""){ alert("증명서를 첨부해주세요."); return;}
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userRewInfoModify',formData);
         if(result.flag){
