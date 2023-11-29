@@ -206,7 +206,7 @@
             pageSize: 10
         }
 
-        var result = fn_customAjax("/spot/getMainScheduleList?" + new URLSearchParams(queryParams).toString() + "&recordSize=10", "");
+        var result = fn_customAjax("/spot/getMainScheduleList?" + new URLSearchParams(queryParams).toString() + '&recordSize=10&searchInput=' + inputText, "");
         flag = true;
 
         dataChk(result, flag);
