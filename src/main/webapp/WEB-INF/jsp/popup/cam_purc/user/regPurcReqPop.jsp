@@ -128,7 +128,7 @@
             <c:if test="${params.stat == 'v'}">
                 <span id="claimGroup" style="font-size:12px;">
                     <button type="button" style="top:15px;" class="k-button k-button-solid-info" onclick="prp.fn_reqClaiming()">청구서작성</button>
-                    <button type="button" style="top:15px;" class="k-button k-button-solid-base" onclick="prp.fn_printEst()">견적요청서 인쇄</button>
+                    <button type="button" style="top:15px; display:none" class="k-button k-button-solid-base" onclick="prp.fn_printEst()">견적요청서 인쇄</button>
 <%--                    <button type="button" style="top:15px;" class="k-button k-button-solid-base" onclick="prp.fn_popCamCrmList('crmSn0', 'crmNm0');">업체수정</button>--%>
                 </span>
             </c:if>

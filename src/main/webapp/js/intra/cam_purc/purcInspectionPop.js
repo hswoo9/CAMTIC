@@ -104,7 +104,9 @@ var pri = {
                 $("#inspectDtTd").html("<div style='margin-top: 3px'>"+data.INSPECT_DT+"</div>");
                 $("#file1Label").hide();
             }else{
-                $("#inspectDt").val(data.INSPECT_DT);
+                if(data.INSPECT_DT != null){
+                    $("#inspectDt").val(data.INSPECT_DT);
+                }
             }
 
             if($("input[name='purcType']:checked").val() != ""){
@@ -409,6 +411,9 @@ var pri = {
 
     addFileInfoTable : function (){
         let size = 0;
+        if($("input[name='fileList']")[0].files.length == 1){
+            $("#fileGrid").html("");
+        }
         for(var i = 0; i < $("input[name='fileList']")[0].files.length; i++){
             fCommon.global.attFiles.push($("input[name='fileList']")[0].files[i]);
         }

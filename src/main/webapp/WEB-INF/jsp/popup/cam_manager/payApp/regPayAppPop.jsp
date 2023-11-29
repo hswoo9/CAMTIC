@@ -37,7 +37,10 @@
                     <c:if test='${params.status == "in"}'>여입신청서</c:if>
                     <c:if test='${params.status == "re"}'>반납신청서</c:if>
                     <c:if test='${params.status == "alt"}'>대체신청서</c:if>
-                    <c:if test='${params.status == "" || params.status == null}'>신청서</c:if>
+                    <c:if test='${params.status == "" || params.status == null}'>
+                        <c:if test='${params.claimSn != "" && params.claimSn != null}'>지급</c:if>
+                        신청서
+                    </c:if>
                     <span id="titleStat">작성</span>
                 </span>
             </h3>
@@ -97,8 +100,12 @@
 <%--                </tr>--%>
                 <tr>
                     <th scope="row" class="text-center th-color">신청건명</th>
-                    <td colspan="4">
+                    <td colspan="2">
                         <input type="text" id="appTitle" style="width: 90%;">
+                    </td>
+                    <th scope="row" class="text-center th-color">비용구분</th>
+                    <td colspan="2">
+                        <input type="text" id="appTeam" style="width: 90%;">
                     </td>
                 </tr>
                 <tr>
@@ -178,7 +185,7 @@
                         <col style="width: 5%;">
                         <col style="width: 5%;">
                         <col style="width: 5%;">
-                        <c:if test="${'rev'.equals(params.status)}">
+                        <c:if test="${'rev'.equals(params.status) or params.claimSn != ''}">
                             <col style="width: 3%;">
                             <col style="width: 3%;">
                         </c:if>
@@ -205,7 +212,7 @@
                         <th>신용카드</th>
                         <th>비고</th>
                         <th>관련근거</th>
-                        <c:if test="${'rev'.equals(params.status)}">
+                        <c:if test="${'rev'.equals(params.status) or params.claimSn != ''}">
                             <th>선지급</th>
                             <th>첨부파일</th>
                         </c:if>
@@ -230,7 +237,8 @@
                             <input type="text" id="eviType0" class="eviType" style="width: 100%">
                         </td>
                         <td>
-                            <input type="text" id="crmNm0" class="crmNm">
+                            <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regPayDet.fn_popRegDet(1, 0)"></i>
+                            <input type="text" style="width: 70%" id="crmNm0" class="crmNm">
                             <input type="hidden" id="trCd0" class="trCd">
                         </td>
                         <td>
@@ -255,7 +263,8 @@
                             <input type="text" id="vatCost0" class="vatCost" value="0" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                         </td>
                         <td>
-                            <input type="text" disabled id="card0" class="card">
+                            <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regPayDet.fn_popRegDet(3, 0)"></i>
+                            <input type="text" style="width: 70%" disabled id="card0" class="card">
                             <input type="hidden" id="cardNo0" class="cardNo">
                         </td>
                         <td>
@@ -264,7 +273,7 @@
                         <td>
                             <input type="text" id="iss0" class="iss">
                         </td>
-                        <c:if test="${'rev'.equals(params.status)}">
+                        <c:if test="${'rev'.equals(params.status) or params.claimSn != ''}">
                             <td>
                                 <input type="checkbox" id="advances0" class="advances" style="width: 26px; height: 26px;">
                             </td>

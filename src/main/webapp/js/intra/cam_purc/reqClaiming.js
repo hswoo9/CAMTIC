@@ -81,7 +81,12 @@ var reqCl = {
                 rs = customKendo.fn_customAjax("/purc/getPurcClaimData", data);
                 data = rs.data;
 
-                console.log(data);
+                $("#claimDe").val(data.CLAIM_DE);
+                $("#expDe").val(data.EXP_DE);
+                $("#claimTitle").val(data.CLAIM_TITLE);
+                $("#claimEtc").val(data.CLAIM_ETC);
+                $("#purcReqPurpose").val(data.PURC_REQ_PURPOSE);
+
 
                 $("#estAmt").val(comma(data.EST_AMT));
                 $("#vatAmt").val(comma(data.VAT_AMT));
@@ -113,6 +118,13 @@ var reqCl = {
             rs = customKendo.fn_customAjax("/purc/getPurcClaimData", data);
             data = rs.data;
 
+
+            $("#claimDe").val(data.CLAIM_DE);
+            $("#expDe").val(data.EXP_DE);
+            $("#claimTitle").val(data.CLAIM_TITLE);
+            $("#claimEtc").val(data.CLAIM_ETC);
+            $("#purcReqPurpose").val(data.PURC_REQ_PURPOSE);
+
             $("#purcDeptName").val(data.DEPT_NAME);
             $("#purcDeptSeq").val(data.DEPT_SEQ);
             $("#purcEmpName").val(data.EMP_NAME_KR);
@@ -127,6 +139,7 @@ var reqCl = {
             $("#expType").data("kendoRadioGroup").value(data.EXP_TYPE);
 
             $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
+
             if($("input[name='purcType']:checked").val() != ""){
                 $("#project").css("display", "");
                 $("#pjtSn").val(data.PJT_SN);
@@ -407,6 +420,7 @@ var reqCl = {
     fn_setItem : function(e){
 
         console.log(e);
+
         var len = e.itemList.length;
         var index = 0;
         var html = '';
@@ -605,7 +619,7 @@ var reqCl = {
                     '           <input type="text" id="purcItemAmt'+index+'" class="purcItemAmt" value="'+comma(e.itemList[i].PURC_ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                     '       </td>' +
                     '       <td>' +
-                    '           <input type="text" id="difItemAmt'+index+'" class="difItemAmt" value="'+comma(e.itemList[i].DIF_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '           <input type="text" id="difAmt'+index+'" class="difAmt" value="'+comma(e.itemList[i].DIF_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                     '       </td>' +
                     '       <td>' +
                     '           <label for="itemEtc'+index+'"></label><input type="text" id="itemEtc'+index+'" value="'+e.itemList[i].ITEM_ETC+'" class="itemEtc">' +
@@ -641,7 +655,7 @@ var reqCl = {
 
                 $("#prodCd").data("kendoRadioGroup").value(e.itemList[i].PROD_CD);
             } else {
-                customKendo.fn_textBox(["itemNm" + i, "itemStd" + i
+                customKendo.fn_textBox(["itemNm" + i, "itemStd" + i, "difItemAmt" + i
                     ,"itemEa" + i, "itemUnitAmt" + i, "itemUnit" + i, "itemAmt" + i, "purcItemAmt" + i, "difAmt" + i, "itemEtc" + i])
 
                 customKendo.fn_radioGroup("prodCd" + i, radioProdDataSource, "horizontal");
@@ -670,8 +684,7 @@ var reqCl = {
     },
 
     fn_ClaimBtnSet : function(claimMap){
-        console.log("fn_ClaimBtnSet");
-        console.log(claimMap);
+
         let claimSn = $("#claimSn").val();
         let buttonHtml = "";
         if(claimMap != null){

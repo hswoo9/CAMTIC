@@ -21,6 +21,8 @@
 <input type="hidden" id="payDestSn" value="${params.payDestSn}" />
 <input type="hidden" id="eviType" value="${params.eviType}" />
 
+<input type
+
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">

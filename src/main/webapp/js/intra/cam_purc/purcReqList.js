@@ -124,9 +124,9 @@ var prm = {
 
                             if(e.INSPECT_YN == "Y"){
                                 if(e.INSPECT_STATUS != "100"){
-                                    status = "검수완료";
+                                    status = "검수요청중";
                                 }else{
-                                    status = "검수승인완료";
+                                    status = "<div style='font-weight: bold'>검수승인완료</div>";
                                 }
                             }
                         }
@@ -143,6 +143,8 @@ var prm = {
                             if(e.INSPECT_STATUS != "100"){
                                 html += '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
                             }else{
+                                html += '<button type="button" class="k-button k-button-solid-info" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+
                                 status = "-";
                             }
                         }else{

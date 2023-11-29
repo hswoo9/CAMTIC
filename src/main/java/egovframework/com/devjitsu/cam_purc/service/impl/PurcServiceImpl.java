@@ -284,9 +284,12 @@ public class PurcServiceImpl implements PurcService {
                 list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
 
                 if("jpg".equals(list.get(i).get("fileExt")) || "JPG".equals(list.get(i).get("fileExt")) || "png".equals(list.get(i).get("fileExt")) || "PNG".equals(list.get(i).get("fileExt"))) {
+                    System.out.println("=============================== Image WaterMark Start ===============================");
+                    String fileExt = list.get(i).get("fileExt").toString();
                     try{
-                        File sourceImageFile = new File(list.get(i).get("filePath").toString() + list.get(i).get("fileUUID").toString());
+                        File sourceImageFile = new File("/home" + list.get(i).get("filePath").toString() + list.get(i).get("fileUUID").toString());
                         File destImageFile = sourceImageFile;
+
 
                         BufferedImage sourceImage = ImageIO.read(sourceImageFile);
 
@@ -385,7 +388,7 @@ public class PurcServiceImpl implements PurcService {
 
 
 
-                        ImageIO.write(sourceImage, "jpg", destImageFile);
+                        ImageIO.write(sourceImage, fileExt, destImageFile);
 
                         g2d.dispose();
 

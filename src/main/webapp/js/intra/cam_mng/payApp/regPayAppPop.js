@@ -16,6 +16,14 @@ var regPay = {
         customKendo.fn_datePicker("reqDe", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_textBox(["pjtNm", "appTitle", "accNm", "accNo", "bnkNm"]);
 
+
+            var data = {
+                deptLevel : 2
+            }
+
+            var ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
+            customKendo.fn_dropDownList("appTeam", ds.rs, "dept_name", "dept_seq","5")
+
         $("#appCont").kendoTextArea({
             rows: 5,
         });
@@ -107,9 +115,10 @@ var regPay = {
                 claimSn : $("#claimSn").val()
             }
 
+
+
             var result = customKendo.fn_customAjax("/purc/getPurcClaimData", data);
             var rs = result.data;
-            console.log(result);
             $("#pjtSn").val(rs.PJT_SN);
             $("#pjtNm").val(rs.PJT_NM);
             if($("#pjtSn").val() != ""){
@@ -122,6 +131,7 @@ var regPay = {
                 regPayDet.addRow();
             }
             for(let i = 0; i < ls.length; i++) {
+                $("#eviType" + i).data("kendoDropDownList").value(1)
                 console.log(ls[i]);
                 $("#crmNm" + i).val(rs.CRM_NM);
                 $("#totCost" + i).val(regPay.comma(ls[i].ITEM_AMT));
@@ -246,6 +256,8 @@ var regPay = {
         var ls = result.list;
 
         regPay.payAppBtnSet(rs);
+
+        $("#appTeam").data("kendoDropDownList").value(rs.TEAM_SEQ);
 
         $("#docStatus").val(rs.DOC_STATUS)
         if(rs.DOC_STATUS != 0){
@@ -517,6 +529,8 @@ var regPay = {
             pjtNm : $("#pjtNm").val(),
             pjtSn : $("#pjtSn").val(),
             reqDe : $("#reqDe").val(),
+            teamSeq : $("#appTeam").val(),
+            teamName : $("#appTeam").data("kendoDropDownList").text(),
             // budgetNm : $("#budgetNm").val(),
             // budgetSn : $("#budgetSn").val(),
             appTitle : $("#appTitle").val(),
@@ -622,6 +636,7 @@ var regPay = {
             dataType : "json",
             success : function(rs){
                 if(rs.code == 200){
+                    alert("저장되었습니다.");
                     if(type != "drafting"){
                         let status = "";
                         if($("#payAppType").data("kendoRadioGroup").value() == 1){
@@ -855,7 +870,7 @@ var regPayDet = {
             '   <td>' +
             '       <input type="text" id="iss' + regPayDet.global.itemIndex + '" class="iss">' +
             '   </td>' ;
-        if($("#status").val() == "rev"){
+        if($("#status").val() == "rev" || $("#claimSn").val() != ''){
             regPayDet.global.createHtmlStr += "" +
                 '   <td>' +
                 '       <input type="checkbox" id="advances' + regPayDet.global.itemIndex + '" class="advances" style="width: 26px; height: 26px">' +
@@ -1034,13 +1049,22 @@ var regPayDet = {
     fn_regPayAttPop : function (row){
         let key = $("#payDestSn"+row).val();
 
-        if(key == "" || key == null){
-            regPay.fn_save("user");
-            return;
+        if($("#claimSn").val() == ""){
+            if(key == "" || key == null){
+                regPay.fn_save("user");
+                return;
+            }
+            let eviType = $("#eviType"+row).data("kendoDropDownList").value();
+            var url = "/payApp/pop/regPayAttPop.do?payDestSn=" + key + "&eviType=" + eviType;
+        } else {
+
+
+            let eviType = $("#eviType"+row).data("kendoDropDownList").value();
+            var url = "/payApp/pop/regPayAttPop.do?claimSn=" + $("#claimSn").val() + "&eviType=" + eviType;
         }
 
-        let eviType = $("#eviType"+row).data("kendoDropDownList").value();
-        var url = "/payApp/pop/regPayAttPop.do?payDestSn=" + key + "&eviType=" + eviType;
+
+
 
         var name = "_blank";
         var option = "width = 850, height = 400, top = 200, left = 350, location = no";
