@@ -67,9 +67,9 @@ var eduInfo = {
             dataBound: eduInfo.onDataBound,
             columns: [
                 {
-                    field: "EDU_INFO_ID",
-                    title: "연번",
-                    width: 50
+                    title: "번호",
+                    width: 50,
+                    template: "#= --record #"
                 }, {
                     field: "EDU_NAME",
                     title: "학습명"
@@ -136,7 +136,10 @@ var eduInfo = {
                         }
                     }
                 }
-            ]
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
     },
 

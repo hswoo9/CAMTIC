@@ -106,7 +106,7 @@ var eduStat = {
                     title: "인정시간",
                     width: 150,
                     template : function (row){
-                        return row.SUM_TIME+'.0 시간 / '+row.COUNT_BY+'건';
+                        return row.SUM_TIME+'시간 / '+row.COUNT_BY+'건';
                     }
                 }
             ]
