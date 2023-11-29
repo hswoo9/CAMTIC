@@ -188,20 +188,12 @@ var regPrj = {
 
         /** 협업이 아닐 때 */
         } else {
-
-            tabStrip.disable(tabStrip.tabGroup.children().eq(8));
-
             if(setParameters.PJT_SN){
                 tabStrip.enable(tabStrip.tabGroup.children().eq(0));
             }
 
-            if(setParameters.PM_EMP_SEQ == $("#regEmpSeq").val() && setParameters.PJT_STEP >= "E6"){
-                tabStrip.enable(tabStrip.tabGroup.children().eq(8));
-            }
-
             if(setParameters.PJT_STEP == "E"){
                 tabStrip.enable(tabStrip.tabGroup.children().eq(0));
-                // tabStrip.enable(tabStrip.tabGroup.children().eq(1));
             }
 
             if(setParameters.PJT_STOP != "Y"){
@@ -209,6 +201,7 @@ var regPrj = {
                     tabStrip.enable(tabStrip.tabGroup.children().eq(1));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(10));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(11));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(12));
                 }
 
                 if(setParameters.PJT_STEP >= "E1"){
@@ -233,23 +226,29 @@ var regPrj = {
 
                 if(setParameters.PJT_STEP >= "E6"){
                     tabStrip.enable(tabStrip.tabGroup.children().eq(9));
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(12));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(13));
+
+                    if(setParameters.PM_EMP_SEQ == $("#regEmpSeq").val()){
+                        tabStrip.enable(tabStrip.tabGroup.children().eq(8));
+                    }
                 }
             } else {
                 $("#modBtn").css("display", "none");
                 alert("중단사유 : " + setParameters.PJT_STOP_RS);
             }
 
+            /** 탭 두줄 */
             var parser = new DOMParser();
-
             var html = '<div style="width:100%;"></div>';
             var doc = parser.parseFromString(html, 'text/html');
             $("#tabstrip li")[9].after(doc.body.firstChild);
 
+            /** 첫줄에 사업관리 문구 추가 */
             var html2 = '<div style="padding: 6px 12px"><b style="color: red">사업관리</b></div>';
             var doc2 = parser.parseFromString(html2, 'text/html');
             $("#tabstrip li")[0].before(doc2.body.firstChild);
 
+            /** 둘째줄에 운영관리 문구 추가 */
             var html3 = '<div style="padding: 6px 12px"><b style="color: blue">운영관리</b></div>';
             var doc3 = parser.parseFromString(html3, 'text/html');
             $("#tabstrip li")[10].before(doc3.body.firstChild);

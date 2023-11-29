@@ -24,6 +24,8 @@ var processInfo = {
                     var pf2 = rs.psFileList.psFile2List;
                     var pf3 = rs.psFileList.psFile3List;
                     var pf4 = rs.psFileList.psFile4List;
+                    var pf5 = rs.psFileList.psFile5List;
+                    var pf6 = rs.psFileList.psFile6List;
 
 
 
@@ -114,37 +116,65 @@ var processInfo = {
                             '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
                             '</tr>');
                     }
+
+                    if(pf5.length != 0){
+                        var html = '';
+
+                        for(var i = 0; i < pf5.length; i++){
+                            html += '<tr style="text-align: center">';
+                            html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+pf5[i].file_path+pf3[i].file_uuid+'\', \''+pf5[i].file_org_name+'.'+pf5[i].file_ext+'\')">'+pf5[i].file_org_name+'</span></td>';
+                            html += '   <td>'+ pf5[i].file_ext +'</td>';
+                            html += '   <td>'+ pf5[i].file_size +'</td>';
+                            html += '   <td>' +
+                                '           <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ pf5.file_no +', this)">' +
+                                '			    <span class="k-button-text">삭제</span>' +
+                                '		    </button>';
+                            html += '   </td>';
+                            html += '</tr>';
+                        }
+                        $("#fileGrid5").html(html);
+                    } else {
+                        $("#fileGrid5").html('<tr>' +
+                            '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                            '</tr>');
+                    }
+
+                    if(pf6.length != 0){
+                        var html = '';
+
+                        for(var i = 0; i < pf6.length; i++){
+                            html += '<tr style="text-align: center">';
+                            html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+pf6[i].file_path+pf3[i].file_uuid+'\', \''+pf6[i].file_org_name+'.'+pf6[i].file_ext+'\')">'+pf6[i].file_org_name+'</span></td>';
+                            html += '   <td>'+ pf6[i].file_ext +'</td>';
+                            html += '   <td>'+ pf6[i].file_size +'</td>';
+                            html += '   <td>' +
+                                '           <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ pf6.file_no +', this)">' +
+                                '			    <span class="k-button-text">삭제</span>' +
+                                '		    </button>';
+                            html += '   </td>';
+                            html += '</tr>';
+                        }
+                        $("#fileGrid6").html(html);
+                    } else {
+                        $("#fileGrid6").html('<tr>' +
+                            '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                            '</tr>');
+                    }
                 }
 
                 var rs = rs.psList;
-
-                //공정 첨부파일 전부 다 보이게 변경
-                /*for(var i = 0 ; i < rs.length ; i++){
-                    if(rs[i].PS_EMP_SEQ == null || rs[i].PS_EMP_SEQ == ""){
-                        $("#commFileHtml" + Number(rs[i].PS_PREP)).css("display", "none");
-                    } else {
-                        var arr = rs[i].PS_EMP_SEQ.split(",");
-                        var flag = false;
-                        for(var j = 0 ; j < arr.length ; j++) {
-                            if(data.empSeq == arr[j]){
-                                flag = true;
-                            }
-                        }
-                        if (flag){
-                            $("#commFileHtml" + Number(rs[i].PS_PREP)).css("display", "");
-                        }
-                    }
-                }*/
 
                 $("#file1Etc").val(rs[0].FILE_ETC1);
                 $("#file2Etc").val(rs[0].FILE_ETC2);
                 $("#file3Etc").val(rs[0].FILE_ETC3);
                 $("#file4Etc").val(rs[0].FILE_ETC4);
+                $("#file5Etc").val(rs[0].FILE_ETC5);
+                $("#file6Etc").val(rs[0].FILE_ETC6);
 
             }
         });
 
-        $("#file1Etc, #file2Etc, #file3Etc, #file4Etc").kendoTextArea({
+        $("#file1Etc, #file2Etc, #file3Etc, #file4Etc, #file5Etc, #file6Etc").kendoTextArea({
             rows: 5,
         })
 
@@ -164,7 +194,10 @@ var processInfo = {
             nextStepValue : $("#nextStepValue").val(),
             file1Etc : $("#file1Etc").val(),
             file2Etc : $("#file2Etc").val(),
-            file3Etc : $("#file3Etc").val()
+            file3Etc : $("#file3Etc").val(),
+            file4Etc : $("#file4Etc").val(),
+            file5Etc : $("#file5Etc").val(),
+            file6Etc : $("#file6Etc").val()
         }
 
         var fd = new FormData();
@@ -179,6 +212,8 @@ var processInfo = {
         fd.append("fileEtc2", $("#file2Etc").val());
         fd.append("fileEtc3", $("#file3Etc").val());
         fd.append("fileEtc4", $("#file4Etc").val());
+        fd.append("fileEtc5", $("#file5Etc").val());
+        fd.append("fileEtc6", $("#file6Etc").val());
 
 
 
@@ -203,6 +238,18 @@ var processInfo = {
         if(fCommon.global.attFiles4 != null){
             for(var i = 0; i < fCommon.global.attFiles4.length; i++){
                 fd.append("fileList4", fCommon.global.attFiles4[i]);
+            }
+        }
+
+        if(fCommon.global.attFiles5 != null){
+            for(var i = 0; i < fCommon.global.attFiles5.length; i++){
+                fd.append("fileList5", fCommon.global.attFiles5[i]);
+            }
+        }
+
+        if(fCommon.global.attFiles6 != null){
+            for(var i = 0; i < fCommon.global.attFiles6.length; i++){
+                fd.append("fileList6", fCommon.global.attFiles6[i]);
             }
         }
 

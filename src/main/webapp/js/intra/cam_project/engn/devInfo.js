@@ -267,12 +267,6 @@ var devInfo = {
             dataType : "json",
             type : "post",
             success : function(rs){
-                var devFile = rs.devFile;
-
-                if(devFile.estFile != null && devFile.estFile != ""){
-                    $("#estFileName").text(devFile.estFile.file_org_name + "." +devFile.estFile.file_ext);
-
-                }
                 if(rs.rs != null && rs.rs != ""){
                     $("#devSn").val(rs.rs.DEV_SN);
                     $("#depObj").val(rs.rs.DEP_OBJ);
@@ -777,15 +771,6 @@ var devInfo = {
         fd.append("stepValue", data.stepValue);
         fd.append("nextStepValue", data.nextStepValue);
         fd.append("engnSn", data.engnSn);
-
-        if($("#estFile")[0].files.length == 1){
-            fd.append("estFile", $("#estFile")[0].files[0]);
-        }
-
-        if($("#estFileName").text() == ""){
-            alert("견적서를 등록해주세요.");
-            return;
-        }
 
         $.ajax({
             url : "/project/engn/setDevInfo",

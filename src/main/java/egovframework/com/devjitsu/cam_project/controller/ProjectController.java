@@ -572,8 +572,10 @@ public class ProjectController {
         MultipartFile[] fileList2 = request.getFiles("fileList2").toArray(new MultipartFile[0]);
         MultipartFile[] fileList3 = request.getFiles("fileList3").toArray(new MultipartFile[0]);
         MultipartFile[] fileList4 = request.getFiles("fileList4").toArray(new MultipartFile[0]);
+        MultipartFile[] fileList5 = request.getFiles("fileList5").toArray(new MultipartFile[0]);
+        MultipartFile[] fileList6 = request.getFiles("fileList6").toArray(new MultipartFile[0]);
 
-        projectService.setProcessInfo(params, fileList1, fileList2, fileList3, fileList4, SERVER_DIR, BASE_DIR);
+        projectService.setProcessInfo(params, fileList1, fileList2, fileList3, fileList4, fileList5, fileList6, SERVER_DIR, BASE_DIR);
 
         return "jsonView";
     }
