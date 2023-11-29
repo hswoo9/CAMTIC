@@ -6,6 +6,8 @@ var fCommon = {
         attFiles2 : new Array(),
         attFiles3 : new Array(),
         attFiles4 : new Array(),
+        attFiles5 : new Array(),
+        attFiles6 : new Array()
     },
 
     addFileInfoTable : function(){

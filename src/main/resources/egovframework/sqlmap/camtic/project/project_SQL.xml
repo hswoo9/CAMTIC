@@ -856,6 +856,9 @@
                  B.FILE_ETC1,
                  B.FILE_ETC2,
                  B.FILE_ETC3,
+                 B.FILE_ETC4,
+                 B.FILE_ETC5,
+                 B.FILE_ETC6,
                  (SELECT POSITION_CODE FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PS_EMP_SEQ) AS POSITION_CODE,
                  (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PS_EMP_SEQ) AS EMP_NM,
                  (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PS_EMP_SEQ) AS DEPT_SEQ,
@@ -901,6 +904,9 @@
                  B.FILE_ETC1,
                  B.FILE_ETC2,
                  B.FILE_ETC3,
+                 B.FILE_ETC4,
+                 B.FILE_ETC5,
+                 B.FILE_ETC6,
                  (SELECT POSITION_CODE FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PS_EMP_SEQ) AS POSITION_CODE,
                  (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PS_EMP_SEQ) AS EMP_NM,
                  (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PS_EMP_SEQ) AS DEPT_SEQ,
@@ -970,6 +976,32 @@
             CAM_COMMON.DJ_FILE_INFO
         WHERE
             FILE_CD = "engnPsFile4"
+          AND
+            CONTENT_ID = #{psFileSn}
+    </select>
+
+
+    <select id="getPsFile5" parameterType="map" resultType="map">
+        /*getPsFile5*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_CD = "engnPsFile5"
+          AND
+            CONTENT_ID = #{psFileSn}
+    </select>
+
+
+    <select id="getPsFile6" parameterType="map" resultType="map">
+        /*getPsFile6*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_CD = "engnPsFile6"
           AND
             CONTENT_ID = #{psFileSn}
     </select>
@@ -1338,20 +1370,25 @@
     <insert id="insPsPrepInfo" parameterType="map">
         /*insPsPrepInfo*/
         INSERT INTO CAM_PJT_MNG.DJ_PJT_PS_FILE
-        (
-        PJT_SN,
-        FILE_ETC1,
-        FILE_ETC2,
-        FILE_ETC3
-        )
+            (
+                PJT_SN,
+                FILE_ETC1,
+                FILE_ETC2,
+                FILE_ETC3,
+                FILE_ETC4,
+                FILE_ETC5,
+                FILE_ETC6
+            )
         VALUES
-        (
-        #{pjtSn},
-        #{fileEtc1},
-        #{fileEtc2},
-        #{fileEtc3}
-        )
-
+            (
+                #{pjtSn},
+                #{fileEtc1},
+                #{fileEtc2},
+                #{fileEtc3},
+                #{fileEtc4},
+                #{fileEtc5},
+                #{fileEtc6}
+            )
         <selectKey keyProperty="psFileSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_PS_FILE'
         </selectKey>
@@ -1363,7 +1400,10 @@
         SET
             FILE_ETC1 = #{fileEtc1},
             FILE_ETC2 = #{fileEtc2},
-            FILE_ETC3 = #{fileEtc3}
+            FILE_ETC3 = #{fileEtc3},
+            FILE_ETC4 = #{fileEtc4},
+            FILE_ETC5 = #{fileEtc5},
+            FILE_ETC6 = #{fileEtc6}
         WHERE
             PS_FILE_SN = #{psFileSn}
     </insert>
