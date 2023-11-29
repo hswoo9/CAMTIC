@@ -102,7 +102,7 @@ var purcClaim = {
                         }
                     }
                 }, {
-                    title: "요청부서명",
+                    title: "요청팀명",
                     width: 100,
                     template: function(e){
                         if(e.PURC_DEPT_NAME != null && e.PURC_DEPT_NAME != ""){
