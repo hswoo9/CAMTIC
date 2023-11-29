@@ -71,6 +71,18 @@ public class PostResponse {
     private String RECRUIT_STATUS_SN;
     private int RECRUIT_VIEW_COUNT;
 
+    /*캠스팟 > 일정 */
+    private String title;
+    private String SCHEDULE_CONTENT;
+    private String SCHEDULE_PLACE;
+    private String SCHEDULE_TYPE;
+    private String start;
+    private String end;
+
+
+
+
+
     public String getBOARD_NAME() {
         return BOARD_NAME;
     }
@@ -219,5 +231,13 @@ public class PostResponse {
     }
 
     public String getSNS_TYPE() { return SNS_TYPE; }
+
+
+    public String getTitle() { return title; }
+    public String getSCHEDULE_CONTENT() { return SCHEDULE_CONTENT; }
+    public String getSCHEDULE_PLACE() { return SCHEDULE_PLACE; }
+    public String getSCHEDULE_TYPE() { return SCHEDULE_TYPE; }
+    public String getStart() { return start; }
+    public String getEnd() { return end; }
 
 }

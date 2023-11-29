@@ -2787,10 +2787,8 @@
         AND
             HEI.WORK_STATUS_CODE = 'Y'
         AND
-            MONTH(HEI.BDAY) = MONTH(NOW())
-        AND
         <![CDATA[
-            DAY(HEI.BDAY) >= DAY(NOW())
+            DATE_FORMAT(HEI.BDAY, '%m/%d') >= DATE_FORMAT(DATE(NOW()), '%m/%d')
         ]]>
         ORDER BY
             DAY(HEI.BDAY)

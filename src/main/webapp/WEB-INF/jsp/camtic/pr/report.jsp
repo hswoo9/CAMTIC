@@ -157,6 +157,12 @@
 
   //게시글 리스트 그리기
   function drawTable(data) {
+    if (data.length == 0) {
+      document.querySelector('.__paging').innerHTML = '';
+      $("#totalCnt").text(0);
+      $("#tableBody").html('');
+      return;
+    }
     //const tableBody = document.getElementById("tableBody");
     $("#tableBody").html('');
 
