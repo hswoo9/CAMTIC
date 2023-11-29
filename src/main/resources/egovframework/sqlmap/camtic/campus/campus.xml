@@ -831,15 +831,18 @@
         LEFT JOIN
             CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE
-            (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
+            1=1
         ]]>
+        <if test='"Y".equals(active)'>
+            AND (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
+            AND WORK_STATUS_CODE = 'Y'
+        </if>
         <if test='empSeq != null and !"".equals(empSeq)'>
             AND HEI.EMP_SEQ = #{empSeq}
         </if>
         <if test='sEmpName != null and !"".equals(sEmpName)'>
             AND HEI.EMP_NAME_KR LIKE CONCAT('%', #{sEmpName}, '%')
         </if>
-            AND WORK_STATUS_CODE = 'Y'
         ORDER BY EMP_NAME_KR
     </select>
 

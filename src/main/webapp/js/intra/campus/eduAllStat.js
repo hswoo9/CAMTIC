@@ -1,6 +1,10 @@
 let sum=0;
 var eduAllStat = {
 
+    global : {
+        now : new Date()
+    },
+
     init: function() {
         eduAllStat.dataSet();
         eduAllStat.mainGrid();
@@ -8,8 +12,8 @@ var eduAllStat = {
 
     dataSet: function(){
         fn_deptSetting();
-        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(now.setMonth(now.getMonth() - 1)));
-        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(eduAllStat.global.now.getFullYear() + '-01-01'));
+        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date(eduAllStat.global.now.getFullYear() + '-12-31'));
         $("#startDay, #endDay").attr("readonly", true);
         let activeDataSource = [
             { text: "미포함", value: "Y" },
