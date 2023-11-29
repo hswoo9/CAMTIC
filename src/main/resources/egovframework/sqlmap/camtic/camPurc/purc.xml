@@ -78,7 +78,7 @@
             </when>
         </choose>
         GROUP BY MP.PURC_SN
-        ORDER BY MP.PURC_REQ_DATE DESC
+        ORDER BY MP.PURC_SN DESC
     </select>
 
     <select id="getMngReqPurcList" parameterType="map" resultType="map">
@@ -745,7 +745,7 @@
         WHERE
             MP.INSPECT_STATUS = '100'
         AND PROD_CD = 'A'
-        ORDER BY REG_DATE DESC, CLAIM_ITEM_SN
+        ORDER BY CLAIM_SN DESC, CLAIM_ITEM_SN
     </select>
 
     <select id="getPurcSum" parameterType="map" resultType="map">
