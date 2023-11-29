@@ -388,18 +388,20 @@
                     }
                 });
                 if (haveSchedule) {
-                    if (publicClass === 'ES') {
+                    openSchedulePopup(selectedDate, publicClass);
+                    /*if (publicClass === 'ES') {
                         openSchedulePopup(selectedDate);
                     } else if (publicClass === 'CS') {
                         fn_detailSchedule(finalId, selectedDate);
-                    }
+                    }*/
                 }
             }
         });
     }
-    //직원일정 조회 팝업
-    function openSchedulePopup(selectedDate) {
-        var url = "/spot/pop/popStaffScheduleView.do?selectDate=" + selectedDate;
+    //일정 조회 팝업
+    function openSchedulePopup(selectedDate, publicClass) {
+        var url = "/spot/pop/popMainScheduleView.do?selectDate=" + selectedDate + "&publicClass=" + publicClass;
+        /*var url = "/spot/pop/popStaffScheduleView.do?selectDate=" + selectedDate;*/
         var name = "_blank";
         var option = "width = 1000, height = 600, top = 50, left = 400, location = no, scrollbars=yes, resizable=yes"
         var popup = window.open(url, name, option);
@@ -584,10 +586,10 @@
                             '<li style="border-top:0; border-bottom:0;">' +
                             '<div style="padding: 10px 10px 0px; display:flex; justify-content: space-between;">' +
                             '<div style="display:flex;">' +
-                            '<div style="font-weight:600; font-size:13px;  width:100px;">직원일정</div>' +
-                            '<div>' + scheduleType + '</div>' +
-                            '<div style="margin-left: 20px;">' + article.REG_EMP_NAME + '</div>' +
-                            '<div style="margin-left: 20px;"><a href="javascript:fn_detailSchedule(' + article.SCHEDULE_BOARD_ID + ')">' + article.SCHEDULE_TITLE + '</a></div>' +
+                            '<div style="font-weight:600; font-size:13px;margin-right:10px; width:100px;">직원일정</div>' +
+                            '<div style="width:80px;">' + scheduleType + '</div>' +
+                            '<div style="margin-left: 20px; display:flex;">' + article.REG_EMP_NAME + '</div>' +
+                            '<div style="margin-left: 40px; display:flex;"><a href="javascript:fn_detailSchedule(' + article.SCHEDULE_BOARD_ID + ')">' + article.SCHEDULE_TITLE + '</a></div>' +
                             '</div>' +
                             '<div style="margin: 0 10px;">' + article.start + ' ~ ' + article.end + '</div>'
                             '</div>' +

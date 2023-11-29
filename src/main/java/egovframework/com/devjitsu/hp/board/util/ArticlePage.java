@@ -10,6 +10,8 @@ public class ArticlePage {
     private String searchColumn;
     private String SearchContent;
     private String anonymousActive;
+    private String publicClass;
+    private String selectedDate;
 
     private String suggestionType;
     private String status;
@@ -27,6 +29,20 @@ public class ArticlePage {
         this.page = 1;
         this.recordSize = 10;
         this.pageSize = 10;
+    }
+
+    public String getPublicClass() {return publicClass;}
+
+    public void setPublicClass(String publicClass) {
+        this.publicClass = publicClass;
+    }
+
+    public String getSelectedDate() {
+        return selectedDate;
+    }
+
+    public void setSelectedDate(String selectedDate) {
+        this.selectedDate = selectedDate;
     }
 
     public String getRequestType() {
@@ -90,4 +106,7 @@ public class ArticlePage {
     public void setAnonymousActive(String anonymousActive) {this.anonymousActive = anonymousActive;}
     public Pagination getPagination() {return pagination;}
     public void setPagination(Pagination pagination) {this.pagination = pagination;}
+
+
+
 }

@@ -8,6 +8,7 @@
   .subject{
     cursor: pointer;
   }
+
 </style>
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
@@ -176,7 +177,7 @@
       recordSize: 10,
       pageSize: 10
     }
-    var result = fn_customAjax("/board/getBoardArticleList.do?" + new URLSearchParams(queryParams).toString() + "&categoryId=" + categoryKey + '&recordSize=10', "");
+    var result = fn_customAjax("/board/getBoardArticleList.do?" + new URLSearchParams(queryParams).toString() + "&categoryId=" + categoryKey + '&recordSize=10&searchInput=' + inputText, "");
 
     flag = true;
 
@@ -187,7 +188,12 @@
 
   //게시글 리스트 그리기
   function drawTable(data) {
-    //const tableBody = document.getElementById("tableBody");
+    if (data.length == 0) {
+      document.querySelector('.__paging').innerHTML = '';
+      $("#totalCnt").text(0);
+      $("#tableBody").html('');
+      return;
+    }
     $("#tableBody").html('');
 
     let html = "";

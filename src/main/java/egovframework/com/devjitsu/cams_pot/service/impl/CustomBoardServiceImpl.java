@@ -21,10 +21,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CustomBoardServiceImpl implements CustomBoardService {
@@ -225,8 +222,19 @@ public class CustomBoardServiceImpl implements CustomBoardService {
     }
 
     @Override
-    public List<Map<String, Object>> getStaffScheduleList(Map<String, Object> params) {
-        return customBoardRepository.getStaffScheduleList(params);
+    public PagingResponse<PostResponse> getMainScheduleList(ArticlePage articlePage) {
+        List<PostResponse> list = new ArrayList<>();
+
+        int count = (int) customBoardRepository.getMainScheduleListCnt(articlePage);
+        if (count < 1) {
+            return new PagingResponse<>(Collections.emptyList(), null);
+        }
+        Pagination pagination = new Pagination(count, articlePage);
+        articlePage.setPagination(pagination);
+
+        list = customBoardRepository.getMainScheduleList(articlePage);
+
+        return new PagingResponse<>(list, pagination);
     }
 
     @Override
