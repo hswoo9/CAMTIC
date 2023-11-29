@@ -494,6 +494,15 @@ public class BustripController {
         return "jsonView";
     }
 
+    @RequestMapping("/bustrip/getFileList")
+    public String getFileList(@RequestParam Map<String, Object> params, Model model){
+        params.put("fileCd", "bustripReq");
+        model.addAttribute("fileInfo", bustripService.getBustripReqFileInfo(params));
+
+
+        return "jsonView";
+    }
+
     @RequestMapping("/bustrip/getResultFileList")
     public String getResultFileList(@RequestParam Map<String, Object> params, Model model){
 
@@ -658,6 +667,18 @@ public class BustripController {
     public String getPurcSum(@RequestParam Map<String, Object> params, Model model){
         Map<String, Object> data = bustripService.getBustripExnpSum(params);
         model.addAttribute("data", data);
+        return "jsonView";
+    }
+
+    /** 여비 삭제 처리 */
+    @RequestMapping("/bustrip/delBustripCost")
+    public String delBustripCost(@RequestParam Map<String, Object> params, Model model){
+        try{
+            bustripService.delBustripCost(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
         return "jsonView";
     }
 

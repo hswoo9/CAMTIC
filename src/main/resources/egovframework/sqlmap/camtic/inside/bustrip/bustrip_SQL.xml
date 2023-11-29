@@ -313,7 +313,7 @@
         FROM
             CAM_COMMON.DJ_FILE_INFO
         WHERE
-                FILE_CD in ('exnpTraf', 'exnpTrafDay', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
+                FILE_CD in ('bustripReq', 'exnpTraf', 'exnpTrafDay', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
           AND CONTENT_ID = #{hrBizReqResultId}
     </select>
 
@@ -744,6 +744,7 @@
             CAM_INSIDE.DJ_HR_COST_INFO IHCI
         WHERE
             1=1
+        AND IHCI.ACTIVE = 'Y'
         <if test="hrBizReqResultId != null and hrBizReqResultId != ''">
             <![CDATA[
                 AND DATE_FORMAT(IHCI.START_DT, '%Y%m%d') <= DATE_FORMAT(
@@ -798,6 +799,7 @@
             CAM_INSIDE.DJ_HR_COST_INFO IHCI
         WHERE
             1=1
+        AND IHCI.ACTIVE = 'Y'
     </select>
 
     <select id="getWaypointCostList" parameterType="map" resultType="map">
@@ -1095,6 +1097,17 @@
         LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_EXNP BE ON BRR.HR_BIZ_REQ_RESULT_ID = BE.HR_BIZ_REQ_RESULT_ID
         WHERE PJT_SN = #{pjtSn}
     </select>
+
+    <update id="delBustripCost" parameterType="map">
+        /*delBustripCost*/
+        UPDATE
+            CAM_INSIDE.DJ_HR_COST_INFO
+        SET
+            ACTIVE = #{stat}
+        WHERE
+            1=1
+        AND HR_COST_INFO_SN IN (${arr})
+    </update>
 </mapper>
 
 

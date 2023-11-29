@@ -1079,6 +1079,16 @@ var draft = {
         console.log("params", params);
         var data = {}
 
+        if(params.menuCd == "bustrip"){
+            data.hrBizReqId = params.APPRO_KEY.split("_")[1];
+            let result = customKendo.fn_customAjax("/bustrip/getFileList", {
+                hrBizReqId: data.hrBizReqId
+            });
+            console.log(result);
+            draft.getDocFileSet(result.fileInfo);
+            draft.setKendoUpload();
+        }
+
         if(params.menuCd == "bustripRes"){
             data.hrBizReqResultId = params.APPRO_KEY.split("_")[1];
             let result = customKendo.fn_customAjax("/bustrip/getResultFileList", {

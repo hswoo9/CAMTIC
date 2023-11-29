@@ -396,4 +396,9 @@ public class BustripServiceImpl implements BustripService {
     public Map<String, Object> getBustripExnpSum(Map<String, Object> params) {
         return bustripRepository.getBustripExnpSum(params);
     }
+
+    @Override
+    public void delBustripCost(Map<String, Object> params) {
+        bustripRepository.delBustripCost(params);
+    }
 }

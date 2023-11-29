@@ -521,7 +521,7 @@
                 "",
                 "",
                 #{PJT_SN},
-                NULL,
+                #{BUSN_NAME},
                 #{RESULT},
                 #{REG_EMP_SEQ}
             )

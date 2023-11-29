@@ -287,7 +287,7 @@ const bustripExnpReq = {
         }
 
         if(bustripExnpReq.global.flag){
-            alert("사용 가능한 식비를 초과하였습니다.\n(식비 한도: 출장인원수 x 출장일수 x 30000)")
+            alert("사용 가능한 식비를 초과하였습니다.\n(식비 한도: 출장인원수 x 출장일수 x 30,000)")
             return;
         }
     },
@@ -357,7 +357,7 @@ const bustripExnpReq = {
 
     fn_saveBtn: function(id, type){
         if(bustripExnpReq.global.flag){
-            alert("사용 가능한 식비를 초과하였습니다.\n(식비 한도: 출장인원수 x 출장일수 x 30000)");
+            alert("사용 가능한 식비를 초과하였습니다.\n(식비 한도: 출장인원수 x 출장일수 x 30,000)");
             return;
         }
 

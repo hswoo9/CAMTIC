@@ -54,7 +54,7 @@ var costList = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="costList.delBustripCost();">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
@@ -65,6 +65,10 @@ var costList = {
             },
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'costPk\');"/>',
+                    template : "<input type='checkbox' id='costPk#=HR_COST_INFO_SN#' name='costPk' class='costPk' value='#=HR_COST_INFO_SN#'/>",
+                    width: 50
+                }, {
                     title: "적용기간",
                     template: function(row){
                         return row.START_DT+" ~ "+row.END_DT;
@@ -103,5 +107,29 @@ var costList = {
         const name = "bustripCostReqPop";
         const option = "width=865, height=475, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         window.open(url, name, option);
+    },
+
+    delBustripCost: function(){
+        let arr = [];
+        $("input[name=costPk]:checked").each(function(i){
+            arr.push($(this).val());
+        })
+        let data = {
+            arr: arr.join(),
+            stat: 'N'
+        }
+        if($("input[name=costPk]:checked").length == 0) {
+            alert("삭제할 항목을 선택해주세요.");
+            return;
+        }
+        let result = customKendo.fn_customAjax("/bustrip/delBustripCost", data);
+        if(result.flag){
+            alert("삭제완료되었습니다.");
+            gridReload();
+        }
     }
+}
+
+function gridReload(){
+    costList.mainGrid();
 }

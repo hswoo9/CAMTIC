@@ -94,13 +94,13 @@
             <when test='enterSearch != null and !"".equals(enterSearch) and "3".equals(searchWordType)'>
                 AND IHCR.EMP_NAME like CONCAT('%', #{enterSearch}, '%')
             </when>
-            <otherwise>
+            <when test='enterSearch != null and !"".equals(enterSearch)'>
                 AND (
-                IHCR.VISIT_NAME like CONCAT('%', #{enterSearch}, '%') OR
-                IHCR.WAY_POINT_NAME like CONCAT('%', #{enterSearch}, '%') OR
-                IHCR.EMP_NAME like CONCAT('%', #{enterSearch}, '%')
+                    IHCR.VISIT_NAME like CONCAT('%', #{enterSearch}, '%') OR
+                    IHCR.WAY_POINT_NAME like CONCAT('%', #{enterSearch}, '%') OR
+                    IHCR.EMP_NAME like CONCAT('%', #{enterSearch}, '%')
                 )
-            </otherwise>
+            </when>
         </choose>
     </select>
 
