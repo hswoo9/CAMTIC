@@ -3407,5 +3407,23 @@
         dept.PARENT_DEPT_SEQ, dept.DEPT_NAME
     </select>
 
+<!--    년도별 직급 현황-->
+    <select id="getPositionNameByYear" parameterType="map" resultType="map">
+        SELECT COUNT(*) AS emp_count, position_name, YEAR(join_day) AS join_year
+        FROM cam_hr.dj_emp_info
+        WHERE position_name IN (
+        '수석연구원', '수석매니저', '수석행정원', '책임행정원', '책임매니저', '책임연구원',
+        '선임연구원', '선임매니저', '선임행정원', '주임행정원', '행정원', '주임매니저',
+        '매니저', '주임연구원', '연구원'
+        )
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                ${item}
+            </foreach>
+        </if>
+        GROUP BY join_year, position_name
+        ORDER BY join_year DESC
+    </select>
 
 </mapper>

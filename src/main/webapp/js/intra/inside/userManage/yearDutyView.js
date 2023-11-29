@@ -49,32 +49,45 @@ var yearDutyView = {
 
         html += '<tr style="background-color: #d8dce3;">';
         html += '<td>년도</td>';
+        var uniquePositions = new Set();
+
+// 중복 제거 및 Set에 position_name 추가
         for (var i = 0; i < positionList.length; i++) {
-            var positionName = positionList[i].POSITION_NAME;
+            var positionName = positionList[i].position_name;
+            uniquePositions.add(positionName);
+        }
+
+// Set을 배열로 변환하여 정렬
+        var uniquePositionsArray = Array.from(uniquePositions).sort();
+
+// 각 position_name 출력
+        for (var j = 0; j < uniquePositionsArray.length; j++) {
+            var positionName = uniquePositionsArray[j];
             html += '<td style="width: 200px;">' + positionName + '</td>';
         }
 
 
         html += '</tr>';
-
         // 각 position_name에 대한 명수 행 추가
-            // var uniqueYears = [...new Set(positionList.map(item => item.join_year))];
-            //
-            // for (var i = 0; i < uniqueYears.length; i++) {
-            //     var currentYear = uniqueYears[i];
-            //     html += '<td style="width: 200px;">' + currentYear + '년</td>';
-            // }
+        var uniqueYears = [...new Set(positionList.map(item => item.join_year))];
 
+        for (var i = 0; i < uniqueYears.length; i++) {
+            var currentYear = uniqueYears[i];
+            html += '<tr style="background-color: white;">'; // 각 년도마다 새로운 행으로 시작
 
-            // for (var j = 0; j < uniqueYears.length; j++) {
-            //     var currentYear = uniqueYears[j];
-            //     var positionCounts = positionList.filter(item => item.join_year === currentYear && item.POSITION_NAME === positionName);
-            //     var empCount = positionCounts.length > 0 ? positionCounts[0].emp_count : 0;
-            //     html += '<td><a href="javascript:void(0);" onclick="yearDutyView.userViewPop(\'' + positionName +'\', \'' + currentYear + '\', \'' + arr + '\');">' +
-            //         '<span>' + empCount + '명</span></a></td>';
-            // }
+            html += '<td style="width: 200px;">' + currentYear + '년</td>'; // 년도 표시
 
-            // html += '</tr>';
+            for (var j = 0; j < uniquePositionsArray.length; j++) {
+                var positionName = uniquePositionsArray[j];
+                var positionCounts = positionList.filter(item => item.join_year === currentYear && item.position_name === positionName);
+                var empCount = positionCounts.length > 0 ? positionCounts[0].emp_count : 0;
+                html += '<td><a href="javascript:void(0);" onclick="yearDutyView.userViewPop(\'' + positionName +'\', \'' + currentYear + '\', \'' + arr + '\');">' +
+                    '<span>' + empCount + '명</span></a></td>';
+            }
+
+            html += '</tr>'; // 행 마감
+        }
+        
 
         html += '</tbody></table>';
         $("#mainTable").append(html);
