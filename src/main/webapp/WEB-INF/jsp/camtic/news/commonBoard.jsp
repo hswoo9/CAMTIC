@@ -8,7 +8,7 @@
   .subject{
     cursor: pointer;
   }
-
+  .__tblList tr {height:62px;}
 </style>
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
