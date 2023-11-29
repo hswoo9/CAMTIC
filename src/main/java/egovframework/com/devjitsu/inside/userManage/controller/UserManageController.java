@@ -1878,4 +1878,49 @@ public class UserManageController {
         return "jsonView";
     }
 
+    @RequestMapping("Inside/getDeptTeamEmpCount")
+    public String getDeptTeamEmpCount (@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> empDeptTeamList = userManageService.getDeptTeamEmpCount(params);
+
+        empDeptTeamList = processEmpDeptTeamList(empDeptTeamList);
+
+        model.addAttribute("empDeptTeamList",empDeptTeamList);
+        System.out.println("***********empDeptTeamList**********" + empDeptTeamList);
+        return "jsonView";
+    }
+
+    private List<Map<String, Object>> processEmpDeptTeamList(List<Map<String, Object>> empDeptTeamList) {
+        Map<Object, Map<String, Object>> deptMap = new HashMap<>();
+        List<Map<String, Object>> processedList = new ArrayList<>();
+
+        for (Map<String, Object> entry : empDeptTeamList) {
+            Object deptId = entry.get("DeptID");
+            Object parentDeptId = entry.get("ParentDeptID");
+
+            if (deptId != null) {
+                // 부서의 경우, Map에 추가
+                deptMap.put(deptId, entry);
+                processedList.add(entry);
+            } else if (parentDeptId != null) {
+                // 팀의 경우, 부서의 정보를 찾아서 추가
+                Map<String, Object> parentDept = deptMap.get(parentDeptId);
+                if (parentDept != null) {
+                    // 원하는 가공 로직을 여기에 추가
+                    processedList.add(entry);
+
+                    // 부서의 DeptEmployeesCount 값에 팀의 TeamEmployeesCount 값 누적
+                    int teamEmployeesCount = Integer.parseInt(entry.get("TeamEmployeesCount").toString());
+                    int deptEmployeesCount = Integer.parseInt(parentDept.get("DeptEmployeesCount").toString());
+
+                    parentDept.put("DeptEmployeesCount", deptEmployeesCount + teamEmployeesCount);
+                }
+            }
+        }
+
+        return processedList;
+    }
+
+
+
+
 }

@@ -17,7 +17,20 @@ var depView = {
         console.log("ajax arr : ",arr);
 
         //이곳에 ajax 요청을 할 거임.
-        //ajax 요청 후 서버로부터 응답이 온 data를 mainChart 함수로 보내줄 것
+        $.ajax({
+           type : "POST",
+           data: {arr:arr},
+           url : "Inside/getDeptTeamEmpCount",
+           dataType: "json",
+           success: function (data){
+               console.log("js data : ",data);
+               //ajax 요청 후 서버로부터 응답이 온 data를 mainChart 함수로 보내줄 것
+           },
+            error: function(error) {
+                console.error("Error fetching data:", error);
+            },
+        });
+
 
     },
 
@@ -95,7 +108,7 @@ var depView = {
         var arr = requestArr.substring(1);
         console.log("arr :",arr);
 
-        joinLeaveView.getTotalDeptChart(arr);
+        depView.getTotalDeptChart(arr);
     }
 
 }
