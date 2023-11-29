@@ -43,18 +43,9 @@ const studyJournal = {
         }
         const result = customKendo.fn_customAjax("/campus/getStudyUserList", data);
         studyJournal.global.studyUserList = result.list;
+        console.log(result.list);
 
         if($("#mode").val() == "Upd"){
-            let list = studyJournal.global.studyUserList;
-            for(let i=0; i<list.length; i++){
-                /** 조장이거나 조원이 로그인 한 사용자면 승인버튼 오픈 */
-                if(list[i].STUDY_CLASS_SN == 1 || list[i].STUDY_CLASS_SN == 2) {
-                    if($("#regEmpSeq").val() == list[i].STUDY_EMP_SEQ){
-                        studyJournal.global.studyClassSn = list[i].STUDY_CLASS_SN;
-                        $("#appBtn").show();
-                    }
-                }
-            }
             studyJournal.dataSet();
         }
     },
@@ -96,6 +87,24 @@ const studyJournal = {
             $("#journalAmtEtc").parent().hide();
         }
         $("#journalAmtEtc").val(info.JOURNAL_AMT_ETC);
+
+        let list = studyJournal.global.studyUserList;
+        for(let i=0; i<list.length; i++){
+            /** 조장이거나 조원이 로그인 한 사용자면 승인버튼 오픈 */
+            if(list[i].STUDY_CLASS_SN == 1) {
+                if($("#regEmpSeq").val() == list[i].STUDY_EMP_SEQ && info.CAPTAIN_APPOVAL_YN != 'Y'){
+                    studyJournal.global.studyClassSn = list[i].STUDY_CLASS_SN;
+                    $("#appBtn").show();
+                }
+            }
+
+            if(list[i].STUDY_CLASS_SN == 2) {
+                if($("#regEmpSeq").val() == list[i].STUDY_EMP_SEQ  && info.ASSISTANT_APPOVAL_YN != 'Y'){
+                    studyJournal.global.studyClassSn = list[i].STUDY_CLASS_SN;
+                    $("#appBtn").show();
+                }
+            }
+        }
     },
 
     saveBtn: function(){

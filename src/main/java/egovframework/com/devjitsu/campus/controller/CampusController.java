@@ -1348,6 +1348,14 @@ public class CampusController {
         return "jsonView";
     }
 
+    /** 공통학습 관리자 리스트 */
+    @RequestMapping("/campus/getCommonEduMngList")
+    public String getCommonEduMngList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = campusService.getCommonEduMngList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     /** 공통학습 단일 데이터  */
     @RequestMapping("/campus/getCommonEduOne")
     public String getCommonEduOne(@RequestParam Map<String, Object> params, Model model) {

@@ -274,13 +274,13 @@ const propagView = {
                             title: "지도자",
                             width: 150,
                             template: function(row){
-                                return Number(row.EDU_TIME * 1.5) + "시간";
+                                return row.EDU_MNG_TIME + "시간";
                             }
                         }, {
                             title: "학습자",
                             width: 150,
                             template: function(row){
-                                return row.EDU_TIME + "시간";
+                                return row.EDU_USER_TIME + "시간";
                             }
                         }
                     ]

@@ -121,3 +121,7 @@ var commonEdu = {
         window.open(url, name, option);
     }
 }
+
+function gridReload(){
+    commonEdu.mainGrid();
+}

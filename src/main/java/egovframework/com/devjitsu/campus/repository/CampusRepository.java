@@ -80,6 +80,7 @@ public class CampusRepository extends AbstractDAO  {
 
     public List<Map<String, Object>> getCommonEduStatList(Map<String, Object> params) { return selectList("campus.getCommonEduStatList", params); }
     public List<Map<String, Object>> getCommonEduList(Map<String, Object> params) { return selectList("campus.getCommonEduList", params); }
+    public List<Map<String, Object>> getCommonEduMngList(Map<String, Object> params) { return selectList("campus.getCommonEduMngList", params); }
     public Map<String, Object> getCommonEduOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getCommonEduOne", params); }
     public List<Map<String, Object>> getCommonEduUserList(Map<String, Object> params) { return selectList("campus.getCommonEduUserList", params); }
     public List<Map<String, Object>> getCommonEduUserAddList(Map<String, Object> params) { return selectList("campus.getCommonEduUserAddList", params); }

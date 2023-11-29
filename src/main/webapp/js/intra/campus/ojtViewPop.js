@@ -63,10 +63,11 @@ const ojtView = {
         if(mode == "upd"){
             if(status == 0 || status == 30){
                 const count = customKendo.fn_customAjax("/campus/getOjtPlanList", {
-                    pk: $("#pk")
+                    pk: $("#pk").val()
                 }).list.length;
+                console.log(count);
 
-                if(count > 1){
+                if(count >= 1){
                     $("#appBtn").show();
                 }
             }else if(status == 10){

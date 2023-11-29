@@ -111,6 +111,10 @@
         $("#ojtAmtTextTd").text(ojtInfo.STUDY_MONEY_VAL);
         $("#regDateTd").text(ojtInfo.REG_DT);
 
+        if(ojtInfo.ADD_STATUS == "C" || ojtInfo.ADD_STATUS == "S"){
+            $("#saveBtn").hide();
+        }
+
         if($("#resultMode").val() == "mng"){
             $("#saveBtn").css("display", "none");
             if(ojtInfo.ADD_STATUS == "C"){

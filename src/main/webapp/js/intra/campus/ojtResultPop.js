@@ -104,6 +104,11 @@ const ojtResult = {
                 alert("OJT 학습일지 저장이 완료되었습니다.");
                 opener.$("#ojtResultGrid").data("kendoGrid").dataSource.read();
                 window.close();
+                try {
+                    opener.opener.gridReload();
+                }catch{
+
+                }
             },
             error: function() {
                 alert("데이터 저장 중 에러가 발생했습니다.");

@@ -96,11 +96,11 @@ const studyReq = {
         }
 
         if(studyMoney == ""){ alert("소모비용이 작성되지 않았습니다."); return; }
-        if(studyMoneyVal == ""){ alert("산출내역이 작성되지 않았습니다."); return; }
         if(regDate == ""){ alert("신청날짜가 작성되지 않았습니다."); return; }
 
         if(studyClassSn == 1){
             if(studyContent == ""){ alert("학습내용이 작성되지 않았습니다."); return; }
+            if(studyMoneyVal == ""){ alert("산출내역이 작성되지 않았습니다."); return; }
         }else if(studyClassSn == 2){
             if(studyContent == ""){ alert("학습내용이 작성되지 않았습니다."); return; }
             if(readerUserSeq == ""){ alert("지도자가 선택되지 않았습니다."); return; }
@@ -108,8 +108,10 @@ const studyReq = {
             if(endTime == ""){ alert("학습시간이 작성되지 않았습니다."); return; }
             if(eduTerm == ""){ alert("총 회차가 작성되지 않았습니다."); return; }
             if(eduTime == ""){ alert("총 시간이 작성되지 않았습니다."); return; }
+            if(studyMoneyVal == ""){ alert("비용내역이 작성되지 않았습니다."); return; }
         }else if(studyClassSn == 3){
             if(readerUserSeq == ""){ alert("지도자가 선택되지 않았습니다."); return; }
+            if(studyMoneyVal == ""){ alert("비용내역이 작성되지 않았습니다."); return; }
         }
 
         let data = {

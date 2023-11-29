@@ -46,6 +46,7 @@ public interface CampusService {
     /** 공통학습 시작 */
     List<Map<String, Object>> getCommonEduStatList(Map<String, Object> params);
     List<Map<String, Object>> getCommonEduList(Map<String, Object> params);
+    List<Map<String, Object>> getCommonEduMngList(Map<String, Object> params);
     Map<String, Object> getCommonEduOne(Map<String, Object> params);
     List<Map<String, Object>> getCommonEduUserList(Map<String, Object> params);
     List<Map<String, Object>> getCommonEduUserAddList(Map<String, Object> params);

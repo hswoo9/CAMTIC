@@ -163,6 +163,11 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public List<Map<String, Object>> getCommonEduMngList(Map<String, Object> params){
+        return campusRepository.getCommonEduMngList(params);
+    }
+
+    @Override
     public Map<String, Object> getCommonEduOne(Map<String, Object> params){
         return campusRepository.getCommonEduOne(params);
     }

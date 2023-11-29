@@ -13,6 +13,8 @@ var studyInfo = {
         ]
         customKendo.fn_dropDownList("studyClass", studyDataSource, "text", "value", 2);
         $("#applyYear").attr("readonly", true);
+        $("#studyClass").data("kendoDropDownList").bind("change", gridReload);
+        $("#applyYear").data("kendoDatePicker").bind("change", gridReload);
     },
 
     mainGrid: function(){

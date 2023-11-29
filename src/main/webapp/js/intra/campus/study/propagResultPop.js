@@ -25,7 +25,7 @@ const propagView = {
             html += '   <td style="text-align: center"><input type="hidden" id="studyPropagSn'+i+'" value="'+map.STUDY_PROPAG_SN+'"/>'+(i+1)+'</td>';
             html += '   <td>'+map.PROPAG_DT + " (" + map.START_TIME +"~"+map.END_TIME+" / "+map.EDU_TIME+")"+'</td>';
             html += '   <td><input id="mng'+i+'" class="mng'+i+'" value="'+map.EDU_MNG_TIME+'"/></td>';
-            html += '   <td><input id="user'+i+'" class="user'+i+'" value="'+map.EDU_TIME+'"/></td>';
+            html += '   <td><input id="user'+i+'" class="user'+i+'" value="'+map.EDU_USER_TIME+'"/></td>';
             let userList = customKendo.fn_customAjax("/campus/getStudyPropagUserList", {
                 studyPropagSn: map.STUDY_PROPAG_SN
             }).list;

@@ -59,6 +59,7 @@ const ojtPlan = {
         let url = "/campus/setOjtPlanUpdate";
         const result = customKendo.fn_customAjax(url, data);
         if(result.flag){
+            alert("저장되었습니다.");
             opener.gridReload();
             location.reload();
             window.opener.parent.location.reload();

@@ -22,7 +22,7 @@ var eduManagement = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '/campus/getCommonEduList',
+                    url : '/campus/getCommonEduMngList',
                     dataType : "json",
                     type : "post"
                 },
@@ -137,4 +137,8 @@ var eduManagement = {
         const option = "width = 1000, height = 489, top = 100, left = 200, location = no";
         window.open(url, name, option);
     }
+}
+
+function gridReload(){
+    eduManagement.mainGrid();
 }
