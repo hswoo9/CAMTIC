@@ -355,7 +355,7 @@ var reqCl = {
                 itemParameters.itemUnit = $("#itemUnit").val();
                 itemParameters.itemAmt = uncomma($("#itemAmt").val());
                 itemParameters.purcItemAmt = uncomma($("#purcItemAmt").val());
-                itemParameters.difAmt = $("#difAmt").val().replace(',', '');
+                itemParameters.difAmt = $("#difAmt").val().replace(/,/g, '');
                 itemParameters.itemEtc = $("#itemEtc").val();
                 itemParameters.prodCd = $("#prodCd").data("kendoRadioGroup").value();
             } else {
@@ -369,7 +369,7 @@ var reqCl = {
                 itemParameters.itemUnit = $("#itemUnit" + i).val();
                 itemParameters.itemAmt = uncomma($("#itemAmt" + i).val());
                 itemParameters.purcItemAmt = uncomma($("#purcItemAmt" + i).val());
-                itemParameters.difAmt = $("#difAmt" + i).val().replace(',', '');
+                itemParameters.difAmt = $("#difAmt" + i).val().replace(/,/g, '');
                 itemParameters.itemEtc = $("#itemEtc" + i).val();
                 itemParameters.prodCd = $("#prodCd" + i).data("kendoRadioGroup").value();
             }
@@ -481,10 +481,10 @@ var reqCl = {
                         '           <input type="text" id="itemAmt'+index+'" class="itemAmt" style="text-align: right" value="'+comma(e.itemList[i].PURC_ITEM_AMT)+'" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                         '       </td>' +
                         '       <td>' +
-                        '           <input id="purcItemAmt" class="purcItemAmt'+index+'" value="'+comma(e.itemList[i].PURC_ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                        '           <input id="purcItemAmt'+index+'" class="purcItemAmt" value="'+comma(e.itemList[i].PURC_ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                         '       </td>' +
                         '       <td>' +
-                        '           <input id="difAmt" class="difAmt'+index+'" value="'+comma(0)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                        '           <input id="difAmt'+index+'" class="difAmt" value="'+comma(0)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                         '       </td>' +
                         '       <td>' +
                         '           <label for="itemEtc'+index+'"></label><input type="text" id="itemEtc'+index+'" value="'+e.itemList[i].RMK+'" class="itemEtc">' +

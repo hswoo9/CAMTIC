@@ -51,7 +51,7 @@
 </div>
 
 <script>
-    var inParameters = JSON.parse('${map}');
+    //var inParameters = JSON.parse('${map}');
 
 
     bgView.fn_defaultScript();
