@@ -39,20 +39,6 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>협업부서
-                </th>
-                <td>
-                    <input type="text" id="teamDept" style="width: 90%;">
-                </td>
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>협업팀
-                </th>
-                <td>
-                    <input type="text" id="team" style="width: 90%;" />
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>담당자(PM)
                 </th>
                 <td>
@@ -68,6 +54,21 @@
                 <td>
                     <input type="text" id="teamPjt" disabled value="${hashMap.BUSN_NM}" style="width: 90%;" />
                 </td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-center th-color">
+                    <span class="red-star"></span>협업팀
+                </th>
+                <td colspan="3">
+                    <input type="text" id="team" style="width: 40%;" disabled>
+                    <input type="hidden" id="teamSeq" />
+                </td>
+<%--                <th scope="row" class="text-center th-color">--%>
+<%--                    <span class="red-star"></span>협업팀--%>
+<%--                </th>--%>
+<%--                <td>--%>
+<%--                    <input type="text" id="team" style="width: 90%;" />--%>
+<%--                </td>--%>
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">

@@ -26,6 +26,9 @@
 <input type="hidden" id="stepValue" value="Y" />
 <input type="hidden" id="nextStepValue" value="R" />
 
+
+<input type="hidden" id="getDelvDe" value="${hashMap.DELV_DE}" />
+
 <div style="padding: 10px">
     <div id="btnDiv">
         <button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="goodsInfo.fn_save()">저장</button>

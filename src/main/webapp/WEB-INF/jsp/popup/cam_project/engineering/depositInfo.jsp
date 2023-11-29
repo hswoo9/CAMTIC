@@ -19,7 +19,7 @@
 
 <div style="padding: 10px">
     <div class="table-responsive">
-        <div id="mainGrid" style="margin-top: 20px"></div>
+        <div id="depositMainGrid" style="margin-top: 20px"></div>
     </div>
 </div>
 

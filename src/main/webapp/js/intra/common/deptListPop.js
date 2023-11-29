@@ -165,6 +165,8 @@ var deptListPop = {
                     opener.parent.$("#empSeq").val(row.EMP_SEQ);
                     opener.parent.$("#pmSeq").val(row.EMP_SEQ);
 
+                    opener.parent.$("#team").val(row.DEPT_NAME);
+                    opener.parent.$("#teamSeq").val(row.DEPT_SEQ);
                     opener.parent.$("#teamPMNm").val(row.EMP_NAME_KR);
                     opener.parent.$("#teamPMSeq").val(row.EMP_SEQ);
 

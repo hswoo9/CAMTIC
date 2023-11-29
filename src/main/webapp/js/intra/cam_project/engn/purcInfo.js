@@ -22,7 +22,7 @@ var purcInfo = {
     },
 
     mainGrid: function(url, params){
-        $("#mainGrid").kendoGrid({
+        $("#purcInfoMainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             selectable: "row",

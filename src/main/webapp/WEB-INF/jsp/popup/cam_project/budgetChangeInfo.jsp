@@ -27,7 +27,7 @@
         <input type="hidden" id="budgetChangeEmpSeq" value="${loginVO.uniqId}">
         <input type="hidden" id="budgetChangeDeptSeq" value="${loginVO.orgnztId}">
 
-        <div id="mainGrid" style="margin-top: 20px"></div>
+        <div id="budgetChangeMainGrid" style="margin-top: 20px"></div>
     </div>
 </div>
 

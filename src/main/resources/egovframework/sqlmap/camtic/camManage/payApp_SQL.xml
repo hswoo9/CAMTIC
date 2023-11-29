@@ -1260,7 +1260,9 @@
     <select id="getPayDepoData" parameterType="map" resultType="map">
         /*getPayDepoData*/
         SELECT
-            *
+            A.*,
+            B.*,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.REG_EMP_SEQ) AS DEPO_EMP_NAME
         FROM
             CAM_MNG.DJ_PAY_DEPO A
         LEFT JOIN

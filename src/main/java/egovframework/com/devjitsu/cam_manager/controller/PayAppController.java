@@ -2,6 +2,7 @@ package egovframework.com.devjitsu.cam_manager.controller;
 
 import egovframework.com.devjitsu.cam_manager.service.PayAppService;
 import egovframework.com.devjitsu.cam_manager.service.ResDocService;
+import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.g20.service.G20Service;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class PayAppController {
 
     @Autowired
     private G20Service g20Service;
+
+    @Autowired
+    private ProjectService projectService;
 
     @Value("#{properties['File.Server.Dir']}")
     private String SERVER_DIR;
@@ -73,6 +77,12 @@ public class PayAppController {
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
+
+        if(params.containsKey("pjtSn")){
+            Map<String, Object> map = projectService.getProjectData(params);
+
+            model.addAttribute(map);
+        }
 
         return "popup/cam_manager/payDepo/regPayDepoPop";
     }

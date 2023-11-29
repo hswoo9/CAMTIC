@@ -16,7 +16,7 @@ var budgetChangeInfo = {
     },
 
     mainGrid: function(url, params){
-        $("#mainGrid").kendoGrid({
+        $("#budgetChangeMainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             selectable: "row",

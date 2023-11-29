@@ -16,13 +16,20 @@
 
 <input type="hidden" id="payDepoSn" name="payDepoSn" value="${params.payDepoSn }" />
 <input type="hidden" id="paramPjtSn" name="paramPjtSn" value="${params.pjtSn }" />
+<input type="hidden" id="paramPjtCd" name="paramPjtCd" value="${hashMap.PJT_CD }" />
+<input type="hidden" id="paramPjtNm" name="paramPjtNm" value="${hashMap.PJT_NM }" />
+
+<input type="hidden" id="paramPm" value="${hashMap.PM}" />
+<input type="hidden" id="paramPmSeq" value="${hashMap.PM_EMP_SEQ}" />
+
+<input type="hidden" id="getDelvDe" value="${hashMap.DELV_DE}" />
 
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;">
-                    <span id="titleStat">입금신청서 작성</span>
+                    <span id="titleStat">입금처리 요청서 작성</span>
                 </span>
             </h3>
             <div id="payAppBtnDiv" class="btn-st popButton">
@@ -44,13 +51,18 @@
                     <col width="35%">
                 </colgroup>
                 <thead>
-                <tr>
+                <tr style="display: none;" id="payDepReqUserTh">
+                    <th scope="row" class="text-center th-color">요청자</th>
+                    <td colspan="4">
+                        <input type="text" id="payDepoReqUser" style="width: 15%" disabled>
+                    </td>
+                </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">작성일자</th>
                     <td colspan="2">
                         <input type="text" id="appDe" style="width: 30%">
                     </td>
-                    <th scope="row" class="text-center th-color">입금예정일</th>
+                    <th scope="row" class="text-center th-color" id="thPayIncpDeText">입금예정일</th>
                     <td colspan="2">
                         <input type="text" id="payIncpDe" style="width: 30%">
                     </td>
@@ -59,9 +71,9 @@
                     <th scope="row" class="text-center th-color">사업명</th>
                     <td colspan="4">
                         <span>
-                            <input type="text" id="pjtNm" disabled value="${pjtData.PJT_NM}"  style="width: 30%;">
-                            <input type="hidden" id="pjtSn" value="${pjtData.PJT_SN}" />
-                            <input type="hidden" id="pjtCd" name="pjtCd">
+                            <input type="text" id="pjtNm" disabled value=""  style="width: 30%;">
+                            <input type="hidden" id="pjtSn" value="" />
+                            <input type="hidden" id="pjtCd" name="pjtCd" value="">
                             <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="regPayDepo.fn_projectPop('regPay')">검색</button>
                         </span>
                     </td>

@@ -64,10 +64,10 @@ var regUnRnd = {
 
 
         var tab9Url = "/intra/cam_project/bustInfo.do";         // 출장관리
-        var tab10Url = "";
+        var tab10Url = "/intra/cam_project/teamInfo.do";
         var tab11Url= "/intra/cam_project/purcInfo.do";
         var tab12Url = "/intra/cam_project/budgetChangeInfo.do"; // 예산변경신청
-        var tab13Url = "/intra/cam_project/teamInfo.do";        // 입금관리
+        var tab13Url = "/intra/cam_project/depositInfo.do";        // 입금관리
         var tab14Url = "/intra/cam_project/teamInfo.do";        // 협업
 
         var tab15Url = "/intra/cam_project/performanceInfo.do";        // 실적관리
@@ -167,6 +167,8 @@ var regUnRnd = {
                     tabStrip.enable(tabStrip.tabGroup.children().eq(10));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(11));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(12));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(13));
+
 
                 }
 

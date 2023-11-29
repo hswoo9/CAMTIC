@@ -24,9 +24,12 @@ var goodsInfo = {
             estSn : $("#estSn").val()
         }
 
+        if($("#getDelvDe").val() != "" && $("#getDelvDe").val() != null){
+            $("#goodsDelvDe").val($("#getDelvDe").val());
+        }
+
         var rs = customKendo.fn_customAjax("/project/getStep1Data", data);
 
-        console.log(rs);
         var estSubList = rs.result.estSubList;
 
         var data = {

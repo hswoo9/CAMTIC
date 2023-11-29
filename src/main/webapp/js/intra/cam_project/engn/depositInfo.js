@@ -20,7 +20,7 @@ var depoInfo = {
     },
 
     mainGrid: function(url, params){
-        $("#mainGrid").kendoGrid({
+        $("#depositMainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             selectable: "row",
@@ -39,7 +39,7 @@ var depoInfo = {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="depoInfo.fn_reqRegPopup()">' +
-                            '	<span class="k-button-text">입금신청서 작성</span>' +
+                            '	<span class="k-button-text">입금처리 요청서 작성</span>' +
                             '</button>';
                     }
                 }, {
@@ -64,8 +64,6 @@ var depoInfo = {
                             gubun = "입금";
                         }else if(e.GUBUN == "b"){
                             gubun = "설치";
-                        } else if (e.GUBUN == "c"){
-                            gubun = "사급";
                         }
                         return gubun;
                     }
@@ -75,13 +73,9 @@ var depoInfo = {
                     template: function(e){
                         var depoStat = "";
                         if(e.DEPO_STAT == "1"){
-                            depoStat = "전액";
+                            depoStat = "미입금";
                         }else if(e.DEPO_STAT == "2"){
-                            depoStat = "선금";
-                        } else if (e.DEPO_STAT == "3"){
-                            depoStat = "중도금";
-                        } else if (e.DEPO_STAT == "4"){
-                            depoStat = "잔금";
+                            depoStat = "입금완료";
                         }
                         return depoStat;
                     }

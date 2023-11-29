@@ -3,20 +3,20 @@ var teamInfo = {
     fn_defaultScript : function (){
 
 
-        customKendo.fn_textBox(["teamPjtNm", "teamPMNm", "teamCrmNm", "teamAmt",
+        customKendo.fn_textBox(["teamPjtNm", "teamPMNm", "teamCrmNm", "teamAmt", "team",
                                 "exptBalance", "exptProfit", "exptProfitPer", "teamPjt", "exptCost"]);
 
         var data = {
 
         }
-        data.deptLevel = 1;
-        var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
-
-        customKendo.fn_dropDownList("teamDept", deptDsA.rs, "dept_name", "dept_seq", "6");
-
-        $("#teamDept").data("kendoDropDownList").bind("change", teamInfo.fn_chngDeptComp)
-        $("#teamDept").data("kendoDropDownList").select(0);
-        $("#teamDept").data("kendoDropDownList").trigger("change");
+        // data.deptLevel = 1;
+        // var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
+        //
+        // customKendo.fn_dropDownList("teamDept", deptDsA.rs, "dept_name", "dept_seq", "6");
+        //
+        // $("#teamDept").data("kendoDropDownList").bind("change", teamInfo.fn_chngDeptComp)
+        // $("#teamDept").data("kendoDropDownList").select(0);
+        // $("#teamDept").data("kendoDropDownList").trigger("change");
 
         $("#exptBalance").val($("#expAmt").val());
         $("#exptCost").val($("#expAmt").val());
@@ -50,14 +50,14 @@ var teamInfo = {
         teamInfo.teamMainGrid();
     },
 
-    fn_chngDeptComp : function (){
-        var data = {}
-        data.deptLevel = 2;
-        data.parentDeptSeq = this.value();
-
-        var ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
-        customKendo.fn_dropDownList("team", ds.rs, "dept_name", "dept_seq","5")
-    },
+    // fn_chngDeptComp : function (){
+    //     var data = {}
+    //     data.deptLevel = 2;
+    //     data.parentDeptSeq = this.value();
+    //
+    //     var ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
+    //     customKendo.fn_dropDownList("team", ds.rs, "dept_name", "dept_seq","5")
+    // },
 
     teamMainGrid : function (){
         let dataSource = new kendo.data.DataSource({
@@ -107,8 +107,9 @@ var teamInfo = {
                     });
 
                     const dataItem = grid.dataItem($(this));
-                    $("#teamDept").data("kendoDropDownList").value(dataItem.TM_DEPT_SEQ);
-                    $("#team").data("kendoDropDownList").value(dataItem.TM_TEAM_SEQ);
+                    // $("#teamDept").data("kendoDropDownList").value(dataItem.TM_DEPT_SEQ);
+                    $("#team").val(dataItem.DEPT_NAME);
+                    $("#teamSeq").val(dataItem.DEPT_SEQ);
                     $("#teamPMNm").val(dataItem.EMP_NAME);
                     $("#teamPMSeq").val(dataItem.TM_PM_SEQ);
                     $("#teamCrmNm").val(dataItem.CRM_NM);
@@ -180,10 +181,16 @@ var teamInfo = {
                     title: "배분비율",
                     width: 100,
                     template: function(e){
+                        console.log(e);
+                        console.log(e.TM_AMT, "/", uncomma($("#pjtAmt").val()));
                         if($("#pjtStep").val().toString().substring(0, 1) == "R"){
                             return (Number(e.TM_AMT) / Number(uncomma($("#pjtExpAmt").val()))) * 100 + "%"
                         } else {
-                            return (Number(e.TM_AMT) / Number(uncomma($("#pjtAmt").val()))) * 100 + "%"
+                            if($("#pjtAmt").val() == undefined || $("#pjtAmt").val() == "" || $("#pjtAmt").val() == null){
+                                return (Number(e.TM_AMT) / Number(uncomma(e.PJT_AMT))) * 100 + "%"
+                            } else {
+                                return (Number(e.TM_AMT) / Number(uncomma($("#pjtAmt").val()))) * 100 + "%"
+                            }
                         }
                     }
                 }, {
@@ -209,7 +216,7 @@ var teamInfo = {
         var parameters = {
             pjtSn : $("#pjtSn").val(),
             tmDeptSeq : $("#teamDept").val(),
-            tmTeamSeq : $("#team").val(),
+            tmTeamSeq : $("#teamSeq").val(),
             tmPMSeq : $("#teamPMSeq").val(),
             tmCrmSn : $("#teamCrmSn").val(),
             tmAmt : uncomma($("#teamAmt").val()),

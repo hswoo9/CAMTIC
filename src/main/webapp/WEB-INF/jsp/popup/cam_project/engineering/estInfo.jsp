@@ -70,8 +70,8 @@
                         <label for="vatN">미포함</label>
                         <input type="radio" id="vatY" name="vatYn" value="Y" style="margin-left:10px;">
                         <label for="vatY">포함</label>
-                        <input type="radio" id="vatC" name="vatYn" value="C" style="margin-left:10px;">
-                        <label for="vatC">면세</label>
+                        <%--<input type="radio" id="vatC" name="vatYn" value="C" style="margin-left:10px;">
+                        <label for="vatC">면세</label>--%>
                     </span>
                 </td>
                 <th scope="row" class="text-center th-color">

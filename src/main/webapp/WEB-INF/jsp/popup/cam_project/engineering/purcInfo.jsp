@@ -46,7 +46,7 @@
         <input type="hidden" id="purcReqEmpSeq" value="${loginVO.uniqId}">
         <input type="hidden" id="purcReqDeptSeq" value="${loginVO.orgnztId}">
 
-        <div id="mainGrid" style="margin-top: 20px"></div>
+        <div id="purcInfoMainGrid" style="margin-top: 20px"></div>
     </div>
 </div>
 

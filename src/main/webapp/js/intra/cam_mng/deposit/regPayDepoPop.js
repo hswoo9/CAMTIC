@@ -15,7 +15,16 @@ var regPayDepo = {
         customKendo.fn_datePicker("appDe", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("payIncpDe", "month", "yyyy-MM-dd", new Date());
 
-        customKendo.fn_textBox(["pjtNm", "depoTitle", "accNm", "accNo", "bnkNm", "budgetNm", "depoAmt", "depoManager"]);
+        if($("#appDe").val() != null && $("#getDelvDe").val() != ""){
+            $("#appDe").val($("#getDelvDe").val());
+        }
+
+
+        customKendo.fn_textBox(["pjtNm", "depoTitle", "accNm", "accNo", "bnkNm", "budgetNm", "depoAmt", "depoManager", "payDepoReqUser"]);
+
+        if($("#paramPm").val() != null && $("#paramPm").val() != ""){
+            $("#depoManager").val($("#paramPm").val());
+        }
 
         $("#depoCont").kendoTextArea({
             rows: 5,
@@ -25,10 +34,8 @@ var regPayDepo = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "전액", value: 1 },
-                { text: "선금", value: 2 },
-                { text: "중도금", value: 3 },
-                { text: "잔금", value: 4 },
+                { text: "미입금", value: 1 },
+                { text: "입금완료", value: 2 },
             ],
             index: 0
         });
@@ -39,9 +46,17 @@ var regPayDepo = {
             dataSource: [
                 { text: "청구", value: "a" },
                 { text: "영수", value: "b"},
-                { text: "사급", value: "c" },
             ],
-            index: 0
+            index: 0,
+            change : function (e){
+                if(this.value() == "b"){
+                    $("#depoStat").data("kendoDropDownList").value(2);
+                    $("#thPayIncpDeText").text("입금일자");
+                } else if(this.value() == "a"){
+                    $("#depoStat").data("kendoDropDownList").value(1);
+                    $("#thPayIncpDeText").text("입금예정일");
+                }
+            }
         })
 
         $("#checkAll").click(function(){
@@ -54,6 +69,7 @@ var regPayDepo = {
 
         if($("#payDepoSn").val() != ""){
             regPayDepo.fn_setData();
+            $("#payDepReqUserTh").css("display", "");
         }
 
         if($("#paramPjtSn").val() != ""){
@@ -91,6 +107,7 @@ var regPayDepo = {
                 $("#accNo").val(rs.ACC_NO);
                 $("#bnkNm").val(rs.BNK_NM);
 
+                $("#payDepoReqUser").val(rs.DEPO_EMP_NAME);
                 $("#saveBtn").css("display", "none");
                 $("#incpBtn").css("display", "");
             }
@@ -112,6 +129,8 @@ var regPayDepo = {
                 console.log(rs)
                 $("#pjtSn").val(rs.PJT_SN);
                 $("#pjtNm").val(rs.PJT_NM);
+                $("#pjtCd").val(rs.PJT_CD);
+
 
                 $("#depoTitle").val("입금신청 - " + rs.PJT_NM);
             }
