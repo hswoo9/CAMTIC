@@ -549,6 +549,23 @@
 
     </select>
 
+    <select id="getPurcClaimDataByPayApp" parameterType="map" resultType="map">
+        /*getPurcClaimDataByPayApp*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_PURC_CLAIM
+        WHERE
+            PAY_APP_SN = #{payAppSn}
+    </select>
+
+    <select id="getClaimFileList" parameterType="map" resultType="map">
+        /*getClaimFileList*/
+        SELECT * FROM CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            CONTENT_ID = CONCAT("inspect_", #{PURC_SN})
+    </select>
+
     <insert id="insPurcClaimData" parameterType="map">
         /*insPurcClaimData*/
         INSERT INTO CAM_MNG.DJ_PURC_CLAIM

@@ -39,9 +39,16 @@ public class PayAppServiceImpl implements PayAppService {
 
         if(!params.containsKey("payAppSn")){
             payAppRepository.insPayAppData(params);
+
         } else {
             payAppRepository.updPayAppData(params);
             payAppRepository.delPayAppDetailData(params);
+        }
+
+        // 구매청구에서 지급신청시 claimSn Key 가져옴
+        if(params.containsKey("claimSn")){
+            // 구매청구관리 지급신청 Key Insert
+            payAppRepository.updPurcClaimByPayAppSn(params);
         }
 
         for(Map<String, Object> map : itemArr){

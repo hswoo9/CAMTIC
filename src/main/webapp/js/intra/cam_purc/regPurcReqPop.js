@@ -84,7 +84,6 @@ var prp = {
     },
 
     crmInfoChange : function(){
-        console.log(purcInfo.global.crmSnId, purcInfo.global.crmNmId)
 
         $("#" + purcInfo.global.crmSnId).val($("#purcCrmSn").val())
         $("#" + purcInfo.global.crmNmId).val($("#purcCrmNm").val())
@@ -329,7 +328,6 @@ var prp = {
         //     return;
         // }
 
-        console.log($(e).closest("tr").attr("class"));
         if($(".purcItemInfo").length > 1){
             $("#item" + prp.global.itemIndex).remove();
             prp.global.itemIndex--;
@@ -361,7 +359,6 @@ var prp = {
 
         var result = customKendo.fn_customAjax("/purc/getPurcReq.do", prp.global.searchAjaxData);
         if(result.flag){
-            console.log(result);
             var data = result.data;
             $("#docNo").text(data.DOC_NO);
             $("#purcReqDate").val(data.PURC_REQ_DATE);
@@ -383,7 +380,6 @@ var prp = {
             } else {
                 $("#project").css("display", "none");
             }
-            console.log(data);
 
             if(data.estFile != null){
                 $("#file1Sn").val(data.estFile.file_no);
@@ -410,7 +406,6 @@ var prp = {
             if(i != 0){
                 prp.addRow();
             }
-            console.log(e);
 
             $("#item" + i).find("#purcItemSn" + i).val(e[i].PURC_ITEM_SN);
             $("#item" + i).find("#purcItemType" + i).data("kendoDropDownList").value(e[i].PURC_ITEM_TYPE);
@@ -455,7 +450,6 @@ var prp = {
     },
 
     purcBtnSet : function(purcMap){
-        console.log("purcMap", purcMap);
         let buttonHtml = "";
         if(purcMap != null){
             if(purcMap.DOC_STATUS == "0"){
@@ -639,13 +633,29 @@ var prp = {
     },
 
     fn_reqRegPopup : function(key){
-        var url = "/payApp/pop/regPayAppPop.do";
-        if(key != null && key != ""){
-            url = "/payApp/pop/regPayAppPop.do?claimSn=" + key + "&reqType=purc";
+
+        var data = {
+            claimSn : key
         }
-        var name = "blank";
-        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
-        var popup = window.open(url, name, option);
+
+        var result = customKendo.fn_customAjax("/purc/getPurcClaimData", data);
+        var rs = result.data;
+
+        if(rs.PAY_APP_SN != "" && rs.PAY_APP_SN != null && rs.PAY_APP_SN != undefined){
+            var url = "/payApp/pop/regPayAppPop.do?payAppSn=" + rs.PAY_APP_SN + "&status=rev&auth=user";
+            var name = "blank";
+            var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+            var popup = window.open(url, name, option);
+
+        } else {
+            var url = "/payApp/pop/regPayAppPop.do";
+            if(key != null && key != ""){
+                url = "/payApp/pop/regPayAppPop.do?claimSn=" + key + "&reqType=purc";
+            }
+            var name = "blank";
+            var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+            var popup = window.open(url, name, option);
+        }
     },
 
     fn_excelUpload : function(){

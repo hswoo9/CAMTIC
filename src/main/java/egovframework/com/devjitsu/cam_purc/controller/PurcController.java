@@ -317,6 +317,20 @@ public class PurcController {
         return "jsonView";
     }
 
+    @RequestMapping("/purc/getClaimFileInfo")
+    public String getClaimFileInfo(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> map = purcService.getPurcClaimDataByPayApp(params);
+        List<Map<String, Object>> fileList = new ArrayList<>();
+        if(map.containsKey("PURC_SN")){
+            fileList = purcService.getClaimFileList(map);
+        }
+
+        model.addAttribute("data", fileList);
+
+        return "jsonView";
+    }
+
     /**
      * 발주처리 팝업
      * @param params

@@ -426,4 +426,14 @@ public class PurcServiceImpl implements PurcService {
     public List<Map<String, Object>> getProjectPurcList(Map<String, Object> params) {
         return purcRepository.getProjectPurcList(params);
     }
+
+    @Override
+    public Map<String, Object> getPurcClaimDataByPayApp(Map<String, Object> params) {
+        return purcRepository.getPurcClaimDataByPayApp(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getClaimFileList(Map<String, Object> map) {
+        return purcRepository.getClaimFileList(map);
+    }
 }

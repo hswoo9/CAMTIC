@@ -19,10 +19,11 @@ const regPayAtt = {
 
         const payDestSn = $("#payDestSn").val();
         let url = "/pay/getPayAttInfo";
-        const data = { payDestSn: payDestSn };
+        const data = { payDestSn: payDestSn, payAppSn : $("#payAppSn").val() };
         const attInfo = customKendo.fn_customAjax(url, data).data;
-        console.log(attInfo);
-        
+
+        const purcInfo = customKendo.fn_customAjax("/purc/getClaimFileInfo", data).data;
+        console.log(purcInfo);
         if(eviType == "1"){
             eviText = "세금계산서";
             // if(attInfo.FILE1_NO != ""){
@@ -54,6 +55,22 @@ const regPayAtt = {
                 $("#file5Name").text(attInfo.FILE5_NAME);
                 $("#file5Name").css("cursor", "pointer");
                 $("#file5Name").attr("onclick", "fileDown('" + attInfo.FILE5_PATH + "', '" + attInfo.FILE5_NAME + "')");
+            }
+
+            if(purcInfo != null){
+                for(var i = 0 ; i < purcInfo.length ; i++){
+                   if(purcInfo[i].file_ext == "hwp" || purcInfo[i].file_ext == "HWP" || purcInfo[i].file_ext == "hwpx" || purcInfo[i].file_ext == "HWPX"){
+                       $("#file4Sn").val(purcInfo[i].file_no);
+                       $("#file4Name").text(purcInfo[i].file_org_name);
+                       $("#file4Name").css("cursor", "pointer");
+                       $("#file4Name").attr("onclick", "fileDown('" + purcInfo[i].file_path + purcInfo[i].file_uuid + "', '" + purcInfo[i].file_org_name+ "." + purcInfo[i].file_ext + "')");
+                   } else {
+                       $("#file5Sn").val(purcInfo[i].file_no);
+                       $("#file5Name").text(purcInfo[i].file_org_name);
+                       $("#file5Name").css("cursor", "pointer");
+                       $("#file5Name").attr("onclick", "fileDown('" + purcInfo[i].file_path + purcInfo[i].file_uuid + "', '" + purcInfo[i].file_org_name+ "." + purcInfo[i].file_ext + "')");
+                   }
+                }
             }
         }else if(eviType == "2"){
             eviText = "계산서";

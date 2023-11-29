@@ -161,7 +161,7 @@
 
     <select id="getPayAppReqData" parameterType="map" resultType="map">
         /*getPayAppReqData*/
-        SELECT A.*, B.DOC_NO, DATE_FORMAT(A.REG_DT, '%Y년 %m월 %d일') AS REG_DATE,
+        SELECT A.*, B.DOC_NO, DATE_FORMAT(A.REG_DT, '%Y년 %m월 %d일') AS REG_DATE, P.PJT_CD,
                IFNULL((SELECT SPCS.DIV_CD FROM CAM_MNG.DJ_PROJECT_CODE_SET SPCS WHERE SPCS.IS_CODE = LEFT(P.PJT_CD, 1)), '') AS DIV_CD
         FROM CAM_MNG.DJ_PAY_APP A
         LEFT JOIN
@@ -1286,5 +1286,14 @@
             PAY_INCP_SN = #{payIncpSn}
         WHERE
             PAY_DEPO_SN = #{payDepoSn}
+    </update>
+
+    <update id="updPurcClaimByPayAppSn" parameterType="map">
+        /*updPurcClaimByPayAppSn*/
+        UPDATE CAM_MNG.DJ_PURC_CLAIM
+        SET
+            PAY_APP_SN = #{payAppSn}
+        WHERE
+            CLAIM_SN = #{claimSn}
     </update>
 </mapper>

@@ -20,8 +20,9 @@
 
 <input type="hidden" id="payDestSn" value="${params.payDestSn}" />
 <input type="hidden" id="eviType" value="${params.eviType}" />
+<input type="hidden" id="payAppSn" value="${params.payAppSn}" />
 
-<input type
+<input type="hidden" id="claimSn" value="${params.claimSn}" />
 
 <div style="padding:0;">
     <div class="table-responsive">

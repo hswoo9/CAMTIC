@@ -274,6 +274,7 @@ var regPay = {
         $("#appDe").val(rs.APP_DE)
         $("#pjtNm").val(rs.PJT_NM)
         $("#pjtSn").val(rs.PJT_SN)
+        $("#pjtCd").val(rs.PJT_CD)
         // $("#budgetNm").val(rs.BUDGET_NM)
         // $("#budgetSn").val(rs.BUDGET_SN)
         $("#appTitle").val(rs.APP_TITLE)
@@ -544,6 +545,10 @@ var regPay = {
             regEmpSeq : $("#regEmpSeq").val()
         }
 
+        if($("#claimSn").val() != ""){
+            parameters.claimSn = $("#claimSn").val();
+        }
+
         if($("#payAppSn").val() != ""){
             parameters.payAppSn = $("#payAppSn").val();
         }
@@ -636,7 +641,9 @@ var regPay = {
             dataType : "json",
             success : function(rs){
                 if(rs.code == 200){
-                    alert("저장되었습니다.");
+                    if(auth != "user"){
+                        alert("저장되었습니다.");
+                    }
                     if(type != "drafting"){
                         let status = "";
                         if($("#payAppType").data("kendoRadioGroup").value() == 1){
@@ -1049,23 +1056,13 @@ var regPayDet = {
     fn_regPayAttPop : function (row){
         let key = $("#payDestSn"+row).val();
 
-        if($("#claimSn").val() == ""){
-            if(key == "" || key == null){
-                regPay.fn_save("user");
-                return;
-            }
-            let eviType = $("#eviType"+row).data("kendoDropDownList").value();
-            var url = "/payApp/pop/regPayAttPop.do?payDestSn=" + key + "&eviType=" + eviType;
-        } else {
-
-
-            let eviType = $("#eviType"+row).data("kendoDropDownList").value();
-            var url = "/payApp/pop/regPayAttPop.do?claimSn=" + $("#claimSn").val() + "&eviType=" + eviType;
+        if(key == "" || key == null){
+            regPay.fn_save("user");
+            return;
         }
 
-
-
-
+        let eviType = $("#eviType"+row).data("kendoDropDownList").value();
+        var url = "/payApp/pop/regPayAttPop.do?payAppSn=" + $("#payAppSn").val() + "&payDestSn=" + key + "&eviType=" + eviType;
         var name = "_blank";
         var option = "width = 850, height = 400, top = 200, left = 350, location = no";
         var popup = window.open(url, name, option);

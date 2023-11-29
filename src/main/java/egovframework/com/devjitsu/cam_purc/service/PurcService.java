@@ -49,4 +49,8 @@ public interface PurcService {
     void setOrderInfo(Map<String, Object> params);
 
     List<Map<String, Object>> getProjectPurcList(Map<String, Object> params);
+
+    Map<String, Object> getPurcClaimDataByPayApp(Map<String, Object> params);
+
+    List<Map<String, Object>> getClaimFileList(Map<String, Object> map);
 }
