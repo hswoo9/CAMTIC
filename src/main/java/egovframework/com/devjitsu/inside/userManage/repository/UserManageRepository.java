@@ -381,6 +381,11 @@ public class UserManageRepository extends AbstractDAO {
         return selectList("userManage.getPositionNameByYear", params);
     }
 
+    /**년도별 직급 현황 팝업**/
+    public List<Map<String, Object>> getPositionListByYear(Map<String, Object> params){
+        return selectList("userManage.getPositionListByYear", params);
+    }
+
 
 
 }

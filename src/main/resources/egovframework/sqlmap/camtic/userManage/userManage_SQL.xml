@@ -3426,4 +3426,31 @@
         ORDER BY join_year DESC
     </select>
 
+    <select id="getPositionListByYear" parameterType="map" resultType="map">
+        SELECT
+            HEI.*,
+            SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, HEI.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', 1) AS hire,
+            SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, HEI.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', -1) + 1 AS hire_mon,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS DEPT_SEQ,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS DEPT_NAME1,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS TEAM_SEQ,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS TEAM_NAME,
+            DATE_FORMAT(HEI.JOIN_DAY,'%Y-%m-%d') AS JOIN_DAY2,
+            IFNULL(CASE WHEN HEI.DUTY_NAME = "" THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END, "") AS SPOT,
+            CASE WHEN HEI.DUTY_CODE IS NOT NULL THEN (SELECT SORT FROM CAM_COMMON.dj_com_code WHERE CM_GROUP_CODE_ID = 3 AND CM_CODE = HEI.DUTY_CODE)
+                 WHEN HEI.POSITION_CODE IS NOT NULL THEN (SELECT SORT FROM CAM_COMMON.dj_com_code WHERE CM_GROUP_CODE_ID = 4 AND CM_CODE = HEI.POSITION_CODE)
+                 ELSE 999 END SORT
+        FROM
+            CAM_HR.DJ_EMP_INFO AS HEI
+        LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        where year(hei.join_day) = #{year}
+          and position_name = #{positionName}
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                ${item}
+            </foreach>
+        </if>
+    </select>
+
 </mapper>

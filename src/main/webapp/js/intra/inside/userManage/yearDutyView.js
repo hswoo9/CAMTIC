@@ -81,7 +81,7 @@ var yearDutyView = {
                 var positionName = uniquePositionsArray[j];
                 var positionCounts = positionList.filter(item => item.join_year === currentYear && item.position_name === positionName);
                 var empCount = positionCounts.length > 0 ? positionCounts[0].emp_count : 0;
-                html += '<td><a href="javascript:void(0);" onclick="yearDutyView.userViewPop(\'' + positionName +'\', \'' + currentYear + '\', \'' + arr + '\');">' +
+                html += '<td><a href="javascript:void(0);" onclick="yearDutyView. userViewPop(\'' + currentYear +'\', \'' + positionName + '\', \'' + arr + '\');">' +
                     '<span>' + empCount + '명</span></a></td>';
             }
 
@@ -140,8 +140,15 @@ var yearDutyView = {
         console.log("arr :",arr);
 
         yearDutyView.getPositionNameByYear(arr);
+    },
+
+    userViewPop : function(currentYear,positionName,arr) {
+        var encodedArr = encodeURIComponent(arr);
+        console.log("userViewPop 함수 인코딩arr:"+encodedArr);
+        var url = "/Inside/pop/yearDutyViewPop.do?currentYear="+currentYear+ "&positionName=" +positionName+ "&encodedArr="+encodedArr;
+        var name = "yearDutyViewPop";
+        var option = "width=1800, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        window.open(url, name, option);
     }
-
-
 
 }
