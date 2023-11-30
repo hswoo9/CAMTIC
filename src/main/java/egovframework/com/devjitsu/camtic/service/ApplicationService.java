@@ -20,4 +20,5 @@ public interface ApplicationService {
     Map<String, Object> getApplicationForm3(Map<String, Object> params);
     void setApplicationIntroduce(Map<String, Object> params);
     Map<String, Object> getApplicationIntroduce(Map<String, Object> params);
+    List<Map<String,Object>> getApplicationByRecruitArea(Map<String,Object> params);
 }

@@ -549,6 +549,16 @@
         WHERE
             APPLICATION_ID = #{applicationId}
     </update>
+
+    <select id="getApplicationByRecruitArea" parameterType="map" resultType="map">
+        select
+            APPLICATION_ID,
+            USER_NAME
+        from
+            cam_inside.dj_application_main
+        where
+            RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
+    </select>
 </mapper>
 
 

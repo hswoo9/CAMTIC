@@ -42,4 +42,6 @@ public class ApplicationRepository extends AbstractDAO {
     public void setApplicationIntroduceUpd(Map<String, Object> params) { update("application.setApplicationIntroduceUpd", params);}
     public Map<String, Object> getApplicationIntroduce(Map<String, Object> params){ return (Map<String, Object>) selectOne("application.getApplicationIntroduce", params);}
     public void setApplicationMainSaveType(Map<String, Object> params) { update("application.setApplicationMainSaveType", params);}
+
+    public List<Map<String,Object>> getApplicationByRecruitArea(Map<String, Object> params){return selectList("application.getApplicationByRecruitArea",params);}
 }

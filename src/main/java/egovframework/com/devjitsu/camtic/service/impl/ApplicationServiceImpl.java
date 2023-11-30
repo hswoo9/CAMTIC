@@ -392,4 +392,9 @@ public class ApplicationServiceImpl implements ApplicationService {
         return path;
     }
 
+    @Override
+    public List<Map<String, Object>> getApplicationByRecruitArea(Map<String, Object> params) {
+        return applicationRepository.getApplicationByRecruitArea(params);
+    }
+
 }

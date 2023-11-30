@@ -466,6 +466,20 @@ public class RecruitController {
         return "popup/inside/recruit/applicationView";
     }
 
+    @RequestMapping("/inside/applicationViewRegrid")
+    public String applicationViewRegrid(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        model.addAttribute("data", recruitService.getApplication(params));
+
+        return "jsonView";
+    }
+
+
     /**
      * 채용공고 응시자 중복지원 리스트 팝업
      * @param params
