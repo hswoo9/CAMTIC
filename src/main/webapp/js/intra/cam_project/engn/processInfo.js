@@ -263,7 +263,7 @@ var processInfo = {
             enctype : 'multipart/form-data',
             async: false,
             success: function(rs){
-                window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=5";
+                window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=4";
             }
         });
     }

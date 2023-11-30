@@ -34,7 +34,7 @@ const eduReq = {
         let thirdCareTelNum = $("#thirdCareTelNum").val();
         let eduMoney = $("#eduMoney").val().replace(/,/g, "");
         let eduMoneyType = "";
-        let returnMoney = $("#returnMoney").val().replace(/,/g, "");;
+        let returnMoney = $("#returnMoney").val() == null ? "0" : $("#returnMoney").val().replace(/,/g, "");
         let returnDoc = $("#returnDoc").val();
         let attachDocName = $("#attachDocName").val();
         let regDate = $("#regDate").val();

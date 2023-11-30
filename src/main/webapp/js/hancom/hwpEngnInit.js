@@ -112,10 +112,10 @@ var engnInit = {
             invSum += Number(map.EST_TOT_AMT);
         }
         hwpDocCtrl.putFieldText('INV_PER', "100%");
-        hwpDocCtrl.putFieldText('INV_AMT', fn_numberWithCommas(invSum));
+        hwpDocCtrl.putFieldText('INV_AMT', invSum == 0 ? "0" : fn_numberWithCommas(invSum));
         let invPer = Math.round(invSum / map.PJT_AMT * 100);
         hwpDocCtrl.putFieldText('INV_PER2', invPer+"%");
-        hwpDocCtrl.putFieldText('INV_AMT2', fn_numberWithCommas(map.PJT_AMT-invSum));
+        hwpDocCtrl.putFieldText('INV_AMT2', (map.PJT_AMT-invSum) == 0 ? "0" : String(fn_numberWithCommas(map.PJT_AMT-invSum)));
         hwpDocCtrl.putFieldText('INV_PER3', (100-invPer)+"%");
         if(map.TM_YN == "Y"){
             const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: map.PJT_SN});
@@ -213,10 +213,10 @@ var engnInit = {
             invSum += Number(map.PURC_ITEM_AMT);
         }
         hwpDocCtrl.putFieldText('INV_PER', "100%");
-        hwpDocCtrl.putFieldText('INV_AMT', fn_numberWithCommas(invSum));
+        hwpDocCtrl.putFieldText('INV_AMT', invSum == 0 ? "0" : fn_numberWithCommas(invSum));
         let invPer = Math.round(invSum / map.PJT_AMT * 100);
         hwpDocCtrl.putFieldText('INV_PER2', invPer+"%");
-        hwpDocCtrl.putFieldText('INV_AMT2', fn_numberWithCommas(map.PJT_AMT-invSum));
+        hwpDocCtrl.putFieldText('INV_AMT2', (map.PJT_AMT-invSum) == 0 ? "0" : String(fn_numberWithCommas(map.PJT_AMT-invSum)));
         hwpDocCtrl.putFieldText('INV_PER3', (100-invPer)+"%");
 
         /** 7. 특이사항 */
