@@ -186,6 +186,7 @@ var regPrj = {
             var doc3 = parser.parseFromString(html3, 'text/html');
             $("#tabstrip li")[4].before(doc3.body.firstChild);
 
+            $("#tabstrip .k-image").hide();
         /** 협업이 아닐 때 */
         } else {
             if(setParameters.PJT_SN){

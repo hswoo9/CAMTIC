@@ -324,6 +324,7 @@ var regPay = {
                 '   <td>' +
                 '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regPayDet.fn_popRegDet(1, '+regPayDet.global.itemIndex+')"></i>' +
                 '       <input type="text" style="width: 70%" id="crmNm' + regPayDet.global.itemIndex + '" value="'+item.CRM_NM+'" class="crmNm">' +
+                '       <input type="hidden" id="buySts' + regPayDet.global.itemIndex + '" value="'+item.BUY_STS+'" class="buySts">' +
                 '       <input type="hidden" id="trCd' + regPayDet.global.itemIndex + '" value="'+item.TR_CD+'" class="trCd">' +
                 '   </td>' +
                 '   <td>' +
@@ -589,6 +590,7 @@ var regPay = {
                 totCost : regPay.uncomma($("#totCost" + index).val()),
                 supCost : regPay.uncomma($("#supCost" + index).val()),
                 vatCost : regPay.uncomma($("#vatCost" + index).val()),
+                buySts : $("#buySts" + index).val(),
                 card : $("#card" + index).val(),
                 cardNo : $("#cardNo" + index).val(),
                 etc : $("#etc" + index).val(),
@@ -843,6 +845,7 @@ var regPayDet = {
             '   <td>' +
             '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regPayDet.fn_popRegDet(1, '+regPayDet.global.itemIndex+')"></i>' +
             '       <input type="text" style="width: 70%" id="crmNm' + regPayDet.global.itemIndex + '" class="crmNm">' +
+            '       <input type="hidden" id="buySts' + regPayDet.global.itemIndex + '" class="buySts">' +
             '       <input type="hidden" id="trCd' + regPayDet.global.itemIndex + '" class="trCd">' +
             '   </td>' +
             '   <td>' +

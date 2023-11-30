@@ -39,7 +39,6 @@ public class PayAppServiceImpl implements PayAppService {
 
         if(!params.containsKey("payAppSn")){
             payAppRepository.insPayAppData(params);
-
         } else {
             payAppRepository.updPayAppData(params);
             payAppRepository.delPayAppDetailData(params);

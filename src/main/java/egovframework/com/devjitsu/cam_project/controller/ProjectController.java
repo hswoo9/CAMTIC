@@ -467,6 +467,7 @@ public class ProjectController {
 
         Map<String, Object> map = projectService.getProjectData(params);
 
+        model.addAttribute("hashMap", map);
         model.addAttribute("result", projectService.getEstData(params));
         model.addAttribute("loginVO", loginVO).addAttribute(map);
 
