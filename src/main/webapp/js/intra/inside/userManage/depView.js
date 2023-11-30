@@ -56,11 +56,15 @@ var depView = {
             totalEmpCount += data[i].DeptEmployeesCount || 0;
         }
         var html = "";
-        html = '<table class="centerTable table table-bordered"><colgroup><col width="15%"><col><col width="15%"></colgroup><tbody>'+
+        html = '<table class="centerTable table table-bordered"><colgroup><col width="15%"><col><col width="10%"></colgroup><tbody>'+
             '<tr>'+
             '<td style="background-color: #efefef;">CAMTIC </td>'+
             '<td style="background-color: #ffffff;">'+
-            '<div style="background-color: #DC7C7C; height: 10px; width:900px"/>'+
+            '<div style="display: flex; align-items: center;">' +
+            '<div style="background-color: #DC7C7C; float : left; height: 10px; width: 900px; display: inline-block; position: relative; top: 1.5px;">'+
+            '</div>' +
+            '<span style="display: inline-block; position: relative; top: 1.5px;">100%</span>' +
+            '</div>'+
             '</td>'+
             '<td style="background-color: #ffffff;">'+totalEmpCount +'명</td>'+
             '</tr>'+
@@ -68,7 +72,34 @@ var depView = {
             '<td style="background-color: #efefef;" align="center" colspan="2">합계</td>'+
             '<td style="background-color: #efefef;">'+totalEmpCount +'명</td>'+
             '</tr>'+
-            '</table>';
+            '</table>'+
+            '<table class="centerTable table table-bordered"><colgroup><col width="15%"><col><col width="10%"></colgroup><tbody>';
+        for(var i =0;i<data.length; i++) {
+            var color = depView.getColorForIndex(i);
+            var percentageWidth = (((data[i].DeptEmployeesCount / totalEmpCount) * 100).toFixed(1))*9;
+            var percentage = ((data[i].DeptEmployeesCount / totalEmpCount) * 100).toFixed(1)
+            console.log("percentage : ",percentage);
+            console.log("percentageWidth : ",percentageWidth);
+            html += '<tr>' +
+                '<td style="background-color: #efefef;">'+ data[i].DeptName +'</td>' +
+                '<td style="background-color: #ffffff;">' +
+                '<div style="display: flex; align-items: center;">' +
+                '<div style="background-color: ' + color + '; float : left; height: 10px; width: '+percentageWidth+'px; display: inline-block; position: relative; top: 1.5px;">' +
+                '</div>' +
+                '<span style="display: inline-block; position: relative; top: 1.5px;">'+percentage+'%</span>' +
+                '</div>' +
+                '</td>' +
+                '<td style="background-color: #ffffff;">' + data[i].DeptEmployeesCount + '명</td>' +
+                '</tr>';
+        }
+             html+='<tr>'+
+                '<td style="background-color: #efefef;" align="center" colspan="2">합계</td>'+
+                '<td style="background-color: #efefef;">'+totalEmpCount +'명</td>'+
+                '</tr>'+
+                '</table>';
+
+
+
 
         $("#mainChart").append(html);
     },
@@ -81,64 +112,33 @@ var depView = {
         for(var i = 0; i<data.length; i++){
             totalEmpCount += data[i].TeamEmployeesCount || 0;
         }
-        var chartData = data
-            .map(function (item,index) {
-                return {
-                    category: item.TeamName,//부서명(item.부서명)
-                    value: Math.round((item.TeamEmployeesCount / totalEmpCount) * 100),//(item.부서 인원 수 / item.총 재직 인원 수) * 100,
-                    color: depView.getColorForIndex(index)
-                };
-            });
-        $("#teamChart").kendoChart({
-            chartArea: { height: 700,
-                width : 1000,
-                margin: {
-                    left: 100, // 왼쪽 여백 크기 조절
-                    right: 10,
-                    top: 10,
-                    bottom: 10
-                }
+        var html = "";
+        html = '<table class="centerTable table table-bordered"><colgroup><col width="15%"><col><col width="10%"></colgroup><tbody>';
+        for(var i =0;i<data.length; i++) {
+            var color = depView.getColorForIndex(i);
+            var percentageWidth = (((data[i].TeamEmployeesCount / totalEmpCount) * 100).toFixed(1))*9;
+            var percentage = ((data[i].TeamEmployeesCount / totalEmpCount) * 100).toFixed(1)
+            console.log("percentage : ",percentage);
+            console.log("percentageWidth : ",percentageWidth);
+            html += '<tr>' +
+                '<td style="background-color: #efefef;">'+ data[i].TeamName +'</td>' +
+                '<td style="background-color: #ffffff;">' +
+                '<div style="display: flex; align-items: center;">' +
+                '<div style="background-color: ' + color + '; float : left; height: 10px; width: '+percentageWidth+'px; display: inline-block; position: relative; top: 1.5px;">' +
+                '</div>' +
+                '<span style="display: inline-block; position: relative; top: 1.5px;">'+percentage+'%</span>' +
+                '</div>'+
+                '</td>' +
+                '<td style="background-color: #ffffff;">' + data[i].TeamEmployeesCount + '명</td>' +
+                '</tr>';
+        }
+        html+='<tr>'+
+            '<td style="background-color: #efefef;" align="center" colspan="2">합계</td>'+
+            '<td style="background-color: #efefef;">'+totalEmpCount +'명</td>'+
+            '</tr>'+
+            '</table>';
 
-            },
-            seriesDefaults: {
-                type: "bar",
-                labels: {
-                    visible: true,
-                    format: "{0}%"
-                }
-            },
-            legend: {
-                position: "top"
-            },
-            series: [{
-                data: chartData,
-                field: "value",
-                name: "팀 인원 비율",
-                colorField: "color"
-            }],
-            categoryAxis: {
-                categories : chartData.map(function(item) {
-                    console.log("chartitem category" ,item.category)
-                    return item.category;
-                }),
-                majorGridLines: {
-                    visible: false
-                }
-            },
-            valueAxis: {
-                labels: { format: "{0}%" },
-                line: { visible: false },
-                max: 110
-            },
-            tooltip: {
-                visible: true,
-                format: "{0}%"
-            },
-            seriesColors: chartData.map(function (item, index) {
-                return depView.getColorForIndex(index);
-            })
-        });
-
+        $("#teamChart").append(html);
 
     },
 

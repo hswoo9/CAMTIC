@@ -3,15 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<style>
-    .graph-bar {
-        height: 10px;
-        width: 500px;
-        background-color: #4CAF50;
-        margin: 0;
-        padding: 0;
-    }
-</style>
+
 <script type="text/javascript" src="/js/intra/inside/userManage/depView.js?v=${today}"/></script>
 <div class="mainCard">
     <div class="panel">
