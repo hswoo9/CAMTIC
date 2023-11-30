@@ -79,7 +79,7 @@
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
         <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
         <input type="hidden" id="publicClass" name="publicClass" value="${params.publicClass}">
-        <input type="hidden" id="selectDate" name="selectDate" value="${params.selectDate}">
+        <input type="hidden" id="selectedDate" name="selectedDate" value="${params.selectedDate}">
         <input type="hidden" id="scheduleBoardId" name="scheduleBoardId" value="${rs.SCHEDULE_BOARD_ID}">
 
         <div class="card-header pop-header">
@@ -153,7 +153,7 @@
     var firstData = fn_customAjax('/spot/getMainScheduleList', {
         recordSize : 10,
         publicClass : $("#publicClass").val(),
-        selectDate : $("#selectDate").val(),
+        selectedDate : $("#selectedDate").val(),
 
     });
 
