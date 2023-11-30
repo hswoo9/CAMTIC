@@ -60,7 +60,7 @@ const estPrintPop = {
         let estMap = "";
         let estSubMap = [];
         const crmMap = rs2.rs;
-        
+
         /** 현재 버전 견적 데이터 추출 */
         for(let i=0; i<estList.length; i++){
             if(estList[i].EST_SN == estSn){
@@ -87,6 +87,16 @@ const estPrintPop = {
         /** 1. 견젹 표 */
         estPrintPop.global.hwpCtrl.PutFieldText("EST_DE", estMap.EST_DE);
         estPrintPop.global.hwpCtrl.PutFieldText("PJT_CD", map.PJT_CD);
+
+        /** 협업일시 관련번호 상위 프로젝트 코드 추출*/
+        console.log(map);
+        if(map.TEAM_STAT == "Y"){
+            const pntRs = customKendo.fn_customAjax("/project/engn/getEstData", {
+                pjtSn: map.PNT_PJT_SN
+            }).hashMap;
+            estPrintPop.global.hwpCtrl.PutFieldText("PJT_CD", pntRs.PJT_CD);
+        }
+
         estPrintPop.global.hwpCtrl.PutFieldText("EST_CRM_NM", estMap.CRM_NM);
         estPrintPop.global.hwpCtrl.PutFieldText("EST_CRM_NM", estMap.CRM_NM);
         estPrintPop.global.hwpCtrl.PutFieldText("EST_NM", estMap.EST_NM);
@@ -125,9 +135,17 @@ const estPrintPop = {
         /** 4. 견적 합계 */
         const supAmtSum2 = Math.floor(supAmtSum/10);
         const supAmtSum1 = supAmtSum - supAmtSum2;
-        estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum1));
-        estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", fn_numberWithCommas(supAmtSum2));
-        estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum));
+        /** 부가세 포함 500 0 500*/
+        console.log(estMap.VAT);
+        if(estMap.VAT == "Y"){
+            estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum));
+            estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", "0");
+            estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum));
+        }else{
+            estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum1));
+            estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", fn_numberWithCommas(supAmtSum2));
+            estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum));
+        }
         estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM_TEXT", "총 견적금액 : "+fn_numberWithCommas(supAmtSum)+" 원");
 
         /** 5. 기타사항 */

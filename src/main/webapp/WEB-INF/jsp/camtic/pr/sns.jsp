@@ -36,34 +36,19 @@
                 <table class="__tblList respond1">
                     <caption>공지사항 게시판</caption>
                     <colgroup>
-                        <c:choose>
-                            <c:when test="${categoryKey eq 'business'}">
-                                <col style="width:100px;"/>
-                                <col/>
-                                <col style="width:100px;"/>
-                                <col style="width:100px;"/>
-                                <col style="width:100px;"/>
-                                <col style="width:150px;"/>
-                                <col style="width:100px;"/>
-                            </c:when>
-                            <c:otherwise>
-                                <col style="width:100px;"/>
-                                <col/>
-                                <col style="width:100px;"/>
-                                <col style="width:100px;"/>
-                                <col style="width:100px;"/>
-                                <col style="width:150px;"/>
-                                <col style="width:100px;"/>
-                            </c:otherwise>
-                        </c:choose>
-
-
+                        <col style="width:100px;"/>
+                        <col/>
+                        <%--<col style="width:100px;"/>--%>
+                        <col style="width:100px;"/>
+                        <col style="width:100px;"/>
+                        <col style="width:150px;"/>
+                        <col style="width:100px;"/>
                     </colgroup>
                     <thead>
                     <tr>
                         <th scope="col">번호</th>
                         <th scope="col">제목</th>
-                        <th scope="col">첨부파일</th>
+                        <%--<th scope="col">첨부파일</th>--%>
                         <th scope="col">유형</th>
                         <th scope="col">작성자</th>
                         <th scope="col">작성일</th>
@@ -123,6 +108,7 @@
             startPage = paginationData.startPage;
             endPage = paginationData.endPage;
             page = e.articlePage.page;
+            total = e.articlePage.pagination.totalRecordCount;
         }
     }
 
@@ -190,11 +176,11 @@
             html += "<tr>";
             html += '<td>'+ (num) +'</td>';
             html += '<td class="subject" onclick="fn_detailBoard('+item.board_ARTICLE_ID+')"><a href="#" onclick="fn_detailBoard('+item.board_ARTICLE_ID+')">'+ item.board_ARTICLE_TITLE +'</a></td>';
-            if(item.file_PATH){
+            /*if(item.file_PATH){
                 html += '<td><img src="/images/camtic/ico-drone5-1.png" style="filter: opacity(0.5) drop-shadow(0 0 0 #666);"></td>';
             }else{
                 html += '<td></td>';
-            }
+            }*/
             if(item.sns_TYPE == '1'){
                 html += '<td>페이스북</td>';
             }else if(item.sns_TYPE == '2'){

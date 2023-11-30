@@ -116,6 +116,8 @@
   var endPage;
   var page;
   var total = firstData.articlePage.pagination.totalRecordCount;
+  console.log(total);
+  console.log("토 탈");
 
   /** 최초의 데이터와 페이지 이동할 때의 데이터 구분 */
   function dataChk(e, f) {
@@ -129,6 +131,7 @@
       startPage = paginationData.startPage;
       endPage = paginationData.endPage;
       page = e.articlePage.page;
+      total = e.articlePage.pagination.totalRecordCount;
     }
   }
 

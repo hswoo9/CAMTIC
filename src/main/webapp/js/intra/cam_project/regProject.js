@@ -186,6 +186,7 @@ var regPrj = {
             var doc3 = parser.parseFromString(html3, 'text/html');
             $("#tabstrip li")[4].before(doc3.body.firstChild);
 
+            $("#tabstrip .k-image").hide();
         /** 협업이 아닐 때 */
         } else {
             if(setParameters.PJT_SN){
@@ -302,6 +303,7 @@ var regPrj = {
     },
 
     fn_setData : function (p) {
+        console.log(p);
         if(p == null){
             return;
         }
@@ -342,7 +344,7 @@ var regPrj = {
             $("#expAmt").val(regPrj.comma(p.EXP_AMT));
         }
 
-        if(p.PJT_STEP == "E" || p.PJT_STEP == "E1" || p.PJT_STEP == "E2"){
+        if(p.TEAM_STAT == "N" && (p.PJT_STEP == "E" || p.PJT_STEP == "E1" || p.PJT_STEP == "E2")){
             $("#expAmt").val(regPrj.comma(p.EXP_AMT));
         }
 
