@@ -76,8 +76,8 @@ var depView = {
             '<table class="centerTable table table-bordered"><colgroup><col width="15%"><col><col width="10%"></colgroup><tbody>';
         for(var i =0;i<data.length; i++) {
             var color = depView.getColorForIndex(i);
-            var percentageWidth = (Math.round((data[i].DeptEmployeesCount / totalEmpCount) * 100))*9;
-            var percentage = Math.round((data[i].DeptEmployeesCount / totalEmpCount) * 100)
+            var percentageWidth = (((data[i].DeptEmployeesCount / totalEmpCount) * 100).toFixed(1))*9;
+            var percentage = ((data[i].DeptEmployeesCount / totalEmpCount) * 100).toFixed(1)
             console.log("percentage : ",percentage);
             console.log("percentageWidth : ",percentageWidth);
             html += '<tr>' +
@@ -116,8 +116,8 @@ var depView = {
         html = '<table class="centerTable table table-bordered"><colgroup><col width="15%"><col><col width="10%"></colgroup><tbody>';
         for(var i =0;i<data.length; i++) {
             var color = depView.getColorForIndex(i);
-            var percentageWidth = (Math.round((data[i].TeamEmployeesCount / totalEmpCount) * 100))*9;
-            var percentage = Math.round((data[i].TeamEmployeesCount / totalEmpCount) * 100)
+            var percentageWidth = (((data[i].TeamEmployeesCount / totalEmpCount) * 100).toFixed(1))*9;
+            var percentage = ((data[i].TeamEmployeesCount / totalEmpCount) * 100).toFixed(1)
             console.log("percentage : ",percentage);
             console.log("percentageWidth : ",percentageWidth);
             html += '<tr>' +
