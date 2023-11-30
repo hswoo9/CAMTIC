@@ -1294,4 +1294,54 @@ public class UserManageServiceImpl implements UserManageService {
         return userManageRepository.getPositionListByYear(params);
     }
 
+    //년도별 발령 현황
+    @Override
+    public List<Map<String, Object>> getApntNameByYear(Map<String, Object> params){
+        if(params.containsKey("arr") && !"".equals(params.get("arr").toString())){
+            String arrText = params.get("arr").toString();
+
+            String[] arr = arrText.split("[|]");
+            for(int i = 0; i < arr.length; i++){
+                String[] arrL = arr[i].split("&");
+
+                String returnTxt = "(DIVISION IN(" + arrL[0] + ")";
+                if(arrL.length > 1){
+                    if(!arrL[1].equals("N")){
+                        returnTxt += " AND DIVISION_SUB IN(" + arrL[1] + ")";
+                    }
+                }
+                returnTxt += ")";
+
+                arr[i] = returnTxt;
+            }
+            params.put("arr", arr);
+        }
+        return userManageRepository.getApntNameByYear(params);
+    }
+
+    //년도별 발령 현황 팝업
+    @Override
+    public List<Map<String, Object>> getApntListByYear(Map<String, Object> params){
+        if(params.containsKey("arr") && !"".equals(params.get("arr").toString())){
+            String arrText = params.get("arr").toString();
+
+            String[] arr = arrText.split("[|]");
+            for(int i = 0; i < arr.length; i++){
+                String[] arrL = arr[i].split("&");
+
+                String returnTxt = "(DIVISION IN(" + arrL[0] + ")";
+                if(arrL.length > 1){
+                    if(!arrL[1].equals("N")){
+                        returnTxt += " AND DIVISION_SUB IN(" + arrL[1] + ")";
+                    }
+                }
+                returnTxt += ")";
+
+                arr[i] = returnTxt;
+            }
+            params.put("arr", arr);
+        }
+        return userManageRepository.getApntListByYear(params);
+    }
+
 }

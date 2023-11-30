@@ -1,30 +1,30 @@
-var yearDutyViewPop = {
+var yearHistoryViewPop = {
     globqal : {
         params         : "",
         searchAjaxData : ""
     },
 
     fn_defaultScript : function (){
-        var joinYear = $("#joinYear").val();
-        var positionName = $("#positionName").val();
+        var hisYear = $("#hisYear").val();
+        var apntName = $("#apntName").val();
         var encodedArr = $("#encodedArr").val();
         var arr = decodeURIComponent(encodedArr);
 
-        console.log("Js.Join Year: " + joinYear);
-        console.log("js.positionName: " + positionName);
+        console.log("Js.His Year: " + hisYear);
+        console.log("js.apntName: " + apntName);
         console.log("Js.arr: ",arr);
 
 
         var data = {};
 
 
-            data.joinYear = joinYear;
-            data.positionName = positionName;
+            data.hisYear = hisYear;
+            data.apntName = apntName;
             data.arr = arr;
 
             console.log("data :",data);
 
-            yearDutyViewPop.mainGrid("/Inside/getPositionListByYear.do",data);
+        yearHistoryViewPop.mainGrid("/Inside/getApntListByYear.do",data);
 
 
 
@@ -113,7 +113,7 @@ var yearDutyViewPop = {
                     title: "나이",
                     template : function(e){
                         if(e.RES_REGIS_NUM != null && e.RES_REGIS_NUM != "") {
-                            var age = yearDutyViewPop.fn_setCalcAge(e.RES_REGIS_NUM);
+                            var age = yearHistoryViewPop.fn_setCalcAge(e.RES_REGIS_NUM);
                             return age;
                         } else {
                             return "-";

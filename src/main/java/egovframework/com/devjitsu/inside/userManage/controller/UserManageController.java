@@ -1523,6 +1523,21 @@ public class UserManageController {
     }
 
     /**
+     * 인사통계현황 - 년도별 발령 현황 - 팝업
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/pop/yearHistoryViewPop.do")
+    public String yearHistoryViewPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/userManage/yearHistoryViewPop";
+    }
+
+    /**
      * 인사관리 계약직원-경비/환경, 단기직원, 위촉직원 직원 정보 조회 팝업
      * @param params
      * @param request
@@ -1965,6 +1980,39 @@ public class UserManageController {
         return "jsonView";
     }
 
+    /** 년도별 발령 현황 **/
+    @RequestMapping(value = "/Inside/getApntNameByYear.do", method = RequestMethod.GET)
+    public String getApntNameByYear(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> apntList = userManageService.getApntNameByYear(params);
+        System.out.println("params : "+ params);
+        model.addAttribute("arr",params);
+        model.addAttribute("apntList", apntList);
+        System.out.println("apntList: " + apntList);
+        return "jsonView";
+    }
+
+    /** 년도별 발령 현황 팝업(리스트) **/
+    @RequestMapping(value = "/Inside/getApntListByYear.do", method = RequestMethod.POST)
+    public String getApntListByYear(@RequestParam Map<String, Object> params, Model model) {
+
+        Map<String, Object> map = new HashMap<>();
+        Object hisYear = params.get("hisYear");
+        Object apntName = params.get("apntName");
+        Object arr = params.get("arr");
+        System.out.println("params : " + params);
+        System.out.println("hisYear: " + hisYear);
+        System.out.println("apntName: " + apntName);
+        System.out.println("arr: "+arr);
+
+        map.put("year", hisYear);
+        map.put("arr",arr);
+        map.put("apntName", apntName);
+        System.out.println("****map**** : " + map);
+        List<Map<String, Object>> list = userManageService.getApntListByYear(map);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
 
 
 }
