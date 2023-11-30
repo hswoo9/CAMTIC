@@ -47,12 +47,14 @@
       <div id="content">
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
 
+        <c:if test="${loginVO.uniqId eq '1'}">
         <div class="__botArea __mt20">
           <div class="rig">
             <a href="#" onclick="fn_delNotice();" class="__btn1 grayLine"><span>삭제</span></a>
             <a href="#" onclick="fn_regist();" class="__btn1 grayLine"><span>수정</span></a>
           </div>
         </div>
+        </c:if>
 
         <div class="__newsListhead">
           <%--<div class="newboxHead">
