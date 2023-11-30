@@ -59,8 +59,12 @@ public class BoardController {
      * 공통게시판 페이지
      * */
     @RequestMapping("/camtic/news/commonBoard.do")
-    public String commonBoard(Model model, @RequestParam Map<String, Object> param){
+    public String commonBoard(@RequestParam Map<String,Object> param, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
+        /*params.put("empSeq", loginVO.getUniqId());*/
+        model.addAttribute("loginVO", loginVO);
         model.addAttribute("categoryKey", param.get("categoryKey"));
         return "camtic/news/commonBoard";
     }
@@ -91,10 +95,15 @@ public class BoardController {
      * */
     @RequestMapping("/camtic/news/view.do")
     public String noticeView(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
-        boardService.setBoardArticleViewCount(params);
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
+        boardService.setBoardArticleViewCount(params);
         Map<String, Object> map = boardService.selectBoard(params);
         List<Map<String, Object>> fileList = boardService.selectBoardFile(params);
+
+        /*params.put("empSeq", loginVO.getUniqId());*/
+        model.addAttribute("loginVO", loginVO);
         model.addAttribute("categoryId", params.get("category"));
         model.addAttribute("map", map);
         model.addAttribute("fileMap", fileList);
