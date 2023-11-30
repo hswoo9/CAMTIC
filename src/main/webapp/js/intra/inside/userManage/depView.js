@@ -61,9 +61,9 @@ var depView = {
             '<td style="background-color: #efefef;">CAMTIC </td>'+
             '<td style="background-color: #ffffff;">'+
             '<div style="display: flex; align-items: center;">' +
-            '<div style="background-color: #DC7C7C; float : left; height: 10px; width: 900px; display: inline-block; position: relative; top: 5px;">'+
+            '<div style="background-color: #DC7C7C; float : left; height: 10px; width: 900px; display: inline-block; position: relative; top: 1.5px;">'+
             '</div>' +
-            '<span style="display: inline-block; position: relative; top: 5px;">100%</span>' +
+            '<span style="display: inline-block; position: relative; top: 1.5px;">100%</span>' +
             '</div>'+
             '</td>'+
             '<td style="background-color: #ffffff;">'+totalEmpCount +'명</td>'+
@@ -84,9 +84,9 @@ var depView = {
                 '<td style="background-color: #efefef;">'+ data[i].DeptName +'</td>' +
                 '<td style="background-color: #ffffff;">' +
                 '<div style="display: flex; align-items: center;">' +
-                '<div style="background-color: ' + color + '; float : left; height: 10px; width: '+percentageWidth+'px; display: inline-block; position: relative; top: 5px;">' +
+                '<div style="background-color: ' + color + '; float : left; height: 10px; width: '+percentageWidth+'px; display: inline-block; position: relative; top: 1.5px;">' +
                 '</div>' +
-                '<span style="display: inline-block; position: relative; top: 5px;">'+percentage+'%</span>' +
+                '<span style="display: inline-block; position: relative; top: 1.5px;">'+percentage+'%</span>' +
                 '</div>' +
                 '</td>' +
                 '<td style="background-color: #ffffff;">' + data[i].DeptEmployeesCount + '명</td>' +
@@ -124,9 +124,9 @@ var depView = {
                 '<td style="background-color: #efefef;">'+ data[i].TeamName +'</td>' +
                 '<td style="background-color: #ffffff;">' +
                 '<div style="display: flex; align-items: center;">' +
-                '<div style="background-color: ' + color + '; float : left; height: 10px; width: '+percentageWidth+'px; display: inline-block; position: relative; top: 5px;">' +
+                '<div style="background-color: ' + color + '; float : left; height: 10px; width: '+percentageWidth+'px; display: inline-block; position: relative; top: 1.5px;">' +
                 '</div>' +
-                '<span style="display: inline-block; position: relative; top: 5px;">'+percentage+'%</span>' +
+                '<span style="display: inline-block; position: relative; top: 1.5px;">'+percentage+'%</span>' +
                 '</div>'+
                 '</td>' +
                 '<td style="background-color: #ffffff;">' + data[i].TeamEmployeesCount + '명</td>' +
