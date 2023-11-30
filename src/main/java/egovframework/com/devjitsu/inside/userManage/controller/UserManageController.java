@@ -1508,6 +1508,21 @@ public class UserManageController {
     }
 
     /**
+     * 인사통계현황 - 년도별 직급 현황 - 팝업
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/Inside/pop/yearDutyViewPop.do")
+    public String yearDutyViewPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/userManage/yearDutyViewPop";
+    }
+
+    /**
      * 인사관리 계약직원-경비/환경, 단기직원, 위촉직원 직원 정보 조회 팝업
      * @param params
      * @param request
@@ -1928,6 +1943,27 @@ public class UserManageController {
         return "jsonView";
     }
 
+    @RequestMapping(value = "/Inside/getPositionListByYear.do", method = RequestMethod.POST)
+    public String getPositionListByYear(@RequestParam Map<String, Object> params, Model model) {
+
+        Map<String, Object> map = new HashMap<>();
+        Object joinYear = params.get("joinYear");
+        Object positionName = params.get("positionName");
+        Object arr = params.get("arr");
+        System.out.println("params : " + params);
+        System.out.println("joinYear: " + joinYear);
+        System.out.println("positionName: " + positionName);
+        System.out.println("arr: "+arr);
+
+        map.put("year", joinYear);
+        map.put("arr",arr);
+        map.put("positionName", positionName);
+        System.out.println("****map**** : " + map);
+        List<Map<String, Object>> list = userManageService.getPositionListByYear(map);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
 
 
 

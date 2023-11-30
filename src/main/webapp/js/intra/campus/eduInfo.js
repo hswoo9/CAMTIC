@@ -80,7 +80,10 @@ var eduInfo = {
                 }, {
                     field: "CARE_LOCATION",
                     title: "교육장소",
-                    width: 200
+                    width: 200,
+                    template: function(row){
+                        return (row.CARE_LOCATION == null || row.CARE_LOCATION == "undefined") ? "" : row.CARE_LOCATION;
+                    }
                 }, {
                     field: "LEVEL_ID",
                     title: "목표레벨",
