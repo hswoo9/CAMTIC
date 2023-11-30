@@ -69,10 +69,10 @@
               <c:choose>
                 <c:when test="${eduFormType == 5}">
                   <th>${eduNameVar}</th>
-                  <td>${data.eduName}</td>
+                  <td>${data.EDU_NAME}</td>
                   <th>작가명</th>
                   <td>
-                      ${data.BOOK_WRITER}
+                      ${data.BOOK_WRITER_NAME}
                   </td>
                 </c:when>
                 <c:otherwise>
@@ -187,8 +187,11 @@
                   <c:when test="${eduFormType == 1 || eduFormType == 2 || eduFormType == 3 || eduFormType == 4 || eduFormType == 5 || eduFormType == 6 || eduFormType == 9}">
                     (총 ${data.TERM_DAY}  일 ${data.TERM_TIME} 시간)
                     <c:choose>
-                      <c:when test="${eduFormType == 5 || eduFormType == 6}">
+                      <c:when test="${eduFormType == 5}">
                         / 50페이지당 1시간
+                      </c:when>
+                      <c:when test="${eduFormType == 6}">
+                        / 2편당 1시간
                       </c:when>
                       <c:when test="${eduFormType == 9 || eduFormType == 10 }">
                         / 1일 최대4시간

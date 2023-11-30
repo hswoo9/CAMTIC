@@ -70,7 +70,7 @@
             <div class="lef" style=" width: 800px;">
               <div class="area">
                 <div class="txt">
-                  <img src="/images/camtic/greetingTest2.png" class="is-m1" style="/*max-width: 100%;*/ width: 300px; border-radius: 70px;" alt="원장 노상흡">
+                  <img src="/images/camtic/greetingTest4.png" class="is-m1" style="/*max-width: 100%;*/ width: 300px; border-radius: 70px;" alt="원장 노상흡">
                   캠틱종합기술원 홈페이지 방문을 진심으로 환영합니다.
                   <br><br>
                   1999년 12월, 기술혁신을 통한 지역산업 발전을 위하여 설립된 캠틱종합기술원은
@@ -109,9 +109,9 @@
             </div>
             <div class="rig" style="width: 600px; padding-top: 45px;">
               <%--<img src="/images/camtic/img-greeting1.png" style="max-width: 100%; width: auto;" alt="원장 노상흡">--%>
-              <img src="/images/camtic/greetingTest3.png" class="is-m" style="max-width: 132%; width: auto; border-radius: 70px; height: 525px; filter: drop-shadow(10px 6px 6px #c3c3c3);" alt="원장 노상흡">
+              <img src="/images/camtic/greetingTest4.png" class="is-m" style="max-width: 132%; width: auto; border-radius: 70px; height: 525px; filter: drop-shadow(10px 6px 6px #c3c3c3);" alt="원장 노상흡">
             </div>
-          </div>
+          </div>4
         </div>
       </div>
     </div>

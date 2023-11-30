@@ -32,7 +32,7 @@
             <div class="lef" style=" width: 800px;">
               <div class="area">
                 <div class="txt">
-                  <img src="/images/camtic/greetingTest2.png" class="is-m1" style="/*max-width: 100%;*/ width: 300px; border-radius: 70px;" alt="원장 노상흡">
+                  <img src="/images/camtic/greetingTest4.png" class="is-m1" style="/*max-width: 100%;*/ width: 300px; border-radius: 70px;" alt="원장 노상흡">
                   Thank you for visiting the website of CAMTIC.
                   <br><br>
                   CAMTIC Advanced Mechatronics Technology Institute for Commercialization (CAMTIC) was established in December 1999 in an effort to advance local industries through technological innovations.
@@ -54,7 +54,7 @@
               </div>
             </div>
             <div class="rig" style="width: 600px; padding-top: 70px;">
-              <img src="/images/camtic/greetingTest3.png" class="is-m" style="max-width: 132%; width: auto; border-radius: 70px; height: 550px; filter: drop-shadow(10px 6px 6px #c3c3c3);" alt="원장 노상흡">
+              <img src="/images/camtic/greetingTest4.png" class="is-m" style="max-width: 132%; width: auto; border-radius: 70px; height: 550px; filter: drop-shadow(10px 6px 6px #c3c3c3);" alt="원장 노상흡">
             </div>
           </div>
         </div>

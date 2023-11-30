@@ -55,6 +55,8 @@ const goodsPrint = {
         const map = rs.hashMap;
         const crmMap = rs2.rs;
 
+        console.log(pjtMap);
+
         /** 1. 납품 표 */
         goodsPrint.global.hwpCtrl.PutFieldText("END_EXP_DT", pjtMap.END_EXP_DT_FORMAT);
         goodsPrint.global.hwpCtrl.PutFieldText("PJT_CD", pjtMap.PJT_CD);

@@ -102,8 +102,10 @@ var devInfo = {
         devInfo.fn_setData();
 
         var rs = devInfo.global.devPjtVerList.list;
+        console.log(rs);
         if(rs.length > 0){
             var status = rs[0].STATUS;
+            var teamStat = rs[0].TEAM_STAT;
             var buttonHtml = "";
             if(status == "0"){
                 buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
@@ -118,6 +120,10 @@ var devInfo = {
                 buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+rs[0].DOC_ID+"', '"+rs[0].APPRO_KEY+"', '"+rs[0].DOC_MENU_CD+"');\">열람</button>";
             } else {
                 buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
+            }
+
+            if(teamStat == "Y"){
+                buttonHtml = "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
             }
             $("#devBtnDiv").html(buttonHtml);
         }

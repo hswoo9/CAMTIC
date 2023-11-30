@@ -48,7 +48,9 @@ var engnInit = {
     devInit: function(devSn){
         const pjtSn = customKendo.fn_customAjax("/project/getPjtSnToDev", {devSn: devSn}).rs.PJT_SN;
         const result = customKendo.fn_customAjax("/project/engn/getDelvData", {pjtSn: pjtSn});
+        const resultD = customKendo.fn_customAjax("/project/engn/getDevData", {pjtSn: pjtSn});
         const delvMap = result.delvMap;
+        const devMap = resultD.rs;
         const map = result.map;
 
         /** 1. 사업정보 */
@@ -90,14 +92,14 @@ var engnInit = {
         /** 4. 수행계획 */
         const processResult = customKendo.fn_customAjax("/project/getProcessList", {pjtSn: pjtSn});
         const processList = processResult.list;
-        const htmlDev = engnInit.htmlDev(processList, pjtSn, map.TM_YN);
+        const htmlDev = engnInit.htmlDev(processList, map);
         hwpDocCtrl.moveToField('DEV_HTML', true, true, false);
         hwpDocCtrl.setTextFile(htmlDev, "html","insertfile");
 
         /** 5. 구매예정 */
-        const purcResult = customKendo.fn_customAjax("/purc/getProjectPurcList", {pjtSn: pjtSn});
+        const purcResult = customKendo.fn_customAjax("/project/getInvList", {pjtSn: pjtSn});
         const purcList = purcResult.list;
-        const htmlData = engnInit.htmlPurc(purcList, pjtSn, map.TM_YN);
+        const htmlData = engnInit.htmlInv(purcList, map);
         setTimeout(function() {
             hwpDocCtrl.moveToField('PURC_HTML', true, true, false);
             hwpDocCtrl.setTextFile(htmlData, "html","insertfile");
@@ -107,14 +109,36 @@ var engnInit = {
         let invSum = 0;
         for(let i=0; i<purcList.length; i++){
             const map = purcList[i];
-            invSum += Number(map.PURC_ITEM_AMT);
+            invSum += Number(map.EST_TOT_AMT);
         }
         hwpDocCtrl.putFieldText('INV_PER', "100%");
-        hwpDocCtrl.putFieldText('INV_AMT', fn_numberWithCommas(invSum));
+        hwpDocCtrl.putFieldText('INV_AMT', invSum == 0 ? "0" : fn_numberWithCommas(invSum));
         let invPer = Math.round(invSum / map.PJT_AMT * 100);
         hwpDocCtrl.putFieldText('INV_PER2', invPer+"%");
-        hwpDocCtrl.putFieldText('INV_AMT2', fn_numberWithCommas(map.PJT_AMT-invSum));
+        hwpDocCtrl.putFieldText('INV_AMT2', (map.PJT_AMT-invSum) == 0 ? "0" : String(fn_numberWithCommas(map.PJT_AMT-invSum)));
         hwpDocCtrl.putFieldText('INV_PER3', (100-invPer)+"%");
+        if(map.TM_YN == "Y"){
+            const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: map.PJT_SN});
+            const team = teamResult.map;
+            const teamPurcResult = customKendo.fn_customAjax("/project/getInvList", {pjtSn: team.PNT_PJT_SN});
+            const teamPurcList = teamPurcResult.list;
+            let teamInvSum = 0;
+            for(let i=0; i<teamPurcList.length; i++){
+                const teamPurcMap = teamPurcList[i];
+                teamInvSum += Number(teamPurcMap.EST_TOT_AMT);
+                hwpDocCtrl.putFieldText('TEAM_AMT', fn_numberWithCommas(team.TM_AMT));
+                hwpDocCtrl.putFieldText('TEAM_PER', "100%");
+                hwpDocCtrl.putFieldText('TEAM_INV_AMT', fn_numberWithCommas(teamInvSum));
+                let teamPer = Math.round(teamInvSum / team.TM_AMT * 100);
+                hwpDocCtrl.putFieldText('TEAM_PER2', teamPer+"%");
+                hwpDocCtrl.putFieldText('TEAM_INV2_AMT', fn_numberWithCommas(team.TM_AMT-teamInvSum));
+                hwpDocCtrl.putFieldText('TEAM_PER3', (100-teamPer)+"%");
+
+                hwpDocCtrl.putFieldText('SUM_AMT', fn_numberWithCommas(map.PJT_AMT + team.TM_AMT));
+                hwpDocCtrl.putFieldText('TEAM_INV_AMT_SUM', fn_numberWithCommas(invSum + teamInvSum));
+                hwpDocCtrl.putFieldText('TEAM_INV2_AMT_SUM', fn_numberWithCommas(map.PJT_AMT + team.TM_AMT - invSum - teamInvSum));
+            }
+        }
 
         /** 7. 특이사항 */
         const getDevelopPlan = customKendo.fn_customAjax("/project/getDevelopPlan", {pjtSn: pjtSn});
@@ -169,7 +193,7 @@ var engnInit = {
         /** 4. 수행계획 */
         const processResult = customKendo.fn_customAjax("/project/getProcessList", data);
         const processList = processResult.list;
-        const htmlDev = engnInit.htmlDev(processList, pjtSn, map.TM_YN);
+        const htmlDev = engnInit.htmlDev(processList, map);
         hwpDocCtrl.moveToField('DEV_HTML', true, true, false);
         hwpDocCtrl.setTextFile(htmlDev, "html","insertfile");
 
@@ -189,10 +213,10 @@ var engnInit = {
             invSum += Number(map.PURC_ITEM_AMT);
         }
         hwpDocCtrl.putFieldText('INV_PER', "100%");
-        hwpDocCtrl.putFieldText('INV_AMT', fn_numberWithCommas(invSum));
+        hwpDocCtrl.putFieldText('INV_AMT', invSum == 0 ? "0" : fn_numberWithCommas(invSum));
         let invPer = Math.round(invSum / map.PJT_AMT * 100);
         hwpDocCtrl.putFieldText('INV_PER2', invPer+"%");
-        hwpDocCtrl.putFieldText('INV_AMT2', fn_numberWithCommas(map.PJT_AMT-invSum));
+        hwpDocCtrl.putFieldText('INV_AMT2', (map.PJT_AMT-invSum) == 0 ? "0" : String(fn_numberWithCommas(map.PJT_AMT-invSum)));
         hwpDocCtrl.putFieldText('INV_PER3', (100-invPer)+"%");
 
         /** 7. 특이사항 */
@@ -204,7 +228,7 @@ var engnInit = {
         }, 400);
     },
 
-    htmlDev: function(list, pjtSn, tmYn){
+    htmlDev: function(list, map){
         let html = '';
         html += '<table style="font-family:굴림체;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
         html += '   <tr>';
@@ -225,8 +249,8 @@ var engnInit = {
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.PS_EMP_NM +'</p></td>';
             html += '               </tr>';
         }
-        if(tmYn == "Y"){
-            const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: pjtSn});
+        if(map.TM_YN == "Y"){
+            const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: map.PJT_SN});
             const team = teamResult.map;
             html += '               <tr>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">협업</p></td>';
@@ -234,6 +258,60 @@ var engnInit = {
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">-</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ team.EMP_NAME +'</p></td>';
             html += '               </tr>';
+        }
+        html += '           </table>';
+        html += '       </td>';
+        html += '   </tr>';
+        html += '</table>';
+
+        return html.replaceAll("\n", "<br>");
+    },
+
+    htmlInv: function(list, map){
+        let html = '';
+        html += '<table style="font-family:굴림체;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
+        html += '   <tr>';
+        html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
+        html += '           <table border="1" style="border-collapse: collapse; margin: 0px;">';
+        html += '               <tr>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 62px;"><p style="font-size:13px;"><b>구분</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 62px;"><p style="font-size:13px;"><b>구분</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 102px;"><p style="font-size:13px;"><b>건명</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 102px;"><p style="font-size:13px;"><b>수량</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 102px;"><p style="font-size:13px;"><b>단위</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 102px;"><p style="font-size:13px;"><b>금액</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 102px;"><p style="font-size:13px;"><b>거래처</b></p></td>';
+        html += '               </tr>';
+        for(let i=0; i<list.length; i++){
+            const info = list[i];
+            html += '               <tr>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">단독</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.DIV_NM +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.INV_NM +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.INV_CNT +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.INV_UNIT +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(info.EST_TOT_AMT) +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.EST_OFC +'</p></td>';
+            html += '               </tr>';
+        }
+        console.log(map.TM_YN);
+        if(map.TM_YN == "Y") {
+            const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: map.PJT_SN});
+            const team = teamResult.map;
+            const teamList = customKendo.fn_customAjax("/project/getInvList", {pjtSn: team.PNT_PJT_SN}).list;
+            console.log(teamList);
+            for(let i=0; i<teamList.length; i++){
+                const info = teamList[i];
+                html += '               <tr>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">협업</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.DIV_NM +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.INV_NM +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.INV_CNT +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.INV_UNIT +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(info.EST_TOT_AMT) +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.EST_OFC +'</p></td>';
+                html += '               </tr>';
+            }
         }
         html += '           </table>';
         html += '       </td>';

@@ -201,6 +201,7 @@
                 VAT_COST,
                 CARD,
                 CARD_NO,
+                BUY_STS,
                 ETC,
                 ISS,
                 ADVANCES
@@ -222,6 +223,7 @@
                 #{vatCost},
                 #{card},
                 #{cardNo},
+                #{buySts},
                 #{etc},
                 #{iss},
                 #{advances}
