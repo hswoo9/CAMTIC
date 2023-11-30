@@ -32,6 +32,8 @@ var depView = {
                });
                console.log("empDeptList",empDeptList);
                console.log("empTeamList",empTeamList);
+               $("#mainChart *").remove();
+               $("#teamChart *").remove();
                //ajax 요청 후 서버로부터 응답이 온 data를 mainChart 함수로 보내줄 것
                depView.mainChart(empDeptList);
                depView.teamChart(empTeamList);
@@ -53,66 +55,24 @@ var depView = {
         for(var i = 0; i<data.length; i++){
             totalEmpCount += data[i].DeptEmployeesCount || 0;
         }
-        var chartData = data
-            .map(function (item,index) {
-                return {
-                    category: item.DeptName,//부서명(item.부서명)
-                    value: Math.round((item.DeptEmployeesCount / totalEmpCount) * 100),//(item.부서 인원 수 / item.총 재직 인원 수) * 100,
-                    color: depView.getColorForIndex(index)
-            };
-        });
-        $("#mainChart").kendoChart({
-            chartArea: { height: 350,
-                        width : 1000,
-                        margin: {
-                        left: 100, // 왼쪽 여백 크기 조절
-                        right: 10,
-                        top: 10,
-                        bottom: 10
-                    }
+        var html = "";
+        html = '<table class="centerTable table table-bordered"><colgroup><col width="15%"><col><col width="15%"></colgroup><tbody>'+
+            '<tr>'+
+            '<td style="background-color: #efefef;">CAMTIC </td>'+
+            '<td style="background-color: #ffffff;">'+
+            '<div style="background-color: #DC7C7C; height: 10px; width:900px"/>'+
+            '</td>'+
+            '<td style="background-color: #ffffff;">'+totalEmpCount +'명</td>'+
+            '</tr>'+
+            '<tr>'+
+            '<td style="background-color: #efefef;" align="center" colspan="2">합계</td>'+
+            '<td style="background-color: #efefef;">'+totalEmpCount +'명</td>'+
+            '</tr>'+
+            '</table>';
 
-            },
-            seriesDefaults: {
-                type: "bar",
-                labels: {
-                    visible: true,
-                    format: "{0}%"
-                }
-            },
-            legend: {
-                position: "top"
-            },
-            series: [{
-                data: chartData,
-                field: "value",
-                name: "부서 인원 비율",
-                colorField: "color"
-            }],
-            categoryAxis: {
-                categories : chartData.map(function(item) {
-                    console.log("chartitem category" ,item.category)
-                    return item.category;
-                }),
-                majorGridLines: {
-                    visible: false
-                }
-            },
-            valueAxis: {
-                labels: { format: "{0}%" },
-                line: { visible: false },
-                max: 110
-            },
-            tooltip: {
-                visible: true,
-                format: "{0}%"
-            },
-            seriesColors: chartData.map(function (item, index) {
-            return depView.getColorForIndex(index);
-            })
-        });
-
-
+        $("#mainChart").append(html);
     },
+
     teamChart : function (e){
         var data = e; //이곳에서 ajax 요청으로 온 데이터(e)확인 및 가공이 필요하면 가공
         console.log("ajax team data : ",data);
