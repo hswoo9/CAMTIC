@@ -89,8 +89,8 @@
             <a href="#" onclick="fn_letterListOld();" class="__btn1 blue"><span>이전 소식지 보기</span></a>
             <c:if test="${loginVO.uniqId eq '1'}">
             <a href="#" onclick="fn_writeBoard();" class="__btn1 blue"><span>게시글 작성</span></a>
-            </c:if>
             <a href="#" onclick="fn_subscribeList();" class="__btn1 grayLine"><span>구독 현황</span></a>
+            </c:if>
           </div>
           <%--<div class="cen">
             <a href="#" class="__btn1 blue"><span>구독 신청하기</span></a>

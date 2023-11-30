@@ -88,6 +88,7 @@
       startPage = paginationData.startPage;
       endPage = paginationData.endPage;
       page = e.articlePage.page;
+      total = e.articlePage.pagination.totalRecordCount;
     }
   }
 

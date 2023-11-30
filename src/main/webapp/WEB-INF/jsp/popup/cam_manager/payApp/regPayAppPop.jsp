@@ -25,7 +25,6 @@
 <input type="hidden" id="partRatePjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="bsYm" value="${params.bsYm}" />
 <input type="hidden" id="claimSn" value="${params.claimSn}" />
-
 <input type="hidden" id="docStatus" value=""/>
 
 <div style="padding:0;">
@@ -239,6 +238,7 @@
                         <td>
                             <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regPayDet.fn_popRegDet(1, 0)"></i>
                             <input type="text" style="width: 70%" id="crmNm0" class="crmNm">
+                            <input type="hidden" id="buySts0" value="" />
                             <input type="hidden" id="trCd0" class="trCd">
                         </td>
                         <td>

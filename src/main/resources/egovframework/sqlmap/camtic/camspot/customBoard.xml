@@ -666,13 +666,16 @@
         FROM
             CAM_BOARD.DJ_SCHEDULE_BOARD SC
         WHERE 1=1
-        AND
+        <if test='publicClass != null and !"".equals(publicClass)'>
+            AND
             PUBLIC_CLASS = #{publicClass}
-        AND
-            #{selectedDate} BETWEEN SC.START_DT AND SC.END_DT
+        </if>
+        <if test="selectedDate != null and selectedDate != ''">
+            AND #{selectedDate} BETWEEN SC.START_DT AND SC.END_DT
+        </if>
         <if test="searchInput != null and searchInput != ''">
             AND
-                SCHEDULE_TITLE LIKE CONCAT('%', #{searchInput}, '%')
+            SCHEDULE_TITLE LIKE CONCAT('%', #{searchInput}, '%')
         </if>
         AND
             ACTIVE = 'Y'
@@ -688,12 +691,15 @@
         FROM
             CAM_BOARD.DJ_SCHEDULE_BOARD SC
         WHERE 1=1
-        AND
+        <if test='publicClass != null and !"".equals(publicClass)'>
+            AND
             PUBLIC_CLASS = #{publicClass}
-        AND
-            #{selectedDate} BETWEEN SC.START_DT AND SC.END_DT
+        </if>
+        <if test="selectedDate != null and selectedDate != ''">
+            AND #{selectedDate} BETWEEN SC.START_DT AND SC.END_DT
+        </if>
         <if test="searchInput != null and searchInput != ''">
-        AND
+            AND
             SCHEDULE_TITLE LIKE CONCAT('%', #{searchInput}, '%')
         </if>
         AND
