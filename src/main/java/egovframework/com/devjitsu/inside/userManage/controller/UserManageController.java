@@ -2025,7 +2025,7 @@ public class UserManageController {
     }
 
     /** 성별/연령별 현황 **/
-    @RequestMapping(value = "/Inside/getGenderCount.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/Inside/getGenderCount.do")
     public String getGenderCount(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> genderCountList = userManageService.getGenderCount(params);
         System.out.println("params : "+ params);
@@ -2034,7 +2034,7 @@ public class UserManageController {
         System.out.println("genderCountList: " + genderCountList);
         return "jsonView";
     }
-    @RequestMapping(value = "/Inside/getAgeCount.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/Inside/getAgeCount.do")
     public String getAgeCount(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> ageCountList = userManageService.getAgeCount(params);
         System.out.println("params : "+ params);
@@ -2045,7 +2045,7 @@ public class UserManageController {
     }
 
     /** 학위별 현황 **/
-    @RequestMapping(value = "/Inside/getDegreeCount.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/Inside/getDegreeCount.do")
     public String getDegreeCount(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> degreeCountList = userManageService.getDegreeCount(params);
         System.out.println("params : "+ params);
