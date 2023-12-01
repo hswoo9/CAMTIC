@@ -27,6 +27,8 @@
 <input type="hidden" id="pageName" value="bustripReqPop"/>
 <input type="hidden" id="mod" value="${params.mode}"/>
 <input type="hidden" id="hrBizReqId" value="${params.hrBizReqId}"/>
+
+<input type="hidden" id="paramsPjtSn" value="${params.pjtSn}"/>
 <div class="table-responsive">
     <div class="card-header pop-header">
         <c:if test="${params.hrBizReqId == null || params.hrBizReqId == ''}">

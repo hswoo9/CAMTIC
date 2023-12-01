@@ -51,7 +51,7 @@ var bustInfo = {
             serverPaging: false,
             transport: {
                 read: {
-                    url: "/bustrip/getPopBustripList",
+                    url: "/bustrip/getProjectBustList",
                     dataType: "json",
                     type: "post"
                 },
@@ -61,6 +61,7 @@ var bustInfo = {
                     data.projectCd = $("#pjtSn").val();
                     data.busnName = $("#busnName").val();
                     data.empSeq = $("#regEmpSeq").val();
+                    data.pjtSn = $("#pjtSn").val();
                     return data;
                 }
             },
@@ -86,6 +87,16 @@ var bustInfo = {
                 pageSizes: [ 10, 20, 30, 50, 100 ],
                 buttonCount: 5
             },
+            toolbar : [
+                {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bustInfo.bustripMainGrid()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }
+            ],
             dataBound : function(e){
                 const grid = this;
                 grid.tbody.find("tr").click(function (e) {
@@ -172,20 +183,46 @@ var bustInfo = {
                         }
                     }
                 }, {
+                    title : "상태",
+                    width: 50,
+                    template : function (e){
+                        if(e.RS_STATUS != null && e.RS_STATUS != ""){
+                            if(e.RS_STATUS == 100){
+                                return "결과보고완료"
+                            } else {
+                                return "신청완료"
+                            }
+                        } else {
+                            if(e.STATUS == 100){
+                                return "신청완료";
+                            } else {
+                                return "작성중";
+                            }
+                        }
+                    }
+                }, {
                     title : "",
-                    width: 80,
+                    width: 50,
                     template : function (e){
                         console.log(e);
-                        return '<button type="button" class="k-button k-button-solid-error" onclick="bustInfo.fn_delPjtBustrip('+e.HR_BIZ_REQ_RESULT_ID+')">삭제</button>';
+                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\')">보기</button>';
+                    }
+                }, {
+                    title : "",
+                    width: 50,
+                    template : function (e){
+                        console.log(e);
+                        return '<button type="button" class="k-button k-button-solid-error" onclick="bustInfo.fn_delPjtBustrip('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">제외</button>';
                     }
                 }
             ]
         }).data("kendoGrid");
     },
 
-    fn_delPjtBustrip : function (key){
+    fn_delPjtBustrip : function (key, reqKey){
         var data= {
-            hrBizReqResultId : key
+            hrBizReqResultId : key,
+            hrBizReqId : reqKey,
         }
 
         $.ajax({
@@ -218,9 +255,11 @@ var bustInfo = {
         var data ={
             contEtc : $("#contEtc").val(),
             hrBizReqResultId : $("#hrBizReqResultId").val(),
+            hrBizReqId : $("#hrBizReqId").val(),
             bustripReq : $("#bustripReq").val(),
             pjtSn : $("#pjtSn").val(),
-            engnSn : $("#engnSn").val()
+            engnSn : $("#engnSn").val(),
+            busnName : $("#pjtNm").val()
         }
 
         $.ajax({
@@ -238,5 +277,17 @@ var bustInfo = {
 
 
         console.log("출장 정보");
-    }
+    },
+
+    bustripReqPop: function(e, type){
+        let url = "/bustrip/pop/bustripReqPop.do?pjtSn=" + e;
+
+        if(type == "req"){
+            url = "/bustrip/pop/bustripReqPop.do?hrBizReqId=" + e;
+        }
+
+        let name = "bustripReqPop";
+        let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        window.open(url, name, option);
+    },
 }

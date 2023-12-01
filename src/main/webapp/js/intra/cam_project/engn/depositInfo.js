@@ -123,12 +123,18 @@ var depoInfo = {
                     title: "상태",
                     width: 100,
                     template: function(e){
-                        if(e.DOC_STATUS == "100"){
-                            return "결재완료"
+                        if(e.APPR_STAT == "Y"){
+                            return "요청완료"
                         } else {
                             return "작성중"
                         }
                     },
+                }, {
+                    title: "기타",
+                    width: 100,
+                    template: function(e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="depoInfo.fn_reqRegPopup(' + e.PAY_DEPO_SN + ')">보기</button>';
+                    }
                 }
             ],
             dataBinding: function(){
@@ -144,11 +150,22 @@ var depoInfo = {
     fn_reqRegPopup : function(key){
         var url = "/pay/pop/regPayDepoPop.do";
 
+
+
         if($("#pjtSn").val() != ""){
             url += "?pjtSn=" + $("#pjtSn").val();
         }
+
+
         if(key != null && key != ""){
             url = "/pay/pop/regPayDepoPop.do?payDepoSn=" + key;
+            if($("#pjtSn").val() != ""){
+                url += "&pjtSn=" + $("#pjtSn").val();
+            }
+        } else {
+            if($("#pjtSn").val() != ""){
+                url += "?pjtSn=" + $("#pjtSn").val();
+            }
         }
 
         var name = "_blank";

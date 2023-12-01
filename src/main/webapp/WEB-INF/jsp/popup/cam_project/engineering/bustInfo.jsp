@@ -13,6 +13,8 @@
 
 <div style="padding: 10px">
     <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="bustInfo.fn_save()">저장</button>
+    <button type="button" id="bustReqBtn" style="float: right; margin-bottom: 5px; margin-right: 5px;" class="k-button k-button-solid-info" onclick="bustInfo.bustripReqPop('${params.pjtSn}')">출장신청</button>
+
     <table class="popTable table table-bordered mb-0">
         <colgroup>
             <col width="20%">
@@ -36,6 +38,7 @@
                 <td colspan="3">
                     <input type="text" id="bustripReq" disabled style="width: 90%;">
                     <input type="hidden" id="hrBizReqResultId" />
+                    <input type="hidden" id="hrBizReqId"/>
                     <button type="button" id="searchBustrip" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bustInfo.fn_popBustrip();">
                         조회
                     </button>

@@ -1443,6 +1443,55 @@ public class UserManageServiceImpl implements UserManageService {
         return userManageRepository.getDegreeCount(params);
     }
 
+    // 소속 현황(부서) 팝업
+    public List<Map<String, Object>> getDeptListByCount(Map<String, Object> params){
+        if(params.containsKey("arr") && !"".equals(params.get("arr").toString())){
+            String arrText = params.get("arr").toString();
+
+            String[] arr = arrText.split("[|]");
+            for(int i = 0; i < arr.length; i++){
+                String[] arrL = arr[i].split("&");
+
+                String returnTxt = "(DIVISION IN(" + arrL[0] + ")";
+                if(arrL.length > 1){
+                    if(!arrL[1].equals("N")){
+                        returnTxt += " AND DIVISION_SUB IN(" + arrL[1] + ")";
+                    }
+                }
+                returnTxt += ")";
+
+                arr[i] = returnTxt;
+            }
+            params.put("arr", arr);
+        }
+        return userManageRepository.getDeptListByCount(params);
+    }
+
+    // 소속 현황(팀) 팝업
+    @Override
+    public List<Map<String, Object>> getTeamListByCount(Map<String ,Object> params){
+        if(params.containsKey("arr") && !"".equals(params.get("arr").toString())){
+            String arrText = params.get("arr").toString();
+
+            String[] arr = arrText.split("[|]");
+            for(int i = 0; i < arr.length; i++){
+                String[] arrL = arr[i].split("&");
+
+                String returnTxt = "(DIVISION IN(" + arrL[0] + ")";
+                if(arrL.length > 1){
+                    if(!arrL[1].equals("N")){
+                        returnTxt += " AND DIVISION_SUB IN(" + arrL[1] + ")";
+                    }
+                }
+                returnTxt += ")";
+
+                arr[i] = returnTxt;
+            }
+            params.put("arr", arr);
+        }
+        return userManageRepository.getTeamListByCount(params);
+    }
+
     // 직급 현황 (팝업)
     @Override
     public List<Map<String, Object>> getPositionListByCount(Map<String ,Object> params){

@@ -226,6 +226,7 @@ public class ProjectRepository extends AbstractDAO {
     public void updBustInfo(Map<String, Object> params) {
 //        update("bustrip.updBustPjtsnReset", params);
         update("bustrip.updBustPjtSn", params);
+        update("bustrip.updBustReqPjtSn", params);
     }
 
     public void updProject(Map<String, Object> params) {

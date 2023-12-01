@@ -210,6 +210,7 @@ public class BustripRepository extends AbstractDAO {
     }
 
     public void delPjtBustrip(Map<String, Object> params) {
+        update("bustrip.updBustPjtReqReset", params);
         delete("bustrip.updBustPjtsnReset", params);
     }
 
@@ -218,5 +219,9 @@ public class BustripRepository extends AbstractDAO {
     }
     public void delBustripCost(Map<String, Object> params) {
         update("bustrip.delBustripCost", params);
+    }
+
+    public List<Map<String, Object>> getProjectBustList(Map<String, Object> params) {
+        return selectList("bustrip.getProjectBustList", params);
     }
 }

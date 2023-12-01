@@ -3627,7 +3627,50 @@
             DEGREE_CODE
     </select>
 
-    <select id="getPostionListByCount" parameterType="map" resultType="map">
+    <select id="getDeptListByCount" parameterType="map" resultType="map">
+        SELECT HEI.*,
+        CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS DEPT_SEQ,
+        CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS DEPT_NAME1,
+        CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS TEAM_SEQ,
+        CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS TEAM_NAME,
+        DATE_FORMAT(HEI.JOIN_DAY,'%Y-%m-%d') AS JOIN_DAY2
+        FROM cam_hr.dj_emp_info AS HEI
+        LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        WHERE HEI.DEPT_SEQ IN (
+        SELECT DEPT_SEQ
+        FROM cam_hr.dj_dept_info
+        WHERE DEPT_SEQ = #{deptID}
+        OR PARENT_DEPT_SEQ = #{deptID}
+        )
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                ${item}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="getTeamListByCount" parameterType="map" resultType="map">
+        SELECT
+        HEI.*,
+        CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS DEPT_SEQ,
+        CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS DEPT_NAME1,
+        CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS TEAM_SEQ,
+        CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS TEAM_NAME,
+        DATE_FORMAT(HEI.JOIN_DAY,'%Y-%m-%d') AS JOIN_DAY2
+        FROM CAM_HR.DJ_EMP_INFO AS HEI
+        LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        where HEI.DEPT_SEQ = #{teamID}
+        and WORK_STATUS_CODE = 'Y'
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                ${item}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="getPositionListByCount" parameterType="map" resultType="map">
         SELECT
         HEI.*,
         CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS DEPT_SEQ,
@@ -3638,7 +3681,6 @@
         FROM
         CAM_HR.DJ_EMP_INFO AS HEI
         LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
-        left join CAM_HR.DJ_APNT_INFO HAI on HEI.EMP_SEQ = HAI.EMP_SEQ
         where POSITION_NAME = #{positionName}
         and work_status_code = 'Y'
         <if test='arr != null and !"".equals(arr)'>
@@ -3659,9 +3701,8 @@
             DATE_FORMAT(HEI.JOIN_DAY,'%Y-%m-%d') AS JOIN_DAY2
         FROM
             CAM_HR.DJ_EMP_INFO AS HEI
-                LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
-                left join CAM_HR.DJ_APNT_INFO HAI on HEI.EMP_SEQ = HAI.EMP_SEQ
-        where gender_code = #{gederCode}
+            LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        where gender_code = #{genderName}
           and work_status_code = 'Y'
         <if test='arr != null and !"".equals(arr)'>
             AND
@@ -3669,6 +3710,7 @@
                 ${item}
             </foreach>
         </if>
+        GROUP BY HEI.EMP_SEQ
     </select>
 
     <select id="getAgeListByCount" parameterType="map" resultType="map">
@@ -3679,14 +3721,14 @@
                 SELECT
                     HEI.*,
                     CASE
-                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 15 AND 25 THEN '15세25세'
-                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 26 AND 30 THEN '26세30세'
-                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 31 AND 35 THEN '31세35세'
-                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 36 AND 40 THEN '36세40세'
-                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 41 AND 45 THEN '41세45세'
-                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 46 AND 50 THEN '46세50세'
-                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 51 AND 55 THEN '51세55세'
-                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 56 AND 60 THEN '56세60세'
+                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 15 AND 25 THEN '15세~25세'
+                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 26 AND 30 THEN '26세~30세'
+                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 31 AND 35 THEN '31세~35세'
+                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 36 AND 40 THEN '36세~40세'
+                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 41 AND 45 THEN '41세~45세'
+                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 46 AND 50 THEN '46세~50세'
+                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 51 AND 55 THEN '51세~55세'
+                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 56 AND 60 THEN '56세~60세'
                         WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) >= 61 THEN '61세 이상'
                         ELSE '기타'
                         END AS AGE_NAME,
@@ -3698,7 +3740,6 @@
                 FROM
                     CAM_HR.DJ_EMP_INFO AS HEI
                         LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
-                        LEFT JOIN CAM_HR.DJ_APNT_INFO HAI ON HEI.EMP_SEQ = HAI.EMP_SEQ
             ) AS subquery
         WHERE
         AGE_NAME = #{ageName}
@@ -3709,28 +3750,29 @@
                 ${item}
             </foreach>
         </if>
+        GROUP BY subquery.EMP_SEQ
     </select>
 
     <select id="getDegreeListByCount" parameterType="map" resultType="map">
         SELECT
-            HEI.*,
-            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS DEPT_SEQ,
-            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS DEPT_NAME1,
-            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS TEAM_SEQ,
-            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS TEAM_NAME,
-            DATE_FORMAT(HEI.JOIN_DAY,'%Y-%m-%d') AS JOIN_DAY2,
-            degree_code
+        HEI.*,
+        CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS DEPT_SEQ,
+        CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS DEPT_NAME1,
+        CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS TEAM_SEQ,
+        CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS TEAM_NAME,
+        DATE_FORMAT(HEI.JOIN_DAY,'%Y-%m-%d') AS JOIN_DAY2,
+        degree_code
         FROM
-            CAM_HR.DJ_EMP_INFO AS HEI
-                LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
-                LEFT JOIN CAM_HR.DJ_APNT_INFO HAI ON HEI.EMP_SEQ = HAI.EMP_SEQ
-        where degree_code = #{degreeCode}
-          and work_status_code = 'Y'
+        CAM_HR.DJ_EMP_INFO AS HEI
+        LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        where degree_code = #{degreeName}
+        and work_status_code = 'Y'
         <if test='arr != null and !"".equals(arr)'>
             AND
             <foreach collection="arr" item="item" separator="OR" open="(" close=")">
                 ${item}
             </foreach>
         </if>
+        GROUP BY HEI.EMP_SEQ
     </select>
 </mapper>

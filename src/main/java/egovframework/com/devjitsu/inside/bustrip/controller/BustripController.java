@@ -696,4 +696,14 @@ public class BustripController {
         SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
         return formatter.format(today);
     }
+
+    @RequestMapping("/bustrip/getProjectBustList")
+    public String getProjectBustList(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = new ArrayList<>();
+        list = bustripService.getProjectBustList(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
 }
