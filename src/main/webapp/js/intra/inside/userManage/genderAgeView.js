@@ -66,11 +66,9 @@ var genderAgeView = {
         }
 
         var html = "";
-
         html = '<table class="centerTable table table-bordered"><colgroup><col width="15%"><col><col width="10%"></colgroup><tbody>';
-
-
         for(var i =0;i<data.length; i++) {
+            var genderName = data[i].gender_code;
             var color =  genderAgeView.getColorForIndex(i); //그래프 바의 색깔 함수 호출
             var percentageWidth = (((data[i].emp_count / totalEmpCount) * 100).toFixed(1))*9;
             var percentage = ((data[i].emp_count  / totalEmpCount) * 100).toFixed(1)
@@ -86,7 +84,10 @@ var genderAgeView = {
                 '<span style="display: inline-block; position: relative; top: 1.5px;">'+percentage+'%</span>' +
                 '</div>'+
                 '</td>' +
-                '<td style="background-color: #ffffff;">' + data[i].emp_count + '명</td>' +
+                '<td style="background-color: #ffffff;">' +
+                '<a href="javascript:void(0);" onclick="genderAgeView.userViewPop(\'' + genderName +'\', \''  + arr + '\');">'+
+                '<span>' +data[i].emp_count + '명</span>' +
+                '</td>' +
                 '</tr>';
         }
 
@@ -111,11 +112,9 @@ var genderAgeView = {
         }
 
         var html = "";
-
         html = '<table class="centerTable table table-bordered"><colgroup><col width="15%"><col><col width="10%"></colgroup><tbody>';
-
-
         for(var i =0;i<data.length; i++) {
+            var ageName = data[i].age;
             var color =  genderAgeView.getColorForIndex(i); //그래프 바의 색깔 함수 호출
             var percentageWidth = (((data[i].emp_count / totalEmpCount) * 100).toFixed(1))*9;
             var percentage = ((data[i].emp_count  / totalEmpCount) * 100).toFixed(1)
@@ -130,7 +129,10 @@ var genderAgeView = {
                 '<span style="display: inline-block; position: relative; top: 1.5px;">'+percentage+'%</span>' +
                 '</div>'+
                 '</td>' +
-                '<td style="background-color: #ffffff;">' + data[i].emp_count  + '명</td>' +
+                '<td style="background-color: #ffffff;">' +
+                '<a href="javascript:void(0);" onclick="genderAgeView.userViewPop2(\'' + ageName +'\', \''  + arr + '\');">'+
+                '<span>' +data[i].emp_count + '명</span>' +
+                '</td>' +
                 '</tr>';
         }
 
@@ -197,6 +199,24 @@ var genderAgeView = {
         console.log("Transformed arr:", resultString);
 
         return resultString;
+    },
+
+    userViewPop : function(genderName,arr) {
+        var encodedArr = encodeURIComponent(arr);
+        console.log("userViewPop 함수 인코딩arr:"+encodedArr);
+        var url = "/Inside/pop/joinLeaveViewPop.do?genderName="+genderName+ "&encodedArr="+encodedArr;
+        var name = "joinLeaveViewPop";
+        var option = "width=1800, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        window.open(url, name, option);
+    },
+
+    userViewPop2 : function(ageName,arr) {
+        var encodedArr = encodeURIComponent(arr);
+        console.log("userViewPop 함수 인코딩arr:"+encodedArr);
+        var url = "/Inside/pop/joinLeaveViewPop.do?ageName="+ageName+ "&encodedArr="+encodedArr;
+        var name = "joinLeaveViewPop";
+        var option = "width=1800, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        window.open(url, name, option);
     }
 
 

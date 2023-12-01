@@ -47,18 +47,16 @@ var degreeView = {
         }
 
         var html = "";
-
         html = '<table class="centerTable table table-bordered"><colgroup><col width="15%"><col><col width="10%"></colgroup><tbody>';
-
-
         for(var i =0;i<data.length; i++) {
+            var degreeName = data[i].DEGREE_CODE;
             var color = degreeView.getColorForIndex(i); //그래프 바의 색깔 함수 호출
             var percentageWidth = (((data[i].emp_count  / totalEmpCount) * 100).toFixed(1))*9;
             var percentage = ((data[i].emp_count  / totalEmpCount) * 100).toFixed(1)
             console.log("percentage : ",percentage);
             console.log("percentageWidth : ",percentageWidth);
             html += '<tr>' +
-                '<td style="background-color: #efefef;">'+ data[i].DEGREE_CODE +'</td>' +
+                '<td style="background-color: #efefef;">'+ degreeName +'</td>' +
                 '<td style="background-color: #ffffff;">' +
                 '<div style="display: flex; align-items: center;">' +
                 '<div style="background-color: ' + color + '; float : left; height: 10px; width: '+percentageWidth+'px; display: inline-block; position: relative; top: 1.5px;">' +
@@ -66,7 +64,10 @@ var degreeView = {
                 '<span style="display: inline-block; position: relative; top: 1.5px;">'+percentage+'%</span>' +
                 '</div>'+
                 '</td>' +
-                '<td style="background-color: #ffffff;">' + data[i].emp_count  + '명</td>' +
+                '<td style="background-color: #ffffff;">' +
+                '<a href="javascript:void(0);" onclick="degreeView.userViewPop(\'' + degreeName +'\', \''  + arr + '\');">'+
+                '<span>' +data[i].emp_count + '명</span>' +
+                '</td>' +
                 '</tr>';
         }
 
@@ -133,6 +134,15 @@ var degreeView = {
         console.log("Transformed arr:", resultString);
 
         return resultString;
+    },
+
+    userViewPop : function(degreeName,arr) {
+        var encodedArr = encodeURIComponent(arr);
+        console.log("userViewPop 함수 인코딩arr:"+encodedArr);
+        var url = "/Inside/pop/joinLeaveViewPop.do?degreeName="+degreeName+ "&encodedArr="+encodedArr;
+        var name = "joinLeaveViewPop";
+        var option = "width=1800, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        window.open(url, name, option);
     }
 
 
