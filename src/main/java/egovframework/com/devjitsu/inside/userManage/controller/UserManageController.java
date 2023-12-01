@@ -2015,7 +2015,7 @@ public class UserManageController {
     }
 
     /**직급 현황**/
-    @RequestMapping("Inside/getDeptTeamEmpCount")
+    @RequestMapping("Inside/getEmpCountsByPosition")
     public String getEmpCountsByPosition (@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> empPositionList = userManageService.getEmpCountsByPosition(params);
 
