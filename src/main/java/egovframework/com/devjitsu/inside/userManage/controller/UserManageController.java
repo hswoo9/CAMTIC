@@ -2018,7 +2018,7 @@ public class UserManageController {
     @RequestMapping("Inside/getEmpCountsByPosition")
     public String getEmpCountsByPosition (@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> empPositionList = userManageService.getEmpCountsByPosition(params);
-
+        model.addAttribute("arr",params);
         model.addAttribute("empPositionList",empPositionList);
         System.out.println("***********empDeptTeamList**********" + empPositionList);
         return "jsonView";

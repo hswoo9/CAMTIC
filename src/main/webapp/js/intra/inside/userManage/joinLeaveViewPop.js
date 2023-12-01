@@ -8,25 +8,37 @@ var joinLeaveViewPop = {
         var joinYear = $("#joinYear").val();
         var sectionTitle = $("#sectionTitle").val();
         var encodedArr = $("#encodedArr").val();
+        var positionName = $("#positionName").val();
         var arr = decodeURIComponent(encodedArr);
 
         console.log("Js.Join Year: " + joinYear);
         console.log("Js.Section Title: " + sectionTitle);
+        console.log("Js.positionName : " + positionName);
         console.log("Js.arr: ",arr);
 
 
         var data = {};
+        if (sectionTitle && sectionTitle.trim() !== "") {
+            if (sectionTitle === "employees_joined" || sectionTitle === "employees_resigned") {
+                data.joinYear = joinYear;
+                data.sectionTitle = sectionTitle;
+                data.arr = arr;
 
-        if (sectionTitle === "employees_joined" || sectionTitle === "employees_resigned") {
-            data.joinYear = joinYear;
-            data.sectionTitle = sectionTitle;
+                console.log("data :", data);
+
+                joinLeaveViewPop.mainGrid("/Inside/getJoinResignEmpList.do", data);
+
+            }
+        } else if(positionName && positionName.trim() !==""){
+            data.positionName = positionName;
             data.arr = arr;
+            
+            //joinLeaveViewPop.mainGrid("url",data);
+            //url에 컨트롤러 맵핑 넣기
 
-            console.log("data :",data);
-
-            joinLeaveViewPop.mainGrid("/Inside/getJoinResignEmpList.do",data);
-
+            console.log("dutyView data : ", data);
         }
+
 
     },
 
