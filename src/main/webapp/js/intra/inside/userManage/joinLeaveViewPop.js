@@ -45,7 +45,7 @@ var joinLeaveViewPop = {
             data.deptID = deptID;
             data.arr = arr;
 
-            //joinLeaveViewPop.mainGrid("url",data);
+            joinLeaveViewPop.mainGrid("/Inside/getDeptListByCount",data);
             //url에 컨트롤러 맵핑 넣기
 
             console.log("deptID data : ", data);
@@ -54,7 +54,7 @@ var joinLeaveViewPop = {
             data.teamID = teamID;
             data.arr = arr;
 
-            //joinLeaveViewPop.mainGrid("url",data);
+            joinLeaveViewPop.mainGrid("/Inside/getTeamListByCount",data);
             //url에 컨트롤러 맵핑 넣기
 
             console.log("teamID data : ", data);
@@ -64,17 +64,23 @@ var joinLeaveViewPop = {
             data.positionName = positionName;
             data.arr = arr;
             
-            //joinLeaveViewPop.mainGrid("url",data);
+            joinLeaveViewPop.mainGrid("/Inside/getPositionListByCount",data);
             //url에 컨트롤러 맵핑 넣기
 
             console.log("dutyView data : ", data);
         }else if(genderName && genderName.trim() !==""){
             //성별
-            data.genderName = genderName;
-            data.arr = arr;
+            if(genderName === "여성"){
+                data.genderName = 'F';
+                data.arr = arr;
 
-            //joinLeaveViewPop.mainGrid("url",data);
-            //url에 컨트롤러 맵핑 넣기
+                joinLeaveViewPop.mainGrid("/Inside/getGenderListByCount",data);
+            }else if(genderName === "남성"){
+                data.genderName = 'M';
+                data.arr = arr;
+
+                joinLeaveViewPop.mainGrid("/Inside/getGenderListByCount",data);
+            }
 
             console.log("gender data : ", data);
         }else if(ageName && ageName.trim() !==""){
@@ -82,7 +88,7 @@ var joinLeaveViewPop = {
             data.ageName = ageName;
             data.arr = arr;
 
-            //joinLeaveViewPop.mainGrid("url",data);
+            joinLeaveViewPop.mainGrid("/Inside/getAgeListByCount",data);
             //url에 컨트롤러 맵핑 넣기
 
             console.log("age data : ", data);
@@ -92,7 +98,7 @@ var joinLeaveViewPop = {
             data.degreeName = degreeName;
             data.arr = arr;
 
-            //joinLeaveViewPop.mainGrid("url",data);
+            joinLeaveViewPop.mainGrid("/Inside/getDegreeListByCount",data);
             //url에 컨트롤러 맵핑 넣기
 
             console.log("degree data : ", data);

@@ -216,6 +216,12 @@ public interface UserManageService{
     /** 학위별 현황 **/
     List<Map<String, Object>> getDegreeCount(Map<String, Object> params);
 
+    /** 소속 현황(부서) **/
+    List<Map<String, Object>> getDeptListByCount(Map<String, Object> params);
+
+    /** 소속 현황(팀) **/
+    List<Map<String, Object>> getTeamListByCount(Map<String, Object> params);
+
     /** 직급 현(팝업) **/
     List<Map<String, Object>> getPositionListByCount(Map<String, Object> params);
 
