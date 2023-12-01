@@ -1913,7 +1913,7 @@ public class UserManageController {
         List<Map<String, Object>> empDeptTeamList = userManageService.getDeptTeamEmpCount(params);
 
         empDeptTeamList = processEmpDeptTeamList(empDeptTeamList);
-
+        model.addAttribute("arr",params);
         model.addAttribute("empDeptTeamList",empDeptTeamList);
         System.out.println("***********empDeptTeamList**********" + empDeptTeamList);
         return "jsonView";
