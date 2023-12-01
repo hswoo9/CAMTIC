@@ -34,6 +34,8 @@
 
 <input type="hidden" id="joinYear" value="${param.currentYear}">
 <input type="hidden" id="sectionTitle" value="${param.sectionTitle}">
+<input type="hidden" id="deptID" value="${param.deptID}">
+<input type="hidden" id="teamID" value="${param.teamID}">
 <input type="hidden" id="positionName" value="${param.positionName}">
 <input type="hidden" id="genderName" value="${param.genderName}">
 <input type="hidden" id="ageName" value="${param.ageName}">
