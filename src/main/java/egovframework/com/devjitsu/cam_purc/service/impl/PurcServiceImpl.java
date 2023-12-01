@@ -21,6 +21,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -97,7 +98,23 @@ public class PurcServiceImpl implements PurcService {
         Map<String, Object> returnMap = purcRepository.getPurcReq(params);
 
         if(returnMap != null){
-            returnMap.put("itemList", purcRepository.getPurcItemList(params));
+
+            if(params.containsKey("itemSn")){
+                String[] itemAr = params.get("itemSn").toString().split(",");
+                List<Map<String, Object>> itemList = new ArrayList<>();
+
+                for(String item : itemAr){
+                    Map<String, Object> itemMap = new HashMap<>();
+
+                    params.put("item", item);
+                    itemMap = purcRepository.getPurcItemMap(params);
+
+                    itemList.add(itemMap);
+                }
+                returnMap.put("itemList", itemList);
+            } else {
+                returnMap.put("itemList", purcRepository.getPurcItemList(params));
+            }
 
             Map<String, Object> searchMap = new HashMap<>();
             searchMap.put("contentId", "est_" + params.get("purcSn"));
@@ -223,6 +240,15 @@ public class PurcServiceImpl implements PurcService {
 
         purcRepository.delPurcClaimItem(params);
 
+        if(params.containsKey("itemSn")){
+            String[] itemAr = params.get("itemSn").toString().split(",");
+
+            for(String item : itemAr){
+                params.put("item", item);
+                purcRepository.updPurcItemStatusChange(params);
+            }
+        }
+
         Gson gson = new Gson();
         List<Map<String, Object>> itemArr = gson.fromJson((String) params.get("itemArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
         for(Map<String, Object> map : itemArr){
@@ -237,7 +263,21 @@ public class PurcServiceImpl implements PurcService {
         Map<String, Object> result = purcRepository.getPurcClaimData(params);
 
         if(result != null){
-            result.put("itemList", purcRepository.getPurcClaimItemList(params));
+            if(params.containsKey("itemSn")){
+                String[] itemAr = params.get("itemSn").toString().split(",");
+                List<Map<String, Object>> itemList = new ArrayList<>();
+                for(String item : itemAr){
+                    Map<String, Object> itemMap = new HashMap<>();
+                    params.put("item", item);
+
+                    itemMap = purcRepository.getPurcItemMap(params);
+
+                    itemList.add(itemMap);
+                }
+                result.put("itemList", itemList);
+            } else {
+                result.put("itemList", purcRepository.getPurcClaimItemList(params));
+            }
         }
         return result;
     }

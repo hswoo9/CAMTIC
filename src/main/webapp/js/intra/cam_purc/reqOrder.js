@@ -1,28 +1,32 @@
-var reqOr = {
+const reqOr = {
 
     global : {
         
     },
 
     fn_defaultScript : function(){
-        customKendo.fn_textBox(["crmNm"
-                                ,"estAmt", "vatAmt", "totAmt", "itemNm", "itemStd"
-                                ,"itemEa", "itemUnitAmt", "itemUnit", "itemAmt", "itemEtc"]);
+        reqOr.fn_pageSet();
+        reqOr.fn_dataSet();
+    },
+
+    fn_pageSet : function(){
+        customKendo.fn_textBox(["crmNm" ,"estAmt", "vatAmt", "totAmt", "itemNm", "itemStd"
+            ,"itemEa", "itemUnitAmt", "itemUnit", "itemAmt", "itemEtc"]);
 
         var radioDataSource = [
+            { label: "법인운영", value: "" },
             { label: "R&D", value: "R" },
             { label: "비R&D", value: "S" },
             { label: "엔지니어링", value: "D" },
             { label: "용역/기타", value: "V" },
-            { label: "기타", value: "" },
         ]
 
         var radioExpDataSource = [
+            { label: "법인운영", value: "" },
             { label: "R&D", value: "R" },
             { label: "비R&D", value: "S" },
             { label: "엔지니어링", value: "D" },
             { label: "용역/기타", value: "V" },
-            { label: "기타", value: "" },
         ]
 
         var radioVatDataSource = [
@@ -41,83 +45,6 @@ var reqOr = {
         customKendo.fn_radioGroup("expType", radioExpDataSource, "horizontal");
         customKendo.fn_radioGroup("vat", radioVatDataSource, "horizontal");
         customKendo.fn_radioGroup("prodCd", radioProdDataSource, "horizontal");
-
-        if($("#purcSn").val() != ""){
-            var data = {
-                claimSn : $("#claimSn").val(),
-                purcSn : $("#purcSn").val()
-            }
-
-            var rs = customKendo.fn_customAjax("/purc/getPurcReq.do", data);
-            var data = rs.data;
-
-            $("#purcDeptName").text(data.DEPT_NAME);
-            $("#purcEmpName").text(data.EMP_NAME_KR);
-
-            if($("#claimSn").val() == ""){
-                reqOr.fn_setItem(data);
-            } else {
-                var data = {
-                    claimSn : $("#claimSn").val(),
-                    purcSn : $("#purcSn").val()
-                }
-
-                rs = customKendo.fn_customAjax("/purc/getPurcClaimData", data);
-                data = rs.data;
-                $("#claimDe").text(data.CLAIM_DE);
-                $("#claimEtc").text(data.CLAIM_ETC);
-                $("#estAmt").val(comma(data.EST_AMT));
-                $("#vatAmt").val(comma(data.VAT_AMT));
-                $("#totAmt").val(comma(data.TOT_AMT));
-
-                $("#vat").data("kendoRadioGroup").value(data.VAT);
-
-                $("#expType").data("kendoRadioGroup").value(data.EXP_TYPE);
-
-                this.fn_setClaimItem(data);
-                reqOr.fn_kendoUIEnableSet(data);
-                reqOr.fn_ClaimBtnSet(data);
-            }
-
-            $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
-            if($("input[name='purcType']:checked").val() != ""){
-                $("#project").css("display", "");
-                $("#pjtNm").text(data.PJT_NM);
-            } else {
-                $("#project").css("display", "none");
-            }
-        } else if($("#claimSn").val() != "") {
-            var data = {
-                claimSn : $("#claimSn").val(),
-                purcSn : $("#purcSn").val()
-            }
-
-            rs = customKendo.fn_customAjax("/purc/getPurcClaimData", data);
-            data = rs.data;
-
-            $("#purcDeptName").text(data.DEPT_NAME);
-            $("#purcEmpName").text(data.EMP_NAME_KR);
-
-            $("#estAmt").val(comma(data.EST_AMT));
-            $("#vatAmt").val(comma(data.VAT_AMT));
-            $("#totAmt").val(comma(data.TOT_AMT));
-
-            $("#vat").data("kendoRadioGroup").value(data.VAT);
-
-            $("#expType").data("kendoRadioGroup").value(data.EXP_TYPE);
-
-            $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
-            if($("input[name='purcType']:checked").val() != ""){
-                $("#project").css("display", "");
-                $("#pjtNm").text(data.PJT_NM);
-            } else {
-                $("#project").css("display", "none");
-            }
-
-            this.fn_setClaimItem(data);
-            reqOr.fn_kendoUIEnableSet(data);
-            reqOr.fn_ClaimBtnSet(data);
-        }
 
         $("#vat").data("kendoRadioGroup").bind("select", function(e){
             var len = $("#claimTbody > tr").length;
@@ -143,10 +70,6 @@ var reqOr = {
             $("#totAmt").val(comma(totAmt));
         });
 
-        reqOr.fn_orderHtmlSet();
-    },
-
-    fn_orderHtmlSet : function(){
         let html = ''
         html += '<tr>';
         html += '   <th scope="row" class="text-center th-color">발주일</th>';
@@ -181,18 +104,44 @@ var reqOr = {
         $("#orderDt, #goodsDt").attr("readonly", true);
         customKendo.fn_textBox(["PHNum", "FaxNum"]);
         customKendo.fn_textArea(["significant"]);
+    },
 
+    fn_dataSet : function(){
         const result = customKendo.fn_customAjax("/purc/getPurcClaimData", {
             claimSn : $("#claimSn").val(),
             purcSn : $("#purcSn").val()
         });
-        const claimMap = result.data;
-        if(claimMap != null){
-            $("#orderDt").val(claimMap.ORDER_DT);
-            $("#goodsDt").val(claimMap.GOODS_DT);
-            $("#PHNum").val(claimMap.PH_NUM);
-            $("#FaxNum").val(claimMap.FAX_NUM);
-            $("#significant").val(claimMap.SIGNIFICANT);
+        const orderMap = result.data;
+
+        $("#purcDeptName").text(orderMap.DEPT_NAME);
+        $("#purcEmpName").text(orderMap.EMP_NAME_KR);
+
+        $("#estAmt").val(comma(orderMap.EST_AMT));
+        $("#vatAmt").val(comma(orderMap.VAT_AMT));
+        $("#totAmt").val(comma(orderMap.TOT_AMT));
+
+        $("#vat").data("kendoRadioGroup").value(orderMap.VAT);
+
+        $("#expType").data("kendoRadioGroup").value(orderMap.EXP_TYPE);
+
+        $("#purcType").data("kendoRadioGroup").value(orderMap.PURC_TYPE);
+        if($("input[name='purcType']:checked").val() != ""){
+            $("#project").css("display", "");
+            $("#pjtNm").text(orderMap.PJT_NM);
+        } else {
+            $("#project").css("display", "none");
+        }
+
+        this.fn_setClaimItem(orderMap);
+        reqOr.fn_kendoUIEnableSet(orderMap);
+        reqOr.fn_OrderBtnSet(orderMap);
+
+        if(orderMap.ORDER_CK == "Y"){
+            $("#orderDt").val(orderMap.ORDER_DT);
+            $("#goodsDt").val(orderMap.GOODS_DT);
+            $("#PHNum").val(orderMap.PH_NUM);
+            $("#FaxNum").val(orderMap.FAX_NUM);
+            $("#significant").val(orderMap.SIGNIFICANT);
         }
     },
 
@@ -368,118 +317,6 @@ var reqOr = {
         var popup = window.open(url, name, option);
     },
 
-    fn_setItem : function(e){
-
-        var len = e.itemList.length;
-        var index = 0;
-        var html = '';
-        $("#claimTbody").html("");
-        for(var i = 0 ; i < len ; i++){
-            if(e.itemList[i].STATUS == "C"){
-
-                if(index == 0){
-                    html += '<tr class="claimItem newArray" id="item">';
-                    html += '   <td style="text-align: center">' +
-                        '           <div id="claimIndex">'+(index+1)+'</div>' +
-                        '           <input type="hidden" id="claimItemSn" />' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="text" id="itemNm" class="itemNm" value="'+e.itemList[i].PURC_ITEM_NAME+'">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="text" id="itemStd" class="itemStd" value="'+e.itemList[i].PURC_ITEM_STD+'">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="text" id="itemEa" style="text-align: right" value="'+comma(e.itemList[i].PURC_ITEM_QTY)+'" class="itemEa" onkeyup="reqOr.fn_calc(\'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="text" id="itemUnitAmt" style="text-align: right" value="'+comma(e.itemList[i].PURC_ITEM_UNIT_PRICE)+'" class="itemUnitAmt" onkeyup="reqOr.fn_calc(\'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="text" id="itemUnit" class="itemUnit" value="'+e.itemList[i].PURC_ITEM_UNIT+'">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="text" id="itemAmt" class="itemAmt" value="'+comma(e.itemList[i].PURC_ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <label for="itemEtc"></label><input type="text" id="itemEtc" value="'+e.itemList[i].RMK+'" class="itemEtc">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <span id="prodCd"></span>' +
-                        '       </td>' +
-                        '       <td style="text-align: center" class="listDelBtn">' +
-                        '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqOr.fn_delete(this)">' +
-                        '               <span class="k-button-text">삭제</span>' +
-                        '           </button>' +
-                        '       </td>';
-                    html += '</tr>';
-                } else {
-                    html += '<tr class="claimItem newArray" id="item'+len+'">';
-                    html += '   <td style="text-align: center">' +
-                        '           <div id="claimIndex">'+(index+1)+'</div>' +
-                        '           <input type="hidden" id="claimItemSn'+index+'" />' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="text" id="itemNm'+index+'" class="itemNm" value="'+e.itemList[i].PURC_ITEM_NAME+'">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="text" id="itemStd'+index+'" class="itemStd" value="'+e.itemList[i].PURC_ITEM_STD+'">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="text" id="itemEa'+index+'" style="text-align: right" class="itemEa" value="'+comma(e.itemList[i].PURC_ITEM_QTY)+'" onkeyup="reqOr.fn_calc(\''+index+'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="text" id="itemUnitAmt'+index+'" style="text-align: right" class="itemUnitAmt" value="'+comma(e.itemList[i].PURC_ITEM_UNIT_PRICE)+'" onkeyup="reqOr.fn_calc(\''+index+'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="text" id="itemUnit'+index+'" class="itemUnit" value="'+e.itemList[i].PURC_ITEM_UNIT+'">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="text" id="itemAmt'+index+'" class="itemAmt" style="text-align: right" value="'+comma(e.itemList[i].PURC_ITEM_AMT)+'" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <label for="itemEtc'+index+'"></label><input type="text" id="itemEtc'+index+'" value="'+e.itemList[i].RMK+'" class="itemEtc">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <span id="prodCd'+index+'"></span>' +
-                        '       </td>' +
-                        '       <td style="text-align: center" class="listDelBtn">' +
-                        '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqOr.fn_delete(this)">' +
-                        '               <span class="k-button-text">삭제</span>' +
-                        '           </button>' +
-                        '       </td>';
-                    html += '</tr>';
-                }
-
-                index++;
-            }
-        }
-
-
-        $("#claimTbody").append(html);
-
-
-        var tLen = $("#claimTbody > tr").length;
-        var radioProdDataSource = [
-            { label: "해당없음", value: "N" },
-            { label: "자산", value: "A" },
-            { label: "유지보수", value: "E" },
-        ]
-        for(var i = 0 ; i < tLen ; i++){
-            if(i == 0){
-                customKendo.fn_textBox(["itemNm", "itemStd", "itemEa", "itemUnitAmt", "itemUnit", "itemAmt", "itemEtc"]);
-                customKendo.fn_radioGroup("prodCd", radioProdDataSource, "horizontal");
-            } else {
-                customKendo.fn_textBox(["itemNm" + i, "itemStd" + i
-                    ,"itemEa" + i, "itemUnitAmt" + i, "itemUnit" + i, "itemAmt" + i, "itemEtc" + i])
-
-                customKendo.fn_radioGroup("prodCd" + i, radioProdDataSource, "horizontal");
-            }
-        }
-
-        this.fn_amtCalculator();
-    },
-
     fn_setClaimItem : function(e){
         var len = e.itemList.length;
         var index = 0;
@@ -591,55 +428,32 @@ var reqOr = {
         this.fn_amtCalculator();
     },
 
-    fn_kendoUIEnableSet : function(claimMap){
-        if(claimMap != null){
-            /** 상신, 재상신, 최종결재완료 상태일때 UI비활성화 */
-            if(claimMap.STATUS == "10" || claimMap.STATUS == "50" || claimMap.STATUS == "100"){
-                $(':radio').attr('disabled', true);
-                $('.k-input-inner').attr('disabled', true);
-                $("#pjtSelBtn").css("display", "none");
-                $("#crmSelBtn").css("display", "none");
-                $(".listDelBtn").text("-");
-            }
-        }
+    fn_kendoUIEnableSet : function(){
+        $(':radio').attr('disabled', true);
+        $('.k-input-inner').attr('disabled', true);
+        $("#pjtSelBtn").css("display", "none");
+        $("#crmSelBtn").css("display", "none");
+        $(".listDelBtn").text("-");
     },
 
-    fn_ClaimBtnSet : function(claimMap){
-        console.log("fn_ClaimBtnSet");
-        console.log(claimMap);
+    fn_OrderBtnSet : function(orderMap){
+
         let buttonHtml = "";
-        if(claimMap != null){
-            if(claimMap.STATUS == "0"){
-                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="reqOr.fn_save()">저장</button>';
-                buttonHtml += '<button type="button" id="reqBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="reqOr.claimDrafting()">상신</button>';
-            }else if(claimMap.STATUS == "10"){
-                buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+claimMap.DOC_ID+'\', \''+claimMap.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
-            }else if(claimMap.STATUS == "30" || claimMap.STATUS == "40"){
-                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="reqOr.fn_save()">저장</button>';
-                buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+claimMap.DOC_ID+'\', \''+claimMap.DOC_MENU_CD+'\', \''+claimMap.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
-            }else if(claimMap.STATUS == "100"){
-                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="reqOr.fn_orderSave()">발주 저장</button>';
-                buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+claimMap.DOC_ID+'\', \''+claimMap.APPRO_KEY+'\', \''+claimMap.DOC_MENU_CD+'\');">열람</button>';
-            }else{
-                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="reqOr.fn_save()">저장</button>';
-            }
+        buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="reqOr.fn_orderSave()">발주 저장</button>';
+        if(orderMap.ORDER_CK != "Y"){
         }else{
-            buttonHtml += '<button type="button" id="saveBtn" style="margin-right:5px; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="reqOr.fn_save()">저장</button>';
+            buttonHtml += '<button type="button" id="printBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="reqOr.fn_orderPrint()">인쇄</button>';
         }
         buttonHtml += '<button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>';
 
         $("#reqPurcBtnDiv").html(buttonHtml);
     },
 
-    claimDrafting : function() {
-        $("#claimDraftFrm").one("submit", function() {
-            var url = "/popup/cam_purc/approvalFormPopup/claimingApprovalPop.do";
-            var name = "_self";
-            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
-            var popup = window.open(url, name, option);
-            this.action = "/popup/cam_purc/approvalFormPopup/claimingApprovalPop.do";
-            this.method = 'POST';
-            this.target = '_self';
-        }).trigger("submit");
-    },
+    fn_orderPrint : function(){
+        let claimSn = $("#claimSn").val();
+        var url = "/purc/pop/orderPrintPop.do?claimSn="+claimSn;
+        var name = "orderPrintPop";
+        var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        var popup = window.open(url, name, option);
+    }
 }

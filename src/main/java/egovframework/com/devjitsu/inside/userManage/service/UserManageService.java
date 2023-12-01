@@ -206,6 +206,9 @@ public interface UserManageService{
     /** 년도별 발령 현황 팝업**/
     List<Map<String, Object>> getApntListByYear(Map<String, Object> params);
 
+    /**직급 현황**/
+    List<Map<String, Object>> getEmpCountsByPosition(Map<String, Object> params);
+
     /** 성별/연령별 현황 **/
     List<Map<String, Object>> getGenderCount(Map<String, Object> params);
     List<Map<String, Object>> getAgeCount(Map<String, Object> params);

@@ -61,13 +61,22 @@ var reqCl = {
                 purcSn : $("#purcSn").val()
             }
 
+            if($("#itemSn").val() != ""){
+                data.itemSn = $("#itemSn").val();
+            }
+
             var rs = customKendo.fn_customAjax("/purc/getPurcReq.do", data);
             var data = rs.data;
+            console.log(data);
 
             $("#purcDeptName").val(data.DEPT_NAME);
             $("#purcDeptSeq").val(data.DEPT_SEQ);
             $("#purcEmpName").val(data.EMP_NAME_KR);
             $("#purcEmpSeq").val(data.EMP_SEQ);
+
+            if(data.PURC_TYPE == ""){
+                $("#claimTitle").val("[법인운영] 구매청구");
+            }
 
             if($("#claimSn").val() == ""){
                 reqCl.fn_setItem(data);
@@ -76,6 +85,10 @@ var reqCl = {
                 var data = {
                     claimSn : $("#claimSn").val(),
                     purcSn : $("#purcSn").val()
+                }
+
+                if($("#itemSn").val() != ""){
+                    data.itemSn = $("#itemSn").val();
                 }
 
                 rs = customKendo.fn_customAjax("/purc/getPurcClaimData", data);
@@ -96,7 +109,12 @@ var reqCl = {
 
                 $("#expType").data("kendoRadioGroup").value(data.EXP_TYPE);
 
-                this.fn_setClaimItem(data);
+                console.log(data);
+                if(data.itemList[0].CLAIM_SN == "" || data.itemList[0].CLAIM_SN == null || data.itemList[0].CLAIM_SN == undefined) {
+                    reqCl.fn_setItem(data);
+                } else {
+                    this.fn_setClaimItem(data);
+                }
                 reqCl.fn_kendoUIEnableSet(data);
                 reqCl.fn_ClaimBtnSet(data);
             }
@@ -113,6 +131,10 @@ var reqCl = {
             var data = {
                 claimSn : $("#claimSn").val(),
                 purcSn : $("#purcSn").val()
+            }
+
+            if($("#itemSn").val() != ""){
+                data.itemSn = $("#itemSn").val();
             }
 
             rs = customKendo.fn_customAjax("/purc/getPurcClaimData", data);
@@ -310,7 +332,8 @@ var reqCl = {
             loginEmpSeq : $("#loginEmpSeq").val(),
             estAmt : uncomma($("#estAmt").val()),
             vatAmt : uncomma($("#vatAmt").val()),
-            totAmt : uncomma($("#totAmt").val())
+            totAmt : uncomma($("#totAmt").val()),
+            itemSn : $("#itemSn").val(),
         }
 
         if($("#claimSn").val() != ""){
@@ -419,7 +442,8 @@ var reqCl = {
 
     fn_setItem : function(e){
 
-        console.log(e);
+        $("#crmSn").val(e.itemList[0].CRM_SN);
+        $("#crmNm").val(e.itemList[0].CRM_NM);
 
         var len = e.itemList.length;
         var index = 0;

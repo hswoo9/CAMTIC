@@ -2014,6 +2014,16 @@ public class UserManageController {
         return "jsonView";
     }
 
+    /**직급 현황**/
+    @RequestMapping("Inside/getEmpCountsByPosition")
+    public String getEmpCountsByPosition (@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> empPositionList = userManageService.getEmpCountsByPosition(params);
+        model.addAttribute("arr",params);
+        model.addAttribute("empPositionList",empPositionList);
+        System.out.println("***********empPositionList**********" + empPositionList);
+        return "jsonView";
+    }
+
     /** 성별/연령별 현황 **/
     @RequestMapping(value = "/Inside/getGenderCount.do", method = RequestMethod.GET)
     public String getGenderCount(@RequestParam Map<String, Object> params, Model model){

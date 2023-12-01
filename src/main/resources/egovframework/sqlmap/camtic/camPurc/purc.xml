@@ -325,6 +325,7 @@
             MPI.PURC_ITEM_AMT,
             MPI.RMK,
             MPI.STATUS,
+            MPI.CLAIM_STAT,
             CI.CRM_SN,
             CI.CRM_NM,
             FORMAT(PURC_ITEM_UNIT_PRICE , 0) AS PURC_ITEM_UNIT_PRICE_COMMA,
@@ -522,7 +523,8 @@
             DI.DOC_NO,
             CAM_HR.FN_GetName('DEPT', EI.DEPT_SEQ, NULL) AS DEPT_NAME,
             DI.APPRO_KEY,
-            DI.DOC_MENU_CD
+            DI.DOC_MENU_CD,
+            (CASE WHEN A.ORDER_DT IS NOT NULL THEN 'Y' ELSE 'N' END) AS ORDER_CK
         FROM
             CAM_MNG.DJ_PURC_CLAIM A
         LEFT JOIN
@@ -902,4 +904,13 @@
         WHERE
             A.PJT_SN = #{pjtSn}
     </select>
+
+    <update id="updPurcItemStatusChange" parameterType="map">
+        /*updPurcItemStatusChange*/
+        UPDATE CAM_MNG.DJ_MNG_PURC_ITEM
+        SET
+            CLAIM_STAT = 'Y'
+        WHERE
+            PURC_ITEM_SN = #{item}
+    </update>
 </mapper>

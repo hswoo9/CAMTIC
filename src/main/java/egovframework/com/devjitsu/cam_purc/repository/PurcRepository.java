@@ -123,4 +123,12 @@ public class PurcRepository extends AbstractDAO {
     public List<Map<String, Object>> getClaimFileList(Map<String, Object> map) {
         return selectList("purc.getClaimFileList", map);
     }
+
+    public Map<String, Object> getPurcItemMap(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("item.getPurcItemMap", params);
+    }
+
+    public void updPurcItemStatusChange(Map<String, Object> params) {
+        update("purc.updPurcItemStatusChange", params);
+    }
 }

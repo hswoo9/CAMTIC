@@ -1872,4 +1872,33 @@
         WHERE
             SM_RECORD_SN = #{smRecordSn}
     </update>
+
+    <select id="getPurcItemMap" parameterType="map" resultType="map">
+        /*getPurcItemMap*/
+        SELECT
+            MPI.PURC_ITEM_SN,
+            MPI.PRODUCT_A,
+            MPI.PRODUCT_B,
+            MPI.PRODUCT_C,
+            MPI.PURC_ITEM_TYPE,
+            MPI.PURC_ITEM_NAME,
+            MPI.PURC_ITEM_STD,
+            MPI.PURC_ITEM_UNIT_PRICE,
+            MPI.PURC_ITEM_QTY,
+            MPI.PURC_ITEM_UNIT,
+            MPI.PURC_ITEM_AMT,
+            MPI.RMK,
+            MPI.STATUS,
+            CI.CRM_SN,
+            CI.CRM_NM,
+            FORMAT(PURC_ITEM_UNIT_PRICE , 0) AS PURC_ITEM_UNIT_PRICE_COMMA,
+            FORMAT(PURC_ITEM_AMT , 0) AS PURC_ITEM_AMT_COMMA
+        FROM
+            CAM_MNG.DJ_MNG_PURC_ITEM MPI
+                LEFT JOIN
+            CAM_CRM.DJ_CRM_INFO CI
+            ON MPI.CRM_SN = CI.CRM_SN
+        WHERE
+            PURC_ITEM_SN = #{item}
+    </select>
 </mapper>

@@ -396,6 +396,10 @@ public class UserManageRepository extends AbstractDAO {
         return selectList("userManage.getApntListByYear", params);
     }
 
+    /**직급 현황**/
+    public List<Map<String, Object>> getEmpCountsByPosition(Map<String, Object> params){
+        return selectList("userManage.getEmpCountsByPosition",params);
+    }
     /** 성별/연령별 현황 **/
     public List<Map<String, Object>> getGenderCount(Map<String, Object> params){
         return selectList("userManage.getGenderCount", params);

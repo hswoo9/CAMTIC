@@ -401,10 +401,14 @@ var prp = {
     purcItemDataSet : function(e){
         var data = e;
         var e = e.itemList;
+        console.log(e);
         var totalPay = 0;
         for(var i = 0; i < e.length; i++){
             if(i != 0){
                 prp.addRow();
+            }
+            if(e[i].CLAIM_STAT == 'Y'){
+                $("#check" + i).remove();
             }
 
             $("#item" + i).find("#purcItemSn" + i).val(e[i].PURC_ITEM_SN);
@@ -540,8 +544,35 @@ var prp = {
     },
 
     fn_reqClaiming : function (){
+        var crmSn = "";
+        var itemSn = "";
+        var flag = true;
+        $("#purcItemTb").find("input:checkbox").each(function(){
+            if($(this).is(":checked")){
+                var item = $(this).val();
 
+                if(crmSn != ""){
+                    if(crmSn != $("#crmSn" + item).val()) {
+                        alert("선택하신 항목 중 업체명이 다른항목이 존재합니다.");
+                        flag = false;
+
+                        return false;
+                    }
+                }
+                crmSn = $("#crmSn" + item).val()
+                itemSn += $("#purcItemSn" + item).val() + ",";
+            }
+        });
+
+        if(!flag){
+            return;
+        }
         var url = "/purc/pop/reqClaiming.do?purcSn="+ $("#purcSn").val();
+
+        if(itemSn != ""){
+            itemSn = itemSn.substring(0, itemSn.length - 1);
+            url += "&itemSn=" + itemSn;
+        }
 
         var name = "_blank";
         var option = "width = 1500, height = 840, top = 100, left = 400, location = no"
