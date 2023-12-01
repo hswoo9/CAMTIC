@@ -3627,7 +3627,7 @@
             DEGREE_CODE
     </select>
 
-    <select id="getPostionListByCount" parameterType="map" resultType="map">
+    <select id="getPositionListByCount" parameterType="map" resultType="map">
         SELECT
         HEI.*,
         CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS DEPT_SEQ,
