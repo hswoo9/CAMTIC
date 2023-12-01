@@ -2071,7 +2071,7 @@ public class UserManageController {
         List<Map<String, Object>> genderNameList = userManageService.getGenderListByCount(params);
         System.out.println("params : "+ params);
         model.addAttribute("list", genderNameList);
-        System.out.println("genderNameList " + genderNameList);
+        //System.out.println("genderNameList " + genderNameList);
         return "jsonView";
     }
     @RequestMapping(value = "/Inside/getAgeListByCount")
@@ -2089,7 +2089,7 @@ public class UserManageController {
         List<Map<String, Object>> degreeNameList = userManageService.getDegreeListByCount(params);
         System.out.println("params : "+ params);
         model.addAttribute("list", degreeNameList);
-        System.out.println("degreeNameList: " + degreeNameList);
+        //System.out.println("degreeNameList: " + degreeNameList);
         return "jsonView";
     }
 
