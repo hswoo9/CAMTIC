@@ -108,6 +108,8 @@ public class PurcController {
     @RequestMapping("/purc/setPurcReq.do")
     public String setPurcReq(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request) {
         purcService.setPurcReq(params, request, SERVER_DIR, BASE_DIR);
+
+        model.addAttribute("params", params);
         return "jsonView";
     }
 
