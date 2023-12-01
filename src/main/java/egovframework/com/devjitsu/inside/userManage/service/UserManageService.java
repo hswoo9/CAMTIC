@@ -208,4 +208,12 @@ public interface UserManageService{
 
     /**직급 현황**/
     List<Map<String, Object>> getEmpCountsByPosition(Map<String, Object> params);
+
+    /** 성별/연령별 현황 **/
+    List<Map<String, Object>> getGenderCount(Map<String, Object> params);
+    List<Map<String, Object>> getAgeCount(Map<String, Object> params);
+
+    /** 학위별 현황 **/
+    List<Map<String, Object>> getDegreeCount(Map<String, Object> params);
+
 }

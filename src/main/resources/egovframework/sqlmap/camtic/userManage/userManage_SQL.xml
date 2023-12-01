@@ -3557,4 +3557,74 @@
             POSITION_NAME DESC;
     </select>
 
+    <select id="getGenderCount" parameterType="map" resultType="map">
+        select
+            case
+                GENDER_CODE
+                when 'F' then '여성'
+                when 'M' then '남성'
+                else '기타'
+                end as gender_code,
+            COUNT(*) as emp_count
+        from
+            cam_hr.dj_emp_info
+        where
+            WORK_STATUS_CODE = 'Y'
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                ${item}
+            </foreach>
+        </if>
+        group by
+            GENDER_CODE
+    </select>
+
+    <select id="getAgeCount" parameterType="map" resultType="map">
+        select
+            case
+                when TIMESTAMPDIFF(year, BDAY, CURDATE()) between 15 and 25 then '15세~25세'
+                when TIMESTAMPDIFF(year, BDAY, CURDATE()) between 26 and 30 then '26세~30세'
+                when TIMESTAMPDIFF(year, BDAY, CURDATE()) between 31 and 35 then '31세~35세'
+                when TIMESTAMPDIFF(year, BDAY, CURDATE()) between 36 and 40 then '36세~40세'
+                when TIMESTAMPDIFF(year, BDAY, CURDATE()) between 41 and 45 then '41세~45세'
+                when TIMESTAMPDIFF(year, BDAY, CURDATE()) between 46 and 50 then '46세~50세'
+                when TIMESTAMPDIFF(year, BDAY, CURDATE()) between 51 and 55 then '51세~55세'
+                when TIMESTAMPDIFF(year, BDAY, CURDATE()) between 56 and 60 then '56세~60세'
+                when TIMESTAMPDIFF(year, BDAY, CURDATE()) >= 61 then '61세 이상'
+                else '기타'
+                end as age,
+            COUNT(*) as emp_count
+        from
+            cam_hr.dj_emp_info
+        where
+            WORK_STATUS_CODE = 'Y'
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                ${item}
+            </foreach>
+        </if>
+        group by
+            Age
+    </select>
+
+    <select id="getDegreeCount" parameterType="map" resultType="map">
+        select
+            DEGREE_CODE,
+            COUNT(*) as emp_count
+        from
+            cam_hr.dj_emp_info dei
+        where
+            WORK_STATUS_CODE = 'Y'
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                ${item}
+            </foreach>
+        </if>
+        group by
+            DEGREE_CODE
+    </select>
+
 </mapper>

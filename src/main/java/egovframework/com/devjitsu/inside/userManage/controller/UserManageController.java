@@ -2020,7 +2020,38 @@ public class UserManageController {
         List<Map<String, Object>> empPositionList = userManageService.getEmpCountsByPosition(params);
         model.addAttribute("arr",params);
         model.addAttribute("empPositionList",empPositionList);
-        System.out.println("***********empDeptTeamList**********" + empPositionList);
+        System.out.println("***********empPositionList**********" + empPositionList);
+        return "jsonView";
+    }
+
+    /** 성별/연령별 현황 **/
+    @RequestMapping(value = "/Inside/getGenderCount.do")
+    public String getGenderCount(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> genderCountList = userManageService.getGenderCount(params);
+        System.out.println("params : "+ params);
+        model.addAttribute("arr",params);
+        model.addAttribute("genderCountList", genderCountList);
+        System.out.println("genderCountList: " + genderCountList);
+        return "jsonView";
+    }
+    @RequestMapping(value = "/Inside/getAgeCount.do")
+    public String getAgeCount(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> ageCountList = userManageService.getAgeCount(params);
+        System.out.println("params : "+ params);
+        model.addAttribute("arr",params);
+        model.addAttribute("ageCountList", ageCountList);
+        System.out.println("ageCountList: " + ageCountList);
+        return "jsonView";
+    }
+
+    /** 학위별 현황 **/
+    @RequestMapping(value = "/Inside/getDegreeCount.do")
+    public String getDegreeCount(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> degreeCountList = userManageService.getDegreeCount(params);
+        System.out.println("params : "+ params);
+        model.addAttribute("arr",params);
+        model.addAttribute("degreeCountList", degreeCountList);
+        System.out.println("degreeCountList: " + degreeCountList);
         return "jsonView";
     }
 

@@ -1,3 +1,11 @@
+/**
+ * rev : 지급신청서
+ * in  : 여입신청서
+ * out : 반납신청서
+ * alt : 대체신청서
+ * @type {{payAppDrafting: regPay.payAppDrafting, setData: regPay.setData, fn_viewStat: regPay.fn_viewStat, uncomma: (function(*): string), global: {searchAjaxData: string, saveAjaxData: string, radioGroupData: string, itemIndex: number, createHtmlStr: string, crmSnId: string, dropDownDataSource: string, crmNmId: string}, comma: (function(*): string), fn_projectPop: regPay.fn_projectPop, fn_budgetPop: regPay.fn_budgetPop, payAppBtnSet: regPay.payAppBtnSet, fn_save: regPay.fn_save, fn_popCamCrmList: regPay.fn_popCamCrmList, inputNumberFormat: regPay.inputNumberFormat, fn_defaultScript: regPay.fn_defaultScript, crmInfoChange: regPay.crmInfoChange, fn_bankPop: regPay.fn_bankPop, fn_calCost: regPay.fn_calCost}}
+ */
+
 var regPay = {
 
     global : {

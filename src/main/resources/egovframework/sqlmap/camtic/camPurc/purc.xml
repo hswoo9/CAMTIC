@@ -11,7 +11,7 @@
             DI.DOC_NO,
             EI.EMP_NAME_KR,
             MP.PURC_REQ_PURPOSE,
-            COUNT(CASE WHEN MPI.STATUS = 'C' THEN 1 END) AS CP_CNT,
+            (SELECT COUNT(*) FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE PURC_SN = MP.PURC_SN AND CLAIM_STAT = 'N') AS CP_CNT,
             COUNT(CASE WHEN MPI.STATUS = 'R' THEN 1 END) AS RP_CNT,
             MP.STATUS,
             MP.DOC_STATUS,
@@ -89,7 +89,7 @@
             DATE_FORMAT(MP.PURC_REQ_DATE, '%Y. %m. %d') AS PURC_REQ_DATE,
             EI.EMP_NAME_KR,
             MP.PURC_REQ_PURPOSE,
-            COUNT(CASE WHEN MPI.STATUS = 'C' THEN 1 END) AS CP_CNT,
+            (SELECT COUNT(*) FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE PURC_SN = MP.PURC_SN AND CLAIM_STAT = 'N')  AS CP_CNT,
             COUNT(CASE WHEN MPI.STATUS = 'R' THEN 1 END) AS RP_CNT,
             MP.STATUS,
             MC.STATUS AS MC_STATUS,
@@ -104,7 +104,7 @@
             CAM_HR.DJ_EMP_INFO EI
         ON MP.PURC_REQ_EMP_SEQ = EI.EMP_SEQ
         JOIN
-            CAM_MNG.DJ_MNG_PURC_ITEM MPI
+            (SELECT * FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE CLAIM_STAT = 'N') MPI
         ON MP.PURC_SN = MPI.PURC_SN
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI
@@ -290,9 +290,7 @@
             DI.DOC_NO,
             CAM_HR.FN_GetName('DEPT', EI.DEPT_SEQ, NULL) AS DEPT_NAME,
             DI.APPRO_KEY,
-            DI.DOC_MENU_CD,
-            IFNULL((SELECT CLAIM_SN FROM CAM_MNG.DJ_PURC_CLAIM SPC WHERE SPC.PURC_SN = MP.PURC_SN), '') AS CLAIM_SN,
-            IFNULL((SELECT PAY_YN FROM CAM_MNG.DJ_PURC_CLAIM SPC WHERE SPC.PURC_SN = MP.PURC_SN), '') AS PAY_YN
+            DI.DOC_MENU_CD
         FROM
             CAM_MNG.DJ_MNG_PURC MP
         JOIN
@@ -466,6 +464,10 @@
         INSERT CAM_MNG.DJ_PURC_CLAIM_ITEM
             (
                 CLAIM_SN,
+                PURC_ITEM_TYPE,
+                PRODUCT_A,
+                PRODUCT_B,
+                PRODUCT_C,
                 ITEM_NM,
                 ITEM_STD,
                 ITEM_EA,
@@ -481,6 +483,10 @@
         VALUES
             (
                 #{claimSn},
+                #{purcItemType},
+                #{productA},
+                #{productB},
+                #{productC},
                 #{itemNm},
                 #{itemStd},
                 #{itemEa},
@@ -511,6 +517,36 @@
         WHERE
             CLAIM_ITEM_SN = #{claimItemSn}
     </update>
+
+    <select id="getClaimData" parameterType="map" resultType="map">
+        /*getClaimData*/
+        SELECT
+            A.*,
+            EI.EMP_SEQ,
+            EI.EMP_NAME_KR,
+            EI.POSITION_NAME,
+            EI.DEPT_SEQ,
+            DI.DOC_NO,
+            CAM_HR.FN_GetName('DEPT', EI.DEPT_SEQ, NULL) AS DEPT_NAME,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
+        FROM
+            CAM_MNG.DJ_PURC_CLAIM A
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON
+            A.CLAIM_EMP_SEQ = EI.EMP_SEQ
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI
+        ON
+            A.DOC_ID = DI.DOC_ID
+        WHERE
+        1=1
+        <if test='claimSn != null and !"".equals(claimSn)'>
+            AND
+                CLAIM_SN = #{claimSn}
+        </if>
+    </select>
 
     <select id="getPurcClaimData" parameterType="map" resultType="map">
         /*getPurcClaimData*/
@@ -624,10 +660,10 @@
         /*updPurcClaimData*/
         UPDATE CAM_MNG.DJ_PURC_CLAIM
         SET
-            <if test="purcSn != null and !purcSn.equals('')">
+            <if test='purcSn != null and !"".equals(purcSn)'>
                 PURC_SN = #{purcSn},
             </if>
-            <if test="purcSn == null or purcSn.equals('')">
+            <if test='purcSn == null or "".equals(purcSn)'>
                 PURC_SN = NULL,
             </if>
             CLAIM_EMP_SEQ = #{loginEmpSeq},
