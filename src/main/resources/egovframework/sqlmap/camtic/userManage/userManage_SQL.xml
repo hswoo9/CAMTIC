@@ -3640,7 +3640,7 @@
         SELECT DEPT_SEQ
         FROM cam_hr.dj_dept_info
         WHERE DEPT_SEQ = #{deptID}
-        OR PARENT_DEPT_SEQ = #{parentID}
+        OR PARENT_DEPT_SEQ = #{deptID}
         )
         <if test='arr != null and !"".equals(arr)'>
             AND
@@ -3660,7 +3660,7 @@
         DATE_FORMAT(HEI.JOIN_DAY,'%Y-%m-%d') AS JOIN_DAY2
         FROM CAM_HR.DJ_EMP_INFO AS HEI
         LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
-        where HEI.DEPT_SEQ = #{deptID}
+        where HEI.DEPT_SEQ = #{teamID}
         and WORK_STATUS_CODE = 'Y'
         <if test='arr != null and !"".equals(arr)'>
             AND
@@ -3710,6 +3710,7 @@
                 ${item}
             </foreach>
         </if>
+        GROUP BY HEI.EMP_SEQ
     </select>
 
     <select id="getAgeListByCount" parameterType="map" resultType="map">
@@ -3749,6 +3750,7 @@
                 ${item}
             </foreach>
         </if>
+        GROUP BY subquery.EMP_SEQ
     </select>
 
     <select id="getDegreeListByCount" parameterType="map" resultType="map">
@@ -3771,5 +3773,6 @@
                 ${item}
             </foreach>
         </if>
+        GROUP BY HEI.EMP_SEQ
     </select>
 </mapper>

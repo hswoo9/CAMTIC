@@ -45,7 +45,7 @@ var joinLeaveViewPop = {
             data.deptID = deptID;
             data.arr = arr;
 
-            //joinLeaveViewPop.mainGrid("url",data);
+            joinLeaveViewPop.mainGrid("/Inside/getDeptListByCount",data);
             //url에 컨트롤러 맵핑 넣기
 
             console.log("deptID data : ", data);
@@ -54,7 +54,7 @@ var joinLeaveViewPop = {
             data.teamID = teamID;
             data.arr = arr;
 
-            //joinLeaveViewPop.mainGrid("url",data);
+            joinLeaveViewPop.mainGrid("/Inside/getTeamListByCount",data);
             //url에 컨트롤러 맵핑 넣기
 
             console.log("teamID data : ", data);
