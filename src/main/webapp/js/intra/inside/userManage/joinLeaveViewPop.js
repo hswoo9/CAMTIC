@@ -7,6 +7,8 @@ var joinLeaveViewPop = {
     fn_defaultScript : function (){
         var joinYear = $("#joinYear").val();
         var sectionTitle = $("#sectionTitle").val();
+        var deptID = $("#deptID").val();
+        var teamID = $("#teamID").val();
         var encodedArr = $("#encodedArr").val();
         var positionName = $("#positionName").val();
         var genderName = $("#genderName").val();
@@ -16,6 +18,8 @@ var joinLeaveViewPop = {
 
         console.log("Js.Join Year: " + joinYear);
         console.log("Js.Section Title: " + sectionTitle);
+        console.log("Js.deptID: " + deptID);
+        console.log("Js.teamID: " + teamID);
         console.log("Js.positionName : " + positionName);
         console.log("Js.gender : " + genderName);
         console.log("Js.age : " + ageName);
@@ -25,6 +29,7 @@ var joinLeaveViewPop = {
 
         var data = {};
         if (sectionTitle && sectionTitle.trim() !== "") {
+            //입/퇴사
             if (sectionTitle === "employees_joined" || sectionTitle === "employees_resigned") {
                 data.joinYear = joinYear;
                 data.sectionTitle = sectionTitle;
@@ -35,36 +40,65 @@ var joinLeaveViewPop = {
                 joinLeaveViewPop.mainGrid("/Inside/getJoinResignEmpList.do", data);
 
             }
-        } else if(positionName && positionName.trim() !==""){
+        }else if(deptID && deptID.trim() !==""){
+            //부서
+            data.deptID = deptID;
+            data.arr = arr;
+
+            //joinLeaveViewPop.mainGrid("url",data);
+            //url에 컨트롤러 맵핑 넣기
+
+            console.log("deptID data : ", data);
+        }else if(teamID && teamID.trim() !==""){
+            //팀
+            data.teamID = teamID;
+            data.arr = arr;
+
+            //joinLeaveViewPop.mainGrid("url",data);
+            //url에 컨트롤러 맵핑 넣기
+
+            console.log("teamID data : ", data);
+        }
+        else if(positionName && positionName.trim() !==""){
+            //직급
             data.positionName = positionName;
             data.arr = arr;
             
-            //joinLeaveViewPop.mainGrid("url",data);
+            joinLeaveViewPop.mainGrid("/Inside/getPositionListByCount",data);
             //url에 컨트롤러 맵핑 넣기
 
             console.log("dutyView data : ", data);
         }else if(genderName && genderName.trim() !==""){
-            data.genderName = genderName;
-            data.arr = arr;
+            //성별
+            if(genderName === "여성"){
+                data.genderName = 'F';
+                data.arr = arr;
 
-            //joinLeaveViewPop.mainGrid("url",data);
-            //url에 컨트롤러 맵핑 넣기
+                joinLeaveViewPop.mainGrid("/Inside/getGenderListByCount",data);
+            }else if(genderName === "남성"){
+                data.genderName = 'M';
+                data.arr = arr;
+
+                joinLeaveViewPop.mainGrid("/Inside/getGenderListByCount",data);
+            }
 
             console.log("gender data : ", data);
         }else if(ageName && ageName.trim() !==""){
+            //나이
             data.ageName = ageName;
             data.arr = arr;
 
-            //joinLeaveViewPop.mainGrid("url",data);
+            joinLeaveViewPop.mainGrid("/Inside/getAgeListByCount",data);
             //url에 컨트롤러 맵핑 넣기
 
             console.log("age data : ", data);
         }
         else if(degreeName && degreeName.trim() !==""){
+            //학위
             data.degreeName = degreeName;
             data.arr = arr;
 
-            //joinLeaveViewPop.mainGrid("url",data);
+            joinLeaveViewPop.mainGrid("/Inside/getDegreeListByCount",data);
             //url에 컨트롤러 맵핑 넣기
 
             console.log("degree data : ", data);

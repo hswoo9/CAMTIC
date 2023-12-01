@@ -108,8 +108,14 @@ var regPayDepo = {
                 $("#bnkNm").val(rs.BNK_NM);
 
                 $("#payDepoReqUser").val(rs.DEPO_EMP_NAME);
-                $("#saveBtn").css("display", "none");
-                $("#incpBtn").css("display", "");
+
+                if(rs.APPR_STAT == 'N'){
+                    $("#apprBtn").css("display", "");
+                }
+
+                if($("#auth").val() == "user"){
+                    $("#incpBtn").css("display", "");
+                }
             }
         })
     },
@@ -141,8 +147,10 @@ var regPayDepo = {
         var parameters = {
             appDe : $("#appDe").val(),
             payIncpDe : $("#payIncpDe").val(),
-            pjtNm : $("#pjtNm").val(),
-            pjtSn : $("#pjtSn").val(),
+            pjtNm : $("#paramPjtNm").val(),
+            pjtSn : $("#paramPjtSn").val(),
+            aftPjtSn : $("#pjtSn").val(),
+            aftPjtNm : $("#pjtNm").val(),
             budgetNm : $("#budgetNm").val(),
             budgetSn : $("#budgetSn").val(),
             depoTitle : $("#depoTitle").val(),
@@ -187,10 +195,12 @@ var regPayDepo = {
             type : "post",
             dataType : "json",
             success : function(rs){
+                console.log(rs);
                 if(rs.code == 200){
+                    alert("저장되었습니다.")
                     let status = "";
 
-                    location.href="/payApp/pop/regPayAppPop.do?payAppSn=" + rs.params.payAppSn + "&status=" + status;
+                    location.href="/pay/pop/regPayDepoPop.do?payDepoSn=" + rs.params.payDepoSn + "&pjtSn=" + parameters.pjtSn;
 
                     opener.parent.paymentList.gridReload();
                 }
@@ -289,4 +299,5 @@ var regPayDepo = {
         var option = "width = 1100, height = 650, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
+
 }
