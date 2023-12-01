@@ -69,6 +69,30 @@
         </property>
     </bean>
 
+    <!-- mysql -->
+    <bean id="dataSourceSpiedPrjMs" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${prjDB.msSql.DriverClassName}"/>
+        <property name="url" value="${prjDB.msSql.Url}" />
+        <property name="username" value="${prjDB.msSql.UserName}"/>
+        <property name="password" value="${prjDB.msSql.Password}"/>
+
+        <property name="minIdle" value="5" />
+        <property name="maxTotal" value="20" />
+        <property name="testWhileIdle" value="true" />
+        <property name="validationQuery" value="select 1" />
+        <property name="timeBetweenEvictionRunsMillis" value="3600000" />
+    </bean>
+
+    <bean id="dataSourcePrjMs" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+        <constructor-arg ref="dataSourceSpiedMs" />
+        <property name="logFormatter">
+            <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+                <property name="loggingType" value="MULTI_LINE" />
+                <property name="sqlPrefix" value="SQL         :  " />
+            </bean>
+        </property>
+    </bean>
+
     <!-- Oracle -->
 <!--    <bean id="dataSource-oracle" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">-->
 <!--        <property name="driverClassName" value="${Globals.DriverClassName}"/>-->

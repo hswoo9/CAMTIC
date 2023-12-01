@@ -3,8 +3,134 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${toDate}"/></script>
-<input type="hidden" id="pageName" value="bustripList"/>
+<script type="text/javascript" src="/js/intra/system/message/message.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/system/message/messageReq.js?v=${today}"/></script>
+<style>
+    td{background-color: #fff;}
+    th{background-color: #dee2e6;}
+    body{background-color:#fff;}
+    .tab{width:100%; padding: 10px;}
+    .tabnav{font-size:0; width:100%; border:1px solid #ddd; padding:0;}
+    .tabnav li{display: inline-block;  height:46px; text-align:center; border-right:1px solid #ddd;}
+    .tabnav li a:before{content:""; position:absolute; left:0; top:0px; width:100%; height:3px; }
+    .tabnav li a.active:before{background:#1A5089;}
+    .tabnav li a.active{border-bottom:1px solid #fff;}
+    .tabnav li a{ position:relative; display:block; background: #f8f8f8; color: #000; padding:0 30px; line-height:46px; text-decoration:none; font-size:12px;}
+    .tabnav li a:hover,
+    .tabnav li a.active{background:#fff; color:#1A5089; font-weight:600;}
+    .tabcontent{padding: 20px; width: 100%; border:1px solid #ddd; border-top:none;}
+
+    .subtab ul{list-style:none; padding:0;}
+    .subtabnav li{height:46px; text-align:center; width:100px;}
+    .subtabnav li a:before{content:""; position:absolute; left:0; top:0px; width:100%; height:3px; }
+    .subtabnav li a.active:before{background:#fff;}
+    .subtabnav li a.active{background-color:#D7E9FA;}
+    .subtabnav li a{ position:relative; display:block; background: #f8f8f8; color: #000; line-height:46px; text-decoration:none; font-size:12px;}
+    .subtabnav li a:hover,
+    .subtabnav li a.active{color:#1A5089; font-weight:600;}
+    .subtabcontent{margin-left:20px; width:100%;}
+
+    #mainGrid tr:hover, #mainGridSend tr:hover {background-color: #f9fdff;}
+    .table td, .table th {border-color: #dee2e6;}
+    .content-wrapper {width:950px; border: 1px solid #ddd; margin: 0 10px;}
+    #mainGridSend td {text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
+    .table {table-layout: fixed;}
+
+    .k-drag-clue, .k-grid-header, .k-grouping-header, .k-header, .k-menu, .k-panelbar>.k-panelbar-header>.k-link, .k-progressbar, .k-state-highlight, .k-tabstrip, .k-tabstrip-items .k-item, .k-toolbar{background-color: #E4EBF3;}
+    .k-pager-wrap{background-color:#E4EBF3;}
+    .k-pager-wrap .k-link.k-state-selected{background-color: #1A5089;}
+    .k-picker:focus-within{box-shadow:0 0 4px 0 rgb(26 80 137 / 75%);}
+    .k-toolbar{justify-content: flex-end;}
+    .k-grid-content tr:last-child>td, .k-grid-content-locked tr:last-child>td{border-bottom: 1px solid #d5d5d5;}
+    .txtline{width:auto; padding:0 5px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+
+    .msg_con_wrap .msg_mms_box{padding-top:50px; text-align:left; width:100%;height:480px;background:#fff url('/images/system/msg_mms_bg.png') no-repeat top left; margin-right:20px;}
+    .msg_con_wrap .msg_mms_box .MsgBox{margin-left: 12px;text-align:center;width:213px;height:330px; resize:none;padding:21px 17px;background-color: transparent;border-top-style: solid;border-right-style:solid;border-bottom-style: solid;border-left-style: solid;overflow: hidden;overflow-y: auto;font-size: 9pt;word-break: break-all;left: 0px;margin-top: 23px;}
+    .msg_con_wrap .msg_mms_box .MsgByte{margin:0 auto; text-align: center;width:282px;}
+    .msg_con_wrap .msg_mms_box .MsgByte .ByteText1{font-size : 9pt;font-weight : bold;}
+    .msg_con_wrap .msg_mms_box .MsgByte .ByteText2{font-size : 9pt;}
+    .msg_con_wrap .msg_mms_box .msg_btn_box1{position:absolute;top:347px;left:51px;right:53px;}
+    .msg_con_wrap .msg_mms_box .msg_btn_box1 input{width:65px;padding:0;}
+    .msg_con_wrap .msg_mms_box .msg_btn_box2{position:absolute;top:376px;left:51px;right:53px;}
+    .msg_con_wrap .msg_mms_box .msg_btn_box2 input{width:65px;padding:0;}
+    .msg_con_wrap input[type="button"] {background:#fff; border-radius:10px; box-shadow:none; padding:0px 12px; height:30px; line-height:24px;border:1px solid #c9cac9;outline:0; font-size: 12px;width: 70px;}
+    .msg_con_wrap input[type="button"]:hover {border:1px solid #2690e7;}
+    .mt60{margin-top:60px !important;width: 240px;text-align: center;}
+
+    .k-treeview .k-i-collapse:before{background: url("/images/ico/ico_organ03_open.png");content: "";}
+    .k-treeview .k-i-expand:before{background: url("/images/ico/ico_organ03_close.png");content: "";}
+    .k-treeview .k-treeview-top.k-treeview-bot .k-i-collapse:before{background: url("/images/ico/ico_organ01.png")}
+    .k-treeview .k-treeview-top.k-treeview-bot .k-i-expand:before{background: url("/images/ico/ico_organ01.png")}
+    .k-treeview .k-top.k-bot .k-i-collapse{background: url("/images/ico/ico_organ01.png")}
+    .k-treeview .k-top.k-bot .k-i-expand{background: url("/images/ico/ico_organ01.png")}
+
+    .k-treeview .k-i-expand-disabled, .k-treeview .k-i-collapse-disabled {
+        cursor: default
+    }
+
+    .k-treeview .k-treeview-top,
+    .k-treeview .k-treeview-mid,
+    .k-treeview .k-treeview-bot {
+        background-image: url('/images/bg/treeview-nodes.png');
+        background-repeat: no-repeat;
+        margin-left: -16px;
+        padding-left: 16px;
+    }
+
+    .k-treeview .k-treeview-top .k-treeview-bot{background: none; background-position: -25px -66px;}
+
+    .k-treeview .k-item { background-image: url('/images/bg/treeview-line.png'); }
+    .k-treeview .k-last { background-image: none; }
+    .k-treeview .k-treeview-top { background-position: -91px 0; }
+    .k-treeview .k-treeview-bot { background-position: -69px -22px; }
+    .k-treeview .k-treeview-mid { background-position: -47px -42px; }
+    .k-treeview .k-last .k-treeview-top { background-position: -25px -66px; }
+    .k-treeview .k-group .k-last { background-position: -69px -22px; }
+    .k-treeview .k-item {
+        background-repeat: no-repeat;
+    }
+
+    .k-treeview .k-first {
+        background-repeat: no-repeat;
+        background-position: 0 16px;
+    }
+
+    .pop_head{
+        height: 32px;
+        position: relative;
+        background: #1385db;
+    }
+    .pop_head h1 {
+        font-size: 12px;
+        color: #fff;
+        line-height: 32px;
+        padding-left: 16px;
+    }
+
+    #menuTreeView{
+        background: #fff;
+        overflow: auto;
+        font-size: 12px;
+    }
+
+    .k-grid-toolbar{
+        justify-content: flex-end !important;
+    }
+    .k-grid-norecords{
+        justify-content: space-around;
+    }
+
+    .k-list-scroller {
+        overflow-y: scroll;
+    }
+
+    input#dest_phone{border: 1px solid #ddd; line-height: 25px; padding-left: 10px;}
+    .destPhone{border: 1px solid #ddd; line-height: 25px; padding-left: 10px;}
+
+    .dest_phone {
+        width: 95%;
+    }
+</style>
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
@@ -14,592 +140,194 @@
             <div class="title-road">시스템관리 > 문자 &gt; 문자함</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
-        <div class="tab">
-            <ul class="tabnav">
-                <li><a href="#tab03" class="tab03">문자보내기</a></li>
-            </ul>
-            <div class="tabcontent" style="background-color:#fff;">
-                <div id="tab03">
-                    <div>
-                        <table>
-                            <colgroup>
-                                <col width="20%">
-                                <col width="40%">
-                                <col width="40%">
-                            </colgroup>
-                            <tbody>
-                            <tr>
-                                <td rowspan="2">
-                                    <div id="menuTabStrip">
-                                        <ul>
-                                            <li class="k-state-active">
-                                                전화번호부 목록
-                                            </li>
-                                        </ul>
-                                        <div>
-                                            <input id="menuSearch" name="menuSearch" placeholder="이름을 입력해주세요" style="width: 87%" onkeypress="if(window.event.keyCode==13){menuTreeSearch(this.value)}"/>
-                                            <button type="button" class=" k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="menuTreeSearch($('#menuSearch').val())">
-                                                <span class="k-icon k-i-search k-button-icon"></span>
-                                            </button>
-                                            <div id="gridForm" style="height:510px; width: 300px; padding:0 0 0 10px; overflow: auto;border: 1px solid #dedfdf; margin-top:5px;">
-                                                <div id="menuTreeView">
-                                                </div>
-                                                <%--<p id="result1" style="margin-top:10px;">문자보낼 사람을 체크해주세요.</p>--%>
+        <div class="tab" style="padding-left: 20px; padding-right: 20px;">
+            <div id="tab03">
+                <div>
+                    <table>
+                        <colgroup>
+                            <col width="20%">
+                            <col width="40%">
+                            <col width="40%">
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <td rowspan="2">
+                                <div id="menuTabStrip">
+                                    <ul>
+                                        <li class="k-state-active">
+                                            전화번호부 목록
+                                        </li>
+                                    </ul>
+                                    <div>
+                                        <input id="menuSearch" name="menuSearch" placeholder="이름을 입력해주세요" style="width: 87%" onkeypress="if(window.event.keyCode==13){menuTreeSearch(this.value)}"/>
+                                        <button type="button" class=" k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="menuTreeSearch($('#menuSearch').val())">
+                                            <span class="k-icon k-i-search k-button-icon"></span>
+                                        </button>
+                                        <div id="gridForm" style="height:510px; width: 300px; padding:0 0 0 10px; overflow: auto;border: 1px solid #dedfdf; margin-top:5px;">
+                                            <div id="menuTreeView">
                                             </div>
+                                            <%--<p id="result1" style="margin-top:10px;">문자보낼 사람을 체크해주세요.</p>--%>
                                         </div>
                                     </div>
-                                </td>
-                                <td rowspan="2">
-                                    <div class="msg_con_wrap" style="height: 520px; display:flex;">
-                                        <div style="border:1px solid #ddd; margin-left:10px; width:84%; padding-left:10px; overflow: scroll;">
-                                            <div style="background-color:#eee; height:30px;text-align: center; padding-top: 5px; margin-bottom: 10px;">받는사람</div>
-                                            <div id="destDiv"><input name="dest_phone" id="dest_phone" style="width:180px;" placeholder="받는사람을 체크해주세요."></div>
-                                        </div>
-                                        <div class="msg_mms_box" style="margin: 0 30px;" >
-                                            <textarea name="tBox_Msg" class="MsgBox ImeMode" id="tBox_Msg" placeholder="[메시지입력창]" rows="12" cols="20"></textarea>
-                                            <div class="mt60">
-                                                <input id="send" type="button" value="전송">
-                                            </div>
+                                </div>
+                            </td>
+                            <td rowspan="2" style="background-color: white">
+                                <div class="msg_con_wrap" style="height: 520px; display:flex;">
+                                    <div style="border:1px solid #ddd; margin-left:10px; width:100%; text-align: center">
+                                        <div style="background-color:#eee; height:30px;text-align: center; padding-top: 5px; margin-bottom: 10px;">받는사람</div>
+                                        <div id="destDiv"><input name="dest_phone" id="dest_phone" style="width:95%;" placeholder="받는사람을 체크해주세요."></div>
+                                    </div>
+                                    <div class="msg_mms_box" style="margin: 0 30px;" >
+                                        <textarea name="tBox_Msg" class="MsgBox ImeMode" id="tBox_Msg" placeholder="[메시지입력창]" rows="12" cols="20"></textarea>
+                                        <div class="mt60">
+                                            <input id="send" type="button" value="전송" onclick="messageReq.sendMessage();">
                                         </div>
                                     </div>
-                                </td>
-                                <td style="vertical-align: top;">
-                                    <div id="menuEditorTabStrip">
-                                        <ul>
-                                            <li class="k-state-active">
-                                                그룹 등록/수정
-                                            </li>
-                                        </ul>
-                                        <div id="gridForm2" style="height:190px;overflow: auto;border: 1px solid #dedfdf;">
-                                            <form id="menuSaveFrm">
-                                                <table class="table table-bordered mb-0" style="border: none;">
-                                                    <colgroup>
-                                                        <col width="30%">
-                                                        <col width="70%">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <td colspan="2" style="border: none">
-                                                            <div style="display:flex; justify-content: flex-end;">
-                                                                <button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="margin-right:5px;" onclick="inputReset()">
-                                                                    <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
-                                                                    <span class="k-button-text">초기화</span>
-                                                                </button>
-                                                                <button type="button" id="modifyBtn" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="margin-right:5px; display:none;" onclick="dataModGroup()">
-                                                                    <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
-                                                                    <span class="k-button-text">수정</span>
-                                                                </button>
-                                                                <button type="button" id="saveBtn" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="margin-right:5px;" onclick="setMenu()">
-                                                                    <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
-                                                                    <span class="k-button-text">저장</span>
-                                                                </button>
-                                                                <button type="button" id="delBtn" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="setMenuDel()">
-                                                                    <span class="k-icon k-i-cancel k-button-icon"></span>
-                                                                    <span class="k-button-text">삭제</span>
-                                                                </button>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-center th-color">그룹번호
-                                                        </th>
-                                                        <td>
-                                                            <input type="text" id="groupId" name="groupId" style="width:50%;" disabled>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-center th-color">
-                                                            <span class="red-star">*</span>그룹명
-                                                        </th>
-                                                        <td>
-                                                            <input type="text" id="groupName" name="groupName">
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </form>
-                                        </div>
+                                </div>
+                            </td>
+                            <td style="vertical-align: top;">
+                                <div id="menuEditorTabStrip">
+                                    <ul>
+                                        <li class="k-state-active">
+                                            그룹 등록/수정
+                                        </li>
+                                    </ul>
+                                    <div id="gridForm2" style="height:190px;overflow: auto;border: 1px solid #dedfdf;">
+                                        <form id="menuSaveFrm">
+                                            <table class="table table-bordered mb-0" style="border: none;">
+                                                <colgroup>
+                                                    <col width="30%">
+                                                    <col width="70%">
+                                                </colgroup>
+                                                <tbody>
+                                                <tr>
+                                                    <td colspan="2" style="border: none">
+                                                        <div style="display:flex; justify-content: flex-end;">
+                                                            <button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="margin-right:5px;" onclick="inputReset()">
+                                                                <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
+                                                                <span class="k-button-text">초기화</span>
+                                                            </button>
+                                                            <button type="button" id="modifyBtn" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="margin-right:5px; display:none;" onclick="messageReq.setGroupMod()">
+                                                                <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
+                                                                <span class="k-button-text">수정</span>
+                                                            </button>
+                                                            <button type="button" id="saveBtn" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="margin-right:5px;" onclick="messageReq.setGroup()">
+                                                                <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
+                                                                <span class="k-button-text">저장</span>
+                                                            </button>
+                                                            <button type="button" id="delBtn" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="messageReq.setGroupDel()">
+                                                                <span class="k-icon k-i-cancel k-button-icon"></span>
+                                                                <span class="k-button-text">삭제</span>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="text-center th-color">그룹번호
+                                                    </th>
+                                                    <td>
+                                                        <input type="text" id="groupId" name="groupId" style="width:50%;" disabled>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="text-center th-color">
+                                                        <span class="red-star">*</span>그룹명
+                                                    </th>
+                                                    <td>
+                                                        <input type="text" id="groupName" name="groupName">
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </form>
                                     </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div id="menuEditorTabStripUser">
-                                        <ul>
-                                            <li class="k-state-active">
-                                                사용자 등록/수정
-                                            </li>
-                                        </ul>
-                                        <div id="gridForm2User" style="height:300px;overflow: auto;border: 1px solid #dedfdf;">
-                                            <form id="menuSaveFrmUser">
-                                                <table class="table table-bordered mb-0" style="border: none;">
-                                                    <colgroup>
-                                                        <col width="30%">
-                                                        <col width="70%">
-                                                    </colgroup>
-                                                    <tbody>
-                                                    <tr>
-                                                        <td colspan="2" style="border: none">
-                                                            <div style="display:flex; justify-content: flex-end;">
-                                                                <button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="margin-right:5px;" onclick="inputResetUser()">
-                                                                    <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
-                                                                    <span class="k-button-text">초기화</span>
-                                                                </button>
-                                                                <button type="button" id="modifyBtnUser" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="margin-right:5px; display:none;" onclick="dataUserMod()">
-                                                                    <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
-                                                                    <span class="k-button-text">수정</span>
-                                                                </button>
-                                                                <button type="button" id="saveBtnUser" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="margin-right:5px;" onclick="setMenuUser()">
-                                                                    <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
-                                                                    <span class="k-button-text">저장</span>
-                                                                </button>
-                                                                <button type="button" id="delBtnUser" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="setMenuUserDel()">
-                                                                    <span class="k-icon k-i-cancel k-button-icon"></span>
-                                                                    <span class="k-button-text">삭제</span>
-                                                                </button>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-center th-color">
-                                                            <span class="red-star">*</span>그룹명
-                                                        </th>
-                                                        <td>
-                                                            <input type="text" id="userGroupId" name="userGroupId" style="width:50%;">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div id="menuEditorTabStripUser">
+                                    <ul>
+                                        <li class="k-state-active">
+                                            사용자 등록/수정
+                                        </li>
+                                    </ul>
+                                    <div id="gridForm2User" style="height:300px;overflow: auto;border: 1px solid #dedfdf;">
+                                        <form id="menuSaveFrmUser">
+                                            <table class="table table-bordered mb-0" style="border: none;">
+                                                <colgroup>
+                                                    <col width="30%">
+                                                    <col width="70%">
+                                                </colgroup>
+                                                <tbody>
+                                                <tr>
+                                                    <td colspan="2" style="border: none">
+                                                        <div style="display:flex; justify-content: flex-end;">
+                                                            <button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="margin-right:5px;" onclick="inputResetUser()">
+                                                                <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
+                                                                <span class="k-button-text">초기화</span>
+                                                            </button>
+                                                            <button type="button" id="modifyBtnUser" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="margin-right:5px; display:none;" onclick="messageReq.setUserMod()">
+                                                                <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
+                                                                <span class="k-button-text">수정</span>
+                                                            </button>
+                                                            <button type="button" id="saveBtnUser" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" style="margin-right:5px;" onclick="messageReq.setUser()">
+                                                                <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
+                                                                <span class="k-button-text">저장</span>
+                                                            </button>
+                                                            <button type="button" id="delBtnUser" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="messageReq.setUserDel()">
+                                                                <span class="k-icon k-i-cancel k-button-icon"></span>
+                                                                <span class="k-button-text">삭제</span>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="text-center th-color">
+                                                        <span class="red-star">*</span>그룹명
+                                                    </th>
+                                                    <td>
+                                                        <input type="text" id="userGroupId" name="userGroupId" style="width:50%;">
 
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-center th-color">사용자번호
-                                                        </th>
-                                                        <td>
-                                                            <input type="text" id="phoneUserId" name="phoneUserId" style="width:50%;" disabled>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-center th-color">
-                                                            <span class="red-star">*</span>사용자명
-                                                        </th>
-                                                        <td>
-                                                            <input type="text" id="phoneNameUser" name="phoneNameUser">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th class="text-center th-color">
-                                                            <span class="red-star">*</span>핸드폰번호
-                                                        </th>
-                                                        <td>
-                                                            <input type="text" id="phoneUserNum" name="phoneUserNum" oninput="autoHyphen2(this);" maxlength="13" placeholder="숫자만입력하세요!" >
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </form>
-                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="text-center th-color">사용자번호
+                                                    </th>
+                                                    <td>
+                                                        <input type="text" id="phoneUserId" name="phoneUserId" style="width:50%;" disabled>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="text-center th-color">
+                                                        <span class="red-star">*</span>사용자명
+                                                    </th>
+                                                    <td>
+                                                        <input type="text" id="phoneNameUser" name="phoneNameUser">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="text-center th-color">
+                                                        <span class="red-star">*</span>핸드폰번호
+                                                    </th>
+                                                    <td>
+                                                        <input type="text" id="phoneUserNum" name="phoneUserNum" oninput="autoHyphen2(this);" maxlength="13" placeholder="숫자만입력하세요!" >
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </form>
                                     </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 </div><!-- col-md-9 -->
-
-<form id="bustripDraftFrm" method="post">
-    <input type="hidden" id="menuCd" name="menuCd" value="bustrip">
-    <input type="hidden" id="type" name="type" value="drafting">
-    <input type="hidden" id="nowUrl" name="nowUrl" />
-    <input type="hidden" id="hrBizReqId" name="hrBizReqId"/>
-</form>
-
 <script type="text/javascript">
-    var autoHyphen2 = (target) => {
-        target.value = target.value
-            .replace(/[^0-9]/g, '')
-            .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
-    }
-
-    function checkedNodeIds(nodes, checkedNodes) {
-        for (var i = 0; i < nodes.length; i++) {
-            if (nodes[i].checked) {
-                if (nodes[i].PHONE_USER_NUM !== undefined) {
-                    checkedNodes.push(nodes[i].PHONE_USER_NUM);
-                }
-            }
-
-            if (nodes[i].hasChildren) {
-                checkedNodeIds(nodes[i].children.view(), checkedNodes);
-            }
-        }
-    }
-
-    function onCheck() {
-        var checkedNodes = [],
-            treeView = $("#menuTreeView").data("kendoTreeView"),
-            message;
-
-        checkedNodeIds(treeView.dataSource.view(), checkedNodes);
-        console.log(checkedNodes);
-        if (checkedNodes.length > 0) {
-            $("#destDiv").empty();
-            for (var i = 0; i < checkedNodes.length; i++) {
-                message = checkedNodes[i];
-                console.log(message);
-                var input = $("<input>")
-                    .attr("type", "text")
-                    .attr("name", "dest_phone")
-                    .attr("id", "dest_phone")
-                    .attr("value", message)
-                    .attr("phone", message)
-                    .attr("style", "margin-bottom:5px;")
-                    .val(message);
-
-                $("#destDiv").append(input);
-            }
-        } else {
-            $("#destDiv").empty();
-            var message = "받는사람을 체크해주세요.";
-            var input = $("<input>")
-                .attr("type", "text")
-                .attr("name", "dest_phone")
-                .attr("class", "destPhone")
-                .attr("value", message);
-            $("#destDiv").append(input);
-        }
-
-
-    }
-
-    function menuTreeSearch(e) {
-        var query      = e;
-        var dataSource = $("#menuTreeView").data("kendoTreeView").dataSource;
-        filter(dataSource, query);
-    }
-
-    $(function(){
-        $("#menuTabStrip").kendoTabStrip({
-            animation:  {
-                open: {
-                    effects: "fadeIn"
-                }
-            }
-        });
-
-        $("#menuEditorTabStrip").kendoTabStrip({
-            animation:  {
-                open: {
-                    effects: "fadeIn"
-                }
-            }
-        });
-
-        $("#menuEditorTabStripUser").kendoTabStrip({
-            animation:  {
-                open: {
-                    effects: "fadeIn"
-                }
-            }
-        });
-
-        makeTreeView();
-        setKendoTextBox(["menuSearch", "groupId", "groupName", "phoneNameUser", "phoneUserNum", "phoneUserId"]);
-
-        /*getMenuList();*/
-
-
-    })
-
-    function makeTreeView(){
-
-        var ds = customKendo.fn_customAjax('/textMessages/makeTreeView.do', {});
-
-        $("#userGroupId").kendoDropDownList({
-            dataTextField: "GROUP_NAME",
-            dataValueField: "GROUP_ID",
-            dataSource: ds.rs,
-            index: 0
-        });
-
-        $("#menuTreeView").kendoTreeView({
-            dataSource: ds.rs,
-            /*dataTextField: "GROUP_NAME","PHONE_USER_NAME",*/
-            checkboxes: {
-                checkChildren: true
-            },
-            template: "#= item.GROUP_NAME ##= item.PHONE_USER_NAME ? ' - ' + item.PHONE_USER_NAME : '' #",
-            check: onCheck,
-            select: treeClick
-        });
-
-        menuTreeSearch($("#menuSearch").val());
-    }
-
-    function filter(dataSource, query) {
-        var hasVisibleChildren = false;
-        var data = dataSource instanceof kendo.data.HierarchicalDataSource && dataSource.data();
-
-        for (var i = 0; i < data.length; i++) {
-            var item = data[i];
-            var text = item.PHONE_USER_NAME || '';
-            var itemVisible = query === true || query === "" || text.indexOf(query) >= 0;
-
-            var anyVisibleChildren = filter(item.children, itemVisible || query);
-
-            hasVisibleChildren = hasVisibleChildren || anyVisibleChildren || itemVisible;
-
-            item.hidden = !itemVisible && !anyVisibleChildren;
-        }
-
-        if (data) {
-            dataSource.filter({ field: "hidden", operator: "neq", value: true });
-        }
-
-        return hasVisibleChildren;
-    }
-
-    function treeClick(e){
-        var item = $("#menuTreeView").data("kendoTreeView").dataItem(e.node);
-        dataMod(item);
-        dataModUser(item);
-        console.log(item);
-    }
-
-    function inputReset(){
-        var treeview = $("#menuTreeView").data("kendoTreeView");
-        treeview.select($());
-        /*getMenuList();*/
-        $("#groupId, #groupName").val("");
-        $("#modifyBtn").css('display','none');
-        $("#saveBtn").show();
-    }
-
-    function inputResetUser(){
-        var treeview = $("#menuTreeView").data("kendoTreeView");
-        treeview.select($());
-        /*getMenuList();*/
-        $("#phoneNameUser, #phoneUserNum, #phoneUserId").val("");
-        $("#userGroupId").data("kendoDropDownList").value("");
-        $("#modifyBtnUser").css('display','none');
-        $("#saveBtnUser").show();
-    }
-
-
-    function dataMod(v){
-        $('#groupId').val(v.GROUP_ID);
-        $('#groupName').val(v.GROUP_NAME);
-        $('#loginEmpSeq').val(v.REG_EMP_SEQ);
-        $("#modifyBtn").css('display','block');
-        $("#saveBtn").css('display','none');
-
-    }
-
-    function dataModGroup(){
-        var data = {
-            "groupId": $("#groupId").val(),
-            "groupName": $("#groupName").val(),
-            "loginEmpSeq": $("#loginEmpSeq").val()
-        }
-
-        $.ajax({
-            url: getContextPath() + '/textMessages/setMenuMod.do',
-            data: data,
-            dataType: "json",
-            type: "POST",
-            /*async: false,*/
-            success: function () {
-                alert("그룹이 수정 되었습니다.");
-                $("#menuTreeView").data("kendoTreeView").destroy();
-                makeTreeView();
-            },
-            error: function () {
-                alert("그룹 수정 중 에러가 발생했습니다.");
-            }
-        })
-
-    }
-
-    function dataModUser(v){
-        $('#phoneNameUser').val(v.PHONE_USER_NAME);
-        $('#phoneUserNum').val(v.PHONE_USER_NUM);
-        $('#phoneUserId').val(v.PHONE_USER_ID);
-        $('#loginEmpSeq').val(v.REG_EMP_SEQ);
-        $('#userGroupId').data("kendoDropDownList").value(v.GROUP_ID);
-        $("#modifyBtnUser").css('display','block');
-        $("#saveBtnUser").css('display','none');
-
-    }
-
-    function dataUserMod(){
-        var data = {
-            "userGroupId" : $("#userGroupId").val(),
-            "groupName" : $("#groupName").val(),
-            "phoneUserId" : $("#phoneUserId").val(),
-            "phoneNameUser" : $("#phoneNameUser").val(),
-            "phoneUserNum" : $("#phoneUserNum").val(),
-            "loginEmpSeq" : $("#loginEmpSeq").val()
-        }
-        console.log(data);
-        $.ajax({
-            url: getContextPath() + '/textMessages/setMenuModUser.do',
-            data: data,
-            dataType: "json",
-            type: "POST",
-            /*async: false,*/
-            success: function () {
-                alert("사용자가 수정 되었습니다.");
-                $("#menuTreeView").data("kendoTreeView").destroy();
-                makeTreeView();
-            },
-            error: function () {
-                alert("사용자 수정 중 에러가 발생했습니다.");
-            }
-        })
-
-    }
-
-    function setMenu(){
-        var flag = true;
-
-        if(!$("#groupName").val()){
-            alert("그룹이름을 입력해주세요.");
-            flag = false;
-            return;
-        }
-
-        if(confirm("저장하시겠습니까?")){
-            if(flag){
-                var data = {
-                    "groupId" : $("#groupId").val(),
-                    "groupName" : $("#groupName").val(),
-                    "loginEmpSeq" : $("#loginEmpSeq").val()
-                }
-
-                $.ajax({
-                    url : getContextPath() + '/textMessages/setMenu.do',
-                    data : data,
-                    dataType : "json",
-                    type : "POST",
-                    async : false,
-                    success : function (){
-                        alert("그룹이 등록 되었습니다.");
-                        $("#menuTreeView").data("kendoTreeView").destroy();
-                        makeTreeView();
-                    },
-                    error : function (){
-                        alert("그룹 등록 중 에러가 발생했습니다.");
-                    }
-                })
-            }else{
-                alert("입력값을 확인해주세요.");
-            }
-        }
-    }
-
-    function setMenuUser(){
-        var flag = true;
-
-        if(!$("#phoneNameUser").val()){
-            alert("사용자이름을 입력해주세요.");
-            flag = false;
-            return;
-        }else if(!$("#phoneUserNum").val()){
-            alert("사용자의 핸드폰 번호를 입력해주세요.");
-            flag = false;
-            return;
-        }
-
-        if(confirm("저장하시겠습니까?")){
-            if(flag){
-                var data = {
-                    "userGroupId" : $("#userGroupId").val(),
-                    "groupName" : $("#groupName").val(),
-                    "phoneUserId" : $("#phoneUserId").val(),
-                    "phoneNameUser" : $("#phoneNameUser").val(),
-                    "phoneUserNum" : $("#phoneUserNum").val(),
-                    "loginEmpSeq" : $("#loginEmpSeq").val()
-                }
-
-                $.ajax({
-                    url : getContextPath() + '/textMessages/setMenuUser.do',
-                    data : data,
-                    dataType : "json",
-                    type : "POST",
-                    async : false,
-                    success : function (){
-                        alert("사용자가 등록 되었습니다.");
-                        $("#menuTreeView").data("kendoTreeView").destroy();
-                        makeTreeView();
-                    },
-                    error : function (){
-                        alert("사용자 등록 중 에러가 발생했습니다.");
-                    }
-                })
-            }else{
-                alert("입력값을 확인해주세요.");
-            }
-        }
-    }
-
-    function setMenuDel(){
-        if(!$("#groupId").val()){
-            alert("삭제 할 그룹를 선택해주세요.");
-            return;
-        }
-
-        if(confirm("삭제 시 해당 메뉴와 하위 메뉴 전체를 사용할 수 없습니다.\n선택한 메뉴를 삭제 하시겠습니까?")){
-            var data = {
-                "groupId" : $("#groupId").val()
-            }
-
-            $.ajax({
-                url : getContextPath() + '/textMessages/setMenuDel.do',
-                data : data,
-                dataType : "json",
-                type : "POST",
-                async : false,
-                success : function (){
-                    alert("그룹이 삭제 되었습니다.");
-                    $("#menuTreeView").data("kendoTreeView").destroy();
-                    makeTreeView();
-                },
-                error : function (){
-                    alert("그룹 삭제 중 에러가 발생했습니다.");
-                }
-            })
-        }
-
-    }
-
-    function setMenuUserDel(){
-        if(!$("#phoneUserId").val()){
-            alert("삭제 할 사용자를 선택해주세요.");
-            return;
-        }
-
-        if(confirm("삭제 하시겠습니까?")){
-            var data = {
-                "phoneUserId" : $("#phoneUserId").val()
-            }
-
-            $.ajax({
-                url : getContextPath() + '/textMessages/setMenuUserDel.do',
-                data : data,
-                dataType : "json",
-                type : "POST",
-                async : false,
-                success : function (){
-                    alert("사용자가 삭제 되었습니다.");
-                    $("#menuTreeView").data("kendoTreeView").destroy();
-                    makeTreeView();
-                },
-                error : function (){
-                    alert("사용자 삭제 중 에러가 발생했습니다.");
-                }
-            })
-        }
-
-    }
+    messageReq.fn_defaultScript();
 </script>

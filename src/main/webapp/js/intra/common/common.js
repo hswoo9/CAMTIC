@@ -317,3 +317,9 @@ function fn_monDiff(_date1, _date2){
     // return Math.round((diffDays / 30).toFixed(2) * 10) / 10;
     return pDateMonth;
 }
+
+var autoHyphen2 = (target) => {
+    target.value = target.value
+        .replace(/[^0-9]/g, '')
+        .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
+}

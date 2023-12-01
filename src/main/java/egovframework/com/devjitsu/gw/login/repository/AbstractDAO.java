@@ -16,6 +16,9 @@ public class AbstractDAO {
     @Resource(name="sqlSessionTemplateMs")
     protected SqlSessionTemplate sqlSessionMs;
 
+    @Resource(name="sqlSessionTemplatePrjMs")
+    protected SqlSessionTemplate sqlSessionPrjMs;
+
     protected void printQueryId(String queryId) {
         if(log.isDebugEnabled()){
             log.debug("\t QueryId  \t:  " + queryId);
@@ -40,6 +43,16 @@ public class AbstractDAO {
     public Object insertMs(String queryId, Object params){
         printQueryId(queryId);
         return sqlSessionMs.insert(queryId, params);
+    }
+
+    public Object insertPrjMs(String queryId){
+        printQueryId(queryId);
+        return sqlSessionPrjMs.insert(queryId);
+    }
+
+    public Object insertPrjMs(String queryId, Object params){
+        printQueryId(queryId);
+        return sqlSessionPrjMs.insert(queryId, params);
     }
 
     public Object update(String queryId, Object params){
@@ -94,6 +107,28 @@ public class AbstractDAO {
     public List selectListMs(String queryId, Object params){
         printQueryId(queryId);
         return sqlSessionMs.selectList(queryId,params);
+    }
+
+    public Object selectOnePrjMs(String queryId){
+        printQueryId(queryId);
+        return sqlSessionPrjMs.selectOne(queryId);
+    }
+
+    public Object selectOnPrjMs(String queryId, Object params){
+        printQueryId(queryId);
+        return sqlSessionPrjMs.selectOne(queryId, params);
+    }
+
+    @SuppressWarnings("rawtypes")
+    public List selectListPrjMs(String queryId){
+        printQueryId(queryId);
+        return sqlSessionPrjMs.selectList(queryId);
+    }
+
+    @SuppressWarnings("rawtypes")
+    public List selectListPrjMs(String queryId, Object params){
+        printQueryId(queryId);
+        return sqlSessionPrjMs.selectList(queryId,params);
     }
 
 //    public Object insertOra(String queryId, Object params){

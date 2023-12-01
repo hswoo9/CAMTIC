@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="message">
+
+    <select id="getMenuList" resultType="map" parameterType="map">
+        /* getMenuList */
+        SELECT
+            GROUP_ID,
+            UPPER_GROUP_ID,
+            GROUP_NAME,
+            ACTIVE,
+            GROUP_NAME AS TEXT,
+            GROUP_CHILDREN_YN
+        FROM
+            CAM_HR.DJ_TEXTMESSAGES_GROUP
+        WHERE
+            1 = 1
+            <if test='groupId != null and !"".equals(groupId)'>
+                AND GROUP_ID NOT IN (#{groupId})
+            </if>
+    </select>
+
+    <select id="getMenuListUser" resultType="map" parameterType="map">
+        /* getMenuListUser */
+        SELECT
+            a.*,
+            b.GROUP_NAME
+        FROM
+            CAM_HR.DJ_TEXTMESSAGES_USER a
+        INNER JOIN
+            CAM_HR.DJ_TEXTMESSAGES_GROUP b ON a.GROUP_ID = b.GROUP_ID AND a.REG_EMP_SEQ = b.REG_EMP_SEQ
+        WHERE
+            b.REG_EMP_SEQ = #{loginEmpSeq}
+        AND a.ACTIVE = 'Y'
+        AND b.GROUP_ID = #{userGroupId}
+    </select>
+
+
+
+
+
+    <insert id="setGroup" parameterType="map">
+        /* setGroup */
+        INSERT INTO CAM_HR.DJ_TEXTMESSAGES_GROUP
+            (
+                GROUP_NAME,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{groupName},
+                #{loginEmpSeq}
+            )
+    </insert>
+
+    <update id="setGroupMod" parameterType="map">
+        /* setGroupMod */
+        UPDATE
+            CAM_HR.DJ_TEXTMESSAGES_GROUP
+        SET
+            GROUP_NAME = #{groupName}
+        WHERE
+            GROUP_ID = #{groupId}
+    </update>
+
+    <delete id="setGroupDel" parameterType="map">
+        /* setGroupDel */
+        DELETE FROM
+            CAM_HR.DJ_TEXTMESSAGES_GROUP
+        WHERE
+            GROUP_Id = #{groupId}
+    </delete>
+
+
+
+    <insert id="setUser" parameterType="map">
+        /* setUser */
+        INSERT INTO CAM_HR.DJ_TEXTMESSAGES_USER
+            (
+                PHONE_USER_NAME,
+                PHONE_USER_NUM,
+                GROUP_ID,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{phoneNameUser},
+                #{phoneUserNum},
+                #{userGroupId},
+                #{loginEmpSeq}
+            )
+    </insert>
+
+    <update id="setUserMod" parameterType="map">
+        /* setUserMod */
+        UPDATE CAM_HR.DJ_TEXTMESSAGES_USER
+        SET
+            PHONE_USER_NAME = #{phoneNameUser},
+            PHONE_USER_NUM = #{phoneUserNum},
+            GROUP_ID = #{userGroupId}
+        WHERE
+            PHONE_USER_ID = #{phoneUserId}
+    </update>
+
+    <delete id="setUserDel" parameterType="map">
+        /* setUserDel */
+        DELETE FROM
+            CAM_HR.DJ_TEXTMESSAGES_USER
+        WHERE
+            PHONE_USER_ID = #{phoneUserId}
+    </delete>
+</mapper>

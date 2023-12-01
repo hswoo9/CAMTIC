@@ -22,5 +22,15 @@
 		<constructor-arg index="0" ref="sqlSessionMs"/>
 	</bean>
 
+	<!--mssql prjDb -->
+	<bean id="sqlSessionPrjMs" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSourcePrjMs" />
+		<property name="mapperLocations" value="classpath:/egovframework/sqlmap/camtic/**/*.xml" />
+	</bean>
+
+	<bean id="sqlSessionTemplatePrjMs" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionPrjMs"/>
+	</bean>
+
 
 </beans>
