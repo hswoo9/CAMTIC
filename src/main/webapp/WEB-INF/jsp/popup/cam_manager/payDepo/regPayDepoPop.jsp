@@ -19,6 +19,8 @@
 <input type="hidden" id="paramPjtCd" name="paramPjtCd" value="${hashMap.PJT_CD }" />
 <input type="hidden" id="paramPjtNm" name="paramPjtNm" value="${hashMap.PJT_NM }" />
 
+<input type="hidden" id="auth" value="${params.auth}" />
+
 <input type="hidden" id="paramPm" value="${hashMap.PM}" />
 <input type="hidden" id="paramPmSeq" value="${hashMap.PM_EMP_SEQ}" />
 
@@ -34,6 +36,7 @@
             </h3>
             <div id="payAppBtnDiv" class="btn-st popButton">
                 <button type="button" class="k-button k-button-solid-info" style="display: none;" id="incpBtn" onclick="incomeList.fn_incomePopup('${params.payDepoSn}')">수입결의서 작성</button>
+                <button type="button" class="k-button k-button-solid-info" style="display: none;" id="apprBtn" onclick="incomeList.fn_apprIncome('${params.payDepoSn}')">수입결의 요청</button>
                 <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="regPayDepo.fn_save();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>

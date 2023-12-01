@@ -1195,6 +1195,8 @@
             AND
                 A.DOC_STATUS = #{docStatus}
         </if>
+        AND
+            A.APPR_STAT = 'Y'
         ORDER BY PAY_DEPO_SN DESC
     </select>
 
@@ -1206,6 +1208,8 @@
                 PAY_INCP_DE,
                 PJT_NM,
                 PJT_SN,
+                AFT_PJT_SN,
+                AFT_PJT_NM,
                 BUDGET_NM,
                 BUDGET_SN,
                 DEPO_TITLE,
@@ -1225,6 +1229,8 @@
                 #{payIncpDe},
                 #{pjtNm},
                 #{pjtSn},
+                #{aftPjtSn},
+                #{aftPjtNm},
                 #{budgetNm},
                 #{budgetSn},
                 #{depoTitle},
@@ -1238,6 +1244,9 @@
                 #{depoStat},
                 #{regEmpSeq}
             )
+        <selectKey keyProperty="payDepoSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_MNG' AND TABLE_NAME = 'DJ_PAY_DEPO'
+        </selectKey>
     </insert>
 
     <update id="updPayDepo" parameterType="map">
@@ -1248,6 +1257,8 @@
             PAY_INCP_DE = #{payIncpDe},
             PJT_NM = #{pjtNm},
             PJT_SN = #{pjtSn},
+            AFT_PJT_SN = #{aftPjtSn},
+            AFT_PJT_NM = #{aftPjtNm},
             BUDGET_NM = #{budgetNm},
             BUDGET_SN = #{budgetSn},
             DEPO_TITLE = #{depoTitle},
@@ -1297,5 +1308,14 @@
             PAY_APP_SN = #{payAppSn}
         WHERE
             CLAIM_SN = #{claimSn}
+    </update>
+
+    <update id="updApprStatus" parameterType="map">
+        /*updApprStatus*/
+        UPDATE CAM_MNG.DJ_PAY_DEPO
+        SET
+            APPR_STAT = 'Y'
+        WHERE
+            PAY_DEPO_SN = #{payDepoSn}
     </update>
 </mapper>

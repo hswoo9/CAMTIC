@@ -157,6 +157,19 @@ var incomeList = {
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    fn_apprIncome: function(key){
+        var data = {
+            payDepoSn : key
+        }
+
+        var result = customKendo.fn_customAjax("/pay/setApprIncome", data);
+
+        if(result.flag){
+            alert("요청되었습니다.");
+            location.href="/pay/pop/regPayDepoPop.do?payDepoSn=" + key + "&pjtSn=" + $("#paramPjtSn").val() + "&apprStat=Y";
+        }
     }
 }
 
