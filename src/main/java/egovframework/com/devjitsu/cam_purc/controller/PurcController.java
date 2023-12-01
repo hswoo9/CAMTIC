@@ -1,6 +1,7 @@
 package egovframework.com.devjitsu.cam_purc.controller;
 
 
+import com.google.gson.Gson;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.cam_purc.service.PurcService;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
@@ -353,6 +354,27 @@ public class PurcController {
         }
 
         return "popup/cam_purc/mng/reqOrder";
+    }
+
+    @RequestMapping("/purc/pop/orderPrintPop.do")
+    public String orderPrintPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        String hwpUrl = "";
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+
+        params.put("hwpUrl", hwpUrl);
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("data", params);
+
+        return "popup/cam_manager/docPrint/orderPrintPop";
     }
 
 

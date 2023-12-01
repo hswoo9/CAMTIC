@@ -36,6 +36,8 @@
                                         <label for="dsB">계약직원</label>
                                         <input type="checkbox" class="detailSearch" division="4" divisionSub="2" style="margin-left: 10px;" id="dsC" checked>
                                         <label for="dsC">인턴사원</label>
+                                        <input type="checkbox" class="detailSearch" division="9999" style="margin-left: 10px;" id="dsJ" checked>
+                                        <label for="dsJ">퇴사직원</label>
                                         <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="" style="float:right;bottom: 5px;">엑셀 다운로드</button>
                                     </div>
                                 </td>

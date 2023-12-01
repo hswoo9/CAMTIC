@@ -400,5 +400,17 @@ public class UserManageRepository extends AbstractDAO {
     public List<Map<String, Object>> getEmpCountsByPosition(Map<String, Object> params){
         return selectList("userManage.getEmpCountsByPosition",params);
     }
+    /** 성별/연령별 현황 **/
+    public List<Map<String, Object>> getGenderCount(Map<String, Object> params){
+        return selectList("userManage.getGenderCount", params);
+    }
+    public List<Map<String, Object>> getAgeCount(Map<String, Object> params){
+        return selectList("userManage.getAgeCount", params);
+    }
+
+    /** 학위별 현황 **/
+    public List<Map<String, Object>> getDegreeCount(Map<String, Object> params){
+        return selectList("userManage.getDegreeCount", params);
+    }
 
 }
