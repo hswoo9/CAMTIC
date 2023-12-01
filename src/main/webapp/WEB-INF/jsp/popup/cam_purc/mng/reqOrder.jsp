@@ -4,23 +4,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
-
 <body class="font-opensans" style="background-color:#fff;">
 <script type="text/javascript" src="/js/intra/cam_crm/regCrmPop.js?v=${today}"/></script>
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_purc/reqOrder.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_purc/purchase.js?v=${today}'/>"></script>
-
-<input type="hidden" id="stat" value="${params.stat}" />
-
-<form id="claimDraftFrm" method="post">
-    <input type="hidden" id="claimSn" name="claimSn" value="${map.CLAIM_SN}">
-    <input type="hidden" id="purcSn" name="purcSn" value="${params.purcSn}">
-    <input type="hidden" id="menuCd" name="menuCd" value="purcClaim">
-    <input type="hidden" id="type" name="type" value="drafting">
-    <input type="hidden" id="nowUrl" name="nowUrl" />
-</form>
-
+<input type="hidden" id="claimSn" name="claimSn" value="${map.CLAIM_SN}">
+<input type="hidden" id="purcSn" name="purcSn" value="${params.purcSn}">
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
@@ -31,7 +21,6 @@
             </h3>
             <div id="reqPurcBtnDiv" class="btn-st popButton">
                 <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="reqCl.fn_save();">저장</button>
-                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
 
@@ -134,8 +123,6 @@
                         <span id="claimEtc"></span>
                     </td>
                 </tr>
-                
-
 
                 <tr>
                     <th scope="row" class="text-center th-color">구매업체</th>
@@ -179,7 +166,6 @@
                     </tr>
                 </tbody>
             </table>
-
 
             <div class="mt-20">
 
@@ -254,16 +240,6 @@
 </div>
 <script type="text/javascript">
     reqOr.fn_defaultScript();
-
-    function userSearch(p) {
-        window.open("/common/deptListPop.do?params=" + p , "조직도", "width=750, height=650");
-    }
-
-    function selectProject(sn, nm, cd){
-        $("#pjtSn").val(sn);
-        $("#pjtNm").val(nm);
-        $("#pjtCd").val(cd);
-    }
 </script>
 </body>
 </html>
