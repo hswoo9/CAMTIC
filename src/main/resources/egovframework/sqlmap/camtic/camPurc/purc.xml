@@ -523,7 +523,8 @@
             DI.DOC_NO,
             CAM_HR.FN_GetName('DEPT', EI.DEPT_SEQ, NULL) AS DEPT_NAME,
             DI.APPRO_KEY,
-            DI.DOC_MENU_CD
+            DI.DOC_MENU_CD,
+            (CASE WHEN A.ORDER_DT IS NOT NULL THEN 'Y' ELSE 'N' END) AS ORDER_CK
         FROM
             CAM_MNG.DJ_PURC_CLAIM A
         LEFT JOIN
