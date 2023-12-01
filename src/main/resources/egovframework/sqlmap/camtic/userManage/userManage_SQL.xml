@@ -3570,6 +3570,12 @@
             cam_hr.dj_emp_info
         where
             WORK_STATUS_CODE = 'Y'
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                ${item}
+            </foreach>
+        </if>
         group by
             GENDER_CODE
     </select>
@@ -3593,6 +3599,12 @@
             cam_hr.dj_emp_info
         where
             WORK_STATUS_CODE = 'Y'
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                ${item}
+            </foreach>
+        </if>
         group by
             나이대
     </select>
@@ -3605,6 +3617,12 @@
             cam_hr.dj_emp_info dei
         where
             WORK_STATUS_CODE = 'Y'
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                ${item}
+            </foreach>
+        </if>
         group by
             DEGREE_CODE
     </select>
