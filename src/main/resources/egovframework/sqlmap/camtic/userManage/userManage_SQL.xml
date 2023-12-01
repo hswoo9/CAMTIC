@@ -3661,7 +3661,7 @@
             CAM_HR.DJ_EMP_INFO AS HEI
                 LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
                 left join CAM_HR.DJ_APNT_INFO HAI on HEI.EMP_SEQ = HAI.EMP_SEQ
-        where gender_code = #{gederCode}
+        where gender_code = #{genderName}
           and work_status_code = 'Y'
         <if test='arr != null and !"".equals(arr)'>
             AND
@@ -3679,14 +3679,14 @@
                 SELECT
                     HEI.*,
                     CASE
-                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 15 AND 25 THEN '15세25세'
-                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 26 AND 30 THEN '26세30세'
-                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 31 AND 35 THEN '31세35세'
-                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 36 AND 40 THEN '36세40세'
-                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 41 AND 45 THEN '41세45세'
-                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 46 AND 50 THEN '46세50세'
-                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 51 AND 55 THEN '51세55세'
-                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 56 AND 60 THEN '56세60세'
+                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 15 AND 25 THEN '15세~25세'
+                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 26 AND 30 THEN '26세~30세'
+                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 31 AND 35 THEN '31세~35세'
+                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 36 AND 40 THEN '36세~40세'
+                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 41 AND 45 THEN '41세~45세'
+                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 46 AND 50 THEN '46세~50세'
+                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 51 AND 55 THEN '51세~55세'
+                        WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) BETWEEN 56 AND 60 THEN '56세~60세'
                         WHEN TIMESTAMPDIFF(year, HEI.BDAY, CURDATE()) >= 61 THEN '61세 이상'
                         ELSE '기타'
                         END AS AGE_NAME,
@@ -3724,7 +3724,7 @@
             CAM_HR.DJ_EMP_INFO AS HEI
                 LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
                 LEFT JOIN CAM_HR.DJ_APNT_INFO HAI ON HEI.EMP_SEQ = HAI.EMP_SEQ
-        where degree_code = #{degreeCode}
+        where degree_code = #{degreeName}
           and work_status_code = 'Y'
         <if test='arr != null and !"".equals(arr)'>
             AND

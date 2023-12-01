@@ -2060,8 +2060,7 @@ public class UserManageController {
     public String getPositionListByCount(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> positionNameList = userManageService.getPositionListByCount(params);
         System.out.println("params : "+ params);
-        model.addAttribute("arr",params);
-        model.addAttribute("positionNameList", positionNameList);
+        model.addAttribute("list", positionNameList);
         System.out.println("positionNameList: " + positionNameList);
         return "jsonView";
     }
@@ -2071,8 +2070,7 @@ public class UserManageController {
     public String getGenderListByCount(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> genderNameList = userManageService.getGenderListByCount(params);
         System.out.println("params : "+ params);
-        model.addAttribute("arr",params);
-        model.addAttribute("genderNameList", genderNameList);
+        model.addAttribute("list", genderNameList);
         System.out.println("genderNameList " + genderNameList);
         return "jsonView";
     }
@@ -2080,8 +2078,7 @@ public class UserManageController {
     public String getAgeListByCount(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> ageNameList = userManageService.getAgeListByCount(params);
         System.out.println("params : "+ params);
-        model.addAttribute("arr",params);
-        model.addAttribute("ageNameList", ageNameList);
+        model.addAttribute("list", ageNameList);
         System.out.println("ageNameList: " + ageNameList);
         return "jsonView";
     }
@@ -2091,8 +2088,7 @@ public class UserManageController {
     public String getDegreeListByCount(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> degreeNameList = userManageService.getDegreeListByCount(params);
         System.out.println("params : "+ params);
-        model.addAttribute("arr",params);
-        model.addAttribute("degreeNameList", degreeNameList);
+        model.addAttribute("list", degreeNameList);
         System.out.println("degreeNameList: " + degreeNameList);
         return "jsonView";
     }
