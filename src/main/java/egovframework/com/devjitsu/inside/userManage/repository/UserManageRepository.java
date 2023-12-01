@@ -413,4 +413,22 @@ public class UserManageRepository extends AbstractDAO {
         return selectList("userManage.getDegreeCount", params);
     }
 
+    /** 직급 현황 팝업 **/
+    public List<Map<String, Object>> getPositionListByCount(Map<String, Object> params){
+        return selectList("userManage.getPositionListByCount", params);
+    }
+
+    /** 성별/연령별 현황 팝업 **/
+    public List<Map<String, Object>> getGenderListByCount(Map<String, Object> params){
+        return selectList("userManage.getGenderListByCount", params);
+    }
+    public List<Map<String, Object>> getAgeListByCount(Map<String, Object> params){
+        return selectList("userManage.getAgeListByCount", params);
+    }
+
+    /** 학위별 팝업 **/
+    public List<Map<String, Object>> getDegreeListByCount(Map<String, Object> params){
+        return selectList("userManage.getDegreeListByCount", params);
+    }
+
 }
