@@ -31,16 +31,30 @@ var reqCl = {
             { label: "면세", value: "D" },
         ]
 
-        var radioProdDataSource = [
-            { label: "해당없음", value: "N" },
-            { label: "자산", value: "A" },
-            { label: "유지보수", value: "E" },
-        ]
+        let productsDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId: "38"});
+        customKendo.fn_dropDownList("purcItemType0", productsDataSource, "CM_CODE_NM", "CM_CODE", 2);
+
+        let productADataSource = customKendo.fn_customAjax("/projectMng/getProductCodeInfo", {productGroupCodeId: 1}).list;
+        customKendo.fn_dropDownList("productA0", productADataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
+
+        $(".productA").each(function(){
+            var productId = $(this).attr("id");
+
+            if(productId != null){
+                reqCl.fn_productCodeSetting(productId);
+            }
+        });
+
+        // var radioProdDataSource = [
+        //     { label: "해당없음", value: "N" },
+        //     { label: "자산", value: "A" },
+        //     { label: "유지보수", value: "E" },
+        // ]
 
         customKendo.fn_radioGroup("purcType", radioDataSource, "horizontal");
         customKendo.fn_radioGroup("expType", radioExpDataSource, "horizontal");
         customKendo.fn_radioGroup("vat", radioVatDataSource, "horizontal");
-        customKendo.fn_radioGroup("prodCd", radioProdDataSource, "horizontal");
+        // customKendo.fn_radioGroup("prodCd", radioProdDataSource, "horizontal");
 
         $("input[name='purcType']").click(function(){
             if($("input[name='purcType']:checked").val() != ""){
@@ -67,16 +81,12 @@ var reqCl = {
 
             var rs = customKendo.fn_customAjax("/purc/getPurcReq.do", data);
             var data = rs.data;
-            console.log(data);
 
             $("#purcDeptName").val(data.DEPT_NAME);
             $("#purcDeptSeq").val(data.DEPT_SEQ);
             $("#purcEmpName").val(data.EMP_NAME_KR);
             $("#purcEmpSeq").val(data.EMP_SEQ);
 
-            if(data.PURC_TYPE == ""){
-                $("#claimTitle").val("[법인운영] 구매청구");
-            }
 
             if($("#claimSn").val() == ""){
                 reqCl.fn_setItem(data);
@@ -109,7 +119,6 @@ var reqCl = {
 
                 $("#expType").data("kendoRadioGroup").value(data.EXP_TYPE);
 
-                console.log(data);
                 if(data.itemList[0].CLAIM_SN == "" || data.itemList[0].CLAIM_SN == null || data.itemList[0].CLAIM_SN == undefined) {
                     reqCl.fn_setItem(data);
                 } else {
@@ -120,6 +129,7 @@ var reqCl = {
             }
 
             $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
+
             if($("input[name='purcType']:checked").val() != ""){
                 $("#project").css("display", "");
                 $("#pjtSn").val(data.PJT_SN);
@@ -162,6 +172,8 @@ var reqCl = {
 
             $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
 
+
+
             if($("input[name='purcType']:checked").val() != ""){
                 $("#project").css("display", "");
                 $("#pjtSn").val(data.PJT_SN);
@@ -198,6 +210,23 @@ var reqCl = {
             }
             $("#totAmt").val(comma(totAmt));
         });
+
+        if(data.PURC_TYPE == ""){
+            $("#claimTitle").val("[법인운영] 구매청구");
+        } else {
+            var pt = "";
+            if($("#purcType").getKendoRadioGroup().value() == "R"){
+                pt = "R&D";
+            } else if($("#purcType").getKendoRadioGroup().value() == "S"){
+                pt = "비R&D";
+            } else if($("#purcType").getKendoRadioGroup().value() == "D"){
+                pt = "엔지니어링";
+            } else if($("#purcType").getKendoRadioGroup().value() == "V"){
+                pt = "용역/기타";
+            }
+            $("#claimTitle").val( "["+ pt +"] "+ $("#pjtNm").val()+ " 구매청구");
+        }
+
     },
 
     fn_amtCalculator : function(){
@@ -250,6 +279,13 @@ var reqCl = {
         html += '   <td style="text-align: center">' +
             '           <div id="claimIndex">'+(len + 1)+'</div>' +
             '       </td>' +
+            '           <td>' +
+            '               <input type="hidden" id="purcItemSn' + len + '" name="purcItemSn0" class="purcItemSn">' +
+            '               <input type="text" id="purcItemType' + len + '" class="purcItemType" style="width: 110px">' +
+            '               <input type="text" id="productA' + len + '" class="productA" style="width: 110px">' +
+            '               <input type="text" id="productB' + len + '" class="productB" style="width: 110px; display: none">' +
+            '               <input type="text" id="productC' + len + '" class="productC" style="width: 110px; display: none">' +
+            '       </td>' +
             '       <td>' +
             '           <input type="text" id="itemNm'+len+'" class="itemNm">' +
             '       </td>' +
@@ -277,9 +313,9 @@ var reqCl = {
             '       <td>' +
             '           <label for="itemEtc'+len+'"></label><input type="text" id="itemEtc'+len+'" class="itemEtc">' +
             '       </td>' +
-            '       <td>' +
-            '           <span id="prodCd'+len+'"></span>' +
-            '       </td>' +
+            // '       <td>' +
+            // '           <span id="prodCd'+len+'"></span>' +
+            // '       </td>' +
             '       <td style="text-align: center" class="listDelBtn">' +
             '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqCl.fn_delete(this)">' +
             '               <span class="k-button-text">삭제</span>' +
@@ -288,6 +324,12 @@ var reqCl = {
         html += '</tr>';
 
         $("#claimTbody").append(html);
+
+        var dataSourceB = [
+            { text: "구매", value: "1"},
+        ]
+        customKendo.fn_dropDownList("purcItemType" + len, dataSourceB, "text", "value", 2);
+
 
         customKendo.fn_textBox(["itemNm" + len, "itemStd" + len, "difAmt" + len
             ,"itemEa" + len, "itemUnitAmt" + len, "itemUnit" + len, "itemAmt" + len, "purcItemAmt" + len, "itemEtc" + len])
@@ -299,6 +341,55 @@ var reqCl = {
         ]
 
         customKendo.fn_radioGroup("prodCd" + len, radioProdDataSource, "horizontal");
+
+        $(".productA").each(function (){
+
+            var productId = $(this).attr("id");
+
+            if(productId != null){
+                reqCl.fn_productCodeSetting(productId);
+            }
+        });
+    },
+
+    fn_productCodeSetting : function(productId){
+        var i = productId.slice(-1);
+
+        $("#productA" + i).bind("change", function(){
+            if($("#productA" + i).data("kendoDropDownList").value() == "" || $("#productA" + i).data("kendoDropDownList").text() != "캠아이템"){
+                if($("#productA" + i).data("kendoDropDownList").text() != "캠아이템"){
+                    try{
+                        $("#productB" + i).data("kendoDropDownList").wrapper.hide();
+                        $("#productC" + i).data("kendoDropDownList").wrapper.hide();
+                    }catch{
+
+                    }
+                }
+                return;
+            }
+            $("#productB" +  i).val("");
+            let data = {
+                productGroupCodeId: 2,
+                parentCodeId: $("#productA" + i).data("kendoDropDownList").value(),
+                parentCodeName: $("#productA" + i).data("kendoDropDownList").text(),
+            }
+            let productBDataSource = customKendo.fn_customAjax("/projectMng/getProductCodeInfo", data).list;
+            customKendo.fn_dropDownList("productB" + i, productBDataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
+        });
+
+        $("#productB" + i).bind("change", function(){
+            if($("#productB" + i).data("kendoDropDownList").value() == ""){
+                return;
+            }
+            $("#productC" + i).val("");
+            let data = {
+                productGroupCodeId: 3,
+                parentCodeId: $("#productB" + i).data("kendoDropDownList").value(),
+                parentCodeName: $("#productB" + i).data("kendoDropDownList").text(),
+            }
+            let productCDataSource = customKendo.fn_customAjax("/projectMng/getProductCodeInfo", data).list;
+            customKendo.fn_dropDownList("productC" + i, productCDataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
+        });
     },
 
     fn_delete : function(e){
@@ -351,6 +442,18 @@ var reqCl = {
                 return;
             }
         }
+
+        if(parameters.expType == undefined || parameters.expType == null){
+            alert("결제구분을 선택해주세요.");
+            return;
+
+        }
+
+        if(parameters.vat == undefined || parameters.vat == null){
+            alert("부가세 분류를 선택해주세요.");
+            return;
+        }
+
         if(parameters.purcEmpSeq == ""){
             alert("구매요청자를 선택해주세요.");
             return;
@@ -377,6 +480,7 @@ var reqCl = {
 
         var len = $("#claimTbody > tr").length;
 
+        var flag = true;
         var itemArr = new Array()
         for(var i = 0 ; i < len ; i++){
             var itemParameters = {};
@@ -393,7 +497,7 @@ var reqCl = {
                 itemParameters.purcItemAmt = uncomma($("#purcItemAmt").val());
                 itemParameters.difAmt = $("#difAmt").val().replace(/,/g, '');
                 itemParameters.itemEtc = $("#itemEtc").val();
-                itemParameters.prodCd = $("#prodCd").data("kendoRadioGroup").value();
+                // itemParameters.prodCd = $("#prodCd").data("kendoRadioGroup").value();
             } else {
                 if($("#claimItemSn").val() != ""){
                     itemParameters.claimItemSn = $("#claimItemSn" + i).val();
@@ -407,12 +511,36 @@ var reqCl = {
                 itemParameters.purcItemAmt = uncomma($("#purcItemAmt" + i).val());
                 itemParameters.difAmt = $("#difAmt" + i).val().replace(/,/g, '');
                 itemParameters.itemEtc = $("#itemEtc" + i).val();
-                itemParameters.prodCd = $("#prodCd" + i).data("kendoRadioGroup").value();
+                // itemParameters.prodCd = $("#prodCd" + i).data("kendoRadioGroup").value();
             }
+
+            itemParameters.purcItemType = $("#purcItemType" + i).val();
+            itemParameters.productA = $("#productA" + i).val();
+            itemParameters.productB = $("#productB" + i).val();
+            itemParameters.productC = $("#productC" + i).val();
 
             if(itemParameters.itemNm != ""){
                 itemArr.push(itemParameters);
             }
+
+            if(itemParameters.productA == ""){
+                flag = false;
+            }
+
+            if($("#productA" + i).val() == "3"){
+                if(itemParameters.productB == ""){
+                    flag = false;
+                }
+
+                if(itemParameters.productC == ""){
+                    flag = false;
+                }
+            }
+        }
+
+        if(!flag){
+            alert("구분값을 선택해주세요.");
+            return ;
         }
 
         parameters.itemArr = JSON.stringify(itemArr);
@@ -426,7 +554,12 @@ var reqCl = {
                 if(rs.code == 200){
                     alert("저장되었습니다.");
 
-                    location.href = "/purc/pop/reqClaiming.do?claimSn=" + rs.params.claimSn;
+                    var url = "/purc/pop/reqClaiming.do?claimSn=" + rs.params.claimSn;
+                    if($("#purcSn").val() != ""){
+                        url += "&purcSn=" + $("#purcSn").val();
+                    }
+                    location.href = url;
+
                 }
             }
         });
@@ -449,6 +582,7 @@ var reqCl = {
         var index = 0;
         var html = '';
         $("#claimTbody").html("");
+
         for(var i = 0 ; i < len ; i++){
             if(e.itemList[i].STATUS == "C"){
 
@@ -457,6 +591,13 @@ var reqCl = {
                     html += '   <td style="text-align: center">' +
                         '           <div id="claimIndex">'+(index+1)+'</div>' +
                         '           <input type="hidden" id="claimItemSn" />' +
+                        '       </td>' +
+                        '       <td>' +
+                        '           <input type="hidden" id="purcItemSn0" name="purcItemSn0" class="purcItemSn">' +
+                        '           <input type="text" id="purcItemType0" class="purcItemType" style="width: 110px">' +
+                        '           <input type="text" id="productA0" class="productA" style="width: 110px">' +
+                        '           <input type="text" id="productB0" class="productB" style="width: 110px; display: none">' +
+                        '           <input type="text" id="productC0" class="productC" style="width: 110px; display: none">' +
                         '       </td>' +
                         '       <td>' +
                         '           <input type="text" id="itemNm" class="itemNm" value="'+e.itemList[i].PURC_ITEM_NAME+'">' +
@@ -485,9 +626,9 @@ var reqCl = {
                         '       <td>' +
                         '           <label for="itemEtc"></label><input type="text" id="itemEtc" value="'+e.itemList[i].RMK+'" class="itemEtc">' +
                         '       </td>' +
-                        '       <td>' +
-                        '           <span id="prodCd"></span>' +
-                        '       </td>' +
+                        // '       <td>' +
+                        // '           <span id="prodCd"></span>' +
+                        // '       </td>' +
                         '       <td style="text-align: center" class="listDelBtn">' +
                         '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqCl.fn_delete(this)">' +
                         '               <span class="k-button-text">삭제</span>' +
@@ -499,6 +640,13 @@ var reqCl = {
                     html += '   <td style="text-align: center">' +
                         '           <div id="claimIndex">'+(index+1)+'</div>' +
                         '           <input type="hidden" id="claimItemSn'+index+'" />' +
+                        '       </td>' +
+                        '       <td>' +
+                        '           <input type="hidden" id="purcItemSn'+index+'" name="purcItemSn0" class="purcItemSn">' +
+                        '           <input type="text" id="purcItemType'+index+'" class="purcItemType" style="width: 110px">' +
+                        '           <input type="text" id="productA'+index+'" class="productA" style="width: 110px">' +
+                        '           <input type="text" id="productB'+index+'" class="productB" style="width: 110px; display: none">' +
+                        '           <input type="text" id="productC'+index+'" class="productC" style="width: 110px; display: none">' +
                         '       </td>' +
                         '       <td>' +
                         '           <input type="text" id="itemNm'+index+'" class="itemNm" value="'+e.itemList[i].PURC_ITEM_NAME+'">' +
@@ -527,9 +675,9 @@ var reqCl = {
                         '       <td>' +
                         '           <label for="itemEtc'+index+'"></label><input type="text" id="itemEtc'+index+'" value="'+e.itemList[i].RMK+'" class="itemEtc">' +
                         '       </td>' +
-                        '       <td>' +
-                        '           <span id="prodCd'+index+'"></span>' +
-                        '       </td>' +
+                        // '       <td>' +
+                        // '           <span id="prodCd'+index+'"></span>' +
+                        // '       </td>' +
                         '       <td style="text-align: center" class="listDelBtn">' +
                         '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqCl.fn_delete(this)">' +
                         '               <span class="k-button-text">삭제</span>' +
@@ -552,6 +700,7 @@ var reqCl = {
             { label: "자산", value: "A" },
             { label: "유지보수", value: "E" },
         ]
+
         for(var i = 0 ; i < tLen ; i++){
             if(i == 0){
                 customKendo.fn_textBox(["itemNm", "itemStd", "itemEa", "itemUnitAmt", "itemUnit", "itemAmt", "purcItemAmt", "difAmt", "itemEtc"]);
@@ -562,6 +711,59 @@ var reqCl = {
 
                 customKendo.fn_radioGroup("prodCd" + i, radioProdDataSource, "horizontal");
             }
+            var dataSource = [
+                { text: "구매", value: "1"},
+            ]
+            customKendo.fn_dropDownList("purcItemType" + i, dataSource, "text", "value", 2);
+
+            let productsDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId: "38"});
+            customKendo.fn_dropDownList("purcItemType" + i, productsDataSource, "CM_CODE_NM", "CM_CODE", 2);
+
+
+            let productADataSource = customKendo.fn_customAjax("/projectMng/getProductCodeInfo", {productGroupCodeId: 1}).list;
+            customKendo.fn_dropDownList("productA" + i, productADataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
+
+            $("#purcItemSn" + i).val(e.itemList[i].PURC_ITEM_SN);
+            $("#purcItemType"+i).data("kendoDropDownList").value(e.itemList[i].PURC_ITEM_TYPE);
+            $("#productA"+i).data("kendoDropDownList").value(e.itemList[i].PRODUCT_A);
+
+            reqCl.fn_productCodeSetting("a"+ i);
+            let data = {
+                productGroupCodeId: 2,
+                parentCodeId: $("#productA" + i).data("kendoDropDownList").value(),
+                parentCodeName: $("#productA" + i).data("kendoDropDownList").text(),
+            }
+
+            $("#productB" + i).val("");
+            if(e.itemList[i].PRODUCT_A == 3){
+                let productBDataSource = customKendo.fn_customAjax("/projectMng/getProductCodeInfo", data).list;
+                customKendo.fn_dropDownList("productB" + i, productBDataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
+
+                $("#productC" + i).val("");
+                data = {
+                    productGroupCodeId: 3,
+                    parentCodeId: $("#productB" + i).data("kendoDropDownList").value(),
+                    parentCodeName: $("#productB" + i).data("kendoDropDownList").text(),
+                }
+                let productCDataSource = customKendo.fn_customAjax("/projectMng/getProductCodeInfo", data).list;
+                customKendo.fn_dropDownList("productC" + i, productCDataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
+            }
+
+            if(e.itemList[i].PRODUCT_A != null){
+                $("#productA" + i).data("kendoDropDownList").value(e.itemList[i].PRODUCT_A);
+                $("#productA" + i).trigger("change");
+            }
+            if(e.itemList[i].PRODUCT_A == 3){
+                if(e.itemList[i].PRODUCT_B != null){
+                    $("#productB" + i).data("kendoDropDownList").value(e.itemList[i].PRODUCT_B);
+                    $("#productB" + i).trigger("change");
+                }
+                if(e.itemList[i].PRODUCT_C != null){
+                    $("#productC" + i).data("kendoDropDownList").value(e.itemList[i].PRODUCT_C);
+                }
+            }
+
+
         }
 
         this.fn_amtCalculator();
@@ -578,6 +780,13 @@ var reqCl = {
                 html += '   <td style="text-align: center">' +
                     '           <div id="claimIndex">'+(index+1)+'</div>' +
                     '           <input type="hidden" id="claimItemSn" value="'+e.itemList[i].CLAIM_ITEM_SN+'" />' +
+                    '       </td>' +
+                    '       <td>' +
+                    '           <input type="hidden" id="purcItemSn0" name="purcItemSn0" class="purcItemSn">' +
+                    '           <input type="text" id="purcItemType0" class="purcItemType" style="width: 110px">' +
+                    '           <input type="text" id="productA0" class="productA" style="width: 110px">' +
+                    '           <input type="text" id="productB0" class="productB" style="width: 110px; display: none">' +
+                    '           <input type="text" id="productC0" class="productC" style="width: 110px; display: none">' +
                     '       </td>' +
                     '       <td>' +
                     '           <input type="text" id="itemNm" class="itemNm" value="'+e.itemList[i].ITEM_NM+'">' +
@@ -606,9 +815,9 @@ var reqCl = {
                     '       <td>' +
                     '           <label for="itemEtc"></label><input type="text" id="itemEtc" value="'+e.itemList[i].ITEM_ETC+'" class="itemEtc">' +
                     '       </td>' +
-                    '       <td>' +
-                    '           <span id="prodCd"></span>' +
-                    '       </td>' +
+                    // '       <td>' +
+                    // '           <span id="prodCd"></span>' +
+                    // '       </td>' +
                     '       <td style="text-align: center" class="listDelBtn">' +
                     '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqCl.fn_delete(this)">' +
                     '               <span class="k-button-text">삭제</span>' +
@@ -620,6 +829,13 @@ var reqCl = {
                 html += '   <td style="text-align: center">' +
                     '           <div id="claimIndex">'+(index+1)+'</div>' +
                     '           <input type="hidden" id="claimItemSn'+index+'" value="'+e.itemList[i].CLAIM_ITEM_SN+'" />' +
+                    '       </td>' +
+                    '       <td>' +
+                    '           <input type="hidden" id="purcItemSn'+index+'" name="purcItemSn0" class="purcItemSn">' +
+                    '           <input type="text" id="purcItemType'+index+'" class="purcItemType" style="width: 110px">' +
+                    '           <input type="text" id="productA'+index+'" class="productA" style="width: 110px">' +
+                    '           <input type="text" id="productB'+index+'" class="productB" style="width: 110px; display: none">' +
+                    '           <input type="text" id="productC'+index+'" class="productC" style="width: 110px; display: none">' +
                     '       </td>' +
                     '       <td>' +
                     '           <input type="text" id="itemNm'+index+'" class="itemNm" value="'+e.itemList[i].ITEM_NM+'">' +
@@ -648,9 +864,9 @@ var reqCl = {
                     '       <td>' +
                     '           <label for="itemEtc'+index+'"></label><input type="text" id="itemEtc'+index+'" value="'+e.itemList[i].ITEM_ETC+'" class="itemEtc">' +
                     '       </td>' +
-                    '       <td>' +
-                    '           <span id="prodCd'+index+'"></span>' +
-                    '       </td>' +
+                    // '       <td>' +
+                    // '           <span id="prodCd'+index+'"></span>' +
+                    // '       </td>' +
                     '       <td style="text-align: center" class="listDelBtn">' +
                     '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqCl.fn_delete(this)">' +
                     '               <span class="k-button-text">삭제</span>' +
@@ -677,14 +893,72 @@ var reqCl = {
                 customKendo.fn_textBox(["itemNm", "itemStd", "itemEa", "itemUnitAmt", "itemUnit", "itemAmt", "purcItemAmt", "difAmt", "itemEtc"]);
                 customKendo.fn_radioGroup("prodCd", radioProdDataSource, "horizontal");
 
-                $("#prodCd").data("kendoRadioGroup").value(e.itemList[i].PROD_CD);
+                // $("#prodCd").data("kendoRadioGroup").value(e.itemList[i].PROD_CD);
             } else {
                 customKendo.fn_textBox(["itemNm" + i, "itemStd" + i, "difItemAmt" + i
                     ,"itemEa" + i, "itemUnitAmt" + i, "itemUnit" + i, "itemAmt" + i, "purcItemAmt" + i, "difAmt" + i, "itemEtc" + i])
 
                 customKendo.fn_radioGroup("prodCd" + i, radioProdDataSource, "horizontal");
-                $("#prodCd" + i).data("kendoRadioGroup").value(e.itemList[i].PROD_CD);
+                // $("#prodCd" + i).data("kendoRadioGroup").value(e.itemList[i].PROD_CD);
             }
+
+            var dataSource = [
+                { text: "구매", value: "1"},
+            ]
+            customKendo.fn_dropDownList("purcItemType" + i, dataSource, "text", "value", 2);
+
+            let productsDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId: "38"});
+            customKendo.fn_dropDownList("purcItemType" + i, productsDataSource, "CM_CODE_NM", "CM_CODE", 2);
+
+
+            let productADataSource = customKendo.fn_customAjax("/projectMng/getProductCodeInfo", {productGroupCodeId: 1}).list;
+            customKendo.fn_dropDownList("productA" + i, productADataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
+
+            $("#purcItemSn" + i).val(e.itemList[i].PURC_ITEM_SN);
+            $("#purcItemType"+i).data("kendoDropDownList").value(e.itemList[i].PURC_ITEM_TYPE);
+            $("#productA"+i).data("kendoDropDownList").value(e.itemList[i].PRODUCT_A);
+
+            reqCl.fn_productCodeSetting("a"+ i);
+
+            let data = {
+                productGroupCodeId: 2,
+                parentCodeId: $("#productA" + i).data("kendoDropDownList").value(),
+                parentCodeName: $("#productA" + i).data("kendoDropDownList").text(),
+            }
+
+            $("#productB" + i).val("");
+            if(e.itemList[i].PRODUCT_A == 3){
+                let productBDataSource = customKendo.fn_customAjax("/projectMng/getProductCodeInfo", data).list;
+                customKendo.fn_dropDownList("productB" + i, productBDataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
+
+                $("#productC" + i).val("");
+                data = {
+                    productGroupCodeId: 3,
+                    parentCodeId: $("#productB" + i).data("kendoDropDownList").value(),
+                    parentCodeName: $("#productB" + i).data("kendoDropDownList").text(),
+                }
+                let productCDataSource = customKendo.fn_customAjax("/projectMng/getProductCodeInfo", data).list;
+                customKendo.fn_dropDownList("productC" + i, productCDataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
+
+            }
+
+
+
+            if(e.itemList[i].PRODUCT_A != null){
+                $("#productA" + i).data("kendoDropDownList").value(e.itemList[i].PRODUCT_A);
+                $("#productA" + i).trigger("change");
+            }
+            if(e.itemList[i].PRODUCT_A == 3){
+                if(e.itemList[i].PRODUCT_B != null){
+                    $("#productB" + i).data("kendoDropDownList").value(e.itemList[i].PRODUCT_B);
+                    $("#productB" + i).trigger("change");
+                }
+                if(e.itemList[i].PRODUCT_C != null){
+                    $("#productC" + i).data("kendoDropDownList").value(e.itemList[i].PRODUCT_C);
+                }
+            }
+
+
         }
 
         this.fn_amtCalculator();

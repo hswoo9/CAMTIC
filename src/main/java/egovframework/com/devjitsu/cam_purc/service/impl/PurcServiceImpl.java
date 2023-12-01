@@ -229,9 +229,13 @@ public class PurcServiceImpl implements PurcService {
 
     @Override
     public void setPurcClaimData(Map<String, Object> params) {
-        Map<String, Object> claimMap = purcRepository.getPurcClaimData(params);
+        Map<String, Object> claimMap = new HashMap<>();
 
-        if(claimMap == null){
+        if(params.containsKey("claimSn")){
+            claimMap = purcRepository.getClaimData(params);
+        }
+
+        if(!params.containsKey("claimSn")){
             purcRepository.insPurcClaimData(params);
         }else{
             params.put("claimSn", claimMap.get("CLAIM_SN"));
@@ -260,9 +264,11 @@ public class PurcServiceImpl implements PurcService {
 
     @Override
     public Map<String, Object> getPurcClaimData(Map<String, Object> params) {
-        Map<String, Object> result = purcRepository.getPurcClaimData(params);
+        Map<String, Object> result = new HashMap<>();
 
-        if(result != null){
+
+        if(params.containsKey("claimSn")){
+            result = purcRepository.getPurcClaimData(params);
             if(params.containsKey("itemSn")){
                 String[] itemAr = params.get("itemSn").toString().split(",");
                 List<Map<String, Object>> itemList = new ArrayList<>();
@@ -278,7 +284,10 @@ public class PurcServiceImpl implements PurcService {
             } else {
                 result.put("itemList", purcRepository.getPurcClaimItemList(params));
             }
+        } else {
+            result = null;
         }
+
         return result;
     }
 

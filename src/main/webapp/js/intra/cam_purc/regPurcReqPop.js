@@ -166,10 +166,13 @@ var prp = {
         formData.append("itemArr", JSON.stringify(itemArr))
 
         var result = customKendo.fn_customFormDataAjax("/purc/setPurcReq.do", formData);
+        console.log(result)
         if(result.flag){
             alert("저장되었습니다.");
             opener.parent.prm.gridReload();
-            window.close();
+
+            location.href="/purc/pop/regPurcReqPop.do?purcSn=" + result.params.purcSn;
+            // window.close();
         }
     },
 
@@ -547,8 +550,10 @@ var prp = {
         var crmSn = "";
         var itemSn = "";
         var flag = true;
+        var selFlag = true;
         $("#purcItemTb").find("input:checkbox").each(function(){
             if($(this).is(":checked")){
+                selFlag = false;
                 var item = $(this).val();
 
                 if(crmSn != ""){
@@ -567,6 +572,11 @@ var prp = {
         if(!flag){
             return;
         }
+
+        if(selFlag){
+            alert("청구 작성할 항목을 선택해주세요.")
+            return;
+        }
         var url = "/purc/pop/reqClaiming.do?purcSn="+ $("#purcSn").val();
 
         if(itemSn != ""){
@@ -575,7 +585,7 @@ var prp = {
         }
 
         var name = "_blank";
-        var option = "width = 1500, height = 840, top = 100, left = 400, location = no"
+        var option = "width = 1690, height = 840, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
 
         window.close();
