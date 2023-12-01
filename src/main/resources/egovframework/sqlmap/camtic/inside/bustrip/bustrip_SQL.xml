@@ -936,6 +936,32 @@
 
     </select>
 
+    <select id="getProjectBustList" parameterType="map" resultType="map">
+        /*getProjectBustList*/
+        SELECT
+            A.HR_BIZ_REQ_ID,
+            B.HR_BIZ_REQ_RESULT_ID,
+            A.BUSN_NAME,
+            A.EMP_NAME,
+            A.VISIT_CRM,
+            A.VISIT_LOC,
+            A.VISIT_LOC_SUB,
+            A.TRIP_DAY_FR,
+            A.TRIP_TIME_FR,
+            A.TRIP_DAY_TO,
+            A.TRIP_TIME_TO,
+            A.USE_TRSPT,
+            A.STATUS,
+            B.STATUS AS RS_STATUS
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_REQ A
+        LEFT JOIN
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT B
+        ON
+            A.HR_BIZ_REQ_ID = B.HR_BIZ_REQ_ID
+        WHERE A.PJT_SN = #{pjtSn}
+    </select>
+
     <update id="updBustPjtsnReset" parameterType="map">
         UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
         SET
@@ -944,12 +970,32 @@
             HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
     </update>
 
+    <update id="updBustPjtReqReset" parameterType="map">
+        /*updBustPjtReqReset*/
+        UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ
+        SET
+            PJT_SN = NULL,
+            BUSN_NAME = ''
+        WHERE
+            HR_BIZ_REQ_ID = #{hrBizReqId}
+    </update>
+
     <update id="updBustPjtSn" parameterType="map">
         UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
         SET
             PJT_SN = #{pjtSn}
         WHERE
             HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+    </update>
+
+    <update id="updBustReqPjtSn" parameterType="map">
+        /*updBustReqPjtSn*/
+        UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ
+        SET
+            PJT_SN = #{pjtSn},
+            BUSN_NAME = #{busnName}
+        WHERE
+            HR_BIZ_REQ_ID = #{hrBizReqId}
     </update>
 
     <select id="getBustripSettleList" parameterType="map" resultType="map">

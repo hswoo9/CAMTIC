@@ -82,4 +82,6 @@ public interface BustripService {
 
     Map<String, Object> getBustripExnpSum(Map<String, Object> params);
     void delBustripCost(Map<String, Object> params);
+
+    List<Map<String, Object>> getProjectBustList(Map<String, Object> params);
 }

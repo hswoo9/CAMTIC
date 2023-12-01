@@ -401,4 +401,9 @@ public class BustripServiceImpl implements BustripService {
     public void delBustripCost(Map<String, Object> params) {
         bustripRepository.delBustripCost(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getProjectBustList(Map<String, Object> params) {
+        return bustripRepository.getProjectBustList(params);
+    }
 }

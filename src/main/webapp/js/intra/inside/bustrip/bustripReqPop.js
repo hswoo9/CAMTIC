@@ -32,6 +32,22 @@ const bustripReq = {
             }
         });
 
+        if($("#paramsPjtSn").val() != ""){
+            $("#project").data("kendoRadioGroup").value("2");
+            $("input[name='project']").trigger("click");
+
+            var data = {
+                pjtSn: $("#paramsPjtSn").val()
+            }
+            var pjtMap = customKendo.fn_customAjax("/project/getProjectData", data);
+
+            pjtMap = pjtMap.data;
+
+            $("#pjtSn").val($("#paramsPjtSn").val());
+            $("#busnName").val(pjtMap.PJT_NM);
+
+        }
+
 
     },
 
@@ -259,7 +275,11 @@ const bustripReq = {
                     }else{
                         alert("출장 수정이 완료되었습니다.");
                     }
-                    opener.parent.open_in_frame('/bustrip/bustripList.do');
+
+                    if($("#paramsPjtSn").val() == ""){
+                        opener.parent.open_in_frame('/bustrip/bustripList.do');
+                    }
+
                     window.close();
                 }
             });
