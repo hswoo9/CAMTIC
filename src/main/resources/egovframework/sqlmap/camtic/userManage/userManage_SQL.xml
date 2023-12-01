@@ -3527,4 +3527,34 @@
         </if>
     </select>
 
+    <select id="getEmpCountsByPosition" resultType="map" parameterType="map">
+        /*getEmpCountsByPosition*/
+        SELECT
+            POSITION_NAME,
+            SUM(EMPLOYEE_COUNT) AS TotalPositionEmpCount
+        FROM (
+                 SELECT
+                     POSITION_NAME,
+                     COUNT(*) AS EMPLOYEE_COUNT
+                 FROM
+                     cam_hr.dj_emp_info
+                 WHERE
+                     WORK_STATUS_CODE = 'Y'
+                   AND POSITION_NAME IS NOT NULL
+                   AND POSITION_NAME != ''
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                ${item}
+            </foreach>
+        </if>
+                 GROUP BY
+                     POSITION_NAME
+             ) AS subquery
+        GROUP BY
+            POSITION_NAME
+        ORDER BY
+            POSITION_NAME DESC;
+    </select>
+
 </mapper>

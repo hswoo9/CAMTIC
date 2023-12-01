@@ -205,4 +205,7 @@ public interface UserManageService{
 
     /** 년도별 발령 현황 팝업**/
     List<Map<String, Object>> getApntListByYear(Map<String, Object> params);
+
+    /**직급 현황**/
+    List<Map<String, Object>> getEmpCountsByPosition(Map<String, Object> params);
 }
