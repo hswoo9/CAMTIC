@@ -2020,7 +2020,7 @@ public class UserManageController {
         List<Map<String, Object>> empPositionList = userManageService.getEmpCountsByPosition(params);
         model.addAttribute("arr",params);
         model.addAttribute("empPositionList",empPositionList);
-        System.out.println("***********empDeptTeamList**********" + empPositionList);
+        System.out.println("***********empPositionList**********" + empPositionList);
         return "jsonView";
     }
 
