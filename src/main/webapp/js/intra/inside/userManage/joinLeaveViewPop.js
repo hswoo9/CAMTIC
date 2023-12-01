@@ -9,11 +9,17 @@ var joinLeaveViewPop = {
         var sectionTitle = $("#sectionTitle").val();
         var encodedArr = $("#encodedArr").val();
         var positionName = $("#positionName").val();
+        var genderName = $("#genderName").val();
+        var ageName = $("#ageName").val();
+        var degreeName = $("#degreeName").val();
         var arr = decodeURIComponent(encodedArr);
 
         console.log("Js.Join Year: " + joinYear);
         console.log("Js.Section Title: " + sectionTitle);
         console.log("Js.positionName : " + positionName);
+        console.log("Js.gender : " + genderName);
+        console.log("Js.age : " + ageName);
+        console.log("Js.degree : " + degreeName);
         console.log("Js.arr: ",arr);
 
 
@@ -24,7 +30,7 @@ var joinLeaveViewPop = {
                 data.sectionTitle = sectionTitle;
                 data.arr = arr;
 
-                console.log("data :", data);
+                console.log("Joined data :", data);
 
                 joinLeaveViewPop.mainGrid("/Inside/getJoinResignEmpList.do", data);
 
@@ -37,6 +43,31 @@ var joinLeaveViewPop = {
             //url에 컨트롤러 맵핑 넣기
 
             console.log("dutyView data : ", data);
+        }else if(genderName && genderName.trim() !==""){
+            data.genderName = genderName;
+            data.arr = arr;
+
+            //joinLeaveViewPop.mainGrid("url",data);
+            //url에 컨트롤러 맵핑 넣기
+
+            console.log("gender data : ", data);
+        }else if(ageName && ageName.trim() !==""){
+            data.ageName = ageName;
+            data.arr = arr;
+
+            //joinLeaveViewPop.mainGrid("url",data);
+            //url에 컨트롤러 맵핑 넣기
+
+            console.log("age data : ", data);
+        }
+        else if(degreeName && degreeName.trim() !==""){
+            data.degreeName = degreeName;
+            data.arr = arr;
+
+            //joinLeaveViewPop.mainGrid("url",data);
+            //url에 컨트롤러 맵핑 넣기
+
+            console.log("degree data : ", data);
         }
 
 

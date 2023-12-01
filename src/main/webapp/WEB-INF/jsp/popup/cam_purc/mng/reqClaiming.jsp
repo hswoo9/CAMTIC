@@ -27,7 +27,7 @@
 
 
 <form id="claimDraftFrm" method="post">
-    <input type="hidden" id="claimSn" name="claimSn" value="${map.CLAIM_SN}">
+    <input type="hidden" id="claimSn" name="claimSn" value="${params.claimSn}">
     <input type="hidden" id="purcSn" name="purcSn" value="${params.purcSn}">
     <input type="hidden" id="menuCd" name="menuCd" value="purcClaim">
     <input type="hidden" id="type" name="type" value="drafting">
@@ -101,7 +101,7 @@
                     <td>
                         <span id="purcType"></span>
                     </td>
-                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>결재구분</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>결제구분</th>
                     <td>
                         <span id="expType"></span>
                     </td>
@@ -213,6 +213,7 @@
                 <table class="popTable table table-bordered mb-0 mt-20">
                     <colgroup>
                         <col style="width: 3%;">
+                        <col style="width: 480px;">
                         <col style="width: 10%;">
                         <col style="width: 5%;">
                         <col style="width: 5%;">
@@ -222,12 +223,13 @@
                         <col style="width: 7%;">
                         <col style="width: 7%;">
                         <col style="width: 7%;">
-                        <col style="width: 18%;">
+<%--                        <col style="width: 18%;">--%>
                         <col style="width: 4%;">
                     </colgroup>
                     <thead>
                         <tr>
                             <th>번호</th>
+                            <th>구분</th>
                             <th>품명</th>
                             <th>규격</th>
                             <th>수량</th>
@@ -237,7 +239,7 @@
                             <th>요청금액</th>
                             <th>할인금액</th>
                             <th>비고</th>
-                            <th>자산</th>
+<%--                            <th>자산</th>--%>
                             <th>명령</th>
                         </tr>
                     </thead>
@@ -246,6 +248,13 @@
                             <td style="text-align: center">
                                 <div id="claimIndex">1</div>
                                 <input type="hidden" id="claimItemSn" />
+                            </td>
+                            <td>
+                                <input type="hidden" id="purcItemSn0" name="purcItemSn0" class="purcItemSn">
+                                <input type="text" id="purcItemType0" class="purcItemType" style="width: 110px">
+                                <input type="text" id="productA0" class="productA" style="width: 110px">
+                                <input type="text" id="productB0" class="productB" style="width: 110px; display: none">
+                                <input type="text" id="productC0" class="productC" style="width: 110px; display: none">
                             </td>
                             <td>
                                 <input type="text" id="itemNm" class="itemNm">
@@ -274,9 +283,9 @@
                             <td>
                                 <label for="itemEtc"></label><input type="text" id="itemEtc" class="itemEtc">
                             </td>
-                            <td>
-                                <span id="prodCd"></span>
-                            </td>
+<%--                            <td>--%>
+<%--                                <span id="prodCd"></span>--%>
+<%--                            </td>--%>
                             <td style="text-align: center">
                                 <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqCl.fn_delete(this)">
                                     <span class="k-button-text">삭제</span>
