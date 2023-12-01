@@ -3627,6 +3627,49 @@
             DEGREE_CODE
     </select>
 
+    <select id="getDeptListByCount" parameterType="map" resultType="map">
+        SELECT HEI.*,
+        CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS DEPT_SEQ,
+        CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS DEPT_NAME1,
+        CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS TEAM_SEQ,
+        CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS TEAM_NAME,
+        DATE_FORMAT(HEI.JOIN_DAY,'%Y-%m-%d') AS JOIN_DAY2
+        FROM cam_hr.dj_emp_info AS HEI
+        LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        WHERE HEI.DEPT_SEQ IN (
+        SELECT DEPT_SEQ
+        FROM cam_hr.dj_dept_info
+        WHERE DEPT_SEQ = #{deptID}
+        OR PARENT_DEPT_SEQ = #{parentID}
+        )
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                ${item}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="getTeamListByCount" parameterType="map" resultType="map">
+        SELECT
+        HEI.*,
+        CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS DEPT_SEQ,
+        CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS DEPT_NAME1,
+        CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS TEAM_SEQ,
+        CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS TEAM_NAME,
+        DATE_FORMAT(HEI.JOIN_DAY,'%Y-%m-%d') AS JOIN_DAY2
+        FROM CAM_HR.DJ_EMP_INFO AS HEI
+        LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        where HEI.DEPT_SEQ = #{deptID}
+        and WORK_STATUS_CODE = 'Y'
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                ${item}
+            </foreach>
+        </if>
+    </select>
+
     <select id="getPostionListByCount" parameterType="map" resultType="map">
         SELECT
         HEI.*,
@@ -3638,7 +3681,6 @@
         FROM
         CAM_HR.DJ_EMP_INFO AS HEI
         LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
-        left join CAM_HR.DJ_APNT_INFO HAI on HEI.EMP_SEQ = HAI.EMP_SEQ
         where POSITION_NAME = #{positionName}
         and work_status_code = 'Y'
         <if test='arr != null and !"".equals(arr)'>
@@ -3659,8 +3701,7 @@
             DATE_FORMAT(HEI.JOIN_DAY,'%Y-%m-%d') AS JOIN_DAY2
         FROM
             CAM_HR.DJ_EMP_INFO AS HEI
-                LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
-                left join CAM_HR.DJ_APNT_INFO HAI on HEI.EMP_SEQ = HAI.EMP_SEQ
+            LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         where gender_code = #{gederCode}
           and work_status_code = 'Y'
         <if test='arr != null and !"".equals(arr)'>
@@ -3698,7 +3739,6 @@
                 FROM
                     CAM_HR.DJ_EMP_INFO AS HEI
                         LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
-                        LEFT JOIN CAM_HR.DJ_APNT_INFO HAI ON HEI.EMP_SEQ = HAI.EMP_SEQ
             ) AS subquery
         WHERE
         AGE_NAME = #{ageName}
@@ -3723,7 +3763,6 @@
         FROM
             CAM_HR.DJ_EMP_INFO AS HEI
                 LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
-                LEFT JOIN CAM_HR.DJ_APNT_INFO HAI ON HEI.EMP_SEQ = HAI.EMP_SEQ
         where degree_code = #{degreeCode}
           and work_status_code = 'Y'
         <if test='arr != null and !"".equals(arr)'>

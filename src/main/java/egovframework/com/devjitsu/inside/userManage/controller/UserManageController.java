@@ -2055,6 +2055,26 @@ public class UserManageController {
         return "jsonView";
     }
 
+    /** 소속 현황(부서) 팝업 **/
+    @RequestMapping(value = "/Inside/getDeptListByCount")
+    public String getDeptListByCount(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> deptNameList = userManageService.getDeptListByCount(params);
+        System.out.println("params : "+ params);
+        model.addAttribute("list", deptNameList);
+        System.out.println("deptNameList: " + deptNameList);
+        return "jsonView";
+    }
+
+    /** 소속 현황(팀) 팝업 **/
+    @RequestMapping(value = "/Inside/getTeamListByCount")
+    public String getTeamListByCount(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> teamNameList = userManageService.getTeamListByCount(params);
+        System.out.println("params : "+ params);
+        model.addAttribute("list", teamNameList);
+        System.out.println("teamNameList: " + teamNameList);
+        return "jsonView";
+    }
+
     /** 직급 현황 팝업 **/
     @RequestMapping(value = "/Inside/getPositionListByCount")
     public String getPositionListByCount(@RequestParam Map<String, Object> params, Model model){
