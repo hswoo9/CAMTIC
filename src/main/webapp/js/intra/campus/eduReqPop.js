@@ -25,8 +25,8 @@ const eduReq = {
         let eduContent = $("#eduContent").val();
         let startDt = $("#startDt").val();
         let endDt = $("#endDt").val();
-        let termDay = $("#termDay").val();
-        let termTime = $("#termTime").val();
+        let termDay = $("#termDay").val() == null ? 0 : $("#termDay").val();
+        let termTime = $("#termTime").val() == null ? 0 : $("#termTime").val();
         let careName = $("#careName").val();
         let careLocation = $("#careLocation").val();
         let firstCareTelNum = $("#firstCareTelNum").val();
@@ -34,7 +34,7 @@ const eduReq = {
         let thirdCareTelNum = $("#thirdCareTelNum").val();
         let eduMoney = $("#eduMoney").val().replace(/,/g, "");
         let eduMoneyType = "";
-        let returnMoney = $("#returnMoney").val().replace(/,/g, "");;
+        let returnMoney = $("#returnMoney").val() == null ? "0" : $("#returnMoney").val().replace(/,/g, "");
         let returnDoc = $("#returnDoc").val();
         let attachDocName = $("#attachDocName").val();
         let regDate = $("#regDate").val();
@@ -66,12 +66,14 @@ const eduReq = {
                 return;
             }
         }
+        if(eduFormType != "7" && eduFormType != "8" && eduFormType != "10"){
+            if(termDay == "" || termTime == ""){
+                alert("학습시간이 작성되지 않았습니다.");
+                return;
+            }
+        }
         if(startDt == "" || endDt == ""){
             alert("학습기간이 작성되지 않았습니다.");
-            return;
-        }
-        if(termDay == "" || termTime == ""){
-            alert("학습시간이 작성되지 않았습니다.");
             return;
         }
         if(eduMoney == ""){

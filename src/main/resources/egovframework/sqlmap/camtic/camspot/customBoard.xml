@@ -665,13 +665,17 @@
             SC.*
         FROM
             CAM_BOARD.DJ_SCHEDULE_BOARD SC
-        WHERE
+        WHERE 1=1
+        <if test='publicClass != null and !"".equals(publicClass)'>
+            AND
             PUBLIC_CLASS = #{publicClass}
-        AND
-            #{selectedDate} BETWEEN SC.START_DT AND SC.END_DT
+        </if>
+        <if test="selectedDate != null and selectedDate != ''">
+            AND #{selectedDate} BETWEEN SC.START_DT AND SC.END_DT
+        </if>
         <if test="searchInput != null and searchInput != ''">
             AND
-                SC.SCHEDULE_TITLE LIKE CONCAT('%', #{searchInput}, '%')
+            SCHEDULE_TITLE LIKE CONCAT('%', #{searchInput}, '%')
         </if>
         AND
             ACTIVE = 'Y'
@@ -683,16 +687,20 @@
     <select id="getMainScheduleListCnt" resultType="int" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
         /*getMainScheduleListCnt*/
         SELECT
-        count(*)
+            count(*)
         FROM
-        CAM_BOARD.DJ_SCHEDULE_BOARD SC
-        WHERE
+            CAM_BOARD.DJ_SCHEDULE_BOARD SC
+        WHERE 1=1
+        <if test='publicClass != null and !"".equals(publicClass)'>
+            AND
             PUBLIC_CLASS = #{publicClass}
-        AND
-            #{selectedDate} BETWEEN SC.START_DT AND SC.END_DT
+        </if>
+        <if test="selectedDate != null and selectedDate != ''">
+            AND #{selectedDate} BETWEEN SC.START_DT AND SC.END_DT
+        </if>
         <if test="searchInput != null and searchInput != ''">
             AND
-            SC.SCHEDULE_TITLE LIKE CONCAT('%', #{searchInput}, '%')
+            SCHEDULE_TITLE LIKE CONCAT('%', #{searchInput}, '%')
         </if>
         AND
             ACTIVE = 'Y'

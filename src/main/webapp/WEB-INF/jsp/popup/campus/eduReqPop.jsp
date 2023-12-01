@@ -188,8 +188,11 @@
                   <c:when test="${eduFormType == 1 || eduFormType == 2 || eduFormType == 3 || eduFormType == 4 || eduFormType == 5 || eduFormType == 6 || eduFormType == 9 || eduFormType == 11}">
                     (총 <input type="text" id="termDay" style="width: 50px"> 일 <input type="text" id="termTime" style="width: 50px"> 시간)
                     <c:choose>
-                      <c:when test="${eduFormType == 5 || eduFormType == 6}">
+                      <c:when test="${eduFormType == 5}">
                         / 50페이지당 1시간
+                      </c:when>
+                      <c:when test="${eduFormType == 6}">
+                        / 2편당 1시간
                       </c:when>
                       <c:when test="${eduFormType == 9 || eduFormType == 10 || eduFormType == 11}">
                         / 1일 최대4시간

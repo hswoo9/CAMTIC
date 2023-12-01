@@ -83,7 +83,10 @@ var myEdu = {
                 }, {
                     field: "CARE_LOCATION",
                     title: "교육장소",
-                    width: 200
+                    width: 200,
+                    template: function(row){
+                        return (row.CARE_LOCATION == null || row.CARE_LOCATION == "undefined") ? "" : row.CARE_LOCATION;
+                    }
                 }, {
                     title: "단위업무",
                     width: 100,

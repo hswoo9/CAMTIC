@@ -29,7 +29,12 @@
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
       </div>
     </div>
-    <div style="padding: 20px">
+
+  <div id="applicationList" style="padding: 20px;">
+
+  </div>
+
+    <div id="mainGrid" style="padding: 20px;">
       <table class="popTable table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
         <colgroup>
           <col width="12%">
@@ -393,10 +398,11 @@
         </tr>
         </thead>
       </table>
-    </div>
+    </div><!--MainGrid-->
 </div>
 
 <script>
   appView.fn_defaultScript();
+
 </script>
 </body>

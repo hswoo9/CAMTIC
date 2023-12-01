@@ -291,4 +291,12 @@ public class ApplicationController {
         }
         return flag;
     }
+
+    @RequestMapping("/application/getApplicationByRecruitArea.do")
+    public String getApplicationByRecruitArea(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", applicationService.getApplicationByRecruitArea(params));
+        return "jsonView";
+    }
+
+
 }

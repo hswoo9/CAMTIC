@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<%--<script type="text/javascript" src="/js/intra/inside/userManage/joinLeaveView.js?v=${today}"/></script>--%>
+<script type="text/javascript" src="/js/intra/inside/userManage/genderAgeView.js?v=${today}"/></script>
 
 <div class="mainCard">
     <div class="panel">
@@ -50,6 +50,9 @@
                                 </td>
                             </tr>
                         </table>
+                        <div id="mainChart">
+                        </div>
+                        <div id="ageChart"></div>
                     </div><!-- table-responsive -->
                 </div>
             </div>
@@ -58,4 +61,5 @@
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
+    genderAgeView.fn_defaultScript();
 </script>

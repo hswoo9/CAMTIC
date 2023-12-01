@@ -1084,7 +1084,7 @@
                 #{eduContent},
                 #{startDt},
                 #{endDt},
-                #{termDay},
+                ifnull(#{termDay}, 0),
                 ifnull(#{termTime}, 0),
                 #{careName},
                 #{careLocation},

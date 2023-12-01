@@ -1,4 +1,4 @@
-var yearDutyView = {
+var yearHistoryView = {
     global : {
         searchAjaxData : "",
         saveAjaxData : "",
@@ -7,34 +7,34 @@ var yearDutyView = {
     },
 
     fn_defaultScript : function () {
-        yearDutyView.gridReload();
+        yearHistoryView.gridReload();
 
         $('.detailSearch').on('change', function () {
-            yearDutyView.gridReload();
+            yearHistoryView.gridReload();
         });
 
     },
 
-    getPositionNameByYear: function (arr) {
+    getApntNameByYear: function (arr) {
         console.log("ajax arr : ",arr);
 
         $.ajax({
             type : "GET",
             data: {arr : arr},
-            url: "/Inside/getPositionNameByYear.do",
+            url: "/Inside/getApntNameByYear.do",
             dataType: "json",
             success: function(data) {
                 console.log("data : ",data);
-                const positionList = data.positionList;
-                const arr = yearDutyView.transformedArr(data.arr);
+                const apntList = data.apntList;
+                const arr = yearHistoryView.transformedArr(data.arr);
 
-                console.log("positionList : "+ JSON.stringify(positionList));
+                console.log("apntList : "+ JSON.stringify(apntList));
                 console.log("ajax arr:",arr);
 
 
                 $("#mainTable *").remove();
-                yearDutyView.global.test = positionList;
-                yearDutyView.getPositionListTable(positionList,arr);
+                yearHistoryView.global.test = apntList;
+                yearHistoryView.getApntListTable(apntList,arr);
             },
             error: function (error){
                 console.error("Error fetching data:", error);
@@ -42,34 +42,34 @@ var yearDutyView = {
         });
     },
 
-    getPositionListTable: function (positionList, arr) {
-        console.log("getPositionListTable arr", arr);
+    getApntListTable: function (apntList, arr) {
+        console.log("getApntListTable arr", arr);
         var html = "";
         html = '<table class="centerTable table table-bordered"><tbody>';
 
         html += '<tr style="background-color: #d8dce3;">';
         html += '<td>년도</td>';
-        var uniquePositions = new Set();
+        var uniqueApnts = new Set();
 
 // 중복 제거 및 Set에 position_name 추가
-        for (var i = 0; i < positionList.length; i++) {
-            var positionName = positionList[i].position_name;
-            uniquePositions.add(positionName);
+        for (var i = 0; i < apntList.length; i++) {
+            var apntName = apntList[i].apnt_name;
+            uniqueApnts.add(apntName);
         }
 
 // Set을 배열로 변환하여 정렬
-        var uniquePositionsArray = Array.from(uniquePositions).sort();
+        var uniqueApntsArray = Array.from(uniqueApnts).sort();
 
 // 각 position_name 출력
-        for (var j = 0; j < uniquePositionsArray.length; j++) {
-            var positionName = uniquePositionsArray[j];
-            html += '<td style="width: 200px;">' + positionName + '</td>';
+        for (var j = 0; j < uniqueApntsArray.length; j++) {
+            var apntName = uniqueApntsArray[j];
+            html += '<td style="width: 200px;">' + apntName + '</td>';
         }
 
 
         html += '</tr>';
         // 각 position_name에 대한 명수 행 추가
-        var uniqueYears = [...new Set(positionList.map(item => item.join_year))];
+        var uniqueYears = [...new Set(apntList.map(item => item.his_year))];
 
         for (var i = 0; i < uniqueYears.length; i++) {
             var currentYear = uniqueYears[i];
@@ -77,17 +77,17 @@ var yearDutyView = {
 
             html += '<td style="width: 200px;">' + currentYear + '년</td>'; // 년도 표시
 
-            for (var j = 0; j < uniquePositionsArray.length; j++) {
-                var positionName = uniquePositionsArray[j];
-                var positionCounts = positionList.filter(item => item.join_year === currentYear && item.position_name === positionName);
-                var empCount = positionCounts.length > 0 ? positionCounts[0].emp_count : 0;
-                html += '<td><a href="javascript:void(0);" onclick="yearDutyView. userViewPop(\'' + currentYear +'\', \'' + positionName + '\', \'' + arr + '\');">' +
+            for (var j = 0; j < uniqueApntsArray.length; j++) {
+                var apntName = uniqueApntsArray[j];
+                var apntCounts = apntList.filter(item => item.his_year === currentYear && item.apnt_name === apntName);
+                var empCount = apntCounts.length > 0 ? apntCounts[0].emp_count : 0;
+                html += '<td><a href="javascript:void(0);" onclick="yearHistoryView. userViewPop(\'' + currentYear +'\', \'' + apntName + '\', \'' + arr + '\');">' +
                     '<span>' + empCount + '명</span></a></td>';
             }
 
             html += '</tr>'; // 행 마감
         }
-        
+
 
         html += '</tbody></table>';
         $("#mainTable").append(html);
@@ -139,13 +139,13 @@ var yearDutyView = {
         var arr = requestArr.substring(1);
         console.log("arr :",arr);
 
-        yearDutyView.getPositionNameByYear(arr);
+        yearHistoryView.getApntNameByYear(arr);
     },
 
-    userViewPop : function(currentYear,positionName,arr) {
+    userViewPop : function(currentYear,apntName,arr) {
         var encodedArr = encodeURIComponent(arr);
         console.log("userViewPop 함수 인코딩arr:"+encodedArr);
-        var url = "/Inside/pop/yearDutyViewPop.do?currentYear="+currentYear+ "&positionName=" +positionName+ "&encodedArr="+encodedArr;
+        var url = "/Inside/pop/yearHistoryViewPop.do?currentYear="+currentYear+ "&apntName=" +apntName+ "&encodedArr="+encodedArr;
         var name = "yearDutyViewPop";
         var option = "width=1800, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         window.open(url, name, option);
