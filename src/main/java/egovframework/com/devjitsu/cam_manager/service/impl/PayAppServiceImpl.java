@@ -1028,4 +1028,9 @@ public class PayAppServiceImpl implements PayAppService {
     public Map<String, Object> getPayDepoData(Map<String, Object> params) {
         return payAppRepository.getPayDepoData(params);
     }
+
+    @Override
+    public void setApprIncome(Map<String, Object> params) {
+        payAppRepository.updApprStatus(params);
+    }
 }

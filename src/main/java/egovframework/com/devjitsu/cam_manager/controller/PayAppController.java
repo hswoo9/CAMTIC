@@ -604,7 +604,20 @@ public class PayAppController {
         try{
             payAppService.setPayDepo(params);
             model.addAttribute("code", 200);
+            model.addAttribute("params", params);
         } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/pay/setApprIncome")
+    public String setApprIncome(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            payAppService.setApprIncome(params);
+        } catch(Exception e){
             e.printStackTrace();
         }
 

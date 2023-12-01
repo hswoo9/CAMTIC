@@ -70,6 +70,8 @@ const reqOr = {
             $("#totAmt").val(comma(totAmt));
         });
 
+        reqOr.fn_kendoUIEnableSet();
+
         let html = ''
         html += '<tr>';
         html += '   <th scope="row" class="text-center th-color">발주일</th>';
@@ -133,7 +135,6 @@ const reqOr = {
         }
 
         this.fn_setClaimItem(orderMap);
-        reqOr.fn_kendoUIEnableSet(orderMap);
         reqOr.fn_OrderBtnSet(orderMap);
 
         if(orderMap.ORDER_CK == "Y"){
@@ -161,6 +162,7 @@ const reqOr = {
         var result = customKendo.fn_customAjax("/purc/setOrderInfo", data);
         if(result.flag){
             alert("데이터 저장이 완료되었습니다.");
+            location.reload();
         }else{
             alert("저장 중 오류가 발생하였습니다.");
         }
