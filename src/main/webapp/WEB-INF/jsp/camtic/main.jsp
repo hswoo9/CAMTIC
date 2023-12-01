@@ -412,7 +412,7 @@
       html += '<div><p class="sum">'+ contents +'</p></div>';
       /*html += '<p class="sum">test</p>';*/
 
-      html += '<p class="date">'+ item.REG_DATE +'</p>';
+      html += '<p class="date">'+ item.regDate +'</p>';
 
       html += '</a>';
     });

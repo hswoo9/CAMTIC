@@ -1913,7 +1913,7 @@ public class UserManageController {
         List<Map<String, Object>> empDeptTeamList = userManageService.getDeptTeamEmpCount(params);
 
         empDeptTeamList = processEmpDeptTeamList(empDeptTeamList);
-
+        model.addAttribute("arr",params);
         model.addAttribute("empDeptTeamList",empDeptTeamList);
         System.out.println("***********empDeptTeamList**********" + empDeptTeamList);
         return "jsonView";
@@ -2052,6 +2052,48 @@ public class UserManageController {
         model.addAttribute("arr",params);
         model.addAttribute("degreeCountList", degreeCountList);
         System.out.println("degreeCountList: " + degreeCountList);
+        return "jsonView";
+    }
+
+    /** 직급 현황 팝업 **/
+    @RequestMapping(value = "/Inside/getPositionListByCount")
+    public String getPositionListByCount(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> positionNameList = userManageService.getPositionListByCount(params);
+        System.out.println("params : "+ params);
+        model.addAttribute("arr",params);
+        model.addAttribute("positionNameList", positionNameList);
+        System.out.println("positionNameList: " + positionNameList);
+        return "jsonView";
+    }
+
+    /** 성별/연령별 현황 팝업 **/
+    @RequestMapping(value = "/Inside/getGenderListByCount")
+    public String getGenderListByCount(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> genderNameList = userManageService.getGenderListByCount(params);
+        System.out.println("params : "+ params);
+        model.addAttribute("arr",params);
+        model.addAttribute("genderNameList", genderNameList);
+        System.out.println("genderNameList " + genderNameList);
+        return "jsonView";
+    }
+    @RequestMapping(value = "/Inside/getAgeListByCount")
+    public String getAgeListByCount(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> ageNameList = userManageService.getAgeListByCount(params);
+        System.out.println("params : "+ params);
+        model.addAttribute("arr",params);
+        model.addAttribute("ageNameList", ageNameList);
+        System.out.println("ageNameList: " + ageNameList);
+        return "jsonView";
+    }
+
+    /** 학위별 현황 팝업 **/
+    @RequestMapping(value = "/Inside/getDegreeListByCount")
+    public String getDegreeListByCount(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> degreeNameList = userManageService.getDegreeListByCount(params);
+        System.out.println("params : "+ params);
+        model.addAttribute("arr",params);
+        model.addAttribute("degreeNameList", degreeNameList);
+        System.out.println("degreeNameList: " + degreeNameList);
         return "jsonView";
     }
 

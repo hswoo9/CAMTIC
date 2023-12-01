@@ -24,6 +24,7 @@ var depView = {
            dataType: "json",
            success: function (data){
                console.log("js data : ",data);
+               const arr = depView.transformedArr(data.arr);
                const empDeptList = data.empDeptTeamList.filter(function (item) {
                    return !item.hasOwnProperty("TeamName");
                });
@@ -35,8 +36,8 @@ var depView = {
                $("#mainChart *").remove();
                $("#teamChart *").remove();
                //ajax 요청 후 서버로부터 응답이 온 data를 mainChart 함수로 보내줄 것
-               depView.mainChart(empDeptList);
-               depView.teamChart(empTeamList);
+               depView.mainChart(empDeptList, arr);
+               depView.teamChart(empTeamList, arr);
 
            },
             error: function(error) {
@@ -47,8 +48,8 @@ var depView = {
 
     },
 
-    mainChart : function (e){
-        var data = e; //이곳에서 ajax 요청으로 온 데이터(e)확인 및 가공이 필요하면 가공
+    mainChart : function (empDeptList, arr){
+        var data = empDeptList; //이곳에서 ajax 요청으로 온 데이터(e)확인 및 가공이 필요하면 가공
         console.log("ajax data : ",data);
         var totalEmpCount = 0;
 
@@ -75,11 +76,12 @@ var depView = {
             '</table>'+
             '<table class="centerTable table table-bordered"><colgroup><col width="15%"><col><col width="10%"></colgroup><tbody>';
         for(var i =0;i<data.length; i++) {
+            var deptId = data[i].DeptID;
             var color = depView.getColorForIndex(i);
             var percentageWidth = (((data[i].DeptEmployeesCount / totalEmpCount) * 100).toFixed(1))*9;
             var percentage = ((data[i].DeptEmployeesCount / totalEmpCount) * 100).toFixed(1)
-            console.log("percentage : ",percentage);
-            console.log("percentageWidth : ",percentageWidth);
+            //console.log("percentage : ",percentage);
+            //console.log("percentageWidth : ",percentageWidth);
             html += '<tr>' +
                 '<td style="background-color: #efefef;">'+ data[i].DeptName +'</td>' +
                 '<td style="background-color: #ffffff;">' +
@@ -89,7 +91,10 @@ var depView = {
                 '<span style="display: inline-block; position: relative; top: 1.5px;">'+percentage+'%</span>' +
                 '</div>' +
                 '</td>' +
-                '<td style="background-color: #ffffff;">' + data[i].DeptEmployeesCount + '명</td>' +
+                '<td style="background-color: #ffffff;">' +
+                '<a href="javascript:void(0);" onclick="depView.userViewPop(\'' + deptId +'\', \''  + arr + '\');">'+
+                '<span>' +data[i].DeptEmployeesCount + '명</span>' +
+                '</td>' +
                 '</tr>';
         }
              html+='<tr>'+
@@ -104,8 +109,8 @@ var depView = {
         $("#mainChart").append(html);
     },
 
-    teamChart : function (e){
-        var data = e; //이곳에서 ajax 요청으로 온 데이터(e)확인 및 가공이 필요하면 가공
+    teamChart : function (empTeamList, arr){
+        var data = empTeamList; //이곳에서 ajax 요청으로 온 데이터(e)확인 및 가공이 필요하면 가공
         console.log("ajax team data : ",data);
         var totalEmpCount = 0;
 
@@ -115,11 +120,12 @@ var depView = {
         var html = "";
         html = '<table class="centerTable table table-bordered"><colgroup><col width="15%"><col><col width="10%"></colgroup><tbody>';
         for(var i =0;i<data.length; i++) {
+            var teamID = data[i].TeamID;
             var color = depView.getColorForIndex(i);
             var percentageWidth = (((data[i].TeamEmployeesCount / totalEmpCount) * 100).toFixed(1))*9;
             var percentage = ((data[i].TeamEmployeesCount / totalEmpCount) * 100).toFixed(1)
-            console.log("percentage : ",percentage);
-            console.log("percentageWidth : ",percentageWidth);
+            //console.log("percentage : ",percentage);
+            //console.log("percentageWidth : ",percentageWidth);
             html += '<tr>' +
                 '<td style="background-color: #efefef;">'+ data[i].TeamName +'</td>' +
                 '<td style="background-color: #ffffff;">' +
@@ -129,7 +135,10 @@ var depView = {
                 '<span style="display: inline-block; position: relative; top: 1.5px;">'+percentage+'%</span>' +
                 '</div>'+
                 '</td>' +
-                '<td style="background-color: #ffffff;">' + data[i].TeamEmployeesCount + '명</td>' +
+                '<td style="background-color: #ffffff;">' +
+                '<a href="javascript:void(0);" onclick="depView.userViewPop2(\'' + teamID +'\', \''  + arr + '\');">'+
+                '<span>' +data[i].TeamEmployeesCount + '명</span>' +
+                '</td>' +
                 '</tr>';
         }
         html+='<tr>'+
@@ -169,6 +178,52 @@ var depView = {
         console.log("arr :",arr);
 
         depView.getTotalDeptChart(arr);
+    },
+
+    transformedArr : function (e){
+        console.log("transformedArr input arr:", e.arr);
+        var transformedArr = [];
+
+        for (var i = 0; i < e.arr.length; i++) {
+            var item = e.arr[i];
+            console.log("arr item",item);
+
+            var divisionMatch = item.match(/DIVISION\s*IN\((\d+)\)/);
+            var divisionSubMatch = item.match(/DIVISION_SUB\s*IN\(([^)]+)\)/);
+
+            var division = divisionMatch ? divisionMatch[1] : "";
+            var divisionSub = divisionSubMatch ? divisionSubMatch[1].replace(/\s/g, '').split(',') : [];
+
+            // DIVISION_SUB가 없으면 "N"으로 표현
+            var divisionSubString = divisionSub.length > 0 ? '&' + divisionSub.join(',') : '&N';
+
+            var transformedItem = division + divisionSubString;
+
+            transformedArr.push(transformedItem);
+        }
+
+        var resultString = transformedArr.join('|');
+        console.log("Transformed arr:", resultString);
+
+        return resultString;
+    },
+
+    userViewPop : function(deptID,arr) {
+        var encodedArr = encodeURIComponent(arr);
+        console.log("userViewPop 함수 인코딩arr:"+encodedArr);
+        var url = "/Inside/pop/joinLeaveViewPop.do?deptID="+deptID+ "&encodedArr="+encodedArr;
+        var name = "joinLeaveViewPop";
+        var option = "width=1800, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        window.open(url, name, option);
+    },
+
+    userViewPop2 : function(teamID,arr) {
+        var encodedArr = encodeURIComponent(arr);
+        console.log("userViewPop 함수 인코딩arr:"+encodedArr);
+        var url = "/Inside/pop/joinLeaveViewPop.do?teamID="+teamID+ "&encodedArr="+encodedArr;
+        var name = "joinLeaveViewPop";
+        var option = "width=1800, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        window.open(url, name, option);
     }
 
 }

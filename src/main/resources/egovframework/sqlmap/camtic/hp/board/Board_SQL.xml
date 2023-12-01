@@ -52,7 +52,8 @@
              ,BOARD_ARTICLE_CONTENT
              ,BOARD_ARTICLE_VIEW_COUNT
              ,REG_EMP_NAME
-             ,DATE_FORMAT(REG_DATE, '%Y-%m-%d') AS REG_DATE
+             ,REG_DATE
+             ,DATE_FORMAT(REG_DATE, '%Y-%m-%d') AS regDate
         FROM
             CAM_COMMON.DJ_BOARD_ARTICLE
         WHERE

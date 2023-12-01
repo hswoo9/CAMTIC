@@ -1368,8 +1368,8 @@ public class UserManageServiceImpl implements UserManageService {
         }
         return userManageRepository.getEmpCountsByPosition(params);
     }
-    // 성별/연령별 현황
 
+    // 성별/연령별 현황
     @Override
     public List<Map<String, Object>> getGenderCount(Map<String, Object> params){
         if(params.containsKey("arr") && !"".equals(params.get("arr").toString())){
@@ -1393,7 +1393,6 @@ public class UserManageServiceImpl implements UserManageService {
         }
         return userManageRepository.getGenderCount(params);
     }
-
     @Override
     public List<Map<String ,Object>> getAgeCount(Map<String, Object> params){
         if(params.containsKey("arr") && !"".equals(params.get("arr").toString())){
@@ -1442,6 +1441,104 @@ public class UserManageServiceImpl implements UserManageService {
             params.put("arr", arr);
         }
         return userManageRepository.getDegreeCount(params);
+    }
+
+    // 직급 현황 (팝업)
+    @Override
+    public List<Map<String, Object>> getPositionListByCount(Map<String ,Object> params){
+        if(params.containsKey("arr") && !"".equals(params.get("arr").toString())){
+            String arrText = params.get("arr").toString();
+
+            String[] arr = arrText.split("[|]");
+            for(int i = 0; i < arr.length; i++){
+                String[] arrL = arr[i].split("&");
+
+                String returnTxt = "(DIVISION IN(" + arrL[0] + ")";
+                if(arrL.length > 1){
+                    if(!arrL[1].equals("N")){
+                        returnTxt += " AND DIVISION_SUB IN(" + arrL[1] + ")";
+                    }
+                }
+                returnTxt += ")";
+
+                arr[i] = returnTxt;
+            }
+            params.put("arr", arr);
+        }
+        return userManageRepository.getPositionListByCount(params);
+    }
+
+    // 성별/연령별 현황 (팝업)
+    @Override
+    public List<Map<String, Object>> getGenderListByCount(Map<String ,Object> params){
+        if(params.containsKey("arr") && !"".equals(params.get("arr").toString())){
+            String arrText = params.get("arr").toString();
+
+            String[] arr = arrText.split("[|]");
+            for(int i = 0; i < arr.length; i++){
+                String[] arrL = arr[i].split("&");
+
+                String returnTxt = "(DIVISION IN(" + arrL[0] + ")";
+                if(arrL.length > 1){
+                    if(!arrL[1].equals("N")){
+                        returnTxt += " AND DIVISION_SUB IN(" + arrL[1] + ")";
+                    }
+                }
+                returnTxt += ")";
+
+                arr[i] = returnTxt;
+            }
+            params.put("arr", arr);
+        }
+        return userManageRepository.getGenderListByCount(params);
+    }
+    @Override
+    public List<Map<String, Object>> getAgeListByCount(Map<String ,Object> params){
+        if(params.containsKey("arr") && !"".equals(params.get("arr").toString())){
+            String arrText = params.get("arr").toString();
+
+            String[] arr = arrText.split("[|]");
+            for(int i = 0; i < arr.length; i++){
+                String[] arrL = arr[i].split("&");
+
+                String returnTxt = "(DIVISION IN(" + arrL[0] + ")";
+                if(arrL.length > 1){
+                    if(!arrL[1].equals("N")){
+                        returnTxt += " AND DIVISION_SUB IN(" + arrL[1] + ")";
+                    }
+                }
+                returnTxt += ")";
+
+                arr[i] = returnTxt;
+            }
+            params.put("arr", arr);
+        }
+        return userManageRepository.getAgeListByCount(params);
+    }
+
+    // 학위별 현황 (팝업)
+    @Override
+    public List<Map<String, Object>> getDegreeListByCount(Map<String ,Object> params){
+        if(params.containsKey("arr") && !"".equals(params.get("arr").toString())){
+            String arrText = params.get("arr").toString();
+
+            String[] arr = arrText.split("[|]");
+            for(int i = 0; i < arr.length; i++){
+                String[] arrL = arr[i].split("&");
+
+                String returnTxt = "(DIVISION IN(" + arrL[0] + ")";
+                if(arrL.length > 1){
+                    if(!arrL[1].equals("N")){
+                        returnTxt += " AND DIVISION_SUB IN(" + arrL[1] + ")";
+                    }
+                }
+                returnTxt += ")";
+
+                arr[i] = returnTxt;
+            }
+            params.put("arr", arr);
+        }
+        return userManageRepository.getDegreeListByCount(params);
     }
 
 }

@@ -79,6 +79,7 @@
   .__lab span{font-weight: normal;}
   input[type="radio"] {appearance: auto;-webkit-appearance: auto;-moz-appearance: auto;display: inline-block;box-sizing: border-box;margin: 0;font-size: inherit;line-height: normal;color: inherit;}
 
+  .__boardView1 .head {position:relative;}
 </style>
 
 
@@ -100,7 +101,7 @@
           <h3><span class="categoryName"></span></h3>
         </div>
 
-        <div class="__boardView">
+        <div class="__boardView1">
           <div class="head">
             <div>
               <table style="line-height: 60px;">
@@ -111,7 +112,13 @@
                   </td>
                 </tr>
                 <tr style="border-bottom: 1px solid #ccc;">
-                  <th>작성자</th>
+                  <th>
+                    <c:choose>
+                      <c:when test="${categoryId eq 'report'}">출처</c:when>
+                      <c:otherwise>작성자</c:otherwise>
+                    </c:choose>
+                  </th>
+                  <%--<th>작성자</th>--%>
                   <td>
                     <input type="text" id="writer" class="" value="${map.REG_EMP_NAME}" disabled/>
                   </td>
@@ -142,7 +149,13 @@
                   </tr>
                 </c:if>
                 <tr>
-                  <th>작성일자</th>
+                  <th>
+                    <c:choose>
+                      <c:when test="${categoryId eq 'report'}">보도일자</c:when>
+                      <c:otherwise>작성일자</c:otherwise>
+                    </c:choose>
+                  </th>
+                  <%--<th>작성일자</th>--%>
                   <td>
                     <c:choose>
                       <c:when test="${categoryId eq 'sns'}">
@@ -186,7 +199,8 @@
                   </td>
                 </tr>
 
-                <tr>
+                <c:if test="${categoryId ne 'report'}">
+                <tr style="border-bottom:1px solid #ccc;padding-bottom:10px;">
                   <th><span id="textMod">첨부파일</span></th>
                   <td style="line-height : 1;padding: 15px 0 15px 0;">
                     <form>
@@ -224,6 +238,7 @@
                     </form>
                   </td>
                 </tr>
+                </c:if>
               </table>
             </div>
           </div>
