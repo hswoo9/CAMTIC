@@ -23,6 +23,9 @@
 
 <input type="hidden" id="stat" value="${params.stat}" />
 
+<input type="hidden" id="itemSn" value="${params.itemSn}" />
+
+
 <form id="claimDraftFrm" method="post">
     <input type="hidden" id="claimSn" name="claimSn" value="${map.CLAIM_SN}">
     <input type="hidden" id="purcSn" name="purcSn" value="${params.purcSn}">
