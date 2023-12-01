@@ -3606,7 +3606,7 @@
             </foreach>
         </if>
         group by
-            나이대
+            Age
     </select>
 
     <select id="getDegreeCount" parameterType="map" resultType="map">
