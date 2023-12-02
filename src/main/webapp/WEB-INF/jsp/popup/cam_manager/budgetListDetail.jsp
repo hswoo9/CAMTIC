@@ -134,12 +134,9 @@
 
                 </tr>
                 </thead>
-                <tbody id="Ab">
-                <tr>
-                    <td colspan="8" style="text-align: center">데이터가 없습니다.</td>
-                </tr>
                 </tbody>
             </table>
+            <div id="budgetMainGrid"></div>
         </div>
 
         <div>
@@ -160,7 +157,7 @@
                 </tr>
                 </thead>
             </table>
-            <div id="budgetMainGrid"></div>
+            <div id="budgetMainGrid2"></div>
         </div>
     </div>
 </div>
