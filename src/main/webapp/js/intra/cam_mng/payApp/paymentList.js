@@ -89,6 +89,10 @@ var paymentList = {
                             status = "rev";
                         } else if (e.PAY_APP_TYPE == 2){
                             status = "in";
+                        } else if (e.PAY_APP_TYPE == 3){
+                            status = "re";
+                        } else if (e.PAY_APP_TYPE == 4){
+                            status = "alt";
                         }
                         return '<div style="cursor: pointer; font-weight: bold" onclick="paymentList.fn_reqRegPopup('+e.PAY_APP_SN+', \''+status+'\', \'user\')">'+e.APP_TITLE+'</div>';
                     }

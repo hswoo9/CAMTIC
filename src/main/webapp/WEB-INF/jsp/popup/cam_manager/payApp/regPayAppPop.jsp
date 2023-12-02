@@ -36,9 +36,8 @@
                     <c:if test='${params.status == "in"}'>여입신청서</c:if>
                     <c:if test='${params.status == "re"}'>반납신청서</c:if>
                     <c:if test='${params.status == "alt"}'>대체신청서</c:if>
-                    <c:if test='${params.status == "" || params.status == null}'>
-                        <c:if test='${params.claimSn != "" && params.claimSn != null}'>지급</c:if>
-                        신청서
+                    <c:if test='${params.status == "" or params.status == null}'>
+                        <c:if test='${!"".equals(params.claimSn) or params.claimSn != null}'>지급</c:if>신청서
                     </c:if>
                     <span id="titleStat">작성</span>
                 </span>
@@ -99,12 +98,8 @@
 <%--                </tr>--%>
                 <tr>
                     <th scope="row" class="text-center th-color">신청건명</th>
-                    <td colspan="2">
-                        <input type="text" id="appTitle" style="width: 90%;">
-                    </td>
-                    <th scope="row" class="text-center th-color">비용구분</th>
-                    <td colspan="2">
-                        <input type="text" id="appTeam" style="width: 90%;">
+                    <td colspan="4">
+                        <input type="text" id="appTitle" style="width: 100%;">
                     </td>
                 </tr>
                 <tr>
@@ -163,7 +158,6 @@
                         <span class="k-button-text">추가</span>
                     </button>
                 </div>
-
                 <table class="popTable table table-bordered mb-0 mt-20">
                     <colgroup>
                         <c:if test="${!'user'.equals(params.auth)}">
@@ -172,6 +166,7 @@
                             </c:if>
                         </c:if>
                         <col style="width: 5%;">
+                        <col style="width: 5%;">
                         <col style="width: 6%;">
                         <col style="width: 6%;">
                         <col style="width: 4%;">
@@ -184,7 +179,7 @@
                         <col style="width: 5%;">
                         <col style="width: 5%;">
                         <col style="width: 5%;">
-                        <c:if test="${'rev'.equals(params.status) or params.claimSn != ''}">
+                        <c:if test="${'rev'.equals(params.status) and !''.equals(params.claimSn)}">
                             <col style="width: 3%;">
                             <col style="width: 3%;">
                         </c:if>
@@ -199,6 +194,7 @@
                         </c:if>
 
                         <th>예산비목</th>
+                        <th>비용구분</th>
                         <th>증빙유형</th>
                         <th>상호</th>
                         <th>은행명</th>
@@ -211,7 +207,7 @@
                         <th>신용카드</th>
                         <th>비고</th>
                         <th>관련근거</th>
-                        <c:if test="${'rev'.equals(params.status) or params.claimSn != ''}">
+                        <c:if test="${'rev'.equals(params.status) and !''.equals(params.claimSn)}">
                             <th>선지급</th>
                             <th>첨부파일</th>
                         </c:if>
@@ -230,6 +226,9 @@
                                 <input type="text" id="budgetNm0" value="" onclick="regPay.fn_budgetPop(0)" style="width: 100%;">
                                 <input type="hidden" id="budgetSn0" value="" class="budgetSn"/>
                             </span>
+                        </td>
+                        <td>
+                            <input id="appTeam0" class="appTeam" style="width: 100%">
                         </td>
                         <td>
                             <input type="hidden" id="payDestSn0" name="payDestSn" class="payDestSn">
@@ -273,7 +272,7 @@
                         <td>
                             <input type="text" id="iss0" class="iss">
                         </td>
-                        <c:if test="${'rev'.equals(params.status) or params.claimSn != ''}">
+                        <c:if test="${'rev'.equals(params.status) and !''.equals(params.claimSn)}">
                             <td>
                                 <input type="checkbox" id="advances0" class="advances" style="width: 26px; height: 26px;">
                             </td>

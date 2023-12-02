@@ -24,14 +24,6 @@ var regPay = {
         customKendo.fn_datePicker("reqDe", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_textBox(["pjtNm", "appTitle", "accNm", "accNo", "bnkNm"]);
 
-
-            var data = {
-                deptLevel : 2
-            }
-
-            var ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
-            customKendo.fn_dropDownList("appTeam", ds.rs, "dept_name", "dept_seq","5")
-
         $("#appCont").kendoTextArea({
             rows: 5,
         });
@@ -265,8 +257,6 @@ var regPay = {
 
         regPay.payAppBtnSet(rs);
 
-        $("#appTeam").data("kendoDropDownList").value(rs.TEAM_SEQ);
-
         $("#docStatus").val(rs.DOC_STATUS)
         if(rs.DOC_STATUS != 0){
             $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
@@ -325,6 +315,9 @@ var regPay = {
                 '   <td>' +
                 '       <input type="text" id="budgetNm' + regPayDet.global.itemIndex + '" value="'+item.BUDGET_NM+'" onclick="regPay.fn_budgetPop('+clIdx+')" style="width: 100%;">' +
                 '       <input type="hidden" id="budgetSn' + regPayDet.global.itemIndex + '" value="'+item.BUDGET_SN+'" class="budgetSn"/>' +
+                '   </td>' +
+                '   <td>' +
+                '       <input type="text" id="appTeam' + regPayDet.global.itemIndex + '" class="appTeam" style="width: 100%">' +
                 '   </td>' +
                 '   <td>' +
                 '       <input type="hidden" id="payDestSn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" name="payDestSn" class="payDestSn">' +
@@ -458,6 +451,13 @@ var regPay = {
 
             customKendo.fn_datePicker("trDe" + regPayDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
 
+            var ds = customKendo.fn_customAjax("/dept/getDeptAList", {
+                deptLevel : 2
+            });
+            customKendo.fn_dropDownList("appTeam" + regPayDet.global.itemIndex, ds.rs, "dept_name", "dept_seq","5");
+
+
+            $("#appTeam" + itemIndex).data("kendoDropDownList").value(item.TEAM_SEQ);
             $("#eviType" + itemIndex).data("kendoDropDownList").value(item.EVID_TYPE);
 
 
@@ -540,8 +540,6 @@ var regPay = {
             pjtNm : $("#pjtNm").val(),
             pjtSn : $("#pjtSn").val(),
             reqDe : $("#reqDe").val(),
-            teamSeq : $("#appTeam").val(),
-            teamName : $("#appTeam").data("kendoDropDownList").text(),
             // budgetNm : $("#budgetNm").val(),
             // budgetSn : $("#budgetSn").val(),
             appTitle : $("#appTitle").val(),
@@ -589,6 +587,8 @@ var regPay = {
             var data = {
                 budgetNm : $("#budgetNm" + index).val(),
                 budgetSn : $("#budgetSn" + index).val(),
+                teamSeq : $("#appTeam" + index).val(),
+                teamName : $("#appTeam" + index).data("kendoDropDownList").text(),
                 evidType : $("#eviType" + index).val(),
                 crmNm : $("#crmNm" + index).val(),
                 trCd : $("#trCd" + index).val(),
@@ -652,9 +652,7 @@ var regPay = {
             dataType : "json",
             success : function(rs){
                 if(rs.code == 200){
-                    if(auth != "user"){
-                        alert("저장되었습니다.");
-                    }
+                    alert("저장되었습니다.");
                     if(type != "drafting"){
                         let status = "";
                         if($("#payAppType").data("kendoRadioGroup").value() == 1){
@@ -817,6 +815,11 @@ var regPayDet = {
         customKendo.fn_textBox(["crmNm0", "crmBnkNm0", "crmAccHolder0", "crmAccNo0", "totCost0", "supCost0", "vatCost0"
         ,"card0", "etc0", "iss0", "budgetNm0"]);
 
+        var ds = customKendo.fn_customAjax("/dept/getDeptAList", {
+            deptLevel : 2
+        });
+        customKendo.fn_dropDownList("appTeam0", ds.rs, "dept_name", "dept_seq","5")
+
         customKendo.fn_datePicker("trDe0", "month", "yyyy-MM-dd", new Date());
 
     },
@@ -847,6 +850,9 @@ var regPayDet = {
             '   <td>' +
             '       <input type="text" id="budgetNm' + regPayDet.global.itemIndex + '" value="" onclick="regPay.fn_budgetPop(' + clIdx + ')" style="width: 100%;">' +
             '       <input type="hidden" id="budgetSn' + regPayDet.global.itemIndex + '" value="" class="budgetSn"/>' +
+            '   </td>' +
+            '   <td>' +
+            '       <input style="width: 100%" id="appTeam' + regPayDet.global.itemIndex + '" name="appTeam" class="appTeam">' +
             '   </td>' +
             '   <td>' +
             '       <input type="hidden" style="width: 70%" id="payDestSn' + regPayDet.global.itemIndex + '" name="payDestSn" class="payDestSn">' +            '       <input type="text" id="eviType' + regPayDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
@@ -889,7 +895,7 @@ var regPayDet = {
             '   <td>' +
             '       <input type="text" id="iss' + regPayDet.global.itemIndex + '" class="iss">' +
             '   </td>' ;
-        if($("#status").val() == "rev" || $("#claimSn").val() != ''){
+        if($("#status").val() == "rev" || $("#claimSn").val() != ""){
             regPayDet.global.createHtmlStr += "" +
                 '   <td>' +
                 '       <input type="checkbox" id="advances' + regPayDet.global.itemIndex + '" class="advances" style="width: 26px; height: 26px">' +
@@ -903,7 +909,7 @@ var regPayDet = {
             '       <div style="text-align: center">' +
             '           <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(' + regPayDet.global.itemIndex + ')">삭제</button>' +
             '       </div>' +
-            '   </td>'
+            '   </td>' +
             '</tr>';
 
         $("#payDestTb").append(regPayDet.global.createHtmlStr);
@@ -946,6 +952,11 @@ var regPayDet = {
                                 ,"card" + regPayDet.global.itemIndex, "etc" + regPayDet.global.itemIndex, "budgetNm" + regPayDet.global.itemIndex]);
 
         customKendo.fn_datePicker("trDe" + regPayDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
+
+        var ds = customKendo.fn_customAjax("/dept/getDeptAList", {
+            deptLevel : 2
+        });
+        customKendo.fn_dropDownList("appTeam" + regPayDet.global.itemIndex, ds.rs, "dept_name", "dept_seq","5");
 
         regPayDet.global.itemIndex++;
     },
