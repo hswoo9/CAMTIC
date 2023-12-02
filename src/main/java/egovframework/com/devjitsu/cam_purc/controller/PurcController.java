@@ -506,4 +506,13 @@ public class PurcController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/purc/delPurcReq.do")
+    public String delPurcReq(@RequestParam Map<String, Object> params, Model model){
+
+        purcService.delPurcReq(params);
+        model.addAttribute("params", params);
+
+        return "jsonView";
+    }
 }

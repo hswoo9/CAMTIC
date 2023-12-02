@@ -949,4 +949,9 @@
         WHERE
             PURC_ITEM_SN = #{item}
     </update>
+
+    <delete id="delPurcReq" parameterType="map">
+        /*delPurcReq*/
+        DELETE FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = #{purcSn}
+    </delete>
 </mapper>

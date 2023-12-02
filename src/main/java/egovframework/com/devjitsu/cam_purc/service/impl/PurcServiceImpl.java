@@ -485,4 +485,10 @@ public class PurcServiceImpl implements PurcService {
     public List<Map<String, Object>> getClaimFileList(Map<String, Object> map) {
         return purcRepository.getClaimFileList(map);
     }
+
+    @Override
+    public void delPurcReq(Map<String, Object> params) {
+        purcRepository.delPurcReq(params);
+        purcRepository.delPurcItem(params);
+    }
 }

@@ -100,11 +100,24 @@ var purcInfo = {
                     title: "금액",
                     width: 100,
                     template: function(e){
-                        purcSum  += Number(e.PURC_ITEM_AMT_SUM);
+                        console.log(e)
+                        if(e.STATUS == "C"){
+                            purcSum  += Number(e.PURC_ITEM_AMT_SUM);
+                        }
                         return "<div style='text-align: right'>"+comma(e.PURC_ITEM_AMT_SUM)+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(purcSum)+"</div>";
+                    }
+                }, {
+                    title: "기타",
+                    width: 100,
+                    template: function(e){
+                        if(e.STATUS == "W"){
+                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-error' onclick='purcInfo.fn_pjtPurcDel(" + e.PURC_SN + ")'>삭제</button>";
+                        } else {
+                            return "";
+                        }
                     }
                 }
             ],
@@ -112,6 +125,18 @@ var purcInfo = {
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
+    },
+
+    fn_pjtPurcDel : function (purcSn){
+        if(!confirm("삭제하시겠습니까?")){
+            return;
+        }
+        var result = customKendo.fn_customAjax("/purc/delPurcReq.do", {purcSn : purcSn});
+
+        if(result.flag){
+            alert("삭제 되었습니다.");
+            purcInfo.gridReload();
+        }
     },
 
     fn_reqRegPopup : function (key){

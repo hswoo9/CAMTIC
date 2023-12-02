@@ -26,6 +26,8 @@
     <input type="hidden" id="nowUrl" name="nowUrl" />
 </form>
 
+<input type="hidden" id="paramPjtSn" value="${pjtData.PJT_SN}">
+
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
@@ -77,7 +79,7 @@
                 <tr>
                     <th scope="row" class="text-center th-color">요청목적</th>
                     <td colspan="3">
-                        <input type="text" id="purcReqPurpose" style="width: 90%;">
+                        <input type="text" id="purcReqPurpose" value="[구매요청] ${pjtData.PJT_NM}" style="width: 90%;">
                     </td>
                 </tr>
                 <tr>
