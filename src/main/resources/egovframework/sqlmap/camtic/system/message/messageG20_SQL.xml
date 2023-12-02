@@ -40,4 +40,9 @@
                 ''
             )
     </insert>
+
+    <select id="test" resultType="map" parameterType="map">
+        /* test */
+        SELECT * FROM MCSDB.dbo.SDK_MMS_SEND
+    </select>
 </mapper>

@@ -277,7 +277,9 @@ const bustripReq = {
                     }
 
                     if($("#paramsPjtSn").val() == ""){
-                        opener.parent.open_in_frame('/bustrip/bustripList.do');
+                        opener.gridReload();
+                    }else{
+                        opener.window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#paramsPjtSn").val() + "&tab=10";
                     }
 
                     window.close();

@@ -167,3 +167,7 @@ var bustripMngList = {
         window.open(url, name, option);
     }
 }
+
+function gridReload(){
+    bustripMngList.mainGrid();
+}

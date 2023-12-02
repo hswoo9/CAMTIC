@@ -172,10 +172,9 @@ var prp = {
             alert("저장되었습니다.");
             if($("#paramPjtSn").val() == ""){
                 opener.parent.prm.gridReload();
-
                 location.href="/purc/pop/regPurcReqPop.do?purcSn=" + result.params.purcSn;
-                // window.close();
             } else {
+                opener.window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=11";
                 location.href="/purc/pop/regPurcReqPop.do?pjtSn=" + $("#pjtSn").val() + "&purcSn=" + result.params.purcSn;
             }
 

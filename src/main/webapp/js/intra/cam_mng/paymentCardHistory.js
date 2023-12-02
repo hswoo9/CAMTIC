@@ -137,6 +137,8 @@ var payCardHist = {
         opener.parent.$("#card" + index).val(data.TR_NM);
         opener.parent.$("#buySts" + index).val(data.BUY_STS);
 
+        alert("반영되었습니다.");
+
         // window.close();
     }
 }

@@ -50,12 +50,21 @@ const goodsPrint = {
         const rs2 = customKendo.fn_customAjax("/project/engn/getCrmInfo", data);
 
         const ests = customKendo.fn_customAjax("/project/getStep1Data", data);
+        const result = customKendo.fn_customAjax("/project/engn/getDelvData", {pjtSn: pjtSn});
+        const delvMap = result.delvMap;
         var estSubList = ests.result.estSubList;
 
         const map = rs.hashMap;
+        const res = rs.result;
+        const estList = res.estList;
+        let estMap = "";
         const crmMap = rs2.rs;
 
+        /** 현재 버전 견적 데이터 추출 */
+        estMap = estList[(estList.length - 1)];
+
         console.log(pjtMap);
+        console.log(estList);
 
         /** 1. 납품 표 */
         goodsPrint.global.hwpCtrl.PutFieldText("END_EXP_DT", pjtMap.END_EXP_DT_FORMAT);
@@ -108,13 +117,19 @@ const goodsPrint = {
         /** 4. 견적 합계 */
         const supAmtSum2 = Math.floor(supAmtSum/10);
         const supAmtSum1 = supAmtSum - supAmtSum2;
-        goodsPrint.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum1));
-        goodsPrint.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", fn_numberWithCommas(supAmtSum2));
-        goodsPrint.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum));
-        goodsPrint.global.hwpCtrl.PutFieldText("SUP_AMT_SUM_TEXT", "총 납품금액 : "+fn_numberWithCommas(supAmtSum)+" 원");
+        if(estMap.VAT == "Y"){
+            goodsPrint.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum));
+            goodsPrint.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", "0");
+            goodsPrint.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum));
+        }else{
+            goodsPrint.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum1));
+            goodsPrint.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", fn_numberWithCommas(supAmtSum2));
+            goodsPrint.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum));
+        }
 
         /** 5. 기타사항 */
         goodsPrint.global.hwpCtrl.PutFieldText("ETC", String(pjtMap.GOODS_ISS));
+        goodsPrint.global.hwpCtrl.PutFieldText("DELV_PAY", delvMap.DELV_PAY);
     },
 
     resize: function() {

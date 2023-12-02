@@ -87,21 +87,45 @@ var purcInfo = {
                 }, {
                     title: "상태",
                     field: "STATUS",
-                    width: 100,
+                    width: 120,
                     template : function(e){
-                        if(e.STATUS == "W"){
-                            return "작성중"
-                        }else if(e.STATUS == "C"){
-                            return "요청완료"
+                        var status = "";
+                        /** 구매요청서 */
+                        if(e.DOC_STATUS == "0"){
+                            status = "구매요청작성중";
+                        }else if(e.DOC_STATUS != "100" && e.DOC_STATUS != "101"){
+                            status = "구매요청작성중";
+                        }else if(e.DOC_STATUS == "100" || e.DOC_STATUS == "101"){
+                            status = "구매요청완료";
+
+                            /** 구매청구서 */
+                            if(e.CLAIM_STATUS == "CN"){
+                                status = "구매요청완료";
+                            }else if(e.CLAIM_STATUS == "CAN"){
+                                status = "구매청구작성중";
+                            }else if(e.CLAIM_STATUS == "CAYSN"){
+                                status = "구매청구작성중";
+                            }else if(e.CLAIM_STATUS == "CAYSY"){
+                                status = "구매청구완료";
+                            }
+
+                            if(e.INSPECT_YN == "Y"){
+                                if(e.INSPECT_STATUS != "100"){
+                                    status = "검수요청중";
+                                }else{
+                                    status = "<div style='font-weight: bold'>검수승인완료</div>";
+                                }
+                            }
                         }
+                        return status
                     },
-                    footerTemplate: "합계"
+                    footerTemplate: "청구 합계"
                 }, {
                     title: "금액",
                     width: 100,
                     template: function(e){
                         console.log(e)
-                        if(e.STATUS == "C"){
+                        if(e.CLAIM_STATUS == "CAYSY"){
                             purcSum  += Number(e.PURC_ITEM_AMT_SUM);
                         }
                         return "<div style='text-align: right'>"+comma(e.PURC_ITEM_AMT_SUM)+"</div>";
@@ -113,7 +137,7 @@ var purcInfo = {
                     title: "기타",
                     width: 100,
                     template: function(e){
-                        if(e.STATUS == "W"){
+                        if(e.DOC_STATUS == "0"){
                             return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-error' onclick='purcInfo.fn_pjtPurcDel(" + e.PURC_SN + ")'>삭제</button>";
                         } else {
                             return "";
@@ -158,4 +182,8 @@ var purcInfo = {
         purcSum = 0;
     }
 
+}
+
+function gridReload(){
+    purcInfo.mainGrid();
 }

@@ -291,3 +291,7 @@ var bustInfo = {
         window.open(url, name, option);
     },
 }
+
+function gridReload(){
+    bustInfo.bustripMainGrid();
+}

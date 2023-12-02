@@ -223,3 +223,7 @@ var purcClaim = {
         var popup = window.open(url, name, option);
     }
 }
+
+function gridReload(){
+    purcClaim.gridReload();
+}

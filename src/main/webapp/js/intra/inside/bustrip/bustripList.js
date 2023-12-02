@@ -257,3 +257,7 @@ var bustripList = {
         }).trigger("submit");
     }
 }
+
+function gridReload(){
+    bustripList.mainGrid();
+}
