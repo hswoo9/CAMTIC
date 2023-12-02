@@ -11,6 +11,7 @@
     }
 </style>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/budgetListDetail.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/camMng.js?v=${today}'/>"></script>
 
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
@@ -31,7 +32,7 @@
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
         <div class="card-header pop-header">
-            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="title">직원 참여율 현황</span>
+            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="title">예산 현황</span>
 
             </h3>
 
@@ -157,22 +158,15 @@
                 <tr>
                     <th colspan="8" style="font-weight: bold">지출예산</th>
                 </tr>
-                <tr id="B">
-
-                </tr>
                 </thead>
-                <tbody id="Bb">
-                <tr>
-                    <td colspan="8" style="text-align: center">데이터가 없습니다.</td>
-                </tr>
-                </tbody>
             </table>
+            <div id="budgetMainGrid"></div>
         </div>
     </div>
 </div>
 
 <script>
-    userPartRate.fn_defaultScript();
+    bld.fn_defaultScript();
 </script>
 </body>
 </html>

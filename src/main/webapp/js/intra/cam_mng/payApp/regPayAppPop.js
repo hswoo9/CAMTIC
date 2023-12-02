@@ -280,6 +280,7 @@ var regPay = {
             $("#trBank").text("출금계좌");
         }
         $("#appDe").val(rs.APP_DE)
+        $("#reqDe").val(rs.REQ_DE)
         $("#pjtNm").val(rs.PJT_NM)
         $("#pjtSn").val(rs.PJT_SN)
         $("#pjtCd").val(rs.PJT_CD)
@@ -567,8 +568,8 @@ var regPay = {
             return;
         }
 
-        if(parameters.pjtSn == ""){
-            alert("사업을 선택해주세요.");
+        if(parameters.appTitle == ""){
+            alert("신청건명을 입력해주세요.");
             return;
         }
 

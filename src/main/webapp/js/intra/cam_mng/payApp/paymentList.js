@@ -103,7 +103,7 @@ var paymentList = {
                 }, {
                     title: "신청일",
                     width: 80,
-                    field: "REG_DT",
+                    field: "APP_DE",
                     template: function(e){
 
                         return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
@@ -111,7 +111,7 @@ var paymentList = {
                 }, {
                     title: "지출요청일",
                     width: 80,
-                    field: "APP_DE"
+                    field: "REQ_DE"
                 }, {
                     title: "지출예정일",
                     width: 80,

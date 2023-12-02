@@ -500,6 +500,10 @@
                 AND
                     (A.PROG_FG = '0' OR A.PROG_FG = '9')
             </if>
+            <if test='searchKeyword != null and !"".equals(searchKeyword)'>
+                AND
+                    ${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+            </if>
         ORDER BY A.FR_DT DESC
     </select>
 </mapper>

@@ -44,7 +44,7 @@ var budgetList = {
                     data.searchDept = $("#searchDept").val();
                     data.strDate = $("#strDate").val();
                     data.endDate = $("#endDate").val();
-                    data.searchKeyword = $("#searchKeyWord").val();
+                    data.searchKeyword = $("#searchKeyword").val();
                     data.searchValue = $("#searchValue").val();
                     return data;
                 }
