@@ -53,7 +53,7 @@ var devInfo = {
                 }
             }
             html += "<tr style='text-align: center'>";
-            html += "   <td>Ver."+(i+1)+"</td>";
+            html += "   <td><span style='font-weight: bold; cursor: pointer' onclick='devInfo.fn_setVersion("+rs.list[i].DEV_SN+")'>Ver."+(i+1)+"</span></td>";
             html += "   <td>"+ docNo +"</td>";
             html += "   <td>"+ sdfDate +"</td>";
             html += "   <td id='invAmt002'>"+devInfo.comma(invAmt)+"</td>";
@@ -102,10 +102,9 @@ var devInfo = {
         devInfo.fn_setData();
 
         var rs = devInfo.global.devPjtVerList.list;
-        console.log(rs);
         if(rs.length > 0){
-            var status = rs[0].STATUS;
-            var teamStat = rs[0].TEAM_STAT;
+            var status = rs[rs.length - 1].STATUS;
+            var teamStat = rs[rs.length - 1].TEAM_STAT;
             var buttonHtml = "";
             if(status == "0"){
                 buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
@@ -118,6 +117,7 @@ var devInfo = {
 
             }else if(status == "100"){
                 buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+rs[0].DOC_ID+"', '"+rs[0].APPRO_KEY+"', '"+rs[0].DOC_MENU_CD+"');\">열람</button>";
+                buttonHtml += "<button type=\"button\" id=\"devAddBtn\" style=\"float: right; margin-right: 5px\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_addVersion()\">추가</button>";
             } else {
                 buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
             }
@@ -129,11 +129,16 @@ var devInfo = {
         }
     },
 
-    fn_setData : function (){
+    fn_setVersion : function (key){
+        devInfo.fn_setData(key);
+    },
 
+    fn_setData : function (key){
         var data = {
-            pjtSn : $("#pjtSn").val()
+            pjtSn : $("#pjtSn").val(),
+            devSn : key,
         }
+
         $.ajax({
             url : "/project/getProcessList",
             data : data,
@@ -142,27 +147,72 @@ var devInfo = {
             success : function(rs){
 
                 var list = rs.list;
+                $("#psTable").html("");
+                if(list.length != 0){
+                    for(var i = 0 ; i < list.length ; i++){
+                        var idx = i+1;
+                        var html = "";
+                        html += '<tr id="tr'+idx+'">';
+                        html += '   <td style="text-align: center"><span style="position: relative; top:5px">'+idx+'</span></td>';
+                        html += '   <td><input type="text" class="prepList" id="prepList'+idx+'" /></td>';
+                        html += '   <td>' +
+                            '           <input type="text" class="psNm" id="psNm'+idx+'" />' +
+                            '           <span><input type="hidden" class="psSn" id="psSn'+idx+'" value="'+list[i].PS_SN+'"/></span>' +
+                            '       </td>';
+                        html += '   <td style="text-align: center"><input type="text" class="psStrDe" id="psStrDe'+idx+'" style="width: 45%" />~<input type="text" class="psEndDe" style="width: 45%" id="psEndDe'+idx+'" /></td>';
+                        html += '   <td><input type="text" id="psEmpNm'+idx+'" value="'+list[i].PS_EMP_SEQ+'" disabled /><input type="hidden" id="psEmpSeq'+idx+'" value="'+list[i].PS_EMP_SEQ+'" /></td>';
+                        html += '   <td style="text-align: center">';
+                        html += '       <button type="button" onclick="devInfo.fn_delRow('+idx+')" class="k-button k-button-solid-error btn'+idx+'">삭제</button>';
+                        html += '   </td>';
+                        html += '</tr>';
+                        $("#psTable").append(html);
 
-                for(var i = 0 ; i < list.length ; i++){
-                    var idx = i+1;
-                    var html = "";
-                    html += '<tr id="tr'+idx+'">';
-                    html += '   <td style="text-align: center"><span style="position: relative; top:5px">'+idx+'</span></td>';
-                    html += '   <td><input type="text" class="prepList" id="prepList'+idx+'" /></td>';
-                    html += '   <td>' +
-                        '           <input type="text" class="psNm" id="psNm'+idx+'" />' +
-                        '           <span><input type="hidden" class="psSn" id="psSn'+idx+'" value="'+list[i].PS_SN+'"/></span>' +
-                        '       </td>';
-                    html += '   <td style="text-align: center"><input type="text" class="psStrDe" id="psStrDe'+idx+'" style="width: 45%" />~<input type="text" class="psEndDe" style="width: 45%" id="psEndDe'+idx+'" /></td>';
-                    html += '   <td><input type="text" id="psEmpNm'+idx+'" value="'+list[i].PS_EMP_SEQ+'" disabled /><input type="hidden" id="psEmpSeq'+idx+'" value="'+list[i].PS_EMP_SEQ+'" /></td>';
-                    html += '   <td style="text-align: center">';
-                    html += '       <button type="button" onclick="devInfo.fn_delRow('+idx+')" class="k-button k-button-solid-error btn'+idx+'">삭제</button>';
-                    html += '   </td>';
-                    html += '</tr>';
+
+                        $("#prepList" + idx).kendoDropDownList({
+                            dataSource : [
+                                {text : "선택", value : ""},
+                                {text : "설계", value : "1"},
+                                {text : "제작", value : "2"},
+                                {text : "품질", value : "3"},
+                                {text : "참여", value : "4"},
+                                {text : "기획", value : "5"},
+                                {text : "기타", value : "6"},
+                            ],
+                            dataTextField : "text",
+                            dataValueField : "value"
+                        });
+
+                        $("#prepList" + idx).data("kendoDropDownList").value(list[i].PS_PREP);
+                        $("#psNm" + idx).kendoTextBox();
+                        customKendo.fn_datePicker("psStrDe" + idx, "depth", "yyyy-MM-dd", new Date());
+                        customKendo.fn_datePicker("psEndDe" + idx, "depth", "yyyy-MM-dd", new Date());
+                        $("#psEmpNm" + idx).kendoTextBox();
+                        $("#psEmpNm" + idx).val(list[i].PS_EMP_NM);
+                        $("#psEmpSeq" + idx).val(list[i].PS_EMP_SEQ);
+                        $("#psStrDe" + idx).val(list[i].PS_STR_DE);
+                        $("#psEndDe" + idx).val(list[i].PS_END_DE);
+
+                        $("#psNm" + idx).val(list[i].PS_NM);
+                    }
+                } else {
+                    html += '<tr>' +
+                        '            <td style="text-align: center"><span style="position: relative; top:5px">추가</span></td>' +
+                        '            <td><input type="text" class="prepList" id="prepList" /></td>' +
+                        '            <td><input type="text" class="psNm" id="psNm" /> </td>' +
+                        '            <td style="text-align: center"><input type="text" class="psStrDe" id="psStrDe" style="width: 45%" />~<input type="text" class="psEndDe" style="width: 45%" id="psEndDe" /></td>' +
+                        '            <td>' +
+                        '                <input type="text" id="psEmpNm" disabled style="width: 100%" />' +
+                        '                <input type="hidden" id="psEmpSeq" />' +
+                        '            </td>' +
+                        '            <td style="text-align: center">' +
+                        '                <button type="button" class="k-button k-button-solid-base" onclick="devInfo.fn_addProcess(\'${hashMap.PJT_SN}\')">공정저장</button>' +
+                        '                <button type="button" onclick="fn_userMultiSelectPop()" class="k-button k-button-solid-base">추진담당</button>' +
+                        '            </td>' +
+                        '        </tr>';
+
                     $("#psTable").append(html);
 
-
-                    $("#prepList" + idx).kendoDropDownList({
+                    $("#prepList").kendoDropDownList({
                         dataSource : [
                             {text : "선택", value : ""},
                             {text : "설계", value : "1"},
@@ -175,19 +225,12 @@ var devInfo = {
                         dataTextField : "text",
                         dataValueField : "value"
                     });
-
-                    $("#prepList" + idx).data("kendoDropDownList").value(list[i].PS_PREP);
-                    $("#psNm" + idx).kendoTextBox();
-                    customKendo.fn_datePicker("psStrDe" + idx, "depth", "yyyy-MM-dd", new Date());
-                    customKendo.fn_datePicker("psEndDe" + idx, "depth", "yyyy-MM-dd", new Date());
-                    $("#psEmpNm" + idx).kendoTextBox();
-                    $("#psEmpNm" + idx).val(list[i].PS_EMP_NM);
-                    $("#psEmpSeq" + idx).val(list[i].PS_EMP_SEQ);
-                    $("#psStrDe" + idx).val(list[i].PS_STR_DE);
-                    $("#psEndDe" + idx).val(list[i].PS_END_DE);
-
-                    $("#psNm" + idx).val(list[i].PS_NM);
+                    $("#psNm").kendoTextBox();
+                    customKendo.fn_datePicker("psStrDe", "depth", "yyyy-MM-dd", new Date());
+                    customKendo.fn_datePicker("psEndDe", "depth", "yyyy-MM-dd", new Date());
+                    $("#psEmpNm").kendoTextBox();
                 }
+
             }
         });
 
@@ -201,33 +244,92 @@ var devInfo = {
 
                 var list = rs.list;
 
-                for(var i = 0 ; i < list.length ; i++){
-                    var idx = i+1;
+                
+                $("#invTable").html("");
+                if(list.length != 0){
+                    for(var i = 0 ; i < list.length ; i++){
+                        var idx = i+1;
+                        var html = "";
+                        html += '<tr id="itr'+idx+'">';
+                        html += '   <td style="text-align: center"><span style="position: relative; top:5px">'+idx+'</span></td>' +
+                            '       <td>\n' +
+                            '           <input type="text" id="divNm'+idx+'" class="divNm" />\n' +
+                            '           <span>\n' +
+                            '               <input type="hidden" id="invSn'+idx+'" class="invSn" />\n' +
+                            '           </span>\n' +
+                            '       </td>\n' +
+                            '       <td><input type="text" id="invNm'+idx+'" class="invNm" /></td>\n' +
+                            '       <td><input type="text" id="invCnt'+idx+'" class="invCnt" style="text-align: right" onkeyup="devInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>\n' +
+                            '       <td><input type="text" id="invUnit'+idx+'" class="invUnit" /></td>\n' +
+                            '       <td><input type="text" id="estTotAmt'+idx+'" style="text-align: right" class="estTotAmt" onkeyup="devInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>\n' +
+                            '       <td><input type="text" id="estOfc'+idx+'" class="estOfc" /></td>\n' +
+                            '       <td><input type="text" id="invEtc'+idx+'" class="invEtc" /></td>\n' +
+                            '       <td style="text-align: center;">' +
+                            '           <button type="button" id="delBtn" onclick="devInfo.fn_delInv('+idx+')" class="k-button k-button-solid-error">삭제</button>' +
+                            '       </td>';
+                        html += '</tr>';
+                        $("#invTable").append(html);
+
+
+                        customKendo.fn_textBox(["invNm" + idx, "invCnt" + idx , "invUnit" + idx,
+                            "estTotAmt" + idx, "estOfc" + idx, "invEtc" + idx]);
+                        $("#divNm"+ idx).kendoDropDownList({
+                            dataSource : [
+                                {text : "구매", value : "1"},
+                            ],
+                            dataTextField : "text",
+                            dataValueField : "value"
+                        });
+
+                        $("#divNm" + idx).data("kendoDropDownList").value(list[i].DIV_SN);
+                        $("#invSn" + idx).val(list[i].INV_SN);
+
+                        $("#invNm" + idx).val(list[i].INV_NM);
+                        $("#invCnt" + idx).val(devInfo.comma(list[i].INV_CNT));
+                        $("#invUnit" + idx).val(list[i].INV_UNIT);
+                        $("#estTotAmt" + idx).val(devInfo.comma(list[i].EST_TOT_AMT));
+                        $("#invEtc" + idx).val(list[i].INV_ETC);
+
+                        $("#estOfc" + idx).val(list[i].EST_OFC);
+                    }
+
+                    var idx = 0;
+                    var totAmt = 0;
+                    $("#invTable > tr").each(function(e){
+                        idx++;
+                        totAmt += Number(devInfo.uncomma($("#estTotAmt" + idx).val()));
+                    });
+
+                    $("#invAmt").val(devInfo.comma(totAmt));
+
+                    var invPer = 0;
+
+
+                    $("#invPer").val(Math.round(Number( totAmt / devInfo.uncomma($("#devDelvAmt").val()) * 100)));
+                } else {
                     var html = "";
-                    html += '<tr id="itr'+idx+'">';
-                    html += '   <td style="text-align: center"><span style="position: relative; top:5px">'+idx+'</span></td>' +
-                        '       <td>\n' +
-                        '           <input type="text" id="divNm'+idx+'" class="divNm" />\n' +
-                        '           <span>\n' +
-                        '               <input type="hidden" id="invSn'+idx+'" class="invSn" />\n' +
-                        '           </span>\n' +
-                        '       </td>\n' +
-                        '       <td><input type="text" id="invNm'+idx+'" class="invNm" /></td>\n' +
-                        '       <td><input type="text" id="invCnt'+idx+'" class="invCnt" style="text-align: right" onkeyup="devInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>\n' +
-                        '       <td><input type="text" id="invUnit'+idx+'" class="invUnit" /></td>\n' +
-                        '       <td><input type="text" id="estTotAmt'+idx+'" style="text-align: right" class="estTotAmt" onkeyup="devInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>\n' +
-                        '       <td><input type="text" id="estOfc'+idx+'" class="estOfc" /></td>\n' +
-                        '       <td><input type="text" id="invEtc'+idx+'" class="invEtc" /></td>\n' +
-                        '       <td style="text-align: center;">' +
-                        '           <button type="button" id="delBtn" onclick="devInfo.fn_delInv('+idx+')" class="k-button k-button-solid-error">삭제</button>' +
-                        '       </td>';
+                    html += '<tr id="itr">';
+                    html += '   <td style="text-align: center"><span style="position: relative; top:5px"></span></td>' +
+                        '       <td>' +
+                        '           <input type="text" id="divNm" class="divNm" />' +
+                        '           <span>' +
+                        '               <input type="hidden" id="invSn" class="invSn" />' +
+                        '           </span>' +
+                        '       </td>' +
+                        '       <td><input type="text" id="invNm" class="invNm" /></td>' +
+                        '       <td><input type="text" id="invCnt" class="invCnt" style="text-align: right" onkeyup="devInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
+                        '       <td><input type="text" id="invUnit" class="invUnit" /></td>' +
+                        '       <td><input type="text" id="estTotAmt" style="text-align: right" class="estTotAmt" onkeyup="devInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
+                        '       <td><input type="text" id="estOfc" class="estOfc" /></td>' +
+                        '       <td><input type="text" id="invEtc" class="invEtc" /></td>' +
+                        '       <td style="text-align: center;"><button type="button" id="addBtn" onclick="devInfo.fn_addInv()" class="k-button k-button-solid-base">추가</button></td>';
                     html += '</tr>';
                     $("#invTable").append(html);
 
 
-                    customKendo.fn_textBox(["invNm" + idx, "invCnt" + idx , "invUnit" + idx,
-                        "estTotAmt" + idx, "estOfc" + idx, "invEtc" + idx]);
-                    $("#divNm"+ idx).kendoDropDownList({
+                    customKendo.fn_textBox(["invNm" , "invCnt"  , "invUnit" ,
+                        "estTotAmt" , "estOfc" , "invEtc" ]);
+                    $("#divNm").kendoDropDownList({
                         dataSource : [
                             {text : "구매", value : "1"},
                         ],
@@ -235,37 +337,10 @@ var devInfo = {
                         dataValueField : "value"
                     });
 
-                    $("#divNm" + idx).data("kendoDropDownList").value(list[i].DIV_SN);
-                    $("#invSn" + idx).val(list[i].INV_SN);
-
-                    $("#invNm" + idx).val(list[i].INV_NM);
-                    $("#invCnt" + idx).val(devInfo.comma(list[i].INV_CNT));
-                    $("#invUnit" + idx).val(list[i].INV_UNIT);
-                    $("#estTotAmt" + idx).val(devInfo.comma(list[i].EST_TOT_AMT));
-                    $("#invEtc" + idx).val(list[i].INV_ETC);
-
-                    $("#estOfc" + idx).val(list[i].EST_OFC);
                 }
-
-                var idx = 0;
-                var totAmt = 0;
-                $("#invTable > tr").each(function(e){
-                    idx++;
-                    totAmt += Number(devInfo.uncomma($("#estTotAmt" + idx).val()));
-                });
-
-                $("#invAmt").val(devInfo.comma(totAmt));
-
-                var invPer = 0;
-
-
-                $("#invPer").val(Math.round(Number( totAmt / devInfo.uncomma($("#devDelvAmt").val()) * 100)));
+                
             }
         });
-
-        var data = {
-            pjtSn : $("#pjtSn").val(),
-        }
 
         $.ajax({
             url : "/project/getDevelopPlan",
@@ -281,8 +356,35 @@ var devInfo = {
                     $("#modBtn").css("display", "");
                     // $("#devSaveBtn").css("display", "none");
                 }
+                console.log(rs);
+
+                var status = rs.rs.STATUS;
+                // var teamStat = rs[rs.length - 1].TEAM_STAT;
+                var buttonHtml = "";
+                if(status == "0"){
+                    buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
+                    buttonHtml += "<button type=\"button\" id=\"devAppBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.delvDrafting()\">상신</button>";
+                }else if(status == "10"){
+                    buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+rs.rs.DOC_ID+"', '"+rs.rs.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
+                }else if(status == "30" || status == "40"){
+                    buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">저장</button>";
+                    buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('"+rs.rs.DOC_ID+"', '"+rs.rs.DOC_MENU_CD+"', '"+rs.rs.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
+
+                }else if(status == "100"){
+                    buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+rs.rs.DOC_ID+"', '"+rs.rs.APPRO_KEY+"', '"+rs.rs.DOC_MENU_CD+"');\">열람</button>";
+                    buttonHtml += "<button type=\"button\" id=\"devAddBtn\" style=\"float: right; margin-right: 5px\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_addVersion()\">추가</button>";
+                } else {
+                    buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
+                }
+
+                // if(teamStat == "Y"){
+                //     buttonHtml = "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
+                // }
+                $("#devBtnDiv").html(buttonHtml);
             }
-        })
+        });
+
+
     },
 
     fn_delRow : function(i){
@@ -360,6 +462,24 @@ var devInfo = {
                 }
             }
         });
+    },
+
+    fn_addVersion : function (){
+        if(!confirm("수행계획을 추가하시겠습니까?")){
+            return;
+        }
+
+
+        devInfo.fn_setData();
+
+
+        var data = {
+            pjtSn : $("#pjtSn").val()
+        }
+        var result = customKendo.fn_customAjax("/project/addDevVersion", data);
+
+
+
     },
 
     delvDrafting: function() {

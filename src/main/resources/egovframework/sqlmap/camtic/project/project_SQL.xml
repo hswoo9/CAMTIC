@@ -733,12 +733,13 @@
     </insert>
 
     <select id="getProcessList" parameterType="map" resultType="map">
+        /*getProcessList*/
         SELECT
             *
         FROM
             CAM_PJT_MNG.DJ_PJT_PS
         WHERE
-            PJT_SN = #{pjtSn}
+            DEV_SN = #{devSn}
     </select>
 
     <update id="updProcess" parameterType="map">
@@ -794,7 +795,7 @@
         SELECT * FROM
             CAM_PJT_MNG.DJ_PJT_INV
         WHERE
-            PJT_SN = #{pjtSn}
+            DEV_SN = #{devSn}
     </select>
 
     <update id="updInvest" parameterType="map">
@@ -827,7 +828,7 @@
         FROM CAM_PJT_MNG.DJ_PJT_DEV A
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
-        WHERE PJT_SN = #{pjtSn}
+        WHERE DEV_SN = #{devSn}
         ORDER BY DEV_SN DESC LIMIT 1
     </select>
 
