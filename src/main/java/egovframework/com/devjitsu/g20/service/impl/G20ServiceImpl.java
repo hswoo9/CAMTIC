@@ -128,4 +128,9 @@ public class G20ServiceImpl implements G20Service {
 
         manageRepository.insDjCardList(list);
     }
+
+    @Override
+    public Map<String, Object> getProjectInfo(Map<String, Object> params) {
+        return g20Repository.getProjectInfo(params);
+    }
 }
