@@ -112,13 +112,13 @@ var cml = {
                     title: "팩스번호",
                     field: "FAX",
                     width: 100
-                }, {
+                }/*, {
                     title: "관계이력",
                     width: 100,
                     template : function (e){
                         return "0 건";
                     }
-                }/*, {
+                }*//*, {
                     title: "품번관리",
                     width: 80,
                     template: function(e){

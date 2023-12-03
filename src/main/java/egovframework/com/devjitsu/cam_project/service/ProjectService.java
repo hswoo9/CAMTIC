@@ -139,6 +139,8 @@ public interface ProjectService {
 
     Map<String, Object> getProjectDocInfo(Map<String, Object> params);
 
+    void addDevVersion(Map<String, Object> params);
+
     void updPjtDevTotAmt(Map<String, Object> params);
 
     List<Map<String, Object>> getPartRateVersionList(Map<String, Object> params);

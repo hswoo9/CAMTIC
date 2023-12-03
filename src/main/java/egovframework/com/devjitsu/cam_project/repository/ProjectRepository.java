@@ -460,6 +460,10 @@ public class ProjectRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("project.getProjectDocInfo", params);
     }
 
+    public void addDevVersion(Map<String, Object> params) {
+        insert("project.addDevVersion", params);
+    }
+
     public void updPjtDevTotAmt(Map<String, Object> params) {
         update("project.updPjtDevTotAmt", params);
     }

@@ -1009,6 +1009,19 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/addDevVersion")
+    public String addDevVersion(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectService.addDevVersion(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     /** 수주관리 전자결재 페이지*/
     @RequestMapping("/popup/cam_project/approvalFormPopup/delvApprovalPop.do")
     public String equipApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {

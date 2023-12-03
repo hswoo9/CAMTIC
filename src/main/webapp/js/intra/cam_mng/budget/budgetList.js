@@ -1,7 +1,8 @@
 var budgetList = {
 
     global : {
-        dropDownDataSource : []
+        dropDownDataSource : [],
+        now : new Date()
     },
 
     fn_defaultScript: function (){
@@ -13,8 +14,8 @@ var budgetList = {
         customKendo.fn_dropDownList("searchDept", budgetList.global.dropDownDataSource, "text", "value");
         $("#searchDept").data("kendoDropDownList").bind("change", budgetList.gridReload);
 
-        customKendo.fn_datePicker("strDate", "depth", "yyyy-MM-dd", new Date());
-        customKendo.fn_datePicker("endDate", "depth", "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("strDate", "depth", "yyyy-MM-dd", new Date(budgetList.global.now.getFullYear() + '-01-01'));
+        customKendo.fn_datePicker("endDate", "depth", "yyyy-MM-dd", new Date(budgetList.global.now.getFullYear() + '-12-31'));
 
 
         budgetList.global.dropDownDataSource = [
@@ -35,15 +36,15 @@ var budgetList = {
             serverPaging: false,
             transport: {
                 read : {
-                    url: '/mng/getBudgetList',
+                    url: '/g20/getProjectList',
                     dataType: "json",
                     type: "post",
                     async: false
                 },
                 parameterMap: function(data) {
                     data.searchDept = $("#searchDept").val();
-                    data.strDate = $("#strDate").val();
-                    data.endDate = $("#endDate").val();
+                    data.pjtFromDate = $("#strDate").val();
+                    data.pjtToDate = $("#endDate").val();
                     data.searchKeyword = $("#searchKeyword").val();
                     data.searchValue = $("#searchValue").val();
                     return data;
@@ -91,30 +92,22 @@ var budgetList = {
                     width: 50
                 }, {
                     title : "코드",
-                    field : "PJT_CD",
+                    field : "pjtSeq",
                     width: 150
                 }, {
                     title : "프로젝트 명",
                     width: 500,
                     template:function (e){
-                        return "<a href='javascript:void(0);' style='font-weight: bold' onclick='budgetList.fn_popBudgetDetail(\"" + e.PJT_CD + "\")'>" + e.PJT_NM + "</a>";
+                        return "<a href='javascript:void(0);' style='font-weight: bold' onclick='budgetList.fn_popBudgetDetail(\"" + e.pjtSeq + "\")'>" + e.pjtName + "</a>";
                     }
                 }, {
-                    title : "프로젝트 시작",
-                    field : "FR_DT",
-                    width: 150,
-                    template: function(e){
-                        var dt = e.FR_DT.toString().substring(0, 4) + "-" + e.FR_DT.toString().substring(4, 6) + "-" + e.FR_DT.toString().substring(6, 8)
-                        return dt
-                    }
+                    field: "pjtFromDate",
+                    title: "시작일자",
+                    width: 80,
                 }, {
-                    title : "프로젝트 종료",
-                    field : "TO_DT",
-                    width: 150,
-                    template: function(e){
-                        var dt = e.TO_DT.toString().substring(0, 4) + "-" + e.TO_DT.toString().substring(4, 6) + "-" + e.TO_DT.toString().substring(6, 8)
-                        return dt
-                    }
+                    field: "pjtToDate",
+                    title: "종료일자",
+                    width: 80,
                 }
             ],
             dataBinding: function(){

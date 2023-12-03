@@ -128,13 +128,13 @@ var crm = {
                     title: "팩스번호",
                     field: "FAX",
                     width: 100
-                }, {
+                }/*, {
                     title: "관계이력",
                     width: 100,
                     template : function (e){
                         return "0 건";
                     }
-                }, {
+                }*/, {
                     field: "CRM_LOC",
                     title: "소재지",
                     width: 100

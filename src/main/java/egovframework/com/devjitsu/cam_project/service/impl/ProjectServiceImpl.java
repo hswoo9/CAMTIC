@@ -958,6 +958,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public void addDevVersion(Map<String, Object> params) {
+        projectRepository.addDevVersion(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getPartRateVersionList(Map<String, Object> params) {
         return projectRepository.getPartRateVersionList(params);
     }

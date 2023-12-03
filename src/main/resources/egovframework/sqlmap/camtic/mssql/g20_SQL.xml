@@ -46,6 +46,17 @@
             ) = '1'
         AND ((A.FR_DT BETWEEN #{pjtFromDate} AND #{pjtToDate}) OR (A.TO_DT BETWEEN #{pjtFromDate} AND #{pjtToDate}))
         ]]>
+        <choose>
+            <when test='searchKeyword != null and !"".equals(searchKeyword)'>
+                AND A.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+            <otherwise>
+                <if test='searchValue != null and !"".equals(searchValue)'>
+                    AND (A.PJT_NM LIKE CONCAT('%', #{searchValue}, '%')
+                    OR A.PJT_CD LIKE CONCAT('%', #{searchValue}, '%'))
+                </if>
+            </otherwise>
+        </choose>
     </select>
 
     <select id="getProjectCount" parameterType="map" resultType="int">

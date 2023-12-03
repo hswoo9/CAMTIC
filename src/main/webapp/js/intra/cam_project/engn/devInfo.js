@@ -474,7 +474,8 @@ var devInfo = {
 
 
         var data = {
-            pjtSn : $("#pjtSn").val()
+            pjtSn : $("#pjtSn").val(),
+            empSeq : $("#empSeq").val()
         }
         var result = customKendo.fn_customAjax("/project/addDevVersion", data);
 
