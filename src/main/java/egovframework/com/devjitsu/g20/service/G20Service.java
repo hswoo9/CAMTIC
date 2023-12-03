@@ -29,4 +29,6 @@ public interface G20Service {
     List<Map<String, Object>> getCorpProjectList(Map<String, Object> params);
 
     void setDjCardList(List<Map<String, Object>> list);
+
+    Map<String, Object> getProjectInfo(Map<String, Object> params);
 }

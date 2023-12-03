@@ -44,8 +44,7 @@ var bld = {
                 total: function(data){
                     return data.list.length;
                 },
-            },
-            pageSize: 100
+            }
         });
 
         $("#budgetMainGrid").kendoGrid({
@@ -53,22 +52,12 @@ var bld = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 600,
-            pageable: {
-                refresh: true,
-                pageSizes: [ 10, 20, 30, 50, 100 ],
-                buttonCount: 5
-            },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
             dataBound: bld.onDataBound,
             columns: [
                 {
-                    template: "#= ++record #",
-                    title: "번호",
-                    width : 80
-                }, {
                     title: "장",
                     width: 250,
                     template: function (e){
@@ -195,8 +184,7 @@ var bld = {
                 total: function(data){
                     return data.list.length;
                 },
-            },
-            pageSize: 100
+            }
         });
 
         $("#budgetMainGrid2").kendoGrid({
@@ -204,22 +192,12 @@ var bld = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 600,
-            pageable: {
-                refresh: true,
-                pageSizes: [ 10, 20, 30, 50, 100 ],
-                buttonCount: 5
-            },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
             dataBound: bld.onDataBound,
             columns: [
                 {
-                    template: "#= ++record #",
-                    title: "번호",
-                    width : 80
-                }, {
                     title: "장",
                     width: 250,
                     template: function (e){

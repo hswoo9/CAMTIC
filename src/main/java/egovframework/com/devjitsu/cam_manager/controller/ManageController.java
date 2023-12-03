@@ -279,6 +279,7 @@ public class ManageController {
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
+        model.addAttribute("g20Info", g20Service.getProjectInfo(params));
         model.addAttribute("projectInfo", projectService.getProjectByPjtCd(params));
 
         return "popup/cam_manager/budgetListDetail";

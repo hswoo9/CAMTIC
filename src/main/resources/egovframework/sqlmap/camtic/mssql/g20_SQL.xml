@@ -473,6 +473,7 @@
 
     <select id="getBudgetList" parameterType="map" resultType="map">
         /*getBudgetList*/
+        <![CDATA[
         SELECT
             A.CO_CD,
             A.PJT_CD,
@@ -492,6 +493,8 @@
         FROM VN_G20SPJT_INFO AS A
         WHERE
             A.CO_CD NOT IN ('9999')
+        AND A.FR_DT >= 20230101 AND A.TO_DT <= 20231231
+        ]]>
             <if test='searchDept == "1" or "1".equals(searchDept)'>
                 AND
                     A.PROG_FG = '1'
@@ -504,6 +507,57 @@
                 AND
                     ${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
             </if>
+        ORDER BY A.FR_DT DESC
+    </select>
+
+    <select id="getProjectInfo" parameterType="map" resultType="map">
+        /*getProjectInfo*/
+        SELECT
+            *
+        FROM VN_G20SPJT_INFO AS A
+        WHERE PJT_CD = #{pjtCd}
+    </select>
+
+    <select id="getBudgetListBak" parameterType="map" resultType="map">
+        /*getBudgetListBak*/
+        <![CDATA[
+        SELECT
+            MAX(A.CO_CD) AS CO_CD,
+            MAX(A.PJT_CD) AS PJT_CD,
+            MAX(A.PJT_NM) AS PJT_NM,
+            MAX(A.FR_DT) AS FR_DT,
+            MAX(A.TO_DT) AS TO_DT,
+            MAX(A.TR_CD) AS TR_CD,
+            MAX(A.TR_NM) AS TR_NM,
+            MAX(A.BANK_CD) AS BANK_CD,
+            MAX(A.BANK_NM) AS BANK_NM,
+            MAX(A.BA_NB) AS BA_NB,
+            MAX(A.PJT_TY) AS PJT_TY,
+            MAX(A.PJTGRP_CD) AS PJTGRP_CD,
+            MAX(A.DEPT_CD) AS DEPT_CD,
+            MAX(A.EMP_CD) AS EMP_CD,
+            MAX(A.PROG_FG) AS PROG_FG,
+            SUM(B.UNIT_AM) AS SUP_AM
+        FROM VN_G20SPJT_INFO AS A
+        LEFT JOIN VN_ABDOCU_EXTER_INOUT B ON A.PJT_CD = B.MGT_CD
+        WHERE
+            A.CO_CD NOT IN ('9999')
+        AND A.FR_DT >= 20230101 AND A.TO_DT <= 20231231
+        AND A.PJT_CD = 'Se1g923011' AND B.GR_FG = '2'
+        ]]>
+        <if test='searchDept == "1" or "1".equals(searchDept)'>
+            AND
+            A.PROG_FG = '1'
+        </if>
+        <if test='searchDept == "2" or "2".equals(searchDept)'>
+            AND
+            (A.PROG_FG = '0' OR A.PROG_FG = '9')
+        </if>
+        <if test='searchKeyword != null and !"".equals(searchKeyword)'>
+            AND
+            ${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+        </if>
+        GROUP BY A.PJT_CD
         ORDER BY A.FR_DT DESC
     </select>
 </mapper>

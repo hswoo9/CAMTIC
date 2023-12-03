@@ -58,13 +58,13 @@
                         프로젝트 코드
                     </th>
                     <td>
-                        ${projectInfo.PJT_CD}
+                        ${g20Info.PJT_CD}
                     </td>
                     <th scope="row" class="text-center th-color">
                         프로젝트 명
                     </th>
                     <td>
-                        ${projectInfo.PJT_NM}
+                        ${g20Info.PJT_NM}
                     </td>
                 </tr>
                 <tr>
@@ -72,13 +72,13 @@
                         프로젝트 시작일
                     </th>
                     <td>
-                        ${projectInfo.PJT_START_DT}
+                        ${g20Info.PR_DT}
                     </td>
                     <th scope="row" class="text-center th-color">
                         프로젝트 종료일
                     </th>
                     <td>
-                        ${projectInfo.PJT_END_DT}
+                        ${g20Info.TO_DT}
                     </td>
                 </tr>
                 <tr>
@@ -86,13 +86,13 @@
                         관리예금계좌
                     </th>
                     <td>
-                        ${projectInfo.POSITION_NAME}
+                        ${g20Info.ATPJT_NM}
                     </td>
                     <th scope="row" class="text-center th-color">
                         관리예금계좌번호
                     </th>
                     <td>
-                        ${projectInfo.JOIN_DAY}
+                        ${g20Info.BANK_NM} - ${g20Info.BA_NB}
                     </td>
                 </tr>
                 <tr>
@@ -100,13 +100,13 @@
                         이월잔액
                     </th>
                     <td>
-                        ${projectInfo.PJT_START_DT}
+
                     </td>
                     <th scope="row" class="text-center th-color">
                         시재현황
                     </th>
                     <td>
-                        ${projectInfo.PJT_END_DT}
+
                     </td>
                 </tr>
                 </thead>
