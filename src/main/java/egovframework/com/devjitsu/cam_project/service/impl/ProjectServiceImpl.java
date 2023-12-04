@@ -343,6 +343,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public List<Map<String, Object>> getTeamInvList(Map<String, Object> params) {
+        return projectRepository.getTeamInvList(params);
+    }
+
+    @Override
     public void updInvest(Map<String, Object> params) {
         projectRepository.updInvest(params);
     }

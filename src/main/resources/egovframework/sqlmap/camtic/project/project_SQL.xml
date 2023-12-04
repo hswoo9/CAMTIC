@@ -799,6 +799,13 @@
             DEV_SN = #{devSn}
     </select>
 
+    <select id="getTeamInvList" parameterType="map" resultType="map">
+        SELECT * FROM
+            CAM_PJT_MNG.DJ_PJT_INV
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
     <update id="updInvest" parameterType="map">
         UPDATE CAM_PJT_MNG.DJ_PJT_INV
         SET
@@ -1294,7 +1301,7 @@
             ETC = #{etc},
             MOD_EMP_SEQ = #{regEmpSeq}
         WHERE
-            PJT_SN = #{pjtSn}
+            DEV_SN = #{devSn}
     </update>
 
     <update id="updProjectTmpCode" parameterType="map">

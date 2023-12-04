@@ -873,6 +873,14 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/getTeamInvList")
+    public String getTeamInvList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list", projectService.getTeamInvList(params));
+
+        return "jsonView";
+    }
+
     @RequestMapping("/project/updInvest")
     public String updInvest(@RequestParam Map<String, Object> params, Model model){
 
