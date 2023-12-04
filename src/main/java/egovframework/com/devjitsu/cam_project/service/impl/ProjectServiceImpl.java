@@ -973,6 +973,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public void setPjtTeamApp(Map<String, Object> params) {
+        projectRepository.setPjtTeamApp(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getPartRateVersionList(Map<String, Object> params) {
         return projectRepository.getPartRateVersionList(params);
     }

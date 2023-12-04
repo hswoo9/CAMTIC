@@ -2105,6 +2105,15 @@
             PJT_SN = #{pjtSn} OR PJT_SN = (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
     </update>
 
+    <update id="setPjtTeamApp" parameterType="map">
+        /*setPjtTeamApp*/
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            PJT_TEAM_CK = 'Y'
+        WHERE
+            PJT_SN = #{pjtSn} OR PJT_SN = (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
+    </update>
+
     <update id="updPjtDevTotAmt" parameterType="map">
         /*updPjtDevTotAmt*/
         UPDATE CAM_PJT_MNG.DJ_PJT_DEV

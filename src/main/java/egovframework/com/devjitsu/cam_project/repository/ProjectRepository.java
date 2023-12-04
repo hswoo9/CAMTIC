@@ -472,6 +472,10 @@ public class ProjectRepository extends AbstractDAO {
         update("project.setDevTeamApp", params);
     }
 
+    public void setPjtTeamApp(Map<String, Object> params) {
+        update("project.setPjtTeamApp", params);
+    }
+
     public void updPjtDevTotAmt(Map<String, Object> params) {
         update("project.updPjtDevTotAmt", params);
     }
