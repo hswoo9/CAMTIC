@@ -405,7 +405,7 @@ var payDetView = {
                     width: 80,
                     template: function(e){
                         return '<button type="button" class="k-button k-button-solid-base" ' +
-                            'onclick="payDetView.fn_selOtherInfo(\'' + e.PER_CD + '\', \'' + e.PER_NM + '\', \'' + e.ACCT_NO + '\', \'' + e.ACCT_NM + '\', \'' + e.BANK_NM + '\')" style="font-size: 12px);">' +
+                            'onclick="payDetView.fn_selOtherInfo(\'' + e.PER_CD + '\', \'' + e.PER_NM + '\', \'' + e.ACCT_NO + '\', \'' + e.ACCT_NM + '\', \'' + e.BANK_NM + '\', \'' + e.REG_NO + '\')" style="font-size: 12px);">' +
                             '   선택' +
                             '</button>';
                     }
@@ -427,9 +427,10 @@ var payDetView = {
         subAmSum = 0;
     },
 
-    fn_selOtherInfo: function (trCd, perNm, acctNo, acctNm, bankNm){
+    fn_selOtherInfo: function (trCd, perNm, acctNo, acctNm, bankNm, regNo){
         var idx = $("#index").val();
-        opener.parent.fn_selOtherInfo(trCd, bankNm, acctNm, acctNo, perNm, idx);
+        var type = $("#type").val();
+        opener.parent.fn_selOtherInfo(trCd, bankNm, acctNm, acctNo, perNm, idx, type, regNo);
 
         window.close();
     },

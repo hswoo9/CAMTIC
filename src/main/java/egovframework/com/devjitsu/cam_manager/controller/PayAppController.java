@@ -623,4 +623,15 @@ public class PayAppController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/payApp/pop/setPayRequest.do")
+    public String setPayRequest(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_manager/setPayRequest";
+    }
 }

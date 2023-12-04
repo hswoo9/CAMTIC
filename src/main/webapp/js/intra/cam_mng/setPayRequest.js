@@ -1,0 +1,96 @@
+var spr = {
+
+    fn_defaultScript : function (){
+
+        $("#pjtNm").val(opener.parent.$("#pjtNm").val());
+
+        customKendo.fn_textBox(["empNameKr", "regNo", "trCd", "pjtNm", "supAmt", "vatAmt",
+                                "incomeAmt", "locIncomeAmt", "supAllAmt", "totAmt", "gubun", "bustAmt"]);
+
+        customKendo.fn_datePicker("appDe", "depth", "yyyy-MM-dd", new Date(opener.parent.$("#reqDe").val()));
+        customKendo.fn_datePicker("reqDe", "depth", "yyyy-MM-dd", new Date(opener.parent.$("#reqDe").val()));
+
+
+        $("#supAmt, #vatAmt").change(function (){
+            if($("#type").val() == "9"){
+                var supAmt = uncomma($("#supAmt").val());
+                var vatAmt = uncomma($("#vatAmt").val());
+                var bustAmt = uncomma($("#bustAmt").val());
+
+                if(supAmt > 125000){
+                    $("#incomeAmt").val(comma(Math.floor((Number(supAmt) - Number(bustAmt)) * (20 / 100))));
+                    var incomeAmt = uncomma($("#incomeAmt").val());
+
+                    $("#locIncomeAmt").val(comma(Math.floor(Number(incomeAmt) * (10 / 100))));
+                    var locIncomeAmt = uncomma($("#locIncomeAmt").val());
+
+                } else {
+
+                    $("#incomeAmt").val(0);
+                    var incomeAmt = uncomma($("#incomeAmt").val());
+
+                    $("#locIncomeAmt").val(0);
+                    var locIncomeAmt = uncomma($("#locIncomeAmt").val());
+                }
+
+
+                $("#supAllAmt").val(comma(Number(incomeAmt) + Number(locIncomeAmt)));
+                $("#totAmt").val(comma(Number(supAmt) - Number(incomeAmt) + Number(locIncomeAmt)));
+            } else {
+                var supAmt = uncomma($("#supAmt").val());
+                var vatAmt = uncomma($("#vatAmt").val());
+
+                $("#incomeAmt").val(comma(Math.floor(Number(supAmt) * (Number(vatAmt) / 100))));
+                var incomeAmt = uncomma($("#incomeAmt").val());
+
+                $("#locIncomeAmt").val(comma(Math.floor(Number(incomeAmt) * (10 / 100))));
+                var locIncomeAmt = uncomma($("#locIncomeAmt").val());
+
+                $("#supAllAmt").val(comma(Number(incomeAmt) + Number(locIncomeAmt)));
+                $("#totAmt").val(comma(Number(supAmt) - Number(incomeAmt) + Number(locIncomeAmt)))
+            }
+        });
+
+        if($("#type").val() == "9"){
+            $("#gubunTr").css("display", "");
+            $("#vatAmt").val(20);
+            var supAmt = uncomma($("#supAmt").val());
+            var vatAmt = uncomma($("#vatAmt").val());
+            var bustAmt = uncomma($("#bustAmt").val());
+
+            if(supAmt > 125000){
+                $("#incomeAmt").val(comma(Math.floor((Number(supAmt) - Number(bustAmt)) * (20 / 100))));
+                var incomeAmt = uncomma($("#incomeAmt").val());
+
+                $("#locIncomeAmt").val(comma(Math.floor(Number(incomeAmt) * (10 / 100))));
+                var locIncomeAmt = uncomma($("#locIncomeAmt").val());
+            } else {
+                $("#incomeAmt").val(0);
+                var incomeAmt = uncomma($("#incomeAmt").val());
+
+                $("#locIncomeAmt").val(0);
+                var locIncomeAmt = uncomma($("#locIncomeAmt").val());
+            }
+
+
+            $("#supAllAmt").val(comma(Number(incomeAmt) + Number(locIncomeAmt)));
+            $("#totAmt").val(comma(Number(supAmt) - Number(incomeAmt) + Number(locIncomeAmt)));
+        } else {
+            var supAmt = uncomma($("#supAmt").val());
+            var vatAmt = uncomma($("#vatAmt").val());
+
+            $("#incomeAmt").val(comma(Math.floor(Number(supAmt) * (Number(vatAmt) / 100))));
+            var incomeAmt = uncomma($("#incomeAmt").val());
+
+            $("#locIncomeAmt").val(comma(Math.floor(Number(incomeAmt) * (10 / 100))));
+            var locIncomeAmt = uncomma($("#locIncomeAmt").val());
+
+            $("#supAllAmt").val(comma(Number(incomeAmt) + Number(locIncomeAmt)));
+            $("#totAmt").val(comma(Number(supAmt) - Number(incomeAmt) + Number(locIncomeAmt)))
+        }
+    },
+
+    fn_setData : function (){
+        opener.parent.$("#")
+    }
+}

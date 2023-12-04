@@ -107,7 +107,7 @@ function fn_selEmpInfo(trCd, bankName, accountNum, accountHolder, empNameKr, idx
     $("#crmAccHolder" + idx).val(accountHolder);
 }
 
-function fn_selOtherInfo(trCd, bankName, accountNum, accountHolder, empNameKr, idx){
+function fn_selOtherInfo(trCd, bankName,  accountHolder, accountNum, empNameKr, idx, type, regNo){
     if(accountHolder == null || accountHolder == "" || accountHolder == "undefined"){
         accountHolder = "";
     }
@@ -129,4 +129,11 @@ function fn_selOtherInfo(trCd, bankName, accountNum, accountHolder, empNameKr, i
     $("#crmBnkNm" + idx).val(bankName);
     $("#crmAccNo" + idx).val(accountNum);
     $("#crmAccHolder" + idx).val(accountHolder);
+
+
+    var url = "/payApp/pop/setPayRequest.do?type=" + type + "&trCd=" + trCd + "&empNameKr=" + empNameKr + "&bankName=" + bankName + "&accountNum=" + accountNum + "&accountHolder=" + accountHolder + "&regNo=" + regNo;
+
+    var name = "_blank";
+    var option = "width = 800, height = 500, top = 100, left = 400, location = no"
+    var popup = window.open(url, name, option);
 }
