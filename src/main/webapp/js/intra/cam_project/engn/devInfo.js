@@ -161,6 +161,7 @@ var devInfo = {
         });
         if(result.flag){
             alert("마감처리 되었습니다.");
+            devInfo.fn_defaultScript();
         }
     },
 
@@ -426,8 +427,8 @@ var devInfo = {
                         if(devInfo.global.devPjtVerList.list[0].DEV_TEAM_CK == "Y"){
                             $("#devSaveBtn").hide();
                             $("#teamAppBtn").hide();
+                            $("#devBtnDiv").html('<span style="float: right; color: red; font-size: 12px;">마감되었습니다</span>');
                         }
-                        $("#devBtnDiv").html('<span style="float: right; color: red; font-size: 12px;">마감되었습니다</span>');
                     }else{
                         if(devInfo.global.invCk == "Y"){
                             $("#devAppBtn").show();
