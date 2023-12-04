@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripResult.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripInit.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripResultPop.js?v=${today}"></script>
 <body class="font-opensans" style="background-color:#fff;">
@@ -25,12 +26,22 @@
 <input type="hidden" id="pageName" value="bustripResultPop"/>
 <input type="hidden" id="mod" value="${params.mode}"/>
 <input type="hidden" id="hrBizReqId" value="${params.hrBizReqId}"/>
-<input type="hidden" id="hrBizReqResultId" value="${params.hrBizReqResultId}"/>
 <input type="hidden" id="companionChangeCheck" value="N"/>
+
+<form id="bustripResDraftFrm" method="post">
+    <input type="hidden" id="menuCd" name="menuCd" value="bustrip">
+    <input type="hidden" id="type" name="type" value="drafting">
+    <input type="hidden" id="nowUrl" name="nowUrl" />
+    <input type="hidden" id="hrBizReqResultId" name="hrBizReqResultId" value="${params.hrBizReqResultId}"/>
+</form>
+
 <div class="table-responsive">
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">출장결과보고</h3>
         <div class="btn-st popButton">
+            <span id="apprBtnBox">
+
+            </span>
             <c:choose>
                 <c:when test="${params.mode eq 'mng' && rs.EXP_STAT == 10}">
                     <input type="button" class="k-button k-button-solid-info" value="승인" onclick="bustripResultPop.fn_setCertRep('100');"/>

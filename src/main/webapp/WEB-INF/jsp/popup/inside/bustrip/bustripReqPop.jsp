@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripList.js?v=${today}"></script>
+
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripInit.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripPopup.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripReqPop.js?v=${today}"></script>
@@ -26,9 +28,17 @@
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="pageName" value="bustripReqPop"/>
 <input type="hidden" id="mod" value="${params.mode}"/>
-<input type="hidden" id="hrBizReqId" value="${params.hrBizReqId}"/>
+<input type="hidden" id="paramsType" value="${params.type}" />
 
 <input type="hidden" id="paramsPjtSn" value="${params.pjtSn}"/>
+
+<form id="bustripDraftFrm" method="post">
+    <input type="hidden" id="menuCd" name="menuCd" value="bustrip">
+    <input type="hidden" id="type" name="type" value="drafting">
+    <input type="hidden" id="nowUrl" name="nowUrl" />
+    <input type="hidden" id="hrBizReqId" name="hrBizReqId" value="${params.hrBizReqId}"/>
+</form>
+
 <div class="table-responsive">
     <div class="card-header pop-header">
         <c:if test="${params.hrBizReqId == null || params.hrBizReqId == ''}">
@@ -38,6 +48,9 @@
             <h3 class="card-title title_NM">출장정보</h3>
         </c:if>
         <div class="btn-st popButton">
+            <span id="apprBtnBox">
+
+            </span>
             <button type="button" class="k-button k-button-solid-info" id="modBtn" onclick="bustripReq.fn_saveBtn();">저장</button>
             <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
         </div>
