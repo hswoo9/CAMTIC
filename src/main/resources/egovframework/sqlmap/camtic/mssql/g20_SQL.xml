@@ -322,9 +322,19 @@
             BANK_NM
         FROM VN_G20HEARNER_INFO
         WHERE
-            PER_NM LIKE CONCAT('%', #{searchValue}, '%')
+            (PER_NM LIKE CONCAT('%', #{searchValue}, '%')
         OR REG_NO LIKE CONCAT('%', #{searchValue}, '%')
-        OR ACCT_NO LIKE CONCAT('%', #{searchValue}, '%')
+        OR ACCT_NO LIKE CONCAT('%', #{searchValue}, '%'))
+        <if test='type == "9" or "9".equals(type)'>
+            AND
+            DATA_CD = 'G'
+        </if>
+        <if test='type == "5" or "5".equals(type)'>
+            AND
+                DATA_CD = 'F'
+        </if>
+
+
     </select>
 
     <select id="getSempData" parameterType="map" resultType="map">
