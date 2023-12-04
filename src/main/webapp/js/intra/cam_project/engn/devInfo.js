@@ -1,6 +1,8 @@
 var devInfo = {
     global: {
-        devPjtVerList: []
+        devPjtVerList: [],
+        invCk: "N",
+        devTeamAppCk: "N"
     },
 
     fn_defaultScript : function (){
@@ -9,6 +11,8 @@ var devInfo = {
             pjtSn : $("#pjtSn").val()
         }
         var rs = customKendo.fn_customAjax("/project/getDevPjtVerList", data);
+        console.log("rs");
+        console.log(rs);
         devInfo.global.devPjtVerList = rs;
 
         var html = "";
@@ -108,7 +112,7 @@ var devInfo = {
             var buttonHtml = "";
             if(status == "0"){
                 buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
-                buttonHtml += "<button type=\"button\" id=\"devAppBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.delvDrafting()\">상신</button>";
+                buttonHtml += "<button type=\"button\" id=\"devAppBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.devDrafting()\">상신</button>";
             }else if(status == "10"){
                 buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+rs[0].DOC_ID+"', '"+rs[0].APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
             }else if(status == "30" || status == "40"){
@@ -124,13 +128,40 @@ var devInfo = {
 
             if(teamStat == "Y"){
                 buttonHtml = "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
+                buttonHtml += "<button type=\"button\" id=\"teamAppBtn\" style=\"float: right; margin-bottom: 5px; display: none\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_teamApp()\">공정 마감</button>";
             }
             $("#devBtnDiv").html(buttonHtml);
+            if(devInfo.global.invCk == "Y"){
+                $("#teamAppBtn").show();
+            }
+        }
+
+        if(devInfo.global.devPjtVerList.list[0].TEAM_STAT == "Y"){
+            devInfo.fn_setVersion(devInfo.global.devPjtVerList.list[0].DEV_SN);
+        }else{
+            devInfo.fn_setVersion(devInfo.global.devPjtVerList.list[devInfo.global.devPjtVerList.list.length-1].DEV_SN);
         }
     },
 
     fn_setVersion : function (key){
         devInfo.fn_setData(key);
+    },
+
+    fn_teamApp : function (){
+        if(!confirm("마감 하시겠습니까?")){
+            return;
+        }
+        const pjtSn = $("#pjtSn").val();
+        const devSn = $("#devSn").val();
+        if(devSn == ""){
+            alert("데이터 조회 중 오류가 발생하였습니다."); return;
+        }
+        const result = customKendo.fn_customAjax("/project/setDevTeamApp", {
+            pjtSn: pjtSn
+        });
+        if(result.flag){
+            alert("마감처리 되었습니다.");
+        }
     },
 
     fn_setData : function (key){
@@ -142,6 +173,7 @@ var devInfo = {
         $.ajax({
             url : "/project/getProcessList",
             data : data,
+            async : false,
             type : "post",
             dataType : "json",
             success : function(rs){
@@ -239,6 +271,7 @@ var devInfo = {
             url : "/project/getInvList",
             data : data,
             type : "post",
+            async : false,
             dataType : "json",
             success : function(rs){
 
@@ -306,6 +339,7 @@ var devInfo = {
 
 
                     $("#invPer").val(Math.round(Number( totAmt / devInfo.uncomma($("#devDelvAmt").val()) * 100)));
+                    devInfo.global.invCk = "Y";
                 } else {
                     var html = "";
                     html += '<tr id="itr">';
@@ -346,6 +380,7 @@ var devInfo = {
             url : "/project/getDevelopPlan",
             data : data,
             dataType : "json",
+            async : false,
             type : "post",
             success : function(rs){
                 if(rs.rs != null && rs.rs != ""){
@@ -356,31 +391,49 @@ var devInfo = {
                     $("#modBtn").css("display", "");
                     // $("#devSaveBtn").css("display", "none");
                 }
+                console.log("verSet");
                 console.log(rs);
 
-                var status = rs.rs.STATUS;
-                // var teamStat = rs[rs.length - 1].TEAM_STAT;
-                var buttonHtml = "";
-                if(status == "0"){
-                    buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
-                    buttonHtml += "<button type=\"button\" id=\"devAppBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.delvDrafting()\">상신</button>";
-                }else if(status == "10"){
-                    buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+rs.rs.DOC_ID+"', '"+rs.rs.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
-                }else if(status == "30" || status == "40"){
-                    buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">저장</button>";
-                    buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('"+rs.rs.DOC_ID+"', '"+rs.rs.DOC_MENU_CD+"', '"+rs.rs.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
+                if(rs.rs != null) {
+                    var status = rs.rs.STATUS;
+                    var teamStat = rs.rs.TEAM_STAT;
+                    var buttonHtml = "";
+                    if (status == "0") {
+                        buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
+                        buttonHtml += "<button type=\"button\" id=\"devAppBtn\" style=\"float: right; display: none; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.devDrafting()\">상신</button>";
+                    } else if (status == "10") {
+                        buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('" + rs.rs.DOC_ID + "', '" + rs.rs.APPRO_KEY + "', 1, 'retrieve');\">회수</button>";
+                    } else if (status == "30" || status == "40") {
+                        buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">저장</button>";
+                        buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('" + rs.rs.DOC_ID + "', '" + rs.rs.DOC_MENU_CD + "', '" + rs.rs.APPRO_KEY + "', 2, 'reDrafting');\">재상신</button>";
 
-                }else if(status == "100"){
-                    buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+rs.rs.DOC_ID+"', '"+rs.rs.APPRO_KEY+"', '"+rs.rs.DOC_MENU_CD+"');\">열람</button>";
-                    buttonHtml += "<button type=\"button\" id=\"devAddBtn\" style=\"float: right; margin-right: 5px\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_addVersion()\">추가</button>";
-                } else {
-                    buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
+                    } else if (status == "100") {
+                        buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('" + rs.rs.DOC_ID + "', '" + rs.rs.APPRO_KEY + "', '" + rs.rs.DOC_MENU_CD + "');\">열람</button>";
+                        buttonHtml += "<button type=\"button\" id=\"devAddBtn\" style=\"float: right; margin-right: 5px\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_addVersion()\">추가</button>";
+                    } else {
+                        buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
+                    }
+
+                    if(devInfo.global.devPjtVerList.list[0].TEAM_STAT == "Y"){
+                        buttonHtml = "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
+                        buttonHtml += "<button type=\"button\" id=\"teamAppBtn\" style=\"float: right; margin-right: 5px; display: none\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_teamApp()\">공정 마감</button>";
+                    }
+                    $("#devBtnDiv").html(buttonHtml);
+                    if(devInfo.global.devPjtVerList.list[0].TEAM_STAT == "Y"){
+                        if(devInfo.global.invCk == "Y"){
+                            $("#teamAppBtn").show();
+                        }
+                        if(devInfo.global.devPjtVerList.list[0].DEV_TEAM_CK == "Y"){
+                            $("#devSaveBtn").hide();
+                            $("#teamAppBtn").hide();
+                        }
+                        $("#devBtnDiv").html('<span style="float: right; color: red; font-size: 12px;">마감되었습니다</span>');
+                    }else{
+                        if(devInfo.global.invCk == "Y"){
+                            $("#devAppBtn").show();
+                        }
+                    }
                 }
-
-                // if(teamStat == "Y"){
-                //     buttonHtml = "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
-                // }
-                $("#devBtnDiv").html(buttonHtml);
             }
         });
 
@@ -401,6 +454,7 @@ var devInfo = {
             url : "/project/delProcess",
             data : data,
             type : "post",
+            async : false,
             dataType : "json",
             success:function (rs){
                 if(rs.code == 200){
@@ -483,7 +537,12 @@ var devInfo = {
 
     },
 
-    delvDrafting: function() {
+    devDrafting: function() {
+        if(devInfo.global.devPjtVerList.list[0].TEAM_STAT == "N"){
+            if(devInfo.global.devPjtVerList.list[0].TM_YN != "N" && devInfo.global.devPjtVerList.list[0].DEV_TEAM_CK == "N"){
+                alert("협업 계획서 마감처리가 진행되지 않았습니다."); return;
+            }
+        }
         $("#devDraftFrm").one("submit", function() {
             var url = "/popup/cam_project/approvalFormPopup/devApprovalPop.do";
             var name = "_self";

@@ -669,7 +669,8 @@
         /*getDevPjtVerList*/
         SELECT
             *,
-            C.REG_DT AS INV_DT
+            C.REG_DT AS INV_DT,
+            CASE WHEN A.TM_SN IS NULL THEN 'N' ELSE 'Y' END AS TM_YN
         FROM
             CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN
@@ -2079,6 +2080,15 @@
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_DEV'
         </selectKey>
     </insert>
+
+    <update id="setDevTeamApp" parameterType="map">
+        /*setDevTeamApp*/
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            DEV_TEAM_CK = 'Y'
+        WHERE
+            PJT_SN = #{pjtSn} OR PJT_SN = (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
+    </update>
 
     <update id="updPjtDevTotAmt" parameterType="map">
         /*updPjtDevTotAmt*/
