@@ -75,7 +75,7 @@
         <div class="panel" style="margin-top:10px;margin-bottom:10px; height:171px;">
             <div style="padding: 17px 0 0 25px; display: flex; align-items: center;">
                 <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">임직원 생일</h4>
-                <span id="currentYearMonth" style="font-weight:600; font-size:15px; margin-left: 120px;"></span>
+                <%--<span id="currentYearMonth" style="font-weight:600; font-size:15px; margin-left: 120px;"></span>--%>
             </div>
             <div class="panel-body" id="empBirthDayList" style="padding:0; width:285px; height:120px; margin-left:10px; margin-top:4px;">
             </div>
@@ -290,12 +290,12 @@
 </div>
 
 <script>
-    var currentDate = new Date();
+    /*var currentDate = new Date();
     var currentYear = currentDate.getFullYear();
     var currentMonth = currentDate.getMonth() + 1;
     var currentYearMonth = currentYear + '.' + currentMonth;
     var showCurrentMonth = document.querySelector('#currentYearMonth');
-    showCurrentMonth.textContent = currentYearMonth;
+    showCurrentMonth.textContent = currentYearMonth;*/
 
     var watchBoardId = "";
 

@@ -542,3 +542,7 @@ var camPrj = {
         camPrj.gridReload();
     }
 }
+
+function gridReload(){
+    camPrj.gridReload();
+}

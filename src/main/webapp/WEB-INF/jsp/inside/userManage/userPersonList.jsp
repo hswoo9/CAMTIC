@@ -89,7 +89,7 @@
                                 <label for="dsI">임시직원 [${countMap.dsI}]</label>
                                 <%--<input type="checkbox" class="detailSearch" division="9999" style="margin-left: 10px;" id="dsJ">--%>
                                 <input type="checkbox" class="detailSearch" division="9999" style="margin-left: 10px;" id="dsJ" onclick="uncheckOtherCheckboxes()">
-                                <label for="dsJ">퇴사직원 [${countMap.dsJ}]</label>
+                                <label for="dsJ">퇴사직원</label>
 
                                 <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="detailSearchShow($('#detailSearchDiv').css('display'))" style="float:right;bottom: 5px;">상세검색</button>
                             </div>

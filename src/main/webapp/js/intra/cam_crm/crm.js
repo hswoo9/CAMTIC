@@ -102,10 +102,6 @@ var crm = {
                     template : "<input type='checkbox' id='crm#=CRM_SN#' name='crmSn' value='#=CRM_SN#' style=\"top: 3px; position: relative\" />",
                     width: 30,
                 }, {
-                    title: "업태",
-                    field: "CRM_OCC",
-                    width: 100,
-                }, {
                     field: "CRM_NM",
                     title: "업체명",
                     width: 120,
@@ -123,10 +119,6 @@ var crm = {
                 }, {
                     title: "전화번호",
                     field: "TEL_NUM",
-                    width: 100
-                }, {
-                    title: "팩스번호",
-                    field: "FAX",
                     width: 100
                 }/*, {
                     title: "관계이력",

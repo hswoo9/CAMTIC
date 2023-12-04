@@ -43,7 +43,7 @@ var goodsInfo = {
 
         if(estSubList.length > 0){
             $("#printBtn").show();
-            if(rs2.list[0].TEAM_STAT == "Y"){
+            if(rs2.list[0].TEAM_STAT == "Y" && rs2.list[0].GOODS_ISS != null){
                 $("#teamAppBtn").show();
             }
             if(rs2.list[0].PJT_TEAM_CK == "Y"){
@@ -125,6 +125,7 @@ var goodsInfo = {
         });
         if(result.flag){
             alert("마감처리 되었습니다.");
+            goodsInfo.fn_defaultScript();
         }
     },
 
