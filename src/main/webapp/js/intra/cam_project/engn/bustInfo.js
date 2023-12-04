@@ -118,7 +118,7 @@ var bustInfo = {
             columns: [
                 {
                     title: "사업명",
-                    width: 200,
+                    width: 150,
                     template: function(row){
                         var busnName = "";
                         var project = "";
@@ -183,35 +183,52 @@ var bustInfo = {
                         }
                     }
                 }, {
-                    title : "상태",
-                    width: 50,
+                    title : "출장신청",
+                    width: 60,
                     template : function (e){
-                        if(e.RS_STATUS != null && e.RS_STATUS != ""){
-                            if(e.RS_STATUS == 100){
-                                return "결과보고완료"
-                            } else {
-                                return "신청완료"
+                        if(e.STATUS == 100){
+                            return '<button type="button" class="k-button k-button-solid-info" onclick="bustInfo.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\')">출장신청서</button>';
+                        } else {
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\')">출장신청서</button>';
+                        }
+                    }
+                }, {
+                    title : "결과보고",
+                    width: 70,
+                    template : function (e){
+                        console.log(e);
+                        if(e.STATUS == 100){
+                            if(e.HR_BIZ_REQ_RESULT_ID == "" || e.HR_BIZ_REQ_RESULT_ID == null || e.HR_BIZ_REQ_RESULT_ID == undefined){
+                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes(\'N\', '+e.HR_BIZ_REQ_ID+')">결과보고</button>'
+                            }else{
+                                if(e.RS_STATUS == 100){
+                                    return '<button type="button" class="k-button k-button-solid-info" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">결과보고</button>'
+                                } else {
+                                    if(e.EXP_STAT == 100){
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">출장정산완료</button>'
+                                    } else {
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">출장정산중</button>'
+                                    }
+                                }
                             }
                         } else {
-                            if(e.STATUS == 100){
-                                return "신청완료";
-                            } else {
-                                return "작성중";
-                            }
+                            return "-";
+                        }
+                    }
+                }, {
+                    title : "지급신청",
+                    width: 70,
+                    template : function (e){
+                        if(e.RS_STATUS == 100){
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.fn_reqRegPopup()">지급신청</button>'
+                        } else {
+                            return '-';
                         }
                     }
                 }, {
                     title : "",
                     width: 50,
                     template : function (e){
-                        console.log(e);
-                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\')">보기</button>';
-                    }
-                }, {
-                    title : "",
-                    width: 50,
-                    template : function (e){
-                        console.log(e);
                         return '<button type="button" class="k-button k-button-solid-error" onclick="bustInfo.fn_delPjtBustrip('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">제외</button>';
                     }
                 }
@@ -283,7 +300,7 @@ var bustInfo = {
         let url = "/bustrip/pop/bustripReqPop.do?pjtSn=" + e;
 
         if(type == "req"){
-            url = "/bustrip/pop/bustripReqPop.do?hrBizReqId=" + e;
+            url = "/bustrip/pop/bustripReqPop.do?hrBizReqId=" + e + "&type=" + type;
         }
 
         let name = "bustripReqPop";

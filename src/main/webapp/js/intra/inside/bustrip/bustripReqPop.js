@@ -61,6 +61,34 @@ const bustripReq = {
         const list = result.rs.list;
         const fileInfo = result.rs.fileInfo;
 
+        console.log(busInfo);
+        var apprBtnBoxHtml = "";
+        if(busInfo.STATUS == 0){
+            apprBtnBoxHtml = "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='bustripList.bustripDrafting(\""+busInfo.HR_BIZ_REQ_ID+"\");'>" +
+                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
+                "<span class='k-button-text'>상신</span>" +
+                "</button>";
+        } else if(busInfo.STATUS == 10 || busInfo.STATUS == 50){
+            apprBtnBoxHtml = "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+busInfo.DOC_ID+"\", \""+busInfo.APPRO_KEY+"\", 1, \"retrieve\");'>" +
+                "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
+                "<span class='k-button-text'>회수</span>" +
+                "</button>";
+        } else if(busInfo.STATUS == 30 || busInfo.STATUS == 40){
+            apprBtnBoxHtml = "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='tempOrReDraftingPop(\""+busInfo.DOC_ID+"\", \""+busInfo.DOC_MENU_CD+"\", \""+busInfo.APPRO_KEY+"\", 2, \"reDrafting\");'>" +
+                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
+                "<span class='k-button-text'>재상신</span>" +
+                "</button>";
+        } else if(busInfo.STATUS == 100){
+            apprBtnBoxHtml = "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+busInfo.DOC_ID+"\", \""+busInfo.APPRO_KEY+"\", \""+busInfo.DOC_MENU_CD+"\");'>" +
+                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
+                "<span class='k-button-text'>열람</span>" +
+                "</button>";
+        } else{
+            apprBtnBoxHtml = "";
+        }
+
+        $("#apprBtnBox").html(apprBtnBoxHtml);
+        
         /** 사번, 성명, 부서명, 신청일 */
         $("#empSeq").val(busInfo.EMP_SEQ);
         $("#empName").val(busInfo.EMP_NAME);
@@ -353,7 +381,6 @@ function userDataSet(userArr){
 }
 
 function externalDataSet(externalArr){
-    console.log(externalArr);
     let belongText = "";
     let spotText = "";
     let nameText = "";
@@ -371,10 +398,6 @@ function externalDataSet(externalArr){
         userDeptSn += externalArr[i].etc;
     }
 
-    console.log(belongText);
-    console.log(spotText);
-    console.log(nameText);
-    console.log(userDeptSn);
     $("#externalBelong").val(belongText);
     $("#externalSpot").val(spotText);
     $("#externalName").val(nameText);

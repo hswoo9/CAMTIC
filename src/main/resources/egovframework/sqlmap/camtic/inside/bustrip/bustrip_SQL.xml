@@ -952,7 +952,8 @@
             A.TRIP_TIME_TO,
             A.USE_TRSPT,
             A.STATUS,
-            B.STATUS AS RS_STATUS
+            B.STATUS AS RS_STATUS,
+            B.EXP_STAT
         FROM
             CAM_INSIDE.DJ_HR_BIZ_REQ A
         LEFT JOIN
