@@ -289,7 +289,10 @@ var resultInfo = {
     },
 
     fn_setButton: function(resMap){
+        console.log("resMap");
+        console.log(resMap);
         let buttonHtml = "";
+        buttonHtml += '<button type="button" id="resAppBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-info" onclick="resultInfo.resDrafting()">상신</button>';
         if(resMap.STATUS == "0"){
             buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>';
             buttonHtml += '<button type="button" id="resAppBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-info" onclick="resultInfo.resDrafting()">상신</button>';
@@ -473,6 +476,14 @@ var resultInfo = {
     },
 
     resDrafting: function(){
+        var rs2 = customKendo.fn_customAjax("/project/getDevPjtVerList", {pjtSn: $("#pjtSn").val()});
+        if(rs2.list[0].TEAM_STAT == "N"){
+            if(rs2.list[0].TM_YN != "N" && rs2.list[0].PJT_TEAM_CK == "N"){
+                alert("협업 프로젝트 마감처리가 진행되지 않았습니다."); return;
+            }
+        }
+        return;
+
         $("#resDraftFrm").one("submit", function(){
             var url = "";
             if($("#busnClass").val() == "D"){
