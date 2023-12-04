@@ -29,15 +29,28 @@ var goodsInfo = {
         }
 
         var rs = customKendo.fn_customAjax("/project/getStep1Data", data);
+        console.log("1");
+        console.log(rs);
+        var rs2 = customKendo.fn_customAjax("/project/getDevPjtVerList", data);
+        console.log("2");
+        console.log(rs2);
 
         var estSubList = rs.result.estSubList;
 
         var data = {
-            pjtSn : $("#pjtSn").val(),
+            pjtSn : $("#pjtSn").val()
         }
 
         if(estSubList.length > 0){
             $("#printBtn").show();
+            if(rs2.list[0].TEAM_STAT == "Y"){
+                $("#teamAppBtn").show();
+            }
+            if(rs2.list[0].PJT_TEAM_CK == "Y"){
+                $("#saveBtn").hide();
+                $("#teamAppBtn").hide();
+                $("#btnDiv").html('<span style="float: right; color: red; font-size: 12px;">마감되었습니다</span>');
+            }
         }
 
         $.ajax({
@@ -97,6 +110,22 @@ var goodsInfo = {
 
         $("#goodsTotAmt").val(goodsInfo.comma(rs.result.estList[rs.result.estList.length - 1].EST_TOT_AMT));
 
+    },
+
+    fn_teamProjectApp : function (){
+        if(!confirm("프로젝트를 마감 하시겠습니까?")){
+            return;
+        }
+        const pjtSn = $("#pjtSn").val();
+        if(pjtSn == ""){
+            alert("데이터 조회 중 오류가 발생하였습니다."); return;
+        }
+        const result = customKendo.fn_customAjax("/project/setPjtTeamApp", {
+            pjtSn: pjtSn
+        });
+        if(result.flag){
+            alert("마감처리 되었습니다.");
+        }
     },
 
     inputNumberFormat : function (obj){

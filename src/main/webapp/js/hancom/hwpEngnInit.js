@@ -90,14 +90,14 @@ var engnInit = {
         }
 
         /** 4. 수행계획 */
-        const processResult = customKendo.fn_customAjax("/project/getProcessList", {pjtSn: pjtSn});
+        const processResult = customKendo.fn_customAjax("/project/getProcessList", {devSn: devSn});
         const processList = processResult.list;
-        const htmlDev = engnInit.htmlDev(processList, map);
+        const htmlPs = engnInit.htmlPs(processList, map);
         hwpDocCtrl.moveToField('DEV_HTML', true, true, false);
-        hwpDocCtrl.setTextFile(htmlDev, "html","insertfile");
+        hwpDocCtrl.setTextFile(htmlPs, "html","insertfile");
 
         /** 5. 구매예정 */
-        const purcResult = customKendo.fn_customAjax("/project/getInvList", {pjtSn: pjtSn});
+        const purcResult = customKendo.fn_customAjax("/project/getInvList", {devSn: devSn});
         const purcList = purcResult.list;
         const htmlData = engnInit.htmlInv(purcList, map);
         setTimeout(function() {
@@ -120,7 +120,7 @@ var engnInit = {
         if(map.TM_YN == "Y"){
             const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: map.PJT_SN});
             const team = teamResult.map;
-            const teamPurcResult = customKendo.fn_customAjax("/project/getInvList", {pjtSn: team.PNT_PJT_SN});
+            const teamPurcResult = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: team.PNT_PJT_SN});
             const teamPurcList = teamPurcResult.list;
             let teamInvSum = 0;
             for(let i=0; i<teamPurcList.length; i++){
@@ -141,7 +141,7 @@ var engnInit = {
         }
 
         /** 7. 특이사항 */
-        const getDevelopPlan = customKendo.fn_customAjax("/project/getDevelopPlan", {pjtSn: pjtSn});
+        const getDevelopPlan = customKendo.fn_customAjax("/project/getDevelopPlan", {devSn: devSn});
         const dev = getDevelopPlan.rs;
         setTimeout(function() {
             hwpDocCtrl.moveToField('ETC', true, true, false);
@@ -193,9 +193,9 @@ var engnInit = {
         /** 4. 수행계획 */
         const processResult = customKendo.fn_customAjax("/project/getProcessList", data);
         const processList = processResult.list;
-        const htmlDev = engnInit.htmlDev(processList, map);
+        const htmlPs = engnInit.htmlPs(processList, map);
         hwpDocCtrl.moveToField('DEV_HTML', true, true, false);
-        hwpDocCtrl.setTextFile(htmlDev, "html","insertfile");
+        hwpDocCtrl.setTextFile(htmlPs, "html","insertfile");
 
         /** 5. 구매/비용내역 */
         const purcResult = customKendo.fn_customAjax("/purc/getProjectPurcList", data);
@@ -228,7 +228,7 @@ var engnInit = {
         }, 400);
     },
 
-    htmlDev: function(list, map){
+    htmlPs: function(list, map){
         let html = '';
         html += '<table style="font-family:굴림체;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
         html += '   <tr>';
@@ -282,6 +282,7 @@ var engnInit = {
         html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 102px;"><p style="font-size:13px;"><b>금액</b></p></td>';
         html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 102px;"><p style="font-size:13px;"><b>거래처</b></p></td>';
         html += '               </tr>';
+        let sum = 0;
         for(let i=0; i<list.length; i++){
             const info = list[i];
             html += '               <tr>';
@@ -293,12 +294,13 @@ var engnInit = {
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(info.EST_TOT_AMT) +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.EST_OFC +'</p></td>';
             html += '               </tr>';
+            sum += info.EST_TOT_AMT;
         }
         console.log(map.TM_YN);
         if(map.TM_YN == "Y") {
             const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: map.PJT_SN});
             const team = teamResult.map;
-            const teamList = customKendo.fn_customAjax("/project/getInvList", {pjtSn: team.PNT_PJT_SN}).list;
+            const teamList = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: team.PNT_PJT_SN}).list;
             console.log(teamList);
             for(let i=0; i<teamList.length; i++){
                 const info = teamList[i];
@@ -311,7 +313,17 @@ var engnInit = {
                 html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(info.EST_TOT_AMT) +'</p></td>';
                 html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.EST_OFC +'</p></td>';
                 html += '               </tr>';
+                sum += info.EST_TOT_AMT;
             }
+            html += '               <tr>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">합계</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">-</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">-</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">-</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">-</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(sum) +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">-</p></td>';
+            html += '               </tr>';
         }
         html += '           </table>';
         html += '       </td>';

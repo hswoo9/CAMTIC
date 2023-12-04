@@ -343,6 +343,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public List<Map<String, Object>> getTeamInvList(Map<String, Object> params) {
+        return projectRepository.getTeamInvList(params);
+    }
+
+    @Override
     public void updInvest(Map<String, Object> params) {
         projectRepository.updInvest(params);
     }
@@ -960,6 +965,16 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void addDevVersion(Map<String, Object> params) {
         projectRepository.addDevVersion(params);
+    }
+
+    @Override
+    public void setDevTeamApp(Map<String, Object> params) {
+        projectRepository.setDevTeamApp(params);
+    }
+
+    @Override
+    public void setPjtTeamApp(Map<String, Object> params) {
+        projectRepository.setPjtTeamApp(params);
     }
 
     @Override

@@ -65,6 +65,8 @@ public interface ProjectService {
 
     List<Map<String, Object>> getInvList(Map<String, Object> params);
 
+    List<Map<String, Object>> getTeamInvList(Map<String, Object> params);
+
     void updInvest(Map<String, Object> params);
 
     void delInvest(Map<String, Object> params);
@@ -140,6 +142,10 @@ public interface ProjectService {
     Map<String, Object> getProjectDocInfo(Map<String, Object> params);
 
     void addDevVersion(Map<String, Object> params);
+
+    void setDevTeamApp(Map<String, Object> params);
+
+    void setPjtTeamApp(Map<String, Object> params);
 
     void updPjtDevTotAmt(Map<String, Object> params);
 

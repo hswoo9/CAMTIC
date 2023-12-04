@@ -669,7 +669,8 @@
         /*getDevPjtVerList*/
         SELECT
             *,
-            C.REG_DT AS INV_DT
+            C.REG_DT AS INV_DT,
+            CASE WHEN A.TM_SN IS NULL THEN 'N' ELSE 'Y' END AS TM_YN
         FROM
             CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN
@@ -798,6 +799,13 @@
             DEV_SN = #{devSn}
     </select>
 
+    <select id="getTeamInvList" parameterType="map" resultType="map">
+        SELECT * FROM
+            CAM_PJT_MNG.DJ_PJT_INV
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
     <update id="updInvest" parameterType="map">
         UPDATE CAM_PJT_MNG.DJ_PJT_INV
         SET
@@ -867,20 +875,24 @@
                  DI.DOC_MENU_CD
              FROM
                  CAM_PJT_MNG.DJ_PJT_PS A
-                     LEFT JOIN
+             LEFT JOIN
                  CAM_PJT_MNG.DJ_PJT_PS_FILE B
                  ON
                      A.PJT_SN = B.PJT_SN
-                     LEFT JOIN
+                 AND A.DEV_SN = B.DEV_SN
+             LEFT JOIN
                  CAM_PJT_MNG.DJ_PJT_COST C
                  ON
                      A.PJT_SN = C.PJT_SN
-                     LEFT JOIN
+             LEFT JOIN
                  DJ_CAMTIC.A_DOC_INFO DI
                  ON
                      C.DOC_ID = DI.DOC_ID
              WHERE
-                 A.PJT_SN = #{pjtSn}) M
+                 A.PJT_SN = #{pjtSn}
+            ) M
+        WHERE
+            M.DEV_SN = (SELECT SPD.DEV_SN FROM CAM_PJT_MNG.DJ_PJT_DEV SPD WHERE SPD.PJT_SN = #{pjtSn} ORDER BY SPD.DEV_SN DESC LIMIT 1)
     </select>
 
 
@@ -1293,7 +1305,7 @@
             ETC = #{etc},
             MOD_EMP_SEQ = #{regEmpSeq}
         WHERE
-            PJT_SN = #{pjtSn}
+            DEV_SN = #{devSn}
     </update>
 
     <update id="updProjectTmpCode" parameterType="map">
@@ -1366,6 +1378,7 @@
             CAM_PJT_MNG.DJ_PJT_PS_FILE
         WHERE
             PJT_SN = #{pjtSn}
+        AND DEV_SN = (SELECT SPD.DEV_SN FROM CAM_PJT_MNG.DJ_PJT_DEV SPD WHERE SPD.PJT_SN = #{pjtSn} ORDER BY SPD.DEV_SN DESC LIMIT 1)
     </select>
 
     <insert id="insPsPrepInfo" parameterType="map">
@@ -1373,6 +1386,7 @@
         INSERT INTO CAM_PJT_MNG.DJ_PJT_PS_FILE
             (
                 PJT_SN,
+                DEV_SN,
                 FILE_ETC1,
                 FILE_ETC2,
                 FILE_ETC3,
@@ -1383,6 +1397,7 @@
         VALUES
             (
                 #{pjtSn},
+                (SELECT SPD.DEV_SN FROM CAM_PJT_MNG.DJ_PJT_DEV SPD WHERE SPD.PJT_SN = #{pjtSn} ORDER BY SPD.DEV_SN DESC LIMIT 1),
                 #{fileEtc1},
                 #{fileEtc2},
                 #{fileEtc3},
@@ -1407,6 +1422,7 @@
             FILE_ETC6 = #{fileEtc6}
         WHERE
             PS_FILE_SN = #{psFileSn}
+        AND DEV_SN = (SELECT SPD.DEV_SN FROM CAM_PJT_MNG.DJ_PJT_DEV SPD WHERE SPD.PJT_SN = #{pjtSn} ORDER BY SPD.DEV_SN DESC LIMIT 1)
     </insert>
 
     <update id="updGoodInfo" parameterType="map">
@@ -2079,6 +2095,24 @@
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_DEV'
         </selectKey>
     </insert>
+
+    <update id="setDevTeamApp" parameterType="map">
+        /*setDevTeamApp*/
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            DEV_TEAM_CK = 'Y'
+        WHERE
+            PJT_SN = #{pjtSn} OR PJT_SN = (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
+    </update>
+
+    <update id="setPjtTeamApp" parameterType="map">
+        /*setPjtTeamApp*/
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            PJT_TEAM_CK = 'Y'
+        WHERE
+            PJT_SN = #{pjtSn} OR PJT_SN = (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
+    </update>
 
     <update id="updPjtDevTotAmt" parameterType="map">
         /*updPjtDevTotAmt*/

@@ -873,6 +873,14 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/getTeamInvList")
+    public String getTeamInvList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list", projectService.getTeamInvList(params));
+
+        return "jsonView";
+    }
+
     @RequestMapping("/project/updInvest")
     public String updInvest(@RequestParam Map<String, Object> params, Model model){
 
@@ -1022,6 +1030,32 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/setDevTeamApp")
+    public String setDevTeamApp(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectService.setDevTeamApp(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+
+    @RequestMapping("/project/setPjtTeamApp")
+    public String setPjtTeamApp(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectService.setPjtTeamApp(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
     /** 수주관리 전자결재 페이지*/
     @RequestMapping("/popup/cam_project/approvalFormPopup/delvApprovalPop.do")
     public String equipApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
