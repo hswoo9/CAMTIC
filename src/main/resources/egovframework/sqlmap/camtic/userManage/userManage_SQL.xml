@@ -2993,7 +2993,7 @@
         WHERE
         <choose>
         <when test='joinYear != null and joinYear != ""'>
-            YEAR(HEI.JOIN_DAY) = #{joinYear} AND WORK_STATUS_CODE = 'Y'
+            YEAR(HEI.JOIN_DAY) = #{joinYear}
         </when>
         <when test='resignDay != null and resignDay != ""'>
             YEAR(HEI.RESIGN_DAY) = #{resignDay}
