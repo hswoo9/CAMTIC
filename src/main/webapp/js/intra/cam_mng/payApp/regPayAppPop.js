@@ -773,7 +773,7 @@ var regPay = {
 
     fn_projectPop : function (type){
 
-        var url = "/project/pop/projectView.do?type=" + type;
+        var url = "/project/pop/g20ProjectView.do?type=" + type;
 
         var name = "_blank";
         var option = "width = 1100, height = 400, top = 100, left = 400, location = no"
