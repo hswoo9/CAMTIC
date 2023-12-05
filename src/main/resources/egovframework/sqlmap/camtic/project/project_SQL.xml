@@ -2410,7 +2410,7 @@
 
     <delete id="delTeamProject" parameterType="map">
         /*delTeamProject*/
-        DELETE FROM CAM_PJT_MNG.DJ_PROJECT WHERE TM_SN = #{tmSn}
+        DELETE FROM CAM_PJT_MNG.DJ_PROJECT WHERE TM_SN = #{tmSn} AND PNT_PJT_SN = #{pjtSn}
     </delete>
 
     <delete id="delTeamProjectData" parameterType="map">

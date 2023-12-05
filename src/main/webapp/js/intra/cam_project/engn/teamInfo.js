@@ -18,6 +18,9 @@ var teamInfo = {
         // $("#teamDept").data("kendoDropDownList").select(0);
         // $("#teamDept").data("kendoDropDownList").trigger("change");
 
+        if($("#pjtStep").val() < 'E3'){
+            $("#expAmt").val(comma($("#pjtAmt").val()));
+        }
         $("#exptBalance").val($("#expAmt").val());
         $("#exptCost").val($("#expAmt").val());
 
@@ -201,6 +204,7 @@ var teamInfo = {
                     title: "협업취소",
                     width: 80,
                     template: function(e){
+                        console.log(e);
                         return '<button type="button" class="k-button k-button-solid-error" onclick="teamInfo.fn_cancel('+e.TM_SN+')">취소</button>'
                     }
                 }
@@ -224,6 +228,11 @@ var teamInfo = {
             tmExptProfit : uncomma($("#exptProfit").val()),
             tmExptPer : uncomma($("#exptProfitPer").val()),
             tmExptCost : uncomma($("#exptCost").val())
+        }
+
+        if(parameters.tmCrmSn == ""){
+            alert("업체를 선택해주세요.");
+            return;
         }
 
         if(parameters.tmDeptSeq == ""){
@@ -271,7 +280,8 @@ var teamInfo = {
         }
 
         var data = {
-            tmSn : key
+            tmSn : key,
+            pjtSn : $("#pjtSn").val()
         }
         var rs = customKendo.fn_customAjax("/project/delTeamProject",data);
 
