@@ -152,8 +152,10 @@ var engnInit = {
     resInit: function(pjtSn){
         const data = {pjtSn: pjtSn}
         const result = customKendo.fn_customAjax("/project/engn/getDelvData", data);
+        const resultD = customKendo.fn_customAjax("/project/engn/getDevData", {pjtSn: pjtSn});
         const delvMap = result.delvMap;
         const map = result.map;
+        const devMap = resultD.rs;
 
         /** 1. 사업정보 */
         hwpDocCtrl.putFieldText('PJT_CD', map.PJT_TMP_CD);
@@ -191,7 +193,7 @@ var engnInit = {
         }
 
         /** 4. 수행계획 */
-        const processResult = customKendo.fn_customAjax("/project/getProcessList", data);
+        const processResult = customKendo.fn_customAjax("/project/getProcessList", {devSn : devMap.DEV_SN});
         const processList = processResult.list;
         const htmlPs = engnInit.htmlPs(processList, map);
         hwpDocCtrl.moveToField('DEV_HTML', true, true, false);

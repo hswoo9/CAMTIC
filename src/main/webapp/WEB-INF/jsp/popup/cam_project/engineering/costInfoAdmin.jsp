@@ -4,7 +4,12 @@
 
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/costInfoAdmin.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/purcInfo.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
+<style>
+    table {margin-top: 0 !important;}
+</style>
 
 
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
@@ -16,88 +21,92 @@
     <input type="hidden" id="type" name="type" value="drafting">
     <input type="hidden" id="nowUrl" name="nowUrl" />
 </form>
+<input type="hidden" id="loginEmpSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="deptSeq" value="${loginVO.orgnztId}">
+
+<input type="hidden" id="searchKeyword" />
+<input type="hidden" id="searchValue" />
 
 <div style="padding: 10px">
     <div id="costBtnDiv">
         <%--<button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="costInfo.fn_save()">저장</button>--%>
     </div>
     <div class="table-responsive">
-        <span style="position: relative; top:10px; font-size: 12px;">◎ 비용상세내역</span>
+        <span style="font-size: 12px;">◎ 사업정보</span>
         <table class="popTable table table-bordered mb-0">
             <colgroup>
-                <col width="16.6%">
-                <col width="16.6%">
-                <col width="16.6%">
-                <col width="16.6%">
-                <col width="16.6%">
-                <col width="16.6%">
+                <col width="25%">
+                <col width="25%">
+                <col width="25%">
+                <col width="25%">
             </colgroup>
             <thead>
             <tr>
-                <th><span class="red-star"></span>비용</th>
-                <th><span class="red-star"></span>원재료</th>
-                <th><span class="red-star"></span>외주비</th>
-                <th><span class="red-star"></span>노무비</th>
-                <th><span class="red-star"></span>경비</th>
-                <th><span class="red-star"></span>출장</th>
+                <th style="text-align: right">프로젝트 코드</th>
+                <td colspan="3" id="PJT_CD" style="text-align: left"></td>
+            </tr>
+            <tr>
+                <th style="text-align: right">프로젝트 명</th>
+                <td id="PJT_NM" style="text-align: left"></td>
+                <th style="text-align: right">프로젝트 명</th>
+                <td id="PJT_SUB_NM" style="text-align: left"></td>
+            </tr>
+            <tr>
+                <th style="text-align: right">총괄 책임자</th>
+                <td id="PM" style="text-align: left"></td>
+                <th style="text-align: right">사업 담당자</th>
+                <td style="text-align: left"></td>
+            </tr>
+            <tr>
+                <th style="text-align: right">프로젝트 시작</th>
+                <td id="PJT_STR_DT" style="text-align: left"></td>
+                <th style="text-align: right">프로젝트 종료</th>
+                <td id="PJT_END_DT" style="text-align: left"></td>
+            </tr>
+            <tr>
+                <th style="text-align: right">프로젝트 총예산</th>
+                <td id="PJT_AMT" style="text-align: left"></td>
+                <th style="text-align: right">사업비 분리사용</th>
+                <td id="SBJ_SEP" style="text-align: left"></td>
             </tr>
             </thead>
-            <tbody>
-            <tr>
-                <td style="text-align: center"><input type="text" disabled id="costAmt" value="0" class="costAmt" style="text-align: right; width: 90%" onkeyup="costInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
-                <td style="text-align: center"><input type="text" disabled id="rawAmt" value="0" class="rawAmt" style="text-align: right; width: 90%" onkeyup="costInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
-                <td style="text-align: center"><input type="text" disabled id="outsAmt" value="0" class="outsAmt" style="text-align: right; width: 90%" onkeyup="costInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
-                <td style="text-align: center"><input type="text" disabled id="laborAmt" value="0" style="text-align: right; width: 90%" class="laborAmt" onkeyup="devInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
-                <td style="text-align: center"><input type="text" disabled id="chargeAmt" value="0" class="chargeAmt" style="text-align: right; width: 90%" onkeyup="costInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
-                <td style="text-align: center"><input type="text" disabled id="bustAmt" value="0" class="bustAmt" style="text-align: right; width: 90%" onkeyup="costInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
-            </tr>
-            </tbody>
         </table>
 
+        <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 재무실적 내역</span>
+        <div id="grid1"></div>
+
+        <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 사업정보</span>
         <table class="popTable table table-bordered mb-0">
             <colgroup>
-                <col width="16.6%">
-                <col width="16.6%">
-                <col width="16.6%">
-                <col width="16.6%">
-                <col width="16.6%">
-                <col width="16.6%">
+                <col width="25%">
+                <col width="10%">
+                <col width="10%">
+                <col width="20%">
+                <col width="20%">
             </colgroup>
             <thead>
             <tr>
-                <th><span class="red-star"></span>작업명</th>
-                <th><span class="red-star"></span>직급</th>
-                <th><span class="red-star"></span>성명</th>
-                <th><span class="red-star"></span>노임단가</th>
-                <th><span class="red-star"></span>작업시간</th>
-                <th><span class="red-star"></span>합계</th>
+                <th style="text-align: center">팀명</th>
+                <th style="text-align: center">구분</th>
+                <th style="text-align: center">년도</th>
+                <th style="text-align: center">매출액</th>
+                <th style="text-align: center">운영수익</th>
+            </tr>
+            <tr>
+                <td style="text-align: center"></td>
+                <td style="text-align: center"></td>
+                <td style="text-align: center"></td>
+                <td style="text-align: center"></td>
+                <td style="text-align: center"></td>
             </tr>
             </thead>
-            <tbody id="costDetailTable">
-            <tr>
-                <td style="text-align: center" colspan="6">공정 내역이 없습니다.</td>
-            </tr>
-            </tbody>
         </table>
 
-        <table class="popTable table table-bordered mb-0">
-            <colgroup>
-                <col width="15%">
-                <col width="35%">
-                <col width="15%">
-                <col width="35%">
-            </colgroup>
-            <thead>
-            <tr>
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>비고
-                </th>
-                <td colspan="3">
-                    <textarea type="text" id="costEtc" style="width: 100%;"></textarea>
-                </td>
-            </tr>
-            </thead>
-        </table>
+        <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 구매내역</span>
+        <div id="grid2"></div>
+
+        <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 출장내역</span>
+        <div id="grid3"></div>
     </div>
 </div>
 

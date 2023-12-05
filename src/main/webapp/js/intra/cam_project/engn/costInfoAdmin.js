@@ -1,173 +1,284 @@
+let purcSum = 0;
 var costInfo = {
 
+    global : {
+        searchAjaxData2 : "",
+        searchAjaxData3 : ""
+    },
+
     fn_defaultScript : function (){
+        this.dataSet();
+        this.gridReload();
+    },
 
-        customKendo.fn_textBox(["costAmt", "rawAmt", "outsAmt", "laborAmt", "chargeAmt", "bustAmt"]);
+    dataSet : function (){
+        const pjtSn = $("#pjtSn").val();
+        const result = customKendo.fn_customAjax("/project/engn/getDelvData", {pjtSn: pjtSn});
+        const pjtMap = result.map;
+        console.log(pjtMap);
+        const delvMap = result.delvMap;
+        $("#PJT_CD").text(pjtMap.PJT_CD);
+        $("#PJT_NM").text(pjtMap.PJT_NM);
+        $("#PJT_SUB_NM").text(pjtMap.PJT_SUB_NM);
+        $("#PM").text(pjtMap.PM);
+        $("#PJT_STR_DT").text(pjtMap.PJT_START_DT);
+        $("#PJT_END_DT").text(pjtMap.PJT_EXP_END_DT);
+        $("#PJT_AMT").text(fn_numberWithCommas(pjtMap.PJT_AMT));
 
-        $("#costEtc").kendoTextArea({
-            rows : 5,
-        });
+        let sbjText = "미사용";
+        if(pjtMap.SBJ_SEP != undefined){
+            if(pjtMap.SBJ_SEP == "Y"){
+                sbjText = "사용 / ";
+                var data = {
+                    pjtSn: pjtSn
+                }
+                let result = customKendo.fn_customAjax("/projectRnd/getAccountInfo", data);
+                $("#checkboxDiv").show();
+                for(let i=0; i<result.list.length; i++){
+                    sbjText += result.list[i].IS_TYPE;
+                }
+            }
+        }
+        $("#SBJ_SEP").text(sbjText);
+    },
 
-        var data = {
+    gridReload : function (){
+        costInfo.global.searchAjaxData2 = {
+            empSeq : $("#loginEmpSeq").val(),
             pjtSn : $("#pjtSn").val(),
+            searchKeyword : $("#searchKeyword").val(),
+            searchValue : $("#searchValue").val()
+        }
+        costInfo.global.searchAjaxData3 = {
+            startDate : $("#start_date").val(),
+            endDate : $("#end_date").val(),
+            projectCd : $("#pjtSn").val(),
+            busnName : $("#busnName").val(),
+            empSeq : $("#regEmpSeq").val(),
+            pjtSn : $("#pjtSn").val()
         }
 
-        var costMap = {};
+        this.grid2("/purc/getPurcReqList.do", costInfo.global.searchAjaxData2);
+        this.grid3("/bustrip/getProjectBustList", costInfo.global.searchAjaxData3);
+    },
 
-        $.ajax({
-            url : "/project/engn/getResultInfo",
-            type : "post",
-            dataType : "json",
-            async : false,
-            data : data,
-            success : function(rs){
-                const ls = rs.list;
-                console.log(ls);
-                var html = "";
-                if(ls != null){
-                    costMap = ls[0];
-                    $("#costEtc").val(ls[0].COST_ETC);
-                    var teamCostAmt = 0;
-                    var prepTime = 0;
-                    for(var i = 0 ; i < ls.length ; i++){
-                        if(ls[i].PS_PREP_NM == "설계"){
-                            prepTime = ls[i].PREP_A_TIME;
-                        } else if(ls[i].PS_PREP_NM == "제작"){
-                            prepTime = ls[i].PREP_B_TIME;
-                        } else if (ls[i].PS_PREP_NM == "품질"){
-                            prepTime = ls[i].PREP_C_TIME;
-                        } else {
-                            prepTime = ls[i].PREP_D_TIME;
-                        }
-                        html += '<tr>' +
-                            '       <td style="text-align: center" id="costPrepNm'+(i+1)+'">'+ls[i].PS_PREP_NM+'</td>' +
-                            '       <td style="text-align: center">'+ls[i].POSITION_NAME+'</td>' +
-                            '       <td style="text-align: center">'+ls[i].PS_EMP_NM+'</td>' +
-                            '       <td style="text-align: center"><input type="text" id="laborUnitAmt'+(i+1)+'" value="'+costInfo.comma(ls[i].LABOR_AMT)+'" disabled class="laborUnitAmt" style="text-align: right; width: 90%" onkeyup="costInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
-                            '       <td style="text-align: center"><input type="text" id="costWorkTime'+(i+1)+'" value="'+ prepTime +'" class="costWorkTime" style="text-align: right; width: 90%" onkeyup="costInfo.fn_calcAmt(this, '+(i+1)+')" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
-                            '       <td style="text-align: center"><input type="text" id="costTotAmt'+(i+1)+'" disabled class="costTotAmt" style="text-align: right; width: 90%" onkeyup="costInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
-                            '    </tr>'
-                        teamCostAmt += ls[i].TEAM_COST_AMT;
+    grid2 : function (url, params){
+        $("#grid2").kendoGrid({
+            dataSource: customKendo.fn_gridDataSource2(url, params),
+            sortable: true,
+            selectable: "row",
+            height : 525,
+            pageable: {
+                refresh: true,
+                pageSizes: [ 10, 20, 30, 50, 100 ],
+                buttonCount: 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            dataBound: costInfo.purcOnDataBound,
+            columns: [
+                {
+                    title: "번호",
+                    width: 50,
+                    template: "#= --record #"
+                }, {
+                    title: "문서번호",
+                    field: "DOC_NO",
+                    width: 180,
+                }, {
+                    field: "PURC_REQ_DATE",
+                    title: "요청일",
+                    width: 120,
+                }, {
+                    title: "요청자",
+                    field: "EMP_NAME_KR",
+                    width: 100
+                }, {
+                    title: "목적",
+                    field: "PURC_REQ_PURPOSE",
+                    template : function(e){
+                        return '<div onclick="purcInfo.fn_reqRegPopup(' + e.PURC_SN + ')" style="cursor : pointer">' + e.PURC_REQ_PURPOSE + '</div>'
                     }
-                    html += '<tr>' +
-                        '       <td colspan="5" style="text-align: center; font-weight: bold; background-color: #dee4ed"><span style="position: relative; top:5px;">노무비합계</span></td>' +
-                        '       <td style="text-align: center"><input type="text" id="costTotSumAmt" disabled class="costTotSumAmt" style="text-align: right; width: 90%" onkeyup="costInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
-                        '    </tr>'
-                    $("#costDetailTable").html("");
-                    $("#costDetailTable").append(html);
+                }, {
+                    title: "구매",
+                    width: 100,
+                    template : function(e){
+                        return e.CP_CNT + "건 / " + '<span style="color:red;">'+e.RP_CNT+'</span>' + "건"
+                    }
+                }, {
+                    title: "외주",
+                    width: 100
+                }, {
+                    title: "상태",
+                    field: "STATUS",
+                    width: 120,
+                    template : function(e){
+                        var status = "";
+                        /** 구매요청서 */
+                        if(e.DOC_STATUS == "0"){
+                            status = "구매요청작성중";
+                        }else if(e.DOC_STATUS != "100" && e.DOC_STATUS != "101"){
+                            status = "구매요청작성중";
+                        }else if(e.DOC_STATUS == "100" || e.DOC_STATUS == "101"){
+                            status = "구매요청완료";
 
-                    const pjtMap = rs.pjtInfo;
-                    let chargeAmt = pjtMap.PJT_AMT * (teamCostAmt / 100);
-                    $("#chargeAmt").val(costInfo.comma(chargeAmt));
+                            /** 구매청구서 */
+                            if(e.CLAIM_STATUS == "CN"){
+                                status = "구매요청완료";
+                            }else if(e.CLAIM_STATUS == "CAN"){
+                                status = "구매청구작성중";
+                            }else if(e.CLAIM_STATUS == "CAYSN"){
+                                status = "구매청구작성중";
+                            }else if(e.CLAIM_STATUS == "CAYSY"){
+                                status = "구매청구완료";
+                            }
 
-                    $("#costAmt").val(costInfo.comma(Number(costInfo.uncomma($("#rawAmt").val())) + Number(costInfo.uncomma($("#outsAmt").val())) + Number(costInfo.uncomma($("#laborAmt").val())) + Number(costInfo.uncomma($("#chargeAmt").val())) + Number(costInfo.uncomma($("#bustAmt").val()))));
-                    $(".costWorkTime").trigger("keyup");
+                            if(e.INSPECT_YN == "Y"){
+                                if(e.INSPECT_STATUS != "100"){
+                                    status = "검수요청중";
+                                }else{
+                                    status = "<div style='font-weight: bold'>검수승인완료</div>";
+                                }
+                            }
+                        }
+                        return status
+                    },
+                    footerTemplate: "청구 합계"
+                }, {
+                    title: "금액",
+                    width: 100,
+                    template: function(e){
+                        console.log(e)
+                        if(e.CLAIM_STATUS == "CAYSY"){
+                            purcSum  += Number(e.PURC_ITEM_AMT_SUM);
+                        }
+                        return "<div style='text-align: right'>"+comma(e.PURC_ITEM_AMT_SUM)+"</div>";
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(purcSum)+"</div>";
+                    }
                 }
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
+        }).data("kendoGrid");
+    },
 
-                for(var i = 1 ; i <= ls.length ; i++) {
-                    customKendo.fn_textBox(["laborUnitAmt"+i,"costWorkTime"+i, "costTotAmt"+i]);
+    grid3 : function (url, params){
+        $("#grid3").kendoGrid({
+            dataSource: customKendo.fn_gridDataSource2(url, params),
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            height: 480,
+            pageable: {
+                refresh: true,
+                pageSizes: [ 10, 20, 30, 50, 100 ],
+                buttonCount: 5
+            },
+            toolbar : [
+                {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bustInfo.bustripMainGrid()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
                 }
-                customKendo.fn_textBox(["costTotSumAmt"]);
-            }
-        });
+            ],
+            dataBound : function(e){
+                const grid = this;
+                grid.tbody.find("tr").click(function (e) {
+                    const dataItem = grid.dataItem($(this));
+                    console.log(dataItem);
 
-        /** 원재료 세팅 */
-        const purcData = customKendo.fn_customAjax("/purc/getPurcSum", data).data;
-        if(purcData != null){
-            $("#rawAmt").val(costInfo.comma(purcData.PURC_SUM));
-        }
+                    $("#contEtc").val(dataItem.RESULT);
 
-        /** 출장 세팅 */
-        const bustripData = customKendo.fn_customAjax("/bustrip/getBustripExnpSum", data).data;
-        if(bustripData != null){
-            $("#bustAmt").val(costInfo.comma(bustripData.BUSTRIP_EXNP_SUM));
-        }
+                    grid.tbody.find("tr").each(function (){
+                        $(this).css("background-color", "");
+                    });
 
-        /** 버튼 세팅 */
-        costInfo.buttonSet(costMap);
-    },
+                    $(this).css("background-color", "#a7e1fc");
+                });
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    title: "사업명",
+                    width: 150,
+                    template: function(row){
+                        var busnName = "";
+                        var project = "";
+                        if(row.BUSN_NAME != "" && row.BUSN_NAME != null && row.BUSN_NAME != undefined){
+                            busnName = row.BUSN_NAME;
+                        }
 
-    fn_save: function (){
-        var data = {
-            pjtSn : $("#pjtSn").val(),
-            empSeq : $("#empSeq").val(),
-            costEtc : $("#costEtc").val()
-        }
-        for(var i = 1 ; i <= $("#costDetailTable > tr").length -1 ; i++){
-            if($("#costPrepNm" + i).text() == "설계"){
-                data.prepATime = $("#costWorkTime" + i).val()
-            } else if ($("#costPrepNm" + i).text() == "제작"){
-                data.prepBTime = $("#costWorkTime" + i).val()
-            } else if ($("#costPrepNm" + i).text() == "품질"){
-                data.prepCTime = $("#costWorkTime" + i).val()
-            } else {
-                data.prepDTime = $("#costWorkTime" + i).val()
-            }
-        }
-
-
-        $.ajax({
-            url : "/project/engn/setCostInfo",
-            data : data,
-            type : "post",
-            dataType : "json",
-            success : function(rs){
-                if(rs.code == 200){
-                    alert("저장되었습니다.");
-                    window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=8";
+                        if(row.PROJECT_CD != "" && row.PROJECT_CD != null){
+                            project = "(" + row.PROJECT + ") ";
+                        }
+                        return  $("#pjtNm").val();
+                    }
+                }, {
+                    field: "EMP_NAME",
+                    title: "출장자",
+                    width: 80
+                }, {
+                    title: "출장지 (경유지)",
+                    template: function(row){
+                        if(row.VISIT_LOC_SUB != ""){
+                            return row.VISIT_CRM + " (" + row.VISIT_LOC_SUB+")";
+                        }else{
+                            return row.VISIT_CRM;
+                        }
+                    },
+                    width: 160
+                }, {
+                    title: "출발일시",
+                    template: function(row){
+                        return row.TRIP_DAY_FR + " " + row.TRIP_TIME_FR;
+                    },
+                    width: 100
+                }, {
+                    title: "복귀일시",
+                    template: function(row){
+                        return row.TRIP_DAY_TO + " " + row.TRIP_TIME_TO;
+                    },
+                    width: 100
+                }, {
+                    field: "CAR_CLASS_NAME",
+                    title: "차량",
+                    width: 80,
+                    template : function (e){
+                        if(e.USE_TRSPT == 1){
+                            return "카니발";
+                        } else if(e.USE_TRSPT == 2){
+                            return "아반떼";
+                        } else if (e.USE_TRSPT == 3){
+                            return "트럭";
+                        } else if (e.USE_TRSPT == 4){
+                            return "모하비";
+                        } else if (e.USE_TRSPT == 5){
+                            return "솔라티";
+                        } else if (e.USE_TRSPT == 6){
+                            return "드론관제차량";
+                        } else if (e.USE_TRSPT == 7){
+                            return "자가";
+                        } else if (e.USE_TRSPT == 8){
+                            return "대중교통";
+                        } else {
+                            return "";
+                        }
+                    }
                 }
-            }
-        })
+            ]
+        }).data("kendoGrid");
     },
 
-    fn_calcAmt : function(obj, idx){
-
-        $("#costTotAmt" + idx).val(costInfo.comma(costInfo.uncomma($("#laborUnitAmt" + idx).val()) * costInfo.uncomma($("#costWorkTime" + idx).val())));
-
-        var totSumAmt = 0;
-        for(var i = 1 ; i <= $("#costDetailTable > tr").length -1 ; i++){
-            totSumAmt += Number(costInfo.uncomma($("#costTotAmt" + i).val()));
-        }
-
-        $("#costTotSumAmt").val(costInfo.comma(totSumAmt));
-        $("#laborAmt").val(costInfo.comma(totSumAmt));
-
-        $("#costAmt").val(costInfo.comma(Number(costInfo.uncomma($("#rawAmt").val())) + Number(costInfo.uncomma($("#outsAmt").val())) + Number(costInfo.uncomma($("#laborAmt").val())) + Number(costInfo.uncomma($("#chargeAmt").val())) + Number(costInfo.uncomma($("#bustAmt").val()))));
-        return costInfo.inputNumberFormat(obj);
-    },
-
-    inputNumberFormat : function (obj){
-        obj.value = costInfo.comma(costInfo.uncomma(obj.value));
-    },
-
-    comma: function(str) {
-        str = String(str);
-        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-    },
-
-    uncomma: function(str) {
-        str = String(str);
-        return str.replace(/[^\d]+/g, '');
-    },
-
-    buttonSet: function(costMap){
-        console.log("costMap");
-        console.log(costMap);
-        let buttonHtml = "";
-        buttonHtml += '<button type="button" id="costSaveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="costInfo.fn_save()">저장</button>';
-        $("#costBtnDiv").html(buttonHtml);
-    },
-
-    costDrafting: function() {
-        $("#costDraftFrm").one("submit", function() {
-            var url = "/popup/cam_project/approvalFormPopup/costApprovalPop.do";
-            var name = "_self";
-            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
-            var popup = window.open(url, name, option);
-            this.action = "/popup/cam_project/approvalFormPopup/costApprovalPop.do";
-            this.method = 'POST';
-            this.target = '_self';
-        }).trigger("submit");
-    },
-
+    purcOnDataBound : function(){
+        purcSum = 0;
+    }
 }
