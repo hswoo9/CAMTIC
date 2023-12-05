@@ -85,8 +85,10 @@ var rndInit = {
         let invSum = 0;
         for(let i=0; i<purcList.length; i++){
             const map = purcList[i];
-            invSum += Number(map.PURC_ITEM_AMT);
+            invSum += Number(map.EST_TOT_AMT);
         }
+        console.log("purcList");
+        console.log(purcList);
         hwpDocCtrl.putFieldText('INV_PER', "100%");
         hwpDocCtrl.putFieldText('INV_AMT', fn_numberWithCommas(invSum));
         let invPer = Math.round(invSum / map.PJT_AMT * 100);
@@ -98,8 +100,10 @@ var rndInit = {
     resInit: function(pjtSn){
         const pjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: pjtSn});
         const rndInfo = customKendo.fn_customAjax("/projectRnd/getRndDetail", {pjtSn: pjtSn});
+        const resultD = customKendo.fn_customAjax("/project/engn/getDevData", {pjtSn: pjtSn});
         const map = pjtInfo.rs;
         const delvMap = rndInfo.map;
+        const devMap = resultD.rs;
 
         /** 1. 사업정보 */
         hwpDocCtrl.putFieldText('BUSN_CLASS', map.BUSN_NM);
@@ -151,13 +155,13 @@ var rndInit = {
         }
 
         /** 4. 수행계획 */
-        const processResult = customKendo.fn_customAjax("/project/getProcessList", {pjtSn: pjtSn});
+        const processResult = customKendo.fn_customAjax("/project/getProcessList", {devSn : devMap.DEV_SN});
         const processList = processResult.list;
-        const htmlDev = engnInit.htmlPs(processList, pjtSn, map.TM_YN);
+        const htmlDev = engnInit.htmlPs(processList, map);
         setTimeout(function() {
             hwpDocCtrl.moveToField('DEV_HTML', true, true, false);
             hwpDocCtrl.setTextFile(htmlDev, "html","insertfile");
-        }, 3000);
+        }, 6000);
 
         /** 5. 구매예정 */
         const purcResult = customKendo.fn_customAjax("/purc/getProjectPurcList", {pjtSn: pjtSn});
@@ -166,7 +170,7 @@ var rndInit = {
         setTimeout(function() {
             hwpDocCtrl.moveToField('PURC_HTML', true, true, false);
             hwpDocCtrl.setTextFile(htmlData, "html","insertfile");
-        }, 3200);
+        }, 8000);
 
         /** 6. 정산내역 */
         let invSum = 0;
@@ -182,12 +186,12 @@ var rndInit = {
         hwpDocCtrl.putFieldText('INV_PER3', (100-invPer)+"%");
 
         /** 7. 특이사항 */
-        const getResult = customKendo.fn_customAjax("/project/engn/getResultInfo", data);
+        const getResult = customKendo.fn_customAjax("/project/engn/getResultInfo", {pjtSn: pjtSn});
         const res = getResult.result.map;
         setTimeout(function() {
             hwpDocCtrl.moveToField('ETC', true, true, false);
             hwpDocCtrl.setTextFile(res.RS_ISS.replaceAll("\n", "<br>"), "html","insertfile");
-        }, 3400);
+        }, 10000);
     },
 
     htmlG20: function(g20){
