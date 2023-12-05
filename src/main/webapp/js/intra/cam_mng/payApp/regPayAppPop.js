@@ -112,12 +112,10 @@ var regPay = {
 
         if($("#reqType").val() == "purc"){
             const data = {
-                claimSn : $("#claimSn").val()
+                purcSn : $("#purcSn").val()
             }
 
-
-
-            var result = customKendo.fn_customAjax("/purc/getPurcClaimData", data);
+            var result = customKendo.fn_customAjax("/purc/getPurcAndClaimData", data);
             var rs = result.data;
             $("#pjtSn").val(rs.PJT_SN);
             $("#pjtNm").val(rs.PJT_NM);
@@ -132,10 +130,10 @@ var regPay = {
             }
             for(let i = 0; i < ls.length; i++) {
                 $("#eviType" + i).data("kendoDropDownList").value(1)
-                console.log(ls[i]);
-                $("#crmNm" + i).val(rs.CRM_NM);
-                $("#totCost" + i).val(regPay.comma(ls[i].ITEM_AMT));
-                $("#supCost" + i).val(regPay.comma(ls[i].ITEM_AMT));
+                $("#crmNm" + i).val(ls[i].CRM_NM);
+                $("#crmSn" + i).val(ls[i].CRM_SN);
+                $("#totCost" + i).val(regPay.comma(ls[i].PURC_ITEM_AMT));
+                $("#supCost" + i).val(regPay.comma(ls[i].PURC_ITEM_AMT));
             }
         }
     },
@@ -565,6 +563,7 @@ var regPay = {
             appDe : $("#appDe").val(),
             pjtNm : $("#pjtNm").val(),
             pjtSn : $("#pjtSn").val(),
+            pjtCd : $("#pjtCd").val(),
             reqDe : $("#reqDe").val(),
             // budgetNm : $("#budgetNm").val(),
             // budgetSn : $("#budgetSn").val(),

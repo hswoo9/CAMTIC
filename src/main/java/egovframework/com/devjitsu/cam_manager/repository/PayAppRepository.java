@@ -36,6 +36,10 @@ public class PayAppRepository extends AbstractDAO {
         return selectList("payApp.getPaymentList", params);
     }
 
+    public List<Map<String, Object>> getWaitPaymentList(Map<String, Object> params) {
+        return selectList("payApp.getWaitPaymentList", params);
+    }
+
     public void updatePayAppApprStat(Map<String, Object> params) {
         update("payApp.updatePayAppApprStat", params);
     }

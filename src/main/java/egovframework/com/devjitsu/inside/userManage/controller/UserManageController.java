@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.ArrayList;
@@ -1874,6 +1875,8 @@ public class UserManageController {
         System.out.println("params : "+ params);
 
         Set<Integer> existingYears = new HashSet<>();
+        int currentYear = Year.now().getValue();
+        System.out.println("currentYear : " + currentYear);
 
         for (Map<String, Object> emp : empTotalList) {
             if (emp.containsKey("join_year")) {
@@ -1881,7 +1884,7 @@ public class UserManageController {
             }
         }
 
-        for (int year = 1999; year <= 2023; year++) {
+        for (int year = 1999; year <= currentYear; year++) {
             if (!existingYears.contains(year)) {
                 Map<String, Object> newEntry = new HashMap<>();
                 newEntry.put("join_year", year);
@@ -1937,9 +1940,11 @@ public class UserManageController {
     @RequestMapping("Inside/getDeptTeamEmpCount")
     public String getDeptTeamEmpCount (@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> empDeptTeamList = userManageService.getDeptTeamEmpCount(params);
+        Map<String,Object> totalEmployeeCount =userManageService.getTotalEmployeeCount(params);
 
         empDeptTeamList = processEmpDeptTeamList(empDeptTeamList);
         model.addAttribute("arr",params);
+        model.addAttribute("totalEmployeeCount",totalEmployeeCount);
         model.addAttribute("empDeptTeamList",empDeptTeamList);
         System.out.println("***********empDeptTeamList**********" + empDeptTeamList);
         return "jsonView";

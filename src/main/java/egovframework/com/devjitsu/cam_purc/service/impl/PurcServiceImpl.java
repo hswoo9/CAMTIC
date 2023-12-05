@@ -491,4 +491,15 @@ public class PurcServiceImpl implements PurcService {
         purcRepository.delPurcReq(params);
         purcRepository.delPurcItem(params);
     }
+
+    @Override
+    public Map<String, Object> getPurcAndClaimData(Map<String, Object> params) {
+
+        Map<String, Object> result = purcRepository.getPurcReq(params);
+        List<Map<String, Object>> itemList = purcRepository.getPurcItemList(params);
+
+        result.put("itemList", itemList);
+
+        return result;
+    }
 }

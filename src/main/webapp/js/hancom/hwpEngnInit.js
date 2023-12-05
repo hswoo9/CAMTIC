@@ -103,7 +103,7 @@ var engnInit = {
         setTimeout(function() {
             hwpDocCtrl.moveToField('PURC_HTML', true, true, false);
             hwpDocCtrl.setTextFile(htmlData, "html","insertfile");
-        }, 200);
+        }, 1000);
 
         /** 6. 정산내역 */
         let invSum = 0;
@@ -146,7 +146,7 @@ var engnInit = {
         setTimeout(function() {
             hwpDocCtrl.moveToField('ETC', true, true, false);
             hwpDocCtrl.setTextFile(dev.ETC.replaceAll("\n", "<br>"), "html","insertfile");
-        }, 400);
+        }, 2000);
     },
 
     resInit: function(pjtSn){
@@ -206,7 +206,7 @@ var engnInit = {
         setTimeout(function() {
             hwpDocCtrl.moveToField('PURC_HTML', true, true, false);
             hwpDocCtrl.setTextFile(htmlData, "html","insertfile");
-        }, 200);
+        }, 1000);
 
         /** 6. 정산내역 */
         let invSum = 0;
@@ -227,7 +227,7 @@ var engnInit = {
         setTimeout(function() {
             hwpDocCtrl.moveToField('ETC', true, true, false);
             hwpDocCtrl.setTextFile(res.RS_ISS.replaceAll("\n", "<br>"), "html","insertfile");
-        }, 400);
+        }, 2000);
     },
 
     htmlPs: function(list, map){

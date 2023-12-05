@@ -24,6 +24,7 @@ var dutyView = {
            success:function (data){
                console.log("js data :", data);
                const empPositionList = data.empPositionList;
+
                const arr = dutyView.transformedArr(data.arr);
 
                $("#mainChart *").remove();
