@@ -473,8 +473,8 @@ var prp = {
                 buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="prp.setPurcReq()">저장</button>';
                 buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+purcMap.DOC_ID+'\', \''+purcMap.DOC_MENU_CD+'\', \''+purcMap.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
             }else if(purcMap.DOC_STATUS == "100"){
-                if(purcMap.PAY_YN == "N" && purcMap.INSPECT_STATUS == "100"){
-                    buttonHtml += '<button type="button" id="payBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="prp.fn_reqRegPopup(\''+purcMap.CLAIM_SN+'\')">지급신청서 작성</button>';
+                if(purcMap.INSPECT_STATUS == "100"){
+                    buttonHtml += '<button type="button" id="payBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="prp.fn_reqRegPopup()">지급신청서 작성</button>';
                 }
                 buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+purcMap.DOC_ID+'\', \''+purcMap.APPRO_KEY+'\', \''+purcMap.DOC_MENU_CD+'\');">열람</button>';
             }else{
@@ -678,30 +678,11 @@ var prp = {
         });
     },
 
-    fn_reqRegPopup : function(key){
-
-        var data = {
-            claimSn : key
-        }
-
-        var result = customKendo.fn_customAjax("/purc/getPurcClaimData", data);
-        var rs = result.data;
-
-        if(rs.PAY_APP_SN != "" && rs.PAY_APP_SN != null && rs.PAY_APP_SN != undefined){
-            var url = "/payApp/pop/regPayAppPop.do?payAppSn=" + rs.PAY_APP_SN + "&status=rev&auth=user";
-            var name = "blank";
-            var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
-            var popup = window.open(url, name, option);
-
-        } else {
-            var url = "/payApp/pop/regPayAppPop.do";
-            if(key != null && key != ""){
-                url = "/payApp/pop/regPayAppPop.do?claimSn=" + key + "&reqType=purc";
-            }
-            var name = "blank";
-            var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
-            var popup = window.open(url, name, option);
-        }
+    fn_reqRegPopup : function(){
+        var url = "/payApp/pop/regPayAppPop.do?purcSn=" + $("#purcSn").val() + "&reqType=purc";
+        var name = "blank";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
     },
 
     fn_excelUpload : function(){
