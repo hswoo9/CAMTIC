@@ -113,15 +113,15 @@ var returnList = {
                 }, {
                     title: "지출요청일",
                     width: 70,
-                    field: "APP_DE"
+                    field: "REQ_DE"
                 }, {
                     title: "지출예정일",
                     width: 70,
-                    field: ""
+                    field: "REQ_EXNP_DE"
                 }, {
                     title: "지출완료일",
                     width: 70,
-                    field: ""
+                    field: "REQ_END_DE"
                 }, {
                     title: "지출금액",
                     width: 80,
