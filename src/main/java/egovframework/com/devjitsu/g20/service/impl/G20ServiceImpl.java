@@ -1,6 +1,7 @@
 package egovframework.com.devjitsu.g20.service.impl;
 
 import egovframework.com.devjitsu.cam_manager.repository.ManageRepository;
+import egovframework.com.devjitsu.cam_manager.repository.PayAppRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
 import egovframework.com.devjitsu.g20.service.G20Service;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
@@ -21,6 +22,9 @@ public class G20ServiceImpl implements G20Service {
     @Autowired
     private ManageRepository manageRepository;
 
+    @Autowired
+    private PayAppRepository payAppRepository;
+
     @Override
     public List<Map<String, Object>> getProjectList(Map<String, Object> params) {
         return g20Repository.getProjectList(params);
@@ -34,6 +38,8 @@ public class G20ServiceImpl implements G20Service {
         params.put("fromDate", listMap.get(0).get("fromDate"));
         params.put("toDate", listMap.get(0).get("toDate"));
 
+        List<Map<String, Object>> payList = payAppRepository.getWaitPaymentList(params);
+
         params.put("mgtSeq", params.get("mgtSeq") + "|");
 
 //        List<Map<String, Object>> subjectList = g20Repository.getSubjectList(params);
@@ -46,6 +52,15 @@ public class G20ServiceImpl implements G20Service {
             for(Map<String, Object> map : budgetList){
 
                 if(!"0".equals(map.get("DIV_FG"))){
+
+                    int paySum = 0;
+                    for (int i=0; i<payList.size(); i++){
+                        if(map.get("BGT_CD").toString().equals(payList.get(i).get("BUDGET_SN").toString())){
+                            paySum += Integer.parseInt(payList.get(i).get("TOT_COST").toString());
+                        }
+                    }
+                    map.put("WAIT_CK", paySum);
+
                     result.add(map);
                 }
             }
@@ -57,6 +72,14 @@ public class G20ServiceImpl implements G20Service {
                     if(map.get("DIV_FG").equals("3")){
                         String bgt1Cd = map.get("BGT_CD").toString().substring(0, 1);
                         String bgt2Cd = map.get("BGT_CD").toString().substring(0, 3);
+
+                        int paySum = 0;
+                        for (int i=0; i<payList.size(); i++){
+                            if(map.get("BGT_CD").toString().equals(payList.get(i).get("BUDGET_SN"))){
+                                paySum += Integer.parseInt(payList.get(i).get("TOT_COST").toString());
+                            }
+                        }
+                        map.put("WAIT_CK", paySum);
 
                         for(Map<String, Object> subject : budgetList) {
                             if (bgt1Cd.equals(subject.get("BGT_CD"))) {

@@ -565,6 +565,7 @@ var regPay = {
             appDe : $("#appDe").val(),
             pjtNm : $("#pjtNm").val(),
             pjtSn : $("#pjtSn").val(),
+            pjtCd : $("#pjtCd").val(),
             reqDe : $("#reqDe").val(),
             // budgetNm : $("#budgetNm").val(),
             // budgetSn : $("#budgetSn").val(),
