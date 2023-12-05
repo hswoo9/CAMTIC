@@ -1872,6 +1872,32 @@ public class UserManageController {
     public String getTotalEmpCount(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> empTotalList = userManageService.getTotalEmpCount(params);
         System.out.println("params : "+ params);
+
+        Set<Integer> existingYears = new HashSet<>();
+
+        for (Map<String, Object> emp : empTotalList) {
+            if (emp.containsKey("join_year")) {
+                existingYears.add(Integer.parseInt(emp.get("join_year").toString()));
+            }
+        }
+
+        for (int year = 1999; year <= 2023; year++) {
+            if (!existingYears.contains(year)) {
+                Map<String, Object> newEntry = new HashMap<>();
+                newEntry.put("join_year", year);
+                newEntry.put("employees_joined", 0);
+                newEntry.put("employees_resigned", 0);
+                newEntry.put("active_emp_count", 0);
+                empTotalList.add(newEntry);
+            }
+        }
+
+        Collections.sort(empTotalList, (entry1, entry2) -> {
+            Integer year1 = Integer.parseInt(entry1.get("join_year").toString());
+            Integer year2 = Integer.parseInt(entry2.get("join_year").toString());
+            return year2.compareTo(year1);
+        });
+
         model.addAttribute("arr",params);
         model.addAttribute("empTotalList", empTotalList);
         System.out.println("empTotalList: " + empTotalList);
