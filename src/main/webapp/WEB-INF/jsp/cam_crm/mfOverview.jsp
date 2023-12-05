@@ -40,7 +40,7 @@
                     <tr>
                         <th class="text-center th-color">기준년도</th>
                         <td>
-                            <input type="text" id="searchYear"/>
+                            <input type="text" id="searchYear" onchange="mov.gridReload()"/>
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>
