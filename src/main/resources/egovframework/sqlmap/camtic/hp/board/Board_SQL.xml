@@ -181,8 +181,8 @@
             <if test="boardId == 'business'">#{startDt}, #{endDt},</if>
             <if test="boardId == 'sns'">#{snsType}, #{snsUrl},</if>
             <choose>
-                <when test="boardId == 'sns'">
-                    #{snsDate}
+                <when test="boardId == 'sns' or boardId == 'report'">
+                    #{modifyDate}
                 </when>
                 <otherwise>
                     current_timestamp()
@@ -208,7 +208,8 @@
             MOD_DATE = now(),
             REG_DATE =
                 CASE
-                    WHEN BOARD_ID = 'sns' THEN #{snsDate}
+                    WHEN BOARD_ID = 'sns' THEN #{modifyDate}
+                    WHEN BOARD_ID = 'report' THEN #{modifyDate}
                     ELSE current_timestamp()
                     END
         WHERE

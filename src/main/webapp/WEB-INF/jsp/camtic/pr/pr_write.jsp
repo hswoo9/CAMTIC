@@ -123,7 +123,7 @@
 										<input type="text" id="writer" class="inputText" value="관리자" disabled/>
 									</td>
 								</tr>
-								<c:if test="${categoryId eq 'sns'}">
+								<c:if test="${categoryId eq 'sns' or categoryId eq 'report'}">
 									<tr style="border-bottom: 1px solid #ccc;">
 										<th>SNS 유형</th>
 										<td colspan="2">
@@ -160,8 +160,8 @@
 									<td>
 										<%--<input type="text" id="writeDate" class="inputText" value="" disabled/>--%>
 										<c:choose>
-											<c:when test="${categoryId eq 'sns'}">
-												<input type="date" id="snsDate" class="inputText" value="" />
+											<c:when test="${categoryId eq 'sns' or categoryId eq 'report'}">
+												<input type="date" id="modifyDate" class="inputText" value="" />
 											</c:when>
 											<c:otherwise>
 												<input type="text" id="writeDate" class="inputText" value="" disabled/>
@@ -276,7 +276,7 @@
 
 		//$("#writeDate").val(year + "년 " + month + "월 " + date + "일");
 		$("#writeDate").val(year + "-" + formattedMonth + "-" + formattedDay);
-		$("#snsDate").val(year + "-" + formattedMonth + "-" + formattedDay);
+		$("#modifyDate").val(year + "-" + formattedMonth + "-" + formattedDay);
 
 		if(categoryId != 'video'){
 			CKEDITOR.replace('contents', {
@@ -362,7 +362,7 @@
 		formData.append("hashText", $("#hashText").val());
 		formData.append("snsType", snsType);
 		formData.append("snsUrl", $("#snsUrl").val());
-		formData.append("snsDate", $("#snsDate").val());
+		formData.append("modifyDate", $("#modifyDate").val());
 
 		if(fCommon.global.attFiles.length != 0){
 			if(fCommon.global.attFiles.length > 1){
