@@ -34,7 +34,8 @@ var goodsInfo = {
         var estSubList = rs.result.estSubList;
 
         var data = {
-            pjtSn : $("#pjtSn").val()
+            pjtSn : $("#pjtSn").val(),
+            checkPoint : "GOODS"
         }
 
         if(estSubList.length > 0){

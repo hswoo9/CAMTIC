@@ -440,7 +440,7 @@ var devInfo = {
                     });
 
                 }
-                
+
             }
         });
 
@@ -714,6 +714,10 @@ var devInfo = {
             psEmpSeq : $("#psEmpSeq").val(),
             psEmpNm : $("#psEmpNm").val(),
             regEmpSeq : $("#regEmpSeq").val()
+        }
+
+        if($("#devSn").val() != ""){
+            data.devSn = $("#devSn").val();
         }
 
         $.ajax({

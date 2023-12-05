@@ -705,28 +705,30 @@
     <insert id="insPjtPs" parameterType="map">
         INSERT INTO CAM_PJT_MNG.DJ_PJT_PS
         (
-        PJT_SN,
-        PS_ROW,
-        PS_PREP,
-        PS_PREP_NM,
-        PS_NM,
-        PS_STR_DE,
-        PS_END_DE,
-        PS_EMP_SEQ,
-        PS_EMP_NM,
-        REG_EMP_SEQ
+            PJT_SN,
+            DEV_SN,
+            PS_ROW,
+            PS_PREP,
+            PS_PREP_NM,
+            PS_NM,
+            PS_STR_DE,
+            PS_END_DE,
+            PS_EMP_SEQ,
+            PS_EMP_NM,
+            REG_EMP_SEQ
         ) VALUES
         (
-        #{pjtSn},
-        #{psRow},
-        #{psPrep},
-        #{psPrepNm},
-        #{psNm},
-        #{psStrDe},
-        #{psEndDe},
-        #{psEmpSeq},
-        #{psEmpNm},
-        #{regEmpSeq}
+            #{pjtSn},
+            #{devSn},
+            #{psRow},
+            #{psPrep},
+            #{psPrepNm},
+            #{psNm},
+            #{psStrDe},
+            #{psEndDe},
+            #{psEmpSeq},
+            #{psEmpNm},
+            #{regEmpSeq}
         )
         <selectKey keyProperty="PS_SN" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_PS'
