@@ -1035,10 +1035,9 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
-    public Map<String, Object> getCheckBudget(Map<String, Object> params) {
-        Map<String, Object> result= new HashMap<>();
+    public List<Map<String, Object>> getCheckBudget(Map<String, Object> params) {
 
         List<Map<String, Object>> list = payAppRepository.getCheckBudget(params);
-        return result;
+        return list;
     }
 }

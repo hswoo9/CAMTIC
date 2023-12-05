@@ -638,7 +638,7 @@ public class PayAppController {
     @RequestMapping("/payApp/getCheckBudget")
     public String getCheckBudget(@RequestParam Map<String, Object> params, Model model){
 
-        model.addAttribute("data", payAppService.getCheckBudget(params));
+        model.addAttribute("list", payAppService.getCheckBudget(params));
 
         return "jsonView";
     }

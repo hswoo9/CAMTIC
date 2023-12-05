@@ -65,5 +65,5 @@ public interface PayAppService {
 
     void setApprIncome(Map<String, Object> params);
 
-    Map<String, Object> getCheckBudget(Map<String, Object> params);
+    List<Map<String, Object>> getCheckBudget(Map<String, Object> params);
 }

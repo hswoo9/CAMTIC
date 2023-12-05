@@ -228,6 +228,7 @@
                             <span>
                                 <input type="text" id="budgetNm0" value="" onclick="regPay.fn_budgetPop(0)" style="width: 100%;">
                                 <input type="hidden" id="budgetSn0" value="" class="budgetSn"/>
+                                <input type="hidden" id="budgetAmt0" value="" />
                             </span>
                         </td>
                         <td>

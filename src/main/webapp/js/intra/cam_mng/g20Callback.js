@@ -10,11 +10,8 @@ function fn_selBudgetInfo(bgtNm, bgtCd, idx, subAm){
     }else{
         $("#budgetSn" + idx).val(bgtCd);
         $("#budgetNm" + idx).val(bgtNm);
+        $("#budgetAmt" + idx).val(subAm);
     }
-
-
-    $("#g20BudgetAmt").val(subAm);
-
 }
 
 /**
