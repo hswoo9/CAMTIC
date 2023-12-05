@@ -117,8 +117,8 @@
 					</li>
 				</ul>
 				<ul class="media-heading" style="font-size:15px; font-weight:600;letter-spacing: -2px; margin-top: 20px;">
-					<li style="list-style: none; color:#919191; display: inline; margin-right: 60px;">직책</li>
-					<li style="list-style: none; color:#333333; font-weight: bold; display: inline;">${uprinfList.DUTY_NAME}</li>
+					<li style="list-style: none; color:#919191; display: inline; margin-right: 60px;">직위</li>
+					<li style="list-style: none; color:#333333; font-weight: bold; display: inline;">${uprinfList.POSITION_NAME}</li>
 				</ul>
 				<ul class="media-heading" style="font-size:15px; font-weight:600;letter-spacing: -2px; margin-top: 20px;">
 					<li style="list-style: none; color:#919191; display: inline; margin-right: 60px;">직무</li>

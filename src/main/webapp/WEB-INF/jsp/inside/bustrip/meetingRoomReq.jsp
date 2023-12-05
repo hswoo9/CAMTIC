@@ -70,9 +70,6 @@
                             <button type="button" id="searchRebutton" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">
                                 검색 초기화
                             </button>
-                            <button type="button" id="calendar" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">
-                                달력 보기 (BAR)
-                            </button>
                             <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="meetingRoomReq.roomStatPop();">
                                 통계 조회
                             </button>
@@ -86,8 +83,8 @@
             <div class="table-responsive">
                 <div id="spclVacManageTabStrip">
                     <ul>
-                        <li class="k-state-active">목록</li>
-                        <li>캘린더</li>
+                        <li>목록</li>
+                        <li class="k-state-active">캘린더</li>
                     </ul>
                     <div>
                         <div id="mainGrid" style="margin-top: 10px">
