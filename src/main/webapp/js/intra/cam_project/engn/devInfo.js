@@ -534,7 +534,9 @@ var devInfo = {
         }
         var result = customKendo.fn_customAjax("/project/addDevVersion", data);
 
-
+        if(result.flag){
+            window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=3";
+        }
 
     },
 
@@ -708,6 +710,7 @@ var devInfo = {
             estOfc : $("#estOfc").val(),
             invEtc : $("#invEtc").val(),
             pjtSn : $("#pjtSn").val(),
+            denSn : $("#denSn").val(),
             regEmpSeq : $("#regEmpSeq").val()
         }
 
