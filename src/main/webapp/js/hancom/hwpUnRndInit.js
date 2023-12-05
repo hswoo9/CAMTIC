@@ -50,8 +50,8 @@ var unRndInit = {
 
         /** 2. 과제정보 */
         hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_SUB_NM);
-        hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(rndInfo.map.ALL_BUSN_COST));
-        hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(rndInfo.map.ALL_RES_COST));
+        hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(unRndInfo.map.ALL_BUSN_COST));
+        hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(unRndInfo.map.ALL_RES_COST));
 
         if(map.TM_YN == "Y"){
             const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: pjtSn});
@@ -65,26 +65,26 @@ var unRndInit = {
         }
 
         /** 4. 수행계획 */
-        const processResult = customKendo.fn_customAjax("/project/getProcessList", {pjtSn: pjtSn});
+        const processResult = customKendo.fn_customAjax("/project/getProcessList", {devSn: devSn});
         const processList = processResult.list;
-        const htmlDev = engnInit.htmlDev(processList, pjtSn, map.TM_YN);
+        const htmlDev = engnInit.htmlPs(processList, map);
         hwpDocCtrl.moveToField('DEV_HTML', true, true, false);
         hwpDocCtrl.setTextFile(htmlDev, "html","insertfile");
 
         /** 5. 구매예정 */
-        const purcResult = customKendo.fn_customAjax("/purc/getProjectPurcList", {pjtSn: pjtSn});
+        const purcResult = customKendo.fn_customAjax("/purc/getInvList", {devSn: devSn});
         const purcList = purcResult.list;
-        const htmlData = engnInit.htmlPurc(purcList, pjtSn, map.TM_YN);
+        const htmlData = engnInit.htmlInv(purcList, map);
         setTimeout(function() {
             hwpDocCtrl.moveToField('PURC_HTML', true, true, false);
             hwpDocCtrl.setTextFile(htmlData, "html","insertfile");
-        }, 200);
+        }, 1000);
 
         /** 6. 정산내역 */
         let invSum = 0;
         for(let i=0; i<purcList.length; i++){
             const map = purcList[i];
-            invSum += Number(map.PURC_ITEM_AMT);
+            invSum += Number(map.EST_TOT_AMT);
         }
         hwpDocCtrl.putFieldText('INV_PER', "100%");
         hwpDocCtrl.putFieldText('INV_AMT', fn_numberWithCommas(invSum));
@@ -97,8 +97,10 @@ var unRndInit = {
     resInit: function(pjtSn){
         const pjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: pjtSn});
         const unRndInfo = customKendo.fn_customAjax("/projectUnRnd/getUnRndDetail", {pjtSn: pjtSn});
+        const resultD = customKendo.fn_customAjax("/project/engn/getDevData", {pjtSn: pjtSn});
         const map = pjtInfo.rs;
         const delvMap = unRndInfo.map;
+        const devMap = resultD.rs;
 
         /** 1. 사업정보 */
         hwpDocCtrl.putFieldText('BUSN_CLASS', map.BUSN_NM);
@@ -117,8 +119,8 @@ var unRndInit = {
 
         /** 2. 과제정보 */
         hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_SUB_NM);
-        hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(rndInfo.map.ALL_BUSN_COST));
-        hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(rndInfo.map.ALL_RES_COST));
+        hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(unRndInfo.map.ALL_BUSN_COST));
+        hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(unRndInfo.map.ALL_RES_COST));
 
         const date = new Date();
         const year = date.getFullYear().toString().substring(2,4);
@@ -150,13 +152,13 @@ var unRndInit = {
         }
 
         /** 4. 수행계획 */
-        const processResult = customKendo.fn_customAjax("/project/getProcessList", {pjtSn: pjtSn});
+        const processResult = customKendo.fn_customAjax("/project/getProcessList", {devSn : devMap.DEV_SN});
         const processList = processResult.list;
-        const htmlDev = engnInit.htmlDev(processList, pjtSn, map.TM_YN);
+        const htmlDev = engnInit.htmlPs(processList, map);
         setTimeout(function() {
             hwpDocCtrl.moveToField('DEV_HTML', true, true, false);
             hwpDocCtrl.setTextFile(htmlDev, "html","insertfile");
-        }, 3000);
+        }, 6000);
 
         /** 5. 구매예정 */
         const purcResult = customKendo.fn_customAjax("/purc/getProjectPurcList", {pjtSn: pjtSn});
@@ -165,7 +167,7 @@ var unRndInit = {
         setTimeout(function() {
             hwpDocCtrl.moveToField('PURC_HTML', true, true, false);
             hwpDocCtrl.setTextFile(htmlData, "html","insertfile");
-        }, 3200);
+        }, 8000);
 
         /** 6. 정산내역 */
         let invSum = 0;
@@ -181,11 +183,11 @@ var unRndInit = {
         hwpDocCtrl.putFieldText('INV_PER3', (100-invPer)+"%");
 
         /** 7. 특이사항 */
-        const getResult = customKendo.fn_customAjax("/project/engn/getResultInfo", data);
+        const getResult = customKendo.fn_customAjax("/project/engn/getResultInfo", {pjtSn: pjtSn});
         const res = getResult.result.map;
         setTimeout(function() {
             hwpDocCtrl.moveToField('ETC', true, true, false);
             hwpDocCtrl.setTextFile(res.RS_ISS.replaceAll("\n", "<br>"), "html","insertfile");
-        }, 3400);
+        }, 10000);
     }
 }
