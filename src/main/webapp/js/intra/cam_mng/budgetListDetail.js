@@ -92,7 +92,9 @@ var bld = {
                     title: "예산액",
                     width: 150,
                     template: function(e){
-                        calcAmSum  += Number(e.CALC_AM);
+                        if(e.DIV_FG_NM == "장"){
+                            calcAmSum  += Number(e.CALC_AM);
+                        }
                         return "<div style='text-align: right'>"+comma(e.CALC_AM)+"</div>";
                     },
                     footerTemplate: function(){
@@ -102,7 +104,9 @@ var bld = {
                     title: "지출완료",
                     width: 150,
                     template: function(e){
-                        acctAm2Sum  += Number(e.ACCT_AM_2);
+                        if(e.DIV_FG_NM == "장"){
+                            acctAm2Sum  += Number(e.ACCT_AM_2);
+                        }
                         return "<div style='text-align: right'>"+comma(e.ACCT_AM_2)+"</div>";
                     },
                     footerTemplate: function(){
@@ -113,7 +117,9 @@ var bld = {
                     width: 150,
                     template: function(e){
                         if(e.ACCT_AM_1 != null){
-                            acctAm1Sum += Number(e.ACCT_AM_1);
+                            if(e.DIV_FG_NM == "장"){
+                                acctAm1Sum += Number(e.ACCT_AM_1);
+                            }
                             return "<div style='text-align: right'>"+comma(e.ACCT_AM_1)+"</div>";
                         } else {
                             return "<div style='text-align: right'>0</div>";
@@ -126,7 +132,9 @@ var bld = {
                     title: "승인",
                     width: 150,
                     template: function(e){
-                        acctAm3Sum += Number(e.ACCT_AM_3);
+                        if(e.DIV_FG_NM == "장"){
+                            acctAm3Sum += Number(e.ACCT_AM_3);
+                        }
                         return "<div style='text-align: right'>"+comma(e.ACCT_AM_3)+"</div>";
                     },
                     footerTemplate: function(){
@@ -136,7 +144,9 @@ var bld = {
                     title: "예산잔액",
                     width: 150,
                     template: function(e){
-                        subAmSum += Number(e.SUB_AM);
+                        if(e.DIV_FG_NM == "장"){
+                            subAmSum += Number(e.SUB_AM);
+                        }
                         return "<div style='text-align: right'>"+comma(e.SUB_AM)+"</div>";
                     },
                     footerTemplate: function(){
@@ -232,7 +242,9 @@ var bld = {
                     title: "예산액",
                     width: 150,
                     template: function(e){
-                        calcAmSum  += Number(e.CALC_AM);
+                        if(e.DIV_FG_NM == "장"){
+                            calcAmSum  += Number(e.CALC_AM);
+                        }
                         return "<div style='text-align: right'>"+comma(e.CALC_AM)+"</div>";
                     },
                     footerTemplate: function(){
@@ -242,7 +254,9 @@ var bld = {
                     title: "지출완료",
                     width: 150,
                     template: function(e){
-                        acctAm2Sum  += Number(e.ACCT_AM_2);
+                        if(e.DIV_FG_NM == "장"){
+                            acctAm2Sum  += Number(e.ACCT_AM_2);
+                        }
                         return "<div style='text-align: right'>"+comma(e.ACCT_AM_2)+"</div>";
                     },
                     footerTemplate: function(){
@@ -253,7 +267,9 @@ var bld = {
                     width: 150,
                     template: function(e){
                         if(e.ACCT_AM_1 != null){
-                            acctAm1Sum += Number(e.ACCT_AM_1);
+                            if(e.DIV_FG_NM == "장"){
+                                acctAm1Sum += Number(e.ACCT_AM_1);
+                            }
                             return "<div style='text-align: right'>"+comma(e.ACCT_AM_1)+"</div>";
                         } else {
                             return "<div style='text-align: right'>0</div>";
@@ -266,7 +282,9 @@ var bld = {
                     title: "승인",
                     width: 150,
                     template: function(e){
-                        acctAm3Sum += Number(e.ACCT_AM_3);
+                        if(e.DIV_FG_NM == "장"){
+                            acctAm3Sum += Number(e.ACCT_AM_3);
+                        }
                         return "<div style='text-align: right'>"+comma(e.ACCT_AM_3)+"</div>";
                     },
                     footerTemplate: function(){
@@ -276,7 +294,9 @@ var bld = {
                     title: "예산잔액",
                     width: 150,
                     template: function(e){
-                        subAmSum += Number(e.SUB_AM);
+                        if(e.DIV_FG_NM == "장"){
+                            subAmSum += Number(e.SUB_AM);
+                        }
                         return "<div style='text-align: right'>"+comma(e.SUB_AM)+"</div>";
                     },
                     footerTemplate: function(){

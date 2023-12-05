@@ -42,7 +42,7 @@
                 <a href="#">
                     <c:choose>
                         <c:when test="${loginVO.picFilePath ne '' and loginVO.picFilePath ne null}">
-                            <img src="${loginVO.picFilePath}" alt="" class="media-object img-circle" style="height: 100px;text-align: center; margin: 0 20px; margin-bottom: 10px; width:100px;">
+                            <img src="${loginVO.picFilePath}" alt="" class="media-object img-circle" style="height: 110px;text-align: center; margin: 0 20px;">
                         </c:when>
                         <c:otherwise>
                             등록된 증명사진이 없습니다.
