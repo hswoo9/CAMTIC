@@ -920,7 +920,9 @@ public class ProjectController {
 
     @RequestMapping("/project/getDevelopPlan")
     public String getDevelopPlan(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> devMap = projectService.getDevMap(params);
 
+        params.put("devSn", devMap.get("DEV_SN"));
         Map<String, Object> map = projectService.getDevelopPlan(params);
         Map<String, Object> devFile = projectService.getDevFile(map);
         model.addAttribute("rs", map);

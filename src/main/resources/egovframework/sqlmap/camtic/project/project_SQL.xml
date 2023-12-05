@@ -2614,4 +2614,19 @@
         WHERE
             PJT_CD = #{PJT_CD}
     </select>
+
+    <select id="getDevMap" parameterType="map" resultType="map">
+        /*getDevMap*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_DEV
+        WHERE
+            STATUS = 100
+        AND
+            PJT_SN = #{pjtSn}
+        ORDER BY
+            DEV_SN DESC
+        LIMIT 1
+    </select>
 </mapper>

@@ -29,11 +29,7 @@ var goodsInfo = {
         }
 
         var rs = customKendo.fn_customAjax("/project/getStep1Data", data);
-        console.log("1");
-        console.log(rs);
         var rs2 = customKendo.fn_customAjax("/project/getDevPjtVerList", data);
-        console.log("2");
-        console.log(rs2);
 
         var estSubList = rs.result.estSubList;
 
@@ -59,6 +55,7 @@ var goodsInfo = {
             dataType : "json",
             type : "post",
             success : function(rs){
+                console.log(rs);
                 var devFile = rs.devFile;
 
                 if(devFile.devFile != null && devFile.devFile != ""){
@@ -125,7 +122,7 @@ var goodsInfo = {
         });
         if(result.flag){
             alert("마감처리 되었습니다.");
-            goodsInfo.fn_defaultScript();
+            location.reload();
         }
     },
 
