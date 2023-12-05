@@ -30,8 +30,8 @@ var meetingRoomReq = {
     },
 
     init: function(){
-        meetingRoomReq.dataSet();
         meetingRoomReq.mainScheduler();
+        meetingRoomReq.dataSet();
         meetingRoomReq.mainGrid();
     },
 
