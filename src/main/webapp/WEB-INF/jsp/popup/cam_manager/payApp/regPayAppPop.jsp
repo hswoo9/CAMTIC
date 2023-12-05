@@ -28,6 +28,8 @@
 <input type="hidden" id="claimSn" value="${params.claimSn}" />
 <input type="hidden" id="docStatus" value=""/>
 
+<input type="hidden" id="g20BudgetAmt" value="" />
+
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
@@ -226,6 +228,7 @@
                             <span>
                                 <input type="text" id="budgetNm0" value="" onclick="regPay.fn_budgetPop(0)" style="width: 100%;">
                                 <input type="hidden" id="budgetSn0" value="" class="budgetSn"/>
+                                <input type="hidden" id="budgetAmt0" value="" />
                             </span>
                         </td>
                         <td>

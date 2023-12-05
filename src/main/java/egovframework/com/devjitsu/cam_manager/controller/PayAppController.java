@@ -634,4 +634,12 @@ public class PayAppController {
 
         return "popup/cam_manager/setPayRequest";
     }
+
+    @RequestMapping("/payApp/getCheckBudget")
+    public String getCheckBudget(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list", payAppService.getCheckBudget(params));
+
+        return "jsonView";
+    }
 }

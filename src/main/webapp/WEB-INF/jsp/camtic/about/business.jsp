@@ -178,13 +178,12 @@
 								</ul>
 							</div>
 
-							<div class="iw iw13"><span>지역산업육성</span></div>
+							<div class="iw iw13"><span>창업</span></div>
 							<div class="iw iw14 dot tal">
 								<ul>
-									<li>기술사업화지원</li>
-									<li>성장사다리지원</li>
-									<li>AI인공지능 데이터사업</li>
-									<li>ODA(국제개발협력)</li>
+									<li>특화분야 창업지원</li>
+									<li>메이커스페이스</li>
+									<li>창업유관기관네트워크</li>
 								</ul>
 							</div>
 							<div class="iw iw15"><span>성<br>장<br>지<br>원</span></div>
@@ -242,10 +241,10 @@
 							<div class="iw iw12"><span>핵심기술</span></div>
 							<div class="iw iw13 dot tal">
 								<ul>
-									<li>생산/품질혁신</li>
-									<li>스마트팩토리</li>
-									<li>데이터실시간모니터링</li>
-									<li>최적적응제어</li>
+									<li>우주/항공/방산/에너지</li>
+									<li>위성부품(MGSE)제작</li>
+									<li>항공기시험부품/조립</li>
+									<li>연소기시험리그제작</li>
 								</ul>
 							</div>
 

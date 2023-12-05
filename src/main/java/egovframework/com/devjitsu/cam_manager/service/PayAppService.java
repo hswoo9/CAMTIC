@@ -64,4 +64,6 @@ public interface PayAppService {
     Map<String, Object> getPayDepoData(Map<String, Object> params);
 
     void setApprIncome(Map<String, Object> params);
+
+    List<Map<String, Object>> getCheckBudget(Map<String, Object> params);
 }

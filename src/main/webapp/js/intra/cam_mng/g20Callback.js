@@ -3,16 +3,15 @@
  * @param bgtNm
  * @param bgtCd
  */
-function fn_selBudgetInfo(bgtNm, bgtCd, idx){
+function fn_selBudgetInfo(bgtNm, bgtCd, idx, subAm){
     if(idx == "N"){
         $("#budgetSn").val(bgtCd);
         $("#budgetNm").val(bgtNm);
     }else{
         $("#budgetSn" + idx).val(bgtCd);
         $("#budgetNm" + idx).val(bgtNm);
+        $("#budgetAmt" + idx).val(subAm);
     }
-
-
 }
 
 /**
