@@ -228,9 +228,9 @@
                 <div class="__botArea">
                     <div style="text-align: center;">
                         <c:if test="${map.RECRUIT_STATUS_SN == '2'}">
-                            <a href="#" class="__btn1 blue" style="width:200px;"><span>온라인 입사지원하기</span></a>
+                            <a href="javascript:void(0);" onclick="fn_goRecruit();" class="__btn1 blue" style="width:200px;"><span>온라인 입사지원하기</span></a>
                         </c:if>
-                        <a href="javascript:void(0);" onclick="fn_goList();" class="__btn1 blue" style="width:200px;"><span>목록보기</span></a>
+                            <a href="javascript:void(0);" onclick="fn_goList();" class="__btn1 blue" style="width:200px;"><span>목록보기</span></a>
                     </div>
                 </div>
             </div>
@@ -252,6 +252,10 @@
 
     function fn_goList(){
         location.href = '/camtic/member/job.do';
+    }
+
+    function fn_goRecruit(){
+        location.href = '/camtic/member/job_applicationLogin.do';
     }
 
     //상세보기 이동

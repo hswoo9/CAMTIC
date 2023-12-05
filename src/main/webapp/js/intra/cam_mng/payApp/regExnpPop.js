@@ -79,6 +79,10 @@ var regExnp = {
         }
 
 
+        customKendo.fn_datePicker("reqDe", 'month', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("reqExDe", 'month', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("reqEndDe", 'month', "yyyy-MM-dd", new Date());
+        $("#DT1, #DT2, #DT3").attr("readonly", true);
         /** 회계발의일, 등기일자, 지출부기재 일자 폼 추가 */
         if($("#status").val() == "rev" || $("#status").val() == "in"){
             $("#dtTr").show();
@@ -195,21 +199,18 @@ var regExnp = {
         $("#accNm").val(rs.ACC_NM);
         $("#accNo").val(rs.ACC_NO);
 
-        if(rs.DT_CK == "Y"){
-            $("#DT1").val(rs.DT1);
-            $("#DT2").val(rs.DT2);
-            $("#DT3").val(rs.DT3);
-        }
+        $("#DT1").val(rs.DT1);
+        $("#DT2").val(rs.DT2);
+        $("#DT3").val(rs.DT3);
+
+        $("#reqDe").val(rs.REQ_DE);
+        $("#reqExDe").val(rs.REQ_EXNP_DE);
+        $("#reqEndDe").val(rs.REQ_END_DE);
 
         if(ls.length > 0){
             $("#payDestTb").html("");
             $("#budgetNm").val(ls[0].BUDGET_NM);
             $("#budgetSn").val(ls[0].BUDGET_SN);
-            if(rs.DT_CK == "N"){
-                $("#DT1").val(ls[0].TR_DE);
-                $("#DT2").val(fn_stringToDate(ls[0].TR_DE, 5));
-                $("#DT3").val(fn_stringToDate(ls[0].TR_DE, 6));
-            }
         }
         for(var i=0; i < ls.length; i++) {
             var item = ls[i];
@@ -448,8 +449,16 @@ var regExnp = {
             $("#budgetNm").val(ls[0].BUDGET_NM);
             $("#budgetSn").val(ls[0].BUDGET_SN);
         }
+
+
+        $("#reqDe").val(rs.REQ_DE);
+        $("#reqExDe").val(rs.REQ_DE);
+        $("#reqEndDe").val(rs.REQ_DE);
         for(var i=0; i < ls.length; i++){
             var item = ls[i];
+            $("#DT1").val(ls[0].TR_DE);
+            $("#DT2").val(fn_stringToDate(ls[0].TR_DE, 5));
+            $("#DT3").val(fn_stringToDate(ls[0].TR_DE, 6));
 
             regExnpDet.global.createHtmlStr = "";
 
@@ -814,6 +823,9 @@ var regExnp = {
             DT1 : $("#DT1").val(),
             DT2 : $("#DT2").val(),
             DT3: $("#DT3").val(),
+            reqDe : $("#reqDe").val(),
+            reqExDe : $("#reqExDe").val(),
+            reqEndDe: $("#reqEndDe").val(),
 
             regEmpSeq : $("#regEmpSeq").val(),
         }

@@ -132,6 +132,14 @@
                         <input type="text" id="bnkNm" disabled style="width: 60%;">
                     </td>
                 </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">지출 날짜 설정</th>
+                    <td colspan="4">
+                        지출요청일 : <input id="reqDe" style="width: 150px">&nbsp;
+                        지출예정일 : <input id="reqExDe" style="width: 150px">&nbsp;
+                        지출완료일 : <input id="reqEndDe" style="width: 150px">&nbsp;
+                    </td>
+                </tr>
                 <tr id="dtTr">
                     <th scope="row" class="text-center th-color">결의서 날짜 설정</th>
                     <td colspan="4">

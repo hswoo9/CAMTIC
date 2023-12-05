@@ -158,8 +158,8 @@
                   <%--<th>작성일자</th>--%>
                   <td>
                     <c:choose>
-                      <c:when test="${categoryId eq 'sns'}">
-                        <input type="date" id="snsDate" class="" value="<fmt:formatDate value="${map.REG_DATE}" pattern="yyyy-MM-dd" type="date"/>"/>
+                      <c:when test="${categoryId eq 'sns' or categoryId eq 'report'}">
+                        <input type="date" id="modifyDate" class="" value="<fmt:formatDate value="${map.REG_DATE}" pattern="yyyy-MM-dd" type="date"/>"/>
                       </c:when>
                       <c:otherwise>
                         <input type="text" id="writeDate" class="" value="<fmt:formatDate value="${map.REG_DATE}" pattern="yyyy-MM-dd" type="date"/>" disabled/>
@@ -425,7 +425,7 @@
     formData.append("hashText", $("#hashText").val());
     formData.append("snsType", snsType);
     formData.append("snsUrl", $("#snsUrl").val());
-    formData.append("snsDate", $("#snsDate").val());
+    formData.append("modifyDate", $("#modifyDate").val());
 
     //첨부파일
     if(fCommon.global.attFiles.length != 0){

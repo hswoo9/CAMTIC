@@ -72,6 +72,9 @@
                 DT2,
                 DT3,
                 DT_CK,
+                REQ_DE,
+                REQ_EXNP_DE,
+                REQ_END_DE,
                 REG_EMP_SEQ
             )
         VALUES
@@ -96,6 +99,9 @@
                 #{DT2},
                 #{DT3},
                 'N',
+                #{reqDe},
+                #{reqExDe},
+                #{reqEndDe},
                 #{regEmpSeq}
             )
         <selectKey keyProperty="exnpSn" resultType="Integer" order="BEFORE">
@@ -149,6 +155,9 @@
             DT2 = #{DT2},
             DT3 = #{DT3},
             DT_CK = 'Y',
+            REQ_DE = #{reqDe},
+            REQ_EXNP_DE = #{reqExDe},
+            REQ_END_DE = #{reqEndDe},
             MOD_DT = NOW(),
             MOD_EMP_SEQ = #{regEmpSeq}
         WHERE
@@ -325,7 +334,9 @@
         SELECT
             A.*,
             B.DOC_NO,
-            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = A.PAY_APP_SN AND DET_STAT != "N") AS TOT_COST
+            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = A.PAY_APP_SN AND DET_STAT != "N") AS TOT_COST,
+            (SELECT REQ_EXNP_DE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN ORDER BY EXNP_SN DESC LIMIT 1) AS REQ_EXNP_DE,
+            (SELECT REQ_END_DE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN ORDER BY EXNP_SN DESC LIMIT 1) AS REQ_END_DE
         FROM
             CAM_MNG.DJ_PAY_APP A
         LEFT JOIN
