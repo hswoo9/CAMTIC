@@ -218,11 +218,8 @@ var regPrj = {
                     if(setParameters.PJT_STEP >= "E3" && devMap.STATUS == "100"){
                         tabStrip.enable(tabStrip.tabGroup.children().eq(4));
                         tabStrip.enable(tabStrip.tabGroup.children().eq(6));
+                        tabStrip.enable(tabStrip.tabGroup.children().eq(7));
                     }
-                }
-
-                if(setParameters.PJT_STEP >= "E4"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(7));
                 }
 
                 if(setParameters.PJT_STEP >= "E6"){

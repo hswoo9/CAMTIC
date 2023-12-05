@@ -65,20 +65,20 @@ var unRndInit = {
         }
 
         /** 4. 수행계획 */
-        const processResult = customKendo.fn_customAjax("/project/getProcessList", {pjtSn: pjtSn});
+        const processResult = customKendo.fn_customAjax("/project/getProcessList", {devSn: devSn});
         const processList = processResult.list;
-        const htmlDev = engnInit.htmlDev(processList, pjtSn, map.TM_YN);
+        const htmlDev = engnInit.htmlPs(processList, map);
         hwpDocCtrl.moveToField('DEV_HTML', true, true, false);
         hwpDocCtrl.setTextFile(htmlDev, "html","insertfile");
 
         /** 5. 구매예정 */
-        const purcResult = customKendo.fn_customAjax("/purc/getProjectPurcList", {pjtSn: pjtSn});
+        const purcResult = customKendo.fn_customAjax("/purc/getInvList", {devSn: devSn});
         const purcList = purcResult.list;
-        const htmlData = engnInit.htmlPurc(purcList, pjtSn, map.TM_YN);
+        const htmlData = engnInit.htmlInv(purcList, map);
         setTimeout(function() {
             hwpDocCtrl.moveToField('PURC_HTML', true, true, false);
             hwpDocCtrl.setTextFile(htmlData, "html","insertfile");
-        }, 200);
+        }, 1000);
 
         /** 6. 정산내역 */
         let invSum = 0;
@@ -152,7 +152,7 @@ var unRndInit = {
         /** 4. 수행계획 */
         const processResult = customKendo.fn_customAjax("/project/getProcessList", {pjtSn: pjtSn});
         const processList = processResult.list;
-        const htmlDev = engnInit.htmlDev(processList, pjtSn, map.TM_YN);
+        const htmlDev = engnInit.htmlPs(processList, pjtSn, map.TM_YN);
         setTimeout(function() {
             hwpDocCtrl.moveToField('DEV_HTML', true, true, false);
             hwpDocCtrl.setTextFile(htmlDev, "html","insertfile");
