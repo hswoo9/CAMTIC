@@ -435,7 +435,7 @@
 
       if(item.RECRUIT_STATUS_SN == 'E'){
         html += '<div class="ddakji end"><span style="font-size:13px;">' + item.RECRUIT_STATUS_TEXT  + '</span></div>';
-      }else if(item.RECRUIT_STATUS_SN == '3' || item.RECRUIT_STATUS_SN == '4'){
+      }else if(item.RECRUIT_STATUS_SN == '3' || item.RECRUIT_STATUS_SN == '4' || item.RECRUIT_STATUS_SN == '5'){
         html += '<div class="ddakji ing"><span style="font-size:13px;">심사중</span></div>';
       }else if(item.RECRUIT_STATUS_SN == '2'){
         html += '<div class="ddakji ing"><span style="font-size:13px;">접수중</span></div>';
