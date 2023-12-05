@@ -49,12 +49,14 @@
             (
                 RECRUIT_INFO_SN,
                 USER_EMAIL,
+                USER_NAME,
                 REG_ID
             )
         VALUES
             (
                 #{recruitInfoSn},
                 #{userEmail},
+                #{userName},
                 #{userEmail}
             )
     </insert>
