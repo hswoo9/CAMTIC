@@ -67,10 +67,6 @@ var rndDP = {
         }
 
         $("#verTable").append(html);
-
-        var resultMap = customKendo.fn_customAjax("/project/getDevelopPlan", data);
-
-        rndDP.fn_buttonSet(resultMap.rs);
     },
 
 
@@ -357,6 +353,8 @@ var rndDP = {
 
             }
         });
+
+        rndDP.fn_buttonSet();
     },
 
     fn_addInv : function() {
@@ -561,7 +559,14 @@ var rndDP = {
         }
     },
 
-    fn_buttonSet : function(devMap){
+    fn_buttonSet : function(){
+        var data = {
+            pjtSn : $("#pjtSn").val(),
+            devSn : $("#devSn").val(),
+        }
+        var resultMap = customKendo.fn_customAjax("/project/getDevelopPlan", data);
+        let devMap = resultMap.rs;
+
         var buttonHtml = "";
         if(devMap != null){
             var status = devMap.STATUS;
