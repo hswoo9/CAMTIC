@@ -668,16 +668,26 @@ public class CrmServiceImpl implements CrmService {
                     tumpMap.put("estDate", cellValueToString(row.getCell(8)));
 
                     LocalDate now = LocalDate.now();
-                    String estYear = row.getCell(8) == null ? String.valueOf(now.getYear()) : cellValueToString(row.getCell(8));
+                    String estYear = row.getCell(8) == null ? "" : cellValueToString(row.getCell(8));
 
-                    if(!estYear.equals("알수없음")){
+                    if(!estYear.equals("알수없음") && !estYear.equals("") && !estYear.equals("미응답") && estYear.length() == 10){
                         estYear = String.valueOf(now.getYear() - Integer.parseInt(estYear.substring(0, 4)));
                     }
 
                     tumpMap.put("history", estYear);
                     tumpMap.put("location", cellValueToString(row.getCell(10)));
                     tumpMap.put("industry", cellValueToString(row.getCell(11)));
-                    tumpMap.put("industry2", cellValueToString(row.getCell(11)).substring(0, 2));
+
+                    String industry = row.getCell(11) == null ? "" : cellValueToString(row.getCell(11));
+                    if(!industry.equals("") && !industry.equals("미응답")){
+                        if(industry.substring(0, 1).matches("[+-]?\\d*(\\.\\d+)?") && industry.substring(1, 2).matches("[+-]?\\d*(\\.\\d+)?")){
+                            industry = industry.substring(0, 2);
+                        }else{
+                            industry = "";
+                        }
+                    }
+
+                    tumpMap.put("industry2", industry);
                     tumpMap.put("mainProduct", cellValueToString(row.getCell(13)));
                     tumpMap.put("amPart", cellValueToString(row.getCell(14)));
                     tumpMap.put("amPartType", cellValueToString(row.getCell(15)));
@@ -691,12 +701,15 @@ public class CrmServiceImpl implements CrmService {
                     String salesRatioProv = String.valueOf(row.getCell(23));
                     String salesRatioOtProv = String.valueOf(row.getCell(24));
 
-                    if((salesRatioProv.equals("미응답") || salesRatioProv.equals("")) && (salesRatioOtProv.equals("미응답") || salesRatioOtProv.equals(""))){
+                    if((salesRatioProv.equals("미응답") || salesRatioProv.equals("미") || salesRatioProv.equals("모름") || salesRatioProv.equals("%") || salesRatioProv.equals("")) &&
+                            (salesRatioOtProv.equals("미응답") || salesRatioOtProv.equals("미") || salesRatioOtProv.equals("모름") || salesRatioOtProv.equals("%") || salesRatioOtProv.equals(""))){
                         tumpMap.put("salesAmt", "0");
                     }else {
-                        if((salesRatioProv.equals("미응답") || salesRatioProv.equals("")) && !salesRatioOtProv.equals("미응답") && !salesRatioOtProv.equals("")){
+                        if((salesRatioProv.equals("미응답") || salesRatioProv.equals("미")  || salesRatioProv.equals("모름") || salesRatioProv.equals("%") || salesRatioProv.equals("")) &&
+                                !salesRatioOtProv.equals("미응답") && !salesRatioOtProv.equals("미") && !salesRatioOtProv.equals("모름") && !salesRatioOtProv.equals("%") && !salesRatioOtProv.equals("")){
                             tumpMap.put("salesAmt", Double.parseDouble(salesRatioOtProv));
-                        }else if((salesRatioOtProv.equals("미응답") || salesRatioOtProv.equals("")) && !salesRatioProv.equals("미응답") && !salesRatioProv.equals("")){
+                        }else if((salesRatioOtProv.equals("미응답") || salesRatioOtProv.equals("미") || salesRatioOtProv.equals("모름") || salesRatioOtProv.equals("%") || salesRatioOtProv.equals("")) &&
+                                !salesRatioProv.equals("미응답") && !salesRatioProv.equals("미") && !salesRatioProv.equals("모름") && !salesRatioProv.equals("%") && !salesRatioProv.equals("")){
                             tumpMap.put("salesAmt", Double.parseDouble(salesRatioProv));
                         }else {
                             tumpMap.put("salesAmt", String.valueOf(Double.parseDouble(salesRatioProv) + Double.parseDouble(salesRatioOtProv)));
@@ -711,16 +724,17 @@ public class CrmServiceImpl implements CrmService {
                     tumpMap.put("exportYn", cellValueToString(row.getCell(28)));
                     tumpMap.put("laboratoryYn", cellValueToString(row.getCell(29)));
                     tumpMap.put("carbonYn", cellValueToString(row.getCell(30)));
-                    tumpMap.put("rprYn", cellValueToString(row.getCell(31)));
-                    tumpMap.put("newProductYn", cellValueToString(row.getCell(32)));
-                    tumpMap.put("facilityInvestYn", cellValueToString(row.getCell(33)));
-                    tumpMap.put("highlySatField", cellValueToString(row.getCell(34)));
-                    tumpMap.put("needField", cellValueToString(row.getCell(35)));
-                    tumpMap.put("agreeYn", cellValueToString(row.getCell(36)));
-                    tumpMap.put("agree2Yn", cellValueToString(row.getCell(37)));
-                    tumpMap.put("ceoTelNum", cellValueToString(row.getCell(38)));
-                    tumpMap.put("chargeName", cellValueToString(row.getCell(39)));
-                    tumpMap.put("chargeTelNum", cellValueToString(row.getCell(40)));
+                    tumpMap.put("carbonDetail", cellValueToString(row.getCell(31)));
+                    tumpMap.put("rprYn", cellValueToString(row.getCell(32)));
+                    tumpMap.put("newProductYn", cellValueToString(row.getCell(33)));
+                    tumpMap.put("facilityInvestYn", cellValueToString(row.getCell(34)));
+                    tumpMap.put("highlySatField", cellValueToString(row.getCell(35)));
+                    tumpMap.put("needField", cellValueToString(row.getCell(36)));
+                    tumpMap.put("agreeYn", cellValueToString(row.getCell(37)));
+                    tumpMap.put("agree2Yn", cellValueToString(row.getCell(38)));
+                    tumpMap.put("ceoTelNum", cellValueToString(row.getCell(39)));
+                    tumpMap.put("chargeName", cellValueToString(row.getCell(40)));
+                    tumpMap.put("chargeTelNum", cellValueToString(row.getCell(41)));
                     tumpMap.put("regEmpSeq", params.get("empSeq"));
 
                     crmRepository.setMfOverview(tumpMap);
