@@ -661,7 +661,7 @@ public class CrmServiceImpl implements CrmService {
                     tumpMap.put("mfArea", cellValueToString(row.getCell(1)));
                     tumpMap.put("active", cellValueToString(row.getCell(2)).equals("정상") ? "Y" : "N");
                     tumpMap.put("mfName", cellValueToString(row.getCell(3)));
-                    tumpMap.put("mfNo", cellValueToString(row.getCell(4)));
+                    tumpMap.put("mfNo", cellValueToString(row.getCell(4)).replaceAll("-", ""));
                     tumpMap.put("ceoName", cellValueToString(row.getCell(5)));
                     tumpMap.put("ceoGender", cellValueToString(row.getCell(6)));
                     tumpMap.put("addr", cellValueToString(row.getCell(7)));
@@ -670,7 +670,7 @@ public class CrmServiceImpl implements CrmService {
                     LocalDate now = LocalDate.now();
                     String estYear = row.getCell(8) == null ? "" : cellValueToString(row.getCell(8));
 
-                    if(!estYear.equals("알수없음") && !estYear.equals("") && !estYear.equals("미응답") && estYear.length() == 10){
+                    if(!estYear.equals("알수없음") && !estYear.equals("") && !estYear.equals("미응답") && (estYear.length() == 8 || estYear.length() == 10)){
                         estYear = String.valueOf(now.getYear() - Integer.parseInt(estYear.substring(0, 4)));
                     }
 
