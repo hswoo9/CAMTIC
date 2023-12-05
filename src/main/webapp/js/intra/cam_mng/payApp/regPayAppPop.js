@@ -191,6 +191,20 @@ var regPay = {
 
     payAppDrafting: function(){
 
+        // var data = {
+        //     payAppSn : $("#payAppSn").val(),
+        //     pjtCd : $("#pjtCd").val()
+        // }
+        // $.ajax({
+        //     url : "/payApp/getCheckBudget",
+        //     data : data,
+        //     type : "post",
+        //     dataType : "json",
+        //     success : function (rs){
+        //         console.log(rs);
+        //     }
+        // });
+
         regPay.fn_save("", "drafting");
         let checked = 0;
         var data = {
@@ -607,6 +621,11 @@ var regPay = {
                 iss : $("#iss" + index).val(),
                 advances : $("#advances" + index).is(':checked') ? "Y" : "N",
             }
+
+            if(data.buySts == undefined || data.buySts == null || data.buySts == "" || data.buySts == "undefined"){
+                data.buySts = "";
+            }
+
             if(i != 0){
                 if(befAdvances != ($("#advances" + index).is(':checked') ? "Y" : "N")){
                     flag2 = false;

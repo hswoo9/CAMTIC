@@ -1319,4 +1319,14 @@
         WHERE
             PAY_DEPO_SN = #{payDepoSn}
     </update>
+
+    <select id="getCheckBudget" parameterType="map" resultType="map">
+        /*getCheckBudget*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_PAY_APP_DET
+        WHERE
+            PAY_APP_SN = #{payAppSn}
+    </select>
 </mapper>
