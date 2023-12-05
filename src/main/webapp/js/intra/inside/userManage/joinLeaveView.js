@@ -130,10 +130,10 @@ var joinLeaveView = {
             var item = e.arr[i];
             console.log("arr item",item);
 
-            var divisionMatch = item.match(/DIVISION\s*IN\((\d+)\)/);
+            var divisionMatch = item.match(/DIVISION\s*IN\(([^)]+)\)/);
             var divisionSubMatch = item.match(/DIVISION_SUB\s*IN\(([^)]+)\)/);
 
-            var division = divisionMatch ? divisionMatch[1] : "";
+            var division = divisionMatch ? divisionMatch[1].replace(/\s/g, '').split(',') : "";
             var divisionSub = divisionSubMatch ? divisionSubMatch[1].replace(/\s/g, '').split(',') : [];
 
             // DIVISION_SUB가 없으면 "N"으로 표현
@@ -153,7 +153,7 @@ var joinLeaveView = {
     gridReload : function(){
         var requestArr = "";
         if($(".detailSearch:checked").length == 0){
-            requestArr += "|999&N"
+            requestArr += "|9999&N"
         }else{
             $(".detailSearch:checked").each(function(){
                 if($(this).attr("id") == "dsA"){
