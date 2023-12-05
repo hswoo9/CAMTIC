@@ -159,7 +159,7 @@
       html += '<td>' + item.start_DT + ' <span style="margin-left:5px; margin-right:5px;">~</span> ' + item.end_DT + '</td>';
       if(item.recruit_STATUS_SN == 'E') {
         html += '<td>' + item.recruit_STATUS_TEXT + '</td>';
-      }else if(item.recruit_STATUS_SN == '3' || item.recruit_STATUS_SN == '4' ) {
+      }else if(item.recruit_STATUS_SN == '3' || item.recruit_STATUS_SN == '4' || item.recruit_STATUS_SN == '5') {
         html += '<td>심사중</td>';
       }else if(item.recruit_STATUS_SN == '2'){
         html += '<td>접수중</td>';

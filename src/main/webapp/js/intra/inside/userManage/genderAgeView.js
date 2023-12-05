@@ -159,7 +159,7 @@ var genderAgeView = {
         }else{
             $(".detailSearch:checked").each(function(){
                 if($(this).attr("id") == "dsA"){
-                    requestArr += "|0&N|4&1,2"
+                    requestArr += "|0&N"
                 }else{
                     requestArr += "|" + $(this).attr("division") + '&' + ($(this).attr("divisionSub") == null ? "N" : $(this).attr("divisionSub"));
                 }

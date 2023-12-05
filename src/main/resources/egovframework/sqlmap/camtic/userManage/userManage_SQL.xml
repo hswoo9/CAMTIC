@@ -2993,7 +2993,7 @@
         WHERE
         <choose>
         <when test='joinYear != null and joinYear != ""'>
-            YEAR(HEI.JOIN_DAY) = #{joinYear} AND WORK_STATUS_CODE = 'Y'
+            YEAR(HEI.JOIN_DAY) = #{joinYear}
         </when>
         <when test='resignDay != null and resignDay != ""'>
             YEAR(HEI.RESIGN_DAY) = #{resignDay}
@@ -3780,4 +3780,21 @@
         </if>
         GROUP BY HEI.EMP_SEQ
     </select>
+
+    <select id="getTotalEmployeeCount" parameterType="map" resultType="map">
+        /*getTotalEmployeeCount*/
+        SELECT
+        COUNT(*) AS EmployeeCount
+        FROM
+        cam_hr.dj_emp_info
+        WHERE
+        WORK_STATUS_CODE = 'Y'
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                ${item}
+            </foreach>
+        </if>
+    </select>
+
 </mapper>

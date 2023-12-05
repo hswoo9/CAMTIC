@@ -138,7 +138,7 @@
             <div class="box"><div class="img"><img src="/images/camtic/img-sp_new12.png" alt=""></div><div class="txt">시뮬레이터 부품 제작</div></div>
             <div class="box"><div class="img"><img src="/images/camtic/img-sp_new13.png" alt=""></div><div class="txt">질량특성 측정 시험 치구</div></div>
             <div class="box"><div class="img"><img src="/images/camtic/img-sp_new14.png" alt=""></div><div class="txt">시험 설비 이전 1</div></div>
-            <div class="box"><div class="img"><img src="/images/camtic/img-sp_new15.png" alt=""></div><div class="txt">시험 설비 이전 1E</div></div>
+            <div class="box"><div class="img"><img src="/images/camtic/img-sp_new15.png" alt=""></div><div class="txt">시험 설비 이전 2</div></div>
           </div>
 
 

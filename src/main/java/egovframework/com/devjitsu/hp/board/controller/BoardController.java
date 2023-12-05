@@ -549,4 +549,40 @@ public class BoardController {
         model.addAttribute("fileMap", fileList);
         return "camtic/member/job_view";
     }
+
+    /**
+     * 채용공고
+     * */
+    @RequestMapping("/camtic/member/job_applicationLogin.do")
+    public String jobApplication(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
+
+        return "camtic/member/job_applicationLogin";
+    }
+
+    /**
+     * 채용공고 동의
+     * */
+    @RequestMapping("/camtic/member/job_userAgree.do")
+    public String jobUserAgree(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
+
+        return "camtic/member/job_userAgree";
+    }
+
+    /**
+     * 채용공고 단계 1
+     * */
+    @RequestMapping("/camtic/member/job_applicationForm1.do")
+    public String jobApplicationForm1(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
+
+        return "camtic/member/job_applicationForm1";
+    }
+
+    /**
+     * 채용공고 단계 2
+     * */
+    @RequestMapping("/camtic/member/job_applicationForm2.do")
+    public String jobApplicationForm2(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
+
+        return "camtic/member/job_applicationForm2";
+    }
 }
