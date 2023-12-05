@@ -1033,4 +1033,12 @@ public class PayAppServiceImpl implements PayAppService {
     public void setApprIncome(Map<String, Object> params) {
         payAppRepository.updApprStatus(params);
     }
+
+    @Override
+    public Map<String, Object> getCheckBudget(Map<String, Object> params) {
+        Map<String, Object> result= new HashMap<>();
+
+        List<Map<String, Object>> list = payAppRepository.getCheckBudget(params);
+        return result;
+    }
 }

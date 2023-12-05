@@ -28,6 +28,8 @@
 <input type="hidden" id="claimSn" value="${params.claimSn}" />
 <input type="hidden" id="docStatus" value=""/>
 
+<input type="hidden" id="g20BudgetAmt" value="" />
+
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
