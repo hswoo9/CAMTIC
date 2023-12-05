@@ -232,4 +232,6 @@ public interface UserManageService{
     /** 학위별 현황 **/
     List<Map<String, Object>> getDegreeListByCount(Map<String, Object> params);
 
+    Map<String,Object> getTotalEmployeeCount(Map<String, Object> params);
+
 }

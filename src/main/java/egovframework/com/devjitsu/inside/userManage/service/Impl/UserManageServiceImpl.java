@@ -1590,4 +1590,9 @@ public class UserManageServiceImpl implements UserManageService {
         return userManageRepository.getDegreeListByCount(params);
     }
 
+    public Map<String, Object> getTotalEmployeeCount(Map<String,Object> params) {
+
+        return userManageRepository.getTotalEmployeeCount(params);
+    }
+
 }
