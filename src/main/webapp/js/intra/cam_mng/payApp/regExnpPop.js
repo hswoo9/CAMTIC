@@ -191,6 +191,7 @@ var regExnp = {
         $("#exnpDe").val(rs.EXNP_DE);
         $("#pjtNm").val(rs.PJT_NM);
         $("#pjtSn").val(rs.PJT_SN);
+        $("#pjtCd").val(rs.PJT_CD);
         $("#exnpBriefs").val(rs.EXNP_BRIEFS);
         $("#addExnpBriefs").val(rs.ADD_EXNP_BRIEFS);
 
@@ -430,6 +431,7 @@ var regExnp = {
         $("#exnpDe").val(rs.APP_DE);
         $("#pjtNm").val(rs.PJT_NM);
         $("#pjtSn").val(rs.PJT_SN);
+        $("#pjtCd").val(rs.PJT_CD);
         $("#exnpBriefs").val(rs.APP_TITLE);
         $("#addExnpBriefs").val(rs.APP_CONT);
 
@@ -624,6 +626,7 @@ var regExnp = {
         $("#exnpDe").val(rs.APP_DE);
         $("#pjtNm").val(rs.PJT_NM);
         $("#pjtSn").val(rs.PJT_SN);
+        $("#pjtCd").val(rs.PJT_CD);
         $("#budgetNm").val(rs.BUDGET_NM);
         $("#budgetSn").val(rs.BUDGET_SN);
         $("#exnpBriefs").val(rs.APP_TITLE);
@@ -807,6 +810,7 @@ var regExnp = {
             payAppType : $("#payAppType").data("kendoRadioGroup").value(),
             exnpDe : $("#exnpDe").val(),
             pjtNm : $("#pjtNm").val(),
+            pjtCd : $("#pjtCd").val(),
             pjtSn : $("#pjtSn").val(),
             exnpBriefs : $("#exnpBriefs").val(),
             addExnpBriefs : $("#addExnpBriefs").val(),

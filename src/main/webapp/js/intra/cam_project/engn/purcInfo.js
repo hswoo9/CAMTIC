@@ -40,7 +40,7 @@ var purcInfo = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="purcInfo.fn_reqRegPopup()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="purcInfo.fn_reqPurcRegPopup()">' +
                             '	<span class="k-button-text">구매요청서 작성</span>' +
                             '</button>';
                     }
@@ -73,7 +73,7 @@ var purcInfo = {
                     title: "목적",
                     field: "PURC_REQ_PURPOSE",
                     template : function(e){
-                        return '<div onclick="purcInfo.fn_reqRegPopup(' + e.PURC_SN + ')" style="cursor : pointer">' + e.PURC_REQ_PURPOSE + '</div>'
+                        return e.PURC_REQ_PURPOSE
                     }
                 }, {
                     title: "구매",
@@ -85,38 +85,56 @@ var purcInfo = {
                     title: "외주",
                     width: 100
                 }, {
-                    title: "상태",
+                    title: "구매요청서",
                     field: "STATUS",
-                    width: 120,
+                    width: 100,
                     template : function(e){
                         var status = "";
                         /** 구매요청서 */
-                        if(e.DOC_STATUS == "0"){
-                            status = "구매요청작성중";
-                        }else if(e.DOC_STATUS != "100" && e.DOC_STATUS != "101"){
-                            status = "구매요청작성중";
-                        }else if(e.DOC_STATUS == "100" || e.DOC_STATUS == "101"){
-                            status = "구매요청완료";
+                        if(e.DOC_STATUS == "100"){
+                            status = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_reqPurcRegPopup(' + e.PURC_SN + ')">구매요청서</button>';
+                        } else {
+                            status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqPurcRegPopup(' + e.PURC_SN + ')">구매요청서</button>';
+                        }
 
-                            /** 구매청구서 */
-                            if(e.CLAIM_STATUS == "CN"){
-                                status = "구매요청완료";
-                            }else if(e.CLAIM_STATUS == "CAN"){
-                                status = "구매청구작성중";
-                            }else if(e.CLAIM_STATUS == "CAYSN"){
-                                status = "구매청구작성중";
-                            }else if(e.CLAIM_STATUS == "CAYSY"){
-                                status = "구매청구완료";
-                            }
-
+                        return status
+                    },
+                },
+                // , {
+                //     title: "구매청구서",
+                //     field: "STATUS",
+                //     width: 100,
+                //     template : function(e){
+                //         var status = "";
+                //
+                //         /** 구매청구서 */
+                //         if(e.DOC_STATUS == "100" || e.DOC_STATUS == "101"){
+                //             if(e.CLAIM_STATUS == "CAYSY"){
+                //                 status = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_reqRegPopup(' + e.PURC_SN + ')">구매청구서</button>';
+                //             }else{
+                //                 status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqRegPopup(' + e.PURC_SN + ')">구매청구서</button>';
+                //             }
+                //         }
+                //
+                //         return status
+                //     },
+                // },
+                {
+                    title: "검수",
+                    field: "STATUS",
+                    width: 100,
+                    template : function(e){
+                        var status = "";
+                        if(e.CLAIM_STATUS == "CAYSY"){
                             if(e.INSPECT_YN == "Y"){
                                 if(e.INSPECT_STATUS != "100"){
-                                    status = "검수요청중";
+                                    status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
                                 }else{
-                                    status = "<div style='font-weight: bold'>검수승인완료</div>";
+                                    status = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
                                 }
                             }
                         }
+
                         return status
                     },
                     footerTemplate: "청구 합계"
@@ -163,7 +181,7 @@ var purcInfo = {
         }
     },
 
-    fn_reqRegPopup : function (key){
+    fn_reqPurcRegPopup : function (key){
         var url = "/purc/pop/regPurcReqPop.do";
         if(key != null && key != ""){
             url = "/purc/pop/regPurcReqPop.do?purcSn=" + key;
@@ -180,6 +198,26 @@ var purcInfo = {
 
     onDataBound : function(){
         purcSum = 0;
+    },
+
+    fn_inspectionPopup : function(key){
+        var url = "/purc/pop/purcInspectionPop.do";
+        if(key != null && key != ""){
+            url = "/purc/pop/purcInspectionPop.do?purcSn=" + key;
+        }
+        var name = "_blank";
+        var option = "width = 1690, height = 820, top = 100, left = 400, location = no";
+        var popup = window.open(url, name, option);
+    },
+
+    fn_reqRegPopup : function (key){
+        var url = "/payApp/pop/regPayAppPop.do";
+        if(key != null && key != ""){
+            url = "/payApp/pop/regPayAppPop.do?payAppSn=" + key;
+        }
+        var name = "blank";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
     }
 
 }

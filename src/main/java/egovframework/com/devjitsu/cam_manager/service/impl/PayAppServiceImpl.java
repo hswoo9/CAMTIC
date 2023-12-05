@@ -89,6 +89,11 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
+    public List<Map<String, Object>> getWaitPaymentList(Map<String, Object> params) {
+        return payAppRepository.getWaitPaymentList(params);
+    }
+
+    @Override
     public void updatePayAppDocState(Map<String, Object> bodyMap) {
         bodyMap.put("docSts", bodyMap.get("approveStatCode"));
         String docSts = String.valueOf(bodyMap.get("docSts"));

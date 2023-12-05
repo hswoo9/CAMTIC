@@ -705,28 +705,30 @@
     <insert id="insPjtPs" parameterType="map">
         INSERT INTO CAM_PJT_MNG.DJ_PJT_PS
         (
-        PJT_SN,
-        PS_ROW,
-        PS_PREP,
-        PS_PREP_NM,
-        PS_NM,
-        PS_STR_DE,
-        PS_END_DE,
-        PS_EMP_SEQ,
-        PS_EMP_NM,
-        REG_EMP_SEQ
+            PJT_SN,
+            DEV_SN,
+            PS_ROW,
+            PS_PREP,
+            PS_PREP_NM,
+            PS_NM,
+            PS_STR_DE,
+            PS_END_DE,
+            PS_EMP_SEQ,
+            PS_EMP_NM,
+            REG_EMP_SEQ
         ) VALUES
         (
-        #{pjtSn},
-        #{psRow},
-        #{psPrep},
-        #{psPrepNm},
-        #{psNm},
-        #{psStrDe},
-        #{psEndDe},
-        #{psEmpSeq},
-        #{psEmpNm},
-        #{regEmpSeq}
+            #{pjtSn},
+            #{devSn},
+            #{psRow},
+            #{psPrep},
+            #{psPrepNm},
+            #{psNm},
+            #{psStrDe},
+            #{psEndDe},
+            #{psEmpSeq},
+            #{psEmpNm},
+            #{regEmpSeq}
         )
         <selectKey keyProperty="PS_SN" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_PS'
@@ -2410,7 +2412,7 @@
 
     <delete id="delTeamProject" parameterType="map">
         /*delTeamProject*/
-        DELETE FROM CAM_PJT_MNG.DJ_PROJECT WHERE TM_SN = #{tmSn}
+        DELETE FROM CAM_PJT_MNG.DJ_PROJECT WHERE TM_SN = #{tmSn} AND PNT_PJT_SN = #{pjtSn}
     </delete>
 
     <delete id="delTeamProjectData" parameterType="map">
@@ -2605,4 +2607,28 @@
             A.PJT_SN = #{pjtSn}
     </select>
 
+    <select id="getProjectCodeData" parameterType="map" resultType="map">
+        /*getProjectCodeData*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PROJECT
+        WHERE
+            PJT_CD = #{PJT_CD}
+    </select>
+
+    <select id="getDevMap" parameterType="map" resultType="map">
+        /*getDevMap*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_DEV
+        WHERE
+            STATUS = 100
+        AND
+            PJT_SN = #{pjtSn}
+        ORDER BY
+            DEV_SN DESC
+        LIMIT 1
+    </select>
 </mapper>

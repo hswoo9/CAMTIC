@@ -101,11 +101,11 @@ var bld = {
                         return "<div style='text-align: right'>"+comma(calcAmSum)+"</div>";
                     }
                 }, {
-                    title: "지출완료",
+                    title: "입금완료",
                     width: 150,
                     template: function(e){
                         if(e.DIV_FG_NM == "장"){
-                            acctAm2Sum  += Number(e.ACCT_AM_2);
+                            acctAm2Sum += Number(e.ACCT_AM_2);
                         }
                         return "<div style='text-align: right'>"+comma(e.ACCT_AM_2)+"</div>";
                     },
@@ -113,14 +113,14 @@ var bld = {
                         return "<div style='text-align: right'>"+comma(acctAm2Sum)+"</div>";
                     }
                 }, {
-                    title: "지출대기",
+                    title: "입금대기",
                     width: 150,
                     template: function(e){
-                        if(e.ACCT_AM_1 != null){
+                        if(e.FULL_WAIT_CK != null){
                             if(e.DIV_FG_NM == "장"){
-                                acctAm1Sum += Number(e.ACCT_AM_1);
+                                acctAm1Sum += Number(e.FULL_WAIT_CK);
                             }
-                            return "<div style='text-align: right'>"+comma(e.ACCT_AM_1)+"</div>";
+                            return "<div style='text-align: right'>"+comma(e.FULL_WAIT_CK)+"</div>";
                         } else {
                             return "<div style='text-align: right'>0</div>";
                         }
@@ -132,13 +132,14 @@ var bld = {
                     title: "승인",
                     width: 150,
                     template: function(e){
-                        if(e.DIV_FG_NM == "장"){
-                            acctAm3Sum += Number(e.ACCT_AM_3);
+                        if(e.FULL_WAIT_CK != null){
+                            return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 + e.FULL_WAIT_CK)+"</div>";
+                        } else {
+                            return "<div style='text-align: right'>"+comma(e.ACCT_AM_2)+"</div>";
                         }
-                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_3)+"</div>";
                     },
                     footerTemplate: function(){
-                        return "<div style='text-align: right'>"+comma(acctAm3Sum)+"</div>";
+                        return "<div style='text-align: right'>"+comma(acctAm2Sum+acctAm1Sum)+"</div>";
                     }
                 }, {
                     title: "예산잔액",
@@ -255,22 +256,23 @@ var bld = {
                     width: 150,
                     template: function(e){
                         if(e.DIV_FG_NM == "장"){
-                            acctAm2Sum  += Number(e.ACCT_AM_2);
+                            acctAm3Sum += Number(e.ACCT_AM_3);
                         }
-                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_2)+"</div>";
+                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_3)+"</div>";
                     },
                     footerTemplate: function(){
-                        return "<div style='text-align: right'>"+comma(acctAm2Sum)+"</div>";
+                        return "<div style='text-align: right'>"+comma(acctAm3Sum)+"</div>";
                     }
                 }, {
                     title: "지출대기",
                     width: 150,
                     template: function(e){
-                        if(e.ACCT_AM_1 != null){
+                        console.log(e);
+                        if(e.WAIT_CK != null){
                             if(e.DIV_FG_NM == "장"){
-                                acctAm1Sum += Number(e.ACCT_AM_1);
+                                acctAm1Sum += Number(e.WAIT_CK);
                             }
-                            return "<div style='text-align: right'>"+comma(e.ACCT_AM_1)+"</div>";
+                            return "<div style='text-align: right'>"+comma(e.WAIT_CK)+"</div>";
                         } else {
                             return "<div style='text-align: right'>0</div>";
                         }
@@ -283,12 +285,12 @@ var bld = {
                     width: 150,
                     template: function(e){
                         if(e.DIV_FG_NM == "장"){
-                            acctAm3Sum += Number(e.ACCT_AM_3);
+                            acctAm2Sum  += Number(e.ACCT_AM_2);
                         }
-                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_3)+"</div>";
+                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_2)+"</div>";
                     },
                     footerTemplate: function(){
-                        return "<div style='text-align: right'>"+comma(acctAm3Sum)+"</div>";
+                        return "<div style='text-align: right'>"+comma(acctAm2Sum)+"</div>";
                     }
                 }, {
                     title: "예산잔액",

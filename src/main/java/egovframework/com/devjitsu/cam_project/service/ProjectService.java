@@ -179,4 +179,8 @@ public interface ProjectService {
     Map<String, Object> getProjectByPjtCd(Map<String, Object> params);
 
     List<Map<String, Object>> getDepositList(Map<String, Object> params);
+
+    List<Map<String, Object>> getG20ProjectList(Map<String, Object> params);
+
+    Map<String, Object> getDevMap(Map<String, Object> params);
 }

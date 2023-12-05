@@ -195,7 +195,7 @@
                 <td><input type="text" id="estTotAmt" style="text-align: right" class="estTotAmt" onkeyup="devInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
                 <td><input type="text" id="estOfc" class="estOfc" /></td>
                 <td><input type="text" id="invEtc" class="invEtc" /></td>
-                <td style="text-align: center;"><button type="button" id="addBtn" onclick="devInfo.fn_addInv()" class="k-button k-button-solid-base">추가</button></td>
+                <td style="text-align: center;"><button type="button" onclick="devInfo.fn_addInv()" class="k-button k-button-solid-base">추가</button></td>
             </tr>
             </tbody>
         </table>

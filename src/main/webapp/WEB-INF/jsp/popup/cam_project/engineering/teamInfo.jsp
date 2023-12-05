@@ -13,6 +13,10 @@
 <input type="hidden" id="estSn" value="${params.estSn}" />
 <input type="hidden" id="loginEmpSeq" value="${loginVO.uniqId}"/>
 
+<input type="hidden" id="pjtStep" value="${hashMap.PJT_STEP}" />
+
+<input type="hidden" id="pjtAmt" value="${hashMap.PJT_AMT}" />
+
 <div style="padding: 10px">
     <div id="btnDiv">
         <button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="teamInfo.fn_save()">협업요청</button>

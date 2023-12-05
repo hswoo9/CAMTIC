@@ -441,4 +441,8 @@ public class UserManageRepository extends AbstractDAO {
         return selectList("userManage.getDegreeListByCount", params);
     }
 
+    public Map<String,Object> getTotalEmployeeCount(Map<String,Object> params){
+        return (Map<String,Object>)selectOne("userManage.getTotalEmployeeCount",params);
+    }
+
 }

@@ -101,7 +101,7 @@ var lineSettingPop = {
                     } else {
                         data.sEmpName = $("#sEmpName").val();
                     }
-                    data.notDivision = "2";
+                    data.fullTime = "1";
                     data.DEPT_SEQ = dept;
                     return data;
                 }

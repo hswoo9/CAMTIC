@@ -109,6 +109,141 @@ var unRndDP = {
     },
 
     fn_viewVersion: function (key){
+        var data = {
+            pjtSn : $("#pjtSn").val(),
+            devSn : key,
+        }
+
+        $.ajax({
+            url : "/project/getProcessList",
+            data : data,
+            async : false,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+
+                var list = rs.list;
+                $("#psTable").html("");
+                if(list.length != 0){
+                    html += '<tr>' +
+                        '            <td style="text-align: center"><span style="position: relative; top:5px">추가</span></td>' +
+                        '            <td><input type="text" class="prepList" id="prepList" /></td>' +
+                        '            <td><input type="text" class="psNm" id="psNm" /> </td>' +
+                        '            <td style="text-align: center"><input type="text" class="psStrDe" id="psStrDe" style="width: 45%" />~<input type="text" class="psEndDe" style="width: 45%" id="psEndDe" /></td>' +
+                        '            <td>' +
+                        '                <input type="text" id="psEmpNm" disabled style="width: 100%" />' +
+                        '                <input type="hidden" id="psEmpSeq" />' +
+                        '            </td>' +
+                        '            <td style="text-align: center">' +
+                        '                <button type="button" class="k-button k-button-solid-base" onclick="devInfo.fn_addProcess(\'${hashMap.PJT_SN}\')">공정저장</button>' +
+                        '                <button type="button" onclick="fn_userMultiSelectPop()" class="k-button k-button-solid-base">추진담당</button>' +
+                        '            </td>' +
+                        '        </tr>';
+
+                    $("#psTable").append(html);
+
+                    $("#prepList").kendoDropDownList({
+                        dataSource : [
+                            {text : "선택", value : ""},
+                            {text : "설계", value : "1"},
+                            {text : "제작", value : "2"},
+                            {text : "품질", value : "3"},
+                            {text : "참여", value : "4"},
+                            {text : "기획", value : "5"},
+                            {text : "기타", value : "6"},
+                        ],
+                        dataTextField : "text",
+                        dataValueField : "value"
+                    });
+                    $("#psNm").kendoTextBox();
+                    customKendo.fn_datePicker("psStrDe", "depth", "yyyy-MM-dd", new Date());
+                    customKendo.fn_datePicker("psEndDe", "depth", "yyyy-MM-dd", new Date());
+                    $("#psEmpNm").kendoTextBox();
+
+                    for(var i = 0 ; i < list.length ; i++){
+                        var idx = i+1;
+                        var html = "";
+                        html += '<tr id="tr'+idx+'">';
+                        html += '   <td style="text-align: center"><span style="position: relative; top:5px">'+idx+'</span></td>';
+                        html += '   <td><input type="text" class="prepList" id="prepList'+idx+'" /></td>';
+                        html += '   <td>' +
+                            '           <input type="text" class="psNm" id="psNm'+idx+'" />' +
+                            '           <span><input type="hidden" class="psSn" id="psSn'+idx+'" value="'+list[i].PS_SN+'"/></span>' +
+                            '       </td>';
+                        html += '   <td style="text-align: center"><input type="text" class="psStrDe" id="psStrDe'+idx+'" style="width: 45%" />~<input type="text" class="psEndDe" style="width: 45%" id="psEndDe'+idx+'" /></td>';
+                        html += '   <td><input type="text" id="psEmpNm'+idx+'" value="'+list[i].PS_EMP_SEQ+'" disabled /><input type="hidden" id="psEmpSeq'+idx+'" value="'+list[i].PS_EMP_SEQ+'" /></td>';
+                        html += '   <td style="text-align: center">';
+                        html += '       <button type="button" onclick="devInfo.fn_delRow('+idx+')" class="k-button k-button-solid-error btn'+idx+'">삭제</button>';
+                        html += '   </td>';
+                        html += '</tr>';
+                        $("#psTable").append(html);
+
+
+                        $("#prepList" + idx).kendoDropDownList({
+                            dataSource : [
+                                {text : "선택", value : ""},
+                                {text : "설계", value : "1"},
+                                {text : "제작", value : "2"},
+                                {text : "품질", value : "3"},
+                                {text : "참여", value : "4"},
+                                {text : "기획", value : "5"},
+                                {text : "기타", value : "6"},
+                            ],
+                            dataTextField : "text",
+                            dataValueField : "value"
+                        });
+
+                        $("#prepList" + idx).data("kendoDropDownList").value(list[i].PS_PREP);
+                        $("#psNm" + idx).kendoTextBox();
+                        customKendo.fn_datePicker("psStrDe" + idx, "depth", "yyyy-MM-dd", new Date());
+                        customKendo.fn_datePicker("psEndDe" + idx, "depth", "yyyy-MM-dd", new Date());
+                        $("#psEmpNm" + idx).kendoTextBox();
+                        $("#psEmpNm" + idx).val(list[i].PS_EMP_NM);
+                        $("#psEmpSeq" + idx).val(list[i].PS_EMP_SEQ);
+                        $("#psStrDe" + idx).val(list[i].PS_STR_DE);
+                        $("#psEndDe" + idx).val(list[i].PS_END_DE);
+
+                        $("#psNm" + idx).val(list[i].PS_NM);
+                    }
+                } else {
+                    html += '<tr>' +
+                        '            <td style="text-align: center"><span style="position: relative; top:5px">추가</span></td>' +
+                        '            <td><input type="text" class="prepList" id="prepList" /></td>' +
+                        '            <td><input type="text" class="psNm" id="psNm" /> </td>' +
+                        '            <td style="text-align: center"><input type="text" class="psStrDe" id="psStrDe" style="width: 45%" />~<input type="text" class="psEndDe" style="width: 45%" id="psEndDe" /></td>' +
+                        '            <td>' +
+                        '                <input type="text" id="psEmpNm" disabled style="width: 100%" />' +
+                        '                <input type="hidden" id="psEmpSeq" />' +
+                        '            </td>' +
+                        '            <td style="text-align: center">' +
+                        '                <button type="button" class="k-button k-button-solid-base" onclick="devInfo.fn_addProcess(\'${hashMap.PJT_SN}\')">공정저장</button>' +
+                        '                <button type="button" onclick="fn_userMultiSelectPop()" class="k-button k-button-solid-base">추진담당</button>' +
+                        '            </td>' +
+                        '        </tr>';
+
+                    $("#psTable").append(html);
+
+                    $("#prepList").kendoDropDownList({
+                        dataSource : [
+                            {text : "선택", value : ""},
+                            {text : "설계", value : "1"},
+                            {text : "제작", value : "2"},
+                            {text : "품질", value : "3"},
+                            {text : "참여", value : "4"},
+                            {text : "기획", value : "5"},
+                            {text : "기타", value : "6"},
+                        ],
+                        dataTextField : "text",
+                        dataValueField : "value"
+                    });
+                    $("#psNm").kendoTextBox();
+                    customKendo.fn_datePicker("psStrDe", "depth", "yyyy-MM-dd", new Date());
+                    customKendo.fn_datePicker("psEndDe", "depth", "yyyy-MM-dd", new Date());
+                    $("#psEmpNm").kendoTextBox();
+                }
+
+            }
+        });
 
         $("#invTable").html("");
 
