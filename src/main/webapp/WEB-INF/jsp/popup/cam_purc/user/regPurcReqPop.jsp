@@ -87,7 +87,7 @@
                     <td>
                         <span id="purcType"></span>
                     </td>
-                    <th scope="row" class="text-center th-color">예비비처리</th>
+                    <th scope="row" class="text-center th-color">처리</th>
                     <td>
                         <input type="checkbox" style="position: relative; top: 5px;" value="N" id="checkProfit">
                         <label for="checkProfit" style="position: relative; top: 3px;">처리</label>
