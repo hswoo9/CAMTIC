@@ -581,4 +581,15 @@
         GROUP BY A.PJT_CD
         ORDER BY A.FR_DT DESC
     </select>
+
+    <select id="getG20ProjectList" parameterType="map" resultType="map">
+        /*getG20ProjectList*/
+        SELECT DISTINCT A.PJT_CD, PJT_NM, A.FR_DT, A.TO_DT FROM SPJT A
+        LEFT JOIN ABGT B
+        ON
+            A.PJT_CD = B.MGT_CD
+        WHERE
+            ((FR_DT BETWEEN 20230101 AND 20231231) OR (TO_DT BETWEEN 20230101 AND 20231231))
+        AND B.MGT_CD IS NOT NULL;
+    </select>
 </mapper>

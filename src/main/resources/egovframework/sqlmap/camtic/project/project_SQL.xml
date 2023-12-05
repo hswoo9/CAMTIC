@@ -2605,4 +2605,13 @@
             A.PJT_SN = #{pjtSn}
     </select>
 
+    <select id="getProjectCodeData" parameterType="map" resultType="map">
+        /*getProjectCodeData*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PROJECT
+        WHERE
+            PJT_CD = #{PJT_CD}
+    </select>
 </mapper>
