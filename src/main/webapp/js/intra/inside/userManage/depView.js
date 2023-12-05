@@ -25,18 +25,20 @@ var depView = {
            success: function (data){
                console.log("js data : ",data);
                const arr = depView.transformedArr(data.arr);
+               const totalEmployeeCount = data.totalEmployeeCount;
                const empDeptList = data.empDeptTeamList.filter(function (item) {
                    return !item.hasOwnProperty("TeamName");
                });
                const empTeamList = data.empDeptTeamList.filter(function (item) {
                    return !item.hasOwnProperty("DeptName");
                });
+               console.log("totalEmployeeCount :",totalEmployeeCount);
                console.log("empDeptList",empDeptList);
                console.log("empTeamList",empTeamList);
                $("#mainChart *").remove();
                $("#teamChart *").remove();
                //ajax 요청 후 서버로부터 응답이 온 data를 mainChart 함수로 보내줄 것
-               depView.mainChart(empDeptList, arr);
+               depView.mainChart(empDeptList, totalEmployeeCount, arr);
                depView.teamChart(empTeamList, arr);
 
            },
@@ -48,14 +50,17 @@ var depView = {
 
     },
 
-    mainChart : function (empDeptList, arr){
+    mainChart : function (empDeptList, totalEmployeeCount, arr){
         var data = empDeptList; //이곳에서 ajax 요청으로 온 데이터(e)확인 및 가공이 필요하면 가공
         console.log("ajax data : ",data);
-        var totalEmpCount = 0;
+        var totalEmpCount = totalEmployeeCount.EmployeeCount;
 
+        var totalDeptEmpCount = 0;
         for(var i = 0; i<data.length; i++){
-            totalEmpCount += data[i].DeptEmployeesCount || 0;
+            totalDeptEmpCount += data[i].DeptEmployeesCount || 0;
         }
+
+
         var html = "";
         html = '<table class="centerTable table table-bordered"><colgroup><col width="15%"><col><col width="10%"></colgroup><tbody>'+
             '<tr>'+
@@ -99,7 +104,7 @@ var depView = {
         }
              html+='<tr>'+
                 '<td style="background-color: #efefef;" align="center" colspan="2">합계</td>'+
-                '<td style="background-color: #efefef;">'+totalEmpCount +'명</td>'+
+                '<td style="background-color: #efefef;">'+totalDeptEmpCount +'명</td>'+
                 '</tr>'+
                 '</table>';
 

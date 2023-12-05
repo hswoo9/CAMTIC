@@ -55,4 +55,6 @@ public interface PurcService {
     List<Map<String, Object>> getClaimFileList(Map<String, Object> map);
 
     void delPurcReq(Map<String, Object> params);
+
+    Map<String, Object> getPurcAndClaimData(Map<String, Object> params);
 }

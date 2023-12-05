@@ -954,4 +954,14 @@
         /*delPurcReq*/
         DELETE FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = #{purcSn}
     </delete>
+
+    <select id="getPurcAndClaimData" parameterType="map" resultType="map">
+        /*getPurcAndClaimData*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_PURC_CLAIM
+        WHERE
+            PURC_SN = #{purcSn}
+    </select>
 </mapper>

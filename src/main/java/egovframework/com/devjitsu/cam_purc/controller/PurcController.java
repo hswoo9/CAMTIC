@@ -515,4 +515,12 @@ public class PurcController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/purc/getPurcAndClaimData")
+    public String getPurcAndClaimData(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("data", purcService.getPurcAndClaimData(params));
+
+        return "jsonView";
+    }
 }
