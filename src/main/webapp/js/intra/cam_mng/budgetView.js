@@ -116,6 +116,7 @@ var bgView = {
                     width: 150,
                     template: function (e){
                         if(e.DIV_FG_NM == "항"){
+                            console.log(e)
                             return e.BGT_NM;
                         } else {
                             return "";
@@ -126,7 +127,9 @@ var bgView = {
                     title: "예산액",
                     width: 150,
                     template: function(e){
-                        calcAmSum  += Number(e.CALC_AM);
+                        if(e.DIV_FG_NM == "항"){
+                            calcAmSum  += Number(e.CALC_AM);
+                        }
                         return "<div style='text-align: right'>"+comma(e.CALC_AM)+"</div>";
                     },
                     footerTemplate: function(){
@@ -172,7 +175,9 @@ var bgView = {
                     title: "예산잔액",
                     width: 150,
                     template: function(e){
-                        subAmSum += Number(e.SUB_AM);
+                        if(e.DIV_FG_NM == "항"){
+                            subAmSum += Number(e.SUB_AM);
+                        }
                         return "<div style='text-align: right'>"+comma(e.SUB_AM)+"</div>";
                     },
                     footerTemplate: function(){
