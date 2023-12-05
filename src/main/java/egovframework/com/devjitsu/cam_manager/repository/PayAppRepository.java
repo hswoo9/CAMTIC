@@ -217,4 +217,8 @@ public class PayAppRepository extends AbstractDAO {
     public void updApprStatus(Map<String, Object> params) {
         update("payApp.updApprStatus", params);
     }
+
+    public List<Map<String, Object>> getCheckBudget(Map<String, Object> params) {
+        return selectList("payApp.getCheckBudget", params);
+    }
 }

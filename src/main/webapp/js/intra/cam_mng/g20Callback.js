@@ -3,16 +3,15 @@
  * @param bgtNm
  * @param bgtCd
  */
-function fn_selBudgetInfo(bgtNm, bgtCd, idx){
+function fn_selBudgetInfo(bgtNm, bgtCd, idx, subAm){
     if(idx == "N"){
         $("#budgetSn").val(bgtCd);
         $("#budgetNm").val(bgtNm);
     }else{
         $("#budgetSn" + idx).val(bgtCd);
         $("#budgetNm" + idx).val(bgtNm);
+        $("#budgetAmt" + idx).val(subAm);
     }
-
-
 }
 
 /**
@@ -131,7 +130,7 @@ function fn_selOtherInfo(trCd, bankName,  accountHolder, accountNum, empNameKr, 
     $("#crmAccHolder" + idx).val(accountHolder);
 
 
-    var url = "/payApp/pop/setPayRequest.do?type=" + type + "&trCd=" + trCd + "&empNameKr=" + empNameKr + "&bankName=" + bankName + "&accountNum=" + accountNum + "&accountHolder=" + accountHolder + "&regNo=" + regNo;
+    var url = "/payApp/pop/setPayRequest.do?idx=" + idx + "&type=" + type + "&trCd=" + trCd + "&empNameKr=" + empNameKr + "&bankName=" + bankName + "&accountNum=" + accountNum + "&accountHolder=" + accountHolder + "&regNo=" + regNo;
 
     var name = "_blank";
     var option = "width = 800, height = 500, top = 100, left = 400, location = no"

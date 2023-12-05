@@ -481,7 +481,6 @@ var resultInfo = {
                 alert("협업 프로젝트 마감처리가 진행되지 않았습니다."); return;
             }
         }
-        return;
 
         $("#resDraftFrm").one("submit", function(){
             var url = "";

@@ -181,8 +181,8 @@
             <if test="boardId == 'business'">#{startDt}, #{endDt},</if>
             <if test="boardId == 'sns'">#{snsType}, #{snsUrl},</if>
             <choose>
-                <when test="boardId == 'sns'">
-                    #{snsDate}
+                <when test="boardId == 'sns' or boardId == 'report'">
+                    #{modifyDate}
                 </when>
                 <otherwise>
                     current_timestamp()
@@ -208,7 +208,8 @@
             MOD_DATE = now(),
             REG_DATE =
                 CASE
-                    WHEN BOARD_ID = 'sns' THEN #{snsDate}
+                    WHEN BOARD_ID = 'sns' THEN #{modifyDate}
+                    WHEN BOARD_ID = 'report' THEN #{modifyDate}
                     ELSE current_timestamp()
                     END
         WHERE
@@ -502,7 +503,7 @@
         AND
             IRI.ACTIVE = 'Y'
         AND
-            IRI.RECRUIT_STATUS_SN IN ('2', '3', '4', 'E')
+            IRI.RECRUIT_STATUS_SN IN ('2', '3', '4', '5', 'E')
         <if test="searchInput != null and searchInput != ''">
             AND
             IRI.RECRUIT_TITLE LIKE CONCAT('%', #{searchInput}, '%')
@@ -577,7 +578,7 @@
         AND
             IRI.ACTIVE = 'Y'
         AND
-            IRI.RECRUIT_STATUS_SN IN ('2', '3', '4', 'E')
+            IRI.RECRUIT_STATUS_SN IN ('2', '3', '4', '5', 'E')
         <if test="searchInput != null and searchInput != ''">
             AND
             IRI.RECRUIT_TITLE LIKE CONCAT('%', #{searchInput}, '%')

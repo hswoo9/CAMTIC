@@ -190,58 +190,82 @@ var regPay = {
     },
 
     payAppDrafting: function(){
-
         regPay.fn_save("", "drafting");
-        let checked = 0;
+
         var data = {
-            payAppSn : $("#payAppSn").val()
+            payAppSn : $("#payAppSn").val(),
+            pjtCd : $("#pjtCd").val()
         }
+        $.ajax({
+            url : "/payApp/getCheckBudget",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function (rs){
+                var list = rs.list;
+                var flag = true;
+                for(var i = 0 ; i  < list.length ; i++){
+                    if(list[i].TOT_COST > list[i].BUDGET_AMT) {
+                        alert("예산잔액을 초과했습니다.");
+                        flag = false;
+                        return;
+                    }
+                }
 
-        if($("#item").val() != "" && $("#item").val() != null){
-            data.payAppDetSn = $("#item").val();
-        }
+                if(flag){
+                    let checked = 0;
+                    var data = {
+                        payAppSn : $("#payAppSn").val()
+                    }
 
-        var result = customKendo.fn_customAjax("/payApp/pop/getPayAppData", data);
-        var ls = result.list;
-        for(var i=0; i < ls.length; i++) {
-            var item = ls[i];
-            var eviType = item.EVID_TYPE;
-            if(item.ADVANCES == "Y" || $("#payAppType").data("kendoRadioGroup").value() != "1"){
-                continue;
+                    if($("#item").val() != "" && $("#item").val() != null){
+                        data.payAppDetSn = $("#item").val();
+                    }
+
+                    var result = customKendo.fn_customAjax("/payApp/pop/getPayAppData", data);
+                    var ls = result.list;
+                    for(var i=0; i < ls.length; i++) {
+                        var item = ls[i];
+                        var eviType = item.EVID_TYPE;
+                        if(item.ADVANCES == "Y" || $("#payAppType").data("kendoRadioGroup").value() != "1"){
+                            continue;
+                        }
+                        if(eviType == "1" || eviType == "2"){
+                            if(item.FILE2 == null || item.FILE3 == null || item.FILE4 == null || item.FILE5 == null){
+                                alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
+                                checked = 1;
+                                break;
+                            }
+                        }else if(eviType == "3"){
+                            if(item.FILE7 == null || item.FILE8 == null || item.FILE9 == null){
+                                alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
+                                checked = 1;
+                                break;
+                            }
+                        }else if(eviType == "5"){
+                            if(item.FILE10 == null){
+                                alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
+                                checked = 1;
+                                break;
+                            }
+                        }
+                    }
+                    if(checked == 1){
+                        return;
+                    }
+
+                    $("#payAppDraftFrm").one("submit", function() {
+                        var url = "/popup/payApp/approvalFormPopup/payAppApprovalPop.do";
+                        var name = "_self";
+                        var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+                        var popup = window.open(url, name, option);
+                        this.action = "/popup/payApp/approvalFormPopup/payAppApprovalPop.do";
+                        this.method = 'POST';
+                        this.target = '_self';
+                    }).trigger("submit");
+                }
             }
-            if(eviType == "1" || eviType == "2"){
-                if(item.FILE2 == null || item.FILE3 == null || item.FILE4 == null || item.FILE5 == null){
-                    alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
-                    checked = 1;
-                    break;
-                }
-            }else if(eviType == "3"){
-                if(item.FILE7 == null || item.FILE8 == null || item.FILE9 == null){
-                    alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
-                    checked = 1;
-                    break;
-                }
-            }else if(eviType == "5"){
-                if(item.FILE10 == null){
-                    alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
-                    checked = 1;
-                    break;
-                }
-            }
-        }
-        if(checked == 1){
-            return;
-        }
-
-        $("#payAppDraftFrm").one("submit", function() {
-            var url = "/popup/payApp/approvalFormPopup/payAppApprovalPop.do";
-            var name = "_self";
-            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
-            var popup = window.open(url, name, option);
-            this.action = "/popup/payApp/approvalFormPopup/payAppApprovalPop.do";
-            this.method = 'POST';
-            this.target = '_self';
-        }).trigger("submit");
+        });
     },
 
     setData : function (){
@@ -315,6 +339,7 @@ var regPay = {
                 '   <td>' +
                 '       <input type="text" id="budgetNm' + regPayDet.global.itemIndex + '" value="'+item.BUDGET_NM+'" onclick="regPay.fn_budgetPop('+clIdx+')" style="width: 100%;">' +
                 '       <input type="hidden" id="budgetSn' + regPayDet.global.itemIndex + '" value="'+item.BUDGET_SN+'" class="budgetSn"/>' +
+                '       <input type="hidden" id="budgetAmt' + regPayDet.global.itemIndex + '" value="'+item.BUDGET_AMT+'" class="budgetAmt"/>' +
                 '   </td>' +
                 '   <td>' +
                 '       <input type="text" id="appTeam' + regPayDet.global.itemIndex + '" class="appTeam" style="width: 100%">' +
@@ -430,7 +455,7 @@ var regPay = {
                 change : function (e){
 
                     var value = this.value();
-                    regPay.fn_save("user");
+                    regPay.fn_save("user", 'x');
 
                     if(value != ""){
                         if(value == "6"){
@@ -588,6 +613,7 @@ var regPay = {
             var data = {
                 budgetNm : $("#budgetNm" + index).val(),
                 budgetSn : $("#budgetSn" + index).val(),
+                budgetAmt : $("#budgetAmt" + index).val(),
                 teamSeq : $("#appTeam" + index).val(),
                 teamName : $("#appTeam" + index).data("kendoDropDownList").text(),
                 evidType : $("#eviType" + index).val(),
@@ -607,6 +633,11 @@ var regPay = {
                 iss : $("#iss" + index).val(),
                 advances : $("#advances" + index).is(':checked') ? "Y" : "N",
             }
+
+            if(data.buySts == undefined || data.buySts == null || data.buySts == "" || data.buySts == "undefined"){
+                data.buySts = "";
+            }
+
             if(i != 0){
                 if(befAdvances != ($("#advances" + index).is(':checked') ? "Y" : "N")){
                     flag2 = false;
@@ -653,7 +684,9 @@ var regPay = {
             dataType : "json",
             success : function(rs){
                 if(rs.code == 200){
-                    alert("저장되었습니다.");
+                    if(type != 'x' && type != 'drafting'){
+                        alert("저장되었습니다.");
+                    }
                     if(type != "drafting"){
                         let status = "";
                         if($("#payAppType").data("kendoRadioGroup").value() == 1){
@@ -800,7 +833,7 @@ var regPayDet = {
                 var value = $("#eviType0").val();
                 var itemIndex = 0;
 
-                regPay.fn_save("user");
+                regPay.fn_save("user", 'x');
 
                 if(value != ""){
                     if(value == "6"){
@@ -822,6 +855,7 @@ var regPayDet = {
         });
         customKendo.fn_dropDownList("appTeam0", ds.rs, "dept_name", "dept_seq","5")
 
+        $("#appTeam0").data("kendoDropDownList").value($("#loginDeptSeq").val());
         customKendo.fn_datePicker("trDe0", "month", "yyyy-MM-dd", new Date());
 
     },
@@ -852,6 +886,7 @@ var regPayDet = {
             '   <td>' +
             '       <input type="text" id="budgetNm' + regPayDet.global.itemIndex + '" value="" onclick="regPay.fn_budgetPop(' + clIdx + ')" style="width: 100%;">' +
             '       <input type="hidden" id="budgetSn' + regPayDet.global.itemIndex + '" value="" class="budgetSn"/>' +
+            '       <input type="hidden" id="budgetAmt' + regPayDet.global.itemIndex + '" value="" class="budgetAmt"/>' +
             '   </td>' +
             '   <td>' +
             '       <input style="width: 100%" id="appTeam' + regPayDet.global.itemIndex + '" name="appTeam" class="appTeam">' +
@@ -934,7 +969,7 @@ var regPayDet = {
             change : function (e){
                 var value = $("#eviType" + itemIndex).val();
 
-                regPay.fn_save("user");
+                regPay.fn_save("user", 'x');
 
                 if(value != ""){
                     if(value == "6"){
@@ -960,6 +995,8 @@ var regPayDet = {
             deptLevel : 2
         });
         customKendo.fn_dropDownList("appTeam" + regPayDet.global.itemIndex, ds.rs, "dept_name", "dept_seq","5");
+
+        $("#appTeam" + regPayDet.global.itemIndex).data("kendoDropDownList").value($("#loginDeptSeq").val());
 
         regPayDet.global.itemIndex++;
     },

@@ -41,7 +41,7 @@
               <div class="box">
                 <div class="__mt30 __black">
                   <div class="__fz18">
-                    <strong>cale-up Accelerating<br>(성장가속화 및 글로벌 성장 지원)</strong>
+                    <strong>Scale-up Accelerating<br>(성장가속화 및 글로벌 성장 지원)</strong>
                   </div>
                   <ul class="__dotList bar __fz16">
                     <li>시제품 제작 지원</li>

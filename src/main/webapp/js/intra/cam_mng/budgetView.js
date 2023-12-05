@@ -116,6 +116,7 @@ var bgView = {
                     width: 150,
                     template: function (e){
                         if(e.DIV_FG_NM == "항"){
+                            console.log(e)
                             return e.BGT_NM;
                         } else {
                             return "";
@@ -126,7 +127,9 @@ var bgView = {
                     title: "예산액",
                     width: 150,
                     template: function(e){
-                        calcAmSum  += Number(e.CALC_AM);
+                        if(e.DIV_FG_NM == "항"){
+                            calcAmSum  += Number(e.CALC_AM);
+                        }
                         return "<div style='text-align: right'>"+comma(e.CALC_AM)+"</div>";
                     },
                     footerTemplate: function(){
@@ -172,7 +175,9 @@ var bgView = {
                     title: "예산잔액",
                     width: 150,
                     template: function(e){
-                        subAmSum += Number(e.SUB_AM);
+                        if(e.DIV_FG_NM == "항"){
+                            subAmSum += Number(e.SUB_AM);
+                        }
                         return "<div style='text-align: right'>"+comma(e.SUB_AM)+"</div>";
                     },
                     footerTemplate: function(){
@@ -183,8 +188,9 @@ var bgView = {
                     width: 80,
                     template: function(e){
                         var bgtNm = e.BGT1_NM + " / " + e.BGT2_NM + " / " + e.BGT_NM;
-                        var idx = $("#idx").val()
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bgView.fn_selBudgetInfo(\'' + e.BGT_CD + '\', \'' + bgtNm + '\', \'' + idx + '\')">선택</button>';
+                        var idx = $("#idx").val();
+
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bgView.fn_selBudgetInfo(\'' + e.BGT_CD + '\', \'' + bgtNm + '\', \'' + idx + '\', \'' + e.SUB_AM + '\')">선택</button>';
                     }
                 }
             ],
@@ -329,8 +335,12 @@ var bgView = {
 
     },
 
-    fn_selBudgetInfo: function (cd, name, idx){
-        opener.parent.fn_selBudgetInfo(name, cd, idx);
+    fn_selBudgetInfo: function (cd, name, idx, subAm){
+        if(subAm <= 0) {
+            alert("예산잔액이 부족합니다.");
+            return;
+        }
+        opener.parent.fn_selBudgetInfo(name, cd, idx, subAm);
 
         window.close();
     }

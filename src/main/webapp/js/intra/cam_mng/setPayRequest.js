@@ -86,11 +86,19 @@ var spr = {
             var locIncomeAmt = uncomma($("#locIncomeAmt").val());
 
             $("#supAllAmt").val(comma(Number(incomeAmt) + Number(locIncomeAmt)));
-            $("#totAmt").val(comma(Number(supAmt) - Number(incomeAmt) + Number(locIncomeAmt)))
+            $("#totAmt").val(comma(Number(supAmt) - Number(incomeAmt) + Number(locIncomeAmt)));
+
         }
+
     },
 
     fn_setData : function (){
-        opener.parent.$("#")
+        var sumAmt = Number(uncomma($("#supAllAmt").val())) + Number(uncomma($("#totAmt").val()));
+
+        opener.parent.$("#supCost" + $("#index").val()).val($("#totAmt").val());
+        opener.parent.$("#vatCost" + $("#index").val()).val($("#supAllAmt").val());
+        opener.parent.$("#totCost" + $("#index").val()).val(comma(sumAmt));
+
+        window.close();
     }
 }
