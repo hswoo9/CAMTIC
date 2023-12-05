@@ -159,3 +159,7 @@ function uncomma(str) {
     str = String(str);
     return str.replace(/[^\d]+/g, '');
 }
+
+function gridReload(){
+    mngPartRate.gridReload();
+}
