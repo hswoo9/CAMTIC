@@ -430,7 +430,7 @@ var regPay = {
                 change : function (e){
 
                     var value = this.value();
-                    regPay.fn_save("user");
+                    regPay.fn_save("user", 'x');
 
                     if(value != ""){
                         if(value == "6"){
@@ -653,7 +653,9 @@ var regPay = {
             dataType : "json",
             success : function(rs){
                 if(rs.code == 200){
-                    alert("저장되었습니다.");
+                    if(type != 'x'){
+                        alert("저장되었습니다.");
+                    }
                     if(type != "drafting"){
                         let status = "";
                         if($("#payAppType").data("kendoRadioGroup").value() == 1){
@@ -800,7 +802,7 @@ var regPayDet = {
                 var value = $("#eviType0").val();
                 var itemIndex = 0;
 
-                regPay.fn_save("user");
+                regPay.fn_save("user", 'x');
 
                 if(value != ""){
                     if(value == "6"){
@@ -822,6 +824,7 @@ var regPayDet = {
         });
         customKendo.fn_dropDownList("appTeam0", ds.rs, "dept_name", "dept_seq","5")
 
+        $("#appTeam0").data("kendoDropDownList").value($("#loginDeptSeq").val());
         customKendo.fn_datePicker("trDe0", "month", "yyyy-MM-dd", new Date());
 
     },
@@ -934,7 +937,7 @@ var regPayDet = {
             change : function (e){
                 var value = $("#eviType" + itemIndex).val();
 
-                regPay.fn_save("user");
+                regPay.fn_save("user", 'x');
 
                 if(value != ""){
                     if(value == "6"){
@@ -960,6 +963,8 @@ var regPayDet = {
             deptLevel : 2
         });
         customKendo.fn_dropDownList("appTeam" + regPayDet.global.itemIndex, ds.rs, "dept_name", "dept_seq","5");
+
+        $("#appTeam" + regPayDet.global.itemIndex).data("kendoDropDownList").value($("#loginDeptSeq").val());
 
         regPayDet.global.itemIndex++;
     },
