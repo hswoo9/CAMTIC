@@ -21,6 +21,7 @@
 <input type="hidden" id="status" name="status" value="${params.status}" />
 <input type="hidden" id="auth" name="auth" value="${params.auth}" />
 
+<input type="hidden" id="loginDeptSeq" value="${loginVO.orgnztId}" />
 <input type="hidden" id="reqType" value="${params.reqType}" />
 <input type="hidden" id="partRatePjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="bsYm" value="${params.bsYm}" />
