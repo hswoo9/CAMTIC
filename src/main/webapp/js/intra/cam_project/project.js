@@ -179,7 +179,7 @@ var camPrj = {
                 }, {
                     field: "BUSN_NM",
                     title: "사업구분",
-                    width: 50
+                    width: "10%"
                 }, {
                     field: "PJT_CD",
                     title: "프로젝트 코드",
@@ -250,7 +250,7 @@ var camPrj = {
                 }, {
                     field: "PJT_STEP_NM",
                     title: "진행단계",
-                    width: "5%",
+                    width: "10%",
                     template: function(e){
                         console.log(e.BUSN_CLASS);
 
@@ -357,7 +357,6 @@ var camPrj = {
                 {
                     field: "BUSN_NM",
                     title: "사업구분",
-                    width: "110px"
                 }, {
                     field: "PJT_NM",
                     title:"프로젝트명",
