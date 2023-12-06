@@ -526,6 +526,13 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/getBustResInfo")
+    public String getBustResInfo(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> map = projectService.getBustResInfo(params);
+        model.addAttribute("map", map);
+        return "jsonView";
+    }
+
     /**
      * 프로젝트 > 엔지니어링 > 수주보고 Set Data
      * @param params

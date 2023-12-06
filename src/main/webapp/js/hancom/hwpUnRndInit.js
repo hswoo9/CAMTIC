@@ -158,16 +158,16 @@ var unRndInit = {
         setTimeout(function() {
             hwpDocCtrl.moveToField('DEV_HTML', true, true, false);
             hwpDocCtrl.setTextFile(htmlDev, "html","insertfile");
-        }, 6000);
+        }, 5000);
 
         /** 5. 구매예정 */
         const purcResult = customKendo.fn_customAjax("/purc/getProjectPurcList", {pjtSn: pjtSn});
         const purcList = purcResult.list;
-        const htmlData = engnInit.htmlPurc(purcList, pjtSn, map.TM_YN);
+        const htmlData = engnInit.htmlPurc(purcList, map);
         setTimeout(function() {
             hwpDocCtrl.moveToField('PURC_HTML', true, true, false);
             hwpDocCtrl.setTextFile(htmlData, "html","insertfile");
-        }, 8000);
+        }, 7000);
 
         /** 6. 정산내역 */
         let invSum = 0;
@@ -175,6 +175,12 @@ var unRndInit = {
             const map = purcList[i];
             invSum += Number(map.PURC_ITEM_AMT);
         }
+        const tripResult = customKendo.fn_customAjax("/project/getBustResInfo", {pjtSn: map.PJT_SN});
+        const trip = tripResult.map;
+        if(trip.COUNT != 0){
+            invSum += trip.BUSTRIP_EXNP_SUM;
+        }
+
         hwpDocCtrl.putFieldText('INV_PER', "100%");
         hwpDocCtrl.putFieldText('INV_AMT', fn_numberWithCommas(invSum));
         let invPer = Math.round(invSum / map.PJT_AMT * 100);
@@ -182,12 +188,40 @@ var unRndInit = {
         hwpDocCtrl.putFieldText('INV_AMT2', fn_numberWithCommas(map.PJT_AMT-invSum));
         hwpDocCtrl.putFieldText('INV_PER3', (100-invPer)+"%");
 
+        if(map.TM_YN == "Y") {
+            const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: map.PJT_SN});
+            const team = teamResult.map;
+            const teamList = customKendo.fn_customAjax("/purc/getProjectPurcList", {pjtSn: team.PNT_PJT_SN}).list;
+            let teamInvSum = 0;
+            for(let i=0; i<teamList.length; i++){
+                const info = teamList[i];
+                teamInvSum += info.EST_TOT_AMT;
+            }
+            const tripResult = customKendo.fn_customAjax("/project/getBustResInfo", {pjtSn: map.PJT_SN});
+            const teamTrip = tripResult.map;
+            if(teamTrip.COUNT != 0){
+                teamInvSum += teamTrip.BUSTRIP_EXNP_SUM;
+            }
+            hwpDocCtrl.putFieldText('TEAM_AMT', fn_numberWithCommas(team.TM_AMT));
+            hwpDocCtrl.putFieldText('TEAM_PER', "100%");
+            hwpDocCtrl.putFieldText('TEAM_INV_AMT', fn_numberWithCommas(teamInvSum));
+            let teamPer = Math.round(teamInvSum / team.TM_AMT * 100);
+            hwpDocCtrl.putFieldText('TEAM_PER2', teamPer+"%");
+            hwpDocCtrl.putFieldText('TEAM_INV2_AMT', fn_numberWithCommas(team.TM_AMT-teamInvSum));
+            hwpDocCtrl.putFieldText('TEAM_PER3', (100-teamPer)+"%");
+
+            hwpDocCtrl.putFieldText('SUM_AMT', fn_numberWithCommas(map.PJT_AMT + team.TM_AMT));
+            hwpDocCtrl.putFieldText('TEAM_INV_AMT_SUM', fn_numberWithCommas(invSum + teamInvSum));
+            hwpDocCtrl.putFieldText('TEAM_INV2_AMT_SUM', fn_numberWithCommas(map.PJT_AMT + team.TM_AMT - invSum - teamInvSum));
+
+        }
+
         /** 7. 특이사항 */
         const getResult = customKendo.fn_customAjax("/project/engn/getResultInfo", {pjtSn: pjtSn});
         const res = getResult.result.map;
         setTimeout(function() {
             hwpDocCtrl.moveToField('ETC', true, true, false);
             hwpDocCtrl.setTextFile(res.RS_ISS.replaceAll("\n", "<br>"), "html","insertfile");
-        }, 10000);
+        }, 11000);
     }
 }

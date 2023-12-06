@@ -934,11 +934,12 @@
             B.*,
             C.CRM_NM
         FROM
-            CAM_MNG.DJ_MNG_PURC A
-        LEFT JOIN CAM_MNG.DJ_MNG_PURC_ITEM B ON A.PURC_SN = B.PURC_SN
-        LEFT JOIN CAM_CRM.DJ_CRM_INFO C ON B.CRM_SN = C.CRM_SN
+            CAM_MNG.DJ_PURC_CLAIM A
+        LEFT JOIN CAM_MNG.DJ_PURC_CLAIM_ITEM B ON A.CLAIM_SN = B.CLAIM_SN
+        LEFT JOIN CAM_CRM.DJ_CRM_INFO C ON A.CRM_SN = C.CRM_SN
         WHERE
             A.PJT_SN = #{pjtSn}
+        AND A.STATUS = '100'
     </select>
 
     <update id="updPurcItemStatusChange" parameterType="map">

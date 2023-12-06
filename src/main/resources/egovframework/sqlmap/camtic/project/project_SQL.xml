@@ -1981,6 +1981,18 @@
             A.PJT_SN = #{pjtSn}
     </select>
 
+    <select id="getBustResInfo" parameterType="map" resultType="map">
+        SELECT
+            (SELECT COUNT(-1) FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT WHERE PJT_SN = #{pjtSn}) AS COUNT,
+            IFNULL(SUM(REPLACE(TOT_COST, ',', '')), 0) AS BUSTRIP_EXNP_SUM
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT BRR
+        LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_EXNP BE ON BRR.HR_BIZ_REQ_RESULT_ID = BE.HR_BIZ_REQ_RESULT_ID
+        WHERE PJT_SN = #{pjtSn}
+        AND BRR.STATUS = '100'
+
+    </select>
+
     <select id="getTeamInfo" parameterType="map" resultType="map">
         SELECT
             A.*,

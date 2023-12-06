@@ -960,6 +960,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public Map<String, Object> getBustResInfo(Map<String, Object> params) {
+        return projectRepository.getBustResInfo(params);
+    }
+
+    @Override
     public void setTeamInfo(Map<String, Object> params) {
         try{
             projectRepository.insTeamProject(params);
