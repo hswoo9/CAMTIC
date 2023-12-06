@@ -1074,9 +1074,10 @@
 
     <select id="getPayIncpDetailData" parameterType="map" resultType="map">
         /*getPayIncpDetailData*/
-        SELECT *
-        FROM CAM_MNG.DJ_PAY_INCP_DET
-        WHERE PAY_INCP_SN = #{payIncpSn}
+        SELECT A.*, FORMAT(A.TOT_COST,0) AS TOT_COST_COMMA
+        FROM CAM_MNG.DJ_PAY_INCP_DET A
+
+        WHERE A.PAY_INCP_SN = #{payIncpSn}
     </select>
 
     <select id="getIncpData" parameterType="map" resultType="map">

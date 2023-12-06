@@ -136,8 +136,9 @@ var regIncm = {
         console.log(ls);
 
         $("#appDe").val(rs.APP_DE);
-        $("#pjtNm").val(rs.AFT_PJT_NM);
-        $("#pjtSn").val(rs.AFT_PJT_SN);
+        $("#pjtNm").val(rs.PJT_NM);
+        $("#pjtSn").val(rs.PJT_SN);
+        $("#pjtCd").val(rs.PJT_CD);
         $("#budgetNm").val(rs.BUDGET_NM);
         $("#budgetSn").val(rs.BUDGET_SN);
         $("#appCont").val(rs.APP_CONT);
@@ -339,6 +340,7 @@ var regIncm = {
             payExnpDe : $("#trDe0").val(),
             pjtNm : $("#pjtNm").val(),
             pjtSn : $("#pjtSn").val(),
+            pjtCd : $("#pjtCd").val(),
             budgetNm : $("#budgetNm").val(),
             budgetSn : $("#budgetSn").val(),
             busnCd : $("#busnCd").val(),
