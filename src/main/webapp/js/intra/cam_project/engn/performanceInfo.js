@@ -14,8 +14,9 @@ var resultInfo = {
     },
 
     fn_makeRowEngn : function(rs){
+        const pjtSn = $("#pjtSn").val()
         const result = customKendo.fn_customAjax("/project/engn/getResultPsMember", {
-            pjtSn: $("#pjtSn").val()
+            pjtSn: pjtSn
         });
         const ls = result.list;
 
@@ -232,9 +233,23 @@ var resultInfo = {
         $("#psRsTable").append(html);
         $(".prepAmt, .prepCase, #resultDelvTotAmt, #resultInvTotAmt, #resultTotAmt").kendoTextBox();
 
+        const data = {pjtSn: pjtSn}
+        const purcResult = customKendo.fn_customAjax("/purc/getProjectPurcList", data);
+        const purcList = purcResult.list;
+        let invSum = 0;
+        for(let i=0; i<purcList.length; i++){
+            const map = purcList[i];
+            invSum += Number(map.ITEM_UNIT_AMT);
+        }
+        const tripResult = customKendo.fn_customAjax("/project/getBustResInfo", data);
+        const trip = tripResult.map;
+        if(trip.COUNT != 0){
+            invSum += trip.BUSTRIP_EXNP_SUM;
+        }
+
         $("#resultDelvTotAmt").val(resultInfo.comma(rs.pjtInfo.PJT_AMT));
-        $("#resultInvTotAmt").val(resultInfo.comma(invAmt));
-        $("#resultTotAmt").val(resultInfo.comma(rs.pjtInfo.PJT_AMT - invAmt));
+        $("#resultInvTotAmt").val(resultInfo.comma(invSum));
+        $("#resultTotAmt").val(resultInfo.comma(rs.pjtInfo.PJT_AMT - invSum));
     },
 
     fn_DelvCalcPercent : function (obj, type){
