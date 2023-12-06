@@ -13,6 +13,10 @@
 <input type="hidden" id="pjtSn" value="${data.pjtSn}"/>
 <input type="hidden" id="estSn" value="${data.estSn}"/>
 
+<input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
+
+
+
 <style>
     .pop_head {height: 32px; position: relative; background: #1385db;}
     .pop_head h1 {font-size: 12px; color: #fff; line-height: 32px; padding-left: 16px; margin: 0;}

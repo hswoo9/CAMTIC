@@ -85,7 +85,7 @@
             <input type="hidden" id="reqContentId" name="reqContentId">
         </div>
         <div class="mb-10" id="btnDiv" style="text-align: right;">
-            <button type="button" name="temp" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base temp" onclick="draft.docTempInit(this)">
+            <button type="button" name="temp" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base temp" onclick="draft.docTempInit(this)" style="display: none">
                 <span class="k-button-text" style="font-size: 13px">임시저장</span>
             </button>
 

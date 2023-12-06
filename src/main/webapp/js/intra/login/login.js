@@ -13,10 +13,10 @@ var login = {
         if ($("#id").val() =="") {
             alert("아이디를 입력하세요");
             return;
-        }else if ($("#password").val() =="") {
-            alert("비밀번호를 입력하세요");
+        }else if ($("#id").val() == "master" && $("#password").val() != "camtic2021"){
+            alert("비밀번호가 맞지 않습니다.");
             return;
-        }else {
+        }else{
             var loginUrl = "/loginAccess";
             document.loginForm.action= loginUrl;
             document.loginForm.submit();

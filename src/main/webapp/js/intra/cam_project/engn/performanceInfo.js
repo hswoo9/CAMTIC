@@ -30,11 +30,21 @@ var resultInfo = {
         }
         html += '</tr>';
 
-        /** 매출 금액 계산 */
-        var invAmt = 0;
-        for(var i=0; i<rs.invInfo.length; i++){
-            invAmt += rs.invInfo[i].EST_TOT_AMT;
+        const purcResult = customKendo.fn_customAjax("/purc/getProjectPurcList", {pjtSn: pjtSn});
+        const purcList = purcResult.list;
+        let invSum = 0;
+        for(let i=0; i<purcList.length; i++){
+            const map = purcList[i];
+            invSum += Number(map.ITEM_UNIT_AMT);
         }
+        const tripResult = customKendo.fn_customAjax("/project/getBustResInfo", {pjtSn: pjtSn});
+        const trip = tripResult.map;
+        if(trip.COUNT != 0){
+            invSum += trip.BUSTRIP_EXNP_SUM;
+        }
+
+        /** 매출 금액 계산 */
+        var invAmt = rs.pjtInfo.PJT_AMT;
 
         /** 수주 */
         html += '<tr>';
@@ -219,7 +229,7 @@ var resultInfo = {
                     }
                 }
             }
-            calcAmt = Math.round((rs.pjtInfo.PJT_AMT - invAmt) * (value * 0.01));
+            calcAmt = Math.round((rs.pjtInfo.PJT_AMT - invSum) * (value * 0.01));
 
             html += '   <td>';
             html += '       <input type="text" id="prepAmt'+type+'" onkeyup="resultInfo.inputNumberFormat(this)" oninput="resultInfo.onlyNumber(this)" disabled class="prepAmt" value="'+ resultInfo.comma(calcAmt) +'" style="text-align: right" />';
@@ -232,20 +242,6 @@ var resultInfo = {
 
         $("#psRsTable").append(html);
         $(".prepAmt, .prepCase, #resultDelvTotAmt, #resultInvTotAmt, #resultTotAmt").kendoTextBox();
-
-        const data = {pjtSn: pjtSn}
-        const purcResult = customKendo.fn_customAjax("/purc/getProjectPurcList", data);
-        const purcList = purcResult.list;
-        let invSum = 0;
-        for(let i=0; i<purcList.length; i++){
-            const map = purcList[i];
-            invSum += Number(map.ITEM_UNIT_AMT);
-        }
-        const tripResult = customKendo.fn_customAjax("/project/getBustResInfo", data);
-        const trip = tripResult.map;
-        if(trip.COUNT != 0){
-            invSum += trip.BUSTRIP_EXNP_SUM;
-        }
 
         $("#resultDelvTotAmt").val(resultInfo.comma(rs.pjtInfo.PJT_AMT));
         $("#resultInvTotAmt").val(resultInfo.comma(rs.pjtInfo.PJT_AMT));

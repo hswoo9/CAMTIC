@@ -21,8 +21,8 @@ var rndDetail = {
             }
         });
 
-        $("#allResCost, #peoResCost, #peoResItem").keyup(function(){
-            $("#totResCost").val(comma(Number(uncomma($("#allResCost").val())) + Number(uncomma($("#peoResCost").val())) + Number(uncomma($("#peoResItem").val()))));
+        $("#allResCost, #peoResCost").keyup(function(){
+            $("#totResCost").val(comma(Number(uncomma($("#allResCost").val())) + Number(uncomma($("#peoResCost").val()))));
         });
 
         customKendo.fn_datePicker("delvDay", "month", "yyyy-MM-dd", new Date());
