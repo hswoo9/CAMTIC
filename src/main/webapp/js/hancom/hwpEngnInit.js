@@ -441,7 +441,7 @@ var engnInit = {
                 html += '               </tr>';
                 sum += info.ITEM_UNIT_AMT;
             }
-            const teamTripResult = customKendo.fn_customAjax("/project/getBustResInfo", {pjtSn: map.PJT_SN});
+            const teamTripResult = customKendo.fn_customAjax("/project/getBustResInfo", {pjtSn: team.PNT_PJT_SN});
             const teamTrip = teamTripResult.map;
             if(teamTrip.COUNT != 0){
                 html += '               <tr>';
