@@ -2627,6 +2627,7 @@
             CAM_PJT_MNG.DJ_PROJECT
         WHERE
             PJT_CD = #{PJT_CD}
+        limit 1
     </select>
 
     <select id="getDevMap" parameterType="map" resultType="map">

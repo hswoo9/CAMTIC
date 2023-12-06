@@ -198,7 +198,7 @@ var rndInit = {
             let teamInvSum = 0;
             for(let i=0; i<teamList.length; i++){
                 const info = teamList[i];
-                teamInvSum += info.EST_TOT_AMT;
+                teamInvSum += info.PURC_ITEM_AMT;
             }
             const tripResult = customKendo.fn_customAjax("/project/getBustResInfo", {pjtSn: map.PJT_SN});
             const teamTrip = tripResult.map;

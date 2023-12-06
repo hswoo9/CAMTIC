@@ -586,7 +586,7 @@ var regPay = {
             parameters.payAppSn = $("#payAppSn").val();
         }
 
-        if(parameters.pjtSn == ""){
+        if(parameters.pjtCd == ""){
             alert("사업을 선택해주세요.");
             return;
         }
