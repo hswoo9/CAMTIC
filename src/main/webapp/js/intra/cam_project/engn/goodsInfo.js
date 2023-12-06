@@ -42,11 +42,11 @@ var goodsInfo = {
             $("#printBtn").show();
             if(rs2.list[0].TEAM_STAT == "Y" && rs2.list[0].GOODS_ISS != null){
                 $("#teamAppBtn").show();
-            }
-            if(rs2.list[0].PJT_TEAM_CK == "Y"){
-                $("#saveBtn").hide();
-                $("#teamAppBtn").hide();
-                $("#btnDiv").html('<span style="float: right; color: red; font-size: 12px;">마감되었습니다</span>');
+                if(rs2.list[0].PJT_TEAM_CK == "Y"){
+                    $("#saveBtn").hide();
+                    $("#teamAppBtn").hide();
+                    $("#btnDiv").html('<span style="float: right; color: red; font-size: 12px;">마감되었습니다</span>');
+                }
             }
         }
 

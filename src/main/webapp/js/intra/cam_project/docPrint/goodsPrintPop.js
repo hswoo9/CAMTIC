@@ -48,6 +48,7 @@ const goodsPrint = {
         const pjtMap = customKendo.fn_customAjax("/project/engn/getDelvData", data).map;
         const rs = customKendo.fn_customAjax("/project/engn/getEstData", data);
         const rs2 = customKendo.fn_customAjax("/project/engn/getCrmInfo", data);
+        const empInfo = customKendo.fn_customAjax("/user/getUserInfo", {empSeq: $("#regEmpSeq").val()});
 
         const ests = customKendo.fn_customAjax("/project/getStep1Data", data);
         const result = customKendo.fn_customAjax("/project/engn/getDelvData", {pjtSn: pjtSn});
@@ -91,16 +92,16 @@ const goodsPrint = {
         goodsPrint.global.hwpCtrl.PutFieldText("ADDR", crmMap.ADDR);
         goodsPrint.global.hwpCtrl.PutFieldText("CRM_EVENT", crmMap.CRM_EVENT);
         goodsPrint.global.hwpCtrl.PutFieldText("CRM_PROD", crmMap.CRM_PROD);
-        let crmManager = "";
-        let crmMemSn = "";
-        crmMemSn = map.CRM_MEM_SN;
-        if(crmMemSn != null){
-            crmManager = crmMap.CRM_MEM_NM + " / " + crmMap.CRM_MEM_PHN;
-        }else{
-            crmManager = map.CRM_MEM_TEMP_NM;
-        }
-        goodsPrint.global.hwpCtrl.PutFieldText("CRM_MANAGER", crmManager);
-        goodsPrint.global.hwpCtrl.PutFieldText("EMAIL", crmMap.CRM_NM);
+
+        goodsPrint.global.hwpCtrl.PutFieldText("CRM_NM2", "캠틱종합기술원");
+        goodsPrint.global.hwpCtrl.PutFieldText("CRM_NO2", "402-82-13594");
+        goodsPrint.global.hwpCtrl.PutFieldText("CRM_CEO2", "노   상   흡 [직인생략]");
+        goodsPrint.global.hwpCtrl.PutFieldText("ADDR2", "전라북도 전주시 덕진구 유상로 67 전주첨단벤처단지");
+        goodsPrint.global.hwpCtrl.PutFieldText("CRM_PROD2", "자동차부품설계, 모델링, 시제품제작, 상품화컨설팅");
+        goodsPrint.global.hwpCtrl.PutFieldText("CRM_EVENT2", "서비스, 제조");
+
+        goodsPrint.global.hwpCtrl.PutFieldText("CRM_MANAGER2", empInfo.EMP_NAME_KR + (empInfo.OFFICE_TEL_NUM == undefined ? "" : ("/"+ empInfo.OFFICE_TEL_NUM)));
+        goodsPrint.global.hwpCtrl.PutFieldText("EMAIL2", empInfo.EMAIL_ADDR == undefined ? "" : empInfo.EMAIL_ADDR);
 
         /** 3. 납품 리스트 */
         let supAmtSum = 0;
