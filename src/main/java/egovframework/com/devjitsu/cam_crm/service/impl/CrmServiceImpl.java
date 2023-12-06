@@ -562,7 +562,7 @@ public class CrmServiceImpl implements CrmService {
         List<Map<String, Object>> statList = new ArrayList<>();
 
         LocalDate now = LocalDate.now();
-        int year = now.getYear();
+        int year = params.get("searchYear") == null ? now.getYear() : Integer.parseInt(params.get("searchYear").toString());
         for(int i = 0; i < 5; i++){
             params.put("year", year-i);
             Map<String, Object> stat = crmRepository.getMfOverviewStatInfo(params);
@@ -646,7 +646,8 @@ public class CrmServiceImpl implements CrmService {
         List<Map<String, Object>> dataList = new ArrayList<>();
 
         Map<String, Object> tumpMap = null;
-        for(int i=3; i < rows; i++){
+
+        for(int i=2; i < rows; i++){
             Map<String, Object> testList = new HashMap<>();
             tumpMap = new HashMap<String, Object>();
             row = sheet.getRow(i);
@@ -661,7 +662,7 @@ public class CrmServiceImpl implements CrmService {
                     tumpMap.put("mfArea", cellValueToString(row.getCell(1)));
                     tumpMap.put("active", cellValueToString(row.getCell(2)).equals("정상") ? "Y" : "N");
                     tumpMap.put("mfName", cellValueToString(row.getCell(3)));
-                    tumpMap.put("mfNo", cellValueToString(row.getCell(4)));
+                    tumpMap.put("mfNo", cellValueToString(row.getCell(4)).replaceAll("-", ""));
                     tumpMap.put("ceoName", cellValueToString(row.getCell(5)));
                     tumpMap.put("ceoGender", cellValueToString(row.getCell(6)));
                     tumpMap.put("addr", cellValueToString(row.getCell(7)));
@@ -670,8 +671,8 @@ public class CrmServiceImpl implements CrmService {
                     LocalDate now = LocalDate.now();
                     String estYear = row.getCell(8) == null ? "" : cellValueToString(row.getCell(8));
 
-                    if(!estYear.equals("알수없음") && !estYear.equals("") && !estYear.equals("미응답") && estYear.length() == 10){
-                        estYear = String.valueOf(now.getYear() - Integer.parseInt(estYear.substring(0, 4)));
+                    if(!estYear.equals("알수없음") && !estYear.equals("") && !estYear.equals("미응답") && (estYear.length() == 8 || estYear.length() == 10)){
+                        estYear = String.valueOf(Integer.parseInt(baseDate.substring(0, 4)) - Integer.parseInt(estYear.substring(0, 4)));
                     }
 
                     tumpMap.put("history", estYear);
@@ -701,15 +702,15 @@ public class CrmServiceImpl implements CrmService {
                     String salesRatioProv = String.valueOf(row.getCell(23));
                     String salesRatioOtProv = String.valueOf(row.getCell(24));
 
-                    if((salesRatioProv.equals("미응답") || salesRatioProv.equals("미") || salesRatioProv.equals("모름") || salesRatioProv.equals("%") || salesRatioProv.equals("")) &&
-                            (salesRatioOtProv.equals("미응답") || salesRatioOtProv.equals("미") || salesRatioOtProv.equals("모름") || salesRatioOtProv.equals("%") || salesRatioOtProv.equals(""))){
+                    if((salesRatioProv.equals("미응답") || salesRatioProv.equals("미") || salesRatioProv.equals("모름") || salesRatioProv.equals("%") || salesRatioProv.equals("-") || salesRatioProv.equals("")) &&
+                            (salesRatioOtProv.equals("미응답") || salesRatioOtProv.equals("미") || salesRatioOtProv.equals("모름") || salesRatioOtProv.equals("%") || salesRatioOtProv.equals("-") || salesRatioOtProv.equals(""))){
                         tumpMap.put("salesAmt", "0");
                     }else {
-                        if((salesRatioProv.equals("미응답") || salesRatioProv.equals("미")  || salesRatioProv.equals("모름") || salesRatioProv.equals("%") || salesRatioProv.equals("")) &&
-                                !salesRatioOtProv.equals("미응답") && !salesRatioOtProv.equals("미") && !salesRatioOtProv.equals("모름") && !salesRatioOtProv.equals("%") && !salesRatioOtProv.equals("")){
+                        if((salesRatioProv.equals("미응답") || salesRatioProv.equals("미")  || salesRatioProv.equals("모름") || salesRatioProv.equals("%") || salesRatioProv.equals("-") || salesRatioProv.equals("")) &&
+                                !salesRatioOtProv.equals("미응답") && !salesRatioOtProv.equals("미") && !salesRatioOtProv.equals("모름") && !salesRatioOtProv.equals("%") && !salesRatioOtProv.equals("-") && !salesRatioOtProv.equals("")){
                             tumpMap.put("salesAmt", Double.parseDouble(salesRatioOtProv));
-                        }else if((salesRatioOtProv.equals("미응답") || salesRatioOtProv.equals("미") || salesRatioOtProv.equals("모름") || salesRatioOtProv.equals("%") || salesRatioOtProv.equals("")) &&
-                                !salesRatioProv.equals("미응답") && !salesRatioProv.equals("미") && !salesRatioProv.equals("모름") && !salesRatioProv.equals("%") && !salesRatioProv.equals("")){
+                        }else if((salesRatioOtProv.equals("미응답") || salesRatioOtProv.equals("미") || salesRatioOtProv.equals("모름") || salesRatioOtProv.equals("%") || salesRatioOtProv.equals("-") || salesRatioOtProv.equals("")) &&
+                                !salesRatioProv.equals("미응답") && !salesRatioProv.equals("미") && !salesRatioProv.equals("모름") && !salesRatioProv.equals("%") && !salesRatioProv.equals("-") && !salesRatioProv.equals("")){
                             tumpMap.put("salesAmt", Double.parseDouble(salesRatioProv));
                         }else {
                             tumpMap.put("salesAmt", String.valueOf(Double.parseDouble(salesRatioProv) + Double.parseDouble(salesRatioOtProv)));

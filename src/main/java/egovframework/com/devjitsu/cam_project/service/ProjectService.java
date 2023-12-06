@@ -137,6 +137,8 @@ public interface ProjectService {
 
     Map<String, Object> getTeamInfo(Map<String, Object> params);
 
+    Map<String, Object> getBustResInfo(Map<String, Object> params);
+
     void setCostInfo(Map<String, Object> params);
 
     Map<String, Object> getProjectDocInfo(Map<String, Object> params);
@@ -179,4 +181,8 @@ public interface ProjectService {
     Map<String, Object> getProjectByPjtCd(Map<String, Object> params);
 
     List<Map<String, Object>> getDepositList(Map<String, Object> params);
+
+    List<Map<String, Object>> getG20ProjectList(Map<String, Object> params);
+
+    Map<String, Object> getDevMap(Map<String, Object> params);
 }

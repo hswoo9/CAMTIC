@@ -21,18 +21,19 @@
                     <c:forEach var="list" items="${payIncpItemList}" varStatus="status">
                         <tr>
                             <td style="height:30px; background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><c:out value="${list.CRM_NM}"/></p></td>
+                            <td style="height:30px; background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>
+                            <td style="height:30px; background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>
                             <td style="height:30px; background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><c:out value="${list.TOT_COST_COMMA}"/></p></td>
-                            <td style="height:30px; background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><c:out value="${list.CRM_BNK_NM}"/></p></td>
-                            <td style="height:30px; background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><c:out value="${list.CRM_ACC_NO}"/></p></td>
-                            <td style="height:30px; background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><c:out value="${list.CRM_ACC_HOLDER}"/></p></td>
+                            <td style="height:30px; background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><c:out value="${list.CRM_NM}"/></p></td>
                             <td style="height:30px; background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><c:out value="${list.ETC}"/></p></td>
                         </tr>
                         <c:set var="sum" value="${sum + list.TOT_COST}"/>
                     </c:forEach>
                     <tr>
-                        <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><b>합계</b></p></td>
+                        <td colspan="3" style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><b>합계</b></p></td>
                         <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><b><fmt:formatNumber value="${sum}" pattern="#,###"/></b></p></td>
-                        <td colspan="4"></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                 </table>
             </td>

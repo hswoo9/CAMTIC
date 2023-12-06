@@ -17,6 +17,7 @@
 <%
     String crmMfSn = request.getParameter("crmMfSn");
     String mfNo = request.getParameter("mfNo");
+    String searchYear = request.getParameter("searchYear");
     if(crmMfSn == null){
         return ;
     }
@@ -25,10 +26,15 @@
         return ;
     }
 
+    if(searchYear == null){
+        return ;
+    }
 %>
+<c:set var="searchYear" value="<%=searchYear%>"/>
 <input type="hidden" id="mfNo" value="<%=mfNo%>" />
 <div style="padding: 10px">
     <div style="text-align: right">
+        <input type="text" id="searchYear2" class="searchYear" style="width: 80px" value="<%=searchYear%>" onchange="movJbStat.mfOverViewDataSet()">
         <button type="button" id="saveBtn" style="margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="movJbStat.mfOverViewDataSet();">조회</button>
     </div>
     <div>
@@ -81,15 +87,15 @@
             <col style="width: 15%">
             <col style="width: 15%">
         </colgroup>
-        <thead>
+        <thead id="statThead">
             <tr>
                 <th>구분</th>
                 <c:forEach begin="0" end="4" step="1" varStatus="st">
-                    <th id="${toDay - st.index}">${toDay - st.index}</th>
+                    <th id="${searchYear - st.index}">${searchYear - st.index}</th>
                 </c:forEach>
             </tr>
         </thead>
-        <tbody id="statTbody">
+        <tbody id="statTbody" style="text-align: center">
 
         </tbody>
     </table>

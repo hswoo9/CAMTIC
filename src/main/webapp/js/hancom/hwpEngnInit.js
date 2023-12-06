@@ -202,7 +202,7 @@ var engnInit = {
         /** 5. 구매/비용내역 */
         const purcResult = customKendo.fn_customAjax("/purc/getProjectPurcList", data);
         const purcList = purcResult.list;
-        const htmlData = engnInit.htmlPurc(purcList, pjtSn, map.TM_YN);
+        const htmlData = engnInit.htmlPurc(purcList, map);
         setTimeout(function() {
             hwpDocCtrl.moveToField('PURC_HTML', true, true, false);
             hwpDocCtrl.setTextFile(htmlData, "html","insertfile");
@@ -212,7 +212,12 @@ var engnInit = {
         let invSum = 0;
         for(let i=0; i<purcList.length; i++){
             const map = purcList[i];
-            invSum += Number(map.PURC_ITEM_AMT);
+            invSum += Number(map.ITEM_UNIT_AMT);
+        }
+        const tripResult = customKendo.fn_customAjax("/project/getBustResInfo", {pjtSn: map.PJT_SN});
+        const trip = tripResult.map;
+        if(trip.COUNT != 0){
+            invSum += trip.BUSTRIP_EXNP_SUM;
         }
         hwpDocCtrl.putFieldText('INV_PER', "100%");
         hwpDocCtrl.putFieldText('INV_AMT', invSum == 0 ? "0" : fn_numberWithCommas(invSum));
@@ -220,6 +225,34 @@ var engnInit = {
         hwpDocCtrl.putFieldText('INV_PER2', invPer+"%");
         hwpDocCtrl.putFieldText('INV_AMT2', (map.PJT_AMT-invSum) == 0 ? "0" : String(fn_numberWithCommas(map.PJT_AMT-invSum)));
         hwpDocCtrl.putFieldText('INV_PER3', (100-invPer)+"%");
+
+        if(map.TM_YN == "Y") {
+            const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: map.PJT_SN});
+            const team = teamResult.map;
+            const teamList = customKendo.fn_customAjax("/purc/getProjectPurcList", {pjtSn: team.PNT_PJT_SN}).list;
+            let teamInvSum = 0;
+            for(let i=0; i<teamList.length; i++){
+                const info = teamList[i];
+                teamInvSum += info.ITEM_UNIT_AMT;
+            }
+            const tripResult = customKendo.fn_customAjax("/project/getBustResInfo", {pjtSn: team.PNT_PJT_SN});
+            const teamTrip = tripResult.map;
+            if(teamTrip.COUNT != 0){
+                teamInvSum += teamTrip.BUSTRIP_EXNP_SUM;
+            }
+            hwpDocCtrl.putFieldText('TEAM_AMT', fn_numberWithCommas(team.TM_AMT));
+            hwpDocCtrl.putFieldText('TEAM_PER', "100%");
+            hwpDocCtrl.putFieldText('TEAM_INV_AMT', fn_numberWithCommas(teamInvSum));
+            let teamPer = Math.round(teamInvSum / team.TM_AMT * 100);
+            hwpDocCtrl.putFieldText('TEAM_PER2', teamPer+"%");
+            hwpDocCtrl.putFieldText('TEAM_INV2_AMT', fn_numberWithCommas(team.TM_AMT-teamInvSum));
+            hwpDocCtrl.putFieldText('TEAM_PER3', (100-teamPer)+"%");
+
+            hwpDocCtrl.putFieldText('SUM_AMT', fn_numberWithCommas(map.PJT_AMT + team.TM_AMT));
+            hwpDocCtrl.putFieldText('TEAM_INV_AMT_SUM', fn_numberWithCommas(invSum + teamInvSum));
+            hwpDocCtrl.putFieldText('TEAM_INV2_AMT_SUM', fn_numberWithCommas(map.PJT_AMT + team.TM_AMT - invSum - teamInvSum));
+
+        }
 
         /** 7. 특이사항 */
         const getResult = customKendo.fn_customAjax("/project/engn/getResultInfo", data);
@@ -289,7 +322,7 @@ var engnInit = {
             const info = list[i];
             html += '               <tr>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">단독</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.DIV_NM +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">구매</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.INV_NM +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.INV_CNT +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.INV_UNIT +'</p></td>';
@@ -298,6 +331,7 @@ var engnInit = {
             html += '               </tr>';
             sum += info.EST_TOT_AMT;
         }
+
         console.log(map.TM_YN);
         if(map.TM_YN == "Y") {
             const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: map.PJT_SN});
@@ -335,7 +369,7 @@ var engnInit = {
         return html.replaceAll("\n", "<br>");
     },
 
-    htmlPurc: function(list, pjtSn, tmYn){
+    htmlPurc: function(list, map){
         const codeList1 = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId: "38"});
         let html = '';
         html += '<table style="font-family:굴림체;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
@@ -351,6 +385,7 @@ var engnInit = {
         html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 102px;"><p style="font-size:13px;"><b>금액</b></p></td>';
         html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 102px;"><p style="font-size:13px;"><b>거래처</b></p></td>';
         html += '               </tr>';
+        let sum = 0;
         for(let i=0; i<list.length; i++){
             const map = list[i];
             let purcItemText = "";
@@ -360,16 +395,81 @@ var engnInit = {
                     purcItemText = subMap.CM_CODE_NM;
                 }
             }
+            console.log(map);
             html += '               <tr>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">단독</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ purcItemText +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.PURC_ITEM_QTY +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.PURC_ITEM_NAME +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.PURC_ITEM_UNIT +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(map.PURC_ITEM_AMT) +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.ITEM_NM +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.ITEM_STD +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.ITEM_UNIT +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(map.ITEM_UNIT_AMT) +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.CRM_NM +'</p></td>';
             html += '               </tr>';
+            sum += map.ITEM_UNIT_AMT;
         }
+        const tripResult = customKendo.fn_customAjax("/project/getBustResInfo", {pjtSn: map.PJT_SN});
+        const trip = tripResult.map;
+        if(trip.COUNT != 0){
+            html += '               <tr>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">단독</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">출장</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">-</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ trip.COUNT +'회</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">-</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(trip.BUSTRIP_EXNP_SUM) +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">-</p></td>';
+            html += '               </tr>';
+            sum += trip.BUSTRIP_EXNP_SUM;
+        }
+        if(map.TM_YN == "Y") {
+            const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: map.PJT_SN});
+            const team = teamResult.map;
+            const teamList = customKendo.fn_customAjax("/purc/getProjectPurcList", {pjtSn: team.PNT_PJT_SN}).list;
+            console.log(teamList);
+            for(let i=0; i<teamList.length; i++){
+                const info = teamList[i];
+                let purcItemText = "";
+                for(let j=0; j<codeList1.length; j++){
+                    const subMap = codeList1[j];
+                    if(subMap.CM_CODE == info.PURC_ITEM_TYPE){
+                        purcItemText = subMap.CM_CODE_NM;
+                    }
+                }
+                html += '               <tr>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">협업</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ purcItemText +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.ITEM_NM +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.ITEM_STD +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.ITEM_UNIT +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(info.ITEM_UNIT_AMT) +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.CRM_NM +'</p></td>';
+                html += '               </tr>';
+                sum += info.ITEM_UNIT_AMT;
+            }
+            const teamTripResult = customKendo.fn_customAjax("/project/getBustResInfo", {pjtSn: team.PNT_PJT_SN});
+            const teamTrip = teamTripResult.map;
+            if(teamTrip.COUNT != 0){
+                html += '               <tr>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">단독</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">출장</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">-</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ teamTrip.COUNT +'회</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">-</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(teamTrip.BUSTRIP_EXNP_SUM) +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">-</p></td>';
+                html += '               </tr>';
+                sum += teamTrip.BUSTRIP_EXNP_SUM;
+            }
+        }
+        html += '               <tr>';
+        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">합계</p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">-</p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">-</p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">-</p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">-</p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(sum) +'</p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">-</p></td>';
+        html += '               </tr>';
         html += '           </table>';
         html += '       </td>';
         html += '   </tr>';

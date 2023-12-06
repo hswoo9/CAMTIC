@@ -48,6 +48,34 @@ public class ProjectServiceImpl implements ProjectService {
         return projectRepository.getAllProjectList(params);
     }
 
+    @Override
+    public List<Map<String, Object>> getG20ProjectList(Map<String, Object> params) {
+        List<Map<String, Object>> g20List = g20Repository.getG20ProjectList(params);
+
+        List<Map<String, Object>> list = new ArrayList<>();
+        for(Map<String, Object> map : g20List){
+            Map<String, Object> tempMap = projectRepository.getProjectCodeData(map);
+
+            if(tempMap != null){
+                map.put("BUSN_NM", tempMap.get("BUSN_NM"));
+                map.put("STR_DT", tempMap.get("STR_DT"));
+                map.put("END_DT", tempMap.get("END_DT"));
+                map.put("PJT_AMT", tempMap.get("PJT_AMT"));
+                map.put("PM", tempMap.get("PM"));
+                map.put("PJT_STEP_NM", tempMap.get("PJT_STEP_NM"));
+            } else {
+                map.put("BUSN_NM", "");
+                map.put("STR_DT", "");
+                map.put("END_DT", "");
+                map.put("PJT_AMT", "");
+                map.put("PM", "");
+                map.put("PJT_STEP_NM", "");
+            }
+            list.add(map);
+        }
+
+        return list;
+    }
 
     @Override
     public void setProject(Map<String, Object> params) {
@@ -932,6 +960,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public Map<String, Object> getBustResInfo(Map<String, Object> params) {
+        return projectRepository.getBustResInfo(params);
+    }
+
+    @Override
     public void setTeamInfo(Map<String, Object> params) {
         try{
             projectRepository.insTeamProject(params);
@@ -1230,6 +1263,11 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<Map<String, Object>> getDepositList(Map<String, Object> params) {
         return projectRepository.getDepositList(params);
+    }
+
+    @Override
+    public Map<String, Object> getDevMap(Map<String, Object> params) {
+        return projectRepository.getDevMap(params);
     }
 }
 

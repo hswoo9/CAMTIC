@@ -34,7 +34,7 @@
 <input type="hidden" id="mfNo" value="<%=mfNo%>" />
 <div style="padding: 10px">
     <div style="text-align: right">
-        <input type="text" id="searchYear" style="width: 80px" value="<%=searchYear%>">
+        <input type="text" id="searchYear" class="searchYear" style="width: 80px" value="<%=searchYear%>" onchange="movJb.mfOverViewDataSet();">
         <button type="button" id="saveBtn" style="margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="movJb.mfOverViewDataSet();">조회</button>
     </div>
     <div>

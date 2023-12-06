@@ -99,13 +99,15 @@ var movJbStat = {
 
                 movJbStat.global.searchAjaxData = {
                     mfNo : $("#mfNo").val(),
-                    searchContent : jeonbukChk2.substring(1)
+                    searchContent : jeonbukChk2.substring(1),
+                    searchYear : $("#searchYear2").val()
                 }
 
                 var result = customKendo.fn_customAjax("/crm/getMfOverviewStatInfo.do", movJbStat.global.searchAjaxData);
                 if(result.flag){
                     var data = result.data;
                     $("#statTbody *").remove();
+
                     $.each(dataItems, function(i, v){
                         var html = "" +
                             "<tr>" +
@@ -125,12 +127,22 @@ var movJbStat = {
                 }
             }
         });
-
-        movJbStat.mfOverViewDataSet();
     },
 
     mfOverViewDataSet : function(){
+        $("#statThead *").remove();
 
+        var html = "" +
+            "<tr>" +
+                "<th>구분</th>";
+            for(var i = 0; i < 5; i++){
+                html += "" +
+                "<th>" + (Number($("#searchYear2").val()) - i) + "</th>";
+            }
+        html += "" +
+            "</tr>";
+        $("#statThead").append(html);
+        $("#detailSearch2").data("kendoDropDownTree").trigger("change");
     },
 
     comma: function(str) {

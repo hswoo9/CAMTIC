@@ -375,7 +375,10 @@
         SELECT A.PJT_CD, B.* FROM
             CAM_MNG.DJ_PAY_APP A
         LEFT JOIN CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
-        WHERE A.PJT_CD = #{mgtSeq};
+        LEFT JOIN CAM_MNG.DJ_EXNP C ON C.PAY_APP_SN = B.PAY_APP_SN
+        WHERE
+            A.PJT_CD = #{mgtSeq}
+        AND ((C.PAY_APP_TYPE IN (4, 5, 6) AND C.DOC_STATUS != 100) OR (C.PAY_APP_TYPE IN (1, 2, 3) AND C.RE_STAT != 'Y') OR C.PAY_APP_TYPE IS NULL)
     </select>
 
     <update id="updatePayAppApprStat" parameterType="map">
@@ -511,7 +514,7 @@
             B.BUSN_CD AS DIV_CD2,
             B.G20_DEPT_CD AS DEPT_CD,
             B.G20_EMP_CD AS EMP_CD,
-            C.PJT_CD AS MGT_CD,
+            B.PJT_CD AS MGT_CD,
             "" AS BOTTOM_CD,
             CASE
                 WHEN B.PAY_APP_TYPE = '1'
@@ -554,10 +557,6 @@
             CAM_MNG.DJ_EXNP B
         ON
             A.EXNP_SN = B.EXNP_SN
-        LEFT JOIN
-            CAM_PJT_MNG.DJ_PROJECT C
-        ON
-            B.PJT_SN = C.PJT_SN
         LEFT JOIN
             CAM_MNG.DJ_PAY_APP D
         ON
@@ -1075,9 +1074,10 @@
 
     <select id="getPayIncpDetailData" parameterType="map" resultType="map">
         /*getPayIncpDetailData*/
-        SELECT *
-        FROM CAM_MNG.DJ_PAY_INCP_DET
-        WHERE PAY_INCP_SN = #{payIncpSn}
+        SELECT A.*, FORMAT(A.TOT_COST,0) AS TOT_COST_COMMA
+        FROM CAM_MNG.DJ_PAY_INCP_DET A
+
+        WHERE A.PAY_INCP_SN = #{payIncpSn}
     </select>
 
     <select id="getIncpData" parameterType="map" resultType="map">

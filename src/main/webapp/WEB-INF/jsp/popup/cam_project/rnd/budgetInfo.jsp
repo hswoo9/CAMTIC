@@ -31,7 +31,11 @@
         </br>
         <span id="budgetType"></span>
         </br>
+        <span style=""> ※ 수입 예산</span>
         <div id="budgetMainGrid"></div>
+            <div style="margin-top: 20px;"></div>
+        <span style=""> ※ 지출 예산</span>
+        <div id="budgetMainGrid2"></div>
     </div>
 </div>
 

@@ -5,12 +5,12 @@ var movJb = {
     },
 
     fn_defaultScript : function(){
-        $("#searchYear").kendoDatePicker({
+        $(".searchYear").kendoDatePicker({
             start: "decade",
             depth: "decade",
             culture : "ko-KR",
             format : "yyyy",
-            value : $("#searchYear").val(),
+            value : this.value,
         });
 
         $("#detailSearch").kendoDropDownTree({

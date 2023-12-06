@@ -154,7 +154,7 @@
                     </button>
                 </td>
             </tr>
-            <tr class="text-right">
+            <tr class="text-right" style="display: none">
                 <th class="th-color">참조문서</th>
                 <td style="border-right: none">
                     <input type="hidden" id="referencesId" name="referencesId">
@@ -182,7 +182,7 @@
                     </button>
                 </td>
             </tr>
-            <tr class="text-right">
+            <tr class="text-right" style="display: none">
                 <th class="th-color">열람자</th>
                 <td style="border-right: none">
                     <input type="text" id="readerName" name="readerName" class="k-input k-textbox k-input-solid k-input-md" onclick="draft.readerSelectPopup()" readonly>

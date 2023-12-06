@@ -100,7 +100,7 @@ var processInfo = {
 
                         for(var i = 0; i < pf4.length; i++){
                             html += '<tr style="text-align: center">';
-                            html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+pf4[i].file_path+pf3[i].file_uuid+'\', \''+pf4[i].file_org_name+'.'+pf4[i].file_ext+'\')">'+pf4[i].file_org_name+'</span></td>';
+                            html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+pf4[i].file_path+pf4[i].file_uuid+'\', \''+pf4[i].file_org_name+'.'+pf4[i].file_ext+'\')">'+pf4[i].file_org_name+'</span></td>';
                             html += '   <td>'+ pf4[i].file_ext +'</td>';
                             html += '   <td>'+ pf4[i].file_size +'</td>';
                             html += '   <td>' +
@@ -122,7 +122,7 @@ var processInfo = {
 
                         for(var i = 0; i < pf5.length; i++){
                             html += '<tr style="text-align: center">';
-                            html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+pf5[i].file_path+pf3[i].file_uuid+'\', \''+pf5[i].file_org_name+'.'+pf5[i].file_ext+'\')">'+pf5[i].file_org_name+'</span></td>';
+                            html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+pf5[i].file_path+pf5[i].file_uuid+'\', \''+pf5[i].file_org_name+'.'+pf5[i].file_ext+'\')">'+pf5[i].file_org_name+'</span></td>';
                             html += '   <td>'+ pf5[i].file_ext +'</td>';
                             html += '   <td>'+ pf5[i].file_size +'</td>';
                             html += '   <td>' +
@@ -144,7 +144,7 @@ var processInfo = {
 
                         for(var i = 0; i < pf6.length; i++){
                             html += '<tr style="text-align: center">';
-                            html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+pf6[i].file_path+pf3[i].file_uuid+'\', \''+pf6[i].file_org_name+'.'+pf6[i].file_ext+'\')">'+pf6[i].file_org_name+'</span></td>';
+                            html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+pf6[i].file_path+pf6[i].file_uuid+'\', \''+pf6[i].file_org_name+'.'+pf6[i].file_ext+'\')">'+pf6[i].file_org_name+'</span></td>';
                             html += '   <td>'+ pf6[i].file_ext +'</td>';
                             html += '   <td>'+ pf6[i].file_size +'</td>';
                             html += '   <td>' +

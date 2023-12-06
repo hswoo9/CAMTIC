@@ -150,13 +150,6 @@ var depoInfo = {
     fn_reqRegPopup : function(key){
         var url = "/pay/pop/regPayDepoPop.do";
 
-
-
-        if($("#pjtSn").val() != ""){
-            url += "?pjtSn=" + $("#pjtSn").val();
-        }
-
-
         if(key != null && key != ""){
             url = "/pay/pop/regPayDepoPop.do?payDepoSn=" + key;
             if($("#pjtSn").val() != ""){

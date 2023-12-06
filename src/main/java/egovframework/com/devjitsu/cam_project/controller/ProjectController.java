@@ -80,6 +80,15 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/getG20ProjectList")
+    public String getG20ProjectList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String,Object>> list = projectService.getG20ProjectList(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/project/getProjectData")
     public String getProjectData(@RequestParam Map<String, Object> params, Model model) {
 
@@ -517,6 +526,13 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/getBustResInfo")
+    public String getBustResInfo(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> map = projectService.getBustResInfo(params);
+        model.addAttribute("map", map);
+        return "jsonView";
+    }
+
     /**
      * 프로젝트 > 엔지니어링 > 수주보고 Set Data
      * @param params
@@ -911,6 +927,11 @@ public class ProjectController {
 
     @RequestMapping("/project/getDevelopPlan")
     public String getDevelopPlan(@RequestParam Map<String, Object> params, Model model){
+
+        if(params.containsKey("checkPoint")){
+            Map<String, Object> devMap = projectService.getDevMap(params);
+            params.put("devSn", devMap.get("DEV_SN"));
+        }
 
         Map<String, Object> map = projectService.getDevelopPlan(params);
         Map<String, Object> devFile = projectService.getDevFile(map);
@@ -1320,6 +1341,17 @@ public class ProjectController {
         model.addAttribute("loginVO", loginVO);
 
         return "popup/cam_project/projectView";
+    }
+
+    @RequestMapping("/project/pop/g20ProjectView.do")
+    public String g20ProjectView(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", loginVO);
+
+        return "popup/cam_project/g20ProjectView";
     }
 
     /** 프로젝트 합계 정보 */

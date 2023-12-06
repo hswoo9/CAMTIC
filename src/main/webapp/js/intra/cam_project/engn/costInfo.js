@@ -39,9 +39,15 @@ var costInfo = {
                         } else {
                             prepTime = ls[i].PREP_D_TIME;
                         }
+                        var positionName = "";
+                        if(ls[i].POSITION_NAME == null || ls[i].POSITION_NAME == "" || ls[i].POSITION_NAME == undefined){
+                            positionName = "";
+                        } else {
+                            positionName = ls[i].POSITION_NAME;
+                        }
                         html += '<tr>' +
                             '       <td style="text-align: center" id="costPrepNm'+(i+1)+'">'+ls[i].PS_PREP_NM+'</td>' +
-                            '       <td style="text-align: center">'+ls[i].POSITION_NAME+'</td>' +
+                            '       <td style="text-align: center">'+positionName+'</td>' +
                             '       <td style="text-align: center">'+ls[i].PS_EMP_NM+'</td>' +
                             '       <td style="text-align: center"><input type="text" id="laborUnitAmt'+(i+1)+'" value="'+costInfo.comma(ls[i].LABOR_AMT)+'" disabled class="laborUnitAmt" style="text-align: right; width: 90%" onkeyup="costInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
                             '       <td style="text-align: center"><input type="text" id="costWorkTime'+(i+1)+'" value="'+ prepTime +'" class="costWorkTime" style="text-align: right; width: 90%" onkeyup="costInfo.fn_calcAmt(this, '+(i+1)+')" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +

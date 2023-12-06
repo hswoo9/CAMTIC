@@ -412,6 +412,7 @@ var partRate = {
 
                     alert("저장되었습니다.");
                     location.reload();
+                    opener.parent.gridReload();
                 }
             }
         }
