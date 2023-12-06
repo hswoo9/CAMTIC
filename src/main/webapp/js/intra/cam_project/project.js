@@ -228,11 +228,11 @@ var camPrj = {
                         dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
                         return yyyy+'-'+mm+'-'+dd;
                     }
-                }, {
+                }, /*{
                     title: "종료예정일",
                     width: 60,
                     footerTemplate: "합계"
-                }, {
+                }, */{
                     field: "PJT_AMT",
                     title: "수주금액",
                     width: 80,
