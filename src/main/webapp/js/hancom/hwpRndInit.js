@@ -185,7 +185,7 @@ var rndInit = {
         }
 
         hwpDocCtrl.putFieldText('INV_PER', "100%");
-        hwpDocCtrl.putFieldText('INV_AMT', fn_numberWithCommas(invSum));
+        hwpDocCtrl.putFieldText('INV_AMT', invSum == 0 ? "0" : fn_numberWithCommas(invSum));
         let invPer = Math.round(invSum / map.PJT_AMT * 100);
         hwpDocCtrl.putFieldText('INV_PER2', invPer+"%");
         hwpDocCtrl.putFieldText('INV_AMT2', fn_numberWithCommas(map.PJT_AMT-invSum));
@@ -200,7 +200,7 @@ var rndInit = {
                 const info = teamList[i];
                 teamInvSum += info.ITEM_UNIT_AMT;
             }
-            const tripResult = customKendo.fn_customAjax("/project/getBustResInfo", {pjtSn: map.PJT_SN});
+            const tripResult = customKendo.fn_customAjax("/project/getBustResInfo", {pjtSn: team.PNT_PJT_SN});
             const teamTrip = tripResult.map;
             if(teamTrip.COUNT != 0){
                 teamInvSum += teamTrip.BUSTRIP_EXNP_SUM;

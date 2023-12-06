@@ -248,7 +248,7 @@ var resultInfo = {
         }
 
         $("#resultDelvTotAmt").val(resultInfo.comma(rs.pjtInfo.PJT_AMT));
-        $("#resultInvTotAmt").val(resultInfo.comma(invSum));
+        $("#resultInvTotAmt").val(resultInfo.comma(rs.pjtInfo.PJT_AMT));
         $("#resultTotAmt").val(resultInfo.comma(rs.pjtInfo.PJT_AMT - invSum));
     },
 

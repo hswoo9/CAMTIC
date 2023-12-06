@@ -197,7 +197,7 @@ var unRndInit = {
                 const info = teamList[i];
                 teamInvSum += info.ITEM_UNIT_AMT;
             }
-            const tripResult = customKendo.fn_customAjax("/project/getBustResInfo", {pjtSn: map.PJT_SN});
+            const tripResult = customKendo.fn_customAjax("/project/getBustResInfo", {pjtSn: team.PNT_PJT_SN});
             const teamTrip = tripResult.map;
             if(teamTrip.COUNT != 0){
                 teamInvSum += teamTrip.BUSTRIP_EXNP_SUM;
