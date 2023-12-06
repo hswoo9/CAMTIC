@@ -176,7 +176,7 @@ var rndInit = {
         let invSum = 0;
         for(let i=0; i<purcList.length; i++){
             const map = purcList[i];
-            invSum += Number(map.PURC_ITEM_AMT);
+            invSum += Number(map.ITEM_UNIT_AMT);
         }
         const tripResult = customKendo.fn_customAjax("/project/getBustResInfo", {pjtSn: map.PJT_SN});
         const trip = tripResult.map;
@@ -198,7 +198,7 @@ var rndInit = {
             let teamInvSum = 0;
             for(let i=0; i<teamList.length; i++){
                 const info = teamList[i];
-                teamInvSum += info.PURC_ITEM_AMT;
+                teamInvSum += info.ITEM_UNIT_AMT;
             }
             const tripResult = customKendo.fn_customAjax("/project/getBustResInfo", {pjtSn: map.PJT_SN});
             const teamTrip = tripResult.map;

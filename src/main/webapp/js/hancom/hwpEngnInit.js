@@ -212,7 +212,7 @@ var engnInit = {
         let invSum = 0;
         for(let i=0; i<purcList.length; i++){
             const map = purcList[i];
-            invSum += Number(map.PURC_ITEM_AMT);
+            invSum += Number(map.ITEM_UNIT_AMT);
         }
         hwpDocCtrl.putFieldText('INV_PER', "100%");
         hwpDocCtrl.putFieldText('INV_AMT', invSum == 0 ? "0" : fn_numberWithCommas(invSum));
@@ -228,7 +228,7 @@ var engnInit = {
             let teamInvSum = 0;
             for(let i=0; i<teamList.length; i++){
                 const info = teamList[i];
-                teamInvSum += info.PURC_ITEM_AMT;
+                teamInvSum += info.ITEM_UNIT_AMT;
             }
             const tripResult = customKendo.fn_customAjax("/project/getBustResInfo", {pjtSn: map.PJT_SN});
             const teamTrip = tripResult.map;
@@ -390,16 +390,17 @@ var engnInit = {
                     purcItemText = subMap.CM_CODE_NM;
                 }
             }
+            console.log(map);
             html += '               <tr>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">단독</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ purcItemText +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.CLAIM_ITEM_QTY +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.CLAIM_ITEM_NAME +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.CLAIM_ITEM_UNIT +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(map.CLAIM_ITEM_AMT) +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.ITEM_NM +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.ITEM_STD +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.ITEM_UNIT +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(map.ITEM_UNIT_AMT) +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.CRM_NM +'</p></td>';
             html += '               </tr>';
-            sum += map.CLAIM_ITEM_AMT;
+            sum += map.ITEM_UNIT_AMT;
         }
         const tripResult = customKendo.fn_customAjax("/project/getBustResInfo", {pjtSn: map.PJT_SN});
         const trip = tripResult.map;
@@ -432,13 +433,13 @@ var engnInit = {
                 html += '               <tr>';
                 html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">협업</p></td>';
                 html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ purcItemText +'</p></td>';
-                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.CLAIM_ITEM_QTY +'</p></td>';
-                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.CLAIM_ITEM_NAME +'</p></td>';
-                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.CLAIM_ITEM_UNIT +'</p></td>';
-                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(info.CLAIM_ITEM_AMT) +'</p></td>';
-                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.CRM_NM +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.ITEM_NM +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.ITEM_STD +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.ITEM_UNIT +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(map.ITEM_UNIT_AMT) +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.CRM_NM +'</p></td>';
                 html += '               </tr>';
-                sum += info.EST_TOT_AMT;
+                sum += info.ITEM_UNIT_AMT;
             }
             const teamTripResult = customKendo.fn_customAjax("/project/getBustResInfo", {pjtSn: map.PJT_SN});
             const teamTrip = teamTripResult.map;
