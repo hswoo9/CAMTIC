@@ -142,7 +142,7 @@ const lectureReq = {
             prospectus: $("#prospectus").val(),
             materials: $("#materials").val(),
 
-            textbookFee: $("#textbookFee").val(),
+            textbookFee: $("#textbookFee").val().replace(/,/g, ''),
             textbookFeeEx: $("#textbookFeeEx").val(),
             methodType: $("#methodType").data("kendoRadioGroup").value(),
 

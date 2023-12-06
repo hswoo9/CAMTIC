@@ -132,7 +132,7 @@ var rndInit = {
             gisu: year,
             fromDate: date.getFullYear().toString() + "0101",
             toDate: date.getFullYear().toString() + "1231",
-            mgtSeq: "Pk1a423012",
+            mgtSeq: map.PJT_CD,
             opt01: "3",
             opt02: "1",
             opt03: "2",
