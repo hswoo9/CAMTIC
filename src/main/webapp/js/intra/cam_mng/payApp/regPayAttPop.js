@@ -196,7 +196,9 @@ const regPayAtt = {
     },
 
     fn_close : function (){
-        opener.parent.regPay.global.fileArray = [];
+        if(opener.parent.$("#payAppSn").val() == ""){
+            opener.parent.regPay.global.fileArray = [];
+        }
         window.close();
     },
 

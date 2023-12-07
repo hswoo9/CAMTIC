@@ -66,9 +66,9 @@ var regPay = {
 
         $("#checkAll").click(function(){
             if($(this).is(":checked")){
-                $("input[type='checkbox']").prop("checked", true);
+                $(".check").prop("checked", true);
             }else{
-                $("input[type='checkbox']").prop("checked", false);
+                $(".check").prop("checked", false);
             }
         });
 
@@ -153,7 +153,7 @@ var regPay = {
                 buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save(\'user\')">저장</button>';
                 buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \''+data.DOC_MENU_CD+'\', \''+data.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
             }else if(data.DOC_STATUS == "100"){
-                buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', \''+data.DOC_MENU_CD+'\');">열람</button>';
+                buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \'payApp'+data.PAY_APP_SN+'\', \'payApp\');">열람</button>';
                 $("#addBtn").hide();
                 $("#exnpAddBtn").show();
             }else{
@@ -242,6 +242,12 @@ var regPay = {
         regPay.global.fileArray = fileList;
 
         regPay.payAppBtnSet(rs);
+
+        if(rs.ADVANCES != 'Y'){
+            $("#advances").prop("checked", false);
+        } else {
+            $("#advances").prop("checked", true);
+        }
 
         $("#docStatus").val(rs.DOC_STATUS)
         if(rs.DOC_STATUS != 0){
@@ -561,7 +567,6 @@ var regPay = {
 
         var itemArr = new Array()
         var flag = true;
-        var flag2 = true;
         var befAdvances = "";
         $.each($(".payDestInfo"), function(i, v){
             var index = $(this).find(".budgetSn").attr("id").slice(-1);
@@ -593,11 +598,7 @@ var regPay = {
                 data.buySts = "";
             }
 
-            if(i != 0){
-                if(befAdvances != ($("#advances" + index).is(':checked') ? "Y" : "N")){
-                    flag2 = false;
-                }
-            }
+
             befAdvances = $("#advances" + index).is(':checked') ? "Y" : "N";
 
             if(data.eviType == ""){
@@ -611,11 +612,6 @@ var regPay = {
 
         if(!flag){
             alert("구분값을 선택해주세요.");
-            return ;
-        }
-
-        if(!flag2){
-            alert("선지급과 선지급 아닌건은 동시에 신청할 수 없습니다.");
             return ;
         }
 
@@ -1011,12 +1007,31 @@ var regPayDet = {
         }
 
         var keyArr = "";
+        var flag = true;
+        var budgetArr = [];
+        var eviTypeArr = [];
         $(".check:checked").each(function(){
             keyArr += $(this).val() + ",";
+            var rowIdx = $(this).attr("id").charAt($(this).attr("id").length - 1);
+
+            budgetArr.push($("#budgetSn" + rowIdx).val());
+            eviTypeArr.push($("#eviType" + rowIdx).val());
         });
 
         keyArr = keyArr.substring(0, keyArr.length - 1);
 
+        const setBudgetArr = new Set(budgetArr);
+        const setEviTypeArr = new Set(eviTypeArr);
+
+        if(setBudgetArr.size > 1) {
+            alert("예산비목이 다릅니다. 확인해주세요.");
+            return;
+        }
+
+        if(setEviTypeArr.size > 1) {
+            alert("증빙유형이 다릅니다. 확인해주세요.");
+            return;
+        }
         var data= {
             arr : keyArr,
             payAppSn : $("#payAppSn").val()

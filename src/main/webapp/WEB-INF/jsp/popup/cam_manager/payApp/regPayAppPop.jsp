@@ -166,7 +166,7 @@
             <div class="mt-20">
                 <div class="text-right">
                     <c:if test='${!"user".equals(params.auth)}'>
-                        <button type="button" id="exnpAddBtn" style="display: none" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPayDet.fn_exnpAdd()">
+                        <button type="button" id="exnpAddBtn" style="display: none; font-size: 12px;" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPayDet.fn_exnpAdd()">
                             <span class="k-button-text">지출결의서 작성</span>
                         </button>
                     </c:if>

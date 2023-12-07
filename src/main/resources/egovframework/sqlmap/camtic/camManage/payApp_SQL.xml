@@ -23,6 +23,7 @@
                 ACC_NM,
                 PAY_APP_STAT,
                 GUBUN,
+                ADVANCES,
                 REG_EMP_SEQ
             )
         VALUES
@@ -43,6 +44,7 @@
                 #{accNm},
                 #{payAppStat},
                 'W',
+                #{advances},
                 #{regEmpSeq}
             )
         <selectKey keyProperty="payAppSn" resultType="Integer" order="BEFORE">
@@ -130,6 +132,7 @@
             ACC_NO = #{accNo},
             ACC_NM = #{accNm},
             PAY_APP_STAT = #{payAppStat},
+            ADVANCES = #{advances},
             MOD_DT = NOW(),
             MOD_EMP_SEQ = #{regEmpSeq}
         WHERE
@@ -337,12 +340,15 @@
 
     <select id="getPaymentList" parameterType="map" resultType="map">
         /*getPaymentList*/
+        SELECT AA.* FROM (
         SELECT
             A.*,
             B.DOC_NO,
             (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = A.PAY_APP_SN AND DET_STAT != "N") AS TOT_COST,
             (SELECT REQ_EXNP_DE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN ORDER BY EXNP_SN DESC LIMIT 1) AS REQ_EXNP_DE,
-            (SELECT REQ_END_DE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN ORDER BY EXNP_SN DESC LIMIT 1) AS REQ_END_DE
+            (SELECT REQ_END_DE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN ORDER BY EXNP_SN DESC LIMIT 1) AS REQ_END_DE,
+            (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = A.PAY_APP_SN) AS ITEM_COUNT,
+            (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = A.PAY_APP_SN AND EXNP_SAVE = 'Y') AS EXNP_STATUS
         FROM
             CAM_MNG.DJ_PAY_APP A
         LEFT JOIN
@@ -368,6 +374,9 @@
             A.DOC_STATUS = #{docStatus}
         </if>
         ORDER BY PAY_APP_SN DESC
+        ) AA
+        WHERE
+            ITEM_COUNT != EXNP_STATUS
     </select>
 
     <select id="getWaitPaymentList" parameterType="map" resultType="map">
