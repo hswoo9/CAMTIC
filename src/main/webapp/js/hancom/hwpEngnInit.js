@@ -23,7 +23,7 @@ var engnInit = {
 
         /** 2. 납품정보 */
         hwpDocCtrl.putFieldText('DELV_ITEM', delvMap.DELV_ITEM);
-        hwpDocCtrl.putFieldText('DELV_CNT', String(delvMap.DELV_CNT));
+        hwpDocCtrl.putFieldText('DELV_CNT', String(delvMap.DELV_CNT == undefined ? "" : delvMap.DELV_CNT));
         hwpDocCtrl.putFieldText('DELV_UNIT', delvMap.DELV_UNIT);
         hwpDocCtrl.putFieldText('DELV_AMT', fn_numberWithCommas(delvMap.DELV_AMT));
         hwpDocCtrl.putFieldText('DELV_DE', delvMap.DELV_DE);
