@@ -1045,4 +1045,11 @@ public class PayAppServiceImpl implements PayAppService {
         List<Map<String, Object>> list = payAppRepository.getCheckBudget(params);
         return list;
     }
+
+    @Override
+    public void delPayApp(int[] params) {
+        for(int i = 0 ; i < params.length ; i++){
+            payAppRepository.delPayApp(params[i]);
+        }
+    }
 }

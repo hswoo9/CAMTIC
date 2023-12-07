@@ -1355,4 +1355,11 @@
             BUDGET_AMT
         FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = #{payAppSn} GROUP BY BUDGET_SN
     </select>
+
+    <delete id="delPayApp" parameterType="int">
+        /*delPayApp*/
+        DELETE FROM CAM_MNG.DJ_PAY_APP
+        WHERE
+            PAY_APP_SN = #{payAppSn}
+    </delete>
 </mapper>

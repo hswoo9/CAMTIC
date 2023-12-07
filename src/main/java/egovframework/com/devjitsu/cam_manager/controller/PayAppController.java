@@ -642,4 +642,17 @@ public class PayAppController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/pay/delPayApp")
+    public String delPayApp(@RequestParam("payAppSn") int[] params, Model model){
+
+        try{
+            payAppService.delPayApp(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }
