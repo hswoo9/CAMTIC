@@ -2290,9 +2290,7 @@
              FROM
                  CAM_INSIDE.DJ_SALARY_MANAGE
              WHERE
-                 DATE(START_DT) < (SELECT STR_DT FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{PJT_SN})
-            AND
-            IFNULL(IF(END_DT = "", null, END_DT), DATE('9999-12-31')) >= (SELECT STR_DT FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{PJT_SN})
+                (SELECT STR_DT FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{PJT_SN}) BETWEEN DATE(START_DT) AND IFNULL(IF(END_DT = "", null, END_DT), DATE('9999-12-31'))
             ) B
         ON
             A.MNG_EMP_SEQ = B.EMP_SEQ
@@ -2338,9 +2336,7 @@
              FROM
                  CAM_INSIDE.DJ_SALARY_MANAGE
              WHERE
-                 DATE(START_DT) < (SELECT STR_DT FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{PJT_SN})
-            AND
-            IFNULL(IF(END_DT = "", null, END_DT), DATE('9999-12-31')) >= (SELECT STR_DT FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{PJT_SN})
+                 (SELECT STR_DT FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{PJT_SN}) BETWEEN DATE(START_DT) AND IFNULL(IF(END_DT = "", null, END_DT), DATE('9999-12-31'))
             ) B
         ON
             B.EMP_SEQ = #{MEMBER_SEQ}
