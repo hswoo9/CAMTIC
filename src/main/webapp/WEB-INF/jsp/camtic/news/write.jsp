@@ -106,7 +106,7 @@
                 </tr>
                 <c:if test="${categoryId eq 'business'}">
                   <tr style="border-bottom: 1px solid #ccc;">
-                    <th>사업기간</th>
+                    <th>모집기간</th>
                     <td>
                       <input type="datetime-local" id="startDate" style="width: 20%;" value="" />
                       ~

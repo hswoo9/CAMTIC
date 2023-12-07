@@ -72,7 +72,7 @@
             <th scope="col">번호</th>
             <th scope="col">제목</th>
             <th scope="col">첨부파일</th>
-            <c:if test="${categoryKey eq 'business'}"><th scope="col">사업상태</th></c:if>
+            <c:if test="${categoryKey eq 'business'}"><th scope="col">모집상태</th></c:if>
             <th scope="col">작성자</th>
             <th scope="col">작성일</th>
             <th scope="col">조회수</th>
