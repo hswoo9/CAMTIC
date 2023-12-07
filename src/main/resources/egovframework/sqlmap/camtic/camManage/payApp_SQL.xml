@@ -376,7 +376,7 @@
         ORDER BY PAY_APP_SN DESC
         ) AA
         WHERE
-            ITEM_COUNT = EXNP_STATUS
+            ITEM_COUNT != EXNP_STATUS
     </select>
 
     <select id="getWaitPaymentList" parameterType="map" resultType="map">
