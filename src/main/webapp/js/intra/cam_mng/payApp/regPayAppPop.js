@@ -243,6 +243,12 @@ var regPay = {
 
         regPay.payAppBtnSet(rs);
 
+        if(rs.ADVANCES != 'Y'){
+            $("#advances").prop("checked", false);
+        } else {
+            $("#advances").prop("checked", true);
+        }
+
         $("#docStatus").val(rs.DOC_STATUS)
         if(rs.DOC_STATUS != 0){
             $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
@@ -561,7 +567,6 @@ var regPay = {
 
         var itemArr = new Array()
         var flag = true;
-        var flag2 = true;
         var befAdvances = "";
         $.each($(".payDestInfo"), function(i, v){
             var index = $(this).find(".budgetSn").attr("id").slice(-1);
@@ -593,11 +598,7 @@ var regPay = {
                 data.buySts = "";
             }
 
-            if(i != 0){
-                if(befAdvances != ($("#advances" + index).is(':checked') ? "Y" : "N")){
-                    flag2 = false;
-                }
-            }
+
             befAdvances = $("#advances" + index).is(':checked') ? "Y" : "N";
 
             if(data.eviType == ""){
@@ -611,11 +612,6 @@ var regPay = {
 
         if(!flag){
             alert("구분값을 선택해주세요.");
-            return ;
-        }
-
-        if(!flag2){
-            alert("선지급과 선지급 아닌건은 동시에 신청할 수 없습니다.");
             return ;
         }
 

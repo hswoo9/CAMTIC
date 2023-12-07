@@ -66,8 +66,14 @@ public class PayAppServiceImpl implements PayAppService {
                 list.get(i).put("empSeq", params.get("empSeq"));
                 list.get(i).put("fileCd", params.get("menuCd"));
                 list.get(i).put("filePath", filePath(params, baseDir));
-                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
-                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+                String[] fileName = list.get(i).get("orgFilename").toString().split("[.]");
+                String fileOrgName = "";
+                for(int j = 0 ; j < fileName.length - 1 ; j++){
+                    fileOrgName += fileName[j] + ".";
+                }
+                fileOrgName = fileOrgName.substring(0, fileOrgName.length() - 1);
+                list.get(i).put("fileExt", fileName[fileName.length - 1]);
+                list.get(i).put("fileOrgName", fileOrgName);
             }
             commonRepository.insFileInfo(list);
         }

@@ -23,6 +23,7 @@
                 ACC_NM,
                 PAY_APP_STAT,
                 GUBUN,
+                ADVANCES,
                 REG_EMP_SEQ
             )
         VALUES
@@ -43,6 +44,7 @@
                 #{accNm},
                 #{payAppStat},
                 'W',
+                #{advances},
                 #{regEmpSeq}
             )
         <selectKey keyProperty="payAppSn" resultType="Integer" order="BEFORE">
@@ -130,6 +132,7 @@
             ACC_NO = #{accNo},
             ACC_NM = #{accNm},
             PAY_APP_STAT = #{payAppStat},
+            ADVANCES = #{advances},
             MOD_DT = NOW(),
             MOD_EMP_SEQ = #{regEmpSeq}
         WHERE
