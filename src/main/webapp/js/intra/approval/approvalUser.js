@@ -50,6 +50,7 @@ var appUser = {
                     type : "post"
                 },
                 parameterMap: function(data, operation) {
+                    data.fullTime = "1";
                     data.DEPT_SEQ = $("#deptSeq").val();
                     return data;
                 }
