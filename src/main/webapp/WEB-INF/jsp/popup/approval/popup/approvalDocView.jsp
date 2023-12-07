@@ -206,7 +206,7 @@
 
                         </td>
                     </tr>
-                    <tr>
+                    <tr style="display: none">
                         <th class="th-color text-right">열람자</th>
                         <td id="readerNameTd">
 

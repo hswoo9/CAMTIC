@@ -73,6 +73,8 @@ var delvInfo = {
 
                         }else if(delvMap.STATUS == "100"){
                             buttonHtml += "<button type=\"button\" id=\"delvCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+delvMap.DOC_ID+"', '"+delvMap.APPRO_KEY+"', '"+delvMap.DOC_MENU_CD+"');\">열람</button>";
+                        }else if(delvMap.STATUS == "111"){
+                            buttonHtml += "<button type=\"button\" id=\"delvTempBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"tempOrReDraftingPop('"+delvMap.DOC_ID+"', 'delv', 'camticDelv_"+delvMap.DELV_SN+"', '"+delvMap.APPRO_KEY+"', 2, 'tempDrafting');\">전자결재 임시저장 중</button>";
                         } else {
                             buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" disabled onclick=\"delvInfo.fn_save()\">저장</button>";
                         }
@@ -157,7 +159,11 @@ var delvInfo = {
         fd.append("delvUnit", parameters.delvUnit);
         fd.append("delvLoc", parameters.delvLoc);
         fd.append("delvIssu", parameters.delvIssu);
-        fd.append("delvAmt", parameters.delvAmt);
+        if(parameters.delvAmt == "" || parameters.delvAmt == undefined){
+            fd.append("delvAmt", "0");
+        }else{
+            fd.append("delvAmt", parameters.delvAmt);
+        }
         fd.append("delvDept", parameters.delvDept);
         fd.append("pmEmpNm", parameters.pmEmpNm);
         fd.append("pmEmpSeq", parameters.pmEmpSeq);

@@ -4,7 +4,7 @@ var estInfo = {
         totAmt : 0
     },
 
-    fn_defaultScript : function(){
+    fn_defaultScript : function (){
         customKendo.fn_textBox(["contCd", "crmCompNm", "crmMem", "estExpAmt", "estPjtNm"]);
 
         customKendo.fn_datePicker("estDe", "depth", "yyyy-MM-dd", new Date());
@@ -19,7 +19,7 @@ var estInfo = {
         });
 
 
-        $("#addBtn").click(function(){
+        $("#addBtn").click(function (){
             estInfo.fn_addClickEvent();
         });
 

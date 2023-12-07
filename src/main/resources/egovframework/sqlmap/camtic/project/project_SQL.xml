@@ -1223,42 +1223,45 @@
 
     <insert id="insDelvInfo" parameterType="map">
         INSERT INTO CAM_PJT_MNG.DJ_PJT_DELV
-        (
-        PJT_SN,
-        DELV_DE,
-        DELV_ISSU,
-        DELV_ITEM,
-        DELV_CNT,
-        DELV_UNIT,
-        DELV_LOC,
-        DELV_AMT,
-        DELV_DEPT,
-        PM_EMP_SEQ,
-        PM_EMP_NM,
-        PJT_STR_DT,
-        PJT_END_DT,
-        DELV_PAY,
-        REG_EMP_SEQ
-        )
+            (
+                PJT_SN,
+                DELV_DE,
+                DELV_ISSU,
+                DELV_ITEM,
+            <if test='crmMemSn != null and !"".equals(crmMemSn)'>
+                DELV_CNT,
+            </if>
+                DELV_UNIT,
+                DELV_LOC,
+                DELV_AMT,
+                DELV_DEPT,
+                PM_EMP_SEQ,
+                PM_EMP_NM,
+                PJT_STR_DT,
+                PJT_END_DT,
+                DELV_PAY,
+                REG_EMP_SEQ
+            )
         VALUES
-        (
-        #{pjtSn},
-        #{delvDe},
-        #{delvIssu},
-        #{delvItem},
-        #{delvCnt},
-        #{delvUnit},
-        #{delvLoc},
-        #{delvAmt},
-        #{delvDept},
-        #{pmEmpSeq},
-        #{pmEmpNm},
-        #{pjtStrDt},
-        #{pjtEndDt},
-        #{delvPay},
-        #{empSeq}
-        )
-
+            (
+                #{pjtSn},
+                #{delvDe},
+                #{delvIssu},
+                #{delvItem},
+            <if test='delvCnt != null and !"".equals(delvCnt)'>
+                #{delvCnt},
+            </if>
+                #{delvUnit},
+                #{delvLoc},
+                #{delvAmt},
+                #{delvDept},
+                #{pmEmpSeq},
+                #{pmEmpNm},
+                #{pjtStrDt},
+                #{pjtEndDt},
+                #{delvPay},
+                #{empSeq}
+            )
         <selectKey keyProperty="delvSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_DELV'
         </selectKey>

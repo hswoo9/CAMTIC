@@ -60,6 +60,7 @@ var deptListPop = {
                     } else {
                         data.sEmpName = $("#sEmpName").val();
                     }
+                    data.fullTime = "1";
                     return data;
                 }
             },
@@ -110,9 +111,11 @@ var deptListPop = {
                     title: "부서",
                     width: "100px",
                 }, {
-                    field: "DUTY_NAME",
-                    title: "직책",
+                    field: "직위",
                     width: "100px",
+                    template: function(row){
+                        return fn_getSpot(row.DUTY_NAME, row.POSITION_NAME);
+                    }
                 }, {
                     field: "EMP_NAME_KR",
                     title: "이름",
