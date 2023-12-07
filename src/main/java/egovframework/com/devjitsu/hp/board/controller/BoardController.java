@@ -551,38 +551,56 @@ public class BoardController {
     }
 
     /**
-     * 채용공고
+     * 채용공고 이메일 로그인
      * */
     @RequestMapping("/camtic/member/job_applicationLogin.do")
-    public String jobApplication(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
-
+    public String jobApplication(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        model.addAttribute("params", params);
         return "camtic/member/job_applicationLogin";
     }
 
     /**
-     * 채용공고 동의
+     * 채용공고 동의하기
      * */
     @RequestMapping("/camtic/member/job_userAgree.do")
     public String jobUserAgree(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
-
+        model.addAttribute("params", params);
         return "camtic/member/job_userAgree";
     }
 
     /**
-     * 채용공고 단계 1
+     * 채용공고 - 응시원서 작성 1 (기본정보)
      * */
     @RequestMapping("/camtic/member/job_applicationForm1.do")
     public String jobApplicationForm1(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
-
+        model.addAttribute("params", params);
         return "camtic/member/job_applicationForm1";
     }
 
     /**
-     * 채용공고 단계 2
+     * 채용공고 - 응시원서 작성 2
      * */
     @RequestMapping("/camtic/member/job_applicationForm2.do")
-    public String jobApplicationForm2(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
-
+    public String jobApplicationForm2(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("params", params);
         return "camtic/member/job_applicationForm2";
+    }
+
+    /**
+     * 채용공고 - 응시원서 작성 3
+     * */
+    @RequestMapping("/camtic/member/job_applicationForm3.do")
+    public String jobApplicationForm3(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("params", params);
+        return "camtic/member/job_applicationForm3";
+    }
+
+    /**
+     * 채용공고 - 자기소개 작성(최종)
+     * */
+    @RequestMapping("/camtic/member/job_applicationIntroduce.do")
+    public String jobApplicationIntroduce(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("params", params);
+        return "camtic/member/job_applicationIntroduce";
     }
 }

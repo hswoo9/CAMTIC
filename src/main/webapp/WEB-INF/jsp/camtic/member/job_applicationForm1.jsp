@@ -8,11 +8,17 @@
 
 <% pageContext.setAttribute("br", "\n"); %>
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
+<%--<script src="/js/intra/common/aes.js?v=1"></script>--%>
+<script type="text/javascript" src="<c:url value='/js/intra/common/postcode.v2.js?autoload=false'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/kendoui/jquery.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/kendoui/kendo.all.min.js'/>"></script>
+<link rel="stylesheet" href="/css/kendoui/kendo.default-main.min.css"/>
+<link rel="stylesheet" href="/css/kendoui/kendo.common.min.css"/>
+<link rel="stylesheet" href="/css/kendoui/kendo.default.min.css"/>
+
+<script type="text/javascript" src="<c:url value='/js/kendoui/cultures/kendo.culture.ko-KR.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 <script type="text/javascript" src="/js/camtic/application/applicationForm1.js?v=${today}"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/common/postcode.v2.js?autoload=false'/>"></script>
-
 <style>
     .__lab {display:inline-flex;gap:0.5rem;align-items:center;margin-right:1.5rem;position:relative;}
     .__lab:last-child {margin-right:0;}
@@ -52,7 +58,7 @@
     .__tbl {width:100%;border-top:0.2rem solid #2a3278;}
     .__tbl tr > * {padding:1rem;text-align:center;border-bottom:1px solid #ccc;font-size:1.3rem;letter-spacing:-0.03em;line-height:1.3;}
     .__tbl small {font-size:0.9em;color:#aaa;letter-spacing:-0.05em;}
-    .__tbl thead tr th {background:#f3f4f6;color:#000;font-weight:normal;}
+    .__tbl thead tr th {background:#f3f3f3;color:#000;font-weight:normal;}
     .__tbl tbody tr th {background:#f3f3f3;color:#000;font-weight:normal;}
     .__tbl tbody tr td {height:2.9rem;}
     .__tbl .subject {text-align:left;}
@@ -61,6 +67,15 @@
     .__tbl.fix {table-layout:fixed;}
     .__tbl.line tr > * {border-right:1px solid #ccc;}
     .__tbl.line tr > *:last-child {border-right:none;}
+
+    .__inp{font-size:16px; padding-left:10px;}
+
+    #careerType1 {margin-left:10px;}
+    #careerType2 {margin-left:20px;}
+    #gender {gap:0px;}
+    .k-radio {border-color: #C5C5C5; color:#1A5089 !important;}
+    #veterans {gap:0px;}
+
 </style>
 
 <body>
@@ -70,6 +85,9 @@
         <div class="inner">
             <jsp:include page="/WEB-INF/jsp/template/camtic/lnb.jsp" flush="false"/>
             <div id="content">
+                <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="${recruitInfoSn}">
+                <input type="hidden" id="applicationId" name="applicationId" value="${params.applicationId}">
+                <input type="hidden" id="userEmail" name="userEmail" value="${userEmail}">
                 <ul id="navigation">
                     <li><a href="/camtic"><img src="/images/camtic/home_3.png" class="homeImage">홈으로</a></li>
                     <li class="">직원과 함께</li>
@@ -89,16 +107,11 @@
                 <table class="__tbl respond2 fix" id="categoryTb">
                     <caption>TABLE</caption>
                     <colgroup>
-                        <col style="width:10rem;">
-                        <col>
-                        <col style="width:10rem;">
-                        <col>
-                        <col style="width:10rem;">
-                        <col>
+                        <col width="14%">
                     </colgroup>
                     <tbody>
                     <tr>
-                        <th>직무형태 <span class="__red">*</span></th>
+                        <%--<th>직무형태 <span class="__red">*</span></th>
                         <td class="tal">
                             <select id="recruitAreaInfoSn" name="recruitAreaInfoSn" class="__inp" onchange="applicationForm.careerType()">
                                 <option value="">선택</option>
@@ -124,7 +137,14 @@
                                 <option value="">선택</option>
                             </select>
                         </td>
-                    </tr>
+                    </tr>--%>
+                        <th>지원분야 <span class="__red">*</span></th>
+                        <td class="tal">
+                            <div id="careerType">
+                                <select class="__inp" id="recruitAreaInfoSn" name="recruitAreaInfoSn" style="width:70%;" onchange="applicationForm.careerType()">
+                                </select>
+                            </div>
+                        </td>
                     </tbody>
                 </table>
 
@@ -136,45 +156,65 @@
                 <div class="__tit1 __mt60">
                     <h3>인적사항</h3>
                 </div>
-                <table class="__tbl respond2 fix">
+                <table class="__tbl respond2 fix" style="border-right:1px solid #ddd;">
                     <caption>TABLE</caption>
                     <colgroup>
-                        <col style="width:10rem;">
+                        <col width="15%">
                         <col>
-                        <col style="width:10rem;">
+                        <col width="17%">
                         <col>
+                        <col width="15%">
+                        <col>
+                        <col width="15%">
                     </colgroup>
                     <tbody>
                     <tr>
-                        <th>성명 <span class="__red">*</span></th>
-                        <td class="tal">
-                            <input type="text" class="__inp" id="userName" name="userName" value="${loginVO.userName}" placeholder="(한글) 홍길동" onKeyPress="hangul();">
+                        <th>성명<span class="__red">*</span></th>
+                        <td class="tal" colspan="5">
+                            <div>
+                                <span>한글: </span><input type="text" class="__inp" id="userName" name="userName" style="width:25%;">
+                                <span style="margin-left:20px;">영문: </span><input type="text" class="__inp" id="userNameEn" name="userNameEn" style="width:25%;">
+                                <span style="margin-left:20px;">한자: </span><input type="text" class="__inp" id="userNameCn" name="userNameCn" style="width:25%;">
+                            </div>
                         </td>
-                        <th>이메일 <span class="__red">*</span></th>
-                        <td class="tal">
-                            <ul class="__flx">
-                                <li>
-                                    <input type="text" class="__inp" id="userEmail" name="userEmail" style="width:10rem">
-                                </li>
-                                <li style="width:auto;">@</li>
-                                <li>
-                                    <select name="emailDomain" id="emailDomain" class="__inp" onchange="applicationForm.emailDomainSelfText(this)" style="width: 10rem">
-                                        <option value="self">직접입력</option>
-                                        <option value="gmail.com">gmail.com</option>
-                                        <option value="naver.com">naver.com</option>
-                                        <option value="daum.met">daum.met</option>
-                                        <option value="outlook.com">outlook.com</option>
-                                        <option value="nate.com">nate.com</option>
-                                        <option value="hanmail.net">hanmail.net</option>
-                                    </select>
-                                    <input type="emailDomain" id="emailDomainTxt" class="__inp" style="width:10rem;">
-                                </li>
-                            </ul>
+                        <td rowspan="3" style="border-left:1px solid #ddd;">
+                            <div>
+                                <img id="photoView" width="85px;" height="110px;" style="display:block; margin: 0 auto; cursor:pointer;">
+                            </div>
+                            <input type="hidden" id="photoFileNo" name="photoFileNo">
+                            <label for="photoFile" class="k-button k-button-clear-info k-rounded" style="display:block; vertical-align: bottom; margin:0 auto; margin-top:13px; text-align: center;">파일첨부</label>
+                            <input type="file" id="photoFile" name="photoFile" onchange="applicationForm.viewPhoto(this)" style="display: none">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>생년월일<span class="__red">*</span></th>
+                        <td class="tal" colspan="2">
+                            <input type="text" id="bDay" name="bDay" style="width:276px;">
+                                <label class="__lab">
+                                    <span style="margin-left:6px;">음력</span>
+                                    <input type="checkbox" id="lunarYn" name="lunarYn"><i></i>
+                                </label>
+                        </td>
+                        <th>성별<span class="__red">*</span></th>
+                        <td class="tal" colspan="2">
+                            <span id="gender" name="gender"></span>
                         </td>
                     </tr>
                     <tr>
+                        <th>연락처<span class="__red">*</span></th>
+                        <td class="tal" colspan="2">
+                            <input type="text" class="__inp" id="telNum" name="telNum" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event); formatPhoneNumber(this);" maxlength="13" placeholder="숫자만 기입 (일반전화)" onblur="formatPhoneNumber(this)">
+                        </td>
+                        <th>휴대폰<span class="__red">*</span></th>
+                        <td class="tal" colspan="2">
+                            <input type="text" class="__inp" id="mobileTelNum" name="mobileTelNum" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event); formatMobilePhoneNumber(this);" maxlength="14" placeholder="숫자만 기입 (휴대폰)" onblur="formatPhoneNumber(this)">
+                        </td>
+                    </tr>
+
+                    <tr>
                         <th>현주소 <span class="__red">*</span></th>
-                        <td class="tal" colspan="3">
+                        <td class="tal" colspan="6">
                             <div>
                                 <input type="text" class="__inp" id="zipCode" readonly name="zipCode" style="width:10em;" onclick="applicationForm.addrSearch()">
                                 <button type="button" class="__btn3 black" onclick="applicationForm.addrSearch()">
@@ -189,280 +229,130 @@
                             </div>
                         </td>
                     </tr>
+
                     <tr>
-                        <th>연락처 <span class="__red">*</span></th>
-                        <td class="tal">
-                            <input type="text" class="__inp" id="telNum" name="telNum"  onkeydown="return onlyNumber(event)" onkeyup="removeChar(event);telFilter(this)" maxlength="13" placeholder="숫자만 기입 (휴대폰)">
-                        </td>
-                        <th>비상연락처 <span class="__red">*</span></th>
-                        <td class="tal">
-                            <input type="text" class="__inp" id="emergencyTelNum" name="emergencyTelNum" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event);telFilter(this)" maxlength="14" placeholder="숫자만 기입 (일반전화, 휴대폰)">
+                        <th>이메일 <span class="__red">*</span></th>
+                        <td class="tal" colspan="6">
+                            <input type="text" class="__inp" id="userEmail2" name="userEmail2" value="${userEmail}">
                         </td>
                     </tr>
+
                     <tr>
-                        <th>최종학교 소재지<span class="__red">*</span></th>
-                        <td class="tal">
-                            <input type="text" class="__inp" id="finalSchoolName" name="finalSchoolName" placeholder="학교명 기재 금지, 소재지 기재">
-                        </td>
-                        <th>해당표시</th>
-                        <td class="tal">
-                            <label class="__lab"><input type="checkbox" id="handicapped" name="handicapped" value="Y"><i></i><span>장애대상</span></label>
-                            <label class="__lab"><input type="checkbox" id="veterans" name="veterans" value="Y"><i></i><span>보훈대상</span></label>
+                        <th>취미/특기<span class="__red">*</span></th>
+                        <td class="tal" colspan="6">
+                            <span>취미 : </span><input type="text" class="__inp" id="hobby" name="hobby" style="width:30%">
+                            <span style="margin-left:20px;">특기 : </span><input type="text" class="__inp" id="specialty" name="specialty" style="width:30%">
                         </td>
                     </tr>
+
                     <tr>
-                        <th>최종학력</th>
-                        <td class="tal">
-                            <label class="__lab"><input type="checkbox" id="degree1" name="degree1" value="Y"><i></i><span>고졸</span></label>
-                            <label class="__lab"><input type="checkbox" id="degree2" name="degree2" value="Y"><i></i><span>전문학사</span></label>
-                            <label class="__lab"><input type="checkbox" id="degree3" name="degree3" value="Y"><i></i><span>학사</span></label>
-                            <label class="__lab"><input type="checkbox" id="degree4" name="degree4" value="Y"><i></i><span>석사</span></label>
-                            <label class="__lab"><input type="checkbox" id="degree5" name="degree5" value="Y"><i></i><span>박사</span></label>
+                        <th>보훈대상<span class="__red">*</span></th>
+                        <td class="tal" colspan="6" style="line-height: 1.5;">
+                            <span id="veterans" name="veterans" style="float:left; margin-right: 30px;"></span>
+                            <span>보훈번호 : </span><input type="text" class="__inp" id="veteransNum" name="veteransNum" style="width:60%;">
                         </td>
-                        <th>학위논문<br>(석사이상)</th>
-                        <td class="tal"><input type="text" class="__inp" id="treatise" name="treatise" placeholder="학위 논문 제목 기재"></td>
                     </tr>
                     </tbody>
                 </table>
 
-                <div class="__mt10">
-				<span class="__fz15">
-					행정관리직(마급), 기술직(마급)은 최종학력 작성금지<br>
-					최종학력은 채용 자격 기준 확인용으로만 이용됩니다. 해당자만 작성 해 주세요.
-				</span>
+                <div class="lab" style="margin:20px 0;">
+                    <label class="__lab">
+                        <input type="checkbox"  id="armiYn" name="armiYn" onclick="applicationForm.checkBoxChk(this)"><i></i>
+                        <span style="font-size: 15px">병력사항 미대상 (여성 및 외국인 등)</span>
+                    </label>
                 </div>
 
-                <div class="__topArea __mt60">
-                    <div class="lef">
-                        <div class="__tit1">
-                            <h3>교육사항</h3>
-                            <p>지원직무 관련 과목 및 교육과정을 이수한 경우 그 내용을 기입해 주십시오.</p>
-                        </div>
-                    </div>
-                    <div class="rig">
-                        <div class="__fz15">
-                            최대 10개, 필요시 우측 추가 버튼 클릭하여 기입
-                        </div>
-                        <div class="__btWrap rig __mt10">
-                            <button type="button" class="__btn3 blue" onclick="applicationForm.addEduRow()"><span>추가</span></button>
-                            <button type="button" class="__btn3 red" onclick="applicationForm.delRow('eduInfo')"><span>삭제</span></button>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="eduInfoDiv">
-                    <table class="__tbl respond2 fix __mt20 eduInfo" id="eduInfo0">
-                        <caption>TABLE</caption>
+                <div id="armiDiv" style="display: none">
+                    <table class="__tbl respond2 fix" style="border-right:1px solid #ddd;">
                         <colgroup>
-                            <col style="width:10rem;">
+                            <col width="15%">
                             <col>
-                            <col style="width:11rem;">
+                            <col width="15%">
                             <col>
-                            <col style="width:10rem;">
-                            <col>
-                        </colgroup>
-                        <tbody>
-                        <tr>
-                            <th>교육구분</th>
-                            <td class="tal">
-                                <label class="__lab"><input type="radio" id="schoolEdu" name="eduType0" value="0"><i></i><span>학교교육</span></label>
-                                <label class="__lab"><input type="radio" id="jobTraining" name="eduType0" value="1"><i></i><span>직업훈련</span></label>
-                                <label class="__lab"><input type="radio" id="other" name="eduType0" value="2"><i></i><span>기타</span></label>
-                            </td>
-                            <th>과목명 및 교육과정</th>
-                            <td><input type="text" class="__inp" id="eduName" name="eduName"></td>
-                            <th>교육시간</th>
-                            <td><input type="text" class="__inp" id="eduTrainingTime" name="eduTrainingTime"></td>
-                        </tr>
-                        <tr>
-                            <th>직무관련<br>주요내용</th>
-                            <td colspan="5"><textarea id="eduContent" name="eduContent" class="__inp area" onkeyup="applicationForm.adjustHeight(this);" maxlength="200" placeholder="20자 이상 200자 이내"></textarea></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="__topArea __mt60">
-                    <div class="lef">
-                        <div class="__tit1">
-                            <h3>자격사항</h3>
-                            <p>지원직무 관련 국가기술/전문자격, 국가공인민간자격을 기입해 주십시오.</p>
-                        </div>
-                    </div>
-                    <div class="rig">
-                        <div class="__fz15">
-                            최대 6개, 필요시 우측 추가 버튼 클릭하여 기입
-                        </div>
-                        <div class="__btWrap rig __mt10">
-                            <button type="button" class="__btn3 blue" onclick="applicationForm.addCertRow()"><span>추가</span></button>
-                            <button type="button" class="__btn3 red" onclick="applicationForm.delRow('certInfo')"><span>삭제</span></button>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="certInfoDiv">
-                    <table class="__tbl respond1 line fix">
-                        <caption>TABLE</caption>
-                        <colgroup class="__m">
-                            <col style="width:25%;">
-                            <col style="width:25%;">
+                            <col width="15%">
                             <col>
                         </colgroup>
                         <thead>
+
                         <tr>
-                            <th>자격증명</th>
-                            <th>발급기관</th>
-                            <th>
-                                취득일자
+                            <th colspan="6" style="font-size: 14px; font-weight:600;">
+                                병력사항
                             </th>
                         </tr>
+
+                        <tr>
+                            <th>군별</th>
+                            <td colspan="2">
+                                <select class="__inp" id="clsftCode" name="clsftCode" style="float:left;">
+                                    <option value="">군별선택</option>
+                                    <option value="1">미필</option>
+                                    <option value="2">면제</option>
+                                    <option value="3">군필</option>
+                                    <option value="4">특례</option>
+                                </select>
+                            </td>
+                            <th>병역구분</th>
+                            <td colspan="2">
+                                <select class="__inp" name="militarySvcType" id="militarySvcType" style="float:left;">
+                                    <option value="">병역구분 선택</option>
+                                    <option value="1">육군</option>
+                                    <option value="2">공군</option>
+                                    <option value="3">해군</option>
+                                    <option value="4">해병대</option>
+                                    <option value="5">전/의경</option>
+                                    <option value="6">공익</option>
+                                    <option value="7">상근</option>
+                                    <option value="8">카투사</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>입대일</th>
+                            <td colspan="2">
+                                <input type="text" id="mEnlistDay" name="mEnlistDay" style="float:left; width:276px;">
+                            </td>
+                            <th>제대일</th>
+                            <td colspan="2">
+                                <input type="text" id="mDishargeDay" name="mDishargeDay" style="float:left; width:276px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>계급</th>
+                            <td colspan="2">
+                                <input type="text" class="__inp" id="rank" name="rank" style="float:left;">
+                            </td>
+                            <th>병과</th>
+                            <td colspan="2">
+                                <input type="text" class="__inp" id="etc" name="etc" style="float:left;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>면제사유</th>
+                            <td colspan="5">
+                                <input type="text" class="__inp" id="mUnfulReason" name="mUnfulReason" style="float:left;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>증빙파일</th>
+                            <td colspan="5">
+                                <input type="hidden" id="armiFileNo" name="armiFileNo">
+                                <span id="armiFileName"></span>
+                                <label for="armiFile" class="k-button k-button-clear-info k-rounded" style="float:left; vertical-align: bottom;margin:0;">파일첨부</label>
+                                <input type="file" id="armiFile" name="armiFile" style="display: none" onchange="applicationForm.getFileName(this)">
+                            </td>
+                        </tr>
                         </thead>
-                        <tbody id="certInfoTb">
-                        <tr class="certInfo" id="certInfo0">
-                            <td><input type="text" class="__inp" placeholder="자격증명" id="certificateName" name="certificateName"></td>
-                            <td><input type="text" class="__inp" placeholder="발급기관" id="certificateIssuer" name="certificateIssuer"></td>
-                            <td><input type="text" placeholder="20000101 형식 숫자로 기입 가능합니다." id="acquisitionDate0" name="acquisitionDate" class="dateInput" autocomplete="off"></td>
-                        </tr>
-                        </tbody>
                     </table>
-                </div>
-
-                <div class="__topArea __mt60">
-                    <div class="lef">
-                        <div class="__tit1">
-                            <h3>경험 혹은 경력 사항</h3>
-                            <p>지원직무 관련 경험 혹은 경력사항을 기입해 주십시오</p>
-                            <div class="__fz15">
-                                경력은 근로계약을 맺고 금전적 보수를 받으며 일했던 이력을 의미하며, 공식문서로 증빙 가능한 경우만 기입
-                            </div>
-                        </div>
-                    </div>
-                    <div class="rig">
-
-                        <div class="__btWrap rig __mt10">
-                            <button type="button" class="__btn3 blue" onclick="applicationForm.addCareerRow()"><span>추가</span></button>
-                            <button type="button" class="__btn3 red" onclick="applicationForm.delRow('careerInfo')"><span>삭제</span></button>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="careerInfoDiv">
-                    <table class="__tbl respond2 fix __mt20 careerInfo" id="careerInfo0">
-                        <caption>TABLE</caption>
-                        <colgroup>
-                            <col style="width:13rem;">
-                            <col>
-                            <col style="width:13rem;">
-                            <col>
-                            <col style="width:13rem;">
-                            <col>
-                        </colgroup>
-                        <tbody>
-                        <tr>
-                            <th>구분</th>
-                            <td class="tal">
-                                <label class="__lab">
-                                    <input type="radio" id="experience" name="careerType0" value="0"><i></i>
-                                    <span>경험</span></label>
-                                <label class="__lab">
-                                    <input type="radio" id="career" name="careerType0" value="1"><i></i>
-                                    <span>경력</span>
-                                </label>
-                            </td>
-                            <th>소속조직</th>
-                            <td><input type="text" class="__inp" placeholder="소속명" id="careerOrgName" name="careerOrgName"></td>
-                            <th>역할</th>
-                            <td><input type="text" class="__inp" placeholder="역할" id="role" name="role"></td>
-                        </tr>
-                        <tr>
-                            <th>활동기간</th>
-                            <td>
-                                <div style="display: flex">
-                                    <input type="text" id="activityStDt0" name="activityStDt0" class="dateInput"> ~
-                                    <input type="text" id="activityEnDt0" name="activityEnDt0" class="dateInput">
-                                </div>
-                            </td>
-                            <th>활동내용</th>
-                            <td colspan="3"><input type="text" class="__inp" id="activityContent" name="activityContent"></td>
-                        </tr>
-                        <tr>
-                            <th>직무관련<br>주요내용</th>
-                            <td colspan="5" class="tal">
-                                <textarea  id="careerContent" name="careerContent" class="__inp area" onkeyup="applicationForm.adjustHeight(this);" maxlength="200" placeholder="20자 이상 200자 이내"></textarea>
-                                <div class="__fz15 __mt10">직무활동, 동아리/동호회. 팀 프로젝트, 연구회, 재능기부 등 주요 직무경험을 서술하여 주십시오.</div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <table class="__tbl respond2 fix __mt20">
-                    <caption>TABLE</caption>
-                    <colgroup>
-                        <col style="width:13rem;">
-                        <col>
-                    </colgroup>
-                    <tbody>
-                    <tr>
-                        <th>
-                            제출서류<span class="__red">*</span>
-                            <div class="__ques tal">
-                                <button type="button" onclick="$(this).closest('.__ques').toggleClass('active')"><i class="ri-question-line"></i></button>
-                                <div class="flt">
-                                    <div class="con">
-                                        1. 제출 서류는 채용 공고문의 “채용 자격 기준” 과 “제출서류”를 반드시 확인하시기 바랍니다.<br>
-                                        2. 출신학교명, 성별, 출생년도, 가족관계, 출신지 등을 암시 또는 유추 할 수 있는 내용은 블라인드 처리 후 첨부하시기 바랍니다.<br>
-                                        3. 첨부 파일명 양식 : 증빙종류_채용직무분야_성명(예 : 졸업증명서_재무회계_홍길동)
-                                    </div>
-                                    <button type="button" class="cls" onclick="$(this).closest('.__ques').removeClass('active')"><i class="ri-close-line"></i></button>
-                                </div>
-                            </div>
-                        </th>
-                        <td class="tal">
-                            <div class="__file">
-                                <div type="text" class="__inp" id="inputFile" name="inputFile" style="height: auto; line-height: 21px;display: flex;flex-direction: column;">
-
-                                </div>
-                                <span class="__btn3 black" onclick="$('#careerFileList').click()" style="cursor:pointer">
-									<span>파일선택</span>
-								</span>
-                            </div>
-                            <span> jpg, pdf 확장자만 가능합니다.</span>
-                            <input type="file" id="careerFileList" name="careerFileList" multiple style="display: none">
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <div class="__sign __mt40">
-                    <p>위 기재 사항은 사실과 다름이 없음을 확인하며, 상기 내용이 사실과 다를 시 어떠한 불이익도 감수할 것을 약속합니다.</p>
-                    <dl>
-                        <dt>${now}</dt>
-                        <dd>지원자 : ${loginVO.userName}</dd>
-                    </dl>
-
-                    <div class="lab">
-                        <label class="__lab">
-                            <input type="checkbox" name="agreeChk" id="agreeChk"><i></i>
-                            <span>동의합니다</span>
-                        </label>
-                    </div>
                 </div>
 
                 <div class="__botArea">
                     <div style="text-align: center;">
-                        <a href="javascript:void(0);" class="__btn1 blue" style="width:200px;" onclick="applicationForm.setApplicationTempSave('temp')"><span>임시저장</span></a>
-                        <a href="javascript:void(0);" class="__btn1 blue" style="width:200px;" onclick="applicationForm.setApplicationTempSave('next')"><span>다음단계</span></a>
-                        <a href="javascript:void(0);" class="__btn1 blue" style="width:200px;" onclick="window.close()"><span>취소</span></a>
+                        <a href="/camtic/member/job.do" class="__btn1 blue" style="width:200px;"><span>취소</span></a>
+                        <a href="javascript:void(0);" class="__btn1 blue" style="width:200px;" onclick="setApplicationTempSave('temp')"><span>임시저장</span></a>
+                        <a href="javascript:void(0);" class="__btn1 blue" style="width:200px;" onclick="setApplicationTempSave('next')"><span>다음단계</span></a>
                     </div>
                 </div>
 
-                <div class="__sign __mt20">
-                    <p>
-                        임시 저장 후 내용 확인 및 수정이 가능합니다.<br>
-                        최종제출 시에는 수정이 되지 않습니다.
-                    </p>
-                </div>
             </div>
         </div>
     </div>
@@ -471,7 +361,6 @@
 </body>
 </html>
 
-<script src="/js/intra/common/aes.js?v=1"></script>
 <script>
     applicationForm.fn_defaultScript();
     $("#armiDiv").show();
@@ -528,5 +417,184 @@
         let value = input.value;
         value = value.replace(/-/g, '');
         input.value = value;
+    }
+
+    function setApplicationTempSave(type){
+        if(type == "next"){
+            if($("input[name='careerType']:checked").val() == null){
+                alert("지원분야를 선택해주세요.");
+                return;
+            }else if(!$("#userName").val()){
+                alert("이름(한글)을 입력해주세요.");
+                $("#userName").focus();
+                return;
+            }else if(!$("#userNameEn").val()){
+                alert("이름(영문)을 입력해주세요.");
+                $("#userNameEn").focus();
+                return;
+            }else if(!$("#userNameCn").val()){
+                alert("이름(한자)을 입력해주세요.");
+                $("#userNameCn").focus();
+                return;
+            }else if(!$("#gender").data("kendoRadioGroup").value()){
+                alert("성별을 선택해주세요.");
+                return;
+            }else if(!$("#telNum").val()){
+                alert("연락처를 입력해주세요.");
+                $("#telNum").focus();
+                return;
+            }else if(!$("#mobileTelNum").val()){
+                alert("휴대폰을 입력해주세요.");
+                $("#mobileTelNum").focus();
+                return;
+            }else if(!$("#zipCode").val()){
+                alert("우편번호를 입력해주세요.");
+                $("#zipCode").click();
+                return;
+            }else if(!$("#addr").val()){
+                alert("주소를 입력해주세요.");
+                $("#addr").click();
+                return;
+            }else if(!$("#userEmail2").val()){
+                alert("이메일을 입력해주세요.");
+                $("#userEmail2").focus();
+                return;
+            }else if(!$("#hobby").val()){
+                alert("취미를 입력해주세요.");
+                $("#hobby").focus();
+                return;
+            }else if(!$("#specialty").val()) {
+                alert("특기를 입력해주세요.");
+                $("#specialty").focus();
+                return;
+            }else if(!$("#gender").data("kendoRadioGroup").value()) {
+                alert("보훈대상여부를 선택해주세요.");
+                return;
+            }
+
+            if(!$("#photoFileNo").val() && $("#photoFile")[0].files.length == 0){
+                alert("증명사진을 선택해주세요.");
+                return;
+            }
+
+            if($("#gender").data("kendoRadioGroup").value() == "Y"){
+                if(!$("#veteransNum").val()){
+                    alert("보훈번호를 입력해주세요");
+                    $("#veteransNum").focus();
+                    return;
+                }
+            }
+
+            if(!$("#armiYn").is(":checked")){
+                if(!$("#clsftCode").val()){
+                    alert("군별을 선택해주세요");
+                    return;
+                }
+
+                if($("#clsftCode").val() != "2" && $("#clsftCode").val() !== "1"){
+                    if(!$("#militarySvcType").val()){
+                        alert("병역구분을 선택해주세요");
+                        return;
+                    }else if(!$("#rank").val()){
+                        alert("계급을 입력해주세요");
+                        $("#rank").focus();
+                        return;
+                    }else if(!$("#etc").val()){
+                        alert("병과를 입력해주세요");
+                        $("#etc").focus();
+                        return;
+                    }
+                }else if($("#clsftCode").val() == "2"){
+                    if(!$("#mUnfulReason").val()){
+                        alert("면제사유를 입력해주세요.");
+                        $("#mUnfulReason").focus();
+                        return;
+                    }
+                }
+
+                if((!$("#armiFileNo").val() && $("#armiFile")[0].files.length == 0)&& $("#clsftCode").val() !== "1"){
+                    alert("증빙파일을 선택해주세요.");
+                    return;
+                }
+
+
+            }
+            if (!$("#telNum").val() || $("#telNum").val().replace(/\D/g, '').length < 9) {
+                alert("연락처의 양식이 잘못되었습니다.");
+                $("#telNum").focus();
+                return;
+            }
+            if (!$("#mobileTelNum").val() || $("#mobileTelNum").val().replace(/\D/g, '').length < 10) {
+                alert("휴대폰 번호의 양식이 잘못되었습니다.");
+                $("#mobileTelNum").focus();
+                return;
+            }
+        }
+
+        var confirmText = "";
+        if(type == "temp"){
+            confirmText = "임시저장 하시겠습니까?";
+        }else{
+            confirmText = "다음 단계로 이동 하시겠습니까?";
+        }
+
+        if(confirm(confirmText)){
+            var formData = new FormData();
+            var genderValue = $("#gender").data("kendoRadioGroup").value();
+            var veteransValue = $("#veterans").data("kendoRadioGroup").value();
+
+            formData.append("applicationId", $("#applicationId").val());
+            formData.append("recruitInfoSn", $("#recruitInfoSn").val());
+            formData.append("recruitAreaInfoSn", $("#recruitAreaInfoSn").val());
+            formData.append("careerType", $("input[name='careerType']:checked").val());
+
+            formData.append("userEmail", $("#userEmail2").val());
+            formData.append("userName", $("#userName").val());
+            formData.append("userNameEn", $("#userNameEn").val());
+            formData.append("userNameCn", $("#userNameCn").val());
+            formData.append("bDay", $("#bDay").val());
+            formData.append("lunarYn", $("#lunarYn").is(":checked") ? "Y" : "N");
+            //formData.append("gender", $("#gender").data("kendoRadioGroup").value());
+            formData.append("gender", genderValue !== undefined ? genderValue : "");
+            formData.append("photoFile", $("#photoFile")[0].files[0]);
+            formData.append("telNum", $("#telNum").val());
+            formData.append("mobileTelNum", $("#mobileTelNum").val());
+            formData.append("zipCode", $("#zipCode").val());
+            formData.append("addr", $("#addr").val());
+            formData.append("addrDetail", $("#addrDetail").val());
+
+
+            formData.append("hobby", $("#hobby").val());
+            formData.append("specialty", $("#specialty").val());
+            //formData.append("veterans", $("#veterans").data("kendoRadioGroup").value());
+            formData.append("veterans", veteransValue !== undefined ? veteransValue : "");
+
+            formData.append("armiYn", !$("#armiYn").is(":checked") ? "Y" : "N");
+            if(!$("#armiYn").is(":checked")){
+                formData.append("clsftCode", $("#clsftCode").val());
+                if($("#clsftCode").val() != "2"){
+                    formData.append("militarySvcType", $("#militarySvcType").val());
+                    formData.append("mEnlistDay", $("#mEnlistDay").val());
+                    formData.append("mDishargeDay", $("#mDishargeDay").val());
+                    formData.append("rank", $("#rank").val());
+                    formData.append("etc", $("#etc").val());
+                }else if($("#clsftCode").val() == "2"){
+                    formData.append("mUnfulReason", $("#mUnfulReason").val());
+                }
+
+                formData.append("armiFile", $("#armiFile")[0].files[0]);
+            }
+            console.log("userName : "+formData.get("userName"));
+            console.log("gender : "+formData.get("gender"));
+            var result = customKendo.fn_customFormDataAjax("/application/setApplicationForm1.do", formData);
+            if(result.flag){
+                if(type == "temp"){
+                    alert("임시저장 되었습니다.");
+                    location.href = "/camtic/member/job_applicationForm1.do?applicationId=" + result.params.applicationId;
+                }else{
+                    location.href = "/camtic/member/job_applicationForm2.do?applicationId=" + result.params.applicationId + "&recruitAreaInfoSn=" + $("#recruitAreaInfoSn").val();
+                }
+            }
+        }
     }
 </script>
