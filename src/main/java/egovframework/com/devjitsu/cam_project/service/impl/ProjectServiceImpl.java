@@ -39,6 +39,11 @@ public class ProjectServiceImpl implements ProjectService {
     private G20Repository g20Repository;
 
     @Override
+    public Map<String, Object> getProjectInfo(Map<String, Object> params) {
+        return projectRepository.getProjectInfo(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getProjectList(Map<String, Object> params) {
         return projectRepository.getProjectList(params);
     }

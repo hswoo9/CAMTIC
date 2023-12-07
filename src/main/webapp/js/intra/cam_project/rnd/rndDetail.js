@@ -1,9 +1,15 @@
 var rndDetail = {
 
 
-    fn_defaultScript : function (){
 
-        customKendo.fn_textBox(["mngDeptName", "allBusnCost", "mngEmpName", "bankNo", "accHold", "allResCost", "peoResCost", "peoResItem", "totResCost", "resCardNo"]);
+    fn_defaultScript : function (){
+        rndDetail.fn_setPage();
+        rndDetail.fn_setData();
+    },
+
+    fn_setPage : function (){
+        customKendo.fn_textBox(["mngDeptName", "allBusnCost", "mngEmpName", "bankNo", "accHold", "allResCost"
+            , "peoResCost", "peoResItem", "totResCost", "resCardNo"]);
 
         $("#bank").kendoDropDownList({
             dataTextField : "text",
@@ -21,18 +27,72 @@ var rndDetail = {
             }
         });
 
-        $("#allResCost, #peoResCost").keyup(function(){
-            $("#totResCost").val(comma(Number(uncomma($("#allResCost").val())) + Number(uncomma($("#peoResCost").val()))));
+        /** 계 = 총 사업비 + 현금 + 현물 */
+        $("#allBusnCost, #peoResCost, #peoResItem").keyup(function(){
+            $("#totResCost").val(comma(
+                Number(uncomma($("#allBusnCost").val()))
+                + Number(uncomma($("#peoResCost").val()))
+                + Number(uncomma($("#peoResItem").val()))
+            ));
         });
 
         customKendo.fn_datePicker("delvDay", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("resDay", "month", "yyyy-MM-dd", new Date());
-
-
-        rndDetail.fn_setData();
     },
 
-    fn_save : function(){
+    fn_setData : function (){
+        var parameters = {
+            pjtSn : $("#pjtSn").val(),
+        }
+
+        var pjtInfo = customKendo.fn_customAjax("/project/getProjectInfo", parameters);
+        var result = customKendo.fn_customAjax("/projectRnd/getRndDetail", parameters);
+
+        var pjtMap = pjtInfo.map;
+        var rs = result.map;
+        console.log(rs);
+        console.log(pjtMap);
+
+        /** 최초 저장 이후 데이터 세팅 */
+        if(rs != null){
+            $("#rndSn").val(rs.RND_SN);
+            $("#allBusnCost").val(comma(rs.ALL_BUSN_COST));
+            $("#mngDeptName").val(rs.MNG_DEPT_NAME);
+            $("#mngEmpName").val(rs.MNG_EMP_NAME);
+            $("#mngDeptSeq").val(rs.MNG_DEPT_SEQ);
+            $("#mngEmpSeq").val(rs.MNG_EMP_SEQ);
+
+            $("#bank").data("kendoDropDownList").value(rs.BANK_SN);
+            $("#bankNo").val(rs.BANK_NO);
+            $("#accHold").val(rs.ACC_HOLD);
+
+            $("#allResCost").val(comma(rs.ALL_RES_COST));
+            $("#peoResCost").val(comma(rs.PEO_RES_COST));
+            $("#peoResItem").val(comma(rs.PEO_RES_ITEM));
+            $("#totResCost").val(comma(rs.TOT_RES_COST));
+
+            if(rs.RES_CARD_CHECK == "Y"){
+                $("input[name='resCardCheck'][value='Y']").prop("checked", true);
+                $("#rccYRes").css("display", "");
+            }else{
+                $("input[name='resCardCheck'][value='N']").prop("checked", true);
+                $("#rccYRes").css("display", "none");
+            }
+            $("#resCardNo").val(rs.RES_CARD_NO);
+
+            $("#delvDay").val(rs.DELV_DAY);
+            $("#resDay").val(rs.RES_DAY);
+
+        /** 최초 저장 이후 데이터 세팅 */
+        }else{
+            $("#allResCost").val(comma(pjtMap.PJT_EXP_AMT));
+        }
+
+        /** 버튼 세팅 */
+        rndDetail.fn_buttonSet(rs);
+    },
+
+    fn_save : function (){
         var parameters = {
             pjtSn : $("#pjtSn").val(),
 
@@ -117,52 +177,10 @@ var rndDetail = {
                     location.reload();
                 }
             }
-        })
+        });
     },
 
-    fn_setData : function (){
-        var parameters = {
-            pjtSn : $("#pjtSn").val(),
-        }
-
-        var result = customKendo.fn_customAjax("/projectRnd/getRndDetail", parameters);
-
-        var rs = result.map;
-
-        rndDetail.fn_buttonSet(rs);
-
-        if(rs != null){
-            $("#rndSn").val(rs.RND_SN);
-            $("#allBusnCost").val(comma(rs.ALL_BUSN_COST));
-            $("#mngDeptName").val(rs.MNG_DEPT_NAME);
-            $("#mngEmpName").val(rs.MNG_EMP_NAME);
-            $("#mngDeptSeq").val(rs.MNG_DEPT_SEQ);
-            $("#mngEmpSeq").val(rs.MNG_EMP_SEQ);
-
-            $("#bank").data("kendoDropDownList").value(rs.BANK_SN);
-            $("#bankNo").val(rs.BANK_NO);
-            $("#accHold").val(rs.ACC_HOLD);
-
-            $("#allResCost").val(comma(rs.ALL_RES_COST));
-            $("#peoResCost").val(comma(rs.PEO_RES_COST));
-            $("#peoResItem").val(comma(rs.PEO_RES_ITEM));
-            $("#totResCost").val(comma(rs.TOT_RES_COST));
-
-            if(rs.RES_CARD_CHECK == "Y"){
-                $("input[name='resCardCheck'][value='Y']").prop("checked", true);
-                $("#rccYRes").css("display", "");
-            }else{
-                $("input[name='resCardCheck'][value='N']").prop("checked", true);
-                $("#rccYRes").css("display", "none");
-            }
-            $("#resCardNo").val(rs.RES_CARD_NO);
-
-            $("#delvDay").val(rs.DELV_DAY);
-            $("#resDay").val(rs.RES_DAY);
-        }
-    },
-
-    fn_approve : function(){
+    fn_approve : function (){
         var pjCode = $("#pjCode").val();
         var supDep = $("#supDep2").val();
         var supDepSub = $("#supDepSub2").val();
@@ -177,7 +195,7 @@ var rndDetail = {
             rndSn : $("#rndSn").val(),
             pjtTmpCd : pjCode + supDep + supDepSub + pjtStat + pjtStatSub + year,
             pjtCd : pjCode + supDep + supDepSub + pjtStat + pjtStatSub + year,
-            pjtExpAmt : uncomma($("#pjtExpAmt").val()),
+            pjtExpAmt : uncomma($("#allResCost").val()),
             pType : "I",
             pProjectNM : $("#pjtNm").val(),
             pState : '1',
@@ -202,7 +220,7 @@ var rndDetail = {
             alert("사업성격1을 선택해주세요.");
             return;
         }
-        rndDetail.loading();
+        commonProject.loading();
 
         $.ajax({
             url : "/projectRnd/setDelvApprove",
@@ -247,15 +265,5 @@ var rndDetail = {
         }
 
         $("#detailBtnDiv").html(buttonHtml);
-    },
-
-    loading : function(){
-        $.LoadingOverlay("show", {
-            background: "rgba(0, 0, 0, 0.5)",
-            image: "",
-            maxSize: 60,
-            fontawesome: "fa fa-spinner fa-pulse fa-fw",
-            fontawesomeColor: "#FFFFFF",
-        });
     }
 }
