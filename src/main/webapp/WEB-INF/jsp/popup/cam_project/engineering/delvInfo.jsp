@@ -15,7 +15,7 @@
     <input type="hidden" id="nowUrl" name="nowUrl" />
 </form>
 
-
+<input type="hidden" id="teamStat" name="teamStat">
 <input type="hidden" id="delvSn" name="delvSn" value="">
 <input type="hidden" id="step" value="E2" />
 <input type="hidden" id="stepColumn" value="STEP3" />

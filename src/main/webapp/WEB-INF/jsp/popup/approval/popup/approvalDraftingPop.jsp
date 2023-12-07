@@ -38,6 +38,7 @@
     .d-flex{flex-direction: column; align-items: center;}
     .table-bordered {border: 1px solid #dee2e6 !important;}
     .red-star {color: red; margin-right: 5px;}
+    .reDraft {font-size: 13px}
 </style>
 <%
     pageContext.setAttribute("CR", "\r");
