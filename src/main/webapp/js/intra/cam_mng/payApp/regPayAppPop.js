@@ -66,9 +66,9 @@ var regPay = {
 
         $("#checkAll").click(function(){
             if($(this).is(":checked")){
-                $("input[type='checkbox']").prop("checked", true);
+                $(".check").prop("checked", true);
             }else{
-                $("input[type='checkbox']").prop("checked", false);
+                $(".check").prop("checked", false);
             }
         });
 
@@ -1007,12 +1007,31 @@ var regPayDet = {
         }
 
         var keyArr = "";
+        var flag = true;
+        var budgetArr = [];
+        var eviTypeArr = [];
         $(".check:checked").each(function(){
             keyArr += $(this).val() + ",";
+            var rowIdx = $(this).attr("id").charAt($(this).attr("id").length - 1);
+
+            budgetArr.push($("#budgetSn" + rowIdx).val());
+            eviTypeArr.push($("#eviType" + rowIdx).val());
         });
 
         keyArr = keyArr.substring(0, keyArr.length - 1);
 
+        const setBudgetArr = new Set(budgetArr);
+        const setEviTypeArr = new Set(eviTypeArr);
+
+        if(setBudgetArr.size > 1) {
+            alert("예산비목이 다릅니다. 확인해주세요.");
+            return;
+        }
+
+        if(setEviTypeArr.size > 1) {
+            alert("증빙유형이 다릅니다. 확인해주세요.");
+            return;
+        }
         var data= {
             arr : keyArr,
             payAppSn : $("#payAppSn").val()
