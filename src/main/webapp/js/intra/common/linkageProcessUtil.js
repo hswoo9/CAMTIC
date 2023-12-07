@@ -280,9 +280,40 @@ function docApprovalRetrieve(docId, approKey, linkageType, type, callBack){
 				}catch(e) {
 
 				}
-				let key = approKey.split("_")[0];
-				if(key == "camticDelv"){
-					window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=2";
+				try {
+					let key = approKey.split("_")[0];
+					if(key == "camticDelv"){
+						window.location.href = "/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=2";
+					}else if(key == "camticDev"){
+						window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=3";
+					}else if(key == "camticPjtRes"){
+						window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=7";
+					}else if(key == "camticPjtCost"){
+						window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=9";
+					}
+
+
+					if(key == "camticRndDelv"){
+						location.reload();
+					}else if(key == "camticRndDev"){
+						location.reload();
+					}else if(key == "camticRndRes"){
+						location.reload();
+					}else if(key == "camticRndCost"){
+						location.reload();
+					}
+
+					if(key == "camticUnRndDelv"){
+						location.reload();
+					}else if(key == "camticUnRndDev"){
+						location.reload();
+					}else if(key == "camticUnRndRes"){
+						location.reload();
+					}else if(key == "camticUnRndCost"){
+						location.reload();
+					}
+				}catch(e) {
+
 				}
 				if(callBack != null){
 					return callBack();

@@ -189,13 +189,17 @@ var camPrj = {
                     title: "프로젝트 명",
                     template: function(e){
                         var pjtNm = e.PJT_NM;
-                        if(e.PJT_NM.toString().length > 62){
-                            pjtNm = e.PJT_NM.toString().substring(0, 62)+ "...";
+                        if(e.BUSN_CLASS == "S"){
+                            pjtNm = e.BS_TITLE;
+                        }
+                        var pjtEx = pjtNm;
+                        if(pjtNm.toString().length > 62){
+                            pjtEx = pjtNm.toString().substring(0, 62)+ "...";
                         }
                         if(e.TEAM_STAT == "N"){
-                            return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\")'>" + pjtNm + "</a>";
+                            return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\")'>" + pjtEx + "</a>";
                         } else {
-                            return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\", \"" + e.TEAM_STAT + "\")'>" + pjtNm + "</a>";
+                            return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\", \"" + e.TEAM_STAT + "\")'>" + pjtEx + "</a>";
                         }
                     }
                 }, {
