@@ -112,18 +112,18 @@
 									</td>
 								</tr>
 								<tr style="border-bottom: 1px solid #ccc;">
-									<th>
+									<%--<th>
 									<c:choose>
 										<c:when test="${categoryId eq 'report'}">출처</c:when>
 										<c:otherwise>작성자</c:otherwise>
 									</c:choose>
-									</th>
-									<%--<th>작성자</th>--%>
+									</th>--%>
+									<th>작성자</th>
 									<td>
 										<input type="text" id="writer" class="inputText" value="관리자" disabled/>
 									</td>
 								</tr>
-								<c:if test="${categoryId eq 'sns' or categoryId eq 'report'}">
+								<c:if test="${categoryId eq 'sns'}">
 									<tr style="border-bottom: 1px solid #ccc;">
 										<th>SNS 유형</th>
 										<td colspan="2">

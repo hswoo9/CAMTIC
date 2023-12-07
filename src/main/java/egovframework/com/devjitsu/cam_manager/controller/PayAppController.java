@@ -129,17 +129,22 @@ public class PayAppController {
     public String getPayAppData(@RequestParam Map<String, Object> params, Model model){
         Map<String, Object> map = payAppService.getPayAppReqData(params);
         List<Map<String, Object>> list = payAppService.getPayAppDetailData(params);
+        List<Map<String, Object>> fileList = payAppService.getPayAppFileList(params);
+
         model.addAttribute("map", map);
         model.addAttribute("list", list);
+        model.addAttribute("fileList", fileList);
 
         return "jsonView";
     }
 
     @RequestMapping("/payApp/payAppSetData")
-    public String payAppSetData(@RequestParam Map<String, Object> params, Model model){
+    public String payAppSetData(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
 
         try{
-            payAppService.payAppSetData(params);
+            MultipartFile[] fileList = request.getFiles("fileList").toArray(new MultipartFile[0]);
+
+            payAppService.payAppSetData(params, fileList, SERVER_DIR, BASE_DIR);
 
             model.addAttribute("code", 200);
             model.addAttribute("params", params);
@@ -639,6 +644,19 @@ public class PayAppController {
     public String getCheckBudget(@RequestParam Map<String, Object> params, Model model){
 
         model.addAttribute("list", payAppService.getCheckBudget(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/pay/delPayApp")
+    public String delPayApp(@RequestParam("payAppSn") int[] params, Model model){
+
+        try{
+            payAppService.delPayApp(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
 
         return "jsonView";
     }

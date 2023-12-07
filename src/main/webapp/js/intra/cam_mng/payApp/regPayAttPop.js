@@ -1,463 +1,239 @@
 const regPayAtt = {
-    global: {
-        eviTypeA : ["세금계산서", "거래명세서", "견적서", "검수조서", "납품사진"],
-        eviTypeB : ["계산서", "거래명세서", "견적서", "검수조서", "납품사진"],
-        eviTypeC : ["매출전표", "거래명세서", "검수조서", "납품사진"],
-        eviTypeD : ["출장대장", "결과보고서"],
-        eviTypeE : ["매출전표"],
 
-    },
     fn_DefaultScript: function(){
-        regPayAtt.fn_fileHtmlSet();
-        regPayAtt.fn_dataSet();
-        regPayAtt.fn_mngMode();
+        if(opener.parent.$("#payAppSn").val() != ""){
+            if(opener.parent.regPay.global.fileArray.length > 0){
+                $("#emptyTr").remove();
+                regPayAtt.fn_setFile();
+            }
+        } else {
+            if(opener.parent.regPay.global.fileArray.length > 0){
+                $("#emptyTr").remove();
+                regPayAtt.fn_addFile();
+            }
+        }
+
     },
 
-    fn_dataSet: function(){
-        let eviType = $("#eviType").val();
-        let eviText = "";
-
-        const payDestSn = $("#payDestSn").val();
-        let url = "/pay/getPayAttInfo";
-        const data = { payDestSn: payDestSn, payAppSn : $("#payAppSn").val() };
-        const attInfo = customKendo.fn_customAjax(url, data).data;
-
-        const purcInfo = customKendo.fn_customAjax("/purc/getClaimFileInfo", data).data;
-        console.log(purcInfo);
-        if(eviType == "1"){
-            eviText = "세금계산서";
-            // if(attInfo.FILE1_NO != ""){
-            //     $("#file1Sn").val(attInfo.FILE1_NO);
-            //     $("#file1Name").text(attInfo.FILE1_NAME);
-            //     $("#file1Name").css("cursor", "pointer");
-            //     $("#file1Name").attr("onclick", "fileDown('" + attInfo.FILE1_PATH + "', '" + attInfo.FILE1_NAME + "')");
-            // }
-            if(attInfo.FILE2_NO != ""){
-                $("#file2Sn").val(attInfo.FILE2_NO);
-                $("#file2Name").text(attInfo.FILE2_NAME);
-                $("#file2Name").css("cursor", "pointer");
-                $("#file2Name").attr("onclick", "fileDown('" + attInfo.FILE2_PATH + "', '" + attInfo.FILE2_NAME + "')");
-            }
-            if(attInfo.FILE3_NO != ""){
-                $("#file3Sn").val(attInfo.FILE3_NO);
-                $("#file3Name").text(attInfo.FILE3_NAME);
-                $("#file3Name").css("cursor", "pointer");
-                $("#file3Name").attr("onclick", "fileDown('" + attInfo.FILE3_PATH + "', '" + attInfo.FILE3_NAME + "')");
-            }
-            if(attInfo.FILE4_NO != ""){
-                $("#file4Sn").val(attInfo.FILE4_NO);
-                $("#file4Name").text(attInfo.FILE4_NAME);
-                $("#file4Name").css("cursor", "pointer");
-                $("#file4Name").attr("onclick", "fileDown('" + attInfo.FILE4_PATH + "', '" + attInfo.FILE4_NAME + "')");
-            }
-            if(attInfo.FILE5_NO != ""){
-                $("#file5Sn").val(attInfo.FILE5_NO);
-                $("#file5Name").text(attInfo.FILE5_NAME);
-                $("#file5Name").css("cursor", "pointer");
-                $("#file5Name").attr("onclick", "fileDown('" + attInfo.FILE5_PATH + "', '" + attInfo.FILE5_NAME + "')");
-            }
-
-            if(purcInfo != null){
-                for(var i = 0 ; i < purcInfo.length ; i++){
-                   if(purcInfo[i].file_ext == "hwp" || purcInfo[i].file_ext == "HWP" || purcInfo[i].file_ext == "hwpx" || purcInfo[i].file_ext == "HWPX"){
-                       $("#file4Sn").val(purcInfo[i].file_no);
-                       $("#file4Name").text(purcInfo[i].file_org_name);
-                       $("#file4Name").css("cursor", "pointer");
-                       $("#file4Name").attr("onclick", "fileDown('" + purcInfo[i].file_path + purcInfo[i].file_uuid + "', '" + purcInfo[i].file_org_name+ "." + purcInfo[i].file_ext + "')");
-                   } else {
-                       $("#file5Sn").val(purcInfo[i].file_no);
-                       $("#file5Name").text(purcInfo[i].file_org_name);
-                       $("#file5Name").css("cursor", "pointer");
-                       $("#file5Name").attr("onclick", "fileDown('" + purcInfo[i].file_path + purcInfo[i].file_uuid + "', '" + purcInfo[i].file_org_name+ "." + purcInfo[i].file_ext + "')");
-                   }
-                }
-            }
-        }else if(eviType == "2"){
-            eviText = "계산서";
-            // if(attInfo.FILE1_NO != ""){
-            //     $("#file1Sn").val(attInfo.FILE1_NO);
-            //     $("#file1Name").text(attInfo.FILE1_NAME);
-            //     $("#file1Name").css("cursor", "pointer");
-            //     $("#file1Name").attr("onclick", "fileDown('" + attInfo.FILE1_PATH + "', '" + attInfo.FILE1_NAME + "')");
-            // }
-            if(attInfo.FILE2_NO != ""){
-                $("#file2Sn").val(attInfo.FILE2_NO);
-                $("#file2Name").text(attInfo.FILE2_NAME);
-                $("#file2Name").css("cursor", "pointer");
-                $("#file2Name").attr("onclick", "fileDown('" + attInfo.FILE2_PATH + "', '" + attInfo.FILE2_NAME + "')");
-            }
-            if(attInfo.FILE3_NO != ""){
-                $("#file3Sn").val(attInfo.FILE3_NO);
-                $("#file3Name").text(attInfo.FILE3_NAME);
-                $("#file3Name").css("cursor", "pointer");
-                $("#file3Name").attr("onclick", "fileDown('" + attInfo.FILE3_PATH + "', '" + attInfo.FILE3_NAME + "')");
-            }
-            if(attInfo.FILE4_NO != ""){
-                $("#file4Sn").val(attInfo.FILE4_NO);
-                $("#file4Name").text(attInfo.FILE4_NAME);
-                $("#file4Name").css("cursor", "pointer");
-                $("#file4Name").attr("onclick", "fileDown('" + attInfo.FILE4_PATH + "', '" + attInfo.FILE4_NAME + "')");
-            }
-            if(attInfo.FILE5_NO != ""){
-                $("#file5Sn").val(attInfo.FILE5_NO);
-                $("#file5Name").text(attInfo.FILE5_NAME);
-                $("#file5Name").css("cursor", "pointer");
-                $("#file5Name").attr("onclick", "fileDown('" + attInfo.FILE5_PATH + "', '" + attInfo.FILE5_NAME + "')");
-            }
-        }else if(eviType == "3"){
-            eviText = "신용카드";
-            // if(attInfo.FILE6_NO != ""){
-            //     $("#file6Sn").val(attInfo.FILE6_NO);
-            //     $("#file6Name").text(attInfo.FILE6_NAME);
-            //     $("#file6Name").css("cursor", "pointer");
-            //     $("#file6Name").attr("onclick", "fileDown('" + attInfo.FILE6_PATH + "', '" + attInfo.FILE6_NAME + "')");
-            // }
-            if(attInfo.FILE7_NO != ""){
-                $("#file7Sn").val(attInfo.FILE7_NO);
-                $("#file7Name").text(attInfo.FILE7_NAME);
-                $("#file7Name").css("cursor", "pointer");
-                $("#file7Name").attr("onclick", "fileDown('" + attInfo.FILE7_PATH + "', '" + attInfo.FILE7_NAME + "')");
-            }
-            if(attInfo.FILE8_NO != ""){
-                $("#file8Sn").val(attInfo.FILE8_NO);
-                $("#file8Name").text(attInfo.FILE8_NAME);
-                $("#file8Name").css("cursor", "pointer");
-                $("#file8Name").attr("onclick", "fileDown('" + attInfo.FILE8_PATH + "', '" + attInfo.FILE8_NAME + "')");
-            }
-            if(attInfo.FILE9_NO != ""){
-                $("#file9Sn").val(attInfo.FILE9_NO);
-                $("#file9Name").text(attInfo.FILE9_NAME);
-                $("#file9Name").css("cursor", "pointer");
-                $("#file9Name").attr("onclick", "fileDown('" + attInfo.FILE9_PATH + "', '" + attInfo.FILE9_NAME + "')");
-            }
-        }else if(eviType == "4"){
-            eviText = "직원지급";
-        }else if(eviType == "5"){
-            eviText = "소득신고자";
-            if(attInfo.FILE10_NO != ""){
-                $("#file10Sn").val(attInfo.FILE10_NO);
-                $("#file10Name").text(attInfo.FILE10_NAME);
-                $("#file10Name").css("cursor", "pointer");
-                $("#file10Name").attr("onclick", "fileDown('" + attInfo.FILE10_PATH + "', '" + attInfo.FILE10_NAME + "')");
-            }
-        }else if(eviType == "6"){
-            eviText = "기타";
+    fileChange : function (){
+        opener.parent.regPay.global.fileArray = [];
+        $("#emptyTr").remove();
+        let size = 0;
+        var fileArray = [];
+        for(var i = 0; i < $("input[name='payFileList']")[0].files.length; i++){
+            fileArray.push($("input[name='payFileList']")[0].files[i]);
         }
 
-        $("#pjtTitle").text("증빙서류 - " + eviText);
+        if(fileArray.length > 0){
+            var html = '';
+            for (var i = 0; i < fileArray.length; i++) {
+                size = fCommon.bytesToKB(fileArray[i].size);
+                var fileName = "";
+                var fileExt = fileArray[i].name.split(".")[fileArray[i].name.split(".").length - 1];
+                for(var j = 0 ; j < fileArray[i].name.split(".").length - 1 ; j++){
+                    fileName += fileArray[i].name.split(".")[j];
 
-        if(attInfo.etcFile != null){
-            regPayAtt.settingTempFileDataInit(attInfo.etcFile);
-        }
-    },
-
-    fn_fileHtmlSet: function(){
-        let eviType = $("#eviType").val();
-        let eviText = $("#eviType").val();
-        let html = '';
-        html += '<colgroup>';
-        if(eviType == "1" || eviType == "2"){
-            html += '   <col width="25%">';
-            html += '   <col width="25%">';
-            html += '   <col width="25%">';
-            html += '   <col width="25%">';
-        }else if(eviType == "3"){
-            html += '   <col width="33%">';
-            html += '   <col width="33%">';
-            html += '   <col width="33%">';
-        }else if(eviType == "5"){
-            html += '   <col width="100%">';
-        }
-        html += '</colgroup>';
-        html += '<thead>';
-        html += '<tr>';
-        if(eviType == "1" || eviType == "2"){
-            // html += '   <th scope="row" class="text-center th-color">';
-            // html += '       <span class="red-star"></span><b>세금계산서/계산서</b>';
-            // html += '   </th>';
-            html += '   <th scope="row" class="text-center th-color">';
-            html += '       <span class="red-star"></span><b>거래명세서</b>';
-            html += '   </th>';
-            html += '   <th scope="row" class="text-center th-color">';
-            html += '       <span class="red-star"></span><b>견적서</b>';
-            html += '   </th>';
-            html += '   <th scope="row" class="text-center th-color">';
-            html += '       <span class="red-star"></span><b>검수조서</b>';
-            html += '   </th>';
-            html += '   <th scope="row" class="text-center th-color">';
-            html += '       <span class="red-star"></span><b>납품사진</b>';
-            html += '   </th>';
-        }else if(eviType == "3"){
-            // html += '   <th scope="row" class="text-center th-color">';
-            // html += '       <span class="red-star"></span><b>매출전표</b>';
-            // html += '   </th>';
-            html += '   <th scope="row" class="text-center th-color">';
-            html += '       <span class="red-star"></span><b>거래명세서</b>';
-            html += '   </th>';
-            html += '   <th scope="row" class="text-center th-color">';
-            html += '       <span class="red-star"></span><b>검수조서</b>';
-            html += '   </th>';
-            html += '   <th scope="row" class="text-center th-color">';
-            html += '       <span class="red-star"></span><b>납품사진</b>';
-            html += '   </th>';
-        }else if(eviType == "5"){
-            html += '   <th scope="row" class="text-center th-color">';
-            html += '       <span class="red-star"></span><b>계좌이체동의서</b>';
-            html += '   </th>';
-        }
-        html += '</tr>';
-        html += '<tr>';
-
-        if(eviType == "1" || eviType == "2"){
-            // html += '<td style="text-align: center">' +
-            //     '<label for="file1" class="k-button k-button-solid-base">파일첨부</label>' +
-            //     '<input type="file" id="file1" name="file1" onchange="regPayAtt.fileChange(this)" style="display: none">' +
-            //     '<p style="margin-bottom: 0px; margin-top: 3px" id="file1Name"></p>' +
-            //     '</td>';
-            html += '<td style="text-align: center">' +
-                '<label for="file2" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file2" name="file2" onchange="regPayAtt.fileChange(this)" style="display: none">' +
-                '<p style="margin-bottom: 0px; margin-top: 3px" id="file2Name"></p>' +
-                '</td>';
-            html += '<td style="text-align: center">' +
-                '<label for="file3" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file3" name="file3" onchange="regPayAtt.fileChange(this)" style="display: none">' +
-                '<p style="margin-bottom: 0px; margin-top: 3px" id="file3Name"></p>' +
-                '</td>';
-            html += '<td style="text-align: center">' +
-                '<label for="file4" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file4" name="file4" onchange="regPayAtt.fileChange(this)" style="display: none">' +
-                '<p style="margin-bottom: 0px; margin-top: 3px" id="file4Name"></p>' +
-                '</td>';
-            html += '<td style="text-align: center">' +
-                '<label for="file5" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file5" name="file5" onchange="regPayAtt.fileChange(this)" style="display: none">' +
-                '<p style="margin-bottom: 0px; margin-top: 3px" id="file5Name"></p>' +
-                '</td>';
-        }else if(eviType == "3"){
-            // html += '<td style="text-align: center">' +
-            //     '<label for="file6" class="k-button k-button-solid-base">파일첨부</label>' +
-            //     '<input type="file" id="file6" name="file6" onchange="regPayAtt.fileChange(this)" style="display: none">' +
-            //     '<p style="margin-bottom: 0px; margin-top: 3px" id="file6Name"></p>' +
-            //     '</td>';
-            html += '<td style="text-align: center">' +
-                '<label for="file7" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file7" name="file7" onchange="regPayAtt.fileChange(this)" style="display: none">' +
-                '<p style="margin-bottom: 0px; margin-top: 3px" id="file7Name"></p>' +
-                '</td>';
-            html += '<td style="text-align: center">' +
-                '<label for="file8" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file8" name="file8" onchange="regPayAtt.fileChange(this)" style="display: none">' +
-                '<p style="margin-bottom: 0px; margin-top: 3px" id="file8Name"></p>' +
-                '</td>';
-            html += '<td style="text-align: center">' +
-                '<label for="file9" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file9" name="file9" onchange="regPayAtt.fileChange(this)" style="display: none">' +
-                '<p style="margin-bottom: 0px; margin-top: 3px" id="file9Name"></p>' +
-                '</td>';
-        }else if(eviType == "5"){
-            html += '<td style="text-align: center">' +
-                '<label for="file10" class="k-button k-button-solid-base">파일첨부</label>' +
-                '<input type="file" id="file10" name="file10" onchange="regPayAtt.fileChange(this)" style="display: none">' +
-                '<p style="margin-bottom: 0px; margin-top: 3px" id="file10Name"></p>' +
-                '</td>';
-        }
-        html += '</tr>';
-        html += '<tr>';
-        html += '   <th colspan="5" scope="row" class="text-center th-color">';
-        html += '       <span class="red-star"></span><b>기타</b>';
-        html += '   </th>';
-        html += '</tr>';
-        html += '<tr>';
-        html += "<td colspan='5' style='text-align: center'>";
-        html +=
-            '<form style="padding: 0px 30px;">' +
-            '   <div class="card-header" style="padding: 5px;">' +
-            '       <h3 class="card-title">기타 첨부파일</h3>' +
-            '       <div class="card-options">' +
-            '           <div class="filebox">' +
-            '               <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$(\'#fileList\').click()">' +
-            '                   <span class="k-icon k-i-track-changes-enable k-button-icon"></span>' +
-            '                   <span class="k-button-text">파일첨부</span>' +
-            '               </button>' +
-            '               <input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" multiple style="display: none"/>' +
-            '           </div>' +
-            '       </div>' +
-            '   </div>' +
-            '   <div class="table-responsive">' +
-            '       <table class="popTable table table-bordered mb-0">' +
-            '           <colgroup>' +
-            '               <col width="50%">' +
-            '               <col width="10%">' +
-            '               <col width="30%">' +
-            '               <col width="10%">' +
-            '           </colgroup>' +
-            '           <thead>' +
-            '               <tr class="text-center th-color">' +
-            '                   <th>파일명</th>' +
-            '                   <th>확장자</th>' +
-            '                   <th>용량</th>' +
-            '                   <th>기타</th>' +
-            '               </tr>' +
-            '           </thead>' +
-            '           <tbody id="fileGrid">' +
-            '               <tr class="defultTr">' +
-            '                   <td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
-            '               </tr>' +
-            '           </tbody>' +
-            '       </table>' +
-            '   </div>' +
-            '</form>';
-        html += '</td>';
-        html += '</tr>';
-        $("#popTable").html(html);
-        console.log(html);
-    },
-
-    fileChange: function(e){
-        $(e).next().text($(e)[0].files[0].name);
-    },
-
-    fn_saveBtn: function(){
-        let eviType = $("#eviType").val();
-
-        const formData = new FormData();
-        formData.append("payDestSn", $("#payDestSn").val());
-        formData.append("menuCd", "payAtt");
-        formData.append("empSeq", $("#regEmpSeq").val());
-        formData.append("regEmpSeq", $("#regEmpSeq").val());
-
-        if(eviType == "1" || eviType == "2"){
-
-            // if($("#file1")[0].files.length == 1){
-            //     formData.append("file1", $("#file1")[0].files[0]);
-            // }else{
-            //     if($("#file1Name").text() == ""){
-            //         alert("세금계산서/계산서 첨부파일이 등록되지 않았습니다"); return;
-            //     }
-            // }
-
-            if($("#file2")[0].files.length == 1){
-                formData.append("file2", $("#file2")[0].files[0]);
-            }else{
-                if($("#file2Name").text() == ""){
-                    alert("거래명세서 첨부파일이 등록되지 않았습니다"); return;
+                    if(j != fileArray[i].name.split(".").length - 2){
+                        fileName += ".";
+                    }
                 }
-            }
-
-            if($("#file3")[0].files.length == 1){
-                formData.append("file3", $("#file3")[0].files[0]);
-            }else{
-                if($("#file3Name").text() == ""){
-                    alert("견적서 첨부파일이 등록되지 않았습니다"); return;
-                }
-            }
-
-            if($("#file4")[0].files.length == 1){
-                formData.append("file4", $("#file4")[0].files[0]);
-            }else{
-                if($("#file4Name").text() == ""){
-                    alert("검수조서 첨부파일이 등록되지 않았습니다"); return;
-                }
-            }
-
-            if($("#file5")[0].files.length == 1){
-                formData.append("file5", $("#file5")[0].files[0]);
-            }else{
-                if($("#file5Name").text() == ""){
-                    alert("납품사진 첨부파일이 등록되지 않았습니다"); return;
-                }
-            }
-
-        }else if(eviType == "3"){
-
-            // if($("#file6")[0].files.length == 1){
-            //     formData.append("file6", $("#file6")[0].files[0]);
-            // }else{
-            //     if($("#file6Name").text() == ""){
-            //         alert("매출전표 첨부파일이 등록되지 않았습니다"); return;
-            //     }
-            // }
-
-            if($("#file7")[0].files.length == 1){
-                formData.append("file7", $("#file7")[0].files[0]);
-            }else{
-                if($("#file7Name").text() == ""){
-                    alert("거래명세서 첨부파일이 등록되지 않았습니다"); return;
-                }
-            }
-
-            if($("#file8")[0].files.length == 1){
-                formData.append("file8", $("#file8")[0].files[0]);
-            }else{
-                if($("#file8Name").text() == ""){
-                    alert("검수조서 첨부파일이 등록되지 않았습니다"); return;
-                }
-            }
-
-            if($("#file9")[0].files.length == 1){
-                formData.append("file9", $("#file9")[0].files[0]);
-            }else{
-                if($("#file9Name").text() == ""){
-                    alert("납품사진 첨부파일이 등록되지 않았습니다"); return;
-                }
-            }
-
-        }else if(eviType == "5"){
-
-            if($("#file10")[0].files.length == 1){
-                formData.append("file10", $("#file10")[0].files[0]);
-            }else{
-                if($("#file10Name").text() == ""){
-                    alert("계좌이체동의서 첨부파일이 등록되지 않았습니다"); return;
-                }
-            }
-
-        }
-
-        /** 증빙파일 첨부파일 */
-        if(fCommon.global.attFiles != null){
-            for(var i = 0; i < fCommon.global.attFiles.length; i++){
-                formData.append("file11", fCommon.global.attFiles[i]);
-            }
-        }
-
-        const result = customKendo.fn_customFormDataAjax("/pay/updPayAttDetData", formData);
-        if(result.flag){
-            alert("저장되었습니다.");
-            window.close();
-        }
-    },
-
-    /** 첨부파일 데이터 세팅 */
-    settingTempFileDataInit: function(e){
-        var html = '';
-        if(e.length > 0){
-            for(var i = 0; i < e.length; i++){
-                html += '<tr style="text-align: center">';
-                html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+e[i].file_path+e[i].file_uuid+'\', \''+e[i].file_org_name+'.'+e[i].file_ext+'\')">'+e[i].file_org_name+'</span></td>';
-                html += '   <td>'+ e[i].file_ext +'</td>';
-                html += '   <td>'+ e[i].file_size +'</td>';
-                html += '   <td class="delBtn">';
-                html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e[i].file_no +', this)">' +
-                    '			<span class="k-button-text">삭제</span>' +
-                    '		</button>';
+                html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
+                html += '   <td style="text-align: left">' + fileName + '</td>';
+                html += '   <td>' + fileExt + '</td>';
+                html += '   <td>' + size + '</td>';
+                html += '   <td>';
+                // if(fileExt.toLowerCase() == "pdf" || fileExt.toLowerCase() == "jpg" || fileExt.toLowerCase() == "png" || fileExt.toLowerCase() == "jpeg"){
+                //     html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regPayAtt.fileViewer(' +  + ')">'
+                // }
+                html += '   </td>';
+                html += '   <td>';
+                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
                 html += '   </td>';
                 html += '</tr>';
             }
-            $("#fileGrid").html(html);
-        }else{
-            $("#fileGrid").html('<tr>' +
-                '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
-                '</tr>');
+            $("#fileGrid").append(html);
+        }
+
+        opener.parent.regPay.global.fileArray = fileArray;
+    },
+
+    fn_addFile : function(){
+        var fileArray = [];
+        fileArray = opener.parent.regPay.global.fileArray;
+
+        let size = 0;
+        if(fileArray.length > 0){
+            $("#fileGrid").find(".addFile").remove();
+
+            var html = '';
+
+            for (var i = 0; i < fileArray.length; i++) {
+                size = fCommon.bytesToKB(fileArray[i].size);
+                var fileName = "";
+                var fileExt = fileArray[i].name.split(".")[fileArray[i].name.split(".").length - 1];
+                for(var j = 0 ; j < fileArray[i].name.split(".").length - 1 ; j++){
+                    fileName += fileArray[i].name.split(".")[j];
+
+                    if(j != fileArray[i].name.split(".").length - 2){
+                        fileName += ".";
+                    }
+                }
+                html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
+                html += '   <td style="text-align: left">' + fileName + '</td>';
+                html += '   <td>' + fileExt + '</td>';
+                html += '   <td>' + size + '</td>';
+                html += '   <td>';
+                // if(fileExt.toLowerCase() == "pdf" || fileExt.toLowerCase() == "jpg" || fileExt.toLowerCase() == "png" || fileExt.toLowerCase() == "jpeg"){
+                //     html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regPayAtt.fileViewer(' +  + ')">'
+                // }
+                html += '   </td>';
+                html += '   <td>';
+                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regPayAtt.fnUploadFile(' + i + ')">'
+                html += '   </td>';
+                html += '</tr>';
+            }
+            $("#fileGrid").append(html);
         }
     },
 
-    fn_mngMode: function(){
-        if(opener.parent.$("#auth").val() == "mng"){
-            $("#saveBtn").hide();
-            $(".delBtn").text("-");
-            $(".k-button-solid-base").hide();
+    fn_setFile : function(){
+        var fileArray = [];
+        fileArray = opener.parent.regPay.global.fileArray;
+
+        let size = 0;
+        if(fileArray.length > 0){
+            $("#fileGrid").find(".addFile").remove();
+
+            var html = '';
+
+            for (var i = 0; i < fileArray.length; i++) {
+                size = fCommon.bytesToKB(fileArray[i].file_size);
+
+                html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
+                html += '   <td style="text-align: left">' + fileArray[i].file_org_name + '</td>';
+                html += '   <td>' + fileArray[i].file_ext + '</td>';
+                html += '   <td>' + size + '</td>';
+                html += '   <td>';
+                if(fileArray[i].file_ext.toLowerCase() == "pdf" || fileArray[i].file_ext.toLowerCase() == "jpg" || fileArray[i].file_ext.toLowerCase() == "png" || fileArray[i].file_ext.toLowerCase() == "jpeg"){
+                    html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regPayAtt.fileViewer(' + fileArray[i].file_path + fileArray[i].file_uuid +')">'
+                }
+                html += '   </td>';
+                html += '   <td>';
+                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regPayAtt.fn_delFile(' + fileArray[i].file_no + ')">'
+                html += '   </td>';
+                html += '</tr>';
+            }
+            $("#fileGrid").append(html);
         }
+    },
+
+    fnUploadFile : function(e) {
+        let size = 0;
+        const dataTransfer = new DataTransfer();
+        let fileArray2 = Array.from(opener.parent.regPay.global.fileArray);
+        fileArray2.splice(e, 1);
+        fileArray2.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+
+        opener.parent.regPay.global.fileArray = dataTransfer.files;
+
+        var fileArray = [];
+        fileArray = opener.parent.regPay.global.fileArray;
+        if(fileArray.length > 0){
+            $("#fileGrid").find(".addFile").remove();
+
+            var html = '';
+            for (var i = 0; i <fileArray.length; i++) {
+                var fileName = "";
+                var fileExt = fileArray[i].name.split(".")[fileArray[i].name.split(".").length - 1];
+                for(var j = 0 ; j < fileArray[i].name.split(".").length - 1 ; j++){
+                    fileName += fileArray[i].name.split(".")[j];
+
+                    if(j != fileArray[i].name.split(".").length - 2){
+                        fileName += ".";
+                    }
+                }
+
+                size = fCommon.bytesToKB(fileArray[i].size);
+                html += '<tr style="text-align: center;" class="addFile">';
+                html += '   <td>' + fileName + '</td>';
+                html += '   <td>' + fileExt + '</td>';
+                html += '   <td>' + size + '</td>';
+                html += '   <td>';
+                // if(fileExt.toLowerCase() == "pdf" || fileExt.toLowerCase() == "jpg" || fileExt.toLowerCase() == "png" || fileExt.toLowerCase() == "jpeg"){
+                //     html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regPayAtt.fileViewer(' +  + ')">'
+                // }
+                html += '   </td>';
+                html += '   <td>';
+                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fnUploadFile.fnUploadFile(' + i + ')">';
+                html += '   </td>';
+                html += '</tr>';
+            }
+
+            $("#fileGrid").append(html);
+        }else{
+            $("#fileGrid").find(".addFile").remove();
+
+            if($("#fileGrid").find("tr").length == 0){
+                $("#fileGrid").html('<tr class="defultTr">' +
+                    '	<td colspan="5" style="text-align: center;padding-top: 10px;">등록된 파일이 없습니다.</td>' +
+                    '</tr>');
+            }
+        }
+
+        if(fCommon.global.attFiles.length == 0){
+            fCommon.global.attFiles = new Array();
+        }
+
+    },
+
+
+    fileViewer : function (path, name){
+        var name = "_blank";
+        var option = "width = 1300, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open("http://218.158.231.186" + path, name, option);
+    },
+
+    fn_close : function (){
+        opener.parent.regPay.global.fileArray = [];
+        window.close();
+    },
+
+    fn_regist: function(){
+        window.close();
+    },
+
+    fn_delFile: function (key){
+        if(!confirm("삭제하시겠습니까?")){
+            return;
+        }
+
+        var data = {
+            fileNo : key
+        }
+
+        $.ajax({
+            url : "/common/delFileInfo",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success: function(rs){
+                if(rs.code == 200){
+                    alert("삭제되었습니다.");
+                    for(var i = 0 ; i < opener.parent.regPay.global.fileArray.length ; i++){
+                        if(opener.parent.regPay.global.fileArray[i].file_no == key){
+                            opener.parent.regPay.global.fileArray.splice(i, 1);
+                            break;
+                        }
+                    }
+
+                    location.reload();
+                }
+
+
+            }
+        })
     }
+
 }

@@ -9,7 +9,6 @@ import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -33,7 +32,7 @@ public class PayAppServiceImpl implements PayAppService {
     private CommonRepository commonRepository;
 
     @Override
-    public void payAppSetData(Map<String, Object> params) {
+    public void payAppSetData(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir) {
         Gson gson = new Gson();
         List<Map<String, Object>> itemArr = gson.fromJson((String) params.get("itemArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
 
@@ -53,6 +52,24 @@ public class PayAppServiceImpl implements PayAppService {
         for(Map<String, Object> map : itemArr){
             map.put("payAppSn", params.get("payAppSn"));
             payAppRepository.insPayAppDetailData(map);
+        }
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        if(fileList.length > 0){
+            params.put("menuCd", "payApp");
+
+            List<Map<String, Object>> list = mainLib.multiFileUpload(fileList, filePath(params, serverDir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("payAppSn"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, baseDir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+            }
+            commonRepository.insFileInfo(list);
         }
 
     }
@@ -1044,5 +1061,17 @@ public class PayAppServiceImpl implements PayAppService {
 
         List<Map<String, Object>> list = payAppRepository.getCheckBudget(params);
         return list;
+    }
+
+    @Override
+    public void delPayApp(int[] params) {
+        for(int i = 0 ; i < params.length ; i++){
+            payAppRepository.delPayApp(params[i]);
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> getPayAppFileList(Map<String, Object> params) {
+        return payAppRepository.getPayAppFileList(params);
     }
 }

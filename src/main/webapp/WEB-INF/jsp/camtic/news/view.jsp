@@ -49,8 +49,8 @@
             <ul class="info">
               <c:if test="${categoryId eq 'business'}">
                 <c:choose>
-                  <c:when test="${!empty map.START_DT}"><li>사업기간 : ${map.startDt} ~ ${map.endDt}</li></c:when>
-                  <c:otherwise><li>사업기간 : -</li></c:otherwise>
+                  <c:when test="${!empty map.START_DT}"><li>모집기간 : ${map.startDt} ~ ${map.endDt}</li></c:when>
+                  <c:otherwise><li>모집기간 : -</li></c:otherwise>
                 </c:choose>
 
               </c:if>
