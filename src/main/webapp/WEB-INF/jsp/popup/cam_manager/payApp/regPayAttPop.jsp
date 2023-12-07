@@ -30,18 +30,33 @@
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">증빙서류</span>
             </h3>
 
-            <div id="payAppBtnDiv" class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="regPayAtt.fn_saveBtn();">저장</button>
-                <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
+            <div id="payAppBtnDiv" class="btn-st popButton" style="font-size: 13px;">
+                <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="regPayAtt.fn_regist();">등록</button>
+                <button type="button" class="k-button k-button-solid-error" onclick="regPayAtt.fn_close();">닫기</button>
             </div>
         </div>
         <div style="padding: 20px 30px;">
+            <div style="float:right; position: relative; color: red; font-size: 11px;">거래명세서 / 계좌이체동의서 / 미비첨부파일 등</div>
+            <td style="text-align: center;" colspan="5">
+                <label for="payFileList" style="font-size: 13px;" class="k-button k-button-solid-base">파일첨부</label>
+                <input type="file" id="payFileList" name="payFileList" onchange="regPayAtt.fileChange(this)" style="display: none" multiple>
+                <span id="payFileName"></span>
+            </td>
             <table id="popTable" class="popTable table table-bordered mb-0">
-                <td style="text-align: center">
-                    <label for="estFile" class="k-button k-button-solid-base">파일첨부</label>
-                    <input type="file" id="estFile" name="estFile" onchange="regPayAtt.fileChange(this)" style="display: none">
-                    <span id="estFileName"></span>
-                </td>
+                <thead>
+                <tr>
+                    <th>파일명</th>
+                    <th>확장자</th>
+                    <th>크기</th>
+                    <th>뷰어</th>
+                    <th>기타</th>
+                </tr>
+                </thead>
+                <tbody id="fileGrid">
+                <tr id="emptyTr">
+                    <td colspan="5" style="text-align: center">등록된 파일이 없습니다.</td>
+                </tr>
+                </tbody>
             </table>
         </div>
     </div>

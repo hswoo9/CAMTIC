@@ -123,10 +123,10 @@ var fCommon = {
     },
 
     bytesToKB : function (bytes) {
-    const sizes = ['KB'];
-    if (bytes === 0) return '0 KB';
+        const sizes = ['KB'];
+        if (bytes === 0) return '0 KB';
 
-    const kilobytes = bytes / 1024;
-    return `${kilobytes.toFixed(2)} KB`;
+        const kilobytes = bytes / 1024;
+        return `${kilobytes.toFixed(2)} KB`;
     }
 }

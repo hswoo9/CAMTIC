@@ -139,6 +139,6 @@ var payCardHist = {
 
         alert("반영되었습니다.");
 
-        // window.close();
+        window.close();
     }
 }
