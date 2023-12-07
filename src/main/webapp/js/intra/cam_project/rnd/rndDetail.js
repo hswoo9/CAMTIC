@@ -8,16 +8,16 @@ var rndDetail = {
     },
 
     fn_setPage : function (){
-        customKendo.fn_textBox(["mngDeptName", "allBusnCost", "mngEmpName", "bankNo", "accHold", "allResCost"
-            , "peoResCost", "peoResItem", "totResCost", "resCardNo"]);
+        customKendo.fn_textBox(["mngDeptName", "allBusnCost", "mngEmpName", "allResCost"
+            , "peoResCost", "peoResItem", "totResCost"]);
 
-        $("#bank").kendoDropDownList({
+        /*$("#bank").kendoDropDownList({
             dataTextField : "text",
             dataValueField : "value",
             dataSource : [
                 {text : "전북은행", value : "1"},
             ],
-        });
+        });*/
 
         $("input[name='resCardCheck']").click(function(){
             if($(this).val() == "Y"){
@@ -29,8 +29,8 @@ var rndDetail = {
 
         /** 계 = 총 사업비 + 현금 + 현물 */
         $("#allBusnCost, #peoResCost, #peoResItem").keyup(function(){
-            $("#totResCost").val(comma(
-                Number(uncomma($("#allBusnCost").val()))
+            $("#allBusnCost").val(comma(
+                Number(uncomma($("#allResCost").val()))
                 + Number(uncomma($("#peoResCost").val()))
                 + Number(uncomma($("#peoResItem").val()))
             ));
@@ -62,23 +62,23 @@ var rndDetail = {
             $("#mngDeptSeq").val(rs.MNG_DEPT_SEQ);
             $("#mngEmpSeq").val(rs.MNG_EMP_SEQ);
 
-            $("#bank").data("kendoDropDownList").value(rs.BANK_SN);
-            $("#bankNo").val(rs.BANK_NO);
-            $("#accHold").val(rs.ACC_HOLD);
+            //$("#bank").data("kendoDropDownList").value(rs.BANK_SN);
+            //$("#bankNo").val(rs.BANK_NO);
+            //$("#accHold").val(rs.ACC_HOLD);
 
             $("#allResCost").val(comma(rs.ALL_RES_COST));
             $("#peoResCost").val(comma(rs.PEO_RES_COST));
             $("#peoResItem").val(comma(rs.PEO_RES_ITEM));
             $("#totResCost").val(comma(rs.TOT_RES_COST));
 
-            if(rs.RES_CARD_CHECK == "Y"){
+            /*if(rs.RES_CARD_CHECK == "Y"){
                 $("input[name='resCardCheck'][value='Y']").prop("checked", true);
                 $("#rccYRes").css("display", "");
             }else{
                 $("input[name='resCardCheck'][value='N']").prop("checked", true);
                 $("#rccYRes").css("display", "none");
-            }
-            $("#resCardNo").val(rs.RES_CARD_NO);
+            }*/
+            //$("#resCardNo").val(rs.RES_CARD_NO);
 
             $("#delvDay").val(rs.DELV_DAY);
             $("#resDay").val(rs.RES_DAY);
@@ -105,18 +105,18 @@ var rndDetail = {
             mngEmpSeq : $("#mngEmpSeq").val(),
             empSeq : $("#mngEmpSeq").val(),
 
-            bankSn : $("#bank").val(),
-            bankNm : $("#bank").data("kendoDropDownList").text(),
-            bankNo : $("#bankNo").val(),
-            accHold : $("#accHold").val(),
+            //bankSn : $("#bank").val(),
+            //bankNm : $("#bank").data("kendoDropDownList").text(),
+            //bankNo : $("#bankNo").val(),
+            //accHold : $("#accHold").val(),
 
             allResCost : uncomma($("#allResCost").val()),
             peoResCost : uncomma($("#peoResCost").val()),
             peoResItem : uncomma($("#peoResItem").val()),
             totResCost : uncomma($("#totResCost").val()),
 
-            resCardCheck : $("input[name='resCardCheck']:checked").val(),
-            resCardNo : $("#resCardNo").val(),
+            //resCardCheck : $("input[name='resCardCheck']:checked").val(),
+            //resCardNo : $("#resCardNo").val(),
 
             delvDay : $("#delvDay").val(),
             resDay : $("#resDay").val(),
@@ -140,34 +140,20 @@ var rndDetail = {
             alert("연구책임자를 선택해주세요.");
             return;
         }
-        if(parameters.bankSn == ""){
-            alert("출금대표통장을 선택해주세요.");
-            return;
-        }
-        if(parameters.bankNo == ""){
-            alert("계좌번호를 작성해주세요.");
-            return;
-        }
-        if(parameters.accHold == ""){
-            alert("예금주를 작성해주세요.");
-            return;
-        }
         if(parameters.allResCost == ""){
             alert("전체연구비를 작성해주세요.");
             return;
         }
         if(parameters.peoResCost == ""){
-            alert("민간부담금 - 현금을 작성해주세요.");
-            return;
+            parameters.peoResCost = 0;
         }
         if(parameters.peoResItem == ""){
-            alert("민간부담금 - 현물을 작성해주세요.");
-            return;
+            parameters.peoResItem = 0;
         }
-        if(parameters.resCardCheck == "" || parameters.resCardCheck == null){
+        /*if(parameters.resCardCheck == "" || parameters.resCardCheck == null){
             alert("연구카드사용여부를 작성해주세요.");
             return;
-        }
+        }*/
 
         $.ajax({
             url : "/projectRnd/setRndDetail",
@@ -197,7 +183,7 @@ var rndDetail = {
             rndSn : $("#rndSn").val(),
             pjtTmpCd : pjCode + supDep + supDepSub + pjtStat + pjtStatSub + year,
             pjtCd : pjCode + supDep + supDepSub + pjtStat + pjtStatSub + year,
-            pjtExpAmt : uncomma($("#allResCost").val()),
+            pjtExpAmt : uncomma($("#totResCost").val()),
             pType : "I",
             pProjectNM : $("#pjtNm").val(),
             pState : '1',
