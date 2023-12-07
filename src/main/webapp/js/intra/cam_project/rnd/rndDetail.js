@@ -86,6 +86,8 @@ var rndDetail = {
         /** 최초 저장 이후 데이터 세팅 */
         }else{
             $("#allResCost").val(comma(pjtMap.PJT_EXP_AMT));
+            $("#allBusnCost").val(comma(pjtMap.PJT_EXP_AMT));
+            $("#totResCost").val(comma(pjtMap.PJT_EXP_AMT));
         }
 
         /** 버튼 세팅 */
