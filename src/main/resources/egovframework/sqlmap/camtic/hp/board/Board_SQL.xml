@@ -430,14 +430,19 @@
         /*selectPrBoardList*/
         SELECT
         *,
-        (select concat(file_path,file_uuid) from cam_common.dj_file_info where fr_key = dba.board_article_id and file_cd = 'sns') AS FILE_PATH
+        (SELECT CONCAT(file_path, file_uuid) FROM cam_common.dj_file_info WHERE fr_key = board_article_id AND file_cd = 'sns') AS FILE_PATH
+        FROM (
+        SELECT
+        DBA.*,
+        ROW_NUMBER() OVER (PARTITION BY SNS_TYPE ORDER BY REG_DATE DESC) AS rn
         FROM
-        CAM_COMMON.DJ_BOARD_ARTICLE DBA
+            CAM_COMMON.DJ_BOARD_ARTICLE DBA
         WHERE
-        BOARD_CATEGORY_ID = 'sns'
-        AND
-        ACTIVE = 'Y'
-        ORDER BY REG_DATE DESC
+            BOARD_CATEGORY_ID = 'sns'
+        AND ACTIVE = 'Y'
+        ) AS RankedData
+        WHERE <![CDATA[ rn <= 3 ]]>
+        ORDER BY rn, SNS_TYPE, REG_DATE DESC;
     </select>
 
     <select id="getRecruitmentList" resultType="egovframework.com.devjitsu.hp.board.util.PostResponse" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
