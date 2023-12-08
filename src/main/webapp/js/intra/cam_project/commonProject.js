@@ -184,6 +184,10 @@ function fileChange(e){
 }
 
 var commonProject = {
+    global : {
+        teamStat : ""
+    },
+
     loading : function(){
         $.LoadingOverlay("show", {
             background: "rgba(0, 0, 0, 0.5)",
@@ -192,5 +196,12 @@ var commonProject = {
             fontawesome: "fa fa-spinner fa-pulse fa-fw",
             fontawesomeColor: "#FFFFFF",
         });
+    },
+
+    setTeamStat : function(){
+        const pjtResult = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn : $("#pjtSn").val()});
+        const pjtMap = pjtResult.map;
+
+        commonProject.global.teamStat = pjtMap.TEAM_STAT;
     }
 }

@@ -23,6 +23,7 @@ var estInfo = {
             estInfo.fn_addClickEvent();
         });
 
+        commonProject.setTeamStat();
         estInfo.fn_setData();
 
     },

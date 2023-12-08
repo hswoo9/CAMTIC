@@ -11,12 +11,11 @@ var devInfo = {
             pjtSn : $("#pjtSn").val()
         }
         var rs = customKendo.fn_customAjax("/project/getDevPjtVerList", data);
-        console.log("rs");
-        console.log(rs);
+        commonProject.setTeamStat();
+
         devInfo.global.devPjtVerList = rs;
 
         var html = "";
-        console.log(rs.list);
         for(var i = 0 ; i < rs.list.length ; i++){
             var date = new Date(rs.list[i].CONSULT_DT);
             var yyyy = date.getFullYear();
@@ -61,7 +60,7 @@ var devInfo = {
             html += "   <td><span style='font-weight: bold; cursor: pointer' onclick='devInfo.fn_setVersion("+rs.list[i].DEV_SN+")'>Ver."+(i+1)+"</span></td>";
             html += "   <td>"+ docNo +"</td>";
             html += "   <td>"+ sdfDate +"</td>";
-            html += "   <td id='invAmt002'>"+devInfo.comma(invAmt)+"</td>";
+            html += "   <td id='invAmt002'>"+comma(invAmt)+"</td>";
             html += "   <td>"+rs.list[i].PM+"</td>";
             html += "   <td></td>";
             html += "   <td>"+pjtStepNm+"</td>";
@@ -70,7 +69,7 @@ var devInfo = {
 
         $("#verTable").append(html);
 
-        $("#devDelvAmt").val(devInfo.comma($("#devDelvAmt").val()));
+        $("#devDelvAmt").val(comma($("#devDelvAmt").val()));
 
         $("#prepList").kendoDropDownList({
             dataSource : [
@@ -100,11 +99,9 @@ var devInfo = {
             dataValueField : "value"
         });
 
-        $("#depObj, #etc").kendoTextArea({
+        $("#depObj, #devEtc").kendoTextArea({
             rows : 5,
         });
-
-        devInfo.fn_setData();
 
         var rs = devInfo.global.devPjtVerList.list;
         if(rs.length > 0){
@@ -139,7 +136,7 @@ var devInfo = {
             }
         }
 
-        if(devInfo.global.devPjtVerList.list[0].TEAM_STAT == "Y"){
+        if(commonProject.global.teamStat == "Y"){
             devInfo.fn_setVersion(devInfo.global.devPjtVerList.list[0].DEV_SN);
         }else{
             devInfo.fn_setVersion(devInfo.global.devPjtVerList.list[devInfo.global.devPjtVerList.list.length-1].DEV_SN);
@@ -330,9 +327,9 @@ var devInfo = {
                         '           </span>' +
                         '       </td>' +
                         '       <td><input type="text" id="invNm" class="invNm" /></td>' +
-                        '       <td><input type="text" id="invCnt" class="invCnt" style="text-align: right" onkeyup="devInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
+                        '       <td><input type="text" id="invCnt" class="invCnt" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
                         '       <td><input type="text" id="invUnit" class="invUnit" /></td>' +
-                        '       <td><input type="text" id="estTotAmt" style="text-align: right" class="estTotAmt" onkeyup="devInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
+                        '       <td><input type="text" id="estTotAmt" style="text-align: right" class="estTotAmt" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
                         '       <td><input type="text" id="estOfc" class="estOfc" /></td>' +
                         '       <td><input type="text" id="invEtc" class="invEtc" /></td>' +
                         '       <td style="text-align: center;"><button type="button" id="addBtn" onclick="devInfo.fn_addInv()" class="k-button k-button-solid-base">추가</button></td>';
@@ -362,9 +359,9 @@ var devInfo = {
                             '           </span>\n' +
                             '       </td>\n' +
                             '       <td><input type="text" id="invNm'+idx+'" class="invNm" /></td>\n' +
-                            '       <td><input type="text" id="invCnt'+idx+'" class="invCnt" style="text-align: right" onkeyup="devInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>\n' +
+                            '       <td><input type="text" id="invCnt'+idx+'" class="invCnt" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>\n' +
                             '       <td><input type="text" id="invUnit'+idx+'" class="invUnit" /></td>\n' +
-                            '       <td><input type="text" id="estTotAmt'+idx+'" style="text-align: right" class="estTotAmt" onkeyup="devInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>\n' +
+                            '       <td><input type="text" id="estTotAmt'+idx+'" style="text-align: right" class="estTotAmt" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>\n' +
                             '       <td><input type="text" id="estOfc'+idx+'" class="estOfc" /></td>\n' +
                             '       <td><input type="text" id="invEtc'+idx+'" class="invEtc" /></td>\n' +
                             '       <td style="text-align: center;">' +
@@ -388,9 +385,9 @@ var devInfo = {
                         $("#invSn" + idx).val(list[i].INV_SN);
 
                         $("#invNm" + idx).val(list[i].INV_NM);
-                        $("#invCnt" + idx).val(devInfo.comma(list[i].INV_CNT));
+                        $("#invCnt" + idx).val(comma(list[i].INV_CNT));
                         $("#invUnit" + idx).val(list[i].INV_UNIT);
-                        $("#estTotAmt" + idx).val(devInfo.comma(list[i].EST_TOT_AMT));
+                        $("#estTotAmt" + idx).val(comma(list[i].EST_TOT_AMT));
                         $("#invEtc" + idx).val(list[i].INV_ETC);
 
                         $("#estOfc" + idx).val(list[i].EST_OFC);
@@ -400,15 +397,15 @@ var devInfo = {
                     var totAmt = 0;
                     $("#invTable > tr").each(function(e){
                         idx++;
-                        totAmt += Number(devInfo.uncomma($("#estTotAmt" + idx).val()));
+                        totAmt += Number(uncomma($("#estTotAmt" + idx).val()));
                     });
 
-                    $("#invAmt").val(devInfo.comma(totAmt));
+                    $("#invAmt").val(comma(totAmt));
 
                     var invPer = 0;
 
 
-                    $("#invPer").val(Math.round(Number( totAmt / devInfo.uncomma($("#devDelvAmt").val()) * 100)));
+                    $("#invPer").val(Math.round(Number( totAmt / uncomma($("#devDelvAmt").val()) * 100)));
                     devInfo.global.invCk = "Y";
                 } else {
                     var html = "";
@@ -421,9 +418,9 @@ var devInfo = {
                         '           </span>' +
                         '       </td>' +
                         '       <td><input type="text" id="invNm" class="invNm" /></td>' +
-                        '       <td><input type="text" id="invCnt" class="invCnt" style="text-align: right" onkeyup="devInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
+                        '       <td><input type="text" id="invCnt" class="invCnt" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
                         '       <td><input type="text" id="invUnit" class="invUnit" /></td>' +
-                        '       <td><input type="text" id="estTotAmt" style="text-align: right" class="estTotAmt" onkeyup="devInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
+                        '       <td><input type="text" id="estTotAmt" style="text-align: right" class="estTotAmt" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
                         '       <td><input type="text" id="estOfc" class="estOfc" /></td>' +
                         '       <td><input type="text" id="invEtc" class="invEtc" /></td>' +
                         '       <td style="text-align: center;"><button type="button" id="addBtn" onclick="devInfo.fn_addInv()" class="k-button k-button-solid-base">추가</button></td>';
@@ -453,16 +450,16 @@ var devInfo = {
             async : false,
             type : "post",
             success : function(rs){
+                console.log("rs");
+                console.log(rs);
                 if(rs.rs != null && rs.rs != ""){
                     $("#devSn").val(rs.rs.DEV_SN);
                     $("#depObj").val(rs.rs.DEP_OBJ);
-                    $("#etc").val(rs.rs.ETC);
+                    $("#devEtc").val(rs.rs.ETC);
 
                     $("#modBtn").css("display", "");
                     // $("#devSaveBtn").css("display", "none");
                 }
-                console.log("verSet");
-                console.log(rs);
 
                 if(rs.rs != null) {
                     var status = rs.rs.STATUS;
@@ -484,12 +481,12 @@ var devInfo = {
                         buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
                     }
 
-                    if(devInfo.global.devPjtVerList.list[0].TEAM_STAT == "Y"){
+                    if(commonProject.global.teamStat == "Y"){
                         buttonHtml = "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
                         buttonHtml += "<button type=\"button\" id=\"teamAppBtn\" style=\"float: right; margin-right: 5px; display: none\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_teamApp()\">공정 마감</button>";
                     }
                     $("#devBtnDiv").html(buttonHtml);
-                    if(devInfo.global.devPjtVerList.list[0].TEAM_STAT == "Y"){
+                    if(commonProject.global.teamStat == "Y"){
                         if(devInfo.global.invCk == "Y"){
                             $("#teamAppBtn").show();
                         }
@@ -593,10 +590,6 @@ var devInfo = {
             return;
         }
 
-
-        devInfo.fn_setData();
-
-
         var data = {
             pjtSn : $("#pjtSn").val(),
             empSeq : $("#empSeq").val()
@@ -610,7 +603,7 @@ var devInfo = {
     },
 
     devDrafting: function() {
-        if(devInfo.global.devPjtVerList.list[0].TEAM_STAT == "N"){
+        if(commonProject.global.teamStat == "N"){
             if(devInfo.global.devPjtVerList.list[0].TM_YN != "N" && devInfo.global.devPjtVerList.list[0].DEV_TEAM_CK == "N"){
                 alert("협업 계획서 마감처리가 진행되지 않았습니다."); return;
             }
@@ -777,9 +770,9 @@ var devInfo = {
             invRow : idx,
             divNm : $("#divNm").data("kendoDropDownList").text(),
             invNm : $("#invNm").val(),
-            invCnt : devInfo.uncomma($("#invCnt").val()),
+            invCnt : uncomma($("#invCnt").val()),
             invUnit : $("#invUnit").val(),
-            estTotAmt : devInfo.uncomma($("#estTotAmt").val()),
+            estTotAmt : uncomma($("#estTotAmt").val()),
             estOfc : $("#estOfc").val(),
             invEtc : $("#invEtc").val(),
             pjtSn : $("#pjtSn").val(),
@@ -799,9 +792,9 @@ var devInfo = {
             '           </span>\n' +
             '       </td>\n' +
             '       <td><input type="text" id="invNm'+idx+'" class="invNm" value="'+data.invNm+'" /></td>\n' +
-            '       <td><input type="text" id="invCnt'+idx+'" class="invCnt" value="'+devInfo.comma(data.invCnt)+'" style="text-align: right" onkeyup="devInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>\n' +
+            '       <td><input type="text" id="invCnt'+idx+'" class="invCnt" value="'+comma(data.invCnt)+'" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>\n' +
             '       <td><input type="text" id="invUnit'+idx+'" class="invUnit" value="'+data.invUnit+'" /></td>\n' +
-            '       <td><input type="text" id="estTotAmt'+idx+'" style="text-align: right" value="'+devInfo.comma(data.estTotAmt)+'" class="estTotAmt" onkeyup="devInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>\n' +
+            '       <td><input type="text" id="estTotAmt'+idx+'" style="text-align: right" value="'+comma(data.estTotAmt)+'" class="estTotAmt" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>\n' +
             '       <td><input type="text" id="estOfc'+idx+'" class="estOfc" value="'+data.estOfc+'" /></td>\n' +
             '       <td><input type="text" id="invEtc'+idx+'" class="invEtc" value="'+data.invEtc+'" /></td>\n' +
             '       <td style="text-align: center;">' +
@@ -834,13 +827,13 @@ var devInfo = {
                 var totAmt = 0;
                 $("#invTable > tr").each(function(e){
                     idx++;
-                    totAmt += Number(devInfo.uncomma($("#estTotAmt" + idx).val()));
+                    totAmt += Number(uncomma($("#estTotAmt" + idx).val()));
                 });
 
                 if(rs.code == 200){
                     $("#invSn" + idx).val(rs.rep.INV_SN);
-                    $("#invAmt").val(devInfo.comma(totAmt));
-                    $("#invPer").val(Math.round(totAmt / devInfo.uncomma($("#devDelvAmt").val()) * 100));
+                    $("#invAmt").val(comma(totAmt));
+                    $("#invPer").val(Math.round(totAmt / uncomma($("#devDelvAmt").val()) * 100));
                 }
 
 
@@ -855,22 +848,6 @@ var devInfo = {
 
     },
 
-    inputNumberFormat : function (obj){
-        obj.value = devInfo.comma(devInfo.uncomma(obj.value));
-    },
-
-    comma: function(str) {
-        str = String(str);
-        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-    },
-
-    uncomma: function(str) {
-        str = String(str);
-        return str.replace(/[^\d]+/g, '');
-    },
-
-
-
     fn_saveInv : function (){
         var invLength = $("#invTable > tr").length;
 
@@ -883,9 +860,9 @@ var devInfo = {
                     divCd : $("#divNm"+row).val(),
                     divNm : $("#divNm"+row).data("kendoDropDownList").text(),
                     invNm : $("#invNm"+row).val(),
-                    invCnt : devInfo.uncomma($("#invCnt"+row).val()),
+                    invCnt : uncomma($("#invCnt"+row).val()),
                     invUnit : $("#invUnit"+row).val(),
-                    estTotAmt : devInfo.uncomma($("#estTotAmt"+row).val()),
+                    estTotAmt : uncomma($("#estTotAmt"+row).val()),
                     estOfc : $("#estOfc"+row).val(),
                     invEtc : $("#invEtc"+row).val()
                 }
@@ -900,12 +877,12 @@ var devInfo = {
                         var totAmt = 0;
                         $("#invTable > tr").each(function(e){
                             idx++;
-                            totAmt += Number(devInfo.uncomma($("#estTotAmt" + idx).val()));
-                            $("#invPer").val(Math.round(totAmt / devInfo.uncomma($("#devDelvAmt").val()) * 100));
+                            totAmt += Number(uncomma($("#estTotAmt" + idx).val()));
+                            $("#invPer").val(Math.round(totAmt / uncomma($("#devDelvAmt").val()) * 100));
                         });
 
                         if(rs.code = 200){
-                            $("#invAmt").val(devInfo.comma(totAmt));
+                            $("#invAmt").val(comma(totAmt));
                         }
                     }
                 });
@@ -961,9 +938,9 @@ var devInfo = {
                                 divCd : $("#divNm"+idx).val(),
                                 divNm : $("#divNm"+idx).data("kendoDropDownList").text(),
                                 invNm : $("#invNm"+idx).val(),
-                                invCnt : devInfo.uncomma($("#invCnt"+idx).val()),
+                                invCnt : uncomma($("#invCnt"+idx).val()),
                                 invUnit : $("#invUnit"+idx).val(),
-                                estTotAmt : devInfo.uncomma($("#estTotAmt"+idx).val()),
+                                estTotAmt : uncomma($("#estTotAmt"+idx).val()),
                                 estOfc : $("#estOfc"+idx).val(),
                                 invEtc : $("#invEtc"+idx).val()
                             }
@@ -985,12 +962,12 @@ var devInfo = {
                     var totAmt = 0;
                     $("#invTable > tr").each(function(e){
                         idx++;
-                        totAmt += Number(devInfo.uncomma($("#estTotAmt" + idx).val()));
+                        totAmt += Number(uncomma($("#estTotAmt" + idx).val()));
                     });
 
                     if(rs.code = 200){
-                        $("#invAmt").val(devInfo.comma(totAmt));
-                        $("#invPer").val(Math.round(totAmt / devInfo.uncomma($("#devDelvAmt").val()) * 100));
+                        $("#invAmt").val(comma(totAmt));
+                        $("#invPer").val(Math.round(totAmt / uncomma($("#devDelvAmt").val()) * 100));
                     }
 
                 }
@@ -999,16 +976,20 @@ var devInfo = {
     },
 
     fn_save: function (){
+        if($("#invAmt").val() == ""){
+            alert("투자내역을 입력해주세요."); return;
+        }
+
         if(!confirm("저장하시겠습니까?")){
             return;
         }
 
 
         var data= {
-            invAmt : devInfo.uncomma($("#invAmt").val()),
+            invAmt : uncomma($("#invAmt").val()),
             invPer : $("#invPer").val(),
             depObj : $("#depObj").val(),
-            etc : $("#etc").val(),
+            etc : $("#devEtc").val(),
             pjtSn : $("#pjtSn").val(),
             regEmpSeq : $("#empSeq").val(),
 
@@ -1051,11 +1032,11 @@ var devInfo = {
                     var sum = 0;
                     $(".estTotAmt").each(function(){
                         if(this.value != ""){
-                            sum += Number(devInfo.uncomma($(this).val()));
+                            sum += Number(uncomma($(this).val()));
                         }
                     });
 
-                    $("#invAmt002").text(devInfo.comma(sum));
+                    $("#invAmt002").text(comma(sum));
                     devInfo.fn_saveInv();
 
                 }
@@ -1063,7 +1044,11 @@ var devInfo = {
         });
 
         alert("저장되었습니다.");
-        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=3";
+        if(commonProject.global.teamStat == "Y"){
+            window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=2";
+        }else{
+            window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=3";
+        }
 
     },
 

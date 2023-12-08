@@ -71,6 +71,38 @@ var regPrj = {
             tab13Url += "&engnSn=" + setParameters.ENGN_SN;
         }
 
+        let dataSource;
+        if(setParameters != null && setParameters.TEAM_STAT == "Y"){
+            dataSource = [
+                {name: "견적관리", url: tab1Url},
+                {name: "수행계획(공정)", url: tab3Url},
+                {name: "공정", url: tab4Url},
+                {name: "납품관리", url: tab6Url},
+                {name: "실적관리", url: tab8Url},
+
+                {name: "출장", url: tab10Url},
+                {name: "구매", url: tab11Url}
+            ]
+        } else {
+            dataSource = [
+                {name: "상담정보", url: tab0Url},
+                {name: "견적관리", url: tab1Url},
+                {name: "수주보고", url: tab2Url, imageUrl : "/images/ico/etc_01_1.png"},
+                {name: "수행계획(공정)", url: tab3Url, imageUrl : "/images/ico/etc_01_1.png"},
+                {name: "공정", url: tab4Url},
+                {name: "협업", url: tab5Url},
+                {name: "납품관리", url: tab6Url},
+                {name: "결과보고", url: tab7Url, imageUrl : "/images/ico/etc_01_1.png"},
+                {name: "실적관리", url: tab8Url},
+                {name: "원가보고", url: tab9Url, imageUrl : "/images/ico/etc_01_1.png"},
+
+                {name: "출장", url: tab10Url},
+                {name: "구매", url: tab11Url},
+                {name: "입금관리", url: tab12Url},
+                {name: "정산서", url: tab13Url}
+            ]
+        }
+
         $("#tabstrip").kendoTabStrip({
             animation:  {
                 open: {
@@ -121,23 +153,7 @@ var regPrj = {
             dataTextField: "name",
             dataContentUrlField: "url",
             dataImageUrlField: "imageUrl",
-            dataSource : [
-                {name: "상담정보", url: tab0Url},
-                {name: "견적관리", url: tab1Url},
-                {name: "수주보고", url: tab2Url, imageUrl : "/images/ico/etc_01_1.png"},
-                {name: "수행계획(공정)", url: tab3Url, imageUrl : "/images/ico/etc_01_1.png"},
-                {name: "공정", url: tab4Url},
-                {name: "협업", url: tab5Url},
-                {name: "납품관리", url: tab6Url},
-                {name: "결과보고", url: tab7Url, imageUrl : "/images/ico/etc_01_1.png"},
-                {name: "실적관리", url: tab8Url},
-                {name: "원가보고", url: tab9Url, imageUrl : "/images/ico/etc_01_1.png"},
-
-                {name: "출장", url: tab10Url},
-                {name: "구매", url: tab11Url},
-                {name: "입금관리", url: tab12Url},
-                {name: "정산서", url: tab13Url}
-            ],
+            dataSource : dataSource,
         });
 
         var tabStrip = $("#tabstrip").data("kendoTabStrip");
@@ -159,16 +175,6 @@ var regPrj = {
 
         /** 협업일때 */
         if(setParameters.TEAM_STAT == "Y"){
-
-            tabStrip.remove(tabStrip.tabGroup.children().eq(13));
-            tabStrip.remove(tabStrip.tabGroup.children().eq(12));
-            tabStrip.remove(tabStrip.tabGroup.children().eq(9));
-            tabStrip.remove(tabStrip.tabGroup.children().eq(8));
-            tabStrip.remove(tabStrip.tabGroup.children().eq(7));
-            tabStrip.remove(tabStrip.tabGroup.children().eq(5));
-            tabStrip.remove(tabStrip.tabGroup.children().eq(2));
-            tabStrip.remove(tabStrip.tabGroup.children().eq(0));
-
             tabStrip.activateTab(tabStrip.tabGroup.children().eq(0));
             tabStrip.enable(tabStrip.tabGroup.children());
 
@@ -187,8 +193,6 @@ var regPrj = {
             var html3 = '<div style="padding: 6px 12px"><b style="color: blue">운영관리</b></div>';
             var doc3 = parser.parseFromString(html3, 'text/html');
             $("#tabstrip li")[4].before(doc3.body.firstChild);
-
-            $("#tabstrip .k-image").hide();
         /** 협업이 아닐 때 */
         } else {
             if(setParameters.PJT_SN){
