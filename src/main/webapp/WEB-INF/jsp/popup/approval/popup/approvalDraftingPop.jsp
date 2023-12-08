@@ -12,7 +12,7 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="false"/>
 <script type="text/javascript" src="${hwpUrl}js/hwpctrlapp/utils/util.js"></script>
 <script type="text/javascript" src="${hwpUrl}js/webhwpctrl.js"></script>
-<script type="text/javascript" src="<c:url value='/js/hancom/hwp_DocCtrl.js?v=2'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/hancom/hwp_DocCtrl.js?v=${now}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpInit.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpEngnInit.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpRndInit.js?v=${today}'/>"></script>

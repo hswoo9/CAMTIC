@@ -11,6 +11,7 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/regPayAppPop.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/g20Callback.js?v=${today}'/>"></script>
 
+
 <form id="payAppDraftFrm" method="post">
     <input type="hidden" id="payAppSn" name="payAppSn" value="${params.payAppSn}">
     <input type="hidden" id="menuCd" name="menuCd" value="payApp">
@@ -297,6 +298,7 @@
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
     regPayDet.fn_defaultScript();
     regPay.fn_defaultScript();

@@ -120,7 +120,6 @@ var payCardHist = {
             }
         })
 
-        console.log(data);
 
         if(cnt > 1){
             alert("여러개의 항목이 선택되었습니다. 확인해주세요.");
@@ -144,8 +143,8 @@ var payCardHist = {
         opener.parent.$("#authDd" + index).val(data.AUTH_DD);
         opener.parent.$("#authHh" + index).val(data.AUTH_HH);
 
-        alert("반영되었습니다.");
+        fn_setCardInfo(data.AUTH_NO, data.AUTH_DD, data.AUTH_HH, data.CARD_NO, data.BUY_STS);
 
-        window.close();
+
     }
 }

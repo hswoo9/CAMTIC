@@ -135,12 +135,18 @@ public class PayAppServiceImpl implements PayAppService {
         params.put("approveStatCode", docSts);
         params.put("empSeq", empSeq);
         Map<String, Object> payAppInfo = payAppRepository.getPayAppInfo(params);
+        List<Map<String, Object>> payAppItemList = payAppRepository.getPayAppItemList(params);
 
         if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
             payAppRepository.updatePayAppApprStat(params);
-            payAppRepository.insUseCardInfo(payAppInfo);
+
+            for(Map<String, Object> map : payAppItemList){
+                payAppRepository.insUseCardInfo(map);
+            }
+
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
             payAppRepository.updatePayAppApprStat(params);
+
             payAppRepository.delUseCardInfo(payAppInfo);
 
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결

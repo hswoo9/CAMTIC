@@ -1411,6 +1411,16 @@
             PAY_APP_SN = #{payAppSn}
     </select>
 
+    <select id="getPayAppItemList" parameterType="map" resultType="map">
+        /*getPayAppItemList*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_PAY_APP_DET
+        WHERE
+            PAY_APP_SN = #{payAppSn}
+    </select>
+
     <insert id="insUseCardInfo" parameterType="map">
         /*insUseCardInfo*/
         INSERT INTO CAM_MNG.DJ_USE_CARD_INFO
@@ -1439,6 +1449,6 @@
         /*delUseCardInfo*/
         DELETE FROM CAM_MNG.DJ_USE_CARD_INFO
         WHERE
-            PAY_APP_SN = #{PAY_APP_SN} AND AUTH_NO = #{AUTH_NO} AND AUTH_HH = #{AUTH_HH} AND AUTH_DD = #{AUTH_DD} AND CARD_NO = #{CARD_NO} AND BUY_STS = #{BUY_STS}
+            PAY_APP_SN = #{PAY_APP_SN}
     </delete>
 </mapper>

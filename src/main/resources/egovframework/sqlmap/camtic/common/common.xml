@@ -464,4 +464,26 @@
         DELETE FROM CAM_COMMON.DJ_FAVORITE_MENU WHERE REG_EMP_SEQ = #{empSeq} and FV_MENU_ID = #{menuID}
     </delete>
 
+    <insert id="insFileUpload" parameterType="map">
+        /*insFileUpload*/
+        INSERT INTO CAM_COMMON.DJ_FILE_INFO
+            (
+                FILE_CD,
+                FILE_UUID,
+                FILE_ORG_NAME,
+                FILE_PATH,
+                FILE_SIZE,
+                FILE_EXT
+            )
+        VALUES
+            (
+                #{fileCd},
+                #{fileUuid},
+                #{fileOrgName},
+                #{filePath},
+                #{fileSize},
+                #{fileExt}
+            )
+    </insert>
+
 </mapper>

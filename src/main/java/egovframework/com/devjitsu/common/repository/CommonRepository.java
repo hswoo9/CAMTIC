@@ -73,4 +73,7 @@ public class CommonRepository extends AbstractDAO {
     }
 
 
+    public void insFileUpload(Map<String, Object> fileParameters) {
+        insert("common.insFileUpload", fileParameters);
+    }
 }
