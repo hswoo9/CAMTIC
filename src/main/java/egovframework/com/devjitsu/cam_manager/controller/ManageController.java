@@ -306,7 +306,7 @@ public class ManageController {
             String fileOrgName = params.get("authNo").toString();
             String fileCd = "useCard";
             String fileExt = "png";
-            String filePath = "/home/upload/"+ fileCd +"/" + params.get("authNo") + "/" + params.get("authDate") + "/" + params.get("authTime") + "/" + params.get("cardNo") + "/" + params.get("buySts") + "/";
+            String filePath = "/upload/"+ fileCd +"/" + params.get("authNo") + "/" + params.get("authDate") + "/" + params.get("authTime") + "/" + params.get("cardNo") + "/" + params.get("buySts") + "/";
 
             Map<String, Object> fileParameters = new HashMap<>();
             fileParameters.put("fileCd", fileCd);
@@ -325,7 +325,7 @@ public class ManageController {
                 newPath.mkdirs();
             }
 
-            stream = new FileOutputStream(filePath + fileUuid + "." + fileExt);
+            stream = new FileOutputStream("/home" + filePath + fileUuid + "." + fileExt);
 
             stream.write(file);
             stream.close();
