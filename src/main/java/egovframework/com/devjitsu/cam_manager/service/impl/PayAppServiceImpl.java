@@ -49,9 +49,17 @@ public class PayAppServiceImpl implements PayAppService {
             payAppRepository.updPurcClaimByPayAppSn(params);
         }
 
+        commonRepository.updFileOwnerNull(params);
+
         for(Map<String, Object> map : itemArr){
             map.put("payAppSn", params.get("payAppSn"));
+
             payAppRepository.insPayAppDetailData(map);
+
+            String filePath = "/upload/useCard/" + map.get("authNo") + "/" + map.get("authDd") + "/" + map.get("authHh") + "/" + map.get("cardNo").toString().replaceAll("-", "") + "/" + map.get("buySts") + "/";
+            map.put("filePath", filePath);
+
+            commonRepository.updFileOwner(map);
         }
 
         MainLib mainLib = new MainLib();

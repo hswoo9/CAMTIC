@@ -1397,8 +1397,8 @@
             CAM_COMMON.DJ_FILE_INFO
         WHERE
             CONTENT_ID = #{payAppSn}
-          AND
-            FILE_CD = 'payApp'
+        AND
+            (FILE_CD = 'payApp' OR FILE_CD = 'useCard')
     </select>
 
     <select id="getPayAppInfo" parameterType="map" resultType="map">

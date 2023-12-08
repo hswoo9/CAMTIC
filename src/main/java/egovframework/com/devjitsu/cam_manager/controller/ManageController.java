@@ -310,7 +310,7 @@ public class ManageController {
 
             Map<String, Object> fileParameters = new HashMap<>();
             fileParameters.put("fileCd", fileCd);
-            fileParameters.put("fileUuid", fileUuid);
+            fileParameters.put("fileUuid", fileUuid+"."+fileExt);
             fileParameters.put("fileOrgName", fileOrgName);
             fileParameters.put("filePath", filePath);
             fileParameters.put("fileExt", fileExt);

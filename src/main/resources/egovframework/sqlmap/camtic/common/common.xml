@@ -488,4 +488,24 @@
             )
     </insert>
 
+    <update id="updFileOwner" parameterType="map">
+        /*updFileOwner*/
+        UPDATE
+            CAM_COMMON.DJ_FILE_INFO
+        SET
+            CONTENT_ID = #{payAppSn}
+        WHERE
+            FILE_PATH = #{filePath} AND FILE_CD = 'useCard'
+    </update>
+
+    <update id="updFileOwnerNull" parameterType="map">
+        /*updFileOwnerNull*/
+        UPDATE
+            CAM_COMMON.DJ_FILE_INFO
+        SET
+            CONTENT_ID = NULL
+        WHERE
+            CONTENT_ID = #{payAppSn} AND FILE_CD = 'useCard'
+    </update>
+
 </mapper>

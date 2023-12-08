@@ -371,7 +371,7 @@ var regPay = {
                         } else {
                             // regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="revertBtn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" onclick="regPayDet.fn_revertDet(this)">반려</button>';
                         }
-                    } else if(rs.DOC_STATUS == "0"){
+                    } else if(rs.DOC_STATUS == "0" || rs.DOC_STATUS == "30"){
                         regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(' + regPayDet.global.itemIndex + ')">삭제</button>';
                     } else {
                         regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(' + regPayDet.global.itemIndex + ')" disabled>삭제</button>';
@@ -537,7 +537,8 @@ var regPay = {
 
 
             regEmpSeq : $("#regEmpSeq").val(),
-            empSeq : $("#empSeq").val()
+            empSeq : $("#empSeq").val(),
+            type : type
         }
 
         // if($("#advances").is(":checked")){
