@@ -1,7 +1,9 @@
 var regPrj = {
 
 
-    fn_defaultScript : function (setParameters) {
+    fn_defaultScript : function () {
+        const setParameters = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: $("#mainPjtSn").val()}).rs;
+
         if(setParameters != null && setParameters.PJT_SN != null){
             setParameters.pjtSn = setParameters.PJT_SN;
             $("#stopBtn").show();

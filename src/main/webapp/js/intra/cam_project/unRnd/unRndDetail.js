@@ -27,7 +27,7 @@ var unRndDetail = {
             unRndCont : $("#unRndCont").val(),
 
             empSeq: $("#mngEmpSeq").val(),
-            regEmpSeq : $("#empSeq").val(),
+            regEmpSeq : $("#regEmpSeq").val(),
         }
 
         if($("#unRndSn").val() != "" && $("#unRndSn").val() != null){
