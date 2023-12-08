@@ -2,6 +2,7 @@ var bustInfo = {
 
 
     fn_defaultScript : function(){
+        commonProject.setPjtStat();
         customKendo.fn_textBox(["bustripReq"]);
 
         $("#contEtc").kendoTextArea({
@@ -12,37 +13,6 @@ var bustInfo = {
     },
 
     fn_setData : function (){
-        // var parameters = {
-        //     pjtSn : $("#pjtSn").val()
-        // }
-        //
-        // $.ajax({
-        //     url : "/project/engn/getBustInfo",
-        //     data : parameters,
-        //     type : "post",
-        //     dataType : "json",
-        //     success : function(rs){
-        //         var rs = rs.rs;
-        //         if(rs != null){
-        //             // $("#contEtc").val(rs.RESULT);
-        //             var busnName = "";
-        //             var project = "";
-        //             if(rs.BUSN_NAME != "" && rs.BUSN_NAME != null && rs.BUSN_NAME != undefined){
-        //                 busnName = p.BUSN_NAME;
-        //             }
-        //
-        //             if(rs.PROJECT_CD != "" && rs.PROJECT_CD != null){
-        //                 project = "(엔지니어링) ";
-        //             }
-        //             var title =  project + busnName + " 출장지 : " + rs.VISIT_LOC_SUB;
-        //             if(rs.VISIT_LOC_SUB != null && rs.VISIT_LOC_SUB != ''){
-        //                 // $("#bustripReq").val(title);
-        //                 // $("#hrBizReqResultId").val(rs.HR_BIZ_REQ_RESULT_ID);
-        //             }
-        //         }
-        //     }
-        // });
-
         bustInfo.bustripMainGrid();
     },
 
@@ -284,11 +254,25 @@ var bustInfo = {
             data : data,
             type : "post",
             dataType : "json",
-            success: function(rs){
+            success: function(){
                 alert("저장되었습니다.");
-
-                window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=1";
-
+                if(commonProject.global.teamStat == "Y"){
+                    if(commonProject.global.busnClass == "D"){
+                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=5";
+                    }else if(commonProject.global.busnClass == "R"){
+                        window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=5";
+                    }else if(commonProject.global.busnClass == "S"){
+                        window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=5";
+                    }
+                }else{
+                    if(commonProject.global.busnClass == "D"){
+                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=10";
+                    }else if(commonProject.global.busnClass == "R"){
+                        window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=10";
+                    }else if(commonProject.global.busnClass == "S"){
+                        window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=10";
+                    }
+                }
             }
         });
 

@@ -23,7 +23,7 @@ var estInfo = {
             estInfo.fn_addClickEvent();
         });
 
-        commonProject.setTeamStat();
+        commonProject.setPjtStat();
         estInfo.fn_setData();
 
     },
@@ -151,16 +151,11 @@ var estInfo = {
                     });
                     alert("저장되었습니다.");
 
-                    if($("#tmSn").val() == "Y"){
-                        if($("#pjtStep").val().toString().substring(0, 1) == "R"){
-                            window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=1"
-                        } else {
-                            window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=2";
-                        }
-                    } else {
+                    if(commonProject.global.teamStat == "Y"){
+                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=0";
+                    }else{
                         window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=1";
                     }
-
                 }
             }
         })

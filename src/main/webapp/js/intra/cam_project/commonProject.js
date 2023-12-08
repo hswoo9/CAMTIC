@@ -185,7 +185,8 @@ function fileChange(e){
 
 var commonProject = {
     global : {
-        teamStat : ""
+        teamStat : "",
+        busnClass : ""
     },
 
     loading : function(){
@@ -198,10 +199,11 @@ var commonProject = {
         });
     },
 
-    setTeamStat : function(){
+    setPjtStat : function(){
         const pjtResult = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn : $("#pjtSn").val()});
         const pjtMap = pjtResult.map;
 
         commonProject.global.teamStat = pjtMap.TEAM_STAT;
+        commonProject.global.busnClass = pjtMap.BUSN_CLASS;
     }
 }

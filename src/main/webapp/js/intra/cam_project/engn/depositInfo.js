@@ -5,6 +5,7 @@ var depoInfo = {
     },
 
     fn_defaultScript : function(){
+        commonProject.setPjtStat();
         this.gridReload();
     },
 

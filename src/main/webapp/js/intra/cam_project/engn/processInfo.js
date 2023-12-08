@@ -1,10 +1,8 @@
 var processInfo = {
 
 
-
-
     fn_defaultScript : function (){
-
+        commonProject.setPjtStat();
         var data= {
             pjtSn : $("#pjtSn").val(),
             empSeq : $("#regEmpSeq").val()
@@ -263,7 +261,11 @@ var processInfo = {
             enctype : 'multipart/form-data',
             async: false,
             success: function(rs){
-                window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=4";
+                if(commonProject.global.teamStat == "Y"){
+                    window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=2";
+                }else{
+                    window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=4";
+                }
             }
         });
     }

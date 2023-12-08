@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:useBean id="today" class="java.util.Date" />
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/bustInfo.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/inside/bustrip/bustripList.js?v=${today}'/>"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripResult.js?v=${today}"></script>

@@ -5,6 +5,7 @@ var goodsInfo = {
     },
 
     fn_defaultScript : function (){
+        commonProject.setPjtStat();
         customKendo.fn_datePicker("goodsDelvDe", "depth", "yyyy-MM-dd", new Date());
 
         customKendo.fn_textBox(["goodsPjtSn", "goodsCrmNm", "goodCrmMem", "goodsPjtNm", "goodsTotAmt"]);
@@ -12,6 +13,8 @@ var goodsInfo = {
         $("#goodsIss").kendoTextArea({
             rows: 5
         });
+
+        $(".tmHide").hide();
 
         $(".goodsProdNm, .goodsProdCnt, .goodsUnit, .goodsUnitAmt, .goodsSupAmt, .goodsProdEtc").kendoTextBox();
 
@@ -179,14 +182,15 @@ var goodsInfo = {
         fd.append("empSeq", data.empSeq);
         fd.append("regEmpSeq", data.empSeq);
 
-
         if($("#devFile")[0].files.length == 1){
             fd.append("devFile", $("#devFile")[0].files[0]);
         }
 
-        if($("#devFileName").text() == ""){
-            alert("납품서를 등록해주세요.");
-            return;
+        if(commonProject.global.teamStat != "Y"){
+            if($("#devFileName").text() == ""){
+                alert("납품서를 등록해주세요.");
+                return;
+            }
         }
 
         $.ajax({
@@ -220,7 +224,11 @@ var goodsInfo = {
                                 dataType: "json",
                                 success: function (rs) {
                                     if (rs.code == 200) {
-                                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=6";
+                                        if(commonProject.global.teamStat == "Y"){
+                                            window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=3";
+                                        }else{
+                                            window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=6";
+                                        }
                                     }
                                 }
                             })

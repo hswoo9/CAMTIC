@@ -75,10 +75,9 @@ var crmInfo = {
             data: parameters,
             type : "post",
             dataType : "json",
-            success : function(rs){
+            success : function(){
                 alert("저장되었습니다.");
-
-                window.location.href="/project/pop/viewRegProject.do?pjtSn=" + parameters.pjtSn + "&tab=1";
+                window.location.href="/project/pop/viewRegProject.do?pjtSn=" + parameters.pjtSn + "&tab=0";
             }
         });
     },

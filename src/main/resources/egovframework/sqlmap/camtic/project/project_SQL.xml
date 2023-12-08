@@ -920,44 +920,46 @@
             (SELECT CM_CODE_NM FROM CAM_COMMON.DJ_COM_CODE WHERE CM_CODE = M.POSITION_CODE AND CM_GROUP_CODE_ID = 4) AS POSITION_NAME,
             (SELECT LABOR_AMT FROM CAM_PJT_MNG.DJ_PJT_LABOR WHERE POSITION_CD = M.POSITION_CODE) AS LABOR_AMT,
             (SELECT TEAM_COST_AMT FROM CAM_PJT_MNG.DJ_PJT_TEAM_COST WHERE DEPT_CD = M.DEPT_SEQ) AS TEAM_COST_AMT
-        FROM
-            (SELECT
-                 A.*,
-                 C.PREP_A_TIME,
-                 C.PREP_B_TIME,
-                 C.PREP_C_TIME,
-                 C.PREP_D_TIME,
-                 C.COST_ETC,
-                 C.DOC_ID AS COST_DOC_ID,
-                 C.STATUS AS COST_STATUS,
-                 B.PS_FILE_SN,
-                 B.FILE_ETC1,
-                 B.FILE_ETC2,
-                 B.FILE_ETC3,
-                 B.FILE_ETC4,
-                 B.FILE_ETC5,
-                 B.FILE_ETC6,
-                 (SELECT POSITION_CODE FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PS_EMP_SEQ) AS POSITION_CODE,
-                 (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PS_EMP_SEQ) AS EMP_NM,
-                 (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PS_EMP_SEQ) AS DEPT_SEQ,
-                 DI.APPRO_KEY,
-                 DI.DOC_MENU_CD
-             FROM
-                 CAM_PJT_MNG.DJ_PJT_PS A
-                     LEFT JOIN
-                 CAM_PJT_MNG.DJ_PJT_PS_FILE B
-                 ON
-                     A.PJT_SN = B.PJT_SN
-                     LEFT JOIN
-                 CAM_PJT_MNG.DJ_PJT_COST C
-                 ON
-                     A.PJT_SN = C.PJT_SN
-                     LEFT JOIN
-                 DJ_CAMTIC.A_DOC_INFO DI
-                 ON
-                     C.DOC_ID = DI.DOC_ID
-             WHERE
-                 A.PJT_SN = #{pjtSn}) M
+        FROM (
+            SELECT
+                A.*,
+                C.PREP_A_TIME,
+                C.PREP_B_TIME,
+                C.PREP_C_TIME,
+                C.PREP_D_TIME,
+                C.COST_ETC,
+                C.DOC_ID AS COST_DOC_ID,
+                C.STATUS AS COST_STATUS,
+                B.PS_FILE_SN,
+                B.FILE_ETC1,
+                B.FILE_ETC2,
+                B.FILE_ETC3,
+                B.FILE_ETC4,
+                B.FILE_ETC5,
+                B.FILE_ETC6,
+                (SELECT POSITION_CODE FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PS_EMP_SEQ) AS POSITION_CODE,
+                (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PS_EMP_SEQ) AS EMP_NM,
+                (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PS_EMP_SEQ) AS DEPT_SEQ,
+                DI.APPRO_KEY,
+                DI.DOC_MENU_CD
+            FROM
+                CAM_PJT_MNG.DJ_PJT_PS A
+            LEFT JOIN
+                CAM_PJT_MNG.DJ_PJT_PS_FILE B
+                ON
+                    A.PJT_SN = B.PJT_SN
+            LEFT JOIN
+                CAM_PJT_MNG.DJ_PJT_COST C
+                ON
+                    A.PJT_SN = C.PJT_SN
+            LEFT JOIN
+                DJ_CAMTIC.A_DOC_INFO DI
+                ON
+                    C.DOC_ID = DI.DOC_ID
+            WHERE
+                A.PJT_SN = #{pjtSn}
+            AND A.DEV_SN = (SELECT SPD.DEV_SN FROM CAM_PJT_MNG.DJ_PJT_DEV SPD WHERE SPD.PJT_SN = #{pjtSn} ORDER BY SPD.DEV_SN DESC LIMIT 1)
+        ) M
         GROUP BY PS_EMP_SEQ
     </select>
 

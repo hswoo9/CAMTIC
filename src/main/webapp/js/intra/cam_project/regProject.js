@@ -175,14 +175,13 @@ var regPrj = {
 
         /** 협업일때 */
         if(setParameters.TEAM_STAT == "Y"){
-            tabStrip.activateTab(tabStrip.tabGroup.children().eq(0));
             tabStrip.enable(tabStrip.tabGroup.children());
 
             /** 탭 두줄 */
             var parser = new DOMParser();
             var html = '<div style="width:100%;"></div>';
             var doc = parser.parseFromString(html, 'text/html');
-            $("#tabstrip li")[3].after(doc.body.firstChild);
+            $("#tabstrip li")[4].after(doc.body.firstChild);
 
             /** 첫줄에 사업관리 문구 추가 */
             var html2 = '<div style="padding: 6px 12px"><b style="color: red">사업관리</b></div>';
@@ -192,7 +191,7 @@ var regPrj = {
             /** 둘째줄에 운영관리 문구 추가 */
             var html3 = '<div style="padding: 6px 12px"><b style="color: blue">운영관리</b></div>';
             var doc3 = parser.parseFromString(html3, 'text/html');
-            $("#tabstrip li")[4].before(doc3.body.firstChild);
+            $("#tabstrip li")[5].before(doc3.body.firstChild);
         /** 협업이 아닐 때 */
         } else {
             if(setParameters.PJT_SN){

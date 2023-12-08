@@ -1,7 +1,7 @@
 var teamInfo = {
 
     fn_defaultScript : function (){
-
+        commonProject.setPjtStat();
 
         customKendo.fn_textBox(["teamPjtNm", "teamPMNm", "teamCrmNm", "teamAmt", "team",
                                 "exptBalance", "exptProfit", "exptProfitPer", "teamPjt", "exptCost"]);
@@ -252,9 +252,9 @@ var teamInfo = {
                     alert("저장되었습니다.");
                     opener.gridReload();
 
-                    if($("#pjtStep").val().toString().substring(0,1) == "R"){
+                    if(commonProject.global.busnClass == "R"){
                         window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=5";
-                    } else if ($("#pjtStep").val().toString().substring(0,1) == "S"){
+                    } else if (commonProject.global.busnClass == "S"){
                         window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=5";
                     } else {
                         window.location.href="/project/pop/viewRegProject.do?pjtSn=" + parameters.pjtSn + "&tab=5";

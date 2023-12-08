@@ -7,6 +7,7 @@ var purcInfo = {
     },
 
     fn_defaultScript : function(){
+        commonProject.setPjtStat();
         this.gridReload();
     },
 

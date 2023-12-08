@@ -11,7 +11,7 @@ var devInfo = {
             pjtSn : $("#pjtSn").val()
         }
         var rs = customKendo.fn_customAjax("/project/getDevPjtVerList", data);
-        commonProject.setTeamStat();
+        commonProject.setPjtStat();
 
         devInfo.global.devPjtVerList = rs;
 
@@ -976,14 +976,9 @@ var devInfo = {
     },
 
     fn_save: function (){
-        if($("#invAmt").val() == ""){
-            alert("투자내역을 입력해주세요."); return;
-        }
+        if($("#invAmt").val() == ""){alert("투자내역을 입력해주세요."); return;}
 
-        if(!confirm("저장하시겠습니까?")){
-            return;
-        }
-
+        if(!confirm("저장하시겠습니까?")){return;}
 
         var data= {
             invAmt : uncomma($("#invAmt").val()),
@@ -1045,7 +1040,7 @@ var devInfo = {
 
         alert("저장되었습니다.");
         if(commonProject.global.teamStat == "Y"){
-            window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=2";
+            window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=1";
         }else{
             window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=3";
         }
