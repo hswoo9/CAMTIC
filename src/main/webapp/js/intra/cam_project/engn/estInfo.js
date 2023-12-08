@@ -78,6 +78,11 @@ var estInfo = {
     },
 
     fn_save : function (){
+        if($("input[name='vatYn']:checked").val() == null || $("input[name='vatYn']:checked").val() == undefined || $("input[name='vatYn']:checked").val() == ""){
+            alert("부가세 여부를 선택해주세요.");
+            return;
+        }
+
         if(estInfo.uncomma($("#expAmt").val()) != estInfo.uncomma($("#estExpAmt").val())){
             if(!confirm("예상견적가와 견적가가 다릅니다. 저장하시겠습니까?")){
                 return false;
@@ -126,7 +131,7 @@ var estInfo = {
                                 unit : $("#unit" + idx).val(),
                                 unitAmt : estInfo.uncomma($("#unitAmt" + idx).val()),
                                 supAmt : estInfo.uncomma($("#supAmt" + idx).val()),
-                                etc : $("#procEtc" + idx).val()
+                                etc : $("#prodEtc" + idx).val()
                             }
 
                             $.ajax({

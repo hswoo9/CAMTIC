@@ -62,7 +62,7 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>부가세 여부
+                    <span class="red-star">*</span>부가세 여부
                 </th>
                 <td>
                     <span style="position: relative; top: 5px;">

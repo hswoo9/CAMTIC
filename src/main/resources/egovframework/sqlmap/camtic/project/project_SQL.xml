@@ -272,15 +272,16 @@
 
     <insert id="insEngnEstSub" parameterType="map">
         INSERT INTO CAM_PJT_MNG.DJ_PJT_EST_SUB
-        (
-            EST_SN,
-            PROD_NM,
-            PROD_CNT,
-            UNIT,
-            UNIT_AMT,
-            SUP_AMT,
-            ETC
-        ) VALUES
+            (
+                EST_SN,
+                PROD_NM,
+                PROD_CNT,
+                UNIT,
+                UNIT_AMT,
+                SUP_AMT,
+                ETC
+            )
+        VALUES
             (
                 #{estSn},
                 #{prodNm},
