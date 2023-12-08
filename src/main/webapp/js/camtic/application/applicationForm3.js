@@ -366,6 +366,6 @@ var applicationForm3 = {
     },
 
     getFileName : function(e){
-        $(e).prev().prev().val(e.files[0].name);
+        $(e).prev().val(e.files[0].name);
     }
 }

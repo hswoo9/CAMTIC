@@ -52,7 +52,7 @@
                         <ul class="info">
                             <li><span>${map.RECRUIT_NUM}</span></li>
                             <li>상태 : ${map.RECRUIT_STATUS_TEXT}</li>
-                            <li>작성자 : ${map.REG_EMP_NAME}</li>
+                            <%--<li>작성자 : ${map.REG_EMP_NAME}</li>--%>
                             <li>작성일 : <fmt:formatDate value="${map.REG_DT}" pattern="yyyy-MM-dd" type="date"/></li>
                             <li>조회수 : ${map.RECRUIT_VIEW_COUNT}</li>
                         </ul>

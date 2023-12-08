@@ -540,11 +540,14 @@ public class BoardController {
      * */
     @RequestMapping("/camtic/member/job_view.do")
     public String jobView(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
-        recruitService.setRecruitArticleViewCount(params);
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
 
+        recruitService.setRecruitArticleViewCount(params);
         List<Map<String, Object>> fileList = boardService.selectBoardFile(params);
         Map<String, Object> map = recruitService.getRecruit(params);
 
+        model.addAttribute("loginVO", loginVO);
         model.addAttribute("map", map);
         model.addAttribute("fileMap", fileList);
         return "camtic/member/job_view";
@@ -555,6 +558,10 @@ public class BoardController {
      * */
     @RequestMapping("/camtic/member/job_applicationLogin.do")
     public String jobApplication(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+
+        model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
         return "camtic/member/job_applicationLogin";
     }
@@ -564,6 +571,10 @@ public class BoardController {
      * */
     @RequestMapping("/camtic/member/job_userAgree.do")
     public String jobUserAgree(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+
+        model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
         return "camtic/member/job_userAgree";
     }
@@ -573,6 +584,10 @@ public class BoardController {
      * */
     @RequestMapping("/camtic/member/job_applicationForm1.do")
     public String jobApplicationForm1(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+
+        model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
         return "camtic/member/job_applicationForm1";
     }
@@ -581,7 +596,11 @@ public class BoardController {
      * 채용공고 - 응시원서 작성 2
      * */
     @RequestMapping("/camtic/member/job_applicationForm2.do")
-    public String jobApplicationForm2(@RequestParam Map<String, Object> params, Model model){
+    public String jobApplicationForm2(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+
+        model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
         return "camtic/member/job_applicationForm2";
     }
@@ -590,7 +609,11 @@ public class BoardController {
      * 채용공고 - 응시원서 작성 3
      * */
     @RequestMapping("/camtic/member/job_applicationForm3.do")
-    public String jobApplicationForm3(@RequestParam Map<String, Object> params, Model model){
+    public String jobApplicationForm3(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+
+        model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
         return "camtic/member/job_applicationForm3";
     }
@@ -599,8 +622,25 @@ public class BoardController {
      * 채용공고 - 자기소개 작성(최종)
      * */
     @RequestMapping("/camtic/member/job_applicationIntroduce.do")
-    public String jobApplicationIntroduce(@RequestParam Map<String, Object> params, Model model){
+    public String jobApplicationIntroduce(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+
+        model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
         return "camtic/member/job_applicationIntroduce";
+    }
+
+    /**
+     * 채용공고 - 입사지원조회
+     * */
+    @RequestMapping("/camtic/member/job_applicationCheck.do")
+    public String jobApplicationCheck(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "camtic/member/job_applicationCheck";
     }
 }
