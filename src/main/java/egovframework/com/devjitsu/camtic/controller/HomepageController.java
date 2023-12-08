@@ -204,7 +204,13 @@ public class HomepageController {
     public String Mwelfare(){ return "camtic/member/welfare"; }
     //채용공고
     @RequestMapping("/camtic/member/job.do")
-    public String Mjob(){ return "camtic/member/job"; }
+    public String Mjob(@RequestParam Map<String,Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        /*params.put("empSeq", loginVO.getUniqId());*/
+        model.addAttribute("loginVO", loginVO);
+        return "camtic/member/job";
+    }
     //채용절차
     @RequestMapping("/camtic/member/step.do")
     public String Mstep(){ return "camtic/member/step"; }

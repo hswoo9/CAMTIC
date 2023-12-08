@@ -129,11 +129,11 @@
                     </tbody>
                 </table>
 
-                <div class="__btWrap rig __mt10" style="text-align: right; margin-right: 10px; margin-top: 10px; margin-bottom:10px;">
+               <%-- <div class="__btWrap rig __mt10" style="text-align: right; margin-right: 10px; margin-top: 10px; margin-bottom:10px;">
                     <button type="button"  class="k-button k-button-solid-info" onclick="applicationForm3.addCertRow()"><span>추가</span></button>
-                </div>
+                </div>--%>
 
-                <div class="__tit1">
+                <div class="__tit1" style="margin-top:20px;">
                     <h3>자격/면허</h3>
                 </div>
 
@@ -151,25 +151,25 @@
                         <th>등급</th>
                         <th>검정기관</th>
                         <th>증빙</th>
-                        <th></th>
+                        <th><button type="button"  class="k-button k-button-solid-info" onclick="applicationForm3.addCertRow()"><span>추가</span></button></th>
                     </tr>
                     </thead>
                     <tbody id="certTb">
                     <tr class="cert" id="cert0">
                         <td class="tac">
                             <input type="hidden" id="certBaseId0" name="certBaseId0" class="certBaseId">
-                            <input type="text" id="certName0" class="certName" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">
+                            <input type="text" id="certName0" class="certName" style="width: 100%; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">
                         </td>
                         <td class="tac">
                             <input type="text" id="certClass0" class="certClass" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">
                         </td>
                         <td class="tac">
-                            <input type="text" id="certIssuer0" class="certIssuer" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">
+                            <input type="text" id="certIssuer0" class="certIssuer" style="width: 100%; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">
                         </td>
                         <td class="tac">
                             <input type="hidden" id="certFileNo0" name="certFileNo0" class="certFileNo">
-                            <input type="text" id="certFileName0" class="certFileName" style="width: 147px ;font-size:15px; color:#337ab7;">
                             <label for="certFile0" class="certFileLabel k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>
+                            <input type="text" id="certFileName0" class="certFileName" style="width: 147px ;font-size:15px; color:#337ab7;">
                             <input type="file" id="certFile0" name="certFile0" class="certFile" style="display: none" onchange="applicationForm3.getFileName(this)">
                         </td>
                         <td class="tac">
@@ -188,11 +188,11 @@
 
 
                 <div id="careerDiv" style="width:1270px;">
-                    <div class="__btWrap rig __mt10" style="text-align: right; margin-right: 10px; margin-top: 10px;">
+                   <%-- <div class="__btWrap rig __mt10" style="text-align: right; margin-right: 10px; margin-top: 10px;">
                         <button type="button"  class="k-button k-button-solid-info" onclick="applicationForm3.addLangRow()"><span>추가</span></button>
-                    </div>
+                    </div>--%>
 
-                    <div class="__tit1">
+                    <div class="__tit1" style="margin-top:20px;">
                         <h3>외국어</h3>
                     </div>
                     <table class="__tbl respond2 fix" id="careerInfo0">
@@ -209,14 +209,14 @@
                             <th>취득시기</th>
                             <th>취득점수</th>
                             <th>증빙</th>
-                            <th></th>
+                            <th><button type="button"  class="k-button k-button-solid-info" onclick="applicationForm3.addLangRow()"><span>추가</span></button></th>
                         </tr>
                         </thead>
                         <tbody id="langTb">
                         <tr class="lang" id="lang0">
                             <td>
                                 <input type="hidden" id="langBaseId0" name="langBaseId0" class="langBaseId">
-                                <input type="text" id="langName0" class="langName" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">
+                                <input type="text" id="langName0" class="langName" style="width: 100%; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">
                             </td>
                             <td>
                                 <input type="text" id="acquisitionDate0" class="acquisitionDate period" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">
