@@ -7,6 +7,8 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/paymentCardHistory.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/paymentDetView.js?v=${today}'/>"></script>
+
 <link rel="stylesheet" type="text/css" href='/css/pop/contents.css'>
 <link rel="stylesheet" type="text/css" href='/css/pop/common.css'>
 
@@ -62,10 +64,15 @@
             <b style="font-size: 12px">카드정보</b>
             <input id="searchValue" style="width: 20%;">
 <%--            <button type="button" style="font-size: 12px" class="k-button k-button-sm k-button-solid-base" id="cardSelBtn" onclick="payCardHist.gridReload()">선택</button>--%>
-            <button type="button" style="font-size: 12px" class="k-button k-button-sm k-button-solid-base" id="bnkSelBtn" onkeypress="if(window.event.keyCode==13){payCardHist.gridReload()}">검색</button>
+            <button type="button" style="font-size: 12px" class="k-button k-button-sm k-button-solid-base" id="bnkSelBtn" onkeypress="if(window.event.keyCode==13){payCardHist.fn_search()}">검색</button>
+        </span>
+        <span>
+            <b style="font-size: 12px; margin-right: 5px; margin-left: 5px">조회</b>
+            <input type="radio" name="radio" value="A" id="radio1" onclick="payCardHist.gridReload()" checked><label for="radio1" style="position: relative; top : 4px;">카드사용내역</label>
+            <input type="radio" name="radio" value="A" id="radio2" onclick="payCardHist.cardMainGrid()"><label for="radio2" style="position: relative; top : 4px;">법인/개인카드</label>
         </span>
         <div id="mainGrid" style="margin-top:12px"></div>
-
+        <div id="cardMainGrid" style="margin-top:12px; display: none"></div>
 
     </div>
 </div>

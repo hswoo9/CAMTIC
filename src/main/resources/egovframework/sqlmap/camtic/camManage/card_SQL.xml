@@ -18,8 +18,8 @@
         ]]>
         </if>
         <if test='searchValue != null and !"".equals(searchValue)'>
-            AND (A.TR_NM = CONCAT('%', #{searchValue}, '%')
-                OR A.CARD_NO = CONCAT('%', #{searchValue}, '%'))
+            AND (B.TR_NM LIKE CONCAT('%', #{searchValue}, '%')
+                OR A.CARD_NO LIKE CONCAT('%', #{searchValue}, '%'))
         </if>
         ORDER BY A.AUTH_DD DESC
     </select>

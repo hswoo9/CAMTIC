@@ -21,15 +21,110 @@ var payCardHist = {
         customKendo.fn_textBox(["searchValue"]);
 
         payCardHist.gridReload();
+
+
+        $("#searchValue").on("keyup", function(key){
+            if(key.keyCode == 13){
+                payCardHist.fn_search();
+            }
+        })
     },
 
-    gridReload: function (){
+    gridReload: function (type){
+        if(type != "search"){
+            $("#mainGrid").css("display", "");
+            $("#cardMainGrid").css("display", "none");
+        }
+
         payCardHist.global.searchAjaxData = {
             startDt: $("#startDt").val(),
             endDt: $("#endDt").val(),
             searchValue: $("#searchValue").val()
         }
         payCardHist.mainGrid("/card/cardUseList", payCardHist.global.searchAjaxData);
+    },
+
+    cardMainGrid : function (type) {
+        if(type != "search"){
+            $("#mainGrid").css("display", "none");
+            $("#cardMainGrid").css("display", "");
+        }
+
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read: {
+                    url: "/g20/getCardList",
+                    dataType: "json",
+                    type: "post"
+                },
+                parameterMap: function(data){
+                    data.searchValue = $("#searchValue").val();
+                    return data;
+                }
+            },
+            schema: {
+                data: function(data){
+                    return data.list;
+                },
+                total: function(data){
+                    return data.list.length;
+                },
+            },
+            pageSize: 10
+        });
+
+        $("#cardMainGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            pageable: {
+                refresh: true,
+                pageSizes: [ 10, 20, 30, 50, 100 ],
+                buttonCount: 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            dataBound: payDetView.onDataBound,
+            columns: [
+                {
+                    template: "#= ++record #",
+                    title: "번호",
+                    width : 50
+                }, {
+                    title: "카드명",
+                    width: 300,
+                    template: function (e){
+                        return '<input type="hidden" id="trCd" value="' + e.TR_CD + '"/><input type="hidden" id="clttrCd" value="e.CLTTR_CD" />' + e.TR_NM;
+                    }
+                }, {
+                    title: "카드번호",
+                    width: 250,
+                    template: function (e){
+                        if(e.CARD_BA_NB != null){
+                            return e.CARD_BA_NB;
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    title: "",
+                    width: 80,
+                    template: function(e){
+                        return '<button type="button" class="k-button k-button-solid-base" ' +
+                            'onclick="payDetView.fn_selCardInfo(\'' + e.TR_CD + '\', \'' + e.TR_NM + '\', \'' + e.CARD_BA_NB + '\', \'' + e.JIRO_NM + '\', \'' + e.CLTTR_CD + '\', \'' + e.BA_NB + '\', \'' + e.DEPOSITOR + '\')" style="font-size: 12px);">' +
+                            '   선택' +
+                            '</button>';
+                    }
+                }
+            ],
+
+            dataBinding: function() {
+                record = (this.dataSource.page() -1) * this.dataSource.pageSize();
+            }
+        }).data("kendoGrid");
     },
 
     mainGrid : function (url, params) {
@@ -48,7 +143,7 @@ var payCardHist = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="outUseList.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="payCardHist.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -146,5 +241,10 @@ var payCardHist = {
         fn_setCardInfo(data.AUTH_NO, data.AUTH_DD, data.AUTH_HH, data.CARD_NO, data.BUY_STS);
 
 
+    },
+
+    fn_search : function (){
+        payCardHist.gridReload("search");
+        payCardHist.cardMainGrid("search");
     }
 }
