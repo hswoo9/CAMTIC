@@ -84,19 +84,6 @@ var joinLeaveView = {
         var html = "";
         html = '<table class="centerTable table table-bordered"><tbody>';
 
-        /* 1999년도 데이터 추가
-        var has1999Data = empTotalList.some(function(item) {
-            return item.join_year === '1999';
-        });
-
-        if (!has1999Data) {
-            empTotalList.unshift({ join_year: '1999', employees_joined: 0, employees_resigned: 0, active_emp_count: 0 });
-        }
-
-        empTotalList.sort(function(a, b) {
-            return b.join_year - a.join_year;
-        });
-         */
 
         for (var i = 0; i < empTotalList.length; i += 7) {
             html += '<tr style="background-color: #d8dce3;"><td>년 도 </td>';
