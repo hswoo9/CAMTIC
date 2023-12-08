@@ -1228,7 +1228,7 @@
                 DELV_DE,
                 DELV_ISSU,
                 DELV_ITEM,
-            <if test='crmMemSn != null and !"".equals(crmMemSn)'>
+            <if test='delvCnt != null and !"".equals(delvCnt)'>
                 DELV_CNT,
             </if>
                 DELV_UNIT,

@@ -15,6 +15,7 @@ var rbd = {
 
 		var result = customKendo.fn_customAjax("/spot/getRequestBoard.do", rbd.global.searchAjaxData);
 		if(result.flag){
+			console.log(result);
 			rbd.global.articleDetailInfo = result.rs;
 			if($("#empSeq").val() == rbd.global.articleDetailInfo.REG_EMP_SEQ){
 				$("#articleDelBtn").show();
@@ -44,6 +45,14 @@ var rbd = {
 			$("#requestContent").html(rbd.global.articleDetailInfo.REQUEST_CONTENT);
 			$("#status").html(rbd.global.articleDetailInfo.STATUS_TXT);
 			$("#deadlineDate").html(rbd.global.articleDetailInfo.DEADLINE_DATE);
+
+			let html = '';
+			for(let i=0; i < result.fileInfo.length; i++){
+				const info = result.fileInfo[i];
+				console.log(info);
+				html += '   <p style="cursor: pointer; margin-bottom: 0px" onclick="fileDown(\''+info.file_path + info.file_uuid+'\', \''+info.file_org_name+'.'+info.file_ext+'\')">'+info.file_org_name+"."+info.file_ext+'</p>';
+			}
+			$("#fileHtml").html(html);
 		}
 
 		rbd.getArticleReplyGrid()

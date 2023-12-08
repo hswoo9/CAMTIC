@@ -265,6 +265,17 @@
         AND ACTIVE = 'Y'
     </select>
 
+    <select id="getBoardFileInfo" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            CONTENT_ID = #{requestBoardId}
+          AND
+            FILE_CD = 'board'
+    </select>
+
     <insert id="setScheduleReg" parameterType="map">
         /* setScheduleReg */
         INSERT INTO CAM_BOARD.DJ_SCHEDULE_BOARD

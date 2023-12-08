@@ -96,6 +96,11 @@
 						</td>
 					</tr>
 					<tr>
+						<th class="text-center th-color">첨부파일</th>
+						<td colspan="3" id="fileHtml">
+						</td>
+					</tr>
+					<tr>
 						<th class="text-center th-color">진행상태</th>
 						<td colspan="3" id="status">
 						</td>
