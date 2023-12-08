@@ -127,7 +127,7 @@ var applicationForm2 = {
             '<tr id="career' + applicationForm2.global.careerIndex + '_1" class="careerInfo_1">' +
                 '<th>담당업무 세부사항</th>' +
                 '<td colSpan="7">' +
-                    '<textarea id="careerContent' + applicationForm2.global.careerIndex + '" class="careerContent" style="width:100%; height:40px; border: 1px solid #ddd; display:inline-block; padding-left:10px;""></textarea>' +
+                    '<textarea id="careerContent' + applicationForm2.global.careerIndex + '" class="careerContent" style="width: 100%; height: 100%; box-sizing: border-box; border:1px solid #ddd; margin: 0; padding: 5px;"></textarea>' +
                 '</td>' +
             '</tr>';
 
