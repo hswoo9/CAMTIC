@@ -43,6 +43,13 @@ var paymentList = {
                 {
                     name: 'button',
                     template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="paymentList.fn_delReqReg()">' +
+                            '	<span class="k-button-text">삭제</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="paymentList.fn_reqRegPopup()">' +
                             '	<span class="k-button-text">지급신청서 작성</span>' +
                             '</button>';
@@ -57,6 +64,16 @@ var paymentList = {
                 }],
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="paymentList.fn_checkAll(this)"/>',
+                    template : function (e){
+                        if(e.DOC_STATUS == 0){
+                            return "<input type='checkbox' id='payAppSn"+e.PAY_APP_SN+"' name='payChk' value='"+e.PAY_APP_SN+"'/>"
+                        } else {
+                            return "";
+                        }
+                    },
+                    width: 50
+                }, {
                     title: "번호",
                     width: 40,
                     template: "#= --record #"
@@ -83,7 +100,6 @@ var paymentList = {
                     field: "APP_TITLE",
                     width: 280,
                     template: function(e){
-                        console.log(e);
                         var status = "";
                         if(e.PAY_APP_TYPE == 1){
                             status = "rev";
@@ -178,5 +194,46 @@ var paymentList = {
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    // 삭제 function
+    fn_delReqReg : function (){
+        if(!confirm("해당건을 삭제하시겠습니까?")){
+            return;
+        }
+        var checkValue = [];
+        $("input[name='payChk']:checked").each(function(){
+            checkValue.push($(this).val());
+        });
+
+        console.log(checkValue);
+
+        var data = {
+            payAppSn : checkValue
+        }
+
+        $.ajax({
+            url : "/pay/delPayApp",
+            type : "POST",
+            data : data,
+            dataType : 'json',
+            traditional : true,
+            success : function (rs){
+                if(rs.code == 200){
+                    alert("삭제되었습니다.");
+
+                    paymentList.gridReload();
+                }
+            }
+        });
+
+    },
+
+    fn_checkAll : function(e){
+        if($(e).is(":checked")) {
+            $("input[name='payChk']").prop("checked", true);
+        } else {
+            $("input[name='payChk']").prop("checked", false);
+        }
     }
 }

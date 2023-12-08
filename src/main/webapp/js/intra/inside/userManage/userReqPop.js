@@ -1183,9 +1183,6 @@ function empInfoFileSave(){
     if($("#signPhotoFile")[0].files.length == 1){   //결재사인
         formData.append("signPhotoFile", $("#signPhotoFile")[0].files[0]);
     }
-    if($("#myPhotoFile")[0].files.length == 1){ //개인사진
-        formData.append("myPhotoFile", $("#myPhotoFile")[0].files[0]);
-    }
 
     $.ajax({
         url: '/userManage/setempInfoFileSave.do',
@@ -1217,9 +1214,6 @@ function empInfoFileSavePop(){
     }
     if($("#signPhotoFile")[0].files.length == 1){   //결재사인
         formData.append("signPhotoFile", $("#signPhotoFile")[0].files[0]);
-    }
-    if($("#myPhotoFile")[0].files.length == 1){ //개인사진
-        formData.append("myPhotoFile", $("#myPhotoFile")[0].files[0]);
     }
 
     $.ajax({

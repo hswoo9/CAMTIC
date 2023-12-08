@@ -9,6 +9,11 @@ import java.util.Map;
 @Repository
 public class ProjectRepository extends AbstractDAO {
 
+
+    public Map<String, Object> getProjectInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getProjectInfo", params);
+    }
+
     public List<Map<String, Object>> getProjectList(Map<String, Object> params) {
         return selectList("project.getProjectList", params);
     }

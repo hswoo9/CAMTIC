@@ -59,6 +59,15 @@ public class ProjectController {
         return "cam_project/viewProject";
     }
 
+    @RequestMapping("/project/getProjectInfo")
+    public String getProjectInfo(@RequestParam Map<String, Object> params, Model model) {
+
+        Map<String,Object> data = projectService.getProjectInfo(params);
+        model.addAttribute("map", data);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/project/getProjectList")
     public String getProjectList(@RequestParam Map<String, Object> params, Model model) {
 

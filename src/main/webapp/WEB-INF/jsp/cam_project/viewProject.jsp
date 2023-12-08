@@ -73,18 +73,17 @@
     .k-footer-template td:nth-child(5),
     .k-footer-template td:nth-child(6),
     .k-footer-template td:nth-child(7),
-    .k-footer-template td:nth-child(8),
-    .k-footer-template td:nth-child(9) {
+    .k-footer-template td:nth-child(8) {
+        border-width: 0;
+        text-align: right;
+    }
+
+    .k-footer-template td:nth-child(11),
+    .k-footer-template td:nth-child(12) {
         border-width: 0;
     }
 
-    .k-footer-template td:nth-child(12),
-    .k-footer-template td:nth-child(13) {
-        border-width: 0;
-    }
-
-    .k-footer-template td:nth-child(9),
-    .k-footer-template td:nth-child(10){
+    .k-footer-template td:nth-child(9){
         overflow: visible;
         white-space: nowrap;
         text-align: right;

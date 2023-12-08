@@ -15,7 +15,7 @@
     <input type="hidden" id="nowUrl" name="nowUrl" />
 </form>
 
-
+<input type="hidden" id="teamStat" name="teamStat">
 <input type="hidden" id="delvSn" name="delvSn" value="">
 <input type="hidden" id="step" value="E2" />
 <input type="hidden" id="stepColumn" value="STEP3" />
@@ -152,7 +152,7 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>참여부서
+                    <span class="red-star">*</span>참여부서
                 </th>
                 <td colspan="3">
                         <span style="position: relative; top: 5px;">
@@ -165,7 +165,7 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>PM
+                    <span class="red-star">*</span>PM
                 </th>
                 <td colspan="3">
                     <input type="text" id="pmName" style="width: 25%;" disabled />
@@ -256,6 +256,15 @@
             return;
         }
 
+        if($("input[name='delvDept']:checked").val() == null || $("input[name='delvDept']:checked").val() == undefined || $("input[name='delvDept']:checked").val() == ""){
+            alert("참여부서를 선택해주세요.");
+            return;
+        }
+        if($("#pmSeq").val() == ""){
+            alert("PM을 등록해주세요.");
+            return;
+        }
+
         $("#dialog").data("kendoWindow").open();
     }
 
@@ -300,6 +309,8 @@
             var smCodeDs = customKendo.fn_customAjax("/project/selSmCode", data);
             customKendo.fn_dropDownList("pjtStatSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
         });
+        $("#supDep").data("kendoDropDownList").value("l");
+        $("#supDep").data("kendoDropDownList").trigger("change");
 
         $("#dialog").css("overflow", "hidden");
     }

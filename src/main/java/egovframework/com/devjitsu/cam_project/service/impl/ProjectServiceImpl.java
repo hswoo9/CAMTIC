@@ -39,6 +39,11 @@ public class ProjectServiceImpl implements ProjectService {
     private G20Repository g20Repository;
 
     @Override
+    public Map<String, Object> getProjectInfo(Map<String, Object> params) {
+        return projectRepository.getProjectInfo(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getProjectList(Map<String, Object> params) {
         return projectRepository.getProjectList(params);
     }
@@ -502,6 +507,8 @@ public class ProjectServiceImpl implements ProjectService {
             params.put("pjtStep", "E3");
             params.put("pjtStepNm", "수주보고");
             projectRepository.updProjectStep(params);
+        }else if("111".equals(docSts)){ // 반려 - 회수
+            projectRepository.updateDelvApprStat(params);
         }
 
         /*if("10".equals(docSts) || "101".equals(docSts)){
@@ -546,6 +553,8 @@ public class ProjectServiceImpl implements ProjectService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             projectRepository.updateDevFinalApprStat(params);
+        }else if("111".equals(docSts)) { // 임시저장
+            projectRepository.updateDevApprStat(params);
         }
 
         /*if("10".equals(docSts) || "101".equals(docSts)){
@@ -612,6 +621,8 @@ public class ProjectServiceImpl implements ProjectService {
             params.put("pjtStep", "E6");
             params.put("pjtStepNm", "결과보고");
             projectRepository.updProjectStep(params);
+        }else if("111".equals(docSts)) { // 임시저장
+            projectRepository.updateDevApprStat(params);
         }
         /*if("10".equals(docSts) || "101".equals(docSts)){
             *//** STEP1. pjtSn 으로 resultData 호출 *//*
@@ -660,6 +671,8 @@ public class ProjectServiceImpl implements ProjectService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             projectRepository.updateCostFinalApprStat(params);
+        }else if("111".equals(docSts)) { // 임시저장
+            projectRepository.updateCostApprStat(params);
         }
     }
 

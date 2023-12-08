@@ -382,7 +382,7 @@ var pri = {
                 html += '   <td>'+ e[i].file_ext +'</td>';
                 html += '   <td>'+ e[i].file_size +'</td>';
                 html += '   <td>';
-                if(e[i].file_ext == "png" || e[i].file_ext == "pdf" || e[i].file_ext == "jpg" || e[i].file_ext == "PNG" || e[i].file_ext == "JPG"){
+                if(e[i].file_ext.toLowerCase() == "png" || e[i].file_ext.toLowerCase() == "pdf" || e[i].file_ext.toLowerCase() == "jpg" || e[i].file_ext.toLowerCase() == "jpeg"){
                     html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="pri.fileViewer(\''+e[i].file_path+e[i].file_uuid+'\', \''+e[i].file_org_name+'.'+e[i].file_ext+'\')">' +
                         '			    <span class="k-button-text">뷰어</span>' +
                         '		    </button>';

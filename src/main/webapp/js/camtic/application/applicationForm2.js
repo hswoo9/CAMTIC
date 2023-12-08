@@ -25,7 +25,7 @@ var applicationForm2 = {
             '<tr class="schoolInfo" id="school' + applicationForm2.global.schoolIndex + '">' +
                 '<td>' +
                     '<input type="hidden" id="schoolBaseId' + applicationForm2.global.schoolIndex + '" name="schoolBaseId' + applicationForm2.global.schoolIndex + '" class="schoolBaseId">' +
-                    '<select id="schoolType">' +
+                    '<select id="schoolType" style="width:100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                         '<option value="">선택</option>' +
                         '<option value="1">고등학교</option>' +
                         '<option value="2">전문대학</option>' +
@@ -36,20 +36,20 @@ var applicationForm2 = {
                     '</select>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="admissionDt' + applicationForm2.global.schoolIndex + '" class="admissionDt" style="width: 110px"> ~' +
-                    '<input type="text" id="graduationDt' + applicationForm2.global.schoolIndex + '" class="graduationDt" style="width: 110px">' +
+                    '<input type="text" id="admissionDt' + applicationForm2.global.schoolIndex + '" class="admissionDt" style="width: 150px">~' +
+                    '<input type="text" id="graduationDt' + applicationForm2.global.schoolIndex + '" class="graduationDt" style="width: 150px">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="schoolName' + applicationForm2.global.schoolIndex + '" class="schoolName" style="width: 100px;">' +
+                    '<input type="text" id="schoolName' + applicationForm2.global.schoolIndex + '" class="schoolName" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="dept' + applicationForm2.global.schoolIndex + '" class="dept" style="width: 100px;">' +
+                    '<input type="text" id="dept' + applicationForm2.global.schoolIndex + '" class="dept"  style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="major' + applicationForm2.global.schoolIndex + '" class="major" style="width: 110px;">' +
+                    '<input type="text" id="major' + applicationForm2.global.schoolIndex + '" class="major" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                 '</td>' +
                 '<td>' +
-                    '<select id="graduateType' + applicationForm2.global.schoolIndex + '" class="graduateType">' +
+                    '<select id="graduateType' + applicationForm2.global.schoolIndex + '" class="graduateType" style="width:70px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                         '<option value="">선택</option>' +
                         '<option value="1">졸업</option>' +
                         '<option value="2">졸업예정</option>' +
@@ -57,18 +57,18 @@ var applicationForm2 = {
                     '</select>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="grade' + applicationForm2.global.schoolIndex + '" class="graduateType" style="width: 50px">' +
+                    '<input type="text" id="grade' + applicationForm2.global.schoolIndex + '" class="graduateType" style="width:50px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block; ">' +
                 '</td>' +
-                '<td>' +
+                '<td class="tac" style="line-height: 0.1;">' +
                     '<input type="hidden" id="degreeFileNo' + applicationForm2.global.schoolIndex + '" class="degreeFileNo" name="degreeFileNo' + applicationForm2.global.schoolIndex + '">' +
-                    '<input type="text" id="degreeFileName' + applicationForm2.global.schoolIndex + '" class="degreeFileName" style="width: 100px;">' +
                     '<label for="degreeFile' + applicationForm2.global.schoolIndex + '" class="degreeFileLabel k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>' +
+                    '<input type="text" id="degreeFileName' + applicationForm2.global.schoolIndex + '" class="degreeFileName" style="width: 80px; height:10px; font-size:12px; margin-bottom:-14px; color:#337ab7;">' +
                     '<input type="file" id="degreeFile' + applicationForm2.global.schoolIndex + '" class="degreeFile" name="degreeFile' + applicationForm2.global.schoolIndex + '" style="display: none" onChange="applicationForm2.getFileName(this)">' +
                 '</td>' +
-                '<td>' +
+                '<td class="tac" style="line-height: 0.1;">' +
                     '<input type="hidden" id="sexualFileNo' + applicationForm2.global.schoolIndex + '" class="sexualFileNo" name="sexualFileNo' + applicationForm2.global.schoolIndex + '">' +
-                    '<input type="text" id="sexualFileName' + applicationForm2.global.schoolIndex + '" class="sexualFileName" style="width: 100px;">' +
                     '<label for="sexualFile' + applicationForm2.global.schoolIndex + '" class="sexualFileLabel k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>' +
+                    '<input type="text" id="sexualFileName' + applicationForm2.global.schoolIndex + '" class="sexualFileName" style="width: 80px; height:10px; font-size:12px; margin-bottom:-14px; color:#337ab7;">' +
                     '<input type="file" id="sexualFile' + applicationForm2.global.schoolIndex + '" class="sexualFile" name="sexualFile' + applicationForm2.global.schoolIndex + '" style="display: none" onChange="applicationForm2.getFileName(this)">' +
                 '</td>' +
                 '<td>' +
@@ -96,28 +96,28 @@ var applicationForm2 = {
             '<tr class="careerInfo" id="career' + applicationForm2.global.careerIndex + '">' +
                 '<td>' +
                     '<input type="hidden" id="careerBaseId' + applicationForm2.global.careerIndex + '" name="careerBaseId' + applicationForm2.global.careerIndex + '" class="careerBaseId">' +
-                    '<input type="text" id="careerOrgName' + applicationForm2.global.careerIndex + '" class="careerOrgName">' +
+                    '<input type="text" id="careerOrgName' + applicationForm2.global.careerIndex + '" class="careerOrgName" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="workStDt' + applicationForm2.global.careerIndex + '" class="workStDt period" style="width: 110px"> ~ ' +
-                    '<input type="text" id="workEnDt' + applicationForm2.global.careerIndex + '" class="workEnDt period" style="width: 110px">' +
+                    '<input type="text" id="workStDt' + applicationForm2.global.careerIndex + '" class="workStDt period" style="width: 150px"> ~ ' +
+                    '<input type="text" id="workEnDt' + applicationForm2.global.careerIndex + '" class="workEnDt period" style="width: 150px">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="position' + applicationForm2.global.careerIndex + '" class="position">' +
+                    '<input type="text" id="position' + applicationForm2.global.careerIndex + '" class="position" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="chargeWork' + applicationForm2.global.careerIndex + '" class="chargeWork">' +
+                    '<input type="text" id="chargeWork' + applicationForm2.global.careerIndex + '" class="chargeWork" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="retireSalary' + applicationForm2.global.careerIndex + '" class="retireSalary">' +
+                    '<input type="text" id="retireSalary' + applicationForm2.global.careerIndex + '" class="retireSalary" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="retireReason' + applicationForm2.global.careerIndex + '" class="retireReason">' +
+                    '<input type="text" id="retireReason' + applicationForm2.global.careerIndex + '" class="retireReason" style="width: 150px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block; ">' +
                 '</td>' +
-                '<td>' +
+                '<td class="tac" style="line-height: 0.1;">' +
                     '<input type="hidden" id="careerFileNo' + applicationForm2.global.careerIndex + '" name="careerFileNo' + applicationForm2.global.careerIndex + '" class="careerFileNo">' +
-                    '<input type="text" id="careerFileName' + applicationForm2.global.careerIndex + '" class="careerFileName" style="width: 140px">' +
                     '<label for="careerFile' + applicationForm2.global.careerIndex + '" class="careerFileLabel k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>' +
+                    '<input type="text" id="careerFileName' + applicationForm2.global.careerIndex + '" class="careerFileName" style="width: 80px; height:10px; font-size:12px; margin-bottom:-14px; color:#337ab7;">' +
                     '<input type="file" id="careerFile' + applicationForm2.global.careerIndex + '" class="careerFile" name="careerFile' + applicationForm2.global.careerIndex + '" style="display: none" onChange="applicationForm2.getFileName(this)">' +
                 '</td>' +
                 '<td>' +
@@ -127,7 +127,7 @@ var applicationForm2 = {
             '<tr id="career' + applicationForm2.global.careerIndex + '_1" class="careerInfo_1">' +
                 '<th>담당업무 세부사항</th>' +
                 '<td colSpan="7">' +
-                    '<textarea id="careerContent' + applicationForm2.global.careerIndex + '" class="careerContent" style="width: 100%; height: 100%; box-sizing: border-box; margin: 0; padding: 5px;"></textarea>' +
+                    '<textarea id="careerContent' + applicationForm2.global.careerIndex + '" class="careerContent" style="width:100%; height:40px; border: 1px solid #ddd; display:inline-block; padding-left:10px;""></textarea>' +
                 '</td>' +
             '</tr>';
 
@@ -446,6 +446,6 @@ var applicationForm2 = {
     },
 
     getFileName : function(e){
-        $(e).prev().prev().val(e.files[0].name);
+        $(e).prev().val(e.files[0].name);
     }
 }

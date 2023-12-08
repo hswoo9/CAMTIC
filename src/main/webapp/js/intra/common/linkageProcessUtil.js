@@ -20,7 +20,9 @@ function linkageProcessOn(params, target){
 	url = makeParams(params, form, url);
 	url = url.replace("&", "?");
 
-	if(params.type == "reDrafting" || target == "target") {
+	if(params.linkageProcessCode == "camticDelv"){
+		window.open(url, "_self", "width=965, height=900, resizable=yes, scrollbars = yes, status=no, top=50, left=50");
+	}else if(params.type == "reDrafting" || target == "target") {
 		window.open(url, "_target", "width=965, height=900, resizable=yes, scrollbars = yes, status=no, top=50, left=50");
 	}else {
 		window.open(url, "_self", "width=965, height=900, resizable=yes, scrollbars = yes, status=no, top=50, left=50");
@@ -275,6 +277,41 @@ function docApprovalRetrieve(docId, approKey, linkageType, type, callBack){
 				alert("문서가 회수되었습니다.");
 				try {
 					gridReload();
+				}catch(e) {
+
+				}
+				try {
+					let key = approKey.split("_")[0];
+					if(key == "camticDelv"){
+						window.location.href = "/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=2";
+					}else if(key == "camticDev"){
+						window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=3";
+					}else if(key == "camticPjtRes"){
+						window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=7";
+					}else if(key == "camticPjtCost"){
+						window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=9";
+					}
+
+
+					if(key == "camticRndDelv"){
+						location.reload();
+					}else if(key == "camticRndDev"){
+						location.reload();
+					}else if(key == "camticRndRes"){
+						location.reload();
+					}else if(key == "camticRndCost"){
+						location.reload();
+					}
+
+					if(key == "camticUnRndDelv"){
+						location.reload();
+					}else if(key == "camticUnRndDev"){
+						location.reload();
+					}else if(key == "camticUnRndRes"){
+						location.reload();
+					}else if(key == "camticUnRndCost"){
+						location.reload();
+					}
 				}catch(e) {
 
 				}

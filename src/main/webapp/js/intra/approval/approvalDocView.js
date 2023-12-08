@@ -160,9 +160,15 @@ var docView = {
             template: kendo.template($("#template").html())
         });
 
+
         docView.global.searchAjaxData = {
             docId : docView.global.rs.docInfo.DOC_ID,
             approKey : docView.global.rs.docInfo.APPRO_KEY,
+        }
+
+        if(docView.global.rs.docInfo.DOC_MENU_CD == "payApp"){
+            docView.global.searchAjaxData.payAppSn = docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
+            docView.global.searchAjaxData.type = "payApp";
         }
 
         var attachmentGrid = $("#attachmentGrid").kendoGrid({

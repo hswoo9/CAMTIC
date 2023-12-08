@@ -225,4 +225,12 @@ public class PayAppRepository extends AbstractDAO {
     public List<Map<String, Object>> getCheckBudget(Map<String, Object> params) {
         return selectList("payApp.getCheckBudget", params);
     }
+
+    public void delPayApp(int params) {
+        delete("payApp.delPayApp", params);
+    }
+
+    public List<Map<String, Object>> getPayAppFileList(Map<String, Object> params) {
+        return selectList("payApp.getPayAppFileList", params);
+    }
 }

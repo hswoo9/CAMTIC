@@ -25,6 +25,13 @@ var delvInfo = {
             pjtSn : $("#pjtSn").val()
         }
 
+        var pjtInfo = customKendo.fn_customAjax("/project/getProjectInfo", data);
+        var pjtMap = pjtInfo.map;
+
+        if(pjtMap != null){
+            $("#teamSta").val(pjtMap.TEAM_STAT);
+        }
+
         $.ajax({
             url : "/project/engn/getDelvData",
             data : data,
@@ -65,14 +72,16 @@ var delvInfo = {
                         if(delvMap.STATUS == "0"){
                             buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">저장</button>";
                             buttonHtml += "<button type=\"button\" id=\"delvAppBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"delvInfo.delvDrafting()\">상신</button>";
-                        }else if(delvMap.STATUS == "10"){
+                        }else if(delvMap.STATUS == "10" || delvMap.STATUS == "20" || delvMap.STATUS == "50"){
                             buttonHtml += "<button type=\"button\" id=\"delvCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+delvMap.DOC_ID+"', '"+delvMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
                         }else if(delvMap.STATUS == "30" || delvMap.STATUS == "40"){
                             buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">저장</button>";
-                            buttonHtml += "<button type=\"button\" id=\"delvCanBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('"+delvMap.DOC_ID+"', '"+delvMap.DOC_MENU_CD+"', '"+delvMap.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
+                            buttonHtml += "<button type=\"button\" id=\"delvCanBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"tempOrReDraftingPop('"+delvMap.DOC_ID+"', '"+delvMap.DOC_MENU_CD+"', '"+delvMap.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
 
                         }else if(delvMap.STATUS == "100"){
                             buttonHtml += "<button type=\"button\" id=\"delvCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+delvMap.DOC_ID+"', '"+delvMap.APPRO_KEY+"', '"+delvMap.DOC_MENU_CD+"');\">열람</button>";
+                        }else if(delvMap.STATUS == "111"){
+                            buttonHtml += "<button type=\"button\" id=\"delvTempBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"tempOrReDraftingPop('"+delvMap.DOC_ID+"', 'delv', '"+delvMap.APPRO_KEY+"', 2, 'tempDrafting');\">전자결재 임시저장 중</button>";
                         } else {
                             buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" disabled onclick=\"delvInfo.fn_save()\">저장</button>";
                         }
@@ -157,7 +166,11 @@ var delvInfo = {
         fd.append("delvUnit", parameters.delvUnit);
         fd.append("delvLoc", parameters.delvLoc);
         fd.append("delvIssu", parameters.delvIssu);
-        fd.append("delvAmt", parameters.delvAmt);
+        if(parameters.delvAmt == "" || parameters.delvAmt == undefined){
+            fd.append("delvAmt", "0");
+        }else{
+            fd.append("delvAmt", parameters.delvAmt);
+        }
         fd.append("delvDept", parameters.delvDept);
         fd.append("pmEmpNm", parameters.pmEmpNm);
         fd.append("pmEmpSeq", parameters.pmEmpSeq);

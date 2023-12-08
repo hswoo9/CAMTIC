@@ -531,11 +531,14 @@
             -- CONCAT('/upload/', FI.FILE_CD, '/', DATE_FORMAT(FI.REG_DT, '%Y/%m/%d'), '/') AS FILE_DOWN_PATH
         FROM
             CAM_COMMON.dj_FILE_INFO FI
-                LEFT JOIN
+        LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI
-            ON FI.DOC_ID = DI.DOC_ID AND DI.ATFILE_SN != FI.FILE_NO AND FI.FILE_EXT != 'html'
+        ON FI.DOC_ID = DI.DOC_ID AND DI.ATFILE_SN != FI.FILE_NO AND FI.FILE_EXT != 'html'
         WHERE
             DI.DOC_ID = #{docId}
+        <if test='type == "payApp" or "payApp".equals(type)'>
+            OR CONTENT_ID = #{payAppSn} AND file_cd = #{type}
+        </if>
     </select>
 
     <select id="getDocApproveAllRoute" parameterType="map" resultType="map">

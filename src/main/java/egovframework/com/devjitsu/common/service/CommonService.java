@@ -59,4 +59,5 @@ public interface CommonService {
 
     void setDelFvMenu(Map<String, Object> params);
 
+    void getContentFileDelOne(Map<String, Object> params);
 }

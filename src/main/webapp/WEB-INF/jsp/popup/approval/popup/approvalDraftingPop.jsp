@@ -38,6 +38,8 @@
     .d-flex{flex-direction: column; align-items: center;}
     .table-bordered {border: 1px solid #dee2e6 !important;}
     .red-star {color: red; margin-right: 5px;}
+    .k-upload-files {font-size: 12px; !important;}
+    .reDraft {font-size: 13px}
 </style>
 <%
     pageContext.setAttribute("CR", "\r");
@@ -85,7 +87,7 @@
             <input type="hidden" id="reqContentId" name="reqContentId">
         </div>
         <div class="mb-10" id="btnDiv" style="text-align: right;">
-            <button type="button" name="temp" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base temp" onclick="draft.docTempInit(this)" style="display: none">
+            <button type="button" name="temp" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base temp" onclick="draft.docTempInit(this)">
                 <span class="k-button-text" style="font-size: 13px">임시저장</span>
             </button>
 
