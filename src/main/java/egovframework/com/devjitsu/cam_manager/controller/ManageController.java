@@ -326,7 +326,7 @@ public class ManageController {
                 newPath.mkdirs();
             }
 
-            stream = new FileOutputStream("/home" + filePath + fileUuid + "." + fileExt);
+            stream = new FileOutputStream(filePath + fileUuid + "." + fileExt);
 
             stream.write(file);
             stream.close();

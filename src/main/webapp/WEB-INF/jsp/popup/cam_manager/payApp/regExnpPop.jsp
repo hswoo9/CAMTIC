@@ -132,7 +132,7 @@
                         <input type="text" id="bnkNm" disabled style="width: 60%;">
                     </td>
                 </tr>
-                <tr>
+                <tr style="display: none;">
                     <th scope="row" class="text-center th-color">지출 날짜 설정</th>
                     <td colspan="4">
                         지출요청일 : <input id="reqDe" style="width: 150px">&nbsp;
@@ -278,11 +278,12 @@
     regExnpDet.fn_defaultScript();
     regExnp.fn_defaultScript();
 
-    var aCnt = 0
-    $(".eviType").each(function(){
-        $("#eviType" + aCnt).data("kendoDropDownList").enable(false);
-        aCnt++
-    });
+    // var aCnt = 0
+    // $(".eviType").each(function(){
+    //     var eviType = $("#eviType" + aCnt).data("kendoDropDownList");
+    //     eviType.enable(false);
+    //     aCnt++
+    // });
 
 
     if($("#stat").val() == "v"){
