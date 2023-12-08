@@ -561,9 +561,9 @@ public class ApprovalServiceImpl implements ApprovalService {
 
             /** URL url = new URL("http://localhost"+ urlStr); */
             /** 서버 url */
-            URL url = new URL("http://127.0.0.1:8080"+ urlStr);
+            //URL url = new URL("http://127.0.0.1:8080"+ urlStr);
             //URL url = new URL("http://127.0.0.1:5959"+ urlStr);
-//            URL url = new URL("http://218.158.231.186"+ urlStr);
+            URL url = new URL("http://218.158.231.186"+ urlStr);
             //URL url = new URL("http://localhost"+ urlStr);
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
