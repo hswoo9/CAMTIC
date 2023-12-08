@@ -320,6 +320,7 @@ public class ManageController {
 
             commonService.insFileUpload(fileParameters);
 
+            filePath = "/home" + filePath;
             File newPath = new File(filePath);
             if (!newPath.exists()) {
                 newPath.mkdirs();
