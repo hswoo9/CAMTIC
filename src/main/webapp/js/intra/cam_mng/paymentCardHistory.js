@@ -140,7 +140,10 @@ var payCardHist = {
         opener.parent.$("#crmAccNo" + index).val(data.BA_NB);
         opener.parent.$("#crmBnkNm" + index).val(data.JIRO_NM);
 
-        console.log(data);
+        opener.parent.$("#authNo" + index).val(data.AUTH_NO);
+        opener.parent.$("#authDd" + index).val(data.AUTH_DD);
+        opener.parent.$("#authHh" + index).val(data.AUTH_HH);
+
         alert("반영되었습니다.");
 
         window.close();
