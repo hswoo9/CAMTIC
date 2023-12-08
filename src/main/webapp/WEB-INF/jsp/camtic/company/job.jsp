@@ -257,10 +257,10 @@
 						<div class="tac __mt70" style="">
 							<!-- <img src="/images/camtic/img-njob3-1.jpg" alt=""> -->
 							<ul class="__imgJobBox">
-								<li><img src="/images/camtic/img-njob3-1-1.png" alt=""></li>
-								<li><img src="/images/camtic/img-njob3-1-2.png" alt=""></li>
-								<li><img src="/images/camtic/img-njob3-1-3.png" alt=""></li>
-								<li><img src="/images/camtic/img-njob3-1-4.png" alt=""></li>
+								<li><img src="/images/camtic/img-njob3-1-1-1.png" alt="" style="border-radius: 10px; width: 397px; height: 229px;"></li>
+								<li><img src="/images/camtic/img-njob3-1-1-2.png" alt="" style="border-radius: 10px; width: 397px; height: 229px;"></li>
+								<li><img src="/images/camtic/img-njob3-1-1-3.png" alt="" style="border-radius: 10px; width: 397px; height: 229px;"></li>
+								<li><img src="/images/camtic/img-njob3-1-1-4.png" alt="" style="border-radius: 10px; width: 397px; height: 229px;"></li>
 							</ul>
 						</div>
 					</div>
@@ -308,10 +308,10 @@
 						</div>
 						<div class="tac __mt70">
 							<ul class="__imgJobBox">
-								<li><img src="/images/camtic/img-njob4-1-1.png" alt=""></li>
-								<li><img src="/images/camtic/img-njob4-1-2.png" alt=""></li>
-								<li><img src="/images/camtic/img-njob4-1-3.png" alt=""></li>
-								<li><img src="/images/camtic/img-njob4-1-4.png" alt=""></li>
+								<li><img src="/images/camtic/img-njob4-1-1-1.png" alt="" style="border-radius: 10px; width: 397px; height: 229px;"></li>
+								<li><img src="/images/camtic/img-njob4-1-1-2.png" alt="" style="border-radius: 10px; width: 397px; height: 229px;"></li>
+								<li><img src="/images/camtic/img-njob4-1-1-3.png" alt="" style="border-radius: 10px; width: 397px; height: 229px;"></li>
+								<li><img src="/images/camtic/img-njob4-1-1-4.png" alt="" style="border-radius: 10px; width: 397px; height: 229px;"></li>
 							</ul>
 						</div>
 					</div>
