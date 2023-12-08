@@ -129,13 +129,12 @@
                     </tbody>
                 </table>
 
-                <%--<div class="__btWrap rig __mt10" style="text-align: right; margin-right: 10px; margin-top: 10px; margin-bottom:10px;">
+                <div class="__btWrap rig __mt10" style="text-align: right; margin-right: 10px; margin-top: 10px; margin-bottom:10px;">
                     <button type="button"  class="k-button k-button-solid-info" onclick="applicationForm3.addCertRow()"><span>추가</span></button>
-                </div>--%>
+                </div>
 
                 <div class="__tit1">
                     <h3>자격/면허</h3>
-                    <button type="button"  class="k-button k-button-solid-info" style="float:right; margin-bottom:10px;" onclick="applicationForm3.addCertRow()"><span>추가</span></button>
                 </div>
 
                 <table class="__tbl respond2 fix" >
@@ -181,7 +180,7 @@
                     <tr id="cert0_1" class="cert_1">
                         <th class="tac">활용능력</th>
                         <td colspan="8">
-                            <textarea id="certContent0" class="certContent" style="width: 100%; height: 100%; box-sizing: border-box; border:1px solid #ddd; margin: 0; padding: 5px;"></textarea>
+                            <textarea id="certContent0" class="certContent" style="width:100%; height:40px; border: 1px solid #ddd; display:inline-block; padding-left:10px;"></textarea>
                         </td>
                     </tr>
                     </tbody>
@@ -189,13 +188,12 @@
 
 
                 <div id="careerDiv" style="width:1270px;">
-                   <%-- <div class="__btWrap rig __mt10" style="text-align: right; margin-right: 10px; margin-top: 10px;">
+                    <div class="__btWrap rig __mt10" style="text-align: right; margin-right: 10px; margin-top: 10px;">
                         <button type="button"  class="k-button k-button-solid-info" onclick="applicationForm3.addLangRow()"><span>추가</span></button>
-                    </div>--%>
+                    </div>
 
                     <div class="__tit1">
                         <h3>외국어</h3>
-                        <button type="button"  class="k-button k-button-solid-info" style="float:right; margin-bottom:10px;" onclick="applicationForm3.addLangRow()"><span>추가</span></button>
                     </div>
                     <table class="__tbl respond2 fix" id="careerInfo0">
                         <colgroup>

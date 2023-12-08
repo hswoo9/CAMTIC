@@ -129,13 +129,12 @@
                     </tbody>
                 </table>
 
-                <%--<div class="__btWrap rig __mt10" style="text-align: right; margin-right: 10px; margin-top: 10px; margin-bottom:10px;">
+                <div class="__btWrap rig __mt10" style="text-align: right; margin-right: 10px; margin-top: 10px; margin-bottom:10px;">
                     <button type="button"  class="k-button k-button-solid-info" onclick="applicationForm2.addSchoolRow()"><span>추가</span></button>
-                </div>--%>
+                </div>
 
                 <div class="__tit1">
                     <h3>학력사항</h3>
-                    <button type="button" class="k-button k-button-solid-info" style="float:right; margin-bottom:10px;" onclick="applicationForm2.addSchoolRow()"><span>추가</span></button>
                 </div>
 
                 <table class="__tbl respond2 fix" >
@@ -224,13 +223,12 @@
 
 
                 <div id="careerDiv" style="width:1270px;">
-                    <%--<div class="__btWrap rig __mt10" style="text-align: right; margin-right: 10px; margin-top: 10px;">
+                    <div class="__btWrap rig __mt10" style="text-align: right; margin-right: 10px; margin-top: 10px;">
                         <button type="button"  class="k-button k-button-solid-info" onclick="applicationForm2.addCareerRow()"><span>추가</span></button>
-                    </div>--%>
+                    </div>
 
                     <div class="__tit1">
                         <h3>경력사항</h3>
-                        <button type="button"  class="k-button k-button-solid-info" style="float:right; margin-bottom:10px;" onclick="applicationForm2.addCareerRow()"><span>추가</span></button>
                     </div>
                     <table class="__tbl respond2 fix" id="careerInfo0">
                         <colgroup>
