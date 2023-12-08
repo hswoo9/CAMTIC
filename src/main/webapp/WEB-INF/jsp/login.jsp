@@ -53,13 +53,13 @@
                 </div>
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    <input type="text" id="id" name="id" class="form-control" placeholder="아이디를 입력하세요." value="master">
+                    <input type="text" id="id" name="id" class="form-control" placeholder="아이디를 입력하세요." value="">
                 </div>
             </div>
             <div class="form-group mb10">
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    <input type="password" id="password" name="password" class="form-control" placeholder="비밀번호를 입력하세요." value="camtic2023">
+                    <input type="password" id="password" name="password" class="form-control" placeholder="비밀번호를 입력하세요." value="">
                 </div>
             </div>
             <div>

@@ -317,9 +317,9 @@ var regPay = {
                 '   <td>' +
                 '       <input type="hidden" id="payDestSn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" name="payDestSn" class="payDestSn">' +
                 '       <input type="text" id="eviType' + regPayDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
-                '       <input type="hidden" id="authNo' + regPayDet.global.itemIndex + '" class="authNo" style="width: 100%">' +
-                '       <input type="hidden" id="authHh' + regPayDet.global.itemIndex + '" class="authHh" style="width: 100%">' +
-                '       <input type="hidden" id="authDd' + regPayDet.global.itemIndex + '" class="authDd" style="width: 100%">' +
+                '       <input type="hidden" id="authNo' + regPayDet.global.itemIndex + '" value="'+item.AUTH_NO+'" class="authNo" style="width: 100%">' +
+                '       <input type="hidden" id="authHh' + regPayDet.global.itemIndex + '" value="'+item.AUTH_HH+'" class="authHh" style="width: 100%">' +
+                '       <input type="hidden" id="authDd' + regPayDet.global.itemIndex + '" value="'+item.AUTH_DD+'" class="authDd" style="width: 100%">' +
                 '   </td>' +
                 '   <td>' +
                 '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regPayDet.fn_popRegDet(1, '+regPayDet.global.itemIndex+')"></i>' +
@@ -583,6 +583,9 @@ var regPay = {
                 teamSeq : $("#appTeam" + index).val(),
                 teamName : $("#appTeam" + index).data("kendoDropDownList").text(),
                 evidType : $("#eviType" + index).val(),
+                authNo : $("#authNo" + index).val(),
+                authDd : $("#authDd" + index).val(),
+                authHh : $("#authHh" + index).val(),
                 crmNm : $("#crmNm" + index).val(),
                 regNo : $("#regNo" + index).val(),
                 trCd : $("#trCd" + index).val(),
