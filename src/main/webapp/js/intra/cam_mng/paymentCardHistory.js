@@ -136,9 +136,13 @@ var payCardHist = {
         opener.parent.$("#cardNo" + index).val(data.CARD_NO.substring(0,4) + "-" + data.CARD_NO.substring(4,8) + "-" + data.CARD_NO.substring(8,12) + "-" + data.CARD_NO.substring(12,16));
         opener.parent.$("#card" + index).val(data.TR_NM);
         opener.parent.$("#buySts" + index).val(data.BUY_STS);
+        opener.parent.$("#crmAccHolder" + index).val(data.DEPOSITOR);
+        opener.parent.$("#crmAccNo" + index).val(data.BA_NB);
+        opener.parent.$("#crmBnkNm" + index).val(data.JIRO_NM);
 
+        console.log(data);
         alert("반영되었습니다.");
 
-        window.close();
+        // window.close();
     }
 }
