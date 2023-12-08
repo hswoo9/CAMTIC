@@ -131,10 +131,6 @@ var teamInfo = {
             },
             columns: [
                 {
-                    field: "",
-                    title: "구분",
-                    width: 100
-                }, {
                     field: "DEPT_NAME",
                     title: "부서",
                     width: 200
@@ -197,10 +193,6 @@ var teamInfo = {
                         }
                     }
                 }, {
-                    field: "",
-                    title: "보고서",
-                    width: 150
-                }, {
                     title: "협업취소",
                     width: 80,
                     template: function(e){
@@ -228,11 +220,6 @@ var teamInfo = {
             tmExptProfit : uncomma($("#exptProfit").val()),
             tmExptPer : uncomma($("#exptProfitPer").val()),
             tmExptCost : uncomma($("#exptCost").val())
-        }
-
-        if(parameters.tmCrmSn == ""){
-            alert("업체를 선택해주세요.");
-            return;
         }
 
         if(parameters.tmDeptSeq == ""){

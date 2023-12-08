@@ -1277,7 +1277,9 @@
             DELV_DE = #{delvDe},
             DELV_ISSU = #{delvIssu},
             DELV_ITEM = #{delvItem},
+        <if test='delvCnt != null and !"".equals(delvCnt)'>
             DELV_CNT = #{delvCnt},
+        </if>
             DELV_UNIT = #{delvUnit},
             DELV_LOC = #{delvLoc},
             DELV_AMT = #{delvAmt},
@@ -1860,7 +1862,9 @@
                 TM_DEPT_SEQ,
                 TM_TEAM_SEQ,
                 TM_PM_SEQ,
+            <if test='tmCrmSn != null and !"".equals(tmCrmSn)'>
                 TM_CRM_SN,
+            </if>
                 TM_AMT,
                 TM_BALANCE,
                 TM_EXPT_PROFIT,
@@ -1873,7 +1877,9 @@
                 #{tmDeptSeq},
                 #{tmTeamSeq},
                 #{tmPMSeq},
+            <if test='tmCrmSn != null and !"".equals(tmCrmSn)'>
                 #{tmCrmSn},
+            </if>
                 #{tmAmt},
                 #{tmBalance},
                 #{tmExptProfit},
