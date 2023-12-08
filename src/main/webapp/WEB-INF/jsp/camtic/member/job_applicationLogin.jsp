@@ -118,8 +118,6 @@
 </div>
 </body>
 </html>
-
-<input type="hidden" id="recruitInfoSn" value="${map.RECRUIT_INFO_SN}"/>
 <script src="/js/intra/common/securityEncUtil.js?v=1"></script>
 <script src="/js/intra/common/aes.js?v=1"></script>
 <script>

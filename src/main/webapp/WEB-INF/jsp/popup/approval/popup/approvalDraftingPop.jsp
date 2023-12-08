@@ -39,6 +39,7 @@
     .table-bordered {border: 1px solid #dee2e6 !important;}
     .red-star {color: red; margin-right: 5px;}
     .k-upload-files {font-size: 12px; !important;}
+    .reDraft {font-size: 13px}
 </style>
 <%
     pageContext.setAttribute("CR", "\r");

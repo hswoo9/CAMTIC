@@ -47,6 +47,7 @@ var draft = {
     },
 
     fnDefaultScript : function (params) {
+        window.resizeTo(965, 900);
         document.querySelector('body').style.overflow = 'hidden';
         if(draft.global.params.mod == "W"){
             $("#loadingText").text("양식을 불러오는 중입니다.");
@@ -667,7 +668,7 @@ var draft = {
         draft.docApproveLineDataSetting("temp", draft.global.formData);
 
         $.ajax({
-            url : "/approval/setApproveDraftInit.do",
+            url : "/approval/setApproveDraftInit",
             type : 'post',
             data : draft.global.formData,
             dataType : "json",
