@@ -68,6 +68,10 @@ var orgChart = {
                 },
             },
             pageSize: 15,
+            sort: [
+                { field: "DUTY_NAME", dir: "desc", compare: orgChart.dutyNameCompare() },
+                { field: "EMP_NAME_KR", dir: "asc" }
+            ]
         });
 
         $("#deptUserGrid").kendoGrid({
@@ -108,7 +112,8 @@ var orgChart = {
                     }
                 }, {
                     field : 'DEPT_NAME',
-                    title : "부서"
+                    title : "부서",
+                    width : 140
                 }, {
                     title : "직위",
                     template: function(row){
@@ -123,6 +128,16 @@ var orgChart = {
                 }
             ],
         }).data("kendoGrid");
+    },
+
+    dutyNameCompare : function (a,b){
+        if (a && !b) {
+            return -1; // a를 b보다 앞으로 위치시키기
+        } else if (!a && b) {
+            return 1; // b를 a보다 앞으로 위치시키기
+        } else {
+            return 0; // 그 외에는 변경 없음
+        }
     },
 
     myPop: function(data){
