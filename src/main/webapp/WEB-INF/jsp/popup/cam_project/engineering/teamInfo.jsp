@@ -43,7 +43,7 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>담당자(PM)
+                    <span class="red-star">*</span>담당자(PM)
                 </th>
                 <td>
                     <input type="text" id="teamPMNm" style="width: 80%;" disabled />
@@ -61,7 +61,7 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>협업팀
+                    <span class="red-star">*</span>협업팀
                 </th>
                 <td colspan="3">
                     <input type="text" id="team" style="width: 40%;" disabled>
@@ -74,7 +74,7 @@
 <%--                    <input type="text" id="team" style="width: 90%;" />--%>
 <%--                </td>--%>
             </tr>
-            <tr>
+            <%--<tr>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>업체선택
                 </th>
@@ -85,10 +85,10 @@
                         조회
                     </button>
                 </td>
-            </tr>
+            </tr>--%>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>배분금액
+                    <span class="red-star">*</span>배분금액
                 </th>
                 <td colspan="3">
                     <input type="text" id="teamAmt" value="0" onkeyup="inputNumberFormat(this)" oninput="onlyNumber(this)" style="width: 40%; text-align: right" /> 원
