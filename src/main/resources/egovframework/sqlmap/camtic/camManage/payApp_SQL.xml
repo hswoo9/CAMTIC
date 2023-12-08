@@ -373,10 +373,18 @@
         AND
             A.DOC_STATUS = #{docStatus}
         </if>
-        ORDER BY PAY_APP_SN DESC
         ) AA
         WHERE
-            ITEM_COUNT != EXNP_STATUS
+            1=1
+            <if test='pageType != "USER" and !"USER".equals(pageType)'>
+                AND
+                    ITEM_COUNT != EXNP_STATUS
+            </if>
+            <if test='searchDept != null and !"".equals(searchDept)'>
+                AND
+                    AA.DOC_STATUS = #{searchDept}
+            </if>
+        ORDER BY AA.PAY_APP_SN DESC
     </select>
 
     <select id="getWaitPaymentList" parameterType="map" resultType="map">
@@ -688,6 +696,7 @@
         /*getExnpReList*/
         SELECT
             E.*,
+            ED.BUDGET_NM AS BUDGET_NM_EX,
             DI.APPRO_KEY AS APPRO_KEY,
             DI.DOC_MENU_CD AS DOC_MENU_CD,
             IFNULL(SUM(ED.TOT_COST), 0) AS TOT_COST
