@@ -208,6 +208,7 @@
                     var imgData = canvas.toDataURL('image/png'); //Image 코드로 뽑아내기 // image 추가
                     imgData = imgData.replace("data:image/png;base64,", "");
                     data.imgSrc = imgData;
+                    data.empSeq = $("#empSeq").val()
                     $.ajax({
                         type : "POST",
                         data : data,

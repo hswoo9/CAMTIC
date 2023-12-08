@@ -473,7 +473,8 @@
                 FILE_ORG_NAME,
                 FILE_PATH,
                 FILE_SIZE,
-                FILE_EXT
+                FILE_EXT,
+                EMP_SEQ
             )
         VALUES
             (
@@ -482,7 +483,8 @@
                 #{fileOrgName},
                 #{filePath},
                 #{fileSize},
-                #{fileExt}
+                #{fileExt},
+                #{empSeq}
             )
     </insert>
 

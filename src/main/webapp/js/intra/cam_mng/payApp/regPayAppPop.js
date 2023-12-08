@@ -251,7 +251,7 @@ var regPay = {
         // }
 
         $("#docStatus").val(rs.DOC_STATUS)
-        if(rs.DOC_STATUS != 0){
+        if(rs.DOC_STATUS != 0 && rs.DOC_STATUS != 30){
             $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
         }
 

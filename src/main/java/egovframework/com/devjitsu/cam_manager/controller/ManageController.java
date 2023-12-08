@@ -306,7 +306,7 @@ public class ManageController {
             String fileOrgName = params.get("authNo").toString();
             String fileCd = "useCard";
             String fileExt = "png";
-            String filePath = "/upload/"+ fileCd +"/" + params.get("authNo") + "/" + params.get("authDate") + "/" + params.get("authTime") + "/" + params.get("cardNo") + "/" + params.get("buySts") + "/";
+            String filePath = "/home/upload/"+ fileCd +"/" + params.get("authNo") + "/" + params.get("authDate") + "/" + params.get("authTime") + "/" + params.get("cardNo") + "/" + params.get("buySts") + "/";
 
             Map<String, Object> fileParameters = new HashMap<>();
             fileParameters.put("fileCd", fileCd);
@@ -315,6 +315,7 @@ public class ManageController {
             fileParameters.put("filePath", filePath);
             fileParameters.put("fileExt", fileExt);
             fileParameters.put("fileSize", 19);
+            fileParameters.put("empSeq", params.get("empSeq"));
 
 
             commonService.insFileUpload(fileParameters);
