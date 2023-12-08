@@ -445,4 +445,8 @@ public class UserManageRepository extends AbstractDAO {
         return (Map<String,Object>)selectOne("userManage.getTotalEmployeeCount",params);
     }
 
+    public Map<String,Object> getCurrentPositionByYear(Map<String,Object> params){
+        return (Map<String,Object>)selectOne("userManage.getCurrentPositionByYear",params);
+    }
+
 }

@@ -40,6 +40,20 @@ var yearDutyView = {
                 console.error("Error fetching data:", error);
             }
         });
+
+        $.ajax({
+            type : "POST",
+            data: {arr : arr},
+            url: "/Inside/getCurrentPositionByYear",
+            dataType: "json",
+            success: function(data) {
+                console.log("currentPositionByYear data : ",data);
+
+            },
+            error: function (error){
+                console.error("Error fetching data:", error);
+            }
+        });
     },
 
     getPositionListTable: function (positionList, arr) {
@@ -124,11 +138,11 @@ var yearDutyView = {
     gridReload: function (){
         var requestArr = "";
         if($(".detailSearch:checked").length == 0){
-            requestArr += "|999&N"
+            requestArr += "|9999&N"
         }else{
             $(".detailSearch:checked").each(function(){
                 if($(this).attr("id") == "dsA"){
-                    requestArr += "|0&N|4&1,2"
+                    requestArr += "|0&N"
                 }else{
                     requestArr += "|" + $(this).attr("division") + '&' + ($(this).attr("divisionSub") == null ? "N" : $(this).attr("divisionSub"));
                 }
