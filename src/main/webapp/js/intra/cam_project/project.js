@@ -199,7 +199,7 @@ var camPrj = {
                         if(e.TEAM_STAT == "N"){
                             return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\")'>" + pjtEx + "</a>";
                         } else {
-                            return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\", \"" + e.TEAM_STAT + "\")'>" + pjtEx + "</a>";
+                            return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\")'>" + pjtEx + "</a>";
                         }
                     }
                 }, {
@@ -441,17 +441,13 @@ var camPrj = {
 
 
     // project 상세페이지
-    fn_projectPopView : function (key, cs, tmStat){
+    fn_projectPopView : function (key, cs){
         var url = "/project/pop/viewRegProject.do?pjtSn=" + key;
 
         if(cs == "R"){
             url = "/projectRnd/pop/regProject.do?pjtSn=" + key;
         } else if (cs == "S"){
             url = "/projectUnRnd/pop/regProject.do?pjtSn=" + key;
-        }
-
-        if(tmStat == "Y"){
-            url = url + "&tmStat=" + tmStat;
         }
         var name = "blank";
         var option = "width = 1680, height = 850, top = 100, left = 200, location = no";

@@ -153,12 +153,12 @@ var estInfo = {
 
                     if($("#tmSn").val() == "Y"){
                         if($("#pjtStep").val().toString().substring(0, 1) == "R"){
-                            window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tmStat=Y&tab=1"
+                            window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=1"
                         } else {
                             window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=2";
                         }
                     } else {
-                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=1&tmStat=" + $("#tmStat").val();
+                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=1";
                     }
 
                 }

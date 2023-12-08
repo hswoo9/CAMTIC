@@ -85,7 +85,6 @@
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">프로젝트 등록</span>
-                <input type="hidden" id="tmStat" />
                 <input type="text" id="busnLgClass" style="width: 200px;"  />
                 <input type="text" id="busnClass" style="width: 200px; display:none" />
                   <input type="hidden" id="pjtStep" value="E">
