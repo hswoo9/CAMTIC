@@ -97,6 +97,7 @@ var regPay = {
 
                     for(let i = 0; i < rs.length; i++) {
                         $("#crmNm" + i).val(rs[i].EMP_NAME_KR);
+                        $("#regNo" + i).val(rs[i].REG_NO);
                         $("#trCd" + i).val(rs[i].ERP_ERP_CD);
                         $("#crmBnkNm" + i).val(rs[i].BANK_NAME);
                         $("#crmAccNo" + i).val(rs[i].ACCOUNT_NUM);
@@ -243,11 +244,11 @@ var regPay = {
 
         regPay.payAppBtnSet(rs);
 
-        if(rs.ADVANCES != 'Y'){
-            $("#advances").prop("checked", false);
-        } else {
-            $("#advances").prop("checked", true);
-        }
+        // if(rs.ADVANCES != 'Y'){
+        //     $("#advances").prop("checked", false);
+        // } else {
+        //     $("#advances").prop("checked", true);
+        // }
 
         $("#docStatus").val(rs.DOC_STATUS)
         if(rs.DOC_STATUS != 0){
@@ -316,15 +317,18 @@ var regPay = {
                 '   <td>' +
                 '       <input type="hidden" id="payDestSn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" name="payDestSn" class="payDestSn">' +
                 '       <input type="text" id="eviType' + regPayDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
-                '       <input type="hidden" id="authNo' + regPayDet.global.itemIndex + '" class="authNo" style="width: 100%">' +
-                '       <input type="hidden" id="authHh' + regPayDet.global.itemIndex + '" class="authHh" style="width: 100%">' +
-                '       <input type="hidden" id="authDd' + regPayDet.global.itemIndex + '" class="authDd" style="width: 100%">' +
+                '       <input type="hidden" id="authNo' + regPayDet.global.itemIndex + '" value="'+item.AUTH_NO+'" class="authNo" style="width: 100%">' +
+                '       <input type="hidden" id="authHh' + regPayDet.global.itemIndex + '" value="'+item.AUTH_HH+'" class="authHh" style="width: 100%">' +
+                '       <input type="hidden" id="authDd' + regPayDet.global.itemIndex + '" value="'+item.AUTH_DD+'" class="authDd" style="width: 100%">' +
                 '   </td>' +
                 '   <td>' +
                 '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regPayDet.fn_popRegDet(1, '+regPayDet.global.itemIndex+')"></i>' +
                 '       <input type="text" style="width: 70%" id="crmNm' + regPayDet.global.itemIndex + '" value="'+item.CRM_NM+'" class="crmNm">' +
                 '       <input type="hidden" id="buySts' + regPayDet.global.itemIndex + '" value="'+item.BUY_STS+'" class="buySts">' +
                 '       <input type="hidden" id="trCd' + regPayDet.global.itemIndex + '" value="'+item.TR_CD+'" class="trCd">' +
+                '   </td>' +
+                '   <td>' +
+                '       <input type="text" id="regNo' + regPayDet.global.itemIndex + '" class="regNo" value="'+item.REG_NO+'" style="width: 100%">' +
                 '   </td>' +
                 '   <td>' +
                 '       <input type="text" id="crmBnkNm' + regPayDet.global.itemIndex + '" value="'+item.CRM_BNK_NM+'" class="crmBnkNm">' +
@@ -354,9 +358,6 @@ var regPay = {
                 '   </td>' +
                 '   <td>' +
                 '       <input type="text" id="etc' + regPayDet.global.itemIndex + '" value="'+item.ETC+'" class="etc">' +
-                '   </td>' +
-                '   <td>' +
-                '       <input type="text" id="iss' + regPayDet.global.itemIndex + '" value="'+item.ISS+'"  class="iss">' +
                 '   </td>';
 
             regPayDet.global.createHtmlStr += "" +
@@ -427,7 +428,7 @@ var regPay = {
             });
 
             customKendo.fn_textBox(["crmNm" + regPayDet.global.itemIndex, "crmBnkNm"  + regPayDet.global.itemIndex
-                , "crmAccHolder" + regPayDet.global.itemIndex, "iss" + regPayDet.global.itemIndex
+                , "crmAccHolder" + regPayDet.global.itemIndex, "regNo" + regPayDet.global.itemIndex
                 , "crmAccNo" + regPayDet.global.itemIndex, "totCost" + regPayDet.global.itemIndex
                 , "supCost" + regPayDet.global.itemIndex, "vatCost" + regPayDet.global.itemIndex
                 ,"card" + regPayDet.global.itemIndex, "etc" + regPayDet.global.itemIndex, "budgetNm" + regPayDet.global.itemIndex]);
@@ -539,11 +540,11 @@ var regPay = {
             empSeq : $("#empSeq").val()
         }
 
-        if($("#advances").is(":checked")){
-            parameters.advances = 'Y';
-        } else {
-            parameters.advances = 'N';
-        }
+        // if($("#advances").is(":checked")){
+        //     parameters.advances = 'Y';
+        // } else {
+        //     parameters.advances = 'N';
+        // }
 
         if($("#claimSn").val() != ""){
             parameters.claimSn = $("#claimSn").val();
@@ -582,7 +583,11 @@ var regPay = {
                 teamSeq : $("#appTeam" + index).val(),
                 teamName : $("#appTeam" + index).data("kendoDropDownList").text(),
                 evidType : $("#eviType" + index).val(),
+                authNo : $("#authNo" + index).val(),
+                authDd : $("#authDd" + index).val(),
+                authHh : $("#authHh" + index).val(),
                 crmNm : $("#crmNm" + index).val(),
+                regNo : $("#regNo" + index).val(),
                 trCd : $("#trCd" + index).val(),
                 crmBnkNm : $("#crmBnkNm" + index).val(),
                 crmAccNo : $("#crmAccNo" + index).val(),
@@ -595,7 +600,6 @@ var regPay = {
                 card : $("#card" + index).val(),
                 cardNo : $("#cardNo" + index).val(),
                 etc : $("#etc" + index).val(),
-                iss : $("#iss" + index).val(),
             }
 
             if(data.buySts == undefined || data.buySts == null || data.buySts == "" || data.buySts == "undefined"){
@@ -603,7 +607,7 @@ var regPay = {
             }
 
 
-            befAdvances = $("#advances" + index).is(':checked') ? "Y" : "N";
+            // befAdvances = $("#advances" + index).is(':checked') ? "Y" : "N";
 
             if(data.eviType == ""){
                 flag = false;
@@ -805,8 +809,8 @@ var regPayDet = {
             }
         });
 
-        customKendo.fn_textBox(["crmNm0", "crmBnkNm0", "crmAccHolder0", "crmAccNo0", "totCost0", "supCost0", "vatCost0"
-        ,"card0", "etc0", "iss0", "budgetNm0"]);
+        customKendo.fn_textBox(["crmNm0", "regNo0", "crmBnkNm0", "crmAccHolder0", "crmAccNo0", "totCost0", "supCost0", "vatCost0"
+        ,"card0", "etc0", "budgetNm0"]);
 
         var ds = customKendo.fn_customAjax("/dept/getDeptAList", {
             deptLevel : 2
@@ -863,6 +867,9 @@ var regPayDet = {
             '       <input type="hidden" id="trCd' + regPayDet.global.itemIndex + '" class="trCd">' +
             '   </td>' +
             '   <td>' +
+            '       <input type="text" id="regNo' + regPayDet.global.itemIndex + '" class="regNo" style="width: 100%">' +
+            '   </td>' +
+            '   <td>' +
             '       <input type="text" id="crmBnkNm' + regPayDet.global.itemIndex + '" class="crmBnkNm">' +
             '   </td>' +
             '   <td>' +
@@ -890,10 +897,7 @@ var regPayDet = {
             '   </td>' +
             '   <td>' +
             '       <input type="text" id="etc' + regPayDet.global.itemIndex + '" class="etc">' +
-            '   </td>' +
-            '   <td>' +
-            '       <input type="text" id="iss' + regPayDet.global.itemIndex + '" class="iss">' +
-            '   </td>' ;
+            '   </td>';
         regPayDet.global.createHtmlStr += "" +
             '   <td>' +
             '       <div style="text-align: center">' +
@@ -935,7 +939,7 @@ var regPayDet = {
         });
 
         customKendo.fn_textBox(["crmNm" + regPayDet.global.itemIndex, "crmBnkNm"  + regPayDet.global.itemIndex
-                                , "crmAccHolder" + regPayDet.global.itemIndex, "iss" + regPayDet.global.itemIndex
+                                , "crmAccHolder" + regPayDet.global.itemIndex, "regNo" + regPayDet.global.itemIndex
                                 , "crmAccNo" + regPayDet.global.itemIndex, "totCost" + regPayDet.global.itemIndex
                                 , "supCost" + regPayDet.global.itemIndex, "vatCost" + regPayDet.global.itemIndex
                                 ,"card" + regPayDet.global.itemIndex, "etc" + regPayDet.global.itemIndex, "budgetNm" + regPayDet.global.itemIndex]);

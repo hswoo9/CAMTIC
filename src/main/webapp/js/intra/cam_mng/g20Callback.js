@@ -46,11 +46,16 @@ function fn_selClientInfo(trCd, trNm, baNb, depositor, jiro, ceoNm, regNb, idx){
         trCd = "";
     }
 
+    if(regNb == null || regNb == "" || regNb == "undefined"){
+        regNb = "";
+    }
+
     $("#crmNm" + idx).val(trNm);
     $("#trCd" + idx).val(trCd);
     $("#crmBnkNm" + idx).val(jiro);
     $("#crmAccNo" + idx).val(baNb);
     $("#crmAccHolder" + idx).val(depositor);
+    $("#regNo" + idx).val(regNb);
 }
 
 function fn_selCardInfo(trCd, trNm, cardBaNb, jiro, clttrCd, baNb, depositor, idx){
@@ -81,8 +86,7 @@ function fn_selCardInfo(trCd, trNm, cardBaNb, jiro, clttrCd, baNb, depositor, id
     $("#crmAccHolder" + idx).val(depositor);
 }
 
-function fn_selEmpInfo(trCd, bankName, accountNum, accountHolder, empNameKr, idx){
-    console.log(accountHolder)
+function fn_selEmpInfo(trCd, bankName, accountNum, accountHolder, empNameKr, idx, regNo){
     if(accountHolder == null || accountHolder == "" || accountHolder == "undefined"){
         accountHolder = "";
     }
@@ -104,6 +108,7 @@ function fn_selEmpInfo(trCd, bankName, accountNum, accountHolder, empNameKr, idx
     $("#crmBnkNm" + idx).val(bankName);
     $("#crmAccNo" + idx).val(accountNum);
     $("#crmAccHolder" + idx).val(accountHolder);
+    $("#regNo" + idx).val(regNo);
 }
 
 function fn_selOtherInfo(trCd, bankName,  accountHolder, accountNum, empNameKr, idx, type, regNo){
