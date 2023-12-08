@@ -200,9 +200,9 @@ var regExnp = {
         $("#accNm").val(rs.ACC_NM);
         $("#accNo").val(rs.ACC_NO);
 
-        $("#DT1").val(rs.DT1);
-        $("#DT2").val(rs.DT2);
-        $("#DT3").val(rs.DT3);
+        $("#DT1").val(rs.REQ_DE);
+        $("#DT2").val(rs.REQ_EXNP_DE);
+        $("#DT3").val(rs.REQ_END_DE);
 
         $("#reqDe").val(rs.REQ_DE);
         $("#reqExDe").val(rs.REQ_EXNP_DE);
@@ -452,15 +452,16 @@ var regExnp = {
             $("#budgetSn").val(ls[0].BUDGET_SN);
         }
 
+        console.log(rs);
 
         $("#reqDe").val(rs.REQ_DE);
-        $("#reqExDe").val(rs.REQ_DE);
-        $("#reqEndDe").val(rs.REQ_DE);
+        $("#DT3").val(rs.REQ_DE);
+        $("#reqExDe").val(rs.REQ_EXNP_DE);
+        $("#DT2").val(rs.REQ_DE)
+        $("#reqEndDe").val(rs.REQ_END_DE);
+        $("#DT1").val(rs.APP_DE)
         for(var i=0; i < ls.length; i++){
             var item = ls[i];
-            $("#DT1").val(ls[0].TR_DE);
-            $("#DT2").val(fn_stringToDate(ls[0].TR_DE, 5));
-            $("#DT3").val(fn_stringToDate(ls[0].TR_DE, 6));
 
             regExnpDet.global.createHtmlStr = "";
 
@@ -595,6 +596,7 @@ var regExnp = {
                 customKendo.fn_datePicker("trDe" + regExnpDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
 
                 $("#eviType" + regExnpDet.global.itemIndex).data("kendoDropDownList").value(item.EVID_TYPE);
+                $("#eviType" + regExnpDet.global.itemIndex).data("kendoDropDownList").enable(false)
 
 
                 regExnpDet.global.itemIndex++;
