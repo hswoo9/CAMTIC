@@ -115,7 +115,7 @@ const regPayAtt = {
                 html += '   <td>' + size + '</td>';
                 html += '   <td>';
                 if(fileArray[i].file_ext.toLowerCase() == "pdf" || fileArray[i].file_ext.toLowerCase() == "jpg" || fileArray[i].file_ext.toLowerCase() == "png" || fileArray[i].file_ext.toLowerCase() == "jpeg"){
-                    html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regPayAtt.fileViewer(' + fileArray[i].file_path + fileArray[i].file_uuid +')">'
+                    html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regPayAtt.fileViewer(\'' + fileArray[i].file_path + fileArray[i].file_uuid +'\')">'
                 }
                 html += '   </td>';
                 html += '   <td>';

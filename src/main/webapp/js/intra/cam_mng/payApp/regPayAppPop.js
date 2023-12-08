@@ -284,6 +284,7 @@ var regPay = {
         for(var i= 0; i < ls.length; i++) {
             var item = ls[i];
 
+            console.log(item)
 
             regPayDet.global.createHtmlStr = "";
 
@@ -291,7 +292,7 @@ var regPay = {
                 '<tr class="payDestInfo newArray" id="pay' + regPayDet.global.itemIndex + '" style="text-align: center;">';
             if($("#auth").val() != "user"){
                 if($("#status").val() == "rev" || $("#status").val() == "in" || $("#status").val() == "re" || $("#status").val() == "alt"){
-                    if(item.DET_STAT != "N"){
+                    if(item.DET_STAT != "N" && item.EXNP_SAVE == 'N'){
                         regPayDet.global.createHtmlStr += "" +
                             '   <td><input type="checkbox" id="check' + regPayDet.global.itemIndex + '" value='+item.PAY_APP_DET_SN+' style="position: relative; top: 5px;" class="check" /></td>';
                     } else {
