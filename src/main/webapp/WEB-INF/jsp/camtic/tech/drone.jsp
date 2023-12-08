@@ -42,15 +42,29 @@
 
             <div class="img" style="display: flex;">
               <div class="img" style="display: flex; padding: 0 10px 0 0;">
-                <img src="/images/camtic/img-ntdrone1-1.jpg" alt="" style="height: 268.922px; border-radius: 5px;">
+                <%--<img src="/images/camtic/img-ntdrone1-1.jpg" alt="" style="height: 268.922px; border-radius: 5px;">--%>
+
+                <img src="/images/camtic/img-ntdrone1-1-1.png" alt="" style="height: 268px; width: 379px; border-radius: 5px;">
               </div>
-              <ul class="thm">
+              <%--<ul class="thm">
                 <li><img src="/images/camtic/img-ntdrone1-2.jpg" alt=""></li>
                 <li><img src="/images/camtic/img-ntdrone1-3.jpg" alt=""></li>
                 <li><img src="/images/camtic/img-ntdrone1-4.jpg" alt=""></li>
                 <li><img src="/images/camtic/img-ntdrone1-5.jpg" alt=""></li>
                 <li><img src="/images/camtic/img-ntdrone1-6.jpg" alt=""></li>
+              </ul>--%>
+
+              <ul class="thm">
+                <li><img src="/images/camtic/img-ntdrone1-2-2.png" alt="" style="height: 160px; width: 231px; border-radius: 5px; border: 1px solid #ced4da;"></li>
+                <li><img src="/images/camtic/img-ntdrone1-3-3.png" alt="" style="height: 160px; width: 231px; border-radius: 5px; border: 1px solid #ced4da;"></li>
+                <li><img src="/images/camtic/img-ntdrone1-4.jpg" alt=""></li>
+                <li><img src="/images/camtic/img-ntdrone1-5.jpg" alt=""></li>
+                <li><img src="/images/camtic/img-ntdrone1-6.jpg" alt=""></li>
+                <%--<li><img src="/images/camtic/img-ntdrone1-4-4.png" alt="" style="height: 106px; width: 153px; border-radius: 5px;"></li>
+                <li><img src="/images/camtic/img-ntdrone1-5-5.png" alt="" style="height: 106px; width: 153px; border-radius: 5px;"></li>
+                <li><img src="/images/camtic/img-ntdrone1-6-6.png" alt="" style="height: 106px; width: 153px; border-radius: 5px;"></li>--%>
               </ul>
+
             </div>
           </div>
 

@@ -30,10 +30,11 @@
               드론·3D프린팅·3D펜 등 다양한 분야의 교육과 체험프로그램을 통해 여러분의 상상을 실현해보시길 바랍니다.
             </dd>
           </dl>
+
           <ul class="__flx flx3 gap20 __mt60">
-            <li><img src="/images/camtic/img-space1-1.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-space1-2.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-space1-3.jpg" alt=""></li>
+            <li><img src="/images/camtic/img-space1-1-1.png" alt="" style="width: 330px; height: 250px; border-radius: 10px;"></li>
+            <li><img src="/images/camtic/img-space1-2-2.png" alt="" style="width: 330px; height: 250px; border-radius: 10px;"></li>
+            <li><img src="/images/camtic/img-space1-3-3.png" alt="" style="width: 330px; height: 250px; border-radius: 10px;"></li>
           </ul>
 
 <%--          <div class="__tit2 __mt60">
