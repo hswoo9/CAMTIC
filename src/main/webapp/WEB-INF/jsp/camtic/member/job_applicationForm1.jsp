@@ -217,7 +217,7 @@
                         <td class="tal" colspan="6">
                             <div>
                                 <input type="text" class="__inp" id="zipCode" readonly name="zipCode" style="width:10em;" onclick="applicationForm.addrSearch()">
-                                <button type="button" class="__btn3 black" onclick="applicationForm.addrSearch()">
+                                <button type="button" class="k-button k-button-clear-info k-rounded" onclick="applicationForm.addrSearch()">
                                     <span>주소찾기</span>
                                 </button>
                             </div>

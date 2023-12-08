@@ -18,7 +18,7 @@
     </select>
 
     <select id="getProjectList" parameterType="map" resultType="map">
-        SELECT A.*, (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE A.PJT_SN = SP.PNT_PJT_SN) AS PNT_PJT_SN_CK FROM CAM_PJT_MNG.DJ_PROJECT A
+        SELECT A.*, (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE A.PJT_SN = SP.PNT_PJT_SN limit 1) AS PNT_PJT_SN_CK FROM CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN CAM_CRM.DJ_CRM_INFO B ON A.CRM_SN = B.CRM_SN
         WHERE
         1=1
@@ -272,15 +272,16 @@
 
     <insert id="insEngnEstSub" parameterType="map">
         INSERT INTO CAM_PJT_MNG.DJ_PJT_EST_SUB
-        (
-            EST_SN,
-            PROD_NM,
-            PROD_CNT,
-            UNIT,
-            UNIT_AMT,
-            SUP_AMT,
-            ETC
-        ) VALUES
+            (
+                EST_SN,
+                PROD_NM,
+                PROD_CNT,
+                UNIT,
+                UNIT_AMT,
+                SUP_AMT,
+                ETC
+            )
+        VALUES
             (
                 #{estSn},
                 #{prodNm},
@@ -1074,7 +1075,8 @@
             <if test='crmMemSn != null and !"".equals(crmMemSn)'>
                 CRM_MEM_SN = #{crmMemSn},
             </if>
-            CRM_MEM_TEMP_NM = #{crmReqMem}
+            CRM_MEM_TEMP_NM = #{crmReqMem},
+            CRM_ETC = #{crmEtc}
         WHERE
             PJT_SN = #{pjtSn}
     </update>
@@ -1192,15 +1194,15 @@
             *
         FROM
             CAM_PJT_MNG.DJ_PROJECT DP
-                LEFT JOIN
+        LEFT JOIN
             CAM_PJT_MNG.DJ_PJT_ENGN PE
             ON
                 DP.PJT_SN = PE.PJT_SN
-                LEFT JOIN
+        LEFT JOIN
             CAM_CRM.DJ_CRM_INFO CI
             ON
                 DP.CRM_SN = CI.CRM_SN
-                LEFT JOIN
+        LEFT JOIN
             CAM_CRM.DJ_CRM_MEM DM
             ON
                 DP.CRM_MEM_SN = DM.CRM_MEM_SN
@@ -1275,7 +1277,9 @@
             DELV_DE = #{delvDe},
             DELV_ISSU = #{delvIssu},
             DELV_ITEM = #{delvItem},
+        <if test='delvCnt != null and !"".equals(delvCnt)'>
             DELV_CNT = #{delvCnt},
+        </if>
             DELV_UNIT = #{delvUnit},
             DELV_LOC = #{delvLoc},
             DELV_AMT = #{delvAmt},
@@ -1858,7 +1862,9 @@
                 TM_DEPT_SEQ,
                 TM_TEAM_SEQ,
                 TM_PM_SEQ,
+            <if test='tmCrmSn != null and !"".equals(tmCrmSn)'>
                 TM_CRM_SN,
+            </if>
                 TM_AMT,
                 TM_BALANCE,
                 TM_EXPT_PROFIT,
@@ -1871,7 +1877,9 @@
                 #{tmDeptSeq},
                 #{tmTeamSeq},
                 #{tmPMSeq},
+            <if test='tmCrmSn != null and !"".equals(tmCrmSn)'>
                 #{tmCrmSn},
+            </if>
                 #{tmAmt},
                 #{tmBalance},
                 #{tmExptProfit},

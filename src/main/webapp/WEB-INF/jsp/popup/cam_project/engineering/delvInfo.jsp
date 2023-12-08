@@ -2,8 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:useBean id="today" class="java.util.Date" />
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/delvInfo.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
+<script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
 <input type="hidden" id="expAmt" value="${params.expAmt}" />
@@ -93,7 +95,7 @@
                     <span class="red-star"></span>납품수량
                 </th>
                 <td>
-                    <input type="text" id="delvCnt" style="width: 90%;" onkeyup="delvInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                    <input type="text" id="delvCnt" style="width: 90%;" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                 </td>
             </tr>
             <tr>
@@ -138,7 +140,7 @@
                     <span class="red-star"></span>수주금액
                 </th>
                 <td>
-                    <input type="text" id="delvAmt" style="text-align: right; width: 90%;" onkeyup="delvInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /> 원
+                    <input type="text" id="delvAmt" style="text-align: right; width: 90%;" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /> 원
                     <input type="hidden" id="delvExpAmt" />
                 </td>
                 <th scope="row" class="text-center th-color">
@@ -146,7 +148,7 @@
                 </th>
                 <td>
                     <label for="delvFile" class="k-button k-button-solid-base">파일첨부</label>
-                    <input type="file" id="delvFile" name="delvFile" onchange="delvInfo.fileChange(this)" style="display: none">
+                    <input type="file" id="delvFile" name="delvFile" onchange="fileChange(this)" style="display: none">
                     <span id="delvFileName"></span>
                 </td>
             </tr>

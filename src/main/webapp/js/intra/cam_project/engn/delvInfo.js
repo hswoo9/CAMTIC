@@ -47,8 +47,8 @@ var delvInfo = {
                     $("#delvFileName").text(delvFile.file_org_name + "." +delvFile.file_ext);
                 }
                 if(delvMap != null && delvMap != ''){
-                    $("#delvAmt").val(delvInfo.comma(delvMap.DELV_AMT));
-                    $("#delvExpAmt").val(delvInfo.comma(delvMap.DELV_AMT));
+                    $("#delvAmt").val(comma(delvMap.DELV_AMT));
+                    $("#delvExpAmt").val(comma(delvMap.DELV_AMT));
                     $("#delvItem").val(delvMap.DELV_ITEM);
                     $("#delvLoc").val(delvMap.DELV_LOC);
                     $("#delvMean").val(delvMap.DELV_MEAN);
@@ -91,8 +91,8 @@ var delvInfo = {
 
                     $("#delvBtnDiv").html(buttonHtml);
                 } else {
-                    $("#delvAmt").val(delvInfo.comma(rs.EST_TOT_AMT));
-                    $("#delvExpAmt").val(delvInfo.comma(rs.EST_TOT_AMT));
+                    $("#delvAmt").val(comma(rs.EST_TOT_AMT));
+                    $("#delvExpAmt").val(comma(rs.EST_TOT_AMT));
                     $("#delvEstDe").val(rs.EST_DE);
                     $("#delvBtnDiv").html("<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">저장</button>");
                 }
@@ -103,6 +103,7 @@ var delvInfo = {
     },
 
     fn_save : function(){
+        commonProject.loading();
         var pjCode = $("#pjCode").val();
         var supDep = $("#supDep").val();
         var supDepSub = $("#supDepSub").val();
@@ -126,6 +127,7 @@ var delvInfo = {
             return;
         }
 
+
         var date = new Date();
         var year = date.getFullYear().toString().substring(2,4);
 
@@ -136,11 +138,11 @@ var delvInfo = {
             pjtTmpCd : pjCode + supDep + supDepSub + pjtStat + pjtStatSub + year,
             delvDe : $("#delvDe").val(),
             delvItem : $("#delvItem").val(),
-            delvCnt : delvInfo.uncomma($("#delvCnt").val()),
+            delvCnt : uncomma($("#delvCnt").val()),
             delvUnit : $("#delvUnit").val(),
             delvLoc : $("#delvLoc").val(),
             delvIssu : $("#delvIssu").val(),
-            delvAmt : delvInfo.uncomma($("#delvAmt").val()),
+            delvAmt : uncomma($("#delvAmt").val()),
             delvDept : $("input[name='delvDept']:checked").val(),
             pmEmpNm : $("#pmName").val(),
             pmEmpSeq : $("#pmSeq").val(),
@@ -197,7 +199,7 @@ var delvInfo = {
             fd.append("delvSn", parameters.delvSn);
         }
 
-        if(delvInfo.uncomma(parameters.delvAmt) != delvInfo.uncomma($("#delvExpAmt").val())){
+        if(uncomma(parameters.delvAmt) != uncomma($("#delvExpAmt").val())){
             if(!confirm("예상 견적가와 금액이 일치하지 않습니다. 저장하시겠습니까?")){
                 return false;
             }
@@ -215,15 +217,10 @@ var delvInfo = {
             enctype : 'multipart/form-data',
             async: false,
             success : function(rs){
-                alert("저장되었습니다.")
-                $("#delvSn").val(rs.rep.delvSn)
-
+                alert("저장되었습니다.");
                 window.location.href="/project/pop/viewRegProject.do?pjtSn=" + parameters.pjtSn + "&tab=2";
-
             }
         });
-
-        console.log(parameters);
     },
 
     delvDrafting: function() {
@@ -233,6 +230,7 @@ var delvInfo = {
         if(result == null){
             return;
         }
+
         const delvMap = result.delvMap;
         const map = result.map;
 
@@ -249,24 +247,5 @@ var delvInfo = {
             this.method = 'POST';
             this.target = '_self';
         }).trigger("submit");
-    },
-
-    inputNumberFormat : function (obj){
-        obj.value = delvInfo.comma(delvInfo.uncomma(obj.value));
-    },
-
-    comma: function(str) {
-        str = String(str);
-        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-    },
-
-    uncomma: function(str) {
-        str = String(str);
-        return str.replace(/[^\d]+/g, '');
-    },
-
-
-    fileChange : function(e){
-        $(e).next().text($(e)[0].files[0].name);
-    },
+    }
 }

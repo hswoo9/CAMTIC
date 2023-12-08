@@ -78,6 +78,8 @@
 
 <input type="hidden" id="tab" value="${params.tab}" />
 
+<input type="hidden" id="mainPjtSn" value="${params.pjtSn}" />
+
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
@@ -307,10 +309,7 @@
         $("#pjtStopModal").data("kendoWindow").open();
     }
 
-    var inParameters = JSON.parse('${map}');
-
-
-    regPrj.fn_defaultScript(inParameters);
+    regPrj.fn_defaultScript();
 
     function userSearch() {
         window.open("/common/deptListPop.do", "조직도", "width=750, height=650");

@@ -179,6 +179,10 @@ function fileDown(filePath, fileName){
     });
 }
 
+function fileChange(e){
+    $(e).next().text($(e)[0].files[0].name);
+}
+
 var commonProject = {
     loading : function(){
         $.LoadingOverlay("show", {

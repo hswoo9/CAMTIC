@@ -126,6 +126,14 @@
                 <input type="text" id="crmMail" style="width: 90%;" disabled>
             </td>
         </tr>
+        <tr>
+            <th scope="row" class="text-center th-color">
+                상담내용
+            </th>
+            <td colspan="3">
+                <textarea type="text" id="crmEtc" style="width: 90%; height: 100px;"></textarea>
+            </td>
+        </tr>
         </thead>
     </table>
 </div>
