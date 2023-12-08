@@ -296,7 +296,7 @@ var payDetView = {
                     width: 80,
                     template: function(e){
                         return '<button type="button" class="k-button k-button-solid-base" ' +
-                            'onclick="payDetView.fn_selEmpInfo(\'' + e.ERP_EMP_SEQ + '\', \'' + e.BANK_NAME + '\', \'' + e.ACCOUNT_NUM + '\', \'' + e.ACCOUNT_HOLDER + '\', \'' + e.EMP_NAME_KR + '\')" style="font-size: 12px);">' +
+                            'onclick="payDetView.fn_selEmpInfo(\'' + e.ERP_EMP_SEQ + '\', \'' + e.BANK_NAME + '\', \'' + e.ACCOUNT_NUM + '\', \'' + e.ACCOUNT_HOLDER + '\', \'' + e.EMP_NAME_KR + '\', \'' + e.RES_REGIS_NUM + '\')" style="font-size: 12px);">' +
                             '   선택' +
                             '</button>';
                     }
@@ -435,10 +435,10 @@ var payDetView = {
         window.close();
     },
 
-    fn_selEmpInfo : function (trCd, bankName, accountNum, accountHolder, empNameKr) {
+    fn_selEmpInfo : function (trCd, bankName, accountNum, accountHolder, empNameKr, regNo) {
         console.log(accountHolder)
         var idx = $("#index").val();
-        opener.parent.fn_selEmpInfo(trCd, bankName, accountNum, accountHolder, empNameKr, idx);
+        opener.parent.fn_selEmpInfo(trCd, bankName, accountNum, accountHolder, empNameKr, idx, regNo);
 
         window.close();
     },

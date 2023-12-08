@@ -140,12 +140,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">선지급여부</th>
-                    <td colspan="2">
-                        <input type="checkbox" id="advances" class="advances" style="width: 26px; height: 26px;">
-                    </td>
+<%--                    <th scope="row" class="text-center th-color">선지급여부</th>--%>
+<%--                    <td colspan="2">--%>
+<%--                        <input type="checkbox" id="advances" class="advances" style="width: 26px; height: 26px;">--%>
+<%--                    </td>--%>
                     <th scope="row" class="text-center th-color">첨부파일</th>
-                    <td colspan="2">
+                    <td colspan="4">
                         <div>
                             <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regPayDet.fn_regPayAttPop()">첨부</button>
                         </div>
@@ -178,18 +178,18 @@
                     <colgroup>
                         <c:if test="${!'user'.equals(params.auth)}">
                             <c:if test="${'rev'.equals(params.status) or 'in'.equals(params.status) or 're'.equals(params.status) or 'alt'.equals(params.status)}">
-                                <col style="width: 3%;">
+                                <col style="width: 2%;">
                             </c:if>
                         </c:if>
                         <col style="width: 5%;">
-                        <col style="width: 5%;">
+                        <col style="width: 2%;">
+                        <col style="width: 6%;">
                         <col style="width: 6%;">
                         <col style="width: 6%;">
                         <col style="width: 4%;">
                         <col style="width: 6%;">
                         <col style="width: 4%;">
                         <col style="width: 6%;">
-                        <col style="width: 5%;">
                         <col style="width: 5%;">
                         <col style="width: 5%;">
                         <col style="width: 5%;">
@@ -209,6 +209,7 @@
                         <th>비용구분</th>
                         <th>증빙유형</th>
                         <th>상호</th>
+                        <th>사업자(주민)번호</th>
                         <th>은행명</th>
                         <th>지급계좌</th>
                         <th>예금주</th>
@@ -218,7 +219,6 @@
                         <th>세액</th>
                         <th>신용카드</th>
                         <th>비고</th>
-                        <th>관련근거</th>
                         <th>명령</th>
                     </tr>
                     </thead>
@@ -253,6 +253,9 @@
                             <input type="hidden" id="trCd0" class="trCd">
                         </td>
                         <td>
+                            <input id="regNo0" class="regNo0" style="width: 100%">
+                        </td>
+                        <td>
                             <input type="text" id="crmBnkNm0" class="crmBnkNm">
                         </td>
                         <td>
@@ -280,9 +283,6 @@
                         </td>
                         <td>
                             <input type="text" id="etc0" class="etc">
-                        </td>
-                        <td>
-                            <input type="text" id="iss0" class="iss">
                         </td>
                         <td>
                             <div style="text-align: center">
