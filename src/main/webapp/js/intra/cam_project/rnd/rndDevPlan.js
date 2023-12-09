@@ -2,9 +2,15 @@ var rndDP = {
 
     global: {
         devPjtVerList : [],
+        invCk: "N"
     },
 
     fn_defaultScript: function(){
+        commonProject.setPjtStat();
+        rndDP.fn_setPage();
+    },
+
+    fn_setPage : function(){
         $("#devPlanCont, #devPlanIss").kendoTextArea({
             rows : 5,
         });
@@ -29,16 +35,15 @@ var rndDP = {
 
 
         customKendo.fn_textBox(["invNm","devPjtNm",
-            "devCrmInfo", "pm", "invCnt", "invUnit", "estTotAmt", "estOfc", "invEtc"])
+            "devCrmInfo", "pm", "invCnt", "invUnit", "estTotAmt", "estOfc", "invEtc"]);
 
-        var data = {
+        var rs = customKendo.fn_customAjax("/project/getDevPjtVerList", {
             pjtSn : $("#pjtSn").val()
-        }
+        });
+        rndDP.global.devPjtVerList = rs;
 
-        var rs = customKendo.fn_customAjax("/project/getDevPjtVerList", data);
-
-        var html = "";
         if(rs.list[0].INV_DT != null && rs.list[0].INV_DT != "" && rs.list[0].INV_DT != undefined){
+            var html = "";
             for(var i = 0 ; i < rs.list.length ; i++){
                 var date = new Date(rs.list[i].INV_DT);
                 var yyyy = date.getFullYear();
@@ -51,81 +56,37 @@ var rndDP = {
                 var invAmt = rs.list[i].INV_AMT == null ? 0 : rs.list[i].INV_AMT;
                 var docNo = rs.list[i].DOC_NO == null ? "" : rs.list[i].DOC_NO;
 
+
+                var pjtStepNm = "개발계획";
+                if(rs.list[i].STATUS == "100"){
+                    pjtStepNm += " 완료";
+                } else {
+                    pjtStepNm += " 진행중";
+                }
+
                 html += "<tr style='text-align: center'>";
-                html += "   <td>Ver."+(i+1)+"</td>";
+                html += "   <td><span style='font-weight: bold; cursor: pointer' onclick='rndDP.fn_setVersion("+rs.list[i].DEV_SN+")'>Ver."+(i+1)+"</span></td>";
                 html += "   <td>"+ docNo +"</td>";
-                html += "   <td><div onclick='rndDP.fn_viewVersion("+rs.list[i].DEV_SN+");' style='cursor : pointer; font-weight: bold'>"+ sdfDate +"</div></td>";
+                html += "   <td>"+ sdfDate +"</td>";
                 html += "   <td id='invAmt002'>"+comma(invAmt)+"</td>";
                 html += "   <td>"+rs.list[i].EMP_NAME_KR+"</td>";
                 html += "   <td></td>";
-                html += "   <td>개발계획 작성중</td>";
+                html += "   <td>"+pjtStepNm+"</td>";
                 html += "</tr>";
-
-                console.log(rs.list[i]);
-                $("#devSn").val(rs.list[i].DEV_SN);
             }
-        }
+            $("#addPSActive").css("display", "block");
+            $(".addPSActive").css("display", "block");
+            $("#verTable").append(html);
 
-        $("#verTable").append(html);
+            rndDP.fn_setVersion(rndDP.global.devPjtVerList.list[rndDP.global.devPjtVerList.list.length-1].DEV_SN);
+        }
     },
 
-
-    fn_addVersion : function (){
-        if(!confirm("예비원가를 추가하시겠습니까?")){
-            return;
-        }
-
-        var data = {
-            pjtSn : $("#pjtSn").val(),
-            empSeq : $("#empSeq").val(),
-        }
-        var rs = customKendo.fn_customAjax("/project/getDevPjtVerList", data);
-
-        if(rs.list[rs.list.length - 1].DEV_SN != undefined && rs.list[rs.list.length - 1].DEV_SN != ""){
-            alert("이미 작성중인 예비원가서가 있습니다.");
-            return ;
-        }
-        var result = customKendo.fn_customAjax("/projectRnd/setDevPjtVer", data);
-
-        if(result.code != 200){
-            alert("오류가 발생하였습니다. \n 관리자에게 문의해주세요.");
-            return ;
-        }
-        $("#devSn").val(result.params.devSn);
-
-        rs = result.rs;
-
-        rndDP.global.devPjtVerList = rs;
-        var html = "";
-        for(var i = 0 ; i < rs.length ; i++){
-            var date = new Date(rs[i].INV_DT);
-            var yyyy = date.getFullYear();
-            var mm = date.getMonth()+1;
-            mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
-            var dd = date.getDate();
-            dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
-            var sdfDate = yyyy+'년 '+mm+'월 '+dd+'일';
-
-            var invAmt = rs[i].INV_AMT == null ? 0 : rs[i].INV_AMT;
-            var docNo = rs[i].DOC_NO == null ? "" : rs[i].DOC_NO;
-
-            html += "<tr style='text-align: center'>";
-            html += "   <td>Ver."+(i+1)+"</td>";
-            html += "   <td>"+ docNo +"</td>";
-            html += "   <td>"+ sdfDate +"</td>";
-            html += "   <td id='invAmt002'>"+comma(invAmt)+"</td>";
-            html += "   <td>"+rs[i].EMP_NAME_KR+"</td>";
-            html += "   <td></td>";
-            html += "   <td>개발계획 작성중</td>";
-            html += "</tr>";
-        }
-
-        $("#verTable").append(html);
-
-        $("#addPSActive").css("display", "block");
+    fn_setVersion : function (key){
+        rndDP.fn_setData(key);
     },
 
-    fn_viewVersion: function (key){
+    fn_setData: function (key){
         var data = {
             pjtSn : $("#pjtSn").val(),
             devSn : key,
@@ -263,7 +224,6 @@ var rndDP = {
         });
 
         $("#invTable").html("");
-
         var bsHtml = "<tr>\n" +
             "                    <td style=\"text-align: center\"><span style=\"position: relative; top:5px\">추가</span></td>\n" +
             "                    <td><input type=\"text\" id=\"invNm\" class=\"invNm\" /></td>\n" +
@@ -273,88 +233,68 @@ var rndDP = {
             "                    <td><input type=\"text\" id=\"estOfc\" class=\"estOfc\" /></td>\n" +
             "                    <td><input type=\"text\" id=\"invEtc\" class=\"invEtc\" /></td>\n" +
             "                    <td style=\"text-align: center;\"><button type=\"button\" id=\"addBtn\" onclick=\"rndDP.fn_addInv()\" class=\"k-button k-button-solid-base\">추가</button></td>\n" +
-            "                </tr>"
-
-
+            "                </tr>";
         $("#invTable").append(bsHtml);
-
         customKendo.fn_textBox(["invNm", "invCnt", "invUnit", "estTotAmt", "estOfc", "invEtc"])
-
-
-        $("#devSn").val(key);
-        var data = {
-            pjtSn : $("#pjtSn").val(),
-            devSn : $("#devSn").val()
-        }
         $("#addPSActive").css("display", "block");
 
 
+        var invResult = customKendo.fn_customAjax("/project/getInvList", data);
+        var list = invResult.list;
 
-        $.ajax({
-            url : "/project/getInvList",
-            data : data,
-            type : "post",
-            async: false,
-            dataType : "json",
-            success : function(rs){
-                console.log(rs);
+        for(var i = 0 ; i < list.length ; i++){
+            var idx = i+1;
+            var html = "";
+            html += '<tr id="itr'+idx+'">';
+            html += '   <td style="text-align: center"><span style="position: relative; top:5px">'+idx+'</span></td>' +
+                '       <td>' +
+                '           <input type="text" id="invNm'+idx+'" class="invNm" />' +
+                '           <input type="hidden" id="invSn'+idx+'" class="invSn" />' +
+                '       </td>\n' +
+                '       <td><input type="text" id="invCnt'+idx+'" class="invCnt" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>\n' +
+                '       <td><input type="text" id="invUnit'+idx+'" class="invUnit" /></td>\n' +
+                '       <td><input type="text" id="estTotAmt'+idx+'" style="text-align: right" class="estTotAmt" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>\n' +
+                '       <td><input type="text" id="estOfc'+idx+'" class="estOfc" /></td>\n' +
+                '       <td><input type="text" id="invEtc'+idx+'" class="invEtc" /></td>\n' +
+                '       <td style="text-align: center;">' +
+                '           <button type="button" id="delBtn" onclick="rndDP.fn_delInv('+idx+')" class="k-button k-button-solid-error">삭제</button>' +
+                '       </td>';
+            html += '</tr>';
+            $("#invTable").append(html);
 
-                var resultMap = customKendo.fn_customAjax("/project/getDevelopPlan", data);
+            customKendo.fn_textBox(["invNm" + idx, "invCnt" + idx , "invUnit" + idx,
+                "estTotAmt" + idx, "estOfc" + idx, "invEtc" + idx]);
 
-                $("#devPlanCont").val(resultMap.rs.DEP_OBJ);
-                $("#devPlanIss").val(resultMap.rs.ETC);
-                var list = rs.list;
+            $("#invSn" + idx).val(list[i].INV_SN);
+            $("#invNm" + idx).val(list[i].INV_NM);
+            $("#invCnt" + idx).val(comma(list[i].INV_CNT));
+            $("#invUnit" + idx).val(list[i].INV_UNIT);
+            $("#estTotAmt" + idx).val(comma(list[i].EST_TOT_AMT));
+            $("#invEtc" + idx).val(list[i].INV_ETC);
+            $("#estOfc" + idx).val(list[i].EST_OFC);
+            rndDP.global.invCk = "Y";
+        }
 
-                for(var i = 0 ; i < list.length ; i++){
-                    var idx = i+1;
-                    var html = "";
-                    html += '<tr id="itr'+idx+'">';
-                    html += '   <td style="text-align: center"><span style="position: relative; top:5px">'+idx+'</span></td>' +
-                        '       <td>' +
-                        '           <input type="text" id="invNm'+idx+'" class="invNm" />' +
-                        '           <input type="hidden" id="invSn'+idx+'" class="invSn" />' +
-                        '       </td>\n' +
-                        '       <td><input type="text" id="invCnt'+idx+'" class="invCnt" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>\n' +
-                        '       <td><input type="text" id="invUnit'+idx+'" class="invUnit" /></td>\n' +
-                        '       <td><input type="text" id="estTotAmt'+idx+'" style="text-align: right" class="estTotAmt" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>\n' +
-                        '       <td><input type="text" id="estOfc'+idx+'" class="estOfc" /></td>\n' +
-                        '       <td><input type="text" id="invEtc'+idx+'" class="invEtc" /></td>\n' +
-                        '       <td style="text-align: center;">' +
-                        '           <button type="button" id="delBtn" onclick="rndDP.fn_delInv('+idx+')" class="k-button k-button-solid-error">삭제</button>' +
-                        '       </td>';
-                    html += '</tr>';
-                    $("#invTable").append(html);
+        const developResult = customKendo.fn_customAjax("/project/getDevelopPlan", data);
+        const devMap = developResult.rs;
+        $("#devSn").val(devMap.DEV_SN);
+        $("#devPlanCont").val(devMap.DEP_OBJ);
+        $("#devPlanIss").val(devMap.ETC);
 
+        rndDP.fn_buttonSet(devMap);
+    },
 
-                    customKendo.fn_textBox(["invNm" + idx, "invCnt" + idx , "invUnit" + idx,
-                        "estTotAmt" + idx, "estOfc" + idx, "invEtc" + idx]);
+    fn_addVersion : function (){
+        if(!confirm("예비원가를 추가하시겠습니까?")){
+            return;
+        }
 
-                    $("#invSn" + idx).val(list[i].INV_SN);
-
-                    $("#invNm" + idx).val(list[i].INV_NM);
-                    $("#invCnt" + idx).val(comma(list[i].INV_CNT));
-                    $("#invUnit" + idx).val(list[i].INV_UNIT);
-                    $("#estTotAmt" + idx).val(comma(list[i].EST_TOT_AMT));
-                    $("#invEtc" + idx).val(list[i].INV_ETC);
-
-                    $("#estOfc" + idx).val(list[i].EST_OFC);
-                }
-
-                var idx = 0;
-                var totAmt = 0;
-                $("#invTable > tr").each(function(e){
-                    idx++;
-                    totAmt += Number(uncomma($("#estTotAmt" + idx).val()));
-                });
-
-                $("#invAmt002").text(comma(totAmt));
-
-                var invPer = 0;
-
-            }
-        });
-
-        rndDP.fn_buttonSet();
+        var data = {
+            pjtSn : $("#pjtSn").val(),
+            empSeq : $("#empSeq").val(),
+        }
+        var result = customKendo.fn_customAjax("/projectRnd/setDevPjtVer", data);
+        commonProject.getReloadPage(3, 3, 3, 0, 0, 0);
     },
 
     fn_addInv : function() {
@@ -437,7 +377,7 @@ var rndDP = {
                     totAmt += Number(uncomma($("#estTotAmt" + idx).val()));
                 });
 
-                $("#invAmt002").text(comma(totAmt));
+                //$("#invAmt002").text(comma(totAmt));
 
                 var data = {
                     devSn : $("#devSn").val(),
@@ -555,41 +495,89 @@ var rndDP = {
         var rs = customKendo.fn_customAjax("/projectRnd/setDevInfo", data);
 
         if(rs.flag){
-            window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=3";
+            alert("저장되었습니다.");
+            commonProject.getReloadPage(3, 3, 3, 0, 0, 0);
         }
     },
 
-    fn_buttonSet : function(){
-        var data = {
-            pjtSn : $("#pjtSn").val(),
-            devSn : $("#devSn").val(),
-        }
-        var resultMap = customKendo.fn_customAjax("/project/getDevelopPlan", data);
-        let devMap = resultMap.rs;
-
+    fn_buttonSet : function(devMap){
+        console.log("devMap");
+        console.log(devMap);
         var buttonHtml = "";
         if(devMap != null){
             var status = devMap.STATUS;
+
+            /** 수주부서 일때 */
             if(status == "0"){
                 buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
                 buttonHtml += "<button type=\"button\" id=\"devAppBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.devDrafting()\">상신</button>";
-            }else if(status == "10"){
+            }else if(status == "10" || status == "20" || status == "30"){
                 buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+devMap.DOC_ID+"', '"+devMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
             }else if(status == "30" || status == "40"){
                 buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
                 buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('"+devMap.DOC_ID+"', '"+devMap.DOC_MENU_CD+"', '"+devMap.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
-
             }else if(status == "100"){
                 buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+devMap.DOC_ID+"', '"+devMap.APPRO_KEY+"', '"+devMap.DOC_MENU_CD+"');\">열람</button>";
-            } else {
+                buttonHtml += "<button type=\"button\" id=\"addVerBtn2\" style=\"float: right; margin-bottom: 5px; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"rndDP.fn_addVersion()\">예비원가 추가</button>";
+            }else if(status == "111"){
+                buttonHtml += "<button type=\"button\" id=\"devTempBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"tempOrReDraftingPop('"+devMap.DOC_ID+"', 'rndDev', '"+devMap.APPRO_KEY+"', 2, 'tempDrafting');\">전자결재 임시저장 중</button>";
+            }else{
                 buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
                 buttonHtml += "<button type=\"button\" id=\"addVerBtn2\" style=\"float: right; margin-bottom: 5px; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"rndDP.fn_addVersion()\">예비원가 추가</button>";
             }
+
+            /** 협업부서 일때 */
+            if(commonProject.global.teamStat == "Y"){
+                if (status == "0") {
+                    if(commonProject.global.devTeamCk != "Y") {
+                        if(rndDP.global.invCk == "Y") {
+                            buttonHtml = "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
+                            buttonHtml += "<button type=\"button\" id=\"teamAppBtn\" style=\"float: right; margin-right: 5px\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_teamApp('Y')\">공정 마감</button>";
+                        }else{
+                            buttonHtml = "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
+                        }
+                    }else {
+                        buttonHtml = "<button type=\"button\" id=\"teamAppBtn\" style=\"float: right; margin-bottom: 10px\" class=\"k-button k-button-solid-error\" onclick=\"rndDP.fn_teamApp('N')\">마감취소</button>";
+                        buttonHtml += '<div style="position: relative; top: 10px; right: 10px"><span style="float: right; color: red; font-size: 12px;">마감되었습니다.</span></div>';
+                    }
+                }else{
+                    buttonHtml = "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
+                }
+            }
         } else {
             buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
-            buttonHtml += "<button type=\"button\" id=\"addVerBtn2\" style=\"float: right; margin-bottom: 5px; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"rndDP.fn_addVersion()\">예비원가 추가</button>";
         }
         $("#devBtnDiv").html(buttonHtml);
+    },
+
+    fn_teamApp : function (stat){
+        let cfmText = "마감 하시겠습니까?";
+        let cfmEndText = "마감처리 되었습니다.";
+        if(stat == "N"){
+            cfmText = "마감취소 하시겠습니까?";
+            cfmEndText = "마감취소처리 되었습니다.";
+        }
+
+        if(!confirm(cfmText)){
+            return;
+        }
+
+        const pjtSn = $("#pjtSn").val();
+        const devSn = $("#devSn").val();
+        if(devSn == ""){
+            alert("데이터 조회 중 오류가 발생하였습니다."); return;
+        }
+
+        const data = {
+            pjtSn: pjtSn,
+            stat: stat
+        }
+        const result = customKendo.fn_customAjax("/project/setDevTeamApp", data);
+
+        if(result.flag){
+            alert(cfmEndText);
+            commonProject.getReloadPage(3, 3, 3, 0, 0, 0);
+        }
     },
 
     devDrafting: function() {

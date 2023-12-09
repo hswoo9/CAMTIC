@@ -185,6 +185,9 @@ function fileChange(e){
 
 var commonProject = {
     global : {
+        /** DJ_PROJECT KEY */
+        pjtSn : "",
+
         /** 자기 자신이 협업프로젝트인지(Y) 수주부서프로젝트인지(N) */
         teamStat : "",
 
@@ -215,10 +218,45 @@ var commonProject = {
         const pjtResult = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn : $("#pjtSn").val()});
         const pjtMap = pjtResult.map;
 
+        commonProject.global.pjtSn = pjtMap.PJT_SN;
         commonProject.global.teamStat = pjtMap.TEAM_STAT;
         commonProject.global.teamYn = pjtMap.TM_YN;
         commonProject.global.busnClass = pjtMap.BUSN_CLASS;
         commonProject.global.devTeamCk = pjtMap.DEV_TEAM_CK;
         commonProject.global.pjtTeamCk = pjtMap.PJT_TEAM_CK;
+    },
+
+    /** 저장 후 페이지 TAB 바인딩 : 순서대로 수주부서 엔지니어링, 알앤디, 비알앤디, 협업부서 엔지니어링, 알앤디, 비알앤디 */
+    getReloadPage : function(mainA, mainB, mainC, teamA, teamB, teamC){
+        if(commonProject.global.teamStat != "Y" && commonProject.global.teamStat != "N"){
+            commonProject.setPjtStat();
+        }
+
+        const busnClass = commonProject.global.busnClass;
+        const pjtSn = commonProject.global.pjtSn;
+
+        /** 협업일때 */
+        if(commonProject.global.teamStat == "Y"){
+            if(busnClass == "D"){
+                window.location.href="/project/pop/viewRegProject.do?pjtSn=" + pjtSn + "&tab="+teamA;
+            }else if(busnClass == "R"){
+                window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + pjtSn + "&tab="+teamB;
+            }else if(busnClass == "S"){
+                window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + pjtSn + "&tab="+teamC;
+            }else{
+                location.reload();
+            }
+        /** 협업이 아닐때 */
+        }else{
+            if(busnClass == "D"){
+                window.location.href="/project/pop/viewRegProject.do?pjtSn=" + pjtSn + "&tab="+mainA;
+            }else if(busnClass == "R"){
+                window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + pjtSn + "&tab="+mainB;
+            }else if(busnClass == "S"){
+                window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + pjtSn + "&tab="+mainC;
+            }else{
+                location.reload();
+            }
+        }
     }
 }

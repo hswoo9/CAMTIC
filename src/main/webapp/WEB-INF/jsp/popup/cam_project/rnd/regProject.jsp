@@ -76,6 +76,8 @@
 
 <input type="hidden" id="tab" value="${params.tab}" />
 
+<input type="hidden" id="mainPjtSn" value="${params.pjtSn}" />
+
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
@@ -251,8 +253,7 @@
     <input type="text" id="pjtStopRs" />
 </div>
 <script>
-    var inParameters = JSON.parse('${map}');
-    regRnd.fn_defaultScript(inParameters);
+    regRnd.fn_defaultScript();
 
     $("#pjtStopModal").kendoWindow({
         title : "프로젝트 중단 사유",

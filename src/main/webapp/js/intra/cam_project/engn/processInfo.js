@@ -263,11 +263,7 @@ var processInfo = {
             async: false,
             success: function(rs){
                 alert("저장되었습니다.");
-                if(commonProject.global.teamStat == "Y"){
-                    window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=2";
-                }else{
-                    window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=4";
-                }
+                commonProject.getReloadPage(4, 4, 4, 2, 1, 1);
             }
         });
     }

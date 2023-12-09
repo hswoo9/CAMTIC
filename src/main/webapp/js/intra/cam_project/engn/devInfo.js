@@ -1,8 +1,8 @@
 var devInfo = {
+
     global: {
         devPjtVerList: [],
-        invCk: "N",
-        devTeamAppCk: "N"
+        invCk: "N"
     },
 
     fn_defaultScript : function (){
@@ -12,7 +12,6 @@ var devInfo = {
             pjtSn : $("#pjtSn").val()
         }
         var rs = customKendo.fn_customAjax("/project/getDevPjtVerList", data);
-
         devInfo.global.devPjtVerList = rs;
 
         var html = "";

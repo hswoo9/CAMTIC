@@ -162,7 +162,10 @@ var deptListPop = {
                 } else {
                     opener.parent.$("#regtrName").val(row.EMP_NAME_KR);
                     opener.parent.$("#userName").val(row.EMP_NAME_KR);
-                    opener.parent.call(row.EMP_NAME_KR);
+                    try{
+                        opener.parent.call(row.EMP_NAME_KR);
+                    }catch{
+                    }
                     opener.parent.$("#empName").val(row.EMP_NAME_KR);
                     opener.parent.$("#pmName").val(row.EMP_NAME_KR);
                     //emp_seq, dept_seq, dept_name

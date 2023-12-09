@@ -29,7 +29,7 @@ var rndDetail = {
         });
 
         /** 계 = 총 사업비 + 현금 + 현물 */
-        $("#allBusnCost, #peoResCost, #peoResItem").keyup(function(){
+        $("#allResCost, #peoResCost, #peoResItem").keyup(function(){
             $("#allBusnCost").val(comma(
                 Number(uncomma($("#allResCost").val()))
                 + Number(uncomma($("#peoResCost").val()))
@@ -214,6 +214,10 @@ var rndDetail = {
             pEDate : $("#sbjEndDe").val().replaceAll("-", ""),
         }
 
+        if(pjCode == ""){
+            alert("프로젝트 구분을 선택해주세요.");
+            return;
+        }
         if(supDep == ""){
             alert("지원부처를 선택해주세요.");
             return;
@@ -253,17 +257,20 @@ var rndDetail = {
             }
         });
     },
+
     fn_buttonSet : function(rndMap){
         let buttonHtml = "";
         if(rndMap != null){
             if(rndMap.STATUS == "0"){
                 buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="rndDetail.fn_save()">저장</button>';
                 buttonHtml += '<button type="button" id="approveBtn" style="float: right; margin-right:5px;" class="k-button k-button-solid-info" onclick="openModal()">상신</button>';
-            }else if(rndMap.STATUS == "10"){
+            }else if(rndMap.STATUS == "10" || rndMap.STATUS == "20" || rndMap.STATUS == "50"){
                 buttonHtml += '<button type="button" id="canBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+rndMap.DOC_ID+'\', \''+rndMap.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
             }else if(rndMap.STATUS == "30" || rndMap.STATUS == "40"){
                 buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="rndDetail.fn_save()">저장</button>';
                 buttonHtml += '<button type="button" id="canBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+rndMap.DOC_ID+'\', \''+rndMap.DOC_MENU_CD+'\', \''+rndMap.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
+            }else if(rndMap.STATUS == "111"){
+                buttonHtml += "<button type=\"button\" id=\"delvTempBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"tempOrReDraftingPop('"+rndMap.DOC_ID+"', 'rndDelv', '"+rndMap.APPRO_KEY+"', 2, 'tempDrafting');\">전자결재 임시저장 중</button>";
             }else if(rndMap.STATUS == "100"){
                 buttonHtml += '<button type="button" id="canBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+rndMap.DOC_ID+'\', \''+rndMap.APPRO_KEY+'\', \''+rndMap.DOC_MENU_CD+'\');">열람</button>';
             }else{
@@ -379,15 +386,5 @@ var rndDetail = {
         var name = "_blank";
         var option = "width = 1330, height = 640, top = 100, left = 200, location = no";
         var popup = window.open(url, name, option);
-    },
-
-    loading : function(){
-        $.LoadingOverlay("show", {
-            background: "rgba(0, 0, 0, 0.5)",
-            image: "",
-            maxSize: 60,
-            fontawesome: "fa fa-spinner fa-pulse fa-fw",
-            fontawesomeColor: "#FFFFFF",
-        });
     }
 }

@@ -527,23 +527,7 @@ var resultInfo = {
             async: false,
             success: function(rs){
                 if(rs.code == 200){
-                    if(commonProject.global.teamStat == "Y"){
-                        if(commonProject.global.busnClass == "D"){
-                            window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=4";
-                        }else if(commonProject.global.busnClass == "R"){
-                            window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=4";
-                        }else if(commonProject.global.busnClass == "S"){
-                            window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=4";
-                        }
-                    }else{
-                        if(commonProject.global.busnClass == "D"){
-                            window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=8";
-                        }else if(commonProject.global.busnClass == "R"){
-                            window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=8";
-                        }else if(commonProject.global.busnClass == "S"){
-                            window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=8";
-                        }
-                    }
+                    commonProject.getReloadPage(8, 9, 9, 4, 2, 2);
                 }
             }
         });
