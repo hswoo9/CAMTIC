@@ -251,6 +251,7 @@ var processInfo = {
             }
         }
 
+        commonProject.loading();
         $.ajax({
             url : "/project/setProcessInfo",
             data : fd,
@@ -261,6 +262,7 @@ var processInfo = {
             enctype : 'multipart/form-data',
             async: false,
             success: function(rs){
+                alert("저장되었습니다.");
                 if(commonProject.global.teamStat == "Y"){
                     window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=2";
                 }else{
