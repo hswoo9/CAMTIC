@@ -235,7 +235,7 @@ var rndDP = {
             "                    <td style=\"text-align: center;\"><button type=\"button\" id=\"addBtn\" onclick=\"rndDP.fn_addInv()\" class=\"k-button k-button-solid-base\">추가</button></td>\n" +
             "                </tr>";
         $("#invTable").append(bsHtml);
-        customKendo.fn_textBox(["invNm", "invCnt", "invUnit", "estTotAmt", "estOfc", "invEtc"])
+        customKendo.fn_textBox(["invNm", "invCnt", "invUnit", "estTotAmt", "estOfc", "invEtc"]);
         $("#addPSActive").css("display", "block");
 
 

@@ -67,9 +67,9 @@ var unRndInit = {
         /** 4. 수행계획 */
         const processResult = customKendo.fn_customAjax("/project/getProcessList", {devSn: devSn});
         const processList = processResult.list;
-        const htmlDev = engnInit.htmlPs(processList, map);
+        const htmlPs = engnInit.htmlPs(processList, map);
         hwpDocCtrl.moveToField('DEV_HTML', true, true, false);
-        hwpDocCtrl.setTextFile(htmlDev, "html","insertfile");
+        hwpDocCtrl.setTextFile(htmlPs, "html","insertfile");
 
         /** 5. 구매예정 */
         const purcResult = customKendo.fn_customAjax("/project/getInvList", {devSn: devSn});
@@ -87,11 +87,51 @@ var unRndInit = {
             invSum += Number(map.EST_TOT_AMT);
         }
         hwpDocCtrl.putFieldText('INV_PER', "100%");
-        hwpDocCtrl.putFieldText('INV_AMT', fn_numberWithCommas(invSum));
+        hwpDocCtrl.putFieldText('INV_AMT', String(fn_numberWithCommas(invSum)));
         let invPer = Math.round(invSum / map.PJT_AMT * 100);
         hwpDocCtrl.putFieldText('INV_PER2', invPer+"%");
-        hwpDocCtrl.putFieldText('INV_AMT2', fn_numberWithCommas(map.PJT_AMT-invSum));
+        hwpDocCtrl.putFieldText('INV_AMT2', String(fn_numberWithCommas(map.PJT_AMT-invSum)));
         hwpDocCtrl.putFieldText('INV_PER3', (100-invPer)+"%");
+
+        if(map.TM_YN == "Y"){
+            const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: map.PJT_SN});
+            const team = teamResult.map;
+            const teamPurcResult = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: team.PNT_PJT_SN});
+            const teamPurcList = teamPurcResult.list;
+            let teamInvSum = 0;
+            for(let i=0; i<teamPurcList.length; i++){
+                const teamPurcMap = teamPurcList[i];
+                teamInvSum += Number(teamPurcMap.EST_TOT_AMT);
+            }
+            let delvAmt = 0;
+            delvAmt = map.PJT_AMT - team.TM_AMT;
+            hwpDocCtrl.putFieldText('AMT1', delvAmt == 0 ? "0" : fn_numberWithCommas(delvAmt));
+            hwpDocCtrl.putFieldText('INV_AMT', invSum == 0 ? "0" : fn_numberWithCommas(invSum));
+            let invPer = Math.round(invSum / delvAmt * 100);
+            hwpDocCtrl.putFieldText('INV_PER2', invPer+"%");
+            hwpDocCtrl.putFieldText('INV_AMT2', (delvAmt - invSum) == 0 ? "0" : String(fn_numberWithCommas(delvAmt - invSum)));
+            hwpDocCtrl.putFieldText('INV_PER3', (100-invPer)+"%");
+
+            hwpDocCtrl.putFieldText('TEAM_AMT', fn_numberWithCommas(team.TM_AMT));
+            hwpDocCtrl.putFieldText('TEAM_PER', "100%");
+            hwpDocCtrl.putFieldText('TEAM_INV_AMT', fn_numberWithCommas(teamInvSum));
+            let teamPer = Math.round(teamInvSum / team.TM_AMT * 100);
+            hwpDocCtrl.putFieldText('TEAM_PER2', teamPer+"%");
+            hwpDocCtrl.putFieldText('TEAM_INV2_AMT', fn_numberWithCommas(team.TM_AMT-teamInvSum));
+            hwpDocCtrl.putFieldText('TEAM_PER3', (100-teamPer)+"%");
+
+            hwpDocCtrl.putFieldText('SUM_AMT', fn_numberWithCommas(map.PJT_AMT));
+            hwpDocCtrl.putFieldText('TEAM_INV_AMT_SUM', fn_numberWithCommas(invSum + teamInvSum));
+            hwpDocCtrl.putFieldText('TEAM_INV2_AMT_SUM', fn_numberWithCommas(map.PJT_AMT - invSum - teamInvSum));
+        }
+
+        /** 7. 특이사항 */
+        const getDevelopPlan = customKendo.fn_customAjax("/project/getDevelopPlan", {devSn: devSn});
+        const dev = getDevelopPlan.rs;
+        setTimeout(function() {
+            hwpDocCtrl.moveToField('ETC', true, true, false);
+            hwpDocCtrl.setTextFile(dev.ETC.replaceAll("\n", "<br>"), "html","insertfile");
+        }, 2000);
     },
 
     resInit: function(pjtSn){
@@ -119,8 +159,8 @@ var unRndInit = {
 
         /** 2. 과제정보 */
         hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_SUB_NM);
-        hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(unRndInfo.map.ALL_BUSN_COST));
-        hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(unRndInfo.map.ALL_RES_COST));
+        hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(map.PJT_AMT));
+        hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(map.PJT_AMT));
 
         const date = new Date();
         const year = date.getFullYear().toString().substring(2,4);
@@ -129,7 +169,7 @@ var unRndInit = {
             gisu: year,
             fromDate: date.getFullYear().toString() + "0101",
             toDate: date.getFullYear().toString() + "1231",
-            mgtSeq: "Pk1a423012",
+            mgtSeq: map.PJT_CD,
             opt01: "3",
             opt02: "1",
             opt03: "2",
@@ -154,13 +194,13 @@ var unRndInit = {
         /** 4. 수행계획 */
         const processResult = customKendo.fn_customAjax("/project/getProcessList", {devSn : devMap.DEV_SN});
         const processList = processResult.list;
-        const htmlDev = engnInit.htmlPs(processList, map);
+        const htmlPs = engnInit.htmlPs(processList, map);
         setTimeout(function() {
             hwpDocCtrl.moveToField('DEV_HTML', true, true, false);
-            hwpDocCtrl.setTextFile(htmlDev, "html","insertfile");
+            hwpDocCtrl.setTextFile(htmlPs, "html","insertfile");
         }, 5000);
 
-        /** 5. 구매예정 */
+        /** 5. 구매/비용내역 */
         const purcResult = customKendo.fn_customAjax("/purc/getProjectPurcList", {pjtSn: pjtSn});
         const purcList = purcResult.list;
         const htmlData = engnInit.htmlPurc(purcList, map);
@@ -180,12 +220,12 @@ var unRndInit = {
         if(trip.COUNT != 0){
             invSum += trip.BUSTRIP_EXNP_SUM;
         }
-
+        hwpDocCtrl.putFieldText('AMT1', map.PJT_AMT == 0 ? "0" : fn_numberWithCommas(map.PJT_AMT));
         hwpDocCtrl.putFieldText('INV_PER', "100%");
-        hwpDocCtrl.putFieldText('INV_AMT', fn_numberWithCommas(invSum));
+        hwpDocCtrl.putFieldText('INV_AMT', invSum == 0 ? "0" : fn_numberWithCommas(invSum));
         let invPer = Math.round(invSum / map.PJT_AMT * 100);
         hwpDocCtrl.putFieldText('INV_PER2', invPer+"%");
-        hwpDocCtrl.putFieldText('INV_AMT2', fn_numberWithCommas(map.PJT_AMT-invSum));
+        hwpDocCtrl.putFieldText('INV_AMT2', (map.PJT_AMT-invSum) == 0 ? "0" : String(fn_numberWithCommas(map.PJT_AMT-invSum)));
         hwpDocCtrl.putFieldText('INV_PER3', (100-invPer)+"%");
 
         if(map.TM_YN == "Y") {
@@ -202,6 +242,15 @@ var unRndInit = {
             if(teamTrip.COUNT != 0){
                 teamInvSum += teamTrip.BUSTRIP_EXNP_SUM;
             }
+            let delvAmt = 0;
+            delvAmt = map.PJT_AMT - team.TM_AMT;
+            hwpDocCtrl.putFieldText('AMT1', delvAmt == 0 ? "0" : fn_numberWithCommas(delvAmt));
+            hwpDocCtrl.putFieldText('INV_AMT', invSum == 0 ? "0" : fn_numberWithCommas(invSum));
+            let invPer = Math.round(invSum / delvAmt * 100);
+            hwpDocCtrl.putFieldText('INV_PER2', invPer+"%");
+            hwpDocCtrl.putFieldText('INV_AMT2', (delvAmt-invSum) == 0 ? "0" : String(fn_numberWithCommas(delvAmt-invSum)));
+            hwpDocCtrl.putFieldText('INV_PER3', (100-invPer)+"%");
+
             hwpDocCtrl.putFieldText('TEAM_AMT', fn_numberWithCommas(team.TM_AMT));
             hwpDocCtrl.putFieldText('TEAM_PER', "100%");
             hwpDocCtrl.putFieldText('TEAM_INV_AMT', fn_numberWithCommas(teamInvSum));
@@ -210,11 +259,12 @@ var unRndInit = {
             hwpDocCtrl.putFieldText('TEAM_INV2_AMT', fn_numberWithCommas(team.TM_AMT-teamInvSum));
             hwpDocCtrl.putFieldText('TEAM_PER3', (100-teamPer)+"%");
 
-            hwpDocCtrl.putFieldText('SUM_AMT', fn_numberWithCommas(map.PJT_AMT + team.TM_AMT));
+            hwpDocCtrl.putFieldText('SUM_AMT', fn_numberWithCommas(map.PJT_AMT));
             hwpDocCtrl.putFieldText('TEAM_INV_AMT_SUM', fn_numberWithCommas(invSum + teamInvSum));
-            hwpDocCtrl.putFieldText('TEAM_INV2_AMT_SUM', fn_numberWithCommas(map.PJT_AMT + team.TM_AMT - invSum - teamInvSum));
+            hwpDocCtrl.putFieldText('TEAM_INV2_AMT_SUM', fn_numberWithCommas(map.PJT_AMT - invSum - teamInvSum));
 
         }
+
 
         /** 7. 특이사항 */
         const getResult = customKendo.fn_customAjax("/project/engn/getResultInfo", {pjtSn: pjtSn});

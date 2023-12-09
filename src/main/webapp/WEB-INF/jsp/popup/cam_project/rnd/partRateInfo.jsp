@@ -312,7 +312,7 @@
             success : function(rs){
                 if(rs.code == 200){
                     alert("참여율이 확정되었습니다.");
-                    location.reload();
+                    commonProject.getReloadPage(2, 2, 2, 2, 2, 2);
                 }
             }
         });

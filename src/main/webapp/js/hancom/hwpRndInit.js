@@ -195,13 +195,13 @@ var rndInit = {
         /** 4. 수행계획 */
         const processResult = customKendo.fn_customAjax("/project/getProcessList", {devSn : devMap.DEV_SN});
         const processList = processResult.list;
-        const htmlDev = engnInit.htmlPs(processList, map);
+        const htmlPs = engnInit.htmlPs(processList, map);
         setTimeout(function() {
             hwpDocCtrl.moveToField('DEV_HTML', true, true, false);
-            hwpDocCtrl.setTextFile(htmlDev, "html","insertfile");
+            hwpDocCtrl.setTextFile(htmlPs, "html","insertfile");
         }, 5000);
 
-        /** 5. 구매예정 */
+        /** 5. 구매/비용내역 */
         const purcResult = customKendo.fn_customAjax("/purc/getProjectPurcList", {pjtSn: pjtSn});
         const purcList = purcResult.list;
         const htmlData = engnInit.htmlPurc(purcList, map);
@@ -221,12 +221,12 @@ var rndInit = {
         if(trip.COUNT != 0){
             invSum += trip.BUSTRIP_EXNP_SUM;
         }
-
+        hwpDocCtrl.putFieldText('AMT1', map.PJT_AMT == 0 ? "0" : fn_numberWithCommas(map.PJT_AMT));
         hwpDocCtrl.putFieldText('INV_PER', "100%");
         hwpDocCtrl.putFieldText('INV_AMT', invSum == 0 ? "0" : fn_numberWithCommas(invSum));
         let invPer = Math.round(invSum / map.PJT_AMT * 100);
         hwpDocCtrl.putFieldText('INV_PER2', invPer+"%");
-        hwpDocCtrl.putFieldText('INV_AMT2', fn_numberWithCommas(map.PJT_AMT-invSum));
+        hwpDocCtrl.putFieldText('INV_AMT2', (map.PJT_AMT-invSum) == 0 ? "0" : String(fn_numberWithCommas(map.PJT_AMT-invSum)));
         hwpDocCtrl.putFieldText('INV_PER3', (100-invPer)+"%");
 
         if(map.TM_YN == "Y") {
@@ -243,6 +243,15 @@ var rndInit = {
             if(teamTrip.COUNT != 0){
                 teamInvSum += teamTrip.BUSTRIP_EXNP_SUM;
             }
+            let delvAmt = 0;
+            delvAmt = map.PJT_AMT - team.TM_AMT;
+            hwpDocCtrl.putFieldText('AMT1', delvAmt == 0 ? "0" : fn_numberWithCommas(delvAmt));
+            hwpDocCtrl.putFieldText('INV_AMT', invSum == 0 ? "0" : fn_numberWithCommas(invSum));
+            let invPer = Math.round(invSum / delvAmt * 100);
+            hwpDocCtrl.putFieldText('INV_PER2', invPer+"%");
+            hwpDocCtrl.putFieldText('INV_AMT2', (delvAmt-invSum) == 0 ? "0" : String(fn_numberWithCommas(delvAmt-invSum)));
+            hwpDocCtrl.putFieldText('INV_PER3', (100-invPer)+"%");
+
             hwpDocCtrl.putFieldText('TEAM_AMT', fn_numberWithCommas(team.TM_AMT));
             hwpDocCtrl.putFieldText('TEAM_PER', "100%");
             hwpDocCtrl.putFieldText('TEAM_INV_AMT', fn_numberWithCommas(teamInvSum));
@@ -251,9 +260,9 @@ var rndInit = {
             hwpDocCtrl.putFieldText('TEAM_INV2_AMT', fn_numberWithCommas(team.TM_AMT-teamInvSum));
             hwpDocCtrl.putFieldText('TEAM_PER3', (100-teamPer)+"%");
 
-            hwpDocCtrl.putFieldText('SUM_AMT', fn_numberWithCommas(map.PJT_AMT + team.TM_AMT));
+            hwpDocCtrl.putFieldText('SUM_AMT', fn_numberWithCommas(map.PJT_AMT));
             hwpDocCtrl.putFieldText('TEAM_INV_AMT_SUM', fn_numberWithCommas(invSum + teamInvSum));
-            hwpDocCtrl.putFieldText('TEAM_INV2_AMT_SUM', fn_numberWithCommas(map.PJT_AMT + team.TM_AMT - invSum - teamInvSum));
+            hwpDocCtrl.putFieldText('TEAM_INV2_AMT_SUM', fn_numberWithCommas(map.PJT_AMT - invSum - teamInvSum));
 
         }
 

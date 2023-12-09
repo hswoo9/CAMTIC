@@ -176,7 +176,6 @@ var regRnd = {
             var doc3 = parser.parseFromString(html3, 'text/html');
             $("#tabstrip li")[11].before(doc3.body.firstChild);
         }
-
     },
 
     fn_setPage : function(setParameters){

@@ -251,14 +251,7 @@ var teamInfo = {
                 if(rs.code == 200){
                     alert("저장되었습니다.");
                     opener.gridReload();
-
-                    if(commonProject.global.busnClass == "R"){
-                        window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=5";
-                    } else if (commonProject.global.busnClass == "S"){
-                        window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=5";
-                    } else {
-                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + parameters.pjtSn + "&tab=5";
-                    }
+                    commonProject.getReloadPage(4, 5, 5, 4, 5, 5);
                 }
             }
         })
@@ -274,8 +267,7 @@ var teamInfo = {
             pjtSn : $("#pjtSn").val()
         }
         var rs = customKendo.fn_customAjax("/project/delTeamProject",data);
-
-        location.reload();
+        commonProject.getReloadPage(4, 5, 5, 4, 5, 5);
     },
 
     fn_reset : function (){
@@ -302,7 +294,7 @@ var teamInfo = {
     fn_popCamCrmList : function (){
         var url = "/crm/pop/popCrmList.do";
         var name = "_blank";
-        var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
+        var option = "width = 1300, height = 670, top = 200, left = 400, location = no";
         var popup = window.open(url, name, option);
     }
 }
