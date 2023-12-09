@@ -1,13 +1,19 @@
 const regPayAtt = {
 
     fn_DefaultScript: function(){
+        var parameterArray = [];
+        if($("#type").val() != "exnp"){
+            parameterArray = opener.parent.regPay.global.fileArray;
+        } else {
+            parameterArray = opener.parent.regExnp.global.fileArray
+        }
         if(opener.parent.$("#payAppSn").val() != ""){
-            if(opener.parent.regPay.global.fileArray.length > 0){
+            if(parameterArray.length > 0){
                 $("#emptyTr").remove();
                 regPayAtt.fn_setFile();
             }
         } else {
-            if(opener.parent.regPay.global.fileArray.length > 0){
+            if(parameterArray.length > 0){
                 $("#emptyTr").remove();
                 regPayAtt.fn_addFile();
             }
@@ -46,9 +52,11 @@ const regPayAtt = {
                 //     html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regPayAtt.fileViewer(' +  + ')">'
                 // }
                 html += '   </td>';
-                html += '   <td>';
-                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
-                html += '   </td>';
+                if($("#type").val() != "exnp"){
+                    html += '   <td>';
+                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
+                    html += '   </td>';
+                }
                 html += '</tr>';
             }
             $("#fileGrid").append(html);
@@ -59,7 +67,11 @@ const regPayAtt = {
 
     fn_addFile : function(){
         var fileArray = [];
-        fileArray = opener.parent.regPay.global.fileArray;
+        if($("#type").val() != "exnp"){
+            fileArray = opener.parent.regPay.global.fileArray;
+        } else {
+            fileArray = opener.parent.regExnp.global.fileArray
+        }
 
         let size = 0;
         if(fileArray.length > 0){
@@ -87,9 +99,11 @@ const regPayAtt = {
                 //     html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regPayAtt.fileViewer(' +  + ')">'
                 // }
                 html += '   </td>';
-                html += '   <td>';
-                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regPayAtt.fnUploadFile(' + i + ')">'
-                html += '   </td>';
+                if($("#type").val() != "exnp"){
+                    html += '   <td>';
+                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regPayAtt.fnUploadFile(' + i + ')">'
+                    html += '   </td>';
+                }
                 html += '</tr>';
             }
             $("#fileGrid").append(html);
@@ -98,7 +112,12 @@ const regPayAtt = {
 
     fn_setFile : function(){
         var fileArray = [];
-        fileArray = opener.parent.regPay.global.fileArray;
+        if($("#type").val() != "exnp"){
+            fileArray = opener.parent.regPay.global.fileArray;
+        } else {
+            fileArray = opener.parent.regExnp.global.fileArray;
+        }
+
 
         let size = 0;
         if(fileArray.length > 0){
@@ -118,9 +137,11 @@ const regPayAtt = {
                     html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regPayAtt.fileViewer(\'' + fileArray[i].file_path + fileArray[i].file_uuid +'\')">'
                 }
                 html += '   </td>';
-                html += '   <td>';
-                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regPayAtt.fn_delFile(' + fileArray[i].file_no + ')">'
-                html += '   </td>';
+                if($("#type").val() != "exnp"){
+                    html += '   <td>';
+                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regPayAtt.fn_delFile(' + fileArray[i].file_no + ')">'
+                    html += '   </td>';
+                }
                 html += '</tr>';
             }
             $("#fileGrid").append(html);
@@ -165,9 +186,11 @@ const regPayAtt = {
                 //     html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regPayAtt.fileViewer(' +  + ')">'
                 // }
                 html += '   </td>';
-                html += '   <td>';
-                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fnUploadFile.fnUploadFile(' + i + ')">';
-                html += '   </td>';
+                if($("#type").val() != "exnp"){
+                    html += '   <td>';
+                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fnUploadFile.fnUploadFile(' + i + ')">';
+                    html += '   </td>';
+                }
                 html += '</tr>';
             }
 
@@ -223,9 +246,14 @@ const regPayAtt = {
             success: function(rs){
                 if(rs.code == 200){
                     alert("삭제되었습니다.");
-                    for(var i = 0 ; i < opener.parent.regPay.global.fileArray.length ; i++){
-                        if(opener.parent.regPay.global.fileArray[i].file_no == key){
-                            opener.parent.regPay.global.fileArray.splice(i, 1);
+                    if($("#type").val() != "exnp"){
+                        var fileArr = opener.parent.regPay.global.fileArray;
+                    } else {
+                        var fileArr = opener.parent.regPay.global.fileArray;
+                    }
+                    for(var i = 0 ; i < fileArr.length ; i++){
+                        if(fileArr[i].file_no == key){
+                            fileArr.splice(i, 1);
                             break;
                         }
                     }

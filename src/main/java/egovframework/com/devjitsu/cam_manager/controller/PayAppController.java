@@ -360,9 +360,11 @@ public class PayAppController {
     public String getExnpData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
         Map<String, Object> map = payAppService.getExnpData(params);
         List<Map<String, Object>> list = payAppService.getExnpDetailData(params);
+        List<Map<String, Object>> fileList = payAppService.getPayAppFileList(params);
 
         model.addAttribute("map", map);
         model.addAttribute("list", list);
+        model.addAttribute("fileList", fileList);
 
         return "jsonView";
     }

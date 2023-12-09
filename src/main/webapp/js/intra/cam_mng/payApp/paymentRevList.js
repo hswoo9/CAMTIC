@@ -103,17 +103,18 @@ var paymentRevList = {
                             return '<div style="text-align: right">'+0+'</div>';
                         }
                     }
-                }, {
-                    title: "상태",
-                    width: 60,
-                    template : function(e){
-                        if(e.DOC_STATUS == "100"){
-                            return "결재완료"
-                        } else {
-                            return "작성중"
-                        }
-                    }
                 }
+                // , {
+                //     title: "상태",
+                //     width: 60,
+                //     template : function(e){
+                //         if(e.DOC_STATUS == "100"){
+                //             return "결재완료"
+                //         } else {
+                //             return "작성중"
+                //         }
+                //     }
+                // }
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);

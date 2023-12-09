@@ -148,6 +148,14 @@
                         지출부기재 일자 : <input id="DT3" style="width: 150px">&nbsp;
                     </td>
                 </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">첨부파일</th>
+                    <td colspan="4">
+                        <div>
+                            <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regExnpDet.fn_regPayAttPop()">첨부</button>
+                        </div>
+                    </td>
+                </tr>
                 </thead>
             </table>
 
@@ -179,17 +187,14 @@
                         <col style="width: 4%;">
                         <col style="width: 4%;">
                         <col style="width: 4%;">
+                        <col style="width: 4%;">
                         <col style="width: 6%;">
                         <col style="width: 5%;">
                         <col style="width: 5%;">
                         <col style="width: 4%;">
                         <col style="width: 4%;">
                         <col style="width: 5%;">
-                        <c:if test="${'rev'.equals(params.status)}">
-                            <col style="width: 2%;">
-                            <col style="width: 3%;">
-                        </c:if>
-                        <col style="width: 3%;">
+<%--                        <col style="width: 3%;">--%>
                     </colgroup>
                     <thead>
                     <tr>
@@ -201,6 +206,7 @@
                         <th>증빙유형</th>
                         <th>상호</th>
                         <th>은행명</th>
+                        <th>사업자(주민)번호</th>
                         <th>지급계좌</th>
                         <th>예금주</th>
                         <th>거래일</th>
@@ -209,11 +215,7 @@
                         <th>공급가액</th>
                         <th>세액</th>
                         <th>신용카드</th>
-                        <c:if test="${'rev'.equals(params.status)}">
-                            <th>선지급</th>
-                            <th>첨부파일</th>
-                        </c:if>
-                        <th>삭제</th>
+<%--                        <th>삭제</th>--%>
                     </tr>
                     </thead>
                     <tbody id="payDestTb">
@@ -226,6 +228,10 @@
                         <td>
                             <input type="hidden" id="payDestSn0" name="payDestSn" class="payDestSn">
                             <input type="text" id="eviType0" class="eviType" style="width: 100%">
+                            <input type="hidden" id="authNo0" class="authNo" style="width: 100%">
+                            <input type="hidden" id="authHh0" class="authHh" style="width: 100%">
+                            <input type="hidden" id="authDd0" class="authDd" style="width: 100%">
+                            <input type="hidden" id="buySts0" value="" />
                         </td>
                         <td>
                             <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regExnpDet.fn_popRegDet(1, 0)"></i>
@@ -234,6 +240,9 @@
                         </td>
                         <td>
                             <input type="text" id="crmBnkNm0" class="crmBnkNm">
+                        </td>
+                        <td>
+                            <input type="text" id="regNo0" class="regNo">
                         </td>
                         <td>
                             <input type="text" id="crmAccNo0" class="crmAccNo">
@@ -261,11 +270,11 @@
                             <input type="text" disabled style="width: 70%" id="card0" class="card">
                             <input type="hidden" id="cardNo0" class="cardNo" />
                         </td>
-                        <td>
-                            <div style="text-align: center">
-                                <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(0)">삭제</button>
-                            </div>
-                        </td>
+<%--                        <td>--%>
+<%--                            <div style="text-align: center">--%>
+<%--                                <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(0)">삭제</button>--%>
+<%--                            </div>--%>
+<%--                        </td>--%>
                     </tr>
                     </tbody>
                 </table>

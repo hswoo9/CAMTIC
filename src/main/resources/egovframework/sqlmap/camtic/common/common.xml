@@ -505,7 +505,7 @@
         SET
             CONTENT_ID = NULL
         WHERE
-            CONTENT_ID = #{payAppSn} AND FILE_CD = 'useCard'
+            CONTENT_ID = CONCAT("'", #{payAppSn}, "'") AND FILE_CD = 'useCard'
     </update>
 
 </mapper>
