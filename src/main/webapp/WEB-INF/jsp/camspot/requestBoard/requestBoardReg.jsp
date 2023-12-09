@@ -45,6 +45,47 @@
                         <input type="text" id="deadlineDate" name="deadlineDate" style="width: 10%;">
                     </td>
                 </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">첨부파일</th>
+                    <td>
+                        <form style="padding: 0px 30px;">
+                            <div class="card-header" style="padding: 5px;">
+                                <div class="card-options">
+                                    <div class="filebox" style="text-align: right">
+                                        <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
+                                            <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
+                                            <span class="k-button-text">파일첨부</span>
+                                        </button>
+                                        <input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" multiple style="display: none"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="popTable table table-bordered mb-0">
+                                    <colgroup>
+                                        <col width="50%">
+                                        <col width="10%">
+                                        <col width="30%">
+                                        <col width="10%">
+                                    </colgroup>
+                                    <thead>
+                                    <tr class="text-center th-color">
+                                        <th>파일명</th>
+                                        <th>확장자</th>
+                                        <th>용량</th>
+                                        <th>기타</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="fileGrid">
+                                    <tr class="defultTr">
+                                        <td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
                 </tbody>
             </table>
             <div class="btn-st" style="text-align: right">

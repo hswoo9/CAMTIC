@@ -3,6 +3,7 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:useBean id="today" class="java.util.Date" />
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/devInfo.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?v=${today}'/>"></script>
 
@@ -175,7 +176,7 @@
                 <th>수량</th>
                 <th>단위</th>
                 <th>견적총액</th>
-                <th>견적처</th>
+                <th><span class="red-star">*</span>견적처</th>
                 <th>비고</th>
                 <th>명령</th>
             </tr>
@@ -190,9 +191,9 @@
                     </span>
                 </td>
                 <td><input type="text" id="invNm" class="invNm" /></td>
-                <td><input type="text" id="invCnt" class="invCnt" style="text-align: right" onkeyup="devInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
+                <td><input type="text" id="invCnt" class="invCnt" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
                 <td><input type="text" id="invUnit" class="invUnit" /></td>
-                <td><input type="text" id="estTotAmt" style="text-align: right" class="estTotAmt" onkeyup="devInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
+                <td><input type="text" id="estTotAmt" style="text-align: right" class="estTotAmt" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
                 <td><input type="text" id="estOfc" class="estOfc" /></td>
                 <td><input type="text" id="invEtc" class="invEtc" /></td>
                 <td style="text-align: center;"><button type="button" onclick="devInfo.fn_addInv()" class="k-button k-button-solid-base">추가</button></td>
@@ -221,7 +222,7 @@
                     <span class="red-star"></span>방향 및 기타
                 </th>
                 <td colspan="3">
-                    <textarea type="text" id="etc" value="" style="width: 100%; text-align: left"></textarea>
+                    <textarea type="text" id="devEtc" value="" style="width: 100%; text-align: left"></textarea>
                 </td>
             </tr>
             </thead>
@@ -234,7 +235,7 @@
 
     function fn_userMultiSelectPop(i) {
         idx = i;
-        window.open("/user/pop/userMultiSelectPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+        window.open("/user/pop/userMultiSelectPop.do?type=dev","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
     }
 
     function userDataSet(arr){

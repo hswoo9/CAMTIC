@@ -1,7 +1,9 @@
+let bustSum = 0;
+
 var bustInfo = {
 
-
     fn_defaultScript : function(){
+        commonProject.setPjtStat();
         customKendo.fn_textBox(["bustripReq"]);
 
         $("#contEtc").kendoTextArea({
@@ -12,37 +14,6 @@ var bustInfo = {
     },
 
     fn_setData : function (){
-        // var parameters = {
-        //     pjtSn : $("#pjtSn").val()
-        // }
-        //
-        // $.ajax({
-        //     url : "/project/engn/getBustInfo",
-        //     data : parameters,
-        //     type : "post",
-        //     dataType : "json",
-        //     success : function(rs){
-        //         var rs = rs.rs;
-        //         if(rs != null){
-        //             // $("#contEtc").val(rs.RESULT);
-        //             var busnName = "";
-        //             var project = "";
-        //             if(rs.BUSN_NAME != "" && rs.BUSN_NAME != null && rs.BUSN_NAME != undefined){
-        //                 busnName = p.BUSN_NAME;
-        //             }
-        //
-        //             if(rs.PROJECT_CD != "" && rs.PROJECT_CD != null){
-        //                 project = "(엔지니어링) ";
-        //             }
-        //             var title =  project + busnName + " 출장지 : " + rs.VISIT_LOC_SUB;
-        //             if(rs.VISIT_LOC_SUB != null && rs.VISIT_LOC_SUB != ''){
-        //                 // $("#bustripReq").val(title);
-        //                 // $("#hrBizReqResultId").val(rs.HR_BIZ_REQ_RESULT_ID);
-        //             }
-        //         }
-        //     }
-        // });
-
         bustInfo.bustripMainGrid();
     },
 
@@ -162,24 +133,25 @@ var bustInfo = {
                     title: "차량",
                     width: 80,
                     template : function (e){
+                        console.log(e);
                         if(e.USE_TRSPT == 1){
                             return "카니발";
-                        } else if(e.USE_TRSPT == 2){
+                        } else if(e.USE_TRSPT == 5){
                             return "아반떼";
                         } else if (e.USE_TRSPT == 3){
                             return "트럭";
-                        } else if (e.USE_TRSPT == 4){
+                        } else if (e.USE_TRSPT == 12){
                             return "모하비";
-                        } else if (e.USE_TRSPT == 5){
+                        } else if (e.USE_TRSPT == 13){
                             return "솔라티";
-                        } else if (e.USE_TRSPT == 6){
+                        } else if (e.USE_TRSPT == 14){
                             return "드론관제차량";
-                        } else if (e.USE_TRSPT == 7){
+                        } else if (e.USE_TRSPT == 10){
                             return "자가";
-                        } else if (e.USE_TRSPT == 8){
+                        } else if (e.USE_TRSPT == 0){
                             return "대중교통";
                         } else {
-                            return "";
+                            return "-";
                         }
                     }
                 }, {
@@ -214,6 +186,19 @@ var bustInfo = {
                         } else {
                             return "-";
                         }
+                    },
+                    footerTemplate: "출장완료 여비합계"
+                }, {
+                    title : "여비금액",
+                    width: 50,
+                    template : function (e){
+                        if(e.RS_STATUS == "100"){
+                            bustSum  += Number(e.RES_EXNP_SUM);
+                        }
+                        return "<div style='text-align: right'>"+comma(e.RES_EXNP_SUM)+"</div>";
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(bustSum)+"</div>";
                     }
                 }, {
                     title : "지급신청",
@@ -284,11 +269,25 @@ var bustInfo = {
             data : data,
             type : "post",
             dataType : "json",
-            success: function(rs){
+            success: function(){
                 alert("저장되었습니다.");
-
-                window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=1";
-
+                if(commonProject.global.teamStat == "Y"){
+                    if(commonProject.global.busnClass == "D"){
+                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=5";
+                    }else if(commonProject.global.busnClass == "R"){
+                        window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=5";
+                    }else if(commonProject.global.busnClass == "S"){
+                        window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=5";
+                    }
+                }else{
+                    if(commonProject.global.busnClass == "D"){
+                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=10";
+                    }else if(commonProject.global.busnClass == "R"){
+                        window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=10";
+                    }else if(commonProject.global.busnClass == "S"){
+                        window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=10";
+                    }
+                }
             }
         });
 

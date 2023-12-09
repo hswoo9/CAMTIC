@@ -25,6 +25,13 @@ var delvInfo = {
             pjtSn : $("#pjtSn").val()
         }
 
+        var pjtInfo = customKendo.fn_customAjax("/project/getProjectInfo", data);
+        var pjtMap = pjtInfo.map;
+
+        if(pjtMap != null){
+            $("#teamSta").val(pjtMap.TEAM_STAT);
+        }
+
         $.ajax({
             url : "/project/engn/getDelvData",
             data : data,
@@ -40,8 +47,8 @@ var delvInfo = {
                     $("#delvFileName").text(delvFile.file_org_name + "." +delvFile.file_ext);
                 }
                 if(delvMap != null && delvMap != ''){
-                    $("#delvAmt").val(delvInfo.comma(delvMap.DELV_AMT));
-                    $("#delvExpAmt").val(delvInfo.comma(delvMap.DELV_AMT));
+                    $("#delvAmt").val(comma(delvMap.DELV_AMT));
+                    $("#delvExpAmt").val(comma(delvMap.DELV_AMT));
                     $("#delvItem").val(delvMap.DELV_ITEM);
                     $("#delvLoc").val(delvMap.DELV_LOC);
                     $("#delvMean").val(delvMap.DELV_MEAN);
@@ -65,14 +72,16 @@ var delvInfo = {
                         if(delvMap.STATUS == "0"){
                             buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">저장</button>";
                             buttonHtml += "<button type=\"button\" id=\"delvAppBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"delvInfo.delvDrafting()\">상신</button>";
-                        }else if(delvMap.STATUS == "10"){
+                        }else if(delvMap.STATUS == "10" || delvMap.STATUS == "20" || delvMap.STATUS == "50"){
                             buttonHtml += "<button type=\"button\" id=\"delvCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+delvMap.DOC_ID+"', '"+delvMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
                         }else if(delvMap.STATUS == "30" || delvMap.STATUS == "40"){
                             buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">저장</button>";
-                            buttonHtml += "<button type=\"button\" id=\"delvCanBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('"+delvMap.DOC_ID+"', '"+delvMap.DOC_MENU_CD+"', '"+delvMap.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
+                            buttonHtml += "<button type=\"button\" id=\"delvCanBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"tempOrReDraftingPop('"+delvMap.DOC_ID+"', '"+delvMap.DOC_MENU_CD+"', '"+delvMap.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
 
                         }else if(delvMap.STATUS == "100"){
                             buttonHtml += "<button type=\"button\" id=\"delvCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+delvMap.DOC_ID+"', '"+delvMap.APPRO_KEY+"', '"+delvMap.DOC_MENU_CD+"');\">열람</button>";
+                        }else if(delvMap.STATUS == "111"){
+                            buttonHtml += "<button type=\"button\" id=\"delvTempBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"tempOrReDraftingPop('"+delvMap.DOC_ID+"', 'delv', '"+delvMap.APPRO_KEY+"', 2, 'tempDrafting');\">전자결재 임시저장 중</button>";
                         } else {
                             buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" disabled onclick=\"delvInfo.fn_save()\">저장</button>";
                         }
@@ -82,8 +91,8 @@ var delvInfo = {
 
                     $("#delvBtnDiv").html(buttonHtml);
                 } else {
-                    $("#delvAmt").val(delvInfo.comma(rs.EST_TOT_AMT));
-                    $("#delvExpAmt").val(delvInfo.comma(rs.EST_TOT_AMT));
+                    $("#delvAmt").val(comma(rs.EST_TOT_AMT));
+                    $("#delvExpAmt").val(comma(rs.EST_TOT_AMT));
                     $("#delvEstDe").val(rs.EST_DE);
                     $("#delvBtnDiv").html("<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">저장</button>");
                 }
@@ -100,6 +109,10 @@ var delvInfo = {
         var pjtStat = $("#pjtStat").val();
         var pjtStatSub = $("#pjtStatSub").val();
 
+        if(pjCode == ""){
+            alert("프로젝트 구분을 선택해주세요.");
+            return;
+        }
         if(supDep == ""){
             alert("지원부처를 선택해주세요.");
             return;
@@ -113,9 +126,10 @@ var delvInfo = {
             return;
         }
         if(pjtStatSub == ""){
-            alert("사업성격1을 선택해주세요.");
+            alert("사업성격2를 선택해주세요.");
             return;
         }
+
 
         var date = new Date();
         var year = date.getFullYear().toString().substring(2,4);
@@ -127,11 +141,11 @@ var delvInfo = {
             pjtTmpCd : pjCode + supDep + supDepSub + pjtStat + pjtStatSub + year,
             delvDe : $("#delvDe").val(),
             delvItem : $("#delvItem").val(),
-            delvCnt : delvInfo.uncomma($("#delvCnt").val()),
+            delvCnt : uncomma($("#delvCnt").val()),
             delvUnit : $("#delvUnit").val(),
             delvLoc : $("#delvLoc").val(),
             delvIssu : $("#delvIssu").val(),
-            delvAmt : delvInfo.uncomma($("#delvAmt").val()),
+            delvAmt : uncomma($("#delvAmt").val()),
             delvDept : $("input[name='delvDept']:checked").val(),
             pmEmpNm : $("#pmName").val(),
             pmEmpSeq : $("#pmSeq").val(),
@@ -157,7 +171,11 @@ var delvInfo = {
         fd.append("delvUnit", parameters.delvUnit);
         fd.append("delvLoc", parameters.delvLoc);
         fd.append("delvIssu", parameters.delvIssu);
-        fd.append("delvAmt", parameters.delvAmt);
+        if(parameters.delvAmt == "" || parameters.delvAmt == undefined){
+            fd.append("delvAmt", "0");
+        }else{
+            fd.append("delvAmt", parameters.delvAmt);
+        }
         fd.append("delvDept", parameters.delvDept);
         fd.append("pmEmpNm", parameters.pmEmpNm);
         fd.append("pmEmpSeq", parameters.pmEmpSeq);
@@ -184,11 +202,12 @@ var delvInfo = {
             fd.append("delvSn", parameters.delvSn);
         }
 
-        if(delvInfo.uncomma(parameters.delvAmt) != delvInfo.uncomma($("#delvExpAmt").val())){
+        if(uncomma(parameters.delvAmt) != uncomma($("#delvExpAmt").val())){
             if(!confirm("예상 견적가와 금액이 일치하지 않습니다. 저장하시겠습니까?")){
                 return false;
             }
         }
+        commonProject.loading();
 
 
 
@@ -202,15 +221,10 @@ var delvInfo = {
             enctype : 'multipart/form-data',
             async: false,
             success : function(rs){
-                alert("저장되었습니다.")
-                $("#delvSn").val(rs.rep.delvSn)
-
+                alert("저장되었습니다.");
                 window.location.href="/project/pop/viewRegProject.do?pjtSn=" + parameters.pjtSn + "&tab=2";
-
             }
         });
-
-        console.log(parameters);
     },
 
     delvDrafting: function() {
@@ -220,6 +234,7 @@ var delvInfo = {
         if(result == null){
             return;
         }
+
         const delvMap = result.delvMap;
         const map = result.map;
 
@@ -236,24 +251,5 @@ var delvInfo = {
             this.method = 'POST';
             this.target = '_self';
         }).trigger("submit");
-    },
-
-    inputNumberFormat : function (obj){
-        obj.value = delvInfo.comma(delvInfo.uncomma(obj.value));
-    },
-
-    comma: function(str) {
-        str = String(str);
-        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-    },
-
-    uncomma: function(str) {
-        str = String(str);
-        return str.replace(/[^\d]+/g, '');
-    },
-
-
-    fileChange : function(e){
-        $(e).next().text($(e)[0].files[0].name);
-    },
+    }
 }

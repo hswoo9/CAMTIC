@@ -3797,4 +3797,32 @@
         </if>
     </select>
 
+    <select id="getCurrentPositionByYear" parameterType="map" resultType="map">
+        /*getCurrentPositionByYear*/
+        SELECT
+            YEAR(CURRENT_DATE) AS defaultYear,
+            SUM(CASE WHEN POSITION_NAME = '수석연구원' THEN 1 ELSE 0 END) AS 수석연구원,
+            SUM(CASE WHEN POSITION_NAME = '수석매니저' THEN 1 ELSE 0 END) AS 수석매니저,
+            SUM(CASE WHEN POSITION_NAME = '수석행정원' THEN 1 ELSE 0 END) AS 수석행정원,
+            SUM(CASE WHEN POSITION_NAME = '책임행정정' THEN 1 ELSE 0 END) AS 책임행정정,
+            SUM(CASE WHEN POSITION_NAME = '책임매니저' THEN 1 ELSE 0 END) AS 책임매니저,
+            SUM(CASE WHEN POSITION_NAME = '책임연구원' THEN 1 ELSE 0 END) AS 책임연구원,
+            SUM(CASE WHEN POSITION_NAME = '선임연구원' THEN 1 ELSE 0 END) AS 선임연구원,
+            SUM(CASE WHEN POSITION_NAME = '선임매니저' THEN 1 ELSE 0 END) AS 선임매니저,
+            SUM(CASE WHEN POSITION_NAME = '선임행정원' THEN 1 ELSE 0 END) AS 선임행정원,
+            SUM(CASE WHEN POSITION_NAME = '주임행정원' THEN 1 ELSE 0 END) AS 주임행정원,
+            SUM(CASE WHEN POSITION_NAME = '행정원' THEN 1 ELSE 0 END) AS 행정원,
+            SUM(CASE WHEN POSITION_NAME = '주임매니저' THEN 1 ELSE 0 END) AS 주임매니저,
+            SUM(CASE WHEN POSITION_NAME = '매니저' THEN 1 ELSE 0 END) AS 매니저,
+            SUM(CASE WHEN POSITION_NAME = '주임연구원' THEN 1 ELSE 0 END) AS 주임연구원,
+            SUM(CASE WHEN POSITION_NAME = '연구원' THEN 1 ELSE 0 END) AS 연구원
+        FROM cam_hr.dj_emp_info
+        where WORK_STATUS_CODE ='Y'
+        <if test='arr != null and !"".equals(arr)'>
+            AND
+            <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                ${item}
+            </foreach>
+        </if>;
+    </select>
 </mapper>

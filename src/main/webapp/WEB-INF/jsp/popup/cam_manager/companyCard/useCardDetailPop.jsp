@@ -143,7 +143,6 @@
 		}else if(mccName){
 			window.resizeTo(445, 600); 
 		}
-		debugger;
 		$('#cardNum').html(fnGetCardCode(cardNum));
 		$('#authDate').html(fnGetAuthDate(authDate, authTime));
 		$('#mccName').html(mccName);

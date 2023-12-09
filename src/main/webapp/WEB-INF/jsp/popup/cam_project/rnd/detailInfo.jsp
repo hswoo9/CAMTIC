@@ -58,15 +58,28 @@
                         검색
                     </button>
                 </td>
-                <th scope="row" class="text-center th-color">
+                <th scope="row" class="text-center th-color"><span class="red-star">*</span>총 사업비</th>
+                <td>
+                    <input type="text" id="allBusnCost" name="allBusnCost" disabled style="width: 40%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                </td>
+                <%--<th scope="row" class="text-center th-color">
                     <span class="red-star">*</span>출금대표통장
                 </th>
                 <td>
                     <input type="text" id="bank" style="width: 80%;" value="">
-                </td>
+                </td>--%>
             </tr>
             <tr>
-                <th scope="row" class="text-center th-color">
+                <th scope="row" class="text-center th-color"><span class="red-star">*</span>정부출연금</th>
+                <td>
+                    <input type="text" id="allResCost" name="allResCost" style="width: 80%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                </td>
+                <th scope="row" class="text-center th-color">민간부담금</th>
+                <td>
+                    현금 : <input type="text" id="peoResCost" value="0" name="peoResCost" style="width: 30%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                    현물 : <input type="text" id="peoResItem" value="0" name="peoResItem" style="width: 30%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                </td>
+                <%--<th scope="row" class="text-center th-color">
                     <span class="red-star">*</span>계좌번호
                 </th>
                 <td>
@@ -77,30 +90,15 @@
                 </th>
                 <td>
                     <input type="text" id="accHold" style="width: 90%;" value="(사)캠틱종합기술원">
-                </td>
+                </td>--%>
             </tr>
             <tr>
-                <th scope="row" class="text-center th-color"><span class="red-star">*</span>총 사업비</th>
+                <th scope="row" class="text-center th-color">수주금액</th>
                 <td colspan="3">
-                    <input type="text" id="allBusnCost" name="allBusnCost" style="width: 40%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                    <input type="text" id="totResCost" name="totResCost" style="width: 32%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
                 </td>
             </tr>
-            <tr>
-                <th scope="row" class="text-center th-color"><span class="red-star">*</span>전체연구비</th>
-                <td>
-                    <input type="text" id="allResCost" name="allResCost" style="width: 80%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
-                </td>
-                <th scope="row" class="text-center th-color"><span class="red-star">*</span>민간부담금</th>
-                <td>
-                    현금 : <input type="text" id="peoResCost" value="0" name="peoResCost" style="width: 30%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
-                    현물 : <input type="text" id="peoResItem" value="0" name="peoResItem" style="width: 30%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" class="text-center th-color">계</th>
-                <td>
-                    <input type="text" id="totResCost" name="totResCost" disabled style="width: 80%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
-                </td>
+            <%--<tr>
                 <th scope="row" class="text-center th-color"><span class="red-star">*</span>연구카드사용여부</th>
                 <td>
                     <div>
@@ -115,7 +113,7 @@
                         </span>
                     </div>
                 </td>
-            </tr>
+            </tr>--%>
             <tr>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>중간보고

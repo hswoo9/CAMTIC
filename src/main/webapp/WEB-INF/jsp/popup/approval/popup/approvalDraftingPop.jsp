@@ -12,13 +12,14 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="false"/>
 <script type="text/javascript" src="${hwpUrl}js/hwpctrlapp/utils/util.js"></script>
 <script type="text/javascript" src="${hwpUrl}js/webhwpctrl.js"></script>
-<script type="text/javascript" src="<c:url value='/js/hancom/hwp_DocCtrl.js?v=2'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/hancom/hwp_DocCtrl.js?v=${now}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpInit.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpEngnInit.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpRndInit.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpUnRndInit.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpCtrlApp.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/approval/approvalDrafting.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/approval/approvalDrafting.js?v=${now}'/>"></script>
+<script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 
 <style>
     .pop_head {height: 32px; position: relative; background: #1385db;}
@@ -38,6 +39,8 @@
     .d-flex{flex-direction: column; align-items: center;}
     .table-bordered {border: 1px solid #dee2e6 !important;}
     .red-star {color: red; margin-right: 5px;}
+    .k-upload-files {font-size: 12px; !important;}
+    .reDraft {font-size: 13px}
 </style>
 <%
     pageContext.setAttribute("CR", "\r");

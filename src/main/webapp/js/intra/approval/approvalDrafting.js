@@ -47,6 +47,7 @@ var draft = {
     },
 
     fnDefaultScript : function (params) {
+        window.resizeTo(965, 900);
         document.querySelector('body').style.overflow = 'hidden';
         if(draft.global.params.mod == "W"){
             $("#loadingText").text("양식을 불러오는 중입니다.");
@@ -667,7 +668,7 @@ var draft = {
         draft.docApproveLineDataSetting("temp", draft.global.formData);
 
         $.ajax({
-            url : "/approval/setApproveDraftInit.do",
+            url : "/approval/setApproveDraftInit",
             type : 'post',
             data : draft.global.formData,
             dataType : "json",
@@ -1007,6 +1008,7 @@ var draft = {
     },
 
     docApprove : function(){
+        draft.loading();
         hwpDocCtrl.putFieldText('approval_st' + $("#approveOrder").val(), draft.global.dataType.nowCom + "(" + $("#approveCodeNm").val() + ")");
 
         hwpDocCtrl.global.HwpCtrl.GetTextFile("HWPML2X", "", function(data) {
@@ -1018,6 +1020,16 @@ var draft = {
         })
 
         setTimeout(() => draft.docApproveAjax(), 200);
+    },
+
+    loading : function(){
+        $.LoadingOverlay("show", {
+            background: "rgba(0, 0, 0, 0.5)",
+            image: "",
+            maxSize: 60,
+            fontawesome: "fa fa-spinner fa-pulse fa-fw",
+            fontawesomeColor: "#FFFFFF",
+        });
     },
 
     docApproveAjax : function(){
@@ -1153,48 +1165,13 @@ var draft = {
             console.log(result);
             const rs = result.map;
             const ls = result.list;
-
-            if(rs.PAY_APP_TYPE == 1){
-
-            }
+            const fileList = result.fileList;
 
             let attCount = 0;
             let tempArr = [];
-            for(let i=0; i<ls.length; i++){
-                const eviType = ls[i].EVID_TYPE;
-                const advances = ls[i].ADVANCES;
-
-                let attList = [];
-
-                if(advances == "Y" || rs.PAY_APP_TYPE != "1"){
-                    continue;
-                }
-
-                if(eviType == "1" || eviType == "2"){
-                    let fileText = "";
-                    fileText += ls[i].FILE2+","+ls[i].FILE3+","+ls[i].FILE4+","+ls[i].FILE5;
-                    attList = customKendo.fn_customAjax("/pay/getPayAttList", { fileText: fileText }).list;;
-                    for(let j=0; j<attList.length; j++){
-                        tempArr[attCount] = attList[j];
-                        attCount++;
-                    }
-                }else if(eviType == "3"){
-                    let fileText = "";
-                    fileText += ls[i].FILE7+","+ls[i].FILE8+","+ls[i].FILE9+","+ls[i].FILE5;
-                    attList = customKendo.fn_customAjax("/pay/getPayAttList", { fileText: fileText }).list;
-                    for(let j=0; j<attList.length; j++){
-                        tempArr[attCount] = attList[j];
-                        attCount++;
-                    }
-                }else if(eviType == "5"){
-                    let fileText = "";
-                    fileText += ls[i].FILE10;
-                    attList = customKendo.fn_customAjax("/pay/getPayAttList", { fileText: fileText }).list;
-                    for(let j=0; j<attList.length; j++){
-                        tempArr[attCount] = attList[j];
-                        attCount++;
-                    }
-                }
+            for(let j=0; j< fileList.length; j++){
+                tempArr[attCount] = fileList[j];
+                attCount++;
             }
             draft.getDocFileSet(tempArr);
             draft.setKendoUpload();
@@ -1203,55 +1180,20 @@ var draft = {
         if(params.menuCd == "exnp") {
             data.exnpSn = params.APPRO_KEY.split("_")[1];
 
-            let result = customKendo.fn_customAjax("/payApp/pop/getExnpData", {
+            let result = customKendo.fn_customAjax("/payApp/pop/getApprovalExnpFileData", {
                 exnpSn: data.exnpSn
             });
             console.log("항목 리스트 조회");
             console.log(result);
             const rs = result.map;
             const ls = result.list;
-
-            if(rs.PAY_APP_TYPE == 1){
-
-            }
+            const fileList = result.fileList;
 
             let attCount = 0;
             let tempArr = [];
-            for(let i=0; i<ls.length; i++){
-                const eviType = ls[i].EVID_TYPE;
-                const advances = ls[i].ADVANCES;
-
-                let attList = [];
-
-                if(advances == "Y" || rs.PAY_APP_TYPE != "1"){
-                    continue;
-                }
-
-                if(eviType == "1" || eviType == "2"){
-                    let fileText = "";
-                    fileText += ls[i].FILE2+","+ls[i].FILE3+","+ls[i].FILE4+","+ls[i].FILE5;
-                    attList = customKendo.fn_customAjax("/pay/getExnpAttList", { fileText: fileText }).list;;
-                    for(let j=0; j<attList.length; j++){
-                        tempArr[attCount] = attList[j];
-                        attCount++;
-                    }
-                }else if(eviType == "3"){
-                    let fileText = "";
-                    fileText += ls[i].FILE7+","+ls[i].FILE8+","+ls[i].FILE9+","+ls[i].FILE5;
-                    attList = customKendo.fn_customAjax("/pay/getExnpAttList", { fileText: fileText }).list;
-                    for(let j=0; j<attList.length; j++){
-                        tempArr[attCount] = attList[j];
-                        attCount++;
-                    }
-                }else if(eviType == "5"){
-                    let fileText = "";
-                    fileText += ls[i].FILE10;
-                    attList = customKendo.fn_customAjax("/pay/getExnpAttList", { fileText: fileText }).list;
-                    for(let j=0; j<attList.length; j++){
-                        tempArr[attCount] = attList[j];
-                        attCount++;
-                    }
-                }
+            for(let j=0; j< fileList.length; j++){
+                tempArr[attCount] = fileList[j];
+                attCount++;
             }
             draft.getDocFileSet(tempArr);
             draft.setKendoUpload();

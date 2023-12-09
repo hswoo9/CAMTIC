@@ -99,6 +99,11 @@ public class CustomBoardServiceImpl implements CustomBoardService {
     }
 
     @Override
+    public List<Map<String, Object>> getBoardFileInfo(Map<String, Object> params) {
+        return customBoardRepository.getBoardFileInfo(params);
+    }
+
+    @Override
     public void setScheduleReg(Map<String, Object> params) {
         if(StringUtils.isEmpty(params.get("scheduleBoardId"))){
             customBoardRepository.setScheduleReg(params);
@@ -127,11 +132,25 @@ public class CustomBoardServiceImpl implements CustomBoardService {
     }
 
     @Override
-    public void setRequestBoard(Map<String, Object> params) {
-        if(StringUtils.isEmpty(params.get("requestBoardId"))){
+    public void setRequestBoard(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
+        if(!params.containsKey("requestBoardId")){
             customBoardRepository.setRequestBoard(params);
         }else{
             customBoardRepository.setRequestBoardUpd(params);
+        }
+
+        if(file.length > 0){
+            MainLib mainLib = new MainLib();
+            List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, server_dir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("requestBoardId"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, base_dir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+            }
+            commonRepository.insFileInfo(list);
         }
     }
 

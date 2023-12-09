@@ -280,8 +280,9 @@ public class CustomBoardController {
      * @return
      */
     @RequestMapping("/spot/setRequestBoard.do")
-    public String setRequestBoard(@RequestParam Map<String, Object> params, Model model) {
-        customBoardService.setRequestBoard(params);
+    public String setRequestBoard(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) {
+        MultipartFile[] file = request.getFiles("boardFile").toArray(new MultipartFile[0]);
+        customBoardService.setRequestBoard(params, file, SERVER_DIR, BASE_DIR);
         model.addAttribute("params", params);
         return "jsonView";
     }
@@ -314,6 +315,7 @@ public class CustomBoardController {
     @RequestMapping("/spot/getRequestBoard.do")
     public String getRequestBoard(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("rs", customBoardService.getRequestBoard(params));
+        model.addAttribute("fileInfo", customBoardService.getBoardFileInfo(params));
         return "jsonView";
     }
 

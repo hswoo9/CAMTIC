@@ -150,4 +150,17 @@ public class CommonController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/common/delFileInfo")
+    public String delFileInfo(@RequestParam Map<String, Object> params, Model model){
+        try{
+            commonService.getContentFileDelOne(params);
+
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }

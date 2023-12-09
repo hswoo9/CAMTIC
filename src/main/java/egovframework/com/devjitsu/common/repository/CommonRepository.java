@@ -73,4 +73,15 @@ public class CommonRepository extends AbstractDAO {
     }
 
 
+    public void insFileUpload(Map<String, Object> fileParameters) {
+        insert("common.insFileUpload", fileParameters);
+    }
+
+    public void updFileOwner(Map<String, Object> map) {
+        update("common.updFileOwner", map);
+    }
+
+    public void updFileOwnerNull(Map<String, Object> params) {
+        update("common.updFileOwnerNull", params);
+    }
 }

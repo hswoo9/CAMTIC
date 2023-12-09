@@ -171,35 +171,42 @@ var camPrj = {
                             return "<input type='checkbox' id='' name='pjtCheck' value='"+e.PJT_SN+"' class=''/>"
                         }
                     },
-                    width: "3%"
+                    width: 50
                 }, {
                     title: "연번",
                     template: "#= --record #",
-                    width: "3%"
+                    width: 50
                 }, {
                     field: "BUSN_NM",
                     title: "사업구분",
-                    width: 50
+                    width: 100
                 }, {
                     field: "PJT_CD",
                     title: "프로젝트 코드",
-                    width: 60
+                    width: 100
                 }, {
                     field: "PJT_NM",
                     title: "프로젝트 명",
-                    width: 250,
                     template: function(e){
+                        var pjtNm = e.PJT_NM;
+                        if(e.BUSN_CLASS == "S"){
+                            pjtNm = e.BS_TITLE;
+                        }
+                        var pjtEx = pjtNm;
+                        if(pjtNm.toString().length > 62){
+                            pjtEx = pjtNm.toString().substring(0, 62)+ "...";
+                        }
                         if(e.TEAM_STAT == "N"){
-                            return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\")'>" + e.PJT_NM + "</a>";
+                            return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\")'>" + pjtEx + "</a>";
                         } else {
-                            return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\", \"" + e.TEAM_STAT + "\")'>" + e.PJT_NM + "</a>";
+                            return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\")'>" + pjtEx + "</a>";
                         }
                     }
                 }, {
 
                     field: "STR_DT",
                     title: "수주일",
-                    width: 60,
+                    width: 100,
                     template: function (e) {
                         if (e.STR_DT == null || e.STR_DT == "") {
                             return "";
@@ -215,7 +222,7 @@ var camPrj = {
                 }, {
                     field: "END_DT",
                     title: "종료일자",
-                    width: 60,
+                    width: 100,
                     template: function(e){
                         if(e.END_DT == null || e.END_DT == ""){
                             return "";
@@ -227,15 +234,15 @@ var camPrj = {
                         var dd = date.getDate();
                         dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
                         return yyyy+'-'+mm+'-'+dd;
-                    }
-                }, {
-                    title: "종료예정일",
-                    width: 60,
+                    },
                     footerTemplate: "합계"
-                }, {
+                }, /*{
+                    title: "종료예정일",
+                    width: 100
+                }, */{
                     field: "PJT_AMT",
                     title: "수주금액",
-                    width: 80,
+                    width: 100,
                     template: function(e){
                         sum += Number(e.PJT_AMT);
                         return '<div style="text-align: right;">'+camPrj.comma(e.PJT_AMT)+'</div>';
@@ -246,11 +253,11 @@ var camPrj = {
                 }, {
                     field: "PM",
                     title: "PM",
-                    width: "5%"
+                    width: 60
                 }, {
                     field: "PJT_STEP_NM",
                     title: "진행단계",
-                    width: "5%",
+                    width: 80,
                     template: function(e){
                         console.log(e.BUSN_CLASS);
 
@@ -357,7 +364,6 @@ var camPrj = {
                 {
                     field: "BUSN_NM",
                     title: "사업구분",
-                    width: "110px"
                 }, {
                     field: "PJT_NM",
                     title:"프로젝트명",
@@ -435,17 +441,13 @@ var camPrj = {
 
 
     // project 상세페이지
-    fn_projectPopView : function (key, cs, tmStat){
+    fn_projectPopView : function (key, cs){
         var url = "/project/pop/viewRegProject.do?pjtSn=" + key;
 
         if(cs == "R"){
             url = "/projectRnd/pop/regProject.do?pjtSn=" + key;
         } else if (cs == "S"){
             url = "/projectUnRnd/pop/regProject.do?pjtSn=" + key;
-        }
-
-        if(tmStat == "Y"){
-            url = url + "&tmStat=" + tmStat;
         }
         var name = "blank";
         var option = "width = 1680, height = 850, top = 100, left = 200, location = no";

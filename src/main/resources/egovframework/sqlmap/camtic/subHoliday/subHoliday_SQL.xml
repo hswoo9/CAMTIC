@@ -341,9 +341,35 @@
                VC.mdtn_day,
                VC.extra_day,
                VC.use_day,
-               ( ( VC.grant_day + VC.mdtn_day + VC.extra_day ) - ( VC.use_day ) ) AS REMAIN_VAC,
+               (
+                    (
+                        VC.grant_day + VC.comp_vac
+                    )
+                    -
+                    (
+                    Sum(CASE
+                    WHEN VUH.subholiday_code_id = 1 THEN 1
+                    ELSE 0
+                    END)
+                    +
+                    Sum(CASE
+                    WHEN VUH.subholiday_code_id = 3 THEN 1
+                    ELSE 0
+                    END)
+                    +
+                    Sum(CASE
+                    WHEN VUH.subholiday_code_id = 4 THEN 1
+                    ELSE 0
+                    END)
+                    )
+               ) AS REMAIN_VAC,
                VC.active,
                VC.holiday_id,
+               VC.comp_vac,
+               VC.grant_day + VC.comp_vac AS total_vacation,
+               VUH.apply_date,
+               IFNULL((SELECT USE_DAY FROM CAM_INSIDE.DJ_HOLIDAY WHERE apply_date = #{befYear} AND EMP_SEQ = VUI.EMP_SEQ), 0) AS befUseDay,
+               IFNULL((SELECT USE_DAY FROM CAM_INSIDE.DJ_HOLIDAY WHERE apply_date = #{bef2Year} AND EMP_SEQ = VUI.EMP_SEQ), 0) AS bef2UseDay,
                CASE WHEN VUI.DUTY_CODE IS NOT NULL THEN (SELECT SORT FROM CAM_COMMON.dj_com_code WHERE CM_GROUP_CODE_ID = 3 AND CM_CODE = VUI.DUTY_CODE)
                WHEN VUI.POSITION_CODE IS NOT NULL THEN (SELECT SORT FROM CAM_COMMON.dj_com_code WHERE CM_GROUP_CODE_ID = 4 AND CM_CODE = VUI.POSITION_CODE)
                ELSE 999 END SORT,

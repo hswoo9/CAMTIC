@@ -227,6 +227,7 @@ public class ApprovalUserController {
     public String openOrganizationChart(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("loginVO", login);
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("data", commonService.ctDept((String) login.getOrgnztId()));
@@ -289,6 +290,7 @@ public class ApprovalUserController {
     public List<Map<String, Object>> getUserList(Model model, @RequestParam Map<String, Object> params){
         return commonService.getUserList(params);
     }
+
 
     @RequestMapping("/approvalUser/getUserFavApproveRouteList")
     @ResponseBody

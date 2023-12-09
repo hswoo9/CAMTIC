@@ -22,7 +22,9 @@
             WHEN PC.CLAIM_SN IS NOT NULL AND PC.DOC_ID IS NOT NULL AND (PC.STATUS = '100' OR PC.STATUS = '101') THEN 'CAYSY'
             ELSE '' END CLAIM_STATUS,
             MP.INSPECT_YN,
-            MP.INSPECT_STATUS
+            MP.INSPECT_STATUS,
+            IFNULL(PC.ORDER_DT, "") AS ORDER_DT,
+            MP.INSPECT_YN
         FROM
             CAM_MNG.DJ_MNG_PURC MP
         JOIN
@@ -288,7 +290,7 @@
             EI.POSITION_NAME,
             EI.DEPT_SEQ,
             DI.DOC_NO,
-            CAM_HR.FN_GetName('DEPT', EI.DEPT_SEQ, NULL) AS DEPT_NAME,
+        CONCAT((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = EI.DEPT_SEQ)), ' ', (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = EI.DEPT_SEQ)) AS DEPT_NAME,
             DI.APPRO_KEY,
             DI.DOC_MENU_CD
         FROM
@@ -527,7 +529,7 @@
             EI.POSITION_NAME,
             EI.DEPT_SEQ,
             DI.DOC_NO,
-            CAM_HR.FN_GetName('DEPT', EI.DEPT_SEQ, NULL) AS DEPT_NAME,
+        CONCAT((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = EI.DEPT_SEQ)), ' ', (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = EI.DEPT_SEQ)) AS DEPT_NAME,
             DI.APPRO_KEY,
             DI.DOC_MENU_CD
         FROM
@@ -557,7 +559,7 @@
             EI.POSITION_NAME,
             EI.DEPT_SEQ,
             DI.DOC_NO,
-            CAM_HR.FN_GetName('DEPT', EI.DEPT_SEQ, NULL) AS DEPT_NAME,
+            CONCAT((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = EI.DEPT_SEQ)), ' ', (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = EI.DEPT_SEQ)) AS DEPT_NAME,
             DI.APPRO_KEY,
             DI.DOC_MENU_CD,
             (CASE WHEN A.ORDER_DT IS NOT NULL THEN 'Y' ELSE 'N' END) AS ORDER_CK
@@ -934,11 +936,24 @@
             B.*,
             C.CRM_NM
         FROM
-            CAM_MNG.DJ_MNG_PURC A
-        LEFT JOIN CAM_MNG.DJ_MNG_PURC_ITEM B ON A.PURC_SN = B.PURC_SN
-        LEFT JOIN CAM_CRM.DJ_CRM_INFO C ON B.CRM_SN = C.CRM_SN
+            CAM_MNG.DJ_PURC_CLAIM A
+        LEFT JOIN CAM_MNG.DJ_PURC_CLAIM_ITEM B ON A.CLAIM_SN = B.CLAIM_SN
+        LEFT JOIN CAM_CRM.DJ_CRM_INFO C ON A.CRM_SN = C.CRM_SN
         WHERE
             A.PJT_SN = #{pjtSn}
+        AND A.STATUS = '100'
+    </select>
+
+    <select id="getProjectPurcReqList" parameterType="map" resultType="map">
+        /*getProjectPurcReqList*/
+        SELECT
+            B.*
+        FROM
+            CAM_MNG.DJ_MNG_PURC A
+        LEFT JOIN CAM_MNG.DJ_MNG_PURC_ITEM B ON A.PURC_SN = B.PURC_SN
+        WHERE
+            A.PJT_SN = #{pjtSn}
+        AND A.DOC_STATUS = '100'
     </select>
 
     <update id="updPurcItemStatusChange" parameterType="map">

@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface PayAppService {
 
-    void payAppSetData(Map<String, Object> params);
+    void payAppSetData(Map<String, Object> params, MultipartFile[] fileList, String SERVER_DIR, String BASE_DIR);
 
     Map<String, Object> getPayAppReqData(Map<String, Object> params);
 
@@ -68,4 +68,10 @@ public interface PayAppService {
     void setApprIncome(Map<String, Object> params);
 
     List<Map<String, Object>> getCheckBudget(Map<String, Object> params);
+
+    void delPayApp(int[] params);
+
+    List<Map<String, Object>> getPayAppFileList(Map<String, Object> params);
+
+    List<Map<String, Object>> getApprovalExnpFileData(Map<String, Object> params);
 }

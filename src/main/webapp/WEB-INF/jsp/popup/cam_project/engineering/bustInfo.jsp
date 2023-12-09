@@ -2,12 +2,31 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:useBean id="today" class="java.util.Date" />
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/bustInfo.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/inside/bustrip/bustripList.js?v=${today}'/>"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripResult.js?v=${today}"></script>
 
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 
+<style>
+    .k-footer-template td:nth-child(8) {
+        overflow: visible;
+        white-space: nowrap;
+        text-align: right;
+    }
+
+    .k-footer-template td:nth-child(1),
+    .k-footer-template td:nth-child(2),
+    .k-footer-template td:nth-child(3),
+    .k-footer-template td:nth-child(4),
+    .k-footer-template td:nth-child(5),
+    .k-footer-template td:nth-child(6),
+    .k-footer-template td:nth-child(7),
+    .k-footer-template td:nth-child(8) {
+        border-width: 0;
+    }
+</style>
 
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="engnSn" value="${params.engnSn}" />

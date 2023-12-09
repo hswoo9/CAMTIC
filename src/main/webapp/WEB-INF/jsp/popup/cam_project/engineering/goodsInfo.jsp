@@ -3,6 +3,7 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:useBean id="today" class="java.util.Date" />
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/goodsInfo.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 
@@ -81,7 +82,7 @@
                 </td>
             </tr>
             <th scope="row" class="text-center th-color">
-                <span class="red-star">*</span>납품서
+                <span class="red-star tmHide">*</span>납품서
             </th>
             <td colspan="3">
                 <label for="devFile" class="k-button k-button-solid-base">파일첨부</label>

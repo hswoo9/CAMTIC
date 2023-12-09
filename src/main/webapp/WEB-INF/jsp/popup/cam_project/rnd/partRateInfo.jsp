@@ -149,7 +149,7 @@
     <br><br>
 
     <button type="button" id="confBtn" style="float:right" class="k-button k-button-solid-base" onclick="fn_confirm()" disabled>참여율확정</button>
-    <button type="button" disabled id="regBtn" style="float:right; margin-right: 5px" class="k-button k-button-solid-info" onclick="fn_reqRegPopup()">지급신청</button>
+<%--    <button type="button" disabled id="regBtn" style="float:right; margin-right: 5px" class="k-button k-button-solid-info" onclick="fn_reqRegPopup()">지급신청</button>--%>
 
     <div id="rateBtnDiv">
     </div>

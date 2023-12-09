@@ -189,7 +189,7 @@
 
                         </td>
                     </tr>
-                    <tr class=" text-right">
+                    <tr class=" text-right" style="display: none">
                         <th class="th-color">참조문서</th>
                         <td style="border-right: none">
                             <input type="hidden" id="referencesId" name="referencesId">
@@ -206,7 +206,7 @@
 
                         </td>
                     </tr>
-                    <tr>
+                    <tr style="display: none">
                         <th class="th-color text-right">열람자</th>
                         <td id="readerNameTd">
 

@@ -324,7 +324,7 @@ public class ApprovalController {
     }
 
     /** 의견 리스트 */
-    @RequestMapping("/approval/getDocApproveHistOpinList.do")
+    @RequestMapping("/approval/getDocApproveHistOpinList")
     public String getDocApproveHistOpinList(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("list", approvalService.getDocApproveHistOpinList(params));
         return "jsonView";

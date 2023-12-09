@@ -175,15 +175,15 @@ var subHolidayStat = {
                     title: "발생",
                     columns: [
                         {
-                            field: "grant_day",
+                            field: "total_vacation",
                             title: "총연차",
                             width: 50
                         }, {
-                            field: "",
+                            field: "grant_day",
                             title: "기존",
                             width: 50
                         }, {
-                            field: "",
+                            field: "comp_vac",
                             title: "보상",
                             width: 50
                         }
@@ -192,15 +192,15 @@ var subHolidayStat = {
                     title: "연가",
                     columns: [
                         {
-                            field: "",
+                            field: "bef2UseDay",
                             title: "전전년<br>사용",
                             width: 50
                         }, {
-                            field: "",
+                            field: "befUseDay",
                             title: "전년<br>사용",
                             width: 50
                         }, {
-                            field: "use_day",
+                            field: "ANNUAL",
                             title: "금년<br>사용",
                             width: 50
                         }, {
@@ -219,7 +219,7 @@ var subHolidayStat = {
                                     title: "총잔여",
                                     width: 50
                                 }, {
-                                    field: "",
+                                    field: "REMAIN_VAC",
                                     title: "기존",
                                     width: 50
                                 }, {

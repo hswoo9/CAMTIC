@@ -1,10 +1,8 @@
 var processInfo = {
 
 
-
-
     fn_defaultScript : function (){
-
+        commonProject.setPjtStat();
         var data= {
             pjtSn : $("#pjtSn").val(),
             empSeq : $("#regEmpSeq").val()
@@ -38,7 +36,7 @@ var processInfo = {
                             html += '   <td>'+ pf1[i].file_ext +'</td>';
                             html += '   <td>'+ pf1[i].file_size +'</td>';
                             html += '   <td>' +
-                                '           <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ pf1.file_no +', this)">' +
+                                '           <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ pf1[i].file_no +', this)">' +
                                 '			    <span class="k-button-text">삭제</span>' +
                                 '		    </button>';
                             html += '   </td>';
@@ -60,7 +58,7 @@ var processInfo = {
                             html += '   <td>'+ pf2[i].file_ext +'</td>';
                             html += '   <td>'+ pf2[i].file_size +'</td>';
                             html += '   <td>' +
-                                '           <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ pf2.file_no +', this)">' +
+                                '           <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ pf2[i].file_no +', this)">' +
                                 '			    <span class="k-button-text">삭제</span>' +
                                 '		    </button>';
                             html += '   </td>';
@@ -82,7 +80,7 @@ var processInfo = {
                             html += '   <td>'+ pf3[i].file_ext +'</td>';
                             html += '   <td>'+ pf3[i].file_size +'</td>';
                             html += '   <td>' +
-                                '           <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ pf3.file_no +', this)">' +
+                                '           <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ pf3[i].file_no +', this)">' +
                                 '			    <span class="k-button-text">삭제</span>' +
                                 '		    </button>';
                             html += '   </td>';
@@ -100,11 +98,11 @@ var processInfo = {
 
                         for(var i = 0; i < pf4.length; i++){
                             html += '<tr style="text-align: center">';
-                            html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+pf4[i].file_path+pf3[i].file_uuid+'\', \''+pf4[i].file_org_name+'.'+pf4[i].file_ext+'\')">'+pf4[i].file_org_name+'</span></td>';
+                            html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+pf4[i].file_path+pf4[i].file_uuid+'\', \''+pf4[i].file_org_name+'.'+pf4[i].file_ext+'\')">'+pf4[i].file_org_name+'</span></td>';
                             html += '   <td>'+ pf4[i].file_ext +'</td>';
                             html += '   <td>'+ pf4[i].file_size +'</td>';
                             html += '   <td>' +
-                                '           <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ pf4.file_no +', this)">' +
+                                '           <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ pf4[i].file_no +', this)">' +
                                 '			    <span class="k-button-text">삭제</span>' +
                                 '		    </button>';
                             html += '   </td>';
@@ -122,11 +120,11 @@ var processInfo = {
 
                         for(var i = 0; i < pf5.length; i++){
                             html += '<tr style="text-align: center">';
-                            html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+pf5[i].file_path+pf3[i].file_uuid+'\', \''+pf5[i].file_org_name+'.'+pf5[i].file_ext+'\')">'+pf5[i].file_org_name+'</span></td>';
+                            html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+pf5[i].file_path+pf5[i].file_uuid+'\', \''+pf5[i].file_org_name+'.'+pf5[i].file_ext+'\')">'+pf5[i].file_org_name+'</span></td>';
                             html += '   <td>'+ pf5[i].file_ext +'</td>';
                             html += '   <td>'+ pf5[i].file_size +'</td>';
                             html += '   <td>' +
-                                '           <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ pf5.file_no +', this)">' +
+                                '           <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ pf5[i].file_no +', this)">' +
                                 '			    <span class="k-button-text">삭제</span>' +
                                 '		    </button>';
                             html += '   </td>';
@@ -144,11 +142,11 @@ var processInfo = {
 
                         for(var i = 0; i < pf6.length; i++){
                             html += '<tr style="text-align: center">';
-                            html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+pf6[i].file_path+pf3[i].file_uuid+'\', \''+pf6[i].file_org_name+'.'+pf6[i].file_ext+'\')">'+pf6[i].file_org_name+'</span></td>';
+                            html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+pf6[i].file_path+pf6[i].file_uuid+'\', \''+pf6[i].file_org_name+'.'+pf6[i].file_ext+'\')">'+pf6[i].file_org_name+'</span></td>';
                             html += '   <td>'+ pf6[i].file_ext +'</td>';
                             html += '   <td>'+ pf6[i].file_size +'</td>';
                             html += '   <td>' +
-                                '           <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ pf6.file_no +', this)">' +
+                                '           <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ pf6[i].file_no +', this)">' +
                                 '			    <span class="k-button-text">삭제</span>' +
                                 '		    </button>';
                             html += '   </td>';
@@ -253,6 +251,7 @@ var processInfo = {
             }
         }
 
+        commonProject.loading();
         $.ajax({
             url : "/project/setProcessInfo",
             data : fd,
@@ -263,7 +262,12 @@ var processInfo = {
             enctype : 'multipart/form-data',
             async: false,
             success: function(rs){
-                window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=4";
+                alert("저장되었습니다.");
+                if(commonProject.global.teamStat == "Y"){
+                    window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=2";
+                }else{
+                    window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=4";
+                }
             }
         });
     }

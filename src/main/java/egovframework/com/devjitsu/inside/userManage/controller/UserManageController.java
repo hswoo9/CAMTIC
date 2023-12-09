@@ -2144,5 +2144,14 @@ public class UserManageController {
         return "jsonView";
     }
 
+    @RequestMapping("/Inside/getCurrentPositionByYear")
+    public String getCurrentPositionByYear(@RequestParam Map<String, Object> params,Model model){
+        Map<String,Object> currentPositionByYear = userManageService.getCurrentPositionByYear(params);
+        System.out.println("**CurrentPositionByYear** : " + currentPositionByYear);
+        model.addAttribute("currentPositionByYear",currentPositionByYear);
+
+        return "jsonView";
+    }
+
 
 }

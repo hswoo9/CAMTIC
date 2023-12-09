@@ -23,6 +23,7 @@
                 ACC_NM,
                 PAY_APP_STAT,
                 GUBUN,
+                ADVANCES,
                 REG_EMP_SEQ
             )
         VALUES
@@ -43,6 +44,7 @@
                 #{accNm},
                 #{payAppStat},
                 'W',
+                #{advances},
                 #{regEmpSeq}
             )
         <selectKey keyProperty="payAppSn" resultType="Integer" order="BEFORE">
@@ -130,6 +132,7 @@
             ACC_NO = #{accNo},
             ACC_NM = #{accNm},
             PAY_APP_STAT = #{payAppStat},
+            ADVANCES = #{advances},
             MOD_DT = NOW(),
             MOD_EMP_SEQ = #{regEmpSeq}
         WHERE
@@ -205,7 +208,11 @@
                 TEAM_SEQ,
                 TEAM_NAME,
                 EVID_TYPE,
+                AUTH_NO,
+                AUTH_HH,
+                AUTH_DD,
                 TR_CD,
+                REG_NO,
                 CRM_NM,
                 CRM_BNK_NM,
                 CRM_ACC_NO,
@@ -230,7 +237,11 @@
                 #{teamSeq},
                 #{teamName},
                 #{evidType},
+                #{authNo},
+                #{authHh},
+                #{authDd},
                 #{trCd},
+                #{regNo},
                 #{crmNm},
                 #{crmBnkNm},
                 #{crmAccNo},
@@ -256,9 +267,14 @@
                 BUDGET_SN,
                 BUDGET_NM,
                 EVID_TYPE,
+                AUTH_NO,
+                AUTH_DD,
+                AUTH_HH,
+                BUY_STS,
                 TR_CD,
                 CRM_NM,
                 CRM_BNK_NM,
+                REG_NO,
                 CRM_ACC_NO,
                 CRM_ACC_HOLDER,
                 TR_DE,
@@ -288,9 +304,14 @@
                 #{budgetSn},
                 #{budgetNm},
                 #{evidType},
+                #{authNo},
+                #{authDd},
+                #{authHh},
+                #{buySts},
                 #{trCd},
                 #{crmNm},
                 #{crmBnkNm},
+                #{regNo},
                 #{crmAccNo},
                 #{crmAccHolder},
                 #{trDe},
@@ -337,12 +358,15 @@
 
     <select id="getPaymentList" parameterType="map" resultType="map">
         /*getPaymentList*/
+        SELECT AA.* FROM (
         SELECT
             A.*,
             B.DOC_NO,
             (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = A.PAY_APP_SN AND DET_STAT != "N") AS TOT_COST,
             (SELECT REQ_EXNP_DE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN ORDER BY EXNP_SN DESC LIMIT 1) AS REQ_EXNP_DE,
-            (SELECT REQ_END_DE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN ORDER BY EXNP_SN DESC LIMIT 1) AS REQ_END_DE
+            (SELECT REQ_END_DE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN ORDER BY EXNP_SN DESC LIMIT 1) AS REQ_END_DE,
+            (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = A.PAY_APP_SN) AS ITEM_COUNT,
+            (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = A.PAY_APP_SN AND EXNP_SAVE = 'Y') AS EXNP_STATUS
         FROM
             CAM_MNG.DJ_PAY_APP A
         LEFT JOIN
@@ -367,7 +391,18 @@
         AND
             A.DOC_STATUS = #{docStatus}
         </if>
-        ORDER BY PAY_APP_SN DESC
+        ) AA
+        WHERE
+            1=1
+            <if test='pageType != "USER" and !"USER".equals(pageType)'>
+                AND
+                    ITEM_COUNT != EXNP_STATUS
+            </if>
+            <if test='searchDept != null and !"".equals(searchDept)'>
+                AND
+                    AA.DOC_STATUS = #{searchDept}
+            </if>
+        ORDER BY AA.PAY_APP_SN DESC
     </select>
 
     <select id="getWaitPaymentList" parameterType="map" resultType="map">
@@ -679,6 +714,7 @@
         /*getExnpReList*/
         SELECT
             E.*,
+            ED.BUDGET_NM AS BUDGET_NM_EX,
             DI.APPRO_KEY AS APPRO_KEY,
             DI.DOC_MENU_CD AS DOC_MENU_CD,
             IFNULL(SUM(ED.TOT_COST), 0) AS TOT_COST
@@ -1074,9 +1110,10 @@
 
     <select id="getPayIncpDetailData" parameterType="map" resultType="map">
         /*getPayIncpDetailData*/
-        SELECT *
-        FROM CAM_MNG.DJ_PAY_INCP_DET
-        WHERE PAY_INCP_SN = #{payIncpSn}
+        SELECT A.*, FORMAT(A.TOT_COST,0) AS TOT_COST_COMMA
+        FROM CAM_MNG.DJ_PAY_INCP_DET A
+
+        WHERE A.PAY_INCP_SN = #{payIncpSn}
     </select>
 
     <select id="getIncpData" parameterType="map" resultType="map">
@@ -1353,5 +1390,103 @@
             BUDGET_SN,
             BUDGET_AMT
         FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = #{payAppSn} GROUP BY BUDGET_SN
+    </select>
+
+    <delete id="delPayApp" parameterType="int">
+        /*delPayApp*/
+        DELETE FROM CAM_MNG.DJ_PAY_APP
+        WHERE
+            PAY_APP_SN = #{payAppSn}
+    </delete>
+
+    <select id="getPayAppFileList" parameterType="map" resultType="map">
+        /*getPayAppFileList*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            CONTENT_ID = #{payAppSn}
+        AND
+            (FILE_CD = 'payApp' OR FILE_CD = 'useCard')
+    </select>
+
+    <select id="getPayAppInfo" parameterType="map" resultType="map">
+        /*getPayAppInfo*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_PAY_APP
+        WHERE
+            PAY_APP_SN = #{payAppSn}
+    </select>
+
+    <select id="getPayAppItemList" parameterType="map" resultType="map">
+        /*getPayAppItemList*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_PAY_APP_DET
+        WHERE
+            PAY_APP_SN = #{payAppSn}
+    </select>
+
+    <insert id="insUseCardInfo" parameterType="map">
+        /*insUseCardInfo*/
+        INSERT INTO CAM_MNG.DJ_USE_CARD_INFO
+            (
+                AUTH_NO,
+                AUTH_HH,
+                AUTH_DD,
+                CARD_NO,
+                BUY_STS,
+                LINK_STAT,
+                PAY_APP_SN
+            )
+        VALUES
+            (
+                #{AUTH_NO},
+                #{AUTH_HH},
+                #{AUTH_DD},
+                #{CARD_NO},
+                #{BUY_STS},
+                'Y',
+                #{PAY_APP_SN}
+            )
+    </insert>
+
+    <delete id="delUseCardInfo" parameterType="map">
+        /*delUseCardInfo*/
+        DELETE FROM CAM_MNG.DJ_USE_CARD_INFO
+        WHERE
+            PAY_APP_SN = #{PAY_APP_SN}
+    </delete>
+
+    <select id="getApprovalExnpCommonFileData" parameterType="map" resultType="map">
+        /*getApprovalExnpCommonFileData*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO A
+        WHERE
+            CONTENT_ID = #{payAppSn}
+        AND
+            FILE_CD = 'payApp'
+    </select>
+
+    <select id="getApprovalExnpFileData" parameterType="map" resultType="map">
+        /*getApprovalExnpFileData*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO A
+        WHERE
+            CONTENT_ID = #{payAppSn}
+        AND
+            FILE_CD = 'useCard'
+        AND
+            FILE_PATH = #{filePath}
+        ORDER BY FILE_NO DESC
+        LIMIT 1
     </select>
 </mapper>

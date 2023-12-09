@@ -121,13 +121,13 @@
         <div class="__bio3">
           <h4 style="margin-top: 20px;">Training infrastructure</h4>
           <div class="area __mt20 __mb20" >
-            <div class="box"><div class="img"><img src="/images/camtic/businesseENG7-1.jpg" alt=""></div><div class="txt">Technology commercialization experts’ consulting</div></div>
-            <div class="box"><div class="img"><img src="/images/camtic/businesseENG7-2.png" alt=""></div><div class="txt">Invitation of foreign buyers</div></div>
+            <div class="box"><div class="img"><img src="/images/camtic/businesseENG7-1.jpg" alt=""></div><div class="txt">Four general lecture rooms</div></div>
+            <div class="box"><div class="img"><img src="/images/camtic/businesseENG7-2.png" alt=""></div><div class="txt">Three computer rooms</div></div>
           </div>
 
           <div class="area" >
-            <div class="box"><div class="img"><img src="/images/camtic/businesseENG7-3.jpg" alt=""></div><div class="txt">ODA project for Ethiopia</div></div>
-            <div class="box"><div class="img"><img src="/images/camtic/businesseENG7-4.jpg" alt=""></div><div class="txt">ODA project for Indonesia</div></div>
+            <div class="box"><div class="img"><img src="/images/camtic/businesseENG7-3.jpg" alt=""></div><div class="txt">Training equipment – Drone for training</div></div>
+            <div class="box"><div class="img"><img src="/images/camtic/businesseENG7-4.jpg" alt=""></div><div class="txt">Training equipment – Smart factory practice</div></div>
           </div>
         </div>
 

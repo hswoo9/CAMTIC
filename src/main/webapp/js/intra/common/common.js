@@ -323,3 +323,18 @@ var autoHyphen2 = (target) => {
         .replace(/[^0-9]/g, '')
         .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
 }
+
+/** A가 B의 몇 %인지 구하기(소수점일시 C자리 까지 표기) **/
+function fn_per(A, B, C){
+    if(B == null || B == undefined || B == 0){
+        return "0%";
+    }
+    if(C == null){
+        C = 0;
+    }
+
+    let per;
+        per = A / B * 100;
+
+    return Number.isInteger(per) ? (per + "%") : (per.toFixed(C) + "%");
+}

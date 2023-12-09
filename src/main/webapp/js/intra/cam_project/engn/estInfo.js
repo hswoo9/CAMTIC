@@ -4,7 +4,7 @@ var estInfo = {
         totAmt : 0
     },
 
-    fn_defaultScript : function(){
+    fn_defaultScript : function (){
         customKendo.fn_textBox(["contCd", "crmCompNm", "crmMem", "estExpAmt", "estPjtNm"]);
 
         customKendo.fn_datePicker("estDe", "depth", "yyyy-MM-dd", new Date());
@@ -19,10 +19,11 @@ var estInfo = {
         });
 
 
-        $("#addBtn").click(function(){
+        $("#addBtn").click(function (){
             estInfo.fn_addClickEvent();
         });
 
+        commonProject.setPjtStat();
         estInfo.fn_setData();
 
     },
@@ -78,6 +79,11 @@ var estInfo = {
     },
 
     fn_save : function (){
+        if($("input[name='vatYn']:checked").val() == null || $("input[name='vatYn']:checked").val() == undefined || $("input[name='vatYn']:checked").val() == ""){
+            alert("부가세 여부를 선택해주세요.");
+            return;
+        }
+
         if(estInfo.uncomma($("#expAmt").val()) != estInfo.uncomma($("#estExpAmt").val())){
             if(!confirm("예상견적가와 견적가가 다릅니다. 저장하시겠습니까?")){
                 return false;
@@ -126,7 +132,7 @@ var estInfo = {
                                 unit : $("#unit" + idx).val(),
                                 unitAmt : estInfo.uncomma($("#unitAmt" + idx).val()),
                                 supAmt : estInfo.uncomma($("#supAmt" + idx).val()),
-                                etc : $("#procEtc" + idx).val()
+                                etc : $("#prodEtc" + idx).val()
                             }
 
                             $.ajax({
@@ -145,16 +151,11 @@ var estInfo = {
                     });
                     alert("저장되었습니다.");
 
-                    if($("#tmSn").val() == "Y"){
-                        if($("#pjtStep").val().toString().substring(0, 1) == "R"){
-                            window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tmStat=Y&tab=1"
-                        } else {
-                            window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=2";
-                        }
-                    } else {
-                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=1&tmStat=" + $("#tmStat").val();
+                    if(commonProject.global.teamStat == "Y"){
+                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=0";
+                    }else{
+                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=1";
                     }
-
                 }
             }
         })

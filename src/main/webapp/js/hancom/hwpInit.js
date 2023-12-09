@@ -191,6 +191,7 @@ var hwpInit = {
         /** 1. 지급신청서 데이터 */
         hwpDocCtrl.putFieldText('DOC_NO', rs.DOC_NO);
         hwpDocCtrl.putFieldText('REG_DATE', rs.REG_DATE);
+        hwpDocCtrl.putFieldText("REQ_DE", rs.REQ_DE.split("-")[0] + "년 " + rs.REQ_DE.split("-")[1] + "월 " + rs.REQ_DE.split("-")[2] + "일");
         hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
 
         hwpDocCtrl.putFieldText('APP_TITLE', rs.APP_TITLE);

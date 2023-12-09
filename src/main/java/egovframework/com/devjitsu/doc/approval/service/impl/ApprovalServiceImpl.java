@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.doc.approval.service.impl;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
+import egovframework.com.devjitsu.cam_manager.repository.PayAppRepository;
 import egovframework.com.devjitsu.doc.approval.repository.ApprovalRepository;
 import egovframework.com.devjitsu.doc.approval.repository.ApprovalUserRepository;
 import egovframework.com.devjitsu.doc.approval.service.ApprovalService;
@@ -54,6 +55,9 @@ public class ApprovalServiceImpl implements ApprovalService {
 
     @Autowired
     private FormManagementRepository formManagementRepository;
+
+    @Autowired
+    private PayAppRepository payAppRepository;
 
     @Override
     public void setLinkageProcessDocInterlock(Map<String, Object> params) {
@@ -442,7 +446,26 @@ public class ApprovalServiceImpl implements ApprovalService {
 
     @Override
     public List<Map<String, Object>> getDocAttachmentList(Map<String, Object> params) {
-        List<Map<String, Object>> returnMap = approvalRepository.getDocAttachmentList(params);
+        List<Map<String, Object>> returnMap = new ArrayList<>();
+
+        // 지출결의서
+        if("exnp".equals(params.get("type"))){
+            Map<String, Object> map = payAppRepository.getExnpData(params);
+            params.put("payAppSn", map.get("PAY_APP_SN"));
+
+            returnMap = approvalRepository.getDocAttachmentList(params);
+            List<Map<String, Object>> list = payAppRepository.getExnpDetailData(params);
+            for(Map<String, Object> data : list){
+                String filePath = "/upload/useCard/" + data.get("AUTH_NO") + "/" + data.get("AUTH_DD") + "/" + data.get("AUTH_HH") + "/" + data.get("CARD_NO").toString().replaceAll("-", "") + "/" + data.get("BUY_STS") + "/";
+                data.put("payAppSn", params.get("payAppSn"));
+                data.put("filePath", filePath);
+                data.put("type", "exnpDetail");
+                data.put("docId", params.get("docId"));
+                returnMap.add(approvalRepository.getDocAttachmentList(data).get(0));
+            }
+        } else {
+            returnMap = approvalRepository.getDocAttachmentList(params);
+        }
 
         if(!StringUtils.isEmpty(params.get("approKey"))){
             Map<String, Object> fileSearchMap = new HashMap<>();

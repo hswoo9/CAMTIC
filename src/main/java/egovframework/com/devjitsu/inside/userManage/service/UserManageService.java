@@ -234,4 +234,6 @@ public interface UserManageService{
 
     Map<String,Object> getTotalEmployeeCount(Map<String, Object> params);
 
+    Map<String,Object> getCurrentPositionByYear(Map<String,Object> params);
+
 }

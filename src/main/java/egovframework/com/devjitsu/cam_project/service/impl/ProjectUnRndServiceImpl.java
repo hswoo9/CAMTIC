@@ -279,6 +279,8 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
             params.put("pjtStep", "S2");
             params.put("pjtStepNm", "수주보고");
             projectRepository.updProjectStep(params);
+        }else if("111".equals(docSts)) { // 임시저장
+            projectUnRndRepository.updateUnRndDelvApprStat(params);
         }
     }
 
@@ -311,6 +313,8 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
             params.put("approveStatCode", 100);
             projectUnRndRepository.updateUnRndResFinalApprStat(params);
             projectUnRndRepository.updUnRndProjectInfoRes(params);
+        }else if("111".equals(docSts)) { // 임시저장
+            projectUnRndRepository.updateUnRndResApprStat(params);
         }
     }
 }

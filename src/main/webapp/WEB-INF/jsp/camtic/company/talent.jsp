@@ -109,32 +109,32 @@
               </tbody>
             </table>
 
-            <ul class="__flx flx3 wrap gap30 __mt40">
-              <li>
-                <img src="/images/camtic/img-ntalent2-1.jpg" alt="">
-                <p class="__fz18 __balck __mt10">지역산업맞춤형<br class="__m">인력양성사업</p>
-              </li>
-              <li>
-                <img src="/images/camtic/img-ntalent2-2.jpg" alt="">
-                <p class="__fz18 __balck __mt10">일학습병행</p>
-              </li>
-              <li>
-                <img src="/images/camtic/img-ntalent2-3.jpg" alt="">
-                <p class="__fz18 __balck __mt10">사업주위탁훈련 (기업맞춤형훈련)</p>
-              </li>
-              <li>
-                <img src="/images/camtic/img-ntalent2-4.jpg" alt="">
-                <p class="__fz18 __balck __mt10">유급휴가훈련</p>
-              </li>
-              <li>
-                <img src="/images/camtic/img-ntalent2-5.jpg" alt="">
-                <p class="__fz18 __balck __mt10">산업전문인력 AI역량강화 지원사업</p>
-              </li>
-              <li>
-                <img src="/images/camtic/img-ntalent2-6.jpg" alt="">
-                <p class="__fz18 __balck __mt10">산업맞춤형 전문기술인력양성상업</p>
-              </li>
-            </ul>
+         <ul class="__flx flx3 wrap gap30 __mt40">
+            <li>
+              <img src="/images/camtic/img-ntalent2-1-1.png" alt="" style="border-radius: 10px; width:325px; height: 200px;">
+              <p class="__fz18 __balck __mt10">지역산업맞춤형<br class="__m">인력양성사업</p>
+            </li>
+            <li>
+              <img src="/images/camtic/img-ntalent2-2-2.png" alt="" style="border-radius: 10px; width:325px; height: 200px;">
+              <p class="__fz18 __balck __mt10">일학습병행</p>
+            </li>
+            <li>
+              <img src="/images/camtic/img-ntalent2-3-3.png" alt="" style="border-radius: 10px; width:325px; height: 200px;">
+              <p class="__fz18 __balck __mt10">사업주위탁훈련 (기업맞춤형훈련)</p>
+            </li>
+            <li>
+              <img src="/images/camtic/img-ntalent2-4-4.png" alt="" style="border-radius: 10px; width:325px; height: 200px;">
+              <p class="__fz18 __balck __mt10">유급휴가훈련</p>
+            </li>
+            <li>
+              <img src="/images/camtic/img-ntalent2-5-5.png" alt="" style="border-radius: 10px; width:325px; height: 200px;">
+              <p class="__fz18 __balck __mt10">산업전문인력 AI역량강화 지원사업</p>
+            </li>
+            <li>
+              <img src="/images/camtic/img-ntalent2-6-6.png" alt="" style="border-radius: 10px; width:325px; height: 200px;">
+              <p class="__fz18 __balck __mt10">산업맞춤형 전문기술인력양성상업</p>
+            </li>
+          </ul>
           <!--</div>-->
 
 
@@ -192,15 +192,15 @@
           </table>
           <ul class="__flx flx3 wrap gap30 __mt40">
             <li>
-              <img src="/images/camtic/img-ntalent3-1.jpg" alt="">
+              <img src="/images/camtic/img-ntalent3-1-1.png" alt="" style="border-radius: 10px; width:290px; height: 185px;">
               <p class="__fz18 __balck __mt10">지역산업맞춤형<br class="__m">인력양성사업</p>
             </li>
             <li>
-              <img src="/images/camtic/img-ntalent3-2.jpg" alt="">
+              <img src="/images/camtic/img-ntalent3-2-2.png" alt="" style="border-radius: 10px; width:290px; height: 185px;">
               <p class="__fz18 __balck __mt10">전문기술인력<br class="__m">양성사업</p>
             </li>
             <li>
-              <img src="/images/camtic/img-ntalent3-3.jpg" alt="">
+              <img src="/images/camtic/img-ntalent3-3-3.png" alt="" style="border-radius: 10px; width:290px; height: 185px;">
               <p class="__fz18 __balck __mt10">산업구조<br class="__m">변화대응등<br class="__m">특화훈련</p>
             </li>
           </ul>

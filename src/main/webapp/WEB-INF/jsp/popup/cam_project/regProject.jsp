@@ -78,12 +78,13 @@
 
 <input type="hidden" id="tab" value="${params.tab}" />
 
+<input type="hidden" id="mainPjtSn" value="${params.pjtSn}" />
+
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">프로젝트 등록</span>
-                <input type="hidden" id="tmStat" />
                 <input type="text" id="busnLgClass" style="width: 200px;"  />
                 <input type="text" id="busnClass" style="width: 200px; display:none" />
                   <input type="hidden" id="pjtStep" value="E">
@@ -307,10 +308,7 @@
         $("#pjtStopModal").data("kendoWindow").open();
     }
 
-    var inParameters = JSON.parse('${map}');
-
-
-    regPrj.fn_defaultScript(inParameters);
+    regPrj.fn_defaultScript();
 
     function userSearch() {
         window.open("/common/deptListPop.do", "조직도", "width=750, height=650");

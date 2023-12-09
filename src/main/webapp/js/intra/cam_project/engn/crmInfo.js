@@ -4,7 +4,7 @@ var crmInfo = {
         customKendo.fn_textBox(["bustripReq", "crmSn", "crmProd",
             "crmCeo", "crmPost", "crmAddr", "crmPhNum", "crmLoc", "crmFax",
             "crmCallNum", "crmHp", "crmMail", "crmNm", "crmReqMem"]);
-
+        customKendo.fn_textArea(["crmEtc"]);
 
         crmInfo.fn_setData();
 
@@ -44,6 +44,7 @@ var crmInfo = {
                     $("#crmPhNum").val(rs.CRM_MEM_PHN);
                     $("#crmHp").val(rs.HOMEPAGE);
                     $("#crmMail").val(rs.CRM_MEM_EMAIL);
+                    $("#crmEtc").val(rs.CRM_ETC);
                 }
 
             }
@@ -61,6 +62,7 @@ var crmInfo = {
             crmCeo : $("#crmCeo").val(),
             crmMail : $("#crmMail").val(),
             crmReqMem : $("#crmReqMem").val(),
+            crmEtc : $("#crmEtc").val(),
             step : $("#step").val(),
             stepColumn : $("#stepColumn").val(),
             nextStepColumn : $("#nextStepColumn").val(),
@@ -73,9 +75,8 @@ var crmInfo = {
             data: parameters,
             type : "post",
             dataType : "json",
-            success : function(rs){
+            success : function(){
                 alert("저장되었습니다.");
-
                 window.location.href="/project/pop/viewRegProject.do?pjtSn=" + parameters.pjtSn + "&tab=0";
             }
         });

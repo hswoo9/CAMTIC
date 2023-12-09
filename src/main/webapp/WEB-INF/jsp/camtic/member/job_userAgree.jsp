@@ -77,71 +77,73 @@
                 </div>
 
                 <div class="__tit1">
-                    <h3>개인정보 수집 및 이용에 관한 사항</h3>
+                    <h3>개인정보 수집 및 이용안내</h3>
                 </div>
                 <div class="__agree">
                     <div class="area">
                         ■ 개인정보의 수집ㆍ이용 목적<br>
-                        캠틱종합기술원 직원 채용시 이용자 확인을 위한 목적으로 귀하의 개인정보를 수집, 이용하고 있습니다.수집방법에 따른 구체적인 수집목적 및 이용목적은 다음과 같습니다.<br>
-                        - 온라인접수 본인 확인 및 심사진행을 위한 정보 수집<br>
+                        (사)(사)캠틱종합기술원(이하 캠틱)은 입사지원 및 선발전형, 자격증빙 확인, 지원자의 시험성적 확인, 인성검사 등 채용절차 진행을 위하여 필요한 최소한의 범위 내에서 <br>
+                        개인정보를 수집하고 있습니다.
                         <br>
                         ■ 수집하려는 개인정보의 항목<br>
-                        캠틱종합기술원 직원 채용의 서비스 제공을 위하여 필요한 최소한의 범위 내에서 아래와 같이 개인정보를 수집하고 있습니다.<br>
-                        - 성명, 휴대전화번호, 생년월일, 이메일<br>
-                        - 자격증, 경력사항 등 입사지원서 등에 제공한 정보<br>
+                        &nbsp&nbsp- 필수항목 : 증명사진, 성명(한글,한문,영문), 생년월일, 성별, 주소, 전화번호, 휴대폰번호, 이메일, 취미, 특기, 보훈여부, 학력사항, 자격사항, 경력사항, 병역사항
+                        <br>
+                        &nbsp&nbsp- 수집방법 : 웹사이트에 지원자가 직접 입력 및 서류제출
                         <br>
                         ■ 개인정보의 보유 및 이용기간<br>
-                        캠틱종합기술원은 개인정보 수집 및 이용목적이 달성된 후에는 채용절차의 공정화에 관한 법률에 따라 해당정보를 지체 없이 파기합니다.<br>
-                        - 채용절차의 공정화에 관한 법률에 따름<br>
+                        채용과정에 수집된 개인정보는 인사관리 및 업무추진 상 필요에 의해 영구보관 합니다.
                         <br>
-                        ■ 동의를 거부할 권리가 있다는 사실 및 동의 거부에 따른 불이익이있는 경우에는 그 불이익의 내용<br>
-                        개인정보의 수집, 이용, 제공 등과 관련한 위 사항에 대하여 원하지 않는 경우 동의를 거부할 수 있습니다.다만, 동의를 거부하는 경우 접수가 불가함을 알려드립니다.
+                        ■ 부동의(동의하지 않음)에 따른 고지사항<br>
+                        채용을 위한 개인정보 제공에 대해서는 부동의(동의하지 않음)할 수 있으나, 이 경우 내용 입력을 할 수 없어 채용 지원이 불가능합니다.
                     </div>
-                    <div class="txt">
-                        본인은 캠틱종합기술원 채용 공고의 개인정보 수집 및 이용에 관한 사항을 확인 하였으며, 이번 ‘온라인 접수’를 신청합니다.
-                    </div>
+
                     <div class="lab">
                         <label class="__lab">
-                            <span>동의합니다</span>
-                            <input type="checkbox" name="agreeChk" required><i></i>
+                            <span>위 사항에 동의합니다</span>
+                            <input type="checkbox" id="chk1" name="chk" required><i></i>
                         </label>
                     </div>
                 </div>
 
                 <div class="__tit1 __mt60">
-                    <h3>직원 채용에 대한 필수동의사항</h3>
+                    <h3>개인정보의 제3자 제공 안내</h3>
                 </div>
                 <div class="__agree">
                     <div class="area">
-                        ✽ 아래 □에 동의여부를 반드시 체크(✓)해 주시기 바랍니다.
-                        <div class="__mt10">
-                            1. 채용관련 지원서류 상의 개인정보(성명, 주민등록번호, 주소, 연락처, 자격 및 경력사항, 병역사항 등)를 캠틱종합기술원에서 채용전형 시 활용하는데 동의합니다. &nbsp;
-                            <label class="__lab">
-                                <input type="checkbox" name="agreeChk"><i></i>
-                            </label>
-                            <br>
-                            2. 미채용 지원자의 채용관련 서류를 예비합격 유보기간 후 즉시 파기하는데 동의합니다. &nbsp;
-                            <label class="__lab">
-                                <input type="checkbox" name="agreeChk"><i></i>
-                            </label>
-                            <br>
-                            3. 채용관련 서류는『인사관리 규정』에 따라 보존 및 캠틱종합기술원 업무에 활용하는데 동의합니다. &nbsp;
-                            <label class="__lab">
-                                <input type="checkbox" name="agreeChk"><i></i>
-                            </label>
+                        캠틱은 채용에 필요한 인성역량검사를 위하여 귀하의 개인정보를 아래와 같이 제공할 수 있으며, 검사 이외의 목적으로 활용하거나 외부에 개인정보를 제공하지 않습니다.
+                        <div class="__mt10" style="text-align: center;">
+                            <table class="table table-bordered mb-0" style="width:60%; padding:0 20px; border:1px solid #ddd; text-align:center;margin:20px auto; background-color: #fff;">
+                                <colgroup>
+                                    <col width="15%">
+                                    <col width="15%" style="border-left:1px solid #ddd; border-right:1px solid #ddd;">
+                                    <col width="15%">
+                                </colgroup>
+                                <thead style="background-color: #999999; color: #fff;">
+                                <th>제공 내용</th>
+                                <th>제공 회사</th>
+                                <th>제공 항목</th>
+                                </thead>
+                                <tbody>
+                                <td>인성역량검사</td>
+                                <td>
+                                    잡코리아(유)<br>
+                                    JAT기업용인적성검사<br>
+                                    (http://jat.jobkorea.co.kr)
+                                </td>
+                                <td>이름, 이메일, 휴대전화번호</td>
+                                </tbody>
+                            </table>
                         </div>
+                        <strong>1. 제공하는 개인정보의 보유 및 이용기간</strong><br>
+                        검사 종료 후 3개월이 지난 검사에 대하여 해당 응시자의 이메일/휴대전화번호는 자동 삭제됩니다.<br>
+                        <strong>2. 부동의(동의하지 않음)에 따른 고지사항</strong><br>
+                        채용을 위한 개인정보 제3자 제공에 대해서 부동의(동의하지 않음)할 수 있으나, 이 경우 관련 기관(사)에 대상통보를 할 수 없어 채용 지원이 불가능합니다.
                     </div>
-                    <div class="txt">
-                        위 기재 사항은 사실과 다름이 없음을 확인하며, 상기 내용이 사실과 다를 시 어떠한 불이익도 감수할 것을 약속합니다.
-                        <dl>
-                            <dt>${now}</dt>
-                            <dd>지원자 : <input type="text" class="__inp" id="userName" name="userName" style="width: 9rem; height:26px; padding-left:10px;" onKeyPress="hangul();" autocomplete="off"> </dd>
-                        </dl>
-                    </div>
+
                     <div class="lab">
                         <label class="__lab">
-                            <span>동의합니다</span>
-                            <input type="checkbox" name="agreeChk" required><i></i>
+                            <span>위 사항에 동의합니다</span>
+                            <input type="checkbox" id="chk2" name="chk" required><i></i>
                         </label>
                     </div>
                 </div>
@@ -153,7 +155,7 @@
 
                 <div class="__botArea">
                     <div style="text-align: center;">
-                        <a href="javascript:void(0);" class="__btn1 blue" style="width:200px;" onclick="setApplication();"><span>입사지원</span></a>
+                        <a href="javascript:void(0);" class="__btn1 blue" style="width:200px;" onclick="setApplicanUserAgree()"><span>입사지원</span></a>
                         <a href="javascript:void(0);" onclick="fn_goList();" class="__btn1 blue" style="width:200px;"><span>뒤로가기</span></a>
                     </div>
                 </div>
@@ -168,28 +170,41 @@
 <script src="/js/intra/common/aes.js?v=1"></script>
 <script>
 
-    function setApplication() {
-        const regex = /^[ㄱ-ㅎ|가-힣]+$/;
+    /*function updateApplyButtonState() {
+        var chk1 = document.getElementById('chk1');
+        var chk2 = document.getElementById('chk2');
+        var applyButton = document.getElementById('applyButton');
 
-        if(!$("#userName").val()){
-            alert("성명을 입력해주세요.");
-            $("#userName").focus()
-            return;
-        }else if(!regex.test($("#userName").val())){
-            alert("한글만 입력해주세요.");
-            $("#userName").focus()
-            return;
+        applyButton.disabled = !(chk1.checked && chk2.checked);
+    }
+
+    function setApplicanUserAgree(){
+        var data = {
+            recruitInfoSn : $("#recruitInfoSn").val(),
+            userEmail : $("#userEmail").val()
         }
+        var result = customKendo.fn_customAjax("/application/setUserAgree.do", data);
+        if(result.flag){
+            /!*
+            var url = "/application/applicationForm1.do";
+            var name = "applicationForm1";
+            var option = "width=1000,height=1200,scrollbars=no,top=100,left=200,resizable=no,toolbars=no,menubar=no";
+            var popup = window.open(url,name,option);
+             *!/
+            location.href = "/camtic/member/job_applicationForm1.do";
+        }
+    }*/
 
-        if($("input[name='agreeChk']:checked").length != 5){
-            alert('체크박스를 모두 체크해주세요.');
+    function setApplicanUserAgree() {
+
+        if($("input[name='chk']:checked").length != 2){
+            alert('개인정보 수집 및 이용 방침에 동의하세요.');
             return;
         }
 
         var data = {
             recruitInfoSn: $("#recruitInfoSn").val(),
-            userEmail: $("#userEmail").val(),
-            userName : $("#userName").val()
+            userEmail: $("#userEmail").val()
         }
 
         var result = customKendo.fn_customAjax("/application/setUserAgree.do", data);

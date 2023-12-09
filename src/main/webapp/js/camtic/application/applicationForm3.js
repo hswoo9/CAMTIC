@@ -33,17 +33,17 @@ var applicationForm3 = {
             '<tr class="cert" id="cert' + applicationForm3.global.certIndex + '">' +
                 '<td>' +
                     '<input type="hidden" id="certBaseId' + applicationForm3.global.certIndex + '" name="certBaseId' + applicationForm3.global.certIndex + '" class="certBaseId">' +
-                    '<input type="text" id="certName' + applicationForm3.global.certIndex + '" class="certName">' +
+                    '<input type="text" id="certName' + applicationForm3.global.certIndex + '" class="certName" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;"">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="certClass' + applicationForm3.global.certIndex + '" class="certClass">' +
+                    '<input type="text" id="certClass' + applicationForm3.global.certIndex + '" class="certClass" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="certIssuer' + applicationForm3.global.certIndex + '" class="certIssuer">' +
+                    '<input type="text" id="certIssuer' + applicationForm3.global.certIndex + '" class="certIssuer" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                 '</td>' +
                 '<td>' +
                     '<input type="hidden" id="certFileNo' + applicationForm3.global.certIndex + '" name="certFileNo' + applicationForm3.global.certIndex + '" class="certFileNo">' +
-                    '<input type="text" id="certFileName' + applicationForm3.global.certIndex + '" class="certFileName">' +
+                    '<input type="text" id="certFileName' + applicationForm3.global.certIndex + '" class="certFileName" style="width: 147px ;font-size:15px; color:#337ab7;">' +
                     '<label for="certFile' + applicationForm3.global.certIndex + '" class="certFileLabel k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>' +
                     '<input type="file" id="certFile' + applicationForm3.global.certIndex + '" class="certFile" name="certFile' + applicationForm3.global.certIndex + '" style="display: none" onChange="applicationForm3.getFileName(this)">' +
                 '</td>' +
@@ -54,7 +54,7 @@ var applicationForm3 = {
             '<tr id="cert' + applicationForm3.global.certIndex + '_1" class="cert_1">' +
                 '<th style="text-align: center;">활용능력</th>' +
                 '<td colSpan="6">' +
-                    '<textarea id="certContent' + applicationForm3.global.certIndex + '" class="certContent" style="width: 100%; height: 100%; box-sizing: border-box; margin: 0; padding: 5px;"></textarea>' +
+                    '<textarea id="certContent' + applicationForm3.global.certIndex + '" class="certContent" style="width: 100%; height: 100%; box-sizing: border-box; border:1px solid #ddd; margin: 0; padding: 5px;"></textarea>' +
                 '</td>' +
             '</tr>';
 
@@ -70,17 +70,17 @@ var applicationForm3 = {
             '<tr class="lang" id="lang' + applicationForm3.global.langIndex + '">' +
                 '<td>' +
                     '<input type="hidden" id="langBaseId' + applicationForm3.global.langIndex + '" name="langBaseId' + applicationForm3.global.langIndex + '" class="langBaseId">' +
-                    '<input type="text" id="langName' + applicationForm3.global.langIndex + '" class="langName">' +
+                    '<input type="text" id="langName' + applicationForm3.global.langIndex + '" class="langName" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="acquisitionDate' + applicationForm3.global.langIndex + '" class="acquisitionDate period">' +
+                    '<input type="text" id="acquisitionDate' + applicationForm3.global.langIndex + '" class="acquisitionDate period" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="acquisitionScore' + applicationForm3.global.langIndex + '" class="acquisitionScore">' +
+                    '<input type="text" id="acquisitionScore' + applicationForm3.global.langIndex + '" class="acquisitionScore" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                 '</td>' +
                 '<td>' +
                     '<input type="hidden" id="langFileNo' + applicationForm3.global.langIndex + '" name="langFileNo' + applicationForm3.global.langIndex + '" class="langFileNo">' +
-                    '<input type="text" id="langFileName' + applicationForm3.global.langIndex + '" class="langFileName" style="width: 140px">' +
+                    '<input type="text" id="langFileName' + applicationForm3.global.langIndex + '" class="langFileName" style="width: 147px ;font-size:15px; color:#337ab7;">' +
                     '<label for="langFile' + applicationForm3.global.langIndex + '" class="langFileLabel k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>' +
                     '<input type="file" id="langFile' + applicationForm3.global.langIndex + '" class="langFile" name="langFile' + applicationForm3.global.langIndex + '" style="display: none" onChange="applicationForm3.getFileName(this)">' +
                 '</td>' +
@@ -91,7 +91,7 @@ var applicationForm3 = {
             '<tr id="lang' + applicationForm3.global.langIndex + '_1" class="lang_1">' +
                 '<th style="text-align: center;">활용능력</th>' +
                 '<td colSpan="6">' +
-                    '<textarea id="langContent' + applicationForm3.global.langIndex + '" class="langContent" style="width: 100%; height: 100%; box-sizing: border-box; margin: 0; padding: 5px;"></textarea>' +
+                    '<textarea id="langContent' + applicationForm3.global.langIndex + '" class="langContent" style="width: 100%; height: 100%; box-sizing: border-box; border:1px solid #ddd; margin: 0; padding: 5px;"></textarea>' +
                 '</td>' +
             '</tr>';
 
@@ -366,6 +366,6 @@ var applicationForm3 = {
     },
 
     getFileName : function(e){
-        $(e).prev().prev().val(e.files[0].name);
+        $(e).prev().val(e.files[0].name);
     }
 }

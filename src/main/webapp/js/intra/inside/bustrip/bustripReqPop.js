@@ -306,8 +306,6 @@ const bustripReq = {
 
                     if($("#paramsPjtSn").val() == ""){
                         opener.gridReload();
-                    }else{
-                        opener.window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#paramsPjtSn").val() + "&tab=10";
                     }
 
                     window.close();

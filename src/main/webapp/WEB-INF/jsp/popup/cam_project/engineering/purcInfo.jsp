@@ -3,6 +3,7 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:useBean id="today" class="java.util.Date" />
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/purcInfo.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
@@ -18,10 +19,7 @@
     .k-footer-template td:nth-child(2),
     .k-footer-template td:nth-child(3),
     .k-footer-template td:nth-child(4),
-    .k-footer-template td:nth-child(5),
-    .k-footer-template td:nth-child(6),
-    .k-footer-template td:nth-child(7),
-    .k-footer-template td:nth-child(8) {
+    .k-footer-template td:nth-child(5) {
         border-width: 0;
     }
 </style>

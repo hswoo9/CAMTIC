@@ -48,6 +48,7 @@ const estPrintPop = {
         const data = { pjtSn: pjtSn };
         const rs = customKendo.fn_customAjax("/project/engn/getEstData", data);
         const rs2 = customKendo.fn_customAjax("/project/engn/getCrmInfo", data);
+        const empInfo = customKendo.fn_customAjax("/user/getUserInfo", {empSeq: $("#regEmpSeq").val()});
         console.log("rs");
         console.log(rs);
         console.log("rs2");
@@ -103,11 +104,17 @@ const estPrintPop = {
 
         /** 2. CRM 정보 */
         estPrintPop.global.hwpCtrl.PutFieldText("CRM_NM", crmMap.CRM_NM);
-        estPrintPop.global.hwpCtrl.PutFieldText("CRM_NO", crmMap.CRM_NO);
         estPrintPop.global.hwpCtrl.PutFieldText("CRM_CEO", crmMap.CRM_CEO);
-        estPrintPop.global.hwpCtrl.PutFieldText("ADDR", crmMap.ADDR);
-        estPrintPop.global.hwpCtrl.PutFieldText("CRM_EVENT", crmMap.CRM_EVENT);
-        estPrintPop.global.hwpCtrl.PutFieldText("CRM_PROD", crmMap.CRM_PROD);
+
+        estPrintPop.global.hwpCtrl.PutFieldText("CRM_NM2", "캠틱종합기술원");
+        estPrintPop.global.hwpCtrl.PutFieldText("CRM_NO2", "402-82-13594");
+        estPrintPop.global.hwpCtrl.PutFieldText("CRM_CEO2", "노   상   흡 [직인생략]");
+        estPrintPop.global.hwpCtrl.PutFieldText("ADDR2", "전라북도 전주시 덕진구 유상로 67 전주첨단벤처단지");
+        estPrintPop.global.hwpCtrl.PutFieldText("CRM_PROD2", "자동차부품설계, 모델링, 시제품제작, 상품화컨설팅");
+        estPrintPop.global.hwpCtrl.PutFieldText("CRM_EVENT2", "서비스, 제조");
+
+        estPrintPop.global.hwpCtrl.PutFieldText("CRM_MANAGER2", empInfo.EMP_NAME_KR + (empInfo.OFFICE_TEL_NUM == undefined ? "" : ("/"+ empInfo.OFFICE_TEL_NUM)));
+        estPrintPop.global.hwpCtrl.PutFieldText("EMAIL2", empInfo.EMAIL_ADDR == undefined ? "" : empInfo.EMAIL_ADDR);
 
         let crmManager = "";
         let crmMemSn = "";

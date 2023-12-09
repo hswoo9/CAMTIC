@@ -472,7 +472,8 @@
       html += '<div class="txt">'+ item.BOARD_ARTICLE_TITLE +'</div>';
       html += '<div class="date">';
       html += '<i class="axi axi-clock" aria-hidden="true"></i>'
-      html += '<p>'+ item.startDt +' ~<br>'+ item.endDt +'</p>'
+      //html += '<p>'+ item.startDt +' ~<br>'+ item.endDt +'</p>'
+      html += '<p style="font-size:15px;">모집기간 : ' + item.startDt + ' ~ ' + item.endDt + '</p>';
       html += '</div></div></a>';
     });
 

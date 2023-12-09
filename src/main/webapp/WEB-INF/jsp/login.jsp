@@ -46,20 +46,20 @@
 </div><!-- panel -->
 <div class="panel signin">
     <div class="panel-body" style="height:255px; width: 90%; margin: 0 auto;">
-        <form name="loginForm" id="loginForm" method="post" action="#LINK">
+        <form name="loginForm" id="loginForm" method="post" action="">
             <div class="form-group mb10">
                 <div class="form-group mb10" style="font-size:18px; font-weight: 600; text-align:center;">
                     로그인
                 </div>
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    <input type="text" id="id" name="id" class="form-control" placeholder="아이디를 입력하세요." value="master">
+                    <input type="text" id="id" name="id" class="form-control" placeholder="아이디를 입력하세요." value="">
                 </div>
             </div>
             <div class="form-group mb10">
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    <input type="text" id="password" name="password" class="form-control" placeholder="비밀번호를 입력하세요." value="******">
+                    <input type="password" id="password" name="password" class="form-control" placeholder="비밀번호를 입력하세요." value="">
                 </div>
             </div>
             <div>

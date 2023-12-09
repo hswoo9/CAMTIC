@@ -54,24 +54,6 @@ var paymentRevList = {
                     width: 40,
                     template: "#= --record #"
                 }, {
-                    title: "문서유형",
-                    width: 90,
-                    template: function(e){
-                        if(e.PAY_APP_TYPE == 1){
-                            return "세금계산서";
-                        } else if (e.PAY_APP_TYPE == 2){
-                            return "계산서";
-                        } else if(e.PAY_APP_TYPE == 3){
-                            return "신용카드";
-                        } else if(e.PAY_APP_TYPE == 4){
-                            return "직원지급";
-                        } else if(e.PAY_APP_TYPE == 5){
-                            return "소득신고자";
-                        } else {
-                            return "기타";
-                        }
-                    }
-                }, {
                     field: "DOC_NO",
                     title: "문서번호",
                     width: 120,
@@ -121,17 +103,18 @@ var paymentRevList = {
                             return '<div style="text-align: right">'+0+'</div>';
                         }
                     }
-                }, {
-                    title: "상태",
-                    width: 60,
-                    template : function(e){
-                        if(e.DOC_STATUS == "100"){
-                            return "결재완료"
-                        } else {
-                            return "작성중"
-                        }
-                    }
                 }
+                // , {
+                //     title: "상태",
+                //     width: 60,
+                //     template : function(e){
+                //         if(e.DOC_STATUS == "100"){
+                //             return "결재완료"
+                //         } else {
+                //             return "작성중"
+                //         }
+                //     }
+                // }
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);

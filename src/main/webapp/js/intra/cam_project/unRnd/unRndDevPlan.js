@@ -9,7 +9,27 @@ var unRndDP = {
             rows : 5,
         });
 
-        customKendo.fn_textBox(["invNm", "invCnt", "invUnit", "estTotAmt", "estOfc", "invEtc"])
+        $("#prepList").kendoDropDownList({
+            dataSource : [
+                {text : "선택", value : ""},
+                {text : "설계", value : "1"},
+                {text : "제작", value : "2"},
+                {text : "품질", value : "3"},
+                {text : "참여", value : "4"},
+                {text : "기획", value : "5"},
+                {text : "기타", value : "6"}
+            ],
+            dataTextField : "text",
+            dataValueField : "value"
+        });
+
+        customKendo.fn_textBox(["prepList", "psNm", "psEmpNm"]);
+        customKendo.fn_datePicker("psStrDe", "depth", "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("psEndDe", "depth", "yyyy-MM-dd", new Date());
+
+
+        customKendo.fn_textBox(["invNm","devPjtNm",
+            "devCrmInfo", "pm", "invCnt", "invUnit", "estTotAmt", "estOfc", "invEtc"])
 
         var data = {
             pjtSn : $("#pjtSn").val()

@@ -1,21 +1,21 @@
 var resultInfo = {
 
     fn_defaultScript: function(){
+        commonProject.setPjtStat();
         resultInfo.fn_setData();
     },
 
     fn_setData: function(){
-        var data = {
+        const resultMap = customKendo.fn_customAjax("/project/engn/getResultInfo", {
             pjtSn: $("#pjtSn").val(),
-        }
-
-        var resultMap = customKendo.fn_customAjax("/project/engn/getResultInfo", data);
+        });
         resultInfo.fn_makeRowEngn(resultMap);
     },
 
     fn_makeRowEngn : function(rs){
+        const pjtSn = $("#pjtSn").val()
         const result = customKendo.fn_customAjax("/project/engn/getResultPsMember", {
-            pjtSn: $("#pjtSn").val()
+            pjtSn: pjtSn
         });
         const ls = result.list;
 
@@ -29,11 +29,21 @@ var resultInfo = {
         }
         html += '</tr>';
 
-        /** 매출 금액 계산 */
-        var invAmt = 0;
-        for(var i=0; i<rs.invInfo.length; i++){
-            invAmt += rs.invInfo[i].EST_TOT_AMT;
+        const purcResult = customKendo.fn_customAjax("/purc/getProjectPurcList", {pjtSn: pjtSn});
+        const purcList = purcResult.list;
+        let invSum = 0;
+        for(let i=0; i<purcList.length; i++){
+            const map = purcList[i];
+            invSum += Number(map.ITEM_UNIT_AMT);
         }
+        const tripResult = customKendo.fn_customAjax("/project/getBustResInfo", {pjtSn: pjtSn});
+        const trip = tripResult.map;
+        if(trip.COUNT != 0){
+            invSum += trip.BUSTRIP_EXNP_SUM;
+        }
+
+        /** 매출 금액 계산 */
+        var invAmt = rs.pjtInfo.PJT_AMT;
 
         /** 수주 */
         html += '<tr>';
@@ -218,7 +228,7 @@ var resultInfo = {
                     }
                 }
             }
-            calcAmt = Math.round((rs.pjtInfo.PJT_AMT - invAmt) * (value * 0.01));
+            calcAmt = Math.round((rs.pjtInfo.PJT_AMT - invSum) * (value * 0.01));
 
             html += '   <td>';
             html += '       <input type="text" id="prepAmt'+type+'" onkeyup="resultInfo.inputNumberFormat(this)" oninput="resultInfo.onlyNumber(this)" disabled class="prepAmt" value="'+ resultInfo.comma(calcAmt) +'" style="text-align: right" />';
@@ -233,8 +243,8 @@ var resultInfo = {
         $(".prepAmt, .prepCase, #resultDelvTotAmt, #resultInvTotAmt, #resultTotAmt").kendoTextBox();
 
         $("#resultDelvTotAmt").val(resultInfo.comma(rs.pjtInfo.PJT_AMT));
-        $("#resultInvTotAmt").val(resultInfo.comma(invAmt));
-        $("#resultTotAmt").val(resultInfo.comma(rs.pjtInfo.PJT_AMT - invAmt));
+        $("#resultInvTotAmt").val(resultInfo.comma(rs.pjtInfo.PJT_AMT));
+        $("#resultTotAmt").val(resultInfo.comma(rs.pjtInfo.PJT_AMT - invSum));
     },
 
     fn_DelvCalcPercent : function (obj, type){
@@ -517,12 +527,22 @@ var resultInfo = {
             async: false,
             success: function(rs){
                 if(rs.code == 200){
-                    if($("#busnClass").val() == "D"){
-                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=8";
-                    }else if($("#busnClass").val() == "R"){
-                        window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=8";
-                    }else if($("#busnClass").val() == "S"){
-                        window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=8";
+                    if(commonProject.global.teamStat == "Y"){
+                        if(commonProject.global.busnClass == "D"){
+                            window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=4";
+                        }else if(commonProject.global.busnClass == "R"){
+                            window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=4";
+                        }else if(commonProject.global.busnClass == "S"){
+                            window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=4";
+                        }
+                    }else{
+                        if(commonProject.global.busnClass == "D"){
+                            window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=8";
+                        }else if(commonProject.global.busnClass == "R"){
+                            window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=8";
+                        }else if(commonProject.global.busnClass == "S"){
+                            window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=8";
+                        }
                     }
                 }
             }

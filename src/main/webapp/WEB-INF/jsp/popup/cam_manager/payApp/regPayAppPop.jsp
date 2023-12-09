@@ -11,6 +11,7 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/regPayAppPop.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/g20Callback.js?v=${today}'/>"></script>
 
+
 <form id="payAppDraftFrm" method="post">
     <input type="hidden" id="payAppSn" name="payAppSn" value="${params.payAppSn}">
     <input type="hidden" id="menuCd" name="menuCd" value="payApp">
@@ -66,17 +67,17 @@
                 <thead>
                 <tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">신청유형</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>신청유형</th>
                     <td colspan="2">
                         <span id="payAppType"></span>
                     </td>
-                    <th scope="row" class="text-center th-color">신청일자</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>신청일자</th>
                     <td colspan="2">
                         <input type="text" id="appDe" style="width: 40%">
                     </td>
                 </tr>
                 <tr id="project">
-                    <th scope="row" class="text-center th-color">사업명</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>사업명</th>
                     <td colspan="2">
                         <span>
                             <input type="text" id="pjtNm" disabled value="${pjtData.PJT_NM}"  style="width: 40%;">
@@ -85,7 +86,7 @@
                             <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="regPay.fn_projectPop('regPay')">검색</button>
                         </span>
                     </td>
-                    <th scope="row" class="text-center th-color">지출요청일</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>지출요청일</th>
                     <td colspan="2">
                         <input type="text" id="reqDe" style="width: 40%" />
                     </td>
@@ -101,7 +102,7 @@
 <%--                    </td>--%>
 <%--                </tr>--%>
                 <tr>
-                    <th scope="row" class="text-center th-color">신청건명</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>신청건명</th>
                     <td colspan="4">
                         <input type="text" id="appTitle" style="width: 100%;">
                     </td>
@@ -113,8 +114,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <th rowspan="3" scope="row" class="text-center th-color" id="trBank">출금계좌</th>
-                    <th style="width: 10%">계좌명</th>
+                    <th rowspan="3" scope="row" class="text-center th-color" id="trBank"><span class="red-star">*</span>출금계좌</th>
+                    <th style="width: 10%"><span class="red-star">*</span>계좌명</th>
                     <td colspan="3">
                         <input type="text" id="accNm" disabled style="width: 50%;">
                         <button type="button" class="k-button k-button-solid-base" id="bnkSelBtn" onclick="regPay.fn_bankPop()">검색</button>
@@ -122,13 +123,13 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>계좌번호</th>
+                    <th><span class="red-star">*</span>계좌번호</th>
                     <td colspan="3">
                         <input type="text" id="accNo" disabled style="width: 60%;">
                     </td>
                 </tr>
                 <tr>
-                    <th>은행명</th>
+                    <th><span class="red-star">*</span>은행명</th>
                     <td colspan="3">
                         <input type="text" id="bnkNm" disabled style="width: 60%;">
                     </td>
@@ -137,6 +138,18 @@
                     <th scope="row" class="text-center th-color">전결구분</th>
                     <td colspan="4">
                         <span id="payAppStat"></span>
+                    </td>
+                </tr>
+                <tr>
+<%--                    <th scope="row" class="text-center th-color">선지급여부</th>--%>
+<%--                    <td colspan="2">--%>
+<%--                        <input type="checkbox" id="advances" class="advances" style="width: 26px; height: 26px;">--%>
+<%--                    </td>--%>
+                    <th scope="row" class="text-center th-color">첨부파일</th>
+                    <td colspan="4">
+                        <div>
+                            <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regPayDet.fn_regPayAttPop()">첨부</button>
+                        </div>
                     </td>
                 </tr>
                 </thead>
@@ -154,7 +167,7 @@
             <div class="mt-20">
                 <div class="text-right">
                     <c:if test='${!"user".equals(params.auth)}'>
-                        <button type="button" id="exnpAddBtn" style="display: none" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPayDet.fn_exnpAdd()">
+                        <button type="button" id="exnpAddBtn" style="display: none; font-size: 12px;" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPayDet.fn_exnpAdd()">
                             <span class="k-button-text">지출결의서 작성</span>
                         </button>
                     </c:if>
@@ -166,11 +179,12 @@
                     <colgroup>
                         <c:if test="${!'user'.equals(params.auth)}">
                             <c:if test="${'rev'.equals(params.status) or 'in'.equals(params.status) or 're'.equals(params.status) or 'alt'.equals(params.status)}">
-                                <col style="width: 3%;">
+                                <col style="width: 2%;">
                             </c:if>
                         </c:if>
                         <col style="width: 5%;">
-                        <col style="width: 5%;">
+                        <col style="width: 2%;">
+                        <col style="width: 6%;">
                         <col style="width: 6%;">
                         <col style="width: 6%;">
                         <col style="width: 4%;">
@@ -182,11 +196,6 @@
                         <col style="width: 5%;">
                         <col style="width: 5%;">
                         <col style="width: 5%;">
-                        <col style="width: 5%;">
-                        <c:if test="${'rev'.equals(params.status) and !''.equals(params.claimSn)}">
-                            <col style="width: 3%;">
-                            <col style="width: 3%;">
-                        </c:if>
                         <col style="width: 3%;">
                     </colgroup>
                     <thead>
@@ -201,6 +210,7 @@
                         <th>비용구분</th>
                         <th>증빙유형</th>
                         <th>상호</th>
+                        <th>사업자(주민)번호</th>
                         <th>은행명</th>
                         <th>지급계좌</th>
                         <th>예금주</th>
@@ -210,11 +220,6 @@
                         <th>세액</th>
                         <th>신용카드</th>
                         <th>비고</th>
-                        <th>관련근거</th>
-                        <c:if test="${'rev'.equals(params.status) and !''.equals(params.claimSn)}">
-                            <th>선지급</th>
-                            <th>첨부파일</th>
-                        </c:if>
                         <th>명령</th>
                     </tr>
                     </thead>
@@ -238,12 +243,18 @@
                         <td>
                             <input type="hidden" id="payDestSn0" name="payDestSn" class="payDestSn">
                             <input type="text" id="eviType0" class="eviType" style="width: 100%">
+                            <input type="hidden" id="authNo0" class="authNo" style="width: 100%">
+                            <input type="hidden" id="authHh0" class="authHh" style="width: 100%">
+                            <input type="hidden" id="authDd0" class="authDd" style="width: 100%">
                         </td>
                         <td>
                             <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regPayDet.fn_popRegDet(1, 0)"></i>
                             <input type="text" style="width: 70%" id="crmNm0" class="crmNm">
                             <input type="hidden" id="buySts0" value="" />
                             <input type="hidden" id="trCd0" class="trCd">
+                        </td>
+                        <td>
+                            <input id="regNo0" class="regNo0" style="width: 100%">
                         </td>
                         <td>
                             <input type="text" id="crmBnkNm0" class="crmBnkNm">
@@ -275,19 +286,6 @@
                             <input type="text" id="etc0" class="etc">
                         </td>
                         <td>
-                            <input type="text" id="iss0" class="iss">
-                        </td>
-                        <c:if test="${'rev'.equals(params.status) and !''.equals(params.claimSn)}">
-                            <td>
-                                <input type="checkbox" id="advances0" class="advances" style="width: 26px; height: 26px;">
-                            </td>
-                            <td>
-                                <div style="text-align: center">
-                                    <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regPayDet.fn_regPayAttPop(0)">첨부</button>
-                                </div>
-                            </td>
-                        </c:if>
-                        <td>
                             <div style="text-align: center">
                                 <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(0)">삭제</button>
                             </div>
@@ -300,6 +298,7 @@
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
     regPayDet.fn_defaultScript();
     regPay.fn_defaultScript();

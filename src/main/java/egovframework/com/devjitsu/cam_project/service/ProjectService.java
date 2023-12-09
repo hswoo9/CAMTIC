@@ -8,6 +8,7 @@ import java.util.Map;
 
 public interface ProjectService {
 
+    Map<String, Object> getProjectInfo(Map<String, Object> params);
     List<Map<String, Object>> getProjectList(Map<String, Object> params);
     List<Map<String, Object>> getAllProjectList(Map<String, Object> params);
 
@@ -136,6 +137,8 @@ public interface ProjectService {
     List<Map<String, Object>> getTeamList(Map<String, Object> params);
 
     Map<String, Object> getTeamInfo(Map<String, Object> params);
+
+    Map<String, Object> getBustResInfo(Map<String, Object> params);
 
     void setCostInfo(Map<String, Object> params);
 

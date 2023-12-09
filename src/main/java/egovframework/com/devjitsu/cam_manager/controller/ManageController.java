@@ -7,20 +7,23 @@ import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.g20.service.G20Service;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.*;
 
 @Controller
 public class ManageController {
@@ -283,5 +286,62 @@ public class ManageController {
         model.addAttribute("projectInfo", projectService.getProjectByPjtCd(params));
 
         return "popup/cam_manager/budgetListDetail";
+    }
+
+    @RequestMapping("/mng/imgSaveTest")
+    @ResponseBody
+    public ModelMap imgSaveTest(@RequestParam HashMap<Object, Object> params, final HttpServletRequest request, final HttpServletResponse response) throws Exception{
+        ModelMap map = new ModelMap();
+
+        String binaryData = request.getParameter("imgSrc");
+        FileOutputStream stream = null;
+        try{
+            System.out.println("binary file   "  + binaryData);
+            if(binaryData == null || binaryData.trim().equals("")) {
+                throw new Exception();
+            }
+            binaryData = binaryData.replaceAll("data:image/png;base64,", "");
+            byte[] file = Base64.decodeBase64(binaryData);
+            String fileUuid=  UUID.randomUUID().toString();
+            String fileOrgName = params.get("authNo").toString();
+            String fileCd = "useCard";
+            String fileExt = "png";
+            String filePath = "/upload/"+ fileCd +"/" + params.get("authNo") + "/" + params.get("authDate") + "/" + params.get("authTime") + "/" + params.get("cardNo") + "/" + params.get("buySts") + "/";
+
+            Map<String, Object> fileParameters = new HashMap<>();
+            fileParameters.put("fileCd", fileCd);
+            fileParameters.put("fileUuid", fileUuid+"."+fileExt);
+            fileParameters.put("fileOrgName", fileOrgName);
+            fileParameters.put("filePath", filePath);
+            fileParameters.put("fileExt", fileExt);
+            fileParameters.put("fileSize", 19);
+            fileParameters.put("empSeq", params.get("empSeq"));
+
+
+            commonService.insFileUpload(fileParameters);
+
+            filePath = "/home" + filePath;
+            File newPath = new File(filePath);
+            if (!newPath.exists()) {
+                newPath.mkdirs();
+            }
+
+            stream = new FileOutputStream(filePath + fileUuid + "." + fileExt);
+
+            stream.write(file);
+            stream.close();
+            System.out.println("캡처 저장");
+
+        }catch(Exception e){
+            e.printStackTrace();
+            System.out.println("에러 발생");
+        }finally{
+            if(stream != null) {
+                stream.close();
+            }
+        }
+
+        map.addAttribute("resultMap", "");
+        return map;
     }
 }

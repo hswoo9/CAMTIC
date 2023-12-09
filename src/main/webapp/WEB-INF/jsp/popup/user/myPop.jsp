@@ -118,7 +118,14 @@
 				</ul>
 				<ul class="media-heading" style="font-size:15px; font-weight:600;letter-spacing: -2px; margin-top: 20px;">
 					<li style="list-style: none; color:#919191; display: inline; margin-right: 60px;">직위</li>
-					<li style="list-style: none; color:#333333; font-weight: bold; display: inline;">${uprinfList.POSITION_NAME}</li>
+					<li style="word-spacing:5px; list-style: none; color:#333333; font-weight: bold; display: inline;">
+						<c:if test="${not empty uprinfList.DUTY_NAME}">
+							${uprinfList.DUTY_NAME}
+						</c:if>
+						<c:if test="${empty uprinfList.DUTY_NAME}">
+							${uprinfList.POSITION_NAME}
+						</c:if>
+					</li>
 				</ul>
 				<ul class="media-heading" style="font-size:15px; font-weight:600;letter-spacing: -2px; margin-top: 20px;">
 					<li style="list-style: none; color:#919191; display: inline; margin-right: 60px;">직무</li>

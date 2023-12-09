@@ -388,6 +388,8 @@ public class ProjectRndServiceImpl implements ProjectRndService {
             params.put("pjtStep", "R2");
             params.put("pjtStepNm", "수주보고");
             projectRepository.updProjectStep(params);
+        }else if("111".equals(docSts)) { // 임시저장
+            projectRndRepository.updateRndDelvApprStat(params);
         }
     }
 
@@ -419,6 +421,8 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             projectRndRepository.updateRndDevFinalApprStat(params);
+        }else if("111".equals(docSts)) { // 임시저장
+            projectRndRepository.updateRndDevApprStat(params);
         }
     }
 
@@ -451,6 +455,8 @@ public class ProjectRndServiceImpl implements ProjectRndService {
             params.put("approveStatCode", 100);
             projectRndRepository.updateRndResFinalApprStat(params);
             projectRndRepository.updRndProjectInfoRes(params);
+        }else if("111".equals(docSts)) { // 임시저장
+            projectRndRepository.updateRndResApprStat(params);
         }
     }
 
@@ -486,6 +492,8 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             projectRndRepository.updateChangeFinalApprStat(params);
+        }else if("111".equals(docSts)) { // 임시저장
+            projectRndRepository.updateChangeApprStat(params);
         }
     }
 
@@ -517,6 +525,8 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             projectRndRepository.updateRateFinalApprStat(params);
+        }else if("111".equals(docSts)) { // 임시저장
+            projectRndRepository.updateRateApprStat(params);
         }
     }
 }

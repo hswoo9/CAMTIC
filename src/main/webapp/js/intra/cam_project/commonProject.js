@@ -178,3 +178,47 @@ function fileDown(filePath, fileName){
         dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent(fileName),
     });
 }
+
+function fileChange(e){
+    $(e).next().text($(e)[0].files[0].name);
+}
+
+var commonProject = {
+    global : {
+        /** 자기 자신이 협업프로젝트인지(Y) 수주부서프로젝트인지(N) */
+        teamStat : "",
+
+        /** 협업중인 프로젝트가 있는지(Y) 단독인지(N) */
+        teamYn : "",
+
+        /** 엔지니어링(D) 알앤디(R) 비알앤디(S) */
+        busnClass : "",
+
+        /** 협업프로젝트 계획서(공정)단계 마감인지(Y) 진행중인지(N)*/
+        devTeamCk : "",
+
+        /** 협업프로젝트 최종마감인지(Y) 진행중인지(N)*/
+        pjtTeamCk : ""
+    },
+
+    loading : function(){
+        $.LoadingOverlay("show", {
+            background: "rgba(0, 0, 0, 0.5)",
+            image: "",
+            maxSize: 60,
+            fontawesome: "fa fa-spinner fa-pulse fa-fw",
+            fontawesomeColor: "#FFFFFF",
+        });
+    },
+
+    setPjtStat : function(){
+        const pjtResult = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn : $("#pjtSn").val()});
+        const pjtMap = pjtResult.map;
+
+        commonProject.global.teamStat = pjtMap.TEAM_STAT;
+        commonProject.global.teamYn = pjtMap.TM_YN;
+        commonProject.global.busnClass = pjtMap.BUSN_CLASS;
+        commonProject.global.devTeamCk = pjtMap.DEV_TEAM_CK;
+        commonProject.global.pjtTeamCk = pjtMap.PJT_TEAM_CK;
+    }
+}

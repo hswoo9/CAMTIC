@@ -22,6 +22,7 @@ public class CustomBoardRepository extends AbstractDAO {
 	public void setSuggestionSystemUpd(Map<String, Object> params) { update("cb.setSuggestionSystemUpd", params);}
 	public void setSuggestionSystemDel(Map<String, Object> params) { update("cb.setSuggestionSystemDel", params);}
 	public List<Map<String, Object>> getScheduleList(Map<String, Object> params) { return selectList("cb.getScheduleList", params);}
+	public List<Map<String, Object>> getBoardFileInfo(Map<String, Object> params) { return selectList("cb.getBoardFileInfo", params);}
 	public void setScheduleReg(Map<String, Object> params) { insert("cb.setScheduleReg", params);}
 	public void setScheduleRegUpd(Map<String, Object> params) { update("cb.setScheduleRegUpd", params);}
 	public Map<String, Object> getSchedule(Map<String, Object> params) { return (Map<String, Object>) selectOne("cb.getSchedule", params);}

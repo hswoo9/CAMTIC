@@ -1,7 +1,7 @@
 var teamInfo = {
 
     fn_defaultScript : function (){
-
+        commonProject.setPjtStat();
 
         customKendo.fn_textBox(["teamPjtNm", "teamPMNm", "teamCrmNm", "teamAmt", "team",
                                 "exptBalance", "exptProfit", "exptProfitPer", "teamPjt", "exptCost"]);
@@ -115,8 +115,8 @@ var teamInfo = {
                     $("#teamSeq").val(dataItem.DEPT_SEQ);
                     $("#teamPMNm").val(dataItem.EMP_NAME);
                     $("#teamPMSeq").val(dataItem.TM_PM_SEQ);
-                    $("#teamCrmNm").val(dataItem.CRM_NM);
-                    $("#teamCrmSn").val(dataItem.TM_CRM_SN);
+                    //$("#teamCrmNm").val(dataItem.CRM_NM);
+                    //$("#teamCrmSn").val(dataItem.TM_CRM_SN);
                     $("#teamAmt").val(comma(dataItem.TM_AMT));
                     $("#exptBalance").val(comma(dataItem.TM_BALANCE));
                     $("#exptProfit").val(comma(dataItem.TM_EXPT_PROFIT));
@@ -131,10 +131,6 @@ var teamInfo = {
             },
             columns: [
                 {
-                    field: "",
-                    title: "구분",
-                    width: 100
-                }, {
                     field: "DEPT_NAME",
                     title: "부서",
                     width: 200
@@ -187,19 +183,21 @@ var teamInfo = {
                         console.log(e);
                         console.log(e.TM_AMT, "/", uncomma($("#pjtAmt").val()));
                         if($("#pjtStep").val().toString().substring(0, 1) == "R"){
-                            return (Number(e.TM_AMT) / Number(uncomma($("#pjtExpAmt").val()))) * 100 + "%"
+                            let per;
+                            per = (Number(e.TM_AMT) / Number(uncomma($("#pjtExpAmt").val()))) * 100;
+                            return Number.isInteger(per) ? (per + "%") : (per.toFixed(2) + "%");
                         } else {
                             if($("#pjtAmt").val() == undefined || $("#pjtAmt").val() == "" || $("#pjtAmt").val() == null){
-                                return (Number(e.TM_AMT) / Number(uncomma(e.PJT_AMT))) * 100 + "%"
+                                let per;
+                                per = (Number(e.TM_AMT) / Number(uncomma(e.PJT_AMT))) * 100;
+                                return Number.isInteger(per) ? (per + "%") : (per.toFixed(2) + "%");
                             } else {
-                                return (Number(e.TM_AMT) / Number(uncomma($("#pjtAmt").val()))) * 100 + "%"
+                                let per;
+                                per = (Number(e.TM_AMT) / Number(uncomma($("#pjtAmt").val()))) * 100;
+                                return Number.isInteger(per) ? (per + "%") : (per.toFixed(2) + "%");
                             }
                         }
                     }
-                }, {
-                    field: "",
-                    title: "보고서",
-                    width: 150
                 }, {
                     title: "협업취소",
                     width: 80,
@@ -230,15 +228,6 @@ var teamInfo = {
             tmExptCost : uncomma($("#exptCost").val())
         }
 
-        if(parameters.tmCrmSn == ""){
-            alert("업체를 선택해주세요.");
-            return;
-        }
-
-        if(parameters.tmDeptSeq == ""){
-            alert("협업부서를 선택해주세요.");
-            return;
-        }
         if(parameters.tmTeamSeq == ""){
             alert("협업팀을 선택해주세요.");
             return;
@@ -261,10 +250,11 @@ var teamInfo = {
             success : function (rs){
                 if(rs.code == 200){
                     alert("저장되었습니다.");
+                    opener.gridReload();
 
-                    if($("#pjtStep").val().toString().substring(0,1) == "R"){
+                    if(commonProject.global.busnClass == "R"){
                         window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=5";
-                    } else if ($("#pjtStep").val().toString().substring(0,1) == "S"){
+                    } else if (commonProject.global.busnClass == "S"){
                         window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=5";
                     } else {
                         window.location.href="/project/pop/viewRegProject.do?pjtSn=" + parameters.pjtSn + "&tab=5";

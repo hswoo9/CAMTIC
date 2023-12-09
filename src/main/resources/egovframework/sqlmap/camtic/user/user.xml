@@ -30,7 +30,9 @@
             HEI.POSITION_CODE,
             HEI.POSITION_NAME,
             HEI.DUTY_CODE,
-            HEI.DUTY_NAME
+            HEI.DUTY_NAME,
+            HEI.OFFICE_TEL_NUM,
+            HEI.EMAIL_ADDR
         FROM
             CAM_HR.DJ_EMP_INFO HEI
         LEFT JOIN

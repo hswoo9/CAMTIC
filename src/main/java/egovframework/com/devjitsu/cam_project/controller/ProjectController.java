@@ -59,6 +59,15 @@ public class ProjectController {
         return "cam_project/viewProject";
     }
 
+    @RequestMapping("/project/getProjectInfo")
+    public String getProjectInfo(@RequestParam Map<String, Object> params, Model model) {
+
+        Map<String,Object> data = projectService.getProjectInfo(params);
+        model.addAttribute("map", data);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/project/getProjectList")
     public String getProjectList(@RequestParam Map<String, Object> params, Model model) {
 
@@ -522,6 +531,13 @@ public class ProjectController {
     @RequestMapping("/project/getTeamInfo")
     public String getTeamInfo(@RequestParam Map<String, Object> params, Model model){
         Map<String, Object> map = projectService.getTeamInfo(params);
+        model.addAttribute("map", map);
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/getBustResInfo")
+    public String getBustResInfo(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> map = projectService.getBustResInfo(params);
         model.addAttribute("map", map);
         return "jsonView";
     }

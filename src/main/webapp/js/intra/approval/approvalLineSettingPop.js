@@ -143,8 +143,11 @@ var lineSettingPop = {
                     width: "100px",
                 }, {
                     field: "DUTY_NAME",
-                    title: "직책",
+                    title: "직위",
                     width: "100px",
+                    template: function (row) {
+                        return fn_getSpot(row.DUTY_NAME, row.POSITION_NAME);
+                    }
                 }, {
                     field: "EMP_NAME_KR",
                     title: "이름",

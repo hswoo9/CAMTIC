@@ -34,6 +34,8 @@ var rbr = {
 			}
 
 			var result = customKendo.fn_customAjax("/spot/getRequestBoard.do", rbr.global.searchAjaxData);
+			console.log(result);
+			rbr.settingTempFileDataInit(result.fileInfo);
 			if(result.flag){
 				$("#requestBoardId").val(result.rs.REQUEST_BOARD_ID);
 				$("#requestType").val(result.rs.REQUEST_TYPE);
@@ -56,15 +58,31 @@ var rbr = {
 
 		if(confirm("등록하시겠습니까?")){
 			rbr.global.saveAjaxData = {
-				requestBoardId : rbr.global.params.requestBoardId,
 				requestType : $("#requestType").val(),
 				requestTitle : $("#requestTitle").val(),
 				requestContent : content,
 				deadlineDate : $("#deadlineDate").val(),
 				empSeq : $("#regEmpSeq").val(),
+				menuCd : "board"
 			}
 
-			var result = customKendo.fn_customAjax("/spot/setRequestBoard.do", rbr.global.saveAjaxData);
+			var fd = new FormData();
+			let data = rbr.global.saveAjaxData;
+			for (var key in data) {
+				fd.append(key, data[key]);
+			}
+
+			if($("#requestBoardId").val() != ""){
+				fd.append("requestBoardId", $("#requestBoardId").val());
+			}
+
+			if(fCommon.global.attFiles != null){
+				for(var i = 0; i < fCommon.global.attFiles.length; i++){
+					fd.append("boardFile", fCommon.global.attFiles[i]);
+				}
+			}
+
+			var result = customKendo.fn_customFormDataAjax("/spot/setRequestBoard.do", fd);
 
 			if(result.flag){
 				alert("게시글이 등록되었습니다.");
@@ -78,4 +96,28 @@ var rbr = {
 	listPageMove : function(){
 		open_in_frame("/spot/requestBoardList.do?requestType=" + $("#requestType").val());
 	},
+
+	settingTempFileDataInit: function(e){
+		var html = '';
+
+		if(e.length > 0){
+			for(var i = 0; i < e.length; i++){
+				html += '<tr style="text-align: center">';
+				html += '   <td>'+ e[i].file_org_name +'</td>';
+				html += '   <td>'+ e[i].file_ext +'</td>';
+				html += '   <td>'+ e[i].file_size +'</td>';
+				html += '   <td>';
+				html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e[i].file_no +', this)">' +
+					'			<span class="k-button-text">삭제</span>' +
+					'		</button>';
+				html += '   </td>';
+				html += '</tr>';
+			}
+			$("#fileGrid").html(html);
+		}else{
+			$("#fileGrid").html('<tr>' +
+				'	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
+				'</tr>');
+		}
+	}
 }

@@ -464,4 +464,48 @@
         DELETE FROM CAM_COMMON.DJ_FAVORITE_MENU WHERE REG_EMP_SEQ = #{empSeq} and FV_MENU_ID = #{menuID}
     </delete>
 
+    <insert id="insFileUpload" parameterType="map">
+        /*insFileUpload*/
+        INSERT INTO CAM_COMMON.DJ_FILE_INFO
+            (
+                FILE_CD,
+                FILE_UUID,
+                FILE_ORG_NAME,
+                FILE_PATH,
+                FILE_SIZE,
+                FILE_EXT,
+                EMP_SEQ
+            )
+        VALUES
+            (
+                #{fileCd},
+                #{fileUuid},
+                #{fileOrgName},
+                #{filePath},
+                #{fileSize},
+                #{fileExt},
+                #{empSeq}
+            )
+    </insert>
+
+    <update id="updFileOwner" parameterType="map">
+        /*updFileOwner*/
+        UPDATE
+            CAM_COMMON.DJ_FILE_INFO
+        SET
+            CONTENT_ID = #{payAppSn}
+        WHERE
+            FILE_PATH = #{filePath} AND FILE_CD = 'useCard'
+    </update>
+
+    <update id="updFileOwnerNull" parameterType="map">
+        /*updFileOwnerNull*/
+        UPDATE
+            CAM_COMMON.DJ_FILE_INFO
+        SET
+            CONTENT_ID = NULL
+        WHERE
+            CONTENT_ID = CONCAT("'", #{payAppSn}, "'") AND FILE_CD = 'useCard'
+    </update>
+
 </mapper>

@@ -85,7 +85,14 @@ public class CompanyCardController {
         return "popup/cam_manager/companyCard/useCardDetailPop";
     }
 
+    @RequestMapping("/cam_mng/companyCard/useCardDetail")
+    public String useCardDetail(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
 
+        Map<String, Object> cardInfo = companyCardService.useCardDetailInfo(params);
+        model.addAttribute("cardInfo", cardInfo);
+
+        return "jsonView";
+    }
 
 
 

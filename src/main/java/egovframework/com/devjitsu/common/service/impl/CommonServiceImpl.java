@@ -330,6 +330,13 @@ public class CommonServiceImpl implements CommonService {
         commonRepository.setDelFvMenu(params);
     }
 
+    @Override
+    public void getContentFileDelOne(Map<String, Object> params) {
+        commonRepository.getContentFileDelOne(params);
+    }
 
-
+    @Override
+    public void insFileUpload(Map<String, Object> fileParameters) {
+        commonRepository.insFileUpload(fileParameters);
+    }
 }

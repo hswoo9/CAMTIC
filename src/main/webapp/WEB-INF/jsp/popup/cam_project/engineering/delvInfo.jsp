@@ -2,8 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:useBean id="today" class="java.util.Date" />
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/delvInfo.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
+<script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
 <input type="hidden" id="expAmt" value="${params.expAmt}" />
@@ -15,7 +17,7 @@
     <input type="hidden" id="nowUrl" name="nowUrl" />
 </form>
 
-
+<input type="hidden" id="teamStat" name="teamStat">
 <input type="hidden" id="delvSn" name="delvSn" value="">
 <input type="hidden" id="step" value="E2" />
 <input type="hidden" id="stepColumn" value="STEP3" />
@@ -93,7 +95,7 @@
                     <span class="red-star"></span>납품수량
                 </th>
                 <td>
-                    <input type="text" id="delvCnt" style="width: 90%;" onkeyup="delvInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                    <input type="text" id="delvCnt" style="width: 90%;" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                 </td>
             </tr>
             <tr>
@@ -138,7 +140,7 @@
                     <span class="red-star"></span>수주금액
                 </th>
                 <td>
-                    <input type="text" id="delvAmt" style="text-align: right; width: 90%;" onkeyup="delvInfo.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /> 원
+                    <input type="text" id="delvAmt" style="text-align: right; width: 90%;" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /> 원
                     <input type="hidden" id="delvExpAmt" />
                 </td>
                 <th scope="row" class="text-center th-color">
@@ -146,13 +148,13 @@
                 </th>
                 <td>
                     <label for="delvFile" class="k-button k-button-solid-base">파일첨부</label>
-                    <input type="file" id="delvFile" name="delvFile" onchange="delvInfo.fileChange(this)" style="display: none">
+                    <input type="file" id="delvFile" name="delvFile" onchange="fileChange(this)" style="display: none">
                     <span id="delvFileName"></span>
                 </td>
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>참여부서
+                    <span class="red-star">*</span>참여부서
                 </th>
                 <td colspan="3">
                         <span style="position: relative; top: 5px;">
@@ -165,7 +167,7 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>PM
+                    <span class="red-star">*</span>PM
                 </th>
                 <td colspan="3">
                     <input type="text" id="pmName" style="width: 25%;" disabled />
@@ -256,6 +258,15 @@
             return;
         }
 
+        if($("input[name='delvDept']:checked").val() == null || $("input[name='delvDept']:checked").val() == undefined || $("input[name='delvDept']:checked").val() == ""){
+            alert("참여부서를 선택해주세요.");
+            return;
+        }
+        if($("#pmSeq").val() == ""){
+            alert("PM을 등록해주세요.");
+            return;
+        }
+
         $("#dialog").data("kendoWindow").open();
     }
 
@@ -265,16 +276,16 @@
             cmGroupCode : "BUSN_CLASS"
         }
         var pjCodeDs = customKendo.fn_customAjax("/common/commonCodeList", data)
-        customKendo.fn_dropDownList("pjCode", pjCodeDs.rs, "CM_CODE_NM", "CM_CODE");
+        customKendo.fn_dropDownList("pjCode", pjCodeDs.rs, "CM_CODE_NM", "CM_CODE", 2);
 
         $("#pjCode").data("kendoDropDownList").select(3);
 
         data.grpSn = "SUP_DEP";
         var lgCodeDs = customKendo.fn_customAjax("/project/selLgCode", data);
-        customKendo.fn_dropDownList("supDep", lgCodeDs.rs, "LG_CD_NM", "LG_CD");
+        customKendo.fn_dropDownList("supDep", lgCodeDs.rs, "LG_CD_NM", "LG_CD", 2);
 
         $("#supDepSub").kendoDropDownList({
-            dataSource : [{text : "선택", value : ""}],
+            dataSource : [{text : "선택하세요", value : ""}],
             dataTextField : "text",
             dataValueField : "value"
         });
@@ -282,15 +293,15 @@
             data.lgCd = $("#supDep").val();
             data.grpSn = "SUP_DEP";
             var smCodeDs = customKendo.fn_customAjax("/project/selSmCode", data);
-            customKendo.fn_dropDownList("supDepSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
+            customKendo.fn_dropDownList("supDepSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD", 2);
         });
 
         data.grpSn = "BUS_STAT";
         var lgCodeDs = customKendo.fn_customAjax("/project/selLgCode", data);
-        customKendo.fn_dropDownList("pjtStat", lgCodeDs.rs, "LG_CD_NM", "LG_CD");
+        customKendo.fn_dropDownList("pjtStat", lgCodeDs.rs, "LG_CD_NM", "LG_CD", 2);
 
         $("#pjtStatSub").kendoDropDownList({
-            dataSource : [{text : "선택", value : ""}],
+            dataSource : [{text : "선택하세요", value : ""}],
             dataTextField : "text",
             dataValueField : "value"
         });
@@ -298,8 +309,10 @@
             data.lgCd = $("#pjtStat").val();
             data.grpSn = "BUS_STAT";
             var smCodeDs = customKendo.fn_customAjax("/project/selSmCode", data);
-            customKendo.fn_dropDownList("pjtStatSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
+            customKendo.fn_dropDownList("pjtStatSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD", 2);
         });
+        $("#supDep").data("kendoDropDownList").value("l");
+        $("#supDep").data("kendoDropDownList").trigger("change");
 
         $("#dialog").css("overflow", "hidden");
     }

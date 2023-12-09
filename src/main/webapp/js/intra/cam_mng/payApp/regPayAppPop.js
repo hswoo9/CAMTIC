@@ -17,6 +17,7 @@ var regPay = {
         crmSnId : "",
         crmNmId : "",
         saveAjaxData : "",
+        fileArray : []
     },
 
     fn_defaultScript : function (){
@@ -65,9 +66,9 @@ var regPay = {
 
         $("#checkAll").click(function(){
             if($(this).is(":checked")){
-                $("input[type='checkbox']").prop("checked", true);
+                $(".check").prop("checked", true);
             }else{
-                $("input[type='checkbox']").prop("checked", false);
+                $(".check").prop("checked", false);
             }
         });
 
@@ -96,6 +97,7 @@ var regPay = {
 
                     for(let i = 0; i < rs.length; i++) {
                         $("#crmNm" + i).val(rs[i].EMP_NAME_KR);
+                        $("#regNo" + i).val(rs[i].REG_NO);
                         $("#trCd" + i).val(rs[i].ERP_ERP_CD);
                         $("#crmBnkNm" + i).val(rs[i].BANK_NAME);
                         $("#crmAccNo" + i).val(rs[i].ACCOUNT_NUM);
@@ -136,6 +138,7 @@ var regPay = {
                 $("#supCost" + i).val(regPay.comma(ls[i].PURC_ITEM_AMT));
             }
         }
+
     },
 
     payAppBtnSet: function (data){
@@ -149,9 +152,9 @@ var regPay = {
                 buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
             }else if(data.DOC_STATUS == "30" || data.DOC_STATUS == "40"){
                 buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save(\'user\')">저장</button>';
-                buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \''+data.DOC_MENU_CD+'\', \''+data.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
+                buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \'payApp\', \'camticPayApp_'+data.PAY_APP_SN+'\', 2, \'reDrafting\');">재상신</button>';
             }else if(data.DOC_STATUS == "100"){
-                buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', \''+data.DOC_MENU_CD+'\');">열람</button>';
+                buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \'payApp'+data.PAY_APP_SN+'\', \'payApp\');">열람</button>';
                 $("#addBtn").hide();
                 $("#exnpAddBtn").show();
             }else{
@@ -211,47 +214,6 @@ var regPay = {
                 }
 
                 if(flag){
-                    let checked = 0;
-                    var data = {
-                        payAppSn : $("#payAppSn").val()
-                    }
-
-                    if($("#item").val() != "" && $("#item").val() != null){
-                        data.payAppDetSn = $("#item").val();
-                    }
-
-                    var result = customKendo.fn_customAjax("/payApp/pop/getPayAppData", data);
-                    var ls = result.list;
-                    for(var i=0; i < ls.length; i++) {
-                        var item = ls[i];
-                        var eviType = item.EVID_TYPE;
-                        if(item.ADVANCES == "Y" || $("#payAppType").data("kendoRadioGroup").value() != "1"){
-                            continue;
-                        }
-                        if(eviType == "1" || eviType == "2"){
-                            if(item.FILE2 == null || item.FILE3 == null || item.FILE4 == null || item.FILE5 == null){
-                                alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
-                                checked = 1;
-                                break;
-                            }
-                        }else if(eviType == "3"){
-                            if(item.FILE7 == null || item.FILE8 == null || item.FILE9 == null){
-                                alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
-                                checked = 1;
-                                break;
-                            }
-                        }else if(eviType == "5"){
-                            if(item.FILE10 == null){
-                                alert(item.CRM_NM + "의 필수 첨부파일이 등록되지 않았습니다.");
-                                checked = 1;
-                                break;
-                            }
-                        }
-                    }
-                    if(checked == 1){
-                        return;
-                    }
-
                     $("#payAppDraftFrm").one("submit", function() {
                         var url = "/popup/payApp/approvalFormPopup/payAppApprovalPop.do";
                         var name = "_self";
@@ -276,11 +238,20 @@ var regPay = {
         var result = customKendo.fn_customAjax("/payApp/pop/getPayAppData", data);
         var rs = result.map;
         var ls = result.list;
+        var fileList = result.fileList;
+
+        regPay.global.fileArray = fileList;
 
         regPay.payAppBtnSet(rs);
 
+        // if(rs.ADVANCES != 'Y'){
+        //     $("#advances").prop("checked", false);
+        // } else {
+        //     $("#advances").prop("checked", true);
+        // }
+
         $("#docStatus").val(rs.DOC_STATUS)
-        if(rs.DOC_STATUS != 0){
+        if(rs.DOC_STATUS != 0 && rs.DOC_STATUS != 30){
             $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
         }
 
@@ -314,6 +285,7 @@ var regPay = {
         for(var i= 0; i < ls.length; i++) {
             var item = ls[i];
 
+            console.log(item)
 
             regPayDet.global.createHtmlStr = "";
 
@@ -321,7 +293,7 @@ var regPay = {
                 '<tr class="payDestInfo newArray" id="pay' + regPayDet.global.itemIndex + '" style="text-align: center;">';
             if($("#auth").val() != "user"){
                 if($("#status").val() == "rev" || $("#status").val() == "in" || $("#status").val() == "re" || $("#status").val() == "alt"){
-                    if(item.DET_STAT != "N"){
+                    if(item.DET_STAT != "N" && item.EXNP_SAVE == 'N'){
                         regPayDet.global.createHtmlStr += "" +
                             '   <td><input type="checkbox" id="check' + regPayDet.global.itemIndex + '" value='+item.PAY_APP_DET_SN+' style="position: relative; top: 5px;" class="check" /></td>';
                     } else {
@@ -345,12 +317,18 @@ var regPay = {
                 '   <td>' +
                 '       <input type="hidden" id="payDestSn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" name="payDestSn" class="payDestSn">' +
                 '       <input type="text" id="eviType' + regPayDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
+                '       <input type="hidden" id="authNo' + regPayDet.global.itemIndex + '" value="'+item.AUTH_NO+'" class="authNo" style="width: 100%">' +
+                '       <input type="hidden" id="authHh' + regPayDet.global.itemIndex + '" value="'+item.AUTH_HH+'" class="authHh" style="width: 100%">' +
+                '       <input type="hidden" id="authDd' + regPayDet.global.itemIndex + '" value="'+item.AUTH_DD+'" class="authDd" style="width: 100%">' +
                 '   </td>' +
                 '   <td>' +
                 '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regPayDet.fn_popRegDet(1, '+regPayDet.global.itemIndex+')"></i>' +
                 '       <input type="text" style="width: 70%" id="crmNm' + regPayDet.global.itemIndex + '" value="'+item.CRM_NM+'" class="crmNm">' +
                 '       <input type="hidden" id="buySts' + regPayDet.global.itemIndex + '" value="'+item.BUY_STS+'" class="buySts">' +
                 '       <input type="hidden" id="trCd' + regPayDet.global.itemIndex + '" value="'+item.TR_CD+'" class="trCd">' +
+                '   </td>' +
+                '   <td>' +
+                '       <input type="text" id="regNo' + regPayDet.global.itemIndex + '" class="regNo" value="'+item.REG_NO+'" style="width: 100%">' +
                 '   </td>' +
                 '   <td>' +
                 '       <input type="text" id="crmBnkNm' + regPayDet.global.itemIndex + '" value="'+item.CRM_BNK_NM+'" class="crmBnkNm">' +
@@ -380,24 +358,7 @@ var regPay = {
                 '   </td>' +
                 '   <td>' +
                 '       <input type="text" id="etc' + regPayDet.global.itemIndex + '" value="'+item.ETC+'" class="etc">' +
-                '   </td>' +
-                '   <td>' +
-                '       <input type="text" id="iss' + regPayDet.global.itemIndex + '" value="'+item.ISS+'"  class="iss">' +
                 '   </td>';
-            if($("#status").val() == "rev"){
-                regPayDet.global.createHtmlStr += "" +
-
-                    '   <td>' +
-                    '       <input type="checkbox" id="advances' + regPayDet.global.itemIndex + '" class="advances" style="width: 26px; height: 26px" ';
-                if(item.ADVANCES == "Y"){
-                    regPayDet.global.createHtmlStr += "checked";
-                }
-                regPayDet.global.createHtmlStr += '/>' +
-                    '   </td>' +
-                    '   <td>' +
-                    '       <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regPayDet.fn_regPayAttPop(' + regPayDet.global.itemIndex + ')">첨부</button>' +
-                    '   </td>';
-            }
 
             regPayDet.global.createHtmlStr += "" +
                 '   <td>' +
@@ -410,7 +371,7 @@ var regPay = {
                         } else {
                             // regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="revertBtn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" onclick="regPayDet.fn_revertDet(this)">반려</button>';
                         }
-                    } else if(rs.DOC_STATUS == "0"){
+                    } else if(rs.DOC_STATUS == "0" || rs.DOC_STATUS == "30"){
                         regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(' + regPayDet.global.itemIndex + ')">삭제</button>';
                     } else {
                         regPayDet.global.createHtmlStr += '<button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(' + regPayDet.global.itemIndex + ')" disabled>삭제</button>';
@@ -453,7 +414,6 @@ var regPay = {
                 change : function (e){
 
                     var value = this.value();
-                    regPay.fn_save("user", 'x');
 
                     if(value != ""){
                         if(value == "6"){
@@ -468,7 +428,7 @@ var regPay = {
             });
 
             customKendo.fn_textBox(["crmNm" + regPayDet.global.itemIndex, "crmBnkNm"  + regPayDet.global.itemIndex
-                , "crmAccHolder" + regPayDet.global.itemIndex, "iss" + regPayDet.global.itemIndex
+                , "crmAccHolder" + regPayDet.global.itemIndex, "regNo" + regPayDet.global.itemIndex
                 , "crmAccNo" + regPayDet.global.itemIndex, "totCost" + regPayDet.global.itemIndex
                 , "supCost" + regPayDet.global.itemIndex, "vatCost" + regPayDet.global.itemIndex
                 ,"card" + regPayDet.global.itemIndex, "etc" + regPayDet.global.itemIndex, "budgetNm" + regPayDet.global.itemIndex]);
@@ -575,8 +535,17 @@ var regPay = {
             accNo : $("#accNo").val(),
             payAppStat : $("#payAppStat").data("kendoRadioGroup").value(),
 
-            regEmpSeq : $("#regEmpSeq").val()
+
+            regEmpSeq : $("#regEmpSeq").val(),
+            empSeq : $("#empSeq").val(),
+            type : type
         }
+
+        // if($("#advances").is(":checked")){
+        //     parameters.advances = 'Y';
+        // } else {
+        //     parameters.advances = 'N';
+        // }
 
         if($("#claimSn").val() != ""){
             parameters.claimSn = $("#claimSn").val();
@@ -586,7 +555,7 @@ var regPay = {
             parameters.payAppSn = $("#payAppSn").val();
         }
 
-        if(parameters.pjtSn == ""){
+        if(parameters.pjtCd == ""){
             alert("사업을 선택해주세요.");
             return;
         }
@@ -604,7 +573,6 @@ var regPay = {
 
         var itemArr = new Array()
         var flag = true;
-        var flag2 = true;
         var befAdvances = "";
         $.each($(".payDestInfo"), function(i, v){
             var index = $(this).find(".budgetSn").attr("id").slice(-1);
@@ -616,7 +584,11 @@ var regPay = {
                 teamSeq : $("#appTeam" + index).val(),
                 teamName : $("#appTeam" + index).data("kendoDropDownList").text(),
                 evidType : $("#eviType" + index).val(),
+                authNo : $("#authNo" + index).val(),
+                authDd : $("#authDd" + index).val(),
+                authHh : $("#authHh" + index).val(),
                 crmNm : $("#crmNm" + index).val(),
+                regNo : $("#regNo" + index).val(),
                 trCd : $("#trCd" + index).val(),
                 crmBnkNm : $("#crmBnkNm" + index).val(),
                 crmAccNo : $("#crmAccNo" + index).val(),
@@ -629,20 +601,14 @@ var regPay = {
                 card : $("#card" + index).val(),
                 cardNo : $("#cardNo" + index).val(),
                 etc : $("#etc" + index).val(),
-                iss : $("#iss" + index).val(),
-                advances : $("#advances" + index).is(':checked') ? "Y" : "N",
             }
 
             if(data.buySts == undefined || data.buySts == null || data.buySts == "" || data.buySts == "undefined"){
                 data.buySts = "";
             }
 
-            if(i != 0){
-                if(befAdvances != ($("#advances" + index).is(':checked') ? "Y" : "N")){
-                    flag2 = false;
-                }
-            }
-            befAdvances = $("#advances" + index).is(':checked') ? "Y" : "N";
+
+            // befAdvances = $("#advances" + index).is(':checked') ? "Y" : "N";
 
             if(data.eviType == ""){
                 flag = false;
@@ -652,35 +618,35 @@ var regPay = {
             itemArr.push(data);
         });
 
-        if(itemArr[0].budgetSn == ""){
-            alert("예산비목을 선택해주세요.");
-            return;
-        }
-
-        if(itemArr[0].evidType == ""){
-            alert("증빙유형을 선택해주세요.");
-            return;
-        }
 
         if(!flag){
             alert("구분값을 선택해주세요.");
             return ;
         }
 
-        if(!flag2){
-            alert("선지급과 선지급 아닌건은 동시에 신청할 수 없습니다.");
-            return ;
-        }
-
         parameters.itemArr = JSON.stringify(itemArr);
 
-        console.log(parameters);
+        var fd = new FormData();
+
+        for(var key in parameters){
+            fd.append(key, parameters[key]);
+        }
+
+        if(regPay.global.fileArray != null){
+            for(var i = 0; i < regPay.global.fileArray.length; i++){
+                fd.append("fileList", regPay.global.fileArray[i]);
+            }
+        }
 
         $.ajax({
             url : "/payApp/payAppSetData",
-            data : parameters,
+            data : fd,
             type : "post",
             dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async: false,
             success : function(rs){
                 if(rs.code == 200){
                     if(type != 'x' && type != 'drafting'){
@@ -832,8 +798,6 @@ var regPayDet = {
                 var value = $("#eviType0").val();
                 var itemIndex = 0;
 
-                regPay.fn_save("user", 'x');
-
                 if(value != ""){
                     if(value == "6"){
                         alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
@@ -846,8 +810,8 @@ var regPayDet = {
             }
         });
 
-        customKendo.fn_textBox(["crmNm0", "crmBnkNm0", "crmAccHolder0", "crmAccNo0", "totCost0", "supCost0", "vatCost0"
-        ,"card0", "etc0", "iss0", "budgetNm0"]);
+        customKendo.fn_textBox(["crmNm0", "regNo0", "crmBnkNm0", "crmAccHolder0", "crmAccNo0", "totCost0", "supCost0", "vatCost0"
+        ,"card0", "etc0", "budgetNm0"]);
 
         var ds = customKendo.fn_customAjax("/dept/getDeptAList", {
             deptLevel : 2
@@ -891,13 +855,20 @@ var regPayDet = {
             '       <input style="width: 100%" id="appTeam' + regPayDet.global.itemIndex + '" name="appTeam" class="appTeam">' +
             '   </td>' +
             '   <td>' +
-            '       <input type="hidden" style="width: 70%" id="payDestSn' + regPayDet.global.itemIndex + '" name="payDestSn" class="payDestSn">' +            '       <input type="text" id="eviType' + regPayDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
+            '       <input type="hidden" style="width: 70%" id="payDestSn' + regPayDet.global.itemIndex + '" name="payDestSn" class="payDestSn">' +
+            '       <input type="text" id="eviType' + regPayDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
+            '       <input type="hidden" id="authNo' + regPayDet.global.itemIndex + '" class="authNo" style="width: 100%">' +
+            '       <input type="hidden" id="authHh' + regPayDet.global.itemIndex + '" class="authHh" style="width: 100%">' +
+            '       <input type="hidden" id="authDd' + regPayDet.global.itemIndex + '" class="authDd" style="width: 100%">' +
             '   </td>' +
             '   <td>' +
             '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regPayDet.fn_popRegDet(1, '+regPayDet.global.itemIndex+')"></i>' +
             '       <input type="text" style="width: 70%" id="crmNm' + regPayDet.global.itemIndex + '" class="crmNm">' +
             '       <input type="hidden" id="buySts' + regPayDet.global.itemIndex + '" class="buySts">' +
             '       <input type="hidden" id="trCd' + regPayDet.global.itemIndex + '" class="trCd">' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="text" id="regNo' + regPayDet.global.itemIndex + '" class="regNo" style="width: 100%">' +
             '   </td>' +
             '   <td>' +
             '       <input type="text" id="crmBnkNm' + regPayDet.global.itemIndex + '" class="crmBnkNm">' +
@@ -927,19 +898,7 @@ var regPayDet = {
             '   </td>' +
             '   <td>' +
             '       <input type="text" id="etc' + regPayDet.global.itemIndex + '" class="etc">' +
-            '   </td>' +
-            '   <td>' +
-            '       <input type="text" id="iss' + regPayDet.global.itemIndex + '" class="iss">' +
-            '   </td>' ;
-        if($("#status").val() == "rev" || $("#claimSn").val() != ""){
-            regPayDet.global.createHtmlStr += "" +
-                '   <td>' +
-                '       <input type="checkbox" id="advances' + regPayDet.global.itemIndex + '" class="advances" style="width: 26px; height: 26px">' +
-                '   </td>'+
-                '   <td>' +
-                '       <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regPayDet.fn_regPayAttPop(' + regPayDet.global.itemIndex + ')">첨부</button>' +
-                '   </td>';
-        }
+            '   </td>';
         regPayDet.global.createHtmlStr += "" +
             '   <td>' +
             '       <div style="text-align: center">' +
@@ -968,8 +927,6 @@ var regPayDet = {
             change : function (e){
                 var value = $("#eviType" + itemIndex).val();
 
-                regPay.fn_save("user", 'x');
-
                 if(value != ""){
                     if(value == "6"){
                         alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
@@ -983,7 +940,7 @@ var regPayDet = {
         });
 
         customKendo.fn_textBox(["crmNm" + regPayDet.global.itemIndex, "crmBnkNm"  + regPayDet.global.itemIndex
-                                , "crmAccHolder" + regPayDet.global.itemIndex, "iss" + regPayDet.global.itemIndex
+                                , "crmAccHolder" + regPayDet.global.itemIndex, "regNo" + regPayDet.global.itemIndex
                                 , "crmAccNo" + regPayDet.global.itemIndex, "totCost" + regPayDet.global.itemIndex
                                 , "supCost" + regPayDet.global.itemIndex, "vatCost" + regPayDet.global.itemIndex
                                 ,"card" + regPayDet.global.itemIndex, "etc" + regPayDet.global.itemIndex, "budgetNm" + regPayDet.global.itemIndex]);
@@ -1063,12 +1020,31 @@ var regPayDet = {
         }
 
         var keyArr = "";
+        var flag = true;
+        var budgetArr = [];
+        var eviTypeArr = [];
         $(".check:checked").each(function(){
             keyArr += $(this).val() + ",";
+            var rowIdx = $(this).attr("id").charAt($(this).attr("id").length - 1);
+
+            budgetArr.push($("#budgetSn" + rowIdx).val());
+            eviTypeArr.push($("#eviType" + rowIdx).val());
         });
 
         keyArr = keyArr.substring(0, keyArr.length - 1);
 
+        const setBudgetArr = new Set(budgetArr);
+        const setEviTypeArr = new Set(eviTypeArr);
+
+        if(setBudgetArr.size > 1) {
+            alert("예산비목이 다릅니다. 확인해주세요.");
+            return;
+        }
+
+        if(setEviTypeArr.size > 1) {
+            alert("증빙유형이 다릅니다. 확인해주세요.");
+            return;
+        }
         var data= {
             arr : keyArr,
             payAppSn : $("#payAppSn").val()
@@ -1115,16 +1091,9 @@ var regPayDet = {
         var popup = window.open(url, name, option);
     },
 
-    fn_regPayAttPop : function (row){
-        let key = $("#payDestSn"+row).val();
+    fn_regPayAttPop : function (){
 
-        if(key == "" || key == null){
-            regPay.fn_save("user");
-            return;
-        }
-
-        let eviType = $("#eviType"+row).data("kendoDropDownList").value();
-        var url = "/payApp/pop/regPayAttPop.do?payAppSn=" + $("#payAppSn").val() + "&payDestSn=" + key + "&eviType=" + eviType;
+        var url = "/payApp/pop/regPayAttPop.do?payAppSn=" + $("#payAppSn").val();
         var name = "_blank";
         var option = "width = 850, height = 400, top = 200, left = 350, location = no";
         var popup = window.open(url, name, option);

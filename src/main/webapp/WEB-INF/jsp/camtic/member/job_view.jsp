@@ -52,7 +52,7 @@
                         <ul class="info">
                             <li><span>${map.RECRUIT_NUM}</span></li>
                             <li>상태 : ${map.RECRUIT_STATUS_TEXT}</li>
-                            <li>작성자 : ${map.REG_EMP_NAME}</li>
+                            <%--<li>작성자 : ${map.REG_EMP_NAME}</li>--%>
                             <li>작성일 : <fmt:formatDate value="${map.REG_DT}" pattern="yyyy-MM-dd" type="date"/></li>
                             <li>조회수 : ${map.RECRUIT_VIEW_COUNT}</li>
                         </ul>
@@ -228,7 +228,7 @@
                 <div class="__botArea">
                     <div style="text-align: center;">
                         <c:if test="${map.RECRUIT_STATUS_SN == '2'}">
-                            <a href="javascript:void(0);" onclick="fn_goRecruit();" class="__btn1 blue" style="width:200px;"><span>온라인 입사지원하기</span></a>
+                            <a href="javascript:void(0);" onclick="fn_goRecruit(${map.RECRUIT_INFO_SN});" class="__btn1 blue" style="width:200px;"><span>온라인 입사지원하기</span></a>
                         </c:if>
                             <a href="javascript:void(0);" onclick="fn_goList();" class="__btn1 blue" style="width:200px;"><span>목록보기</span></a>
                     </div>
@@ -254,8 +254,8 @@
         location.href = '/camtic/member/job.do';
     }
 
-    function fn_goRecruit(){
-        location.href = '/camtic/member/job_applicationLogin.do';
+    function fn_goRecruit(recruitInfoSn){
+        location.href = '/camtic/member/job_applicationLogin.do?recruitInfoSn=' + recruitInfoSn;
     }
 
     //상세보기 이동

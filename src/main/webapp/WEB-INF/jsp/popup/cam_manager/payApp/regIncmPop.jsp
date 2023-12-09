@@ -54,7 +54,7 @@
                         <span>
                             <input type="text" id="pjtNm" disabled value="${pjtData.AFT_PJT_NM}"  style="width: 40%;">
                             <input type="hidden" id="pjtSn" value="${pjtData.AFT_PJT_SN}" />
-                            <input type="hidden" id="pjtCd" name="pjtCd">
+                            <input type="hidden" id="pjtCd" name="pjtCd" value="${pjtData.AFT_PJT_CD}">
                             <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="regIncm.fn_projectPop()">검색</button>
                         </span>
                     </td>

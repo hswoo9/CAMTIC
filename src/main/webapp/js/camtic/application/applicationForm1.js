@@ -23,17 +23,17 @@ var applicationForm = {
         var html = "";
         if($("#recruitAreaInfoSn option:selected").attr("career") == "1,2"){
             html += '' +
-                '<input type="radio" id="careerType1" name="careerType" class="careerType" value="1">' +
+                '<input type="radio" id="careerType1" name="careerType" class="careerType k-radio k-radio-md" value="1">' +
                 '<label for="careerType1" class="careerType">경력</label>' +
-                '<input type="radio" id="careerType2" name="careerType" class="careerType" value="2">' +
+                '<input type="radio" id="careerType2" name="careerType" class="careerType k-radio k-radio-md" value="2">' +
                 '<label for="careerType2" class="careerType">신입</label>';
         }else if($("#recruitAreaInfoSn option:selected").attr("career") == "1"){
             html += '' +
-                '<input type="radio" id="careerType1" name="careerType" class="careerType" value="1" checked>' +
+                '<input type="radio" id="careerType1" name="careerType" class="careerType k-radio k-radio-md" value="1" checked>' +
                 '<label for="careerType1" class="careerType">경력</label>';
         }else {
             html += '' +
-                '<input type="radio" id="careerType2" name="careerType" value="2" class="careerType" checked>' +
+                '<input type="radio" id="careerType2" name="careerType" value="2" class="careerType k-radio k-radio-md" checked>' +
                 '<label for="careerType2" class="careerType">신입</label>';
         }
         $("#careerType .careerType").remove()
@@ -286,6 +286,14 @@ var applicationForm = {
             $("#specialty").val(e.SPECIALTY)
             $("#veterans").data("kendoRadioGroup").value(e.VETERANS)
             $("#veteransNum").val(e.VETERANS_NUM)
+
+            if (e.CAREER_TYPE === '1') {
+                $("#careerType1").prop("checked", true);
+                $("#careerType2").prop("checked", false);
+            } else if (e.CAREER_TYPE === '2') {
+                $("#careerType1").prop("checked", false);
+                $("#careerType2").prop("checked", true);
+            }
 
             if(e.photoFile != null){
                 $("#photoFileNo").val(e.photoFile.file_no);
