@@ -129,7 +129,7 @@ const goodsPrint = {
         }
 
         /** 5. 기타사항 */
-        goodsPrint.global.hwpCtrl.PutFieldText("ETC", String(pjtMap.GOODS_ISS));
+        goodsPrint.global.hwpCtrl.PutFieldText("ETC", pjtMap.GOODS_ISS == undefined ? "" : String(pjtMap.GOODS_ISS));
         goodsPrint.global.hwpCtrl.PutFieldText("DELV_PAY", delvMap.DELV_PAY);
     },
 
