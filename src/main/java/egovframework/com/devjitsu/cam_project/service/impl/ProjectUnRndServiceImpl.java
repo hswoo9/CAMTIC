@@ -107,6 +107,15 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
                 projectUnRndRepository.updUnRndFileSn(fileInsMap);
             }
         }
+
+        projectRepository.delCustomBudget(map);
+        Gson gson = new Gson();
+        List<Map<String, Object>> list = gson.fromJson((String) params.get("customBudget"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+        if(list.size() > 0){
+            for(Map<String, Object> cbMap : list){
+                projectRepository.insCustomBudget(cbMap);
+            }
+        }
     }
 
     private String filePath (Map<String, Object> params, String base_dir){

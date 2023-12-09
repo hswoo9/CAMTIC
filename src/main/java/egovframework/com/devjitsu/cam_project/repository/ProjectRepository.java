@@ -515,7 +515,15 @@ public class ProjectRepository extends AbstractDAO {
     public void updEngnProjectCode(Map<String, Object> params) {
         update("project.updEngnProjectCode", params);
     }
-
+    public List<Map<String,Object>> getCustomBudgetList(Map<String,Object> params) { return selectList("project.getCustomBudgetList", params);}
+    public Map<String, Object> getCustomBudget(Map<String, Object> params) { return (Map<String, Object>) selectOne("project.getCustomBudget", params);}
+    public String getMaxCustomBudgetCode(Map<String,Object> params) { return (String) selectOne("project.getMaxCustomBudgetCode", params);}
+    public void setCustomBudget(Map<String,Object> params) { update("project.setCustomBudget", params);}
+    public void setCustomBudgetUpd(Map<String,Object> params) { update("project.setCustomBudgetUpd", params);}
+    public void setCustomBudgetDel(Map<String,Object> params) { update("project.setCustomBudgetDel", params);}
+    public List<Map<String, Object>> getProjectBudgetList(Map<String, Object> params) {
+        return selectList("project.getProjectBudgetList", params);
+    }
     public Map<String, Object> getProjectTotalData(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("project.getProjectTotalData", params);
     }
@@ -588,5 +596,12 @@ public class ProjectRepository extends AbstractDAO {
 
     public Map<String, Object> getDevMap(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("project.getDevMap", params);
+    }
+
+    public void insCustomBudget(Map<String, Object> params) {
+        insert("project.insCustomBudget", params);
+    }
+    public void delCustomBudget(Map<String, Object> params) {
+        delete("project.delCustomBudget", params);
     }
 }

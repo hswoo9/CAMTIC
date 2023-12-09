@@ -1,3 +1,4 @@
+let sum=0;
 var rndDetail = {
 
 
@@ -30,6 +31,7 @@ var rndDetail = {
 
 
         rndDetail.fn_setData();
+
     },
 
     fn_save : function(){
@@ -107,6 +109,26 @@ var rndDetail = {
             return;
         }
 
+        var customBudget = new Array();
+        $.each($("#customBudgetGrid").data("kendoGrid").dataSource.data(), function(){
+            var data = {
+                pjtSn : $("#pjtSn").val(),
+                CB_SN : this.CB_SN,
+                num : this.NUM,
+                cbCodeId1 : this.CB_CODE_ID_1,
+                cbCodeName1 : this.CB_CODE_NAME_1,
+                cbCodeId2 : this.CB_CODE_ID_2,
+                cbCodeName2 : this.CB_CODE_NAME_2,
+                cbCodeId3 : this.CB_CODE_ID_3,
+                cbCodeName3 : this.CB_CODE_NAME_3,
+                cbBudget : String(Number(this.CB_BUDGET)),
+                regEmpSeq : $("#regEmpSeq").val(),
+            }
+            customBudget.push(data);
+        })
+
+        parameters.customBudget = JSON.stringify(customBudget);
+
         $.ajax({
             url : "/projectRnd/setRndDetail",
             data : parameters,
@@ -128,9 +150,8 @@ var rndDetail = {
         var result = customKendo.fn_customAjax("/projectRnd/getRndDetail", parameters);
 
         var rs = result.map;
-
         rndDetail.fn_buttonSet(rs);
-
+        rndDetail.customBudgetGrid("/project/getProjectBudgetList.do", {pjtSn : $("#pjtSn").val()});
         if(rs != null){
             $("#rndSn").val(rs.RND_SN);
             $("#allBusnCost").val(comma(rs.ALL_BUSN_COST));
@@ -202,6 +223,7 @@ var rndDetail = {
             alert("사업성격1을 선택해주세요.");
             return;
         }
+
         rndDetail.loading();
 
         $.ajax({
@@ -225,7 +247,6 @@ var rndDetail = {
             }
         });
     },
-
     fn_buttonSet : function(rndMap){
         let buttonHtml = "";
         if(rndMap != null){
@@ -247,6 +268,111 @@ var rndDetail = {
         }
 
         $("#detailBtnDiv").html(buttonHtml);
+    },
+
+    customBudgetGrid : function(url, params){
+        $("#customBudgetGrid").kendoGrid({
+            dataSource: customKendo.fn_gridDataSource2(url, params),
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            height: 489,
+            pageable: {
+                refresh: true,
+                pageSizes: [ 10, 20, 30, 50, 100 ],
+                buttonCount: 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            toolbar: [
+                {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rndDetail.fn_customBudgetPop()">' +
+                            '	<span class="k-button-text">코드등록</span>' +
+                            '</button>';
+                    }
+                }
+            ],
+            editable : function (){
+                return true;
+            },
+            columns: [
+                {
+                    title: "장",
+                    field : "CB_CODE_NAME_1",
+                    editable: function(){
+                        return false;
+                    },
+                }, {
+                    title: "관",
+                    field : "CB_CODE_NAME_2",
+                    editable: function(){
+                        return false;
+                    },
+                }, {
+                    title: "항",
+                    field : "CB_CODE_NAME_3",
+                    footerTemplate: "합계",
+                    template : function(e){
+                        return e.CB_CODE_NAME_3
+                    },
+                    editable: function(){
+                        return false;
+                    },
+                }, {
+                    title: "예산액",
+                    field : "CB_BUDGET",
+                    template : function(e){
+                        sum += Number(e.CB_BUDGET);
+                        return fn_numberWithCommas(e.CB_BUDGET);
+                    },
+                    footerTemplate : function (e) {
+                        return "<span id='total'></span>";
+                    },
+                    attributes: { style: "text-align: right" },
+                },
+
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            },
+            dataBound: function(){
+                $("#total").text(fn_numberWithCommas(sum));
+                sum = 0;
+            }
+        }).data("kendoGrid");
+
+        $('#customBudgetGrid').on('blur', '[id="CB_BUDGET"]', function(e){
+            var total = 0;
+            $.each($("#customBudgetGrid").data("kendoGrid").dataSource.data(), function(){
+                total += Number(this.CB_BUDGET);
+            })
+            $("#total").text(comma(total))
+        })
+    },
+
+    cbGridAddRow : function(e){
+        for(var i = 0; i < e.length; i++){
+            $("#customBudgetGrid").data("kendoGrid").dataSource.add({
+                NUM : e[i].NUM,
+                CB_CODE_ID_1 : e[i].CB_CODE_ID_1,
+                CB_CODE_NAME_1 : e[i].CB_CODE_NAME_1,
+                CB_CODE_ID_2 : e[i].CB_CODE_ID_2,
+                CB_CODE_NAME_2 : e[i].CB_CODE_NAME_2,
+                CB_CODE_ID_3 : e[i].CB_CODE_ID_3,
+                CB_CODE_NAME_3 : e[i].CB_CODE_NAME_3,
+                CB_BUDGET : e[i].CB_BUDGET,
+            });
+        }
+    },
+
+    fn_customBudgetPop : function (){
+        var url = "/project/pop/customBudgetPop.do?path=rndDetail";
+        var name = "_blank";
+        var option = "width = 1330, height = 640, top = 100, left = 200, location = no";
+        var popup = window.open(url, name, option);
     },
 
     loading : function(){

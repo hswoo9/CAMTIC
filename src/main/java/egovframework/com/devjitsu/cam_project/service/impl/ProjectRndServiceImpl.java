@@ -1,6 +1,9 @@
 package egovframework.com.devjitsu.cam_project.service.impl;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
@@ -11,6 +14,7 @@ import egovframework.com.devjitsu.g20.repository.G20Repository;
 import egovframework.com.devjitsu.gw.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -189,6 +193,17 @@ public class ProjectRndServiceImpl implements ProjectRndService {
             projectRndRepository.updRschData(map);
             projectRndRepository.updPjtPsRnd(map);
         }
+
+
+        projectRepository.delCustomBudget(map);
+        Gson gson = new Gson();
+        List<Map<String, Object>> list = gson.fromJson((String) params.get("customBudget"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+        if(list.size() > 0){
+            for(Map<String, Object> cbMap : list){
+                projectRepository.insCustomBudget(cbMap);
+            }
+        }
+
 
         projectRepository.updPMInfo(params);
     }

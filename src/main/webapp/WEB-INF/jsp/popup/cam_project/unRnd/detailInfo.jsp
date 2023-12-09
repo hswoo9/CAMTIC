@@ -7,7 +7,14 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/unRndDetail.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 <script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
-
+<style>
+    .k-footer-template td:nth-child(3),
+    .k-footer-template td:nth-child(4){
+        overflow: visible;
+        white-space: nowrap;
+        text-align: right;
+    }
+</style>
 <input type="hidden" id="step" value="S2" />
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
 <input type="hidden" id="unRndSn" value=""/>
@@ -76,6 +83,11 @@
                 </th>
                 <td colspan="3">
                     <textarea type="text" id="unRndCont" name="unRndCont" style="width: 100%"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <div id="customBudgetGrid"></div>
                 </td>
             </tr>
             </thead>

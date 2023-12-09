@@ -2379,6 +2379,122 @@
             PJT_SN = #{PJT_SN}
     </update>
 
+    <!-- 커스텀예산 시작-->
+    <select id="getCustomBudgetList" parameterType="map" resultType="map">
+        /* getCustomBudgetList */
+        SELECT * FROM CAM_PJT_MNG.DJ_CUSTOM_BUDGET
+        WHERE ACTIVE = 'Y' AND CB_UPPER_CODE = #{cbUpperCode}
+    </select>
+
+    <select id="getCustomBudget" parameterType="map" resultType="map">
+        /* getCustomBudget */
+        SELECT * FROM CAM_PJT_MNG.DJ_CUSTOM_BUDGET
+        WHERE ACTIVE = 'Y'
+        AND CB_CODE_ID = #{cbCodeId}
+        <if test='cbUpperCode != null and !"".equals(cbUpperCode)'>
+            AND CB_UPPER_CODE = #{cbUpperCode}
+        </if>
+    </select>
+
+    <insert id="setCustomBudget" parameterType="map">
+        /* setCustomBudget */
+        INSERT INTO CAM_PJT_MNG.DJ_CUSTOM_BUDGET
+        (
+            CB_UPPER_CODE,
+            CB_CODE,
+            CB_CODE_NM,
+            CB_CODE_TYPE,
+            CB_BUDGET,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{cbUpperCode},
+            #{cbCode},
+            #{cbCodeNm},
+            #{cbCodeType},
+            #{cbBudget},
+            #{empSeq}
+        )
+    </insert>
+
+    <select id="getMaxCustomBudgetCode" parameterType="map" resultType="String">
+        /* getMaxCustomBudgetCode */
+        SELECT
+            RIGHT(CONCAT('00', IFNULL(max(CB_CODE), 0) + 1), 2)
+        FROM
+            CAM_PJT_MNG.DJ_CUSTOM_BUDGET A
+        WHERE
+            CB_UPPER_CODE = #{cbUpperCode}
+    </select>
+
+    <update id="setCustomBudgetUpd" parameterType="map">
+        /* setCustomBudgetUpd */
+        UPDATE
+            CAM_PJT_MNG.DJ_CUSTOM_BUDGET
+        SET
+            <if test='cbCode != null and !"".equals(cbCode)'>
+                CB_CODE = #{cbCode},
+            </if>
+            CB_CODE_NM = #{cbCodeNm},
+            CB_CODE_TYPE = #{cbCodeType},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            CB_CODE_ID = #{cbCodeId}
+    </update>
+
+    <update id="setCustomBudgetDel" parameterType="map">
+        /* setCustomBudgetDel */
+        UPDATE
+            CAM_PJT_MNG.DJ_CUSTOM_BUDGET
+        SET
+            ACTIVE ='N'
+        WHERE
+            CB_CODE_ID IN (${cbCodeId})
+    </update>
+
+    <insert id="insCustomBudget" parameterType="map">
+        /* insCustomBudget */
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_CB
+        (
+            PJT_SN,
+            CB_CODE_ID_1,
+            CB_CODE_NAME_1,
+            CB_CODE_ID_2,
+            CB_CODE_NAME_2,
+            CB_CODE_ID_3,
+            CB_CODE_NAME_3,
+            CB_BUDGET,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{pjtSn},
+            #{cbCodeId1},
+            #{cbCodeName1},
+            #{cbCodeId2},
+            #{cbCodeName2},
+            #{cbCodeId3},
+            #{cbCodeName3},
+            #{cbBudget},
+            #{regEmpSeq}
+        )
+    </insert>
+
+    <delete id="delCustomBudget" parameterType="map">
+        /* delCustomBudget */
+        DELETE FROM CAM_PJT_MNG.DJ_PJT_CB WHERE PJT_SN = #{pjtSn}
+    </delete>
+
+    <select id="getProjectBudgetList" parameterType="map" resultType="map">
+        /* getProjectBudgetList */
+        SELECT * FROM CAM_PJT_MNG.DJ_PJT_CB
+        WHERE PJT_SN = #{pjtSn}
+    </select>
+
+    <!-- 커스텀예산 끝 -->
+
     <select id="getProjectTotalData" parameterType="map" resultType="map">
         /*getProjectTotalData*/
         WITH RECURSIVE PROJECT AS (
