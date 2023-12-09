@@ -176,7 +176,7 @@
                 <th>수량</th>
                 <th>단위</th>
                 <th>견적총액</th>
-                <th>견적처</th>
+                <th><span class="red-star">*</span>견적처</th>
                 <th>비고</th>
                 <th>명령</th>
             </tr>
