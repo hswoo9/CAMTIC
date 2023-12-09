@@ -36,7 +36,7 @@ var equipmentUsePop = {
             dataTextField: "TEXT",
             dataValueField: "VALUE",
             index: 0
-        })
+        });
 
         $("#userName").kendoTextBox();
         $("#operCn").kendoTextBox();
@@ -87,13 +87,13 @@ var equipmentUsePop = {
                                     dataValueField: "VALUE",
                                     dataSource: ds,
                                     index: 0
-                                })
+                                });
                             }
-                        })
+                        });
                     }
-                })
+                });
             }
-        })
+        });
 
         $.ajax({
             url : "/asset/getPrtpcoGbnNameList",
@@ -109,9 +109,13 @@ var equipmentUsePop = {
                     dataValueField: "VALUE",
                     dataSource: ds,
                     index: 0
-                })
+                });
             }
-        })
+        });
+
+        window.call = function (data){
+            equipmentUsePop.fn_EqipmnInfo(data);
+        };
     },
 
     inputNumberFormat: function (obj){
@@ -119,7 +123,7 @@ var equipmentUsePop = {
     },
 
     fn_comma: function(str){
-        return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").replace(/(^0+)/, "");
+        return str.toString().replace(/\B(?=(\d{3});+(?!\d))/g, ",").replace(/(^0+)/, "");
     },
 
     equipUseSave : function (){
@@ -198,8 +202,43 @@ var equipmentUsePop = {
     fn_popCamCrmList : function (){
         var url = "/crm/pop/popCrmList.do";
         var name = "_blank";
-        var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
+        var option = "width = 1300, height = 670, top = 200, left = 400, location = no";
         var popup = window.open(url, name, option);
+    },
+
+    fn_EqipmnInfo : function (name){
+
+        $.ajax({
+            url : "/asset/getEqipmnOne",
+            type : "post",
+            data : {
+                userName : name
+            },
+            async: false,
+            dataType : "json",
+            success : function (rs){
+                var result = rs.map;
+
+                console.log(result);
+
+                $("#hourlyUsageFee").val("");
+
+                if(result != null) {
+                    $("#eqipmnGbnName").data("kendoDropDownList").value(result.eqipmn_gbn_cmmn_cd_sn);
+                    $("#eqipmnGbnName").data("kendoDropDownList").trigger("change");
+
+                    $("#eqipmnName").data("kendoDropDownList").value(result.eqipmn_mst_sn);
+
+                    $("#hourlyUsageFee").val(result.hourly_usage_fee);
+                }
+            }
+        });
+    },
+
+    // 시간당 사용대금 계산
+    fn_EqipmnHUF : function (time){
+        $("#useAmt").val(time * $("#hourlyUsageFee").val());
     }
+
 }
 

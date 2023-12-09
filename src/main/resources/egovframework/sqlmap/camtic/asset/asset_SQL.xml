@@ -7,22 +7,22 @@
     <select id="getAssetList" resultType="map">
         /* getAssetList */
         SELECT
-            AI.*,
-            AP.AST_PLACE_NAME,
-            IC.INSIDE_DT_CODE_NM
+        AI.*,
+        AP.AST_PLACE_NAME,
+        IC.INSIDE_DT_CODE_NM
         FROM
-            CAM_INSIDE.DJ_ASSET_INFO AI
+        CAM_INSIDE.DJ_ASSET_INFO AI
         JOIN
-            CAM_INSIDE.DJ_ASSET_PLACE AP
+        CAM_INSIDE.DJ_ASSET_PLACE AP
         ON AI.AST_PLACE_SN = AP.AST_PLACE_SN
         JOIN
-            CAM_INSIDE.DJ_INSIDE_CODE IC
+        CAM_INSIDE.DJ_INSIDE_CODE IC
         ON AI.AST_STS_CODE = IC.INSIDE_DT_CODE AND IC.INSIDE_MD_CODE = '03'
         WHERE
-            AI.ACTIVE = 'Y'
+        AI.ACTIVE = 'Y'
 
         <if test='startDate != null and !"".equals(startDate)'>
-        <![CDATA[
+            <![CDATA[
 		AND
 		    DATE_FORMAT(#{startDate}, '%Y%m%d') <= DATE_FORMAT(AI.PURC_DATE, '%Y%m%d')
 		AND
@@ -93,7 +93,7 @@
                 WHEN AI.FUNDING_SOURCE = 'D' THEN CONCAT('[엔지니어링]', AI.PJT_NM)
                 WHEN AI.FUNDING_SOURCE = 'V' THEN CONCAT('[용역/기타]', AI.PJT_NM)
                 WHEN AI.FUNDING_SOURCE = '3' THEN CONCAT('[기타]', AI.PJT_NM)
-            END FUNDING_SOURCE_TXT,
+                END FUNDING_SOURCE_TXT,
             AP.AST_PLACE_NAME,
             AI.DEPT_SEQ,
             AI.EMP_SEQ,
@@ -107,27 +107,27 @@
             (SELECT COUNT(*) FROM CAM_INSIDE.DJ_ASSET_INFO_OTHER_HISTORY WHERE AST_INFO_SN = AI.AST_INFO_SN AND TYPE = 'O') AS OCOUNT
         FROM
             CAM_INSIDE.DJ_ASSET_INFO AI
-        JOIN
+                JOIN
             CAM_INSIDE.DJ_ASSET_CODE_POSITION ACP
             ON AI.AST_CODE_COMPANY_ID = ACP.AST_CP_CODE
-        JOIN
+                JOIN
             CAM_INSIDE.DJ_ASSET_CODE_CLASS ACC
-        ON AI.AST_TYPE_CODE = ACC.AST_TYPE_CODE
-        JOIN
+            ON AI.AST_TYPE_CODE = ACC.AST_TYPE_CODE
+                JOIN
             CAM_INSIDE.DJ_ASSET_CODE AC1
-        ON AI.AST_CODE_ID_1 = AC1.AST_CODE
-        JOIN
+            ON AI.AST_CODE_ID_1 = AC1.AST_CODE
+                JOIN
             CAM_INSIDE.DJ_ASSET_CODE AC2
-        ON AC2.AST_UPPER_CODE = AC1.AST_CODE_ID AND AI.AST_CODE_ID_2 = AC2.AST_CODE
-        JOIN
+            ON AC2.AST_UPPER_CODE = AC1.AST_CODE_ID AND AI.AST_CODE_ID_2 = AC2.AST_CODE
+                JOIN
             CAM_INSIDE.DJ_ASSET_CODE AC3
-        ON AC3.AST_UPPER_CODE = AC2.AST_CODE_ID AND AI.AST_CODE_ID_3 = AC3.AST_CODE
-        JOIN
+            ON AC3.AST_UPPER_CODE = AC2.AST_CODE_ID AND AI.AST_CODE_ID_3 = AC3.AST_CODE
+                JOIN
             CAM_INSIDE.DJ_ASSET_PLACE AP
-        ON AI.AST_PLACE_SN = AP.AST_PLACE_SN
-        JOIN
+            ON AI.AST_PLACE_SN = AP.AST_PLACE_SN
+                JOIN
             CAM_INSIDE.DJ_INSIDE_CODE IC
-        ON AI.AST_STS_CODE = IC.INSIDE_DT_CODE AND IC.INSIDE_MD_CODE = '03'
+            ON AI.AST_STS_CODE = IC.INSIDE_DT_CODE AND IC.INSIDE_MD_CODE = '03'
         WHERE
             AI.AST_INFO_SN = #{astInfoSn}
     </select>
@@ -152,9 +152,9 @@
             A.*
         FROM
             CAM_INSIDE.DJ_ASSET_INFO_MOD_HISTORY_ITEM A
-        JOIN
+                JOIN
             CAM_INSIDE.DJ_ASSET_INFO_MOD_HISTORY B
-        ON A.AST_INFO_MOD_SN = B.AST_INFO_MOD_SN
+            ON A.AST_INFO_MOD_SN = B.AST_INFO_MOD_SN
         WHERE
             B.AST_INFO_SN = #{astInfoSn}
     </select>
@@ -162,13 +162,13 @@
     <select id="getInsideCodeList" resultType="map" parameterType="map">
         /* getInsideCodeList */
         SELECT
-            *
+        *
         FROM
-            CAM_INSIDE.DJ_INSIDE_CODE
+        CAM_INSIDE.DJ_INSIDE_CODE
         WHERE
-            ACTIVE = 'Y'
+        ACTIVE = 'Y'
         <if test='insideMdCode != null and !"".equals(insideMdCode)'>
-        AND
+            AND
             INSIDE_MD_CODE = #{insideMdCode}
         </if>
     </select>
@@ -176,15 +176,15 @@
     <select id="getInsideCode" resultType="map" parameterType="map">
         /* getInsideCode */
         SELECT
-            *
+        *
         FROM
-            CAM_INSIDE.DJ_INSIDE_CODE
+        CAM_INSIDE.DJ_INSIDE_CODE
         WHERE
-            ACTIVE = 'Y'
+        ACTIVE = 'Y'
         AND
-            INSIDE_MD_CODE = #{insideMdCode}
+        INSIDE_MD_CODE = #{insideMdCode}
         <if test='insideDtCode != null and !"".equals(insideDtCode)'>
-        AND
+            AND
             INSIDE_DT_CODE = #{insideDtCode}
         </if>
     </select>
@@ -197,80 +197,80 @@
             CAM_INSIDE.DJ_ASSET_INFO
         WHERE
             AST_CODE_COMPANY_ID = #{astCodeCompanyId}
-        AND
+          AND
             AST_TYPE_CODE = #{astTypeCode}
-        AND
+          AND
             AST_CODE_ID_1 = #{astCodeId1}
-        AND
+          AND
             AST_CODE_ID_2 = #{astCodeId2}
-        AND
+          AND
             AST_CODE_ID_3 = #{astCodeId3}
     </select>
 
     <insert id="setAssetInfo" parameterType="map">
         /* setAssetInfo */
         INSERT INTO CAM_INSIDE.DJ_ASSET_INFO
-            (
-                AST_CODE_COMPANY_ID,
-                AST_TYPE_CODE,
-                AST_CODE_ID_1,
-                AST_CODE_ID_2,
-                AST_CODE_ID_3,
-                AST_STS_CODE,
-                AST_PLACE_SN,
-                AST_NO,
-                AST_NAME,
-                PURC_DATE,
-                PURC_PRICE,
-                PURC_COMPANY_ID,
-                MODEL_SIZE,
-                MODEL_NAME,
-                MF_COMPANY,
-                ORG_COUNTRY,
-                QTY,
-                UNIT,
-                REG_TYPE,
-                FUNDING_SOURCE,
-                EXP_ACCOUNT,
-                DEPT_SEQ,
-                EMP_SEQ,
-                EMP_NAME,
-                PURPOSE,
-                REMARK,
-                REG_EMP_SEQ,
-                PJT_NM
-            )
+        (
+        AST_CODE_COMPANY_ID,
+        AST_TYPE_CODE,
+        AST_CODE_ID_1,
+        AST_CODE_ID_2,
+        AST_CODE_ID_3,
+        AST_STS_CODE,
+        AST_PLACE_SN,
+        AST_NO,
+        AST_NAME,
+        PURC_DATE,
+        PURC_PRICE,
+        PURC_COMPANY_ID,
+        MODEL_SIZE,
+        MODEL_NAME,
+        MF_COMPANY,
+        ORG_COUNTRY,
+        QTY,
+        UNIT,
+        REG_TYPE,
+        FUNDING_SOURCE,
+        EXP_ACCOUNT,
+        DEPT_SEQ,
+        EMP_SEQ,
+        EMP_NAME,
+        PURPOSE,
+        REMARK,
+        REG_EMP_SEQ,
+        PJT_NM
+        )
         VALUES
-            (
-                #{astCodeCompanyId},
-                #{astTypeCode},
-                #{astCodeId1},
-                #{astCodeId2},
-                #{astCodeId3},
-                #{astStsCode},
-                #{astPlaceSn},
-                #{astNo},
-                #{astName},
-                #{purcDate},
-                #{purcPrice},
-                #{purcCompanyId},
-                #{modelSize},
-                #{modelName},
-                #{mfCompany},
-                #{orgCountry},
-                #{qty},
-                #{unit},
-                #{regType},
-                #{fundingSource},
-                #{expAccount},
-                #{deptSeq},
-                #{empSeq},
-                #{empName},
-                #{purpose},
-                #{remark},
-                #{regEmpSeq},
-                #{pjtNm}
-            )
+        (
+        #{astCodeCompanyId},
+        #{astTypeCode},
+        #{astCodeId1},
+        #{astCodeId2},
+        #{astCodeId3},
+        #{astStsCode},
+        #{astPlaceSn},
+        #{astNo},
+        #{astName},
+        #{purcDate},
+        #{purcPrice},
+        #{purcCompanyId},
+        #{modelSize},
+        #{modelName},
+        #{mfCompany},
+        #{orgCountry},
+        #{qty},
+        #{unit},
+        #{regType},
+        #{fundingSource},
+        #{expAccount},
+        #{deptSeq},
+        #{empSeq},
+        #{empName},
+        #{purpose},
+        #{remark},
+        #{regEmpSeq},
+        #{pjtNm}
+        )
 
         <selectKey keyProperty="astInfoSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_ASSET_INFO'
@@ -354,7 +354,7 @@
         FROM
             CAM_INSIDE.DJ_ASSET_MANAGE
         ORDER BY REG_DATE DESC
-        LIMIT 1
+            LIMIT 1
     </select>
 
     <select id="getAssetInfoAll" parameterType="map" resultType="map">
@@ -369,7 +369,7 @@
                  WHEN AI.FUNDING_SOURCE = 6 THEN CONCAT('[지원사업]', AI.EXP_ACCOUNT)
                  WHEN AI.FUNDING_SOURCE = 7 THEN CONCAT('[협의회]', AI.EXP_ACCOUNT)
                  WHEN AI.FUNDING_SOURCE = 3 THEN CONCAT('[기타사업]', AI.EXP_ACCOUNT)
-            END FUNDING_SOURCE_TXT
+                END FUNDING_SOURCE_TXT
         FROM
             CAM_INSIDE.DJ_ASSET_INFO AI
         WHERE
@@ -400,16 +400,16 @@
             REG_EMP_SEQ
         )
         VALUES
-        (
-            #{astInfoSn},
-            #{type},
-            #{otherTitle},
-            #{exeDate},
-            #{unitPrice},
-            #{standard},
-            #{etc},
-            #{empSeq}
-        )
+            (
+                #{astInfoSn},
+                #{type},
+                #{otherTitle},
+                #{exeDate},
+                #{unitPrice},
+                #{standard},
+                #{etc},
+                #{empSeq}
+            )
     </insert>
 
     <update id="setAstOtherHistoryUpd" parameterType="map">
@@ -431,13 +431,13 @@
     <insert id="setAstManage" parameterType="map">
         /* setAstManage */
         INSERT INTO CAM_INSIDE.DJ_ASSET_MANAGE
-            (
-                MANAGE_MAIN_EMP_SEQ,
-                MANAGE_MAIN_EMP_NAME,
-                MANAGE_SUB_EMP_SEQ,
-                MANAGE_SUB_EMP_NAME,
-                REG_EMP_SEQ
-            )
+        (
+            MANAGE_MAIN_EMP_SEQ,
+            MANAGE_MAIN_EMP_NAME,
+            MANAGE_SUB_EMP_SEQ,
+            MANAGE_SUB_EMP_NAME,
+            REG_EMP_SEQ
+        )
         VALUES
             (
                 #{manageMainEmpSeq},
@@ -466,44 +466,44 @@
     <update id="setAstInfoBatch" parameterType="map">
         /* setAstInfoBatch */
         UPDATE
-            CAM_INSIDE.DJ_ASSET_INFO
+        CAM_INSIDE.DJ_ASSET_INFO
         SET
-            <if test='astName != null and !"".equals(astName)'>
-                AST_NAME = #{astName},
-            </if>
-            <if test='empSeq != null and !"".equals(empSeq)'>
-                DEPT_SEQ = #{deptSeq},
-                EMP_SEQ = #{empSeq},
-                EMP_NAME = #{empName},
-            </if>
-            <if test='purcPrice != null and !"".equals(purcPrice)'>
-                PURC_PRICE = #{purcPrice},
-            </if>
-            <if test='astStsCode != null and !"".equals(astStsCode)'>
-                AST_STS_CODE = #{astStsCode},
-            </if>
-            MOD_EMP_SEQ = #{regEmpSeq},
-            MOD_DATE = NOW()
+        <if test='astName != null and !"".equals(astName)'>
+            AST_NAME = #{astName},
+        </if>
+        <if test='empSeq != null and !"".equals(empSeq)'>
+            DEPT_SEQ = #{deptSeq},
+            EMP_SEQ = #{empSeq},
+            EMP_NAME = #{empName},
+        </if>
+        <if test='purcPrice != null and !"".equals(purcPrice)'>
+            PURC_PRICE = #{purcPrice},
+        </if>
+        <if test='astStsCode != null and !"".equals(astStsCode)'>
+            AST_STS_CODE = #{astStsCode},
+        </if>
+        MOD_EMP_SEQ = #{regEmpSeq},
+        MOD_DATE = NOW()
         WHERE
-            AST_INFO_SN IN(${astInfoSn})
+        AST_INFO_SN IN(${astInfoSn})
     </update>
 
     <insert id="setAstInfoModHistory" parameterType="map">
         /* setAstInfoModHistory */
         INSERT INTO CAM_INSIDE.DJ_ASSET_INFO_MOD_HISTORY
-            (
-                AST_INFO_SN,
-                REG_EMP_IP,
-                REG_EMP_SEQ,
-                REG_EMP_NAME
-            )
+        (
+        AST_INFO_SN,
+        REG_EMP_IP,
+        REG_EMP_SEQ,
+        REG_EMP_NAME
+        )
         VALUE
-            (
-                #{astInfoSn},
-                #{regEmpIp},
-                #{regEmpSeq},
-                #{regEmpName}
-            )
+        (
+        #{astInfoSn},
+        #{regEmpIp},
+        #{regEmpSeq},
+        #{regEmpName}
+        )
 
         <selectKey keyProperty="astInfoModSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_ASSET_INFO_MOD_HISTORY'
@@ -518,21 +518,21 @@
     <insert id="setAstInfoModHistoryItem" parameterType="list">
         /* setAstInfoModHistoryItem */
         INSERT INTO CAM_INSIDE.DJ_ASSET_INFO_MOD_HISTORY_ITEM
-            (
-                AST_INFO_MOD_SN,
-                MOD_ITEM_NAME,
-                MOD_OLD_ITEM_INFO,
-                MOD_NEW_ITEM_INFO,
-                REG_EMP_SEQ
-            )
+        (
+        AST_INFO_MOD_SN,
+        MOD_ITEM_NAME,
+        MOD_OLD_ITEM_INFO,
+        MOD_NEW_ITEM_INFO,
+        REG_EMP_SEQ
+        )
         VALUES
         <foreach collection="list" item="item" separator=",">
             (
-                #{item.astInfoModSn},
-                #{item.modItemName},
-                #{item.modOldItemInfo},
-                #{item.modNewItemInfo},
-                #{item.regEmpSeq}
+            #{item.astInfoModSn},
+            #{item.modItemName},
+            #{item.modOldItemInfo},
+            #{item.modNewItemInfo},
+            #{item.regEmpSeq}
             )
         </foreach>
     </insert>
@@ -555,11 +555,11 @@
     <insert id="setAssetCodePosition" parameterType="map">
         /* setAssetCodePosition */
         INSERT INTO CAM_INSIDE.DJ_ASSET_CODE_POSITION
-            (
-                AST_CP_CODE,
-                AST_CP_CODE_NM,
-                REG_EMP_SEQ
-            )
+        (
+            AST_CP_CODE,
+            AST_CP_CODE_NM,
+            REG_EMP_SEQ
+        )
         VALUES
             (
                 #{astCpCode},
@@ -613,11 +613,11 @@
     <insert id="setClassDivision" parameterType="map">
         /* setClassDivision */
         INSERT INTO CAM_INSIDE.DJ_ASSET_CODE_CLASS
-            (
-                AST_TYPE_CODE,
-                AST_TYPE_CODE_NM,
-                REG_EMP_SEQ
-            )
+        (
+            AST_TYPE_CODE,
+            AST_TYPE_CODE_NM,
+            REG_EMP_SEQ
+        )
         VALUES
             (
                 #{astTypeCode},
@@ -656,9 +656,9 @@
         SELECT * FROM CAM_INSIDE.DJ_ASSET_PLACE
         WHERE ACTIVE = 'Y'
         ORDER BY (
-            CASE WHEN ASCII(SUBSTRING(AST_PLACE_NAME, 1)) BETWEEN 48 AND 57 THEN 1
-                 WHEN ASCII(SUBSTRING(AST_PLACE_NAME, 1)) < 128 THEN 3
-            ELSE 2 END), AST_PLACE_NAME
+                     CASE WHEN ASCII(SUBSTRING(AST_PLACE_NAME, 1)) BETWEEN 48 AND 57 THEN 1
+                          WHEN ASCII(SUBSTRING(AST_PLACE_NAME, 1)) < 128 THEN 3
+                          ELSE 2 END), AST_PLACE_NAME
         ]]>
     </select>
 
@@ -728,15 +728,15 @@
     <insert id="setCategoryCode" parameterType="map">
         /* setCategoryCode */
         INSERT INTO CAM_INSIDE.DJ_ASSET_CODE
-            (
-                AST_UPPER_CODE,
-                AST_CODE,
-                AST_CODE_NM,
-                AST_DEPRE_TYPE,
-                AST_DEPRE_PERCENT,
-                AST_USE_YEAR,
-                REG_EMP_SEQ
-            )
+        (
+            AST_UPPER_CODE,
+            AST_CODE,
+            AST_CODE_NM,
+            AST_DEPRE_TYPE,
+            AST_DEPRE_PERCENT,
+            AST_USE_YEAR,
+            REG_EMP_SEQ
+        )
         VALUES
             (
                 #{astUpperCode},
@@ -762,19 +762,19 @@
     <update id="setCategoryCodeUpd" parameterType="map">
         /* setCategoryCodeUpd */
         UPDATE
-            CAM_INSIDE.DJ_ASSET_CODE
+        CAM_INSIDE.DJ_ASSET_CODE
         SET
-            <if test='astCode != null and !"".equals(astCode)'>
-                AST_CODE = #{astCode},
-            </if>
-            AST_CODE_NM = #{astCodeNm},
-            AST_DEPRE_TYPE = #{astCodeNm},
-            AST_DEPRE_PERCENT = #{astDeprePercent},
-            AST_USE_YEAR = #{astUseYear},
-            MOD_EMP_SEQ = #{empSeq},
-            MOD_DATE = NOW()
+        <if test='astCode != null and !"".equals(astCode)'>
+            AST_CODE = #{astCode},
+        </if>
+        AST_CODE_NM = #{astCodeNm},
+        AST_DEPRE_TYPE = #{astCodeNm},
+        AST_DEPRE_PERCENT = #{astDeprePercent},
+        AST_USE_YEAR = #{astUseYear},
+        MOD_EMP_SEQ = #{empSeq},
+        MOD_DATE = NOW()
         WHERE
-            AST_CODE_ID = #{astCodeId}
+        AST_CODE_ID = #{astCodeId}
     </update>
 
     <update id="setCategoryCodeDel" parameterType="map">
@@ -792,40 +792,40 @@
     <select id="getAstPdaInfoList" parameterType="map" resultType="map">
         /* getAstPdaInfoList */
         SELECT
-            API.AST_PDA_INFO_SN,
-            API.AST_INFO_SN,
-            API.AST_NO,
-            API.AST_NAME,
-            API.PURC_DATE,
-            API.ORIGIN_AST_PLACE_SN,
-            AP.AST_PLACE_NAME AS ORIGIN_AST_PLACE,
-            AP2.AST_PLACE_NAME AS NEW_AST_PLACE,
-            DATE_FORMAT(API.ACTIVE_DATE, '%Y-%m-%d') AS ACTIVE_DATE,
-            API.AST_STS_CODE AS ORIGIN_STS_CODE,
-            IC.INSIDE_DT_CODE_NM AS ORIGIN_STS_NAME,
-            IC2.INSIDE_DT_CODE_NM AS NEW_STS_NAME,
-            APO.*
+        API.AST_PDA_INFO_SN,
+        API.AST_INFO_SN,
+        API.AST_NO,
+        API.AST_NAME,
+        API.PURC_DATE,
+        API.ORIGIN_AST_PLACE_SN,
+        AP.AST_PLACE_NAME AS ORIGIN_AST_PLACE,
+        AP2.AST_PLACE_NAME AS NEW_AST_PLACE,
+        DATE_FORMAT(API.ACTIVE_DATE, '%Y-%m-%d') AS ACTIVE_DATE,
+        API.AST_STS_CODE AS ORIGIN_STS_CODE,
+        IC.INSIDE_DT_CODE_NM AS ORIGIN_STS_NAME,
+        IC2.INSIDE_DT_CODE_NM AS NEW_STS_NAME,
+        APO.*
         FROM
-            CAM_INSIDE.DJ_ASSET_PDA_INFO API
+        CAM_INSIDE.DJ_ASSET_PDA_INFO API
         JOIN
-            CAM_INSIDE.DJ_ASSET_PDA_OPT APO
+        CAM_INSIDE.DJ_ASSET_PDA_OPT APO
         ON API.AST_PDA_INFO_SN = APO.AST_PDA_INFO_SN
         LEFT JOIN
-            CAM_INSIDE.DJ_ASSET_PLACE AP
+        CAM_INSIDE.DJ_ASSET_PLACE AP
         ON API.ORIGIN_AST_PLACE_SN = AP.AST_PLACE_SN
         LEFT JOIN
-            CAM_INSIDE.DJ_ASSET_PLACE AP2
+        CAM_INSIDE.DJ_ASSET_PLACE AP2
         ON APO.NEW_AST_PLACE_SN = AP2.AST_PLACE_SN
         JOIN
-            CAM_INSIDE.DJ_INSIDE_CODE IC
+        CAM_INSIDE.DJ_INSIDE_CODE IC
         ON API.AST_STS_CODE = IC.INSIDE_DT_CODE AND IC.INSIDE_MD_CODE = '03'
         LEFT JOIN
-            CAM_INSIDE.DJ_INSIDE_CODE IC2
+        CAM_INSIDE.DJ_INSIDE_CODE IC2
         ON APO.NEW_AST_STS_CODE = IC2.INSIDE_DT_CODE AND IC2.INSIDE_MD_CODE = '03'
         WHERE
-            API.ACTIVE = 'Y'
+        API.ACTIVE = 'Y'
         <if test='startDate != null and !"".equals(startDate)'>
-        <![CDATA[
+            <![CDATA[
 		AND
 		    DATE_FORMAT(#{startDate}, '%Y%m%d') <= DATE_FORMAT(API.PURC_DATE, '%Y%m%d')
 		AND
@@ -1021,33 +1021,33 @@
             APO.AST_STS_MOD_REASON
         FROM
             CAM_INSIDE.DJ_ASSET_PDA_INFO API
-        JOIN
+                JOIN
             CAM_INSIDE.DJ_ASSET_PDA_OPT APO
-        ON API.AST_PDA_INFO_SN = APO.AST_PDA_INFO_SN
-        JOIN
+            ON API.AST_PDA_INFO_SN = APO.AST_PDA_INFO_SN
+                JOIN
             CAM_INSIDE.DJ_ASSET_INFO AI
-        ON API.AST_INFO_SN = AI.AST_INFO_SN
-        JOIN
+            ON API.AST_INFO_SN = AI.AST_INFO_SN
+                JOIN
             CAM_INSIDE.DJ_ASSET_CODE_POSITION ACP
-        ON API.AST_CODE_COMPANY_ID = ACP.AST_CP_CODE
-        JOIN
+            ON API.AST_CODE_COMPANY_ID = ACP.AST_CP_CODE
+                JOIN
             CAM_INSIDE.DJ_ASSET_CODE_CLASS ACC
-        ON API.AST_TYPE_CODE = ACC.AST_TYPE_CODE
-        JOIN
+            ON API.AST_TYPE_CODE = ACC.AST_TYPE_CODE
+                JOIN
             CAM_INSIDE.DJ_ASSET_CODE AC1
-        ON API.AST_CODE_ID_1 = AC1.AST_CODE
-        JOIN
+            ON API.AST_CODE_ID_1 = AC1.AST_CODE
+                JOIN
             CAM_INSIDE.DJ_ASSET_CODE AC2
-        ON AC2.AST_UPPER_CODE = AC1.AST_CODE_ID AND API.AST_CODE_ID_2 = AC2.AST_CODE
-        JOIN
+            ON AC2.AST_UPPER_CODE = AC1.AST_CODE_ID AND API.AST_CODE_ID_2 = AC2.AST_CODE
+                JOIN
             CAM_INSIDE.DJ_ASSET_CODE AC3
-        ON AC3.AST_UPPER_CODE = AC2.AST_CODE_ID AND API.AST_CODE_ID_3 = AC3.AST_CODE
-        JOIN
+            ON AC3.AST_UPPER_CODE = AC2.AST_CODE_ID AND API.AST_CODE_ID_3 = AC3.AST_CODE
+                JOIN
             CAM_INSIDE.DJ_ASSET_PLACE AP
-        ON API.ORIGIN_AST_PLACE_SN = AP.AST_PLACE_SN
-        JOIN
+            ON API.ORIGIN_AST_PLACE_SN = AP.AST_PLACE_SN
+                JOIN
             CAM_INSIDE.DJ_INSIDE_CODE IC
-        ON API.AST_STS_CODE = IC.INSIDE_DT_CODE AND IC.INSIDE_MD_CODE = '03'
+            ON API.AST_STS_CODE = IC.INSIDE_DT_CODE AND IC.INSIDE_MD_CODE = '03'
         WHERE
             API.AST_PDA_INFO_SN = #{astPdaInfoSn}
     </select>
@@ -1055,26 +1055,26 @@
     <update id="setAstPdaOptInspection" parameterType="map">
         /* setAstPdaOptInspection */
         UPDATE
-            CAM_INSIDE.DJ_ASSET_PDA_OPT
+        CAM_INSIDE.DJ_ASSET_PDA_OPT
         SET
-            <if test='inspectionType != null and !"".equals(inspectionType)'>
-                WORK_TYPE = #{workType},
-                INSPECTION_TYPE = #{inspectionType},
+        <if test='inspectionType != null and !"".equals(inspectionType)'>
+            WORK_TYPE = #{workType},
+            INSPECTION_TYPE = #{inspectionType},
+        </if>
+        <if test='placeModType != null and !"".equals(placeModType)'>
+            PLACE_MOD_TYPE = #{placeModType},
+            <if test='"1".equals(placeModType)'>
+                NEW_AST_PLACE_SN = #{newAssetPlaceSn},
             </if>
-            <if test='placeModType != null and !"".equals(placeModType)'>
-                PLACE_MOD_TYPE = #{placeModType},
-                <if test='"1".equals(placeModType)'>
-                    NEW_AST_PLACE_SN = #{newAssetPlaceSn},
-                </if>
-            </if>
-            <if test='astStsCodeModType != null and !"".equals(astStsCodeModType)'>
-                AST_STS_CODE_MOD_TYPE = #{astStsCodeModType},
-                NEW_AST_STS_CODE = #{newAstStsCode},
-                AST_STS_MOD_REASON = #{astStsModReason},
-            </if>
-            MOD_EMP_SEQ = #{empSeq}
+        </if>
+        <if test='astStsCodeModType != null and !"".equals(astStsCodeModType)'>
+            AST_STS_CODE_MOD_TYPE = #{astStsCodeModType},
+            NEW_AST_STS_CODE = #{newAstStsCode},
+            AST_STS_MOD_REASON = #{astStsModReason},
+        </if>
+        MOD_EMP_SEQ = #{empSeq}
         WHERE
-            AST_PDA_INFO_SN = #{astPdaInfoSn}
+        AST_PDA_INFO_SN = #{astPdaInfoSn}
     </update>
 
     <update id="setAssetPdaActiveDtUpd" parameterType="map">
@@ -1091,18 +1091,18 @@
     <update id="setAssetInspectionUpload" parameterType="map">
         /* setAssetInspectionUpload */
         UPDATE
-            CAM_INSIDE.DJ_ASSET_INFO
+        CAM_INSIDE.DJ_ASSET_INFO
         SET
-            <if test='newAstPlaceSn != null and !"".equals(newAstPlaceSn)'>
-                AST_PLACE_SN = #{newAstPlaceSn},
-            </if>
-            <if test='newAstStsCode != null and !"".equals(newAstStsCode)'>
-                AST_STS_CODE =  #{newAstStsCode},
-            </if>
-            INSPECTION_TYPE = #{inspectionType},
-            MOD_EMP_SEQ = #{regEmpSeq}
+        <if test='newAstPlaceSn != null and !"".equals(newAstPlaceSn)'>
+            AST_PLACE_SN = #{newAstPlaceSn},
+        </if>
+        <if test='newAstStsCode != null and !"".equals(newAstStsCode)'>
+            AST_STS_CODE =  #{newAstStsCode},
+        </if>
+        INSPECTION_TYPE = #{inspectionType},
+        MOD_EMP_SEQ = #{regEmpSeq}
         WHERE
-            AST_INFO_SN = #{astInfoSn}
+        AST_INFO_SN = #{astInfoSn}
     </update>
     <!-- PDA 연동목록 종료 -->
 
@@ -1130,115 +1130,118 @@
             CAM_HR.DJ_EMP_INFO HEI ON IISI.EMP_SEQ = HEI.EMP_SEQ
         WHERE
             IISI.INVENTION_INFO_SN = #{inventionInfoSn}
-        AND
+          AND
             IISI.ACTIVE = 'Y'
     </select>
 
     <select id="getRprReceiptList" parameterType="map" resultType="map">
         /*getRprReceiptList*/
         SELECT
-            RE.*
+        RE.*
         FROM
-            (
-                SELECT
-                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
-                    (SELECT INVENTION_INFO_SN FROM CAM_INSIDE.DJ_INVENTION_INFO WHERE BEFORE_SN = III.INVENTION_INFO_SN AND  RPR_CLASS = 2) AS STAT,
-                    III.*,
-                    (SELECT COUNT(*) FROM CAM_INSIDE.DJ_INVENTION_INFO WHERE BEFORE_SN = III.INVENTION_INFO_SN AND ACTIVE = 'Y' AND DOC_ID IS NOT NULL AND STATUS = '100' AND RPR_CLASS = '3') AS PAYMENTS
-                    ,(SELECT file_org_name FROM CAM_COMMON.DJ_FILE_INFO WHERE file_no = III.APP_FILE_NO ) AS APP_FILE_ORG_NAME
-                    ,(SELECT file_ext FROM CAM_COMMON.DJ_FILE_INFO WHERE file_no = III.APP_FILE_NO ) AS APP_FILE_EXT
-                    ,(SELECT file_no FROM CAM_COMMON.DJ_FILE_INFO WHERE file_no = III.APP_FILE_NO ) AS APP_FILES_NO
-                    ,(SELECT file_path FROM CAM_COMMON.DJ_FILE_INFO WHERE file_no = III.APP_FILE_NO ) AS APP_FILE_PATH
-                    ,(SELECT file_uuid FROM CAM_COMMON.DJ_FILE_INFO WHERE file_no = III.APP_FILE_NO ) AS APP_FILE_UUID
-                    ,(SELECT file_org_name FROM CAM_COMMON.DJ_FILE_INFO WHERE file_no = III.REG_FILE_NO ) AS REG_FILE_ORG_NAME
-                    ,(SELECT file_ext FROM CAM_COMMON.DJ_FILE_INFO WHERE file_no = III.REG_FILE_NO ) AS REG_FILE_EXT
-                    ,(SELECT file_no FROM CAM_COMMON.DJ_FILE_INFO WHERE file_no = III.REG_FILE_NO ) AS REG_FILES_NO
-                    ,(SELECT file_path FROM CAM_COMMON.DJ_FILE_INFO WHERE file_no = III.REG_FILE_NO ) AS REG_FILE_PATH
-                    ,(SELECT file_uuid FROM CAM_COMMON.DJ_FILE_INFO WHERE file_no = III.REG_FILE_NO ) AS REG_FILE_UUID
-                FROM
-                    CAM_INSIDE.DJ_INVENTION_INFO III,
-                    (SELECT @ROWNUM := 0) TMP
-                WHERE
-                    1=1
-<!--                <if test="rprClass != null and rprClass != ''">-->
-<!--                    AND RPR_CLASS = #{rprClass} AND STATUS != 0-->
-<!--                </if>-->
-                <if test="rprClassNotStatus != null and rprClassNotStatus != ''">
-                    AND RPR_CLASS = #{rprClassNotStatus}
-                </if>
-<!--                <if test="'receipt'.equals(mod)">-->
-<!--                    AND RPR_CLASS != 2-->
-<!--                </if>-->
-                <if test="resYn != null and resYn != ''">
-                    AND RES_YN = #{resYn}
-                </if>
-                <choose>
-                    <when test='searchText != null and !"".equals(searchText) and "1".equals(searchType)'>
-                        AND III.REG_EMP_NAME like CONCAT('%', #{searchText}, '%')
-                    </when>
-                    <when test='searchText != null and !"".equals(searchText) and "2".equals(searchType)'>
-                        AND III.SHARE_NAME like CONCAT('%', #{searchText}, '%')
-                    </when>
-                    <when test='searchText != null and !"".equals(searchText) and "".equals(searchType)'>
-                        AND III.TITLE like CONCAT('%', #{searchText}, '%')
-                    </when>
-                </choose>
-                <if test='rprClass !=null and !"". equals(rprClass)'>
-                    AND III.RPR_NAME = #{rprClass}
-                </if>
-                <if test='iprClass !=null and !"". equals(iprClass)'>
-                    AND III.IPR_NAME = #{iprClass}
-                </if>
-                <if test="dateType != null and dateType != ''">
-                    <if test='dateType == 1'>
-                    <![CDATA[
+        (
+        SELECT
+        @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+        (SELECT INVENTION_INFO_SN FROM CAM_INSIDE.DJ_INVENTION_INFO WHERE BEFORE_SN = III.INVENTION_INFO_SN AND  RPR_CLASS = 2) AS STAT,
+        III.*,
+        (SELECT COUNT(*) FROM CAM_INSIDE.DJ_INVENTION_INFO WHERE BEFORE_SN = III.INVENTION_INFO_SN AND ACTIVE = 'Y' AND DOC_ID IS NOT NULL AND STATUS = '100' AND RPR_CLASS = '3') AS PAYMENTS
+        ,(SELECT file_org_name FROM CAM_COMMON.DJ_FILE_INFO WHERE file_no = III.APP_FILE_NO ) AS APP_FILE_ORG_NAME
+        ,(SELECT file_ext FROM CAM_COMMON.DJ_FILE_INFO WHERE file_no = III.APP_FILE_NO ) AS APP_FILE_EXT
+        ,(SELECT file_no FROM CAM_COMMON.DJ_FILE_INFO WHERE file_no = III.APP_FILE_NO ) AS APP_FILES_NO
+        ,(SELECT file_path FROM CAM_COMMON.DJ_FILE_INFO WHERE file_no = III.APP_FILE_NO ) AS APP_FILE_PATH
+        ,(SELECT file_uuid FROM CAM_COMMON.DJ_FILE_INFO WHERE file_no = III.APP_FILE_NO ) AS APP_FILE_UUID
+        ,(SELECT file_org_name FROM CAM_COMMON.DJ_FILE_INFO WHERE file_no = III.REG_FILE_NO ) AS REG_FILE_ORG_NAME
+        ,(SELECT file_ext FROM CAM_COMMON.DJ_FILE_INFO WHERE file_no = III.REG_FILE_NO ) AS REG_FILE_EXT
+        ,(SELECT file_no FROM CAM_COMMON.DJ_FILE_INFO WHERE file_no = III.REG_FILE_NO ) AS REG_FILES_NO
+        ,(SELECT file_path FROM CAM_COMMON.DJ_FILE_INFO WHERE file_no = III.REG_FILE_NO ) AS REG_FILE_PATH
+        ,(SELECT file_uuid FROM CAM_COMMON.DJ_FILE_INFO WHERE file_no = III.REG_FILE_NO ) AS REG_FILE_UUID
+        FROM
+        CAM_INSIDE.DJ_INVENTION_INFO III,
+        (SELECT @ROWNUM := 0) TMP
+        WHERE
+        1=1
+        <!--                <if test="rprClass != null and rprClass != ''">-->
+        <!--                    AND RPR_CLASS = #{rprClass} AND STATUS != 0-->
+        <!--                </if>-->
+        <if test="rprClassNotStatus != null and rprClassNotStatus != ''">
+            AND RPR_CLASS = #{rprClassNotStatus}
+        </if>
+        <!--                <if test="'receipt'.equals(mod)">-->
+        <!--                    AND RPR_CLASS != 2-->
+        <!--                </if>-->
+        <if test="resYn != null and resYn != ''">
+            AND RES_YN = #{resYn}
+        </if>
+        <choose>
+            <when test='searchText != null and !"".equals(searchText) and "1".equals(searchType)'>
+                AND III.REG_EMP_NAME like CONCAT('%', #{searchText}, '%')
+            </when>
+            <when test='searchText != null and !"".equals(searchText) and "2".equals(searchType)'>
+                AND III.SHARE_NAME like CONCAT('%', #{searchText}, '%')
+            </when>
+            <when test='searchText != null and !"".equals(searchText) and "".equals(searchType)'>
+                AND III.TITLE like CONCAT('%', #{searchText}, '%')
+            </when>
+        </choose>
+        <if test='rprClass !=null and !"". equals(rprClass)'>
+            AND III.RPR_NAME = #{rprClass}
+        </if>
+        <if test='iprClass !=null and !"". equals(iprClass)'>
+            AND III.IPR_CLASS = #{iprClass}
+        </if>
+        <if test="dateType != null and dateType != ''">
+            <if test='dateType == 1'>
+                <![CDATA[
                         AND DATE_FORMAT(III.APPLICANT_DT, '%Y-%m-%d') >= DATE_FORMAT(#{stDt}, '%Y-%m-%d')
                         AND DATE_FORMAT(III.APPLICANT_DT, '%Y-%m-%d') <= DATE_FORMAT(#{enDt}, '%Y-%m-%d')
                     ]]>
-                    </if>
-                    <if test='dateType == 2'>
-                        <![CDATA[
+            </if>
+            <if test='dateType == 2'>
+                <![CDATA[
                         AND DATE_FORMAT(III.EXPIRATION_DT, '%Y-%m-%d') >= DATE_FORMAT(#{stDt}, '%Y-%m-%d')
                         AND DATE_FORMAT(III.EXPIRATION_DT, '%Y-%m-%d') <= DATE_FORMAT(#{enDt}, '%Y-%m-%d')
                     ]]>
-                    </if>
-                </if>
-<!--                <if test="iprClass != null and iprClass !=''">-->
-<!--                    AND IPR_CLASS = #{iprClass}-->
-<!--                </if>-->
-                <if test="stateType != null and stateType !=''">
-                    AND STATE_SN = #{stateType}
-                </if>
-                <if test="tainType != null and tainType !=''">
-                    AND TAIN_SN = #{tainType}
-                </if>
-                <if test="singleType != null and singleType !=''">
-                    AND SINGLE_SN = #{singleType}
-                </if>
-                <if test="techType != null and techType !=''">
-                    AND TECH_SN = #{techType}
-                </if>
-<!--                <if test="searchType != null and searchType !=''">-->
-<!--                    <if test="searchType == 1">-->
-<!--                        AND SHARE_NAME LIKE CONCAT('%', #{searchVal},'%')-->
-<!--                    </if>-->
-<!--                    <if test="searchType == 2">-->
-<!--                        AND APPLICANT_NUM LIKE CONCAT('%', #{searchVal},'%')-->
-<!--                    </if>-->
-<!--                    <if test="searchType == 3">-->
-<!--                        AND REG_NUM LIKE CONCAT('%', #{searchVal},'%')-->
-<!--                    </if>-->
-<!--                    <if test="searchType == 4">-->
-<!--                        AND TITLE LIKE CONCAT('%', #{searchVal},'%')-->
-<!--                    </if>-->
-<!--                </if>-->
-                <if test="beforeYn != null and beforeYn !=''">
-                    AND STATUS != 100
-                </if>
-                    AND ACTIVE = 'Y'
-                    AND INVENTION_INFO_SN NOT IN (SELECT INVENTION_INFO_SN FROM CAM_INSIDE.DJ_INVENTION_INFO WHERE RPR_CLASS = 1 AND STATUS = 0)
-                ORDER BY III.REG_DATE, III.REG_DT
-            ) RE
+            </if>
+        </if>
+        <!--                <if test="iprClass != null and iprClass !=''">-->
+        <!--                    AND IPR_CLASS = #{iprClass}-->
+        <!--                </if>-->
+        <if test="stateType != null and stateType !=''">
+            AND STATE_SN = #{stateType}
+        </if>
+        <if test="tainType != null and tainType !=''">
+            AND TAIN_SN = #{tainType}
+        </if>
+        <if test="singleType != null and singleType !=''">
+            AND SINGLE_SN = #{singleType}
+        </if>
+        <if test="techType != null and techType !=''">
+            AND TECH_SN = #{techType}
+        </if>
+        <if test="searchVal != null and searchVal !=''">
+            AND TITLE LIKE CONCAT('%', #{searchVal},'%')
+        </if>
+        <!--                <if test="searchType != null and searchType !=''">-->
+        <!--                    <if test="searchType == 1">-->
+        <!--                        AND SHARE_NAME LIKE CONCAT('%', #{searchVal},'%')-->
+        <!--                    </if>-->
+        <!--                    <if test="searchType == 2">-->
+        <!--                        AND APPLICANT_NUM LIKE CONCAT('%', #{searchVal},'%')-->
+        <!--                    </if>-->
+        <!--                    <if test="searchType == 3">-->
+        <!--                        AND REG_NUM LIKE CONCAT('%', #{searchVal},'%')-->
+        <!--                    </if>-->
+        <!--                    <if test="searchType == 4">-->
+        <!--                        AND TITLE LIKE CONCAT('%', #{searchVal},'%')-->
+        <!--                    </if>-->
+        <!--                </if>-->
+        <if test="beforeYn != null and beforeYn !=''">
+            AND STATUS != 100
+        </if>
+        AND ACTIVE = 'Y'
+        AND INVENTION_INFO_SN NOT IN (SELECT INVENTION_INFO_SN FROM CAM_INSIDE.DJ_INVENTION_INFO WHERE RPR_CLASS = 1 AND STATUS = 0)
+        ORDER BY III.REG_DATE, III.REG_DT
+        ) RE
         ORDER BY RE.REG_DT DESC
     </select>
 
@@ -1252,10 +1255,10 @@
             CAM_INSIDE.DJ_INVENTION_INFO III
         WHERE
             RPR_CLASS = 2
-        AND STATUS != 100
+          AND STATUS != 100
         <![CDATA[
             AND DATE_FORMAT(III.APPLICANT_DT, '%Y-%m-%d') >= DATE_FORMAT(#{startDt}, '%Y-%m-%d')
-            AND DATE_FORMAT(III.APPLICANT_DT, '%Y-%m-%d') <= DATE_FORMAT(#{endDt}, '%Y-%m-%d')
+          AND DATE_FORMAT(III.APPLICANT_DT, '%Y-%m-%d') <= DATE_FORMAT(#{endDt}, '%Y-%m-%d')
         ]]>
         ORDER BY INVENTION_INFO_SN DESC
     </select>
@@ -1263,29 +1266,29 @@
     <insert id="setInventionInsert" parameterType="map">
         /* setInventionInsert */
         INSERT INTO CAM_INSIDE.DJ_INVENTION_INFO
-            (
-                SHARE_SN,
-                SHARE_NAME,
-                IPR_CLASS,
-                IPR_NAME,
-                TITLE,
-                DETAIL_CN,
-                REG_DATE,
-                REG_EMP_SEQ,
-                REG_EMP_NAME
-            )
+        (
+        SHARE_SN,
+        SHARE_NAME,
+        IPR_CLASS,
+        IPR_NAME,
+        TITLE,
+        DETAIL_CN,
+        REG_DATE,
+        REG_EMP_SEQ,
+        REG_EMP_NAME
+        )
         VALUE
-            (
-                #{shareSn},
-                #{shareName},
-                #{iprClass},
-                #{iprName},
-                #{title},
-                #{detailCn},
-                #{regDate},
-                #{regEmpSeq},
-                #{regEmpName}
-            )
+        (
+        #{shareSn},
+        #{shareName},
+        #{iprClass},
+        #{iprName},
+        #{title},
+        #{detailCn},
+        #{regDate},
+        #{regEmpSeq},
+        #{regEmpName}
+        )
         <selectKey keyProperty="inventionInfoSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_INVENTION_INFO'
         </selectKey>
@@ -1294,37 +1297,37 @@
     <insert id="setRprResultInsert" parameterType="map">
         /* setRprResultInsert */
         INSERT INTO CAM_INSIDE.DJ_INVENTION_INFO
-            (
-                RPR_CLASS,
-                RPR_NAME,
-                SHARE_SN,
-                SHARE_NAME,
-                IPR_CLASS,
-                IPR_NAME,
-                TITLE,
-                DETAIL_CN,
-                REG_DATE,
-                REG_NUM,
-                REG_EMP_SEQ,
-                REG_EMP_NAME,
-                BEFORE_SN
-            )
+        (
+        RPR_CLASS,
+        RPR_NAME,
+        SHARE_SN,
+        SHARE_NAME,
+        IPR_CLASS,
+        IPR_NAME,
+        TITLE,
+        DETAIL_CN,
+        REG_DATE,
+        REG_NUM,
+        REG_EMP_SEQ,
+        REG_EMP_NAME,
+        BEFORE_SN
+        )
         VALUE
-            (
-                #{rprClass},
-                #{rprName},
-                #{shareSn},
-                #{shareName},
-                #{iprClass},
-                #{iprName},
-                #{title},
-                #{detailCn},
-                #{regDate},
-                #{regNum},
-                #{regEmpSeq},
-                #{regEmpName},
-                #{befSn}
-            )
+        (
+        #{rprClass},
+        #{rprName},
+        #{shareSn},
+        #{shareName},
+        #{iprClass},
+        #{iprName},
+        #{title},
+        #{detailCn},
+        #{regDate},
+        #{regNum},
+        #{regEmpSeq},
+        #{regEmpName},
+        #{befSn}
+        )
         <selectKey keyProperty="inventionInfoSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_INVENTION_INFO'
         </selectKey>
@@ -1333,75 +1336,75 @@
     <insert id="setRprReceiptInsert" parameterType="map">
         /* setRprReceiptInsert */
         INSERT INTO CAM_INSIDE.DJ_INVENTION_INFO
-            (
-                RPR_CLASS,
-                RPR_NAME,
-                SHARE_SN,
-                SHARE_NAME,
-                IPR_CLASS,
-                IPR_NAME,
-                STATE_SN,
-                STATE_NAME,
-                TAIN_SN,
-                TAIN_NAME,
-                TECH_SN,
-                TECH_NAME,
-                CONFIDENTIALITY_SN,
-                CONFIDENTIALITY_NAME,
-                TITLE,
-                SINGLE_SN,
-                SINGLE_NAME,
-                APPLICANT_NAME,
-                DETAIL_CN,
-                APPLICANT_NUM,
-                APPLICANT_DT,
-                APPLICANT_NATION,
-                REG_NUM,
-                REG_DATE,
-                EXPIRATION_DT,
-                REMARK_CN,
-                REG_EMP_SEQ,
-                REG_EMP_NAME,
-                BEFORE_SN,
-                RELATED_FILE_NO,
-                RELATED_AFILE_NO,
-                QUO_FILE_NO
-            )
+        (
+        RPR_CLASS,
+        RPR_NAME,
+        SHARE_SN,
+        SHARE_NAME,
+        IPR_CLASS,
+        IPR_NAME,
+        STATE_SN,
+        STATE_NAME,
+        TAIN_SN,
+        TAIN_NAME,
+        TECH_SN,
+        TECH_NAME,
+        CONFIDENTIALITY_SN,
+        CONFIDENTIALITY_NAME,
+        TITLE,
+        SINGLE_SN,
+        SINGLE_NAME,
+        APPLICANT_NAME,
+        DETAIL_CN,
+        APPLICANT_NUM,
+        APPLICANT_DT,
+        APPLICANT_NATION,
+        REG_NUM,
+        REG_DATE,
+        EXPIRATION_DT,
+        REMARK_CN,
+        REG_EMP_SEQ,
+        REG_EMP_NAME,
+        BEFORE_SN,
+        RELATED_FILE_NO,
+        RELATED_AFILE_NO,
+        QUO_FILE_NO
+        )
         VALUE
-            (
-                #{rprClass},
-                #{rprName},
-                #{shareSn},
-                #{shareName},
-                #{iprClass},
-                #{iprName},
-                #{stateSn},
-                #{stateName},
-                #{tainSn},
-                #{tainName},
-                #{techSn},
-                #{techName},
-                #{confidentialitySn},
-                #{confidentialityName},
-                #{title},
-                #{singleSn},
-                #{singleName},
-                #{applicantName},
-                #{detailCn},
-                #{applicantNum},
-                #{applicantDt},
-                #{applicantNation},
-                #{regNum},
-                #{regDate},
-                #{expirationDt},
-                #{remarkCn},
-                #{regEmpSeq},
-                #{regEmpName},
-                #{befSn},
-                #{relatedFileNo},
-                #{relatedAfileNo},
-                #{quoFileNo}
-            )
+        (
+        #{rprClass},
+        #{rprName},
+        #{shareSn},
+        #{shareName},
+        #{iprClass},
+        #{iprName},
+        #{stateSn},
+        #{stateName},
+        #{tainSn},
+        #{tainName},
+        #{techSn},
+        #{techName},
+        #{confidentialitySn},
+        #{confidentialityName},
+        #{title},
+        #{singleSn},
+        #{singleName},
+        #{applicantName},
+        #{detailCn},
+        #{applicantNum},
+        #{applicantDt},
+        #{applicantNation},
+        #{regNum},
+        #{regDate},
+        #{expirationDt},
+        #{remarkCn},
+        #{regEmpSeq},
+        #{regEmpName},
+        #{befSn},
+        #{relatedFileNo},
+        #{relatedAfileNo},
+        #{quoFileNo}
+        )
         <selectKey keyProperty="inventionInfoSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_INVENTION_INFO'
         </selectKey>
@@ -1411,18 +1414,18 @@
         /* setInventionShareInsert */
         INSERT INTO CAM_INSIDE.DJ_INVENTION_SHARE_INFO
         (
-            INVENTION_INFO_SN,
-            EMP_SEQ,
-            EMP_NAME,
-            SHARE
+        INVENTION_INFO_SN,
+        EMP_SEQ,
+        EMP_NAME,
+        SHARE
         )
         VALUES
         <foreach collection="share" item="item" separator=" , ">
             (
-                #{inventionInfoSn},
-                #{item.shareEmpSeq},
-                #{item.shareEmpName},
-                #{item.share}
+            #{inventionInfoSn},
+            #{item.shareEmpSeq},
+            #{item.shareEmpName},
+            #{item.share}
             )
         </foreach>
     </insert>
@@ -1448,7 +1451,7 @@
             APPROVAL_EMP_SEQ = #{empSeq},
             DOC_ID = #{docId}
         WHERE
-            INVENTION_INFO_SN = (SELECT BEFORE_SN FROM CAM_INSIDE.DJ_INVENTION_INFO WHERE INVENTION_INFO_SN = #{inventionInfoSn})
+                INVENTION_INFO_SN = (SELECT BEFORE_SN FROM CAM_INSIDE.DJ_INVENTION_INFO WHERE INVENTION_INFO_SN = #{inventionInfoSn})
     </update>
 
     <update id="updateFinalApprStat" parameterType="map">
@@ -1468,12 +1471,12 @@
         INSERT INTO CAM_INSIDE.DJ_EQIPMN_MST
         (
 
-            eqipmn_name, eqipmn_gbn_name, eqipmn_gbn_cmmn_cd_sn, regtr_name, regtr_sn, reg_de, create_dt, actvt_yn, sort_sn, crtr_sn
+            eqipmn_name, eqipmn_gbn_name, eqipmn_gbn_cmmn_cd_sn, regtr_name, regtr_sn, reg_de, create_dt, actvt_yn, sort_sn, crtr_sn, hourly_usage_fee
         )
         VALUES
             (
 
-                #{eqipmnName}, #{eqipmnGbnName}, #{eqipmnGbnCmmnCdSn}, #{regtrName}, #{regtrSn}, #{regDe}, NOW(), 'Y', #{sortSn}, #{crtrSn}
+                #{eqipmnName}, #{eqipmnGbnName}, #{eqipmnGbnCmmnCdSn}, #{regtrName}, #{regtrSn}, #{regDe}, NOW(), 'Y', #{sortSn}, #{crtrSn}, #{hourlyUsageFee}
             )
     </insert>
 
@@ -1493,13 +1496,14 @@
     <select id="getEqipmnRegList" parameterType="map" resultType="map">
         /*getEqipmnRegList*/
         SELECT
-            eqipmn_mst_sn as EQIPMN_MST_SN,
-            eqipmn_gbn_name AS EQIPMN_GBN_NAME,
-            eqipmn_name AS EQIPMN_NAME,
-            regtr_name AS REGTR_NAME,
-            DATE_FORMAT(reg_de, '%Y-%m-%d') AS REG_DE,
-            actvt_yn as ACTVT_YN,
-            sort_sn as SORT_SN
+        eqipmn_mst_sn as EQIPMN_MST_SN,
+        eqipmn_gbn_name AS EQIPMN_GBN_NAME,
+        eqipmn_name AS EQIPMN_NAME,
+        regtr_name AS REGTR_NAME,
+        DATE_FORMAT(reg_de, '%Y-%m-%d') AS REG_DE,
+        actvt_yn as ACTVT_YN,
+        sort_sn as SORT_SN,
+        hourly_usage_fee as HOURLY_USAGE_FEE
         FROM
         CAM_INSIDE.DJ_EQIPMN_MST
         WHERE
@@ -1541,7 +1545,8 @@
         SET
             eqipmn_name = #{eqipmnName}, eqipmn_gbn_name = #{eqipmnGbnName},
             eqipmn_gbn_cmmn_cd_sn = #{eqipmnGbnCmmnCdSn}, regtr_name = #{regtrName},
-            reg_de = #{regDe}, regtr_sn = #{regtrSn}, updt_dt  = NOW(), sort_sn = #{sortSn}, updusr_sn = #{updusrSn}
+            reg_de = #{regDe}, regtr_sn = #{regtrSn}, updt_dt  = NOW(), sort_sn = #{sortSn}, updusr_sn = #{updusrSn},
+            hourly_usage_fee = #{hourlyUsageFee}
         WHERE
             eqipmn_mst_sn = #{eqipmnMstSn}
     </update>
@@ -1585,6 +1590,17 @@
             CAM_COMMON.DJ_COM_CODE
         WHERE
             CM_GROUP_CODE_ID = 2
+    </select>
+
+    <select id="getEqipmnOne" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_EQIPMN_MST
+        WHERE
+            REGTR_NAME = #{userName}
+        ORDER BY UPDT_DT DESC
+        LIMIT 1
     </select>
 
     <select id="getAssetCodeList" resultType="map">
@@ -1636,29 +1652,32 @@
     <select id="getEqipmnUseList" parameterType="map" resultType="map">
         /*getEqipmnUseList*/
         SELECT
-            A.eqipmn_use_sn as EQIPMN_USE_SN,
-            A.sort_sn as SORT_SN,
-            B.eqipmn_gbn_name as EQIPMN_GBN_NAME,
-            B.eqipmn_gbn_cmmn_cd_sn as EQIPMN_GBN_CMMN_CD_SN,
-            B.eqipmn_name as EQIPMN_NAME,
-            A.use_pd_str_de as USE_PD_STR_DE,
-            /*A.use_pd_end_de as USE_PD_END_DE,*/
-            A.user_name as USER_NAME,
-            A.oper_cn as OPER_CN,
-            A.use_time as USE_TIME,
-            A.use_amt as USE_AMT,
-            A.client_prtpco_name as CLIENT_PRTPCO_NAME,
-            A.prtpco_gbn_name as PRTPCO_GBN_NAME,
-            A.prtpco_gbn_sn as PRTPCO_GBN_SN,
-            A.actvt_yn AS ACTVT_YN,
-            A.end_stat AS END_STAT
+        A.eqipmn_use_sn as EQIPMN_USE_SN,
+        A.sort_sn as SORT_SN,
+        B.eqipmn_gbn_name as EQIPMN_GBN_NAME,
+        B.eqipmn_gbn_cmmn_cd_sn as EQIPMN_GBN_CMMN_CD_SN,
+        B.eqipmn_name as EQIPMN_NAME,
+        A.use_pd_str_de as USE_PD_STR_DE,
+        /*A.use_pd_end_de as USE_PD_END_DE,*/
+        A.user_name as USER_NAME,
+        C.dept_name as DEPT_NAME,
+        A.oper_cn as OPER_CN,
+        A.use_time as USE_TIME,
+        A.use_amt as USE_AMT,
+        A.client_prtpco_name as CLIENT_PRTPCO_NAME,
+        A.prtpco_gbn_name as PRTPCO_GBN_NAME,
+        A.prtpco_gbn_sn as PRTPCO_GBN_SN,
+        A.actvt_yn AS ACTVT_YN,
+        A.end_stat AS END_STAT
         FROM
-            CAM_INSIDE.DJ_EQIPMN_USE A
+        CAM_INSIDE.DJ_EQIPMN_USE A
         LEFT JOIN
-            CAM_INSIDE.DJ_EQIPMN_MST B
+        CAM_INSIDE.DJ_EQIPMN_MST B
         ON A.eqipmn_mst_sn = B.eqipmn_mst_sn
+        JOIN (select EMP_NAME_KR,DEPT_NAME from cam_hr.DJ_EMP_INFO order by EMP_NAME_KR desc) C
+        ON A.user_name = c.EMP_NAME_KR
         WHERE
-            1=1
+        1=1
         <if test="usePdStrDe != null and usePdStrDe != '' and usePdEndDe != null and usePdEndDe != ''">
             <![CDATA[
             AND
@@ -1675,7 +1694,7 @@
         <if test="prtpcoGbnSn != null and prtpcoGbnSn != ''">
             AND prtpco_gbn_sn = #{prtpcoGbnSn}
         </if>
-            AND A.ACTVT_YN = 'Y'
+        AND A.ACTVT_YN = 'Y'
         <if test="searchText != null and searchText != '' and searchVal != null and searchVal != ''">
             AND ${searchText} LIKE CONCAT ('%', #{searchVal}, '%')
         </if>
@@ -1709,9 +1728,9 @@
             oper_cn = #{operCn}, use_time = #{useTime}, use_amt = #{useAmt},
             prtpco_gbn_name = #{prtpcoGbnName}, prtpco_gbn_sn = #{prtpcoGbnSn},
             reg_de = #{regDe}, updt_dt = NOW(), updusr_sn = #{updusrSn}
-    WHERE
-        eqipmn_use_sn = #{pk}
-</update>
+        WHERE
+            eqipmn_use_sn = #{pk}
+    </update>
 
     <!--장비사용 마감완료 - 김민주-->
     <update id="setEquipmenUseEndStat" parameterType="java.util.List">
@@ -1773,7 +1792,7 @@
             DATE_FORMAT(A.reg_de, '%Y-%m-%d') as REG_DE
         FROM
             cam_inside.dj_eqipmn_use A
-        LEFT JOIN
+                LEFT JOIN
             cam_inside.dj_eqipmn_mst B
             ON A.eqipmn_mst_sn = B.eqipmn_mst_sn
         WHERE
@@ -1795,13 +1814,13 @@
             SUM(USE_TIME) AS USE_TIME
         FROM
             CAM_INSIDE.DJ_EQIPMN_USE A
-        LEFT JOIN
+            LEFT JOIN
             CAM_INSIDE.DJ_EQIPMN_MST B ON A.eqipmn_mst_sn = B.eqipmn_mst_sn
         WHERE
             1=1
-        AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = DATE_FORMAT(CONCAT(#{searchDe}, '-01'), '%Y%m')
-        AND A.ACTVT_YN = 'Y'
-        AND B.ACTVT_YN = 'Y'
+          AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = DATE_FORMAT(CONCAT(#{searchDe}, '-01'), '%Y%m')
+          AND A.ACTVT_YN = 'Y'
+          AND B.ACTVT_YN = 'Y'
         GROUP BY EQIPMN_GBN_NAME, EQIPMN_NAME
     </select>
 
@@ -1978,29 +1997,29 @@
     <update id="updRprAllChange" parameterType="map">
         /* updRprAllChange */
         UPDATE
-            CAM_INSIDE.DJ_INVENTION_INFO
+        CAM_INSIDE.DJ_INVENTION_INFO
         SET
-            <if test='"Y".equals(statChkYN)'>
-                STATE_SN = #{stateSn},
-                STATE_NAME = #{stateName},
-            </if>
-            <if test='"Y".equals(tainChkYN)'>
-                TAIN_SN = #{tainSn},
-                TAIN_NAME = #{tainName},
-            </if>
-            <if test='"Y".equals(techChkYN)'>
-                TECH_SN = #{techSn},
-                TECH_NAME = #{techName},
-            </if>
-            <if test='"Y".equals(conftChkYN)'>
-                CONFIDENTIALITY_SN = #{confidentialitySn},
-                CONFIDENTIALITY_NAME = #{confidentialityName},
-            </if>
-            UP_DT = NOW()
+        <if test='"Y".equals(statChkYN)'>
+            STATE_SN = #{stateSn},
+            STATE_NAME = #{stateName},
+        </if>
+        <if test='"Y".equals(tainChkYN)'>
+            TAIN_SN = #{tainSn},
+            TAIN_NAME = #{tainName},
+        </if>
+        <if test='"Y".equals(techChkYN)'>
+            TECH_SN = #{techSn},
+            TECH_NAME = #{techName},
+        </if>
+        <if test='"Y".equals(conftChkYN)'>
+            CONFIDENTIALITY_SN = #{confidentialitySn},
+            CONFIDENTIALITY_NAME = #{confidentialityName},
+        </if>
+        UP_DT = NOW()
         WHERE
-            RPR_CLASS = 2
+        RPR_CLASS = 2
         AND
-            ACTIVE = 'Y'
+        ACTIVE = 'Y'
     </update>
 
     <select id="getLGCategoryMonthly" resultType="map">
@@ -2010,33 +2029,33 @@
             CASE WHEN C.BEF_USE_TIME > C.USE_TIME THEN '감' ELSE '증' END AS STATUS,
             CASE WHEN C.BEF_USE_TIME > C.USE_TIME THEN C.BEF_USE_TIME - C.USE_TIME ELSE C.USE_TIME - C.BEF_USE_TIME END AS DIFF
         FROM (
-            SELECT
-                B.EQIPMN_GBN_NAME,
-                B.REGTR_NAME,
-                (
-                    SELECT
-                        IFNULL(SUM(SA.USE_TIME), 0)
-                    FROM
-                        CAM_INSIDE.DJ_EQIPMN_USE SA
-                    LEFT JOIN
-                        CAM_INSIDE.DJ_EQIPMN_MST SB ON SA.EQIPMN_MST_SN = SB.EQIPMN_MST_SN
-                    WHERE
-                        DATE_FORMAT(SA.USE_PD_STR_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{searchDe}, '-01'), INTERVAL 1 MONTH), '%Y-%m'))
-                    AND (SA.ACTVT_YN = 'Y' AND SB.ACTVT_YN = 'Y') AND B.EQIPMN_GBN_NAME = SB.EQIPMN_GBN_NAME
-                ) AS BEF_USE_TIME,
-                SUM(A.USE_TIME) AS USE_TIME
-            FROM
-                CAM_INSIDE.DJ_EQIPMN_USE A
-            LEFT JOIN
-                CAM_INSIDE.DJ_EQIPMN_MST B ON A.EQIPMN_MST_SN = B.EQIPMN_MST_SN
-            WHERE
-                1=1
-            AND DATE_FORMAT(A.USE_PD_STR_DE, '%Y-%m') = #{searchDe}
-            AND A.ACTVT_YN = 'Y'
-            AND B.ACTVT_YN = 'Y'
-            GROUP BY B.EQIPMN_GBN_NAME
-            ORDER BY B.EQIPMN_GBN_NAME DESC
-        ) C
+                 SELECT
+                     B.EQIPMN_GBN_NAME,
+                     B.REGTR_NAME,
+                     (
+                         SELECT
+                             IFNULL(SUM(SA.USE_TIME), 0)
+                         FROM
+                             CAM_INSIDE.DJ_EQIPMN_USE SA
+                                 LEFT JOIN
+                             CAM_INSIDE.DJ_EQIPMN_MST SB ON SA.EQIPMN_MST_SN = SB.EQIPMN_MST_SN
+                         WHERE
+                                 DATE_FORMAT(SA.USE_PD_STR_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{searchDe}, '-01'), INTERVAL 1 MONTH), '%Y-%m'))
+                           AND (SA.ACTVT_YN = 'Y' AND SB.ACTVT_YN = 'Y') AND B.EQIPMN_GBN_NAME = SB.EQIPMN_GBN_NAME
+                     ) AS BEF_USE_TIME,
+                     SUM(A.USE_TIME) AS USE_TIME
+                 FROM
+                     CAM_INSIDE.DJ_EQIPMN_USE A
+                         LEFT JOIN
+                     CAM_INSIDE.DJ_EQIPMN_MST B ON A.EQIPMN_MST_SN = B.EQIPMN_MST_SN
+                 WHERE
+                     1=1
+                   AND DATE_FORMAT(A.USE_PD_STR_DE, '%Y-%m') = #{searchDe}
+                   AND A.ACTVT_YN = 'Y'
+                   AND B.ACTVT_YN = 'Y'
+                 GROUP BY B.EQIPMN_GBN_NAME
+                 ORDER BY B.EQIPMN_GBN_NAME DESC
+             ) C
     </select>
 
     <select id="getEquipApprovalData" resultType="map">
@@ -2059,7 +2078,7 @@
         WHERE
             1=1
         <![CDATA[
-        AND DATE_FORMAT(B.REG_DE, '%Y-%m') < #{searchDe}
+          AND DATE_FORMAT(B.REG_DE, '%Y-%m') < #{searchDe}
         ]]>
         AND B.ACTVT_YN = 'Y'
         GROUP BY B.EQIPMN_GBN_NAME, B.EQIPMN_NAME
@@ -2068,31 +2087,31 @@
 
     <select id="getEquipApprovalInfo" parameterType="map" resultType="map">
         /* getEquipApprovalInfo */
-            SELECT
-                *
-            FROM
-                CAM_INSIDE.DJ_EQIPNM_APPROVAL
-            WHERE
-                APPLY_MONTH = #{searchDe}
-            AND STATUS != 0
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_EQIPNM_APPROVAL
+        WHERE
+            APPLY_MONTH = #{searchDe}
+          AND STATUS != 0
     </select>
 
     <insert id="setEquipApprovalInfo" parameterType="map">
         /* setEquipApprovalInfo */
         INSERT INTO CAM_INSIDE.DJ_EQIPNM_APPROVAL
-            (
-                APPLY_MONTH,
-                STATUS,
-                REG_EMP_SEQ,
-                REG_EMP_NAME
-            )
+        (
+        APPLY_MONTH,
+        STATUS,
+        REG_EMP_SEQ,
+        REG_EMP_NAME
+        )
         VALUES
-            (
-                #{searchDe},
-                '0',
-                #{regEmpSeq},
-                #{regEmpName}
-            )
+        (
+        #{searchDe},
+        '0',
+        #{regEmpSeq},
+        #{regEmpName}
+        )
 
         <selectKey keyProperty="eqipnmApprovalSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_EQIPNM_APPROVAL'
@@ -2127,31 +2146,31 @@
         SELECT
             C.EQIPMN_NAME AS type
         FROM (
-            SELECT
-                B.EQIPMN_NAME,
-                (
-                    SELECT
-                        IFNULL(SUM(SA.USE_TIME), 0)
-                    FROM
-                        CAM_INSIDE.DJ_EQIPMN_USE SA
-                    LEFT JOIN
-                        CAM_INSIDE.DJ_EQIPMN_MST SB ON SA.EQIPMN_MST_SN = SB.EQIPMN_MST_SN
-                    WHERE
-                        DATE_FORMAT(SA.USE_PD_STR_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{applyMonth}, '-01'), INTERVAL 1 MONTH), '%Y-%m'))
-                    AND (SA.ACTVT_YN = 'Y' AND SB.ACTVT_YN = 'Y') AND B.EQIPMN_NAME = SB.EQIPMN_NAME
-                ) AS BEF_USE_TIME,
-                SUM(A.USE_TIME) AS USE_TIME
-            FROM
-                    CAM_INSIDE.DJ_EQIPMN_USE A
-            LEFT JOIN
-            CAM_INSIDE.DJ_EQIPMN_MST B ON A.EQIPMN_MST_SN = B.EQIPMN_MST_SN
-            WHERE
-                1=1
-            AND DATE_FORMAT(A.USE_PD_STR_DE, '%Y-%m') = #{applyMonth}
-            AND A.ACTVT_YN = 'Y'
-            GROUP BY B.EQIPMN_GBN_NAME, B.EQIPMN_NAME
-            ORDER BY B.EQIPMN_GBN_NAME DESC, B.EQIPMN_NAME
-        ) C
+                 SELECT
+                     B.EQIPMN_NAME,
+                     (
+                         SELECT
+                             IFNULL(SUM(SA.USE_TIME), 0)
+                         FROM
+                             CAM_INSIDE.DJ_EQIPMN_USE SA
+                                 LEFT JOIN
+                             CAM_INSIDE.DJ_EQIPMN_MST SB ON SA.EQIPMN_MST_SN = SB.EQIPMN_MST_SN
+                         WHERE
+                                 DATE_FORMAT(SA.USE_PD_STR_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{applyMonth}, '-01'), INTERVAL 1 MONTH), '%Y-%m'))
+                           AND (SA.ACTVT_YN = 'Y' AND SB.ACTVT_YN = 'Y') AND B.EQIPMN_NAME = SB.EQIPMN_NAME
+                     ) AS BEF_USE_TIME,
+                     SUM(A.USE_TIME) AS USE_TIME
+                 FROM
+                     CAM_INSIDE.DJ_EQIPMN_USE A
+                         LEFT JOIN
+                     CAM_INSIDE.DJ_EQIPMN_MST B ON A.EQIPMN_MST_SN = B.EQIPMN_MST_SN
+                 WHERE
+                     1=1
+                   AND DATE_FORMAT(A.USE_PD_STR_DE, '%Y-%m') = #{applyMonth}
+                   AND A.ACTVT_YN = 'Y'
+                 GROUP BY B.EQIPMN_GBN_NAME, B.EQIPMN_NAME
+                 ORDER BY B.EQIPMN_GBN_NAME DESC, B.EQIPMN_NAME
+             ) C
     </select>
 
     <select id="getEquipStat" resultType="map" parameterType="map">
@@ -2159,76 +2178,76 @@
         SELECT
             TRUNCATE(IFNULL(((C.USE_TIME - C.BEF_USE_TIME) / C.BEF_USE_TIME) * 100, 0), 0) AS value
         FROM (
-             SELECT
-                 B.EQIPMN_NAME,
-                 (
-                        SELECT
-                            IFNULL(SUM(SA.USE_TIME), 0)
-                        FROM
-                            CAM_INSIDE.DJ_EQIPMN_USE SA
-                        LEFT JOIN
-                            CAM_INSIDE.DJ_EQIPMN_MST SB ON SA.EQIPMN_MST_SN = SB.EQIPMN_MST_SN
-                        WHERE
-                        DATE_FORMAT(SA.USE_PD_STR_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{applyMonth}, '-01'), INTERVAL 1 MONTH), '%Y-%m'))
-                     AND (SA.ACTVT_YN = 'Y' AND SB.ACTVT_YN = 'Y') AND B.EQIPMN_NAME = SB.EQIPMN_NAME
-                 ) AS BEF_USE_TIME,
-                 SUM(A.USE_TIME) AS USE_TIME
-             FROM
-                 CAM_INSIDE.DJ_EQIPMN_USE A
-                     LEFT JOIN
-                 CAM_INSIDE.DJ_EQIPMN_MST B ON A.EQIPMN_MST_SN = B.EQIPMN_MST_SN
-             WHERE
-                 1=1
-               AND DATE_FORMAT(A.USE_PD_STR_DE, '%Y-%m') = #{applyMonth}
-               AND A.ACTVT_YN = 'Y'
-             GROUP BY B.EQIPMN_GBN_NAME, B.EQIPMN_NAME
-             ORDER BY B.EQIPMN_GBN_NAME DESC, B.EQIPMN_NAME
-        ) C
+            SELECT
+            B.EQIPMN_NAME,
+            (
+            SELECT
+            IFNULL(SUM(SA.USE_TIME), 0)
+            FROM
+            CAM_INSIDE.DJ_EQIPMN_USE SA
+            LEFT JOIN
+            CAM_INSIDE.DJ_EQIPMN_MST SB ON SA.EQIPMN_MST_SN = SB.EQIPMN_MST_SN
+            WHERE
+            DATE_FORMAT(SA.USE_PD_STR_DE, '%Y-%m') = (SELECT DATE_FORMAT(DATE_SUB(CONCAT(#{applyMonth}, '-01'), INTERVAL 1 MONTH), '%Y-%m'))
+            AND (SA.ACTVT_YN = 'Y' AND SB.ACTVT_YN = 'Y') AND B.EQIPMN_NAME = SB.EQIPMN_NAME
+            ) AS BEF_USE_TIME,
+            SUM(A.USE_TIME) AS USE_TIME
+            FROM
+            CAM_INSIDE.DJ_EQIPMN_USE A
+            LEFT JOIN
+            CAM_INSIDE.DJ_EQIPMN_MST B ON A.EQIPMN_MST_SN = B.EQIPMN_MST_SN
+            WHERE
+            1=1
+            AND DATE_FORMAT(A.USE_PD_STR_DE, '%Y-%m') = #{applyMonth}
+            AND A.ACTVT_YN = 'Y'
+            GROUP BY B.EQIPMN_GBN_NAME, B.EQIPMN_NAME
+            ORDER BY B.EQIPMN_GBN_NAME DESC, B.EQIPMN_NAME
+            ) C
     </select>
 
     <select id="getEquipStatRear" resultType="map" parameterType="map">
         /* getEquipStatRear */
         SELECT
-            R.EQIPMN_NAME AS EQIPMN_NAME,
-            TRUNCATE(IFNULL(((R.JAN - R.BEF) / R.BEF) * 100, 0), 0) AS JAN,
-            TRUNCATE(IFNULL(((R.FEB - R.JAN) / R.JAN) * 100, 0), 0) AS FEB,
-            TRUNCATE(IFNULL(((R.MAR - R.FEB) / R.FEB) * 100, 0), 0) AS MAR,
-            TRUNCATE(IFNULL(((R.APR - R.MAR) / R.MAR) * 100, 0), 0) AS APR,
-            TRUNCATE(IFNULL(((R.MAY - R.APR) / R.APR) * 100, 0), 0) AS MAY,
-            TRUNCATE(IFNULL(((R.JUN - R.MAY) / R.MAY) * 100, 0), 0) AS JUN,
-            TRUNCATE(IFNULL(((R.JUL - R.JUN) / R.JUN) * 100, 0), 0) AS JUL,
-            TRUNCATE(IFNULL(((R.AUG - R.JUL) / R.JUL) * 100, 0), 0) AS AUG,
-            TRUNCATE(IFNULL(((R.SEP - R.AUG) / R.AUG) * 100, 0), 0) AS SEP,
-            TRUNCATE(IFNULL(((R.OCT - R.SEP) / R.SEP) * 100, 0), 0) AS OCT,
-            TRUNCATE(IFNULL(((R.NOV - R.OCT) / R.OCT) * 100, 0), 0) AS NOV,
-            TRUNCATE(IFNULL(((R.DECE - R.NOV) / R.NOV) * 100, 0), 0) AS DECE
+        R.EQIPMN_NAME AS EQIPMN_NAME,
+        TRUNCATE(IFNULL(((R.JAN - R.BEF) / R.BEF) * 100, 0), 0) AS JAN,
+        TRUNCATE(IFNULL(((R.FEB - R.JAN) / R.JAN) * 100, 0), 0) AS FEB,
+        TRUNCATE(IFNULL(((R.MAR - R.FEB) / R.FEB) * 100, 0), 0) AS MAR,
+        TRUNCATE(IFNULL(((R.APR - R.MAR) / R.MAR) * 100, 0), 0) AS APR,
+        TRUNCATE(IFNULL(((R.MAY - R.APR) / R.APR) * 100, 0), 0) AS MAY,
+        TRUNCATE(IFNULL(((R.JUN - R.MAY) / R.MAY) * 100, 0), 0) AS JUN,
+        TRUNCATE(IFNULL(((R.JUL - R.JUN) / R.JUN) * 100, 0), 0) AS JUL,
+        TRUNCATE(IFNULL(((R.AUG - R.JUL) / R.JUL) * 100, 0), 0) AS AUG,
+        TRUNCATE(IFNULL(((R.SEP - R.AUG) / R.AUG) * 100, 0), 0) AS SEP,
+        TRUNCATE(IFNULL(((R.OCT - R.SEP) / R.SEP) * 100, 0), 0) AS OCT,
+        TRUNCATE(IFNULL(((R.NOV - R.OCT) / R.OCT) * 100, 0), 0) AS NOV,
+        TRUNCATE(IFNULL(((R.DECE - R.NOV) / R.NOV) * 100, 0), 0) AS DECE
 
         FROM
-            (
-                SELECT
-                    IEM.EQIPMN_NAME,
-                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(${year}-1, '12') AND ACTVT_YN = 'Y') AS BEF,
-                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '01') AND ACTVT_YN = 'Y') AS JAN,
-                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '02') AND ACTVT_YN = 'Y') AS FEB,
-                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '03') AND ACTVT_YN = 'Y') AS MAR,
-                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '04') AND ACTVT_YN = 'Y') AS APR,
-                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '05') AND ACTVT_YN = 'Y') AS MAY,
-                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '06') AND ACTVT_YN = 'Y') AS JUN,
-                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '07') AND ACTVT_YN = 'Y') AS JUL,
-                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '08') AND ACTVT_YN = 'Y') AS AUG,
-                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '09') AND ACTVT_YN = 'Y') AS SEP,
-                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '10') AND ACTVT_YN = 'Y') AS OCT,
-                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '11') AND ACTVT_YN = 'Y') AS NOV,
-                    (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '12') AND ACTVT_YN = 'Y') AS DECE
-                FROM
-                    CAM_INSIDE.DJ_EQIPMN_MST IEM
-                WHERE
-                    IEM.ACTVT_YN = 'Y'
-                    <if test='searchType != null and searchType != ""'>
-                        AND IEM.eqipmn_mst_sn in (${searchType})
-                    </if>
-                ORDER BY IEM.EQIPMN_GBN_CMMN_CD_SN
-            ) R
+        (
+        SELECT
+        IEM.EQIPMN_NAME,
+        (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(${year}-1, '12') AND ACTVT_YN = 'Y') AS BEF,
+        (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '01') AND ACTVT_YN = 'Y') AS JAN,
+        (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '02') AND ACTVT_YN = 'Y') AS FEB,
+        (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '03') AND ACTVT_YN = 'Y') AS MAR,
+        (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '04') AND ACTVT_YN = 'Y') AS APR,
+        (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '05') AND ACTVT_YN = 'Y') AS MAY,
+        (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '06') AND ACTVT_YN = 'Y') AS JUN,
+        (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '07') AND ACTVT_YN = 'Y') AS JUL,
+        (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '08') AND ACTVT_YN = 'Y') AS AUG,
+        (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '09') AND ACTVT_YN = 'Y') AS SEP,
+        (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '10') AND ACTVT_YN = 'Y') AS OCT,
+        (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '11') AND ACTVT_YN = 'Y') AS NOV,
+        (SELECT IFNULL(SUM(USE_TIME), 0) FROM CAM_INSIDE.DJ_EQIPMN_USE SIEU WHERE IEM.EQIPMN_MST_SN = SIEU.EQIPMN_MST_SN AND DATE_FORMAT(USE_PD_STR_DE, '%Y%m') = CONCAT(#{year}, '12') AND ACTVT_YN = 'Y') AS DECE
+        FROM
+        CAM_INSIDE.DJ_EQIPMN_MST IEM
+        WHERE
+        IEM.ACTVT_YN = 'Y'
+        <if test='searchType != null and searchType != ""'>
+            AND IEM.eqipmn_mst_sn in (${searchType})
+        </if>
+        ORDER BY IEM.EQIPMN_GBN_CMMN_CD_SN
+        ) R
     </select>
 
 
@@ -2361,7 +2380,7 @@
             CAM_INSIDE.DJ_ASSET_CODE
         WHERE
             AST_UPPER_CODE = 0
-        AND
+          AND
             ACTIVE = "Y"
     </select>
 
@@ -2372,31 +2391,31 @@
             CAM_INSIDE.DJ_ASSET_CODE
         WHERE
             AST_UPPER_CODE = #{astUpperCode}
-        AND
+          AND
             ACTIVE = "Y"
     </select>
 
     <insert id="insQrCodeSet" parameterType="map">
         INSERT INTO CAM_INSIDE.DJ_QR_INFO
         (
-            QR_NM,
-            QR_CD,
-            PROD_NM,
-            PROD_BUY_DT,
-            PJT_SN,
-            MODEL_NM,
-            REG_DT,
-            REG_EMP_SEQ
+        QR_NM,
+        QR_CD,
+        PROD_NM,
+        PROD_BUY_DT,
+        PJT_SN,
+        MODEL_NM,
+        REG_DT,
+        REG_EMP_SEQ
         ) VALUES
         (
-            #{prodName},
-            #{qrCd},
-            #{prodName},
-            #{prodBuyDt},
-            #{project},
-            #{modelNm},
-            NOW(),
-            #{empSeq}
+        #{prodName},
+        #{qrCd},
+        #{prodName},
+        #{prodBuyDt},
+        #{project},
+        #{modelNm},
+        NOW(),
+        #{empSeq}
         )
 
         <selectKey keyProperty="qrSn" resultType="Integer" order="BEFORE">
@@ -2481,23 +2500,23 @@
             INVENTION_INFO_SN = #{inventionInfoSn}
     </update>
 
-        <select id="getPjtList" parameterType="map" resultType="map">
-            SELECT * FROM CAM_PJT_MNG.DJ_PROJECT A
-            WHERE
-            1=1
-            <if test='busnClass != null and busnClass != ""'>
-                AND
-                A.BUSN_CLASS = #{busnClass}
-            </if>
-            <if test='busnClass != null and fundingSource != "" and !"Y".equals(busnClass)'>
-                AND
-                A.PJT_STOP = "N"
-            </if>
-            <if test='busnClass == "Y" or "Y".equals(busnClass)'>
-                AND
-                A.PJT_STOP = "Y"
-            </if>
-            ORDER BY A.PJT_SN DESC
+    <select id="getPjtList" parameterType="map" resultType="map">
+        SELECT * FROM CAM_PJT_MNG.DJ_PROJECT A
+        WHERE
+        1=1
+        <if test='busnClass != null and busnClass != ""'>
+            AND
+            A.BUSN_CLASS = #{busnClass}
+        </if>
+        <if test='busnClass != null and fundingSource != "" and !"Y".equals(busnClass)'>
+            AND
+            A.PJT_STOP = "N"
+        </if>
+        <if test='busnClass == "Y" or "Y".equals(busnClass)'>
+            AND
+            A.PJT_STOP = "Y"
+        </if>
+        ORDER BY A.PJT_SN DESC
     </select>
 
     <select id="getastprint" parameterType="map" resultType="map">

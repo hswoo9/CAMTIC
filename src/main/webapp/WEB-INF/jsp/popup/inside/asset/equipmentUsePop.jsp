@@ -86,12 +86,14 @@
                         <th scope="row" class="text-center th-color">
                             <span class="red-star">*</span>사용시간
                         </th>
-                        <td colspan><input type="text" id="useTime" maxlength="3" oninput="onlyNumber(this);" style="width: 65%;"> 시간
+                        <td colspan><input type="text" id="useTime" maxlength="3" oninput="onlyNumber(this);" onkeyup="equipmentUsePop.fn_EqipmnHUF(this.value)" style="width: 65%;"> 시간
                         </td>
                         <th scope="row" class="text-center th-color">
                             사용대금
                         </th>
-                        <td><input type="text" id="useAmt" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 90%; text-align: right;">원</td>
+                        <td><input type="text" id="useAmt" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 90%; text-align: right;">원
+                            <input type="hidden" id="hourlyUsageFee" value="" />
+                        </td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>의뢰업체</th>

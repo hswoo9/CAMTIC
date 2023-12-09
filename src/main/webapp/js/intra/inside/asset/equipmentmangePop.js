@@ -35,6 +35,7 @@ var equipmentmangePop = {
         $("#eqipmnName").kendoTextBox();
         $("#regtrName").kendoTextBox();
         $("#sortSn").kendoTextBox();
+        $("#hourlyUsageFee").kendoTextBox();
 
         /*$("#regDe").kendoDatePicker({
             depth: "month",
@@ -67,6 +68,10 @@ var equipmentmangePop = {
                 })
             }
         })
+
+        $(".numberInput").keyup(function(){
+            $(this).val(equipmentmangePop.comma(equipmentmangePop.uncomma($(this).val())));
+        });
     },
 
     dataClear : function() {
@@ -181,6 +186,7 @@ var equipmentmangePop = {
             $("#regtrName").val(selectedItem.REGTR_NAME); //등록자
             $("#regDe").val(selectedItem.REG_DE); //등록 일자
             $("#sortSn").val(selectedItem.SORT_SN); //순번
+            $("#hourlyUsageFee").val(equipmentmangePop.comma(selectedItem.HOURLY_USAGE_FEE)); //시간당 사용대금
             //pk
             equipmentmangePop.global.eqipmnMstSn = selectedItem.EQIPMN_MST_SN;
             $("#save").removeAttr("onclick"); //더블 클릭하고 저장 버튼 클릭시 속성값 제거
@@ -199,7 +205,8 @@ var equipmentmangePop = {
                 regtrSn : $("#empSeq").val(), //등록자 사원번호
                 regDe : $("#regDe").val().replaceAll('-',''), //등록일자
                 sortSn : $("#sortSn").val(), //정렬순번,
-                crtrSn : $("#empSeq").val() //생성자sn - 로그인한 계정
+                crtrSn : $("#empSeq").val(), //생성자sn - 로그인한 계정
+                hourlyUsageFee : equipmentmangePop.uncomma($("#hourlyUsageFee").val()) //시간당 사용대금
             }
 
             if(data.eqipmnGbnCmmnCdSn == null || data.eqipmnGbnCmmnCdSn == ''){
@@ -216,6 +223,9 @@ var equipmentmangePop = {
                 return false;
             }else if(data.sortSn == null || data.sortSn == '') {
                 alert("정렬순번을 입력하세요.")
+                return false;
+            }else if(data.hourlyUsageFee == null || data.hourlyUsageFee == '') {
+                alert("시간당 사용대금을 입력하세요.")
                 return false;
             }
             console.log(data);
@@ -243,7 +253,8 @@ var equipmentmangePop = {
                 regDe : $("#regDe").val().replaceAll('-',''), //등록일자
                 sortSn : $("#sortSn").val(), //정렬순번
                 updusrSn : $("#empSeq").val(),
-                eqipmnMstSn : equipmentmangePop.global.eqipmnMstSn
+                eqipmnMstSn : equipmentmangePop.global.eqipmnMstSn,
+                hourlyUsageFee : equipmentmangePop.uncomma($("#hourlyUsageFee").val())
             }
 
             if(data.eqipmnGbnCmmnCdSn == null || data.eqipmnGbnCmmnCdSn == ''){
@@ -260,6 +271,9 @@ var equipmentmangePop = {
                 return false;
             }else if(data.sortSn == null || data.sortSn == '') {
                 alert("정렬순번을 입력하세요.")
+                return false;
+            }else if(data.hourlyUsageFee == null || data.hourlyUsageFee == '') {
+                alert("시간당 사용대금을 입력하세요.")
                 return false;
             }
             console.log(data);
@@ -315,8 +329,17 @@ var equipmentmangePop = {
             }
         });
         location.reload();
-    }
+    },
 
+    comma: function(str) {
+        str = String(str);
+        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+    },
+
+    uncomma: function(str) {
+        str = String(str);
+        return str.replace(/[^\d]+/g, '');
+    },
 
 
 

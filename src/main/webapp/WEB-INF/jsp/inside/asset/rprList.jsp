@@ -27,51 +27,47 @@
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
-                        <col width="">
+                        <col width="5%">
+                        <col width="10%">
+                        <col width="5%">
+                        <col width="10%">
+                        <col width="5%">
+                        <col width="15%">
+                        <col width="5%">
+                        <col width="auto">
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">기준</th>
+                        <%--<th class="text-center th-color">기준</th>
                         <td>
                             <input type="text" id="drop1" style="width: 110px;">
-                        </td>
-                        <th class="text-center th-color">조회기간</th>
+                        </td>--%>
+                        <%--<th class="text-center th-color">조회기간</th>
                         <td>
                             <input type="text" id="start_date" style="width: 110px;">
                             ~
                             <input type="text" id="end_date" style="width: 110px;">
-                        </td>
+                        </td>--%>
                         <th class="text-center th-color">구분</th>
                         <td>
                             <input type="text" id="drop2" style="width: 100px;">
                         </td>
                         <th class="text-center th-color">상태</th>
                         <td>
-                            <input type="text" id="drop3" style="width: 70px;">
+                            <input type="text" id="drop3" style="width: 100px;">
                         </td>
                         <th class="text-center th-color">유지여부</th>
                         <td>
                             <input type="text" id="drop4" style="width: 150px;">
                         </td>
-                        <th class="text-center th-color">단독/공동</th>
+                        <%--<th class="text-center th-color">단독/공동</th>
                         <td>
                             <input type="text" id="drop5" style="width: 70px;">
-                        </td>
-                        <th class="text-center th-color">기술이전</th>
+                        </td>--%>
+                        <th class="text-center th-color">검색어</th>
                         <td colspan="3">
-                            <input type="text" id="drop6" style="width: 100px;">
-                            <input type="text" id="searchType" style="width: 100px;">
-                            <input type="text" id="searchVal" style="width: 140px;" onkeypress="if(window.event.keyCode==13){rprList.mainGrid();}">
+                            <%--<input type="text" id="drop6" style="width: 100px;">
+                            <input type="text" id="searchType" style="width: 100px;">--%>
+                            <input type="text" id="searchVal" style="width: 200px;" onkeypress="if(window.event.keyCode==13){rprList.mainGrid();}">
                         </td>
                     </tr>
                 </table>

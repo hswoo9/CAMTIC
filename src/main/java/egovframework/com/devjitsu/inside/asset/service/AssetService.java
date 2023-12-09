@@ -57,6 +57,9 @@ public interface AssetService {
     //장비사용 등록 - 업체구분 조회
     List<Map<String, Object>> getPrtpcoGbnNameList(Map<String, Object> params);
 
+    //장비사용 등록 - 사용자로 장비 조회
+    Map<String, Object> getEqipmnOne(Map<String, Object> param);
+
     List<Map<String,Object>> getAssetMdCodeList(Map<String,Object> map);
     List<Map<String,Object>> getAssetDtCodeList(Map<String,Object> map);
 

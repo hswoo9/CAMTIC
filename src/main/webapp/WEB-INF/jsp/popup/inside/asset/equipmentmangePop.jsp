@@ -94,6 +94,13 @@
                         <span class="red-star">*</span>정렬순번</th>
                     <td><input type="text" id="sortSn" style="width: 150px;"></td>
                 </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star">*</span>시간당 <br>사용대금</th>
+                    <td colspan="3">
+                        <input type="text" id="hourlyUsageFee" class="numberInput" style="width: 100%;" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                    </td>
+                </tr>
                 </thead>
             </table>
         </div><!-- table-responsive -->
