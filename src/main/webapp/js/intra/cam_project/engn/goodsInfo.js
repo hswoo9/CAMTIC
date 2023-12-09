@@ -14,7 +14,9 @@ var goodsInfo = {
             rows: 5
         });
 
-        $(".tmHide").hide();
+        if(commonProject.global.teamStat == "Y"){
+            $(".tmHide").hide();
+        }
 
         $(".goodsProdNm, .goodsProdCnt, .goodsUnit, .goodsUnitAmt, .goodsSupAmt, .goodsProdEtc").kendoTextBox();
 
