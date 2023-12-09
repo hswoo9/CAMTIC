@@ -93,6 +93,7 @@ var rndDetail = {
 
         /** 버튼 세팅 */
         rndDetail.fn_buttonSet(rs);
+        rndDetail.customBudgetGrid("/project/getProjectBudgetList.do", {pjtSn : $("#pjtSn").val()});
     },
 
     fn_save : function (){

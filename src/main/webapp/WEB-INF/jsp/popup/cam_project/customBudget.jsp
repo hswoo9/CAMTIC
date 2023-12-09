@@ -20,7 +20,6 @@
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;" id="pjtTitle">예산 등록</span>
             </h3>
-            <button type="button" id="saveBtn" style="float: right; top:5px" class="k-button k-button-solid-base" onclick="save()">저장</button>
         </div>
         <div class="panel-body">
             <div>
