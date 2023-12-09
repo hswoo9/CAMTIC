@@ -251,7 +251,7 @@ var teamInfo = {
                 if(rs.code == 200){
                     alert("저장되었습니다.");
                     opener.gridReload();
-                    commonProject.getReloadPage(4, 5, 5, 4, 5, 5);
+                    commonProject.getReloadPage(5, 6, 6, 5, 6, 6);
                 }
             }
         })
@@ -267,7 +267,7 @@ var teamInfo = {
             pjtSn : $("#pjtSn").val()
         }
         var rs = customKendo.fn_customAjax("/project/delTeamProject",data);
-        commonProject.getReloadPage(4, 5, 5, 4, 5, 5);
+        commonProject.getReloadPage(5, 6, 6, 5, 6, 6);
     },
 
     fn_reset : function (){
