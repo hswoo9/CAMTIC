@@ -1008,6 +1008,7 @@ var draft = {
     },
 
     docApprove : function(){
+        draft.loading();
         hwpDocCtrl.putFieldText('approval_st' + $("#approveOrder").val(), draft.global.dataType.nowCom + "(" + $("#approveCodeNm").val() + ")");
 
         hwpDocCtrl.global.HwpCtrl.GetTextFile("HWPML2X", "", function(data) {
@@ -1019,6 +1020,16 @@ var draft = {
         })
 
         setTimeout(() => draft.docApproveAjax(), 200);
+    },
+
+    loading : function(){
+        $.LoadingOverlay("show", {
+            background: "rgba(0, 0, 0, 0.5)",
+            image: "",
+            maxSize: 60,
+            fontawesome: "fa fa-spinner fa-pulse fa-fw",
+            fontawesomeColor: "#FFFFFF",
+        });
     },
 
     docApproveAjax : function(){

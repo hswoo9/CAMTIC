@@ -19,6 +19,7 @@
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpUnRndInit.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpCtrlApp.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/approval/approvalDrafting.js?v=${today}'/>"></script>
+<script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 
 <style>
     .pop_head {height: 32px; position: relative; background: #1385db;}

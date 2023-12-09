@@ -185,8 +185,20 @@ function fileChange(e){
 
 var commonProject = {
     global : {
+        /** 자기 자신이 협업프로젝트인지(Y) 수주부서프로젝트인지(N) */
         teamStat : "",
-        busnClass : ""
+
+        /** 협업중인 프로젝트가 있는지(Y) 단독인지(N) */
+        teamYn : "",
+
+        /** 엔지니어링(D) 알앤디(R) 비알앤디(S) */
+        busnClass : "",
+
+        /** 협업프로젝트 계획서(공정)단계 마감인지(Y) 진행중인지(N)*/
+        devTeamCk : "",
+
+        /** 협업프로젝트 최종마감인지(Y) 진행중인지(N)*/
+        pjtTeamCk : ""
     },
 
     loading : function(){
@@ -204,6 +216,9 @@ var commonProject = {
         const pjtMap = pjtResult.map;
 
         commonProject.global.teamStat = pjtMap.TEAM_STAT;
+        commonProject.global.teamYn = pjtMap.TM_YN;
         commonProject.global.busnClass = pjtMap.BUSN_CLASS;
+        commonProject.global.devTeamCk = pjtMap.DEV_TEAM_CK;
+        commonProject.global.pjtTeamCk = pjtMap.PJT_TEAM_CK;
     }
 }

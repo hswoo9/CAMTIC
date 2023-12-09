@@ -820,7 +820,7 @@
         SELECT * FROM
             CAM_PJT_MNG.DJ_PJT_INV
         WHERE
-            PJT_SN = #{pjtSn}
+            DEV_SN = (SELECT SPD.DEV_SN FROM CAM_PJT_MNG.DJ_PJT_DEV SPD WHERE SPD.PJT_SN = #{pjtSn} ORDER BY SPD.DEV_SN DESC LIMIT 1)
     </select>
 
     <update id="updInvest" parameterType="map">
@@ -2152,7 +2152,7 @@
         /*setDevTeamApp*/
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET
-            DEV_TEAM_CK = 'Y'
+            DEV_TEAM_CK = #{stat}
         WHERE
             PJT_SN = #{pjtSn} OR PJT_SN = (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
     </update>
