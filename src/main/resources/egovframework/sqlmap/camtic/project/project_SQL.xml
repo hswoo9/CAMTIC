@@ -53,6 +53,10 @@
             AND
                 A.PJT_STEP in ('E1','E2','E3','E4','E5','R2')
         </if>
+        <if test='"".equals(searchValue) and "".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
+            AND
+                (A.PJT_NM LIKE CONCAT('%', #{searchText}, '%') OR A.BS_TITLE LIKE CONCAT('%', #{searchText}, '%') OR A.PJT_SUB_NM LIKE CONCAT('%', #{searchText}, '%'))
+        </if>
         <if test='"1".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
             AND
                 A.PJT_CD LIKE CONCAT('%', #{searchText}, '%')
