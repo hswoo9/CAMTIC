@@ -1098,4 +1098,19 @@ public class PayAppServiceImpl implements PayAppService {
     public List<Map<String, Object>> getPayAppFileList(Map<String, Object> params) {
         return payAppRepository.getPayAppFileList(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getApprovalExnpFileData(Map<String, Object> params) {
+        List<Map<String, Object>> list = payAppRepository.getExnpDetailData(params);
+        List<Map<String, Object>> fileList = payAppRepository.getApprovalExnpCommonFileData(params);
+
+        for(Map<String, Object> data : list){
+            String filePath = "/upload/useCard/" + data.get("AUTH_NO") + "/" + data.get("AUTH_DD") + "/" + data.get("AUTH_HH") + "/" + data.get("CARD_NO").toString().replaceAll("-", "") + "/" + data.get("BUY_STS") + "/";
+            data.put("payAppSn", params.get("payAppSn"));
+            data.put("filePath", filePath);
+            fileList.add(payAppRepository.getApprovalExnpFileData(data));
+        }
+
+        return fileList;
+    }
 }

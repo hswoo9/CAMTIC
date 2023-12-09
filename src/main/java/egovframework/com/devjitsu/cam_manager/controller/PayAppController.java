@@ -369,6 +369,19 @@ public class PayAppController {
         return "jsonView";
     }
 
+    @RequestMapping("/payApp/pop/getApprovalExnpFileData")
+    public String getApprovalExnpFileData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        Map<String, Object> map = payAppService.getExnpData(params);
+
+        params.put("payAppSn", map.get("PAY_APP_SN"));
+
+        List<Map<String, Object>> fileList = payAppService.getApprovalExnpFileData(params);
+
+        model.addAttribute("fileList", fileList);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/pay/exnpList.do")
     public String exnpList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();

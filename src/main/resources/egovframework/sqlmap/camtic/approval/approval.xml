@@ -537,7 +537,13 @@
         WHERE
             DI.DOC_ID = #{docId}
         <if test='type == "payApp" or "payApp".equals(type)'>
-            OR CONTENT_ID = #{payAppSn} AND file_cd = #{type}
+            OR CONTENT_ID = #{payAppSn} AND (file_cd = #{type} OR file_cd = 'useCard')
+        </if>
+        <if test='type == "exnp" or "payApp".equals(exnp)'>
+            OR CONTENT_ID = #{payAppSn} AND file_cd = 'payApp'
+        </if>
+        <if test='type == "exnpDetail" or "payApp".equals(exnpDetail)'>
+            OR (CONTENT_ID = #{payAppSn} AND FILE_CD = 'useCard' AND FILE_PATH = #{filePath})
         </if>
     </select>
 

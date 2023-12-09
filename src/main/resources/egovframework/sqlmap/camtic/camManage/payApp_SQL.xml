@@ -1461,4 +1461,32 @@
         WHERE
             PAY_APP_SN = #{PAY_APP_SN}
     </delete>
+
+    <select id="getApprovalExnpCommonFileData" parameterType="map" resultType="map">
+        /*getApprovalExnpCommonFileData*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO A
+        WHERE
+            CONTENT_ID = #{payAppSn}
+        AND
+            FILE_CD = 'payApp'
+    </select>
+
+    <select id="getApprovalExnpFileData" parameterType="map" resultType="map">
+        /*getApprovalExnpFileData*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO A
+        WHERE
+            CONTENT_ID = #{payAppSn}
+        AND
+            FILE_CD = 'useCard'
+        AND
+            FILE_PATH = #{filePath}
+        ORDER BY FILE_NO DESC
+        LIMIT 1
+    </select>
 </mapper>

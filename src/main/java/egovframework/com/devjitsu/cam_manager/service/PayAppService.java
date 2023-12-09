@@ -72,4 +72,6 @@ public interface PayAppService {
     void delPayApp(int[] params);
 
     List<Map<String, Object>> getPayAppFileList(Map<String, Object> params);
+
+    List<Map<String, Object>> getApprovalExnpFileData(Map<String, Object> params);
 }

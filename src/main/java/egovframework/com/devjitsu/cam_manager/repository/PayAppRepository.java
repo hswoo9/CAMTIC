@@ -249,4 +249,12 @@ public class PayAppRepository extends AbstractDAO {
     public List<Map<String, Object>> getPayAppItemList(Map<String, Object> params) {
         return selectList("payApp.getPayAppItemList", params);
     }
+
+    public Map<String, Object> getApprovalExnpFileData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("payApp.getApprovalExnpFileData", params);
+    }
+
+    public List<Map<String, Object>> getApprovalExnpCommonFileData(Map<String, Object> params) {
+        return selectList("payApp.getApprovalExnpCommonFileData", params);
+    }
 }

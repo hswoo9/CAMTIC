@@ -132,16 +132,16 @@ var regExnp = {
                     buttonHtml += '<button type="button" id="reqBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.payAppDrafting()">상신</button>';
                 }else if(data.DOC_STATUS == "10"){
                     $("#mode").val("view");
-                    buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
+                    buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+data.DOC_ID+'\', \'exnp'+data.EXNP_SN+'\', 1, \'retrieve\');">회수</button>';
                 }else if(data.DOC_STATUS == "30" || data.DOC_STATUS == "40"){
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_save()">저장</button>';
-                    buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \''+data.DOC_MENU_CD+'\', \''+data.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
+                    buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \''+data.DOC_MENU_CD+'\', \'camticExnp_'+data.EXNP_SN+'\', 2, \'reDrafting\');">재상신</button>';
                 }else if(data.DOC_STATUS == "100"){
                     $("#mode").val("view");
                     if($("#status").val() == "rev"){
                         buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_regExnpInPop('+data.PAY_APP_SN+', '+data.EXNP_SN+')">여입결의서 작성</button>';
                     }
-                    buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', \''+data.DOC_MENU_CD+'\');">열람</button>';
+                    buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \'camticExnp_'+data.EXNP_SN+'\', \'exnp\');">열람</button>';
                     $("#addBtn").hide();
                 }else{
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_save()">저장</button>';
@@ -190,11 +190,6 @@ var regExnp = {
 
                             regExnp.global.fileArray.push(fileList[j]);
                         }
-                        console.log(fileList[j].file_path.split("/")[3] + "=" + authNo);
-                        console.log(fileList[j].file_path.split("/")[4] + "=" + authDd);
-                        console.log(fileList[j].file_path.split("/")[5] + "=" + authHh);
-                        console.log(fileList[j].file_path.split("/")[6] + "=" + cardNo);
-                        console.log(fileList[j].file_path.split("/")[7] + "=" + buySts);
                     } else if(fileList[j].file_cd != "useCard" && fileFlag){
                         regExnp.global.fileArray.push(fileList[j]);
 

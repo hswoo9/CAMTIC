@@ -171,6 +171,11 @@ var docView = {
             docView.global.searchAjaxData.type = "payApp";
         }
 
+        if(docView.global.rs.docInfo.DOC_MENU_CD == "exnp"){
+            docView.global.searchAjaxData.exnpSn = docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
+            docView.global.searchAjaxData.type = "exnp";
+        }
+
         var attachmentGrid = $("#attachmentGrid").kendoGrid({
             dataSource : customKendo.fn_gridDataSource2("/approval/getDocAttachmentList", docView.global.searchAjaxData),
             sortable: true,
