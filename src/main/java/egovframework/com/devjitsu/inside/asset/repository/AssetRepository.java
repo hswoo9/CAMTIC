@@ -129,6 +129,10 @@ public class AssetRepository extends AbstractDAO {
     public List<Map<String, Object>> getPrtpcoGbnNameList(Map<String, Object> params) {
         return selectList("asset.getPrtpcoGbnNameList", params);
     }
+    //장비사용 등록 - 사용자로 장비 조회
+    public Map<String, Object> getEqipmnOne(Map<String, Object> param) {
+        return (Map<String, Object>) selectOne("asset.getEqipmnOne", param);
+    }
     public List<Map<String,Object>> getAssetMdCodeList(Map<String,Object> map) {
         return selectList("asset.getAssetMdCodeList", map);
     }

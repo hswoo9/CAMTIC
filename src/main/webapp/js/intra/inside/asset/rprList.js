@@ -230,16 +230,25 @@ var rprList = {
                     field: "TAIN_NAME",
                     title: "유지여부",
                     width: 120
-                }, {
+                }, /*{
                     field: "EXPIRATION_DT",
                     title: "존속만료일",
                     width: 80,
                     template: function(row){
                         return row.EXPIRATION_DT == "1900-01-00" ? "-" : row.EXPIRATION_DT
                     }
-                }, {
+                },*/ {
                     field: "TITLE",
-                    title: "지식재산권 명칭"
+                    title: "지식재산권 명칭",
+                    template: function(row){
+                        let title = row.TITLE;
+
+                        if(title.length > 29){
+                            return title.substring(30, -1) + "...";
+                        }else{
+                            return title;
+                        }
+                    }
                 }, {
                     field: "SHARE_NAME",
                     title: "발명자",

@@ -38,7 +38,7 @@ var equipmentList = {
         $("#searchVal").kendoTextBox();
         $("#searchVal").on("keyup", function(key){
             if(key.keyCode == 13){
-                equipmentList.mainGrid();
+                equipmentList.gridReload();
             }
         })
         $.ajax({
@@ -131,10 +131,13 @@ var equipmentList = {
             },
             toolbar : [
                 {
+                    name: 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: '',
                     text: '조회',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="equipmentList.mainGrid();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="equipmentList.gridReload();">' +
                             '   <span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -156,6 +159,10 @@ var equipmentList = {
                     }
                 }
             ],
+            excel: {
+                fileName: "장비 목록.xlsx",
+                filterable: true
+            },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -207,7 +214,56 @@ var equipmentList = {
                         return dataItem.END_STAT === "Y" ? "마감완료" : "-";
                     }
                 }
-            ]
+            ],
+            excelExport: function(e) {
+                var sheet = e.workbook.sheets[0];
+
+                // 기존 헤더셀 삭제
+                sheet.rows.splice(0, 1);
+
+                // 헤더에 필드 추가
+                sheet.rows.unshift({
+                    cells: [
+                        {background: '#7a7a7a', color: '#fff', value: "장비명", colSpan: 1, firstCell: false},
+                        {background: '#7a7a7a', color: '#fff', value: "사용기간", colSpan: 1, firstCell: false},
+                        {background: '#7a7a7a', color: '#fff', value: "사용자", colSpan: 1, firstCell: false},
+                        {background: '#7a7a7a', color: '#fff', value: "작업내용", colSpan: 1, firstCell: false},
+                        {background: '#7a7a7a', color: '#fff', value: "총 사용시간", colSpan: 1, firstCell: false},
+                        {background: '#7a7a7a', color: '#fff', value: "의뢰업체", colSpan: 1, firstCell: false},
+                        {background: '#7a7a7a', color: '#fff', value: "업체구분", colSpan: 1, firstCell: false},
+                        {background: '#7a7a7a', color: '#fff', value: "연도", colSpan: 1, firstCell: false},
+                        {background: '#7a7a7a', color: '#fff', value: "월", colSpan: 1, firstCell: false},
+                        {background: '#7a7a7a', color: '#fff', value: "장비사용료", colSpan: 1, firstCell: false},
+                        {background: '#7a7a7a', color: '#fff', value: "부서명", colSpan: 1, firstCell: false}
+                    ]
+                });
+
+                // 행추가 (기존 행에 덮어쓰기)
+                for (var i = 0; i < e.data.length; i++) {
+                    var dataItem = e.data[i];
+
+                    var totalUsageTime = dataItem.USE_TIME; // 총 사용시간
+                    var usageFee = dataItem.USE_AMT; // 사용대금
+
+                    var calculatedData = [
+                        dataItem.EQIPMN_NAME, // 장비명
+                        dataItem.USE_PD_STR_DE, // 사용기간
+                        dataItem.USER_NAME, // 사용자
+                        dataItem.OPER_CN, // 작업내용
+                        totalUsageTime, // 총 사용시간
+                        dataItem.CLIENT_PRTPCO_NAME, // 의뢰업체
+                        dataItem.PRTPCO_GBN_NAME, // 업체구분
+                        dataItem.USE_PD_STR_DE.substring(0, 4), // 연도
+                        dataItem.USE_PD_STR_DE.substring(4, 6), // 월
+                        totalUsageTime * usageFee, // 장비사용료 (총 사용시간 * 사용대금)
+                        dataItem.DEPT_NAME // 부서
+                    ];
+
+                    sheet.rows[i+1].cells = calculatedData.map(function(cellData) {
+                        return { value: cellData };
+                    });
+                }
+            }
         }).data("kendoGrid");
 
         //장비사용 목록 리스트 더블 클릭시 수정 팝업창
@@ -215,10 +271,7 @@ var equipmentList = {
             var selectedItem = $("#mainGrid").data("kendoGrid").dataItem(this);
 
             var columnValue = selectedItem.END_STAT; //<나중에 마감관련 컬럼으로 교체
-            console.log(columnValue);
 
-            console.log(selectedItem);
-            console.log(selectedItem.END_STAT);
             /*equipmentList.equipmentUsePopup(123);*/
 
             if(columnValue !== "Y") {
@@ -269,7 +322,7 @@ var equipmentList = {
                 }
             }
         });
-        location.reload();
+        //location.reload();
     },
 
     fn_checkAll: function(){
@@ -302,6 +355,10 @@ var equipmentList = {
             return "0";
         }
         return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").replace(/(^0+)/, "");
+    },
+
+    gridReload: function (){
+        $("#mainGrid").data("kendoGrid").dataSource.read();
     }
 
 }

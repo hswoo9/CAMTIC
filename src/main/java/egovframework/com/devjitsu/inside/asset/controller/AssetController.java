@@ -968,6 +968,16 @@ public class AssetController {
         result.put("list", assetService.getPrtpcoGbnNameList(params));
         return result;
     }
+
+    //장비사용 등록 - 사용자로 장비 조회
+    @RequestMapping("/asset/getEqipmnOne")
+    @ResponseBody
+    public Map<String, Object> getEqipmnOne(@RequestParam Map<String, Object> params){
+        Map<String, Object> result = new HashMap<>();
+        result.put("map", assetService.getEqipmnOne(params));
+        return result;
+    }
+    
     @RequestMapping("/inside/getAssetMdCodeList")
     public String getAssetMdCodeList(@RequestParam Map<String,Object> map, Model model) {
         model.addAttribute("rs", assetService.getAssetMdCodeList(map));
