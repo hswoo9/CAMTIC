@@ -235,7 +235,7 @@
 
     function fn_userMultiSelectPop(i) {
         idx = i;
-        window.open("/user/pop/userMultiSelectPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+        window.open("/user/pop/userMultiSelectPop.do?type=dev","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
     }
 
     function userDataSet(arr){
