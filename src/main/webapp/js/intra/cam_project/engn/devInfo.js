@@ -440,9 +440,9 @@ var devInfo = {
     fn_setButton : function(devMap){
         console.log("devMap");
         console.log(devMap);
+        var buttonHtml = "";
         if(devMap != null) {
             var status = devMap.STATUS;
-            var buttonHtml = "";
             
             /** 수주부서 일때 */
             if (status == "0") {
@@ -479,8 +479,10 @@ var devInfo = {
                     buttonHtml = "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
                 }
             }
-            $("#devBtnDiv").html(buttonHtml);
+        } else {
+            buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
         }
+        $("#devBtnDiv").html(buttonHtml);
     },
 
     fn_delRow : function(i){

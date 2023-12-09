@@ -75,16 +75,30 @@ var purcInfo = {
                     field: "PURC_REQ_PURPOSE",
                     template : function(e){
                         return e.PURC_REQ_PURPOSE
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>투자금액</div>";
                     }
                 }, {
                     title: "구매",
                     width: 100,
                     template : function(e){
                         return e.CP_CNT + "건 / " + '<span style="color:red;">'+e.RP_CNT+'</span>' + "건"
+                    },
+                    footerTemplate: function(){
+                        const list = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: $("#pjtSn").val()}).list;
+                        let invSum = 0;
+                        for(let i=0; i<list.length; i++){
+                            invSum += Number(list[i].EST_TOT_AMT);
+                        }
+                        return "<div style='text-align: right'>"+comma(invSum)+"</div>";
                     }
                 }, {
                     title: "외주",
-                    width: 100
+                    width: 100,
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>잔여금액</div>";
+                    }
                 }, {
                     title: "구매요청서",
                     field: "STATUS",
@@ -100,34 +114,32 @@ var purcInfo = {
 
                         return status
                     },
+                    footerTemplate: function(){
+                        const list = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: $("#pjtSn").val()}).list;
+                        let invSum = 0;
+                        for(let i=0; i<list.length; i++){
+                            invSum += Number(list[i].EST_TOT_AMT);
+                        }
+
+                        const leftList = customKendo.fn_customAjax("/purc/getProjectPurcReqList", {pjtSn: $("#pjtSn").val()}).list;
+                        let purcSum2 = 0;
+                        let leftSum = 0;
+                        for(let i=0; i<leftList.length; i++){
+                            purcSum2 += Number(leftList[i].PURC_ITEM_AMT);
+                        }
+                        leftSum = invSum - purcSum2;
+                        return "<div style='text-align: right'>"+comma(leftSum)+"</div>";
+                    }
                 },
-                // , {
-                //     title: "구매청구서",
-                //     field: "STATUS",
-                //     width: 100,
-                //     template : function(e){
-                //         var status = "";
-                //
-                //         /** 구매청구서 */
-                //         if(e.DOC_STATUS == "100" || e.DOC_STATUS == "101"){
-                //             if(e.CLAIM_STATUS == "CAYSY"){
-                //                 status = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_reqRegPopup(' + e.PURC_SN + ')">구매청구서</button>';
-                //             }else{
-                //                 status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqRegPopup(' + e.PURC_SN + ')">구매청구서</button>';
-                //             }
-                //         }
-                //
-                //         return status
-                //     },
-                // },
                 {
                     title: "검수",
                     field: "STATUS",
                     width: 100,
                     template : function(e){
                         var status = "";
+                        console.log(e);
                         if(e.CLAIM_STATUS == "CAYSY"){
-                            if(e.INSPECT_YN == "Y"){
+                            if(e.ORDER_DT != ""){
                                 if(e.INSPECT_STATUS != "100"){
                                     status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
                                 }else{
@@ -138,7 +150,9 @@ var purcInfo = {
 
                         return status
                     },
-                    footerTemplate: "청구 합계"
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>청구 합계</div>";
+                    }
                 }, {
                     title: "금액",
                     width: 100,

@@ -191,7 +191,6 @@ var prp = {
                 alert("프로젝트 투자금액을 초과하여 구매요청을 작성하지 못합니다."); return;
             }
         }
-        return;
 
         if(!flag){
             alert("구분값을 선택해주세요.");

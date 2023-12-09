@@ -19,10 +19,7 @@
     .k-footer-template td:nth-child(2),
     .k-footer-template td:nth-child(3),
     .k-footer-template td:nth-child(4),
-    .k-footer-template td:nth-child(5),
-    .k-footer-template td:nth-child(6),
-    .k-footer-template td:nth-child(7),
-    .k-footer-template td:nth-child(8) {
+    .k-footer-template td:nth-child(5) {
         border-width: 0;
     }
 </style>

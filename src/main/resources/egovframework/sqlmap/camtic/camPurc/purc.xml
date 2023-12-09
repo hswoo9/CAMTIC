@@ -22,7 +22,9 @@
             WHEN PC.CLAIM_SN IS NOT NULL AND PC.DOC_ID IS NOT NULL AND (PC.STATUS = '100' OR PC.STATUS = '101') THEN 'CAYSY'
             ELSE '' END CLAIM_STATUS,
             MP.INSPECT_YN,
-            MP.INSPECT_STATUS
+            MP.INSPECT_STATUS,
+            IFNULL(PC.ORDER_DT, "") AS ORDER_DT,
+            MP.INSPECT_YN
         FROM
             CAM_MNG.DJ_MNG_PURC MP
         JOIN
