@@ -1,5 +1,6 @@
-var bustInfo = {
+let bustSum = 0;
 
+var bustInfo = {
 
     fn_defaultScript : function(){
         commonProject.setPjtStat();
@@ -132,24 +133,25 @@ var bustInfo = {
                     title: "차량",
                     width: 80,
                     template : function (e){
+                        console.log(e);
                         if(e.USE_TRSPT == 1){
                             return "카니발";
-                        } else if(e.USE_TRSPT == 2){
+                        } else if(e.USE_TRSPT == 5){
                             return "아반떼";
                         } else if (e.USE_TRSPT == 3){
                             return "트럭";
-                        } else if (e.USE_TRSPT == 4){
+                        } else if (e.USE_TRSPT == 12){
                             return "모하비";
-                        } else if (e.USE_TRSPT == 5){
+                        } else if (e.USE_TRSPT == 13){
                             return "솔라티";
-                        } else if (e.USE_TRSPT == 6){
+                        } else if (e.USE_TRSPT == 14){
                             return "드론관제차량";
-                        } else if (e.USE_TRSPT == 7){
+                        } else if (e.USE_TRSPT == 10){
                             return "자가";
-                        } else if (e.USE_TRSPT == 8){
+                        } else if (e.USE_TRSPT == 0){
                             return "대중교통";
                         } else {
-                            return "";
+                            return "-";
                         }
                     }
                 }, {
@@ -184,6 +186,19 @@ var bustInfo = {
                         } else {
                             return "-";
                         }
+                    },
+                    footerTemplate: "출장완료 여비합계"
+                }, {
+                    title : "여비금액",
+                    width: 50,
+                    template : function (e){
+                        if(e.RS_STATUS == "100"){
+                            bustSum  += Number(e.RES_EXNP_SUM);
+                        }
+                        return "<div style='text-align: right'>"+comma(e.RES_EXNP_SUM)+"</div>";
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(bustSum)+"</div>";
                     }
                 }, {
                     title : "지급신청",
