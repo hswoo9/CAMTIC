@@ -276,16 +276,16 @@
             cmGroupCode : "BUSN_CLASS"
         }
         var pjCodeDs = customKendo.fn_customAjax("/common/commonCodeList", data)
-        customKendo.fn_dropDownList("pjCode", pjCodeDs.rs, "CM_CODE_NM", "CM_CODE");
+        customKendo.fn_dropDownList("pjCode", pjCodeDs.rs, "CM_CODE_NM", "CM_CODE", 2);
 
         $("#pjCode").data("kendoDropDownList").select(3);
 
         data.grpSn = "SUP_DEP";
         var lgCodeDs = customKendo.fn_customAjax("/project/selLgCode", data);
-        customKendo.fn_dropDownList("supDep", lgCodeDs.rs, "LG_CD_NM", "LG_CD");
+        customKendo.fn_dropDownList("supDep", lgCodeDs.rs, "LG_CD_NM", "LG_CD", 2);
 
         $("#supDepSub").kendoDropDownList({
-            dataSource : [{text : "선택", value : ""}],
+            dataSource : [{text : "선택하세요", value : ""}],
             dataTextField : "text",
             dataValueField : "value"
         });
@@ -293,15 +293,15 @@
             data.lgCd = $("#supDep").val();
             data.grpSn = "SUP_DEP";
             var smCodeDs = customKendo.fn_customAjax("/project/selSmCode", data);
-            customKendo.fn_dropDownList("supDepSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
+            customKendo.fn_dropDownList("supDepSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD", 2);
         });
 
         data.grpSn = "BUS_STAT";
         var lgCodeDs = customKendo.fn_customAjax("/project/selLgCode", data);
-        customKendo.fn_dropDownList("pjtStat", lgCodeDs.rs, "LG_CD_NM", "LG_CD");
+        customKendo.fn_dropDownList("pjtStat", lgCodeDs.rs, "LG_CD_NM", "LG_CD", 2);
 
         $("#pjtStatSub").kendoDropDownList({
-            dataSource : [{text : "선택", value : ""}],
+            dataSource : [{text : "선택하세요", value : ""}],
             dataTextField : "text",
             dataValueField : "value"
         });
@@ -309,7 +309,7 @@
             data.lgCd = $("#pjtStat").val();
             data.grpSn = "BUS_STAT";
             var smCodeDs = customKendo.fn_customAjax("/project/selSmCode", data);
-            customKendo.fn_dropDownList("pjtStatSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
+            customKendo.fn_dropDownList("pjtStatSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD", 2);
         });
         $("#supDep").data("kendoDropDownList").value("l");
         $("#supDep").data("kendoDropDownList").trigger("change");

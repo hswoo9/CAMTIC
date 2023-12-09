@@ -103,13 +103,16 @@ var delvInfo = {
     },
 
     fn_save : function(){
-        commonProject.loading();
         var pjCode = $("#pjCode").val();
         var supDep = $("#supDep").val();
         var supDepSub = $("#supDepSub").val();
         var pjtStat = $("#pjtStat").val();
         var pjtStatSub = $("#pjtStatSub").val();
 
+        if(pjCode == ""){
+            alert("프로젝트 구분을 선택해주세요.");
+            return;
+        }
         if(supDep == ""){
             alert("지원부처를 선택해주세요.");
             return;
@@ -123,7 +126,7 @@ var delvInfo = {
             return;
         }
         if(pjtStatSub == ""){
-            alert("사업성격1을 선택해주세요.");
+            alert("사업성격2를 선택해주세요.");
             return;
         }
 
@@ -204,6 +207,7 @@ var delvInfo = {
                 return false;
             }
         }
+        commonProject.loading();
 
 
 
