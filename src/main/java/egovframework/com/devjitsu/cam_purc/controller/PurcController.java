@@ -507,6 +507,14 @@ public class PurcController {
         return "jsonView";
     }
 
+    @RequestMapping("/purc/getProjectPurcReqList")
+    public String getProjectPurcReqList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = purcService.getProjectPurcReqList(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/purc/delPurcReq.do")
     public String delPurcReq(@RequestParam Map<String, Object> params, Model model){
 

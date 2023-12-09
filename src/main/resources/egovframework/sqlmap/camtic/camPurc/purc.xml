@@ -942,6 +942,18 @@
         AND A.STATUS = '100'
     </select>
 
+    <select id="getProjectPurcReqList" parameterType="map" resultType="map">
+        /*getProjectPurcReqList*/
+        SELECT
+            B.*
+        FROM
+            CAM_MNG.DJ_MNG_PURC A
+        LEFT JOIN CAM_MNG.DJ_MNG_PURC_ITEM B ON A.PURC_SN = B.PURC_SN
+        WHERE
+            A.PJT_SN = #{pjtSn}
+        AND A.DOC_STATUS = '100'
+    </select>
+
     <update id="updPurcItemStatusChange" parameterType="map">
         /*updPurcItemStatusChange*/
         UPDATE CAM_MNG.DJ_MNG_PURC_ITEM
