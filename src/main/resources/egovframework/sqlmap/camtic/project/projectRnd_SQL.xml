@@ -430,7 +430,7 @@
         SET
             PJT_STEP = "R2",
             PJT_STEP_NM = "수주보고",
-            PJT_AMT = #{pjtExpAmt}
+            PJT_AMT = PJT_EXP_AMT
         WHERE
             PJT_SN = #{pjtSn}
     </update>

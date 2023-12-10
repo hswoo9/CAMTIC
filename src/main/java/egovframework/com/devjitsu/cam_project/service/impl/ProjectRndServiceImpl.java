@@ -210,38 +210,7 @@ public class ProjectRndServiceImpl implements ProjectRndService {
 
     @Override
     public void setDelvApprove(Map<String, Object> params) {
-
-        try{
-            projectRepository.updTmpProjectCode(params);
-
-            /** 사업비 분리 : 테이블 조회해서 데이터 없으면 단일(0)으로 생성, 있으면 for문 */
-            List<Map<String, Object>> list = projectRndRepository.getAccountInfo(params);
-            int pjtCnt = g20Repository.getProjectCount(params);
-            String pjtCd = params.get("pjtCd").toString();
-            String cntCode = String.format("%02d", (pjtCnt + 1));
-            if(list.size() == 0){
-                params.put("pjtCd", pjtCd + cntCode + "0");
-                params.put("pProjectCD", params.get("pjtCd"));
-                // G20 프로젝트 추가
-                g20Repository.insProject(params);
-                projectRepository.updProjectCode(params);
-            }else{
-                for(int i = 0 ; i < list.size() ; i++){
-                    params.put("pProjectCD", pjtCd + cntCode + list.get(i).get("IS_TYPE"));
-                    if(i == 0){
-                        params.put("pjtCd", params.get("pProjectCD"));
-                        projectRepository.updProjectCode(params);
-                    }
-                    // G20 프로젝트 추가
-                    g20Repository.insProject(params);
-                }
-            }
-            // 결재 완료 처리
-            projectRndRepository.updRndProjectInfo(params);
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-
+        projectRepository.updTmpProjectCode(params);
     }
 
     @Override
@@ -385,6 +354,41 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             projectRndRepository.updateRndDelvFinalApprStat(params);
+
+            Map<String, Object> pjtMap = projectRepository.getProjectData(params);
+            try{
+                /** 사업비 분리 : 테이블 조회해서 데이터 없으면 단일(0)으로 생성, 있으면 for문 */
+                params.put("pjtTmpCd", pjtMap.get("PJT_TMP_CD"));
+
+                List<Map<String, Object>> list = projectRndRepository.getAccountInfo(params);
+
+                int pjtCnt = g20Repository.getProjectCount(params);
+                String pjtCd = pjtMap.get("PJT_TMP_CD").toString();
+                String cntCode = String.format("%02d", (pjtCnt + 1));
+
+                if(list.size() == 0){
+                    params.put("pjtCd", pjtCd + cntCode + "0");
+                    params.put("pProjectCD", params.get("pjtCd"));
+                    // G20 프로젝트 추가
+                    g20Repository.insProject(params);
+                    projectRepository.updProjectCode(params);
+                }else{
+                    for(int i = 0 ; i < list.size() ; i++){
+                        params.put("pProjectCD", pjtCd + cntCode + list.get(i).get("IS_TYPE"));
+                        if(i == 0){
+                            params.put("pjtCd", pjtMap.get("PJT_TMP_CD"));
+                            projectRepository.updProjectCode(params);
+                        }
+                        // G20 프로젝트 추가
+                        g20Repository.insProject(params);
+                    }
+                }
+                // 결재 완료 처리
+                projectRndRepository.updRndProjectInfo(params);
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+
             params.put("pjtStep", "R2");
             params.put("pjtStepNm", "수주보고");
             projectRepository.updProjectStep(params);

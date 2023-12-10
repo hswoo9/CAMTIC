@@ -19,8 +19,10 @@ var setDelvPjt = {
 
         var pjtInfo = customKendo.fn_customAjax("/project/getProjectInfo", parameters);
         var result = customKendo.fn_customAjax("/project/engn/getDelvData", parameters);
+        var rndResult = customKendo.fn_customAjax("/projectRnd/getRndDetail", parameters);
         var pjtMap = pjtInfo.map;
         var delvMap = result.delvMap;
+        var rndMap = rndResult.map;
         console.log(pjtMap);
         console.log(delvMap);
 
@@ -87,9 +89,15 @@ var setDelvPjt = {
         }
 
         $("#pjtNm").text(pjtMap.PJT_NM);
-        $("#strDt").text(delvMap.PJT_STR_DT);
-        $("#endDt").text(delvMap.PJT_END_DT);
-        $("#pmNm").text(delvMap.PM_EMP_NM);
+        if(pjtMap.BUSN_CLASS == "D"){
+            $("#strDt").text(delvMap.PJT_STR_DT);
+            $("#endDt").text(delvMap.PJT_END_DT);
+            $("#pmNm").text(delvMap.PM_EMP_NM);
+        }else if(pjtMap.BUSN_CLASS == "R"){
+            $("#strDt").text(pjtMap.PJT_START_DT);
+            $("#endDt").text(pjtMap.PJT_END_DT);
+            $("#pmNm").text(rndMap.MNG_EMP_NAME);
+        }
         $("#regNm").text(pjtMap.DELV_APPROVE_EMP_NAME);
         $("#url").html("<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+pjtMap.PJT_SN+", \"" + pjtMap.BUSN_CLASS + "\")'>" + pjtMap.PJT_NM + "</a>");
     },

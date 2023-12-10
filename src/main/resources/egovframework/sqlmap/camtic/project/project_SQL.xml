@@ -1346,6 +1346,7 @@
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET
             PJT_TMP_CD = #{pjtTmpCd}
+            , DELV_APPROVE_EMP_NAME = #{regEmpName}
         <if test='"100".equals(status)'>
             , DELV_STAT = 'Y'
         </if>
@@ -2432,7 +2433,8 @@
                         WHEN MAX(REPLACE(PJT_CD, #{PJT_TMP_CD}, '')) = "" THEN CONCAT(#{PJT_TMP_CD}, '01')
                         ELSE CONCAT(#{PJT_TMP_CD}, LPAD(SUBSTR(MAX(PJT_CD), 8) + 1, '2', '0'))
                         END AS tt
-                FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_CD like CONCAT(#{PJT_TMP_CD}, '%'))
+                FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_CD like CONCAT(#{PJT_TMP_CD}, '%')),
+            PJT_AMT = (SELECT DELV_AMT FROM CAM_PJT_MNG.DJ_PJT_DELV WHERE PJT_SN = #{PJT_SN})
         WHERE
             PJT_SN = #{PJT_SN}
     </update>

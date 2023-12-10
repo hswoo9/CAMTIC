@@ -234,7 +234,8 @@ var delvInfo = {
         var parameters = {
             pjtSn : $("#pjtSn").val(),
             pjtTmpCd : pjCode + supDep + supDepSub + pjtStat + pjtStatSub + year,
-            stat : stat
+            stat : stat,
+            regEmpName : $("#regEmpName").val()
         }
         commonProject.loading();
 
