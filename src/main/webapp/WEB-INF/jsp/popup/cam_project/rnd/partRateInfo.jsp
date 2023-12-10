@@ -62,13 +62,13 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>최소 참여율
+                        <span class="red-star"></span>최소 참여율
                     </th>
                     <td>
                         <input type="text" id="minPartRate" value="0" minlength="2" style="width: 80%; text-align: right" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"> %
                     </td>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>최대 참여율
+                        <span class="red-star"></span>최대 참여율
                     </th>
                     <td>
                         <input type="text" id="maxPartRate" value="0" maxlength="2" style="width: 80%; text-align: right" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"> %
