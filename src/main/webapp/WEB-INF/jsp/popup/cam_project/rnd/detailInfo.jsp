@@ -8,8 +8,8 @@
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 <script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 <style>
-    .k-footer-template td:nth-child(3),
-    .k-footer-template td:nth-child(4){
+    .k-footer-template td:nth-child(4),
+    .k-footer-template td:nth-child(5){
         overflow: visible;
         white-space: nowrap;
         text-align: right;
