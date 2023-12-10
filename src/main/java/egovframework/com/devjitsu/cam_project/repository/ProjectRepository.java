@@ -517,8 +517,8 @@ public class ProjectRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("project.getProjectUnRndManagerInfo", map);
     }
 
-    public Map<String, Object> getProjectMemberInfo(Map<String, Object> map) {
-        return (Map<String, Object>) selectOne("project.getProjectMemberInfo", map);
+    public List<Map<String, Object>> getProjectMemberInfo(Map<String, Object> map) {
+        return selectList("project.getProjectMemberInfo", map);
     }
 
     public void updTmpProjectCode(Map<String, Object> params) {
@@ -614,5 +614,17 @@ public class ProjectRepository extends AbstractDAO {
     }
     public void delCustomBudget(Map<String, Object> params) {
         delete("project.delCustomBudget", params);
+    }
+
+    public void delJoinMember(Map<String, Object> params) {
+        delete("project.delJoinMember", params);
+    }
+
+    public void delUpdJoinMember(Map<String, Object> params) {
+        update("project.delUpdJoinMember", params);
+    }
+
+    public Map<String, Object> getProjectMemberTemp(Map<String, Object> map) {
+        return (Map<String, Object>) selectOne("project.getProjectMemberTemp", map);
     }
 }

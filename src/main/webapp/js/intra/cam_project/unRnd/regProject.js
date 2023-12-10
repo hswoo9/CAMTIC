@@ -135,7 +135,8 @@ var regUnRnd = {
             /** 협업이 아닐 때 */
         } else {
             tabStrip.enable(tabStrip.tabGroup.children().eq(0));
-
+            tabStrip.enable(tabStrip.tabGroup.children().eq(1));
+            tabStrip.enable(tabStrip.tabGroup.children().eq(2));
             /** 수주보고가 완료 되었을때 전부 활성화 */
             if(setParameters.PJT_STEP >= "S2"){
                 tabStrip.enable(tabStrip.tabGroup.children());

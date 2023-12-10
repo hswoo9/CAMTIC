@@ -1341,6 +1341,18 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/delJoinMember")
+    public String delJoinMember(@RequestParam Map<String, Object> params, Model model) {
+        try{
+            projectService.delJoinMember(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     @RequestMapping("/project/getPartRateVerInfo")
     public String getPartRateVerInfo(@RequestParam Map<String, Object> params, Model model){
 

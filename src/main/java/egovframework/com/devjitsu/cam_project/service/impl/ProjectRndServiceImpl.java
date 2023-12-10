@@ -290,6 +290,7 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     @Override
     public void setPartRateDetail(Map<String, Object> params) {
         projectRndRepository.insPartRateDetail(params);
+        projectRndRepository.updPartRateVer(params);
     }
 
     @Override

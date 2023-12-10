@@ -143,6 +143,9 @@ var regRnd = {
         /** 협업이 아닐 때 */
         } else {
             tabStrip.enable(tabStrip.tabGroup.children().eq(0));
+            tabStrip.enable(tabStrip.tabGroup.children().eq(1));
+            tabStrip.enable(tabStrip.tabGroup.children().eq(2));
+
             
             var rndInfo = customKendo.fn_customAjax("/projectRnd/getRndDetail", setParameters);
 

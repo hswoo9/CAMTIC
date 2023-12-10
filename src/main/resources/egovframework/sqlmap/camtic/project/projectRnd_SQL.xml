@@ -630,6 +630,7 @@
                 PJT_SN,
                 EMP_SAL,
                 CHNG_SAL,
+                GUBUN,
                 PART_DET_STR_DT,
                 PART_DET_END_DT,
                 PART_EMP_NM,
@@ -649,6 +650,7 @@
                 #{pjtSn},
                 #{basicSalary},
                 #{chngSal},
+                #{gubun},
                 #{strDt},
                 #{endDt},
                 #{partEmpName},
@@ -664,6 +666,15 @@
             )
     </insert>
 
+    <update id="updPartRateVer" parameterType="map">
+        /*updPartRateVer*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
+        SET
+            MNG_COMM = #{mngComm}
+        WHERE
+            PART_RATE_VER_SN = #{partRateVerSn}
+    </update>
+
     <delete id="delPartRateDetail" parameterType="map">
         /*delPartRateDetail*/
         DELETE FROM CAM_PJT_MNG.DJ_PART_RATE_DET
@@ -675,7 +686,6 @@
         UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
         SET
             MNG_STAT = "S",
-            MNG_COMM = #{mngComm},
             REP_DATE = now()
         WHERE
             PART_RATE_VER_SN = #{partRateVerSn}

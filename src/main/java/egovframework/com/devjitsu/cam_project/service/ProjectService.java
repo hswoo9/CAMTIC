@@ -190,4 +190,6 @@ public interface ProjectService {
     List<Map<String, Object>> getG20ProjectList(Map<String, Object> params);
 
     Map<String, Object> getDevMap(Map<String, Object> params);
+
+    void delJoinMember(Map<String, Object> params);
 }
