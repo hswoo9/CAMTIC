@@ -38,7 +38,7 @@ var engnInit = {
             hwpDocCtrl.putFieldText('TM_EMP_NAME', team.EMP_NAME);
             hwpDocCtrl.putFieldText('TM_AMT', fn_numberWithCommas(team.TM_AMT));
             let per;
-            per = (team.TM_AMT/map.PJT_AMT) * 100;
+            per = (team.TM_AMT/delvMap.DELV_AMT) * 100;
             hwpDocCtrl.putFieldText('TM_PER', Number.isInteger(per) ? (per + "%") : (per.toFixed(2) + "%"));
         }
 
@@ -262,16 +262,16 @@ var engnInit = {
             hwpDocCtrl.putFieldText('INV_AMT2', (delvAmt-invSum) == 0 ? "0" : String(fn_numberWithCommas(delvAmt-invSum)));
             hwpDocCtrl.putFieldText('INV_PER3', (100-invPer)+"%");
 
-            hwpDocCtrl.putFieldText('TEAM_AMT', fn_numberWithCommas(team.TM_AMT));
+            hwpDocCtrl.putFieldText('TEAM_AMT', team.TM_AMT == 0 ? "0" : fn_numberWithCommas(team.TM_AMT));
             hwpDocCtrl.putFieldText('TEAM_PER', "100%");
-            hwpDocCtrl.putFieldText('TEAM_INV_AMT', fn_numberWithCommas(teamInvSum));
+            hwpDocCtrl.putFieldText('TEAM_INV_AMT', teamInvSum == 0 ? "0" : fn_numberWithCommas(teamInvSum));
             let teamPer = Math.round(teamInvSum / team.TM_AMT * 100);
             hwpDocCtrl.putFieldText('TEAM_PER2', teamPer+"%");
-            hwpDocCtrl.putFieldText('TEAM_INV2_AMT', fn_numberWithCommas(team.TM_AMT-teamInvSum));
+            hwpDocCtrl.putFieldText('TEAM_INV2_AMT', (team.TM_AMT-teamInvSum) == 0 ? "0" : fn_numberWithCommas(team.TM_AMT-teamInvSum));
             hwpDocCtrl.putFieldText('TEAM_PER3', (100-teamPer)+"%");
 
             hwpDocCtrl.putFieldText('SUM_AMT', fn_numberWithCommas(map.PJT_AMT));
-            hwpDocCtrl.putFieldText('TEAM_INV_AMT_SUM', fn_numberWithCommas(invSum + teamInvSum));
+            hwpDocCtrl.putFieldText('TEAM_INV_AMT_SUM', (invSum + teamInvSum) == 0 ? "0" : fn_numberWithCommas(invSum + teamInvSum));
             hwpDocCtrl.putFieldText('TEAM_INV2_AMT_SUM', fn_numberWithCommas(map.PJT_AMT - invSum - teamInvSum));
 
         }

@@ -55,6 +55,10 @@ public class ProjectRepository extends AbstractDAO {
         update("project.updProjectStep", params);
     }
 
+    public void updProjectStepDev(Map<String, Object> params) {
+        update("project.updProjectStepDev", params);
+    }
+
     public void updProjectEngnStep(Map<String, Object> params) {
         update("project.updProjectEngnStep", params);
     }

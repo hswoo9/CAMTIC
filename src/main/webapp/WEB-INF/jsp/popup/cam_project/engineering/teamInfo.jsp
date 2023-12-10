@@ -16,6 +16,7 @@
 <input type="hidden" id="pjtStep" value="${hashMap.PJT_STEP}" />
 
 <input type="hidden" id="pjtAmt" value="${hashMap.PJT_AMT}" />
+<input type="hidden" id="delvAmt2" value="" />
 
 <div style="padding: 10px">
     <div id="btnDiv">

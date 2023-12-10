@@ -47,9 +47,7 @@
             </tr>
             <tr>
                 <th style="text-align: right">프로젝트 명</th>
-                <td id="PJT_NM" style="text-align: left"></td>
-                <th style="text-align: right">프로젝트 명</th>
-                <td id="PJT_SUB_NM" style="text-align: left"></td>
+                <td colspan="3" id="PJT_NM" style="text-align: left"></td>
             </tr>
             <tr>
                 <th style="text-align: right">총괄 책임자</th>
@@ -73,9 +71,45 @@
         </table>
 
         <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 재무실적 내역</span>
-        <div id="grid1"></div>
+        <table class="popTable table table-bordered mb-0">
+            <colgroup>
+                <col width="%">
+                <col width="%">
+                <col width="%">
+                <col width="%">
+                <col width="%">
+                <col width="%">
+                <col width="%">
+                <col width="%">
+                <col width="%">
+            </colgroup>
+            <thead id="pjtInfoRow">
+            <tr>
+                <th style="text-align: center">구분</th>
+                <th style="text-align: center">프로젝트 코드</th>
+                <th style="text-align: center">부서</th>
+                <th style="text-align: center">팀</th>
+                <th style="text-align: center">수주금액</th>
+                <th style="text-align: center">달성 매출액</th>
+                <th style="text-align: center">달성 운영수익</th>
+                <th style="text-align: center">예상매출 잔액</th>
+                <th style="text-align: center">예상 운영수익</th>
+            </tr>
+            <tr>
+                <td style="text-align: center"></td>
+                <td style="text-align: center"></td>
+                <td style="text-align: center"></td>
+                <td style="text-align: center"></td>
+                <td style="text-align: center"></td>
+                <td style="text-align: center"></td>
+                <td style="text-align: center"></td>
+                <td style="text-align: center"></td>
+                <td style="text-align: center"></td>
+            </tr>
+            </thead>
+        </table>
 
-        <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 사업정보</span>
+        <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 전차년도 마감 현황</span>
         <table class="popTable table table-bordered mb-0">
             <colgroup>
                 <col width="25%">
