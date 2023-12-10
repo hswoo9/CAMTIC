@@ -1078,34 +1078,6 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<Map<String, Object>> getCustomBudgetList(Map<String, Object> params) {
-        return projectRepository.getCustomBudgetList(params);
-    }
-
-    @Override
-    public Map<String, Object> getCustomBudget(Map<String, Object> params) {
-        return projectRepository.getCustomBudget(params);
-    }
-
-    @Override
-    public void setCustomBudget(Map<String, Object> params) {
-        if(StringUtils.isEmpty(params.get("cbCodeId"))){
-            if(params.get("budgetType").equals("cBudgetB") || params.get("budgetType").equals("cBudgetC")){
-                params.put("cbCode", projectRepository.getMaxCustomBudgetCode(params));
-            }
-
-            projectRepository.setCustomBudget(params);
-        }else{
-            projectRepository.setCustomBudgetUpd(params);
-        }
-    }
-
-    @Override
-    public void setCustomBudgetDel(Map<String, Object> params) {
-        projectRepository.setCustomBudgetDel(params);
-    }
-
-    @Override
     public List<Map<String, Object>> getProjectBudgetList(Map<String, Object> params) {
         return projectRepository.getProjectBudgetList(params);
     }

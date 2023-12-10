@@ -51,7 +51,7 @@ var customBudgetManagePop = {
     },
 
     modDataInit : function(){
-        var result = customKendo.fn_customAjax("/project/getCustomBudget.do", {cbCodeId : $("#cbCodeId").val()})
+        var result = customKendo.fn_customAjax("/system/code/getCustomBudget.do", {cbCodeId : $("#cbCodeId").val()})
         if(result.flag){
             $("#cbCodeId").val(result.data.CB_CODE_ID);
             $("#cbUpperCode").val(result.data.CB_UPPER_CODE);
@@ -70,7 +70,7 @@ var customBudgetManagePop = {
             budgetType : $("#budgetType").val()
         }
 
-        var result = customKendo.fn_customAjax("/project/setCustomBudget.do", customBudgetManagePop.global.saveAjaxData);
+        var result = customKendo.fn_customAjax("/system/code/setCustomBudget.do", customBudgetManagePop.global.saveAjaxData);
         if(result.flag){
             alert("등록되었습니다.");
             if($("#budgetType").val() == "cBudgetA"){

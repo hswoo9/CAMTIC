@@ -262,15 +262,15 @@ var unRndDetail = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="unRndDetail.setCustomBudgetDel()">' +
-                            '	<span class="k-button-text">삭제</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="unRndDetail.fn_customBudgetPop()">' +
+                            '	<span class="k-button-text">추가</span>' +
                             '</button>';
                     }
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="unRndDetail.fn_customBudgetPop()">' +
-                            '	<span class="k-button-text">코드등록</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="unRndDetail.setCustomBudgetDel()">' +
+                            '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
                 }
@@ -338,9 +338,11 @@ var unRndDetail = {
     },
 
     cbGridAddRow : function(e){
+        $("#customBudgetGrid").data("kendoGrid").dataSource.data([]);
         for(var i = 0; i < e.length; i++){
             $("#customBudgetGrid").data("kendoGrid").dataSource.add({
                 NUM : e[i].NUM,
+                CB_SN : e[i].CB_SN,
                 CB_CODE_ID_1 : e[i].CB_CODE_ID_1,
                 CB_CODE_NAME_1 : e[i].CB_CODE_NAME_1,
                 CB_CODE_ID_2 : e[i].CB_CODE_ID_2,
@@ -353,15 +355,15 @@ var unRndDetail = {
     },
 
     fn_customBudgetPop : function (){
-        var url = "/project/pop/customBudgetPop.do?path=unRndDetail";
+        var url = "/project/pop/customBudgetPop.do?path=unRndDetail&pjtSn=" + $("#pjtSn").val();
         var name = "_blank";
-        var option = "width = 1330, height = 640, top = 100, left = 200, location = no";
+        var option = "width = 1000, height = 750, top = 100, left = 200, location = no";
         var popup = window.open(url, name, option);
     },
 
     setCustomBudgetDel : function(){
         if($("input[name='pCbPk']:checked").length == 0){ alert("삭제할 예산을 선택해주세요."); return; }
-        if(confirm("선택한 코드를 삭제하시겠습니까?\n삭제 후 저장 버튼을 눌러주세요.")) {
+        if(confirm("선택한 코드를 삭제하시겠습니까?\n삭제 후 저장시 반영됩니다.")) {
             var grid = $("#customBudgetGrid").data("kendoGrid");
             $.each($("input[name='pCbPk']:checked"), function(){
                 grid.dataSource.remove(grid.dataItem($(this).closest("tr")));
