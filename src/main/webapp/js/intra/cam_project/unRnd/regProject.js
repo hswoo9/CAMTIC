@@ -226,6 +226,9 @@ var regUnRnd = {
     },
 
     fn_setData : function(e){
+        if(e == null){
+            return;
+        }
         $("#pjtTitle").text("프로젝트 - 비R&D");
 
         $("#saveBtn").css("display", "none");
@@ -280,9 +283,6 @@ var regUnRnd = {
         }
 
         $("#pjtConYear").val(e.PJT_CON_YEAR);
-
-
-
     },
 
     fn_save : function (){

@@ -7,10 +7,11 @@ var unRndInit = {
         const delvMap = unRndInfo.map;
 
         /** 1. 사업정보 */
+        hwpDocCtrl.putFieldText('BUSN_CLASS', map.BUSN_NM);
         hwpDocCtrl.putFieldText('PJT_CD', map.PJT_TMP_CD);
         hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
         hwpDocCtrl.putFieldText('DEPT_NAME', delvMap.MNG_DEPT_NAME);
-        hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(map.PJT_AMT));
+        hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(map.PJT_EXP_AMT));
         hwpDocCtrl.putFieldText('PM_EMP_NM', map.PM);
         hwpDocCtrl.putFieldText("PJT_DT", map.PJT_STR_DT + " ~ " + map.PJT_END_DT);
         hwpDocCtrl.putFieldText('CRM_NM', map.CRM_NM);
@@ -22,8 +23,8 @@ var unRndInit = {
 
         /** 2. 과제정보 */
         hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_SUB_NM);
-        hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(map.PJT_AMT));
-        hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(map.PJT_AMT));
+        hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(map.PJT_EXP_AMT));
+        hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(map.PJT_EXP_AMT));
     },
 
     devInit: function(devSn){

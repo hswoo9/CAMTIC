@@ -9,7 +9,7 @@ var engnInit = {
         hwpDocCtrl.putFieldText('PJT_CD', map.PJT_TMP_CD);
         hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
         hwpDocCtrl.putFieldText('DEPT_NAME', delvMap.DEPT_NAME);
-        hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(map.PJT_AMT));
+        hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(delvMap.DELV_AMT));
         hwpDocCtrl.putFieldText('PM_EMP_NM', delvMap.PM_EMP_NM);
         hwpDocCtrl.putFieldText("PJT_DT", delvMap.PJT_STR_DT + " ~ " + delvMap.PJT_END_DT);
         hwpDocCtrl.putFieldText('DELV_DEPT', delvMap.DELV_DEPT == "0" ? "부서내 진행" : "부서간 협업");

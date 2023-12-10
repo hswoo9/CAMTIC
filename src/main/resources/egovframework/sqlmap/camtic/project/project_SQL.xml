@@ -1346,7 +1346,9 @@
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET
             PJT_TMP_CD = #{pjtTmpCd}
+        <if test='regEmpName != null and !"".equals(regEmpName)'>
             , DELV_APPROVE_EMP_NAME = #{regEmpName}
+        </if>
         <if test='"100".equals(status)'>
             , DELV_STAT = 'Y'
         </if>

@@ -20,9 +20,11 @@ var setDelvPjt = {
         var pjtInfo = customKendo.fn_customAjax("/project/getProjectInfo", parameters);
         var result = customKendo.fn_customAjax("/project/engn/getDelvData", parameters);
         var rndResult = customKendo.fn_customAjax("/projectRnd/getRndDetail", parameters);
+        var unRndResult = customKendo.fn_customAjax("/projectUnRnd/getUnRndDetail", parameters);
         var pjtMap = pjtInfo.map;
         var delvMap = result.delvMap;
         var rndMap = rndResult.map;
+        var unRndMap = unRndResult.map;
         console.log(pjtMap);
         console.log(delvMap);
 
@@ -97,6 +99,10 @@ var setDelvPjt = {
             $("#strDt").text(pjtMap.PJT_START_DT);
             $("#endDt").text(pjtMap.PJT_END_DT);
             $("#pmNm").text(rndMap.MNG_EMP_NAME);
+        }else if(pjtMap.BUSN_CLASS == "S"){
+            $("#strDt").text(pjtMap.PJT_START_DT);
+            $("#endDt").text(pjtMap.PJT_END_DT);
+            $("#pmNm").text(unRndMap.MNG_EMP_NAME);
         }
         $("#regNm").text(pjtMap.DELV_APPROVE_EMP_NAME);
         $("#url").html("<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+pjtMap.PJT_SN+", \"" + pjtMap.BUSN_CLASS + "\")'>" + pjtMap.PJT_NM + "</a>");
