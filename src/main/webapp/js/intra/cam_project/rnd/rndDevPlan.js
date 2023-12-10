@@ -532,6 +532,7 @@ var rndDP = {
                     if(commonProject.global.devTeamCk != "Y") {
                         if(rndDP.global.invCk == "Y") {
                             buttonHtml = "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
+                            buttonHtml += "<button type=\"button\" id=\"addVerBtn2\" style=\"float: right; margin-bottom: 5px; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"rndDP.fn_addVersion()\">예비원가 추가</button>";
                             buttonHtml += "<button type=\"button\" id=\"teamAppBtn\" style=\"float: right; margin-right: 5px\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_teamApp('Y')\">공정 마감</button>";
                         }else{
                             buttonHtml = "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
