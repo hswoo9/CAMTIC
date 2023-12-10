@@ -53,6 +53,34 @@ public class CommonCodeServiceImpl implements CommonCodeService {
     }
 
     @Override
+    public List<Map<String, Object>> getCustomBudgetList(Map<String, Object> params) {
+        return commonCommonCodeRepository.getCustomBudgetList(params);
+    }
+
+    @Override
+    public Map<String, Object> getCustomBudget(Map<String, Object> params) {
+        return commonCommonCodeRepository.getCustomBudget(params);
+    }
+
+    @Override
+    public void setCustomBudget(Map<String, Object> params) {
+        if(StringUtils.isEmpty(params.get("cbCodeId"))){
+            if(params.get("budgetType").equals("cBudgetB") || params.get("budgetType").equals("cBudgetC")){
+                params.put("cbCode", commonCommonCodeRepository.getMaxCustomBudgetCode(params));
+            }
+
+            commonCommonCodeRepository.setCustomBudget(params);
+        }else{
+            commonCommonCodeRepository.setCustomBudgetUpd(params);
+        }
+    }
+
+    @Override
+    public void setCustomBudgetDel(Map<String, Object> params) {
+        commonCommonCodeRepository.setCustomBudgetDel(params);
+    }
+
+    @Override
     public String getHwpCtrlUrl(String achrGbn) {
         return commonCommonCodeRepository.getHwpCtrlUrl(achrGbn);
     }

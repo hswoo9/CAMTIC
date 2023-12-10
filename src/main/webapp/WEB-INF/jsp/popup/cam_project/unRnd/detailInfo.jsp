@@ -8,8 +8,8 @@
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 <script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 <style>
-    .k-footer-template td:nth-child(3),
-    .k-footer-template td:nth-child(4){
+    .k-footer-template td:nth-child(4),
+    .k-footer-template td:nth-child(5){
         overflow: visible;
         white-space: nowrap;
         text-align: right;
@@ -19,6 +19,7 @@
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
 <input type="hidden" id="unRndSn" value=""/>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="regEmpName" value="${loginVO.name}"/>
 
 <form id="unRndDelvDraftFrm" method="post">
     <input type="hidden" id="pjtSn" name="pjtSn" value="${params.pjtSn}" />
@@ -65,7 +66,7 @@
                 </th>
                 <td colspan="3">
                     <label for="bsPlanFile" class="k-button k-button-solid-base">파일첨부</label>
-                    <input type="file" id="bsPlanFile" name="bsPlanFile" onchange="unRndDetail.fileChange(this)" style="display: none">
+                    <input type="file" id="bsPlanFile" name="bsPlanFile" onchange="fileChange(this)" style="display: none">
                     <span id="bsPlanFileName"></span>
                 </td>
             </tr>
@@ -110,7 +111,7 @@
         open : function (){
             var htmlStr =
                 '<div class="mb-10" style="text-align: right;">' +
-                '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="unRndDetail.fn_approve()">저장</button>' +
+                '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="unRndDetail.fn_approve(10)">요청</button>' +
                 '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#dialog \').data(\'kendoWindow\').close()">닫기</button>' +
                 '</div>' +
                 '<table class="table table-bordered mb-0" style="margin-top: 10px">' +

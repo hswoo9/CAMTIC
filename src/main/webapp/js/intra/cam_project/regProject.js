@@ -4,6 +4,12 @@ var regPrj = {
     fn_defaultScript : function () {
         const setParameters = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: $("#mainPjtSn").val()}).rs;
 
+        regPrj.fn_setPage(setParameters);
+        regPrj.fn_setData(setParameters);
+        regPrj.fn_setTab(setParameters);
+    },
+
+    fn_setTab: function(setParameters){
         if(setParameters != null && setParameters.PJT_SN != null){
             setParameters.pjtSn = setParameters.PJT_SN;
             $("#stopBtn").show();
@@ -11,12 +17,6 @@ var regPrj = {
             openModalSelect();
         }
 
-        regPrj.fn_setPage(setParameters);
-        regPrj.fn_setData(setParameters);
-        regPrj.fn_setTab(setParameters);
-    },
-
-    fn_setTab: function(setParameters){
         var delvResult = customKendo.fn_customAjax("/project/engn/getDelvData", setParameters);
         var devREsult = customKendo.fn_customAjax("/project/engn/getDevData", setParameters);
         var delvMap = delvResult.delvMap;
@@ -192,6 +192,7 @@ var regPrj = {
             var html3 = '<div style="padding: 6px 12px"><b style="color: blue">운영관리</b></div>';
             var doc3 = parser.parseFromString(html3, 'text/html');
             $("#tabstrip li")[5].before(doc3.body.firstChild);
+
         /** 협업이 아닐 때 */
         } else {
             if(setParameters.PJT_SN){
@@ -215,16 +216,14 @@ var regPrj = {
                     tabStrip.enable(tabStrip.tabGroup.children().eq(5));
                 }
 
-                if(setParameters.PJT_STEP >= "E2" && delvMap.DELV_STATUS == "100"){
+                if(setParameters.PJT_STEP > "E2" && delvMap.STATUS == "100"){
                     tabStrip.enable(tabStrip.tabGroup.children().eq(3));
                 }
 
-                if(devMap != null){
-                    if(setParameters.PJT_STEP >= "E3" && devMap.STATUS == "100"){
-                        tabStrip.enable(tabStrip.tabGroup.children().eq(4));
-                        tabStrip.enable(tabStrip.tabGroup.children().eq(6));
-                        tabStrip.enable(tabStrip.tabGroup.children().eq(7));
-                    }
+                if(setParameters.PJT_STEP > "E3"){
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(4));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(6));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(7));
                 }
 
                 if(setParameters.PJT_STEP >= "E6"){

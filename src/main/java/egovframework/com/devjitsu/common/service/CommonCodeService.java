@@ -21,6 +21,32 @@ public interface CommonCodeService {
     List<Map<String, Object>> getCustomCodeList(Map<String, Object> params);
 
     /**
+     * 임시예산코드 리스트
+     * @param params
+     * @return
+     */
+    List<Map<String,Object>> getCustomBudgetList(Map<String, Object> params);
+
+    /**
+     * 임시예산코드 조회
+     * @param params
+     * @return
+     */
+    Map<String, Object> getCustomBudget(Map<String, Object> params);
+
+    /**
+     * 임시 예산 코드 저장
+     * @param params
+     */
+    void setCustomBudget(Map<String, Object> params);
+
+    /**
+     * 임시예산 코드 삭제
+     * @param params
+     */
+    void setCustomBudgetDel(Map<String, Object> params);
+
+    /**
      * 한글 기안기 서버 URL 조회
      * @param achrGbn
      * @return

@@ -79,6 +79,25 @@ public class setManagementController {
         return "jsonView";
     }
 
+    @RequestMapping("/setManagement/getCorpProjectListMng")
+    public String getCorpProjectListMng(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list", setManagementService.getCorpProjectListMng(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/setManagement/pop/setDelvProject.do")
+    public String setDelvProject(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_manager/setManagement/setDelvProject";
+    }
+
     @RequestMapping("/setManagement/pop/setCorpProject.do")
     public String setCorpProject(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();

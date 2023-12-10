@@ -22,7 +22,6 @@
 <div style="padding: 10px">
     <div class="table-responsive">
         <div id="devBtnDiv">
-            <button type="button" id="saveBtn2" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="rndDP.fn_save()">저장</button>
             <button type="button" id="addVerBtn2" style="float: right; margin-bottom: 5px; margin-right: 5px;" class="k-button k-button-solid-base" onclick="rndDP.fn_addVersion()">예비원가 추가</button>
         </div>
 
@@ -54,9 +53,9 @@
 
             </tbody>
         </table>
-
-        <span style="position: relative; top:10px; font-size: 12px;">◎ 공정설정</span>
-        <table class="popTable table table-bordered mb-0">
+        <div style="margin-top: 10px"></div>
+        <span class="addPSActive" style="font-size: 12px; margin-bottom: 0; display: none">◎ 공정설정</span>
+        <table class="popTable table table-bordered mb-0 addPSActive" style="display: none; margin-top: 0px">
             <colgroup>
                 <col width="7%">
                 <col width="10%">
@@ -139,7 +138,7 @@
                     <th>수량</th>
                     <th>단위</th>
                     <th>견적금액</th>
-                    <th>견적처</th>
+                    <th><span class="red-star">*</span>견적처</th>
                     <th>비고</th>
                     <th>명령</th>
                 </tr>
@@ -166,7 +165,7 @@
 
     function fn_userMultiSelectPop(i) {
         idx = i;
-        window.open("/user/pop/userMultiSelectPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+        window.open("/user/pop/userMultiSelectPop.do?type=dev","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
     }
 
     function userDataSet(arr){

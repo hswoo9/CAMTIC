@@ -5,6 +5,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/processInfo.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/goodsInfo.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 <script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 
@@ -29,7 +30,8 @@
 <input type="hidden" id="nextStepValue" value="R" />
 
 <div style="padding: 10px">
-    <div id="btnDiv">
+    <div id="processBtnDiv">
+        <button type="button" id="teamAppBtn" style="display:none; float: right;" class="k-button k-button-solid-base" onclick="goodsInfo.fn_teamProjectApp()">프로젝트 마감</button>
         <button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="processInfo.fn_save()">저장</button>
     </div>
     <div class="table-responsive">

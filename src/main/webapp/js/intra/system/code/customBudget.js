@@ -16,7 +16,7 @@ var customBudget = {
             cbUpperCode : 0
         }
 
-        customBudget.mainGrid('/project/getCustomBudgetList', customBudget.global.searchAjaxData);
+        customBudget.mainGrid('/system/code/getCustomBudgetList', customBudget.global.searchAjaxData);
     },
 
     mainGrid : function(url, params) {
@@ -161,14 +161,14 @@ var customBudget = {
                 buttonCount : 5
             },
             toolbar : [
-                {
+                /*{
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base cBudgetC addBudgetC" style="display: none" onclick="customBudget.customBudgetSetting();">' +
                             '	<span class="k-button-text">반영</span>' +
                             '</button>';
                     }
-                }, {
+                },*/ {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base cBudgetC addBudgetC" style="display: none" onclick="customBudget.cbManagePopup(\'cBudgetC\', this);">' +
@@ -259,7 +259,7 @@ var customBudget = {
             btnClass = "cBudgetC";
         }
 
-        var result = customKendo.fn_customAjax("/project/getCustomBudgetList", {cbUpperCode : cbUpperCode});
+        var result = customKendo.fn_customAjax("/system/code/getCustomBudgetList", {cbUpperCode : cbUpperCode});
         if(result.flag){
             $("#customBudgetGridC").data("kendoGrid").dataSource.data([]);
             $(".cBudgetB, .cBudgetC").hide();
@@ -307,7 +307,7 @@ var customBudget = {
         var heightSize = 160;
         var widthSize = 645;
 
-        var url = "/project/customBudgetManagePop.do?budgetType=" + budget + "&cbCodeId=" + $("input[name=" + gridChkboxId +"]:checked").val() + "&modify=Y";
+        var url = "/system/code/customBudgetManagePop.do?budgetType=" + budget + "&cbCodeId=" + $("input[name=" + gridChkboxId +"]:checked").val() + "&modify=Y";
         var name = "customBudgetManagePop";
         var option = "width = " + widthSize + ", height = " + heightSize + ", top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
@@ -317,7 +317,7 @@ var customBudget = {
         var heightSize = 160;
         var widthSize = 645;
 
-        var url = "/project/customBudgetManagePop.do?budgetType=" + budget + "&cbUpperCode=" + $(e).attr("cbUpperCode");
+        var url = "/system/code/customBudgetManagePop.do?budgetType=" + budget + "&cbUpperCode=" + $(e).attr("cbUpperCode");
         var name = "customBudgetManagePop";
         var option = "width = " + widthSize + ", height = " + heightSize + ", top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
@@ -344,7 +344,7 @@ var customBudget = {
                 tmp += "," + $(this).val();
             });
 
-            var result = customKendo.fn_customAjax('/project/getCustomBudgetDel.do', {cbCodeId : tmp.substring(1)});
+            var result = customKendo.fn_customAjax('/system/code/setCustomBudgetDel.do', {cbCodeId : tmp.substring(1)});
             if(result.flag){
                 alert("삭제가 완료되었습니다.");
 
@@ -359,33 +359,33 @@ var customBudget = {
         }
     },
 
-    customBudgetSetting : function(){
-        let arr = [];
-        var dataItemA = $("#customBudgetGridA").data("kendoGrid").dataItem(customBudget.global.cBudgetA);
-        var dataItemB = $("#customBudgetGridB").data("kendoGrid").dataItem(customBudget.global.cBudgetB);
-
-        $.each($("input[name='customBudgetGridCChk']:checked"), function (i, v) {
-            var dataItemC = $("#customBudgetGridC").data("kendoGrid").dataItem($(this).closest("tr"));
-            let data = {
-                NUM : i,
-                CB_CODE_ID_1 : dataItemA.CB_CODE,
-                CB_CODE_NAME_1 : dataItemA.CB_CODE_NM,
-                CB_CODE_ID_2 : dataItemB.CB_CODE,
-                CB_CODE_NAME_2 : dataItemB.CB_CODE_NM,
-                CB_CODE_ID_3 : dataItemC.CB_CODE,
-                CB_CODE_NAME_3 : dataItemC.CB_CODE_NM,
-                CB_BUDGET : 0,
-            }
-
-            arr.push(data);
-        });
-
-        if($("#path").val() == "rndDetail"){
-            opener.parent.rndDetail.cbGridAddRow(arr);
-        }else{
-            opener.parent.unRndDetail.cbGridAddRow(arr);
-        }
-
-        window.close();
-    }
+    // customBudgetSetting : function(){
+    //     let arr = [];
+    //     var dataItemA = $("#customBudgetGridA").data("kendoGrid").dataItem(customBudget.global.cBudgetA);
+    //     var dataItemB = $("#customBudgetGridB").data("kendoGrid").dataItem(customBudget.global.cBudgetB);
+    //
+    //     $.each($("input[name='customBudgetGridCChk']:checked"), function (i, v) {
+    //         var dataItemC = $("#customBudgetGridC").data("kendoGrid").dataItem($(this).closest("tr"));
+    //         let data = {
+    //             NUM : i,
+    //             CB_CODE_ID_1 : dataItemA.CB_CODE,
+    //             CB_CODE_NAME_1 : dataItemA.CB_CODE_NM,
+    //             CB_CODE_ID_2 : dataItemB.CB_CODE,
+    //             CB_CODE_NAME_2 : dataItemB.CB_CODE_NM,
+    //             CB_CODE_ID_3 : dataItemC.CB_CODE,
+    //             CB_CODE_NAME_3 : dataItemC.CB_CODE_NM,
+    //             CB_BUDGET : 0,
+    //         }
+    //
+    //         arr.push(data);
+    //     });
+    //
+    //     if($("#path").val() == "rndDetail"){
+    //         opener.parent.rndDetail.cbGridAddRow(arr);
+    //     }else{
+    //         opener.parent.unRndDetail.cbGridAddRow(arr);
+    //     }
+    //
+    //     window.close();
+    // }
 }

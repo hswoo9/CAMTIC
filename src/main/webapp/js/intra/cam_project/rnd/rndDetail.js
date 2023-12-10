@@ -29,7 +29,7 @@ var rndDetail = {
         });
 
         /** 계 = 총 사업비 + 현금 + 현물 */
-        $("#allBusnCost, #peoResCost, #peoResItem").keyup(function(){
+        $("#allResCost, #peoResCost, #peoResItem").keyup(function(){
             $("#allBusnCost").val(comma(
                 Number(uncomma($("#allResCost").val()))
                 + Number(uncomma($("#peoResCost").val()))
@@ -190,7 +190,7 @@ var rndDetail = {
         });
     },
 
-    fn_approve : function (){
+    fn_approve : function (stat){
         var pjCode = $("#pjCode").val();
         var supDep = $("#supDep2").val();
         var supDepSub = $("#supDepSub2").val();
@@ -202,18 +202,15 @@ var rndDetail = {
 
         var parameters = {
             pjtSn : $("#pjtSn").val(),
-            rndSn : $("#rndSn").val(),
             pjtTmpCd : pjCode + supDep + supDepSub + pjtStat + pjtStatSub + year,
-            pjtCd : pjCode + supDep + supDepSub + pjtStat + pjtStatSub + year,
-            pjtExpAmt : uncomma($("#totResCost").val()),
-            pType : "I",
-            pProjectNM : $("#pjtNm").val(),
-            pState : '1',
-            pProjectNMEx : $("#pjtSubNm").val(),
-            pSDate : $("#sbjStrDe").val().replaceAll("-", ""),
-            pEDate : $("#sbjEndDe").val().replaceAll("-", ""),
+            stat : stat,
+            regEmpName : $("#regEmpName").val()
         }
 
+        if(pjCode == ""){
+            alert("프로젝트 구분을 선택해주세요.");
+            return;
+        }
         if(supDep == ""){
             alert("지원부처를 선택해주세요.");
             return;
@@ -227,52 +224,92 @@ var rndDetail = {
             return;
         }
         if(pjtStatSub == ""){
-            alert("사업성격1을 선택해주세요.");
+            alert("사업성격2를 선택해주세요.");
             return;
         }
         commonProject.loading();
 
         $.ajax({
-            url : "/projectRnd/setDelvApprove",
+            url : "/project/setDelvApprove",
             data : parameters,
             type : "post",
             dataType : "json",
             success : function (rs){
-                if(rs.code == 200){
-                    /** 저장 성공 시 전자결재 상신프로세스 시작 */
-                    $("#rndDelvDraftFrm").one("submit", function(){
-                        const url = "/popup/cam_project/approvalFormPopup/rndDelvApprovalPop.do";
-                        const name = "_self";
-                        const option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50";
-                        window.open(url, name, option);
-                        this.action = "/popup/cam_project/approvalFormPopup/rndDelvApprovalPop.do";
-                        this.method = 'POST';
-                        this.target = '_self';
-                    }).trigger("submit");
-                }
+                alert("요청되었습니다.");
+                commonProject.getReloadPage(0, 0, 0, 0, 0, 0);
             }
         });
     },
+
+    fn_approveStat : function(stat){
+        let successText = "";
+        if(stat == "0"){
+            if(!confirm("요청취소하시겠습니까?")){
+                return ;
+            }
+            successText = "취소되었습니다.";
+        }
+        var parameters = {
+            pjtSn : $("#pjtSn").val(),
+            stat : stat
+        }
+        commonProject.loading();
+        $.ajax({
+            url : "/project/updDelvApproveStat",
+            data : parameters,
+            type : "post",
+            dataType : "json",
+            success : function (rs){
+                alert(successText);
+                commonProject.getReloadPage(0, 0, 0, 0, 0, 0);
+            }
+        });
+    },
+
+    delvDrafting: function() {
+        $("#rndDelvDraftFrm").one("submit", function(){
+            const url = "/popup/cam_project/approvalFormPopup/rndDelvApprovalPop.do";
+            const name = "_self";
+            const option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50";
+            window.open(url, name, option);
+            this.action = "/popup/cam_project/approvalFormPopup/rndDelvApprovalPop.do";
+            this.method = 'POST';
+            this.target = '_self';
+        }).trigger("submit");
+    },
+
     fn_buttonSet : function(rndMap){
         let buttonHtml = "";
         if(rndMap != null){
-            if(rndMap.STATUS == "0"){
-                buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="rndDetail.fn_save()">저장</button>';
-                buttonHtml += '<button type="button" id="approveBtn" style="float: right; margin-right:5px;" class="k-button k-button-solid-info" onclick="openModal()">상신</button>';
-            }else if(rndMap.STATUS == "10"){
-                buttonHtml += '<button type="button" id="canBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+rndMap.DOC_ID+'\', \''+rndMap.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
-            }else if(rndMap.STATUS == "30" || rndMap.STATUS == "40"){
-                buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="rndDetail.fn_save()">저장</button>';
-                buttonHtml += '<button type="button" id="canBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+rndMap.DOC_ID+'\', \''+rndMap.DOC_MENU_CD+'\', \''+rndMap.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
-            }else if(rndMap.STATUS == "100"){
-                buttonHtml += '<button type="button" id="canBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+rndMap.DOC_ID+'\', \''+rndMap.APPRO_KEY+'\', \''+rndMap.DOC_MENU_CD+'\');">열람</button>';
+            let status = rndMap.STATUS
+            if(status == "0"){
+                buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDetail.fn_save()\">저장</button>";
+
+                const pjtResult = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn : $("#pjtSn").val()});
+                const pjtMap = pjtResult.map;
+                if(pjtMap.DELV_APPROVE_STAT == 0){
+                    buttonHtml += "<button type=\"button\" id=\"delvApp2Btn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">코드승인요청</button>";
+                }else if(pjtMap.DELV_APPROVE_STAT == 100){
+                    buttonHtml += "<button type=\"button\" id=\"delvAppBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDetail.delvDrafting()\">상신</button>";
+                }else{
+                    buttonHtml += "<button type=\"button\" id=\"delvApp2Btn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"rndDetail.fn_approveStat(0)\">코드승인요청취소</button>";
+                }
+            }else if(status == "10" || status == "20" || status == "50"){
+                buttonHtml += "<button type=\"button\" id=\"delvCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+rndMap.DOC_ID+"', '"+rndMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
+            }else if(status == "30" || status == "40"){
+                buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDetail.fn_save()\">저장</button>";
+                buttonHtml += "<button type=\"button\" id=\"delvCanBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"tempOrReDraftingPop('"+rndMap.DOC_ID+"', '"+rndMap.DOC_MENU_CD+"', '"+rndMap.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
+
+            }else if(status == "100"){
+                buttonHtml += "<button type=\"button\" id=\"delvCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+rndMap.DOC_ID+"', '"+rndMap.APPRO_KEY+"', '"+rndMap.DOC_MENU_CD+"');\">열람</button>";
+            }else if(status == "111"){
+                buttonHtml += "<button type=\"button\" id=\"delvTempBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"tempOrReDraftingPop('"+rndMap.DOC_ID+"', 'delv', '"+rndMap.APPRO_KEY+"', 2, 'tempDrafting');\">전자결재 임시저장 중</button>";
             }else{
-                buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="rndDetail.fn_save()">저장</button>';
+                buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" disabled onclick=\"rndDetail.fn_save()\">저장</button>";
             }
         }else{
-            buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="rndDetail.fn_save()">저장</button>';
+            buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDetail.fn_save()\">저장</button>";
         }
-
         $("#detailBtnDiv").html(buttonHtml);
     },
 
@@ -296,7 +333,14 @@ var rndDetail = {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rndDetail.fn_customBudgetPop()">' +
-                            '	<span class="k-button-text">코드등록</span>' +
+                            '	<span class="k-button-text">추가</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rndDetail.setCustomBudgetDel()">' +
+                            '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
                 }
@@ -306,6 +350,10 @@ var rndDetail = {
             },
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'pCbPk\');"/>',
+                    template : "<input type='checkbox' id='pCbPk#=CB_SN#' name='pCbPk' class='pCbPk' value='#=CB_SN#'/>",
+                    width: 50
+                }, {
                     title: "장",
                     field : "CB_CODE_NAME_1",
                     editable: function(){
@@ -360,9 +408,11 @@ var rndDetail = {
     },
 
     cbGridAddRow : function(e){
+        $("#customBudgetGrid").data("kendoGrid").dataSource.data([]);
         for(var i = 0; i < e.length; i++){
             $("#customBudgetGrid").data("kendoGrid").dataSource.add({
                 NUM : e[i].NUM,
+                CB_SN : e[i].CB_SN,
                 CB_CODE_ID_1 : e[i].CB_CODE_ID_1,
                 CB_CODE_NAME_1 : e[i].CB_CODE_NAME_1,
                 CB_CODE_ID_2 : e[i].CB_CODE_ID_2,
@@ -375,19 +425,19 @@ var rndDetail = {
     },
 
     fn_customBudgetPop : function (){
-        var url = "/project/pop/customBudgetPop.do?path=rndDetail";
+        var url = "/project/pop/customBudgetPop.do?path=rndDetail&pjtSn=" + $("#pjtSn").val();
         var name = "_blank";
-        var option = "width = 1330, height = 640, top = 100, left = 200, location = no";
+        var option = "width = 1000, height = 750, top = 100, left = 200, location = no";
         var popup = window.open(url, name, option);
     },
 
-    loading : function(){
-        $.LoadingOverlay("show", {
-            background: "rgba(0, 0, 0, 0.5)",
-            image: "",
-            maxSize: 60,
-            fontawesome: "fa fa-spinner fa-pulse fa-fw",
-            fontawesomeColor: "#FFFFFF",
-        });
+    setCustomBudgetDel : function(){
+        if($("input[name='pCbPk']:checked").length == 0){ alert("삭제할 예산을 선택해주세요."); return; }
+        if(confirm("선택한 코드를 삭제하시겠습니까?\n삭제 후 저장시 반영됩니다.")) {
+            var grid = $("#customBudgetGrid").data("kendoGrid");
+            $.each($("input[name='pCbPk']:checked"), function(){
+                grid.dataSource.remove(grid.dataItem($(this).closest("tr")));
+            });
+        }
     }
 }

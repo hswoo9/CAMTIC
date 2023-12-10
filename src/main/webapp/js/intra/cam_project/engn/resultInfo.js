@@ -127,13 +127,7 @@ var resultInfo = {
             async: false,
             success: function(rs){
                 if(rs.code == 200){
-                    if(commonProject.global.busnClass == "D"){
-                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=7";
-                    }else if(commonProject.global.busnClass == "R"){
-                        window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=7";
-                    }else if(commonProject.global.busnClass == "S"){
-                        window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=7";
-                    }
+                    commonProject.getReloadPage(7, 8, 8, 7, 8, 8);
                 }
             }
         });

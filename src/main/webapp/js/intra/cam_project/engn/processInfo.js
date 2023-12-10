@@ -176,8 +176,13 @@ var processInfo = {
             rows: 5,
         })
 
-
-
+        if(commonProject.global.busnClass == "R" || commonProject.global.busnClass == "S"){
+            $("#teamAppBtn").show();
+            if(commonProject.global.pjtTeamCk == "Y"){
+                $("#teamAppBtn").hide();
+                $("#btnDiv").append('<span style="float: right; color: red; font-size: 12px;">마감되었습니다</span>');
+            }
+        }
     },
 
     fn_save: function(){
@@ -263,11 +268,7 @@ var processInfo = {
             async: false,
             success: function(rs){
                 alert("저장되었습니다.");
-                if(commonProject.global.teamStat == "Y"){
-                    window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=2";
-                }else{
-                    window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=4";
-                }
+                commonProject.getReloadPage(4, 4, 4, 2, 1, 1);
             }
         });
     }

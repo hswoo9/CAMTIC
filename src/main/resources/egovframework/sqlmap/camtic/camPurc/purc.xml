@@ -367,11 +367,11 @@
     <select id="getPurcClaimItemAmtTotal" parameterType="map" resultType="map">
         /* getPurcItemList A합계 B세액 C소계 */
         SELECT
-            IFNULL(FORMAT(SUM(ITEM_AMT) , 0), 0) AS TOTAL_SUM_COMMA_A,
-            IFNULL(FORMAT(SUM(ITEM_AMT)/10 , 0), 0) AS TOTAL_SUM_COMMA_B,
-            IFNULL(FORMAT((SUM(ITEM_AMT)) - (SUM(ITEM_AMT)/10) , 0), 0) AS TOTAL_SUM_COMMA_C
+            IFNULL(FORMAT(MPI.TOT_AMT , 0), 0) AS TOTAL_SUM_COMMA_A,
+            IFNULL(FORMAT(MPI.VAT_AMT , 0), 0) AS TOTAL_SUM_COMMA_B,
+            IFNULL(FORMAT(MPI.EST_AMT , 0), 0) AS TOTAL_SUM_COMMA_C
         FROM
-            CAM_MNG.DJ_PURC_CLAIM_ITEM MPI
+            CAM_MNG.DJ_PURC_CLAIM MPI
         WHERE
             CLAIM_SN = #{claimSn}
     </select>

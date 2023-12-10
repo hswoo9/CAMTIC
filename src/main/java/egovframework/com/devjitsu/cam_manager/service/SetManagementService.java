@@ -8,6 +8,8 @@ public interface SetManagementService {
 
     List<Map<String, Object>> getCorpProjectList(Map<String, Object> params);
 
+    List<Map<String, Object>> getCorpProjectListMng(Map<String, Object> params);
+
     Map<String, Object> getCorpProjectData(Map<String, Object> params);
 
     void setRequest(Map<String, Object> params);

@@ -156,11 +156,8 @@ var rndRPR = {
             enctype : 'multipart/form-data',
             async: false,
             success: function(rs){
-                if($("#pjtStep").val().substring(0, 1) == "S"){
-                    window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=2";
-                } else {
-                    window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=2";
-                }
+                alert("저장되었습니다.");
+                commonProject.getReloadPage(2, 2, 2, 2, 2, 2);
             }
         });
 
@@ -183,11 +180,7 @@ var rndRPR = {
 
         if(rs.code == 200){
             alert("요청되었습니다.");
-            if($("#pjtStep").val().substring(0, 1) == "S"){
-                window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=1";
-            } else {
-                window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=2";
-            }
+            commonProject.getReloadPage(2, 2, 2, 2, 2, 2);
         } else {
             alert("오류가 발생하였습니다. 관리자에게 문의바랍니다.");
         }

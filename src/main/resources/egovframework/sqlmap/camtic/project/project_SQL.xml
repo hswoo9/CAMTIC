@@ -314,6 +314,15 @@
             PJT_SN = #{pjtSn}
     </update>
 
+    <update id="updProjectStepDev" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            PJT_STEP = #{pjtStep},
+            PJT_STEP_NM = #{pjtStepNm}
+        WHERE
+            PJT_SN = (SELECT PJT_SN FROM CAM_PJT_MNG.DJ_PJT_DEV WHERE DEV_SN = #{devSn})
+    </update>
+
     <update id="updProjectEngnStep" parameterType="map">
         UPDATE CAM_PJT_MNG.DJ_PJT_ENGN
         SET
@@ -1273,7 +1282,6 @@
         <selectKey keyProperty="delvSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_DELV'
         </selectKey>
-
     </insert>
 
     <update id="updDelvInfo" parameterType="map">
@@ -1295,6 +1303,11 @@
             PJT_STR_DT = #{pjtStrDt},
             PJT_END_DT = #{pjtEndDt},
             DELV_PAY = #{delvPay},
+            <!-- PJT_AMT = #{delvAmt},
+            STR_DT = #{estDe},
+            END_EXP_DT = #{delvDe},
+            PM = #{pmEmpNm},
+            PM_EMP_SEQ = #{pmEmpSeq},-->
             MOD_EMP_SEQ = #{empSeq}
         WHERE
             DELV_SN = #{delvSn}
@@ -1341,13 +1354,22 @@
         /*updProjectTmpCode*/
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET
-            PJT_AMT = #{delvAmt},
-            PJT_TMP_CD = #{pjtTmpCd},
-            DELV_STAT = 'Y',
-            STR_DT = #{estDe},
-            END_EXP_DT = #{delvDe},
-            PM = #{pmEmpNm},
-            PM_EMP_SEQ = #{pmEmpSeq}
+            PJT_TMP_CD = #{pjtTmpCd}
+        <if test='regEmpName != null and !"".equals(regEmpName)'>
+            , DELV_APPROVE_EMP_NAME = #{regEmpName}
+        </if>
+        <if test='"100".equals(status)'>
+            , DELV_STAT = 'Y'
+        </if>
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updDelvApproveStat" parameterType="map">
+        /*updDelvApproveStat*/
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            DELV_APPROVE_STAT = #{stat}
         WHERE
             PJT_SN = #{pjtSn}
     </update>
@@ -1942,6 +1964,7 @@
                 CRM_MEM_TEMP_NM,
                 CRM_CON_SN,
                 CRM_PART_SN,
+                PM_EMP_SEQ,
                 PM,
                 PJT_AMT,
                 PJT_EXP_AMT,
@@ -1979,7 +2002,8 @@
                 CRM_MEM_TEMP_NM,
                 CRM_CON_SN,
                 CRM_PART_SN,
-                PM,
+                #{tmPMSeq} AS TM_PM_SEQ,
+                IFNULL((SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{tmPMSeq}), '') AS TM_EMP_NAME,
                 #{tmAmt},
                 #{tmAmt},
                 CONSULT_DT,
@@ -2286,9 +2310,7 @@
             FROM
                 CAM_INSIDE.DJ_SALARY_MANAGE
             WHERE
-                DATE(START_DT) < (SELECT STR_DT FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{PJT_SN})
-                AND
-                    IFNULL(IF(END_DT = "", null, END_DT), DATE('9999-12-31')) >= (SELECT STR_DT FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{PJT_SN})
+                (SELECT STR_DT FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{PJT_SN}) BETWEEN DATE(START_DT) AND IFNULL(IF(END_DT = "", null, END_DT), DATE('9999-12-31'))
             ) B
         ON
             A.MNG_EMP_SEQ = B.EMP_SEQ
@@ -2424,86 +2446,17 @@
                         WHEN MAX(REPLACE(PJT_CD, #{PJT_TMP_CD}, '')) = "" THEN CONCAT(#{PJT_TMP_CD}, '01')
                         ELSE CONCAT(#{PJT_TMP_CD}, LPAD(SUBSTR(MAX(PJT_CD), 8) + 1, '2', '0'))
                         END AS tt
-                FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_CD like CONCAT(#{PJT_TMP_CD}, '%'))
+                FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_CD like CONCAT(#{PJT_TMP_CD}, '%')),
+            PJT_AMT = (SELECT DELV_AMT FROM CAM_PJT_MNG.DJ_PJT_DELV WHERE PJT_SN = #{PJT_SN}),
+            STR_DT = (SELECT PJT_STR_DT FROM CAM_PJT_MNG.DJ_PJT_DELV WHERE PJT_SN = #{PJT_SN}),
+            END_DT = (SELECT PJT_END_DT FROM CAM_PJT_MNG.DJ_PJT_DELV WHERE PJT_SN = #{PJT_SN}),
+            PM_EMP_SEQ = (SELECT PM_EMP_SEQ FROM CAM_PJT_MNG.DJ_PJT_DELV WHERE PJT_SN = #{PJT_SN}),
+            PM = (SELECT PM_EMP_NM FROM CAM_PJT_MNG.DJ_PJT_DELV WHERE PJT_SN = #{PJT_SN})
         WHERE
             PJT_SN = #{PJT_SN}
     </update>
 
     <!-- 커스텀예산 시작-->
-    <select id="getCustomBudgetList" parameterType="map" resultType="map">
-        /* getCustomBudgetList */
-        SELECT * FROM CAM_PJT_MNG.DJ_CUSTOM_BUDGET
-        WHERE ACTIVE = 'Y' AND CB_UPPER_CODE = #{cbUpperCode}
-    </select>
-
-    <select id="getCustomBudget" parameterType="map" resultType="map">
-        /* getCustomBudget */
-        SELECT * FROM CAM_PJT_MNG.DJ_CUSTOM_BUDGET
-        WHERE ACTIVE = 'Y'
-        AND CB_CODE_ID = #{cbCodeId}
-        <if test='cbUpperCode != null and !"".equals(cbUpperCode)'>
-            AND CB_UPPER_CODE = #{cbUpperCode}
-        </if>
-    </select>
-
-    <insert id="setCustomBudget" parameterType="map">
-        /* setCustomBudget */
-        INSERT INTO CAM_PJT_MNG.DJ_CUSTOM_BUDGET
-        (
-            CB_UPPER_CODE,
-            CB_CODE,
-            CB_CODE_NM,
-            CB_CODE_TYPE,
-            CB_BUDGET,
-            REG_EMP_SEQ
-        )
-        VALUES
-        (
-            #{cbUpperCode},
-            #{cbCode},
-            #{cbCodeNm},
-            #{cbCodeType},
-            #{cbBudget},
-            #{empSeq}
-        )
-    </insert>
-
-    <select id="getMaxCustomBudgetCode" parameterType="map" resultType="String">
-        /* getMaxCustomBudgetCode */
-        SELECT
-            RIGHT(CONCAT('00', IFNULL(max(CB_CODE), 0) + 1), 2)
-        FROM
-            CAM_PJT_MNG.DJ_CUSTOM_BUDGET A
-        WHERE
-            CB_UPPER_CODE = #{cbUpperCode}
-    </select>
-
-    <update id="setCustomBudgetUpd" parameterType="map">
-        /* setCustomBudgetUpd */
-        UPDATE
-            CAM_PJT_MNG.DJ_CUSTOM_BUDGET
-        SET
-            <if test='cbCode != null and !"".equals(cbCode)'>
-                CB_CODE = #{cbCode},
-            </if>
-            CB_CODE_NM = #{cbCodeNm},
-            CB_CODE_TYPE = #{cbCodeType},
-            MOD_EMP_SEQ = #{empSeq},
-            MOD_DATE = NOW()
-        WHERE
-            CB_CODE_ID = #{cbCodeId}
-    </update>
-
-    <update id="setCustomBudgetDel" parameterType="map">
-        /* setCustomBudgetDel */
-        UPDATE
-            CAM_PJT_MNG.DJ_CUSTOM_BUDGET
-        SET
-            ACTIVE ='N'
-        WHERE
-            CB_CODE_ID IN (${cbCodeId})
-    </update>
-
     <insert id="insCustomBudget" parameterType="map">
         /* insCustomBudget */
         INSERT INTO CAM_PJT_MNG.DJ_PJT_CB

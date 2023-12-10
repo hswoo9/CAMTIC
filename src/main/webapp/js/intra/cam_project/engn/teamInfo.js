@@ -19,7 +19,15 @@ var teamInfo = {
         // $("#teamDept").data("kendoDropDownList").trigger("change");
 
         if($("#pjtStep").val() < 'E3'){
-            $("#expAmt").val(comma($("#pjtAmt").val()));
+            let data = {
+                pjtSn : $("#pjtSn").val()
+            }
+            var result = customKendo.fn_customAjax("/project/engn/getDelvData", data);
+            var delvMap = result.delvMap;
+            if(delvMap != null){
+                $("#delvAmt2").val(comma(delvMap.DELV_AMT));
+                $("#expAmt").val(comma(delvMap.DELV_AMT));
+            }
         }
         $("#exptBalance").val($("#expAmt").val());
         $("#exptCost").val($("#expAmt").val());
@@ -193,7 +201,7 @@ var teamInfo = {
                                 return Number.isInteger(per) ? (per + "%") : (per.toFixed(2) + "%");
                             } else {
                                 let per;
-                                per = (Number(e.TM_AMT) / Number(uncomma($("#pjtAmt").val()))) * 100;
+                                per = (Number(e.TM_AMT) / Number(uncomma($("#delvAmt2").val()))) * 100;
                                 return Number.isInteger(per) ? (per + "%") : (per.toFixed(2) + "%");
                             }
                         }
@@ -251,14 +259,7 @@ var teamInfo = {
                 if(rs.code == 200){
                     alert("저장되었습니다.");
                     opener.gridReload();
-
-                    if(commonProject.global.busnClass == "R"){
-                        window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=5";
-                    } else if (commonProject.global.busnClass == "S"){
-                        window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + parameters.pjtSn + "&tab=5";
-                    } else {
-                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + parameters.pjtSn + "&tab=5";
-                    }
+                    commonProject.getReloadPage(5, 6, 6, 5, 6, 6);
                 }
             }
         })
@@ -274,8 +275,7 @@ var teamInfo = {
             pjtSn : $("#pjtSn").val()
         }
         var rs = customKendo.fn_customAjax("/project/delTeamProject",data);
-
-        location.reload();
+        commonProject.getReloadPage(5, 6, 6, 5, 6, 6);
     },
 
     fn_reset : function (){
@@ -302,7 +302,7 @@ var teamInfo = {
     fn_popCamCrmList : function (){
         var url = "/crm/pop/popCrmList.do";
         var name = "_blank";
-        var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
+        var option = "width = 1300, height = 670, top = 200, left = 400, location = no";
         var popup = window.open(url, name, option);
     }
 }

@@ -10,6 +10,7 @@
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
 <input type="hidden" id="expAmt" value="${params.expAmt}" />
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="regEmpName" value="${loginVO.name}"/>
 <form id="delvDraftFrm" method="post">
     <input type="hidden" id="pjtSn" name="pjtSn" value="${params.pjtSn}" />
     <input type="hidden" id="menuCd" name="menuCd" value="delv">
@@ -202,7 +203,7 @@
         open : function (){
             var htmlStr =
                 '<div class="mb-10" style="text-align: right;">' +
-                '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="delvInfo.fn_save()">저장</button>' +
+                '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="delvInfo.fn_approve(10)">요청</button>' +
                 '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#dialog \').data(\'kendoWindow\').close()">닫기</button>' +
                 '</div>' +
                 '<table class="table table-bordered mb-0" style="margin-top: 10px">' +
@@ -253,20 +254,6 @@
     });
 
     function openModal(){
-        if($("#delvFileName").text() == ""){
-            alert("계약서를 등록해주세요.");
-            return;
-        }
-
-        if($("input[name='delvDept']:checked").val() == null || $("input[name='delvDept']:checked").val() == undefined || $("input[name='delvDept']:checked").val() == ""){
-            alert("참여부서를 선택해주세요.");
-            return;
-        }
-        if($("#pmSeq").val() == ""){
-            alert("PM을 등록해주세요.");
-            return;
-        }
-
         $("#dialog").data("kendoWindow").open();
     }
 

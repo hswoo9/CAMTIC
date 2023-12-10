@@ -445,7 +445,6 @@ public class ProjectServiceImpl implements ProjectService {
         } else {
             projectRepository.insDelvInfo(params);
             projectRepository.updProject(params);
-            projectRepository.updEngn(params);
         }
 
         MainLib mainLib = new MainLib();
@@ -468,11 +467,17 @@ public class ProjectServiceImpl implements ProjectService {
                 projectRepository.updDelvFile(fileInsMap);
             }
         }
+    }
 
-        if(params.containsKey("pjtTmpCd")){
-            projectRepository.updProjectTmpCode(params);
-        }
+    @Override
+    public void setDelvApprove(Map<String, Object> params) {
+        projectRepository.updProjectTmpCode(params);
+        projectRepository.updDelvApproveStat(params);
+    }
 
+    @Override
+    public void updDelvApproveStat(Map<String, Object> params) {
+        projectRepository.updDelvApproveStat(params);
     }
 
     @Override
@@ -508,7 +513,7 @@ public class ProjectServiceImpl implements ProjectService {
             params.put("pjtStep", "E3");
             params.put("pjtStepNm", "수주보고");
             projectRepository.updProjectStep(params);
-        }else if("111".equals(docSts)){ // 반려 - 회수
+        }else if("111".equals(docSts)){ // 임시저장
             projectRepository.updateDelvApprStat(params);
         }
 
@@ -554,6 +559,9 @@ public class ProjectServiceImpl implements ProjectService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             projectRepository.updateDevFinalApprStat(params);
+            params.put("pjtStep", "E4");
+            params.put("pjtStepNm", "공정");
+            projectRepository.updProjectStepDev(params);
         }else if("111".equals(docSts)) { // 임시저장
             projectRepository.updateDevApprStat(params);
         }
@@ -1069,34 +1077,6 @@ public class ProjectServiceImpl implements ProjectService {
 
         result.put("projectMemberInfo", projectMemberInfo);
         return result;
-    }
-
-    @Override
-    public List<Map<String, Object>> getCustomBudgetList(Map<String, Object> params) {
-        return projectRepository.getCustomBudgetList(params);
-    }
-
-    @Override
-    public Map<String, Object> getCustomBudget(Map<String, Object> params) {
-        return projectRepository.getCustomBudget(params);
-    }
-
-    @Override
-    public void setCustomBudget(Map<String, Object> params) {
-        if(StringUtils.isEmpty(params.get("cbCodeId"))){
-            if(params.get("budgetType").equals("cBudgetB") || params.get("budgetType").equals("cBudgetC")){
-                params.put("cbCode", projectRepository.getMaxCustomBudgetCode(params));
-            }
-
-            projectRepository.setCustomBudget(params);
-        }else{
-            projectRepository.setCustomBudgetUpd(params);
-        }
-    }
-
-    @Override
-    public void setCustomBudgetDel(Map<String, Object> params) {
-        projectRepository.setCustomBudgetDel(params);
     }
 
     @Override

@@ -163,6 +163,9 @@ var prp = {
         })
 
         if($("#pjtSn").val() != ""){
+            const pjtInfo = customKendo.fn_customAjax("/project/getProjectInfo", parameters);
+            const pjtMap = pjtInfo.map;
+
             const list = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: $("#pjtSn").val()}).list;
             let invSum = 0;
             for(let i=0; i<list.length; i++){
@@ -188,7 +191,13 @@ var prp = {
             console.log("purcSum : "+Number(purcSum));
             console.log("leftSum : "+Number(leftSum));
             if(Number(leftSum) < Number(itemSum)){
-                alert("프로젝트 투자금액을 초과하여 구매요청을 작성하지 못합니다."); return;
+                if(pjtMap.BUSN_CLASS == "D"){
+                    alert("프로젝트 투자금액을 초과하여 구매요청을 작성하지 못합니다."); return;
+                }else if(pjtMap.BUSN_CLASS == "R"){
+                    alert("프로젝트 투자금액을 초과하여 구매요청을 작성하지 못합니다. 세세목 변경신청서를 작성해주세요."); return;
+                }else if(pjtMap.BUSN_CLASS == "S"){
+                    alert("프로젝트 투자금액을 초과하여 구매요청을 작성하지 못합니다. 세세목 변경신청서를 작성해주세요."); return;
+                }
             }
         }
 

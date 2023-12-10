@@ -580,6 +580,28 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/setDelvApprove")
+    public String setDelvApprove(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectService.setDelvApprove(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/updDelvApproveStat")
+    public String updDelvApproveStat(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectService.updDelvApproveStat(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
     @RequestMapping("/project/engn/setDevInfo")
     public String setDevInfo(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
         try{
@@ -1363,78 +1385,21 @@ public class ProjectController {
         return "popup/cam_project/g20ProjectView";
     }
 
+    /**
+     * 임시예산코드선택 - 페이지
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping("/project/pop/customBudgetPop.do")
     public String customBudgetPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
-        model.addAttribute("params", params);
         model.addAttribute("loginVO", loginVO);
-
-        return "popup/cam_project/customBudget";
-    }
-
-    /**
-     * 커스텀 예산항목 리스트
-     * @param params
-     * @param model
-     * @return
-     */
-    @RequestMapping("/project/getCustomBudgetList")
-    public String getCustomBudgetList(@RequestParam Map<String,Object> params, Model model) {
-        model.addAttribute("rs", projectService.getCustomBudgetList(params));
-        return "jsonView";
-    }
-
-    /**
-     * 커스텀 예산항목 등록 팝업
-     * @param request
-     * @param model
-     * @return
-     */
-    @RequestMapping("/project/customBudgetManagePop.do")
-    public String customBudgetManagePop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-
-        model.addAttribute("loginVO", login);
         model.addAttribute("params", params);
-
-        return "popup/cam_project/customBudgetManagePop";
-    }
-
-    /**
-     * 커스텀 예산항목 수정 조회
-     * @param params
-     * @param model
-     * @return
-     */
-    @RequestMapping("/project/getCustomBudget.do")
-    public String getAstCategory(@RequestParam Map<String,Object> params, Model model) {
-        model.addAttribute("data", projectService.getCustomBudget(params));
-        return "jsonView";
-    }
-
-    /**
-     * 커스텀 예산항목 등록/수정
-     * @param params
-     * @return
-     */
-    @RequestMapping("/project/setCustomBudget.do")
-    public String setCustomBudget(@RequestParam Map<String,Object> params) {
-        projectService.setCustomBudget(params);
-        return "jsonView";
-    }
-
-    /**
-     * 커스텀 예산항목 삭제
-     * @param params
-     * @return
-     */
-    @RequestMapping("/project/setCustomBudgetDel.do")
-    public String setCustomBudgetDel(@RequestParam Map<String,Object> params) {
-        projectService.setCustomBudgetDel(params);
-        return "jsonView";
+        return "popup/cam_project/customBudgetPop";
     }
 
     @RequestMapping("/project/getProjectBudgetList.do")

@@ -1,8 +1,8 @@
 var devInfo = {
+
     global: {
         devPjtVerList: [],
-        invCk: "N",
-        devTeamAppCk: "N"
+        invCk: "N"
     },
 
     fn_defaultScript : function (){
@@ -12,7 +12,6 @@ var devInfo = {
             pjtSn : $("#pjtSn").val()
         }
         var rs = customKendo.fn_customAjax("/project/getDevPjtVerList", data);
-
         devInfo.global.devPjtVerList = rs;
 
         var html = "";
@@ -103,11 +102,7 @@ var devInfo = {
             rows : 5,
         });
 
-        if(commonProject.global.teamStat == "Y"){
-            devInfo.fn_setVersion(devInfo.global.devPjtVerList.list[0].DEV_SN);
-        }else{
-            devInfo.fn_setVersion(devInfo.global.devPjtVerList.list[devInfo.global.devPjtVerList.list.length-1].DEV_SN);
-        }
+        devInfo.fn_setVersion(devInfo.global.devPjtVerList.list[devInfo.global.devPjtVerList.list.length-1].DEV_SN);
     },
 
     fn_setVersion : function (key){
@@ -467,6 +462,7 @@ var devInfo = {
                     if(commonProject.global.devTeamCk != "Y") {
                         if(devInfo.global.invCk == "Y") {
                             buttonHtml = "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
+                            buttonHtml += "<button type=\"button\" id=\"devAddBtn\" style=\"float: right; margin-right: 5px\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_addVersion()\">추가</button>";
                             buttonHtml += "<button type=\"button\" id=\"teamAppBtn\" style=\"float: right; margin-right: 5px\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_teamApp('Y')\">공정 마감</button>";
                         }else{
                             buttonHtml = "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
@@ -860,7 +856,7 @@ var devInfo = {
             async : false,
             success : function (rs){
                 if(rs.code == 200){
-                    opener.parent.camPrj.gridReload();
+                    opener.parent.gridReload();
 
                     var sum = 0;
                     $(".estTotAmt").each(function(){

@@ -6,7 +6,7 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<script type="text/javascript" src="/js/intra/cam_project/customBudgetManagePop.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/system/code/customBudgetManagePop.js?v=${today}"/></script>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="budgetType" name="budgetType" value="${params.budgetType}">
 <input type="hidden" id="cbUpperCode" name="cbUpperCode" value="${params.cbUpperCode}">

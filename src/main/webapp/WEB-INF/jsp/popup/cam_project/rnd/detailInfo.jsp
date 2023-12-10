@@ -8,8 +8,8 @@
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 <script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 <style>
-    .k-footer-template td:nth-child(3),
-    .k-footer-template td:nth-child(4){
+    .k-footer-template td:nth-child(4),
+    .k-footer-template td:nth-child(5){
         overflow: visible;
         white-space: nowrap;
         text-align: right;
@@ -19,6 +19,7 @@
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
 <input type="hidden" id="rndSn" value=""/>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="regEmpName" value="${loginVO.name}"/>
 
 <form id="rndDelvDraftFrm" method="post">
     <input type="hidden" id="pjtSn" name="pjtSn" value="${params.pjtSn}" />
@@ -153,7 +154,7 @@
         open : function (){
             var htmlStr =
                 '<div class="mb-10" style="text-align: right;">' +
-                '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="rndDetail.fn_approve()">상신</button>' +
+                '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="rndDetail.fn_approve(10)">요청</button>' +
                 '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#dialog \').data(\'kendoWindow\').close()">닫기</button>' +
                 '</div>' +
                 '<table class="table table-bordered mb-0" style="margin-top: 10px">' +
@@ -208,7 +209,6 @@
     }
 
     function openModal(){
-
         $("#dialog").data("kendoWindow").open();
     }
 
@@ -218,16 +218,16 @@
         }
 
         var pjCodeDs = customKendo.fn_customAjax("/common/commonCodeList", data)
-        customKendo.fn_dropDownList("pjCode", pjCodeDs.rs, "CM_CODE_NM", "CM_CODE");
+        customKendo.fn_dropDownList("pjCode", pjCodeDs.rs, "CM_CODE_NM", "CM_CODE", 2);
 
         $("#pjCode").data("kendoDropDownList").select(1);
 
         data.grpSn = "SUP_DEP";
         var lgCodeDs = customKendo.fn_customAjax("/project/selLgCode", data);
-        customKendo.fn_dropDownList("supDep2", lgCodeDs.rs, "LG_CD_NM", "LG_CD");
+        customKendo.fn_dropDownList("supDep2", lgCodeDs.rs, "LG_CD_NM", "LG_CD", 2);
 
         $("#supDepSub2").kendoDropDownList({
-            dataSource : [{text : "선택", value : ""}],
+            dataSource : [{text : "선택하세요", value : ""}],
             dataTextField : "text",
             dataValueField : "value"
         });
@@ -236,15 +236,15 @@
             data.lgCd = $("#supDep2").val();
             data.grpSn = "SUP_DEP";
             var smCodeDs = customKendo.fn_customAjax("/project/selSmCode", data);
-            customKendo.fn_dropDownList("supDepSub2", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
+            customKendo.fn_dropDownList("supDepSub2", smCodeDs.rs, "PJT_CD_NM", "PJT_CD", 2);
         });
 
         data.grpSn = "BUS_STAT";
         var lgCodeDs = customKendo.fn_customAjax("/project/selLgCode", data);
-        customKendo.fn_dropDownList("pjtStat", lgCodeDs.rs, "LG_CD_NM", "LG_CD");
+        customKendo.fn_dropDownList("pjtStat", lgCodeDs.rs, "LG_CD_NM", "LG_CD", 2);
 
         $("#pjtStatSub").kendoDropDownList({
-            dataSource : [{text : "선택", value : ""}],
+            dataSource : [{text : "선택하세요", value : ""}],
             dataTextField : "text",
             dataValueField : "value"
         });
@@ -252,7 +252,7 @@
             data.lgCd = $("#pjtStat").val();
             data.grpSn = "BUS_STAT";
             var smCodeDs = customKendo.fn_customAjax("/project/selSmCode", data);
-            customKendo.fn_dropDownList("pjtStatSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
+            customKendo.fn_dropDownList("pjtStatSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD", 2);
         });
 
         $("#supDep2").data("kendoDropDownList").value($("#supDep").val());

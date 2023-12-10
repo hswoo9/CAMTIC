@@ -21,6 +21,12 @@ public class CommonCodeRepository extends AbstractDAO {
     public List<Map<String, Object>> getCmCodeList(Map<String, Object> params){ return selectList("commonCode.getCmCodeList", params);}
     public List<Map<String, Object>> getCmCodeListReward(Map<String, Object> params){ return selectList("commonCode.getCmCodeListReward", params);}
     public List<Map<String, Object>> getCustomCodeList(Map<String, Object> params){ return selectList("commonCode.getCustomCodeList", params);}
+    public List<Map<String,Object>> getCustomBudgetList(Map<String,Object> params) { return selectList("commonCode.getCustomBudgetList", params);}
+    public Map<String, Object> getCustomBudget(Map<String, Object> params) { return (Map<String, Object>) selectOne("commonCode.getCustomBudget", params);}
+    public String getMaxCustomBudgetCode(Map<String,Object> params) { return (String) selectOne("commonCode.getMaxCustomBudgetCode", params);}
+    public void setCustomBudget(Map<String,Object> params) { update("commonCode.setCustomBudget", params);}
+    public void setCustomBudgetUpd(Map<String,Object> params) { update("commonCode.setCustomBudgetUpd", params);}
+    public void setCustomBudgetDel(Map<String,Object> params) { update("commonCode.setCustomBudgetDel", params);}
     public Map<String, Object> getCmCodeInfo(Map<String, Object> params){ return (Map<String, Object>) selectOne("commonCode.getCmCodeInfo", params);}
     public List<Map<String, Object>> getCmGroupCodeList(Map<String, Object> params){ return selectList("commonCode.getCmGroupCodeList", params);}
     public Map<String, Object> getCmGroupCodeInfo(Map<String, Object> params) { return (Map<String, Object>) selectOne("commonCode.getCmGroupCodeInfo", params);}

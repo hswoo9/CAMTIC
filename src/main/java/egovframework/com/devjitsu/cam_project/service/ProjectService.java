@@ -106,6 +106,10 @@ public interface ProjectService {
 
     void setDelvInfo(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
 
+    void setDelvApprove(Map<String, Object> params);
+
+    void updDelvApproveStat(Map<String, Object> params);
+
     void setDevInfo(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
 
     Map<String, Object> getDevData(Map<String, Object> params);
@@ -159,10 +163,6 @@ public interface ProjectService {
     Map<String, Object> getPartRateBefVer(Map<String, Object> params);
 
     Map<String, Object> getMngPartRate(Map<String, Object> map);
-    List<Map<String,Object>> getCustomBudgetList(Map<String, Object> params);
-    Map<String, Object> getCustomBudget(Map<String, Object> params);
-    void setCustomBudget(Map<String, Object> params);
-    void setCustomBudgetDel(Map<String, Object> params);
     List<Map<String, Object>> getProjectBudgetList(Map<String, Object> params);
     Map<String, Object> getProjectTotalData(Map<String, Object> params);
 

@@ -467,6 +467,7 @@
                 APPROVE_POSITION_NAME,
                 APPROVE_DUTY_NAME,
                 APPROVE_DEPT_NAME,
+                APPROVE_DEPT_SEQ,
                 APPROVE_ORDER,
                 REG_EMP_SEQ
             )
@@ -478,6 +479,7 @@
                 #{approvePositionName},
                 #{approveDutyName},
                 #{approveDeptName},
+                #{approveDeptSeq},
                 #{approveOrder},
                 #{empSeq}
             )
