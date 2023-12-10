@@ -1218,23 +1218,23 @@
         <if test="techType != null and techType !=''">
             AND TECH_SN = #{techType}
         </if>
-        <if test="searchVal != null and searchVal !=''">
+        <!--<if test="searchVal != null and searchVal !=''">
             AND TITLE LIKE CONCAT('%', #{searchVal},'%')
+        </if>-->
+        <if test="searchType != null and searchType !=''">
+            <if test="searchType == 1">
+                AND SHARE_NAME LIKE CONCAT('%', #{searchVal},'%')
+            </if>
+            <if test="searchType == 2">
+                AND APPLICANT_NUM LIKE CONCAT('%', #{searchVal},'%')
+            </if>
+            <if test="searchType == 3">
+                AND REG_NUM LIKE CONCAT('%', #{searchVal},'%')
+            </if>
+            <if test="searchType == 4">
+                AND TITLE LIKE CONCAT('%', #{searchVal},'%')
+            </if>
         </if>
-        <!--                <if test="searchType != null and searchType !=''">-->
-        <!--                    <if test="searchType == 1">-->
-        <!--                        AND SHARE_NAME LIKE CONCAT('%', #{searchVal},'%')-->
-        <!--                    </if>-->
-        <!--                    <if test="searchType == 2">-->
-        <!--                        AND APPLICANT_NUM LIKE CONCAT('%', #{searchVal},'%')-->
-        <!--                    </if>-->
-        <!--                    <if test="searchType == 3">-->
-        <!--                        AND REG_NUM LIKE CONCAT('%', #{searchVal},'%')-->
-        <!--                    </if>-->
-        <!--                    <if test="searchType == 4">-->
-        <!--                        AND TITLE LIKE CONCAT('%', #{searchVal},'%')-->
-        <!--                    </if>-->
-        <!--                </if>-->
         <if test="beforeYn != null and beforeYn !=''">
             AND STATUS != 100
         </if>
