@@ -106,6 +106,10 @@ public interface ProjectService {
 
     void setDelvInfo(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
 
+    void setDelvApprove(Map<String, Object> params);
+
+    void updDelvApproveStat(Map<String, Object> params);
+
     void setDevInfo(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
 
     Map<String, Object> getDevData(Map<String, Object> params);

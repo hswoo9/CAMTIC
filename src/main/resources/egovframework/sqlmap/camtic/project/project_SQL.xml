@@ -1273,7 +1273,6 @@
         <selectKey keyProperty="delvSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_DELV'
         </selectKey>
-
     </insert>
 
     <update id="updDelvInfo" parameterType="map">
@@ -1295,6 +1294,11 @@
             PJT_STR_DT = #{pjtStrDt},
             PJT_END_DT = #{pjtEndDt},
             DELV_PAY = #{delvPay},
+            PJT_AMT = #{delvAmt},
+            STR_DT = #{estDe},
+            END_EXP_DT = #{delvDe},
+            PM = #{pmEmpNm},
+            PM_EMP_SEQ = #{pmEmpSeq},
             MOD_EMP_SEQ = #{empSeq}
         WHERE
             DELV_SN = #{delvSn}
@@ -1341,13 +1345,19 @@
         /*updProjectTmpCode*/
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET
-            PJT_AMT = #{delvAmt},
-            PJT_TMP_CD = #{pjtTmpCd},
-            DELV_STAT = 'Y',
-            STR_DT = #{estDe},
-            END_EXP_DT = #{delvDe},
-            PM = #{pmEmpNm},
-            PM_EMP_SEQ = #{pmEmpSeq}
+            PJT_TMP_CD = #{pjtTmpCd}
+        <if test='"100".equals(status)'>
+            , DELV_STAT = 'Y'
+        </if>
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updDelvApproveStat" parameterType="map">
+        /*updDelvApproveStat*/
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            DELV_APPROVE_STAT = #{stat}
         WHERE
             PJT_SN = #{pjtSn}
     </update>

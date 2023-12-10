@@ -19,6 +19,10 @@ public class SetManagementRepository extends AbstractDAO {
         return selectList("manage.getCorpProjectList", params);
     }
 
+    public List<Map<String, Object>> getCorpProjectListMng(Map<String, Object> params) {
+        return selectList("manage.getCorpProjectListMng", params);
+    }
+
     public Map<String, Object> getCorpProjectData(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("manage.getCorpProjectData", params);
     }

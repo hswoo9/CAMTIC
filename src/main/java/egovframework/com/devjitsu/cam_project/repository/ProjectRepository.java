@@ -291,6 +291,10 @@ public class ProjectRepository extends AbstractDAO {
         update("project.updProjectTmpCode", params);
     }
 
+    public void updDelvApproveStat(Map<String, Object> params) {
+        update("project.updDelvApproveStat", params);
+    }
+
     public void insDevInfo(Map<String, Object> params) {
         insert("project.insDevInfo", params);
     }

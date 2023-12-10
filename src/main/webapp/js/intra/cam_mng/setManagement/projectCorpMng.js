@@ -12,35 +12,12 @@ var prjCorpMng = {
         prjCorpMng.global.searchAjaxData = {
         }
 
-        prjCorpMng.mainGrid("/setManagement/getCorpProjectList", prjCorpMng.global.searchAjaxData);
+        prjCorpMng.mainGrid("/setManagement/getCorpProjectListMng", prjCorpMng.global.searchAjaxData);
     },
 
     mainGrid : function (url, params){
-        let dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read : {
-                    url : '/setManagement/getCorpProjectList',
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data) {
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    return data.list;
-                },
-                total: function (data) {
-                    return data.list.length;
-                },
-            },
-            pageSize: 10,
-        });
-
         $("#mainGrid").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             scrollable: true,
             selectable: "row",
@@ -70,15 +47,22 @@ var prjCorpMng = {
                     template: "#= --record #",
                     width: 30
                 }, {
-                    field: "CORP_PJT_CD",
+                    field: "BUSN_NM",
+                    title: "프로젝트 종류",
+                    width: 80
+                }, {
+                    field: "PJT_TMP_CD",
                     title: "프로젝트 코드",
                     width: 80
                 }, {
-                    field: "CORP_PJT_NM",
+                    field: "PJT_NM",
                     title: "프로젝트 명",
                     width: 400,
                     template: function(e){
-                        return '<a href="javascript:void(0);" style="font-weight: bold;" onclick="prjCorpMng.fn_popCorpProject(\'' + e.CORP_PJT_SN + '\')";>' + e.CORP_PJT_NM + '</a>'
+                        if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "R" || e.BUSN_CLASS == "S"){
+                            return '<a href="javascript:void(0);" style="font-weight: bold;" onclick="prjCorpMng.fn_popDelvProject(\'' + e.PJT_SN + '\')";>' + e.PJT_NM + '</a>'
+                        }
+                        return '<a href="javascript:void(0);" style="font-weight: bold;" onclick="prjCorpMng.fn_popCorpProject(\'' + e.PJT_SN + '\')";>' + e.PJT_NM + '</a>'
                     }
                 }, {
                     field: "STR_DT",
@@ -89,23 +73,26 @@ var prjCorpMng = {
                     title: "종료일자",
                     width: 80,
                 }, {
-                    title: "상태",
+                    field: "PM_NM",
+                    title: "종료일자",
                     width: 80,
-                    template: function(e){
-                        if(e.STATUS == "0"){
-                            return '작성중';
-                        }else if(e.STATUS == "10"){
-                            return '승인요청 중';
-                        }else{
-                            return '승인';
-                        }
-                    }
                 }
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
+    },
+
+    fn_popDelvProject: function (key){
+        var url = "/setManagement/pop/setDelvProject.do";
+
+        if(key != null && key != "" && key != undefined){
+            url += "?pjtSn=" + key + "&mode=mng";
+        }
+        var name = "_blank";
+        var option = "width = 900, height = 476, top = 200, left = 400, location = no";
+        var popup = window.open(url, name, option);
     },
 
     fn_popCorpProject: function (key){
@@ -115,10 +102,9 @@ var prjCorpMng = {
             url += "?corpPjtSn=" + key + "&mode=mng";
         }
         var name = "_blank";
-        var option = "width = 900, height = 700, top = 200, left = 400, location = no"
+        var option = "width = 900, height = 700, top = 200, left = 400, location = no";
         var popup = window.open(url, name, option);
     }
-
 }
 
 function gridReload(){

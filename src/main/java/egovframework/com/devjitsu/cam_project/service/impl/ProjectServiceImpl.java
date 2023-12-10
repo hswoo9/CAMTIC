@@ -468,11 +468,17 @@ public class ProjectServiceImpl implements ProjectService {
                 projectRepository.updDelvFile(fileInsMap);
             }
         }
+    }
 
-        if(params.containsKey("pjtTmpCd")){
-            projectRepository.updProjectTmpCode(params);
-        }
+    @Override
+    public void setDelvApprove(Map<String, Object> params) {
+        projectRepository.updProjectTmpCode(params);
+        projectRepository.updDelvApproveStat(params);
+    }
 
+    @Override
+    public void updDelvApproveStat(Map<String, Object> params) {
+        projectRepository.updDelvApproveStat(params);
     }
 
     @Override
@@ -508,7 +514,7 @@ public class ProjectServiceImpl implements ProjectService {
             params.put("pjtStep", "E3");
             params.put("pjtStepNm", "수주보고");
             projectRepository.updProjectStep(params);
-        }else if("111".equals(docSts)){ // 반려 - 회수
+        }else if("111".equals(docSts)){ // 임시저장
             projectRepository.updateDelvApprStat(params);
         }
 

@@ -580,6 +580,28 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/setDelvApprove")
+    public String setDelvApprove(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectService.setDelvApprove(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/updDelvApproveStat")
+    public String updDelvApproveStat(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectService.updDelvApproveStat(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
     @RequestMapping("/project/engn/setDevInfo")
     public String setDevInfo(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
         try{

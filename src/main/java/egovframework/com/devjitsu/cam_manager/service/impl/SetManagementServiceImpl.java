@@ -50,6 +50,11 @@ public class SetManagementServiceImpl implements SetManagementService {
     }
 
     @Override
+    public List<Map<String, Object>> getCorpProjectListMng(Map<String, Object> params) {
+        return setManagementRepository.getCorpProjectListMng(params);
+    }
+
+    @Override
     public Map<String, Object> getCorpProjectData(Map<String, Object> params) {
         return setManagementRepository.getCorpProjectData(params);
     }
