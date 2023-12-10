@@ -159,7 +159,7 @@ var setDelvPjt = {
     fn_approve: function(stat){
 
         const result = customKendo.fn_customAjax("/project/updDelvApproveStat", {
-            pjtSn : $("#corpPjtSn").val(),
+            pjtSn : $("#pjtSn").val(),
             stat : stat
         });
 

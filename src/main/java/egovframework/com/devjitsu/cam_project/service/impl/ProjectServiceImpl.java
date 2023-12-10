@@ -445,7 +445,6 @@ public class ProjectServiceImpl implements ProjectService {
         } else {
             projectRepository.insDelvInfo(params);
             projectRepository.updProject(params);
-            projectRepository.updEngn(params);
         }
 
         MainLib mainLib = new MainLib();
@@ -560,6 +559,9 @@ public class ProjectServiceImpl implements ProjectService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             projectRepository.updateDevFinalApprStat(params);
+            params.put("pjtStep", "E4");
+            params.put("pjtStepNm", "공정");
+            projectRepository.updProjectStepDev(params);
         }else if("111".equals(docSts)) { // 임시저장
             projectRepository.updateDevApprStat(params);
         }

@@ -216,16 +216,14 @@ var regPrj = {
                     tabStrip.enable(tabStrip.tabGroup.children().eq(5));
                 }
 
-                if(setParameters.PJT_STEP >= "E2" && delvMap.DELV_STATUS == "100"){
+                if(setParameters.PJT_STEP > "E2" && delvMap.STATUS == "100"){
                     tabStrip.enable(tabStrip.tabGroup.children().eq(3));
                 }
 
-                if(devMap != null){
-                    if(setParameters.PJT_STEP >= "E3" && devMap.STATUS == "100"){
-                        tabStrip.enable(tabStrip.tabGroup.children().eq(4));
-                        tabStrip.enable(tabStrip.tabGroup.children().eq(6));
-                        tabStrip.enable(tabStrip.tabGroup.children().eq(7));
-                    }
+                if(setParameters.PJT_STEP > "E3"){
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(4));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(6));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(7));
                 }
 
                 if(setParameters.PJT_STEP >= "E6"){

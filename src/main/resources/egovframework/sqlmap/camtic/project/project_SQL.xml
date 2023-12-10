@@ -314,6 +314,15 @@
             PJT_SN = #{pjtSn}
     </update>
 
+    <update id="updProjectStepDev" parameterType="map">
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            PJT_STEP = #{pjtStep},
+            PJT_STEP_NM = #{pjtStepNm}
+        WHERE
+            PJT_SN = (SELECT PJT_SN FROM CAM_PJT_MNG.DJ_PJT_DEV WHERE DEV_SN = #{devSn})
+    </update>
+
     <update id="updProjectEngnStep" parameterType="map">
         UPDATE CAM_PJT_MNG.DJ_PJT_ENGN
         SET
@@ -1294,11 +1303,11 @@
             PJT_STR_DT = #{pjtStrDt},
             PJT_END_DT = #{pjtEndDt},
             DELV_PAY = #{delvPay},
-            PJT_AMT = #{delvAmt},
+            <!-- PJT_AMT = #{delvAmt},
             STR_DT = #{estDe},
             END_EXP_DT = #{delvDe},
             PM = #{pmEmpNm},
-            PM_EMP_SEQ = #{pmEmpSeq},
+            PM_EMP_SEQ = #{pmEmpSeq},-->
             MOD_EMP_SEQ = #{empSeq}
         WHERE
             DELV_SN = #{delvSn}
@@ -1955,6 +1964,7 @@
                 CRM_MEM_TEMP_NM,
                 CRM_CON_SN,
                 CRM_PART_SN,
+                PM_EMP_SEQ,
                 PM,
                 PJT_AMT,
                 PJT_EXP_AMT,
@@ -1992,7 +2002,8 @@
                 CRM_MEM_TEMP_NM,
                 CRM_CON_SN,
                 CRM_PART_SN,
-                PM,
+                #{tmPMSeq} AS TM_PM_SEQ,
+                IFNULL((SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{tmPMSeq}), '') AS TM_EMP_NAME,
                 #{tmAmt},
                 #{tmAmt},
                 CONSULT_DT,
@@ -2436,7 +2447,11 @@
                         ELSE CONCAT(#{PJT_TMP_CD}, LPAD(SUBSTR(MAX(PJT_CD), 8) + 1, '2', '0'))
                         END AS tt
                 FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_CD like CONCAT(#{PJT_TMP_CD}, '%')),
-            PJT_AMT = (SELECT DELV_AMT FROM CAM_PJT_MNG.DJ_PJT_DELV WHERE PJT_SN = #{PJT_SN})
+            PJT_AMT = (SELECT DELV_AMT FROM CAM_PJT_MNG.DJ_PJT_DELV WHERE PJT_SN = #{PJT_SN}),
+            STR_DT = (SELECT PJT_STR_DT FROM CAM_PJT_MNG.DJ_PJT_DELV WHERE PJT_SN = #{PJT_SN}),
+            END_DT = (SELECT PJT_END_DT FROM CAM_PJT_MNG.DJ_PJT_DELV WHERE PJT_SN = #{PJT_SN}),
+            PM_EMP_SEQ = (SELECT PM_EMP_SEQ FROM CAM_PJT_MNG.DJ_PJT_DELV WHERE PJT_SN = #{PJT_SN}),
+            PM = (SELECT PM_EMP_NM FROM CAM_PJT_MNG.DJ_PJT_DELV WHERE PJT_SN = #{PJT_SN})
         WHERE
             PJT_SN = #{PJT_SN}
     </update>

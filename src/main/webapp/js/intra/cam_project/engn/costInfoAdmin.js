@@ -7,6 +7,7 @@ var costInfo = {
     },
 
     fn_defaultScript : function (){
+        commonProject.setPjtStat();
         this.dataSet();
         this.gridReload();
     },
@@ -40,6 +41,29 @@ var costInfo = {
             }
         }
         $("#SBJ_SEP").text(sbjText);
+
+        /** 사업정보 */
+        if(commonProject.global.busnClass == "D"){
+            let html = '';
+            html += '<tr>';
+            html += '<td>';
+            html += pjtMap.DEPT_NAME;
+            html += '</td>';
+            html += '<td>';
+            html += pjtMap.DEPT_NAME;
+            html += '</td>';
+            html += '<td>';
+            html += pjtMap.PJT_START_DT.substring(0, 4)+"년";
+            html += '</td>';
+            html += '<td>';
+            html += pjtMap.DEPT_NAME;
+            html += '</td>';
+            html += '<td>';
+            html += pjtMap.DEPT_NAME;
+            html += '</td>';
+            html += '</tr>';
+            //$("#pjtInfoRow").append(html);
+        }
     },
 
     gridReload : function (){
