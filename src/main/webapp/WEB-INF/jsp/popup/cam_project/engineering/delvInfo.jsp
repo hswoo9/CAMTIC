@@ -254,20 +254,6 @@
     });
 
     function openModal(){
-        if($("#delvFileName").text() == ""){
-            alert("계약서를 등록해주세요.");
-            return;
-        }
-
-        if($("input[name='delvDept']:checked").val() == null || $("input[name='delvDept']:checked").val() == undefined || $("input[name='delvDept']:checked").val() == ""){
-            alert("참여부서를 선택해주세요.");
-            return;
-        }
-        if($("#pmSeq").val() == ""){
-            alert("PM을 등록해주세요.");
-            return;
-        }
-
         $("#dialog").data("kendoWindow").open();
     }
 
