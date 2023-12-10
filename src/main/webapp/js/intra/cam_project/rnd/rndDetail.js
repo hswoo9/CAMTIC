@@ -332,6 +332,13 @@ var rndDetail = {
                 {
                     name: 'button',
                     template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rndDetail.setCustomBudgetDel()">' +
+                            '	<span class="k-button-text">삭제</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rndDetail.fn_customBudgetPop()">' +
                             '	<span class="k-button-text">코드등록</span>' +
                             '</button>';
@@ -343,6 +350,10 @@ var rndDetail = {
             },
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'pCbPk\');"/>',
+                    template : "<input type='checkbox' id='pCbPk#=CB_SN#' name='pCbPk' class='pCbPk' value='#=CB_SN#'/>",
+                    width: 50
+                }, {
                     title: "장",
                     field : "CB_CODE_NAME_1",
                     editable: function(){
@@ -416,5 +427,15 @@ var rndDetail = {
         var name = "_blank";
         var option = "width = 1330, height = 640, top = 100, left = 200, location = no";
         var popup = window.open(url, name, option);
+    },
+
+    setCustomBudgetDel : function(){
+        if($("input[name='pCbPk']:checked").length == 0){ alert("삭제할 예산을 선택해주세요."); return; }
+        if(confirm("선택한 코드를 삭제하시겠습니까?\n")) {
+            var grid = $("#customBudgetGrid").data("kendoGrid");
+            $.each($("input[name='pCbPk']:checked"), function(){
+                grid.dataSource.remove(grid.dataItem($(this).closest("tr")));
+            });
+        }
     }
 }
