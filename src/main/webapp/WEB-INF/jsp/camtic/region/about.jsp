@@ -18,7 +18,7 @@
         <div class="__jvalley5" style="word-spacing: 5px;">
           <div class="__tit2 __mb50">
             <dl class="head">
-              <dt><span class="__nm">“</span><span class="mainCapyTitle">제조창업 플랫폼 J-Valley</span><span class="__nm">”</span></dt>
+              <dt><span class="__nm">“</span><span class="mainCapyTitle">뿌리산업에서 첨단ㆍ디지털 산업 육성 공간으로 변화</span><span class="__nm">”</span></dt>
               <dd><span class="subCapyTitle">뿌리에서 첨단ㆍ디지털 산업 육성 공간으로 변화</span></dd>
             </dl>
             <h3 style="border-bottom: 1px dashed #b7b7b7; padding-bottom:30px;"><strong>비전 및 목표</strong></h3>

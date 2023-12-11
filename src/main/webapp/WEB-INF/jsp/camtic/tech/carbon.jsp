@@ -18,7 +18,7 @@
         <div class="__clu1 mo">
           <dl class="tit">
             <dt><span class="__nm">“</span><span class="mainCapyTitle">탄소 복합재 활용 공정기술 연구 및 개발 추진</span><span class="__nm">”</span></dt>
-            <dd><span class="subCapyTitle">기업 연계 협력, 미래 핵심 차세대 공정기술 개발</span></dd>
+            <dd><span class="subCapyTitle">기업 연계 협력, 차세대 핵심 공정기술 개발</span></dd>
           </dl>
         </div>
 
@@ -36,8 +36,8 @@
             </ul>
           </div>
           <ul class="__flximg __mt30" style="width:800px; height: 223px; margin: 0 auto;">
-            <li><img src="/images/camtic/img-ncarbon1-1.jpg" alt=""></li>
-            <li><img src="/images/camtic/img-ncarbon1-2.jpg" alt=""><div class="__mt10">Automated Tape Laying system</div></li>
+            <li><img src="/images/camtic/img-ncarbon1-1.jpg" alt=""><div class="__mt10">탄소섬유 테이프 자동 적층 장치</div></li>
+            <li><img src="/images/camtic/img-ncarbon1-2.jpg" alt=""><div class="__mt10">탄소섬유 테이프 자동 적층 사례</div></li>
           </ul>
 
           <div class="__icoBox pt0 __mt100">
@@ -58,7 +58,7 @@
             <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>기업지원</strong></h3>
           </div>
           <div class="__icoBox pt0 __mt50">
-            <h5 style="font-size: 19px; color: #666;">탄소 복합재를 활용하는 공정기술과 탄소 복합재 제조업의 미래 성장 발전에 핵심적인 차세대 공정기술로 사업을 영위하는 기업과의 연계 협력</h5>
+            <h5 style="font-size: 19px; color: #666;">탄소 복합재를 활용하는 공정기술과 탄소 복합재 제조업의 미래 성장 발전에 핵심적인 기업과의 연계 협력</h5>
             <ul class="__dotList bar __fz18 __black">
               <li>고강도 초경량 복합재 및 응용 부품 개발</li>
               <li>성형, 가공, 설계, 해석에 이르는 토탈 솔루션 제공</li>

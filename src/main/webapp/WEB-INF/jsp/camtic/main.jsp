@@ -59,9 +59,11 @@
               <div class="tit">
                 <dl>
                   <dt><span class="mainTitle">기업</span>과 함께 성장</dt>
-                  <dd style="letter-spacing: 1px;">
-                    기업수요 및 성장주기 <br>
-                    연계 H/W, S/W 지원
+                  <dd style="letter-spacing: 0.8px;">
+                    기업수요 및 <br>
+                    성장주기 <br>
+                    연계 HW, SW <br>
+                    지원
                   </dd>
                 </dl>
                 <%--<p><span>J - Valley 2</span></p>--%>

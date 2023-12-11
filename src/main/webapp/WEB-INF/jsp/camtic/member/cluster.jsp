@@ -32,8 +32,8 @@
 					<dl class="tit">
 						<%--<dt>“함께 성장하는 행복한 일터 조성”을 위하여</dt>
 						<dd>구성원간 상호 협력.연대 ⇒ 동반성장 도모!!</dd>--%>
-						<dt><span class="__nm">“</span><span class="mainCapyTitle">함께 성장하는 행복한 일터 조성</span><span class="__nm">”</span>을 위하여</dt>
-						<dd><span class="subCapyTitle">구성원간 상호 협력.연대 ⇒ 동반성장 도모!!</span></dd>
+						<dt><span class="__nm">“</span><span class="mainCapyTitle">함께 성장하는 행복한 일터 조성</span><span class="__nm">”</span></dt>
+						<dd><span class="subCapyTitle">구성원간 상호 협력·연대 ⇒ 동반성장 도모!!</span></dd>
 					</dl>
 					<div class="img">
 						<%--<img src="/images/camtic/img-clu1-1.jpg" alt="">--%>
@@ -46,10 +46,10 @@
 								<div class="iw iw3"><div><span>캠틱클러스터</span> <strong>금융플랫폼</strong></div></div>
 								<div class="iw iw4"><div><dl><dt>캠틱클러스터</dt><dd>개인투자조합 제1호</dd></dl></div></div>
 								<div class="iw iw5"><div><dl><dt>캠틱클러스터</dt><dd>개인투자조합 제2호</dd></dl></div></div>
-								<div class="iw iw6"><div><dl><dt>본사창업 제1호</dt><dd>(팔복인더스트리)</dd></dl></div></div>
-								<div class="iw iw7"><div><dl><dt>본사창업 제2호</dt><dd>(애드아임)</dd></dl></div></div>
-								<div class="iw iw8"><div><dl><dt>본사창업 제3호</dt><dd>&nbsp;</dd></dl></div></div>
-								<div class="iw iw9"><div><dl><dt>본사창업 제4호</dt><dd>&nbsp;</dd></dl></div></div>
+								<div class="iw iw6"><div><dl><dt>분사창업 제1호</dt><dd>(팔복인더스트리)</dd></dl></div></div>
+								<div class="iw iw7"><div><dl><dt>분사창업 제2호</dt><dd>(애드아임)</dd></dl></div></div>
+								<div class="iw iw8" style="margin-top: 12px;"><div><dl><dt>분사창업 제3호</dt><dd>&nbsp;</dd></dl></div></div>
+								<div class="iw iw9" style="margin-top: 12px;"><div><dl><dt>분사창업 제4호</dt><dd>&nbsp;</dd></dl></div></div>
 								<div class="iw iw10"><span>가족회사 제1호</span></div>
 								<div class="iw iw11"><span>가족회사 제2호</span></div>
 								<div class="iw iw12"><span>가족회사 제3호</span></div>

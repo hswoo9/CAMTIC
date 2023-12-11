@@ -5,7 +5,43 @@
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 </head>
+<style>
+  .area {
+    display: flex;
+    gap: 20px;
+  }
 
+  .area .box {
+    width: 0;
+    flex-grow: 1;
+  }
+
+  .area .box .info {
+    border: 1px solid #d7d7d7;
+    background: #fff;
+    border-radius: 5px;
+    padding: 15px 24px 25px;
+    margin-top: 12px;
+    position: relative;
+  }
+
+  .box .info dt {
+    font-size: 20px;
+    color: #000;
+    font-weight: bold;
+    letter-spacing: -0.06em;
+    line-height: 1.2;
+    margin-top: 20px;
+  }
+
+  .box .info dd {
+    font-size: 14px;
+    color: #000;
+    line-height: 1.43;
+    letter-spacing: -0.05em;
+    margin-top: 20px;
+  }
+</style>
 <body>
 <div id="wrap">
   <jsp:include page="/WEB-INF/jsp/template/camtic/head.jsp" flush="false"/>
@@ -16,8 +52,8 @@
         <jsp:include page="/WEB-INF/jsp/template/camtic/navi_title.jsp" flush="false"/>
           <div class="__clu1 mo">
             <dl class="tit">
-              <dt><span class="__nm">“</span><span class="mainCapyTitle">드론분야 창의/주도적 메이커활동 활성화 상상 실현</span><span class="__nm">”</span></dt>
-              <dd><span class="subCapyTitle">전주드론제작소 윙윙- 스테이션
+              <dt><span class="__nm">“</span><span class="mainCapyTitle">메이커들의 상상을 실현하는 곳, 전주드론제작소 윙윙스테이션</span><span class="__nm">”</span></dt>
+              <dd><span class="subCapyTitle"><%--전주드론제작소 윙윙- 스테이션--%>
               <img src="/images/camtic/logo-wing.png" alt="" style="height: 50px"></span></dd>
             </dl>
           </div>
@@ -25,9 +61,12 @@
           <dl class="what">
             <dt>전주드론제작소 윙윙스테이션이란?</dt>
             <dd>
-              윙윙 - 스테이션은 드론분야 창의·주도적 메이커 활동 활성화를 위한 메이커스페이스로, 국내유일 드론 특화랩입니다.<br>
+              <%--윙윙 - 스테이션은 드론분야 창의·주도적 메이커 활동 활성화를 위한 메이커스페이스로, 국내유일 드론 특화랩입니다.--%>
+              윙윙스테이션은 캠틱종합기술원에서 운영하는 메이커스페이스로, 전문 메이커 육성과 메이커 문화 확산을 위해 체계적인 지원을 하고 있습니다.<br>
               윙윙 - 스테이션에서는 혁신적인 아이디어를 자유롭게 창작, 구상, 개조하여 시제품 제작 등 아이디어의 제품화를 실현할 수 있습니다.<br>
-              드론·3D프린팅·3D펜 등 다양한 분야의 교육과 체험프로그램을 통해 여러분의 상상을 실현해보시길 바랍니다.
+              <%--드론·3D프린팅·3D펜 등 다양한 분야의 교육과 체험프로그램을 통해 여러분의 상상을 실현해보시길 바랍니다.--%>
+              윙윙스테이션은 2022년 선정된 국내 유일 드론 특화랩이며, 드론 · 3D프린터· 3D펜 등 다양한 메이커 교육과 체험 프로그램을 통해 <br>우수 메이커 발굴에 앞장서고 있습니다.
+
             </dd>
           </dl>
 
@@ -178,14 +217,14 @@
           </ul>
         </div>--%>
 
-        <div class="__tit1 __mt100 __mb20">
+        <%--<div class="__tit1 __mt100 __mb20">
           <h3><strong>윙윙스테이션의 운영전략</strong></h3>
         </div>
         <div class="__vision1 type2">
-          <%--<dl class="head">
+          &lt;%&ndash;<dl class="head">
             <dt>직원과 함께 성장하는 행복한 일터</dt>
             <dd>전주 드론제작소 윙윙 -스테이션</dd>
-          </dl>--%>
+          </dl>&ndash;%&gt;
           <div class="area" style="margin-top: 20px;">
             <dl class="box box1">
               <dt><span>미션</span></dt>
@@ -306,16 +345,213 @@
               </dd>
             </dl>
           </div>
-        </div>
+        </div>--%>
 
         <div class="__tit1 __mt100 __mb20">
-          <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>윙윙스테이션에 이용방법</strong></h3>
+          <h3><strong>윙윙스테이션 장비종류</strong></h3>
+        </div>
+            <div class="area">
+
+              <div class="box">
+                <div class="info _row">
+                  <img src="/images/camtic/img-spacemc1.jpg" alt="" style="width: 193px; height: 193px;">
+                  <dl>
+                    <dt>3D프린터</dt>
+                    <dd>
+                      <ul>
+                        <li><strong style="margin-right: 16px;">모델명</strong>Style-220C</li>
+                        <li><strong style="margin-right: 16px;">제작사</strong>CUBICON</li>
+                        <li><strong style="margin-right: 6px;">설치장소</strong>드론제작소 1층 3D프린팅실</li>
+                      </ul>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+
+              <div class="box">
+                <div class="info _row">
+                  <img src="/images/camtic/img-spacemc2.jpg" alt="" style="width: 193px; height: 193px;">
+                  <dl>
+                    <dt>3D프린터(Neo)</dt>
+                    <dd>
+                      <ul>
+                        <li><strong style="margin-right: 16px;">모델명</strong>Style NEO-A31C</li>
+                        <li><strong style="margin-right: 16px;">제작사</strong>CUBICON</li>
+                        <li><strong style="margin-right: 6px;">설치장소</strong>드론제작소 1층 3D프린팅실</li>
+                      </ul>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+
+              <div class="box">
+                <div class="info _row">
+                  <img src="/images/camtic/img-spacemc3.jpg" alt="" style="width: 193px; height: 193px;">
+                  <dl>
+                    <dt>3D스캐너</dt>
+                    <dd>
+                      <ul>
+                        <li><strong style="margin-right: 16px;">모델명</strong> CR-Scan 01</li>
+                        <li><strong style="margin-right: 16px;">제작사</strong> Creality 3D</li>
+                        <li><strong style="margin-right: 4px;">설치장소</strong> 드론제작소 1층 3D프린팅실</li>
+                      </ul>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+
+              <div class="box">
+                <div class="info _row">
+                  <img src="/images/camtic/img-spacemc4.jpg" alt="" style="width: 193px; height: 193px;">
+                  <dl>
+                    <dt>매빅 PRO 2</dt>
+                    <dd>
+                      <ul>
+                        <li><strong style="margin-right: 16px;">모델명</strong> </li>
+                        <li><strong style="margin-right: 16px;">제작사</strong> </li>
+                        <li><strong style="margin-right: 6px;">설치장소</strong> </li>
+                      </ul>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+
+
+            </div>
+
+        <div class="__tit1 __mt100 __mb20">
+          <h3><strong>윙윙스테이션 공간 소개</strong></h3>
+        </div>
+            <%--<div class="area">
+              <div class="box">
+                <div class="info _row">
+                  <img src="/images/camtic/img-spacemc5.jpg" alt="" style="width: 193px; height: 193px;">
+                  <dl>
+                    <dt>상담실</dt>
+                    <dd>
+                      <ul>
+                        <li>드론 및 장비 대여 관련 문의나 교육 및 체험 프로그램에 관해 <br>자유로운 상담을 진행하고 있습니다.</li>
+                      </ul>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+
+              <div class="box">
+                <div class="info _row">
+                  <img src="/images/camtic/img-spacemc6.jpg" alt="" style="width: 193px; height: 193px;">
+                  <dl>
+                    <dt>메이커실</dt>
+                    <dd>
+                      <ul>
+                        <li>넓은 공간으로 실내에서 소형 드론을 비행해 보는 등 다양한 메이커 활동을 수행할 수 있습니다.</li>
+                      </ul>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            </div>--%>
+
+            <div class="__space3" style="padding: 20px 127px 10px;">
+              <img src="/images/camtic/spaceMap.png" alt="">
+            </div>
+
+            <div class="area">
+              <div class="box">
+                <div class="info _row" style="padding: 0px;">
+                  <img src="/images/camtic/img-spacemc7.jpg" alt="" style="width: 193px; height: 193px;">
+                  <dl style="padding: 0px 10px 20px;">
+                    <dt>전산 교육실</dt>
+                    <dd>
+                      <ul>
+                        <li>3D모델링 프로그램, 영상편집 프로그램 등이 <br>설치되어 있어 다양한 전산 교육이 수행되고 있습니다.</li>
+                      </ul>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+
+              <div class="box">
+                <div class="info _row" style="padding: 0px;">
+                  <img src="/images/camtic/img-spacemc6.jpg" alt="" style="width: 193px; height: 193px;">
+                  <dl style="padding: 0px 10px 20px;">
+                    <dt>메이커실</dt>
+                    <dd>
+                      <ul>
+                        <li>넓은 공간으로 실내에서 소형 드론을 비행해 보는 등 <br>다양한 메이커 활동을 수행할 수 있습니다.</li>
+                      </ul>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+
+              <div class="box">
+                <div class="info _row" style="padding: 0px;">
+                  <img src="/images/camtic/img-spacemc5.jpg" alt="" style="width: 193px; height: 193px;">
+                  <dl style="padding: 0px 10px 20px;">
+                    <dt>상담실</dt>
+                    <dd>
+                      <ul>
+                        <li>드론 및 장비 대여 관련 문의나 교육 및 체험 프로그램에 관해 <br>자유로운 상담을 진행하고 있습니다.</li>
+                      </ul>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+
+            <%--  <div class="box">
+                <div class="info _row" style="padding: 0px;">
+                  <img src="/images/camtic/img-spacemc7.jpg" alt="" style="width: 193px; height: 193px;">
+                  <dl style="padding: 0px 10px 20px;">
+                    <dt>전산 교육실</dt>
+                    <dd>
+                      <ul>
+                        <li>3D모델링 프로그램, 영상편집 프로그램 등이 <br>설치되어 있어 다양한 전산 교육이 수행되고 있습니다.</li>
+                      </ul>
+                    </dd>
+                  </dl>
+                </div>
+              </div>--%>
+
+              <div class="box">
+                <div class="info _row" style="padding: 0px;">
+                  <img src="/images/camtic/img-spacemc8.jpg" alt="" style="width: 193px; height: 193px;">
+                  <dl style="padding: 0px 10px 20px;">
+                    <dt>장비실</dt>
+                    <dd>
+                      <ul>
+                        <li>공구 세트, 인두기, 매빅PRO2 등 다양한 메이커 활동에 필요한 장비를 구축하고 있습니다.</li>
+                      </ul>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+
+              <div class="box">
+                <div class="info _row" style="padding: 0px;">
+                  <img src="/images/camtic/img-spacemc9.jpg" alt="" style="width: 193px; height: 193px;">
+                  <dl style="padding: 0px 10px 20px;">
+                    <dt>3D프린팅실</dt>
+                    <dd>
+                      <ul>
+                        <li>중고급형 3D프린터 10대, <br>고급형 3D프린터 1대, <br>소형 3D스캐너 2대를 보유하고 있으며 <br>시제품 제작 등 메이커 활동을 수행할 수 있습니다.</li>
+                      </ul>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+
+
+
+        <div class="__tit1 __mb20 __mt100">
+          <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>윙윙스테이션 이용방법</strong></h3>
         </div>
 
         <div class="__space3">
 
-          <div class="item">
-            <%--<div class="ico"><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div>--%>
+          <%--<div class="item">
+            &lt;%&ndash;<div class="ico"><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div>&ndash;%&gt;
             <dl class="tit">
               <dt>메이커스페이스</dt>
               <dd>장비이용안내</dd>
@@ -362,9 +598,10 @@
               <div class="arr"><i></i></div>
               <p>교육이수 혹은 안내 후 사용가능</p>
             </div>
-          </div>
+          </div>--%>
 
-          <div class="item __mt80">
+         <%-- <div class="item __mt80">--%>
+          <div class="item">
             <%--<div class="ico"><span><img src="/images/camtic/ico-space2-1.png" alt=""></span></div>--%>
             <dl class="tit">
               <dt>메이커스페이스</dt>
@@ -398,9 +635,10 @@
             </div>
           </div>
 
-          <div class="item __mt80">
+          <%--<div class="item __mt80">--%>
+          <div class="item" __mt30>
             <%--<div class="ico"><span><img src="/images/camtic/ico-space2-1.png" alt=""></span></div>--%>
-            <dl class="tit">
+           <%-- <dl class="tit">
               <dt>메이커스페이스</dt>
               <dd>교육안내</dd>
             </dl>
@@ -409,7 +647,7 @@
                 <li>교육안내 : 월별 교육일정에 따라 홈페이지를 통해 선착순 신청 후 교육 가능합니다.</li>
                 <li>교육대상자 : 초.중.고 일반인(각 커리큘림마다 상이할 수 있음)</li>
                 <li>교육커리큘럼 : 교육 안내사항을 참고해주세요</li>
-              </ul>
+              </ul>--%>
 
               <div class="use3">
                 <a href="http://maker.camtic.or.kr/main/" target="_blank"><strong>전주드론제작소 - 윙윙스테이션</strong> 바로가기</a>
