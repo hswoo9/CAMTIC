@@ -163,7 +163,7 @@ var prp = {
         })
 
         if($("#pjtSn").val() != ""){
-            const pjtInfo = customKendo.fn_customAjax("/project/getProjectInfo", parameters);
+            const pjtInfo = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn: $("#pjtSn").val()});
             const pjtMap = pjtInfo.map;
 
             const list = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: $("#pjtSn").val()}).list;
