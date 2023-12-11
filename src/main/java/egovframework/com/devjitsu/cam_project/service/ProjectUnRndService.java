@@ -16,12 +16,14 @@ public interface ProjectUnRndService {
 
     List<Map<String, Object>> getLectureTeacherList(Map<String, Object> params);
     List<Map<String, Object>> getPersonList(Map<String, Object> params);
+    Map<String, Object> getPersonData(Map<String, Object> params);
     List<Map<String, Object>> getLectureTeacherReqList(Map<String, Object> params);
     List<Map<String, Object>> getLecturePersonReqList(Map<String, Object> params);
     List<Map<String, Object>> getLectureList(Map<String, Object> params);
     Map<String, Object> getLectureInfo(Map<String, Object> params);
     void insLectureTeacherInfo(Map<String, Object> params);
     void insLecturePersonInfo(Map<String, Object> params);
+    void setLecturePersonData(Map<String, Object> params);
     void insLectureInfo(Map<String, Object> params);
     void updLectureInfo(Map<String, Object> params);
     void updPersonApp(Map<String, Object> params);

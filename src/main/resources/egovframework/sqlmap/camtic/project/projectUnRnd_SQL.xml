@@ -200,6 +200,15 @@
         ORDER BY NAME
     </select>
 
+    <select id="getPersonList" parameterType="map" resultType="map">
+        /*getPersonList*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON
+        WHERE PERSON_SN = #{personSn}
+    </select>
+
     <select id="getLectureTeacherList" parameterType="map" resultType="map">
         /*getLectureTeacherList*/
         SELECT
@@ -312,6 +321,62 @@
             )
         </foreach>
     </insert>
+
+    <insert id="getPersonData" parameterType="map">
+        /*getPersonData*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON
+            (
+                ID,
+                PASSWORD,
+                NAME,
+                GENDER,
+                CO_NAME,
+                PART,
+                PLACE,
+                TEL_NUM,
+                HP_NUM,
+                FAX_NUM,
+                REG_EMP_SEQ
+            )
+        VALUE
+            (
+                #{id},
+                #{password},
+                #{name},
+                #{gender},
+                #{coName},
+                #{part},
+                #{place},
+                #{telNum},
+                #{hpNum},
+                #{faxNum},
+                #{regEmpSeq}
+            )
+        <selectKey keyProperty="personSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_LECTURE_PERSON'
+        </selectKey>
+    </insert>
+
+    <update id="UpdLecturePersonData" parameterType="map">
+        /*UpdLecturePersonData*/
+        UPDATE
+            CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON
+        SET
+            ID = #{id},
+            PASSWORD = #{password},
+            NAME = #{name},
+            GENDER = #{gender},
+            CO_NAME = #{coName},
+            PART = #{part},
+            PLACE = #{place},
+            TEL_NUM = #{telNum},
+            HP_NUM = #{hpNum},
+            FAX_NUM = #{faxNum},
+            MOD_EMP_SEQ = #{regEmpSeq},
+            MOD_DT = NOW()
+        WHERE
+            LEC_SN = #{pk}
+    </update>
 
     <insert id="insLectureInfo" parameterType="map">
         /*insLectureInfo*/
