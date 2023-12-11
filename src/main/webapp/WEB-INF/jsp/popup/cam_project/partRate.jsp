@@ -123,6 +123,7 @@
                     </th>
                     <td>
                         <span id="budget"></span>
+                        <input type="hidden" id="budgetAmt" value=""/>
                     </td>
                     <th scope="row" class="text-center th-color">
                         관리 시스템

@@ -287,7 +287,7 @@ var rndPR = {
                 memHtml += '</tr>';
             }
 
-            $("#partRateMember").append(memHtml);
+            $("#partRateMember").html(memHtml);
 
             for(var i = 0 ; i < mem.length ; i++){
                 customKendo.fn_textBox(["memChngSal" + i, "memItemRate" + i, "memPayTotal" + i, "memMon" + i, "memPayRate" + i, "memTotPayBudget" + i, "memTotItemBudget" + i, "memTotRate" + i, "memMonSal" + i]);
@@ -352,6 +352,14 @@ var rndPR = {
         $("#empList").val(empList);
 
         customKendo.fn_textBox(["allPayTotal"]);
+
+        var allPayTotal = 0;
+        $("input[name='payTotal']").each(function(){
+            allPayTotal += Number(uncomma(this.value));
+        });
+
+        $("#allPayTotal").val(comma(allPayTotal));
+
 
         $("#viewSubBtn").css("display", "");
     },
