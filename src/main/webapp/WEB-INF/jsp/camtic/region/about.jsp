@@ -5,7 +5,17 @@
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 </head>
+<style>
+  .areaA {
+    display: flex;
+    gap: 20px;
+  }
 
+  .areaA .box {
+    width: 0;
+    flex-grow: 1;
+  }
+</style>
 <body>
 <div id="wrap">
   <jsp:include page="/WEB-INF/jsp/template/camtic/head.jsp" flush="false"/>
@@ -19,11 +29,11 @@
           <div class="__tit2 __mb50">
             <dl class="head">
               <dt><span class="__nm">“</span><span class="mainCapyTitle">뿌리산업에서 첨단ㆍ디지털 산업 육성 공간으로 변화</span><span class="__nm">”</span></dt>
-              <dd><span class="subCapyTitle">뿌리에서 첨단ㆍ디지털 산업 육성 공간으로 변화</span></dd>
+              <dd><span class="subCapyTitle">전주첨단벤처단지</span></dd>
             </dl>
-            <h3 style="border-bottom: 1px dashed #b7b7b7; padding-bottom:30px;"><strong>비전 및 목표</strong></h3>
+           <%-- <h3 style="border-bottom: 1px dashed #b7b7b7; padding-bottom:30px;"><strong>비전 및 목표</strong></h3>--%>
           </div>
-          <div class="one">
+          <%--<div class="one">
             <div class="box box1">
               <div class="cir">
                 <h4>추진전략</h4>
@@ -72,7 +82,104 @@
                 </div>
               </div>
             </div>
+          </div>--%>
+
+          <div class="__tit2 __mt100">
+            <h3><strong>벤처단지 소개</strong></h3>
           </div>
+
+          <div class="__tit2 __mt100">
+            <h3><strong>벤처단지 전경</strong></h3>
+          </div>
+          <div class="areaA">
+            <div class="box">
+              <div class="img"><img src="/images/camtic/img-jvalley1-1-1.jpg" alt="" style="width:330px; height: 210px;"></div>
+              <div style="padding: 10px 0 10px; text-align: center; background: #f8f9fa;"><span style="font-size:18px"><strong>전주첨단벤처단지</strong></span></div>
+            </div>
+            <div class="box">
+              <div class="img"><img src="/images/camtic/img-jvalley1-1-2.jpg" alt="" style="width:330px; height: 210px;"></div>
+              <div style="padding: 10px 0 10px; text-align: center; background: #f8f9fa;"><span style="font-size:18px"><strong>전주혁신창업허브(창업동)</strong></span></div>
+            </div>
+            <div class="box">
+              <div class="img"><img src="/images/camtic/img-jvalley1-1-3.jpg" alt="" style="width:330px; height: 210px;"></div>
+              <div style="padding: 10px 0 10px; text-align: center; background: #f8f9fa;"><span style="font-size:18px"><strong>전주혁신창업허브(성장동)</strong> 2024년 준공</span></div>
+            </div>
+          </div>
+
+          <div class="__tit2 __mt100">
+            <h3><strong>주요시설</strong></h3>
+          </div>
+          <table class="__tblList bd1 bg3 respond2 __mt10" style="word-spacing: 0px;">
+            <caption></caption>
+            <colgroup>
+              <col width="23%">
+              <col width="29%">
+              <col width="30%">
+              <col width="11%">
+              <col width="23%">
+              <col width="20%">
+            </colgroup>
+            <thead>
+            <tr>
+              <th scope="col">구분</th>
+              <th scope="col">시설명</th>
+              <th scope="col">규모</th>
+              <th scope="col">개관일자</th>
+              <th scope="col">주요시설</th>
+              <th scope="col">비고</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td class="fz18 __black" rowspan="3">전주첨단벤처단지<br>(덕진구 유상로 67)</td>
+              <td class="fz18 __black">전주혁신창업허브(창업동)</td>
+              <td class="tal">연면적 12,212㎡(지하 1층, 지상 6층)</td>
+              <td class="tal">2020.09</td>
+              <td class="tal">입주시설<br>(일반 36실, 초기 19실), <br>기업지원시설, <br>드론기술개발지원센터</td>
+              <td class="tal">창업 단계 기업 입주공간</td>
+            </tr>
+            <tr>
+              <td class="fz18 __black">전주혁신창업허브(성장동)</td>
+              <td class="tal">연면적 9,980㎡(지하 1층, 지상 4층)</td>
+              <td class="tal">2024.09</td>
+              <td class="tal">입주시설(일반 35실), <br>기업지원시설, <br>복합소재뿌리기술센터</td>
+              <td class="tal">성장 단계 기업 입주공간</td>
+            </tr>
+            <tr>
+              <td class="fz18 __black">예비창업동 (구.본부동)</td>
+              <td class="tal">연면적 1,572㎡ (지하 1층, 지상 3층)</td>
+              <td class="tal">2022.06</td>
+              <td class="tal">입주시설(초기 7실),<br>기업지원시설 드론제작소 윙윙스테이션(메이커스페이스)</td>
+              <td class="tal">초기 단계 기업 입주공간</td>
+            </tr>
+            <tr>
+              <td class="fz18 __black" rowspan="3">도시첨단산업단지<br>(덕진구 반룡로 110)</td>
+              <td class="fz18 __black">R&D직접화동</td>
+              <td class="tal">연면적 1,765㎡ (지상 2층)</td>
+              <td class="tal">2007.02</td>
+              <td class="tal">입주시설(일반 13실)</td>
+              <td class="tal">공장형 입주공간</td>
+            </tr>
+            <tr>
+              <td class="fz18 __black">벤처1동</td>
+              <td class="tal">연면적 1,664㎡ (지상 1층)</td>
+              <td class="tal">22007.02</td>
+              <td class="tal">입주시설(일반 5실)</td>
+              <td class="tal">공장형 입주공간</td>
+            </tr>
+            <tr>
+              <td class="fz18 __black">벤처2동</td>
+              <td class="tal">연면적 1,948㎡ (지상 1층)</td>
+              <td class="tal">2007.02</td>
+              <td class="tal">입주시설(일반 4실)</td>
+              <td class="tal">공장형 입주공간</td>
+            </tr>
+            </tbody>
+          </table>
+
+
+
+
           <div class="__tit2 __mt70">
             <h3><strong>주요 연혁</strong></h3>
           </div>
@@ -195,8 +302,20 @@
                   <div class="box">
                     <h4>2023</h4>
                     <dl>
+                      <dt>10</dt>
+                      <dd>전주첨단벤처단지 J-포럼 26회차 개최(누적 593개사, 805명 참석)</dd>
+                    </dl>
+                    <dl>
+                      <dt>04</dt>
+                      <dd>전라북도 김관영 도지사 벤처단지 내방, 기업간담회 개최</dd>
+                    </dl>
+                    <dl>
                       <dt>03</dt>
                       <dd>중소벤처기업부 이영 장관 전주첨단벤처단지 현장방문 및 입주기업 간담회 개최</dd>
+                    </dl>
+                    <dl>
+                      <dt>03</dt>
+                      <dd>전라북도의회 농산업경제위원회 전주첨단벤처단지 방문</dd>
                     </dl>
                     <dl>
                       <dt>02</dt>
@@ -518,7 +637,7 @@
               <div class="box">
                 <h5><span>운영</span></h5>
                 <dl class="_row">
-                  <dt>캠틱 종합기술원</dt>
+                  <dt>캠틱종합기술원</dt>
                   <dd>
                     <ul>
                       <li>단지관리</li>
