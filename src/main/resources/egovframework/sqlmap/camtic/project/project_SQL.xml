@@ -1356,6 +1356,13 @@
             DEV_SN = #{devSn}
     </update>
 
+    <delete id="setDevInfoDel" parameterType="map">
+        /*setDevInfoDel*/
+        DELETE FROM CAM_PJT_MNG.DJ_PJT_DEV
+        WHERE
+            DEV_SN = #{devSn}
+    </delete>
+
     <update id="updProjectTmpCode" parameterType="map">
         /*updProjectTmpCode*/
         UPDATE CAM_PJT_MNG.DJ_PROJECT

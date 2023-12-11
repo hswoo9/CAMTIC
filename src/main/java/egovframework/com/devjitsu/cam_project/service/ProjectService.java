@@ -112,6 +112,8 @@ public interface ProjectService {
 
     void setDevInfo(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
 
+    void setDevInfoDel(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
+
     Map<String, Object> getDevData(Map<String, Object> params);
 
     void stopProject(Map<String, Object> params);

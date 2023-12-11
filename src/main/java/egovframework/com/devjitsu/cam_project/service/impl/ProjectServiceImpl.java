@@ -242,6 +242,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public void setDevInfoDel(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
+        projectRepository.setDevInfoDel(params);
+    }
+
+    @Override
     public void insStep4(Map<String, Object> params) {
         int modCheck = projectRepository.checkModStep4(params);
 

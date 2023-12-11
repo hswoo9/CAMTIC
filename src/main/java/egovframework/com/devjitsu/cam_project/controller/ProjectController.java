@@ -614,6 +614,20 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/setDevInfoDel")
+    public String setDevInfoDel(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
+        try{
+            if(params.containsKey("devSn")){
+                projectService.setDevInfoDel(params, request, SERVER_DIR, BASE_DIR);
+                model.addAttribute("code", 200);
+            }
+        } catch( Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     @RequestMapping("/project/setProcessInfo")
     public String setProcessInfo(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
         MultipartFile[] fileList1 = request.getFiles("fileList1").toArray(new MultipartFile[0]);
