@@ -198,7 +198,7 @@ var subHolidayList = {
         });
 
         customKendo.fn_datePicker("startDate", '', "yyyy-MM-dd", new Date(subHolidayList.global.now.setMonth(subHolidayList.global.now.getMonth() - 1)));
-        customKendo.fn_datePicker("endDate", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("endDate", '', "yyyy-MM-dd", new Date(subHolidayList.global.now.setMonth(subHolidayList.global.now.getMonth() + 2)));
 
         $("#status").kendoDropDownList({
             dataTextField: "text",

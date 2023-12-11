@@ -85,6 +85,7 @@
                 SUBHOLIDAY_TARGET_SEQ,
                 RMK_OTHER,
                 REG_EMP_SEQ,
+                OHTER_EMP,
                 SUBHOLIDAY_WORK_DAY,
                 SUBHOLIDAY_ALTERNATIVE_DAY,
                 SUBHOLIDAY_USE_DAY
@@ -106,6 +107,7 @@
                 #{vacTargetSeq},
                 #{rmkOther},
                 #{saveSeq},
+                #{otherEmp},
                 #{vacWorkDt},
                 #{vacUseAlDt},
                 #{useDay}
@@ -139,6 +141,7 @@
         SUBHOLIDAY_USE_DAY = #{useDay},
         SUBHOLIDAY_WORK_DAY = #{vacWorkDt},
         SUBHOLIDAY_ALTERNATIVE_DAY = #{vacUseAlDt},
+        OHTER_EMP = #{otherEmp},
         RMK = #{rmk},
         RMK_OTHER = #{rmkOther},
         MOD_DATE = NOW(),

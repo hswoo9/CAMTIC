@@ -119,6 +119,7 @@ var subHolidayReqPop = {
                     rmk: $("#holiday_reason").val(),
                     rmkOther : $("#other_reason").val(),
                     vacTargetSeq: $("#empSeq").val(),
+                    otherEmp: $("#other_emp").val()
                 }
 
                 if($("#vacUseHistId").val() != null && $("#vacUseHistId").val() != ""){
@@ -577,7 +578,7 @@ var subHolidayReqPop = {
                 '                <th scope="row" class="text-center th-color">업무인수자</th>\n' +
                 '                <td colspan="3">\n' +
                 '                  <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 30%;">\n' +
-                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="" id="otherEmpSearchBtn"/>\n' +
+                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="fn_userMultiSelectPop()" id="otherEmpSearchBtn"/>\n' +
                 '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick="" id="selectResetBtn"/>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
@@ -733,7 +734,7 @@ var subHolidayReqPop = {
                 '                <th scope="row" class="text-center th-color">업무인수자</th>\n' +
                 '                <td colspan="3">\n' +
                 '                  <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 20%;">\n' +
-                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="" id="otherEmpSearchBtn"/>\n' +
+                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="fn_userMultiSelectPop()" id="otherEmpSearchBtn"/>\n' +
                 '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick="" id="selectResetBtn"/>\n' +
                 '                  <br>\n' +
                 '                </td>\n' +
@@ -851,12 +852,14 @@ var subHolidayReqPop = {
                 $("#edtHolidayEndDateTop_2").val(result.data.SUBHOLIDAY_EN_DT);
                 $("#edtHolidayEndHourTop_2").val(result.data.SUBHOLIDAY_EN_TIME);
                 $("#other_reason").val(result.data.RMK_OTHER);
+                $("#other_emp").val(result.data.OHTER_EMP);
             }else{
                 $("#edtHolidayStartDateTop_1").val(result.data.SUBHOLIDAY_ST_DT);
                 $("#edtHolidayStartHourTop_1").val(result.data.SUBHOLIDAY_ST_TIME);
                 $("#edtHolidayEndDateTop_1").val(result.data.SUBHOLIDAY_EN_DT);
                 $("#edtHolidayEndHourTop_1").val(result.data.SUBHOLIDAY_EN_TIME);
                 $("#other_reason").val(result.data.RMK_OTHER);
+                $("#other_emp").val(result.data.OHTER_EMP);
             }
 
             $("#holiday_reason").val(result.data.RMK);
@@ -896,6 +899,7 @@ var subHolidayReqPop = {
                 }
 
                 $("#other_reason").attr("disabled", "disabled");
+                $("#other_emp").attr("disabled", "disabled");
                 $("#holiday_reason").attr("disabled", "disabled");
             }
         }
