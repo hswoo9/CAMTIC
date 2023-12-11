@@ -47,4 +47,5 @@ public class ApprovalUserRepository extends AbstractDAO {
     public List<Map<String, Object>> getApprovalDocSearchList(Map<String, Object> params) {
         return selectList("approvalUser.getApprovalDocSearchList", params);
     }
+    public List<Map<String, Object>> getMainUserDocStorageBoxList(Map<String, Object> params) { return selectList("approvalUser.getMainUserDocStorageBoxList", params);}
 }

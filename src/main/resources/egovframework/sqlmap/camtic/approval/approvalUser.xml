@@ -779,4 +779,79 @@
         ORDER BY IF(DI.DRAFT_DT IS NULL, DI.REG_DATE, IF(DI.REPTIT_DRFT_DT IS NULL, DI.DRAFT_DT, DI.REPTIT_DRFT_DT)) DESC
     </select>
 
+    <select id="getMainUserDocStorageBoxList" parameterType="map" resultType="map">
+        /* getMainUserDocStorageBoxList */
+        SELECT
+        DI.DOC_ID,
+        DO.SECURITY_TYPE,
+        FORM.FORM_NAME,
+        FORM.LINKAGE_TYPE,
+        FORM.LINKAGE_PROCESS_ID,
+        DI.DOC_MENU_CD,
+        DI.APPRO_KEY,
+        DI.DOC_NO,
+        DI.DOC_TITLE,
+        DI.APPROVE_STAT_CODE_DESC,
+        DI.APPROVE_STAT_CODE,
+        DI.REPTIT_DRFT_YN,
+        DATE_FORMAT(DI.DRAFT_DT,'%Y-%m-%d') AS DRAFT_DT,
+        DATE_FORMAT(DI.REPTIT_DRFT_DT,'%Y-%m-%d') AS REPTIT_DRFT_DT,
+        DATE_FORMAT(DI.LAST_APPROVE_DT,'%Y-%m-%d') AS LAST_APPROVE_DT,
+        DATE_FORMAT(DI.REG_DATE, '%Y-%m-%d') AS REG_DATE
+        FROM
+        DJ_CAMTIC.A_DOC_INFO DI
+        JOIN
+        DJ_CAMTIC.A_DOC_OPT DO
+        ON DI.DOC_ID = DO.DOC_ID
+        JOIN
+        DJ_CAMTIC.A_FORM FORM
+        ON DI.FORM_ID = FORM.FORM_ID
+        WHERE 1=1
+        <choose>
+            <when test='approveStat != null and "temp".equals(approveStat)'>
+                AND
+                DI.DRAFT_EMP_SEQ = #{empSeq}
+                AND
+                DI.APPROVE_STAT_CODE = 111
+            </when>
+            <when test='approveStat != null and "draft".equals(approveStat)'>
+                AND
+                DI.DRAFT_EMP_SEQ = #{empSeq}
+                AND (
+                DI.APPROVE_STAT_CODE = 10 OR
+                DI.APPROVE_STAT_CODE = 50
+                )
+            </when>
+            <when test='approveStat != null and "returnRetrieve".equals(approveStat)'>
+                AND
+                DI.DRAFT_EMP_SEQ = #{empSeq}
+                AND (
+                DI.APPROVE_STAT_CODE = 30 OR
+                DI.APPROVE_STAT_CODE = 40
+                )
+            </when>
+        </choose>
+        AND
+        DI.ACTIVE = 'Y'
+        AND
+        DI.DEL_FLAG = 'N'
+        <if test='startDay != null and !"".equals(startDay)'>
+            <![CDATA[
+        AND
+            DATE_FORMAT(#{startDay}, '%Y%m%d') <= DATE_FORMAT(DI.REG_DATE, '%Y%m%d')
+        AND
+            DATE_FORMAT(#{endDay}, '%Y%m%d') >= DATE_FORMAT(DI.REG_DATE, '%Y%m%d')
+        ]]>
+        </if>
+
+        <choose>
+            <when test='approveStat != null and "temp".equals(approveStat)'>
+                ORDER BY DI.REG_DATE DESC
+            </when>
+            <otherwise>
+                ORDER BY IFNULL(DI.REPTIT_DRFT_DT, DI.DRAFT_DT) DESC
+            </otherwise>
+        </choose>
+    </select>
+
 </mapper>

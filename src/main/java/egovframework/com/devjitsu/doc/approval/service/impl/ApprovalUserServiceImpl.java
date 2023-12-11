@@ -219,4 +219,10 @@ public class ApprovalUserServiceImpl implements ApprovalUserService {
         return deptPathQuery;
     }
 
+    /**대시보드 상신 문서 조회*/
+    @Override
+    public List<Map<String, Object>> getMainUserDocStorageBoxList(Map<String, Object> params) {
+        return approvalUserRepository.getMainUserDocStorageBoxList(params);
+    }
+
 }

@@ -265,6 +265,29 @@
         AND ACTIVE = 'Y'
     </select>
 
+    <select id="getTodayScheduleList" parameterType="map" resultType="map">
+        /* getTodayScheduleList */
+        SELECT
+        SC.SCHEDULE_TITLE AS title,
+        CONCAT(DATE_FORMAT(SC.START_DT, '%Y-%m-%d'), ' ', SC.START_TIME) AS start,
+        CONCAT(DATE_FORMAT(SC.END_DT, '%Y-%m-%d'), ' ', SC.END_TIME) AS end,
+        DATE_FORMAT(SC.START_DT, '%Y-%m-%d') AS startDate,
+        DATE_FORMAT(SC.END_DT, '%Y-%m-%d') AS endDate,
+        SC.*
+        FROM
+        CAM_BOARD.DJ_SCHEDULE_BOARD SC
+        WHERE 1=1
+        <if test="selectedDate != null and selectedDate != ''">
+            AND #{selectedDate} BETWEEN SC.START_DT AND SC.END_DT
+        </if>
+        <if test='publicClass != null and !"".equals(publicClass)'>
+            AND
+            PUBLIC_CLASS = #{publicClass}
+        </if>
+        AND
+        ACTIVE = 'Y'
+    </select>
+
     <select id="getBoardFileInfo" parameterType="map" resultType="map">
         SELECT
             *
