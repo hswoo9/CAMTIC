@@ -16,6 +16,9 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">업체 선택</span>
             </h3>
+            <div class="btn-st popButton">
+                <button type="button" id="saveBtn" class="k-button k-button-solid-base" onclick="popCrmList.fn_crmRegPopup()">업체추가</button>
+            </div>
 
         </div>
         <div>
