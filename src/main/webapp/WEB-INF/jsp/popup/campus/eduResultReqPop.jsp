@@ -40,7 +40,7 @@
               <th>소 속</th>
               <td id="userDept">${loginVO.orgnztNm}</td>
               <th>직 위</th>
-              <td id="userPosition">${loginVO.dutyNm}</td>
+              <td id="userPosition">${loginVO.dutyNm eq '' ? loginVO.positionNm : loginVO.dutyNm}</td>
               <th>성 명</th>
               <td id="userName">${loginVO.name}</td>
             </tr>

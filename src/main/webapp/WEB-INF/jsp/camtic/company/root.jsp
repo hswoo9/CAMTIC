@@ -164,7 +164,7 @@
           </div>
 
           <div class="__ipjTab2 __mt0 _tab1">
-            <button type="button" class="active">기능성소재부품기업_경쟁력강화사업</button>
+            <button type="button" class="active">기능성소재부품기업 경쟁력강화사업</button>
             <button type="button">연구장비활용 바우처 지원사업</button>
           </div>
           <div>
@@ -181,7 +181,7 @@
                 <h3><strong>지원내용</strong></h3>
               </div>
               <ul class="__dotList __fz16 bar __black">
-                <li>애로기술지도, 시제품제작지원, 공정기술지원, 소재개발지원, 마케팅지원, 신뢰성평가지원, 인증취득지원을 수행기관에게 제공 받을 수 있도록 바우처 형태로 지원</li>
+                <li>애로기술지도, 시제품제작지원, 공정기술지원, 소재개발지원, 마케팅지원, 신뢰성평가지원, 인증취득지원을 수행기관이 제공 받을 수 있도록 바우처 형태로 지원</li>
               </ul>
 
               <table class="__tblList tdfz14 bd1 bg2 auto respond2 __mt10">
@@ -242,6 +242,13 @@
               <ul class="__dotList __fz16 bar __black">
                 <li>도내 소재부품관련 중소기업</li>
                 <li class="__red">기업 당 3회 까지 신청 가능하며, ’20~‘22년 기 지원받은 동일 프로그램 신청 불가</li>
+              </ul>
+
+              <div class="__tit2 __mt30">
+                <h3><strong>공고시기</strong></h3>
+              </div>
+              <ul class="__dotList __fz16 bar __black">
+                <li>1월 중 (상세 내용은 공고문 참조)</li>
               </ul>
 
 
@@ -346,6 +353,13 @@
               </div>
               <ul class="__dotList __fz16 bar __black">
                 <li>중소기업이 대학·연구기관‧민간이 보유한 연구시설·장비 및 전문서비스를 활용할 수 있도록 바우처 형태로 이용료 지원</li>
+              </ul>
+
+              <div class="__tit2 __mt30">
+                <h3><strong>공고시기</strong></h3>
+              </div>
+              <ul class="__dotList __fz16 bar __black">
+                <li>1월 중 (상세 내용은 공고문 참조)</li>
               </ul>
 
               <div class="__tit2 __mt30">

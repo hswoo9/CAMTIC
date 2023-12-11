@@ -17,7 +17,7 @@
           <div class="head">
             <dl class="tit">
               <dt><span class="__nm">“</span><span class="mainCapyTitle">창업-혁신-성장으로 이어지는 혁신-제조창업 플랫폼!!</span><span class="__nm">”</span></dt>
-              <dd><span class="subCapyTitle">Level-Up 맞춤 기업육성 지원!!</span></dd>
+              <dd><span class="subCapyTitle">성장단계별 맞춤형 기업육성 지원</span></dd>
               <%--<dt>“창업-혁신-성장으로 이어지는 혁신-제조창업 플랫폼!!”</dt>
               <dd>Level-Up 맞춤 기업육성 지원!!</dd>--%>
             </dl>

@@ -172,6 +172,9 @@ var reqCl = {
 
             $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
 
+            if(data.CHECK_PROFIT == "Y"){
+                $("#checkProfit").prop("checked", true);
+            }
 
 
             if($("input[name='purcType']:checked").val() != ""){
@@ -425,6 +428,12 @@ var reqCl = {
             vatAmt : uncomma($("#vatAmt").val()),
             totAmt : uncomma($("#totAmt").val()),
             itemSn : $("#itemSn").val(),
+        }
+
+        if($("#checkProfit").prop("checked")){
+            parameters.checkProfit = "Y";
+        } else {
+            parameters.checkProfit = "N";
         }
 
         if($("#claimSn").val() != ""){
