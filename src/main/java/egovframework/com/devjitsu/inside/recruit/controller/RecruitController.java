@@ -183,7 +183,19 @@ public class RecruitController {
     public String setRecruitInsert(@RequestParam Map<String, Object> params, Model model) {
         recruitService.setRecruitInsert(params);
 
-        Integer recruitInfoSn = (Integer) params.get("recruitInfoSn");
+        Object recruitInfoSnObj = params.get("recruitInfoSn");
+        Integer recruitInfoSn = null;
+
+        if (recruitInfoSnObj instanceof Integer) {
+            recruitInfoSn = (Integer) recruitInfoSnObj;
+        } else if (recruitInfoSnObj instanceof String) {
+            try {
+                recruitInfoSn = Integer.parseInt((String) recruitInfoSnObj);
+            } catch (NumberFormatException e) {
+                // 처리할 수 없는 문자열인 경우 예외처리
+            }
+        }
+
         System.out.println("******recruitInfoSn******* : " + recruitInfoSn);
         Map<String, Object> resultMap = new HashMap<>(params);
         resultMap.put("recruitInfoSn", recruitInfoSn);
@@ -285,112 +297,6 @@ public class RecruitController {
 
         String result = evalManageService.setEvalSelection(evalSelectionParams);
     }
-
-
-    /*
-    @RequestMapping("/inside/setRecruitInsert")
-    public String setRecruitInsert(@RequestParam Map<String, Object> params, Model model) {
-        recruitService.setRecruitInsert(params);
-
-        Integer recruitInfoSn = (Integer) params.get("recruitInfoSn");
-        System.out.println("******recruitInfoSn******* : "+recruitInfoSn);
-        Map<String, Object> resultMap = new HashMap<>(params);
-        resultMap.put("recruitInfoSn", recruitInfoSn);
-
-        List<Map<String, Object>> recruitAreaList = recruitService.getRecruitAreaList(resultMap);
-        System.out.println("******recruitAreaList******* : "+recruitAreaList);
-
-        Map<String, Object> newMap = new HashMap<>();
-        newMap.put("tempDivision", "N");
-        newMap.put("recruitInfoSn", recruitInfoSn);
-
-
-
-        for (Map<String, Object> area : recruitAreaList) {
-            String deptName = (String) area.get("DEPT_NAME");
-            Integer recruitAreaInfoSn = (Integer) area.get("RECRUIT_AREA_INFO_SN");
-            System.out.println("DEPT_NAME: " + deptName);
-            System.out.println("RECRUIT_AREA_INFO_SN: " + recruitAreaInfoSn);
-
-            newMap.put("deptName", deptName);
-            newMap.put("recruitAreaInfoSn", recruitAreaInfoSn);
-
-            System.out.println("******newMap******* : " + newMap);
-            List<Map<String, Object>> newListMap = recruitService.getCommissionerList(newMap);
-            List<Map<String, Object>> allMatchingDeptMaps = new ArrayList<>();
-
-            for (Map<String, Object> commissionerMap : newListMap) {
-                String commissionerDeptName = (String) commissionerMap.get("DEPT_NAME");
-                String commissionerDutyName = (String) commissionerMap.get("DUTY_NAME");
-                String commissionerPDeptName = (String) commissionerMap.get("PARENT_DEPT_SEQ");
-
-                if (deptName.equals(commissionerDeptName) &&
-                        ("팀장".equals(commissionerDutyName) || "본부장".equals(commissionerDutyName) || "센터장".equals(commissionerDutyName))) {
-                    allMatchingDeptMaps.add(commissionerMap);
-
-                    System.out.println("********allMatchingDeptMaps******* :"+allMatchingDeptMaps);
-
-                    for (Map<String, Object> matchingDeptMap : allMatchingDeptMaps) {
-                        Integer empSeq = (Integer) matchingDeptMap.get("EMP_SEQ");
-
-                        Map<String, Object> evalSelectionParams = new HashMap<>();
-                        evalSelectionParams.put("recruitInfoSn", recruitInfoSn);
-                        evalSelectionParams.put("recruitAreaInfoSn", recruitAreaInfoSn);
-                        evalSelectionParams.put("evalType", "doc");
-                        evalSelectionParams.put("empSeq", empSeq);
-                        evalSelectionParams.put("evalEmpSeq", empSeq);
-
-                        String result1 = evalManageService.setEvalSelection(evalSelectionParams);
-
-                        Map<String, Object> inEvalSelectionParams = new HashMap<>();
-                        inEvalSelectionParams.put("recruitInfoSn", recruitInfoSn);
-                        inEvalSelectionParams.put("recruitAreaInfoSn", recruitAreaInfoSn);
-                        inEvalSelectionParams.put("evalType", "in");
-                        inEvalSelectionParams.put("empSeq", empSeq);
-                        inEvalSelectionParams.put("evalEmpSeq", empSeq);
-
-                        String result2 = evalManageService.setEvalSelection(inEvalSelectionParams);
-
-
-
-
-                    }
-
-                }
-            }
-
-            Map<String, Object> evalSelectionParamsY = new HashMap<>();
-            evalSelectionParamsY.put("recruitInfoSn", recruitInfoSn);
-            evalSelectionParamsY.put("recruitAreaInfoSn", recruitAreaInfoSn);
-            evalSelectionParamsY.put("evalType", "doc");
-            evalSelectionParamsY.put("empSeq", "31");
-            evalSelectionParamsY.put("evalEmpSeq", "31");
-
-            String result3 = evalManageService.setEvalSelection(evalSelectionParamsY);
-
-            Map<String, Object> inEvalSelectionParamsY = new HashMap<>();
-            inEvalSelectionParamsY.put("recruitInfoSn", recruitInfoSn);
-            inEvalSelectionParamsY.put("recruitAreaInfoSn", recruitAreaInfoSn);
-            inEvalSelectionParamsY.put("evalType", "in");
-            inEvalSelectionParamsY.put("empSeq", "31");
-            inEvalSelectionParamsY.put("evalEmpSeq", "31");
-
-            String result4 = evalManageService.setEvalSelection(inEvalSelectionParamsY);
-
-        }
-
-
-
-
-
-
-
-        return "jsonView";
-    }
-     */
-
-
-
 
     /**
      * 채용공고관리 팝업

@@ -19,9 +19,9 @@ var certificateReqPop = {
         let regtrName = $("#regtrName").val();
         //부서명
         let regDeptName = $("#regDeptName").val();
-        //직급
+        //직책
         let regDutyName = $("#regDutyName").val();
-        //직위
+        //직급
         let regPositionName = $("#regPositionName").val();
         //제출처
         let submissionName = $("#submissionName").val();

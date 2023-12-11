@@ -82,6 +82,7 @@
     <script type="text/javascript">
         certifiPrintPop.init(JSON.parse('${params}'));
         opener.gridReload();
+
     </script>
 </body>
 </html>
