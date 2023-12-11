@@ -133,9 +133,9 @@ var eduInfoMng = {
                         if(row.STATUS == "0") {
                             return "계획";
                         }else if(row.STATUS == "10") {
-                            return "신청완료";
+                            return "학습신청서 승인요청중";
                         }else if(row.STATUS == "100" && row.RES_STATUS == "1") {
-                            return "교육완료";
+                            return "신청완료";
                         }else if(row.STATUS == "100" && row.RES_STATUS == "0") {
                             return "결과보고서 작성완료";
                         }else if(row.STATUS == "100" && row.RES_STATUS == "10") {

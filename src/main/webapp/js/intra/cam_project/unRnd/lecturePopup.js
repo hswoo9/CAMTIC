@@ -44,6 +44,23 @@ var lecturePop = {
         window.open(url, name, option);
     },
 
+    lecturePersonMngPop: function(personSn){
+        let url = "/projectUnRnd/lecturePersonMngPop.do";
+        if(personSn != null){
+            url += "?personSn="+personSn;
+        }
+        const name = "lecturePersonMngPop";
+        const option = "width = 1000, height = 589, top = 150, left = 410, location = no";
+        window.open(url, name, option);
+    },
+
+    personReqPop: function(pk){
+        let url = "/projectUnRnd/personReqPop.do?pk="+pk;
+        const name = "personReqPop";
+        const option = "width = 1000, height = 589, top = 150, left = 400, location = no";
+        window.open(url, name, option);
+    },
+
     lecturePayReqPop: function(pk){
         let url = "/projectUnRnd/lecturePayReqPop.do?pk="+pk;
 

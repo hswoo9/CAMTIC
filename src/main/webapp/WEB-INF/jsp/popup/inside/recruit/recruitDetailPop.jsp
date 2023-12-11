@@ -22,11 +22,14 @@
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
     <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="${params.recruitInfoSn}">
+    <input type="hidden" id="recruitStat" name="recruitStat" value="${params.recruitStat}">
     <div class="table-responsive">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">채용 등록</h3>
             <div class="btn-st popButton">
+            <c:if test="${params.recruitStat == 1}">
                 <button type="button" class="k-button k-button-solid-info" onclick="rcDetailPop.moveToModPage()">편집</button>
+            </c:if>
                 <button type="button" class="k-button k-button-solid-info" onclick="rcDetailPop.moveToLoginPage()">응시</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">취소</button>
             </div>
@@ -152,6 +155,7 @@
     </div>
 </div>
 <script>
+    console.log("${params}");
     rcDetailPop.fn_DefaultScript();
 </script>
 </body>
