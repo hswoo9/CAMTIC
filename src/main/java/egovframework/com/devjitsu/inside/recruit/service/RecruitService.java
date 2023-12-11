@@ -22,6 +22,7 @@ public interface RecruitService {
     void setEvalExcelUploadData(Map<String, Object> params) throws Exception;
     List<Map<String, Object>> getEvalHistoryList(Map<String, Object> params);
     void setRecruitInsert(Map<String, Object> params);
+    void setRecruitUpdate(Map<String, Object> params);
     void setRecruitDel(Map<String, Object> params);
     void setRecruitStatusUpd(Map<String, Object> params);
     List<Map<String, Object>> getApplicationList(Map<String, Object> params);

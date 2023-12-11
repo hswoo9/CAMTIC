@@ -270,6 +270,11 @@ public class RecruitServiceImpl implements RecruitService {
     }
 
     @Override
+    public void setRecruitUpdate(Map<String, Object> params){
+        recruitRepository.setRecruitUpdate(params);
+    }
+
+    @Override
     public void setRecruitDel(Map<String, Object> params) {
         recruitRepository.setRecruitDel(params);
     }
