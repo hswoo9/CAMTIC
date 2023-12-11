@@ -9,7 +9,8 @@ var budgetChangeInfo = {
 
     gridReload: function (){
         budgetChangeInfo.global.searchAjaxData = {
-            pjtSn : $("#pjtSn").val()
+            pjtSn : $("#pjtSn").val(),
+            order : "asc"
         }
 
         budgetChangeInfo.mainGrid("/projectRnd/getChangeList", budgetChangeInfo.global.searchAjaxData);

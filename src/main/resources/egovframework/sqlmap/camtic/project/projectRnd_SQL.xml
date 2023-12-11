@@ -561,7 +561,14 @@
             DJ_CAMTIC.A_DOC_INFO DI ON PC.DOC_ID = DI.DOC_ID
         WHERE
             PC.PJT_SN = #{pjtSn}
-        ORDER BY PJT_CH_SN DESC
+        <choose>
+            <when test='"asc".equals(order)'>
+                ORDER BY PJT_CH_SN ASC
+            </when>
+            <otherwise>
+                ORDER BY PJT_CH_SN DESC
+            </otherwise>
+        </choose>
     </select>
 
     <select id="getPartRateVerCount" parameterType="map" resultType="int">
@@ -892,12 +899,14 @@
         INSERT INTO CAM_PJT_MNG.DJ_PJT_CHANGE
             (
                 PJT_SN,
-                REG_EMP_SEQ
+                REG_EMP_SEQ,
+                TYPE
             )
         VALUES
             (
                 #{pjtSn},
-                #{empSeq}
+                #{empSeq},
+                #{num}
             )
     </insert>
 

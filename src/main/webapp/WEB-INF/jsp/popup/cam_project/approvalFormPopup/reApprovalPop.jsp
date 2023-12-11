@@ -21,10 +21,10 @@
         approvalParams.menuCd = "pjtRe";
         approvalParams.docType = "A";
 
-        approvalParams.linkageProcessId = "33";
+        approvalParams.linkageProcessId = "37";
         approvalParams.linkageType = "2";
-        approvalParams.linkageProcessCode = "camticPjtChange";
-        approvalParams.approKey = "camticPjtChange_${params.pjtSn}";
+        approvalParams.linkageProcessCode = "camticPjtRe";
+        approvalParams.approKey = "camticPjtRe_${params.pjtSn}";
 
         linkageProcessOn(approvalParams);
     }

@@ -925,7 +925,26 @@ public class ProjectRndController {
         String resultCode = "SUCCESS";
         String resultMessage = "성공하였습니다.";
         try{
-            projectRndService.updateChangeDocState(bodyMap);
+            projectRndService.updateChangeDocState(bodyMap, 1);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    /** 반납신청서 결재 상태값에 따른 UPDATE 메서드 */
+    @RequestMapping(value = "/projectRnd/reReqApp")
+    public String reReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            projectRndService.updateChangeDocState(bodyMap, 2);
         }catch(Exception e){
             logger.error(e.getMessage());
             resultCode = "FAIL";

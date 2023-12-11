@@ -486,7 +486,7 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     }
 
     @Override
-    public void updateChangeDocState(Map<String, Object> bodyMap) throws Exception {
+    public void updateChangeDocState(Map<String, Object> bodyMap, int num) throws Exception {
         bodyMap.put("docSts", bodyMap.get("approveStatCode"));
         String docSts = String.valueOf(bodyMap.get("docSts"));
         String approKey = String.valueOf(bodyMap.get("approKey"));
@@ -505,6 +505,7 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         params.put("docTitle", bodyMap.get("docTitle"));
         params.put("approveStatCode", docSts);
         params.put("empSeq", empSeq);
+        params.put("num", num);
 
         if("10".equals(docSts)) { // 상신
             projectRndRepository.insChangeInfo(params);
