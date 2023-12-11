@@ -99,6 +99,11 @@ public class CustomBoardServiceImpl implements CustomBoardService {
     }
 
     @Override
+    public List<Map<String, Object>> getTodayScheduleList(Map<String, Object> params) {
+        return customBoardRepository.getTodayScheduleList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getBoardFileInfo(Map<String, Object> params) {
         return customBoardRepository.getBoardFileInfo(params);
     }

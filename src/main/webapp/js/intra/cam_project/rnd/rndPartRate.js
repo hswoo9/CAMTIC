@@ -291,8 +291,8 @@ var rndPR = {
 
             for(var i = 0 ; i < mem.length ; i++){
                 customKendo.fn_textBox(["memChngSal" + i, "memItemRate" + i, "memPayTotal" + i, "memMon" + i, "memPayRate" + i, "memTotPayBudget" + i, "memTotItemBudget" + i, "memTotRate" + i, "memMonSal" + i]);
-                customKendo.fn_datePicker("memStrDt" + i, "depth", "yyyy-MM-dd", new Date(mng.PJT_STR_DT));
-                customKendo.fn_datePicker("memEndDt" + i, "depth", "yyyy-MM-dd", new Date(mng.PJT_END_DT));
+                customKendo.fn_datePicker("memStrDt" + i, "depth", "yyyy-MM-dd", new Date(mem[i].PJT_STR_DT));
+                customKendo.fn_datePicker("memEndDt" + i, "depth", "yyyy-MM-dd", new Date(mem[i].PJT_END_DT));
 
                 if(mem[i].CHNG_SAL != null){
                     $("#memChngSal" + i).val(comma(mem[i].CHNG_SAL));

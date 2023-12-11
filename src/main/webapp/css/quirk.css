@@ -9346,7 +9346,7 @@ blockquote {
   right: -2px;
   width: 10px;
   height: 10px;
-  background-color: #ff564e;
+  /*background-color: #ff564e;*/
   border-radius: 50px;
   opacity: .75;
 }

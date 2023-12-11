@@ -18,14 +18,17 @@
         <div class="__jvalley2 __mt50" style="padding: 0px 100px;">
           <div class="tit">
             <%--<h3 style="font-size: 40px;"><strong>비전 및 목표</strong></h3>--%>
-              <dt class="mainCapyTitle"><span class="__nm">“</span>J-valley<span class="__nm">”</span></dt>
+              <dt class="mainCapyTitle"><span class="__nm">“</span>제조창업 플랫폼 J-valley<span class="__nm">”</span></dt>
             <p>
-              <span class="subCapyTitle">첨단ㆍ디지털산업 기업 100개사, 고용 1,000명</span>
+              <span class="subCapyTitle">뿌리에서 첨단ㆍ디지털 산업 육성 공간으로 변화</span>
             </p>
+              <p style="margin-top: 5px;">
+                <span class="subCapyTitle">(기업 100개사, 고용 1,000명)</span>
+              </p>
           </div>
           <div class="area">
             <div class="box">
-              <div class="img"><img src="/images/camtic/img-jvalley2-1.jpg" alt=""></div>
+              <div class="img"><img src="/images/camtic/img-jvalley2-1.jpg" alt="" style="width: 324px; height: 223px; border-radius: 10px;"></div>
               <div class="info _row">
                 <h4>2000 ~ 과거</h4>
                 <dl>
@@ -39,7 +42,7 @@
               </div>
             </div>
             <div class="box">
-              <div class="img"><img src="/images/camtic/img-jvalley2-2.jpg" alt=""></div>
+              <div class="img"><img src="/images/camtic/img-jvalley1-1-2.jpg" alt="" style="width: 324px; height: 223px; border-radius: 10px;"></div>
               <div class="info _row">
                 <h4>2016 ~ 2022  현재</h4>
                 <dl>
@@ -54,7 +57,7 @@
               </div>
             </div>
             <div class="box">
-              <div class="img"><img src="/images/camtic/img-jvalley2-3.jpg" alt=""></div>
+              <div class="img"><img src="/images/camtic/img-jvalley1-1-3.jpg" alt="" style="width: 324px; height: 223px; border-radius: 10px;"></div>
               <div class="info _row">
                 <h4>~ 2025</h4>
                 <dl>
@@ -70,11 +73,70 @@
             </div>
           </div>
 
-
+          <div class="__jvalley4 __mt100">
+            <div class="__tit1 line mb0">
+              <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>비전 및 목표</strong></h3>
+            </div>
+            <%--<div class="area">
+              <img src="/images/camtic/img-jvalley-vison.png" alt="">
+            </div>--%>
+            <div class="__jvalley5" style="padding: 20px 0 55px;">
+            <div class="one">
+              <div class="box box1">
+                <div class="cir">
+                  <h4>추진전략</h4>
+                  <div class="txt">
+                    <ul>
+                      <li>우수창업자 발굴 및 육성</li>
+                      <li>초기기업 보육 및 지원</li>
+                      <li>제조양산 기반 지원</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="arr"><i></i></div>
+              <div class="box box2">
+                <div class="cir">
+                  <h4>추진목표</h4>
+                  <div class="txt">
+                    <dl>
+                      <dt>
+                        청년창업을 위한 플랫폼<br>
+                        (전주형 혁신창업허브)구축
+                      </dt>
+                      <dd>
+                        성장이 필요한 기업에 <br class="__m">Scale-UP<br class="__p">
+                        기술서비스 지원체계 구축
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+              <div class="arr"><i></i></div>
+              <div class="box box3">
+                <div class="cir">
+                  <h4>비전</h4>
+                  <div class="txt">
+                    <dl>
+                      <dt>
+                        창업 -&gt; 혁신 -&gt; 성장까지<br>
+                        단계적 맞춤 지원
+                      </dt>
+                      <dd style="color: yellow;">
+                        전주형 강소기업<br>
+                        육성의 산실
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
 
         <div class="__jvalley3 __mt100">
           <div class="__tit1 line __mb20">
-            <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>캠틱종합기술원 역할</strong></h3>
+            <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>단계적 맞춤지원 (청년ㆍ기술ㆍ디지털 창업플랫폼)</strong></h3>
           </div>
           <h4>청년ㆍ기술ㆍ디지털 <strong>창업 플랫폼</strong></h4>
           <h5><span>H/W</span></h5>
@@ -200,10 +262,10 @@
 
         <div class="__jvalley4 __mt100">
           <div class="__tit1 line mb0">
-            <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>제조창업 플랫폼</strong>(J-Valley) <strong>성장 로드맵</strong></h3>
+            <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>제조창업 플랫폼</strong>(J-Valley) <strong>로드맵</strong></h3>
           </div>
           <div class="area">
-            <img src="/images/camtic/img-jvalley4-1-1.png" alt="">
+            <img src="/images/camtic/img-jvalley4-1-1-1.png" alt="">
           </div>
         </div>
 
