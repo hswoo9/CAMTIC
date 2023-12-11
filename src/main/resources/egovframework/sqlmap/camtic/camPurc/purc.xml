@@ -177,7 +177,6 @@
             PURC_TYPE,
             PJT_SN,
             PJT_NM,
-            CHECK_PROFIT,
             STATUS,
             REG_EMP_SEQ
         )
@@ -190,7 +189,6 @@
             #{purcType},
             #{pjtSn},
             #{pjtNm},
-            #{checkProfit},
             #{status},
             #{empSeq}
         )
@@ -209,7 +207,6 @@
             PURC_REQ_DATE = #{purcReqDate},
             PURC_REQ_PURPOSE = #{purcReqPurpose},
             PURC_TYPE = #{purcType},
-            CHECK_PROFIT = #{checkProfit},
             MOD_EMP_SEQ = #{empSeq},
             STATUS = #{status},
             MOD_DATE = NOW()
@@ -626,6 +623,7 @@
                 VAT,
                 EST_AMT,
                 VAT_AMT,
+                CHECK_PROFIT,
                 TOT_AMT
             )
         VALUES
@@ -651,6 +649,7 @@
                 #{vat},
                 #{estAmt},
                 #{vatAmt},
+                #{checkProfit},
                 #{totAmt}
             )
         <selectKey keyProperty="claimSn" resultType="Integer" order="BEFORE">
@@ -683,6 +682,7 @@
             VAT = #{vat},
             EST_AMT = #{estAmt},
             VAT_AMT = #{vatAmt},
+            CHECK_PROFIT = #{checkProfit},
             TOT_AMT = #{totAmt}
         WHERE
             CLAIM_SN = #{claimSn}
