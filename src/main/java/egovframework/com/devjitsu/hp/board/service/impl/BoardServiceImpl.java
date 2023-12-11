@@ -331,4 +331,9 @@ public class BoardServiceImpl implements BoardService {
 
         return new PagingResponse<>(list, pagination);
     }
+
+    @Override
+    public List<Map<String, Object>> getArticleFileList(Map<String, Object> params) {
+        return boardRepository.getArticleFileList(params);
+    }
 }

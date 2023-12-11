@@ -479,6 +479,11 @@ public class ApprovalServiceImpl implements ApprovalService {
     }
 
     @Override
+    public List<Map<String, Object>> getOnnaraDocAttachmentList(Map<String, Object> params) {
+        return approvalRepository.getOnnaraDocAttachmentList(params);
+    }
+
+    @Override
     public void setApproveDraftFile(Map<String, Object> params, MultipartFile[] mpfList, String serverDir, String baseDir) {
         //결재문서 관련 파일 저장
         MainLib mainLib = new MainLib();

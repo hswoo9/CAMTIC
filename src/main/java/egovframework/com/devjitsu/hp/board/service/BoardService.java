@@ -64,4 +64,7 @@ public interface BoardService {
 
     /** 캠틱 채용공고 게시판 리스트 */
     PagingResponse<PostResponse> getRecruitmentList(ArticlePage params);
+
+    /** 멀티 첨부파일 다운 리스트 조회*/
+    List<Map<String, Object>> getArticleFileList(Map<String, Object> params);
 }
