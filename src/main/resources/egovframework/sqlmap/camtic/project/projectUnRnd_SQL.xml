@@ -322,8 +322,8 @@
         </foreach>
     </insert>
 
-    <insert id="getPersonData" parameterType="map">
-        /*getPersonData*/
+    <insert id="insPersonData" parameterType="map">
+        /*insPersonData*/
         INSERT INTO CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON
             (
                 ID,
@@ -357,8 +357,8 @@
         </selectKey>
     </insert>
 
-    <update id="UpdLecturePersonData" parameterType="map">
-        /*UpdLecturePersonData*/
+    <update id="updPersonData" parameterType="map">
+        /*updPersonData*/
         UPDATE
             CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON
         SET

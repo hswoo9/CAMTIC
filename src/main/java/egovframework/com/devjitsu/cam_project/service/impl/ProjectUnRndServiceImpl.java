@@ -215,9 +215,9 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     @Override
     public void setLecturePersonData(Map<String, Object> params) {
         if(!params.containsKey("personSn")){
-            projectUnRndRepository.insLecturePersonData(params);
+            projectUnRndRepository.insPersonData(params);
         }else{
-            projectUnRndRepository.UpdLecturePersonData(params);
+            projectUnRndRepository.updPersonData(params);
         }
     }
     @Override
