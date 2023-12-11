@@ -24,6 +24,7 @@ var partRate = {
 
         if(rs != null){
             $("#budget").text(comma(Number(rs.PAY_BUDGET) + Number(rs.ITEM_BUDGET)) + "원");
+            $("#budgetAmt").val(Number(rs.PAY_BUDGET) + Number(rs.ITEM_BUDGET));
         }
 
 
@@ -140,7 +141,6 @@ var partRate = {
             var memHtml = '';
             var item = 0;
 
-            console.log(mem);
             for(var i = 0 ; i < mem.length ; i++){
                 var e = mem[i];
                 var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
@@ -345,7 +345,11 @@ var partRate = {
 
         $("#memMon" + i).val(partRate.fn_monDiff($("#memStrDt" + i).val(), $("#memEndDt" + i).val()));                                  // 참여개월 계산
 
-        $("#memMonSal" + i).val(comma(Math.floor((Number(uncomma($("#memPayTotal" + i).val())) / ($("#memMon" + i).val()))/10) * 10));         // 월 인건비 계산 (인건비 총액 / 참여개월)
+        var memMonSal = Math.floor((Number(uncomma($("#memPayTotal" + i).val())) / ($("#memMon" + i).val()))/10) * 10;
+        if(isNaN(memMonSal)){
+            memMonSal = 0;
+        }
+        $("#memMonSal" + i).val(comma(memMonSal));         // 월 인건비 계산 (인건비 총액 / 참여개월)
 
         var memTotRate = Math.ceil(Number(uncomma($("#memPayTotal" + i).val())) / (Number(uncomma($("#memChngSal" + i).val())) * $("#memMon" + i).val()) * 100 * 10) / 10;
         if(!isNaN(memTotRate)){
@@ -415,11 +419,15 @@ var partRate = {
 
 
         // return Math.round((diffDays / 30).toFixed(2) * 10) / 10;
-        return pDateMonth;
+        return Math.round(pDateMonth * 100) / 100;
     },
 
     fn_save: function(){
 
+        if(Number(uncomma($("#allPayTotal").val())) > $("#budgetAmt").val()){
+            alert("인건비 총액이 인건비 예산보다 큽니다.");
+            return;
+        }
 
 
         var parameterList = new Array();
@@ -469,6 +477,12 @@ var partRate = {
     },
 
     fn_confirm: function(){
+        if(Number(uncomma($("#allPayTotal").val())) > $("#budgetAmt").val()){
+            alert("인건비 총액이 인건비 예산보다 큽니다.");
+            return;
+        }
+
+
         var parameters = {
             pjtSn : $("#pjtSn").val(),
             partRateVerSn : $("#partRateVerSn").val()

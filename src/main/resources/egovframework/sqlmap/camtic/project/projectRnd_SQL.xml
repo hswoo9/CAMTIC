@@ -520,11 +520,15 @@
     <select id="getReqPartRateVerList" parameterType="map" resultType="map">
         /*getReqPartRateVerList*/
         SELECT
-            A.*
+            B.*,
+            A.STAT,
+            A.PAY_BUDGET AS RT_PAY_BUDGET,
+            A.ITEM_BUDGET AS RT_ITEM_BUDGET,
+            A.MNG_STAT AS RT_MNG_STAT
         FROM
-            CAM_PJT_MNG.DJ_PJT_PART_RATE_VER A
+            CAM_PJT_MNG.DJ_PJT_PART_RATE A
         LEFT JOIN
-            CAM_PJT_MNG.DJ_PJT_PART_RATE B
+            CAM_PJT_MNG.DJ_PJT_PART_RATE_VER B
         ON
             A.PART_RATE_SN = B.PART_RATE_SN
         WHERE

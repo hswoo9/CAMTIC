@@ -45,7 +45,6 @@ var rndRPR = {
             var userResult = customKendo.fn_customAjax("/projectRnd/getRschInfo", data);
             var userSn = "";
             var userName = "";
-            console.log(userResult.list);
 
             /** 참여 연구원에 넣을 문자열 데이터 */
             for(let i=0; i<userResult.list.length; i++){
@@ -156,7 +155,9 @@ var rndRPR = {
             enctype : 'multipart/form-data',
             async: false,
             success: function(rs){
-                alert("저장되었습니다.");
+                if(type != "change"){
+                    alert("저장되었습니다.");
+                }
                 commonProject.getReloadPage(2, 2, 2, 2, 2, 2);
             }
         });
@@ -198,13 +199,21 @@ var rndRPR = {
         if(ls != null){
             var html = '';
             for(var i = 0; i < ls.length; i++){
-                console.log(ls);
                 $("#partRateVersion").html("");
                 $("#partRateVersion2").html("");
                 var mngStat = "";
-                if(ls[i].MNG_STAT == "S"){
+
+                console.log(ls[i]);
+                var mngStatValue = "";
+                if(ls[i].MNG_STAT == null || ls[i].MNG_STAT == undefined){
+                    mngStatValue = ls[i].RT_MNG_STAT;
+                } else {
+                    mngStatValue = ls[i].MNG_STAT;
+                }
+
+                if(mngStatValue == "S"){
                     mngStat = "설정완료";
-                } else if (ls[i].MNG_STAT == "C"){
+                } else if (mngStatValue == "C"){
                     mngStat = "참여율확정";
                 } else {
                     mngStat = "검토중"
@@ -212,6 +221,8 @@ var rndRPR = {
                 var gubun = "신규";
                 if(ls[i].PART_RATE_VER > 1){
                     gubun = "변경요청";
+                } else if(i > 0){
+                    gubun = ""
                 }
 
                 var repDate = "";
@@ -230,20 +241,43 @@ var rndRPR = {
                 }
 
 
+                var reqDate = "";
+
+                if(ls[i].REQ_DATE != null && ls[i].REQ_DATE != undefined && ls[i].REQ_DATE != ""){
+                    reqDate = new Date(ls[i].REQ_DATE).toISOString().replace('T', ' ').slice(0, -5);
+                }
+
+                var reqEmpNm = "";
+                if(ls[i].REQ_EMP_NM != null && ls[i].REQ_EMP_NM != undefined && ls[i].REQ_EMP_NM != ""){
+                    reqEmpNm = ls[i].REQ_EMP_NM;
+                }
+
+                var payBudget = ls[i].PAY_BUDGET;
+                var itemBudget = ls[i].ITEM_BUDGET;
+
+                if(payBudget == null || payBudget == undefined){
+                    payBudget = ls[i].RT_PAY_BUDGET;
+                }
+
+                if(itemBudget == null || itemBudget == undefined){
+                    itemBudget = ls[i].RT_ITEM_BUDGET;
+                }
+
                 html += '<tr style="text-align: center">';
                 html += '   <td>'+gubun+'</td>';
                 html += '   <td>';
-                html += '       <span style="cursor : pointer;font-weight: bold" onclick="rndRPR.versionClickEvt(' + ls[i].PART_RATE_VER_SN + ', \''+ls[i].MNG_STAT+'\')">ver.' + (i+1) + '</span>';
+                html += '       <span style="cursor : pointer;font-weight: bold" onclick="rndRPR.versionClickEvt(' + ls[i].PART_RATE_VER_SN + ', \''+mngStatValue+'\')">ver.' + (i+1) + '</span>';
                 html += '   </td>';
-                html += '   <td>'+ ls[i].REQ_EMP_NM +'</td>';
-                html += '   <td style="text-align: right">' + comma(Number(ls[i].PAY_BUDGET) + Number(ls[i].ITEM_BUDGET)) + '</td>';
-                html += '   <td>'+ new Date(ls[i].REQ_DATE).toISOString().replace('T', ' ').slice(0, -5) +'</td>';
+                html += '   <td>'+ reqEmpNm +'</td>';
+                html += '   <td style="text-align: right">' + comma(Number(payBudget) + Number(itemBudget)) + '</td>';
+                html += '   <td>'+ reqDate +'</td>';
                 html += '   <td>'+ repDate +'</td>';
                 html += '   <td>'+ confDate +'</td>';
                 html += '   <td>'+mngComm+'</td>';
                 html += '   <td>'+mngStat+'</td>';
                 html += '</tr>';
             }
+
             $("#partRateVersion").append(html);
             $("#partRateVersion2").append(html);
         }
@@ -259,6 +293,10 @@ var rndRPR = {
         } else {
             $("#confBtn").prop("disabled", true);
             $("#regBtn").prop("disabled", true);
+        }
+
+        if(key == null || key == undefined){
+            $("#partRateMember").html("");
         }
 
         if($("#partRateMenuGubun").val() != undefined && $("#partRateMenuGubun").val() != null){
