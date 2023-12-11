@@ -70,6 +70,20 @@ var devInfo = {
 
         $("#devDelvAmt").val(comma($("#devDelvAmt").val()));
 
+        if(commonProject.global.teamStat == "Y"){
+            $("#realAmt").val($("#devDelvAmt").val());
+        }else{
+            if(commonProject.global.teamYn == "N"){
+                $("#realAmt").val($("#devDelvAmt").val());
+            }else{
+                const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: $("#pjtSn").val()});
+                const team = teamResult.map;
+                $("#realAmt").val(
+                    comma(Number(uncomma($("#devDelvAmt").val())) - Number(team.TM_AMT))
+                );
+            }
+        }
+
         $("#prepList").kendoDropDownList({
             dataSource : [
                 {text : "선택", value : ""},
@@ -89,7 +103,7 @@ var devInfo = {
         customKendo.fn_datePicker("psEndDe", "depth", "yyyy-MM-dd", new Date());
 
         customKendo.fn_textBox(["invNm", "invCnt", "invUnit", "estTotAmt", "estOfc", "invEtc", "devPjtNm",
-                                "devCrmInfo", "pm", "estDe", "devDelvAmt", "invAmt", "invPer"]);
+                                "devCrmInfo", "pm", "estDe", "devDelvAmt", "invAmt", "realAmt"]);
         $("#divNm").kendoDropDownList({
             dataSource : [
                 {text : "구매", value : "1"},
@@ -381,10 +395,10 @@ var devInfo = {
 
                     $("#invAmt").val(comma(totAmt));
 
-                    var invPer = 0;
+                    /*var invPer = 0;*/
 
 
-                    $("#invPer").val(Math.round(Number( totAmt / uncomma($("#devDelvAmt").val()) * 100)));
+                    /*$("#invPer").val(Math.round(Number( totAmt / uncomma($("#devDelvAmt").val()) * 100)));*/
                     devInfo.global.invCk = "Y";
                 } else {
                     var html = "";
@@ -794,7 +808,7 @@ var devInfo = {
                 if(rs.code == 200){
                     $("#invSn" + idx).val(rs.rep.INV_SN);
                     $("#invAmt").val(comma(totAmt));
-                    $("#invPer").val(Math.round(totAmt / uncomma($("#devDelvAmt").val()) * 100));
+                    /*$("#invPer").val(Math.round(totAmt / uncomma($("#devDelvAmt").val()) * 100));*/
                 }
 
 
@@ -816,7 +830,7 @@ var devInfo = {
 
         var data= {
             invAmt : uncomma($("#invAmt").val()),
-            invPer : $("#invPer").val(),
+            /*invPer : $("#invPer").val(),*/
             depObj : $("#depObj").val(),
             etc : $("#devEtc").val(),
             pjtSn : $("#pjtSn").val(),
@@ -832,7 +846,7 @@ var devInfo = {
 
         var fd = new FormData();
         fd.append("invAmt", data.invAmt);
-        fd.append("invPer", data.invPer);
+        /*fd.append("invPer", data.invPer);*/
         fd.append("depObj", data.depObj);
         fd.append("etc", data.etc);
         fd.append("pjtSn", data.pjtSn);
@@ -911,7 +925,7 @@ var devInfo = {
                         $("#invTable > tr").each(function(e){
                             idx++;
                             totAmt += Number(uncomma($("#estTotAmt" + idx).val()));
-                            $("#invPer").val(Math.round(totAmt / uncomma($("#devDelvAmt").val()) * 100));
+                            /*$("#invPer").val(Math.round(totAmt / uncomma($("#devDelvAmt").val()) * 100));*/
                         });
 
                         if(rs.code = 200){
@@ -1000,7 +1014,7 @@ var devInfo = {
 
                     if(rs.code = 200){
                         $("#invAmt").val(comma(totAmt));
-                        $("#invPer").val(Math.round(totAmt / uncomma($("#devDelvAmt").val()) * 100));
+                        /*$("#invPer").val(Math.round(totAmt / uncomma($("#devDelvAmt").val()) * 100));*/
                     }
 
                 }
