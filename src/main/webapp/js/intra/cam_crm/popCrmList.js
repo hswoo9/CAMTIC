@@ -195,6 +195,21 @@ var popCrmList = {
 
 
         window.close();
+    },
+
+    fn_crmRegPopup : function (key){
+        var url = "/crm/pop/regCrmPop.do";
+        if(key != null && key != ""){
+            url = "/crm/pop/regCrmPop.do?crmSn=" + key;
+        }
+        var name = "_blank";
+        var option = "width = 1300, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
     }
 
+
+}
+
+function gridReload(){
+    popCrmList.popGridReload();
 }

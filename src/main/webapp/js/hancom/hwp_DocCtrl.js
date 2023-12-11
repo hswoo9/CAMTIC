@@ -281,7 +281,7 @@ var hwpDocCtrl = {
                     hwpDocCtrl.putFieldText('proofName', proofName);
 
                     //호수
-                    const number = "제"+ResultData.DOCU_YEAR_DE+"-"+ResultData.NUMBER+"호"
+                    const number = "제"+ResultData.DOCU_YEAR_DE+"-"+ResultData.USER_PROOF_SN+"호"
                     hwpDocCtrl.global.HwpCtrl.MoveToField('number', true, true, false);
                     hwpDocCtrl.putFieldText('number', number);
 
@@ -301,18 +301,14 @@ var hwpDocCtrl = {
 
                     //소속
                     hwpDocCtrl.global.HwpCtrl.MoveToField('deptName', true, true, false);
-                    hwpDocCtrl.putFieldText('deptName', ResultData.DEPT_NAME+" "+ResultData.DEPT_TEAM_NAME);
+                    hwpDocCtrl.putFieldText('deptName', ResultData.DEPT_FULL_NAME);
 
                     //직위
                     hwpDocCtrl.global.HwpCtrl.MoveToField('positionName', true, true, false);
                     hwpDocCtrl.putFieldText('positionName', ResultData.POSITION_NAME);
 
                     // 직무
-                    if (ResultData.JOB_TITLE === null || ResultData.JOB_TITLE === '') {
-                        hwpDocCtrl.putFieldText('jobTitle', ResultData.JOB_DETAIL);
-                    } else {
-                        hwpDocCtrl.putFieldText('jobTitle', ResultData.JOB_TITLE);
-                    }
+                    hwpDocCtrl.putFieldText('jobTitle', ResultData.JOB_DETAIL);
 
                     //근무기간
                     let joinDay = ResultData.JOIN_DAY.split("-");

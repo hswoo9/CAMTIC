@@ -429,7 +429,6 @@
         (
             PJT_SN,
             INV_AMT,
-            INV_PER,
             DEP_OBJ,
             ETC,
             REG_EMP_SEQ
@@ -437,7 +436,6 @@
             (
                 #{pjtSn},
                 #{invAmt},
-                #{invPer},
                 #{depObj},
                 #{etc},
                 #{regEmpSeq}
@@ -1329,7 +1327,6 @@
         (
         PJT_SN,
         INV_AMT,
-        INV_PER,
         DEP_OBJ,
         ETC,
         REG_EMP_SEQ
@@ -1338,7 +1335,6 @@
         (
         #{pjtSn},
         #{invAmt},
-        #{invPer},
         #{depObj},
         #{etc},
         #{regEmpSeq}
@@ -1353,7 +1349,6 @@
         UPDATE CAM_PJT_MNG.DJ_PJT_DEV
         SET
             INV_AMT = #{invAmt},
-            INV_PER = #{invPer},
             DEP_OBJ = #{depObj},
             ETC = #{etc},
             MOD_EMP_SEQ = #{regEmpSeq}

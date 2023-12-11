@@ -30,7 +30,7 @@
     <div class="table-responsive">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;">수강자 등록</span></h3>
-            <button type="button" id="saveBtn" style="float: right; top:5px" class="k-button k-button-solid-base" onclick="lecturePersonMng.fn_save()">저장</button>
+            <button type="button" id="saveBtn" style="float: right; top:5px" class="k-button k-button-solid-info" onclick="lecturePersonMng.fn_save()">저장</button>
         </div>
 
         <div class="col-md-12 col-sm-12" style="padding: 20px 30px;">
@@ -43,13 +43,13 @@
                 </colgroup>
                 <thead>
                 <tr>
-                    <th>아이디</th>
-                    <td><input id="id" style="width: 150px"></td>
-                    <th>비밀번호</th>
+                    <th><span class="red-star">*</span>아이디</th>
+                    <td><input id="id" style="width: 150px; margin-right: 5px"><button type="button"  class="k-button k-button-solid-base" disabled onclick=""><span>중복체크</span></button></td>
+                    <th><span class="red-star">*</span>비밀번호</th>
                     <td><input type="password" id="pwd" style="width: 150px"></td>
                 </tr>
                 <tr>
-                    <th>이름</th>
+                    <th><span class="red-star">*</span>이름</th>
                     <td><input id="name" style="width: 150px"></td>
                     <th>생년월일/성별</th>
                     <td style="display: flex">

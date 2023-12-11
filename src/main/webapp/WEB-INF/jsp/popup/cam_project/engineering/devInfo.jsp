@@ -108,11 +108,11 @@
                 <td>
                     <input type="text" id="invAmt" style="width: 90%; text-align: right" value="" disabled> 원
                 </td>
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>투자비율
+                <th scope="row" class="text-center th-color" id="realText">
+                    수주부서 잔액
                 </th>
                 <td>
-                    <input type="text" id="invPer" style="width: 90%; text-align: right" disabled> %
+                    <input type="text" id="realAmt" style="width: 90%; text-align: right" disabled> 원
                 </td>
             </tr>
             </thead>

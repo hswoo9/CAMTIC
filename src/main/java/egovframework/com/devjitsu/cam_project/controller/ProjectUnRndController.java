@@ -290,6 +290,13 @@ public class ProjectUnRndController {
         model.addAttribute("list", list);
         return "jsonView";
     }
+    /** 단위사업 개인회원 단일 DATA */
+    @RequestMapping("/projectUnRnd/getPersonData")
+    public String getPersonData(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = projectUnRndService.getPersonData(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
     /** 단위사업 선택강사 리스트 */
     @RequestMapping("/projectUnRnd/getLectureTeacherReqList")
     public String getLectureTeacherReqList(@RequestParam Map<String, Object> params, Model model){
@@ -350,6 +357,18 @@ public class ProjectUnRndController {
     public String insLecturePersonInfo(@RequestParam Map<String, Object> params, Model model){
         try{
             projectUnRndService.insLecturePersonInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    /** 단위사업 신규수강자 등록 */
+    @RequestMapping("/projectUnRnd/setLecturePersonData")
+    public String setLecturePersonData(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectUnRndService.setLecturePersonData(params);
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();

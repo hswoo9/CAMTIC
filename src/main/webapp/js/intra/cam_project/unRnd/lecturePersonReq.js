@@ -19,6 +19,7 @@ const lecturePersonReq = {
                 },
                 parameterMap: function(data){
                     data.notIn = $("#pk").val();
+                    data.sEmpName = $("#sEmpName").val();
                     return data;
                 }
             },
@@ -48,7 +49,15 @@ const lecturePersonReq = {
                 {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="unRndLectList.gridReload()">' +
+                        return '<div style="margin-left: 100px;">' +
+                            '<span style="position: relative; top: 5px; right: 5px">성명</span>'+
+                            '<input type="text" id="sEmpName" style="width: 180px;" class="k-input" onkeypress="if(window.event.keyCode==13){gridReload();}">'+
+                        '</div>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -65,6 +74,10 @@ const lecturePersonReq = {
                     const teacherSn = dataItem.PERSON_SN;
                     $("#person"+teacherSn).trigger("click");
                 });
+
+                grid.tbody.find("input").click(function(){
+                    $($(this)).trigger("click");
+                });
             },
             columns: [
                 {
@@ -80,7 +93,7 @@ const lecturePersonReq = {
                     title: "이름",
                     width: "10%"
                 }, {
-                    field: "BELONG",
+                    field: "CO_NAME",
                     title: "소속",
                     width: "40%"
                 }, {
@@ -91,6 +104,14 @@ const lecturePersonReq = {
                     field: "PLACE",
                     title: "직위",
                     width: "10%"
+                }, {
+                    field: "PLACE",
+                    title: "직위",
+                    width: "10%",
+                    template: function(e){
+                        let buttonHtml = '<button type="button" id="saveBtn" class="k-button k-button-solid-primary" onclick="lecturePop.lecturePersonMngPop('+e.PERSON_SN+')">수정</button>';
+                        return buttonHtml;
+                    }
                 }
             ],
             dataBinding: function(){
@@ -130,4 +151,8 @@ const lecturePersonReq = {
             window.close();
         }
     }
+}
+
+function gridReload(){
+    lecturePersonReq.fn_mainGrid();
 }
