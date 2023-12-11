@@ -23,7 +23,7 @@ var rcReqStatPop = {
             {text: "채용완료", value: "4"}
         ]
         customKendo.fn_dropDownList("recruitStatus", recruitStatusArr, "text", "value", 2);
-        $("#recruitStatus").data("kendoDropDownList").select(1);
+        $("#recruitStatus").data("kendoDropDownList").select(2);
 
         $("#recruitDetail").kendoTextArea({ rows: 5, maxLength:200, placeholder: "" });
         $("#eligibilityEtc").kendoTextArea({ rows: 5, maxLength:200, placeholder: "" });
@@ -101,7 +101,7 @@ var rcReqStatPop = {
             async : false,
             success : function(result){
                 alert("채용공고가 수정되었습니다.");
-                //opener.gridReload();
+                opener.gridReload();
                 window.close();
             },
             error : function() {
@@ -115,6 +115,7 @@ var rcReqStatPop = {
         var result = customKendo.fn_customAjax("/inside/getRecruit.do", {recruitInfoSn : $("#recruitInfoSn").val()})
         if(result.flag){
             var recruit = result.recruit;
+            console.log("recruit",recruit);
             $("#recruitNum").val(recruit.RECRUIT_NUM);
             $("#recruitTitle").val(recruit.RECRUIT_TITLE);
             $("#recruitDetail").val(recruit.RECRUIT_DETAIL);
@@ -132,7 +133,7 @@ var rcReqStatPop = {
             $("#applicationDoc").val(recruit.APPLICATION_DOC);
             $("#receiptDocu").val(recruit.RECEIPT_DOCU);
             $("#remark").val(recruit.REMARK);
-            $("#recruitStatus").data("kendoDropDownList").value(recruit.STATUS);
+            $("#recruitStatus").data("kendoDropDownList").value(recruit.RECRUIT_STATUS_SN);
         }
     },
 
