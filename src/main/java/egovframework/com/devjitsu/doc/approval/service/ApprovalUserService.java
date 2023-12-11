@@ -76,4 +76,11 @@ public interface ApprovalUserService {
     Map<String, Object> getAbsentDuplicate(Map<String, Object> params);
 
     List<Map<String, Object>> getApprovalDocSearchList(Map<String, Object> params);
+
+    /**
+     * 메인페이지 사용자 상신문서 (결재상태 상신,재상신 데이터만)
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> getMainUserDocStorageBoxList(Map<String, Object> params);
 }
