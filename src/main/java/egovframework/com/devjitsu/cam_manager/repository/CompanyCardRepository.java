@@ -17,4 +17,16 @@ public class CompanyCardRepository extends AbstractDAO {
     public Map<String, Object> useCardDetailInfo(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("card.useCardDetailInfo", params);
     }
+
+    public List<Map<String, Object>> getCardTOData(Map<String, Object> params) {
+        return selectList("card.getCardTOData", params);
+    }
+
+    public void saveRegCardTo(Map<String, Object> params) {
+        insert("card.saveRegCardTo", params);
+    }
+
+    public void delCardTo(Map<String, Object> params) {
+        update("card.delCardTo", params);
+    }
 }

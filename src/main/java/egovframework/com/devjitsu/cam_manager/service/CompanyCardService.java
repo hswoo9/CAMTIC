@@ -9,4 +9,10 @@ public interface CompanyCardService {
     List<Map<String, Object>> cardUseList(Map<String, Object> params);
 
     Map<String, Object> useCardDetailInfo(Map<String, Object> params);
+
+    List<Map<String, Object>> getCardTOData(Map<String, Object> params);
+
+    void saveRegCardTo(Map<String, Object> params);
+
+    void delCardTo(Map<String, Object> params);
 }

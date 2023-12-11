@@ -1,5 +1,8 @@
 var partRate = {
 
+    global : {
+        flag : true
+    },
 
     fn_defaultScript : function (){
         $("#mngComment").kendoTextArea({
@@ -336,9 +339,10 @@ var partRate = {
             inputNumberFormat(e);
         }
 
-        if(Number(uncomma($("#memChngSal" + i).val())) > Number(bsSal)){
+        if(Number(uncomma($("#memChngSal" + i).val())) > Number(bsSal) && partRate.global.flag){
             alert("기준급여보다 클 수 없습니다.");
             $("#memChngSal" + i).val(comma(bsSal));
+            partRate.global.flag = false;
             return;
         }
 

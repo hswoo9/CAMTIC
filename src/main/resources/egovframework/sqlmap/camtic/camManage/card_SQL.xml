@@ -49,4 +49,48 @@
             BUY_STS = #{buySts}
     </select>
 
+    <select id="getCardTOData" parameterType="map" resultType="map">
+        /*getCardTOData*/
+        SELECT * FROM CAM_MNG.DJ_CARD_TO WHERE DEL_YN = 'N'
+    </select>
+
+    <insert id="saveRegCardTo" parameterType="map">
+        /*saveRegCardTo*/
+        INSERT INTO CAM_MNG.DJ_CARD_TO
+            (
+                TR_CD,
+                JIRO_NM,
+                BA_NB,
+                DEPOSITOR,
+                TR_NM,
+                CARD_BA_NB,
+                USE_EMP_SEQ,
+                USE_EMP_NAME,
+                CARD_TO_DE,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{trCd},
+                #{jiroNm},
+                #{baNb},
+                #{depositor},
+                #{trNm},
+                #{cardBaNb},
+                #{empSeq},
+                #{empName},
+                #{cardToDe},
+                #{regEmpSeq}
+            )
+    </insert>
+
+    <update id="delCardTo" parameterType="map">
+        /*delCardTo*/
+        UPDATE CAM_MNG.DJ_CARD_TO
+        SET
+            DEL_YN = 'Y'
+        WHERE
+            CARD_TO_SN = #{cardToSn}
+    </update>
+
 </mapper>
