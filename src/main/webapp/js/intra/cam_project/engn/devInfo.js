@@ -71,6 +71,7 @@ var devInfo = {
         $("#devDelvAmt").val(comma($("#devDelvAmt").val()));
 
         if(commonProject.global.teamStat == "Y"){
+            $("#realText").text("협업부서 잔액");
             $("#realAmt").val($("#devDelvAmt").val());
         }else{
             if(commonProject.global.teamYn == "N"){
