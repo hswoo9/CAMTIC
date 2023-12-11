@@ -27,7 +27,7 @@
 						<div class="__icoBox1">
 							<%-- <div class="ico"><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div> --%>
 							<div class="__fz18 __black">
-								<div class="img"><img src="/images/camtic/img-ndrone3-1.jpg" alt=""></div>
+								<div class="img"><img src="/images/camtic/img-ndrone3-1-1.png" alt="" style="border-radius: 10px;"></div>
 								<div class="foot __fz18 __black" style= "margin-top:30px">
 									우수한 기술력을 보유한 드론 관련기업, 연구소 및 지원기관 입주를 통한 드론산업 클러스터 환경 마련
 									<br class="__p">

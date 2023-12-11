@@ -203,7 +203,7 @@
             <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>제조창업 플랫폼</strong>(J-Valley) <strong>성장 로드맵</strong></h3>
           </div>
           <div class="area">
-            <img src="/images/camtic/img-jvalley4-1.jpg" alt="">
+            <img src="/images/camtic/img-jvalley4-1-1.png" alt="">
           </div>
         </div>
 
