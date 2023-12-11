@@ -200,8 +200,8 @@
         ORDER BY NAME
     </select>
 
-    <select id="getPersonList" parameterType="map" resultType="map">
-        /*getPersonList*/
+    <select id="getPersonData" parameterType="map" resultType="map">
+        /*getPersonData*/
         SELECT
             *
         FROM
