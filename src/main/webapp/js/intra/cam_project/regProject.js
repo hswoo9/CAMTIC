@@ -394,7 +394,8 @@ var regPrj = {
             busnNm : $("#busnClass").data("kendoDropDownList").text(),
             pjtStep : $("#pjtStep").val(),
             pjtStepNm : $("#pjtStepNm").val(),
-            contDt : $("#consultDt").val()
+            contDt : $("#consultDt").val(),
+            regEmpSeq : $("#regEmpSeq").val()
         }
 
         if(data.busnNm == "D"){

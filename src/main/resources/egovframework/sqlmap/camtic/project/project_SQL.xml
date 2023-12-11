@@ -151,27 +151,29 @@
         /* insProject >> 프로젝트 엔지니어링 최초 등록 */
         INSERT INTO CAM_PJT_MNG.DJ_PROJECT
         (
-        PJT_NM,
-        EMP_SEQ,
-        EMP_NAME,
-        DEPT_SEQ,
-        DEPT_NAME,
-        BUSN_CLASS,
-        BUSN_NM,
-        PJT_STEP,
-        PJT_STEP_NM,
-        CONSULT_DT
+            PJT_NM,
+            EMP_SEQ,
+            EMP_NAME,
+            DEPT_SEQ,
+            DEPT_NAME,
+            BUSN_CLASS,
+            BUSN_NM,
+            PJT_STEP,
+            PJT_STEP_NM,
+            CONSULT_DT,
+            REG_EMP_SEQ
         ) VALUES (
-        #{pjtNm},
-        #{empSeq},
-        #{empName},
-        #{deptSeq},
-        #{deptName},
-        #{busnClass},
-        #{busnNm},
-        #{pjtStep},
-        #{pjtStepNm},
-        #{contDt}
+            #{pjtNm},
+            #{empSeq},
+            #{empName},
+            #{deptSeq},
+            #{deptName},
+            #{busnClass},
+            #{busnNm},
+            #{pjtStep},
+            #{pjtStepNm},
+            #{contDt},
+            #{regEmpSeq}
         )
         <selectKey keyProperty="PJT_SN" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PROJECT'
@@ -1107,6 +1109,15 @@
         <![CDATA[
             PJT_STEP < #{step}
         ]]>
+    </update>
+
+    <update id="updProjectGoods" parameterType="map">
+        /* updProjectGoods */
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            GOODS_DT = #{delvDe}
+        WHERE
+            PJT_SN = #{pjtSn}
     </update>
 
     <update id="updEngn" parameterType="map">

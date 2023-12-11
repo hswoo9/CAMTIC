@@ -873,6 +873,7 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.delEstSub(params);
 
         projectRepository.updProject(params);
+        projectRepository.updProjectGoods(params);
 //        projectRepository.updEngn(params);
 
         return params;
