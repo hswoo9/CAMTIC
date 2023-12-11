@@ -101,7 +101,6 @@ var rcReqStatPop = {
             async : false,
             success : function(result){
                 alert("채용공고가 수정되었습니다.");
-                opener.gridReload();
                 window.close();
             },
             error : function() {
