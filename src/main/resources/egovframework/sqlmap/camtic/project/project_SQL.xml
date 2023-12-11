@@ -2436,7 +2436,7 @@
             CAM_PJT_MNG.DJ_PART_RATE_DET D
         ON
             A.PART_RATE_VER_SN = D.PART_RATE_VER_SN AND D.PART_EMP_SEQ = #{MEMBER_SEQ} AND D.PJT_SN = #{PJT_SN}
-        WHERE A.PJT_SN = #{PJT_SN}
+        WHERE A.PJT_SN = #{PJT_SN} AND A.PART_RATE_VER = #{PART_RATE_VER}
         ]]>
     </select>
 
@@ -2474,7 +2474,7 @@
             CAM_PJT_MNG.DJ_PROJECT C
         ON
             A.PJT_SN = C.PJT_SN
-        WHERE A.PJT_SN = #{PJT_SN}
+        WHERE A.PJT_SN = #{PJT_SN} AND A.PART_RATE_VER = #{PART_RATE_VER}
         ]]>
     </select>
 
