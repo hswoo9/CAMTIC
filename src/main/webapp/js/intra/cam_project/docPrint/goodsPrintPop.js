@@ -68,7 +68,7 @@ const goodsPrint = {
         console.log(estList);
 
         /** 1. 납품 표 */
-        goodsPrint.global.hwpCtrl.PutFieldText("END_EXP_DT", pjtMap.END_EXP_DT_FORMAT);
+        goodsPrint.global.hwpCtrl.PutFieldText("END_EXP_DT", pjtMap.GOODS_DT);
         goodsPrint.global.hwpCtrl.PutFieldText("PJT_CD", pjtMap.PJT_CD);
         goodsPrint.global.hwpCtrl.PutFieldText("CRM_NM", pjtMap.CRM_NM);
 

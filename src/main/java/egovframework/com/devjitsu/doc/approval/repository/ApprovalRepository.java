@@ -33,6 +33,7 @@ public class ApprovalRepository extends AbstractDAO {
     public Map<String, Object> getDocInfo(Map<String, Object> params){ return (Map<String, Object>) selectOne("approval.getDocInfo", params);}
     public int getApproveRouteId(Map<String, Object> params){ return (int)selectOne("approval.getApproveRouteId", params);}
     public List<Map<String, Object>> getDocAttachmentList(Map<String, Object> params) { return selectList("approval.getDocAttachmentList", params);}
+    public List<Map<String, Object>> getOnnaraDocAttachmentList(Map<String, Object> params) { return selectList("approval.getOnnaraDocAttachmentList", params);}
     public List<Map<String, Object>> getDocApproveAllRoute(Map<String, Object> params){ return selectList("approval.getDocApproveAllRoute", params);}
     public List<Map<String, Object>> getDocReceiverAll(Map<String, Object> params){ return selectList("approval.getDocReceiverAll", params);}
     public List<Map<String, Object>> getDocReferencesAll(Map<String, Object> params){ return selectList("approval.getDocReferencesAll", params);}

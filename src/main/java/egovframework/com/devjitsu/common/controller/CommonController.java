@@ -1,14 +1,18 @@
 package egovframework.com.devjitsu.common.controller;
 
+import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.doc.approval.service.ApprovalService;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
+import egovframework.com.devjitsu.hp.board.service.BoardService;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,8 +21,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.*;
+import java.net.URLEncoder;
+import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Controller
 public class CommonController {
@@ -26,6 +33,9 @@ public class CommonController {
 
     @Autowired
     private CommonService commonService;
+
+    @Autowired
+    private BoardService boardService;
 
     @Autowired
     private ApprovalService approvalService;
@@ -162,5 +172,85 @@ public class CommonController {
         }
 
         return "jsonView";
+    }
+
+    @RequestMapping(value = "/common/multiFileDownload.do")
+    public void multiFileDownload(@RequestParam Map<String, Object> params, HttpServletResponse response, Model model, HttpServletRequest request) throws UnsupportedEncodingException {
+        MainLib mainLib = new MainLib();
+        List<Map<String, Object>> result = new ArrayList<>();
+        String dir = "";
+        String zipName = "";
+
+        if(!StringUtils.isEmpty(params.get("type"))){
+            if(params.get("type").equals("approval")){
+                if(params.containsKey("contentId")){
+                    result = approvalService.getOnnaraDocAttachmentList(params);
+                }else{
+                    result = approvalService.getDocAttachmentList(params);
+                }
+
+                if(result.size() > 0){
+                    for(int i = 0; i < result.size(); i++){
+                        if(result.get(i).get("FILE_DOWN_PATH").toString().contains("nas1")) {
+                            dir = result.get(i).get("FILE_DOWN_PATH").toString();
+                        } else {
+                            dir = SERVER_PATH + result.get(i).get("FILE_DOWN_PATH").toString();
+                        }
+
+                        result.get(i).put("dir", dir);
+                    }
+                    zipName = URLEncoder.encode(result.get(0).get("APPR_ZIP_NAME").toString(), "UTF-8");
+                }
+                multiFileDownload(result, dir, zipName, response);
+                return;
+            }else if(params.get("type").equals("board")){
+                result = boardService.getArticleFileList(params);
+                if(result.size() > 0){
+                    dir = SERVER_PATH + result.get(0).get("FILE_PATH").toString();
+                    zipName = URLEncoder.encode(result.get(0).get("BOARD_ARTICLE_TITLE").equals("") || result.get(0).get("BOARD_ARTICLE_TITLE") == null ?  "제목없음" : result.get(0).get("BOARD_ARTICLE_TITLE").toString(), "UTF-8");
+                }
+            }
+        }
+        mainLib.multiFileDownload(result, dir, zipName, response);
+    }
+
+    public void multiFileDownload(List<Map<String, Object>> list, String dir, String zipName, HttpServletResponse response) {
+        ZipOutputStream zout = null;
+        if (list.size() > 0) {
+            try {
+                zout = new ZipOutputStream(new FileOutputStream(dir + zipName + ".zip"));
+                byte[] buffer = new byte[1024];
+                FileInputStream in = null;
+                Iterator var8 = list.iterator();
+
+                while(var8.hasNext()) {
+                    try{
+                        Map<String, Object> map = (Map)var8.next();
+                        in = new FileInputStream(map.get("dir").toString() + map.get("fileUUID"));
+                        zout.putNextEntry(new ZipEntry(map.get("filename").toString()));
+
+                        int len;
+                        while((len = in.read(buffer)) > 0) {
+                            zout.write(buffer, 0, len);
+                        }
+
+                        zout.closeEntry();
+                        in.close();
+                    } catch(Exception e){
+
+                    }
+
+                }
+
+                zout.close();
+                byte[] fileByte = FileUtils.readFileToByteArray(new File(dir + zipName + ".zip"));
+                response.setContentType("application/octet-stream");
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + zipName + ".zip\";");
+                response.getOutputStream().write(fileByte);
+            } catch (IOException var11) {
+                var11.printStackTrace();
+            }
+        }
+
     }
 }

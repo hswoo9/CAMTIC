@@ -547,6 +547,27 @@
         </if>
     </select>
 
+    <select id="getOnnaraDocAttachmentList" parameterType="map" resultType="map">
+        /* getOnnaraDocAttachmentList */
+        SELECT
+            FILE_ORG_NAME AS ZIP_NAME,
+            FI.FILE_NO,
+            CONCAT(FI.FILE_ORG_NAME, '.', FI.FILE_EXT) AS filename,
+            FI.FILE_EXT,
+            FI.FILE_SIZE,
+            FI.FILE_UUID AS fileUUID,
+            FI.FILE_UUID,
+            FI.FILE_PATH AS FILE_DOWN_PATH,
+            'DFT02' AS GUBUN,
+            DATE_FORMAT(FI.REG_DATE, '%Y%m%d%H%i%s') AS INDT
+        FROM
+            CAM_COMMON.DJ_FILE_INFO FI
+        WHERE
+            FI.CONTENT_ID = #{contentId}
+          AND
+            FI.DOC_ID = #{docId}
+    </select>
+
     <select id="getDocApproveAllRoute" parameterType="map" resultType="map">
         /* getDocApproveAllRoute */
         SELECT

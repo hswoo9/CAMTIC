@@ -102,4 +102,8 @@ public class BoardRepository extends AbstractDAO {
         return (int) selectOne("boardCt.getRecruitmentListCount", articlePage);
     }
 
+    public List<Map<String, Object>> getArticleFileList(Map<String, Object> params){
+        return selectList("boardCt.getArticleFileList", params);
+    }
+
 }
