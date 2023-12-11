@@ -6,6 +6,7 @@ var dutyInfoMng = {
 
     dataSet: function(){
         fn_deptSetting();
+        customKendo.fn_textBox(["searchValue"]);
         customKendo.fn_datePicker("requestYear", 'decade', "yyyy", new Date());
         $("#startDay, #endDay").attr("readonly", true);
         let activeDataSource = [
@@ -13,6 +14,16 @@ var dutyInfoMng = {
             { text: "포함", value: "N" },
         ]
         customKendo.fn_dropDownList("active", activeDataSource, "text", "value", 3);
+        let statusDataSource = [
+            { text: "승인", value: "Y" },
+            { text: "미승인", value: "N" },
+        ]
+        customKendo.fn_dropDownList("status", statusDataSource, "text", "value", 1);
+        let statusDataSource2 = [
+            { text: "승인", value: "Y" },
+            { text: "미승인", value: "N" },
+        ]
+        customKendo.fn_dropDownList("status2", statusDataSource2, "text", "value", 1);
         fn_searchBind();
     },
 
@@ -27,6 +38,12 @@ var dutyInfoMng = {
                 },
                 parameterMap: function(data) {
                     data.requestYear = $("#requestYear").val();
+                    data.dept = $("#dept").data("kendoDropDownList").value();
+                    data.team = $("#team").data("kendoDropDownList").value();
+                    data.searchValue = $("#searchValue").val();
+                    data.active = $("#active").data("kendoDropDownList").value();
+                    data.status = $("#status").data("kendoDropDownList").value();
+                    data.status2 = $("#status2").data("kendoDropDownList").value();
                     return data;
                 }
             },
@@ -123,4 +140,8 @@ var dutyInfoMng = {
         const option = "width = 1200, height = 800, top = 100, left = 200, location = no";
         window.open(url, name, option);
     }
+}
+
+function gridReload(){
+    dutyInfoMng.mainGrid();
 }
