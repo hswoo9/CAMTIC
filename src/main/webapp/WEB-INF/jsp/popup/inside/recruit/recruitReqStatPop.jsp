@@ -6,7 +6,7 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<script type="text/javascript" src="/js/intra/inside/recruit/recruitDetailPop.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/recruit/recruitReqStatPop.js?v=${today}"></script>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
 <input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
@@ -21,25 +21,16 @@
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
-    <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="${params.recruitInfoSn}">
-    <input type="hidden" id="recruitStat" name="recruitStat" value="${params.recruitStat}">
     <div class="table-responsive">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">채용 등록</h3>
             <div class="btn-st popButton">
-                <c:choose>
-                    <c:when test="${params.recruitStat == 1}">
-                        <button type="button" class="k-button k-button-solid-info" onclick="rcDetailPop.moveToModPage()">편집</button>
-                    </c:when>
-                    <c:otherwise>
-                        <button type="button" class="k-button k-button-solid-info" onclick="rcDetailPop.moveToStatPage()">편집</button>
-                    </c:otherwise>
-                </c:choose>
-                <button type="button" class="k-button k-button-solid-info" onclick="rcDetailPop.moveToLoginPage()">응시</button>
+                <button type="button" class="k-button k-button-solid-info" onclick="rcReqStatPop.saveBtn()">등록</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">취소</button>
             </div>
         </div>
         <form id="recruitReqForm" style="padding: 20px 30px;">
+            <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="${params.recruitInfoSn}">
             <table class="popTable table table-bordered mb-0" id="recruitReqPop">
                 <colgroup>
                     <col width="15%">
@@ -55,39 +46,38 @@
                 <tr>
                     <th style="text-align: center">공고번호</th>
                     <td colspan="3">
-                        공고 <span id="recruitNum"></span>
+                        공고 <input type="text" id="recruitNum" style="width: 30%" value="${recruitNum}">
                     </td>
                 </tr>
                 <tr>
                     <th style="text-align: center">공고제목</th>
                     <td colspan="3">
-                        <span id="recruitTitle"></span>
+                        <input type="text" id="recruitTitle">
                     </td>
                 </tr>
                 <tr>
                     <th style="text-align: center">공고내용</th>
                     <td colspan="3">
-                        <span id="recruitDetail"></span>
+                        <textarea id="recruitDetail"></textarea>
                     </td>
                 </tr>
                 <tr>
                     <th style="text-align: center">공고일자</th>
                     <td colspan="3">
-                        <span id="uploadDt"></span>
-                        <span id="uploadText"></span>
+                        <input type="text" id="uploadDt" style="width: 15%">
                     </td>
                 </tr>
                 <tr>
-                    <th style="text-align: center">모집일시</th>
+                    <th style="text-align: center">모집일자</th>
                     <td colspan="3">
-                        <span id="startDt"></span> ~ <span id="endDt"></span>
+                        <input type="text" id="startDt" style="width: 15%"> ~ <input type="text" id="endDt" style="width: 15%">
                     </td>
                 </tr>
                 <tr id="areaTr">
                     <th style="text-align: center">
                         모집분야
                     </th>
-                    <td colspan="3" id="areaTd">
+                    <td colspan="3" id="areaTd" contentEditable="false">
                     </td>
                 </tr>
                 <tr>
@@ -95,7 +85,7 @@
                         모집분야 기타
                     </th>
                     <td colspan="3">
-                        <span id="jobPositionEtc"></span>
+                        <input type="text" id="jobPositionEtc">
                     </td>
                 </tr>
                 <tr>
@@ -103,7 +93,7 @@
                         응시자격 기타
                     </th>
                     <td colspan="3">
-                        <span id="eligibilityEtc"></span>
+                        <textarea id="eligibilityEtc"></textarea>
                     </td>
                 </tr>
                 <tr>
@@ -111,7 +101,7 @@
                         근무형태
                     </th>
                     <td colspan="3">
-                        <span id="workType"></span>
+                        <textarea id="workType"></textarea>
                     </td>
                 </tr>
                 <tr>
@@ -119,7 +109,7 @@
                         전형방법
                     </th>
                     <td colspan="3">
-                        <span id="admission"></span>
+                        <textarea id="admission"></textarea>
                     </td>
                 </tr>
                 <tr>
@@ -128,31 +118,28 @@
                         (온라인등록)
                     </th>
                     <td colspan="3">
-                        <span id="applicationDoc"></span>
+                        <textarea id="applicationDoc"></textarea>
                     </td>
                 </tr>
+
                 <tr>
                     <th>
                         원서접수
                     </th>
                     <td colspan="3">
-                        <span id="receiptDocu"></span>
+                        <textarea id="receiptDocu"></textarea>
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        기타사항
-                    </th>
+                    <th>기타사항</th>
                     <td colspan="3">
-                        <span id="remark"></span>
+                        <textarea id="remark"></textarea>
                     </td>
                 </tr>
                 <tr>
-                    <th>
-                        상태
-                    </th>
+                    <th>상태(값 자동변경)</th>
                     <td colspan="3">
-                        <span id="recruitStatus"></span>
+                        <input type="text" id="recruitStatus" style="width: 20%;">
                     </td>
                 </tr>
             </table>
@@ -160,7 +147,6 @@
     </div>
 </div>
 <script>
-    console.log("${params}");
-    rcDetailPop.fn_DefaultScript();
+    rcReqStatPop.init();
 </script>
 </body>

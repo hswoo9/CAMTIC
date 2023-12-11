@@ -963,4 +963,16 @@ public class RecruitController {
         return "jsonView";
     }
 
+    @RequestMapping("/inside/pop/recruitReqStatPop.do")
+    public String recruitReqStatPop(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("params", params);
+        return "popup/inside/recruit/recruitReqStatPop";
+    }
+
+    @RequestMapping("/inside/setRecruitUpd.do")
+    public String setRecruitUpd(@RequestParam Map<String,Object> params) {
+        recruitService.setRecruitUpdate(params);
+        return "jsonView";
+    }
+
 }

@@ -99,6 +99,13 @@ var rcDetailPop = {
         location.href = "/Inside/pop/recruitReqPop.do?recruitInfoSn=" + $("#recruitInfoSn").val()
     },
 
+    moveToStatPage : function (){
+        var url = "/inside/pop/recruitReqStatPop.do?recruitInfoSn=" + $("#recruitInfoSn").val();
+        var name = "recruitReqStatPop";
+        var option = "width=1000, height=720, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
+
     moveToLoginPage : function(){
         window.open("/application/applicationLogin.do?recruitInfoSn=" + $("#recruitInfoSn").val(),"applicationLogin","width=750,height=320")
     }
