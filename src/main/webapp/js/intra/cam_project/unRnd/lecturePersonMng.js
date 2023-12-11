@@ -22,6 +22,7 @@ const lecturePersonMng = {
             $("#id").val(psMap.ID);
             $("#pwd").val(psMap.PASSWORD);
             $("#name").val(psMap.NAME);
+            $("#birth").val(psMap.BIRTH);
             if(psMap.GENDER != null && psMap.GENDER != ""){
                 $("#gender").data("kendoRadioGroup").value(psMap.GENDER);
             }
@@ -39,6 +40,7 @@ const lecturePersonMng = {
             id : $("#id").val(),
             password : $("#pwd").val(),
             name : $("#name").val(),
+            birth : $("#birth").val(),
             gender : $("#gender").data("kendoRadioGroup").value(),
             coName : $("#coName").val(),
             part : $("#part").val(),

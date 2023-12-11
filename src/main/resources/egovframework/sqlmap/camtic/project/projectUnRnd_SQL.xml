@@ -197,6 +197,9 @@
                 AND ACTIVE = 'Y'
             )
         </if>
+        <if test="sEmpName != null and sEmpName != ''">
+            AND NAME LIKE CONCAT('%', #{sEmpName}, '%')
+        </if>
         ORDER BY NAME
     </select>
 
@@ -248,7 +251,7 @@
         SELECT
             A.*,
             DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DATE,
-            B.NAME,
+            B.*,
             C.LEC_COST
         FROM
             CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ A
@@ -329,6 +332,7 @@
                 ID,
                 PASSWORD,
                 NAME,
+                BIRTH,
                 GENDER,
                 CO_NAME,
                 PART,
@@ -343,6 +347,7 @@
                 #{id},
                 #{password},
                 #{name},
+                #{birth}
                 #{gender},
                 #{coName},
                 #{part},
@@ -365,6 +370,7 @@
             ID = #{id},
             PASSWORD = #{password},
             NAME = #{name},
+            BIRTH = #{birth},
             GENDER = #{gender},
             CO_NAME = #{coName},
             PART = #{part},
