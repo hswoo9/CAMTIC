@@ -138,7 +138,7 @@ var crm = {
                         if(e.MOD_DT == null || e.MOD_DT == ''){
                             return "";
                         } else {
-                            return e.MOD_DT;
+                            return e.MOD_DATE;
                         }
                     }
                 }

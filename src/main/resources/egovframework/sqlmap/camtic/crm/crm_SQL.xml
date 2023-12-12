@@ -13,6 +13,7 @@
         <if test="crmName != null and crmName != ''">
             AND CRM_NM LIKE CONCAT('%', #{crmName}, '%')
         </if>
+        ORDER BY MOD_DT DESC
     </select>
 
     <select id="getCrmData" parameterType="map" resultType="map">
@@ -28,6 +29,7 @@
         /* getCrmList */
         SELECT
             CI.*
+            , DATE_FORMAT(CI.MOD_DT, '%Y-%m-%d') AS MOD_DATE
             <if test='target != null and !"".equals(target)'>
                 <if test='"mfOverView".equals(target)'>
                     , MS.CRM_MG_SCALE_SN
@@ -109,6 +111,7 @@
         </choose>
 
         GROUP BY CI.CRM_SN
+        ORDER BY CI.MOD_DT DESC
     </select>
 
     <update id="setCrmDel" parameterType="map">
