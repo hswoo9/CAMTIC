@@ -14,6 +14,22 @@ var devInfo = {
         var rs = customKendo.fn_customAjax("/project/getDevPjtVerList", data);
         devInfo.global.devPjtVerList = rs;
 
+        if(commonProject.global.pmEmpSeq != null && commonProject.global.pmEmpSeq != "" && commonProject.global.pmEmpSeq != undefined){
+            const userInfo = customKendo.fn_customAjax("/user/getUserInfo", {
+                empSeq : commonProject.global.pmEmpSeq
+            })
+
+            if(userInfo != null){
+                let spot = ""
+                if(userInfo.DUTY_NAME != null && userInfo.DUTY_NAME != ""){
+                    spot = userInfo.DUTY_NAME;
+                }else{
+                    spot = userInfo.POSITION_NAME;
+                }
+                $("#pm").val("["+userInfo.DEPT_NAME+"] "+userInfo.EMP_NAME_KR+" ("+spot+")");
+            }
+        }
+
         var html = "";
         for(var i = 0 ; i < rs.list.length ; i++){
             var date = new Date(rs.list[i].CONSULT_DT);
