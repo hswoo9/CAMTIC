@@ -127,7 +127,7 @@
               <p class="__fz18 __balck __mt10">유급휴가훈련</p>
             </li>
             <li>
-              <img src="/images/camtic/img-ntalent2-5-5.png" alt="" style="border-radius: 10px; width:325px; height: 200px;">
+              <img src="/images/camtic/img-ntalent2-5-5-5.jpg" alt="" style="border-radius: 10px; width:325px; height: 200px;">
               <p class="__fz18 __balck __mt10">산업전문인력 AI역량강화 지원사업</p>
             </li>
             <li>
@@ -196,7 +196,7 @@
               <p class="__fz18 __balck __mt10">지역산업맞춤형<br class="__m">인력양성사업</p>
             </li>
             <li>
-              <img src="/images/camtic/img-ntalent3-2-2.png" alt="" style="border-radius: 10px; width:290px; height: 185px;">
+              <img src="/images/camtic/img-ntalent3-2-2-2.jpg" alt="" style="border-radius: 10px; width:290px; height: 185px;">
               <p class="__fz18 __balck __mt10">이공계 전문기술인력<br class="__m">양성사업</p>
             </li>
             <li>
