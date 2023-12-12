@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.cam_manager.service.impl;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.cam_manager.repository.CompanyCardRepository;
 import egovframework.com.devjitsu.cam_manager.service.CompanyCardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +49,25 @@ public class CompanyCardServiceImpl implements CompanyCardService {
     @Override
     public void updRegCardTo(Map<String, Object> params) {
         companyCardRepository.updRegCardTo(params);
+    }
+
+    @Override
+    public void setUseCardHist(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> itemArr = gson.fromJson((String) params.get("itemArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        for(Map<String, Object> item : itemArr) {
+            companyCardRepository.insUseCardHist(item);
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> cardToUseList(Map<String, Object> params) {
+        return companyCardRepository.cardToUseList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getCardTOHistList(Map<String, Object> params) {
+        return companyCardRepository.getCardTOHistList(params);
     }
 }

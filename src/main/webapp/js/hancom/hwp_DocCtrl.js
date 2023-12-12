@@ -353,7 +353,22 @@ var hwpDocCtrl = {
                     hwpDocCtrl.global.HwpCtrl.MoveToField('regSign', true, true, false);
                     hwpDocCtrl.putFieldText('regSign', regSign);
 
-
+                    if(ResultData.FILE_PATH != null){
+                        if(hwpDocCtrl.global.HwpCtrl.FieldExist('sign')){
+                            hwpDocCtrl.global.HwpCtrl.PutFieldText('sign', " ");
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('sign', true, true, false);
+                            hwpDocCtrl.global.HwpCtrl.InsertBackgroundPicture(
+                                "SelectedCell",
+                                "http://218.158.231.186/" + ResultData.FILE_PATH,
+                                1,
+                                5,
+                                0,
+                                0,
+                                0,
+                                0
+                            );
+                        }
+                    }
                 }
             });
         }else if(data.menuCd == "snack") {

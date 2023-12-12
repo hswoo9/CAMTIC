@@ -24,7 +24,6 @@ var targetSubInfoPop = {
             dataType : "json",
             async: false,
             success : function(result){
-                console.log(result.list);
                 targetSubInfoPop.global.codeDropDown = result.list;
             }
         });
@@ -118,7 +117,6 @@ var targetSubInfoPop = {
             dataType : "json",
             async: false,
             success : function(result){
-                console.log(result.list);
 
                 var list = result.list;
                 var html = "";

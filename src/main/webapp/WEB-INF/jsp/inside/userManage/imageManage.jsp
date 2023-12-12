@@ -24,8 +24,8 @@
                         <col width="15%">
                         <col width="9%">
                         <col width="15%">
-<%--                        <col width="9%">--%>
-<%--                        <col width="15%">--%>
+                        <col width="9%">
+                        <col width="15%">
                     </colgroup>
                     <thead>
                     <tr style="height:250px;border-top: 1px solid #00000014;">
@@ -67,25 +67,25 @@
                                 </div>
                             </div>
                         </td>
-<%--                        <th>개인사진</th>--%>
-<%--                        <td>--%>
-<%--                            <div class="filebox">--%>
-<%--                                <input type="hidden" id="myFileNo" name="myFileNo" value="${data.myImg.file_no}">--%>
-<%--                                <div class="card-picture" style="padding-top: 0 !important; margin:0px; overflow: hidden; position: relative;">--%>
-<%--                                    <c:choose>--%>
-<%--                                        <c:when test="${data.myImg.file_path ne null}">--%>
-<%--                                            <input type="hidden" id="myFilePath" name="myFilePath" value="${data.myImg.file_path}">--%>
-<%--                                            <input type="hidden" id="myFileName" name="myFileName" value="${data.myImg.file_uuid}">--%>
-<%--                                            <img id="myPhotoView" width="150px;" height="180px;" src="${data.myImg.file_path}${data.myImg.file_uuid}">--%>
-<%--                                        </c:when>--%>
-<%--                                        <c:otherwise>--%>
-<%--                                            <img id="myPhotoView" width="150px;" height="180px;" style="cursor:pointer; display: none;">--%>
-<%--                                            <span id="myPhotoViewText">등록된 개인사진이 없습니다.</span>--%>
-<%--                                        </c:otherwise>--%>
-<%--                                    </c:choose>--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
-<%--                        </td>--%>
+                        <th>직인</th>
+                        <td>
+                            <div class="filebox">
+                                <input type="hidden" id="sign2FileNo" name="sign2FileNo" value="${data.sign2Img.file_no}">
+                                <div class="card-picture" style="padding-top: 0 !important; margin:0px; overflow: hidden; position: relative;">
+                                    <c:choose>
+                                        <c:when test="${data.sign2Img.file_path ne null}">
+                                            <input type="hidden" id="sign2FilePath" name="sign2FilePath" value="${data.sign2Img.file_path}">
+                                            <input type="hidden" id="sign2FileName" name="sign2FileName" value="${data.sign2Img.file_uuid}">
+                                            <img id="sign2PhotoView" width="150px;" height="180px;" src="${data.sign2Img.file_path}${data.sign2Img.file_uuid}">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <img id="sign2PhotoView" width="150px;" height="180px;" style="cursor:pointer; display: none;">
+                                            <span id="sign2PhotoViewText">등록된 직인이 없습니다.</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <th colspan="2">결재사인</th>
@@ -108,15 +108,15 @@
                         </td>
                     </tr>
                     <tr>
-<%--                        <th colspan="2">개인사진</th>--%>
-<%--                        <td colspan="4">--%>
-<%--                            <div class="filebox">--%>
-<%--                                <input type="file">--%>
-<%--                                <label for="myPhotoFile" class="k-button k-button-clear-info" style="vertical-align: bottom;margin:0; margin-top:13px;">파일 선택</label>--%>
-<%--                                <span>개인사진 이미지는 110*110 크기입니다.</span>--%>
-<%--                                <input type="file" id="myPhotoFile" onchange="viewMyPhoto(this)">--%>
-<%--                            </div>--%>
-<%--                        </td>--%>
+                        <th colspan="2">직인</th>
+                        <td colspan="4">
+                            <div class="filebox">
+                                <input type="file">
+                                <label for="sign2PhotoFile" class="k-button k-button-clear-info" style="vertical-align: bottom;margin:0; margin-top:13px;">파일 선택</label>
+                                <span>직인 이미지는 150*150 크기입니다.</span>
+                                <input type="file" id="sign2PhotoFile" onchange="viewSign2Photo(this)">
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <th colspan="2">주의사항</th>

@@ -248,6 +248,7 @@
             IM.IMAGE_ID,
             IM.EMP_SEQ,
             IM.SIGN_IMAGE_PK,
+            IM.SIGN2_IMAGE_PK,
             IM.ID_IMAGE_PK,
             IM.PERSONAL_IMAGE_PK
         FROM

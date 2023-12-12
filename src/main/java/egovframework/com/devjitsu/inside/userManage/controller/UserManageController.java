@@ -1300,20 +1300,20 @@ public class UserManageController {
         MainLib mainLib = new MainLib();
         List<Map<String, Object>> idPhotoFile = new ArrayList<>();
         List<Map<String, Object>> signPhotoFile = new ArrayList<>();
-        List<Map<String, Object>> myPhotoFile = new ArrayList<>();
+        List<Map<String, Object>> sign2PhotoFile = new ArrayList<>();
 
         idPhotoFile = mainLib.multiFileUpload(request.getFiles("idPhotoFile").toArray(new MultipartFile[0]), server_path);
         signPhotoFile = mainLib.multiFileUpload(request.getFiles("signPhotoFile").toArray(new MultipartFile[0]), server_path);
-        myPhotoFile = mainLib.multiFileUpload(request.getFiles("myPhotoFile").toArray(new MultipartFile[0]), server_path);
+        sign2PhotoFile = mainLib.multiFileUpload(request.getFiles("sign2PhotoFile").toArray(new MultipartFile[0]), server_path);
 
         int photoFileId = userManageService.setThumbnailUpload(idPhotoFile, params, base_path);     //증명사진
         int signPhotoFileId = userManageService.setThumbnailUpload(signPhotoFile, params, base_path);   //결재사진
-        int myPhotoFileId = userManageService.setThumbnailUpload(myPhotoFile, params, base_path);   //개인사진
+        int sign2PhotoFileId = userManageService.setThumbnailUpload(sign2PhotoFile, params, base_path);   //개인사진
 
         params.put("loginEmpSeq", loginVO.getUniqId());
         params.put("idImg", photoFileId);
         params.put("signImg", signPhotoFileId);
-        params.put("personalImg", myPhotoFileId);
+        params.put("sign2Img", sign2PhotoFileId);
 
         userManageService.setUserInfoReqUpd(params);
 

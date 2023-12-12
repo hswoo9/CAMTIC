@@ -18,6 +18,15 @@ public class setManagementController {
     @Autowired
     private SetManagementService setManagementService;
 
+    @RequestMapping("/setManagement/projectDepositManagement.do")
+    public String projectDepositManagement(Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+
+        return "cam_manager/setManagement/projectDepositManagement";
+    }
+
     @RequestMapping("/setManagement/depMatching.do")
     public String depMatching(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();

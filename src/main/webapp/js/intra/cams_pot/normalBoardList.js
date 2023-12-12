@@ -174,16 +174,23 @@ var normalArticleList = {
 		let i = num;
 
         list.forEach(row => {
+			var replyCnt = "";
+
+			if(row.reply_CNT != 0){
+				replyCnt = ' <span style="font-weight: bold;">'+ '[' + row.reply_CNT + ']'+'</span>';
+			}else {
+				replyCnt = "";
+			}
 			var articleTitle = "";
 			if(row.board_ARTICLE_TITLE != null && row.board_ARTICLE_TITLE != ""){
-				articleTitle = row.board_ARTICLE_TITLE;
+				articleTitle = row.board_ARTICLE_TITLE + replyCnt;
 			}else{
-				articleTitle = "제목없음";
+				articleTitle = "제목없음" + replyCnt;
 			}
 
             var dt = (row.reg_DATE.year + "-" + ('00' + row.reg_DATE.monthValue).slice(-2) + "-" + ('00' + row.reg_DATE.dayOfMonth).slice(-2));
 
-            html += "<tr>"
+            html += "<tr>";
             html += "	<td class='ta-center'>" + (i) + "</td>";
             html += "	<td style='cursor:pointer'>";
             if(row.public_YN == "N"){

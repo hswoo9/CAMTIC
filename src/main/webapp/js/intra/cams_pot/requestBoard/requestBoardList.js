@@ -91,11 +91,19 @@ var rbl = {
 		let i = num;
 
 		list.forEach(row => {
+			var replyCnt = "";
+
+			if(row.reply_CNT != 0){
+				replyCnt = ' <span style="font-weight: bold;">'+ '[' + row.reply_CNT + ']'+'</span>';
+			}else {
+				replyCnt = "";
+			}
+
 			var requestTitle = "";
 			if(row.request_TITLE != null && row.request_TITLE != ""){
-				requestTitle = row.request_TITLE;
+				requestTitle = row.request_TITLE + replyCnt;
 			}else{
-				requestTitle = "제목없음";
+				requestTitle = "제목없음" + replyCnt;
 			}
 
 			var dt = (row.reg_DATE.year + "-" + ('00' + row.reg_DATE.monthValue).slice(-2) + "-" + ('00' + row.reg_DATE.dayOfMonth).slice(-2));
@@ -106,7 +114,15 @@ var rbl = {
 			html += "	</td>";
 			html += "	<td class='ta-center'>" + row.reg_EMP_NAME + "</td>";
 			html += "	<td class='ta-center'>" + dt + "</td>";
-			html += "	<td class='ta-center'>" + row.status + "</td>";
+			if(row.status == '접수완료'){
+				html += "	<td class='ta-center' style='color: green;'>" + row.status + "</td>";
+			}else if(row.status == '요청중') {
+				html += "	<td class='ta-center' style='color: red;'>" + row.status + "</td>";
+			}else if(row.status == '처리완료'){
+				html += "	<td class='ta-center' style='color: blue;'>" + row.status + "</td>";
+			}else {
+				html += "	<td class='ta-center'>" + row.status + "</td>";
+			}
 			html += "</tr>";
 
 			i--;

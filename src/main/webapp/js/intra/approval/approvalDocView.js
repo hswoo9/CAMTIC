@@ -273,12 +273,12 @@ var docView = {
         if(result.flag) {
             alert("결재되었습니다.");
 
-            //var result = docView.setAlarmEvent("approve")
-            //if(result.flag){
-            //    if(result.rs!= "SUCCESS") {
-            //        alert(result.message);
-            //    }
-            //}
+            var result = docView.setAlarmEvent("approve")
+            if(result.flag){
+               if(result.rs!= "SUCCESS") {
+                   alert(result.message);
+               }
+            }
             try {
                 opener.parent.gridReload();
             }catch (e) {
@@ -338,12 +338,12 @@ var docView = {
         if(result.flag) {
             alert("반려되었습니다.");
 
-            /*var result = docView.setAlarmEvent("return");
+            var result = docView.setAlarmEvent("return");
             if(result.flag){
                 if(result.rs!= "SUCCESS") {
                     alert(result.message);
                 }
-            }*/
+            }
 
             try {
                 opener.parent.gridReload();
@@ -547,7 +547,7 @@ var docView = {
         }
 
         $("#approveHistModalGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2("/approval/getDocApproveStatusHistList", docView.global.searchAjaxData, 100),
+            dataSource: customKendo.fn_gridDataSource2("/approval/getDocApproveStatusHistList.do", docView.global.searchAjaxData, 100),
             height: 315,
             toolbar : [
                 {
@@ -715,7 +715,7 @@ var docView = {
 
         var result = "";
         if($("#approveCode").val() != '100' && $("#approveCode").val() != "101"){
-            result = customKendo.fn_customAjax("/common/sndAlermCt", {
+            result = customKendo.fn_customAjax("/common/setAlarm", {
                 ntTitle : ntTitle,
                 ntContent : ntContent,
                 recEmpSeq : docView.global.rs.docInfo.DRAFT_EMP_SEQ,
@@ -726,7 +726,7 @@ var docView = {
         if(type == "approve"){
             if($("#approveCode").val() != '100' && $("#approveCode").val() != "101"){
                 /** 일반 결재 */
-                result = customKendo.fn_customAjax("/common/sndAlermCt", {
+                result = customKendo.fn_customAjax("/common/setAlarm", {
                     ntTitle : "[결재도착] 기안자 : " + docView.global.rs.approveRoute.find(element => Number(element.APPROVE_ORDER) === 0).APPROVE_EMP_NAME,
                     ntContent : ntContent,
                     recEmpSeq : docView.global.rs.approveRoute.find(element => Number(element.APPROVE_ORDER) === (Number(docView.global.rs.approveNowRoute.APPROVE_ORDER) + 1)).APPROVE_EMP_SEQ,
@@ -736,17 +736,28 @@ var docView = {
                 /** 최종결재 결재 */
                 for(var i = 0; i < docView.global.rs.approveRoute.length; i ++){
                     if(Number(docView.global.rs.approveRoute[i].APPROVE_ORDER) == 0){
-                        result = customKendo.fn_customAjax("/common/sndAlermCt", {
+                        result = customKendo.fn_customAjax("/common/setAlarm", {
                             ntTitle : "[결재종결] 결재자 : " + docView.global.rs.approveNowRoute.APPROVE_EMP_NAME,
                             ntContent : ntContent,
                             recEmpSeq : docView.global.rs.docInfo.DRAFT_EMP_SEQ,
                             ntUrl : ntUrl
                         });
                     }else if(Number(docView.global.rs.approveRoute[i].APPROVE_ORDER) != Number(docView.global.rs.approveNowRoute.APPROVE_ORDER)){
-                        result = customKendo.fn_customAjax("/common/sndAlermCt", {
+                        result = customKendo.fn_customAjax("/common/setAlarm", {
                             ntTitle : "[결재종결] 기안자 : " + docView.global.rs.approveRoute.find(element => Number(element.APPROVE_ORDER) === 0).APPROVE_EMP_NAME,
                             ntContent : ntContent,
                             recEmpSeq : docView.global.rs.approveRoute[i].APPROVE_EMP_SEQ,
+                            ntUrl : ntUrl
+                        });
+                    }
+                }
+
+                if(docView.global.rs.readerAll != null){
+                    for(var i = 0 ; i < docView.global.rs.readerAll.length ; i++){
+                        result = customKendo.fn_customAjax("/common/setAlarm", {
+                            ntTitle : "[결재열람] 기안자 : " + docView.global.rs.approveRoute.find(element => Number(element.APPROVE_ORDER) === 0).APPROVE_EMP_NAME,
+                            ntContent : ntContent,
+                            recEmpSeq : docView.global.rs.readerAll[i].READER_EMP_SEQ,
                             ntUrl : ntUrl
                         });
                     }

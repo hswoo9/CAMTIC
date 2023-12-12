@@ -43,7 +43,6 @@ const studyJournal = {
         }
         const result = customKendo.fn_customAjax("/campus/getStudyUserList", data);
         studyJournal.global.studyUserList = result.list;
-        console.log(result.list);
 
         if($("#mode").val() == "Upd"){
             studyJournal.dataSet();

@@ -7,6 +7,27 @@ var cardToHist = {
     fn_defaultScript : function (){
         customKendo.fn_datePicker("startDt", 'month', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("endDt", 'month', "yyyy-MM-dd", new Date());
+
+        var data = {
+            cardToSn : $("#cardToSn").val()
+        }
+        $.ajax({
+            url : "/card/getCardToInfo",
+            data : data,
+            type : "post",
+            async : false,
+            dataType : "json",
+            success : function(rs){
+                var rs = rs.cardInfo;
+                $("#searchValue").val(rs.CARD_BA_NB);
+                $("#startDt").val(rs.CARD_TO_DE);
+                if(rs.CARD_FROM_DE == null || rs.CARD_FROM_DE == "" || rs.CARD_FROM_DE == undefined){
+                } else {
+                    $("#endDt").val(rs.CARD_FROM_DE);
+                }
+            }
+        });
+
         $("#startDt, #endDt").attr("readonly", true);
         $("#startDt").on("change", function(){
             if($(this).val() > $("#endDt").val()){
@@ -39,92 +60,10 @@ var cardToHist = {
         cardToHist.global.searchAjaxData = {
             startDt: $("#startDt").val(),
             endDt: $("#endDt").val(),
-            searchValue: $("#searchValue").val()
+            searchValue: $("#searchValue").val(),
+            cardToSn : $("#cardToSn").val()
         }
-        cardToHist.mainGrid("/card/cardUseList", cardToHist.global.searchAjaxData);
-    },
-
-    cardMainGrid : function (type) {
-        if(type != "search"){
-            $("#mainGrid").css("display", "none");
-            $("#cardMainGrid").css("display", "");
-        }
-
-        let dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read: {
-                    url: "/g20/getCardList",
-                    dataType: "json",
-                    type: "post"
-                },
-                parameterMap: function(data){
-                    data.searchValue = $("#searchValue").val();
-                    return data;
-                }
-            },
-            schema: {
-                data: function(data){
-                    return data.list;
-                },
-                total: function(data){
-                    return data.list.length;
-                },
-            },
-            pageSize: 10
-        });
-
-        $("#cardMainGrid").kendoGrid({
-            dataSource: dataSource,
-            sortable: true,
-            scrollable: true,
-            selectable: "row",
-            pageable: {
-                refresh: true,
-                pageSizes: [ 10, 20, 30, 50, 100 ],
-                buttonCount: 5
-            },
-            noRecords: {
-                template: "데이터가 존재하지 않습니다."
-            },
-            dataBound: payDetView.onDataBound,
-            columns: [
-                {
-                    template: "#= ++record #",
-                    title: "번호",
-                    width : 50
-                }, {
-                    title: "카드명",
-                    width: 300,
-                    template: function (e){
-                        return '<input type="hidden" id="trCd" value="' + e.TR_CD + '"/><input type="hidden" id="clttrCd" value="e.CLTTR_CD" />' + e.TR_NM;
-                    }
-                }, {
-                    title: "카드번호",
-                    width: 250,
-                    template: function (e){
-                        if(e.CARD_BA_NB != null){
-                            return e.CARD_BA_NB;
-                        } else {
-                            return "";
-                        }
-                    }
-                }, {
-                    title: "",
-                    width: 80,
-                    template: function(e){
-                        return '<button type="button" class="k-button k-button-solid-base" ' +
-                            'onclick="payDetView.fn_selCardInfo(\'' + e.TR_CD + '\', \'' + e.TR_NM + '\', \'' + e.CARD_BA_NB + '\', \'' + e.JIRO_NM + '\', \'' + e.CLTTR_CD + '\', \'' + e.BA_NB + '\', \'' + e.DEPOSITOR + '\')" style="font-size: 12px);">' +
-                            '   선택' +
-                            '</button>';
-                    }
-                }
-            ],
-
-            dataBinding: function() {
-                record = (this.dataSource.page() -1) * this.dataSource.pageSize();
-            }
-        }).data("kendoGrid");
+        cardToHist.mainGrid("/card/cardToUseList", cardToHist.global.searchAjaxData);
     },
 
     mainGrid : function (url, params) {
@@ -155,7 +94,13 @@ var cardToHist = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'cardPk\');"/>',
-                    template : "<input type='checkbox' id='cardPk#=AUTH_NO#' name='cardPk' class='cardPk' value='#=AUTH_NO#'/>",
+                    template : function (e){
+                        if(e.CARD_TO_HIST_SN != undefined && e.CARD_TO_HIST_SN != null && e.CARD_TO_HIST_SN != ""){
+                            return "";
+                        } else {
+                            return "<input type='checkbox' id='cardPk#=AUTH_NO#' name='cardPk' class='cardPk' value='#=AUTH_NO#'/>";
+                        }
+                    },
                     width: 50
                 }, {
                     title: "승인일시",
@@ -203,43 +148,32 @@ var cardToHist = {
 
     fn_selectCard : function (){
         var grid = $("#mainGrid").data("kendoGrid");
-        var cnt = 0;
-        var index = $("#index").val();
 
         var data = {}
+        var itemArr = [];
         grid.tbody.find("tr").each(function(){
 
             if($(this).find("input")[0].checked){
                 data = grid.dataItem($(this));
-                cnt++;
+                data.CARD_TO_SN = $("#cardToSn").val();
+                itemArr.push(data);
             }
         })
 
-
-        if(cnt > 1){
-            alert("여러개의 항목이 선택되었습니다. 확인해주세요.");
-            return;
+        var parameters = {
+            itemArr : JSON.stringify(itemArr),
         }
 
-        opener.parent.$("#crmNm" + index).val(data.MER_NM);
-        opener.parent.$("#trDe" + index).val(data.AUTH_DD.substring(0,4) + "-" + data.AUTH_DD.substring(4,6) + "-" + data.AUTH_DD.substring(6,8));
-        opener.parent.$("#trCd" + index).val(data.TR_CD);
-        opener.parent.$("#totCost" + index).val(comma(data.AUTH_AMT));
-        opener.parent.$("#supCost" + index).val(comma(data.SUPP_PRICE));
-        opener.parent.$("#vatCost" + index).val(comma(data.SURTAX));
-        opener.parent.$("#cardNo" + index).val(data.CARD_NO.substring(0,4) + "-" + data.CARD_NO.substring(4,8) + "-" + data.CARD_NO.substring(8,12) + "-" + data.CARD_NO.substring(12,16));
-        opener.parent.$("#card" + index).val(data.TR_NM);
-        opener.parent.$("#buySts" + index).val(data.BUY_STS);
-        opener.parent.$("#crmAccHolder" + index).val(data.DEPOSITOR);
-        opener.parent.$("#crmAccNo" + index).val(data.BA_NB);
-        opener.parent.$("#crmBnkNm" + index).val(data.JIRO_NM);
-
-        opener.parent.$("#authNo" + index).val(data.AUTH_NO);
-        opener.parent.$("#authDd" + index).val(data.AUTH_DD);
-        opener.parent.$("#authHh" + index).val(data.AUTH_HH);
-
-        fn_setCardInfo(data.AUTH_NO, data.AUTH_DD, data.AUTH_HH, data.CARD_NO, data.BUY_STS);
-
+        $.ajax({
+            url : "/card/setUseCardHist",
+            data : parameters,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                alert("사용이력이 추가되었습니다.");
+                window.close();
+            }
+        });
 
     },
 

@@ -508,4 +508,87 @@
             CONTENT_ID = CONCAT("'", #{payAppSn}, "'") AND FILE_CD = 'useCard'
     </update>
 
+    <select id="getAlarmList" parameterType="map" resultType="map">
+        /* getAlarmList */
+        SELECT
+            AL_ID,
+            SND_EMP_NM,
+            SND_DEPT_NM,
+            TITLE,
+            CONTENT,
+            DATE_FORMAT(REG_DATE, '%Y-%m-%d %H:%i') as REG_DATE,
+            URL,
+            CHECK_YN,
+            LIST_DEL_YN
+        FROM
+            CAM_COMMON.DJ_ALARM
+        WHERE
+            RCV_EMP_SEQ = #{empSeq}
+        AND
+            LIST_DEL_YN = 'N'
+        AND
+            ACTIVE = 'Y'
+        ORDER BY REG_DATE DESC
+    </select>
+
+    <insert id="setAlarm" parameterType="map" >
+        /* setAlarm */
+        INSERT INTO CAM_COMMON.DJ_ALARM
+        (
+            CONTENT,
+            RCV_EMP_SEQ,
+            SND_EMP_SEQ,
+            TITLE,
+            URL,
+            SND_EMP_NM,
+            SND_DEPT_SEQ,
+            SND_DEPT_NM
+        )
+        VALUES
+        (
+            #{ntContent},
+            #{recEmpSeq},
+            #{sdEmpSeq},
+            #{ntTitle},
+            #{ntUrl},
+            #{SND_EMP_NM},
+            #{SND_DEPT_SEQ},
+            #{SND_DEPT_NM}
+        )
+    </insert>
+
+    <update id="setAlarmCheck" parameterType="map">
+        /* setAlarmCheck */
+        UPDATE
+            CAM_COMMON.DJ_ALARM
+        SET
+            CHECK_YN = 'Y',
+            CHECK_DT = NOW()
+        WHERE
+            1=1
+        AND
+            AL_ID = #{alId}
+    </update>
+
+    <update id="setAlarmTopListDel" parameterType="map">
+        /* setAlarmTopListDel */
+        UPDATE
+            CAM_COMMON.DJ_ALARM
+        SET
+            LIST_DEL_YN = 'Y',
+            MOD_DATE = NOW()
+        WHERE
+            AL_ID = #{alId}
+    </update>
+
+    <update id="setAlarmAllCheck" parameterType="map">
+        /* setAlarmAllCheck */
+        UPDATE
+            CAM_COMMON.DJ_ALARM
+        SET
+            CHECK_YN = 'Y',
+            CHECK_DT = NOW()
+        WHERE
+            RCV_EMP_SEQ = #{empSeq}
+    </update>
 </mapper>

@@ -66,6 +66,25 @@ public class CompanyCardController {
         return "jsonView";
     }
 
+    @RequestMapping("/card/cardToUseList")
+    public String cardToUseList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        List<Map<String, Object>> list = new ArrayList<>();
+        list = companyCardService.cardToUseList(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/card/getCardTOHistList")
+    public String getCardTOHistList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        model.addAttribute("list", companyCardService.getCardTOHistList(params));
+
+        return "jsonView";
+    }
+
     @RequestMapping("/card/statementList.do")
     public String statementList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -150,6 +169,18 @@ public class CompanyCardController {
         model.addAttribute("params", params);
 
         return "popup/cam_manager/companyCard/cardToHistPop";
+    }
+
+    @RequestMapping("/card/setUseCardHist")
+    public String setUseCardHist(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        try{
+            companyCardService.setUseCardHist(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
     }
 
     @RequestMapping("/cam_mng/companyCard/useCardDetailPop.do")
