@@ -77,6 +77,14 @@ public class CompanyCardController {
         return "jsonView";
     }
 
+    @RequestMapping("/card/getCardTOHistList")
+    public String getCardTOHistList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        model.addAttribute("list", companyCardService.getCardTOHistList(params));
+
+        return "jsonView";
+    }
+
     @RequestMapping("/card/statementList.do")
     public String statementList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();

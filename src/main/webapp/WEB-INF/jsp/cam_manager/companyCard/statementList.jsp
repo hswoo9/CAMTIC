@@ -8,11 +8,18 @@
 
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/companyCard/statementList.js?v=${today}'/>"></script>
 <style>
-
+    .k-footer-template td:nth-child(1),
+    .k-footer-template td:nth-child(2),
+    .k-footer-template td:nth-child(3),
+    .k-footer-template td:nth-child(4),
+    .k-footer-template td:nth-child(5),
+    .k-footer-template td:nth-child(6){
+        border-width: 0;
+    }
 </style>
 <input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
 <input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
-
+<input type="hidden" id="cardToSn" name="cardToSn" value="">
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
@@ -32,7 +39,18 @@
     </div>
 </div><!-- col-md-9 -->
 
+<div id="dialog">
+    <p><strong>This example will not work unless you define a valid JSON service URL for `content.url`.</p>
+    <p>The expected JSON response is:
+    <pre>
+
+        { username: "...my username here..." }
+
+        </pre>
+    </strong></p>
+</div>
 <script>
+
 
     statementList.fn_defaultScript();
 </script>

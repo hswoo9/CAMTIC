@@ -185,4 +185,18 @@
             )
     </insert>
 
+    <select id="getCardTOHistList" parameterType="map" resultType="map">
+        /*getCardTOHistList*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_CARD_TO_HIST A
+        LEFT JOIN
+            CAM_HR.ERP_HIST_CORPCD_USE C
+        ON
+            A.AUTH_NO = C.AUTH_NO AND A.AUTH_DD = C.AUTH_DD AND A.AUTH_HH = C.AUTH_HH AND A.BUY_STS = C.BUY_STS AND A.CARD_NO = REPLACE(C.CARD_NO, "-", "")
+        WHERE
+            A.CARD_TO_SN = #{cardToSn}
+    </select>
+
 </mapper>
