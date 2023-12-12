@@ -37,7 +37,7 @@
         </h3>
         <div id="purcBtnDiv" class="btn-st popButton" style="font-size: 12px;">
             <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="fn_save()">등록</button>
-            <button type="button" class="k-button k-button-solid-primary" style="display:none" id="modBtn" onclick="fn_update()">수정</button>
+<%--            <button type="button" class="k-button k-button-solid-primary" style="display:none" id="modBtn" onclick="fn_update()">수정</button>--%>
             <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
         </div>
     </div>

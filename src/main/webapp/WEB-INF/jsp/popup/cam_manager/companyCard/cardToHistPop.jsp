@@ -9,16 +9,6 @@
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/paymentDetView.js?v=${today}'/>"></script>
 
-<link rel="stylesheet" type="text/css" href='/css/pop/contents.css'>
-<link rel="stylesheet" type="text/css" href='/css/pop/common.css'>
-
-
-<!-- 공통팝업 호출 -->
-
-<script type="text/javascript" src ="<c:url value='/js/html2canvas.min.js' />"></script>
-<script type="text/javascript" src ="<c:url value='/js/es6-promise.auto.js' />"></script>
-<script type="text/javascript" src ="<c:url value='/js/jspdf.min.js' />"></script>
-
 <style>
     .k-footer-template td:nth-child(4) {
         overflow: visible;
@@ -42,6 +32,8 @@
 <input type="hidden" id="type" value="${params.type}" />
 <input type="hidden" id="index" value="${params.index}" />
 
+<input type="hidden" id="cardToSn" value="${params.cardToSn}" />
+
 <div>
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">
@@ -62,7 +54,7 @@
         </span>
         <span>
             <b style="font-size: 12px">카드정보</b>
-            <input id="searchValue" style="width: 20%;">
+            <input id="searchValue" disabled style="width: 20%;">
 <%--            <button type="button" style="font-size: 12px" class="k-button k-button-sm k-button-solid-base" id="cardSelBtn" onclick="cardToHist.gridReload()">선택</button>--%>
             <button type="button" style="font-size: 12px" disabled class="k-button k-button-sm k-button-solid-base" id="bnkSelBtn" onkeypress="if(window.event.keyCode==13){cardToHist.fn_search()}">검색</button>
         </span>

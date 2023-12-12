@@ -19,4 +19,8 @@ public interface CompanyCardService {
     Map<String, Object> getCardToInfo(Map<String, Object> params);
 
     void updRegCardTo(Map<String, Object> params);
+
+    void setUseCardHist(Map<String, Object> params);
+
+    List<Map<String, Object>> cardToUseList(Map<String, Object> params);
 }
