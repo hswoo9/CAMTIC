@@ -187,7 +187,7 @@ var regRnd = {
             $("#stopBtn").show();
         }
 
-        customKendo.fn_textBox(["empName", "deptName", "pjtNm", "pjtSubNm", "rndCrmNm", "rndConCrmNm", "crmPartNm", "pjtExpAmt"]);
+        customKendo.fn_textBox(["empName", "deptName", "pjtNm", "pjtSubNm", "rndCrmNm", "rndConCrmNm", "crmPartNm", "pjtExpAmt", "bsTitle"]);
 
         customKendo.fn_datePicker("sbjStrDe", "depth", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("sbjEndDe", "depth", "yyyy-MM-dd", new Date());
@@ -252,6 +252,7 @@ var regRnd = {
             $("#saveBtn").css("display", "none");
             $("#modBtn").css("display", "");
 
+            $("#bsTitle").val(e.BS_TITLE);
             $("#sbjClass").data("kendoDropDownList").value(e.SBJ_CLASS);
             //$("#sbjChar").data("kendoDropDownList").value(e.SBJ_CHAR);
             $("#supDep").data("kendoDropDownList").value(e.SBJ_DEP);
@@ -315,6 +316,7 @@ var regRnd = {
             busnClass : "R",
             busnNm : "R&D",
             sbjClass : $("#sbjClass").val(),
+            bsTitle : $("#bsTitle").val(),
             //sbjChar : $("#sbjChar").val(),
             sbjDep : $("#supDep").val(),
             sbjDepSub : $("#supDepSub").val(),
@@ -376,6 +378,10 @@ var regRnd = {
             alert("과제구분을 선택해주세요.");
             return;
         }
+        if(parameters.bsTitle == ""){
+            alert("사업명을 입력해주세요.")
+            return;
+        }
         //if(parameters.sbjChar == ""){
         //    alert("과제성격을 선택해주세요.");
         //    return;
@@ -418,6 +424,7 @@ var regRnd = {
         var parameters = {
             pjtSn : $("#pjtSn").val(),
             sbjClass : $("#sbjClass").val(),
+            bsTitle : $("#bsTitle").val(),
             //sbjChar : $("#sbjChar").val(),
             sbjDep : $("#supDep").val(),
             sbjDepSub : $("#supDepSub").val(),
@@ -471,6 +478,10 @@ var regRnd = {
 
         if(parameters.sbjClass == ""){
             alert("과제구분을 선택해주세요.");
+            return;
+        }
+        if(parameters.bsTitle == ""){
+            alert("사업명을 입력해주세요.")
             return;
         }
         //if(parameters.sbjChar == ""){

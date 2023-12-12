@@ -180,9 +180,11 @@ var regUnRnd = {
         customKendo.fn_datePicker("sbjStrDe", "depth", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("sbjEndDe", "depth", "yyyy-MM-dd", new Date());
 
-        var data = {
+        var data = {}
+        data.cmGroupCode = "RND_SUBJECT";
+        var sbjDs = customKendo.fn_customAjax("/common/commonCodeList", data);
+        customKendo.fn_dropDownList("sbjClass", sbjDs.rs, "CM_CODE_NM", "CM_CODE", 2);
 
-        }
         data.cmGroupCode = "RND_SUBJECT_CHARACTER";
         var sbjDs = customKendo.fn_customAjax("/common/commonCodeList", data);
         customKendo.fn_dropDownList("sbjChar", sbjDs.rs, "CM_CODE_NM", "CM_CODE", 2);
@@ -236,6 +238,7 @@ var regUnRnd = {
         $("#modBtn").css("display", "");
 
         $("#bsTitle").val(e.BS_TITLE);
+        $("#sbjClass").data("kendoDropDownList").value(e.SBJ_CLASS);
         $("#supDep").data("kendoDropDownList").value(e.SBJ_DEP);
         $("#supDep").data("kendoDropDownList").trigger("change");
         $("#supDepSub").data("kendoDropDownList").value(e.SBJ_DEP_SUB);
@@ -290,6 +293,7 @@ var regUnRnd = {
         var parameters = {
             busnClass : "S",
             busnNm : "비R&D",
+            sbjClass : $("#sbjClass").val(),
             bsTitle : $("#bsTitle").val(),
             sbjChar : $("#sbjChar").val(),
             sbjDep : $("#supDep").val(),
@@ -339,6 +343,10 @@ var regUnRnd = {
             parameters.accountList = JSON.stringify(arr);
         }
 
+        if(parameters.sbjClass == ""){
+            alert("과제구분을 선택해주세요.");
+            return;
+        }
         if(parameters.bsTitle == ""){
             alert("사업명을 입력해주세요.")
             return;
@@ -381,6 +389,7 @@ var regUnRnd = {
     fn_mod : function (){
         var parameters = {
             pjtSn : $("#pjtSn").val(),
+            sbjClass : $("#sbjClass").val(),
             bsTitle : $("#bsTitle").val(),
             sbjChar : $("#sbjChar").val(),
             sbjDep : $("#supDep").val(),
@@ -426,6 +435,10 @@ var regUnRnd = {
             parameters.accountList = JSON.stringify(arr);
         }
 
+        if(parameters.sbjClass == ""){
+            alert("과제구분을 선택해주세요.");
+            return;
+        }
         if(parameters.bsTitle == ""){
             alert("사업명을 입력해주세요.")
             return;

@@ -1512,4 +1512,11 @@ public class ProjectController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/project/getProjectByPjtCd")
+    public String getProjectByPjtCd(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> map = projectService.getProjectByPjtCd(params);
+        model.addAttribute("map", map);
+        return "jsonView";
+    }
 }

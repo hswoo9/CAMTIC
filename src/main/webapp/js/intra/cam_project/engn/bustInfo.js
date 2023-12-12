@@ -159,9 +159,9 @@ var bustInfo = {
                     width: 60,
                     template : function (e){
                         if(e.STATUS == 100){
-                            return '<button type="button" class="k-button k-button-solid-info" onclick="bustInfo.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\')">출장신청서</button>';
+                            return '<button type="button" class="k-button k-button-solid-info" onclick="bustInfo.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">출장신청서</button>';
                         } else {
-                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\')">출장신청서</button>';
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">출장신청서</button>';
                         }
                     }
                 }, {
@@ -295,11 +295,11 @@ var bustInfo = {
         console.log("출장 정보");
     },
 
-    bustripReqPop: function(e, type){
+    bustripReqPop: function(e, type, d){
         let url = "/bustrip/pop/bustripReqPop.do?pjtSn=" + e;
 
         if(type == "req"){
-            url = "/bustrip/pop/bustripReqPop.do?hrBizReqId=" + e + "&type=" + type;
+            url = "/bustrip/pop/bustripReqPop.do?hrBizReqId=" + e + "&type=" + type + "&pjtSn=" + d;
         }
 
         let name = "bustripReqPop";
