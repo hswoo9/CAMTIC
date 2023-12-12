@@ -87,8 +87,18 @@
           <div class="__tit2 __mt100">
             <h3><strong>벤처단지 소개</strong></h3>
           </div>
+          <div class="__space1 m0" style="padding: 0 40px;">
+          <dl class="what" style="margin-top: 30px;">
+            <%-- <dt>전주드론제작소 윙윙스테이션이란?</dt>--%>
+            <dd>
+             전주 첨단벤처단지는 2001년 전주시와 전북대간 단지 조성 및 운영 협약을 통해 조성되었으며, 연구개발, 기술지원, 교육훈련 등 다양한 분야에서
+              기업의 창업 및 혁신성장을 지원하는 산ㆍ학ㆍ연ㆍ관 클러스터 혁신거점 공간입니다.
 
-          <div class="__tit2 __mt100">
+            </dd>
+          </dl>
+          </div>
+
+          <div class="__tit2 __mt70">
             <h3><strong>벤처단지 전경</strong></h3>
           </div>
           <div class="areaA">
@@ -134,21 +144,21 @@
               <td class="fz18 __black" rowspan="3">전주첨단벤처단지<br>(덕진구 유상로 67)</td>
               <td class="fz18 __black">전주혁신창업허브(창업동)</td>
               <td class="tal">연면적 12,212㎡(지하 1층, 지상 6층)</td>
-              <td class="tal">2020.09</td>
+              <td class="tal">2020.09.</td>
               <td class="tal">입주시설<br>(일반 36실, 초기 19실), <br>기업지원시설, <br>드론기술개발지원센터</td>
               <td class="tal">창업 단계 기업 입주공간</td>
             </tr>
             <tr>
               <td class="fz18 __black">전주혁신창업허브(성장동)</td>
               <td class="tal">연면적 9,980㎡(지하 1층, 지상 4층)</td>
-              <td class="tal">2024.09</td>
+              <td class="tal">2024.09.</td>
               <td class="tal">입주시설(일반 35실), <br>기업지원시설, <br>복합소재뿌리기술센터</td>
               <td class="tal">성장 단계 기업 입주공간</td>
             </tr>
             <tr>
               <td class="fz18 __black">예비창업동 (구.본부동)</td>
               <td class="tal">연면적 1,572㎡ (지하 1층, 지상 3층)</td>
-              <td class="tal">2022.06</td>
+              <td class="tal">2022.06.</td>
               <td class="tal">입주시설(초기 7실),<br>기업지원시설 드론제작소 윙윙스테이션(메이커스페이스)</td>
               <td class="tal">초기 단계 기업 입주공간</td>
             </tr>
@@ -156,21 +166,21 @@
               <td class="fz18 __black" rowspan="3">도시첨단산업단지<br>(덕진구 반룡로 110)</td>
               <td class="fz18 __black">R&D직접화동</td>
               <td class="tal">연면적 1,765㎡ (지상 2층)</td>
-              <td class="tal">2007.02</td>
+              <td class="tal">2007.02.</td>
               <td class="tal">입주시설(일반 13실)</td>
               <td class="tal">공장형 입주공간</td>
             </tr>
             <tr>
               <td class="fz18 __black">벤처1동</td>
               <td class="tal">연면적 1,664㎡ (지상 1층)</td>
-              <td class="tal">22007.02</td>
+              <td class="tal">2007.02.</td>
               <td class="tal">입주시설(일반 5실)</td>
               <td class="tal">공장형 입주공간</td>
             </tr>
             <tr>
               <td class="fz18 __black">벤처2동</td>
               <td class="tal">연면적 1,948㎡ (지상 1층)</td>
-              <td class="tal">2007.02</td>
+              <td class="tal">2007.02.</td>
               <td class="tal">입주시설(일반 4실)</td>
               <td class="tal">공장형 입주공간</td>
             </tr>
