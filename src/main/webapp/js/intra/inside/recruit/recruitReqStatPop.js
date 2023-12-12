@@ -23,7 +23,7 @@ var rcReqStatPop = {
             {text: "채용완료", value: "4"}
         ]
         customKendo.fn_dropDownList("recruitStatus", recruitStatusArr, "text", "value", 2);
-        $("#recruitStatus").data("kendoDropDownList").select(2);
+        //$("#recruitStatus").data("kendoDropDownList").select(2);
 
         $("#recruitDetail").kendoTextArea({ rows: 5, maxLength:200, placeholder: "" });
         $("#eligibilityEtc").kendoTextArea({ rows: 5, maxLength:200, placeholder: "" });
@@ -114,7 +114,9 @@ var rcReqStatPop = {
         var result = customKendo.fn_customAjax("/inside/getRecruit.do", {recruitInfoSn : $("#recruitInfoSn").val()})
         if(result.flag){
             var recruit = result.recruit;
+            console.log("result",result);
             console.log("recruit",recruit);
+            console.log("applicationCount",recruit.applicationCount);
             $("#recruitNum").val(recruit.RECRUIT_NUM);
             $("#recruitTitle").val(recruit.RECRUIT_TITLE);
             $("#recruitDetail").val(recruit.RECRUIT_DETAIL);
@@ -132,7 +134,20 @@ var rcReqStatPop = {
             $("#applicationDoc").val(recruit.APPLICATION_DOC);
             $("#receiptDocu").val(recruit.RECEIPT_DOCU);
             $("#remark").val(recruit.REMARK);
-            $("#recruitStatus").data("kendoDropDownList").value(recruit.RECRUIT_STATUS_SN);
+
+            let recruitStatusArr = [
+                {text: "작성중", value: "1"},
+                {text: "접수중", value: "2"},
+                {text: "심사중", value: "3"},
+                {text: "채용완료", value: "4"}
+            ]
+            if (recruit.applicationCount >= 1) {
+                recruitStatusArr = recruitStatusArr.filter(item => item.value !== "1");
+                customKendo.fn_dropDownList("recruitStatus", recruitStatusArr, "text", "value", 2);
+                $("#recruitStatus").data("kendoDropDownList").value(recruit.RECRUIT_STATUS_SN);
+            }else{
+                $("#recruitStatus").data("kendoDropDownList").value(recruit.RECRUIT_STATUS_SN);
+            }
         }
     },
 
