@@ -243,6 +243,9 @@ var unRndDP = {
 
         var invResult = customKendo.fn_customAjax("/project/getInvList", data);
         var list = invResult.list;
+        if(list.length == 0){
+            unRndDP.global.invCk = "N";
+        }
 
         for(var i = 0 ; i < list.length ; i++){
             var idx = i+1;

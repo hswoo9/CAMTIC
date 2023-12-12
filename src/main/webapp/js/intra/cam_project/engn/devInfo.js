@@ -447,6 +447,7 @@ var devInfo = {
                         dataTextField : "text",
                         dataValueField : "value"
                     });
+                    devInfo.global.invCk = "N";
 
                 }
 
