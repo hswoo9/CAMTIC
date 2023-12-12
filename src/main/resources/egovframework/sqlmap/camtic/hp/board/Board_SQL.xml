@@ -201,6 +201,7 @@
             BOARD_ARTICLE_TITLE = #{noticeTitle},
             BOARD_ARTICLE_CONTENT_URL = #{urlText},
             BOARD_ARTICLE_CONTENT = #{content},
+            REG_EMP_NAME = #{writer},
             START_DT = #{startDt},
             END_DT = #{endDt},
             SNS_TYPE = #{snsType},

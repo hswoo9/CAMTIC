@@ -347,7 +347,7 @@
                 #{id},
                 #{password},
                 #{name},
-                #{birth}
+                #{birth},
                 #{gender},
                 #{coName},
                 #{part},

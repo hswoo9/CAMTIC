@@ -112,15 +112,16 @@
 									</td>
 								</tr>
 								<tr style="border-bottom: 1px solid #ccc;">
-									<th>
 									<c:choose>
-										<c:when test="${categoryId eq 'report'}">출처</c:when>
-										<c:otherwise>작성자</c:otherwise>
+										<c:when test="${categoryId eq 'report'}">
+											<th>출처</th>
+										</c:when>
+										<c:otherwise>
+											<th>작성자</th>
+										</c:otherwise>
 									</c:choose>
-									</th>
-									<%--<th>작성자</th>--%>
 									<td>
-										<input type="text" id="writer" class="inputText" value="관리자" disabled/>
+										<input type="text" id="writer" class="inputText" value="관리자" ${categoryId eq 'report' ? '' : 'disabled'}/>
 									</td>
 								</tr>
 								<c:if test="${categoryId eq 'sns'}">

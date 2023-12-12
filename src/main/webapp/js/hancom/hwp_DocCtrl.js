@@ -81,7 +81,7 @@ var hwpDocCtrl = {
                         const explantion = "아래와 같은 사유로 ("+explanationDT+")일 휴가코자 합니다.";
                         hwpDocCtrl.putFieldText('explanation', explantion);
 
-                        let regSign = "위 원 인 : "+ResultData.EMP_NAME_KR+" (서명)"
+                        let regSign = "위 원 인 : "+ResultData.EMP_NAME_KR;
 
                         hwpDocCtrl.putFieldText('regSign', regSign);
 
@@ -89,7 +89,7 @@ var hwpDocCtrl = {
                         hwpDocCtrl.putFieldText('toDate', toDate);
 
                         if(ResultData.OHTER_EMP != null && ResultData.OHTER_EMP != ""){
-                            let ohterSign = "업무인수자 : "+ResultData.OHTER_EMP+" (서명)"
+                            let ohterSign = "업무인수자 : "+ResultData.OHTER_EMP;
                             hwpDocCtrl.putFieldText('OHTER_EMP_SIGN', ohterSign);
                         }
 

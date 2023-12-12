@@ -266,11 +266,11 @@ var regRnd = {
 
             const rndInfo = customKendo.fn_customAjax("/projectRnd/getRndDetail", {pjtSn: $("#pjtSn").val()});
             const delvMap = rndInfo.map;
-            console.log(delvMap);
             if(delvMap != null){
-                $("#pjtExpAmt").val(comma(e.PJT_AMT));
+                if(delvMap.STATUS == "100"){
+                    $("#pjtExpAmt").val(comma(e.PJT_AMT));
+                }
             }
-
 
             if(e.CRM_CON_NM = null && e.CRM_CON_NM != ""){
                 $("#rndConCrmNm").val(e.CRM_CON_SN);

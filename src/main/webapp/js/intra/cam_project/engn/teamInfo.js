@@ -195,16 +195,18 @@ var teamInfo = {
                             per = (Number(e.TM_AMT) / Number(uncomma($("#pjtExpAmt").val()))) * 100;
                             return Number.isInteger(per) ? (per + "%") : (per.toFixed(2) + "%");
                         } else {
-                            if($("#pjtAmt").val() == undefined || $("#pjtAmt").val() == "" || $("#pjtAmt").val() == null){
+                            if($("#pjtStep").val() < 'E3'){
                                 let per;
                                 per = (Number(e.TM_AMT) / Number(uncomma($("#delvAmt2").val()))) * 100;
-                                console.log("per : "+per);
+                                console.log("delvAmt2 : "+Number(uncomma($("#delvAmt2").val())));
+                                console.log("1 per : "+per);
                                 console.log(Number.isInteger(per) ? (per + "%") : (per.toFixed(2) + "%"));
                                 return Number.isInteger(per) ? (per + "%") : (per.toFixed(2) + "%");
-                            } else {
+                            }else{
                                 let per;
                                 per = (Number(e.TM_AMT) / Number(uncomma(e.PJT_AMT))) * 100;
-                                console.log("per : "+per);
+                                console.log("PJT_AMT : "+Number(uncomma(e.PJT_AMT)));
+                                console.log("2 per : "+per);
                                 console.log(Number.isInteger(per) ? (per + "%") : (per.toFixed(2) + "%"));
                                 return Number.isInteger(per) ? (per + "%") : (per.toFixed(2) + "%");
                             }
