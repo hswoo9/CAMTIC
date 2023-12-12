@@ -197,7 +197,7 @@
             </li>
             <li>
               <img src="/images/camtic/img-ntalent3-2-2.png" alt="" style="border-radius: 10px; width:290px; height: 185px;">
-              <p class="__fz18 __balck __mt10">전문기술인력<br class="__m">양성사업</p>
+              <p class="__fz18 __balck __mt10">이공계 전문기술인력<br class="__m">양성사업</p>
             </li>
             <li>
               <img src="/images/camtic/img-ntalent3-3-3.png" alt="" style="border-radius: 10px; width:290px; height: 185px;">
