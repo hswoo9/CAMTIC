@@ -158,10 +158,10 @@ var payCardHist = {
                     template : "<input type='checkbox' id='cardPk#=AUTH_NO#' name='cardPk' class='cardPk' value='#=AUTH_NO#'/>",
                     width: 50
                 }, {
-                    title: "승인일시",
+                    title: "승인일자",
                     width: 130,
                     template : function (e){
-                        return e.AUTH_DD.substring(0, 4) + "-" + e.AUTH_DD.substring(4, 6) + "-" + e.AUTH_DD.substring(6, 8) + " " + e.AUTH_HH.substring(0, 2) + ":" + e.AUTH_HH.substring(2, 4) + ":" + e.AUTH_HH.substring(4, 6);
+                        return e.AUTH_DD.substring(0, 4) + "-" + e.AUTH_DD.substring(4, 6) + "-" + e.AUTH_DD.substring(6, 8); // + " " + e.AUTH_HH.substring(0, 2) + ":" + e.AUTH_HH.substring(2, 4) + ":" + e.AUTH_HH.substring(4, 6);
                     }
                 }, {
                     title: "승인번호",
