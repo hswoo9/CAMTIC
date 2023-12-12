@@ -51,7 +51,16 @@
 
     <select id="getCardTOData" parameterType="map" resultType="map">
         /*getCardTOData*/
-        SELECT * FROM CAM_MNG.DJ_CARD_TO WHERE DEL_YN = 'N'
+        SELECT
+            A.*,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = B.DEPT_SEQ) AS TEAM_NAME
+        FROM
+            CAM_MNG.DJ_CARD_TO A
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO B
+        ON
+            A.USE_EMP_SEQ = B.EMP_SEQ
+        WHERE DEL_YN = 'N'
     </select>
 
     <insert id="saveRegCardTo" parameterType="map">
@@ -89,6 +98,35 @@
         UPDATE CAM_MNG.DJ_CARD_TO
         SET
             DEL_YN = 'Y'
+        WHERE
+            CARD_TO_SN = #{cardToSn}
+    </update>
+
+    <select id="getCardToInfo" parameterType="map" resultType="map">
+        /*getCardToInfo*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_CARD_TO
+        WHERE
+            CARD_TO_SN = #{cardToSn}
+    </select>
+
+    <update id="updRegCardTo" parameterType="map">
+        /*updRegCardTo*/
+        UPDATE
+            CAM_MNG.DJ_CARD_TO
+        SET
+            TR_CD = #{trCd},
+            JIRO_NM = #{jiroNm},
+            BA_NB = #{baNb},
+            DEPOSITOR = #{depositor},
+            TR_NM = #{trNm},
+            CARD_BA_NB = #{cardBaNb},
+            USE_EMP_SEQ = #{empSeq},
+            USE_EMP_NAME = #{empName},
+            CARD_TO_DE = #{cardToDe},
+            REG_EMP_SEQ = #{regEmpSeq}
         WHERE
             CARD_TO_SN = #{cardToSn}
     </update>

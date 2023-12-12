@@ -50,6 +50,7 @@ var statementList = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound : statementList.onDataBound,
             toolbar : [
                 {
                     name : 'button',
@@ -61,7 +62,7 @@ var statementList = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="statementList.mainGrid()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -74,19 +75,30 @@ var statementList = {
                     width: 50
                 }, {
                     field: "TR_NM",
-                    title: "카드명"
+                    title: "카드명",
+                    width: 300
                 }, {
                     field: "CARD_TO_DE",
                     title: "사용일자",
                     width: 200
                 }, {
+                    field: "TEAM_NAME",
+                    title: "팀",
+                    width: 100
+                }, {
                     field: "USE_EMP_NAME",
-                    title: "사용자",
-                    width: 180
+                    title: "이름",
+                    width: 100
                 }, {
                     field: "CARD_BA_NB",
                     title: "카드번호",
                     width: 300,
+                }, {
+                    title: "사용이력등록",
+                    width: 120,
+                    template: function(e){
+                        return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="statementList.fn_addCardHist('+e.CARD_TO_SN+')">추가</button>'
+                    }
                 }, {
                     title: "기타",
                     width: 100,
@@ -101,8 +113,17 @@ var statementList = {
         }).data("kendoGrid");
     },
 
-    fn_regCardToPop : function(){
-        var url = "/card/regCardToPop.do";
+    onDataBound: function(){
+        const grid = this;
+        grid.tbody.find("tr").dblclick(function(){
+            const dataItem = grid.dataItem($(this));
+            const key = dataItem.CARD_TO_SN;
+            statementList.fn_regCardToPop(key);
+        });
+    },
+
+    fn_regCardToPop : function(key){
+        var url = "/card/regCardToPop.do?cardToSn=" + key;
         var name = "_blank";
         var option = "width = 700, height = 500, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
@@ -129,5 +150,13 @@ var statementList = {
                 }
             }
         });
+    },
+
+    fn_addCardHist: function(key){
+        var url = "/card/pop/cardToHist.do?cardToSn=" + key;
+
+        var name = "_blank";
+        var option = "width = 1500, height = 700, top = 100, left = 300, location = no"
+        var popup = window.open(url, name, option);
     }
 }
