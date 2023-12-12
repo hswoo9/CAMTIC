@@ -32,7 +32,7 @@
                 </button>
               </a>
               <button class="btn btn-notice alert-notice" data-toggle="dropdown" style="border-left:0;">
-                <div class="fa fa-bell-o notify-count count1 common-count">
+                <div class="fa fa-bell-o notify-count count1 common-count" onclick="alarmList()">
                 </div>
               </button>
               <div id="noticeDropdown" class="dropdown-menu dm-notice pull-right">
