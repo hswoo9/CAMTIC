@@ -88,23 +88,28 @@ var hwpDocCtrl = {
                         let toDate = year+"년 "+month+"월 "+date+"일";
                         hwpDocCtrl.putFieldText('toDate', toDate);
 
+                        if(ResultData.OHTER_EMP != null && ResultData.OHTER_EMP != ""){
+                            let ohterSign = "업무인수자 : "+ResultData.OHTER_EMP+" (서명)"
+                            hwpDocCtrl.putFieldText('OHTER_EMP_SIGN', ohterSign);
+                        }
+
                         let html = '';
                         if(ResultData.SUBHOLIDAY_CODE_ID == "1"){
-                            html += '연가□오전반차□오후반차□경조휴가<br>□병가□공가□대체휴가□근속포상휴가';
+                            html += '■연가□오전반차□오후반차□경조휴가<br>□병가□공가□대체휴가□근속포상휴가';
                         }else if(ResultData.SUBHOLIDAY_CODE_ID == "3"){
-                            html += '□연가오전반차□오후반차□경조휴가<br>□병가□공가□대체휴가□근속포상휴가';
+                            html += '□연가■오전반차□오후반차□경조휴가<br>□병가□공가□대체휴가□근속포상휴가';
                         }else if(ResultData.SUBHOLIDAY_CODE_ID == "4"){
-                            html += '□연가□오전반차오후반차□경조휴가<br>□병가□공가□대체휴가□근속포상휴가';
+                            html += '□연가□오전반차■오후반차□경조휴가<br>□병가□공가□대체휴가□근속포상휴가';
                         }else if(ResultData.SUBHOLIDAY_CODE_ID == "5"){
-                            html += '□연가□오전반차□오후반차□경조휴가<br>병가□공가□대체휴가□근속포상휴가';
+                            html += '□연가□오전반차□오후반차□경조휴가<br>■병가□공가□대체휴가□근속포상휴가';
                         }else if(ResultData.SUBHOLIDAY_CODE_ID == "6"){
-                            html += '□연가□오전반차□오후반차□경조휴가<br>□병가공가□대체휴가□근속포상휴가';
+                            html += '□연가□오전반차□오후반차□경조휴가<br>□병가■공가□대체휴가□근속포상휴가';
                         }else if(ResultData.SUBHOLIDAY_CODE_ID == "7"){
-                            html += '□연가□오전반차□오후반차경조휴가<br>□병가□공가□대체휴가□근속포상휴가';
+                            html += '□연가□오전반차□오후반차■경조휴가<br>□병가□공가□대체휴가□근속포상휴가';
                         }else if(ResultData.SUBHOLIDAY_CODE_ID == "9"){
-                            html += '□연가□오전반차□오후반차□경조휴가<br>□병가□공가대체휴가□근속포상휴가';
+                            html += '□연가□오전반차□오후반차□경조휴가<br>□병가□공가■대체휴가□근속포상휴가';
                         }else if(ResultData.SUBHOLIDAY_CODE_ID == "10"){
-                            html += '□연가□오전반차□오후반차□경조휴가<br>□병가□공가□대체휴가근속포상휴가';
+                            html += '□연가□오전반차□오후반차□경조휴가<br>□병가□공가□대체휴가■근속포상휴가';
                         }
                         hwpDocCtrl.global.HwpCtrl.MoveToField('HOLI_TEXT_BOX', true, true, false);
                         hwpDocCtrl.setTextFile(html, "html","insertfile");
