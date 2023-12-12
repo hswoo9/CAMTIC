@@ -1183,6 +1183,9 @@ function empInfoFileSave(){
     if($("#signPhotoFile")[0].files.length == 1){   //결재사인
         formData.append("signPhotoFile", $("#signPhotoFile")[0].files[0]);
     }
+    if($("#sign2PhotoFile")[0].files.length == 1){   //직인
+        formData.append("sign2PhotoFile", $("#sign2PhotoFile")[0].files[0]);
+    }
 
     $.ajax({
         url: '/userManage/setempInfoFileSave.do',
@@ -1271,8 +1274,8 @@ function viewSignPhoto(input) {
     }
 }
 
-//개인사진 첨부 이미지 미리보기
- function viewMyPhoto(input) {
+//직인 첨부 이미지 미리보기
+ function viewSign2Photo(input) {
     if(input.files[0].size > 10000000){
         alert("파일 용량이 너무 큽니다. 10MB 이하로 업로드해주세요.");
         return;
@@ -1281,9 +1284,9 @@ function viewSignPhoto(input) {
     if(input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function (e) {
-            $('#myPhotoView').attr('src', e.target.result);
-            $('#myPhotoView').css('display', 'block');
-            $('#myPhotoViewText').css('display', 'none');
+            $('#sign2PhotoView').attr('src', e.target.result);
+            $('#sign2PhotoView').css('display', 'block');
+            $('#sign2PhotoViewText').css('display', 'none');
         }
         reader.readAsDataURL(input.files[0]);
     }

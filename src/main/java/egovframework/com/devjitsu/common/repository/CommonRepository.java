@@ -84,4 +84,14 @@ public class CommonRepository extends AbstractDAO {
     public void updFileOwnerNull(Map<String, Object> params) {
         update("common.updFileOwnerNull", params);
     }
+
+    /**
+     * 알림
+     * @param params
+     */
+    public List<Map<String, Object>> getAlarmList(Map<String, Object> params) { return selectList("common.getAlarmList", params);}
+    public void setAlarm(Map<String, Object> params) { insert("common.setAlarm", params);}
+    public void setAlarmCheck(Map<String, Object> params) { update("common.setAlarmCheck", params); }
+    public void setAlarmTopListDel(Map<String, Object> params) { update("common.setAlarmTopListDel", params); }
+    public void setAlarmAllCheck(Map<String, Object> params) { update("common.setAlarmAllCheck", params); }
 }

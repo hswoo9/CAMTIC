@@ -568,7 +568,6 @@
                     };
                     var scheduleType = scheduleTypeList[article.SCHEDULE_TYPE] || article.SCHEDULE_TYPE;
 
-                    console.log(result.list)
 
                     if(v == "schedule1Ul"){
                         html += '' +
