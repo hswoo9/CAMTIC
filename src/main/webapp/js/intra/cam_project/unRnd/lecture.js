@@ -4,6 +4,7 @@ var ub = {
             busnClass: "S"
         }).list
         customKendo.fn_dropDownList("projectType", projectDataSource, "BS_TITLE", "PJT_SN", 2);
+        $("#projectType").data("kendoDropDownList").value($("#pjtSn").val());
     },
 
     fn_fieldTypeSet: function(){
