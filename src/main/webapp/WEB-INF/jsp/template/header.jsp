@@ -110,6 +110,7 @@
   var socket = null;
 
   $(document).ready(function(){
+      alarmList();
       connectWS();
     })
 
@@ -187,6 +188,7 @@
                 '</div>' +
               '</li>';
         }
+
         $("#alarmUl").html(html);
       }
     }
