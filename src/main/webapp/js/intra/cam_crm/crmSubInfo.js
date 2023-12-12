@@ -91,6 +91,7 @@ var crmSi = {
             dataSource: [
                 {text : "선택하세요", value : "" },
                 {text : "계속사업자", value : "01" },
+                {text : "휴업자", value : "02" },
                 {text : "폐업자", value : "03" }
             ],
             valuePrimitive: true
