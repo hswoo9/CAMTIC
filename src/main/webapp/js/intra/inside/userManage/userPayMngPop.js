@@ -125,9 +125,7 @@ var popUserPay = {
             var ddl = $("#socialRateSn" + count).data("kendoDropDownList");
             ddl.list.width(200);
 
-
-
-            $("#socialRateSn" + count).data("kendoDropDownList").bind("change", function(){
+            ddl.bind("change", function(){
                 var data = {
                     socialRateSn : $("#socialRateSn" + count).val()
                 }
@@ -167,6 +165,7 @@ var popUserPay = {
             console.log(list[count].SOCIAL_RATE_SN);
             ddl.value(list[count].SOCIAL_RATE_SN);
             ddl.trigger("change");
+            dataSource.list.shift();
         }
 
     },

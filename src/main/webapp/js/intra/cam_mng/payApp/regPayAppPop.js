@@ -139,6 +139,9 @@ var regPay = {
             }
         }
 
+
+        $(".payDestInfo td input").css("font-size", "9px");
+        $(".payDestInfo td span").css("font-size", "9px");
     },
 
     payAppBtnSet: function (data){
@@ -821,6 +824,9 @@ var regPayDet = {
         $("#appTeam0").data("kendoDropDownList").value($("#loginDeptSeq").val());
         customKendo.fn_datePicker("trDe0", "month", "yyyy-MM-dd", new Date());
 
+        $(".payDestInfo td input").css("font-size", "9px");
+        $(".payDestInfo td span").css("font-size", "9px");
+
     },
 
     fn_popRegDet : function (v, i){
@@ -955,6 +961,9 @@ var regPayDet = {
         $("#appTeam" + regPayDet.global.itemIndex).data("kendoDropDownList").value($("#loginDeptSeq").val());
 
         regPayDet.global.itemIndex++;
+
+        $(".payDestInfo td input").css("font-size", "9px");
+        $(".payDestInfo td span").css("font-size", "9px");
     },
 
     delRow : function (row){

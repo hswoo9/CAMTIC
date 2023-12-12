@@ -106,8 +106,18 @@ var rbl = {
 			html += "	</td>";
 			html += "	<td class='ta-center'>" + row.reg_EMP_NAME + "</td>";
 			html += "	<td class='ta-center'>" + dt + "</td>";
-			html += "	<td class='ta-center'>" + row.status + "</td>";
+			if(row.status == '접수완료'){
+				html += "	<td class='ta-center' style='color: green;'>" + row.status + "</td>";
+			}else if(row.status == '요청중') {
+				html += "	<td class='ta-center' style='color: red;'>" + row.status + "</td>";
+			}else if(row.status == '처리완료'){
+				html += "	<td class='ta-center' style='color: blue;'>" + row.status + "</td>";
+			}else {
+				html += "	<td class='ta-center'>" + row.status + "</td>";
+			}
 			html += "</tr>";
+
+			console.log(row.status);
 
 			i--;
 		});

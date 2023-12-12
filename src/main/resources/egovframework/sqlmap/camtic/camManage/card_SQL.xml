@@ -10,11 +10,11 @@
         FROM
             CAM_HR.ERP_HIST_CORPCD_USE A
         LEFT JOIN
-                CAM_MNG.DJ_CARD_INFO B
+            CAM_MNG.DJ_CARD_INFO B
         ON
             A.CARD_NO = REPLACE(B.CARD_BA_NB, '-', '')
         LEFT JOIN
-                CAM_MNG.DJ_USE_CARD_INFO C
+            CAM_MNG.DJ_USE_CARD_INFO C
         ON
             A.AUTH_NO = C.AUTH_NO AND A.AUTH_DD = C.AUTH_DD AND A.AUTH_HH = C.AUTH_HH AND A.BUY_STS = C.BUY_STS AND A.CARD_NO = REPLACE(C.CARD_NO, "-", "")
         WHERE 1=1
@@ -27,11 +27,43 @@
         ]]>
         </if>
         <if test='searchValue != null and !"".equals(searchValue)'>
-            AND (B.TR_NM LIKE CONCAT('%', #{searchValue}, '%')
-                OR A.CARD_NO LIKE CONCAT('%', #{searchValue}, '%'))
+            AND (B.TR_NM LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%')
+                OR A.CARD_NO LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%'))
         </if>
         AND
             C.USE_CARD_SN IS NULL
+        ORDER BY A.AUTH_DD DESC
+    </select>
+
+    <select id="cardToUseList" parameterType="map" resultType="map">
+        /*cardToUseList*/
+        SELECT
+            *
+        FROM
+            CAM_HR.ERP_HIST_CORPCD_USE A
+        LEFT JOIN
+            CAM_MNG.DJ_CARD_INFO B
+        ON
+            A.CARD_NO = REPLACE(B.CARD_BA_NB, '-', '')
+        LEFT JOIN
+            CAM_MNG.DJ_CARD_TO_HIST C
+        ON
+            A.AUTH_NO = C.AUTH_NO AND A.AUTH_DD = C.AUTH_DD AND A.AUTH_HH = C.AUTH_HH AND A.BUY_STS = C.BUY_STS AND A.CARD_NO = REPLACE(C.CARD_NO, "-", "")
+        AND
+            C.CARD_TO_SN = #{cardToSn}
+        WHERE 1=1
+        <if test='startDt != null and !"".equals(startDt)'>
+            <![CDATA[
+            AND
+                DATE_FORMAT(#{startDt}, '%Y%m%d') <= A.AUTH_DD
+            AND
+                DATE_FORMAT(#{endDt}, '%Y%m%d') >= A.AUTH_DD
+        ]]>
+        </if>
+        <if test='searchValue != null and !"".equals(searchValue)'>
+            AND (B.TR_NM LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%')
+            OR A.CARD_NO LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%'))
+        </if>
         ORDER BY A.AUTH_DD DESC
     </select>
 
@@ -130,5 +162,27 @@
         WHERE
             CARD_TO_SN = #{cardToSn}
     </update>
+
+    <insert id="insUseCardHist" parameterType="map">
+        /*insUseCardHist*/
+        INSERT INTO CAM_MNG.DJ_CARD_TO_HIST
+            (
+                CARD_TO_SN,
+                CARD_NO,
+                AUTH_NO,
+                AUTH_DD,
+                AUTH_HH,
+                BUY_STS
+            )
+        VALUES
+            (
+                #{CARD_TO_SN},
+                #{CARD_NO},
+                #{AUTH_NO},
+                #{AUTH_DD},
+                #{AUTH_HH},
+                #{BUY_STS}
+            )
+    </insert>
 
 </mapper>
