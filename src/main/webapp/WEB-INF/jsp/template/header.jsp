@@ -32,78 +32,20 @@
                 </button>
               </a>
               <button class="btn btn-notice alert-notice" data-toggle="dropdown" style="border-left:0;">
-                <i class="fa fa-bell-o"></i>
+                <div class="fa fa-bell-o notify-count count1 common-count">
+                </div>
               </button>
               <div id="noticeDropdown" class="dropdown-menu dm-notice pull-right">
                 <div role="tabpanel">
                   <!-- Nav tabs -->
                   <ul class="nav nav-tabs nav-justified" role="tablist">
-                    <li class="active"><a data-target="#notification" data-toggle="tab">알림1</a></li>
-                    <li><a data-target="#reminders" data-toggle="tab">알림2</a></li>
+                    <li class="active"><a data-target="#notification" data-toggle="tab">알림</a></li>
                   </ul>
 
                   <!-- Tab panes -->
                   <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="notification">
-                      <ul class="list-group notice-list">
-                        <li class="list-group-item unread">
-                          <div class="row">
-                            <div class="col-xs-2">
-                              <i class="fa fa-envelope"></i>
-                            </div>
-                            <div class="col-xs-10">
-                              <h5><a href="">인사발령</a></h5>
-                              <small>2022.01.05</small>
-                              <span>인사발령에관하여 알려드립니다</span>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="list-group-item unread">
-                          <div class="row">
-                            <div class="col-xs-2">
-                              <i class="fa fa-user"></i>
-                            </div>
-                            <div class="col-xs-10">
-                              <h5><a href="">인사발령</a></h5>
-                              <small>2022.01.05</small>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="list-group-item">
-                          <div class="row">
-                            <div class="col-xs-2">
-                              <i class="fa fa-user"></i>
-                            </div>
-                            <div class="col-xs-10">
-                              <h5><a href="">인사발령</a></h5>
-                              <small>2022.01.05</small>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="list-group-item">
-                          <div class="row">
-                            <div class="col-xs-2">
-                              <i class="fa fa-thumbs-up"></i>
-                            </div>
-                            <div class="col-xs-10">
-                              <h5><a href="">인사발령</a></h5>
-                              <small>2022.01.05</small>
-                              <span>인사발령에관하여 알려드립니다</span>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="list-group-item">
-                          <div class="row">
-                            <div class="col-xs-2">
-                              <i class="fa fa-comment"></i>
-                            </div>
-                            <div class="col-xs-10">
-                              <h5><a href="">인사발령</a></h5>
-                              <small>2022.01.05</small>
-                              <span>인사발령에관하여 알려드립니다</span>
-                            </div>
-                          </div>
-                        </li>
+                      <ul class="list-group notice-list" id="alarmUl">
                       </ul>
                       <a class="btn-more" href="">더보기 <i class="fa fa-long-arrow-right"></i></a>
                     </div><!-- tab-pane -->
@@ -163,8 +105,38 @@
     </div><!-- headerbar -->
   </div><!-- header-->
 </header>
-
+<script src="/js/sockjs.min.js"></script>
 <script>
+  var socket = null;
+
+  $(document).ready(function(){
+      connectWS();
+    })
+
+    function connectWS(){
+      sock = new WebSocket("ws://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/websocket.do");
+      socket = sock;
+
+      sock.onopen = function(e) {
+        console.log('info: connection opened.');
+      };
+
+      sock.onmessage = function(e){
+        console.log('info : connection onmessage.');
+        onMessage(e);
+      }
+
+      sock.onclose = function(){
+        $("#chat").append("연결 종료");
+      };
+      sock.onerror = function (err) {console.log('Errors : ' , err);};
+    }
+
+    function onMessage(evt){
+      var data = evt.data;
+      alarmList();
+    }
+
     function fn_mvMainPage(){
         open_in_frame("/indexBMain.do");
     }
@@ -174,6 +146,68 @@
       var name = "popup test";
       var option = "width = 980, height = 807, top = 100, left = 200, location = no"
       var popup = window.open(url, name, option);
+    }
+
+    function alarmList(){
+      var result = customKendo.fn_customAjax("/common/getAlarmList.do");
+      if(result.flag){
+        var rs = result.rs;
+        var html = "";
+
+        if(rs.length > 0){
+          for(var i = 0; i < rs.length; i++){
+            html += '' +
+              '<li class="list-group-item unread">' +
+                '<div class="row">' +
+                  '<div class="col-xs-2">' +
+                    '<i class="fa fa-envelope"></i>' +
+                  '</div>' +
+                  '<div class="col-xs-10">' +
+                    '<h5>' +
+                      '<a href="javascript:void(0)" onclick=\"fn_opener(\'' + rs[i].URL + '\', \'' + rs[i].AL_ID + '\')\">' +
+                        rs[i].TITLE +
+                      '</a>' +
+                      '<span style="float:right;margin: 0;font-size: 12px;cursor: pointer" onclick="alarmListDel('+ rs[i].AL_ID +')">X</span>' +
+                    '</h5>' +
+                    '<small>' +
+                      rs[i].REG_DATE +
+                    '</small>' +
+                    '<span>' +
+                      rs[i].CONTENT+
+                    '</span>' +
+                  '</div>' +
+                '</div>' +
+              '</li>';
+          }
+        }else{
+          html += '' +
+              '<li class="list-group-item unread" style="text-align: center">' +
+                '<div class="row">' +
+                    '<h5>알림이 없습니다.</h5>' +
+                '</div>' +
+              '</li>';
+        }
+        $("#alarmUl").html(html);
+      }
+    }
+
+    function fn_opener(url, alId){
+      window.open(url, '', 'width=900, height=850');
+      setAlarmCheck(alId);
+    }
+
+    function setAlarmCheck(alId){
+      var result = customKendo.fn_customAjax("/common/setAlarmCheck.do", {alId : alId});
+      if(result.flag){
+        alarmList();
+      }
+    }
+
+    function alarmListDel(alId){
+      var result = customKendo.fn_customAjax("/common/setAlarmTopListDel.do", {alId : alId});
+      if(result.flag){
+        alarmList();
+      }
     }
 
     function fn_searchMenu(){

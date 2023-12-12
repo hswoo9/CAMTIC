@@ -62,4 +62,13 @@ public interface CommonService {
     void getContentFileDelOne(Map<String, Object> params);
 
     void insFileUpload(Map<String, Object> fileParameters);
+
+    /**
+     * 알림
+     */
+    List<Map<String, Object>> getAlarmList(Map<String, Object> params);
+    void setAlarm(Map<String, Object> params);
+    void setAlarmCheck(Map<String, Object> params);
+    void setAlarmTopListDel(Map<String, Object> params);
+    void setAlarmAllCheck(Map<String, Object> params);
 }

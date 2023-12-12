@@ -75,7 +75,7 @@ var draftFormList = {
                 linkagePopActive: result.formInfoReqOpt.LINKAGE_POP_ACTIVE,
                 linkagePopWidth: result.formInfoReqOpt.LINKAGE_POP_WIDTH,
                 linkagePopHeight: result.formInfoReqOpt.LINKAGE_POP_HEIGHT,
-                docTitle: "["+result.formInfoReqOpt.FORM_NAME+"]"+($("#regTeamName").val() == "" ? $("#regDeptName").val() : $("#regTeamName").val() )+"-"+$("#regEmpName").val()
+                docTitle: encodeURI("["+result.formInfoReqOpt.FORM_NAME+"]"+($("#regTeamName").val() == "" ? $("#regDeptName").val() : $("#regTeamName").val() )+"-"+$("#regEmpName").val())
             }
         }
     },

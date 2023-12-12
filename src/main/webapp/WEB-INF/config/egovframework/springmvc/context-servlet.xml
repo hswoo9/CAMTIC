@@ -6,6 +6,16 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd">
 
+    <!-- 웹 소켓핸들러 -->
+    <websocket:handlers>
+        <websocket:mapping handler="WebSocketHandler" path="/websocket.do"/>
+        <websocket:handshake-interceptors>
+            <bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+        </websocket:handshake-interceptors>
+        <!-- <websocket:sockjs /> -->
+    </websocket:handlers>
+    <bean id="WebSocketHandler" class="egovframework.com.cmm.config.WebSocketHandler" />
+
 
     <bean id="urlBasedViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />

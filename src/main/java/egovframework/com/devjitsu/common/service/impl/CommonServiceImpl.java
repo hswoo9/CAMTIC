@@ -339,4 +339,29 @@ public class CommonServiceImpl implements CommonService {
     public void insFileUpload(Map<String, Object> fileParameters) {
         commonRepository.insFileUpload(fileParameters);
     }
+
+    @Override
+    public List<Map<String, Object>> getAlarmList(Map<String, Object> params) {
+        return commonRepository.getAlarmList(params);
+    }
+
+    @Override
+    public void setAlarm(Map<String, Object> params) {
+        commonRepository.setAlarm(params);
+    }
+
+    @Override
+    public void setAlarmCheck(Map<String, Object> params) {
+        commonRepository.setAlarmCheck(params);
+    }
+
+    @Override
+    public void setAlarmTopListDel(Map<String, Object> params) {
+        commonRepository.setAlarmTopListDel(params);
+    }
+
+    @Override
+    public void setAlarmAllCheck(Map<String, Object> params) {
+        commonRepository.setAlarmAllCheck(params);
+    }
 }

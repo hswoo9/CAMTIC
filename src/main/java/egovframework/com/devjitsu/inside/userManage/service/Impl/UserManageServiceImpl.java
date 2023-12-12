@@ -513,9 +513,9 @@ public class UserManageServiceImpl implements UserManageService {
                 params.put("fileNo", infoMap.get("SIGN_IMAGE_PK"));
                 resultMap.put("signImg", commonRepository.getContentFileOne(params));
             }
-            if(infoMap.get("PERSONAL_IMAGE_PK") != "" || infoMap.get("PERSONAL_IMAGE_PK") != null){
-                params.put("fileNo", infoMap.get("PERSONAL_IMAGE_PK"));
-                resultMap.put("myImg", commonRepository.getContentFileOne(params));
+            if(infoMap.get("SIGN2_IMAGE_PK") != "" || infoMap.get("SIGN2_IMAGE_PK") != null){
+                params.put("fileNo", infoMap.get("SIGN2_IMAGE_PK"));
+                resultMap.put("sign2Img", commonRepository.getContentFileOne(params));
             }
             resultMap.put("null", "");
         } else {
