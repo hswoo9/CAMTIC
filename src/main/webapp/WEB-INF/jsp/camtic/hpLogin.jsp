@@ -102,6 +102,14 @@
     .input-group .form-control {
         display: table-cell;
     }
+
+    #sub #content{width:1280px; margin:0 auto;}
+    @media(max-width:1024px){
+        #sub #content{margin-left:0px; padding:0;}
+    }
+    @media(max-width:1420px){
+        #sub #content{width:100%;}
+    }
 </style>
 <body>
 <div id="wrap">
@@ -111,8 +119,8 @@
             <div id="content">
                 <div class="__drone3 m0" style="justify-content: center; text-align: center;">
                     <div class="foot" style="margin-top: 120px;">
-                        <div class="__icoBox1" >
-                            <div class="__fz18 __black" style="border:1px solid #000; width:70%; height:350px; text-align: center; margin-left:280px;justify-content: space-between;">
+                        <div class="__icoBox1" style="border:1px solid #000; width:70%; height:350px; text-align: center; justify-content: space-between;" >
+
                                 <div class="panel signin">
                                     <div class="panel-body" style="height:255px; width: 90%; margin: 0 auto;">
                                         <form name="loginForm" id="loginForm" method="post" action="#LINK">
@@ -139,7 +147,7 @@
                                             <input type="hidden" name="message" id="message" value="${message}" />
                                         </form>
                                     </div>
-                                </div>
+
                             </div>
                         </div>
 
