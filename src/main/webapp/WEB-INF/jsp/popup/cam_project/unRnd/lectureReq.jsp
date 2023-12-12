@@ -61,7 +61,7 @@
                 <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>사업구분</th>
                     <td>
-                        <input id="projectType" style="width: 200px;">
+                        <input id="projectType" style="width: 370px;">
                     </td>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>교육분야</th>
                     <td>

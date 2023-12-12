@@ -1,9 +1,9 @@
 var ub = {
     fn_projectTypeSet: function(){
-        let projectDataSource = [
-            {text: "test프로젝트", value: "1"}
-        ];
-        customKendo.fn_dropDownList("projectType", projectDataSource, "text", "value", 2);
+        let projectDataSource =customKendo.fn_customAjax("/project/getProjectList", {
+            busnClass: "S"
+        }).list
+        customKendo.fn_dropDownList("projectType", projectDataSource, "BS_TITLE", "PJT_SN", 2);
     },
 
     fn_fieldTypeSet: function(){
@@ -20,6 +20,25 @@ var ub = {
 
     fn_curriculumTypeSet: function(){
         let curriculumDataSource = [
+            {text: "부품설계", value: "105"},
+            {text: "경영혁신", value: "115"},
+            {text: "구조해석", value: "116"},
+            {text: "리더십/코칭", value: "117"},
+            {text: "유동해석", value: "119"},
+            {text: "자동화제어", value: "120"},
+            {text: "제조공정혁신", value: "121"},
+            {text: "직급", value: "122"},
+            {text: "직무", value: "123"},
+            {text: "직무향상/코칭", value: "124"},
+            {text: "품질혁신", value: "125"},
+            {text: "현장개선", value: "126"},
+            {text: "기타", value: "208"},
+            {text: "금형설계", value: "211"},
+            {text: "공차해석", value: "215"},
+            {text: "안전품질", value: "217"},
+            {text: "알앤디", value: "267"},
+            {text: "기술지도", value: "269"},
+            {text: "(예비)창업자육성", value: "290"},
             {text: "경영", value: "104"},
             {text: "품질", value: "106"},
             {text: "CEO", value: "107"},
