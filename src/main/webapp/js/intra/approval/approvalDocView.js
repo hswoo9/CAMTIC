@@ -547,7 +547,7 @@ var docView = {
         }
 
         $("#approveHistModalGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2("/approval/getDocApproveStatusHistList", docView.global.searchAjaxData, 100),
+            dataSource: customKendo.fn_gridDataSource2("/approval/getDocApproveStatusHistList.do", docView.global.searchAjaxData, 100),
             height: 315,
             toolbar : [
                 {
