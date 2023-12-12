@@ -48,9 +48,9 @@ var goodsInfo = {
             if(rs2.list[0].TEAM_STAT == "Y" && rs2.list[0].GOODS_ISS != null){
                 $("#teamAppBtn").show();
                 if(rs2.list[0].PJT_TEAM_CK == "Y"){
-                    $("#saveBtn").hide();
                     $("#teamAppBtn").hide();
-                    $("#btnDiv").html('<span style="float: right; color: red; font-size: 12px;">마감되었습니다</span>');
+                    $("#saveBtn2").hide();
+                    $("#btnDiv").append('<span style="float: right; color: red; position: relative; top: 10px; right: 10px; font-size: 12px;">마감되었습니다.</span>');
                 }
             }
         }
@@ -205,6 +205,7 @@ var goodsInfo = {
             enctype : 'multipart/form-data',
             async : false,
             success:function (rs) {
+                console.log(rs)
                 if(rs.code == 200){
                     $("#goodsProductTb > tr").each(function (idx){
                         if(idx != 0) {
@@ -236,6 +237,8 @@ var goodsInfo = {
                             })
                         }
                     });
+                }else{
+                    alert("견적관리를 먼저 작성하시기 바랍니다.");
                 }
             }
         });

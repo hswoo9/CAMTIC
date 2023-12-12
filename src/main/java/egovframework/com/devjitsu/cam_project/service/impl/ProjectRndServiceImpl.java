@@ -264,12 +264,32 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         map.put("pjtSn", map.get("PJT_SN"));
         int partRateCnt = projectRndRepository.getPartRateVerCount(map);
 
+        map.put("partRateCnt", partRateCnt);
         map.put("PART_RATE_VER", (partRateCnt + 1));
         map.put("EMP_NAME", params.get("empName"));
         map.put("EMP_SEQ", params.get("empSeq"));
         map.put("REQ_SORT", params.get("reqSort"));
 
+        Map<String, Object> verMap = projectRndRepository.getPartRateVerBerData(map);
+        if(verMap != null){
+            if("".equals(map.get("JOIN_MEM_SN"))){
+                map.put("JOIN_MEM_SN", verMap.get("JOIN_MEM_SN"));
+            } else {
+                map.put("JOIN_MEM_SN", verMap.get("JOIN_MEM_SN") + "," + map.get("JOIN_MEM_SN"));
+            }
+
+            if("".equals(map.get("JOIN_MEM_NM"))){
+                map.put("JOIN_MEM_NM", verMap.get("JOIN_MEM_NM"));
+            } else {
+                map.put("JOIN_MEM_NM", verMap.get("JOIN_MEM_NM") + "," + map.get("JOIN_MEM_NM"));
+            }
+        }
+
+
         projectRndRepository.insReqPartRateVerData(map);
+
+        projectRndRepository.insPartRateDetBef(map);
+
     }
 
     @Override
@@ -290,6 +310,7 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     @Override
     public void setPartRateDetail(Map<String, Object> params) {
         projectRndRepository.insPartRateDetail(params);
+        projectRndRepository.updPartRateVer(params);
     }
 
     @Override
@@ -465,7 +486,7 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     }
 
     @Override
-    public void updateChangeDocState(Map<String, Object> bodyMap) throws Exception {
+    public void updateChangeDocState(Map<String, Object> bodyMap, int num) throws Exception {
         bodyMap.put("docSts", bodyMap.get("approveStatCode"));
         String docSts = String.valueOf(bodyMap.get("docSts"));
         String approKey = String.valueOf(bodyMap.get("approKey"));
@@ -484,6 +505,7 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         params.put("docTitle", bodyMap.get("docTitle"));
         params.put("approveStatCode", docSts);
         params.put("empSeq", empSeq);
+        params.put("num", num);
 
         if("10".equals(docSts)) { // 상신
             projectRndRepository.insChangeInfo(params);

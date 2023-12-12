@@ -112,13 +112,13 @@
                   </td>
                 </tr>
                 <tr style="border-bottom: 1px solid #ccc;">
-                 <%-- <th>
+                  <th>
                     <c:choose>
                       <c:when test="${categoryId eq 'report'}">출처</c:when>
                       <c:otherwise>작성자</c:otherwise>
                     </c:choose>
-                  </th>--%>
-                  <th>작성자</th>
+                  </th>
+                 <%-- <th>작성자</th>--%>
                   <td>
                     <input type="text" id="writer" class="" value="${map.REG_EMP_NAME}" disabled/>
                   </td>

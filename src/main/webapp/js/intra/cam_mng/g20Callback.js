@@ -84,6 +84,15 @@ function fn_selCardInfo(trCd, trNm, cardBaNb, jiro, clttrCd, baNb, depositor, id
     $("#crmBnkNm" + idx).val(jiro);
     $("#crmAccNo" + idx).val(baNb);
     $("#crmAccHolder" + idx).val(depositor);
+
+    if(idx == 0){
+        $("#trNm").val(trNm);
+        $("#cardBaNb").val(cardBaNb);
+        $("#trCd").val(trCd);
+        $("#jiroNm").val(jiro);
+        $("#baNb").val(baNb);
+        $("#depositor").val(depositor);
+    }
 }
 
 function fn_selEmpInfo(trCd, bankName, accountNum, accountHolder, empNameKr, idx, regNo){

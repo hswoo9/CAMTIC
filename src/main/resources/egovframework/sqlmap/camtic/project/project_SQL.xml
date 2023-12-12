@@ -151,27 +151,29 @@
         /* insProject >> 프로젝트 엔지니어링 최초 등록 */
         INSERT INTO CAM_PJT_MNG.DJ_PROJECT
         (
-        PJT_NM,
-        EMP_SEQ,
-        EMP_NAME,
-        DEPT_SEQ,
-        DEPT_NAME,
-        BUSN_CLASS,
-        BUSN_NM,
-        PJT_STEP,
-        PJT_STEP_NM,
-        CONSULT_DT
+            PJT_NM,
+            EMP_SEQ,
+            EMP_NAME,
+            DEPT_SEQ,
+            DEPT_NAME,
+            BUSN_CLASS,
+            BUSN_NM,
+            PJT_STEP,
+            PJT_STEP_NM,
+            CONSULT_DT,
+            REG_EMP_SEQ
         ) VALUES (
-        #{pjtNm},
-        #{empSeq},
-        #{empName},
-        #{deptSeq},
-        #{deptName},
-        #{busnClass},
-        #{busnNm},
-        #{pjtStep},
-        #{pjtStepNm},
-        #{contDt}
+            #{pjtNm},
+            #{empSeq},
+            #{empName},
+            #{deptSeq},
+            #{deptName},
+            #{busnClass},
+            #{busnNm},
+            #{pjtStep},
+            #{pjtStepNm},
+            #{contDt},
+            #{regEmpSeq}
         )
         <selectKey keyProperty="PJT_SN" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PROJECT'
@@ -427,7 +429,6 @@
         (
             PJT_SN,
             INV_AMT,
-            INV_PER,
             DEP_OBJ,
             ETC,
             REG_EMP_SEQ
@@ -435,7 +436,6 @@
             (
                 #{pjtSn},
                 #{invAmt},
-                #{invPer},
                 #{depObj},
                 #{etc},
                 #{regEmpSeq}
@@ -1109,6 +1109,15 @@
         ]]>
     </update>
 
+    <update id="updProjectGoods" parameterType="map">
+        /* updProjectGoods */
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            GOODS_DT = #{delvDe}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
     <update id="updEngn" parameterType="map">
         UPDATE CAM_PJT_MNG.DJ_PJT_ENGN
         SET
@@ -1318,7 +1327,6 @@
         (
         PJT_SN,
         INV_AMT,
-        INV_PER,
         DEP_OBJ,
         ETC,
         REG_EMP_SEQ
@@ -1327,7 +1335,6 @@
         (
         #{pjtSn},
         #{invAmt},
-        #{invPer},
         #{depObj},
         #{etc},
         #{regEmpSeq}
@@ -1342,13 +1349,19 @@
         UPDATE CAM_PJT_MNG.DJ_PJT_DEV
         SET
             INV_AMT = #{invAmt},
-            INV_PER = #{invPer},
             DEP_OBJ = #{depObj},
             ETC = #{etc},
             MOD_EMP_SEQ = #{regEmpSeq}
         WHERE
             DEV_SN = #{devSn}
     </update>
+
+    <delete id="setDevInfoDel" parameterType="map">
+        /*setDevInfoDel*/
+        DELETE FROM CAM_PJT_MNG.DJ_PJT_DEV
+        WHERE
+            DEV_SN = #{devSn}
+    </delete>
 
     <update id="updProjectTmpCode" parameterType="map">
         /*updProjectTmpCode*/
@@ -2392,14 +2405,26 @@
             D.TOT_PAY_BUDG,
             D.TOT_ITEM_BUDG,
             D.TOT_RATE,
-            D.PAY_TOTAL
+            D.PAY_TOTAL,
+            D.GUBUN,
+            D.PART_RATE_DET
         FROM
             CAM_PJT_MNG.DJ_PJT_PART_RATE_VER A
         LEFT JOIN
             (SELECT
-                 *
+                 SM.*,
+                 RS.NATIONAL_PENSION,
+                 RS.LIMIT_AMT,
+                 RS.HEALTH_INSURANCE,
+                 RS.LONG_CARE_INSURANCE,
+                 RS.EMPLOY_INSURANCE,
+                 RS.ACCIDENT_INSURANCE
              FROM
-                 CAM_INSIDE.DJ_SALARY_MANAGE
+                 CAM_INSIDE.DJ_SALARY_MANAGE SM
+             JOIN
+                 CAM_INSIDE.DJ_SOCIAL_RATE RS
+             ON
+                 SM.SOCIAL_RATE_SN = RS.SOCIAL_RATE_SN
              WHERE
                  (SELECT STR_DT FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{PJT_SN}) BETWEEN DATE(START_DT) AND IFNULL(IF(END_DT = "", null, END_DT), DATE('9999-12-31'))
             ) B
@@ -2413,8 +2438,45 @@
             CAM_PJT_MNG.DJ_PART_RATE_DET D
         ON
             A.PART_RATE_VER_SN = D.PART_RATE_VER_SN AND D.PART_EMP_SEQ = #{MEMBER_SEQ} AND D.PJT_SN = #{PJT_SN}
-        WHERE A.PJT_SN = #{PJT_SN}
-        limit 1
+        WHERE A.PJT_SN = #{PJT_SN} AND A.PART_RATE_VER = #{PART_RATE_VER}
+        ]]>
+    </select>
+
+    <select id="getProjectMemberTemp" parameterType="map" resultType="map">
+        <![CDATA[
+        /*getProjectMemberTemp*/
+        SELECT
+            A.*,
+            B.*,
+            DATE_FORMAT(C.STR_DT, '%Y-%m-%d') AS PJT_STR_DT,
+            DATE_FORMAT(C.END_DT, '%Y-%m-%d') AS PJT_END_DT
+        FROM
+            CAM_PJT_MNG.DJ_PJT_PART_RATE_VER A
+                LEFT JOIN
+            (SELECT
+                 SM.*,
+                 RS.NATIONAL_PENSION,
+                 RS.LIMIT_AMT,
+                 RS.HEALTH_INSURANCE,
+                 RS.LONG_CARE_INSURANCE,
+                 RS.EMPLOY_INSURANCE,
+                 RS.ACCIDENT_INSURANCE
+             FROM
+                 CAM_INSIDE.DJ_SALARY_MANAGE SM
+                     JOIN
+                 CAM_INSIDE.DJ_SOCIAL_RATE RS
+                 ON
+                     SM.SOCIAL_RATE_SN = RS.SOCIAL_RATE_SN
+             WHERE
+                     (SELECT STR_DT FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{PJT_SN}) BETWEEN DATE(START_DT) AND IFNULL(IF(END_DT = "", null, END_DT), DATE('9999-12-31'))
+            ) B
+        ON
+            B.EMP_SEQ = #{MEMBER_SEQ}
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PROJECT C
+        ON
+            A.PJT_SN = C.PJT_SN
+        WHERE A.PJT_SN = #{PJT_SN} AND A.PART_RATE_VER = #{PART_RATE_VER}
         ]]>
     </select>
 
@@ -2687,6 +2749,16 @@
         /*updJoinMember*/
         UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
         SET
+            JOIN_MEM_SN = CONCAT(IF(JOIN_MEM_SN = "", "", CONCAT(JOIN_MEM_SN, ",")), #{joinMemSn}),
+            JOIN_MEM_NM = CONCAT(IF(JOIN_MEM_NM = "", "", CONCAT(JOIN_MEM_NM, ",")), #{joinMem})
+        WHERE
+            PART_RATE_VER_SN = #{partRateVerSn}
+    </update>
+
+    <update id="delUpdJoinMember" parameterType="map">
+        /*delUpdJoinMember*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
+        SET
             JOIN_MEM_SN = #{joinMemSn},
             JOIN_MEM_NM = #{joinMem}
         WHERE
@@ -2751,4 +2823,11 @@
             DEV_SN DESC
         LIMIT 1
     </select>
+
+    <delete id="delJoinMember" parameterType="map">
+        /*delJoinMember*/
+        DELETE FROM CAM_PJT_MNG.DJ_PART_RATE_DET
+        WHERE
+            PART_RATE_DET = #{partRateDet}
+    </delete>
 </mapper>

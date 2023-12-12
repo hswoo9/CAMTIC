@@ -592,5 +592,18 @@
             ) AS cnt
     </select>
 
-
+    <select id="getArticleFileList" parameterType="map" resultType="map">
+        /* getArticleFileList */
+        SELECT
+            BA.BOARD_ARTICLE_TITLE,
+            BAF.*,
+            BAF.FILE_UUID AS fileUUID,
+            CONCAT(BAF.FILE_ORG_NAME, '.', BAF.FILE_EXT) AS filename
+        FROM
+            CAM_BOARD.DJ_BOARD_ARTICLE_FILE BAF
+        LEFT JOIN
+            CAM_BOARD.DJ_BOARD_ARTICLE BA ON BAF.BOARD_ARTICLE_ID = BA.BOARD_ARTICLE_ID
+        WHERE
+            BAF.BOARD_ARTICLE_ID = #{boardArticleId}
+    </select>
 </mapper>

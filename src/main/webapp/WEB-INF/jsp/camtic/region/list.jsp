@@ -23,23 +23,23 @@
           <div class="__tit2 __mb70">
             <dl class="head">
               <dt><span class="__nm">“</span><span class="mainCapyTitle">창업-혁신-성장</span><span class="__nm">”</span></dt>
-              <dd><span class="subCapyTitle">제주창업 플랫폼 J-Valley</span></dd>
+              <dd><span class="subCapyTitle">제조창업 플랫폼 J-Valley</span></dd>
             </dl>
           </div>
 
-          <div class="__tit1 __mb0">
-            <h3 style="border-bottom: 1px dashed #b7b7b7; padding-bottom:30px;"><strong>시설 및 입주안내</strong></h3>
+          <%--<div class="__tit1 __mb0">
+            <h3 style="border-bottom: 1px dashed #b7b7b7; padding-bottom:30px;"><strong>입주안내</strong></h3>
           </div>
 
 
           <div class="__icoBox1">
-            <%-- <div class="ico"><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div> --%>
+            &lt;%&ndash; <div class="ico"><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div> &ndash;%&gt;
             <div class="__fz18 __black">
               <div class="img"><img src="/images/camtic/img-facility.png" alt="" style="border-radius: 10px;"></div>
             </div>
-          </div>
+          </div>--%>
 
-          <div class="__tit2 __mt100">
+          <%--<div class="__tit2 __mt100">
             <h3><strong>시설 및 입주공간</strong></h3>
           </div>
           <table class="__tblList bd1 bg3 respond2 __mt10" style="word-spacing: 0px;">
@@ -104,7 +104,7 @@
               <td class="tal"></td>
             </tr>
             </tbody>
-          </table>
+          </table>--%>
 
           <div class="__tit2 __mt100">
             <h3><strong>입주신청 절차</strong></h3>
@@ -244,13 +244,13 @@
 
           <div class="__tit2 __mt60">
             <div class="use3">
-              <a href="http://www.jhitech.or.kr/web/page.php?pcode=BA" target="_blank"><strong>입주안내 상세 페이지</strong> 바로가기</a>
+              <a href="http://www.jhitech.or.kr/web/page.php?pcode=BB" target="_blank"><strong>입주안내 상세 페이지</strong> 바로가기</a>
             </div>
           </div>
 
           <div class="__tit2 __mt60">
             <div class="__fz18 __black fwb __mt20">입주문의 :
-              <span class="__fz16 fwn">J-밸리혁신팀 (Tel: 063-219-0325, 0307, E-mail: sbjoo@camtic.or.kr)</span>
+              <span class="__fz16 fwn">J-밸리혁신팀 (Tel: 063-219-0325, E-mail: sbjoo@camtic.or.kr)</span>
             </div>
           </div>
 

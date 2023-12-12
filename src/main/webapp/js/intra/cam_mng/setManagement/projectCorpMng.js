@@ -57,14 +57,14 @@ var prjCorpMng = {
                 }, {
                     field: "PJT_NM",
                     title: "프로젝트 명",
-                    width: 400,
+                    width: 560,
                     template: function(e){
                         if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "R" || e.BUSN_CLASS == "S"){
                             return '<a href="javascript:void(0);" style="font-weight: bold;" onclick="prjCorpMng.fn_popDelvProject(\'' + e.PJT_SN + '\')";>' + e.PJT_NM + '</a>'
                         }
                         return '<a href="javascript:void(0);" style="font-weight: bold;" onclick="prjCorpMng.fn_popCorpProject(\'' + e.PJT_SN + '\')";>' + e.PJT_NM + '</a>'
                     }
-                }, {
+                },/* {
                     field: "STR_DT",
                     title: "시작일자",
                     width: 80,
@@ -72,9 +72,9 @@ var prjCorpMng = {
                     field: "END_DT",
                     title: "종료일자",
                     width: 80,
-                }, {
+                },*/ {
                     field: "PM_NM",
-                    title: "종료일자",
+                    title: "PM",
                     width: 80,
                 }
             ],

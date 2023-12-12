@@ -164,6 +164,20 @@
 <%--        </tr>--%>
         <tr>
             <th scope="row" class="text-center th-color">
+                사업자 등록상태
+            </th>
+            <td>
+                <input id="bStt" style="width: 90%;">
+            </td>
+            <th scope="row" class="text-center th-color">
+                과세자
+            </th>
+            <td>
+                <input id="taxType" style="width: 90%;">
+            </td>
+        </tr>
+        <tr>
+            <th scope="row" class="text-center th-color">
                 비고
             </th>
             <td colspan="3">

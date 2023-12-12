@@ -51,7 +51,7 @@ var certifiPrintPop = {
         certifiPrintPop.global.openFormat = "HWP";
         certifiPrintPop.global.templateFormFile = certifiPrintPop.getDocFormTemplate();
         console.log("폼파일");
-        console.log(certifiPrintPop.global.templateFormFile);
+        console.log("확인용",certifiPrintPop.global.templateFormFile);
         var templateFlag = certifiPrintPop.global.flag;
 
         if(!templateFlag || certifiPrintPop.global.templateFormFile.filter(element => element.FORM_FILE_TYPE === "form").length == 0){

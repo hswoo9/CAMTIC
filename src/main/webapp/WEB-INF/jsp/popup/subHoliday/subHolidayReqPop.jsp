@@ -52,9 +52,9 @@
           <td>
             <input type="text" id="deptName" name="deptName" class="defaultVal" value="${loginVO.orgnztNm}" style="width: 80%;">
           </td>
-          <th>직급</th>
+          <th>직위</th>
           <td>
-            <input type="text" id="dutyName" name="dutyName" class="defaultVal" value="${loginVO.dutyNm}" style="width: 80%;">
+            <input type="text" id="dutyName" name="dutyName" class="defaultVal" value="${loginVO.dutyNm eq '' ? loginVO.positionNm : loginVO.dutyNm}" style="width: 80%;">
           </td>
         </tr>
         <tr>

@@ -201,6 +201,7 @@
                             <span id="gender" name="gender"></span>
                         </td>
                     </tr>
+
                     <tr>
                         <th>연락처<span class="__red">*</span></th>
                         <td class="tal" colspan="2">

@@ -109,12 +109,6 @@ var prp = {
         formData.append("status", e);
         formData.append("empSeq", $("#purcReqEmpSeq").val());
 
-        if($("#checkProfit").prop("checked")){
-            formData.append("checkProfit", "Y");
-        } else {
-            formData.append("checkProfit", "N");
-        }
-
         if($("#file1")[0].files.length == 1){
             formData.append("file1", $("#file1")[0].files[0]);
         }
@@ -144,7 +138,7 @@ var prp = {
                 status : e,
                 empSeq : $("#purcReqEmpSeq").val(),
             }
-            itemSum += prp.uncomma($("#purcItemAmt" + i).val());
+            itemSum += Number(prp.uncomma($("#purcItemAmt" + i).val()));
 
             if(data.productA == ""){
                 flag = false;
@@ -163,7 +157,7 @@ var prp = {
         })
 
         if($("#pjtSn").val() != ""){
-            const pjtInfo = customKendo.fn_customAjax("/project/getProjectInfo", parameters);
+            const pjtInfo = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn: $("#pjtSn").val()});
             const pjtMap = pjtInfo.map;
 
             const list = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: $("#pjtSn").val()}).list;
@@ -215,7 +209,30 @@ var prp = {
                 opener.parent.prm.gridReload();
                 location.href="/purc/pop/regPurcReqPop.do?purcSn=" + result.params.purcSn;
             } else {
-                opener.window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=11";
+                const busnClass = opener.commonProject.global.busnClass;
+                if(opener.commonProject.global.teamStat == "Y"){
+                    if(busnClass == "D"){
+                        opener.window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=6";
+                    }else if(busnClass == "R"){
+                        opener.window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=4";
+                    }else if(busnClass == "S"){
+                        opener.window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=4";
+                    }else{
+                        opener.window.location.reload();
+                    }
+                    /** 협업이 아닐때 */
+                }else{
+                    if(busnClass == "D"){
+                        opener.window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=11";
+                    }else if(busnClass == "R"){
+                        opener.window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=12";
+                    }else if(busnClass == "S"){
+                        opener.window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=12";
+                    }else{
+                        opener.window.location.reload();
+                    }
+                }
+
                 location.href="/purc/pop/regPurcReqPop.do?pjtSn=" + $("#pjtSn").val() + "&purcSn=" + result.params.purcSn;
             }
 
@@ -417,10 +434,6 @@ var prp = {
             $("#purcReqDeptName").text(data.DEPT_NAME);
             $("#purcReqPurpose").val(data.PURC_REQ_PURPOSE);
             $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
-
-            if(data.CHECK_PROFIT == "Y"){
-                $("#checkProfit").prop("checked", true);
-            }
 
             if($("input[name='purcType']:checked").val() != ""){
                 $("#project").css("display", "");

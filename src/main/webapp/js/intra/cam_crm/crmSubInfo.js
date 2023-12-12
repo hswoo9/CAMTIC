@@ -72,7 +72,7 @@ var crmSi = {
 
 
         customKendo.fn_textBox([ "homepage", "crmLoc", "crmProd", "crmBn", "crmBnNum",
-                                "bnDepo", "acntNm", "acntEmail", "crmSubClassText"]);
+                                "bnDepo", "acntNm", "acntEmail", "crmSubClassText", "taxType"]);
 
         $("#crmStat").kendoDropDownList({
             dataTextField: "text",
@@ -81,6 +81,18 @@ var crmSi = {
                 {text : "정상영업", value : "1" },
                 {text : "휴업", value : "2" },
                 {text : "폐업", value : "3" }
+            ],
+            valuePrimitive: true
+        });
+
+        $("#bStt").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text : "선택하세요", value : "" },
+                {text : "계속사업자", value : "01" },
+                {text : "휴업자", value : "02" },
+                {text : "폐업자", value : "03" }
             ],
             valuePrimitive: true
         });
@@ -110,6 +122,8 @@ var crmSi = {
                 $("#crmLoc").val(rs.CRM_LOC);
                 $("#homepage").val(rs.HOMEPAGE);
                 $("#crmProd").val(rs.CRM_PROD);
+                $("#bStt").data("kendoDropDownList").value(rs.B_STT_CD);
+                $("#taxType").val(rs.TAX_TYPE_NM);
             }
         });
     },

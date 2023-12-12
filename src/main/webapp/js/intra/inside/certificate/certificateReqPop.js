@@ -19,8 +19,10 @@ var certificateReqPop = {
         let regtrName = $("#regtrName").val();
         //부서명
         let regDeptName = $("#regDeptName").val();
-        //직급
+        //직책
         let regDutyName = $("#regDutyName").val();
+        //직급
+        let regPositionName = $("#regPositionName").val();
         //제출처
         let submissionName = $("#submissionName").val();
         //제출 예정일
@@ -66,6 +68,7 @@ var certificateReqPop = {
             regtrName : regtrName,
             regDeptName : regDeptName,
             regDutyName : regDutyName,
+            regPositionName : regPositionName,
             submissionName : submissionName,
             submissionDe : submissionDe,
             printSn : printSn,
@@ -165,7 +168,7 @@ var certificateReqPop = {
     },
 
     dataSet: function(){
-        $("#regErpSn, #regtrName, #regDeptName, #regDutyName").kendoTextBox({
+        $("#regErpSn, #regtrName, #regDeptName, #regDutyName, #regPositionName").kendoTextBox({
             enable: false
         });
 

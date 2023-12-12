@@ -197,11 +197,15 @@ var teamInfo = {
                         } else {
                             if($("#pjtAmt").val() == undefined || $("#pjtAmt").val() == "" || $("#pjtAmt").val() == null){
                                 let per;
-                                per = (Number(e.TM_AMT) / Number(uncomma(e.PJT_AMT))) * 100;
+                                per = (Number(e.TM_AMT) / Number(uncomma($("#delvAmt2").val()))) * 100;
+                                console.log("per : "+per);
+                                console.log(Number.isInteger(per) ? (per + "%") : (per.toFixed(2) + "%"));
                                 return Number.isInteger(per) ? (per + "%") : (per.toFixed(2) + "%");
                             } else {
                                 let per;
-                                per = (Number(e.TM_AMT) / Number(uncomma($("#delvAmt2").val()))) * 100;
+                                per = (Number(e.TM_AMT) / Number(uncomma(e.PJT_AMT))) * 100;
+                                console.log("per : "+per);
+                                console.log(Number.isInteger(per) ? (per + "%") : (per.toFixed(2) + "%"));
                                 return Number.isInteger(per) ? (per + "%") : (per.toFixed(2) + "%");
                             }
                         }

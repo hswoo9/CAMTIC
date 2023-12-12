@@ -180,7 +180,7 @@
                     <tr id="cert0_1" class="cert_1">
                         <th class="tac">활용능력</th>
                         <td colspan="8">
-                            <textarea id="certContent0" class="certContent" style="width:100%; height:40px; border: 1px solid #ddd; display:inline-block; padding-left:10px;"></textarea>
+                            <textarea id="certContent0" class="certContent" style="width: 100%; height: 100%; box-sizing: border-box; border:1px solid #ddd; margin: 0; padding: 5px;"></textarea>
                         </td>
                     </tr>
                     </tbody>

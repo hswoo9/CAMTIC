@@ -11,7 +11,7 @@ var rndInit = {
         hwpDocCtrl.putFieldText('PJT_CD', map.PJT_TMP_CD);
         hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
         hwpDocCtrl.putFieldText('DEPT_NAME', delvMap.MNG_DEPT_NAME);
-        hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(map.PJT_EXP_AMT));
+        hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(delvMap.TOT_RES_COST));
         hwpDocCtrl.putFieldText('PM_EMP_NM', map.PM);
         hwpDocCtrl.putFieldText("PJT_DT", map.PJT_STR_DT + " ~ " + map.PJT_END_DT);
         hwpDocCtrl.putFieldText('CRM_NM', map.CRM_NM);
@@ -23,8 +23,8 @@ var rndInit = {
 
         /** 2. 과제정보 */
         hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_SUB_NM);
-        hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(rndInfo.map.ALL_BUSN_COST));
-        hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(map.PJT_EXP_AMT));
+        hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(delvMap.ALL_BUSN_COST));
+        hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(delvMap.TOT_RES_COST));
     },
 
     devInit: function(devSn){
@@ -39,7 +39,7 @@ var rndInit = {
         hwpDocCtrl.putFieldText('PJT_CD', map.PJT_TMP_CD);
         hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
         hwpDocCtrl.putFieldText('DEPT_NAME', delvMap.MNG_DEPT_NAME);
-        hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(map.PJT_AMT));
+        hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(delvMap.TOT_RES_COST));
         hwpDocCtrl.putFieldText('PM_EMP_NM', map.PM);
         hwpDocCtrl.putFieldText("PJT_DT", map.PJT_STR_DT + " ~ " + map.PJT_END_DT);
         hwpDocCtrl.putFieldText('CRM_NM', map.CRM_NM);
@@ -52,7 +52,7 @@ var rndInit = {
         /** 2. 과제정보 */
         hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_SUB_NM);
         hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(rndInfo.map.ALL_BUSN_COST));
-        hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(map.PJT_AMT));
+        hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(delvMap.TOT_RES_COST));
 
         if(map.TM_YN == "Y"){
             const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: pjtSn});
@@ -142,13 +142,15 @@ var rndInit = {
         const map = pjtInfo.rs;
         const delvMap = rndInfo.map;
         const devMap = resultD.rs;
+        const chResult = customKendo.fn_customAjax("/projectRnd/getChangeList", {pjtSn: pjtSn});
+        const chList = chResult.list;
 
         /** 1. 사업정보 */
         hwpDocCtrl.putFieldText('BUSN_CLASS', map.BUSN_NM);
         hwpDocCtrl.putFieldText('PJT_CD', map.PJT_TMP_CD);
         hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
         hwpDocCtrl.putFieldText('DEPT_NAME', delvMap.MNG_DEPT_NAME);
-        hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(map.PJT_AMT));
+        hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(delvMap.TOT_RES_COST));
         hwpDocCtrl.putFieldText('PM_EMP_NM', map.PM);
         hwpDocCtrl.putFieldText("PJT_DT", map.PJT_STR_DT + " ~ " + map.PJT_END_DT);
         hwpDocCtrl.putFieldText('CRM_NM', map.CRM_NM);
@@ -161,7 +163,7 @@ var rndInit = {
         /** 2. 과제정보 */
         hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_SUB_NM);
         hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(rndInfo.map.ALL_BUSN_COST));
-        hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(rndInfo.map.ALL_RES_COST));
+        hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(delvMap.TOT_RES_COST));
 
         const date = new Date();
         const year = date.getFullYear().toString().substring(2,4);
@@ -266,8 +268,14 @@ var rndInit = {
 
         }
 
+        /** 7. 구매/비용내역 */
+        const changeData = rndInit.htmlChange(chList, map);
+        setTimeout(function() {
+            hwpDocCtrl.moveToField('CHANGE_HTML', true, true, false);
+            hwpDocCtrl.setTextFile(changeData, "html","insertfile");
+        }, 8000);
 
-        /** 7. 특이사항 */
+        /** 8. 특이사항 */
         const getResult = customKendo.fn_customAjax("/project/engn/getResultInfo", {pjtSn: pjtSn});
         const res = getResult.result.map;
         setTimeout(function() {
@@ -309,6 +317,46 @@ var rndInit = {
         html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ fn_numberWithCommas(sum2) +'</p></td>';
         html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
         html += '               </tr>';
+        html += '           </table>';
+        html += '       </td>';
+        html += '   </tr>';
+        html += '</table>';
+
+        return html.replaceAll("\n", "<br>");
+    },
+
+    htmlChange: function(list, map){
+        let html = '';
+        html += '<table style="font-family:굴림체;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
+        html += '   <tr>';
+        html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
+        html += '           <table border="1" style="border-collapse: collapse; margin: 0px;">';
+        html += '               <tr>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 105px;"><p style="font-size:13px;"><b>구분</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 105px;"><p style="font-size:13px;"><b>버전</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 424px;"><p style="font-size:13px;"><b>변경일</b></p></td>';
+        html += '               </tr>';
+        let verCount1 = 0;
+        let verCount2 = 0;
+        let ver = "";
+        let verTxt = "";
+        for(let i=0; i<list.length; i++){
+            const map = list[i];
+            if(map.TYPE == "1"){
+                verCount1 += 1;
+                ver = "세세목변경서";
+                verTxt = "VER."+verCount1;
+            }else{
+                verCount2 += 1;
+                ver = "반납신청서";
+                verTxt = "VER."+verCount2;
+            }
+            html += '               <tr>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ ver +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ verTxt +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.DRAFT_DATE +'</p></td>';
+            html += '               </tr>';
+        }
         html += '           </table>';
         html += '       </td>';
         html += '   </tr>';

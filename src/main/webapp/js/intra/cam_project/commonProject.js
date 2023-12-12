@@ -201,7 +201,10 @@ var commonProject = {
         devTeamCk : "",
 
         /** 협업프로젝트 최종마감인지(Y) 진행중인지(N)*/
-        pjtTeamCk : ""
+        pjtTeamCk : "",
+
+        /** PM EMP SEQ*/
+        pmEmpSeq : "",
     },
 
     loading : function(){
@@ -224,6 +227,8 @@ var commonProject = {
         commonProject.global.busnClass = pjtMap.BUSN_CLASS;
         commonProject.global.devTeamCk = pjtMap.DEV_TEAM_CK;
         commonProject.global.pjtTeamCk = pjtMap.PJT_TEAM_CK;
+
+        commonProject.global.pmEmpSeq = pjtMap.PM_EMP_SEQ;
     },
 
     /** 저장 후 페이지 TAB 바인딩 : 순서대로 수주부서 엔지니어링, 알앤디, 비알앤디, 협업부서 엔지니어링, 알앤디, 비알앤디 */

@@ -97,6 +97,7 @@
         <if test='year != null and !"".equals(year)'>
             AND (YEAR(SM.START_DT) = #{year} OR YEAR(SM.END_DT) = #{year})
         </if>
+        ORDER BY EI.EMP_NAME_KR
     </select>
 
     <select id="getEmpSalaryDataList" parameterType="map" resultType="map">

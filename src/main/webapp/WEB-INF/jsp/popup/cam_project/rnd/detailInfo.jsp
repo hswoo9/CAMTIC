@@ -120,13 +120,13 @@
                     <span class="red-star"></span>중간보고
                 </th>
                 <td>
-                    <input type="text" id="delvDay" disabled style="width: 90%">
+                    <input type="text" id="delvDay" style="width: 90%">
                 </td>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>결과보고
                 </th>
                 <td>
-                    <input type="text" id="resDay" disabled style="width: 90%;">
+                    <input type="text" id="resDay" style="width: 90%;">
                 </td>
             </tr>
             <tr>

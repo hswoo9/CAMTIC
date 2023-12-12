@@ -224,4 +224,16 @@ public class ProjectRndRepository extends AbstractDAO {
     public void updateRateFinalApprStat(Map<String, Object> params) {
         update("projectRnd.updateRateFinalApprStat", params);
     }
+
+    public void updPartRateVer(Map<String, Object> params) {
+        update("projectRnd.updPartRateVer", params);
+    }
+
+    public void insPartRateDetBef(Map<String, Object> map) {
+        insert("projectRnd.insPartRateDetBef", map);
+    }
+
+    public Map<String, Object> getPartRateVerBerData(Map<String, Object> map) {
+        return (Map<String, Object>) selectOne("projectRnd.getPartRateVerBerData", map);
+    }
 }

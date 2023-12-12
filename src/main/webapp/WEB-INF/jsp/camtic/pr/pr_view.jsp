@@ -48,7 +48,15 @@
           <div class="head">
             <h2>${map.BOARD_ARTICLE_TITLE}</h2>
             <ul class="info">
-              <li>작성자 : ${map.REG_EMP_NAME}</li>
+              <c:choose>
+                <c:when test="${categoryId eq 'report'}">
+                  <li>출처 : ${map.REG_EMP_NAME}</li>
+                </c:when>
+                <c:otherwise>
+                  <li>작성자 : ${map.REG_EMP_NAME}</li>
+                </c:otherwise>
+              </c:choose>
+              <%--<li>작성자 : ${map.REG_EMP_NAME}</li>--%>
               <li>작성일 : <fmt:formatDate value="${map.REG_DATE}" pattern="yyyy-MM-dd" type="date"/></li>
               <li>조회수 : ${map.BOARD_ARTICLE_VIEW_COUNT}</li>
             </ul>

@@ -430,7 +430,7 @@
         SET
             PJT_STEP = "R2",
             PJT_STEP_NM = "수주보고",
-            PJT_AMT = PJT_EXP_AMT
+            PJT_AMT = (SELECT TOT_RES_COST FROM CAM_PJT_MNG.DJ_PJT_RND WHERE PJT_SN = #{pjtSn})
         WHERE
             PJT_SN = #{pjtSn}
     </update>
@@ -520,11 +520,15 @@
     <select id="getReqPartRateVerList" parameterType="map" resultType="map">
         /*getReqPartRateVerList*/
         SELECT
-            A.*
+            B.*,
+            A.STAT,
+            A.PAY_BUDGET AS RT_PAY_BUDGET,
+            A.ITEM_BUDGET AS RT_ITEM_BUDGET,
+            A.MNG_STAT AS RT_MNG_STAT
         FROM
-            CAM_PJT_MNG.DJ_PJT_PART_RATE_VER A
+            CAM_PJT_MNG.DJ_PJT_PART_RATE A
         LEFT JOIN
-            CAM_PJT_MNG.DJ_PJT_PART_RATE B
+            CAM_PJT_MNG.DJ_PJT_PART_RATE_VER B
         ON
             A.PART_RATE_SN = B.PART_RATE_SN
         WHERE
@@ -557,7 +561,14 @@
             DJ_CAMTIC.A_DOC_INFO DI ON PC.DOC_ID = DI.DOC_ID
         WHERE
             PC.PJT_SN = #{pjtSn}
-        ORDER BY PJT_CH_SN DESC
+        <choose>
+            <when test='"asc".equals(order)'>
+                ORDER BY PJT_CH_SN ASC
+            </when>
+            <otherwise>
+                ORDER BY PJT_CH_SN DESC
+            </otherwise>
+        </choose>
     </select>
 
     <select id="getPartRateVerCount" parameterType="map" resultType="int">
@@ -610,6 +621,66 @@
                 #{EMP_NAME},
                 #{EMP_SEQ}
             )
+
+        <selectKey keyProperty="partRateVerSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_PART_RATE_VER'
+        </selectKey>
+    </insert>
+
+    <select id="getPartRateVerBerData" parameterType="map" resultType="map">
+        /*getPartRateVerBerData*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
+        WHERE PJT_SN = #{pjtSn}
+        ORDER BY PART_RATE_VER_SN DESC LIMIT 1
+    </select>
+
+    <insert id="insPartRateDetBef" parameterType="map">
+        /*insPartRateDetBef*/
+        INSERT INTO CAM_PJT_MNG.DJ_PART_RATE_DET
+            (
+                PART_RATE_VER_SN,
+                PJT_SN,
+                EMP_SAL,
+                CHNG_SAL,
+                GUBUN,
+                PART_DET_STR_DT,
+                PART_DET_END_DT,
+                PART_EMP_NM,
+                PART_EMP_SEQ,
+                PAY_RATE,
+                ITEM_RATE,
+                MON_SAL,
+                MON_DIFF,
+                TOT_PAY_BUDG,
+                TOT_ITEM_BUDG,
+                TOT_RATE,
+                PAY_TOTAL
+            )
+        (SELECT
+             #{partRateVerSn},
+             PJT_SN,
+             EMP_SAL,
+             CHNG_SAL,
+             GUBUN,
+             PART_DET_STR_DT,
+             PART_DET_END_DT,
+             PART_EMP_NM,
+             PART_EMP_SEQ,
+             PAY_RATE,
+             ITEM_RATE,
+             MON_SAL,
+             MON_DIFF,
+             TOT_PAY_BUDG,
+             TOT_ITEM_BUDG,
+             TOT_RATE,
+             PAY_TOTAL
+        FROM
+            CAM_PJT_MNG.DJ_PART_RATE_DET
+        WHERE
+            PART_RATE_VER_SN = (SELECT PART_RATE_VER_SN FROM CAM_PJT_MNG.DJ_PJT_PART_RATE_VER WHERE PJT_SN = #{pjtSn} AND PART_RATE_VER = #{partRateCnt}))
     </insert>
 
     <select id="getPartRateDetail" parameterType="map" resultType="map">
@@ -630,6 +701,7 @@
                 PJT_SN,
                 EMP_SAL,
                 CHNG_SAL,
+                GUBUN,
                 PART_DET_STR_DT,
                 PART_DET_END_DT,
                 PART_EMP_NM,
@@ -649,6 +721,7 @@
                 #{pjtSn},
                 #{basicSalary},
                 #{chngSal},
+                #{gubun},
                 #{strDt},
                 #{endDt},
                 #{partEmpName},
@@ -664,6 +737,15 @@
             )
     </insert>
 
+    <update id="updPartRateVer" parameterType="map">
+        /*updPartRateVer*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
+        SET
+            MNG_COMM = #{mngComm}
+        WHERE
+            PART_RATE_VER_SN = #{partRateVerSn}
+    </update>
+
     <delete id="delPartRateDetail" parameterType="map">
         /*delPartRateDetail*/
         DELETE FROM CAM_PJT_MNG.DJ_PART_RATE_DET
@@ -675,7 +757,6 @@
         UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
         SET
             MNG_STAT = "S",
-            MNG_COMM = #{mngComm},
             REP_DATE = now()
         WHERE
             PART_RATE_VER_SN = #{partRateVerSn}
@@ -818,12 +899,14 @@
         INSERT INTO CAM_PJT_MNG.DJ_PJT_CHANGE
             (
                 PJT_SN,
-                REG_EMP_SEQ
+                REG_EMP_SEQ,
+                TYPE
             )
         VALUES
             (
                 #{pjtSn},
-                #{empSeq}
+                #{empSeq},
+                #{num}
             )
     </insert>
 

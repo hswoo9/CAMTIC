@@ -223,9 +223,9 @@ var certificateList = {
                     width: 50
                 }, {*/
                     title: "발급번호",
-                    width: 150,
+                    width: 100,
                     template: function(row){
-                        return "제"+row.DOCU_YEAR_DE+"-"+row.ROW_NUM+"호";
+                        return "제"+row.DOCU_YEAR_DE+"-"+row.USER_PROOF_SN+"호";
                     }
                 }, {
                     field: "REG_DE",
@@ -244,9 +244,9 @@ var certificateList = {
                     },
                     width: 130
                 }, {
-                    field: "REG_DEPT_NAME",
+                    field: "DEPT_FULL_NAME",
                     title: "부서",
-                    width: 200
+                    width: 250
                 }, {
                     field: "REGTR_NAME",
                     title: "성명",

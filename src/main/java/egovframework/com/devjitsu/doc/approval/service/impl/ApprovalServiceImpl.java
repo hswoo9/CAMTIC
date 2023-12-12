@@ -479,6 +479,11 @@ public class ApprovalServiceImpl implements ApprovalService {
     }
 
     @Override
+    public List<Map<String, Object>> getOnnaraDocAttachmentList(Map<String, Object> params) {
+        return approvalRepository.getOnnaraDocAttachmentList(params);
+    }
+
+    @Override
     public void setApproveDraftFile(Map<String, Object> params, MultipartFile[] mpfList, String serverDir, String baseDir) {
         //결재문서 관련 파일 저장
         MainLib mainLib = new MainLib();
@@ -584,10 +589,11 @@ public class ApprovalServiceImpl implements ApprovalService {
 
             /** URL url = new URL("http://localhost"+ urlStr); */
             /** 서버 url */
-            URL url = new URL("http://127.0.0.1:8080"+ urlStr);
+//            URL url = new URL("http://127.0.0.1:8080"+ urlStr);
             //URL url = new URL("http://127.0.0.1:5959"+ urlStr);
-            //URL url = new URL("http://218.158.231.186"+ urlStr);
+            URL url = new URL("http://218.158.231.186"+ urlStr);
             //URL url = new URL("http://localhost"+ urlStr);
+//            URL url = new URL("http://127.0.0.1"+ urlStr);
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");

@@ -43,10 +43,8 @@
             </h3>
 
             <div class="btn-st popButton" style="font-size: 13px;">
-                <%--                <c:if test='${data.MNG_STAT == "S"}'>--%>
-                <%--                    <button type="button" id="confirmBtn" class="k-button k-button-solid-info" onclick="partRate.fn_confirm()">참여율 확정</button>--%>
-                <%--                </c:if>--%>
-                <c:if test='${data.MNG_STAT != "C"}'>
+                <c:if test='${data.MNG_STAT != "S" and data.MNG_STAT != "C"}'>
+                    <button type="button" id="confirmBtn" class="k-button k-button-solid-info" onclick="partRate.fn_confirm()">설정완료</button>
                     <button type="button" id="saveBtn" class="k-button k-button-solid-info" onclick="partRate.fn_save()">저장</button>
                 </c:if>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
@@ -125,6 +123,7 @@
                     </th>
                     <td>
                         <span id="budget"></span>
+                        <input type="hidden" id="budgetAmt" value=""/>
                     </td>
                     <th scope="row" class="text-center th-color">
                         관리 시스템
@@ -242,7 +241,9 @@
         </div>
 
 
-        <button type="button" style="float: right; margin-top: 10px; font-size: 14px; margin-right: 5px;" onclick="fn_userMultiSelectPop();" class="k-button k-button-solid-base">추가</button>
+        <c:if test='${data.MNG_STAT != "S" and data.MNG_STAT != "C"}'>
+            <button type="button" style="float: right; margin-top: 10px; font-size: 14px; margin-right: 5px;" onclick="fn_userMultiSelectPop();" class="k-button k-button-solid-base">추가</button>
+        </c:if>
         <div class="table-responsive" style="margin-bottom: 25px;">
             <table class="popTable table table-bordered mb-0">
                 <thead>
@@ -295,7 +296,7 @@
         var rs = customKendo.fn_customAjax("/project/updJoinMember", data);
 
         if(rs.flag){
-            location.reload()
+            location.reload();
         }
     }
 </script>

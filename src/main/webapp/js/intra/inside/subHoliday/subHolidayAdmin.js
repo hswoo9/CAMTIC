@@ -17,7 +17,7 @@ var subHolidayAdmin = {
         subHolidayAdmin.dataSet();
 
         customKendo.fn_datePicker("startDate", '', "yyyy-MM-dd", new Date(subHolidayAdmin.global.now.setMonth(subHolidayAdmin.global.now.getMonth() - 1)));
-        customKendo.fn_datePicker("endDate", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("endDate", '', "yyyy-MM-dd", new Date(subHolidayAdmin.global.now.setMonth(subHolidayAdmin.global.now.getMonth() + 2)));
 
         var data = {
             mcCode : subHolidayAdmin.global.mcCode,

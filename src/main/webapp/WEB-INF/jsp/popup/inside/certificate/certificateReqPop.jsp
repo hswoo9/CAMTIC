@@ -12,6 +12,8 @@
 <input type="hidden" id="empName" value="${loginVO.name}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 <input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
+<input type="hidden" id="positionName" value="${loginVO.positionNm}"/>
+
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
@@ -72,10 +74,19 @@
                     <td>
                         <input type="text" id="regDeptName" value="${LoginVO.orgnztNm}" style="width: 80%;">
                     </td>
-                    <th>직급</th>
-                    <td>
+                    <th>직위</th>
+                    <c:choose>
+                    <c:when test="${not empty LoginVO.positionNm}">
+                        <td>
+                        <input type="text" id="regPositionName" value="${LoginVO.positionNm}" style="width: 80%;">
+                        </td>
+                    </c:when>
+                    <c:otherwise>
+                        <td>
                         <input type="text" id="regDutyName" value="${LoginVO.dutyNm}" style="width: 80%;">
-                    </td>
+                        </td>
+                    </c:otherwise>
+                    </c:choose>
                 </tr>
                 <tr>
                     <th>제출처</th>
@@ -145,7 +156,7 @@
 
 
 
-
+    console.log("${data}");
     console.log("${LoginVO}");
 </script>
 </body>

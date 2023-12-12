@@ -82,7 +82,7 @@ public interface ProjectRndService {
     void updateRndResDocState(Map<String, Object> bodyMap) throws Exception;
 
     /** 세세목변경서 결재 상태값에 따른 UPDATE 메서드 */
-    void updateChangeDocState(Map<String, Object> bodyMap) throws Exception;
+    void updateChangeDocState(Map<String, Object> bodyMap, int num) throws Exception;
 
     /** 참여연구원변경공문 결재 상태값에 따른 UPDATE 메서드 */
     void updateRateDocState(Map<String, Object> bodyMap) throws Exception;

@@ -175,6 +175,11 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     }
 
     @Override
+    public Map<String, Object> getPersonData(Map<String, Object> params) {
+        return projectUnRndRepository.getPersonData(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getLectureTeacherReqList(Map<String, Object> params) {
         return projectUnRndRepository.getLectureTeacherReqList(params);
     }
@@ -206,6 +211,14 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
         List<Map<String, Object>> PERSON_LIST = gson.fromJson((String) params.get("personList"), new TypeToken<List<Map<String, Object>>>(){}.getType());
         params.put("personList", PERSON_LIST);
         projectUnRndRepository.insLecturePersonInfo(params);
+    }
+    @Override
+    public void setLecturePersonData(Map<String, Object> params) {
+        if(!params.containsKey("personSn")){
+            projectUnRndRepository.insPersonData(params);
+        }else{
+            projectUnRndRepository.updPersonData(params);
+        }
     }
     @Override
     public void insLectureInfo(Map<String, Object> params) {

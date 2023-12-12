@@ -105,6 +105,13 @@ public interface ApprovalService {
     List<Map<String, Object>> getDocAttachmentList(Map<String, Object> params);
 
     /**
+     * 온나라 문서 첨부파일
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> getOnnaraDocAttachmentList(Map<String, Object> params);
+
+    /**
      * 상신 문서 회수 (최종결재 전 회수 가능)
      */
     void setApproveRetrieve(Map<String, Object> params) throws IOException;

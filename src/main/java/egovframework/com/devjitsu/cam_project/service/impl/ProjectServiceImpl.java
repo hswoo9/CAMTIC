@@ -16,10 +16,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -242,6 +239,11 @@ public class ProjectServiceImpl implements ProjectService {
                 projectRepository.updDevEstFile(fileInsMap);
             }
         }
+    }
+
+    @Override
+    public void setDevInfoDel(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
+        projectRepository.setDevInfoDel(params);
     }
 
     @Override
@@ -876,6 +878,7 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.delEstSub(params);
 
         projectRepository.updProject(params);
+        projectRepository.updProjectGoods(params);
 //        projectRepository.updEngn(params);
 
         return params;
@@ -1063,15 +1066,30 @@ public class ProjectServiceImpl implements ProjectService {
 
         if(!"".equals(map.get("JOIN_MEM_SN"))){
             String[] strArr = map.get("JOIN_MEM_SN").toString().split(",");
-            for(String str : strArr){
-                if(!str.equals(manageInfo.get("MNG_EMP_SEQ").toString())){
-                    map.put("MEMBER_SEQ", str);
-                    Map<String, Object> memberData = new HashMap<>();
+            String[] dtStrArr = map.get("JOIN_MEM_SN").toString().split(",");
+            dtStrArr = Arrays.stream(strArr).distinct().toArray(String[]::new);
+            for(String str : dtStrArr){
+//                if(!str.equals(manageInfo.get("MNG_EMP_SEQ").toString())){
+                map.put("MEMBER_SEQ", str);
 
-                    memberData = projectRepository.getProjectMemberInfo(map);
-
-                    projectMemberInfo.add(memberData);
+                int cnt = 0;
+                for(String cntStr : strArr){
+                    if(str.equals(cntStr)){
+                        cnt++;
+                    }
                 }
+
+                List<Map<String, Object>> memberData = projectRepository.getProjectMemberInfo(map);
+                int tmpCnt = cnt - memberData.size();
+
+                for(int i = 0 ; i < tmpCnt ; i++){
+                    memberData.add(projectRepository.getProjectMemberTemp(map));
+                }
+
+                for(Map<String, Object> data : memberData){
+                    projectMemberInfo.add(data);
+                }
+//                }
             }
         }
 
@@ -1295,6 +1313,17 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Map<String, Object> getDevMap(Map<String, Object> params) {
         return projectRepository.getDevMap(params);
+    }
+
+    @Override
+    public void delJoinMember(Map<String, Object> params) {
+        if(params.containsKey("partRateDet")){
+            projectRepository.delJoinMember(params);
+        }
+
+        projectRepository.delUpdJoinMember(params);
+
+
     }
 }
 

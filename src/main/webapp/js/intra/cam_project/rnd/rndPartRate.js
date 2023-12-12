@@ -150,97 +150,129 @@ var rndPR = {
 
         var result = customKendo.fn_customAjax("/project/getPartRateVerData", data);
         var rs = result.map;
-        rndPR.fn_buttonSet(rs);
+        // rndPR.fn_buttonSet(rs);
         var mng = result.result.projectManagerInfo;
         var mem = result.result.projectMemberInfo;
 
         var empList = "";
-        if(mng != null){
-            $("#partRateMember").html("");
-            var mngHtml = "";
-            empList += mng.MNG_EMP_SEQ
-            mngHtml += '<tr style="text-align: center" class="bodyTr">';
-            mngHtml += '   <td>책임자<input type="hidden" name="partEmpSeq" value="'+mng.MNG_EMP_SEQ+'" /></td>';
-            mngHtml += '   <td>' + mng.MNG_EMP_NAME + '<input type="hidden" name="partEmpName" value="'+mng.MNG_EMP_NAME+'" /></td>';
-            mngHtml += '   <td style="text-align: right">' + comma(mng.BASIC_SALARY) + '</td>';
-            mngHtml += '   <td>';
-            mngHtml += '        <input type="text" id="mngChngSal" name="chngSal" value="'+comma(mng.BASIC_SALARY)+'" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" />';
-            mngHtml += '   </td>';
-            mngHtml += '   <td><input type="text" id="mngStrDt" name="strDt" /></td>';
-            mngHtml += '   <td><input type="text" id="mngEndDt" name="endDt" /></td>';
-            mngHtml += '   <td><input type="text" id="mngMon" name="mon" style="text-align: right" disabled value="'+rndPR.fn_monDiff(mng.PJT_STR_DT, mng.PJT_END_DT)+'"></td>';
-            mngHtml += '   <td><input type="text" id="mngPayRate" name="payRate" style="text-align: right" disabled value="0"></td>';      // 참여율 현금(%)
-            mngHtml += '   <td><input type="text" id="mngTotPayBudget" name="totPayBudget" style="text-align: right" disabled value="0"></td>';      // 인건비 현금 총액
-            mngHtml += '   <td><input type="text" id="mngItemRate" name="itemRate" value="0" style="text-align: right" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"></td>';
-            mngHtml += '   <td><input type="text" id="mngTotItemBudget" name="totItemBudget" style="text-align: right" disabled value="0"></td>';      // 인건비 현물 총액
-            mngHtml += '   <td><input type="text" id="mngTotRate" name="totRate" style="text-align: right" disabled value="0"></td>';      // 총 참여율(%)
-            mngHtml += '   <td><input type="text" id="mngPayTotal" name="payTotal" style="text-align: right" value="0" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"></td>';
-            mngHtml += '   <td><input type="text" id="mngMonSal" name="monSal" style="text-align: right" disabled value="0"></td>';      // 월 인건비
-            mngHtml += '</tr>';
+        // if(mng != null){
+        //     $("#partRateMember").html("");
+        //     var mngHtml = "";
+        //     empList += mng.MNG_EMP_SEQ
+        //     mngHtml += '<tr style="text-align: center" class="bodyTr">';
+        //     mngHtml += '   <td>책임자<input type="hidden" name="partEmpSeq" value="'+mng.MNG_EMP_SEQ+'" /></td>';
+        //     mngHtml += '   <td>' + mng.MNG_EMP_NAME + '<input type="hidden" name="partEmpName" value="'+mng.MNG_EMP_NAME+'" /></td>';
+        //     mngHtml += '   <td style="text-align: right">' + comma(mng.BASIC_SALARY) + '</td>';
+        //     mngHtml += '   <td>';
+        //     mngHtml += '        <input type="text" id="mngChngSal" name="chngSal" value="'+comma(mng.BASIC_SALARY)+'" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" />';
+        //     mngHtml += '   </td>';
+        //     mngHtml += '   <td><input type="text" id="mngStrDt" name="strDt" /></td>';
+        //     mngHtml += '   <td><input type="text" id="mngEndDt" name="endDt" /></td>';
+        //     mngHtml += '   <td><input type="text" id="mngMon" name="mon" style="text-align: right" disabled value="'+rndPR.fn_monDiff(mng.PJT_STR_DT, mng.PJT_END_DT)+'"></td>';
+        //     mngHtml += '   <td><input type="text" id="mngPayRate" name="payRate" style="text-align: right" disabled value="0"></td>';      // 참여율 현금(%)
+        //     mngHtml += '   <td><input type="text" id="mngTotPayBudget" name="totPayBudget" style="text-align: right" disabled value="0"></td>';      // 인건비 현금 총액
+        //     mngHtml += '   <td><input type="text" id="mngItemRate" name="itemRate" value="0" style="text-align: right" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"></td>';
+        //     mngHtml += '   <td><input type="text" id="mngTotItemBudget" name="totItemBudget" style="text-align: right" disabled value="0"></td>';      // 인건비 현물 총액
+        //     mngHtml += '   <td><input type="text" id="mngTotRate" name="totRate" style="text-align: right" disabled value="0"></td>';      // 총 참여율(%)
+        //     mngHtml += '   <td><input type="text" id="mngPayTotal" name="payTotal" style="text-align: right" value="0" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"></td>';
+        //     mngHtml += '   <td><input type="text" id="mngMonSal" name="monSal" style="text-align: right" disabled value="0"></td>';      // 월 인건비
+        //     mngHtml += '</tr>';
+        //
+        //     $("#partRateMember").append(mngHtml);
+        //
+        //     customKendo.fn_textBox(["mngChngSal", "mngItemRate", "mngPayTotal", "mngMon", "mngPayRate", "mngTotPayBudget", "mngTotItemBudget", "mngTotRate", "mngMonSal"]);
+        //     customKendo.fn_datePicker("mngStrDt", "depth", "yyyy-MM-dd", new Date(mng.PJT_STR_DT));
+        //     customKendo.fn_datePicker("mngEndDt", "depth", "yyyy-MM-dd", new Date(mng.PJT_END_DT));
+        //
+        //     if(mng.CHNG_SAL != null){
+        //         $("#mngChngSal").val(comma(mng.CHNG_SAL));
+        //     }
+        //
+        //     if(mng.PART_DET_STR_DT != null){
+        //         $("#mngStrDt").val(mng.PART_DET_STR_DT);
+        //     }
+        //
+        //     if(mng.PART_DET_END_DT != null){
+        //         $("#mngEndDt").val(mng.PART_DET_END_DT);
+        //     }
+        //
+        //     if(mng.MON_DIFF != null){
+        //         $("#mngMon").val(mng.MON_DIFF);
+        //     }
+        //
+        //     if(mng.PAY_RATE != null){
+        //         $("#mngPayRate").val(mng.PAY_RATE);
+        //     }
+        //
+        //     if(mng.TOT_PAY_BUDG != null){
+        //         $("#mngTotPayBudget").val(comma(mng.TOT_PAY_BUDG));
+        //     }
+        //
+        //     if(mng.ITEM_RATE != null){
+        //         $("#mngItemRate").val(mng.ITEM_RATE);
+        //     }
+        //
+        //     if(mng.TOT_ITEM_BUDG != null){
+        //         $("#mngTotItemBudget").val(comma(mng.TOT_ITEM_BUDG));
+        //     }
+        //
+        //     if(mng.TOT_RATE != null){
+        //         $("#mngTotRate").val(mng.TOT_RATE);
+        //     }
+        //
+        //     if(mng.PAY_TOTAL != null){
+        //         $("#mngPayTotal").val(comma(mng.PAY_TOTAL));
+        //     }
+        //
+        //     if(mng.MON_SAL != null){
+        //         $("#mngMonSal").val(comma(mng.MON_SAL));
+        //     }
+        //
+        // }
 
-            $("#partRateMember").append(mngHtml);
-
-            customKendo.fn_textBox(["mngChngSal", "mngItemRate", "mngPayTotal", "mngMon", "mngPayRate", "mngTotPayBudget", "mngTotItemBudget", "mngTotRate", "mngMonSal"]);
-            customKendo.fn_datePicker("mngStrDt", "depth", "yyyy-MM-dd", new Date(mng.PJT_STR_DT));
-            customKendo.fn_datePicker("mngEndDt", "depth", "yyyy-MM-dd", new Date(mng.PJT_END_DT));
-
-            if(mng.CHNG_SAL != null){
-                $("#mngChngSal").val(comma(mng.CHNG_SAL));
-            }
-
-            if(mng.PART_DET_STR_DT != null){
-                $("#mngStrDt").val(mng.PART_DET_STR_DT);
-            }
-
-            if(mng.PART_DET_END_DT != null){
-                $("#mngEndDt").val(mng.PART_DET_END_DT);
-            }
-
-            if(mng.MON_DIFF != null){
-                $("#mngMon").val(mng.MON_DIFF);
-            }
-
-            if(mng.PAY_RATE != null){
-                $("#mngPayRate").val(mng.PAY_RATE);
-            }
-
-            if(mng.TOT_PAY_BUDG != null){
-                $("#mngTotPayBudget").val(comma(mng.TOT_PAY_BUDG));
-            }
-
-            if(mng.ITEM_RATE != null){
-                $("#mngItemRate").val(mng.ITEM_RATE);
-            }
-
-            if(mng.TOT_ITEM_BUDG != null){
-                $("#mngTotItemBudget").val(comma(mng.TOT_ITEM_BUDG));
-            }
-
-            if(mng.TOT_RATE != null){
-                $("#mngTotRate").val(mng.TOT_RATE);
-            }
-
-            if(mng.PAY_TOTAL != null){
-                $("#mngPayTotal").val(comma(mng.PAY_TOTAL));
-            }
-
-            if(mng.MON_SAL != null){
-                $("#mngMonSal").val(comma(mng.MON_SAL));
-            }
-
-        }
-
+        var item = 0;
         if(mem != null){
             var memHtml = '';
 
             for(var i = 0 ; i < mem.length ; i++){
-                empList += "," + mem[i].EMP_SEQ;
+                var e = mem[i];
+                var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
+
+                /** 국민연금 */
+                var nationalPension = cnt * (e.NATIONAL_PENSION / 100);
+                if(nationalPension > Number(e.LIMIT_AMT)){
+                    nationalPension = e.LIMIT_AMT;
+                }
+                /** 건강보험 */
+                var healthInsurance = Math.floor(Math.floor(cnt * (e.HEALTH_INSURANCE / 100))/10) * 10
+                /** 장기요양보험 */
+                var longCareInsurance =  Math.floor(Math.floor(healthInsurance * (e.LONG_CARE_INSURANCE / 100)) / 10) * 10
+                /** 고용보험 */
+                var employInsurance = Math.floor(Math.floor(cnt * (e.EMPLOY_INSURANCE / 100))/10) * 10;
+                /** 산재보험 = (기본급 + 상여금) / 산재보험요율(%)*/
+                var accidentInsurance = Math.floor(Math.floor(cnt * (e.ACCIDENT_INSURANCE / 100))/10) * 10;
+
+                var sum = cnt + nationalPension + healthInsurance + longCareInsurance + employInsurance + accidentInsurance + (Math.floor((cnt/12)/10) * 10);
+
+                var totAmt = (Math.floor(sum/10) * 10).toString().toMoney();
+                var bsSal = totAmt;
+                if(mem[i].CHNG_SAL != undefined && mem[i].CHNG_SAL != null){
+                    totAmt = mem[i].CHNG_SAL;
+                }
+                var gubun = "";
+                if(mem[i].GUBUN == undefined || mem[i].GUBUN == null || mem[i].GUBUN == ""){
+                    gubun = "";
+                } else {
+                    gubun = mem[i].GUBUN;
+                }
+
+                empList += mem[i].EMP_SEQ + ",";
                 memHtml += '<tr style="text-align: center" class="bodyTr">';
-                memHtml += '   <td>참여자<input type="hidden" name="partEmpSeq" value="'+mem[i].EMP_SEQ+'" /></td>';
+                memHtml += '   <td>'+gubun+'<input type="hidden" name="partEmpSeq" value="'+mem[i].EMP_SEQ+'" /></td>';
                 memHtml += '   <td>' + mem[i].EMP_NAME + '<input type="hidden" name="partEmpName" value="'+mem[i].EMP_NAME+'" /></td>';
-                memHtml += '   <td style="text-align: right">' + comma(mem[i].BASIC_SALARY) + '</td>';
+                memHtml += '   <td style="text-align: right">' + uncomma(bsSal) + '</td>';
                 memHtml += '   <td>';
-                memHtml += '        <input type="text" id="memChngSal'+i+'" name="chngSal" value="'+comma(mem[i].BASIC_SALARY)+'" style="text-align: right" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" />';
+                memHtml += '        <input type="text" id="memChngSal'+i+'" name="chngSal" value="'+comma(totAmt)+'" style="text-align: right" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" />';
                 memHtml += '   </td>';
                 memHtml += '   <td><input type="text" id="memStrDt'+i+'" name="strDt" /></td>';
                 memHtml += '   <td><input type="text" id="memEndDt'+i+'" name="endDt" /></td>';
@@ -255,13 +287,12 @@ var rndPR = {
                 memHtml += '</tr>';
             }
 
-            $("#partRateMember").append(memHtml);
+            $("#partRateMember").html(memHtml);
 
             for(var i = 0 ; i < mem.length ; i++){
                 customKendo.fn_textBox(["memChngSal" + i, "memItemRate" + i, "memPayTotal" + i, "memMon" + i, "memPayRate" + i, "memTotPayBudget" + i, "memTotItemBudget" + i, "memTotRate" + i, "memMonSal" + i]);
-                customKendo.fn_datePicker("memStrDt" + i, "depth", "yyyy-MM-dd", new Date(mng.PJT_STR_DT));
-                customKendo.fn_datePicker("memEndDt" + i, "depth", "yyyy-MM-dd", new Date(mng.PJT_END_DT));
-
+                customKendo.fn_datePicker("memStrDt" + i, "depth", "yyyy-MM-dd", new Date(mem[i].PJT_STR_DT));
+                customKendo.fn_datePicker("memEndDt" + i, "depth", "yyyy-MM-dd", new Date(mem[i].PJT_END_DT));
 
                 if(mem[i].CHNG_SAL != null){
                     $("#memChngSal" + i).val(comma(mem[i].CHNG_SAL));
@@ -322,6 +353,14 @@ var rndPR = {
 
         customKendo.fn_textBox(["allPayTotal"]);
 
+        var allPayTotal = 0;
+        $("input[name='payTotal']").each(function(){
+            allPayTotal += Number(uncomma(this.value));
+        });
+
+        $("#allPayTotal").val(comma(allPayTotal));
+
+
         $("#viewSubBtn").css("display", "");
     },
 
@@ -362,7 +401,6 @@ var rndPR = {
     },
 
     fn_buttonSet : function(rateMap){
-        console.log(rateMap);
         var buttonHtml = "";
         if(rateMap != null){
             if(rateMap.PART_RATE_VER > 1 && rateMap.MNG_STAT == "C"){
@@ -381,7 +419,8 @@ var rndPR = {
         $("#rateBtnDiv").html(buttonHtml);
     },
 
-    rateDrafting: function() {
+    rateDrafting: function(key) {
+        $("#partRateVerSn").val(key);
         $("#rateDraftFrm").one("submit", function() {
             var url = "/popup/cam_project/approvalFormPopup/rateChangeApprovalPop.do";
             var name = "_self";

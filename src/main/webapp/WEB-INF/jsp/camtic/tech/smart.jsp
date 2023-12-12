@@ -166,7 +166,7 @@
                             <!-- <img src="/images/camtic/img-nsmart1-2.jpg" alt=""> -->
                             <ul class="__imgJobBox3">
                                 <li><img src="/images/camtic/img-nsmart1-2-1.png" alt=""></li>
-                                <li><img src="/images/camtic/img-nsmart1-2-2.png" alt=""></li>
+                                <li><img src="/images/camtic/img-nsmart1-2-2-2.png" alt="" style="width: 479px; height: 273px;"></li>
                             </ul>
                         </div>
                     </div>
@@ -182,9 +182,13 @@
                         </div>
                         <div class="img">
                             <!-- <img src="/images/camtic/img-nsmart1-3.jpg" alt=""> -->
-                            <ul class="__imgJobBox3">
+                          <%--  <ul class="__imgJobBox3">
                                 <li><img src="/images/camtic/img-nsmart1-3-1.png" alt=""></li>
                                 <li><img src="/images/camtic/img-nsmart1-3-2.png" alt=""></li>
+                            </ul>--%>
+                            <ul class="__imgJobBox3">
+                                <li><img src="/images/camtic/img-nsmart1-3-1-1.png" alt="" style="width: 479px; height: 273px;"></li>
+                                <li><img src="/images/camtic/img-nsmart1-3-2-2.png" alt="" style="width: 479px; height: 270px; border-radius: 5px;"></li>
                             </ul>
                         </div>
                     </div>

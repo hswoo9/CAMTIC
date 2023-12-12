@@ -24,7 +24,6 @@
         </div>
         <div class="panel-body">
             <div>
-
                 <div id="mainGrid" style="margin:20px 0;"></div>
             </div>
         </div>
@@ -33,4 +32,5 @@
 
 <script>
 
+    statementList.fn_defaultScript();
 </script>

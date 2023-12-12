@@ -17,6 +17,7 @@ public interface CustomBoardService {
     void setCustomBoardFileInit(Map<String, Object> params, MultipartFile[] mpfList, String server_dir, String base_dir);
     void setSuggestionSystemDel(Map<String, Object> params);
     List<Map<String, Object>> getScheduleList(Map<String, Object> params);
+    List<Map<String, Object>> getTodayScheduleList(Map<String, Object> params);
     List<Map<String, Object>> getBoardFileInfo(Map<String, Object> params);
     void setScheduleReg(Map<String, Object> params);
     Map<String, Object> getSchedule(Map<String, Object> params);

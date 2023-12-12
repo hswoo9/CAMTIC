@@ -12,8 +12,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">목표/직무기술서</h4>
-            <div class="title-road">캠퍼스 > 학습관리 > 직무관리 > 목표/직무기술서</div>
+            <h4 class="panel-title">목표/직무기술서 (관리자)</h4>
+            <div class="title-road">캠퍼스 > 학습관리 > 직무관리 > 목표/직무기술서 (관리자)</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -45,9 +45,21 @@
                             <input type="text" id="dept" class="searchInput" style="width: 150px;">
                             <input type="text" id="team" class="searchInput" style="width: 150px;">
                         </td>
+                        <th class="text-center th-color">이름</th>
+                        <td>
+                            <input id="searchValue" onkeypress="if(window.event.keyCode==13){gridReload()}" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">목표기술서</th>
+                        <td>
+                            <input type="text" id="status" class="searchInput" style="width: 100px;">
+                        </td>
+                        <th class="text-center th-color">직무기술서</th>
+                        <td>
+                            <input type="text" id="status2" class="searchInput" style="width: 100px;">
+                        </td>
                         <th class="text-center th-color">퇴사자</th>
                         <td>
-                            <input type="text" id="active" class="searchInput" style="width: 70px;">
+                            <input type="text" id="active" class="searchInput" style="width: 100px;">
                         </td>
                     </tr>
                 </table>

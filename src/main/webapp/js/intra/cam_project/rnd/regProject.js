@@ -143,6 +143,9 @@ var regRnd = {
         /** 협업이 아닐 때 */
         } else {
             tabStrip.enable(tabStrip.tabGroup.children().eq(0));
+            tabStrip.enable(tabStrip.tabGroup.children().eq(1));
+            tabStrip.enable(tabStrip.tabGroup.children().eq(2));
+
             
             var rndInfo = customKendo.fn_customAjax("/projectRnd/getRndDetail", setParameters);
 
@@ -260,6 +263,14 @@ var regRnd = {
             $("#rndCrmNm").val(e.CRM_NM);
             $("#rndCrmSn").val(e.CRM_SN);
             $("#pjtExpAmt").val(comma(e.PJT_EXP_AMT));
+
+            const rndInfo = customKendo.fn_customAjax("/projectRnd/getRndDetail", {pjtSn: $("#pjtSn").val()});
+            const delvMap = rndInfo.map;
+            if(delvMap != null){
+                if(delvMap.STATUS == "100"){
+                    $("#pjtExpAmt").val(comma(e.PJT_AMT));
+                }
+            }
 
             if(e.CRM_CON_NM = null && e.CRM_CON_NM != ""){
                 $("#rndConCrmNm").val(e.CRM_CON_SN);

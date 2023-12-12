@@ -55,13 +55,6 @@ var rndRschInfo = {
                             '	    <span class="k-button-text">등록</span>' +
                             '   </button>';
                     }
-                }, {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" disabled>' +
-                            '	    <span class="k-button-text">지급신청</span>' +
-                            '   </button>';
-                    }
                 }
             ],
             dataBound : function(e){

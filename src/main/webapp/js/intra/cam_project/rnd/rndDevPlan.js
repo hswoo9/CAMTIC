@@ -241,6 +241,9 @@ var rndDP = {
 
         var invResult = customKendo.fn_customAjax("/project/getInvList", data);
         var list = invResult.list;
+        if(list.length == 0){
+            rndDP.global.invCk = "N";
+        }
 
         for(var i = 0 ; i < list.length ; i++){
             var idx = i+1;
@@ -294,7 +297,7 @@ var rndDP = {
             empSeq : $("#empSeq").val(),
         }
         var result = customKendo.fn_customAjax("/projectRnd/setDevPjtVer", data);
-        commonProject.getReloadPage(3, 3, 3, 0, 0, 0);
+        commonProject.getReloadPage(3, 3, 3, 1, 0, 0);
     },
 
     fn_addInv : function() {
@@ -509,12 +512,14 @@ var rndDP = {
 
             /** 수주부서 일때 */
             if(status == "0"){
-                buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
+                buttonHtml += "<button type=\"button\" id=\"devDelBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"devInfo.fn_delete()\">삭제</button>";
+                buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
                 buttonHtml += "<button type=\"button\" id=\"devAppBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.devDrafting()\">상신</button>";
             }else if(status == "10" || status == "20" || status == "30"){
                 buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+devMap.DOC_ID+"', '"+devMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
             }else if(status == "30" || status == "40"){
-                buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
+                buttonHtml += "<button type=\"button\" id=\"devDelBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"devInfo.fn_delete()\">삭제</button>";
+                buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
                 buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('"+devMap.DOC_ID+"', '"+devMap.DOC_MENU_CD+"', '"+devMap.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
             }else if(status == "100"){
                 buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+devMap.DOC_ID+"', '"+devMap.APPRO_KEY+"', '"+devMap.DOC_MENU_CD+"');\">열람</button>";
@@ -531,11 +536,13 @@ var rndDP = {
                 if (status == "0") {
                     if(commonProject.global.devTeamCk != "Y") {
                         if(rndDP.global.invCk == "Y") {
-                            buttonHtml = "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
+                            buttonHtml = "<button type=\"button\" id=\"devDelBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"devInfo.fn_delete()\">삭제</button>";
+                            buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-right: 5px\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
                             buttonHtml += "<button type=\"button\" id=\"addVerBtn2\" style=\"float: right; margin-bottom: 5px; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"rndDP.fn_addVersion()\">예비원가 추가</button>";
                             buttonHtml += "<button type=\"button\" id=\"teamAppBtn\" style=\"float: right; margin-right: 5px\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_teamApp('Y')\">공정 마감</button>";
                         }else{
-                            buttonHtml = "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
+                            buttonHtml = "<button type=\"button\" id=\"devDelBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"devInfo.fn_delete()\">삭제</button>";
+                            buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-right: 5px\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
                         }
                     }else {
                         buttonHtml = "<button type=\"button\" id=\"teamAppBtn\" style=\"float: right; margin-bottom: 10px\" class=\"k-button k-button-solid-error\" onclick=\"rndDP.fn_teamApp('N')\">마감취소</button>";

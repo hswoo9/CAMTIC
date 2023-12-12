@@ -304,10 +304,33 @@ const bustripReq = {
                         alert("출장 수정이 완료되었습니다.");
                     }
 
-                    if($("#paramsPjtSn").val() == ""){
+                    if($("#paramsPjtSn").val() == "") {
                         opener.gridReload();
+                    }else{
+                        const busnClass = opener.commonProject.global.busnClass;
+                        if(opener.commonProject.global.teamStat == "Y"){
+                            if(busnClass == "D"){
+                                opener.window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=5";
+                            }else if(busnClass == "R"){
+                                opener.window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=3";
+                            }else if(busnClass == "S"){
+                                opener.window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=3";
+                            }else{
+                                opener.window.location.reload();
+                            }
+                            /** 협업이 아닐때 */
+                        }else{
+                            if(busnClass == "D"){
+                                opener.window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=10";
+                            }else if(busnClass == "R"){
+                                opener.window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=11";
+                            }else if(busnClass == "S"){
+                                opener.window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=11";
+                            }else{
+                                opener.window.location.reload();
+                            }
+                        }
                     }
-
                     window.close();
                 }
             });

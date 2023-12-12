@@ -142,6 +142,8 @@ var unRndInit = {
         const map = pjtInfo.rs;
         const delvMap = unRndInfo.map;
         const devMap = resultD.rs;
+        const chResult = customKendo.fn_customAjax("/projectRnd/getChangeList", {pjtSn: pjtSn});
+        const chList = chResult.list;
 
         /** 1. 사업정보 */
         hwpDocCtrl.putFieldText('BUSN_CLASS', map.BUSN_NM);
@@ -266,8 +268,14 @@ var unRndInit = {
 
         }
 
+        /** 7. 구매/비용내역 */
+        const changeData = rndInit.htmlChange(chList, map);
+        setTimeout(function() {
+            hwpDocCtrl.moveToField('CHANGE_HTML', true, true, false);
+            hwpDocCtrl.setTextFile(changeData, "html","insertfile");
+        }, 8000);
 
-        /** 7. 특이사항 */
+        /** 8. 특이사항 */
         const getResult = customKendo.fn_customAjax("/project/engn/getResultInfo", {pjtSn: pjtSn});
         const res = getResult.result.map;
         setTimeout(function() {
