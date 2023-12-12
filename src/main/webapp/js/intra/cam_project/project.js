@@ -153,9 +153,6 @@ var camPrj = {
                 const grid = this;
                 grid.tbody.find("tr").each(function(){
                     var dataItem = grid.dataItem($(this));
-                    console.log(12312312);
-                    console.log(dataItem);
-                    console.log(dataItem.PNT_PJT_SN_CK);
                     if(dataItem.PNT_PJT_SN_CK == null){
                         $(this).find(".k-i-expand").hide();
                     }

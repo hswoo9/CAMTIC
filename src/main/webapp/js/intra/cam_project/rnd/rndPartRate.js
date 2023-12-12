@@ -150,7 +150,7 @@ var rndPR = {
 
         var result = customKendo.fn_customAjax("/project/getPartRateVerData", data);
         var rs = result.map;
-        rndPR.fn_buttonSet(rs);
+        // rndPR.fn_buttonSet(rs);
         var mng = result.result.projectManagerInfo;
         var mem = result.result.projectMemberInfo;
 
@@ -419,7 +419,8 @@ var rndPR = {
         $("#rateBtnDiv").html(buttonHtml);
     },
 
-    rateDrafting: function() {
+    rateDrafting: function(key) {
+        $("#partRateVerSn").val(key);
         $("#rateDraftFrm").one("submit", function() {
             var url = "/popup/cam_project/approvalFormPopup/rateChangeApprovalPop.do";
             var name = "_self";

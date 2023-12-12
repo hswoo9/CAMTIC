@@ -160,13 +160,14 @@
             <colgroup>
                 <col width="7%">
                 <col width="7%">
+                <col width="7%">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
                 <col width="10%">
                 <col width="15%">
-                <col width="12%">
-                <col width="12%">
-                <col width="12%">
-                <col width="15%">
-                <col width="10%">
+                <col width="7%">
+                <col width="13%">
             </colgroup>
             <thead>
             <tr>
@@ -179,6 +180,7 @@
                 <th>확정일</th>
                 <th>담당자 코멘트</th>
                 <th>상태</th>
+                <th>기안</th>
             </tr>
             </thead>
             <tbody id="partRateVersion2">

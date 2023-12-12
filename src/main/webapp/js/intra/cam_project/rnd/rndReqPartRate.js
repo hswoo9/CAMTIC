@@ -263,6 +263,20 @@ var rndRPR = {
                     itemBudget = ls[i].RT_ITEM_BUDGET;
                 }
 
+                var buttonHtml = "";
+                if(ls[i].PART_RATE_VER > 1 && ls[i].MNG_STAT == "S"){
+                    var status = ls[i].STATUS;
+                    if(status == "0"){
+                        buttonHtml += "<button type=\"button\" id=\"rateAppBtn\" class=\"k-button k-button-solid-info\" onclick=\"rndPR.rateDrafting("+ls[i].PART_RATE_VER_SN+")\">참여율 변경 공문 작성</button>";
+                    }else if(status == "10"){
+                        buttonHtml += "<button type=\"button\" id=\"rateCanBtn\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+ls[i].DOC_ID+"', '"+ls[i].APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
+                    }else if(status == "30" || status == "40"){
+                        buttonHtml += "<button type=\"button\" id=\"rateCanBtn\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('"+ls[i].DOC_ID+"', '"+ls[i].DOC_MENU_CD+"', '"+ls[i].APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
+                    }else if(status == "100"){
+                        buttonHtml += "<button type=\"button\" id=\"rateCanBtn\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+ls[i].DOC_ID+"', '"+ls[i].APPRO_KEY+"', '"+ls[i].DOC_MENU_CD+"');\">열람</button>";
+                    }
+                }
+
                 html += '<tr style="text-align: center">';
                 html += '   <td>'+gubun+'</td>';
                 html += '   <td>';
@@ -275,6 +289,7 @@ var rndRPR = {
                 html += '   <td>'+ confDate +'</td>';
                 html += '   <td>'+mngComm+'</td>';
                 html += '   <td>'+mngStat+'</td>';
+                html += '   <td style="text-align: center">'+buttonHtml+'</td>';
                 html += '</tr>';
             }
 
