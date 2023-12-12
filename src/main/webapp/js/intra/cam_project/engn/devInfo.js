@@ -499,8 +499,8 @@ var devInfo = {
                             buttonHtml += "<button type=\"button\" id=\"devAddBtn\" style=\"float: right; margin-right: 5px\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_addVersion()\">추가</button>";
                             buttonHtml += "<button type=\"button\" id=\"teamAppBtn\" style=\"float: right; margin-right: 5px\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_teamApp('Y')\">공정 마감</button>";
                         }else{
-                            buttonHtml += "<button type=\"button\" id=\"devDelBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"devInfo.fn_delete()\">삭제</button>";
-                            buttonHtml = "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
+                            buttonHtml = "<button type=\"button\" id=\"devDelBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"devInfo.fn_delete()\">삭제</button>";
+                            buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-right: 5px\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
                         }
                     }else {
                         buttonHtml = "<button type=\"button\" id=\"teamAppBtn\" style=\"float: right; margin-bottom: 10px\" class=\"k-button k-button-solid-error\" onclick=\"devInfo.fn_teamApp('N')\">마감취소</button>";
