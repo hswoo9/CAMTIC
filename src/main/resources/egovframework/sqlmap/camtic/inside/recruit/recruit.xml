@@ -114,11 +114,15 @@
     <select id="getRecruit" parameterType="map" resultType="map">
         /* getRecruit */
         SELECT
+            COUNT(APP.RECRUIT_INFO_SN) AS applicationCount,
             RI.*,
             RES.RECRUIT_EVAL_SHEET_ID,
             RES.INTERVIEW_EVAL_SHEET
         FROM
             CAM_INSIDE.DJ_RECRUIT_INFO RI
+        LEFT JOIN
+            CAM_INSIDE.DJ_APPLICATION_MAIN APP
+        ON APP.RECRUIT_INFO_SN = RI.RECRUIT_INFO_SN
         LEFT JOIN
             CAM_INSIDE.DJ_RECRUIT_EVAL_SHEET RES
         ON RES.RECRUIT_INFO_SN = RI.RECRUIT_INFO_SN
