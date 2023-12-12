@@ -26,7 +26,7 @@
                 <span class="subCapyTitle">(기업 100개사, 고용 1,000명)</span>
               </p>
           </div>
-          <div class="area">
+          <%--<div class="area">
             <div class="box">
               <div class="img"><img src="/images/camtic/img-jvalley2-1.jpg" alt="" style="width: 324px; height: 223px; border-radius: 10px;"></div>
               <div class="info _row">
@@ -71,7 +71,7 @@
                 </dl>
               </div>
             </div>
-          </div>
+          </div>--%>
 
           <div class="__jvalley4 __mt100">
             <div class="__tit1 line mb0">

@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -252,5 +253,97 @@ public class CommonController {
             }
         }
 
+    }
+
+    /**
+     * 알림 리스트
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/common/getAlarmList.do")
+    public String getAlarmList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        if(loginVO == null){
+            return "redirect:/loginPage.do";
+        }
+        params.put("empSeq", loginVO.getUniqId());
+        model.addAttribute("rs", commonService.getAlarmList(params));
+
+        return "jsonView";
+    }
+
+
+    /**
+     * 알람전송
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/common/setAlarm")
+    public String setAlarm(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("sdEmpSeq", loginVO.getUniqId());
+        params.put("SND_EMP_NM", loginVO.getName());
+        params.put("SND_DEPT_SEQ", loginVO.getOrgnztId());
+        params.put("SND_DEPT_NM", loginVO.getOrgnztNm());
+
+        try {
+            commonService.setAlarm(params);
+            model.addAttribute("rs", "SUCCESS");
+            model.addAttribute("message", "Successful sending of notifications.");
+        } catch (DataAccessException de){
+            de.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    /**
+     * 알림확인
+     * @param params
+     * @return
+     */
+    @RequestMapping("/common/setAlarmCheck.do")
+    public String setAlarmCheck(@RequestParam Map<String, Object> params){
+        commonService.setAlarmCheck(params);
+        return "jsonView";
+    }
+
+    /**
+     * 알림 상단리스트 삭제
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/common/setAlarmTopListDel.do")
+    public String setAlarmTopListDel(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("empSeq", loginVO.getUniqId());
+        commonService.setAlarmTopListDel(params);
+
+        return "jsonView";
+    }
+
+    /**
+     * 알림 전체읽음
+     * @param params
+     * @param request
+     * @return
+     */
+    @RequestMapping("/common/setAlarmAllCheck.do")
+    public String setAlarmAllCheck(@RequestParam Map<String, Object> params, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("empSeq", loginVO.getUniqId());
+        commonService.setAlarmAllCheck(params);
+
+        return "jsonView";
     }
 }

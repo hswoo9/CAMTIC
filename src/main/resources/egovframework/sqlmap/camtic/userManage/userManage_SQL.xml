@@ -1981,6 +1981,7 @@
             IM.IMAGE_ID,
             IM.EMP_SEQ,
             IM.SIGN_IMAGE_PK,
+            IM.SIGN2_IMAGE_PK,
             IM.ID_IMAGE_PK,
             IM.PERSONAL_IMAGE_PK
         FROM
@@ -1999,8 +2000,8 @@
         <if test='idImg != 0'>
             ID_IMAGE_PK,
         </if>
-        <if test='personalImg != 0'>
-            PERSONAL_IMAGE_PK,
+        <if test='sign2Img != 0'>
+            SIGN2_IMAGE_PK,
         </if>
             REG_EMP_SEQ,
             REG_DATE
@@ -2012,8 +2013,8 @@
         <if test='idImg != 0'>
             #{idImg},
         </if>
-        <if test='personalImg != 0'>
-            #{personalImg},
+        <if test='sign2Img != 0'>
+            #{sign2Img},
         </if>
             #{loginEmpSeq},
             NOW()
@@ -2031,8 +2032,8 @@
             <if test='idImg != 0'>
                 ID_IMAGE_PK = #{idImg},
             </if>
-            <if test='personalImg != 0'>
-                PERSONAL_IMAGE_PK = #{personalImg},
+            <if test='sign2Img != 0'>
+                SIGN2_IMAGE_PK = #{sign2Img},
             </if>
             MOD_EMP_SEQ = #{loginEmpSeq},
             MOD_DATE = NOW()

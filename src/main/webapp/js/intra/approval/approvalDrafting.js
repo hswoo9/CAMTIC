@@ -491,7 +491,7 @@ var draft = {
         if(!draft.global.fileUploadFlag){
             alert("첨부파일 등록 중 에러가 발생했습니다.");
         }else{
-            if(draft.global.fileUploadFlag.draftDocInfo == null){
+            if(draft.global.draftDocInfo == null || draft.global.draftDocInfo == ""){
                 // window.close();
             }
         }
@@ -808,6 +808,11 @@ var draft = {
                     draft.approveKendoSetting();
                 }else{
                     alert("처리되었습니다.");
+                    var result = draft.setAlarmEvent();
+                    if(result.rs != "SUCCESS"){
+                        alert(result.message);
+                    }
+
                     if($("#files").closest('.k-upload').find('.k-file.k-toupload').length > 0){
                         $("#files").data("kendoUpload").upload();
                     }else{
@@ -858,6 +863,11 @@ var draft = {
                     draft.approveKendoSetting();
                 }else{
                     alert("처리되었습니다.");
+                    var result = draft.setAlarmEvent();
+                    if(result.rs != "SUCCESS"){
+                        alert(result.message);
+                    }
+
                     if($("#files").closest('.k-upload').find('.k-file.k-toupload').length > 0){
                         $("#files").data("kendoUpload").upload();
                     }else{
@@ -1055,6 +1065,26 @@ var draft = {
                 alert("결재 중 에러가 발생했습니다.");
             }
         })
+    },
+
+    setAlarmEvent : function (){
+        var returnVal = "";
+
+        for(var i = 0 ; i < draft.global.approversArr.length; i ++){
+            if(draft.global.approversArr[i].approveOrder != 0 && draft.global.approversArr[i].approveOrder == 1){
+                draft.global.saveAjaxData = {
+                    ntTitle : "[결재도착] 기안자 : " + draft.global.fileInitData.draftEmpName,
+                    ntContent : draft.global.fileInitData.docTitle,
+                    recEmpSeq : draft.global.approversArr[i].approveEmpSeq,
+                    ntUrl : "/approval/approvalDocView.do?docId=" + draft.global.fileInitData.DOC_ID + "&mod=V&menuCd=" + draft.global.fileInitData.menuCd + "&approKey=" + draft.global.fileInitData.approKey
+                }
+
+                var result = customKendo.fn_customAjax("/common/setAlarm", draft.global.saveAjaxData);
+                returnVal = result;
+            }
+        }
+
+        return returnVal;
     },
 
     makeApprovalFormData(type){
