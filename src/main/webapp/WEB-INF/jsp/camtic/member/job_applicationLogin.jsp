@@ -80,18 +80,18 @@
                                     <tr>
                                         <th>이메일</th>
                                         <td>
-                                            <input type="text" class="recruitText" id="userEmail" name="userEmail" onkeypress="if(window.event.keyCode==13){setApplicationLogin()}" value="deer@naver.com">
+                                            <input type="text" class="recruitText" id="userEmail" name="userEmail" onkeypress="if(window.event.keyCode==13){setApplicationLogin()}" value="" placeholder="camtic@gmail.com">
                                         </td>
                                     </tr>
 
                                     <tr>
                                         <th>비밀번호</th>
-                                        <td><input type="password" class="recruitText" id="userPassword" name="userPassword" onkeypress="if(window.event.keyCode==13){setApplicationLogin()}" value="Jiat2300@@"></td>
+                                        <td><input type="password" class="recruitText" id="userPassword" name="userPassword" onkeypress="if(window.event.keyCode==13){setApplicationLogin()}" value=""></td>
                                     </tr>
 
                                     <tr>
                                         <th>비밀번호 확인</th>
-                                        <td><input type="password" class="recruitText" id="userPassword2" name="userPassword2" onkeypress="if(window.event.keyCode==13){setApplicationLogin()}" value="Jiat2300@@"></td>
+                                        <td><input type="password" class="recruitText" id="userPassword2" name="userPassword2" onkeypress="if(window.event.keyCode==13){setApplicationLogin()}" value=""></td>
                                     </tr>
                                 </table>
                                 <input type="hidden" id="userEmailSub1" name="id_sub1" value="">
