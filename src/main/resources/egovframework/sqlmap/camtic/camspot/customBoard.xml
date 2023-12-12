@@ -406,7 +406,8 @@
                 END AS STATUS,
             DATE_FORMAT(RB.REG_DATE, '%Y-%m-%d') AS REG_DATE,
             EI.EMP_SEQ AS REG_EMP_SEQ,
-            EI.EMP_NAME_KR AS REG_EMP_NAME
+            EI.EMP_NAME_KR AS REG_EMP_NAME,
+            (select count(*) from cam_board.v_board_article_reply where board_article_id = concat('request_', RB.request_board_id) and active = 'Y') as REPLY_CNT
         FROM
             CAM_BOARD.DJ_REQUEST_BOARD RB
         JOIN

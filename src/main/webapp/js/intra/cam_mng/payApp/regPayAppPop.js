@@ -140,8 +140,9 @@ var regPay = {
         }
 
 
-        $(".payDestInfo td input").css("font-size", "9px");
-        $(".payDestInfo td span").css("font-size", "9px");
+        $(".payDestInfo td input").css("font-size", "10px");
+        $(".payDestInfo td").css("padding", "0.35rem");
+        $(".payDestInfo td span").css("font-size", "10px");
     },
 
     payAppBtnSet: function (data){
@@ -781,7 +782,7 @@ var regPayDet = {
         itemIndex : 0,
         createHtmlStr : "",
     },
-    
+
     fn_defaultScript : function (){
         $("#eviType0").kendoDropDownList({
             dataTextField: "text",
@@ -794,7 +795,7 @@ var regPayDet = {
                 { text: "직원지급", value: "4" },
                 { text: "사업소득자", value: "5" },
                 { text: "기타소득자", value: "9" },
-                { text: "기타", value: "6" },
+                { text: "기타", value: "6" }
             ],
             index: 0,
             change : function (e){
@@ -824,8 +825,9 @@ var regPayDet = {
         $("#appTeam0").data("kendoDropDownList").value($("#loginDeptSeq").val());
         customKendo.fn_datePicker("trDe0", "month", "yyyy-MM-dd", new Date());
 
-        $(".payDestInfo td input").css("font-size", "9px");
-        $(".payDestInfo td span").css("font-size", "9px");
+        $(".payDestInfo td input").css("font-size", "10px");
+        $(".payDestInfo td").css("padding", "0.35rem");
+        $(".payDestInfo td span").css("font-size", "10px");
 
     },
 
@@ -844,8 +846,8 @@ var regPayDet = {
         var option = "width = 1500, height = 700, top = 100, left = 300, location = no"
         var popup = window.open(url, name, option);
     },
-    
-    
+
+
     addRow : function () {
         regPayDet.global.createHtmlStr = "";
         var clIdx = regPayDet.global.itemIndex;
@@ -962,8 +964,9 @@ var regPayDet = {
 
         regPayDet.global.itemIndex++;
 
-        $(".payDestInfo td input").css("font-size", "9px");
-        $(".payDestInfo td span").css("font-size", "9px");
+        $(".payDestInfo td input").css("font-size", "10px");
+        $(".payDestInfo td").css("padding", "0.35rem");
+        $(".payDestInfo td span").css("font-size", "10px");
     },
 
     delRow : function (row){
