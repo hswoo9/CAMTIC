@@ -54,7 +54,7 @@
           </td>
           <th>직위</th>
           <td>
-            <input type="text" id="dutyName" name="dutyName" class="defaultVal" value="${loginVO.dutyNm}" style="width: 80%;">
+            <input type="text" id="dutyName" name="dutyName" class="defaultVal" value="${loginVO.dutyNm eq '' ? loginVO.positionNm : loginVO.dutyNm}" style="width: 80%;">
           </td>
         </tr>
         <tr>

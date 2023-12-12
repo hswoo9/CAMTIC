@@ -579,7 +579,7 @@ var subHolidayReqPop = {
                 '                <td colspan="3">\n' +
                 '                  <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 30%;">\n' +
                 '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="fn_userMultiSelectPop()" id="otherEmpSearchBtn"/>\n' +
-                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick="" id="selectResetBtn"/>\n' +
+                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick="subHolidayReqPop.dataClear()" id="selectResetBtn"/>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
@@ -735,7 +735,7 @@ var subHolidayReqPop = {
                 '                <td colspan="3">\n' +
                 '                  <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 20%;">\n' +
                 '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="검색" onclick="fn_userMultiSelectPop()" id="otherEmpSearchBtn"/>\n' +
-                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick="" id="selectResetBtn"/>\n' +
+                '                  <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="선택 초기화" onclick="subHolidayReqPop.dataClear()" id="selectResetBtn"/>\n' +
                 '                  <br>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
@@ -864,6 +864,21 @@ var subHolidayReqPop = {
 
             $("#holiday_reason").val(result.data.RMK);
             $("#now_date").val(result.data.SAVE_DT);
+
+            const empInfo = customKendo.fn_customAjax("/user/getUserInfo", {empSeq: result.data.APPLY_SEQ});
+            if(empInfo != null){
+                $("#empSeq").val(empInfo.EMP_SEQ);
+                $("#empName").val(empInfo.EMP_NAME_KR);
+                $("#deptName").val(empInfo.DEPT_NAME);
+                let spot = ""
+                if(empInfo.DUTY_NAME != null && empInfo.DUTY_NAME != ""){
+                    spot = empInfo.DUTY_NAME;
+                }else{
+                    spot = empInfo.POSITION_NAME;
+                }
+                $("#dutyName").val(spot);
+            }
+
 
             if(result.data.APPR_STAT != "N"){
                 $("#saveBtn").hide();
