@@ -48,8 +48,6 @@ var targetMainSetPop = {
 
     tableSet: function () {
         targetMainSetPop.tableDetailSet();
-        console.log(targetMainSetPop.global.targetCategoryList);
-        console.log(targetMainSetPop.global.targetCategoryDetailList);
         const list = targetMainSetPop.global.targetCategoryList;
         const detailList = targetMainSetPop.global.targetCategoryDetailList;
         let color = "#ffffff";
@@ -115,7 +113,6 @@ var targetMainSetPop = {
             alert("직무분야가 선택되지 않았습니다.");
             return;
         }
-        console.log(eduTargetDetailIdArr);
 
         $.ajax({
             url: "/campus/setEduTargetDetailUpdate",

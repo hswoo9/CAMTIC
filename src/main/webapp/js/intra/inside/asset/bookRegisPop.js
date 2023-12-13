@@ -104,7 +104,6 @@ var bookRegisPop = {
     },
 
     fn_setData : function(e){
-        console.log(e)
         $("#bkLgCd").data("kendoDropDownList").value(e.BK_LG_CD);
         if($("#bkLgCd").val() == 0){
             bookRegisPop.fn_changeBkLgCd();
@@ -260,7 +259,6 @@ var bookRegisPop = {
                 //window.close();
             }
         });
-        console.log(data);
     },
 
     fn_close : function (){
@@ -290,7 +288,6 @@ var bookRegisPop = {
             bkMdCd : e
         }
         var rs = customKendo.fn_customAjax("/bookCode/getCode", data);
-        console.log(rs);
         var dataSource = rs.rs;
 
         dataSource.unshift({BK_CD_NM: "소분류를 선택하세요", BK_CD: ""})

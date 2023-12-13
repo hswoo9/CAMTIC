@@ -25,4 +25,6 @@ public interface CompanyCardService {
     List<Map<String, Object>> cardToUseList(Map<String, Object> params);
 
     List<Map<String, Object>> getCardTOHistList(Map<String, Object> params);
+
+    void updCardFromDe(Map<String, Object> params);
 }

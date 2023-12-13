@@ -40,17 +40,23 @@
 </div><!-- col-md-9 -->
 
 <div id="dialog">
-    <p><strong>This example will not work unless you define a valid JSON service URL for `content.url`.</p>
-    <p>The expected JSON response is:
-    <pre>
-
-        { username: "...my username here..." }
-
-        </pre>
-    </strong></p>
+    <input type="text" id="cardFromDe" style="width: 80%" name="cardFromDe" value="">
+    <input type="hidden" id="cardToSnModal" />
+    <button type="button" id="updBtn" class="k-button k-button-solid-base" onclick="statementList.fn_updFromDe();">반납</button>
 </div>
 <script>
 
 
     statementList.fn_defaultScript();
+
+    $("#dialog").kendoWindow({
+        title: "반납",
+        visible : false,
+        resizable: false,
+        modal: true,
+        width: 300,
+        actions: ["Close"],
+    });
+
+    customKendo.fn_datePicker("cardFromDe", "depth", "yyyy-MM-dd", new Date());
 </script>

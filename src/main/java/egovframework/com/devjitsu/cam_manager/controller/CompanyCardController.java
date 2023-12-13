@@ -110,8 +110,11 @@ public class CompanyCardController {
     @RequestMapping("/card/regCardToPop.do")
     public String regCardToPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
 
-        model.addAttribute("params", params);
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", loginVO);
         return "popup/cam_manager/companyCard/regCardToPop";
     }
 
@@ -197,6 +200,19 @@ public class CompanyCardController {
 
         Map<String, Object> cardInfo = companyCardService.useCardDetailInfo(params);
         model.addAttribute("cardInfo", cardInfo);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/card/updCardFromDe")
+    public String updCardFromDe(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        try{
+            companyCardService.updCardFromDe(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
 
         return "jsonView";
     }

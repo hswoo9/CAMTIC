@@ -90,7 +90,6 @@ const equipApp = {
     },
 
     viewBtn:function (){
-        console.log(equipApp.global.data)
 
         $.ajax({
             url : "/inside/getApprovalData",
@@ -116,7 +115,6 @@ const equipApp = {
                 equipApp.equipDrafting();
             },
             error : function(e) {
-                console.log(e);
                 window.close();
             }
         });

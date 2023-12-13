@@ -33,8 +33,6 @@ var eduInfoViewPop = {
             eduInfoId: eduInfoId
         }).data;
 
-        console.log(real);
-
         if(real != null){
             if(real.MNG_CHECK == "Y"){
                 $("#realTime").html("<span>&nbsp;/ 인정시간 : "+real.REAL_EDU_TIME+" 시간</span>");

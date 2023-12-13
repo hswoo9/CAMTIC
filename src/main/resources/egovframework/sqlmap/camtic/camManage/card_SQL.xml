@@ -199,4 +199,14 @@
             A.CARD_TO_SN = #{cardToSn}
     </select>
 
+    <update id="updCardFromDe" parameterType="map">
+        /*updCardFromDe*/
+        UPDATE CAM_MNG.DJ_CARD_TO
+        SET
+            CARD_FROM_DE = #{cardFromDe},
+            RT_YN = 'Y'
+        WHERE
+            CARD_TO_SN = #{cardToSn}
+    </update>
+
 </mapper>

@@ -70,4 +70,9 @@ public class CompanyCardServiceImpl implements CompanyCardService {
     public List<Map<String, Object>> getCardTOHistList(Map<String, Object> params) {
         return companyCardRepository.getCardTOHistList(params);
     }
+
+    @Override
+    public void updCardFromDe(Map<String, Object> params) {
+        companyCardRepository.updCardFromDe(params);
+    }
 }

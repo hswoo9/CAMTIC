@@ -102,19 +102,31 @@ var statementList = {
                     title: "반납",
                     width: 120,
                     template: function(e){
-                        return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="statementList.fn_updCardTi('+e.CARD_TO_SN+')">반납</button>'
+                        if(e.RT_YN == 'N'){
+                            return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="statementList.fn_updCardTi('+e.CARD_TO_SN+', \''+e.CARD_TO_DE+'\')">반납</button>'
+                        } else {
+                            return '<button type="button" class="k-button k-button-solid k-button-solid-base" disabled>반납</button>'
+                        }
                     }
                 }, {
                     title: "사용이력등록",
                     width: 120,
                     template: function(e){
-                        return '<button type="button" class="k-button k-button-solid k-button-solid-info" onclick="statementList.fn_addCardHist('+e.CARD_TO_SN+')">추가</button>'
+                        if(e.RT_YN == 'N'){
+                            return '<button type="button" class="k-button k-button-solid k-button-solid-info" onclick="statementList.fn_addCardHist('+e.CARD_TO_SN+')">추가</button>'
+                        } else {
+                            return '<button type="button" class="k-button k-button-solid k-button-solid-info" disabled>추가</button>'
+                        }
                     }
                 }, {
                     title: "기타",
                     width: 100,
                     template: function(e){
-                        return '<button type="button" class="k-button k-button-solid k-button-solid-error" onclick="statementList.fn_del('+e.CARD_TO_SN+')">삭제</button>'
+                        if(e.RT_YN == 'N'){
+                            return '<button type="button" class="k-button k-button-solid k-button-solid-error" onclick="statementList.fn_del('+e.CARD_TO_SN+')">삭제</button>'
+                        } else {
+                            return '<button type="button" class="k-button k-button-solid k-button-solid-error" disabled>삭제</button>'
+                        }
                     }
                 }
             ],
@@ -295,17 +307,37 @@ var statementList = {
         var popup = window.open(url, name, option);
     },
 
-    fn_updCardTi : function (key){
-        var html = "<h2>" + key + "</h2>";
-        $("#dialog").kendoWindow({
-            title: "반납",
-            position: {
-                top: 100, // or "100px"
-                left: "20%"
-            },
-            resizable: false,
-            modal: true,
-            actions: ["Close"],
-        })
+    fn_updCardTi : function (key, toDe){
+        $("#cardFromDe").data("kendoDatePicker").min(toDe);
+        $("#cardToSnModal").val(key);
+        var dialog = $("#dialog").data("kendoWindow");
+        dialog.center();
+        dialog.open();
+    },
+
+    fn_updFromDe : function (){
+        if(!confirm("반납처리 하시겠습니까?")){
+            return;
+        }
+
+        var data = {
+            cardToSn : $("#cardToSnModal").val(),
+            cardFromDe : $("#cardFromDe").val()
+        }
+
+        $.ajax({
+            url : "/card/updCardFromDe",
+            data : data,
+            type : "post",
+            dataType: "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("반납처리 되었습니다.");
+
+                    $("#dialog").data("kendoWindow").close();
+                    statementList.mainGrid();
+                }
+            }
+        });
     }
 }

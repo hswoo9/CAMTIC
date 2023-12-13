@@ -21,9 +21,6 @@ var org = {
                 var defaultImage = "background-image:url(\'/images/sample/basicImage.png\')";
                 var html = "";
 
-                console.log("row");
-                console.log(row);
-
                 $(".teamBox").html("");
 
                 html +='<div class="teamSubBox">';
