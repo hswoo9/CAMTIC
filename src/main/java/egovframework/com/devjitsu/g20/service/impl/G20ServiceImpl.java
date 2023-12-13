@@ -156,4 +156,14 @@ public class G20ServiceImpl implements G20Service {
     public Map<String, Object> getProjectInfo(Map<String, Object> params) {
         return g20Repository.getProjectInfo(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getEtaxList(Map<String, Object> params) {
+        return g20Repository.getEtaxList(params);
+    }
+
+    @Override
+    public Map<String, Object> getEtaxData(Map<String, Object> params) {
+        return g20Repository.getEtaxData(params);
+    }
 }

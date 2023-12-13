@@ -139,6 +139,11 @@
 </div>
 <script type="text/javascript">
     regPayDepoSet.fn_defaultScript();
+
+    function selectProject(nm, cd){
+        $("#pjtNm").val(nm);
+        $("#pjtCd").val(cd);
+    }
 </script>
 </body>
 </html>
