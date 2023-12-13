@@ -98,7 +98,6 @@ var outUseList = {
                 }, {
                     title: "카드명",
                     field: "TR_NM",
-                    width: 200,
                 }, {
                     title: "카드번호",
                     field: "CARD_NO",
@@ -130,6 +129,9 @@ var outUseList = {
                     template : function(e){
                         return "미결의"
                     }
+                }, {
+                    title : "사용자",
+                    field: "USE_MEM",
                 }
             ]
         }).data("kendoGrid");

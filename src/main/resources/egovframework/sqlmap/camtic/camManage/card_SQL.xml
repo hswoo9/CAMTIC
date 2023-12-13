@@ -6,7 +6,10 @@
     <select id="cardUseList" parameterType="map" resultType="map">
         /*cardUseList*/
         SELECT
-            *
+            A.*,
+            B.*,
+            C.*,
+            CONCAT((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = F.DEPT_SEQ), " ", E.USE_EMP_NAME) AS USE_MEM
         FROM
             CAM_HR.ERP_HIST_CORPCD_USE A
         LEFT JOIN
@@ -17,6 +20,18 @@
             CAM_MNG.DJ_USE_CARD_INFO C
         ON
             A.AUTH_NO = C.AUTH_NO AND A.AUTH_DD = C.AUTH_DD AND A.AUTH_HH = C.AUTH_HH AND A.BUY_STS = C.BUY_STS AND A.CARD_NO = REPLACE(C.CARD_NO, "-", "")
+        LEFT JOIN
+            CAM_MNG.DJ_CARD_TO_HIST D
+        ON
+            A.AUTH_NO = D.AUTH_NO AND A.AUTH_DD = D.AUTH_DD AND A.AUTH_HH = D.AUTH_HH AND A.BUY_STS = D.BUY_STS AND A.CARD_NO = REPLACE(D.CARD_NO, "-", "")
+        LEFT JOIN
+            CAM_MNG.DJ_CARD_TO E
+        ON
+            D.CARD_TO_SN = E.CARD_TO_SN
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO F
+        ON
+            E.USE_EMP_SEQ = F.EMP_SEQ
         WHERE 1=1
         <if test='startDt != null and !"".equals(startDt)'>
         <![CDATA[
