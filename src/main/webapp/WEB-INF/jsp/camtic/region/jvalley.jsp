@@ -169,7 +169,7 @@
             </div>
           </div>--%>
 
-          <div class="__jvalley4 __mt100">
+          <div class="__jvalley4 __mt60">
             <div class="__tit1 line mb0">
               <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>비전 및 목표</strong></h3>
               <div class="vision_list __mt50">
