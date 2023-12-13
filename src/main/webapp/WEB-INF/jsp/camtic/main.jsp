@@ -139,28 +139,41 @@
       <div class="inner">
         <div class="lef">
           <ul class="tab">
-            <li class="active"><button type="button" role="tab" id="tab1" onclick="goList('notice')" aria-controls="tab-panel1" aria-selected="true">공지사항</button></li>
+            <li class="active"><button type="button" role="tab" id="tab4" onclick="goList('all')" aria-controls="tab-panel4" aria-selected="true">전체</button></li>
+            <li><button type="button" role="tab" id="tab1" onclick="goList('notice')" aria-controls="tab-panel1" aria-selected="false">공지사항</button></li>
+            <li><button type="button" role="tab" id="tab5" onclick="goList('study')" aria-controls="tab-panel5" aria-selected="false">교육/행사</button></li>
             <li><button type="button" role="tab" id="tab2" onclick="getRecruitList();" aria-controls="tab-panel2" aria-selected="false">채용공고</button></li>
             <li><button type="button" role="tab" id="tab3" onclick="goList('report')" aria-controls="tab-panel3" aria-selected="false">보도자료</button></li>
           </ul>
           <div class="area">
-            <div class="item active" id="tab-panel" role="tabpanel" aria-labelledby="tab1" aria-selected="true">
+            <div class="item active" id="tab-panel4" role="tabpanel" aria-labelledby="tab4" aria-selected="true"> <%--전체--%>
               <div class="sec">
 
               </div>
-              <a href="/camtic/news/commonBoard.do?categoryKey=notice" class="more">+ 더보기</a>
             </div>
-            <div class="item" id="tab-panel2" role="tabpanel" aria-labelledby="tab2" aria-selected="false">
+            <div class="item" id="tab-panel1" role="tabpanel" aria-labelledby="tab1" aria-selected="false"> <%--공지사항--%>
+              <div class="sec">
+
+              </div>
+              <a href="/camtic/news/commonBoard.do?categoryKey=notice" class="more">+ 더보기</a> <%--공지사항--%>
+            </div>
+            <div class="item" id="tab-panel5" role="tabpanel" aria-labelledby="tab5" aria-selected="false"> <%--교육--%>
+              <div class="sec">
+
+              </div>
+              <a href="/camtic/news/commonBoard.do?categoryKey=study" class="more">+ 더보기</a>  <%--교육--%>
+            </div>
+            <div class="item" id="tab-panel2" role="tabpanel" aria-labelledby="tab2" aria-selected="false"> <%--채용공고--%>
               <div class="sec">
               </div>
-              <a href="/camtic/member/job.do" class="more">+ 더보기</a>
+              <a href="/camtic/member/job.do" class="more">+ 더보기</a> <%--채용공고--%>
             </div>
 
-            <div class="item" id="tab-panel3" role="tabpanel" aria-labelledby="tab3" aria-selected="false">
+            <div class="item" id="tab-panel3" role="tabpanel" aria-labelledby="tab3" aria-selected="false"> <%--보도자료--%>
               <div class="sec">
 
               </div>
-              <a href="/camtic/pr/report.do" class="more">+ 더보기</a>
+              <a href="/camtic/pr/report.do" class="more">+ 더보기</a> <%--보도자료--%>
             </div>
           </div>
         </div>
@@ -199,7 +212,7 @@
     <div id="sau">
       <div class="inner">
         <div class="tit">
-          <h3>사업공고</h3>
+          <h3><a href="/camtic/news/commonBoard.do?categoryKey=business" style="color: black;">사업공고</a></h3>
           <div class="bt">
             <button type="button" class="prev"><i class="axi axi-angle-left"></i></button>
             <button type="button" class="next"><i class="axi axi-angle-right"></i></button>
