@@ -83,6 +83,65 @@
         ORDER BY A.REG_DT DESC
     </select>
 
+    <select id="getDepoManageProjectList" parameterType="map" resultType="map">
+        SELECT A.*, (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE A.PJT_SN = SP.PNT_PJT_SN limit 1) AS PNT_PJT_SN_CK,
+               (select count(*) from cam_mng.dj_depo_setting where fr_pjt_sn = A.pjt_sn) AS setYn
+        FROM CAM_PJT_MNG.DJ_PROJECT A
+        LEFT JOIN CAM_CRM.DJ_CRM_INFO B ON A.CRM_SN = B.CRM_SN
+        WHERE
+        1=1
+        AND A.TEAM_STAT = "N"
+        AND A.PJT_STEP in (${busnSubClass})
+        <if test='busnClass != null and busnClass != ""'>
+            AND
+                A.BUSN_CLASS = #{busnClass}
+        </if>
+        <if test='deptSeq != null and deptSeq != ""'>
+            AND
+                A.DEPT_SEQ in (${deptSeq})
+        </if>
+        <if test= '"1".equals(searchValue)'>
+            AND
+                A.REG_EMP_SEQ = #{regEmpSeq} AND A.PJT_STEP in ('E1','E2','E3','E4','E5','R2')
+        </if>
+        <if test= '"2".equals(searchValue)'>
+            AND
+                A.REG_EMP_SEQ = #{regEmpSeq}
+        </if>
+        <if test= '"3".equals(searchValue)'>
+            AND
+                A.PJT_STEP in ('E1','E2','E3','E4','E5','R2')
+        </if>
+        <if test='"".equals(searchValue) and "".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
+            AND
+                (A.PJT_NM LIKE CONCAT('%', #{searchText}, '%') OR A.BS_TITLE LIKE CONCAT('%', #{searchText}, '%') OR A.PJT_SUB_NM LIKE CONCAT('%', #{searchText}, '%'))
+        </if>
+        <if test='"1".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
+            AND
+                A.PJT_CD LIKE CONCAT('%', #{searchText}, '%')
+        </if>
+        <if test='"2".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
+            AND
+                (A.PJT_NM LIKE CONCAT('%', #{searchText}, '%') OR A.PJT_SUB_NM LIKE CONCAT('%', #{searchText}, '%'))
+        </if>
+        <if test='"3".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
+            AND
+                B.CRM_NM LIKE CONCAT('%', #{searchText}, '%')
+        </if>
+        <if test='"4".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
+            AND
+                A.PM LIKE CONCAT('%', #{searchText}, '%')
+        </if>
+        <if test='!"".equals(pjtNm) and pjtNm != null'>
+            AND
+            (A.PJT_NM LIKE CONCAT('%', #{pjtNm}, '%') OR A.PJT_SUB_NM LIKE CONCAT('%', #{pjtNm}, '%'))
+        </if>
+        <if test='type != null and !"".equals(type)'>
+            AND A.BUSN_CLASS IN ('S', 'R') AND A.PJT_CD IS NOT NULL
+        </if>
+        ORDER BY A.REG_DT DESC
+    </select>
+
     <select id="getAllProjectList" parameterType="map" resultType="map">
         SELECT * FROM (
             SELECT
