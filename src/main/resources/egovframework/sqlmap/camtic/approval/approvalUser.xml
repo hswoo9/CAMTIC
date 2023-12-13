@@ -289,7 +289,8 @@
             DATE_FORMAT(DI.DRAFT_DT, '%Y-%m-%d') AS DRAFT_DT,
             DATE_FORMAT(DI.REPTIT_DRFT_DT, '%Y-%m-%d') AS REPTIT_DRFT_DT,
             DATE_FORMAT(DI.LAST_APPROVE_DT, '%Y-%m-%d') AS LAST_APPROVE_DT,
-            DI.APPROVE_STAT_CODE_DESC
+            DI.APPROVE_STAT_CODE_DESC,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = DAR.REG_EMP_SEQ) AS REG_EMP_NAME
         <choose>
             <when test='approveType != null and ("wait".equals(approveType) or "tobe".equals(approveType))'>
                 , CASE WHEN AF.C_UIUSERKEY = #{empSeq} THEN 'N' ELSE 'Y' END AS SUB_APPROVAL

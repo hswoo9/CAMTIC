@@ -96,6 +96,10 @@ var approveTobe = {
                         style : "text-align : left;"
                     }
                 }, {
+                    field : "REG_EMP_NAME",
+                    title : "기안자",
+                    width : "120px"
+                }, {
                     field : "DRAFT_DT",
                     title : "기안일",
                     width : "120px",
