@@ -67,57 +67,35 @@ var regPayDepoSet = {
             }
         });
 
-        if($("#payDepoSn").val() != ""){
+        if($("#paramPjtSn").val() != ""){
             regPayDepoSet.fn_setData();
-            $("#payDepReqUserTh").css("display", "");
         }
 
-        if($("#paramPjtSn").val() != ""){
+        /*if($("#paramPjtSn").val() != ""){
             regPayDepoSet.fn_setProjectData();
-        }
+        }*/
     },
 
     fn_setData: function (){
         var data = {
-            payDepoSn : $("#payDepoSn").val()
+            paramPjtCd : $("#paramPjtCd").val()
         }
 
         $.ajax({
-            url : "/pay/getPayDepoData",
+            url : "/mng/getManageDepo",
             data : data,
             type : "post",
             dataType : "json",
             success : function(rs){
-                var rs = rs.data;
+                var rs = rs.rsult;
 
-                $("#appDe").val(new Date(rs.REG_DT + 3240 * 10000).toISOString().split("T")[0]);
-                $("#payIncpDe").val(rs.PAY_INCP_DE);
                 $("#pjtNm").val(rs.PJT_NM);
                 $("#pjtSn").val(rs.PJT_SN);
+                $("#pjtCd").val(rs.PJT_CD);
                 $("#budgetNm").val(rs.BUDGET_NM);
                 $("#budgetSn").val(rs.BUDGET_SN);
-                $("#depoTitle").val(rs.DEPO_TITLE);
-                $("#gubun").data("kendoDropDownList").value(rs.GUBUN);
-                $("#depoStat").data("kendoDropDownList").value(rs.DEPO_STAT);
-                $("#depoAmt").val(regPayDepoSet.comma(rs.DEPO_AMT));
-                $("#depoManager").val(rs.DEPO_MANAGER);
-                $("#depoCont").val(rs.DEPO_CONT);
-                $("#accNm").val(rs.ACC_NM);
-                $("#bnkSn").val(rs.BNK_SN);
-                $("#accNo").val(rs.ACC_NO);
-                $("#bnkNm").val(rs.BNK_NM);
-
-                $("#payDepoReqUser").val(rs.DEPO_EMP_NAME);
-
-                if(rs.APPR_STAT == 'N'){
-                    $("#apprBtn").css("display", "");
-                }
-
-                if($("#auth").val() == "user"){
-                    $("#incpBtn").css("display", "");
-                }
             }
-        })
+        });
     },
 
     fn_setProjectData: function (){
@@ -145,33 +123,15 @@ var regPayDepoSet = {
 
     fn_save : function (){
         var parameters = {
-            appDe : $("#appDe").val(),
-            payIncpDe : $("#payIncpDe").val(),
             pjtNm : $("#paramPjtNm").val(),
             pjtSn : $("#paramPjtSn").val(),
+            pjtCd : $("#paramPjtCd").val(),
             aftPjtSn : $("#pjtSn").val(),
-            aftPjtNm : $("#pjtNm").val(),
-            budgetNm : $("#budgetNm").val(),
+            aftPjtCd : $("#pjtCd").val(),
             budgetSn : $("#budgetSn").val(),
-            depoTitle : $("#depoTitle").val(),
-            depoCont : $("#depoCont").val(),
-            bnkSn : $("#bnkSn").val(),
-            bnkNm : $("#bnkNm").val(),
-            accNm : $("#accNm").val(),
-            accNo : $("#accNo").val(),
-
-            depoAmt : regPayDepoSet.uncomma($("#depoAmt").val()),
-            gubun : $("#gubun").val(),
-            depoStat : $("#depoStat").val(),
-
+            budgetNm : $("#budgetNm").val(),
             regEmpSeq : $("#regEmpSeq").val()
-        }
-
-
-
-        if($("#payDepoSn").val() != ""){
-            parameters.payDepoSn = $("#payDepoSn").val();
-        }
+        };
 
         if(parameters.pjtSn == ""){
             alert("사업을 선택해주세요.");
@@ -183,26 +143,16 @@ var regPayDepoSet = {
             return;
         }
 
-        if(parameters.depoAmt == ""){
-            alert("입금액 선택해주세요.");
-            return;
-        }
-
-
         $.ajax({
-            url : "/pay/setPayDepo",
+            url : "/mng/setManageDepo",
             data : parameters,
             type : "post",
             dataType : "json",
             success : function(rs){
                 console.log(rs);
                 if(rs.code == 200){
-                    alert("저장되었습니다.")
-                    let status = "";
-
-                    location.href="/pay/pop/regPayDepoSetPop.do?payDepoSn=" + rs.params.payDepoSn + "&pjtSn=" + parameters.pjtSn;
-
-                    opener.parent.paymentList.gridReload();
+                    alert("저장되었습니다.");
+                    window.close();
                 }
             }
         });
@@ -287,7 +237,7 @@ var regPayDepoSet = {
         var url = "/mng/pop/budgetView.do?pjtCd=" + $("#pjtCd").val() + "&idx=N&temp=2";
 
         var name = "_blank";
-        var option = "width = 1100, height = 650, top = 100, left = 400, location = no"
+        var option = "width = 1100, height = 650, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
 
     },
@@ -296,7 +246,7 @@ var regPayDepoSet = {
         var url = "/mng/pop/bankView.do";
 
         var name = "_blank";
-        var option = "width = 1100, height = 650, top = 100, left = 400, location = no"
+        var option = "width = 1100, height = 650, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
     },
 

@@ -8,7 +8,7 @@
 <body class="font-opensans" style="background-color:#fff;">
 <script type="text/javascript" src="/js/intra/cam_crm/regCrmPop.js?v=${today}"/></script>
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/deposit/regPayDepoSetSetPop.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/deposit/regPayDepoSetPop.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/regIncmPop.js?v=${today}'/>"></script>
 
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/g20Callback.js?v=${today}'/>"></script>
@@ -61,7 +61,7 @@
                     <th scope="row" class="text-center th-color">사업명</th>
                     <td colspan="4">
                         <span>
-                            <input type="text" id="pjtNm" disabled value=""  style="width: 30%;">
+                            <input type="text" id="pjtNm" disabled value=""  style="width: 70%;">
                             <input type="hidden" id="pjtSn" value="" />
                             <input type="hidden" id="pjtCd" name="pjtCd" value="">
                             <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="regPayDepoSet.fn_projectPop('regPay')">검색</button>
@@ -72,13 +72,14 @@
                     <th scope="row" class="text-center th-color">예산비목</th>
                     <td colspan="4">
                         <span>
-                            <input type="text" id="budgetNm" disabled value=""  style="width: 30%;">
+                            <input type="text" id="budgetNm" disabled value=""  style="width: 70%;">
                             <input type="hidden" id="budgetSn" value="" />
+                            <input type="hidden" id="budgetAmt" value="" />
                             <button type="button" class="k-button k-button-solid-base" id="bgSelBtn" onclick="regPayDepoSet.fn_budgetPop()">검색</button>
                         </span>
                     </td>
                 </tr>
-                <tr>
+                <%--<tr>
                     <th scope="row" class="text-center th-color">신청건명</th>
                     <td colspan="4">
                         <input type="text" id="depoTitle" style="width: 90%;">
@@ -130,7 +131,7 @@
                     <td colspan="3">
                         <input type="text" id="bnkNm" disabled style="width: 60%;">
                     </td>
-                </tr>
+                </tr>--%>
                 </thead>
             </table>
         </div>
@@ -140,7 +141,9 @@
     regPayDepoSet.fn_defaultScript();
 
     function selectProject(sn, nm, cd){
-        $("#pjtSn").val(sn);
+
+
+        /*$("#pjtSn").val(sn);
         $("#pjtNm").val(nm);
         $("#pjtCd").val(cd);
 
@@ -156,7 +159,7 @@
             $("#bnkSn").val(rs.TR_CD);
             $("#accNo").val(rs.BA_NB);
             $("#bnkNm").val(rs.JIRO_NM);
-        }
+        }*/
     }
 </script>
 </body>

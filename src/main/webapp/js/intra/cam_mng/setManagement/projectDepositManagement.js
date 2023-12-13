@@ -234,7 +234,7 @@ var prjDepositMng = {
         }
 
         var name = "_blank";
-        var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
+        var option = "width = 900, height = 400, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
     },
 };
