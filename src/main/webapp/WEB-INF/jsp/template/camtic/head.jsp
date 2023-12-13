@@ -20,7 +20,7 @@
       <li><a href="/camtic/about/greetingENG.do"><span>ENG</span></a></li>
       <li><a href="#"><span>통합페이지</span></a></li>
       <%--<li><a href="#"><span>잡매칭센터</span></a></li>--%>
-      <li><a href="http://www.jhitech.or.kr/"><span>전주첨단벤처단지</span></a></li>
+      <li><a href="http://www.jhitech.or.kr/" target="_blank" ><span>전주첨단벤처단지</span></a></li>
     </ul>
     <div class="sns">
       <a href="https://www.instagram.com/camtic4u/?utm_medium=copy_link" target='_blank' class="insta">인스타그램</a>

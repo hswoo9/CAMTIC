@@ -43,7 +43,10 @@
               </div>
             </div>
 
-            <div class="__fz18 __black fwb __mt50">추진 사업</div>
+          <div class="__tit1 __mt100 __mb20">
+            <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>추진 사업</strong></h3>
+          </div>
+          <div class="__support3">
             <table class="__tblList bd1 bg3 respond2 __mt10" style="word-spacing: 0px;">
               <caption></caption>
               <colgroup class="__p">
@@ -136,7 +139,7 @@
             </li>
           </ul>
           <!--</div>-->
-
+          </div>
 
 
         <div class="__tit1 __mt100 __mb20">
