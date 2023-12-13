@@ -108,7 +108,7 @@ var payInit = {
                     sbjClassTxt = sbjDs[i].CM_CODE_NM;
                 }
             }
-            hwpDocCtrl.putFieldText("SBJ_CLASS", sbjClassTxt);
+            hwpDocCtrl.putFieldText("TR_DT", ls[0].TR_DE.split("-")[0]+"년 "+ls[0].TR_DE.split("-")[1]+"월 "+ls[0].TR_DE.split("-")[2]+"일");
         }
     },
 
