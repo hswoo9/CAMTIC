@@ -202,8 +202,8 @@ var devInfo = {
                         '                <input type="hidden" id="psEmpSeq" />' +
                         '            </td>' +
                         '            <td style="text-align: center">' +
-                        '                <button type="button" class="k-button k-button-solid-base" onclick="devInfo.fn_addProcess(\'${hashMap.PJT_SN}\')">공정저장</button>' +
                         '                <button type="button" onclick="fn_userMultiSelectPop()" class="k-button k-button-solid-base">추진담당</button>' +
+                        '                <button type="button" class="k-button k-button-solid-base" onclick="devInfo.fn_addProcess(\'${hashMap.PJT_SN}\')">공정저장</button>' +
                         '            </td>' +
                         '        </tr>';
 
@@ -283,8 +283,8 @@ var devInfo = {
                         '                <input type="hidden" id="psEmpSeq" />' +
                         '            </td>' +
                         '            <td style="text-align: center">' +
-                        '                <button type="button" class="k-button k-button-solid-base" onclick="devInfo.fn_addProcess(\'${hashMap.PJT_SN}\')">공정저장</button>' +
                         '                <button type="button" onclick="fn_userMultiSelectPop()" class="k-button k-button-solid-base">추진담당</button>' +
+                        '                <button type="button" class="k-button k-button-solid-base" onclick="devInfo.fn_addProcess(\'${hashMap.PJT_SN}\')">공정저장</button>' +
                         '            </td>' +
                         '        </tr>';
 
