@@ -104,6 +104,14 @@
                 </colgroup>
                 <thead>
                 <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star">*</span>과제구분
+                    </th>
+                    <td colspan="3">
+                        <input type="text" id="sbjClass" style="width: 10%;" value="">
+                    </td>
+                </tr>
+                <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>지원부처</th>
                     <td>
                         <input type="text" id="supDep" name="supDep" style="width: 90%"/>

@@ -465,8 +465,6 @@ var devInfo = {
     },
 
     fn_setButton : function(devMap){
-        console.log("devMap");
-        console.log(devMap);
         var buttonHtml = "";
         if(devMap != null) {
             var status = devMap.STATUS;

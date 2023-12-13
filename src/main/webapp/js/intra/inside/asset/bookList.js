@@ -72,7 +72,6 @@ var bookList = {
                 var grid = this;
                 grid.tbody.find("tr").dblclick(function (e) {
                     var dataItem = grid.dataItem($(this));
-                    console.log(dataItem)
                     bookList.bookRegisPopup(dataItem.BK_SN);
                 });
             },

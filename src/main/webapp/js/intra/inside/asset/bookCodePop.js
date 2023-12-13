@@ -67,9 +67,7 @@ var bookCdPop = {
         var data = {
             bkLgCd : $("#bkLgCd").val()
         }
-        console.log(data.bkLgCd);
         var rs = customKendo.fn_customAjax("/bookCode/getMdCode", data);
-        console.log(rs);
         var dataSource = rs.rs;
         dataSource.unshift({BK_CD_NM: "중분류를 선택하세요.", BK_MD_CD: ""});
         var bkMdCd = $("#bkMdCd").data("kendoDropDownList");
@@ -88,7 +86,6 @@ var bookCdPop = {
             bkMdCd : e
         }
         var rs = customKendo.fn_customAjax("/bookCode/getCode", data);
-        console.log(rs);
         var dataSource = rs.rs;
 
         dataSource.unshift({BK_CD_NM: "소분류를 선택하세요", BK_CD: ""})

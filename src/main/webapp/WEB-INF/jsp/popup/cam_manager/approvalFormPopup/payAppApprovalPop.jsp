@@ -18,13 +18,13 @@
                         <col width="10%">
                     </colgroup>
                     <tr>
-                        <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 100px;"><p style="font-size:12px;"><b>상호</b></p></td>
-                        <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 80px;"><p style="font-size:12px;"><b>요청액</b></p></td>
-                        <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 132px;"><p style="font-size:12px;"><b>은행명</b></p></td>
-                        <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 152px;"><p style="font-size:12px;"><b>지급계좌</b></p></td>
-                        <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 90px;"><p style="font-size:12px;"><b>예금주</b></p></td>
-                        <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 82px;"><p style="font-size:12px;"><b>비고</b></p></td>
-                    </tr
+                        <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 118px;"><p style="font-size:12px;"><b>상호</b></p></td>
+                        <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 82px;"><p style="font-size:12px;"><b>요청액</b></p></td>
+                        <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 134px;"><p style="font-size:12px;"><b>은행명</b></p></td>
+                        <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 134px;"><p style="font-size:12px;"><b>지급계좌</b></p></td>
+                        <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 92px;"><p style="font-size:12px;"><b>예금주</b></p></td>
+                        <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 83px;"><p style="font-size:12px;"><b>비고</b></p></td>
+                    </tr>
                     <c:set var="sum" value="0"/>
                     <c:forEach var="list" items="${payAppItemList}" varStatus="status">
                         <tr>
@@ -63,7 +63,7 @@
                     </colgroup>
                     <tr>
                         <td colspan="6" style="height:30px;background-color:#FFFFDD; text-align:center;"><p style="font-size:12px;"><b>여입처</b></p></td>
-                    </tr
+                    </tr>
                     <tr>
                         <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 118px;"><p style="font-size:12px;"><b>상호</b></p></td>
                         <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 82px;"><p style="font-size:12px;"><b>신청액</b></p></td>
@@ -100,25 +100,28 @@
         payAppSn: ${params.payAppSn}
     });
     const rs = result.map;
-    let formId = "97";
+    console.log(rs);
+
+
+    let formId = "154";
+    if(rs.PJT_CD.substring(0,1) == "R" || rs.PJT_CD.substring(0,1) == "S"){
+        formId = "147";
+    }
+
     let docTitle = "";
     let html = "";
     if(rs.PAY_APP_TYPE == 1){
         docTitle = "[지급신청서]${loginVO.orgnztNm}-${loginVO.name}";
-        formId = "97";
         html = $("#approveDataPop1")[0].innerHTML;
     }else if(rs.PAY_APP_TYPE == 2){
         docTitle = "[여입신청서]${loginVO.orgnztNm}-${loginVO.name}";
-        formId = "154";
         html = $("#approveDataPop2")[0].innerHTML;
     }else if(rs.PAY_APP_TYPE == 3){
         docTitle = "[반납신청서]${loginVO.orgnztNm}-${loginVO.name}";
-        formId = "154";
-        html = $("#approveDataPop2")[0].innerHTML;
+        html = $("#approveDataPop1")[0].innerHTML;
     }else if(rs.PAY_APP_TYPE == 4){
         docTitle = "[대체신청서]${loginVO.orgnztNm}-${loginVO.name}";
-        formId = "154";
-        html = $("#approveDataPop2")[0].innerHTML;
+        html = $("#approveDataPop1")[0].innerHTML;
     }
 
     approvalDataInit();

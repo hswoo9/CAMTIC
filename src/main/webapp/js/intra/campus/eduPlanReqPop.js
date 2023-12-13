@@ -77,7 +77,6 @@ const eduPlanReq = {
             dataType : "json",
             async : false,
             success : function(result){
-                console.log(result);
                 alert("학습계획 저장이 완료되었습니다.");
                 window.close();
                 opener.targetInfo.tableSet();
@@ -100,7 +99,6 @@ const eduPlanReq = {
             dataType : "json",
             async : false,
             success : function(result){
-                console.log(result);
                 alert("학습계획 저장이 완료되었습니다.");
                 window.close();
                 opener.targetInfo.tableSet();

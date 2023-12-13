@@ -19,4 +19,8 @@ public interface ManageService {
     void insIncmExpInfo(Map<String, Object> params);
     List<Map<String, Object>> getProjectBgtList(Map<String, Object> params);
     int getProjectBgtCheck(Map<String, Object> params);
+
+    void setManageDepo(Map<String, Object> params);
+
+    Map<String, Object> getManageDepo(Map<String, Object> params);
 }

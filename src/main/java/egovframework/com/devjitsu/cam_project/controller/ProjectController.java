@@ -71,7 +71,13 @@ public class ProjectController {
     @RequestMapping("/project/getProjectList")
     public String getProjectList(@RequestParam Map<String, Object> params, Model model) {
 
-        List<Map<String,Object>> list = projectService.getProjectList(params);
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        if(params.get("manageYn") != null) {
+            list = projectService.getDepoManageProjectList(params);
+        }else {
+            list = projectService.getProjectList(params);
+        }
 
         model.addAttribute("list", list);
 
@@ -1510,6 +1516,13 @@ public class ProjectController {
 
         model.addAttribute("list", projectService.getDepositList(params));
 
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/getProjectByPjtCd")
+    public String getProjectByPjtCd(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> map = projectService.getProjectByPjtCd(params);
+        model.addAttribute("map", map);
         return "jsonView";
     }
 }

@@ -87,6 +87,23 @@ public class PayAppController {
         return "popup/cam_manager/payDepo/regPayDepoPop";
     }
 
+    @RequestMapping("/pay/pop/regPayDepoSetPop.do")
+    public String regPayDepoSetPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        if(params.containsKey("pjtSn")){
+            Map<String, Object> map = projectService.getProjectData(params);
+
+            model.addAttribute(map);
+        }
+
+        return "popup/cam_manager/payDepo/regPayDepoSetPop";
+    }
+
     @RequestMapping("/payApp/pop/regPayAttPop.do")
     public String regPayAttPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -674,5 +691,16 @@ public class PayAppController {
         }
 
         return "jsonView";
+    }
+
+    @RequestMapping("/pay/pop/depoBudgetViewPop.do")
+    public String depoBudgetViewPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", loginVO);
+
+        return "popup/cam_manager/payDepo/depoBudgetViewPop";
     }
 }

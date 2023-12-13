@@ -184,6 +184,14 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
+                        <span class="red-star">*</span>사업명
+                    </th>
+                    <td colspan="3">
+                        <input type="text" id="bsTitle" style="width: 95%;" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>과제명
                     </th>
                     <td colspan="3">

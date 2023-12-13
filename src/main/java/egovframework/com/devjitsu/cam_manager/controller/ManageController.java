@@ -344,4 +344,29 @@ public class ManageController {
         map.addAttribute("resultMap", "");
         return map;
     }
+
+    @RequestMapping("/mng/setManageDepo")
+    public String setManageDepo(@RequestParam Map<String, Object> params, Model model){
+        try{
+            manageService.setManageDepo(params);
+            model.addAttribute("code", 200);
+            model.addAttribute("params", params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/mng/getManageDepo")
+    public String getManageDepo(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            model.addAttribute("rsult", manageService.getManageDepo(params));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }

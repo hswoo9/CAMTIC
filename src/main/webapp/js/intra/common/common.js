@@ -156,6 +156,16 @@ function fn_numberWithCommas(num) {
     return Math.floor(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+
+function uncomma(str) {
+    str = String(str);
+    return str.replace(/[^\d]+/g, '');
+}
+
 //숫자에 콤마찍기 string
 function fn_comma(str){
     if (!str || str=="" || str==undefined) {

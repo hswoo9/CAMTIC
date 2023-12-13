@@ -30,7 +30,6 @@ function linkageProcessOn(params, target){
 }
 
 function makeParams(params, form, url){
-	console.log(params);
 	if(params.linkageProcessCode){
 		var linkageProcessCode = $('<input type="hidden" name="linkageProcessCode"/>');
 		linkageProcessCode.val(params.linkageProcessCode);

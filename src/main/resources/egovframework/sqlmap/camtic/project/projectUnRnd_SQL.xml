@@ -12,6 +12,7 @@
             PJT_STEP,
             PJT_STEP_NM,
             BS_TITLE,
+            SBJ_CLASS,
             SBJ_CHAR,
             SBJ_DEP,
             SBJ_DEP_SUB,
@@ -38,6 +39,7 @@
             #{pjtStep},
             #{pjtStepNm},
             #{bsTitle},
+            #{sbjClass},
             #{sbjChar},
             #{sbjDep},
             #{sbjDepSub},
@@ -68,6 +70,7 @@
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET
             BS_TITLE = #{bsTitle},
+            SBJ_CLASS = #{sbjClass},
             SBJ_CHAR = #{sbjChar},
             SBJ_DEP = #{sbjDep},
             SBJ_DEP_SUB = #{sbjDepSub},

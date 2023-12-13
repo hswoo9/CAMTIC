@@ -57,8 +57,11 @@
         FROM
             CAM_COMMON.DJ_BOARD_ARTICLE
         WHERE
+        <if test="category != 'all'">
             BOARD_CATEGORY_ID = #{category}
         AND
+
+        </if>
             ACTIVE = 'Y'
         ORDER BY REG_DATE DESC
             LIMIT 3

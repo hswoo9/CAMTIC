@@ -953,6 +953,7 @@
             A.USE_TRSPT,
             A.STATUS,
             B.STATUS AS RS_STATUS,
+            A.PJT_SN,
             B.EXP_STAT,
             IFNULL((
                 SELECT

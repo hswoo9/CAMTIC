@@ -45,4 +45,12 @@ public class CompanyCardRepository extends AbstractDAO {
     public List<Map<String, Object>> cardToUseList(Map<String, Object> params) {
         return selectList("card.cardToUseList", params);
     }
+
+    public List<Map<String, Object>> getCardTOHistList(Map<String, Object> params) {
+        return selectList("card.getCardTOHistList", params);
+    }
+
+    public void updCardFromDe(Map<String, Object> params) {
+        update("card.updCardFromDe", params);
+    }
 }

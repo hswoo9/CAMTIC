@@ -24,7 +24,6 @@ var targetSubInfoPop = {
             dataType : "json",
             async: false,
             success : function(result){
-                console.log(result.list);
                 targetSubInfoPop.global.codeDropDown = result.list;
             }
         });
@@ -118,7 +117,6 @@ var targetSubInfoPop = {
             dataType : "json",
             async: false,
             success : function(result){
-                console.log(result.list);
 
                 var list = result.list;
                 var html = "";
@@ -227,8 +225,6 @@ var targetSubInfoPop = {
             alert("직무분야가 선택되지 않았습니다.");
             return;
         }
-        console.log(eduCategoryDetailIdArr);
-
 
         $.ajax({
             url : "/campus/setTargetDetailInsert",
@@ -244,7 +240,6 @@ var targetSubInfoPop = {
             dataType : "json",
             async : false,
             success : function(result){
-                console.log(result);
                 alert("직무분야 저장이 완료되었습니다.");
                 window.close();
                 opener.targetInfo.tableSet();

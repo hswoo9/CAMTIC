@@ -91,11 +91,19 @@ var rbl = {
 		let i = num;
 
 		list.forEach(row => {
+			var replyCnt = "";
+
+			if(row.reply_CNT != 0){
+				replyCnt = ' <span style="font-weight: bold;">'+ '[' + row.reply_CNT + ']'+'</span>';
+			}else {
+				replyCnt = "";
+			}
+
 			var requestTitle = "";
 			if(row.request_TITLE != null && row.request_TITLE != ""){
-				requestTitle = row.request_TITLE;
+				requestTitle = row.request_TITLE + replyCnt;
 			}else{
-				requestTitle = "제목없음";
+				requestTitle = "제목없음" + replyCnt;
 			}
 
 			var dt = (row.reg_DATE.year + "-" + ('00' + row.reg_DATE.monthValue).slice(-2) + "-" + ('00' + row.reg_DATE.dayOfMonth).slice(-2));
@@ -116,8 +124,6 @@ var rbl = {
 				html += "	<td class='ta-center'>" + row.status + "</td>";
 			}
 			html += "</tr>";
-
-			console.log(row.status);
 
 			i--;
 		});

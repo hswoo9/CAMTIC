@@ -99,4 +99,14 @@ public class ManageServiceImpl implements ManageService {
     public int getProjectBgtCheck (Map<String, Object> params){
         return manageRepository.getProjectBgtCheck(params);
     }
+
+    @Override
+    public void setManageDepo (Map<String, Object> params){
+        manageRepository.setManageDepo(params);
+    }
+
+    @Override
+    public Map<String, Object> getManageDepo (Map<String, Object> params){
+        return manageRepository.getManageDepo(params);
+    }
 }

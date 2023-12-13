@@ -72,9 +72,35 @@ var regPayDepo = {
             $("#payDepReqUserTh").css("display", "");
         }
 
+        if($("#payDepoSn").val() == ""){
+            regPayDepo.fn_manageSetData();
+        }
+
         if($("#paramPjtSn").val() != ""){
             regPayDepo.fn_setProjectData();
         }
+    },
+
+    fn_manageSetData : function (){
+        var data = {
+            paramPjtCd : $("#paramPjtCd").val()
+        }
+
+        $.ajax({
+            url : "/mng/getManageDepo",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                var rs = rs.rsult;
+
+                $("#pjtNm").val(rs.PJT_NM);
+                $("#pjtSn").val(rs.PJT_SN);
+                $("#pjtCd").val(rs.PJT_CD);
+                $("#budgetNm").val(rs.BUDGET_NM);
+                $("#budgetSn").val(rs.BUDGET_SN);
+            }
+        });
     },
 
     fn_setData: function (){

@@ -194,7 +194,6 @@ var deptListPop = {
     fn_selRsch: function (e){
         var tr = $(e).closest("tr");
         var row = $('#userList').data("kendoGrid").dataItem(tr);
-        console.log(row);
 
         var data = {
             empSeq : row.EMP_SEQ,

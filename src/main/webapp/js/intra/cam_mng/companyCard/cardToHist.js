@@ -152,8 +152,7 @@ var cardToHist = {
         var data = {}
         var itemArr = [];
         grid.tbody.find("tr").each(function(){
-
-            if($(this).find("input")[0].checked){
+            if($(this).find("input[type='checkbox']")[0] != undefined && $(this).find("input[type='checkbox']")[0].checked){
                 data = grid.dataItem($(this));
                 data.CARD_TO_SN = $("#cardToSn").val();
                 itemArr.push(data);

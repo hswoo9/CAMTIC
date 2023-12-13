@@ -10,6 +10,7 @@ public interface ProjectService {
 
     Map<String, Object> getProjectInfo(Map<String, Object> params);
     List<Map<String, Object>> getProjectList(Map<String, Object> params);
+    List<Map<String, Object>> getDepoManageProjectList(Map<String, Object> params);
     List<Map<String, Object>> getAllProjectList(Map<String, Object> params);
 
     void setProject(Map<String, Object> params);

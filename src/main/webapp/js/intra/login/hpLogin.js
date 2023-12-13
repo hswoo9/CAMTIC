@@ -13,10 +13,10 @@ var hpLogin = {
         if ($("#id").val() =="") {
             alert("아이디를 입력하세요");
             return;
-        }else if ($("#password").val() =="") {
+        }/*else if ($("#password").val() =="") {
             alert("비밀번호를 입력하세요");
             return;
-        }else {
+        }*/else {
             var loginUrl = "/camtic/loginAccess";
             document.loginForm.action= loginUrl;
             document.loginForm.submit();

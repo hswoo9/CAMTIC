@@ -20,7 +20,6 @@ var addAssetPop = {
             }
             const result = customKendo.fn_customAjax("/purc/getPurcClaimItemData", data);
             const itemMap = result.data;
-            console.log(result);
 
             $("#astName").val(itemMap.ITEM_NM);
             $("#purcDate").val(itemMap.CLAIM_DE);

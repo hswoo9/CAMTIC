@@ -178,45 +178,6 @@ var hwpInit = {
         hwpDocCtrl.putFieldText('TO_DEPT_NAME', result.DEPT_NAME);
     },
 
-
-    payAppInit: function(payAppSn){
-        let data = {
-            payAppSn: payAppSn
-        }
-        const result = customKendo.fn_customAjax("/payApp/pop/getPayAppData", data);
-        const rs = result.map;
-        const ls = result.list;
-        console.log(ls);
-
-        /** 1. 지급신청서 데이터 */
-        hwpDocCtrl.putFieldText('DOC_NO', rs.DOC_NO);
-        hwpDocCtrl.putFieldText('REG_DATE', rs.REG_DATE);
-        hwpDocCtrl.putFieldText("REQ_DE", rs.REQ_DE.split("-")[0] + "년 " + rs.REQ_DE.split("-")[1] + "월 " + rs.REQ_DE.split("-")[2] + "일");
-        hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
-
-        hwpDocCtrl.putFieldText('APP_TITLE', rs.APP_TITLE);
-        hwpDocCtrl.putFieldText('APP_CONT', rs.APP_CONT);
-        hwpDocCtrl.putFieldText('ACC_NO', "("+rs.BNK_NM+") "+rs.ACC_NO+" "+rs.ACC_NM);
-        let budgetArr = ls[0].BUDGET_NM.split(" / ");
-        hwpDocCtrl.putFieldText('BUDGET_NM1', budgetArr[0]);
-        hwpDocCtrl.putFieldText('BUDGET_NM2', budgetArr[1]);
-        hwpDocCtrl.putFieldText('BUDGET_NM3', budgetArr[2]);
-
-        if(rs.PAY_APP_TYPE == 1){
-            hwpDocCtrl.putFieldText('DOC_TITLE', "지 급 신 청 서");
-            hwpDocCtrl.putFieldText('DOC_DETAIL', "아래와 같이 지급신청 합니다.");
-        }else if(rs.PAY_APP_TYPE == 2){
-            hwpDocCtrl.putFieldText('DOC_TITLE', "여 입 신 청 서");
-            hwpDocCtrl.putFieldText('DOC_DETAIL', "아래와 같이 여입신청 합니다.");
-        }else if(rs.PAY_APP_TYPE == 3){
-            hwpDocCtrl.putFieldText('DOC_TITLE', "반 납 신 청 서");
-            hwpDocCtrl.putFieldText('DOC_DETAIL', "아래와 같이 반납신청 합니다.");
-        }else if(rs.PAY_APP_TYPE == 4){
-            hwpDocCtrl.putFieldText('DOC_TITLE', "대 체 신 청 서");
-            hwpDocCtrl.putFieldText('DOC_DETAIL', "아래와 같이 대체신청 합니다.");
-        }
-    },
-
     exnpInit: function(exnpSn){
         let data = {
             exnpSn: exnpSn

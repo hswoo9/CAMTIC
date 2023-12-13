@@ -18,7 +18,6 @@ var deptMultiPop = {
             check : function(e){
                 var deptSeq = $('#treeview').data("kendoTreeView").dataItem(e.node).dept_seq;
                 var deptName = $('#treeview').data("kendoTreeView").dataItem(e.node).dept_name;
-                console.log($(e.node).attr("aria-checked"))
                 if($(e.node).attr("aria-checked") == "true"){
                     deptMultiPop.global.arrDeptSeq.push(deptSeq);
                     deptMultiPop.global.arrDeptName.push(deptName);
