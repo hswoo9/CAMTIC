@@ -5,7 +5,15 @@
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 </head>
-
+<style>
+	.jobCenter {
+		position: absolute;
+		top: 30%;
+		left: 50%;
+		transform: translateX(-50%);
+		text-align: center;
+	}
+</style>
 <body>
 <div id="wrap">
 	<jsp:include page="/WEB-INF/jsp/template/camtic/head.jsp" flush="false"/>
@@ -42,6 +50,7 @@
 							</div>
 							<div class="box">
 								<div class="img"><span><img src="/images/camtic/img-njob1-2.png" alt=""></span></div>
+								<div class="jobCenter"><span style="font-size:22px; color: #2694ca; font-weight: bold;">일자리혁신지원센터</span></div>
 								<div class="__mt30 __black">
 									<%--<div class="__fz18">
 										<span class="__blue2 fwb">잡코칭(Job Coaching)</span>
