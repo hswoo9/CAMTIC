@@ -234,6 +234,8 @@ var regPrj = {
                         tabStrip.enable(tabStrip.tabGroup.children().eq(8));
                     }
                 }
+                /** 원가보고 임시 비활성화 */
+                tabStrip.disable(tabStrip.tabGroup.children().eq(9));
             } else {
                 $("#modBtn").css("display", "none");
                 alert("중단사유 : " + setParameters.PJT_STOP_RS);
