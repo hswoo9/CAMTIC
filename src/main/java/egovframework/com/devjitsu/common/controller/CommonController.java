@@ -295,6 +295,7 @@ public class CommonController {
         try {
             commonService.setAlarm(params);
             model.addAttribute("rs", "SUCCESS");
+            model.addAttribute("alId", params.get("alId"));
             model.addAttribute("message", "Successful sending of notifications.");
         } catch (DataAccessException de){
             de.printStackTrace();

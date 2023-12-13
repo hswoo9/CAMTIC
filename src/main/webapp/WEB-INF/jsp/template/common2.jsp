@@ -81,4 +81,7 @@
             border: 0px solid white !important;
         }
     </style>
+    <script>
+        var socket =  new WebSocket("ws://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/websocket.do");;
+    </script>
 </head>

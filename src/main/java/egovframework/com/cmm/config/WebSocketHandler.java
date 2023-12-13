@@ -33,7 +33,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String senderId = getMemberId(session);
-
         String msg = message.getPayload();
 
         if(msg != null){
@@ -41,18 +40,40 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
             if(strs != null && strs.length == 5){
                 String title = strs[0];
-                String type = strs[1];
-                String target = strs[2];
-                String content = strs[3];
-                String url = strs[4];
+                String target = strs[1];
+                String content = strs[2];
+                String url = strs[3];
+                String id = strs[4];
                 WebSocketSession targetSession = users.get(target);
 
-                if(targetSession!=null) {
+                if(targetSession != null) {
                     Date date = new Date();
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                     String sdfDate = sdf.format(date);
                     // ex: [&분의일] 신청이 들어왔습니다.
-                    TextMessage tmpMsg = new TextMessage("<a target='_blank' href='"+ url +"'>[<b>" + title + "</b>] <br>" + sdfDate + "<br>" + type + "<br>" + content + "</a>" );
+                    TextMessage tmpMsg = new TextMessage(
+                "<li class=\"list-group-item unread\">" +
+                            "<div class=\"row\">" +
+                                "<div class=\"col-xs-2\">" +
+                                    "<i class=\"fa fa-envelope\"></i>" +
+                                "</div>" +
+                                "<div class=\"col-xs-10\">" +
+                                    "<h5>" +
+                                        "<a href=\"javascript:void(0)\" onclick=\"fn_opener('" + url + "','" + id + "')\">" +
+                                            title +
+                                        "</a>" +
+                                        "<span style=\"float:right;margin: 0;font-size: 12px;cursor: pointer\" onclick=\"alarmListDel(" + id + ")\">X</span>" +
+                                    "</h5>" +
+                                    "<small>" +
+                                        sdfDate +
+                                    "<smail>" +
+                                    "<span>" +
+                                        content +
+                                    "</span>" +
+                                "</div>" +
+                            "</div>" +
+                        "</li>");
+
                     targetSession.sendMessage(tmpMsg);
                 }
             }

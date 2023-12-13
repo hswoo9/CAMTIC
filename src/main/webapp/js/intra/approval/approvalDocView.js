@@ -721,45 +721,70 @@ var docView = {
                 recEmpSeq : docView.global.rs.docInfo.DRAFT_EMP_SEQ,
                 ntUrl : ntUrl
             });
+
+            if(result.flag){
+                socket.send(ntTitle + "," + docView.global.rs.docInfo.DRAFT_EMP_SEQ + "," + ntContent + "," + ntUrl + "," + result.alId);
+            }
         }
 
         if(type == "approve"){
+            var sendData = "";
             if($("#approveCode").val() != '100' && $("#approveCode").val() != "101"){
                 /** 일반 결재 */
-                result = customKendo.fn_customAjax("/common/setAlarm", {
+                sendData = {
                     ntTitle : "[결재도착] 기안자 : " + docView.global.rs.approveRoute.find(element => Number(element.APPROVE_ORDER) === 0).APPROVE_EMP_NAME,
                     ntContent : ntContent,
                     recEmpSeq : docView.global.rs.approveRoute.find(element => Number(element.APPROVE_ORDER) === (Number(docView.global.rs.approveNowRoute.APPROVE_ORDER) + 1)).APPROVE_EMP_SEQ,
                     ntUrl : ntUrl
-                });
+                }
+
+                result = customKendo.fn_customAjax("/common/setAlarm", sendData);
+                if(result.flag){
+                    socket.send(sendData.ntTitle + "," + sendData.recEmpSeq + "," + sendData.ntContent + "," + sendData.ntUrl + "," + result.alId);
+                }
             }else if(($("#approveCode").val() == '100' || $("#approveCode").val() == "101")){
                 /** 최종결재 결재 */
                 for(var i = 0; i < docView.global.rs.approveRoute.length; i ++){
                     if(Number(docView.global.rs.approveRoute[i].APPROVE_ORDER) == 0){
-                        result = customKendo.fn_customAjax("/common/setAlarm", {
+                        sendData = {
                             ntTitle : "[결재종결] 결재자 : " + docView.global.rs.approveNowRoute.APPROVE_EMP_NAME,
                             ntContent : ntContent,
                             recEmpSeq : docView.global.rs.docInfo.DRAFT_EMP_SEQ,
                             ntUrl : ntUrl
-                        });
+                        }
+
+                        result = customKendo.fn_customAjax("/common/setAlarm", sendData);
+                        if(result.flag){
+                            socket.send(sendData.ntTitle + "," + sendData.recEmpSeq + "," + sendData.ntContent + "," + sendData.ntUrl + "," + result.alId);
+                        }
                     }else if(Number(docView.global.rs.approveRoute[i].APPROVE_ORDER) != Number(docView.global.rs.approveNowRoute.APPROVE_ORDER)){
-                        result = customKendo.fn_customAjax("/common/setAlarm", {
+                        sendData = {
                             ntTitle : "[결재종결] 기안자 : " + docView.global.rs.approveRoute.find(element => Number(element.APPROVE_ORDER) === 0).APPROVE_EMP_NAME,
                             ntContent : ntContent,
                             recEmpSeq : docView.global.rs.approveRoute[i].APPROVE_EMP_SEQ,
                             ntUrl : ntUrl
-                        });
+                        }
+
+                        result = customKendo.fn_customAjax("/common/setAlarm", sendData);
+                        if(result.flag){
+                            socket.send(sendData.ntTitle + "," + sendData.recEmpSeq + "," + sendData.ntContent + "," + sendData.ntUrl + "," + result.alId);
+                        }
                     }
                 }
 
                 if(docView.global.rs.readerAll != null){
                     for(var i = 0 ; i < docView.global.rs.readerAll.length ; i++){
-                        result = customKendo.fn_customAjax("/common/setAlarm", {
+                        sendData = {
                             ntTitle : "[결재열람] 기안자 : " + docView.global.rs.approveRoute.find(element => Number(element.APPROVE_ORDER) === 0).APPROVE_EMP_NAME,
                             ntContent : ntContent,
                             recEmpSeq : docView.global.rs.readerAll[i].READER_EMP_SEQ,
                             ntUrl : ntUrl
-                        });
+                        }
+
+                        result = customKendo.fn_customAjax("/common/setAlarm", sendData);
+                        if(result.flag){
+                            socket.send(sendData.ntTitle + "," + sendData.recEmpSeq + "," + sendData.ntContent + "," + sendData.ntUrl + "," + result.alId);
+                        }
                     }
                 }
             }
