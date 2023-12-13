@@ -5,6 +5,12 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 
+<style>
+    .k-grid-toolbar a {
+        float:left;
+    }
+</style>
+
 <body class="font-opensans" style="background-color:#fff;">
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/deposit/depoBudgetViewPop.js?v=${today}'/>"></script>
@@ -18,8 +24,7 @@
 	<div class="table-responsive">
 		<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
 		<div class="card-header pop-header">
-			<h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">프로젝트 선택</span>
-			</h3>
+			<h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">프로젝트 선택</span></h3>
 
 		</div>
 		<div>

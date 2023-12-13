@@ -1,4 +1,3 @@
-let sum=0;
 var depoBgtMng = {
 
     global : {
@@ -8,19 +7,22 @@ var depoBgtMng = {
         now : new Date()
     },
 
-    fn_defaultScript : function (){
+    fn_defaultScript : function(){
+
+
+        depoBgtMng.fn_popMainGrid();
+
         customKendo.fn_datePicker("frDt", '', "yyyy-MM-dd", new Date(depoBgtMng.global.now.getFullYear() + '-01-01'));
         customKendo.fn_datePicker("toDt", '', "yyyy-MM-dd", new Date(depoBgtMng.global.now.getFullYear() + '-12-31'));
-        customKendo.fn_textBox(["deptName", "searchText"]);
 
         depoBgtMng.gridReload();
     },
 
-    gridReload : function (){
-        depoBgtMng.mainGrid();
+    gridReload: function(){
+        $("#popMainGrid").data("kendoGrid").dataSource.read();
     },
 
-    mainGrid: function (){
+    fn_popMainGrid : function (){
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -32,6 +34,7 @@ var depoBgtMng = {
                 parameterMap: function(data) {
                     data.pjtFromDate = $("#frDt").val();
                     data.pjtToDate = $("#toDt").val();
+                    data.searchValue = $("#pjtNm").val();
                     return data;
                 }
             },
@@ -57,19 +60,29 @@ var depoBgtMng = {
                 pageSizes : [ 10, 20, 30, 50, 100 ],
                 buttonCount : 5
             },
-            toolbar: [
+            toolbar : [
                 {
-                    name : 'excel',
-                    text: '엑셀다운로드'
+                  name : 'text',
+                  template : function (e){
+                      return '<span>조회기간</span> ' +
+                          '<input type="text" id="frDt" style="width: 120px;" onchange="depoBgtMng.dateValidationCheck(\'frDt\', this.value)">' +
+                          '~' +
+                          '<input type="text" id="toDt" style="width: 120px; margin-right: auto;" onchange="depoBgtMng.dateValidationCheck(\'enDt\', this.value)">';
+                  }
                 }, {
-                    name: 'button',
-                    template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="depoBgtMng.gridReload()">' +
+                    name : 'text',
+                    template : function (e){
+                        return '<label for="pjtNm" class="k-label">프로젝트 명</label> ' +
+                            '<input type="text" class="k-input" id="pjtNm" style="width: 250px; margin-right: 5px;" onkeyup="depoBgtMng.fn_enterKey();"/>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="depoBgtMng.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                },
-
+                }
             ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
@@ -98,7 +111,14 @@ var depoBgtMng = {
                     field: "pjtToDate",
                     title: "종료일자",
                     width: 80,
-                },
+                }, {
+                    title: "",
+                    width: "5%",
+                    template: function(e){
+                        console.log(e);
+                        return '<button type="button" class="k-button k-button-solid-base" onclick="depoBgtMng.fn_selectProject(\''+e.pjtName+'\', \''+e.pjtSeq+'\');">선택</button>';
+                    }
+                }
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);
@@ -106,24 +126,18 @@ var depoBgtMng = {
         }).data("kendoGrid");
     },
 
-    comma: function(str) {
-        str = String(str);
-        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+    fn_enterKey: function(){
+        $("#pjtNm").keydown(function(e){
+            if(e.keyCode == 13){
+                depoBgtMng.gridReload();
+            }
+        });
     },
 
-    uncomma: function(str) {
-        str = String(str);
-        return str.replace(/[^\d]+/g, '');
-    },
+    fn_selectProject: function(name, cd){
+        opener.parent.selectProject(name, cd);
 
-    // project 상세페이지
-    fn_projectPopView : function (key){
-        var url = "/mng/pop/projectMngPop.do?pjtCd=" + key;
-
-        var name = "blank";
-        var option = "width = 1280, height = 850, top = 100, left = 200, location = no";
-
-        var popup = window.open(url, name, option);
+        window.close();
     },
 
     dateValidationCheck : function (id, val){
@@ -139,5 +153,15 @@ var depoBgtMng = {
                 $("#frDt").val(val);
             }
         }
-    }
+    },
+
+    // project 상세페이지
+    fn_projectPopView : function (key){
+        var url = "/mng/pop/projectMngPop.do?pjtCd=" + key;
+
+        var name = "blank";
+        var option = "width = 1280, height = 850, top = 100, left = 200, location = no";
+
+        var popup = window.open(url, name, option);
+    },
 }
