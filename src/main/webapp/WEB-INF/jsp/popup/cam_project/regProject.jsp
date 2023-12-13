@@ -94,7 +94,9 @@
             <div class="btn-st popButton">
                 <button type="button" id="saveBtn" class="k-button k-button-solid-info" onclick="regPrj.fn_save()">저장</button>
                 <button type="button" id="modBtn" class="k-button k-button-solid-primary" style="display: none;" onclick="regPrj.fn_mod()">수정</button>
-                <button type="button" id="stopBtn" class="k-button k-button-solid-error" style="display: none;" onclick="regPrj.fn_stopModal()"> 중단</button>
+                <c:if test="${loginVO.uniqId eq data.WRITER_EMP_SEQ}">
+                    <button type="button" id="stopBtn" class="k-button k-button-solid-error" style="display: none;" onclick="regPrj.fn_stopModal()"> 중단</button>
+                </c:if>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>
         </div>

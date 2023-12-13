@@ -98,29 +98,6 @@ var regPayDepoSet = {
         });
     },
 
-    fn_setProjectData: function (){
-        var data = {
-            pjtSn : $("#paramPjtSn").val()
-        }
-
-        $.ajax({
-            url : "/project/getProjectData",
-            data : data,
-            type : "post",
-            dataType : "json",
-            success : function(rs){
-                var rs = rs.data;
-                console.log(rs)
-                $("#pjtSn").val(rs.PJT_SN);
-                $("#pjtNm").val(rs.PJT_NM);
-                $("#pjtCd").val(rs.PJT_CD);
-
-
-                $("#depoTitle").val("입금신청 - " + rs.PJT_NM);
-            }
-        });
-    },
-
     fn_save : function (){
         var parameters = {
             pjtNm : $("#paramPjtNm").val(),
@@ -158,52 +135,6 @@ var regPayDepoSet = {
         });
     },
 
-    crmInfoChange : function(){
-        console.log(purcInfo.global.crmSnId, purcInfo.global.crmNmId)
-
-        $("#" + purcInfo.global.crmSnId).val($("#purcCrmSn").val())
-        $("#" + purcInfo.global.crmNmId).val($("#purcCrmNm").val())
-
-        $("#purcCrmSn").val("")
-        $("#purcCrmNm").val("")
-
-
-    },
-
-    fn_popCamCrmList : function (crmSnId, crmNmId){
-        regPayDepoSet.global.crmSnId = crmSnId;
-        regPayDepoSet.global.crmNmId = crmNmId;
-
-        var url = "/crm/pop/popCrmList.do";
-        var name = "_blank";
-        var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
-        var popup = window.open(url, name, option);
-    },
-
-    crmInfoChange : function(){
-        $("#" + regPay.global.crmSnId).val($("#crmSn").val())
-        $("#" + regPay.global.crmNmId).val($("#crmNm").val())
-
-        $("#crmSn").val("")
-        $("#crmNm").val("")
-    },
-
-    fn_calCost: function(obj){
-
-        var index = obj.id.substring(obj.id.length - 1);
-        if(obj.id.match("totCost")){
-
-            $("#vatCost" + index).val(regPayDepoSet.comma(Number(regPayDepoSet.uncomma($("#totCost" + index).val())) - Math.round(Number(regPay.uncomma($("#totCost" + index).val())) * 100 / 110)));
-            $("#supCost" + index).val(regPayDepoSet.comma(Number(regPayDepoSet.uncomma($("#totCost" + index).val())) - Number(regPay.uncomma($("#vatCost" + index).val()))));
-        } else if(obj.id.match("supCost")){
-            $("#vatCost" + index).val(regPayDepoSet.comma(Number(regPayDepoSet.uncomma($("#totCost" + index).val())) - Number(regPay.uncomma($("#supCost" + index).val()))));
-        } else if (obj.id.match("vatCost")){
-            $("#supCost" + index).val(regPayDepoSet.comma(Number(regPayDepoSet.uncomma($("#totCost" + index).val())) - Number(regPay.uncomma($("#vatCost" + index).val()))));
-        }
-
-        regPayDepoSet.inputNumberFormat(obj);
-    },
-
     inputNumberFormat : function (obj){
         obj.value = regPayDepoSet.comma(regPayDepoSet.uncomma(obj.value));
     },
@@ -220,10 +151,11 @@ var regPayDepoSet = {
 
     fn_projectPop : function (type){
 
-        var url = "/project/pop/projectView.do";
+        var url = "/pay/pop/depoProjectViewPop.do";
+        //var url = "/project/pop/projectView.do";
 
         var name = "_blank";
-        var option = "width = 1100, height = 400, top = 100, left = 400, location = no";
+        var option = "width = 1300, height = 650, top = 100, left = 400, location = no, scrollbars = no";
         var popup = window.open(url, name, option);
     },
 
@@ -234,7 +166,7 @@ var regPayDepoSet = {
         }
 
         /** 추후 temp변수명 수정 예정 */
-        var url = "/mng/pop/budgetView.do?pjtCd=" + $("#pjtCd").val() + "&idx=N&temp=2";
+        var url = "/pay/pop/depoBudgetViewPop.do?pjtCd=" + $("#pjtCd").val() + "&idx=N&temp=2";
 
         var name = "_blank";
         var option = "width = 1100, height = 650, top = 100, left = 400, location = no";

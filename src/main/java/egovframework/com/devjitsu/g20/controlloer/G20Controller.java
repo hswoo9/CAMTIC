@@ -105,6 +105,23 @@ public class G20Controller {
         return "jsonView";
     }
 
+    @RequestMapping("/g20/getEtaxList")
+    public String getEtaxList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = g20Service.getEtaxList(params);
+
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/g20/getEtaxData")
+    public String getEtaxData(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = g20Service.getEtaxData(params);
+
+        model.addAttribute("data", data);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/g20/getClientList")
     public String getClientList(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> list = g20Service.getClientList(params);

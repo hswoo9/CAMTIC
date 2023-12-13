@@ -31,4 +31,8 @@ public interface G20Service {
     void setDjCardList(List<Map<String, Object>> list);
 
     Map<String, Object> getProjectInfo(Map<String, Object> params);
+
+    List<Map<String, Object>> getEtaxList(Map<String, Object> params);
+
+    Map<String, Object> getEtaxData(Map<String, Object> params);
 }

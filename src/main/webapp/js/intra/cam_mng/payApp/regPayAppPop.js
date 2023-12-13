@@ -321,9 +321,13 @@ var regPay = {
                 '   <td>' +
                 '       <input type="hidden" id="payDestSn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" name="payDestSn" class="payDestSn">' +
                 '       <input type="text" id="eviType' + regPayDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
+                '       <input type="text" id="fileNo' + regPayDet.global.itemIndex + '" value="'+item.FILE_NO+'" class="fileNo" style="width: 100%">' +
                 '       <input type="hidden" id="authNo' + regPayDet.global.itemIndex + '" value="'+item.AUTH_NO+'" class="authNo" style="width: 100%">' +
                 '       <input type="hidden" id="authHh' + regPayDet.global.itemIndex + '" value="'+item.AUTH_HH+'" class="authHh" style="width: 100%">' +
                 '       <input type="hidden" id="authDd' + regPayDet.global.itemIndex + '" value="'+item.AUTH_DD+'" class="authDd" style="width: 100%">' +
+                '       <input type="hidden" id="issNo' + regPayDet.global.itemIndex + '" value="'+item.ISS_NO+'" class="issNo" style="width: 100%">' +
+                '       <input type="hidden" id="coCd' + regPayDet.global.itemIndex + '" value="'+item.CO_CD+'" class="coCd" style="width: 100%">' +
+                '       <input type="hidden" id="taxTy' + regPayDet.global.itemIndex + '" value="'+item.TAX_TY+'" class="taxTy" style="width: 100%">' +
                 '   </td>' +
                 '   <td>' +
                 '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regPayDet.fn_popRegDet(1, '+regPayDet.global.itemIndex+')"></i>' +
@@ -422,6 +426,8 @@ var regPay = {
                     if(value != ""){
                         if(value == "6"){
                             alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
+                        } else if(value == "1"){
+                            regPayDet.fn_paymentEtaxHistory(value, e.sender.element[0].id.replace("eviType", ""));
                         } else if(value == "3"){
                             regPayDet.fn_paymentCardHistory(value, e.sender.element[0].id.replace("eviType", ""));
                         } else {
@@ -588,9 +594,13 @@ var regPay = {
                 teamSeq : $("#appTeam" + index).val(),
                 teamName : $("#appTeam" + index).data("kendoDropDownList").text(),
                 evidType : $("#eviType" + index).val(),
+                fileNo : $("#fileNo" + index).val(),
                 authNo : $("#authNo" + index).val(),
                 authDd : $("#authDd" + index).val(),
                 authHh : $("#authHh" + index).val(),
+                issNo : $("#issNo" + index).val(),
+                coCd : $("#coCd" + index).val(),
+                taxTy : $("#taxTy" + index).val(),
                 crmNm : $("#crmNm" + index).val(),
                 regNo : $("#regNo" + index).val(),
                 trCd : $("#trCd" + index).val(),
@@ -805,6 +815,8 @@ var regPayDet = {
                 if(value != ""){
                     if(value == "6"){
                         alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
+                    } else if(value == "1"){
+                        regPayDet.fn_paymentEtaxHistory(value, itemIndex);
                     } else if(value == "3"){
                         regPayDet.fn_paymentCardHistory(value, itemIndex);
                     } else{
@@ -847,6 +859,14 @@ var regPayDet = {
         var popup = window.open(url, name, option);
     },
 
+    fn_paymentEtaxHistory : function (v, i){
+        var url = "/mng/pop/paymentEtaxHistory.do?type=" + v + "&index=" + i;
+
+        var name = "_blank";
+        var option = "width = 1500, height = 700, top = 100, left = 300, location = no"
+        var popup = window.open(url, name, option);
+    },
+
 
     addRow : function () {
         regPayDet.global.createHtmlStr = "";
@@ -865,9 +885,13 @@ var regPayDet = {
             '   <td>' +
             '       <input type="hidden" style="width: 70%" id="payDestSn' + regPayDet.global.itemIndex + '" name="payDestSn" class="payDestSn">' +
             '       <input type="text" id="eviType' + regPayDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
+            '       <input type="text" id="fileNo' + regPayDet.global.itemIndex + '" class="fileNo" style="width: 100%">' +
             '       <input type="hidden" id="authNo' + regPayDet.global.itemIndex + '" class="authNo" style="width: 100%">' +
             '       <input type="hidden" id="authHh' + regPayDet.global.itemIndex + '" class="authHh" style="width: 100%">' +
             '       <input type="hidden" id="authDd' + regPayDet.global.itemIndex + '" class="authDd" style="width: 100%">' +
+            '       <input type="hidden" id="issNo' + regPayDet.global.itemIndex + '" class="issNo" style="width: 100%">' +
+            '       <input type="hidden" id="coCd' + regPayDet.global.itemIndex + '" class="coCd" style="width: 100%">' +
+            '       <input type="hidden" id="taxTy' + regPayDet.global.itemIndex + '" class="taxTy" style="width: 100%">' +
             '   </td>' +
             '   <td>' +
             '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regPayDet.fn_popRegDet(1, '+regPayDet.global.itemIndex+')"></i>' +
@@ -938,6 +962,8 @@ var regPayDet = {
                 if(value != ""){
                     if(value == "6"){
                         alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
+                    } else if(value == "1"){
+                        regPayDet.fn_paymentEtaxHistory(value, itemIndex);
                     } else if(value == "3"){
                         regPayDet.fn_paymentCardHistory(value, itemIndex);
                     } else {

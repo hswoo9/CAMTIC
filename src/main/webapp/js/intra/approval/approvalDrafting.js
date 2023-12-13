@@ -687,7 +687,7 @@ var draft = {
                 if($("#files").closest('.k-upload').find('.k-file.k-toupload').length > 0){
                     $("#files").data("kendoUpload").upload();
                 }else{
-                    // window.close();
+                    window.close();
                 }
             },
             error : function (){
@@ -839,7 +839,7 @@ var draft = {
         draft.docApproveLineDataSetting("reDrafting", draft.global.formData);
 
         $.ajax({
-            url : '/approval/setApproveDraftInit.do',
+            url : '/approval/setApproveDraftInit',
             type : 'POST',
             data : draft.global.formData,
             dataType : "json",
@@ -1073,13 +1073,22 @@ var draft = {
         for(var i = 0 ; i < draft.global.approversArr.length; i ++){
             if(draft.global.approversArr[i].approveOrder != 0 && draft.global.approversArr[i].approveOrder == 1){
                 draft.global.saveAjaxData = {
-                    ntTitle : "[결재도착] 기안자 : " + draft.global.fileInitData.draftEmpName,
+                    ntTitle : "[결재도착] 기안자 : " + (draft.global.fileInitData.draftEmpName == null ? $("#empName").val() : draft.global.fileInitData.draftEmpName),
                     ntContent : draft.global.fileInitData.docTitle,
                     recEmpSeq : draft.global.approversArr[i].approveEmpSeq,
                     ntUrl : "/approval/approvalDocView.do?docId=" + draft.global.fileInitData.DOC_ID + "&mod=V&menuCd=" + draft.global.fileInitData.menuCd + "&approKey=" + draft.global.fileInitData.approKey
                 }
 
                 var result = customKendo.fn_customAjax("/common/setAlarm", draft.global.saveAjaxData);
+                if(result.flag){
+                    socket.send(
+                        draft.global.saveAjaxData.ntTitle + "," +
+                        draft.global.saveAjaxData.recEmpSeq + "," +
+                        draft.global.saveAjaxData.ntContent + "," +
+                        draft.global.saveAjaxData.ntUrl + "," +
+                        result.alId
+                    )
+                }
                 returnVal = result;
             }
         }

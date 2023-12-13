@@ -185,13 +185,29 @@ var docView = {
             },
             dataBound : docView.onDataBound,
             columns: [
-               {
+                {
                     field : "filename",
                     title: "첨부파일명",
-                    attributes: { style: "text-align: left;cursor: pointer;"},
+                    attributes: { style: "text-align: left;"},
                     template : function(e){
-                        return fileImgTag(e.FILE_EXT) + " <spen style='vertical-align: bottom;'>" + e.filename + "(" + formatBytes(e.FILE_SIZE, 3) + ")</spen>";
+                        return '<span style="cursor: pointer" onClick="docView.docAttachmentDown(\'single\',\'' + e.FILE_DOWN_PATH + e.fileUUID+ '\', \'' + e.filename + '\')">' +
+                                    fileImgTag(e.FILE_EXT) +
+                                    "<span style='margin-left: 5px;cursor: pointer'>" +
+                                        e.filename + "(" + formatBytes(e.FILE_SIZE, 3) + ")" +
+                                    "</span>" +
+                                "</span>";;
                     }
+                }, {
+                    template : function(e){
+                        if(e.FILE_EXT == "pdf" || e.FILE_EXT == "png" || e.FILE_EXT == "PNG" || e.FILE_EXT == "jpg" || e.FILE_EXT == "JPEG" || e.FILE_EXT == "gif"){
+                            return '<button type="button" class="k-button k-rounded k-button-solid k-button-solid-base" onClick="docView.fileViewer(\'' + e.FILE_DOWN_PATH + e.fileUUID + '\', \'' + e.filename + '\')">' +
+                                        '<span class="k-button-text">보기</span>' +
+                                    '</button>'
+                        }else{
+                            return '';
+                        }
+                    },
+                    width : 60
                 }]
         }).data("kendoGrid");
 
@@ -201,13 +217,14 @@ var docView = {
         });
     },
 
-    onDataBound : function(){
-        var grid = this;
+    attachmentGridFileDownOne : function(e){
+        docView.docAttachmentDown("single", e.FILE_DOWN_PATH + e.fileUUID, e.filename);
+    },
 
-        grid.tbody.find("tr").click(function (e) {
-            var dataItem = grid.dataItem($(this));
-            docView.docAttachmentDown("single", dataItem.FILE_DOWN_PATH + dataItem.fileUUID, dataItem.filename);
-        });
+    fileViewer : function (path, name){
+        var name = "_blank";
+        var option = "width = 1300, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open("http://218.158.231.186" + path, name, option);
     },
 
     getIsExistsAbsent : function(){
@@ -588,12 +605,12 @@ var docView = {
                     }
                 },{
                     field : "APPROVE_DUTY_NAME",
-                    title: "직책(직위)",
+                    title: "직급",
                     template : function(e){
                         if(e.PROXY_TYPE == "Y"){
                             return e.PROXY_APPROVE_DUTY_NAME;
                         }else{
-                            return e.APPROVE_DUTY_NAME
+                            return e.APPROVE_POSITION_NAME
                         }
                     }
                 },{
@@ -602,6 +619,13 @@ var docView = {
                 },{
                     field : "APPROVE_DT",
                     title: "결재일시",
+                    template : function(e){
+                        if(e.APPROVE_DT == null){
+                            return "-";
+                        }else{
+                            return e.APPROVE_DT
+                        }
+                    },
                 },{
                     field : "PROXY_TYPE",
                     title : "비고",
@@ -721,45 +745,70 @@ var docView = {
                 recEmpSeq : docView.global.rs.docInfo.DRAFT_EMP_SEQ,
                 ntUrl : ntUrl
             });
+
+            if(result.flag){
+                socket.send(ntTitle + "," + docView.global.rs.docInfo.DRAFT_EMP_SEQ + "," + ntContent + "," + ntUrl + "," + result.alId);
+            }
         }
 
         if(type == "approve"){
+            var sendData = "";
             if($("#approveCode").val() != '100' && $("#approveCode").val() != "101"){
                 /** 일반 결재 */
-                result = customKendo.fn_customAjax("/common/setAlarm", {
+                sendData = {
                     ntTitle : "[결재도착] 기안자 : " + docView.global.rs.approveRoute.find(element => Number(element.APPROVE_ORDER) === 0).APPROVE_EMP_NAME,
                     ntContent : ntContent,
                     recEmpSeq : docView.global.rs.approveRoute.find(element => Number(element.APPROVE_ORDER) === (Number(docView.global.rs.approveNowRoute.APPROVE_ORDER) + 1)).APPROVE_EMP_SEQ,
                     ntUrl : ntUrl
-                });
+                }
+
+                result = customKendo.fn_customAjax("/common/setAlarm", sendData);
+                if(result.flag){
+                    socket.send(sendData.ntTitle + "," + sendData.recEmpSeq + "," + sendData.ntContent + "," + sendData.ntUrl + "," + result.alId);
+                }
             }else if(($("#approveCode").val() == '100' || $("#approveCode").val() == "101")){
                 /** 최종결재 결재 */
                 for(var i = 0; i < docView.global.rs.approveRoute.length; i ++){
                     if(Number(docView.global.rs.approveRoute[i].APPROVE_ORDER) == 0){
-                        result = customKendo.fn_customAjax("/common/setAlarm", {
+                        sendData = {
                             ntTitle : "[결재종결] 결재자 : " + docView.global.rs.approveNowRoute.APPROVE_EMP_NAME,
                             ntContent : ntContent,
                             recEmpSeq : docView.global.rs.docInfo.DRAFT_EMP_SEQ,
                             ntUrl : ntUrl
-                        });
+                        }
+
+                        result = customKendo.fn_customAjax("/common/setAlarm", sendData);
+                        if(result.flag){
+                            socket.send(sendData.ntTitle + "," + sendData.recEmpSeq + "," + sendData.ntContent + "," + sendData.ntUrl + "," + result.alId);
+                        }
                     }else if(Number(docView.global.rs.approveRoute[i].APPROVE_ORDER) != Number(docView.global.rs.approveNowRoute.APPROVE_ORDER)){
-                        result = customKendo.fn_customAjax("/common/setAlarm", {
+                        sendData = {
                             ntTitle : "[결재종결] 기안자 : " + docView.global.rs.approveRoute.find(element => Number(element.APPROVE_ORDER) === 0).APPROVE_EMP_NAME,
                             ntContent : ntContent,
                             recEmpSeq : docView.global.rs.approveRoute[i].APPROVE_EMP_SEQ,
                             ntUrl : ntUrl
-                        });
+                        }
+
+                        result = customKendo.fn_customAjax("/common/setAlarm", sendData);
+                        if(result.flag){
+                            socket.send(sendData.ntTitle + "," + sendData.recEmpSeq + "," + sendData.ntContent + "," + sendData.ntUrl + "," + result.alId);
+                        }
                     }
                 }
 
                 if(docView.global.rs.readerAll != null){
                     for(var i = 0 ; i < docView.global.rs.readerAll.length ; i++){
-                        result = customKendo.fn_customAjax("/common/setAlarm", {
+                        sendData = {
                             ntTitle : "[결재열람] 기안자 : " + docView.global.rs.approveRoute.find(element => Number(element.APPROVE_ORDER) === 0).APPROVE_EMP_NAME,
                             ntContent : ntContent,
                             recEmpSeq : docView.global.rs.readerAll[i].READER_EMP_SEQ,
                             ntUrl : ntUrl
-                        });
+                        }
+
+                        result = customKendo.fn_customAjax("/common/setAlarm", sendData);
+                        if(result.flag){
+                            socket.send(sendData.ntTitle + "," + sendData.recEmpSeq + "," + sendData.ntContent + "," + sendData.ntUrl + "," + result.alId);
+                        }
                     }
                 }
             }

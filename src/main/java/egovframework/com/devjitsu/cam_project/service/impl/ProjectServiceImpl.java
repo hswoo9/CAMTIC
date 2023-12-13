@@ -45,6 +45,10 @@ public class ProjectServiceImpl implements ProjectService {
     public List<Map<String, Object>> getProjectList(Map<String, Object> params) {
         return projectRepository.getProjectList(params);
     }
+    @Override
+    public List<Map<String, Object>> getDepoManageProjectList(Map<String, Object> params) {
+        return projectRepository.getDepoManageProjectList(params);
+    }
 
     @Override
     public List<Map<String, Object>> getAllProjectList(Map<String, Object> params) {

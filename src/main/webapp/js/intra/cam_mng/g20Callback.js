@@ -150,3 +150,30 @@ function fn_selOtherInfo(trCd, bankName,  accountHolder, accountNum, empNameKr, 
     var option = "width = 800, height = 500, top = 100, left = 400, location = no"
     var popup = window.open(url, name, option);
 }
+
+function fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, coCd, taxTy, idx, fileNo){
+    if(trNm == null || trNm == "" || trNm == "undefined"){
+        trNm = "";
+    }
+    if(isuDt == null || isuDt == "" || isuDt == "undefined"){
+        isuDt = "";
+    }
+    if(trregNb == null || trregNb == "" || trregNb == "undefined"){
+        trregNb = "";
+    }
+    if(trCd == null || trCd == "" || trCd == "undefined"){
+        trCd = "";
+    }
+
+    $("#trDe" + idx).val(isuDt.substring(0, 4) + "-" + isuDt.substring(4, 6) + "-" + isuDt.substring(6, 8));
+    $("#regNo" + idx).val(trregNb);
+    $("#crmNm" + idx).val(trNm);
+    $("#trCd" + idx).val(trCd);
+    $("#totCost" + idx).val(comma(sumAm));
+    $("#supCost" + idx).val(comma(supAm));
+    $("#vatCost" + idx).val(comma(vatAm));
+    $("#issNo" + idx).val(issNo);
+    $("#coCd" + idx).val(coCd);
+    $("#taxTy" + idx).val(taxTy);
+    $("#fileNo" + idx).val(fileNo);
+}

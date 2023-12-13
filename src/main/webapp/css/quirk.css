@@ -9346,10 +9346,14 @@ blockquote {
   right: -2px;
   width: 10px;
   height: 10px;
-  /*background-color: #ff564e;*/
   border-radius: 50px;
   opacity: .75;
 }
+
+.newAlarm:after{
+  background-color: #ff564e;
+}
+
 .headermenu > li > .btn-group {
   margin-bottom: 0;
 }

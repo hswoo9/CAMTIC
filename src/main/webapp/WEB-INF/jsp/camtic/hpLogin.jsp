@@ -129,12 +129,12 @@
                                             </div>
                                             <div class="form-group mb10" style="margin-top:30px;">
                                                 <div class="input-group">
-                                                    <input type="text" id="id" name="id" class="form-control" placeholder="아이디를 입력하세요." value="master">
+                                                    <input type="text" id="id" name="id" class="form-control" placeholder="아이디를 입력하세요." <%--value="master"--%>>
                                                 </div>
                                             </div>
                                             <div class="form-group mb10">
                                                 <div class="input-group" style="margin-top:20px;">
-                                                    <input type="password" id="password" name="password" class="form-control" placeholder="비밀번호를 입력하세요." value="******">
+                                                    <input type="password" id="password" name="password" class="form-control" placeholder="비밀번호를 입력하세요." <%--value="******"--%>>
                                                 </div>
                                             </div>
                                             <div>

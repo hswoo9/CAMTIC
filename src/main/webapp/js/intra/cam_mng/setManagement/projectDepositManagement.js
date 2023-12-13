@@ -67,14 +67,15 @@ var prjDepositMng = {
                 },
                 parameterMap: function(data) {
                     data.busnClass = $("#busnClass").val();
-                    data.consultDt = $("#consultDt").val();
                     data.searchValue = $("#searchValue").val();
                     data.searchValue2 = $("#searchValue2").val();
                     data.searchText = $("#searchText").val();
                     data.deptSeq = $("#deptSeq").val();
                     data.regEmpSeq = $("#regEmpSeq").val();
                     data.myDeptSeq = $("#myDeptSeq").val();
-                    data.busnSubClass = "'E6', 'E7', 'R3', 'S3'";
+                    data.busnSubClass = "'E3', 'E4', 'E5', 'R2', 'R2', 'S2','E6', 'E7', 'R3', 'S3'";
+
+                    data.manageYn = 'Y';
                     return data;
                 }
             },
@@ -207,6 +208,19 @@ var prjDepositMng = {
                     footerTemplate : function () {
                         return "<span id='total'></span>";
                     }
+                }, {
+                    title : "상태",
+                    width : 100,
+                    template : function(e){
+
+                        if(e.setYn > 0){
+                            return "설정완료";
+                        }else{
+                            return "미등록";
+                        }
+
+
+                    }
                 }
             ],
             dataBinding: function(){
@@ -233,8 +247,8 @@ var prjDepositMng = {
             url = "/pay/pop/regPayDepoSetPop.do?pjtSn=" + key;
         }
 
-        var name = "_blank";
-        var option = "width = 900, height = 400, top = 100, left = 400, location = no";
+        var name = "입금처리 설정";
+        var option = "width = 950, height = 250, top = 100, left = 400, location = no, scrollbars = no";
         var popup = window.open(url, name, option);
     },
 };
