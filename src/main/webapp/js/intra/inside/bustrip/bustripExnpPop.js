@@ -189,7 +189,7 @@ const bustripExnpReq = {
                     if(bustripInfo.TRIP_CODE == "3") {
                         if(bustripInfo.USE_TRSPT == "0"){
                             for(let j=0; j<costList.length; j++){
-                                if(costList[j].EXNP_CODE == "dayCost" && costList[j].EXNP_DETAIL_CODE == "1"){
+                                if(costList[j].TRIP_CODE == "3" && costList[j].EXNP_CODE == "dayCost" && costList[j].EXNP_DETAIL_CODE == "1"){
                                     $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costList[j].COST_AMT));
                                 }
                             }
@@ -197,7 +197,7 @@ const bustripExnpReq = {
 
                         if(bustripInfo.USE_TRSPT == "10" && String(bustripInfo.DRIVER_EMP_SEQ) == String(dayCostArr[i].empSeq)){
                             for(let j=0; j<costList.length; j++){
-                                if(costList[j].EXNP_CODE == "dayCost" && costList[j].EXNP_DETAIL_CODE == "2"){
+                                if(costList[j].TRIP_CODE == "3" && costList[j].EXNP_CODE == "dayCost" && costList[j].EXNP_DETAIL_CODE == "2"){
                                     $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costList[j].COST_AMT));
                                 }
                             }
@@ -205,7 +205,7 @@ const bustripExnpReq = {
 
                         if(bustripInfo.USE_TRSPT == "10" && String(bustripInfo.DRIVER_EMP_SEQ) != String(dayCostArr[i].empSeq)){
                             for(let j=0; j<costList.length; j++){
-                                if(costList[j].EXNP_CODE == "dayCost" && costList[j].EXNP_DETAIL_CODE == "3"){
+                                if(costList[j].TRIP_CODE == "3" && costList[j].EXNP_CODE == "dayCost" && costList[j].EXNP_DETAIL_CODE == "3"){
                                     $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costList[j].COST_AMT));
                                 }
                             }
@@ -213,9 +213,17 @@ const bustripExnpReq = {
 
                         if(bustripInfo.USE_TRSPT != "0" && bustripInfo.USE_TRSPT != "10"){
                             for(let j=0; j<costList.length; j++){
-                                if(costList[j].EXNP_CODE == "dayCost" && costList[j].EXNP_DETAIL_CODE == "4"){
+                                if(costList[j].TRIP_CODE == "3" && costList[j].EXNP_CODE == "dayCost" && costList[j].EXNP_DETAIL_CODE == "4"){
                                     $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costList[j].COST_AMT));
                                 }
+                            }
+                        }
+                        
+                    /** 시내출장 여비추가 n km이상일때 일비 지급*/
+                    }else if(bustripInfo.TRIP_CODE == "1" && (bustripInfo.USE_TRSPT == "10" || bustripInfo.USE_TRSPT == "0")){
+                        for(let j=0; j<costList.length; j++){
+                            if(costList[j].TRIP_CODE == "1" && costList[j].EXNP_CODE == "dayCost" && bustripInfo.MOVE_DST >= costList[j].EXNP_DETAIL_CODE){
+                                $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costList[j].COST_AMT));
                             }
                         }
                     }

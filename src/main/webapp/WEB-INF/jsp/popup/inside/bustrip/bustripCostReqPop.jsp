@@ -43,9 +43,9 @@
                     <span class="red-star"></span>적용일자
                 </th>
                 <td>
-                    <input type="text" name="startDt" id="startDt" style="width: 120px;">
+                    <input name="startDt" id="startDt" style="width: 120px;">
                     ~
-                    <input type="text" name="endDt" id="endDt" style="width: 120px;">
+                    <input name="endDt" id="endDt" style="width: 120px;">
                 </td>
             </tr>
             <tr>
@@ -53,7 +53,7 @@
                     <span class="red-star"></span>구분
                 </th>
                 <td>
-                    <input type="text" id="tripCode" style="width: 100%;">
+                    <input id="tripCode" style="width: 100%;">
                 </td>
             </tr>
             <tr>
@@ -61,7 +61,7 @@
                     <span class="red-star"></span>여비
                 </th>
                 <td>
-                    <input type="text" id="exnpCode" style="width: 100%;">
+                    <input id="exnpCode" style="width: 100%;">
                 </td>
             </tr>
             <tr id="detailTr" style="display: none">
@@ -69,7 +69,15 @@
                     <span class="red-star"></span>세부항목
                 </th>
                 <td>
-                    <input type="text" id="exnpDetailCode" style="width: 100%;">
+                    <input id="exnpDetailCode" style="width: 100%;">
+                </td>
+            </tr>
+            <tr id="detail2Tr" style="display: none">
+                <th scope="row" class="text-center th-color">
+                    <span class="red-star"></span>거리
+                </th>
+                <td>
+                    <input id="km" oninput="onlyNumber(this)" style="width: 100px; text-align: right">km 이상
                 </td>
             </tr>
             <tr>
@@ -77,7 +85,7 @@
                     <span class="red-star"></span>금액
                 </th>
                 <td>
-                    <input type="text" id="costAmt" oninput="onlyNumber(this)" style="width: 100%;">
+                    <input id="costAmt" oninput="onlyNumber(this)" style="width: 100%;">
                 </td>
             </tr>
             <tr>
@@ -85,7 +93,7 @@
                     <span class="red-star"></span>기타사항
                 </th>
                 <td>
-                    <textarea type="text" id="remarkCn" style="width: 100%; height: 60px"></textarea>
+                    <textarea id="remarkCn" style="width: 100%; height: 60px"></textarea>
                 </td>
             </tr>
             </thead>
