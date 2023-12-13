@@ -5,7 +5,103 @@
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 </head>
+<style>
+  .vision_list {
+    text-align: center;
+  }
 
+  .vision_list .vi_dlist {
+    word-break: keep-all;
+  }
+
+  .vision_list .lt_tit {
+    margin: 6px;
+    float: left;
+    width: 18%;
+    font-size: 1.4em;
+    font-weight: 500;
+    color: #fff;
+    background: #2c4d92;
+    border-radius: 50px;
+    padding: 3%;
+  }
+
+  .vision_list .rt_txt {
+    position: relative;
+    margin: 0 0 1% 24%;
+    padding: 15px;
+    width: 71%;
+    height: 89px;
+    font-size: 1.3em;
+    border: 2px solid #dfdfdf;
+    border-radius: 10px;
+  }
+
+  .vision_list .rt_txt span {
+    font-size: 20px;
+  }
+
+  .vision_list .vision_title {
+    position: relative;
+    font-size: 1.2em;
+    letter-spacing: -1px;
+    line-height: 1.3em;
+    color: #2e5abc;
+    font-weight: 600;
+  }
+
+  .vision_list .rt_txt:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: -10%;
+    width: 10%;
+    height: 3px;
+    background: #ddd;
+    z-index: -1;
+  }
+
+  .bg_arrow {
+    margin-top: -5px;
+    overflow: hidden;
+    padding: 40px 0 0 0;
+    background: url(/images/camtic/vision_arr.png) no-repeat 66% 0;
+    background-size: 33%;
+  }
+
+  .__tit1 p {
+    margin-top: 5px;
+    font-size: 22px;
+    color: #000;
+    line-height: 1.5;
+  }
+
+  .vision_list .vision_title:before {
+    display: block;
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 30%;
+    border: 2px solid #2e5abc;
+    padding: 3px 7px 5px 1px;
+    border-width: 5px 5px 0 0;
+    transform: rotate(-90deg);
+  }
+
+  .vision_list .vision_title:after {
+    display: block;
+    position: absolute;
+    content: '';
+    bottom: 0;
+    right: 30%;
+    border: 2px solid #2e5abc;
+    padding: 3px 7px 5px 1px;
+    border-width: 5px 5px 0 0;
+    transform: rotate(90deg);
+  }
+
+</style>
 <body>
 <div id="wrap">
   <jsp:include page="/WEB-INF/jsp/template/camtic/head.jsp" flush="false"/>
@@ -76,62 +172,86 @@
           <div class="__jvalley4 __mt100">
             <div class="__tit1 line mb0">
               <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>비전 및 목표</strong></h3>
+              <div class="vision_list __mt50">
+                <dl class="vi_dlist">
+                  <dt class="lt_tit">비전</dt>
+                  <dd class="rt_txt vt">
+                    <span><strong>창업 →혁신→성장</strong>까지 <strong>단계적 맞춤지원</strong></span>
+                    <p class="vision_title"><strong>전주형 강소기업 육성의 산실</strong></p>
+                  </dd>
+                </dl>
+                <div class="bg_arrow">
+                  <dl class="vi_dlist">
+                    <dt class="lt_tit">추진목표</dt>
+                    <dd class="rt_txt vt"><span class="vision_txt01 ">청년창업을 위한 플랫폼(전주형 혁신창업허브) 구축</span><p class="vision_txt02"><strong>성장이 필요한 기업에 Scale-UP 기술서비스 지원체계 구축</strong></p></dd>
+                  </dl>
+                </div>
+                <div class="bg_arrow">
+                  <dl class="vi_dlist">
+                    <dt class="lt_tit">추진전략</dt>
+                    <dd class="rt_txt" style="display: flex;justify-content: center;align-items: center;"><p class="vision_txt02 pt13"><span style="font-size:22px;"><b>우수창업자 발굴 및 육성 / 초기기업 보육 및 지원 /&nbsp;제조양산 기반 지원</b></span></p></dd>
+                  </dl>
+                </div>
+              </div>
             </div>
+
+
+
             <%--<div class="area">
               <img src="/images/camtic/img-jvalley-vison.png" alt="">
             </div>--%>
-            <div class="__jvalley5" style="padding: 20px 0 55px;">
-            <div class="one">
-              <div class="box box1">
-                <div class="cir">
-                  <h4>추진전략</h4>
-                  <div class="txt">
-                    <ul>
-                      <li>우수창업자 발굴 및 육성</li>
-                      <li>초기기업 보육 및 지원</li>
-                      <li>제조양산 기반 지원</li>
-                    </ul>
+              <%--<div class="__jvalley5" style="padding: 20px 0 55px;">
+              <div class="one">
+                <div class="box box1">
+                  <div class="cir">
+                    <h4>추진전략</h4>
+                    <div class="txt">
+                      <ul>
+                        <li>우수창업자 발굴 및 육성</li>
+                        <li>초기기업 보육 및 지원</li>
+                        <li>제조양산 기반 지원</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="arr"><i></i></div>
+                <div class="box box2">
+                  <div class="cir">
+                    <h4>추진목표</h4>
+                    <div class="txt">
+                      <dl>
+                        <dt>
+                          청년창업을 위한 플랫폼<br>
+                          (전주형 혁신창업허브)구축
+                        </dt>
+                        <dd>
+                          성장이 필요한 기업에 <br class="__m">Scale-UP<br class="__p">
+                          기술서비스 지원체계 구축
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                </div>
+                <div class="arr"><i></i></div>
+                <div class="box box3">
+                  <div class="cir">
+                    <h4>비전</h4>
+                    <div class="txt">
+                      <dl>
+                        <dt>
+                          창업 -&gt; 혁신 -&gt; 성장까지<br>
+                          단계적 맞춤 지원
+                        </dt>
+                        <dd style="color: yellow;">
+                          전주형 강소기업<br>
+                          육성의 산실
+                        </dd>
+                      </dl>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="arr"><i></i></div>
-              <div class="box box2">
-                <div class="cir">
-                  <h4>추진목표</h4>
-                  <div class="txt">
-                    <dl>
-                      <dt>
-                        청년창업을 위한 플랫폼<br>
-                        (전주형 혁신창업허브)구축
-                      </dt>
-                      <dd>
-                        성장이 필요한 기업에 <br class="__m">Scale-UP<br class="__p">
-                        기술서비스 지원체계 구축
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-              <div class="arr"><i></i></div>
-              <div class="box box3">
-                <div class="cir">
-                  <h4>비전</h4>
-                  <div class="txt">
-                    <dl>
-                      <dt>
-                        창업 -&gt; 혁신 -&gt; 성장까지<br>
-                        단계적 맞춤 지원
-                      </dt>
-                      <dd style="color: yellow;">
-                        전주형 강소기업<br>
-                        육성의 산실
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+            </div>--%>
           </div>
 
         <div class="__jvalley3 __mt100">
