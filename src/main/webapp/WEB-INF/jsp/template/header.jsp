@@ -32,14 +32,14 @@
                 </button>
               </a>
               <button class="btn btn-notice alert-notice" data-toggle="dropdown" style="border-left:0;">
-                <div class="fa fa-bell-o notify-count count1 common-count" onclick="alarmList()">
+                <div class="fa fa-bell-o" onclick="openAlarm()">
                 </div>
               </button>
               <div id="noticeDropdown" class="dropdown-menu dm-notice pull-right">
                 <div role="tabpanel">
                   <!-- Nav tabs -->
                   <ul class="nav nav-tabs nav-justified" role="tablist">
-                    <li class="active"><a data-target="#notification" data-toggle="tab">알림</a></li>
+                    <li class="active"><a style="cursor: auto; " data-target="#notification" data-toggle="tab">알림</a></li>
                   </ul>
 
                   <!-- Tab panes -->
@@ -47,7 +47,7 @@
                     <div role="tabpanel" class="tab-pane active" id="notification">
                       <ul class="list-group notice-list" id="alarmUl">
                       </ul>
-                      <a class="btn-more" href="">더보기 <i class="fa fa-long-arrow-right"></i></a>
+<%--                      <a class="btn-more" href="">더보기 <i class="fa fa-long-arrow-right"></i></a>--%>
                     </div><!-- tab-pane -->
                   </div>
                 </div>
@@ -110,165 +110,185 @@
   var socket = null;
 
   $(document).ready(function(){
-      alarmList();
       connectWS();
-    })
+  })
 
-    function connectWS(){
-      sock = new WebSocket("ws://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/websocket.do");
-      socket = sock;
+  function connectWS(){
+    sock = new WebSocket("ws://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/websocket.do");
+    socket = sock;
 
-      sock.onopen = function(e) {
-        console.log('info: connection opened.');
-      };
+    sock.onopen = function(e) {
+      console.log('info: connection opened.');
+      onOpen(e);
+    };
 
-      sock.onmessage = function(e){
-        console.log('info : connection onmessage.');
-        onMessage(e);
+    sock.onmessage = function(e){
+      console.log('info : connection onmessage.');
+      $("#non_alarm").remove()
+      $("#alarmUl").append(e.data);
+
+      if(!$(".headermenu > li .alert-notice .fa").hasClass("newAlarm")){
+        $(".headermenu > li .alert-notice .fa").addClass('newAlarm');
       }
-
-      sock.onclose = function(){
-        $("#chat").append("연결 종료");
-      };
-      sock.onerror = function (err) {console.log('Errors : ' , err);};
     }
 
-    function onMessage(evt){
-      var data = evt.data;
-      alarmList();
+    sock.onclose = function(){
+      $("#chat").append("연결 종료");
     }
+    sock.onerror = function (err) {console.log('Errors : ' , err);};
+  }
 
-    function fn_mvMainPage(){
-        open_in_frame("/indexBMain.do");
+  function onOpen(evt){
+    var data = evt.data;
+    alarmList();
+  }
+
+  function openAlarm(){
+    if($("#noticePanel").hasClass("open")){
+      $("#noticePanel").removeClass("open");
+    }else{
+      $("#noticePanel").addClass("open");
     }
+  }
 
-    function orgPopup(){
-      var url = "/user/pop/orgPop.do";
-      var name = "popup test";
-      var option = "width = 980, height = 807, top = 100, left = 200, location = no"
-      var popup = window.open(url, name, option);
-    }
+  function alarmList(){
+    var result = customKendo.fn_customAjax("/common/getAlarmList.do");
+    if(result.flag){
+      var rs = result.rs;
+      var html = "";
 
-    function alarmList(){
-      var result = customKendo.fn_customAjax("/common/getAlarmList.do");
-      if(result.flag){
-        var rs = result.rs;
-        var html = "";
-
-        if(rs.length > 0){
-          for(var i = 0; i < rs.length; i++){
-            html += '' +
-              '<li class="list-group-item unread">' +
-                '<div class="row">' +
-                  '<div class="col-xs-2">' +
-                    '<i class="fa fa-envelope"></i>' +
-                  '</div>' +
-                  '<div class="col-xs-10">' +
-                    '<h5>' +
-                      '<a href="javascript:void(0)" onclick=\"fn_opener(\'' + rs[i].URL + '\', \'' + rs[i].AL_ID + '\')\">' +
-                        rs[i].TITLE +
-                      '</a>' +
-                      '<span style="float:right;margin: 0;font-size: 12px;cursor: pointer" onclick="alarmListDel('+ rs[i].AL_ID +')">X</span>' +
-                    '</h5>' +
-                    '<small>' +
-                      rs[i].REG_DATE +
-                    '</small>' +
-                    '<span>' +
-                      rs[i].CONTENT+
-                    '</span>' +
-                  '</div>' +
-                '</div>' +
-              '</li>';
-          }
-        }else{
+      if(rs.length > 0){
+        for(var i = 0; i < rs.length; i++){
           html += '' +
-              '<li class="list-group-item unread" style="text-align: center">' +
-                '<div class="row">' +
-                    '<h5>알림이 없습니다.</h5>' +
+            '<li class="list-group-item unread">' +
+              '<div class="row">' +
+                '<div class="col-xs-2">' +
+                  '<i class="fa fa-envelope"></i>' +
                 '</div>' +
-              '</li>';
+                '<div class="col-xs-10">' +
+                  '<h5>' +
+                    '<a href="javascript:void(0)" onclick=\"fn_opener(\'' + rs[i].URL + '\', \'' + rs[i].AL_ID + '\')\">' +
+                      rs[i].TITLE +
+                    '</a>' +
+                    '<span style="float:right;margin: 0;font-size: 12px;cursor: pointer" onclick="alarmListDel('+ rs[i].AL_ID +')">X</span>' +
+                  '</h5>' +
+                  '<small>' +
+                    rs[i].REG_DATE +
+                  '</small>' +
+                  '<span>' +
+                    rs[i].CONTENT+
+                  '</span>' +
+                '</div>' +
+              '</div>' +
+            '</li>';
         }
+        $("#alarmUl").html(html);
+
+        $(".headermenu > li .alert-notice .fa").addClass('newAlarm');
+      }else{
+        html += '' +
+            '<li class="list-group-item unread" style="text-align: center" id="non_alarm">' +
+              '<div class="row">' +
+                  '<h5>알림이 없습니다.</h5>' +
+              '</div>' +
+            '</li>';
 
         $("#alarmUl").html(html);
+
+        $(".headermenu > li .alert-notice .fa").removeClass('newAlarm');
       }
+
+
     }
+  }
 
-    function fn_opener(url, alId){
-      window.open(url, '', 'width=900, height=850');
-      setAlarmCheck(alId);
+  function fn_opener(url, alId){
+    window.open(url, '', 'width=900, height=850');
+    setAlarmCheck(alId);
+  }
+
+  function setAlarmCheck(alId){
+    var result = customKendo.fn_customAjax("/common/setAlarmCheck.do", {alId : alId});
+    if(result.flag){
+      alarmList();
     }
+  }
 
-    function setAlarmCheck(alId){
-      var result = customKendo.fn_customAjax("/common/setAlarmCheck.do", {alId : alId});
-      if(result.flag){
-        alarmList();
-      }
+  function alarmListDel(alId){
+    var result = customKendo.fn_customAjax("/common/setAlarmTopListDel.do", {alId : alId});
+    if(result.flag){
+      alarmList();
     }
+  }
 
-    function alarmListDel(alId){
-      var result = customKendo.fn_customAjax("/common/setAlarmTopListDel.do", {alId : alId});
-      if(result.flag){
-        alarmList();
-      }
+  function fn_mvMainPage(){
+    open_in_frame("/indexBMain.do");
+  }
+
+  function orgPopup(){
+    var url = "/user/pop/orgPop.do";
+    var name = "popup test";
+    var option = "width = 980, height = 807, top = 100, left = 200, location = no"
+    var popup = window.open(url, name, option);
+  }
+
+  function fn_searchMenu(){
+    var searchData = {
+      menuName : $("#menuSearchToobar").val(),
     }
+    var ds = customKendo.fn_customAjax("/main/getSearchMenu", searchData);
+    if(ds.flag){
+      console.log(ds.ds);
 
-    function fn_searchMenu(){
-      var searchData = {
-        menuName : $("#menuSearchToobar").val(),
-      }
-      var ds = customKendo.fn_customAjax("/main/getSearchMenu", searchData);
-      if(ds.flag){
-        console.log(ds.ds);
+      var menuKendoWindowTemplate = $('<div class="pop_wrap" id="biz_type_popupEnroll" style="min-width:400px; display:none;">\n' +
+              '<div class="pop_con">\n' +
+              '<div class="com_ta2" id="menuSearchDiv">\n' +
+              '</div>\n' +
+              '</div>\n' +
+              '</div>');
 
-        var menuKendoWindowTemplate = $('<div class="pop_wrap" id="biz_type_popupEnroll" style="min-width:400px; display:none;">\n' +
-                '<div class="pop_con">\n' +
-                '<div class="com_ta2" id="menuSearchDiv">\n' +
-                '</div>\n' +
-                '</div>\n' +
-                '</div>');
+      menuKendoWindowTemplate.kendoWindow({
+        width: "450px;",
+        height: "250px;",
+        title: "메뉴 검색",
+        visible: false,
+        modal : true,
+        close: function () {
+          menuKendoWindowTemplate.remove();
+        }
+      }).data("kendoWindow");
 
-        menuKendoWindowTemplate.kendoWindow({
-          width: "450px;",
-          height: "250px;",
-          title: "메뉴 검색",
-          visible: false,
-          modal : true,
-          close: function () {
-            menuKendoWindowTemplate.remove();
-          }
-        }).data("kendoWindow");
-
-        var html = "";
-        if(ds.ds != null){
-          if(ds.ds.length > 0){
-            for(var i = 0 ; i < ds.ds.length ; i++){
-              html += '<div style="border-bottom: 1px solid lightgray; margin-top: 3px;">';
-              html += "   <a href='#' style=\"display:flex;\" class=\"searchMenuATag\" menuPath=\""+ ds.ds[i].MENU_PATH +"\" menuNamePath='홈 > " + ds.ds[i].MENU_NAME_PATH + "' menuNameKr='" + ds.ds[i].MENU_NAME + "'>\n";
-              html += ds.ds[i].MENU_NAME_PATH;
-              html += '</a>';
-              html += '</div>';
-            }
+      var html = "";
+      if(ds.ds != null){
+        if(ds.ds.length > 0){
+          for(var i = 0 ; i < ds.ds.length ; i++){
+            html += '<div style="border-bottom: 1px solid lightgray; margin-top: 3px;">';
+            html += "   <a href='#' style=\"display:flex;\" class=\"searchMenuATag\" menuPath=\""+ ds.ds[i].MENU_PATH +"\" menuNamePath='홈 > " + ds.ds[i].MENU_NAME_PATH + "' menuNameKr='" + ds.ds[i].MENU_NAME + "'>\n";
+            html += ds.ds[i].MENU_NAME_PATH;
+            html += '</a>';
+            html += '</div>';
           }
         }
-        $("#menuSearchDiv").append(html);
-        $(".searchMenuATag").on("click", function(){
-          var menuPath = $(this).attr("menuPath");
-          menuKendoWindowTemplate.data("kendoWindow").close();
-          $("#menuSearchToobar").val("");
-          open_in_frame(menuPath);
-        });
-        menuKendoWindowTemplate.data("kendoWindow").center().open();
       }
+      $("#menuSearchDiv").append(html);
+      $(".searchMenuATag").on("click", function(){
+        var menuPath = $(this).attr("menuPath");
+        menuKendoWindowTemplate.data("kendoWindow").close();
+        $("#menuSearchToobar").val("");
+        open_in_frame(menuPath);
+      });
+      menuKendoWindowTemplate.data("kendoWindow").center().open();
     }
+  }
 
-   /* function openPopup(url) {
-      // 팝업 창을 띄우는 함수
-      window.open(url, 'popup', 'width=800, height=600, scrollbars=yes');
-    }*/
+ /* function openPopup(url) {
+    // 팝업 창을 띄우는 함수
+    window.open(url, 'popup', 'width=800, height=600, scrollbars=yes');
+  }*/
 
-    function openPopup(url) {
-      window.open(url, 'popup', 'width=1100, height=1100, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no');
+  function openPopup(url) {
+    window.open(url, 'popup', 'width=1100, height=1100, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no');
 
-    }
+  }
 
 </script>
