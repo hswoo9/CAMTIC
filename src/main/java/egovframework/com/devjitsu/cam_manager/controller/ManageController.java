@@ -95,6 +95,17 @@ public class ManageController {
         return "popup/cam_manager/paymentCardHistory";
     }
 
+    @RequestMapping("/mng/pop/paymentEtaxHistory.do")
+    public String paymentEtaxHistory(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_manager/paymentEtaxHistory";
+    }
+
     @RequestMapping("/mng/pop/addClientView.do")
     public String addClientView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();

@@ -5,7 +5,9 @@ var payDetView = {
         customKendo.fn_textBox(["searchValue"]);
 
 
-        if($("#type").val() == 1 || $("#type").val() == 2){
+        if($("#type").val() == 1 ){
+            payDetView.clientMainGrid();
+        } else if($("#type").val() == 2) {
             payDetView.clientMainGrid();
         } else if ($("#type").val() == 3){
             payDetView.cardMainGrid();
@@ -20,7 +22,9 @@ var payDetView = {
 
     fn_search: function (type){
 
-        if($("#type").val() == 1 || $("#type").val() == 2){
+        if($("#type").val() == 1){
+            $("#clientMainGrid").data("kendoGrid").dataSource.read();
+        } else if ($("#type").val() == 2){
             $("#clientMainGrid").data("kendoGrid").dataSource.read();
         } else if ($("#type").val() == 3){
             $("#cardMainGrid").data("kendoGrid").dataSource.read();
@@ -31,6 +35,114 @@ var payDetView = {
         } else if ($("#type").val() == 9){
             $("#otherMainGrid").data("kendoGrid").dataSource.read();
         }
+    },
+
+    etaxMainGrid : function (params) {
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read: {
+                    url: "/g20/getEtaxList",
+                    dataType: "json",
+                    type: "post"
+                },
+                parameterMap: function(data){
+                    data.searchValue = $("#searchValue").val();
+                    return data;
+                }
+            },
+            schema: {
+                data: function(data){
+                    return data.list;
+                },
+                total: function(data){
+                    return data.list.length;
+                },
+            },
+            pageSize: 10
+        });
+
+        $("#etaxMainGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            pageable: {
+                refresh: true,
+                pageSizes: [ 10, 20, 30, 50, 100 ],
+                buttonCount: 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            dataBound: payDetView.onDataBound,
+            columns: [
+                {
+                    template: "#= ++record #",
+                    title: "번호",
+                    width : 50
+                }, {
+                    title: "사업장",
+                    width: 120,
+                    template: function (e){
+                        return e.DIV_NM;
+                    }
+                }, {
+                    title: "발급일자",
+                    width: 120,
+                    template: function (e){
+                        return e.ISU_DT;
+                    }
+                }, {
+                    title: "거래처명",
+                    width: 200,
+                    template: function (e){
+                        return '<input type="hidden" id="trCd" value="' + e.TR_CD + '"/>' + e.TR_NM;
+                    }
+                }, {
+                    title: "사업자번호",
+                    width: 100,
+                    template: function (e){
+                        if(e.TRREG_NB != null){
+                            return e.TRREG_NB;
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    title: "공급가액",
+                    width: 100,
+                    template: function (e){
+                        return '<div style="text-align: center;">'+comma(e.SUP_AM)+'</div>';
+                    }
+                }, {
+                    title: "세액",
+                    width: 100,
+                    template: function (e){
+                        return '<div style="text-align: center;">'+comma(e.VAT_AM)+'</div>';
+                    }
+                }, {
+                    title: "합계금액",
+                    width: 100,
+                    template: function (e){
+                        return '<div style="text-align: center;">'+comma(e.SUM_AM)+'</div>';
+                    }
+                }, {
+                    title: "",
+                    width: 80,
+                    template: function(e){
+                        return '<button type="button" class="k-button k-button-solid-base" ' +
+                            'onclick="payDetView.fn_selEtaxInfo(\'' + e.TR_CD + '\', \'' + e.TR_NM + '\', \'' + e.ISU_DT + '\', \'' + e.TRREG_NB + '\', \'' + e.SUP_AM + '\', \'' + e.VAT_AM +  '\', \'' + e.SUM_AM + '\')" style="font-size: 12px);">' +
+                            '   선택' +
+                            '</button>';
+                    }
+                }
+            ],
+
+            dataBinding: function() {
+                record = (this.dataSource.page() -1) * this.dataSource.pageSize();
+            }
+        }).data("kendoGrid");
     },
 
     clientMainGrid : function (params) {
@@ -471,6 +583,13 @@ var payDetView = {
     fn_selCardInfo: function (trCd, trNm, cardBaNb, jiro, clttrCd, baNb, depositor){
         var idx = $("#index").val();
         opener.parent.fn_selCardInfo(trCd, trNm, cardBaNb, jiro, clttrCd, baNb, depositor, idx);
+
+        window.close();
+    },
+
+    fn_selEtaxInfo : function (trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm) {
+        var idx = $("#index").val();
+        opener.parent.fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, idx);
 
         window.close();
     }

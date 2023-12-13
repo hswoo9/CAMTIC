@@ -594,4 +594,37 @@
             ((FR_DT BETWEEN 20230101 AND 20231231) OR (TO_DT BETWEEN 20230101 AND 20231231))
         AND B.MGT_CD IS NOT NULL;
     </select>
+
+    <select id="getEtaxList" parameterType="map" resultType="map">
+        /*getEtaxList*/
+        SELECT
+            *
+        FROM
+            ETAXUP
+        WHERE
+            ISU_DT BETWEEN '20230101' AND '20231231'
+        ORDER BY ISU_DT DESC
+    </select>
+
+    <select id="getEtaxData" parameterType="map" resultType="map">
+        /*getEtaxData*/
+        SELECT
+            A.*, B.*,
+            C.DIV_ADDR AS RDIV_ADDR,
+            C.DIV_ADDR1 AS RDIV_ADDR1,
+            C.BUSINESS AS RBUSINESS,
+            C.JONGMOK AS RJONGMOK
+        FROM
+            ETAXUP A
+        LEFT JOIN
+            STRADE B
+        ON
+            A.TR_CD = B.TR_CD
+        LEFT JOIN
+            SDIV C
+        ON
+            A.DIV_CD = C.DIV_CD
+        WHERE
+            ISS_NO = #{issNo} AND A.CO_CD = #{coCd} AND TAX_TY = #{taxTy}
+    </select>
 </mapper>
