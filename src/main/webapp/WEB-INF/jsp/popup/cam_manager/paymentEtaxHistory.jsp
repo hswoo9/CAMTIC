@@ -46,7 +46,7 @@
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;">
-                    카드사용내역
+                    전자세금계산서
                 </span>
         </h3>
         <div id="purcBtnDiv" class="btn-st popButton" style="font-size: 13px;">
@@ -71,7 +71,7 @@
     </div>
 </div>
 
-<div class="pop_wrap_dir" style="width:898px; display: none;">
+<div class="pop_wrap_dir" style="width:898px; display: none;" id="capture">
     <div class="pop_head">
         <h1 class="txtTaxTy">매입전자세금계산서</h1>
     </div>

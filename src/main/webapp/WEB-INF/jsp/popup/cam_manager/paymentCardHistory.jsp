@@ -214,6 +214,7 @@
                     var doc = new jsPDF('p', 'mm', 'a4'); // html2canvas의 canvas를 png로 바꿔준다.
                     var imgData = canvas.toDataURL('image/png'); //Image 코드로 뽑아내기 // image 추가
                     imgData = imgData.replace("data:image/png;base64,", "");
+                    data.imgValue = 'card';
                     data.imgSrc = imgData;
                     data.empSeq = $("#empSeq").val()
                     $.ajax({

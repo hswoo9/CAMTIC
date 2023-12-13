@@ -324,9 +324,40 @@ var payEtaxHist = {
                     }
                 }
 
-                opener.parent.fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, coCd, taxTy, idx);
+                $("#capture").css("display", "");
+                html2canvas(document.querySelector("#capture")).then(function(canvas) {
 
-                window.close();
+                    // jsPDF 객체 생성 생성자에는 가로, 세로 설정, 페이지 크기 등등 설정할 수 있다. 자세한건 문서 참고. // 현재 파라미터는 기본값이다 굳이 쓰지 않아도 되는데 저것이 기본값이라고 보여준다
+                    var doc = new jsPDF('p', 'mm', 'a4'); // html2canvas의 canvas를 png로 바꿔준다.
+                    var imgData = canvas.toDataURL('image/png'); //Image 코드로 뽑아내기 // image 추가
+                    imgData = imgData.replace("data:image/png;base64,", "");
+                    eTaxInfo.imgValue = 'etax';
+                    eTaxInfo.imgSrc = imgData;
+                    eTaxInfo.empSeq = $("#empSeq").val()
+                    $.ajax({
+                        type : "POST",
+                        data : eTaxInfo,
+                        dataType : "text",
+                        url : "/mng/imgSaveTest",
+                        async : false,
+                        success : function(data) {
+                            var fileNo = data.result.fileNo;
+                            alert("반영되었습니다.");
+                            opener.parent.fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, coCd, taxTy, idx, fileNo);
+
+                            window.close();
+
+                        },
+                        error : function(a, b, c) {
+                            alert("error");
+                        }
+                    });
+                });
+
+
+
+
+                // window.close();
             }
         });
 

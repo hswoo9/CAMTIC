@@ -600,7 +600,11 @@
         SELECT
             *
         FROM
-            ETAXUP
+            ETAXUP A
+        LEFT JOIN
+            STRADE B
+        ON
+            A.TR_CD = B.TR_CD
         WHERE
             ISU_DT BETWEEN '20230101' AND '20231231'
         ORDER BY ISU_DT DESC

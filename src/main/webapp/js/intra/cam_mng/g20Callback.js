@@ -151,7 +151,7 @@ function fn_selOtherInfo(trCd, bankName,  accountHolder, accountNum, empNameKr, 
     var popup = window.open(url, name, option);
 }
 
-function fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, coCd, taxTy, idx){
+function fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, coCd, taxTy, idx, fileNo){
     if(trNm == null || trNm == "" || trNm == "undefined"){
         trNm = "";
     }
@@ -175,4 +175,5 @@ function fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, 
     $("#issNo" + idx).val(issNo);
     $("#coCd" + idx).val(coCd);
     $("#taxTy" + idx).val(taxTy);
+    $("#fileNo" + idx).val(fileNo);
 }

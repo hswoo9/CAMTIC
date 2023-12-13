@@ -321,6 +321,7 @@ var regPay = {
                 '   <td>' +
                 '       <input type="hidden" id="payDestSn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" name="payDestSn" class="payDestSn">' +
                 '       <input type="text" id="eviType' + regPayDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
+                '       <input type="text" id="fileNo' + regPayDet.global.itemIndex + '" value="'+item.FILE_NO+'" class="fileNo" style="width: 100%">' +
                 '       <input type="hidden" id="authNo' + regPayDet.global.itemIndex + '" value="'+item.AUTH_NO+'" class="authNo" style="width: 100%">' +
                 '       <input type="hidden" id="authHh' + regPayDet.global.itemIndex + '" value="'+item.AUTH_HH+'" class="authHh" style="width: 100%">' +
                 '       <input type="hidden" id="authDd' + regPayDet.global.itemIndex + '" value="'+item.AUTH_DD+'" class="authDd" style="width: 100%">' +
@@ -593,6 +594,7 @@ var regPay = {
                 teamSeq : $("#appTeam" + index).val(),
                 teamName : $("#appTeam" + index).data("kendoDropDownList").text(),
                 evidType : $("#eviType" + index).val(),
+                fileNo : $("#fileNo" + index).val(),
                 authNo : $("#authNo" + index).val(),
                 authDd : $("#authDd" + index).val(),
                 authHh : $("#authHh" + index).val(),
@@ -883,6 +885,7 @@ var regPayDet = {
             '   <td>' +
             '       <input type="hidden" style="width: 70%" id="payDestSn' + regPayDet.global.itemIndex + '" name="payDestSn" class="payDestSn">' +
             '       <input type="text" id="eviType' + regPayDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
+            '       <input type="text" id="fileNo' + regPayDet.global.itemIndex + '" class="fileNo" style="width: 100%">' +
             '       <input type="hidden" id="authNo' + regPayDet.global.itemIndex + '" class="authNo" style="width: 100%">' +
             '       <input type="hidden" id="authHh' + regPayDet.global.itemIndex + '" class="authHh" style="width: 100%">' +
             '       <input type="hidden" id="authDd' + regPayDet.global.itemIndex + '" class="authDd" style="width: 100%">' +

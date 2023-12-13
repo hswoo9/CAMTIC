@@ -121,7 +121,5 @@
 </div>
 
 <script>
-
-
     payDetView.fn_defaultScript();
 </script>

@@ -314,10 +314,18 @@ public class ManageController {
             binaryData = binaryData.replaceAll("data:image/png;base64,", "");
             byte[] file = Base64.decodeBase64(binaryData);
             String fileUuid=  UUID.randomUUID().toString();
-            String fileOrgName = params.get("authNo").toString();
-            String fileCd = "useCard";
+
+            String fileOrgName = params.get("ATTR_NM").toString() + "_" + params.get("ISS_NO").toString();
+            String fileCd = "etax";
             String fileExt = "png";
-            String filePath = "/upload/"+ fileCd +"/" + params.get("authNo") + "/" + params.get("authDate") + "/" + params.get("authTime") + "/" + params.get("cardNo") + "/" + params.get("buySts") + "/";
+            String filePath = "/upload/"+ fileCd +"/" + params.get("CO_CD") + "/" + params.get("TAX_TY") + "/" + params.get("ISS_NO") + "/";
+
+            if("card".equals(params.get("imgValue"))){
+                fileOrgName = params.get("authNo").toString();
+                fileCd = "useCard";
+                fileExt = "png";
+                filePath = "/upload/"+ fileCd +"/" + params.get("authNo") + "/" + params.get("authDate") + "/" + params.get("authTime") + "/" + params.get("cardNo") + "/" + params.get("buySts") + "/";
+            }
 
             Map<String, Object> fileParameters = new HashMap<>();
             fileParameters.put("fileCd", fileCd);
@@ -327,7 +335,6 @@ public class ManageController {
             fileParameters.put("fileExt", fileExt);
             fileParameters.put("fileSize", 19);
             fileParameters.put("empSeq", params.get("empSeq"));
-
 
             commonService.insFileUpload(fileParameters);
 
@@ -343,6 +350,7 @@ public class ManageController {
             stream.close();
             System.out.println("캡처 저장");
 
+            map.addAttribute("result", fileParameters);
         }catch(Exception e){
             e.printStackTrace();
             System.out.println("에러 발생");
@@ -352,7 +360,6 @@ public class ManageController {
             }
         }
 
-        map.addAttribute("resultMap", "");
         return map;
     }
 
