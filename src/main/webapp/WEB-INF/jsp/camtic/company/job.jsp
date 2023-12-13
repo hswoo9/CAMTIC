@@ -43,29 +43,30 @@
 							<div class="box">
 								<div class="img"><span><img src="/images/camtic/img-njob1-2.png" alt=""></span></div>
 								<div class="__mt30 __black">
-									<div class="__fz18">
+									<%--<div class="__fz18">
 										<span class="__blue2 fwb">잡코칭(Job Coaching)</span>
 									</div>
 									<ul class="__dotList bar __fz16">
 										<li>취업소양 교육</li>
 										<li>자소서.면접기법.이미지메이킹.etc</li>
 										<li>구직자 상담 및 일자리 정보 제공</li>
-									</ul>
+									</ul>--%>
 									<div class="__fz18 __mt20">
 										<span class="__blue2 fwb">잡매칭(Job Matching)</span>
 									</div>
 									<ul class="__dotList bar __fz16">
 										<li>취업박람회 , 구인구직 , 동행면접</li>
 										<li>기업 맞춤형 구인 프로그램 운영</li>
+										<li>구직자 상담 및 일자리 정보 제공</li>
 									</ul>
-									<div class="__fz18 __mt20">
+									<%--<div class="__fz18 __mt20">
 										<span class="__blue2 fwb">잡 OJT(Job OJT)</span>
 									</div>
 									<ul class="__dotList bar __fz16">
 										<li>신입사원 마인드 및 OJT교육</li>
 										<li>신입사원의 자세 , 기초 역량</li>
 										<li>기본 마인드 교육</li>
-									</ul>
+									</ul>--%>
 									<div class="__fz18 __mt20">
 										<span class="__blue2 fwb">잡 네크워크(Job Networking)</span>
 									</div>
@@ -90,7 +91,7 @@
 						</div>
 					</div>
 
-					<div class="__fz24 __black fwb __mt80">일자리창출을 위한 지원사업 수행이력</div>
+					<%--<div class="__fz24 __black fwb __mt80">일자리창출을 위한 지원사업 수행이력</div>
 					<table class="__tblList type3 bd2 bg2 respond2 __mt10">
 						<caption></caption>
 						<colgroup class="__p">
@@ -167,14 +168,10 @@
 							<td class="tal">전라북도 우수기업 인재유치 지원사업</td>
 						</tr>
 						</tbody>
-					</table>
+					</table>--%>
 
-
-
-
-
-					<div class="__tit1 __mt100 __mb20">
-						<h3><strong>전북 조선업도약센터</strong> <a href="http://www.jumpjbjob.or.kr" target="_blank" class="fwl" style="font-size: 0.85em;">(www.jumpjbjob.or.kr)</a><%--<span class="fwl" style="font-size:0.85em;">(www.jumpjbjob.or.kr)</span>--%></h3>
+					<%--<div class="__tit1 __mt100 __mb20">
+						<h3><strong>전북 조선업도약센터</strong> <a href="http://www.jumpjbjob.or.kr" target="_blank" class="fwl" style="font-size: 0.85em;">(www.jumpjbjob.or.kr)</a>&lt;%&ndash;<span class="fwl" style="font-size:0.85em;">(www.jumpjbjob.or.kr)</span>&ndash;%&gt;</h3>
 					</div>
 					<div class="__job4">
 						<div class="head"><span class="__nm">“</span><span class="m">조선업 취업, 군산 주력산업(전기차.이차전지 등) <strong style="font-weight:600;">취업 원스톱 지원</strong></span><span class="__nm">”</span></div>
@@ -263,20 +260,18 @@
 								<li><img src="/images/camtic/img-njob3-1-1-4.png" alt="" style="border-radius: 10px; width: 397px; height: 229px;"></li>
 							</ul>
 						</div>
-					</div>
-
-
+					</div>--%>
 
 					<div class="__tit1 __mt100 __mb20">
-						<h3><strong>익산고용안정일자리센터</strong> <a href="http://www.jobiksan.or.kr" target="_blank" class="fwl" style="font-size: 0.85em;">(www.jobiksan.or.kr)</a></h3>
+						<h3><strong>청년일자리 지원</strong> <%--<a href="http://www.jobiksan.or.kr" target="_blank" class="fwl" style="font-size: 0.85em;">(www.jobiksan.or.kr)</a>--%></h3>
 
 					</div>
 					<div class="__job4">
-						<div class="head type2"><span class="__nm">“</span><span class="m">지역기업과 (위기)근로자를 연결하는 <strong>일자리 디딤돌</strong></span><span class="__nm">”</span></div>
+						<div class="head type2"><span class="__nm">“</span><span class="m">지역기업과 청년을 연결하는 <strong>일자리 디딤돌</strong></span><span class="__nm">”</span></div>
 						<div class="area">
-							<div class="box">
+							<%--<div class="box">
 								<div class="__icoBox">
-									<%--<div class="ico"><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div>--%>
+									&lt;%&ndash;<div class="ico"><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div>&ndash;%&gt;
 									<h5>구직자 고용서비스</h5>
 									<ul class="__dotList bar __fz20 __black">
 										<li>
@@ -285,35 +280,76 @@
 										</li>
 									</ul>
 								</div>
-							</div>
-							<div class="box">
+							</div>--%>
+							<%--<div class="box">
 								<div class="__icoBox">
-									<%--<div class="ico"><span><img src="/images/camtic/ico-root2-2.png" alt=""></span></div>--%>
+									&lt;%&ndash;<div class="ico"><span><img src="/images/camtic/ico-root2-2.png" alt=""></span></div>&ndash;%&gt;
 									<h5>기업지원</h5>
 									<ul class="__dotList bar __fz20 __black">
 										<li>기업홍보지원 : 구인난을 겪고 있는 기업의 채용 및 홍보지원</li>
 										<li>기업애로 해소의 날 : 위기근로자의 성공취업을 축하하고 빠른 적응지원</li>
 									</ul>
 								</div>
-							</div>
-							<div class="box">
+							</div>--%>
+							<%--<div class="box">
 								<div class="__icoBox">
-									<%--<div class="ico"><span><img src="/images/camtic/ico-root2-3.png" alt=""></span></div>--%>
+									&lt;%&ndash;<div class="ico"><span><img src="/images/camtic/ico-root2-3.png" alt=""></span></div>&ndash;%&gt;
 									<h5>취업장려금</h5>
 									<ul class="__dotList bar __fz20 __black">
 										<li>지역 내 위기산업의 우수인적자원 확보 및 위기근로자의 취업 가능성 확대와 장기근속 독려를 위한 장려금 지원<span style="font-size:0.85em;">(구직자 대상)</span></li>
 									</ul>
 								</div>
-							</div>
+							</div>--%>
+								<div class="box">
+									<div class="__icoBox">
+										<h5>청년도전 지원사업</h5>
+										<ul class="__dotList bar __fz20 __black">
+											<li>니트족 청년 및 취업포기 청년들을 대상으로 취업의지를 복돋아 줄 수 있도록 교육지원</li>
+											<li>참여수당(월 50만원) 및 이수수당(이수시 50만원) 지급 / 교육지원 / 취업연 지원연계</li>
+										</ul>
+									</div>
+									<ul class="__flx flx3 wrap gap30 __mt40">
+										<li>
+											<img src="/images/camtic/img-njob4-1-1-1.png" alt="" style="border-radius: 10px; width:325px; height: 200px;">
+										</li>
+										<li>
+											<img src="/images/camtic/img-njob4-1-1-2.png" alt="" style="border-radius: 10px; width:325px; height: 200px;">
+										</li>
+										<li>
+											<img src="/images/camtic/img-njob4-1-1-3.png" alt="" style="border-radius: 10px; width:325px; height: 200px;">
+										</li>
+									</ul>
+								</div>
+
+								<div class="box __mt50">
+									<div class="__icoBox">
+										<h5>지역기업 청년 희망이음 지원사업</h5>
+										<ul class="__dotList bar __fz20 __black">
+											<li>지역기업 인식 제고를 위한 우수기업 기업탐방 지원</li>
+											<li>지역청년들을 위한 취업역량강화 프로그램 운영</li>
+										</ul>
+									</div>
+									<%--<ul class="__flx flx3 wrap gap30 __mt40">
+										<li>
+											<img src="/images/camtic/img-njob4-1-1-1.png" alt="" style="border-radius: 10px; width:325px; height: 200px;">
+										</li>
+										<li>
+											<img src="/images/camtic/img-njob4-1-1-2.png" alt="" style="border-radius: 10px; width:325px; height: 200px;">
+										</li>
+										<li>
+											<img src="/images/camtic/img-njob4-1-1-3.png" alt="" style="border-radius: 10px; width:325px; height: 200px;">
+										</li>
+									</ul>--%>
+								</div>
 						</div>
-						<div class="tac __mt70">
+						<%--<div class="tac __mt70">
 							<ul class="__imgJobBox">
 								<li><img src="/images/camtic/img-njob4-1-1-1.png" alt="" style="border-radius: 10px; width: 397px; height: 229px;"></li>
 								<li><img src="/images/camtic/img-njob4-1-1-2.png" alt="" style="border-radius: 10px; width: 397px; height: 229px;"></li>
 								<li><img src="/images/camtic/img-njob4-1-1-3.png" alt="" style="border-radius: 10px; width: 397px; height: 229px;"></li>
 								<li><img src="/images/camtic/img-njob4-1-1-4.png" alt="" style="border-radius: 10px; width: 397px; height: 229px;"></li>
 							</ul>
-						</div>
+						</div>--%>
 					</div>
 				</div>
 			</div>
