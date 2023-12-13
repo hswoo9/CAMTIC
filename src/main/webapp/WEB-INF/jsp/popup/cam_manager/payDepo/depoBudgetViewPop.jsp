@@ -1,40 +1,62 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/deposit/depoBudgetViewPop.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?v=${today}'/>"></script>
+
+<link rel="stylesheet" type="text/css" href='/css/pop/contents.css'>
+<link rel="stylesheet" type="text/css" href='/css/pop/common.css'>
+
 <style>
-    .k-grid-toolbar a {
-        float:left;
+    .k-footer-template td:nth-child(4) {
+        overflow: visible;
+        white-space: nowrap;
+        text-align: right;
+    }
+
+    .k-footer-template td:nth-child(1),
+    .k-footer-template td:nth-child(2),
+    .k-footer-template td:nth-child(3),
+    .k-footer-template td:nth-child(4) {
+        border-width: 0;
     }
 </style>
 
-<body class="font-opensans" style="background-color:#fff;">
-<script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/deposit/depoBudgetViewPop.js?v=${today}'/>"></script>
-
-<input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
-<input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
-<input type="hidden" id="busnClass" value="${params.busnClass}"/>
-<input type="hidden" id="type" value="${params.type}" />
-
-<div style="padding:0;">
-	<div class="table-responsive">
-		<input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
-		<div class="card-header pop-header">
-			<h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">프로젝트 선택</span></h3>
-
+<input type="hidden" id="pjtSn" value="${params.pjtSn}" />
+<input type="hidden" id="idx" value="${params.idx}" />
+<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
+<%--<input type="hidden" id="mgtCd" value="${data.PJT_CD}" />--%>
+<input type="hidden" id="pjtCd" value="${params.pjtCd}" />
+<input type="hidden" id="status" value="${params.status}" />
+<div>
+	<div class="card-header pop-header">
+		<h3 class="card-title title_NM">
+                <span style="position: relative; top: 3px;">
+                    예산 선택
+                </span>
+		</h3>
+		<div id="purcBtnDiv" class="btn-st popButton">
+			<button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
 		</div>
-		<div>
-			<div id="popMainGrid" style="margin:20px 0;"></div>
-		</div>
+	</div>
 
+	<div class="" style="padding: 10px">
+
+
+		<span>
+            <input type="radio" name="radio" value="A" id="radio1" onclick="depoBgtMng.changeGrid(1)" checked><label for="radio1" style="position: relative; top : 4px;">수입예산</label>
+            <input type="radio" name="radio" value="A" id="radio2" onclick="depoBgtMng.changeGrid(2)"><label for="radio2" style="position: relative; top : 4px;">지출예산</label>
+        </span>
+		<%--        <button type="button" id="budgetAddBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-base" onclick="bgView.fn_popBudgetAdd()">등록</button>--%>
+		<div id="budgetMainGrid"></div>
+		<div id="budgetMainGrid2" style="display: none"></div>
 	</div>
 </div>
-<script type="text/javascript">
-    depoBgtMng.fn_defaultScript();
+
+<script>
+	depoBgtMng.fn_defaultScript();
 </script>
-</body>
-</html>

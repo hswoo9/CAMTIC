@@ -151,7 +151,7 @@ var regPayDepoSet = {
 
     fn_projectPop : function (type){
 
-        var url = "/pay/pop/depoBudgetViewPop.do";
+        var url = "/pay/pop/depoProjectViewPop.do";
         //var url = "/project/pop/projectView.do";
 
         var name = "_blank";
@@ -166,7 +166,7 @@ var regPayDepoSet = {
         }
 
         /** 추후 temp변수명 수정 예정 */
-        var url = "/mng/pop/budgetView.do?pjtCd=" + $("#pjtCd").val() + "&idx=N&temp=2";
+        var url = "/pay/pop/depoBudgetViewPop.do?pjtCd=" + $("#pjtCd").val() + "&idx=N&temp=2";
 
         var name = "_blank";
         var option = "width = 1100, height = 650, top = 100, left = 400, location = no";
