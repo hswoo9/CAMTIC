@@ -122,7 +122,8 @@
 <script src="/js/intra/common/aes.js?v=1"></script>
 <script>
 
-    var strongPassword = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})');
+    //var strongPassword = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})');
+    var strongPassword = new RegExp('(?=.{4,})');
 
     function fn_goList(){
         location.href = '/camtic/member/job.do';
@@ -148,7 +149,8 @@
             $("#userPassword").focus();
             return false;
         }else if(!strongPassword.test($("#userPassword").val())){
-            alert("비밀번호 형식이 올바르지 않습니다.\n[8자리 이상, 숫자, 특수문자, 하나이상 대소문자 혼합]");
+            //alert("비밀번호 형식이 올바르지 않습니다.\n[8자리 이상, 숫자, 특수문자, 하나이상 대소문자 혼합]");
+            alert("비밀번호는 4글자 이상으로 입력해주세요.");
             $("#userPassword").focus();
             return
         }else if(!$("#userPassword2").val()){
