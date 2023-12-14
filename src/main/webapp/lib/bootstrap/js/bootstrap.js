@@ -795,6 +795,9 @@ if (typeof jQuery === 'undefined') {
       if (e.isDefaultPrevented()) return
 
       $this.attr('aria-expanded', 'false')
+      if($parent.hasClass("manageTab")){
+        $parent.removeClass('open').trigger('hidden.bs.dropdown', relatedTarget)
+      }
       // $parent.removeClass('open').trigger('hidden.bs.dropdown', relatedTarget)
     })
   }
@@ -827,9 +830,12 @@ if (typeof jQuery === 'undefined') {
         .trigger('focus')
         .attr('aria-expanded', 'true')
 
-      $parent
-        // .toggleClass('open')
-        .trigger('shown.bs.dropdown', relatedTarget)
+      console.log($parent)
+      if($parent.hasClass("manageTab")){
+        $parent
+            .toggleClass('open')
+            .trigger('shown.bs.dropdown', relatedTarget)
+      }
     }
 
     return false
