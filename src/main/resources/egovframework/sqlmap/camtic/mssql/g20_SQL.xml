@@ -607,6 +607,14 @@
             A.TR_CD = B.TR_CD
         WHERE
             ISU_DT BETWEEN '20230101' AND '20231231'
+        <if test='type == 1 or "1".equals(type)'>
+            AND
+                A.TAX_TY = '2'
+        </if>
+        <if test='type == 2 or "2".equals(type)'>
+            AND
+                A.TAX_TY = '4'
+        </if>
         ORDER BY ISU_DT DESC
     </select>
 
