@@ -569,6 +569,19 @@ public class ProjectController {
     }
 
     /**
+     * 프로젝트 > 엔지니어링 > 견적관리 버전 삭제
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/project/engn/setEstInfoDel")
+    public String setEstInfoDel(@RequestParam Map<String, Object> params, Model model){
+        projectService.setEstInfoDel(params);
+        return "jsonView";
+    }
+
+
+    /**
      * 프로젝트 > 엔지니어링 > 수주보고 Set Data
      * @param params
      * @param model

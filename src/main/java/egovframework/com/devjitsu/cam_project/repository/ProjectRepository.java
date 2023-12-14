@@ -380,6 +380,10 @@ public class ProjectRepository extends AbstractDAO {
         update("project.updGoodInfo", params);
     }
 
+    public void setEstInfoDel(Map<String, Object> params) {
+        delete("project.setEstInfoDel", params);
+    }
+
     public void delEstSub(Map<String, Object> params) {
         delete("project.delEstSub", params);
     }

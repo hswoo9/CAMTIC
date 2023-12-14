@@ -45,7 +45,7 @@ const estPrintPop = {
         let pjtSn = $("#pjtSn").val();
         let estSn = $("#estSn").val();
 
-        const data = { pjtSn: pjtSn };
+        const data = { pjtSn: pjtSn, estSn : estSn };
         const rs = customKendo.fn_customAjax("/project/engn/getEstData", data);
         const rs2 = customKendo.fn_customAjax("/project/engn/getCrmInfo", data);
         const empInfo = customKendo.fn_customAjax("/user/getUserInfo", {empSeq: $("#regEmpSeq").val()});
