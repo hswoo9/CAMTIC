@@ -3,6 +3,7 @@ var prjDepositMng = {
 
     fn_defaultScript : function (){
         customKendo.fn_textBox(["deptName", "searchText"]);
+        customKendo.fn_datePicker("year", 'decade', "yyyy", new Date());
 
         var bcDsData = {
             cmGroupCode : "BUSN_CLASS"
@@ -55,6 +56,11 @@ var prjDepositMng = {
         $("#mainGrid").data("kendoGrid").dataSource.read();
     },
 
+    gridSearch : function (){
+        $("#mainGrid").data("kendoGrid").dataSource.read();
+        $("#mainGrid").data("kendoGrid").dataSource.page(1);
+    },
+
     mainGrid: function (){
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
@@ -73,6 +79,8 @@ var prjDepositMng = {
                     data.regEmpSeq = $("#regEmpSeq").val();
                     data.myDeptSeq = $("#myDeptSeq").val();
                     data.busnSubClass = "'E3', 'E4', 'E5', 'R2', 'R2', 'S2','E6', 'E7', 'R3', 'S3'";
+
+                    data.year = $("#year").val();
 
                     data.manageYn = 'Y';
                     return data;
@@ -107,7 +115,7 @@ var prjDepositMng = {
                 }, {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="prjDepositMng.gridReload()">' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="prjDepositMng.gridSearch()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
