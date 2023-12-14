@@ -54,8 +54,8 @@
               </div>
             </div>
           </li>
-          <li>
-            <button class="btn btn-notice alert-notice" data-toggle="dropdown">
+          <li class="manageTab">
+            <button class="btn btn-notice" data-toggle="dropdown">
               <img src="${loginVO.picFilePath}" alt="" class="media-object img-circle" style="width:30px; height:30px;">
             </button>
             <div id="noticeDropdown1" class="dropdown-menu dm-notice pull-right">

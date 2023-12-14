@@ -446,16 +446,30 @@
             (SELECT EMP_NAME_KR from CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = 1) AS EMP_NAME
         FROM
             CAM_PJT_MNG.DJ_PJT_EST A
-        WHERE
-            PJT_SN = #{pjtSn}
+        WHERE 1=1
+        <choose>
+            <when test='estSn != null and !"".equals(estSn)'>
+                AND EST_SN = #{estSn}
+            </when>
+            <otherwise>
+                AND PJT_SN = #{pjtSn}
+            </otherwise>
+        </choose>
         ORDER BY EST_SN DESC LIMIT 1
     </select>
+
+    <delete id="setEstInfoDel" parameterType="map">
+        /* setEstInfoDel */
+        DELETE FROM CAM_PJT_MNG.DJ_PJT_EST
+        WHERE EST_SN = #{estSn}
+    </delete>
 
     <delete id="delEstSub" parameterType="map">
         DELETE FROM CAM_PJT_MNG.DJ_PJT_EST_SUB
         WHERE
             EST_SN = #{estSn}
     </delete>
+
     <insert id="insStep2" parameterType="map">
         INSERT INTO CAM_PJT_MNG.DJ_PJT_DELV
         (

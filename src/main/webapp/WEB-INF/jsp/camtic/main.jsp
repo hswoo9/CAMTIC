@@ -360,7 +360,7 @@
 
 
   var data = {
-    category : "notice"
+    category : "all"
   }
 
   var viewUrl = "";
@@ -412,6 +412,10 @@
       viewUrl = "/camtic/news/view.do?category=notice&boardArticleId=";
     }else if(data && data.category == "report"){
       viewUrl = "/camtic/pr/pr_view.do?category=report&boardArticleId=";
+    }else if(data && data.category == "study"){
+      viewUrl = "/camtic/pr/pr_view.do?category=study&boardArticleId=";
+    }else if(data && data.category == "all"){
+        viewUrl = "/camtic/news/view.do?category=";
     }
 
     $(".sec").html('');
@@ -419,8 +423,12 @@
     let html = "";
 
     resultData.forEach((item, index) => {
-
-      html += "<a href='"+ viewUrl +item.BOARD_ARTICLE_ID+" ' class='box'>";
+      if(data && data.category == "all"){
+        html += "<a href='"+ viewUrl+item.BOARD_CATEGORY_ID+'&boardArticleId='+item.BOARD_ARTICLE_ID+" ' class='box'>";
+      }else{
+        html += "<a href='"+ viewUrl +item.BOARD_ARTICLE_ID+" ' class='box'>";
+      }
+      /*html += "<a href='"+ viewUrl +item.BOARD_ARTICLE_ID+" ' class='box'>";*/
 
       html += '<p class="subject">'+ item.BOARD_ARTICLE_TITLE +'</p>';
       let contents = item.BOARD_ARTICLE_CONTENT.replace(/<\/?("[^"]*"|'[^']*'|[^>])*(>|$)/gi, "");

@@ -336,4 +336,11 @@ public class BoardServiceImpl implements BoardService {
     public List<Map<String, Object>> getArticleFileList(Map<String, Object> params) {
         return boardRepository.getArticleFileList(params);
     }
+
+
+    @Override
+    public List<Map<String, Object>> selectAlarmList(Map<String, Object> params) {
+        return boardRepository.selectAlarmList(params);
+    }
+
 }

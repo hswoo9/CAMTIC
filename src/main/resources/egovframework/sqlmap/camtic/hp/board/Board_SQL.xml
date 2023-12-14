@@ -610,4 +610,32 @@
         WHERE
             BAF.BOARD_ARTICLE_ID = #{boardArticleId}
     </select>
+
+    <select id="selectAlarmList" resultType="map" parameterType="map">
+        /*selectAlarmListt*/
+        SELECT
+            BOARD_ARTICLE_ID
+            ,BOARD_ID
+            ,BOARD_CATEGORY_ID
+            ,BOARD_ARTICLE_TITLE
+            ,BOARD_ARTICLE_CONTENT
+            ,BOARD_ARTICLE_VIEW_COUNT
+            ,REG_EMP_NAME
+            ,REG_DATE
+            ,DATE_FORMAT(REG_DATE, '%Y-%m-%d') AS regDate
+            ,CASE WHEN LOCATE('img', BOARD_ARTICLE_CONTENT) > 0
+             THEN SUBSTRING_INDEX(SUBSTRING_INDEX(SUBSTRING(BOARD_ARTICLE_CONTENT, LOCATE('img', BOARD_ARTICLE_CONTENT)), 'src="', -1), '"', 1)
+             ELSE NULL
+            END AS imgSrc
+        FROM
+            CAM_COMMON.DJ_BOARD_ARTICLE
+        WHERE
+            BOARD_CATEGORY_ID = 'study'
+        OR
+            BOARD_CATEGORY_ID = 'partner'
+        AND
+            ACTIVE = 'Y'
+        ORDER BY REG_DATE DESC
+            LIMIT 120
+    </select>
 </mapper>

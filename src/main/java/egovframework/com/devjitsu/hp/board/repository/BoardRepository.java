@@ -106,4 +106,7 @@ public class BoardRepository extends AbstractDAO {
         return selectList("boardCt.getArticleFileList", params);
     }
 
+    public List<Map<String, Object>> selectAlarmList(Map<String, Object> params) {
+        return selectList("boardCt.selectAlarmList", params);
+    }
 }

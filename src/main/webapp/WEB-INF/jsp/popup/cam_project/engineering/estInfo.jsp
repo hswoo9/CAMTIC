@@ -177,6 +177,9 @@
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>등록자
                     </th>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>
+                    </th>
                 </tr>
                 </thead>
                 <tbody id="productTb2">

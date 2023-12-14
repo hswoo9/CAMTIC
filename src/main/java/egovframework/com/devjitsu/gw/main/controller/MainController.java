@@ -148,6 +148,15 @@ public class MainController {
         return "jsonView";
     }
 
+    @RequestMapping("/main/getAlarmList.do")
+    public String getAlarmList(@RequestParam Map<String ,Object> param,HttpServletRequest request, Model model){
+
+        List<Map<String, Object>> list = boardService.selectAlarmList(param);
+
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     @RequestMapping("/subHoliday/subHolidayApplication.do")
     public String subHolidayApplication(){
         return "/subHoliday/subHolidayApplication";
