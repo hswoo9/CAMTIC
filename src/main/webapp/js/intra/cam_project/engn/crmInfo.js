@@ -29,16 +29,28 @@ var crmInfo = {
             $("#crmAddr").val(rs.ADDR);
             $("#crmCallNum").val(rs.TEL_NUM);
             $("#crmFax").val(rs.FAX);
-            //의뢰인 선택안하고 직접 입력시 프로젝트 테이블에서 임시데이터 호출
-            if(rs.CRM_MEM_SN != null){
-                $("#crmMemSn").val(rs.CRM_MEM_SN);
-                $("#crmReqMem").val(rs.CRM_MEM_NM);
-            }else{
+            $("#crmMemSn").val(rs.CRM_MEM_SN);
+
+            /** 의뢰인, 전화번호, 이메일은 프로젝트 한정으로 수정 가능함 */
+            if(rs.CRM_MEM_TEMP_NM != null || rs.CRM_MEM_TEMP_NM != ""){
                 $("#crmReqMem").val(rs.CRM_MEM_TEMP_NM);
+            }else{
+                $("#crmReqMem").val(rs.CRM_MEM_NM);
             }
-            $("#crmPhNum").val(rs.CRM_MEM_PHN);
+
+            if(rs.CRM_MEM_TEMP_PH != null || rs.CRM_MEM_TEMP_PH != ""){
+                $("#crmPhNum").val(rs.CRM_MEM_TEMP_PH);
+            }else{
+                $("#crmPhNum").val(rs.CRM_MEM_PHN);
+            }
+
+            if(rs.CRM_MEM_TEMP_MAIL != null || rs.CRM_MEM_TEMP_MAIL != ""){
+                $("#crmMail").val(rs.CRM_MEM_TEMP_MAIL);
+            }else{
+                $("#crmMail").val(rs.CRM_MEM_EMAIL);
+            }
+
             $("#crmHp").val(rs.HOMEPAGE);
-            $("#crmMail").val(rs.CRM_MEM_EMAIL);
             $("#crmEtc").val(rs.CRM_ETC);
         }else{
             const crmInfo = customKendo.fn_customAjax("/crm/getCrmInfo", {crmSn: rs.CONT_LOC_SN}).data;
@@ -65,6 +77,9 @@ var crmInfo = {
     },
 
     fn_save : function (){
+        if($("#crmEtc").val() == ""){
+            alert("상담내용을 작성하세요."); return;
+        }
 
         var parameters = {
             pjtSn : $("#pjtSn").val(),
@@ -73,8 +88,11 @@ var crmInfo = {
             crmNm : $("#crmNm").val(),
             crmMemSn : $("#crmMemSn").val(),
             crmCeo : $("#crmCeo").val(),
-            crmMail : $("#crmMail").val(),
+
             crmReqMem : $("#crmReqMem").val(),
+            crmPhNum : $("#crmPhNum").val(),
+            crmMail : $("#crmMail").val(),
+
             crmEtc : $("#crmEtc").val(),
             step : $("#step").val(),
             stepColumn : $("#stepColumn").val(),
