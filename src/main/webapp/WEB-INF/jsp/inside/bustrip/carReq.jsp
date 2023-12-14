@@ -3,10 +3,19 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
+
+<link href="/css/schedule/fullcalendar.min.css" rel="stylesheet" />
+<link href="/css/schedule/styleA.css" rel="stylesheet" />
+
+<script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/carReq.js?v=${today}"/></script>
 <style>
-    .k-event-inverse {
-        cursor: pointer
+    .fc-event{
+        cursor: pointer !important;
+    }
+
+    .fc .fc-row .fc-content-skeleton table, .fc .fc-row .fc-content-skeleton td, .fc .fc-row .fc-helper-skeleton td {
+        border-color: #eaeaea;
     }
 </style>
 <div class="mainCard">
@@ -27,15 +36,15 @@
                         <col width="10%">
                         <col width="10%">
                         <col width="10%">
-                        <col width="10%">
-                        <col width="10%">
                         <col width="20%">
+                        <col width="10%">
+                        <col width="10%">
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">조회 연월</th>
+                        <%--<th class="text-center th-color">조회 연월</th>
                         <td>
                             <input type="text" id="carReqDt" style="width: 110px;">
-                        </td>
+                        </td>--%>
                         <th class="text-center th-color">사용 차량</th>
                         <td>
                             <input type="text" id="carClass" style="width: 150px;">
@@ -47,12 +56,12 @@
                         <th class="text-center th-color">검색어</th>
                         <td>
                             <input type="text" id="searchWordType" style="width: 130px;">
-                            <input type="text" id="enterSearch" onkeypress="if(event.keyCode==13){ gridReload(); }" style="width: 150px;">
+                            <input type="text" id="enterSearch" onkeypress="if(event.keyCode==13){ carList.refresh(); }" style="width: 150px;">
                         </td>
                     </tr>
                     <tr>
                         <td colspan="8" style="text-align: right">
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="carList.refresh();">
                                 <span>조회</span>
                             </button>
                             <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">
@@ -68,16 +77,21 @@
                     </tr>
                 </table>
             </div>
-        </div>
-        <div class="panel-body">
-            <div class="table-responsive">
-                <div id="scheduler"></div>
-            </div>
+
+            <div id="calendar" class="app-fullcalendar"></div>
         </div>
     </div>
 </div>
 </div><!-- col-md-9 -->
 
+<script src="/js/schedule/global.min.js"></script>
+<script src="/js/schedule/custom.min.js"></script>
+<script src="/js/schedule/jquery-ui.min.js"></script>
+<script src="/js/schedule/moment.min.js"></script>
+<script src="/js/schedule/fullcalendar.min.js"></script>
+<script src="/js/schedule/fullcalendar-car-init.js?v=${today}"></script>
 <script type="text/javascript">
-    carList.init();
+    jQuery.noConflict();
+    carList.fn_defaultScript();
+    carList.refresh();
 </script>
