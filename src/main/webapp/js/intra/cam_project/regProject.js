@@ -285,7 +285,7 @@ var regPrj = {
             }
         });
         $("#busnLgClass").data("kendoDropDownList").wrapper.hide();
-        customKendo.fn_textBox(["pjtNm", "expAmt", "contLoc", "deptName", "empName", "pjtStopRs"]);
+        customKendo.fn_textBox(["pjtNm", "expAmt", "contLoc", "deptName", "empName", "pjtStopRs", "pjtAmt2"]);
         customKendo.fn_datePicker("consultDt", "depth", "yyyy-MM-dd", new Date());
 
         $("#viewBtn").on("click", function(){
@@ -339,17 +339,8 @@ var regPrj = {
         $("#pjtTitle").text("프로젝트 - " + p.BUSN_NM + pjtCode);
         $("#pjtNm").val(p.PJT_NM);
 
-        if(p.PJT_AMT != null && p.PJT_AMT != "" && p.PJT_AMT != undefined && p.PJT_AMT != 0){
-            $("#expAmt").val(regPrj.comma(p.PJT_AMT));
-        } else if(p.PJT_EXP_AMT != null && p.PJT_EXP_AMT != "" && p.PJT_EXP_AMT != undefined && p.PJT_EXP_AMT != 0){
-            $("#expAmt").val(regPrj.comma(p.PJT_EXP_AMT));
-        } else {
-            $("#expAmt").val(regPrj.comma(p.EXP_AMT));
-        }
-
-        if(p.TEAM_STAT == "N" && (p.PJT_STEP == "E" || p.PJT_STEP == "E1" || p.PJT_STEP == "E2")){
-            $("#expAmt").val(regPrj.comma(p.EXP_AMT));
-        }
+        $("#pjtAmt2").val(regPrj.comma(p.PJT_AMT));
+        $("#expAmt").val(regPrj.comma(p.EXP_AMT));
 
         $("#contLoc").val(p.CONT_LOC);
         $("#contLocSn").val(p.CONT_LOC_SN);
