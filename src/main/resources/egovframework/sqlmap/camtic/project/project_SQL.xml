@@ -859,6 +859,7 @@
             INV_NM,
             INV_CNT,
             INV_UNIT,
+            INV_UNIT_PRICE,
             EST_TOT_AMT,
             EST_OFC,
             INV_ETC,
@@ -873,6 +874,7 @@
             #{invNm},
             #{invCnt},
             #{invUnit},
+            #{invUnitPrice},
             #{estTotAmt},
             #{estOfc},
             #{invEtc},
@@ -906,6 +908,7 @@
             INV_NM = #{invNm},
             INV_CNT = #{invCnt},
             INV_UNIT = #{invUnit},
+            INV_UNIT_PRICE = #{invUnitPrice},
             EST_TOT_AMT = #{estTotAmt},
             EST_OFC = #{estOfc},
             INV_ETC = #{invEtc}
