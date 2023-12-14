@@ -97,7 +97,7 @@ var devInfo = {
                 const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: $("#pjtSn").val()});
                 const team = teamResult.map;
                 $("#realAmt").val(
-                    comma(Number(uncomma($("#devDelvAmt").val())) - Number(team.TM_AMT))
+                    comma(Number(uncomma($("#devDelvAmt").val())) - Number(team.TM_AMT == null ? 0 : team.TM_AMT))
                 );
             }
         }

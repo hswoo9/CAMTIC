@@ -461,6 +461,15 @@ var bustripResultPop = {
             $("#visitCrm").attr('readonly', false);
             $("#crmBtn").attr('disabled', true);
         }
+    },
+
+    bustripExnpPop : function (){
+
+        var url = "/bustrip/pop/bustripExnpPop.do?hrBizReqResultId="+hrBizReqResultId+"&mode=mng&type=upd";
+
+        var name = "bustripExnpPop";
+        var option = "width = 1100, height = 400, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
     }
 }
 

@@ -295,6 +295,7 @@ var bustripInit = {
         html += "   <td style='text-align: center'><b>-</b></td>";
         html += "</tr>";
         $("#bustExnpBody").html(html);
+        $("#bustExnpDiv").show();
         $("#bustExnpTb").show();
     },
 

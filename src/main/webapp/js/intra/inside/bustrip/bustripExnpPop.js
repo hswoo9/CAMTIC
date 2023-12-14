@@ -19,13 +19,12 @@ const bustripExnpReq = {
         ]
         if($("#mod").val() == "mng"){
             $(".empName, .oilCost, .trafCost, .trafDayCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost").kendoTextBox({
-                enable: false
             });
+            $(".oilCost").attr('disabled', false);
             $(".corpYn").kendoDropDownList({
                 dataSource : corpArr,
                 dataTextField: "text",
-                dataValueField: "value",
-                enable: false
+                dataValueField: "value"
             });
         }else {
             $(".empName, .oilCost, .trafCost, .trafDayCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost").kendoTextBox();
@@ -124,6 +123,7 @@ const bustripExnpReq = {
             fileCd: "exnpEtc",
             hrBizReqResultId: hrBizReqResultId
         }).list;
+
         if(exnpEtc.length > 0){
             var html = "";
             for(let i=0; i<exnpEtc.length; i++){
@@ -363,7 +363,7 @@ const bustripExnpReq = {
         }
     },
 
-    fn_saveBtn: function(id, type){
+    fn_saveBtn: function(id, type, mode){
         if(bustripExnpReq.global.flag){
             alert("사용 가능한 식비를 초과하였습니다.\n(식비 한도: 출장인원수 x 출장일수 x 30,000)");
             return;
@@ -496,10 +496,16 @@ const bustripExnpReq = {
             status : 10
         }
 
-        var result = customKendo.fn_customAjax("/bustrip/setReqCert", data);
-        alert("승인요청이 완료되었습니다.");
-        parent.opener.gridReload();
-        window.close();
+        if(mode != null && mode == "mng"){
+            alert("수정이 완료되었습니다.");
+            opener.window.location.reload();
+            window.close();
+        }else{
+            var result = customKendo.fn_customAjax("/bustrip/setReqCert", data);
+            alert("승인요청이 완료되었습니다.");
+            parent.opener.gridReload();
+            window.close();
+        }
     },
 
     fn_setCertRep : function (p, key){
