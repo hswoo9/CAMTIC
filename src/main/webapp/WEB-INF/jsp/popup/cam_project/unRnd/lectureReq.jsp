@@ -182,7 +182,7 @@
                 <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>교육비(교재비)</th>
                     <td>
-                        <input id="textbookFee" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 80px;" value="0"> 원 (없으면 0원 입력) / 안내 : <input id="textbookFeeEx" style="width: 140px;">
+                        <input id="textbookFee" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 80px;" value="0"> 원 (없으면 0원 입력)
                     </td>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>운영방법</th>
                     <td>
