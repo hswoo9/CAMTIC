@@ -318,9 +318,9 @@
 
     <insert id="setManageDepo" parameterType="map">
         INSERT INTO CAM_MNG.DJ_DEPO_SETTING
-            (FR_PJT_CD, FR_PJT_SN, PJT_CD, PJT_SN, PJT_NM, BUDGET_SN, BUDGET_NM, REG_EMP_SEQ)
+            (FR_PJT_SN, PJT_CD, PJT_NM, BUDGET_SN, BUDGET_NM, REG_EMP_SEQ)
         VALUES
-            (#{pjtCd}, #{pjtSn}, #{aftPjtCd}, #{aftPjtSn}, #{pjtNm}, #{budgetSn}, #{budgetNm}, #{regEmpSeq})
+            (#{FrPjtSn}, #{aftPjtCd}, #{aftPjtNm}, #{budgetSn}, #{budgetNm}, #{regEmpSeq})
     </insert>
 
     <select id="getManageDepo" parameterType="map" resultType="map">
@@ -329,6 +329,6 @@
         FROM
             CAM_MNG.DJ_DEPO_SETTING
         WHERE
-            FR_PJT_CD = #{paramPjtCd}
+            FR_PJT_SN = #{paramPjtSn}
     </select>
 </mapper>
