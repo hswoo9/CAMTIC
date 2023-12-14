@@ -9,6 +9,7 @@ var regPayDepo = {
         crmSnId : "",
         crmNmId : "",
         saveAjaxData : "",
+        setFlag : true,
     },
 
     fn_defaultScript : function (){
@@ -76,14 +77,14 @@ var regPayDepo = {
             regPayDepo.fn_manageSetData();
         }
 
-        if($("#paramPjtSn").val() != ""){
+        if($("#paramPjtSn").val() != "" && !regPayDepo.global.setFlag){
             regPayDepo.fn_setProjectData();
         }
     },
 
     fn_manageSetData : function (){
         var data = {
-            paramPjtCd : $("#paramPjtCd").val()
+            paramPjtSn : $("#paramPjtSn").val()
         }
 
         $.ajax({
@@ -91,14 +92,28 @@ var regPayDepo = {
             data : data,
             type : "post",
             dataType : "json",
+            async : false,
             success : function(rs){
                 var rs = rs.rsult;
 
+                if(rs == null){ regPayDepo.global.setFlag = false; return; }
+
                 $("#pjtNm").val(rs.PJT_NM);
-                $("#pjtSn").val(rs.PJT_SN);
                 $("#pjtCd").val(rs.PJT_CD);
                 $("#budgetNm").val(rs.BUDGET_NM);
                 $("#budgetSn").val(rs.BUDGET_SN);
+
+
+                var data = {
+                    pjtCd : rs.PJT_CD
+                };
+
+                var result = customKendo.fn_customAjax("/project/getBankData", data);
+                var rs2 = result.data;
+
+                if(rs2 != null){
+                    regPayDepo.fn_setBankInfo(rs2.TR_CD, rs2.TR_NM, rs2.BA_NB, rs2.DEPOSITOR, rs2.JIRO_NM);
+                }
             }
         });
     },
@@ -324,6 +339,13 @@ var regPayDepo = {
         var name = "_blank";
         var option = "width = 1100, height = 650, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    fn_setBankInfo : function(trCd, trNm, baNb, depositor, jiroNm){
+        $("#bnkSn").val(trCd);
+        $("#accNm").val(trNm);
+        $("#accNo").val(baNb);
+        $("#bnkNm").val(jiroNm);
     },
 
 }

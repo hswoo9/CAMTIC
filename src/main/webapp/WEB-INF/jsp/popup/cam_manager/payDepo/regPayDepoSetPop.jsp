@@ -15,7 +15,6 @@
 
 <input type="hidden" id="payDepoSn" name="payDepoSn" value="${params.payDepoSn }" />
 <input type="hidden" id="paramPjtSn" name="paramPjtSn" value="${params.pjtSn }" />
-<input type="hidden" id="paramPjtCd" name="paramPjtCd" value="${hashMap.PJT_CD }" />
 <input type="hidden" id="paramPjtNm" name="paramPjtNm" value="${hashMap.PJT_NM }" />
 
 <input type="hidden" id="auth" value="${params.auth}" />
