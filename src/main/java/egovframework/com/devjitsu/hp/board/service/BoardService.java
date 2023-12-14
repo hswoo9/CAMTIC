@@ -67,4 +67,7 @@ public interface BoardService {
 
     /** 멀티 첨부파일 다운 리스트 조회*/
     List<Map<String, Object>> getArticleFileList(Map<String, Object> params);
+
+    /** 주요알림서비스 리스트 조회*/
+    List<Map<String, Object>> selectAlarmList(Map<String, Object> param);
 }
