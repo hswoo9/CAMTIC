@@ -65,6 +65,7 @@ var camPrj = {
 
     gridReload : function (){
         $("#mainGrid").data("kendoGrid").dataSource.read();
+        $("#mainGrid").data("kendoGrid").dataSource.page(1);
     },
 
     mainGrid: function (){

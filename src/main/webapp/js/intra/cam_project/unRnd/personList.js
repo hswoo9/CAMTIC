@@ -1,39 +1,29 @@
 var personList = {
+
+    global : {
+        searchAjaxData : ""
+    },
+
     fn_defaultScript: function(){
         this.fn_pageSet();
-        this.fn_mainGrid();
+        this.gridReload();
     },
 
     fn_pageSet: function(){
-
+        customKendo.fn_textBox(["sEmpName"]);
     },
 
-    fn_mainGrid: function(){
-        let dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read : {
-                    url : "/projectUnRnd/getPersonList",
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data){
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    return data.list;
-                },
-                total: function (data) {
-                    return data.list.length;
-                },
-            },
-            pageSize: 10,
-        });
+    gridReload: function(){
+        personList.global.searchAjaxData = {
+            sEmpName : $("#sEmpName").val()
+        }
 
+        personList.mainGrid("/projectUnRnd/getPersonList", personList.global.searchAjaxData);
+    },
+
+    mainGrid: function(url, params){
         $("#personGrid").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             scrollable: true,
             selectable: "row",
@@ -47,7 +37,14 @@ var personList = {
                 {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="unRndLectList.gridReload()">' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="lecturePop.lecturePersonMngPop()">' +
+                            '	<span class="k-button-text">신규 수강자 추가</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -88,9 +85,12 @@ var personList = {
                     width: "10%"
                 }, {
                     title: "처리명령",
-                    width: "3%",
+                    width: "8%",
                     template: function(e){
-                        return "-";
+                        console.log(e);
+                        let buttonHtml = '<button type="button" id="saveBtn" style="margin-right: 5px" class="k-button k-button-solid-primary" onclick="lecturePop.lecturePersonMngPop('+e.PERSON_SN+')">수정</button>';
+                        buttonHtml += '<button type="button" id="delBtn" class="k-button k-button-solid-error" onclick="personList.fn_delete('+e.PERSON_SN+')">삭제</button>';
+                        return buttonHtml;
                     }
                 }
             ],
@@ -100,7 +100,26 @@ var personList = {
         }).data("kendoGrid");
     },
 
-    gridReload: function(){
-        $("#personGrid").data("kendoGrid").dataSource.read();
+    fn_delete: function(personSn){
+        if(!confirm("삭제하시겠습니까?")){
+            return;
+        }
+
+        const data = {
+            personSn: personSn
+        }
+
+        const result = customKendo.fn_customAjax("/projectUnRnd/delLecturePersonData", data);
+
+        if(result.code != 200){
+            alert("삭제 중 오류가 발생하였습니다.");
+        }else{
+            alert("삭제되었습니다");
+            gridReload();
+        }
     }
+}
+
+function gridReload(){
+    personList.gridReload();
 }

@@ -44,7 +44,7 @@
                 <thead>
                 <tr>
                     <th><span class="red-star">*</span>아이디</th>
-                    <td><input id="id" style="width: 150px; margin-right: 5px"><button type="button"  class="k-button k-button-solid-base" disabled onclick=""><span>중복체크</span></button></td>
+                    <td><input id="id" style="width: 150px; margin-right: 5px"><button type="button" id="ckBtn" class="k-button k-button-solid-base" onclick="lecturePersonMng.dupleCk()"><span>중복체크</span></button></td>
                     <th><span class="red-star">*</span>비밀번호</th>
                     <td><input type="password" id="pwd" style="width: 150px"></td>
                 </tr>

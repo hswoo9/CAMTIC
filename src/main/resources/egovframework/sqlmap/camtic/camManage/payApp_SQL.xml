@@ -275,6 +275,8 @@
                 BUDGET_SN,
                 BUDGET_NM,
                 EVID_TYPE,
+                TEAM_SEQ,
+                TEAM_NAME,
                 AUTH_NO,
                 AUTH_DD,
                 AUTH_HH,
@@ -312,6 +314,8 @@
                 #{budgetSn},
                 #{budgetNm},
                 #{evidType},
+                #{teamSeq},
+                #{teamName},
                 #{authNo},
                 #{authDd},
                 #{authHh},
@@ -702,7 +706,8 @@
             A.*,
             B.DOC_NO,
             (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_EXNP_DET WHERE EXNP_SN = A.EXNP_SN) AS TOT_COST,
-            (SELECT BUDGET_NM FROM CAM_MNG.DJ_EXNP_DET WHERE EXNP_SN = A.EXNP_SN LIMIT 1) AS BUDGET_NM_EX
+            (SELECT BUDGET_NM FROM CAM_MNG.DJ_EXNP_DET WHERE EXNP_SN = A.EXNP_SN LIMIT 1) AS BUDGET_NM_EX,
+            (SELECT EVID_TYPE FROM CAM_MNG.DJ_EXNP_DET WHERE EXNP_SN = A.EXNP_SN LIMIT 1) AS EVI_TYPE
         FROM
             CAM_MNG.DJ_EXNP A
         LEFT JOIN
@@ -1414,9 +1419,8 @@
         FROM
             CAM_COMMON.DJ_FILE_INFO
         WHERE
-            CONTENT_ID = #{payAppSn}
-        AND
-            (FILE_CD = 'payApp' OR FILE_CD = 'useCard')
+            (CONTENT_ID = #{payAppSn} AND FILE_CD = 'payApp')
+        OR FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = #{payAppSn})
     </select>
 
     <select id="getPayAppInfo" parameterType="map" resultType="map">

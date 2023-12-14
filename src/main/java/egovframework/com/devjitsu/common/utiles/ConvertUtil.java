@@ -130,7 +130,7 @@ public class ConvertUtil {
         }
 
         if(servletRequest.getServerName().contains("localhost") || servletRequest.getServerName().contains("127.0.0.1")){
-        }else if (servletRequest.getServerName().contains("218.158.231.186")){
+        }else if (servletRequest.getServerName().contains("218.158.231.186") || servletRequest.getServerName().contains("new.camtic.or.kr")){
             path = "/home" + base_dir + path + "/";
         }else{
             path = "/data" + base_dir + path + "/";

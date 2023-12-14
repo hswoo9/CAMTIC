@@ -4,6 +4,7 @@ const costReq = {
     },
 
     dataSet: function(){
+        customKendo.fn_textBox(["km"]);
         customKendo.fn_datePicker("startDt", 'month', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("endDt", "month", "yyyy-MM-dd", new Date(now.setMonth(now.getMonth() + 6)));
         $("#startDt, #endDt").attr("readonly", true);
@@ -37,7 +38,16 @@ const costReq = {
             }else{
                 $("#detailTr").hide();
             }
-        })
+        });
+
+
+        $("#exnpCode").data("kendoDropDownList").bind("change", function(){
+            if($("#tripCode").data("kendoDropDownList").value() == "1" && $("#exnpCode").data("kendoDropDownList").value() == "dayCost"){
+                $("#detail2Tr").show();
+            }else{
+                $("#detail2Tr").hide();
+            }
+        });
 
         $("#exnpCode").data("kendoDropDownList").bind("change", function(){
             if($("#tripCode").data("kendoDropDownList").value() == "3" && $("#exnpCode").data("kendoDropDownList").value() == "dayCost"){
@@ -66,8 +76,12 @@ const costReq = {
         let exnpText = $("#exnpCode").data("kendoDropDownList").text();
         let exnpDetailCode = $("#exnpDetailCode").val();
         let exnpDetailText = "";
-        if(exnpCode == "dayCost"){
+        if(tripCode == "3" && exnpCode == "dayCost"){
             exnpDetailText = $("#exnpDetailCode").data("kendoDropDownList").text();
+        }
+        let km = "0";
+        if(tripCode == "1" && exnpCode == "dayCost"){
+            km = $("#km").val();
         }
         let costAmt = $("#costAmt").val();
         let remarkCn = $("#remarkCn").val();
@@ -82,6 +96,7 @@ const costReq = {
             exnpText: exnpText,
             exnpDetailCode: exnpDetailCode,
             exnpDetailText: exnpDetailText,
+            km: km,
             costAmt: costAmt,
             remarkCn: remarkCn,
             regEmpSeq: regEmpSeq,
@@ -92,7 +107,8 @@ const costReq = {
         if(tripCode == "") { alert("출장구분이 선택되지 않았습니다."); return; }
         if(exnpCode == "") { alert("여비 종류가 선택되지 않았습니다."); return; }
         if(costAmt == "") { alert("금액을 작성하지 않았습니다."); return; }
-        if(exnpCode == "dayCost" && exnpDetailCode == "") { alert("세부항목이 선택되지 않았습니다."); return; }
+        if(tripCode == "3" && exnpCode == "dayCost" && exnpDetailCode == "") { alert("세부항목이 선택되지 않았습니다."); return; }
+        if(tripCode == "1" && exnpCode == "dayCost" && km == "0") { alert("거리가 입력되지 않았습니다."); return; }
 
         if($("#hrCostInfoSn").val() == "") {
             if(!confirm("여비를 등록하시겠습니까?")){

@@ -1,41 +1,30 @@
-const lecturePersonReq = {
+var lecturePersonReq = {
+
+    global : {
+        searchAjaxData : ""
+    },
+
     fn_defaultScript: function(){
         this.fn_pageSet();
-        this.fn_mainGrid();
+        this.gridReload();
     },
 
     fn_pageSet: function(){
 
     },
 
-    fn_mainGrid: function(){
-        let dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read : {
-                    url : "/projectUnRnd/getPersonList",
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data){
-                    data.notIn = $("#pk").val();
-                    data.sEmpName = $("#sEmpName").val();
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    return data.list;
-                },
-                total: function (data) {
-                    return data.list.length;
-                },
-            },
-            pageSize: 10,
-        });
+    gridReload: function(){
+        lecturePersonReq.global.searchAjaxData = {
+            notIn : $("#pk").val(),
+            sEmpName : $("#sEmpName").val()
+        }
 
+        lecturePersonReq.mainGrid("/projectUnRnd/getPersonList", lecturePersonReq.global.searchAjaxData);
+    },
+
+    mainGrid: function(url, params){
         $("#personGrid").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             scrollable: true,
             selectable: "row",
@@ -105,11 +94,11 @@ const lecturePersonReq = {
                     title: "직위",
                     width: "10%"
                 }, {
-                    field: "PLACE",
-                    title: "직위",
-                    width: "10%",
+                    title: "처리명령",
+                    width: "8%",
                     template: function(e){
-                        let buttonHtml = '<button type="button" id="saveBtn" class="k-button k-button-solid-primary" onclick="lecturePop.lecturePersonMngPop('+e.PERSON_SN+')">수정</button>';
+                        let buttonHtml = '<button type="button" id="saveBtn" style="margin-right: 5px" class="k-button k-button-solid-primary" onclick="lecturePop.lecturePersonMngPop('+e.PERSON_SN+')">수정</button>';
+                        buttonHtml += '<button type="button" id="delBtn" class="k-button k-button-solid-error" onclick="lecturePersonReq.fn_delete('+e.PERSON_SN+')">삭제</button>';
                         return buttonHtml;
                     }
                 }
@@ -150,9 +139,28 @@ const lecturePersonReq = {
             opener.gridReload();
             window.close();
         }
+    },
+
+    fn_delete: function(personSn){
+        if(!confirm("삭제하시겠습니까?")){
+            return;
+        }
+
+        const data = {
+            personSn: personSn
+        }
+
+        const result = customKendo.fn_customAjax("/projectUnRnd/delLecturePersonData", data);
+
+        if(result.code != 200){
+            alert("삭제 중 오류가 발생하였습니다.");
+        }else{
+            alert("삭제되었습니다");
+            gridReload();
+        }
     }
 }
 
 function gridReload(){
-    lecturePersonReq.fn_mainGrid();
+    lecturePersonReq.gridReload();
 }

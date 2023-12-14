@@ -183,7 +183,6 @@
                             </c:if>
                         </c:if>
                         <col style="width: 5%;">
-                        <col style="width: 2%;">
                         <col style="width: 6%;">
                         <col style="width: 6%;">
                         <col style="width: 6%;">
@@ -207,7 +206,7 @@
                         </c:if>
 
                         <th>예산비목</th>
-                        <th>비용구분</th>
+                        <th style="display:none;">비용구분</th>
                         <th>증빙유형</th>
                         <th>상호</th>
                         <th>사업자(주민)번호</th>
@@ -237,7 +236,7 @@
                                 <input type="hidden" id="budgetAmt0" value="" />
                             </span>
                         </td>
-                        <td>
+                        <td style="display: none;">
                             <input id="appTeam0" class="appTeam" style="width: 100%">
                         </td>
                         <td>

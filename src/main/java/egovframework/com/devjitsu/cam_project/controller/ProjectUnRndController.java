@@ -188,6 +188,7 @@ public class ProjectUnRndController {
     @RequestMapping("/projectUnRnd/personList.do")
     public String personList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
@@ -197,6 +198,7 @@ public class ProjectUnRndController {
     @RequestMapping("/projectUnRnd/lectureTeacherList.do")
     public String lectureTeacherList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
@@ -311,6 +313,13 @@ public class ProjectUnRndController {
         model.addAttribute("list", list);
         return "jsonView";
     }
+    /** 단위사업 개인회원 아이디 중복체크 */
+    @RequestMapping("/projectUnRnd/getLecturePersonDupleCk")
+    public String getLecturePersonDupleCk(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = projectUnRndService.getLecturePersonDupleCk(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
 
     /** 단위사업 리스트 */
     @RequestMapping("/projectUnRnd/getLectureList")
@@ -369,6 +378,18 @@ public class ProjectUnRndController {
     public String setLecturePersonData(@RequestParam Map<String, Object> params, Model model){
         try{
             projectUnRndService.setLecturePersonData(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    /** 단위사업 신규수강자 삭제 */
+    @RequestMapping("/projectUnRnd/delLecturePersonData")
+    public String delLecturePersonData(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectUnRndService.delLecturePersonData(params);
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();

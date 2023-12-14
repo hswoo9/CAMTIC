@@ -341,6 +341,7 @@ var payEtaxHist = {
                         url : "/mng/imgSaveTest",
                         async : false,
                         success : function(data) {
+                            var data = JSON.parse(data);
                             var fileNo = data.result.fileNo;
                             alert("반영되었습니다.");
                             opener.parent.fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, coCd, taxTy, idx, fileNo);
@@ -353,11 +354,6 @@ var payEtaxHist = {
                         }
                     });
                 });
-
-
-
-
-                // window.close();
             }
         });
 
