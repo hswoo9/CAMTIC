@@ -18,7 +18,8 @@
     </select>
 
     <select id="getProjectList" parameterType="map" resultType="map">
-        SELECT A.*, (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE A.PJT_SN = SP.PNT_PJT_SN limit 1) AS PNT_PJT_SN_CK FROM CAM_PJT_MNG.DJ_PROJECT A
+        SELECT A.*, (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE A.PJT_SN = SP.PNT_PJT_SN limit 1) AS PNT_PJT_SN_CK
+        FROM CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN CAM_CRM.DJ_CRM_INFO B ON A.CRM_SN = B.CRM_SN
         WHERE
         1=1
@@ -88,10 +89,12 @@
                (select count(*) from cam_mng.dj_depo_setting where fr_pjt_sn = A.pjt_sn) AS setYn
         FROM CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN CAM_CRM.DJ_CRM_INFO B ON A.CRM_SN = B.CRM_SN
+        LEFT JOIN CAM_MNG.DJ_DEPO_SETTING C ON A.PJT_SN = C.FR_PJT_SN
         WHERE
         1=1
         AND A.TEAM_STAT = "N"
         AND A.PJT_STEP in (${busnSubClass})
+        <![CDATA[ AND YEAR(STR_DT) <= #{year} AND YEAR(END_DT) >= #{year} ]]>
         <if test='busnClass != null and busnClass != ""'>
             AND
                 A.BUSN_CLASS = #{busnClass}
@@ -138,6 +141,12 @@
         </if>
         <if test='type != null and !"".equals(type)'>
             AND A.BUSN_CLASS IN ('S', 'R') AND A.PJT_CD IS NOT NULL
+        </if>
+        <if test='"1000".equals(searchValue)'>
+            AND C.FR_PJT_SN IS NOT NULL
+        </if>
+        <if test='"999".equals(searchValue)'>
+            AND C.FR_PJT_SN IS NULL
         </if>
         ORDER BY A.REG_DT DESC
     </select>
@@ -211,54 +220,59 @@
     <insert id="insProject" parameterType="map">
         /* insProject >> 프로젝트 엔지니어링 최초 등록 */
         INSERT INTO CAM_PJT_MNG.DJ_PROJECT
-        (
-            PJT_NM,
-            EMP_SEQ,
-            EMP_NAME,
-            DEPT_SEQ,
-            DEPT_NAME,
-            BUSN_CLASS,
-            BUSN_NM,
-            PJT_STEP,
-            PJT_STEP_NM,
-            CONSULT_DT,
-            REG_EMP_SEQ
-        ) VALUES (
-            #{pjtNm},
-            #{empSeq},
-            #{empName},
-            #{deptSeq},
-            #{deptName},
-            #{busnClass},
-            #{busnNm},
-            #{pjtStep},
-            #{pjtStepNm},
-            #{contDt},
-            #{regEmpSeq}
-        )
-        <selectKey keyProperty="PJT_SN" resultType="Integer" order="BEFORE">
-            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PROJECT'
-        </selectKey>
+            (
+                PJT_NM,
+                EMP_SEQ,
+                EMP_NAME,
+                DEPT_SEQ,
+                DEPT_NAME,
+                BUSN_CLASS,
+                BUSN_NM,
+                PJT_STEP,
+                PJT_STEP_NM,
+                CONSULT_DT,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{pjtNm},
+                #{empSeq},
+                #{empName},
+                #{deptSeq},
+                #{deptName},
+                #{busnClass},
+                #{busnNm},
+                #{pjtStep},
+                #{pjtStepNm},
+                #{contDt},
+                #{regEmpSeq}
+            )
+            <selectKey keyProperty="PJT_SN" resultType="Integer" order="BEFORE">
+                SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PROJECT'
+            </selectKey>
     </insert>
 
     <insert id="insPjtEngn" parameterType="map">
         INSERT INTO CAM_PJT_MNG.DJ_PJT_ENGN
-        (
-        PJT_SN,
-        CONT_DT,
-        EXP_AMT,
-        CONT_LOC,
-        STEP1,
-        REG_EMP_SEQ
-        ) VALUES
-        (
-        #{PJT_SN},
-        #{contDt},
-        #{expAmt},
-        #{contLoc},
-        'R',
-        #{empSeq}
-        )
+            (
+                PJT_SN,
+                CONT_DT,
+                EXP_AMT,
+                CONT_LOC,
+                CONT_LOC_SN,
+                STEP1,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{PJT_SN},
+                #{contDt},
+                #{expAmt},
+                #{contLoc},
+                #{contLocSn},
+                'R',
+                #{empSeq}
+            )
         <selectKey keyProperty="ENGN_SN" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_ENGN'
         </selectKey>
@@ -859,6 +873,7 @@
             INV_NM,
             INV_CNT,
             INV_UNIT,
+            INV_UNIT_PRICE,
             EST_TOT_AMT,
             EST_OFC,
             INV_ETC,
@@ -873,6 +888,7 @@
             #{invNm},
             #{invCnt},
             #{invUnit},
+            #{invUnitPrice},
             #{estTotAmt},
             #{estOfc},
             #{invEtc},
@@ -906,6 +922,7 @@
             INV_NM = #{invNm},
             INV_CNT = #{invCnt},
             INV_UNIT = #{invUnit},
+            INV_UNIT_PRICE = #{invUnitPrice},
             EST_TOT_AMT = #{estTotAmt},
             EST_OFC = #{estOfc},
             INV_ETC = #{invEtc}

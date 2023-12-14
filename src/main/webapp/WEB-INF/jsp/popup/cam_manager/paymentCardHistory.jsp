@@ -147,7 +147,7 @@
 <script>
     payCardHist.fn_defaultScript();
 
-    function fn_setCardInfo(authNo, authDate, authTime, cardNo, buySts){
+    function fn_setCardInfo(authNo, authDate, authTime, cardNo, buySts, index){
 
         var data = {
             authNo : authNo,
@@ -224,6 +224,10 @@
                         url : "/mng/imgSaveTest",
                         async : false,
                         success : function(data) {
+                            var data = JSON.parse(data);
+                            var fileNo = data.result.fileNo;
+
+                            opener.parent.$("#fileNo" + index).val(fileNo);
 
                             alert("반영되었습니다.");
 

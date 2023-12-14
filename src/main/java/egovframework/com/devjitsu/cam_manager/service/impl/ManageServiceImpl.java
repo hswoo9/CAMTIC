@@ -102,7 +102,15 @@ public class ManageServiceImpl implements ManageService {
 
     @Override
     public void setManageDepo (Map<String, Object> params){
-        manageRepository.setManageDepo(params);
+
+        int cnt = Integer.parseInt(String.valueOf(manageRepository.chkManageDepo(params)));
+
+        if(cnt > 0){
+            manageRepository.updateManageDepo(params);
+        }else{
+            manageRepository.setManageDepo(params);
+        }
+
     }
 
     @Override

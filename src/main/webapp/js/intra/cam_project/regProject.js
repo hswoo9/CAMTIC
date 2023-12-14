@@ -35,7 +35,7 @@ var regPrj = {
 
         var tab10Url = "/intra/cam_project/bustInfo.do"; // 10출장
         var tab11Url = "/intra/cam_project/purcInfo.do"; // 11구매
-        var tab12Url= "/intra/cam_project/depositInfo.do"; // 12입금관리
+        var tab12Url ="/intra/cam_project/depositInfo.do"; // 12입금관리
         var tab13Url = "/intra/cam_project/costPriceInfoAdmin.do"; // 13정산서
 
         if (setParameters != null && setParameters.PJT_SN != null) {
@@ -94,7 +94,6 @@ var regPrj = {
                 {name: "납품관리", url: tab6Url},
                 {name: "결과보고", url: tab7Url, imageUrl : "/images/ico/etc_01_1.png"},
                 {name: "실적관리", url: tab8Url},
-                {name: "원가보고", url: tab9Url, imageUrl : "/images/ico/etc_01_1.png"},
 
                 {name: "출장", url: tab10Url},
                 {name: "구매", url: tab11Url},
@@ -110,7 +109,6 @@ var regPrj = {
                 }
             },
             select : function (e){
-                console.log($(e.item).attr("id").split("-")[2] - 1);
                 var tabName = $(e.item).find("> .k-link").text();
                 let step = "";
                 let stepColumn = "";
@@ -234,8 +232,6 @@ var regPrj = {
                         tabStrip.enable(tabStrip.tabGroup.children().eq(8));
                     }
                 }
-                /** 원가보고 임시 비활성화 */
-                tabStrip.disable(tabStrip.tabGroup.children().eq(9));
             } else {
                 $("#modBtn").css("display", "none");
                 alert("중단사유 : " + setParameters.PJT_STOP_RS);
@@ -245,7 +241,7 @@ var regPrj = {
             var parser = new DOMParser();
             var html = '<div style="width:100%;"></div>';
             var doc = parser.parseFromString(html, 'text/html');
-            $("#tabstrip li")[9].after(doc.body.firstChild);
+            $("#tabstrip li")[8].after(doc.body.firstChild);
 
             /** 첫줄에 사업관리 문구 추가 */
             var html2 = '<div style="padding: 6px 12px"><b style="color: red">사업관리</b></div>';
@@ -255,7 +251,7 @@ var regPrj = {
             /** 둘째줄에 운영관리 문구 추가 */
             var html3 = '<div style="padding: 6px 12px"><b style="color: blue">운영관리</b></div>';
             var doc3 = parser.parseFromString(html3, 'text/html');
-            $("#tabstrip li")[10].before(doc3.body.firstChild);
+            $("#tabstrip li")[9].before(doc3.body.firstChild);
         }
     },
 
@@ -303,6 +299,8 @@ var regPrj = {
                 $("#viewText").html("&#9650;");
             }
         });
+
+        $("#contLoc").data("kendoTextBox").enable(false);
     },
 
     fn_setData : function (p) {
@@ -333,9 +331,11 @@ var regPrj = {
         busnLgClass.wrapper.hide();
 
         var pjtCode = "";
+
         if(p.PJT_CD != null){
             pjtCode = " (" + p.PJT_CD + ")";
         }
+
         $("#pjtTitle").text("프로젝트 - " + p.BUSN_NM + pjtCode);
         $("#pjtNm").val(p.PJT_NM);
 
@@ -352,6 +352,7 @@ var regPrj = {
         }
 
         $("#contLoc").val(p.CONT_LOC);
+        $("#contLocSn").val(p.CONT_LOC_SN);
         $("#deptName").val(p.DEPT_NAME);
         $("#empName").val(p.EMP_NAME);
         $("#deptSeq").val(p.DEPT_SEQ);
@@ -383,11 +384,15 @@ var regPrj = {
     },
 
     fn_save: function (){
+        if($("#contLocSn").val() == ""){
+            alert("업체명을 선택해주세요.");
+        }
 
         var data = {
             pjtNm : $("#pjtNm").val(),
             expAmt : regPrj.uncomma($("#expAmt").val()),
             contLoc : $("#contLoc").val(),
+            contLocSn : $("#contLocSn").val(),
             deptName : $("#deptName").val(),
             empName : $("#empName").val(),
             deptSeq : $("#deptSeq").val(),
@@ -516,9 +521,4 @@ var regPrj = {
 
         $("#pjtSelectModal").data("kendoWindow").close();
     }
-
-
-
-
-
 }

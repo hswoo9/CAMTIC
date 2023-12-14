@@ -16,39 +16,52 @@ var crmInfo = {
             pjtSn : $("#pjtSn").val(),
         }
 
-        $.ajax({
-            url : "/project/engn/getCrmInfo",
-            data : parameters,
-            type : "post",
-            dataType : "json",
-            success : function(rs){
-                var rs = rs.rs;
-
-                if(rs != null){
-                    $("#crmSn").val(rs.CRM_SN);
-                    $("#crmLoc").val(rs.ADDR);
-                    $("#crmNm").val(rs.CRM_NM);
-                    $("#crmProd").val(rs.CRM_PROD);
-                    $("#crmCeo").val(rs.CRM_CEO);
-                    $("#crmPost").val(rs.POST);
-                    $("#crmAddr").val(rs.ADDR);
-                    $("#crmCallNum").val(rs.TEL_NUM);
-                    $("#crmFax").val(rs.FAX);
-                    //의뢰인 선택안하고 직접 입력시 프로젝트 테이블에서 임시데이터 호출
-                    if(rs.CRM_MEM_SN != null){
-                        $("#crmMemSn").val(rs.CRM_MEM_SN);
-                        $("#crmReqMem").val(rs.CRM_MEM_NM);
-                    }else{
-                        $("#crmReqMem").val(rs.CRM_MEM_TEMP_NM);
-                    }
-                    $("#crmPhNum").val(rs.CRM_MEM_PHN);
-                    $("#crmHp").val(rs.HOMEPAGE);
-                    $("#crmMail").val(rs.CRM_MEM_EMAIL);
-                    $("#crmEtc").val(rs.CRM_ETC);
-                }
-
+        const result = customKendo.fn_customAjax("/project/engn/getCrmInfo", parameters);
+        const rs = result.rs;
+        console.log(rs);
+        if(rs.PJT_STEP != "E"){
+            $("#crmSn").val(rs.CRM_SN);
+            $("#crmLoc").val(rs.ADDR);
+            $("#crmNm").val(rs.CRM_NM);
+            $("#crmProd").val(rs.CRM_PROD);
+            $("#crmCeo").val(rs.CRM_CEO);
+            $("#crmPost").val(rs.POST);
+            $("#crmAddr").val(rs.ADDR);
+            $("#crmCallNum").val(rs.TEL_NUM);
+            $("#crmFax").val(rs.FAX);
+            //의뢰인 선택안하고 직접 입력시 프로젝트 테이블에서 임시데이터 호출
+            if(rs.CRM_MEM_SN != null){
+                $("#crmMemSn").val(rs.CRM_MEM_SN);
+                $("#crmReqMem").val(rs.CRM_MEM_NM);
+            }else{
+                $("#crmReqMem").val(rs.CRM_MEM_TEMP_NM);
             }
-        })
+            $("#crmPhNum").val(rs.CRM_MEM_PHN);
+            $("#crmHp").val(rs.HOMEPAGE);
+            $("#crmMail").val(rs.CRM_MEM_EMAIL);
+            $("#crmEtc").val(rs.CRM_ETC);
+        }else{
+            const crmInfo = customKendo.fn_customAjax("/crm/getCrmInfo", {crmSn: rs.CONT_LOC_SN}).data;
+
+            if(crmInfo == null){
+                return;
+            }
+
+            $("#crmSn").val(crmInfo.CRM_SN);
+            $("#crmLoc").val(crmInfo.CRM_LOC);
+            $("#crmNm").val(crmInfo.CRM_NM);
+            $("#crmProd").val(crmInfo.CRM_PROD);
+            $("#crmCeo").val(crmInfo.CRM_CEO);
+            $("#crmPost").val(crmInfo.POST);
+            if(crmInfo.POST != null && crmInfo.POST != ""){
+                $("#crmAddr").val("[" + crmInfo.POST + "] " + crmInfo.ADDR);
+            } else {
+                $("#crmAddr").val("");
+            }
+            $("#crmCallNum").val(crmInfo.TEL_NUM);
+            $("#crmFax").val(crmInfo.FAX);
+            $("#crmHp").val(crmInfo.HOMEPAGE);
+        }
     },
 
     fn_save : function (){

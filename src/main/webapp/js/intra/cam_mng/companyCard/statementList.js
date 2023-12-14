@@ -99,16 +99,6 @@ var statementList = {
                     title: "카드번호",
                     width: 300,
                 }, {
-                    title: "반납",
-                    width: 120,
-                    template: function(e){
-                        if(e.RT_YN == 'N'){
-                            return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="statementList.fn_updCardTi('+e.CARD_TO_SN+', \''+e.CARD_TO_DE+'\')">반납</button>'
-                        } else {
-                            return '<button type="button" class="k-button k-button-solid k-button-solid-base" disabled>반납</button>'
-                        }
-                    }
-                }, {
                     title: "사용이력등록",
                     width: 120,
                     template: function(e){
@@ -116,6 +106,16 @@ var statementList = {
                             return '<button type="button" class="k-button k-button-solid k-button-solid-info" onclick="statementList.fn_addCardHist('+e.CARD_TO_SN+')">추가</button>'
                         } else {
                             return '<button type="button" class="k-button k-button-solid k-button-solid-info" disabled>추가</button>'
+                        }
+                    }
+                }, {
+                    title: "반납",
+                    width: 120,
+                    template: function(e){
+                        if(e.RT_YN == 'N'){
+                            return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="statementList.fn_updCardTi('+e.CARD_TO_SN+', \''+e.CARD_TO_DE+'\')">반납</button>'
+                        } else {
+                            return '<button type="button" class="k-button k-button-solid k-button-solid-base" disabled>반납</button>'
                         }
                     }
                 }, {

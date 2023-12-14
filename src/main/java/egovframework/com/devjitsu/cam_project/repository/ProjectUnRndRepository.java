@@ -57,6 +57,9 @@ public class ProjectUnRndRepository extends AbstractDAO {
     public List<Map<String, Object>> getLecturePersonReqList(Map<String, Object> params) {
         return selectList("unRnd.getLecturePersonReqList", params);
     }
+    public List<Map<String, Object>> getLecturePersonDupleCk(Map<String, Object> params) {
+        return selectList("unRnd.getLecturePersonDupleCk", params);
+    }
     public List<Map<String, Object>> getLectureList(Map<String, Object> params) {
         return selectList("unRnd.getLectureList", params);
     }
@@ -74,6 +77,9 @@ public class ProjectUnRndRepository extends AbstractDAO {
     }
     public void updPersonData(Map<String, Object> params) {
         update("unRnd.updPersonData", params);
+    }
+    public void delLectureData(Map<String, Object> params) {
+        update("unRnd.delLectureData", params);
     }
     public void insLectureInfo(Map<String, Object> params) {
         insert("unRnd.insLectureInfo", params);

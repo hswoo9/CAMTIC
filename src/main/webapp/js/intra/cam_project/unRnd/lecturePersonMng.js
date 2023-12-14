@@ -1,4 +1,8 @@
 const lecturePersonMng = {
+    global: {
+        dupleCk: false
+    },
+
     fn_defaultScript: function(){
         this.fn_pageSet();
         this.fn_dataSet();
@@ -11,6 +15,16 @@ const lecturePersonMng = {
             { label: "여", value: "F" }
         ]
         customKendo.fn_radioGroup("gender", genderDataSource, "horizontal");
+
+        $("#id").data("kendoTextBox").bind("change", function(){
+            lecturePersonMng.global.dupleCk = false;
+        });
+
+        if($("#personSn").val() != ""){
+            $("#id").data("kendoTextBox").enable(false);
+            $("#ckBtn").hide();
+            lecturePersonMng.global.dupleCk = true;
+        }
     },
 
     fn_dataSet: function(){
@@ -36,6 +50,10 @@ const lecturePersonMng = {
     },
 
     fn_save: function(){
+        if(!lecturePersonMng.global.dupleCk){
+            alert("아이디 중복체크가 필요합니다.");
+            return;
+        }
         const data = {
             id : $("#id").val(),
             password : $("#pwd").val(),
@@ -77,7 +95,24 @@ const lecturePersonMng = {
         }else{
             alert("저장이 완료 되었습니다.");
             opener.gridReload();
-            //window.close();
+            window.close();
+        }
+    },
+
+    dupleCk: function(){
+        const data = {
+            id : $("#id").val()
+        }
+
+        if($("#id").val() == ""){
+            alert("아이디를 입력해주세요."); return;
+        }
+        const result = customKendo.fn_customAjax("/projectUnRnd/getLecturePersonDupleCk", data);
+        if(result.list.length > 0){
+            alert("중복된 아이디가 있습니다.");
+        }else{
+            alert("사용가능한 아이디입니다.");
+            lecturePersonMng.global.dupleCk = true;
         }
     }
 }

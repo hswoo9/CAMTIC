@@ -78,7 +78,7 @@ var regPayDepoSet = {
 
     fn_setData: function (){
         var data = {
-            paramPjtCd : $("#paramPjtCd").val()
+            frPjtSn : $("#paramPjtSn").val()
         }
 
         $.ajax({
@@ -89,21 +89,21 @@ var regPayDepoSet = {
             success : function(rs){
                 var rs = rs.rsult;
 
-                $("#pjtNm").val(rs.PJT_NM);
-                $("#pjtSn").val(rs.PJT_SN);
-                $("#pjtCd").val(rs.PJT_CD);
-                $("#budgetNm").val(rs.BUDGET_NM);
-                $("#budgetSn").val(rs.BUDGET_SN);
+                if(rs != null) {
+                    $("#pjtNm").val(rs.PJT_NM);
+                    $("#pjtSn").val(rs.PJT_SN);
+                    $("#pjtCd").val(rs.PJT_CD);
+                    $("#budgetNm").val(rs.BUDGET_NM);
+                    $("#budgetSn").val(rs.BUDGET_SN);
+                }
             }
         });
     },
 
     fn_save : function (){
         var parameters = {
-            pjtNm : $("#paramPjtNm").val(),
-            pjtSn : $("#paramPjtSn").val(),
-            pjtCd : $("#paramPjtCd").val(),
-            aftPjtSn : $("#pjtSn").val(),
+            frPjtSn : $("#paramPjtSn").val(),
+            aftPjtNm : $("#pjtNm").val(),
             aftPjtCd : $("#pjtCd").val(),
             budgetSn : $("#budgetSn").val(),
             budgetNm : $("#budgetNm").val(),
@@ -126,13 +126,14 @@ var regPayDepoSet = {
             type : "post",
             dataType : "json",
             success : function(rs){
-                console.log(rs);
                 if(rs.code == 200){
                     alert("저장되었습니다.");
                     window.close();
+                    opener.parent.gridReload();
                 }
             }
         });
+
     },
 
     inputNumberFormat : function (obj){

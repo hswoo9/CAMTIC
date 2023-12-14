@@ -318,10 +318,32 @@
 
     <insert id="setManageDepo" parameterType="map">
         INSERT INTO CAM_MNG.DJ_DEPO_SETTING
-            (FR_PJT_CD, FR_PJT_SN, PJT_CD, PJT_SN, PJT_NM, BUDGET_SN, BUDGET_NM, REG_EMP_SEQ)
+            (FR_PJT_SN, PJT_CD, PJT_NM, BUDGET_SN, BUDGET_NM, REG_EMP_SEQ)
         VALUES
-            (#{pjtCd}, #{pjtSn}, #{aftPjtCd}, #{aftPjtSn}, #{pjtNm}, #{budgetSn}, #{budgetNm}, #{regEmpSeq})
+            (#{frPjtSn}, #{aftPjtCd}, #{aftPjtNm}, #{budgetSn}, #{budgetNm}, #{regEmpSeq})
     </insert>
+
+    <update id="updateManageDepo" parameterType="map">
+        UPDATE CAM_MNG.DJ_DEPO_SETTING
+        SET
+            PJT_CD = #{aftPjtCd},
+            PJT_NM = #{aftPjtNm},
+            BUDGET_SN = #{budgetSn},
+            BUDGET_NM = #{budgetNm},
+            MOD_DT = NOW(),
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            FR_PJT_SN = #{frPjtSn}
+    </update>
+
+    <select id="chkManageDepo" parameterType="map" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_MNG.DJ_DEPO_SETTING
+        WHERE
+            FR_PJT_SN = #{frPjtSn}
+    </select>
 
     <select id="getManageDepo" parameterType="map" resultType="map">
         SELECT
@@ -329,6 +351,6 @@
         FROM
             CAM_MNG.DJ_DEPO_SETTING
         WHERE
-            FR_PJT_CD = #{paramPjtCd}
+            FR_PJT_SN = #{frPjtSn}
     </select>
 </mapper>
