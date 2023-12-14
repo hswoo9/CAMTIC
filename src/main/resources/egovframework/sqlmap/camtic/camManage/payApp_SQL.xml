@@ -275,6 +275,7 @@
                 BUDGET_SN,
                 BUDGET_NM,
                 EVID_TYPE,
+                FILE_NO,
                 TEAM_SEQ,
                 TEAM_NAME,
                 AUTH_NO,
@@ -314,6 +315,7 @@
                 #{budgetSn},
                 #{budgetNm},
                 #{evidType},
+                #{fileNo},
                 #{teamSeq},
                 #{teamName},
                 #{authNo},
@@ -1420,7 +1422,10 @@
             CAM_COMMON.DJ_FILE_INFO
         WHERE
             (CONTENT_ID = #{payAppSn} AND FILE_CD = 'payApp')
-        OR FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = #{payAppSn})
+        OR FILE_NO IN
+        <foreach collection="fileNoAr" item="type" open="(" close=")" separator=",">
+            #{type}
+        </foreach>
     </select>
 
     <select id="getPayAppInfo" parameterType="map" resultType="map">
@@ -1493,12 +1498,6 @@
         FROM
             CAM_COMMON.DJ_FILE_INFO A
         WHERE
-            CONTENT_ID = #{payAppSn}
-        AND
-            FILE_CD = 'useCard'
-        AND
-            FILE_PATH = #{filePath}
-        ORDER BY FILE_NO DESC
-        LIMIT 1
+            FILE_NO = #{FILE_NO}
     </select>
 </mapper>
