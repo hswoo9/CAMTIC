@@ -125,7 +125,15 @@ const estPrintPop = {
             crmManager = map.CRM_MEM_TEMP_NM;
         }
         estPrintPop.global.hwpCtrl.PutFieldText("CRM_MANAGER", crmManager);
-        estPrintPop.global.hwpCtrl.PutFieldText("EMAIL", crmMap.CRM_NM);
+
+        let email = "";
+        let crmEmail = map.CRM_MEM_TEMP_MAIL;
+        if(crmEmail != null){
+            email = crmMap.CRM_MEM_TEMP_MAIL;
+        }else{
+            email = map.CRM_MEM_EMAIL;
+        }
+        estPrintPop.global.hwpCtrl.PutFieldText("EMAIL", email);
 
         let supAmtSum = 0;
         /** 3. 견적 리스트 */

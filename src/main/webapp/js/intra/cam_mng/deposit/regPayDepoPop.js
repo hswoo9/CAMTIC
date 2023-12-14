@@ -84,7 +84,7 @@ var regPayDepo = {
 
     fn_manageSetData : function (){
         var data = {
-            paramPjtSn : $("#paramPjtSn").val()
+            frPjtSn : $("#paramPjtSn").val()
         }
 
         $.ajax({
@@ -95,7 +95,6 @@ var regPayDepo = {
             async : false,
             success : function(rs){
                 var rs = rs.rsult;
-
                 if(rs == null){ regPayDepo.global.setFlag = false; return; }
 
                 $("#pjtNm").val(rs.PJT_NM);
@@ -103,6 +102,7 @@ var regPayDepo = {
                 $("#budgetNm").val(rs.BUDGET_NM);
                 $("#budgetSn").val(rs.BUDGET_SN);
 
+                $("#depoTitle").val("입금신청 - " + rs.PJT_NM);
 
                 var data = {
                     pjtCd : rs.PJT_CD
@@ -133,8 +133,14 @@ var regPayDepo = {
 
                 $("#appDe").val(new Date(rs.REG_DT + 3240 * 10000).toISOString().split("T")[0]);
                 $("#payIncpDe").val(rs.PAY_INCP_DE);
-                $("#pjtNm").val(rs.PJT_NM);
-                $("#pjtSn").val(rs.PJT_SN);
+
+                if(rs.AFT_PJT_NM != null && rs.AFT_PJT_NM != ""){
+                    $("#pjtSn").val(rs.AFT_PJT_SN);
+                    $("#pjtNm").val(rs.AFT_PJT_NM);
+                }else{
+                    $("#pjtNm").val(rs.PJT_NM);
+                    $("#pjtSn").val(rs.PJT_SN);
+                }
                 $("#budgetNm").val(rs.BUDGET_NM);
                 $("#budgetSn").val(rs.BUDGET_SN);
                 $("#depoTitle").val(rs.DEPO_TITLE);
@@ -173,7 +179,7 @@ var regPayDepo = {
             dataType : "json",
             success : function(rs){
                 var rs = rs.data;
-                console.log(rs)
+                console.log(rs);
                 $("#pjtSn").val(rs.PJT_SN);
                 $("#pjtNm").val(rs.PJT_NM);
                 $("#pjtCd").val(rs.PJT_CD);
@@ -190,7 +196,6 @@ var regPayDepo = {
             payIncpDe : $("#payIncpDe").val(),
             pjtNm : $("#paramPjtNm").val(),
             pjtSn : $("#paramPjtSn").val(),
-            aftPjtSn : $("#pjtSn").val(),
             aftPjtNm : $("#pjtNm").val(),
             budgetNm : $("#budgetNm").val(),
             budgetSn : $("#budgetSn").val(),
@@ -206,9 +211,11 @@ var regPayDepo = {
             depoStat : $("#depoStat").val(),
 
             regEmpSeq : $("#regEmpSeq").val()
+        };
+
+        if(!regPayDepo.global.setFlag){
+            parameters.aftPjtSn = $("#pjtSn").val();
         }
-
-
 
         if($("#payDepoSn").val() != ""){
             parameters.payDepoSn = $("#payDepoSn").val();
@@ -238,7 +245,7 @@ var regPayDepo = {
             success : function(rs){
                 console.log(rs);
                 if(rs.code == 200){
-                    alert("저장되었습니다.")
+                    alert("저장되었습니다.");
                     let status = "";
 
                     location.href="/pay/pop/regPayDepoPop.do?payDepoSn=" + rs.params.payDepoSn + "&pjtSn=" + parameters.pjtSn;

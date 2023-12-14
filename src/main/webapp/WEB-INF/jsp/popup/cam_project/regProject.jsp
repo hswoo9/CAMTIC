@@ -60,6 +60,7 @@
 
 
 </style>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/regProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/inside/document/docuPop.js?v=${today}'/>"></script>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
@@ -153,13 +154,17 @@
                         <span class="red-star">*</span>견적가
                     </th>
                     <td>
-                        <input type="text" id="expAmt" style="width: 90%; text-align: right" onkeyup="docuContractReq.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"> 원
+                        <input type="text" id="expAmt" style="width: 70%; text-align: right" onkeyup="docuContractReq.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"> 원(VAT별도)
                     </td>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>장소
+                        <span class="red-star">*</span>업체명
                     </th>
                     <td>
                         <input type="text" id="contLoc" style="width: 90%;">
+                        <input type="hidden" id="contLocSn" name="contLocSn" />
+                        <button type="button" id="s" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="fn_popCamCrmList('engn')">
+                            조회
+                        </button>
                     </td>
                 </tr>
                 </thead>

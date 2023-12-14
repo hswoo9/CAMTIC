@@ -23,18 +23,13 @@ var applicationForm = {
         var html = "";
         if($("#recruitAreaInfoSn option:selected").attr("career") == "1,2"){
             html += '' +
-                '<input type="radio" id="careerType1" name="careerType" class="careerType k-radio k-radio-md" value="1">' +
-                '<label for="careerType1" class="careerType">경력</label>' +
-                '<input type="radio" id="careerType2" name="careerType" class="careerType k-radio k-radio-md" value="2">' +
-                '<label for="careerType2" class="careerType">신입</label>';
+                '<input type="hidden" id="careerType2" name="careerType" value="2">';
         }else if($("#recruitAreaInfoSn option:selected").attr("career") == "1"){
             html += '' +
-                '<input type="radio" id="careerType1" name="careerType" class="careerType k-radio k-radio-md" value="1" checked>' +
-                '<label for="careerType1" class="careerType">경력</label>';
+                '<input type="hidden" id="careerType1" name="careerType" value="1">';
         }else {
             html += '' +
-                '<input type="radio" id="careerType2" name="careerType" value="2" class="careerType k-radio k-radio-md" checked>' +
-                '<label for="careerType2" class="careerType">신입</label>';
+                '<input type="hidden" id="careerType2" name="careerType" value="2">';
         }
         $("#careerType .careerType").remove()
         $("#careerType").append(html);
@@ -81,10 +76,14 @@ var applicationForm = {
 
     setApplicationTempSave : function(type){
         if(type == "next"){
+            /*
             if($("input[name='careerType']:checked").val() == null){
                 alert("지원분야를 선택해주세요.");
                 return;
-            }else if(!$("#userName").val()){
+            }
+             */
+            if(!$("#userName").val()){
+
                 alert("이름(한글)을 입력해주세요.");
                 $("#userName").focus();
                 return;
@@ -206,7 +205,7 @@ var applicationForm = {
             formData.append("applicationId", $("#applicationId").val());
             formData.append("recruitInfoSn", $("#recruitInfoSn").val());
             formData.append("recruitAreaInfoSn", $("#recruitAreaInfoSn").val());
-            formData.append("careerType", $("input[name='careerType']:checked").val());
+            formData.append("careerType", $("input[name='careerType']").val());
 
             formData.append("userEmail", $("#userEmail2").val());
             formData.append("userName", $("#userName").val());

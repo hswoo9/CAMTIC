@@ -166,6 +166,9 @@ var popCrmList = {
         } else if($("#status").val() == "con") {
             opener.parent.$("#rndConCrmNm").val(rs.CRM_NM);
             opener.parent.$("#rndConCrmSn").val(rs.CRM_SN);
+        } else if ($("#status").val() == "engn"){
+            opener.parent.$("#contLoc").val(rs.CRM_NM);
+            opener.parent.$("#contLocSn").val(rs.CRM_SN);
         } else if ($("#status").val() == "part"){
             opener.parent.$("#crmPartNm").val(rs.CRM_NM);
             opener.parent.$("#crmPartSn").val(rs.CRM_SN);

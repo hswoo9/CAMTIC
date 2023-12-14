@@ -102,14 +102,20 @@
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
+                        <col width="5%">
+                        <col width="5%">
+                        <col width="7%">
                         <col width="10%">
+                        <col width="7%">
                         <col width="15%">
-                        <col width="10%">
-                        <col width="15%">
-                        <col width="10%">
+                        <col width="7%">
                         <col width="auto">
                     </colgroup>
                     <tr>
+                        <th class="text-center th-color">연도</th>
+                        <td>
+                            <input type="text" id="year" style="width: 90px;">
+                        </td>
                         <th class="text-center th-color">사업구분</th>
                         <td>
                             <input type="text" id="busnClass" style="width: 150px;">
@@ -126,7 +132,7 @@
                         <td colspan="4">
                             <input type="text" id="searchValue" style="width: 150px;">
                             <input type="text" id="searchValue2" style="width: 150px;">
-                            <input type="text" id="searchText" onkeypress="if(event.keyCode==13){ prjDepositMng.gridReload(); }" style="width: 200px;">
+                            <input type="text" id="searchText" onkeypress="if(event.keyCode==13){ prjDepositMng.gridSearch(); }" style="width: 200px;">
                         </td>
                     </tr>
                 </table>

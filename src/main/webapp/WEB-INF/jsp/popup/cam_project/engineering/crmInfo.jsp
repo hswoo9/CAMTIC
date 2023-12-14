@@ -109,7 +109,7 @@
                 <span class="red-star"></span>핸드폰
             </th>
             <td>
-                <input type="text" id="crmPhNum" style="width: 90%;" disabled>
+                <input type="text" id="crmPhNum" style="width: 90%;">
             </td>
         </tr>
         <tr>
@@ -123,12 +123,12 @@
                 <span class="red-star"></span>메일주소
             </th>
             <td>
-                <input type="text" id="crmMail" style="width: 90%;" disabled>
+                <input type="text" id="crmMail" style="width: 90%;">
             </td>
         </tr>
         <tr>
             <th scope="row" class="text-center th-color">
-                상담내용
+                <span class="red-star">*</span>상담내용
             </th>
             <td colspan="3">
                 <textarea type="text" id="crmEtc" style="width: 90%; height: 100px;"></textarea>
