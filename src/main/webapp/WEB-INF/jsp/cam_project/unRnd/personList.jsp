@@ -5,6 +5,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lecturePopup.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/personList.js?v=${today}'/>"></script>
 <style>
 
@@ -30,10 +31,9 @@
                         <col width="25%">
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">검색</th>
+                        <th class="text-center th-color">이름</th>
                         <td colspan="4">
-                            <input type="text" id="searchValue" style="width: 150px;">
-                            <input type="text" id="searchText"onkeypress="if(event.keyCode==13){ camPrj.gridReload(); }" style="width: 200px;">
+                            <input type="text" id="sEmpName" onkeypress="if(event.keyCode==13){ gridReload(); }" style="width: 200px;">
                         </td>
                     </tr>
                 </table>

@@ -190,6 +190,11 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     }
 
     @Override
+    public List<Map<String, Object>> getLecturePersonDupleCk(Map<String, Object> params) {
+        return projectUnRndRepository.getLecturePersonDupleCk(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getLectureList(Map<String, Object> params) {
         return projectUnRndRepository.getLectureList(params);
     }
@@ -219,6 +224,10 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
         }else{
             projectUnRndRepository.updPersonData(params);
         }
+    }
+    @Override
+    public void delLecturePersonData(Map<String, Object> params) {
+        projectUnRndRepository.delLectureData(params);
     }
     @Override
     public void insLectureInfo(Map<String, Object> params) {

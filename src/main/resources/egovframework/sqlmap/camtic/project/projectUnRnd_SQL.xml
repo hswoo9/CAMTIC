@@ -203,6 +203,7 @@
         <if test="sEmpName != null and sEmpName != ''">
             AND NAME LIKE CONCAT('%', #{sEmpName}, '%')
         </if>
+        AND ACTIVE = 'Y'
         ORDER BY NAME
     </select>
 
@@ -213,6 +214,7 @@
         FROM
             CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON
         WHERE PERSON_SN = #{personSn}
+        AND ACTIVE = 'Y'
     </select>
 
     <select id="getLectureTeacherList" parameterType="map" resultType="map">
@@ -269,6 +271,16 @@
             AND A.PERSON_SN IN (${personList})
         </if>
         ORDER BY NAME
+    </select>
+
+    <select id="getLecturePersonDupleCk" parameterType="map" resultType="map">
+        /*getLecturePersonDupleCk*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON
+        WHERE
+            ID = #{id}
     </select>
 
     <select id="getLectureList" parameterType="map" resultType="map">
@@ -384,7 +396,17 @@
             MOD_EMP_SEQ = #{regEmpSeq},
             MOD_DT = NOW()
         WHERE
-            LEC_SN = #{pk}
+            PERSON_SN = #{personSn}
+    </update>
+
+    <update id="delLectureData" parameterType="map">
+        /*delLectureData*/
+        UPDATE
+            CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON
+        SET
+            ACTIVE = 'N'
+        WHERE
+            PERSON_SN = #{personSn}
     </update>
 
     <insert id="insLectureInfo" parameterType="map">
