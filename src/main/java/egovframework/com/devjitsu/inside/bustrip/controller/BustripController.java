@@ -352,7 +352,7 @@ public class BustripController {
     public String setBustripReq(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
         MultipartFile[] file = request.getFiles("bustripFile").toArray(new MultipartFile[0]);
         bustripService.setBustripReq(params, file, SERVER_DIR, BASE_DIR);
-
+        model.addAttribute("rs", params);
         return "jsonView";
     }
 

@@ -3,6 +3,7 @@ var prjDepositMng = {
 
     fn_defaultScript : function (){
         customKendo.fn_textBox(["deptName", "searchText"]);
+        customKendo.fn_datePicker("year", 'decade', "yyyy", new Date());
 
         var bcDsData = {
             cmGroupCode : "BUSN_CLASS"
@@ -16,9 +17,8 @@ var prjDepositMng = {
             dataValueField: "value",
             dataSource: [
                 { text: "전체", value: "" },
-                { text: "진행 프로젝트(담당)", value: "1" },
-                { text: "전체 프로젝트(담당)", value: "2" },
-                { text: "진행중 프로젝트(전체)", value: "3" }
+                { text: "미등록", value: "999" },
+                { text: "설정 완료", value: "1000" }
             ],
             index: 0
         });
@@ -56,6 +56,11 @@ var prjDepositMng = {
         $("#mainGrid").data("kendoGrid").dataSource.read();
     },
 
+    gridSearch : function (){
+        $("#mainGrid").data("kendoGrid").dataSource.read();
+        $("#mainGrid").data("kendoGrid").dataSource.page(1);
+    },
+
     mainGrid: function (){
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
@@ -74,6 +79,8 @@ var prjDepositMng = {
                     data.regEmpSeq = $("#regEmpSeq").val();
                     data.myDeptSeq = $("#myDeptSeq").val();
                     data.busnSubClass = "'E3', 'E4', 'E5', 'R2', 'R2', 'S2','E6', 'E7', 'R3', 'S3'";
+
+                    data.year = $("#year").val();
 
                     data.manageYn = 'Y';
                     return data;
@@ -108,7 +115,7 @@ var prjDepositMng = {
                 }, {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="prjDepositMng.gridReload()">' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="prjDepositMng.gridSearch()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -148,7 +155,6 @@ var prjDepositMng = {
                     field: "PJT_NM",
                     title: "프로젝트 명",
                     template: function(e){
-                        console.log(e.PAY_DEPO_SN);
                         var pjtNm = e.PJT_NM;
                         if(e.BUSN_CLASS == "S"){
                             pjtNm = e.BS_TITLE;
@@ -214,7 +220,7 @@ var prjDepositMng = {
                     template : function(e){
 
                         if(e.setYn > 0){
-                            return "설정완료";
+                            return '<span style="font-weight: bold">설정완료</span>';
                         }else{
                             return "미등록";
                         }

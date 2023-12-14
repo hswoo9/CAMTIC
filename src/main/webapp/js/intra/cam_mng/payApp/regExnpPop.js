@@ -170,42 +170,7 @@ var regExnp = {
         var rs = result.map;
         var ls = result.list;
         var fileList = result.fileList;
-
-        var fileFlag = true;
-        for(var i = 0; i < ls.length; i++){
-            var authDd = ls[i].AUTH_DD;
-            var authHh = ls[i].AUTH_HH;
-            var authNo = ls[i].AUTH_NO;
-            var buySts = ls[i].BUY_STS;
-            var cardNo = ls[i].CARD_NO.replaceAll("-", "");
-            if(ls[i].EVID_TYPE == "3") {
-                for(var j = 0; j < fileList.length; j++){
-                    if(fileList[j].file_cd == "useCard"){
-                        if(fileList[j].file_path.split("/")[3] == authNo &&
-                            fileList[j].file_path.split("/")[4] == authDd &&
-                            fileList[j].file_path.split("/")[5] == authHh &&
-                            fileList[j].file_path.split("/")[6] == cardNo &&
-                            fileList[j].file_path.split("/")[7] == buySts){
-
-
-                            regExnp.global.fileArray.push(fileList[j]);
-                        }
-                    } else if(fileList[j].file_cd != "useCard" && fileFlag){
-                        regExnp.global.fileArray.push(fileList[j]);
-
-                        fileFlag = false;
-                    }
-                }
-            } else {
-                for(var j = 0; j < fileList.length; j++){
-                    if(fileList[j].file_cd != "useCard" && fileFlag){
-                        regExnp.global.fileArray.push(fileList[j]);
-
-                        fileFlag = false;
-                    }
-                }
-            }
-        }
+        regExnp.global.fileArray = fileList;
 
         if($("#exnpSn").val() != ""){
             regExnp.payAppBtnSet(rs);
@@ -263,6 +228,7 @@ var regExnp = {
                 regExnpDet.global.createHtmlStr += "";
                 regExnpDet.global.createHtmlStr += '   <td>' +
                     '       <input type="text" id="eviType' + regExnpDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
+                    '       <input type="hidden" id="fileNo' + regExnpDet.global.itemIndex + '" value="'+item.FILE_NO+'" class="fileNo" style="width: 100%">' +
                     '       <input type="hidden" id="authNo' + regExnpDet.global.itemIndex + '" value="'+item.AUTH_NO+'" class="authNo" style="width: 100%">' +
                     '       <input type="hidden" id="authHh' + regExnpDet.global.itemIndex + '" value="'+item.AUTH_HH+'" class="authHh" style="width: 100%">' +
                     '       <input type="hidden" id="authDd' + regExnpDet.global.itemIndex + '" value="'+item.AUTH_DD+'" class="authDd" style="width: 100%">' +
@@ -415,6 +381,10 @@ var regExnp = {
         var data = {
             payAppSn : $("#payAppSn").val(),
         }
+
+        $(".fileNo").each(function(){
+            console.log(this.value);
+        });
         
         if($("#item").val() != "" && $("#item").val() != null){
             data.payAppDetSn = $("#item").val();
@@ -424,40 +394,7 @@ var regExnp = {
         var rs = result.map;
         var ls = result.list;
         var fileList = result.fileList;
-
-        var fileFlag = true;
-        for(var i = 0; i < ls.length; i++){
-            var authDd = ls[i].AUTH_DD;
-            var authHh = ls[i].AUTH_HH;
-            var authNo = ls[i].AUTH_NO;
-            var buySts = ls[i].BUY_STS;
-            var cardNo = ls[i].CARD_NO.replaceAll("-", "");
-            if(ls[i].EVID_TYPE == "3") {
-                for(var j = 0; j < fileList.length; j++){
-                    if(fileList[j].file_cd == "useCard"){
-                        if(fileList[j].file_path.split("/")[3] == authNo &&
-                            fileList[j].file_path.split("/")[4] == authDd &&
-                            fileList[j].file_path.split("/")[5] == authHh &&
-                            fileList[j].file_path.split("/")[6] == cardNo &&
-                            fileList[j].file_path.split("/")[7] == buySts){
-                            regExnp.global.fileArray.push(fileList[j]);
-                        }
-                    } else if(fileList[j].file_cd != "useCard" && fileFlag){
-                        regExnp.global.fileArray.push(fileList[j]);
-
-                        fileFlag = false;
-                    }
-                }
-            } else {
-                for(var j = 0; j < fileList.length; j++){
-                    if(fileList[j].file_cd != "useCard" && fileFlag){
-                        regExnp.global.fileArray.push(fileList[j]);
-
-                        fileFlag = false;
-                    }
-                }
-            }
-        }
+        regExnp.global.fileArray = fileList;
 
         $("#payAppType").data("kendoRadioGroup").value(rs.PAY_APP_TYPE);
 
@@ -497,7 +434,6 @@ var regExnp = {
             $("#budgetSn").val(ls[0].BUDGET_SN);
         }
 
-        console.log(rs);
 
         $("#reqDe").val(rs.REQ_DE);
         $("#DT3").val(rs.REQ_DE);
@@ -518,6 +454,7 @@ var regExnp = {
 
                 regExnpDet.global.createHtmlStr += '   <td>' +
                     '       <input type="text" id="eviType' + regExnpDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
+                    '       <input type="hidden" id="fileNo' + regExnpDet.global.itemIndex + '" class="fileNo" value="'+item.FILE_NO+'" style="width: 100%">' +
                     '       <input type="hidden" id="authNo' + regExnpDet.global.itemIndex + '" class="authNo" value="'+item.AUTH_NO+'" style="width: 100%">' +
                     '       <input type="hidden" id="authHh' + regExnpDet.global.itemIndex + '" class="authHh" value="'+item.AUTH_HH+'" style="width: 100%">' +
                     '       <input type="hidden" id="authDd' + regExnpDet.global.itemIndex + '" class="authDd" value="'+item.AUTH_DD+'" style="width: 100%">' +
@@ -675,9 +612,6 @@ var regExnp = {
         var rs = result.map;
         var ls = result.list;
 
-        console.log(rs);
-        console.log(ls);
-
         $("#exnpDe").val(rs.APP_DE);
         $("#pjtNm").val(rs.PJT_NM);
         $("#pjtSn").val(rs.PJT_SN);
@@ -716,6 +650,7 @@ var regExnp = {
 
                 regExnpDet.global.createHtmlStr += '   <td>' +
                     '       <input type="text" id="eviType' + regExnpDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
+                    '       <input type="hidden" id="fileNo' + regExnpDet.global.itemIndex + '" class="fileNo" value="'+item.FILE_NO+'" style="width: 100%">' +
                     '       <input type="hidden" id="authNo' + regExnpDet.global.itemIndex + '" class="authNo" value="'+item.AUTH_NO+'" style="width: 100%">' +
                     '       <input type="hidden" id="authHh' + regExnpDet.global.itemIndex + '" class="authHh" value="'+item.AUTH_HH+'" style="width: 100%">' +
                     '       <input type="hidden" id="authDd' + regExnpDet.global.itemIndex + '" class="authDd" value="'+item.AUTH_DD+'" style="width: 100%">' +
@@ -930,6 +865,10 @@ var regExnp = {
                 busnCd : $("#busnCd" + i).data("kendoDropDownList").value()
             }
 
+            if($("#fileNo" + i).val() != "" && $("#fileNo" + i).val() != null && $("#fileNo" + i).val() != "undefined"){
+                data.fileNo = $("#fileNo" + i).val();
+            }
+
             if(data.eviType == ""){
                 flag = false;
             }
@@ -1091,6 +1030,7 @@ var regExnpDet = {
             regExnpDet.global.createHtmlStr += "";
             regExnpDet.global.createHtmlStr += '   <td>' +
                 '       <input type="text" id="eviType' + clIdx + '" class="eviType" style="width: 100%">' +
+                '       <input type="hidden" id="fileNo' + clIdx + '" class="fileNo" style="width: 100%">' +
                 '       <input type="hidden" id="authNo' + clIdx + '" class="authNo" style="width: 100%">' +
                 '       <input type="hidden" id="authHh' + clIdx + '" class="authHh" style="width: 100%">' +
                 '       <input type="hidden" id="authDd' + clIdx + '" class="authDd" style="width: 100%">' +

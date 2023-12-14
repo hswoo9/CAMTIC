@@ -164,6 +164,7 @@
                 <col width="15%">
                 <col width="7%">
                 <col width="7%">
+                <col width="7%">
                 <col width="15%">
                 <col width="15%">
                 <col width="10%">
@@ -176,6 +177,7 @@
                 <th><span class="red-star">*</span>건명</th>
                 <th>수량</th>
                 <th>단위</th>
+                <th>단가</th>
                 <th>견적총액</th>
                 <th><span class="red-star">*</span>견적처</th>
                 <th>비고</th>
@@ -194,8 +196,14 @@
                 <td><input type="text" id="invNm" class="invNm" /></td>
                 <td><input type="text" id="invCnt" class="invCnt" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
                 <td><input type="text" id="invUnit" class="invUnit" /></td>
-                <td><input type="text" id="estTotAmt" style="text-align: right" class="estTotAmt" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
-                <td><input type="text" id="estOfc" class="estOfc" /></td>
+                <td><input type="text" id="invUnitPrice" class="invUnitPrice" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
+                <td><input type="text" id="estTotAmt" style="text-align: right" class="estTotAmt" disabled/></td>
+                <td>
+                    <input type="text" id="estOfc" class="estOfc" style="width: 78%"/>
+                    <button type="button" id="" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="devInfo.fn_popCamCrmList()">
+                        조회
+                    </button>
+                </td>
                 <td><input type="text" id="invEtc" class="invEtc" /></td>
                 <td style="text-align: center;"><button type="button" onclick="devInfo.fn_addInv()" class="k-button k-button-solid-base">추가</button></td>
             </tr>
@@ -249,6 +257,10 @@
         }
         $("#psEmpNm").val(psEmpNm.slice(0, -1));
         $("#psEmpSeq").val(psEmpSeq.slice(0, -1));
+    }
+
+    function fn_selCrmInfo(e){
+        devInfo.selCrmInfo(e);
     }
 </script>
 </body>

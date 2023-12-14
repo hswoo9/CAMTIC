@@ -2,7 +2,8 @@ var rndDP = {
 
     global: {
         devPjtVerList : [],
-        invCk: "N"
+        invCk: "N",
+        crmIdx : "",
     },
 
     fn_defaultScript: function(){
@@ -35,7 +36,7 @@ var rndDP = {
 
 
         customKendo.fn_textBox(["invNm","devPjtNm",
-            "devCrmInfo", "pm", "invCnt", "invUnit", "estTotAmt", "estOfc", "invEtc"]);
+            "devCrmInfo", "pm", "invCnt", "invUnit", "invUnitPrice", "estTotAmt", "estOfc", "invEtc"]);
 
         var rs = customKendo.fn_customAjax("/project/getDevPjtVerList", {
             pjtSn : $("#pjtSn").val()
@@ -229,13 +230,24 @@ var rndDP = {
             "                    <td><input type=\"text\" id=\"invNm\" class=\"invNm\" /></td>\n" +
             "                    <td><input type=\"text\" id=\"invCnt\" class=\"invCnt\" style=\"text-align: right\" onkeyup=\"inputNumberFormat(this)\" oninput=\"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\\..*)\\./g, '$1');\" /></td>\n" +
             "                    <td><input type=\"text\" id=\"invUnit\" class=\"invUnit\" /></td>\n" +
-            "                    <td><input type=\"text\" id=\"estTotAmt\" style=\"text-align: right\" class=\"estTotAmt\" onkeyup=\"inputNumberFormat(this)\" oninput=\"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\\..*)\\./g, '$1');\" /></td>\n" +
-            "                    <td><input type=\"text\" id=\"estOfc\" class=\"estOfc\" /></td>\n" +
+            "                    <td><input type=\"text\" id=\"invUnitPrice\" class=\"invUnitPrice\" style=\"text-align: right\" onkeyup=\"inputNumberFormat(this)\" oninput=\"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\\..*)\\./g, '$1');\" /></td>\n" +
+            "                    <td><input type=\"text\" id=\"estTotAmt\" style=\"text-align: right\" class=\"estTotAmt\" disabled/></td>\n" +
+            "                    <td>" +
+            "                       <input type=\"text\" id=\"estOfc\" class=\"estOfc\" style='width: 78%'/>" +
+            "                       <button type=\"button\" id=\"\" class=\"k-grid-button k-button k-button-md k-button-solid k-button-solid-base\" onclick=\"rndDP.fn_popCamCrmList()\">" +
+            "                           조회" +
+            "                       </button>" +
+            "                   </td>\n" +
             "                    <td><input type=\"text\" id=\"invEtc\" class=\"invEtc\" /></td>\n" +
             "                    <td style=\"text-align: center;\"><button type=\"button\" id=\"addBtn\" onclick=\"rndDP.fn_addInv()\" class=\"k-button k-button-solid-base\">추가</button></td>\n" +
             "                </tr>";
         $("#invTable").append(bsHtml);
-        customKendo.fn_textBox(["invNm", "invCnt", "invUnit", "estTotAmt", "estOfc", "invEtc"]);
+        customKendo.fn_textBox(["invNm", "invCnt", "invUnit", "invUnitPrice", "estTotAmt", "estOfc", "invEtc"]);
+
+        $("#invCnt, #invUnitPrice").on("keyup", function(){
+            $("#estTotAmt").val(comma(uncomma($("#invCnt").val()) * uncomma($("#invUnitPrice").val())))
+        });
+
         $("#addPSActive").css("display", "block");
 
 
@@ -256,8 +268,14 @@ var rndDP = {
                 '       </td>\n' +
                 '       <td><input type="text" id="invCnt'+idx+'" class="invCnt" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>\n' +
                 '       <td><input type="text" id="invUnit'+idx+'" class="invUnit" /></td>\n' +
-                '       <td><input type="text" id="estTotAmt'+idx+'" style="text-align: right" class="estTotAmt" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>\n' +
-                '       <td><input type="text" id="estOfc'+idx+'" class="estOfc" /></td>\n' +
+                '       <td><input type="text" id="invUnitPrice'+idx+'" class="invUnitPrice" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>\n' +
+                '       <td><input type="text" id="estTotAmt'+idx+'" style="text-align: right" class="estTotAmt" disabled/></td>\n' +
+                '       <td>' +
+                '           <input type="text" id="estOfc'+idx+'" class="estOfc" style="width: 78%"/>' +
+                '           <button type="button" id="" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rndDP.fn_popCamCrmList('+idx+')">\n' +
+                '              조회' +
+                '           </button>' +
+                '       </td>\n' +
                 '       <td><input type="text" id="invEtc'+idx+'" class="invEtc" /></td>\n' +
                 '       <td style="text-align: center;">' +
                 '           <button type="button" id="delBtn" onclick="rndDP.fn_delInv('+idx+')" class="k-button k-button-solid-error">삭제</button>' +
@@ -265,18 +283,25 @@ var rndDP = {
             html += '</tr>';
             $("#invTable").append(html);
 
-            customKendo.fn_textBox(["invNm" + idx, "invCnt" + idx , "invUnit" + idx,
+            customKendo.fn_textBox(["invNm" + idx, "invCnt" + idx , "invUnit" + idx, "invUnitPrice" + idx,
                 "estTotAmt" + idx, "estOfc" + idx, "invEtc" + idx]);
 
             $("#invSn" + idx).val(list[i].INV_SN);
             $("#invNm" + idx).val(list[i].INV_NM);
             $("#invCnt" + idx).val(comma(list[i].INV_CNT));
             $("#invUnit" + idx).val(list[i].INV_UNIT);
+            $("#invUnitPrice" + idx).val(comma(list[i].INV_UNIT_PRICE));
             $("#estTotAmt" + idx).val(comma(list[i].EST_TOT_AMT));
             $("#invEtc" + idx).val(list[i].INV_ETC);
             $("#estOfc" + idx).val(list[i].EST_OFC);
             rndDP.global.invCk = "Y";
         }
+
+        $("#invTable > tr").each(function (e) {
+            $("#invCnt" + e + ", #invUnitPrice" + e).on("keyup", function () {
+                $("#estTotAmt" + e).val(comma(uncomma($("#invCnt" + e).val()) * uncomma($("#invUnitPrice" + e).val())));
+            });
+        });
 
         const developResult = customKendo.fn_customAjax("/project/getDevelopPlan", data);
         const devMap = developResult.rs;
@@ -318,6 +343,12 @@ var rndDP = {
             alert("수량을 입력해주세요.");
             return ;
         }
+
+        if($("#invUnitPrice").val() == ""){
+            alert("단가를 입력해주세요.");
+            return ;
+        }
+
         if($("#invUnit").val() == ""){
             alert("단위를 입력해주세요.");
             return ;
@@ -333,6 +364,7 @@ var rndDP = {
             invNm : $("#invNm").val(),
             invCnt : uncomma($("#invCnt").val()),
             invUnit : $("#invUnit").val(),
+            invUnitPrice : uncomma($("#invUnitPrice").val()),
             estTotAmt : uncomma($("#estTotAmt").val()),
             estOfc : $("#estOfc").val(),
             invEtc : $("#invEtc").val(),
@@ -349,8 +381,14 @@ var rndDP = {
             '       </td>\n' +
             '       <td><input type="text" id="invCnt'+idx+'" class="invCnt" value="'+comma(data.invCnt)+'" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>\n' +
             '       <td><input type="text" id="invUnit'+idx+'" class="invUnit" value="'+data.invUnit+'" /></td>\n' +
-            '       <td><input type="text" id="estTotAmt'+idx+'" style="text-align: right" value="'+comma(data.estTotAmt)+'" class="estTotAmt" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>\n' +
-            '       <td><input type="text" id="estOfc'+idx+'" class="estOfc" value="'+data.estOfc+'" /></td>\n' +
+            '       <td><input type="text" id="invUnitPrice'+idx+'" class="invUnitPrice" value="'+comma(data.invUnitPrice)+'" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"/></td>\n' +
+            '       <td><input type="text" id="estTotAmt'+idx+'" style="text-align: right" value="'+comma(data.estTotAmt)+'" class="estTotAmt" disabled/></td>\n' +
+            '       <td>' +
+            '           <input type="text" id="estOfc'+idx+'" class="estOfc" value="'+data.estOfc+'" style="width: 78%" />' +
+            '            <button type="button" id="" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rndDP.fn_popCamCrmList('+idx+')">\n' +
+            '               조회' +
+            '            </button>' +
+            '       </td>\n' +
             '       <td><input type="text" id="invEtc'+idx+'" class="invEtc" value="'+data.invEtc+'" /></td>\n' +
             '       <td style="text-align: center;">' +
             '           <button type="button" id="delBtn" onclick="rndDP.fn_delInv('+idx+')" class="k-button k-button-solid-error">삭제</button>' +
@@ -359,9 +397,14 @@ var rndDP = {
 
         $("#invTable").append(html);
 
-        customKendo.fn_textBox(["invNm" + idx, "invCnt" + idx , "invUnit" + idx,
+        customKendo.fn_textBox(["invNm" + idx, "invCnt" + idx , "invUnit" + idx, "invUnitPrice" + idx,
             "estTotAmt" + idx, "estOfc" + idx, "invEtc" + idx]);
 
+        $("#invTable > tr").each(function (e) {
+            $("#invCnt" + e + ", #invUnitPrice" + e).on("keyup", function () {
+                $("#estTotAmt" + e).val(comma(uncomma($("#invCnt" + e).val()) * uncomma($("#invUnitPrice" + e).val())));
+            });
+        });
 
         $.ajax({
             url : "/project/insInvData",
@@ -394,6 +437,7 @@ var rndDP = {
                 $("#invNm").val("");
                 $("#invCnt").val("");
                 $("#invUnit").val("");
+                $("#invUnitPrice").val("");
                 $("#estOfc").val("");
                 $("#invEtc").val("");
             }
@@ -449,6 +493,7 @@ var rndDP = {
                                 invNm : $("#invNm"+idx).val(),
                                 invCnt : uncomma($("#invCnt"+idx).val()),
                                 invUnit : $("#invUnit"+idx).val(),
+                                invUnitPrice : uncomma($("#invUnitPrice"+idx).val()),
                                 estTotAmt : uncomma($("#estTotAmt"+idx).val()),
                                 estOfc : $("#estOfc"+idx).val(),
                                 invEtc : $("#invEtc"+idx).val()
@@ -598,5 +643,21 @@ var rndDP = {
             this.method = 'POST';
             this.target = '_self';
         }).trigger("submit");
+    },
+
+    fn_popCamCrmList : function (e){
+        if(e != null){
+            rndDP.global.crmIdx = e;
+        }
+
+        var url = "/crm/pop/popCrmList.do";
+        var name = "_blank";
+        var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
+    selCrmInfo :  function(e){
+        $("#estOfc" + rndDP.global.crmIdx).val(e.CRM_NM);
+        rndDP.global.crmIdx = "";
     }
 }

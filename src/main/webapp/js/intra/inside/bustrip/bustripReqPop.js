@@ -297,11 +297,14 @@ const bustripReq = {
                 processData: false,
                 enctype : 'multipart/form-data',
                 async : false,
-                success : function(){
+                success : function(rs){
+                    var loadType = "";
                     if(hrBizReqId == ""){
                         alert("출장 신청이 완료되었습니다.");
+                        reloadType = "href"
                     }else{
                         alert("출장 수정이 완료되었습니다.");
+                        reloadType = "reload";
                     }
 
                     if($("#paramsPjtSn").val() == "") {
@@ -331,7 +334,13 @@ const bustripReq = {
                             }
                         }
                     }
-                    window.close();
+
+                    if(reloadType == "href"){
+                        location.href = "/bustrip/pop/bustripReqPop.do?hrBizReqId=" + rs.rs.hrBizReqId;
+                    }else{
+                        location.reload()
+                    }
+                    //window.close();
                 }
             });
         }

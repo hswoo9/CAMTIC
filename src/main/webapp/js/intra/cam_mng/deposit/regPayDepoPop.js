@@ -84,7 +84,7 @@ var regPayDepo = {
 
     fn_manageSetData : function (){
         var data = {
-            paramPjtSn : $("#paramPjtSn").val()
+            frPjtSn : $("#paramPjtSn").val()
         }
 
         $.ajax({

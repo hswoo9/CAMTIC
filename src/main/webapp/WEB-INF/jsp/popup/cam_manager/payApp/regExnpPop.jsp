@@ -231,6 +231,7 @@
                         <td>
                             <input type="hidden" id="payDestSn0" name="payDestSn" class="payDestSn">
                             <input type="text" id="eviType0" class="eviType" style="width: 100%">
+                            <input type="hidden" id="fileNo0" class="fileNo"/>
                             <input type="hidden" id="authNo0" class="authNo" style="width: 100%">
                             <input type="hidden" id="authHh0" class="authHh" style="width: 100%">
                             <input type="hidden" id="authDd0" class="authDd" style="width: 100%">
