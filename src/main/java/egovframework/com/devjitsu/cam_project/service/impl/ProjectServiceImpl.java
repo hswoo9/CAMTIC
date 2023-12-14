@@ -139,6 +139,12 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public void setEstInfoDel(Map<String, Object> params) {
+        projectRepository.setEstInfoDel(params);
+        projectRepository.delEstSub(params);
+    }
+
+    @Override
     public Map<String, Object> getEstData(Map<String, Object> params) {
         Map<String, Object> result = new HashMap<>();
 
@@ -146,7 +152,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         if(estList.size() != 0){
             result.put("estList", estList);
-            params.put("estSn", estList.get(estList.size() - 1).get("EST_SN"));
+//            params.put("estSn", estList.get(estList.size() - 1).get("EST_SN"));
             result.put("estSubList", projectRepository.getEstSubList(params));
         }
 
@@ -163,6 +169,7 @@ public class ProjectServiceImpl implements ProjectService {
     public Map<String, Object> getStep1SubData(Map<String, Object> params) {
         Map<String, Object> result = new HashMap<>();
 
+        result.put("estSub", projectRepository.getEstData(params));
         result.put("estSubList", projectRepository.getEstSubList(params));
 
         return result;

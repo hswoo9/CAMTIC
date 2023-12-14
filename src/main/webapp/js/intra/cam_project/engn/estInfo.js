@@ -170,7 +170,6 @@ var estInfo = {
 
         $("#crmCompNm").val(rs.hashMap.CRM_NM);
         $("#crmMem").val(rs.hashMap.CRM_CEO);
-        $("#estPjtNm").val(rs.hashMap.PJT_NM);
         $("#estExpAmt").val(0);
 
         var html = "";
@@ -197,6 +196,11 @@ var estInfo = {
                 html += "   <td style='text-align: right'>" + rs.result.estList[i].CNT + "</td>";
                 html += "   <td style='text-align: right'>" + sdfDate + "</td>";
                 html += "   <td style='text-align: right'>" + rs.result.estList[i].EMP_NAME + "</td>";
+                html += "   <td style='text-align: right'>";
+                html += "       <button type=\"button\" id=\"delBtn\" onclick=\"estInfo.fn_delEst(" + rs.result.estList[i].EST_SN + ", " + (i + 1) + ")\" class=\"k-button k-button-solid-error\">" +
+                                "삭제" +
+                                "</button>";
+                html += "   </td>";
                 html += "</tr>";
 
                 if(i+1 == len){
@@ -250,6 +254,7 @@ var estInfo = {
                 });
             });
 
+            $("#estPjtNm").val(rs.result.estList[len - 1].EST_NM);
             $("#estDe").val(rs.result.estList[len - 1].EST_DE);
             $("#etc").val(rs.result.estList[len - 1].EST_ISS);
             $("#estExpAmt").val(estInfo.comma(rs.result.estList[len - 1].EST_TOT_AMT));
@@ -323,12 +328,19 @@ var estInfo = {
         $("#tr2" + k).css("background-color", "#a7e1fc");
 
         var data = {
-            estSn : k
+            estSn : k,
         }
 
         var rs = customKendo.fn_customAjax("/project/getStep1SubData", data);
-
+        var estSub = rs.result.estSub;
         var estSubList = rs.result.estSubList;
+
+        $("#estDe").val(estSub.EST_DE);
+        $("#estPjtNm").val(estSub.EST_NM);
+        $("input[name='vatYn'][value='" + estSub.VAT + "']").prop("checked", true);
+        $("#estExpAmt").val(estInfo.comma(estSub.EST_TOT_AMT));
+        $("#etc").val(estSub.EST_ISS);
+
         $("#productTb").empty();
         var bsHtml = "";
         bsHtml = "<tr>\n" +
@@ -391,6 +403,20 @@ var estInfo = {
                 });
             });
         });
+    },
+
+    fn_delEst : function(e, i){
+        if(confirm("버전 " + i + " 삭제하시겠습니까?")){
+            var result = customKendo.fn_customAjax("/project/engn/setEstInfoDel", {estSn : e});
+            if(result.flag){
+                alert("삭제되었습니다.");
+                if(commonProject.global.teamStat == "Y"){
+                    window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=0";
+                }else{
+                    window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=1";
+                }
+            }
+        }
     },
 
     inputNumberFormat : function (obj){

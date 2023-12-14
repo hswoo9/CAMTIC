@@ -22,6 +22,7 @@ public interface ProjectService {
     Map<String, Object> getProjectData(Map<String, Object> params);
 
     void setEstInfo(Map<String, Object> params);
+    void setEstInfoDel(Map<String, Object> params);
 
     void setEstSub(Map<String, Object> params);
 
