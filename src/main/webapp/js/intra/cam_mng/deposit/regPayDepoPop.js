@@ -158,6 +158,8 @@ var regPayDepo = {
 
                 if(rs.APPR_STAT == 'N'){
                     $("#apprBtn").css("display", "");
+                }else{
+                    $("#saveBtn").css("display", "none");
                 }
 
                 if($("#auth").val() == "user"){
