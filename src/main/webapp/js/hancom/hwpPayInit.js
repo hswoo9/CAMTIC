@@ -70,7 +70,11 @@ var payInit = {
                     spot = userInfo.POSITION_NAME;
                 }
                 /** 연구책임자 소속 */
-                hwpDocCtrl.putFieldText("DEPT_NAME", userInfo.deptNm + " " +userInfo.teamNm);
+                if(userInfo.teamNm == "" || userInfo.teamNm == null){
+                    hwpDocCtrl.putFieldText("DEPT_NAME", userInfo.deptNm);
+                }else{
+                    hwpDocCtrl.putFieldText("DEPT_NAME", userInfo.teamNm);
+                }
             }
             /** 연구책임자 직급 */
             hwpDocCtrl.putFieldText("POSITION_NAME", spot);
@@ -96,18 +100,20 @@ var payInit = {
                 }
             }
             hwpDocCtrl.putFieldText("SUP_DEP", supDepTxt);
-            /** 연구비 구분 */
 
+            /** 연구비 구분 */
             var sbjDs = customKendo.fn_customAjax("/common/commonCodeList", {
                 cmGroupCode: "RND_SUBJECT"
             }).rs;
             let sbjClassTxt = "";
+            console.log(pjtMap.SBJ_CLASS);
             console.log(sbjDs);
             for(let i=0; i<sbjDs.length; i++){
-                if(sbjDs[i].CM_CODE == pjtMap.SBJ_CLASS){
+                if(sbjDs[i].CM_CODE == String(pjtMap.SBJ_CLASS)){
                     sbjClassTxt = sbjDs[i].CM_CODE_NM;
                 }
             }
+            hwpDocCtrl.putFieldText("SBJ_CLASS", sbjClassTxt);
             hwpDocCtrl.putFieldText("TR_DT", ls[0].TR_DE.split("-")[0]+"년 "+ls[0].TR_DE.split("-")[1]+"월 "+ls[0].TR_DE.split("-")[2]+"일");
         }
     },
