@@ -79,40 +79,40 @@
                     <input type="text" id="pjtEndDt" style="width: 43%"/>
                 </td>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>입금형태
-                </th>
-                <td>
-                    <input type="text" id="delvPay" style="width: 90%;">
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>납품품목
                 </th>
                 <td>
                     <input type="text" id="delvItem" style="width: 90%;">
-                </td>
+                </td><%--
+                <th scope="row" class="text-center th-color">
+                    <span class="red-star"></span>입금형태
+                </th>
+                <td>
+                    <input type="text" id="delvPay" style="width: 90%;">
+                </td>--%>
+            </tr>
+            <tr>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>납품수량
                 </th>
                 <td>
                     <input type="text" id="delvCnt" style="width: 90%;" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                 </td>
-            </tr>
-            <tr>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>납품단위
                 </th>
                 <td>
                     <input type="text" id="delvUnit" style="width: 90%;">
                 </td>
+            </tr><%--
+            <tr>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>납품장소
                 </th>
                 <td>
                     <input type="text" id="delvLoc" style="width: 90%;">
                 </td>
-            </tr>
+            </tr>--%>
             <tr style="display: none;">
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>납품수단

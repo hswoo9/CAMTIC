@@ -95,7 +95,7 @@
                     <input type="text" id="estDe" class="k-input k-textbox k-disabled k-input-solid k-input-md k-rounded-md" style="width: 90%;" value="<fmt:formatDate pattern="yyyy-MM-dd" value="${hashMap.STR_DT}" />" disabled>
                 </td>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>수주가격
+                    <span class="red-star"></span>예상매출
                 </th>
                 <td>
                     <input type="text" id="devDelvAmt" value="${hashMap.PJT_AMT}" style="text-align: right;width: 90%;" disabled> 원
@@ -103,13 +103,13 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>투자금액
+                    <span class="red-star"></span>예상비용
                 </th>
                 <td>
                     <input type="text" id="invAmt" style="width: 90%; text-align: right" value="" disabled> 원
                 </td>
                 <th scope="row" class="text-center th-color" id="realText">
-                    수주부서 잔액
+                    예상수익
                 </th>
                 <td>
                     <input type="text" id="realAmt" style="width: 90%; text-align: right" disabled> 원
@@ -156,7 +156,7 @@
             </tbody>
         </table>
 
-        <span style="position: relative; top:10px; font-size: 12px;">◎ 투자내역</span>
+        <span style="position: relative; top:10px; font-size: 12px;">◎ 예상비용</span>
         <table class="popTable table table-bordered mb-0">
             <colgroup>
                 <col width="7%">
