@@ -76,7 +76,6 @@ var regRnd = {
                 {name: "사업비관리(예산/지급)", url: tab7Url},        // 연구비 입금처리와 같이 사용
                 {name: "결과보고", url: tab8Url, imageUrl: "/images/ico/etc_01_1.png"},        // 연구비 입금처리와 같이 사용
                 {name: "실적관리", url: tab15Url},        // 연구비 입금처리와 같이 사용,
-                {name: "원가보고", url: tab14Url, imageUrl: "/images/ico/etc_01_1.png"},
 
                 {name: "출장", url: tab9Url},
                 {name: "구매", url: tab11Url},
@@ -161,13 +160,11 @@ var regRnd = {
                     }
                 }
             }
-            /** 원가보고 임시 비활성화 */
-            tabStrip.disable(tabStrip.tabGroup.children().eq(10));
 
             /** 탭 두줄 */
             var html = '<div style="width:100%;"></div>';
             var doc = parser.parseFromString(html, 'text/html');
-            $("#tabstrip li")[10].after(doc.body.firstChild);
+            $("#tabstrip li")[9].after(doc.body.firstChild);
 
             /** 첫줄에 사업관리 문구 추가 */
             var html2 = '<div style="padding: 6px 12px"><b style="color: red">사업관리</b></div>';
@@ -177,7 +174,7 @@ var regRnd = {
             /** 둘째줄에 운영관리 문구 추가 */
             var html3 = '<div style="padding: 6px 12px"><b style="color: blue">운영관리</b></div>';
             var doc3 = parser.parseFromString(html3, 'text/html');
-            $("#tabstrip li")[11].before(doc3.body.firstChild);
+            $("#tabstrip li")[10].before(doc3.body.firstChild);
         }
     },
 
