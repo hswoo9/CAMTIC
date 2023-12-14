@@ -18,6 +18,8 @@
             DJ_CAMTIC.A_DOC_INFO DI ON IHBR.DOC_ID = DI.DOC_ID
         LEFT JOIN
             CAM_HR.DJ_EMP_INFO HEI ON IHBR.EMP_SEQ = HEI.EMP_SEQ
+        LEFT JOIN
+            CAM_INSIDE.DJ_HR_BIZ_COMPANION HBC ON IHBR.HR_BIZ_REQ_ID = HBC.HR_BIZ_REQ_ID AND HBC.HR_BIZ_REQ_RESULT_ID IS NULL
         WHERE
             <![CDATA[
                 IHBR.TRIP_DAY_FR >= #{startDate} AND IHBR.TRIP_DAY_TO <= #{endDate}
@@ -38,8 +40,9 @@
                 AND IHBR.BUSN_NAME like concat('%', #{busnName}, '%')
             </if>
             <if test="empSeq != null and !''.equals(empSeq)">
-                AND IHBR.REG_EMP_SEQ = #{empSeq}
+                AND (IHBR.REG_EMP_SEQ = #{empSeq} OR HBC.EMP_SEQ = #{empSeq})
             </if>
+        GROUP BY HBC.HR_BIZ_REQ_ID
         ORDER BY IHBR.REG_DT DESC
     </select>
 
@@ -441,6 +444,8 @@
                 DJ_CAMTIC.A_DOC_INFO DI ON B.DOC_ID = DI.DOC_ID
             LEFT JOIN
                 CAM_HR.DJ_EMP_INFO HEI ON IHBR.EMP_SEQ = HEI.EMP_SEQ
+            LEFT JOIN
+                CAM_INSIDE.DJ_HR_BIZ_COMPANION HBC ON IHBR.HR_BIZ_REQ_ID = HBC.HR_BIZ_REQ_ID AND HBC.HR_BIZ_REQ_RESULT_ID IS NULL
             WHERE
                 IHBR.STATUS IN ('100') AND
             <![CDATA[
@@ -468,10 +473,10 @@
                 AND IHBR.BUSN_NAME like concat('%', #{busnName}, '%')
             </if>
             <if test="empSeq != null and !''.equals(empSeq)">
-                AND IHBR.REG_EMP_SEQ = #{empSeq}
+                AND (IHBR.REG_EMP_SEQ = #{empSeq} OR HBC.EMP_SEQ = #{empSeq})
             </if>
         ) A
-        GROUP BY HR_BIZ_REQ_RESULT_ID
+        GROUP BY HR_BIZ_REQ_ID
         ORDER BY A.REG_DT DESC
     </select>
 
@@ -1062,6 +1067,8 @@
                 CAM_HR.DJ_EMP_INFO HEI ON IHBRR.EMP_SEQ = HEI.EMP_SEQ
             LEFT JOIN
                 CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+            LEFT JOIN
+                CAM_INSIDE.DJ_HR_BIZ_COMPANION HBC ON IHBRR.HR_BIZ_REQ_ID = HBC.HR_BIZ_REQ_ID AND HBC.HR_BIZ_REQ_RESULT_ID IS NOT NULL
             WHERE
                 IHBRR.STATUS = 100
             <if test='startDate != null and !"".equals(startDate)'>
@@ -1090,10 +1097,11 @@
             </if>
             <if test='empSeq != null and !"".equals(empSeq)'>
                 AND
-                IHBRR.EMP_SEQ = #{empSeq}
+                (IHBRR.EMP_SEQ = #{empSeq} OR HBC.EMP_SEQ = #{empSeq})
             </if>
         ) A
         GROUP BY HR_BIZ_REQ_RESULT_ID
+        ORDER BY A.REG_DT DESC
     </select>
 
     <update id="setBustripFileNum" parameterType="map">
