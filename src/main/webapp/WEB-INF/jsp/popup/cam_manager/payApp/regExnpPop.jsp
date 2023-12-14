@@ -19,6 +19,7 @@
     <input type="hidden" id="nowUrl" name="nowUrl" />
 </form>
 
+<input type="hidden" id="teamSeq" value="${loginVO.orgnztId}" />
 <input type="hidden" id="item" name="item" value="${params.item}">
 <input type="hidden" id="payAppSn" name="payAppSn" value="${params.payAppSn}">
 <input type="hidden" id="payIncpSn" name="payIncpSn" value="${params.payIncpSn}">
@@ -183,6 +184,7 @@
                         </c:if>
 
                         <col style="width: 5%;">
+                        <col style="width: 5%;">
                         <col style="width: 6%;">
                         <col style="width: 4%;">
                         <col style="width: 4%;">
@@ -204,6 +206,7 @@
                             </c:if>
                         </c:if>
                         <th>증빙유형</th>
+                        <th>비용구분</th>
                         <th>상호</th>
                         <th>은행명</th>
                         <th>사업자(주민)번호</th>
@@ -232,6 +235,9 @@
                             <input type="hidden" id="authHh0" class="authHh" style="width: 100%">
                             <input type="hidden" id="authDd0" class="authDd" style="width: 100%">
                             <input type="hidden" id="buySts0" value="" />
+                        </td>
+                        <td>
+                            <input id="appTeam0" class="appTeam" style="width: 100%">
                         </td>
                         <td>
                             <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regExnpDet.fn_popRegDet(1, 0)"></i>

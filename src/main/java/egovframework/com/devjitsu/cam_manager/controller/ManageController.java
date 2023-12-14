@@ -314,11 +314,17 @@ public class ManageController {
             binaryData = binaryData.replaceAll("data:image/png;base64,", "");
             byte[] file = Base64.decodeBase64(binaryData);
             String fileUuid=  UUID.randomUUID().toString();
+            String fileOrgName = "";
+            String fileCd = "";
+            String fileExt = "";
+            String filePath = "";
 
-            String fileOrgName = params.get("ATTR_NM").toString() + "_" + params.get("ISS_NO").toString();
-            String fileCd = "etax";
-            String fileExt = "png";
-            String filePath = "/upload/"+ fileCd +"/" + params.get("CO_CD") + "/" + params.get("TAX_TY") + "/" + params.get("ISS_NO") + "/";
+            if("etax".equals(params.get("imgValue"))){
+                fileOrgName = params.get("ATTR_NM").toString() + "_" + params.get("ISS_NO").toString();
+                fileCd = "etax";
+                fileExt = "png";
+                filePath = "/upload/"+ fileCd +"/" + params.get("CO_CD") + "/" + params.get("TAX_TY") + "/" + params.get("ISS_NO") + "/";
+            }
 
             if("card".equals(params.get("imgValue"))){
                 fileOrgName = params.get("authNo").toString();
