@@ -427,7 +427,7 @@ var regPay = {
                     if(value != ""){
                         if(value == "6"){
                             alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
-                        } else if(value == "1"){
+                        } else if(value == "1" || value == "2"){
                             regPayDet.fn_paymentEtaxHistory(value, e.sender.element[0].id.replace("eviType", ""));
                         } else if(value == "3"){
                             regPayDet.fn_paymentCardHistory(value, e.sender.element[0].id.replace("eviType", ""));
@@ -816,7 +816,7 @@ var regPayDet = {
                 if(value != ""){
                     if(value == "6"){
                         alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
-                    } else if(value == "1"){
+                    } else if(value == "1" || value == "2"){
                         regPayDet.fn_paymentEtaxHistory(value, itemIndex);
                     } else if(value == "3"){
                         regPayDet.fn_paymentCardHistory(value, itemIndex);
@@ -963,7 +963,7 @@ var regPayDet = {
                 if(value != ""){
                     if(value == "6"){
                         alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
-                    } else if(value == "1"){
+                    } else if(value == "1" || value == "2"){
                         regPayDet.fn_paymentEtaxHistory(value, itemIndex);
                     } else if(value == "3"){
                         regPayDet.fn_paymentCardHistory(value, itemIndex);

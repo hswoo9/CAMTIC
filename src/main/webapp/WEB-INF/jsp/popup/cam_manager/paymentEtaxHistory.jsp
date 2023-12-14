@@ -46,7 +46,12 @@
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;">
-                    전자세금계산서
+                    <c:if test="${params.type == '1'}">
+                        전자세금계산서
+                    </c:if>
+                    <c:if test="${params.type == '2'}">
+                        전자계산서
+                    </c:if>
                 </span>
         </h3>
         <div id="purcBtnDiv" class="btn-st popButton" style="font-size: 13px;">
@@ -73,24 +78,26 @@
 
 <div class="pop_wrap_dir" style="width:898px; display: none;" id="capture">
     <div class="pop_head">
-        <h1 class="txtTaxTy">매입전자세금계산서</h1>
+        <h1 class="txtTaxTy">전자세금계산서</h1>
     </div>
 
     <div class="pop_con">
-        <p class="mb10" id="txtAuthNum"><span class="fwb">승인번호 :</span>txtAuthNum</p>
+<%--        <p class="mb10" id="txtAuthNum"><span class="fwb">승인번호 :</span>txtAuthNum</p>--%>
         <!-- 세금계산서 -->
         <div class="js_tax_grid">
             <table id="gridVIewTax" width="100%" border="0" cellspacing="0" cellpadding="0" class="Taxtabel Taxtabel_layout red">
                 <colgroup>
-                    <col width="70%" />
-                    <col width="10%" />
-                    <col width="10%" />
-                    <col width="10%" />
+                    <col width="50%" />
+                    <col width="15%" />
+                    <col width="20%" />
+                    <col width="15%" />
                 </colgroup>
 
                 <!-- 책번호, 일련번호 -->
                 <tr height="50">
-                    <td colspan="4" class="textC"><strong name="taxPageTitle" class="f19 txtTaxTy" id="">전자세금계산서</strong></td>
+                    <td class="textC"><strong name="taxPageTitle" class="f19 txtTaxTy" id="">전자세금계산서</strong></td>
+                    <td class="textC"><strong name="taxPageTitle" class="f19">승인번호</strong></td>
+                    <td colspan="2" class="textC"><strong name="taxPageTitle" class="f19" id="txtAuthNum"></strong></td>
                 </tr>
                 <tr>
                     <td colspan="4" class="p0">
@@ -130,17 +137,15 @@
                                 <td class="textC" id="txtRCeoName">txtRCeoName</td>
                             </tr>
                             <tr>
-                                <td class="textC lh18" rowspan="2">사업장<br/>주소</td>
-                                <td rowspan="2" colspan="3" id="txtLAddr">txtLAddr</td>
-                                <td class="textC">종사업장번호</td>
-                                <td class="textC lh18" rowspan="2">사업장<br/>주소</td>
-                                <td rowspan="2" colspan="3" id="txtRAddr">txtRAddr</td>
-                                <td class="textC">종사업장번호</td>
+                                <td class="textC lh18">사업장<br/>주소</td>
+                                <td colspan="4" id="txtLAddr">txtLAddr</td>
+                                <td class="textC lh18">사업장<br/>주소</td>
+                                <td colspan="4" id="txtRAddr">txtRAddr</td>
                             </tr>
-                            <tr>
-                                <td class="textC" id="txtLJongmokNum">txtLJongmokNum</td>
-                                <td class="textC" id="txtRJongmokNum">txtRJongmokNum</td>
-                            </tr>
+<%--                            <tr>--%>
+<%--                                <td class="textC" id="txtLJongmokNum">txtLJongmokNum</td>--%>
+<%--                                <td class="textC" id="txtRJongmokNum">txtRJongmokNum</td>--%>
+<%--                            </tr>--%>
                             <tr>
                                 <td class="textC">업태</td>
                                 <td id="txtLBusinessType">txtLBusinessType</td>
@@ -151,26 +156,26 @@
                                 <td colspan="2" class="textC">종목</td>
                                 <td  id="txtRJongmokName">txtRJongmokName</td>
                             </tr>
-                            <tr>
-                                <td class="textC">부서명</td>
-                                <td id="txtLDeptName">txtLDeptName</td>
-                                <td colspan="2" class="textC">담당자</td>
-                                <td id="txtLEmpName">txtLEmpName</td>
-                                <td class="textC">부서명</td>
-                                <td id="txtRDeptName">txtLDeptName</td>
-                                <td colspan="2" class="textC">담당자</td>
-                                <td id="txtREmpName">txtLEmpName</td>
-                            </tr>
-                            <tr>
-                                <td class="textC">연락처</td>
-                                <td id="txtLTell">txtLTell</td>
-                                <td colspan="2" class="textC">휴대폰</td>
-                                <td id="txtLCellPhone">txtLCellPhone</td>
-                                <td class="textC">연락처</td>
-                                <td id="txtRTell">txtLTell</td>
-                                <td colspan="2" class="textC">휴대폰</td>
-                                <td id="txtRCellPhone">txtLCellPhone</td>
-                            </tr>
+<%--                            <tr>--%>
+<%--                                <td class="textC">부서명</td>--%>
+<%--                                <td id="txtLDeptName">txtLDeptName</td>--%>
+<%--                                <td colspan="2" class="textC">담당자</td>--%>
+<%--                                <td id="txtLEmpName">txtLEmpName</td>--%>
+<%--                                <td class="textC">부서명</td>--%>
+<%--                                <td id="txtRDeptName">txtLDeptName</td>--%>
+<%--                                <td colspan="2" class="textC">담당자</td>--%>
+<%--                                <td id="txtREmpName">txtLEmpName</td>--%>
+<%--                            </tr>--%>
+<%--                            <tr>--%>
+<%--                                <td class="textC">연락처</td>--%>
+<%--                                <td id="txtLTell">txtLTell</td>--%>
+<%--                                <td colspan="2" class="textC">휴대폰</td>--%>
+<%--                                <td id="txtLCellPhone">txtLCellPhone</td>--%>
+<%--                                <td class="textC">연락처</td>--%>
+<%--                                <td id="txtRTell">txtLTell</td>--%>
+<%--                                <td colspan="2" class="textC">휴대폰</td>--%>
+<%--                                <td id="txtRCellPhone">txtLCellPhone</td>--%>
+<%--                            </tr>--%>
                             <tr>
                                 <td class="textC">E_Mail</td>
                                 <td colspan="4" id="txtLEmail">txtLEmail</td>
@@ -189,13 +194,13 @@
                                 <col width="6%" />
                                 <col width="6%" />
                                 <col width="23%" />
-                                <col width="22%" />
+                                <col width="22%" id="txtVatCol" />
                                 <col width="" />
                             </colgroup>
                             <tr>
                                 <td colspan="3" class="textC">작성일자</td>
                                 <td class="textC">공급가액</td>
-                                <td class="textC">세액</td>
+                                <td class="textC" id="txtVatTitle">세액</td>
                                 <td class="textC">비고</td>
                             </tr>
                             <tr>
@@ -221,7 +226,7 @@
                                 <col width="6%"/>
                                 <col width="10%"/>
                                 <col width="10%"/>
-                                <col width="10%"/>
+                                <col id="txtItemVatAmtCol" width="10%"/>
                                 <col width=""/>
                             </colgroup>
                             <thead>
@@ -231,9 +236,9 @@
                                 <td class="textC">품목</td>
                                 <td class="textC">규격</td>
                                 <td class="textC">수량</td>
-                                <td class="textC">단</td>
+                                <td class="textC">단가</td>
                                 <td class="textC">공급가액</td>
-                                <td class="textC">세액</td>
+                                <td class="textC" id="txtItemVatAmtTitle">세액</td>
                                 <td class="textC">비고</td>
                             </tr>
                             </thead>

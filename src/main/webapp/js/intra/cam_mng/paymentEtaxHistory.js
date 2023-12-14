@@ -48,6 +48,7 @@ var payEtaxHist = {
                 },
                 parameterMap: function(data){
                     data.searchValue = $("#searchValue").val();
+                    data.type = $("#type").val();
                     return data;
                 }
             },
@@ -86,6 +87,18 @@ var payEtaxHist = {
                     width: 120,
                     template: function (e){
                         return e.DIV_NM;
+                    }
+                }, {
+                    title: "구분",
+                    width: 80,
+                    template: function (e){
+                        if(e.ETAX_TY == 1){
+                            return "일반";
+                        } else if(e.ETAX_TY == 2){
+                            return "수정";
+                        } else {
+                            return "";
+                        }
                     }
                 }, {
                     title: "발급일자",
@@ -218,24 +231,34 @@ var payEtaxHist = {
 
                 /* 금액 처리 필요. */
                 var txtStdAmt = fnGetCurrencyCode(eTaxInfo.SUP_AM, 0);
-                var txtVatAmt = fnGetCurrencyCode(eTaxInfo.VAT_AM, 0);
+                if(eTaxInfo.TAX_TY == '4'){
+                    $("#txtVatAmt, #txtVatTitle, #txtVatCol").css("display", "none");
+                } else {
+                    var txtVatAmt = fnGetCurrencyCode(eTaxInfo.VAT_AM, 0);
+                }
+
                 var txtAmt = fnGetCurrencyCode(eTaxInfo.SUM_AM, 0);
 
 
-                if(eTaxInfo.taxTy == 1){
+                console.log(eTaxInfo.TAX_TY)
+                if(eTaxInfo.TAX_TY == 1){
                     $('.txtTaxTy').html('매출세금계산서');
-                } else if(eTaxInfo.taxTy == 2){
-                    $('.txtTaxTy').html('매입세금계산서');
-                } else if(eTaxInfo.taxTy == 3){
+                } else if(eTaxInfo.TAX_TY == 2){
+                    if(eTaxInfo.ETAX_TY == 2){
+                        $('.txtTaxTy').html('수정전자세금계산서');
+                    } else {
+                        $('.txtTaxTy').html('전자세금계산서');
+                    }
+                } else if(eTaxInfo.TAX_TY == 3){
                     $('.txtTaxTy').html('매출계산서');
-                } else if(eTaxInfo.taxTy == 4){
-                    $('.txtTaxTy').html('매입계산서');
+                } else if(eTaxInfo.TAX_TY == 4){
+                    $('.txtTaxTy').html('전자계산서');
                 }  else{
                     $('.txtTaxTy').html('전자세금계산서');
                 }
 
                 /* 승인번호 */
-                $('#txtAuthNum').html('<span class="fwb">승인번호 : ' + txtAuthNum + '</span>');
+                $('#txtAuthNum').html('<span class="fwb">' + txtAuthNum + '</span>');
                 $('#txtLSaupNum').html(txtLSaupNum);
                 $('#txtLTrName').html(txtLTrName);
                 $('#txtLCeoName').html(txtLCeoName);
@@ -243,15 +266,15 @@ var payEtaxHist = {
                 $('#txtLJongmokNum').html(txtLJongmokNum);
                 $('#txtLBusinessType').html(txtLBusinessType);
                 $('#txtLJongmokName').html(txtLJongmokName);
-                $('#txtLDeptName').html(txtLDeptName);
-                $('#txtLEmpName').html(txtLEmpName);
-                $('#txtLTell').html(txtLTell);
-                $('#txtLCellPhone').html(txtLCellPhone);
+                // $('#txtLDeptName').html(txtLDeptName);
+                // $('#txtLEmpName').html(txtLEmpName);
+                // $('#txtLTell').html(txtLTell);
+                // $('#txtLCellPhone').html(txtLCellPhone);
                 $('#txtLEmail').html(txtLEmail);
-                $('#txtRDeptName').html(txtRDeptName);
-                $('#txtREmpName').html(txtREmpName);
-                $('#txtRTell').html(txtRTell);
-                $('#txtRCellPhone').html(txtRCellPhone);
+                // $('#txtRDeptName').html(txtRDeptName);
+                // $('#txtREmpName').html(txtREmpName);
+                // $('#txtRTell').html(txtRTell);
+                // $('#txtRCellPhone').html(txtRCellPhone);
 
                 $('#txtRSaupNum').html(txtRSaupNum);
                 $('#txtRTrName').html(txtRTrName);
@@ -262,6 +285,7 @@ var payEtaxHist = {
                 $('#txtRJongmokName').html(txtRJongmokName);
                 $('#txtREmail').html(txtREmail);
 
+                console.log(txtDummy2);
                 $('#txtDummy1').html(txtDummy1);
                 $('#txtDummy2').html(txtDummy2);
                 $('#txtStdAmt').html(txtStdAmt);
@@ -281,6 +305,9 @@ var payEtaxHist = {
                 // if(itemList == ''){
                 //     itemList = '[]';
                 // }
+
+
+
                 var itemList = [];
 
                 if(itemList.length == 1){
@@ -296,31 +323,51 @@ var payEtaxHist = {
                     $('#txtItemNote').html(txtItemNote);
                 }else{
                     $('#tbl_itemList').empty();
-                    for(var i = 0; i < itemList.length; i++){
-                        var item = itemList[i];
+                    for(var i = 0; i < 4; i++){
+                        // var item = itemList[i];
+                        var item = "";
                         //항목이 있는 경우만 리스트 나타냄
-                        if(item.itemDate != '' && item.itemDate != null){
-                            var itemDateMonth = ( (item.itemDate || '').substring(4, 6) || (item.issDate || '').substring(4, 6) ) || '';
-                            var itemDateDate = ( (item.itemDate || '').substring(6, 8) || (item.issDate || '').substring(6, 8) ) || '';
-                            var itemCnt = Number(item.itemCnt || '0') == 0 ? fnGetCurrencyCode('1', 0) : fnGetCurrencyCode(item.itemCnt, 0);
-                            var itemUnitAmt = Number(item.itemUnitAmt || '0') == 0 ? 0 : fnGetCurrencyCode(item.itemUnitAmt, 0);
-                            var itemStdAmt = Number(item.itemStdAmt || '0') == 0 ? 0 : fnGetCurrencyCode(item.itemStdAmt, 0);
-                            var itemVatAmt = Number(item.itemVatAmt || '0') == 0 ? 0 : fnGetCurrencyCode(item.itemVatAmt, 0);
+                        var itemDateMonth = ((eTaxInfo.ISU_DT || '').substring(4, 6) || (item.issDate || '').substring(4, 6)) || '';
+                        var itemDateDate = ( (eTaxInfo.ISU_DT || '').substring(6, 8) || (item.issDate || '').substring(6, 8) ) || '';
+                        var itemCnt = Number(item.itemCnt || '0') == 0 ? fnGetCurrencyCode('1', '') : fnGetCurrencyCode(item.itemCnt, 0);
+                        var itemUnitAmt = Number(eTaxInfo.SUP_AM || '0') == 0 ? '' : fnGetCurrencyCode(eTaxInfo.SUP_AM, 0);
+                        var itemStdAmt = Number(eTaxInfo.SUP_AM || '0') == 0 ? '' : fnGetCurrencyCode(eTaxInfo.SUP_AM, 0);
+                        if(eTaxInfo.TAX_TY == '4'){
 
-                            var tr = '';
-                            tr += '<tr>';
-                            tr += '	<td class="textC" >' + itemDateMonth + '</td>';
-                            tr += '	<td class="textC" >' + itemDateDate + '</td>';
-                            tr += '	<td >' + (item.itemName || '') + '</td>';
-                            tr += '	<td class="textC" >' + (item.itemStendard || '') + '</td>';
-                            tr += '	<td class="textC" >' + itemCnt + '</td>';
-                            tr += '	<td class="textR" >' + itemUnitAmt + '</td>';
-                            tr += '	<td class="textR" >' + itemStdAmt + '</td>';
-                            tr += '	<td class="textR" >' + itemVatAmt + '</td>';
-                            tr += '	<td id="">' + (item.itemNote || '') + '</td>';
-                            tr += '</tr>';
-                            $('#tbl_itemList').append(tr);
+                        } else {
+                            var itemVatAmt = Number(eTaxInfo.VAT_AM || '0') == 0 ? '' : fnGetCurrencyCode(eTaxInfo.VAT_AM, 0);
                         }
+                        var itemName = eTaxInfo.ITEM_DC;
+
+                        if(i != 0){
+                            itemDateMonth = "";
+                            itemDateDate = "";
+                            itemCnt = "";
+                            itemUnitAmt = "";
+                            itemStdAmt = "";
+                            itemVatAmt = "";
+                            itemName = "";
+                        }
+
+                        var tr = '';
+                        tr += '<tr>';
+                        tr += '	<td class="textC" >' + itemDateMonth + '</td>';
+                        tr += '	<td class="textC" >' + itemDateDate + '</td>';
+                        tr += '	<td>' + (itemName || '') + '</td>';
+                        tr += '	<td class="textC" >' + (item.itemStendard || '') + '</td>';
+                        tr += '	<td class="textC" >' + itemCnt + '</td>';
+                        tr += '	<td class="textR" >' + itemUnitAmt + '</td>';
+                        tr += '	<td class="textR" >' + itemStdAmt + '</td>';
+                        if(eTaxInfo.TAX_TY == '4'){
+                            $("#txtItemVatAmt").css("display", "none");
+                            $("#txtItemVatAmtTitle").css("display", "none");
+                            $("#txtItemVatAmtCol").remove();
+                        } else {
+                            tr += '	<td class="textR" >' + itemVatAmt + '</td>';
+                        }
+                        tr += '	<td id="">' + (item.itemNote || '') + '</td>';
+                        tr += '</tr>';
+                        $('#tbl_itemList').append(tr);
                     }
                 }
 
@@ -346,7 +393,7 @@ var payEtaxHist = {
                             alert("반영되었습니다.");
                             opener.parent.fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, coCd, taxTy, idx, fileNo);
 
-                            window.close();
+                            // window.close();
 
                         },
                         error : function(a, b, c) {
