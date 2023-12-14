@@ -75,7 +75,7 @@
                     <td colspan="4">
                         <span>
                             <input type="text" id="pjtNm" disabled value=""  style="width: 30%;">
-                            <input type="hidden" id="pjtSn" value="" />
+                            <input type="hidden" id="pjtSn" name="pjtSn" value="" />
                             <input type="hidden" id="pjtCd" name="pjtCd" value="">
                             <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="regPayDepo.fn_projectPop('regPay')">검색</button>
                         </span>
@@ -153,10 +153,15 @@
     regPayDepo.fn_defaultScript();
 
     function selectProject(sn, nm, cd){
+        $("#budgetNm").val("");
+        $("#budgetSn").val("");
+        regPayDepo.global.setFlag = false;
+
         $("#pjtSn").val(sn);
         $("#pjtNm").val(nm);
         $("#pjtCd").val(cd);
 
+        $("#depoTitle").val("입금신청 - " + nm);
         var data = {
             pjtCd : cd
         }
