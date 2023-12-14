@@ -228,7 +228,7 @@
     </div>
 </div>
 <script>
-    const hrBizReqId = $("#hrBizReqId").val();
+    var hrBizReqId = $("#hrBizReqId").val();
     bustripReq.init();
 </script>
 </body>

@@ -146,6 +146,17 @@ public class PayAppController {
     public String getPayAppData(@RequestParam Map<String, Object> params, Model model){
         Map<String, Object> map = payAppService.getPayAppReqData(params);
         List<Map<String, Object>> list = payAppService.getPayAppDetailData(params);
+
+        String[] fileNoAr = new String[list.size()];
+        for(int i = 0; i < list.size(); i++){
+            if("".equals(list.get(i).get("FILE_NO")) || list.get(i).get("FILE_NO") == null){
+                fileNoAr[i] = "";
+            } else {
+                fileNoAr[i] = list.get(i).get("FILE_NO").toString();
+            }
+        }
+        params.put("fileNoAr", fileNoAr);
+
         List<Map<String, Object>> fileList = payAppService.getPayAppFileList(params);
 
         model.addAttribute("map", map);
@@ -377,6 +388,18 @@ public class PayAppController {
     public String getExnpData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
         Map<String, Object> map = payAppService.getExnpData(params);
         List<Map<String, Object>> list = payAppService.getExnpDetailData(params);
+
+        String[] fileNoAr = new String[list.size()];
+        for(int i = 0; i < list.size(); i++){
+            if("".equals(list.get(i).get("FILE_NO")) || list.get(i).get("FILE_NO") == null){
+                fileNoAr[i] = "";
+            } else {
+                fileNoAr[i] = list.get(i).get("FILE_NO").toString();
+            }
+        }
+
+        params.put("fileNoAr", fileNoAr);
+
         List<Map<String, Object>> fileList = payAppService.getPayAppFileList(params);
 
         model.addAttribute("map", map);

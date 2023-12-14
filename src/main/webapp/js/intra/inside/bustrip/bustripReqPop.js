@@ -297,11 +297,14 @@ const bustripReq = {
                 processData: false,
                 enctype : 'multipart/form-data',
                 async : false,
-                success : function(){
+                success : function(rs){
+                    var loadType = "";
                     if(hrBizReqId == ""){
                         alert("출장 신청이 완료되었습니다.");
+                        reloadType = "href"
                     }else{
                         alert("출장 수정이 완료되었습니다.");
+                        reloadType = "reload";
                     }
 
                     if($("#paramsPjtSn").val() == "") {
@@ -321,17 +324,23 @@ const bustripReq = {
                             /** 협업이 아닐때 */
                         }else{
                             if(busnClass == "D"){
-                                opener.window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=10";
+                                opener.window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=11";
                             }else if(busnClass == "R"){
-                                opener.window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=11";
+                                opener.window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=12";
                             }else if(busnClass == "S"){
-                                opener.window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=11";
+                                opener.window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=12";
                             }else{
                                 opener.window.location.reload();
                             }
                         }
                     }
-                    window.close();
+
+                    if(reloadType == "href"){
+                        location.href = "/bustrip/pop/bustripReqPop.do?hrBizReqId=" + rs.rs.hrBizReqId;
+                    }else{
+                        location.reload()
+                    }
+                    //window.close();
                 }
             });
         }
