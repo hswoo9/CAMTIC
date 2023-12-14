@@ -763,7 +763,7 @@ var devInfo = {
     },
 
     fn_addInv : function(){
-        if(!confirm("투자내역을 추가하시겠습니까?")){
+        if(!confirm("예상비용을 추가하시겠습니까?")){
             return ;
         }
 
@@ -897,7 +897,7 @@ var devInfo = {
     },
 
     fn_save: function (){
-        if($("#invAmt").val() == ""){alert("투자내역을 입력해주세요."); return;}
+        if($("#invAmt").val() == ""){alert("예상비용을 입력해주세요."); return;}
 
         if(!confirm("저장하시겠습니까?")){return;}
 

@@ -340,7 +340,11 @@ var regPrj = {
         $("#pjtNm").val(p.PJT_NM);
 
         $("#pjtAmt2").val(regPrj.comma(p.PJT_AMT));
-        $("#expAmt").val(regPrj.comma(p.EXP_AMT));
+        if(p.TEAM_STAT != "Y"){
+            $("#expAmt").val(regPrj.comma(p.EXP_AMT));
+        }else{
+            $("#expAmt").val(regPrj.comma(p.PJT_AMT));
+        }
 
         $("#contLoc").val(p.CONT_LOC);
         $("#contLocSn").val(p.CONT_LOC_SN);
