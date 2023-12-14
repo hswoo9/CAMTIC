@@ -271,6 +271,9 @@ var regExnp = {
                     '   </td>';
                 regExnpDet.global.createHtmlStr += '' +
                     '   <td>' +
+                    '       <input style="width: 100%" id="appTeam' + regExnpDet.global.itemIndex + '" name="appTeam" class="appTeam">' +
+                    '   </td>' +
+                    '   <td>' +
                     '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="regExnpDet.fn_popRegDet(1, '+regExnpDet.global.itemIndex+')"></i>' +
                     '       <input type="hidden" id="payDestSn' + regExnpDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" name="payDestSn" class="payDestSn">' +
                     '       <input type="hidden" id="exnpDestSn' + regExnpDet.global.itemIndex + '" value="'+item.EXNP_DET_SN+'" name="exnpDestSn" class="exnpDestSn">' +
@@ -370,6 +373,12 @@ var regExnp = {
 
                 $("#eviType" + regExnpDet.global.itemIndex).data("kendoDropDownList").value(item.EVID_TYPE);
                 $("#eviType" + regExnpDet.global.itemIndex).data("kendoDropDownList").enable(false)
+
+                var ds = customKendo.fn_customAjax("/dept/getDeptAList", {
+                    deptLevel : 2
+                });
+                customKendo.fn_dropDownList("appTeam" + regExnpDet.global.itemIndex, ds.rs, "dept_name", "dept_seq","5");
+                $("#appTeam" + regExnpDet.global.itemIndex).data("kendoDropDownList").value(item.TEAM_SEQ);
 
                 regExnpDet.global.itemIndex++;
             }
@@ -515,7 +524,11 @@ var regExnp = {
                     '       <input type="hidden" id="buySts' + regExnpDet.global.itemIndex + '" class="buySts" value="'+item.BUY_STS+'">' +
                     '   </td>';
 
-                regExnpDet.global.createHtmlStr += '   <td>' +
+                regExnpDet.global.createHtmlStr += '' +
+                    '   <td>' +
+                    '       <input type="text" id="appTeam' + regExnpDet.global.itemIndex + '" class="appTeam" style="width: 100%">' +
+                    '   </td>' +
+                    '   <td>' +
                     '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regExnpDet.fn_popRegDet(1, '+regExnpDet.global.itemIndex+')"></i>' +
                     '       <input type="hidden" id="payDestSn' + regExnpDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" name="payDestSn" class="payDestSn">' +
                     '       <input type="text" style="width: 80%;" id="crmNm' + regExnpDet.global.itemIndex + '" value="'+item.CRM_NM+'" class="crmNm">' +
@@ -633,6 +646,11 @@ var regExnp = {
                 $("#eviType" + regExnpDet.global.itemIndex).data("kendoDropDownList").value(item.EVID_TYPE);
                 $("#eviType" + regExnpDet.global.itemIndex).data("kendoDropDownList").enable(false)
 
+                var ds = customKendo.fn_customAjax("/dept/getDeptAList", {
+                    deptLevel : 2
+                });
+                customKendo.fn_dropDownList("appTeam" + regExnpDet.global.itemIndex, ds.rs, "dept_name", "dept_seq","5");
+                $("#appTeam" + regExnpDet.global.itemIndex).data("kendoDropDownList").value(item.TEAM_SEQ);
 
                 regExnpDet.global.itemIndex++;
             }
@@ -704,7 +722,11 @@ var regExnp = {
                     '       <input type="hidden" id="buySts' + regExnpDet.global.itemIndex + '" class="buySts" value="'+item.BUY_STS+'">' +
                     '   </td>';
 
-                regExnpDet.global.createHtmlStr += '   <td>' +
+                regExnpDet.global.createHtmlStr += '   ' +
+                    '   <td>' +
+                    '       <input type="text" id="appTeam' + regExnpDet.global.itemIndex + '" class="appTeam" style="width: 100%">' +
+                    '   </td>' +
+                    '   <td>' +
                     '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regExnpDet.fn_popRegDet(1, '+regExnpDet.global.itemIndex+')"></i>' +
                     '       <input type="hidden" id="payDestSn' + regExnpDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" name="payDestSn" class="payDestSn">' +
                     '       <input type="text" style="width: 80%;" id="crmNm' + regExnpDet.global.itemIndex + '" value="'+item.CRM_NM+'" class="crmNm">' +
@@ -812,6 +834,13 @@ var regExnp = {
 
                 $("#eviType" + regExnpDet.global.itemIndex).data("kendoDropDownList").value(item.EVID_TYPE);
                 $("#eviType" + regExnpDet.global.itemIndex).data("kendoDropDownList").enable(false)
+
+                var ds = customKendo.fn_customAjax("/dept/getDeptAList", {
+                    deptLevel : 2
+                });
+                customKendo.fn_dropDownList("appTeam" + regExnpDet.global.itemIndex, ds.rs, "dept_name", "dept_seq","5");
+                $("#appTeam" + regExnpDet.global.itemIndex).data("kendoDropDownList").value(item.TEAM_SEQ);
+
                 regExnpDet.global.itemIndex++;
             }
 
@@ -878,6 +907,8 @@ var regExnp = {
             var data = {
                 payDestSn : $("#payDestSn" + i).val(),
                 evidType : $("#eviType" + i).val(),
+                teamSeq : $("#appTeam" + i).data("kendoDropDownList").value(),
+                teamName : $("#appTeam" + i).data("kendoDropDownList").text(),
                 authNo : $("#authNo" + i).val(),
                 authDd : $("#authDd" + i).val(),
                 authHh : $("#authHh" + i).val(),
@@ -1067,6 +1098,9 @@ var regExnpDet = {
                 '   </td>';
             regExnpDet.global.createHtmlStr += '' +
                 '   <td>' +
+                '       <input type="text" id="appTeam' + clIdx + '" class="appTeam" style="width: 100%">' +
+                '   </td>' +
+                '   <td>' +
                 '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="regExnpDet.fn_popRegDet(1, '+clIdx+')"></i>' +
                 '       <input type="hidden" id="payDestSn' + clIdx + '" name="payDestSn" class="payDestSn">' +
                 '       <input type="hidden" id="exnpDestSn' + clIdx + '" name="exnpDestSn" class="exnpDestSn">' +
@@ -1174,6 +1208,13 @@ var regExnpDet = {
             $("#trDe" + clIdx).val();
 
             $("#eviType" + clIdx).data("kendoDropDownList").value();
+
+            var ds = customKendo.fn_customAjax("/dept/getDeptAList", {
+                deptLevel : 2
+            });
+
+            customKendo.fn_dropDownList("appTeam" + regExnpDet.global.itemIndex, ds.rs, "dept_name", "dept_seq","5");
+            $("#appTeam" + regExnpDet.global.itemIndex).data("kendoDropDownList").value($("#teamSeq").val());
 
             regExnpDet.global.itemIndex++;
         }
