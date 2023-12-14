@@ -1417,6 +1417,7 @@
             CONTENT_ID = #{payAppSn}
         AND
             (FILE_CD = 'payApp' OR FILE_CD = 'useCard')
+        OR FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = 201)
     </select>
 
     <select id="getPayAppInfo" parameterType="map" resultType="map">
