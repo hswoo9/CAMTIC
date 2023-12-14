@@ -78,7 +78,7 @@ var regPayDepoSet = {
 
     fn_setData: function (){
         var data = {
-            paramPjtSn : $("#paramPjtSn").val()
+            frPjtSn : $("#paramPjtSn").val()
         }
 
         $.ajax({
@@ -102,7 +102,7 @@ var regPayDepoSet = {
 
     fn_save : function (){
         var parameters = {
-            FrPjtSn : $("#paramPjtSn").val(),
+            frPjtSn : $("#paramPjtSn").val(),
             aftPjtNm : $("#pjtNm").val(),
             aftPjtCd : $("#pjtCd").val(),
             budgetSn : $("#budgetSn").val(),

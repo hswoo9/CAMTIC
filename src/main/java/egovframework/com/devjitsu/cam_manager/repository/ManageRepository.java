@@ -58,7 +58,11 @@ public class ManageRepository extends AbstractDAO {
     }
 
     public void setManageDepo(Map<String, Object> params) { insert("manage.setManageDepo", params); }
+    public void updateManageDepo(Map<String, Object> params) { insert("manage.updateManageDepo", params); }
 
+    public int chkManageDepo(Map<String, Object> params) {
+        return (int) selectOne("manage.chkManageDepo", params);
+    }
     public Map<String, Object> getManageDepo(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("manage.getManageDepo", params);
     }

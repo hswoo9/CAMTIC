@@ -18,7 +18,8 @@
     </select>
 
     <select id="getProjectList" parameterType="map" resultType="map">
-        SELECT A.*, (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE A.PJT_SN = SP.PNT_PJT_SN limit 1) AS PNT_PJT_SN_CK FROM CAM_PJT_MNG.DJ_PROJECT A
+        SELECT A.*, (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE A.PJT_SN = SP.PNT_PJT_SN limit 1) AS PNT_PJT_SN_CK
+        FROM CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN CAM_CRM.DJ_CRM_INFO B ON A.CRM_SN = B.CRM_SN
         WHERE
         1=1
@@ -88,6 +89,7 @@
                (select count(*) from cam_mng.dj_depo_setting where fr_pjt_sn = A.pjt_sn) AS setYn
         FROM CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN CAM_CRM.DJ_CRM_INFO B ON A.CRM_SN = B.CRM_SN
+        LEFT JOIN CAM_MNG.DJ_DEPO_SETTING C ON A.PJT_SN = C.FR_PJT_SN
         WHERE
         1=1
         AND A.TEAM_STAT = "N"
@@ -138,6 +140,12 @@
         </if>
         <if test='type != null and !"".equals(type)'>
             AND A.BUSN_CLASS IN ('S', 'R') AND A.PJT_CD IS NOT NULL
+        </if>
+        <if test='"1000".equals(searchValue)'>
+            AND C.FR_PJT_SN IS NOT NULL
+        </if>
+        <if test='"999".equals(searchValue)'>
+            AND C.FR_PJT_SN IS NULL
         </if>
         ORDER BY A.REG_DT DESC
     </select>

@@ -140,6 +140,10 @@
     regPayDepoSet.fn_defaultScript();
 
     function selectProject(nm, cd){
+
+        $("#budgetNm").val("");
+        $("#budgetSn").val("");
+
         $("#pjtNm").val(nm);
         $("#pjtCd").val(cd);
     }
