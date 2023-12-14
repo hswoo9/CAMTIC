@@ -211,54 +211,59 @@
     <insert id="insProject" parameterType="map">
         /* insProject >> 프로젝트 엔지니어링 최초 등록 */
         INSERT INTO CAM_PJT_MNG.DJ_PROJECT
-        (
-            PJT_NM,
-            EMP_SEQ,
-            EMP_NAME,
-            DEPT_SEQ,
-            DEPT_NAME,
-            BUSN_CLASS,
-            BUSN_NM,
-            PJT_STEP,
-            PJT_STEP_NM,
-            CONSULT_DT,
-            REG_EMP_SEQ
-        ) VALUES (
-            #{pjtNm},
-            #{empSeq},
-            #{empName},
-            #{deptSeq},
-            #{deptName},
-            #{busnClass},
-            #{busnNm},
-            #{pjtStep},
-            #{pjtStepNm},
-            #{contDt},
-            #{regEmpSeq}
-        )
-        <selectKey keyProperty="PJT_SN" resultType="Integer" order="BEFORE">
-            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PROJECT'
-        </selectKey>
+            (
+                PJT_NM,
+                EMP_SEQ,
+                EMP_NAME,
+                DEPT_SEQ,
+                DEPT_NAME,
+                BUSN_CLASS,
+                BUSN_NM,
+                PJT_STEP,
+                PJT_STEP_NM,
+                CONSULT_DT,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{pjtNm},
+                #{empSeq},
+                #{empName},
+                #{deptSeq},
+                #{deptName},
+                #{busnClass},
+                #{busnNm},
+                #{pjtStep},
+                #{pjtStepNm},
+                #{contDt},
+                #{regEmpSeq}
+            )
+            <selectKey keyProperty="PJT_SN" resultType="Integer" order="BEFORE">
+                SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PROJECT'
+            </selectKey>
     </insert>
 
     <insert id="insPjtEngn" parameterType="map">
         INSERT INTO CAM_PJT_MNG.DJ_PJT_ENGN
-        (
-        PJT_SN,
-        CONT_DT,
-        EXP_AMT,
-        CONT_LOC,
-        STEP1,
-        REG_EMP_SEQ
-        ) VALUES
-        (
-        #{PJT_SN},
-        #{contDt},
-        #{expAmt},
-        #{contLoc},
-        'R',
-        #{empSeq}
-        )
+            (
+                PJT_SN,
+                CONT_DT,
+                EXP_AMT,
+                CONT_LOC,
+                CONT_LOC_SN,
+                STEP1,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{PJT_SN},
+                #{contDt},
+                #{expAmt},
+                #{contLoc},
+                #{contLocSn},
+                'R',
+                #{empSeq}
+            )
         <selectKey keyProperty="ENGN_SN" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_ENGN'
         </selectKey>

@@ -299,6 +299,8 @@ var regPrj = {
                 $("#viewText").html("&#9650;");
             }
         });
+
+        $("#contLoc").data("kendoTextBox").enable(false);
     },
 
     fn_setData : function (p) {
@@ -329,9 +331,11 @@ var regPrj = {
         busnLgClass.wrapper.hide();
 
         var pjtCode = "";
+
         if(p.PJT_CD != null){
             pjtCode = " (" + p.PJT_CD + ")";
         }
+
         $("#pjtTitle").text("프로젝트 - " + p.BUSN_NM + pjtCode);
         $("#pjtNm").val(p.PJT_NM);
 
@@ -348,6 +352,7 @@ var regPrj = {
         }
 
         $("#contLoc").val(p.CONT_LOC);
+        $("#contLocSn").val(p.CONT_LOC_SN);
         $("#deptName").val(p.DEPT_NAME);
         $("#empName").val(p.EMP_NAME);
         $("#deptSeq").val(p.DEPT_SEQ);
@@ -379,11 +384,15 @@ var regPrj = {
     },
 
     fn_save: function (){
+        if($("#contLocSn").val() == ""){
+            alert("업체명을 선택해주세요.");
+        }
 
         var data = {
             pjtNm : $("#pjtNm").val(),
             expAmt : regPrj.uncomma($("#expAmt").val()),
             contLoc : $("#contLoc").val(),
+            contLocSn : $("#contLocSn").val(),
             deptName : $("#deptName").val(),
             empName : $("#empName").val(),
             deptSeq : $("#deptSeq").val(),
