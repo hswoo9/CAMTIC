@@ -204,9 +204,9 @@ var regPrj = {
             if(setParameters.PJT_STOP != "Y"){
                 if(setParameters.PJT_STEP >= "E0"){
                     tabStrip.enable(tabStrip.tabGroup.children().eq(1));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(9));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(10));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(11));
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(12));
                 }
 
                 if(setParameters.PJT_STEP >= "E1"){
@@ -225,8 +225,8 @@ var regPrj = {
                 }
 
                 if(setParameters.PJT_STEP >= "E6"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(9));
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(13));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(8));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(12));
 
                     if(setParameters.PM_EMP_SEQ == $("#regEmpSeq").val()){
                         tabStrip.enable(tabStrip.tabGroup.children().eq(8));

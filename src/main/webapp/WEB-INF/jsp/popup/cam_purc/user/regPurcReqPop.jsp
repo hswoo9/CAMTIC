@@ -151,6 +151,7 @@
                         </button>
                     </div>
                     <div>
+                        <div style="float:left;width: 150px;margin-top: 4px;text-align: left;font-weight: bold;" id="totalDiv">합계 : <span id="sum" style="float: right;"></span></div>
                         <button type="button" id="excelUploadBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="fn_excelUploadModal()" style="font-size: 12px;">
                             <span class="k-button-text">엑셀업로드</span>
                         </button>

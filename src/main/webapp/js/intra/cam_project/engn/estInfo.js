@@ -95,7 +95,7 @@ var estInfo = {
             estDe : $("#estDe").val(),
             crmNm : $("#crmCompNm").val(),
             crmMem : $("#crmMem").val(),
-            estNm : $("#pjtNm").val(),
+            estNm : $("#estPjtNm").val(),
             estTotAmt : estInfo.uncomma($("#estExpAmt").val()),
             estIss : $("#etc").val(),
             regEmpSeq : $("#regEmpSeq").val(),

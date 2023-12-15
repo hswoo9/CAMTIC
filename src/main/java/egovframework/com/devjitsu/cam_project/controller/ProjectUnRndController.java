@@ -268,6 +268,15 @@ public class ProjectUnRndController {
         model.addAttribute("params", params);
         return "popup/cam_project/unRnd/lecturePersonMng";
     }
+    /** 단위사업 강사 신규추가 팝업창 */
+    @RequestMapping("/projectUnRnd/lectureTeacherMngPop.do")
+    public String lectureTeacherMngPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "popup/cam_project/unRnd/lectureTeacherMng";
+    }
     /** 단위사업 수강자 교육비납부/입금처리 팝업창 */
     @RequestMapping("/projectUnRnd/lecturePayReqPop.do")
     public String lecturePayReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
@@ -296,6 +305,13 @@ public class ProjectUnRndController {
     @RequestMapping("/projectUnRnd/getPersonData")
     public String getPersonData(@RequestParam Map<String, Object> params, Model model){
         Map<String, Object> data = projectUnRndService.getPersonData(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+    /** 단위사업 개인회원 단일 DATA */
+    @RequestMapping("/projectUnRnd/getTeacherData")
+    public String getTeacherData(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = projectUnRndService.getTeacherData(params);
         model.addAttribute("data", data);
         return "jsonView";
     }
@@ -385,11 +401,35 @@ public class ProjectUnRndController {
         return "jsonView";
     }
 
+    /** 단위사업 신규강사 등록 */
+    @RequestMapping("/projectUnRnd/setLectureTeacherData")
+    public String setLectureTeacherData(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectUnRndService.setLectureTeacherData(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
     /** 단위사업 신규수강자 삭제 */
     @RequestMapping("/projectUnRnd/delLecturePersonData")
     public String delLecturePersonData(@RequestParam Map<String, Object> params, Model model){
         try{
             projectUnRndService.delLecturePersonData(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    /** 단위사업 신규강사 삭제 */
+    @RequestMapping("/projectUnRnd/delLectureTeacherData")
+    public String delLectureTeacherData(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectUnRndService.delLectureTeacherData(params);
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();

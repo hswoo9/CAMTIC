@@ -71,6 +71,7 @@ var prp = {
 
 
         if($("#purcSn").val()){
+            $("#totalDiv").hide()
             prp.purcDataSet();
             $("#excelUploadBtn").css("display", "none");
         }
@@ -385,6 +386,18 @@ var prp = {
 
     fn_calc : function (idx, e){
         $("#purcItemAmt" + idx).val(comma(Number(uncomma($("#purcItemUnitPrice" + idx).val())) * Number(uncomma($("#purcItemQty" + idx).val()))));
+
+        var sum = 0;
+        $.each($(".purcItemAmt"), function(){
+            sum += Number(uncomma(this.value));
+        })
+        if($("#purcSn").val()){
+            $("#totalPay").css("display", "");
+            $("#totalPay").text("총 금액 : " + comma(sum));
+        }else{
+            $("#sum").text(comma(sum) + "원")
+        }
+
 
         return inputNumberFormat(e);
     },
