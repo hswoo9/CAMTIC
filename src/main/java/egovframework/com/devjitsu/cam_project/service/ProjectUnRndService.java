@@ -17,6 +17,7 @@ public interface ProjectUnRndService {
     List<Map<String, Object>> getLectureTeacherList(Map<String, Object> params);
     List<Map<String, Object>> getPersonList(Map<String, Object> params);
     Map<String, Object> getPersonData(Map<String, Object> params);
+    Map<String, Object> getTeacherData(Map<String, Object> params);
     List<Map<String, Object>> getLectureTeacherReqList(Map<String, Object> params);
     List<Map<String, Object>> getLecturePersonReqList(Map<String, Object> params);
     List<Map<String, Object>> getLecturePersonDupleCk(Map<String, Object> params);
@@ -25,7 +26,9 @@ public interface ProjectUnRndService {
     void insLectureTeacherInfo(Map<String, Object> params);
     void insLecturePersonInfo(Map<String, Object> params);
     void setLecturePersonData(Map<String, Object> params);
+    void setLectureTeacherData(Map<String, Object> params);
     void delLecturePersonData(Map<String, Object> params);
+    void delLectureTeacherData(Map<String, Object> params);
     void insLectureInfo(Map<String, Object> params);
     void updLectureInfo(Map<String, Object> params);
     void updPersonApp(Map<String, Object> params);

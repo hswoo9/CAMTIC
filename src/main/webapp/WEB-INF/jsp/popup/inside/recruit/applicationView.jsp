@@ -398,11 +398,15 @@
         </tr>
         </thead>
       </table>
+    <c:if test="${data.APPLICATION_STAT eq 'I'}">
+      <div style= "display: flex; justify-content: center; align-items: center; margin-top: 20px;">
+        <button type="button" class="k-button k-button-solid-info" style= "display: flex; justify-content: center; align-items: center;" onclick="appView.applicationReg(${data.APPLICATION_ID})"><span>인사정보 등록</span></button>
+      </div>
+    </c:if>
     </div><!--MainGrid-->
 </div>
 
 <script>
   appView.fn_defaultScript();
-
 </script>
 </body>

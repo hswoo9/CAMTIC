@@ -28,7 +28,7 @@
             <h3 class="card-title title_NM">채용 등록</h3>
             <div class="btn-st popButton">
                 <c:choose>
-                    <c:when test="${params.recruitStat == 1}">
+                    <c:when test="${not empty params.recruitStat and params.recruitStat ne 'E' and params.recruitStat eq 1}">
                         <button type="button" class="k-button k-button-solid-info" onclick="rcDetailPop.moveToModPage()">편집</button>
                     </c:when>
                     <c:otherwise>
@@ -160,7 +160,6 @@
     </div>
 </div>
 <script>
-    console.log("${params}");
     rcDetailPop.fn_DefaultScript();
 </script>
 </body>

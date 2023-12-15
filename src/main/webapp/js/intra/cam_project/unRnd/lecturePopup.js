@@ -54,6 +54,16 @@ var lecturePop = {
         window.open(url, name, option);
     },
 
+    lectureTeacherMngPop: function(teacherSn){
+        let url = "/projectUnRnd/lectureTeacherMngPop.do";
+        if(teacherSn != null){
+            url += "?teacherSn="+teacherSn;
+        }
+        const name = "lectureTeacherMngPop";
+        const option = "width = 1000, height = 589, top = 150, left = 410, location = no";
+        window.open(url, name, option);
+    },
+
     personReqPop: function(pk){
         let url = "/projectUnRnd/personReqPop.do?pk="+pk;
         const name = "personReqPop";

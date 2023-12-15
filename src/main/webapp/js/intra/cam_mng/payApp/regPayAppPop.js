@@ -143,6 +143,27 @@ var regPay = {
         $(".payDestInfo td input").css("font-size", "10px");
         $(".payDestInfo td").css("padding", "0.35rem");
         $(".payDestInfo td span").css("font-size", "10px");
+
+        $("#reasonPopText").kendoTextBox();
+    },
+
+    fn_reasonClickModal : function(e){
+        $("#reasonIdx").val(e);
+        if($("#reason" + e).val() == null || $("#reason" + e).val() == "" || $("#reason" + e).val() == "undefined"){
+            $("#reason" + e).val($("#appTitle").val())
+        }
+        $("#reasonPopText").val($("#reason" + e).val());
+
+
+        var dialog = $("#dialog").data("kendoWindow");
+        dialog.center();
+        dialog.open();
+    },
+
+    fn_updReason : function(){
+        var dialog = $("#dialog").data("kendoWindow");
+        $("#reason" + $("#reasonIdx").val()).val($("#reasonPopText").val());
+        dialog.close();
     },
 
     payAppBtnSet: function (data){
@@ -316,6 +337,10 @@ var regPay = {
                 '       <input type="hidden" id="budgetSn' + regPayDet.global.itemIndex + '" value="'+item.BUDGET_SN+'" class="budgetSn"/>' +
                 '       <input type="hidden" id="budgetAmt' + regPayDet.global.itemIndex + '" value="'+item.BUDGET_AMT+'" class="budgetAmt"/>' +
                 '   </td>' +
+                '   <td class="reasonTr" style="display: none;">' +
+                '       <button type="button" id="reasonBtn' + regPayDet.global.itemIndex + '" value="'+regPayDet.global.itemIndex+'" onclick="regPay.fn_reasonClickModal('+regPayDet.global.itemIndex+')" class="k-button k-button-solid-base reasonBtn">내용</button>' +
+                '       <input type="hidden" id="reason' + regPayDet.global.itemIndex + '" value="'+item.REASON+'" style="width: 100%;">' +
+                '   </td>' +
                 '   <td style="display:none;">' +
                 '       <input type="text" id="appTeam' + regPayDet.global.itemIndex + '" class="appTeam" style="width: 100%">' +
                 '   </td>' +
@@ -475,6 +500,12 @@ var regPay = {
                 item++;
             })
         }
+
+        if($("#pjtCd").val().substring(0,1) == "R" || $("#pjtCd").val().substring(0,1) == "S"){
+            $(".reasonTr").css("display", "");
+            $("#reasonCol").css("display", "");
+            $("#reasonTh").css("display", "");
+        }
     },
 
     fn_viewStat: function (){
@@ -595,6 +626,7 @@ var regPay = {
                 teamSeq : $("#appTeam" + index).val(),
                 teamName : $("#appTeam" + index).data("kendoDropDownList").text(),
                 evidType : $("#eviType" + index).val(),
+                reason : $("#reason" + index).val(),
                 fileNo : $("#fileNo" + index).val(),
                 authNo : $("#authNo" + index).val(),
                 authDd : $("#authDd" + index).val(),
@@ -880,6 +912,10 @@ var regPayDet = {
             '       <input type="hidden" id="budgetSn' + regPayDet.global.itemIndex + '" value="" class="budgetSn"/>' +
             '       <input type="hidden" id="budgetAmt' + regPayDet.global.itemIndex + '" value="" class="budgetAmt"/>' +
             '   </td>' +
+            '   <td class="reasonTr" style="display: none;">' +
+            '       <button type="button" id="reasonBtn' + regPayDet.global.itemIndex + '" value="'+regPayDet.global.itemIndex+'" onclick="regPay.fn_reasonClickModal('+regPayDet.global.itemIndex+')" class="k-button k-button-solid-base reasonBtn">내용</button>' +
+            '       <input type="hidden" id="reason' + regPayDet.global.itemIndex + '" value="" style="width: 100%;">' +
+            '   </td>' +
             '   <td style="display:none;">' +
             '       <input style="width: 100%" id="appTeam' + regPayDet.global.itemIndex + '" name="appTeam" class="appTeam">' +
             '   </td>' +
@@ -994,6 +1030,10 @@ var regPayDet = {
         $(".payDestInfo td input").css("font-size", "10px");
         $(".payDestInfo td").css("padding", "0.35rem");
         $(".payDestInfo td span").css("font-size", "10px");
+
+        if($("#pjtCd").val().substring(0,1) == "R" || $("#pjtCd").val().substring(0,1) == "S"){
+            $(".reasonTr").css("display", "");
+        }
     },
 
     delRow : function (row){

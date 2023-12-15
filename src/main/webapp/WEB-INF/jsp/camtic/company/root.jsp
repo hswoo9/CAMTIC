@@ -192,7 +192,7 @@
                 <thead>
                 <tr>
                   <th scope="col">분야</th>
-                  <th scope="col"">세부사업</th>
+                  <th scope="col">세부사업</th>
                   <th scope="col">지원내용</th>
                   <th scope="col">기업부담금</th>
                   <th scope="col">지원기관(문의처)</th>
@@ -422,7 +422,7 @@
             <thead>
             <tr>
               <th scope="col">구분</th>
-              <th scope="col"">담당자</th>
+              <th scope="col">담당자</th>
               <th scope="col">주소</th>
               <th scope="col">전화번호</th>
             </tr>
