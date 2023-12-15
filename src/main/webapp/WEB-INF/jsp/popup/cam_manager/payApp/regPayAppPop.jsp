@@ -362,6 +362,10 @@
             $("#reasonTh").css("display", "");
             $(".reasonTr").css("display", "");
             $("#reasonCol").css("display", "");
+        } else {
+            $("#reasonTh").css("display", "none");
+            $(".reasonTr").css("display", "none");
+            $("#reasonCol").css("display", "none");
         }
         var result = customKendo.fn_customAjax("/project/getBankData", data);
         var rs = result.data;

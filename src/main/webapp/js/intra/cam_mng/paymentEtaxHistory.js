@@ -393,7 +393,7 @@ var payEtaxHist = {
                             alert("반영되었습니다.");
                             opener.parent.fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, coCd, taxTy, idx, fileNo);
 
-                            // window.close();
+                            window.close();
 
                         },
                         error : function(a, b, c) {
