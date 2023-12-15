@@ -4,7 +4,7 @@ var delvInfo = {
     fn_defaultScript : function (){
         commonProject.setPjtStat();
         customKendo.fn_textBox(["pjtCd", "delvPjtNm", "delvCnt", "delvUnit", "delvLoc"
-            , "delvItem", "delvAmt", "pmName", "delvPay"]);
+            , "delvItem", "delvAmt", "pmName"]);
 
         customKendo.fn_datePicker("delvEstDe", "depth", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("delvDe", "depth", "yyyy-MM-dd", new Date());
@@ -52,7 +52,7 @@ var delvInfo = {
             $("#delvUnit").val(delvMap.DELV_UNIT);
             $("#delvCnt").val(delvMap.DELV_CNT);
             $("#delvIssu").val(delvMap.DELV_ISSU);
-            $("#delvPay").val(delvMap.DELV_PAY);
+            /*$("#delvPay").val(delvMap.DELV_PAY);*/
             $("#pjtStrDt").val(delvMap.PJT_STR_DT);
             $("#pjtEndDt").val(delvMap.PJT_END_DT);
             $("input[name='delvDept']").each(function (){
@@ -138,7 +138,7 @@ var delvInfo = {
             estDe : $("#delvEstDe").val(),
             pjtStrDt : $("#pjtStrDt").val(),
             pjtEndDt : $("#pjtEndDt").val(),
-            delvPay : $("#delvPay").val(),
+            delvPay : "",
             step : $("#step").val(),
             stepColumn : $("#stepColumn").val(),
             nextStepColumn : $("#nextStepColumn").val(),

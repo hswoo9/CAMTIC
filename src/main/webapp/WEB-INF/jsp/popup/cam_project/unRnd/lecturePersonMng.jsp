@@ -82,7 +82,7 @@
                     <td>
                         <input id="hpNum" style="width: 150px">
                     </td>
-                    <th>휴대폰번호</th>
+                    <th>팩스번호</th>
                     <td>
                         <input id="faxNum" style="width: 150px">
                     </td>

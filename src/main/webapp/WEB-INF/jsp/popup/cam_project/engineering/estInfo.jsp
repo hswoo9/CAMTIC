@@ -67,7 +67,7 @@
                 </th>
                 <td>
                     <span style="position: relative; top: 5px;">
-                        <input type="radio" id="vatN" name="vatYn" value="N">
+                        <input type="radio" id="vatN" name="vatYn" value="N" checked="checked">
                         <label for="vatN">미포함</label>
                         <input type="radio" id="vatY" name="vatYn" value="Y" style="margin-left:10px;">
                         <label for="vatY">포함</label>

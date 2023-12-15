@@ -203,6 +203,9 @@
             </thead>
         </table>
 
+        <div id="bustExnpDiv" style="text-align: right; display: none; margin-top: 10px">
+            <input type="button" class="k-button k-button-solid-info" value="여비 변경" onclick="bustripResultPop.bustripExnpPop();"/>
+        </div>
         <table class="popTable table table-bordered mb-0" id="bustExnpTb" style="display: none">
             <colgroup>
 

@@ -67,9 +67,11 @@
         /* getCarRequestList */
         SELECT
             IHCR.CAR_REQ_SN,
-            CONCAT('[',IHCR.CAR_CLASS_TEXT,']') AS schTitle,
-            CONCAT(IHCR.START_DT, ' ',IHCR.START_TIME) AS START_DATE,
-            CONCAT(IHCR.END_DT, ' ',IHCR.END_TIME) AS END_DATE
+            CONCAT('[',IHCR.CAR_CLASS_TEXT,'] ',IHCR.START_TIME,'~',IHCR.END_TIME) AS title,
+            DATE_FORMAT(IHCR.START_DT, '%Y-%m-%d') AS startDate,
+            DATE_FORMAT(IHCR.END_DT, '%Y-%m-%d') AS endDate,
+            CONCAT(IHCR.START_DT, ' ',IHCR.START_TIME) AS start,
+            CONCAT(IHCR.END_DT, ' ',IHCR.END_TIME) AS end
         FROM
             CAM_INSIDE.DJ_HR_CAR_REQ IHCR
         where 1=1

@@ -9,7 +9,7 @@ const lectureReq = {
     },
 
     fn_pageSet: function(){
-        customKendo.fn_textBox(["lectureName", "lectureNameEx", "title", "recruitNum", "eduTime", "eduTimeEx", "area", "textbookFee", "textbookFeeEx"]);
+        customKendo.fn_textBox(["lectureName", "lectureNameEx", "title", "recruitNum", "eduTime", "eduTimeEx", "area", "textbookFee"]);
         customKendo.fn_textArea(["content1", "content2", "goal", "intro", "targetUser", "scheduleHtml", "prospectus", "materials"]);
 
         /** 사업구분 drop box */
@@ -81,7 +81,6 @@ const lectureReq = {
         $("#materials").val(lecMap.LEC_MAT);
 
         $("#textbookFee").val(lecMap.LEC_COST);
-        $("#textbookFeeEx").val(lecMap.LEC_COST_EX);
         $("#methodType").data("kendoRadioGroup").value(lecMap.LEC_OPER);
 
         $("#certType").data("kendoRadioGroup").value(lecMap.LEC_CERT);
@@ -143,7 +142,7 @@ const lectureReq = {
             materials: $("#materials").val(),
 
             textbookFee: $("#textbookFee").val().replace(/,/g, ''),
-            textbookFeeEx: $("#textbookFeeEx").val(),
+            textbookFeeEx: "",
             methodType: $("#methodType").data("kendoRadioGroup").value(),
 
             certType: $("#certType").data("kendoRadioGroup").value(),
@@ -165,7 +164,7 @@ const lectureReq = {
         if(data.recruitNum == ""){ alert("모집인원이 작성되지 않았습니다."); return; }
         if(data.eduTime == "" || data.eduTimeEx == ""){ alert("교육시간이 작성되지 않았습니다."); return; }
         if(data.area == ""){ alert("교육장소가 작성되지 않았습니다."); return; }
-        if(data.textbookFee == "" || data.textbookFeeEx == ""){ alert("교육비가 작성되지 않았습니다."); return; }
+        if(data.textbookFee == ""){ alert("교육비가 작성되지 않았습니다."); return; }
         if(data.courseType == ""){ alert("메인게시여부가 선택되지 않았습니다."); return; }
 
         let url = "/projectUnRnd/insLectureInfo";

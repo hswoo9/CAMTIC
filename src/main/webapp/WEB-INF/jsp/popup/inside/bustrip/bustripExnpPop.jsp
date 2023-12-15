@@ -35,6 +35,10 @@
         <h3 class="card-title title_NM">출장 여비정산</h3>
         <div class="btn-st popButton">
             <c:choose>
+                <c:when test="${params.mode eq 'mng'}">
+                    <input type="button" class="k-button k-button-solid-primary" value="수정" onclick="bustripExnpReq.fn_saveBtn('${params.hrBizReqResultId}', '${type}', '${params.mode}')" />
+                    <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="opener.gridReload(); window.close()" />
+                </c:when>
                 <c:when test="${rs.EXP_STAT == 100}">
                     <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="opener.gridReload(); window.close()" />
                 </c:when>

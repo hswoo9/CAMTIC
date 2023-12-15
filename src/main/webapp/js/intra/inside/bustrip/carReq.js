@@ -1,11 +1,34 @@
 var carList = {
 
-    init: function(){
-        carList.dataSet();
-        carList.mainScheduler();
+    global : {
+        now : new Date(),
+        year : "",
+        month : "",
+        day : "",
+        searchAjaxData : "",
+        data : new Array(),
+        minuteList : new Array(),
+        hourList : new Array(),
+        dropDownDataSource : "",
     },
 
-    dataSet: function(){
+    fn_defaultScript: function(){
+        carList.pageSet();
+    },
+
+    pageSet: function(){
+        for(var i = 0 ; i < 60 ; i++){
+            var minute = i;
+            if(i < 10) minute = "0" + i;
+            carList.global.minuteList.push({MINUTE_NM: minute, MINUTE_CD: minute});
+        }
+
+        for(var i = 6 ; i < 24 ; i++){
+            var hour = i;
+            if(i < 10) hour = "0" + i;
+            carList.global.hourList.push({HOUR_NM: hour, HOUR_CD: hour});
+        }
+
         customKendo.fn_textBox(["enterSearch"]);
         customKendo.fn_datePicker("carReqDt", 'year', "yyyy-MM", new Date());
 
@@ -25,87 +48,35 @@ var carList = {
         customKendo.fn_dropDownList("searchWordType", searchWordArr, "text", "value", 1);
     },
 
-    mainScheduler: function(){
-        var schRsDs = [];
-        var ksModel = {
-            id: { from: "CAR_REQ_SN", type: "number" },
-            title: { from: "schTitle", defaultValue: "No title", validation: { required: true } },
-            start: { type: "date", from: "START_DATE" },
-            end: { type: "date", from: "END_DATE" }
+    getScheduleData : function(){
+        var scheduleData = new Array();
+
+        carList.global.searchAjaxData = {
+            empSeq : $("#RegEmpSeq").val(),
+            carReqDt : $("#carReqDt").val(),
+            carClass : $("#carClass").val(),
+            carType : $("#carType").val(),
+            searchWordType : $("#searchWordType").val(),
+            enterSearch : $("#enterSearch").val()
         }
 
-        var schDataSource = new kendo.data.SchedulerDataSource({
-            transport: {
-                read: {
-                    url : "/inside/getCarRequestList",
-                    dataType: "json"
-                },
-                parameterMap: function(data) {
-                    data.empSeq = $("#RegEmpSeq").val();
-                    data.carReqDt = $("#carReqDt").val();
-                    data.carClass = $("#carClass").val();
-                    data.carType = $("#carType").val();
-                    data.searchWordType = $("#searchWordType").val();
-                    data.enterSearch = $("#enterSearch").val();
-                    return data;
-                }
-            },
-            schema: {
-                data: function (data) {
-                    return data.list;
-                },
-                model: {
-                    id: "id",
-                    fields: ksModel
-                }
+
+        var ds = customKendo.fn_customAjax("/inside/getCarRequestList", carList.global.searchAjaxData);
+        if(ds.flag){
+            carList.global.data = ds.list;
+        }
+
+        if(carList.global.data.length > 0){
+            for(var i = 0 ; i < carList.global.data.length ; i++){
+                var row = {};
+                row.title = carList.global.data[i].title;
+                row.start = new Date(carList.global.data[i].start);
+                row.end = new Date(carList.global.data[i].end);
+                row.carReqSn = carList.global.data[i].CAR_REQ_SN;
+                scheduleData.push(row);
             }
-        });
-
-        var schResources = [
-            {
-                field : "vacCodeId",
-                dataSource : schRsDs
-            }
-        ]
-
-        kendo.culture("ko-KR");
-
-        $("#scheduler").kendoScheduler({
-            date: new Date(),
-            startTime: new Date(),
-            height: 671,
-            views: [
-                "month"
-            ],
-            timezone: "Etc/UTC",
-            dataSource: schDataSource,
-            selectable: true,
-            dataBound : carList.onDataBound,
-            editable : false
-        });
-
-        $("#scheduler").on("dblclick", ".k-state-selected:not(.k-event)", function(e){
-            let url = "/Inside/pop/carPop.do?startDt=" + carList.dateFormat($("#scheduler").data("kendoScheduler").select().start);
-            let name = "carPop";
-            let option = "width = 900, height = 500, top = 100, left = 200, location = no";
-            window.open(url, name, option);
-        });
-    },
-
-    onDataBound: function(e){
-        const scheduler = this;
-        $(".k-event-inverse").dblclick(function (e) {
-            var scheduler = $("#scheduler").getKendoScheduler();
-            var event = scheduler.occurrenceByUid($(this).data("uid"));
-            carList.carPopup(event.id);
-        });
-    },
-
-    dateFormat : function(date) {
-        let dateFormat2 = date.getFullYear() +
-            '-' + ( (date.getMonth()+1) < 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
-            '-' + ( (date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()) );
-        return dateFormat2;
+        }
+        return scheduleData;
     },
 
     carPopup: function(carReqSn){
@@ -123,9 +94,11 @@ var carList = {
         const name = "carStatPop";
         const option = "width = 1600, height = 570, top = 100, left = 200, location = no";
         window.open(url, name, option);
-    }
-}
+    },
 
-function gridReload(){
-    $("#scheduler").data("kendoScheduler").dataSource.read();
+    refresh: function(){
+        $("#calendar").html("");
+        carList.global.cal.$calendar.fullCalendar("destroy");
+        carList.global.cal.init();
+    }
 }

@@ -6,6 +6,10 @@
     <select id="getPurcReqList" parameterType="map" resultType="map">
         /* getPurcReqList */
         SELECT
+            RE.*,
+            IFNULL((SELECT SUM(PURC_ITEM_AMT) FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE PURC_SN = RE.PURC_SN ), 0) AS PURC_ITEM_AMT_SUM
+        FROM (
+            SELECT
             MP.PURC_SN,
             DATE_FORMAT(MP.PURC_REQ_DATE, '%Y. %m. %d') AS PURC_REQ_DATE,
             DI.DOC_NO,
@@ -15,72 +19,72 @@
             COUNT(CASE WHEN MPI.STATUS = 'R' THEN 1 END) AS RP_CNT,
             MP.STATUS,
             MP.DOC_STATUS,
-            IFNULL(SUM(MPI.PURC_ITEM_AMT), 0) AS PURC_ITEM_AMT_SUM,
             CASE WHEN PC.CLAIM_SN IS NULL THEN 'CN'
             WHEN PC.CLAIM_SN IS NOT NULL AND PC.DOC_ID IS NULL THEN 'CAN'
-            WHEN PC.CLAIM_SN IS NOT NULL AND PC.DOC_ID IS NOT NULL AND PC.STATUS != '100' AND PC.STATUS != '101' THEN 'CAYSN'
+            WHEN PC.CLAIM_SN IS NOT NULL AND PC.DOC_ID IS NOT NULL AND PC.STATUS != '100' AND PC.STATUS != '101' THEN
+            'CAYSN'
             WHEN PC.CLAIM_SN IS NOT NULL AND PC.DOC_ID IS NOT NULL AND (PC.STATUS = '100' OR PC.STATUS = '101') THEN 'CAYSY'
             ELSE '' END CLAIM_STATUS,
-            MP.INSPECT_YN,
             MP.INSPECT_STATUS,
             IFNULL(PC.ORDER_DT, "") AS ORDER_DT,
             MP.INSPECT_YN
-        FROM
+            FROM
             CAM_MNG.DJ_MNG_PURC MP
-        JOIN
+            JOIN
             CAM_HR.DJ_EMP_INFO EI
-        ON MP.PURC_REQ_EMP_SEQ = EI.EMP_SEQ
-        JOIN
+            ON MP.PURC_REQ_EMP_SEQ = EI.EMP_SEQ
+            JOIN
             CAM_MNG.DJ_MNG_PURC_ITEM MPI
-        ON MP.PURC_SN = MPI.PURC_SN
-        LEFT JOIN
+            ON MP.PURC_SN = MPI.PURC_SN
+            LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI
-        ON MP.DOC_ID = DI.DOC_ID
-        LEFT JOIN
+            ON MP.DOC_ID = DI.DOC_ID
+            LEFT JOIN
             CAM_MNG.DJ_PURC_CLAIM PC
-        ON MP.PURC_SN = PC.PURC_SN
-        WHERE
+            ON MP.PURC_SN = PC.PURC_SN
+            WHERE
             1=1
 
-        <if test='searchDept != null and !"".equals(searchDept)'>
-            AND MP.PURC_REQ_EMP_SEQ = #{empSeq}
-        </if>
-        <if test='pjtSn != null and !"".equals(pjtSn)'>
-            AND MP.PJT_SN = #{pjtSn}
-        </if>
+            <if test='searchDept != null and !"".equals(searchDept)'>
+                AND MP.PURC_REQ_EMP_SEQ = #{empSeq}
+            </if>
+            <if test='pjtSn != null and !"".equals(pjtSn)'>
+                AND MP.PJT_SN = #{pjtSn}
+            </if>
 
-        <choose>
-            <when test='searchKeyword != null and !"".equals(searchKeyword) and "DOC_NO".equals(searchKeyword)'>
-                AND DI.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
-            </when>
-            <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_REQ_PURPOSE".equals(searchKeyword)'>
-                AND MP.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchKeyword},'%')
-            </when>
-            <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_ITEM_NAME".equals(searchKeyword)'>
-                AND DI.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
-            </when>
-            <otherwise>
-                AND
-                (
+            <choose>
+                <when test='searchKeyword != null and !"".equals(searchKeyword) and "DOC_NO".equals(searchKeyword)'>
+                    AND DI.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
+                </when>
+                <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_REQ_PURPOSE".equals(searchKeyword)'>
+                    AND MP.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchKeyword},'%')
+                </when>
+                <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_ITEM_NAME".equals(searchKeyword)'>
+                    AND DI.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
+                </when>
+                <otherwise>
+                    AND
+                    (
                     DI.DOC_NO LIKE CONCAT('%',#{searchValue},'%') OR
                     MP.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%')
-                )
-            </otherwise>
-        </choose>
+                    )
+                </otherwise>
+            </choose>
 
-        <choose>
-            <when test='"1".equals(inspectStat)'>
-                AND MP.INSPECT_YN = 'N'
-            </when>
-            <when test='"2".equals(inspectStat)'>
-                AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '0'
-            </when>
-            <when test='"3".equals(inspectStat)'>
-                AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '100'
-            </when>
-        </choose>
-        GROUP BY MP.PURC_SN
-        ORDER BY MP.PURC_SN DESC
+            <choose>
+                <when test='"1".equals(inspectStat)'>
+                    AND MP.INSPECT_YN = 'N'
+                </when>
+                <when test='"2".equals(inspectStat)'>
+                    AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '0'
+                </when>
+                <when test='"3".equals(inspectStat)'>
+                    AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '100'
+                </when>
+            </choose>
+            GROUP BY MP.PURC_SN
+            ORDER BY MP.PURC_SN DESC
+        ) RE
     </select>
 
     <select id="getMngReqPurcList" parameterType="map" resultType="map">
@@ -949,8 +953,8 @@
         SELECT
             B.*
         FROM
-            CAM_MNG.DJ_MNG_PURC A
-        LEFT JOIN CAM_MNG.DJ_MNG_PURC_ITEM B ON A.PURC_SN = B.PURC_SN
+            CAM_MNG.DJ_MNG_PURC_ITEM B
+        LEFT JOIN CAM_MNG.DJ_MNG_PURC A ON A.PURC_SN = B.PURC_SN
         WHERE
             A.PJT_SN = #{pjtSn}
         AND A.DOC_STATUS = '100'

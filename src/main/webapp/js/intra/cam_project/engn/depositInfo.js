@@ -62,9 +62,9 @@ var depoInfo = {
                     template: function(e){
                         var gubun = "";
                         if(e.GUBUN == "a"){
-                            gubun = "입금";
+                            gubun = "청구";
                         }else if(e.GUBUN == "b"){
-                            gubun = "설치";
+                            gubun = "영수";
                         }
                         return gubun;
                     }
