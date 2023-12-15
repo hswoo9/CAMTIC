@@ -64,8 +64,7 @@
             CAM_MNG.DJ_CARD_TO_HIST C
         ON
             A.AUTH_NO = C.AUTH_NO AND A.AUTH_DD = C.AUTH_DD AND A.AUTH_HH = C.AUTH_HH AND A.BUY_STS = C.BUY_STS AND A.CARD_NO = REPLACE(C.CARD_NO, "-", "")
-        AND
-            C.CARD_TO_SN = #{cardToSn}
+
         WHERE 1=1
         <if test='startDt != null and !"".equals(startDt)'>
             <![CDATA[
@@ -222,7 +221,8 @@
     <select id="getCardTOHistList" parameterType="map" resultType="map">
         /*getCardTOHistList*/
         SELECT
-            *
+            A.*, C.*,
+            (SELECT RT_YN FROM CAM_MNG.DJ_CARD_TO WHERE CARD_TO_SN = A.CARD_TO_SN) as RT_YN
         FROM
             CAM_MNG.DJ_CARD_TO_HIST A
         LEFT JOIN

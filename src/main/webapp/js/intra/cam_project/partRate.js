@@ -23,6 +23,7 @@ var partRate = {
         var mng = result.result.projectManagerInfo;
         var mem = result.result.projectMemberInfo;
 
+        console.log(mem);
 
 
         if(rs != null){
@@ -181,7 +182,7 @@ var partRate = {
                 memHtml += '       <input type="hidden" name="partEmpSeq" value="'+mem[i].EMP_SEQ+'" />';
                 memHtml += '       <input type="text" id="gubun'+i+'" name="gubun" value="'+mem[i].GUBUN+'" />';
                 memHtml += '   </td>';
-                memHtml += '   <td>' + mem[i].EMP_NAME + '<input type="hidden" name="partEmpName" value="'+mem[i].EMP_NAME+'" /></td>';
+                memHtml += '   <td>' + (mem[i].EMP_NAME || mem[i].JOIN_MEM_NM) + '<input type="hidden" name="partEmpName" value="'+(mem[i].EMP_NAME || mem[i].JOIN_MEM_NM)+'" /></td>';
                 memHtml += '   <td style="text-align: right"><input type="hidden" id="basicSalary" name="basicSalary" value="'+uncomma(bsSal)+'"/> ' + comma(bsSal) + '</td>';
                 memHtml += '   <td>';
                 memHtml += '        <input type="text" id="memChngSal'+i+'" name="chngSal" value="'+comma(totAmt)+'" style="text-align: right" onkeyup="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +', this);" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" />';

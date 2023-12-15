@@ -242,7 +242,13 @@ var statementList = {
                     title: "기타",
                     width: 80,
                     template : function (e){
-                        return '<button type="button" class="k-button k-button-solid k-button-solid-error" onclick="statementList.fn_histDel('+e.CARD_TO_HIST_SN+')">삭제</button>';
+                        console.log(e);
+                        var rtYn = e.RT_YN;
+                        if(rtYn == 'Y'){
+                            return '<button type="button" class="k-button k-button-solid k-button-solid-error" disabled onclick="statementList.fn_histDel('+e.CARD_TO_HIST_SN+')">삭제</button>';
+                        } else {
+                            return '<button type="button" class="k-button k-button-solid k-button-solid-error" onclick="statementList.fn_histDel('+e.CARD_TO_HIST_SN+')">삭제</button>';
+                        }
                     }
                 }
             ],
@@ -306,6 +312,9 @@ var statementList = {
     },
 
     fn_histDel : function (key) {
+        if(!confirm("삭제하시겠습니까?")){
+            return;
+        }
         var parameters = {
             cardHistSn : key
         };

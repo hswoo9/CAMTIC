@@ -208,7 +208,7 @@ var popUserPay = {
             var btn = $(this).find("td").eq(15).find("button").length;
 
             if(btn > 1){
-                if(!dateCheck(startDt, endDt)){
+                if(!dateCheck(startDt, endDt, parameters.startDt, parameters.endDt)){
                     alert("중복되는 날짜가 존재합니다.");
                     duplFlag = false;
                     return;
@@ -361,14 +361,15 @@ function fn_bsPay(e){
     return (Math.floor(sum/10) * 10).toString().toMoney();
 }
 
-function dateCheck(startDate, endDate){
+function dateCheck(startDate, endDate, bsDate, beDate){
 
     var flag = true;
     var start_expirationDate = startDate.replace(/-/g, '');
     var end_expirationDate = endDate.replace(/-/g, '');
-    var bsDate = startDate.replace(/-/g, '');
-    var beDate = endDate.replace(/-/g, '');
+    var bsDate = bsDate.replace(/-/g, '');
+    var beDate = beDate.replace(/-/g, '');
 
+    console.log(bsDate, beDate);
     if(bsDate >= start_expirationDate && bsDate <= end_expirationDate){
         flag = false;
     }
