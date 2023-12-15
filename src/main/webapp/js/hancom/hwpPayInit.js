@@ -16,7 +16,7 @@ var payInit = {
         hwpDocCtrl.putFieldText("REG_DATE", rs.REG_DATE);
         hwpDocCtrl.putFieldText("REQ_DE", rs.REQ_DE.split("-")[0] + "년 " + rs.REQ_DE.split("-")[1] + "월 " + rs.REQ_DE.split("-")[2] + "일");
         hwpDocCtrl.putFieldText("TO_DATE", fn_getNowDate(1));
-
+        hwpDocCtrl.putFieldText("REASON", rs.REASON);
         hwpDocCtrl.putFieldText("APP_TITLE", rs.APP_TITLE);
         hwpDocCtrl.putFieldText("APP_CONT", rs.APP_CONT);
         hwpDocCtrl.putFieldText("ACC_NO", "("+rs.BNK_NM+") "+rs.ACC_NO+" "+rs.ACC_NM);
@@ -139,7 +139,7 @@ var payInit = {
             const map = list[i];
             html += '               <tr>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px;">'+ map.BUDGET_NM.replace(/ \/ /g, ' - <br>') +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ rs.APP_CONT +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.REASON +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CRM_NM +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;">'+ fn_numberWithCommas(map.TOT_COST) +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CRM_BNK_NM +'<br>'+ map.CRM_ACC_NO +'<br>'+ map.CRM_ACC_HOLDER +'</p></td>';
