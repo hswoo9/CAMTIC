@@ -1,9 +1,25 @@
 var engnInit = {
 
+    crmTempData: function(map){
+        if(map.CRM_MEM_TEMP_NM != null){
+            hwpDocCtrl.putFieldText('CRM_MEM_NM', map.CRM_MEM_TEMP_NM);
+        }else{
+            hwpDocCtrl.putFieldText('CRM_MEM_NM', map.CRM_MEM_NM);
+        }
+
+        if(map.CRM_MEM_TEMP_PH != null){
+            hwpDocCtrl.putFieldText('CRM_MEM_PHN', map.CRM_MEM_TEMP_PH);
+        }else{
+            hwpDocCtrl.putFieldText('CRM_MEM_PHN', map.CRM_MEM_PHN);
+        }
+    },
+
     delvInit: function(pjtSn){
         const result = customKendo.fn_customAjax("/project/engn/getDelvData", {pjtSn: pjtSn});
         const delvMap = result.delvMap;
         const map = result.map;
+        console.log("map");
+        console.log(map);
 
         /** 1. 사업정보 */
         hwpDocCtrl.putFieldText('PJT_CD', map.PJT_TMP_CD);
@@ -18,8 +34,8 @@ var engnInit = {
         hwpDocCtrl.putFieldText('CRM_CEO', map.CRM_CEO);
         hwpDocCtrl.putFieldText('ADDR', map.ADDR);
         hwpDocCtrl.putFieldText('PH_NUM', map.PH_NUM);
-        hwpDocCtrl.putFieldText('CRM_MEM_NM', map.CRM_MEM_NM);
-        hwpDocCtrl.putFieldText('CRM_MEM_PHN', map.CRM_MEM_PHN);
+        engnInit.crmTempData(map);
+
 
         /** 2. 납품정보 */
         hwpDocCtrl.putFieldText('DELV_ITEM', delvMap.DELV_ITEM);
@@ -27,7 +43,6 @@ var engnInit = {
         hwpDocCtrl.putFieldText('DELV_UNIT', delvMap.DELV_UNIT);
         hwpDocCtrl.putFieldText('DELV_AMT', fn_numberWithCommas(delvMap.DELV_AMT));
         hwpDocCtrl.putFieldText('DELV_DE', delvMap.DELV_DE);
-        hwpDocCtrl.putFieldText('DELV_LOC', delvMap.DELV_LOC);
 
         if(map.TM_YN == "Y"){
             const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: pjtSn});
@@ -66,8 +81,7 @@ var engnInit = {
         hwpDocCtrl.putFieldText('CRM_CEO', map.CRM_CEO);
         hwpDocCtrl.putFieldText('ADDR', map.ADDR);
         hwpDocCtrl.putFieldText('PH_NUM', map.PH_NUM);
-        hwpDocCtrl.putFieldText('CRM_MEM_NM', map.CRM_MEM_NM);
-        hwpDocCtrl.putFieldText('CRM_MEM_PHN', map.CRM_MEM_PHN);
+        engnInit.crmTempData(map);
 
         /** 2. 납품정보 */
         hwpDocCtrl.putFieldText('DELV_ITEM', delvMap.DELV_ITEM);
@@ -75,7 +89,6 @@ var engnInit = {
         hwpDocCtrl.putFieldText('DELV_UNIT', delvMap.DELV_UNIT);
         hwpDocCtrl.putFieldText('DELV_AMT', fn_numberWithCommas(delvMap.DELV_AMT));
         hwpDocCtrl.putFieldText('DELV_DE', delvMap.DELV_DE);
-        hwpDocCtrl.putFieldText('DELV_LOC', delvMap.DELV_LOC);
 
         console.log(map)
         if(map.TM_YN == "Y"){
@@ -197,8 +210,7 @@ var engnInit = {
         hwpDocCtrl.putFieldText('CRM_CEO', map.CRM_CEO);
         hwpDocCtrl.putFieldText('ADDR', map.ADDR);
         hwpDocCtrl.putFieldText('PH_NUM', map.PH_NUM);
-        hwpDocCtrl.putFieldText('CRM_MEM_NM', map.CRM_MEM_NM);
-        hwpDocCtrl.putFieldText('CRM_MEM_PHN', map.CRM_MEM_PHN);
+        engnInit.crmTempData(map);
 
         /** 2. 납품정보 */
         hwpDocCtrl.putFieldText('DELV_ITEM', delvMap.DELV_ITEM);
@@ -206,7 +218,6 @@ var engnInit = {
         hwpDocCtrl.putFieldText('DELV_UNIT', delvMap.DELV_UNIT);
         hwpDocCtrl.putFieldText('DELV_AMT', fn_numberWithCommas(delvMap.DELV_AMT));
         hwpDocCtrl.putFieldText('DELV_DE', delvMap.DELV_DE);
-        hwpDocCtrl.putFieldText('DELV_LOC', delvMap.DELV_LOC);
 
         /** 3. 협업사항 */
         if(map.TM_YN == "Y"){
