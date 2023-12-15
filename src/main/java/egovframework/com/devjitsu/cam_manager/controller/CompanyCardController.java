@@ -127,6 +127,15 @@ public class CompanyCardController {
         return "jsonView";
     }
 
+
+    @RequestMapping("/card/getCardUseCheck")
+    public String getCardUseCheck(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        int checkCnt = companyCardService.getCardUseCheck(params);
+        model.addAttribute("checkCnt", checkCnt);
+
+        return "jsonView";
+    }
     @RequestMapping("/card/saveRegCardTo")
     public String saveRegCardTo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         try{
@@ -155,6 +164,18 @@ public class CompanyCardController {
     public String delCardTo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         try{
             companyCardService.delCardTo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/card/delCardHist")
+    public String delCardHist(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        try{
+            companyCardService.delCardHist(params);
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();
@@ -217,6 +238,15 @@ public class CompanyCardController {
         return "jsonView";
     }
 
+    @RequestMapping("/card/privateMngPop.do")
+    public String privateMngPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
 
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", loginVO);
+        return "popup/cam_manager/cardPrivateMngPop";
+    }
 
 }

@@ -145,7 +145,6 @@
                 }
             });
         }
-
     });
 
     function userSearch() {
@@ -161,10 +160,33 @@
     }
 
     function fn_save(){
+        var checkFlag = true;
+
+        $.ajax({
+            url : '/card/getCardUseCheck',
+            type : 'POST',
+            data: {cardBaNb : $("#cardBaNb").val()},
+            dataType : "json",
+            async : false,
+            success: function(e) {
+                var checkCnt = 0;
+
+                checkCnt = e.checkCnt;
+
+                if(checkCnt > 0){
+                    alert("사용중인 카드입니다.");
+                    fn_selCardInfo("", "", "", "", "", "", "", ""); // 카드정보 초기화
+                    checkFlag = false;
+                    return;
+                }
+            }
+        });
+
+        if(!checkFlag){return;}
+
         if(!confirm("저장하시겠습니까?")){
             return;
         }
-
 
         var parameters = {
             trCd : $("#trCd").val(),

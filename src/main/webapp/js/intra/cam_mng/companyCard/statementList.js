@@ -238,6 +238,12 @@ var statementList = {
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(sumAmt)+"</div>";
                     }
+                }, {
+                    title: "기타",
+                    width: 80,
+                    template : function (e){
+                        return '<button type="button" class="k-button k-button-solid k-button-solid-error" onclick="statementList.fn_histDel('+e.CARD_TO_HIST_SN+')">삭제</button>';
+                    }
                 }
             ],
             dataBinding: function(){
@@ -294,6 +300,24 @@ var statementList = {
                 if(rs.code == 200){
                     alert("삭제되었습니다.");
                     statementList.mainGrid();
+                }
+            }
+        });
+    },
+
+    fn_histDel : function (key) {
+        var parameters = {
+            cardHistSn : key
+        };
+
+        $.ajax({
+            url : "/card/delCardHist",
+            data : parameters,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    statementList.mainHistGrid();
                 }
             }
         });
