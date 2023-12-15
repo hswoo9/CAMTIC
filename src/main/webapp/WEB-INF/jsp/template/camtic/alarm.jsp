@@ -217,59 +217,59 @@
 </div>
 
 <script>
+  var data = {};
+  /* function popUpClick(){
 
-  function popUpClick(){
+     $.ajax({
+       url : '/main/getAlarmList.do',
+       type : 'POST',
+       data: data,
+       dataType : "json",
+       async: false,
+       success: function(data) {
+         resultData = data.list;
 
-    $.ajax({
-      url : '/main/getAlarmList.do',
-      type : 'POST',
-      data: data,
-      dataType : "json",
-      async: false,
-      success: function(data) {
-        resultData = data.list;
+         let html = "<ul>";
+         resultData.forEach((item, index) => {
+           html += "<li>";
+           html += "<a href='/camtic/news/view.do?category=" + item.BOARD_CATEGORY_ID + "&boardArticleId=" + item.BOARD_ARTICLE_ID + "'>";
+           html += "<div class='pop_thumb'>";
+           if(item.imgSrc == null){
+            html += "<img src='/images/camtic/logo.png'>";
+           }else{
+             html += "<img src='" + item.imgSrc + "' style='height: 450px;'>";
+           }
 
-        let html = "<ul>";
-        resultData.forEach((item, index) => {
-          html += "<li>";
-          html += "<a href='/camtic/news/view.do?category=" + item.BOARD_CATEGORY_ID + "&boardArticleId=" + item.BOARD_ARTICLE_ID + "'>";
-          html += "<div class='pop_thumb'>";
-          if(item.imgSrc == null){
-           html += "<img src='/images/camtic/logo.png'>";
-          }else{
-            html += "<img src='" + item.imgSrc + "' style='height: 450px;'>";
-          }
+           html += "</div>";
+           html += "<dl>";
+           html += "<dt>" + item.BOARD_ARTICLE_TITLE + "</dt>";
+           html += "<dd>" + item.regDate + "</dd>";
+           html += "</dl>";
+           html += "</a>";
+           html += "</li>";
+         });
+         html += "</ul>";
 
-          html += "</div>";
-          html += "<dl>";
-          html += "<dt>" + item.BOARD_ARTICLE_TITLE + "</dt>";
-          html += "<dd>" + item.regDate + "</dd>";
-          html += "</dl>";
-          html += "</a>";
-          html += "</li>";
-        });
-        html += "</ul>";
+         $(".readMore").append(html);
 
-        $(".readMore").append(html);
+         }
+     });
 
-        }
-    });
+     $('html').css("overflow","hidden");
+     $('#Service').css("overflow","auto");
+     $('html').scrollTop(0);
 
-    $('html').css("overflow","hidden");
-    $('#Service').css("overflow","auto");
-    $('html').scrollTop(0);
-
-    $('#Service').css("display","block");
-    $('.svgroup_r').css({'height':'98%'});
+     $('#Service').css("display","block");
+     $('.svgroup_r').css({'height':'98%'});
 
 
-    var classOn = $("[class^='poptit'][class$='on']");
-    var count = $(classOn).next('div').find('div > ul > li').length;
+     var classOn = $("[class^='poptit'][class$='on']");
+     var count = $(classOn).next('div').find('div > ul > li').length;
 
-    if(count > 6){
-      readmore();
-    }
+     if(count > 6){
+       readmore();
+     }
 
-  }
+   }*/
 
 </script>
