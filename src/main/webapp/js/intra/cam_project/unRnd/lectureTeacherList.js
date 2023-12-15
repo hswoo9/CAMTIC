@@ -1,40 +1,29 @@
 var lectureTeacherList = {
+
+    global : {
+        searchAjaxData : ""
+    },
+
     fn_defaultScript: function(){
         this.fn_pageSet();
-        this.fn_mainGrid();
+        this.gridReload();
     },
 
     fn_pageSet: function(){
-
+        customKendo.fn_textBox(["sEmpName"]);
     },
 
-    fn_mainGrid: function(){
-        let dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read : {
-                    url : "/projectUnRnd/getLectureTeacherList",
-                    dataType : "json",
-                    type : "post"
-                },
-                parameterMap: function(data){
-                    data.pk = $("#start_date").val();
-                    return data;
-                }
-            },
-            schema : {
-                data: function (data) {
-                    return data.list;
-                },
-                total: function (data) {
-                    return data.list.length;
-                },
-            },
-            pageSize: 10,
-        });
+    gridReload: function(){
+        lectureTeacherList.global.searchAjaxData = {
+            sEmpName : $("#sEmpName").val()
+        }
 
+        lectureTeacherList.mainGrid("/projectUnRnd/getLectureTeacherList", lectureTeacherList.global.searchAjaxData);
+    },
+
+    mainGrid: function(url, params){
         $("#lectureTeacherGrid").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             scrollable: true,
             selectable: "row",
@@ -48,7 +37,14 @@ var lectureTeacherList = {
                 {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="unRndLectList.gridReload()">' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="lecturePop.lectureTeacherMngPop()">' +
+                            '	<span class="k-button-text">신규 강사 추가</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="lectureTeacherList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -58,7 +54,6 @@ var lectureTeacherList = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound: this.onDataBound,
             columns: [
                 {
                     title: "번호",
@@ -90,9 +85,12 @@ var lectureTeacherList = {
                     width: "10%"
                 }, {
                     title: "처리명령",
-                    width: "3%",
+                    width: "8%",
                     template: function(e){
-                        return "-";
+                        console.log(e);
+                        let buttonHtml = '<button type="button" id="saveBtn" style="margin-right: 5px" class="k-button k-button-solid-primary" onclick="lecturePop.lectureTeacherMngPop('+e.TEACHER_SN+')">수정</button>';
+                        buttonHtml += '<button type="button" id="delBtn" class="k-button k-button-solid-error" onclick="lectureTeacherList.fn_delete('+e.TEACHER_SN+')">삭제</button>';
+                        return buttonHtml;
                     }
                 }
             ],
@@ -102,7 +100,26 @@ var lectureTeacherList = {
         }).data("kendoGrid");
     },
 
-    gridReload: function(){
-        $("#lectureTeacherGrid").data("kendoGrid").dataSource.read();
+    fn_delete: function(teacherSn){
+        if(!confirm("삭제하시겠습니까?")){
+            return;
+        }
+
+        const data = {
+            teacherSn: teacherSn
+        }
+
+        const result = customKendo.fn_customAjax("/projectUnRnd/delLectureTeacherData", data);
+
+        if(result.code != 200){
+            alert("삭제 중 오류가 발생하였습니다.");
+        }else{
+            alert("삭제되었습니다");
+            gridReload();
+        }
     }
+}
+
+function gridReload(){
+    lectureTeacherList.gridReload();
 }

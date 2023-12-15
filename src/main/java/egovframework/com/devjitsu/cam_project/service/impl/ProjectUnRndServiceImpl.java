@@ -180,6 +180,11 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     }
 
     @Override
+    public Map<String, Object> getTeacherData(Map<String, Object> params) {
+        return projectUnRndRepository.getTeacherData(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getLectureTeacherReqList(Map<String, Object> params) {
         return projectUnRndRepository.getLectureTeacherReqList(params);
     }
@@ -226,8 +231,20 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
         }
     }
     @Override
+    public void setLectureTeacherData(Map<String, Object> params) {
+        if(!params.containsKey("teacherSn")){
+            projectUnRndRepository.insTeacherData(params);
+        }else{
+            projectUnRndRepository.updTeacherData(params);
+        }
+    }
+    @Override
     public void delLecturePersonData(Map<String, Object> params) {
-        projectUnRndRepository.delLectureData(params);
+        projectUnRndRepository.delPersonData(params);
+    }
+    @Override
+    public void delLectureTeacherData(Map<String, Object> params) {
+        projectUnRndRepository.delTeacherData(params);
     }
     @Override
     public void insLectureInfo(Map<String, Object> params) {

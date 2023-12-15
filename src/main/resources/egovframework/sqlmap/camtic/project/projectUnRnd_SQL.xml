@@ -214,7 +214,15 @@
         FROM
             CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON
         WHERE PERSON_SN = #{personSn}
-        AND ACTIVE = 'Y'
+    </select>
+
+    <select id="getTeacherData" parameterType="map" resultType="map">
+        /*getTeacherData*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER
+        WHERE TEACHER_SN = #{teacherSn}
     </select>
 
     <select id="getLectureTeacherList" parameterType="map" resultType="map">
@@ -234,6 +242,10 @@
                     LEC_SN = #{notIn}
             )
         </if>
+        <if test="sEmpName != null and sEmpName != ''">
+            AND NAME LIKE CONCAT('%', #{sEmpName}, '%')
+        </if>
+        AND ACTIVE = 'Y'
         ORDER BY NAME
     </select>
 
@@ -399,14 +411,89 @@
             PERSON_SN = #{personSn}
     </update>
 
-    <update id="delLectureData" parameterType="map">
-        /*delLectureData*/
+    <insert id="insTeacherData" parameterType="map">
+        /*insTeacherData*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER
+            (
+                NAME,
+                BIRTH,
+                GENDER,
+                BELONG,
+                PART,
+                PLACE,
+                TEL_NUM,
+                HP_NUM,
+                FAX_NUM,
+                EMAIL,
+                BANK_NAME,
+                BANK_ACCOUNT,
+                BANK_USER,
+                REG_EMP_SEQ
+            )
+        VALUE
+            (
+                #{name},
+                #{birth},
+                #{gender},
+                #{coName},
+                #{part},
+                #{place},
+                #{telNum},
+                #{hpNum},
+                #{faxNum},
+                #{email},
+                #{bankName},
+                #{bankAccount},
+                #{bankUser},
+                #{regEmpSeq}
+            )
+        <selectKey keyProperty="teacherSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_LECTURE_TEACHER'
+        </selectKey>
+    </insert>
+
+    <update id="updTeacherData" parameterType="map">
+        /*updTeacherData*/
+        UPDATE
+            CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER
+        SET
+            NAME = #{name},
+            BIRTH = #{birth},
+            GENDER = #{gender},
+            BELONG = #{coName},
+            PART = #{part},
+            PLACE = #{place},
+            TEL_NUM = #{telNum},
+            HP_NUM = #{hpNum},
+            FAX_NUM = #{faxNum},
+            PLACE = #{place},
+            EMAIL = #{email},
+            BANK_NAME = #{bankName},
+            BANK_USER = #{bankUser},
+            MOD_EMP_SEQ = #{regEmpSeq},
+            MOD_DT = NOW()
+        WHERE
+            TEACHER_SN = #{teacherSn}
+    </update>
+
+    <update id="delPersonData" parameterType="map">
+        /*delPersonData*/
         UPDATE
             CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON
         SET
             ACTIVE = 'N'
         WHERE
             PERSON_SN = #{personSn}
+    </update>
+
+    <update id="delTeacherData" parameterType="map">
+        /*delTeacherData*/
+        UPDATE
+            CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER
+        SET
+            ACTIVE = 'N'
+        WHERE
+            TEACHER_SN = #{teacherSn}
     </update>
 
     <insert id="insLectureInfo" parameterType="map">
