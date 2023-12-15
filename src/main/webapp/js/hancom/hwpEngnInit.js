@@ -42,7 +42,6 @@ var engnInit = {
         hwpDocCtrl.putFieldText('DELV_CNT', String(delvMap.DELV_CNT == undefined ? "" : delvMap.DELV_CNT));
         hwpDocCtrl.putFieldText('DELV_UNIT', delvMap.DELV_UNIT);
         hwpDocCtrl.putFieldText('DELV_AMT', fn_numberWithCommas(delvMap.DELV_AMT));
-        hwpDocCtrl.putFieldText('DELV_DE', delvMap.DELV_DE);
 
         if(map.TM_YN == "Y"){
             const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: pjtSn});
@@ -88,7 +87,6 @@ var engnInit = {
         hwpDocCtrl.putFieldText('DELV_CNT', String(delvMap.DELV_CNT == undefined ? "" : delvMap.DELV_CNT));
         hwpDocCtrl.putFieldText('DELV_UNIT', delvMap.DELV_UNIT);
         hwpDocCtrl.putFieldText('DELV_AMT', fn_numberWithCommas(delvMap.DELV_AMT));
-        hwpDocCtrl.putFieldText('DELV_DE', delvMap.DELV_DE);
 
         console.log(map)
         if(map.TM_YN == "Y"){
@@ -217,7 +215,6 @@ var engnInit = {
         hwpDocCtrl.putFieldText('DELV_CNT', String(delvMap.DELV_CNT == undefined ? "" : delvMap.DELV_CNT));
         hwpDocCtrl.putFieldText('DELV_UNIT', delvMap.DELV_UNIT);
         hwpDocCtrl.putFieldText('DELV_AMT', fn_numberWithCommas(delvMap.DELV_AMT));
-        hwpDocCtrl.putFieldText('DELV_DE', delvMap.DELV_DE);
 
         /** 3. 협업사항 */
         if(map.TM_YN == "Y"){
