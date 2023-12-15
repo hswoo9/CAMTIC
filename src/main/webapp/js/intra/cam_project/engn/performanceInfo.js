@@ -1,15 +1,15 @@
-var resultInfo = {
+var performanceInfo = {
 
     fn_defaultScript: function(){
         commonProject.setPjtStat();
-        resultInfo.fn_setData();
+        performanceInfo.fn_setData();
     },
 
     fn_setData: function(){
         const resultMap = customKendo.fn_customAjax("/project/engn/getResultInfo", {
             pjtSn: $("#pjtSn").val(),
         });
-        resultInfo.fn_makeRowEngn(resultMap);
+        performanceInfo.fn_makeRowEngn(resultMap);
     },
 
     fn_makeRowEngn : function(rs){
@@ -49,7 +49,7 @@ var resultInfo = {
         html += '<tr>';
         html += '   <td style="text-align: center; background-color: #dee4ed">수주</td>';
         html += '   <td>' +
-            '           <input type="text" disabled id="resultDelvTotAmt" value="0" style="text-align: right" onkeyup="resultInfo.inputNumberFormat(this)" oninput="resultInfo.onlyNumber(this)" />' +
+            '           <input type="text" disabled id="resultDelvTotAmt" value="0" style="text-align: right" onkeyup="performanceInfo.inputNumberFormat(this)" oninput="performanceInfo.onlyNumber(this)" />' +
             '       </td>';
         for(var i=0; i<ls.length; i++){
             var value = 0;
@@ -101,10 +101,10 @@ var resultInfo = {
             calcAmt = Math.round(rs.pjtInfo.PJT_AMT * (value * 0.01));
 
             html += '   <td>';
-            html += '       <input type="text" id="delvPrepAmt'+type+'" onkeyup="resultInfo.inputNumberFormat(this)" oninput="resultInfo.onlyNumber(this)" disabled class="prepAmt" value="'+ resultInfo.comma(calcAmt) +'" style="text-align: right" />';
+            html += '       <input type="text" id="delvPrepAmt'+type+'" onkeyup="performanceInfo.inputNumberFormat(this)" oninput="performanceInfo.onlyNumber(this)" disabled class="prepAmt" value="'+ performanceInfo.comma(calcAmt) +'" style="text-align: right" />';
             html += '   </td>';
             html += '   <td style="text-align: right">';
-            html += '       <input type="text" id="delvPrep'+type+'" onkeyup="resultInfo.fn_DelvCalcPercent(this , \''+type+'\');" oninput="resultInfo.onlyNumber(this)" class="prepCase" value="'+value+'" style="width: 80%; text-align: right" /> %';
+            html += '       <input type="text" id="delvPrep'+type+'" onkeyup="performanceInfo.fn_DelvCalcPercent(this , \''+type+'\');" oninput="performanceInfo.onlyNumber(this)" class="prepCase" value="'+value+'" style="width: 80%; text-align: right" /> %';
             html += '   </td>';
         }
         html += '</tr>';
@@ -113,7 +113,7 @@ var resultInfo = {
         html += '<tr>';
         html += '   <td style="text-align: center; background-color: #dee4ed">매출</td>';
         html += '   <td>' +
-            '           <input type="text" disabled id="resultInvTotAmt" value="0" style="text-align: right" onkeyup="resultInfo.inputNumberFormat(this)" oninput="resultInfo.onlyNumber(this)" />' +
+            '           <input type="text" disabled id="resultInvTotAmt" value="0" style="text-align: right" onkeyup="performanceInfo.inputNumberFormat(this)" oninput="performanceInfo.onlyNumber(this)" />' +
             '       </td>';
 
         for(var i=0; i<ls.length; i++){
@@ -166,10 +166,10 @@ var resultInfo = {
             calcAmt = Math.round(invAmt * (value * 0.01));
 
             html += '   <td>';
-            html += '       <input type="text" id="invPrepAmt'+type+'" onkeyup="resultInfo.inputNumberFormat(this)" oninput="resultInfo.onlyNumber(this)" disabled class="prepAmt" value="'+ resultInfo.comma(calcAmt) +'" style="text-align: right" />';
+            html += '       <input type="text" id="invPrepAmt'+type+'" onkeyup="performanceInfo.inputNumberFormat(this)" oninput="performanceInfo.onlyNumber(this)" disabled class="prepAmt" value="'+ performanceInfo.comma(calcAmt) +'" style="text-align: right" />';
             html += '   </td>';
             html += '   <td style="text-align: right">';
-            html += '       <input type="text" id="invPrep'+type+'" onkeyup="resultInfo.fn_InvCalcPercent(this , \''+type+'\');" oninput="resultInfo.onlyNumber(this)" class="prepCase" value="'+value+'" style="width: 80%; text-align: right" /> %';
+            html += '       <input type="text" id="invPrep'+type+'" onkeyup="performanceInfo.fn_InvCalcPercent(this , \''+type+'\');" oninput="performanceInfo.onlyNumber(this)" class="prepCase" value="'+value+'" style="width: 80%; text-align: right" /> %';
             html += '   </td>';
         }
         html += '</tr>';
@@ -178,7 +178,7 @@ var resultInfo = {
         html += '<tr>';
         html += '   <td style="text-align: center; background-color: #dee4ed">수익</td>';
         html += '   <td>' +
-            '           <input type="text" disabled id="resultTotAmt" value="0" style="text-align: right" onkeyup="resultInfo.inputNumberFormat(this)" oninput="resultInfo.onlyNumber(this)" />' +
+            '           <input type="text" disabled id="resultTotAmt" value="0" style="text-align: right" onkeyup="performanceInfo.inputNumberFormat(this)" oninput="performanceInfo.onlyNumber(this)" />' +
             '       </td>';
 
         for(var i=0; i<ls.length; i++){
@@ -231,10 +231,10 @@ var resultInfo = {
             calcAmt = Math.round((rs.pjtInfo.PJT_AMT - invSum) * (value * 0.01));
 
             html += '   <td>';
-            html += '       <input type="text" id="prepAmt'+type+'" onkeyup="resultInfo.inputNumberFormat(this)" oninput="resultInfo.onlyNumber(this)" disabled class="prepAmt" value="'+ resultInfo.comma(calcAmt) +'" style="text-align: right" />';
+            html += '       <input type="text" id="prepAmt'+type+'" onkeyup="performanceInfo.inputNumberFormat(this)" oninput="performanceInfo.onlyNumber(this)" disabled class="prepAmt" value="'+ performanceInfo.comma(calcAmt) +'" style="text-align: right" />';
             html += '   </td>';
             html += '   <td style="text-align: right">';
-            html += '       <input type="text" id="prep'+type+'" onkeyup="resultInfo.fn_calcPercent(this , \''+type+'\');" oninput="resultInfo.onlyNumber(this)" class="prepCase" value="'+value+'" style="width: 80%; text-align: right" /> %';
+            html += '       <input type="text" id="prep'+type+'" onkeyup="performanceInfo.fn_calcPercent(this , \''+type+'\');" oninput="performanceInfo.onlyNumber(this)" class="prepCase" value="'+value+'" style="width: 80%; text-align: right" /> %';
             html += '   </td>';
         }
         html += '</tr>';
@@ -242,9 +242,9 @@ var resultInfo = {
         $("#psRsTable").append(html);
         $(".prepAmt, .prepCase, #resultDelvTotAmt, #resultInvTotAmt, #resultTotAmt").kendoTextBox();
 
-        $("#resultDelvTotAmt").val(resultInfo.comma(rs.pjtInfo.PJT_AMT));
-        $("#resultInvTotAmt").val(resultInfo.comma(rs.pjtInfo.PJT_AMT));
-        $("#resultTotAmt").val(resultInfo.comma(rs.pjtInfo.PJT_AMT - invSum));
+        $("#resultDelvTotAmt").val(performanceInfo.comma(rs.pjtInfo.PJT_AMT));
+        $("#resultInvTotAmt").val(performanceInfo.comma(rs.pjtInfo.PJT_AMT));
+        $("#resultTotAmt").val(performanceInfo.comma(rs.pjtInfo.PJT_AMT - invSum));
     },
 
     fn_DelvCalcPercent : function (obj, type){
@@ -279,9 +279,9 @@ var resultInfo = {
             return;
         }
 
-        $("#delvPrepAmt" + type).val(resultInfo.comma(Math.round(resultInfo.uncomma($("#resultDelvTotAmt").val()) * (resultInfo.uncomma(obj.value) * 0.01))));
+        $("#delvPrepAmt" + type).val(performanceInfo.comma(Math.round(performanceInfo.uncomma($("#resultDelvTotAmt").val()) * (performanceInfo.uncomma(obj.value) * 0.01))));
 
-        return resultInfo.inputNumberFormat(obj);
+        return performanceInfo.inputNumberFormat(obj);
     },
 
     fn_InvCalcPercent : function (obj, type){
@@ -316,9 +316,9 @@ var resultInfo = {
             return;
         }
 
-        $("#invPrepAmt" + type).val(resultInfo.comma(Math.round(resultInfo.uncomma($("#resultInvTotAmt").val()) * (resultInfo.uncomma(obj.value) * 0.01))));
+        $("#invPrepAmt" + type).val(performanceInfo.comma(Math.round(performanceInfo.uncomma($("#resultInvTotAmt").val()) * (performanceInfo.uncomma(obj.value) * 0.01))));
 
-        return resultInfo.inputNumberFormat(obj);
+        return performanceInfo.inputNumberFormat(obj);
     },
 
     fn_calcPercent : function (obj, type){
@@ -353,9 +353,9 @@ var resultInfo = {
             return;
         }
 
-        $("#prepAmt" + type).val(resultInfo.comma(Math.round(resultInfo.uncomma($("#resultTotAmt").val()) * (resultInfo.uncomma(obj.value) * 0.01))));
+        $("#prepAmt" + type).val(performanceInfo.comma(Math.round(performanceInfo.uncomma($("#resultTotAmt").val()) * (performanceInfo.uncomma(obj.value) * 0.01))));
 
-        return resultInfo.inputNumberFormat(obj);
+        return performanceInfo.inputNumberFormat(obj);
     },
 
     fn_save : function (){
@@ -534,7 +534,7 @@ var resultInfo = {
     },
 
     inputNumberFormat : function(obj){
-        obj.value = resultInfo.comma(resultInfo.uncomma(obj.value));
+        obj.value = performanceInfo.comma(performanceInfo.uncomma(obj.value));
     },
 
     onlyNumber : function(e){
