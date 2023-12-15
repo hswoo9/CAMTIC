@@ -263,7 +263,7 @@
           html += '<div class="img"><i style="background-image:url(https://fakeimg.pl/298x189/f3f3f3);"></i></div>';
         }
         html += '<div class="info">';
-        html += '<p class="cate">부모님을 향한 사랑이야기</p>';
+       /* html += '<p class="cate">부모님을 향한 사랑이야기</p>';*/
 
         /*'+formatYear+'.'+formattedMonth+'.'+formattedDay+'*/
         html += '<p class="subject">'+ item.board_ARTICLE_TITLE +'</p>';
@@ -282,7 +282,7 @@
           html += '<div class="img"><i style="background-image:url(https://fakeimg.pl/298x189/f3f3f3);"></i></div>';
         }
         html += '<div class="info">';
-        html += '<p class="cate">부모님을 향한 사랑이야기</p>';
+        /*html += '<p class="cate">부모님을 향한 사랑이야기</p>';*/
 
         html += '<p class="subject">'+ item.board_ARTICLE_TITLE +'</p>';
         /*html += '<p class="hash">';

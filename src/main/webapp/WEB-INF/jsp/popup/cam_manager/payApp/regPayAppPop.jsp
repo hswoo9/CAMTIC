@@ -183,6 +183,7 @@
                             </c:if>
                         </c:if>
                         <col style="width: 5%;">
+                        <col id="reasonCol" style="width: 3%; display: none">
                         <col style="width: 6%;">
                         <col style="width: 6%;">
                         <col style="width: 6%;">
@@ -206,6 +207,7 @@
                         </c:if>
 
                         <th>예산비목</th>
+                        <th style="display:none;" id="reasonTh">내용</th>
                         <th style="display:none;">비용구분</th>
                         <th>증빙유형</th>
                         <th>상호</th>
@@ -235,6 +237,10 @@
                                 <input type="hidden" id="budgetSn0" value="" class="budgetSn"/>
                                 <input type="hidden" id="budgetAmt0" value="" />
                             </span>
+                        </td>
+                        <td class="reasonTr" style="display: none;">
+                            <button type="button" id="reasonBtn0" value="0" class="k-button k-button-solid-base reasonBtn" onclick="regPay.fn_reasonClickModal(0)">내용</button>
+                            <input type="hidden" id="reason0" class="reason" style="width: 100%">
                         </td>
                         <td style="display: none;">
                             <input id="appTeam0" class="appTeam" style="width: 100%">
@@ -302,9 +308,26 @@
     </div>
 </div>
 
+<div id="dialog">
+    <input type="text" id="reasonPopText" style="width: 80%" name="reasonPopText" value="">
+    <input type="hidden" id="reasonIdx">
+    <button type="button" id="updBtn" class="k-button k-button-solid-base" onclick="regPay.fn_updReason();">확인</button>
+</div>
+
+
 <script type="text/javascript">
     regPayDet.fn_defaultScript();
     regPay.fn_defaultScript();
+
+    $("#dialog").kendoWindow({
+        title: "내용",
+        visible : false,
+        resizable: false,
+        modal: true,
+        width: 500,
+        actions: ["Close"],
+    });
+
 
     if($("#stat").val() == "v"){
         $("input[type='text'], input[type='radio']").prop("disabled", true);
@@ -334,6 +357,12 @@
             pjtCd : cd
         }
 
+        console.log(cd.substring(0, 1));
+        if(cd.substring(0, 1) == "R" || cd.substring(0, 1) == "S") {
+            $("#reasonTh").css("display", "");
+            $(".reasonTr").css("display", "");
+            $("#reasonCol").css("display", "");
+        }
         var result = customKendo.fn_customAjax("/project/getBankData", data);
         var rs = result.data;
 

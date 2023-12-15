@@ -218,7 +218,11 @@ var appView = {
             html += '<td>' + item.MAJOR + '</td>';
             html += '<td>' + item.GRADUATE_TYPE_TXT + '</td>';
             html += '<td>' + item.GRADE + '</td>';
-            html += '<td><img src="/images/ico/file.gif" onclick="fileDown(\'' + item.degreeFile.file_path + item.degreeFile.file_uuid + '\', \'' + item.degreeFile.file_org_name + '.' + item.degreeFile.file_ext + '\')"></td>';
+            if (item.degreeFile !== null && item.degreeFile !== undefined){
+                html += '<td><img src="/images/ico/file.gif" onclick="fileDown(\'' + item.degreeFile.file_path + item.degreeFile.file_uuid + '\', \'' + item.degreeFile.file_org_name + '.' + item.degreeFile.file_ext + '\')"></td>';
+            } else{
+                html += '<td></td>';
+            }
             if (item.sexualFile !== null && item.sexualFile !== undefined) {
                 html += '<td><img src="/images/ico/file.gif" onclick="fileDown(\'' + item.sexualFile.file_path + item.sexualFile.file_uuid + '\', \'' + item.sexualFile.file_org_name + '.' + item.sexualFile.file_ext + '\')"></td>';
             } else {
@@ -408,7 +412,11 @@ var appView = {
             html += '<tr><td></td></tr>';
         }
             html+='</thead></table>';
-
+        if(data.APPLICATION_STAT == 'I'){
+            html +='<div style= "display: flex; justify-content: center; align-items: center; margin-top: 20px;">'+
+                '<button type="button" class="k-button k-button-solid-info" style= "display: flex; justify-content: center; align-items: center;" onclick="appView.applicationReg('+data.APPLICATION_ID+')"><span>인사정보 등록</span></button>'+
+                '</div>';
+        }
             $("#mainGrid").append(html);
 
     },
@@ -420,5 +428,15 @@ var appView = {
             $("#recruitAreaInfoSnTxt").text(result.recruitArea.JOB)
         }
     },
+
+    applicationReg : function (e){
+        var applicationId = e;
+        console.log("applicationId : ",applicationId);
+        var url = "/inside/pop/applicationReg.do?recruitAreaInfoSn="+$("#recruitAreaInfoSn").val()+"&applicationId="+applicationId;
+        var name = "applicationReg";
+        var option = "width = 550, height = 600, top =100, left =200, location = no";
+        window.open(url,name,option);
+    }
+
 }
 
