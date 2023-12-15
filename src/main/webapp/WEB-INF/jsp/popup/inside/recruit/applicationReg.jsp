@@ -8,12 +8,14 @@
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/recruit/applicationReg.js?v=${today}"></script>
 <input type="hidden" id="applicationId" value="${params.applicationId}"/>
+<input type="hidden" id="recruitAreaInfoSn" value="${params.recruitAreaInfoSn}"/>
 
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">인사정보 등록</h3>
         <div class="btn-st popButton">
+            <button type="button" class="k-button k-button-solid-info" style= "margin-right:5px;" onclick=""><span>인사정보 등록</span></button>
             <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
         </div>
     </div>
@@ -80,9 +82,7 @@
                     직원구분
                 </th>
                 <td>
-                    <span>
-
-                    </span>
+                    <span id="division" name="division"></span>
                 </td>
             </tr>
             <tr>
@@ -120,9 +120,7 @@
                     입사일자
                 </th>
                 <td>
-                    <span>
-
-                    </span>
+                    <input type="text" id="joinDay" name="joinDay" style="width:130px">
                 </td>
             </tr>
             <tr>
@@ -130,23 +128,14 @@
                     전직경력
                 </th>
                 <td>
-                    <span>
-
-                    </span>
+                    <input type="text" id="careerPeriod" name="careerPeriod" style="width:80px"> 개월
                 </td>
             </tr>
             </thead>
         </table>
+    </div><!--mainGrid end-->
+    </div> <!--col lg 12 end-->
 
-
-            <div style= "display: flex; justify-content: center; align-items: center; margin-top: 20px;">
-                <button type="button" class="k-button k-button-solid-info" style= "display: flex; justify-content: center; align-items: center;" onclick=""><span>인사정보 등록</span></button>
-            </div>
-
-    </div>
-
-    </div> <!--mainGrid end-->
-</div><!--col lg 12 end-->
 <script>
     applicationReg.fn_defaultScript();
 </script>

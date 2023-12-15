@@ -432,7 +432,7 @@ var appView = {
     applicationReg : function (e){
         var applicationId = e;
         console.log("applicationId : ",applicationId);
-        var url = "/inside/pop/applicationReg.do?applicationId="+applicationId;
+        var url = "/inside/pop/applicationReg.do?recruitAreaInfoSn="+$("#recruitAreaInfoSn").val()+"&applicationId="+applicationId;
         var name = "applicationReg";
         var option = "width = 550, height = 600, top =100, left =200, location = no";
         window.open(url,name,option);
