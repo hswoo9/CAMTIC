@@ -123,7 +123,7 @@ var regExnp = {
         $("#payAppType").data("kendoRadioGroup").enable(false);
     },
 
-    payAppBtnSet : function(data){
+    payAppBtnSet : function(data, evidType){
         let buttonHtml = "";
         if($("#status").val() == "rev" || $("#status").val() == "in" || $("#status").val() == "re" || $("#status").val() == "alt"){
             if(data != null){
@@ -138,7 +138,8 @@ var regExnp = {
                     buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \''+data.DOC_MENU_CD+'\', \'camticExnp_'+data.EXNP_SN+'\', 2, \'reDrafting\');">재상신</button>';
                 }else if(data.DOC_STATUS == "100"){
                     $("#mode").val("view");
-                    if($("#status").val() == "rev"){
+                    console.log(data);
+                    if($("#status").val() == "rev" && evidType != "1" && evidType != "2" && evidType != "3"){
                         buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_regExnpInPop('+data.PAY_APP_SN+', '+data.EXNP_SN+')">여입결의서 작성</button>';
                     }
                     buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \'camticExnp_'+data.EXNP_SN+'\', \'exnp\');">열람</button>';
@@ -173,7 +174,7 @@ var regExnp = {
         regExnp.global.fileArray = fileList;
 
         if($("#exnpSn").val() != ""){
-            regExnp.payAppBtnSet(rs);
+            regExnp.payAppBtnSet(rs, ls[0].EVID_TYPE);
         }
 
         $("#busnCd").data("kendoDropDownList").value(rs.BUSN_CD);

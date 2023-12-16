@@ -32,16 +32,17 @@
     <div class="table-responsive">
         <table class="popTable table table-bordered mb-0">
             <colgroup>
+                <col width="5%">
+                <col width="5%">
+                <col width="5%">
                 <col width="7%">
-                <col width="7%">
-                <col width="7%">
-                <col width="10%">
                 <col width="10%">
                 <col width="10%">
                 <col width="10%">
                 <col width="15%">
+                <col width="5%">
+                <col width="10%">
                 <col width="7%">
-                <col width="13%">
             </colgroup>
             <thead>
             <tr>
@@ -55,6 +56,7 @@
                 <th>담당자 코멘트</th>
                 <th>상태</th>
                 <th>기안</th>
+                <th>불러오기</th>
             </tr>
             </thead>
             <tbody id="partRateVersion2">

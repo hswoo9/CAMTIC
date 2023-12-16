@@ -243,4 +243,37 @@
             CARD_TO_SN = #{cardToSn}
     </update>
 
+    <insert id="saveCardUserGroup" parameterType="map">
+        INSERT INTO CAM_MNG.DJ_CARD_USER_GROUP
+            (GROUP_NAME, REG_EMP_SEQ, USE_YN)
+        VALUES
+            (#{groupNm}, #{regEmpSeq}, #{useYn})
+
+        <selectKey keyProperty="groupId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_MNG' AND TABLE_NAME = 'DJ_CARD_USER_GROUP'
+        </selectKey>
+    </insert>
+
+    <insert id="saveCardUserGroupList" parameterType="map">
+        INSERT INTO CAM_MNG.DJ_CARD_USER_GROUP_LIST
+            (GROUP_ID, EMP_NAME, EMP_SEQ, DEPT_NAME, DEPT_SEQ, POSITION_NAME)
+        VALUES
+            (#{groupId}, #{empName}, #{empSeq}, #{deptName}, #{deptSeq}, #{positionName})
+    </insert>
+
+    <select id="getCardUserGroup" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_CARD_USER_GROUP
+    </select>
+
+    <select id="getcardUserGroupList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_CARD_USER_GROUP_LIST
+        WHERE
+            GROUP_ID = #{groupId}
+    </select>
 </mapper>

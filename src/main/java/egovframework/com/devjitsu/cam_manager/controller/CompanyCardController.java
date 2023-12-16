@@ -249,4 +249,56 @@ public class CompanyCardController {
         return "popup/cam_manager/cardPrivateMngPop";
     }
 
+    @RequestMapping("/card/cardUserGroupList.do")
+    public String cardUserGroupList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "cam_manager/companyCard/cardUserGroupList";
+    }
+
+    @RequestMapping("/card/cardUserGroupPop.do")
+    public String cardUserGroupPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", loginVO);
+        return "popup/cam_manager/companyCard/cardUserGroupPop";
+    }
+
+    @RequestMapping("/card/saveCardUserGroup")
+    public String saveCardUserGroup(@RequestParam Map<String, Object> params, Model model){
+        try{
+            companyCardService.saveCardUserGroup(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/card/getCardUserGroup")
+    public String getCardUserGroup(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        List<Map<String, Object>> list = new ArrayList<>();
+        list = companyCardService.getCardUserGroup(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/card/getcardUserGroupList")
+    public String getcardUserGroupList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list", companyCardService.getcardUserGroupList(params));
+
+        return "jsonView";
+    }
 }

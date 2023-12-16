@@ -1338,8 +1338,16 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         projectRepository.delUpdJoinMember(params);
+    }
 
+    @Override
+    public List<Map<String, Object>> getFinalPartRateChangeDocList(Map<String, Object> params) {
+        return projectRepository.getFinalPartRateChangeDocList(params);
+    }
 
+    @Override
+    public void setReferencesAdd(Map<String, Object> params) {
+        projectRepository.setReferencesAdd(params);
     }
 }
 

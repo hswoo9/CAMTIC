@@ -306,6 +306,7 @@ var statementList = {
                 if(rs.code == 200){
                     alert("삭제되었습니다.");
                     statementList.mainGrid();
+                    $("#mainHistGrid").css("display", "none");
                 }
             }
         });
