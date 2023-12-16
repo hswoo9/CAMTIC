@@ -26,6 +26,8 @@
 <input type="hidden" id="status" name="status" value="${params.status}" />
 <input type="hidden" id="mode" name="mode" value="" />
 
+<input type="hidden" id="detArr" value="${params.detArr}" />
+
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">

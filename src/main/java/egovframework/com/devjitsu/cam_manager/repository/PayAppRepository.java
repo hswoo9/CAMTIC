@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.cam_manager.repository;
 import egovframework.com.devjitsu.gw.login.repository.AbstractDAO;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +30,23 @@ public class PayAppRepository extends AbstractDAO {
     }
 
     public List<Map<String, Object>> getPayAppDetailData(Map<String, Object> params) {
-        return selectList("payApp.getPayAppDetailData", params);
+
+        if(!params.containsKey("detArr")){
+            return selectList("payApp.getPayAppDetailData", params);
+        } else {
+
+        }
+        List<Map<String, Object>> list = new ArrayList<>();
+        String[] exnpDetSnArr = params.get("detArr").toString().split(",");
+        for(String exnpDetSn : exnpDetSnArr){
+            params.put("exnpDetSn", exnpDetSn);
+            Map<String, Object> map = (Map<String, Object>) selectOne("payApp.getExnpDetailInfo", params);
+
+            list.add(map);
+        }
+
+
+        return list;
     }
 
     public List<Map<String, Object>> getPaymentList(Map<String, Object> params) {

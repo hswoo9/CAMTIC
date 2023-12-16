@@ -1233,11 +1233,21 @@
     <select id="getPayAppDetailInfo" parameterType="map" resultType="map">
         /*getPayAppDetailInfo*/
         SELECT
-            *
+            *, FORMAT(TOT_COST , 0) AS TOT_COST_COMMA
         FROM
             CAM_MNG.DJ_PAY_APP_DET
         WHERE
             PAY_APP_DET_SN = #{payAppDetSn}
+    </select>
+
+    <select id="getExnpDetailInfo" parameterType="map" resultType="map">
+        /*getPayAppDetailInfo*/
+        SELECT
+            *, FORMAT(TOT_COST , 0) AS TOT_COST_COMMA
+        FROM
+            CAM_MNG.DJ_EXNP_DET
+        WHERE
+            EXNP_DET_SN = #{exnpDetSn}
     </select>
 
     <select id="getPartRatePay" parameterType="map" resultType="map">

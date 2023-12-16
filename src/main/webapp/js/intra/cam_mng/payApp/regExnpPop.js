@@ -138,7 +138,6 @@ var regExnp = {
                     buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \''+data.DOC_MENU_CD+'\', \'camticExnp_'+data.EXNP_SN+'\', 2, \'reDrafting\');">재상신</button>';
                 }else if(data.DOC_STATUS == "100"){
                     $("#mode").val("view");
-                    console.log(data);
                     if($("#status").val() == "rev" && evidType != "1" && evidType != "2" && evidType != "3"){
                         buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_regExnpInPop('+data.PAY_APP_SN+', '+data.EXNP_SN+')">여입결의서 작성</button>';
                     }
@@ -226,6 +225,8 @@ var regExnp = {
             regExnpDet.global.createHtmlStr += "" +
                 '<tr class="payDestInfo newArray" id="pay' + regExnpDet.global.itemIndex + '" style="text-align: center;">';
             if(item.DET_STAT != "N"){
+                console.log(item)
+
                 regExnpDet.global.createHtmlStr += "";
                 regExnpDet.global.createHtmlStr += '   <td>' +
                     '       <input type="text" id="eviType' + regExnpDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
@@ -234,7 +235,6 @@ var regExnp = {
                     '       <input type="hidden" id="authHh' + regExnpDet.global.itemIndex + '" value="'+item.AUTH_HH+'" class="authHh" style="width: 100%">' +
                     '       <input type="hidden" id="authDd' + regExnpDet.global.itemIndex + '" value="'+item.AUTH_DD+'" class="authDd" style="width: 100%">' +
                     '       <input type="hidden" id="buySts' + regExnpDet.global.itemIndex + '" value="'+item.BUY_STS+'" class="buySts">' +
-
                     '   </td>';
                 regExnpDet.global.createHtmlStr += '' +
                     '   <td>' +
@@ -298,7 +298,8 @@ var regExnp = {
                         { text: "계산서", value: "2" },
                         { text: "신용카드", value: "3" },
                         { text: "직원지급", value: "4" },
-                        { text: "소득신고자", value: "5" },
+                        { text: "사업소득자", value: "5" },
+                        { text: "기타소득자", value: "9" },
                         { text: "기타", value: "6" },
                     ],
                     index: 0,
@@ -381,6 +382,11 @@ var regExnp = {
     setData : function(){
         var data = {
             payAppSn : $("#payAppSn").val(),
+
+        }
+
+        if($("#detArr").val() != ""){
+            data.detArr = $("#detArr").val()
         }
 
         $(".fileNo").each(function(){
@@ -541,7 +547,8 @@ var regExnp = {
                         { text: "계산서", value: "2" },
                         { text: "신용카드", value: "3" },
                         { text: "직원지급", value: "4" },
-                        { text: "소득신고자", value: "5" },
+                        { text: "사업소득자", value: "5" },
+                        { text: "기타소득자", value: "9" },
                         { text: "기타", value: "6" },
                     ],
                     index: 0,
@@ -640,7 +647,7 @@ var regExnp = {
         }
         for(var i=0; i < ls.length; i++){
             var item = ls[i];
-
+            console.log(item);
             regExnpDet.global.createHtmlStr = "";
 
             var clIdx = regExnpDet.global.itemIndex;
@@ -728,7 +735,8 @@ var regExnp = {
                         { text: "계산서", value: "2" },
                         { text: "신용카드", value: "3" },
                         { text: "직원지급", value: "4" },
-                        { text: "소득신고자", value: "5" },
+                        { text: "사업소득자", value: "5" },
+                        { text: "기타소득자", value: "9" },
                         { text: "기타", value: "6" },
                     ],
                     index: 0,
@@ -996,7 +1004,16 @@ var regExnp = {
     },
 
     fn_regExnpInPop : function(payAppSn){
-        var url = "/payApp/pop/regExnpPop.do?payAppSn=" + payAppSn + "&status=in";
+
+        var detArr = "";
+        $(".exnpDestSn").each(function(){
+            detArr += this.value + ",";
+        });
+
+        detArr = detArr.substring(0, detArr.length - 1);
+
+        var url = "/payApp/pop/regExnpPop.do?payAppSn=" + payAppSn + "&status=in&detArr=" + detArr;
+
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
@@ -1108,7 +1125,8 @@ var regExnpDet = {
                     { text: "계산서", value: "2" },
                     { text: "신용카드", value: "3" },
                     { text: "직원지급", value: "4" },
-                    { text: "소득신고자", value: "5" },
+                    { text: "사업소득자", value: "5" },
+                    { text: "기타소득자", value: "9" },
                     { text: "기타", value: "6" },
                 ],
                 index: 0,

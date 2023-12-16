@@ -78,11 +78,20 @@ var regExnpRe = {
         let buttonHtml = "";
         if(data.RE_STAT == "N"){
             buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnpRe.fn_save()">반제결의서 승인</button>';
+        } else{
+            buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnpRe.fn_regExnpInPop('+data.PAY_APP_SN+', '+data.EXNP_SN+')">여입결의서 작성</button>';
         }
 
         buttonHtml += '<button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>';
 
         $("#payAppBtnDiv").html(buttonHtml);
+    },
+
+    fn_regExnpInPop : function(payAppSn){
+        var url = "/payApp/pop/regExnpPop.do?payAppSn=" + payAppSn + "&status=in";
+        var name = "blank";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
+        var popup = window.open(url, name, option);
     },
 
     dataSet : function (){
