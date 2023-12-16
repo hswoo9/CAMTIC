@@ -47,6 +47,14 @@
                                 </td>
                             </tr>
                         </table>
+                        <table class="centerTable table table-bordered">
+                            <tr id="totalTr" style="background-color: #d8dce3;">
+                                <td>구분</td>
+                            </tr>
+                            <tr id="totalTd" style="background-color: white;">
+                                <td>합계</td>
+                            </tr>
+                        </table>
                         <div id="mainTable"></div>
                     </div><!-- table-responsive -->
                 </div>
