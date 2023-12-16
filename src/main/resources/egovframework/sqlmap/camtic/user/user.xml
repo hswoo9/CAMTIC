@@ -153,7 +153,7 @@
             a.EMP_NAME_CN,
             a.ATT_CARD_NUM,
             a.DEPT_SEQ,
-            a.DEPT_NAME,
+            CAM_HR.FN_GetName('DEPT', a.DEPT_SEQ, 'KR') AS DEPT_NAME,
             a.DEPT_TEAM_NAME,
             a.OCCUPATION_CODE,
             a.POSITION_CODE,
