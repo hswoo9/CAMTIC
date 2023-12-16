@@ -23,12 +23,11 @@ var partRate = {
         var mng = result.result.projectManagerInfo;
         var mem = result.result.projectMemberInfo;
 
-        console.log(mem);
-
-
         if(rs != null){
-            $("#budget").text(comma(Number(rs.PAY_BUDGET) + Number(rs.ITEM_BUDGET)) + "원");
+            $("#budget").text("현금 : " + comma(Number(rs.PAY_BUDGET)) + ", 현물 : " + comma(Number(rs.ITEM_BUDGET)) + "원");
             $("#budgetAmt").val(Number(rs.PAY_BUDGET) + Number(rs.ITEM_BUDGET));
+            $("#payAmt").val(Number(rs.PAY_BUDGET));
+            $("#itemAmt").val(Number(rs.ITEM_BUDGET));
         }
 
 
@@ -185,11 +184,11 @@ var partRate = {
                 memHtml += '   <td>' + (mem[i].EMP_NAME || mem[i].JOIN_MEM_NM) + '<input type="hidden" name="partEmpName" value="'+(mem[i].EMP_NAME || mem[i].JOIN_MEM_NM)+'" /></td>';
                 memHtml += '   <td style="text-align: right"><input type="hidden" id="basicSalary" name="basicSalary" value="'+uncomma(bsSal)+'"/> ' + comma(bsSal) + '</td>';
                 memHtml += '   <td>';
-                memHtml += '        <input type="text" id="memChngSal'+i+'" name="chngSal" value="'+comma(totAmt)+'" style="text-align: right" onkeyup="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +', this);" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" />';
+                memHtml += '        <input type="text" id="memChngSal'+i+'" name="chngSal" value="'+comma(totAmt)+'" style="text-align: right" onkeyup="partRate.fn_memCalc('+uncomma(totAmt)+','+(rs.PAY_BUDGET + rs.ITEM_BUDGET)+','+ i +', this);" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" />';
                 memHtml += '   </td>';
                 memHtml += '   <td><input type="text" id="memStrDt'+i+'" onkeyup="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +');" onchange="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +');" name="strDt" /></td>';
                 memHtml += '   <td><input type="text" id="memEndDt'+i+'" onkeyup="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +');" onchange="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +');"  name="endDt" /></td>';
-                memHtml += '   <td><input type="text" id="memMon'+i+'" name="mon" style="text-align: right" disabled value="'+partRate.fn_monDiff(mem[i].PJT_STR_DT, mem[i].PJT_END_DT)+'"></td>';
+                memHtml += '   <td><input type="text" id="memMon'+i+'" name="mon" style="text-align: right" value="'+partRate.fn_monDiff(mem[i].PJT_STR_DT, mem[i].PJT_END_DT)+'"></td>';
                 memHtml += '   <td><input type="text" id="memPayRate'+i+'" name="payRate" style="text-align: right" disabled value="0"></td>';      // 참여율 현금(%)
                 memHtml += '   <td><input type="text" id="memTotPayBudget'+i+'" name="totPayBudget" style="text-align: right" disabled value="0"></td>';      // 인건비 현금 총액
                 memHtml += '   <td><input type="text" id="memItemRate'+i+'" name="itemRate" value="0" style="text-align: right" onkeyup="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +');" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"></td>';
@@ -215,8 +214,8 @@ var partRate = {
 
                 $("#gubun" + i).kendoDropDownList({
                     dataSource : [
-                        {text : "책임자", value : "책임자"},
                         {text : "참여자", value : "참여자"},
+                        {text : "책임자", value : "책임자"}
                     ],
                     dataTextField : "text",
                     dataValueField : "value"
@@ -272,7 +271,11 @@ var partRate = {
 
         var lastHtml = ''
         lastHtml += '<tr style="text-align: center">';
-        lastHtml += '    <td colspan="12" style="background-color: #8fa1c04a;">합계</td>';
+        lastHtml += '    <td colspan="8" style="background-color: #8fa1c04a;">합계</td>';
+        lastHtml += '    <td><input type="text" style="text-align: right" disabled value="0" id="payTotal" /></td>';
+        lastHtml += '    <td style="background-color: #8fa1c04a;"></td>';
+        lastHtml += '    <td><input type="text" style="text-align: right" disabled value="0" id="itemTotal" /></td>';
+        lastHtml += '    <td style="background-color: #8fa1c04a;"></td>';
         lastHtml += '    <td><input type="text" style="text-align: right" disabled value="0" id="allPayTotal" /></td>';
         lastHtml += '    <td colspan="3" style="background-color: #8fa1c04a;"></td>';
         lastHtml += '</tr>';
@@ -280,58 +283,24 @@ var partRate = {
         $("#partRateMember").append(lastHtml);
 
 
-        customKendo.fn_textBox(["allPayTotal"]);
+        customKendo.fn_textBox(["allPayTotal", "payTotal", "itemTotal"]);
+
+        var itemBdgt = 0;
+        $("input[name='totItemBudget']").each(function(){
+            itemBdgt += Number(uncomma(this.value));
+        });
+
+        var payBdgt = 0;
+        $("input[name='totPayBudget']").each(function(){
+            payBdgt += Number(uncomma(this.value));
+        });
+
+        $("#payTotal").val(comma(payBdgt));
+        $("#itemTotal").val(comma(itemBdgt));
+
 
         partRate.fn_memCalc(uncomma(totAmt), rs.PAY_BUDGET, item);
         item++;
-    },
-
-    fn_mngCalc : function (bsSal, payBudget){
-        if(Number(uncomma($("#mngChngSal").val())) > Number(bsSal)){
-            alert("기준급여보다 클 수 없습니다.");
-            $("#mngChngSal").val(comma(bsSal));
-            return;
-        }
-
-
-        $("#mngMon").val(partRate.fn_monDiff($("#mngStrDt").val(), $("#mngEndDt").val()));                                  // 참여개월 계산
-
-        $("#mngMonSal").val(comma(Math.floor((Number(uncomma($("#mngPayTotal").val())) / ($("#mngMon").val()))/10) *10));         // 월 인건비 계산 (인건비 총액 / 참여개월)
-
-        var mngTotRate = Math.ceil(Number(uncomma($("#mngPayTotal").val())) / (Number(uncomma($("#mngChngSal").val())) * $("#mngMon").val()) * 100 * 10) / 10;
-        if(!isNaN(mngTotRate)){
-            $("#mngTotRate").val(mngTotRate);    // 총 참여율(%) (인건비 총액 / (기준급여 변경 * 참여개월)) * 100
-        }
-
-        var mngPayRate = Math.round(($("#mngTotRate").val() - $("#mngItemRate").val()) * 10) / 10;
-        if(!isNaN(mngPayRate)){
-            $("#mngPayRate").val(mngPayRate);
-        }
-
-        // var mngTotPayBudget = comma(Math.round(Number(uncomma($("#mngPayTotal").val())) / ($("#mngTotRate").val() / $("#mngPayRate").val())));
-        var mngTotPayBudget = comma(Math.round(Number(uncomma($("#mngPayTotal").val())) / ($("#mngTotRate").val() / $("#mngPayRate").val())));
-        if($("#mngItemRate").val() == 0){
-            $("#mngTotPayBudget").val(comma($("#mngPayTotal").val()));
-        } else {
-            if(!isNaN(uncomma(mngTotPayBudget))){
-                $("#mngTotPayBudget").val(mngTotPayBudget);
-            }
-        }
-
-        $("#mngTotItemBudget").val(comma(Math.round(Number(uncomma($("#mngPayTotal").val())) - Number(uncomma($("#mngTotPayBudget").val())))));
-
-
-        var totPay = 0;
-        $("input[name='payTotal']").each(function(){
-            totPay += Number(uncomma(this.value));
-
-            $("#allPayTotal").val(comma(totPay));
-        });
-
-        if(Number(uncomma($("#allPayTotal").val())) > payBudget){
-            alert("인건비 총액이 인건비 예산보다 큽니다.");
-            return;
-        }
     },
 
     fn_memCalc : function (bsSal, payBudget, i, e){
@@ -385,10 +354,22 @@ var partRate = {
             $("#allPayTotal").val(comma(totPay));
         });
 
-        if(Number(uncomma($("#allPayTotal").val())) > payBudget){
+        if(Number(uncomma($("#allPayTotal").val())) > Number($("#budgetAmt").val())){
             alert("인건비 총액이 인건비 예산보다 큽니다.");
-            return;
         }
+
+        var itemBdgt = 0;
+        $("input[name='totItemBudget']").each(function(){
+            itemBdgt += Number(uncomma(this.value));
+        });
+
+        var payBdgt = 0;
+        $("input[name='totPayBudget']").each(function(){
+            payBdgt += Number(uncomma(this.value));
+        });
+
+        $("#payTotal").val(comma(payBdgt));
+        $("#itemTotal").val(comma(itemBdgt));
     },
 
     fn_monDiff : function (_date1, _date2){
@@ -437,6 +418,29 @@ var partRate = {
 
         var parameterList = new Array();
         var body = $("#partRateMember").find(".bodyTr");
+
+        var itemBdgt = 0;
+        $("input[name='totItemBudget']").each(function(){
+            itemBdgt += Number(uncomma(this.value));
+        });
+
+        if(itemBdgt > $("#itemAmt").val()){
+            alert("인건비 현물 총액을 초과하였습니다.");
+            return;
+        }
+
+        var payBdgt = 0;
+        $("input[name='totPayBudget']").each(function(){
+            payBdgt += Number(uncomma(this.value));
+        });
+
+        if(payBdgt > $("#payAmt").val()){
+            alert("인건비 현금 총액을 초과하였습니다.");
+            return;
+        }
+
+
+
         for(var i = 0 ; i < body.length ; i++){
             var parameters = {
                 pjtSn : $("#pjtSn").val(),
