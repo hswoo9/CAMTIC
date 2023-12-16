@@ -235,9 +235,23 @@
             a.DIVISION,
             a.DIVISION_SUB,
             (select dept_name from cam_hr.dj_dept_info where dept_seq = (select parent_dept_seq from cam_hr.dj_dept_info where dept_seq= a.DEPT_SEQ)) PARENT_DEPT_NAME,
-            (select parent_dept_seq from cam_hr.dj_dept_info where dept_seq= a.DEPT_SEQ) AS DEPT_PARENT_SEQ
+            (select parent_dept_seq from cam_hr.dj_dept_info where dept_seq= a.DEPT_SEQ) AS DEPT_PARENT_SEQ,
+            b.picFilePath
         FROM
             cam_hr.dj_emp_info AS a
+        LEFT JOIN
+            (
+                SELECT
+                    IM.ID_IMAGE_PK,
+                    CONCAT(FI.FILE_PATH, FI.FILE_UUID) AS picFilePath,
+                    IM.EMP_SEQ
+                FROM
+                    CAM_INSIDE.DJ_IMAGE_MANAGE IM
+                LEFT JOIN
+                    CAM_COMMON.DJ_FILE_INFO FI
+                ON FI.FILE_NO = IM.ID_IMAGE_PK
+            )b
+        on a.EMP_SEQ = b.EMP_SEQ
         WHERE
             a.EMP_SEQ = #{pk};
     </select>

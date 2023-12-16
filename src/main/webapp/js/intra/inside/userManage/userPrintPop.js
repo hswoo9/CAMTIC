@@ -2,6 +2,7 @@ const userPrintPop = {
     global: {
         hwpCtrl : "",
         now : "",
+        fileTitle : "",
     },
 
     fn_defaultScript : function(){
@@ -71,6 +72,7 @@ const userPrintPop = {
         if(userMap1 == null){ alert("데이터 조회 중 오류가 발생하였습니다. 새로고침 후 진행바랍니다."); return; }
 
         /** 인사정보 */
+        userPrintPop.global.fileTitle = userMap1.EMP_NAME_KR + " 인사기록카드.hwp";
         userPrintPop.global.hwpCtrl.PutFieldText("DEPT_NAME", userMap1.DEPT_NAME);
         userPrintPop.global.hwpCtrl.PutFieldText("POSITION_NAME", userMap1.POSITION_NAME+"("+userMap1.DUTY_NAME+")");
         userPrintPop.global.hwpCtrl.PutFieldText("DEPT_SEQ", userMap1.ERP_EMP_SEQ);
@@ -96,6 +98,23 @@ const userPrintPop = {
         userPrintPop.global.hwpCtrl.PutFieldText("SPECIALITY", userMap1.SPECIALITY);
         userPrintPop.global.hwpCtrl.PutFieldText("HOBBY", userMap1.HOBBY);
         userPrintPop.global.hwpCtrl.PutFieldText("RELIGION", userMap1.RELIGION);
+
+        if(userMap1.picFilePath != null){
+            if(userPrintPop.global.hwpCtrl.FieldExist('idImg')){
+                userPrintPop.global.hwpCtrl.PutFieldText('idImg', " ");
+                userPrintPop.global.hwpCtrl.MoveToField('idImg', true, true, false);
+                userPrintPop.global.hwpCtrl.InsertBackgroundPicture(
+                    "SelectedCell",
+                    "http://218.158.231.186/" + userMap1.picFilePath,
+                    1,
+                    5,
+                    0,
+                    0,
+                    0,
+                    0
+                );
+            }
+        }
 
         /** 학력사항 */
         var html = userPrintHtml.html1(userMap2);
@@ -163,6 +182,10 @@ const userPrintPop = {
         // userPrintPop.global.hwpCtrl.MoveToField('HTML11', true, true, false);
         // userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
 
+    },
+
+    saveHwp : function (){
+        userPrintPop.global.hwpCtrl.SaveAs(userPrintPop.global.fileTitle, "hwp", "download:true");
     },
 
     print : function(){
