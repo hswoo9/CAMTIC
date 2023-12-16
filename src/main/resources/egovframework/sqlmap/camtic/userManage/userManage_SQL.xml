@@ -3454,7 +3454,7 @@
             </foreach>
         </if>
         GROUP BY join_year, position_name
-        ORDER BY join_year DESC
+        ORDER BY join_year DESC, (SELECT SORT FROM CAM_COMMON.DJ_COM_CODE WHERE CM_GROUP_CODE_ID = 4 AND TRIM(SUBSTRING_INDEX(CM_CODE_NM, '/', 1)) = POSITION_NAME)
     </select>
 
     <select id="getPositionListByYear" parameterType="map" resultType="map">

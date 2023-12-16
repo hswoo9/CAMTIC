@@ -34,7 +34,7 @@ var yearDutyView = {
 
                 $("#mainTable *").remove();
                 yearDutyView.global.test = positionList;
-                yearDutyView.getPositionListTable(positionList,arr);
+                yearDutyView.getPositionListTable(positionList,arr, data.positionCode);
             },
             error: function (error){
                 console.error("Error fetching data:", error);
@@ -56,7 +56,7 @@ var yearDutyView = {
         });
     },
 
-    getPositionListTable: function (positionList, arr) {
+    getPositionListTable: function (positionList, arr, positionCode) {
         console.log("getPositionListTable arr", arr);
         var html = "";
         html = '<table class="centerTable table table-bordered"><tbody>';
@@ -102,6 +102,17 @@ var yearDutyView = {
                 var empCount = positionCounts.length > 0 ? positionCounts[0].emp_count : 0;
                 html += '<td><a href="javascript:void(0);" onclick="yearDutyView. userViewPop(\'' + currentYear +'\', \'' + positionName + '\', \'' + arr + '\');">' +
                     '<span>' + empCount + '명</span></a></td>';
+
+                for (var k = 0; k < positionCode.length; k++) {
+                    if(positionCode[k].count == null){
+                        positionCode[k].count = 0;
+                    }
+
+                    if(positionCode[k].CM_CODE_NM2 == positionName){
+                        positionCode[k].count += Number(empCount)
+                    }
+                }
+
                 yearSum += empCount;
             }
             sumArr[currentYear] = yearSum;
@@ -116,6 +127,16 @@ var yearDutyView = {
             $("#sum" + uniqueYears[i]).text(sumArr[uniqueYears[i]] + "명");
         }
 
+        var totalTr = "";
+        var totalTd = "";
+
+        for (var i = 0; i < positionCode.length; i++) {
+            totalTr += "<td>" + positionCode[i].CM_CODE_NM2 + "</td>";
+            totalTd += "<td>" + positionCode[i].count + "명</td>";
+        }
+
+        $("#totalTr").append(totalTr);
+        $("#totalTd").append(totalTd);
     },
 
     transformedArr : function (e){

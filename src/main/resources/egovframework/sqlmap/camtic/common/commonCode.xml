@@ -53,7 +53,8 @@
     <select id="getCmCodeList" resultType="map" parameterType="map">
         /* getCmCodeList */
         SELECT
-            *
+            CC.*,
+            TRIM(SUBSTRING_INDEX(CC.CM_CODE_NM, '/', 1)) AS CM_CODE_NM2
         FROM
             CAM_COMMON.DJ_COM_CODE CC
         WHERE
@@ -73,7 +74,7 @@
             </choose>
         </if>
         ORDER BY
-            CC.CM_CODE_ID
+            CC.SORT, CC.CM_CODE_ID
     </select>
 
     <select id="getCmCodeListReward" resultType="map" parameterType="map">

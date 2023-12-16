@@ -1980,10 +1980,10 @@ public class UserManageController {
     @RequestMapping(value = "/Inside/getPositionNameByYear.do", method = RequestMethod.GET)
     public String getPositionNameByYear(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> positionList = userManageService.getPositionNameByYear(params);
-        System.out.println("params : "+ params);
+        params.put("cmGroupCodeId", "4");
         model.addAttribute("arr",params);
         model.addAttribute("positionList", positionList);
-        System.out.println("positionList: " + positionList);
+        model.addAttribute("positionCode", commonCodeService.getCmCodeList(params));
         return "jsonView";
     }
 
