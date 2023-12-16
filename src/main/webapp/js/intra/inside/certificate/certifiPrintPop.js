@@ -86,6 +86,10 @@ var certifiPrintPop = {
         }
     },
 
+    saveHwp : function(){
+        hwpDocCtrl.saveAs(certifiPrintPop.global.params.fileTitle + ".hwp", "hwp", "download:true");
+    },
+
     print: function() {
         var data = {
             userProofSn : $("#userProofSn").val(),

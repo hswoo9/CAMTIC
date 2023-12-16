@@ -298,6 +298,9 @@ var hwpDocCtrl = {
                     hwpDocCtrl.global.HwpCtrl.MoveToField('proofName', true, true, false);
                     hwpDocCtrl.putFieldText('proofName', proofName);
 
+                    //한글파일 제목
+                    certifiPrintPop.global.params.fileTitle = ResultData.EMP_NAME_KR + " " + proofName
+
                     //호수
                     const number = "제"+ResultData.DOCU_YEAR_DE+"-"+ResultData.USER_PROOF_SN+"호"
                     hwpDocCtrl.global.HwpCtrl.MoveToField('number', true, true, false);

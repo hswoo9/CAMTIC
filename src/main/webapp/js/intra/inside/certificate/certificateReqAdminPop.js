@@ -27,8 +27,6 @@ var certificateReqAdminPop = {
         let printSn = $("#printSn").val();
         //용도
         let usageName = $("#usageName").val();
-        //직무명
-        let jobTitle = $("#jobTitle").val();
         //비고
         let remarkName = $("#remarkName").val();
 
@@ -59,7 +57,6 @@ var certificateReqAdminPop = {
             submissionDe : submissionDe,
             printSn : printSn,
             usageName : usageName,
-            jobTitle : jobTitle,
             remarkName : remarkName,
             empSeq : empSeq,
             userProofSn : userProofSn,
@@ -86,7 +83,7 @@ var certificateReqAdminPop = {
             enable: false
         });
 
-        customKendo.fn_textBox(["submissionName", "remarkName", "jobTitle"]);
+        customKendo.fn_textBox(["submissionName", "remarkName"]);
 
         $("#regDe, #submissionDe").kendoDatePicker({
             depth: "month",
