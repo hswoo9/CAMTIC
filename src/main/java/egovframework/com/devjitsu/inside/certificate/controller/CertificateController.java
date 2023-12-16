@@ -2,10 +2,12 @@ package egovframework.com.devjitsu.inside.certificate.controller;
 
 import com.google.gson.Gson;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
+import egovframework.com.devjitsu.common.utiles.CommonUtil;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.login.service.LoginService;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import egovframework.com.devjitsu.inside.certificate.service.CertificateService;
+import egovframework.com.devjitsu.system.service.MenuManagementService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,9 @@ public class CertificateController {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private MenuManagementService menuManagementService;
 
     //증명서신청 페이지
     @RequestMapping("/Inside/certificateList.do")
@@ -137,7 +142,10 @@ public class CertificateController {
         }
         params.put("hwpUrl", hwpUrl);
         params.put("menuCd", "certifi");
+        params.put("authorityGroupId", "17");
 
+        CommonUtil commonUtil = new CommonUtil();
+        model.addAttribute("manager", commonUtil.listIncludedOrNot(menuManagementService.getAuthorityGroupUserList(params), "EMP_SEQ", login.getUniqId()));
         model.addAttribute("userProofSn", params.get("userProofSn"));
         model.addAttribute("hwpUrl", hwpUrl);
         model.addAttribute("params", new Gson().toJson(params));

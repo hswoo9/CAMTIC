@@ -373,9 +373,17 @@ var draft = {
     },
 
     referencesListViewSetData : function(rs){
-        draft.global.referencesArr = rs;
+        if(draft.global.referencesArr.length > 0){
+            if(rs.length > 0){
+                for(var i = 0 ; i < rs.length ; i++){
+                    draft.global.referencesArr.push(rs[i]);
+                }
+            }
+        }else{
+            draft.global.referencesArr = rs;
+        }
 
-        $("#referencesListView").data("kendoListBox").setDataSource(rs);
+        $("#referencesListView").data("kendoListBox").setDataSource(draft.global.referencesArr);
     },
 
     referencesCancel : function(e){
@@ -569,7 +577,17 @@ var draft = {
 
             draft.global.originalApproversArr = draft.global.approversArr;
 
-            draft.referencesListViewSetData(rs.referencesAll);
+            var referencesAll = new Array();
+            for(var i = 0; i < rs.referencesAll.length; i++){
+                referencesAll[i] = {
+                    referencesDocId : rs.referencesAll[i].REFERENCES_DOC_ID,
+                    referencesDocNo : rs.referencesAll[i].REFERENCES_DOC_NO,
+                    referencesDocApproKey : rs.referencesAll[i].REFERENCES_APPRO_KEY,
+                    referencesDocTitle : rs.referencesAll[i].REFERENCES_DOC_TITLE,
+                    REFERENCES_DOC_TITLE : rs.referencesAll[i].REFERENCES_DOC_TITLE,
+                }
+            }
+            draft.referencesListViewSetData(referencesAll);
 
             $("#readerName").val(rs.displayReaderName);
             draft.global.readersArr = [];

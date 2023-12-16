@@ -158,7 +158,7 @@
                     </button>
                 </td>
             </tr>
-            <tr class="text-right" style="display: none">
+            <tr class="text-right">
                 <th class="th-color">참조문서</th>
                 <td style="border-right: none">
                     <input type="hidden" id="referencesId" name="referencesId">

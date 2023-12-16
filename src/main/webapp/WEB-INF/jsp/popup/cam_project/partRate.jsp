@@ -123,6 +123,8 @@
                     </th>
                     <td>
                         <span id="budget"></span>
+                        <input type="hidden" id="itemAmt" value="0"/>
+                        <input type="hidden" id="payAmt" value="0"/>
                         <input type="hidden" id="budgetAmt" value=""/>
                     </td>
                     <th scope="row" class="text-center th-color">

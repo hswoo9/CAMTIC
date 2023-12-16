@@ -7,7 +7,9 @@ import java.io.File;
 import java.security.MessageDigest;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class CommonUtil {
 
@@ -82,5 +84,14 @@ public class CommonUtil {
         }
 
         return returnFlag;
+    }
+
+    public boolean listIncludedOrNot(List<Map<String, Object>> list, String key, String value){
+        Optional result = list.stream().filter(x -> x.get(key).equals(value)).findFirst();
+        if(result.isPresent()){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

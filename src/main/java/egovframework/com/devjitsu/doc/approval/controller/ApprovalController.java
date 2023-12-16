@@ -191,6 +191,24 @@ public class ApprovalController {
         }*/
     }
 
+    /** 참조문서 팝업 */
+    @RequestMapping("/approval/approvalReferencesSelectPop.do")
+    public String approvalReferencesSelectPop(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "popup/approval/popup/approvalReferencesSelectPop";
+    }
+
+    /** 참조문서 팝업 리스트 */
+    @RequestMapping("/approval/getFinalApprovalDocList.do")
+    public String getFullDocumentInfoList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("rs", approvalService.getFinalApprovalDocList(params));
+        return "jsonView";
+    }
+
     /** 상신전 부여할 문서번호 조회 */
     @RequestMapping("/approval/getDeptDocNum")
     @ResponseBody

@@ -562,8 +562,6 @@ public class UserManageController {
         model.addAttribute("uprinfList", userPersonnelinformList);
         model.addAttribute("idPhoto", userManageService.getUserIdPhotoInfo(params));
 
-        System.out.println("parmas값 --------" + params);
-        System.out.println("dfdf --------" + userPersonnelinformList);
         return "popup/inside/userManage/userViewPop";
     }
 

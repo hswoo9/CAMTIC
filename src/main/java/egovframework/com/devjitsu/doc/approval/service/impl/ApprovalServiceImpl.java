@@ -70,6 +70,11 @@ public class ApprovalServiceImpl implements ApprovalService {
     }
 
     @Override
+    public List<Map<String, Object>> getFinalApprovalDocList(Map<String, Object> params) {
+        return approvalRepository.getFinalApprovalDocList(params);
+    }
+
+    @Override
     public Map<String, Object> getDeptDocNum(Map<String, Object> params) {
         if(StringUtils.isEmpty(approvalRepository.getApprovalDocNoChk(params)) && !params.get("type").equals("temp")){
             Map<String, Object> docNumMap = approvalRepository.getDeptDocNum(params);

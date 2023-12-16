@@ -21,7 +21,89 @@
 
 <input type="hidden" id="partRateMenuGubun" value="DETAIL" />
 <div style="padding: 10px">
-    <div class="table-responsive" style="">
+
+    <button type="button" id="confBtn" style="float:right" class="k-button k-button-solid-base" onclick="fn_confirm()" disabled>참여율확정</button>
+    <%--    <button type="button" disabled id="regBtn" style="float:right; margin-right: 5px" class="k-button k-button-solid-info" onclick="fn_reqRegPopup()">지급신청</button>--%>
+
+    <div id="rateBtnDiv">
+    </div>
+
+
+    <div class="table-responsive">
+        <table class="popTable table table-bordered mb-0">
+            <colgroup>
+                <col width="7%">
+                <col width="7%">
+                <col width="7%">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+                <col width="15%">
+                <col width="7%">
+                <col width="13%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>구분</th>
+                <th>버전</th>
+                <th>요청자</th>
+                <th>인건비 예산</th>
+                <th>요청일</th>
+                <th>참여율 작성일</th>
+                <th>확정일</th>
+                <th>담당자 코멘트</th>
+                <th>상태</th>
+                <th>기안</th>
+            </tr>
+            </thead>
+            <tbody id="partRateVersion2">
+            <tr>
+                <td colspan="10" style="text-align: center">
+                    <span class="red-star"></span>작성된 참여율이 없습니다.
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <div class="table-responsive">
+        <%--        <button type="button" id="" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-base" disabled onclick=""></button>--%>
+        <br><br>
+        <table class="popTable table table-bordered mb-0">
+            <thead>
+            <tr>
+                <th style="width: 5%">구분</th>
+                <th style="width: 5%">성명</th>
+                <th style="width: 5%">기준급여</th>
+                <th style="width: 7%">기준급여<br>변경</th>
+                <th style="width: 8%">참여시작</th>
+                <th style="width: 8%">참여종료</th>
+                <th style="width: 5%">참여개월</th>
+                <th style="width: 4%">참여율<br>현금(%)</th>
+                <th style="width: 7%">인건비<br>현금 총액</th>
+                <th style="width: 4%">참여율<br>현물(%)</th>
+                <th style="width: 7%">인건비<br>현물 총액</th>
+                <th style="width: 5%">총 참여율(%)</th>
+                <th style="width: 7%">인건비총액</th>
+                <th style="width: 7%">월 인건비</th>
+            </tr>
+            </thead>
+            <tbody id="partRateMember">
+
+            </tbody>
+        </table>
+    </div>
+    <input type="hidden" id="viewSubStat" value="N" />
+    <input type="hidden" id="empList" value="" />
+    <div style="text-align: center; cursor: pointer; margin-top: 15px; margin-bottom: 15px; background-color: #f1f7ff;display: none; border: 1px solid #c5c5c5" id="viewSubBtn"><span id="viewSubText">▲</span></div>
+
+
+    <div id="partRateMainGrid"></div>
+
+    <div class="table-responsive" style="margin-top: 10px;">
         <button type="button" id="reqBtn" style="float: right; margin-bottom: 5px; display: none" class="k-button k-button-solid-base" onclick="rndRPR.fn_reqPartRate()">요청</button>
         <button type="button" id="changeBtn" style="float: right; margin-bottom: 5px; display: none" class="k-button k-button-solid-base" onclick="rndRPR.fn_changePartRate()">변경요청</button>
         <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px; margin-right:5px;" class="k-button k-button-solid-info" onclick="rndRPR.fn_save()">저장</button>
@@ -147,87 +229,6 @@
         </div>
     </div>
     <br><br>
-
-    <button type="button" id="confBtn" style="float:right" class="k-button k-button-solid-base" onclick="fn_confirm()" disabled>참여율확정</button>
-<%--    <button type="button" disabled id="regBtn" style="float:right; margin-right: 5px" class="k-button k-button-solid-info" onclick="fn_reqRegPopup()">지급신청</button>--%>
-
-    <div id="rateBtnDiv">
-    </div>
-
-
-    <div class="table-responsive">
-        <table class="popTable table table-bordered mb-0">
-            <colgroup>
-                <col width="7%">
-                <col width="7%">
-                <col width="7%">
-                <col width="10%">
-                <col width="10%">
-                <col width="10%">
-                <col width="10%">
-                <col width="15%">
-                <col width="7%">
-                <col width="13%">
-            </colgroup>
-            <thead>
-            <tr>
-                <th>구분</th>
-                <th>버전</th>
-                <th>요청자</th>
-                <th>인건비 예산</th>
-                <th>요청일</th>
-                <th>참여율 작성일</th>
-                <th>확정일</th>
-                <th>담당자 코멘트</th>
-                <th>상태</th>
-                <th>기안</th>
-            </tr>
-            </thead>
-            <tbody id="partRateVersion2">
-            <tr>
-                <td colspan="9" style="text-align: center">
-                    <span class="red-star"></span>작성된 참여율이 없습니다.
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-
-
-    <div class="table-responsive">
-<%--        <button type="button" id="" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-base" disabled onclick=""></button>--%>
-        <br><br>
-        <table class="popTable table table-bordered mb-0">
-            <thead>
-            <tr>
-                <th style="width: 5%">구분</th>
-                <th style="width: 5%">성명</th>
-                <th style="width: 5%">기준급여</th>
-                <th style="width: 7%">기준급여<br>변경</th>
-                <th style="width: 8%">참여시작</th>
-                <th style="width: 8%">참여종료</th>
-                <th style="width: 5%">참여개월</th>
-                <th style="width: 4%">참여율<br>현금(%)</th>
-                <th style="width: 7%">인건비<br>현금 총액</th>
-                <th style="width: 4%">참여율<br>현물(%)</th>
-                <th style="width: 7%">인건비<br>현물 총액</th>
-                <th style="width: 5%">총 참여율(%)</th>
-                <th style="width: 7%">인건비총액</th>
-                <th style="width: 7%">월 인건비</th>
-            </tr>
-            </thead>
-            <tbody id="partRateMember">
-
-            </tbody>
-        </table>
-    </div>
-    <input type="hidden" id="viewSubStat" value="N" />
-    <input type="hidden" id="empList" value="" />
-    <div style="text-align: center; cursor: pointer; margin-top: 15px; margin-bottom: 15px; background-color: #f1f7ff;display: none; border: 1px solid #c5c5c5" id="viewSubBtn"><span id="viewSubText">▲</span></div>
-
-
-    <div id="partRateMainGrid"></div>
 </div>
 
 <script>

@@ -307,7 +307,7 @@ var rndPR = {
                 }
 
                 if(mem[i].MON_DIFF != null){
-                    $("#memMon" + i).val(mem[i].MON_DIFF);
+                    $("#memMon" + i).val(Math.floor(Number(mem[i].MON_DIFF * 10) / 10));
                 }
 
                 if(mem[i].PAY_RATE != null){
@@ -395,9 +395,7 @@ var rndPR = {
 
         var pDateMonth = Number(pMonthSet) + Number(pSDateDayPerSet) + Number(pEDateDayPerSet);
 
-
-        // return Math.round((diffDays / 30).toFixed(2) * 10) / 10;
-        return pDateMonth;
+        return pDateMonth.toFixed(2);
     },
 
     fn_buttonSet : function(rateMap){

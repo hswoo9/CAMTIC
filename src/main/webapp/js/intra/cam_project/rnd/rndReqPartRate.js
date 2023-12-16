@@ -89,6 +89,14 @@ var rndRPR = {
     },
 
     fn_save : function (type){
+
+        var pjtAmt = uncomma($("#pjtExpAmt").val());
+
+        if(pjtAmt < (Number(uncomma($("#payBudget").val())) + Number(uncomma($("#itemBudget").val())))){
+            alert("인건비 예산이 초과되었습니다.");
+            return;
+        }
+
         var parameters = {
             joinMemNm : $("#joinMember").val(),
             joinMemSn : $("#joinMemberSn").val(),
@@ -196,6 +204,13 @@ var rndRPR = {
         var result = customKendo.fn_customAjax("/projectRnd/getReqPartRateVerList", parameters);
         var ls = result.list;
 
+        var lastPartRateVerSn = ls[ls.length - 1].PART_RATE_VER_SN;
+        var lastMngStatValue = "";
+        if(ls[ls.length - 1].MNG_STAT == null || ls[ls.length - 1].MNG_STAT == undefined){
+            lastMngStatValue = ls[ls.length - 1].RT_MNG_STAT;
+        } else {
+            lastMngStatValue = ls[ls.length - 1].MNG_STAT;
+        }
         if(ls != null){
             var html = '';
             for(var i = 0; i < ls.length; i++){
@@ -203,7 +218,6 @@ var rndRPR = {
                 $("#partRateVersion2").html("");
                 var mngStat = "";
 
-                console.log(ls[i]);
                 var mngStatValue = "";
                 if(ls[i].MNG_STAT == null || ls[i].MNG_STAT == undefined){
                     mngStatValue = ls[i].RT_MNG_STAT;
@@ -297,6 +311,8 @@ var rndRPR = {
             $("#partRateVersion").append(html);
             $("#partRateVersion2").append(html);
         }
+
+        rndRPR.versionClickEvt(lastPartRateVerSn, lastMngStatValue);
     },
 
     versionClickEvt: function (key, stat){
