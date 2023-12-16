@@ -6,6 +6,7 @@ import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -262,9 +263,12 @@ public class CompanyCardController {
 
     @RequestMapping("/card/cardUserGroupPop.do")
     public String cardUserGroupPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
-
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        if(!StringUtils.isEmpty(params.get("groupId"))){
+            model.addAttribute("map", companyCardService.getCardUserGroupOne(params));
+        }
 
         model.addAttribute("params", params);
         model.addAttribute("loginVO", loginVO);
@@ -275,6 +279,17 @@ public class CompanyCardController {
     public String saveCardUserGroup(@RequestParam Map<String, Object> params, Model model){
         try{
             companyCardService.saveCardUserGroup(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+    @RequestMapping("/card/saveCardUserGroupList")
+    public String saveCardUserGroupList(@RequestParam Map<String, Object> params, Model model){
+        try{
+            companyCardService.saveCardUserGroupList(params);
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();
@@ -298,6 +313,18 @@ public class CompanyCardController {
     public String getcardUserGroupList(@RequestParam Map<String, Object> params, Model model){
 
         model.addAttribute("list", companyCardService.getcardUserGroupList(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/card/delCardUserGroup")
+    public String delCardUserGroup(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        try{
+            companyCardService.delCardUserGroup(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
 
         return "jsonView";
     }

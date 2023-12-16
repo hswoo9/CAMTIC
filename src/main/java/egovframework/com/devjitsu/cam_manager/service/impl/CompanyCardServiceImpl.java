@@ -88,11 +88,17 @@ public class CompanyCardServiceImpl implements CompanyCardService {
 
     @Override
     public void saveCardUserGroup(Map<String, Object> params) {
+        int checkGroup = companyCardRepository.getCardUserGroupCheck(params);
 
-        companyCardRepository.saveCardUserGroup(params);
-
-        int groupId = 0;
-        groupId = Integer.parseInt(String.valueOf(params.get("groupId")));
+        if(checkGroup > 0){
+            companyCardRepository.updateCardUserGroup(params);
+        }else{
+            companyCardRepository.saveCardUserGroup(params);
+        }
+    }
+    @Override
+    public void saveCardUserGroupList(Map<String, Object> params) {
+        int groupId = Integer.parseInt(String.valueOf(params.get("groupId")));
 
         Gson gson = new Gson();
         List<Map<String, Object>> groupArr = gson.fromJson((String) params.get("groupArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
@@ -110,5 +116,15 @@ public class CompanyCardServiceImpl implements CompanyCardService {
     @Override
     public List<Map<String, Object>> getcardUserGroupList(Map<String, Object> params) {
         return companyCardRepository.getcardUserGroupList(params);
+    }
+    @Override
+    public void delCardUserGroup(Map<String, Object> params) {
+        companyCardRepository.delCardUserGroup(params); // 그룹 삭제
+        companyCardRepository.delCardUserGroupList(params); //그룹사용자 삭제
+    }
+
+    @Override
+    public Map<String, Object> getCardUserGroupOne(Map<String, Object> param){
+        return companyCardRepository.getCardUserGroupOne(param);
     }
 }

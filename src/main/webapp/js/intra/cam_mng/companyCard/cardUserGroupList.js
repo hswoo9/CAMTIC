@@ -76,10 +76,21 @@ var cardUserGroupList = {
                 }, {
                     field: "GROUP_NAME",
                     title: "그룹명",
-                    width: 100
+                    width: 400,
+                    template: function(e){
+                        return '<a href="javascript:void(0);" style="font-weight: bold" onClick="cardUserGroupList.fn_cardUserGruopPop('+e.GROUP_ID+')">' + e.GROUP_NAME + '</a>';
+                    }
+                }, {
+                    field: "REG_EMP_NAME",
+                    title: "작성자",
+                    width: 70
+                }, {
+                    field: "REG_DEPT_NAME",
+                    title: "팀",
+                    width: 70
                 }, {
                     title: "사용유무",
-                    width: 100,
+                    width: 50,
                     template: function(e){
                         if(e.USE_YN == 'N'){
                             return '미사용';
@@ -88,24 +99,18 @@ var cardUserGroupList = {
                         }
                     }
                 }, {
-                    field: "REG_DT",
-                    title: "생성일시",
-                    width: 100,
-                    template: function(e){
-                        var currentDate = new Date(e.REG_DT);
-                        var currentFormatDate = cardUserGroupList.dateFormat(currentDate);
-
-                        return currentFormatDate;
-                    }
-                }, {
                     title: "기타",
-                    width: 100,
+                    width: 50,
                     template: function(e){
+                        var html = '';
+
                         if(e.USE_YN == 'N'){
-                            return '<button type="button" class="k-button k-button-solid k-button-solid-error" onclick="cardUserGroupList.fn_del('+e.GROUP_ID+')">삭제</button>';
+                            html += '<button type="button" class="k-button k-button-solid k-button-solid-error" onclick="cardUserGroupList.fn_del('+e.GROUP_ID+')">삭제</button>';
                         } else {
-                            return '<button type="button" class="k-button k-button-solid k-button-solid-error" disabled>삭제</button>';
+                            html += '<button type="button" class="k-button k-button-solid k-button-solid-error" disabled>삭제</button>';
                         }
+
+                        return html;
                     }
                 }
             ],
@@ -159,7 +164,7 @@ var cardUserGroupList = {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="cardUserGroupList.fn_userMultiSelectPop()">' +
-                            '	<span class="k-button-text">등록</span>' +
+                            '	<span class="k-button-text">추가</span>' +
                             '</button>';
                     }
                 }, {
@@ -192,7 +197,6 @@ var cardUserGroupList = {
                     title: "기타",
                     width: 80,
                     template : function (e){
-                        console.log(e);
                         var rtYn = e.RT_YN;
                         if(rtYn == 'Y'){
                             return '<button type="button" class="k-button k-button-solid k-button-solid-error" disabled onclick="cardUserGroupList.fn_histDel('+e.CARD_TO_HIST_SN+')">삭제</button>';
@@ -221,36 +225,76 @@ var cardUserGroupList = {
 
             $(this).css("background-color", "#a7e1fc");
 
+            $("#mainUserGrid").css("display", "");
+
             cardUserGroupList.mainUserGrid();
         });
     },
 
-    fn_cardUserGruopPop : function(){
+    fn_cardUserGruopPop : function(e){
         var url = "/card/cardUserGroupPop.do";
 
+        if(e != undefined){
+            url += "?groupId=" + e;
+        }
+
         var name = "카드사용자 그룹 등록";
-        var option = "width = 700, height = 250, top = 200, left = 400, location = no";
+        var option = "width = 700, height = 200, top = 200, left = 400, location = no";
         var popup = window.open(url, name, option);
     },
 
+    fn_userMultiSelectPop : function() {
+        window.open("/user/pop/userMultiSelectPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+    },
+
+    userDataSet : function(arr){
+        var groupArr = [];
+
+        for(var i = 0; i < arr.length; i++){
+            groupArr.push(arr[i]);
+        }
+
+        cardUserGroupList.fn_save(groupArr);
+    },
+
+    fn_save : function(arr){
+        var parameters = {
+            groupId : $("#groupId").val(),
+            groupArr : JSON.stringify(arr)
+        };
+
+        $.ajax({
+            url : "/card/saveCardUserGroupList",
+            type : "POST",
+            data : parameters,
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("저장되었습니다.");
+                    cardUserGroupList.mainUserGrid();
+                }
+            }
+        });
+    },
+
     fn_del : function(key){
-        if(!confirm("삭제하시겠습니까?")){
+        if(!confirm("삭제하시겠습니까?\n삭제한 데이터는 복구 할 수 없습니다.")){
             return;
         }
 
         var parameters = {
-            groupId : key,
-        }
+            groupId : key
+        };
 
         $.ajax({
-            url : "/card/delCardTo",
+            url : "/card/delCardUserGroup",
             data : parameters,
             type : "post",
             dataType : "json",
             success : function(rs){
                 if(rs.code == 200){
                     alert("삭제되었습니다.");
-                    cardUserGroupList.mainGrid();
+                    cardUserGroupList.fn_gridReSet();
                 }
             }
         });
@@ -271,10 +315,15 @@ var cardUserGroupList = {
             dataType : "json",
             success : function(rs){
                 if(rs.code == 200){
-                    cardUserGroupList.mainUserGrid();
+                    cardUserGroupList.fn_gridReSet();
                 }
             }
         });
+    },
+
+    fn_gridReSet : function(){
+        cardUserGroupList.mainGrid();
+        $("#mainUserGrid").css("display", "none");
     },
 
     dateFormat : function(date) {
