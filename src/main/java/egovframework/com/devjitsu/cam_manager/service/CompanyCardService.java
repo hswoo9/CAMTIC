@@ -29,4 +29,7 @@ public interface CompanyCardService {
     List<Map<String, Object>> getCardTOHistList(Map<String, Object> params);
 
     void updCardFromDe(Map<String, Object> params);
+    void saveCardUserGroup(Map<String, Object> params);
+    List<Map<String, Object>> getCardUserGroup(Map<String, Object> params);
+    List<Map<String, Object>> getcardUserGroupList(Map<String, Object> params);
 }

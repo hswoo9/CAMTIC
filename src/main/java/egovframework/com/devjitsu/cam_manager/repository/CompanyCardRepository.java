@@ -21,7 +21,6 @@ public class CompanyCardRepository extends AbstractDAO {
     public List<Map<String, Object>> getCardTOData(Map<String, Object> params) {
         return selectList("card.getCardTOData", params);
     }
-
     public void saveRegCardTo(Map<String, Object> params) {
         insert("card.saveRegCardTo", params);
     }
@@ -55,8 +54,21 @@ public class CompanyCardRepository extends AbstractDAO {
     public List<Map<String, Object>> getCardTOHistList(Map<String, Object> params) {
         return selectList("card.getCardTOHistList", params);
     }
-
     public void updCardFromDe(Map<String, Object> params) {
         update("card.updCardFromDe", params);
     }
+
+    public void saveCardUserGroup(Map<String, Object> params) {
+        insert("card.saveCardUserGroup", params);
+    }
+    public void saveCardUserGroupList(Map<String, Object> params) {
+        insert("card.saveCardUserGroupList", params);
+    }
+    public List<Map<String, Object>> getCardUserGroup(Map<String, Object> params) {
+        return selectList("card.getCardUserGroup", params);
+    }
+    public List<Map<String, Object>> getcardUserGroupList(Map<String, Object> params) {
+        return selectList("card.getcardUserGroupList", params);
+    }
+
 }

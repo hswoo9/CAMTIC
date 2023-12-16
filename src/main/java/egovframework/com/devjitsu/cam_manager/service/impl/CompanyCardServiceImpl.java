@@ -4,9 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.cam_manager.repository.CompanyCardRepository;
 import egovframework.com.devjitsu.cam_manager.service.CompanyCardService;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -82,5 +84,31 @@ public class CompanyCardServiceImpl implements CompanyCardService {
     @Override
     public void updCardFromDe(Map<String, Object> params) {
         companyCardRepository.updCardFromDe(params);
+    }
+
+    @Override
+    public void saveCardUserGroup(Map<String, Object> params) {
+
+        companyCardRepository.saveCardUserGroup(params);
+
+        int groupId = 0;
+        groupId = Integer.parseInt(String.valueOf(params.get("groupId")));
+
+        Gson gson = new Gson();
+        List<Map<String, Object>> groupArr = gson.fromJson((String) params.get("groupArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        for(Map<String, Object> map : groupArr) {
+            map.put("groupId", groupId);
+            companyCardRepository.saveCardUserGroupList(map);
+        }
+
+    }
+    @Override
+    public List<Map<String, Object>> getCardUserGroup(Map<String, Object> params) {
+        return companyCardRepository.getCardUserGroup(params);
+    }
+    @Override
+    public List<Map<String, Object>> getcardUserGroupList(Map<String, Object> params) {
+        return companyCardRepository.getcardUserGroupList(params);
     }
 }
