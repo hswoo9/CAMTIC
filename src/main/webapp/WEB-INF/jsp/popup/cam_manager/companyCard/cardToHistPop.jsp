@@ -50,7 +50,7 @@
     <div class="" style="padding: 10px">
         <span style="margin-right: 10px">
             <b style="font-size: 12px">승인일시</b>
-            <input id="startDt" style="width: 150px"> ~ <input id="endDt" style="width: 150px">
+            <input id="startDt" style="width: 150px" disabled> ~ <input id="endDt" style="width: 150px">
         </span>
         <span>
             <b style="font-size: 12px">카드정보</b>

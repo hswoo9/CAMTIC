@@ -218,11 +218,12 @@
             success : function(rs){
                 if(rs.code == 200){
                     alert("저장되었습니다.");
-                    opener.parents.statementList.mainGrid();
+                    opener.parent.statementList.mainGrid();
                     window.close();
+
                 }
             }
-        })
+        });
     }
 
     function fn_update(){
@@ -263,7 +264,7 @@
             success : function(rs){
                 if(rs.code == 200){
                     alert("수정되었습니다.");
-                    opener.parents.statementList.mainGrid();
+                    opener.parent.statementList.mainGrid();
                     window.close();
                 }
             }
