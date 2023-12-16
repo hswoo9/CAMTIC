@@ -219,8 +219,8 @@
                 if(rs.code == 200){
                     alert("저장되었습니다.");
                     opener.parent.statementList.mainGrid();
+                    opener.parent.$("#mainHistGrid").css("display", "none");
                     window.close();
-
                 }
             }
         });
