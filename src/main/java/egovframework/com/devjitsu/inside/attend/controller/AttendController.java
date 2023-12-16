@@ -218,6 +218,7 @@ public class AttendController {
     public String holidayWorkApplicationDetails(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/attend/holidayWorkApplicationDetails";

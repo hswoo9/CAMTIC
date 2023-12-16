@@ -12,10 +12,8 @@
             EC.DEPT_SEQ,
             EI.DEPT_NAME,
             EI.DEPT_TEAM_NAME,
-            EI.JOB_DETAIL,
+            EI.POSITION_NAME,
             EC.SALARY_CONTRACT_REQ_DT,
-            EC.CONTRACT_ST_DT,
-            EC.CONTRACT_EN_DT,
             EC.SEND_YN,
             EC.FLAG
         FROM
@@ -67,19 +65,17 @@
             EC.DEPT_SEQ,
             EI.DEPT_NAME,
             EI.DEPT_TEAM_NAME,
-            EI.JOB_DETAIL,
+            EC.POSITION_NAME,
             EI.ZIP_CODE,
             EI.ADDR,
             DATE_FORMAT(EI.BDAY, '%Y-%m-%d') AS BDAY,
             EI.ADDR_DETAIL,
             EC.SALARY_CONTRACT_REQ_DT,
             DATE_FORMAT(EC.SALARY_CONTRACT_REQ_DT, '%Y년 %m월 %d일') AS SALARY_CONTRACT_REQ_DT2,
-            EC.CONTRACT_ST_DT,
-            EC.CONTRACT_EN_DT,
-            DATE_FORMAT(EC.CONTRACT_ST_DT, '%Y년 %m월 %d일') AS CONTRACT_ST_DT2,
-            DATE_FORMAT(EC.CONTRACT_EN_DT, '%Y년 %m월 %d일') AS CONTRACT_EN_DT2,
-            EC.MONTH_SALARY,
-            EC.TOTAL_SALARY,
+            EC.BY_SALARY,
+            EC.NY_RAISE_SALARY,
+            EC.NY_SALARY,
+            EC.NY_DECISION_SALARY,
             EC.SEND_YN,
             EC.FLAG
         FROM
@@ -100,11 +96,11 @@
             EMP_NAME,
             DEPT_SEQ,
             DEPT_NAME,
-            JOB_DETAIL,
-            CONTRACT_ST_DT,
-            CONTRACT_EN_DT,
-            MONTH_SALARY,
-            TOTAL_SALARY,
+            POSITION_NAME,
+            BY_SALARY,
+            NY_RAISE_SALARY,
+            NY_SALARY,
+            NY_DECISION_SALARY,
             REG_EMP_SEQ
         )
         VALUES
@@ -114,11 +110,11 @@
             #{empName},
             #{deptSeq},
             #{deptName},
-            #{jobDetail},
-            #{contractStDt},
-            #{contractEnDt},
-            #{monthSalary},
-            #{totalSalary},
+            #{positionName},
+            #{bySalary},
+            #{nyRaiseSalary},
+            #{nySalary},
+            #{nyDecisionSalary},
             #{regEmpSeq}
         )
     </insert>

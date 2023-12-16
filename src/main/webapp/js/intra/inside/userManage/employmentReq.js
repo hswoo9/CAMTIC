@@ -58,8 +58,8 @@ var employmentReq = {
                     title: "팀",
                     width : 180
                 }, {
-                    field: "JOB_DETAIL",
-                    title: "근무직무",
+                    field: "POSITION_NAME",
+                    title: "직위",
                     width : 180
                 }, {
                     field: "EMP_NAME",
@@ -67,11 +67,6 @@ var employmentReq = {
                 }, {
                     field: "SALARY_CONTRACT_REQ_DT",
                     title: "연봉근로계약서 작성일",
-                }, {
-                    title: "연봉근로계약일",
-                    template : function(e){
-                        return e.CONTRACT_ST_DT + "부터 " + e.CONTRACT_EN_DT + "까지"
-                    }
                 }, {
                     title : "연봉계약서",
                     template : function(e){

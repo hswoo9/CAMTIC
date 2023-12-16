@@ -44,9 +44,9 @@
                     <td>
                         <input type="text" id="deptName" name="deptName" value="" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" onclick="userSearch();" readonly>
                     </td>
-                    <th>담당직무</th>
-                    <td colspan="4">
-                        <input type="text" id="jobDetail" name="jobDetail" value="" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" onclick="userSearch();" readonly>
+                    <th>직위</th>
+                    <td>
+                        <input type="text" id="positionName" name="positionName" value="" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" onclick="userSearch();" readonly>
                     </td>
                 </tr>
                 </thead>
@@ -55,7 +55,7 @@
             <div>
                 <table class="popTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="20%">
+                        <col width="25%">
                         <col width="">
                         <col width="">
                     </colgroup>
@@ -72,30 +72,35 @@
                         </td>
                     </tr>
                     <tr>
-                        <th class="text-center th-color">연봉근로계약기간</th>
-                        <td colspan="3">
-                            <input type="text" id="contractStDt" name="contractStDt" style="width: 150px"> 부터
-                            <input type="text" id="contractEnDt" name="contractEnDt" style="width: 150px"> 까지
-                        </td>
-                    </tr>
-                    <tr>
                         <th class="text-center th-color">구분</th>
                         <th class="text-center th-color">금액</th>
                         <th class="text-center th-color">비고</th>
                     </tr>
                     <tr>
-                        <th class="text-center th-color">월기준급여액(A)</th>
+                        <th class="text-center th-color">전년도 연봉월액①</th>
                         <td>
-                            <input type="text" id="monthSalary" name="monthSalary" style="width: 95%; text-align: right;"> 원
+                            <input type="text" id="bySalary" name="bySalary" style="width: 95%; text-align: right;"> 원
                         </td>
-                        <th rowspan="2" class="text-center">
+                        <th rowspan="4" class="text-center">
                             12개월 기준
                         </th>
                     </tr>
                     <tr>
-                        <th class="text-center th-color">총연봉액(A*12)</th>
+                        <th class="text-center th-color">금년도 월 인상액②</th>
                         <td>
-                            <input type="text" id="totalSalary" name="totalSalary" style="width: 95%; text-align: right;" disabled> 원
+                            <input type="text" id="nyRaiseSalary" name="nyRaiseSalary" style="width: 95%; text-align: right;"> 원
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-center th-color">금년도 연봉월액③=①+②</th>
+                        <td>
+                            <input type="text" id="nySalary" name="nySalary" style="width: 95%; text-align: right;" disabled> 원
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-center th-color">금년도 결정 연봉액④=③×12</th>
+                        <td>
+                            <input type="text" id="nyDecisionSalary" name="nyDecisionSalary" style="width: 95%; text-align: right;" disabled> 원
                         </td>
                     </tr>
                     </thead>

@@ -98,53 +98,10 @@ var employmentPop = {
         if(result.flag){
             console.log(result);
             employmentPop.global.data = result.data;
-            if(employmentPop.global.hwpCtrl.FieldExist("compEmpName")){
-                employmentPop.global.hwpCtrl.MoveToField('compEmpName', true, true, false);
-                employmentPop.putFieldText('compEmpName', '캠틱종합기술원장');
-            }
-
-            if(employmentPop.global.hwpCtrl.FieldExist("compEmpSign")){
-                employmentPop.global.hwpCtrl.MoveToField('compEmpSign', true, true, false);
-                // employmentPop.global.hwpCtrl.InsertBackgroundPicture(
-                //     "SelectedCell",
-                //     "http://121.186.165.80:8010/upload/bustrip/2023/05/02/294da7fcdc3e47e688dbad1644816c70.png",
-                //     1,
-                //     5,
-                //     0,
-                //     0,
-                //     0,
-                //     0
-                // );
-                employmentPop.putFieldText('compEmpSign', '노상흡');
-            }
 
             if(employmentPop.global.hwpCtrl.FieldExist("empName")){
                 employmentPop.global.hwpCtrl.MoveToField('empName', true, true, false);
                 employmentPop.putFieldText('empName', result.data.EMP_NAME_KR);
-            }
-
-            if(employmentPop.global.hwpCtrl.FieldExist("bday")){
-                employmentPop.global.hwpCtrl.MoveToField('bday', true, true, false);
-                employmentPop.putFieldText('bday', result.data.BDAY);
-            }
-
-            if(employmentPop.global.hwpCtrl.FieldExist("addr")){
-                var addr = result.data.ZIP_CODE + " " + result.data.ADDR;
-                employmentPop.global.hwpCtrl.MoveToField('addr', true, true, false);
-                if(result.data.ADDR_DETAIL != null){
-                    addr += " " + result.data.ADDR_DETAIL
-                }
-                employmentPop.putFieldText('addr', addr);
-            }
-
-            if(employmentPop.global.hwpCtrl.FieldExist("contractStDt")){
-                employmentPop.global.hwpCtrl.MoveToField('contractStDt', true, true, false);
-                employmentPop.putFieldText('contractStDt', result.data.CONTRACT_ST_DT2 + "부터 ");
-            }
-
-            if(employmentPop.global.hwpCtrl.FieldExist("contractEnDt")){
-                employmentPop.global.hwpCtrl.MoveToField('contractEnDt', true, true, false);
-                employmentPop.putFieldText('contractEnDt', result.data.CONTRACT_EN_DT2 + "까지");
             }
 
             if(employmentPop.global.hwpCtrl.FieldExist("deptName")){
@@ -152,20 +109,29 @@ var employmentPop = {
                 employmentPop.putFieldText('deptName', result.data.DEPT_NAME);
             }
 
-            if(employmentPop.global.hwpCtrl.FieldExist("jobDetail")){
-                employmentPop.global.hwpCtrl.MoveToField('jobDetail', true, true, false);
-                employmentPop.putFieldText('jobDetail', result.data.JOB_DETAIL);
+            if(employmentPop.global.hwpCtrl.FieldExist("positionName")){
+                employmentPop.global.hwpCtrl.MoveToField('positionName', true, true, false);
+                employmentPop.putFieldText('positionName', result.data.POSITION_NAME);
             }
 
-
-            if(employmentPop.global.hwpCtrl.FieldExist("monthSalary")){
-                employmentPop.global.hwpCtrl.MoveToField('monthSalary', true, true, false);
-                employmentPop.putFieldText('monthSalary', "가. 월기준급여액 : 금 " + employmentPop.numToKOR(result.data.MONTH_SALARY) + "원(￦" + result.data.MONTH_SALARY.toString().toMoney() + ") 으로 한다");
+            if(employmentPop.global.hwpCtrl.FieldExist("bySalary")){
+                employmentPop.global.hwpCtrl.MoveToField('bySalary', true, true, false);
+                employmentPop.putFieldText('bySalary', employmentPop.comma(result.data.BY_SALARY));
             }
 
-            if(employmentPop.global.hwpCtrl.FieldExist("totalSalary")){
-                employmentPop.global.hwpCtrl.MoveToField('totalSalary', true, true, false);
-                employmentPop.putFieldText('totalSalary', "나. 총연봉액(월기준급여액x12) : 금 " + employmentPop.numToKOR(result.data.TOTAL_SALARY) + "원(￦" + result.data.TOTAL_SALARY.toString().toMoney() + ")");
+            if(employmentPop.global.hwpCtrl.FieldExist("nyRaiseSalary")){
+                employmentPop.global.hwpCtrl.MoveToField('nyRaiseSalary', true, true, false);
+                employmentPop.putFieldText('nyRaiseSalary', employmentPop.comma(result.data.NY_RAISE_SALARY));
+            }
+
+            if(employmentPop.global.hwpCtrl.FieldExist("nySalary")){
+                employmentPop.global.hwpCtrl.MoveToField('nySalary', true, true, false);
+                employmentPop.putFieldText('nySalary', employmentPop.comma(result.data.NY_SALARY));
+            }
+
+            if(employmentPop.global.hwpCtrl.FieldExist("nyDecisionSalary")){
+                employmentPop.global.hwpCtrl.MoveToField('nyDecisionSalary', true, true, false);
+                employmentPop.putFieldText('nyDecisionSalary', employmentPop.comma(result.data.NY_DECISION_SALARY));
             }
 
             if(employmentPop.global.hwpCtrl.FieldExist("regDt")){
@@ -227,23 +193,6 @@ var employmentPop = {
             employmentPop.global.data.EMP_NAME_KR + "_연봉근로계약서" , "PDF", "download:true");
     },
 
-    numToKOR : function(num){
-        var hanA = new Array("","일","이","삼","사","오","육","칠","팔","구","십");
-        var danA = new Array("","십","백","천","","십","백","천","","십","백","천","","십","백","천");
-        var result = "";
-        for(i=0; i<num.length; i++) {
-            str = ""; han = hanA[num.charAt(num.length-(i+1))];
-            if(han != "") str += han+danA[i];
-            if(i == 4) str += "만";
-            if(i == 8) str += "억";
-            if(i == 12) str += "조";
-            result = str + result;
-        }
-        if(num != 0)
-            result = result + "";
-        return result ;
-    }
-
     //
     // print: function() {
     //     var data = {
@@ -259,4 +208,14 @@ var employmentPop = {
     //         opener.gridReload();
     //     }
     // }
+
+    uncomma: function(str) {
+        str = String(str);
+        return str.replace(/[^\d]+/g, '');
+    },
+
+    comma: function(str) {
+        str = String(str);
+        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+    },
 }

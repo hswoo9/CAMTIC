@@ -180,6 +180,7 @@ var deptListPop = {
                     opener.parent.$("#deptSeq").val(row.DEPT_SEQ);
                     opener.parent.$("#deptName").val(row.DEPT_NAME);
                     opener.parent.$("#jobDetail").val(row.JOB_DETAIL);
+                    opener.parent.$("#positionName").val(row.POSITION_NAME);
                 }
                 try {
                     opener.parent.userPayMngPop(row.EMP_SEQ);

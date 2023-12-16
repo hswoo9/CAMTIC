@@ -10,28 +10,27 @@ var employmentRegPop = {
 		customKendo.fn_datePicker("contractStDt", '', "yyyy-MM-dd", employmentRegPop.global.now);
 		customKendo.fn_datePicker("contractEnDt", '', "yyyy-MM-dd", new Date(new Date().setFullYear(new Date().getFullYear() + 1)));
 		customKendo.fn_textBox(["monthSalary", "totalSalary"]);
-		$("#monthSalary").keyup(function(){
-			if($(this).val().toString().toMoney().charAt(0) == "0"){
-				$(this).val($(this).val().toString().substring(1).toMoney());
-			}else{
-				$(this).val($(this).val().toString().toMoney());
-			}
+		$("#bySalary, #nyRaiseSalary").keyup(function(){
+			$("#bySalary").val(comma(uncomma($("#bySalary").val())));
+			$("#nyRaiseSalary").val(comma(uncomma($("#nyRaiseSalary").val())));
 
-			employmentRegPop.setTotalSalaryInput();
+			$("#nySalary").val(comma(Number(uncomma($("#bySalary").val())) + Number(uncomma($("#nyRaiseSalary").val()))))
+
+			$("#nyDecisionSalary").val(comma(Number(uncomma($("#nySalary").val())) * 12));
 		});
     },
-
-	setTotalSalaryInput : function(){
-		var monthSalary = Number($("#monthSalary").val().toString().toMoney2());
-		$("#totalSalary").val((monthSalary * 12).toString().toMoney());
-	},
 
 	setEmploymentContract : function(){
 		if(!$("#empSeq").val()){
 			alert("사용자를 선택해주세요.");
 			return;
-		}else if(!$("#monthSalary").val()){
-			alert("월기준급여액을 입력해주세요.");
+		}else if(!$("#bySalary").val()){
+			alert("전년도 연봉월액을 입력해주세요.");
+			$("#bySalary").focus();
+			return;
+		}else if(!$("#nyRaiseSalary").val()){
+			alert("금년도 월 인상액을 입력해주세요.");
+			$("#nyRaiseSalary").focus();
 			return;
 		}
 
@@ -41,11 +40,11 @@ var employmentRegPop = {
 				deptSeq : $("#deptSeq").val(),
 				empName : $("#empName").val(),
 				deptName : $("#deptName").val(),
-				jobDetail : $("#jobDetail").val(),
-				contractStDt : $("#contractStDt").val(),
-				contractEnDt : $("#contractEnDt").val(),
-				monthSalary : $("#monthSalary").val().toString().toMoney2(),
-				totalSalary : $("#totalSalary").val().toString().toMoney2(),
+				positionName : $("#positionName").val(),
+				bySalary : uncomma($("#bySalary").val()),
+				nyRaiseSalary : uncomma($("#nyRaiseSalary").val()),
+				nySalary : uncomma($("#nySalary").val()),
+				nyDecisionSalary : uncomma($("#nyDecisionSalary").val()),
 				regDt : $("#regDt").val(),
 				regEmpSeq : $("#regEmpSeq").val()
 			}
@@ -57,5 +56,15 @@ var employmentRegPop = {
 				window.close();
 			}
 		}
-	}
+	},
+
+	uncomma: function(str) {
+		str = String(str);
+		return str.replace(/[^\d]+/g, '');
+	},
+
+	comma: function(str) {
+		str = String(str);
+		return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+	},
 }
