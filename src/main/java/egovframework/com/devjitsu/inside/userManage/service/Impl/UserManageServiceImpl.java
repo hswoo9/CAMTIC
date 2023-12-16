@@ -4,12 +4,18 @@ import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.inside.userManage.repository.UserManageRepository;
 import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -533,6 +539,55 @@ public class UserManageServiceImpl implements UserManageService {
     @Override
     public Map<String,Object> getEmploymentInfo(Map<String,Object> map) {
         return userManageRepository.getEmploymentInfo(map);
+    }
+
+    @Override
+    public void employExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception {
+        MultipartFile fileNm = request.getFile("salaryFile");
+
+        File dest = new File(fileNm.getOriginalFilename());
+        fileNm.transferTo(dest);
+
+        XSSFRow row;
+        XSSFCell col0;
+        XSSFCell col1;
+        XSSFCell col2;
+        XSSFCell col3;
+
+        FileInputStream inputStream = new FileInputStream(dest);
+
+        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        int rows = sheet.getPhysicalNumberOfRows();
+
+        for(int i=4; i < rows; i++){
+            Map<String, Object> salaryMap = new HashMap<>();
+
+            row = sheet.getRow(i);
+            col0 = row.getCell(0);
+            col1 = row.getCell(1);
+            col2 = row.getCell(2);
+            col3 = row.getCell(3);
+
+            if(row != null){
+                if(cellValueToString(col0).equals("") || cellValueToString(col1).equals("") || cellValueToString(col2).equals("") || cellValueToString(col3).equals("")){
+                    return;
+                } else {
+                    salaryMap.put("regDt", cellValueToString(row.getCell(2)));
+                    salaryMap.put("empSeq", cellValueToString(row.getCell(3)));
+                    salaryMap.put("empName", cellValueToString(row.getCell(4)));
+                    salaryMap.put("deptSeq", cellValueToString(row.getCell(5)));
+                    salaryMap.put("deptName", cellValueToString(row.getCell(6)));
+                    salaryMap.put("positionName", cellValueToString(row.getCell(7)));
+                    salaryMap.put("bySalary", cellValueToString(row.getCell(8)));
+                    salaryMap.put("nyRaiseSalary", cellValueToString(row.getCell(9)));
+                    salaryMap.put("nySalary", cellValueToString(row.getCell(10)));
+                    salaryMap.put("nyDecisionSalary", cellValueToString(row.getCell(11)));
+                    salaryMap.put("regEmpSeq", params.get("empSeq"));
+                    userManageRepository.setEmploymentContract(salaryMap);
+                }
+            }
+        }
     }
 
     @Override
@@ -1618,4 +1673,20 @@ public class UserManageServiceImpl implements UserManageService {
         return userManageRepository.getCurrentPositionByYear(params);
     }
 
+    public String cellValueToString(XSSFCell cell){
+        String txt = "";
+
+        try {
+            if(cell.getCellType() == XSSFCell.CELL_TYPE_STRING){
+                txt = cell.getStringCellValue();
+            }else if(cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC){
+                txt = String.valueOf( Math.round(cell.getNumericCellValue()) );
+            }else if(cell.getCellType() == XSSFCell.CELL_TYPE_FORMULA){
+                txt = cell.getRawValue();
+            }
+        } catch (Exception e) {
+
+        }
+        return txt;
+    }
 }

@@ -818,6 +818,35 @@ public class UserManageController {
     }
 
     /**
+     * 연봉근로계약서 엑셀 업로드 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/pop/employExcelUploadPop.do")
+    public String employExcelUploadPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "popup/inside/employ/employExcelUploadPop";
+    }
+
+    /**
+     * crm 고객등록 엑셀 업로드
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/employExcelUpload.do")
+    public String employExcelUpload(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) throws Exception{
+        userManageService.employExcelUpload(params, request);
+        return "jsonView";
+    }
+
+
+    /**
      * 연봉근로계약서 작성(관리자)
      * @param request
      * @param model

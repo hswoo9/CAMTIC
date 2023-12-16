@@ -41,6 +41,13 @@ var employmentManage = {
 							'	<span class="k-button-text">조회</span>' +
 							'</button>';
 					}
+				}, {
+					name : 'button',
+					template : function (e){
+						return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="employmentManage.fn_excelUploadPop()">' +
+							'	<span class="k-button-text">등록양식 업로드</span>' +
+							'</button>';
+					}
 				},{
 					name : 'button',
 					template : function (e){
@@ -178,6 +185,13 @@ var employmentManage = {
 		var popup = window.open(url, name, option);
 	},
 
+	fn_excelUploadPop : function(){
+		var url = "/inside/pop/employExcelUploadPop.do";
+		var name = "_blank";
+		var option = "width = 500, height = 230, top = 100, left = 400, location = no"
+		var popup = window.open(url, name, option);
+	},
+
 	dataSet : function() {
 		$("#startDate").kendoDatePicker({
 			depth: "month",
@@ -226,7 +240,7 @@ var employmentManage = {
 		customKendo.fn_dropDownList("team", employmentManage.global.dropDownDataSource.rs, "dept_name", "dept_seq");
 
 		employmentManage.gridReload()
-	}
+	},
 }
 
 function gridReload(){

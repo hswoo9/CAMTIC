@@ -60,6 +60,7 @@ public interface UserManageService{
     /** 연봉근로계약 */
     List<Map<String,Object>> getEmploymentContList(Map<String,Object> map);
     Map<String,Object> getEmploymentInfo(Map<String,Object> map);
+    void employExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception;
     void setEmploymentContract(Map<String,Object> map);
     void sendSalaryWorkerReq(List<String> params);
     void setEmploymentInfoFlag(Map<String, Object> params);
