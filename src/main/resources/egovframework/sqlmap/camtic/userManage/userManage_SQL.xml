@@ -3540,8 +3540,9 @@
             SUM(EMPLOYEE_COUNT) AS TotalPositionEmpCount
         FROM (
                  SELECT
-                     POSITION_NAME,
-                     COUNT(*) AS EMPLOYEE_COUNT
+                    POSITION_NAME,
+                    (SELECT SORT FROM CAM_COMMON.DJ_COM_CODE WHERE CM_GROUP_CODE_ID = 4 AND TRIM(SUBSTRING_INDEX(CM_CODE_NM, '/', 1)) = POSITION_NAME) AS SORT,
+                    COUNT(*) AS EMPLOYEE_COUNT
                  FROM
                      cam_hr.dj_emp_info
                  WHERE
@@ -3560,7 +3561,7 @@
         GROUP BY
             POSITION_NAME
         ORDER BY
-            POSITION_NAME DESC;
+            SORT
     </select>
 
     <select id="getGenderCount" parameterType="map" resultType="map">

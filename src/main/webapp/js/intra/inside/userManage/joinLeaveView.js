@@ -154,18 +154,18 @@ var joinLeaveView = {
     gridReload : function(){
         var requestArr = "";
         if($(".detailSearch:checked").length == 0){
-            requestArr += "|9999&N"
+            requestArr += "|999&N"
         }else{
             $(".detailSearch:checked").each(function(){
                 if($(this).attr("id") == "dsA"){
-                    requestArr += "|0&N"
+                    requestArr += "|0&N|4&1,2"
                 }else{
                     requestArr += "|" + $(this).attr("division") + '&' + ($(this).attr("divisionSub") == null ? "N" : $(this).attr("divisionSub"));
                 }
 
             })
         }
-        console.log("requestArr:", requestArr);
+
         var arr = requestArr.substring(1);
         console.log("arr :",arr);
 

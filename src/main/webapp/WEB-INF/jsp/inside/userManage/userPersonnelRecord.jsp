@@ -190,9 +190,9 @@
                                         <col width="10%">
                                         <col width="10%">
                                         <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
                                         <col width="5%">
+                                        <col width="10%">
+                                        <col width="10%">
                                         <col width="15%">
                                     </colgroup>
                                     <thead>
@@ -203,10 +203,10 @@
                                         <th>기간</th>
                                         <th>학교 및 학과</th>
                                         <th>학위</th>
-                                        <th>학위 증명서</th>
-                                        <th>성적 증명서</th>
                                         <th>졸업</th>
                                         <th>성적</th>
+                                        <th>학위 증명서</th>
+                                        <th>성적 증명서</th>
                                         <th>비고</th>
                                     </tr>
                                     <c:forEach var="l" items="${eList}" varStatus="status">
@@ -220,6 +220,8 @@
                                                 <td>${l.ADMISSION_DAY}~${l.GRADUATION_DAY}</td>
                                                 <td>${l.SCHOOL_NAME}</td>
                                                 <td>${l.DEGREE_CODE_NM}</td>
+                                                <td>${l.GRADUATION_CODE_NM}</td>
+                                                <td>${l.SCORE}</td>
                                                 <c:if test="${l.gradeFile == null}">
                                                     <td></td>
                                                 </c:if>
@@ -240,8 +242,6 @@
                                                   </span>
                                                 </td>
                                                 </c:if>
-                                                <td>${l.GRADUATION_CODE_NM}</td>
-                                                <td>${l.SCORE}</td>
                                                 <td>${l.RMK}</td>
                                             </tr>
                                         </c:if>

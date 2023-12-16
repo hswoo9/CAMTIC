@@ -40,6 +40,11 @@
         </div>
 
         <div id="docControlBtnDiv">
+            <c:if test="${manager}">
+                <button type='button' class='k-button k-button-solid k-button-solid-base'  style="height: 25px; font-size: 12px;" onclick="certifiPrintPop.saveHwp()">
+                    <span class='k-button-text'>한글파일 다운로드</span>
+                </button>
+            </c:if>
             <button type='button' class='k-button k-button-solid k-button-solid-base' id="docApprovalPDFDownBtn"  style="width: 70px; height: 25px; font-size: 12px;" onclick="certifiPrintPop.print()">
                 <span class='k-icon k-i-file-pdf k-button-icon'></span>
                 <span class='k-button-text'>인쇄</span>

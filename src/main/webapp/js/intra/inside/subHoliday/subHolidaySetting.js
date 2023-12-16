@@ -144,14 +144,14 @@ var subHolidaySetting = {
                             editable: function(){
                                 return false;
                             },
-                        }, {
+                        }/*, {
                             field : "bef2UseDay",
                             title : "전전년사용",
                             width : 70,
                             editable: function(){
                                 return false;
                             },
-                        }
+                        }*/
                     ]
                 }, {
                     title : "보상",
@@ -169,7 +169,7 @@ var subHolidaySetting = {
                             template : function(e){
                                 return 0;
                             }
-                        }, {
+                        }/*, {
                             title : "전전년사용",
                             width : 70,
                             editable: function(){
@@ -178,7 +178,7 @@ var subHolidaySetting = {
                             template : function(e){
                                 return 0;
                             }
-                        }
+                        }*/
                     ]
                 }
             ]

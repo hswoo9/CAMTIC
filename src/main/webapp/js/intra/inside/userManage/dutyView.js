@@ -49,7 +49,7 @@ var dutyView = {
 
         var html = "";
 
-        html = '<table class="centerTable table table-bordered"><colgroup><col width="15%"><col><col width="10%"></colgroup><tbody>';
+        html = '<table class="centerTable table table-bordered"><colgroup><col width="15%"><col width="5%"><col></colgroup><tbody>';
 
         for(var i =0;i<data.length; i++) {
             var positionName = data[i].POSITION_NAME;
@@ -61,15 +61,15 @@ var dutyView = {
             html += '<tr>' +
                 '<td style="background-color: #efefef;">'+ positionName +'</td>' +
                 '<td style="background-color: #ffffff;">' +
+                '<a href="javascript:void(0);" onclick="dutyView.userViewPop(\'' + positionName +'\', \''  + arr + '\');">'+
+                '<span>' +data[i].TotalPositionEmpCount + '명</span>' +
+                '</td>' +
+                '<td style="background-color: #ffffff;">' +
                 '<div style="display: flex; align-items: center;">' +
                 '<div style="background-color: ' + color + '; float : left; height: 10px; width: '+percentageWidth+'px; display: inline-block; position: relative; top: 1.5px;">' +
                 '</div>' +
                 '<span style="display: inline-block; position: relative; top: 1.5px;">'+percentage+'%</span>' +
                 '</div>'+
-                '</td>' +
-                '<td style="background-color: #ffffff;">' +
-                '<a href="javascript:void(0);" onclick="dutyView.userViewPop(\'' + positionName +'\', \''  + arr + '\');">'+
-                '<span>' +data[i].TotalPositionEmpCount + '명</span>' +
                 '</td>' +
                 '</tr>';
         }
@@ -126,7 +126,7 @@ var dutyView = {
         }else{
             $(".detailSearch:checked").each(function(){
                 if($(this).attr("id") == "dsA"){
-                    requestArr += "|0&N"
+                    requestArr += "|0&N|4&1,2"
                 }else{
                     requestArr += "|" + $(this).attr("division") + '&' + ($(this).attr("divisionSub") == null ? "N" : $(this).attr("divisionSub"));
                 }

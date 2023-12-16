@@ -90,7 +90,7 @@ var userInfoMod = {
                             '	<span class="k-button-text">승인</span>' +
                             '</button>';
                     }
-                },
+                }/*,
                  {
                     name : 'button',
                     template : function (e){
@@ -98,14 +98,14 @@ var userInfoMod = {
                             '	<span class="k-button-text">승인취소</span>' +
                             '</button>';
                     }
-                }, {
+                }*/, {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userInfoMod.fn_returnYcheck()">' +
                             '	<span class="k-button-text">반려</span>' +
                             '</button>';
                     }
-                },
+                }/*,
                 {
                     name : 'button',
                     template : function (e){
@@ -113,7 +113,7 @@ var userInfoMod = {
                             '	<span class="k-button-text">반려취소</span>' +
                             '</button>';
                     }
-                }, {
+                }*/, {
                     name: 'excel',
                     text: '엑셀다운로드'
                 }
@@ -186,7 +186,7 @@ var userInfoMod = {
 					attributes : { style : "text-align : center;"},
 					width: "100px",
 					field: "APPLICATION_ACTIVE",
-					title: "신청 항목"
+					title: "신청구분"
                 }, {
 					attributes : { style : "text-align : center;"},
 					width: "90px",
@@ -207,13 +207,15 @@ var userInfoMod = {
                                 '	<span class="k-button-text">반려</span>' +
                                 '</button>';
                         } else if(e.admin_approval == 'Y' && e.returnyn == 'N') {
-                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:105px;" onclick="userInfoMod.fn_cancelTest(this)">' +
+                            /*return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:105px;" onclick="userInfoMod.fn_cancelTest(this)">' +
                                 '	<span class="k-button-text">승인취소</span>' +
-                                '</button>';
+                                '</button>';*/
+							return "처리완료(승인)"
                         }else if(e.admin_approval == 'N' && e.returnyn == 'Y'){
-							return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:105px;" onclick="userInfoMod.fn_returnN(this)">' +
+							/*return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:105px;" onclick="userInfoMod.fn_returnN(this)">' +
                                 '	<span class="k-button-text">반려취소</span>' +
-                                '</button>';
+                                '</button>';*/
+							return "처리완료(반려)"
 						}
                     }
                 },

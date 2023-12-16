@@ -47,7 +47,7 @@ var degreeView = {
         }
 
         var html = "";
-        html = '<table class="centerTable table table-bordered"><colgroup><col width="15%"><col><col width="10%"></colgroup><tbody>';
+        html = '<table class="centerTable table table-bordered"><colgroup><col width="15%"><col width="5%"><col></colgroup><tbody>';
         for(var i =0;i<data.length; i++) {
             var degreeName = data[i].DEGREE_CODE;
             var color = degreeView.getColorForIndex(i); //그래프 바의 색깔 함수 호출
@@ -58,15 +58,15 @@ var degreeView = {
             html += '<tr>' +
                 '<td style="background-color: #efefef;">'+ degreeName +'</td>' +
                 '<td style="background-color: #ffffff;">' +
+                '<a href="javascript:void(0);" onclick="degreeView.userViewPop(\'' + degreeName +'\', \''  + arr + '\');">'+
+                '<span>' +data[i].emp_count + '명</span>' +
+                '</td>' +
+                '<td style="background-color: #ffffff;">' +
                 '<div style="display: flex; align-items: center;">' +
                 '<div style="background-color: ' + color + '; float : left; height: 10px; width: '+percentageWidth+'px; display: inline-block; position: relative; top: 1.5px;">' +
                 '</div>' +
                 '<span style="display: inline-block; position: relative; top: 1.5px;">'+percentage+'%</span>' +
                 '</div>'+
-                '</td>' +
-                '<td style="background-color: #ffffff;">' +
-                '<a href="javascript:void(0);" onclick="degreeView.userViewPop(\'' + degreeName +'\', \''  + arr + '\');">'+
-                '<span>' +data[i].emp_count + '명</span>' +
                 '</td>' +
                 '</tr>';
         }
@@ -94,7 +94,7 @@ var degreeView = {
         }else{
             $(".detailSearch:checked").each(function(){
                 if($(this).attr("id") == "dsA"){
-                    requestArr += "|0&N"
+                    requestArr += "|0&N|4&1,2"
                 }else{
                     requestArr += "|" + $(this).attr("division") + '&' + ($(this).attr("divisionSub") == null ? "N" : $(this).attr("divisionSub"));
                 }

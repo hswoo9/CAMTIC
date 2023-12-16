@@ -269,9 +269,7 @@ var hwpInit = {
         hwpDocCtrl.putFieldText("PJT_DT", map.PJT_STR_DT + " ~ " + map.PJT_END_DT);
         hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
 
-        const mng = result.result.projectManagerInfo;
         const mem = result.result.projectMemberInfo;
-        const befMng = result.result2.projectManagerInfo;
         const befMem = result.result2.projectMemberInfo;
         let html = '';
         html += '<table style="font-family:굴림;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
@@ -292,19 +290,6 @@ var hwpInit = {
         html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 100px;"><p style="font-size:11px;">인건비합계(원)</p></td>';
         html += '               </tr>';
         /** 변경 전 담당자 */
-        if(befMng != null){
-            const map = befMng;
-            html += '               <tr>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.MNG_EMP_NAME +'</p></td>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.MNG_EMP_NAME +'</p></td>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_numberWithCommas(Number(map.CHNG_SAL) * 12) +'</p></td>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.PJT_STR_DT +'</p></td>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.PJT_END_DT +'</p></td>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_monDiff(mng.PJT_STR_DT, mng.PJT_END_DT) +'</p></td>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.TOT_RATE +'%</p></td>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_numberWithCommas(map.TOT_RES_COST) +'</p></td>';
-            html += '               </tr>';
-        }
         for(let i=0; i<befMem.length; i++){
             const map = befMem[i];
             html += '               <tr>';
@@ -313,7 +298,7 @@ var hwpInit = {
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_numberWithCommas(Number(map.CHNG_SAL) * 12) +'</p></td>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.PJT_STR_DT +'</p></td>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.PJT_END_DT +'</p></td>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_monDiff(mng.PJT_STR_DT, mng.PJT_END_DT) +'</p></td>';
+            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_monDiff(map.PJT_STR_DT, map.PJT_END_DT) +'</p></td>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.TOT_RATE +'%</p></td>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_numberWithCommas(map.TOT_PAY_BUDG) +'</p></td>';
             html += '               </tr>';
@@ -332,19 +317,6 @@ var hwpInit = {
         html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center; width: 100px;"><p style="font-size:11px;">인건비합계(원)</p></td>';
         html += '               </tr>';
         /** 변경 후 담당자 */
-        if(mng != null){
-            const map = mng;
-            html += '               <tr>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.MNG_EMP_NAME +'</p></td>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.MNG_EMP_NAME +'</p></td>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_numberWithCommas(Number(map.CHNG_SAL) * 12) +'</p></td>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.PJT_STR_DT +'</p></td>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.PJT_END_DT +'</p></td>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_monDiff(mng.PJT_STR_DT, mng.PJT_END_DT) +'</p></td>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.TOT_RATE +'%</p></td>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_numberWithCommas(map.TOT_RES_COST) +'</p></td>';
-            html += '               </tr>';
-        }
         for(let i=0; i<mem.length; i++){
             const map = mem[i];
             html += '               <tr>';
@@ -353,7 +325,7 @@ var hwpInit = {
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_numberWithCommas(Number(map.CHNG_SAL) * 12) +'</p></td>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.PJT_STR_DT +'</p></td>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.PJT_END_DT +'</p></td>';
-            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_monDiff(mng.PJT_STR_DT, mng.PJT_END_DT) +'</p></td>';
+            html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_monDiff(map.PJT_STR_DT, map.PJT_END_DT) +'</p></td>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ map.TOT_RATE +'%</p></td>';
             html += '                   <td style="height:20px;background-color:#FFFFFF; text-align:center;"><p style="font-size:11px;">'+ fn_numberWithCommas(map.TOT_PAY_BUDG) +'</p></td>';
             html += '               </tr>';

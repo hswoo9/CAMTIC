@@ -519,7 +519,7 @@ var subHolidayReqPop = {
                 '                <th>휴일 근로 일자</th>\n' +
                 '                <td colspan="3">\n' +
                 '                  <input id="edtHolidayWorkDay_3" style="width:20%; margin-right:5px;">\n' +
-                '                  <input type="hidden" id="hisPk" name="hisPk" value="${data.SUBHOLIDAY_USE_ID}">\n' +
+                '                  <input type="hidden" id="hisPk" name="hisPk" value="">\n' +
                 '                   <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayReqPop.searchHolidayPop();" type="button" id="searchBtn"><i class="fa fa-search"></i></button>\n' +
                 '                </td>\n' +
                 '              </tr>\n' +
@@ -827,6 +827,7 @@ var subHolidayReqPop = {
     sendMeData : function(request) {
         console.log(request);
         $("#edtHolidayWorkDay_3").val(request.SUBHOLIDAY_WORK_DAY);
+        $("#holiday_reason").val("휴일 근로 일자 [" + request.SUBHOLIDAY_WORK_DAY + "]\n")
     },
 
     dataClear : function () {

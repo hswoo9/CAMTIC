@@ -49,6 +49,7 @@ var yearHistoryView = {
 
         html += '<tr style="background-color: #d8dce3;">';
         html += '<td>년도</td>';
+        html += '<td>합계</td>';
         var uniqueApnts = new Set();
 
 // 중복 제거 및 Set에 position_name 추가
@@ -70,12 +71,16 @@ var yearHistoryView = {
         html += '</tr>';
         // 각 position_name에 대한 명수 행 추가
         var uniqueYears = [...new Set(apntList.map(item => item.his_year))];
-
+        var sumArr = {};
         for (var i = 0; i < uniqueYears.length; i++) {
             var currentYear = uniqueYears[i];
             html += '<tr style="background-color: white;">'; // 각 년도마다 새로운 행으로 시작
 
             html += '<td style="width: 200px;">' + currentYear + '년</td>'; // 년도 표시
+            html += '<td style="width: 200px;"><span id="sum' + currentYear + '"></span></td>'; // 합계 표시
+
+            sumArr[currentYear] = 0;
+            var yearSum = 0;
 
             for (var j = 0; j < uniqueApntsArray.length; j++) {
                 var apntName = uniqueApntsArray[j];
@@ -83,7 +88,9 @@ var yearHistoryView = {
                 var empCount = apntCounts.length > 0 ? apntCounts[0].emp_count : 0;
                 html += '<td><a href="javascript:void(0);" onclick="yearHistoryView. userViewPop(\'' + currentYear +'\', \'' + apntName + '\', \'' + arr + '\');">' +
                     '<span>' + empCount + '명</span></a></td>';
+                yearSum += empCount;
             }
+            sumArr[currentYear] = yearSum;
 
             html += '</tr>'; // 행 마감
         }
@@ -91,6 +98,10 @@ var yearHistoryView = {
 
         html += '</tbody></table>';
         $("#mainTable").append(html);
+
+        for (var i = 0; i < uniqueYears.length; i++) {
+            $("#sum" + uniqueYears[i]).text(sumArr[uniqueYears[i]] + "명");
+        }
     },
 
     transformedArr : function (e){

@@ -63,6 +63,7 @@ var yearDutyView = {
 
         html += '<tr style="background-color: #d8dce3;">';
         html += '<td>년도</td>';
+        html += '<td>합계</td>';
         var uniquePositions = new Set();
 
 // 중복 제거 및 Set에 position_name 추가
@@ -84,12 +85,16 @@ var yearDutyView = {
         html += '</tr>';
         // 각 position_name에 대한 명수 행 추가
         var uniqueYears = [...new Set(positionList.map(item => item.join_year))];
-
+        var sumArr = {};
         for (var i = 0; i < uniqueYears.length; i++) {
             var currentYear = uniqueYears[i];
             html += '<tr style="background-color: white;">'; // 각 년도마다 새로운 행으로 시작
 
             html += '<td style="width: 200px;">' + currentYear + '년</td>'; // 년도 표시
+            html += '<td style="width: 200px;"><span id="sum' + currentYear + '"></span></td>'; // 합계 표시
+
+            sumArr[currentYear] = 0;
+            var yearSum = 0;
 
             for (var j = 0; j < uniquePositionsArray.length; j++) {
                 var positionName = uniquePositionsArray[j];
@@ -97,14 +102,20 @@ var yearDutyView = {
                 var empCount = positionCounts.length > 0 ? positionCounts[0].emp_count : 0;
                 html += '<td><a href="javascript:void(0);" onclick="yearDutyView. userViewPop(\'' + currentYear +'\', \'' + positionName + '\', \'' + arr + '\');">' +
                     '<span>' + empCount + '명</span></a></td>';
+                yearSum += empCount;
             }
+            sumArr[currentYear] = yearSum;
 
             html += '</tr>'; // 행 마감
         }
-        
 
         html += '</tbody></table>';
         $("#mainTable").append(html);
+
+        for (var i = 0; i < uniqueYears.length; i++) {
+            $("#sum" + uniqueYears[i]).text(sumArr[uniqueYears[i]] + "명");
+        }
+
     },
 
     transformedArr : function (e){
@@ -138,11 +149,11 @@ var yearDutyView = {
     gridReload: function (){
         var requestArr = "";
         if($(".detailSearch:checked").length == 0){
-            requestArr += "|9999&N"
+            requestArr += "|999&N"
         }else{
             $(".detailSearch:checked").each(function(){
                 if($(this).attr("id") == "dsA"){
-                    requestArr += "|0&N"
+                    requestArr += "|0&N|4&1,2"
                 }else{
                     requestArr += "|" + $(this).attr("division") + '&' + ($(this).attr("divisionSub") == null ? "N" : $(this).attr("divisionSub"));
                 }
