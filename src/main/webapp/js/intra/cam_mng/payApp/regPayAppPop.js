@@ -218,6 +218,8 @@ var regPay = {
     payAppDrafting: function(){
         regPay.fn_save("", "drafting");
 
+
+        var budgetFlag = false;
         if($("#pjtCd").val().substring(0,1) == "R" || $("#pjtCd").val().substring(0,1) == "S"){
 
         } else {
@@ -228,6 +230,7 @@ var regPay = {
 
             const setCollection = new Set(tmpBudgetSnAr);
             budgetFlag = setCollection.size !== 1;
+            alert(setCollection.size)
         }
 
         if(budgetFlag){

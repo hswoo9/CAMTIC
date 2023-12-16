@@ -54,7 +54,7 @@
 			</tr>
 			<tr>
 				<th scope="row" class="text-center th-color">
-					<span class="red-star">*</span>그룹 인원
+					<span class="red-star"></span>그룹 인원
 				</th>
 				<td>
 					<input type="text" id="groupUser" style="width: 50%;" value="" disabled>
@@ -66,8 +66,10 @@
 					<span class="red-star">*</span>사용 유무
 				</th>
 				<td>
-					<input type="radio" id="useY" name="useYn" value="Y" checked><label for="useY" class="radioInput">사용</label>
-					<input type="radio" id="useN" name="useYn" value="N"><label for="useN" class="radioInput">미사용</label>
+					<input type="radio" style="position:relative; top: 5px;" id="useY" name="useYn" value="Y" checked>
+                    <label for="useY" style="position:relative; top: 3px; margin-left:2px;" class="radioInput">사용</label>
+					<input type="radio" style="position:relative; top: 5px; margin-left:6px;" id="useN" name="useYn" value="N">
+                    <label for="useN" style="position:relative; top: 3px; margin-left:2px;" class="radioInput">미사용</label>
 				</td>
 			</tr>
 			</thead>
@@ -107,10 +109,10 @@
             return;
         }
 
-        if($("#groupUser").val() == ""){
-            alert("그룹 인원을 선택해주세요.");
-            return;
-        }
+        // if($("#groupUser").val() == ""){
+        //     alert("그룹 인원을 선택해주세요.");
+        //     return;
+        // }
 
         console.log(groupArr);
 
