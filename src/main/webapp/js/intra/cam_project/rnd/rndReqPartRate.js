@@ -279,9 +279,11 @@ var rndRPR = {
 
                 var buttonHtml = "";
                 console.log(ls[i].status);
+                var buttonSubHtml = "";
                 if(ls[i].PART_RATE_VER > 1 && (ls[i].MNG_STAT == "S" || ls[i].MNG_STAT == "C")){
                     var status = ls[i].STATUS;
                     if(status == "0"){
+                        buttonSubHtml += '<button type="button" class="k-button k-button-solid-base" onclick="rndRPR.referencesSelectPop('+ls[i].PART_RATE_VER_SN+')">불러오기</button>';
                         buttonHtml += "<button type=\"button\" id=\"rateAppBtn\" class=\"k-button k-button-solid-info\" onclick=\"rndPR.rateDrafting("+ls[i].PART_RATE_VER_SN+")\">참여율 변경 공문 작성</button>";
                     } else if(status == "10"){
                         buttonHtml += "<button type=\"button\" id=\"rateCanBtn\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+ls[i].DOC_ID+"', '"+ls[i].APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
@@ -305,6 +307,7 @@ var rndRPR = {
                 html += '   <td>'+mngComm+'</td>';
                 html += '   <td>'+mngStat+'</td>';
                 html += '   <td style="text-align: center">'+buttonHtml+'</td>';
+                html += '   <td style="text-align: center">'+buttonSubHtml+'</td>';
                 html += '</tr>';
             }
 
@@ -344,5 +347,13 @@ var rndRPR = {
 
     fn_changePartRate: function (){
         rndRPR.fn_save("change");
-    }
+    },
+
+    referencesSelectPop : function(key){
+        var url = "/project/pop/referencesSelectPop.do?partRateVerSn=" + key;
+        var name = "approvalReferencesSelect";
+        var styled ="width=1350, height=590, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+
+        window.open(url, name, styled);
+    },
 }

@@ -642,4 +642,12 @@ public class ProjectRepository extends AbstractDAO {
     public Map<String, Object> getProjectMemberTemp(Map<String, Object> map) {
         return (Map<String, Object>) selectOne("project.getProjectMemberTemp", map);
     }
+
+    public List<Map<String, Object>> getFinalPartRateChangeDocList(Map<String, Object> params) {
+        return selectList("project.getFinalPartRateChangeDocList", params);
+    }
+
+    public void setReferencesAdd(Map<String, Object> params) {
+        update("project.setReferencesAdd", params);
+    }
 }

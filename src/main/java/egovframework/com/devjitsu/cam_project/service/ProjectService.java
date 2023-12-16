@@ -196,4 +196,8 @@ public interface ProjectService {
     Map<String, Object> getDevMap(Map<String, Object> params);
 
     void delJoinMember(Map<String, Object> params);
+
+    List<Map<String, Object>> getFinalPartRateChangeDocList(Map<String, Object> params);
+
+    void setReferencesAdd(Map<String, Object> params);
 }

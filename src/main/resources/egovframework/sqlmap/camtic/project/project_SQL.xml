@@ -2932,4 +2932,72 @@
         WHERE
             PART_RATE_DET = #{partRateDet}
     </delete>
+
+    <select id="getFinalPartRateChangeDocList" parameterType="map" resultType="map">
+        /*getFinalPartRateChangeDocList*/
+        SELECT
+            DI.DOC_ID,
+            DI.FORM_ID,
+            DI.APPRO_KEY,
+            DI.AIKEYCODE,
+            DI.DOC_BOX_SN,
+            DI.DOC_GBN_SN,
+            IFNULL(DI.DOC_NO, '') AS DOC_NO,
+            DI.DOC_TITLE,
+            DI.DRAFT_EMP_NAME,
+            DI.DRAFT_DEPT_NAME,
+            DI.DRAFT_DUTY_NAME,
+            DI.APPROVE_STAT_CODE_DESC,
+            DI.APPROVE_STAT_CODE,
+            DATE_FORMAT(DI.DRAFT_DT,'%Y-%m-%d') AS DRAFT_DT,
+            DATE_FORMAT(DI.LAST_APPROVE_DT,'%Y-%m-%d') AS LAST_APPROVE_DT,
+            DO.SECURITY_TYPE,
+            DO.REG_EMP_SEQ
+        FROM
+            DJ_CAMTIC.A_DOC_INFO DI
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_OPT DO
+        ON DI.DOC_ID = DO.DOC_ID
+        WHERE 1=1
+        AND
+            (
+                DI.APPROVE_STAT_CODE = 100 OR
+                DI.APPROVE_STAT_CODE = 101
+            )
+            <if test="empSeq != null and empSeq != ''">
+                AND
+                    DI.DRAFT_EMP_SEQ = #{empSeq}
+            </if>
+            <if test="deptSeq != null and deptSeq != ''">
+                AND
+                    DI.DRAFT_DEPT_SEQ = #{deptSeq}
+            </if>
+            <if test='startDay != null and !"".equals(startDay)'>
+                <![CDATA[
+                    AND
+                        DATE_FORMAT(#{startDay}, '%Y%m%d') <= DATE_FORMAT(DI.DRAFT_DT, '%Y%m%d')
+                    AND
+                        DATE_FORMAT(#{endDay}, '%Y%m%d') >= DATE_FORMAT(DI.LAST_APPROVE_DT, '%Y%m%d')
+                ]]>
+            </if>
+            <if test="docTitle != null and docTitle != ''">
+                AND
+                    DI.DOC_TITLE LIKE CONCAT('%', #{docTitle}, '%')
+            </if>
+        AND
+            DI.FORM_ID = '157'
+        ORDER BY DI.DOC_ID DESC
+    </select>
+
+    <update id="setReferencesAdd" parameterType="map">
+        /*setReferencesAdd*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
+        SET
+            DOC_ID = #{docId},
+            STATUS = #{status},
+            APPROVAL_EMP_SEQ = #{approvalEmpSeq},
+            APPROVAL_DATE = #{approvalDate}
+        WHERE
+            PART_RATE_VER_SN = #{partRateVerSn}
+    </update>
 </mapper>

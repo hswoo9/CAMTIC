@@ -1342,6 +1342,35 @@ public class ProjectController {
         return "popup/cam_project/partRate";
     }
 
+    @RequestMapping("/project/pop/referencesSelectPop.do")
+    public String referencesSelectPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_project/referencesSelectPop";
+    }
+
+    @RequestMapping("/project/setReferencesAdd")
+    public String setReferencesAdd(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectService.setReferencesAdd(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/getFinalPartRateChangeDocList.do")
+    public String getFinalPartRateChangeDocList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", projectService.getFinalPartRateChangeDocList(params));
+        return "jsonView";
+    }
+
     @RequestMapping("/project/confirmPartRate")
     public String confirmPartRate(@RequestParam Map<String, Object> params, Model model) {
 
