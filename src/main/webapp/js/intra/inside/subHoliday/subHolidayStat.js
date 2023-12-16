@@ -191,11 +191,11 @@ var subHolidayStat = {
                 }, {
                     title: "연가",
                     columns: [
-                        {
+                        /*{
                             field: "bef2UseDay",
                             title: "전전년<br>사용",
                             width: 50
-                        }, {
+                        }, */{
                             field: "befUseDay",
                             title: "전년<br>사용",
                             width: 50
