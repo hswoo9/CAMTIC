@@ -22,6 +22,13 @@ public interface ApprovalService {
     Map<String, Object> getLinkageProcessDocInterlock(Map<String, Object> params);
 
     /**
+     * 참조기안 문서 리스트
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> getFinalApprovalDocList(Map<String, Object> params);
+
+    /**
      * 상신전 부여할 문서번호 조회
      * @param params
      * @return
