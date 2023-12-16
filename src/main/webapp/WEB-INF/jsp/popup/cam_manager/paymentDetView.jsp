@@ -66,7 +66,7 @@
 
     <div class="" style="padding: 10px">
         <span>
-            <input type="text" id="searchValue" style="width: 20%;">
+            <input type="text" id="searchValue" style="width: 20%;" onkeypress="if(window.event.keyCode==13){payDetView.fn_search('${params.type}')}" >
             <button type="button" style="font-size: 12px" class="k-button k-button-sm k-button-solid-base" id="bnkSelBtn" onclick="payDetView.fn_search('${params.type}')">검색</button>
             <span style="color : red; font-size: 12px">
                 <c:choose>

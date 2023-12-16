@@ -218,10 +218,28 @@ var regPay = {
     payAppDrafting: function(){
         regPay.fn_save("", "drafting");
 
+        if($("#pjtCd").val().substring(0,1) == "R" || $("#pjtCd").val().substring(0,1) == "S"){
+
+        } else {
+            var tmpBudgetSnAr = [];
+            $(".budgetSn").each(function(){
+                tmpBudgetSnAr.push($(this).val());
+            });
+
+            const setCollection = new Set(tmpBudgetSnAr);
+            budgetFlag = setCollection.size !== 1;
+        }
+
+        if(budgetFlag){
+            alert("예산비목이 다릅니다. 예산비목을 확인해주세요.");
+            return;
+        }
+
         var data = {
             payAppSn : $("#payAppSn").val(),
             pjtCd : $("#pjtCd").val()
         }
+
         $.ajax({
             url : "/payApp/getCheckBudget",
             data : data,
@@ -347,7 +365,7 @@ var regPay = {
                 '   <td>' +
                 '       <input type="hidden" id="payDestSn' + regPayDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" name="payDestSn" class="payDestSn">' +
                 '       <input type="text" id="eviType' + regPayDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
-                '       <input type="hidden" id="fileNo' + regPayDet.global.itemIndex + '" value="'+item.FILE_NO+'" class="fileNo" style="width: 100%">' +
+                '       <input type="hidden" id="fileNo' + regPayDet.global.itemIndex + '" value="'+(item.FILE_NO || null)+'" class="fileNo" style="width: 100%">' +
                 '       <input type="hidden" id="authNo' + regPayDet.global.itemIndex + '" value="'+item.AUTH_NO+'" class="authNo" style="width: 100%">' +
                 '       <input type="hidden" id="authHh' + regPayDet.global.itemIndex + '" value="'+item.AUTH_HH+'" class="authHh" style="width: 100%">' +
                 '       <input type="hidden" id="authDd' + regPayDet.global.itemIndex + '" value="'+item.AUTH_DD+'" class="authDd" style="width: 100%">' +
@@ -613,8 +631,31 @@ var regPay = {
         }
 
 
+
+
         var itemArr = new Array()
         var flag = true;
+
+        var budgetFlag = false;
+        if(type != "drafting"){
+            if($("#pjtCd").val().substring(0,1) == "R" || $("#pjtCd").val().substring(0,1) == "S"){
+
+            } else {
+                var tmpBudgetSnAr = [];
+                $(".budgetSn").each(function(){
+                    tmpBudgetSnAr.push($(this).val());
+                });
+
+                const setCollection = new Set(tmpBudgetSnAr);
+                budgetFlag = setCollection.size !== 1;
+            }
+
+            if(budgetFlag){
+                alert("예산비목이 다릅니다. 예산비목을 확인해주세요.");
+                return;
+            }
+        }
+
         var befAdvances = "";
         $.each($(".payDestInfo"), function(i, v){
             var index = $(this).find(".budgetSn").attr("id").slice(-1);
@@ -664,6 +705,8 @@ var regPay = {
 
             itemArr.push(data);
         });
+
+
 
 
         if(!flag){

@@ -1077,10 +1077,15 @@ public class ProjectServiceImpl implements ProjectService {
 
         if(!"".equals(map.get("JOIN_MEM_SN"))){
             String[] strArr = map.get("JOIN_MEM_SN").toString().split(",");
-            String[] dtStrArr = map.get("JOIN_MEM_SN").toString().split(",");
+            String[] dtStrArr = strArr;
+
             dtStrArr = Arrays.stream(strArr).distinct().toArray(String[]::new);
             for(String str : dtStrArr){
 //                if(!str.equals(manageInfo.get("MNG_EMP_SEQ").toString())){
+                if("undefined".equals(str)){
+                    continue;
+                }
+
                 map.put("MEMBER_SEQ", str);
 
                 int cnt = 0;
@@ -1089,8 +1094,8 @@ public class ProjectServiceImpl implements ProjectService {
                         cnt++;
                     }
                 }
-
-                List<Map<String, Object>> memberData = projectRepository.getProjectMemberInfo(map);
+                List<Map<String, Object>> memberData = new ArrayList<>();
+                memberData = projectRepository.getProjectMemberInfo(map);
                 int tmpCnt = cnt - memberData.size();
 
                 for(int i = 0 ; i < tmpCnt ; i++){

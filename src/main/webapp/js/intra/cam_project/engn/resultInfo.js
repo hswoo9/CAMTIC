@@ -126,6 +126,7 @@ var resultInfo = {
             enctype: 'multipart/form-data',
             async: false,
             success: function(rs){
+                alert("저장되었습니다.");
                 if(rs.code == 200){
                     commonProject.getReloadPage(7, 8, 8, 7, 8, 8);
                 }

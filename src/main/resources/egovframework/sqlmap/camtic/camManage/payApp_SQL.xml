@@ -209,7 +209,9 @@
                 TEAM_NAME,
                 EVID_TYPE,
                 REASON,
-                FILE_NO,
+                <if test='fileNo != null and !"".equals(fileNo)'>
+                    FILE_NO,
+                </if>
                 ISS_NO,
                 CO_CD,
                 TAX_TY,
@@ -243,7 +245,9 @@
                 #{teamName},
                 #{evidType},
                 #{reason},
-                #{fileNo},
+                <if test='fileNo != null and !"".equals(fileNo)'>
+                    FILE_NO,
+                </if>
                 #{issNo},
                 #{coCd},
                 #{taxTy},

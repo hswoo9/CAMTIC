@@ -64,8 +64,7 @@
             CAM_MNG.DJ_CARD_TO_HIST C
         ON
             A.AUTH_NO = C.AUTH_NO AND A.AUTH_DD = C.AUTH_DD AND A.AUTH_HH = C.AUTH_HH AND A.BUY_STS = C.BUY_STS AND A.CARD_NO = REPLACE(C.CARD_NO, "-", "")
-        AND
-            C.CARD_TO_SN = #{cardToSn}
+
         WHERE 1=1
         <if test='startDt != null and !"".equals(startDt)'>
             <![CDATA[
@@ -149,6 +148,11 @@
             CARD_TO_SN = #{cardToSn}
     </update>
 
+    <delete id="delCardHist" parameterType="map">
+        /*delCardHist*/
+        DELETE FROM CAM_MNG.DJ_CARD_TO_HIST WHERE CARD_TO_HIST_SN = #{cardHistSn}
+    </delete>
+
     <select id="getCardToInfo" parameterType="map" resultType="map">
         /*getCardToInfo*/
         SELECT
@@ -157,6 +161,20 @@
             CAM_MNG.DJ_CARD_TO
         WHERE
             CARD_TO_SN = #{cardToSn}
+    </select>
+
+    <select id="getCardUseCheck" parameterType="map" resultType="int">
+        /*getCardUseCheck*/
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_MNG.DJ_CARD_TO
+        WHERE
+            CARD_BA_NB = #{cardBaNb}
+        AND
+            RT_YN = 'N'
+        AND
+            DEL_YN = 'N'
     </select>
 
     <update id="updRegCardTo" parameterType="map">
@@ -203,7 +221,8 @@
     <select id="getCardTOHistList" parameterType="map" resultType="map">
         /*getCardTOHistList*/
         SELECT
-            *
+            A.*, C.*,
+            (SELECT RT_YN FROM CAM_MNG.DJ_CARD_TO WHERE CARD_TO_SN = A.CARD_TO_SN) as RT_YN
         FROM
             CAM_MNG.DJ_CARD_TO_HIST A
         LEFT JOIN

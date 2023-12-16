@@ -40,10 +40,18 @@ public class CompanyCardServiceImpl implements CompanyCardService {
     public void delCardTo(Map<String, Object> params) {
         companyCardRepository.delCardTo(params);
     }
+    @Override
+    public void delCardHist(Map<String, Object> params) {
+        companyCardRepository.delCardHist(params);
+    }
 
     @Override
     public Map<String, Object> getCardToInfo(Map<String, Object> params) {
         return companyCardRepository.getCardToInfo(params);
+    }
+    @Override
+    public int getCardUseCheck(Map<String, Object> params) {
+        return companyCardRepository.getCardUseCheck(params);
     }
 
     @Override

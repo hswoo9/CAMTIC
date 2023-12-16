@@ -42,7 +42,6 @@ var engnInit = {
         hwpDocCtrl.putFieldText('DELV_CNT', String(delvMap.DELV_CNT == undefined ? "" : delvMap.DELV_CNT));
         hwpDocCtrl.putFieldText('DELV_UNIT', delvMap.DELV_UNIT);
         hwpDocCtrl.putFieldText('DELV_AMT', fn_numberWithCommas(delvMap.DELV_AMT));
-        hwpDocCtrl.putFieldText('DELV_DE', delvMap.DELV_DE);
 
         if(map.TM_YN == "Y"){
             const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: pjtSn});
@@ -88,7 +87,6 @@ var engnInit = {
         hwpDocCtrl.putFieldText('DELV_CNT', String(delvMap.DELV_CNT == undefined ? "" : delvMap.DELV_CNT));
         hwpDocCtrl.putFieldText('DELV_UNIT', delvMap.DELV_UNIT);
         hwpDocCtrl.putFieldText('DELV_AMT', fn_numberWithCommas(delvMap.DELV_AMT));
-        hwpDocCtrl.putFieldText('DELV_DE', delvMap.DELV_DE);
 
         console.log(map)
         if(map.TM_YN == "Y"){
@@ -217,7 +215,6 @@ var engnInit = {
         hwpDocCtrl.putFieldText('DELV_CNT', String(delvMap.DELV_CNT == undefined ? "" : delvMap.DELV_CNT));
         hwpDocCtrl.putFieldText('DELV_UNIT', delvMap.DELV_UNIT);
         hwpDocCtrl.putFieldText('DELV_AMT', fn_numberWithCommas(delvMap.DELV_AMT));
-        hwpDocCtrl.putFieldText('DELV_DE', delvMap.DELV_DE);
 
         /** 3. 협업사항 */
         if(map.TM_YN == "Y"){
@@ -384,7 +381,7 @@ var engnInit = {
         for(let i=0; i<list.length; i++){
             const info = list[i];
             html += '               <tr>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">자가수행</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">자가</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">구매</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.INV_NM +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.INV_CNT +'</p></td>';
@@ -456,21 +453,21 @@ var engnInit = {
             }
             console.log(map);
             html += '               <tr>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">자가수행</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">자가</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ purcItemText +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.ITEM_NM +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.ITEM_EA +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.ITEM_STD +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.ITEM_UNIT +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(map.ITEM_UNIT_AMT) +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(map.ITEM_AMT) +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.CRM_NM +'</p></td>';
             html += '               </tr>';
-            sum += map.ITEM_UNIT_AMT;
+            sum += map.ITEM_AMT;
         }
         const tripResult = customKendo.fn_customAjax("/project/getBustResInfo", {pjtSn: map.PJT_SN});
         const trip = tripResult.map;
         if(trip.COUNT != 0){
             html += '               <tr>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">자가수행</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">자가</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">출장</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">-</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ trip.COUNT +'회</p></td>';
@@ -498,9 +495,9 @@ var engnInit = {
                 html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">협업</p></td>';
                 html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ purcItemText +'</p></td>';
                 html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.ITEM_NM +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.ITEM_EA +'</p></td>';
                 html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.ITEM_STD +'</p></td>';
-                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.ITEM_UNIT +'</p></td>';
-                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(info.ITEM_UNIT_AMT) +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(info.ITEM_AMT) +'</p></td>';
                 html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.CRM_NM +'</p></td>';
                 html += '               </tr>';
                 sum += info.ITEM_UNIT_AMT;
