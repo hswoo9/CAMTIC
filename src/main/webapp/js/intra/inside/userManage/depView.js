@@ -62,9 +62,10 @@ var depView = {
 
 
         var html = "";
-        html = '<table class="centerTable table table-bordered"><colgroup><col width="15%"><col><col width="10%"></colgroup><tbody>'+
+        html = '<table class="centerTable table table-bordered"><colgroup><col width="15%"><col width="5%"><col></colgroup><tbody>'+
             '<tr>'+
             '<td style="background-color: #efefef;">CAMTIC </td>'+
+            '<td style="background-color: #ffffff;">'+totalEmpCount +'명</td>'+
             '<td style="background-color: #ffffff;">'+
             '<div style="display: flex; align-items: center;">' +
             '<div style="background-color: #DC7C7C; float : left; height: 10px; width: 900px; display: inline-block; position: relative; top: 1.5px;">'+
@@ -72,14 +73,13 @@ var depView = {
             '<span style="display: inline-block; position: relative; top: 1.5px;">100%</span>' +
             '</div>'+
             '</td>'+
-            '<td style="background-color: #ffffff;">'+totalEmpCount +'명</td>'+
             '</tr>'+
             '<tr>'+
             '<td style="background-color: #efefef;" align="center" colspan="2">합계</td>'+
             '<td style="background-color: #efefef;">'+totalEmpCount +'명</td>'+
             '</tr>'+
             '</table>'+
-            '<table class="centerTable table table-bordered"><colgroup><col width="15%"><col><col width="10%"></colgroup><tbody>';
+            '<table class="centerTable table table-bordered"><colgroup><col width="15%"><col width="5%"><col></colgroup><tbody>';
         for(var i =0;i<data.length; i++) {
             var deptId = data[i].DeptID;
             var color = depView.getColorForIndex(i);
@@ -90,15 +90,15 @@ var depView = {
             html += '<tr>' +
                 '<td style="background-color: #efefef;">'+ data[i].DeptName +'</td>' +
                 '<td style="background-color: #ffffff;">' +
+                '<a href="javascript:void(0);" onclick="depView.userViewPop(\'' + deptId +'\', \''  + arr + '\');">'+
+                '<span>' +data[i].DeptEmployeesCount + '명</span>' +
+                '</td>' +
+                '<td style="background-color: #ffffff;">' +
                 '<div style="display: flex; align-items: center;">' +
                 '<div style="background-color: ' + color + '; float : left; height: 10px; width: '+percentageWidth+'px; display: inline-block; position: relative; top: 1.5px;">' +
                 '</div>' +
                 '<span style="display: inline-block; position: relative; top: 1.5px;">'+percentage+'%</span>' +
                 '</div>' +
-                '</td>' +
-                '<td style="background-color: #ffffff;">' +
-                '<a href="javascript:void(0);" onclick="depView.userViewPop(\'' + deptId +'\', \''  + arr + '\');">'+
-                '<span>' +data[i].DeptEmployeesCount + '명</span>' +
                 '</td>' +
                 '</tr>';
         }
@@ -123,7 +123,7 @@ var depView = {
             totalEmpCount += data[i].TeamEmployeesCount || 0;
         }
         var html = "";
-        html = '<table class="centerTable table table-bordered"><colgroup><col width="15%"><col><col width="10%"></colgroup><tbody>';
+        html = '<table class="centerTable table table-bordered"><colgroup><col width="15%"><col width="5%"><col></colgroup><tbody>';
         for(var i =0;i<data.length; i++) {
             var teamID = data[i].TeamID;
             var color = depView.getColorForIndex(i);
@@ -134,15 +134,15 @@ var depView = {
             html += '<tr>' +
                 '<td style="background-color: #efefef;">'+ data[i].TeamName +'</td>' +
                 '<td style="background-color: #ffffff;">' +
+                '<a href="javascript:void(0);" onclick="depView.userViewPop2(\'' + teamID +'\', \''  + arr + '\');">'+
+                '<span>' +data[i].TeamEmployeesCount + '명</span>' +
+                '</td>' +
+                '<td style="background-color: #ffffff;">' +
                 '<div style="display: flex; align-items: center;">' +
                 '<div style="background-color: ' + color + '; float : left; height: 10px; width: '+percentageWidth+'px; display: inline-block; position: relative; top: 1.5px;">' +
                 '</div>' +
                 '<span style="display: inline-block; position: relative; top: 1.5px;">'+percentage+'%</span>' +
                 '</div>'+
-                '</td>' +
-                '<td style="background-color: #ffffff;">' +
-                '<a href="javascript:void(0);" onclick="depView.userViewPop2(\'' + teamID +'\', \''  + arr + '\');">'+
-                '<span>' +data[i].TeamEmployeesCount + '명</span>' +
                 '</td>' +
                 '</tr>';
         }
@@ -171,7 +171,7 @@ var depView = {
         }else{
             $(".detailSearch:checked").each(function(){
                 if($(this).attr("id") == "dsA"){
-                    requestArr += "|0&N"
+                    requestArr += "|0&N|4&1,2"
                 }else{
                     requestArr += "|" + $(this).attr("division") + '&' + ($(this).attr("divisionSub") == null ? "N" : $(this).attr("divisionSub"));
                 }
