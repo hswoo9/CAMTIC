@@ -244,7 +244,18 @@ var cardUserGroupList = {
     },
 
     fn_userMultiSelectPop : function() {
-        window.open("/user/pop/userMultiSelectPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+        var popup = window.open("/user/pop/userMultiSelectPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+
+        popup.onload = function() {
+            var arr = [];
+            var grid = $("#mainUserGrid").data("kendoGrid");
+            var data = grid.dataSource.data();
+
+            for(var i = 0; i < data.length; i++){
+                arr.push(data[i].EMP_SEQ);
+                popup.userMultiSel.addTable(data[i].EMP_SEQ, "userClick");
+            }
+        }
     },
 
     userDataSet : function(arr){
