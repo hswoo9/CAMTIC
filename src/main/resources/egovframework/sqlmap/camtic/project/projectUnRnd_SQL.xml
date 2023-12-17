@@ -16,7 +16,7 @@
             SBJ_CHAR,
             SBJ_DEP,
             SBJ_DEP_SUB,
-            SBJ_SEP,
+            /*SBJ_SEP,*/
             PJT_CON_YEAR,
             STR_DT,
             END_DT,
@@ -42,7 +42,7 @@
             #{sbjChar},
             #{sbjDep},
             #{sbjDepSub},
-            #{sbjSep},
+            /*#{sbjSep},*/
             #{pjtConYear},
             #{strDt},
             #{endDt},
@@ -72,7 +72,7 @@
             SBJ_CHAR = #{sbjChar},
             SBJ_DEP = #{sbjDep},
             SBJ_DEP_SUB = #{sbjDepSub},
-            SBJ_SEP = #{sbjSep},
+            /*SBJ_SEP = #{sbjSep},*/
             PJT_CON_YEAR = #{pjtConYear},
             STR_DT = #{strDt},
             END_DT = #{endDt},

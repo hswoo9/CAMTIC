@@ -14,6 +14,15 @@ var unRndDetail = {
         $("#unRndObj, #unRndCont").kendoTextArea({
             rows : 7
         });
+
+        /** 사업비 분리사용 유무 change 이벤트 */
+        $("input[name='sbjSepYn']").change(function(){
+            if($("input[name='sbjSepYn']:checked").val() == "Y"){
+                $("#checkboxDiv").show();
+            }else{
+                $("#checkboxDiv").hide();
+            }
+        });
     },
 
     fn_setData : function(){
@@ -68,6 +77,32 @@ var unRndDetail = {
         var fd = new FormData();
         for(var key in parameters){
             fd.append(key, parameters[key]);
+        }
+
+        $("input[name='sbjSepYn']").each(function(){
+            if($(this).is(":checked")){
+                parameters.sbjSep = this.value;
+            }
+        });
+
+        if($("input[name='sbjSepYn']:checked").val() == "Y"){
+            const checkBox = 'input[name="accountType"]:checked';
+            const selectedElements = document.querySelectorAll(checkBox);
+
+            let arr = new Array();
+            selectedElements.forEach((el) => {
+                let row = {
+                    value: el.value,
+                }
+                arr.push(row);
+            });
+
+            if(arr.length == 0) {
+                alert("사업비 항목이 선택되지 않았습니다.");
+                return;
+            }
+
+            parameters.accountList = JSON.stringify(arr);
         }
 
         if($("#bsPlanFile")[0].files.length == 1){

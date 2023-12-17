@@ -53,15 +53,6 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
             projectUnRndRepository.insSubjectInfo(params);
         } else {
             projectUnRndRepository.updSubjectInfo(params);
-            projectRndRepository.delAccountInfo(params);
-        }
-
-        if(params.get("sbjSep").toString().equals("Y")){
-            Gson gson = new Gson();
-            List<Map<String, Object>> ACCOUNT_LIST = new ArrayList<>();
-            ACCOUNT_LIST = gson.fromJson((String) params.get("accountList"), new TypeToken<List<Map<String, Object>>>(){}.getType());
-            params.put("accountList", ACCOUNT_LIST);
-            projectRndRepository.insAccountInfo(params);
         }
     }
 

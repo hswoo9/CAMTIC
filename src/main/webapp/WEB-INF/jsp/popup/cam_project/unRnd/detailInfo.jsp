@@ -87,6 +87,31 @@
                 </td>
             </tr>
             <tr>
+                <th scope="row" class="text-center th-color">
+                    <span class="red-star">*</span>사업비 분리사용 유무
+                </th>
+                <td colspan="3">
+                        <span>
+                            <div style="float: left">
+                                <input type="radio" id="sbjSepN" name="sbjSepYn" value="N" style="position: relative; top: 3px;">
+                                <label for="sbjSepN">없음</label>
+                                <input type="radio" id="sbjSepY" name="sbjSepYn" value="Y" style="position: relative; top: 3px;">
+                                <label for="sbjSepY">있음</label>
+                            </div>
+                            <div style="float: left; padding-left: 10px;">
+                                <div id="checkboxDiv" style="display: none"> |&nbsp&nbsp
+                                    <label for="at1"><input type='checkbox' style="position: relative; top: 3px;" id='at1' name='accountType' class='accountType' value='1'/> 국비&nbsp&nbsp</label>
+                                    <label for="at2"><input type='checkbox' style="position: relative; top: 3px;" id='at2' name='accountType' class='accountType' value='2'/> 도비&nbsp&nbsp</label>
+                                    <label for="at3"><input type='checkbox' style="position: relative; top: 3px;" id='at3' name='accountType' class='accountType' value='3'/> 시비&nbsp&nbsp</label>
+                                    <label for="at4"><input type='checkbox' style="position: relative; top: 3px;" id='at4' name='accountType' class='accountType' value='4'/> 자부담&nbsp&nbsp</label>
+                                    <label for="at5"><input type='checkbox' style="position: relative; top: 3px;" id='at5' name='accountType' class='accountType' value='5'/> 업체부담&nbsp&nbsp</label>
+                                    <label for="at9"><input type='checkbox' style="position: relative; top: 3px;" id='at9' name='accountType' class='accountType' value='9'/> 기타</label>
+                                </div>
+                            </div>
+                        </span>
+                </td>
+            </tr>
+            <tr>
                 <td colspan="4">
                     <div id="customBudgetGrid"></div>
                 </td>
