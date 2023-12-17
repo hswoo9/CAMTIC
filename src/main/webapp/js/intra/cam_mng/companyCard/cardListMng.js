@@ -51,14 +51,23 @@ var cardList = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            toolbar: [{
+            toolbar: [
+                {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="cardList.privatePop()">' +
                             '	<span class="k-button-text">설정</span>' +
                             '</button>';
                     }
-            }],
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="cardList.privatePop()">' +
+                            '	<span class="k-button-text">해제</span>' +
+                            '</button>';
+                    }
+                }
+            ],
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'cardPk\');"/>',
@@ -81,17 +90,7 @@ var cardList = {
                         }
                     }
                 }, {
-                    title: "공개 사원",
-                    width: 250,
-                    template: function (e){
-                        if(e.IN_KEY != null){
-                            return "";
-                        } else {
-                            return "";
-                        }
-                    }
-                }, {
-                    title: "처리",
+                    title: "비공개 사원",
                     width: 250,
                     template: function (e){
                         if(e.IN_KEY != null){
@@ -109,10 +108,42 @@ var cardList = {
     },
 
     privatePop : function (){
-        var url = "/card/privateMngPop.do";
-        var name = "_blank";
-        var option = "width = 1300, height = 670, top = 200, left = 400, location = no";
+        var url = "/card/cardPrivateMngPop.do";
+        var name = "그룹 선택";
+        var option = "width = 1300, height = 600, top = 200, left = 400, location = no";
         var popup = window.open(url, name, option);
     },
+
+    fn_save : function (id){
+        var grid = $("#mainGrid").data("kendoGrid");
+        var arr = [];
+
+        $("input[name='cardPk']").each(function(){
+            if(this.checked){
+
+                var row = $(this).closest("tr");
+                var rowData = grid.dataItem(row);
+                arr.push(rowData);
+            }
+        });
+
+        var parameters = {
+            groupId : id,
+            groupArr : JSON.stringify(arr)
+        };
+
+        $.ajax({
+            url : "/card/saveCardUserGroupSel",
+            type : "POST",
+            data : parameters,
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("저장되었습니다.");
+                    cardList.mainGrid();
+                }
+            }
+        });
+    }
 
 }

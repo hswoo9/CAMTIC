@@ -239,7 +239,7 @@ public class CompanyCardController {
         return "jsonView";
     }
 
-    @RequestMapping("/card/privateMngPop.do")
+    @RequestMapping("/card/cardPrivateMngPop.do")
     public String privateMngPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
 
         HttpSession session = request.getSession();
@@ -290,6 +290,18 @@ public class CompanyCardController {
     public String saveCardUserGroupList(@RequestParam Map<String, Object> params, Model model){
         try{
             companyCardService.saveCardUserGroupList(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/card/saveCardUserGroupSel")
+    public String saveCardUserGroupSel(@RequestParam Map<String, Object> params, Model model){
+        try{
+            companyCardService.saveCardUserGroupSel(params);
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();

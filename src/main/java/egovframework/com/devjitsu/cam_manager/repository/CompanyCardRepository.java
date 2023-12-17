@@ -67,6 +67,9 @@ public class CompanyCardRepository extends AbstractDAO {
     public void saveCardUserGroupList(Map<String, Object> params) {
         insert("card.saveCardUserGroupList", params);
     }
+    public void saveCardUserGroupSel(Map<String, Object> params) {
+        insert("card.saveCardUserGroupSel", params);
+    }
     public List<Map<String, Object>> getCardUserGroup(Map<String, Object> params) {
         return selectList("card.getCardUserGroup", params);
     }
