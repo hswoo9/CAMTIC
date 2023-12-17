@@ -160,6 +160,21 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public Map<String, Object> getGoodsData(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+
+        List<Map<String, Object>> estList = projectRepository.getEstList(params);
+
+        if(estList.size() != 0){
+            result.put("estList", estList);
+            params.put("estSn", estList.get(estList.size() - 1).get("EST_SN"));
+            result.put("estSubList", projectRepository.getEstSubList(params));
+        }
+
+        return result;
+    }
+
+    @Override
     public void setEstSub(Map<String, Object> params) {
         projectRepository.insEngnEstSub(params);
     }
