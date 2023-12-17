@@ -435,6 +435,28 @@
             RND_SN = #{rndSn}
     </update>
 
+    <update id="updRndTotResCost" parameterType="map">
+        /*updRndTotResCost*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_RND
+        SET
+            TOT_RES_COST = (SELECT IFNULL(SUM(CB_BUDGET), 0) AS TOTAL_AMT FROM CAM_PJT_MNG.DJ_PJT_CB
+                             WHERE PJT_SN = #{pjtSn}
+                               AND ACCOUNT IN (SELECT IS_TYPE FROM CAM_PJT_MNG.DJ_PJT_ACCOUNT SSA WHERE PJT_SN = #{pjtSn}))
+        WHERE
+            RND_SN = #{rndSn}
+    </update>
+
+    <update id="updRndTotResCost2" parameterType="map">
+        /*updRndTotResCost2*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_RND
+        SET
+            TOT_RES_COST = (SELECT IFNULL(SUM(CB_BUDGET), 0) AS TOTAL_AMT FROM CAM_PJT_MNG.DJ_PJT_CB
+                            WHERE PJT_SN = #{pjtSn}
+                              AND ACCOUNT = '0'
+        WHERE
+            RND_SN = #{rndSn}
+    </update>
+
     <update id="setDelvApprove" parameterType="map">
         /*setDelvApprove*/
         UPDATE CAM_PJT_MNG.DJ_PJT_RND

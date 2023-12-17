@@ -54,21 +54,62 @@ var unRndDetail = {
             $("#unRndSn").val(rs.UN_RND_SN);
             $("#bsPlanFileName").text(rs.file_org_name + "." + rs.file_ext);
 
+            let AcResult = customKendo.fn_customAjax("/projectRnd/getAccountInfo", {
+                pjtSn: pjtMap.PJT_SN
+            });
             if(pjtMap.SBJ_SEP != undefined){
                 if(pjtMap.SBJ_SEP == "Y"){
                     $("#sbjSepY").prop("checked", true);
-                    var data = {
-                        pjtSn: pjtMap.PJT_SN
-                    }
-                    let result = customKendo.fn_customAjax("/projectRnd/getAccountInfo", data);
                     $("#checkboxDiv").show();
-                    for(let i=0; i<result.list.length; i++){
-                        $("#at" + result.list[i].IS_TYPE).prop('checked',true);
+                    for(let i=0; i<AcResult.list.length; i++){
+                        $("#at" + AcResult.list[i].IS_TYPE).prop('checked',true);
                     }
                 } else {
                     $("#sbjSepN").prop("checked", true);
                 }
             }
+
+            const list = AcResult.list;
+            let arr = [];
+            let firstValue = "";
+            for(let i=0; i<list.length; i++){
+                let label = "";
+                if(list[i].IS_TYPE == "1"){
+                    label = "국비";
+                }else if(list[i].IS_TYPE == "2"){
+                    label = "도비";
+                }else if(list[i].IS_TYPE == "3"){
+                    label = "시비";
+                }else if(list[i].IS_TYPE == "4"){
+                    label = "자부담";
+                }else if(list[i].IS_TYPE == "5"){
+                    label = "업체부담";
+                }else if(list[i].IS_TYPE == "9"){
+                    label = "기타";
+                }
+                let data = {
+                    label: label,
+                    value: list[i].IS_TYPE
+                };
+                arr.push(data);
+                if(i == 0){
+                    firstValue = list[i].IS_TYPE;
+                }
+            }
+
+            if(list.length == 0){
+                arr = [
+                    {
+                        label: "사업비",
+                        value: 0
+                    }
+                ];
+                firstValue = 0;
+            }
+            customKendo.fn_radioGroup("budgetType", arr, "horizontal");
+            $("#budgetType").data("kendoRadioGroup").value(firstValue);
+
+            $("#budgetExDiv").show();
         }
 
         unRndDetail.fn_buttonSet(rs);

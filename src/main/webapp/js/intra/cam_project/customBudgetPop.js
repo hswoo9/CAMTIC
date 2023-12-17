@@ -330,9 +330,9 @@ var customBudgetPop = {
         })
 
         if($("#path").val() == "rndDetail"){
-            opener.parent.rndDetail.cbGridAddRow(arr);
+            opener.parent.rndDetail.cbGridAddRow(arr, $("#ac").val());
         }else{
-            opener.parent.unRndDetail.cbGridAddRow(arr);
+            opener.parent.unRndDetail.cbGridAddRow(arr, $("#ac").val());
         }
 
         window.close();

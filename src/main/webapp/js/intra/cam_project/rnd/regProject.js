@@ -184,7 +184,7 @@ var regRnd = {
             $("#stopBtn").show();
         }
 
-        customKendo.fn_textBox(["empName", "deptName", "pjtNm", "rndCrmNm", "rndConCrmNm", "crmPartNm", "pjtExpAmt", "bsTitle", "allBusnCost", "pjtAmt"]);
+        customKendo.fn_textBox(["empName", "deptName", "pjtNm", "rndCrmNm", "rndConCrmNm", "crmPartNm", "pjtExpAmt", "bsTitle", "allBusnCost", "pjtAmt2"]);
 
         customKendo.fn_datePicker("sbjStrDe", "depth", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("sbjEndDe", "depth", "yyyy-MM-dd", new Date());
@@ -256,7 +256,8 @@ var regRnd = {
             const delvMap = rndInfo.map;
             if(delvMap != null){
                 if(delvMap.STATUS == "100"){
-                    $("#pjtExpAmt").val(comma(e.PJT_AMT));
+                    $("#pjtAmt2").val(comma(e.PJT_AMT));
+                    $("#allBusnCost").val(comma(Number(e.PJT_AMT) + Number(delvMap.PEO_RES_ITEM)));
                 }
             }
 

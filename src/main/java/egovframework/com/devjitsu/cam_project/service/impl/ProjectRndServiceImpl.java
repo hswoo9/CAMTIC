@@ -231,6 +231,15 @@ public class ProjectRndServiceImpl implements ProjectRndService {
                 projectRepository.insCustomBudget(cbMap);
             }
         }
+
+        Map<String, Object> pjtMap = projectRepository.getProjectData(params);
+        if(pjtMap.get("SBJ_SEP") != null){
+            if(pjtMap.get("SBJ_SEP").toString().equals("Y")){
+                projectRndRepository.updRndTotResCost(params);
+            }else{
+                projectRndRepository.updRndTotResCost2(params);
+            }
+        }
     }
 
     @Override

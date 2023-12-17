@@ -1131,6 +1131,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public Map<String, Object> getProjectBudgetTotal(Map<String, Object> params) {
+        return projectRepository.getProjectBudgetTotal(params);
+    }
+
+    @Override
     public Map<String, Object> getProjectTotalData(Map<String, Object> params) {
         return projectRepository.getProjectTotalData(params);
     }

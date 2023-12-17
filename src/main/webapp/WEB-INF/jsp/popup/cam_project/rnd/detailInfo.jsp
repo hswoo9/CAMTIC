@@ -176,9 +176,17 @@
                     <textarea type="text" id="rndObj" name="rndObj" style="width: 100%"></textarea>
                 </td>
             </tr>
-            <tr style="display: none">
+            <tr id="budgetExDiv" style="display: none">
                 <td colspan="4">
-                    <div id="customBudgetGrid"></div>
+                    <br>
+                    <span id="budgetType"></span>
+                    <div id="customBudgetGrid0"></div>
+                    <div id="customBudgetGrid1"></div>
+                    <div id="customBudgetGrid2"></div>
+                    <div id="customBudgetGrid3"></div>
+                    <div id="customBudgetGrid4"></div>
+                    <div id="customBudgetGrid5"></div>
+                    <div id="customBudgetGrid6"></div>
                 </td>
             </tr>
             </thead>

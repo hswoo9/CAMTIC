@@ -2643,6 +2643,7 @@
         INSERT INTO CAM_PJT_MNG.DJ_PJT_CB
         (
             PJT_SN,
+            ACCOUNT,
             CB_CODE_ID_1,
             CB_CODE_NAME_1,
             CB_CODE_ID_2,
@@ -2655,6 +2656,7 @@
         VALUES
         (
             #{pjtSn},
+            #{account},
             #{cbCodeId1},
             #{cbCodeName1},
             #{cbCodeId2},
@@ -2675,6 +2677,14 @@
         /* getProjectBudgetList */
         SELECT * FROM CAM_PJT_MNG.DJ_PJT_CB
         WHERE PJT_SN = #{pjtSn}
+        AND ACCOUNT = #{account}
+    </select>
+
+    <select id="getProjectBudgetTotal" parameterType="map" resultType="map">
+        /* getProjectBudgetTotal */
+        SELECT IFNULL(SUM(CB_BUDGET), 0) AS TOTAL_AMT FROM CAM_PJT_MNG.DJ_PJT_CB
+        WHERE PJT_SN = #{pjtSn}
+          AND CB_CODE_ID_1 IN (SELECT IS_TYPE FROM CAM_PJT_MNG.DJ_PJT_ACCOUNT WHERE PJT_SN = #{pjtSn})
     </select>
 
     <!-- 커스텀예산 끝 -->

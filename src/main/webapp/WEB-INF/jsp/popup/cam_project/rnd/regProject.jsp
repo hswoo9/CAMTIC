@@ -170,7 +170,7 @@
                     </td>
                     <th scope="row" class="text-center th-color">수주금액</th>
                     <td>
-                        <input type="text" id="pjtAmt" name="pjtAmt" style="width: 80%; text-align: right" disabled value="0"/>
+                        <input type="text" id="pjtAmt2" name="pjtAmt2" style="width: 80%; text-align: right" disabled value="0"/>
                     </td>
                 </tr>
                 <tr>
