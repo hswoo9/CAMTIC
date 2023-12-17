@@ -51,6 +51,14 @@ var cardList = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            toolbar: [{
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="cardList.privatePop()">' +
+                            '	<span class="k-button-text">설정</span>' +
+                            '</button>';
+                    }
+            }],
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'cardPk\');"/>',
@@ -98,5 +106,13 @@ var cardList = {
                 record = (this.dataSource.page() -1) * this.dataSource.pageSize();
             }
         }).data("kendoGrid");
-    }
+    },
+
+    privatePop : function (){
+        var url = "/card/privateMngPop.do";
+        var name = "_blank";
+        var option = "width = 1300, height = 670, top = 200, left = 400, location = no";
+        var popup = window.open(url, name, option);
+    },
+
 }
