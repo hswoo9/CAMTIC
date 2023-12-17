@@ -109,10 +109,18 @@
                     <input type="text" id="invAmt" style="width: 90%; text-align: right" value="" disabled> 원
                 </td>
                 <th scope="row" class="text-center th-color" id="realText">
-                    예상수익
+                    수주부서 잔액
                 </th>
                 <td>
                     <input type="text" id="realAmt" style="width: 90%; text-align: right" disabled> 원
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-center th-color">
+                    예상수익
+                </th>
+                <td>
+                    <input type="text" id="marginAmt" style="width: 90%; text-align: right" value="0" disabled> 원
                 </td>
             </tr>
             </thead>
