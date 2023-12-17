@@ -44,6 +44,13 @@ var employmentManage = {
 				}, {
 					name : 'button',
 					template : function (e){
+						return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="employmentManage.excelFormDown()">' +
+							'	<span class="k-button-text">등록양식 다운로드</span>' +
+							'</button>';
+					}
+				}, {
+					name : 'button',
+					template : function (e){
 						return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="employmentManage.fn_excelUploadPop()">' +
 							'	<span class="k-button-text">등록양식 업로드</span>' +
 							'</button>';
@@ -190,6 +197,12 @@ var employmentManage = {
 		var name = "_blank";
 		var option = "width = 500, height = 230, top = 100, left = 400, location = no"
 		var popup = window.open(url, name, option);
+	},
+
+	excelFormDown : function(){
+		kendo.saveAs({
+			dataURI: "/inside/employExcelFormDown.do"
+		});
 	},
 
 	dataSet : function() {
