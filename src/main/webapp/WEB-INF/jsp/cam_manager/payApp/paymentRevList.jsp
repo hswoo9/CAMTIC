@@ -22,8 +22,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">지급신청서 검토 </h4>
-            <div class="title-road">캠매니저 > 결의서관리 &gt; 지급신청서 검토</div>
+            <h4 class="panel-title">신청서 검토 </h4>
+            <div class="title-road">캠매니저 > 결의서관리 &gt; 신청서 검토</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -31,13 +31,17 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
-                        <col width="25%">
+                        <col width="15%">
                         <col width="10%">
-                        <col width="20%">
+                        <col width="15%">
                         <col width="10%">
                         <col width="25%">
                     </colgroup>
                     <tr>
+                        <th class="text-center th-color">문서유형</th>
+                        <td>
+                            <input type="text" id="payAppType" style="width: 150px;">
+                        </td>
                         <th class="text-center th-color">상태</th>
                         <td>
                             <input type="text" id="searchDept" style="width: 150px;">

@@ -24,10 +24,13 @@
 
 
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="regEmpName" value="${loginVO.name}"/>
+<input type="hidden" id="regDeptName" value="${loginVO.orgnztNm}"/>
+<input type="hidden" id="groupId" value="${params.groupId}" />
 <div>
 	<div class="card-header pop-header">
 		<h3 class="card-title title_NM">
-                <span style="position: relative; top: 3px;" id="cardToTitle">
+                <span style="position: relative; top: 3px;" id="cardUserGroupTitle">
                     카드사용자 그룹 등록
                 </span>
 		</h3>
@@ -49,16 +52,7 @@
 					<span class="red-star">*</span>그룹명
 				</th>
 				<td>
-					<input type="text" id="groupNm" style="width: 50%">
-				</td>
-			</tr>
-			<tr>
-				<th scope="row" class="text-center th-color">
-					<span class="red-star"></span>그룹 인원
-				</th>
-				<td>
-					<input type="text" id="groupUser" style="width: 50%;" value="" disabled>
-					<button type="button" class="k-button k-button-solid-base" onclick="fn_userMultiSelectPop()">추가</button>
+					<input type="text" id="groupNm" style="width: 50%" value="${map.GROUP_NAME}">
 				</td>
 			</tr>
 			<tr>
@@ -79,29 +73,26 @@
 
 <script>
     var groupArr = [];
+	var groupId = $("#groupId").val();
+	var returnUseYn = '${map.USE_YN}';
 
     $(function(){
         customKendo.fn_textBox(["groupNm", "groupUser"]);
 
-    });
+        if(groupId != ""){
+            $("#cardUserGroupTitle").text("카드사용자 그룹 수정");
+            $("#saveBtn").text(" 수정");
+        }
 
-    function fn_userMultiSelectPop() {
-        window.open("/user/pop/userMultiSelectPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
-    }
-
-    function userDataSet(arr){
-        groupArr = [];
-
-        for(var i = 0; i < arr.length; i++){
-			groupArr.push(arr[i]);
-		}
-        if(arr.length == 1){
-			$("#groupUser").val(arr[0].empName);
-			return;
+		if(returnUseYn != "Y"){
+			$("#useY").prop("checked", false);
+			$("#useN").prop("checked", true);
 		}else{
-            $("#groupUser").val(arr[0].empName + " 외 " + (arr.length - 1) + "명");
-	    }
-    }
+			$("#useY").prop("checked", true);
+			$("#useN").prop("checked", false);
+		}
+
+    });
 
     function fn_save(){
         if($("#groupNm").val() == ""){
@@ -109,22 +100,17 @@
             return;
         }
 
-        // if($("#groupUser").val() == ""){
-        //     alert("그룹 인원을 선택해주세요.");
-        //     return;
-        // }
-
-        console.log(groupArr);
-
         if(!confirm("저장하시겠습니까?")){
             return;
         }
 
         var parameters = {
+            groupId : $("#groupId").val(),
 			groupNm : $("#groupNm").val(),
 	        regEmpSeq: $("#regEmpSeq").val(),
-			useYn : $("input[name=useYn]:checked").val(),
-            groupArr : JSON.stringify(groupArr)
+	        regEmpName: $("#regEmpName").val(),
+	        regDeptName: $("#regDeptName").val(),
+			useYn : $("input[name=useYn]:checked").val()
         }
 
         $.ajax({
@@ -134,9 +120,9 @@
             dataType : "json",
             success : function(rs){
                 if(rs.code == 200){
-                    /*alert("저장되었습니다.");
-                    opener.parent.cardUserGroupList.mainGrid();
-                    window.close();*/
+                    alert("저장되었습니다.");
+                    opener.parent.cardUserGroupList.fn_gridReSet();
+                    window.close();
 
                 }
             }

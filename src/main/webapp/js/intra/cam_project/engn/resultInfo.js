@@ -49,13 +49,30 @@ var resultInfo = {
         if(result.prodFileList != null){
             $("#prodImgName").text(result.prodFileList.file_org_name + "." +result.prodFileList.file_ext);
         }
+
+        $.ajax({
+            url : "/project/getDevelopPlan",
+            data : data,
+            dataType : "json",
+            type : "post",
+            success : function(rs){
+                console.log(rs);
+                var devFile = rs.devFile;
+
+                if(devFile.devFile != null && devFile.devFile != ""){
+                    $("#devFileName").text(devFile.devFile.file_org_name + "." +devFile.devFile.file_ext);
+                }
+            }
+        })
     },
 
     fn_setButton: function(resMap){
         let buttonHtml = "";
         if(resMap.STATUS == "0"){
             buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>';
-            buttonHtml += '<button type="button" id="resAppBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-info" onclick="resultInfo.resDrafting()">상신</button>';
+            if($("#devFileName").text() != "") {
+                buttonHtml += '<button type="button" id="resAppBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-info" onclick="resultInfo.resDrafting()">상신</button>';
+            }
         }else if(resMap.STATUS == "10" || resMap.STATUS == "20" || resMap.STATUS == "50"){
             buttonHtml += '<button type="button" id="delvCanBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+resMap.DOC_ID+'\', \''+resMap.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
         }else if(resMap.STATUS == "30" || resMap.STATUS == "40"){
@@ -101,12 +118,22 @@ var resultInfo = {
         fd.append("rsEndDt", data.rsEndDt);
         fd.append("rsActEquip", data.rsActEquip);
         fd.append("empSeq", data.empSeq);
+        fd.append("regEmpSeq", data.empSeq);
 
         fd.append("step", data.step);
         fd.append("stepColumn", data.stepColumn);
         fd.append("nextStepColumn", data.nextStepColumn);
         fd.append("stepValue", data.stepValue);
         fd.append("nextStepValue", data.nextStepValue);
+
+        if($("#devFileName").text() == ""){
+            alert("납품서를 등록해주세요.");
+            return;
+        }
+
+        if($("#devFile")[0].files.length == 1){
+            fd.append("devFile", $("#devFile")[0].files[0]);
+        }
 
         if($("#designImg")[0].files.length == 1){
             fd.append("designImg", $("#designImg")[0].files[0]);

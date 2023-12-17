@@ -40,18 +40,16 @@
 </div><!-- col-md-9 -->
 
 <script>
-
-
     cardUserGroupList.fn_defaultScript();
 
-    $("#dialog").kendoWindow({
-        title: "반납",
-        visible : false,
-        resizable: false,
-        modal: true,
-        width: 300,
-        actions: ["Close"],
-    });
 
-    customKendo.fn_datePicker("cardFromDe", "depth", "yyyy-MM-dd", new Date());
+    function userDataSet(arr){
+        var groupArr = [];
+
+        for(var i = 0; i < arr.length; i++){
+            groupArr.push(arr[i]);
+        }
+
+        cardUserGroupList.fn_save(groupArr);
+    }
 </script>

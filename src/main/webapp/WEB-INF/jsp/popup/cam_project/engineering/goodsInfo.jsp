@@ -81,14 +81,6 @@
                     <input type="text" id="goodsPjtNm" disabled value="${hashMap.PJT_NM}" style="width: 100%;" />
                 </td>
             </tr>
-            <th scope="row" class="text-center th-color">
-                <span class="red-star tmHide">*</span>납품서
-            </th>
-            <td colspan="3">
-                <label for="devFile" class="k-button k-button-solid-base">파일첨부</label>
-                <input type="file" id="devFile" name="devFile" onchange="goodsInfo.fileChange(this)" style="display: none">
-                <span id="devFileName"></span>
-            </td>
             <tr>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>특이사항

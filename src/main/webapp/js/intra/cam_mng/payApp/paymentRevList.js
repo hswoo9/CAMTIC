@@ -20,6 +20,18 @@ var paymentRevList = {
             { text: "문서번호", value: "DOC_NO" },
         ]
 
+        $("#payAppType").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "선택", value: ""},
+                { text: "지급신청서", value: "1" },
+                { text: "여입신청서", value: "2" },
+                { text: "반납신청서", value: "3" },
+                { text: "대체신청서", value: "4" },
+            ]
+        });
+
         customKendo.fn_dropDownList("searchKeyword", paymentRevList.global.dropDownDataSource, "text", "value");
         customKendo.fn_textBox(["searchValue"]);
         paymentRevList.gridReload();
@@ -53,6 +65,20 @@ var paymentRevList = {
                     title: "번호",
                     width: 40,
                     template: "#= --record #"
+                }, {
+                    title: "문서유형",
+                    width: 100,
+                    template: function(e){
+                        if(e.PAY_APP_TYPE == 1){
+                            return "지급신청서";
+                        } else if (e.PAY_APP_TYPE == 2){
+                            return "여입신청서";
+                        } else if(e.PAY_APP_TYPE == 3){
+                            return "반납신청서";
+                        } else if(e.PAY_APP_TYPE == 4){
+                            return "대체신청서";
+                        }
+                    }
                 }, {
                     field: "DOC_NO",
                     title: "문서번호",
@@ -128,7 +154,7 @@ var paymentRevList = {
             searchDept : $("#searchDept").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
-            payAppType : '1',
+            payAppType : $("#payAppType").val(),
             docStatus : 100
         }
 

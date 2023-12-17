@@ -61,6 +61,9 @@ public class CompanyCardRepository extends AbstractDAO {
     public void saveCardUserGroup(Map<String, Object> params) {
         insert("card.saveCardUserGroup", params);
     }
+    public void updateCardUserGroup(Map<String, Object> params) {
+        update("card.updateCardUserGroup", params);
+    }
     public void saveCardUserGroupList(Map<String, Object> params) {
         insert("card.saveCardUserGroupList", params);
     }
@@ -70,5 +73,21 @@ public class CompanyCardRepository extends AbstractDAO {
     public List<Map<String, Object>> getcardUserGroupList(Map<String, Object> params) {
         return selectList("card.getcardUserGroupList", params);
     }
+    public void delCardUserGroup(Map<String, Object> params) {
+        delete("card.delCardUserGroup", params);
+    }
+    public void delCardUserGroupList(Map<String, Object> params) {
+        delete("card.delCardUserGroupList", params);
+    }
+    public Map<String, Object> getCardUserGroupOne(Map<String, Object> param){
+        return (Map<String, Object>) selectOne("card.getCardUserGroupOne", param);
+    }
 
+    public int getCardUserGroupCheck(Map<String, Object> param){
+        return (int) selectOne("card.getCardUserGroupCheck", param);
+    }
+
+    public void delGroupUser(Map<String, Object> params) {
+        delete("card.delGroupUser", params);
+    }
 }

@@ -20,6 +20,18 @@ var paymentList = {
             { text: "문서번호", value: "DOC_NO" },
         ]
 
+        $("#payAppType").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "선택", value: ""},
+                { text: "지급신청서", value: "1" },
+                { text: "여입신청서", value: "2" },
+                { text: "반납신청서", value: "3" },
+                { text: "대체신청서", value: "4" },
+            ]
+        });
+
         customKendo.fn_dropDownList("searchKeyword", paymentList.global.dropDownDataSource, "text", "value");
         customKendo.fn_textBox(["searchValue"]);
         paymentList.gridReload();
@@ -175,6 +187,7 @@ var paymentList = {
             searchDept : $("#searchDept").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
+            payAppType : $("#payAppType").val(),
             pageType : "USER",
         }
 

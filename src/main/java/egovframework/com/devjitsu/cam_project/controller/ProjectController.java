@@ -763,7 +763,7 @@ public class ProjectController {
     @RequestMapping("/project/getStep1Data")
     public String getStep1Data(@RequestParam Map<String, Object> params, Model model){
 
-        model.addAttribute("result", projectService.getEstData(params));
+        model.addAttribute("result", projectService.getGoodsData(params));
 
         return "jsonView";
     }

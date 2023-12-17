@@ -248,12 +248,16 @@
             (
                  GROUP_NAME
                 , REG_EMP_SEQ
+                , REG_EMP_NAME
+                , REG_DEPT_NAME
                 , USE_YN
             )
         VALUES
             (
                 #{groupNm}
                 , #{regEmpSeq}
+                , #{regEmpName}
+                , #{regDeptName}
                 , #{useYn}
             )
 
@@ -261,6 +265,19 @@
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_MNG' AND TABLE_NAME = 'DJ_CARD_USER_GROUP'
         </selectKey>
     </insert>
+
+    <update id="updateCardUserGroup" parameterType="map">
+        UPDATE CAM_MNG.DJ_CARD_USER_GROUP
+        SET
+            GROUP_NAME = #{groupNm},
+            REG_EMP_SEQ = #{regEmpSeq},
+            REG_EMP_NAME = #{regEmpName},
+            REG_DEPT_NAME = #{regDeptName},
+            USE_YN = #{useYn},
+            MOD_DT = NOW()
+        WHERE
+            GROUP_ID = #{groupId}
+    </update>
 
     <insert id="saveCardUserGroupList" parameterType="map">
         INSERT INTO CAM_MNG.DJ_CARD_USER_GROUP_LIST
@@ -284,4 +301,34 @@
         WHERE
             GROUP_ID = #{groupId}
     </select>
+
+    <delete id="delCardUserGroup" parameterType="map">
+        DELETE FROM CAM_MNG.DJ_CARD_USER_GROUP WHERE GROUP_ID = #{groupId}
+    </delete>
+
+    <delete id="delCardUserGroupList" parameterType="map">
+        DELETE FROM CAM_MNG.DJ_CARD_USER_GROUP_LIST WHERE GROUP_ID = #{groupId}
+    </delete>
+
+    <select id="getCardUserGroupOne" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_CARD_USER_GROUP
+        WHERE
+            GROUP_ID = #{groupId}
+    </select>
+
+    <select id="getCardUserGroupCheck" parameterType="map" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_MNG.DJ_CARD_USER_GROUP
+        WHERE
+            GROUP_ID = #{groupId}
+    </select>
+
+    <delete id="delGroupUser" parameterType="map">
+        DELETE FROM CAM_MNG.DJ_CARD_USER_GROUP_LIST WHERE GROUP_USER_ID = #{groupUserId} AND GROUP_ID = #{groupId}
+    </delete>
 </mapper>
