@@ -197,12 +197,7 @@ var cardUserGroupList = {
                     title: "기타",
                     width: 80,
                     template : function (e){
-                        var rtYn = e.RT_YN;
-                        if(rtYn == 'Y'){
-                            return '<button type="button" class="k-button k-button-solid k-button-solid-error" disabled onclick="cardUserGroupList.fn_histDel('+e.CARD_TO_HIST_SN+')">삭제</button>';
-                        } else {
-                            return '<button type="button" class="k-button k-button-solid k-button-solid-error" onclick="cardUserGroupList.fn_histDel('+e.CARD_TO_HIST_SN+')">삭제</button>';
-                        }
+                        return '<button type="button" class="k-button k-button-solid k-button-solid-error" onclick="cardUserGroupList.fn_groupUserDel('+e.GROUP_USER_ID+')">삭제</button>';
                     }
                 }
             ],
@@ -311,22 +306,23 @@ var cardUserGroupList = {
         });
     },
 
-    fn_histDel : function (key) {
+    fn_groupUserDel : function (key) {
         if(!confirm("삭제하시겠습니까?")){
             return;
         }
         var parameters = {
-            cardHistSn : key
+            groupUserId : key,
+            groupId : $("#groupId").val()
         };
 
         $.ajax({
-            url : "/card/delCardHist",
+            url : "/card/delGroupUser",
             data : parameters,
             type : "post",
             dataType : "json",
             success : function(rs){
                 if(rs.code == 200){
-                    cardUserGroupList.fn_gridReSet();
+                    cardUserGroupList.mainUserGrid();
                 }
             }
         });

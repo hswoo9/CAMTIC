@@ -4,6 +4,7 @@ import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.inside.userManage.repository.UserManageRepository;
 import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -14,14 +15,16 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class UserManageServiceImpl implements UserManageService {
@@ -536,6 +539,52 @@ public class UserManageServiceImpl implements UserManageService {
     public List<Map<String, Object>> getEmploymentContList(Map<String,Object> map) {
         return userManageRepository.getEmploymentContList(map);
     }
+
+    @Override
+    public void employExcelFormDown(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String localPath = "/downloadFile/";
+        String fileName = "연봉계약서 등록양식.xlsx";
+        String viewFileNm = "연봉계약서 등록양식.xlsx";
+        File reFile = new File(request.getSession().getServletContext().getRealPath(localPath + fileName));
+
+        try {
+            if (reFile.exists() && reFile.isFile()) {
+                List<Map<String, Object>> searchList = new ArrayList<>();
+
+                FileInputStream file = new FileInputStream(reFile);
+                XSSFWorkbook workbook = new XSSFWorkbook(file);
+                Cell cell = null;
+                int rowIndex = 2;
+
+                /** 사원 목록 */
+                XSSFSheet sheet = workbook.getSheetAt(1);
+                searchList = userManageRepository.employmentExcelEmpList(null);
+
+                for(int i = 0; i < searchList.size(); i++){
+                    XSSFRow row = sheet.createRow(rowIndex++);
+
+                    cell = row.createCell(0);cell.setCellValue(searchList.get(i).get("EMP_SEQ").toString());
+                    cell = row.createCell(1);cell.setCellValue(searchList.get(i).get("EMP_NAME_KR").toString());
+                    cell = row.createCell(2);cell.setCellValue(searchList.get(i).get("DEPT_SEQ").toString());
+                    cell = row.createCell(3);cell.setCellValue(searchList.get(i).get("DEPT_NAME").toString());
+                    cell = row.createCell(4);cell.setCellValue(searchList.get(i).get("POSITION_NAME").toString());
+                }
+
+
+                String browser = getBrowser(request);
+                String disposition = setDisposition(viewFileNm, browser);
+                response.setHeader("Content-Disposition", disposition);
+                response.setHeader("Content-Transfer-Encoding", "binary");
+                response.setContentType("ms-vnd/excel");
+
+                workbook.write(response.getOutputStream());
+                workbook.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public Map<String,Object> getEmploymentInfo(Map<String,Object> map) {
         return userManageRepository.getEmploymentInfo(map);
@@ -553,6 +602,9 @@ public class UserManageServiceImpl implements UserManageService {
         XSSFCell col1;
         XSSFCell col2;
         XSSFCell col3;
+        XSSFCell col4;
+        XSSFCell col5;
+        XSSFCell col6;
 
         FileInputStream inputStream = new FileInputStream(dest);
 
@@ -560,7 +612,7 @@ public class UserManageServiceImpl implements UserManageService {
         XSSFSheet sheet = workbook.getSheetAt(0);
         int rows = sheet.getPhysicalNumberOfRows();
 
-        for(int i=4; i < rows; i++){
+        for(int i=5; i < rows; i++){
             Map<String, Object> salaryMap = new HashMap<>();
 
             row = sheet.getRow(i);
@@ -568,21 +620,30 @@ public class UserManageServiceImpl implements UserManageService {
             col1 = row.getCell(1);
             col2 = row.getCell(2);
             col3 = row.getCell(3);
+            col4 = row.getCell(4);
+            col5 = row.getCell(5);
+            col6 = row.getCell(6);
+
+            Date now = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String nowString = sdf.format(now);
 
             if(row != null){
-                if(cellValueToString(col0).equals("") || cellValueToString(col1).equals("") || cellValueToString(col2).equals("") || cellValueToString(col3).equals("")){
+                if(cellValueToString(col0).equals("") || cellValueToString(col1).equals("") || cellValueToString(col2).equals("") ||
+                        cellValueToString(col3).equals("") || cellValueToString(col4).equals("") || cellValueToString(col5).equals("") ||
+                        cellValueToString(col6).equals("")){
                     return;
                 } else {
-                    salaryMap.put("regDt", cellValueToString(row.getCell(2)));
-                    salaryMap.put("empSeq", cellValueToString(row.getCell(3)));
-                    salaryMap.put("empName", cellValueToString(row.getCell(4)));
-                    salaryMap.put("deptSeq", cellValueToString(row.getCell(5)));
-                    salaryMap.put("deptName", cellValueToString(row.getCell(6)));
-                    salaryMap.put("positionName", cellValueToString(row.getCell(7)));
-                    salaryMap.put("bySalary", cellValueToString(row.getCell(8)));
-                    salaryMap.put("nyRaiseSalary", cellValueToString(row.getCell(9)));
-                    salaryMap.put("nySalary", cellValueToString(row.getCell(10)));
-                    salaryMap.put("nyDecisionSalary", cellValueToString(row.getCell(11)));
+                    salaryMap.put("regDt", nowString);
+                    salaryMap.put("empSeq", cellValueToString(row.getCell(0)));
+                    salaryMap.put("empName", cellValueToString(row.getCell(1)));
+                    salaryMap.put("deptSeq", cellValueToString(row.getCell(2)));
+                    salaryMap.put("deptName", cellValueToString(row.getCell(3)));
+                    salaryMap.put("positionName", cellValueToString(row.getCell(4)));
+                    salaryMap.put("bySalary", cellValueToString(row.getCell(5)));
+                    salaryMap.put("nyRaiseSalary", cellValueToString(row.getCell(6)));
+                    salaryMap.put("nySalary", cellValueToString(row.getCell(7)));
+                    salaryMap.put("nyDecisionSalary", cellValueToString(row.getCell(8)));
                     salaryMap.put("regEmpSeq", params.get("empSeq"));
                     userManageRepository.setEmploymentContract(salaryMap);
                 }
@@ -1688,5 +1749,46 @@ public class UserManageServiceImpl implements UserManageService {
 
         }
         return txt;
+    }
+
+    private String getBrowser(HttpServletRequest request) {
+        String header = request.getHeader("User-Agent");
+        if (header.indexOf("MSIE") > -1) { // IE 10 �씠�븯
+            return "MSIE";
+        } else if (header.indexOf("Trident") > -1) { // IE 11
+            return "MSIE";
+        } else if (header.indexOf("Chrome") > -1) {
+            return "Chrome";
+        } else if (header.indexOf("Opera") > -1) {
+            return "Opera";
+        }
+        return "Firefox";
+    }
+
+    private String setDisposition(String filename, String browser) throws Exception {
+        String dispositionPrefix = "attachment; filename=";
+        String encodedFilename = null;
+
+        if (browser.equals("MSIE")) {
+            encodedFilename = URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
+        } else if (browser.equals("Firefox")) {
+            encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "ISO-8859-1") + "\"";
+        } else if (browser.equals("Opera")) {
+            encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "8859_1") + "\"";
+        } else if (browser.equals("Chrome")) {
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < filename.length(); i++) {
+                char c = filename.charAt(i);
+                if (c > '~') {
+                    sb.append(URLEncoder.encode("" + c, "UTF-8"));
+                } else {
+                    sb.append(c);
+                }
+            }
+            encodedFilename = sb.toString();
+        } else {
+
+        }
+        return dispositionPrefix + encodedFilename;
     }
 }

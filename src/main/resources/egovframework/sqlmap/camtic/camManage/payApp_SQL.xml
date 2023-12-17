@@ -396,10 +396,10 @@
         WHERE
             1=1
         <if test='payAppType == "1" or "1".equals(payAppType)'>
-        AND PAY_APP_TYPE = 1
+            AND PAY_APP_TYPE = 1
         </if>
         <if test='payAppType == "2" or "2".equals(payAppType)'>
-        AND PAY_APP_TYPE = 2
+            AND PAY_APP_TYPE = 2
         </if>
         <if test='payAppType == "3" or "3".equals(payAppType)'>
             AND PAY_APP_TYPE = 3
@@ -683,7 +683,8 @@
         UPDATE CAM_MNG.DJ_EXNP_DET
         SET
             EXNP_STAT = "Y",
-            EXNP_CNT = #{USER_SQ}
+            EXNP_CNT = #{USER_SQ},
+            PMR_NO = #{PMR_NO}
         WHERE
             EXNP_DET_SN = #{EXNP_DET_SN}
     </update>

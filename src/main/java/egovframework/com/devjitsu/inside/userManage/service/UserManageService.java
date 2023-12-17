@@ -2,6 +2,9 @@ package egovframework.com.devjitsu.inside.userManage.service;
 import egovframework.com.devjitsu.inside.userManage.service.Impl.UserManageServiceImpl;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -59,6 +62,7 @@ public interface UserManageService{
 
     /** 연봉근로계약 */
     List<Map<String,Object>> getEmploymentContList(Map<String,Object> map);
+    void employExcelFormDown(HttpServletRequest request, HttpServletResponse response) throws IOException;
     Map<String,Object> getEmploymentInfo(Map<String,Object> map);
     void employExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception;
     void setEmploymentContract(Map<String,Object> map);
