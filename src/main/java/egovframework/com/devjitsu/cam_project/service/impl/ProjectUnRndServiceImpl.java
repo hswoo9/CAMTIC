@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.cam_project.service.impl;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
+import egovframework.com.devjitsu.cam_crm.repository.CrmRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRndRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectUnRndRepository;
@@ -42,6 +43,9 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CrmRepository crmRepository;
 
     @Override
     public void setSubjectInfo(Map<String, Object> params) {
@@ -386,6 +390,10 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             projectUnRndRepository.updateUnRndResFinalApprStat(params);
+
+            Map<String, Object> pjtMap = projectRepository.getProjectData(params);
+            crmRepository.insCrmEngnHist(pjtMap);
+
             projectUnRndRepository.updUnRndProjectInfoRes(params);
         }else if("111".equals(docSts)) { // 임시저장
             projectUnRndRepository.updateUnRndResApprStat(params);

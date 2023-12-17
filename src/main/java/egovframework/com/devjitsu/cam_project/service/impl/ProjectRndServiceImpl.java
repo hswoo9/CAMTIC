@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
+import egovframework.com.devjitsu.cam_crm.repository.CrmRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRndRepository;
 import egovframework.com.devjitsu.cam_project.service.ProjectRndService;
@@ -42,6 +43,9 @@ public class ProjectRndServiceImpl implements ProjectRndService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CrmRepository crmRepository;
 
     @Override
     public void setSubjectInfo(Map<String, Object> params) {
@@ -479,6 +483,10 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             projectRndRepository.updateRndResFinalApprStat(params);
+
+            Map<String, Object> pjtMap = projectRepository.getProjectData(params);
+            crmRepository.insCrmEngnHist(pjtMap);
+
             projectRndRepository.updRndProjectInfoRes(params);
         }else if("111".equals(docSts)) { // 임시저장
             projectRndRepository.updateRndResApprStat(params);

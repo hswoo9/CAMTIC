@@ -1897,6 +1897,15 @@
             RS_SN = #{rsSn}
     </update>
 
+    <update id="updResultDevFile" parameterType="map">
+        /*updResultDevFile*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_RESULT
+        SET
+            DEV_FILE_SN = #{file_no}
+        WHERE
+            RS_SN = #{rsSn}
+    </update>
+
     <update id="updResultDesignFile" parameterType="map">
         /*updResultDesignFile*/
         UPDATE CAM_PJT_MNG.DJ_PJT_RESULT
@@ -1914,6 +1923,16 @@
         WHERE
             RS_SN = #{rsSn}
     </update>
+
+    <select id="getGoodsFile" parameterType="map" resultType="map">
+        /*getGoodsFile*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_NO = #{DEV_FILE_SN}
+    </select>
 
     <select id="getDesignFile" parameterType="map" resultType="map">
         /*getDesignFile*/

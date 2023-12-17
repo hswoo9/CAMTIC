@@ -653,8 +653,10 @@ public class ProjectServiceImpl implements ProjectService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             projectRepository.updateResFinalApprStat(params);
+
             Map<String, Object> pjtMap = projectRepository.getProjectData(params);
             crmRepository.insCrmEngnHist(pjtMap);
+
             params.put("pjtStep", "E6");
             params.put("pjtStepNm", "결과보고");
             projectRepository.updProjectStep(params);
@@ -915,19 +917,19 @@ public class ProjectServiceImpl implements ProjectService {
 
         if(devFile != null){
             if(!devFile.isEmpty()){
-                params.put("menuCd", "devFile");
-
                 fileInsMap = mainLib.fileUpload(devFile, filePath(params, serverDir));
-                fileInsMap.put("devSn", params.get("devSn"));
+                fileInsMap.put("contentId", "prjEngnRs_" + params.get("rsSn"));
+                fileInsMap.put("crmSn", params.get("rsSn"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
                 fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, baseDir));
                 fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                fileInsMap.put("empSeq", params.get("empSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
+                fileInsMap.put("rsSn", params.get("rsSn"));
                 fileInsMap.put("file_no", fileInsMap.get("file_no"));
-                projectRepository.updDevFile(fileInsMap);
+                projectRepository.updResultDevFile(fileInsMap);
             }
         }
 
@@ -989,6 +991,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         Map<String, Object> map = projectRepository.getResultInfo(params);
         result.put("map", map);
+        result.put("devFileList", projectRepository.getGoodsFile(map));
         result.put("designFileList", projectRepository.getDesignFile(map));
         result.put("prodFileList", projectRepository.getProdFile(map));
         return result;
