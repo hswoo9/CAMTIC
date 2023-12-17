@@ -120,9 +120,17 @@
                     <textarea type="text" id="unRndObj" name="unRndObj" style="width: 100%"></textarea>
                 </td>
             </tr>
-            <tr style="display: none">
+            <tr id="budgetExDiv" style="display: none">
                 <td colspan="4">
-                    <div id="customBudgetGrid"></div>
+                    <br>
+                    <span id="budgetType"></span>
+                    <div id="customBudgetGrid0"></div>
+                    <div id="customBudgetGrid1"></div>
+                    <div id="customBudgetGrid2"></div>
+                    <div id="customBudgetGrid3"></div>
+                    <div id="customBudgetGrid4"></div>
+                    <div id="customBudgetGrid5"></div>
+                    <div id="customBudgetGrid6"></div>
                 </td>
             </tr>
             </thead>
@@ -210,16 +218,16 @@
         }
 
         var pjCodeDs = customKendo.fn_customAjax("/common/commonCodeList", data)
-        customKendo.fn_dropDownList("pjCode", pjCodeDs.rs, "CM_CODE_NM", "CM_CODE");
+        customKendo.fn_dropDownList("pjCode", pjCodeDs.rs, "CM_CODE_NM", "CM_CODE", 2);
 
         $("#pjCode").data("kendoDropDownList").select(2);
 
         data.grpSn = "SUP_DEP";
         var lgCodeDs = customKendo.fn_customAjax("/project/selLgCode", data);
-        customKendo.fn_dropDownList("supDep2", lgCodeDs.rs, "LG_CD_NM", "LG_CD");
+        customKendo.fn_dropDownList("supDep2", lgCodeDs.rs, "LG_CD_NM", "LG_CD", 2);
 
         $("#supDepSub2").kendoDropDownList({
-            dataSource : [{text : "선택", value : ""}],
+            dataSource : [{text : "선택하세요", value : ""}],
             dataTextField : "text",
             dataValueField : "value"
         });
@@ -228,12 +236,12 @@
             data.lgCd = $("#supDep2").val();
             data.grpSn = "SUP_DEP";
             var smCodeDs = customKendo.fn_customAjax("/project/selSmCode", data);
-            customKendo.fn_dropDownList("supDepSub2", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
+            customKendo.fn_dropDownList("supDepSub2", smCodeDs.rs, "PJT_CD_NM", "PJT_CD", 2);
         });
 
         data.grpSn = "BUS_STAT";
         var lgCodeDs = customKendo.fn_customAjax("/project/selLgCode", data);
-        customKendo.fn_dropDownList("pjtStat", lgCodeDs.rs, "LG_CD_NM", "LG_CD");
+        customKendo.fn_dropDownList("pjtStat", lgCodeDs.rs, "LG_CD_NM", "LG_CD", 2);
 
         $("#pjtStatSub").kendoDropDownList({
             dataSource : [{text : "선택", value : ""}],
@@ -244,7 +252,7 @@
             data.lgCd = $("#pjtStat").val();
             data.grpSn = "BUS_STAT";
             var smCodeDs = customKendo.fn_customAjax("/project/selSmCode", data);
-            customKendo.fn_dropDownList("pjtStatSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
+            customKendo.fn_dropDownList("pjtStatSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD", 2);
         });
 
         $("#supDep2").data("kendoDropDownList").value($("#supDep").val());

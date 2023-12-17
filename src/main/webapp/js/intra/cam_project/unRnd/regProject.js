@@ -171,7 +171,7 @@ var regUnRnd = {
         }
 
         customKendo.fn_textBox(["empName", "deptName", "pjtNm", "rndCrmNm", "rndConCrmNm"
-            ,"crmPartNm", "pjtExpAmt", "bsTitle", "pjtConYear", "allBusnCost", "pjtAmt"]);
+            ,"crmPartNm", "pjtExpAmt", "bsTitle", "pjtConYear", "allBusnCost", "pjtAmt2"]);
 
         customKendo.fn_datePicker("sbjStrDe", "depth", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("sbjEndDe", "depth", "yyyy-MM-dd", new Date());
@@ -216,10 +216,11 @@ var regUnRnd = {
     },
 
     fn_setData : function(e){
+        $("#pjtTitle").text("프로젝트 - 비R&D");
+
         if(e == null){
             return;
         }
-        $("#pjtTitle").text("프로젝트 - 비R&D");
 
         $("#saveBtn").css("display", "none");
         $("#modBtn").css("display", "");
@@ -235,6 +236,16 @@ var regUnRnd = {
         $("#rndCrmNm").val(e.CRM_NM);
         $("#rndCrmSn").val(e.CRM_SN);
 
+        const unRndInfo = customKendo.fn_customAjax("/projectUnRnd/getUnRndDetail", {pjtSn: $("#pjtSn").val()});
+        console.log(unRndInfo);
+        const delvMap = unRndInfo.map;
+        if(delvMap != null){
+            if(delvMap.STATUS == "100"){
+                $("#pjtAmt2").val(comma(e.PJT_AMT));
+                $("#allBusnCost").val(comma(Number(e.PJT_AMT) + Number(delvMap.PEO_RES_ITEM)));
+            }
+        }
+
         if(e.CRM_CON_NM = null && e.CRM_CON_NM != ""){
             $("#rndConCrmNm").val(e.CRM_CON_SN);
             $("#rndConCrmSn").val(e.CRM_CON_NM);
@@ -247,30 +258,7 @@ var regUnRnd = {
 
         $("#pjtNm").val(e.PJT_NM);
 
-        if(e.SBJ_SEP != undefined){
-            if(e.SBJ_SEP == "Y"){
-                $("#sbjSepY").prop("checked", true);
-                var data = {
-                    pjtSn: e.PJT_SN
-                }
-                let result = customKendo.fn_customAjax("/projectRnd/getAccountInfo", data);
-                $("#checkboxDiv").show();
-                for(let i=0; i<result.list.length; i++){
-                    $("#at" + result.list[i].IS_TYPE).prop('checked',true);
-                }
-            } else {
-                $("#sbjSepN").prop("checked", true);
-            }
-        }
-
         $("#pjtExpAmt").val(comma(e.PJT_EXP_AMT));
-        if(e.SBJ_SEP != undefined){
-            if(e.SBJ_SEP == "Y"){
-                $("#sbjSepY").prop("checked", true);
-            } else {
-                $("#sbjSepN").prop("checked", true);
-            }
-        }
 
         $("#pjtConYear").val(e.PJT_CON_YEAR);
     },

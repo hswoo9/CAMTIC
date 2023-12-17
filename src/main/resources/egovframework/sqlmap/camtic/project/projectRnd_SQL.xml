@@ -452,7 +452,7 @@
         SET
             TOT_RES_COST = (SELECT IFNULL(SUM(CB_BUDGET), 0) AS TOTAL_AMT FROM CAM_PJT_MNG.DJ_PJT_CB
                             WHERE PJT_SN = #{pjtSn}
-                              AND ACCOUNT = '0'
+                              AND ACCOUNT = '0')
         WHERE
             RND_SN = #{rndSn}
     </update>

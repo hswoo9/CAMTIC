@@ -121,6 +121,15 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
                 projectRepository.insCustomBudget(cbMap);
             }
         }
+
+        Map<String, Object> pjtMap = projectRepository.getProjectData(params);
+        if(pjtMap.get("SBJ_SEP") != null){
+            if(pjtMap.get("SBJ_SEP").toString().equals("Y")){
+                projectUnRndRepository.updUnRndTotResCost(params);
+            }else{
+                projectUnRndRepository.updUnRndTotResCost2(params);
+            }
+        }
     }
 
     private String filePath (Map<String, Object> params, String base_dir){

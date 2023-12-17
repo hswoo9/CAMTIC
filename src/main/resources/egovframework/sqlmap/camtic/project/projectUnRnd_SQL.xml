@@ -16,7 +16,6 @@
             SBJ_CHAR,
             SBJ_DEP,
             SBJ_DEP_SUB,
-            /*SBJ_SEP,*/
             PJT_CON_YEAR,
             STR_DT,
             END_DT,
@@ -42,7 +41,6 @@
             #{sbjChar},
             #{sbjDep},
             #{sbjDepSub},
-            /*#{sbjSep},*/
             #{pjtConYear},
             #{strDt},
             #{endDt},
@@ -72,7 +70,6 @@
             SBJ_CHAR = #{sbjChar},
             SBJ_DEP = #{sbjDep},
             SBJ_DEP_SUB = #{sbjDepSub},
-            /*SBJ_SEP = #{sbjSep},*/
             PJT_CON_YEAR = #{pjtConYear},
             STR_DT = #{strDt},
             END_DT = #{endDt},
@@ -114,6 +111,11 @@
                 MNG_DEPT_NAME,
                 MNG_EMP_SEQ,
                 MNG_EMP_NAME,
+                ALL_RES_COST,
+                ALL_BUSN_COST,
+                PEO_RES_COST,
+                PEO_RES_ITEM,
+                TOT_RES_COST,
                 UN_RND_OBJ,
                 UN_RND_CONT
             )
@@ -124,6 +126,11 @@
                 #{mngDeptName},
                 #{mngEmpSeq},
                 #{mngEmpName},
+                #{allResCost},
+                #{allBusnCost},
+                #{peoResCost},
+                #{peoResItem},
+                #{totResCost},
                 #{unRndObj},
                 #{unRndCont}
             )
@@ -140,6 +147,11 @@
             MNG_DEPT_NAME = #{mngDeptName},
             MNG_EMP_SEQ = #{mngEmpSeq},
             MNG_EMP_NAME = #{mngEmpName},
+            ALL_BUSN_COST = #{allBusnCost},
+            ALL_RES_COST = #{allResCost},
+            PEO_RES_COST = #{peoResCost},
+            PEO_RES_ITEM = #{peoResItem},
+            TOT_RES_COST = #{totResCost},
             UN_RND_OBJ = #{unRndObj},
             UN_RND_CONT = #{unRndCont}
         WHERE
@@ -151,6 +163,28 @@
         UPDATE CAM_PJT_MNG.DJ_PJT_UNRND
         SET
             UN_RND_FILE_SN = #{file_no}
+        WHERE
+            UN_RND_SN = #{unRndSn}
+    </update>
+
+    <update id="updUnRndTotResCost" parameterType="map">
+        /*updUnRndTotResCost*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_UNRND
+        SET
+            TOT_RES_COST = (SELECT IFNULL(SUM(CB_BUDGET), 0) AS TOTAL_AMT FROM CAM_PJT_MNG.DJ_PJT_CB
+                            WHERE PJT_SN = #{pjtSn}
+                              AND ACCOUNT IN (SELECT IS_TYPE FROM CAM_PJT_MNG.DJ_PJT_ACCOUNT SSA WHERE PJT_SN = #{pjtSn}))
+        WHERE
+            UN_RND_SN = #{unRndSn}
+    </update>
+
+    <update id="updUnRndTotResCost2" parameterType="map">
+        /*updUnRndTotResCost2*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_UNRND
+        SET
+            TOT_RES_COST = (SELECT IFNULL(SUM(CB_BUDGET), 0) AS TOTAL_AMT FROM CAM_PJT_MNG.DJ_PJT_CB
+                            WHERE PJT_SN = #{pjtSn}
+                              AND ACCOUNT = '0')
         WHERE
             UN_RND_SN = #{unRndSn}
     </update>
@@ -170,7 +204,7 @@
         SET
             PJT_STEP = "S2",
             PJT_STEP_NM = "수주보고",
-            PJT_AMT = PJT_EXP_AMT
+            PJT_AMT = (SELECT TOT_RES_COST FROM CAM_PJT_MNG.DJ_PJT_UNRND WHERE PJT_SN = #{pjtSn})
         WHERE
             PJT_SN = #{pjtSn}
     </update>

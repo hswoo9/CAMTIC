@@ -64,8 +64,8 @@ var rndDetail = {
 
         var pjtMap = pjtInfo.map;
         var rs = result.map;
-        console.log(rs);
-        console.log(pjtMap);
+
+        rndDetail.customBudgetGrid("/project/getProjectBudgetList.do", {pjtSn : $("#pjtSn").val()});
 
         /** 최초 저장 이후 데이터 세팅 */
         if(rs != null){
@@ -156,8 +156,6 @@ var rndDetail = {
             }
             customKendo.fn_radioGroup("budgetType", arr, "horizontal");
             $("#budgetType").data("kendoRadioGroup").value(firstValue);
-
-            rndDetail.customBudgetGrid("/project/getProjectBudgetList.do", {pjtSn : $("#pjtSn").val()});
 
             for(let i=0; i<=6; i++){
                 $("#customBudgetGrid"+i).hide();
