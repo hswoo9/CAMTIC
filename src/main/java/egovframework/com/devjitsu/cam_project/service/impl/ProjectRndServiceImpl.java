@@ -172,7 +172,7 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     }
 
     @Override
-    public void setRndDetail(Map<String, Object> params) {
+    public void setRndDetail(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
         Map<String, Object> map = userRepository.getUserInfo(params);
         map.put("pjtSn", params.get("pjtSn"));
         map.put("regEmpSeq", params.get("regEmpSeq"));
@@ -188,7 +188,40 @@ public class ProjectRndServiceImpl implements ProjectRndService {
             projectRndRepository.updRschData(map);
             projectRndRepository.updPjtPsRnd(map);
         }
+        projectRndRepository.delAccountInfo(params);
+        projectRndRepository.updPjtSepRnd(params);
+        if(params.get("sbjSep").toString().equals("Y")) {
+            Gson gson = new Gson();
+            List<Map<String, Object>> ACCOUNT_LIST = new ArrayList<>();
+            ACCOUNT_LIST = gson.fromJson((String) params.get("accountList"), new TypeToken<List<Map<String, Object>>>() {
+            }.getType());
+            params.put("accountList", ACCOUNT_LIST);
+            projectRndRepository.insAccountInfo(params);
+        }
 
+        // 프로젝트 총괄 책임자 변경
+        projectRepository.updPMInfo(params);
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile bsPlanFile = request.getFile("bsPlanFile");
+        if(bsPlanFile != null){
+            if(!bsPlanFile.isEmpty()){
+                params.put("menuCd", "unRnd");
+                fileInsMap = mainLib.fileUpload(bsPlanFile, filePath(params, SERVER_DIR));
+                fileInsMap.put("rndSn", params.get("rndSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("file_no", fileInsMap.get("file_no"));
+                projectRndRepository.updRndFileSn(fileInsMap);
+            }
+        }
 
         projectRepository.delCustomBudget(map);
         Gson gson = new Gson();
@@ -198,9 +231,6 @@ public class ProjectRndServiceImpl implements ProjectRndService {
                 projectRepository.insCustomBudget(cbMap);
             }
         }
-
-
-        projectRepository.updPMInfo(params);
     }
 
     @Override

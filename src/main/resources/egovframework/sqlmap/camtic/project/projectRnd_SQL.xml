@@ -341,15 +341,17 @@
     <select id="getRndDetail" parameterType="map" resultType="map">
         /*getRndDetail*/
         SELECT
-            A.*,
+            A.*, B.*,
             DI.APPRO_KEY,
             DI.DOC_MENU_CD
         FROM
             CAM_PJT_MNG.DJ_PJT_RND A
         LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO B ON A.RND_FILE_SN = B.file_no
+        LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
-            PJT_SN = #{pjtSn}
+            A.PJT_SN = #{pjtSn}
     </select>
 
     <insert id="insRndDetail" parameterType="map">
@@ -366,6 +368,7 @@
                 PEO_RES_COST,
                 PEO_RES_ITEM,
                 TOT_RES_COST,
+                RND_OBJ,
                 DELV_DAY,
                 RES_DAY
             )
@@ -381,6 +384,7 @@
                 #{peoResCost},
                 #{peoResItem},
                 #{totResCost},
+                #{rndObj},
                 #{delvDay},
                 #{resDay}
             )
@@ -406,10 +410,29 @@
             TOT_RES_COST = #{totResCost},
             RES_CARD_CHECK = #{resCardCheck},
             RES_CARD_NO = #{resCardNo},
+            RND_OBJ = #{rndObj},
             DELV_DAY = #{delvDay},
             RES_DAY = #{resDay}
         WHERE
             PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updPjtSepRnd" parameterType="map">
+        /*updPjtSepRnd*/
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            SBJ_SEP = #{sbjSep}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updRndFileSn" parameterType="map">
+        /*updRndFileSn*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_RND
+        SET
+            RND_FILE_SN = #{file_no}
+        WHERE
+            RND_SN = #{rndSn}
     </update>
 
     <update id="setDelvApprove" parameterType="map">

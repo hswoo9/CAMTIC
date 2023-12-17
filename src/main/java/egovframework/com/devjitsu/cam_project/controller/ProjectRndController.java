@@ -660,9 +660,9 @@ public class ProjectRndController {
     }
 
     @RequestMapping("/projectRnd/setRndDetail")
-    public String setRndDetail(@RequestParam Map<String, Object> params, Model model){
+    public String setRndDetail(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
         try{
-            projectRndService.setRndDetail(params);
+            projectRndService.setRndDetail(params, request, SERVER_DIR, BASE_DIR);
             model.addAttribute("code", 200);
             model.addAttribute("rs", params);
         } catch (Exception e){

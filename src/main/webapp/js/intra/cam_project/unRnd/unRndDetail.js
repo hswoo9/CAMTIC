@@ -9,9 +9,10 @@ var unRndDetail = {
     },
 
     fn_setPage : function (){
-        customKendo.fn_textBox(["mngDeptName", "mngEmpName"]);
+        customKendo.fn_textBox(["mngDeptName", "mngEmpName"
+            , "peoResCost", "peoResItem", "totResCost"]);
 
-        $("#unRndObj, #unRndCont").kendoTextArea({
+        $("#unRndObj").kendoTextArea({
             rows : 7
         });
 
@@ -30,25 +31,48 @@ var unRndDetail = {
             pjtSn : $("#pjtSn").val(),
         }
 
+        var pjtInfo = customKendo.fn_customAjax("/project/getProjectInfo", parameters);
         var result = customKendo.fn_customAjax("/projectUnRnd/getUnRndDetail", parameters);
 
+        var pjtMap = pjtInfo.map;
         var rs = result.map;
 
-        unRndDetail.fn_buttonSet(rs);
-        unRndDetail.customBudgetGrid("/project/getProjectBudgetList.do", {pjtSn : $("#pjtSn").val()});
-
+        /** 최초 저장 이후 데이터 세팅 */
         if(rs != null){
             $("#rndSn").val(rs.RND_SN);
             $("#mngDeptName").val(rs.MNG_DEPT_NAME);
             $("#mngEmpName").val(rs.MNG_EMP_NAME);
             $("#mngDeptSeq").val(rs.MNG_DEPT_SEQ);
             $("#mngEmpSeq").val(rs.MNG_EMP_SEQ);
+
+            $("#peoResCost").val(comma(rs.PEO_RES_COST));
+            $("#peoResItem").val(comma(rs.PEO_RES_ITEM));
+            $("#totResCost").val(comma(rs.TOT_RES_COST));
+
             $("#unRndObj").val(rs.UN_RND_OBJ);
-            $("#unRndCont").val(rs.UN_RND_CONT);
 
             $("#unRndSn").val(rs.UN_RND_SN);
             $("#bsPlanFileName").text(rs.file_org_name + "." + rs.file_ext);
+
+            if(pjtMap.SBJ_SEP != undefined){
+                if(pjtMap.SBJ_SEP == "Y"){
+                    $("#sbjSepY").prop("checked", true);
+                    var data = {
+                        pjtSn: pjtMap.PJT_SN
+                    }
+                    let result = customKendo.fn_customAjax("/projectRnd/getAccountInfo", data);
+                    $("#checkboxDiv").show();
+                    for(let i=0; i<result.list.length; i++){
+                        $("#at" + result.list[i].IS_TYPE).prop('checked',true);
+                    }
+                } else {
+                    $("#sbjSepN").prop("checked", true);
+                }
+            }
         }
+
+        unRndDetail.fn_buttonSet(rs);
+        unRndDetail.customBudgetGrid("/project/getProjectBudgetList.do", {pjtSn : $("#pjtSn").val()});
     },
 
     fn_save : function(){
@@ -59,9 +83,12 @@ var unRndDetail = {
             mngEmpName : $("#mngEmpName").val(),
             mngDeptSeq : $("#mngDeptSeq").val(),
             mngEmpSeq : $("#mngEmpSeq").val(),
+            
+            peoResCost : uncomma($("#peoResCost").val()),
+            peoResItem : uncomma($("#peoResItem").val()),
+            totResCost : uncomma($("#totResCost").val()),
 
             unRndObj : $("#unRndObj").val(),
-            unRndCont : $("#unRndCont").val(),
 
             empSeq: $("#mngEmpSeq").val(),
             regEmpSeq : $("#regEmpSeq").val(),
@@ -72,11 +99,6 @@ var unRndDetail = {
             parameters.stat = "upd"
         } else {
             parameters.stat = "ins"
-        }
-
-        var fd = new FormData();
-        for(var key in parameters){
-            fd.append(key, parameters[key]);
         }
 
         $("input[name='sbjSepYn']").each(function(){
@@ -105,13 +127,39 @@ var unRndDetail = {
             parameters.accountList = JSON.stringify(arr);
         }
 
+        var fd = new FormData();
+        for(var key in parameters){
+            fd.append(key, parameters[key]);
+        }
+
         if($("#bsPlanFile")[0].files.length == 1){
             fd.append("bsPlanFile", $("#bsPlanFile")[0].files[0]);
+        }
+
+        if(parameters.mngEmpSeq == ""){
+            alert("총괄책임자를 선택해주세요.");
+            return;
+        }
+
+        if(parameters.peoResItem == ""){
+            alert("현물을 작성해주세요. (없을시 0 기입)");
+            return;
         }
 
         if($("#bsPlanFileName").text() == ""){
             alert("사업계획서를 등록해주세요.");
             return;
+        }
+
+        if(parameters.unRndObj == ""){
+            alert("사업 목적/내용을 작성해주세요.");
+            return;
+        }
+        if(parameters.peoResCost == ""){
+            parameters.peoResCost = 0;
+        }
+        if(parameters.peoResItem == ""){
+            parameters.peoResItem = 0;
         }
 
         var customBudget = new Array();
@@ -161,8 +209,6 @@ var unRndDetail = {
 
         var date = new Date();
         var year = date.getFullYear().toString().substring(2,4);
-
-
 
         var parameters = {
             pjtSn : $("#pjtSn").val(),

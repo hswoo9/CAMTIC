@@ -9,8 +9,12 @@ var rndDetail = {
     },
 
     fn_setPage : function (){
-        customKendo.fn_textBox(["mngDeptName", "allBusnCost", "mngEmpName", "allResCost"
+        customKendo.fn_textBox(["mngDeptName", "mngEmpName"
             , "peoResCost", "peoResItem", "totResCost"]);
+
+        $("#rndObj").kendoTextArea({
+            rows : 7
+        });
 
         /*$("#bank").kendoDropDownList({
             dataTextField : "text",
@@ -20,25 +24,25 @@ var rndDetail = {
             ],
         });*/
 
-        $("input[name='resCardCheck']").click(function(){
+        /*$("input[name='resCardCheck']").click(function(){
             if($(this).val() == "Y"){
                 $("#rccYRes").show();
             }else{
                 $("#rccYRes").hide();
             }
-        });
+        });*/
 
         /** 계 = 총 사업비 + 현금 + 현물 */
-        $("#allResCost, #peoResCost, #peoResItem").keyup(function(){
+        /*$("#allResCost, #peoResCost, #peoResItem").keyup(function(){
             $("#allBusnCost").val(comma(
                 Number(uncomma($("#allResCost").val()))
                 + Number(uncomma($("#peoResCost").val()))
                 + Number(uncomma($("#peoResItem").val()))
             ));
-        });
+        });*/
 
-        customKendo.fn_datePicker("delvDay", "month", "yyyy-MM-dd", new Date());
-        customKendo.fn_datePicker("resDay", "month", "yyyy-MM-dd", new Date());
+        /*customKendo.fn_datePicker("delvDay", "month", "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("resDay", "month", "yyyy-MM-dd", new Date());*/
 
         /** 사업비 분리사용 유무 change 이벤트 */
         $("input[name='sbjSepYn']").change(function(){
@@ -66,7 +70,7 @@ var rndDetail = {
         /** 최초 저장 이후 데이터 세팅 */
         if(rs != null){
             $("#rndSn").val(rs.RND_SN);
-            $("#allBusnCost").val(comma(rs.ALL_BUSN_COST));
+            /*$("#allBusnCost").val(comma(rs.ALL_BUSN_COST));*/
             $("#mngDeptName").val(rs.MNG_DEPT_NAME);
             $("#mngEmpName").val(rs.MNG_EMP_NAME);
             $("#mngDeptSeq").val(rs.MNG_DEPT_SEQ);
@@ -76,7 +80,7 @@ var rndDetail = {
             //$("#bankNo").val(rs.BANK_NO);
             //$("#accHold").val(rs.ACC_HOLD);
 
-            $("#allResCost").val(comma(rs.ALL_RES_COST));
+            /*$("#allResCost").val(comma(rs.ALL_RES_COST));*/
             $("#peoResCost").val(comma(rs.PEO_RES_COST));
             $("#peoResItem").val(comma(rs.PEO_RES_ITEM));
             $("#totResCost").val(comma(rs.TOT_RES_COST));
@@ -90,14 +94,29 @@ var rndDetail = {
             }*/
             //$("#resCardNo").val(rs.RES_CARD_NO);
 
-            $("#delvDay").val(rs.DELV_DAY);
-            $("#resDay").val(rs.RES_DAY);
+            /*$("#delvDay").val(rs.DELV_DAY);
+            $("#resDay").val(rs.RES_DAY);*/
 
-        /** 최초 저장 이후 데이터 세팅 */
-        }else{
-            $("#allResCost").val(comma(pjtMap.PJT_EXP_AMT));
-            $("#allBusnCost").val(comma(pjtMap.PJT_EXP_AMT));
-            $("#totResCost").val(comma(pjtMap.PJT_EXP_AMT));
+            $("#rndObj").val(rs.RND_OBJ);
+
+            $("#rndSn").val(rs.RND_SN);
+            $("#bsPlanFileName").text(rs.file_org_name + "." + rs.file_ext);
+
+            if(pjtMap.SBJ_SEP != undefined){
+                if(pjtMap.SBJ_SEP == "Y"){
+                    $("#sbjSepY").prop("checked", true);
+                    var data = {
+                        pjtSn: pjtMap.PJT_SN
+                    }
+                    let result = customKendo.fn_customAjax("/projectRnd/getAccountInfo", data);
+                    $("#checkboxDiv").show();
+                    for(let i=0; i<result.list.length; i++){
+                        $("#at" + result.list[i].IS_TYPE).prop('checked',true);
+                    }
+                } else {
+                    $("#sbjSepN").prop("checked", true);
+                }
+            }
         }
 
         /** 버튼 세팅 */
@@ -109,19 +128,18 @@ var rndDetail = {
         var parameters = {
             pjtSn : $("#pjtSn").val(),
 
-            allBusnCost : uncomma($("#allBusnCost").val()),
+            allBusnCost : 0,
             mngDeptName : $("#mngDeptName").val(),
             mngEmpName : $("#mngEmpName").val(),
             mngDeptSeq : $("#mngDeptSeq").val(),
             mngEmpSeq : $("#mngEmpSeq").val(),
-            empSeq : $("#mngEmpSeq").val(),
 
             //bankSn : $("#bank").val(),
             //bankNm : $("#bank").data("kendoDropDownList").text(),
             //bankNo : $("#bankNo").val(),
             //accHold : $("#accHold").val(),
 
-            allResCost : uncomma($("#allResCost").val()),
+            /*allResCost : uncomma($("#allResCost").val()),*/
             peoResCost : uncomma($("#peoResCost").val()),
             peoResItem : uncomma($("#peoResItem").val()),
             totResCost : uncomma($("#totResCost").val()),
@@ -129,9 +147,12 @@ var rndDetail = {
             //resCardCheck : $("input[name='resCardCheck']:checked").val(),
             //resCardNo : $("#resCardNo").val(),
 
-            delvDay : $("#delvDay").val(),
-            resDay : $("#resDay").val(),
+            /*delvDay : $("#delvDay").val(),
+            resDay : $("#resDay").val(),*/
 
+            rndObj : $("#rndObj").val(),
+
+            empSeq : $("#mngEmpSeq").val(),
             regEmpSeq : $("#regEmpSeq").val()
         }
 
@@ -168,17 +189,32 @@ var rndDetail = {
             parameters.accountList = JSON.stringify(arr);
         }
 
-        if(parameters.allBusnCost == ""){
-            alert("총 사업비를 입력해주세요.");
-            return;
+        var fd = new FormData();
+        for(var key in parameters){
+            fd.append(key, parameters[key]);
+        }
+
+        if($("#bsPlanFile")[0].files.length == 1){
+            fd.append("bsPlanFile", $("#bsPlanFile")[0].files[0]);
         }
 
         if(parameters.mngEmpSeq == ""){
             alert("연구책임자를 선택해주세요.");
             return;
         }
-        if(parameters.allResCost == ""){
-            alert("전체연구비를 작성해주세요.");
+
+        if(parameters.peoResItem == ""){
+            alert("현물을 작성해주세요. (없을시 0 기입)");
+            return;
+        }
+
+        if($("#bsPlanFileName").text() == ""){
+            alert("사업계획서를 등록해주세요.");
+            return;
+        }
+
+        if(parameters.rndObj == ""){
+            alert("사업 목적/내용을 작성해주세요.");
             return;
         }
         if(parameters.peoResCost == ""){
@@ -210,13 +246,17 @@ var rndDetail = {
             customBudget.push(data);
         })
 
-        parameters.customBudget = JSON.stringify(customBudget);
+        fd.append("customBudget", JSON.stringify(customBudget));
 
         $.ajax({
             url : "/projectRnd/setRndDetail",
-            data : parameters,
+            data : fd,
             type : "post",
             dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async : false,
             success : function(rs){
                 if(rs.code == 200){
                     location.reload();

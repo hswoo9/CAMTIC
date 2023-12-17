@@ -78,6 +78,16 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
             projectRndRepository.updRschData(map);
             projectRndRepository.updPjtPsRnd(map);
         }
+        projectRndRepository.delAccountInfo(params);
+        projectRndRepository.updPjtSepRnd(params);
+        if(params.get("sbjSep").toString().equals("Y")) {
+            Gson gson = new Gson();
+            List<Map<String, Object>> ACCOUNT_LIST = new ArrayList<>();
+            ACCOUNT_LIST = gson.fromJson((String) params.get("accountList"), new TypeToken<List<Map<String, Object>>>() {
+            }.getType());
+            params.put("accountList", ACCOUNT_LIST);
+            projectRndRepository.insAccountInfo(params);
+        }
 
         // 프로젝트 총괄 책임자 변경
         projectRepository.updPMInfo(params);

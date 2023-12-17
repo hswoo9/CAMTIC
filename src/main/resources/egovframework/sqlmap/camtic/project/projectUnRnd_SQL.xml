@@ -98,13 +98,9 @@
         FROM
             CAM_PJT_MNG.DJ_PJT_UNRND A
         LEFT JOIN
-            CAM_COMMON.DJ_FILE_INFO B
-        ON
-            A.UN_RND_FILE_SN = B.file_no
+            CAM_COMMON.DJ_FILE_INFO B ON A.UN_RND_FILE_SN = B.file_no
         LEFT JOIN
-            DJ_CAMTIC.A_DOC_INFO DI
-        ON
-            A.DOC_ID = DI.DOC_ID
+            DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
             A.PJT_SN = #{pjtSn}
     </select>

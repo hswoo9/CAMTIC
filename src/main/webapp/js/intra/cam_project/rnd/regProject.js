@@ -272,23 +272,6 @@ var regRnd = {
 
             $("#pjtNm").val(e.PJT_NM);
 
-
-            if(e.SBJ_SEP != undefined){
-                if(e.SBJ_SEP == "Y"){
-                    $("#sbjSepY").prop("checked", true);
-                    var data = {
-                        pjtSn: e.PJT_SN
-                    }
-                    let result = customKendo.fn_customAjax("/projectRnd/getAccountInfo", data);
-                    $("#checkboxDiv").show();
-                    for(let i=0; i<result.list.length; i++){
-                        $("#at" + result.list[i].IS_TYPE).prop('checked',true);
-                    }
-                } else {
-                    $("#sbjSepN").prop("checked", true);
-                }
-            }
-
             if(e.SBJ_STAT_YN != undefined){
                 if(e.SBJ_STAT_YN == "Y"){
                     $("#rndStatYn").prop("checked", true);
