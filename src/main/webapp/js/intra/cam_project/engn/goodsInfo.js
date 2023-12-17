@@ -55,21 +55,6 @@ var goodsInfo = {
             }
         }
 
-        $.ajax({
-            url : "/project/getDevelopPlan",
-            data : data,
-            dataType : "json",
-            type : "post",
-            success : function(rs){
-                console.log(rs);
-                var devFile = rs.devFile;
-
-                if(devFile.devFile != null && devFile.devFile != ""){
-                    $("#devFileName").text(devFile.devFile.file_org_name + "." +devFile.devFile.file_ext);
-                }
-            }
-        })
-
         for(var idx = 0 ; idx < estSubList.length ; idx++){
             var html = "";
             var etc = ""
@@ -183,17 +168,6 @@ var goodsInfo = {
         fd.append("nextStepValue", data.nextStepValue);
         fd.append("empSeq", data.empSeq);
         fd.append("regEmpSeq", data.empSeq);
-
-        if($("#devFile")[0].files.length == 1){
-            fd.append("devFile", $("#devFile")[0].files[0]);
-        }
-
-        if(commonProject.global.teamStat != "Y"){
-            if($("#devFileName").text() == ""){
-                alert("납품서를 등록해주세요.");
-                return;
-            }
-        }
 
         $.ajax({
             url : "/project/engn/setGoodsInfo",
@@ -340,10 +314,6 @@ var goodsInfo = {
 
         goodsInfo.global.totAmt -= Number(goodsInfo.uncomma(inputData.goodsSupAmt));
         $("#goodsTotAmt").val(goodsInfo.comma(goodsInfo.global.totAmt));
-    },
-
-    fileChange : function(e){
-        $(e).next().text($(e)[0].files[0].name);
     },
 
     goodsPrintPop: function(){
