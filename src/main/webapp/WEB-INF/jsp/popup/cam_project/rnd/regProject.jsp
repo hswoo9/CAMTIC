@@ -202,14 +202,6 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>과제명(약칭)
-                    </th>
-                    <td colspan="3">
-                        <input type="text" id="pjtSubNm" style="width: 95%;">
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>사업비 분리사용 유무
                     </th>
                     <td>
