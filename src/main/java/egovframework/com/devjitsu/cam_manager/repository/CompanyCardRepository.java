@@ -86,4 +86,8 @@ public class CompanyCardRepository extends AbstractDAO {
     public int getCardUserGroupCheck(Map<String, Object> param){
         return (int) selectOne("card.getCardUserGroupCheck", param);
     }
+
+    public void delGroupUser(Map<String, Object> params) {
+        delete("card.delGroupUser", params);
+    }
 }

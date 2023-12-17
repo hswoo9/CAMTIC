@@ -328,4 +328,16 @@ public class CompanyCardController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/card/delGroupUser")
+    public String delGroupUser(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        try{
+            companyCardService.delGroupUser(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }

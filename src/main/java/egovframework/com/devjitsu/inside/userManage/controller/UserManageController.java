@@ -21,7 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Year;
@@ -818,6 +820,16 @@ public class UserManageController {
     }
 
     /**
+     * 연봉근로계약서 양식 다운로드
+     * @param request
+     * @return
+     */
+    @RequestMapping("/inside/employExcelFormDown.do")
+    public void employExcelFormDown(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        userManageService.employExcelFormDown(request, response);
+    }
+
+    /**
      * 연봉근로계약서 엑셀 업로드 팝업
      * @param params
      * @param request
@@ -834,7 +846,7 @@ public class UserManageController {
     }
 
     /**
-     * crm 고객등록 엑셀 업로드
+     * 연봉근로계약서 엑셀 업로드
      * @param params
      * @param model
      * @return

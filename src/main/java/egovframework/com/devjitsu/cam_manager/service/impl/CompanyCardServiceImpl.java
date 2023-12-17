@@ -127,4 +127,9 @@ public class CompanyCardServiceImpl implements CompanyCardService {
     public Map<String, Object> getCardUserGroupOne(Map<String, Object> param){
         return companyCardRepository.getCardUserGroupOne(param);
     }
+
+    @Override
+    public void delGroupUser(Map<String, Object> params) {
+        companyCardRepository.delGroupUser(params);
+    }
 }

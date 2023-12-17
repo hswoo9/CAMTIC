@@ -327,4 +327,8 @@
         WHERE
             GROUP_ID = #{groupId}
     </select>
+
+    <delete id="delGroupUser" parameterType="map">
+        DELETE FROM CAM_MNG.DJ_CARD_USER_GROUP_LIST WHERE GROUP_USER_ID = #{groupUserId} AND GROUP_ID = #{groupId}
+    </delete>
 </mapper>

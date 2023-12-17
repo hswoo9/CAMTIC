@@ -141,6 +141,7 @@ public class UserManageRepository extends AbstractDAO {
 
     /** 연봉근로계약 */
     public List<Map<String,Object>> getEmploymentContList(Map<String,Object> map) {return selectList("employM.getEmploymentContList", map);}
+    public List<Map<String,Object>> employmentExcelEmpList(Map<String,Object> map) {return selectList("employM.employmentExcelEmpList", map);}
     public Map<String,Object> getEmploymentInfo(Map<String,Object> map) {return (Map<String,Object>) selectOne("employM.getEmploymentInfo", map);}
     public void setEmploymentContract(Map<String, Object> params){ insert("employM.setEmploymentContract", params);}
     public void sendSalaryWorkerReq(List<String> params){ insert("employM.sendSalaryWorkerReq", params);}

@@ -35,4 +35,6 @@ public interface CompanyCardService {
     List<Map<String, Object>> getcardUserGroupList(Map<String, Object> params);
     void delCardUserGroup(Map<String, Object> params);
     Map<String, Object> getCardUserGroupOne(Map<String, Object> param);
+
+    void delGroupUser(Map<String, Object> params);
 }
