@@ -325,7 +325,7 @@ var draft = {
         window.open(draft.global.windowPopUrl, draft.global.popName, draft.global.popStyle);
     },
 
-    setHwpApprovalLinePut : function(){
+    setHwpApprovalLinePutBak : function(){
         /**
          * approver = 결재자 직급, 결재자 직책
          * approval = 결재자 이름
@@ -1255,5 +1255,34 @@ var draft = {
             draft.getDocFileSet(tempArr);
             draft.setKendoUpload();
         }
+    },
+
+    setHwpApprovalLinePut : function(){
+        console.log("----- 양식 결재선 세팅 -----");
+        console.log(draft.global.approversArr);
+        let list = draft.global.approversArr;
+
+        let empData;
+        for(let i=0; i<list.length; i++){
+            if(list[i].approveType == "2"){
+                empData = list[i];
+                console.log("----- 전결자는... -----");
+                console.log(empData);
+            }
+        }
+
+        let appArr = [];
+        /** 부서장 전결 */
+        if(empData.approveDutyName == "본부장" || empData.approveDutyName == "사업부장"){
+            appArr = ["", "전결", ""];
+
+        /** 팀장 전결 */
+        }else if(empData.approveDutyName == "팀장"){
+            appArr = ["전결", "공란", ""];
+        }
+
+        hwpDocCtrl.putFieldText('appr0', appArr[0]);
+        hwpDocCtrl.putFieldText('appr1', appArr[1]);
+        hwpDocCtrl.putFieldText('appr2', appArr[2]);
     }
 }

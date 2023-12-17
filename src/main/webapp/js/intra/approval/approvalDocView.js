@@ -41,6 +41,7 @@ var docView = {
 
         docView.initBtn();
         docView.initData();
+        docView.initAppr();
     },
 
     editorComplete : function() {
@@ -969,6 +970,95 @@ var docView = {
             $("#returnEmpName").val(docView.global.loginVO.name);
         }
     },
+
+    initAppr : function(){
+        let list = docView.global.rs.approveRoute;
+        console.log("------------------------------- appr ---------------------------------");
+        console.log(list);
+
+        let empData;
+        for(let i=0; i<list.length; i++){
+            if(list[i].APPROVE_TYPE == "2"){
+                empData = list[i];
+                console.log("----- 전결자는... -----");
+                console.log(empData);
+            }
+        }
+
+        let appArr = [];
+        /** 부서장 전결 */
+        if(empData.APPROVE_DUTY_NAME == "본부장" || empData.APPROVE_DUTY_NAME == "사업부장"){
+            setTimeout(function() {
+                appArr = ["sigh1", "전결", "sigh2"];
+                for (let i = 0; i < list.length; i++) {
+                    if (list[i].APPROVE_ORDER == "1" && list[i].APPROVE_STAT_CODE == 20) {
+                        hwpDocCtrl.putFieldText('appr0', list[i].APPROVE_EMP_NAME);
+
+                        /*let apprHtml = '<p style="text-align: center">' + list[i].APPROVE_EMP_NAME + '</p>';
+                        hwpDocCtrl.moveToField('appr0', true, true, false);
+                        hwpDocCtrl.setTextFile(apprHtml, "html", "insertfile");*/
+                    }
+                }
+            }, 2000);
+
+            setTimeout(function() {
+                for(let i=0; i<list.length; i++){
+                    if(list[i].APPROVE_ORDER == "2" && (list[i].APPROVE_STAT_CODE == 100 || list[i].APPROVE_STAT_CODE == 101)){
+                        hwpDocCtrl.putFieldText('appr2', list[i].APPROVE_EMP_NAME);
+
+                        /*let apprHtml = '<p style="text-align: center">'+list[i].APPROVE_EMP_NAME+'</p>';
+                        hwpDocCtrl.moveToField('appr2', true, true, false);
+                        hwpDocCtrl.setTextFile(apprHtml, "html","insertfile");*/
+                    }
+                }
+            }, 2500);
+
+            /** 팀장 전결 */
+        }else if(empData.APPROVE_DUTY_NAME == "팀장"){
+            appArr = ["전결", "공란", "sigh1"];
+
+            for(let i=0; i<list.length; i++){
+                if(list[i].APPROVE_STAT_CODE == 100 || list[i].APPROVE_STAT_CODE == 101){
+                    hwpDocCtrl.putFieldText('appr2', list[i].APPROVE_EMP_NAME);
+
+                    /*let apprHtml = '<p style="text-align: center">'+list[i].APPROVE_EMP_NAME+'</p>';
+                    hwpDocCtrl.moveToField('appr2', true, true, false);
+                    hwpDocCtrl.setTextFile(apprHtml, "html","insertfile");*/
+                }
+            }
+        }else{
+            appArr = ["sigh1", "sigh2", "sigh3"];
+            for(let i=0; i<list.length; i++){
+                if(list[i].APPROVE_ORDER == "1" && list[i].APPROVE_STAT_CODE == 20){
+                    hwpDocCtrl.putFieldText('appr0', list[i].APPROVE_EMP_NAME);
+
+                    /*let apprHtml = '<p style="text-align: center">'+list[i].APPROVE_EMP_NAME+'</p>';
+                    hwpDocCtrl.moveToField('appr0', true, true, false);
+                    hwpDocCtrl.setTextFile(apprHtml, "html","insertfile");*/
+                }
+            }
+
+            for(let i=0; i<list.length; i++){
+                if(list[i].APPROVE_ORDER == "2" && list[i].APPROVE_STAT_CODE == 20){
+                    hwpDocCtrl.putFieldText('appr1', list[i].APPROVE_EMP_NAME);
+
+                    /*let apprHtml = '<p style="text-align: center">'+list[i].APPROVE_EMP_NAME+'</p>';
+                    hwpDocCtrl.moveToField('appr1', true, true, false);
+                    hwpDocCtrl.setTextFile(apprHtml, "html","insertfile");*/
+                }
+            }
+
+            for(let i=0; i<list.length; i++){
+                if(list[i].APPROVE_STAT_CODE == 100 || list[i].APPROVE_STAT_CODE == 101){
+                    hwpDocCtrl.putFieldText('appr2', list[i].APPROVE_EMP_NAME);
+
+                    /*let apprHtml = '<p style="text-align: center">'+list[i].APPROVE_EMP_NAME+'</p>';
+                    hwpDocCtrl.moveToField('appr2', true, true, false);
+                    hwpDocCtrl.setTextFile(apprHtml, "html","insertfile");*/
+                }
+            }
+        }
+    }
 }
 
 function fileImgTag(ext){
