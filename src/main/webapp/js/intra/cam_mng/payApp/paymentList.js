@@ -169,6 +169,10 @@ var paymentList = {
                     template : function(e){
                         if(e.DOC_STATUS == "100"){
                             return "결재완료"
+                        } else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "50"){
+                            return "결재중"
+                        } else if(e.DOC_STATUS == "30"){
+                            return "반려"
                         } else {
                             return "작성중"
                         }
