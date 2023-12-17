@@ -184,7 +184,7 @@ var regRnd = {
             $("#stopBtn").show();
         }
 
-        customKendo.fn_textBox(["empName", "deptName", "pjtNm", "pjtSubNm", "rndCrmNm", "rndConCrmNm", "crmPartNm", "pjtExpAmt", "bsTitle"]);
+        customKendo.fn_textBox(["empName", "deptName", "pjtNm", "rndCrmNm", "rndConCrmNm", "crmPartNm", "pjtExpAmt", "bsTitle"]);
 
         customKendo.fn_datePicker("sbjStrDe", "depth", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("sbjEndDe", "depth", "yyyy-MM-dd", new Date());
@@ -281,7 +281,6 @@ var regRnd = {
             $("#deptSeq").val(e.DEPT_SEQ);
 
             $("#pjtNm").val(e.PJT_NM);
-            $("#pjtSubNm").val(e.PJT_SUB_NM);
 
 
             if(e.SBJ_SEP != undefined){
@@ -325,7 +324,6 @@ var regRnd = {
             deptName : $("#deptName").val(),
             regEmpSeq : $("#regEmpSeq").val(),
             pjtNm : $("#pjtNm").val(),
-            pjtSubNm : $("#pjtSubNm").val(),
             crmConSn : $("#rndConCrmSn").val(),
             crmSn : $("#rndCrmSn").val(),
             crmPartSn : $("#crmPartSn").val(),
@@ -434,7 +432,6 @@ var regRnd = {
             deptName : $("#deptName").val(),
             regEmpSeq : $("#regEmpSeq").val(),
             pjtNm : $("#pjtNm").val(),
-            pjtSubNm : $("#pjtSubNm").val(),
             crmConSn : $("#rndConCrmSn").val(),
             crmPartSn : $("#crmPartSn").val(),
             crmSn : $("#rndCrmSn").val(),

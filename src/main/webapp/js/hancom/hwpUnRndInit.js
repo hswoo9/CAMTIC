@@ -22,7 +22,7 @@ var unRndInit = {
         hwpDocCtrl.putFieldText('CRM_MEM_PHN', map.PH_NUM);
 
         /** 2. 과제정보 */
-        hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_SUB_NM);
+        hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_NM);
         hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(map.PJT_EXP_AMT));
         hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(map.PJT_EXP_AMT));
     },
@@ -50,7 +50,7 @@ var unRndInit = {
         hwpDocCtrl.putFieldText('CRM_MEM_PHN', map.PH_NUM);
 
         /** 2. 과제정보 */
-        hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_SUB_NM);
+        hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_NM);
         hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(map.PJT_AMT));
         hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(map.PJT_AMT));
 
@@ -176,7 +176,7 @@ var unRndInit = {
         hwpDocCtrl.putFieldText('CRM_MEM_PHN', map.PH_NUM);
 
         /** 2. 과제정보 */
-        hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_SUB_NM);
+        hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_NM);
         hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(map.PJT_AMT));
         hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(map.PJT_AMT));
 
