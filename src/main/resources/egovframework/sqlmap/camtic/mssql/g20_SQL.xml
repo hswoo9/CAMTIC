@@ -309,6 +309,14 @@
             AND
                 A.TR_NM LIKE CONCAT('%',#{cardName},'%')
         </if>
+        <if test='"M".equals(cardVal)'>
+            AND
+                A.TR_NM NOT LIKE CONCAT('%', '_개인카드', '%')
+        </if>
+        <if test='"P".equals(cardVal)'>
+            AND
+            A.TR_NM LIKE CONCAT('%', '_개인카드', '%')
+        </if>
     </select>
 
     <select id="getOtherList" parameterType="map" resultType="map">
