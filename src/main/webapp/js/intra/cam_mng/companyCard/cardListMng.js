@@ -16,7 +16,7 @@ var cardList = {
             serverPaging: false,
             transport: {
                 read: {
-                    url: "/g20/getCardList",
+                    url: "/g20/getCardAdminList",
                     dataType: "json",
                     type: "post"
                 },

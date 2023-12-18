@@ -358,6 +358,19 @@
             CAM_MNG.DJ_CARD_USER_GROUP_SEL
     </select>
 
+    <select id="getCardGroupPrivateCheck" parameterType="map" resultType="map">
+        SELECT
+            DCUGS.TR_CD,
+            DCUGS.CARD_BA_NB
+        FROM
+            CAM_MNG.DJ_CARD_USER_GROUP_SEL DCUGS
+        JOIN
+            CAM_MNG.DJ_CARD_USER_GROUP_LIST DCUGL
+        ON DCUGL.GROUP_ID = DCUGS.GROUP_ID
+        WHERE
+            DCUGL.EMP_SEQ = #{empSeq}
+    </select>
+
     <select id="getCardGroupNumCheck" parameterType="map" resultType="map">
         SELECT
             GROUP_CONCAT(CARD_BA_NB) AS CARD_BA_NB,
