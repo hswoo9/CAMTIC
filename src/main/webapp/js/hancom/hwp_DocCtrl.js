@@ -47,7 +47,7 @@ var hwpDocCtrl = {
                     let date = today.getDate();  // 날짜
 
                     hwpDocCtrl.global.HwpCtrl.MoveToField('deptName', true, true, false);
-                    hwpDocCtrl.putFieldText('deptName', ResultData.DEPT_NAME+" "+ResultData.DEPT_TEAM_NAME);
+                    hwpDocCtrl.putFieldText('deptName', ResultData.DEPT_NAME2);
 
                     hwpDocCtrl.global.HwpCtrl.MoveToField('empName', true, true, false);
                     hwpDocCtrl.putFieldText('empName', ResultData.EMP_NAME_KR);
