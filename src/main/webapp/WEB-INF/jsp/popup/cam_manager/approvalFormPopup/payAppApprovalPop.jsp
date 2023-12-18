@@ -102,10 +102,9 @@
     const rs = result.map;
     console.log(rs);
 
-
-    let formId = "154";
-    if(rs.PJT_CD.substring(0,1) == "R" || rs.PJT_CD.substring(0,1) == "S"){
-        formId = "147";
+    let formId = "147";
+    if(rs.PJT_CD.substring(0,1) == "M" ){
+        formId = "154";
     }
 
     let docTitle = "";

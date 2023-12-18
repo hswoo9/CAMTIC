@@ -220,9 +220,7 @@ var regPay = {
 
 
         var budgetFlag = false;
-        if($("#pjtCd").val().substring(0,1) == "R" || $("#pjtCd").val().substring(0,1) == "S"){
-
-        } else {
+        if($("#pjtCd").val().substring(0,1) == "M"){
             var tmpBudgetSnAr = [];
             $(".budgetSn").each(function(){
                 tmpBudgetSnAr.push($(this).val());
@@ -230,7 +228,8 @@ var regPay = {
 
             const setCollection = new Set(tmpBudgetSnAr);
             budgetFlag = setCollection.size !== 1;
-            alert(setCollection.size)
+        } else {
+
         }
 
         if(budgetFlag){
@@ -522,7 +521,7 @@ var regPay = {
             })
         }
 
-        if($("#pjtCd").val().substring(0,1) == "R" || $("#pjtCd").val().substring(0,1) == "S"){
+        if($("#pjtCd").val().substring(0,1) != "M"){
             $(".reasonTr").css("display", "");
             $("#reasonCol").css("display", "");
             $("#reasonTh").css("display", "");
@@ -641,7 +640,7 @@ var regPay = {
 
         var budgetFlag = false;
         if(type != "drafting"){
-            if($("#pjtCd").val().substring(0,1) == "R" || $("#pjtCd").val().substring(0,1) == "S"){
+            if($("#pjtCd").val().substring(0,1) != "M"){
 
             } else {
                 var tmpBudgetSnAr = [];
@@ -1077,7 +1076,7 @@ var regPayDet = {
         $(".payDestInfo td").css("padding", "0.35rem");
         $(".payDestInfo td span").css("font-size", "10px");
 
-        if($("#pjtCd").val().substring(0,1) == "R" || $("#pjtCd").val().substring(0,1) == "S"){
+        if($("#pjtCd").val().substring(0,1) != "M"){
             $(".reasonTr").css("display", "");
         }
     },
