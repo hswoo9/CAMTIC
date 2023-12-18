@@ -74,11 +74,11 @@
                     직원구분
                 </th>
                 <td>
-                    <input type="checkbox"  id="dsA" checked>
+                    <input type="checkbox" class="divis" division="0" id="dsA" checked>
                     <label for="dsA">정규직원</label>
-                    <input type="checkbox" style="margin-left: 10px;" id="dsC">
+                    <input type="checkbox" style="margin-left: 10px;" class="divis" division="4" divisionSub="1" id="dsC">
                     <label for="dsC">계약직원</label>
-                    <input type="checkbox"  style="margin-left: 10px;" id="dsB">
+                    <input type="checkbox"  style="margin-left: 10px;" class="divis" division="4" divisionSub="2" id="dsB">
                     <label for="dsB">인턴사원</label>
                 </td>
             </tr>
@@ -136,6 +136,7 @@
 
 <script>
     applicationReg.fn_defaultScript();
+
 </script>
 </body>
 

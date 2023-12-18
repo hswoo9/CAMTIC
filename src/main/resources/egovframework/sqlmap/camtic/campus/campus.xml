@@ -34,7 +34,8 @@
     <select id="getRealEduTimeYear" resultType="map" parameterType="map">
         /* getRealEduTimeYear */
         SELECT
-            IFNULL(SUM(ER.REAL_EDU_TIME), 0) AS REAL_EDU_TIME
+            IFNULL(SUM(ER.REAL_EDU_TIME), 0) AS REAL_EDU_TIME,
+            CAST(IFNULL(SUM(ER.REAL_EDU_TIME), 0) AS CHAR(10)) AS REAL_EDU_TIME2
         FROM
             CAMPUS.DJ_EDU_INFO EI
         LEFT JOIN
@@ -138,6 +139,7 @@
     <select id="getEduResultOne" resultType="map" parameterType="map">
         /* getEduResultOne */
         SELECT
+            EI.REG_EMP_SEQ,
             EI.EDU_INFO_ID,
             EI.EDU_CATEGORY_DETAIL_ID,
             EI.EDU_CATEGORY_DETAIL_NAME,
@@ -2082,7 +2084,9 @@
             CAMPUS.DJ_EDU_RESULT
         SET
             STATUS = ${status},
-            APPROVAL_EMP_SEQ = #{empSeq}
+            APPROVAL_EMP_SEQ = #{empSeq},
+            MNG_CHECK = 'Y',
+            REAL_EDU_TIME = #{realEduTime}
         WHERE
             EDU_INFO_ID = #{eduInfoId}
     </update>
