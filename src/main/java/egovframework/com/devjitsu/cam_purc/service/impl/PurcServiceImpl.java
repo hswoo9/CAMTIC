@@ -42,6 +42,11 @@ public class PurcServiceImpl implements PurcService {
     }
 
     @Override
+    public List<Map<String, Object>> getPjtPurcItemList(Map<String, Object> params) {
+        return purcRepository.getPjtPurcItemList(params);
+    }
+
+    @Override
     public void setPurcReq(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
         if(StringUtils.isEmpty(params.get("purcSn"))){
             purcRepository.setPurcReq(params);

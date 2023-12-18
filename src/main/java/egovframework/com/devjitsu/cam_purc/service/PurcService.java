@@ -10,6 +10,7 @@ public interface PurcService {
 
 
     List<Map<String, Object>> getPurcReqList(Map<String, Object> params);
+    List<Map<String, Object>> getPjtPurcItemList(Map<String, Object> params);
     void setPurcReq(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
     Map<String, Object> getPurcReq(Map<String, Object> params);
     List<Map<String, Object>> getPurcItemList(Map<String, Object> params);

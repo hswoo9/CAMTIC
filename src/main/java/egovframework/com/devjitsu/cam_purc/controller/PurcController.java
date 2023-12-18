@@ -80,6 +80,18 @@ public class PurcController {
     }
 
     /**
+     * 구매요청품목 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/purc/getPjtPurcItemList")
+    public String getPjtPurcItemList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", purcService.getPjtPurcItemList(params));
+        return "jsonView";
+    }
+
+    /**
      * 구매요청서 작성페이지
      * @param params
      * @param model
