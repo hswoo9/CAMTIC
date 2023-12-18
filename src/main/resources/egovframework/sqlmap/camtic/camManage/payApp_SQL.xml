@@ -24,6 +24,10 @@
                 PAY_APP_STAT,
                 GUBUN,
                 ADVANCES,
+            <if test='linkKey != null and !"".equals(linkKey)'>
+                LINK_KEY,
+                LINK_KEY_TYPE,
+            </if>
                 REG_EMP_SEQ
             )
         VALUES
@@ -45,6 +49,10 @@
                 #{payAppStat},
                 'W',
                 #{advances},
+            <if test='linkKey != null and !"".equals(linkKey)'>
+                #{linkKey},
+                #{linkKeyType},
+            </if>
                 #{regEmpSeq}
             )
         <selectKey keyProperty="payAppSn" resultType="Integer" order="BEFORE">
@@ -77,6 +85,8 @@
                 DT2,
                 DT3,
                 DT_CK,
+                LINK_KEY,
+                LINK_KEY_TYPE,
                 REQ_DE,
                 REQ_EXNP_DE,
                 REQ_END_DE,
@@ -105,6 +115,8 @@
                 #{DT2},
                 #{DT3},
                 'N',
+                (SELECT LINK_KEY FROM CAM_MNG.DJ_PAY_APP WHERE PAY_APP_SN = #{payAppSn}),
+                (SELECT LINK_KEY_TYPE FROM CAM_MNG.DJ_PAY_APP WHERE PAY_APP_SN = #{payAppSn}),
                 #{reqDe},
                 #{reqExDe},
                 #{reqEndDe},

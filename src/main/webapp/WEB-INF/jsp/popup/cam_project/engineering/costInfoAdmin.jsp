@@ -141,6 +141,9 @@
 
         <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 출장내역</span>
         <div id="grid3"></div>
+
+        <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 지출내역</span>
+        <div id="grid4"></div>
     </div>
 </div>
 

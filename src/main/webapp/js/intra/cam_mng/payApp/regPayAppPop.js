@@ -118,11 +118,14 @@ var regPay = {
             }
 
             var result = customKendo.fn_customAjax("/purc/getPurcAndClaimData", data);
+
             var rs = result.data;
-            $("#pjtSn").val(rs.PJT_SN);
-            $("#pjtNm").val(rs.PJT_NM);
+            const pjtMap = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: rs.PJT_SN}).rs;
+
+            $("#pjtSn").val(pjtMap.PJT_SN);
+            $("#pjtNm").val(pjtMap.PJT_NM);
             if($("#pjtSn").val() != ""){
-                selectProject(rs.PJT_SN, rs.PJT_NM, rs.PJT_CD)
+                selectProject(rs.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD)
             }
             $("#appTitle").val(rs.PURC_REQ_PURPOSE);
 
@@ -137,6 +140,9 @@ var regPay = {
                 $("#totCost" + i).val(regPay.comma(ls[i].PURC_ITEM_AMT));
                 $("#supCost" + i).val(regPay.comma(ls[i].PURC_ITEM_AMT));
             }
+        }
+
+        if($("#reqType").val() == "bustrip"){
         }
 
 
@@ -608,6 +614,15 @@ var regPay = {
         // } else {
         //     parameters.advances = 'N';
         // }
+        if($("#reqType").val() == "purc"){
+            parameters.linkKey = $("#purcSn").val();
+            parameters.linkKeyType = "구매";
+        }
+
+        if($("#reqType").val() == "bustrip"){
+            parameters.linkKey = $("#hrBizReqResultId").val();
+            parameters.linkKeyType = "출장";
+        }
 
         if($("#claimSn").val() != ""){
             parameters.claimSn = $("#claimSn").val();
