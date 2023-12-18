@@ -1483,6 +1483,12 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/getProjectBudgetListSum.do")
+    public String getProjectBudgetListSum(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", projectService.getProjectBudgetListSum(params));
+        return "jsonView";
+    }
+
     /** 프로젝트 합계 정보 */
     @RequestMapping("/project/getProjectTotalData")
     public String getProjectTotalData(@RequestParam Map<String, Object> params, Model model){

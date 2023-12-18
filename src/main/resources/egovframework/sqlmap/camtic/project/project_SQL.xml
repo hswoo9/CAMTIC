@@ -2689,6 +2689,13 @@
           AND CB_CODE_ID_1 IN (SELECT IS_TYPE FROM CAM_PJT_MNG.DJ_PJT_ACCOUNT WHERE PJT_SN = #{pjtSn})
     </select>
 
+    <select id="getProjectBudgetListSum" parameterType="map" resultType="map">
+        /* getProjectBudgetListSum */
+        SELECT MAX(CB_CODE_NAME_1) AS CB_CODE_NAME_1, SUM(CB_BUDGET) AS CB_BUDGET FROM CAM_PJT_MNG.DJ_PJT_CB
+        WHERE PJT_SN = #{pjtSn}
+        GROUP BY CB_CODE_ID_1
+    </select>
+
     <!-- 커스텀예산 끝 -->
 
     <select id="getProjectTotalData" parameterType="map" resultType="map">

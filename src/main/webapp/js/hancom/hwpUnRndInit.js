@@ -5,6 +5,7 @@ var unRndInit = {
         const unRndInfo = customKendo.fn_customAjax("/projectUnRnd/getUnRndDetail", {pjtSn: pjtSn});
         const map = pjtInfo.rs;
         const delvMap = unRndInfo.map;
+        const customG20 = customKendo.fn_customAjax("/project/getProjectBudgetListSum.do", {pjtSn: pjtSn});
 
         /** 1. 사업정보 */
         hwpDocCtrl.putFieldText('BUSN_CLASS', map.BUSN_NM);
@@ -25,6 +26,9 @@ var unRndInit = {
         hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_NM);
         hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(Number(delvMap.TOT_RES_COST) + Number(delvMap.PEO_RES_ITEM)));
         hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(delvMap.TOT_RES_COST));
+        const htmlG20 = rndInit.htmlCustomG20(customG20, delvMap.TOT_RES_COST);
+        hwpDocCtrl.moveToField('content', true, true, false);
+        hwpDocCtrl.setTextFile(htmlG20, "HTML", "insertfile", {});
     },
 
     devInit: function(devSn){

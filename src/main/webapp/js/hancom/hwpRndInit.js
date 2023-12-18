@@ -5,6 +5,7 @@ var rndInit = {
         const rndInfo = customKendo.fn_customAjax("/projectRnd/getRndDetail", {pjtSn: pjtSn});
         const map = pjtInfo.rs;
         const delvMap = rndInfo.map;
+        const customG20 = customKendo.fn_customAjax("/project/getProjectBudgetListSum.do", {pjtSn: pjtSn});
 
         /** 1. 사업정보 */
         hwpDocCtrl.putFieldText('BUSN_CLASS', map.BUSN_NM);
@@ -25,6 +26,9 @@ var rndInit = {
         hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_NM);
         hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(Number(delvMap.TOT_RES_COST) + Number(delvMap.PEO_RES_ITEM)));
         hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(delvMap.TOT_RES_COST));
+        const htmlG20 = rndInit.htmlCustomG20(customG20, delvMap.TOT_RES_COST);
+        hwpDocCtrl.moveToField('content', true, true, false);
+        hwpDocCtrl.setTextFile(htmlG20, "HTML", "insertfile", {});
     },
 
     devInit: function(devSn){
@@ -312,6 +316,40 @@ var rndInit = {
             hwpDocCtrl.moveToField('ETC', true, true, false);
             hwpDocCtrl.setTextFile(res.RS_ISS.replaceAll("\n", "<br>"), "html","insertfile");
         }, 11000);
+    },
+
+    htmlCustomG20: function(g20, amt){
+        let html = '';
+        html += '<table style="font-family:굴림;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
+        html += '   <tr>';
+        html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
+        html += '           <table border="3" style="border-collapse: collapse; margin: 0px;">';
+        html += '               <tr>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 200px;"><p style="font-size:12px;"><b>장</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 235px;"><p style="font-size:12px;"><b>예산액</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 200px;"><p style="font-size:12px;"><b>비율</b></p></td>';
+        html += '               </tr>';
+        let sum = 0;
+        for(let i=0; i<g20.list.length; i++){
+            const map = g20.list[i];
+            html += '               <tr>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CB_CODE_NAME_1 +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ fn_numberWithCommas(map.CB_BUDGET) +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ Math.round(map.CB_BUDGET / amt * 100)+"%" +'</p></td>';
+            html += '               </tr>';
+            sum += map.CB_BUDGET;
+        }
+        html += '               <tr>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center;"><p style="font-size:12px;">합계</p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ fn_numberWithCommas(sum) +'</p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
+        html += '               </tr>';
+        html += '           </table>';
+        html += '       </td>';
+        html += '   </tr>';
+        html += '</table>';
+
+        return html.replaceAll("\n", "<br>");
     },
 
     htmlG20: function(g20){
