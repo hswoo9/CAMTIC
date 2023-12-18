@@ -136,8 +136,10 @@ var rndRPR = {
         }
 
         if(parameters.itemBudget == null || parameters.itemBudget == ""){
-            alert("인건비 예산(현물)을 입력해주세요");
-            return;
+            /*alert("인건비 예산(현물)을 입력해주세요");
+            return;*/
+
+            parameters.itemBudget = 0;
         }
 
         var fd = new FormData();

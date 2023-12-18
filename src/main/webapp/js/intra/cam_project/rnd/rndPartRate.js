@@ -12,11 +12,11 @@ var rndPR = {
             if($("#viewSubStat").val() == "Y"){
                 $("#viewSubStat").val("N");
                 $("#partRateMainGrid").css("display", "none");
-                $("#viewSubText").html("&#9650;");
+                $("#viewSubText").html("참여인력 정보&#9660;");
             }else{
                 $("#viewSubStat").val("Y");
                 $("#partRateMainGrid").css("display", "");
-                $("#viewSubText").html("&#9660;");
+                $("#viewSubText").html("&#9650;");
             }
         });
 
@@ -284,6 +284,7 @@ var rndPR = {
                 memHtml += '   <td><input type="text" id="memTotRate'+i+'" name="totRate" style="text-align: right" disabled value="0"></td>';      // 총 참여율(%)
                 memHtml += '   <td><input type="text" id="memPayTotal'+i+'" name="payTotal" style="text-align: right" value="0" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"></td>';
                 memHtml += '   <td><input type="text" id="memMonSal'+i+'" name="monSal" style="text-align: right" disabled value="0"></td>';      // 월 인건비
+                memHtml += '   <td><button type="button" class="k-button k-button-solid-info" onclick="rndPR.fn_userPartRatePop('+mem[i].EMP_SEQ+', '+data.pjtSn+')">조회</button></td>';      // 참여율 조회
                 memHtml += '</tr>';
             }
 
@@ -428,5 +429,16 @@ var rndPR = {
             this.method = 'POST';
             this.target = '_self';
         }).trigger("submit");
+    },
+
+    /**
+    * 개인별 참여율 현황 팝업 페이지 VIEW
+    * @param sn
+    */
+    fn_userPartRatePop : function(sn, key){
+        var url = "/mng/pop/userPartRate.do?sn=" + sn + "&pjtSn=" + key;
+        var name = "_blank";
+        var option = "width = 1800, height = 750, top = 100, left = 200, location = no";
+        var popup = window.open(url, name, option);
     }
 }
