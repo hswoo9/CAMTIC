@@ -120,6 +120,13 @@ var rndDetail = {
             const list = AcResult.list;
             let arr = [];
             let firstValue = "";
+
+            let sum = {
+                label: "총괄",
+                value: "-1"
+            };
+            arr.push(sum);
+
             for(let i=0; i<list.length; i++){
                 let label = "";
                 if(list[i].IS_TYPE == "1"){
@@ -141,7 +148,7 @@ var rndDetail = {
                 };
                 arr.push(data);
                 if(i == 0){
-                    firstValue = list[i].IS_TYPE;
+                    firstValue = -1;
                 }
             }
 
@@ -157,14 +164,14 @@ var rndDetail = {
             customKendo.fn_radioGroup("budgetType", arr, "horizontal");
             $("#budgetType").data("kendoRadioGroup").value(firstValue);
 
-            for(let i=0; i<=6; i++){
+            for(let i=-1; i<=6; i++){
                 $("#customBudgetGrid"+i).hide();
             }
 
             $("#customBudgetGrid" + firstValue).show();
 
             $("#budgetType").data("kendoRadioGroup").bind("change", function(){
-                for(let i=0; i<=6; i++){
+                for(let i=-1; i<=6; i++){
                     $("#customBudgetGrid"+i).hide();
                 }
                 $("#customBudgetGrid" + $("#budgetType").data("kendoRadioGroup").value()).show();
@@ -452,14 +459,82 @@ var rndDetail = {
     },
 
     customBudgetGrid : function(url, params){
+        $("#customBudgetGrid-1").kendoGrid({
+            dataSource: customKendo.fn_gridDataSource2(url, params, 200),
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            noRecords: {
+                template: "저장 할 때마다 합계가 갱신됩니다."
+            },
+            editable : function (){
+                return true;
+            },
+            columns: [
+                {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'pCbPk\');"/>',
+                    template : "<input type='checkbox' id='pCbPk#=CB_SN#' name='pCbPk' class='pCbPk' value='#=CB_SN#'/>",
+                    width: 50
+                }, {
+                    title: "장",
+                    field : "CB_CODE_NAME_1",
+                    editable: function(){
+                        return false;
+                    },
+                }, {
+                    title: "관",
+                    field : "CB_CODE_NAME_2",
+                    editable: function(){
+                        return false;
+                    },
+                }, {
+                    title: "항",
+                    field : "CB_CODE_NAME_3",
+                    footerTemplate: "합계",
+                    template : function(e){
+                        return e.CB_CODE_NAME_3
+                    },
+                    editable: function(){
+                        return false;
+                    },
+                }, {
+                    title: "예산액",
+                    field : "CB_BUDGET",
+                    template : function(e){
+                        sum += Number(e.CB_BUDGET);
+                        return fn_numberWithCommas(e.CB_BUDGET);
+                    },
+                    footerTemplate : function (e) {
+                        return "<span id='total-1'></span>";
+                    },
+                    attributes: { style: "text-align: right" },
+                },
+
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            },
+            dataBound: function(){
+                $("#total-1").text(fn_numberWithCommas(sum));
+                sum = 0;
+            }
+        }).data("kendoGrid");
+
+        $('#customBudgetGrid-1').on('blur', '[id="CB_BUDGET"]', function(e){
+            var total = 0;
+            $.each($("#customBudgetGrid-1").data("kendoGrid").dataSource.data(), function(){
+                total += Number(this.CB_BUDGET);
+            })
+            $("#total-1").text(comma(total))
+        })
+
         for(let i=0; i<=6; i++) {
             params.account = String(i);
             $("#customBudgetGrid"+i).kendoGrid({
-                dataSource: customKendo.fn_gridDataSource2(url, params),
+                dataSource: customKendo.fn_gridDataSource2(url, params, 200),
                 sortable: true,
                 scrollable: true,
                 selectable: "row",
-                height: 489,
                 noRecords: {
                     template: "데이터가 존재하지 않습니다."
                 },

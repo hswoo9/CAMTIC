@@ -124,6 +124,7 @@
                 <td colspan="4">
                     <br>
                     <span id="budgetType"></span>
+                    <div id="customBudgetGrid-1"></div>
                     <div id="customBudgetGrid0"></div>
                     <div id="customBudgetGrid1"></div>
                     <div id="customBudgetGrid2"></div>

@@ -2677,7 +2677,9 @@
         /* getProjectBudgetList */
         SELECT * FROM CAM_PJT_MNG.DJ_PJT_CB
         WHERE PJT_SN = #{pjtSn}
-        AND ACCOUNT = #{account}
+        <if test='account != null and !"".equals(account)'>
+            AND ACCOUNT = #{account}
+        </if>
     </select>
 
     <select id="getProjectBudgetTotal" parameterType="map" resultType="map">
