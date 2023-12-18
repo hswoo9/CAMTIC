@@ -203,7 +203,12 @@
   }
 
   function fn_opener(url, alId){
-    window.open(url, '', 'width=900, height=850');
+    if(String(url).indexOf("absentSet") > -1){
+        open_in_frame(url);
+    }else {
+        window.open(url, '', 'width=900, height=850');
+    }
+
     setAlarmCheck(alId);
   }
 

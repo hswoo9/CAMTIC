@@ -243,13 +243,13 @@
             AVF.C_UIUSERKEY AS C_UIUSERKEY,
             AVF.C_OIORGCODE AS C_OIORGCODE
         FROM
-            NEOS.A_ABSENTINFO AF
+            DJ_CAMTIC.A_ABSENTINFO AF
         JOIN
-            NEOS.A_VICARIOUSINFO AVF
+            DJ_CAMTIC.A_VICARIOUSINFO AVF
         ON  AF.C_UIUSERKEY =  AVF.C_UIUSERKEY AND AF.C_OIORGCODE = AVF.C_OIORGCODE AND AF.C_AISEQNUM = AVF.C_AISEQNUM AND AVF.C_VIUSERKEY = #{empSeq}
         <if test="np307 == 2">
             JOIN
-                NEOS.T_CO_DEPT D ON AVF.C_VIORGCODE = D.DEPT_SEQ AND D.COMP_SEQ = #{compSeq}
+                CAM_HR.DJ_DEPT_INFO D ON AVF.C_VIORGCODE = D.DEPT_SEQ
         </if>
         <if test="np307 != 2">
             AND AVF.C_VIORGCODE = #{deptSeq}
@@ -544,23 +544,6 @@
             FAV_ROUTE_ID = #{favRouteId}
     </delete>
 
-    <select id="getOrgPullPath" parameterType="map" resultType="String">
-        /* getOrgPullPath */
-        SELECT
-        <if test="langCode != null and langCode != ''">
-            display_path_name_${langCode}
-        </if>
-        <if test="langCode == null or langCode == ''">
-            display_path_name_kr
-        </if>
-        FROM
-        NEOS.T_CO_ORGCHART_NAME
-        WHERE
-        SEQ = #{c_oiorgcode}
-        AND GBN_ORG = 'd'
-
-    </select>
-
     <select id="getApprovalDocSearchList" resultType="map" parameterType="map">
         /* getApprovalDocSearchList */
         SELECT
@@ -725,12 +708,12 @@
         WHERE
             DI.ACTIVE = 'Y'
         AND
-            DI.DRAFT_DEPT_SEQ NOT IN (SELECT dept.DEPT_SEQ FROM NEOS.T_CO_DEPT dept WHERE dept.PATH LIKE CONCAT('%', '1204' ,'%'))
+            DI.DRAFT_DEPT_SEQ NOT IN (SELECT dept.DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO dept WHERE dept.PATH LIKE CONCAT('%', '1204' ,'%'))
         AND
-            DI.DRAFT_DEPT_SEQ NOT IN (SELECT dept.DEPT_SEQ FROM NEOS.T_CO_DEPT dept WHERE dept.PATH LIKE CONCAT('%', '1236' ,'%'))
+            DI.DRAFT_DEPT_SEQ NOT IN (SELECT dept.DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO dept WHERE dept.PATH LIKE CONCAT('%', '1236' ,'%'))
         <if test='deptSeq != null and !"".equals(deptSeq)'>
             AND
-                DI.DRAFT_DEPT_SEQ IN (SELECT dept.DEPT_SEQ FROM NEOS.T_CO_DEPT dept WHERE dept.PATH LIKE CONCAT('%', #{deptSeq} ,'%'))
+                DI.DRAFT_DEPT_SEQ IN (SELECT dept.DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO dept WHERE dept.PATH LIKE CONCAT('%', #{deptSeq} ,'%'))
         </if>
         AND (
             DI.APPROVE_STAT_CODE = 100 OR
@@ -855,4 +838,467 @@
         </choose>
     </select>
 
+    <!-- 부재설정 -->
+    <!-- 부재 설정 -->
+    <select id="getAbsentSetList" parameterType="map" resultType="map">
+        /* getAbsentSetList */
+        SELECT
+            AA.C_UIUSERKEY AS C_UIUSERKEY,
+            AA.C_AISTATUS AS C_AISTATUS,
+            AA.C_AISEQNUM AS C_AISEQNUM,
+            AA.C_CIKEYCODE AS C_CIKEYCODE,
+            (SELECT CM_CODE_NM FROM CAM_COMMON.DJ_COM_CODE WHERE CM_CODE = AA.C_CIKEYCODE AND CM_GROUP_CODE_ID = 23) AS C_CIKEYNM,
+            AA.C_OIORGCODE AS C_OIORGCODE,
+            AA.C_AIMEMO AS C_AIMEMO,
+            AA.C_AIFLAG AS C_AIFLAG,
+            DATE_FORMAT(AA.C_AISDAY, '%Y-%m-%d') AS C_AISDAY,
+            AA.C_AISTIME AS C_AISTIME,
+            DATE_FORMAT(AA.C_AIEDAY, '%Y-%m-%d') AS C_AIEDAY,
+            AA.C_AIETIME AS C_AIETIME,
+            AA.C_MDAY AS C_MDAY,
+            AA.C_MTIME AS C_MTIME,
+            AA.C_OIORGCODE AS DEPT_SEQ,
+            AA.DEPT_NAME,
+            AA.C_UIUSERKEY AS EMP_SEQ,
+            AA.EMP_NAME_KR AS EMP_NAME,
+            AA.LOGIN_ID AS LOGIN_ID,
+            CONCAT(AA.EMP_NAME_KR,'(', AA.LOGIN_ID, ')') AS USERINFO,
+            AA.DUTY_NAME AS DUTY_NM,
+            AA.POSITION_NAME AS POSITION_NM,
+            IFNULL(C_AIALIM, '0') AS C_AIALIM,
+            <!-- 	    대결자 정보 -->
+            AA.C_VIORGCODE AS C_VIORGCODE,
+            AA.C_VIORGNAME,
+            AA.C_VIUSERKEY AS C_VIUSERKEY,
+            AA.C_VIUSERID AS C_VIUSERID,
+            AA.C_VIUSERNAME,
+            CONCAT(AA.C_VIUSERNAME,'(', AA.C_VIUSERID, ')') AS C_VIUSERINFO,
+            AA.C_VIAUTHORITY AS C_VIAUTHORITY,
+            AA.VIDUTY_NM,
+            AA.VIPOSITION_NM,
+            AA.C_VICOMPSEQ,
+            AA.C_VIGROUPSEQ,
+            <!-- 	    수정자 정보 -->
+            AA.C_MODIFYUSERKEY AS C_MODIFYUSERKEY,
+            AA.C_MODIFYDEPTKEY AS C_MODIFYDEPTKEY,
+            CONCAT((SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE emp_seq = AA.C_MODIFYUSERKEY),  '(', (SELECT login_id FROM CAM_HR.DJ_EMP_INFO WHERE emp_seq = AA.C_MODIFYUSERKEY), ')') AS C_MODIFYUSERNAME
+        FROM (
+        SELECT
+            A.*,
+            e.EMP_NAME_KR,
+            IFNULL(e.DEPT_TEAM_NAME, e.DEPT_NAME) AS DEPT_NAME,
+            e.login_id,
+            e.DUTY_NAME,
+            e.duty_code,
+            e.POSITION_NAME,
+            e.position_code,
+            B.C_VIORGCODE,
+            IFNULL(ve.DEPT_TEAM_NAME, ve.DEPT_NAME) AS C_VIORGNAME,
+            B.C_VIUSERKEY,
+            ve.EMP_NAME_KR AS C_VIUSERNAME,
+            B.C_VIAUTHORITY,
+            ve.login_id AS C_VIUSERID,
+            ve.duty_code AS VI_duty_code,
+            ve.DUTY_NAME AS VIDUTY_NM,
+            ve.position_code AS VI_position_code,
+            ve.POSITION_NAME AS VIPOSITION_NM,
+            B.c_dutycode AS C_VIdutycode,
+            B.c_positioncode AS C_VIpositioncode,
+            B.C_COMPSEQ AS C_VICOMPSEQ,
+            B.C_GROUPSEQ AS C_VIGROUPSEQ
+        FROM
+            DJ_CAMTIC.A_ABSENTINFO A
+        <!-- 	    부재자 정보 -->
+        INNER JOIN
+            CAM_HR.DJ_EMP_INFO e
+        ON A.C_UIUSERKEY = E.emp_seq <!-- AND e.use_yn = 'Y'   -->
+        LEFT OUTER JOIN
+            DJ_CAMTIC.A_VICARIOUSINFO B
+        ON A.C_OIORGCODE = B.C_OIORGCODE AND A.C_UIUSERKEY = B.C_UIUSERKEY AND A.C_AISEQNUM = B.C_AISEQNUM
+        LEFT OUTER JOIN
+            CAM_HR.DJ_EMP_INFO ve
+        ON B.C_VIUSERKEY = ve.emp_seq <!-- AND ve.use_yn = 'Y'  -->
+        LEFT OUTER JOIN
+            DJ_CAMTIC.A_ABSENTINFO A1
+        ON A.C_AISDAY = A1.C_AISDAY AND DATE_FORMAT(A1.C_AIEDAY, '%Y-%m-%d') &lt; DATE_FORMAT(#{aisday}, '%Y-%m-%d')
+        LEFT OUTER JOIN
+            DJ_CAMTIC.A_ABSENTINFO A2
+        ON A.C_AIEDAY = A2.C_AIEDAY AND DATE_FORMAT(A2.C_AISDAY, '%Y-%m-%d') &gt; DATE_FORMAT(#{aieday}, '%Y-%m-%d')
+        WHERE 1=1
+        AND
+            (A.C_AISTATUS != 'd' OR A.C_AISTATUS IS NULL)
+        AND
+            A.C_AISDAY IS NOT NULL
+        AND
+            A.C_AIEDAY IS NOT NULL
+        AND
+            A1.C_AISDAY IS NULL
+        AND
+            A2.C_AIEDAY IS NULL
+        <if test="userSe == 'USER'">
+            AND
+                IFNULL(A.C_compseq, ed.comp_seq) = #{loginVO.organId}
+            AND
+            (
+                (A.C_UIUSERKEY = #{loginVO.uniqId} AND A.C_OIORGCODE =  #{loginVO.orgnztId} ) OR
+                (B.C_VIUSERKEY = #{loginVO.uniqId} AND B.C_VIORGCODE =  #{loginVO.orgnztId} )
+            )
+        </if>
+        <if test="absenceSeq != null and absenceSeq != ''">
+            AND
+                A.C_UIUSERKEY =  #{absenceSeq}
+        </if>
+
+
+        <if test="deptSeq != null and deptSeq != ''">
+            AND
+                A.C_OIORGCODE =  #{deptSeq}
+        </if>
+
+        <if test='deptComp != null and !"".equals(deptComp)'>
+            AND
+                e.DEPT_SEQ = #{deptComp}
+            <if test='deptTeam == deptTeam or "".equals(deptTeam)'>
+                OR
+                e.DEPT_SEQ IN (
+                    SELECT
+                        DEPT_SEQ
+                    FROM
+                        CAM_HR.DJ_DEPT_INFO
+                    WHERE
+                        DEPT_SEQ = #{deptComp}
+                    OR
+                        PARENT_DEPT_SEQ = #{deptComp}
+                )
+            </if>
+        </if>
+
+        <if test="absentSeq != null and absentSeq != ''">     <!-- 대결자 -->
+            AND
+                B.C_VIUSERKEY =  #{absentSeq}
+        </if>
+        <if test="viDeptSeq != null and viDeptSeq != ''">
+            AND
+                B.C_VIORGCODE =  #{viDeptSeq}
+        </if>
+        <if test="modifySeq != null and modifySeq != ''">
+            AND
+                A.C_MODIFYUSERKEY =  #{modifySeq}
+        </if>
+        <if test="absenceCode != null and absenceCode != ''">   <!-- 부재사유 -->
+            AND
+                A.C_CIKEYCODE =  #{absenceCode}
+        </if>
+        <if test="absentCode != null and absentCode != ''">    <!-- 부재상태 -->
+            <if test="absentCode == 1">
+                AND A.C_AISTATUS = '1'
+            </if>
+            <if test="absentCode == 2">
+                AND A.C_AISTATUS = '2'
+            </if>
+            <if test="absentCode == 3">
+                AND A.C_AISTATUS IS NULL
+                AND A.C_AIFLAG = '0'
+            </if>
+            <if test="absentCode == 4">
+                AND A.C_AISTATUS IS NULL
+                AND A.C_AIFLAG = '1'
+            </if>
+        </if>
+        ) AA
+        ORDER BY CONCAT(AA.C_AISDAY , AA.C_AISTIME, AA.C_AIEDAY , AA.C_AIETIME, AA.C_AISEQNUM) DESC
+    </select>
+
+    <select id="getMaxAiSeqNum" parameterType="map" resultType="String">
+        /* getMaxAiSeqNum */
+        SELECT
+            LPAD(CAST(IFNULL(C_AISEQNUM,0) AS UNSIGNED)  + 1 ,'10', '0')
+        FROM (
+            SELECT
+                CASE WHEN MAX(AI.C_AISEQNUM) &gt;= MAX(VI.C_AISEQNUM) THEN MAX(AI.C_AISEQNUM)
+                     ELSE MAX(VI.C_AISEQNUM) END AS C_AISEQNUM
+            FROM
+                DJ_CAMTIC.A_ABSENTINFO AI
+            INNER JOIN
+                DJ_CAMTIC.A_VICARIOUSINFO VI
+            ON AI.C_UIUSERKEY = VI.C_UIUSERKEY AND AI.C_OIORGCODE = VI.C_OIORGCODE
+            WHERE
+                AI.c_uiuserkey = #{c_uiuserkey}
+            AND
+                AI.c_oiorgcode = #{c_oiorgcode}
+        ) A
+    </select>
+
+    <insert id="setAbsentInfo" parameterType="map">
+        /* setAbsentInfo */
+        INSERT INTO DJ_CAMTIC.A_ABSENTINFO
+        (
+            C_OIORGCODE,
+            C_UIUSERKEY,
+            C_AISEQNUM,
+            C_CIKEYCODE,
+            C_AISDAY,
+            C_AISTIME,
+            C_AIEDAY,
+            C_AIETIME,
+            C_AIMEMO,
+            C_AISTATUS,
+            C_AIFLAG,
+            <if test="c_aiflag == 1">
+                C_MDAY,
+                C_MTIME,
+            </if>
+            C_MODIFYUSERKEY,
+            C_MODIFYDEPTKEY,
+            C_AIALIM,
+            C_DUTYCODE,
+            C_POSITIONCODE
+        )
+        SELECT
+            #{c_oiorgcode},
+            #{c_uiuserkey},
+            #{c_aiseqnum},
+            #{c_cikeycode},
+            #{c_aisday},
+            #{c_aistime},
+            #{c_aieday},
+            #{c_aietime},
+            <if test="c_aimemo == null or c_aimemo == ''">
+                '',
+            </if>
+            <if test="c_aimemo != null and c_aimemo != ''">
+                #{c_aimemo},
+            </if>
+            CASE WHEN DATE_FORMAT(NOW(), '%Y-%m-%d') &gt; #{c_aieday} THEN NULL
+            ELSE #{c_aistatus} END,
+            #{c_aiflag},
+            <if test="c_aiflag == 1">
+                #{c_mday},
+                #{c_mtime},
+            </if>
+            #{loginVO.uniqId},
+            #{loginVO.orgnztId},
+            #{c_aialim},
+            DUTY_CODE,
+            POSITION_CODE
+        FROM
+            CAM_HR.DJ_EMP_INFO A
+        WHERE
+            EMP_SEQ = #{c_uiuserkey}
+        AND
+            DEPT_SEQ = #{c_oiorgcode}
+    </insert>
+
+    <update id="setAbsentInfoUpd" parameterType="map">
+        /* setAbsentInfoUpd */
+        UPDATE
+            DJ_CAMTIC.A_ABSENTINFO
+        SET
+            <if test="c_aistatus == &quot;d&quot;">
+                C_AISTATUS      = #{c_aistatus},
+            </if>
+            <if test="c_aistatus != &quot;d&quot;">
+                C_CIKEYCODE     = #{c_cikeycode},
+                C_AISDAY        = #{c_aisday},
+                C_AISTIME       = #{c_aistime},
+                C_AIEDAY        = #{c_aieday},
+                C_AIETIME       = #{c_aietime},
+                C_AIMEMO        = #{c_aimemo},
+                C_AISTATUS      = #{c_aistatus},
+                C_AIFLAG        = #{c_aiflag},
+                C_AIALIM        = #{c_aialim},
+                <if test="c_aiflag == 1">
+                    C_MDAY          = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+                    C_MTIME         = DATE_FORMAT(NOW(), '%H:%i'),
+                </if>
+            </if>
+            C_MODIFYUSERKEY = #{loginVO.uniqId},
+            C_MODIFYDEPTKEY = #{loginVO.orgnztId}
+        WHERE
+            C_UIUSERKEY = #{c_uiuserkey}
+        AND
+            C_OIORGCODE = #{c_oiorgcode}
+        AND
+            C_AISEQNUM = #{c_aiseqnum}
+    </update>
+
+    <insert id="setVicariousInfo" parameterType="map">
+        /* setVicariousInfo */
+        INSERT INTO DJ_CAMTIC.A_VICARIOUSINFO
+        (
+            C_OIORGCODE,
+            C_UIUSERKEY,
+            C_AISEQNUM,
+            C_VISEQNUM,
+            C_VIORGCODE,
+            C_VIUSERKEY,
+            C_VIAUTHORITY,
+            C_DUTYCODE,
+            C_POSITIONCODE
+        )
+        SELECT
+            #{c_oiorgcode},
+            #{c_uiuserkey},
+            #{c_aiseqnum},
+            #{c_viseqnum},
+            #{c_viorgcode},
+            #{c_viuserkey},
+            #{c_viauthority},
+            DUTY_CODE,
+            POSITION_CODE
+        FROM
+            CAM_HR.DJ_EMP_INFO A
+        WHERE
+            EMP_SEQ = #{c_viuserkey}
+        AND
+            DEPT_SEQ = #{c_viorgcode}
+    </insert>
+
+    <update id="setVicariousInfoUpd" parameterType="map">
+        /* setVicariousInfoUpd */
+        UPDATE
+            DJ_CAMTIC.A_VICARIOUSINFO
+        SET
+            C_OIORGCODE    = #{c_oiorgcode},
+            C_UIUSERKEY    = #{c_uiuserkey},
+            C_VIORGCODE    = #{c_viorgcode},
+            C_VIUSERKEY    = #{c_viuserkey},
+            C_VIAUTHORITY  = #{c_viauthority},
+            C_DUTYCODE     = (SELECT DUTY_CODE FROM CAM_HR.DJ_EMP_INFO A WHERE EMP_SEQ = #{c_viuserkey} AND DEPT_SEQ = #{c_viorgcode}),
+            C_POSITIONCODE = (SELECT POSITION_CODE FROM CAM_HR.DJ_EMP_INFO A WHERE EMP_SEQ = #{c_viuserkey} AND DEPT_SEQ = #{c_viorgcode})
+        WHERE
+            C_UIUSERKEY = #{c_uiuserkey}
+        AND
+            C_OIORGCODE = #{c_oiorgcode}
+        AND
+            C_AISEQNUM = #{c_aiseqnum}
+        AND
+            C_VIAUTHORITY = #{c_viauthority}
+    </update>
+
+    <select id="getOrgPullPath" parameterType="map" resultType="String">
+        /* getOrgPullPath */
+        SELECT
+            if(PARENT_DI.DEPT_NAME IS NULL, DI.DEPT_NAME, CONCAT(PARENT_DI.DEPT_NAME, ' ', DI.DEPT_NAME))
+        FROM
+            CAM_HR.DJ_DEPT_INFO DI
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO PARENT_DI
+        on DI.PARENT_DEPT_SEQ = PARENT_DI.DEPT_SEQ
+        WHERE
+            DI.DEPT_SEQ = #{c_oiorgcode}
+    </select>
+
+    <select id="getAbsentDuplicate" parameterType="map" resultType="map">
+        /* getAbsentDuplicate */
+        SELECT
+            AA.C_UIUSERKEY,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = VI.C_VIUSERKEY) AS EMP_NAME,
+            DATE_FORMAT(CONCAT(DATE_FORMAT(C_AISDAY, '%Y-%m-%d'), ' ', C_AISTIME), '%Y-%m-%d %H:%i') AS C_AISDAY,
+            DATE_FORMAT(CONCAT(DATE_FORMAT(C_AIEDAY, '%Y-%m-%d'), ' ', C_AIETIME), '%Y-%m-%d %H:%i') AS C_AIEDAY,
+            (SELECT CM_CODE_NM FROM CAM_COMMON.DJ_COM_CODE WHERE CM_GROUP_CODE_ID = 23 AND CM_CODE = C_CIKEYCODE) AS C_CIKEYNM
+        FROM
+            DJ_CAMTIC.A_ABSENTINFO AA, DJ_CAMTIC.A_VICARIOUSINFO VI
+        WHERE
+            AA.C_UIUSERKEY = VI.C_UIUSERKEY
+        AND
+            AA.C_OIORGCODE = VI.C_OIORGCODE
+        AND
+            AA.C_AISEQNUM = VI.C_AISEQNUM
+        AND
+            AA.C_UIUSERKEY =  #{c_uiuserkey}
+        AND
+            AA.C_OIORGCODE = #{c_oiorgcode}
+        AND (
+                (
+                    DATE_FORMAT(CONCAT(DATE_FORMAT(C_AISDAY, '%Y-%m-%d'), ' ', C_AISTIME), '%Y-%m-%d %H:%i') BETWEEN
+                        DATE_FORMAT(CONCAT(DATE_FORMAT(#{c_aisday}, '%Y-%m-%d'), ' ', #{c_aistime}), '%Y-%m-%d %H:%i') AND
+                        DATE_FORMAT(CONCAT(DATE_FORMAT(#{c_aieday}, '%Y-%m-%d'), ' ', #{c_aietime}), '%Y-%m-%d %H:%i') OR
+                    DATE_FORMAT(CONCAT(DATE_FORMAT(C_AIEDAY, '%Y-%m-%d'), ' ', C_AIETIME), '%Y-%m-%d %H:%i') BETWEEN
+                        DATE_FORMAT(CONCAT(DATE_FORMAT(#{c_aisday}, '%Y-%m-%d'), ' ', #{c_aistime}), '%Y-%m-%d %H:%i') AND
+                        DATE_FORMAT(CONCAT(DATE_FORMAT(#{c_aieday}, '%Y-%m-%d'), ' ', #{c_aietime}), '%Y-%m-%d %H:%i')
+                ) OR
+                DATE_FORMAT(CONCAT(DATE_FORMAT(C_AISDAY, '%Y-%m-%d'), ' ', C_AISTIME), '%Y-%m-%d %H:%i') &lt; DATE_FORMAT(CONCAT(DATE_FORMAT(#{c_aisday}, '%Y-%m-%d'), ' ', #{c_aistime}), '%Y-%m-%d %H:%i')
+                    AND
+                DATE_FORMAT(CONCAT(DATE_FORMAT(C_AIEDAY, '%Y-%m-%d'), ' ', C_AIETIME), '%Y-%m-%d %H:%i') &gt; DATE_FORMAT(CONCAT(DATE_FORMAT(#{c_aieday}, '%Y-%m-%d'), ' ', #{c_aietime}), '%Y-%m-%d %H:%i')
+        )
+        AND AA.C_AISTATUS IN ('1', '2')
+    </select>
+
+    <update id="setAbsentStartUpd">
+        /* setAbsentStartUpd */
+        UPDATE
+            DJ_CAMTIC.A_ABSENTINFO
+        SET
+            C_AISTATUS = '1',
+            C_MDAY = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            C_MTIME = DATE_FORMAT(NOW(), '%H:%i')
+        WHERE
+            DATE_FORMAT(CONCAT(DATE_FORMAT(C_AISDAY, '%Y-%m-%d'), ' ', C_AISTIME), '%Y-%m-%d %H:%i') &lt;= DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
+        AND
+            DATE_FORMAT(CONCAT(DATE_FORMAT(C_AIEDAY, '%Y-%m-%d'), ' ', C_AIETIME), '%Y-%m-%d %H:%i') &gt; DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
+        AND
+            C_AISTATUS = '2'
+        AND
+            C_AIFLAG = '0'
+    </update>
+
+    <update id="setAbsentEndUpd">
+        /*setAbsentEndUpd */
+        UPDATE
+            DJ_CAMTIC.A_ABSENTINFO
+        SET
+            C_AISTATUS = NULL,
+            C_MDAY = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            C_MTIME = DATE_FORMAT(NOW(), '%H:%i')
+        WHERE
+            DATE_FORMAT(CONCAT(DATE_FORMAT(C_AIEDAY, '%Y-%m-%d'), ' ', C_AIETIME), '%Y-%m-%d %H:%i') &lt;= DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
+        AND
+            C_AISTATUS IN ('1', '2')
+        AND
+            C_AIFLAG = '0'
+    </update>
+
+    <select id="getAbsentUpdateList" resultType="map">
+        /* getAbsentUpdateList */
+        SELECT
+            B.C_GROUPSEQ AS groupSeq,
+            B.C_COMPSEQ AS compSeq,
+            C_VIORGCODE AS deptSeq,
+            C_VIUSERKEY AS empSeq,
+            C_AIALIM,
+            B.C_UIUSERKEY AS sdEmpSeq,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = B.C_UIUSERKEY) AS SND_EMP_NM,
+            B.C_OIORGCODE AS SND_DEPT_SEQ,
+            (SELECT IFNULL(DEPT_TEAM_NAME, DEPT_NAME) FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = B.C_UIUSERKEY) AS SND_DEPT_NM,
+            CONCAT(DATE_FORMAT(C_AISDAY, '%Y-%m-%d'), ' ', C_AISTIME, ' ~ ', DATE_FORMAT(C_AIEDAY, '%Y-%m-%d'), ' ', C_AIETIME) AS ABSENT_DT
+        FROM (
+            SELECT
+                *
+            FROM
+                DJ_CAMTIC.A_ABSENTINFO
+            WHERE
+                DATE_FORMAT(CONCAT(DATE_FORMAT(C_AISDAY, '%Y-%m-%d'), ' ', C_AISTIME), '%Y-%m-%d %H:%i') &lt;= DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
+            AND
+                DATE_FORMAT(CONCAT(DATE_FORMAT(C_AIEDAY, '%Y-%m-%d'), ' ', C_AIETIME), '%Y-%m-%d %H:%i') &gt; DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
+            AND
+                C_AISTATUS = '2'
+            AND
+                C_AIFLAG = '0'
+            UNION
+            SELECT
+                *
+            FROM
+                DJ_CAMTIC.A_ABSENTINFO
+            WHERE
+                DATE_FORMAT(CONCAT(DATE_FORMAT(C_AIEDAY, '%Y-%m-%d'), ' ', C_AIETIME), '%Y-%m-%d %H:%i') &lt;= DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
+            AND
+                C_AISTATUS IN ('1', '2')
+            AND
+                C_AIFLAG = '0'
+            ) A
+        INNER JOIN
+             DJ_CAMTIC.A_VICARIOUSINFO B
+        ON A.C_OIORGCODE = B.C_OIORGCODE AND A.C_UIUSERKEY = B.C_UIUSERKEY AND A.C_AISEQNUM = B.C_AISEQNUM
+    </select>
 </mapper>

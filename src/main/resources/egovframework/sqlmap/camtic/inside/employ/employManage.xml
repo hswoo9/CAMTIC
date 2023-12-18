@@ -90,6 +90,7 @@
             EI.EMP_NAME_KR,
             EC.DEPT_SEQ,
             EI.DEPT_NAME,
+            CAM_HR.FN_GetName('DEPT', EI.DEPT_SEQ, 'KR') AS DEPT_NAME2,
             EI.DEPT_TEAM_NAME,
             EC.POSITION_NAME,
             EI.ZIP_CODE,
