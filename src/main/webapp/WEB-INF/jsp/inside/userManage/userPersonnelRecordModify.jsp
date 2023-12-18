@@ -1095,8 +1095,8 @@
         dataValueField: "value",
         dataSource: [
             { text: "선택하세요", value: "" },
-            { text: "[내부표창] ", value: "22" },
-            { text: "[외부표창] ", value: "33" }
+            { text: "내부", value: "0" },
+            { text: "외부", value: "1" }
         ],
         index: 0
     });
@@ -2124,7 +2124,6 @@
             rGubunOutInType : $("#rGubunOutIn"+key).data("kendoDropDownList").value(),
             rGubunOutInName : $("#rGubunOutIn"+key).data("kendoDropDownList").text(),
             rGubun : $("#rGubun"+key).val(),
-            rGubunAll : ($("#rGubunOutIn"+key).data("kendoDropDownList").text() + $("#rGubun"+key).val()),
             sDate : $("#sDate9"+key).val(),
             rwdSn : $("#rwdSn"+key).val(),
             rIssue : $("#rIssue"+key).val(),
@@ -2136,7 +2135,6 @@
         formData.append("rGubunOutInType", data.rGubunOutInType);
         formData.append("rGubunOutInName", data.rGubunOutInName);
         formData.append("rGubun", data.rGubun);
-        formData.append("rGubunAll", data.rGubunAll);
         formData.append("rwdSn", data.rwdSn);
         formData.append("sDate", data.sDate);
         formData.append("rIssue", data.rIssue);
