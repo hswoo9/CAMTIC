@@ -156,25 +156,11 @@ public class ApprovalController {
      * @return
      */
     @RequestMapping("/approval/getAbsentSetChk")
-    @ResponseBody
-    public Map<String, Object> getAbsentSetChk(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
-
-        Map<String, Object> result = new HashMap<>();
-
-        List<Map<String, Object>> dupleList = new ArrayList<>();
-
-
-        result.put("dupleList", dupleList);
-
-        return result;
-
-        /*HttpSession session = request.getSession();
+    public String getAbsentSetChk(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
         LoginVO user = (LoginVO) session.getAttribute("LoginVO");
 
         params.put("loginVO", user);
-        params.put("langCode", user.getLangCode());
-        params.put("groupSeq", user.getGroupSeq());
-
         Map<String, Object> dupleResult = approvalUserService.getAbsentDuplicate(params);
 
         int cnt = ((Integer)dupleResult.get("cnt")).intValue();
@@ -188,7 +174,9 @@ public class ApprovalController {
         if (cnt > 1 && !aiFlag.equals("1")) {
             model.addAttribute("MSG", "부재자가 설정하려는 기간에 부재중으로 지정되어있어 부재중으로 설정할 수 없습니다.");
             return "jsonView";
-        }*/
+        }
+
+        return "jsonView";
     }
 
     /** 참조문서 팝업 */

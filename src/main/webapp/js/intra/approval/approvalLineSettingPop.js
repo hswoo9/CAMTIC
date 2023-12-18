@@ -435,7 +435,7 @@ var lineSettingPop = {
         if(result.dupleList.length > 0){
             pathName = result.pathName;
 
-            for(i = 0; i < result.dupleList.length; i ++){
+            for(var i = 0; i < result.dupleList.length; i ++){
                 var dl = result.dupleList[i];
                 var absentModal;
                 absentModal = $('<div id="absentModal" class="pop_wrap_dir">' +

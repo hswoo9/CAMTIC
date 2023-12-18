@@ -40,11 +40,16 @@
 <%--        <button type="button" class="k-button k-button-solid-info" style="float: right; margin-bottom: 10px ; margin-right:5px;" id="saveBtn" onclick="purcInfo.setPurcReq('W');">저장</button>--%>
     </div>
 
+    <span style="font-size: 12px;">◎ 구매 리스트</span>
     <div class="table-responsive">
         <input type="hidden" id="purcReqEmpSeq" value="${loginVO.uniqId}">
         <input type="hidden" id="purcReqDeptSeq" value="${loginVO.orgnztId}">
 
-        <div id="purcInfoMainGrid" style="margin-top: 20px"></div>
+        <div id="purcInfoMainGrid"></div>
+    </div>
+    <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 구매내역 리스트</span>
+    <div class="table-responsive">
+        <div id="purcInfoSubGrid"></div>
     </div>
 </div>
 
