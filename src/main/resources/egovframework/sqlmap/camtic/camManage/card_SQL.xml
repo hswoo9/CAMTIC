@@ -296,14 +296,18 @@
 
     <select id="getCardUserGroup" parameterType="map" resultType="map">
         SELECT
-            *
+            DCUR.*,
+            DCUGS.GROUP_ID AS chkSel
         FROM
-            CAM_MNG.DJ_CARD_USER_GROUP
+            CAM_MNG.DJ_CARD_USER_GROUP DCUR
+        LEFT JOIN
+            CAM_MNG.DJ_CARD_USER_GROUP_SEL DCUGS on DCUR.GROUP_ID = DCUGS.GROUP_ID
         WHERE 1=1
         <if test='groupName != null and !"".equals(groupName)'>
         AND
             GROUP_NAME LIKE CONCAT('%', #{groupName} ,'%')
         </if>
+        GROUP BY DCUR.GROUP_ID
     </select>
 
     <select id="getcardUserGroupList" parameterType="map" resultType="map">
@@ -343,5 +347,26 @@
 
     <delete id="delGroupUser" parameterType="map">
         DELETE FROM CAM_MNG.DJ_CARD_USER_GROUP_LIST WHERE GROUP_USER_ID = #{groupUserId} AND GROUP_ID = #{groupId}
+    </delete>
+
+    <select id="getCardGroupCheck" parameterType="map" resultType="map">
+        SELECT
+            CARD_BA_NB,
+            TR_CD,
+            GROUP_ID
+        FROM
+            CAM_MNG.DJ_CARD_USER_GROUP_SEL
+    </select>
+
+    <select id="getCardGroupNumCheck" parameterType="map" resultType="map">
+        SELECT
+            GROUP_CONCAT(CARD_BA_NB) AS CARD_BA_NB,
+            GROUP_CONCAT(TR_CD) AS TR_CD
+        FROM
+            CAM_MNG.DJ_CARD_USER_GROUP_SEL
+    </select>
+
+    <delete id="saveCardUserGroupSelCancle" parameterType="map">
+        DELETE FROM CAM_MNG.DJ_CARD_USER_GROUP_SEL WHERE GROUP_ID = #{groupId} AND CARD_BA_NB = #{CARD_BA_NB} AND TR_CD = #{TR_CD}
     </delete>
 </mapper>
