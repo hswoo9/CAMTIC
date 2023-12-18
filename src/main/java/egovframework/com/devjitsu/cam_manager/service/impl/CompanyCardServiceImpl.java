@@ -110,6 +110,19 @@ public class CompanyCardServiceImpl implements CompanyCardService {
 
     }
     @Override
+    public void saveCardUserGroupSel(Map<String, Object> params) {
+        int groupId = Integer.parseInt(String.valueOf(params.get("groupId")));
+
+        Gson gson = new Gson();
+        List<Map<String, Object>> groupArr = gson.fromJson((String) params.get("groupArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        for(Map<String, Object> map : groupArr) {
+            map.put("groupId", groupId);
+            companyCardRepository.saveCardUserGroupSel(map);
+        }
+
+    }
+    @Override
     public List<Map<String, Object>> getCardUserGroup(Map<String, Object> params) {
         return companyCardRepository.getCardUserGroup(params);
     }

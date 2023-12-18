@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.cam_project.service.impl;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
+import egovframework.com.devjitsu.cam_crm.repository.CrmRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRndRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectUnRndRepository;
@@ -43,21 +44,15 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CrmRepository crmRepository;
+
     @Override
     public void setSubjectInfo(Map<String, Object> params) {
         if(!params.containsKey("pjtSn")){
             projectUnRndRepository.insSubjectInfo(params);
         } else {
             projectUnRndRepository.updSubjectInfo(params);
-            projectRndRepository.delAccountInfo(params);
-        }
-
-        if(params.get("sbjSep").toString().equals("Y")){
-            Gson gson = new Gson();
-            List<Map<String, Object>> ACCOUNT_LIST = new ArrayList<>();
-            ACCOUNT_LIST = gson.fromJson((String) params.get("accountList"), new TypeToken<List<Map<String, Object>>>(){}.getType());
-            params.put("accountList", ACCOUNT_LIST);
-            projectRndRepository.insAccountInfo(params);
         }
     }
 
@@ -82,6 +77,16 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
             projectUnRndRepository.updUnRndDetail(params);
             projectRndRepository.updRschData(map);
             projectRndRepository.updPjtPsRnd(map);
+        }
+        projectRndRepository.delAccountInfo(params);
+        projectRndRepository.updPjtSepRnd(params);
+        if(params.get("sbjSep").toString().equals("Y")) {
+            Gson gson = new Gson();
+            List<Map<String, Object>> ACCOUNT_LIST = new ArrayList<>();
+            ACCOUNT_LIST = gson.fromJson((String) params.get("accountList"), new TypeToken<List<Map<String, Object>>>() {
+            }.getType());
+            params.put("accountList", ACCOUNT_LIST);
+            projectRndRepository.insAccountInfo(params);
         }
 
         // 프로젝트 총괄 책임자 변경
@@ -114,6 +119,15 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
         if(list.size() > 0){
             for(Map<String, Object> cbMap : list){
                 projectRepository.insCustomBudget(cbMap);
+            }
+        }
+
+        Map<String, Object> pjtMap = projectRepository.getProjectData(params);
+        if(pjtMap.get("SBJ_SEP") != null){
+            if(pjtMap.get("SBJ_SEP").toString().equals("Y")){
+                projectUnRndRepository.updUnRndTotResCost(params);
+            }else{
+                projectUnRndRepository.updUnRndTotResCost2(params);
             }
         }
     }
@@ -386,6 +400,10 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             projectUnRndRepository.updateUnRndResFinalApprStat(params);
+
+            Map<String, Object> pjtMap = projectRepository.getProjectData(params);
+            crmRepository.insCrmEngnHist(pjtMap);
+
             projectUnRndRepository.updUnRndProjectInfoRes(params);
         }else if("111".equals(docSts)) { // 임시저장
             projectUnRndRepository.updateUnRndResApprStat(params);

@@ -30,6 +30,18 @@ var resultInfo = {
         var result = resultMap.result;
         console.log(resultMap);
 
+        if(result.designFileList != null){
+            $("#designImgName").text(result.designFileList.file_org_name + "." +result.designFileList.file_ext);
+        }
+
+        if(result.prodFileList != null){
+            $("#prodImgName").text(result.prodFileList.file_org_name + "." +result.prodFileList.file_ext);
+        }
+
+        if(result.devFileList != null){
+            $("#devFileName").text(result.devFileList.file_org_name + "." +result.devFileList.file_ext);
+        }
+
         if(result.map != null){
             $("#rsIss").val(result.map.RS_ISS);
             $("#rsSupCont").val(result.map.SUP_CONT);
@@ -41,36 +53,14 @@ var resultInfo = {
             /** 버튼 세팅 */
             resultInfo.fn_setButton(result.map);
         }
-
-        if(result.designFileList != null){
-            $("#designImgName").text(result.designFileList.file_org_name + "." +result.designFileList.file_ext);
-        }
-
-        if(result.prodFileList != null){
-            $("#prodImgName").text(result.prodFileList.file_org_name + "." +result.prodFileList.file_ext);
-        }
-
-        $.ajax({
-            url : "/project/getDevelopPlan",
-            data : data,
-            dataType : "json",
-            type : "post",
-            success : function(rs){
-                console.log(rs);
-                var devFile = rs.devFile;
-
-                if(devFile.devFile != null && devFile.devFile != ""){
-                    $("#devFileName").text(devFile.devFile.file_org_name + "." +devFile.devFile.file_ext);
-                }
-            }
-        })
     },
 
     fn_setButton: function(resMap){
+        console.log(resMap);
         let buttonHtml = "";
         if(resMap.STATUS == "0"){
             buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>';
-            if($("#devFileName").text() != "") {
+            if($("#devFileName").text() != ""){
                 buttonHtml += '<button type="button" id="resAppBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-info" onclick="resultInfo.resDrafting()">상신</button>';
             }
         }else if(resMap.STATUS == "10" || resMap.STATUS == "20" || resMap.STATUS == "50"){

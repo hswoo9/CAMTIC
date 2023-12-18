@@ -1479,6 +1479,7 @@ public class ProjectController {
     @RequestMapping("/project/getProjectBudgetList.do")
     public String getProjectBudgetList(@RequestParam Map<String, Object> params, Model model) {
         model.addAttribute("list", projectService.getProjectBudgetList(params));
+        model.addAttribute("totalAmt", projectService.getProjectBudgetTotal(params));
         return "jsonView";
     }
 

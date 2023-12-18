@@ -184,7 +184,7 @@ var regRnd = {
             $("#stopBtn").show();
         }
 
-        customKendo.fn_textBox(["empName", "deptName", "pjtNm", "pjtSubNm", "rndCrmNm", "rndConCrmNm", "crmPartNm", "pjtExpAmt", "bsTitle"]);
+        customKendo.fn_textBox(["empName", "deptName", "pjtNm", "rndCrmNm", "rndConCrmNm", "crmPartNm", "pjtExpAmt", "bsTitle", "allBusnCost", "pjtAmt2"]);
 
         customKendo.fn_datePicker("sbjStrDe", "depth", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("sbjEndDe", "depth", "yyyy-MM-dd", new Date());
@@ -215,16 +215,6 @@ var regRnd = {
             data.grpSn = "SUP_DEP";
             var smCodeDs = customKendo.fn_customAjax("/project/selSmCode", data);
             customKendo.fn_dropDownList("supDepSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
-        });
-
-
-        /** 사업비 분리사용 유무 change 이벤트 */
-        $("input[name='sbjSepYn']").change(function(){
-            if($("input[name='sbjSepYn']:checked").val() == "Y"){
-                $("#checkboxDiv").show();
-            }else{
-                $("#checkboxDiv").hide();
-            }
         });
 
         /** 탭 상위 정보 숨김/보임 이벤트 */
@@ -266,7 +256,8 @@ var regRnd = {
             const delvMap = rndInfo.map;
             if(delvMap != null){
                 if(delvMap.STATUS == "100"){
-                    $("#pjtExpAmt").val(comma(e.PJT_AMT));
+                    $("#pjtAmt2").val(comma(e.PJT_AMT));
+                    $("#allBusnCost").val(comma(Number(e.PJT_AMT) + Number(delvMap.PEO_RES_ITEM)));
                 }
             }
 
@@ -281,24 +272,6 @@ var regRnd = {
             $("#deptSeq").val(e.DEPT_SEQ);
 
             $("#pjtNm").val(e.PJT_NM);
-            $("#pjtSubNm").val(e.PJT_SUB_NM);
-
-
-            if(e.SBJ_SEP != undefined){
-                if(e.SBJ_SEP == "Y"){
-                    $("#sbjSepY").prop("checked", true);
-                    var data = {
-                        pjtSn: e.PJT_SN
-                    }
-                    let result = customKendo.fn_customAjax("/projectRnd/getAccountInfo", data);
-                    $("#checkboxDiv").show();
-                    for(let i=0; i<result.list.length; i++){
-                        $("#at" + result.list[i].IS_TYPE).prop('checked',true);
-                    }
-                } else {
-                    $("#sbjSepN").prop("checked", true);
-                }
-            }
 
             if(e.SBJ_STAT_YN != undefined){
                 if(e.SBJ_STAT_YN == "Y"){
@@ -325,7 +298,6 @@ var regRnd = {
             deptName : $("#deptName").val(),
             regEmpSeq : $("#regEmpSeq").val(),
             pjtNm : $("#pjtNm").val(),
-            pjtSubNm : $("#pjtSubNm").val(),
             crmConSn : $("#rndConCrmSn").val(),
             crmSn : $("#rndCrmSn").val(),
             crmPartSn : $("#crmPartSn").val(),
@@ -337,36 +309,10 @@ var regRnd = {
             regEmpSeq : $("#regEmpSeq").val(),
         }
 
-        $("input[name='sbjSepYn']").each(function(){
-            if($(this).is(":checked")){
-                parameters.sbjSep = this.value;
-            }
-        });
-
         if($("#rndStatYn").is(":checked")){
             parameters.sbjStatYn = "Y";
         } else {
             parameters.sbjStatYn = "N";
-        }
-
-        if($("input[name='sbjSepYn']:checked").val() == "Y"){
-            const checkBox = 'input[name="accountType"]:checked';
-            const selectedElements = document.querySelectorAll(checkBox);
-
-            let arr = new Array();
-            selectedElements.forEach((el) => {
-                let row = {
-                    value: el.value,
-                }
-                arr.push(row);
-            });
-
-            if(arr.length == 0) {
-                alert("사업비 항목이 선택되지 않았습니다.");
-                return;
-            }
-
-            parameters.accountList = JSON.stringify(arr);
         }
 
 
@@ -434,43 +380,16 @@ var regRnd = {
             deptName : $("#deptName").val(),
             regEmpSeq : $("#regEmpSeq").val(),
             pjtNm : $("#pjtNm").val(),
-            pjtSubNm : $("#pjtSubNm").val(),
             crmConSn : $("#rndConCrmSn").val(),
             crmPartSn : $("#crmPartSn").val(),
             crmSn : $("#rndCrmSn").val(),
             pjtExpAmt : uncomma($("#pjtExpAmt").val())
         }
 
-        $("input[name='sbjSepYn']").each(function(){
-            if($(this).is(":checked")){
-                parameters.sbjSep = this.value;
-            }
-        });
-
         if($("#rndStatYn").is(":checked")){
             parameters.sbjStatYn = "Y";
         } else {
             parameters.sbjStatYn = "N";
-        }
-
-        if($("input[name='sbjSepYn']:checked").val() == "Y"){
-            const checkBox = 'input[name="accountType"]:checked';
-            const selectedElements = document.querySelectorAll(checkBox);
-
-            let arr = new Array();
-            selectedElements.forEach((el) => {
-                let row = {
-                    value: el.value,
-                }
-                arr.push(row);
-            });
-
-            if(arr.length == 0) {
-                alert("사업비 항목이 선택되지 않았습니다.");
-                return;
-            }
-
-            parameters.accountList = JSON.stringify(arr);
         }
 
         if(parameters.sbjClass == ""){

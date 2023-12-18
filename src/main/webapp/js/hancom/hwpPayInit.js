@@ -43,8 +43,11 @@ var payInit = {
             hwpDocCtrl.putFieldText("ACCOUNT_TYPE_TEXT", "입금계좌");
         }
 
-        if(rs.PJT_CD.substring(0,1) == "R" || rs.PJT_CD.substring(0,1) == "S"){
+        console.log("pjtCd" , rs);
+
+        if(rs.PJT_CD.substring(0,1) != "M"){
             /** 사업 데이터 */
+
             const pjtResult = customKendo.fn_customAjax("/project/getProjectByPjtCd", {
                 pjtCd: rs.PJT_CD
             });
@@ -52,7 +55,7 @@ var payInit = {
             console.log(pjtMap);
 
             /** 사업명 */
-            hwpDocCtrl.putFieldText("BS_TITLE", pjtMap.BS_TITLE == null ? "" : pjtMap.BS_TITLE);
+            hwpDocCtrl.putFieldText("BS_TITLE", (pjtMap.BS_TITLE || ""));
             /** 과제명 */
             hwpDocCtrl.putFieldText("PJT_NM", pjtMap.PJT_NM);
             /** 연구기간 */

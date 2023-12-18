@@ -31,6 +31,7 @@ public interface CompanyCardService {
     void updCardFromDe(Map<String, Object> params);
     void saveCardUserGroup(Map<String, Object> params);
     void saveCardUserGroupList(Map<String, Object> params);
+    void saveCardUserGroupSel(Map<String, Object> params);
     List<Map<String, Object>> getCardUserGroup(Map<String, Object> params);
     List<Map<String, Object>> getcardUserGroupList(Map<String, Object> params);
     void delCardUserGroup(Map<String, Object> params);

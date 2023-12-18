@@ -20,7 +20,6 @@ var costInfo = {
         const delvMap = result.delvMap;
         $("#PJT_CD").text(pjtMap.PJT_CD);
         $("#PJT_NM").text(pjtMap.PJT_NM);
-        $("#PJT_SUB_NM").text(pjtMap.PJT_SUB_NM);
         $("#PM").text(pjtMap.PM);
         $("#PJT_STR_DT").text(pjtMap.PJT_START_DT);
         $("#PJT_END_DT").text(pjtMap.PJT_EXP_END_DT);

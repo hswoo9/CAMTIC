@@ -103,7 +103,6 @@ var devInfo = {
                 }else{
                     $("#realAmt").val($("#devDelvAmt").val());
                 }
-
             }
         }
 
@@ -126,7 +125,7 @@ var devInfo = {
         customKendo.fn_datePicker("psEndDe", "depth", "yyyy-MM-dd", new Date());
 
         customKendo.fn_textBox(["invNm", "invCnt", "invUnit", "invUnitPrice", "estTotAmt", "estOfc", "invEtc", "devPjtNm",
-                                "devCrmInfo", "pm", "estDe", "devDelvAmt", "invAmt", "realAmt"]);
+                                "devCrmInfo", "pm", "estDe", "devDelvAmt", "invAmt", "realAmt", "marginAmt"]);
         $("#divNm").kendoDropDownList({
             dataSource : [
                 {text : "구매", value : "1"},
@@ -501,6 +500,13 @@ var devInfo = {
             $("#devEtc").val(devMap.ETC);
         }
         devInfo.fn_setButton(devMap);
+
+        /** 예상수익 */
+        if($("#invAmt").val() != ""){
+            $("#marginAmt").val(comma(Number(uncomma($("#realAmt").val())) - Number(uncomma($("#invAmt").val()))));
+        }else{
+            $("#marginAmt").val(comma(Number(uncomma($("#realAmt").val())) - 0));
+        }
     },
 
     fn_setButton : function(devMap){

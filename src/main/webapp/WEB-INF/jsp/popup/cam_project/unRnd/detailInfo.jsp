@@ -62,6 +62,48 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
+                    <span class="red-star">*</span>법인사업비
+                </th>
+                <td colspan="3">
+                    현금 : <input type="text" id="peoResCost" value="0" name="peoResCost" style="width: 15%;text-align: right" disabled/>
+                    현물 : <input type="text" id="peoResItem" value="0" name="peoResItem" style="width: 15%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-center th-color">
+                    <span class="red-star">*</span>수주금액
+                </th>
+                <td colspan="3">
+                    <input type="text" id="totResCost" name="totResCost" style="width: 32%;text-align: right" value="0" disabled/>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-center th-color">
+                    <span class="red-star">*</span>사업비 분리사용 유무
+                </th>
+                <td colspan="3">
+                    <span>
+                        <div style="float: left">
+                            <input type="radio" id="sbjSepN" name="sbjSepYn" value="N" style="position: relative; top: 3px;">
+                            <label for="sbjSepN">없음</label>
+                            <input type="radio" id="sbjSepY" name="sbjSepYn" value="Y" style="position: relative; top: 3px;">
+                            <label for="sbjSepY">있음</label>
+                        </div>
+                        <div style="float: left; padding-left: 10px;">
+                            <div id="checkboxDiv" style="display: none"> |&nbsp&nbsp
+                                <label for="at1"><input type='checkbox' style="position: relative; top: 3px;" id='at1' name='accountType' class='accountType' value='1'/> 국비&nbsp&nbsp</label>
+                                <label for="at2"><input type='checkbox' style="position: relative; top: 3px;" id='at2' name='accountType' class='accountType' value='2'/> 도비&nbsp&nbsp</label>
+                                <label for="at3"><input type='checkbox' style="position: relative; top: 3px;" id='at3' name='accountType' class='accountType' value='3'/> 시비&nbsp&nbsp</label>
+                                <label for="at4"><input type='checkbox' style="position: relative; top: 3px;" id='at4' name='accountType' class='accountType' value='4'/> 자부담&nbsp&nbsp</label>
+                                <label for="at5"><input type='checkbox' style="position: relative; top: 3px;" id='at5' name='accountType' class='accountType' value='5'/> 업체부담&nbsp&nbsp</label>
+                                <label for="at9"><input type='checkbox' style="position: relative; top: 3px;" id='at9' name='accountType' class='accountType' value='9'/> 기타</label>
+                            </div>
+                        </div>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-center th-color">
                     <span class="red-star">*</span>사업계획서
                 </th>
                 <td colspan="3">
@@ -72,23 +114,23 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>사업목적
+                    <span class="red-star">*</span>사업 목적/내용
                 </th>
                 <td colspan="3">
                     <textarea type="text" id="unRndObj" name="unRndObj" style="width: 100%"></textarea>
                 </td>
             </tr>
-            <tr>
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>사업내용
-                </th>
-                <td colspan="3">
-                    <textarea type="text" id="unRndCont" name="unRndCont" style="width: 100%"></textarea>
-                </td>
-            </tr>
-            <tr>
+            <tr id="budgetExDiv" style="display: none">
                 <td colspan="4">
-                    <div id="customBudgetGrid"></div>
+                    <br>
+                    <span id="budgetType"></span>
+                    <div id="customBudgetGrid0"></div>
+                    <div id="customBudgetGrid1"></div>
+                    <div id="customBudgetGrid2"></div>
+                    <div id="customBudgetGrid3"></div>
+                    <div id="customBudgetGrid4"></div>
+                    <div id="customBudgetGrid5"></div>
+                    <div id="customBudgetGrid6"></div>
                 </td>
             </tr>
             </thead>
@@ -176,16 +218,16 @@
         }
 
         var pjCodeDs = customKendo.fn_customAjax("/common/commonCodeList", data)
-        customKendo.fn_dropDownList("pjCode", pjCodeDs.rs, "CM_CODE_NM", "CM_CODE");
+        customKendo.fn_dropDownList("pjCode", pjCodeDs.rs, "CM_CODE_NM", "CM_CODE", 2);
 
         $("#pjCode").data("kendoDropDownList").select(2);
 
         data.grpSn = "SUP_DEP";
         var lgCodeDs = customKendo.fn_customAjax("/project/selLgCode", data);
-        customKendo.fn_dropDownList("supDep2", lgCodeDs.rs, "LG_CD_NM", "LG_CD");
+        customKendo.fn_dropDownList("supDep2", lgCodeDs.rs, "LG_CD_NM", "LG_CD", 2);
 
         $("#supDepSub2").kendoDropDownList({
-            dataSource : [{text : "선택", value : ""}],
+            dataSource : [{text : "선택하세요", value : ""}],
             dataTextField : "text",
             dataValueField : "value"
         });
@@ -194,12 +236,12 @@
             data.lgCd = $("#supDep2").val();
             data.grpSn = "SUP_DEP";
             var smCodeDs = customKendo.fn_customAjax("/project/selSmCode", data);
-            customKendo.fn_dropDownList("supDepSub2", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
+            customKendo.fn_dropDownList("supDepSub2", smCodeDs.rs, "PJT_CD_NM", "PJT_CD", 2);
         });
 
         data.grpSn = "BUS_STAT";
         var lgCodeDs = customKendo.fn_customAjax("/project/selLgCode", data);
-        customKendo.fn_dropDownList("pjtStat", lgCodeDs.rs, "LG_CD_NM", "LG_CD");
+        customKendo.fn_dropDownList("pjtStat", lgCodeDs.rs, "LG_CD_NM", "LG_CD", 2);
 
         $("#pjtStatSub").kendoDropDownList({
             dataSource : [{text : "선택", value : ""}],
@@ -210,7 +252,7 @@
             data.lgCd = $("#pjtStat").val();
             data.grpSn = "BUS_STAT";
             var smCodeDs = customKendo.fn_customAjax("/project/selSmCode", data);
-            customKendo.fn_dropDownList("pjtStatSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD");
+            customKendo.fn_dropDownList("pjtStatSub", smCodeDs.rs, "PJT_CD_NM", "PJT_CD", 2);
         });
 
         $("#supDep2").data("kendoDropDownList").value($("#supDep").val());

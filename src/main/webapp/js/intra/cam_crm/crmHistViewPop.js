@@ -105,16 +105,30 @@ var chv = {
                     title: "순번",
                     width : 50
                 }, {
-                    field: "",
-                    title: "개발명",
+                    field: "CRM_HIST_OBJ",
+                    title: "과제구분",
+                    width : 80
                 }, {
-                    field: "",
-                    title: "수주일",
+                    title: "건명",
+                    template: function(row){
+                        return "<a href='javascript:void(0);' style='font-weight: bold' onclick='approveDocView(\""+row.DOC_ID+"\", \""+row.APPRO_KEY+"\", \""+row.DOC_MENU_CD+"\");'>" + row.CRM_REL_PJT_NM + "</a>";
+                    }
                 }, {
-                    title: "수주금액",
+                    title: "연구 기간",
+                    template: function(row){
+                        return row.START_DATE +" ~ "+row.END_DATE;
+                    },
+                    width : 180
                 }, {
-                    field: "",
-                    title: "PM",
+                    title: "총 연구비",
+                    template: function(row){
+                        return fn_numberWithCommas(row.CRM_REL_PJT_AMT);
+                    },
+                    width : 80
+                }, {
+                    field: "CRM_SHARE_EMP",
+                    title: "담당자",
+                    width : 80
                 }
             ],
             dataBinding: function(){
@@ -145,22 +159,30 @@ var chv = {
                     title: "순번",
                     width : 50
                 }, {
-                    field: "",
-                    title: "과목",
+                    field: "CRM_HIST_OBJ",
+                    title: "과제구분",
+                    width : 80
                 }, {
-                    field: "",
-                    title: "기간",
+                    title: "건명",
+                    template: function(row){
+                        return "<a href='javascript:void(0);' style='font-weight: bold' onclick='approveDocView(\""+row.DOC_ID+"\", \""+row.APPRO_KEY+"\", \""+row.DOC_MENU_CD+"\");'>" + row.CRM_REL_PJT_NM + "</a>";
+                    }
                 }, {
-                    title: "직원명",
+                    title: "연구 기간",
+                    template: function(row){
+                        return row.START_DATE +" ~ "+row.END_DATE;
+                    },
+                    width : 180
                 }, {
-                    field: "",
-                    title: "부서명",
+                    title: "총 연구비",
+                    template: function(row){
+                        return fn_numberWithCommas(row.CRM_REL_PJT_AMT);
+                    },
+                    width : 80
                 }, {
-                    field: "",
-                    title: "직책",
-                }, {
-                    field: "",
-                    title: "수강료(계산서)",
+                    field: "CRM_SHARE_EMP",
+                    title: "담당자",
+                    width : 80
                 }
             ],
             dataBinding: function(){

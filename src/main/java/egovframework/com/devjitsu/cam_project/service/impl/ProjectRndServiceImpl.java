@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
+import egovframework.com.devjitsu.cam_crm.repository.CrmRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRndRepository;
 import egovframework.com.devjitsu.cam_project.service.ProjectRndService;
@@ -43,6 +44,9 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CrmRepository crmRepository;
+
     @Override
     public void setSubjectInfo(Map<String, Object> params) {
 
@@ -50,15 +54,6 @@ public class ProjectRndServiceImpl implements ProjectRndService {
             projectRndRepository.insSubjectInfo(params);
         } else {
             projectRndRepository.updSubjectInfo(params);
-            projectRndRepository.delAccountInfo(params);
-        }
-
-        if(params.get("sbjSep").toString().equals("Y")){
-            Gson gson = new Gson();
-            List<Map<String, Object>> ACCOUNT_LIST = new ArrayList<>();
-            ACCOUNT_LIST = gson.fromJson((String) params.get("accountList"), new TypeToken<List<Map<String, Object>>>(){}.getType());
-            params.put("accountList", ACCOUNT_LIST);
-            projectRndRepository.insAccountInfo(params);
         }
     }
 
@@ -177,7 +172,7 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     }
 
     @Override
-    public void setRndDetail(Map<String, Object> params) {
+    public void setRndDetail(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
         Map<String, Object> map = userRepository.getUserInfo(params);
         map.put("pjtSn", params.get("pjtSn"));
         map.put("regEmpSeq", params.get("regEmpSeq"));
@@ -193,7 +188,40 @@ public class ProjectRndServiceImpl implements ProjectRndService {
             projectRndRepository.updRschData(map);
             projectRndRepository.updPjtPsRnd(map);
         }
+        projectRndRepository.delAccountInfo(params);
+        projectRndRepository.updPjtSepRnd(params);
+        if(params.get("sbjSep").toString().equals("Y")) {
+            Gson gson = new Gson();
+            List<Map<String, Object>> ACCOUNT_LIST = new ArrayList<>();
+            ACCOUNT_LIST = gson.fromJson((String) params.get("accountList"), new TypeToken<List<Map<String, Object>>>() {
+            }.getType());
+            params.put("accountList", ACCOUNT_LIST);
+            projectRndRepository.insAccountInfo(params);
+        }
 
+        // 프로젝트 총괄 책임자 변경
+        projectRepository.updPMInfo(params);
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile bsPlanFile = request.getFile("bsPlanFile");
+        if(bsPlanFile != null){
+            if(!bsPlanFile.isEmpty()){
+                params.put("menuCd", "unRnd");
+                fileInsMap = mainLib.fileUpload(bsPlanFile, filePath(params, SERVER_DIR));
+                fileInsMap.put("rndSn", params.get("rndSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("file_no", fileInsMap.get("file_no"));
+                projectRndRepository.updRndFileSn(fileInsMap);
+            }
+        }
 
         projectRepository.delCustomBudget(map);
         Gson gson = new Gson();
@@ -204,8 +232,14 @@ public class ProjectRndServiceImpl implements ProjectRndService {
             }
         }
 
-
-        projectRepository.updPMInfo(params);
+        Map<String, Object> pjtMap = projectRepository.getProjectData(params);
+        if(pjtMap.get("SBJ_SEP") != null){
+            if(pjtMap.get("SBJ_SEP").toString().equals("Y")){
+                projectRndRepository.updRndTotResCost(params);
+            }else{
+                projectRndRepository.updRndTotResCost2(params);
+            }
+        }
     }
 
     @Override
@@ -479,6 +513,10 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             projectRndRepository.updateRndResFinalApprStat(params);
+
+            Map<String, Object> pjtMap = projectRepository.getProjectData(params);
+            crmRepository.insCrmEngnHist(pjtMap);
+
             projectRndRepository.updRndProjectInfoRes(params);
         }else if("111".equals(docSts)) { // 임시저장
             projectRndRepository.updateRndResApprStat(params);

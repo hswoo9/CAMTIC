@@ -102,6 +102,22 @@ public class ProjectRndRepository extends AbstractDAO {
         update("projectRnd.updRndDetail", params);
     }
 
+    public void updPjtSepRnd(Map<String, Object> fileInsMap) {
+        update("projectRnd.updPjtSepRnd", fileInsMap);
+    }
+
+    public void updRndFileSn(Map<String, Object> fileInsMap) {
+        update("projectRnd.updRndFileSn", fileInsMap);
+    }
+
+    public void updRndTotResCost(Map<String, Object> fileInsMap) {
+        update("projectRnd.updRndTotResCost", fileInsMap);
+    }
+
+    public void updRndTotResCost2(Map<String, Object> fileInsMap) {
+        update("projectRnd.updRndTotResCost2", fileInsMap);
+    }
+
     public void setDelvApprove(Map<String, Object> params) {
         update("projectRnd.setDelvApprove", params);
     }

@@ -16,6 +16,7 @@
 </style>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
+<input type="hidden" id="ac" value="${params.ac}" />
 <input type="hidden" id="path" value="${params.path}" />
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}" />
 

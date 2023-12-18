@@ -16,7 +16,6 @@
                 SBJ_CHAR,
                 SBJ_DEP,
                 SBJ_DEP_SUB,
-                SBJ_SEP,
                 SBJ_STAT_YN,
                 STR_DT,
                 END_DT,
@@ -25,7 +24,6 @@
                 DEPT_SEQ,
                 DEPT_NAME,
                 PJT_NM,
-                PJT_SUB_NM,
                 CRM_SN,
                 CRM_CON_SN,
                 CRM_PART_SN,
@@ -43,7 +41,6 @@
                 #{sbjChar},
                 #{sbjDep},
                 #{sbjDepSub},
-                #{sbjSep},
                 #{sbjStatYn},
                 #{strDt},
                 #{endDt},
@@ -52,7 +49,6 @@
                 #{deptSeq},
                 #{deptName},
                 #{pjtNm},
-                #{pjtSubNm},
                 #{crmSn},
                 #{crmConSn},
                 #{crmPartSn},
@@ -74,7 +70,6 @@
             SBJ_CHAR = #{sbjChar},
             SBJ_DEP = #{sbjDep},
             SBJ_DEP_SUB = #{sbjDepSub},
-            SBJ_SEP = #{sbjSep},
             SBJ_STAT_YN = #{sbjStatYn},
             STR_DT = #{strDt},
             END_DT = #{endDt},
@@ -83,7 +78,6 @@
             DEPT_SEQ = #{deptSeq},
             DEPT_NAME = #{deptName},
             PJT_NM = #{pjtNm},
-            PJT_SUB_NM = #{pjtSubNm},
             CRM_SN = #{crmSn},
             CRM_CON_SN = #{crmConSn},
             CRM_PART_SN = #{crmPartSn},
@@ -347,15 +341,17 @@
     <select id="getRndDetail" parameterType="map" resultType="map">
         /*getRndDetail*/
         SELECT
-            A.*,
+            A.*, B.*,
             DI.APPRO_KEY,
             DI.DOC_MENU_CD
         FROM
             CAM_PJT_MNG.DJ_PJT_RND A
         LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO B ON A.RND_FILE_SN = B.file_no
+        LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
-            PJT_SN = #{pjtSn}
+            A.PJT_SN = #{pjtSn}
     </select>
 
     <insert id="insRndDetail" parameterType="map">
@@ -372,6 +368,7 @@
                 PEO_RES_COST,
                 PEO_RES_ITEM,
                 TOT_RES_COST,
+                RND_OBJ,
                 DELV_DAY,
                 RES_DAY
             )
@@ -387,6 +384,7 @@
                 #{peoResCost},
                 #{peoResItem},
                 #{totResCost},
+                #{rndObj},
                 #{delvDay},
                 #{resDay}
             )
@@ -412,10 +410,51 @@
             TOT_RES_COST = #{totResCost},
             RES_CARD_CHECK = #{resCardCheck},
             RES_CARD_NO = #{resCardNo},
+            RND_OBJ = #{rndObj},
             DELV_DAY = #{delvDay},
             RES_DAY = #{resDay}
         WHERE
             PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updPjtSepRnd" parameterType="map">
+        /*updPjtSepRnd*/
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            SBJ_SEP = #{sbjSep}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updRndFileSn" parameterType="map">
+        /*updRndFileSn*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_RND
+        SET
+            RND_FILE_SN = #{file_no}
+        WHERE
+            RND_SN = #{rndSn}
+    </update>
+
+    <update id="updRndTotResCost" parameterType="map">
+        /*updRndTotResCost*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_RND
+        SET
+            TOT_RES_COST = (SELECT IFNULL(SUM(CB_BUDGET), 0) AS TOTAL_AMT FROM CAM_PJT_MNG.DJ_PJT_CB
+                             WHERE PJT_SN = #{pjtSn}
+                               AND ACCOUNT IN (SELECT IS_TYPE FROM CAM_PJT_MNG.DJ_PJT_ACCOUNT SSA WHERE PJT_SN = #{pjtSn}))
+        WHERE
+            RND_SN = #{rndSn}
+    </update>
+
+    <update id="updRndTotResCost2" parameterType="map">
+        /*updRndTotResCost2*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_RND
+        SET
+            TOT_RES_COST = (SELECT IFNULL(SUM(CB_BUDGET), 0) AS TOTAL_AMT FROM CAM_PJT_MNG.DJ_PJT_CB
+                            WHERE PJT_SN = #{pjtSn}
+                              AND ACCOUNT = '0')
+        WHERE
+            RND_SN = #{rndSn}
     </update>
 
     <update id="setDelvApprove" parameterType="map">
