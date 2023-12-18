@@ -69,7 +69,7 @@
             <b style="font-size: 12px">거래처명</b>
             <input id="searchValue" style="width: 20%;">
 <%--            <button type="button" style="font-size: 12px" class="k-button k-button-sm k-button-solid-base" id="cardSelBtn" onclick="payEtaxHist.gridReload()">선택</button>--%>
-            <button type="button" style="font-size: 12px" class="k-button k-button-sm k-button-solid-base" id="bnkSelBtn" onkeypress="if(window.event.keyCode==13){payEtaxHist.fn_search()}">검색</button>
+            <button type="button" style="font-size: 12px" class="k-button k-button-sm k-button-solid-base" id="bnkSelBtn" onclick="payEtaxHist.fn_search()" onkeypress="if(window.event.keyCode==13){payEtaxHist.fn_search()}">검색</button>
         </span>
         <div id="etaxMainGrid" style="margin-top:12px"></div>
 

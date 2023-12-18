@@ -49,6 +49,8 @@ var payEtaxHist = {
                 parameterMap: function(data){
                     data.searchValue = $("#searchValue").val();
                     data.type = $("#type").val();
+                    data.strDt = $("#startDt").val().toString().replace(/-/g, "");
+                    data.endDt = $("#endDt").val().toString().replace(/-/g, "");
                     return data;
                 }
             },
@@ -144,10 +146,12 @@ var payEtaxHist = {
                     title: "",
                     width: 80,
                     template: function(e){
+                        console.log(e);
                         return '<button type="button" class="k-button k-button-solid-base" ' +
                             'onclick="payEtaxHist.fn_selEtaxInfo(\'' + e.TR_CD + '\', \'' + e.TR_NM + '\', \'' + e.ISU_DT + '\', ' +
                             '\'' + e.TRREG_NB + '\', \'' + e.SUP_AM + '\', \'' + e.VAT_AM +  '\', \'' + e.SUM_AM + '\', ' +
-                            '\'' + e.ISS_NO + '\', \'' + e.CO_CD + '\', \'' + e.TAX_TY + '\')" style="font-size: 12px);">' +
+                            '\'' + e.ISS_NO + '\', \'' + e.CO_CD + '\', \'' + e.TAX_TY + '\', \'' + e.BA_NB + '\', \'' + e.BANK_NM + '\'' +
+                            ', \'' + e.DEPOSITOR + '\')" style="font-size: 12px);">' +
                             '   선택' +
                             '</button>';
                     }
@@ -160,7 +164,7 @@ var payEtaxHist = {
         }).data("kendoGrid");
     },
 
-    fn_selEtaxInfo : function (trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, coCd, taxTy) {
+    fn_selEtaxInfo : function (trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, coCd, taxTy, baNb, bankNm, depositor) {
         var idx = $("#index").val();
 
         var data = {
@@ -177,7 +181,6 @@ var payEtaxHist = {
             success : function(rs){
                 var rs = rs.data;
 
-                console.log(rs);
                 var eTaxInfo = rs;
 
                 var txtAuthNum = (eTaxInfo.ISS_NO || '');
@@ -285,7 +288,6 @@ var payEtaxHist = {
                 $('#txtRJongmokName').html(txtRJongmokName);
                 $('#txtREmail').html(txtREmail);
 
-                console.log(txtDummy2);
                 $('#txtDummy1').html(txtDummy1);
                 $('#txtDummy2').html(txtDummy2);
                 $('#txtStdAmt').html(txtStdAmt);
@@ -370,6 +372,7 @@ var payEtaxHist = {
                         $('#tbl_itemList').append(tr);
                     }
                 }
+                $("#etaxMainGrid").css("display", "none");
 
                 $("#capture").css("display", "");
                 html2canvas(document.querySelector("#capture")).then(function(canvas) {
@@ -388,10 +391,11 @@ var payEtaxHist = {
                         url : "/mng/imgSaveTest",
                         async : false,
                         success : function(data) {
+
                             var data = JSON.parse(data);
                             var fileNo = data.result.fileNo;
                             alert("반영되었습니다.");
-                            opener.parent.fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, coCd, taxTy, idx, fileNo);
+                            opener.parent.fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, coCd, taxTy, idx, fileNo, baNb, bankNm, depositor);
 
                             window.close();
 

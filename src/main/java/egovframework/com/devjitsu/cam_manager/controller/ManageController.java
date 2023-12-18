@@ -320,7 +320,7 @@ public class ManageController {
             String filePath = "";
 
             if("etax".equals(params.get("imgValue"))){
-                fileOrgName = params.get("ATTR_NM").toString() + "_" + params.get("ISS_NO").toString();
+                fileOrgName = params.get("TR_NM").toString() + "_" + params.get("ISS_NO").toString();
                 fileCd = "etax";
                 fileExt = "png";
                 filePath = "/upload/"+ fileCd +"/" + params.get("CO_CD") + "/" + params.get("TAX_TY") + "/" + params.get("ISS_NO") + "/";

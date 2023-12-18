@@ -151,7 +151,7 @@ function fn_selOtherInfo(trCd, bankName,  accountHolder, accountNum, empNameKr, 
     var popup = window.open(url, name, option);
 }
 
-function fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, coCd, taxTy, idx, fileNo){
+function fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, coCd, taxTy, idx, fileNo, baNb, bankNm, depositor){
     if(trNm == null || trNm == "" || trNm == "undefined"){
         trNm = "";
     }
@@ -163,6 +163,18 @@ function fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, 
     }
     if(trCd == null || trCd == "" || trCd == "undefined"){
         trCd = "";
+    }
+    if(baNb == null || baNb == "" || baNb == "undefined"){
+        baNb = "";
+        $("#crmBnkNm" + idx).css("border", "1px solid red");
+    }
+    if(bankNm == null || bankNm == "" || bankNm == "undefined"){
+        bankNm = "";
+        $("#crmAccNo" + idx).css("border", "1px solid red");
+    }
+    if(depositor == null || depositor == "" || depositor == "undefined"){
+        depositor = "";
+        $("#crmAccHolder" + idx).css("border", "1px solid red");
     }
 
     $("#trDe" + idx).val(isuDt.substring(0, 4) + "-" + isuDt.substring(4, 6) + "-" + isuDt.substring(6, 8));
@@ -176,4 +188,8 @@ function fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, 
     $("#coCd" + idx).val(coCd);
     $("#taxTy" + idx).val(taxTy);
     $("#fileNo" + idx).val(fileNo);
+    $("#crmBnkNm" + idx).val(bankNm);
+    $("#crmAccNo" + idx).val(baNb);
+    $("#crmAccHolder" + idx).val(depositor);
+
 }
