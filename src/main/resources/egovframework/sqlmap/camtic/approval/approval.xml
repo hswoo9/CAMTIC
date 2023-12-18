@@ -494,9 +494,9 @@
             SELECT
             CONCAT(A.C_AITITLE, '(', B.CM_CODE_NM, ')')
             FROM
-            NEOS.A_ARCHIVEINFO A
+                NEOS.A_ARCHIVEINFO A
             JOIN
-            DJ_CAMTIC.V_COM_CODE B
+                DJ_CAMTIC.V_COM_CODE B
             ON A.C_AIPRESERVE = B.CM_CODE AND B.CM_GROUP_CODE_ID = 14
             WHERE
             A.C_AIKEYCODE = DI.AIKEYCODE
@@ -764,9 +764,9 @@
             DAR.APPROVE_ORDER
         FROM
             DJ_CAMTIC.A_DOC_INFO DI
-                JOIN
+        JOIN
             DJ_CAMTIC.A_DOC_APPROVE_ROUTE DAR
-            ON DAR.DOC_ID = DI.DOC_ID AND DAR.APPROVE_ORDER = (DI.APPROVE_ORDER - 1)
+        ON DAR.DOC_ID = DI.DOC_ID AND DAR.APPROVE_ORDER = (DI.APPROVE_ORDER - 1)
         WHERE
             DI.DOC_ID = #{docId}
           AND
@@ -777,7 +777,7 @@
         SELECT
             COUNT(*)
         FROM
-            NEOS.A_ABSENTINFO AA
+            DJ_CAMTIC.A_ABSENTINFO AA
         WHERE
             AA.C_OIORGCODE = #{deptSeq}
           AND
@@ -890,62 +890,46 @@
             NOW(),
             EMP.EMP_SEQ
         FROM (
-                 SELECT
-                     @rownum:=@rownum+1 AS RNUM,
-                E.EMP_SEQ AS EMP_SEQ,
-                E.LOGIN_ID AS USER_ID,
-                E.LOGIN_PASSWD AS USER_PW,
-                E.ERP_EMP_NUM AS ERP_EMP_NUM,
-                EM.EMP_NAME AS EMP_NAME,
-                ED.DEPT_SEQ AS DEPT_SEQ,
-                DM.DEPT_NAME AS DEPT_NAME,
-                EC.JOB_CODE AS JOB_CODE,
-                EC.STATUS_CODE AS STATUS_CODE,
-                ED.DUTY_CODE AS DUTY_CODE,
-                ED.POSITION_CODE AS POSITION_CODE,
-                E.GENDER_CODE AS GENDER_CODE,
-                DATE_FORMAT(E.JOIN_DAY, '%Y-%m-%d') AS JOIN_DAY,
-                DATE_FORMAT(EC.RESIGN_DAY, '%Y-%m-%d') AS RESIGN_DAY,
-                EC.WORK_STATUS AS WORK_STATUS,
-                E.USE_YN AS USE_YN
-                 FROM
-                     (SELECT @ROWNUM := 0) R, NEOS.T_CO_EMP E
-                     LEFT JOIN
-                     NEOS.T_CO_EMP_MULTI EM
-                 ON E.GROUP_SEQ = EM.GROUP_SEQ AND E.EMP_SEQ = EM.EMP_SEQ AND EM.LANG_CODE = 'kr'
-                     LEFT JOIN
-                     NEOS.T_CO_EMP_DEPT ED
-                     ON E.GROUP_SEQ = ED.GROUP_SEQ AND E.EMP_SEQ = ED.EMP_SEQ AND ED.MAIN_DEPT_YN = 'Y'
-                     LEFT JOIN
-                     NEOS.T_CO_COMP C
-                     ON E.GROUP_SEQ = C.GROUP_SEQ AND ED.COMP_SEQ = C.COMP_SEQ
-                     LEFT JOIN
-                     NEOS.T_CO_DEPT_MULTI DM
-                     ON E.GROUP_SEQ = DM.GROUP_SEQ AND C.COMP_SEQ = DM.COMP_SEQ AND ED.DEPT_SEQ = DM.DEPT_SEQ AND DM.LANG_CODE = 'kr'
-                     LEFT JOIN
-                     NEOS.T_CO_EMP_COMP EC
-                     ON EC.COMP_SEQ = C.COMP_SEQ AND EC.EMP_SEQ = E.EMP_SEQ
-                 WHERE
-                     E.USE_YN != 'D'
-                   AND
-                     E.USE_YN = 'Y'
-             )EMP
-                 INNER JOIN (
+                SELECT
+                    @rownum:=@rownum+1 AS RNUM,
+                    E.EMP_SEQ AS EMP_SEQ,
+                    E.LOGIN_ID AS USER_ID,
+                    E.LOGIN_PASSWD AS USER_PW,
+                    E.ERP_EMP_NUM AS ERP_EMP_NUM,
+                    E.EMP_NAME_KR AS EMP_NAME,
+                    E.DEPT_SEQ AS DEPT_SEQ,
+                    IF(E.DEPT_TEAM_NAME = '' OR E.DEPT_TEAM_NAME IS NULL, E.DEPT_NAME, E.DEPT_TEAM_NAME) AS DEPT_NAME,
+                    E.DUTY_CODE AS DUTY_CODE,
+                    E.POSITION_CODE AS POSITION_CODE,
+                    E.GENDER_CODE AS GENDER_CODE,
+                    DATE_FORMAT(E.JOIN_DAY, '%Y-%m-%d') AS JOIN_DAY,
+                    E.WORK_STATUS AS WORK_STATUS,
+                    E.USE_YN AS USE_YN
+                FROM
+                    (SELECT @ROWNUM := 0) R, CAM_HR.DJ_EMP_INFO E
+                WHERE
+                    E.USE_YN != 'D'
+                AND
+                    E.USE_YN = 'Y'
+         )EMP
+         INNER JOIN (
             SELECT
                 DOC_ID
             FROM
                 DJ_CAMTIC.A_DOC_READER DRD
-                    INNER JOIN (
-                    ${deptPathQuery}
-                    )OC
-                               ON OC.GBN_ORG = DRD.SEQ_TYPE AND OC.GROUP_SEQ = 'epis_new' AND OC.COMP_SEQ = '1000' AND OC.DEPT_SEQ = DRD.READER_DEPT_SEQ AND OC.EMP_SEQ = DRD.READER_EMP_SEQ
+            INNER JOIN (
+                ${deptPathQuery}
+            )OC
+            ON OC.GBN_ORG = DRD.SEQ_TYPE AND OC.GROUP_SEQ = 'camtic_new' AND OC.COMP_SEQ = '1000' AND OC.DEPT_SEQ = DRD.READER_DEPT_SEQ AND OC.EMP_SEQ = DRD.READER_EMP_SEQ
             WHERE
                 DRD.DOC_ID = #{docId}
             GROUP BY DOC_ID
         )DRD
-        WHERE EMP.EMP_SEQ  = #{empSeq}
-          AND   EMP.DEPT_SEQ = #{deptSeq}
-            LIMIT 1
+        WHERE
+            EMP.EMP_SEQ  = #{empSeq}
+        AND
+            EMP.DEPT_SEQ = #{deptSeq}
+        LIMIT 1
     </insert>
 
     <update id="setDocReaderUserReadDtUpd" parameterType="map">
@@ -1018,11 +1002,10 @@
             RS.COMP_SEQ,
             RS.DEPT_SEQ,
             RS.EMP_SEQ,
-            NEOS.FN_getmultiname('kr', 'comp', RS.COMP_SEQ) AS COMP_NAME,
-            NEOS.FN_getmultiname('kr', 'dept', RS.DEPT_SEQ) AS DEPT_NAME,
-            NEOS.FN_getmultiname('kr', 'emp', RS.EMP_SEQ) AS EMP_NAME,
-            NEOS.FN_getmultiname('kr', 'DUTY', IFNULL(RS.DUTY_CODE, V.DUTY_CODE)) AS DUTY_NAME,
-            NEOS.FN_getmultiname('kr', 'POSITION', IFNULL(RS.POSITION_CODE, V.POSITION_CODE)) AS POSITION_NAME,
+            CAM_HR.FN_GetName('DEPT', RS.DEPT_SEQ, 'KR') AS DEPT_NAME,
+            RS.EMP_NAME_KR,
+            CAM_HR.FN_GetName('DUTY', RS.DUTY_CODE, 'KR') AS DUTY_NAME,
+            CAM_HR.FN_GetName('POSITION', RS.POSITION_CODE, 'KR') AS POSITION_NAME,
             NEW_DOC_READ_DAY,
             NEW_DOC_READ_TIME,
             LAST_DOC_READ_DAY,
@@ -1043,10 +1026,11 @@
                 MAX(POSITION_CODE) POSITION_CODE
             FROM (
                 SELECT
-                    'epis_new' AS GROUP_SEQ,
+                    'camtic_new' AS GROUP_SEQ,
                     '1000' AS COMP_SEQ,
                     DRD.READER_DEPT_SEQ AS DEPT_SEQ,
                     DRD.READER_EMP_SEQ AS EMP_SEQ,
+                    DRD.READER_EMP_NAME AS EMP_NAME_KR,
                     '' AS NEW_DOC_READ_DAY,
                     '' AS NEW_DOC_READ_TIME,
                     '' AS LAST_DOC_READ_DAY,
@@ -1057,16 +1041,17 @@
                     DJ_CAMTIC.A_DOC_READER DRD
                 WHERE
                     DRD.SEQ_TYPE = 'u'
-                AND DRD.DOC_ID = #{docId}
-                AND DRD.ACTIVE = 'Y'
-
+                AND
+                    DRD.DOC_ID = #{docId}
+                AND
+                    DRD.ACTIVE = 'Y'
                 UNION
-
                 SELECT
-                    ED.GROUP_SEQ,
-                    ED.COMP_SEQ,
+                    'camtic_new' AS GROUP_SEQ,
+                    '1000' AS COMP_SEQ,
                     ED.DEPT_SEQ,
                     ED.EMP_SEQ,
+                    ED.EMP_NAME_KR,
                     '' AS NEW_DOC_READ_DAY,
                     '' AS NEW_DOC_READ_TIME,
                     '' AS LAST_DOC_READ_DAY,
@@ -1074,56 +1059,45 @@
                     NULL AS DUTY_CODE,
                     NULL AS POSITION_CODE
                 FROM
-                    NEOS.T_CO_EMP_DEPT ED
-                INNER JOIN
-                    NEOS.T_CO_DEPT DOWN_ORG
-                ON ED.DEPT_SEQ = DOWN_ORG.DEPT_SEQ
-                INNER JOIN
-                    NEOS.T_CO_DEPT ORG
-                ON DOWN_ORG.COMP_SEQ = ORG.COMP_SEQ AND CONCAT(DOWN_ORG.PATH, '|') LIKE CONCAT(ORG.PATH, '|%')
+                    CAM_HR.DJ_EMP_INFO ED
                 INNER JOIN
                     DJ_CAMTIC.A_DOC_READER DRD2
-                ON DRD2.READER_DEPT_SEQ = ORG.DEPT_SEQ
-                          WHERE
-                              DRD2.SEQ_TYPE = 'd'
-                            AND
-                              ED.USE_YN = 'Y'
-                            AND
-                              DRD2.ACTIVE = 'Y'
-                            AND
-                              DRD2.DOC_ID = #{docId}
-                          UNION
-                          SELECT
-                              'epis_new' AS GROUP_SEQ,
-                              '1000' AS COMP_SEQ,
-                              DRU.READER_DEPT_SEQ AS DEPT_SEQ,
-                              DRU.READER_EMP_SEQ AS EMP_SEQ,
-                              DATE_FORMAT(DRU.NEW_DOC_READ_DT, '%Y%m%d') AS NEW_DOC_READ_DAY,
-                              DATE_FORMAT(DRU.NEW_DOC_READ_DT, '%H%i%s') AS NEW_DOC_READ_TIME,
-                              DATE_FORMAT(DRU.LAST_DOC_READ_DT, '%Y%m%d') AS LAST_DOC_READ_DAY,
-                              DATE_FORMAT(DRU.LAST_DOC_READ_DT, '%H%i%s') AS LAST_DOC_READ_TIME,
-                              DRU.READER_DUTY_CODE AS DUTY_CODE,
-                              DRU.READER_POSITION_CODE AS POSITION_CODE
-                          FROM
-                              DJ_CAMTIC.A_DOC_READER_USER DRU
-                          WHERE
-                              DRU.DOC_ID = #{docId}
-                      )AA
-                 GROUP BY GROUP_SEQ, COMP_SEQ, DEPT_SEQ, EMP_SEQ
-             )RS
-                 INNER JOIN
-             NEOS.T_CO_EMP EMP
-             ON RS.EMP_SEQ = EMP.EMP_SEQ
-                 LEFT OUTER JOIN
-             NEOS.T_CO_EMP_COMP EC
-             ON RS.EMP_SEQ = EC.EMP_SEQ AND RS.COMP_SEQ = EC.COMP_SEQ AND EC.WORK_STATUS = '999'  AND EC.USE_YN = 'Y'
-                 LEFT OUTER JOIN
-             NEOS.T_CO_EMP_DEPT V
-             ON RS.DEPT_SEQ = V.DEPT_SEQ AND RS.EMP_SEQ = V.EMP_SEQ
+                ON DRD2.READER_DEPT_SEQ = ED.DEPT_SEQ
+                WHERE
+                    DRD2.SEQ_TYPE = 'd'
+                AND
+                    ED.USE_YN = 'Y'
+                AND
+                    DRD2.ACTIVE = 'Y'
+                AND
+                    DRD2.DOC_ID = #{docId}
+                UNION
+                SELECT
+                    'camtic_new' AS GROUP_SEQ,
+                    '1000' AS COMP_SEQ,
+                    DRU.READER_DEPT_SEQ AS DEPT_SEQ,
+                    DRU.READER_EMP_SEQ AS EMP_SEQ,
+                    DRU.READER_EMP_NAME AS EMP_NAME_KR,
+                    DATE_FORMAT(DRU.NEW_DOC_READ_DT, '%Y%m%d') AS NEW_DOC_READ_DAY,
+                    DATE_FORMAT(DRU.NEW_DOC_READ_DT, '%H%i%s') AS NEW_DOC_READ_TIME,
+                    DATE_FORMAT(DRU.LAST_DOC_READ_DT, '%Y%m%d') AS LAST_DOC_READ_DAY,
+                    DATE_FORMAT(DRU.LAST_DOC_READ_DT, '%H%i%s') AS LAST_DOC_READ_TIME,
+                    DRU.READER_DUTY_CODE AS DUTY_CODE,
+                    DRU.READER_POSITION_CODE AS POSITION_CODE
+                FROM
+                    DJ_CAMTIC.A_DOC_READER_USER DRU
+                WHERE
+                    DRU.DOC_ID = #{docId}
+            )AA
+            GROUP BY GROUP_SEQ, COMP_SEQ, DEPT_SEQ, EMP_SEQ
+        )RS
+        INNER JOIN
+             CAM_HR.DJ_EMP_INFO EMP
+        ON RS.EMP_SEQ = EMP.EMP_SEQ
         WHERE
-            (
-                    (V.EMP_SEQ IS NOT NULL AND EC.EMP_SEQ IS NOT NULL) OR NEW_DOC_READ_DAY > ' '
-                )
+        (
+            (EMP.EMP_SEQ IS NOT NULL AND EMP.EMP_SEQ IS NOT NULL) OR NEW_DOC_READ_DAY > ' '
+        )
         ORDER BY IFNULL(order_text, 'ZZZZZZZZZZ')
     </select>
 

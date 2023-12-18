@@ -266,11 +266,11 @@ public class ApprovalUserServiceImpl implements ApprovalUserService {
             }
         }
         //TODO.. 대결자 임시 주석처리
-        //List<Map<String, Object>> absentUserList = approvalUserRepository.getAbsentUserList(paramMap);
-        //for (int i = 0; i < absentUserList.size(); i++) {
-        //    absentUserQuery.append("\n UNION ALL");
-        //    absentUserQuery.append("\n SELECT  '" + ((Map)absentUserList.get(i)).get("C_UIUSERKEY") + "' AS C_UIUSERKEY , '" + ((Map)absentUserList.get(i)).get("C_OIORGCODE") + "' AS C_OIORGCODE FROM DUAL");
-        //}
+        List<Map<String, Object>> absentUserList = approvalUserRepository.getAbsentUserList(paramMap);
+        for (int i = 0; i < absentUserList.size(); i++) {
+            absentUserQuery.append("\n UNION ALL");
+            absentUserQuery.append("\n SELECT  '" + ((Map)absentUserList.get(i)).get("C_UIUSERKEY") + "' AS C_UIUSERKEY , '" + ((Map)absentUserList.get(i)).get("C_OIORGCODE") + "' AS C_OIORGCODE FROM DUAL");
+        }
         return absentUserQuery;
     }
 

@@ -13,11 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CampusServiceImpl implements CampusService {
@@ -917,7 +916,134 @@ public class CampusServiceImpl implements CampusService {
             params.put("status", "40");
             campusRepository.updateEduResultApprStat(params);
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결
+            Map<String, Object> eduInfo = campusRepository.getEduResultOne(params);
+
+            String eduFormType = eduInfo.get("EDU_FORM_TYPE").toString();
+            int realEduTime = 0;
+            int eduTime = Integer.parseInt(eduInfo.get("TERM_TIME").toString());
+
+            Map<String, Object> searchMap = new HashMap<>();
+            searchMap.put("eduYear", getCurrentDateTime().substring(0, 4));
+            searchMap.put("eduFormType", eduFormType);
+            searchMap.put("empSeq", eduInfo.get("REG_EMP_SEQ"));
+
+            int realEduTimeYear = Integer.parseInt(campusRepository.getRealEduTimeYear(searchMap).get("REAL_EDU_TIME2").toString());
+
+            switch (eduFormType){
+                case "1":
+                    /** 교육기관 참가교육 : 교육시간 100% */
+                    realEduTime = eduTime;
+                    break;
+                case "2":
+                    /** 온라인 학습 : 교육시간 100%, 건당 최대 30시간 */
+                    if(eduTime > 30){
+                        realEduTime = 30;
+                    }else{
+                        realEduTime = eduTime;
+                    }
+                    break;
+                case "3":
+                    /** 세미나/포럼/학술대회 : 주제발표 100%, 단순참가 50%*/
+                    String objectForumType = eduInfo.get("OBJECT_FORUM_TYPE") == null ? "" : eduInfo.get("OBJECT_FORUM_TYPE").toString();
+                    if(objectForumType == "주제발표" || objectForumType == "1"){
+                        if(eduTime > 8){
+                            realEduTime = 8;
+                        }else {
+                            realEduTime = eduTime;
+                        }
+                    }else{
+                        if((eduTime/2) > 8){
+                            realEduTime = 8;
+                        }else {
+                            realEduTime = (eduTime/2);
+                        }
+                    }
+                    break;
+                case "4":
+                    /** 박람회/기술대전 참관 : 건당 최대 4시간 */
+                    if(eduTime > 4){
+                        realEduTime = 4;
+                    }else{
+                        realEduTime = eduTime;
+                    }
+                    break;
+                case "5":
+                    /** 도서학습 : 50페이지당 1시간, 건당 최대 10시간 */
+                    int bookPageVal = eduInfo.get("BOOK_PAGE_VAL") == null ? 0 : Integer.parseInt(eduInfo.get("BOOK_PAGE_VAL").toString());
+                    int bookTime = bookPageVal / 50;
+                    if(bookTime > 8){
+                        realEduTime = 8;
+                    }else{
+                        realEduTime = bookTime;
+                    }
+                    break;
+                case "6":
+                    /** 논문/학술지 독서 : 2편당 1시간 */
+                    int treaUnit = eduInfo.get("TREA_UNIT") == null ? 0 : Integer.parseInt(eduInfo.get("TREA_UNIT").toString());
+                    if(treaUnit > 1){
+                        realEduTime = 1;
+                    }else {
+                        realEduTime = 0;
+                    }
+                    break;
+                case "7":
+                    /** 국내/외 논문 저술 : 국제학술지 저자 20시간, 교신저자 10시간, 국내학술지 저자 10시간, 교신저자 5시간, 연간 최대 30시간 */
+                    String treaType = eduInfo.get("TREA_TYPE") == null ? "" : eduInfo.get("TREA_TYPE").toString();
+                    String treaUser = eduInfo.get("TREA_USER") == null ? "" : eduInfo.get("TREA_USER").toString();
+
+                    if(treaType == "국외"){
+                        if(treaUser == "저자"){
+                            realEduTime = 20;
+                        }else{
+                            realEduTime = 10;
+                        }
+                    }else{
+                        if(treaUser == "저자"){
+                            realEduTime = 10;
+                        }else{
+                            realEduTime = 5;
+                        }
+                    }
+                    if(realEduTimeYear + realEduTime > 30){
+                        realEduTime = 30 - realEduTimeYear;
+                    }
+                    break;
+                case "8":
+                    /** 직무관련 저술 : 권당 30시간, 연간 최대 50시간*/
+                    int bookUnit = eduInfo.get("BOOK_UNIT") == null ? 0 : Integer.parseInt(eduInfo.get("BOOK_UNIT").toString());
+                    int bookUnitTime = bookUnit * 30;
+                    realEduTime = bookUnitTime;
+                    if(realEduTimeYear + realEduTime > 50){
+                        realEduTime = 50 - realEduTimeYear;
+                    }
+                    break;
+                case "9":
+                    /** 국내외 현장견학 : 1일당 최대 4시간, 건당 최대 30시간 */
+                    int termDay = eduInfo.get("TERM_DAY") == null ? 0 : Integer.parseInt(eduInfo.get("TERM_DAY").toString());
+                    if(termDay * 4 < eduTime){
+                        realEduTime = termDay * 4;
+                    }else{
+                        realEduTime = eduTime;
+                    }
+                    break;
+                case "10":
+                    /** 자격증 취득 : 기술사 30시간, 기사 20시간, 나머지 15시간, 연간 최대 30시간 */
+                    String compType = eduInfo.get("COMP_TYPE").toString();
+                    if(compType == "기술사"){
+                        realEduTime = 30;
+                    }else if(compType == "기사"){
+                        realEduTime = 20;
+                    }else{
+                        realEduTime = 15;
+                    }
+                    if(realEduTimeYear + realEduTime > 30){
+                        realEduTime = 30 - realEduTimeYear;
+                    }
+                    break;
+            }
+
             params.put("status", "100");
+            params.put("realEduTime", realEduTime);
             campusRepository.updateEduResultFinalApprStat(params);
         }
     }
@@ -972,5 +1098,14 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public void setStudyResultComplete(Map<String, Object> params) {
         campusRepository.setStudyResultComplete(params);
+    }
+
+    //오늘날짜 구하기 yyyyMMddhhmmss
+    public static String getCurrentDateTime() {
+        Date today = new Date();
+        Locale currentLocale = new Locale("KOREAN", "KOREA");
+        String pattern = "yyyyMMddHHmmss";
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
+        return formatter.format(today);
     }
 }
