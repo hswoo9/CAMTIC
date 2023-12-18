@@ -69,11 +69,12 @@
         <span>
             <b style="font-size: 12px; margin-right: 5px; margin-left: 5px">조회</b>
             <input type="radio" name="radio" value="A" id="radio1" onclick="payCardHist.gridReload()" checked><label for="radio1" style="position: relative; top : 4px;">카드사용내역</label>
-            <input type="radio" name="radio" value="A" id="radio2" onclick="payCardHist.cardMainGrid()"><label for="radio2" style="position: relative; top : 4px;">법인/개인카드</label>
+            <input type="radio" name="radio" value="M" id="radio2" onclick="payCardHist.cardMainGridReload('M')"><label for="radio2" style="position: relative; top : 4px;">법인카드</label>
+            <input type="radio" name="radio" value="P" id="radio3" onclick="payCardHist.cardMainGridReload('P')"><label for="radio3" style="position: relative; top : 4px;">개인카드</label>
         </span>
         <div id="mainGrid" style="margin-top:12px"></div>
         <div id="cardMainGrid" style="margin-top:12px; display: none"></div>
-
+        <div id="cardMainGrid2" style="margin-top:12px; display: none"></div>
     </div>
 </div>
 

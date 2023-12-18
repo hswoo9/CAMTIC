@@ -11,7 +11,7 @@ var regRnd = {
 
     fn_setTab : function(setParameters){
         var tab0Url = "/projectRnd/detailInfo.do";                 // 00사업정보
-        var tab1Url = "/projectRnd/researcherInfo.do";             // 01참여인력
+        //var tab1Url = "/projectRnd/researcherInfo.do";             // 01참여인력 --제외(요청)
         // var tab2Url = "/projectRnd/reqPartRate.do";             // 참여율요청 -- 제외
         var tab3Url = "/projectRnd/partRate.do";                   // 02참여율관리
         var tab4Url = "/projectRnd/rndDevPlan.do";                 // 03수행계획(공정)
@@ -35,7 +35,7 @@ var regRnd = {
 
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
-            tab1Url += "?pjtSn=" + setParameters.PJT_SN;
+            //tab1Url += "?pjtSn=" + setParameters.PJT_SN; --제외(요청)
             // tab2Url += "?pjtSn=" + setParameters.PJT_SN;
             tab3Url += "?pjtSn=" + setParameters.PJT_SN;
             tab4Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -67,7 +67,7 @@ var regRnd = {
         } else {
             dataSource = [
                 {name: "사업정보", url: tab0Url, imageUrl: "/images/ico/etc_01_1.png"},
-                {name: "참여인력", url: tab1Url},
+                //{name: "참여인력", url: tab1Url}, --제외(요청)
                 {name: "참여율관리", url: tab3Url},      // 지출내역조회와 같이 사용
                 {name: "수행계획(공정)", url: tab4Url, imageUrl: "/images/ico/etc_01_1.png"},
                 {name: "공정", url: tab17Url},
@@ -164,7 +164,7 @@ var regRnd = {
             /** 탭 두줄 */
             var html = '<div style="width:100%;"></div>';
             var doc = parser.parseFromString(html, 'text/html');
-            $("#tabstrip li")[9].after(doc.body.firstChild);
+            $("#tabstrip li")[8].after(doc.body.firstChild);
 
             /** 첫줄에 사업관리 문구 추가 */
             var html2 = '<div style="padding: 6px 12px"><b style="color: red">사업관리</b></div>';
@@ -174,7 +174,7 @@ var regRnd = {
             /** 둘째줄에 운영관리 문구 추가 */
             var html3 = '<div style="padding: 6px 12px"><b style="color: blue">운영관리</b></div>';
             var doc3 = parser.parseFromString(html3, 'text/html');
-            $("#tabstrip li")[10].before(doc3.body.firstChild);
+            $("#tabstrip li")[9].before(doc3.body.firstChild);
         }
     },
 
@@ -346,7 +346,7 @@ var regRnd = {
             return;
         }
         if(parameters.pjtExpAmt == ""){
-            alert("예상수주금액을 입력해주세요.")
+            alert("예상수주금액을 입력해주세요.");
             return;
         }
 
