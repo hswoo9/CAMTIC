@@ -528,7 +528,7 @@ var performanceInfo = {
             success: function(rs){
                 alert("저장되었습니다.");
                 if(rs.code == 200){
-                    commonProject.getReloadPage(8, 9, 9, 4, 2, 2);
+                    commonProject.getReloadPage(8, 8, 8, 4, 2, 2);
                 }
             }
         });

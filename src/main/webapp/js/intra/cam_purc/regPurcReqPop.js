@@ -226,9 +226,9 @@ var prp = {
                     if(busnClass == "D"){
                         opener.window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=10";
                     }else if(busnClass == "R"){
-                        opener.window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=11";
+                        opener.window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=10";
                     }else if(busnClass == "S"){
-                        opener.window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=11";
+                        opener.window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=10";
                     }else{
                         opener.window.location.reload();
                     }

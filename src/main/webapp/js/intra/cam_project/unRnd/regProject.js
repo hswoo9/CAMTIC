@@ -141,9 +141,9 @@ var regUnRnd = {
                 tabStrip.enable(tabStrip.tabGroup.children());
 
                 /** 실적관리 비활성화 및 PM만 활성화 */
-                tabStrip.disable(tabStrip.tabGroup.children().eq(9));
+                tabStrip.disable(tabStrip.tabGroup.children().eq(8));
                 if(setParameters.PM_EMP_SEQ == $("#regEmpSeq").val()){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(9));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(8));
                 }
             }
 

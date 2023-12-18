@@ -281,11 +281,11 @@ var bustInfo = {
                     }
                 }else{
                     if(commonProject.global.busnClass == "D"){
-                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=10";
+                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=9";
                     }else if(commonProject.global.busnClass == "R"){
-                        window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=10";
+                        window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=9";
                     }else if(commonProject.global.busnClass == "S"){
-                        window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=10";
+                        window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=9";
                     }
                 }
             }
