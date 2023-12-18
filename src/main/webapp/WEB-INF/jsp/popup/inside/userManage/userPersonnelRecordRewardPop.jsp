@@ -13,7 +13,7 @@
     <div class="card-header pop-header">
       <h3 class="card-title title_NM">상벌 사항</h3>
       <div class="btn-st popButton">
-        <button type="button" class="k-button k-button-solid-info" onclick="fu_addInfo()">추가</button>
+        <button type="button" class="k-button k-button-solid-info" onclick="fu_addInfo()" id="addBtn">추가</button>
         <button type="button" class="k-button k-button-solid-info" onclick="fu_modifyInfo()" id="modBtn" style="display: none">수정</button>
         <button type="button" class="k-button k-button-solid-info" onclick="fu_delInfo()" id="delBtn" style="display: none">삭제</button>
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="fn_windowClose()">닫기</button>
@@ -133,20 +133,21 @@
   }
 
   function fn_dataSet() {
+    $("#addBtn").hide()
+    $("#modBtn").show()
+    $("#delBtn").show()
+
     var result = customKendo.fn_customAjax('/userManage/getRewinfoList.do', {
       pk : $("#pk").val()
     });
     if(result.flag){
       var e = result.rs;
 
-      $("#rGubunOutIn").data("kendoDropDownList").val(e.REWORD_TYPE);
-      $("#rGubun").val(e.REWORD_TYPE_NAME.split('] ')[1]);
+      $("#rGubunOutIn").data("kendoDropDownList").value(e.REWORD_TYPE);
+      $("#rGubun").val(e.REWORD_NAME);
       $("#sDate").val(e.REWORD_DAY);
       $("#rIssue").val(e.RWD_OFM);
       $("#agency").val(e.RWD_ST_COMP);
-
-      $("#modBtn").show()
-      $("#delBtn").show()
     }
   }
 
