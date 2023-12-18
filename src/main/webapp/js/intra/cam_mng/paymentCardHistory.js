@@ -34,6 +34,7 @@ var payCardHist = {
         if(type != "search"){
             $("#mainGrid").css("display", "");
             $("#cardMainGrid").css("display", "none");
+            $("#cardMainGrid2").css("display", "none");
         }
 
         payCardHist.global.searchAjaxData = {
@@ -44,10 +45,20 @@ var payCardHist = {
         payCardHist.mainGrid("/card/cardUseList", payCardHist.global.searchAjaxData);
     },
 
+    cardMainGridReload: function(value){
+
+        if(value == "M"){
+            payCardHist.cardMainGrid();
+        } else {
+            payCardHist.cardMainGrid2();
+        }
+    },
+
     cardMainGrid : function (type) {
         if(type != "search"){
             $("#mainGrid").css("display", "none");
             $("#cardMainGrid").css("display", "");
+            $("#cardMainGrid2").css("display", "none");
         }
 
         let dataSource = new kendo.data.DataSource({
@@ -60,6 +71,7 @@ var payCardHist = {
                 },
                 parameterMap: function(data){
                     data.searchValue = $("#searchValue").val();
+                    data.cardVal = $("input[name='radio']:checked").val()
                     return data;
                 }
             },
@@ -75,6 +87,91 @@ var payCardHist = {
         });
 
         $("#cardMainGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            pageable: {
+                refresh: true,
+                pageSizes: [ 10, 20, 30, 50, 100 ],
+                buttonCount: 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            dataBound: payDetView.onDataBound,
+            columns: [
+                {
+                    template: "#= ++record #",
+                    title: "번호",
+                    width : 50
+                }, {
+                    title: "카드명",
+                    width: 300,
+                    template: function (e){
+                        return '<input type="hidden" id="trCd" value="' + e.TR_CD + '"/><input type="hidden" id="clttrCd" value="e.CLTTR_CD" />' + e.TR_NM;
+                    }
+                }, {
+                    title: "카드번호",
+                    width: 250,
+                    template: function (e){
+                        if(e.CARD_BA_NB != null){
+                            return e.CARD_BA_NB;
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    title: "",
+                    width: 80,
+                    template: function(e){
+                        return '<button type="button" class="k-button k-button-solid-base" ' +
+                            'onclick="payDetView.fn_selCardInfo(\'' + e.TR_CD + '\', \'' + e.TR_NM + '\', \'' + e.CARD_BA_NB + '\', \'' + e.JIRO_NM + '\', \'' + e.CLTTR_CD + '\', \'' + e.BA_NB + '\', \'' + e.DEPOSITOR + '\')" style="font-size: 12px);">' +
+                            '   선택' +
+                            '</button>';
+                    }
+                }
+            ],
+
+            dataBinding: function() {
+                record = (this.dataSource.page() -1) * this.dataSource.pageSize();
+            }
+        }).data("kendoGrid");
+    },
+
+    cardMainGrid2 : function (type) {
+        if(type != "search"){
+            $("#mainGrid").css("display", "none");
+            $("#cardMainGrid").css("display", "none");
+            $("#cardMainGrid2").css("display", "");
+        }
+
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read: {
+                    url: "/g20/getCardList",
+                    dataType: "json",
+                    type: "post"
+                },
+                parameterMap: function(data){
+                    data.searchValue = $("#searchValue").val();
+                    data.cardVal = $("input[name='radio']:checked").val()
+                    return data;
+                }
+            },
+            schema: {
+                data: function(data){
+                    return data.list;
+                },
+                total: function(data){
+                    return data.list.length;
+                },
+            },
+            pageSize: 10
+        });
+
+        $("#cardMainGrid2").kendoGrid({
             dataSource: dataSource,
             sortable: true,
             scrollable: true,

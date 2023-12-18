@@ -5,7 +5,28 @@
 
 <jsp:include page="/WEB-INF/jsp/template/camtic/common.jsp" flush="false"/>
 </head>
-
+<style>
+	.use3 a {
+		display: inline-block;
+		max-width: 100%;
+		padding: 12px 15px;
+		width: 540px;
+		border-radius: 10px;
+		color: #fff;
+		font-size: 20px;
+		font-weight: 300;
+		letter-spacing: -0.05em;
+		background: #111;
+		text-align: center;
+		margin: 0 auto;
+	}
+	.use3 a strong {
+		font-weight: 600;
+	}
+	.item {
+		text-align: center;
+	}
+</style>
 <body>
 <div id="wrap">
 	<jsp:include page="/WEB-INF/jsp/template/camtic/head.jsp" flush="false"/>
@@ -26,9 +47,9 @@
 					<div class="foot" style="margin-top: 70px;">
 						<div class="__icoBox1">
 							<%-- <div class="ico"><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div> --%>
-							<div class="__fz18 __black">
+							<div class="__fz24 __black">
 								<div class="img"><img src="/images/camtic/img-ndrone3-1-1.png" alt="" style="border-radius: 10px;"></div>
-								<div class="foot __fz18 __black" style= "margin-top:30px">
+								<div class="foot __fz24 __black" style= "margin-top:30px">
 									우수한 기술력을 보유한 드론 관련기업, 연구소 및 지원기관 입주를 통한 드론산업 클러스터 환경 마련
 									<br class="__p">
 									드론 하드웨어/소프트웨어, 제어, 서비스 관련 우수기업 발굴 및 스케일-업을 위한 인프라 구축
@@ -39,11 +60,11 @@
 					</div>
 
 
-					<div class="__tit1 __mt100 __mb20">
+					<div class="__tit1 __mt50 __mb20">
 						<%--캠틱 아이콘 이미지 추가--%>
 						<h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><%--<a class="img"><img style="vertical-align: 0 !important;" src="/images/camtic/camtic_sub_favicon.png" alt=""></a>--%><strong>드론 첨단장비 공동활용 지원</strong></h3>
 					</div>
-					<div class="__drone4">
+					<div class="__drone4" style="padding: 60px 40px 10px 40px;">
 						<div class="head">
 							<div class="box">
 								<h4><%--<a class="img"><img style="vertical-align: 0 !important;" src="/images/camtic/camtic_favicon.png" alt=""></a>--%>시제품제작 지원장비</h4>
@@ -133,17 +154,17 @@
 								</div>
 							</div>
 						</div>
-						<div class="foot __fz18 __black">
+						<div class="foot __fz20 __black" style="margin-top: 30px;">
 							시제품제작, 성능평가, AI 및 항공관제 등 드론의 기술혁신과 제품고도화를 위한 첨단장비 15종 구축<br class="__p">
 							공동활용 장비의 지원체계를 확립하고 제품개발을 위한 맞춤형 컨설팅과 함께 드론기술의<br class="__p">
 							성능개선, 신제품 개발, 제품 고급화를 위한 애로기술 지원
 						</div>
 					</div>
 
-					<div class="__tit1 __mt100 __mb20">
+					<div class="__tit1 __mt50 __mb20">
 						<h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>드론기업 경쟁력 강화 지원</strong></h3>
 					</div>
-					<div class="__drone5">
+					<div class="__drone5" style="padding-bottom: 50px;">
 						<div class="__icoBox pt0">
 							<%-- <div class="ico"><span><img src="/images/camtic/ico-drone2-1.png" alt=""></span></div> --%>
 							<ul class="__dotList bar __fz20 __black">
@@ -156,6 +177,11 @@
 							</ul>
 						</div>
 						<div class="img"><img src="/images/camtic/img-ndrone5-1.jpg" alt=""></div>
+					</div>
+					<div class="item">
+					<div class="use3">
+						<a href="http://drone.camtic.or.kr/main" target="_blank"><strong>드론기술개발지원센터</strong> 바로가기</a>
+					</div>
 					</div>
 				</div>
 			</div>

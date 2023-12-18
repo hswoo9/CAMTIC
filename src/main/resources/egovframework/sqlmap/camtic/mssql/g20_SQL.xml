@@ -309,6 +309,14 @@
             AND
                 A.TR_NM LIKE CONCAT('%',#{cardName},'%')
         </if>
+        <if test='"M".equals(cardVal)'>
+            AND
+                A.TR_NM NOT LIKE CONCAT('%', '_개인카드', '%')
+        </if>
+        <if test='"P".equals(cardVal)'>
+            AND
+            A.TR_NM LIKE CONCAT('%', '_개인카드', '%')
+        </if>
     </select>
 
     <select id="getOtherList" parameterType="map" resultType="map">
@@ -598,15 +606,18 @@
     <select id="getEtaxList" parameterType="map" resultType="map">
         /*getEtaxList*/
         SELECT
-            *
+            A.*, B.*, C.BANK_NM
         FROM
             ETAXUP A
         LEFT JOIN
             STRADE B
         ON
             A.TR_CD = B.TR_CD
+        LEFT JOIN
+            SBANK C
+        ON B.JIRO_CD = C.BANK_CD
         WHERE
-            ISU_DT BETWEEN '20230101' AND '20231231'
+            ISU_DT BETWEEN #{strDt} AND #{endDt}
         <if test='type == 1 or "1".equals(type)'>
             AND
                 A.TAX_TY = '2'
@@ -614,6 +625,10 @@
         <if test='type == 2 or "2".equals(type)'>
             AND
                 A.TAX_TY = '4'
+        </if>
+        <if test='searchValue != null and !"".equals("searchValue")'>
+            AND
+                A.TR_NM LIKE CONCAT('%', #{searchValue} , '%')
         </if>
         ORDER BY ISU_DT DESC
     </select>
