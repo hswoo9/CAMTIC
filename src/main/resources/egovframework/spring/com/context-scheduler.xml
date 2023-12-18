@@ -5,5 +5,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd ">
 
-
+    <task:scheduler id="absentScheduler" pool-size="1"/>
+    <!-- 매 10초마다 Scheduler 작동 : 초 분 시간 일(Day of Month) 월 요일(Day of Week, 1-7 : SUN-SAT) 년도(생략가능) -->
+    <task:scheduled-tasks scheduler="absentScheduler">
+        <task:scheduled ref="schedulerService" method="setAbsentStartEndUpd" cron="0 0/10 * * * ?"/>
+    </task:scheduled-tasks>
 </beans>

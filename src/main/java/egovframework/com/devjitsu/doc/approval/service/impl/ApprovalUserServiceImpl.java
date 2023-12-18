@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.doc.approval.repository.ApprovalUserRepository;
 import egovframework.com.devjitsu.doc.approval.service.ApprovalUserService;
+import egovframework.devjitsu.common.utiles.EgovStringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -154,6 +155,11 @@ public class ApprovalUserServiceImpl implements ApprovalUserService {
     }
 
     @Override
+    public List<Map<String, Object>> getAbsentSetList(Map<String, Object> params) {
+        return approvalUserRepository.getAbsentSetList(params);
+    }
+
+    @Override
     public Map<String, Object> getAbsentDuplicate(Map<String, Object> params) {
         Map<String, Object> map = new HashMap<>();
         int cnt = 0;
@@ -167,6 +173,71 @@ public class ApprovalUserServiceImpl implements ApprovalUserService {
         map.put("pathName", orgPullPath);
 
         return map;
+    }
+
+    @Override
+    public void setAbsentInfo(Map<String, Object> params) {
+        int cnt = 0;
+        String aiSeqNum = approvalUserRepository.getMaxAiSeqNum(params);
+
+        params.put("c_aiseqnum", aiSeqNum);
+
+        if (EgovStringUtil.isNullToString(params.get("c_aistatus")).equals("")){
+            params.put("c_aistatus", null);
+        }
+
+        approvalUserRepository.setAbsentInfo(params);
+        approvalUserRepository.setVicariousInfo(params);
+    }
+
+    @Override
+    public int setAbsentInfoUpd(Map<String, Object> params) {
+        int cnt = 0;
+        if (EgovStringUtil.isNullToString(params.get("c_aistatus")).equals("")){
+            params.put("c_aistatus", null);
+        }
+
+        String oriAbsenceSeq = EgovStringUtil.isNullToString(params.get("oriAbsenceSeq"));
+        String uiUserkey = EgovStringUtil.isNullToString(params.get("c_uiuserkey"));
+        String oriDeptSeq = EgovStringUtil.isNullToString(params.get("oriDeptSeq"));
+        String oiOrgcode = EgovStringUtil.isNullToString(params.get("c_oiorgcode"));
+        if (!oriAbsenceSeq.equals(uiUserkey) || !oriDeptSeq.equals(oiOrgcode)) {
+            Map<String, Object> newMap = new HashMap<>();
+            newMap.put("loginVO", params.get("loginVO"));
+            newMap.put("c_aistatus", "d");
+            newMap.put("c_uiuserkey", oriAbsenceSeq);
+            newMap.put("c_oiorgcode", oriDeptSeq);
+            newMap.put("c_aiseqnum", params.get("c_aiseqnum"));
+            approvalUserRepository.setAbsentInfoUpd(newMap);
+            String aiSeqNum = approvalUserRepository.getMaxAiSeqNum(params);
+            params.put("c_aiseqnum", aiSeqNum);
+            if (EgovStringUtil.isNullToString(params.get("c_aistatus")).equals("")) {
+                params.put("c_aistatus", null);
+            }
+            approvalUserRepository.setAbsentInfo(params);
+            approvalUserRepository.setVicariousInfo(params);
+            cnt++;
+
+        } else {
+            String oriAbsenceSeqArr = EgovStringUtil.isNullToString(params.get("oriAbsenceSeq"));
+            String uiUserkeyArr = EgovStringUtil.isNullToString(params.get("c_uiuserkey"));
+            String oriDeptSeqArr = EgovStringUtil.isNullToString(params.get("oriDeptSeq"));
+            String aiSeqnumArr = EgovStringUtil.isNullToString(params.get("c_aiseqnum"));
+            for (int i = 0; i < (uiUserkeyArr.split("\\|")).length; i++) {
+                oriAbsenceSeq = oriAbsenceSeqArr.split("\\|")[i];
+                oriDeptSeq = oriDeptSeqArr.split("\\|")[i];
+                String aiSeqnum = aiSeqnumArr.split("\\|")[i];
+                params.put("c_uiuserkey", oriAbsenceSeq);
+                params.put("c_oiorgcode", oriDeptSeq);
+                params.put("c_aiseqnum", aiSeqnum);
+                approvalUserRepository.setAbsentInfoUpd(params);
+            }
+            if (!EgovStringUtil.isNullToString(params.get("c_aistatus")).equals("d")){
+                approvalUserRepository.setVicariousInfoUpd(params);
+            }
+        }
+
+        return cnt;
     }
 
     @Override

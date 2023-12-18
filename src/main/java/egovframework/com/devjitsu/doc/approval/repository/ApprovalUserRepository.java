@@ -1,8 +1,20 @@
 package egovframework.com.devjitsu.doc.approval.repository;
 
+import egovframework.com.cmm.config.WebSocketHandler;
+import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.login.repository.AbstractDAO;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.adapter.jetty.JettyWebSocketSession;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,15 +46,34 @@ public class ApprovalUserRepository extends AbstractDAO {
 
     /** 결재설정 - 부재설정 */
     public List<Map<String, Object>> getAbsentSetList(Map<String, Object> params){ return selectList("approvalUser.getAbsentSetList", params);} /** 완료 */
-    public List<Map<String, Object>> getComp(Map<String, Object> params) { return  selectList("approvalUser.getComp", params);} /** 완료 */
     public String getMaxAiSeqNum(Map<String, Object> params) { return (String) selectOne("approvalUser.getMaxAiSeqNum", params);} /** 완료 */
-    public Map<String, Object> getAbsentSet(Map<String, Object> params) { return (Map<String, Object>) selectOne("approvalUser.getAbsentSet", params); } /** 수정중 */
-    public String getOrgPullPath(Map<String, Object> params) { return (String) selectOne("approvalUser.getOrgPullPath", params); }/** 완료 */
-    public List<Map<String, Object>> getAbsentDuplicate(Map<String, Object> params) { return selectList("approvalUser.getAbsentDuplicate", params); }/** 완료 */
     public void setAbsentInfo(Map<String, Object> params) { insert("approvalUser.setAbsentInfo", params);}/** 완료 */
-    public void setVicariousInfo(Map<String, Object> params) { insert("approvalUser.setVicariousInfo", params);}/** 완료 */
     public void setAbsentInfoUpd(Map<String, Object> params) { update("approvalUser.setAbsentInfoUpd", params);}/** 완료 */
+    public void setVicariousInfo(Map<String, Object> params) { insert("approvalUser.setVicariousInfo", params);}/** 완료 */
     public void setVicariousInfoUpd(Map<String, Object> params) { update("approvalUser.setVicariousInfoUpd", params); }
+    public String getOrgPullPath(Map<String, Object> params) { return (String) selectOne("approvalUser.getOrgPullPath", params); }/** 완료 */
+    public Map<String, Object> getAbsentSet(Map<String, Object> params) { return (Map<String, Object>) selectOne("approvalUser.getAbsentSet", params); } /** 수정중 */
+    public List<Map<String, Object>> getAbsentDuplicate(Map<String, Object> params) { return selectList("approvalUser.getAbsentDuplicate", params); }/** 완료 */
+
+    /** 부재설정 부재시작, 종료 스케줄러 */
+    public void setAbsentStartEndUpd(){
+        List<Map<String, Object>> empList = selectList("approvalUser.getAbsentUpdateList");
+
+        update("approvalUser.setAbsentStartUpd", null);
+        update("approvalUser.setAbsentEndUpd", null);
+
+        for (Map<String, Object> map : empList) {
+            if(map.get("C_AIALIM").equals("1")){
+                map.put("recEmpSeq", map.get("empSeq"));
+                map.put("ntTitle", "[대결지정] 부재자 : " + map.get("SND_EMP_NM"));
+                map.put("ntContent", "대결기간 : " + map.get("ABSENT_DT"));
+                map.put("ntUrl", "/approvalUser/absentSet.do");
+                insert("common.setAlarm", map);
+            }
+        }
+    }
+
+    /** 결재설절 - 부재설정 끝 */
 
     public List<Map<String, Object>> getApprovalDocSearchList(Map<String, Object> params) {
         return selectList("approvalUser.getApprovalDocSearchList", params);

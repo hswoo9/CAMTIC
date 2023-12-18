@@ -146,7 +146,12 @@ var deptListPop = {
                 deptListPop.fn_selRsch(e);
             }else if($("#type").val() == "testType"){
 
-            } else {
+            } else if($("#type").val() == "absent"){
+                var tr = $(e).closest("tr");
+                var row = $('#userList').data("kendoGrid").dataItem(tr);
+                opener.parent.userPopupClose(row);
+                window.close();
+            }else {
                 var tr = $(e).closest("tr");
                 var row = $('#userList').data("kendoGrid").dataItem(tr);
 

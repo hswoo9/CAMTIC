@@ -1,8 +1,11 @@
 package egovframework.com.devjitsu.doc.approval.controller;
 
+import com.google.gson.Gson;
 import egovframework.com.devjitsu.doc.approval.service.ApprovalUserService;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
+import egovframework.devjitsu.common.utiles.EgovStringUtil;
+import egovframework.devjitsu.common.utiles.EgovUserDetailsHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -321,6 +324,130 @@ public class ApprovalUserController {
     @ResponseBody
     public List<Map<String, Object>> getUserFavApproveRouteDetail(@RequestParam Map<String, Object> params, Model model){
         return approvalUserService.getUserFavApproveRouteDetail(params);
+    }
+
+    /**
+     * 부재설정
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/approvalUser/absentSet.do")
+    public String absentSet(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("loginVO", loginVO);
+
+        model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("AbsenceType", loginVO.getUserSe());
+
+        return "approval/approvalUser/absent/absentSet";
+    }
+
+    /**
+     * 부재설정 리스트
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/approvalUser/getAbsentSetList.do")
+    public String getAbsentSetList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("loginVO", loginVO);
+        params.put("langCode", loginVO.getLangCode());
+        params.put("groupSeq", loginVO.getGroupSeq());
+        params.put("userSe", loginVO.getUserSe());
+        params.put("isExcel", "N");
+
+        model.addAttribute("list", approvalUserService.getAbsentSetList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 부재등록, 정보 팝업  (수정중)
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/absentSet/absentSetPop.do")
+    public String absentSetAddPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        LoginVO loginVO = (LoginVO) EgovUserDetailsHelper.getAuthenticatedUser();
+        params.put("absenceType", loginVO.getUserSe());
+        params.put("group_seq", loginVO.getGroupSeq());
+        params.put("groupSeq", loginVO.getGroupSeq());
+        params.put("compSeq", loginVO.getOrganId());
+        params.put("langCode", loginVO.getLangCode());
+
+        model.addAttribute("params", new Gson().toJson(params));
+
+        return "popup/approval/absentSet/absentSetPop";
+    }
+
+    /**
+     * 부재정보 등록
+     * @param params
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping("/absentSet/setAbsentInfo.do")
+    public String setAbsentInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        params.put("loginVO", loginVO);
+        params.put("langCode", loginVO.getLangCode());
+
+        Map<String, Object> dupleResult = approvalUserService.getAbsentDuplicate(params);
+        int cnt = ((Integer)dupleResult.get("cnt")).intValue();
+        List<Map<String, Object>> dupleList = (List<Map<String, Object>>)dupleResult.get("dupleList");
+        model.addAttribute("dupleList", dupleList);
+        String aiFlag = EgovStringUtil.isNullToString(params.get("c_aiflag"));
+        if (cnt > 0 && !aiFlag.equals("1")) {
+            model.addAttribute("MSG", "부재자가 설정하려는 기간에 부재중으로 지정되어있어 부재중으로 설정할 수 없습니다.");
+            return "jsonView";
+        }
+
+        approvalUserService.setAbsentInfo(params);
+
+        return "jsonView";
+    }
+
+    /**
+     * 부재정보 수정
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/absentSet/setAbsentInfoUpd.do")
+    public String setAbsentInfoUpd(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        params.put("loginVO", loginVO);
+        params.put("langCode", loginVO.getLangCode());
+        params.put("groupSeq", loginVO.getGroupSeq());
+
+        Map<String, Object> dupleResult = approvalUserService.getAbsentDuplicate(params);
+        int cnt = ((Integer)dupleResult.get("cnt")).intValue();
+        List<Map<String, Object>> dupleList = (List<Map<String, Object>>)dupleResult.get("dupleList");
+        model.addAttribute("dupleList", dupleList);
+        String aiFlag = EgovStringUtil.isNullToString(params.get("c_aiflag"));
+        if (cnt > 1 && !aiFlag.equals("1")) {
+            model.addAttribute("MSG", "부재자가 설정하려는 기간에 부재중으로 지정되어있어 부재중으로 설정할 수 없습니다.");
+            return "jsonView";
+        }
+        approvalUserService.setAbsentInfoUpd(params);
+
+        return "jsonView";
     }
 
     //오늘날짜 구하기 yyyyMMddhhmmss
