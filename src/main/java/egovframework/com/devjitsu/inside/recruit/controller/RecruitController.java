@@ -979,12 +979,30 @@ public class RecruitController {
     public String applicationRegPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        System.out.println("params : " + params);
+        Object recruitValue = params.get("recruitAreaInfoSn");
+        Object appValue = params.get("applicationId");
 
+        Map <String,Object> recruitAreaInfoSn = new HashMap<>();
+        recruitAreaInfoSn.put("recruitAreaInfoSn",recruitValue);
+        Map <String,Object> applicationId =new HashMap<>();
+        applicationId.put("applicationId",appValue);
+
+        Map <String,Object> recruitArea = recruitService.getRecruitArea(recruitAreaInfoSn);
+        Map <String,Object> applicationInfo = recruitService.getApplication(applicationId);
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         model.addAttribute("params", params);
+        model.addAttribute("recruitArea",recruitArea);
+        model.addAttribute("applicationInfo",applicationInfo);
 
         return "popup/inside/recruit/applicationReg";
+    }
+
+    @RequestMapping("/inside/applicationCareer")
+    public String getApplicationCareer(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("career",recruitService.getApplicationCareer(params));
+        return "jsonView";
     }
 
 }

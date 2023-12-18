@@ -10,7 +10,8 @@ import java.util.Map;
 public class PurcRepository extends AbstractDAO {
 
 
-    public List<Map<String, Object>> getPurcReqList(Map<String, Object> params) { return selectList("purc.getPurcReqList", params);};
+    public List<Map<String, Object>> getPurcReqList(Map<String, Object> params) { return selectList("purc.getPurcReqList", params);}
+    public List<Map<String, Object>> getPjtPurcItemList(Map<String, Object> params) { return selectList("purc.getPjtPurcItemList", params);}
     public void setPurcReq(Map<String, Object> params) { insert("purc.setPurcReq", params);}
     public void setPurcReqUpd(Map<String, Object> params) { update("purc.setPurcReqUpd", params);}
     public void setPurcItem(Map<String, Object> params) { insert("purc.setPurcItem", params);}
