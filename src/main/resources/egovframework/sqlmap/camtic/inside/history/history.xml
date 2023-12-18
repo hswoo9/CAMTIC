@@ -201,11 +201,10 @@
     <select id="getRewardList" resultType="map" parameterType="map">
         /* getRewardList */
         SELECT
-            @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
             HER.REWORD_ID,
             HER.EMP_NAME,
-            SUBSTRING(HER.REWORD_TYPE_NAME, 2, 4) AS SIDE_NAME,
-            SUBSTRING(HER.REWORD_TYPE_NAME, 8) AS REWORD_TYPE_NAME,
+            HER.REWORD_TYPE_NAME,
+            (SELECT CM_CODE_NM FROM CAM_COMMON.DJ_COM_CODE WHERE CM_GROUP_CODE_ID = 32 AND CM_CODE = HER.REWORD_NAME) AS REWORD_NAME,
             HER.REWORD_DAY,
             HER.RWD_OFM,
             HER.RWD_ST_COMP,
@@ -226,10 +225,10 @@
         WHERE
             DATE_FORMAT(HER.REWORD_DAY, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{start_date}, '%Y-%m-%d') AND DATE_FORMAT(#{end_date}, '%Y-%m-%d')
             <if test='rewardTypeA != null and !"".equals(rewardTypeA)'>
-                AND HER.REWORD_TYPE_NAME like CONCAT('%', #{rewardTypeA}, '%')
+                AND HER.REWORD_TYPE = #{rewardTypeA}
             </if>
-            <if test='rewardType != null and !"".equals(rewardType)'>
-                AND HER.REWORD_TYPE = #{rewardType}
+            <if test='rewardName != null and !"".equals(rewardName)'>
+                AND HER.REWORD_NAME = #{rewardName}
             </if>
             <if test='deptSeq != null and !"".equals(deptSeq)'>
                 AND HER.DEPT_SEQ = #{deptSeq}
@@ -261,6 +260,7 @@
             AHEI.ERP_EMP_SEQ,
             AHEI.EMP_NAME_KR,
             HER.REWORD_TYPE AS REWARD_TP,
+            HER.REWORD_NAME,
             HER.REWORD_DAY AS REWARD_DAY,
             CFI.file_org_name,
             CFI.file_ext,
@@ -483,6 +483,7 @@
                 TEAM_NAME,
                 REWORD_TYPE,
                 REWORD_TYPE_NAME,
+                REWORD_NAME,
                 REWORD_DAY,
                 RWD_OFM,
                 RWD_ST_COMP,
@@ -501,6 +502,7 @@
                 #{teamSeq},
                 #{teamName},
                 #{rewordType},
+                #{rewordTypeName},
                 #{rewordName},
                 #{rewordDay},
                 #{rwdOfm},
@@ -521,7 +523,8 @@
             CAM_HR.DJ_EMP_REWORD
         SET
             REWORD_TYPE = #{rewordType},
-            REWORD_TYPE_NAME = #{rewordName},
+            REWORD_TYPE_NAME = #{rewordTypeName},
+            REWORD_NAME = #{rewordName},
             REWORD_DAY = #{rewordDay},
             RWD_OFM = #{rwdOfm},
             RWD_ST_COMP = #{rwdStComp},

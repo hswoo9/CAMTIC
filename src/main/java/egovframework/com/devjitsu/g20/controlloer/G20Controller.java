@@ -131,7 +131,10 @@ public class G20Controller {
     }
 
     @RequestMapping("/g20/getCardList")
-    public String getCardList(@RequestParam Map<String, Object> params, Model model){
+    public String getCardList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
         List<Map<String, Object>> list = g20Service.getCardList(params);
 
         model.addAttribute("list", list);

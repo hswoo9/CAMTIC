@@ -145,8 +145,7 @@
     <select id="getRewardInfoList" parameterType="map" resultType="map">
         /* getRewardInfoList */
         SELECT
-            SUBSTRING(HER.REWORD_TYPE_NAME, 2, 4) AS SIDE_NAME,
-            SUBSTRING(HER.REWORD_TYPE_NAME, 8) AS REWORD_TYPE_NAME1,
+            IFNULL((SELECT CM_CODE_NM FROM CAM_COMMON.DJ_COM_CODE WHERE CM_GROUP_CODE_ID = 32 AND CM_CODE = HER.REWORD_NAME), HER.REWORD_NAME) AS REWORD_TYPE_NAME1,
             REWORD_ID,
             EMP_SEQ,
             ERP_EMP_SEQ,
@@ -992,6 +991,7 @@
                  ,REWORD_DAY
                  ,REWORD_TYPE
                  ,REWORD_TYPE_NAME
+                 ,REWORD_NAME
                  ,RWD_ST_COMP
                  ,RWD_OFM
                  ,REG_EMP_SEQ
@@ -1009,7 +1009,8 @@
                 ,#{regTeamName}
                 ,#{sDate}
                 ,#{rGubunOutInType}
-                ,#{rGubunAll}
+                ,#{rGubunOutInTypeName}
+                ,#{rGubun}
                 ,#{agency}
                 ,#{rIssue}
                 ,#{EMP_SEQ}
@@ -3369,7 +3370,8 @@
         SET
           REWORD_DAY = #{sDate}
           ,REWORD_TYPE = #{rGubunOutInType}
-          ,REWORD_TYPE_NAME = #{rGubunAll}
+          ,REWORD_TYPE_NAME = #{rGubunOutInName}
+          ,REWORD_NAME = #{rGubun}
           ,RWD_ST_COMP = #{agency}
           ,RWD_OFM = #{rIssue}
           ,MOD_EMP_SEQ = #{empSeq}

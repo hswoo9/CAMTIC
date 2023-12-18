@@ -250,6 +250,16 @@ public class CompanyCardController {
         return "popup/cam_manager/cardPrivateMngPop";
     }
 
+    @RequestMapping("/card/cardPrivateUserPop.do")
+    public String privateUserPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", loginVO);
+        return "popup/cam_manager/cardPrivateUserPop";
+    }
+
     @RequestMapping("/card/cardUserGroupList.do")
     public String cardUserGroupList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -309,6 +319,17 @@ public class CompanyCardController {
 
         return "jsonView";
     }
+    @RequestMapping("/card/saveCardUserGroupSelCancle")
+    public String saveCardUserGroupSelCancle(@RequestParam Map<String, Object> params, Model model){
+        try{
+            companyCardService.saveCardUserGroupSelCancle(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 
     @RequestMapping("/card/getCardUserGroup")
     public String getCardUserGroup(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
@@ -325,6 +346,14 @@ public class CompanyCardController {
     public String getcardUserGroupList(@RequestParam Map<String, Object> params, Model model){
 
         model.addAttribute("list", companyCardService.getcardUserGroupList(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/card/getcardUserGroupSel")
+    public String getcardUserGroupSel(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list", companyCardService.getcardUserGroupSel(params));
 
         return "jsonView";
     }

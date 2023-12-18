@@ -93,12 +93,12 @@
                 <span class="k-button-text" style="font-size: 13px">임시저장</span>
             </button>
 
-            <button type="button" id="draftBtn" name="draft" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base draft" onclick="draft.draftInitValidation(this)">
-                <span class="k-button-text" style="font-size: 13px">상신</span>
-            </button>
-
             <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="draft.approvalLinePop()">
                 <span class="k-button-text" style="font-size: 13px">결재선 지정</span>
+            </button>
+
+            <button type="button" id="draftBtn" name="draft" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base draft" onclick="draft.draftInitValidation(this)">
+                <span class="k-button-text" style="font-size: 13px">상신</span>
             </button>
 
             <button type="button" id="backBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="draft.redirectPurcForm()" style="display: none">

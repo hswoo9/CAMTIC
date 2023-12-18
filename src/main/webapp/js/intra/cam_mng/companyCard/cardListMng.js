@@ -62,7 +62,7 @@ var cardList = {
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="cardList.privatePop()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="cardList.fn_cancleGroup()">' +
                             '	<span class="k-button-text">해제</span>' +
                             '</button>';
                     }
@@ -75,13 +75,13 @@ var cardList = {
                     width: 50
                 }, {
                     title: "카드명",
-                    width: 300,
+                    width: 500,
                     template: function (e){
                         return '<input type="hidden" id="trCd" value="' + e.TR_CD + '"/><input type="hidden" id="clttrCd" value="e.CLTTR_CD" />' + e.TR_NM;
                     }
                 }, {
                     title: "카드번호",
-                    width: 250,
+                    width: 500,
                     template: function (e){
                         if(e.CARD_BA_NB != null){
                             return e.CARD_BA_NB;
@@ -91,12 +91,14 @@ var cardList = {
                     }
                 }, {
                     title: "비공개 사원",
-                    width: 250,
+                    width: 100,
                     template: function (e){
-                        if(e.IN_KEY != null){
-                            return "";
-                        } else {
-                            return "";
+                        if(e.groupId != null){
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="cardList.privateUserPop('+ e.groupId +')">' +
+                                '	<span class="k-button-text">조회</span>' +
+                                '</button>';
+                        }else{
+                            return '설정미완료';
                         }
                     }
                 }
@@ -108,6 +110,24 @@ var cardList = {
     },
 
     privatePop : function (){
+        var saveFlag = true;
+        var grid = $("#mainGrid").data("kendoGrid");
+
+        $("input[name='cardPk']").each(function(){
+            if(this.checked){
+
+                var row = $(this).closest("tr");
+                var rowData = grid.dataItem(row);
+
+                if(rowData.groupId != null){
+                    alert("등록 된 설정이 있습니다.");
+                    saveFlag = false;
+                }
+            }
+        });
+
+        if(!saveFlag){return false;}
+
         var url = "/card/cardPrivateMngPop.do";
         var name = "그룹 선택";
         var option = "width = 1300, height = 600, top = 200, left = 400, location = no";
@@ -144,6 +164,56 @@ var cardList = {
                 }
             }
         });
+    },
+
+    fn_cancleGroup : function (){
+        var saveFlag = true;
+        var grid = $("#mainGrid").data("kendoGrid");
+        var arr = [];
+
+        $("input[name='cardPk']").each(function(){
+            if(this.checked){
+                var row = $(this).closest("tr");
+                var rowData = grid.dataItem(row);
+
+                if(rowData.groupId == null){
+                    alert("설정이 미완료된 카드가 포함되어있습니다.");
+                    saveFlag = false;
+                }else{
+                }
+
+                arr.push(rowData);
+            }
+        });
+
+        if(!saveFlag){return false;}
+
+        var parameters = {
+            groupArr : JSON.stringify(arr)
+        };
+
+        if(!confirm("설정된 그룹을 해제하시겠습니까?")){return false;};
+
+        $.ajax({
+            url : "/card/saveCardUserGroupSelCancle",
+            type : "POST",
+            data : parameters,
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("해제되었습니다.");
+                    cardList.mainGrid();
+                }
+            }
+        });
+    },
+
+    privateUserPop : function (id){
+
+        var url = "/card/cardPrivateUserPop.do?groupId=" + id;
+        var name = "비공개 사원";
+        var option = "width = 1300, height = 600, top = 200, left = 400, location = no";
+        var popup = window.open(url, name, option);
     }
 
 }

@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.g20.service.impl;
 
+import egovframework.com.devjitsu.cam_manager.repository.CompanyCardRepository;
 import egovframework.com.devjitsu.cam_manager.repository.ManageRepository;
 import egovframework.com.devjitsu.cam_manager.repository.PayAppRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
@@ -24,6 +25,9 @@ public class G20ServiceImpl implements G20Service {
 
     @Autowired
     private PayAppRepository payAppRepository;
+
+    @Autowired
+    private CompanyCardRepository companyCardRepository;
 
     @Override
     public List<Map<String, Object>> getProjectList(Map<String, Object> params) {
@@ -121,7 +125,22 @@ public class G20ServiceImpl implements G20Service {
 
     @Override
     public List<Map<String, Object>> getCardList(Map<String, Object> params) {
-        return g20Repository.getCardList(params);
+        List<Map<String, Object>> listMap = g20Repository.getCardList(params);
+        List<Map<String, Object>> listMap2 = companyCardRepository.getCardGroupCheck();
+
+
+        for(Map<String, Object> map : listMap){
+            String trCd = map.get("TR_CD").toString();
+
+            if(listMap2.stream().anyMatch(x -> x.get("TR_CD").equals(trCd))) {
+                Map<String, Object> result = listMap2.stream().filter(x -> x.get("TR_CD").equals(trCd)).findAny().get();
+
+                map.put("groupId", result.get("GROUP_ID"));
+            }
+
+        }
+
+        return listMap;
     }
 
     @Override
