@@ -661,7 +661,16 @@
                                             <tr>
                                                 <td><input type='checkbox' name='rewordChk' id='rewordChk${l.REWORD_ID}' <%--class='k-checkbox checkbox'--%>></td>
                                                 <td>${fn:length (rList) - status.index}</td>
-                                                <td>${l.SIDE_NAME}</td>
+                                                <td>
+                                                    <c:choose>
+                                                        <c:when test="${l.REWORD_TYPE eq '0'}">
+                                                            내부
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            외부
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </td>
                                                 <td>${l.REWORD_TYPE_NAME1}</td>
                                                 <td>${l.REWORD_DAY}</td>
                                                 <td>${l.RWD_OFM}</td>

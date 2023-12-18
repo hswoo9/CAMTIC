@@ -14,8 +14,8 @@
       <h3 class="card-title title_NM">상벌 사항</h3>
       <div class="btn-st popButton">
         <button type="button" class="k-button k-button-solid-info" onclick="fu_addInfo()">추가</button>
-        <button type="button" class="k-button k-button-solid-info" onclick="fu_modifyInfo()">수정</button>
-        <button type="button" class="k-button k-button-solid-info" onclick="fu_delInfo()">삭제</button>
+        <button type="button" class="k-button k-button-solid-info" onclick="fu_modifyInfo()" id="modBtn" style="display: none">수정</button>
+        <button type="button" class="k-button k-button-solid-info" onclick="fu_delInfo()" id="delBtn" style="display: none">삭제</button>
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="fn_windowClose()">닫기</button>
       </div>
     </div>
@@ -98,7 +98,10 @@
   fn_textBox*/
   $(function(){
     fn_default();
-    fn_dataSet();
+
+    if($("#pk").val()){
+      fn_dataSet();
+    }
   });
 
   function fileChange(e){
@@ -122,8 +125,8 @@
       dataValueField: "value",
       dataSource: [
         { text: "선택하세요", value: "" },
-        { text: "[내부표창] ", value: "22" },
-        { text: "[외부표창] ", value: "33" }
+        { text: "내부", value: "0" },
+        { text: "외부", value: "1" }
       ],
       index: 0
     });
@@ -136,19 +139,21 @@
     if(result.flag){
       var e = result.rs;
 
-      var selectedGubun = e.REWORD_TYPE_NAME.split(' ')[0];
-      $("#rGubunOutIn").data("kendoDropDownList").text(selectedGubun);
+      $("#rGubunOutIn").data("kendoDropDownList").val(e.REWORD_TYPE);
       $("#rGubun").val(e.REWORD_TYPE_NAME.split('] ')[1]);
       $("#sDate").val(e.REWORD_DAY);
       $("#rIssue").val(e.RWD_OFM);
       $("#agency").val(e.RWD_ST_COMP);
+
+      $("#modBtn").show()
+      $("#delBtn").show()
     }
   }
 
   function fu_addInfo() {
     var data = {
       rGubunOutInType : $("#rGubunOutIn").data("kendoDropDownList").value(),
-      rGubunOutInName : $("#rGubunOutIn").data("kendoDropDownList").text(),
+      rGubunOutInTypeName : $("#rGubunOutIn").data("kendoDropDownList").text(),
       rGubun : $("#rGubun").val(),
       rGubunAll : ($("#rGubunOutIn").data("kendoDropDownList").text() + $("#rGubun").val()),
       sDate : $("#sDate").val(),
@@ -160,7 +165,7 @@
 
     var formData = new FormData();
     formData.append("rGubunOutInType", data.rGubunOutInType);
-    formData.append("rGubunOutInName", data.rGubunOutInName);
+    formData.append("rGubunOutInTypeName", data.rGubunOutInTypeName);
     formData.append("rGubun", data.rGubun);
     formData.append("rGubunAll", data.rGubunAll);
     formData.append("sDate", data.sDate);
@@ -192,7 +197,6 @@
     }
 
     var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);
-    console.log(result.rs);
     if(result.flag){
       if(result.rs == "SUCCESS") {
         alert("등록요청을 성공하였습니다. 관리자 승인 대기 중입니다.");
@@ -208,9 +212,8 @@
   function fu_modifyInfo() {
     var data = {
       rGubunOutInType : $("#rGubunOutIn").data("kendoDropDownList").value(),
-      rGubunOutInName : $("#rGubunOutIn").data("kendoDropDownList").text(),
+      rGubunOutInTypeName : $("#rGubunOutIn").data("kendoDropDownList").text(),
       rGubun : $("#rGubun").val(),
-      rGubunAll : ($("#rGubunOutIn").data("kendoDropDownList").text() + $("#rGubun").val()),
       sDate : $("#sDate").val(),
       rIssue : $("#rIssue").val(),
       agency : $("#agency").val(),
@@ -221,7 +224,7 @@
 
     var formData = new FormData();
     formData.append("rGubunOutInType", data.rGubunOutInType);
-    formData.append("rGubunOutInName", data.rGubunOutInName);
+    formData.append("rGubunOutInTypeName", data.rGubunOutInTypeName);
     formData.append("rGubun", data.rGubun);
     formData.append("rGubunAll", data.rGubunAll);
     formData.append("sDate", data.sDate);
