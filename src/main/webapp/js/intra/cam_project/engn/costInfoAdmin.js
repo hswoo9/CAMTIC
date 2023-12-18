@@ -1,9 +1,12 @@
 let purcSum = 0;
+let bustSum = 0;
+let costSum = 0;
 var costInfo = {
 
     global : {
         searchAjaxData2 : "",
-        searchAjaxData3 : ""
+        searchAjaxData3 : "",
+        searchAjaxData4 : ""
     },
 
     fn_defaultScript : function (){
@@ -80,9 +83,13 @@ var costInfo = {
             empSeq : $("#regEmpSeq").val(),
             pjtSn : $("#pjtSn").val()
         }
+        costInfo.global.searchAjaxData4 = {
+            pjtSn : $("#pjtSn").val()
+        }
 
         this.grid2("/purc/getPurcReqList.do", costInfo.global.searchAjaxData2);
         this.grid3("/bustrip/getProjectBustList", costInfo.global.searchAjaxData3);
+        this.grid4("/payApp/getPjtExnpList", costInfo.global.searchAjaxData4);
     },
 
     grid2 : function (url, params){
@@ -295,6 +302,110 @@ var costInfo = {
                         } else {
                             return "";
                         }
+                    },
+                    footerTemplate: "출장완료 여비합계"
+                }, {
+                    title : "여비금액",
+                    width: 50,
+                    template : function (e){
+                        if(e.RS_STATUS == "100"){
+                            bustSum  += Number(e.RES_EXNP_SUM);
+                        }
+                        return "<div style='text-align: right'>"+comma(e.RES_EXNP_SUM)+"</div>";
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(bustSum)+"</div>";
+                    }
+                }
+            ]
+        }).data("kendoGrid");
+    },
+
+    grid4 : function (url, params){
+        $("#grid4").kendoGrid({
+            dataSource: customKendo.fn_gridDataSource2(url, params),
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            height: 480,
+            pageable: {
+                refresh: true,
+                pageSizes: [ 10, 20, 30, 50, 100 ],
+                buttonCount: 5
+            },
+            toolbar : [
+                {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bustInfo.bustripMainGrid()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }
+            ],
+            dataBound : function(e){
+                const grid = this;
+                grid.tbody.find("tr").click(function (e) {
+                    const dataItem = grid.dataItem($(this));
+                    console.log(dataItem);
+
+                    $("#contEtc").val(dataItem.RESULT);
+
+                    grid.tbody.find("tr").each(function (){
+                        $(this).css("background-color", "");
+                    });
+
+                    $(this).css("background-color", "#a7e1fc");
+                });
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    field: "APP_DE",
+                    title: "지급신청일"
+                }, {
+                    title: "금액",
+                    template: function(row){
+                        return "<div style='text-align: right'>"+comma(row.ITEM_SUM)+"</div>";
+                    },
+                    footerTemplate: "비용합계"
+                }, {
+                    title: "비용",
+                    template: function(row){
+                        costSum += Number(row.COST_SUM);
+                        return "<div style='text-align: right'>"+comma(row.COST_SUM)+"</div>";
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(costSum)+"</div>";
+                    }
+                }, {
+                    title: "구매/출장 문서번호",
+                    template : function(row){
+                        if(row.PURC_DOC_NO != null){
+                            return row.PURC_DOC_NO;
+                        } else {
+                            return "-";
+                        }
+                    }
+                }, {
+                    title: "비용처리",
+                    template: function(row){
+                        if(row.PURC_DOC_NO != null){
+                            return "-";
+                        } else {
+                            return '<button type="button" class="k-button k-button-solid-info" onclick="costInfo.fn_reqRegPopup('+row.PAY_APP_SN+')">비용처리</button>';
+                        }
+                    }
+                }, {
+                    title: "상태",
+                    template: function(row){
+                        if (row.COST_YN == 'Y') {
+                            return "처리완료";
+                        }else{
+                            return "-";
+                        }
                     }
                 }
             ]
@@ -303,5 +414,17 @@ var costInfo = {
 
     purcOnDataBound : function(){
         purcSum = 0;
+        bustSum = 0;
+        costSum = 0;
+    },
+
+    fn_reqRegPopup : function (key){
+        var url = "/payApp/pop/regPayAppCostPop.do?payAppSn=" + key + "&auth=mng&status=rev&reqType=costProcess";
+        if(key != null && key != ""){
+
+        }
+        var name = "regPayAppPop";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
     }
 }

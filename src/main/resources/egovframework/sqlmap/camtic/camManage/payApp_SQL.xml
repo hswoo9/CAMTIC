@@ -520,6 +520,24 @@
             PAY_APP_DET_SN = #{payAppDetSn}
     </update>
 
+    <update id="setPayAppCostApp" parameterType="map">
+        /*setPayAppCostApp*/
+        UPDATE CAM_MNG.DJ_PAY_APP
+        SET
+            COST_YN = 'Y'
+        WHERE
+            PAY_APP_SN = #{payAppSn}
+    </update>
+
+    <update id="setPayAppDetCostApp" parameterType="map">
+        /*setPayAppDetCostApp*/
+        UPDATE CAM_MNG.DJ_PAY_APP_DET
+        SET
+            COST_STAT = #{stat}
+        WHERE
+            PAY_APP_DET_SN = #{payAppDetSn}
+    </update>
+
     <select id="getExnpData" parameterType="map" resultType="map">
         /*getExnpData*/
         SELECT
@@ -1528,5 +1546,23 @@
             CAM_COMMON.DJ_FILE_INFO A
         WHERE
             FILE_NO = #{FILE_NO}
+    </select>
+
+    <select id="getPjtExnpList" parameterType="map" resultType="map">
+        /*getPjtExnpList*/
+        SELECT
+            PA.*,
+            CONCAT('[구매] ', MDI.DOC_NO) AS PURC_DOC_NO,
+            (SELECT IFNULL(SUM(TOT_COST), 0) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = PA.PAY_APP_SN) AS ITEM_SUM,
+            (SELECT IFNULL(SUM(TOT_COST), 0) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = PA.PAY_APP_SN AND COST_STAT = 'Y') AS COST_SUM
+        FROM
+            CAM_MNG.DJ_PAY_APP PA
+        LEFT JOIN
+            CAM_MNG.DJ_MNG_PURC MP ON PA.LINK_KEY = MP.PURC_SN AND LINK_KEY_TYPE = '구매'
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO MDI ON MP.DOC_ID = MDI.DOC_ID
+
+        WHERE PA.PJT_SN = #{pjtSn}
+           OR PA.PJT_CD = (SELECT PJT_CD FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
     </select>
 </mapper>

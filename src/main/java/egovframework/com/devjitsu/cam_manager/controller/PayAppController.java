@@ -115,6 +115,18 @@ public class PayAppController {
         return "popup/cam_manager/payApp/regPayAttPop";
     }
 
+    /** 프로젝트 비용처리용 지급신청서 조회 팝업 */
+    @RequestMapping("/payApp/pop/regPayAppCostPop.do")
+    public String regPayAppCostPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_manager/payApp/regPayAppCostPop";
+    }
+
     @RequestMapping("/pay/getPayDepoData")
     public String getPayDepoData(@RequestParam Map<String, Object> params, Model model){
         Map<String, Object> map = payAppService.getPayDepoData(params);
@@ -322,6 +334,32 @@ public class PayAppController {
 
         try{
             payAppService.setPayAppDetData(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/payApp/setPayAppCostApp")
+    public String setPayAppCostApp(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        try{
+            payAppService.setPayAppCostApp(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/payApp/setPayAppDetCostApp")
+    public String setPayAppDetCostApp(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        try{
+            payAppService.setPayAppDetCostApp(params);
             model.addAttribute("code", 200);
         } catch (Exception e){
             e.printStackTrace();
@@ -735,5 +773,15 @@ public class PayAppController {
         model.addAttribute("loginVO", loginVO);
 
         return "popup/cam_manager/payDepo/depoBudgetViewPop";
+    }
+
+    //TODO. 여비 지급신청서 완료시 추후 연동 필요함.
+    /** 프로젝트에 묶인 지출결의서 리스트 (프로젝트 정산서 - 지출내역 그리드) */
+    @RequestMapping("/payApp/getPjtExnpList")
+    public String getPjtExnpList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list", payAppService.getPjtExnpList(params));
+
+        return "jsonView";
     }
 }

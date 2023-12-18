@@ -69,6 +69,14 @@ public class PayAppRepository extends AbstractDAO {
         update("payApp.updPayAppDetStat", params);
     }
 
+    public void setPayAppCostApp(Map<String, Object> params) {
+        update("payApp.setPayAppCostApp", params);
+    }
+
+    public void setPayAppDetCostApp(Map<String, Object> params) {
+        update("payApp.setPayAppDetCostApp", params);
+    }
+
     public void insExnpData(Map<String, Object> params) {
         insert("payApp.insExnpData", params);
     }
@@ -273,5 +281,9 @@ public class PayAppRepository extends AbstractDAO {
 
     public List<Map<String, Object>> getApprovalExnpCommonFileData(Map<String, Object> params) {
         return selectList("payApp.getApprovalExnpCommonFileData", params);
+    }
+
+    public List<Map<String, Object>> getPjtExnpList(Map<String, Object> params) {
+        return selectList("payApp.getPjtExnpList", params);
     }
 }

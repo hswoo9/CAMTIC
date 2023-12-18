@@ -234,6 +234,16 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
+    public void setPayAppCostApp(Map<String, Object> params) {
+        payAppRepository.setPayAppCostApp(params);
+    }
+
+    @Override
+    public void setPayAppDetCostApp(Map<String, Object> params) {
+        payAppRepository.setPayAppDetCostApp(params);
+    }
+
+    @Override
     public void setExnpData(Map<String, Object> params) {
         Gson gson = new Gson();
         List<Map<String, Object>> itemArr = gson.fromJson((String) params.get("itemArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
@@ -1109,5 +1119,10 @@ public class PayAppServiceImpl implements PayAppService {
         }
 
         return fileList;
+    }
+
+    @Override
+    public List<Map<String, Object>> getPjtExnpList(Map<String, Object> params) {
+        return payAppRepository.getPjtExnpList(params);
     }
 }

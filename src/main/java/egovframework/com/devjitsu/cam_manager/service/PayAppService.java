@@ -22,6 +22,10 @@ public interface PayAppService {
 
     void setPayAppDetData(Map<String, Object> params);
 
+    void setPayAppCostApp(Map<String, Object> params);
+
+    void setPayAppDetCostApp(Map<String, Object> params);
+
     void setExnpData(Map<String, Object> params);
 
     Map<String, Object> getExnpData(Map<String, Object> params);
@@ -74,4 +78,6 @@ public interface PayAppService {
     List<Map<String, Object>> getPayAppFileList(Map<String, Object> params);
 
     List<Map<String, Object>> getApprovalExnpFileData(Map<String, Object> params);
+
+    List<Map<String, Object>> getPjtExnpList(Map<String, Object> params);
 }
