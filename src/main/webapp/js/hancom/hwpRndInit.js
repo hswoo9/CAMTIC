@@ -22,8 +22,8 @@ var rndInit = {
         hwpDocCtrl.putFieldText('CRM_MEM_PHN', map.PH_NUM);
 
         /** 2. 과제정보 */
-        hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_SUB_NM);
-        hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(delvMap.ALL_BUSN_COST));
+        hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_NM);
+        hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(Number(delvMap.TOT_RES_COST) + Number(delvMap.PEO_RES_ITEM)));
         hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(delvMap.TOT_RES_COST));
     },
 
@@ -50,8 +50,8 @@ var rndInit = {
         hwpDocCtrl.putFieldText('CRM_MEM_PHN', map.PH_NUM);
 
         /** 2. 과제정보 */
-        hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_SUB_NM);
-        hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(rndInfo.map.ALL_BUSN_COST));
+        hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_NM);
+        hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(Number(delvMap.TOT_RES_COST) + Number(delvMap.PEO_RES_ITEM)));
         hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(delvMap.TOT_RES_COST));
 
         if(map.TM_YN == "Y"){
@@ -176,8 +176,8 @@ var rndInit = {
         hwpDocCtrl.putFieldText('CRM_MEM_PHN', map.PH_NUM);
 
         /** 2. 과제정보 */
-        hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_SUB_NM);
-        hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(rndInfo.map.ALL_BUSN_COST));
+        hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_NM);
+        hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(Number(delvMap.TOT_RES_COST) + Number(delvMap.PEO_RES_ITEM)));
         hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(delvMap.TOT_RES_COST));
 
         const date = new Date();

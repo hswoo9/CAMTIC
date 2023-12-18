@@ -409,10 +409,10 @@
         /*getCrmHistEngnList ==> CRM 관리 > 고객 이력관리 엔지니어링 데이터 조회 */
         SELECT
             A.*,
-            DATE_FORMAT(A.CRM_REL_STR_DT, '%Y-%m-%d %H:%i') AS START_DATETIME,
-            DATE_FORMAT(A.CRM_REL_END_DT, '%Y-%m-%d %H:%i') AS END_DATETIME,
-            DATE_FORMAT(A.CRM_REL_STR_DT, '%Y-%m-%d') AS START_DATE,
-            DATE_FORMAT(A.CRM_REL_END_DT, '%Y-%m-%d') AS END_DATE,
+            DATE_FORMAT(B.STR_DT, '%Y-%m-%d %H:%i') AS START_DATETIME,
+            DATE_FORMAT(B.END_DT, '%Y-%m-%d %H:%i') AS END_DATETIME,
+            DATE_FORMAT(B.STR_DT, '%Y-%m-%d') AS START_DATE,
+            DATE_FORMAT(B.END_DT, '%Y-%m-%d') AS END_DATE,
             IFNULL(R.DOC_ID, '') AS DOC_ID,
             DI.APPRO_KEY,
             DI.DOC_MENU_CD
@@ -422,6 +422,8 @@
             CAM_PJT_MNG.DJ_PJT_RESULT R ON A.CRM_REL_PJT_SN = R.PJT_SN
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON R.DOC_ID = DI.DOC_ID
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PROJECT B ON A.CRM_REL_PJT_SN = B.PJT_SN
         WHERE
         1 = 1
         <choose>

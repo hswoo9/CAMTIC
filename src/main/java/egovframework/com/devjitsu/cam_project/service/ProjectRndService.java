@@ -39,7 +39,7 @@ public interface ProjectRndService {
 
     Map<String, Object> getRndDetail(Map<String, Object> params);
 
-    void setRndDetail(Map<String, Object> params);
+    void setRndDetail(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
 
     void setDelvApprove(Map<String, Object> params);
 

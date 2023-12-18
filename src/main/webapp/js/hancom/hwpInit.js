@@ -265,7 +265,7 @@ var hwpInit = {
         hwpDocCtrl.putFieldText('PJT_NM_TEXT', " "+map.PJT_NM+" 참여인력 변경의 건");
 
         hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
-        hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_SUB_NM);
+        hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_NM);
         hwpDocCtrl.putFieldText("PJT_DT", map.PJT_STR_DT + " ~ " + map.PJT_END_DT);
         hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
 

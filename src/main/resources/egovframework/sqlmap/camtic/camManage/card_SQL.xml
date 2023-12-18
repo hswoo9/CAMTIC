@@ -286,11 +286,24 @@
             (#{groupId}, #{empName}, #{empSeq}, #{deptName}, #{deptSeq}, #{positionName})
     </insert>
 
+    <insert id="saveCardUserGroupSel" parameterType="map">
+
+        INSERT INTO CAM_MNG.DJ_CARD_USER_GROUP_SEL
+            (GROUP_ID, TR_CD, TR_NM, CARD_BA_NB, CLTTR_CD, JIRO_NM, BA_NB, DEPOSITOR)
+        values
+            (#{groupId}, #{TR_CD}, #{TR_NM}, #{CARD_BA_NB}, #{CLTTR_CD}, #{JIRO_NM}, #{BA_NB}, #{DEPOSITOR})
+    </insert>
+
     <select id="getCardUserGroup" parameterType="map" resultType="map">
         SELECT
             *
         FROM
             CAM_MNG.DJ_CARD_USER_GROUP
+        WHERE 1=1
+        <if test='groupName != null and !"".equals(groupName)'>
+        AND
+            GROUP_NAME LIKE CONCAT('%', #{groupName} ,'%')
+        </if>
     </select>
 
     <select id="getcardUserGroupList" parameterType="map" resultType="map">

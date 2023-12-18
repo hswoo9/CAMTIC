@@ -132,7 +132,7 @@
                             조회
                         </button>
                     </td>
-                    <th scope="row" class="text-center th-color"><span class="red-star"></span>위탁기관</th>
+                    <th scope="row" class="text-center th-color">위탁기관</th>
                     <td>
                         <input type="text" id="rndConCrmNm" name="rndConCrmNm" value="${data.CRM_CON_NM}" style="width: 80%"/>
                         <input type="hidden" id="rndConCrmSn" name="rndConCrmSn" value="${data.CRM_CON_SN}" />
@@ -142,7 +142,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color"><span class="red-star"></span>참여기관</th>
+                    <th scope="row" class="text-center th-color">참여기관</th>
                     <td>
                         <input type="text" id="crmPartNm" name="crmPartNm" style="width: 80%" value="${data.CRM_PART_NM}" />
                         <input type="hidden" id="crmPartSn" name="crmPartSn" value="${data.CRM_PART_SN}" />
@@ -150,9 +150,19 @@
                             조회
                         </button>
                     </td>
-                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>수주금액</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>예상 수주금액</th>
                     <td>
                         <input type="text" id="pjtExpAmt" name="pjtExpAmt" style="width: 80%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">총 사업비</th>
+                    <td>
+                        <input type="text" id="allBusnCost" name="allBusnCost" style="width: 80%; text-align: right" disabled value="0"/>
+                    </td>
+                    <th scope="row" class="text-center th-color">수주금액</th>
+                    <td>
+                        <input type="text" id="pjtAmt2" name="pjtAmt2" style="width: 80%; text-align: right" disabled value="0"/>
                     </td>
                 </tr>
                 <tr>
@@ -194,41 +204,10 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>과제명(약칭)
+                        사업차년
                     </th>
                     <td colspan="3">
-                        <input type="text" id="pjtSubNm" style="width: 95%;">
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>사업비 분리사용 유무
-                    </th>
-                    <td>
-                        <span>
-                            <div style="float: left">
-                                <input type="radio" id="sbjSepN" name="sbjSepYn" value="N" style="position: relative; top: 3px;">
-                                <label for="sbjSepN">없음</label>
-                                <input type="radio" id="sbjSepY" name="sbjSepYn" value="Y" style="position: relative; top: 3px;">
-                                <label for="sbjSepY">있음</label>
-                            </div>
-                            <div style="float: left; padding-left: 10px;">
-                                <div id="checkboxDiv" style="display: none"> |&nbsp&nbsp
-                                    <label for="at1"><input type='checkbox' style="position: relative; top: 3px;" id='at1' name='accountType' class='accountType' value='1'/> 국비&nbsp&nbsp</label>
-                                    <label for="at2"><input type='checkbox' style="position: relative; top: 3px;" id='at2' name='accountType' class='accountType' value='2'/> 도비&nbsp&nbsp</label>
-                                    <label for="at3"><input type='checkbox' style="position: relative; top: 3px;" id='at3' name='accountType' class='accountType' value='3'/> 시비&nbsp&nbsp</label>
-                                    <label for="at4"><input type='checkbox' style="position: relative; top: 3px;" id='at4' name='accountType' class='accountType' value='4'/> 자부담&nbsp&nbsp</label>
-                                    <label for="at5"><input type='checkbox' style="position: relative; top: 3px;" id='at5' name='accountType' class='accountType' value='5'/> 업체부담&nbsp&nbsp</label>
-                                    <label for="at9"><input type='checkbox' style="position: relative; top: 3px;" id='at9' name='accountType' class='accountType' value='9'/> 기타</label>
-                                </div>
-                            </div>
-                        </span>
-                    </td>
-                    <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>사업차년
-                    </th>
-                    <td>
-                        <input type="text" id="pjtConYear" name="rndStatYn" style="width: 90%">
+                        <input type="text" id="pjtConYear" name="rndStatYn" style="width: 95%">
 
                     </td>
                 </tr>

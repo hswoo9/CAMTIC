@@ -170,6 +170,7 @@ public interface ProjectService {
 
     Map<String, Object> getMngPartRate(Map<String, Object> map);
     List<Map<String, Object>> getProjectBudgetList(Map<String, Object> params);
+    Map<String, Object> getProjectBudgetTotal(Map<String, Object> params);
     Map<String, Object> getProjectTotalData(Map<String, Object> params);
 
     List<Map<String, Object>> getResultPsMember(Map<String, Object> params);

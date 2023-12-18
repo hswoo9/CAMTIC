@@ -34,6 +34,14 @@ public class ProjectUnRndRepository extends AbstractDAO {
         update("unRnd.updUnRndFileSn", fileInsMap);
     }
 
+    public void updUnRndTotResCost(Map<String, Object> fileInsMap) {
+        update("unRnd.updUnRndTotResCost", fileInsMap);
+    }
+
+    public void updUnRndTotResCost2(Map<String, Object> fileInsMap) {
+        update("unRnd.updUnRndTotResCost2", fileInsMap);
+    }
+
     public void setDelvApprove(Map<String, Object> params) {
         update("unRnd.setDelvApprove", params);
     }

@@ -412,12 +412,20 @@ public class ProjectRepository extends AbstractDAO {
         update("project.setPerformanceInfo", params);
     }
 
+    public void updResultDevFile(Map<String, Object> fileInsMap) {
+        update("project.updResultDevFile", fileInsMap);
+    }
+
     public void updResultDesignFile(Map<String, Object> fileInsMap) {
         update("project.updResultDesignFile", fileInsMap);
     }
 
     public void updResultProdFile(Map<String, Object> fileInsMap) {
         update("project.updResultProdFile", fileInsMap);
+    }
+
+    public Map<String, Object> getGoodsFile(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getGoodsFile", params);
     }
 
     public Map<String, Object> getDesignFile(Map<String, Object> params) {
@@ -549,6 +557,9 @@ public class ProjectRepository extends AbstractDAO {
     }
     public List<Map<String, Object>> getProjectBudgetList(Map<String, Object> params) {
         return selectList("project.getProjectBudgetList", params);
+    }
+    public Map<String, Object> getProjectBudgetTotal(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getProjectBudgetTotal", params);
     }
     public Map<String, Object> getProjectTotalData(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("project.getProjectTotalData", params);
