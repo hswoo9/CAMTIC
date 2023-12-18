@@ -572,4 +572,8 @@ public class RecruitServiceImpl implements RecruitService {
             recruitRepository.updateDraftFinalApprStat(params);
         }
     }
+    @Override
+    public List<Map<String, Object>> getApplicationCareer(Map<String, Object> params){
+        return applicationRepository.getApplicationCareer(params);
+    };
 }

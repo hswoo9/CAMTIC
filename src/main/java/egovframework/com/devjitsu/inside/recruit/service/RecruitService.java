@@ -49,5 +49,6 @@ public interface RecruitService {
     /** 채용 결재 상태값에 따른 UPDATE 메서드 */
     void updateDraftDocState(Map<String, Object> bodyMap) throws Exception;
 
+    List<Map<String, Object>> getApplicationCareer(Map<String, Object> params);
 
 }

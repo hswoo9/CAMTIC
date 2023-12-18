@@ -30,7 +30,7 @@
                     성명
                 </th>
                 <td>
-                    <span id="userName" name="userName"></span>
+                    ${applicationInfo.USER_NAME}
                 </td>
             </tr>
             <tr>
@@ -38,7 +38,7 @@
                     부서
                 </th>
                 <td>
-                    <span id="deptName" name="deptName"></span>
+                    ${recruitArea.DEPT_NAME} ${recruitArea.TEAM_NAME}
                 </td>
             </tr>
             </thead>
@@ -51,20 +51,10 @@
             <thead>
             <tr>
                 <th>
-                    소속
-                </th>
-                <td>
-                    <span>
-
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <th>
                     아이디
                 </th>
                 <td>
-                    <input type="text" id="userId" name="userId">
+                    <input type="text" id="loginId" name="loginId" style="width: 50%;">
                 </td>
             </tr>
             <tr>
@@ -72,9 +62,11 @@
                     주민등록번호
                 </th>
                 <td>
-                    <span>
-
-                    </span>
+                    <input type="hidden" id="bDay" value="${applicationInfo.BDAY}">
+                    <input type="hidden" id="gender" value="${applicationInfo.GENDER}">
+                    <input type="text" id="resRegisNum1" name="resRegisNum1" style="width:100px" maxlength="6">
+                    -
+                    <input type="text" id="resRegisNum2" name="resRegisNum2" style="width:100px; margin-left: 5px">
                 </td>
             </tr>
             <tr>
@@ -82,7 +74,12 @@
                     직원구분
                 </th>
                 <td>
-                    <span id="division" name="division"></span>
+                    <input type="checkbox"  id="dsA" checked>
+                    <label for="dsA">정규직원</label>
+                    <input type="checkbox" style="margin-left: 10px;" id="dsC">
+                    <label for="dsC">계약직원</label>
+                    <input type="checkbox"  style="margin-left: 10px;" id="dsB">
+                    <label for="dsB">인턴사원</label>
                 </td>
             </tr>
             <tr>
@@ -90,9 +87,7 @@
                     직급/등급
                 </th>
                 <td>
-                    <span>
-
-                    </span>
+                    <input type="text" id="position" style="width: 50%;">
                 </td>
             </tr>
             <tr>
@@ -100,9 +95,7 @@
                     직책
                 </th>
                 <td>
-                    <span>
-
-                    </span>
+                    <input type="text" id="duty" style="width: 50%;">
                 </td>
             </tr>
             <tr>
@@ -110,9 +103,7 @@
                     직군
                 </th>
                 <td>
-                    <span>
-
-                    </span>
+                    <input type="text" id="occupationCode" style="width: 50%;">
                 </td>
             </tr>
             <tr>
@@ -120,7 +111,7 @@
                     입사일자
                 </th>
                 <td>
-                    <input type="text" id="joinDay" name="joinDay" style="width:130px">
+                    <input type="text" id="joinDay" style="width: 50%;">
                 </td>
             </tr>
             <tr>
@@ -128,7 +119,14 @@
                     전직경력
                 </th>
                 <td>
-                    <input type="text" id="careerPeriod" name="careerPeriod" style="width:80px"> 개월
+                <c:choose>
+                <c:when test="${not empty applicationInfo.career}">
+                    <input type="text" id="beforCareer" name="beforCareer" style="width:80px"> 개월
+                </c:when>
+                <c:otherwise>
+                    <input type="text" id="beforCareer" name="beforCareer" style="width:80px" value="0"> 개월
+                </c:otherwise>
+                </c:choose>
                 </td>
             </tr>
             </thead>
