@@ -186,6 +186,16 @@ var bustInfo = {
                         } else {
                             return "-";
                         }
+                    }
+                }, {
+                    title : "지급신청",
+                    width: 70,
+                    template : function (e){
+                        if(e.RS_STATUS == 100){
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.fn_reqRegPopup()">지급신청</button>'
+                        } else {
+                            return '-';
+                        }
                     },
                     footerTemplate: "출장완료 여비합계"
                 }, {
@@ -201,17 +211,7 @@ var bustInfo = {
                         return "<div style='text-align: right'>"+comma(bustSum)+"</div>";
                     }
                 }, {
-                    title : "지급신청",
-                    width: 70,
-                    template : function (e){
-                        if(e.RS_STATUS == 100){
-                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.fn_reqRegPopup()">지급신청</button>'
-                        } else {
-                            return '-';
-                        }
-                    }
-                }, {
-                    title : "",
+                    title : "처리",
                     width: 50,
                     template : function (e){
                         return '<button type="button" class="k-button k-button-solid-error" onclick="bustInfo.fn_delPjtBustrip('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">제외</button>';
