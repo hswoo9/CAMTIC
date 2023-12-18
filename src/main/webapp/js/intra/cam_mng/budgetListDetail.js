@@ -133,7 +133,7 @@ var bld = {
                     width: 150,
                     template: function(e){
                         if(e.FULL_WAIT_CK != null){
-                            return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 + e.FULL_WAIT_CK)+"</div>";
+                            return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 - e.FULL_WAIT_CK)+"</div>";
                         } else {
                             return "<div style='text-align: right'>"+comma(e.ACCT_AM_2)+"</div>";
                         }
@@ -267,7 +267,6 @@ var bld = {
                     title: "지출대기",
                     width: 150,
                     template: function(e){
-                        console.log(e);
                         if(e.WAIT_CK != null){
                             if(e.DIV_FG_NM == "장"){
                                 acctAm1Sum += Number(e.WAIT_CK);
@@ -285,9 +284,9 @@ var bld = {
                     width: 150,
                     template: function(e){
                         if(e.DIV_FG_NM == "장"){
-                            acctAm2Sum  += Number(e.ACCT_AM_2);
+                            acctAm2Sum  += Number(e.ACCT_AM_2 - e.WAIT_CK);
                         }
-                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_2)+"</div>";
+                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 - e.WAIT_CK)+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(acctAm2Sum)+"</div>";
