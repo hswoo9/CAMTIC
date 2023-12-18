@@ -185,7 +185,7 @@
                     <button type="button" class="k-button k-button-solid-base" id="moveBtn" onclick="bustripResultPop.fn_moveCheck()">거리측정</button>
                     <button type="button" class="k-button k-button-solid-base" id="highpassBtn" disabled>하이패스</button>
                     ID : camtic0, PW : camtic43   하이패스 번호 : 4617-7550-0003-9145
-                    [<a href="#">이용방법 보기</a>]
+                    [<a href="http://www.camtic.or.kr/CAMsPot/Board/CAMsPot/BoardView.aspx?CID=001&ST=&SC=&TT=&PAGE=1&ItemNo=3279" target="_blank">이용방법 보기</a>]
                 </td>
             </tr>
             <tr>

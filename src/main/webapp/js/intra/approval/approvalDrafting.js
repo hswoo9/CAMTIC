@@ -1268,17 +1268,21 @@ var draft = {
                 empData = list[i];
                 console.log("----- 전결자는... -----");
                 console.log(empData);
+            }else{
+                console.log("----- 전결자는... 없음.... -----");
             }
         }
 
         let appArr = [];
-        /** 부서장 전결 */
-        if(empData.approveDutyName == "본부장" || empData.approveDutyName == "사업부장"){
-            appArr = ["", "전결", ""];
+        if(empData != null){
+            /** 부서장 전결 */
+            if(empData.approveDutyName == "본부장" || empData.approveDutyName == "사업부장"){
+                appArr = ["", "전결", ""];
 
-        /** 팀장 전결 */
-        }else if(empData.approveDutyName == "팀장"){
-            appArr = ["전결", "공란", ""];
+                /** 팀장 전결 */
+            }else if(empData.approveDutyName == "팀장"){
+                appArr = ["전결", "공란", ""];
+            }
         }
 
         hwpDocCtrl.putFieldText('appr0', appArr[0]);

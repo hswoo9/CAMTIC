@@ -245,6 +245,7 @@
         /* getVacUseHistoryOne */
         SELECT
             SUH.*,
+            CAM_HR.FN_GetName('DEPT', EI.DEPT_SEQ, 'KR') AS DEPT_NAME2,
             DATE_FORMAT(SUH.SAVE_DATE, '%Y-%m-%d') AS SAVE_DT,
             SCD.SUBHOLIDAY_DT_CODE_NM,
             EI.EMP_NAME_KR,

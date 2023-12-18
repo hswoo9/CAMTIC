@@ -10,7 +10,7 @@
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 
 <style>
-    .k-footer-template td:nth-child(8) {
+    .k-footer-template td:nth-child(9) {
         overflow: visible;
         white-space: nowrap;
         text-align: right;
@@ -23,7 +23,8 @@
     .k-footer-template td:nth-child(5),
     .k-footer-template td:nth-child(6),
     .k-footer-template td:nth-child(7),
-    .k-footer-template td:nth-child(8) {
+    .k-footer-template td:nth-child(8),
+    .k-footer-template td:nth-child(9) {
         border-width: 0;
     }
 </style>

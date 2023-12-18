@@ -191,10 +191,10 @@
                         <col style="width: 6%;">
                         <col style="width: 4%;">
                         <col style="width: 6%;">
-                        <col style="width: 5%;">
-                        <col style="width: 5%;">
-                        <col style="width: 5%;">
-                        <col style="width: 5%;">
+                        <col style="width: 4%;">
+                        <col style="width: 4%;">
+                        <col style="width: 4%;">
+                        <col style="width: 6%;">
                         <col style="width: 5%;">
                         <col style="width: 3%;">
                     </colgroup>

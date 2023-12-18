@@ -69,11 +69,31 @@ public interface ApprovalUserService {
     List<Map<String, Object>> getUserFavApproveRouteDetail(Map<String, Object> params);
 
     /**
+     * 부재설정 리스트
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> getAbsentSetList(Map<String, Object> params);
+
+    /**
      * 부재정보 중복체크
      * @param params
      * @return
      */
     Map<String, Object> getAbsentDuplicate(Map<String, Object> params);
+
+    /**
+     * 부재정보 등록
+     * @param params
+     * @return
+     */
+    void setAbsentInfo(Map<String, Object> params);
+
+    /**
+     * 부재정보 업데이트
+     * @param params
+     */
+    int setAbsentInfoUpd(Map<String, Object> params);
 
     List<Map<String, Object>> getApprovalDocSearchList(Map<String, Object> params);
 

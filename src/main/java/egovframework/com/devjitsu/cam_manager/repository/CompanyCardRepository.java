@@ -70,11 +70,24 @@ public class CompanyCardRepository extends AbstractDAO {
     public void saveCardUserGroupSel(Map<String, Object> params) {
         insert("card.saveCardUserGroupSel", params);
     }
+    public void saveCardUserGroupSelCancle(Map<String, Object> params) {
+        delete("card.saveCardUserGroupSelCancle", params);
+    }
     public List<Map<String, Object>> getCardUserGroup(Map<String, Object> params) {
         return selectList("card.getCardUserGroup", params);
     }
     public List<Map<String, Object>> getcardUserGroupList(Map<String, Object> params) {
         return selectList("card.getcardUserGroupList", params);
+    }
+    public List<Map<String, Object>> getcardUserGroupSel(Map<String, Object> params) {
+        return selectList("card.getcardUserGroupSel", params);
+    }
+
+    public Map<String, Object> getCardGroupNumCheck(){
+        return (Map<String, Object>) selectOne("card.getCardGroupNumCheck");
+    }
+    public List<Map<String, Object>> getCardGroupCheck(){
+        return selectList("card.getCardGroupCheck");
     }
     public void delCardUserGroup(Map<String, Object> params) {
         delete("card.delCardUserGroup", params);

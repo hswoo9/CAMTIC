@@ -96,7 +96,6 @@ var employmentPop = {
         }
         var result = customKendo.fn_customAjax("/userManage/getEmploymentInfo.do", employmentPop.global.searchAjaxData);
         if(result.flag){
-            console.log(result);
             employmentPop.global.data = result.data;
 
             if(employmentPop.global.hwpCtrl.FieldExist("empName")){
@@ -106,7 +105,7 @@ var employmentPop = {
 
             if(employmentPop.global.hwpCtrl.FieldExist("deptName")){
                 employmentPop.global.hwpCtrl.MoveToField('deptName', true, true, false);
-                employmentPop.putFieldText('deptName', result.data.DEPT_NAME);
+                employmentPop.putFieldText('deptName', result.data.DEPT_NAME2);
             }
 
             if(employmentPop.global.hwpCtrl.FieldExist("positionName")){

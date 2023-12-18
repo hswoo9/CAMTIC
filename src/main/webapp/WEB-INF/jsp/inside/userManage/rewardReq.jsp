@@ -46,7 +46,7 @@
                         </td>
                         <th class="text-center th-color">포상 구분</th>
                         <td>
-                            <input type="text" id="rewardType" style="width: 140px;">
+                            <input type="text" id="rewardName" style="width: 140px;">
                         </td>
                         <th class="text-center th-color">부서</th>
                         <td>

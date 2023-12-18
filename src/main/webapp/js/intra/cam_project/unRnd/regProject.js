@@ -11,7 +11,7 @@ var regUnRnd = {
 
     fn_setTab : function(setParameters){
         var tab0Url = "/projectUnRnd/detailInfo.do";                 // 00사업정보
-        var tab1Url = "/projectRnd/researcherInfo.do";             // 01참여인력
+        //var tab1Url = "/projectRnd/researcherInfo.do";             // 01참여인력
         var tab3Url = "/projectRnd/partRate.do";                   // 02참여율관리
         var tab4Url = "/projectUnRnd/unRndDevPlan.do";                 // 03수행계획(공정)
         var tab17Url= "/intra/cam_project/processInfo.do";         // 04공정
@@ -30,7 +30,7 @@ var regUnRnd = {
 
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
-            tab1Url += "?pjtSn=" + setParameters.PJT_SN;
+            //tab1Url += "?pjtSn=" + setParameters.PJT_SN;
             tab3Url += "?pjtSn=" + setParameters.PJT_SN;
             tab4Url += "?pjtSn=" + setParameters.PJT_SN;
             tab5Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -60,7 +60,7 @@ var regUnRnd = {
         } else {
             dataSource = [
                 {name: "사업정보", url: tab0Url, imageUrl: "/images/ico/etc_01_1.png"},
-                {name: "참여인력", url: tab1Url},
+                //{name: "참여인력", url: tab1Url},
                 {name: "참여율관리", url: tab3Url},
                 {name: "수행계획(공정)", url: tab4Url, imageUrl: "/images/ico/etc_01_1.png"},
                 {name: "공정", url: tab17Url},
@@ -150,7 +150,7 @@ var regUnRnd = {
             /** 탭 두줄 */
             var html = '<div style="width:100%;"></div>';
             var doc = parser.parseFromString(html, 'text/html');
-            $("#tabstrip li")[9].after(doc.body.firstChild);
+            $("#tabstrip li")[8].after(doc.body.firstChild);
 
             /** 첫줄에 사업관리 문구 추가 */
             var html2 = '<div style="padding: 6px 12px"><b style="color: red">사업관리</b></div>';
@@ -160,7 +160,7 @@ var regUnRnd = {
             /** 둘째줄에 운영관리 문구 추가 */
             var html3 = '<div style="padding: 6px 12px"><b style="color: blue">운영관리</b></div>';
             var doc3 = parser.parseFromString(html3, 'text/html');
-            $("#tabstrip li")[10].before(doc3.body.firstChild);
+            $("#tabstrip li")[9].before(doc3.body.firstChild);
         }
     },
 

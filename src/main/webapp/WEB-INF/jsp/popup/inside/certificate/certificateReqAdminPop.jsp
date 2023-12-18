@@ -57,9 +57,9 @@
                     <td>
                         <input type="text" id="regDeptName" value="${loginVO.orgnztNm}" style="width: 80%;">
                     </td>
-                    <th>직급</th>
+                    <th>직위</th>
                     <td>
-                        <input type="text" id="regDutyName" value="${loginVO.dutyNm}" style="width: 80%;">
+                        <input type="text" id="regDutyName" value="${loginVO.dutyNm ne '' ? loginVO.dutyNm : loginVO.positionNm}" style="width: 80%;">
                     </td>
                 </tr>
                 <tr>

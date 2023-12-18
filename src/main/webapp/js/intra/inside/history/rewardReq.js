@@ -18,7 +18,7 @@ var rewardReq = {
                 },
                 parameterMap: function(data) {
                     data.rewardTypeA = $("#rewardTypeA").val();
-                    data.rewardType = $("#rewardType").data("kendoDropDownList").value();
+                    data.rewardName = $("#rewardName").val();
                     data.deptSeq = $("#dept").val();
                     data.teamSeq = $("#team").val();
                     data.start_date = $("#start_date").val().replace(/-/g, "");
@@ -90,12 +90,12 @@ var rewardReq = {
                         return "<span style='font-weight: bold' class='hover' onclick='rewardReq.rewardReqBatchPop(\"upd\", "+row.REWORD_ID+");'>"+row.EMP_NAME+"</span>";
                     }
                 }, {
-                    field: "SIDE_NAME",
+                    field: "REWORD_TYPE_NAME",
                     title: "내/외부",
                     width: 100
                 }, {
-                    field: "REWORD_TYPE_NAME",
-                    title: "포상구분",
+                    field: "REWORD_NAME",
+                    title: "포상명",
                     width: 150
                 }, {
                     field: "REWORD_DAY",
@@ -164,30 +164,19 @@ var rewardReq = {
             dataValueField: "value",
             dataSource: [
                 { text: "선택하세요", value: "" },
-                { text: "내부표창", value: "내부표창" },
-                { text: "외부표창", value: "외부표창" }
+                { text: "내부", value: "0" },
+                { text: "외부", value: "1" }
             ],
             index: 0,
             width: 300,
-
             change: function(e) {
-
-                var selectedValue = this.value();
-                if (selectedValue === "내부표창" || selectedValue === "외부표창" || selectedValue === "" ) {
-
-                    let rewardDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeListReward", { cmGroupCodeId: "32", specificValue: selectedValue });
-                    if(selectedValue === ""){
-                        customKendo.fn_dropDownList("rewardType", rewardDataSource, "CM_CODE_NM", "CM_CODE", "2");
-                    }else {
-                        customKendo.fn_dropDownList("rewardType", rewardDataSource, "CM_CODE_NMM", "CM_CODE", "2");
-                    }
-                }
+                var selectedValue = this.text();
+                let rewardDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeListReward", { cmGroupCodeId: "32", specificValue: selectedValue });
+                customKendo.fn_dropDownList("rewardName", rewardDataSource, "CM_CODE_NM", "CM_CODE", "2");
             }
         });
 
-
-        let rewardDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "32"});
-        customKendo.fn_dropDownList("rewardType", rewardDataSource, "CM_CODE_NM", "CM_CODE", "2");
+        customKendo.fn_dropDownList("rewardName", [], "CM_CODE_NM", "CM_CODE", "2");
 
         $("#searchType").kendoDropDownList({
             dataTextField: "text",
