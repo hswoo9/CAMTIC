@@ -137,11 +137,21 @@ var returnList = {
                     title: "상태",
                     width: 60,
                     template: function(e){
+                        var status = "";
                         if(e.DOC_STATUS == "100"){
-                            return "결재완료";
+                            status = "결재완료";
+                            if(e.REQ_END_DE != null && e.REQ_END_DE != "" && e.REQ_END_DE != undefined){
+                                status = "승인";
+                            } else {
+                                status = "미결";
+                            }
+                        } else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "50"){
+                            status = "결재중"
                         } else {
-                            return "작성중";
+                            status = "작성중"
                         }
+
+                        return status;
                     }
                 }
             ],
