@@ -64,7 +64,7 @@
             B.BEF_VER_CHECK = 'Y'
         AND
             A.PART_EMP_SEQ = #{empSeq}
-        <if test='strDe != null and "".equals(strDe)'>
+        <if test='strDe != null and !"".equals(strDe)'>
         <![CDATA[
             AND
                 C.STR_DT >= #{strDe}
