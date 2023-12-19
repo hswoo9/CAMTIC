@@ -217,6 +217,7 @@ var customBudgetPop = {
     },
 
     tempBudgetGrid : function(url, params){
+        params.account = String($("#ac").val())
         $("#tempBudgetGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
