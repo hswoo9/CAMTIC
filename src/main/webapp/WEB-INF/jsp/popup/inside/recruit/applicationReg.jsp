@@ -15,7 +15,7 @@
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">인사정보 등록</h3>
         <div class="btn-st popButton">
-            <button type="button" class="k-button k-button-solid-info" style= "margin-right:5px;" onclick=""><span>인사정보 등록</span></button>
+            <button type="button" class="k-button k-button-solid-info" style= "margin-right:5px;" onclick="applicationReg.userSave()"><span>인사정보 등록</span></button>
             <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
         </div>
     </div>
@@ -38,6 +38,10 @@
                     부서
                 </th>
                 <td>
+                    <input type="hidden" id="deptSeq" value="${recruitArea.DEPT_SEQ}">
+                    <input type="hidden" id="teamSeq" value="${recruitArea.TEAM_SEQ}">
+                    <input type="hidden" id="deptName" value="${recruitArea.DEPT_NAME}">
+                    <input type="hidden" id="teamName" value="${recruitArea.TEAM_NAME}">
                     ${recruitArea.DEPT_NAME} ${recruitArea.TEAM_NAME}
                 </td>
             </tr>
@@ -74,12 +78,12 @@
                     직원구분
                 </th>
                 <td>
-                    <input type="checkbox" class="divis" division="0" id="dsA" checked>
+                    <input type="radio" class="divis" name="employeeType" division="0" id="dsA" checked>
                     <label for="dsA">정규직원</label>
-                    <input type="checkbox" style="margin-left: 10px;" class="divis" division="4" divisionSub="1" id="dsC">
-                    <label for="dsC">계약직원</label>
-                    <input type="checkbox"  style="margin-left: 10px;" class="divis" division="4" divisionSub="2" id="dsB">
-                    <label for="dsB">인턴사원</label>
+                    <input type="radio" style="margin-left: 10px;" class="divis" name="employeeType" division="4" divisionSub="1" id="dsB">
+                    <label for="dsB">계약직원</label>
+                    <input type="radio"  style="margin-left: 10px;" class="divis" name="employeeType" division="4" divisionSub="2" id="dsC">
+                    <label for="dsC">인턴사원</label>
                 </td>
             </tr>
             <tr>

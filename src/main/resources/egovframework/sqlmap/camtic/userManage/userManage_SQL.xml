@@ -3829,4 +3829,167 @@
             </foreach>
         </if>;
     </select>
+    <!--
+    <insert id="setAppToUserDetailInsert" parameterType="map">
+        /*setAppToUserDetailInsert*/
+        INSERT INTO CAM_HR.DJ_EMP_INFO(
+        EMP_SEQ,
+        EMP_NAME_KR,
+        LOGIN_ID,
+        RES_REGIS_NUM,
+        DUTY_CODE,
+        DUTY_NAME,
+        POSITION_CODE,
+        POSITION_NAME,
+        DEPT_NAME,
+        DEPT_SEQ,
+        DEPT_TEAM_NAME,
+        JOB_DETAIL,
+        BEFOR_CAREER,
+        ACCOUNT_HOLDER,
+        BANK_NAME,
+        ACCOUNT_NUM,
+        ZIP_CODE,
+        ADDR,
+        ADDR_DETAIL,
+        OFFICE_TEL_NUM,
+        MOBILE_TEL_NUM,
+        EMAIL_ADDR,
+        CAR_NUM,
+        EMP_NAME_CN,
+        EMP_NAME_EN,
+        EMG_TEL_NUM,
+        LEGAL_DOMICILE,
+        HOBBY,
+        RELIGION,
+        SPECIALITY,
+        WEIGHT,
+        HEIGHT,
+        VISIONL,
+        VISIONR,
+        <if test="genderCode != null and genderCode != ''">
+            GENDER_CODE,
+        </if>
+        WEDDING_ACTIVE,
+        <if test="WEDDING_DAY != null and WEDDING_DAY != ''">
+            WEDDING_DAY,
+        </if>
+        <if test="GRADE_NAME != null and GRADE_NAME != ''">
+            GRADE_NAME,
+        </if>
+        <if test="DEGREE_CODE != null and DEGREE_CODE != ''">
+            DEGREE_CODE,
+        </if>
+        BLOOD_TYPE,
+        DIVISION,
+        DIVISION_SUB,
+        REG_EMP_SEQ,
+        ACTIVE,
+        CAR_ACTIVE,
+        OCCUPATION_CODE,
+        JOIN_DAY,
+        WORK_STATUS_CODE,
+        LUNAR_CAL,
+        CTR_ST_DAY,
+        CTR_EN_DAY,
+        WEEK_WORK_TIME,
+        NICK_NAME,
+        CONTRACT,
+        SCHOOL,
+        DEGREE,
+        DEPARTMENT,
+        GRADE,
+        STUDENT_ID,
+        QUALIFICATION,
+        LAST_DEGREE,
+        CAREER,
+        MILITARY,
+        SIGNIFICANT,
+        BDAY,
+        TEMP_DIVISION,
+        MY_COMENT
+        )VALUES(
+        (SELECT MAX(CAST(A.EMP_SEQ AS UNSIGNED))+1 FROM CAM_HR.DJ_EMP_INFO A),
+        #{USER_NAME},
+        #{LOGIN_ID},
+        #{RES_REGIS_NUM},
+        #{DUTY_CODE},
+        #{DUTY_NAME},
+        #{POSITION_CODE},
+        #{POSITION_NAME},
+        #{DEPT_NAME},
+        #{DEPT_SEQ},
+        #{DEPT_TEAM_NAME},
+        #{JOB_DETAIL},
+        #{BEFOR_CAREER},
+        #{ACCOUNT_HOLDER},
+        #{BANK_NAME},
+        #{ACCOUNT_NUM},
+        #{ZIP_CODE},
+        #{ADDR},
+        #{ADDR_DETAIL},
+        #{OFFICE_TEL_NUM},
+        #{MOBILE_TEL_NUM},
+        #{EMAIL_ADDR},
+        #{CAR_NUM},
+        #{EMP_NAME_CN},
+        #{EMP_NAME_EN},
+        #{EMG_TEL_NUM},
+        #{LEGAL_DOMICILE},
+        #{HOBBY},
+        #{RELIGION},
+        #{SPECIALITY},
+        #{WEIGHT},
+        #{HEIGHT},
+        #{VISIONL},
+        #{VISIONR},
+        <if test="genderCode != null and genderCode != ''">
+            #{genderCode},
+        </if>
+        #{WEDDING_ACTIVE},
+        <if test="WEDDING_DAY != null and WEDDING_DAY != ''">
+            #{WEDDING_DAY},
+        </if>
+        <if test="GRADE_NAME != null and GRADE_NAME != ''">
+            #{GRADE_NAME},
+        </if>
+        <if test="DEGREE_CODE != null and DEGREE_CODE != ''">
+            #{DEGREE_CODE},
+        </if>
+        #{BLOOD_TYPE},
+        #{division},
+        #{divisionSub},
+        #{regEmpSeq},
+        #{ACTIVE},
+        #{CAR_ACTIVE},
+        #{OCCUPATION_CODE},
+        #{JOIN_DAY},
+        'Y',
+        #{LUNAR_CAL},
+        #{CTR_ST_DAY},
+        #{CTR_EN_DAY},
+        #{WEEK_WORK_TIME},
+        #{NICK_NAME},
+        #{CONTRACT},
+        #{SCHOOL},
+        #{DEGREE},
+        #{DEPARTMENT},
+        #{GRADE},
+        #{STUDENT_ID},
+        #{QUALIFICATION},
+        #{LAST_DEGREE},
+        #{CAREER},
+        #{MILITARY},
+        #{SIGNIFICANT},
+        #{BDAY},
+        #{TEMP_DIVISION},
+        #{MY_COMENT}
+        )
+
+        <selectKey keyProperty="empSeq" resultType="Integer" order="BEFORE">
+            SELECT MAX(CAST(A.EMP_SEQ AS UNSIGNED))+1 FROM CAM_HR.DJ_EMP_INFO A
+        </selectKey>
+    </insert>
+    -->
+
 </mapper>

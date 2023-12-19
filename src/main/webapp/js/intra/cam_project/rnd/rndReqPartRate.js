@@ -22,7 +22,6 @@ var rndRPR = {
 
         var pf = result.fileList
         var rs = result.map;
-
         if(rs != null){
             $("#partRateSn").val(rs.PART_RATE_SN);
             $("#joinMemberSn").val(rs.JOIN_MEM_SN);
@@ -36,11 +35,14 @@ var rndRPR = {
 
             if(rs.STAT == "N"){
                 $("#reqBtn").css("display", "");
+                $("#saveBtn").css("display", "");
             }else {
                 $("#saveBtn").css("display", "none");
                 // $("#changeBtn").css("display", "");
                 $("#changeSaveBtn").css("display", "");
+
             }
+
         }else{
             var userResult = customKendo.fn_customAjax("/projectRnd/getRschInfo", data);
             var userSn = "";
@@ -63,6 +65,8 @@ var rndRPR = {
                 // $("#joinMember").val(userName);
                 // $("#joinMemberSn").val(userSn);
             }
+
+
         }
 
         if(result.fileList != null && pf.length != 0){
@@ -168,7 +172,7 @@ var rndRPR = {
                 if(type != "change"){
                     alert("저장되었습니다.");
                 }
-                commonProject.getReloadPage(2, 2, 2, 2, 2, 2);
+                commonProject.getReloadPage(1, 1, 1, 1, 1, 1);
             }
         });
 
@@ -193,7 +197,7 @@ var rndRPR = {
 
         if(rs.code == 200){
             alert("요청되었습니다.");
-            commonProject.getReloadPage(2, 2, 2, 2, 2, 2);
+            commonProject.getReloadPage(1, 1, 1, 1, 1, 1);
         } else {
             alert("오류가 발생하였습니다. 관리자에게 문의바랍니다.");
         }
@@ -314,6 +318,9 @@ var rndRPR = {
                 html += '   <td style="text-align: center">'+buttonSubHtml+'</td>';
                 html += '</tr>';
             }
+
+            console.log("VERSION::"+ls[0].VER_NUM);
+            $("#titleVersionName").text("[참여율현황 버전 - ver" + ls[0].VER_NUM + "]");
 
             $("#partRateVersion").append(html);
             $("#partRateVersion2").append(html);

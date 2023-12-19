@@ -2384,8 +2384,18 @@
             CAM_PJT_MNG.DJ_PROJECT B
         ON
             A.PJT_SN = B.PJT_SN
-        WHERE
-            PART_RATE_VER_SN = #{partRateVerSn}
+        WHERE 1=1
+        <choose>
+            <when test='partRateVerSn != null and !"".equals(partRateVerSn)'>
+                AND PART_RATE_VER_SN = #{partRateVerSn}
+            </when>
+            <otherwise>
+                AND A.PJT_SN = #{pjtSn}
+                AND A.MNG_STAT = 'C'
+                ORDER BY PART_RATE_VER_SN DESC
+                LIMIT 1
+            </otherwise>
+        </choose>
     </select>
 
     <select id="getPartRateBefVer" parameterType="map" resultType="map">
