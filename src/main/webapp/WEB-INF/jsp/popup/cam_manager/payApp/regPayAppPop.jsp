@@ -333,6 +333,7 @@
             <th>지출예정일</th>
             <td>
                 <input type="text" id="payExnpDe" style="width: 80%" name="payExnpDe" value="">
+                <input type="hidden" id="tmpPayDe" />
             </td>
         </tr>
         </thead>

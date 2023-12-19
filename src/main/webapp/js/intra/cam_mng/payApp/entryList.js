@@ -116,7 +116,7 @@ var entryList = {
                 }, {
                     title: "지출예정일",
                     width: 70,
-                    field: "REQ_EXNP_DE"
+                    field: "DT3"
                 }, {
                     title: "지출완료일",
                     width: 70,

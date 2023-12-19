@@ -441,7 +441,7 @@ var regExnp = {
 
 
         $("#reqDe").val(rs.REQ_DE);
-        $("#DT3").val(rs.REQ_DE);
+        $("#DT3").val(rs.PAY_EXNP_DE);
         $("#reqExDe").val(rs.REQ_EXNP_DE);
         $("#DT2").val(rs.APP_DE);
         $("#reqEndDe").val(rs.REQ_END_DE);
