@@ -1064,6 +1064,7 @@
             WHERE
                 A.PJT_SN = #{pjtSn}
             AND A.DEV_SN = (SELECT SPD.DEV_SN FROM CAM_PJT_MNG.DJ_PJT_DEV SPD WHERE SPD.PJT_SN = #{pjtSn} ORDER BY SPD.DEV_SN DESC LIMIT 1)
+            AND A.PS_PREP NOT IN (0)
         ) M
         GROUP BY PS_EMP_SEQ
     </select>
@@ -1881,7 +1882,7 @@
             PREP_B = #{prepB},
         </if>
         <if test='prepC != null and !"".equals(prepC)'>
-            PREP_C = #{prepB},
+            PREP_C = #{prepC},
         </if>
         <if test='prepD != null and !"".equals(prepD)'>
             PREP_D = #{prepD},

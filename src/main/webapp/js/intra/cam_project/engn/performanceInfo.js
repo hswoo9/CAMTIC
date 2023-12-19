@@ -55,42 +55,42 @@ var performanceInfo = {
             var value = 0;
             var calcAmt = 0;
             var type = "";
-            if(ls[i].PS_PREP == 1 || (ls[i].PS_PREP == 0 && i==0)){
+            if(i == 0){
                 type = "A";
                 if(rs.result.map != undefined){
                     if(rs.result.map.DELV_PREP_A != null && rs.result.map.DELV_PREP_A != ""){
                         value = rs.result.map.DELV_PREP_A;
                     }
                 }
-            } else if (ls[i].PS_PREP == 2 || (ls[i].PS_PREP == 0 && i==1)){
+            } else if(i == 1){
                 type = "B";
                 if(rs.result.map != undefined) {
                     if (rs.result.map.DELV_PREP_B != null && rs.result.map.DELV_PREP_B != "") {
                         value = rs.result.map.DELV_PREP_B;
                     }
                 }
-            } else if (ls[i].PS_PREP == 3 || (ls[i].PS_PREP == 0 && i==2)){
+            } else if(i == 2){
                 type = "C";
                 if(rs.result.map != undefined) {
                     if (rs.result.map.DELV_PREP_C != null && rs.result.map.DELV_PREP_C != "") {
                         value = rs.result.map.DELV_PREP_C;
                     }
                 }
-            } else if (ls[i].PS_PREP == 4 || (ls[i].PS_PREP == 0 && i==2)){
+            } else if(i == 3){
                 type = "D";
                 if(rs.result.map != undefined) {
                     if (rs.result.map.DELV_PREP_D != null && rs.result.map.DELV_PREP_D != "") {
                         value = rs.result.map.DELV_PREP_D;
                     }
                 }
-            } else if (ls[i].PS_PREP == 5 || (ls[i].PS_PREP == 0 && i==2)){
+            } else if(i == 4){
                 type = "E";
                 if(rs.result.map != undefined) {
                     if (rs.result.map.DELV_PREP_E != null && rs.result.map.DELV_PREP_E != "") {
                         value = rs.result.map.DELV_PREP_E;
                     }
                 }
-            } else if (ls[i].PS_PREP == 6 || (ls[i].PS_PREP == 0 && i==2)){
+            } else if(i == 5){
                 type = "F";
                 if(rs.result.map != undefined) {
                     if (rs.result.map.DELV_PREP_F != null && rs.result.map.DELV_PREP_F != "") {
@@ -120,42 +120,42 @@ var performanceInfo = {
             var value = 0;
             var calcAmt = 0;
             var type = "";
-            if(ls[i].PS_PREP == 1 || (ls[i].PS_PREP == 0 && i==0)){
+            if(i == 0){
                 type = "A";
                 if(rs.result.map != undefined){
                     if(rs.result.map.INV_PREP_A != null && rs.result.map.INV_PREP_A != ""){
                         value = rs.result.map.INV_PREP_A;
                     }
                 }
-            } else if (ls[i].PS_PREP == 2 || (ls[i].PS_PREP == 0 && i==1)){
+            } else if(i == 1){
                 type = "B";
                 if(rs.result.map != undefined) {
                     if (rs.result.map.INV_PREP_B != null && rs.result.map.INV_PREP_B != "") {
                         value = rs.result.map.INV_PREP_B;
                     }
                 }
-            } else if (ls[i].PS_PREP == 3 || (ls[i].PS_PREP == 0 && i==2)){
+            } else if(i == 2){
                 type = "C";
                 if(rs.result.map != undefined) {
                     if (rs.result.map.INV_PREP_C != null && rs.result.map.INV_PREP_C != "") {
                         value = rs.result.map.INV_PREP_C;
                     }
                 }
-            } else if (ls[i].PS_PREP == 4 || (ls[i].PS_PREP == 0 && i==2)){
+            } else if(i == 3){
                 type = "D";
                 if(rs.result.map != undefined) {
                     if (rs.result.map.INV_PREP_D != null && rs.result.map.INV_PREP_D != "") {
                         value = rs.result.map.INV_PREP_D;
                     }
                 }
-            } else if (ls[i].PS_PREP == 5 || (ls[i].PS_PREP == 0 && i==2)){
+            } else if(i == 4){
                 type = "E";
                 if(rs.result.map != undefined) {
                     if (rs.result.map.INV_PREP_E != null && rs.result.map.INV_PREP_E != "") {
                         value = rs.result.map.INV_PREP_E;
                     }
                 }
-            } else if (ls[i].PS_PREP == 6 || (ls[i].PS_PREP == 0 && i==2)){
+            } else if(i == 5){
                 type = "F";
                 if(rs.result.map != undefined) {
                     if (rs.result.map.INV_PREP_F != null && rs.result.map.INV_PREP_F != "") {
@@ -185,42 +185,42 @@ var performanceInfo = {
             var value = 0;
             var calcAmt = 0;
             var type = "";
-            if(ls[i].PS_PREP == 1 || (ls[i].PS_PREP == 0 && i==0)){
+            if(i == 0){
                 type = "A";
                 if(rs.result.map != undefined){
                     if(rs.result.map.PREP_A != null && rs.result.map.PREP_A != ""){
                         value = rs.result.map.PREP_A;
                     }
                 }
-            } else if (ls[i].PS_PREP == 2 || (ls[i].PS_PREP == 0 && i==1)){
+            } else if(i == 1){
                 type = "B";
                 if(rs.result.map != undefined) {
                     if (rs.result.map.PREP_B != null && rs.result.map.PREP_B != "") {
                         value = rs.result.map.PREP_B;
                     }
                 }
-            } else if (ls[i].PS_PREP == 3 || (ls[i].PS_PREP == 0 && i==2)){
+            } else if(i == 2){
                 type = "C";
                 if(rs.result.map != undefined) {
                     if (rs.result.map.PREP_C != null && rs.result.map.PREP_C != "") {
                         value = rs.result.map.PREP_C;
                     }
                 }
-            } else if (ls[i].PS_PREP == 4 || (ls[i].PS_PREP == 0 && i==2)){
+            } else if(i == 3){
                 type = "D";
                 if(rs.result.map != undefined) {
                     if (rs.result.map.PREP_D != null && rs.result.map.PREP_D != "") {
                         value = rs.result.map.PREP_D;
                     }
                 }
-            } else if (ls[i].PS_PREP == 5 || (ls[i].PS_PREP == 0 && i==2)){
+            } else if(i == 4){
                 type = "E";
                 if(rs.result.map != undefined) {
                     if (rs.result.map.PREP_E != null && rs.result.map.PREP_E != "") {
                         value = rs.result.map.PREP_E;
                     }
                 }
-            } else if (ls[i].PS_PREP == 6 || (ls[i].PS_PREP == 0 && i==2)){
+            } else if(i == 5){
                 type = "F";
                 if(rs.result.map != undefined) {
                     if (rs.result.map.PREP_F != null && rs.result.map.PREP_F != "") {
