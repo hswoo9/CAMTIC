@@ -174,7 +174,7 @@
 
         WHERE 1=1
         AND
-            MP.DOC_STATUS = 100 AND MDI.APPRO_KEY IS NULL
+            MP.DOC_STATUS = 100 AND (MDI.APPRO_KEY IS NULL OR MPI.PURC_SN IS NOT NULL)
             <if test='searchDept != null and !"".equals(searchDept)'>
                 AND MP.PURC_REQ_EMP_SEQ = #{empSeq}
             </if>

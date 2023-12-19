@@ -13,6 +13,17 @@
         WHERE PJT_SN = #{pjtSn}
     </select>
 
+    <select id="getTeamList" parameterType="map" resultType="map">
+        /* getTeamList */
+        SELECT
+            PT.*,
+            DATE_FORMAT(PT.REG_DT, '%Y-%m-%d') AS REG_DATE
+        FROM
+            CAM_PJT_MNG.DJ_PJT_TEAM PT
+        WHERE PJT_SN = #{pjtSn}
+          AND TEAM_VERSION_SN = #{teamVersionSn}
+    </select>
+
     <insert id="setTeamAddVersion" parameterType="map">
         /* setTeamAddVersion */
         INSERT INTO CAM_PJT_MNG.DJ_PJT_TEAM_VERSION
@@ -30,5 +41,49 @@
         <selectKey keyProperty="teamVersionSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_TEAM_VERSION'
         </selectKey>
+    </insert>
+
+    <insert id="setTeamDelv" parameterType="map">
+        /* setTeamDelv */
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_TEAM
+            (
+                TEAM_VERSION_SN,
+                PJT_SN,
+                TM_DEPT_SEQ,
+                TM_TEAM_SEQ,
+                TM_PM_SEQ,
+                REG_DT,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{teamVersionSn},
+                #{pjtSn},
+                (
+                    SELECT
+                        CASE WHEN HDI.DEPT_LEVEL = 2
+                             THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ)
+                             ELSE HEI.DEPT_SEQ END
+                    FROM
+                        CAM_HR.DJ_EMP_INFO HEI
+                    LEFT JOIN
+                        CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+                    WHERE HEI.EMP_SEQ = #{regEmpSeq}
+                ),
+                (
+                    SELECT
+                        CASE WHEN HDI.DEPT_LEVEL = 2
+                             THEN HEI.DEPT_SEQ
+                             ELSE '' END
+                    FROM
+                        CAM_HR.DJ_EMP_INFO HEI
+                    LEFT JOIN
+                        CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+                    WHERE HEI.EMP_SEQ = #{regEmpSeq}
+                ),
+                #{regEmpSeq},
+                NOW(),
+                #{regEmpSeq}
+            )
     </insert>
 </mapper>

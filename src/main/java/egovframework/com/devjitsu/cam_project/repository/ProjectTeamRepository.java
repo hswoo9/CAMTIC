@@ -13,7 +13,15 @@ public class ProjectTeamRepository extends AbstractDAO {
         return selectList("projectTeam.getTeamVersion", params);
     }
 
+    public List<Map<String, Object>> getTeamList(Map<String, Object> params) {
+        return selectList("projectTeam.getTeamList", params);
+    }
+
     public void setTeamAddVersion(Map<String, Object> params) {
         insert("projectTeam.setTeamAddVersion", params);
+    }
+
+    public void setTeamDelv(Map<String, Object> params) {
+        insert("projectTeam.setTeamDelv", params);
     }
 }

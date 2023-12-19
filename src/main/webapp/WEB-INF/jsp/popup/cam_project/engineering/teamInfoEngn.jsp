@@ -44,6 +44,40 @@
             </thead>
         </table>
     </div>
+
+    <div id="teamDetailBtnDiv" class="detail" style="margin-top: 20px; display: none"></div>
+    <div class="table-responsive detail" style="display: none">
+        <table class="popTable table table-bordered mb-0" style="margin-top: 0px">
+            <colgroup>
+                <col width="5%">
+                <col width="5%">
+                <col width="21%">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+                <col width="7%">
+                <col width="10%">
+                <col width="7%">
+                <col width="5%">
+                <col width="5%">
+            </colgroup>
+            <thead id="detailRow">
+            <tr>
+                <th></th>
+                <th>구분</th>
+                <th>팀</th>
+                <th>담당자(PM)</th>
+                <th>총예산</th>
+                <th>배분금액(매출)</th>
+                <th>배분비율</th>
+                <th>예상비용</th>
+                <th>예상수익</th>
+                <th>PM</th>
+                <th>팀장</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
 </div>
 
 <script>

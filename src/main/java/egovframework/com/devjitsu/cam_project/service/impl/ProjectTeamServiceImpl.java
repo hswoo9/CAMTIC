@@ -37,8 +37,16 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
     }
 
     @Override
+    public List<Map<String, Object>> getTeamList(Map<String, Object> params) {
+        return projectTeamRepository.getTeamList(params);
+    }
+
+    @Override
     public void setTeamAddVersion(Map<String, Object> params) {
         projectTeamRepository.setTeamAddVersion(params);
+
+        /** 버전 저장 후 자가 부서 정보 insert */
+        projectTeamRepository.setTeamDelv(params);
     }
 
     private String filePath(Map<String, Object> params, String base_dir){
