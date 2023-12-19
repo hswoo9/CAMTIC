@@ -23,6 +23,7 @@ var regPay = {
     fn_defaultScript : function (){
         customKendo.fn_datePicker("appDe", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("reqDe", "month", "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("payExnpDe", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_textBox(["pjtNm", "appTitle", "accNm", "accNo", "bnkNm"]);
 
         $("#appCont").kendoTextArea({
@@ -178,7 +179,7 @@ var regPay = {
         if(data != null){
             if(data.DOC_STATUS == "0"){
                 buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save(\'user\')">저장</button>';
-                buttonHtml += '<button type="button" id="reqBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.payAppDrafting()">상신</button>';
+                buttonHtml += '<button type="button" id="reqBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_popDateSetting()">상신</button>';
             }else if(data.DOC_STATUS == "10" || data.DOC_STATUS == "50"){
                 buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+data.DOC_ID+'\', \'camticPayApp_'+data.PAY_APP_SN+'\', 1, \'retrieve\');">회수</button>';
             }else if(data.DOC_STATUS == "30" || data.DOC_STATUS == "40"){
@@ -222,7 +223,11 @@ var regPay = {
     },
 
     payAppDrafting: function(){
+
+
+
         regPay.fn_save("", "drafting");
+
 
 
         var budgetFlag = false;
@@ -527,11 +532,17 @@ var regPay = {
             })
         }
 
-        if($("#pjtCd").val().substring(0,1) != "M"){
+        if($("#pjtCd").val().substring(0,1) != "M" && $("#pjtCd").val().substring(0,1) != ""){
             $(".reasonTr").css("display", "");
             $("#reasonCol").css("display", "");
             $("#reasonTh").css("display", "");
         }
+    },
+
+    fn_popDateSetting : function(){
+        var dialog = $("#dialogDraft").data("kendoWindow");
+        dialog.center();
+        dialog.open();
     },
 
     fn_viewStat: function (){
@@ -593,6 +604,7 @@ var regPay = {
             pjtSn : $("#pjtSn").val(),
             pjtCd : $("#pjtCd").val(),
             reqDe : $("#reqDe").val(),
+            payExnpDe : $("#payExnpDe").val(),
             // budgetNm : $("#budgetNm").val(),
             // budgetSn : $("#budgetSn").val(),
             appTitle : $("#appTitle").val(),
@@ -602,7 +614,6 @@ var regPay = {
             accNm : $("#accNm").val(),
             accNo : $("#accNo").val(),
             payAppStat : $("#payAppStat").data("kendoRadioGroup").value(),
-
 
             regEmpSeq : $("#regEmpSeq").val(),
             empSeq : $("#empSeq").val(),
@@ -655,7 +666,7 @@ var regPay = {
 
         var budgetFlag = false;
         if(type != "drafting"){
-            if($("#pjtCd").val().substring(0,1) != "M"){
+            if($("#pjtCd").val().substring(0,1) != "M" && $("#pjtCd").val().substring(0,1) != ""){
 
             } else {
                 var tmpBudgetSnAr = [];
@@ -782,18 +793,6 @@ var regPay = {
                 }
             }
         });
-    },
-
-    crmInfoChange : function(){
-        console.log(purcInfo.global.crmSnId, purcInfo.global.crmNmId)
-
-        $("#" + purcInfo.global.crmSnId).val($("#purcCrmSn").val())
-        $("#" + purcInfo.global.crmNmId).val($("#purcCrmNm").val())
-
-        $("#purcCrmSn").val("")
-        $("#purcCrmNm").val("")
-
-
     },
 
     fn_popCamCrmList : function (crmSnId, crmNmId){
@@ -1091,7 +1090,7 @@ var regPayDet = {
         $(".payDestInfo td").css("padding", "0.35rem");
         $(".payDestInfo td span").css("font-size", "10px");
 
-        if($("#pjtCd").val().substring(0,1) != "M"){
+        if($("#pjtCd").val().substring(0,1) != "M" && $("#pjtCd").val().substring(0,1) != ""){
             $(".reasonTr").css("display", "");
         }
     },

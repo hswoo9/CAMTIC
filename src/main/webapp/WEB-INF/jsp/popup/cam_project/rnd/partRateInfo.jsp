@@ -129,11 +129,8 @@
                         <span class="red-star"></span>참여 연구원
                     </th>
                     <td colspan="3">
-                        <input type="text" id="joinMember" disabled style="width: 80%;">
+                        <input type="text" id="joinMember" style="width: 80%;">
                         <input type="hidden" id="joinMemberSn" />
-                        <button type="button" id="stfs" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="fn_userMultiSelectPop();">
-                            검색
-                        </button>
                     </td>
                 </tr>
                 <tr>

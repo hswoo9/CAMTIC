@@ -5,6 +5,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 
+
 <body class="font-opensans" style="background-color:#fff;">
 <script type="text/javascript" src="/js/intra/cam_crm/regCrmPop.js?v=${today}"/></script>
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
@@ -79,7 +80,7 @@
                 </tr>
                 <tr id="project">
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>사업명</th>
-                    <td colspan="2">
+                    <td colspan="4">
                         <span>
                             <input type="text" id="pjtNm" disabled value="${pjtData.PJT_NM}"  style="width: 40%;">
                             <input type="hidden" id="pjtSn" value="${pjtData.PJT_SN}" />
@@ -87,10 +88,10 @@
                             <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="regPay.fn_projectPop('regPay')">검색</button>
                         </span>
                     </td>
-                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>지출요청일</th>
-                    <td colspan="2">
-                        <input type="text" id="reqDe" style="width: 40%" />
-                    </td>
+<%--                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>지출요청일</th>--%>
+<%--                    <td colspan="2">--%>
+<%--                        <input type="text" id="reqDe" style="width: 40%" />--%>
+<%--                    </td>--%>
                 </tr>
 <%--                <tr>--%>
 <%--                    <th scope="row" class="text-center th-color">예산비목</th>--%>
@@ -315,6 +316,29 @@
     <button type="button" id="updBtn" class="k-button k-button-solid-base" onclick="regPay.fn_updReason();">확인</button>
 </div>
 
+<div id="dialogDraft" style="text-align: center">
+    <table class="popTable table table-bordered mb-0" id="userReqPopImageTable" style="width: 100%">
+        <colgroup>
+            <col width="15%">
+            <col width="35%">
+            <col width="15%">
+            <col width="35%">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>지출요청일</th>
+            <td>
+                <input type="text" id="reqDe" style="width: 80%" name="reqDe" value="">
+            </td>
+            <th>지출예정일</th>
+            <td>
+                <input type="text" id="payExnpDe" style="width: 80%" name="payExnpDe" value="">
+            </td>
+        </tr>
+        </thead>
+    </table>
+    <button type="button" onclick="regPay.payAppDrafting()" class="k-button k-button-solid-info" style="float: right; margin-top:8px;">상신</button>
+</div>
 
 <script type="text/javascript">
     regPayDet.fn_defaultScript();
@@ -326,6 +350,16 @@
         resizable: false,
         modal: true,
         width: 500,
+        actions: ["Close"],
+    });
+
+    $("#dialogDraft").kendoWindow({
+        title: "지출일자 설정",
+        visible : false,
+        resizable: false,
+        modal: true,
+        width: 700,
+        scrollable: false,
         actions: ["Close"],
     });
 

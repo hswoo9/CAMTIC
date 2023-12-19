@@ -143,7 +143,7 @@ var partRate = {
         if(mem != null){
             var memHtml = '';
             var item = 0;
-
+            console.log(mem);
             for(var i = 0 ; i < mem.length ; i++){
                 var e = mem[i];
                 var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
