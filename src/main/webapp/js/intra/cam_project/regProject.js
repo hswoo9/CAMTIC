@@ -225,11 +225,18 @@ var regPrj = {
                 }
 
                 if(setParameters.PJT_STEP >= "E6"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(8));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(12));
 
-                    if(setParameters.PM_EMP_SEQ == $("#regEmpSeq").val()){
-                        tabStrip.enable(tabStrip.tabGroup.children().eq(8));
+                    var resultMap = customKendo.fn_customAjax("/project/engn/getResultInfo", {
+                        pjtSn: setParameters.PJT_SN,
+                    }).result.map;
+
+                    if(resultMap != null){
+                        console.log("resultMap")
+                        console.log(resultMap)
+                        if(setParameters.PM_EMP_SEQ == $("#regEmpSeq").val() && resultMap.STATUS == "100"){
+                            tabStrip.enable(tabStrip.tabGroup.children().eq(8));
+                        }
                     }
                 }
             } else {

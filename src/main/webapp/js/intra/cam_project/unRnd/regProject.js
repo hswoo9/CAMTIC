@@ -142,8 +142,16 @@ var regUnRnd = {
 
                 /** 실적관리 비활성화 및 PM만 활성화 */
                 tabStrip.disable(tabStrip.tabGroup.children().eq(8));
-                if(setParameters.PM_EMP_SEQ == $("#regEmpSeq").val()){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(8));
+                var resultMap = customKendo.fn_customAjax("/project/engn/getResultInfo", {
+                    pjtSn: setParameters.PJT_SN,
+                }).result.map;
+
+                if(resultMap != null){
+                    console.log("resultMap")
+                    console.log(resultMap)
+                    if(setParameters.PM_EMP_SEQ == $("#regEmpSeq").val() && resultMap.STATUS == "100"){
+                        tabStrip.enable(tabStrip.tabGroup.children().eq(8));
+                    }
                 }
             }
 

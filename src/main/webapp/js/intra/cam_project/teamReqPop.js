@@ -14,5 +14,14 @@ var teamReq = {
         $("#pjtNm").text(pjtMap.PJT_NM);
 
         customKendo.fn_textBox(["team", "teamPMNm", "teamAmt", "teamPer", "teamInvAmt", "teamIncomePer"]);
+    },
+
+    fn_calCost: function(obj){
+        var index = obj.id.split("_")[1];
+        if(obj.id.match("invAmt")){
+            $("#incomePer_" + index).val(Math.round(100 - Number(uncomma(obj.value)) / Number(uncomma($("#nowTotalAmt"+index).text())) * 100));
+        }
+
+        inputNumberFormat(obj);
     }
 }
