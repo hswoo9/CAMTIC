@@ -1020,6 +1020,26 @@ public class RecruitController {
         Map <String,Object> applicationInfo = recruitService.getApplication(applicationId);
         params.remove("applicationId");
 
+
+        applicationInfo.putAll(params);
+        applicationInfo.put("LOGIN_PASSWD","1");
+
+        applicationInfo.put("EMP_NAME_KR",applicationInfo.get("USER_NAME"));
+        applicationInfo.put("EMP_NAME_EN",applicationInfo.get("USER_NAME_EN"));
+        applicationInfo.put("EMP_NAME_CN",applicationInfo.get("USER_NAME_CN"));
+        applicationInfo.put("LUNAR_CAL",applicationInfo.get("LUNAR_YN"));
+        applicationInfo.put("OFFICE_TEL_NUM",applicationInfo.get("TEL_NUM"));
+        applicationInfo.put("EMAIL_ADDR",applicationInfo.get("USER_EMAIL"));
+        applicationInfo.put("genderCode",applicationInfo.get("GENDER"));
+        applicationInfo.put("SPECIALITY",applicationInfo.get("SPECIALTY"));
+
+        applicationInfo.remove("introduce");
+
+        System.out.println("****edit applicationInfo****"+applicationInfo);
+
+
+        userManageService.setUserReqDetailInsert(applicationInfo);
+
         //학력
         Object schoolObject = applicationInfo.get("school");
         if (schoolObject != null && !((List<?>) schoolObject).isEmpty()) {
@@ -1059,31 +1079,6 @@ public class RecruitController {
                 System.out.println(langData);
             }
         }
-
-
-        applicationInfo.putAll(params);
-        applicationInfo.put("LOGIN_PASSWD","1");
-
-        applicationInfo.put("EMP_NAME_KR",applicationInfo.get("USER_NAME"));
-        applicationInfo.put("EMP_NAME_EN",applicationInfo.get("USER_NAME_EN"));
-        applicationInfo.put("EMP_NAME_CN",applicationInfo.get("USER_NAME_CN"));
-        applicationInfo.put("LUNAR_CAL",applicationInfo.get("LUNAR_YN"));
-        applicationInfo.put("OFFICE_TEL_NUM",applicationInfo.get("TEL_NUM"));
-        applicationInfo.put("EMAIL_ADDR",applicationInfo.get("USER_EMAIL"));
-        applicationInfo.put("genderCode",applicationInfo.get("GENDER"));
-        applicationInfo.put("SPECIALITY",applicationInfo.get("SPECIALTY"));
-
-        applicationInfo.remove("photoFile");
-        applicationInfo.remove("school");
-        applicationInfo.remove("career");
-        applicationInfo.remove("cert");
-        applicationInfo.remove("lang");
-        applicationInfo.remove("introduce");
-
-        System.out.println("****edit applicationInfo****"+applicationInfo);
-
-
-        userManageService.setUserReqDetailInsert(applicationInfo);
 
 
 
