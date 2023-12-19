@@ -272,17 +272,17 @@ var rndPR = {
                 memHtml += '   <td>' + mem[i].EMP_NAME + '<input type="hidden" name="partEmpName" value="'+mem[i].EMP_NAME+'" /></td>';
                 memHtml += '   <td style="text-align: right">' + uncomma(bsSal) + '</td>';
                 memHtml += '   <td>';
-                memHtml += '        <input type="text" id="memChngSal'+i+'" name="chngSal" value="'+comma(totAmt)+'" style="text-align: right" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" />';
+                memHtml += '        <input type="text" id="memChngSal'+i+'" name="chngSal" value="'+comma(totAmt)+'" style="text-align: right" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" disabled />';
                 memHtml += '   </td>';
-                memHtml += '   <td><input type="text" id="memStrDt'+i+'" name="strDt" /></td>';
-                memHtml += '   <td><input type="text" id="memEndDt'+i+'" name="endDt" /></td>';
+                memHtml += '   <td><input type="text" id="memStrDt'+i+'" name="strDt" disabled /></td>';
+                memHtml += '   <td><input type="text" id="memEndDt'+i+'" name="endDt" disabled /></td>';
                 memHtml += '   <td><input type="text" id="memMon'+i+'" name="mon" style="text-align: right" disabled value="'+rndPR.fn_monDiff(mem[i].PJT_STR_DT, mem[i].PJT_END_DT)+'"></td>';
                 memHtml += '   <td><input type="text" id="memPayRate'+i+'" name="payRate" style="text-align: right" disabled value="0"></td>';      // 참여율 현금(%)
                 memHtml += '   <td><input type="text" id="memTotPayBudget'+i+'" name="totPayBudget" style="text-align: right" disabled value="0"></td>';      // 인건비 현금 총액
-                memHtml += '   <td><input type="text" id="memItemRate'+i+'" name="itemRate" value="0" style="text-align: right" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"></td>';
+                memHtml += '   <td><input type="text" id="memItemRate'+i+'" name="itemRate" value="0" style="text-align: right" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" disabled></td>';
                 memHtml += '   <td><input type="text" id="memTotItemBudget'+i+'" name="totItemBudget" style="text-align: right" disabled value="0"></td>';      // 인건비 현물 총액
                 memHtml += '   <td><input type="text" id="memTotRate'+i+'" name="totRate" style="text-align: right" disabled value="0"></td>';      // 총 참여율(%)
-                memHtml += '   <td><input type="text" id="memPayTotal'+i+'" name="payTotal" style="text-align: right" value="0" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"></td>';
+                memHtml += '   <td><input type="text" id="memPayTotal'+i+'" name="payTotal" style="text-align: right" value="0" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" disabled></td>';
                 memHtml += '   <td><input type="text" id="memMonSal'+i+'" name="monSal" style="text-align: right" disabled value="0"></td>';      // 월 인건비
                 memHtml += '   <td><button type="button" class="k-button k-button-solid-info" onclick="rndPR.fn_userPartRatePop('+mem[i].EMP_SEQ+', '+data.pjtSn+')">조회</button></td>';      // 참여율 조회
                 memHtml += '</tr>';
@@ -341,11 +341,16 @@ var rndPR = {
             }
         }
 
-        var lastHtml = ''
+        var lastHtml = '';
         lastHtml += '<tr style="text-align: center">';
-        lastHtml += '    <td colspan="12" style="background-color: #8fa1c04a;">합계</td>';
+        lastHtml += '    <td colspan="8" style="background-color: #8fa1c04a;">합계</td>';
+        lastHtml += '    <td><input type="text" style="text-align: right; width: 100px;" disabled value="0" id="" /></td>';
+        lastHtml += '    <td style="background-color: #8fa1c04a;"></td>';
+        lastHtml += '    <td><input type="text" style="text-align: right;width: 100px;" disabled value="0" id="" /></td>';
+        lastHtml += '    <td style="background-color: #8fa1c04a;"></td>';
         lastHtml += '    <td><input type="text" style="text-align: right" disabled value="0" id="allPayTotal" /></td>';
-        lastHtml += '    <td colspan="3" style="background-color: #8fa1c04a;"></td>';
+        lastHtml += '    <td><input type="text" style="text-align: right; width: 100px;" disabled value="0" id="" /></td>';
+        lastHtml += '    <td style="background-color: #8fa1c04a;"></td>';
         lastHtml += '</tr>';
 
         $("#partRateMember").append(lastHtml);
