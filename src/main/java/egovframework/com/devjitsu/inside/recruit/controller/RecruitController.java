@@ -1005,4 +1005,109 @@ public class RecruitController {
         return "jsonView";
     }
 
+    @RequestMapping("/inside/setApplicationtoUser.do")
+    public String setApplicationtoUser(@RequestParam Map<String, Object> params,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("regEmpSeq", loginVO.getUniqId());
+
+        System.out.println("params"+params);
+        Object appId = params.get("applicationId");
+
+        Map<String,Object> applicationId = new HashMap<>();
+        applicationId.put("applicationId",appId);
+
+        Map <String,Object> applicationInfo = recruitService.getApplication(applicationId);
+        params.remove("applicationId");
+        System.out.println("****applicationInfo****"+applicationInfo);
+        /*
+        //학력
+        Object schoolObject = applicationInfo.get("school");
+        if (schoolObject != null && !((List<?>) schoolObject).isEmpty()) {
+            List<Map<String, Object>> schoolList = convertToMapList(schoolObject);
+            System.out.println("schoolList : " + schoolList);
+            for (Map<String, Object> schoolData : schoolList) {
+                System.out.println(schoolData);
+            }
+        }
+
+        //경력
+        Object careerObject = applicationInfo.get("career");
+        if (careerObject != null && !((List<?>) careerObject).isEmpty()) {
+            List<Map<String, Object>> careerList = convertToMapList(careerObject);
+            System.out.println("careerList : " + careerList);
+            for (Map<String, Object> careerData : careerList) {
+                System.out.println(careerData);
+            }
+        }
+
+        //자격증
+        Object certObject = applicationInfo.get("cert");
+        if (certObject != null && !((List<?>) certObject).isEmpty()) {
+            List<Map<String, Object>> certList = convertToMapList(certObject);
+            System.out.println("certList : " +certList);
+            for (Map<String, Object> certData : certList) {
+                System.out.println(certData);
+            }
+        }
+
+        //언어
+        Object langObject = applicationInfo.get("lang");
+        if (langObject != null && !((List<?>) langObject).isEmpty()) {
+            List<Map<String, Object>> langList = convertToMapList(langObject);
+            System.out.println(" langList : " + langList);
+            for (Map<String, Object> langData :  langList) {
+                System.out.println(langData);
+            }
+        }
+        */
+
+        applicationInfo.putAll(params);
+        applicationInfo.put("LOGIN_PASSWD","1");
+
+        applicationInfo.put("EMP_NAME_KR",applicationInfo.get("USER_NAME"));
+        applicationInfo.put("EMP_NAME_EN",applicationInfo.get("USER_NAME_EN"));
+        applicationInfo.put("EMP_NAME_CN",applicationInfo.get("USER_NAME_CN"));
+        applicationInfo.put("LUNAR_CAL",applicationInfo.get("LUNAR_YN"));
+        applicationInfo.put("OFFICE_TEL_NUM",applicationInfo.get("TEL_NUM"));
+        applicationInfo.put("EMAIL_ADDR",applicationInfo.get("USER_EMAIL"));
+        applicationInfo.put("genderCode",applicationInfo.get("GENDER"));
+        applicationInfo.put("SPECIALITY",applicationInfo.get("SPECIALTY"));
+
+        applicationInfo.remove("photoFile");
+        applicationInfo.remove("school");
+        applicationInfo.remove("career");
+        applicationInfo.remove("cert");
+        applicationInfo.remove("lang");
+        applicationInfo.remove("introduce");
+
+        System.out.println("****edit applicationInfo****"+applicationInfo);
+
+
+        userManageService.setUserReqDetailInsert(applicationInfo);
+
+
+
+
+        return "jsonView";
+    }
+
+    private static List<Map<String, Object>> convertToMapList(Object object) {
+        List<Map<String, Object>> resultList = new ArrayList<>();
+
+        if (object instanceof List<?>) {
+            List<?> objectList = (List<?>) object;
+
+            for (Object objectItem : objectList) {
+                if (objectItem instanceof Map<?, ?>) {
+                    @SuppressWarnings("unchecked")
+                    Map<String, Object> data = (Map<String, Object>) objectItem;
+                    resultList.add(new HashMap<>(data));
+                }
+            }
+        }
+
+        return resultList;
+    }
+
 }
