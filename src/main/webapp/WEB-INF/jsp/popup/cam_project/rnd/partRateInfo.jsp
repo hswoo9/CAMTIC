@@ -22,8 +22,9 @@
 <input type="hidden" id="partRateMenuGubun" value="DETAIL" />
 <div style="padding: 10px">
 
-    <button type="button" id="excelDown" style="float:right;" class="k-button k-button-solid-base" onclick="" disabled>참여율현황표 다운로드</button>
-    <button type="button" id="confBtn" style="float:right; margin-right: 5px;" class="k-button k-button-solid-base" onclick="fn_confirm()" disabled>참여율확정</button>
+    <span id="titleVersionName"></span>
+    <button type="button" id="excelDown" style="float:right; font-size: 12px;" class="k-button k-button-solid-base" onclick="" disabled>참여율현황표 다운로드</button>
+    <button type="button" id="confBtn" style="float:right; margin-right: 5px;  font-size: 12px;" class="k-button k-button-solid-base" onclick="fn_confirm()" disabled>참여율확정</button>
     <%--    <button type="button" disabled id="regBtn" style="float:right; margin-right: 5px" class="k-button k-button-solid-info" onclick="fn_reqRegPopup()">지급신청</button>--%>
 
     <div id="rateBtnDiv">
@@ -31,7 +32,7 @@
 
     <div class="table-responsive">
         <%--        <button type="button" id="" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-base" disabled onclick=""></button>--%>
-        <br><br>
+        <%--<br><br>--%>
         <table class="popTable table table-bordered mb-0">
             <thead>
             <tr>
@@ -45,8 +46,8 @@
                 <th colspan="2" style="width: 11%">현금</th>
                 <th colspan="2" style="width: 11%">현물</th>
                 <th rowspan="2" style="width: 5%">총참여율<br>(%)</th>
-                <th rowspan="2" style="width: 7%">인건비총액<br>(%)</th>
-                <th rowspan="2" style="width: 7%">월인건비<br>(%)</th>
+                <th rowspan="2" style="width: 7%">인건비총액<br>(원)</th>
+                <th rowspan="2" style="width: 7%">월인건비<br>(원)</th>
                 <th rowspan="2" style="width: 4%">참여율<br>조회</th>
             </tr>
             <tr>
@@ -111,7 +112,7 @@
     <div class="table-responsive" style="margin-top: 10px;">
         <button type="button" id="reqBtn" style="float: right; margin-bottom: 5px; display: none" class="k-button k-button-solid-base" onclick="rndRPR.fn_reqPartRate()">요청</button>
         <button type="button" id="changeBtn" style="float: right; margin-bottom: 5px; display: none" class="k-button k-button-solid-base" onclick="rndRPR.fn_changePartRate()">변경요청</button>
-        <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px; margin-right:5px;" class="k-button k-button-solid-info" onclick="rndRPR.fn_save()">저장</button>
+        <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px; margin-right:5px; display: none" class="k-button k-button-solid-info" onclick="rndRPR.fn_save()">저장</button>
         <button type="button" id="changeSaveBtn" style="float: right; margin-bottom: 5px; margin-right:5px; display: none" class="k-button k-button-solid-info" onclick="rndRPR.fn_save('change')">변경</button>
         <br><br>
 
@@ -317,7 +318,7 @@
             success : function(rs){
                 if(rs.code == 200){
                     alert("참여율이 확정되었습니다.");
-                    commonProject.getReloadPage(2, 2, 2, 2, 2, 2);
+                    commonProject.getReloadPage(1, 1, 1, 1, 1, 1);
                 }
             }
         });

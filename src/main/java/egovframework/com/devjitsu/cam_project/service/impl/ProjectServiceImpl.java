@@ -1093,7 +1093,7 @@ public class ProjectServiceImpl implements ProjectService {
 
             dtStrArr = Arrays.stream(strArr).distinct().toArray(String[]::new);
             for(String str : dtStrArr){
-//                if(!str.equals(manageInfo.get("MNG_EMP_SEQ").toString())){
+            //if(!str.equals(manageInfo.get("MNG_EMP_SEQ").toString())){
                 if("undefined".equals(str)){
                     continue;
                 }
@@ -1117,7 +1117,7 @@ public class ProjectServiceImpl implements ProjectService {
                 for(Map<String, Object> data : memberData){
                     projectMemberInfo.add(data);
                 }
-//                }
+            //}
             }
         }
 

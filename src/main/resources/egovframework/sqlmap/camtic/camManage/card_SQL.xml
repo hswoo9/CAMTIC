@@ -349,6 +349,10 @@
         DELETE FROM CAM_MNG.DJ_CARD_USER_GROUP_LIST WHERE GROUP_USER_ID = #{groupUserId} AND GROUP_ID = #{groupId}
     </delete>
 
+    <delete id="delGroupUserAll" parameterType="map">
+        DELETE FROM CAM_MNG.DJ_CARD_USER_GROUP_LIST WHERE GROUP_ID = #{groupId}
+    </delete>
+
     <select id="getCardGroupCheck" parameterType="map" resultType="map">
         SELECT
             CARD_BA_NB,

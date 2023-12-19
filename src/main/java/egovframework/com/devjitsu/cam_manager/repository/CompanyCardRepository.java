@@ -109,4 +109,7 @@ public class CompanyCardRepository extends AbstractDAO {
     public void delGroupUser(Map<String, Object> params) {
         delete("card.delGroupUser", params);
     }
+    public void delGroupUserAll(Map<String, Object> params) {
+        delete("card.delGroupUserAll", params);
+    }
 }

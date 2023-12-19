@@ -504,7 +504,6 @@
         INSERT INTO CAM_PJT_MNG.DJ_PJT_PART_RATE
             (
                 PJT_SN,
-                JOIN_MEM_SN,
                 JOIN_MEM_NM,
                 MON_PAY_CRT,
                 MIN_PART_RATE,
@@ -517,7 +516,6 @@
         VALUE
             (
                 #{pjtSn},
-                #{joinMemSn},
                 #{joinMemNm},
                 #{monPayCrt},
                 #{minPartRate},
@@ -536,7 +534,6 @@
         /*updReqPartRateData*/
         UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE
         SET
-            JOIN_MEM_SN = #{joinMemSn},
             JOIN_MEM_NM = #{joinMemNm},
             MON_PAY_CRT = #{monPayCrt},
             MIN_PART_RATE = #{minPartRate},
@@ -566,7 +563,8 @@
             A.STAT,
             A.PAY_BUDGET AS RT_PAY_BUDGET,
             A.ITEM_BUDGET AS RT_ITEM_BUDGET,
-            A.MNG_STAT AS RT_MNG_STAT
+            A.MNG_STAT AS RT_MNG_STAT,
+            (select part_rate_ver from cam_pjt_mng.dj_pjt_part_rate_ver where pjt_sn = 431 and mng_stat = 'C' order by part_rate_ver_sn desc limit 1) AS VER_NUM
         FROM
             CAM_PJT_MNG.DJ_PJT_PART_RATE A
         LEFT JOIN
