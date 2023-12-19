@@ -35,9 +35,9 @@ var rndRPR = {
 
             if(rs.STAT == "N"){
                 $("#reqBtn").css("display", "");
-                $("#saveBtn").css("display", "");
+                $("#saveRateBtn").css("display", "");
             }else {
-                $("#saveBtn").css("display", "none");
+                $("#saveRateBtn").css("display", "none");
                 // $("#changeBtn").css("display", "");
                 $("#changeSaveBtn").css("display", "");
 
@@ -65,6 +65,7 @@ var rndRPR = {
                 // $("#joinMember").val(userName);
                 // $("#joinMemberSn").val(userSn);
             }
+            $("#saveRateBtn").css("display", "");
 
 
         }
