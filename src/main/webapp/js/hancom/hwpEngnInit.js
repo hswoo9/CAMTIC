@@ -247,12 +247,14 @@ var engnInit = {
         let invSum = 0;
         for(let i=0; i<purcList.length; i++){
             const map = purcList[i];
-            invSum += Number(map.ITEM_UNIT_AMT);
+            invSum += Number(map.ITEM_AMT);
+            console.log(map.ITEM_UNIT_AMT);
         }
         const tripResult = customKendo.fn_customAjax("/project/getBustResInfo", {pjtSn: map.PJT_SN});
         const trip = tripResult.map;
         if(trip.COUNT != 0){
             invSum += trip.BUSTRIP_EXNP_SUM;
+            console.log(map.BUSTRIP_EXNP_SUM);
         }
         hwpDocCtrl.putFieldText('AMT1', map.PJT_AMT == 0 ? "0" : fn_numberWithCommas(map.PJT_AMT));
         hwpDocCtrl.putFieldText('INV_PER', "100%");

@@ -235,7 +235,7 @@ var unRndInit = {
         let invSum = 0;
         for(let i=0; i<purcList.length; i++){
             const map = purcList[i];
-            invSum += Number(map.ITEM_UNIT_AMT);
+            invSum += Number(map.ITEM_AMT);
         }
         const tripResult = customKendo.fn_customAjax("/project/getBustResInfo", {pjtSn: map.PJT_SN});
         const trip = tripResult.map;
