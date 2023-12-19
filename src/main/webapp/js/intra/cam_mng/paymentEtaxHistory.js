@@ -1,7 +1,8 @@
 var payEtaxHist = {
 
     global : {
-        searchAjaxData : ""
+        searchAjaxData : "",
+        eTaxInfo : {},
     },
 
     fn_defaultScript : function (){
@@ -384,31 +385,57 @@ var payEtaxHist = {
                     eTaxInfo.imgValue = 'etax';
                     eTaxInfo.imgSrc = imgData;
                     eTaxInfo.empSeq = $("#empSeq").val()
-                    $.ajax({
-                        type : "POST",
-                        data : eTaxInfo,
-                        dataType : "text",
-                        url : "/mng/imgSaveTest",
-                        async : false,
-                        success : function(data) {
 
-                            var data = JSON.parse(data);
-                            var fileNo = data.result.fileNo;
-                            alert("반영되었습니다.");
-                            opener.parent.fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, coCd, taxTy, idx, fileNo, baNb, bankNm, depositor);
+                    eTaxInfo.trCd = trCd;
+                    eTaxInfo.trNm = trNm;
+                    eTaxInfo.isuDt = isuDt;
+                    eTaxInfo.trregNb = trregNb;
+                    eTaxInfo.supAm = supAm;
+                    eTaxInfo.vatAm = vatAm;
+                    eTaxInfo.sumAm = sumAm;
+                    eTaxInfo.issNo = issNo;
+                    eTaxInfo.coCd = coCd;
+                    eTaxInfo.taxTy = taxTy;
+                    eTaxInfo.idx = idx;
+                    eTaxInfo.baNb = baNb;
+                    eTaxInfo.bankNm = bankNm;
+                    eTaxInfo.depositor = depositor;
 
-                            window.close();
-
-                        },
-                        error : function(a, b, c) {
-                            alert("error");
-                        }
-                    });
+                    payEtaxHist.global.eTaxInfo = eTaxInfo;
+                    // payEtaxHist.fn_etaxSetting(JSON.stringify(eTaxInfo));
                 });
             }
         });
+    },
 
+    fn_etaxSetting: function(eTaxInfo){
 
+        eTaxInfo = JSON.parse(eTaxInfo);
+
+        $.ajax({
+            type : "POST",
+            data : eTaxInfo,
+            dataType : "text",
+            url : "/mng/imgSaveTest",
+            async : false,
+            success : function(data) {
+
+                var data = JSON.parse(data);
+                var fileNo = data.result.fileNo;
+                alert("반영되었습니다.");
+                opener.parent.fn_selEtaxInfo(
+                    eTaxInfo.trCd, eTaxInfo.trNm, eTaxInfo.isuDt, eTaxInfo.trregNb,
+                    eTaxInfo.supAm, eTaxInfo.vatAm, eTaxInfo.sumAm, eTaxInfo.issNo, eTaxInfo.coCd,
+                    eTaxInfo.taxTy, eTaxInfo.idx, fileNo, eTaxInfo.baNb, eTaxInfo.bankNm,
+                    eTaxInfo.depositor);
+
+                window.close();
+
+            },
+            error : function(a, b, c) {
+                alert("error");
+            }
+        });
     },
 
     fn_search : function (){
