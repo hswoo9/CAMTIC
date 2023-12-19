@@ -229,14 +229,13 @@ var rndPR = {
         //     }
         //
         // }
-
-        var item = 0;
         if(mem != null){
             var memHtml = '';
 
             for(var i = 0 ; i < mem.length ; i++){
                 var e = mem[i];
                 var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
+
 
                 /** 국민연금 */
                 var nationalPension = cnt * (e.NATIONAL_PENSION / 100);
@@ -296,7 +295,7 @@ var rndPR = {
                 customKendo.fn_datePicker("memEndDt" + i, "depth", "yyyy-MM-dd", new Date(mem[i].PJT_END_DT));
 
                 if(mem[i].CHNG_SAL != null){
-                    $("#memChngSal" + i).val(comma(mem[i].CHNG_SAL));
+                    $("#memChngSal" + i).val(comma(mem[i].CHNG_SAL * 12));
                 }
 
                 if(mem[i].PART_DET_STR_DT != null){
@@ -344,12 +343,12 @@ var rndPR = {
         var lastHtml = '';
         lastHtml += '<tr style="text-align: center">';
         lastHtml += '    <td colspan="8" style="background-color: #8fa1c04a;">합계</td>';
-        lastHtml += '    <td><input type="text" style="text-align: right; width: 100px;" disabled value="0" id="" /></td>';
+        lastHtml += '    <td><input type="text" style="text-align: right; width: 100px;" disabled value="0" id="total" /></td>';
         lastHtml += '    <td style="background-color: #8fa1c04a;"></td>';
-        lastHtml += '    <td><input type="text" style="text-align: right;width: 100px;" disabled value="0" id="" /></td>';
+        lastHtml += '    <td><input type="text" style="text-align: right;width: 100px;" disabled value="0" id="total2" /></td>';
         lastHtml += '    <td style="background-color: #8fa1c04a;"></td>';
         lastHtml += '    <td><input type="text" style="text-align: right" disabled value="0" id="allPayTotal" /></td>';
-        lastHtml += '    <td><input type="text" style="text-align: right; width: 100px;" disabled value="0" id="" /></td>';
+        lastHtml += '    <td><input type="text" style="text-align: right; width: 100px;" disabled value="0" id="total3" /></td>';
         lastHtml += '    <td style="background-color: #8fa1c04a;"></td>';
         lastHtml += '</tr>';
 
@@ -357,17 +356,28 @@ var rndPR = {
 
         $("#empList").val(empList);
 
-        customKendo.fn_textBox(["allPayTotal"]);
+        customKendo.fn_textBox(["allPayTotal","total","total2","total3"]);
 
-        var allPayTotal = 0;
+        /*var allPayTotal = 0;
         $("input[name='payTotal']").each(function(){
             allPayTotal += Number(uncomma(this.value));
         });
+        $("#allPayTotal").val(comma(allPayTotal));*/
 
-        $("#allPayTotal").val(comma(allPayTotal));
+        rndPR.sumValues("input[name='payTotal']", "#allPayTotal");
+        rndPR.sumValues("input[name='totPayBudget']", "#total"); // 현금-인건비(원)
+        rndPR.sumValues("input[name='totItemBudget']", "#total2"); // 현물-인건비(원)
+        rndPR.sumValues("input[name='monSal']", "#total3"); // 월인건비(원)
 
 
         $("#viewSubBtn").css("display", "");
+    },
+
+    sumValues : function (selector, targetId){
+        var total = $(selector).get().reduce(function (acc, element) {
+            return acc + Number(uncomma(element.value));
+        }, 0);
+        $(targetId).val(comma(total));
     },
 
     fn_monDiff : function (_date1, _date2){
