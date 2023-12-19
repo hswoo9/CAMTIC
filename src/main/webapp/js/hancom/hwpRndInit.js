@@ -161,7 +161,7 @@ var rndInit = {
         const map = pjtInfo.rs;
         const delvMap = rndInfo.map;
         const devMap = resultD.rs;
-        const chResult = customKendo.fn_customAjax("/projectRnd/getChangeList", {pjtSn: pjtSn});
+        const chResult = customKendo.fn_customAjax("/projectRnd/getChangeList", {pjtSn: pjtSn, order: "ASC"});
         const chList = chResult.list;
 
         /** 1. 사업정보 */
@@ -241,6 +241,13 @@ var rndInit = {
         const trip = tripResult.map;
         if(trip.COUNT != 0){
             invSum += trip.BUSTRIP_EXNP_SUM;
+        }
+        if(map.BUSN_CLASS == "R" || map.BUSN_CLASS == "S"){
+            const costList = customKendo.fn_customAjax("/payApp/getPjtExnpList", {pjtSn: map.PJT_SN}).list;
+            for(let i=0; i<costList.length; i++){
+                const map = costList[i];
+                invSum += map.COST_SUM;
+            }
         }
         hwpDocCtrl.putFieldText('AMT1', map.PJT_AMT == 0 ? "0" : fn_numberWithCommas(map.PJT_AMT));
         hwpDocCtrl.putFieldText('INV_PER', "100%");

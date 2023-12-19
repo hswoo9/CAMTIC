@@ -35,6 +35,14 @@
             AND (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
             AND WORK_STATUS_CODE = 'Y'
         </if>
+        <if test="fullTime2 != null and fullTime2 != ''">
+            AND ((DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
+             OR (DIVISION IN(1) AND DIVISION_SUB IN(6))
+             OR (DIVISION IN(1) AND DIVISION_SUB IN(6))
+             OR (DIVISION IN(4) AND DIVISION_SUB IN(3))
+                )
+            AND WORK_STATUS_CODE = 'Y'
+        </if>
         <if test="notDivision != null and notDivision != ''">
             AND VEI.DIVISION != #{notDivision}
         </if>

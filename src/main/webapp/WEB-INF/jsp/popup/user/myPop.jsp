@@ -75,7 +75,7 @@
 					<a style="list-style: none; color:#919191; display: inline; margin-right: 22px;">이메일</a>
 					<a style="list-style: none; color:#919191; display: inline;">일정 보기</a>
 				</div>--%>
-				<div style="margin-top: 35px;">
+				<div style="margin-top: 35px; display: none">
 					<ul style="font-size:13px; font-weight:600;letter-spacing: -2px; margin-top: 10px; padding:0px;">
 						<li style="list-style: none; display: inline; margin-right: 28px;">
 							<img class="leftEmail" src="/images/mail-2x.png" alt="#" style="width: 32px; height: 30px;">
