@@ -387,6 +387,26 @@ public class ProjectController {
         return "popup/cam_project/engineering/teamInfo";
     }
 
+    /**
+     * TAB > new 엔지니어링 협업관리
+     * @param params
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping("/intra/cam_project/teamInfoEngn.do")
+    public String teamInfoEngn(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        Map<String, Object> map = projectService.getProjectData(params);
+        model.addAttribute(map);
+
+        return "popup/cam_project/engineering/teamInfoEngn";
+    }
+
     @RequestMapping("/intra/cam_project/depositInfo.do")
     public String depositInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
