@@ -171,6 +171,8 @@ var applicationReg = {
             async : false,
             success : function(result){
                 console.log("인사등록 ajax요청 성공");
+                alert("인사등록이 완료되었습니다.");
+                window.close();
             },
             error: function(error) {
                 console.log("인사등록 ajax요청 실패");
