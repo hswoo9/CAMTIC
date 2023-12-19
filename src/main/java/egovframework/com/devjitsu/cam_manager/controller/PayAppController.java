@@ -698,9 +698,9 @@ public class PayAppController {
     }
 
     @RequestMapping("/pay/setPayDepo")
-    public String setPayDepo(@RequestParam Map<String, Object> params, Model model){
+    public String setPayDepo(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
         try{
-            payAppService.setPayDepo(params);
+            payAppService.setPayDepo(params, request, SERVER_DIR, BASE_DIR);
             model.addAttribute("code", 200);
             model.addAttribute("params", params);
         } catch (Exception e){

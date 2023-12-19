@@ -286,4 +286,8 @@ public class PayAppRepository extends AbstractDAO {
     public List<Map<String, Object>> getPjtExnpList(Map<String, Object> params) {
         return selectList("payApp.getPjtExnpList", params);
     }
+
+    public void updPayDepoFile(Map<String, Object> fileInsMap) {
+        update("payApp.updPayDepoFile", fileInsMap);
+    }
 }

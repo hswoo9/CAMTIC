@@ -21,7 +21,20 @@ var regPayDepo = {
         }
 
 
-        customKendo.fn_textBox(["pjtNm", "depoTitle", "accNm", "accNo", "bnkNm", "budgetNm", "depoAmt", "depoManager", "payDepoReqUser"]);
+        customKendo.fn_textBox(["pjtNm", "depoTitle", "accNm", "accNo", "bnkNm", "budgetNm", "depoAmt", "depoManager", "payDepoReqUser", "email", "crmNm"]);
+
+        $("#eviType").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "세금계산서", value: 1 },
+                { text: "계산서", value: 2 },
+                { text: "신용카드", value: 3 },
+                { text: "현금영수증", value: 4 },
+                { text: "미발행", value: 5 }
+            ],
+            index: 0
+        });
 
         if($("#paramPm").val() != null && $("#paramPm").val() != ""){
             $("#depoManager").val($("#paramPm").val());
@@ -154,7 +167,17 @@ var regPayDepo = {
                 $("#accNo").val(rs.ACC_NO);
                 $("#bnkNm").val(rs.BNK_NM);
 
+                $("#email").val(rs.EMAIL);
+                $("#eviType").data("kendoDropDownList").value(rs.EVI_TYPE);
+                $("#crmNm").val(rs.CRM_NM);
+                $("#crmSn").val(rs.CRM_SN);
+
                 $("#payDepoReqUser").val(rs.DEPO_EMP_NAME);
+
+                if(rs != null && rs != ''){
+                    $("#fileName").text(rs.file_org_name + "." +rs.file_ext);
+                }
+
 
                 if(rs.APPR_STAT == 'N'){
                     $("#apprBtn").css("display", "");
@@ -201,12 +224,18 @@ var regPayDepo = {
             aftPjtNm : $("#pjtNm").val(),
             budgetNm : $("#budgetNm").val(),
             budgetSn : $("#budgetSn").val(),
+            depoManager : $("#depoManager").val(),
             depoTitle : $("#depoTitle").val(),
             depoCont : $("#depoCont").val(),
             bnkSn : $("#bnkSn").val(),
             bnkNm : $("#bnkNm").val(),
             accNm : $("#accNm").val(),
             accNo : $("#accNo").val(),
+
+            crmNm : $("#crmNm").val(),
+            crmSn : $("#crmSn").val(),
+            eviType : $("#eviType").val(),
+            email : $("#email").val(),
 
             depoAmt : regPayDepo.uncomma($("#depoAmt").val()),
             gubun : $("#gubun").val(),
@@ -238,12 +267,25 @@ var regPayDepo = {
             return;
         }
 
+        var fd = new FormData();
+        for (var key in parameters) {
+            fd.append(key, parameters[key]);
+        }
+
+        if($("#files")[0].files.length == 1){
+            fd.append("files", $("#files")[0].files[0]);
+        }
+
 
         $.ajax({
             url : "/pay/setPayDepo",
-            data : parameters,
+            data : fd,
             type : "post",
             dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async: false,
             success : function(rs){
                 console.log(rs);
                 if(rs.code == 200){
@@ -355,6 +397,13 @@ var regPayDepo = {
         $("#accNm").val(trNm);
         $("#accNo").val(baNb);
         $("#bnkNm").val(jiroNm);
+    },
+
+    fn_popCamCrmList : function(){
+        var url = "/crm/pop/popCrmList.do";
+        var name = "_blank";
+        var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
     },
 
 }
