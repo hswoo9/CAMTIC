@@ -263,5 +263,37 @@ var commonProject = {
                 location.reload();
             }
         }
+    },
+
+    getDept : function(empSeq){
+        const userInfo = customKendo.fn_customAjax("/user/getUserInfo", {
+            empSeq: empSeq
+        });
+
+        let dept = "";
+        if(userInfo != null){
+            if(userInfo.teamNm == "" || userInfo.teamNm == null){
+                dept = userInfo.deptNm;
+            }else{
+                dept = userInfo.teamNm;
+            }
+        }
+        return dept;
+    },
+
+    getSpot : function(empSeq){
+        const userInfo = customKendo.fn_customAjax("/user/getUserInfo", {
+            empSeq: empSeq
+        });
+
+        let spot = "";
+        if(userInfo != null){
+            if(userInfo.DUTY_NAME != null && userInfo.DUTY_NAME != ""){
+                spot = userInfo.DUTY_NAME;
+            }else{
+                spot = userInfo.POSITION_NAME;
+            }
+        }
+        return spot;
     }
 }

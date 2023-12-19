@@ -1,0 +1,13 @@
+package egovframework.com.devjitsu.cam_project.service;
+
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import java.util.List;
+import java.util.Map;
+
+public interface ProjectTeamService {
+
+    List<Map<String, Object>> getTeamVersion(Map<String, Object> params);
+    void setTeamAddVersion(Map<String, Object> params);
+}

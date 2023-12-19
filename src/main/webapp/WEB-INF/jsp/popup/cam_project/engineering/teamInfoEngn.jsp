@@ -5,19 +5,20 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/teamInfoEngn.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_project/engn/teamInfoAjax.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
+
+<input type="hidden" id="teamVersionSn" value=""/>
 <div style="padding: 10px">
-    <div id="teamBtnDiv">
-        <button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="">버전추가</button>
-    </div>
+    <div id="teamBtnDiv"></div>
     <div class="table-responsive">
-        <table class="popTable table table-bordered mb-0">
+        <table class="popTable table table-bordered mb-0" style="margin-top: 0px">
             <colgroup>
                 <col width="%">
-                <col width="%">
+                <col width="20%">
                 <col width="%">
                 <col width="%">
                 <col width="%">
@@ -27,7 +28,7 @@
                 <col width="%">
                 <col width="%">
             </colgroup>
-            <thead id="verRows">
+            <thead id="verRow">
             <tr>
                 <th>버전</th>
                 <th>프로젝트명</th>
@@ -46,7 +47,7 @@
 </div>
 
 <script>
-    teamInfo.fn_defaultScript();
+    teamEngn.fn_defaultScript();
 
     function userSearch() {
         window.open("/common/deptListPop.do", "조직도", "width=750, height=650");
