@@ -38,7 +38,6 @@ console.log(rs);
                 $("#reqBtn").css("display", "");
                 $("#saveBtn").css("display", "");
             }else {
-                alert("아녕");
                 $("#saveBtn").css("display", "none");
                 // $("#changeBtn").css("display", "");
                 $("#changeSaveBtn").css("display", "");
