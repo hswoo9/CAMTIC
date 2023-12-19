@@ -1005,6 +1005,7 @@ public class RecruitController {
         return "jsonView";
     }
 
+    /**채용 합격자 인사 등록**/
     @RequestMapping("/inside/setApplicationtoUser.do")
     public String setApplicationtoUser(@RequestParam Map<String, Object> params,HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -1020,7 +1021,7 @@ public class RecruitController {
         Map <String,Object> applicationInfo = recruitService.getApplication(applicationId);
         params.remove("applicationId");
         System.out.println("****applicationInfo****"+applicationInfo);
-        /*
+
         //학력
         Object schoolObject = applicationInfo.get("school");
         if (schoolObject != null && !((List<?>) schoolObject).isEmpty()) {
@@ -1060,7 +1061,7 @@ public class RecruitController {
                 System.out.println(langData);
             }
         }
-        */
+
 
         applicationInfo.putAll(params);
         applicationInfo.put("LOGIN_PASSWD","1");
