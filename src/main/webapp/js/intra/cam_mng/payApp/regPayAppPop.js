@@ -540,6 +540,60 @@ var regPay = {
     },
 
     fn_popDateSetting : function(){
+        regPay.fn_save("", "drafting");
+        var trDe = $("#trDe0").val();
+        var trDeAr = trDe.split("-");
+
+        var trDate = new Date(trDeAr[0], trDeAr[1] - 1, trDeAr[2]);
+
+        var eviType = $("#eviType0").val();
+        if(trDe != "" && trDe != null && trDe != undefined){
+            if($("#pjtCd").val().substring(0,1) != ""){
+                // 법인운영일 경우
+                if($("#pjtCd").val().substring(0,1) == "M"){
+                    if(eviType == "3"){             // 신용카드
+                        trDate.setMonth(trDate.getMonth() + 1);
+                        trDate.setDate(10);
+                        $("#payExnpDe").val(trDate.getFullYear() + "-" + (trDate.getMonth() + 1).toString().padStart(2, "0") + "-" + trDate.getDate());
+                    } else if(eviType == "4"){      // 급여
+                        trDate.setMonth(trDate.getMonth());
+                        trDate.setDate(25);
+                        $("#payExnpDe").val(trDate.getFullYear() + "-" + (trDate.getMonth() + 1).toString().padStart(2, "0") + "-" + trDate.getDate());
+                    } else {                        // 세금계산서,계산서,소득신고자,증빙없음
+                        if(trDeAr[2] < 16){             // 매월 1일 ~ 15일
+                            trDate.setMonth(trDate.getMonth() + 1);
+                            trDate.setDate(25);
+                            $("#payExnpDe").val(trDate.getFullYear() + "-" + (trDate.getMonth() + 1).toString().padStart(2, "0") + "-" + trDate.getDate());
+                        } else {                        // 매월 16일 ~ 말일
+                            trDate.setMonth(trDate.getMonth() + 2);
+                            trDate.setDate(10);
+                            $("#payExnpDe").val(trDate.getFullYear() + "-" + (trDate.getMonth() + 1).toString().padStart(2, "0") + "-" + trDate.getDate());
+                        }
+                    }
+                } else {
+                    if(eviType == "3"){             // 신용카드
+                        trDate.setMonth(trDate.getMonth() + 1);
+                        trDate.setDate(10);
+                        $("#payExnpDe").val(trDate.getFullYear() + "-" + (trDate.getMonth() + 1).toString().padStart(2, "0") + "-" + trDate.getDate());
+                    } else if(eviType == "4"){      // 급여
+                        trDate.setMonth(trDate.getMonth());
+                        trDate.setDate(25);
+                        $("#payExnpDe").val(trDate.getFullYear() + "-" + (trDate.getMonth() + 1).toString().padStart(2, "0") + "-" + trDate.getDate());
+                    } else {                        // 세금계산서,계산서,소득신고자,증빙없음
+                        if(trDeAr[2] < 16){             // 매월 1일 ~ 15일
+                            trDate.setMonth(trDate.getMonth());
+                            trDate.setDate(25);
+                            $("#payExnpDe").val(trDate.getFullYear() + "-" + (trDate.getMonth() + 1).toString().padStart(2, "0") + "-" + trDate.getDate());
+                        } else {                        // 매월 16일 ~ 말일
+                            trDate.setMonth(trDate.getMonth() + 1);
+                            trDate.setDate(10);
+                            $("#payExnpDe").val(trDate.getFullYear() + "-" + (trDate.getMonth() + 1).toString().padStart(2, "0") + "-" + trDate.getDate());
+                        }
+                    }
+                }
+            }
+        }
+
         var dialog = $("#dialogDraft").data("kendoWindow");
         dialog.center();
         dialog.open();

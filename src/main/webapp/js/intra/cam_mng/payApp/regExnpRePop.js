@@ -109,7 +109,7 @@ var regExnpRe = {
 
         $("#busnCd").data("kendoDropDownList").value(rs.BUSN_CD);
         $("#payAppType").data("kendoRadioGroup").value(rs.PAY_APP_TYPE);
-        $("#exnpDe").text(rs.EXNP_DE);
+        $("#exnpDe").text(rs.DT3);
         $("#pjtNm").val(rs.PJT_NM);
         $("#pjtSn").val(rs.PJT_SN);
         $("#budgetNm").val(rs.BUDGET_NM);
