@@ -167,15 +167,26 @@ var paymentList = {
                     title: "상태",
                     width: 60,
                     template : function(e){
+                        console.log(e);
+                        var stat = "";
                         if(e.DOC_STATUS == "100"){
-                            return "결재완료"
+                            stat = "결재완료"
+                            if(e.EXNP_STATUS == e.EXNP_DOC_STATUS){
+                                stat = "지출완료";
+                            } else if(e.EXNP_DOC_STATUS != e.EXNP_STATUS){
+                                stat = "부분지출";
+                            } else if (e.EXNP_STATUS != 0){
+                                stat = "지출대기";
+                            }
                         } else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "50"){
-                            return "결재중"
+                            stat = "결재중"
                         } else if(e.DOC_STATUS == "30"){
-                            return "반려"
+                            stat = "반려"
                         } else {
-                            return "작성중"
+                            stat = "작성중"
                         }
+
+                        return stat;
                     }
                 }
             ],
