@@ -126,13 +126,24 @@ var applicationReg = {
             data.DEPT_SEQ = $("#teamSeq").val();
         }
 
-        if($("#dsA").prop("checked")){
+        /*
+        if($("#dsA").is("checked")){
             data.division = "0";
-        }else if($("#dsB").prop("checked")){
+        }else if($("#dsB").is("checked")){
             data.division = "4"
             data.divisionSub = "1";
-        }else if($("#dsC").prop("checked")){
+        }else if($("#dsC").is("checked")){
             data.division = "4"
+            data.divisionSub = "2";
+        }
+         */
+        data.division = "0";
+
+        if ($("#dsB").is(":checked")) {
+            data.division = "4";
+            data.divisionSub = "1";
+        } else if ($("#dsC").is(":checked")) {
+            data.division = "4";
             data.divisionSub = "2";
         }
 
