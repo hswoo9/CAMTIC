@@ -1012,7 +1012,6 @@ public class RecruitController {
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         params.put("regEmpSeq", loginVO.getUniqId());
 
-        System.out.println("params"+params);
         Object appId = params.get("applicationId");
 
         Map<String,Object> applicationId = new HashMap<>();
@@ -1020,7 +1019,6 @@ public class RecruitController {
 
         Map <String,Object> applicationInfo = recruitService.getApplication(applicationId);
         params.remove("applicationId");
-        System.out.println("****applicationInfo****"+applicationInfo);
 
         //학력
         Object schoolObject = applicationInfo.get("school");
