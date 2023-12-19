@@ -22,7 +22,6 @@ var rndRPR = {
 
         var pf = result.fileList
         var rs = result.map;
-console.log(rs);
         if(rs != null){
             $("#partRateSn").val(rs.PART_RATE_SN);
             $("#joinMemberSn").val(rs.JOIN_MEM_SN);
