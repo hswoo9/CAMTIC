@@ -295,5 +295,17 @@ var commonProject = {
             }
         }
         return spot;
+    },
+
+    getName : function(empSeq){
+        const userInfo = customKendo.fn_customAjax("/user/getUserInfo", {
+            empSeq: empSeq
+        });
+
+        let name = "";
+        if(userInfo != null){
+            name = userInfo.EMP_NAME_KR;
+        }
+        return name;
     }
 }

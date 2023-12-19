@@ -57,10 +57,33 @@ public class ProjectTeamController {
         return "popup/cam_project/engineering/teamInfoEngn";
     }
 
+    /** new 엔지니어링 협업등록 */
+    @RequestMapping("/intra/cam_project/teamReqPop.do")
+    public String teamReqPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        Map<String, Object> map = projectService.getProjectData(params);
+        model.addAttribute(map);
+
+        return "popup/cam_project/teamReqPop";
+    }
+
     /** 협업 버전 정보 조회 */
     @RequestMapping("/project/team/getTeamVersion")
     public String getTeamVersion(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         List<Map<String, Object>> list = projectTeamService.getTeamVersion(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    /** 해당 버전 협업 리스트 조회 */
+    @RequestMapping("/project/team/getTeamList")
+    public String getTeamList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        List<Map<String, Object>> list = projectTeamService.getTeamList(params);
         model.addAttribute("list", list);
 
         return "jsonView";
