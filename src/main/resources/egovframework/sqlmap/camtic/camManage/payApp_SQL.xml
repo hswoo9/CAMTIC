@@ -833,7 +833,8 @@
         UPDATE
             CAM_MNG.DJ_EXNP
         SET
-            RE_STAT = "Y"
+            RE_STAT = "Y",
+            REQ_END_DE = DATE_FORMAT(SYSDATE(), '%Y-%m-%d')
         WHERE
             EXNP_SN = #{exnpSn}
     </update>
