@@ -98,7 +98,7 @@ var unRndDetail = {
                 }
                 let data = {
                     label: label,
-                    value: list[i].IS_TYPE
+                    value: list[i].IS_TYPE == "9" ? "6" : list[i].IS_TYPE
                 };
                 arr.push(data);
                 if(i == 0){

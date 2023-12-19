@@ -274,7 +274,7 @@ var costProcess = {
             })
         }
 
-        if($("#pjtCd").val().substring(0,1) != "M"){
+        if($("#pjtCd").val().substring(0,1) != "M" && $("#pjtCd").val().substring(0,1) != ""){
             $(".reasonTr").css("display", "");
             $("#reasonCol").css("display", "");
             $("#reasonTh").css("display", "");

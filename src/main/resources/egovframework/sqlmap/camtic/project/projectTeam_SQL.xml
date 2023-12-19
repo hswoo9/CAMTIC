@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="projectTeam">
+
+    <select id="getTeamVersion" parameterType="map" resultType="map">
+        /* getTeamVersion */
+        SELECT
+            PTV.*,
+            DATE_FORMAT(PTV.REG_DT, '%Y-%m-%d') AS REG_DATE
+        FROM
+            CAM_PJT_MNG.DJ_PJT_TEAM_VERSION PTV
+        WHERE PJT_SN = #{pjtSn}
+    </select>
+
+    <insert id="setTeamAddVersion" parameterType="map">
+        /* setTeamAddVersion */
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_TEAM_VERSION
+            (
+                PJT_SN,
+                REG_DT,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{pjtSn},
+                NOW(),
+                #{regEmpSeq}
+            )
+        <selectKey keyProperty="teamVersionSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_TEAM_VERSION'
+        </selectKey>
+    </insert>
+</mapper>

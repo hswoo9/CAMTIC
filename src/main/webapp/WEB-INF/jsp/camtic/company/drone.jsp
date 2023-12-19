@@ -26,6 +26,17 @@
 	.item {
 		text-align: center;
 	}
+	.box{
+		width: 315px;
+	}
+	.drbox{
+		height: 120px;
+	}
+
+	.drimg{
+		height: 95px;
+	}
+
 </style>
 <body>
 <div id="wrap">
@@ -72,19 +83,19 @@
 									<!-- <img src="/images/camtic/img-ndrone4-1.jpg" alt=""> -->
 									<div class="__drbox _row">
 										<div class="drbox">
-											<div class="drimg"><img src="/images/camtic/img-dr1-1.png" alt=""></div>
+											<div class="drimg"><img src="/images/camtic/img-dr1-1-1.jpg" alt=""></div>
 											<div class="drtxt"><span>SMT제조시설</span></div>
 										</div>
 										<div class="drbox">
-											<div class="drimg"><img src="/images/camtic/img-dr1-2.png" alt=""></div>
+											<div class="drimg"><img src="/images/camtic/img-dr1-1-2.jpg" alt=""></div>
 											<div class="drtxt"><span>탄소복합재료가공기</span></div>
 										</div>
 										<div class="drbox">
-											<div class="drimg"><img src="/images/camtic/img-dr1-3.png" alt=""></div>
+											<div class="drimg"><img src="/images/camtic/img-dr1-1-3.jpg" alt=""></div>
 											<div class="drtxt"><span>중고급형3D프린터</span></div>
 										</div>
 										<div class="drbox">
-											<div class="drimg"><img src="/images/camtic/img-dr1-4.png" alt=""></div>
+											<div class="drimg"><img src="/images/camtic/img-dr1-1-4.jpg" alt=""></div>
 											<div class="drtxt"><span>고급형3D프린터</span></div>
 										</div>
 										<div class="drbox">
@@ -104,23 +115,23 @@
 									<!-- <img src="/images/camtic/img-ndrone4-2.jpg" alt=""> -->
 									<div class="__drbox _row">
 										<div class="drbox">
-											<div class="drimg"><img src="/images/camtic/img-dr2-1.png" alt=""></div>
+											<div class="drimg"><img src="/images/camtic/img-dr2-1-1.png" alt=""></div>
 											<div class="drtxt"><span>실내 구동 시뮬레이터</span></div>
 										</div>
 										<div class="drbox">
-											<div class="drimg"><img src="/images/camtic/img-dr2-2.png" alt=""></div>
+											<div class="drimg"><img src="/images/camtic/img-dr2-1-2.jpg" alt=""></div>
 											<div class="drtxt"><span>등록성 측정분석장비</span></div>
 										</div>
 										<div class="drbox">
-											<div class="drimg"><img src="/images/camtic/img-dr2-3.png" alt=""></div>
+											<div class="drimg"><img src="/images/camtic/img-dr2-1-3.jpg" alt=""></div>
 											<div class="drtxt"><span>모토추진체계 성능평가</span></div>
 										</div>
 										<div class="drbox">
-											<div class="drimg"><img src="/images/camtic/img-dr2-4.png" alt=""></div>
+											<div class="drimg"><img src="/images/camtic/img-dr2-1-4.jpg" alt=""></div>
 											<div class="drtxt"><span>사전비행 안정성 평가</span></div>
 										</div>
 										<div class="drbox">
-											<div class="drimg"><img src="/images/camtic/img-dr2-5.png" alt=""></div>
+											<div class="drimg"><img src="/images/camtic/img-dr2-1-5.jpg" alt=""></div>
 											<div class="drtxt"><span>구조안정성 평가장비</span></div>
 										</div>
 									</div>
@@ -132,31 +143,30 @@
 									<!-- <img src="/images/camtic/img-ndrone4-3.jpg" alt=""> -->
 									<div class="__drbox _row">
 										<div class="drbox">
-											<div class="drimg"><img src="/images/camtic/img-dr3-1.png" alt=""></div>
+											<div class="drimg"><img src="/images/camtic/img-dr3-1-1.jpg" alt=""></div>
 											<div class="drtxt"><span>워크스테이션</span></div>
 										</div>
 										<div class="drbox">
-											<div class="drimg"><img src="/images/camtic/img-dr3-2.png" alt=""></div>
+											<div class="drimg"><img src="/images/camtic/img-dr3-1-2.jpg" alt=""></div>
 											<div class="drtxt"><span>AI데이터 처리 시스템</span></div>
 										</div>
 										<div class="drbox">
-											<div class="drimg"><img src="/images/camtic/img-dr3-3.png" alt=""></div>
+											<div class="drimg"><img src="/images/camtic/img-dr3-1-3.jpg" alt=""></div>
 											<div class="drtxt"><span>드론조종시뮬레이터</span></div>
 										</div>
 										<div class="drbox">
-											<div class="drimg"><img src="/images/camtic/img-dr3-4.png" alt=""></div>
+											<div class="drimg"><img src="/images/camtic/img-dr3-1-4.png" alt=""></div>
 											<div class="drtxt"><span>현장지원지상 통제시스템</span></div>
 										</div>
-										<div class="drbox">
-											<div class="drimg"><img src="/images/camtic/img-dr3-5.png" alt=""></div>
+										<div class="drbox" <%--style="padding-top: 60px;"--%>>
+											<div class="drimg" style="padding-top: 40px;"><img src="/images/camtic/img-dr3-5.png" alt=""></div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="foot __fz20 __black" style="margin-top: 30px;">
-							시제품제작, 성능평가, AI 및 항공관제 등 드론의 기술혁신과 제품고도화를 위한 첨단장비 15종 구축<br class="__p">
-							공동활용 장비의 지원체계를 확립하고 제품개발을 위한 맞춤형 컨설팅과 함께 드론기술의<br class="__p">
+							시제품제작, 성능평가, AI 및 항공관제 등 드론의 기술혁신과 제품고도화를 위한 첨단장비 15종 구축 공동활용 장비의 지원체계를 <br class="__p">확립하고 제품개발을 위한 맞춤형 컨설팅과 함께 드론기술의
 							성능개선, 신제품 개발, 제품 고급화를 위한 애로기술 지원
 						</div>
 					</div>

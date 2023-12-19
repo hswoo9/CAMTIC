@@ -182,6 +182,8 @@ var rndRPR = {
         var parameters = {
             pjtSn : $("#pjtSn").val(),
             partRateSn : $("#partRateSn").val(),
+            joinMemberSn : $("#joinMemberSn").val(),
+            joinMemNm : $("#joinMember").val(),
             empName : $("#empName").val(),
             empSeq : $("#empSeq").val(),
             reqSort : "신규"

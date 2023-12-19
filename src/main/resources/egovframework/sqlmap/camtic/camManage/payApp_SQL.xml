@@ -15,6 +15,7 @@
                 BUDGET_SN,
                 APP_DE,
                 REQ_DE,
+                PAY_EXNP_DE,
                 APP_TITLE,
                 APP_CONT,
                 BNK_SN,
@@ -40,6 +41,7 @@
                 #{budgetSn},
                 #{appDe},
                 #{reqDe},
+                #{payExnpDe},
                 #{appTitle},
                 #{appCont},
                 #{bnkSn},
@@ -137,6 +139,7 @@
             PJT_CD = #{pjtCd},
             APP_DE = #{appDe},
             REQ_DE = #{reqDe},
+            PAY_EXNP_DE = #{payExnpDe},
             APP_TITLE = #{appTitle},
             APP_CONT = #{appCont},
             BNK_SN = #{bnkSn},
@@ -258,7 +261,7 @@
                 #{evidType},
                 #{reason},
                 <if test='fileNo != null and !"".equals(fileNo)'>
-                    FILE_NO,
+                    #{fileNo},
                 </if>
                 #{issNo},
                 #{coCd},
@@ -395,10 +398,10 @@
             A.*,
             B.DOC_NO,
             (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = A.PAY_APP_SN AND DET_STAT != "N") AS TOT_COST,
-            (SELECT REQ_EXNP_DE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN ORDER BY EXNP_SN DESC LIMIT 1) AS REQ_EXNP_DE,
             (SELECT REQ_END_DE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN ORDER BY EXNP_SN DESC LIMIT 1) AS REQ_END_DE,
             (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = A.PAY_APP_SN) AS ITEM_COUNT,
-            (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = A.PAY_APP_SN AND EXNP_SAVE = 'Y') AS EXNP_STATUS
+            (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = A.PAY_APP_SN AND EXNP_SAVE = 'Y') AS EXNP_STATUS,
+            (SELECT COUNT(*) FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN AND REQ_END_DE IS NOT NULL AND REQ_END_DE != "") AS EXNP_DOC_STATUS
         FROM
             CAM_MNG.DJ_PAY_APP A
         LEFT JOIN
@@ -830,7 +833,8 @@
         UPDATE
             CAM_MNG.DJ_EXNP
         SET
-            RE_STAT = "Y"
+            RE_STAT = "Y",
+            REQ_END_DE = DATE_FORMAT(SYSDATE(), '%Y-%m-%d')
         WHERE
             EXNP_SN = #{exnpSn}
     </update>

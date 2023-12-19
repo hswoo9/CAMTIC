@@ -3197,7 +3197,7 @@ img {max-width:100%;}
 .__drbox {background:#d5dce6;padding:12px 10px;display:flex;flex-wrap:wrap;gap:5px 8px;text-align:center;border-radius:10px;}
 .__drbox .drbox {width:calc(50% - 4px);flex-grow:1;overflow:hidden;}
 .__drbox .drbox .drimg {border-radius:10px 10px 0 0;overflow:hidden;}
-.__drbox .drbox .drimg img {width:100%;}
+.__drbox .drbox .drimg img {width:100%; height: 100%;}
 .__drbox .drbox .drtxt {border-radius:0 0 10px 10px;height:24px;background:#000;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;letter-spacing:-0.05em;}
 
 

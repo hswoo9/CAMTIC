@@ -83,14 +83,12 @@ var regExnp = {
         customKendo.fn_datePicker("reqDe", 'month', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("reqExDe", 'month', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("reqEndDe", 'month', "yyyy-MM-dd", new Date());
-        $("#DT1, #DT2, #DT3").attr("readonly", true);
         /** 회계발의일, 등기일자, 지출부기재 일자 폼 추가 */
         if($("#status").val() == "rev" || $("#status").val() == "in"){
             $("#dtTr").show();
             customKendo.fn_datePicker("DT1", 'month', "yyyy-MM-dd", new Date());
             customKendo.fn_datePicker("DT2", 'month', "yyyy-MM-dd", new Date());
             customKendo.fn_datePicker("DT3", 'month', "yyyy-MM-dd", new Date());
-            $("#DT1, #DT2, #DT3").attr("readonly", true);
         }
 
 
@@ -443,11 +441,12 @@ var regExnp = {
 
 
         $("#reqDe").val(rs.REQ_DE);
-        $("#DT3").val(rs.REQ_DE);
+        $("#DT3").val(rs.PAY_EXNP_DE);
         $("#reqExDe").val(rs.REQ_EXNP_DE);
-        $("#DT2").val(rs.REQ_DE)
+        $("#DT2").val(rs.APP_DE);
         $("#reqEndDe").val(rs.REQ_END_DE);
-        $("#DT1").val(rs.APP_DE)
+        $("#DT1").val(ls[0].TR_DE);
+
         for(var i=0; i < ls.length; i++){
             var item = ls[i];
 
@@ -538,6 +537,7 @@ var regExnp = {
                 var itemIndex = 0 ;
                 itemIndex = regExnpDet.global.itemIndex;
 
+
                 $("#eviType" + regExnpDet.global.itemIndex).kendoDropDownList({
                     dataTextField: "text",
                     dataValueField: "value",
@@ -587,6 +587,8 @@ var regExnp = {
                     ,"card" + regExnpDet.global.itemIndex]);
 
                 customKendo.fn_datePicker("trDe" + regExnpDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
+                $("#trDe" + itemIndex).val(item.TR_DE);
+
 
                 $("#eviType" + regExnpDet.global.itemIndex).data("kendoDropDownList").value(item.EVID_TYPE);
                 $("#eviType" + regExnpDet.global.itemIndex).data("kendoDropDownList").enable(false)
