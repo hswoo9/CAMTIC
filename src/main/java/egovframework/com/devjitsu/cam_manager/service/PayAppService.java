@@ -65,7 +65,7 @@ public interface PayAppService {
 
     List<Map<String, Object>> getDepositList(Map<String, Object> params);
 
-    void setPayDepo(Map<String, Object> params);
+    void setPayDepo(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
 
     Map<String, Object> getPayDepoData(Map<String, Object> params);
 

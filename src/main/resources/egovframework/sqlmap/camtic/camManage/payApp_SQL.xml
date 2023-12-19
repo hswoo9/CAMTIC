@@ -1342,6 +1342,11 @@
                 AFT_PJT_NM,
                 BUDGET_NM,
                 BUDGET_SN,
+                CRM_NM,
+                CRM_SN,
+                EVI_TYPE,
+                EMAIL,
+                DEPO_MANAGER,
                 DEPO_TITLE,
                 DEPO_CONT,
                 BNK_SN,
@@ -1363,6 +1368,11 @@
                 #{aftPjtNm},
                 #{budgetNm},
                 #{budgetSn},
+                #{crmNm},
+                #{crmSn},
+                #{eviType},
+                #{email},
+                #{depoManager},
                 #{depoTitle},
                 #{depoCont},
                 #{bnkSn},
@@ -1379,6 +1389,15 @@
         </selectKey>
     </insert>
 
+    <update id="updPayDepoFile" parameterType="map">
+        /*updPayDepoFile*/
+        UPDATE CAM_MNG.DJ_PAY_DEPO
+        SET
+            FILE_NO = #{file_no}
+        WHERE
+            PAY_DEPO_SN = #{payDepoSn}
+    </update>
+
     <update id="updPayDepo" parameterType="map">
         /*updPayDepo*/
         UPDATE CAM_MNG.DJ_PAY_DEPO
@@ -1391,6 +1410,11 @@
             AFT_PJT_NM = #{aftPjtNm},
             BUDGET_NM = #{budgetNm},
             BUDGET_SN = #{budgetSn},
+            CRM_NM = #{crmNm},
+            CRM_SN = #{crmSn},
+            EVI_TYPE = #{eviType},
+            EMAIL = #{email},
+            DEPO_MANAGER = #{depoManager},
             DEPO_TITLE = #{depoTitle},
             DEPO_CONT = #{depoCont},
             BNK_SN = #{bnkSn},
@@ -1411,13 +1435,18 @@
         SELECT
             A.*,
             B.*,
-            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.REG_EMP_SEQ) AS DEPO_EMP_NAME
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.REG_EMP_SEQ) AS DEPO_EMP_NAME,
+            C.*
         FROM
             CAM_MNG.DJ_PAY_DEPO A
         LEFT JOIN
             CAM_MNG.DJ_PAY_INCP B
         ON
             A.PAY_INCP_SN = B.PAY_INCP_SN
+        LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO C
+        ON
+            A.FILE_NO = C.FILE_NO
         WHERE
             PAY_DEPO_SN = #{payDepoSn}
     </select>

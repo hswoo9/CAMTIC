@@ -2,27 +2,48 @@ var userPartRate = {
 
 
     fn_defaultScript : function (){
+        var currentYear = new Date().getFullYear();
+
+        var yearList = [];
+        for (var i = currentYear - 10; i <= currentYear + 10; i++) {
+            yearList.push({ text: i.toString(), value: i.toString() });
+        }
+
+        $("#year").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: yearList,
+            index: 10,
+            change: function (e) {
+                userPartRate.fn_setData();
+            }
+        });
+
         userPartRate.fn_setData();
     },
 
 
     fn_setData : function (type){
+        var selStartDate = $("#year").data("kendoDropDownList").value() + "-01-01";
+        var selEndDate = $("#year").data("kendoDropDownList").value() + "-12-31";
+
         $("#rateFlag").val(type);
 
-        if($("#pjtStrDt").val() == ""){
+        /*if($("#pjtStrDt").val() == ""){
             var strDe = $("#bsStrDt").val().split("-");
             var endDe = $("#bsEndDt").val().split("-");
         } else {
             var strDe = $("#pjtStrDt").val().split("-");
             var endDe = $("#pjtEndDt").val().split("-");
-        }
+        }*/
 
+        var strDe = selStartDate.split("-");
+        var endDe = selEndDate.split("-");
 
         var diffMonth = (endDe[0] - strDe[0]) * 12 + (endDe[1] - strDe[1]) + 1;
 
         const projectStartMonth = strDe[0] + "-01";
         var date = new Date(projectStartMonth);
-
         $("#userPartRateHeader").html("");
         var hdHtml = "";
         hdHtml += '<th scope="row" class="text-center th-color">지원부처</th>';
@@ -49,7 +70,7 @@ var userPartRate = {
 
         var parameters = {
             empSeq : $("#userEmpSeq").val(),
-            strDe : $("#pjtStrDt").val(),
+            strDe : selStartDate,
             diffMon : diffMonth,
             strMonth : projectStartMonth + "-01",
         }
@@ -66,8 +87,6 @@ var userPartRate = {
             success : function (rs){
                 var salList = rs.userSalList;
                 var rs = rs.list;
-
-                console.log(salList);
 
                 $("#userPartRateBody").html("");
                 var bodyHtml = "";
