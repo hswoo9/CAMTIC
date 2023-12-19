@@ -76,6 +76,9 @@ var purcInfo = {
                     field: "PURC_REQ_PURPOSE",
                     template : function(e){
                         return e.PURC_REQ_PURPOSE
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>투자금액</div>";
                     }
                 }, {
                     title: "구매",
@@ -83,12 +86,6 @@ var purcInfo = {
                     template : function(e){
                         return e.CP_CNT + "건 / " + '<span style="color:red;">'+e.RP_CNT+'</span>' + "건"
                     },
-                    footerTemplate: function(){
-                        return "<div style='text-align: right'>투자금액</div>";
-                    }
-                }, {
-                    title: "외주",
-                    width: 100,
                     footerTemplate: function(){
                         const list = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: $("#pjtSn").val()}).list;
                         let invSum = 0;
@@ -165,9 +162,7 @@ var purcInfo = {
                     width: 100,
                     template: function(e){
                         console.log(e)
-                        if(e.CLAIM_STATUS == "CAYSY"){
-                            purcSum  += Number(e.PURC_ITEM_AMT_SUM);
-                        }
+                        purcSum  += Number(e.PURC_ITEM_AMT_SUM);
                         return "<div style='text-align: right'>"+comma(e.PURC_ITEM_AMT_SUM)+"</div>";
                     },
                     footerTemplate: function(){
@@ -223,21 +218,21 @@ var purcInfo = {
                     template: "#= --record #"
                 }, {
                     title: "품명",
-                    field: "PURC_ITEM_NAME",
+                    field: "ITEM_NM",
                 }, {
                     title: "규격",
-                    field: "PURC_ITEM_STD",
+                    field: "ITEM_STD",
                 }, {
                     title: "수량",
-                    field: "PURC_ITEM_QTY",
+                    field: "ITEM_EA",
                 }, {
                     title: "단위",
-                    field: "PURC_ITEM_UNIT",
+                    field: "ITEM_UNIT",
                 }, {
                     title: "단가",
-                    field: "PURC_ITEM_UNIT_PRICE",
+                    field: "ITEM_UNIT_AMT",
                     template: function(row){
-                        return fn_numberWithCommas(row.PURC_ITEM_UNIT_PRICE);
+                        return fn_numberWithCommas(row.ITEM_UNIT_AMT);
                     }
                 }, {
                     title: "업체",
@@ -254,32 +249,13 @@ var purcInfo = {
                     field: "STATUS",
                     width: 120,
                     template : function(e){
-                        var status = "";
+                        var status = "구매청구완료";
                         /** 구매요청서 */
-                        if(e.DOC_STATUS == "0"){
-                            status = "구매요청작성중";
-                        }else if(e.DOC_STATUS != "100" && e.DOC_STATUS != "101"){
-                            status = "구매요청작성중";
-                        }else if(e.DOC_STATUS == "100" || e.DOC_STATUS == "101"){
-                            status = "구매요청완료";
-
-                            /** 구매청구서 */
-                            if(e.CLAIM_STATUS == "CN"){
-                                status = "구매요청완료";
-                            }else if(e.CLAIM_STATUS == "CAN"){
-                                status = "구매청구작성중";
-                            }else if(e.CLAIM_STATUS == "CAYSN"){
-                                status = "구매청구작성중";
-                            }else if(e.CLAIM_STATUS == "CAYSY"){
-                                status = "구매청구완료";
-                            }
-
-                            if(e.INSPECT_YN == "Y"){
-                                if(e.INSPECT_STATUS != "100"){
-                                    status = "검수요청중";
-                                }else{
-                                    status = "<div style='font-weight: bold'>검수승인완료</div>";
-                                }
+                        if(e.INSPECT_YN == "Y"){
+                            if(e.INSPECT_STATUS != "100"){
+                                status = "검수요청중";
+                            }else{
+                                status = "<div style='font-weight: bold'>검수승인완료</div>";
                             }
                         }
                         return status
