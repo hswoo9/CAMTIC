@@ -20,7 +20,7 @@ var userPartRate = {
 
         var diffMonth = (endDe[0] - strDe[0]) * 12 + (endDe[1] - strDe[1]) + 1;
 
-        const projectStartMonth = strDe[0] + "-" + strDe[1];
+        const projectStartMonth = strDe[0] + "-01";
         var date = new Date(projectStartMonth);
 
         $("#userPartRateHeader").html("");
@@ -31,9 +31,9 @@ var userPartRate = {
         hdHtml += '<th scope="row" class="text-center th-color">참여구분</th>';
         hdHtml += '<th scope="row" class="text-center th-color">5공3책</th>';
 
-        if(diffMonth > 12){
+        // if(diffMonth > 12){
             diffMonth = 12;
-        }
+        // }
         for(var i = 0 ; i < diffMonth ; i++){
             var dtMonth = date.getMonth() + 1;
             if(dtMonth.toString().length == 1){

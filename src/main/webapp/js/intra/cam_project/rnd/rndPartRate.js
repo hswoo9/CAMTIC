@@ -269,7 +269,7 @@ var rndPR = {
                 memHtml += '<tr style="text-align: center" class="bodyTr">';
                 memHtml += '   <td>'+gubun+'<input type="hidden" name="partEmpSeq" value="'+mem[i].EMP_SEQ+'" /></td>';
                 memHtml += '   <td>' + mem[i].EMP_NAME + '<input type="hidden" name="partEmpName" value="'+mem[i].EMP_NAME+'" /></td>';
-                memHtml += '   <td style="text-align: right">' + uncomma(bsSal) + '</td>';
+                memHtml += '   <td style="text-align: right">' + comma(bsSal) + '</td>';
                 memHtml += '   <td>';
                 memHtml += '        <input type="text" id="memChngSal'+i+'" name="chngSal" value="'+comma(totAmt)+'" style="text-align: right" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" disabled />';
                 memHtml += '   </td>';
@@ -345,10 +345,10 @@ var rndPR = {
         lastHtml += '    <td colspan="8" style="background-color: #8fa1c04a;">합계</td>';
         lastHtml += '    <td><input type="text" style="text-align: right; width: 100px;" disabled value="0" id="total" /></td>';
         lastHtml += '    <td style="background-color: #8fa1c04a;"></td>';
-        lastHtml += '    <td><input type="text" style="text-align: right;width: 100px;" disabled value="0" id="total2" /></td>';
+        lastHtml += '    <td><input type="text" style="text-align: right;width: 100px;" disabled value="0" id="itemTotPay" /></td>';
         lastHtml += '    <td style="background-color: #8fa1c04a;"></td>';
         lastHtml += '    <td><input type="text" style="text-align: right" disabled value="0" id="allPayTotal" /></td>';
-        lastHtml += '    <td><input type="text" style="text-align: right; width: 100px;" disabled value="0" id="total3" /></td>';
+        lastHtml += '    <td><input type="text" style="text-align: right; width: 100px;" disabled value="0" id="monthTotPay" /></td>';
         lastHtml += '    <td style="background-color: #8fa1c04a;"></td>';
         lastHtml += '</tr>';
 
@@ -356,7 +356,7 @@ var rndPR = {
 
         $("#empList").val(empList);
 
-        customKendo.fn_textBox(["allPayTotal","total","total2","total3"]);
+        customKendo.fn_textBox(["allPayTotal", "total", "itemTotPay", "monthTotPay"]);
 
         /*var allPayTotal = 0;
         $("input[name='payTotal']").each(function(){
@@ -366,8 +366,8 @@ var rndPR = {
 
         rndPR.sumValues("input[name='payTotal']", "#allPayTotal");
         rndPR.sumValues("input[name='totPayBudget']", "#total"); // 현금-인건비(원)
-        rndPR.sumValues("input[name='totItemBudget']", "#total2"); // 현물-인건비(원)
-        rndPR.sumValues("input[name='monSal']", "#total3"); // 월인건비(원)
+        rndPR.sumValues("input[name='totItemBudget']", "#itemTotPay"); // 현물-인건비(원)
+        rndPR.sumValues("input[name='monSal']", "#monthTotPay"); // 월인건비(원)
 
 
         $("#viewSubBtn").css("display", "");

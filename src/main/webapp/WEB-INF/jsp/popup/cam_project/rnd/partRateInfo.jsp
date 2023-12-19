@@ -101,7 +101,7 @@
             </thead>
             <tbody id="partRateVersion2">
             <tr>
-                <td colspan="10" style="text-align: center">
+                <td colspan="11" style="text-align: center">
                     <span class="red-star"></span>작성된 참여율이 없습니다.
                 </td>
             </tr>
@@ -112,7 +112,7 @@
     <div class="table-responsive" style="margin-top: 10px;">
         <button type="button" id="reqBtn" style="float: right; margin-bottom: 5px; display: none" class="k-button k-button-solid-base" onclick="rndRPR.fn_reqPartRate()">요청</button>
         <button type="button" id="changeBtn" style="float: right; margin-bottom: 5px; display: none" class="k-button k-button-solid-base" onclick="rndRPR.fn_changePartRate()">변경요청</button>
-        <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px; margin-right:5px; display: none" class="k-button k-button-solid-info" onclick="rndRPR.fn_save()">저장</button>
+        <button type="button" id="saveRateBtn" style="float: right; margin-bottom: 5px; margin-right:5px; display: none" class="k-button k-button-solid-info" onclick="rndRPR.fn_save()">저장</button>
         <button type="button" id="changeSaveBtn" style="float: right; margin-bottom: 5px; margin-right:5px; display: none" class="k-button k-button-solid-info" onclick="rndRPR.fn_save('change')">변경</button>
         <br><br>
 
