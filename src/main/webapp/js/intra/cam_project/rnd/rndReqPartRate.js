@@ -189,8 +189,8 @@ var rndRPR = {
             partRateSn : $("#partRateSn").val(),
             joinMemberSn : $("#joinMemberSn").val(),
             joinMemNm : $("#joinMember").val(),
-            empName : $("#empName").val(),
-            empSeq : $("#empSeq").val(),
+            empName : $("#verEmpName").val(),
+            empSeq : $("#verEmpSeq").val(),
             reqSort : "신규"
         }
 
@@ -287,7 +287,6 @@ var rndRPR = {
                 }
 
                 var buttonHtml = "";
-                console.log(ls[i].status);
                 var buttonSubHtml = "";
                 if(ls[i].PART_RATE_VER > 1 && (ls[i].MNG_STAT == "S" || ls[i].MNG_STAT == "C")){
                     var status = ls[i].STATUS;
@@ -320,7 +319,6 @@ var rndRPR = {
                 html += '</tr>';
             }
 
-            console.log("VERSION::"+ls[0].VER_NUM);
             $("#titleVersionName").text("[참여율현황 버전 - ver" + ls[0].VER_NUM + "]");
 
             $("#partRateVersion").append(html);
