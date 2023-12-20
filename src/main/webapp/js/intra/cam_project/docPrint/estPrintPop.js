@@ -148,17 +148,29 @@ const estPrintPop = {
         }
 
         /** 4. 견적 합계 */
+
+
+        /** 견적가 500*/
+        /** 미포함 500 50 550*/
         const supAmtSum2 = Math.floor(supAmtSum/10);
-        const supAmtSum1 = supAmtSum - supAmtSum2;
-        /** 부가세 포함 500 0 500*/
+
+        /** 포함 455 45 500*/
+        const supAmtSum3 = Math.ceil(supAmtSum / 1.1);
+        const supAmtSum4 = supAmtSum - supAmtSum3;
+
+        /** 면세 500 0 500*/
         console.log(estMap.VAT);
-        if(estMap.VAT == "Y"){
+        if(estMap.VAT == "N"){
             estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum));
-            estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", "0");
+            estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", fn_numberWithCommas(supAmtSum2));
+            estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum+supAmtSum2));
+        }else if(estMap.VAT == "Y"){
+            estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum3));
+            estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", fn_numberWithCommas(supAmtSum4));
             estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum));
         }else{
-            estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum1));
-            estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", fn_numberWithCommas(supAmtSum2));
+            estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum));
+            estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", "0");
             estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum));
         }
         estPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM_TEXT", "총 견적금액 : "+fn_numberWithCommas(supAmtSum)+" 원");

@@ -115,16 +115,27 @@ const goodsPrint = {
             supAmtSum += estSubList[i].SUP_AMT;
         }
 
-        /** 4. 견적 합계 */
+        /** 견적가 500*/
+        /** 미포함 500 50 550*/
         const supAmtSum2 = Math.floor(supAmtSum/10);
-        const supAmtSum1 = supAmtSum - supAmtSum2;
-        if(estMap.VAT == "Y"){
+
+        /** 포함 455 45 500*/
+        const supAmtSum3 = Math.ceil(supAmtSum / 1.1);
+        const supAmtSum4 = supAmtSum - supAmtSum3;
+
+        /** 면세 500 0 500*/
+        console.log(estMap.VAT);
+        if(estMap.VAT == "N"){
             goodsPrint.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum));
-            goodsPrint.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", "0");
+            goodsPrint.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", fn_numberWithCommas(supAmtSum2));
+            goodsPrint.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum+supAmtSum2));
+        }else if(estMap.VAT == "Y"){
+            goodsPrint.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum3));
+            goodsPrint.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", fn_numberWithCommas(supAmtSum4));
             goodsPrint.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum));
         }else{
-            goodsPrint.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum1));
-            goodsPrint.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", fn_numberWithCommas(supAmtSum2));
+            goodsPrint.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum));
+            goodsPrint.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", "0");
             goodsPrint.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum));
         }
 
