@@ -2755,13 +2755,14 @@
         SELECT
             *
         FROM
-            CAM_PJT_MNG.DJ_PROJECT A
-        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_TEAM_VERSION C
+                LEFT JOIN
             CAM_PJT_MNG.DJ_PJT_TEAM B
-        ON
-            A.PNT_PJT_SN = B.PJT_SN AND B.TM_TYPE = '1'
+            ON
+                B.TEAM_VERSION_SN = C.TEAM_VERSION_SN AND B.TM_TYPE = '1'
         WHERE
-            A.PNT_PJT_SN = #{pjtSn}
+            B.PJT_SN = #{pjtSn}
+          AND B.TEAM_VERSION_SN = (SELECT TEAM_VERSION_SN FROM CAM_PJT_MNG.DJ_PJT_TEAM_VERSION WHERE PJT_SN = #{pjtSn} ORDER BY TEAM_VERSION_SN DESC LIMIT 1)
     </select>
 
     <select id="partRateEmpInfo" parameterType="map" resultType="map">
