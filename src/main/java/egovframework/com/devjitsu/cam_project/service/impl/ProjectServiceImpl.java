@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Stream;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -1121,7 +1122,32 @@ public class ProjectServiceImpl implements ProjectService {
             }
         }
 
-        result.put("projectMemberInfo", projectMemberInfo);
+        List<Map<String, Object>> manageArr = new ArrayList<>();
+        List<Map<String, Object>> nonManageArr = new ArrayList<>();
+        boolean flag = true;
+
+        for(Map<String, Object> data2 : projectMemberInfo){
+            if(data2.containsKey("GUBUN")){
+                if(data2.get("GUBUN").toString().equals("책임자")){
+                    manageArr.add(data2);
+                }else{
+                    nonManageArr.add(data2);
+                }
+            }else{
+                flag = false;
+                break;
+            }
+        }
+
+        List<Map<String, Object>> finalList = new ArrayList<>(manageArr);
+        finalList.addAll(nonManageArr);
+
+        if(flag) {
+            result.put("projectMemberInfo", finalList);
+        }else{
+            result.put("projectMemberInfo", projectMemberInfo);
+        }
+
         return result;
     }
 

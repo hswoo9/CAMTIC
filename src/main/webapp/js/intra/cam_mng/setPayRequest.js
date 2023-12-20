@@ -18,7 +18,7 @@ var spr = {
                 var bustAmt = uncomma($("#bustAmt").val());
 
                 if(supAmt > 125000){
-                    $("#incomeAmt").val(comma(Math.floor((Number(supAmt) - Number(bustAmt)) * (20 / 100))));
+                    $("#incomeAmt").val(comma(Math.floor((Number(supAmt) - (Number(supAmt) * (Number(bustAmt) / 100))) * (Number(vatAmt) / 100))));
                     var incomeAmt = uncomma($("#incomeAmt").val());
 
                     $("#locIncomeAmt").val(comma(Math.floor(Number(incomeAmt) * (10 / 100))));
@@ -35,7 +35,7 @@ var spr = {
 
 
                 $("#supAllAmt").val(comma(Number(incomeAmt) + Number(locIncomeAmt)));
-                $("#totAmt").val(comma(Number(supAmt) - Number(incomeAmt) + Number(locIncomeAmt)));
+                $("#totAmt").val(comma(Number(supAmt) - Number(incomeAmt) - Number(locIncomeAmt)));
             } else {
                 var supAmt = uncomma($("#supAmt").val());
                 var vatAmt = uncomma($("#vatAmt").val());
@@ -47,7 +47,7 @@ var spr = {
                 var locIncomeAmt = uncomma($("#locIncomeAmt").val());
 
                 $("#supAllAmt").val(comma(Number(incomeAmt) + Number(locIncomeAmt)));
-                $("#totAmt").val(comma(Number(supAmt) - Number(incomeAmt) + Number(locIncomeAmt)))
+                $("#totAmt").val(comma(Number(supAmt) - Number(incomeAmt) - Number(locIncomeAmt)))
             }
         });
 
