@@ -26,6 +26,7 @@ var unRndInit = {
         hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_NM);
         hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(Number(delvMap.TOT_RES_COST) + Number(delvMap.PEO_RES_ITEM)));
         hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(delvMap.TOT_RES_COST));
+        hwpDocCtrl.putFieldText('PEO_RES_ITEM', delvMap.PEO_RES_ITEM == 0 ? "0" : fn_numberWithCommas(delvMap.PEO_RES_ITEM));
         const htmlG20 = rndInit.htmlCustomG20(customG20, delvMap.TOT_RES_COST);
         hwpDocCtrl.moveToField('content', true, true, false);
         hwpDocCtrl.setTextFile(htmlG20, "HTML", "insertfile", {});
@@ -57,6 +58,7 @@ var unRndInit = {
         hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_NM);
         hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(Number(delvMap.TOT_RES_COST) + Number(delvMap.PEO_RES_ITEM)));
         hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(delvMap.TOT_RES_COST));
+        hwpDocCtrl.putFieldText('PEO_RES_ITEM', delvMap.PEO_RES_ITEM == 0 ? "0" : fn_numberWithCommas(delvMap.PEO_RES_ITEM));
 
         if(map.TM_YN == "Y"){
             const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: pjtSn});
@@ -183,6 +185,7 @@ var unRndInit = {
         hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_NM);
         hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(Number(delvMap.TOT_RES_COST) + Number(delvMap.PEO_RES_ITEM)));
         hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(delvMap.TOT_RES_COST));
+        hwpDocCtrl.putFieldText('PEO_RES_ITEM', delvMap.PEO_RES_ITEM == 0 ? "0" : fn_numberWithCommas(delvMap.PEO_RES_ITEM));
 
         const date = new Date();
         const year = date.getFullYear().toString().substring(2,4);

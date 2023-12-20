@@ -365,11 +365,10 @@ var unRndDetail = {
         if(unRndMap != null){
             let status = unRndMap.STATUS
             if(status == "0"){
-                buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"unRndDetail.fn_save()\">저장</button>";
-
                 const pjtResult = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn : $("#pjtSn").val()});
                 const pjtMap = pjtResult.map;
                 if(pjtMap.DELV_APPROVE_STAT == 0){
+                    buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"unRndDetail.fn_save()\">저장</button>";
                     buttonHtml += "<button type=\"button\" id=\"delvApp2Btn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">코드승인요청</button>";
                 }else if(pjtMap.DELV_APPROVE_STAT == 100){
                     buttonHtml += "<button type=\"button\" id=\"delvAppBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"unRndDetail.delvDrafting()\">상신</button>";
