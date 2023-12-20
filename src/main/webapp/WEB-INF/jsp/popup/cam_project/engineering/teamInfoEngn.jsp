@@ -48,7 +48,7 @@
 
     <div id="teamDetailBtnDiv" class="detail" style="margin-top: 20px; display: none"></div>
     <div class="table-responsive detail" style="display: none">
-        <table class="popTable table table-bordered mb-0" style="margin-top: 0px">
+        <table class="teamGrid popTable table table-bordered mb-0" style="margin-top: 0px">
             <colgroup>
                 <col width="5%">
                 <col width="5%">

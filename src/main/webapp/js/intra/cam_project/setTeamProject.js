@@ -143,7 +143,7 @@ var setTeamPjt = {
         const myPer = Math.round(Number(myAmt) / Number(delvAmt) * 100) + "%";
 
         /** 자가 예상수익 */
-        const myIncomePer = Math.round(100 - Number(myMap.TM_INV_AMT / uncomma(delvAmt) * 100)) + "%";
+        const myIncomePer = Math.round(100 - Number(myMap.TM_INV_AMT / uncomma(myAmt) * 100)) + "%";
 
         $("#myTmSn").val(myMap.TM_SN);
 

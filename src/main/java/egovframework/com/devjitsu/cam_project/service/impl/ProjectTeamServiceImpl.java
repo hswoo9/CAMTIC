@@ -53,10 +53,17 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
 
     @Override
     public void setTeamAddVersion(Map<String, Object> params) {
-        projectTeamRepository.setTeamAddVersion(params);
-
-        /** 버전 저장 후 자가 부서 정보 insert */
-        projectTeamRepository.setTeamDelv(params);
+        if(!params.containsKey("ck")){
+            projectTeamRepository.setTeamAddVersion(params);
+            /** 최초 버전 저장 후 자가 부서 정보 insert */
+            projectTeamRepository.setTeamDelv(params);
+        }else{
+            /** 이전 버전 정보 불러온 이후에 추가 버전 저장 후 붙혀넣기 */
+            List<Map<String, Object>> list = projectTeamRepository.getTeamVersion(params);
+            params.put("LAST_TEAM_VERSION_SN", list.get(list.size()-1).get("TEAM_VERSION_SN").toString());
+            projectTeamRepository.setTeamAddVersion(params);
+            projectTeamRepository.setTeamCopy(params);
+        }
     }
 
     @Override
@@ -76,8 +83,13 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
         if(params.get("stat").toString().equals("100")){
             params.put("teamCk", "1");
             List<Map<String, Object>> list = projectTeamRepository.getTeamList(params);
-            for(int i=0; i>list.size(); i++){
-                projectTeamRepository.setTeamProject(list.get(i));
+            for(int i=0; i<list.size(); i++){
+                /** WORK_TYPE : I면 insert U면 update*/
+                if(list.get(i).get("WORK_TYPE").equals("I")){
+                    projectTeamRepository.insTeamProject(list.get(i));
+                }else if(list.get(i).get("WORK_TYPE").equals("U")){
+                    projectTeamRepository.setTeamProject(list.get(i));
+                }
             }
         }
     }

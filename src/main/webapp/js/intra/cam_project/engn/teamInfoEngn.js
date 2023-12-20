@@ -20,29 +20,92 @@ var teamEngn = {
 
         const verList = customKendo.fn_customAjax("/project/team/getTeamVersion", data).list;
 
+        let amtText = "";
+        if(pjtMap.PJT_STEP < "E3" && delvMap != null){
+            amtText = comma(delvMap.DELV_AMT);
+        }else if(pjtMap.PJT_STEP >= "E3"){
+            amtText = comma(pjtMap.PJT_AMT);
+        }else{
+            amtText = comma(setParameters.EXP_AMT);
+        }
+
         let html = '';
         for(let i=0; i<verList.length; i++){
             const verMap = verList[i];
-            html += '<tr>';
-            html += '    <td style="text-align: center"><span style="font-weight: bold; cursor: pointer" onclick="">Ver.'+(i+1)+'</span></td>';
-            html += '    <td>'+pjtMap.PJT_NM+'</td>';
-            let amtText = "";
-            if(pjtMap.PJT_STEP < "E3" && delvMap != null){
-                amtText = comma(delvMap.DELV_AMT);
-            }else if(pjtMap.PJT_STEP >= "E3"){
-                amtText = comma(pjtMap.PJT_AMT);
+            if(verMap.STATUS != "100"){
+                html += '<tr>';
+                html += '    <td style="text-align: center"><span style="font-weight: bold; cursor: pointer" onclick="teamEngn.fn_versionSet('+verMap.TEAM_VERSION_SN+');">Ver.'+(i+1)+'</span></td>';
+                html += '    <td>'+pjtMap.PJT_NM+'</td>';
+                html += '    <td id="totalAmt'+verMap.TEAM_VERSION_SN+'" style="text-align: right">'+amtText+'</td>';
+                html += '    <td style="text-align: center">'+commonProject.getDept(verMap.REG_EMP_SEQ)+'</td>';
+                html += '    <td style="text-align: center">'+verMap.REG_DATE+'</td>';
+                html += '    <td style="text-align: center">-</td>';
+                html += '    <td style="text-align: center">-</td>';
+                html += '    <td style="text-align: center">-</td>';
+                html += '    <td style="text-align: center">-</td>';
+                html += '    <td style="text-align: center">-</td>';
+                html += '</tr>';
             }else{
-                amtText = comma(setParameters.EXP_AMT);
+                const teamVersionSn = verMap.TEAM_VERSION_SN;
+                /** 선택한 버전 협업리스트 */
+                const data = {
+                    pjtSn: $("#pjtSn").val(),
+                    teamVersionSn: teamVersionSn
+                }
+                const teamList = customKendo.fn_customAjax("/project/team/getTeamList", data).list;
+                const myMap = teamList[0];
+                const leftResult = customKendo.fn_customAjax("/project/team/getVerLeftAmt", data);
+                const leftMap = leftResult.data;
+
+                /** 총예산 */
+                const delvAmt = uncomma(amtText);
+                /** 협업 예산 */
+                const leftAmt = leftMap.TM_AMT_SUM;
+                /** 자가 배분금액 */
+                const myAmt = Number(delvAmt) - Number(leftAmt);
+                /** 자가 배분비율 */
+                const myPer = Math.round(Number(myAmt) / Number(delvAmt) * 100) + "%";
+                /** 자가 예상수익 */
+                const myIncomePer = Math.round(100 - Number(myMap.TM_INV_AMT / uncomma(delvAmt) * 100)) + "%";
+
+                html += '<tr>';
+                html += '    <td rowspan="'+teamList.length+'" style="text-align: center"><span style="font-weight: bold; cursor: pointer" onclick="teamEngn.fn_versionSet('+verMap.TEAM_VERSION_SN+');">Ver.'+(i+1)+'</span></td>';
+                html += '    <td rowspan="'+teamList.length+'">'+pjtMap.PJT_NM+'</td>';
+                html += '    <td rowspan="'+teamList.length+'" id="totalAmt'+verMap.TEAM_VERSION_SN+'" style="text-align: right">'+amtText+'</td>';
+                html += '    <td rowspan="'+teamList.length+'" style="text-align: center">'+commonProject.getDept(verMap.REG_EMP_SEQ)+'</td>';
+                html += '    <td rowspan="'+teamList.length+'" style="text-align: center">'+verMap.REG_DATE+'</td>';
+                /** 배분금액(매출) */
+                html += '    <td style="text-align: right"><span>'+comma(myAmt)+'</span></td>';
+                /** 배분비율 */
+                html += '    <td style="text-align: right"><span>'+myPer+'</span></td>';
+                /** 예상비용 */
+                html += '    <td style="text-align: right">'+comma(myMap.TM_INV_AMT)+'</td>';
+                /** 예상수익 */
+                html += '    <td style="text-align: right"><span id="myIncomePer_'+myMap.TM_SN+'">'+myIncomePer+'</span></td>';
+                html += '    <td style="text-align: center">-</td>';
+                html += '</tr>';
+
+                /** 협업 정보 */
+                for(let i=1; i<teamList.length; i++){
+                    const teamMap = teamList[i];
+                    html += '<tr>';
+                    /** 배분금액(매출) */
+                    html += '    <td style="text-align: right"><span style="position: relative; top: 5px">'+comma(teamMap.TM_AMT)+'</span></td>';
+                    const teamAmt = teamMap.TM_AMT;
+                    const teamPer = (100 - Math.round(100 - Number(teamAmt) / Number(delvAmt) * 100)) + "%";
+                    /** 배분비율 */
+                    html += '    <td style="text-align: right"><span style="position: relative; top: 5px">'+teamPer+'</span></td>';
+                    /** 예상비용 */
+                    html += '    <td style="text-align: right"><span style="position: relative; top: 5px">'+comma(teamMap.TM_INV_AMT)+'</span></td>';
+                    const teamInvAmt = teamMap.TM_INV_AMT;
+                    const teamIncomePer = Math.round(100 - Number(teamInvAmt) / Number(teamAmt) * 100) + "%";
+                    /** 예상수익 */
+                    html += '    <td style="text-align: right"><span style="position: relative; top: 5px">'+teamIncomePer+'</span></td>';
+                    html += '    <td style="text-align: center"><button type="button" class="k-button k-button-solid-info" onclick="">협업보고서</button></td>';
+                    html += '</tr>';
+                }
             }
-            html += '    <td id="totalAmt'+verMap.TEAM_VERSION_SN+'" style="text-align: right">'+amtText+'</td>';
-            html += '    <td style="text-align: center">'+commonProject.getDept(verMap.REG_EMP_SEQ)+'</td>';
-            html += '    <td style="text-align: center">'+verMap.REG_DATE+'</td>';
-            html += '    <td style="text-align: center">-</td>';
-            html += '    <td style="text-align: center">-</td>';
-            html += '    <td style="text-align: center">-</td>';
-            html += '    <td style="text-align: center">-</td>';
-            html += '    <td style="text-align: center">-</td>';
-            html += '</tr>';
+
         }
         $("#verRow").append(html);
 
@@ -96,7 +159,7 @@ var teamEngn = {
         const myPer = Math.round(Number(myAmt) / Number(delvAmt) * 100) + "%";
 
         /** 자가 예상수익 */
-        const myIncomePer = Math.round(100 - Number(myMap.TM_INV_AMT / uncomma(delvAmt) * 100)) + "%";
+        const myIncomePer = Math.round(100 - Number(myMap.TM_INV_AMT / uncomma(myAmt) * 100)) + "%";
 
         $("#myTmSn").val(myMap.TM_SN);
 
@@ -113,9 +176,9 @@ var teamEngn = {
         /** 담당자(PM) */
         html += '    <td style="text-align: center"><span style="position: relative; top: 5px">'+commonProject.getName(myMap.TM_PM_SEQ)+'</span></td>';
         /** 총예산 */
-        html += '    <td id="nowTotalAmt'+myMap.TM_SN+'" style="text-align: right"><span style="position: relative; top: 5px">'+comma(delvAmt)+'</td>';
+        html += '    <td style="text-align: right"><span id="nowTotalAmt'+myMap.TM_SN+'" style="position: relative; top: 5px">'+comma(delvAmt)+'</td>';
         /** 배분금액(매출) */
-        html += '    <td style="text-align: right"><span style="position: relative; top: 5px">'+comma(myAmt)+'</span></td>';
+        html += '    <td style="text-align: right"><span id="nowAmt'+myMap.TM_SN+'" style="position: relative; top: 5px">'+comma(myAmt)+'</span></td>';
         /** 배분비율 */
         html += '    <td style="text-align: right"><span style="position: relative; top: 5px">'+myPer+'</span></td>';
         /** 예상비용 */
@@ -140,30 +203,30 @@ var teamEngn = {
             /** 체크박스 */
             html += '    <td style="text-align: center"><input type="checkbox" id="ch_'+teamMap.TM_SN+'" style="position: relative; top: 2px"/></td>';
             /** 구분 */
-            html += '    <td style="text-align: center"><spa>협업</span></td>';
+            html += '    <td style="text-align: center"><span>협업</span></td>';
             /** 팀 */
-            html += '    <td style="text-align: center"><spa>'+commonProject.getDept(teamMap.TM_PM_SEQ)+'</span></td>';
+            html += '    <td style="text-align: center"><span>'+commonProject.getDept(teamMap.TM_PM_SEQ)+'</span></td>';
             /** 담당자(PM) */
-            html += '    <td style="text-align: center"><spa>'+commonProject.getName(teamMap.TM_PM_SEQ)+'</span></td>';
+            html += '    <td style="text-align: center"><span>'+commonProject.getName(teamMap.TM_PM_SEQ)+'</span></td>';
             /** 총예산 */
-            html += '    <td style="text-align: right"><spa>'+$("#totalAmt"+teamVersionSn).text()+'</td>';
+            html += '    <td style="text-align: right"><span>'+$("#totalAmt"+teamVersionSn).text()+'</td>';
             /** 배분금액(매출) */
-            html += '    <td style="text-align: right"><spa>'+comma(teamMap.TM_AMT)+'</span></td>';
+            html += '    <td style="text-align: right"><span>'+comma(teamMap.TM_AMT)+'</span></td>';
             const delvAmt = uncomma($("#totalAmt"+teamVersionSn).text());
             const teamAmt = teamMap.TM_AMT;
             const teamPer = (100 - Math.round(100 - Number(teamAmt) / Number(delvAmt) * 100)) + "%";
             /** 배분비율 */
-            html += '    <td style="text-align: right"><spa>'+teamPer+'</span></td>';
+            html += '    <td style="text-align: right"><span>'+teamPer+'</span></td>';
             /** 예상비용 */
-            html += '    <td style="text-align: right"><spa>'+comma(teamMap.TM_INV_AMT)+'</span></td>';
+            html += '    <td style="text-align: right"><span>'+comma(teamMap.TM_INV_AMT)+'</span></td>';
             const teamInvAmt = teamMap.TM_INV_AMT;
             const teamIncomePer = Math.round(100 - Number(teamInvAmt) / Number(teamAmt) * 100) + "%";
             /** 예상수익 */
-            html += '    <td style="text-align: right"><spa>'+teamIncomePer+'</span></td>';
+            html += '    <td style="text-align: right"><span>'+teamIncomePer+'</span></td>';
             /** PM */
-            html += '    <td style="text-align: center"><spa>미승인</span></td>';
+            html += '    <td style="text-align: center"><span>미승인</span></td>';
             /** 팀장 */
-            html += '    <td style="text-align: center"><spa>미승인</span></td>';
+            html += '    <td style="text-align: center"><span>미승인</span></td>';
             html += '</tr>';
             $("#detailRow").append(html);
         }
@@ -181,7 +244,7 @@ var teamEngn = {
             }else if(status == 10){
                 buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-error" onclick="teamAjax.fn_approve(0)">승인요청 취소</button>';
             }else if(status == 100){
-                buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="teamAjax.fn_addVersion()">버전추가</button>';
+                buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="teamAjax.fn_addVersion(\'new\')">버전추가</button>';
             }
         }else{
             buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="teamAjax.fn_addVersion()">버전추가</button>';
@@ -189,11 +252,19 @@ var teamEngn = {
         $("#teamBtnDiv").html(buttonHtml);
     },
 
-    fn_detailBtnSet : function(){
+    fn_detailBtnSet : function(verMap){
         let buttonHtml = '';
-        buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-error" onclick="">삭제</button>';
-        buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-info" onclick="teamAjax.fn_save()">저장</button>';
-        buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-info" onclick="teamEngn.fn_teamReqPop()">협업등록</button>';
+        if(verMap != null){
+            const status = verMap.STATUS;
+            if(!(status == 10 || status == 100)){
+                buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-error" onclick="">삭제</button>';
+                buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-info" onclick="teamAjax.fn_save()">저장</button>';
+                buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-info" onclick="teamEngn.fn_teamReqPop()">협업등록</button>';
+            }else{
+                /** disabled */
+                $("input").attr("disabled", "disabled");
+            }
+        }
         $("#teamDetailBtnDiv").html(buttonHtml);
     },
 
@@ -201,8 +272,8 @@ var teamEngn = {
         var index = obj.id.split("_")[1];
         if(obj.id.match("myInvAmt")){
             const invAmt = uncomma(obj.value);
-            const nowTotalAmt = uncomma($("#nowTotalAmt"+index).text());
-            const returnVal = Math.round(100 - Number(invAmt) / Number(nowTotalAmt) * 100);
+            const nowAmt = uncomma($("#nowAmt"+index).text());
+            const returnVal = Math.round(100 - Number(invAmt) / Number(nowAmt) * 100);
             $("#myIncomePer_"+index).text(returnVal+"%");
         }
 

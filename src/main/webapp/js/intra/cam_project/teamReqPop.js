@@ -31,7 +31,9 @@ var teamReq = {
         $("#delvAmtTmp").val(comma(amtText));
 
         /** 수주부서 남은 잔액 조회 */
+        data.teamVersionSn = $("#teamVersionSn").val()
         const leftResult = customKendo.fn_customAjax("/project/team/getVerLeftAmt", data);
+        console.log(leftResult);
         const leftMap = leftResult.data;
         let leftAmt = leftMap.TM_AMT_SUM;
         $("#leftAmt").val(Number(amtText)-Number(leftAmt));

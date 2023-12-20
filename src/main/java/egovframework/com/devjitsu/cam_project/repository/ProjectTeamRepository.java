@@ -41,8 +41,16 @@ public class ProjectTeamRepository extends AbstractDAO {
         insert("projectTeam.setTeam", params);
     }
 
+    public void setTeamCopy(Map<String, Object> params) {
+        insert("projectTeam.setTeamCopy", params);
+    }
+
+    public void insTeamProject(Map<String, Object> params) {
+        insert("projectTeam.insTeamProject", params);
+    }
+
     public void setTeamProject(Map<String, Object> params) {
-        insert("projectTeam.setTeamProject", params);
+        update("projectTeam.setTeamProject", params);
     }
 
     public void updTeamVersionAppStat(Map<String, Object> params) {

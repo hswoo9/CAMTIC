@@ -7,7 +7,7 @@ var teamAjax = {
 
     },
 
-    fn_addVersion : function (){
+    fn_addVersion : function (ck){
         if(!confirm("새 버전을 추가하시겠습니까?")){
             return;
         }
@@ -17,6 +17,10 @@ var teamAjax = {
             regEmpSeq: $("#regEmpSeq").val(),
 
             tmType : 0,
+        }
+
+        if(ck != null){
+            parameters.ck = ck;
         }
 
         const result = customKendo.fn_customAjax("/project/team/setTeamAddVersion", parameters);

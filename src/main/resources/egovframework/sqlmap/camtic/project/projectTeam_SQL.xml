@@ -52,7 +52,7 @@
             CAM_PJT_MNG.DJ_PJT_TEAM PT
         WHERE PJT_SN = #{pjtSn}
           AND TEAM_VERSION_SN = #{teamVersionSn}
-          AND TM_TYPE != "0"
+          AND TM_TYPE = '1'
     </select>
 
     <insert id="setTeamAddVersion" parameterType="map">
@@ -138,7 +138,34 @@
             )
     </insert>
 
-    <insert id="setTeamProject" parameterType="map">
+    <insert id="setTeamCopy" parameterType="map">
+        /* setTeamCopy */
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_TEAM
+            (
+                TEAM_VERSION_SN,
+                PJT_SN,
+                TM_TYPE,
+                TM_TEAM_SEQ,
+                TM_PM_SEQ,
+                TM_AMT,
+                TM_INV_AMT,
+                REG_EMP_SEQ,
+                WORK_TYPE
+            )
+        SELECT
+            #{teamVersionSn},
+            PJT_SN,
+            TM_TYPE,
+            TM_TEAM_SEQ,
+            TM_PM_SEQ,
+            TM_AMT,
+            TM_INV_AMT,
+            #{regEmpSeq},
+            'U'
+        FROM CAM_PJT_MNG.DJ_PJT_TEAM WHERE PJT_SN = #{pjtSn} AND TEAM_VERSION_SN = #{LAST_TEAM_VERSION_SN}
+    </insert>
+
+    <insert id="insTeamProject" parameterType="map">
         /* setTeamProject */
         INSERT INTO CAM_PJT_MNG.DJ_PROJECT
             (
@@ -176,13 +203,14 @@
                 STR_DT,
                 ACTIVE,
                 REG_EMP_SEQ,
+                TM_SN,
                 REG_DT
             )
             (SELECT
-                EMP_SEQ,
-                EMP_NAME,
-                DEPT_SEQ,
-                DEPT_NAME,
+                #{TM_PM_SEQ} AS TM_PM_SEQ,
+                IFNULL((SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{TM_PM_SEQ}), '') AS TM_EMP_NAME,
+                #{TM_TEAM_SEQ},
+                IFNULL((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = #{TM_TEAM_SEQ}), '') AS TM_TEAM_NAME,
                 BUSN_CLASS,
                 BUSN_NM,
                 'Y' AS TEAM_STAT,
@@ -205,21 +233,34 @@
                 CRM_MEM_TEMP_NM,
                 CRM_CON_SN,
                 CRM_PART_SN,
-                #{TM_PM_SEQ} AS TM_PM_SEQ,
-                IFNULL((SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{TM_PM_SEQ}), '') AS TM_EMP_NAME,
+                #{TM_PM_SEQ} AS TM_PM_SEQ2,
+                IFNULL((SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{TM_PM_SEQ}), '') AS TM_EMP_NAME2,
                 #{TM_AMT},
                 #{TM_AMT},
                 CONSULT_DT,
                 NOW(),
                 ACTIVE,
                 REG_EMP_SEQ,
+                #{TM_SN},
                 REG_DT
             FROM CAM_PJT_MNG.DJ_PROJECT
             WHERE PJT_SN = #{PJT_SN} AND TEAM_STAT = 'N')
-        <selectKey keyProperty="PJT_SN" resultType="Integer" order="BEFORE">
-            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PROJECT'
-        </selectKey>
     </insert>
+
+    <update id="setTeamProject" parameterType="map">
+        /* setTeamProject */
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            EMP_SEQ = #{TM_PM_SEQ},
+            EMP_NAME = IFNULL((SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{TM_PM_SEQ}), ''),
+            DEPT_SEQ = #{TM_TEAM_SEQ},
+            DEPT_NAME = IFNULL((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = #{TM_TEAM_SEQ}), ''),
+            PM_EMP_SEQ = #{TM_PM_SEQ},
+            PM = IFNULL((SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{TM_PM_SEQ}), ''),
+            PJT_AMT = #{TM_AMT},
+            PJT_EXP_AMT = #{TM_AMT}
+        WHERE TM_SN = #{TM_SN}
+    </update>
 
     <update id="updTeamVersionAppStat" parameterType="map">
         /* updTeamVersionAppStat */

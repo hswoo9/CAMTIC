@@ -118,7 +118,6 @@ var teamInfo = {
                     });
 
                     const dataItem = grid.dataItem($(this));
-                    // $("#teamDept").data("kendoDropDownList").value(dataItem.TM_DEPT_SEQ);
                     $("#team").val(dataItem.DEPT_NAME);
                     $("#teamSeq").val(dataItem.DEPT_SEQ);
                     $("#teamPMNm").val(dataItem.EMP_NAME);

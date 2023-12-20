@@ -2759,7 +2759,7 @@
         LEFT JOIN
             CAM_PJT_MNG.DJ_PJT_TEAM B
         ON
-            A.PNT_PJT_SN = B.PJT_SN
+            A.PNT_PJT_SN = B.PJT_SN AND B.TM_TYPE = '1'
         WHERE
             A.PNT_PJT_SN = #{pjtSn}
     </select>

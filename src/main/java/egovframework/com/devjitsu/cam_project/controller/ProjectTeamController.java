@@ -141,7 +141,7 @@ public class ProjectTeamController {
             model.addAttribute("rep", params);
         } catch(Exception e){
             e.printStackTrace();
-            model.addAttribute("code", 200);
+            model.addAttribute("code", 500);
         }
         return "jsonView";
     }
@@ -155,7 +155,7 @@ public class ProjectTeamController {
             model.addAttribute("rep", params);
         } catch(Exception e){
             e.printStackTrace();
-            model.addAttribute("code", 200);
+            model.addAttribute("code", 500);
         }
         return "jsonView";
     }
@@ -169,7 +169,7 @@ public class ProjectTeamController {
             model.addAttribute("rep", params);
         } catch(Exception e){
             e.printStackTrace();
-            model.addAttribute("code", 200);
+            model.addAttribute("code", 500);
         }
         return "jsonView";
     }
@@ -183,7 +183,7 @@ public class ProjectTeamController {
             model.addAttribute("rep", params);
         } catch(Exception e){
             e.printStackTrace();
-            model.addAttribute("code", 200);
+            model.addAttribute("code", 500);
         }
         return "jsonView";
     }
