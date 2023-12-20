@@ -245,6 +245,16 @@ var paymentList = {
     },
 
     fn_enxpChangeModal : function(){
+        var flag = false
+        $("input[name='payChk']:checked").each(function(){
+            flag = true
+        });
+
+        if(!flag){
+            alert("선택된 신청건이 없습니다.");
+            return;
+        }
+
         var dialog = $("#dialog").data("kendoWindow");
 
         dialog.center();
