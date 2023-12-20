@@ -3,17 +3,25 @@ var userPartRate = {
 
     fn_defaultScript : function (){
         var currentYear = new Date().getFullYear();
+        var startYear = $("#startYear").val();
+        var startIndex = 10;
 
         var yearList = [];
         for (var i = currentYear - 10; i <= currentYear + 10; i++) {
             yearList.push({ text: i.toString(), value: i.toString() });
         }
 
+        if(startYear != null){
+            startYear = startYear.substring(0,4);
+            startYear = Number(startYear) - currentYear;
+            startIndex = startIndex + startYear;
+        }
+
         $("#year").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: yearList,
-            index: 10,
+            index: startIndex,
             change: function (e) {
                 userPartRate.fn_setData();
             }

@@ -235,6 +235,7 @@ var partRate = {
                 }
 
                 if(mem[i].MON_DIFF != null){
+                    console.log(mem[i].MON_DIFF);
                     $("#memMon" + i).val(mem[i].MON_DIFF);
                 }
 
@@ -372,17 +373,17 @@ var partRate = {
     },
 
     fn_monDiff : function (_date1, _date2){
-        var pSDate = _date1; //참여 시작일
-        var pEDate = _date2; //참여 종료일
+        var pSDate = _date1; // 참여 시작일
+        var pEDate = _date2; // 참여 종료일
 
         var pSDateArray = pSDate.split("-");
         var pEDateArray = pEDate.split("-");
 
-        var pSDateSet = new Date(pSDateArray[0], pSDateArray[1], pSDateArray[2]);
-        var pEDateSet = new Date(pEDateArray[0], pEDateArray[1], pEDateArray[2]);
+        var pSDateSet = new Date(pSDateArray[0], pSDateArray[1] - 1, pSDateArray[2]);
+        var pEDateSet = new Date(pEDateArray[0], pEDateArray[1] - 1, pEDateArray[2]);
 
-        var pSDateLastSet = (new Date(pSDateArray[0], pSDateArray[1], 0)).getDate();
-        var pEDateLastSet = (new Date(pEDateArray[0], pEDateArray[1], 0)).getDate();
+        var pSDateLastSet = new Date(pSDateArray[0], pSDateArray[1], 0).getDate();
+        var pEDateLastSet = new Date(pEDateArray[0], pEDateArray[1], 0).getDate();
 
         var pSDateYear = pSDateSet.getFullYear();
         var pSDateMonth = pSDateSet.getMonth();
@@ -392,19 +393,26 @@ var partRate = {
         var pEDateMonth = pEDateSet.getMonth();
         var pEDateDay = pEDateSet.getDate();
 
-        var pMonthSet = ((pEDateYear - pSDateYear) * 12) + (pEDateMonth - pSDateMonth + 1) - 2;
+        var pMonthSet = ((pEDateYear - pSDateYear) * 12) + (pEDateMonth - pSDateMonth) - 1;
 
         var pSDateDaySet = pSDateLastSet - pSDateDay + 1;
         var pEDateDaySet = pEDateDay;
 
-        var pSDateDayPerSet = (pSDateDaySet / pSDateLastSet).toFixed(1);
-        var pEDateDayPerSet = (pEDateDaySet / pEDateLastSet).toFixed(1);
+        var pSDateDayPerSet = pSDateDaySet / pSDateLastSet;
+        var pEDateDayPerSet = pEDateDaySet / pEDateLastSet;
 
-        var pDateMonth = Number(pMonthSet) + Number(pSDateDayPerSet) + Number(pEDateDayPerSet);
+        var pDateMonth = pMonthSet + pSDateDayPerSet + pEDateDayPerSet;
 
+        var finalReturn = partRate.truncateStringToOneDecimal(pDateMonth.toString());
 
-        // return Math.round((diffDays / 30).toFixed(2) * 10) / 10;
-        return Math.round(pDateMonth * 100) / 100;
+        if(finalReturn == 0){
+            finalReturn = 0.1;
+        }
+        return finalReturn;
+    },
+
+    truncateStringToOneDecimal : function (str) {
+        return (Math.floor(Number(str) * 10) / 10).toString();
     },
 
     fn_save: function(){
@@ -459,8 +467,6 @@ var partRate = {
 
             parameterList[i] = parameters;
         }
-
-        console.log(parameterList)
 
         if(parameterList.length != 0){
             customKendo.fn_customAjax("/projectRnd/checkPartRateDetail", parameterList[0]);

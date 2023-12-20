@@ -109,6 +109,7 @@
                     </th>
                     <td>
                         ${projectInfo.PJT_START_DT}
+                        <input type="hidden" id="startYear" value="${projectInfo.PJT_START_DT}" />
                     </td>
                     <th scope="row" class="text-center th-color">
                         프로젝트 종료
