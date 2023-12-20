@@ -149,6 +149,10 @@ const recruitPrintPop = {
         recruitPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
     },
 
+    saveHwp : function (){
+        recruitPrintPop.global.hwpCtrl.SaveAs(recruitPrintPop.global.fileTitle, "hwp", "download:true");
+    },
+
     resize: function() {
         if (document.getElementById("hwpctrl_frame") != null && typeof(document.getElementById("hwpctrl_frame")) != "undefined") {
             var pHeight = (window.innerHeight - 20) + "px";
