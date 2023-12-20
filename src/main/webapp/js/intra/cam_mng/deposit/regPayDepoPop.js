@@ -154,6 +154,7 @@ var regPayDepo = {
                     $("#pjtNm").val(rs.PJT_NM);
                     $("#pjtSn").val(rs.PJT_SN);
                 }
+                $("#pjtCd").val(rs.PJT_CD);
                 $("#budgetNm").val(rs.BUDGET_NM);
                 $("#budgetSn").val(rs.BUDGET_SN);
                 $("#depoTitle").val(rs.DEPO_TITLE);
@@ -221,6 +222,7 @@ var regPayDepo = {
             payIncpDe : $("#payIncpDe").val(),
             pjtNm : $("#paramPjtNm").val(),
             pjtSn : $("#paramPjtSn").val(),
+            pjtCd: $("#pjtCd").val(),
             aftPjtNm : $("#pjtNm").val(),
             budgetNm : $("#budgetNm").val(),
             budgetSn : $("#budgetSn").val(),

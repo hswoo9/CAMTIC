@@ -90,6 +90,12 @@ var costInfo = {
         this.grid2("/purc/getPurcReqList.do", costInfo.global.searchAjaxData2);
         this.grid3("/bustrip/getProjectBustList", costInfo.global.searchAjaxData3);
         this.grid4("/payApp/getPjtExnpList", costInfo.global.searchAjaxData4);
+
+
+        $("#purcSum").text($("#purcSumTemp").text());
+        $("#bustSum").text($("#bustSumTemp").text());
+        $("#costSum").text($("#costSumTemp").text());
+        $("#invSum").text(comma(Number(uncomma($("#purcSumTemp").text()))+Number(uncomma($("#bustSumTemp").text()))+Number(uncomma($("#costSumTemp").text()))));
     },
 
     grid2 : function (url, params){
@@ -106,7 +112,9 @@ var costInfo = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound: costInfo.purcOnDataBound,
+            dataBound: function(){
+                purcSum = 0;
+            },
             columns: [
                 {
                     title: "번호",
@@ -186,7 +194,7 @@ var costInfo = {
                         return "<div style='text-align: right'>"+comma(e.PURC_ITEM_AMT_SUM)+"</div>";
                     },
                     footerTemplate: function(){
-                        return "<div style='text-align: right'>"+comma(purcSum)+"</div>";
+                        return "<div id='purcSumTemp' style='text-align: right'>"+comma(purcSum)+"</div>";
                     }
                 }
             ],
@@ -232,6 +240,7 @@ var costInfo = {
 
                     $(this).css("background-color", "#a7e1fc");
                 });
+                bustSum = 0;
             },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
@@ -314,7 +323,7 @@ var costInfo = {
                         return "<div style='text-align: right'>"+comma(e.RES_EXNP_SUM)+"</div>";
                     },
                     footerTemplate: function(){
-                        return "<div style='text-align: right'>"+comma(bustSum)+"</div>";
+                        return "<div id='bustSumTemp' style='text-align: right'>"+comma(bustSum)+"</div>";
                     }
                 }
             ]
@@ -357,6 +366,7 @@ var costInfo = {
 
                     $(this).css("background-color", "#a7e1fc");
                 });
+                costSum = 0;
             },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
@@ -378,7 +388,7 @@ var costInfo = {
                         return "<div style='text-align: right'>"+comma(row.COST_SUM)+"</div>";
                     },
                     footerTemplate: function(){
-                        return "<div style='text-align: right'>"+comma(costSum)+"</div>";
+                        return "<div id='costSumTemp' style='text-align: right'>"+comma(costSum)+"</div>";
                     }
                 }, {
                     title: "구매/출장 문서번호",
@@ -410,12 +420,6 @@ var costInfo = {
                 }
             ]
         }).data("kendoGrid");
-    },
-
-    purcOnDataBound : function(){
-        purcSum = 0;
-        bustSum = 0;
-        costSum = 0;
     },
 
     fn_reqRegPopup : function (key){

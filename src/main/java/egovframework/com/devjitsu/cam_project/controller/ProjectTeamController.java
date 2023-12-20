@@ -89,6 +89,15 @@ public class ProjectTeamController {
         return "jsonView";
     }
 
+    /** 해당 버전 수주부서 남은 잔액 조회 */
+    @RequestMapping("/project/team/getVerLeftAmt")
+    public String getVerLeftAmt(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        Map<String, Object> data = projectTeamService.getVerLeftAmt(params);
+        model.addAttribute("data", data);
+
+        return "jsonView";
+    }
+
     /** 협업 새 버전 추가 */
     @RequestMapping("/project/team/setTeamAddVersion")
     public String setTeamAddVersion(@RequestParam Map<String, Object> params, Model model){

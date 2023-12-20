@@ -12,6 +12,9 @@
 <input type="hidden" id="teamVersionSn" value="${params.teamVersionSn}" />
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}" />
 
+<input type="hidden" id="delvAmt" value="" />
+<input type="hidden" id="leftAmt" value="" />
+
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
