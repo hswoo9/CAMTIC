@@ -547,7 +547,7 @@ var unRndDP = {
 
         if(rs.flag){
             alert("저장되었습니다.");
-            commonProject.getReloadPage(3, 3, 3, 0, 0, 0);
+            commonProject.getReloadPage(3, 2, 2, 0, 0, 0);
         }
     },
 
@@ -634,7 +634,7 @@ var unRndDP = {
 
         if(result.flag){
             alert(cfmEndText);
-            commonProject.getReloadPage(3, 3, 3, 0, 0, 0);
+            commonProject.getReloadPage(3, 2, 2, 0, 0, 0);
         }
     },
 

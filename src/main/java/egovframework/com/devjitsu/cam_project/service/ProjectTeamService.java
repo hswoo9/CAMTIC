@@ -10,9 +10,11 @@ public interface ProjectTeamService {
 
     List<Map<String, Object>> getTeamVersion(Map<String, Object> params);
     List<Map<String, Object>> getTeamList(Map<String, Object> params);
+    List<Map<String, Object>> getTeamMngList(Map<String, Object> params);
     Map<String, Object> getVerLeftAmt(Map<String, Object> params);
 
     void setTeamAddVersion(Map<String, Object> params);
     void updMyTeam(Map<String, Object> params);
     void setTeam(Map<String, Object> params);
+    void updTeamVersionAppStat(Map<String, Object> params);
 }

@@ -1,6 +1,6 @@
 var teamAjax = {
     global : {
-        
+
     },
 
     fn_defaultScript : function (){
@@ -29,7 +29,7 @@ var teamAjax = {
     },
 
     fn_save: function(){
-        var parameters = {
+        const parameters = {
             pjtSn : $("#pjtSn").val(),
             teamVersionSn : $("#teamVersionSn").val(),
 
@@ -55,6 +55,34 @@ var teamAjax = {
         const result = customKendo.fn_customAjax("/project/team/updMyTeam", parameters);
         if(result.code == "200"){
             alert("저장이 완료되었습니다.");
+            commonProject.getReloadPage(5, 5, 5);
+        }else{
+            alert("데이터 저장 중 오류가 발생하였습니다.");
+        }
+    },
+
+    fn_approve : function(stat){
+        let confirmText = "";
+        let successText = "";
+        if(stat == 10){
+            confirmText = "승인요청하시겠습니까?";
+            successText = "승인요청이 완료되었습니다.";
+        }else{
+            confirmText = "승인요청 취소하시겠습니까?";
+            successText = "승인요청이 취소되었습니다.";
+        }
+        if(!confirm(confirmText)){
+            return;
+        }
+        const parameters = {
+            pjtSn : $("#pjtSn").val(),
+            teamVersionSn : $("#teamVersionSn").val(),
+            stat : stat
+        }
+
+        const result = customKendo.fn_customAjax("/project/team/updTeamVersionAppStat", parameters);
+        if(result.code == "200"){
+            alert(successText);
             commonProject.getReloadPage(5, 5, 5);
         }else{
             alert("데이터 저장 중 오류가 발생하였습니다.");
