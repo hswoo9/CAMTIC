@@ -12,12 +12,47 @@ var teamAjax = {
             return;
         }
 
-        const parameter = {
+        const parameters = {
             pjtSn: $("#pjtSn").val(),
-            regEmpSeq: $("#regEmpSeq").val()
+            regEmpSeq: $("#regEmpSeq").val(),
+
+            tmType : 0,
         }
 
-        const result = customKendo.fn_customAjax("/project/team/setTeamAddVersion", parameter);
+        const result = customKendo.fn_customAjax("/project/team/setTeamAddVersion", parameters);
+        if(result.code == "200"){
+            alert("저장이 완료되었습니다.");
+            commonProject.getReloadPage(5, 5, 5);
+        }else{
+            alert("데이터 저장 중 오류가 발생하였습니다.");
+        }
+    },
+
+    fn_save: function(){
+        var parameters = {
+            pjtSn : $("#pjtSn").val(),
+            teamVersionSn : $("#teamVersionSn").val(),
+
+            tmType : 0,
+
+            myInvAmt : uncomma($("#myInvAmt_"+$("#myTmSn").val()).val()),
+
+            modEmpSeq : $("#regEmpSeq").val()
+        }
+
+        if(parameters.myInvAmt == "" || parameters.myInvAmt == 0 || parameters.myInvAmt == null){
+            alert("예상비용이 입력되지 않았습니다."); return;
+        }
+
+        if(!confirm("자가 예상비용을 저장하시겠습니까?")){
+            return;
+        }
+
+        if(parameters.pjtSn == "" || parameters.teamVersionSn == ""){
+            alert("데이터 조회 중 오류가 발생하였습니다. 새로고침 후 재시도 바랍니다."); return;
+        }
+
+        const result = customKendo.fn_customAjax("/project/team/updMyTeam", parameters);
         if(result.code == "200"){
             alert("저장이 완료되었습니다.");
             commonProject.getReloadPage(5, 5, 5);

@@ -12,6 +12,7 @@
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 
 <input type="hidden" id="teamVersionSn" value=""/>
+<input type="hidden" id="myTmSn" value=""/>
 <div style="padding: 10px">
     <div id="teamBtnDiv"></div>
     <div class="table-responsive">

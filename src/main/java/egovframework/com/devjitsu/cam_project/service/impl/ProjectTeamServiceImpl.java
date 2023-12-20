@@ -54,6 +54,16 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
         projectTeamRepository.setTeamDelv(params);
     }
 
+    @Override
+    public void updMyTeam(Map<String, Object> params) {
+        projectTeamRepository.updMyTeam(params);
+    }
+
+    @Override
+    public void setTeam(Map<String, Object> params) {
+        projectTeamRepository.setTeam(params);
+    }
+
     private String filePath(Map<String, Object> params, String base_dir){
         LocalDate now = LocalDate.now();
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");

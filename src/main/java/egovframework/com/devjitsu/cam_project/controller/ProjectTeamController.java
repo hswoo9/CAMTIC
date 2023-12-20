@@ -111,4 +111,32 @@ public class ProjectTeamController {
         }
         return "jsonView";
     }
+
+    /** 자가부서 예상비용 저장 */
+    @RequestMapping("/project/team/updMyTeam")
+    public String updMyTeam(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectTeamService.updMyTeam(params);
+            model.addAttribute("code", 200);
+            model.addAttribute("rep", params);
+        } catch(Exception e){
+            e.printStackTrace();
+            model.addAttribute("code", 200);
+        }
+        return "jsonView";
+    }
+
+    /** 협업 새 버전 추가 */
+    @RequestMapping("/project/team/setTeam")
+    public String setTeam(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectTeamService.setTeam(params);
+            model.addAttribute("code", 200);
+            model.addAttribute("rep", params);
+        } catch(Exception e){
+            e.printStackTrace();
+            model.addAttribute("code", 200);
+        }
+        return "jsonView";
+    }
 }

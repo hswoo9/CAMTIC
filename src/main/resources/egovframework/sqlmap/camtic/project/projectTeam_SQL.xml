@@ -60,9 +60,10 @@
             (
                 TEAM_VERSION_SN,
                 PJT_SN,
-                TM_DEPT_SEQ,
+                TM_TYPE,
                 TM_TEAM_SEQ,
                 TM_PM_SEQ,
+                TM_INV_AMT,
                 REG_DT,
                 REG_EMP_SEQ
             )
@@ -70,29 +71,48 @@
             (
                 #{teamVersionSn},
                 #{pjtSn},
-                (
-                    SELECT
-                        CASE WHEN HDI.DEPT_LEVEL = 2
-                             THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ)
-                             ELSE HEI.DEPT_SEQ END
-                    FROM
-                        CAM_HR.DJ_EMP_INFO HEI
-                    LEFT JOIN
-                        CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
-                    WHERE HEI.EMP_SEQ = #{regEmpSeq}
-                ),
-                (
-                    SELECT
-                        CASE WHEN HDI.DEPT_LEVEL = 2
-                             THEN HEI.DEPT_SEQ
-                             ELSE '' END
-                    FROM
-                        CAM_HR.DJ_EMP_INFO HEI
-                    LEFT JOIN
-                        CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
-                    WHERE HEI.EMP_SEQ = #{regEmpSeq}
-                ),
+                #{tmType},
+                (SELECT HEI.DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO HEI WHERE HEI.EMP_SEQ = #{regEmpSeq}),
                 #{regEmpSeq},
+                0,
+                NOW(),
+                #{regEmpSeq}
+            )
+    </insert>
+
+    <insert id="updMyTeam" parameterType="map">
+        /* updMyTeam */
+        UPDATE CAM_PJT_MNG.DJ_PJT_TEAM
+        SET
+            TM_INV_AMT = #{myInvAmt}
+        WHERE TEAM_VERSION_SN = #{teamVersionSn}
+          AND PJT_SN = #{pjtSn}
+          AND TM_TYPE = #{tmType}
+    </insert>
+
+    <insert id="setTeam" parameterType="map">
+        /* setTeam */
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_TEAM
+            (
+                TEAM_VERSION_SN,
+                PJT_SN,
+                TM_TYPE,
+                TM_TEAM_SEQ,
+                TM_PM_SEQ,
+                TM_AMT,
+                TM_INV_AMT,
+                REG_DT,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{teamVersionSn},
+                #{pjtSn},
+                #{tmType},
+                #{tmTeamSeq},
+                #{tmPMSeq},
+                #{teamAmt},
+                #{tmInvAmt},
                 NOW(),
                 #{regEmpSeq}
             )
