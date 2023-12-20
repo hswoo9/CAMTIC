@@ -583,8 +583,7 @@ var partRate = {
      * @param sn
      */
     fn_userPartRatePop : function(sn, key){
-
-        var url = "/mng/pop/userPartRate.do?sn=" + sn + "&pjtSn=" + key;
+        var url = "/mng/pop/userPartRate.do?sn=" + sn + "&pjtSn=" + key + "&adminYn=Y";
 
         var name = "_blank";
         var option = "width = 1800, height = 750, top = 100, left = 200, location = no";

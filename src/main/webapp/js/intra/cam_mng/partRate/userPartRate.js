@@ -32,6 +32,7 @@ var userPartRate = {
 
 
     fn_setData : function (type){
+        var adminYn = $("#adminYn").val();
         var selStartDate = $("#year").data("kendoDropDownList").value() + "-01-01";
         var selEndDate = $("#year").data("kendoDropDownList").value() + "-12-31";
 
@@ -179,29 +180,30 @@ var userPartRate = {
 
                 var userChangeSalary = 0;
 
-                bodyHtml += "<tr>";
-                bodyHtml += "   <td colspan='5' class='text-center' style='background-color: #8fa1c04a;'>월지급액</td>";
+                if(adminYn != "") {
+                    bodyHtml += "<tr>";
+                    bodyHtml += "   <td colspan='5' class='text-center' style='background-color: #8fa1c04a;'>월지급액</td>";
 
-                for(var j = 0 ; j< diffMonth; j++){
-                    var userMonthSalary = 0;
-                    for(var i = 0 ; i < rs.length; i++){
-                        userMonthSalary += userMonthSalaryArr[i][j];
+                    for (var j = 0; j < diffMonth; j++) {
+                        var userMonthSalary = 0;
+                        for (var i = 0; i < rs.length; i++) {
+                            userMonthSalary += userMonthSalaryArr[i][j];
+                        }
+
+                        bodyHtml += '<td style="text-align: right; font-weight: bold">' + comma(userMonthSalary) + '</td>';
                     }
-
-                    bodyHtml += '<td style="text-align: right; font-weight: bold">'+comma(userMonthSalary)+'</td>';
-                }
-                bodyHtml += '</tr>';
-                bodyHtml += "<tr>";
-                bodyHtml += "   <td colspan='5' class='text-center' style='background-color: #8fa1c04a;'>기준급여</td>";
-                for(var j = 0 ; j< diffMonth; j++) {
-                    if(salList[j] == null){
-                        bodyHtml += '<td style="text-align: right; font-weight: bold">0</td>';
-                    } else {
-                        bodyHtml += '<td style="text-align: right; font-weight: bold">'+fn_monBasicSalary(salList[j])+'</td>';
+                    bodyHtml += '</tr>';
+                    bodyHtml += "<tr>";
+                    bodyHtml += "   <td colspan='5' class='text-center' style='background-color: #8fa1c04a;'>기준급여</td>";
+                    for (var j = 0; j < diffMonth; j++) {
+                        if (salList[j] == null) {
+                            bodyHtml += '<td style="text-align: right; font-weight: bold">0</td>';
+                        } else {
+                            bodyHtml += '<td style="text-align: right; font-weight: bold">' + fn_monBasicSalary(salList[j]) + '</td>';
+                        }
                     }
+                    bodyHtml += '</tr>';
                 }
-                bodyHtml += '</tr>';
-
                 bodyHtml += '<tr>';
                 bodyHtml += '   <td colspan="5" class="text-center" style="background-color: #8fa1c04a;">사업참여율</td>';
                 for(var j = 0 ; j< diffMonth; j++){

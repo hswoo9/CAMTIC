@@ -36,6 +36,8 @@
 
 
 <input type="hidden" id="userEmpSeq" value="${empInfo.EMP_SEQ}"/>
+
+<input type="hidden" id="adminYn" value="${params.adminYn}"/>
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
