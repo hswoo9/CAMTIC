@@ -268,7 +268,7 @@ var processInfo = {
             async: false,
             success: function(rs){
                 alert("저장되었습니다.");
-                commonProject.getReloadPage(4, 4, 4, 2, 1, 1);
+                commonProject.getReloadPage(4, 3, 3, 2, 1, 1);
             }
         });
     }
