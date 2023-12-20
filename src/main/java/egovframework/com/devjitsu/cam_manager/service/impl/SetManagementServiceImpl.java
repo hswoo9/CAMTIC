@@ -90,4 +90,23 @@ public class SetManagementServiceImpl implements SetManagementService {
     public void setApprove(Map<String, Object> params) {
         setManagementRepository.setApprove(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getExnpDeChangeRs(Map<String, Object> params) {
+        return setManagementRepository.getExnpDeChangeRs(params);
+    }
+
+    @Override
+    public void setExnpDeChangeRs(Map<String, Object> params) {
+        if(params.containsKey("chngRsSn")){
+            setManagementRepository.updExnpDeChangeRs(params);
+        } else {
+            setManagementRepository.insExnpDeChangeRs(params);
+        }
+    }
+
+    @Override
+    public void delExnpDeChangeRs(Map<String, Object> params) {
+        setManagementRepository.delExnpDeChangeRs(params);
+    }
 }

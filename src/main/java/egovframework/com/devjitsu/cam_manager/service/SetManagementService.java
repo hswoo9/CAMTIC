@@ -15,4 +15,10 @@ public interface SetManagementService {
     void setRequest(Map<String, Object> params);
 
     void setApprove(Map<String, Object> params);
+
+    List<Map<String, Object>> getExnpDeChangeRs(Map<String, Object> params);
+
+    void setExnpDeChangeRs(Map<String, Object> params);
+
+    void delExnpDeChangeRs(Map<String, Object> params);
 }

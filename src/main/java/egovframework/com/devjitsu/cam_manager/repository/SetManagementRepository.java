@@ -38,4 +38,20 @@ public class SetManagementRepository extends AbstractDAO {
     public void setApprove(Map<String, Object> params) {
         update("manage.setApprove", params);
     }
+
+    public List<Map<String, Object>> getExnpDeChangeRs(Map<String, Object> params) {
+        return selectList("manage.getExnpDeChangeRs", params);
+    }
+
+    public void updExnpDeChangeRs(Map<String, Object> params) {
+        update("manage.updExnpDeChangeRs", params);
+    }
+
+    public void insExnpDeChangeRs(Map<String, Object> params) {
+        insert("manage.insExnpDeChangeRs", params);
+    }
+
+    public void delExnpDeChangeRs(Map<String, Object> params) {
+        delete("manage.delExnpDeChangeRs", params);
+    }
 }
