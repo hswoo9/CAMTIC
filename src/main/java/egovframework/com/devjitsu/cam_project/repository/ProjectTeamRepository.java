@@ -17,6 +17,10 @@ public class ProjectTeamRepository extends AbstractDAO {
         return selectList("projectTeam.getTeamList", params);
     }
 
+    public Map<String, Object> getVerLeftAmt(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("projectTeam.getVerLeftAmt", params);
+    }
+
     public void setTeamAddVersion(Map<String, Object> params) {
         insert("projectTeam.setTeamAddVersion", params);
     }

@@ -24,6 +24,17 @@
           AND TEAM_VERSION_SN = #{teamVersionSn}
     </select>
 
+    <select id="getVerLeftAmt" parameterType="map" resultType="map">
+        /* getVerLeftAmt */
+        SELECT
+            IFNULL(SUM(TM_AMT), 0) AS TM_AMT_SUM
+        FROM
+            CAM_PJT_MNG.DJ_PJT_TEAM PT
+        WHERE PJT_SN = #{pjtSn}
+          AND TEAM_VERSION_SN = #{teamVersionSn}
+          AND TM_TYPE != "0"
+    </select>
+
     <insert id="setTeamAddVersion" parameterType="map">
         /* setTeamAddVersion */
         INSERT INTO CAM_PJT_MNG.DJ_PJT_TEAM_VERSION
