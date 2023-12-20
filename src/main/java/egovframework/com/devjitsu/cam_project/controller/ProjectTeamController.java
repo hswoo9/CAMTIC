@@ -71,6 +71,31 @@ public class ProjectTeamController {
         return "popup/cam_project/teamReqPop";
     }
 
+    /** new 엔지니어링 협업 승인요청 리스트 */
+    @RequestMapping("/intra/cam_project/teamMng.do")
+    public String teamMng(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "cam_project/teamMng";
+    }
+
+    /** new 엔지니어링 협업등록 */
+    @RequestMapping("/intra/cam_project/setTeamProject.do")
+    public String setTeamProject(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_project/setTeamProject";
+    }
+
     /** 협업 버전 정보 조회 */
     @RequestMapping("/project/team/getTeamVersion")
     public String getTeamVersion(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
@@ -84,6 +109,15 @@ public class ProjectTeamController {
     @RequestMapping("/project/team/getTeamList")
     public String getTeamList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         List<Map<String, Object>> list = projectTeamService.getTeamList(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    /** 프로젝트 협업 승인요청 리스트 */
+    @RequestMapping("/project/team/getTeamMngList")
+    public String getTeamMngList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        List<Map<String, Object>> list = projectTeamService.getTeamMngList(params);
         model.addAttribute("list", list);
 
         return "jsonView";
@@ -103,6 +137,48 @@ public class ProjectTeamController {
     public String setTeamAddVersion(@RequestParam Map<String, Object> params, Model model){
         try{
             projectTeamService.setTeamAddVersion(params);
+            model.addAttribute("code", 200);
+            model.addAttribute("rep", params);
+        } catch(Exception e){
+            e.printStackTrace();
+            model.addAttribute("code", 200);
+        }
+        return "jsonView";
+    }
+
+    /** 자가부서 예상비용 저장 */
+    @RequestMapping("/project/team/updMyTeam")
+    public String updMyTeam(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectTeamService.updMyTeam(params);
+            model.addAttribute("code", 200);
+            model.addAttribute("rep", params);
+        } catch(Exception e){
+            e.printStackTrace();
+            model.addAttribute("code", 200);
+        }
+        return "jsonView";
+    }
+
+    /** 협업 새 버전 추가 */
+    @RequestMapping("/project/team/setTeam")
+    public String setTeam(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectTeamService.setTeam(params);
+            model.addAttribute("code", 200);
+            model.addAttribute("rep", params);
+        } catch(Exception e){
+            e.printStackTrace();
+            model.addAttribute("code", 200);
+        }
+        return "jsonView";
+    }
+
+    /** 협업 승인 프로세스 */
+    @RequestMapping("/project/team/updTeamVersionAppStat")
+    public String updTeamVersionAppStat(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectTeamService.updTeamVersionAppStat(params);
             model.addAttribute("code", 200);
             model.addAttribute("rep", params);
         } catch(Exception e){

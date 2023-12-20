@@ -42,6 +42,11 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
     }
 
     @Override
+    public List<Map<String, Object>> getTeamMngList(Map<String, Object> params) {
+        return projectTeamRepository.getTeamMngList(params);
+    }
+
+    @Override
     public Map<String, Object> getVerLeftAmt(Map<String, Object> params) {
         return projectTeamRepository.getVerLeftAmt(params);
     }
@@ -52,6 +57,29 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
 
         /** 버전 저장 후 자가 부서 정보 insert */
         projectTeamRepository.setTeamDelv(params);
+    }
+
+    @Override
+    public void updMyTeam(Map<String, Object> params) {
+        projectTeamRepository.updMyTeam(params);
+    }
+
+    @Override
+    public void setTeam(Map<String, Object> params) {
+        projectTeamRepository.setTeam(params);
+    }
+
+    @Override
+    public void updTeamVersionAppStat(Map<String, Object> params) {
+        projectTeamRepository.updTeamVersionAppStat(params);
+
+        if(params.get("stat").toString().equals("100")){
+            params.put("teamCk", "1");
+            List<Map<String, Object>> list = projectTeamRepository.getTeamList(params);
+            for(int i=0; i>list.size(); i++){
+                projectTeamRepository.setTeamProject(list.get(i));
+            }
+        }
     }
 
     private String filePath(Map<String, Object> params, String base_dir){

@@ -145,7 +145,7 @@ var resultInfo = {
             success: function(rs){
                 alert("저장되었습니다.");
                 if(rs.code == 200){
-                    commonProject.getReloadPage(7, 8, 8, 7, 8, 8);
+                    commonProject.getReloadPage(7, 7, 7);
                 }
             }
         });

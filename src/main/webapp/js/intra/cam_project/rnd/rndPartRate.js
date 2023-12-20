@@ -308,7 +308,7 @@ var rndPR = {
                 }
 
                 if(mem[i].MON_DIFF != null){
-                    $("#memMon" + i).val(Math.floor(Number(mem[i].MON_DIFF * 10) / 10));
+                    $("#memMon" + i).val(mem[i].MON_DIFF);
                 }
 
                 if(mem[i].PAY_RATE != null){
@@ -382,38 +382,6 @@ var rndPR = {
     },
 
     fn_monDiff : function (_date1, _date2){
-        /*var pSDate = _date1; //참여 시작일
-        var pEDate = _date2; //참여 종료일
-
-        var pSDateArray = pSDate.split("-");
-        var pEDateArray = pEDate.split("-");
-
-        var pSDateSet = new Date(pSDateArray[0], pSDateArray[1], pSDateArray[2]);
-        var pEDateSet = new Date(pEDateArray[0], pEDateArray[1], pEDateArray[2]);
-
-        var pSDateLastSet = (new Date(pSDateArray[0], pSDateArray[1], 0)).getDate();
-        var pEDateLastSet = (new Date(pEDateArray[0], pEDateArray[1], 0)).getDate();
-
-        var pSDateYear = pSDateSet.getFullYear();
-        var pSDateMonth = pSDateSet.getMonth();
-        var pSDateDay = pSDateSet.getDate();
-
-        var pEDateYear = pEDateSet.getFullYear();
-        var pEDateMonth = pEDateSet.getMonth();
-        var pEDateDay = pEDateSet.getDate();
-
-        var pMonthSet = ((pEDateYear - pSDateYear) * 12) + (pEDateMonth - pSDateMonth + 1) - 2;
-
-        var pSDateDaySet = pSDateLastSet - pSDateDay + 1;
-        var pEDateDaySet = pEDateDay;
-
-        var pSDateDayPerSet = (pSDateDaySet / pSDateLastSet).toFixed(1);
-        var pEDateDayPerSet = (pEDateDaySet / pEDateLastSet).toFixed(1);
-
-        var pDateMonth = Number(pMonthSet) + Number(pSDateDayPerSet) + Number(pEDateDayPerSet);
-
-        return pDateMonth.toFixed(2);*/
-
         var pSDate = _date1; // 참여 시작일
         var pEDate = _date2; // 참여 종료일
 
@@ -444,20 +412,14 @@ var rndPR = {
 
         var pDateMonth = pMonthSet + pSDateDayPerSet + pEDateDayPerSet;
 
-        // console.log("pMonthSet:", pMonthSet);
-        // console.log("pSDateDaySet:", pSDateDaySet);
-        // console.log("pEDateDaySet:", pEDateDaySet);
-        // console.log("pSDateDayPerSet:", pSDateDayPerSet);
-        // console.log("pEDateDayPerSet:", pEDateDayPerSet);
-        // console.log("pDateMonth:", pDateMonth);
-
         var finalReturn = rndPR.truncateStringToOneDecimal(pDateMonth.toString());
 
-        // console.log("finalReturn:", finalReturn);
+        if(finalReturn == 0){
+            finalReturn = 0.1;
+        }
+
         return finalReturn;
     },
-
-
 
     truncateStringToOneDecimal : function (str) {
     return (Math.floor(Number(str) * 10) / 10).toString();

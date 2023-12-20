@@ -197,6 +197,10 @@ public class ManageController {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
+        if(params.containsKey("adminYn")){
+            params.put("adminYn", "Y");
+        }
+
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("empInfo", manageService.getEmpInfo(params));
         model.addAttribute("params", params);

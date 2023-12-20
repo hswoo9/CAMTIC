@@ -20,7 +20,7 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">협업 등록</span>
             </h3>
-            <button type="button" id="saveBtn" style="float: right; top:5px" class="k-button k-button-solid-info" onclick="">저장</button>
+            <button type="button" id="saveBtn" style="float: right; top:5px" class="k-button k-button-solid-info" onclick="teamReq.fn_save()">저장</button>
         </div>
         <table class="popTable table table-bordered mb-0">
             <colgroup>
@@ -35,6 +35,20 @@
                     <span class="red-star"></span>배분프로젝트명
                 </th>
                 <td colspan="3" id="pjtNm"></td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-center th-color">
+                    총 예산
+                </th>
+                <td>
+                    <input id="delvAmtTmp" style="width: 90%; text-align: right" disabled /> 원
+                </td>
+                <th scope="row" class="text-center th-color">
+                    수주부서 남은 예산
+                </th>
+                <td>
+                    <input id="leftAmtTmp" style="width: 90%; text-align: right" disabled /> 원
+                </td>
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
@@ -60,13 +74,13 @@
                     <span class="red-star">*</span>배분금액(매출)
                 </th>
                 <td>
-                    <input id="teamAmt" value="0" onkeyup="inputNumberFormat(this)" oninput="onlyNumber(this)" style="width: 90%; text-align: right" /> 원
+                    <input id="teamAmt" value="0" onkeyup="teamReq.fn_calCost(this)" oninput="onlyNumber(this)" style="width: 90%; text-align: right" /> 원
                 </td>
                 <th scope="row" class="text-center th-color">
                     배분비율
                 </th>
                 <td>
-                    <input id="teamPer" style="width: 90%" disabled/>
+                    <input id="teamPer" value="0" style="width: 90%; text-align: right" disabled/> %
                 </td>
             </tr>
             <tr>
@@ -74,13 +88,13 @@
                     <span class="red-star">*</span>예상비용
                 </th>
                 <td>
-                    <input id="teamInvAmt" style="width: 90%"/>
+                    <input id="teamInvAmt" onkeyup="teamReq.fn_calCost(this)" oninput="onlyNumber(this)" value="0" style="width: 90%; text-align: right"/> 원
                 </td>
                 <th scope="row" class="text-center th-color">
                     예상수익
                 </th>
                 <td>
-                    <input id="teamIncomePer" style="width: 90%" disabled/>
+                    <input id="teamIncomePer" value="0" style="width: 90%; text-align: right" disabled/> %
                 </td>
             </tr>
             </thead>

@@ -425,9 +425,11 @@ const historyReq = {
         let userArr = [];
         $("input[name='checkEmp']").each(function(){
             if(this.checked){
+                if(historyReq.global.userArr.indexOf(this.value) < 0){
                 userArr.push(this.value);
                 historyReq.global.userArr.push(this.value);
                 flag = true;
+                }
             }
         });
         if(!flag){
@@ -462,7 +464,7 @@ const historyReq = {
         data.deptLevel = 1;
         var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
         deptDsA.rs.unshift({"dept_name" : "해당없음", "dept_seq" : ""});
-        deptDsA.rs.unshift({"dept_name" : "선택", "dept_seq" : ""});
+        //deptDsA.rs.unshift({"dept_name" : "선택", "dept_seq" : ""});
         $(".afDept").kendoDropDownList({
             dataSource : deptDsA.rs,
             dataValueField : "dept_seq",
@@ -616,6 +618,8 @@ const historyReq = {
         $.each($('#popMainGrid .k-master-row'), function(i, v){
             const dataItem = grid.dataItem($(this).closest("tr"));
             let empSeq = dataItem.EMP_SEQ;
+            var teamDropdown = $(v).find('#afTeam'+empSeq+'_'+i).data("kendoDropDownList");
+            var deptDropdown = $(v).find('#afDept'+empSeq+'_'+i).data("kendoDropDownList");
             let data = {
                 menuCd            : "history",
                 docFileName       : "발령장.hwp",
@@ -652,7 +656,8 @@ const historyReq = {
 
                 afJobDetail       : $(v).find('#afJobDetail'+empSeq+'_'+i).val(),
 
-                deptSeq           : $(v).find('#afTeam'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? $(v).find('#afDept'+empSeq+'_'+i).data("kendoDropDownList").value() : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").value(),
+                deptSeq: teamDropdown ? teamDropdown.value() == "" ? deptDropdown ? deptDropdown.value() : "" : teamDropdown.value() : "",
+                //deptSeq           : $(v).find('#afTeam'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? $(v).find('#afDept'+empSeq+'_'+i).data("kendoDropDownList").value() : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").value(),
                 position          : $(v).find('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").text().split("/")[0].trim(),
 
                 afEtc             : $('#afEtc'+empSeq+'_'+i).val(),
@@ -769,19 +774,21 @@ const historyReq = {
         $("#popMainGrid").find("input[name='checkUser']:checked").each(function(){
 
             dataItem = grid.dataItem($(this).closest("tr"));
-
-            historyReq.global.userArr = historyReq.global.userArr.filter((value, index, arr) => {
-                return String(value) != String($(this).val());
-            });
-            historyReq.global.editDataSource.data = historyReq.global.editDataSource.data.filter(param => String(param.EMP_SEQ) != String($(this).val()));
-
             grid.removeRow($(this).closest('tr'));
+            historyReq.global.userArr = historyReq.global.userArr.filter((value, index, arr) => {
+                //return String(value) != String($(this).val());
+                return value != dataItem.EMP_SEQ;
+            });
+            //historyReq.global.editDataSource.data = historyReq.global.editDataSource.data.filter(param => String(param.EMP_SEQ) != String($(this).val()));
+            historyReq.global.editDataSource.data = historyReq.global.editDataSource.data.filter(param => String(param.EMP_SEQ) != String(dataItem.EMP_SEQ));
+            //grid.removeRow($(this).closest('tr'));
 
         });
         historyReq.editGrid();
         historyReq.fn_popGridSetting();
 
     },
+
 
     fn_delApntAll : function(){
         if(!confirm("선택하신 데이터가 전부 삭제됩니다. 초기화 하시겠습니까?")){

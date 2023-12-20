@@ -36,6 +36,8 @@
 
 
 <input type="hidden" id="userEmpSeq" value="${empInfo.EMP_SEQ}"/>
+
+<input type="hidden" id="adminYn" value="${params.adminYn}"/>
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
@@ -109,6 +111,7 @@
                     </th>
                     <td>
                         ${projectInfo.PJT_START_DT}
+                        <input type="hidden" id="startYear" value="${projectInfo.PJT_START_DT}" />
                     </td>
                     <th scope="row" class="text-center th-color">
                         프로젝트 종료
