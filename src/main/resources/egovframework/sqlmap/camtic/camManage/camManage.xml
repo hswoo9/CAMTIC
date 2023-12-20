@@ -353,4 +353,49 @@
         WHERE
             FR_PJT_SN = #{frPjtSn}
     </select>
+
+    <select id="getExnpDeChangeRs" parameterType="map" resultType="map">
+        /*getExnpDeChangeRs*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_EXNP_CHNG_RS
+        WHERE
+            1 = 1
+        <if test='type == null or "".equals(type)'>
+            AND
+                USE_YN = 'Y'
+        </if>
+    </select>
+
+    <insert id="insExnpDeChangeRs" parameterType="map" >
+        /*insExnpDeChangeRs*/
+        INSERT INTO CAM_MNG.DJ_EXNP_CHNG_RS
+        (
+            TITLE,
+            USE_YN
+        )
+        VALUES
+        (
+            #{title},
+            #{useYn}
+        )
+    </insert>
+
+    <update id="updExnpDeChangeRs" parameterType="map">
+        /*updExnpDeChangeRs*/
+        UPDATE CAM_MNG.DJ_EXNP_CHNG_RS
+        SET
+            TITLE = #{title},
+            USE_YN = #{useYn}
+        WHERE
+            CHNG_RS_SN = #{chngRsSn}
+    </update>
+
+    <delete id="delExnpDeChangeRs" parameterType="map">
+        /*delExnpDeChangeRs*/
+        DELETE FROM CAM_MNG.DJ_EXNP_CHNG_RS
+        WHERE
+            CHNG_RS_SN = #{chngRsSn}
+    </delete>
 </mapper>

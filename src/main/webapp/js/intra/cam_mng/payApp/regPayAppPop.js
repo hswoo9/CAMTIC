@@ -30,6 +30,10 @@ var regPay = {
             rows: 5,
         });
 
+
+
+
+
         regPay.global.radioGroupData = [
             { label: "지급신청서", value: "1" },
             { label: "여입신청서", value: "2" },
@@ -152,6 +156,10 @@ var regPay = {
         $(".payDestInfo td span").css("font-size", "10px");
 
         $("#reasonPopText").kendoTextBox();
+
+        var dataSource = customKendo.fn_customAjax("/setManagement/getExnpDeChangeRs");
+
+        customKendo.fn_dropDownList("exnpIss", dataSource.list, "TITLE", "CHNG_RS_SN", 2)
     },
 
     fn_reasonClickModal : function(e){
@@ -595,6 +603,9 @@ var regPay = {
         }
 
         var dialog = $("#dialogDraft").data("kendoWindow");
+
+        $("#payExnpDeText").text($("#payExnpDe").val());
+        $("#reqDe").val($("#payExnpDe").val());
         dialog.center();
         dialog.open();
     },
@@ -668,6 +679,7 @@ var regPay = {
             accNm : $("#accNm").val(),
             accNo : $("#accNo").val(),
             payAppStat : $("#payAppStat").data("kendoRadioGroup").value(),
+            exnpIss : $("#exnpIss").data("kendoDropDownList").text(),
 
             regEmpSeq : $("#regEmpSeq").val(),
             empSeq : $("#empSeq").val(),
@@ -867,11 +879,17 @@ var regPay = {
         $("#crmNm").val("")
     },
 
+    fn_exnpDeChange:function (){
+        $("#row3").css("display", "");
+        $("#row2").css("display", "");
+        $("#row1").css("display", "none");
+        $("#changeBtn").css("display", "none");
+    },
+
     fn_calCost: function(obj){
 
         var index = obj.id.substring(obj.id.length - 1);
         if(obj.id.match("totCost")){
-
             $("#vatCost" + index).val(regPay.comma(Number(regPay.uncomma($("#totCost" + index).val())) - Math.round(Number(regPay.uncomma($("#totCost" + index).val())) * 100 / 110)));
             $("#supCost" + index).val(regPay.comma(Number(regPay.uncomma($("#totCost" + index).val())) - Number(regPay.uncomma($("#vatCost" + index).val()))));
         } else if(obj.id.match("supCost")){
@@ -898,7 +916,6 @@ var regPay = {
     },
 
     fn_projectPop : function (type){
-
         var url = "/project/pop/g20ProjectView.do?type=" + type;
 
         var name = "_blank";

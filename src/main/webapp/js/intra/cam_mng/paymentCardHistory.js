@@ -318,6 +318,8 @@ var payCardHist = {
             return;
         }
 
+        console.log(data);
+
         opener.parent.$("#crmNm" + index).val(data.MER_NM);
         opener.parent.$("#trDe" + index).val(data.AUTH_DD.substring(0,4) + "-" + data.AUTH_DD.substring(4,6) + "-" + data.AUTH_DD.substring(6,8));
         opener.parent.$("#trCd" + index).val(data.TR_CD);
@@ -330,7 +332,7 @@ var payCardHist = {
         opener.parent.$("#crmAccHolder" + index).val(data.DEPOSITOR);
         opener.parent.$("#crmAccNo" + index).val(data.BA_NB);
         opener.parent.$("#crmBnkNm" + index).val(data.JIRO_NM);
-
+        opener.parent.$("#regNo" + index).val(data.MER_BIZNO);
         opener.parent.$("#authNo" + index).val(data.AUTH_NO);
         opener.parent.$("#authDd" + index).val(data.AUTH_DD);
         opener.parent.$("#authHh" + index).val(data.AUTH_HH);

@@ -159,4 +159,49 @@ public class setManagementController {
         }
         return "jsonView";
     }
+
+    @RequestMapping("/setManagement/exnpDeChangeRs.do")
+    public String exnpDeChangeRs(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "cam_manager/setManagement/exnpDeChangeRs";
+    }
+
+    @RequestMapping("/setManagement/getExnpDeChangeRs")
+    public String getExnpDeChangeRs(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list", setManagementService.getExnpDeChangeRs(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/setManagement/setExnpDeChangeRs")
+    public String setExnpDeChangeRs(@RequestParam Map<String, Object> params, Model model){
+        try{
+            setManagementService.setExnpDeChangeRs(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    @RequestMapping("/setManagement/delExnpDeChangeRs")
+    public String delExnpDeChangeRs(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            setManagementService.delExnpDeChangeRs(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }
