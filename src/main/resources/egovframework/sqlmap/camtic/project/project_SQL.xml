@@ -2392,7 +2392,10 @@
             </when>
             <otherwise>
                 AND A.PJT_SN = #{pjtSn}
-                AND A.MNG_STAT = 'C'
+                AND A.MNG_STAT = CASE WHEN (select mng_stat from cam_pjt_mng.dj_pjt_part_rate_ver where PJT_SN = #{pjtSn} order by part_rate_ver_sn desc limit 1) = 'S' THEN 'S'
+                WHEN (select mng_stat from cam_pjt_mng.dj_pjt_part_rate_ver where PJT_SN = #{pjtSn} order by part_rate_ver_sn desc limit 1) = 'C' THEN 'C'
+                ELSE 'R'
+                END
                 ORDER BY PART_RATE_VER_SN DESC
                 LIMIT 1
             </otherwise>
