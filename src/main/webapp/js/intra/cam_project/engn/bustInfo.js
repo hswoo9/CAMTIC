@@ -107,7 +107,14 @@ var bustInfo = {
                 }, {
                     field: "EMP_NAME",
                     title: "출장자",
-                    width: 80
+                    width: 80,
+                    template: function(row){
+                        if(row.COMPANION != 0){
+                            return row.EMP_NAME + " 외 "+row.COMPANION+"명";
+                        }else{
+                            return row.EMP_NAME;
+                        }
+                    }
                 }, {
                     title: "출장지 (경유지)",
                     template: function(row){
