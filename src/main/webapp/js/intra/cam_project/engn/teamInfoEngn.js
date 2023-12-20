@@ -16,6 +16,7 @@ var teamEngn = {
         console.log(result);
         const pjtMap = result.map;
         const delvMap = result.delvMap;
+        const setParameters = customKendo.fn_customAjax("/project/getProjectStep", data).rs;
 
         const verList = customKendo.fn_customAjax("/project/team/getTeamVersion", data).list;
 
@@ -31,7 +32,7 @@ var teamEngn = {
             }else if(pjtMap.PJT_STEP >= "E3"){
                 amtText = comma(pjtMap.PJT_AMT);
             }else{
-                amtText = comma(pjtMap.PJT_EXP_AMT);
+                amtText = comma(setParameters.EXP_AMT);
             }
             html += '    <td id="totalAmt'+verMap.TEAM_VERSION_SN+'" style="text-align: right">'+amtText+'</td>';
             html += '    <td style="text-align: center">'+commonProject.getDept(verMap.REG_EMP_SEQ)+'</td>';
@@ -131,7 +132,10 @@ var teamEngn = {
     fn_calCost: function(obj){
         var index = obj.id.split("_")[1];
         if(obj.id.match("invAmt")){
-            $("#incomePer_" + index).val(Math.round(100 - Number(uncomma(obj.value)) / Number(uncomma($("#nowTotalAmt"+index).text())) * 100));
+            const invAmt = uncomma(obj.value);
+            const nowTotalAmt = uncomma($("#nowTotalAmt"+index).text());
+            const returnVal = Math.round(100 - Number(invAmt) / Number(nowTotalAmt) * 100);
+            $("#incomePer_" + index).val(returnVal);
         }
 
         inputNumberFormat(obj);
@@ -140,7 +144,7 @@ var teamEngn = {
     fn_teamReqPop: function(){
         let url = "/intra/cam_project/teamReqPop.do?pjtSn="+$("#pjtSn").val()+"&teamVersionSn="+$("#teamVersionSn").val();
         let name = "studyReqPop";
-        let option = "width = 900, height = 262, top = 300, left = 400, location = no";
+        let option = "width = 900, height = 330, top = 300, left = 400, location = no";
         window.open(url, name, option);
     }
 }
