@@ -290,4 +290,8 @@ public class PayAppRepository extends AbstractDAO {
     public void updPayDepoFile(Map<String, Object> fileInsMap) {
         update("payApp.updPayDepoFile", fileInsMap);
     }
+
+    public void updExnpDe(Map<String, Object> param) {
+        update("payApp.updExnpDe", param);
+    }
 }

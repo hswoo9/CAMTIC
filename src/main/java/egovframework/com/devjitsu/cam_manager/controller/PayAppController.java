@@ -754,6 +754,19 @@ public class PayAppController {
         return "jsonView";
     }
 
+    @RequestMapping("/pay/updExnpDe")
+    public String updExnpDe(@RequestParam("payAppSn") int[] params, @RequestParam Map<String, Object> params2, Model model){
+
+        try{
+            payAppService.updExnpDe(params, params2);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     @RequestMapping("/pay/pop/depoProjectViewPop.do")
     public String depoProjectViewPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();

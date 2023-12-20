@@ -1127,6 +1127,17 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
+    public void updExnpDe(int[] params, Map<String, Object> params2) {
+        for(int i = 0 ; i < params.length ; i++){
+            Map<String, Object> map = new HashMap<>();
+
+            map.put("payAppSn", params[i]);
+            map.put("payExnpDe", params2.get("payExnpDe"));
+            payAppRepository.updExnpDe(map);
+        }
+    }
+
+    @Override
     public List<Map<String, Object>> getPayAppFileList(Map<String, Object> params) {
         return payAppRepository.getPayAppFileList(params);
     }

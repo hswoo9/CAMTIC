@@ -80,4 +80,6 @@ public interface PayAppService {
     List<Map<String, Object>> getApprovalExnpFileData(Map<String, Object> params);
 
     List<Map<String, Object>> getPjtExnpList(Map<String, Object> params);
+
+    void updExnpDe(int[] params, Map<String, Object> params2);
 }

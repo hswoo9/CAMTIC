@@ -210,6 +210,10 @@ var regPayDepo = {
                 $("#pjtNm").val(rs.PJT_NM);
                 $("#pjtCd").val(rs.PJT_CD);
 
+                if(rs.PJT_STEP.substring(0, 1) == "E"){
+                    $("#crmNm").val(rs.CRM_NM);
+                    $("#crmSn").val(rs.CRM_SN);
+                }
 
                 $("#depoTitle").val("입금신청 - " + rs.PJT_NM);
             }

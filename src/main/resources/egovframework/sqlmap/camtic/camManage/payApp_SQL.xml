@@ -29,7 +29,8 @@
                 LINK_KEY,
                 LINK_KEY_TYPE,
             </if>
-                REG_EMP_SEQ
+                REG_EMP_SEQ,
+                EXNP_ISS
             )
         VALUES
             (
@@ -55,7 +56,8 @@
                 #{linkKey},
                 #{linkKeyType},
             </if>
-                #{regEmpSeq}
+                #{regEmpSeq},
+                #{exnpIss}
             )
         <selectKey keyProperty="payAppSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_MNG' AND TABLE_NAME = 'DJ_PAY_APP'
@@ -149,7 +151,8 @@
             PAY_APP_STAT = #{payAppStat},
             ADVANCES = #{advances},
             MOD_DT = NOW(),
-            MOD_EMP_SEQ = #{regEmpSeq}
+            MOD_EMP_SEQ = #{regEmpSeq},
+            EXNP_ISS = #{exnpIss}
         WHERE
             PAY_APP_SN = #{payAppSn}
     </update>
@@ -1493,6 +1496,15 @@
     <delete id="delPayApp" parameterType="int">
         /*delPayApp*/
         DELETE FROM CAM_MNG.DJ_PAY_APP
+        WHERE
+            PAY_APP_SN = #{payAppSn}
+    </delete>
+
+    <delete id="updExnpDe" parameterType="map">
+        /*updExnpDe*/
+        UPDATE CAM_MNG.DJ_PAY_APP
+        SET
+            PAY_EXNP_DE = #{payExnpDe}
         WHERE
             PAY_APP_SN = #{payAppSn}
     </delete>

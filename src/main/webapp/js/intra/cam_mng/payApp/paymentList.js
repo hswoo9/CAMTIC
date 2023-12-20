@@ -34,6 +34,8 @@ var paymentList = {
 
         customKendo.fn_dropDownList("searchKeyword", paymentList.global.dropDownDataSource, "text", "value");
         customKendo.fn_textBox(["searchValue"]);
+        customKendo.fn_datePicker("payExnpDe", "depth", "yyyy-MM-dd", new Date());
+
         paymentList.gridReload();
     },
 
@@ -55,8 +57,8 @@ var paymentList = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="paymentList.fn_delReqReg()">' +
-                            '	<span class="k-button-text">삭제</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="paymentList.fn_enxpChangeModal()">' +
+                            '	<span class="k-button-text">지출예정일 변경</span>' +
                             '</button>';
                     }
                 }, {
@@ -78,11 +80,9 @@ var paymentList = {
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="paymentList.fn_checkAll(this)"/>',
                     template : function (e){
-                        if(e.DOC_STATUS == 0){
-                            return "<input type='checkbox' id='payAppSn"+e.PAY_APP_SN+"' name='payChk' value='"+e.PAY_APP_SN+"'/>"
-                        } else {
-                            return "";
-                        }
+
+                        return "<input type='checkbox' id='payAppSn"+e.PAY_APP_SN+"' name='payChk' value='"+e.PAY_APP_SN+"'/>"
+
                     },
                     width: 50
                 }, {
@@ -143,7 +143,14 @@ var paymentList = {
                 }, {
                     title: "지출요청일",
                     width: 80,
-                    field: "REQ_DE"
+                    field: "REQ_DE",
+                    template : function(e){
+                        if(e.EXNP_ISS != null && e.EXNP_ISS != "" && e.EXNP_ISS != undefined){
+                            return '<a href="javascript:alert(\''+e.EXNP_ISS+'\')" style="font-weight: bold">'+e.REQ_DE+'</a>';
+                        } else {
+                            return e.REQ_DE
+                        }
+                    }
                 }, {
                     title: "지출예정일",
                     width: 80,
@@ -188,6 +195,18 @@ var paymentList = {
 
                         return stat;
                     }
+                },{
+                    title : "삭제",
+                    template : function(e){
+                        if(e.DOC_STATUS == 0){
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="paymentList.fn_delReqReg('+e.PAY_APP_SN+')">' +
+                                '	<span class="k-button-text">삭제</span>' +
+                                '</button>';
+                        } else {
+                            return "";
+                        }
+                    },
+                    width: 60
                 }
             ],
             dataBinding: function(){
@@ -225,20 +244,52 @@ var paymentList = {
         var popup = window.open(url, name, option);
     },
 
-    // 삭제 function
-    fn_delReqReg : function (){
-        if(!confirm("해당건을 삭제하시겠습니까?")){
-            return;
-        }
+    fn_enxpChangeModal : function(){
+        var dialog = $("#dialog").data("kendoWindow");
+
+        dialog.center();
+        dialog.open();
+    },
+
+    fn_changeExnpDe : function (){
         var checkValue = [];
         $("input[name='payChk']:checked").each(function(){
             checkValue.push($(this).val());
         });
 
-        console.log(checkValue);
+        var data = {
+            payAppSn : checkValue,
+            payExnpDe : $("#payExnpDe").val()
+        }
+
+        $.ajax({
+            url : "/pay/updExnpDe",
+            type : "POST",
+            data : data,
+            dataType : 'json',
+            traditional : true,
+            success : function (rs){
+                if(rs.code == 200){
+                    alert("변경되었습니다.");
+
+                    paymentList.gridReload();
+
+                    $("#dialog").data("kendoWindow").close();
+                }
+            }
+        });
+    },
+
+    // 삭제 function
+    fn_delReqReg : function (key){
+        if(!confirm("삭제하시겠습니까?")){
+            return;
+        }
+        var checkValue = [];
+        checkValue.push(key);
 
         var data = {
-            payAppSn : checkValue
+            payAppSn : checkValue,
         }
 
         $.ajax({

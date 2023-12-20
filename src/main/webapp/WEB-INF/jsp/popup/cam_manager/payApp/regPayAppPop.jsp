@@ -325,20 +325,36 @@
             <col width="35%">
         </colgroup>
         <thead>
-        <tr>
+        <tr id="row1">
+            <th colspan="4" style="text-align: center;">
+                <span>
+                    법인 자금집행 기준에 따른 본 지급신청의 지출예정일은 <br>
+                    [<span style="color: red; font-weight: bold" id="payExnpDeText"></span>] 입니다.<br>
+                    위 일자에 지출할 경우 문서번호를 생성하세요.<br>
+                </span>
+            </th>
+        </tr>
+        <tr style="display:none;" id="row2">
             <th>지출요청일</th>
-            <td>
+            <td colspan="3">
                 <input type="text" id="reqDe" style="width: 80%" name="reqDe" value="">
             </td>
-            <th>지출예정일</th>
-            <td>
+            <th style="display:none">지출예정일</th>
+            <td style="display:none">
                 <input type="text" id="payExnpDe" style="width: 80%" name="payExnpDe" value="">
                 <input type="hidden" id="tmpPayDe" />
             </td>
         </tr>
+        <tr style="display:none;" id="row3">
+            <th>사유</th>
+            <td colspan="3">
+                <input type="text" id="exnpIss" style="width: 80%" name="exnpIss" value="">
+            </td>
+        </tr>
         </thead>
     </table>
-    <button type="button" onclick="regPay.payAppDrafting()" class="k-button k-button-solid-info" style="float: right; margin-top:8px;">상신</button>
+    <button type="button" onclick="regPay.payAppDrafting()" class="k-button k-button-solid-info" style="float: right; margin-top:8px; font-size: 12px;">상신</button>
+    <button type="button" class="k-button k-button-solid-base" id="changeBtn" style="float: right; margin-top:8px; margin-right: 5px; font-size: 12px;" onclick="regPay.fn_exnpDeChange()">지출예정일 변경</button>
 </div>
 
 <script type="text/javascript">
@@ -351,11 +367,12 @@
         resizable: false,
         modal: true,
         width: 500,
+        scrollable : false,
         actions: ["Close"],
     });
 
     $("#dialogDraft").kendoWindow({
-        title: "지출일자 설정",
+        title: "지출예정일 확인",
         visible : false,
         resizable: false,
         modal: true,
@@ -394,14 +411,14 @@
         }
 
         console.log(cd.substring(0, 1));
-        if(cd.substring(0, 1) == "R" || cd.substring(0, 1) == "S") {
-            $("#reasonTh").css("display", "");
-            $(".reasonTr").css("display", "");
-            $("#reasonCol").css("display", "");
-        } else {
+        if(cd.substring(0, 1) == "M") {
             $("#reasonTh").css("display", "none");
             $(".reasonTr").css("display", "none");
             $("#reasonCol").css("display", "none");
+        } else {
+            $("#reasonTh").css("display", "");
+            $(".reasonTr").css("display", "");
+            $("#reasonCol").css("display", "");
         }
         var result = customKendo.fn_customAjax("/project/getBankData", data);
         var rs = result.data;

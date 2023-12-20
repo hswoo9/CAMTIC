@@ -378,8 +378,5 @@ function dateCheck(startDate, endDate, bsDate, beDate){
         flag = false;
     }
 
-
-
     return flag;
-
 }
