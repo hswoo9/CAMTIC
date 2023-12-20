@@ -2,6 +2,8 @@ const recruitPrintPop = {
     global: {
         hwpCtrl : "",
         params : "",
+        now : "",
+        fileTitle : ""
     },
 
     init: function(){
