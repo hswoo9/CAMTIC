@@ -182,11 +182,11 @@
             <tr>
               <td rowspan="2" scope="col">미래전략기획본부</td>
               <td scope="col">미래전략기획팀</td>
-              <td scope="col">063)219-0394</td>
+              <td scope="col">063)219-0422</td>
             </tr>
             <tr>
               <td scope="col">J-밸리혁신팀</td>
-              <td scope="col">063)219-0383</td>
+              <td scope="col">063)219-0325</td>
             </tr>
             <tr>
               <td rowspan="3" scope="col">R&BD사업본부</td>
@@ -213,7 +213,7 @@
             <tr>
               <td rowspan="3" scope="col">일자리혁신지원센터</td>
               <td scope="col">일자리사업팀</td>
-              <td scope="col">063)219-0396</td>
+              <td scope="col">063)219-0385</td>
             </tr>
             <tr>
               <td scope="col">전북조선업도약팀</td>
@@ -245,7 +245,7 @@
             <tr>
               <td rowspan="2" scope="col">경영지원실</td>
               <td scope="col">사업지원팀</td>
-              <td scope="col">063)219-0415</td>
+              <td scope="col">063)219-0418</td>
             </tr>
             <tr>
               <td scope="col">경영지원팀</td>

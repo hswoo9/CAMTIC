@@ -42,6 +42,11 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
     }
 
     @Override
+    public Map<String, Object> getVerLeftAmt(Map<String, Object> params) {
+        return projectTeamRepository.getVerLeftAmt(params);
+    }
+
+    @Override
     public void setTeamAddVersion(Map<String, Object> params) {
         projectTeamRepository.setTeamAddVersion(params);
 

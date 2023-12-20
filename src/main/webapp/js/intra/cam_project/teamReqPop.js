@@ -15,7 +15,22 @@ var teamReq = {
 
         customKendo.fn_textBox(["team", "teamPMNm", "teamAmt", "teamPer", "teamInvAmt", "teamIncomePer"]);
 
+        /** 총 예산 */
+        let amtText = "";
+        if(pjtMap.PJT_STEP < "E3" && delvMap != null){
+            amtText = comma(delvMap.DELV_AMT);
+        }else if(pjtMap.PJT_STEP >= "E3"){
+            amtText = comma(pjtMap.PJT_AMT);
+        }else{
+            amtText = comma(pjtMap.PJT_EXP_AMT);
+        }
+        $("#delvAmt").val(amtText);
+
         /** 수주부서 남은 잔액 조회 */
+        const leftResult = customKendo.fn_customAjax("/project/team/getVerLeftAmt", data);
+        const leftMap = leftResult.data;
+        let leftAmt = leftMap.TM_AMT_SUM;
+        $("#leftAmt").val(leftAmt);
     },
 
     fn_calCost: function(obj){
