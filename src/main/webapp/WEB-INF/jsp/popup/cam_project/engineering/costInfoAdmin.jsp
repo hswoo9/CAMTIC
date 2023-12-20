@@ -145,6 +145,32 @@
         <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 지출내역</span>
         <div id="grid4"></div>
     </div>
+
+    <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 총 합계</span>
+    <table class="popTable table table-bordered mb-0">
+        <colgroup>
+            <col width="12.5%">
+            <col width="12.5%">
+            <col width="12.5%">
+            <col width="12.5%">
+            <col width="12.5%">
+            <col width="12.5%">
+            <col width="12.5%">
+            <col width="12.5%">
+        </colgroup>
+        <thead>
+        <tr>
+            <th style="text-align: center">구매</th>
+            <td id="purcSum" style="text-align: right"></td>
+            <th style="text-align: center">출장</th>
+            <td id="bustSum" style="text-align: right"></td>
+            <th style="text-align: center">비용</th>
+            <td id="costSum" style="text-align: right"></td>
+            <th style="text-align: center">총 합계</th>
+            <td id="invSum" style="text-align: right"></td>
+        </tr>
+        </thead>
+    </table>
 </div>
 
 <script>
