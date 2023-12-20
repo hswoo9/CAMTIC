@@ -117,9 +117,21 @@
                 '	</colgroup>' +
                 '	<tbody>' +
                 '		<tr>' +
-                '			<th scope="row" class="text-center th-color"><span class="red-star">*</span>직무</th>' +
+                '			<th scope="row" class="text-center th-color"><span class="red-star"></span>성명</th>' +
                 '			<td>' +
-                '				<input type="text" id="chngAf" name="chngAf" style="width: 90%"/>' +
+                '				<input type="text" id="chngNm" name="chngNm" style="width: 90%"/>' +
+                '			</td>' +
+                '		</tr>' +
+                '		<tr>' +
+                '			<th scope="row" class="text-center th-color"><span class="red-star"></span>직급</th>' +
+                '			<td>' +
+                '				<input type="text" id="chngPt" name="chngPt" style="width: 90%"/>' +
+                '			</td>' +
+                '		</tr>' +
+                '		<tr>' +
+                '			<th scope="row" class="text-center th-color"><span class="red-star"></span>부서</th>' +
+                '			<td>' +
+                '				<input type="text" id="chngDept" name="chngDept" style="width: 90%"/>' +
                 '			</td>' +
                 '		</tr>' +
                 '	</tbody>' +
@@ -129,7 +141,7 @@
 
             // modalKendoSetCmCodeCM();
 
-            $("#chngAf").kendoTextBox();
+            $("#chngNm ,#chngPt, #chngDept").kendoTextBox();
         },
         close: function () {
             // $("#pjtStopModal").empty();

@@ -187,6 +187,9 @@
             HAI.ETC,
             IFNULL(HAI.CHNG_JOB, '') AS CHNG_JOB,
             IFNULL(HAI.AF_JOB_DETAIL, '') AS AF_JOB_DETAIL,
+            IFNULL(HAI.CHNG_NAME, '') AS CHNG_NAME,
+            IFNULL(HAI.CHNG_DEPT, '') AS CHNG_DEPT,
+            IFNULL(HAI.CHNG_POSITION, '') AS CHNG_POSITION,
             CFI.*
         FROM
             CAM_HR.DJ_APNT_INFO HAI
@@ -539,7 +542,9 @@
     <update id="modAf" parameterType="map">
         UPDATE CAM_HR.DJ_APNT_INFO
         SET
-            CHNG_JOB = #{chngAf}
+            CHNG_NAME = #{chngNm},
+            CHNG_POSITION = #{chngPt},
+            CHNG_DEPT = #{chngDept}
         WHERE
             APNT_SN = #{apntSn}
     </update>
