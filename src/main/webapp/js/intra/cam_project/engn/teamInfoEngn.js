@@ -123,7 +123,7 @@ var teamEngn = {
         /** 예상수익 */
         html += '    <td style="text-align: right"><span id="myIncomePer_'+myMap.TM_SN+'" style="position: relative; top: 5px">'+myIncomePer+'</span></td>';
         /** PM */
-        html += '    <td style="text-align: center"><span style="position: relative; top: 5px">미승인</span></td>';
+        html += '    <td style="text-align: center"><span style="position: relative; top: 5px">-</span></td>';
         /** 팀장 */
         html += '    <td style="text-align: center"><span style="position: relative; top: 5px">미승인</span></td>';
         html += '</tr>';
@@ -177,8 +177,10 @@ var teamEngn = {
         if(verMap != null){
             const status = verMap.STATUS;
             if(status == 0){
-                buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="">승인요청</button>';
-            }else{
+                buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="teamAjax.fn_approve(10)">승인요청</button>';
+            }else if(status == 10){
+                buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-error" onclick="teamAjax.fn_approve(0)">승인요청 취소</button>';
+            }else if(status == 100){
                 buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="teamAjax.fn_addVersion()">버전추가</button>';
             }
         }else{
