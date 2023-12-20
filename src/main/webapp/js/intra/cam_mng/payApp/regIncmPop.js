@@ -300,6 +300,7 @@ var regIncm = {
 
                 $("#pjtNm").val(rs.AFT_PJT_NM);
                 $("#pjtSn").val(rs.AFT_PJT_SN);
+                $("#pjtCd").val(rs.PJT_CD);
                 $("#budgetNm").val(rs.BUDGET_NM);
                 $("#budgetSn").val(rs.BUDGET_SN);
                 $("#appCont").val(rs.DEPO_CONT);
