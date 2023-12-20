@@ -132,7 +132,7 @@
                         <span class="red-star"></span>참여 연구원
                     </th>
                     <td colspan="3">
-                        <input type="text" id="joinMember" style="width: 80%;">
+                        <input type="text" id="joinMemberPart" style="width: 80%;">
                         <input type="hidden" id="joinMemberSn" />
                     </td>
                 </tr>
@@ -252,7 +252,7 @@
             empSeq += arr[i].empSeq + ",";
             empNm += arr[i].empName + ",";
         }
-        $("#joinMember").val(empNm.slice(0, -1));
+        $("#joinMemberPart").val(empNm.slice(0, -1));
         $("#joinMemberSn").val(empSeq.slice(0, -1));
     }
 

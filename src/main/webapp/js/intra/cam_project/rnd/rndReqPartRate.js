@@ -3,7 +3,7 @@ var rndRPR = {
 
     fn_defaultScript : function (){
 
-        customKendo.fn_textBox(["joinMember", "minPartRate", "maxPartRate", "payBudget", "itemBudget"]);
+        customKendo.fn_textBox(["joinMemberPart", "minPartRate", "maxPartRate", "payBudget", "itemBudget"]);
 
         $("#monAccCal, #partEtc").kendoTextArea({
             rows: 5,
@@ -25,7 +25,7 @@ var rndRPR = {
         if(rs != null){
             $("#partRateSn").val(rs.PART_RATE_SN);
             $("#joinMemberSn").val(rs.JOIN_MEM_SN);
-            $("#joinMember").val(rs.JOIN_MEM_NM);
+            $("#joinMemberPart").val(rs.JOIN_MEM_NM);
             $("#monAccCal").val(rs.MON_PAY_CRT);
             $("#minPartRate").val(rs.MIN_PART_RATE);
             $("#maxPartRate").val(rs.MAX_PART_RATE);
@@ -62,7 +62,7 @@ var rndRPR = {
             }
 
             if(userName != ""){
-                // $("#joinMember").val(userName);
+                // $("#joinMemberPart").val(userName);
                 // $("#joinMemberSn").val(userSn);
             }
             $("#saveRateBtn").css("display", "");
@@ -103,7 +103,7 @@ var rndRPR = {
         }
 
         var parameters = {
-            joinMemNm : $("#joinMember").val(),
+            joinMemNm : $("#joinMemberPart").val(),
             joinMemSn : $("#joinMemberSn").val(),
             monPayCrt : $("#monAccCal").val(),
             minPartRate : $("#minPartRate").val(),
@@ -188,7 +188,7 @@ var rndRPR = {
             pjtSn : $("#pjtSn").val(),
             partRateSn : $("#partRateSn").val(),
             joinMemberSn : $("#joinMemberSn").val(),
-            joinMemNm : $("#joinMember").val(),
+            joinMemNm : $("#joinMemberPart").val(),
             empName : $("#verEmpName").val(),
             empSeq : $("#verEmpSeq").val(),
             reqSort : "신규"
