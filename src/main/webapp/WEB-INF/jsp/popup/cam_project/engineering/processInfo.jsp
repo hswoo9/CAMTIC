@@ -304,7 +304,7 @@
                     html += '   <td>' + fCommon.global.attFiles1[i].name.split(".")[1] + '</td>';
                     html += '   <td>' + fCommon.global.attFiles1[i].size + '</td>';
                     html += '   <td>';
-                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
+                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="processInfo.fnUploadFile(' + i + ', ' + idx + ')">'
                     html += '   </td>';
                     html += '</tr>';
                 }
@@ -328,7 +328,7 @@
                     html += '   <td>' + fCommon.global.attFiles2[i].name.split(".")[1] + '</td>';
                     html += '   <td>' + fCommon.global.attFiles2[i].size + '</td>';
                     html += '   <td>';
-                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
+                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="processInfo.fnUploadFile(' + i + ', ' + idx + ')">'
                     html += '   </td>';
                     html += '</tr>';
                 }
@@ -352,7 +352,7 @@
                     html += '   <td>' + fCommon.global.attFiles3[i].name.split(".")[1] + '</td>';
                     html += '   <td>' + fCommon.global.attFiles3[i].size + '</td>';
                     html += '   <td>';
-                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
+                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="processInfo.fnUploadFile(' + i + ', ' + idx + ')">'
                     html += '   </td>';
                     html += '</tr>';
                 }
@@ -376,7 +376,7 @@
                     html += '   <td>' + fCommon.global.attFiles4[i].name.split(".")[1] + '</td>';
                     html += '   <td>' + fCommon.global.attFiles4[i].size + '</td>';
                     html += '   <td>';
-                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
+                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="processInfo.fnUploadFile(' + i + ', ' + idx + ')">'
                     html += '   </td>';
                     html += '</tr>';
                 }
@@ -400,7 +400,7 @@
                     html += '   <td>' + fCommon.global.attFiles5[i].name.split(".")[1] + '</td>';
                     html += '   <td>' + fCommon.global.attFiles5[i].size + '</td>';
                     html += '   <td>';
-                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
+                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="processInfo.fnUploadFile(' + i + ', ' + idx + ')">'
                     html += '   </td>';
                     html += '</tr>';
                 }
@@ -424,7 +424,7 @@
                     html += '   <td>' + fCommon.global.attFiles6[i].name.split(".")[1] + '</td>';
                     html += '   <td>' + fCommon.global.attFiles6[i].size + '</td>';
                     html += '   <td>';
-                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
+                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="processInfo.fnUploadFile(' + i + ', ' + idx + ')">'
                     html += '   </td>';
                     html += '</tr>';
                 }
