@@ -252,6 +252,7 @@ var historyList = {
         $("#modAf").data("kendoWindow").open();
 
         $("#selectKey").val(key);
+
     },
 
     saveChangeAf: function (){
