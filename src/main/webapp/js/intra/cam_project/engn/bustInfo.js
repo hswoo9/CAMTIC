@@ -82,6 +82,8 @@ var bustInfo = {
 
                     $(this).css("background-color", "#a7e1fc");
                 });
+
+                bustSum = 0;
             },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
