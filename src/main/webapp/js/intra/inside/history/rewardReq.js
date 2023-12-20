@@ -95,7 +95,7 @@ var rewardReq = {
                     width: 100
                 }, {
                     field: "REWORD_NAME",
-                    title: "포상명",
+                    title: "포상 구분",
                     width: 150
                 }, {
                     field: "REWORD_DAY",
