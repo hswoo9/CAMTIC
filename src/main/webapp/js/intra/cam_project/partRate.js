@@ -235,7 +235,6 @@ var partRate = {
                 }
 
                 if(mem[i].MON_DIFF != null){
-                    console.log(mem[i].MON_DIFF);
                     $("#memMon" + i).val(mem[i].MON_DIFF);
                 }
 
@@ -299,7 +298,7 @@ var partRate = {
         $("#itemTotal").val(comma(itemBdgt));
 
 
-        partRate.fn_memCalc(uncomma(totAmt), rs.PAY_BUDGET, item);
+        //partRate.fn_memCalc(uncomma(totAmt), rs.PAY_BUDGET, item);
         item++;
     },
 
