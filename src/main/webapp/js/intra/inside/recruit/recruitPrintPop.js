@@ -2,6 +2,8 @@ const recruitPrintPop = {
     global: {
         hwpCtrl : "",
         params : "",
+        now : "",
+        fileTitle : ""
     },
 
     init: function(){
@@ -147,6 +149,10 @@ const recruitPrintPop = {
         html += '</table>';
         recruitPrintPop.global.hwpCtrl.MoveToField('RECRUIT_HTML', true, true, false);
         recruitPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
+    },
+
+    saveHwp : function (){
+        recruitPrintPop.global.hwpCtrl.SaveAs(recruitPrintPop.global.fileTitle, "hwp", "download:true");
     },
 
     resize: function() {

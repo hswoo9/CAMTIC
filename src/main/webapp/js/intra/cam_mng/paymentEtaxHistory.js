@@ -527,6 +527,8 @@ var payEtaxHist = {
                 $('#txtIssDateMonth').html(txtIssDateMonth);
                 $('#txtIssDateDate').html(txtIssDateDate);
 
+                eTaxInfo.tradeDe = txtIssDateYear + '-' + txtIssDateMonth + '-' + txtIssDateDate;
+
 
                 /* 물품 그리기 */
                 // <c:set var="myVar" value="Dale's Truck" />
@@ -656,7 +658,7 @@ var payEtaxHist = {
                     eTaxInfo.trCd, eTaxInfo.trNm, eTaxInfo.isuDt, eTaxInfo.trregNb,
                     eTaxInfo.supAm, eTaxInfo.vatAm, eTaxInfo.sumAm, eTaxInfo.issNo, eTaxInfo.coCd,
                     eTaxInfo.taxTy, eTaxInfo.idx, fileNo, eTaxInfo.baNb, eTaxInfo.bankNm,
-                    eTaxInfo.depositor);
+                    eTaxInfo.depositor, eTaxInfo.tradeDe);
 
                 window.close();
 

@@ -256,6 +256,7 @@ var rndPR = {
                 var totAmt = (Math.floor(sum/10) * 10).toString().toMoney();
                 var bsSal = totAmt;
                 if(mem[i].CHNG_SAL != undefined && mem[i].CHNG_SAL != null){
+                    bsSal = mem[i].CHNG_SAL;
                     totAmt = mem[i].CHNG_SAL;
                 }
                 var gubun = "";
@@ -381,7 +382,7 @@ var rndPR = {
     },
 
     fn_monDiff : function (_date1, _date2){
-        var pSDate = _date1; //참여 시작일
+        /*var pSDate = _date1; //참여 시작일
         var pEDate = _date2; //참여 종료일
 
         var pSDateArray = pSDate.split("-");
@@ -411,7 +412,55 @@ var rndPR = {
 
         var pDateMonth = Number(pMonthSet) + Number(pSDateDayPerSet) + Number(pEDateDayPerSet);
 
-        return pDateMonth.toFixed(2);
+        return pDateMonth.toFixed(2);*/
+
+        var pSDate = _date1; // 참여 시작일
+        var pEDate = _date2; // 참여 종료일
+
+        var pSDateArray = pSDate.split("-");
+        var pEDateArray = pEDate.split("-");
+
+        var pSDateSet = new Date(pSDateArray[0], pSDateArray[1] - 1, pSDateArray[2]);
+        var pEDateSet = new Date(pEDateArray[0], pEDateArray[1] - 1, pEDateArray[2]);
+
+        var pSDateLastSet = new Date(pSDateArray[0], pSDateArray[1], 0).getDate();
+        var pEDateLastSet = new Date(pEDateArray[0], pEDateArray[1], 0).getDate();
+
+        var pSDateYear = pSDateSet.getFullYear();
+        var pSDateMonth = pSDateSet.getMonth();
+        var pSDateDay = pSDateSet.getDate();
+
+        var pEDateYear = pEDateSet.getFullYear();
+        var pEDateMonth = pEDateSet.getMonth();
+        var pEDateDay = pEDateSet.getDate();
+
+        var pMonthSet = ((pEDateYear - pSDateYear) * 12) + (pEDateMonth - pSDateMonth) - 1;
+
+        var pSDateDaySet = pSDateLastSet - pSDateDay + 1;
+        var pEDateDaySet = pEDateDay;
+
+        var pSDateDayPerSet = pSDateDaySet / pSDateLastSet;
+        var pEDateDayPerSet = pEDateDaySet / pEDateLastSet;
+
+        var pDateMonth = pMonthSet + pSDateDayPerSet + pEDateDayPerSet;
+
+        // console.log("pMonthSet:", pMonthSet);
+        // console.log("pSDateDaySet:", pSDateDaySet);
+        // console.log("pEDateDaySet:", pEDateDaySet);
+        // console.log("pSDateDayPerSet:", pSDateDayPerSet);
+        // console.log("pEDateDayPerSet:", pEDateDayPerSet);
+        // console.log("pDateMonth:", pDateMonth);
+
+        var finalReturn = rndPR.truncateStringToOneDecimal(pDateMonth.toString());
+
+        // console.log("finalReturn:", finalReturn);
+        return finalReturn;
+    },
+
+
+
+    truncateStringToOneDecimal : function (str) {
+    return (Math.floor(Number(str) * 10) / 10).toString();
     },
 
     fn_buttonSet : function(rateMap){
@@ -437,12 +486,12 @@ var rndPR = {
         $("#partRateVerSn").val(key);
         $("#rateDraftFrm").one("submit", function() {
             var url = "/popup/cam_project/approvalFormPopup/rateChangeApprovalPop.do";
-            var name = "_self";
+            var name = "참여율 변경 공문 작성";
             var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50";
             var popup = window.open(url, name, option);
             this.action = "/popup/cam_project/approvalFormPopup/rateChangeApprovalPop.do";
             this.method = 'POST';
-            this.target = '_self';
+            this.target = '참여율 변경 공문 작성';
         }).trigger("submit");
     },
 
