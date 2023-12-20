@@ -20,7 +20,7 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">협업 등록</span>
             </h3>
-            <button type="button" id="saveBtn" style="float: right; top:5px" class="k-button k-button-solid-info" onclick="">저장</button>
+            <button type="button" id="saveBtn" style="float: right; top:5px" class="k-button k-button-solid-info" onclick="teamReq.fn_save()">저장</button>
         </div>
         <table class="popTable table table-bordered mb-0">
             <colgroup>

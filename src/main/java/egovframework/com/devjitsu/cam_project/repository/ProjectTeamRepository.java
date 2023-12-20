@@ -28,4 +28,12 @@ public class ProjectTeamRepository extends AbstractDAO {
     public void setTeamDelv(Map<String, Object> params) {
         insert("projectTeam.setTeamDelv", params);
     }
+
+    public void updMyTeam(Map<String, Object> params) {
+        update("projectTeam.updMyTeam", params);
+    }
+
+    public void setTeam(Map<String, Object> params) {
+        insert("projectTeam.setTeam", params);
+    }
 }

@@ -40,16 +40,72 @@ var teamReq = {
 
     fn_calCost: function(obj){
         if(obj.id.match("teamAmt") || obj.id.match("teamInvAmt")){
+            /** 배분비율 */
             const teamAmt = uncomma($("#teamAmt").val());
             const leftAmt = uncomma($("#leftAmt").val());
             const teamPer = 100 - Math.round(100 - Number(teamAmt) / Number(leftAmt) * 100);
             $("#teamPer").val(teamPer);
 
-            const teamInvAmt = uncomma(obj.value);
+            /** 수익비율 */
+            const teamInvAmt = uncomma($("#teamInvAmt").val());
             const teamIncomePer = Math.round(100 - Number(teamInvAmt) / Number(teamAmt) * 100);
             $("#teamIncomePer").val(teamIncomePer);
         }
 
         inputNumberFormat(obj);
+    },
+
+    fn_save: function(){
+        var parameters = {
+            pjtSn : $("#pjtSn").val(),
+            teamVersionSn : $("#teamVersionSn").val(),
+
+            tmType : 1,
+
+            tmTeamSeq : $("#teamSeq").val(),
+            tmPMSeq : $("#teamPMSeq").val(),
+            teamAmt : uncomma($("#teamAmt").val()),
+            tmInvAmt : uncomma($("#teamInvAmt").val()),
+
+            regEmpSeq : $("#regEmpSeq").val()
+        }
+
+        if(parameters.tmPMSeq == ""){
+            alert("담당자를 선택해주세요."); return;
+        }
+
+        if(parameters.teamAmt == "" || parameters.teamAmt == 0 || parameters.teamAmt == null){
+            alert("배분금액 입력되지 않았습니다."); return;
+        }
+
+        if(parameters.tmInvAmt == "" || parameters.tmInvAmt == 0 || parameters.tmInvAmt == null){
+            alert("예상비용이 입력되지 않았습니다."); return;
+        }
+
+        if(!confirm("협업등록을 하시겠습니까?")){
+            return;
+        }
+
+        if(parameters.pjtSn == "" || parameters.teamVersionSn == ""){
+            alert("데이터 조회 중 오류가 발생하였습니다. 창을 닫고 재시도 바랍니다."); return;
+        }
+
+        const result = customKendo.fn_customAjax("/project/team/setTeam", parameters);
+        if(result.code == "200"){
+            alert("저장이 완료되었습니다.");
+            const busnClass = opener.commonProject.global.busnClass;
+            if(busnClass == "D"){
+                opener.window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=5";
+            }else if(busnClass == "R"){
+                opener.window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=5";
+            }else if(busnClass == "S"){
+                opener.window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=5";
+            }else{
+                opener.window.location.reload();
+            }
+            window.close();
+        }else{
+            alert("데이터 저장 중 오류가 발생하였습니다.");
+        }
     }
 }
