@@ -171,7 +171,7 @@
                         <span id="vat"></span>
                     </td>
                 </tr>
-                <tr>
+                <tr style="display: none">
                     <th scope="row" class="text-center th-color">처리</th>
                     <td colspan="3">
                         <input type="checkbox" style="position: relative; top: 5px;" value="N" id="checkProfit">

@@ -113,6 +113,11 @@ var delvInfo = {
             return;
         }
 
+        if($("#delvAmt").val() == ""){
+            alert("수주금액을 입력해주세요.");
+            return;
+        }
+
         if($("input[name='delvDept']:checked").val() == null || $("input[name='delvDept']:checked").val() == undefined || $("input[name='delvDept']:checked").val() == ""){
             alert("참여부서를 선택해주세요.");
             return;

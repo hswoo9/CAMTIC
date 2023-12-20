@@ -138,10 +138,10 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>수주금액
+                    <span class="red-star">*</span>수주금액
                 </th>
                 <td>
-                    <input type="text" id="delvAmt" style="text-align: right; width: 90%;" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /> 원
+                    <input type="text" id="delvAmt" style="text-align: right; width: 80%;" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /> 원 (VAT별도)
                     <input type="hidden" id="delvExpAmt" />
                 </td>
                 <th scope="row" class="text-center th-color">

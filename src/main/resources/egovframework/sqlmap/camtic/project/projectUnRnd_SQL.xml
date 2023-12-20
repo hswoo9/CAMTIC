@@ -173,7 +173,9 @@
         SET
             TOT_RES_COST = (SELECT IFNULL(SUM(CB_BUDGET), 0) AS TOTAL_AMT FROM CAM_PJT_MNG.DJ_PJT_CB
                             WHERE PJT_SN = #{pjtSn}
-                              AND ACCOUNT IN (SELECT IS_TYPE FROM CAM_PJT_MNG.DJ_PJT_ACCOUNT SSA WHERE PJT_SN = #{pjtSn}))
+                              AND
+                                ( ACCOUNT IN (SELECT IS_TYPE FROM CAM_PJT_MNG.DJ_PJT_ACCOUNT SSA WHERE PJT_SN = #{pjtSn})
+                                    OR ACCOUNT = CASE WHEN (SELECT COUNT(IS_TYPE) FROM CAM_PJT_MNG.DJ_PJT_ACCOUNT SSA WHERE PJT_SN = #{pjtSn} AND IS_TYPE = '9') = 1 THEN '6' ELSE NULL END))
         WHERE
             UN_RND_SN = #{unRndSn}
     </update>

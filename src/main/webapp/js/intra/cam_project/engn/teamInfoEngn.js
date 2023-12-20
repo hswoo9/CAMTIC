@@ -121,6 +121,21 @@ var teamEngn = {
     },
 
     fn_versionSet : function(teamVersionSn){
+        $("#detailRow").html("\n" +
+            "            <tr>\n" +
+            "                <th></th>\n" +
+            "                <th>구분</th>\n" +
+            "                <th>팀</th>\n" +
+            "                <th>담당자(PM)</th>\n" +
+            "                <th>총예산</th>\n" +
+            "                <th>배분금액(매출)</th>\n" +
+            "                <th>배분비율</th>\n" +
+            "                <th>예상비용</th>\n" +
+            "                <th>예상수익</th>\n" +
+            "                <th>PM</th>\n" +
+            "                <th>팀장</th>\n" +
+            "            </tr>");
+
         if(teamVersionSn == null){
             teamEngn.fn_btnSet();
             return;

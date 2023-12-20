@@ -83,6 +83,17 @@ var prp = {
                 $(".childCheck").prop("checked", false);
             }
         });
+
+        var sum = 0;
+        $.each($(".purcItemAmt"), function(){
+            sum += Number(uncomma(this.value));
+        })
+        if($("#purcSn").val()){
+            $("#totalPay").css("display", "");
+            $("#totalPay").text("합계 : " + comma(sum));
+        }else{
+            $("#sum").text(comma(sum) + "원")
+        }
     },
 
     crmInfoChange : function(){
@@ -393,7 +404,7 @@ var prp = {
         })
         if($("#purcSn").val()){
             $("#totalPay").css("display", "");
-            $("#totalPay").text("총 금액 : " + comma(sum));
+            $("#totalPay").text("합계 : " + comma(sum));
         }else{
             $("#sum").text(comma(sum) + "원")
         }
@@ -522,7 +533,7 @@ var prp = {
 
         if(data.DOC_ID != "" && data.DOC_ID != null){
             $("#totalPay").css("display", "");
-            $("#totalPay").text("총 금액 : " + comma(totalPay));
+            $("#totalPay").text("합계 : " + comma(totalPay));
             $("#allModViewBtn").css("display", "none");
             $("#addBtn").css("display", "none");
         }

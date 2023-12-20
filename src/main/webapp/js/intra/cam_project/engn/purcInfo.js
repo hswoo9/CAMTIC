@@ -152,6 +152,9 @@ var purcInfo = {
                     title: "지급신청",
                     width: 100,
                     template: function(e){
+                        if(e.INSPECT_STATUS == "100"){
+                            return '<button type="button" id="payBtn" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqRegPopup(' + e.PURC_SN + ')">지급신청서</button>';
+                        }
                         return "";
                     },
                     footerTemplate: function(){
@@ -310,15 +313,11 @@ var purcInfo = {
     },
 
     fn_reqRegPopup : function (key){
-        var url = "/payApp/pop/regPayAppPop.do";
-        if(key != null && key != ""){
-            url = "/payApp/pop/regPayAppPop.do?payAppSn=" + key;
-        }
-        var name = "blank";
+        var url = "/payApp/pop/regPayAppPop.do?purcSn=" + key + "&reqType=purc";
+        var name = "regPayAppPop";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
-    }
-
+    },
 }
 
 function gridReload(){
