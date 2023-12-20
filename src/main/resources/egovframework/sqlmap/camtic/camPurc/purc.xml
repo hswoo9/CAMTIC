@@ -833,7 +833,8 @@
             CAM_MNG.DJ_MNG_PURC MP ON PC.PURC_SN = MP.PURC_SN
         WHERE
             MP.INSPECT_STATUS = '100'
-        AND PROD_CD = 'A'
+        AND PCI.PRODUCT_A = '1'
+        AND PCI.PROD_CD IS NULL
         ORDER BY CLAIM_SN DESC, CLAIM_ITEM_SN
     </select>
 

@@ -14,6 +14,8 @@ var teamReq = {
         $("#pjtNm").text(pjtMap.PJT_NM);
 
         customKendo.fn_textBox(["team", "teamPMNm", "teamAmt", "teamPer", "teamInvAmt", "teamIncomePer"]);
+
+        /** 수주부서 남은 잔액 조회 */
     },
 
     fn_calCost: function(obj){
