@@ -26,6 +26,7 @@ const lectureTeacher = {
                 },
                 parameterMap: function(data){
                     data.notIn = $("#pk").val();
+                    data.sEmpName = $("#sEmpName").val();
                     return data;
                 }
             },
@@ -71,6 +72,21 @@ const lectureTeacher = {
             height: 489,
             toolbar: [
                 {
+                    name: 'button',
+                    template: function (e) {
+                        return '<div>' +
+                            '<span style="position: relative; top: 5px; right: 5px">성명</span>'+
+                            '<input type="text" id="sEmpName" style="width: 180px;" class="k-input" onkeypress="if(window.event.keyCode==13){lectureTeacher.fn_mainGrid();}">'+
+                            '</div>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }, {
                     name: 'button',
                     template: function (e) {
                         return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="lectureTeacher.fn_saveBtn()">' +
