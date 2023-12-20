@@ -229,7 +229,7 @@ const rewardBatch = {
                     },
                     width : 180
                 }, {
-                    title: "포상명",
+                    title: "포상 구분",
                     template : function (row){
                         if(row.REWORD_NAME != null){
                             return "<input type='text' id='rewordName"+row.EMP_SEQ+"' class='formData rewordName' value='"+row.REWORD_NAME+"'>";
