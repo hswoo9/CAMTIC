@@ -579,7 +579,7 @@ var unRndDetail = {
     },
 
     setCustomBudgetDel : function(i){
-        if($("input[name='pCbPk']:checked").length == 0){ alert("삭제할 예산을 선택해주세요."); return; }
+        if($("input[name='pCbPk"+i+"']:checked").length == 0){ alert("삭제할 예산을 선택해주세요."); return; }
         if(confirm("선택한 코드를 삭제하시겠습니까?\n삭제 후 저장시 반영됩니다.")) {
             var grid = $("#customBudgetGrid"+i).data("kendoGrid");
             $.each($("input[name='pCbPk"+i+"']:checked"), function(i, v){

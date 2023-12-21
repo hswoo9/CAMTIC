@@ -322,7 +322,7 @@ var rndDP = {
             empSeq : $("#empSeq").val(),
         }
         var result = customKendo.fn_customAjax("/projectRnd/setDevPjtVer", data);
-        commonProject.getReloadPage(3, 3, 3, 1, 0, 0);
+        commonProject.getReloadPage(3, 2, 2, 1, 0, 0);
     },
 
     fn_addInv : function() {

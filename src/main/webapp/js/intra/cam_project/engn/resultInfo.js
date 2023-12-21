@@ -18,6 +18,10 @@ var resultInfo = {
 
         $("#rsSupCont, #rsIss, #rsEtc").kendoTextArea({ rows: 5 });
 
+        if(commonProject.global.busnClass == "R" || commonProject.global.busnClass == "S"){
+            $("#resName").text("제출문서");
+        }
+
         resultInfo.fn_setData();
     },
 
@@ -116,9 +120,16 @@ var resultInfo = {
         fd.append("stepValue", data.stepValue);
         fd.append("nextStepValue", data.nextStepValue);
 
-        if($("#devFileName").text() == ""){
-            alert("납품서를 등록해주세요.");
-            return;
+        if(commonProject.global.busnClass == "R" || commonProject.global.busnClass == "S"){
+            if($("#devFileName").text() == ""){
+                alert("제출문서를 등록해주세요.");
+                return;
+            }
+        }else{
+            if($("#devFileName").text() == ""){
+                alert("납품서를 등록해주세요.");
+                return;
+            }
         }
 
         if($("#devFile")[0].files.length == 1){

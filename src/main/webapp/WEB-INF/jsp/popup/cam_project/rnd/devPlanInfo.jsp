@@ -120,7 +120,9 @@
                 </thead>
             </table>
 
-            <table class="popTable table table-bordered mb-0">
+            <div style="margin-top: 10px"></div>
+            <span class="addPSActive" style="font-size: 12px; margin-bottom: 0; display: none">◎ 예상비용</span>
+            <table class="popTable table table-bordered mb-0" style="font-size: 12px; margin-top: 0">
                 <colgroup>
                     <col width="7%">
                     <col width="15%">

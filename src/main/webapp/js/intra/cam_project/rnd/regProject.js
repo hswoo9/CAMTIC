@@ -143,7 +143,6 @@ var regRnd = {
         } else {
             tabStrip.enable(tabStrip.tabGroup.children().eq(0));
             tabStrip.enable(tabStrip.tabGroup.children().eq(1));
-            tabStrip.enable(tabStrip.tabGroup.children().eq(2));
 
             
             var rndInfo = customKendo.fn_customAjax("/projectRnd/getRndDetail", setParameters);
@@ -259,13 +258,13 @@ var regRnd = {
             $("#rndCrmNm").val(e.CRM_NM);
             $("#rndCrmSn").val(e.CRM_SN);
             $("#pjtExpAmt").val(comma(e.PJT_EXP_AMT));
+            $("#allBusnCost").val(comma(e.ALL_BUSN_COST));
 
             const rndInfo = customKendo.fn_customAjax("/projectRnd/getRndDetail", {pjtSn: $("#pjtSn").val()});
             const delvMap = rndInfo.map;
             if(delvMap != null){
                 if(delvMap.STATUS == "100"){
                     $("#pjtAmt2").val(comma(e.PJT_AMT));
-                    $("#allBusnCost").val(comma(Number(e.PJT_AMT) + Number(delvMap.PEO_RES_ITEM)));
                 }
             }
 
@@ -310,6 +309,7 @@ var regRnd = {
             crmSn : $("#rndCrmSn").val(),
             crmPartSn : $("#crmPartSn").val(),
             pjtExpAmt : uncomma($("#pjtExpAmt").val()),
+            allBusnCost : uncomma($("#allBusnCost").val()),
 
             pjtStep : $("#pjtStep").val(),
             pjtStepNm : $("#pjtStepNm").val(),
@@ -325,6 +325,16 @@ var regRnd = {
 
 
 
+
+        if(parameters.allBusnCost == ""){
+            alert("총 사업비를 입력해주세요.");
+            return;
+        }
+
+        if(parameters.crmSn == ""){
+            alert("주관기관을 선택해주세요.");
+            return;
+        }
         if(parameters.sbjClass == ""){
             alert("과제구분을 선택해주세요.");
             return;
@@ -347,10 +357,6 @@ var regRnd = {
         }
         if(parameters.pjtNm == ""){
             alert("과제명을 입력해주세요.");
-            return;
-        }
-        if(parameters.pjtNmSub == ""){
-            alert("과제명(약칭) 입력해주세요.");
             return;
         }
         if(parameters.pjtExpAmt == ""){
@@ -391,6 +397,7 @@ var regRnd = {
             crmConSn : $("#rndConCrmSn").val(),
             crmPartSn : $("#crmPartSn").val(),
             crmSn : $("#rndCrmSn").val(),
+            allBusnCost : uncomma($("#allBusnCost").val()),
             pjtExpAmt : uncomma($("#pjtExpAmt").val())
         }
 
@@ -400,6 +407,16 @@ var regRnd = {
             parameters.sbjStatYn = "N";
         }
 
+
+        if(parameters.allBusnCost == ""){
+            alert("총 사업비를 입력해주세요.");
+            return;
+        }
+
+        if(parameters.crmSn == ""){
+            alert("주관기관을 선택해주세요.");
+            return;
+        }
         if(parameters.sbjClass == ""){
             alert("과제구분을 선택해주세요.");
             return;
@@ -422,10 +439,6 @@ var regRnd = {
         }
         if(parameters.pjtNm == ""){
             alert("과제명을 입력해주세요.");
-            return;
-        }
-        if(parameters.pjtNmSub == ""){
-            alert("과제명(약칭) 입력해주세요.");
             return;
         }
 

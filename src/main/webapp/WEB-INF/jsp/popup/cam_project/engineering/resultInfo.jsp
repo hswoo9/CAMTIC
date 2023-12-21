@@ -98,7 +98,7 @@
                 </td>
             </tr>
             <th scope="row" class="text-center th-color">
-                <span class="red-star tmHide">*</span>납품서
+                <span class="red-star tmHide">*</span><span id="resName">납품서</span>
             </th>
             <td colspan="3">
                 <label for="devFile" class="k-button k-button-solid-base">파일첨부</label>
