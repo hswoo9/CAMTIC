@@ -73,6 +73,7 @@ const rewardBatch = {
                 },
                 parameterMap: function(data){
                     data.empName = $("#searchVal").val()
+                    data.workStatusCode = 'Y';
                     return data;
                 }
             },
