@@ -345,5 +345,7 @@ var payCardHist = {
     fn_search : function (){
         payCardHist.gridReload("search");
         payCardHist.cardMainGrid("search");
+        payCardHist.cardMainGrid2("search");
+
     }
 }

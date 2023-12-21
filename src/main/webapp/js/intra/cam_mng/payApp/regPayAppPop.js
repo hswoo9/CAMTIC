@@ -232,11 +232,7 @@ var regPay = {
 
     payAppDrafting: function(){
 
-
-
         regPay.fn_save("", "drafting");
-
-
 
         var budgetFlag = false;
         if($("#pjtCd").val().substring(0,1) == "M"){
@@ -372,7 +368,7 @@ var regPay = {
 
             regPayDet.global.createHtmlStr += "" +
                 '   <td>' +
-                '       <input type="text" id="budgetNm' + regPayDet.global.itemIndex + '" value="'+item.BUDGET_NM+'" onclick="regPay.fn_budgetPop('+clIdx+')" style="width: 100%;">' +
+                '       <input type="text" id="budgetNm' + regPayDet.global.itemIndex + '" dir="rtl"  value="'+item.BUDGET_NM+'" onclick="regPay.fn_budgetPop('+clIdx+')" style="width: 100%; text-align: right;">' +
                 '       <input type="hidden" id="budgetSn' + regPayDet.global.itemIndex + '" value="'+item.BUDGET_SN+'" class="budgetSn"/>' +
                 '       <input type="hidden" id="budgetAmt' + regPayDet.global.itemIndex + '" value="'+item.BUDGET_AMT+'" class="budgetAmt"/>' +
                 '   </td>' +
@@ -766,7 +762,6 @@ var regPay = {
                 teamName : $("#appTeam" + index).data("kendoDropDownList").text(),
                 evidType : $("#eviType" + index).val(),
                 reason : $("#reason" + index).val(),
-                fileNo : $("#fileNo" + index).val(),
                 authNo : $("#authNo" + index).val(),
                 authDd : $("#authDd" + index).val(),
                 authHh : $("#authHh" + index).val(),
@@ -791,6 +786,10 @@ var regPay = {
 
             if(data.buySts == undefined || data.buySts == null || data.buySts == "" || data.buySts == "undefined"){
                 data.buySts = "";
+            }
+
+            if($("#fileNo" + index).val() != undefined && $("#fileNo" + index).val() != null && $("#fileNo" + index).val() != "null" && $("#fileNo" + index).val() != "undefined" && $("#fileNo" + index).val() != ""){
+                data.fileNo = $("#fileNo" + index).val();
             }
 
 
@@ -1042,7 +1041,7 @@ var regPayDet = {
         regPayDet.global.createHtmlStr = "" +
             '<tr class="payDestInfo newArray" id="pay' + regPayDet.global.itemIndex + '" style="text-align: center;">' +
             '   <td>' +
-            '       <input type="text" id="budgetNm' + regPayDet.global.itemIndex + '" value="" onclick="regPay.fn_budgetPop(' + clIdx + ')" style="width: 100%;">' +
+            '       <input type="text" id="budgetNm' + regPayDet.global.itemIndex + '" dir="rtl"  value="" onclick="regPay.fn_budgetPop(' + clIdx + ')" style="width: 100%; text-align: right;">' +
             '       <input type="hidden" id="budgetSn' + regPayDet.global.itemIndex + '" value="" class="budgetSn"/>' +
             '       <input type="hidden" id="budgetAmt' + regPayDet.global.itemIndex + '" value="" class="budgetAmt"/>' +
             '   </td>' +

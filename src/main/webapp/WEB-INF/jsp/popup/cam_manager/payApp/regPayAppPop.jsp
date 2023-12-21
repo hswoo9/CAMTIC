@@ -235,7 +235,7 @@
                         </c:if>
                         <td>
                             <span>
-                                <input type="text" id="budgetNm0" value="" onclick="regPay.fn_budgetPop(0)" style="width: 100%;">
+                                <input type="text" id="budgetNm0" dir="rtl" value="" onclick="regPay.fn_budgetPop(0)" style="width: 100%;text-align: right;">
                                 <input type="hidden" id="budgetSn0" value="" class="budgetSn"/>
                                 <input type="hidden" id="budgetAmt0" value="" />
                             </span>
@@ -415,10 +415,13 @@
             $("#reasonTh").css("display", "none");
             $(".reasonTr").css("display", "none");
             $("#reasonCol").css("display", "none");
+            $("#reasonContTr").css("display", "");
         } else {
             $("#reasonTh").css("display", "");
             $(".reasonTr").css("display", "");
             $("#reasonCol").css("display", "");
+            $("#reasonContTr").css("display", "none");
+
         }
         var result = customKendo.fn_customAjax("/project/getBankData", data);
         var rs = result.data;
