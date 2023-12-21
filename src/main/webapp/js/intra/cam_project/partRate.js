@@ -475,8 +475,6 @@ var partRate = {
             var rs = customKendo.fn_customAjax("/projectRnd/setPartRateDetail", parameterList[i]);
 
             // var rs = customKendo.fn_customAjax("/projectRnd/setReqPartRateStatus", parameterList[i]);
-
-
         }
 
         if(rs.code == 200){

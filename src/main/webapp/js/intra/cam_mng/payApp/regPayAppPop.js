@@ -509,6 +509,7 @@ var regPay = {
                 ,"card" + regPayDet.global.itemIndex, "etc" + regPayDet.global.itemIndex, "budgetNm" + regPayDet.global.itemIndex]);
 
             customKendo.fn_datePicker("trDe" + regPayDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
+            $("#trDe" + regPayDet.global.itemIndex).data("kendoDatePicker").value(item.TR_DE);
 
             var ds = customKendo.fn_customAjax("/dept/getDeptAList", {
                 deptLevel : 2
@@ -544,6 +545,9 @@ var regPay = {
             $(".reasonTr").css("display", "");
             $("#reasonCol").css("display", "");
             $("#reasonTh").css("display", "");
+            $("#reasonContTr").css("display", "none");
+        } else {
+
         }
     },
 
@@ -1108,6 +1112,12 @@ var regPayDet = {
 
         $("#payDestTb").append(regPayDet.global.createHtmlStr);
 
+        if(clIdx > 0){
+            $("#budgetNm" + clIdx).val($("#budgetNm" + (clIdx-1)).val());
+            $("#budgetSn" + clIdx).val($("#budgetSn" + (clIdx-1)).val());
+            $("#budgetAmt" + clIdx).val($("#budgetAmt" + (clIdx-1)).val());
+        }
+
         var itemIndex = regPayDet.global.itemIndex;
         $("#eviType" + itemIndex).kendoDropDownList({
             dataTextField: "text",
@@ -1163,6 +1173,7 @@ var regPayDet = {
 
         if($("#pjtCd").val().substring(0,1) != "M" && $("#pjtCd").val().substring(0,1) != ""){
             $(".reasonTr").css("display", "");
+            $("#reasonContTr").css("display", "none");
         }
     },
 

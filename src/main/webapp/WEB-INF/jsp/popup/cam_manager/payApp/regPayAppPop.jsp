@@ -109,7 +109,7 @@
                         <input type="text" id="appTitle" style="width: 100%;">
                     </td>
                 </tr>
-                <tr>
+                <tr id="reasonContTr">
                     <th scope="row" class="text-center th-color">신청내용</th>
                     <td colspan="4">
                         <textarea type="text" id="appCont" style="width: 100%;"></textarea>

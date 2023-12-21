@@ -170,7 +170,7 @@
     </form>
 </div>
 
-
+<c:if test="${data.STATUS eq '100' || data.STATUS eq '101'}">
 <div class="table-responsive" style="margin-top: 15px;">
     <div class="card-header pop-header" style="margin-bottom: 15px;">
         <h3 class="card-title title_NM">
@@ -184,6 +184,7 @@
     </div>
     <div id="mainGrid" style=""></div>
 </div>
+</c:if>
 
 <script>
     studyView.init();

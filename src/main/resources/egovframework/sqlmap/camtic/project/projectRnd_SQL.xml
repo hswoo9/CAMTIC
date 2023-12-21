@@ -507,6 +507,7 @@
             (
                 PJT_SN,
                 JOIN_MEM_NM,
+                JOIN_MEM_SN,
                 MON_PAY_CRT,
                 MIN_PART_RATE,
                 MAX_PART_RATE,
@@ -519,6 +520,7 @@
             (
                 #{pjtSn},
                 #{joinMemNm},
+                #{joinMemSn},
                 #{monPayCrt},
                 #{minPartRate},
                 #{maxPartRate},
@@ -537,6 +539,7 @@
         UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE
         SET
             JOIN_MEM_NM = #{joinMemNm},
+            JOIN_MEM_SN = #{joinMemSn},
             MON_PAY_CRT = #{monPayCrt},
             MIN_PART_RATE = #{minPartRate},
             MAX_PART_RATE = #{maxPartRate},
@@ -802,6 +805,16 @@
             REP_DATE = now()
         WHERE
             PART_RATE_VER_SN = #{partRateVerSn}
+    </update>
+
+    <update id="updReqPartRateVerToReqPartRate" parameterType="map">
+        /*updReqPartRateVerToReqPartRate*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE
+        SET
+            JOIN_MEM_SN = (SELECT JOIN_MEM_SN FROM CAM_PJT_MNG.DJ_PJT_PART_RATE_VER WHERE PART_RATE_VER_SN = #{partRateVerSn}),
+            JOIN_MEM_NM = (SELECT JOIN_MEM_NM FROM CAM_PJT_MNG.DJ_PJT_PART_RATE_VER WHERE PART_RATE_VER_SN = #{partRateVerSn})
+        WHERE
+            PART_RATE_SN = (SELECT PART_RATE_SN FROM CAM_PJT_MNG.DJ_PJT_PART_RATE_VER WHERE PART_RATE_VER_SN = #{partRateVerSn})
     </update>
 
     <select id="getPjtDevSchData" parameterType="map" resultType="map">

@@ -359,6 +359,7 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     @Override
     public void setReqPartRateStatus(Map<String, Object> params) {
         projectRndRepository.updReqPartRateStatus(params);
+        projectRndRepository.updReqPartRateVerToReqPartRate(params);
     }
 
     @Override
