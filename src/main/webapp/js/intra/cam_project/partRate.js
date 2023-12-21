@@ -297,6 +297,13 @@ var partRate = {
         $("#payTotal").val(comma(payBdgt));
         $("#itemTotal").val(comma(itemBdgt));
 
+        var total = 0;
+        $("input[name='payTotal']").each(function(){
+            total += Number(uncomma(this.value));
+
+        });
+        $("#allPayTotal").val(comma(total));
+
 
         //partRate.fn_memCalc(uncomma(totAmt), rs.PAY_BUDGET, item);
         item++;
@@ -310,7 +317,7 @@ var partRate = {
 
         if(Number(uncomma($("#memChngSal" + i).val())) > Number(bsSal) && partRate.global.flag){
             alert("기준급여보다 클 수 없습니다.");
-            $("#memChngSal" + i).val(comma(bsSal));
+            //$("#memChngSal" + i).val(comma(bsSal));
             partRate.global.flag = false;
             return;
         }
