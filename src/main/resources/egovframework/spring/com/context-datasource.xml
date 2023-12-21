@@ -84,7 +84,7 @@
     </bean>
 
     <bean id="dataSourcePrjMs" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
-        <constructor-arg ref="dataSourceSpiedMs" />
+        <constructor-arg ref="dataSourceSpiedPrjMs" />
         <property name="logFormatter">
             <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
                 <property name="loggingType" value="MULTI_LINE" />
