@@ -12,15 +12,23 @@
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="loginId" value="${loginVO.id}"/>
 <input type="hidden" id="targetYear" value="${data.targetYear}"/>
+<div class="card-header pop-header">
+  <h3 class="card-title title_NM">학습 목표기술서 설정</h3>
+  <div class="btn-st popButton">
+      <input type="button" class="k-button k-button-solid k-button-solid-info" value="현황저장" onclick="targetSubSetPop.setEduTargetDetailUpdate('target', 1)"/>
+      <input type="button" class="k-button k-button-solid k-button-solid-info" value="목표저장" onclick="targetSubSetPop.setEduTargetDetailUpdate('target', 2)"/>
+      <input type="button" class="k-button k-button-solid k-button-solid-info" value="완료" onclick="window.close()"/>
+  </div>
+</div>
 <div class="col-md-12 col-lg-12 dash-left">
   <div class="panel">
-    <div class="panel-heading">
+    <%--<div class="panel-heading">
       <h4 class="panel-title">학습 목표기술서 설정</h4>
       <div class="title-road">직무관리 &gt; 학습체계도설정</div>
-    </div>
+    </div>--%>
 
     <div class="panel-body">
-      <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
+      <%--<div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>--%>
 
       <div>
         <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
@@ -44,6 +52,9 @@
             </td>
           </tr>
         </table>
+        <div class="mt20">
+          <b>color : <font color="#9a4167">현황</font>, <font color="#418bd7">목표</font></b>
+        </div>
         <div style="margin:20px 0;">
           <div class="table-responsive">
             <table class="table table-bordered">
@@ -53,10 +64,7 @@
           </div><!-- table-responsive -->
         </div>
       </div>
-      <div class="btn-st mt10" style="text-align: center">
-        <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="현황저장" onclick="targetSubSetPop.setEduTargetDetailUpdate('target', 1)"/>
-        <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="목표저장" onclick="targetSubSetPop.setEduTargetDetailUpdate('target', 2)"/>
-      </div>
+
     </div>
   </div>
 </div><!-- col-md-9 -->
