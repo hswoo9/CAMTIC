@@ -265,6 +265,10 @@
     }
 
     function openModal(){
+        if($("#totResCost").val() == 0){
+            alert("예산이 설정되지 않았습니다. 예산 설정 후 저장버튼을 누르고 진행 바랍니다."); return;
+        }
+
         $("#dialog").data("kendoWindow").open();
     }
 
