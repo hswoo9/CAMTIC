@@ -177,7 +177,8 @@
     var data = {
       rGubunOutInType : $("#rGubunOutIn").data("kendoDropDownList").value(),
       rGubunOutInTypeName : $("#rGubunOutIn").data("kendoDropDownList").text(),
-      rGubun : $("#rGubun").val(),
+      //rGubun : $("#rGubun").val(),
+      rGubun : $("#rGubun").data("kendoDropDownList").text(),
       rGubunAll : ($("#rGubunOutIn").data("kendoDropDownList").text() + $("#rGubun").val()),
       sDate : $("#sDate").val(),
       rIssue : $("#rIssue").val(),
