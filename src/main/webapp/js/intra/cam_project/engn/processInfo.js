@@ -177,7 +177,9 @@ var processInfo = {
         })
 
         if(commonProject.global.busnClass == "R" || commonProject.global.busnClass == "S"){
-            $("#teamAppBtn").show();
+            if(commonProject.global.teamYn == "Y"){
+                $("#teamAppBtn").show();
+            }
             if(commonProject.global.pjtTeamCk == "Y"){
                 $("#teamAppBtn").hide();
                 $("#btnDiv").append('<span style="float: right; color: red; font-size: 12px;">마감되었습니다</span>');

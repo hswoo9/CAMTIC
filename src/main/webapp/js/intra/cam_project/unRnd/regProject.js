@@ -135,7 +135,7 @@ var regUnRnd = {
         } else {
             tabStrip.enable(tabStrip.tabGroup.children().eq(0));
             tabStrip.enable(tabStrip.tabGroup.children().eq(1));
-            tabStrip.enable(tabStrip.tabGroup.children().eq(2));
+
             /** 수주보고가 완료 되었을때 전부 활성화 */
             if(setParameters.PJT_STEP >= "S2"){
                 tabStrip.enable(tabStrip.tabGroup.children());
@@ -243,6 +243,7 @@ var regUnRnd = {
 
         $("#rndCrmNm").val(e.CRM_NM);
         $("#rndCrmSn").val(e.CRM_SN);
+        $("#allBusnCost").val(comma(e.ALL_BUSN_COST));
 
         const unRndInfo = customKendo.fn_customAjax("/projectUnRnd/getUnRndDetail", {pjtSn: $("#pjtSn").val()});
         console.log(unRndInfo);
@@ -250,7 +251,6 @@ var regUnRnd = {
         if(delvMap != null){
             if(delvMap.STATUS == "100"){
                 $("#pjtAmt2").val(comma(e.PJT_AMT));
-                $("#allBusnCost").val(comma(Number(e.PJT_AMT) + Number(delvMap.PEO_RES_ITEM)));
             }
         }
 
@@ -291,6 +291,7 @@ var regUnRnd = {
             crmConSn : $("#rndConCrmSn").val(),
             crmSn : $("#rndCrmSn").val(),
             pjtExpAmt : uncomma($("#pjtExpAmt").val()),
+            allBusnCost : uncomma($("#allBusnCost").val()),
 
             pjtStep : $("#pjtStep").val(),
             pjtStepNm : $("#pjtStepNm").val(),
@@ -298,6 +299,14 @@ var regUnRnd = {
 
         }
 
+        if(parameters.allBusnCost == ""){
+            alert("총 사업비를 입력해주세요.");
+            return;
+        }
+        if(parameters.crmSn == ""){
+            alert("주관기관을 선택해주세요.");
+            return;
+        }
         if(parameters.sbjClass == ""){
             alert("과제구분을 선택해주세요.");
             return;
@@ -306,7 +315,6 @@ var regUnRnd = {
             alert("사업명을 입력해주세요.")
             return;
         }
-
         if(parameters.sbjChar == ""){
             alert("과제성격을 선택해주세요.");
             return;
@@ -360,9 +368,19 @@ var regUnRnd = {
             crmConSn : $("#rndConCrmSn").val(),
             crmSn : $("#rndCrmSn").val(),
             pjtExpAmt : uncomma($("#pjtExpAmt").val()),
+            allBusnCost : uncomma($("#allBusnCost").val()),
             pjtConYear : $("#pjtConYear").val()
         }
 
+
+        if(parameters.allBusnCost == ""){
+            alert("총 사업비를 입력해주세요.");
+            return;
+        }
+        if(parameters.crmSn == ""){
+            alert("주관기관을 선택해주세요.");
+            return;
+        }
         if(parameters.sbjClass == ""){
             alert("과제구분을 선택해주세요.");
             return;
