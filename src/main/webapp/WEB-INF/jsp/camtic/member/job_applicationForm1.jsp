@@ -422,10 +422,13 @@
 
     function setApplicationTempSave(type){
         if(type == "next"){
+            /*
             if($("input[name='careerType']:checked").val() == null){
                 alert("지원분야를 선택해주세요.");
                 return;
-            }else if(!$("#userName").val()){
+            }else
+             */
+                if(!$("#userName").val()){
                 alert("이름(한글)을 입력해주세요.");
                 $("#userName").focus();
                 return;
