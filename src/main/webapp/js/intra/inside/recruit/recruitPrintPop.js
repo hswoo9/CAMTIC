@@ -99,6 +99,7 @@ const recruitPrintPop = {
 
 
         /** 채용부문 */
+        recruitPrintPop.global.fileTitle = "총괄표.hwp";
         recruitPrintPop.global.hwpCtrl.PutFieldText("AREA_INFO", areaInfoValue);
 
         /** 마감일 */
