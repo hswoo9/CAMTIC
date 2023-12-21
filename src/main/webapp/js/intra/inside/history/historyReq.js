@@ -290,7 +290,7 @@ var historyList = {
         if (data.CHNG_DEPT !== null && data.CHNG_DEPT !== "") {
             $("#chngDept").val(data.CHNG_DEPT);
         }else{
-            $("#chngDept").val(data.AF_DEPT_NAME);
+            $("#chngDept").val(data.AF_DEPT_NAME + " " + data.AF_TEAM_NAME);
         }
     },
 

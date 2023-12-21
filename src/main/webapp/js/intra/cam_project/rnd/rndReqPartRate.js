@@ -312,7 +312,7 @@ var rndRPR = {
                 html += '<tr style="text-align: center">';
                 html += '   <td>'+gubun+'</td>';
                 html += '   <td>';
-                html += '       <span style="cursor : pointer;font-weight: bold" onclick="rndRPR.versionClickEvt(' + ls[i].PART_RATE_VER_SN + ', \''+mngStatValue+'\')">ver.' + (i+1) + '</span>';
+                html += '       <span style="cursor : pointer;font-weight: bold" onclick="rndRPR.versionClickEvt(' + ls[i].PART_RATE_VER_SN + ', \''+mngStatValue+'\', ' + (i+1) + ')">ver.' + (i+1) + '</span>';
                 html += '   </td>';
                 html += '   <td>'+ reqEmpNm +'</td>';
                 html += '   <td style="text-align: right">' + comma(Number(payBudget) + Number(itemBudget)) + '</td>';
@@ -325,27 +325,30 @@ var rndRPR = {
                 html += '   <td style="text-align: center">'+buttonSubHtml+'</td>';
                 html += '</tr>';
 
-                if(ls[i].MNG_STAT != 'R' && ls[i].MNG_STAT != '' && ls[i].MNG_STAT != null && ls[i].MNG_STAT != undefined){
+                var lsMngStat = ls[i].MNG_STAT;
+
+                if(ls[0].MNG_STAT == 'R' && i == 0){
+                    versionIndex++;
+                }
+                if(lsMngStat != 'R' && lsMngStat != '' && lsMngStat != null && lsMngStat != undefined){
                     lastVersion = ls[i].PART_RATE_VER_SN;
                     versionIndex++;
                     if(ls[i].MNG_STAT == null || ls[i].MNG_STAT == undefined){
                         lastStat = ls[i].RT_MNG_STAT;
                     } else {
-                        lastStat = ls[i].MNG_STAT;
+                        lastStat = lsMngStat;
                     }
                 }
             }
-
-            $("#titleVersionName").text("[참여율현황 버전 - ver" + versionIndex + "]");
 
             $("#partRateVersion").append(html);
             $("#partRateVersion2").append(html);
         }
 
-        rndRPR.versionClickEvt(lastVersion, lastStat);
+        rndRPR.versionClickEvt(lastVersion, lastStat, versionIndex);
     },
 
-    versionClickEvt: function (key, stat){
+    versionClickEvt: function (key, stat, inx){
         if(stat == "S"){
             $("#confBtn").prop("disabled", false);
             $("#regBtn").prop("disabled", true);
@@ -369,6 +372,10 @@ var rndRPR = {
             rndPR.partRateMainGrid();
         } else {
             alert(key);
+        }
+
+        if(inx != undefined && inx != null) {
+            $("#titleVersionName").text("[참여율현황 버전 - ver" + inx + "]");
         }
     },
 
