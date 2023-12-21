@@ -50,14 +50,15 @@ const historyPrintPop = {
         if(data.afDeptName != "") {
             if(data.CHNG_DEPT == ""){
                 historyVal += data.AF_DEPT_NAME + " ";
+                if(data.afTeamName != "") {
+                    historyVal += data.AF_TEAM_NAME
+                        + " ";
+                }
             }else{
                 historyVal += data.CHNG_DEPT + " ";
             }
         }
-        if(data.afTeamName != "") {
-            historyVal += data.AF_TEAM_NAME
-                + " ";
-        }
+
         if(data.afPositionName != "") {
            if(data.CHNG_POSITION == "") {
                historyVal += data.AF_POSITION_NAME + " ";
