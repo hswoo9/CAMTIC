@@ -509,6 +509,7 @@ var regPay = {
                 ,"card" + regPayDet.global.itemIndex, "etc" + regPayDet.global.itemIndex, "budgetNm" + regPayDet.global.itemIndex]);
 
             customKendo.fn_datePicker("trDe" + regPayDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
+            $("#trDe" + regPayDet.global.itemIndex).data("kendoDatePicker").value(item.TR_DE);
 
             var ds = customKendo.fn_customAjax("/dept/getDeptAList", {
                 deptLevel : 2
