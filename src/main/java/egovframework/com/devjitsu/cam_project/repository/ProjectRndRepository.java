@@ -252,4 +252,8 @@ public class ProjectRndRepository extends AbstractDAO {
     public Map<String, Object> getPartRateVerBerData(Map<String, Object> map) {
         return (Map<String, Object>) selectOne("projectRnd.getPartRateVerBerData", map);
     }
+
+    public void updReqPartRateVerToReqPartRate(Map<String, Object> params) {
+        update("projectRnd.updReqPartRateVerToReqPartRate", params);
+    }
 }

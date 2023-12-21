@@ -23,6 +23,7 @@ var rndRPR = {
         var pf = result.fileList
         var rs = result.map;
         if(rs != null){
+            console.log(rs);
             $("#partRateSn").val(rs.PART_RATE_SN);
             $("#joinMemberSn").val(rs.JOIN_MEM_SN);
             $("#joinMemberPart").val(rs.JOIN_MEM_NM);
@@ -63,7 +64,7 @@ var rndRPR = {
 
             if(userName != ""){
                 // $("#joinMemberPart").val(userName);
-                // $("#joinMemberSn").val(userSn);
+                $("#joinMemberSn").val(userSn);
             }
             $("#saveRateBtn").css("display", "");
 
@@ -220,6 +221,12 @@ var rndRPR = {
         } else {
             lastMngStatValue = ls[ls.length - 1].MNG_STAT;
         }
+
+        var verFlag = false;
+        var lastVersion = "";
+        var lastStat = "";
+        var versionIndex = 0;
+
         if(ls != null){
             var html = '';
             for(var i = 0; i < ls.length; i++){
@@ -317,15 +324,25 @@ var rndRPR = {
                 html += '   <td style="text-align: center">'+buttonHtml+'</td>';
                 html += '   <td style="text-align: center">'+buttonSubHtml+'</td>';
                 html += '</tr>';
+
+                if(ls[i].MNG_STAT != 'R' && ls[i].MNG_STAT != '' && ls[i].MNG_STAT != null && ls[i].MNG_STAT != undefined){
+                    lastVersion = ls[i].PART_RATE_VER_SN;
+                    versionIndex++;
+                    if(ls[i].MNG_STAT == null || ls[i].MNG_STAT == undefined){
+                        lastStat = ls[i].RT_MNG_STAT;
+                    } else {
+                        lastStat = ls[i].MNG_STAT;
+                    }
+                }
             }
 
-            $("#titleVersionName").text("[참여율현황 버전 - ver" + ls[0].VER_NUM + "]");
+            $("#titleVersionName").text("[참여율현황 버전 - ver" + versionIndex + "]");
 
             $("#partRateVersion").append(html);
             $("#partRateVersion2").append(html);
         }
 
-        rndRPR.versionClickEvt(lastPartRateVerSn, lastMngStatValue);
+        rndRPR.versionClickEvt(lastVersion, lastStat);
     },
 
     versionClickEvt: function (key, stat){
