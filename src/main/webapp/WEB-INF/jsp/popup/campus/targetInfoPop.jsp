@@ -8,19 +8,34 @@
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/campus/campus.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/campus/targetInfoPop.js?v=${today}"></script>
+<style>
+  .pop-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+</style>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="loginId" value="${loginVO.id}"/>
 <input type="hidden" id="targetYear" value="${data.targetYear}"/>
+<div class="card-header pop-header">
+  <h3 class="card-title title_NM">학습 목표기술서 설정</h3>
+  <div class="btn-st popButton">
+    <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick="targetInfoPop.saveTarget();"/>
+    <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소"  onclick="window.close();"/>
+  </div>
+</div>
 <div class="col-md-12 col-lg-12 dash-left">
   <div class="panel">
-    <div class="panel-heading">
+    <%--<div class="panel-heading">
       <h4 class="panel-title">학습 목표기술서 설정</h4>
       <div class="title-road">직무관리 &gt; 학습체계도설정</div>
-    </div>
+    </div>--%>
 
-    <div class="panel-body">
-      <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
+    <div class="panel-body" style="margin-top: 40px;">
+      <%--<div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>--%>
 
       <div>
         <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
@@ -55,6 +70,9 @@
             </td>
           </tr>
         </table>
+        <%--<div class="mt20">
+          <b>color : <font color="#9a4167">현황</font>, <font color="#418bd7">목표</font></b>
+        </div>--%>
         <div style="margin:20px 0;">
           <div class="table-responsive">
             <table class="table table-bordered">
@@ -80,10 +98,7 @@
           </div><!-- table-responsive -->
         </div>
       </div>
-      <div class="btn-st mt10" style="text-align: center">
-        <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick="targetInfoPop.saveTarget();"/>
-        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소"  onclick="window.close();"/>
-      </div>
+
     </div>
   </div>
 </div><!-- col-md-9 -->

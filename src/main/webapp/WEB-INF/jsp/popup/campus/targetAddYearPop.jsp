@@ -53,15 +53,22 @@
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="loginId" value="${loginVO.id}"/>
+<div class="card-header pop-header">
+  <h3 class="card-title title_NM">학습 목표기술서 설정</h3>
+  <div class="btn-st popButton">
+      <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick="targetAddYearPop.saveTarget();"/>
+      <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소"  onclick="window.close()"/>
+  </div>
+</div>
 <div class="col-md-12 col-lg-12 dash-left">
   <div class="panel">
-    <div class="panel-heading">
+    <%--<div class="panel-heading">
       <h4 class="panel-title">학습 목표기술서 설정</h4>
       <div class="title-road">직무관리 &gt; 학습체계도설정</div>
-    </div>
+    </div>--%>
 
     <div class="panel-body">
-      <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
+      <%--<div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>--%>
 
       <div>
         <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
@@ -84,10 +91,7 @@
           </tr>
         </table>
       </div>
-      <div class="btn-st mt10" style="text-align: center">
-        <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick="targetAddYearPop.saveTarget();"/>
-        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소"  onclick="window.close()"/>
-      </div>
+
     </div>
   </div>
 </div><!-- col-md-9 -->

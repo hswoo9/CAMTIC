@@ -307,7 +307,7 @@ var targetInfo = {
     targetAddYearPop: function() {
         var url = "/Campus/pop/targetAddYearPop.do";
         var name = "targetAddYearPop";
-        var option = "width = 520, height = 300, top = 100, left = 200, location = no"
+        var option = "width = 1250, height = 800, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
     },
 

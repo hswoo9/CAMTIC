@@ -49,7 +49,8 @@ var targetAddYearPop = {
                 async : false,
                 success : function(result){
                     alert("년도 저장이 완료되었습니다.");
-                    window.close();
+                    window.location.href = "targetInfoPop.do?targetYear="+ $("#targetYear").val();
+                    /*window.close();*/
                     opener.window.location.reload();
                 },
                 error : function() {
