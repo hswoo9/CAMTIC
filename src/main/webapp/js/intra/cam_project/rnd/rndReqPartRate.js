@@ -185,6 +185,14 @@ var rndRPR = {
             return;
         }
 
+        var checkText = $("#partRateVersion2 tr:first").children().eq(0).text();
+        var reqSortText = "";
+        if(checkText != "신규"){
+            reqSortText = "신규";
+        } else{
+            reqSortText = "변경";
+        }
+
         var parameters = {
             pjtSn : $("#pjtSn").val(),
             partRateSn : $("#partRateSn").val(),
@@ -192,7 +200,7 @@ var rndRPR = {
             joinMemNm : $("#joinMemberPart").val(),
             empName : $("#verEmpName").val(),
             empSeq : $("#verEmpSeq").val(),
-            reqSort : "신규"
+            reqSort : reqSortText
         }
 
         var rs = customKendo.fn_customAjax("/projectRnd/setPartRateRequest", parameters);
