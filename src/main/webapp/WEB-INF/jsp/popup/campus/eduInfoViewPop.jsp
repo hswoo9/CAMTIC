@@ -19,10 +19,35 @@
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 <input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
 <div class="col-lg-12" style="padding:0;">
-  <div class="card-header" style="padding-top:45px;">
+  <div class="card-header pop-header">
+    <h3 class="card-title title_NM">교육수강 신청서 조회</h3>
+    <div class="btn-st popButton">
+      <c:choose>
+        <c:when test="${data.STATUS == 0}">
+          <input type="button" class="k-button k-button-solid-info usrBtn" value="결재요청" onclick="eduInfoViewPop.campusDrafting();"/>
+        </c:when>
+        <c:when test="${data.STATUS == 10}">
+          <input type="button" class="k-button k-button-solid-info usrBtn" value="회수" onclick="docApprovalRetrieve('${data.DOC_ID}', '${data.APPRO_KEY}', 1, 'retrieve');"/>
+        </c:when>
+        <c:when test="${data.STATUS == 100}">
+          <input type="button" class="k-button k-button-solid-info" value="학습신청서 결재조회" onclick="approveDocView('${data.DOC_ID}', '${data.APPRO_KEY}', '${data.DOC_MENU_CD}');"/>
+          <c:choose>
+            <c:when test="${data.RES_STATUS == 1}">
+              <input type="button" class="k-button k-button-solid-info usrBtn" value="결과보고서 작성" onclick="eduInfoViewPop.eduResultReqPop();"/>
+            </c:when>
+            <c:otherwise>
+              <input type="button" class="k-button k-button-solid-info" value="결과보고서 조회" onclick="eduInfoViewPop.eduResultViewPop();"/>
+            </c:otherwise>
+          </c:choose>
+        </c:when>
+      </c:choose>
+      <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick="window.close();"/>
+    </div>
+  </div>
+  <div class="card-header" style="padding-top:25px;">
     <div class="col-lg-11" style="margin:0 auto;">
       <div class="table-responsive">
-        <div class="popupTitleSt">교육수강 신청서 조회</div>
+        <%--<div class="popupTitleSt">교육수강 신청서 조회</div>--%>
         <form id="eduViewForm">
           <table class="table table-bordered" id="userInfoTable" style="width: 1000px;">
             <colgroup>
@@ -36,7 +61,7 @@
             <thead>
             <tr>
               <th>소 속</th>
-              <td id="userDept">${loginVO.orgnztNm}</td>
+              <td id="userDept">${loginVO.deptNm} ${loginVO.orgnztNm}</td>
               <th>직 위</th>
               <td id="userPosition">${loginVO.dutyNm eq '' ? loginVO.positionNm : loginVO.dutyNm}</td>
               <th>성 명</th>
@@ -267,7 +292,7 @@
           </table>
         </form>
       </div>
-      <div class="btn-st" style="margin-top:10px; text-align:center;">
+      <%--<div class="btn-st" style="margin-top:10px; text-align:center;">
         <c:choose>
           <c:when test="${data.STATUS == 0}">
             <input type="button" class="k-button k-button-solid-info usrBtn" value="결재요청" onclick="eduInfoViewPop.campusDrafting();"/>
@@ -288,7 +313,7 @@
           </c:when>
         </c:choose>
         <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick="window.close();"/>
-      </div>
+      </div>--%>
     </div>
   </div>
 </div>
