@@ -2756,18 +2756,14 @@
     <select id="getTeamProjectList" parameterType="map" resultType="map">
         /*getTeamProjectList*/
         SELECT
-            *
+            A.*
         FROM
-            CAM_PJT_MNG.DJ_PJT_TEAM_VERSION C
+            CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN
-            CAM_PJT_MNG.DJ_PJT_TEAM B
-            ON
-                B.TEAM_VERSION_SN = C.TEAM_VERSION_SN AND B.TM_TYPE = '1'
-        LEFT JOIN
-            CAM_PJT_MNG.DJ_PROJECT A ON A.PNT_PJT_SN = B.PJT_SN
-        WHERE
-            B.PJT_SN = #{pjtSn}
+            CAM_PJT_MNG.DJ_PJT_TEAM B ON A.PNT_PJT_SN = B.PJT_SN AND B.TM_TYPE = '1'
+        WHERE A.PNT_PJT_SN = #{pjtSn}
           AND B.TEAM_VERSION_SN = (SELECT TEAM_VERSION_SN FROM CAM_PJT_MNG.DJ_PJT_TEAM_VERSION WHERE PJT_SN = #{pjtSn} ORDER BY TEAM_VERSION_SN DESC LIMIT 1)
+        GROUP BY TM_SN
     </select>
 
     <select id="partRateEmpInfo" parameterType="map" resultType="map">

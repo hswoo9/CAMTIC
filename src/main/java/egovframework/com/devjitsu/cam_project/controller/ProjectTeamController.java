@@ -96,6 +96,28 @@ public class ProjectTeamController {
         return "popup/cam_project/setTeamProject";
     }
 
+    /** new 엔지니어링 협업보고서 */
+    @RequestMapping("/project/pop/teamPrintPop.do")
+    public String estPrintPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        String hwpUrl = "";
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+
+        params.put("hwpUrl", hwpUrl);
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("data", params);
+
+        return "popup/cam_project/teamPrintPop";
+    }
+
     /** 협업 버전 정보 조회 */
     @RequestMapping("/project/team/getTeamVersion")
     public String getTeamVersion(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
