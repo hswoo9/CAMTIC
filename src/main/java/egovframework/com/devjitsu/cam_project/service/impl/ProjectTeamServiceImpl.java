@@ -52,6 +52,11 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
     }
 
     @Override
+    public Map<String, Object> getTeamData(Map<String, Object> params) {
+        return projectTeamRepository.getTeamData(params);
+    }
+
+    @Override
     public void setTeamAddVersion(Map<String, Object> params) {
         if(!params.containsKey("ck")){
             projectTeamRepository.setTeamAddVersion(params);
@@ -73,7 +78,16 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
 
     @Override
     public void setTeam(Map<String, Object> params) {
-        projectTeamRepository.setTeam(params);
+        if(!params.containsKey("tmSn")){
+            projectTeamRepository.insTeam(params);
+        }else{
+            projectTeamRepository.updTeam(params);
+        }
+    }
+
+    @Override
+    public void delTeam(Map<String, Object> params) {
+        projectTeamRepository.delTeam(params);
     }
 
     @Override
@@ -88,7 +102,9 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
                 if(list.get(i).get("WORK_TYPE").equals("I")){
                     projectTeamRepository.insTeamProject(list.get(i));
                 }else if(list.get(i).get("WORK_TYPE").equals("U")){
-                    projectTeamRepository.setTeamProject(list.get(i));
+                    projectTeamRepository.updTeamProject(list.get(i));
+                }else if(list.get(i).get("WORK_TYPE").equals("D")){
+                    projectTeamRepository.delTeamProject(list.get(i));
                 }
             }
         }

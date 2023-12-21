@@ -65,6 +65,37 @@ var teamAjax = {
         }
     },
 
+    fn_delete : function(){
+        if($("input[name='ch']:checked").length == 0){
+            alert("삭제할 협업프로젝트를 선택해주세요."); return;
+        }
+
+        if(!confirm("협업을 삭제하시겠습니까? 삭제 후 최종 승인시 해당 협업프로젝트는 완전히 삭제됩니다.")){
+            return;
+        }
+
+        var joinSn = "";
+        $.each($("input[name='ch']:checked"), function(i){
+            if(i != 0){
+                joinSn += ",";
+            }
+            joinSn += $(this).val();
+        });
+
+        const parameters = {
+            joinSn : joinSn,
+            regEmpSeq: $("#regEmpSeq").val()
+        }
+
+        const result = customKendo.fn_customAjax("/project/team/delTeam", parameters);
+        if(result.code == "200"){
+            alert("삭제가 완료되었습니다. 협업 프로젝트는 최종승인시 삭제됩니다.");
+            commonProject.getReloadPage(5, 5, 5);
+        }else{
+            alert("삭제 중 오류가 발생하였습니다.");
+        }
+    },
+
     fn_approve : function(stat){
         let confirmText = "";
         let successText = "";

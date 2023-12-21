@@ -2,6 +2,7 @@ var teamReq = {
 
     fn_defaultScript : function(){
         teamReq.fn_pageSet();
+        teamReq.fn_dataSet();
     },
 
     fn_pageSet : function(){
@@ -40,6 +41,26 @@ var teamReq = {
         $("#leftAmtTmp").val(comma(Number(amtText)-Number(leftAmt)));
     },
 
+    fn_dataSet: function(){
+        const tmSn = $("#tmSn").val();
+        const result = customKendo.fn_customAjax("/project/team/getTeamData", {
+            tmSn: tmSn
+        });
+        const tmMap = result.data;
+        if(tmMap != null){
+            $("#teamSeq").val(tmMap.TM_TEAM_SEQ);
+            $("#teamPMSeq").val(tmMap.TM_PM_SEQ);
+            $("#teamPMNm").val(commonProject.getName(tmMap.TM_PM_SEQ));
+            $("#team").val(commonProject.getDept(tmMap.TM_PM_SEQ));
+            $("#teamAmt").val(comma(tmMap.TM_AMT));
+            $("#teamInvAmt").val(comma(tmMap.TM_INV_AMT));
+            $("#teamAmt").trigger("keyup");
+            $("#saveBtn").hide();
+            $("#modBtn").show();
+            $("#teamPMBtn").hide();
+        }
+    },
+
     fn_calCost: function(obj){
         if(obj.id.match("teamAmt") || obj.id.match("teamInvAmt")){
             /** 배분비율 */
@@ -72,6 +93,12 @@ var teamReq = {
             regEmpSeq : $("#regEmpSeq").val()
         }
 
+        let confirmText = "협업등록을 하시겠습니까?";
+        if($("#tmSn").val() != "" && $("#tmSn").val() != undefined && $("#tmSn").val() != null){
+            parameters.tmSn = $("#tmSn").val();
+            confirmText = "등록된 협업을 수정 하시겠습니까?";
+        }
+
         if(parameters.tmPMSeq == ""){
             alert("담당자를 선택해주세요."); return;
         }
@@ -84,7 +111,7 @@ var teamReq = {
             alert("예상비용이 입력되지 않았습니다."); return;
         }
 
-        if(!confirm("협업등록을 하시겠습니까?")){
+        if(!confirm(confirmText)){
             return;
         }
 

@@ -216,11 +216,15 @@ var teamEngn = {
             html += '<tr>';
 
             /** 체크박스 */
-            html += '    <td style="text-align: center"><input type="checkbox" id="ch_'+teamMap.TM_SN+'" style="position: relative; top: 2px"/></td>';
+            html += '    <td style="text-align: center"><input type="checkbox" id="ch_'+teamMap.TM_SN+'" name="ch" style="position: relative; top: 2px" value="'+teamMap.TM_SN+'"/></td>';
             /** 구분 */
             html += '    <td style="text-align: center"><span>협업</span></td>';
             /** 팀 */
-            html += '    <td style="text-align: center"><span>'+commonProject.getDept(teamMap.TM_PM_SEQ)+'</span></td>';
+            if(verMap.STATUS != "100"){
+                html += '    <td style="text-align: center"><span style="cursor: pointer" onclick="teamEngn.fn_teamReqPop('+teamMap.TM_SN+')"><b>'+commonProject.getDept(teamMap.TM_PM_SEQ)+'</b></span></td>';
+            }else{
+                html += '    <td style="text-align: center"><span>'+commonProject.getDept(teamMap.TM_PM_SEQ)+'</span></td>';
+            }
             /** 담당자(PM) */
             html += '    <td style="text-align: center"><span>'+commonProject.getName(teamMap.TM_PM_SEQ)+'</span></td>';
             /** 총예산 */
@@ -272,7 +276,7 @@ var teamEngn = {
         if(verMap != null){
             const status = verMap.STATUS;
             if(!(status == 10 || status == 100)){
-                buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-error" onclick="">삭제</button>';
+                buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-error" onclick="teamAjax.fn_delete()">삭제</button>';
                 buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-info" onclick="teamAjax.fn_save()">저장</button>';
                 buttonHtml += '<button type="button" id="saveBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-info" onclick="teamEngn.fn_teamReqPop()">협업등록</button>';
             }else{
@@ -295,8 +299,11 @@ var teamEngn = {
         inputNumberFormat(obj);
     },
 
-    fn_teamReqPop: function(){
+    fn_teamReqPop: function(tmSn){
         let url = "/intra/cam_project/teamReqPop.do?pjtSn="+$("#pjtSn").val()+"&teamVersionSn="+$("#teamVersionSn").val();
+        if(tmSn != null){
+            url += "&tmSn="+tmSn;
+        }
         const name = "teamReqPop";
         const option = "width = 900, height = 330, top = 300, left = 400, location = no";
         window.open(url, name, option);

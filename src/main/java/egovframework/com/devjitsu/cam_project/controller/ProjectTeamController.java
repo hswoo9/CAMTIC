@@ -154,6 +154,15 @@ public class ProjectTeamController {
         return "jsonView";
     }
 
+    /** 협업 정보 단일 데이터 */
+    @RequestMapping("/project/team/getTeamData")
+    public String getTeamData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        Map<String, Object> data = projectTeamService.getTeamData(params);
+        model.addAttribute("data", data);
+
+        return "jsonView";
+    }
+
     /** 협업 새 버전 추가 */
     @RequestMapping("/project/team/setTeamAddVersion")
     public String setTeamAddVersion(@RequestParam Map<String, Object> params, Model model){
@@ -182,11 +191,25 @@ public class ProjectTeamController {
         return "jsonView";
     }
 
-    /** 협업 새 버전 추가 */
+    /** 협업 팀 추가/수정 */
     @RequestMapping("/project/team/setTeam")
     public String setTeam(@RequestParam Map<String, Object> params, Model model){
         try{
             projectTeamService.setTeam(params);
+            model.addAttribute("code", 200);
+            model.addAttribute("rep", params);
+        } catch(Exception e){
+            e.printStackTrace();
+            model.addAttribute("code", 500);
+        }
+        return "jsonView";
+    }
+
+    /** 협업 팀 삭제 */
+    @RequestMapping("/project/team/delTeam")
+    public String delTeam(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectTeamService.delTeam(params);
             model.addAttribute("code", 200);
             model.addAttribute("rep", params);
         } catch(Exception e){

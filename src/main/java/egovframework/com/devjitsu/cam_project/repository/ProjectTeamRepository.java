@@ -25,6 +25,10 @@ public class ProjectTeamRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("projectTeam.getVerLeftAmt", params);
     }
 
+    public Map<String, Object> getTeamData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("projectTeam.getTeamData", params);
+    }
+
     public void setTeamAddVersion(Map<String, Object> params) {
         insert("projectTeam.setTeamAddVersion", params);
     }
@@ -37,8 +41,16 @@ public class ProjectTeamRepository extends AbstractDAO {
         update("projectTeam.updMyTeam", params);
     }
 
-    public void setTeam(Map<String, Object> params) {
-        insert("projectTeam.setTeam", params);
+    public void insTeam(Map<String, Object> params) {
+        insert("projectTeam.insTeam", params);
+    }
+
+    public void updTeam(Map<String, Object> params) {
+        update("projectTeam.updTeam", params);
+    }
+
+    public void delTeam(Map<String, Object> params) {
+        update("projectTeam.delTeam", params);
     }
 
     public void setTeamCopy(Map<String, Object> params) {
@@ -49,8 +61,12 @@ public class ProjectTeamRepository extends AbstractDAO {
         insert("projectTeam.insTeamProject", params);
     }
 
-    public void setTeamProject(Map<String, Object> params) {
-        update("projectTeam.setTeamProject", params);
+    public void updTeamProject(Map<String, Object> params) {
+        update("projectTeam.updTeamProject", params);
+    }
+
+    public void delTeamProject(Map<String, Object> params) {
+        update("projectTeam.delTeamProject", params);
     }
 
     public void updTeamVersionAppStat(Map<String, Object> params) {
