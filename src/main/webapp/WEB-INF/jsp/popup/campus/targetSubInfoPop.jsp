@@ -8,6 +8,14 @@
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/campus/campus.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/campus/targetSubInfoPop.js?v=${today}"></script>
+<style>
+  .pop-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+</style>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="loginId" value="${loginVO.id}"/>
@@ -26,7 +34,7 @@
       <div class="title-road">직무관리 &gt; 학습체계도설정</div>
     </div>--%>
 
-    <div class="panel-body">
+      <div class="panel-body" style="margin-top: 40px;">
       <%--<div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>--%>
 
       <div>
