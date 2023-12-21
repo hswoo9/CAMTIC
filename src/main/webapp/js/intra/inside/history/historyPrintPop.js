@@ -2,6 +2,8 @@ const historyPrintPop = {
     global: {
         hwpCtrl : "",
         params : "",
+        now : "",
+        fileTitle : ""
     },
 
     init: function(){
@@ -77,6 +79,10 @@ const historyPrintPop = {
             jobText = data.CHNG_JOB;
         }
         historyPrintPop.global.hwpCtrl.PutFieldText("JOB_DETAIL", jobText);
+    },
+
+    saveHwp : function (){
+        historyPrintPop.global.hwpCtrl.SaveAs(historyPrintPop.global.fileTitle, "hwp", "download:true");
     },
 
     resize: function() {
