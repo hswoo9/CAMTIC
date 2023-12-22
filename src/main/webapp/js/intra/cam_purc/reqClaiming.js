@@ -52,7 +52,7 @@ var reqCl = {
         // ]
 
         customKendo.fn_radioGroup("purcType", radioDataSource, "horizontal");
-        customKendo.fn_radioGroup("expType", radioExpDataSource, "horizontal");
+        //customKendo.fn_radioGroup("expType", radioExpDataSource, "horizontal");
         customKendo.fn_radioGroup("vat", radioVatDataSource, "horizontal");
         // customKendo.fn_radioGroup("prodCd", radioProdDataSource, "horizontal");
 
@@ -117,7 +117,7 @@ var reqCl = {
 
                 $("#vat").data("kendoRadioGroup").value(data.VAT);
 
-                $("#expType").data("kendoRadioGroup").value(data.EXP_TYPE);
+                //$("#expType").data("kendoRadioGroup").value(data.EXP_TYPE);
 
                 if(data.itemList[0].CLAIM_SN == "" || data.itemList[0].CLAIM_SN == null || data.itemList[0].CLAIM_SN == undefined) {
                     reqCl.fn_setItem(data);
@@ -168,7 +168,7 @@ var reqCl = {
 
             $("#vat").data("kendoRadioGroup").value(data.VAT);
 
-            $("#expType").data("kendoRadioGroup").value(data.EXP_TYPE);
+            //$("#expType").data("kendoRadioGroup").value(data.EXP_TYPE);
 
             $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
 
@@ -415,7 +415,7 @@ var reqCl = {
             purcType : $("#purcType").data("kendoRadioGroup").value(),
             pjtSn : $("#pjtSn").val(),
             pjtNm : $("#pjtNm").val(),
-            expType : $("#expType").data("kendoRadioGroup").value(),
+            //expType : $("#expType").data("kendoRadioGroup").value(),
             claimEtc : $("#claimEtc").val(),
             loginEmpSeq : $("#loginEmpSeq").val(),
             claimTitle : $("#claimTitle").val(),
@@ -452,11 +452,11 @@ var reqCl = {
             }
         }
 
-        if(parameters.expType == undefined || parameters.expType == null){
-            alert("결제구분을 선택해주세요.");
-            return;
+        //if(parameters.expType == undefined || parameters.expType == null){
+        //    alert("결제구분을 선택해주세요.");
+        //    return;
 
-        }
+        //}
 
         if(parameters.vat == undefined || parameters.vat == null){
             alert("부가세 분류를 선택해주세요.");
