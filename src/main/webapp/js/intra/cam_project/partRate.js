@@ -191,7 +191,7 @@ var partRate = {
                 memHtml += '   <td><input type="text" id="memPayRate'+i+'" name="payRate" style="text-align: right" disabled value="0"></td>';      // 참여율 현금(%)
                 memHtml += '   <td><input type="text" id="memTotPayBudget'+i+'" name="totPayBudget" style="text-align: right" disabled value="0"></td>';      // 인건비 현금 총액
                 memHtml += '   <td><input type="text" id="memItemRate'+i+'" name="itemRate" value="0" style="text-align: right" onkeyup="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +');" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"></td>';
-                memHtml += '   <td><input type="text" id="memTotItemBudget'+i+'" name="totItemBudget" style="text-align: right" value="0" onkeyup="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +', this);" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"></td>';      // 인건비 현물 총액
+                memHtml += '   <td><input type="text" id="memTotItemBudget'+i+'" name="totItemBudget" style="text-align: right" value="0" onkeyup="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +', this, false);" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"></td>';      // 인건비 현물 총액
                 memHtml += '   <td><input type="text" id="memTotRate'+i+'" name="totRate" style="text-align: right" disabled value="0"></td>';      // 총 참여율(%)
                 memHtml += '   <td><input type="text" id="memPayTotal'+i+'" name="payTotal" style="text-align: right" value="0" onkeyup="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +', this);" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"></td>';
                 memHtml += '   <td><input type="text" id="memMonSal'+i+'" name="monSal" style="text-align: right" disabled value="0"></td>';      // 월 인건비
@@ -309,7 +309,12 @@ var partRate = {
         item++;
     },
 
-    fn_memCalc : function (bsSal, payBudget, i, e){
+    fn_memCalc : function (bsSal, payBudget, i, e, x){
+        var customFlag = true;
+
+        if(!x){
+            customFlag = false;
+        }
 
         if(e != null && e != "" && e != undefined){
             inputNumberFormat(e);
@@ -336,6 +341,10 @@ var partRate = {
             $("#memTotRate" + i).val(memTotRate);    // 총 참여율(%) (인건비 총액 / (기준급여 변경 * 참여개월)) * 100
         }
 
+        if(!customFlag) {
+            $("#memItemRate" + i).val(Math.round(Number(uncomma($("#memTotItemBudget" + i).val())) / Number(uncomma($("#memPayTotal" + i).val())) * memTotRate));
+        }
+
         var memPayRate = Math.round(($("#memTotRate" + i).val() - $("#memItemRate" + i).val()) * 10) / 10;
         if(!isNaN(memPayRate)){
             $("#memPayRate" + i).val(memPayRate);
@@ -350,12 +359,13 @@ var partRate = {
             }
         }
 
-
         var calData = $("#memTotPayBudget" + i);
         calData.val(comma(Math.round( Number(uncomma($("#memPayTotal" + i).val())) - Number(uncomma($("#memTotItemBudget" + i).val())) )));
 
-        $("#memTotItemBudget" + i).val(comma(Math.round(Number(uncomma($("#memPayTotal" + i).val())) - Number(uncomma($("#memTotPayBudget" + i).val())) )));
+        $("#memTotItemBudget" + i).val(comma(Math.round(Number(uncomma($("#memPayTotal" + i).val())) - Number(uncomma($("#memTotPayBudget" + i).val())))));
+        //$("#memTotItemBudget" + i).val(comma(Math.round(  Number(uncomma($("#memTotItemBudget" + i).val())) / Number(uncomma($("#memPayTotal" + i).val())) )));
 
+        //여기서부터 합계 계산
         var totPay = 0;
         $("input[name='payTotal']").each(function(){
             totPay += Number(uncomma(this.value));
