@@ -112,6 +112,7 @@ var customBudgetPop = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound : customBudgetPop.cDataBound,
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAllC" name="checkAllC"/>',
@@ -140,7 +141,7 @@ var customBudgetPop = {
         var grid = this;
         grid.element.off('dbclick');
 
-        grid.tbody.find("tr").dblclick(function (e) {
+        grid.tbody.find("tr").click(function (e) {
             var dataItem = grid.dataItem($(this).closest("tr"));
             $(".cBudgetB.addBudgetB").attr("cbUpperCode", dataItem.CB_CODE_ID);
             customBudgetPop.cbAddRow("customBudgetGridA", dataItem.CB_CODE_ID)
@@ -153,11 +154,24 @@ var customBudgetPop = {
         var grid = this;
         grid.element.off('dbclick');
 
-        grid.tbody.find("tr").dblclick(function (e) {
+        grid.tbody.find("tr").click(function (e) {
             var dataItem = grid.dataItem($(this).closest("tr"));
             $(".cBudgetC.addBudgetC").attr("cbUpperCode", dataItem.CB_CODE_ID);
             customBudgetPop.cbAddRow("customBudgetGridB", dataItem.CB_CODE_ID)
             customBudgetPop.global.cBudgetB = $(this);
+        });
+    },
+
+    cDataBound : function(){
+        const grid = this;
+        grid.tbody.find("tr").click(function(){
+            const dataItem = grid.dataItem($(this));
+            const CB_CODE_ID = dataItem.CB_CODE_ID;
+            $("#customBudgetGridCChk"+CB_CODE_ID).trigger("click");
+        });
+
+        grid.tbody.find("input").click(function(){
+            $($(this)).trigger("click");
         });
     },
 

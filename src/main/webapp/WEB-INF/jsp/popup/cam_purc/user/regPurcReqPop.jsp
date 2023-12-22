@@ -100,7 +100,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">견적서 파일</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>견적서 파일<br>(구매 참고파일)</th>
                     <td colspan="3">
                         <form style="padding: 0px 30px;">
                             <div class="card-header" style="padding: 5px;">

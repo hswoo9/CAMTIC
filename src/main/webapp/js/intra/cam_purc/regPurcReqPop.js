@@ -128,6 +128,17 @@ var prp = {
             }
         }
 
+        if($("#purcSn").val() == ""){
+            if(fCommon.global.attFiles.length == 0){
+                alert("견적서 등록해주세요."); return;
+            }
+        }else{
+            if($(".addFile").length == 0){
+                alert("견적서를 등록해주세요."); return;
+            }
+        }
+
+
         if($("#file2")[0].files.length == 1){
             formData.append("file2", $("#file2")[0].files[0]);
         }
