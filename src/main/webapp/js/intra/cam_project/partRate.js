@@ -191,7 +191,7 @@ var partRate = {
                 memHtml += '   <td><input type="text" id="memPayRate'+i+'" name="payRate" style="text-align: right" disabled value="0"></td>';      // 참여율 현금(%)
                 memHtml += '   <td><input type="text" id="memTotPayBudget'+i+'" name="totPayBudget" style="text-align: right" disabled value="0"></td>';      // 인건비 현금 총액
                 memHtml += '   <td><input type="text" id="memItemRate'+i+'" name="itemRate" value="0" style="text-align: right" onkeyup="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +');" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"></td>';
-                memHtml += '   <td><input type="text" id="memTotItemBudget'+i+'" name="totItemBudget" style="text-align: right" value="0" onkeyup=""></td>';      // 인건비 현물 총액
+                memHtml += '   <td><input type="text" id="memTotItemBudget'+i+'" name="totItemBudget" style="text-align: right" value="0" onkeyup="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +', this);" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"></td>';      // 인건비 현물 총액
                 memHtml += '   <td><input type="text" id="memTotRate'+i+'" name="totRate" style="text-align: right" disabled value="0"></td>';      // 총 참여율(%)
                 memHtml += '   <td><input type="text" id="memPayTotal'+i+'" name="payTotal" style="text-align: right" value="0" onkeyup="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +', this);" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"></td>';
                 memHtml += '   <td><input type="text" id="memMonSal'+i+'" name="monSal" style="text-align: right" disabled value="0"></td>';      // 월 인건비
@@ -351,7 +351,10 @@ var partRate = {
         }
 
 
-        $("#memTotItemBudget" + i).val(comma(Math.round(Number(uncomma($("#memPayTotal" + i).val())) - Number(uncomma($("#memTotPayBudget" + i).val())))));
+        var calData = $("#memTotPayBudget" + i);
+        calData.val(comma(Math.round( Number(uncomma($("#memPayTotal" + i).val())) - Number(uncomma($("#memTotItemBudget" + i).val())) )));
+
+        $("#memTotItemBudget" + i).val(comma(Math.round(Number(uncomma($("#memPayTotal" + i).val())) - Number(uncomma($("#memTotPayBudget" + i).val())) )));
 
         var totPay = 0;
         $("input[name='payTotal']").each(function(){
