@@ -24,7 +24,7 @@ var regPrj = {
         var tab0Url = "/intra/cam_project/crmInfo.do"; // 00상담정보
         var tab1Url = "/intra/cam_project/estInfo.do"; // 01견적관리
         var tab2Url = "/intra/cam_project/delvInfo.do"; // 02수주보고
-        var tab3Url = "/intra/cam_project/devInfo.do"; // 03수행계획(공정)
+        var tab3Url = "/intra/cam_project/devInfo.do"; // 03수행계획
         var tab4Url = "/intra/cam_project/processInfo.do"; // 04공정
         var tab5Url = "/intra/cam_project/teamInfoEngn.do"; // 05협업
         var tab6Url = "/intra/cam_project/goodsInfo.do"; // 06납품관리
@@ -75,7 +75,7 @@ var regPrj = {
         if(setParameters != null && setParameters.TEAM_STAT == "Y"){
             dataSource = [
                 {name: "견적관리", url: tab1Url},
-                {name: "수행계획(공정)", url: tab3Url},
+                {name: "수행계획", url: tab3Url},
                 {name: "공정", url: tab4Url},
                 {name: "납품관리", url: tab6Url},
                 {name: "실적관리", url: tab8Url},
@@ -88,7 +88,7 @@ var regPrj = {
                 {name: "상담정보", url: tab0Url},
                 {name: "견적관리", url: tab1Url},
                 {name: "수주보고", url: tab2Url, imageUrl : "/images/ico/etc_01_1.png"},
-                {name: "수행계획(공정)", url: tab3Url, imageUrl : "/images/ico/etc_01_1.png"},
+                {name: "수행계획", url: tab3Url, imageUrl : "/images/ico/etc_01_1.png"},
                 {name: "공정", url: tab4Url},
                 {name: "협업", url: tab5Url},
                 {name: "납품관리", url: tab6Url},

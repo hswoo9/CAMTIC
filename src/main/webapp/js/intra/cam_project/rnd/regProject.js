@@ -14,7 +14,7 @@ var regRnd = {
         //var tab1Url = "/projectRnd/researcherInfo.do";             // 01참여인력 --제외(요청)
         // var tab2Url = "/projectRnd/reqPartRate.do";             // 참여율요청 -- 제외
         var tab3Url = "/projectRnd/partRate.do";                   // 02참여율관리
-        var tab4Url = "/projectRnd/rndDevPlan.do";                 // 03수행계획(공정)
+        var tab4Url = "/projectRnd/rndDevPlan.do";                 // 03수행계획
         var tab17Url= "/intra/cam_project/processInfo.do";         // 04공정
         var tab5Url = "/projectRnd/rndDevSchedule.do";             // 05개발일정
         // var tab6Url = "/projectRnd/rndDevJob.do";               // 개발일지 -- 제외
@@ -57,7 +57,7 @@ var regRnd = {
         var dataSource;
         if(setParameters != null && setParameters.TEAM_STAT == "Y"){
             dataSource = [
-                {name: "수행계획(공정)", url: tab4Url},
+                {name: "수행계획", url: tab4Url},
                 {name: "공정", url: tab17Url},
                 {name: "실적관리", url: tab15Url},
 
@@ -69,7 +69,7 @@ var regRnd = {
                 {name: "사업정보", url: tab0Url, imageUrl: "/images/ico/etc_01_1.png"},
                 //{name: "참여인력", url: tab1Url}, --제외(요청)
                 {name: "참여율관리", url: tab3Url},      // 지출내역조회와 같이 사용
-                {name: "수행계획(공정)", url: tab4Url, imageUrl: "/images/ico/etc_01_1.png"},
+                {name: "수행계획", url: tab4Url, imageUrl: "/images/ico/etc_01_1.png"},
                 {name: "공정", url: tab17Url},
                 {name: "개발관리", url: tab5Url},
                 {name: "협업", url: tab6Url},
