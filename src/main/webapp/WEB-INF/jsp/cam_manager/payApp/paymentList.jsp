@@ -12,6 +12,10 @@
         text-decoration: underline !important;
         cursor: pointer;
     }
+
+    .k-master-row {
+        white-space: nowrap !important;
+    }
 </style>
 <input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
 <input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">

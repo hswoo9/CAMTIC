@@ -84,10 +84,10 @@ var paymentList = {
                         return "<input type='checkbox' id='payAppSn"+e.PAY_APP_SN+"' name='payChk' value='"+e.PAY_APP_SN+"'/>"
 
                     },
-                    width: 50
+                    width: 30
                 }, {
                     title: "번호",
-                    width: 40,
+                    width: 50,
                     template: "#= --record #"
                 }, {
                     title: "문서유형",
@@ -106,7 +106,7 @@ var paymentList = {
                 }, {
                     field: "DOC_NO",
                     title: "문서번호",
-                    width: 120,
+                    width: 150,
                 }, {
                     title: "신청건명",
                     field: "APP_TITLE",
@@ -130,7 +130,7 @@ var paymentList = {
                     width: 240,
                     template: function(e){
                         var pjtNm = e.PJT_NM.toString().substring(0, 25);
-                        return pjtNm + "...";
+                        return pjtNm;
                     }
                 }, {
                     title: "신청일",
@@ -195,7 +195,7 @@ var paymentList = {
 
                         return stat;
                     }
-                },{
+                }, {
                     title : "삭제",
                     template : function(e){
                         console.log(e);
@@ -203,6 +203,23 @@ var paymentList = {
                             if(e.DOC_STATUS == 0){
                                 return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="paymentList.fn_delReqReg('+e.PAY_APP_SN+', '+e.REG_EMP_SEQ+')">' +
                                     '	<span class="k-button-text">삭제</span>' +
+                                    '</button>';
+                            } else {
+                                return "";
+                            }
+                        } else {
+                            return "";
+                        }
+                    },
+                    width: 60
+                }, {
+                    title : "결재선",
+                    template : function(e){
+                        console.log(e);
+                        if(e.REG_EMP_SEQ == $("#myEmpSeq").val()){
+                            if(e.DOC_STATUS != 0){
+                                return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="docApproveLineView('+e.DOC_ID+');">' +
+                                    '	<span class="k-icon k-i-hyperlink-open-sm k-button-icon"></span>' +
                                     '</button>';
                             } else {
                                 return "";
@@ -330,5 +347,15 @@ var paymentList = {
         } else {
             $("input[name='payChk']").prop("checked", false);
         }
+    },
+
+    docApproveLineView : function (docId){
+        var pop = "" ;
+        var url = '/approval/approvalLineViewPop.do?docId='+docId+'&view=lineView';
+        var width = "1000";
+        var height = "355";
+        windowX = Math.ceil( (window.screen.width  - width) / 2 );
+        windowY = Math.ceil( (window.screen.height - height) / 2 );
+        pop = window.open(url, '결재선 보기', "width=" + width + ", height=" + height + ", top="+ windowY +", left="+ windowX +", resizable=NO, scrollbars=NO");
     }
 }
