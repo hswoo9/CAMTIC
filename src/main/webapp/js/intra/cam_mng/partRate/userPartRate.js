@@ -108,13 +108,12 @@ var userPartRate = {
                 var pmCnt = 0;
                 var sbjStatCnt = 0;
                 for (var i = 0; i < rs.length; i++) {
-                    var pjtStatus = "진행중";
+                    var pjtStatus = "진행";
 
-                    var projectEndDate = new Date();
-                    if(projectEndDate >= new Date(rs[i].PJT_END_DT)){
-                        pjtStatus = "완료";
+                    var checkArr = ['Y', 'E', 'E1', 'E2', 'R', 'S'];
+                    if(checkArr.indexOf(rs[i].PJT_STEP) > -1){
+                        pjtStatus = "예정";
                     }
-
 
                     var pm = "";
                     if(parameters.empSeq == rs[i].PM_EMP_SEQ){
