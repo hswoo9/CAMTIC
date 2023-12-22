@@ -55,12 +55,12 @@ var targetMainSetPop = {
 
         var html = "";
         if(list.length > 0) {
-            html += "<tr style='background-color: #fee3ef'>";
+            html += "<tr style='background-color: #d2749c; color: white; font-weight: bold;'>";
             html += "   <td rowspan='2' style='text-align: center'>구분</td>";
             html += "   <td colspan='"+list.length+"' style='text-align: center'>주업무</td>";
             html += "</tr>";
 
-            html += "<tr style='background-color: #fee3ef'>";
+            html += "<tr style='background-color: #d2749c; color: white; font-weight: bold;'>";
             for(var i = 0; i < list.length; i++) {
                 html += "   <td>"+list[i].EDU_CATEGORY_NAME+"</td>";
                 eduCategoryIdList[i] = list[i].EDU_CATEGORY_ID;
@@ -69,7 +69,7 @@ var targetMainSetPop = {
 
             for(var j = 3; j >= 0; j--) {
                 html += "<tr>";
-                html += "   <td style='background-color: #fee3ef'>Level "+j+"</td>";
+                html += "   <td style='background-color: #d2749c; color: white; font-weight: bold;'>Level "+j+"</td>";
                     for(var k = 0; k < list.length; k++) {
                         if(detailList.length > 0) {
                             html += "   <td>";
