@@ -73,7 +73,11 @@ var myEdu = {
                     title: "순번",
                     template: "#= --record #",
                     width: 50
-                }, {
+                },  {
+                    field: "",
+                    title: "학습방법",
+                    width: 200
+                },{
                     field: "EDU_NAME",
                     title: "학습명"
                 }, {
@@ -101,12 +105,16 @@ var myEdu = {
                     field: "LEVEL_ID",
                     title: "목표레벨",
                     width: 100
-                }, {
+                },  {
+                    field: "",
+                    title: "학습시간",
+                    width: 100
+                },{
                     field: "REAL_EDU_TIME",
                     title: "인정시간",
                     width: 100
                 }, {
-                    title: "이수상태",
+                    title: "진행현황",
                     width: 180,
                     template: function(row){
                         if(row.STATUS == "0") {
@@ -181,14 +189,18 @@ var myEdu = {
                     template: "<span>#=START_DT# ~ #=END_DT#</span>",
                     width: 300
                 }, {
+                    field: "STUDY_LOCATION",
+                    title: "교육장소",
+                    width: 200
+                },{
                     title: "학습시간",
                     template: "<span>#=STUDY_TIME#시간</span>",
                     width: 200
-                }, {
-                    field: "STUDY_LOCATION",
-                    title: "지도장소",
+                },  {
+                    title: "인정시간",
+                    /*template: "<span>#=STUDY_TIME#시간</span>",*/
                     width: 200
-                }, {
+                },{
                     title: "진행현황",
                     width: 120,
                     template: function(row){
@@ -281,10 +293,61 @@ var myEdu = {
                     title: "지도자",
                     width: 100
                 }, {
-                    title: "지도기간",
+                    title: "학습기간",
                     template: "<span>#=START_DT# ~ #=END_DT#</span>",
                     width: 300
                 }, {
+                    title: "학습시간",
+                    template: "<span>#=STUDY_TIME#시간</span>",
+                    width: 200
+                },  {
+                    title: "인정시간",
+                    /*template: "<span>#=STUDY_TIME#시간</span>",*/
+                    width: 200
+                },{
+                    title: "진행현황",
+                    width: 120,
+                    template: function(row){
+                        let studyClass = row.STUDY_CLASS_SN;
+                        if(studyClass == 1){
+                            if(row.STATUS == 0){
+                                return "신청서 작성중";
+                            }else if(row.STATUS == 10) {
+                                return "신청서 승인요청중";
+                            }else if(row.STATUS == 100){
+                                if(row.ADD_STATUS == "Y"|| row.ADD_STATUS == "C"){
+                                    return "학습완료";
+                                } else if (row.ADD_STATUS == "S") {
+                                    return "이수완료";
+                                } else {
+                                    return "학습 진행중";
+                                }
+                            }
+                        }else if(studyClass == 2){
+                            if(row.STATUS == 0){
+                                return "신청서 작성중";
+                            }else if(row.STATUS == 10) {
+                                return "신청서 승인요청중";
+                            }else if(row.STATUS == 30) {
+                                return "신청서 반려됨";
+                            }else if(row.STATUS == 100){
+                                return "학습종료";
+                            }
+                        }else if(studyClass == 3){
+                            if(row.STATUS == 0){
+                                return "신청서 작성중";
+                            }else if(row.STATUS == 10) {
+                                return "신청서 승인요청중";
+                            }else if(row.STATUS == 30) {
+                                return "신청서 반려됨";
+                            }else if(row.STATUS == 100){
+                                return "OJT 진행중(0회)";
+                            }else if(row.STATUS == 101){
+                                return "OJT완료";
+                            }
+                        }
+                    }
+                },{
                     title: "지도시간",
                     template: "<span>#=PROPAG_TIME#시간</span>",
                     width: 200
@@ -395,7 +458,7 @@ var myEdu = {
                     width: 80
                 }, {
                     field: "OPEN_STUDY_DT",
-                    title: "지도날짜",
+                    title: "학습기간",
                     width: 300
                 }, {
                     title: "학습시간",
@@ -453,7 +516,19 @@ var myEdu = {
                     title: "학습기간",
                     template: "<span>#=START_DT# ~ #=END_DT#</span>",
                     width: 300
+                },{
+                    field: "",
+                    title: "교육장소",
+                    width: 200
                 }, {
+                    title: "학습시간",
+                    /*template: "<span>#=STUDY_TIME#시간</span>",*/
+                    width: 200
+                },  {
+                    title: "인정시간",
+                    /*template: "<span>#=STUDY_TIME#시간</span>",*/
+                    width: 200
+                }, /*{
                     title: "교육시간",
                     template: "<span>#=EDU_TIME#시간</span>",
                     width: 200
@@ -461,7 +536,7 @@ var myEdu = {
                     field: "EDU_LOCATION",
                     title: "장소",
                     width: 200
-                }, {
+                },*/ {
                     title: "진행현황",
                     width: 80,
                     template: function(row){

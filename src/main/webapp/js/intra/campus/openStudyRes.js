@@ -80,10 +80,18 @@ var openStudyRes = {
                         return row.OPEN_STUDY_DT + " " + row.START_TIME + " ~ " + row.END_TIME
                     }
                 }, {
+                    field: "STUDY_LOCATION",
+                    title: "교육장소",
+                    width: 300
+                },{
                     field: "EDU_TIME",
                     title: "학습시간",
                     width: 80
                 }, {
+                    title: "인정시간",
+                    /*template: "<span>#=STUDY_TIME#시간</span>",*/
+                    width: 80
+                },{
                     field: "",
                     title: "진행현황",
                     width: 100,
