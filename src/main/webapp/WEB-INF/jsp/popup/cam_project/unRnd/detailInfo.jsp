@@ -48,7 +48,7 @@
             <thead>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>총괄책임자
+                    <span class="red-star">*</span>과제책임자
                 </th>
                 <td colspan="3">
                     <input type="text" id="mngDeptName" style="width: 20%" disabled>

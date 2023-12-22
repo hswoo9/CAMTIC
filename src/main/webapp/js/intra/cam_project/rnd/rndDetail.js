@@ -261,7 +261,7 @@ var rndDetail = {
         }
 
         if(parameters.mngEmpSeq == ""){
-            alert("연구책임자를 선택해주세요.");
+            alert("과제책임자를 선택해주세요.");
             return;
         }
 

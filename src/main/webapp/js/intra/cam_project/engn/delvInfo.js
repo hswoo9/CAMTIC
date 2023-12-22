@@ -62,6 +62,7 @@ var delvInfo = {
             });
             $("#pmName").val(delvMap.PM_EMP_NM);
             $("#pmSeq").val(delvMap.PM_EMP_SEQ);
+            $("#delvDe").val(delvMap.DELV_DE);
         } else {
             $("#delvAmt").val(comma(rs.EST_TOT_AMT));
             $("#delvExpAmt").val(comma(rs.EST_TOT_AMT));

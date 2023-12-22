@@ -323,30 +323,10 @@ var regRnd = {
             parameters.sbjStatYn = "N";
         }
 
-
-
-
-        if(parameters.allBusnCost == ""){
-            alert("총 사업비를 입력해주세요.");
-            return;
-        }
-
-        if(parameters.crmSn == ""){
-            alert("주관기관을 선택해주세요.");
-            return;
-        }
         if(parameters.sbjClass == ""){
             alert("과제구분을 선택해주세요.");
             return;
         }
-        if(parameters.bsTitle == ""){
-            alert("사업명을 입력해주세요.")
-            return;
-        }
-        //if(parameters.sbjChar == ""){
-        //    alert("과제성격을 선택해주세요.");
-        //    return;
-        //}
         if(parameters.supDep == ""){
             alert("지원부처를 선택해주세요.");
             return;
@@ -355,12 +335,28 @@ var regRnd = {
             alert("전담기관을 선택해주세요.");
             return;
         }
-        if(parameters.pjtNm == ""){
-            alert("과제명을 입력해주세요.");
+        if(parameters.crmSn == ""){
+            alert("주관기관을 선택해주세요.");
             return;
         }
         if(parameters.pjtExpAmt == ""){
             alert("예상수주금액을 입력해주세요.");
+            return;
+        }
+        if(parameters.allBusnCost == ""){
+            alert("총 사업비를 입력해주세요.");
+            return;
+        }
+        if(parameters.empSeq == ""){
+            alert("과제담당자를 선택해주세요.");
+            return;
+        }
+        if(parameters.bsTitle == ""){
+            alert("사업명을 입력해주세요.")
+            return;
+        }
+        if(parameters.pjtNm == ""){
+            alert("과제명을 입력해주세요.");
             return;
         }
 
@@ -407,34 +403,36 @@ var regRnd = {
             parameters.sbjStatYn = "N";
         }
 
-
-        if(parameters.allBusnCost == ""){
-            alert("총 사업비를 입력해주세요.");
-            return;
-        }
-
-        if(parameters.crmSn == ""){
-            alert("주관기관을 선택해주세요.");
-            return;
-        }
         if(parameters.sbjClass == ""){
             alert("과제구분을 선택해주세요.");
             return;
         }
-        if(parameters.bsTitle == ""){
-            alert("사업명을 입력해주세요.")
-            return;
-        }
-        //if(parameters.sbjChar == ""){
-        //    alert("과제성격을 선택해주세요.");
-        //    return;
-        //}
         if(parameters.supDep == ""){
             alert("지원부처를 선택해주세요.");
             return;
         }
         if(parameters.supDepSub == ""){
             alert("전담기관을 선택해주세요.");
+            return;
+        }
+        if(parameters.crmSn == ""){
+            alert("주관기관을 선택해주세요.");
+            return;
+        }
+        if(parameters.pjtExpAmt == ""){
+            alert("예상수주금액을 입력해주세요.");
+            return;
+        }
+        if(parameters.allBusnCost == ""){
+            alert("총 사업비를 입력해주세요.");
+            return;
+        }
+        if(parameters.empSeq == ""){
+            alert("과제담당자를 선택해주세요.");
+            return;
+        }
+        if(parameters.bsTitle == ""){
+            alert("사업명을 입력해주세요.")
             return;
         }
         if(parameters.pjtNm == ""){
