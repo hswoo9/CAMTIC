@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import egovframework.com.devjitsu.cam_project.service.ProjectRndService;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.cam_project.service.ProjectUnRndService;
+import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +35,9 @@ public class ProjectUnRndController {
 
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private CommonCodeService commonCodeService;
 
     @Value("#{properties['File.Server.Dir']}")
     private String SERVER_DIR;
@@ -285,6 +289,28 @@ public class ProjectUnRndController {
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
         return "popup/cam_project/unRnd/lecturePayReq";
+    }
+
+    /** 수료증 인쇄 팝업 */
+    @RequestMapping("/project/pop/personPrintPop.do")
+    public String personPrintPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        String hwpUrl = "";
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+
+        params.put("hwpUrl", hwpUrl);
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("data", params);
+
+        return "popup/cam_project/unRnd/personPrintPop";
     }
 
     /** 단위사업 강사 리스트 */

@@ -89,4 +89,18 @@ var lecturePop = {
         const option = "width = 650, height = 445, top = 150, left = 500, location = no";
         window.open(url, name, option);
     },
+
+    personPrintPop: function(){
+        if($("input[name='person']:checked").length == 0){
+            alert("수료증을 출력할 인원을 선택해주세요."); return;
+        }
+        if($("input[name='person']:checked").length > 1){
+            alert("수료증은 1명씩 출력가능합니다."); return;
+        }
+
+        let url = "/project/pop/personPrintPop.do?pk="+$("#pk").val()+"&personSn="+$("input[name='person']:checked").val();
+        const name = "personReqPop";
+        const option = "width=1680, height=870, scrollbars=no, top=200, left=200, resizable=no, toolbars=no, menubar=no";
+        window.open(url, name, option);
+    },
 }
