@@ -379,16 +379,6 @@ var costInfo = {
                     title: "금액",
                     template: function(row){
                         return "<div style='text-align: right'>"+comma(row.ITEM_SUM)+"</div>";
-                    },
-                    footerTemplate: "비용합계"
-                }, {
-                    title: "비용",
-                    template: function(row){
-                        costSum += Number(row.COST_SUM);
-                        return "<div style='text-align: right'>"+comma(row.COST_SUM)+"</div>";
-                    },
-                    footerTemplate: function(){
-                        return "<div id='costSumTemp' style='text-align: right'>"+comma(costSum)+"</div>";
                     }
                 }, {
                     title: "구매/출장 문서번호",
@@ -416,6 +406,16 @@ var costInfo = {
                         }else{
                             return "-";
                         }
+                    },
+                    footerTemplate: "비용합계"
+                }, {
+                    title: "비용",
+                    template: function(row){
+                        costSum += Number(row.COST_SUM);
+                        return "<div style='text-align: right'>"+comma(row.COST_SUM)+"</div>";
+                    },
+                    footerTemplate: function(){
+                        return "<div id='costSumTemp' style='text-align: right'>"+comma(costSum)+"</div>";
                     }
                 }
             ]
