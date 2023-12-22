@@ -156,7 +156,7 @@
                 <div class="__botArea">
                     <div style="text-align: center;">
                         <a href="javascript:void(0);" class="__btn1 blue" style="width:200px;" onclick="setApplicanUserAgree()"><span>입사지원</span></a>
-                        <a href="javascript:void(0);" onclick="fn_goList();" class="__btn1 blue" style="width:200px;"><span>뒤로가기</span></a>
+                        <a href="/camtic/member/job_applicationLogin.do"  class="__btn1 blue" style="width:200px;"><span>뒤로가기</span></a>
                     </div>
                 </div>
             </div>
@@ -167,7 +167,7 @@
 </body>
 </html>
 
-<script src="/js/intra/common/aes.js?v=1"></script>
+<s림cript src="/js/intra/common/aes.js?v=1"></s림cript>
 <script>
 
     /*function updateApplyButtonState() {
