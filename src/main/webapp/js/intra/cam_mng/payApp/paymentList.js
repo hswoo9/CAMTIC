@@ -198,10 +198,15 @@ var paymentList = {
                 },{
                     title : "삭제",
                     template : function(e){
-                        if(e.DOC_STATUS == 0){
-                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="paymentList.fn_delReqReg('+e.PAY_APP_SN+')">' +
-                                '	<span class="k-button-text">삭제</span>' +
-                                '</button>';
+                        console.log(e);
+                        if(e.REG_EMP_SEQ == $("#myEmpSeq").val()){
+                            if(e.DOC_STATUS == 0){
+                                return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="paymentList.fn_delReqReg('+e.PAY_APP_SN+', '+e.REG_EMP_SEQ+')">' +
+                                    '	<span class="k-button-text">삭제</span>' +
+                                    '</button>';
+                            } else {
+                                return "";
+                            }
                         } else {
                             return "";
                         }
@@ -291,7 +296,7 @@ var paymentList = {
     },
 
     // 삭제 function
-    fn_delReqReg : function (key){
+    fn_delReqReg : function (key, owner){
         if(!confirm("삭제하시겠습니까?")){
             return;
         }

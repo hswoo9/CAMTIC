@@ -30,10 +30,6 @@ var regPay = {
             rows: 5,
         });
 
-
-
-
-
         regPay.global.radioGroupData = [
             { label: "지급신청서", value: "1" },
             { label: "여입신청서", value: "2" },
@@ -412,7 +408,7 @@ var regPay = {
                 '       <input type="text" id="trDe' + regPayDet.global.itemIndex + '" value="'+item.TR_DE+'" class="trDe">' +
                 '   </td>' +
                 '   <td>' +
-                '       <input type="text" id="totCost' + regPayDet.global.itemIndex + '" value="'+regPay.comma(item.TOT_COST)+'" class="totCost" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                '       <input type="text" id="totCost' + regPayDet.global.itemIndex + '" value="'+regPay.comma(item.TOT_COST)+'" class="totCost" onchange="regPay.fn_changeAllCost()" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                 '   </td>' +
                 '   <td>' +
                 '       <input type="text" id="supCost' + regPayDet.global.itemIndex + '" value="'+regPay.comma(item.SUP_COST)+'" class="supCost" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
@@ -542,8 +538,9 @@ var regPay = {
             $("#reasonCol").css("display", "");
             $("#reasonTh").css("display", "");
             $("#reasonContTr").css("display", "none");
+            $("#footerLine").attr("colspan", "9");
         } else {
-
+            $("#footerLine").attr("colspan", "8");
         }
     },
 
@@ -890,7 +887,6 @@ var regPay = {
     },
 
     fn_calCost: function(obj){
-
         var index = obj.id.substring(obj.id.length - 1);
         if(obj.id.match("totCost")){
             $("#vatCost" + index).val(regPay.comma(Number(regPay.uncomma($("#totCost" + index).val())) - Math.round(Number(regPay.uncomma($("#totCost" + index).val())) * 100 / 110)));
@@ -902,6 +898,22 @@ var regPay = {
         }
 
         regPay.inputNumberFormat(obj);
+
+        var totAllCost = 0;
+        $(".totCost").each(function(){
+            totAllCost += Number(regPay.uncomma($(this).val()));
+        });
+
+        $("#totalAllCost").text(regPay.comma(totAllCost));
+    },
+
+    fn_changeAllCost : function (){
+        var totAllCost = 0;
+        $(".totCost").each(function(){
+            totAllCost += Number(regPay.uncomma($(this).val()));
+        });
+
+        $("#totalAllCost").text(regPay.comma(totAllCost));
     },
 
     inputNumberFormat : function (obj){
@@ -1010,6 +1022,11 @@ var regPayDet = {
     },
 
     fn_popRegDet : function (v, i){
+
+        if($("#eviType" + i).val() == 5 || $("#eviType" + i).val() == 9){
+            v = $("#eviType" + i).val();
+        }
+
         var url = "/mng/pop/paymentDetView.do?type=" + v + "&index=" + i;
 
         var name = "_blank";
@@ -1085,7 +1102,7 @@ var regPayDet = {
             '       <input type="text" id="trDe' + regPayDet.global.itemIndex + '" class="trDe">' +
             '   </td>' +
             '   <td>' +
-            '       <input type="text" id="totCost' + regPayDet.global.itemIndex + '" value="0" class="totCost" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+            '       <input type="text" id="totCost' + regPayDet.global.itemIndex + '" value="0" class="totCost" onchange="regPay.fn_changeAllCost()" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
             '   </td>' +
             '   <td>' +
             '       <input type="text" id="supCost' + regPayDet.global.itemIndex + '" value="0" class="supCost" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
@@ -1172,7 +1189,10 @@ var regPayDet = {
 
         if($("#pjtCd").val().substring(0,1) != "M" && $("#pjtCd").val().substring(0,1) != ""){
             $(".reasonTr").css("display", "");
+            $("#footerLine").attr("colspan", "9");
             $("#reasonContTr").css("display", "none");
+        } else {
+            $("#footerLine").attr("colspan", "8");
         }
     },
 
