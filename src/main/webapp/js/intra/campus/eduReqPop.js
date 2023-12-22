@@ -361,7 +361,7 @@ const eduReq = {
     fn_projectPop: function (){
         let url = "/project/pop/projectView.do?busnClass="+ $("input[name='purcType']:checked").val();
         const name = "_blank";
-        const option = "width = 1100, height = 400, top = 100, left = 400, location = no"
+        const option = "width = 1100, height = 700, top = 100, left = 400, location = no"
         window.open(url, name, option);
     },
 

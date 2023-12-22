@@ -44,7 +44,6 @@ var projectView = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 300,
             pageable: {
                 refresh: true,
                 pageSizes: [ 10, 20, 30, 50, 100 ],
