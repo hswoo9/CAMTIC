@@ -136,11 +136,20 @@ var entryList = {
                     title: "상태",
                     width: 60,
                     template: function(e){
+                        var status = "";
                         if(e.DOC_STATUS == "100"){
-                            return "결재완료";
-                        } else {
-                            return "작성중";
+                            status = "결재완료";
+                        } else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "50"){
+                            status = "결재중";
+                        } else if(e.DOC_STATUS == "30"){
+                            status = "반려";
+                        } else if(e.DOC_STATUS == "40"){
+                            status = "회수";
+                        } else if(e.DOC_STATUS == "0"){
+                            status = "작성중";
                         }
+
+                        return status;
                     }
                 }
             ],
@@ -177,7 +186,7 @@ var entryList = {
     },
 
     fn_regExnpInPop : function(){
-        var url = "/payApp/pop/regExnpPop.do?status=in";
+        var url = "/payApp/pop/regExnpPop.do?status=in&regFlag=new";
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);

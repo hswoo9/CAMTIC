@@ -128,12 +128,12 @@ var regExnp = {
                 if(data.DOC_STATUS == "0"){
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_save()">저장</button>';
                     buttonHtml += '<button type="button" id="reqBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.payAppDrafting()">상신</button>';
-                }else if(data.DOC_STATUS == "10"){
+                }else if(data.DOC_STATUS == "10" || data.DOC_STATUS == "50"){
                     $("#mode").val("view");
-                    buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+data.DOC_ID+'\', \'exnp'+data.EXNP_SN+'\', 1, \'retrieve\');">회수</button>';
+                    buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+data.DOC_ID+'\', \'camticExnp_'+data.EXNP_SN+'\', 1, \'retrieve\');">회수</button>';
                 }else if(data.DOC_STATUS == "30" || data.DOC_STATUS == "40"){
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_save()">저장</button>';
-                    buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \''+data.DOC_MENU_CD+'\', \'camticExnp_'+data.EXNP_SN+'\', 2, \'reDrafting\');">재상신</button>';
+                    buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \'exnp\', \'camticExnp_'+data.EXNP_SN+'\', 2, \'reDrafting\');">재상신</button>';
                 }else if(data.DOC_STATUS == "100"){
                     $("#mode").val("view");
                     if($("#status").val() == "rev" && evidType != "1" && evidType != "2" && evidType != "3"){
@@ -277,6 +277,18 @@ var regExnp = {
                     '       <input type="text" disabled style="width: 70%" id="card' + regExnpDet.global.itemIndex + '" value="'+item.CARD+'" class="card">' +
                     '       <input type="hidden" id="cardNo'+regExnpDet.global.itemIndex+'" value="'+item.CARD_NO+'" className="cardNo" />' +
                     '   </td>';
+                if($("#payAppSn").val() == "undefined" && $("#status").val() == "in" && (rs.DOC_STATUS == 0 || rs.DOC_STATUS == 30 || rs.DOC_STATUS == 40)){
+                    regExnpDet.global.createHtmlStr += '' +
+                        '   <td id="newInTd">' +
+                        '       <div style="text-align: center">' +
+                        '           <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regExnpDet.delRow(' + clIdx + ')">삭제</button>' +
+                        '       </div>' +
+                        '   </td>' +
+                        '</tr>';
+                    $("#newInCol").css("display", "");
+                    $("#newInTh").css("display", "");
+                    $("#addBtnDiv").css("display", "");
+                }
 
                 $("#payDestTb").append(regExnpDet.global.createHtmlStr);
 
@@ -847,6 +859,10 @@ var regExnp = {
             return;
         }
 
+        if(parameters.payAppSn == 'undefined'){
+            parameters.payAppSn = null;
+        }
+
         var itemArr = new Array()
         var flag = true;
         $.each($(".payDestInfo"), function(i, v){
@@ -1037,6 +1053,62 @@ var regExnpDet = {
 
         customKendo.fn_datePicker("trDe0", "month", "yyyy-MM-dd", new Date());
 
+        if($("#regFlag").val() == "new"){
+            $("#addBtnDiv").css("display", "");
+
+            $("#newInCol").css("display", "");
+            $("#newInTh").css("display", "");
+            $("#newInTd0").css("display", "");
+
+            $("#eviType0").kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                dataSource: [
+                    { text: "선택", value: "" },
+                    { text: "세금계산서", value: "1" },
+                    { text: "계산서", value: "2" },
+                    { text: "신용카드", value: "3" },
+                    { text: "직원지급", value: "4" },
+                    { text: "사업소득자", value: "5" },
+                    { text: "기타소득자", value: "9" },
+                    { text: "기타", value: "6" },
+                ],
+                index: 0,
+                change : function(){
+                    var value = $("#eviType0").val();
+
+                    if(value != ""){
+                        if(value == "6"){
+                            alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.");
+                        } else {
+                            regExnpDet.fn_popRegDet(value, 0);
+                        }
+                    }
+                }
+            });
+
+            $("#busnCd0").kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                dataSource: [
+                    { text: "1000-(사)캠틱종합기술원", value: "1000" },
+                    { text: "2000-(사)캠틱종합기술원", value: "2000" },
+                    { text: "3000-(사)캠틱종합기술원", value: "3000" },
+                    { text: "4000-(사)캠틱종합기술원", value: "4000" },
+                    { text: "5000-(사)캠틱종합기술원", value: "5000" },
+                    { text: "6000-(사)캠틱종합기술원", value: "6000" },
+                    { text: "7000-(사)캠틱종합기술원", value: "7000" }
+                ]
+            });
+
+            var ds = customKendo.fn_customAjax("/dept/getDeptAList", {
+                deptLevel : 2
+            });
+
+            customKendo.fn_dropDownList("appTeam0", ds.rs, "dept_name", "dept_seq","5");
+            $("#appTeam0").data("kendoDropDownList").value($("#teamSeq").val());
+        }
+
     },
 
     addRow : function (){
@@ -1097,20 +1169,25 @@ var regExnpDet = {
                 '   <td>' +
                 '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regExnpDet.fn_popRegDet(3, '+clIdx+')"></i>' +
                 '       <input type="text" disabled style="width: 70%" id="card' + clIdx + '" class="card">' +
-                '       <input type="hidden" id="cardNo'+clIdx+'" className="cardNo" />' +
+                '       <input type="hidden" id="cardNo'+clIdx+'" class="cardNo" />' +
                 '   </td>';
 
 
-            // regExnpDet.global.createHtmlStr += "" +
-            //     '   <td>' +
-            //     '       <div style="text-align: center">' +
-            //     '           <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regExnpDet.delRow(' + clIdx + ')">삭제</button>' +
-            //     '       </div>' +
-            //     '   </td>' +
+            regExnpDet.global.createHtmlStr += "" +
+                '   <td id="newInTd'+clIdx+'" style="display: none;">' +
+                '       <div style="text-align: center">' +
+                '           <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regExnpDet.delRow(' + clIdx + ')">삭제</button>' +
+                '       </div>' +
+                '   </td>' +
             '</tr>';
+
+
 
             $("#payDestTb").append(regExnpDet.global.createHtmlStr);
 
+            if($("#regFlag").val() == "new" || ($("#payAppSn").val() == "undefined" && $("#status").val() == "in")){
+                $("#newInTd" + clIdx).css("display", "");
+            }
             if(item.DET_STAT == "N"){
                 $("#revertBtn"+ clIdx).css("display", "none");
                 $("#pay"+ clIdx).css("background-color", "#afafaf");
@@ -1174,8 +1251,8 @@ var regExnpDet = {
                 deptLevel : 2
             });
 
-            customKendo.fn_dropDownList("appTeam" + regExnpDet.global.itemIndex, ds.rs, "dept_name", "dept_seq","5");
-            $("#appTeam" + regExnpDet.global.itemIndex).data("kendoDropDownList").value($("#teamSeq").val());
+            customKendo.fn_dropDownList("appTeam" + clIdx, ds.rs, "dept_name", "dept_seq","5");
+            $("#appTeam" + clIdx).data("kendoDropDownList").value($("#teamSeq").val());
 
             regExnpDet.global.itemIndex++;
         }

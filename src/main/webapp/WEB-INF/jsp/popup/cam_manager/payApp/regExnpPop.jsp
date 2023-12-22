@@ -27,7 +27,7 @@
 <input type="hidden" id="mode" name="mode" value="" />
 
 <input type="hidden" id="detArr" value="${params.detArr}" />
-
+<input type="hidden" id="regFlag" value="${params.regFlag}" />
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
@@ -172,7 +172,7 @@
                 </span>
             </c:if>
             <div class="mt-20">
-                <div class="text-right" style="display: none;">
+                <div class="text-right" id="addBtnDiv" style="display: none;">
                     <button type="button" id="addBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regExnpDet.addRow()">
                         <span class="k-button-text">추가</span>
                     </button>
@@ -198,7 +198,7 @@
                         <col style="width: 4%;">
                         <col style="width: 4%;">
                         <col style="width: 5%;">
-<%--                        <col style="width: 3%;">--%>
+                        <col id="newInCol" style="display:none; width: 3%;">
                     </colgroup>
                     <thead>
                     <tr>
@@ -220,7 +220,7 @@
                         <th>공급가액</th>
                         <th>세액</th>
                         <th>신용카드</th>
-<%--                        <th>삭제</th>--%>
+                        <th id="newInTh" style="display: none;">삭제</th>
                     </tr>
                     </thead>
                     <tbody id="payDestTb">
@@ -279,11 +279,11 @@
                             <input type="text" disabled style="width: 70%" id="card0" class="card">
                             <input type="hidden" id="cardNo0" class="cardNo" />
                         </td>
-<%--                        <td>--%>
-<%--                            <div style="text-align: center">--%>
-<%--                                <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(0)">삭제</button>--%>
-<%--                            </div>--%>
-<%--                        </td>--%>
+                        <td id="newInTd0" style="display: none;">
+                            <div style="text-align: center">
+                                <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(0)">삭제</button>
+                            </div>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
