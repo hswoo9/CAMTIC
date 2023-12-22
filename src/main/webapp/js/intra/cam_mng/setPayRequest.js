@@ -99,6 +99,7 @@ var spr = {
         opener.parent.$("#vatCost" + $("#index").val()).val($("#supAllAmt").val());
         opener.parent.$("#totCost" + $("#index").val()).val(comma(sumAmt));
 
+        opener.parent.regPay.fn_changeAllCost();
         window.close();
     }
 }

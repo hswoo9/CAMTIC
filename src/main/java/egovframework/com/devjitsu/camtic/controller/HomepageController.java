@@ -251,7 +251,14 @@ public class HomepageController {
         return "camtic/pr/video"; }
     //CI소개
     @RequestMapping("/camtic/pr/ci.do")
-    public String Pci(){ return "camtic/pr/ci"; }
+    public String Pci(@RequestParam Map<String,Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        /*params.put("empSeq", loginVO.getUniqId());*/
+        model.addAttribute("loginVO", loginVO);
+
+        return "camtic/pr/ci";
+    }
 
     //sns
     @RequestMapping("/camtic/pr/sns.do")
@@ -260,7 +267,8 @@ public class HomepageController {
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         /*params.put("empSeq", loginVO.getUniqId());*/
         model.addAttribute("loginVO", loginVO);
-        return "camtic/pr/sns"; }
+        return "camtic/pr/sns";
+    }
     @RequestMapping("/camtic/pr/view.do")
     public String Pview(@RequestParam Map<String,Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
