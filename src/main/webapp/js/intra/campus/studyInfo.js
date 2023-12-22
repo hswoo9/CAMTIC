@@ -106,6 +106,20 @@ var studyInfo = {
                         return row.START_DT+" ~ "+row.END_DT;
                     }
                 }, {
+                    field: "STUDY_LOCATION",
+                    title: "교육장소",
+                    width: 300
+                },{
+                    title: "학습시간",
+                    /*template: "<span>#=STUDY_TIME#시간</span>",*/
+                    width: 100
+                },  {
+                    title: "인정시간",
+                    /*template: "<span>#=STUDY_TIME#시간</span>",*/
+                    width: 100
+                },
+
+               /* {
                     field: "EDU_TIME_TOTAL",
                     title: "교육시간",
                     width: 150,
@@ -126,11 +140,7 @@ var studyInfo = {
                             }
                         }
                     }
-                }, {
-                    field: "STUDY_LOCATION",
-                    title: "장소",
-                    width: 300
-                }, {
+                },*/ {
                     title: "진행현황",
                     width: 120,
                     template: function(row){
