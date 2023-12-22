@@ -259,7 +259,7 @@
                             <input type="hidden" id="taxTy0" class="taxTy">
                         </td>
                         <td>
-                            <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regPayDet.fn_popRegDet(1, 0)"></i>
+                            <i class="k-i-plus k-icon" style="cursor: pointer" id="plusIcon0"  onclick="regPayDet.fn_popRegDet(1, 0)"></i>
                             <input type="text" style="width: 70%" id="crmNm0" class="crmNm">
                             <input type="hidden" id="buySts0" value="" />
                             <input type="hidden" id="trCd0" class="trCd">
@@ -280,7 +280,7 @@
                             <input type="text" id="trDe0" class="trDe">
                         </td>
                         <td>
-                            <input type="text" id="totCost0" class="totCost" value="0" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            <input type="text" id="totCost0" class="totCost" value="0" style="text-align: right" onchange="regPay.fn_changeAllCost()" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                         </td>
                         <td>
                             <input type="text" id="supCost0" class="supCost" value="0" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
@@ -303,6 +303,18 @@
                         </td>
                     </tr>
                     </tbody>
+                    <tfoot>
+                    <tr>
+                        <th id="footerLine" colspan="8" style="text-align: right; font-weight: bold">
+                            합계
+                        </th>
+                        <td style="text-align: right; font-weight: bold">
+                            <span id="totalAllCost">0</span> 원
+                        </td>
+                        <th colspan="5" style="text-align: right;">
+                        </th>
+                    </tr>
+                    </tfoot>
                 </table>
 
             </div>
@@ -395,7 +407,6 @@
             $("#productB" + i).data("kendoDropDownList").enable(false);
             $("#productC" + i).data("kendoDropDownList").enable(false);
         }
-
     }
     function userSearch() {
         window.open("/common/deptListPop.do", "조직도", "width=750, height=650");
@@ -415,13 +426,14 @@
             $("#reasonTh").css("display", "none");
             $(".reasonTr").css("display", "none");
             $("#reasonCol").css("display", "none");
+            $("#footerLine").attr("colspan", "8");
             $("#reasonContTr").css("display", "");
         } else {
             $("#reasonTh").css("display", "");
             $(".reasonTr").css("display", "");
             $("#reasonCol").css("display", "");
             $("#reasonContTr").css("display", "none");
-
+            $("#footerLine").attr("colspan", "9");
         }
         var result = customKendo.fn_customAjax("/project/getBankData", data);
         var rs = result.data;

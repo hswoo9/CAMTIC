@@ -211,4 +211,5 @@ function fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, 
     $("#crmAccNo" + idx).val(baNb);
     $("#crmAccHolder" + idx).val(depositor);
 
+    regPay.fn_changeAllCost();
 }

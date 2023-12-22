@@ -33,11 +33,13 @@
     <li class="member member_cluster"><a href="/camtic/member/cluster.do">캠틱 클러스터</a></li>
     <li class="member member_campus"><a href="/camtic/member/campus.do">캠 - 퍼스</a></li>
     <li class="member member_welfare"><a href="/camtic/member/welfare.do">캠 - 웰페어</a></li>
-    <li class="member member_job member_step chi">
+    <li class="member member_job member_step member_job_applicationCheck chi">
       <a href="/camtic/member/job.do">캠 - 인크루트</a>
       <ul>
         <li class="member member_job"><a href="/camtic/member/job.do">채용공고</a></li>
         <li class="member member_step"><a href="/camtic/member/step.do">채용절차</a></li>
+        <li class="member member_job_applicationCheck"><a href="/camtic/member/job_applicationCheck.do">입사지원 조회</a></li>
+        <li style="display: none" class="member_job_view"><a href="/camtic/member/job_view.do">채용상세공고</a></li>
       </ul>
     </li>
     <li style="display: none" class="member_view"><a href="/camtic/member/view.do">게시판</a></li>
@@ -65,6 +67,8 @@
   $("#lnb .lnb > li").not("."+middleCategory).hide();
   $("#lnb h2").text($("#header .gnb > ."+middleCategory+" span").text());
 
+  console.log('middleCategory:', middleCategory);
+  console.log('smallCategory:', smallCategory);
 
   $(function () {
     const categoryInb = $("#category").val();
@@ -77,10 +81,14 @@
         $(".pr"+"_"+categoryInb).addClass('active');
       }
     }
+
+
     /*else{
       const boardPathName = $(location).attr('search');
       const boardGub = boardPathName.split("=")[1];
       $(".news"+"_"+boardGub).addClass('active');
     }*/
   });
+
+
 </script>

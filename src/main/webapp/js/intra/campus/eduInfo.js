@@ -71,24 +71,6 @@ var eduInfo = {
                     width: 50,
                     template: "#= --record #"
                 }, {
-                    field: "EDU_NAME",
-                    title: "학습명"
-                }, {
-                    title: "학습기간",
-                    template: "<span>#=START_DT# ~ #=END_DT#</span>",
-                    width: 200
-                }, {
-                    field: "CARE_LOCATION",
-                    title: "교육장소",
-                    width: 200,
-                    template: function(row){
-                        return (row.CARE_LOCATION == null || row.CARE_LOCATION == "undefined") ? "" : row.CARE_LOCATION;
-                    }
-                }, {
-                    field: "LEVEL_ID",
-                    title: "목표레벨",
-                    width: 100
-                }, {
                     title: "학습방법",
                     width: 200,
                     template: function(row){
@@ -113,11 +95,37 @@ var eduInfo = {
                         }else if(row.EDU_FORM_TYPE == "10") {
                             return "자격증 취득";
                         }else {
-                            return "데이터 오류"
+                            return "데이터 오류";
                         }
                     }
+                },{
+                    field: "EDU_NAME",
+                    title: "학습명"
                 }, {
-                    title: "이수상태",
+                    title: "학습기간",
+                    template: "<span>#=START_DT# ~ #=END_DT#</span>",
+                    width: 200
+                }, {
+                    field: "CARE_LOCATION",
+                    title: "교육장소",
+                    width: 200,
+                    template: function(row){
+                        return (row.CARE_LOCATION == null || row.CARE_LOCATION == "undefined") ? "" : row.CARE_LOCATION;
+                    }
+                }, {
+                    field: "LEVEL_ID",
+                    title: "목표레벨",
+                    width: 100
+                }, {
+                    title: "학습시간",
+                    /*template: "<span>#=STUDY_TIME#시간</span>",*/
+                    width: 100
+                },  {
+                    title: "인정시간",
+                    /*template: "<span>#=STUDY_TIME#시간</span>",*/
+                    width: 100
+                }, {
+                    title: "진행현황",
                     width: 180,
                     template: function(row){
                         if(row.STATUS == "0") {
