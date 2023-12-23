@@ -29,6 +29,7 @@
                 CRM_PART_SN,
                 PJT_EXP_AMT,
                 ALL_BUSN_COST,
+                SECURITY,
                 REG_EMP_SEQ
             )
         VALUES
@@ -55,6 +56,7 @@
                 #{crmPartSn},
                 #{pjtExpAmt},
                 #{allBusnCost},
+                #{security},
                 #{regEmpSeq}
             )
 
@@ -84,6 +86,7 @@
             CRM_CON_SN = #{crmConSn},
             CRM_PART_SN = #{crmPartSn},
             ALL_BUSN_COST = #{allBusnCost},
+            SECURITY = #{security},
             PJT_EXP_AMT = #{pjtExpAmt}
         WHERE
             PJT_SN = #{pjtSn}

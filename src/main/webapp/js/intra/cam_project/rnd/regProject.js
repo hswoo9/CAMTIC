@@ -4,9 +4,16 @@ var regRnd = {
     fn_defaultScript : function(){
         const setParameters = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: $("#mainPjtSn").val()}).rs;
 
-        regRnd.fn_setPage(setParameters);
-        regRnd.fn_setTab(setParameters);
-        regRnd.fn_setData(setParameters);
+        /** 외부공개 여부 비공개일시 비밀번호 입력하는 모달창 뜸*/
+        if(setParameters != null && setParameters.SECURITY == "Y"){
+            regRnd.fn_setPage(setParameters);
+            regRnd.fn_setData(setParameters);
+            openSecurityModal();
+        }else{
+            regRnd.fn_setPage(setParameters);
+            regRnd.fn_setTab(setParameters);
+            regRnd.fn_setData(setParameters);
+        }
     },
 
     fn_setTab : function(setParameters){
@@ -285,6 +292,7 @@ var regRnd = {
                     $("#rndStatYn").prop("checked", true);
                 }
             }
+            $("input[name='securityYn'][value='" + e.SECURITY + "']").prop("checked", true);
         }
     },
 
@@ -322,6 +330,12 @@ var regRnd = {
         } else {
             parameters.sbjStatYn = "N";
         }
+
+        $("input[name='securityYn']").each(function(){
+            if($(this).is(":checked")){
+                parameters.security = this.value;
+            }
+        });
 
         if(parameters.sbjClass == ""){
             alert("과제구분을 선택해주세요.");
@@ -402,6 +416,12 @@ var regRnd = {
         } else {
             parameters.sbjStatYn = "N";
         }
+
+        $("input[name='securityYn']").each(function(){
+            if($(this).is(":checked")){
+                parameters.security = this.value;
+            }
+        });
 
         if(parameters.sbjClass == ""){
             alert("과제구분을 선택해주세요.");

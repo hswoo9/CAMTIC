@@ -231,6 +231,7 @@
                 PJT_STEP,
                 PJT_STEP_NM,
                 CONSULT_DT,
+                SECURITY,
                 REG_EMP_SEQ
             )
         VALUES
@@ -245,6 +246,7 @@
                 #{pjtStep},
                 #{pjtStepNm},
                 #{contDt},
+                #{security},
                 #{regEmpSeq}
             )
             <selectKey keyProperty="PJT_SN" resultType="Integer" order="BEFORE">

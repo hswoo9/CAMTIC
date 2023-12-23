@@ -4,9 +4,16 @@ var regUnRnd = {
     fn_defaultScript : function (){
         const setParameters = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: $("#mainPjtSn").val()}).rs;
 
-        regUnRnd.fn_setPage(setParameters);
-        regUnRnd.fn_setTab(setParameters);
-        regUnRnd.fn_setData(setParameters);
+        /** 외부공개 여부 비공개일시 비밀번호 입력하는 모달창 뜸*/
+        if(setParameters != null && setParameters.SECURITY == "Y"){
+            regUnRnd.fn_setPage(setParameters);
+            regUnRnd.fn_setData(setParameters);
+            openSecurityModal();
+        }else{
+            regUnRnd.fn_setPage(setParameters);
+            regUnRnd.fn_setTab(setParameters);
+            regUnRnd.fn_setData(setParameters);
+        }
     },
 
     fn_setTab : function(setParameters){
@@ -269,6 +276,8 @@ var regUnRnd = {
         $("#pjtExpAmt").val(comma(e.PJT_EXP_AMT));
 
         $("#pjtConYear").val(e.PJT_CON_YEAR);
+
+        $("input[name='securityYn'][value='" + e.SECURITY + "']").prop("checked", true);
     },
 
     fn_save : function (){
@@ -298,6 +307,12 @@ var regUnRnd = {
             pjtConYear : $("#pjtConYear").val()
 
         }
+
+        $("input[name='securityYn']").each(function(){
+            if($(this).is(":checked")){
+                parameters.security = this.value;
+            }
+        });
 
         if(parameters.sbjClass == ""){
             alert("과제구분을 선택해주세요.");
@@ -371,6 +386,12 @@ var regUnRnd = {
             allBusnCost : uncomma($("#allBusnCost").val()),
             pjtConYear : $("#pjtConYear").val()
         }
+
+        $("input[name='securityYn']").each(function(){
+            if($(this).is(":checked")){
+                parameters.security = this.value;
+            }
+        });
 
         if(parameters.sbjClass == ""){
             alert("과제구분을 선택해주세요.");

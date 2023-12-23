@@ -4,9 +4,16 @@ var regPrj = {
     fn_defaultScript : function () {
         const setParameters = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: $("#mainPjtSn").val()}).rs;
 
-        regPrj.fn_setPage(setParameters);
-        regPrj.fn_setData(setParameters);
-        regPrj.fn_setTab(setParameters);
+        /** 외부공개 여부 비공개일시 비밀번호 입력하는 모달창 뜸*/
+        if(setParameters != null && setParameters.SECURITY == "Y"){
+            regPrj.fn_setPage(setParameters);
+            regPrj.fn_setData(setParameters);
+            openSecurityModal();
+        }else{
+            regPrj.fn_setPage(setParameters);
+            regPrj.fn_setData(setParameters);
+            regPrj.fn_setTab(setParameters);
+        }
     },
 
     fn_setTab: function(setParameters){
@@ -366,6 +373,7 @@ var regPrj = {
         $("#crmLoc").val(p.CRM_LOC);
         $("#modBtn").css("display", "");
         $("#saveBtn").css("display", "none");
+        $("input[name='securityYn'][value='" + p.SECURITY + "']").prop("checked", true);
     },
 
     fn_busnDDLChange: function(e){
@@ -406,6 +414,12 @@ var regPrj = {
             contDt : $("#consultDt").val(),
             regEmpSeq : $("#regEmpSeq").val()
         }
+
+        $("input[name='securityYn']").each(function(){
+            if($(this).is(":checked")){
+                data.security = this.value;
+            }
+        });
 
         if(data.busnNm == "D"){
             data.menuCd = "engn";
@@ -522,5 +536,18 @@ var regPrj = {
         busnClass.wrapper.hide();
 
         $("#pjtSelectModal").data("kendoWindow").close();
+    },
+
+    fn_checkPass: function(){
+        let pass = $("#pjtSecurity").val();
+        if(pass != "12345"){
+            alert("비밀번호가 다릅니다.");
+            $("#pjtSecurity").val("");
+            return;
+        }else{
+            const setParameters = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: $("#mainPjtSn").val()}).rs;
+            regPrj.fn_setTab(setParameters);
+            $("#pjtSecurityModal").data("kendoWindow").close();
+        }
     }
 }
