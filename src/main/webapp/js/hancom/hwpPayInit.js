@@ -6,10 +6,6 @@ var payInit = {
         });
         const rs = result.map;
         const ls = result.list;
-        console.log("rs");
-        console.log(rs);
-        console.log("ls");
-        console.log(ls);
 
         /** 1. 지급신청서 데이터 */
         hwpDocCtrl.putFieldText("DOC_NO", rs.DOC_NO);

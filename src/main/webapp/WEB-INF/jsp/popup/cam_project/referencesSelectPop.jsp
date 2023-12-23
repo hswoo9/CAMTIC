@@ -161,7 +161,6 @@
                     title : "완료일",
                     width : 100,
                     template : function (e){
-                        console.log(e);
                         return '<button type="button" class="k-button k-button-solid-base" onclick="setReferencesAdd(' + e.DOC_ID + ',\'' + e.APPROVE_STAT_CODE + '\',\'' + e.REG_EMP_SEQ + '\',\'' + e.LAST_APPROVE_DT + '\');">반영</button>';
                     }
                 }]

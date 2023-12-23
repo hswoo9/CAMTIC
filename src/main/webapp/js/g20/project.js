@@ -69,7 +69,6 @@ var g20Project = {
                     opener.parent.$("#progFg").val(dataItem.progFg);
                     opener.parent.$("#trSeq").val(dataItem.trSeq);
                     opener.parent.$("#uid").val(dataItem.uid);
-                    console.log(dataItem);
 
                     window.close();
                 });

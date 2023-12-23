@@ -790,7 +790,6 @@ var hwpDocCtrl = {
                 dataType: "json",
                 async: false,
                 success: function (result) {
-                    console.log(result);
                     const invenInfo = result.rs.info;
                     const shareList = result.rs.shareList;
 

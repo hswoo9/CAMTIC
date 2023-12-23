@@ -223,7 +223,6 @@ var regExnp = {
             regExnpDet.global.createHtmlStr += "" +
                 '<tr class="payDestInfo newArray" id="pay' + regExnpDet.global.itemIndex + '" style="text-align: center;">';
             if(item.DET_STAT != "N"){
-                console.log(item)
 
                 regExnpDet.global.createHtmlStr += "";
                 regExnpDet.global.createHtmlStr += '   <td>' +
@@ -661,7 +660,6 @@ var regExnp = {
         }
         for(var i=0; i < ls.length; i++){
             var item = ls[i];
-            console.log(item);
             regExnpDet.global.createHtmlStr = "";
 
             var clIdx = regExnpDet.global.itemIndex;
