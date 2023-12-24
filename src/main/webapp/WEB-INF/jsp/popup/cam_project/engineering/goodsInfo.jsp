@@ -47,7 +47,7 @@
             <thead>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>상담코드
+                    <span class="red-star"></span>프로젝트코드
                 </th>
                 <td>
                     <input type="text" id="goodsPjtSn" disabled value="${hashMap.PJT_CD}" style="width: 90%; text-align: left" />

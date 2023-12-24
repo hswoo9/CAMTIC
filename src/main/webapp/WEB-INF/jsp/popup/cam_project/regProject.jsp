@@ -113,7 +113,7 @@
                 <thead>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span>상담코드
+                        <span class="red-star"></span>프로젝트코드
                     </th>
                     <td colspan="3">
                         <input type="text" id="contCd" style="width: 30%;" value="${data.PJT_CD}" disabled>

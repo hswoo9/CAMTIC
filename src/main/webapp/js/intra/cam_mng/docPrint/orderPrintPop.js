@@ -50,6 +50,7 @@ const orderPrintPop = {
             crmSn : order.CRM_SN
         });
         const crmMap = crmResult.rs;
+        const empInfo = customKendo.fn_customAjax("/user/getUserInfo", {empSeq: $("#regEmpSeq").val()});
 
         if(order == ""){
             alert("데이터 조회 중 오류가 발생하였습니다. 새로고침 후 진행바랍니다."); return;
@@ -73,6 +74,16 @@ const orderPrintPop = {
         orderPrintPop.global.hwpCtrl.PutFieldText("CRM_MANAGER", crmMap.CRM_MEM_NM);
         orderPrintPop.global.hwpCtrl.PutFieldText("EMAIL", crmMap.CRM_NM);
 
+        orderPrintPop.global.hwpCtrl.PutFieldText("CRM_NM2", "캠틱종합기술원");
+        orderPrintPop.global.hwpCtrl.PutFieldText("CRM_NO2", "402-82-13594");
+        orderPrintPop.global.hwpCtrl.PutFieldText("CRM_CEO2", "노   상   흡 [직인생략]");
+        orderPrintPop.global.hwpCtrl.PutFieldText("ADDR2", "전라북도 전주시 덕진구 유상로 67 전주첨단벤처단지");
+        orderPrintPop.global.hwpCtrl.PutFieldText("CRM_PROD2", "자동차부품설계, 모델링, 시제품제작, 상품화컨설팅");
+        orderPrintPop.global.hwpCtrl.PutFieldText("CRM_EVENT2", "서비스, 제조");
+
+        orderPrintPop.global.hwpCtrl.PutFieldText("CRM_MANAGER2", empInfo.EMP_NAME_KR + (empInfo.OFFICE_TEL_NUM == undefined ? "" : ("/"+ empInfo.OFFICE_TEL_NUM)));
+        orderPrintPop.global.hwpCtrl.PutFieldText("EMAIL2", empInfo.EMAIL_ADDR == undefined ? "" : empInfo.EMAIL_ADDR);
+
         let supAmtSum = 0;
         console.log(order);
         /** 3. 견적 리스트 */
@@ -89,17 +100,29 @@ const orderPrintPop = {
         }
 
         /** 4. 견적 합계 */
-        const supAmtSum2 = Math.floor(supAmtSum/10);
-        const supAmtSum1 = supAmtSum - supAmtSum2;
 
-        if(order.VAT == "Y"){
-            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", "\\ "+fn_numberWithCommas(supAmtSum));
-            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", "\\ "+"0");
-            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", "\\ "+fn_numberWithCommas(supAmtSum));
+
+        /** 견적가 500*/
+        /** 미포함 500 50 550*/
+        const supAmtSum2 = Math.floor(supAmtSum/10);
+
+        /** 포함 455 45 500*/
+        const supAmtSum3 = Math.ceil(supAmtSum / 1.1);
+        const supAmtSum4 = supAmtSum - supAmtSum3;
+
+        /** 면세 500 0 500*/
+        if(order.VAT == "N"){
+            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum));
+            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", fn_numberWithCommas(supAmtSum2));
+            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum+supAmtSum2));
+        }else if(order.VAT == "Y"){
+            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum3));
+            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", fn_numberWithCommas(supAmtSum4));
+            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum));
         }else{
-            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", "\\ "+fn_numberWithCommas(supAmtSum1));
-            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", "\\ "+fn_numberWithCommas(supAmtSum2));
-            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", "\\ "+fn_numberWithCommas(supAmtSum));
+            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum));
+            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", "0");
+            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum));
         }
         orderPrintPop.global.hwpCtrl.PutFieldText("ISS", String(order.SIGNIFICANT));
     },
