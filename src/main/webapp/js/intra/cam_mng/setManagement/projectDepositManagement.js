@@ -211,8 +211,11 @@ var prjDepositMng = {
                     title : "세무정보",
                     width : 100,
                     template : function(e){
-
-                        return '<button type="button" class="k-button k-button-solid-base">세무</button>';
+                        if(e.BUSN_CLASS == "D"){
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="prjDepositMng.fn_taxInfoPop('+e.PJT_SN+')">세무</button>';
+                        } else {
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="prjDepositMng.fn_taxNotBusnInfoPop('+e.PJT_SN+')">세무</button>';
+                        }
                     }
                 }, {
                     title : "예산정보",
@@ -222,18 +225,6 @@ var prjDepositMng = {
                             return '<button type="button" class="k-button k-button-solid-base" onclick="prjDepositMng.fn_depoSetPopView('+e.PJT_SN+', \''+e.BUSN_CLASS+'\')">예산</button>';
                         } else {
                             return '<button type="button" class="k-button k-button-solid-base" onclick="prjDepositMng.fn_depoNotBusnSetPopView('+e.PJT_SN+', \''+e.BUSN_CLASS+'\')">예산</button>';
-                        }
-
-
-                    }
-                }, {
-                    title : "상태",
-                    width : 100,
-                    template : function(e){
-                        if(e.setYn > 0){
-                            return '<span style="font-weight: bold">설정완료</span>';
-                        }else{
-                            return "미등록";
                         }
                     }
                 }
@@ -262,7 +253,7 @@ var prjDepositMng = {
             url = "/pay/pop/regPayDepoSetPop.do?pjtSn=" + key;
         }
 
-        var name = "입금처리 설정";
+        var name = "예산설정";
         var option = "width = 950, height = 250, top = 100, left = 400, location = no, scrollbars = no";
         var popup = window.open(url, name, option);
     },
@@ -275,8 +266,34 @@ var prjDepositMng = {
             url = "/pay/pop/depoNotBusnSetPopView.do?pjtSn=" + key;
         }
 
-        var name = "입금처리 설정";
+        var name = "예산설정";
         var option = "width = 950, height = 250, top = 100, left = 400, location = no, scrollbars = no";
+        var popup = window.open(url, name, option);
+    },
+
+    // 민간사업 세무설정
+    fn_taxInfoPop : function(key){
+        var url = "/pay/pop/taxInfoPop.do";
+
+        if(key != null && key != ""){
+            url = "/pay/pop/taxInfoPop.do?pjtSn=" + key;
+        }
+
+        var name = "세무설정";
+        var option = "width = 950, height = 500, top = 100, left = 400, location = no, scrollbars = no";
+        var popup = window.open(url, name, option);
+    },
+
+    // 정부사업 세무설정
+    fn_taxNotBusnInfoPop : function(key){
+        var url = "/pay/pop/taxNotBusnInfoPop.do";
+
+        if(key != null && key != ""){
+            url = "/pay/pop/taxNotBusnInfoPop.do?pjtSn=" + key;
+        }
+
+        var name = "세무설정";
+        var option = "width = 950, height = 500, top = 100, left = 400, location = no, scrollbars = no";
         var popup = window.open(url, name, option);
     }
 };

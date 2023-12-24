@@ -121,6 +121,40 @@ public class PayAppController {
         return "popup/cam_manager/payDepo/regPayDepoSetNotBusn";
     }
 
+    @RequestMapping("/pay/pop/taxInfoPop.do")
+    public String taxInfoPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        if(params.containsKey("pjtSn")){
+            Map<String, Object> map = projectService.getProjectData(params);
+
+            model.addAttribute(map);
+        }
+
+        return "popup/cam_manager/payDepo/taxInfoPop";
+    }
+
+    @RequestMapping("/pay/pop/taxNotBusnInfoPop.do")
+    public String taxNotBusnInfoPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        if(params.containsKey("pjtSn")){
+            Map<String, Object> map = projectService.getProjectData(params);
+
+            model.addAttribute(map);
+        }
+
+        return "popup/cam_manager/payDepo/taxNotBusnInfoPop";
+    }
+
     @RequestMapping("/payApp/pop/regPayAttPop.do")
     public String regPayAttPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
