@@ -155,6 +155,39 @@ public class PayAppController {
         return "popup/cam_manager/payDepo/taxNotBusnInfoPop";
     }
 
+    @RequestMapping("/pay/getProjectSettingInfo")
+    public String getProjectSettingInfo(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> data = payAppService.getProjectSettingInfo(params);
+        model.addAttribute("data", data);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/pay/setProjectTaxInfo")
+    public String setProjectTaxInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        try{
+            payAppService.setProjectTaxInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/pay/setProjectBudgetInfo")
+    public String setProjectBudgetInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        try{
+            payAppService.setProjectBudgetInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     @RequestMapping("/payApp/pop/regPayAttPop.do")
     public String regPayAttPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();

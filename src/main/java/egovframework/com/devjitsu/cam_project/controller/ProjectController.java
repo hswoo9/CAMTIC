@@ -84,6 +84,7 @@ public class ProjectController {
         return "jsonView";
     }
 
+
     /** 법인프로젝트 포함 프로젝트 선택 리스 */
     @RequestMapping("/project/getAllProjectList")
     public String getAllProjectList(@RequestParam Map<String, Object> params, Model model) {

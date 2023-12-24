@@ -294,4 +294,24 @@ public class PayAppRepository extends AbstractDAO {
     public void updExnpDe(Map<String, Object> param) {
         update("payApp.updExnpDe", param);
     }
+
+    public void insProjectTaxInfo(Map<String, Object> params) {
+        insert("payApp.insProjectTaxInfo", params);
+    }
+
+    public void updProjectTaxInfo(Map<String, Object> params) {
+        update("payApp.updProjectTaxInfo", params);
+    }
+
+    public Map<String, Object> getProjectSettingInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("payApp.getProjectSettingInfo", params);
+    }
+
+    public void insProjectBudgetInfo(Map<String, Object> params) {
+        insert("payApp.insProjectBudgetInfo", params);
+    }
+
+    public void updProjectBudgetInfo(Map<String, Object> params) {
+        update("payApp.updProjectBudgetInfo", params);
+    }
 }
