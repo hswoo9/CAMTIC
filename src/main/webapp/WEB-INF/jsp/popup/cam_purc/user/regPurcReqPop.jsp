@@ -255,12 +255,12 @@
                         <th>
                             <input type="checkbox" id="checkAll" class="k-checkbox" />
                         </th>
-                        <th>구분</th>
-                        <th>품명</th>
-                        <th>규격</th>
-                        <th>단가</th>
-                        <th>수량</th>
-                        <th>단위</th>
+                        <th><span class="red-star">*</span>구분</th>
+                        <th><span class="red-star">*</span>품명</th>
+                        <th><span class="red-star">*</span>규격</th>
+                        <th><span class="red-star">*</span>단가</th>
+                        <th><span class="red-star">*</span>수량</th>
+                        <th><span class="red-star">*</span>단위</th>
                         <th>금액</th>
                         <th>업체명</th>
                         <th>비고</th>

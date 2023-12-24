@@ -152,6 +152,11 @@ var prp = {
 
         var itemArr = new Array()
         var flag = true;
+        var flag2 = true;
+        var flag3 = true;
+        var flag4 = true;
+        var flag5 = true;
+        var flag6 = true;
         var itemSum = 0;
         $.each($(".purcItemInfo"), function(i, v){
             var data = {
@@ -173,9 +178,12 @@ var prp = {
             }
             itemSum += Number(prp.uncomma($("#purcItemAmt" + i).val()));
 
-            if(data.productA == ""){
-                flag = false;
-            }
+            if(data.productA == ""){flag = false;}
+            if(data.purcItemName == ""){flag2 = false;}
+            if(data.purcItemStd == ""){flag3 = false;}
+            if(data.purcItemUnitPrice == ""){flag4 = false;}
+            if(data.purcItemQty == ""){flag5 = false;}
+            if(data.purcItemUnit == ""){flag6 = false;}
 
             if($("#productA" + i).val() == "3"){
                 if(data.productB == ""){
@@ -224,6 +232,26 @@ var prp = {
 
         if(!flag){
             alert("구분값을 선택해주세요.");
+            return ;
+        }
+        if(!flag2){
+            alert("품명을 입력해주세요.");
+            return ;
+        }
+        if(!flag3){
+            alert("규격을 입력해주세요.");
+            return ;
+        }
+        if(!flag4){
+            alert("단가를 입력해주세요.");
+            return ;
+        }
+        if(!flag5){
+            alert("수량을 입력해주세요.");
+            return ;
+        }
+        if(!flag6){
+            alert("단위를 입력해주세요.");
             return ;
         }
         formData.append("itemArr", JSON.stringify(itemArr))
