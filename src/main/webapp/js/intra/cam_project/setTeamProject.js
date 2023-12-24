@@ -86,7 +86,7 @@ var setTeamPjt = {
         }
 
         $("#pjtNm").text(pjtMap.PJT_NM);
-        if(pjtMap.BUSN_CLASS == "D"){
+        if(pjtMap.BUSN_CLASS == "D" && delvMap != null){
             $("#strDt").text(delvMap.PJT_STR_DT);
             $("#endDt").text(delvMap.PJT_END_DT);
             $("#pmNm").text(delvMap.PM_EMP_NM);

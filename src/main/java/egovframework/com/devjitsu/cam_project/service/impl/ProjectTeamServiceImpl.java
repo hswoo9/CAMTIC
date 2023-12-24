@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.cam_project.service.impl;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_crm.repository.CrmRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
@@ -47,6 +49,11 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
     }
 
     @Override
+    public List<Map<String, Object>> getTeamBudgetList(Map<String, Object> params) {
+        return projectTeamRepository.getTeamBudgetList(params);
+    }
+
+    @Override
     public Map<String, Object> getVerLeftAmt(Map<String, Object> params) {
         return projectTeamRepository.getVerLeftAmt(params);
     }
@@ -68,6 +75,15 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
             params.put("LAST_TEAM_VERSION_SN", list.get(list.size()-1).get("TEAM_VERSION_SN").toString());
             projectTeamRepository.setTeamAddVersion(params);
             projectTeamRepository.setTeamCopy(params);
+
+            /** 복사 된 팀 정보 불러온 이후에 RND 예산 붙혀넣기*/
+            params.put("teamCk", "1");
+            List<Map<String, Object>> list2 = projectTeamRepository.getTeamList(params);
+            for(Map<String, Object> data : list2){
+                params.put("tmSn", data.get("TM_SN"));
+                params.put("befTmSn", data.get("BEF_TM_SN"));
+                projectTeamRepository.setTeamBudgetCopy(params);
+            }
         }
     }
 
@@ -82,6 +98,18 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
             projectTeamRepository.insTeam(params);
         }else{
             projectTeamRepository.updTeam(params);
+        }
+
+        /** 알앤디/비알앤디 예산 설정된 데이터가 있을 시 기존 설정 삭제 후 입력 */
+        if(params.containsKey("bgtArr")){
+            projectTeamRepository.delTeamBudget(params);
+            Gson gson = new Gson();
+            List<Map<String, Object>> list = gson.fromJson((String) params.get("bgtArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+            for(Map<String, Object> data : list){
+                data.put("tmSn", params.get("tmSn"));
+                data.put("pjtSn", params.get("pjtSn"));
+                projectTeamRepository.insTeamBudget(data);
+            }
         }
     }
 

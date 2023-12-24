@@ -8,6 +8,9 @@
 <body class="font-opensans" style="background-color:#fff;">
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/teamReqPop.js?v=${today}'/>"></script>
+<style>
+    p {margin-bottom: 0 !important;}
+</style>
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="teamVersionSn" value="${params.teamVersionSn}" />
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}" />
@@ -100,6 +103,23 @@
                     <input id="teamIncomePer" value="0" style="width: 90%; text-align: right" disabled/> %
                 </td>
             </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div class="table-responsive rnd" style="margin-top: 15px; display: none">
+        <div class="card-header pop-header">
+            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;">예산 배분</span></h3>
+        </div>
+        <table class="popTable table table-bordered mb-0">
+            <colgroup>
+                <col width="15%">
+                <col width="28%">
+                <col width="22%">
+                <col width="10%">
+                <col width="15%">
+            </colgroup>
+            <thead id="g20Row">
             </thead>
         </table>
     </div>

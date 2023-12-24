@@ -11,6 +11,8 @@ public interface ProjectTeamService {
     List<Map<String, Object>> getTeamVersion(Map<String, Object> params);
     List<Map<String, Object>> getTeamList(Map<String, Object> params);
     List<Map<String, Object>> getTeamMngList(Map<String, Object> params);
+    List<Map<String, Object>> getTeamBudgetList(Map<String, Object> params);
+
     Map<String, Object> getVerLeftAmt(Map<String, Object> params);
     Map<String, Object> getTeamData(Map<String, Object> params);
 

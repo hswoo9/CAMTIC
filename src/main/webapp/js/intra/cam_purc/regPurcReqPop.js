@@ -15,7 +15,7 @@ var prp = {
     fn_defaultScript : function (){
         customKendo.fn_datePicker("purcReqDate", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_textBox(["purcReqPurpose", "purcItemName0", "purcItemStd0", "purcItemUnitPrice0",
-            "purcItemQty0", "purcItemUnit0", "purcItemAmt0", "crmNm0", "rmk0", "pjtNm", "allCrmNm"]);
+            "purcItemQty0", "purcItemUnit0", "purcItemAmt0", "crmNm0", "rmk0", "pjtNm", "allCrmNm", "estAmt", "vatAmt", "totAmt"]);
 
         prp.global.radioGroupData = [
             { label: "법인운영", value: "" },
@@ -25,6 +25,13 @@ var prp = {
             { label: "용역/기타", value: "V" },
         ]
         customKendo.fn_radioGroup("purcType", prp.global.radioGroupData, "horizontal");
+
+        var radioVatDataSource = [
+            { label: "부가세 포함", value: "Y" },
+            { label: "부가세 미포함", value: "N" },
+            { label: "면세", value: "D" },
+        ]
+        customKendo.fn_radioGroup("vat", radioVatDataSource, "horizontal");
 
         $("input[name='purcType']").click(function(){
             if($("input[name='purcType']:checked").val() != ""){
@@ -483,6 +490,8 @@ var prp = {
                 $("#file2Sn").val(data.reqFile.file_no);
                 $("#file2Name").text(data.reqFile.file_org_name + "." + data.reqFile.file_ext);
             }
+            $("#vatAmt").val(comma(data.VAT_AMT));
+            $("#vat").data("kendoRadioGroup").value(data.VAT);
 
 
             prp.purcItemDataSet(data);

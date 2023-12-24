@@ -1,6 +1,7 @@
 var teamReq = {
 
     fn_defaultScript : function(){
+        commonProject.setPjtStat();
         teamReq.fn_pageSet();
         teamReq.fn_dataSet();
     },
@@ -39,6 +40,20 @@ var teamReq = {
         let leftAmt = leftMap.TM_AMT_SUM;
         $("#leftAmt").val(Number(amtText)-Number(leftAmt));
         $("#leftAmtTmp").val(comma(Number(amtText)-Number(leftAmt)));
+
+        if(commonProject.global.busnClass != "D"){
+            $(".rnd").show();
+            teamReq.fn_g20TableSet();
+
+            data.tmSn = $("#tmSn").val()
+            const result = customKendo.fn_customAjax("/project/team/getTeamBudgetList", data);
+            const teamBgtList = result.list;
+
+            for(let i=0; i<teamBgtList.length; i++){
+                const teamBgtData = teamBgtList[i];
+                $("#bgtTeamAmt"+teamBgtData.BGT_CD).val(comma(teamBgtData.BGT_TEAM_AMT));
+            }
+        }
     },
 
     fn_dataSet: function(){
@@ -115,6 +130,26 @@ var teamReq = {
             return;
         }
 
+        if(commonProject.global.busnClass != "D"){
+            let bgtArr = [];
+            $.each($(".addData"), function(i, v){
+                const budgetData = {};
+                const bgtCd = $(v).find('.bgtCd').val();
+                const bgtTeamAmt = uncomma($("#bgtTeamAmt"+bgtCd).val());
+
+                budgetData.bgtCd = bgtCd;
+                budgetData.bgtTeamAmt = bgtTeamAmt;
+
+                bgtArr.push(budgetData);
+            });
+
+            console.log(bgtArr);
+
+            if(bgtArr.length != 0){
+                parameters.bgtArr = JSON.stringify(bgtArr);
+            }
+        }
+
         if(parameters.pjtSn == "" || parameters.teamVersionSn == ""){
             alert("데이터 조회 중 오류가 발생하였습니다. 창을 닫고 재시도 바랍니다."); return;
         }
@@ -122,7 +157,7 @@ var teamReq = {
         const result = customKendo.fn_customAjax("/project/team/setTeam", parameters);
         if(result.code == "200"){
             alert("저장이 완료되었습니다.");
-            const busnClass = opener.commonProject.global.busnClass;
+            const busnClass = commonProject.global.busnClass;
             if(busnClass == "D"){
                 opener.window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=5";
             }else if(busnClass == "R"){
@@ -135,6 +170,77 @@ var teamReq = {
             window.close();
         }else{
             alert("데이터 저장 중 오류가 발생하였습니다.");
+        }
+    },
+
+    fn_g20TableSet: function(){
+        const pjtSn = $("#pjtSn").val();
+        const pjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: pjtSn});
+        const map = pjtInfo.rs;
+
+        const date = new Date();
+        const year = date.getFullYear().toString().substring(2,4);
+        const g20 = customKendo.fn_customAjax("/g20/getSubjectList", {
+            stat: "project",
+            gisu: year,
+            fromDate: date.getFullYear().toString() + "0101",
+            toDate: date.getFullYear().toString() + "1231",
+            mgtSeq: map.PJT_CD,
+            opt01: "3",
+            opt02: "1",
+            opt03: "2",
+            baseDate: date.getFullYear().toString() + date.getMonth().toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0'),
+            pjtSn: pjtSn
+        });
+
+        console.log("g20");
+        console.log(g20);
+
+        let html = '';
+        html += '<tr>';
+        html += '    <th style="text-align:center;"><b>장</b></th>';
+        html += '    <th style="text-align:center;"><b>관</b></th>';
+        html += '    <th style="text-align:center;"><b>항</b></th>';
+        html += '    <th style="text-align:center;"><b>예산액(원)</b></th>';
+        html += '    <th style="text-align:center;"><b>배분금액</b></th>';
+        html += '</tr>';
+        $("#g20Row").html(html);
+
+        let sum = 0;
+        let largeText = "";
+        let mediumText = "";
+
+        for(let i=0; i<g20.list.length; i++){
+            html = '';
+            const map = g20.list[i];
+            if(map.DIV_FG_NM == "장"){
+                largeText = map.BGT_NM;
+            }
+            if(map.DIV_FG_NM == "관"){
+                mediumText = map.BGT_NM;
+            }
+            if(map.DIV_FG_NM == "항"){
+                html += '<tr class="addData">';
+                html += '<input type="hidden" class="bgtCd" name="bgtCd" value="'+map.BGT_CD+'" />';
+                html += '    <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px; position: relative; top: 3px">'+ largeText +'</p></td>';
+                html += '    <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px; position: relative; top: 3px">'+ mediumText +'</p></td>';
+                html += '    <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px; position: relative; top: 3px">'+ map.BGT_NM +'</p></td>';
+                html += '    <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px; position: relative; top: 3px">'+ fn_numberWithCommas(map.SUB_AM) +'</p></td>';
+                html += '    <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px; position: relative; top: 3px"><input id="bgtTeamAmt'+map.BGT_CD+'"' +
+                    'style="text-align: right" value="0" onkeyup="fn_inputNumberFormat(this)" oninput="onlyNumber(this)"/></p></td>';
+                html += '</tr>';
+            }
+            sum += map.SUB_AM;
+            $("#g20Row").append(html);
+
+            customKendo.fn_textBox(["bgtTeamAmt"+map.BGT_CD]);
+        }
+
+        if(g20.list == 0){
+            html += '<tr>';
+            html += '    <td colspan="5" style="text-align:center;">등록된 예산이 없습니다.</td>';
+            html += '</tr>';
+            $("#g20Row").html(html);
         }
     }
 }

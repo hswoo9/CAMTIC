@@ -145,6 +145,15 @@ public class ProjectTeamController {
         return "jsonView";
     }
 
+    /** 협업 g20 예산 배분 리스트 */
+    @RequestMapping("/project/team/getTeamBudgetList")
+    public String getTeamBudgetList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        List<Map<String, Object>> list = projectTeamService.getTeamBudgetList(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
     /** 해당 버전 수주부서 남은 잔액 조회 */
     @RequestMapping("/project/team/getVerLeftAmt")
     public String getVerLeftAmt(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){

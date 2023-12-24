@@ -17,13 +17,13 @@ var regUnRnd = {
     },
 
     fn_setTab : function(setParameters){
-        var tab0Url = "/projectUnRnd/detailInfo.do";                 // 00사업정보
-        //var tab1Url = "/projectRnd/researcherInfo.do";             // 01참여인력
+        var tab0Url = "/projectUnRnd/detailInfo.do";               // 00사업정보
+        //var tab1Url = "/projectRnd/researcherInfo.do";           // 01참여인력
         var tab3Url = "/projectRnd/partRate.do";                   // 02참여율관리
-        var tab4Url = "/projectUnRnd/unRndDevPlan.do";                 // 03수행계획
+        var tab4Url = "/projectUnRnd/unRndDevPlan.do";             // 03수행계획
         var tab17Url= "/intra/cam_project/processInfo.do";         // 04공정
-        var tab5Url = "/projectUnRnd/lectureList.do";                // 05단위사업
-        var tab6Url = "/intra/cam_project/teamInfo.do";            // 06협업
+        var tab5Url = "/projectUnRnd/lectureList.do";              // 05단위사업
+        var tab6Url = "/intra/cam_project/teamInfoEngn.do";        // 06협업
         var tab7Url = "/projectRnd/budgetInfo.do";                 // 07사업비관리(예산/지급)
         var tab8Url = "/projectRnd/resultInfo.do";                 // 08결과보고
         var tab15Url= "/intra/cam_project/performanceInfo.do";     // 09실적관리

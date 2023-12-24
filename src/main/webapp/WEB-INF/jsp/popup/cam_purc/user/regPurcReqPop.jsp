@@ -144,14 +144,46 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">요청서 파일</th>
-                    <td colspan="3">
+                    <td>
                         <input type="hidden" id="file2Sn" name="file1Sn">
                         <label for="file2" id="file2Label" class="k-button k-button-solid-base">파일첨부</label>
                         <input type="file" id="file2" name="file2" onchange="prp.fileChange(this)" style="display: none">
                         <span id="file2Name"></span>
                     </td>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>부가세</th>
+                    <td>
+                        <span id="vat"></span>
+                    </td>
                 </tr>
                 </thead>
+            </table>
+
+            <table class="popTable table table-bordered mb-0">
+                <colgroup>
+                    <col width="30%">
+                    <col width="30%">
+                    <col width="40%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>견적가</th>
+                    <th>세액</th>
+                    <th>합계</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <input type="text" id="estAmt" disabled value="0" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                    </td>
+                    <td>
+                        <input type="text" id="vatAmt" disabled value="0" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                    </td>
+                    <td>
+                        <input type="text" id="totAmt" disabled value="0" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                    </td>
+                </tr>
+                </tbody>
             </table>
 
             <c:if test="${params.stat == 'v'}">

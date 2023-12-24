@@ -47,6 +47,15 @@
         WHERE B.STATUS = '10'
     </select>
 
+    <select id="getTeamBudgetList" parameterType="map" resultType="map">
+        /* getTeamBudgetList */
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_TEAM_BUDGET
+        WHERE TM_SN = #{tmSn}
+    </select>
+
     <select id="getVerLeftAmt" parameterType="map" resultType="map">
         /* getVerLeftAmt */
         SELECT
@@ -149,9 +158,12 @@
                 NOW(),
                 #{regEmpSeq}
             )
+        <selectKey keyProperty="tmSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_TEAM'
+        </selectKey>
     </insert>
 
-    <insert id="updTeam" parameterType="map">
+    <update id="updTeam" parameterType="map">
         /* updTeam */
         UPDATE CAM_PJT_MNG.DJ_PJT_TEAM
         SET
@@ -161,9 +173,9 @@
             MOD_EMP_SEQ = #{regEmpSeq}
         WHERE
             TM_SN = #{tmSn}
-    </insert>
+    </update>
 
-    <insert id="delTeam" parameterType="map">
+    <update id="delTeam" parameterType="map">
         /* delTeam */
         UPDATE CAM_PJT_MNG.DJ_PJT_TEAM
         SET
@@ -173,7 +185,7 @@
             MOD_EMP_SEQ = #{regEmpSeq}
         WHERE
             TM_SN IN (${joinSn})
-    </insert>
+    </update>
 
     <insert id="setTeamCopy" parameterType="map">
         /* setTeamCopy */
@@ -186,8 +198,9 @@
                 TM_PM_SEQ,
                 TM_AMT,
                 TM_INV_AMT,
-                REG_EMP_SEQ,
-                WORK_TYPE
+                WORK_TYPE,
+                BEF_TM_SN,
+                REG_EMP_SEQ
             )
         SELECT
             #{teamVersionSn},
@@ -197,9 +210,13 @@
             TM_PM_SEQ,
             TM_AMT,
             TM_INV_AMT,
-            #{regEmpSeq},
-            'U'
+            'U',
+            TM_SN,
+            #{regEmpSeq}
         FROM CAM_PJT_MNG.DJ_PJT_TEAM WHERE PJT_SN = #{pjtSn} AND TEAM_VERSION_SN = #{LAST_TEAM_VERSION_SN}
+        <selectKey keyProperty="tmSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_TEAM'
+        </selectKey>
     </insert>
 
     <insert id="insTeamProject" parameterType="map">
@@ -278,7 +295,7 @@
                 NOW(),
                 ACTIVE,
                 REG_EMP_SEQ,
-                #{TM_SN},
+                (CASE WHEN #{BEF_TM_SN} IS NULL THEN #{TM_SN} ELSE #{BEF_TM_SN} END),
                 REG_DT
             FROM CAM_PJT_MNG.DJ_PROJECT
             WHERE PJT_SN = #{PJT_SN} AND TEAM_STAT = 'N')
@@ -295,8 +312,9 @@
             PM_EMP_SEQ = #{TM_PM_SEQ},
             PM = IFNULL((SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{TM_PM_SEQ}), ''),
             PJT_AMT = #{TM_AMT},
-            PJT_EXP_AMT = #{TM_AMT}
-        WHERE TM_SN = #{TM_SN}
+            PJT_EXP_AMT = #{TM_AMT},
+            TM_SN = #{TM_SN}
+        WHERE TM_SN = #{BEF_TM_SN} AND TM_SN IS NOT NULL
     </update>
 
     <update id="delTeamProject" parameterType="map">
@@ -305,7 +323,7 @@
         SET
             PJT_STOP = 'Y',
             ACTIVE = 'N'
-        WHERE TM_SN = #{TM_SN}
+        WHERE TM_SN = #{BEF_TM_SN} AND TM_SN IS NOT NULL
     </update>
 
     <update id="updTeamVersionAppStat" parameterType="map">
@@ -316,4 +334,44 @@
         WHERE TEAM_VERSION_SN = #{teamVersionSn}
           AND PJT_SN = #{pjtSn}
     </update>
+
+    <insert id="insTeamBudget" parameterType="map">
+        /* insTeamBudget */
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_TEAM_BUDGET
+            (
+                TM_SN,
+                PJT_SN,
+                BGT_CD,
+                BGT_TEAM_AMT
+            )
+        VALUES
+            (
+                #{tmSn},
+                #{pjtSn},
+                #{bgtCd},
+                #{bgtTeamAmt}
+            )
+    </insert>
+
+    <insert id="setTeamBudgetCopy" parameterType="map">
+        /* setTeamBudgetCopy */
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_TEAM_BUDGET
+        (
+            TM_SN,
+            PJT_SN,
+            BGT_CD,
+            BGT_TEAM_AMT
+        )
+        SELECT
+            #{tmSn},
+            PJT_SN,
+            BGT_CD,
+            BGT_TEAM_AMT
+        FROM CAM_PJT_MNG.DJ_PJT_TEAM_BUDGET WHERE TM_SN = #{befTmSn}
+    </insert>
+
+    <delete id="delTeamBudget" parameterType="map">
+        /* delTeamBudget */
+        DELETE FROM CAM_PJT_MNG.DJ_PJT_TEAM_BUDGET WHERE TM_SN = #{tmSn}
+    </delete>
 </mapper>

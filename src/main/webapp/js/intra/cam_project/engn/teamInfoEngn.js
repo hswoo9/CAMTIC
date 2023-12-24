@@ -4,6 +4,7 @@ var teamEngn = {
     },
 
     fn_defaultScript : function(){
+        commonProject.setPjtStat();
         teamEngn.fn_pageSet();
     },
 
@@ -101,7 +102,7 @@ var teamEngn = {
                     const teamIncomePer = Math.round(100 - Number(teamInvAmt) / Number(teamAmt) * 100) + "%";
                     /** 예상수익 */
                     html += '    <td style="text-align: right"><span style="position: relative; top: 5px">'+teamIncomePer+'</span></td>';
-                    html += '    <td style="text-align: center"><button type="button" class="k-button k-button-solid-info" onclick="teamEngn.teamPrintPop('+verMap.TEAM_VERSION_SN+')">협업보고서</button></td>';
+                    html += '    <td style="text-align: center"><button type="button" class="k-button k-button-solid-info" onclick="teamEngn.teamPrintPop('+verMap.TEAM_VERSION_SN+', '+teamMap.TM_SN+')">협업보고서</button></td>';
                     html += '</tr>';
                 }
             }
@@ -305,14 +306,17 @@ var teamEngn = {
             url += "&tmSn="+tmSn;
         }
         const name = "teamReqPop";
-        const option = "width = 900, height = 330, top = 300, left = 400, location = no";
+        let option = "width = 900, height = 330, top = 300, left = 400, location = no";
+        if(commonProject.global.busnClass != "D"){
+            option = "width = 900, height = 880, top = 50, left = 400, location = no";
+        }
         window.open(url, name, option);
     },
 
-    teamPrintPop: function(verstionSn){
-        let url = "/project/pop/teamPrintPop.do?pjtSn="+$("#pjtSn").val()+"&teamVersionSn="+verstionSn;
+    teamPrintPop: function(verstionSn, tmSn){
+        let url = "/project/pop/teamPrintPop.do?pjtSn="+$("#pjtSn").val()+"&teamVersionSn="+verstionSn+"&tmSn="+tmSn;
         const name = "teamPrintPop";
-        const option = "width=965, height=900, scrollbars=no, top=200, left=200, resizable=no, toolbars=no, menubar=no";
+        const option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
         window.open(url, name, option);
     }
 }

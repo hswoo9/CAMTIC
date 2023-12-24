@@ -15,6 +15,7 @@
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 
 <input type="hidden" id="teamVersionSn" value="${data.teamVersionSn}"/>
+<input type="hidden" id="tmSn" value="${data.tmSn}"/>
 
 
 
