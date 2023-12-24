@@ -8,8 +8,6 @@
 <body class="font-opensans" style="background-color:#fff;">
 <script type="text/javascript" src="/js/intra/cam_crm/regCrmPop.js?v=${today}"/></script>
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/deposit/regPayDepoSetPop.js?v=${today}'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/regIncmPop.js?v=${today}'/>"></script>
 
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/g20Callback.js?v=${today}'/>"></script>
 
@@ -29,11 +27,11 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;">
-                    <span id="titleStat">[민간사업] 예산 설정</span>
+                    <span id="titleStat">[정부사업] 예산 설정</span>
                 </span>
             </h3>
             <div id="payAppBtnDiv" class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="regPayDepoSet.fn_save();">저장</button>
+                <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="fn_save();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -43,9 +41,9 @@
             <input type="hidden" id="regDeptSeq" value="${loginVO.orgnztId}">
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
+                    <col width="20%">
                     <col width="10%">
-                    <col width="10%">
-                    <col width="25%">
+                    <col width="15%">
                     <col width="10%">
                     <col width="35%">
                 </colgroup>
@@ -57,24 +55,17 @@
                     </td>
                 </tr>
                 <tr id="project">
-                    <th scope="row" class="text-center th-color">사업명</th>
+                    <th scope="row" class="text-center th-color">구분</th>
                     <td colspan="4">
-                        <span>
-                            <input type="text" id="pjtNm" disabled value=""  style="width: 70%;">
-                            <input type="hidden" id="pjtSn" value="" />
-                            <input type="hidden" id="pjtCd" name="pjtCd" value="">
-                            <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="regPayDepoSet.fn_projectPop('regPay')">검색</button>
-                        </span>
+                        <input type="radio" id="pay" name="budgetRadio" value="현금" checked style="position: relative; top: 6px;"><label for="pay" class="radioInput" style="position: relative; top: 5px; margin-left: 2px">고객수령</label>
+                        <input type="radio" id="point" name="budgetRadio" value="포인트" style="position: relative; top: 6px; margin-left:5px;"><label for="point" class="radioInput" style="position: relative; top: 5px; margin-left: 2px">법인차량</label>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">예산비목</th>
+                    <th scope="row" class="text-center th-color">포인트-사업비<br> 집행시스템</th>
                     <td colspan="4">
                         <span>
-                            <input type="text" id="budgetNm" disabled value=""  style="width: 70%;">
-                            <input type="hidden" id="budgetSn" value="" />
-                            <input type="hidden" id="budgetAmt" value="" />
-                            <button type="button" class="k-button k-button-solid-base" id="bgSelBtn" onclick="regPayDepoSet.fn_budgetPop()">검색</button>
+                            <input type="text" id="execSystem" style="width: 30%">
                         </span>
                     </td>
                 </tr>
@@ -84,16 +75,23 @@
     </div>
 </div>
 <script type="text/javascript">
-    regPayDepoSet.fn_defaultScript();
 
-    function selectProject(nm, cd){
-
-        $("#budgetNm").val("");
-        $("#budgetSn").val("");
-
-        $("#pjtNm").val(nm);
-        $("#pjtCd").val(cd);
-    }
+    $(function(){
+        $("#execSystem").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "선택", value: "" },
+                { text: "e나라도움", value: "1" },
+                { text: "RCMS", value: "2" },
+                { text: "통합이지바로", value: "3"},
+                { text: "보탬e", value: "4" },
+                { text: "KIRIA", value: "5" },
+                { text: "JBTP", value: "6" },
+                { text: "기타", value: "99" },
+            ]
+        });
+    });
 </script>
 </body>
 </html>
