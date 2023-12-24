@@ -490,17 +490,7 @@
             F.FORM_ID,
             F.FORM_NAME,
             DI.APPRO_KEY,
-            (
-            SELECT
-            CONCAT(A.C_AITITLE, '(', B.CM_CODE_NM, ')')
-            FROM
-                NEOS.A_ARCHIVEINFO A
-            JOIN
-                DJ_CAMTIC.V_COM_CODE B
-            ON A.C_AIPRESERVE = B.CM_CODE AND B.CM_GROUP_CODE_ID = 14
-            WHERE
-            A.C_AIKEYCODE = DI.AIKEYCODE
-            ) AS AITITLE,
+            (NULL) AS AITITLE,
             DI.DOC_NO,
             DI.DOC_TITLE,
             DI.DOC_CONTENT,
