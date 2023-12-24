@@ -73,7 +73,9 @@
     .k-footer-template td:nth-child(5),
     .k-footer-template td:nth-child(6),
     .k-footer-template td:nth-child(7),
-    .k-footer-template td:nth-child(8) {
+    .k-footer-template td:nth-child(8),
+    .k-footer-template td:nth-child(9),
+    .k-footer-template td:nth-child(10){
         border-width: 0;
         text-align: right;
     }

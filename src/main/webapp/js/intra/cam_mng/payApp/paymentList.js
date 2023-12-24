@@ -198,7 +198,6 @@ var paymentList = {
                 }, {
                     title : "삭제",
                     template : function(e){
-                        console.log(e);
                         if(e.REG_EMP_SEQ == $("#myEmpSeq").val()){
                             if(e.DOC_STATUS == 0){
                                 return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="paymentList.fn_delReqReg('+e.PAY_APP_SN+', '+e.REG_EMP_SEQ+')">' +
@@ -215,7 +214,6 @@ var paymentList = {
                 }, {
                     title : "결재선",
                     template : function(e){
-                        console.log(e);
                         if(e.REG_EMP_SEQ == $("#myEmpSeq").val()){
                             if(e.DOC_STATUS != 0){
                                 return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="docApproveLineView('+e.DOC_ID+');">' +

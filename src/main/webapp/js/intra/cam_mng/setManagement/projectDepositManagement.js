@@ -78,7 +78,7 @@ var prjDepositMng = {
                     data.deptSeq = $("#deptSeq").val();
                     data.regEmpSeq = $("#regEmpSeq").val();
                     data.myDeptSeq = $("#myDeptSeq").val();
-                    data.busnSubClass = "'E3', 'E4', 'E5', 'R2', 'R2', 'S2','E6', 'E7', 'R3', 'S3'";
+                    data.busnSubClass = "'E', 'E2', 'E3', 'E4', 'E5', 'R2', 'S', 'R', 'S2','E6', 'E7', 'R3', 'S3'";
 
                     data.year = $("#year").val();
 
@@ -159,15 +159,8 @@ var prjDepositMng = {
                         if(e.BUSN_CLASS == "S"){
                             pjtNm = e.BS_TITLE;
                         }
-                        var pjtEx = pjtNm;
-                        if(pjtNm.toString().length > 62){
-                            pjtEx = pjtNm.toString().substring(0, 62)+ "...";
-                        }
-                        if(e.TEAM_STAT == "N"){
-                            return "<a href='javascript:void(0);' style='font-weight: bold' onclick='prjDepositMng.fn_depoSetPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\")'>" + pjtEx + "</a>";
-                        } else {
-                            return "<a href='javascript:void(0);' style='font-weight: bold' onclick='prjDepositMng.fn_depoSetPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\")'>" + pjtEx + "</a>";
-                        }
+
+                        return pjtNm;
                     }
                 }, {
 
@@ -215,17 +208,24 @@ var prjDepositMng = {
                         return "<span id='total'></span>";
                     }
                 }, {
-                    title : "상태",
+                    title : "세무정보",
                     width : 100,
                     template : function(e){
-
-                        if(e.setYn > 0){
-                            return '<span style="font-weight: bold">설정완료</span>';
-                        }else{
-                            return "미등록";
+                        if(e.BUSN_CLASS == "D"){
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="prjDepositMng.fn_taxInfoPop('+e.PJT_SN+')">세무</button>';
+                        } else {
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="prjDepositMng.fn_taxNotBusnInfoPop('+e.PJT_SN+')">세무</button>';
                         }
-
-
+                    }
+                }, {
+                    title : "예산정보",
+                    width : 100,
+                    template : function(e){
+                        if(e.BUSN_CLASS == "D"){
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="prjDepositMng.fn_depoSetPopView('+e.PJT_SN+', \''+e.BUSN_CLASS+'\')">예산</button>';
+                        } else {
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="prjDepositMng.fn_depoNotBusnSetPopView('+e.PJT_SN+', \''+e.BUSN_CLASS+'\')">예산</button>';
+                        }
                     }
                 }
             ],
@@ -253,10 +253,49 @@ var prjDepositMng = {
             url = "/pay/pop/regPayDepoSetPop.do?pjtSn=" + key;
         }
 
-        var name = "입금처리 설정";
+        var name = "예산설정";
         var option = "width = 950, height = 250, top = 100, left = 400, location = no, scrollbars = no";
         var popup = window.open(url, name, option);
     },
+
+    // R&D / 비R&D 예산설정 팝업
+    fn_depoNotBusnSetPopView : function (key){
+        var url = "/pay/pop/depoNotBusnSetPopView.do";
+
+        if(key != null && key != ""){
+            url = "/pay/pop/depoNotBusnSetPopView.do?pjtSn=" + key;
+        }
+
+        var name = "예산설정";
+        var option = "width = 950, height = 250, top = 100, left = 400, location = no, scrollbars = no";
+        var popup = window.open(url, name, option);
+    },
+
+    // 민간사업 세무설정
+    fn_taxInfoPop : function(key){
+        var url = "/pay/pop/taxInfoPop.do";
+
+        if(key != null && key != ""){
+            url = "/pay/pop/taxInfoPop.do?pjtSn=" + key;
+        }
+
+        var name = "세무설정";
+        var option = "width = 950, height = 500, top = 100, left = 400, location = no, scrollbars = no";
+        var popup = window.open(url, name, option);
+    },
+
+    // 정부사업 세무설정
+    fn_taxNotBusnInfoPop : function(key){
+        var url = "/pay/pop/taxNotBusnInfoPop.do";
+
+        if(key != null && key != ""){
+            url = "/pay/pop/taxNotBusnInfoPop.do?pjtSn=" + key;
+        }
+
+        var name = "세무설정";
+        var option = "width = 950, height = 500, top = 100, left = 400, location = no, scrollbars = no";
+        var popup = window.open(url, name, option);
+    }
 };
 
 function gridReload(){
