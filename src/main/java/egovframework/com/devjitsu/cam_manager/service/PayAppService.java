@@ -82,4 +82,10 @@ public interface PayAppService {
     List<Map<String, Object>> getPjtExnpList(Map<String, Object> params);
 
     void updExnpDe(int[] params, Map<String, Object> params2);
+
+    void setProjectTaxInfo(Map<String, Object> params);
+
+    Map<String, Object> getProjectSettingInfo(Map<String, Object> params);
+
+    void setProjectBudgetInfo(Map<String, Object> params);
 }

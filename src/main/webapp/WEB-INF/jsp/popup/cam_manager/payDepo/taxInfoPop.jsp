@@ -14,13 +14,11 @@
 <input type="hidden" id="payDepoSn" name="payDepoSn" value="${params.payDepoSn }" />
 <input type="hidden" id="paramPjtSn" name="paramPjtSn" value="${params.pjtSn }" />
 <input type="hidden" id="paramPjtNm" name="paramPjtNm" value="${hashMap.PJT_NM }" />
-
 <input type="hidden" id="auth" value="${params.auth}" />
-
 <input type="hidden" id="paramPm" value="${hashMap.PM}" />
 <input type="hidden" id="paramPmSeq" value="${hashMap.PM_EMP_SEQ}" />
-
 <input type="hidden" id="getDelvDe" value="${hashMap.DELV_DE}" />
+<input type="hidden" id="depoSetSn" name="depoSetSn" value="${params.depoSetSn }" />
 
 <div style="padding:0;">
     <div class="table-responsive">
@@ -76,9 +74,9 @@
                 <tr>
                     <th scope="row" class="text-center th-color">구분</th>
                     <td colspan="4">
-                        <input type="radio" id="tax" name="budgetRadio" value="1" checked style="position: relative; top: 6px;"><label for="tax" class="radioInput" style="position: relative; top: 5px; margin-left: 2px">과세</label>
-                        <input type="radio" id="dutyFree" name="budgetRadio" value="2" style="position: relative; top: 6px; margin-left:5px;"><label for="dutyFree" class="radioInput" style="position: relative; top: 5px; margin-left: 2px">면세</label>
-                        <input type="radio" id="unTax" name="budgetRadio" value="3" style="position: relative; top: 6px; margin-left:5px;"><label for="unTax" class="radioInput" style="position: relative; top: 5px; margin-left: 2px">비과세</label>
+                        <input type="radio" id="tax" name="taxRadio" value="1" checked style="position: relative; top: 6px;"><label for="tax" class="radioInput" style="position: relative; top: 5px; margin-left: 2px">과세</label>
+                        <input type="radio" id="dutyFree" name="taxRadio" value="2" style="position: relative; top: 6px; margin-left:5px;"><label for="dutyFree" class="radioInput" style="position: relative; top: 5px; margin-left: 2px">면세</label>
+                        <input type="radio" id="unTax" name="taxRadio" value="3" style="position: relative; top: 6px; margin-left:5px;"><label for="unTax" class="radioInput" style="position: relative; top: 5px; margin-left: 2px">비과세</label>
                     </td>
                 </tr>
                 </thead>
@@ -107,7 +105,58 @@
         $("#profitCode").data("kendoDropDownList").value("1000");
         $("#purpCode").data("kendoDropDownList").value("2000");
         $("#commCode").data("kendoDropDownList").value("3000");
+
+        // 저장정보 가져오기
+        if($("#depoSetSn").val() != "" && $("#depoSetSn").val() != null && $("#depoSetSn").val() != "undefined"){
+            var data = {
+                pjtSn : $("#paramPjtSn").val(),
+                depoSetSn : $("#depoSetSn").val(),
+            }
+
+            $.ajax({
+                url : "/pay/getProjectSettingInfo",
+                type : "post",
+                data : data,
+                dataType : "json",
+                success : function(rs){
+                    var rs = rs.data;
+                    $("#profitCode").data("kendoDropDownList").value(rs.PROFIT_CODE);
+                    $("#purpCode").data("kendoDropDownList").value(rs.PURP_CODE);
+                    $("#commCode").data("kendoDropDownList").value(rs.COMM_CODE);
+                    $("input[name=taxRadio][value=" + rs.TAX_GUBUN + "]").prop("checked", true);
+                }
+            });
+        }
     });
+
+    function fn_save () {
+        var data = {
+            pjtSn : $("#paramPjtSn").val(),
+            profitCode : $("#profitCode").data("kendoDropDownList").value(),
+            purpCode : $("#purpCode").data("kendoDropDownList").value(),
+            commCode : $("#commCode").data("kendoDropDownList").value(),
+            taxGubun : $("input[name=taxRadio]:checked").val(),
+            regEmpSeq : $("#regEmpSeq").val()
+        }
+
+        if($("#depoSetSn").val() != "" && $("#depoSetSn").val() != null && $("#depoSetSn").val() != "undefined"){
+            data.depoSetSn = $("#depoSetSn").val();
+        }
+
+        $.ajax({
+            url : "/pay/setProjectTaxInfo",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("저장되었습니다.");
+                    opener.parent.prjDepositMng.gridSearch();
+                    window.close();
+                }
+            }
+        });
+    }
 </script>
 </body>
 </html>

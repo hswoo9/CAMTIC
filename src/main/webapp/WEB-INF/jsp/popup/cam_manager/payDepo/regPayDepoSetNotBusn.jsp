@@ -14,13 +14,11 @@
 <input type="hidden" id="payDepoSn" name="payDepoSn" value="${params.payDepoSn }" />
 <input type="hidden" id="paramPjtSn" name="paramPjtSn" value="${params.pjtSn }" />
 <input type="hidden" id="paramPjtNm" name="paramPjtNm" value="${hashMap.PJT_NM }" />
-
 <input type="hidden" id="auth" value="${params.auth}" />
-
 <input type="hidden" id="paramPm" value="${hashMap.PM}" />
 <input type="hidden" id="paramPmSeq" value="${hashMap.PM_EMP_SEQ}" />
-
 <input type="hidden" id="getDelvDe" value="${hashMap.DELV_DE}" />
+<input type="hidden" id="depoSetSn" name="depoSetSn" value="${params.depoSetSn }" />
 
 <div style="padding:0;">
     <div class="table-responsive">
@@ -57,8 +55,8 @@
                 <tr id="project">
                     <th scope="row" class="text-center th-color">구분</th>
                     <td colspan="4">
-                        <input type="radio" id="pay" name="budgetRadio" value="현금" checked style="position: relative; top: 6px;"><label for="pay" class="radioInput" style="position: relative; top: 5px; margin-left: 2px">고객수령</label>
-                        <input type="radio" id="point" name="budgetRadio" value="포인트" style="position: relative; top: 6px; margin-left:5px;"><label for="point" class="radioInput" style="position: relative; top: 5px; margin-left: 2px">법인차량</label>
+                        <input type="radio" id="pay" name="budgetRadio" value="CASH" checked style="position: relative; top: 6px;"><label for="pay" class="radioInput" style="position: relative; top: 5px; margin-left: 2px">현금</label>
+                        <input type="radio" id="point" name="budgetRadio" value="POINT" style="position: relative; top: 6px; margin-left:5px;"><label for="point" class="radioInput" style="position: relative; top: 5px; margin-left: 2px">포인트</label>
                     </td>
                 </tr>
                 <tr>
@@ -91,7 +89,54 @@
                 { text: "기타", value: "99" },
             ]
         });
+
+        // 저장정보 가져오기
+        if($("#depoSetSn").val() != "" && $("#depoSetSn").val() != null && $("#depoSetSn").val() != "undefined"){
+            var data = {
+                pjtSn : $("#paramPjtSn").val(),
+                depoSetSn : $("#depoSetSn").val(),
+            }
+
+            $.ajax({
+                url : "/pay/getProjectSettingInfo",
+                type : "post",
+                data : data,
+                dataType : "json",
+                success : function(rs){
+                    var rs = rs.data;
+                    $("#execSystem").data("kendoDropDownList").value(rs.EXEC_SYSTEM);
+                    $("input[name=budgetRadio][value=" + rs.BUDGET_GUBUN + "]").prop("checked", true);
+                }
+            });
+        }
     });
+
+    function fn_save () {
+        var data = {
+            pjtSn : $("#paramPjtSn").val(),
+            execSystem : $("#execSystem").data("kendoDropDownList").value(),
+            budgetGubun : $("input[name=budgetRadio]:checked").val(),
+            regEmpSeq : $("#regEmpSeq").val()
+        }
+
+        if($("#depoSetSn").val() != "" && $("#depoSetSn").val() != null && $("#depoSetSn").val() != "undefined"){
+            data.depoSetSn = $("#depoSetSn").val();
+        }
+
+        $.ajax({
+            url : "/pay/setProjectBudgetInfo",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("저장되었습니다.");
+                    opener.parent.prjDepositMng.gridSearch();
+                    window.close();
+                }
+            }
+        });
+    }
 </script>
 </body>
 </html>

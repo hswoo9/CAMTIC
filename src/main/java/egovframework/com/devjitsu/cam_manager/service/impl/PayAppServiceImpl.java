@@ -1158,4 +1158,27 @@ public class PayAppServiceImpl implements PayAppService {
     public List<Map<String, Object>> getPjtExnpList(Map<String, Object> params) {
         return payAppRepository.getPjtExnpList(params);
     }
+
+    @Override
+    public void setProjectTaxInfo(Map<String, Object> params) {
+        if(!params.containsKey("depoSetSn")){
+            payAppRepository.insProjectTaxInfo(params);
+        } else {
+            payAppRepository.updProjectTaxInfo(params);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getProjectSettingInfo(Map<String, Object> params) {
+        return payAppRepository.getProjectSettingInfo(params);
+    }
+
+    @Override
+    public void setProjectBudgetInfo(Map<String, Object> params) {
+        if(!params.containsKey("depoSetSn")){
+            payAppRepository.insProjectBudgetInfo(params);
+        } else {
+            payAppRepository.updProjectBudgetInfo(params);
+        }
+    }
 }
