@@ -78,7 +78,7 @@ var exnpList = {
                 }, {
                     title: "적요",
                     field: "EXNP_BRIEFS",
-                    width: 280,
+                    width: 250,
                     template: function(e){
                         return '<div style="cursor: pointer; font-weight: bold" onclick="exnpList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\', \'rev\')">'+e.EXNP_BRIEFS+'</div>';
                     }
@@ -125,7 +125,22 @@ var exnpList = {
                         }
                     }
                 }, {
-                    title: "상태",
+                    title: "결의상태",
+                    width: 60,
+                    template: function(e){
+                        var status = "";
+                        if(e.DOC_STATUS == "100"){
+                            status = "결재완료";
+                        } else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "50"){
+                            status = "결재중"
+                        } else {
+                            status = "작성중"
+                        }
+
+                        return status;
+                    }
+                }, {
+                    title: "승인상태",
                     width: 60,
                     template: function(e){
                         var status = "";
@@ -136,10 +151,8 @@ var exnpList = {
                             } else {
                                 status = "미결";
                             }
-                        } else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "50"){
-                            status = "결재중"
                         } else {
-                            status = "작성중"
+                            status = "미결";
                         }
 
                         return status;

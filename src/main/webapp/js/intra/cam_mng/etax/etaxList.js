@@ -106,7 +106,7 @@ var etaxList = {
                     width: 100,
                     template: function (e){
                         if(e.TRREG_NB != null){
-                            return e.TRREG_NB;
+                            return e.TRREG_NB.toString().substring(0,3) + "-" + e.TRREG_NB.toString().substring(3,5) + "-" + e.TRREG_NB.toString().substring(5,10);
                         } else {
                             return "";
                         }
@@ -128,6 +128,12 @@ var etaxList = {
                     width: 100,
                     template: function (e){
                         return '<div style="text-align: right;">'+comma(e.SUM_AM)+'</div>';
+                    }
+                }, {
+                    title: "결의서",
+                    width: 50,
+                    template: function (e){
+                        return '미결의';
                     }
                 }
             ],
