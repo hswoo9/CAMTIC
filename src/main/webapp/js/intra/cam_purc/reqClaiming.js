@@ -87,6 +87,9 @@ var reqCl = {
             $("#purcEmpName").val(data.EMP_NAME_KR);
             $("#purcEmpSeq").val(data.EMP_SEQ);
 
+            $("#vat").data("kendoRadioGroup").value(data.VAT);
+            $("#vat").data("kendoRadioGroup").trigger("change");
+
 
             if($("#claimSn").val() == ""){
                 reqCl.fn_setItem(data);
@@ -190,28 +193,8 @@ var reqCl = {
             reqCl.fn_ClaimBtnSet(data);
         }
 
-        $("#vat").data("kendoRadioGroup").bind("select", function(e){
-            var len = $("#claimTbody > tr").length;
-            var vatAmt = 0;
-            var itemAmt = 0;
-            var totAmt = 0;
-            for(var i = 0 ; i < len ; i++){
-                if(i == 0){
-                    totAmt += Number(uncomma($("#itemAmt").val()));
-                } else {
-                    totAmt += Number(uncomma($("#itemAmt" + i).val()));
-                }
-            }
-
-            if(e.target.val() == "N"){
-                vatAmt = (totAmt / 10);
-                $("#estAmt").val(comma(totAmt - vatAmt));
-                $("#vatAmt").val(comma(vatAmt));
-            } else {
-                $("#estAmt").val(comma(totAmt));
-                $("#vatAmt").val(0);
-            }
-            $("#totAmt").val(comma(totAmt));
+        $("#vat").data("kendoRadioGroup").bind("change", function(e){
+            reqCl.vatCalc();
         });
 
         if(data.PURC_TYPE == ""){
@@ -232,29 +215,37 @@ var reqCl = {
 
     },
 
-    fn_amtCalculator : function(){
+    vatCalc : function(){
+        let sum = 0;
+        $.each($(".purcItemAmt"), function(){
+            sum += Number(uncomma(this.value));
+        });
 
-        var len = $("#claimTbody > tr").length;
-        var vatAmt = 0;
-        var itemAmt = 0;
-        var totAmt = 0;
-        for(var i = 0 ; i < len ; i++){
-            if(i == 0){
-                totAmt += Number(uncomma($("#itemAmt").val()));
-            } else {
-                totAmt += Number(uncomma($("#itemAmt" + i).val()));
-            }
-        }
+        /** 견적가 500*/
+        /** 미포함 500 50 550*/
+        const sum2 = Math.floor(sum/10);
+
+        /** 포함 455 45 500*/
+        const sum3 = Math.ceil(sum / 1.1);
+        const sum4 = sum - sum3;
 
         if($("#vat").data("kendoRadioGroup").value() == "N"){
-            vatAmt = (totAmt / 10);
-            $("#estAmt").val(comma(totAmt - vatAmt));
-            $("#vatAmt").val(comma(vatAmt));
-        } else {
-            $("#estAmt").val(comma(totAmt));
-            $("#vatAmt").val(0);
+            $("#estAmt").val(comma(sum));
+            $("#vatAmt").val(comma(sum2));
+            $("#totAmt").val(comma(sum+sum2));
+        }else if($("#vat").data("kendoRadioGroup").value() == "Y"){
+            $("#estAmt").val(comma(sum3));
+            $("#vatAmt").val(comma(sum4));
+            $("#totAmt").val(comma(sum));
+        }else if($("#vat").data("kendoRadioGroup").value() == "D"){
+            $("#estAmt").val(comma(sum));
+            $("#vatAmt").val("0");
+            $("#totAmt").val(comma(sum));
         }
-        $("#totAmt").val(comma(totAmt));
+    },
+
+    fn_amtCalculator : function(){
+        reqCl.vatCalc();
     },
 
     fn_popCamCrmList : function(){

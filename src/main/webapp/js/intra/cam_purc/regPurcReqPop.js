@@ -33,6 +33,11 @@ var prp = {
         ]
         customKendo.fn_radioGroup("vat", radioVatDataSource, "horizontal");
 
+        /** 부가세 Change function */
+        $("#vat").data("kendoRadioGroup").bind("change", function(){
+            prp.vatCalc();
+        });
+
         $("input[name='purcType']").click(function(){
             if($("input[name='purcType']:checked").val() != ""){
                 $("#project").css("display", "");
@@ -103,6 +108,35 @@ var prp = {
         }
     },
 
+    vatCalc : function(){
+        let sum = 0;
+        $.each($(".purcItemAmt"), function(){
+            sum += Number(uncomma(this.value));
+        });
+
+        /** 견적가 500*/
+        /** 미포함 500 50 550*/
+        const sum2 = Math.floor(sum/10);
+
+        /** 포함 455 45 500*/
+        const sum3 = Math.ceil(sum / 1.1);
+        const sum4 = sum - sum3;
+
+        if($("#vat").data("kendoRadioGroup").value() == "N"){
+            $("#estAmt").val(comma(sum));
+            $("#vatAmt").val(comma(sum2));
+            $("#totAmt").val(comma(sum+sum2));
+        }else if($("#vat").data("kendoRadioGroup").value() == "Y"){
+            $("#estAmt").val(comma(sum3));
+            $("#vatAmt").val(comma(sum4));
+            $("#totAmt").val(comma(sum));
+        }else if($("#vat").data("kendoRadioGroup").value() == "D"){
+            $("#estAmt").val(comma(sum));
+            $("#vatAmt").val("0");
+            $("#totAmt").val(comma(sum));
+        }
+    },
+
     crmInfoChange : function(){
 
         $("#" + purcInfo.global.crmSnId).val($("#purcCrmSn").val())
@@ -127,6 +161,7 @@ var prp = {
         formData.append("purcType", $("#purcType").data("kendoRadioGroup").value());
         formData.append("status", e);
         formData.append("empSeq", $("#purcReqEmpSeq").val());
+        formData.append("vat", $("#vat").data("kendoRadioGroup").value());
 
         /** 증빙파일 첨부파일 */
         if(fCommon.global.attFiles != null){
@@ -143,6 +178,10 @@ var prp = {
             if($(".addFile").length == 0){
                 alert("견적서를 등록해주세요."); return;
             }
+        }
+
+        if($("#vat").data("kendoRadioGroup").value() == "" || $("#vat").data("kendoRadioGroup").value() == undefined){
+            alert("부가세를 선택해주세요."); return;
         }
 
 
@@ -452,6 +491,8 @@ var prp = {
             $("#sum").text(comma(sum) + "원")
         }
 
+        this.vatCalc();
+
 
         return inputNumberFormat(e);
     },
@@ -518,12 +559,11 @@ var prp = {
                 $("#file2Sn").val(data.reqFile.file_no);
                 $("#file2Name").text(data.reqFile.file_org_name + "." + data.reqFile.file_ext);
             }
-            $("#vatAmt").val(comma(data.VAT_AMT));
             $("#vat").data("kendoRadioGroup").value(data.VAT);
-
 
             prp.purcItemDataSet(data);
 
+            $("#vat").data("kendoRadioGroup").trigger("change");
             prp.purcBtnSet(data);
         }
     },

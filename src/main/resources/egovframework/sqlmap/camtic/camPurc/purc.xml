@@ -209,6 +209,7 @@
             PURC_TYPE,
             PJT_SN,
             PJT_NM,
+            VAT,
             STATUS,
             REG_EMP_SEQ
         )
@@ -221,6 +222,7 @@
             #{purcType},
             #{pjtSn},
             #{pjtNm},
+            #{vat},
             #{status},
             #{empSeq}
         )
@@ -239,6 +241,7 @@
             PURC_REQ_DATE = #{purcReqDate},
             PURC_REQ_PURPOSE = #{purcReqPurpose},
             PURC_TYPE = #{purcType},
+            VAT = #{vat},
             MOD_EMP_SEQ = #{empSeq},
             STATUS = #{status},
             MOD_DATE = NOW()
