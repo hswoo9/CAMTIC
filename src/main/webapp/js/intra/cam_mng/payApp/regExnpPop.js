@@ -84,7 +84,7 @@ var regExnp = {
         customKendo.fn_datePicker("reqExDe", 'month', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("reqEndDe", 'month', "yyyy-MM-dd", new Date());
         /** 회계발의일, 등기일자, 지출부기재 일자 폼 추가 */
-        if($("#status").val() == "rev" || $("#status").val() == "in"){
+        if($("#status").val() == "rev" || $("#status").val() == "in" || $("#status").val() == "re" || $("#status").val() == "alt"){
             $("#dtTr").show();
             customKendo.fn_datePicker("DT1", 'month', "yyyy-MM-dd", new Date());
             customKendo.fn_datePicker("DT2", 'month', "yyyy-MM-dd", new Date());
@@ -276,7 +276,7 @@ var regExnp = {
                     '       <input type="text" disabled style="width: 70%" id="card' + regExnpDet.global.itemIndex + '" value="'+item.CARD+'" class="card">' +
                     '       <input type="hidden" id="cardNo'+regExnpDet.global.itemIndex+'" value="'+item.CARD_NO+'" className="cardNo" />' +
                     '   </td>';
-                if($("#payAppSn").val() == "undefined" && $("#status").val() == "in" && (rs.DOC_STATUS == 0 || rs.DOC_STATUS == 30 || rs.DOC_STATUS == 40)){
+                if($("#payAppSn").val() == "undefined" && ($("#status").val() == "in" || $("#status").val() == "re" || $("#status").val() == "alt") && (rs.DOC_STATUS == 0 || rs.DOC_STATUS == 30 || rs.DOC_STATUS == 40)){
                     regExnpDet.global.createHtmlStr += '' +
                         '   <td id="newInTd">' +
                         '       <div style="text-align: center">' +

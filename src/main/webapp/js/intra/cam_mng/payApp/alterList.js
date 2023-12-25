@@ -188,7 +188,7 @@ var alterList = {
     },
 
     fn_regExnpRePop : function(){
-        var url = "/payApp/pop/regExnpPop.do?status=alt";
+        var url = "/payApp/pop/regExnpPop.do?status=alt&regFlag=new";
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
