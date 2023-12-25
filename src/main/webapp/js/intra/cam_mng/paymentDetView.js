@@ -566,6 +566,8 @@ var payDetView = {
 
         if(type == "1" || type == "2"){
             url = "/mng/pop/addClientView.do?type=" + type;
+        } else if(type == "9"){
+            url = "/mng/pop/addEmpView.do?type=" + type;
         }
 
         var name = "_blank";

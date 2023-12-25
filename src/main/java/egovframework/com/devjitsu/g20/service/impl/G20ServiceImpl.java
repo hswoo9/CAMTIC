@@ -226,4 +226,19 @@ public class G20ServiceImpl implements G20Service {
     public Map<String, Object> getEtaxData(Map<String, Object> params) {
         return g20Repository.getEtaxData(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getSbankList(Map<String, Object> params) {
+        return g20Repository.getSbankList(params);
+    }
+
+    @Override
+    public void insEtcEmpInfo(Map<String, Object> params) {
+        int lastPCd = g20Repository.getLastPCd();
+
+        params.put("pCD", lastPCd + 1);
+
+        System.out.println(params);
+        g20Repository.insEtcEmpInfo(params);
+    }
 }
