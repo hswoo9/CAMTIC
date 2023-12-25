@@ -50,6 +50,17 @@ public class PayAppController {
         return "cam_manager/payApp/paymentList";
     }
 
+    @RequestMapping("/pay/paymentMngList.do")
+    public String paymentMngList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_manager/payApp/paymentMngList";
+    }
+
     @RequestMapping("/pay/getPaymentList")
     public String getPaymentList(@RequestParam Map<String, Object> params, Model model){
 
