@@ -424,6 +424,7 @@ var rndDetail = {
     },
 
     fn_buttonSet : function(rndMap){
+        $(".budgetBtn").show();
         let buttonHtml = "";
         if(rndMap != null){
             let status = rndMap.STATUS
@@ -446,6 +447,7 @@ var rndDetail = {
 
             }else if(status == "100"){
                 buttonHtml += "<button type=\"button\" id=\"delvCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+rndMap.DOC_ID+"', '"+rndMap.APPRO_KEY+"', '"+rndMap.DOC_MENU_CD+"');\">열람</button>";
+                $(".budgetBtn").hide();
             }else if(status == "111"){
                 buttonHtml += "<button type=\"button\" id=\"delvTempBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"tempOrReDraftingPop('"+rndMap.DOC_ID+"', 'delv', '"+rndMap.APPRO_KEY+"', 2, 'tempDrafting');\">전자결재 임시저장 중</button>";
             }else{
@@ -541,14 +543,14 @@ var rndDetail = {
                     {
                         name: 'button',
                         template: function(){
-                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rndDetail.fn_customBudgetPop('+i+')">' +
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base budgetBtn" onclick="rndDetail.fn_customBudgetPop('+i+')">' +
                                 '	<span class="k-button-text">추가</span>' +
                                 '</button>';
                         }
                     }, {
                         name: 'button',
                         template: function(){
-                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rndDetail.setCustomBudgetDel('+i+')">' +
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base budgetBtn" onclick="rndDetail.setCustomBudgetDel('+i+')">' +
                                 '	<span class="k-button-text">삭제</span>' +
                                 '</button>';
                         }
