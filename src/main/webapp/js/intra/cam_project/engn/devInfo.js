@@ -510,6 +510,7 @@ var devInfo = {
     },
 
     fn_setButton : function(devMap){
+        $(".devInfo").find("textarea").attr("disabled", false);
         var buttonHtml = "";
         if(devMap != null) {
             var status = devMap.STATUS;
@@ -529,6 +530,9 @@ var devInfo = {
             } else if (status == "100") {
                 buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('" + devMap.DOC_ID + "', '" + devMap.APPRO_KEY + "', '" + devMap.DOC_MENU_CD + "');\">열람</button>";
                 buttonHtml += "<button type=\"button\" id=\"devAddBtn\" style=\"float: right; margin-right: 5px\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_addVersion()\">추가</button>";
+
+                /** 현재 버전이 완료 되었을때 버튼 비활성화 */
+                devInfo.fn_disabled();
             } else {
                 buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
             }
@@ -1173,5 +1177,11 @@ var devInfo = {
     selCrmInfo :  function(e){
         $("#estOfc" + devInfo.global.crmIdx).val(e.CRM_NM);
         devInfo.global.crmIdx = "";
+    },
+
+    fn_disabled : function(){
+        $(".devInfo").find("input").attr("disabled", "disabled");
+        $(".devInfo").find("textarea").attr("disabled", "disabled");
+        $(".devInfo").find(".popTable").find("button").hide();
     }
 }
