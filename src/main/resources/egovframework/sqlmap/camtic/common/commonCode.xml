@@ -111,6 +111,9 @@
         /* getCustomBudgetList */
         SELECT * FROM CAM_PJT_MNG.DJ_CUSTOM_BUDGET
         WHERE ACTIVE = 'Y' AND CB_UPPER_CODE = #{cbUpperCode}
+        <if test='searchValue != null and !"".equals(searchValue)'>
+            AND CB_CODE_NM like CONCAT('%', #{searchValue}, '%')
+        </if>
     </select>
 
     <select id="getCustomBudget" parameterType="map" resultType="map">

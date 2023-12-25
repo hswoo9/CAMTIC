@@ -6,9 +6,12 @@ var customBudgetPop = {
         saveAjaData : "",
         cBudgetA : "",
         cBudgetB : "",
+        cbCodeIdA : "",
+        cbCodeIdB : ""
     },
 
     fnDefaultScript : function(){
+        customKendo.fn_textBox(["mediumValue", "smallValue"]);
         customBudgetPop.gridReload();
         customBudgetPop.tempBudgetGrid("/project/getProjectBudgetList.do", {pjtSn : $("#pjtSn").val()});
     },
@@ -143,8 +146,9 @@ var customBudgetPop = {
 
         grid.tbody.find("tr").click(function (e) {
             var dataItem = grid.dataItem($(this).closest("tr"));
-            $(".cBudgetB.addBudgetB").attr("cbUpperCode", dataItem.CB_CODE_ID);
-            customBudgetPop.cbAddRow("customBudgetGridA", dataItem.CB_CODE_ID)
+            customBudgetPop.global.cbCodeIdA = dataItem.CB_CODE_ID;
+            $(".cBudgetB.addBudgetB").attr("cbUpperCode", customBudgetPop.global.cbCodeIdA);
+            customBudgetPop.cbAddRow("customBudgetGridA");
             customBudgetPop.global.cBudgetA = $(this);
             customBudgetPop.global.cBudgetB = "";
         });
@@ -156,10 +160,27 @@ var customBudgetPop = {
 
         grid.tbody.find("tr").click(function (e) {
             var dataItem = grid.dataItem($(this).closest("tr"));
-            $(".cBudgetC.addBudgetC").attr("cbUpperCode", dataItem.CB_CODE_ID);
-            customBudgetPop.cbAddRow("customBudgetGridB", dataItem.CB_CODE_ID)
+            customBudgetPop.global.cbCodeIdB = dataItem.CB_CODE_ID;
+            $(".cBudgetC.addBudgetC").attr("cbUpperCode", customBudgetPop.global.cbCodeIdB);
+            customBudgetPop.cbAddRow("customBudgetGridB");
             customBudgetPop.global.cBudgetB = $(this);
         });
+    },
+
+    gridReload2 : function(grid){
+        if(grid == "customBudgetGridA"){
+            if(customBudgetPop.global.cBudgetA != "" && customBudgetPop.global.cBudgetA != null){
+                customBudgetPop.cbAddRow(grid);
+            }else{
+                alert("장을 선택해주세요.");
+            }
+        }else if(grid == "customBudgetGridB"){
+            if(customBudgetPop.global.cBudgetB != "" && customBudgetPop.global.cBudgetB != null){
+                customBudgetPop.cbAddRow(grid);
+            }else{
+                alert("관을 선택해주세요.");
+            }
+        }
     },
 
     cDataBound : function(){
@@ -175,16 +196,27 @@ var customBudgetPop = {
         });
     },
 
-    cbAddRow : function(grid, cbUpperCode){
+    cbAddRow : function(grid){
         var gridId = "";
+        var cbUpperCode;
+        var searchValue;
 
         if(grid == "customBudgetGridA"){
             gridId = "customBudgetGridB";
+            cbUpperCode = customBudgetPop.global.cbCodeIdA;
+            searchValue = $("#mediumValue").val();
         }else if(grid == "customBudgetGridB"){
             gridId = "customBudgetGridC";
+            cbUpperCode = customBudgetPop.global.cbCodeIdB;
+            searchValue = $("#smallValue").val();
         }
 
-        var result = customKendo.fn_customAjax("/system/code/getCustomBudgetList", {cbUpperCode : cbUpperCode});
+        var data = {
+            cbUpperCode : cbUpperCode,
+            searchValue : searchValue
+        }
+
+        var result = customKendo.fn_customAjax("/system/code/getCustomBudgetList", data);
         if(result.flag){
             $("#customBudgetGridC").data("kendoGrid").dataSource.data([]);
             $("#addBudgetC").hide();
