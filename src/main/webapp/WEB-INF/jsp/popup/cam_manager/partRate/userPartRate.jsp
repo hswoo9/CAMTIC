@@ -128,10 +128,15 @@
         <div>
             <div id="divBtn" style="font-size: 12px; margin-top: 10px;">
                 <input type="text" id="year" value=""  style="width: 5%; float: left; margin-left: 10px;"/>
-                <button type="button" class="k-button k-button-solid-base k-button-sm" style="float: right; margin: 0 5px 5px 0;" onclick="userPartRate.fn_setData('A')">참여율</button>
-                <c:if test="${params.adminYn == 'Y'}">
-                    <button type="button" class="k-button k-button-solid-base k-button-sm" style="float: right; margin:0 5px 5px 0;" onclick="userPartRate.fn_setData('B')">월지급액</button>
-                </c:if>
+                <c:choose>
+                <c:when test="${params.adminYn == 'Y'}">
+                    <button type="button" class="k-button k-button-solid-base k-button-sm" style="float: right; margin: 0 5px 5px 0;" onclick="userPartRate.fn_setDataAdmin('A')">참여율</button>
+                    <button type="button" class="k-button k-button-solid-base k-button-sm" style="float: right; margin:0 5px 5px 0;" onclick="userPartRate.fn_setDataAdmin('B')">월지급액</button>
+                </c:when>
+                <c:otherwise>
+                    <button type="button" class="k-button k-button-solid-base k-button-sm" style="float: right; margin: 0 5px 5px 0;" onclick="userPartRate.fn_setData('A')">참여율</button>
+                </c:otherwise>
+                </c:choose>
             </div>
             <table class="popTable table table-bordered mb-0">
                 <c:choose>
