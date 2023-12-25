@@ -36,4 +36,8 @@ public interface G20Service {
     List<Map<String, Object>> getEtaxList(Map<String, Object> params);
 
     Map<String, Object> getEtaxData(Map<String, Object> params);
+
+    List<Map<String, Object>> getSbankList(Map<String, Object> params);
+
+    void insEtcEmpInfo(Map<String, Object> params);
 }

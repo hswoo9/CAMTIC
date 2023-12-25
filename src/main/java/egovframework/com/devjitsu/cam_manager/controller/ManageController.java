@@ -117,6 +117,18 @@ public class ManageController {
         return "popup/cam_manager/addClientView";
     }
 
+    @RequestMapping("/mng/pop/addEmpView.do")
+    public String addEmpView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_manager/addEmpView";
+    }
+
     @RequestMapping("/mng/getMemList")
     public String getMemList(@RequestParam Map<String, Object> params, Model model){
 
