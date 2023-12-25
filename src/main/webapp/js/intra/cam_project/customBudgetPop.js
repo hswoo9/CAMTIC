@@ -247,18 +247,28 @@ var customBudgetPop = {
         var dataItemB = $("#customBudgetGridB").data("kendoGrid").dataItem(customBudgetPop.global.cBudgetB);
 
         $.each($("input[name='customBudgetGridCChk']:checked"), function (i, v) {
+            let ck = 0;
             var dataItemC = $("#customBudgetGridC").data("kendoGrid").dataItem($(this).closest("tr"));
-            $("#tempBudgetGrid").data("kendoGrid").dataSource.add({
-                CB_SN : 0,
-                NUM : i,
-                CB_CODE_ID_1 : dataItemA.CB_CODE,
-                CB_CODE_NAME_1 : dataItemA.CB_CODE_NM,
-                CB_CODE_ID_2 : dataItemB.CB_CODE,
-                CB_CODE_NAME_2 : dataItemB.CB_CODE_NM,
-                CB_CODE_ID_3 : dataItemC.CB_CODE,
-                CB_CODE_NAME_3 : dataItemC.CB_CODE_NM,
-                CB_BUDGET : 0,
-            })
+
+            $.each($("#tempBudgetGrid").data("kendoGrid").dataSource.data(), function(){
+                if(this.CB_CODE_ID_3 == dataItemC.CB_CODE){
+                    ck = 1;
+                }
+            });
+
+            if(ck != 1){
+                $("#tempBudgetGrid").data("kendoGrid").dataSource.add({
+                    CB_SN : 0,
+                    NUM : i,
+                    CB_CODE_ID_1 : dataItemA.CB_CODE,
+                    CB_CODE_NAME_1 : dataItemA.CB_CODE_NM,
+                    CB_CODE_ID_2 : dataItemB.CB_CODE,
+                    CB_CODE_NAME_2 : dataItemB.CB_CODE_NM,
+                    CB_CODE_ID_3 : dataItemC.CB_CODE,
+                    CB_CODE_NAME_3 : dataItemC.CB_CODE_NM,
+                    CB_BUDGET : 0,
+                })
+            }
         });
     },
 
