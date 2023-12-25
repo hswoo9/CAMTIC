@@ -331,7 +331,7 @@ var rndDetail = {
         });
     },
 
-    fn_approve : function (stat){
+    delvDrafting: function() {
         var pjCode = $("#pjCode").val();
         var supDep = $("#supDep2").val();
         var supDepSub = $("#supDepSub2").val();
@@ -344,7 +344,7 @@ var rndDetail = {
         var parameters = {
             pjtSn : $("#pjtSn").val(),
             pjtTmpCd : pjCode + supDep + supDepSub + pjtStat + pjtStatSub + year,
-            stat : stat,
+            stat : "10",
             regEmpName : $("#regEmpName").val()
         }
 
@@ -376,51 +376,17 @@ var rndDetail = {
             type : "post",
             dataType : "json",
             success : function (rs){
-                alert("요청되었습니다.");
-                commonProject.getReloadPage(0, 0, 0, 0, 0, 0);
+                $("#rndDelvDraftFrm").one("submit", function(){
+                    const url = "/popup/cam_project/approvalFormPopup/rndDelvApprovalPop.do";
+                    const name = "_self";
+                    const option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50";
+                    window.open(url, name, option);
+                    this.action = "/popup/cam_project/approvalFormPopup/rndDelvApprovalPop.do";
+                    this.method = 'POST';
+                    this.target = '_self';
+                }).trigger("submit");
             }
         });
-    },
-
-    fn_approveStat : function(stat){
-        let successText = "";
-        if(stat == "0"){
-            if(!confirm("요청취소하시겠습니까?")){
-                return ;
-            }
-            successText = "취소되었습니다.";
-        }
-        var parameters = {
-            pjtSn : $("#pjtSn").val(),
-            stat : stat
-        }
-        commonProject.loading();
-        $.ajax({
-            url : "/project/updDelvApproveStat",
-            data : parameters,
-            type : "post",
-            dataType : "json",
-            success : function (rs){
-                alert(successText);
-                commonProject.getReloadPage(0, 0, 0, 0, 0, 0);
-            }
-        });
-    },
-
-    delvDrafting: function() {
-        if($("#totResCost").val() == 0){
-            alert("예산이 설정되지 않았습니다. 예산 설정 후 저장버튼을 누르고 진행 바랍니다."); return;
-        }
-
-        $("#rndDelvDraftFrm").one("submit", function(){
-            const url = "/popup/cam_project/approvalFormPopup/rndDelvApprovalPop.do";
-            const name = "_self";
-            const option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50";
-            window.open(url, name, option);
-            this.action = "/popup/cam_project/approvalFormPopup/rndDelvApprovalPop.do";
-            this.method = 'POST';
-            this.target = '_self';
-        }).trigger("submit");
     },
 
     fn_buttonSet : function(rndMap){
@@ -429,16 +395,8 @@ var rndDetail = {
         if(rndMap != null){
             let status = rndMap.STATUS
             if(status == "0"){
-                const pjtResult = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn : $("#pjtSn").val()});
-                const pjtMap = pjtResult.map;
-                if(pjtMap.DELV_APPROVE_STAT == 0){
-                    buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDetail.fn_save()\">저장</button>";
-                    buttonHtml += "<button type=\"button\" id=\"delvApp2Btn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">코드승인요청</button>";
-                }else if(pjtMap.DELV_APPROVE_STAT == 100){
-                    buttonHtml += "<button type=\"button\" id=\"delvAppBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDetail.delvDrafting()\">상신</button>";
-                }else{
-                    buttonHtml += "<button type=\"button\" id=\"delvApp2Btn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"rndDetail.fn_approveStat(0)\">코드승인요청취소</button>";
-                }
+                buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDetail.fn_save()\">저장</button>";
+                buttonHtml += "<button type=\"button\" id=\"delvApp2Btn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">상신</button>";
             }else if(status == "10" || status == "20" || status == "50"){
                 buttonHtml += "<button type=\"button\" id=\"delvCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+rndMap.DOC_ID+"', '"+rndMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
             }else if(status == "30" || status == "40"){
@@ -447,6 +405,15 @@ var rndDetail = {
 
             }else if(status == "100"){
                 buttonHtml += "<button type=\"button\" id=\"delvCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+rndMap.DOC_ID+"', '"+rndMap.APPRO_KEY+"', '"+rndMap.DOC_MENU_CD+"');\">열람</button>";
+
+                const pjtResult = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn : $("#pjtSn").val()});
+                const pjtMap = pjtResult.map;
+                if(pjtMap.DELV_APPROVE_STAT != 100){
+                    buttonHtml += "<span style=\"float: right; position: relative; top: 5px; right: 5px;\"><b style='color: red'>수주승인 요청 중...</b></span>";
+                }else{
+                    buttonHtml += "<span style=\"float: right; position: relative; top: 5px; right: 5px;\"><b style='color: red'>수주승인 완료</b></span>";
+                }
+
                 $(".budgetBtn").hide();
             }else if(status == "111"){
                 buttonHtml += "<button type=\"button\" id=\"delvTempBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"tempOrReDraftingPop('"+rndMap.DOC_ID+"', 'delv', '"+rndMap.APPRO_KEY+"', 2, 'tempDrafting');\">전자결재 임시저장 중</button>";
