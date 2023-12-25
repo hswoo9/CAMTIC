@@ -143,7 +143,8 @@ var setDelvPjt = {
         const result = customKendo.fn_customAjax("/project/setDelvApprove", {
             pjtTmpCd : pjCode + supDep + supDepSub + pjtStat + pjtStatSub + year,
             pjtSn : $("#pjtSn").val(),
-            stat : stat
+            stat : stat,
+            ck : 1
         });
 
         if(result.flag){
@@ -160,7 +161,8 @@ var setDelvPjt = {
 
         const result = customKendo.fn_customAjax("/project/updDelvApproveStat", {
             pjtSn : $("#pjtSn").val(),
-            stat : stat
+            stat : stat,
+            ck : 1
         });
 
         if(result.flag){

@@ -127,11 +127,11 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
             List<Map<String, Object>> list = projectTeamRepository.getTeamList(params);
             for(int i=0; i<list.size(); i++){
                 /** WORK_TYPE : I면 insert U면 update*/
-                if(list.get(i).get("WORK_TYPE").equals("I")){
+                if(list.get(i).get("WORK_TYPE").toString().equals("I")){
                     projectTeamRepository.insTeamProject(list.get(i));
-                }else if(list.get(i).get("WORK_TYPE").equals("U")){
+                }else if(list.get(i).get("WORK_TYPE").toString().equals("U")){
                     projectTeamRepository.updTeamProject(list.get(i));
-                }else if(list.get(i).get("WORK_TYPE").equals("D")){
+                }else if(list.get(i).get("WORK_TYPE").toString().equals("D")){
                     projectTeamRepository.delTeamProject(list.get(i));
                 }
             }
