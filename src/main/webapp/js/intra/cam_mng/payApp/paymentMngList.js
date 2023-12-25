@@ -1,4 +1,4 @@
-var paymentList = {
+var paymentMngList = {
 
     global : {
         dropDownDataSource : "",
@@ -8,15 +8,15 @@ var paymentList = {
 
     fn_defaultScript : function(){
 
-        paymentList.global.dropDownDataSource = [
+        paymentMngList.global.dropDownDataSource = [
             { text: "작성중", value: "0" },
             { text: "결재대기", value: "10" },
             { text: "결재완료", value: "100" },
         ]
-        customKendo.fn_dropDownList("searchDept", paymentList.global.dropDownDataSource, "text", "value");
-        $("#searchDept").data("kendoDropDownList").bind("change", paymentList.gridReload);
+        customKendo.fn_dropDownList("searchDept", paymentMngList.global.dropDownDataSource, "text", "value");
+        $("#searchDept").data("kendoDropDownList").bind("change", paymentMngList.gridReload);
 
-        paymentList.global.dropDownDataSource = [
+        paymentMngList.global.dropDownDataSource = [
             { text: "문서번호", value: "DOC_NO" },
         ]
 
@@ -32,11 +32,11 @@ var paymentList = {
             ]
         });
 
-        customKendo.fn_dropDownList("searchKeyword", paymentList.global.dropDownDataSource, "text", "value");
+        customKendo.fn_dropDownList("searchKeyword", paymentMngList.global.dropDownDataSource, "text", "value");
         customKendo.fn_textBox(["searchValue"]);
         customKendo.fn_datePicker("payExnpDe", "depth", "yyyy-MM-dd", new Date());
 
-        paymentList.gridReload();
+        paymentMngList.gridReload();
     },
 
     mainGrid : function(url, params){
@@ -57,21 +57,28 @@ var paymentList = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="paymentList.fn_reqRegPopup()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="paymentMngList.fn_enxpChangeModal()">' +
+                            '	<span class="k-button-text">지출예정일 변경</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="paymentMngList.fn_reqRegPopup()">' +
                             '	<span class="k-button-text">지급신청서 작성</span>' +
                             '</button>';
                     }
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="paymentList.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="paymentMngList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
                 }],
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="paymentList.fn_checkAll(this)"/>',
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="paymentMngList.fn_checkAll(this)"/>',
                     template : function (e){
 
                         return "<input type='checkbox' id='payAppSn"+e.PAY_APP_SN+"' name='payChk' value='"+e.PAY_APP_SN+"'/>"
@@ -115,7 +122,7 @@ var paymentList = {
                         } else if (e.PAY_APP_TYPE == 4){
                             status = "alt";
                         }
-                        return '<div style="cursor: pointer; font-weight: bold" onclick="paymentList.fn_reqRegPopup('+e.PAY_APP_SN+', \''+status+'\', \'user\')">'+e.APP_TITLE+'</div>';
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="paymentMngList.fn_reqRegPopup('+e.PAY_APP_SN+', \''+status+'\', \'user\')">'+e.APP_TITLE+'</div>';
                     }
                 }, {
                     title: "프로젝트 명",
@@ -193,7 +200,7 @@ var paymentList = {
                     template : function(e){
                         if(e.REG_EMP_SEQ == $("#myEmpSeq").val()){
                             if(e.DOC_STATUS == 0){
-                                return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="paymentList.fn_delReqReg('+e.PAY_APP_SN+', '+e.REG_EMP_SEQ+')">' +
+                                return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="paymentMngList.fn_delReqReg('+e.PAY_APP_SN+', '+e.REG_EMP_SEQ+')">' +
                                     '	<span class="k-button-text">삭제</span>' +
                                     '</button>';
                             } else {
@@ -229,7 +236,7 @@ var paymentList = {
     },
 
     gridReload : function(){
-        paymentList.global.searchAjaxData = {
+        paymentMngList.global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
             searchDept : $("#searchDept").val(),
             searchKeyword : $("#searchKeyword").val(),
@@ -238,7 +245,7 @@ var paymentList = {
             pageType : "USER",
         }
 
-        paymentList.mainGrid("/pay/getPaymentList", paymentList.global.searchAjaxData);
+        paymentMngList.mainGrid("/pay/getPaymentList", paymentMngList.global.searchAjaxData);
     },
 
     fn_reqRegPopup : function(key, status, auth){
@@ -295,7 +302,7 @@ var paymentList = {
                 if(rs.code == 200){
                     alert("변경되었습니다.");
 
-                    paymentList.gridReload();
+                    paymentMngList.gridReload();
 
                     $("#dialog").data("kendoWindow").close();
                 }
@@ -325,7 +332,7 @@ var paymentList = {
                 if(rs.code == 200){
                     alert("삭제되었습니다.");
 
-                    paymentList.gridReload();
+                    paymentMngList.gridReload();
                 }
             }
         });
