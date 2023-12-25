@@ -682,6 +682,28 @@ public class BustripController {
         return "jsonView";
     }
 
+    /** 협업 팀 추가/수정 */
+    @RequestMapping("/bustrip/setCardHist")
+    public String setTeam(@RequestParam Map<String, Object> params, Model model){
+        try{
+            bustripService.setCardHist(params);
+            model.addAttribute("code", 200);
+            model.addAttribute("rep", params);
+        } catch(Exception e){
+            e.printStackTrace();
+            model.addAttribute("code", 500);
+        }
+        return "jsonView";
+    }
+
+    /** 여비 첨부파일 조회 */
+    @RequestMapping("/bustrip/getCardList")
+    public String getCardList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = bustripService.getCardList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     private static LoginVO getLoginVO(HttpServletRequest request) {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");

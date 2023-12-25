@@ -42,6 +42,8 @@
 <input type="hidden" id="type" value="${params.type}" />
 <input type="hidden" id="index" value="${params.index}" />
 
+<input type="hidden" id="reqType" value="${params.reqType}" />
+
 <div>
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">
@@ -50,7 +52,10 @@
                 </span>
         </h3>
         <div id="purcBtnDiv" class="btn-st popButton" style="font-size: 13px;">
-            <button type="button" class="k-button k-button-solid-info" onclick="payCardHist.fn_selectCard()">반영</button>
+            <button type="button" id="saveBtn" class="k-button k-button-solid-info" onclick="payCardHist.fn_selectCard()">반영</button>
+
+            <!-- 출장전용 버튼  -->
+            <button type="button" id="saveBtnBustrip" class="k-button k-button-solid-info" style="display: none" onclick="payCardHist.fn_selectCardBustrip()">반영</button>
             <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
         </div>
     </div>

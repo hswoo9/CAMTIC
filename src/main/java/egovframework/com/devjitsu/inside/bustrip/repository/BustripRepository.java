@@ -224,4 +224,16 @@ public class BustripRepository extends AbstractDAO {
     public List<Map<String, Object>> getProjectBustList(Map<String, Object> params) {
         return selectList("bustrip.getProjectBustList", params);
     }
+
+    public void insCardHist(Map<String, Object> params) {
+        insert("bustrip.insCardHist", params);
+    }
+
+    public void delCardHist(Map<String, Object> params) {
+        delete("bustrip.delCardHist", params);
+    }
+
+    public List<Map<String, Object>> getCardList(Map<String, Object> params) {
+        return selectList("bustrip.getCardList", params);
+    }
 }

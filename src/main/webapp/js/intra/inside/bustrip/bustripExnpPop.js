@@ -151,6 +151,45 @@ const bustripExnpReq = {
 
         bustripExnpReq.fn_getExnpInfo(type);
         bustripExnpReq.fn_getFuelInfo(type);
+
+
+        const cardResult = customKendo.fn_customAjax("/bustrip/getCardList", data);
+        const cardList = cardResult.list;
+
+        for(let i=0; i<cardList.length; i++){
+            const cardMap = cardList[i];
+
+            var data = {
+                cardNo : cardMap.CARD_NO,
+                authDate : cardMap.AUTH_DD,
+                authNo : cardMap.AUTH_NO,
+                authTime : cardMap.AUTH_HH,
+                buySts : cardMap.BUY_STS
+            }
+
+            const iBrenchResult = customKendo.fn_customAjax("/cam_mng/companyCard/useCardDetail", data);
+            const e = iBrenchResult.cardInfo;
+
+            if(e != null){
+                let html = '';
+                html += '<tr class="addData">';
+                html += '    <input type="hidden" class="cardNo" value="'+e.CARD_NO+'" />';
+                html += '    <input type="hidden" class="authDate" value="'+e.AUTH_DD+'" />';
+                html += '    <input type="hidden" class="authNum" value="'+e.AUTH_NO+'" />';
+                html += '    <input type="hidden" class="authTime" value="'+e.AUTH_HH+'" />';
+                html += '    <input type="hidden" class="buySts" value="'+e.BUY_STS+'" />';
+
+                html += '    <td>'+e.AUTH_DD.substring(0, 4) + '-' + e.AUTH_DD.substring(4, 6) + '-' + e.AUTH_DD.substring(6, 8)+'</td>';
+                html += '    <td>'+e.AUTH_NO+'</td>';
+                html += '    <td>'+e.MER_NM+'</td>';
+                html += '    <td>'+e.MER_BIZNO.substring(0, 3) + '-' + e.MER_BIZNO.substring(3, 5) + '-' + e.MER_BIZNO.substring(5, 11)+'</td>';
+                html += '    <td>'+(e.TR_NM == undefined ? "" : e.TR_NM)+'</td>';
+                html += '    <td>'+e.CARD_NO.substring(0,4) + '-' + e.CARD_NO.substring(4,8) + '-' + e.CARD_NO.substring(8,12) + '-' + e.CARD_NO.substring(12,16)+'</td>';
+                html += '    <td style="text-align: right">'+fn_numberWithCommas(e.AUTH_AMT)+'</td>';
+                html += '</tr>';
+                $("#detailRow").append(html);
+            }
+        }
     },
 
     fn_getExnpInfo(type){
@@ -409,6 +448,33 @@ const bustripExnpReq = {
             result = customKendo.fn_customAjax("/bustrip/saveBustripExnpPop", data);
         }
 
+        /** Ibrench 선택 파일 저장 */
+        var parameters = {
+            hrBizReqResultId : hrBizReqResultId
+        }
+        let cardArr = [];
+        $.each($(".addData"), function(i, v){
+            const cardData = {};
+            const cardNo = $(v).find('.cardNo').val();
+            const authDate = $(v).find('.authDate').val();
+            const authNum = $(v).find('.authNum').val();
+            const authTime = $(v).find('.authTime').val();
+            const buySts = $(v).find('.buySts').val();
+
+            cardData.cardNo = cardNo;
+            cardData.authDate = authDate;
+            cardData.authNum = authNum;
+            cardData.authTime = authTime;
+            cardData.buySts = buySts;
+
+            cardArr.push(cardData);
+        });
+
+        if(cardArr.length != 0){
+            parameters.cardArr = JSON.stringify(cardArr);
+        }
+        customKendo.fn_customAjax("/bustrip/setCardHist", parameters);
+
         /** 첨부파일 저장 프로세스 */
 
         /** 교통비 파일 */
@@ -529,5 +595,13 @@ const bustripExnpReq = {
             window.close();
         }
 
-    }
+    },
+
+    fn_paymentCardHistory : function (){
+        var url = "/mng/pop/paymentCardHistory.do?type=3&index=2&reqType=bustrip";
+
+        var name = "_blank";
+        var option = "width = 1500, height = 700, top = 100, left = 300, location = no"
+        var popup = window.open(url, name, option);
+    },
 }
