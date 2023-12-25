@@ -502,11 +502,36 @@ public class ProjectServiceImpl implements ProjectService {
     public void setDelvApprove(Map<String, Object> params) {
         projectRepository.updProjectTmpCode(params);
         projectRepository.updDelvApproveStat(params);
+
+        /** 최종 승인 일때 프로젝트 코드 생성 및 다음단계 활성화 */
+        if(params.containsKey("ck")){
+            Map<String, Object> pjtMap = projectRepository.getProjectData(params);
+
+            if(pjtMap.get("BUSN_CLASS").toString().equals("D")){
+                projectRepository.updEngnProjectCode(pjtMap);
+                params.put("pjtStep", "E3");
+                params.put("pjtStepNm", "수주보고");
+                projectRepository.updProjectStep(params);
+
+            }else if(pjtMap.get("BUSN_CLASS").toString().equals("R")){
+
+            }else if(pjtMap.get("BUSN_CLASS").toString().equals("S")){
+
+            }
+        }
     }
 
     @Override
     public void updDelvApproveStat(Map<String, Object> params) {
         projectRepository.updDelvApproveStat(params);
+
+        if(params.containsKey("ck")){
+            Map<String, Object> pjtMap = projectRepository.getProjectData(params);
+            projectRepository.updEngnProjectCode(pjtMap);
+            params.put("pjtStep", "E3");
+            params.put("pjtStepNm", "수주보고");
+            projectRepository.updProjectStep(params);
+        }
     }
 
     @Override
@@ -537,11 +562,6 @@ public class ProjectServiceImpl implements ProjectService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             projectRepository.updateDelvFinalApprStat(params);
-            Map<String, Object> pjtMap = projectRepository.getProjectData(params);
-            projectRepository.updEngnProjectCode(pjtMap);
-            params.put("pjtStep", "E3");
-            params.put("pjtStepNm", "수주보고");
-            projectRepository.updProjectStep(params);
         }else if("111".equals(docSts)){ // 임시저장
             projectRepository.updateDelvApprStat(params);
         }
