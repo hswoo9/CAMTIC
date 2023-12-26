@@ -137,7 +137,11 @@ var regExnp = {
                 }else if(data.DOC_STATUS == "100"){
                     $("#mode").val("view");
                     if($("#status").val() == "rev" && evidType != "1" && evidType != "2" && evidType != "3"){
-                        buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_regExnpInPop('+data.PAY_APP_SN+', '+data.EXNP_SN+')">여입결의서 작성</button>';
+                        if(data.RE_STAT == "N") {
+                            buttonHtml += '<button type="button" id="approveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_approve()">지출결의서 승인</button>';
+                        } else {
+                            buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_regExnpInPop('+data.PAY_APP_SN+', '+data.EXNP_SN+')">여입결의서 작성</button>';
+                        }
                     }
                     buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \'camticExnp_'+data.EXNP_SN+'\', \'exnp\');">열람</button>';
                     $("#addBtn").hide();
@@ -936,6 +940,33 @@ var regExnp = {
                 }
             }
         });
+    },
+
+    fn_approve : function (){
+        var parameters = {
+            exnpSn : $("#exnpSn").val(),
+            regEmpSeq : $("#regEmpSeq").val(),
+            empSeq : $("#regEmpSeq").val()
+        }
+
+        if(!confirm("승인하시겠습니까?")){
+            return ;
+        }
+
+        const result = customKendo.fn_customAjax("/pay/resolutionExnpAppr", parameters);
+        if(result.flag){
+            if(result.code == 200){
+                alert("승인이 완료되었습니다.");
+                try {
+                    opener.regExnp.gridReload();
+                }catch{
+                    alert("새로 고침중 오류가 발생하였습니다.");
+                }
+                window.close();
+            }else{
+                alert("ERP 연동 중 오류가 발생하였습니다.");
+            }
+        }
     },
 
     crmInfoChange : function(){
