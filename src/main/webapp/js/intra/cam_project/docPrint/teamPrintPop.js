@@ -138,32 +138,52 @@ const teamPrintPop = {
         html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 93px;"><p style="font-size:13px;"><b>예상운영수익</b></p></td>';
         html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 93px;"><p style="font-size:13px;"><b>수익 배분율</b></p></td>';
         html += '               </tr>';
+
+        let incomeSum = 0;
+        let incomePer;
+
         /** 자가 */
         html += '               <tr>';
         html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ commonProject.getDept(verMap.REG_EMP_SEQ) +'</p></td>';
         html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ amtText +'</p></td>';
-        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ comma(myAmt) +'</p></td>';
+        html += '                   <td style="height:30px;background-color:#FFE0E0; text-align:right;"><p style="font-size:13px;">'+ comma(myAmt) +'</p></td>';
         html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ myPer +'</p></td>';
-        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ myIncomePer +'</p></td>';
-        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ comma(myAmt - myMap.TM_INV_AMT) +'</p></td>';
+        html += '                   <td style="height:30px;background-color:#FFE0E0; text-align:right;"><p style="font-size:13px;">'+ myIncomePer +'</p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ comma(Number(myAmt) - Number(myMap.TM_INV_AMT)) +'</p></td>';
         html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ "100%" +'</p></td>';
         html += '               </tr>';
+
+        incomeSum += Number(myAmt) - Number(myMap.TM_INV_AMT);
+
         for(let i=1; i<teamList.length; i++){
             const teamMap = teamList[i];
             html += '               <tr>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ commonProject.getDept(teamMap.TM_PM_SEQ) +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">0</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ comma(teamMap.TM_AMT) +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFE0E0; text-align:right;"><p style="font-size:13px;">'+ comma(teamMap.TM_AMT) +'</p></td>';
             const teamAmt = teamMap.TM_AMT;
             const teamPer = (100 - Math.round(100 - Number(teamAmt) / Number(delvAmt) * 100)) + "%";
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ teamPer +'</p></td>';
             const teamInvAmt = teamMap.TM_INV_AMT;
             const teamIncomePer = Math.round(100 - Number(teamInvAmt) / Number(teamAmt) * 100) + "%";
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ teamIncomePer +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFE0E0; text-align:right;"><p style="font-size:13px;">'+ teamIncomePer +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ comma(Number(teamMap.TM_AMT) - Number(teamMap.TM_INV_AMT)) +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ "0%" +'</p></td>';
             html += '               </tr>';
+            incomeSum += Number(teamMap.TM_AMT) - Number(teamMap.TM_INV_AMT);
         }
+
+        incomePer = Math.round(Number(incomeSum / uncomma(delvAmt) * 100)) + "%";
+        /** 합계 */
+        html += '               <tr>';
+        html += '                   <td style="height:30px;background-color:#FFE0E0; text-align:center;"><p style="font-size:13px;">합 계</p></td>';
+        html += '                   <td style="height:30px;background-color:#FFE0E0; text-align:right;"><p style="font-size:13px;">'+ amtText +'</p></td>';
+        html += '                   <td style="height:30px;background-color:#FFE0E0; text-align:right;"><p style="font-size:13px;">'+ amtText +'</p></td>';
+        html += '                   <td style="height:30px;background-color:#FFE0E0; text-align:right;"><p style="font-size:13px;">100%</p></td>';
+        html += '                   <td style="height:30px;background-color:#FFE0E0; text-align:right;"><p style="font-size:13px;">'+ incomePer +'</p></td>';
+        html += '                   <td style="height:30px;background-color:#FFE0E0; text-align:right;"><p style="font-size:13px;">'+ comma(incomeSum) +'</p></td>';
+        html += '                   <td style="height:30px;background-color:#FFE0E0; text-align:right;"><p style="font-size:13px;">'+ "100%" +'</p></td>';
+        html += '               </tr>';
         html += '           </table>';
         html += '       </td>';
         html += '   </tr>';
