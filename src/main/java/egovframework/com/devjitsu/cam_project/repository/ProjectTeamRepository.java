@@ -73,6 +73,14 @@ public class ProjectTeamRepository extends AbstractDAO {
         update("projectTeam.delTeamProject", params);
     }
 
+    public void updPmAppStat(Map<String, Object> params) {
+        update("projectTeam.updPmAppStat", params);
+    }
+
+    public void updTeamAppStat(Map<String, Object> params) {
+        update("projectTeam.updTeamAppStat", params);
+    }
+
     public void updTeamVersionAppStat(Map<String, Object> params) {
         update("projectTeam.updTeamVersionAppStat", params);
     }

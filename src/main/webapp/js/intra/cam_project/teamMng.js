@@ -10,6 +10,7 @@ var teamMng = {
 
     gridReload : function (){
         teamMng.global.searchAjaxData = {
+            regEmpSeq: $("#regEmpSeq").val()
         }
 
         teamMng.mainGrid("/project/team/getTeamMngList", teamMng.global.searchAjaxData);

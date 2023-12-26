@@ -167,10 +167,11 @@ var setTeamPjt = {
         html += '    <td style="text-align: right"><span id="myIncomePer_'+myMap.TM_SN+'">'+comma(myMap.TM_INV_AMT)+'</span></td>';
         /** 예상수익 */
         html += '    <td style="text-align: right"><span id="myIncomePer_'+myMap.TM_SN+'">'+myIncomePer+'</span></td>';
+
         /** PM */
         html += '    <td style="text-align: center"><span>승인</span></td>';
         /** 팀장 */
-        html += '    <td style="text-align: center"><span>미승인</span></td>';
+        html += '    <td style="text-align: center"><span>'+(myMap.TEAM_CK == "Y" ? "승인" : "미승인")+'</span></td>';
         html += '</tr>';
         $("#detailRow").append(html);
 
@@ -202,9 +203,9 @@ var setTeamPjt = {
             /** 예상수익 */
             html += '    <td style="text-align: right"><spa>'+teamIncomePer+'</span></td>';
             /** PM */
-            html += '    <td style="text-align: center"><spa>미승인</span></td>';
+            html += '    <td style="text-align: center"><spa>'+(teamMap.PM_CK == "Y" ? "승인" : "미승인")+'</span></td>';
             /** 팀장 */
-            html += '    <td style="text-align: center"><spa>미승인</span></td>';
+            html += '    <td style="text-align: center"><spa>'+(teamMap.TEAM_CK == "Y" ? "승인" : "미승인")+'</span></td>';
             html += '</tr>';
             $("#detailRow").append(html);
         }
@@ -214,7 +215,8 @@ var setTeamPjt = {
         const parameters = {
             pjtSn : $("#pjtSn").val(),
             teamVersionSn : $("#teamVersionSn").val(),
-            stat : stat
+            stat : stat,
+            regEmpSeq: $("#regEmpSeq").val()
         }
 
         const result = customKendo.fn_customAjax("/project/team/updTeamVersionAppStat", parameters);

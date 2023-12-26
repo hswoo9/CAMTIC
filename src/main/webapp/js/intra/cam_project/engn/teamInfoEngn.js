@@ -202,9 +202,9 @@ var teamEngn = {
         /** 예상수익 */
         html += '    <td style="text-align: right"><span id="myIncomePer_'+myMap.TM_SN+'" style="position: relative; top: 5px">'+myIncomePer+'</span></td>';
         /** PM */
-        html += '    <td style="text-align: center"><span style="position: relative; top: 5px">-</span></td>';
+        html += '    <td style="text-align: center"><span style="position: relative; top: 5px">승인</span></td>';
         /** 팀장 */
-        html += '    <td style="text-align: center"><span style="position: relative; top: 5px">미승인</span></td>';
+        html += '    <td style="text-align: center"><span style="position: relative; top: 5px">'+(myMap.TEAM_CK == "Y" ? "승인" : "미승인")+'</span></td>';
         html += '</tr>';
         $("#detailRow").append(html);
 
@@ -244,9 +244,9 @@ var teamEngn = {
             /** 예상수익 */
             html += '    <td style="text-align: right"><span>'+teamIncomePer+'</span></td>';
             /** PM */
-            html += '    <td style="text-align: center"><span>미승인</span></td>';
+            html += '    <td style="text-align: center"><span>'+(teamMap.PM_CK == "Y" ? "승인" : "미승인")+'</span></td>';
             /** 팀장 */
-            html += '    <td style="text-align: center"><span>미승인</span></td>';
+            html += '    <td style="text-align: center"><span>'+(teamMap.TEAM_CK == "Y" ? "승인" : "미승인")+'</span></td>';
             html += '</tr>';
             $("#detailRow").append(html);
         }

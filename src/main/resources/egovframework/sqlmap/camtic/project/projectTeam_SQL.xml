@@ -44,7 +44,11 @@
             CAM_PJT_MNG.DJ_PJT_TEAM_VERSION B
         LEFT JOIN
             CAM_PJT_MNG.DJ_PROJECT A ON A.PJT_SN = B.PJT_SN
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_TEAM C ON B.TEAM_VERSION_SN = C.TEAM_VERSION_SN
         WHERE B.STATUS = '10'
+          AND ((C.PM_EMP_SEQ = #{regEmpSeq} AND C.PM_CK = 'N') OR (C.TEAM_EMP_SEQ = #{regEmpSeq} AND C.TEAM_CK = 'N'))
+        GROUP BY B.TEAM_VERSION_SN
     </select>
 
     <select id="getTeamBudgetList" parameterType="map" resultType="map">
@@ -107,6 +111,8 @@
                 TM_PM_SEQ,
                 TM_INV_AMT,
                 REG_DT,
+                PM_CK,
+                TEAM_EMP_SEQ,
                 REG_EMP_SEQ
             )
         VALUES
@@ -118,6 +124,33 @@
                 #{regEmpSeq},
                 0,
                 NOW(),
+                'Y',
+                (
+                    SELECT
+                        CASE WHEN (
+                            SELECT COUNT(-1) FROM CAM_HR.DJ_EMP_INFO
+                            WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{regEmpSeq})
+                            AND DUTY_CODE = '5'
+                            AND (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
+                            AND WORK_STATUS_CODE = 'Y'
+                        ) > 0 THEN (
+                            SELECT EMP_SEQ FROM CAM_HR.DJ_EMP_INFO
+                            WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{regEmpSeq})
+                            AND DUTY_CODE = '5'
+                            AND (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
+                            AND WORK_STATUS_CODE = 'Y'
+                            ORDER BY REG_DATE DESC LIMIT 1
+                        ) ELSE (
+                            SELECT EI.EMP_SEQ FROM CAM_HR.DJ_EMP_INFO EI
+                            LEFT JOIN CAM_HR.DJ_DEPT_INFO DI ON EI.DEPT_SEQ = DI.DEPT_SEQ
+                            WHERE (EI.DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{regEmpSeq}) OR DI.PARENT_DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{regEmpSeq}))
+                            AND EI.DUTY_CODE IN ('2', '3', '4')
+                            AND (EI.DIVISION = 0 OR (EI.DIVISION = 4 AND EI.DIVISION_SUB != 3))
+                            AND EI.WORK_STATUS_CODE = 'Y'
+                            ORDER BY EI.REG_DATE DESC LIMIT 1
+                        )
+                        END
+                ),
                 #{regEmpSeq}
             )
     </insert>
@@ -143,6 +176,8 @@
                 TM_PM_SEQ,
                 TM_AMT,
                 TM_INV_AMT,
+                PM_EMP_SEQ,
+                TEAM_EMP_SEQ,
                 REG_DT,
                 REG_EMP_SEQ
             )
@@ -155,6 +190,33 @@
                 #{tmPMSeq},
                 #{teamAmt},
                 #{tmInvAmt},
+                #{tmPMSeq},
+                (
+                SELECT
+                    CASE WHEN (
+                        SELECT COUNT(-1) FROM CAM_HR.DJ_EMP_INFO
+                        WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{tmPMSeq})
+                        AND DUTY_CODE = '5'
+                        AND (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
+                        AND WORK_STATUS_CODE = 'Y'
+                    ) > 0 THEN (
+                        SELECT EMP_SEQ FROM CAM_HR.DJ_EMP_INFO
+                        WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{tmPMSeq})
+                        AND DUTY_CODE = '5'
+                        AND (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
+                        AND WORK_STATUS_CODE = 'Y'
+                        ORDER BY REG_DATE DESC LIMIT 1
+                    ) ELSE (
+                        SELECT EI.EMP_SEQ FROM CAM_HR.DJ_EMP_INFO EI
+                        LEFT JOIN CAM_HR.DJ_DEPT_INFO DI ON EI.DEPT_SEQ = DI.DEPT_SEQ
+                        WHERE (EI.DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{tmPMSeq}) OR DI.PARENT_DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{tmPMSeq}))
+                        AND EI.DUTY_CODE IN ('2', '3', '4')
+                        AND (EI.DIVISION = 0 OR (EI.DIVISION = 4 AND EI.DIVISION_SUB != 3))
+                        AND EI.WORK_STATUS_CODE = 'Y'
+                        ORDER BY EI.REG_DATE DESC LIMIT 1
+                    )
+                    END
+                ),
                 NOW(),
                 #{regEmpSeq}
             )
@@ -324,6 +386,26 @@
             PJT_STOP = 'Y',
             ACTIVE = 'N'
         WHERE TM_SN = #{BEF_TM_SN} AND TM_SN IS NOT NULL
+    </update>
+
+    <update id="updPmAppStat" parameterType="map">
+        /* updPmAppStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_TEAM
+        SET
+            PM_CK = 'Y'
+        WHERE TEAM_VERSION_SN = #{teamVersionSn}
+          AND PM_EMP_SEQ = #{regEmpSeq}
+          AND PM_EMP_SEQ IS NOT NULL
+    </update>
+
+    <update id="updTeamAppStat" parameterType="map">
+        /* updTeamAppStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_TEAM
+        SET
+            TEAM_CK = 'Y'
+        WHERE TEAM_VERSION_SN = #{teamVersionSn}
+          AND TEAM_EMP_SEQ = #{regEmpSeq}
+          AND TEAM_EMP_SEQ IS NOT NULL
     </update>
 
     <update id="updTeamVersionAppStat" parameterType="map">

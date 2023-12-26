@@ -7,8 +7,7 @@
 
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/teamMng.js?v=${today}'/>"></script>
 
-<input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
-<input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
+<input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}">
 
 <div class="mainCard">
     <div class="panel">
@@ -20,9 +19,6 @@
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
-            <div id="divBtn">
-                <button type="button" id="regBtn" style="float :right" class="k-button k-button-solid-info" onclick="prjCorp.fn_popCorpProject()">프로젝트 등록</button>
-            </div>
             <div style="margin-top: 35px;">
                 <div id="mainGrid" style="margin:20px 0;"></div>
             </div>
