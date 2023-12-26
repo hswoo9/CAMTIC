@@ -74,6 +74,45 @@ var snackReq = {
 
             snackReq.settingTempFileDataInit(data, 'result');
             snackReq.global.snackData = data;
+
+            var parameters = {
+                snackInfoSn: $("#snackInfoSn").val()
+            }
+            const cardResult = customKendo.fn_customAjax("/snack/getCardList", parameters);
+            const cardList = cardResult.list;
+
+            for(let i=0; i<cardList.length; i++){
+                const cardMap = cardList[i];
+
+                const iBrenchResult = customKendo.fn_customAjax("/cam_mng/companyCard/useCardDetail", {
+                    cardNo : cardMap.CARD_NO,
+                    authDate : cardMap.AUTH_DD,
+                    authNo : cardMap.AUTH_NO,
+                    authTime : cardMap.AUTH_HH,
+                    buySts : cardMap.BUY_STS
+                });
+                const e = iBrenchResult.cardInfo;
+
+                if(e != null){
+                    let html = '';
+                    html += '<tr class="cardData">';
+                    html += '    <input type="hidden" class="cardNo" value="'+e.CARD_NO+'" />';
+                    html += '    <input type="hidden" class="authDate" value="'+e.AUTH_DD+'" />';
+                    html += '    <input type="hidden" class="authNum" value="'+e.AUTH_NO+'" />';
+                    html += '    <input type="hidden" class="authTime" value="'+e.AUTH_HH+'" />';
+                    html += '    <input type="hidden" class="buySts" value="'+e.BUY_STS+'" />';
+
+                    html += '    <td>'+e.AUTH_DD.substring(0, 4) + '-' + e.AUTH_DD.substring(4, 6) + '-' + e.AUTH_DD.substring(6, 8)+'</td>';
+                    html += '    <td>'+e.AUTH_NO+'</td>';
+                    html += '    <td>'+e.MER_NM+'</td>';
+                    html += '    <td>'+e.MER_BIZNO.substring(0, 3) + '-' + e.MER_BIZNO.substring(3, 5) + '-' + e.MER_BIZNO.substring(5, 11)+'</td>';
+                    html += '    <td>'+(e.TR_NM == undefined ? "" : e.TR_NM)+'</td>';
+                    html += '    <td>'+e.CARD_NO.substring(0,4) + '-' + e.CARD_NO.substring(4,8) + '-' + e.CARD_NO.substring(8,12) + '-' + e.CARD_NO.substring(12,16)+'</td>';
+                    html += '    <td style="text-align: right">'+fn_numberWithCommas(e.AUTH_AMT)+'</td>';
+                    html += '</tr>';
+                    $("#detailRow").append(html);
+                }
+            }
         }
     },
 
@@ -234,6 +273,29 @@ var snackReq = {
             for(var i = 0; i < fCommon.global.attFiles.length; i++){
                 formData.append("snackFile", fCommon.global.attFiles[i]);
             }
+        }
+
+        /** Ibrench 선택 내역 */
+        let cardArr = [];
+        $.each($(".cardData"), function(i, v){
+            const cardData = {};
+            const cardNo = $(v).find('.cardNo').val();
+            const authDate = $(v).find('.authDate').val();
+            const authNum = $(v).find('.authNum').val();
+            const authTime = $(v).find('.authTime').val();
+            const buySts = $(v).find('.buySts').val();
+
+            cardData.cardNo = cardNo;
+            cardData.authDate = authDate;
+            cardData.authNum = authNum;
+            cardData.authTime = authTime;
+            cardData.buySts = buySts;
+
+            cardArr.push(cardData);
+        });
+
+        if(cardArr.length != 0){
+            formData.append("cardArr", JSON.stringify(cardArr));
         }
 
         if($("#snackInfoSn").val() == "") {
@@ -407,6 +469,14 @@ var snackReq = {
 
         customKendo.fn_dropDownList("chargeUser", userArr, "empName", "empSeq", 2);
         $("#chargeUser").data("kendoDropDownList").enable(true);
+    },
+
+    fn_paymentCardHistory : function (){
+        var url = "/mng/pop/paymentCardHistory.do?type=3&index=2&reqType=snack";
+
+        var name = "_blank";
+        var option = "width = 1500, height = 700, top = 100, left = 300, location = no"
+        var popup = window.open(url, name, option);
     }
 }
 

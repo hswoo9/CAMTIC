@@ -31,8 +31,8 @@ var payCardHist = {
 
         const reqType = $("#reqType").val();
 
-        /** 출장 */
-        if(reqType == "bustrip"){
+        /** 출장, 식대 */
+        if(reqType == "bustrip" || reqType == "snack"){
             $("#saveBtn").hide();
             $("#saveBtnBustrip").show();
         }
