@@ -1195,30 +1195,67 @@ var draft = {
             tempArr[0] = result.delvFile;
             draft.getDocFileSet(tempArr);
             draft.setKendoUpload();
-
-
-
-            /*let result = customKendo.fn_customAjax("/project/getDevelopPlan", {
-                pjtSn: pjtSn
-            });
-            console.log(result);
-            let tempArr = [];
-            tempArr[0] = result.devFile.devFile;
-            tempArr[1] = result.devFile.estFile;
-            draft.getDocFileSet(tempArr);
-            draft.setKendoUpload();*/
         }
 
         if(params.menuCd == "pjtRes") {
             data.pjtSn = params.APPRO_KEY.split("_")[1];
 
-            let result = customKendo.fn_customAjax("/project/engn/getResultInfo", {
+            /** 견적서 */
+            let result = customKendo.fn_customAjax("/project/engn/getDelvData", {
                 pjtSn: data.pjtSn
             });
-            console.log(result);
+
+            /** 공정 */
+            let result2 = customKendo.fn_customAjax("/project/getPsList", {
+                pjtSn: data.pjtSn
+            });
+
+            /** 설계이미지, 제작이미지*/
+            let result4 = customKendo.fn_customAjax("/project/engn/getResultInfo", {
+                pjtSn: data.pjtSn
+            });
+            console.log(result2);
             let tempArr = [];
-            tempArr[0] = result.result.designFileList;
-            tempArr[1] = result.result.prodFileList;
+            tempArr[0] = result.delvFile;
+
+            let count = 1;
+            if(result2.psFileList != null){
+                var pf1 = result2.psFileList.psFile1List;
+                var pf2 = result2.psFileList.psFile2List;
+                var pf3 = result2.psFileList.psFile3List;
+                var pf4 = result2.psFileList.psFile4List;
+                var pf5 = result2.psFileList.psFile5List;
+                var pf6 = result2.psFileList.psFile6List;
+
+                for(var i = 0; i < pf1.length; i++){
+                    tempArr[count] = pf1[i];
+                    count ++;
+                }
+                for(var i = 0; i < pf2.length; i++){
+                    tempArr[count] = pf2[i];
+                    count ++;
+                }
+                for(var i = 0; i < pf3.length; i++){
+                    tempArr[count] = pf3[i];
+                    count ++;
+                }
+                for(var i = 0; i < pf4.length; i++){
+                    tempArr[count] = pf4[i];
+                    count ++;
+                }
+                for(var i = 0; i < pf5.length; i++){
+                    tempArr[count] = pf5[i];
+                    count ++;
+                }
+                for(var i = 0; i < pf6.length; i++){
+                    tempArr[count] = pf6[i];
+                    count ++;
+                }
+            }
+
+            tempArr[count] = result4.result.designFileList;
+            count ++;
+            tempArr[count] = result4.result.prodFileList;
             draft.getDocFileSet(tempArr);
             draft.setKendoUpload();
         }

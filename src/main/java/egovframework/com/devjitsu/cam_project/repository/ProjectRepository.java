@@ -469,11 +469,15 @@ public class ProjectRepository extends AbstractDAO {
     }
 
     public void setDevFileDocNm(Map<String, Object> params) {
-        update("bustrip.setDevFileDocNm", params);
+        update("project.setDevFileDocNm", params);
+    }
+
+    public void setPsFileDocNm(Map<String, Object> params) {
+        update("project.setPsFileDocNm", params);
     }
 
     public void setResultFileDocNm(Map<String, Object> params) {
-        update("bustrip.setResultFileDocNm", params);
+        update("project.setResultFileDocNm", params);
     }
 
     public void insTeamInfo(Map<String, Object> params) {

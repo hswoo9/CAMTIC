@@ -1612,7 +1612,7 @@
             DI.DOC_MENU_CD
         FROM
             CAM_PJT_MNG.DJ_PJT_RESULT A
-                LEFT JOIN
+        LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
             A.PJT_SN = #{pjtSn}
@@ -2043,6 +2043,16 @@
         WHERE
             file_no in (${fileNo})
           AND file_cd in ('devEstFile', 'devFile')
+    </update>
+
+    <update id="setPsFileDocNm" parameterType="map">
+        /* setPsFileDocNm */
+        UPDATE CAM_COMMON.DJ_FILE_INFO
+        SET
+            DOC_ID = #{docId}
+        WHERE
+            file_no = #{file_no}
+          AND file_cd = #{file_cd}
     </update>
 
     <update id="setResultFileDocNm" parameterType="map">

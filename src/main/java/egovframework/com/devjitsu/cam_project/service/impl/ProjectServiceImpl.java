@@ -735,36 +735,6 @@ public class ProjectServiceImpl implements ProjectService {
                 }
             }
         }
-
-        /*if("10".equals(docSts) || "101".equals(docSts)){
-            *//** STEP1. devSn 으로 pjtSn 찾기 *//*
-            Map<String, Object> pjtMap = projectRepository.getPjtSnToDev(params);
-            if (pjtMap != null && !pjtMap.isEmpty()) {
-                *//** STEP2. pjtSn 으로 devData 호출 *//*
-                params.put("pjtSn", pjtMap.get("PJT_SN").toString());
-                Map<String, Object> devMap = projectRepository.getDevData(params);
-
-                *//** STEP3. devData 에서 EST_FILE_SN, DEV_FILE_SN 찾기 *//*
-                if (devMap != null && !devMap.isEmpty()) {
-                    String text = "";
-                    if(devMap.containsKey("EST_FILE_SN") && devMap.get("EST_FILE_SN") != null){
-                        text += devMap.get("EST_FILE_SN").toString();
-                    }
-                    if(devMap.containsKey("DEV_FILE_SN") && devMap.get("DEV_FILE_SN") != null){
-                        if(!text.equals("")){
-                            text += ",";
-                        }
-                        text += devMap.get("DEV_FILE_SN").toString();
-                    }
-
-                    *//** STEP3. EST_FILE_SN 이나 DEV_FILE_SN 있으면 update *//*
-                    if(!text.equals("")){
-                        params.put("fileNo", text);
-                        projectRepository.setDevFileDocNm(params);
-                    }
-                }
-            }
-        }*/
     }
 
     @Override
@@ -805,11 +775,75 @@ public class ProjectServiceImpl implements ProjectService {
         }else if("111".equals(docSts)) { // 임시저장
             projectRepository.updateDevApprStat(params);
         }
-        /*if("10".equals(docSts) || "101".equals(docSts)){
-            *//** STEP1. pjtSn 으로 resultData 호출 *//*
+
+        if("10".equals(docSts) || "101".equals(docSts)){
+
+            /** STEP1. pjtSn 으로 delvData 호출 */
+            Map<String, Object> delvMap = projectRepository.getDelvData(params);
+
+            /** STEP2. delvData 에서 DELV_FILE_SN 있으면 update */
+            if (delvMap != null && !delvMap.isEmpty()) {
+                if(delvMap.containsKey("DELV_FILE_SN") && delvMap.get("DELV_FILE_SN") != null){
+                    params.put("fileNo", delvMap.get("DELV_FILE_SN").toString());
+                    projectRepository.setDelvFileCopy(params);
+                }
+            }
+
+            /** STEP1. pjtSn 으로 psMap 호출 */
+            Map<String, Object> psPrepMap = projectRepository.getPsPrepInfo(params);
+
+            /** STEP2. psPrepMap 에서 psFile1List ~ psFile6List 있으면 update */
+            if(psPrepMap != null && !psPrepMap.isEmpty()) {
+                params.put("psFileSn", psPrepMap.get("PS_FILE_SN").toString());
+                List<Map<String, Object>> psFile1List = projectRepository.getPsFile1(params);
+                List<Map<String, Object>> psFile2List = projectRepository.getPsFile2(params);
+                List<Map<String, Object>> psFile3List = projectRepository.getPsFile3(params);
+                List<Map<String, Object>> psFile4List = projectRepository.getPsFile4(params);
+                List<Map<String, Object>> psFile5List = projectRepository.getPsFile5(params);
+                List<Map<String, Object>> psFile6List = projectRepository.getPsFile6(params);
+
+                if(psFile1List.size() > 0){
+                    for(Map<String, Object> data : psFile1List){
+                        data.put("docId", params.get("docId"));
+                        projectRepository.setPsFileDocNm(data);
+                    }
+                }
+                if(psFile2List.size() > 0){
+                    for(Map<String, Object> data : psFile2List){
+                        data.put("docId", params.get("docId"));
+                        projectRepository.setPsFileDocNm(data);
+                    }
+                }
+                if(psFile3List.size() > 0){
+                    for(Map<String, Object> data : psFile3List){
+                        data.put("docId", params.get("docId"));
+                        projectRepository.setPsFileDocNm(data);
+                    }
+                }
+                if(psFile4List.size() > 0){
+                    for(Map<String, Object> data : psFile4List){
+                        data.put("docId", params.get("docId"));
+                        projectRepository.setPsFileDocNm(data);
+                    }
+                }
+                if(psFile5List.size() > 0){
+                    for(Map<String, Object> data : psFile5List){
+                        data.put("docId", params.get("docId"));
+                        projectRepository.setPsFileDocNm(data);
+                    }
+                }
+                if(psFile6List.size() > 0){
+                    for(Map<String, Object> data : psFile6List){
+                        data.put("docId", params.get("docId"));
+                        projectRepository.setPsFileDocNm(data);
+                    }
+                }
+            }
+
+            /** STEP1. pjtSn 으로 resultData 호출 */
             Map<String, Object> resultMap = projectRepository.getResultInfo(params);
 
-            *//** STEP2. resultData 에서 DSGN_FILE_SN, PROD_FILE_SN 있으면 update *//*
+            /** STEP2. resultData 에서 DSGN_FILE_SN, PROD_FILE_SN 있으면 update */
             if (resultMap != null && !resultMap.isEmpty()) {
                 if(resultMap.containsKey("DSGN_FILE_SN")){
                     params.put("fileNo", resultMap.get("DSGN_FILE_SN").toString());
@@ -821,7 +855,7 @@ public class ProjectServiceImpl implements ProjectService {
                     projectRepository.setResultFileDocNm(params);
                 }
             }
-        }*/
+        }
     }
 
     @Override
