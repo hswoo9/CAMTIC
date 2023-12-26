@@ -27,7 +27,15 @@ var payCardHist = {
             if(key.keyCode == 13){
                 payCardHist.fn_search();
             }
-        })
+        });
+
+        const reqType = $("#reqType").val();
+
+        /** 출장 */
+        if(reqType == "bustrip"){
+            $("#saveBtn").hide();
+            $("#saveBtnBustrip").show();
+        }
     },
 
     gridReload: function (type){
@@ -341,6 +349,23 @@ var payCardHist = {
         fn_setCardInfo(data.AUTH_NO, data.AUTH_DD, data.AUTH_HH, data.CARD_NO, data.BUY_STS, index);
 
 
+    },
+
+    fn_selectCardBustrip : function (){
+        var grid = $("#mainGrid").data("kendoGrid");
+
+        var list = [];
+        var data = {};
+        grid.tbody.find("tr").each(function(){
+            if($(this).find("input")[0].checked){
+                data = grid.dataItem($(this));
+                list.push(data);
+            }
+        })
+
+        console.log(data);
+        opener.parent.cardHistSet(list);
+        window.close();
     },
 
     fn_search : function (){

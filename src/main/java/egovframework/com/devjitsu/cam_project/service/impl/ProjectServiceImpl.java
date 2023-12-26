@@ -4,6 +4,8 @@ package egovframework.com.devjitsu.cam_project.service.impl;
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_crm.repository.CrmRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
+import egovframework.com.devjitsu.cam_project.repository.ProjectRndRepository;
+import egovframework.com.devjitsu.cam_project.repository.ProjectUnRndRepository;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
@@ -36,6 +38,12 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private G20Repository g20Repository;
+
+    @Autowired
+    private ProjectRndRepository projectRndRepository;
+
+    @Autowired
+    private ProjectUnRndRepository projectUnRndRepository;
 
     @Override
     public Map<String, Object> getProjectInfo(Map<String, Object> params) {
@@ -513,10 +521,54 @@ public class ProjectServiceImpl implements ProjectService {
                 params.put("pjtStepNm", "수주보고");
                 projectRepository.updProjectStep(params);
 
-            }else if(pjtMap.get("BUSN_CLASS").toString().equals("R")){
+            }else if(pjtMap.get("BUSN_CLASS").toString().equals("R") || pjtMap.get("BUSN_CLASS").toString().equals("S")){
+                try{
+                    /** 사업비 분리 : 테이블 조회해서 데이터 없으면 단일(0)으로 생성, 있으면 for문 */
+                    params.put("pjtTmpCd", pjtMap.get("PJT_TMP_CD"));
 
-            }else if(pjtMap.get("BUSN_CLASS").toString().equals("S")){
+                    List<Map<String, Object>> list = projectRndRepository.getAccountInfo(params);
 
+                    int pjtCnt = g20Repository.getProjectCount(params);
+                    String pjtCd = pjtMap.get("PJT_TMP_CD").toString();
+                    String cntCode = String.format("%02d", (pjtCnt + 1));
+
+                    if(list.size() == 0){
+                        params.put("pjtCd", pjtCd + cntCode + "0");
+                        params.put("pProjectCD", params.get("pjtCd"));
+                        // G20 프로젝트 추가
+                        g20Repository.insProject(params);
+                        projectRepository.updProjectCode(params);
+                    }else{
+                        for(int i = 0 ; i < list.size() ; i++){
+                            params.put("pProjectCD", pjtCd + cntCode + list.get(i).get("IS_TYPE"));
+                            if(i == 0){
+                                params.put("pjtCd", pjtMap.get("PJT_TMP_CD"));
+                                projectRepository.updProjectCode(params);
+                            }
+                            // G20 프로젝트 추가
+                            g20Repository.insProject(params);
+                        }
+                    }
+                    if(pjtMap.get("BUSN_CLASS").toString().equals("R")){
+                        // 결재 완료 처리
+                        projectRndRepository.updRndProjectInfo(params);
+                    }else{
+                        // 결재 완료 처리
+                        projectUnRndRepository.updUnRndProjectInfo(params);
+                    }
+                } catch(Exception e){
+                    e.printStackTrace();
+                }
+
+                if(pjtMap.get("BUSN_CLASS").toString().equals("R")){
+                    params.put("pjtStep", "R2");
+                    params.put("pjtStepNm", "수주보고");
+                    projectRepository.updProjectStep(params);
+                }else{
+                    params.put("pjtStep", "S2");
+                    params.put("pjtStepNm", "수주보고");
+                    projectRepository.updProjectStep(params);
+                }
             }
         }
     }
@@ -527,10 +579,62 @@ public class ProjectServiceImpl implements ProjectService {
 
         if(params.containsKey("ck")){
             Map<String, Object> pjtMap = projectRepository.getProjectData(params);
-            projectRepository.updEngnProjectCode(pjtMap);
-            params.put("pjtStep", "E3");
-            params.put("pjtStepNm", "수주보고");
-            projectRepository.updProjectStep(params);
+
+            if(pjtMap.get("BUSN_CLASS").toString().equals("D")){
+                projectRepository.updEngnProjectCode(pjtMap);
+                params.put("pjtStep", "E3");
+                params.put("pjtStepNm", "수주보고");
+                projectRepository.updProjectStep(params);
+
+            }else if(pjtMap.get("BUSN_CLASS").toString().equals("R") || pjtMap.get("BUSN_CLASS").toString().equals("S")){
+                try{
+                    /** 사업비 분리 : 테이블 조회해서 데이터 없으면 단일(0)으로 생성, 있으면 for문 */
+                    params.put("pjtTmpCd", pjtMap.get("PJT_TMP_CD"));
+
+                    List<Map<String, Object>> list = projectRndRepository.getAccountInfo(params);
+
+                    int pjtCnt = g20Repository.getProjectCount(params);
+                    String pjtCd = pjtMap.get("PJT_TMP_CD").toString();
+                    String cntCode = String.format("%02d", (pjtCnt + 1));
+
+                    if(list.size() == 0){
+                        params.put("pjtCd", pjtCd + cntCode + "0");
+                        params.put("pProjectCD", params.get("pjtCd"));
+                        // G20 프로젝트 추가
+                        g20Repository.insProject(params);
+                        projectRepository.updProjectCode(params);
+                    }else{
+                        for(int i = 0 ; i < list.size() ; i++){
+                            params.put("pProjectCD", pjtCd + cntCode + list.get(i).get("IS_TYPE"));
+                            if(i == 0){
+                                params.put("pjtCd", pjtMap.get("PJT_TMP_CD"));
+                                projectRepository.updProjectCode(params);
+                            }
+                            // G20 프로젝트 추가
+                            g20Repository.insProject(params);
+                        }
+                    }
+                    if(pjtMap.get("BUSN_CLASS").toString().equals("R")){
+                        // 결재 완료 처리
+                        projectRndRepository.updRndProjectInfo(params);
+                    }else{
+                        // 결재 완료 처리
+                        projectUnRndRepository.updUnRndProjectInfo(params);
+                    }
+                } catch(Exception e){
+                    e.printStackTrace();
+                }
+
+                if(pjtMap.get("BUSN_CLASS").toString().equals("R")){
+                    params.put("pjtStep", "R2");
+                    params.put("pjtStepNm", "수주보고");
+                    projectRepository.updProjectStep(params);
+                }else{
+                    params.put("pjtStep", "S2");
+                    params.put("pjtStepNm", "수주보고");
+                    projectRepository.updProjectStep(params);
+                }
+            }
         }
     }
 

@@ -147,6 +147,8 @@ var setDelvPjt = {
             ck : 1
         });
 
+        commonProject.loading();
+
         if(result.flag){
             alert("코드변경 및 수주 승인이 완료되었습니다.");
             opener.gridReload();
@@ -164,6 +166,8 @@ var setDelvPjt = {
             stat : stat,
             ck : 1
         });
+
+        commonProject.loading();
 
         if(result.flag){
             alert("승인이 완료되었습니다.");

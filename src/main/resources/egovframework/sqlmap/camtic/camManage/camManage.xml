@@ -62,8 +62,7 @@
         ON
             B.PJT_SN = C.PJT_SN
         WHERE
-            B.MNG_STAT = CASE WHEN (select mng_stat from cam_pjt_mng.dj_pjt_part_rate_ver where PJT_SN = C.PJT_SN order by part_rate_ver_sn desc limit 1) = 'S' THEN 'S'
-                              WHEN (select mng_stat from cam_pjt_mng.dj_pjt_part_rate_ver where PJT_SN = C.PJT_SN order by part_rate_ver_sn desc limit 1) = 'C' THEN 'C' END
+            B.MNG_STAT = 'C'
         AND
             B.BEF_VER_CHECK = 'Y'
         AND

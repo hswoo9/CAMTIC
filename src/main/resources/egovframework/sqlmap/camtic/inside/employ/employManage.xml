@@ -287,6 +287,7 @@
             AA.EMP_SEQ,
             AA.EMP_NAME_KR,
             AA.POSITION_NAME,
+            DATE_FORMAT(AA.JOIN_DAY, '%Y-%m-%d') AS JOIN_DAY,
             BB.*
         FROM
             CAM_HR.DJ_EMP_INFO AA
@@ -300,6 +301,7 @@
                 A.PART_DET_STR_DT,
                 A.PART_DET_END_DT,
                 (SELECT LG_CD_NM FROM CAM_PJT_MNG.DJ_PJT_CD WHERE LG_CD = C.SBJ_DEP AND GRP_SN = 'SUP_DEP' LIMIT 1) AS SBJ_DEP_NM,
+                B.MNG_STAT,
                 C.PJT_NM,
                 DATE_FORMAT(C.END_DT, '%Y-%m-%d') AS PJT_END_DT,
                 C.PM_EMP_SEQ,
@@ -322,18 +324,34 @@
                 1 = 1
             AND
                 #{bsYear} BETWEEN DATE_FORMAT(A.PART_DET_STR_DT, '%Y') AND DATE_FORMAT(A.PART_DET_END_DT, '%Y')
-            AND B.MNG_STAT = 'C' AND B.BEF_VER_CHECK = 'Y') BB
+            AND B.MNG_STAT = 'C' AND B.BEF_VER_CHECK = 'Y'
+            <if test='userKind != null and !"".equals(userKind) and "ATTEND".equals(userKind)'>
+                AND B.JOIN_MEM_NM LIKE CONCAT('%', #{kindContent}, '%')
+            </if>
+            ) BB
         ON
             AA.EMP_SEQ = BB.PART_EMP_SEQ
         WHERE
-            1 = 1
-        <if test='userKind != null and !"".equals(userKind)'>
-        AND
-            ${userKind} LIKE CONCAT('%', #{empNameKr}, '%')
+             BB.MNG_STAT = 'C'
+        <if test='status != null and !"".equals(status)'>
+            AND AA.WORK_STATUS_CODE = #{status}
         </if>
-        <if test='deptTeam != null and !"".equals(deptTeam)'>
+        <if test='division != null and !"".equals(division)'>
+            <choose>
+                <when test='"r".equals(division)'>
+                    AND AA.DIVISION = '0'
+                </when>
+                <when test='"c".equals(division)'>
+                    AND AA.DIVISION = '4' AND AA.DIVISION_SUB = '1'
+                </when>
+                <when test='"i".equals(division)'>
+                    AND AA.DIVISION = '4' AND AA.DIVISION_SUB = '2'
+                </when>
+            </choose>
+        </if>
+        <if test='userKind != null and !"".equals(userKind) and !"ATTEND".equals(userKind)'>
         AND
-            AA.DEPT_SEQ LIKE CONCAT('%', #{deptTeam}, '%')
+            ${userKind} LIKE CONCAT('%', #{kindContent}, '%')
         </if>
         ORDER BY AA.EMP_NAME_KR
     </select>
