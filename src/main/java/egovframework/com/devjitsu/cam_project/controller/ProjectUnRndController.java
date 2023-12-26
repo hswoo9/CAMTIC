@@ -622,6 +622,25 @@ public class ProjectUnRndController {
         return "jsonView";
     }
 
+    /** 계획서보고 결재 상태값에 따른 UPDATE 메서드 */
+    @RequestMapping(value = "/projectUnRnd/devReqApp")
+    public String devReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            projectUnRndService.updateUnRndDevDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
     /** 결과보고 결재 상태값에 따른 UPDATE 메서드 */
     @RequestMapping(value = "/projectUnRnd/resReqApp")
     public String resReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {

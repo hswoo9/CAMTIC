@@ -31,7 +31,7 @@
         approvalParams.menuCd = "unRndDev";
         approvalParams.docType = "A";
 
-        approvalParams.linkageProcessId = "27";
+        approvalParams.linkageProcessId = "30";
         approvalParams.linkageType = "2";
         approvalParams.linkageProcessCode = "camticUnRndDev";
         approvalParams.approKey = "camticUnRndDev_${params.devSn}";

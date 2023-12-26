@@ -332,6 +332,69 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
         }else if("111".equals(docSts)) { // 임시저장
             projectUnRndRepository.updateUnRndDelvApprStat(params);
         }
+
+        if("10".equals(docSts)){
+            /** STEP1. pjtSn 으로 unRndData 호출 */
+            Map<String, Object> unRndData = projectUnRndRepository.getUnRndDetail(params);
+
+            /** STEP2. unRndData 에서 UN_RND_FILE_SN 있으면 update */
+            if (unRndData != null && !unRndData.isEmpty()) {
+                if(unRndData.containsKey("UN_RND_FILE_SN") && unRndData.get("UN_RND_FILE_SN") != null){
+                    params.put("fileNo", unRndData.get("UN_RND_FILE_SN").toString());
+                    projectRepository.setFileDocNm(params);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void updateUnRndDevDocState(Map<String, Object> bodyMap) throws Exception {
+        bodyMap.put("docSts", bodyMap.get("approveStatCode"));
+        String docSts = String.valueOf(bodyMap.get("docSts"));
+        String approKey = String.valueOf(bodyMap.get("approKey"));
+        String docId = String.valueOf(bodyMap.get("docId"));
+        String processId = String.valueOf(bodyMap.get("processId"));
+        String empSeq = String.valueOf(bodyMap.get("empSeq"));
+        approKey = approKey.split("_")[1];
+        System.out.println(approKey);
+        System.out.println(processId);
+        bodyMap.put("approKey", approKey);
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("devSn", approKey);
+        params.put("docName", bodyMap.get("formName"));
+        params.put("docId", docId);
+        params.put("docTitle", bodyMap.get("docTitle"));
+        params.put("approveStatCode", docSts);
+        params.put("empSeq", empSeq);
+
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+            projectRndRepository.updateRndDevApprStat(params);
+        }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
+            projectRndRepository.updateRndDevApprStat(params);
+        }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
+            params.put("approveStatCode", 100);
+            projectRndRepository.updateRndDevFinalApprStat(params);
+        }else if("111".equals(docSts)) { // 임시저장
+            projectRndRepository.updateRndDevApprStat(params);
+        }
+
+        if("10".equals(docSts)){
+            /** STEP0. devSn 으로 pjtSn 호출 */
+            Map<String, Object> pjtMap = projectRepository.getPjtSnToDev(params);
+            params.put("pjtSn", pjtMap.get("PJT_SN"));
+
+            /** STEP1. pjtSn 으로 unRndData 호출 */
+            Map<String, Object> unRndMap = projectUnRndRepository.getUnRndDetail(params);
+
+            /** STEP2. unRndData 에서 RND_FILE_SN 있으면 update */
+            if (unRndMap != null && !unRndMap.isEmpty()) {
+                if(unRndMap.containsKey("UN_RND_FILE_SN") && unRndMap.get("UN_RND_FILE_SN") != null){
+                    params.put("fileNo", unRndMap.get("UN_RND_FILE_SN").toString());
+                    projectRepository.setFileCopy(params);
+                }
+            }
+        }
     }
 
     @Override
@@ -369,6 +432,86 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
             projectUnRndRepository.updUnRndProjectInfoRes(params);
         }else if("111".equals(docSts)) { // 임시저장
             projectUnRndRepository.updateUnRndResApprStat(params);
+        }
+
+        if("10".equals(docSts)){
+            /** STEP1. pjtSn 으로 unRndData 호출 */
+            Map<String, Object> unRndMap = projectUnRndRepository.getUnRndDetail(params);
+
+            /** STEP2. unRndData 에서 RND_FILE_SN 있으면 update */
+            if (unRndMap != null && !unRndMap.isEmpty()) {
+                if(unRndMap.containsKey("UN_RND_FILE_SN") && unRndMap.get("UN_RND_FILE_SN") != null){
+                    params.put("fileNo", unRndMap.get("UN_RND_FILE_SN").toString());
+                    projectRepository.setFileCopy(params);
+                }
+            }
+
+            /** STEP1. pjtSn 으로 psMap 호출 */
+            Map<String, Object> psPrepMap = projectRepository.getPsPrepInfo(params);
+
+            /** STEP2. psPrepMap 에서 psFile1List ~ psFile6List 있으면 update */
+            if(psPrepMap != null && !psPrepMap.isEmpty()) {
+                params.put("psFileSn", psPrepMap.get("PS_FILE_SN").toString());
+                List<Map<String, Object>> psFile1List = projectRepository.getPsFile1(params);
+                List<Map<String, Object>> psFile2List = projectRepository.getPsFile2(params);
+                List<Map<String, Object>> psFile3List = projectRepository.getPsFile3(params);
+                List<Map<String, Object>> psFile4List = projectRepository.getPsFile4(params);
+                List<Map<String, Object>> psFile5List = projectRepository.getPsFile5(params);
+                List<Map<String, Object>> psFile6List = projectRepository.getPsFile6(params);
+
+                if(psFile1List.size() > 0){
+                    for(Map<String, Object> data : psFile1List){
+                        data.put("docId", params.get("docId"));
+                        projectRepository.setPsFileDocNm(data);
+                    }
+                }
+                if(psFile2List.size() > 0){
+                    for(Map<String, Object> data : psFile2List){
+                        data.put("docId", params.get("docId"));
+                        projectRepository.setPsFileDocNm(data);
+                    }
+                }
+                if(psFile3List.size() > 0){
+                    for(Map<String, Object> data : psFile3List){
+                        data.put("docId", params.get("docId"));
+                        projectRepository.setPsFileDocNm(data);
+                    }
+                }
+                if(psFile4List.size() > 0){
+                    for(Map<String, Object> data : psFile4List){
+                        data.put("docId", params.get("docId"));
+                        projectRepository.setPsFileDocNm(data);
+                    }
+                }
+                if(psFile5List.size() > 0){
+                    for(Map<String, Object> data : psFile5List){
+                        data.put("docId", params.get("docId"));
+                        projectRepository.setPsFileDocNm(data);
+                    }
+                }
+                if(psFile6List.size() > 0){
+                    for(Map<String, Object> data : psFile6List){
+                        data.put("docId", params.get("docId"));
+                        projectRepository.setPsFileDocNm(data);
+                    }
+                }
+            }
+
+            /** STEP1. pjtSn 으로 resultData 호출 */
+            Map<String, Object> resultMap = projectRepository.getResultInfo(params);
+
+            /** STEP2. resultData 에서 DSGN_FILE_SN, PROD_FILE_SN 있으면 update */
+            if (resultMap != null && !resultMap.isEmpty()) {
+                if(resultMap.containsKey("DSGN_FILE_SN")){
+                    params.put("fileNo", resultMap.get("DSGN_FILE_SN").toString());
+                    projectRepository.setResultFileDocNm(params);
+                }
+
+                if(resultMap.containsKey("PROD_FILE_SN")){
+                    params.put("fileNo", resultMap.get("PROD_FILE_SN").toString());
+                    projectRepository.setResultFileDocNm(params);
+                }
+            }
         }
     }
 }
