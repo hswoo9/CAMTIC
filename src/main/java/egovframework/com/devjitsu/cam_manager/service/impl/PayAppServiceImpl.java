@@ -425,6 +425,11 @@ public class PayAppServiceImpl implements PayAppService {
                     data.put("VAT_FG", "3");
                     data.put("TR_FG", "1");
 
+                    if(!data.get("RPMR_NO").toString().equals("")){
+                        data.put("SET_FG", "1");
+                        data.put("VAT_FG", "3");
+                        data.put("TR_FG", "3");
+                    }
                 } else if(data.get("EVID_TYPE").toString().equals("2")){
                     data.put("SET_FG", "3");
                     data.put("VAT_FG", "2");
@@ -459,16 +464,21 @@ public class PayAppServiceImpl implements PayAppService {
                     data.put("TR_FG", "3");
                 }
 
-                if((data.get("EVID_TYPE").toString().equals("1") || data.get("EVID_TYPE").toString().equals("2") || data.get("EVID_TYPE").toString().equals("3")) && type.equals("resolution")) {}
-                else {
-                    g20Repository.insZnSautoabdocu(data);
+                if((data.get("EVID_TYPE").toString().equals("1") || data.get("EVID_TYPE").toString().equals("2") || data.get("EVID_TYPE").toString().equals("3")) && type.equals("resolution")) {
+                    if(data.get("DOCU_FG").toString().equals("1")){
+                        data.put("DOCU_FG", "99");
+                    }
                 }
+
+
+                g20Repository.insZnSautoabdocu(data);
+
 
                 i++;
 
-                if(type.equals("resolution")) {
-                    payAppRepository.updExnpStat(data);
+                payAppRepository.updExnpStat(data);
 
+                if(type.equals("resolution") || (data.get("EVID_TYPE").toString().equals("1") || data.get("EVID_TYPE").toString().equals("2") || data.get("EVID_TYPE").toString().equals("3"))) {
                     if(list.size() == i) {
                         data.put("LOGIN_EMP_CD", loginMap.get("ERP_EMP_SEQ"));
                         g20Repository.execUspAncj080Insert00(data);

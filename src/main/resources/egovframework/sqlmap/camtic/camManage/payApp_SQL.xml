@@ -596,7 +596,7 @@
             REPLACE(D.APP_DE, "-", "") AS REG_DT,
             REPLACE(D.PAY_EXNP_DE, "-", "") AS EXEC_DT,
             DATE_FORMAT(now(), '%Y%m%d') AS TXT_DONE_DT,
-            "" AS RPMR_NO,
+            IFNULL(A.PMR_NO, "") AS RPMR_NO,
             A.TR_DE AS CNT_DT,
             "" AS DUMMY1,
             "" AS DUMMY2,

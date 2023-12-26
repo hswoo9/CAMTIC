@@ -171,7 +171,7 @@ var paymentList = {
                         var stat = "";
                         if(e.DOC_STATUS == "100"){
                             stat = "결재완료"
-                            if(e.EXNP_STATUS == e.EXNP_DOC_STATUS){
+                            if(e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.EXNP_STATUS != 0){
                                 stat = "지출완료";
                             } else if(e.EXNP_DOC_STATUS != e.EXNP_STATUS){
                                 stat = "부분지출";
