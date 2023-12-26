@@ -699,6 +699,33 @@
         </foreach>
     </insert>
 
+    <insert id="insCardHist" parameterType="map">
+        /* insCardHist */
+        INSERT INTO CAM_INSIDE.DJ_SNACK_CARD_HIST
+            (
+                SNACK_INFO_SN,
+                CARD_NO,
+                AUTH_DD,
+                AUTH_NO,
+                AUTH_HH,
+                BUY_STS
+            )
+        VALUES
+            (
+                #{snackInfoSn},
+                #{cardNo},
+                #{authDate},
+                #{authNum},
+                #{authTime},
+                #{buySts}
+            )
+    </insert>
+
+    <delete id="delCardHist" parameterType="map">
+        /* delCardHist */
+        DELETE FROM CAM_INSIDE.DJ_SNACK_CARD_HIST WHERE SNACK_CARD_HIST_SN = #{snackInfoSn}
+    </delete>
+
     <update id="setSnackReqCert" parameterType="map">
         /* setSnackReqCert */
         UPDATE
@@ -1050,9 +1077,13 @@
             DOCUMENT_SN = #{documentSn}
     </update>
 
-
-
-
-
+    <select id="getCardList" parameterType="map" resultType="map">
+        /* getCardList */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_SNACK_CARD_HIST
+        WHERE SNACK_INFO_SN = #{snackInfoSn}
+    </select>
 
 </mapper>

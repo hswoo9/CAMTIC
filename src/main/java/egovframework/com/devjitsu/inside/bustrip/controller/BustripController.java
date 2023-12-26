@@ -696,7 +696,7 @@ public class BustripController {
         return "jsonView";
     }
 
-    /** 여비 첨부파일 조회 */
+    /** ibrench 카드 이력 등록 리스트 조회 */
     @RequestMapping("/bustrip/getCardList")
     public String getCardList(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> list = bustripService.getCardList(params);

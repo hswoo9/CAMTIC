@@ -179,6 +179,40 @@
             </form>
         </div>
     </div>
+
+    <div class="card-header pop-header" style="margin-top: 15px">
+        <h3 class="card-title title_NM">법인카드 사용내역</h3>
+        <div class="btn-st popButton">
+            <input type="button" class="k-button k-button-solid-info" value="추가" onclick="snackReq.fn_paymentCardHistory()" />
+        </div>
+    </div>
+
+    <form id="hist" style="padding: 20px 30px;">
+        <div class="table-responsive detail">
+            <table class="teamGrid popTable table table-bordered mb-0" style="margin-top: 0px">
+                <colgroup>
+                    <col width="15%">
+                    <col width="10%">
+                    <col width="20%">
+                    <col width="10%">
+                    <col width="20%">
+                    <col width="15%">
+                    <col width="10%">
+                </colgroup>
+                <thead id="detailRow">
+                <tr>
+                    <th>승인일자</th>
+                    <th>승인번호</th>
+                    <th>사용처</th>
+                    <th>사업자번호</th>
+                    <th>카드명</th>
+                    <th>카드번호</th>
+                    <th>금액</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </form>
 </div>
 
 
@@ -188,6 +222,34 @@
         snackData = JSON.parse('${data}');
     </c:if>
     snackReq.init(snackData);
+
+
+    function cardHistSet(list){
+        console.log("list");
+        console.log(list);
+
+        let html = '';
+        for(let i=0; i<list.length; i++){
+            const e = list[i];
+            html += '<tr class="cardData">';
+            html += '    <input type="hidden" class="cardNo" value="'+e.CARD_NO+'" />';
+            html += '    <input type="hidden" class="authDate" value="'+e.AUTH_DD+'" />';
+            html += '    <input type="hidden" class="authNum" value="'+e.AUTH_NO+'" />';
+            html += '    <input type="hidden" class="authTime" value="'+e.AUTH_HH+'" />';
+            html += '    <input type="hidden" class="buySts" value="'+e.BUY_STS+'" />';
+
+            html += '    <td>'+e.AUTH_DD.substring(0, 4) + '-' + e.AUTH_DD.substring(4, 6) + '-' + e.AUTH_DD.substring(6, 8)+'</td>';
+            html += '    <td>'+e.AUTH_NO+'</td>';
+            html += '    <td>'+e.MER_NM+'</td>';
+            html += '    <td>'+e.MER_BIZNO.substring(0, 3) + '-' + e.MER_BIZNO.substring(3, 5) + '-' + e.MER_BIZNO.substring(5, 11)+'</td>';
+            html += '    <td>'+(e.TR_NM == undefined ? "" : e.TR_NM)+'</td>';
+            html += '    <td>'+e.CARD_NO.substring(0,4) + '-' + e.CARD_NO.substring(4,8) + '-' + e.CARD_NO.substring(8,12) + '-' + e.CARD_NO.substring(12,16)+'</td>';
+            html += '    <td style="text-align: right">'+fn_numberWithCommas(e.AUTH_AMT)+'</td>';
+            html += '</tr>';
+        }
+
+        $("#detailRow").append(html);
+    }
 </script>
 </body>
 </html>

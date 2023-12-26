@@ -273,6 +273,15 @@ public class DocumentServiceImpl implements DocumentService {
             }
             commonRepository.insFileInfo(list);
         }
+
+        if(params.containsKey("cardArr")){
+            documentRepository.delCardHist(params);
+            List<Map<String, Object>> list = gson.fromJson((String) params.get("cardArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+            for(Map<String, Object> data : list){
+                data.put("snackInfoSn", params.get("snackInfoSn"));
+                documentRepository.insCardHist(data);
+            }
+        }
     }
 
     @Override
@@ -465,4 +474,9 @@ public class DocumentServiceImpl implements DocumentService {
         return documentRepository.getInComeUpdateFileList(params);
     }
 */
+
+    @Override
+    public List<Map<String, Object>> getCardList(Map<String, Object> params) {
+        return documentRepository.getCardList(params);
+    }
 }

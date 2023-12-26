@@ -448,7 +448,7 @@ const bustripExnpReq = {
             result = customKendo.fn_customAjax("/bustrip/saveBustripExnpPop", data);
         }
 
-        /** Ibrench 선택 파일 저장 */
+        /** Ibrench 선택 내역 저장 */
         var parameters = {
             hrBizReqResultId : hrBizReqResultId
         }

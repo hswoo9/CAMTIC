@@ -528,6 +528,14 @@ public class DocumentController {
         return "jsonView";
     }
 
+    /** ibrench 카드 이력 등록 리스트 조회 */
+    @RequestMapping("/snack/getCardList")
+    public String getCardList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = documentService.getCardList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
  /*
     @RequestMapping("/inside/getInComeUpdateFileList")
     public String getInComeUpdateFileList(@RequestParam Map<String, Object> params, Model model) {
