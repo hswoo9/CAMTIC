@@ -387,8 +387,9 @@ const historyReq = {
                         }
                     },
                     width: 120
-                }
-            ]
+                },
+            ],
+
         }).data("kendoGrid");
 
         historyReq.dataBinding();
@@ -418,6 +419,8 @@ const historyReq = {
                 }
             });
         });
+
+
     },
 
     fn_selEmp: function(){
@@ -612,8 +615,8 @@ const historyReq = {
             return;
         }
 
-        $("#docEditor").show();
-        historyReq.loading();
+        //$("#docEditor").show();
+        //historyReq.loading();
 
         $.each($('#popMainGrid .k-master-row'), function(i, v){
             const dataItem = grid.dataItem($(this).closest("tr"));
@@ -683,6 +686,8 @@ const historyReq = {
 
         alert("인사발령이 완료됐습니다.");
         opener.historyList.gridReload();
+        historyReq.editGrid();
+
         //window.close();
     },
 

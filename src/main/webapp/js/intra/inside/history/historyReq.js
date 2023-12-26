@@ -177,7 +177,9 @@ var historyList = {
                     field: "APPROVE_EMP_NAME",
                     title: "기록인",
                     width: 100
-                }, {
+                },
+                /*
+                {
                     title: "수정",
                     width: 100,
                     template: function(row){
@@ -185,7 +187,9 @@ var historyList = {
                             '	<span class="k-button-text">수정</span>' +
                             '</button>';
                     }
-                }, {
+                }
+                 */
+                 {
                     title: "발령장",
                     width: 100,
                     template: function (row){
