@@ -61,32 +61,20 @@
                         <input type="text" id="payDepoReqUser" style="width: 15%" disabled>
                     </td>
                 </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">작성일자</th>
-                    <td colspan="2">
-                        <input type="text" id="appDe" style="width: 30%">
-                    </td>
-                    <th scope="row" class="text-center th-color" id="thPayIncpDeText">입금예정일</th>
-                    <td colspan="2">
-                        <input type="text" id="payIncpDe" style="width: 30%">
-                    </td>
-                </tr>
                 <tr id="project">
                     <th scope="row" class="text-center th-color">사업명</th>
-                    <td colspan="4">
+                    <td colspan="2">
                         <span>
-                            <input type="text" id="pjtNm" disabled value=""  style="width: 30%;">
+                            <input type="text" id="pjtNm" disabled value=""  style="width: 50%;">
                             <input type="hidden" id="pjtSn" name="pjtSn" value="" />
                             <input type="hidden" id="pjtCd" name="pjtCd" value="">
                             <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="regPayDepo.fn_projectPop('regPay')">검색</button>
                         </span>
                     </td>
-                </tr>
-                <tr>
                     <th scope="row" class="text-center th-color">예산비목</th>
-                    <td colspan="4">
+                    <td colspan="2">
                         <span>
-                            <input type="text" id="budgetNm" disabled value=""  style="width: 30%;">
+                            <input type="text" id="budgetNm" disabled value=""  style="width: 50%;">
                             <input type="hidden" id="budgetSn" value="" />
                             <button type="button" class="k-button k-button-solid-base" id="bgSelBtn" onclick="regPayDepo.fn_budgetPop()">검색</button>
                         </span>
@@ -99,13 +87,41 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">구분</th>
+                    <th scope="row" class="text-center th-color">업체선택</th>
+                    <td colspan="2">
+                        <input type="hidden" id="crmSn" class="crmSn" value="">
+                        <input type="text" id="crmNm" disabled class="crmNm" value="" style="width: 80%">
+                        <button type="button" id="crmSelBtn" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPayDepo.fn_popCamCrmList();">업체선택</button>
+                    </td>
+                    <th scope="row" class="text-center th-color">사업자등록증</th>
+                    <td colspan="2">
+                        <div style="max-width: 100% !important;">
+                            <div style="width:100%;" >
+                                <label for="files" class="k-button k-button-solid-base">파일첨부</label>
+                                <input type="file" id="files" name="files" onchange="fileChange(this)" style="display: none">
+                                <span id="fileName"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">청구여부</th>
                     <td colspan="2">
                         <input type="text" id="gubun" style="width: 90%;">
                     </td>
                     <th scope="row" class="text-center th-color">입금여부</th>
                     <td colspan="2">
                         <input type="text" id="depoStat" style="width: 90%;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">작성일자</th>
+                    <td colspan="2">
+                        <input type="text" id="appDe" style="width: 30%">
+                    </td>
+                    <th scope="row" class="text-center th-color" id="thPayIncpDeText">입금예정일</th>
+                    <td colspan="2">
+                        <input type="text" id="payIncpDe" style="width: 30%">
                     </td>
                 </tr>
                 <tr>
@@ -119,12 +135,22 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">특이사항</th>
+                    <th scope="row" class="text-center th-color">발행유형</th>
+                    <td colspan="2">
+                        <input type="text" id="eviType" style="width: 40%" />
+                    </td>
+                    <th scope="row" class="text-center th-color">메일주소</th>
+                    <td colspan="2">
+                        <input type="text" id="email" style="width: 90%" />
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">기타요청사항</th>
                     <td colspan="4">
                         <textarea type="text" id="depoCont" style="width: 100%;"></textarea>
                     </td>
                 </tr>
-                <tr>
+                <tr style="display:none;">
                     <th rowspan="3" scope="row" class="text-center th-color">입금계좌</th>
                     <th style="width: 10%">계좌명</th>
                     <td colspan="3">
@@ -133,13 +159,13 @@
                         <input type="hidden" id="bnkSn">
                     </td>
                 </tr>
-                <tr>
+                <tr style="display:none;">
                     <th>계좌번호</th>
                     <td colspan="3">
                         <input type="text" id="accNo" disabled style="width: 60%;">
                     </td>
                 </tr>
-                <tr>
+                <tr style="display:none;">
                     <th>은행명</th>
                     <td colspan="3">
                         <input type="text" id="bnkNm" disabled style="width: 60%;">
@@ -176,6 +202,10 @@
             $("#accNo").val(rs.BA_NB);
             $("#bnkNm").val(rs.JIRO_NM);
         }
+    }
+
+    function fileChange(e){
+        $(e).next().text($(e)[0].files[0].name);
     }
 </script>
 </body>

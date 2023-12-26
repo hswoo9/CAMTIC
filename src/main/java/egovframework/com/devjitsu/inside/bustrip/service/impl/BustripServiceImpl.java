@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.inside.bustrip.service.impl;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_crm.repository.CrmRepository;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
@@ -405,5 +407,23 @@ public class BustripServiceImpl implements BustripService {
     @Override
     public List<Map<String, Object>> getProjectBustList(Map<String, Object> params) {
         return bustripRepository.getProjectBustList(params);
+    }
+
+    @Override
+    public void setCardHist(Map<String, Object> params) {
+        if(params.containsKey("cardArr")){
+            bustripRepository.delCardHist(params);
+            Gson gson = new Gson();
+            List<Map<String, Object>> list = gson.fromJson((String) params.get("cardArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+            for(Map<String, Object> data : list){
+                data.put("hrBizReqResultId", params.get("hrBizReqResultId"));
+                bustripRepository.insCardHist(data);
+            }
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> getCardList(Map<String, Object> params) {
+        return bustripRepository.getCardList(params);
     }
 }

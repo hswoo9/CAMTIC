@@ -59,7 +59,7 @@
                     </c:choose>
                 </span>
         </h3>
-        <div id="purcBtnDiv" class="btn-st popButton">
+        <div id="purcBtnDiv" class="btn-st popButton" style="font-size: 12px;">
             <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
         </div>
     </div>
@@ -90,7 +90,7 @@
                     </c:when>
                     <c:when test="${params.type eq '9' }">
                         * 명칭, 사업(주민)자번호, 계좌(카드)번호 검색 가능</span>
-                        <button type="button" style="font-size: 12px; float: right; display: none" class="k-button k-button-sm k-button-solid-info" id="addBtn" onclick="payDetView.fn_popAddData('${params.type}')">기타소득자 등록</button>
+                        <button type="button" style="font-size: 12px; float: right;" class="k-button k-button-sm k-button-solid-info" id="addBtn" onclick="payDetView.fn_popAddData('${params.type}')">기타소득자 등록</button>
                     </c:when>
                     <c:otherwise></span></c:otherwise>
                 </c:choose>

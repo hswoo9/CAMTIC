@@ -972,7 +972,8 @@
                     CAM_INSIDE.DJ_HR_BIZ_EXNP BE
                 WHERE
                     BE.HR_BIZ_REQ_RESULT_ID = B.HR_BIZ_REQ_RESULT_ID
-            ), 0) AS RES_EXNP_SUM
+            ), 0) AS RES_EXNP_SUM,
+            IFNULL((SELECT COUNT(EMP_NAME) FROM CAM_INSIDE.DJ_HR_BIZ_COMPANION SHBC WHERE A.HR_BIZ_REQ_ID = SHBC.HR_BIZ_REQ_ID AND SHBC.HR_BIZ_REQ_RESULT_ID IS NULL), 0) AS COMPANION
         FROM
             CAM_INSIDE.DJ_HR_BIZ_REQ A
         LEFT JOIN
@@ -1181,6 +1182,42 @@
             1=1
         AND HR_COST_INFO_SN IN (${arr})
     </update>
+
+    <insert id="insCardHist" parameterType="map">
+        /* insCardHist */
+        INSERT INTO CAM_INSIDE.DJ_HR_CARD_HIST
+            (
+                HR_BIZ_REQ_RESULT_ID,
+                CARD_NO,
+                AUTH_DD,
+                AUTH_NO,
+                AUTH_HH,
+                BUY_STS
+            )
+        VALUES
+            (
+                #{hrBizReqResultId},
+                #{cardNo},
+                #{authDate},
+                #{authNum},
+                #{authTime},
+                #{buySts}
+            )
+    </insert>
+
+    <delete id="delCardHist" parameterType="map">
+        /* delCardHist */
+        DELETE FROM CAM_INSIDE.DJ_HR_CARD_HIST WHERE HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+    </delete>
+
+    <select id="getCardList" parameterType="map" resultType="map">
+        /* getCardList */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_CARD_HIST
+        WHERE HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+    </select>
 </mapper>
 
 

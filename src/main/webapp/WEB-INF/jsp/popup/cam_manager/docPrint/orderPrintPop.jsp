@@ -10,6 +10,8 @@
 <script type="text/javascript" src="/js/intra/cam_mng/docPrint/orderPrintPop.js"></script>
 <script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 <input type="hidden" id="claimSn" name="claimSn" value="${data.claimSn}"/>
+
+<input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <style>
     .pop_head {height: 32px; position: relative; background: #1385db;}
     .pop_head h1 {font-size: 12px; color: #fff; line-height: 32px; padding-left: 16px; margin: 0;}

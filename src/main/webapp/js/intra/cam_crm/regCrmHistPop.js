@@ -204,7 +204,7 @@ var regCrmHist = {
     fn_projectPop : function (){
         var url = "/project/pop/projectView.do?busnClass="+ $("input[name='crmRelPjt']:checked").val();
         var name = "_blank";
-        var option = "width = 1100, height = 400, top = 100, left = 400, location = no"
+        var option = "width = 1100, height = 700, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 }

@@ -50,6 +50,17 @@ public class PayAppController {
         return "cam_manager/payApp/paymentList";
     }
 
+    @RequestMapping("/pay/paymentMngList.do")
+    public String paymentMngList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_manager/payApp/paymentMngList";
+    }
+
     @RequestMapping("/pay/getPaymentList")
     public String getPaymentList(@RequestParam Map<String, Object> params, Model model){
 
@@ -104,6 +115,90 @@ public class PayAppController {
         return "popup/cam_manager/payDepo/regPayDepoSetPop";
     }
 
+    @RequestMapping("/pay/pop/depoNotBusnSetPopView.do")
+    public String depoNotBusnSetPopView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        if(params.containsKey("pjtSn")){
+            Map<String, Object> map = projectService.getProjectData(params);
+
+            model.addAttribute(map);
+        }
+
+        return "popup/cam_manager/payDepo/regPayDepoSetNotBusn";
+    }
+
+    @RequestMapping("/pay/pop/taxInfoPop.do")
+    public String taxInfoPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        if(params.containsKey("pjtSn")){
+            Map<String, Object> map = projectService.getProjectData(params);
+
+            model.addAttribute(map);
+        }
+
+        return "popup/cam_manager/payDepo/taxInfoPop";
+    }
+
+    @RequestMapping("/pay/pop/taxNotBusnInfoPop.do")
+    public String taxNotBusnInfoPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        if(params.containsKey("pjtSn")){
+            Map<String, Object> map = projectService.getProjectData(params);
+
+            model.addAttribute(map);
+        }
+
+        return "popup/cam_manager/payDepo/taxNotBusnInfoPop";
+    }
+
+    @RequestMapping("/pay/getProjectSettingInfo")
+    public String getProjectSettingInfo(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> data = payAppService.getProjectSettingInfo(params);
+        model.addAttribute("data", data);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/pay/setProjectTaxInfo")
+    public String setProjectTaxInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        try{
+            payAppService.setProjectTaxInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/pay/setProjectBudgetInfo")
+    public String setProjectBudgetInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        try{
+            payAppService.setProjectBudgetInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     @RequestMapping("/payApp/pop/regPayAttPop.do")
     public String regPayAttPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -113,6 +208,18 @@ public class PayAppController {
         model.addAttribute("params", params);
 
         return "popup/cam_manager/payApp/regPayAttPop";
+    }
+
+    /** 프로젝트 비용처리용 지급신청서 조회 팝업 */
+    @RequestMapping("/payApp/pop/regPayAppCostPop.do")
+    public String regPayAppCostPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_manager/payApp/regPayAppCostPop";
     }
 
     @RequestMapping("/pay/getPayDepoData")
@@ -322,6 +429,32 @@ public class PayAppController {
 
         try{
             payAppService.setPayAppDetData(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/payApp/setPayAppCostApp")
+    public String setPayAppCostApp(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        try{
+            payAppService.setPayAppCostApp(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/payApp/setPayAppDetCostApp")
+    public String setPayAppDetCostApp(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        try{
+            payAppService.setPayAppDetCostApp(params);
             model.addAttribute("code", 200);
         } catch (Exception e){
             e.printStackTrace();
@@ -660,9 +793,9 @@ public class PayAppController {
     }
 
     @RequestMapping("/pay/setPayDepo")
-    public String setPayDepo(@RequestParam Map<String, Object> params, Model model){
+    public String setPayDepo(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
         try{
-            payAppService.setPayDepo(params);
+            payAppService.setPayDepo(params, request, SERVER_DIR, BASE_DIR);
             model.addAttribute("code", 200);
             model.addAttribute("params", params);
         } catch (Exception e){
@@ -716,6 +849,19 @@ public class PayAppController {
         return "jsonView";
     }
 
+    @RequestMapping("/pay/updExnpDe")
+    public String updExnpDe(@RequestParam("payAppSn") int[] params, @RequestParam Map<String, Object> params2, Model model){
+
+        try{
+            payAppService.updExnpDe(params, params2);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     @RequestMapping("/pay/pop/depoProjectViewPop.do")
     public String depoProjectViewPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
@@ -735,5 +881,15 @@ public class PayAppController {
         model.addAttribute("loginVO", loginVO);
 
         return "popup/cam_manager/payDepo/depoBudgetViewPop";
+    }
+
+    //TODO. 여비 지급신청서 완료시 추후 연동 필요함.
+    /** 프로젝트에 묶인 지출결의서 리스트 (프로젝트 정산서 - 지출내역 그리드) */
+    @RequestMapping("/payApp/getPjtExnpList")
+    public String getPjtExnpList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list", payAppService.getPjtExnpList(params));
+
+        return "jsonView";
     }
 }

@@ -84,6 +84,7 @@ public class ProjectController {
         return "jsonView";
     }
 
+
     /** 법인프로젝트 포함 프로젝트 선택 리스 */
     @RequestMapping("/project/getAllProjectList")
     public String getAllProjectList(@RequestParam Map<String, Object> params, Model model) {
@@ -1480,6 +1481,12 @@ public class ProjectController {
     public String getProjectBudgetList(@RequestParam Map<String, Object> params, Model model) {
         model.addAttribute("list", projectService.getProjectBudgetList(params));
         model.addAttribute("totalAmt", projectService.getProjectBudgetTotal(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/getProjectBudgetListSum.do")
+    public String getProjectBudgetListSum(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", projectService.getProjectBudgetListSum(params));
         return "jsonView";
     }
 

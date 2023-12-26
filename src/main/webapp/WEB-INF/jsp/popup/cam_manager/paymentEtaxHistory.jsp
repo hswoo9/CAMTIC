@@ -71,219 +71,221 @@
 <%--            <button type="button" style="font-size: 12px" class="k-button k-button-sm k-button-solid-base" id="cardSelBtn" onclick="payEtaxHist.gridReload()">선택</button>--%>
             <button type="button" style="font-size: 12px" class="k-button k-button-sm k-button-solid-base" id="bnkSelBtn" onclick="payEtaxHist.fn_search()" onkeypress="if(window.event.keyCode==13){payEtaxHist.fn_search()}">검색</button>
         </span>
+
+        <div class="pop_wrap_dir" style="width:898px; display: none;" id="capture">
+            <div class="pop_head">
+                <h1 class="txtTaxTy">전자세금계산서</h1>
+            </div>
+
+            <div class="pop_con">
+                <%--        <p class="mb10" id="txtAuthNum"><span class="fwb">승인번호 :</span>txtAuthNum</p>--%>
+                <!-- 세금계산서 -->
+                <div class="js_tax_grid">
+                    <table id="gridVIewTax" width="100%" border="0" cellspacing="0" cellpadding="0" class="Taxtabel Taxtabel_layout red">
+                        <colgroup>
+                            <col width="50%" />
+                            <col width="15%" />
+                            <col width="20%" />
+                            <col width="15%" />
+                        </colgroup>
+
+                        <!-- 책번호, 일련번호 -->
+                        <tr height="50">
+                            <td class="textC"><strong name="taxPageTitle" class="f19 txtTaxTy" id="">전자세금계산서</strong></td>
+                            <td class="textC"><strong name="taxPageTitle" class="f19">승인번호</strong></td>
+                            <td colspan="2" class="textC"><strong name="taxPageTitle" class="f19" id="txtAuthNum"></strong></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="p0">
+                                <!-- 공급자, 공급받는자 -->
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="Taxtabel red">
+                                    <colgroup>
+                                        <col width="3%" />
+                                        <col width="9%" />
+                                        <col width="17%" />
+                                        <col width="2%" />
+                                        <col width="7%" />
+                                        <col width="12%" />
+
+                                        <col width="3%" />
+                                        <col width="9%" />
+                                        <col width="17%" />
+                                        <col width="2%" />
+                                        <col width="7%" />
+                                        <col width="12%" />
+                                    </colgroup>
+                                    <tr>
+                                        <td rowspan="8" class="textC lh23">공<br/>급<br/>자</td>
+                                        <td class="textC">등록번호</td>
+                                        <td colspan="4" id="txtLSaupNum">txtLSaupNum</td>
+                                        <td rowspan="8" class="textC lh23">공<br/>급<br/>받<br/>는<br/>자</td>
+                                        <td class="textC">등록번호</td>
+                                        <td colspan="4" id="txtRSaupNum">txtRSaupNum</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="textC">상호</td>
+                                        <td colspan="2" id="txtLTrName">txtLTrName</td>
+                                        <td class="textC">성명</td>
+                                        <td class="textC" id="txtLCeoName">txtLCeoName</td>
+                                        <td class="textC">상호</td>
+                                        <td colspan="2" id="txtRTrName">txtRTrName</td>
+                                        <td class="textC">성명</td>
+                                        <td class="textC" id="txtRCeoName">txtRCeoName</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="textC lh18">사업장<br/>주소</td>
+                                        <td colspan="4" id="txtLAddr">txtLAddr</td>
+                                        <td class="textC lh18">사업장<br/>주소</td>
+                                        <td colspan="4" id="txtRAddr">txtRAddr</td>
+                                    </tr>
+                                    <%--                            <tr>--%>
+                                    <%--                                <td class="textC" id="txtLJongmokNum">txtLJongmokNum</td>--%>
+                                    <%--                                <td class="textC" id="txtRJongmokNum">txtRJongmokNum</td>--%>
+                                    <%--                            </tr>--%>
+                                    <tr>
+                                        <td class="textC">업태</td>
+                                        <td id="txtLBusinessType">txtLBusinessType</td>
+                                        <td colspan="2" class="textC">종목</td>
+                                        <td id="txtLJongmokName">txtLJongmokName</td>
+                                        <td class="textC">업태</td>
+                                        <td id="txtRBusinessType">txtRBusinessType</td>
+                                        <td colspan="2" class="textC">종목</td>
+                                        <td  id="txtRJongmokName">txtRJongmokName</td>
+                                    </tr>
+                                    <%--                            <tr>--%>
+                                    <%--                                <td class="textC">부서명</td>--%>
+                                    <%--                                <td id="txtLDeptName">txtLDeptName</td>--%>
+                                    <%--                                <td colspan="2" class="textC">담당자</td>--%>
+                                    <%--                                <td id="txtLEmpName">txtLEmpName</td>--%>
+                                    <%--                                <td class="textC">부서명</td>--%>
+                                    <%--                                <td id="txtRDeptName">txtLDeptName</td>--%>
+                                    <%--                                <td colspan="2" class="textC">담당자</td>--%>
+                                    <%--                                <td id="txtREmpName">txtLEmpName</td>--%>
+                                    <%--                            </tr>--%>
+                                    <%--                            <tr>--%>
+                                    <%--                                <td class="textC">연락처</td>--%>
+                                    <%--                                <td id="txtLTell">txtLTell</td>--%>
+                                    <%--                                <td colspan="2" class="textC">휴대폰</td>--%>
+                                    <%--                                <td id="txtLCellPhone">txtLCellPhone</td>--%>
+                                    <%--                                <td class="textC">연락처</td>--%>
+                                    <%--                                <td id="txtRTell">txtLTell</td>--%>
+                                    <%--                                <td colspan="2" class="textC">휴대폰</td>--%>
+                                    <%--                                <td id="txtRCellPhone">txtLCellPhone</td>--%>
+                                    <%--                            </tr>--%>
+                                    <tr>
+                                        <td class="textC">E_Mail</td>
+                                        <td colspan="4" id="txtLEmail">txtLEmail</td>
+                                        <td class="textC">E_Mail</td>
+                                        <td colspan="4" id="txtREmail">txtREmail</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="p0">
+                                <!-- 작성일자 -->
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="Taxtabel red">
+                                    <colgroup>
+                                        <col width="6%" />
+                                        <col width="6%" />
+                                        <col width="6%" />
+                                        <col width="23%" />
+                                        <col width="22%" id="txtVatCol" />
+                                        <col width="" />
+                                    </colgroup>
+                                    <tr>
+                                        <td colspan="3" class="textC">작성일자</td>
+                                        <td class="textC">공급가액</td>
+                                        <td class="textC" id="txtVatTitle">세액</td>
+                                        <td class="textC">비고</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="textC" id="txtIssDateYear">txtIssDateYear</td>
+                                        <td class="textC" id="txtIssDateMonth">txtIssDateMonth</td>
+                                        <td class="textC" id="txtIssDateDate">txtIssDateDate</td>
+                                        <td class="textR" id="txtStdAmt">txtStdAmt</td>
+                                        <td class="textR" id="txtVatAmt">txtVatAmt</td>
+                                        <td id="txtDummy1">txtDummy1</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="p0">
+                                <!-- 품목명 리스트 -->
+                                <table width="100%" id="gridPrevGoods" border="0" cellspacing="0" cellpadding="0" class="Taxtabel red">
+                                    <colgroup>
+                                        <col width="4%"/>
+                                        <col width="4%"/>
+                                        <col width="33%" />
+                                        <col width="6%"/>
+                                        <col width="6%"/>
+                                        <col width="10%"/>
+                                        <col width="10%"/>
+                                        <col id="txtItemVatAmtCol" width="10%"/>
+                                        <col width=""/>
+                                    </colgroup>
+                                    <thead>
+                                    <tr>
+                                        <td class="textC">월</td>
+                                        <td class="textC">일</td>
+                                        <td class="textC">품목</td>
+                                        <td class="textC">규격</td>
+                                        <td class="textC">수량</td>
+                                        <td class="textC">단가</td>
+                                        <td class="textC">공급가액</td>
+                                        <td class="textC" id="txtItemVatAmtTitle">세액</td>
+                                        <td class="textC">비고</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="tbl_itemList">
+                                    <tr>
+                                        <td class="textC" id="txtItemDateMonth">txtItemDateMonth</td>
+                                        <td class="textC" id="txtItemDateDate">txtItemDateDate</td>
+                                        <td id="txtItemName">txtItemName</td>
+                                        <td class="textC" id="txtItemStendard">txtItemStendard</td>
+                                        <td class="textC" id="txtItemCnt">txtItemCnt</td>
+                                        <td class="textR" id="txtItemUnitAmt">txtItemUnitAmt</td>
+                                        <td class="textR" id="txtItemStdAmt">txtItemStdAmt</td>
+                                        <td class="textR" id="txtItemVatAmt">txtItemVatAmt</td>
+                                        <td id="txtItemNote">txtItemNote</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="p0">
+                                <!-- 합계금액 -->
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="Taxtabel red">
+                                    <colgroup>
+                                        <col width=""/>
+                                        <col width="20%"/>
+                                        <col width="10%"/>
+                                        <col width="7%"/>
+                                    </colgroup>
+                                    <tr>
+                                        <td class="textC">합계금액</td>
+                                        <td rowspan="2" class="textC brrn fwb">이금액을</td>
+                                        <td rowspan="2" class="brrn lh18" id="txtDummy2">txtDummy2</td>
+                                        <td rowspan="2" class="fwb">함</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="textR" id="txtAmt">txtAmt</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div><!-- //pop_wrap -->
+
         <div id="etaxMainGrid" style="margin-top:12px"></div>
 
     </div>
 </div>
 
-<div class="pop_wrap_dir" style="width:898px; display: none;" id="capture">
-    <div class="pop_head">
-        <h1 class="txtTaxTy">전자세금계산서</h1>
-    </div>
-
-    <div class="pop_con">
-<%--        <p class="mb10" id="txtAuthNum"><span class="fwb">승인번호 :</span>txtAuthNum</p>--%>
-        <!-- 세금계산서 -->
-        <div class="js_tax_grid">
-            <table id="gridVIewTax" width="100%" border="0" cellspacing="0" cellpadding="0" class="Taxtabel Taxtabel_layout red">
-                <colgroup>
-                    <col width="50%" />
-                    <col width="15%" />
-                    <col width="20%" />
-                    <col width="15%" />
-                </colgroup>
-
-                <!-- 책번호, 일련번호 -->
-                <tr height="50">
-                    <td class="textC"><strong name="taxPageTitle" class="f19 txtTaxTy" id="">전자세금계산서</strong></td>
-                    <td class="textC"><strong name="taxPageTitle" class="f19">승인번호</strong></td>
-                    <td colspan="2" class="textC"><strong name="taxPageTitle" class="f19" id="txtAuthNum"></strong></td>
-                </tr>
-                <tr>
-                    <td colspan="4" class="p0">
-                        <!-- 공급자, 공급받는자 -->
-                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="Taxtabel red">
-                            <colgroup>
-                                <col width="3%" />
-                                <col width="9%" />
-                                <col width="17%" />
-                                <col width="2%" />
-                                <col width="7%" />
-                                <col width="12%" />
-
-                                <col width="3%" />
-                                <col width="9%" />
-                                <col width="17%" />
-                                <col width="2%" />
-                                <col width="7%" />
-                                <col width="12%" />
-                            </colgroup>
-                            <tr>
-                                <td rowspan="8" class="textC lh23">공<br/>급<br/>자</td>
-                                <td class="textC">등록번호</td>
-                                <td colspan="4" id="txtLSaupNum">txtLSaupNum</td>
-                                <td rowspan="8" class="textC lh23">공<br/>급<br/>받<br/>는<br/>자</td>
-                                <td class="textC">등록번호</td>
-                                <td colspan="4" id="txtRSaupNum">txtRSaupNum</td>
-                            </tr>
-                            <tr>
-                                <td class="textC">상호</td>
-                                <td colspan="2" id="txtLTrName">txtLTrName</td>
-                                <td class="textC">성명</td>
-                                <td class="textC" id="txtLCeoName">txtLCeoName</td>
-                                <td class="textC">상호</td>
-                                <td colspan="2" id="txtRTrName">txtRTrName</td>
-                                <td class="textC">성명</td>
-                                <td class="textC" id="txtRCeoName">txtRCeoName</td>
-                            </tr>
-                            <tr>
-                                <td class="textC lh18">사업장<br/>주소</td>
-                                <td colspan="4" id="txtLAddr">txtLAddr</td>
-                                <td class="textC lh18">사업장<br/>주소</td>
-                                <td colspan="4" id="txtRAddr">txtRAddr</td>
-                            </tr>
-<%--                            <tr>--%>
-<%--                                <td class="textC" id="txtLJongmokNum">txtLJongmokNum</td>--%>
-<%--                                <td class="textC" id="txtRJongmokNum">txtRJongmokNum</td>--%>
-<%--                            </tr>--%>
-                            <tr>
-                                <td class="textC">업태</td>
-                                <td id="txtLBusinessType">txtLBusinessType</td>
-                                <td colspan="2" class="textC">종목</td>
-                                <td id="txtLJongmokName">txtLJongmokName</td>
-                                <td class="textC">업태</td>
-                                <td id="txtRBusinessType">txtRBusinessType</td>
-                                <td colspan="2" class="textC">종목</td>
-                                <td  id="txtRJongmokName">txtRJongmokName</td>
-                            </tr>
-<%--                            <tr>--%>
-<%--                                <td class="textC">부서명</td>--%>
-<%--                                <td id="txtLDeptName">txtLDeptName</td>--%>
-<%--                                <td colspan="2" class="textC">담당자</td>--%>
-<%--                                <td id="txtLEmpName">txtLEmpName</td>--%>
-<%--                                <td class="textC">부서명</td>--%>
-<%--                                <td id="txtRDeptName">txtLDeptName</td>--%>
-<%--                                <td colspan="2" class="textC">담당자</td>--%>
-<%--                                <td id="txtREmpName">txtLEmpName</td>--%>
-<%--                            </tr>--%>
-<%--                            <tr>--%>
-<%--                                <td class="textC">연락처</td>--%>
-<%--                                <td id="txtLTell">txtLTell</td>--%>
-<%--                                <td colspan="2" class="textC">휴대폰</td>--%>
-<%--                                <td id="txtLCellPhone">txtLCellPhone</td>--%>
-<%--                                <td class="textC">연락처</td>--%>
-<%--                                <td id="txtRTell">txtLTell</td>--%>
-<%--                                <td colspan="2" class="textC">휴대폰</td>--%>
-<%--                                <td id="txtRCellPhone">txtLCellPhone</td>--%>
-<%--                            </tr>--%>
-                            <tr>
-                                <td class="textC">E_Mail</td>
-                                <td colspan="4" id="txtLEmail">txtLEmail</td>
-                                <td class="textC">E_Mail</td>
-                                <td colspan="4" id="txtREmail">txtREmail</td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="4" class="p0">
-                        <!-- 작성일자 -->
-                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="Taxtabel red">
-                            <colgroup>
-                                <col width="6%" />
-                                <col width="6%" />
-                                <col width="6%" />
-                                <col width="23%" />
-                                <col width="22%" id="txtVatCol" />
-                                <col width="" />
-                            </colgroup>
-                            <tr>
-                                <td colspan="3" class="textC">작성일자</td>
-                                <td class="textC">공급가액</td>
-                                <td class="textC" id="txtVatTitle">세액</td>
-                                <td class="textC">비고</td>
-                            </tr>
-                            <tr>
-                                <td class="textC" id="txtIssDateYear">txtIssDateYear</td>
-                                <td class="textC" id="txtIssDateMonth">txtIssDateMonth</td>
-                                <td class="textC" id="txtIssDateDate">txtIssDateDate</td>
-                                <td class="textR" id="txtStdAmt">txtStdAmt</td>
-                                <td class="textR" id="txtVatAmt">txtVatAmt</td>
-                                <td id="txtDummy1">txtDummy1</td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="4" class="p0">
-                        <!-- 품목명 리스트 -->
-                        <table width="100%" id="gridPrevGoods" border="0" cellspacing="0" cellpadding="0" class="Taxtabel red">
-                            <colgroup>
-                                <col width="4%"/>
-                                <col width="4%"/>
-                                <col width="33%" />
-                                <col width="6%"/>
-                                <col width="6%"/>
-                                <col width="10%"/>
-                                <col width="10%"/>
-                                <col id="txtItemVatAmtCol" width="10%"/>
-                                <col width=""/>
-                            </colgroup>
-                            <thead>
-                            <tr>
-                                <td class="textC">월</td>
-                                <td class="textC">일</td>
-                                <td class="textC">품목</td>
-                                <td class="textC">규격</td>
-                                <td class="textC">수량</td>
-                                <td class="textC">단가</td>
-                                <td class="textC">공급가액</td>
-                                <td class="textC" id="txtItemVatAmtTitle">세액</td>
-                                <td class="textC">비고</td>
-                            </tr>
-                            </thead>
-                            <tbody id="tbl_itemList">
-                            <tr>
-                                <td class="textC" id="txtItemDateMonth">txtItemDateMonth</td>
-                                <td class="textC" id="txtItemDateDate">txtItemDateDate</td>
-                                <td id="txtItemName">txtItemName</td>
-                                <td class="textC" id="txtItemStendard">txtItemStendard</td>
-                                <td class="textC" id="txtItemCnt">txtItemCnt</td>
-                                <td class="textR" id="txtItemUnitAmt">txtItemUnitAmt</td>
-                                <td class="textR" id="txtItemStdAmt">txtItemStdAmt</td>
-                                <td class="textR" id="txtItemVatAmt">txtItemVatAmt</td>
-                                <td id="txtItemNote">txtItemNote</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="4" class="p0">
-                        <!-- 합계금액 -->
-                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="Taxtabel red">
-                            <colgroup>
-                                <col width=""/>
-                                <col width="20%"/>
-                                <col width="10%"/>
-                                <col width="7%"/>
-                            </colgroup>
-                            <tr>
-                                <td class="textC">합계금액</td>
-                                <td rowspan="2" class="textC brrn fwb">이금액을</td>
-                                <td rowspan="2" class="brrn lh18" id="txtDummy2">txtDummy2</td>
-                                <td rowspan="2" class="fwb">함</td>
-                            </tr>
-                            <tr>
-                                <td class="textR" id="txtAmt">txtAmt</td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>
-</div><!-- //pop_wrap -->
 
 <script>
     payEtaxHist.fn_defaultScript();

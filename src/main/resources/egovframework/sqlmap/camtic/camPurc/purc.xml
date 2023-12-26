@@ -7,7 +7,7 @@
         /* getPurcReqList */
         SELECT
             RE.*,
-            IFNULL((SELECT SUM(PURC_ITEM_AMT) FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE PURC_SN = RE.PURC_SN ), 0) AS PURC_ITEM_AMT_SUM
+            IFNULL((SELECT SUM(PURC_ITEM_AMT) FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE PURC_SN = RE.PURC_SN AND CLAIM_STAT = 'Y' ), 0) AS PURC_ITEM_AMT_SUM
         FROM (
             SELECT
             MP.PURC_SN,
@@ -90,46 +90,29 @@
     <select id="getPjtPurcItemList" parameterType="map" resultType="map">
         /* getPjtPurcItemList */
         SELECT
-            MPI.PURC_ITEM_SN,
-            MPI.PRODUCT_A,
-            MPI.PRODUCT_B,
-            MPI.PRODUCT_C,
-            MPI.PURC_ITEM_TYPE,
-            MPI.PURC_ITEM_NAME,
-            MPI.PURC_ITEM_STD,
-            MPI.PURC_ITEM_UNIT_PRICE,
-            MPI.PURC_ITEM_QTY,
-            MPI.PURC_ITEM_UNIT,
-            MPI.PURC_ITEM_AMT,
-            MPI.RMK,
-            MPI.STATUS,
-            MPI.CLAIM_STAT,
-            CI.CRM_SN,
+            PCI.ITEM_NM,
+            PCI.ITEM_STD,
+            PCI.ITEM_EA,
+            PCI.ITEM_UNIT,
+            PCI.ITEM_UNIT_AMT,
+            PCI.ITEM_AMT,
             CI.CRM_NM,
-            FORMAT(PURC_ITEM_UNIT_PRICE , 0) AS PURC_ITEM_UNIT_PRICE_COMMA,
-            FORMAT(PURC_ITEM_AMT , 0) AS PURC_ITEM_AMT_COMMA,
+            PCI.ITEM_ETC,
             DI.DOC_NO,
-            MP.DOC_STATUS,
-            CASE WHEN PC.CLAIM_SN IS NULL THEN 'CN'
-                 WHEN PC.CLAIM_SN IS NOT NULL AND PC.DOC_ID IS NULL THEN 'CAN'
-                 WHEN PC.CLAIM_SN IS NOT NULL AND PC.DOC_ID IS NOT NULL AND PC.STATUS != '100' AND PC.STATUS != '101' THEN
-            'CAYSN'
-            WHEN PC.CLAIM_SN IS NOT NULL AND PC.DOC_ID IS NOT NULL AND (PC.STATUS = '100' OR PC.STATUS = '101') THEN 'CAYSY'
-            ELSE '' END CLAIM_STATUS,
             MP.INSPECT_STATUS,
             MP.INSPECT_YN
         FROM
-            CAM_MNG.DJ_MNG_PURC MP
+            CAM_MNG.DJ_PURC_CLAIM PC
         LEFT JOIN
-            CAM_MNG.DJ_MNG_PURC_ITEM MPI ON MP.PURC_SN = MPI.PURC_SN
+            CAM_MNG.DJ_PURC_CLAIM_ITEM PCI ON PC.CLAIM_SN = PCI.CLAIM_SN
         LEFT JOIN
-            CAM_CRM.DJ_CRM_INFO CI ON MPI.CRM_SN = CI.CRM_SN
+            CAM_MNG.DJ_MNG_PURC MP ON MP.PURC_SN = PC.PURC_SN
         LEFT JOIN
-            DJ_CAMTIC.A_DOC_INFO DI ON MP.DOC_ID = DI.DOC_ID
+            CAM_CRM.DJ_CRM_INFO CI ON PC.CRM_SN = CI.CRM_SN
         LEFT JOIN
-            CAM_MNG.DJ_PURC_CLAIM PC ON MP.PURC_SN = PC.PURC_SN
+            DJ_CAMTIC.A_DOC_INFO DI ON PC.DOC_ID = DI.DOC_ID
         WHERE
-            MP.PJT_SN = #{pjtSn}
+            PC.PJT_SN = #{pjtSn}
     </select>
 
     <select id="getMngReqPurcList" parameterType="map" resultType="map">
@@ -174,7 +157,7 @@
 
         WHERE 1=1
         AND
-            MP.DOC_STATUS = 100 AND MDI.APPRO_KEY IS NULL
+            MP.DOC_STATUS = 100 AND (MDI.APPRO_KEY IS NULL OR MPI.PURC_SN IS NOT NULL)
             <if test='searchDept != null and !"".equals(searchDept)'>
                 AND MP.PURC_REQ_EMP_SEQ = #{empSeq}
             </if>
@@ -226,6 +209,7 @@
             PURC_TYPE,
             PJT_SN,
             PJT_NM,
+            VAT,
             STATUS,
             REG_EMP_SEQ
         )
@@ -238,6 +222,7 @@
             #{purcType},
             #{pjtSn},
             #{pjtNm},
+            #{vat},
             #{status},
             #{empSeq}
         )
@@ -256,6 +241,7 @@
             PURC_REQ_DATE = #{purcReqDate},
             PURC_REQ_PURPOSE = #{purcReqPurpose},
             PURC_TYPE = #{purcType},
+            VAT = #{vat},
             MOD_EMP_SEQ = #{empSeq},
             STATUS = #{status},
             MOD_DATE = NOW()
@@ -336,7 +322,7 @@
             EI.POSITION_NAME,
             EI.DEPT_SEQ,
             DI.DOC_NO,
-        CONCAT((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = EI.DEPT_SEQ)), ' ', (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = EI.DEPT_SEQ)) AS DEPT_NAME,
+            CONCAT((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = EI.DEPT_SEQ)), ' ', (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = EI.DEPT_SEQ)) AS DEPT_NAME,
             DI.APPRO_KEY,
             DI.DOC_MENU_CD
         FROM
@@ -850,7 +836,8 @@
             CAM_MNG.DJ_MNG_PURC MP ON PC.PURC_SN = MP.PURC_SN
         WHERE
             MP.INSPECT_STATUS = '100'
-        AND PROD_CD = 'A'
+        AND PCI.PRODUCT_A = '1'
+        AND PCI.PROD_CD IS NULL
         ORDER BY CLAIM_SN DESC, CLAIM_ITEM_SN
     </select>
 

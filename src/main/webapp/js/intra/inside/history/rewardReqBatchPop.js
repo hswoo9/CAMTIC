@@ -16,6 +16,44 @@ const rewardBatch = {
 
         let rewardDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "32"});
         rewardDataSource.unshift({CM_CODE_NM : "선택하세요", CM_CODE : ""});
+
+
+        $("#rewardAllTp").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {value : "", text : "선택하세요"},
+                {value : "0", text : "내부"},
+                {value : "1", text : "외부"},
+            ],change : function(e){
+                if(this.value()){
+                    let rewardDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "32"});
+                    rewardDataSource = rewardDataSource.filter(e => e.CM_CODE_DESC.indexOf(this.text()) > -1);
+                    rewardDataSource.unshift({CM_CODE_NM : "선택하세요", CM_CODE : ""});
+                    $("#rewardAll").kendoDropDownList({
+                        dataTextField: "CM_CODE_NM",
+                        dataValueField: "CM_CODE",
+                        dataSource: rewardDataSource,
+                        index: 0,
+                        change: rewardBatch.changeRewardAll
+                    });
+                }
+            },
+
+        });
+
+        $("#rewardAll").kendoDropDownList({
+            dataTextField: "CM_CODE_NM",
+            dataValueField: "CM_CODE",
+            dataSource: [{
+                CM_CODE_NM : "선택하세요", CM_CODE : ""
+            }],
+            index: 0,
+            change: rewardBatch.changeRewardAll
+        });
+
+
+        /*
         $("#rewardAll").kendoDropDownList({
             dataTextField: "CM_CODE_NM",
             dataValueField: "CM_CODE",
@@ -23,6 +61,8 @@ const rewardBatch = {
             index: 0,
             change: rewardBatch.changeRewardAll
         });
+         */
+
 
         if($("#mode").val() == "upd"){
             let data = {
@@ -58,7 +98,17 @@ const rewardBatch = {
         $("#popMainGrid").find("input[name='checkUser']:checked").each(function(){
             const dataItem = grid.dataItem($(this).closest("tr"));
             let empSeq = dataItem.EMP_SEQ;
-            $("#rewordName"+empSeq).data("kendoDropDownList").value($("#rewardAll").val());
+            //$("#rewardTp"+empSeq).data("kendoDropDownList").value($("#rewardAllTp").val());
+            //$("#rewordName"+empSeq).data("kendoDropDownList").value($("#rewardAll").val());
+
+            let rewardTpValue = $("#rewardAllTp").val();
+            console.log("rewardTpValue",rewardTpValue);
+            $("#rewardTp" + empSeq).data("kendoDropDownList").value(rewardTpValue);
+
+            let rewordNameValue = $("#rewardAll").val();
+            console.log("rewordNameValue",rewordNameValue);
+            $("#rewordName" + empSeq).data("kendoDropDownList").value(rewordNameValue);
+
         });
     },
 
@@ -73,6 +123,7 @@ const rewardBatch = {
                 },
                 parameterMap: function(data){
                     data.empName = $("#searchVal").val()
+                    data.workStatusCode = 'Y';
                     return data;
                 }
             },
@@ -162,7 +213,15 @@ const rewardBatch = {
                         return '<span>포상번호</span>' +
                             '	<input type="text" id="numberName" class="defaultVal" style="width: 150px;">' ;
                     }
-                }, {
+                },
+                {
+                    name: 'text',
+                    template: function(){
+                        return '<span>내/외부 일괄변경</span>' +
+                            '	<input type="text" id="rewardAllTp" style="width: 150px;">';
+                    }
+                },
+                {
                     name: 'text',
                     template: function(){
                         return '<span>포상구분 일괄변경</span>' +
@@ -229,12 +288,12 @@ const rewardBatch = {
                     },
                     width : 180
                 }, {
-                    title: "포상명",
+                    title: "포상 구분",
                     template : function (row){
                         if(row.REWORD_NAME != null){
-                            return "<input type='text' id='rewordName"+row.EMP_SEQ+"' class='formData rewordName' value='"+row.REWORD_NAME+"'>";
+                            return "<input type='text' id='rewordName"+row.EMP_SEQ+"' class='formData rewordName'  empSeq='" + row.EMP_SEQ + "' value='"+row.REWORD_NAME+"'>";
                         }else{
-                            return "<input type='text' id='rewordName"+row.EMP_SEQ+"' class='formData rewordName'>";
+                            return "<input type='text' id='rewordName"+row.EMP_SEQ+"' class='formData rewordName' empSeq='" + row.EMP_SEQ + "'>";
                         }
                     },
                     width : 180
@@ -385,12 +444,18 @@ const rewardBatch = {
             }
         });
 
+        let rewardDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "32"});
+        rewardDataSource.unshift({CM_CODE_NM : "선택하세요", CM_CODE : ""});
+
         $(".rewordName").kendoDropDownList({
             dataTextField: "CM_CODE_NM",
             dataValueField: "CM_CODE",
-            dataSource: [{
+            dataSource: rewardDataSource
+                /*
+                [{
                 CM_CODE_NM : "선택하세요", CM_CODE : ""
             }]
+                 */
         });
 
         $(".rewardDay").kendoDatePicker({

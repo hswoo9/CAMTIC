@@ -151,7 +151,7 @@ function fn_selOtherInfo(trCd, bankName,  accountHolder, accountNum, empNameKr, 
     var popup = window.open(url, name, option);
 }
 
-function fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, coCd, taxTy, idx, fileNo, baNb, bankNm, depositor){
+function fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, coCd, taxTy, idx, fileNo, baNb, bankNm, depositor, tradeDe){
     if(trNm == null || trNm == "" || trNm == "undefined"){
         trNm = "";
     }
@@ -166,26 +166,37 @@ function fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, 
     }
     if(baNb == null || baNb == "" || baNb == "undefined"){
         baNb = "";
-        $("#crmBnkNm" + idx).css("border", "1px solid red");
+        $("#crmNm" + idx).css("border", "1px solid red");
+        $("#regNo" + idx).css("border", "1px solid red");
     } else {
-        $("#crmBnkNm" + idx).css("border", 0);
+        $("#crmNm" + idx).css("border", 0);
+        $("#regNo" + idx).css("border", 0);
     }
 
     if(bankNm == null || bankNm == "" || bankNm == "undefined"){
         bankNm = "";
-        $("#crmAccNo" + idx).css("border", "1px solid red");
+        $("#crmNm" + idx).css("border", "1px solid red");
+        $("#regNo" + idx).css("border", "1px solid red");
     }else {
-        $("#crmAccNo" + idx).css("border", 0);
+        $("#crmNm" + idx).css("border", 0);
+        $("#regNo" + idx).css("border", 0);
     }
 
     if(depositor == null || depositor == "" || depositor == "undefined"){
         depositor = "";
-        $("#crmAccHolder" + idx).css("border", "1px solid red");
+        $("#crmNm" + idx).css("border", "1px solid red");
+        $("#regNo" + idx).css("border", "1px solid red");
     } else {
-        $("#crmAccHolder" + idx).css("border", 0);
+        $("#crmNm" + idx).css("border", 0);
+        $("#regNo" + idx).css("border", 0);
     }
 
-    $("#trDe" + idx).val(isuDt.substring(0, 4) + "-" + isuDt.substring(4, 6) + "-" + isuDt.substring(6, 8));
+    if(tradeDe != null && tradeDe != "" && tradeDe != "undefined"){
+        $("#trDe" + idx).val(tradeDe);
+    } else {
+        $("#trDe" + idx).val(isuDt.substring(0, 4) + "-" + isuDt.substring(4, 6) + "-" + isuDt.substring(6, 8));
+    }
+
     $("#regNo" + idx).val(trregNb);
     $("#crmNm" + idx).val(trNm);
     $("#trCd" + idx).val(trCd);
@@ -200,4 +211,5 @@ function fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, 
     $("#crmAccNo" + idx).val(baNb);
     $("#crmAccHolder" + idx).val(depositor);
 
+    regPay.fn_changeAllCost();
 }

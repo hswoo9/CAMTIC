@@ -35,12 +35,16 @@
                     <div id="customBudgetGridA" style="margin:10px 0;"></div>
                 </div>
                 <div class="col-md-4 col-lg-4">
-                    관
-                    <div id="customBudgetGridB" style="margin:10px 0;"></div>
+                    <div style="display: flex; justify-content: space-between">
+                        관 <div style="position: relative; bottom: 2px;">
+                            검색: <input id="mediumValue" style="width: 150px" onkeypress="if(event.keyCode==13){customBudgetPop.gridReload2('customBudgetGridA')}">
+                        </div>
+                    </div>
+                    <div id="customBudgetGridB"></div>
                 </div>
                 <div class="col-md-4 col-lg-4" style="padding-right: 0;">
-                    항
-                    <div id="customBudgetGridC" style="margin:10px 0;"></div>
+                    <div style="display: flex; justify-content: space-between">항 <div style="position: relative; bottom: 2px;">검색: <input id="smallValue" style="width: 150px" onkeypress="if(event.keyCode==13){ customBudgetPop.gridReload2('customBudgetGridB'); }"></div></div>
+                    <div id="customBudgetGridC"></div>
                 </div>
         </div>
         <div class="panel-body" style="padding-top: 0;">

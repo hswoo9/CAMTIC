@@ -300,7 +300,7 @@ function docApprovalRetrieve(docId, approKey, linkageType, type, callBack){
 						location.reload();
 					}else if(key == "camticRndCost"){
 						location.reload();
-					} else if(key == "camticPayApp"){
+					} else if(key == "camticPayApp" || key == "camticExnp"){
                         location.reload();
                     }
 

@@ -6,9 +6,12 @@ var customBudgetPop = {
         saveAjaData : "",
         cBudgetA : "",
         cBudgetB : "",
+        cbCodeIdA : "",
+        cbCodeIdB : ""
     },
 
     fnDefaultScript : function(){
+        customKendo.fn_textBox(["mediumValue", "smallValue"]);
         customBudgetPop.gridReload();
         customBudgetPop.tempBudgetGrid("/project/getProjectBudgetList.do", {pjtSn : $("#pjtSn").val()});
     },
@@ -112,6 +115,7 @@ var customBudgetPop = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound : customBudgetPop.cDataBound,
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAllC" name="checkAllC"/>',
@@ -140,10 +144,11 @@ var customBudgetPop = {
         var grid = this;
         grid.element.off('dbclick');
 
-        grid.tbody.find("tr").dblclick(function (e) {
+        grid.tbody.find("tr").click(function (e) {
             var dataItem = grid.dataItem($(this).closest("tr"));
-            $(".cBudgetB.addBudgetB").attr("cbUpperCode", dataItem.CB_CODE_ID);
-            customBudgetPop.cbAddRow("customBudgetGridA", dataItem.CB_CODE_ID)
+            customBudgetPop.global.cbCodeIdA = dataItem.CB_CODE_ID;
+            $(".cBudgetB.addBudgetB").attr("cbUpperCode", customBudgetPop.global.cbCodeIdA);
+            customBudgetPop.cbAddRow("customBudgetGridA");
             customBudgetPop.global.cBudgetA = $(this);
             customBudgetPop.global.cBudgetB = "";
         });
@@ -153,24 +158,65 @@ var customBudgetPop = {
         var grid = this;
         grid.element.off('dbclick');
 
-        grid.tbody.find("tr").dblclick(function (e) {
+        grid.tbody.find("tr").click(function (e) {
             var dataItem = grid.dataItem($(this).closest("tr"));
-            $(".cBudgetC.addBudgetC").attr("cbUpperCode", dataItem.CB_CODE_ID);
-            customBudgetPop.cbAddRow("customBudgetGridB", dataItem.CB_CODE_ID)
+            customBudgetPop.global.cbCodeIdB = dataItem.CB_CODE_ID;
+            $(".cBudgetC.addBudgetC").attr("cbUpperCode", customBudgetPop.global.cbCodeIdB);
+            customBudgetPop.cbAddRow("customBudgetGridB");
             customBudgetPop.global.cBudgetB = $(this);
         });
     },
 
-    cbAddRow : function(grid, cbUpperCode){
+    gridReload2 : function(grid){
+        if(grid == "customBudgetGridA"){
+            if(customBudgetPop.global.cBudgetA != "" && customBudgetPop.global.cBudgetA != null){
+                customBudgetPop.cbAddRow(grid);
+            }else{
+                alert("장을 선택해주세요.");
+            }
+        }else if(grid == "customBudgetGridB"){
+            if(customBudgetPop.global.cBudgetB != "" && customBudgetPop.global.cBudgetB != null){
+                customBudgetPop.cbAddRow(grid);
+            }else{
+                alert("관을 선택해주세요.");
+            }
+        }
+    },
+
+    cDataBound : function(){
+        const grid = this;
+        grid.tbody.find("tr").click(function(){
+            const dataItem = grid.dataItem($(this));
+            const CB_CODE_ID = dataItem.CB_CODE_ID;
+            $("#customBudgetGridCChk"+CB_CODE_ID).trigger("click");
+        });
+
+        grid.tbody.find("input").click(function(){
+            $($(this)).trigger("click");
+        });
+    },
+
+    cbAddRow : function(grid){
         var gridId = "";
+        var cbUpperCode;
+        var searchValue;
 
         if(grid == "customBudgetGridA"){
             gridId = "customBudgetGridB";
+            cbUpperCode = customBudgetPop.global.cbCodeIdA;
+            searchValue = $("#mediumValue").val();
         }else if(grid == "customBudgetGridB"){
             gridId = "customBudgetGridC";
+            cbUpperCode = customBudgetPop.global.cbCodeIdB;
+            searchValue = $("#smallValue").val();
         }
 
-        var result = customKendo.fn_customAjax("/system/code/getCustomBudgetList", {cbUpperCode : cbUpperCode});
+        var data = {
+            cbUpperCode : cbUpperCode,
+            searchValue : searchValue
+        }
+
+        var result = customKendo.fn_customAjax("/system/code/getCustomBudgetList", data);
         if(result.flag){
             $("#customBudgetGridC").data("kendoGrid").dataSource.data([]);
             $("#addBudgetC").hide();
@@ -201,22 +247,33 @@ var customBudgetPop = {
         var dataItemB = $("#customBudgetGridB").data("kendoGrid").dataItem(customBudgetPop.global.cBudgetB);
 
         $.each($("input[name='customBudgetGridCChk']:checked"), function (i, v) {
+            let ck = 0;
             var dataItemC = $("#customBudgetGridC").data("kendoGrid").dataItem($(this).closest("tr"));
-            $("#tempBudgetGrid").data("kendoGrid").dataSource.add({
-                CB_SN : 0,
-                NUM : i,
-                CB_CODE_ID_1 : dataItemA.CB_CODE,
-                CB_CODE_NAME_1 : dataItemA.CB_CODE_NM,
-                CB_CODE_ID_2 : dataItemB.CB_CODE,
-                CB_CODE_NAME_2 : dataItemB.CB_CODE_NM,
-                CB_CODE_ID_3 : dataItemC.CB_CODE,
-                CB_CODE_NAME_3 : dataItemC.CB_CODE_NM,
-                CB_BUDGET : 0,
-            })
+
+            $.each($("#tempBudgetGrid").data("kendoGrid").dataSource.data(), function(){
+                if(this.CB_CODE_ID_3 == dataItemC.CB_CODE){
+                    ck = 1;
+                }
+            });
+
+            if(ck != 1){
+                $("#tempBudgetGrid").data("kendoGrid").dataSource.add({
+                    CB_SN : 0,
+                    NUM : i,
+                    CB_CODE_ID_1 : dataItemA.CB_CODE,
+                    CB_CODE_NAME_1 : dataItemA.CB_CODE_NM,
+                    CB_CODE_ID_2 : dataItemB.CB_CODE,
+                    CB_CODE_NAME_2 : dataItemB.CB_CODE_NM,
+                    CB_CODE_ID_3 : dataItemC.CB_CODE,
+                    CB_CODE_NAME_3 : dataItemC.CB_CODE_NM,
+                    CB_BUDGET : 0,
+                })
+            }
         });
     },
 
     tempBudgetGrid : function(url, params){
+        params.account = String($("#ac").val())
         $("#tempBudgetGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
@@ -239,14 +296,14 @@ var customBudgetPop = {
                             '	<span class="k-button-text">반영</span>' +
                             '</button>';
                     }
-                }, {
+                }, /*{
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="customBudgetPop.setCustomBudgetDel()">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
-                }
+                }*/
             ],
             editable : function (){
                 return true;

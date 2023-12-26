@@ -23,6 +23,7 @@ var regPay = {
     fn_defaultScript : function (){
         customKendo.fn_datePicker("appDe", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("reqDe", "month", "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("payExnpDe", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_textBox(["pjtNm", "appTitle", "accNm", "accNo", "bnkNm"]);
 
         $("#appCont").kendoTextArea({
@@ -118,11 +119,14 @@ var regPay = {
             }
 
             var result = customKendo.fn_customAjax("/purc/getPurcAndClaimData", data);
+
             var rs = result.data;
-            $("#pjtSn").val(rs.PJT_SN);
-            $("#pjtNm").val(rs.PJT_NM);
+            const pjtMap = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: rs.PJT_SN}).rs;
+
+            $("#pjtSn").val(pjtMap.PJT_SN);
+            $("#pjtNm").val(pjtMap.PJT_NM);
             if($("#pjtSn").val() != ""){
-                selectProject(rs.PJT_SN, rs.PJT_NM, rs.PJT_CD)
+                selectProject(rs.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD)
             }
             $("#appTitle").val(rs.PURC_REQ_PURPOSE);
 
@@ -139,12 +143,19 @@ var regPay = {
             }
         }
 
+        if($("#reqType").val() == "bustrip"){
+        }
+
 
         $(".payDestInfo td input").css("font-size", "10px");
         $(".payDestInfo td").css("padding", "0.35rem");
         $(".payDestInfo td span").css("font-size", "10px");
 
         $("#reasonPopText").kendoTextBox();
+
+        var dataSource = customKendo.fn_customAjax("/setManagement/getExnpDeChangeRs");
+
+        customKendo.fn_dropDownList("exnpIss", dataSource.list, "TITLE", "CHNG_RS_SN", 2)
     },
 
     fn_reasonClickModal : function(e){
@@ -172,7 +183,7 @@ var regPay = {
         if(data != null){
             if(data.DOC_STATUS == "0"){
                 buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save(\'user\')">저장</button>';
-                buttonHtml += '<button type="button" id="reqBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.payAppDrafting()">상신</button>';
+                buttonHtml += '<button type="button" id="reqBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_popDateSetting()">상신</button>';
             }else if(data.DOC_STATUS == "10" || data.DOC_STATUS == "50"){
                 buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+data.DOC_ID+'\', \'camticPayApp_'+data.PAY_APP_SN+'\', 1, \'retrieve\');">회수</button>';
             }else if(data.DOC_STATUS == "30" || data.DOC_STATUS == "40"){
@@ -216,8 +227,8 @@ var regPay = {
     },
 
     payAppDrafting: function(){
-        regPay.fn_save("", "drafting");
 
+        regPay.fn_save("", "drafting");
 
         var budgetFlag = false;
         if($("#pjtCd").val().substring(0,1) == "M"){
@@ -353,7 +364,7 @@ var regPay = {
 
             regPayDet.global.createHtmlStr += "" +
                 '   <td>' +
-                '       <input type="text" id="budgetNm' + regPayDet.global.itemIndex + '" value="'+item.BUDGET_NM+'" onclick="regPay.fn_budgetPop('+clIdx+')" style="width: 100%;">' +
+                '       <input type="text" id="budgetNm' + regPayDet.global.itemIndex + '" dir="rtl"  value="'+item.BUDGET_NM+'" onclick="regPay.fn_budgetPop('+clIdx+')" style="width: 100%; text-align: right;">' +
                 '       <input type="hidden" id="budgetSn' + regPayDet.global.itemIndex + '" value="'+item.BUDGET_SN+'" class="budgetSn"/>' +
                 '       <input type="hidden" id="budgetAmt' + regPayDet.global.itemIndex + '" value="'+item.BUDGET_AMT+'" class="budgetAmt"/>' +
                 '   </td>' +
@@ -397,7 +408,7 @@ var regPay = {
                 '       <input type="text" id="trDe' + regPayDet.global.itemIndex + '" value="'+item.TR_DE+'" class="trDe">' +
                 '   </td>' +
                 '   <td>' +
-                '       <input type="text" id="totCost' + regPayDet.global.itemIndex + '" value="'+regPay.comma(item.TOT_COST)+'" class="totCost" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                '       <input type="text" id="totCost' + regPayDet.global.itemIndex + '" value="'+regPay.comma(item.TOT_COST)+'" class="totCost" onchange="regPay.fn_changeAllCost()" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                 '   </td>' +
                 '   <td>' +
                 '       <input type="text" id="supCost' + regPayDet.global.itemIndex + '" value="'+regPay.comma(item.SUP_COST)+'" class="supCost" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
@@ -490,6 +501,7 @@ var regPay = {
                 ,"card" + regPayDet.global.itemIndex, "etc" + regPayDet.global.itemIndex, "budgetNm" + regPayDet.global.itemIndex]);
 
             customKendo.fn_datePicker("trDe" + regPayDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
+            $("#trDe" + regPayDet.global.itemIndex).data("kendoDatePicker").value(item.TR_DE);
 
             var ds = customKendo.fn_customAjax("/dept/getDeptAList", {
                 deptLevel : 2
@@ -521,11 +533,78 @@ var regPay = {
             })
         }
 
-        if($("#pjtCd").val().substring(0,1) != "M"){
+        if($("#pjtCd").val().substring(0,1) != "M" && $("#pjtCd").val().substring(0,1) != ""){
             $(".reasonTr").css("display", "");
             $("#reasonCol").css("display", "");
             $("#reasonTh").css("display", "");
+            $("#reasonContTr").css("display", "none");
+            $("#footerLine").attr("colspan", "9");
+        } else {
+            $("#footerLine").attr("colspan", "8");
         }
+    },
+
+    fn_popDateSetting : function(){
+        regPay.fn_save("", "drafting");
+        var trDe = $("#trDe0").val();
+        var trDeAr = trDe.split("-");
+
+        var trDate = new Date(trDeAr[0], trDeAr[1] - 1, trDeAr[2]);
+
+        var eviType = $("#eviType0").val();
+        if(trDe != "" && trDe != null && trDe != undefined){
+            if($("#pjtCd").val().substring(0,1) != ""){
+                // 법인운영일 경우
+                if($("#pjtCd").val().substring(0,1) == "M"){
+                    if(eviType == "3"){             // 신용카드
+                        trDate.setMonth(trDate.getMonth() + 1);
+                        trDate.setDate(10);
+                        $("#payExnpDe").val(trDate.getFullYear() + "-" + (trDate.getMonth() + 1).toString().padStart(2, "0") + "-" + trDate.getDate());
+                    } else if(eviType == "4"){      // 급여
+                        trDate.setMonth(trDate.getMonth());
+                        trDate.setDate(25);
+                        $("#payExnpDe").val(trDate.getFullYear() + "-" + (trDate.getMonth() + 1).toString().padStart(2, "0") + "-" + trDate.getDate());
+                    } else {                        // 세금계산서,계산서,소득신고자,증빙없음
+                        if(trDeAr[2] < 16){             // 매월 1일 ~ 15일
+                            trDate.setMonth(trDate.getMonth() + 1);
+                            trDate.setDate(25);
+                            $("#payExnpDe").val(trDate.getFullYear() + "-" + (trDate.getMonth() + 1).toString().padStart(2, "0") + "-" + trDate.getDate());
+                        } else {                        // 매월 16일 ~ 말일
+                            trDate.setMonth(trDate.getMonth() + 2);
+                            trDate.setDate(10);
+                            $("#payExnpDe").val(trDate.getFullYear() + "-" + (trDate.getMonth() + 1).toString().padStart(2, "0") + "-" + trDate.getDate());
+                        }
+                    }
+                } else {
+                    if(eviType == "3"){             // 신용카드
+                        trDate.setMonth(trDate.getMonth() + 1);
+                        trDate.setDate(10);
+                        $("#payExnpDe").val(trDate.getFullYear() + "-" + (trDate.getMonth() + 1).toString().padStart(2, "0") + "-" + trDate.getDate());
+                    } else if(eviType == "4"){      // 급여
+                        trDate.setMonth(trDate.getMonth());
+                        trDate.setDate(25);
+                        $("#payExnpDe").val(trDate.getFullYear() + "-" + (trDate.getMonth() + 1).toString().padStart(2, "0") + "-" + trDate.getDate());
+                    } else {                        // 세금계산서,계산서,소득신고자,증빙없음
+                        if(trDeAr[2] < 16){             // 매월 1일 ~ 15일
+                            trDate.setMonth(trDate.getMonth());
+                            trDate.setDate(25);
+                            $("#payExnpDe").val(trDate.getFullYear() + "-" + (trDate.getMonth() + 1).toString().padStart(2, "0") + "-" + trDate.getDate());
+                        } else {                        // 매월 16일 ~ 말일
+                            trDate.setMonth(trDate.getMonth() + 1);
+                            trDate.setDate(10);
+                            $("#payExnpDe").val(trDate.getFullYear() + "-" + (trDate.getMonth() + 1).toString().padStart(2, "0") + "-" + trDate.getDate());
+                        }
+                    }
+                }
+            }
+        }
+
+        var dialog = $("#dialogDraft").data("kendoWindow");
+
+        $("#payExnpDeText").text($("#payExnpDe").val());
+        $("#reqDe").val($("#payExnpDe").val());
+        dialog.center();
+        dialog.open();
     },
 
     fn_viewStat: function (){
@@ -587,6 +666,7 @@ var regPay = {
             pjtSn : $("#pjtSn").val(),
             pjtCd : $("#pjtCd").val(),
             reqDe : $("#reqDe").val(),
+            payExnpDe : $("#payExnpDe").val(),
             // budgetNm : $("#budgetNm").val(),
             // budgetSn : $("#budgetSn").val(),
             appTitle : $("#appTitle").val(),
@@ -596,7 +676,7 @@ var regPay = {
             accNm : $("#accNm").val(),
             accNo : $("#accNo").val(),
             payAppStat : $("#payAppStat").data("kendoRadioGroup").value(),
-
+            exnpIss : $("#exnpIss").data("kendoDropDownList").text(),
 
             regEmpSeq : $("#regEmpSeq").val(),
             empSeq : $("#empSeq").val(),
@@ -608,6 +688,15 @@ var regPay = {
         // } else {
         //     parameters.advances = 'N';
         // }
+        if($("#reqType").val() == "purc"){
+            parameters.linkKey = $("#purcSn").val();
+            parameters.linkKeyType = "구매";
+        }
+
+        if($("#reqType").val() == "bustrip"){
+            parameters.linkKey = $("#hrBizReqResultId").val();
+            parameters.linkKeyType = "출장";
+        }
 
         if($("#claimSn").val() != ""){
             parameters.claimSn = $("#claimSn").val();
@@ -640,7 +729,7 @@ var regPay = {
 
         var budgetFlag = false;
         if(type != "drafting"){
-            if($("#pjtCd").val().substring(0,1) != "M"){
+            if($("#pjtCd").val().substring(0,1) != "M" && $("#pjtCd").val().substring(0,1) != ""){
 
             } else {
                 var tmpBudgetSnAr = [];
@@ -670,7 +759,6 @@ var regPay = {
                 teamName : $("#appTeam" + index).data("kendoDropDownList").text(),
                 evidType : $("#eviType" + index).val(),
                 reason : $("#reason" + index).val(),
-                fileNo : $("#fileNo" + index).val(),
                 authNo : $("#authNo" + index).val(),
                 authDd : $("#authDd" + index).val(),
                 authHh : $("#authHh" + index).val(),
@@ -695,6 +783,10 @@ var regPay = {
 
             if(data.buySts == undefined || data.buySts == null || data.buySts == "" || data.buySts == "undefined"){
                 data.buySts = "";
+            }
+
+            if($("#fileNo" + index).val() != undefined && $("#fileNo" + index).val() != null && $("#fileNo" + index).val() != "null" && $("#fileNo" + index).val() != "undefined" && $("#fileNo" + index).val() != ""){
+                data.fileNo = $("#fileNo" + index).val();
             }
 
 
@@ -769,18 +861,6 @@ var regPay = {
         });
     },
 
-    crmInfoChange : function(){
-        console.log(purcInfo.global.crmSnId, purcInfo.global.crmNmId)
-
-        $("#" + purcInfo.global.crmSnId).val($("#purcCrmSn").val())
-        $("#" + purcInfo.global.crmNmId).val($("#purcCrmNm").val())
-
-        $("#purcCrmSn").val("")
-        $("#purcCrmNm").val("")
-
-
-    },
-
     fn_popCamCrmList : function (crmSnId, crmNmId){
         regPay.global.crmSnId = crmSnId;
         regPay.global.crmNmId = crmNmId;
@@ -799,11 +879,16 @@ var regPay = {
         $("#crmNm").val("")
     },
 
-    fn_calCost: function(obj){
+    fn_exnpDeChange:function (){
+        $("#row3").css("display", "");
+        $("#row2").css("display", "");
+        $("#row1").css("display", "none");
+        $("#changeBtn").css("display", "none");
+    },
 
+    fn_calCost: function(obj){
         var index = obj.id.substring(obj.id.length - 1);
         if(obj.id.match("totCost")){
-
             $("#vatCost" + index).val(regPay.comma(Number(regPay.uncomma($("#totCost" + index).val())) - Math.round(Number(regPay.uncomma($("#totCost" + index).val())) * 100 / 110)));
             $("#supCost" + index).val(regPay.comma(Number(regPay.uncomma($("#totCost" + index).val())) - Number(regPay.uncomma($("#vatCost" + index).val()))));
         } else if(obj.id.match("supCost")){
@@ -813,6 +898,22 @@ var regPay = {
         }
 
         regPay.inputNumberFormat(obj);
+
+        var totAllCost = 0;
+        $(".totCost").each(function(){
+            totAllCost += Number(regPay.uncomma($(this).val()));
+        });
+
+        $("#totalAllCost").text(regPay.comma(totAllCost));
+    },
+
+    fn_changeAllCost : function (){
+        var totAllCost = 0;
+        $(".totCost").each(function(){
+            totAllCost += Number(regPay.uncomma($(this).val()));
+        });
+
+        $("#totalAllCost").text(regPay.comma(totAllCost));
     },
 
     inputNumberFormat : function (obj){
@@ -830,7 +931,6 @@ var regPay = {
     },
 
     fn_projectPop : function (type){
-
         var url = "/project/pop/g20ProjectView.do?type=" + type;
 
         var name = "_blank";
@@ -922,6 +1022,11 @@ var regPayDet = {
     },
 
     fn_popRegDet : function (v, i){
+
+        if($("#eviType" + i).val() == 5 || $("#eviType" + i).val() == 9){
+            v = $("#eviType" + i).val();
+        }
+
         var url = "/mng/pop/paymentDetView.do?type=" + v + "&index=" + i;
 
         var name = "_blank";
@@ -953,7 +1058,7 @@ var regPayDet = {
         regPayDet.global.createHtmlStr = "" +
             '<tr class="payDestInfo newArray" id="pay' + regPayDet.global.itemIndex + '" style="text-align: center;">' +
             '   <td>' +
-            '       <input type="text" id="budgetNm' + regPayDet.global.itemIndex + '" value="" onclick="regPay.fn_budgetPop(' + clIdx + ')" style="width: 100%;">' +
+            '       <input type="text" id="budgetNm' + regPayDet.global.itemIndex + '" dir="rtl"  value="" onclick="regPay.fn_budgetPop(' + clIdx + ')" style="width: 100%; text-align: right;">' +
             '       <input type="hidden" id="budgetSn' + regPayDet.global.itemIndex + '" value="" class="budgetSn"/>' +
             '       <input type="hidden" id="budgetAmt' + regPayDet.global.itemIndex + '" value="" class="budgetAmt"/>' +
             '   </td>' +
@@ -997,7 +1102,7 @@ var regPayDet = {
             '       <input type="text" id="trDe' + regPayDet.global.itemIndex + '" class="trDe">' +
             '   </td>' +
             '   <td>' +
-            '       <input type="text" id="totCost' + regPayDet.global.itemIndex + '" value="0" class="totCost" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+            '       <input type="text" id="totCost' + regPayDet.global.itemIndex + '" value="0" class="totCost" onchange="regPay.fn_changeAllCost()" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
             '   </td>' +
             '   <td>' +
             '       <input type="text" id="supCost' + regPayDet.global.itemIndex + '" value="0" class="supCost" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
@@ -1022,6 +1127,12 @@ var regPayDet = {
             '</tr>';
 
         $("#payDestTb").append(regPayDet.global.createHtmlStr);
+
+        if(clIdx > 0){
+            $("#budgetNm" + clIdx).val($("#budgetNm" + (clIdx-1)).val());
+            $("#budgetSn" + clIdx).val($("#budgetSn" + (clIdx-1)).val());
+            $("#budgetAmt" + clIdx).val($("#budgetAmt" + (clIdx-1)).val());
+        }
 
         var itemIndex = regPayDet.global.itemIndex;
         $("#eviType" + itemIndex).kendoDropDownList({
@@ -1076,8 +1187,12 @@ var regPayDet = {
         $(".payDestInfo td").css("padding", "0.35rem");
         $(".payDestInfo td span").css("font-size", "10px");
 
-        if($("#pjtCd").val().substring(0,1) != "M"){
+        if($("#pjtCd").val().substring(0,1) != "M" && $("#pjtCd").val().substring(0,1) != ""){
             $(".reasonTr").css("display", "");
+            $("#footerLine").attr("colspan", "9");
+            $("#reasonContTr").css("display", "none");
+        } else {
+            $("#footerLine").attr("colspan", "8");
         }
     },
 

@@ -100,28 +100,92 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">견적서 파일</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>견적서 파일<br>(구매 참고파일)</th>
                     <td colspan="3">
-                        <input type="hidden" id="file1Sn" name="file1Sn">
-                        <label for="file1" id="file1Label" class="k-button k-button-solid-base">파일첨부</label>
-                        <input type="file" id="file1" name="file1" onchange="prp.fileChange(this)" style="display: none">
-                        <span id="file1Name"></span>
+                        <form style="padding: 0px 30px;">
+                            <div class="card-header" style="padding: 5px;">
+                                <h3 class="card-title">첨부파일</h3>
+                                <div class="card-options">
+                                    <div class="filebox">
+                                        <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
+                                            <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
+                                            <span class="k-button-text">파일첨부</span>
+                                        </button>
+                                        <input type="file" id="fileList" name="fileList" onchange="prp.addFileInfoTable();" multiple style="display: none"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="popTable table table-bordered mb-0">
+                                    <colgroup>
+                                        <col width="50%">
+                                        <col width="10%">
+                                        <col width="30%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                    </colgroup>
+                                    <thead>
+                                    <tr class="text-center th-color">
+                                        <th>파일명</th>
+                                        <th>확장자</th>
+                                        <th>용량</th>
+                                        <th>기타</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="fileGrid">
+                                    <tr class="defultTr">
+                                        <td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
                     </td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">요청서 파일</th>
-                    <td colspan="3">
+                    <td>
                         <input type="hidden" id="file2Sn" name="file1Sn">
                         <label for="file2" id="file2Label" class="k-button k-button-solid-base">파일첨부</label>
                         <input type="file" id="file2" name="file2" onchange="prp.fileChange(this)" style="display: none">
                         <span id="file2Name"></span>
                     </td>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>부가세</th>
+                    <td>
+                        <span id="vat"></span>
+                    </td>
                 </tr>
                 </thead>
             </table>
 
+            <table class="popTable table table-bordered mb-0">
+                <colgroup>
+                    <col width="30%">
+                    <col width="30%">
+                    <col width="40%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>견적가</th>
+                    <th>세액</th>
+                    <th>합계</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <input type="text" id="estAmt" disabled value="0" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                    </td>
+                    <td>
+                        <input type="text" id="vatAmt" disabled value="0" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                    </td>
+                    <td>
+                        <input type="text" id="totAmt" disabled value="0" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
-            <span id="totalPay" style="float: right; font-size: 16px; font-weight: bold; display: none; height: 35px;margin-top: 10px;">총 금액 : </span>
             <c:if test="${params.stat == 'v'}">
                 <span id="claimGroup" style="font-size:12px;">
                     <button type="button" style="top:15px;" class="k-button k-button-solid-info" onclick="prp.fn_reqClaiming()">청구서작성</button>
@@ -151,7 +215,8 @@
                         </button>
                     </div>
                     <div>
-                        <div style="float:left;width: 150px;margin-top: 4px;text-align: left;font-weight: bold;" id="totalDiv">합계 : <span id="sum" style="float: right;"></span></div>
+                        <div style="float:left;width: 150px;margin-top: 4px; margin-right: 5px; text-align: left;font-weight: bold;" id="totalDiv">합계 : <span id="sum" style="float: right;"></span></div>
+                        <div style="float:left;margin-top: 4px; margin-right: 5px; text-align: left;font-weight: bold;"><span id="totalPay" style="float: right; display: none; ">합계 : </span></div>
                         <button type="button" id="excelUploadBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="fn_excelUploadModal()" style="font-size: 12px;">
                             <span class="k-button-text">엑셀업로드</span>
                         </button>
@@ -190,12 +255,12 @@
                         <th>
                             <input type="checkbox" id="checkAll" class="k-checkbox" />
                         </th>
-                        <th>구분</th>
-                        <th>품명</th>
-                        <th>규격</th>
-                        <th>단가</th>
-                        <th>수량</th>
-                        <th>단위</th>
+                        <th><span class="red-star">*</span>구분</th>
+                        <th><span class="red-star">*</span>품명</th>
+                        <th><span class="red-star">*</span>규격</th>
+                        <th><span class="red-star">*</span>단가</th>
+                        <th><span class="red-star">*</span>수량</th>
+                        <th><span class="red-star">*</span>단위</th>
                         <th>금액</th>
                         <th>업체명</th>
                         <th>비고</th>

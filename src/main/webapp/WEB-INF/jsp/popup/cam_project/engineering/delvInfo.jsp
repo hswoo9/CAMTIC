@@ -79,7 +79,7 @@
                     <input type="text" id="pjtEndDt" style="width: 43%"/>
                 </td>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>납품품목
+                    <span class="red-star">*</span>납품품목
                 </th>
                 <td>
                     <input type="text" id="delvItem" style="width: 90%;">
@@ -93,13 +93,13 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>납품수량
+                    <span class="red-star">*</span>납품수량
                 </th>
                 <td>
                     <input type="text" id="delvCnt" style="width: 90%;" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                 </td>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>납품단위
+                    <span class="red-star">*</span>납품단위
                 </th>
                 <td>
                     <input type="text" id="delvUnit" style="width: 90%;">
@@ -130,7 +130,7 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>특이사항
+                    <span class="red-star">*</span>특이사항
                 </th>
                 <td colspan="3">
                     <textarea type="text" id="delvIssu" style="width: 100%;"></textarea>
@@ -138,10 +138,10 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>수주금액
+                    <span class="red-star">*</span>수주금액
                 </th>
                 <td>
-                    <input type="text" id="delvAmt" style="text-align: right; width: 90%;" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /> 원
+                    <input type="text" id="delvAmt" style="text-align: right; width: 80%;" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /> 원 (VAT별도)
                     <input type="hidden" id="delvExpAmt" />
                 </td>
                 <th scope="row" class="text-center th-color">
@@ -203,7 +203,7 @@
         open : function (){
             var htmlStr =
                 '<div class="mb-10" style="text-align: right;">' +
-                '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="delvInfo.fn_approve(10)">요청</button>' +
+                '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="delvInfo.delvDrafting(10)">상신</button>' +
                 '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#dialog \').data(\'kendoWindow\').close()">닫기</button>' +
                 '</div>' +
                 '<table class="table table-bordered mb-0" style="margin-top: 10px">' +

@@ -116,7 +116,7 @@
     customKendo.fn_textBox("agency");
 
     /*$("#rGubunOutIn").kendoTextBox();*/
-    $("#rGubun").kendoTextBox();
+    //$("#rGubun").kendoTextBox();
     $("#rIssue").kendoTextBox();
     $("#agency").kendoTextBox();
 
@@ -128,8 +128,30 @@
         { text: "내부", value: "0" },
         { text: "외부", value: "1" }
       ],
-      index: 0
+      //index: 0,
+      change : function(e){
+        if(this.value()){
+          let rewardDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "32"});
+          rewardDataSource = rewardDataSource.filter(e => e.CM_CODE_DESC.indexOf(this.text()) > -1);
+          rewardDataSource.unshift({CM_CODE_NM : "선택하세요", CM_CODE : ""});
+
+          $("#rGubun").kendoDropDownList({
+            dataTextField: "CM_CODE_NM",
+            dataValueField: "CM_CODE",
+            dataSource: rewardDataSource
+          });
+        }
+      }
     });
+
+    $("#rGubun").kendoDropDownList({
+      dataTextField: "CM_CODE_NM",
+      dataValueField: "CM_CODE",
+      dataSource: [{
+        CM_CODE_NM : "선택하세요", CM_CODE : ""
+      }]
+    });
+
   }
 
   function fn_dataSet() {
@@ -155,7 +177,8 @@
     var data = {
       rGubunOutInType : $("#rGubunOutIn").data("kendoDropDownList").value(),
       rGubunOutInTypeName : $("#rGubunOutIn").data("kendoDropDownList").text(),
-      rGubun : $("#rGubun").val(),
+      //rGubun : $("#rGubun").val(),
+      rGubun : $("#rGubun").data("kendoDropDownList").text(),
       rGubunAll : ($("#rGubunOutIn").data("kendoDropDownList").text() + $("#rGubun").val()),
       sDate : $("#sDate").val(),
       rIssue : $("#rIssue").val(),

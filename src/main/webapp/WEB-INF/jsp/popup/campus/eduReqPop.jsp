@@ -16,10 +16,17 @@
 <input type="hidden" id="eduInfoId" value=""/>
 <input type="hidden" id="eduFormType" value="${data.eduFormType}"/>
 <div class="col-lg-12" style="padding:0;">
-  <div class="card-header" style="padding-top:45px;">
+  <div class="card-header pop-header">
+    <h3 class="card-title title_NM">교육수강 신청서 작성</h3>
+    <div class="btn-st popButton">
+        <input type="button" class="k-button k-button-solid-info" value="저장" onclick="eduReq.saveEduInfo();"/>
+        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick="window.close();"/>
+    </div>
+  </div>
+  <div class="card-header" style="padding-top:25px;">
     <div class="col-lg-11" style="margin:0 auto;">
       <div class="table-responsive">
-        <div class="popupTitleSt">교육수강 신청서 작성</div>
+ <%--       <div class="popupTitleSt">교육수강 신청서 작성</div>--%>
         <form id="eduReqForm">
           <table class="table table-bordered" id="userInfoTable" style="width: 1000px;">
             <colgroup>
@@ -33,7 +40,7 @@
             <thead>
             <tr>
               <th>소 속</th>
-              <td id="userDept">${loginVO.orgnztNm}</td>
+              <td id="userDept">${loginVO.deptNm} ${loginVO.orgnztNm}</td>
               <th>직 위</th>
               <td id="userPosition">${loginVO.dutyNm eq '' ? loginVO.positionNm : loginVO.dutyNm}</td>
               <th>성 명</th>
@@ -284,10 +291,7 @@
           </table>
         </form>
       </div>
-      <div class="btn-st" style="margin-top:10px; text-align:center;">
-        <input type="button" class="k-button k-button-solid-info" value="저장" onclick="eduReq.saveEduInfo();"/>
-        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick="window.close();"/>
-      </div>
+
     </div>
   </div>
 </div>

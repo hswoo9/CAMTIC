@@ -654,4 +654,39 @@
         WHERE
             ISS_NO = #{issNo} AND A.CO_CD = #{coCd} AND TAX_TY = #{taxTy}
     </select>
+
+    <select id="getSbankList" parameterType="map" resultType="map">
+        /*getSbankList*/
+        SELECT
+            *
+        FROM
+            SBANK
+    </select>
+
+    <insert id="insEtcEmpInfo" parameterType="map">
+        /*insEtcEmpInfo*/
+        EXEC USP_SAUTOABDOCU_HEARNER_INSERT
+            1212,
+            'G',
+            #{pCD},
+            #{regNo},
+            #{empName},
+            #{post},
+            #{addr},
+            #{empTel},
+            #{jiroCd},
+            #{baNb},
+            #{depositor},
+            #{erpEmpCd},
+            #{ip}
+    </insert>
+
+    <select id="getLastPCd" resultType="int">
+        /*getLastPCd*/
+        SELECT
+            top 1 REPLACE(PER_CD,'T','') AS PER_CD
+        FROM VN_G20HEARNER_INFO
+        WHERE Per_CD LIKE 'T%'
+        ORDER BY PER_CD DESC
+    </select>
 </mapper>

@@ -177,7 +177,9 @@ var processInfo = {
         })
 
         if(commonProject.global.busnClass == "R" || commonProject.global.busnClass == "S"){
-            $("#teamAppBtn").show();
+            if(commonProject.global.teamYn == "Y"){
+                $("#teamAppBtn").show();
+            }
             if(commonProject.global.pjtTeamCk == "Y"){
                 $("#teamAppBtn").hide();
                 $("#btnDiv").append('<span style="float: right; color: red; font-size: 12px;">마감되었습니다</span>');
@@ -268,8 +270,52 @@ var processInfo = {
             async: false,
             success: function(rs){
                 alert("저장되었습니다.");
-                commonProject.getReloadPage(4, 4, 4, 2, 1, 1);
+                commonProject.getReloadPage(4, 3, 3, 2, 1, 1);
             }
         });
+    },
+
+    fnUploadFile : function(e, i) {
+        let size = 0;
+        const dataTransfer = new DataTransfer();
+        let fileArray = Array.from(fCommon.global.attFiles);
+        fileArray.splice(e, 1);
+        fileArray.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+
+        fCommon.global.attFiles = dataTransfer.files;
+
+        if(fCommon.global.attFiles.length > 0){
+            $("#fileGrid"+i).find(".addFile").remove();
+
+            var html = '';
+            for (var i = 0; i <fCommon.global.attFiles.length; i++) {
+                size = fCommon.bytesToKB(fCommon.global.attFiles[i].size);
+                html += '<tr style="text-align: center;" class="addFile">';
+                html += '   <td>' + fCommon.global.attFiles[i].name.split(".")[0] + '</td>';
+                html += '   <td>' + fCommon.global.attFiles[i].name.split(".")[1] + '</td>';
+                html += '   <td>' + size + '</td>';
+                html += '   <td>';
+                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">';
+                html += '   </td>';
+                html += '</tr>';
+            }
+
+            $("#fileGrid"+i).append(html);
+        }else{
+            $("#fileGrid"+i).find(".addFile").remove();
+
+            if($("#fileGrid"+i).find("tr").length == 0){
+                $("#fileGrid"+i).html('<tr class="defultTr">' +
+                    '	<td colspan="4" style="text-align: center;padding-top: 10px;">선택된 파일이 없습니다.</td>' +
+                    '</tr>');
+            }
+        }
+
+        if(fCommon.global.attFiles.length == 0){
+            fCommon.global.attFiles = new Array();
+        }
+
     }
 }

@@ -4,9 +4,16 @@ var regPrj = {
     fn_defaultScript : function () {
         const setParameters = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: $("#mainPjtSn").val()}).rs;
 
-        regPrj.fn_setPage(setParameters);
-        regPrj.fn_setData(setParameters);
-        regPrj.fn_setTab(setParameters);
+        /** 외부공개 여부 비공개일시 비밀번호 입력하는 모달창 뜸*/
+        if(setParameters != null && setParameters.SECURITY == "Y"){
+            regPrj.fn_setPage(setParameters);
+            regPrj.fn_setData(setParameters);
+            openSecurityModal();
+        }else{
+            regPrj.fn_setPage(setParameters);
+            regPrj.fn_setData(setParameters);
+            regPrj.fn_setTab(setParameters);
+        }
     },
 
     fn_setTab: function(setParameters){
@@ -24,9 +31,9 @@ var regPrj = {
         var tab0Url = "/intra/cam_project/crmInfo.do"; // 00상담정보
         var tab1Url = "/intra/cam_project/estInfo.do"; // 01견적관리
         var tab2Url = "/intra/cam_project/delvInfo.do"; // 02수주보고
-        var tab3Url = "/intra/cam_project/devInfo.do"; // 03수행계획(공정)
+        var tab3Url = "/intra/cam_project/devInfo.do"; // 03수행계획
         var tab4Url = "/intra/cam_project/processInfo.do"; // 04공정
-        var tab5Url = "/intra/cam_project/teamInfo.do"; // 05협업
+        var tab5Url = "/intra/cam_project/teamInfoEngn.do"; // 05협업
         var tab6Url = "/intra/cam_project/goodsInfo.do"; // 06납품관리
         var tab7Url = "/intra/cam_project/resultInfo.do"; // 07결과보고
         var tab8Url = "/intra/cam_project/performanceInfo.do"; // 08실적관리
@@ -75,7 +82,7 @@ var regPrj = {
         if(setParameters != null && setParameters.TEAM_STAT == "Y"){
             dataSource = [
                 {name: "견적관리", url: tab1Url},
-                {name: "수행계획(공정)", url: tab3Url},
+                {name: "수행계획", url: tab3Url},
                 {name: "공정", url: tab4Url},
                 {name: "납품관리", url: tab6Url},
                 {name: "실적관리", url: tab8Url},
@@ -88,7 +95,7 @@ var regPrj = {
                 {name: "상담정보", url: tab0Url},
                 {name: "견적관리", url: tab1Url},
                 {name: "수주보고", url: tab2Url, imageUrl : "/images/ico/etc_01_1.png"},
-                {name: "수행계획(공정)", url: tab3Url, imageUrl : "/images/ico/etc_01_1.png"},
+                {name: "수행계획", url: tab3Url, imageUrl : "/images/ico/etc_01_1.png"},
                 {name: "공정", url: tab4Url},
                 {name: "협업", url: tab5Url},
                 {name: "납품관리", url: tab6Url},
@@ -225,11 +232,18 @@ var regPrj = {
                 }
 
                 if(setParameters.PJT_STEP >= "E6"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(8));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(12));
 
-                    if(setParameters.PM_EMP_SEQ == $("#regEmpSeq").val()){
-                        tabStrip.enable(tabStrip.tabGroup.children().eq(8));
+                    var resultMap = customKendo.fn_customAjax("/project/engn/getResultInfo", {
+                        pjtSn: setParameters.PJT_SN,
+                    }).result.map;
+
+                    if(resultMap != null){
+                        console.log("resultMap")
+                        console.log(resultMap)
+                        if(setParameters.PM_EMP_SEQ == $("#regEmpSeq").val() && resultMap.STATUS == "100"){
+                            tabStrip.enable(tabStrip.tabGroup.children().eq(8));
+                        }
                     }
                 }
             } else {
@@ -359,6 +373,7 @@ var regPrj = {
         $("#crmLoc").val(p.CRM_LOC);
         $("#modBtn").css("display", "");
         $("#saveBtn").css("display", "none");
+        $("input[name='securityYn'][value='" + p.SECURITY + "']").prop("checked", true);
     },
 
     fn_busnDDLChange: function(e){
@@ -379,8 +394,14 @@ var regPrj = {
     },
 
     fn_save: function (){
+        if($("#pjtNm").val() == ""){
+            alert("제목을 입력해주세요."); return;
+        }
+        if($("#expAmt").val() == ""){
+            alert("견적가를 입력해주세요."); return;
+        }
         if($("#contLocSn").val() == ""){
-            alert("업체명을 선택해주세요.");
+            alert("업체명을 선택해주세요."); return;
         }
 
         var data = {
@@ -399,6 +420,12 @@ var regPrj = {
             contDt : $("#consultDt").val(),
             regEmpSeq : $("#regEmpSeq").val()
         }
+
+        $("input[name='securityYn']").each(function(){
+            if($(this).is(":checked")){
+                data.security = this.value;
+            }
+        });
 
         if(data.busnNm == "D"){
             data.menuCd = "engn";
@@ -515,5 +542,18 @@ var regPrj = {
         busnClass.wrapper.hide();
 
         $("#pjtSelectModal").data("kendoWindow").close();
+    },
+
+    fn_checkPass: function(){
+        let pass = $("#pjtSecurity").val();
+        if(pass != "12345"){
+            alert("비밀번호가 다릅니다.");
+            $("#pjtSecurity").val("");
+            return;
+        }else{
+            const setParameters = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: $("#mainPjtSn").val()}).rs;
+            regPrj.fn_setTab(setParameters);
+            $("#pjtSecurityModal").data("kendoWindow").close();
+        }
     }
 }

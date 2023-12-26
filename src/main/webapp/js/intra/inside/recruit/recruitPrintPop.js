@@ -2,6 +2,8 @@ const recruitPrintPop = {
     global: {
         hwpCtrl : "",
         params : "",
+        now : "",
+        fileTitle : ""
     },
 
     init: function(){
@@ -97,6 +99,7 @@ const recruitPrintPop = {
 
 
         /** 채용부문 */
+        recruitPrintPop.global.fileTitle = recruitPrintTitle.RECRUIT_TITLE + " 총괄표.hwp";
         recruitPrintPop.global.hwpCtrl.PutFieldText("AREA_INFO", areaInfoValue);
 
         /** 마감일 */
@@ -147,6 +150,10 @@ const recruitPrintPop = {
         html += '</table>';
         recruitPrintPop.global.hwpCtrl.MoveToField('RECRUIT_HTML', true, true, false);
         recruitPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
+    },
+
+    saveHwp : function (){
+        recruitPrintPop.global.hwpCtrl.SaveAs(recruitPrintPop.global.fileTitle, "hwp", "download:true");
     },
 
     resize: function() {

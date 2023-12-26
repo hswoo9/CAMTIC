@@ -234,6 +234,16 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
+    public void setPayAppCostApp(Map<String, Object> params) {
+        payAppRepository.setPayAppCostApp(params);
+    }
+
+    @Override
+    public void setPayAppDetCostApp(Map<String, Object> params) {
+        payAppRepository.setPayAppDetCostApp(params);
+    }
+
+    @Override
     public void setExnpData(Map<String, Object> params) {
         Gson gson = new Gson();
         List<Map<String, Object>> itemArr = gson.fromJson((String) params.get("itemArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
@@ -349,11 +359,11 @@ public class PayAppServiceImpl implements PayAppService {
         /** 1.지출결의서 일때 세금계산서, 계산서, 신용카드는 반제결의 승인시 g20 프로시저 호출 해야 함 */
         if("1".equals(pkMap.get("PAY_APP_TYPE"))){
             if(type.equals("resolution")){
-                params.put("evidTypeArr", "1,2,3");
+                params.put("evidTypeArr", "1,2,3,4,5,6,9");
                 list = payAppRepository.getExnpG20List(params);
             }else{
-                params.put("evidTypeArr", "4,5");
-                list = payAppRepository.getExnpG20List(params);
+//                params.put("evidTypeArr", "4,5,6,9");
+//                list = payAppRepository.getExnpG20List(params);
             }
         } else if("2".equals(pkMap.get("PAY_APP_TYPE"))){
             list = payAppRepository.getExnpG20List(params);
@@ -458,7 +468,6 @@ public class PayAppServiceImpl implements PayAppService {
                     data.put("LOGIN_EMP_CD", loginMap.get("ERP_EMP_SEQ"));
                     g20Repository.execUspAncj080Insert00(data);
                 }
-
             }
         }
     }
@@ -1062,11 +1071,33 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
-    public void setPayDepo(Map<String, Object> params) {
+    public void setPayDepo(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
+
         if(params.containsKey("payDepoSn")){
             payAppRepository.updPayDepo(params);
         } else {
             payAppRepository.insPayDepo(params);
+        }
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile files = request.getFile("files");
+        params.put("menuCd", "payDepo");
+        if(files != null){
+            if(!files.isEmpty()){
+                fileInsMap = mainLib.fileUpload(files, filePath(params, SERVER_DIR));
+                fileInsMap.put("payDepoSn", params.get("payDepoSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("file_no", fileInsMap.get("file_no"));
+                payAppRepository.updPayDepoFile(fileInsMap);
+            }
         }
     }
 
@@ -1095,6 +1126,17 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
+    public void updExnpDe(int[] params, Map<String, Object> params2) {
+        for(int i = 0 ; i < params.length ; i++){
+            Map<String, Object> map = new HashMap<>();
+
+            map.put("payAppSn", params[i]);
+            map.put("payExnpDe", params2.get("payExnpDe"));
+            payAppRepository.updExnpDe(map);
+        }
+    }
+
+    @Override
     public List<Map<String, Object>> getPayAppFileList(Map<String, Object> params) {
         return payAppRepository.getPayAppFileList(params);
     }
@@ -1109,5 +1151,33 @@ public class PayAppServiceImpl implements PayAppService {
         }
 
         return fileList;
+    }
+
+    @Override
+    public List<Map<String, Object>> getPjtExnpList(Map<String, Object> params) {
+        return payAppRepository.getPjtExnpList(params);
+    }
+
+    @Override
+    public void setProjectTaxInfo(Map<String, Object> params) {
+        if(!params.containsKey("depoSetSn")){
+            payAppRepository.insProjectTaxInfo(params);
+        } else {
+            payAppRepository.updProjectTaxInfo(params);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getProjectSettingInfo(Map<String, Object> params) {
+        return payAppRepository.getProjectSettingInfo(params);
+    }
+
+    @Override
+    public void setProjectBudgetInfo(Map<String, Object> params) {
+        if(!params.containsKey("depoSetSn")){
+            payAppRepository.insProjectBudgetInfo(params);
+        } else {
+            payAppRepository.updProjectBudgetInfo(params);
+        }
     }
 }

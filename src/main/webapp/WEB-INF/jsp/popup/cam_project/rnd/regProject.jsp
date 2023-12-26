@@ -164,9 +164,10 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">총 사업비</th>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star">*</span>총 사업비</th>
                     <td>
-                        <input type="text" id="allBusnCost" name="allBusnCost" style="width: 80%; text-align: right" disabled value="0"/>
+                        <input type="text" id="allBusnCost" name="allBusnCost" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 80%; text-align: right" value="0"/>
                     </td>
                     <th scope="row" class="text-center th-color">수주금액</th>
                     <td>
@@ -214,9 +215,20 @@
                     <th scope="row" class="text-center th-color">
                         3책 5공
                     </th>
-                    <td colspan="3">
+                    <td>
                         <input type="checkbox" id="rndStatYn" name="rndStatYn" style="position: relative; top: 3px;">
                         <label for="rndStatYn">적용</label>
+                    </td>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>프로젝트 외부공개 여부
+                    </th>
+                    <td>
+                        <span style="position: relative; top: 5px;">
+                            <input type="radio" id="securityN" name="securityYn" value="N" checked="checked">
+                            <label for="securityN">공개</label>
+                            <input type="radio" id="securityY" name="securityYn" value="Y" style="margin-left:10px;">
+                            <label for="securityY">비공개</label>
+                        </span>
                     </td>
                 </tr>
                 </thead>
@@ -241,6 +253,10 @@
 <div id="pjtStopModal">
     <input type="text" id="pjtStopRs" />
 </div>
+
+<div id="pjtSecurityModal">
+</div>
+
 <script>
     regRnd.fn_defaultScript();
 
@@ -284,6 +300,51 @@
             $("#pjtStopModal").empty();
         }
     });
+
+    $("#pjtSecurityModal").kendoWindow({
+        title : "비공개 프로젝트 비밀번호 입력",
+        width: "700px",
+        visible: false,
+        modal: true,
+        position : {
+            top : 200,
+            left : 400
+        },
+        open : function (){
+            var htmlStr =
+                '<div class="mb-10" style="text-align: right;">' +
+                '	<button type="button" id="passBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="regPrj.fn_checkPass()">확인</button>' +
+                '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#pjtSecurityModal \').data(\'kendoWindow\').close()">닫기</button>' +
+                '</div>' +
+                '<table class="popTable table table-bordered mb-0" style="margin-top: 10px">' +
+                '	<colgroup>' +
+                '		<col width="20%">' +
+                '		<col width="80%">' +
+                '	</colgroup>' +
+                '	<thead>' +
+                '		<tr>' +
+                '			<th scope="row" class="text-center th-color"><span class="red-star">*</span>비밀번호</th>' +
+                '			<td>' +
+                '				<input type="password" id="pjtSecurity" name="pjtSecurity" style="width: 90%"/>' +
+                '			</td>' +
+                '		</tr>' +
+                '	</thead>' +
+                '</table>';
+
+            $("#pjtSecurityModal").html(htmlStr);
+
+            // modalKendoSetCmCodeCM();
+
+            $("#pjtSecurity").kendoTextBox();
+        },
+        close: function () {
+            $("#pjtSecurityModal").empty();
+        }
+    });
+
+    function openSecurityModal(){
+        $("#pjtSecurityModal").data("kendoWindow").open();
+    }
 
     function userSearch() {
         window.open("/common/deptListPop.do", "조직도", "width=750, height=650");

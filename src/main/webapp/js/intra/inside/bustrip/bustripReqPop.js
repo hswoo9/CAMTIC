@@ -326,9 +326,9 @@ const bustripReq = {
                             if(busnClass == "D"){
                                 opener.window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=9";
                             }else if(busnClass == "R"){
-                                opener.window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=10";
+                                opener.window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=9";
                             }else if(busnClass == "S"){
-                                opener.window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=10";
+                                opener.window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=9";
                             }else{
                                 opener.window.location.reload();
                             }
@@ -371,7 +371,7 @@ const bustripReq = {
         var url = "/project/pop/projectView.do";
 
         var name = "_blank";
-        var option = "width = 1100, height = 400, top = 100, left = 400, location = no"
+        var option = "width = 1100, height = 700, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 

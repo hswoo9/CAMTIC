@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
 
@@ -135,7 +137,20 @@ public class G20Controller {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
+        params.put("empSeq", loginVO.getUniqId());
+
         List<Map<String, Object>> list = g20Service.getCardList(params);
+
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/g20/getCardAdminList")
+    public String getCardAdminList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        List<Map<String, Object>> list = g20Service.getCardAdminList(params);
 
         model.addAttribute("list", list);
         return "jsonView";
@@ -165,6 +180,30 @@ public class G20Controller {
         List<Map<String, Object>> list = g20Service.getCorpProjectList(params);
 
         model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/g20/getSbankList")
+    public String getSbankList(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = g20Service.getSbankList(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/g20/insEtcEmpInfo")
+    public String insEtcEmpInfo(@RequestParam Map<String, Object> params, Model model) throws UnknownHostException {
+        String ip = Inet4Address.getLocalHost().getHostAddress();
+        params.put("ip", ip);
+        try{
+            g20Service.insEtcEmpInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
         return "jsonView";
     }
 }

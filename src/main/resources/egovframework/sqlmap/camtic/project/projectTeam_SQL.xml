@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="projectTeam">
+
+    <select id="getTeamVersion" parameterType="map" resultType="map">
+        /* getTeamVersion */
+        SELECT
+            PTV.*,
+            DATE_FORMAT(PTV.REG_DT, '%Y-%m-%d') AS REG_DATE
+        FROM
+            CAM_PJT_MNG.DJ_PJT_TEAM_VERSION PTV
+        WHERE PJT_SN = #{pjtSn}
+    </select>
+
+    <select id="getTeamList" parameterType="map" resultType="map">
+        /* getTeamList */
+        SELECT
+            PT.*,
+            DATE_FORMAT(PT.REG_DT, '%Y-%m-%d') AS REG_DATE
+        FROM
+            CAM_PJT_MNG.DJ_PJT_TEAM PT
+        WHERE PJT_SN = #{pjtSn}
+          AND TEAM_VERSION_SN = #{teamVersionSn}
+        <if test='teamCk != null and !"".equals(teamCk)'>
+          AND TM_TYPE = #{teamCk}
+        </if>
+        <if test='teamCk == null or "".equals(teamCk)'>
+            AND ACTIVE = 'Y'
+        </if>
+    </select>
+
+    <select id="getTeamMngList" parameterType="map" resultType="map">
+        /* getTeamMngList */
+        SELECT
+            A.PJT_SN AS PJT_SN,
+            A.BUSN_CLASS AS BUSN_CLASS,
+            A.BUSN_NM AS BUSN_NM,
+            A.PJT_TMP_CD AS PJT_TMP_CD,
+            A.PJT_NM AS PJT_NM,
+            A.DELV_APPROVE_STAT AS STATUS,
+            B.TEAM_VERSION_SN
+        FROM
+            CAM_PJT_MNG.DJ_PJT_TEAM_VERSION B
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PROJECT A ON A.PJT_SN = B.PJT_SN
+        WHERE B.STATUS = '10'
+    </select>
+
+    <select id="getTeamBudgetList" parameterType="map" resultType="map">
+        /* getTeamBudgetList */
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_TEAM_BUDGET
+        WHERE TM_SN = #{tmSn}
+    </select>
+
+    <select id="getVerLeftAmt" parameterType="map" resultType="map">
+        /* getVerLeftAmt */
+        SELECT
+            IFNULL(SUM(TM_AMT), 0) AS TM_AMT_SUM
+        FROM
+            CAM_PJT_MNG.DJ_PJT_TEAM
+        WHERE PJT_SN = #{pjtSn}
+          AND TEAM_VERSION_SN = #{teamVersionSn}
+          AND TM_TYPE = '1'
+          AND ACTIVE = 'Y'
+    </select>
+
+    <select id="getTeamData" parameterType="map" resultType="map">
+        /* getTeamData */
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_TEAM PT
+        WHERE TM_SN = #{tmSn}
+    </select>
+
+    <insert id="setTeamAddVersion" parameterType="map">
+        /* setTeamAddVersion */
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_TEAM_VERSION
+            (
+                PJT_SN,
+                REG_DT,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{pjtSn},
+                NOW(),
+                #{regEmpSeq}
+            )
+        <selectKey keyProperty="teamVersionSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_TEAM_VERSION'
+        </selectKey>
+    </insert>
+
+    <insert id="setTeamDelv" parameterType="map">
+        /* setTeamDelv */
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_TEAM
+            (
+                TEAM_VERSION_SN,
+                PJT_SN,
+                TM_TYPE,
+                TM_TEAM_SEQ,
+                TM_PM_SEQ,
+                TM_INV_AMT,
+                REG_DT,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{teamVersionSn},
+                #{pjtSn},
+                #{tmType},
+                (SELECT HEI.DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO HEI WHERE HEI.EMP_SEQ = #{regEmpSeq}),
+                #{regEmpSeq},
+                0,
+                NOW(),
+                #{regEmpSeq}
+            )
+    </insert>
+
+    <update id="updMyTeam" parameterType="map">
+        /* updMyTeam */
+        UPDATE CAM_PJT_MNG.DJ_PJT_TEAM
+        SET
+            TM_INV_AMT = #{myInvAmt}
+        WHERE TEAM_VERSION_SN = #{teamVersionSn}
+          AND PJT_SN = #{pjtSn}
+          AND TM_TYPE = #{tmType}
+    </update>
+
+    <insert id="insTeam" parameterType="map">
+        /* insTeam */
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_TEAM
+            (
+                TEAM_VERSION_SN,
+                PJT_SN,
+                TM_TYPE,
+                TM_TEAM_SEQ,
+                TM_PM_SEQ,
+                TM_AMT,
+                TM_INV_AMT,
+                REG_DT,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{teamVersionSn},
+                #{pjtSn},
+                #{tmType},
+                #{tmTeamSeq},
+                #{tmPMSeq},
+                #{teamAmt},
+                #{tmInvAmt},
+                NOW(),
+                #{regEmpSeq}
+            )
+        <selectKey keyProperty="tmSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_TEAM'
+        </selectKey>
+    </insert>
+
+    <update id="updTeam" parameterType="map">
+        /* updTeam */
+        UPDATE CAM_PJT_MNG.DJ_PJT_TEAM
+        SET
+            TM_AMT = #{teamAmt},
+            TM_INV_AMT = #{tmInvAmt},
+            MOD_DT = NOW(),
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            TM_SN = #{tmSn}
+    </update>
+
+    <update id="delTeam" parameterType="map">
+        /* delTeam */
+        UPDATE CAM_PJT_MNG.DJ_PJT_TEAM
+        SET
+            WORK_TYPE = 'D',
+            ACTIVE = 'N',
+            MOD_DT = NOW(),
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            TM_SN IN (${joinSn})
+    </update>
+
+    <insert id="setTeamCopy" parameterType="map">
+        /* setTeamCopy */
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_TEAM
+            (
+                TEAM_VERSION_SN,
+                PJT_SN,
+                TM_TYPE,
+                TM_TEAM_SEQ,
+                TM_PM_SEQ,
+                TM_AMT,
+                TM_INV_AMT,
+                WORK_TYPE,
+                BEF_TM_SN,
+                REG_EMP_SEQ
+            )
+        SELECT
+            #{teamVersionSn},
+            PJT_SN,
+            TM_TYPE,
+            TM_TEAM_SEQ,
+            TM_PM_SEQ,
+            TM_AMT,
+            TM_INV_AMT,
+            'U',
+            TM_SN,
+            #{regEmpSeq}
+        FROM CAM_PJT_MNG.DJ_PJT_TEAM WHERE PJT_SN = #{pjtSn} AND TEAM_VERSION_SN = #{LAST_TEAM_VERSION_SN}
+        <selectKey keyProperty="tmSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_TEAM'
+        </selectKey>
+    </insert>
+
+    <insert id="insTeamProject" parameterType="map">
+        /* insTeamProject */
+        INSERT INTO CAM_PJT_MNG.DJ_PROJECT
+            (
+                EMP_SEQ,
+                EMP_NAME,
+                DEPT_SEQ,
+                DEPT_NAME,
+                BUSN_CLASS,
+                BUSN_NM,
+                TEAM_STAT,
+                PNT_PJT_SN,
+                SBJ_CLASS,
+                SBJ_CHAR,
+                SBJ_DEP,
+                SBJ_DEP_SUB,
+                SBJ_SEP,
+                SBJ_STAT_YN,
+                PJT_CON_YEAR,
+                PJT_CD,
+                PJT_TMP_CD,
+                BS_TITLE,
+                PJT_NM,
+                PJT_STEP,
+                PJT_STEP_NM,
+                CRM_SN,
+                CRM_MEM_SN,
+                CRM_MEM_TEMP_NM,
+                CRM_CON_SN,
+                CRM_PART_SN,
+                PM_EMP_SEQ,
+                PM,
+                PJT_AMT,
+                PJT_EXP_AMT,
+                CONSULT_DT,
+                STR_DT,
+                ACTIVE,
+                REG_EMP_SEQ,
+                TM_SN,
+                REG_DT
+            )
+            (SELECT
+                #{TM_PM_SEQ} AS TM_PM_SEQ,
+                IFNULL((SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{TM_PM_SEQ}), '') AS TM_EMP_NAME,
+                #{TM_TEAM_SEQ},
+                IFNULL((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = #{TM_TEAM_SEQ}), '') AS TM_TEAM_NAME,
+                BUSN_CLASS,
+                BUSN_NM,
+                'Y' AS TEAM_STAT,
+                PJT_SN AS PNT_PJT_SN,
+                SBJ_CLASS,
+                SBJ_CHAR,
+                SBJ_DEP,
+                SBJ_DEP_SUB,
+                SBJ_SEP,
+                SBJ_STAT_YN,
+                PJT_CON_YEAR,
+                PJT_CD,
+                PJT_TMP_CD,
+                BS_TITLE,
+                CONCAT("[협업] ", PJT_NM) AS PJT_NM,
+                PJT_STEP,
+                PJT_STEP_NM,
+                CRM_SN,
+                CRM_MEM_SN,
+                CRM_MEM_TEMP_NM,
+                CRM_CON_SN,
+                CRM_PART_SN,
+                #{TM_PM_SEQ} AS TM_PM_SEQ2,
+                IFNULL((SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{TM_PM_SEQ}), '') AS TM_EMP_NAME2,
+                #{TM_AMT},
+                #{TM_AMT},
+                CONSULT_DT,
+                NOW(),
+                ACTIVE,
+                REG_EMP_SEQ,
+                (CASE WHEN #{BEF_TM_SN} IS NULL THEN #{TM_SN} ELSE #{BEF_TM_SN} END),
+                REG_DT
+            FROM CAM_PJT_MNG.DJ_PROJECT
+            WHERE PJT_SN = #{PJT_SN} AND TEAM_STAT = 'N')
+    </insert>
+
+    <update id="updTeamProject" parameterType="map">
+        /* updTeamProject */
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            EMP_SEQ = #{TM_PM_SEQ},
+            EMP_NAME = IFNULL((SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{TM_PM_SEQ}), ''),
+            DEPT_SEQ = #{TM_TEAM_SEQ},
+            DEPT_NAME = IFNULL((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = #{TM_TEAM_SEQ}), ''),
+            PM_EMP_SEQ = #{TM_PM_SEQ},
+            PM = IFNULL((SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{TM_PM_SEQ}), ''),
+            PJT_AMT = #{TM_AMT},
+            PJT_EXP_AMT = #{TM_AMT},
+            TM_SN = #{TM_SN}
+        WHERE TM_SN = #{BEF_TM_SN} AND TM_SN IS NOT NULL
+    </update>
+
+    <update id="delTeamProject" parameterType="map">
+        /* delTeamProject */
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            PJT_STOP = 'Y',
+            ACTIVE = 'N'
+        WHERE TM_SN = #{BEF_TM_SN} AND TM_SN IS NOT NULL
+    </update>
+
+    <update id="updTeamVersionAppStat" parameterType="map">
+        /* updTeamVersionAppStat */
+        UPDATE CAM_PJT_MNG.DJ_PJT_TEAM_VERSION
+        SET
+            STATUS = #{stat}
+        WHERE TEAM_VERSION_SN = #{teamVersionSn}
+          AND PJT_SN = #{pjtSn}
+    </update>
+
+    <insert id="insTeamBudget" parameterType="map">
+        /* insTeamBudget */
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_TEAM_BUDGET
+            (
+                TM_SN,
+                PJT_SN,
+                BGT_CD,
+                BGT_TEAM_AMT
+            )
+        VALUES
+            (
+                #{tmSn},
+                #{pjtSn},
+                #{bgtCd},
+                #{bgtTeamAmt}
+            )
+    </insert>
+
+    <insert id="setTeamBudgetCopy" parameterType="map">
+        /* setTeamBudgetCopy */
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_TEAM_BUDGET
+        (
+            TM_SN,
+            PJT_SN,
+            BGT_CD,
+            BGT_TEAM_AMT
+        )
+        SELECT
+            #{tmSn},
+            PJT_SN,
+            BGT_CD,
+            BGT_TEAM_AMT
+        FROM CAM_PJT_MNG.DJ_PJT_TEAM_BUDGET WHERE TM_SN = #{befTmSn}
+    </insert>
+
+    <delete id="delTeamBudget" parameterType="map">
+        /* delTeamBudget */
+        DELETE FROM CAM_PJT_MNG.DJ_PJT_TEAM_BUDGET WHERE TM_SN = #{tmSn}
+    </delete>
+</mapper>

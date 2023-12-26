@@ -5,6 +5,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 
+
 <body class="font-opensans" style="background-color:#fff;">
 <script type="text/javascript" src="/js/intra/cam_crm/regCrmPop.js?v=${today}"/></script>
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
@@ -28,6 +29,7 @@
 <input type="hidden" id="bsYm" value="${params.bsYm}" />
 <input type="hidden" id="claimSn" value="${params.claimSn}" />
 <input type="hidden" id="purcSn" value="${params.purcSn}" />
+<input type="hidden" id="hrBizReqResultId" value="${params.hrBizReqResultId}" />
 <input type="hidden" id="docStatus" value=""/>
 
 <input type="hidden" id="g20BudgetAmt" value="" />
@@ -48,7 +50,7 @@
                 </span>
             </h3>
             <div id="payAppBtnDiv" class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="regPay.fn_save();">저장</button>
+                <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="regPay.fn_save('user');">저장</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -78,7 +80,7 @@
                 </tr>
                 <tr id="project">
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>사업명</th>
-                    <td colspan="2">
+                    <td colspan="4">
                         <span>
                             <input type="text" id="pjtNm" disabled value="${pjtData.PJT_NM}"  style="width: 40%;">
                             <input type="hidden" id="pjtSn" value="${pjtData.PJT_SN}" />
@@ -86,10 +88,10 @@
                             <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="regPay.fn_projectPop('regPay')">검색</button>
                         </span>
                     </td>
-                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>지출요청일</th>
-                    <td colspan="2">
-                        <input type="text" id="reqDe" style="width: 40%" />
-                    </td>
+<%--                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>지출요청일</th>--%>
+<%--                    <td colspan="2">--%>
+<%--                        <input type="text" id="reqDe" style="width: 40%" />--%>
+<%--                    </td>--%>
                 </tr>
 <%--                <tr>--%>
 <%--                    <th scope="row" class="text-center th-color">예산비목</th>--%>
@@ -107,7 +109,7 @@
                         <input type="text" id="appTitle" style="width: 100%;">
                     </td>
                 </tr>
-                <tr>
+                <tr id="reasonContTr">
                     <th scope="row" class="text-center th-color">신청내용</th>
                     <td colspan="4">
                         <textarea type="text" id="appCont" style="width: 100%;"></textarea>
@@ -233,7 +235,7 @@
                         </c:if>
                         <td>
                             <span>
-                                <input type="text" id="budgetNm0" value="" onclick="regPay.fn_budgetPop(0)" style="width: 100%;">
+                                <input type="text" id="budgetNm0" dir="rtl" value="" onclick="regPay.fn_budgetPop(0)" style="width: 100%;text-align: right;">
                                 <input type="hidden" id="budgetSn0" value="" class="budgetSn"/>
                                 <input type="hidden" id="budgetAmt0" value="" />
                             </span>
@@ -257,7 +259,7 @@
                             <input type="hidden" id="taxTy0" class="taxTy">
                         </td>
                         <td>
-                            <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regPayDet.fn_popRegDet(1, 0)"></i>
+                            <i class="k-i-plus k-icon" style="cursor: pointer" id="plusIcon0"  onclick="regPayDet.fn_popRegDet(1, 0)"></i>
                             <input type="text" style="width: 70%" id="crmNm0" class="crmNm">
                             <input type="hidden" id="buySts0" value="" />
                             <input type="hidden" id="trCd0" class="trCd">
@@ -278,7 +280,7 @@
                             <input type="text" id="trDe0" class="trDe">
                         </td>
                         <td>
-                            <input type="text" id="totCost0" class="totCost" value="0" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            <input type="text" id="totCost0" class="totCost" value="0" style="text-align: right" onchange="regPay.fn_changeAllCost()" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                         </td>
                         <td>
                             <input type="text" id="supCost0" class="supCost" value="0" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
@@ -301,6 +303,18 @@
                         </td>
                     </tr>
                     </tbody>
+                    <tfoot>
+                    <tr>
+                        <th id="footerLine" colspan="8" style="text-align: right; font-weight: bold">
+                            합계
+                        </th>
+                        <td style="text-align: right; font-weight: bold">
+                            <span id="totalAllCost">0</span> 원
+                        </td>
+                        <th colspan="5" style="text-align: right;">
+                        </th>
+                    </tr>
+                    </tfoot>
                 </table>
 
             </div>
@@ -314,6 +328,46 @@
     <button type="button" id="updBtn" class="k-button k-button-solid-base" onclick="regPay.fn_updReason();">확인</button>
 </div>
 
+<div id="dialogDraft" style="text-align: center">
+    <table class="popTable table table-bordered mb-0" id="userReqPopImageTable" style="width: 100%">
+        <colgroup>
+            <col width="15%">
+            <col width="35%">
+            <col width="15%">
+            <col width="35%">
+        </colgroup>
+        <thead>
+        <tr id="row1">
+            <th colspan="4" style="text-align: center;">
+                <span>
+                    법인 자금집행 기준에 따른 본 지급신청의 지출예정일은 <br>
+                    [<span style="color: red; font-weight: bold" id="payExnpDeText"></span>] 입니다.<br>
+                    위 일자에 지출할 경우 문서번호를 생성하세요.<br>
+                </span>
+            </th>
+        </tr>
+        <tr style="display:none;" id="row2">
+            <th>지출요청일</th>
+            <td colspan="3">
+                <input type="text" id="reqDe" style="width: 80%" name="reqDe" value="">
+            </td>
+            <th style="display:none">지출예정일</th>
+            <td style="display:none">
+                <input type="text" id="payExnpDe" style="width: 80%" name="payExnpDe" value="">
+                <input type="hidden" id="tmpPayDe" />
+            </td>
+        </tr>
+        <tr style="display:none;" id="row3">
+            <th>사유</th>
+            <td colspan="3">
+                <input type="text" id="exnpIss" style="width: 80%" name="exnpIss" value="">
+            </td>
+        </tr>
+        </thead>
+    </table>
+    <button type="button" onclick="regPay.payAppDrafting()" class="k-button k-button-solid-info" style="float: right; margin-top:8px; font-size: 12px;">상신</button>
+    <button type="button" class="k-button k-button-solid-base" id="changeBtn" style="float: right; margin-top:8px; margin-right: 5px; font-size: 12px;" onclick="regPay.fn_exnpDeChange()">지출예정일 변경</button>
+</div>
 
 <script type="text/javascript">
     regPayDet.fn_defaultScript();
@@ -325,6 +379,17 @@
         resizable: false,
         modal: true,
         width: 500,
+        scrollable : false,
+        actions: ["Close"],
+    });
+
+    $("#dialogDraft").kendoWindow({
+        title: "지출예정일 확인",
+        visible : false,
+        resizable: false,
+        modal: true,
+        width: 700,
+        scrollable: false,
         actions: ["Close"],
     });
 
@@ -342,7 +407,6 @@
             $("#productB" + i).data("kendoDropDownList").enable(false);
             $("#productC" + i).data("kendoDropDownList").enable(false);
         }
-
     }
     function userSearch() {
         window.open("/common/deptListPop.do", "조직도", "width=750, height=650");
@@ -358,14 +422,18 @@
         }
 
         console.log(cd.substring(0, 1));
-        if(cd.substring(0, 1) == "R" || cd.substring(0, 1) == "S") {
-            $("#reasonTh").css("display", "");
-            $(".reasonTr").css("display", "");
-            $("#reasonCol").css("display", "");
-        } else {
+        if(cd.substring(0, 1) == "M") {
             $("#reasonTh").css("display", "none");
             $(".reasonTr").css("display", "none");
             $("#reasonCol").css("display", "none");
+            $("#footerLine").attr("colspan", "8");
+            $("#reasonContTr").css("display", "");
+        } else {
+            $("#reasonTh").css("display", "");
+            $(".reasonTr").css("display", "");
+            $("#reasonCol").css("display", "");
+            $("#reasonContTr").css("display", "none");
+            $("#footerLine").attr("colspan", "9");
         }
         var result = customKendo.fn_customAjax("/project/getBankData", data);
         var rs = result.data;

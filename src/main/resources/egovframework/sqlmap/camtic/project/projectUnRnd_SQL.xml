@@ -28,6 +28,8 @@
             CRM_CON_SN,
             CRM_PART_SN,
             PJT_EXP_AMT,
+            ALL_BUSN_COST,
+            SECURITY,
             REG_EMP_SEQ
         )
         VALUES
@@ -53,6 +55,8 @@
             #{crmConSn},
             #{crmPartSn},
             #{pjtExpAmt},
+            #{allBusnCost},
+            #{security},
             #{regEmpSeq}
         )
 
@@ -81,6 +85,8 @@
             CRM_SN = #{crmSn},
             CRM_CON_SN = #{crmConSn},
             CRM_PART_SN = #{crmPartSn},
+            ALL_BUSN_COST = #{allBusnCost},
+            SECURITY = #{security},
             PJT_EXP_AMT = #{pjtExpAmt}
         WHERE
             PJT_SN = #{pjtSn}
@@ -173,7 +179,9 @@
         SET
             TOT_RES_COST = (SELECT IFNULL(SUM(CB_BUDGET), 0) AS TOTAL_AMT FROM CAM_PJT_MNG.DJ_PJT_CB
                             WHERE PJT_SN = #{pjtSn}
-                              AND ACCOUNT IN (SELECT IS_TYPE FROM CAM_PJT_MNG.DJ_PJT_ACCOUNT SSA WHERE PJT_SN = #{pjtSn}))
+                              AND
+                                ( ACCOUNT IN (SELECT IS_TYPE FROM CAM_PJT_MNG.DJ_PJT_ACCOUNT SSA WHERE PJT_SN = #{pjtSn})
+                                    OR ACCOUNT = CASE WHEN (SELECT COUNT(IS_TYPE) FROM CAM_PJT_MNG.DJ_PJT_ACCOUNT SSA WHERE PJT_SN = #{pjtSn} AND IS_TYPE = '9') = 1 THEN '6' ELSE NULL END))
         WHERE
             UN_RND_SN = #{unRndSn}
     </update>

@@ -19,10 +19,10 @@
     <input type="hidden" id="nowUrl" name="nowUrl" />
 </form>
 
-<div style="padding: 10px">
+<div class="devInfo" style="padding: 10px">
     <div class="table-responsive">
         <div id="devBtnDiv">
-            <button type="button" id="addVerBtn2" style="float: right; margin-bottom: 5px; margin-right: 5px;" class="k-button k-button-solid-base" onclick="unRndDP.fn_addVersion()">예비원가 추가</button>
+            <button type="button" id="addVerBtn2" style="float: right; margin-bottom: 5px; margin-right: 5px;" class="k-button k-button-solid-base" onclick="unRndDP.fn_addVersion()">수행계획서 추가</button>
         </div>
 
 
@@ -45,7 +45,7 @@
                 <th>날짜</th>
                 <th>투자금액</th>
                 <th>등록자</th>
-                <th>예비원가서</th>
+                <th>수행계획서</th>
                 <th>상태</th>
             </tr>
             </thead>
@@ -120,7 +120,9 @@
                 </thead>
             </table>
 
-            <table class="popTable table table-bordered mb-0">
+            <div style="margin-top: 10px"></div>
+            <span class="addPSActive" style="font-size: 12px; margin-bottom: 0; display: none">◎ 예상비용</span>
+            <table class="popTable table table-bordered mb-0" style="font-size: 12px; margin-top: 0">
                 <colgroup>
                     <col width="7%">
                     <col width="15%">

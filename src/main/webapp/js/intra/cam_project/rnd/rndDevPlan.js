@@ -313,7 +313,7 @@ var rndDP = {
     },
 
     fn_addVersion : function (){
-        if(!confirm("예비원가를 추가하시겠습니까?")){
+        if(!confirm("수행계획서를 추가하시겠습니까?")){
             return;
         }
 
@@ -322,7 +322,7 @@ var rndDP = {
             empSeq : $("#empSeq").val(),
         }
         var result = customKendo.fn_customAjax("/projectRnd/setDevPjtVer", data);
-        commonProject.getReloadPage(3, 3, 3, 1, 0, 0);
+        commonProject.getReloadPage(3, 2, 2, 1, 0, 0);
     },
 
     fn_addInv : function() {
@@ -544,11 +544,13 @@ var rndDP = {
 
         if(rs.flag){
             alert("저장되었습니다.");
-            commonProject.getReloadPage(3, 3, 3, 0, 0, 0);
+            commonProject.getReloadPage(3, 2, 2, 0, 0, 0);
         }
     },
 
     fn_buttonSet : function(devMap){
+        $(".devInfo").find("textarea").attr("disabled", false);
+
         console.log("devMap");
         console.log(devMap);
         var buttonHtml = "";
@@ -568,12 +570,15 @@ var rndDP = {
                 buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('"+devMap.DOC_ID+"', '"+devMap.DOC_MENU_CD+"', '"+devMap.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
             }else if(status == "100"){
                 buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+devMap.DOC_ID+"', '"+devMap.APPRO_KEY+"', '"+devMap.DOC_MENU_CD+"');\">열람</button>";
-                buttonHtml += "<button type=\"button\" id=\"addVerBtn2\" style=\"float: right; margin-bottom: 5px; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"rndDP.fn_addVersion()\">예비원가 추가</button>";
+                buttonHtml += "<button type=\"button\" id=\"addVerBtn2\" style=\"float: right; margin-bottom: 5px; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"rndDP.fn_addVersion()\">수행계획서 추가</button>";
+
+                /** 현재 버전이 완료 되었을때 버튼 비활성화 */
+                devInfo.fn_disabled();
             }else if(status == "111"){
                 buttonHtml += "<button type=\"button\" id=\"devTempBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"tempOrReDraftingPop('"+devMap.DOC_ID+"', 'rndDev', '"+devMap.APPRO_KEY+"', 2, 'tempDrafting');\">전자결재 임시저장 중</button>";
             }else{
                 buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
-                buttonHtml += "<button type=\"button\" id=\"addVerBtn2\" style=\"float: right; margin-bottom: 5px; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"rndDP.fn_addVersion()\">예비원가 추가</button>";
+                buttonHtml += "<button type=\"button\" id=\"addVerBtn2\" style=\"float: right; margin-bottom: 5px; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"rndDP.fn_addVersion()\">수행계획서 추가</button>";
             }
 
             /** 협업부서 일때 */
@@ -583,7 +588,7 @@ var rndDP = {
                         if(rndDP.global.invCk == "Y") {
                             buttonHtml = "<button type=\"button\" id=\"devDelBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"devInfo.fn_delete()\">삭제</button>";
                             buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-right: 5px\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
-                            buttonHtml += "<button type=\"button\" id=\"addVerBtn2\" style=\"float: right; margin-bottom: 5px; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"rndDP.fn_addVersion()\">예비원가 추가</button>";
+                            buttonHtml += "<button type=\"button\" id=\"addVerBtn2\" style=\"float: right; margin-bottom: 5px; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"rndDP.fn_addVersion()\">수행계획서 추가</button>";
                             buttonHtml += "<button type=\"button\" id=\"teamAppBtn\" style=\"float: right; margin-right: 5px\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_teamApp('Y')\">공정 마감</button>";
                         }else{
                             buttonHtml = "<button type=\"button\" id=\"devDelBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"devInfo.fn_delete()\">삭제</button>";
@@ -592,6 +597,9 @@ var rndDP = {
                     }else {
                         buttonHtml = "<button type=\"button\" id=\"teamAppBtn\" style=\"float: right; margin-bottom: 10px\" class=\"k-button k-button-solid-error\" onclick=\"rndDP.fn_teamApp('N')\">마감취소</button>";
                         buttonHtml += '<div style="position: relative; top: 10px; right: 10px"><span style="float: right; color: red; font-size: 12px;">마감되었습니다.</span></div>';
+
+                        /** 현재 버전이 완료 되었을때 버튼 비활성화 */
+                        devInfo.fn_disabled();
                     }
                 }else{
                     buttonHtml = "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
@@ -629,7 +637,7 @@ var rndDP = {
 
         if(result.flag){
             alert(cfmEndText);
-            commonProject.getReloadPage(3, 3, 3, 0, 0, 0);
+            commonProject.getReloadPage(3, 2, 2, 0, 0, 0);
         }
     },
 

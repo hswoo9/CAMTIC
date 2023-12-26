@@ -27,7 +27,15 @@ var payCardHist = {
             if(key.keyCode == 13){
                 payCardHist.fn_search();
             }
-        })
+        });
+
+        const reqType = $("#reqType").val();
+
+        /** 출장 */
+        if(reqType == "bustrip"){
+            $("#saveBtn").hide();
+            $("#saveBtnBustrip").show();
+        }
     },
 
     gridReload: function (type){
@@ -318,6 +326,8 @@ var payCardHist = {
             return;
         }
 
+        console.log(data);
+
         opener.parent.$("#crmNm" + index).val(data.MER_NM);
         opener.parent.$("#trDe" + index).val(data.AUTH_DD.substring(0,4) + "-" + data.AUTH_DD.substring(4,6) + "-" + data.AUTH_DD.substring(6,8));
         opener.parent.$("#trCd" + index).val(data.TR_CD);
@@ -330,18 +340,38 @@ var payCardHist = {
         opener.parent.$("#crmAccHolder" + index).val(data.DEPOSITOR);
         opener.parent.$("#crmAccNo" + index).val(data.BA_NB);
         opener.parent.$("#crmBnkNm" + index).val(data.JIRO_NM);
-
+        opener.parent.$("#regNo" + index).val(data.MER_BIZNO);
         opener.parent.$("#authNo" + index).val(data.AUTH_NO);
         opener.parent.$("#authDd" + index).val(data.AUTH_DD);
         opener.parent.$("#authHh" + index).val(data.AUTH_HH);
 
+        opener.parent.regPay.fn_changeAllCost();
         fn_setCardInfo(data.AUTH_NO, data.AUTH_DD, data.AUTH_HH, data.CARD_NO, data.BUY_STS, index);
 
 
     },
 
+    fn_selectCardBustrip : function (){
+        var grid = $("#mainGrid").data("kendoGrid");
+
+        var list = [];
+        var data = {};
+        grid.tbody.find("tr").each(function(){
+            if($(this).find("input")[0].checked){
+                data = grid.dataItem($(this));
+                list.push(data);
+            }
+        })
+
+        console.log(data);
+        opener.parent.cardHistSet(list);
+        window.close();
+    },
+
     fn_search : function (){
         payCardHist.gridReload("search");
         payCardHist.cardMainGrid("search");
+        payCardHist.cardMainGrid2("search");
+
     }
 }

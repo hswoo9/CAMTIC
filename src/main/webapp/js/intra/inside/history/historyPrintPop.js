@@ -2,6 +2,8 @@ const historyPrintPop = {
     global: {
         hwpCtrl : "",
         params : "",
+        now : "",
+        fileTitle : ""
     },
 
     init: function(){
@@ -32,21 +34,37 @@ const historyPrintPop = {
     },
 
     openCallBack: function(){
-        console.log(data);
+        console.log("print data",data);
         var toDate = data.REG_DT.split("-")[0]+ "년 "+data.REG_DT.split("-")[1]+ "월 "+data.REG_DT.split("-")[2]+ "일";
         historyPrintPop.global.hwpCtrl.PutFieldText("toDate", toDate);
         historyPrintPop.global.hwpCtrl.PutFieldText("position", data.BF_POSITION_NAME);
-        historyPrintPop.global.hwpCtrl.PutFieldText("hisEmpName", data.EMP_NAME);
+        //historyPrintPop.global.hwpCtrl.PutFieldText("hisEmpName", data.EMP_NAME);
+        let name = "";
+        if(data.CHNG_NAME == ""){
+            name = data.EMP_NAME;
+        }else{
+            name = data.CHNG_NAME;
+        }
+        historyPrintPop.global.hwpCtrl.PutFieldText("hisEmpName",name);
         let historyVal = "";
         if(data.afDeptName != "") {
-            historyVal += data.AF_DEPT_NAME + " ";
+            if(data.CHNG_DEPT == ""){
+                historyVal += data.AF_DEPT_NAME + " ";
+                if(data.afTeamName != "") {
+                    historyVal += data.AF_TEAM_NAME
+                        + " ";
+                }
+            }else{
+                historyVal += data.CHNG_DEPT + " ";
+            }
         }
-        if(data.afTeamName != "") {
-            historyVal += data.AF_TEAM_NAME
-                + " ";
-        }
+
         if(data.afPositionName != "") {
-            historyVal += data.AF_POSITION_NAME + " ";
+           if(data.CHNG_POSITION == "") {
+               historyVal += data.AF_POSITION_NAME + " ";
+           }else{
+               historyVal += data.CHNG_POSITION + " ";
+           }
         }
         if(data.afDutyName != "") {
             historyVal += data.AF_DUTY_NAME;
@@ -62,6 +80,10 @@ const historyPrintPop = {
             jobText = data.CHNG_JOB;
         }
         historyPrintPop.global.hwpCtrl.PutFieldText("JOB_DETAIL", jobText);
+    },
+
+    saveHwp : function (){
+        historyPrintPop.global.hwpCtrl.SaveAs(historyPrintPop.global.fileTitle, "hwp", "download:true");
     },
 
     resize: function() {

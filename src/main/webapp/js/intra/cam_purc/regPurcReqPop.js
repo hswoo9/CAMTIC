@@ -15,7 +15,7 @@ var prp = {
     fn_defaultScript : function (){
         customKendo.fn_datePicker("purcReqDate", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_textBox(["purcReqPurpose", "purcItemName0", "purcItemStd0", "purcItemUnitPrice0",
-            "purcItemQty0", "purcItemUnit0", "purcItemAmt0", "crmNm0", "rmk0", "pjtNm", "allCrmNm"]);
+            "purcItemQty0", "purcItemUnit0", "purcItemAmt0", "crmNm0", "rmk0", "pjtNm", "allCrmNm", "estAmt", "vatAmt", "totAmt"]);
 
         prp.global.radioGroupData = [
             { label: "법인운영", value: "" },
@@ -25,6 +25,18 @@ var prp = {
             { label: "용역/기타", value: "V" },
         ]
         customKendo.fn_radioGroup("purcType", prp.global.radioGroupData, "horizontal");
+
+        var radioVatDataSource = [
+            { label: "부가세 포함", value: "Y" },
+            { label: "부가세 미포함", value: "N" },
+            { label: "면세", value: "D" },
+        ]
+        customKendo.fn_radioGroup("vat", radioVatDataSource, "horizontal");
+
+        /** 부가세 Change function */
+        $("#vat").data("kendoRadioGroup").bind("change", function(){
+            prp.vatCalc();
+        });
 
         $("input[name='purcType']").click(function(){
             if($("input[name='purcType']:checked").val() != ""){
@@ -83,6 +95,46 @@ var prp = {
                 $(".childCheck").prop("checked", false);
             }
         });
+
+        var sum = 0;
+        $.each($(".purcItemAmt"), function(){
+            sum += Number(uncomma(this.value));
+        })
+        if($("#purcSn").val()){
+            $("#totalPay").css("display", "");
+            $("#totalPay").text("합계 : " + comma(sum));
+        }else{
+            $("#sum").text(comma(sum) + "원")
+        }
+    },
+
+    vatCalc : function(){
+        let sum = 0;
+        $.each($(".purcItemAmt"), function(){
+            sum += Number(uncomma(this.value));
+        });
+
+        /** 견적가 500*/
+        /** 미포함 500 50 550*/
+        const sum2 = Math.floor(sum/10);
+
+        /** 포함 455 45 500*/
+        const sum3 = Math.ceil(sum / 1.1);
+        const sum4 = sum - sum3;
+
+        if($("#vat").data("kendoRadioGroup").value() == "N"){
+            $("#estAmt").val(comma(sum));
+            $("#vatAmt").val(comma(sum2));
+            $("#totAmt").val(comma(sum+sum2));
+        }else if($("#vat").data("kendoRadioGroup").value() == "Y"){
+            $("#estAmt").val(comma(sum3));
+            $("#vatAmt").val(comma(sum4));
+            $("#totAmt").val(comma(sum));
+        }else if($("#vat").data("kendoRadioGroup").value() == "D"){
+            $("#estAmt").val(comma(sum));
+            $("#vatAmt").val("0");
+            $("#totAmt").val(comma(sum));
+        }
     },
 
     crmInfoChange : function(){
@@ -109,10 +161,29 @@ var prp = {
         formData.append("purcType", $("#purcType").data("kendoRadioGroup").value());
         formData.append("status", e);
         formData.append("empSeq", $("#purcReqEmpSeq").val());
+        formData.append("vat", $("#vat").data("kendoRadioGroup").value());
 
-        if($("#file1")[0].files.length == 1){
-            formData.append("file1", $("#file1")[0].files[0]);
+        /** 증빙파일 첨부파일 */
+        if(fCommon.global.attFiles != null){
+            for(var i = 0; i < fCommon.global.attFiles.length; i++){
+                formData.append("file1", fCommon.global.attFiles[i]);
+            }
         }
+
+        if($("#purcSn").val() == ""){
+            if(fCommon.global.attFiles.length == 0){
+                alert("견적서 등록해주세요."); return;
+            }
+        }else{
+            if($(".addFile").length == 0){
+                alert("견적서를 등록해주세요."); return;
+            }
+        }
+
+        if($("#vat").data("kendoRadioGroup").value() == "" || $("#vat").data("kendoRadioGroup").value() == undefined){
+            alert("부가세를 선택해주세요."); return;
+        }
+
 
         if($("#file2")[0].files.length == 1){
             formData.append("file2", $("#file2")[0].files[0]);
@@ -120,6 +191,11 @@ var prp = {
 
         var itemArr = new Array()
         var flag = true;
+        var flag2 = true;
+        var flag3 = true;
+        var flag4 = true;
+        var flag5 = true;
+        var flag6 = true;
         var itemSum = 0;
         $.each($(".purcItemInfo"), function(i, v){
             var data = {
@@ -141,9 +217,12 @@ var prp = {
             }
             itemSum += Number(prp.uncomma($("#purcItemAmt" + i).val()));
 
-            if(data.productA == ""){
-                flag = false;
-            }
+            if(data.productA == ""){flag = false;}
+            if(data.purcItemName == ""){flag2 = false;}
+            if(data.purcItemStd == ""){flag3 = false;}
+            if(data.purcItemUnitPrice == ""){flag4 = false;}
+            if(data.purcItemQty == ""){flag5 = false;}
+            if(data.purcItemUnit == ""){flag6 = false;}
 
             if($("#productA" + i).val() == "3"){
                 if(data.productB == ""){
@@ -186,18 +265,32 @@ var prp = {
             console.log("purcSum : "+Number(purcSum));
             console.log("leftSum : "+Number(leftSum));
             if(Number(leftSum) < Number(itemSum)){
-                if(pjtMap.BUSN_CLASS == "D"){
-                    alert("프로젝트 투자금액을 초과하여 구매요청을 작성하지 못합니다."); return;
-                }else if(pjtMap.BUSN_CLASS == "R"){
-                    alert("프로젝트 투자금액을 초과하여 구매요청을 작성하지 못합니다. 세세목 변경신청서를 작성해주세요."); return;
-                }else if(pjtMap.BUSN_CLASS == "S"){
-                    alert("프로젝트 투자금액을 초과하여 구매요청을 작성하지 못합니다. 세세목 변경신청서를 작성해주세요."); return;
-                }
+                alert("프로젝트 투자금액을 초과하여 구매요청을 작성하지 못합니다."); return;
             }
         }
 
         if(!flag){
             alert("구분값을 선택해주세요.");
+            return ;
+        }
+        if(!flag2){
+            alert("품명을 입력해주세요.");
+            return ;
+        }
+        if(!flag3){
+            alert("규격을 입력해주세요.");
+            return ;
+        }
+        if(!flag4){
+            alert("단가를 입력해주세요.");
+            return ;
+        }
+        if(!flag5){
+            alert("수량을 입력해주세요.");
+            return ;
+        }
+        if(!flag6){
+            alert("단위를 입력해주세요.");
             return ;
         }
         formData.append("itemArr", JSON.stringify(itemArr))
@@ -226,9 +319,9 @@ var prp = {
                     if(busnClass == "D"){
                         opener.window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=10";
                     }else if(busnClass == "R"){
-                        opener.window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=11";
+                        opener.window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=10";
                     }else if(busnClass == "S"){
-                        opener.window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=11";
+                        opener.window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=10";
                     }else{
                         opener.window.location.reload();
                     }
@@ -393,10 +486,12 @@ var prp = {
         })
         if($("#purcSn").val()){
             $("#totalPay").css("display", "");
-            $("#totalPay").text("총 금액 : " + comma(sum));
+            $("#totalPay").text("합계 : " + comma(sum));
         }else{
             $("#sum").text(comma(sum) + "원")
         }
+
+        this.vatCalc();
 
 
         return inputNumberFormat(e);
@@ -456,19 +551,19 @@ var prp = {
                 $("#project").css("display", "none");
             }
 
-            if(data.estFile != null){
-                $("#file1Sn").val(data.estFile.file_no);
-                $("#file1Name").text(data.estFile.file_org_name + "." + data.estFile.file_ext);
+            if(data.purcFile != null){
+                prp.settingTempFileDataInit(data.purcFile);
             }
 
             if(data.reqFile != null){
                 $("#file2Sn").val(data.reqFile.file_no);
                 $("#file2Name").text(data.reqFile.file_org_name + "." + data.reqFile.file_ext);
             }
-
+            $("#vat").data("kendoRadioGroup").value(data.VAT);
 
             prp.purcItemDataSet(data);
 
+            $("#vat").data("kendoRadioGroup").trigger("change");
             prp.purcBtnSet(data);
         }
     },
@@ -522,13 +617,14 @@ var prp = {
 
         if(data.DOC_ID != "" && data.DOC_ID != null){
             $("#totalPay").css("display", "");
-            $("#totalPay").text("총 금액 : " + comma(totalPay));
+            $("#totalPay").text("합계 : " + comma(totalPay));
             $("#allModViewBtn").css("display", "none");
             $("#addBtn").css("display", "none");
         }
     },
 
     purcBtnSet : function(purcMap){
+        console.log(purcMap);
         let buttonHtml = "";
         if(purcMap != null){
             if(purcMap.DOC_STATUS == "0"){
@@ -540,7 +636,7 @@ var prp = {
                 buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="prp.setPurcReq()">저장</button>';
                 buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+purcMap.DOC_ID+'\', \''+purcMap.DOC_MENU_CD+'\', \''+purcMap.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
             }else if(purcMap.DOC_STATUS == "100"){
-                if(purcMap.INSPECT_STATUS == "100"){
+                if(purcMap.INSPECT_YN == "Y"){
                     buttonHtml += '<button type="button" id="payBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="prp.fn_reqRegPopup()">지급신청서 작성</button>';
                 }
                 buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+purcMap.DOC_ID+'\', \''+purcMap.APPRO_KEY+'\', \''+purcMap.DOC_MENU_CD+'\');">열람</button>';
@@ -590,7 +686,7 @@ var prp = {
         var url = "/project/pop/projectView.do?busnClass="+ $("input[name='purcType']:checked").val();
 
         var name = "_blank";
-        var option = "width = 1100, height = 400, top = 100, left = 400, location = no"
+        var option = "width = 1100, height = 700, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 
@@ -815,5 +911,59 @@ var prp = {
         reader.readAsBinaryString(input.files[0]);
 
         $('#excelUpload').data('kendoWindow').close();
+    },
+
+    addFileInfoTable : function (){
+        let size = 0;
+        if($("input[name='fileList']")[0].files.length == 1){
+            $("#fileGrid").html("");
+        }
+        for(var i = 0; i < $("input[name='fileList']")[0].files.length; i++){
+            fCommon.global.attFiles.push($("input[name='fileList']")[0].files[i]);
+        }
+
+        if(fCommon.global.attFiles.length > 0){
+            $("#fileGrid").find(".defultTr").remove();
+            $("#fileGrid").find(".addFile").remove();
+
+            var html = '';
+            for (var i = 0; i < fCommon.global.attFiles.length; i++) {
+                size = fCommon.bytesToKB(fCommon.global.attFiles[i].size);
+                html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
+                html += '   <td>' + fCommon.global.attFiles[i].name.split(".")[0] + '</td>';
+                html += '   <td>' + fCommon.global.attFiles[i].name.split(".")[1] + '</td>';
+                html += '   <td>' + size + '</td>';
+                html += '   <td>';
+                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
+                html += '   </td>';
+                html += '</tr>';
+            }
+
+            $("#fileGrid").append(html);
+        }
+    },
+
+    /** 첨부파일 데이터 세팅 */
+    settingTempFileDataInit: function(e){
+        var html = '';
+        if(e.length > 0){
+            for(var i = 0; i < e.length; i++){
+                html += '<tr style="text-align: center">';
+                html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+e[i].file_path+e[i].file_uuid+'\', \''+e[i].file_org_name+'.'+e[i].file_ext+'\')">'+e[i].file_org_name+'</span></td>';
+                html += '   <td>'+ e[i].file_ext +'</td>';
+                html += '   <td>'+ e[i].file_size +'</td>';
+                html += '   <td>';
+                html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e[i].file_no +', this)">' +
+                    '			    <span class="k-button-text">삭제</span>' +
+                    '		    </button>';
+                html += '   </td>';
+                html += '</tr>';
+            }
+            $("#fileGrid").html(html);
+        }else{
+            $("#fileGrid").html('<tr>' +
+                '	<td colspan="5" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                '</tr>');
+        }
     }
 }

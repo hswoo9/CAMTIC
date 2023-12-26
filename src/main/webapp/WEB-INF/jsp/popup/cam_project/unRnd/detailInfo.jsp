@@ -48,7 +48,7 @@
             <thead>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>총괄책임자
+                    <span class="red-star">*</span>과제책임자
                 </th>
                 <td colspan="3">
                     <input type="text" id="mngDeptName" style="width: 20%" disabled>
@@ -124,6 +124,7 @@
                 <td colspan="4">
                     <br>
                     <span id="budgetType"></span>
+                    <div id="customBudgetGrid-1"></div>
                     <div id="customBudgetGrid0"></div>
                     <div id="customBudgetGrid1"></div>
                     <div id="customBudgetGrid2"></div>
@@ -153,7 +154,7 @@
         open : function (){
             var htmlStr =
                 '<div class="mb-10" style="text-align: right;">' +
-                '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="unRndDetail.fn_approve(10)">요청</button>' +
+                '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="unRndDetail.delvDrafting(10)">상신</button>' +
                 '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#dialog \').data(\'kendoWindow\').close()">닫기</button>' +
                 '</div>' +
                 '<table class="table table-bordered mb-0" style="margin-top: 10px">' +
@@ -208,6 +209,9 @@
     }
 
     function openModal(){
+        if($("#totResCost").val() == 0){
+            alert("예산이 설정되지 않았습니다. 예산 설정 후 저장버튼을 누르고 진행 바랍니다."); return;
+        }
 
         $("#dialog").data("kendoWindow").open();
     }

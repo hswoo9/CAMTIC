@@ -12,6 +12,10 @@
         text-decoration: underline !important;
         cursor: pointer;
     }
+
+    .k-master-row {
+        white-space: nowrap !important;
+    }
 </style>
 <input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
 <input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
@@ -59,7 +63,35 @@
     </div>
 </div><!-- col-md-9 -->
 
+<div id="dialog" style="overflow-x: hidden;">
+    <table class="popTable table table-bordered mb-0" id="userReqPopImageTable" style="width: 100%">
+        <colgroup>
+            <col width="25%">
+            <col width="25%">
+            <col width="15%">
+            <col width="35%">
+        </colgroup>
+        <thead>
+        <tr style="" id="row3">
+            <th>지출예정일</th>
+            <td colspan="3">
+                <input type="text" id="payExnpDe" style="width: 90%" name="payExnpDe" value="">
+            </td>
+        </tr>
+        </thead>
+    </table>
+    <button type="button" onclick="paymentList.fn_changeExnpDe()" class="k-button k-button-solid-base" style="float: right; margin-top:8px; font-size: 12px;">변경</button>
+</div>
 <script>
+
+    $("#dialog").kendoWindow({
+        title: "지출예정일 변경",
+        visible : false,
+        resizable: false,
+        modal: true,
+        width: 500,
+        actions: ["Close"],
+    });
 
     paymentList.fn_defaultScript();
 

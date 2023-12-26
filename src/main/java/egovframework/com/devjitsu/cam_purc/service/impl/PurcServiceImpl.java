@@ -47,7 +47,7 @@ public class PurcServiceImpl implements PurcService {
     }
 
     @Override
-    public void setPurcReq(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
+    public void setPurcReq(Map<String, Object> params, MultipartFile[] file, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
         if(StringUtils.isEmpty(params.get("purcSn"))){
             purcRepository.setPurcReq(params);
         }else{
@@ -58,18 +58,17 @@ public class PurcServiceImpl implements PurcService {
         Map<String, Object> fileInsMap = new HashMap<>();
 
         /** 견적서 파일 */
-        MultipartFile file1 = request.getFile("file1");
-        if(file1 != null){
-            if(!file1.isEmpty()){
-                fileInsMap = mainLib.fileUpload(file1, filePath(params, SERVER_DIR));
-                fileInsMap.put("contentId", "est_" + params.get("purcSn"));
-                fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
-                fileInsMap.put("filePath", filePath(params, BASE_DIR));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("empSeq"));
-                commonRepository.insOneFileInfo(fileInsMap);
+        if(file.length > 0){
+            List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, SERVER_DIR));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", "purcReq_" + params.get("purcSn"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("filePath", filePath(params, BASE_DIR));
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+                list.get(i).put("empSeq", params.get("empSeq"));
             }
+            commonRepository.insFileInfo(list);
         }
 
         /** 요청서 파일 */
@@ -126,6 +125,8 @@ public class PurcServiceImpl implements PurcService {
             returnMap.put("estFile", purcRepository.getPurcReqFileInfo(searchMap));
             searchMap.put("contentId", "req_" + params.get("purcSn"));
             returnMap.put("reqFile", purcRepository.getPurcReqFileInfo(searchMap));
+            searchMap.put("contentId", "purcReq_" + params.get("purcSn"));
+            returnMap.put("purcFile", purcRepository.getPurcReqFileList(searchMap));
             searchMap.put("contentId", "inspect_" + params.get("purcSn"));
             returnMap.put("inspectFile", purcRepository.getPurcReqFileList(searchMap));
         }

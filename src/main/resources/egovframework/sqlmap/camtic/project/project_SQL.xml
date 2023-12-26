@@ -18,7 +18,9 @@
     </select>
 
     <select id="getProjectList" parameterType="map" resultType="map">
-        SELECT A.*, (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE A.PJT_SN = SP.PNT_PJT_SN limit 1) AS PNT_PJT_SN_CK
+        SELECT
+            A.*,
+            (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE A.PJT_SN = SP.PNT_PJT_SN limit 1) AS PNT_PJT_SN_CK
         FROM CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN CAM_CRM.DJ_CRM_INFO B ON A.CRM_SN = B.CRM_SN
         WHERE
@@ -85,8 +87,11 @@
     </select>
 
     <select id="getDepoManageProjectList" parameterType="map" resultType="map">
-        SELECT A.*, (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE A.PJT_SN = SP.PNT_PJT_SN limit 1) AS PNT_PJT_SN_CK,
-               (select count(*) from cam_mng.dj_depo_setting where fr_pjt_sn = A.pjt_sn) AS setYn
+        SELECT
+            A.*,
+            (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE A.PJT_SN = SP.PNT_PJT_SN limit 1) AS PNT_PJT_SN_CK,
+            (select count(*) from cam_mng.dj_depo_setting where fr_pjt_sn = A.pjt_sn) AS setYn,
+            C.*
         FROM CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN CAM_CRM.DJ_CRM_INFO B ON A.CRM_SN = B.CRM_SN
         LEFT JOIN CAM_MNG.DJ_DEPO_SETTING C ON A.PJT_SN = C.FR_PJT_SN
@@ -231,6 +236,7 @@
                 PJT_STEP,
                 PJT_STEP_NM,
                 CONSULT_DT,
+                SECURITY,
                 REG_EMP_SEQ
             )
         VALUES
@@ -245,6 +251,7 @@
                 #{pjtStep},
                 #{pjtStepNm},
                 #{contDt},
+                #{security},
                 #{regEmpSeq}
             )
             <selectKey keyProperty="PJT_SN" resultType="Integer" order="BEFORE">
@@ -1064,6 +1071,7 @@
             WHERE
                 A.PJT_SN = #{pjtSn}
             AND A.DEV_SN = (SELECT SPD.DEV_SN FROM CAM_PJT_MNG.DJ_PJT_DEV SPD WHERE SPD.PJT_SN = #{pjtSn} ORDER BY SPD.DEV_SN DESC LIMIT 1)
+            AND A.PS_PREP NOT IN (0)
         ) M
         GROUP BY PS_EMP_SEQ
     </select>
@@ -1881,7 +1889,7 @@
             PREP_B = #{prepB},
         </if>
         <if test='prepC != null and !"".equals(prepC)'>
-            PREP_C = #{prepB},
+            PREP_C = #{prepC},
         </if>
         <if test='prepD != null and !"".equals(prepD)'>
             PREP_D = #{prepD},
@@ -2384,8 +2392,21 @@
             CAM_PJT_MNG.DJ_PROJECT B
         ON
             A.PJT_SN = B.PJT_SN
-        WHERE
-            PART_RATE_VER_SN = #{partRateVerSn}
+        WHERE 1=1
+        <choose>
+            <when test='partRateVerSn != null and !"".equals(partRateVerSn)'>
+                AND PART_RATE_VER_SN = #{partRateVerSn}
+            </when>
+            <otherwise>
+                AND A.PJT_SN = #{pjtSn}
+                AND A.MNG_STAT = CASE WHEN (select mng_stat from cam_pjt_mng.dj_pjt_part_rate_ver where PJT_SN = #{pjtSn} order by part_rate_ver_sn desc limit 1) = 'S' THEN 'S'
+                WHEN (select mng_stat from cam_pjt_mng.dj_pjt_part_rate_ver where PJT_SN = #{pjtSn} order by part_rate_ver_sn desc limit 1) = 'C' THEN 'C'
+                ELSE 'R'
+                END
+                ORDER BY PART_RATE_VER_SN DESC
+                LIMIT 1
+            </otherwise>
+        </choose>
     </select>
 
     <select id="getPartRateBefVer" parameterType="map" resultType="map">
@@ -2542,9 +2563,9 @@
              ON
                  SM.SOCIAL_RATE_SN = RS.SOCIAL_RATE_SN
              WHERE
-                 IF((SELECT STR_DT FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{PJT_SN}) BETWEEN DATE(START_DT) AND IFNULL(IF(END_DT = "", null, END_DT), DATE('9999-12-31')) = "",
-                  (SM.EMP_SEQ = #{MEMBER_SEQ}) AND SM.SALARY_SN = (SELECT SALARY_SN FROM CAM_INSIDE.DJ_SALARY_MANAGE WHERE EMP_SEQ = SM.EMP_SEQ ORDER BY END_DT DESC LIMIT 1),
-                    (SELECT STR_DT FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{PJT_SN}) BETWEEN DATE(START_DT) AND IFNULL(IF(END_DT = "", null, END_DT), DATE('9999-12-31'))
+                 IF((SELECT REPLACE(STR_DT , "-", "") FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{PJT_SN}) BETWEEN DATE(REPLACE(SM.START_DT , "-", "")) AND IFNULL(IF(DATE(REPLACE(SM.END_DT , "-", "")) = "", null, DATE(REPLACE(SM.END_DT , "-", ""))), DATE('9999-12-31')) = "",
+                  (SM.EMP_SEQ = #{MEMBER_SEQ}) AND SM.SALARY_SN = (SELECT SALARY_SN FROM CAM_INSIDE.DJ_SALARY_MANAGE WHERE EMP_SEQ = SM.EMP_SEQ ORDER BY DATE(SM.END_DT) DESC LIMIT 1),
+                    (SELECT REPLACE(STR_DT , "-", "") FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{PJT_SN}) BETWEEN DATE(REPLACE(SM.START_DT , "-", "")) AND IFNULL(IF(DATE(REPLACE(SM.END_DT , "-", "")) = "", null, DATE(REPLACE(SM.END_DT , "-", ""))), DATE('9999-12-31'))
                  )
             ) B
         ON
@@ -2677,7 +2698,9 @@
         /* getProjectBudgetList */
         SELECT * FROM CAM_PJT_MNG.DJ_PJT_CB
         WHERE PJT_SN = #{pjtSn}
-        AND ACCOUNT = #{account}
+        <if test='account != null and !"".equals(account)'>
+            AND ACCOUNT = #{account}
+        </if>
     </select>
 
     <select id="getProjectBudgetTotal" parameterType="map" resultType="map">
@@ -2685,6 +2708,13 @@
         SELECT IFNULL(SUM(CB_BUDGET), 0) AS TOTAL_AMT FROM CAM_PJT_MNG.DJ_PJT_CB
         WHERE PJT_SN = #{pjtSn}
           AND CB_CODE_ID_1 IN (SELECT IS_TYPE FROM CAM_PJT_MNG.DJ_PJT_ACCOUNT WHERE PJT_SN = #{pjtSn})
+    </select>
+
+    <select id="getProjectBudgetListSum" parameterType="map" resultType="map">
+        /* getProjectBudgetListSum */
+        SELECT MAX(CB_CODE_NAME_1) AS CB_CODE_NAME_1, SUM(CB_BUDGET) AS CB_BUDGET FROM CAM_PJT_MNG.DJ_PJT_CB
+        WHERE PJT_SN = #{pjtSn}
+        GROUP BY CB_CODE_ID_1
     </select>
 
     <!-- 커스텀예산 끝 -->
@@ -2733,15 +2763,15 @@
     <select id="getTeamProjectList" parameterType="map" resultType="map">
         /*getTeamProjectList*/
         SELECT
-            *
+            A.*
         FROM
             CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN
-            CAM_PJT_MNG.DJ_PJT_TEAM B
-        ON
-            A.PNT_PJT_SN = B.PJT_SN
-        WHERE
-            A.PNT_PJT_SN = #{pjtSn}
+            CAM_PJT_MNG.DJ_PJT_TEAM B ON A.PNT_PJT_SN = B.PJT_SN AND B.TM_TYPE = '1'
+        WHERE A.PNT_PJT_SN = #{pjtSn}
+          AND B.TEAM_VERSION_SN = (SELECT TEAM_VERSION_SN FROM CAM_PJT_MNG.DJ_PJT_TEAM_VERSION WHERE PJT_SN = #{pjtSn} ORDER BY TEAM_VERSION_SN DESC LIMIT 1)
+          AND A.PJT_STOP = 'N'
+        GROUP BY TM_SN
     </select>
 
     <select id="partRateEmpInfo" parameterType="map" resultType="map">
@@ -2878,8 +2908,7 @@
         /*updJoinMember*/
         UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
         SET
-            JOIN_MEM_SN = CONCAT(IF(JOIN_MEM_SN = "", "", CONCAT(JOIN_MEM_SN, ",")), #{joinMemSn}),
-            JOIN_MEM_NM = CONCAT(IF(JOIN_MEM_NM = "", "", CONCAT(JOIN_MEM_NM, ",")), #{joinMem})
+            JOIN_MEM_SN = CONCAT(IF(JOIN_MEM_SN = "", "", CONCAT(JOIN_MEM_SN, ",")), #{joinMemSn})
         WHERE
             PART_RATE_VER_SN = #{partRateVerSn}
     </update>

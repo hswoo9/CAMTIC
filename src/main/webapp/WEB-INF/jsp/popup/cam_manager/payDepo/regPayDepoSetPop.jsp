@@ -29,7 +29,7 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;">
-                    <span id="titleStat">입금처리 설정</span>
+                    <span id="titleStat">[민간사업] 예산 설정</span>
                 </span>
             </h3>
             <div id="payAppBtnDiv" class="btn-st popButton">
@@ -78,59 +78,6 @@
                         </span>
                     </td>
                 </tr>
-                <%--<tr>
-                    <th scope="row" class="text-center th-color">신청건명</th>
-                    <td colspan="4">
-                        <input type="text" id="depoTitle" style="width: 90%;">
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">구분</th>
-                    <td colspan="2">
-                        <input type="text" id="gubun" style="width: 90%;">
-                    </td>
-                    <th scope="row" class="text-center th-color">입금여부</th>
-                    <td colspan="2">
-                        <input type="text" id="depoStat" style="width: 90%;">
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">입금액(VAT포함)</th>
-                    <td colspan="2">
-                        <input type="text" id="depoAmt" style="text-align: right; width: 90%;" value="0" onkeyup="regPayDepoSet.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                    </td>
-                    <th scope="row" class="text-center th-color">담당자</th>
-                    <td colspan="2">
-                        <input type="text" id="depoManager" style="width: 90%;">
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">특이사항</th>
-                    <td colspan="4">
-                        <textarea type="text" id="depoCont" style="width: 100%;"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <th rowspan="3" scope="row" class="text-center th-color">입금계좌</th>
-                    <th style="width: 10%">계좌명</th>
-                    <td colspan="3">
-                        <input type="text" id="accNm" disabled style="width: 50%;">
-                        <button type="button" class="k-button k-button-solid-base" id="bnkSelBtn" onclick="regIncm.fn_bankPop()">검색</button>
-                        <input type="hidden" id="bnkSn">
-                    </td>
-                </tr>
-                <tr>
-                    <th>계좌번호</th>
-                    <td colspan="3">
-                        <input type="text" id="accNo" disabled style="width: 60%;">
-                    </td>
-                </tr>
-                <tr>
-                    <th>은행명</th>
-                    <td colspan="3">
-                        <input type="text" id="bnkNm" disabled style="width: 60%;">
-                    </td>
-                </tr>--%>
                 </thead>
             </table>
         </div>

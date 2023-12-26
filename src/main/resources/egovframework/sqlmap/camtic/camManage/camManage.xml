@@ -47,6 +47,9 @@
             DATE_FORMAT(C.END_DT, '%Y-%m-%d') AS PJT_END_DT,
             C.PM_EMP_SEQ,
             C.SBJ_STAT_YN,
+            C.PJT_STEP,
+            C.PJT_STEP_NM,
+            (select cm_code_nm from cam_common.dj_com_code a left join cam_common.dj_com_group_code b on a.cm_group_code_id = b.cm_group_code_id where b.cm_group_code_id = 36 and cm_code = C.SBJ_CLASS) AS subClassText,
             A.TOT_RATE
         FROM
             CAM_PJT_MNG.DJ_PART_RATE_DET A
@@ -64,13 +67,12 @@
             B.BEF_VER_CHECK = 'Y'
         AND
             A.PART_EMP_SEQ = #{empSeq}
-        <if test='strDe != null and "".equals(strDe)'>
+        <if test='strDe != null and !"".equals(strDe)'>
         <![CDATA[
             AND
                 C.STR_DT >= #{strDe}
         ]]>
         </if>
-
     </select>
 
     <select id="getUserSalList" parameterType="map" resultType="map">
@@ -153,7 +155,12 @@
             CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN
             CAM_PJT_MNG.DJ_PJT_DELV B ON A.PJT_SN = B.PJT_SN
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_RND C ON A.PJT_SN = C.PJT_SN
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_UNRND D ON A.PJT_SN = D.PJT_SN
         WHERE A.DELV_APPROVE_STAT = '10'
+        AND (B.STATUS = '100' || C.STATUS = '100' || D.STATUS = '100')
 
         UNION ALL
 
@@ -353,4 +360,49 @@
         WHERE
             FR_PJT_SN = #{frPjtSn}
     </select>
+
+    <select id="getExnpDeChangeRs" parameterType="map" resultType="map">
+        /*getExnpDeChangeRs*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_EXNP_CHNG_RS
+        WHERE
+            1 = 1
+        <if test='type == null or "".equals(type)'>
+            AND
+                USE_YN = 'Y'
+        </if>
+    </select>
+
+    <insert id="insExnpDeChangeRs" parameterType="map" >
+        /*insExnpDeChangeRs*/
+        INSERT INTO CAM_MNG.DJ_EXNP_CHNG_RS
+        (
+            TITLE,
+            USE_YN
+        )
+        VALUES
+        (
+            #{title},
+            #{useYn}
+        )
+    </insert>
+
+    <update id="updExnpDeChangeRs" parameterType="map">
+        /*updExnpDeChangeRs*/
+        UPDATE CAM_MNG.DJ_EXNP_CHNG_RS
+        SET
+            TITLE = #{title},
+            USE_YN = #{useYn}
+        WHERE
+            CHNG_RS_SN = #{chngRsSn}
+    </update>
+
+    <delete id="delExnpDeChangeRs" parameterType="map">
+        /*delExnpDeChangeRs*/
+        DELETE FROM CAM_MNG.DJ_EXNP_CHNG_RS
+        WHERE
+            CHNG_RS_SN = #{chngRsSn}
+    </delete>
 </mapper>

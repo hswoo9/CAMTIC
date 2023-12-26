@@ -790,7 +790,6 @@ var hwpDocCtrl = {
                 dataType: "json",
                 async: false,
                 success: function (result) {
-                    console.log(result);
                     const invenInfo = result.rs.info;
                     const shareList = result.rs.shareList;
 
@@ -972,6 +971,10 @@ var hwpDocCtrl = {
             const carReqSn = data.approKey.split("_")[1];
             if (carReqSn == null || carReqSn == undefined || carReqSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
             hwpInit.carInit(carReqSn);
+        } else if(data.menuCd == "pjtChange") {
+            const pjtSn = data.approKey.split("_")[1];
+            if (pjtSn == null || pjtSn == undefined || pjtSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
+            rndInit.changeInit(pjtSn);
         }
     },
 

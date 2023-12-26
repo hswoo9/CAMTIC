@@ -36,6 +36,8 @@
 
 
 <input type="hidden" id="userEmpSeq" value="${empInfo.EMP_SEQ}"/>
+
+<input type="hidden" id="adminYn" value="${params.adminYn}"/>
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
@@ -63,16 +65,16 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        직원명
+                        이름
                     </th>
                     <td>
                         ${empInfo.EMP_NAME_KR}
                     </td>
                     <th scope="row" class="text-center th-color">
-                        사번
+                        주민번호
                     </th>
                     <td colspan="3">
-                        ${empInfo.ERP_EMP_SEQ}
+                        <span id="resRegisNum">${empInfo.RES_REGIS_NUM}</span>
                     </td>
                 </tr>
                 <tr>
@@ -83,7 +85,7 @@
                         ${empInfo.DEPT_NAME}
                     </td>
                     <th scope="row" class="text-center th-color">
-                        팀
+                        팀명
                     </th>
                     <td>
                         ${empInfo.DEPT_TEAM_NAME}
@@ -103,12 +105,13 @@
                         ${empInfo.JOIN_DAY}
                     </td>
                 </tr>
-                <tr>
+                <%--<tr>
                     <th scope="row" class="text-center th-color">
                         프로젝트 시작
                     </th>
                     <td>
                         ${projectInfo.PJT_START_DT}
+                        <input type="hidden" id="startYear" value="${projectInfo.PJT_START_DT}" />
                     </td>
                     <th scope="row" class="text-center th-color">
                         프로젝트 종료
@@ -116,39 +119,50 @@
                     <td>
                         ${projectInfo.PJT_END_DT}
                     </td>
-                </tr>
+                </tr>--%>
                 </thead>
             </table>
         </div>
 
 
         <div>
-            <div id="divBtn" style="font-size: 12px; margin-top: 10px; float: right">
-                <button type="button" class="k-button k-button-solid-base k-button-sm" onclick="userPartRate.fn_setData('A')">참여율</button>
-                <button type="button" class="k-button k-button-solid-base k-button-sm" onclick="userPartRate.fn_setData('B')">월지급액</button>
+            <div id="divBtn" style="font-size: 12px; margin-top: 10px;">
+                <input type="text" id="year" value=""  style="width: 5%; float: left; margin-left: 10px;"/>
+                <c:choose>
+                <c:when test="${params.adminYn == 'Y'}">
+                    <button type="button" class="k-button k-button-solid-base k-button-sm" style="float: right; margin: 0 5px 5px 0;" onclick="userPartRate.fn_setDataAdmin('A')">참여율</button>
+                    <button type="button" class="k-button k-button-solid-base k-button-sm" style="float: right; margin:0 5px 5px 0;" onclick="userPartRate.fn_setDataAdmin('B')">월지급액</button>
+                </c:when>
+                <c:otherwise>
+                    <button type="button" class="k-button k-button-solid-base k-button-sm" style="float: right; margin: 0 5px 5px 0;" onclick="userPartRate.fn_setData('A')">참여율</button>
+                </c:otherwise>
+                </c:choose>
             </div>
             <table class="popTable table table-bordered mb-0">
-                <colgroup>
-                    <col width="10%">
-                    <col width="15%">
-                    <col width="5%">
-                    <col width="5%">
-                    <col width="5%">
-                    <col>
-                    <col>
-                    <col>
-                    <col>
-                    <col>
-                    <col>
-                    <col>
-                    <col>
-                    <col>
-                    <col>
-                    <col>
-                </colgroup>
+                <c:choose>
+                    <c:when test="${params.adminYn == 'Y'}">
+                        <colgroup>
+                            <col width="10%">
+                            <col width="15%">
+                            <col width="5%">
+                            <col width="5%">
+                            <col width="5%">
+                        </colgroup>
+                    </c:when>
+                    <c:otherwise>
+                        <colgroup>
+                            <col width="7%">
+                            <col width="7%">
+                            <col width="15%">
+                            <col width="5%">
+                            <col width="5%">
+                        </colgroup>
+                    </c:otherwise>
+                </c:choose>
+
                 <thead>
                 <tr>
-                    <th colspan="17" style="font-weight: bold">참여율 정보</th>
+                    <th colspan="20" style="font-weight: bold">참여율 정보</th>
                 </tr>
                 <tr id="userPartRateHeader">
 

@@ -27,7 +27,7 @@
 <input type="hidden" id="stepValue" value="Y" />
 <input type="hidden" id="nextStepValue" value="R" />
 
-<div style="padding: 10px">
+<div class="devInfo" style="padding: 10px">
     <div class="table-responsive">
         <div id="devBtnDiv">
             <%--<button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="devInfo.fn_save()">저장</button>--%>
@@ -49,7 +49,7 @@
                 <th>날짜</th>
                 <th>투자금액</th>
                 <th>등록자</th>
-                <th>예비원가서</th>
+                <th>수행계획서</th>
                 <th>상태</th>
             </tr>
             </thead>

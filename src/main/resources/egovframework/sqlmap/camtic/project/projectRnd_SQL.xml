@@ -28,6 +28,8 @@
                 CRM_CON_SN,
                 CRM_PART_SN,
                 PJT_EXP_AMT,
+                ALL_BUSN_COST,
+                SECURITY,
                 REG_EMP_SEQ
             )
         VALUES
@@ -53,6 +55,8 @@
                 #{crmConSn},
                 #{crmPartSn},
                 #{pjtExpAmt},
+                #{allBusnCost},
+                #{security},
                 #{regEmpSeq}
             )
 
@@ -81,6 +85,8 @@
             CRM_SN = #{crmSn},
             CRM_CON_SN = #{crmConSn},
             CRM_PART_SN = #{crmPartSn},
+            ALL_BUSN_COST = #{allBusnCost},
+            SECURITY = #{security},
             PJT_EXP_AMT = #{pjtExpAmt}
         WHERE
             PJT_SN = #{pjtSn}
@@ -441,7 +447,9 @@
         SET
             TOT_RES_COST = (SELECT IFNULL(SUM(CB_BUDGET), 0) AS TOTAL_AMT FROM CAM_PJT_MNG.DJ_PJT_CB
                              WHERE PJT_SN = #{pjtSn}
-                               AND ACCOUNT IN (SELECT IS_TYPE FROM CAM_PJT_MNG.DJ_PJT_ACCOUNT SSA WHERE PJT_SN = #{pjtSn}))
+                               AND
+                                 ( ACCOUNT IN (SELECT IS_TYPE FROM CAM_PJT_MNG.DJ_PJT_ACCOUNT SSA WHERE PJT_SN = #{pjtSn})
+                                     OR ACCOUNT = CASE WHEN (SELECT COUNT(IS_TYPE) FROM CAM_PJT_MNG.DJ_PJT_ACCOUNT SSA WHERE PJT_SN = #{pjtSn} AND IS_TYPE = '9') = 1 THEN '6' ELSE NULL END))
         WHERE
             RND_SN = #{rndSn}
     </update>
@@ -504,8 +512,8 @@
         INSERT INTO CAM_PJT_MNG.DJ_PJT_PART_RATE
             (
                 PJT_SN,
-                JOIN_MEM_SN,
                 JOIN_MEM_NM,
+                JOIN_MEM_SN,
                 MON_PAY_CRT,
                 MIN_PART_RATE,
                 MAX_PART_RATE,
@@ -517,8 +525,8 @@
         VALUE
             (
                 #{pjtSn},
-                #{joinMemSn},
                 #{joinMemNm},
+                #{joinMemSn},
                 #{monPayCrt},
                 #{minPartRate},
                 #{maxPartRate},
@@ -536,8 +544,8 @@
         /*updReqPartRateData*/
         UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE
         SET
-            JOIN_MEM_SN = #{joinMemSn},
             JOIN_MEM_NM = #{joinMemNm},
+            JOIN_MEM_SN = #{joinMemSn},
             MON_PAY_CRT = #{monPayCrt},
             MIN_PART_RATE = #{minPartRate},
             MAX_PART_RATE = #{maxPartRate},
@@ -566,7 +574,8 @@
             A.STAT,
             A.PAY_BUDGET AS RT_PAY_BUDGET,
             A.ITEM_BUDGET AS RT_ITEM_BUDGET,
-            A.MNG_STAT AS RT_MNG_STAT
+            A.MNG_STAT AS RT_MNG_STAT,
+            (select part_rate_ver from cam_pjt_mng.dj_pjt_part_rate_ver where pjt_sn = 431 and mng_stat = 'C' order by part_rate_ver_sn desc limit 1) AS VER_NUM
         FROM
             CAM_PJT_MNG.DJ_PJT_PART_RATE A
         LEFT JOIN
@@ -802,6 +811,16 @@
             REP_DATE = now()
         WHERE
             PART_RATE_VER_SN = #{partRateVerSn}
+    </update>
+
+    <update id="updReqPartRateVerToReqPartRate" parameterType="map">
+        /*updReqPartRateVerToReqPartRate*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_PART_RATE
+        SET
+            JOIN_MEM_SN = (SELECT JOIN_MEM_SN FROM CAM_PJT_MNG.DJ_PJT_PART_RATE_VER WHERE PART_RATE_VER_SN = #{partRateVerSn}),
+            JOIN_MEM_NM = (SELECT JOIN_MEM_NM FROM CAM_PJT_MNG.DJ_PJT_PART_RATE_VER WHERE PART_RATE_VER_SN = #{partRateVerSn})
+        WHERE
+            PART_RATE_SN = (SELECT PART_RATE_SN FROM CAM_PJT_MNG.DJ_PJT_PART_RATE_VER WHERE PART_RATE_VER_SN = #{partRateVerSn})
     </update>
 
     <select id="getPjtDevSchData" parameterType="map" resultType="map">

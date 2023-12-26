@@ -103,6 +103,8 @@
 
     if(result.flag) {
       var e = result.rs;
+      console.log("result : ",result);
+      console.log("rs : ",e);
 
       var sideName = (e.REWORD_TYPE_NAME);
       var SIDE_NAME = sideName.substring(0,6)
@@ -110,7 +112,8 @@
       var REWORD_TYPE_NAME1 = str.substring(7)
 
       $("#rGubunOutIn").val(SIDE_NAME); //구분(내부/외부)
-      $("#rGubun").val(REWORD_TYPE_NAME1); //구분(표창/징계)
+      //$("#rGubun").val(REWORD_TYPE_NAME); //구분(표창/징계)
+      $("#rGubun").val(e.REWORD_NAME);
       $("#sDate").val(e.REWORD_DAY); //포상/징계 일자
       $("#rIssue").val(e.RWD_OFM); //공적(징계) 사항
       $("#agency").val(e.RWD_ST_COMP); //시행처

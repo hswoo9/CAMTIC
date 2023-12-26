@@ -113,7 +113,7 @@ var paymentRevList = {
                 }, {
                     title: "지출예정일",
                     width: 80,
-                    field: "REQ_EXNP_DE"
+                    field: "PAY_EXNP_DE"
                 }, {
                     title: "지출완료일",
                     width: 80,

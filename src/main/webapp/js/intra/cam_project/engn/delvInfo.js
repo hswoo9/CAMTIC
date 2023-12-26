@@ -62,6 +62,7 @@ var delvInfo = {
             });
             $("#pmName").val(delvMap.PM_EMP_NM);
             $("#pmSeq").val(delvMap.PM_EMP_SEQ);
+            $("#delvDe").val(delvMap.DELV_DE);
         } else {
             $("#delvAmt").val(comma(rs.EST_TOT_AMT));
             $("#delvExpAmt").val(comma(rs.EST_TOT_AMT));
@@ -78,16 +79,7 @@ var delvInfo = {
             let status = delvMap.STATUS;
             if(status == "0"){
                 buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"delvInfo.fn_save()\">저장</button>";
-
-                const pjtResult = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn : $("#pjtSn").val()});
-                const pjtMap = pjtResult.map;
-                if(pjtMap.DELV_APPROVE_STAT == 0){
-                    buttonHtml += "<button type=\"button\" id=\"delvApp2Btn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">코드승인요청</button>";
-                }else if(pjtMap.DELV_APPROVE_STAT == 100){
-                    buttonHtml += "<button type=\"button\" id=\"delvAppBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"delvInfo.delvDrafting()\">상신</button>";
-                }else{
-                    buttonHtml += "<button type=\"button\" id=\"delvApp2Btn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"delvInfo.fn_approveStat(0)\">코드승인요청취소</button>";
-                }
+                buttonHtml += "<button type=\"button\" id=\"delvApp2Btn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">상신</button>";
             }else if(status == "10" || status == "20" || status == "50"){
                 buttonHtml += "<button type=\"button\" id=\"delvCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+delvMap.DOC_ID+"', '"+delvMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
             }else if(status == "30" || status == "40"){
@@ -96,6 +88,14 @@ var delvInfo = {
 
             }else if(status == "100"){
                 buttonHtml += "<button type=\"button\" id=\"delvCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+delvMap.DOC_ID+"', '"+delvMap.APPRO_KEY+"', '"+delvMap.DOC_MENU_CD+"');\">열람</button>";
+
+                const pjtResult = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn : $("#pjtSn").val()});
+                const pjtMap = pjtResult.map;
+                if(pjtMap.DELV_APPROVE_STAT != 100){
+                    buttonHtml += "<span style=\"float: right; position: relative; top: 5px; right: 5px;\"><b style='color: red'>수주승인 요청 중...</b></span>";
+                }else{
+                    buttonHtml += "<span style=\"float: right; position: relative; top: 5px; right: 5px;\"><b style='color: red'>수주승인 완료</b></span>";
+                }
             }else if(status == "111"){
                 buttonHtml += "<button type=\"button\" id=\"delvTempBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"tempOrReDraftingPop('"+delvMap.DOC_ID+"', 'delv', '"+delvMap.APPRO_KEY+"', 2, 'tempDrafting');\">전자결재 임시저장 중</button>";
             }else{
@@ -108,6 +108,32 @@ var delvInfo = {
     },
 
     fn_save : function(){
+
+        if($("#delvItem").val() == ""){
+            alert("납품품목을 입력해주세요.");
+            return;
+        }
+
+        if($("#delvCnt").val() == ""){
+            alert("납품수량을 입력해주세요.");
+            return;
+        }
+
+        if($("#delvUnit").val() == ""){
+            alert("납품단위를 입력해주세요.");
+            return;
+        }
+
+        if($("#delvIssu").val() == ""){
+            alert("특이사항을 입력해주세요.");
+            return;
+        }
+
+        if($("#delvAmt").val() == ""){
+            alert("수주금액을 입력해주세요.");
+            return;
+        }
+
         if($("#delvFileName").text() == ""){
             alert("계약서를 등록해주세요.");
             return;
@@ -117,6 +143,7 @@ var delvInfo = {
             alert("참여부서를 선택해주세요.");
             return;
         }
+
         if($("#pmSeq").val() == ""){
             alert("PM을 등록해주세요.");
             return;
@@ -212,59 +239,7 @@ var delvInfo = {
     },
 
     fn_approve : function(stat){
-        var pjCode = $("#pjCode").val();
-        var supDep = $("#supDep").val();
-        var supDepSub = $("#supDepSub").val();
-        var pjtStat = $("#pjtStat").val();
-        var pjtStatSub = $("#pjtStatSub").val();
 
-        if(pjCode == ""){
-            alert("프로젝트 구분을 선택해주세요.");
-            return;
-        }
-        if(supDep == ""){
-            alert("지원부처를 선택해주세요.");
-            return;
-        }
-        if(supDepSub == ""){
-            alert("전담기관을 선택해주세요.");
-            return;
-        }
-        if(pjtStat == ""){
-            alert("사업성격을 선택해주세요.");
-            return;
-        }
-        if(pjtStatSub == ""){
-            alert("사업성격2를 선택해주세요.");
-            return;
-        }
-
-
-        var date = new Date();
-        var year = date.getFullYear().toString().substring(2,4);
-
-
-
-        var parameters = {
-            pjtSn : $("#pjtSn").val(),
-            pjtTmpCd : pjCode + supDep + supDepSub + pjtStat + pjtStatSub + year,
-            stat : stat,
-            regEmpName : $("#regEmpName").val()
-        }
-        commonProject.loading();
-
-
-
-        $.ajax({
-            url : "/project/setDelvApprove",
-            data : parameters,
-            type : "post",
-            dataType : "json",
-            success : function (rs){
-                alert("요청되었습니다.");
-                commonProject.getReloadPage(2, 2, 2, 2, 2, 2);
-            }
-        });
     },
 
     fn_approveStat : function(stat){
@@ -307,14 +282,63 @@ var delvInfo = {
         if(delvMap.DELV_DEPT == "1" && map.TM_YN == "N"){
             alert("협업 등록 후 전자결재 상신이 가능합니다."); return;
         }
-        $("#delvDraftFrm").one("submit", function() {
-            var url = "/popup/cam_project/approvalFormPopup/delvApprovalPop.do";
-            var name = "_self";
-            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
-            var popup = window.open(url, name, option);
-            this.action = "/popup/cam_project/approvalFormPopup/delvApprovalPop.do";
-            this.method = 'POST';
-            this.target = '_self';
-        }).trigger("submit");
+
+        var pjCode = $("#pjCode").val();
+        var supDep = $("#supDep").val();
+        var supDepSub = $("#supDepSub").val();
+        var pjtStat = $("#pjtStat").val();
+        var pjtStatSub = $("#pjtStatSub").val();
+
+        if(pjCode == ""){
+            alert("프로젝트 구분을 선택해주세요.");
+            return;
+        }
+        if(supDep == ""){
+            alert("지원부처를 선택해주세요.");
+            return;
+        }
+        if(supDepSub == ""){
+            alert("전담기관을 선택해주세요.");
+            return;
+        }
+        if(pjtStat == ""){
+            alert("사업성격을 선택해주세요.");
+            return;
+        }
+        if(pjtStatSub == ""){
+            alert("사업성격2를 선택해주세요.");
+            return;
+        }
+
+        var date = new Date();
+        var year = date.getFullYear().toString().substring(2,4);
+
+        var parameters = {
+            pjtSn : $("#pjtSn").val(),
+            pjtTmpCd : pjCode + supDep + supDepSub + pjtStat + pjtStatSub + year,
+            stat : "10",
+            regEmpName : $("#regEmpName").val()
+        }
+
+        commonProject.loading();
+
+        $.ajax({
+            url : "/project/setDelvApprove",
+            data : parameters,
+            type : "post",
+            dataType : "json",
+            success : function (rs){
+
+                $("#delvDraftFrm").one("submit", function() {
+                    var url = "/popup/cam_project/approvalFormPopup/delvApprovalPop.do";
+                    var name = "_self";
+                    var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+                    var popup = window.open(url, name, option);
+                    this.action = "/popup/cam_project/approvalFormPopup/delvApprovalPop.do";
+                    this.method = 'POST';
+                    this.target = '_self';
+                }).trigger("submit");
+            }
+        });
     }
 }

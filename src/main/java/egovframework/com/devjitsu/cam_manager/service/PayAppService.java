@@ -22,6 +22,10 @@ public interface PayAppService {
 
     void setPayAppDetData(Map<String, Object> params);
 
+    void setPayAppCostApp(Map<String, Object> params);
+
+    void setPayAppDetCostApp(Map<String, Object> params);
+
     void setExnpData(Map<String, Object> params);
 
     Map<String, Object> getExnpData(Map<String, Object> params);
@@ -61,7 +65,7 @@ public interface PayAppService {
 
     List<Map<String, Object>> getDepositList(Map<String, Object> params);
 
-    void setPayDepo(Map<String, Object> params);
+    void setPayDepo(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
 
     Map<String, Object> getPayDepoData(Map<String, Object> params);
 
@@ -74,4 +78,14 @@ public interface PayAppService {
     List<Map<String, Object>> getPayAppFileList(Map<String, Object> params);
 
     List<Map<String, Object>> getApprovalExnpFileData(Map<String, Object> params);
+
+    List<Map<String, Object>> getPjtExnpList(Map<String, Object> params);
+
+    void updExnpDe(int[] params, Map<String, Object> params2);
+
+    void setProjectTaxInfo(Map<String, Object> params);
+
+    Map<String, Object> getProjectSettingInfo(Map<String, Object> params);
+
+    void setProjectBudgetInfo(Map<String, Object> params);
 }

@@ -3,7 +3,7 @@ var rndRPR = {
 
     fn_defaultScript : function (){
 
-        customKendo.fn_textBox(["joinMember", "minPartRate", "maxPartRate", "payBudget", "itemBudget"]);
+        customKendo.fn_textBox(["joinMemberPart", "minPartRate", "maxPartRate", "payBudget", "itemBudget"]);
 
         $("#monAccCal, #partEtc").kendoTextArea({
             rows: 5,
@@ -22,11 +22,11 @@ var rndRPR = {
 
         var pf = result.fileList
         var rs = result.map;
-
         if(rs != null){
+            console.log(rs);
             $("#partRateSn").val(rs.PART_RATE_SN);
             $("#joinMemberSn").val(rs.JOIN_MEM_SN);
-            $("#joinMember").val(rs.JOIN_MEM_NM);
+            $("#joinMemberPart").val(rs.JOIN_MEM_NM);
             $("#monAccCal").val(rs.MON_PAY_CRT);
             $("#minPartRate").val(rs.MIN_PART_RATE);
             $("#maxPartRate").val(rs.MAX_PART_RATE);
@@ -36,11 +36,14 @@ var rndRPR = {
 
             if(rs.STAT == "N"){
                 $("#reqBtn").css("display", "");
+                $("#saveRateBtn").css("display", "");
             }else {
-                $("#saveBtn").css("display", "none");
+                $("#saveRateBtn").css("display", "none");
                 // $("#changeBtn").css("display", "");
                 $("#changeSaveBtn").css("display", "");
+
             }
+
         }else{
             var userResult = customKendo.fn_customAjax("/projectRnd/getRschInfo", data);
             var userSn = "";
@@ -60,9 +63,12 @@ var rndRPR = {
             }
 
             if(userName != ""){
-                // $("#joinMember").val(userName);
-                // $("#joinMemberSn").val(userSn);
+                // $("#joinMemberPart").val(userName);
+                $("#joinMemberSn").val(userSn);
             }
+            $("#saveRateBtn").css("display", "");
+
+
         }
 
         if(result.fileList != null && pf.length != 0){
@@ -98,7 +104,7 @@ var rndRPR = {
         }
 
         var parameters = {
-            joinMemNm : $("#joinMember").val(),
+            joinMemNm : $("#joinMemberPart").val(),
             joinMemSn : $("#joinMemberSn").val(),
             monPayCrt : $("#monAccCal").val(),
             minPartRate : $("#minPartRate").val(),
@@ -136,8 +142,10 @@ var rndRPR = {
         }
 
         if(parameters.itemBudget == null || parameters.itemBudget == ""){
-            alert("인건비 예산(현물)을 입력해주세요");
-            return;
+            /*alert("인건비 예산(현물)을 입력해주세요");
+            return;*/
+
+            parameters.itemBudget = 0;
         }
 
         var fd = new FormData();
@@ -166,7 +174,7 @@ var rndRPR = {
                 if(type != "change"){
                     alert("저장되었습니다.");
                 }
-                commonProject.getReloadPage(2, 2, 2, 2, 2, 2);
+                commonProject.getReloadPage(1, 1, 1, 1, 1, 1);
             }
         });
 
@@ -177,19 +185,29 @@ var rndRPR = {
             return;
         }
 
+        var checkText = $("#partRateVersion2 tr:first").children().eq(0).text();
+        var reqSortText = "";
+        if(checkText != "신규"){
+            reqSortText = "신규";
+        } else{
+            reqSortText = "변경";
+        }
+
         var parameters = {
             pjtSn : $("#pjtSn").val(),
             partRateSn : $("#partRateSn").val(),
-            empName : $("#empName").val(),
-            empSeq : $("#empSeq").val(),
-            reqSort : "신규"
+            joinMemberSn : $("#joinMemberSn").val(),
+            joinMemNm : $("#joinMemberPart").val(),
+            empName : $("#verEmpName").val(),
+            empSeq : $("#verEmpSeq").val(),
+            reqSort : reqSortText
         }
 
         var rs = customKendo.fn_customAjax("/projectRnd/setPartRateRequest", parameters);
 
         if(rs.code == 200){
             alert("요청되었습니다.");
-            commonProject.getReloadPage(2, 2, 2, 2, 2, 2);
+            commonProject.getReloadPage(1, 1, 1, 1, 1, 1);
         } else {
             alert("오류가 발생하였습니다. 관리자에게 문의바랍니다.");
         }
@@ -211,6 +229,12 @@ var rndRPR = {
         } else {
             lastMngStatValue = ls[ls.length - 1].MNG_STAT;
         }
+
+        var verFlag = false;
+        var lastVersion = "";
+        var lastStat = "";
+        var versionIndex = 0;
+
         if(ls != null){
             var html = '';
             for(var i = 0; i < ls.length; i++){
@@ -278,7 +302,6 @@ var rndRPR = {
                 }
 
                 var buttonHtml = "";
-                console.log(ls[i].status);
                 var buttonSubHtml = "";
                 if(ls[i].PART_RATE_VER > 1 && (ls[i].MNG_STAT == "S" || ls[i].MNG_STAT == "C")){
                     var status = ls[i].STATUS;
@@ -297,7 +320,7 @@ var rndRPR = {
                 html += '<tr style="text-align: center">';
                 html += '   <td>'+gubun+'</td>';
                 html += '   <td>';
-                html += '       <span style="cursor : pointer;font-weight: bold" onclick="rndRPR.versionClickEvt(' + ls[i].PART_RATE_VER_SN + ', \''+mngStatValue+'\')">ver.' + (i+1) + '</span>';
+                html += '       <span style="cursor : pointer;font-weight: bold" onclick="rndRPR.versionClickEvt(' + ls[i].PART_RATE_VER_SN + ', \''+mngStatValue+'\', ' + (i+1) + ')">ver.' + (i+1) + '</span>';
                 html += '   </td>';
                 html += '   <td>'+ reqEmpNm +'</td>';
                 html += '   <td style="text-align: right">' + comma(Number(payBudget) + Number(itemBudget)) + '</td>';
@@ -309,16 +332,31 @@ var rndRPR = {
                 html += '   <td style="text-align: center">'+buttonHtml+'</td>';
                 html += '   <td style="text-align: center">'+buttonSubHtml+'</td>';
                 html += '</tr>';
+
+                var lsMngStat = ls[i].MNG_STAT;
+
+                if(ls[0].MNG_STAT == 'R' && i == 0){
+                    versionIndex++;
+                }
+                if(lsMngStat != 'R' && lsMngStat != '' && lsMngStat != null && lsMngStat != undefined){
+                    lastVersion = ls[i].PART_RATE_VER_SN;
+                    versionIndex++;
+                    if(ls[i].MNG_STAT == null || ls[i].MNG_STAT == undefined){
+                        lastStat = ls[i].RT_MNG_STAT;
+                    } else {
+                        lastStat = lsMngStat;
+                    }
+                }
             }
 
             $("#partRateVersion").append(html);
             $("#partRateVersion2").append(html);
         }
 
-        rndRPR.versionClickEvt(lastPartRateVerSn, lastMngStatValue);
+        rndRPR.versionClickEvt(lastVersion, lastStat, versionIndex);
     },
 
-    versionClickEvt: function (key, stat){
+    versionClickEvt: function (key, stat, inx){
         if(stat == "S"){
             $("#confBtn").prop("disabled", false);
             $("#regBtn").prop("disabled", true);
@@ -342,6 +380,10 @@ var rndRPR = {
             rndPR.partRateMainGrid();
         } else {
             alert(key);
+        }
+
+        if(inx != undefined && inx != null) {
+            $("#titleVersionName").text("[참여율현황 버전 - ver" + inx + "]");
         }
     },
 

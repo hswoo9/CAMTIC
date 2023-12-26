@@ -82,6 +82,8 @@ var bustInfo = {
 
                     $(this).css("background-color", "#a7e1fc");
                 });
+
+                bustSum = 0;
             },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
@@ -105,7 +107,14 @@ var bustInfo = {
                 }, {
                     field: "EMP_NAME",
                     title: "출장자",
-                    width: 80
+                    width: 80,
+                    template: function(row){
+                        if(row.COMPANION != 0){
+                            return row.EMP_NAME + " 외 "+row.COMPANION+"명";
+                        }else{
+                            return row.EMP_NAME;
+                        }
+                    }
                 }, {
                     title: "출장지 (경유지)",
                     template: function(row){
@@ -281,11 +290,11 @@ var bustInfo = {
                     }
                 }else{
                     if(commonProject.global.busnClass == "D"){
-                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=10";
+                        window.location.href="/project/pop/viewRegProject.do?pjtSn=" + data.pjtSn + "&tab=9";
                     }else if(commonProject.global.busnClass == "R"){
-                        window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=10";
+                        window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=9";
                     }else if(commonProject.global.busnClass == "S"){
-                        window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=10";
+                        window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + data.pjtSn + "&tab=9";
                     }
                 }
             }

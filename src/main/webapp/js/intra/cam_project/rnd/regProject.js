@@ -4,9 +4,16 @@ var regRnd = {
     fn_defaultScript : function(){
         const setParameters = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: $("#mainPjtSn").val()}).rs;
 
-        regRnd.fn_setPage(setParameters);
-        regRnd.fn_setTab(setParameters);
-        regRnd.fn_setData(setParameters);
+        /** 외부공개 여부 비공개일시 비밀번호 입력하는 모달창 뜸*/
+        if(setParameters != null && setParameters.SECURITY == "Y"){
+            regRnd.fn_setPage(setParameters);
+            regRnd.fn_setData(setParameters);
+            openSecurityModal();
+        }else{
+            regRnd.fn_setPage(setParameters);
+            regRnd.fn_setTab(setParameters);
+            regRnd.fn_setData(setParameters);
+        }
     },
 
     fn_setTab : function(setParameters){
@@ -14,11 +21,11 @@ var regRnd = {
         //var tab1Url = "/projectRnd/researcherInfo.do";             // 01참여인력 --제외(요청)
         // var tab2Url = "/projectRnd/reqPartRate.do";             // 참여율요청 -- 제외
         var tab3Url = "/projectRnd/partRate.do";                   // 02참여율관리
-        var tab4Url = "/projectRnd/rndDevPlan.do";                 // 03수행계획(공정)
+        var tab4Url = "/projectRnd/rndDevPlan.do";                 // 03수행계획
         var tab17Url= "/intra/cam_project/processInfo.do";         // 04공정
         var tab5Url = "/projectRnd/rndDevSchedule.do";             // 05개발일정
         // var tab6Url = "/projectRnd/rndDevJob.do";               // 개발일지 -- 제외
-        var tab6Url = "/intra/cam_project/teamInfo.do";            // 06협업
+        var tab6Url = "/intra/cam_project/teamInfoEngn.do";        // 06협업
         // var tab7Url = "/projectRnd/payMvInfo.do";               // 입출금대장관리 -- 제외
         var tab7Url = "/projectRnd/budgetInfo.do";                 // 07사업비관리(예산/지급)
         var tab8Url = "/projectRnd/resultInfo.do";                 // 08결과보고
@@ -57,7 +64,7 @@ var regRnd = {
         var dataSource;
         if(setParameters != null && setParameters.TEAM_STAT == "Y"){
             dataSource = [
-                {name: "수행계획(공정)", url: tab4Url},
+                {name: "수행계획", url: tab4Url},
                 {name: "공정", url: tab17Url},
                 {name: "실적관리", url: tab15Url},
 
@@ -69,7 +76,7 @@ var regRnd = {
                 {name: "사업정보", url: tab0Url, imageUrl: "/images/ico/etc_01_1.png"},
                 //{name: "참여인력", url: tab1Url}, --제외(요청)
                 {name: "참여율관리", url: tab3Url},      // 지출내역조회와 같이 사용
-                {name: "수행계획(공정)", url: tab4Url, imageUrl: "/images/ico/etc_01_1.png"},
+                {name: "수행계획", url: tab4Url, imageUrl: "/images/ico/etc_01_1.png"},
                 {name: "공정", url: tab17Url},
                 {name: "개발관리", url: tab5Url},
                 {name: "협업", url: tab6Url},
@@ -143,7 +150,6 @@ var regRnd = {
         } else {
             tabStrip.enable(tabStrip.tabGroup.children().eq(0));
             tabStrip.enable(tabStrip.tabGroup.children().eq(1));
-            tabStrip.enable(tabStrip.tabGroup.children().eq(2));
 
             
             var rndInfo = customKendo.fn_customAjax("/projectRnd/getRndDetail", setParameters);
@@ -154,9 +160,17 @@ var regRnd = {
                     tabStrip.enable(tabStrip.tabGroup.children());
 
                     /** 실적관리 비활성화 및 PM만 활성화 */
-                    tabStrip.disable(tabStrip.tabGroup.children().eq(9));
-                    if(setParameters.PM_EMP_SEQ == $("#regEmpSeq").val()){
-                        tabStrip.enable(tabStrip.tabGroup.children().eq(9));
+                    tabStrip.disable(tabStrip.tabGroup.children().eq(8));
+                    var resultMap = customKendo.fn_customAjax("/project/engn/getResultInfo", {
+                        pjtSn: setParameters.PJT_SN,
+                    }).result.map;
+
+                    if(resultMap != null){
+                        console.log("resultMap")
+                        console.log(resultMap)
+                        if(setParameters.PM_EMP_SEQ == $("#regEmpSeq").val() && resultMap.STATUS == "100"){
+                            tabStrip.enable(tabStrip.tabGroup.children().eq(8));
+                        }
                     }
                 }
             }
@@ -251,13 +265,13 @@ var regRnd = {
             $("#rndCrmNm").val(e.CRM_NM);
             $("#rndCrmSn").val(e.CRM_SN);
             $("#pjtExpAmt").val(comma(e.PJT_EXP_AMT));
+            $("#allBusnCost").val(comma(e.ALL_BUSN_COST));
 
             const rndInfo = customKendo.fn_customAjax("/projectRnd/getRndDetail", {pjtSn: $("#pjtSn").val()});
             const delvMap = rndInfo.map;
             if(delvMap != null){
                 if(delvMap.STATUS == "100"){
                     $("#pjtAmt2").val(comma(e.PJT_AMT));
-                    $("#allBusnCost").val(comma(Number(e.PJT_AMT) + Number(delvMap.PEO_RES_ITEM)));
                 }
             }
 
@@ -278,6 +292,7 @@ var regRnd = {
                     $("#rndStatYn").prop("checked", true);
                 }
             }
+            $("input[name='securityYn'][value='" + e.SECURITY + "']").prop("checked", true);
         }
     },
 
@@ -302,6 +317,7 @@ var regRnd = {
             crmSn : $("#rndCrmSn").val(),
             crmPartSn : $("#crmPartSn").val(),
             pjtExpAmt : uncomma($("#pjtExpAmt").val()),
+            allBusnCost : uncomma($("#allBusnCost").val()),
 
             pjtStep : $("#pjtStep").val(),
             pjtStepNm : $("#pjtStepNm").val(),
@@ -315,20 +331,16 @@ var regRnd = {
             parameters.sbjStatYn = "N";
         }
 
-
+        $("input[name='securityYn']").each(function(){
+            if($(this).is(":checked")){
+                parameters.security = this.value;
+            }
+        });
 
         if(parameters.sbjClass == ""){
             alert("과제구분을 선택해주세요.");
             return;
         }
-        if(parameters.bsTitle == ""){
-            alert("사업명을 입력해주세요.")
-            return;
-        }
-        //if(parameters.sbjChar == ""){
-        //    alert("과제성격을 선택해주세요.");
-        //    return;
-        //}
         if(parameters.supDep == ""){
             alert("지원부처를 선택해주세요.");
             return;
@@ -337,16 +349,28 @@ var regRnd = {
             alert("전담기관을 선택해주세요.");
             return;
         }
-        if(parameters.pjtNm == ""){
-            alert("과제명을 입력해주세요.");
-            return;
-        }
-        if(parameters.pjtNmSub == ""){
-            alert("과제명(약칭) 입력해주세요.");
+        if(parameters.crmSn == ""){
+            alert("주관기관을 선택해주세요.");
             return;
         }
         if(parameters.pjtExpAmt == ""){
             alert("예상수주금액을 입력해주세요.");
+            return;
+        }
+        if(parameters.allBusnCost == ""){
+            alert("총 사업비를 입력해주세요.");
+            return;
+        }
+        if(parameters.empSeq == ""){
+            alert("과제담당자를 선택해주세요.");
+            return;
+        }
+        if(parameters.bsTitle == ""){
+            alert("사업명을 입력해주세요.")
+            return;
+        }
+        if(parameters.pjtNm == ""){
+            alert("과제명을 입력해주세요.");
             return;
         }
 
@@ -383,6 +407,7 @@ var regRnd = {
             crmConSn : $("#rndConCrmSn").val(),
             crmPartSn : $("#crmPartSn").val(),
             crmSn : $("#rndCrmSn").val(),
+            allBusnCost : uncomma($("#allBusnCost").val()),
             pjtExpAmt : uncomma($("#pjtExpAmt").val())
         }
 
@@ -392,18 +417,16 @@ var regRnd = {
             parameters.sbjStatYn = "N";
         }
 
+        $("input[name='securityYn']").each(function(){
+            if($(this).is(":checked")){
+                parameters.security = this.value;
+            }
+        });
+
         if(parameters.sbjClass == ""){
             alert("과제구분을 선택해주세요.");
             return;
         }
-        if(parameters.bsTitle == ""){
-            alert("사업명을 입력해주세요.")
-            return;
-        }
-        //if(parameters.sbjChar == ""){
-        //    alert("과제성격을 선택해주세요.");
-        //    return;
-        //}
         if(parameters.supDep == ""){
             alert("지원부처를 선택해주세요.");
             return;
@@ -412,12 +435,28 @@ var regRnd = {
             alert("전담기관을 선택해주세요.");
             return;
         }
-        if(parameters.pjtNm == ""){
-            alert("과제명을 입력해주세요.");
+        if(parameters.crmSn == ""){
+            alert("주관기관을 선택해주세요.");
             return;
         }
-        if(parameters.pjtNmSub == ""){
-            alert("과제명(약칭) 입력해주세요.");
+        if(parameters.pjtExpAmt == ""){
+            alert("예상수주금액을 입력해주세요.");
+            return;
+        }
+        if(parameters.allBusnCost == ""){
+            alert("총 사업비를 입력해주세요.");
+            return;
+        }
+        if(parameters.empSeq == ""){
+            alert("과제담당자를 선택해주세요.");
+            return;
+        }
+        if(parameters.bsTitle == ""){
+            alert("사업명을 입력해주세요.")
+            return;
+        }
+        if(parameters.pjtNm == ""){
+            alert("과제명을 입력해주세요.");
             return;
         }
 

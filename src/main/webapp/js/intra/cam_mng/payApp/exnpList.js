@@ -57,7 +57,6 @@ var exnpList = {
                     title: "문서유형",
                     width: 70,
                     template: function(e){
-                        console.log(e);
                         if(e.EVI_TYPE == 1){
                             return "세금계산서";
                         } else if (e.EVI_TYPE == 2){
@@ -79,9 +78,8 @@ var exnpList = {
                 }, {
                     title: "적요",
                     field: "EXNP_BRIEFS",
-                    width: 280,
+                    width: 250,
                     template: function(e){
-                        console.log(e);
                         return '<div style="cursor: pointer; font-weight: bold" onclick="exnpList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\', \'rev\')">'+e.EXNP_BRIEFS+'</div>';
                     }
                 }, {
@@ -110,7 +108,7 @@ var exnpList = {
                 }, {
                     title: "지출예정일",
                     width: 70,
-                    field: "REQ_EXNP_DE"
+                    field: "DT3"
                 }, {
                     title: "지출완료일",
                     width: 70,
@@ -127,14 +125,37 @@ var exnpList = {
                         }
                     }
                 }, {
-                    title: "상태",
+                    title: "결의상태",
                     width: 60,
                     template: function(e){
+                        var status = "";
                         if(e.DOC_STATUS == "100"){
-                            return "결재완료"
+                            status = "결재완료";
+                        } else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "50"){
+                            status = "결재중"
                         } else {
-                            return "작성중"
+                            status = "작성중"
                         }
+
+                        return status;
+                    }
+                }, {
+                    title: "승인상태",
+                    width: 60,
+                    template: function(e){
+                        var status = "";
+                        if(e.DOC_STATUS == "100"){
+                            status = "결재완료";
+                            if(e.REQ_END_DE != null && e.REQ_END_DE != "" && e.REQ_END_DE != undefined){
+                                status = "승인";
+                            } else {
+                                status = "미결";
+                            }
+                        } else {
+                            status = "미결";
+                        }
+
+                        return status;
                     }
                 }
             ],

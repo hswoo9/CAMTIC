@@ -303,21 +303,25 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         map.put("EMP_NAME", params.get("empName"));
         map.put("EMP_SEQ", params.get("empSeq"));
         map.put("REQ_SORT", params.get("reqSort"));
+        map.put("JOIN_MEM_NM", params.get("joinMemNm"));
+        map.put("JOIN_MEM_SN", params.get("joinMemberSn"));
 
         Map<String, Object> verMap = projectRndRepository.getPartRateVerBerData(map);
-        if(verMap != null){
-            if("".equals(map.get("JOIN_MEM_SN"))){
-                map.put("JOIN_MEM_SN", verMap.get("JOIN_MEM_SN"));
-            } else {
-                map.put("JOIN_MEM_SN", verMap.get("JOIN_MEM_SN") + "," + map.get("JOIN_MEM_SN"));
-            }
+//        if(verMap != null){
+//            if("".equals(map.get("JOIN_MEM_SN"))){
+//                map.put("JOIN_MEM_SN", verMap.get("JOIN_MEM_SN"));
+//            } else {
+//                map.put("JOIN_MEM_SN", verMap.get("JOIN_MEM_SN") + "," + map.get("JOIN_MEM_SN"));
+//            }
+//        }
 
-            if("".equals(map.get("JOIN_MEM_NM"))){
-                map.put("JOIN_MEM_NM", verMap.get("JOIN_MEM_NM"));
-            } else {
-                map.put("JOIN_MEM_NM", verMap.get("JOIN_MEM_NM") + "," + map.get("JOIN_MEM_NM"));
-            }
-        }
+//
+//            if("".equals(map.get("JOIN_MEM_NM"))){
+//                map.put("JOIN_MEM_NM", verMap.get("JOIN_MEM_NM"));
+//            } else {
+//                map.put("JOIN_MEM_NM", verMap.get("JOIN_MEM_NM") + "," + map.get("JOIN_MEM_NM"));
+//            }
+
 
 
         projectRndRepository.insReqPartRateVerData(map);
@@ -355,6 +359,7 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     @Override
     public void setReqPartRateStatus(Map<String, Object> params) {
         projectRndRepository.updReqPartRateStatus(params);
+        projectRndRepository.updReqPartRateVerToReqPartRate(params);
     }
 
     @Override
@@ -409,44 +414,6 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             projectRndRepository.updateRndDelvFinalApprStat(params);
-
-            Map<String, Object> pjtMap = projectRepository.getProjectData(params);
-            try{
-                /** 사업비 분리 : 테이블 조회해서 데이터 없으면 단일(0)으로 생성, 있으면 for문 */
-                params.put("pjtTmpCd", pjtMap.get("PJT_TMP_CD"));
-
-                List<Map<String, Object>> list = projectRndRepository.getAccountInfo(params);
-
-                int pjtCnt = g20Repository.getProjectCount(params);
-                String pjtCd = pjtMap.get("PJT_TMP_CD").toString();
-                String cntCode = String.format("%02d", (pjtCnt + 1));
-
-                if(list.size() == 0){
-                    params.put("pjtCd", pjtCd + cntCode + "0");
-                    params.put("pProjectCD", params.get("pjtCd"));
-                    // G20 프로젝트 추가
-                    g20Repository.insProject(params);
-                    projectRepository.updProjectCode(params);
-                }else{
-                    for(int i = 0 ; i < list.size() ; i++){
-                        params.put("pProjectCD", pjtCd + cntCode + list.get(i).get("IS_TYPE"));
-                        if(i == 0){
-                            params.put("pjtCd", pjtMap.get("PJT_TMP_CD"));
-                            projectRepository.updProjectCode(params);
-                        }
-                        // G20 프로젝트 추가
-                        g20Repository.insProject(params);
-                    }
-                }
-                // 결재 완료 처리
-                projectRndRepository.updRndProjectInfo(params);
-            } catch(Exception e){
-                e.printStackTrace();
-            }
-
-            params.put("pjtStep", "R2");
-            params.put("pjtStepNm", "수주보고");
-            projectRepository.updProjectStep(params);
         }else if("111".equals(docSts)) { // 임시저장
             projectRndRepository.updateRndDelvApprStat(params);
         }

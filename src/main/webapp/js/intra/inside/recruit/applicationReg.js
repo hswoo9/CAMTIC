@@ -101,4 +101,97 @@ var applicationReg = {
         });
     },
 
+    userSave : function () {
+        if(!confirm("신청내용을 저장하시겠습니까?")){
+            return ;
+        }
+            var data = {
+
+                applicationId : $("#applicationId").val(),
+                DEPT_NAME : $("#deptName").val(),
+                DEPT_TEAM_NAME : $("#teamName").val(),
+
+                LOGIN_ID : $("#loginId").val(),
+                RES_REGIS_NUM: $("#resRegisNum1").val() + '-' + $("#resRegisNum2").val(),
+                POSITION_CODE : $("#position").val(), // 직급 / 등급
+                DUTY_CODE : $("#duty").val(), // 직책
+                DUTY_NAME : $("#duty").val() == "" ? "" : $("#duty").data("kendoDropDownList").text(), // 직책
+                OCCUPATION_CODE : $("#occupationCode").val(),
+                BEFOR_CAREER : $("#beforCareer").val(), //전직경력
+                JOIN_DAY : $("#joinDay").val(), // 입사일자
+                TEMP_DIVISION : 'Y'
+            }
+
+        if($("#teamName").val() != '' && $("#teamName").val() != null){
+            data.DEPT_SEQ = $("#teamSeq").val();
+        }
+
+        /*
+        if($("#dsA").is("checked")){
+            data.division = "0";
+        }else if($("#dsB").is("checked")){
+            data.division = "4"
+            data.divisionSub = "1";
+        }else if($("#dsC").is("checked")){
+            data.division = "4"
+            data.divisionSub = "2";
+        }
+         */
+        data.division = "0";
+
+        if ($("#dsB").is(":checked")) {
+            data.division = "4";
+            data.divisionSub = "1";
+        } else if ($("#dsC").is(":checked")) {
+            data.division = "4";
+            data.divisionSub = "2";
+        }
+
+        if($("#position").val() != ""){
+            var positionName = "";
+            var gradeName = $("#position").data("kendoDropDownList").text();
+            if($("#position").data("kendoDropDownList").text().indexOf("/") > -1){
+                positionName = $("#position").data("kendoDropDownList").text().split("/")[0].trim();
+                gradeName = $("#position").data("kendoDropDownList").text().split("/")[1].trim();
+
+            }else{
+                positionName = gradeName;
+            }
+            data.GRADE_NAME = gradeName;
+            data.POSITION_NAME = positionName;
+        }else{
+            data.GRADE_NAME = "";
+            data.POSITION_NAME = "";
+        }
+
+        if(data.LOGIN_ID == "" || data.LOGIN_ID == null){
+            alert("아이디를 입력해주세요.");
+            return;
+        }
+        if(data.division == "" || data.division == null) {
+            alert("직원구분을 선택해주세요.");
+            return;
+        }
+
+
+        $.ajax({
+            url : "/inside/setApplicationtoUser.do",
+            data : data,
+            dataType : "json",
+            type : "POST",
+            async : false,
+            success : function(result){
+                console.log("인사등록 ajax요청 성공");
+                alert("인사등록이 완료되었습니다.");
+                window.close();
+            },
+            error: function(error) {
+                console.log("인사등록 ajax요청 실패");
+                console.error(error);
+            }
+
+        })
+
+    }
+
 }

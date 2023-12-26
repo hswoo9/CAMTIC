@@ -100,6 +100,9 @@ public class CompanyCardServiceImpl implements CompanyCardService {
     public void saveCardUserGroupList(Map<String, Object> params) {
         int groupId = Integer.parseInt(String.valueOf(params.get("groupId")));
 
+        // 1차적으로 전부 삭제
+        companyCardRepository.delGroupUserAll(params);
+
         Gson gson = new Gson();
         List<Map<String, Object>> groupArr = gson.fromJson((String) params.get("groupArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
 

@@ -241,7 +241,8 @@ var targetSubInfoPop = {
             async : false,
             success : function(result){
                 alert("직무분야 저장이 완료되었습니다.");
-                window.close();
+                window.location.href = "targetSubSetPop.do?targetYear="+ $("#targetYear").val();
+                /*window.close();*/
                 opener.targetInfo.tableSet();
             },
             error : function() {

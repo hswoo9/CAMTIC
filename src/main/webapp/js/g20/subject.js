@@ -91,7 +91,6 @@ var g20Subject = {
                 grid.tbody.find("tr").dblclick(function (e) {
                     const dataItem = grid.dataItem($(this));
                     // const crmMemSn = dataItem.CRM_MEM_SN;
-                    console.log(dataItem);
                 });
             },
             columns: [

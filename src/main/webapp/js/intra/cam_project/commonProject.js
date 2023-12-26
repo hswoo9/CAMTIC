@@ -197,7 +197,7 @@ var commonProject = {
         /** 엔지니어링(D) 알앤디(R) 비알앤디(S) */
         busnClass : "",
 
-        /** 협업프로젝트 계획서(공정)단계 마감인지(Y) 진행중인지(N)*/
+        /** 협업프로젝트 계획서단계 마감인지(Y) 진행중인지(N)*/
         devTeamCk : "",
 
         /** 협업프로젝트 최종마감인지(Y) 진행중인지(N)*/
@@ -263,5 +263,49 @@ var commonProject = {
                 location.reload();
             }
         }
+    },
+
+    getDept : function(empSeq){
+        const userInfo = customKendo.fn_customAjax("/user/getUserInfo", {
+            empSeq: empSeq
+        });
+
+        let dept = "";
+        if(userInfo != null){
+            if(userInfo.teamNm == "" || userInfo.teamNm == null){
+                dept = userInfo.deptNm;
+            }else{
+                dept = userInfo.teamNm;
+            }
+        }
+        return dept;
+    },
+
+    getSpot : function(empSeq){
+        const userInfo = customKendo.fn_customAjax("/user/getUserInfo", {
+            empSeq: empSeq
+        });
+
+        let spot = "";
+        if(userInfo != null){
+            if(userInfo.DUTY_NAME != null && userInfo.DUTY_NAME != ""){
+                spot = userInfo.DUTY_NAME;
+            }else{
+                spot = userInfo.POSITION_NAME;
+            }
+        }
+        return spot;
+    },
+
+    getName : function(empSeq){
+        const userInfo = customKendo.fn_customAjax("/user/getUserInfo", {
+            empSeq: empSeq
+        });
+
+        let name = "";
+        if(userInfo != null){
+            name = userInfo.EMP_NAME_KR;
+        }
+        return name;
     }
 }

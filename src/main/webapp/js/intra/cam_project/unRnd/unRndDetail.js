@@ -74,6 +74,13 @@ var unRndDetail = {
             const list = AcResult.list;
             let arr = [];
             let firstValue = "";
+
+            let sum = {
+                label: "총괄",
+                value: "-1"
+            };
+            arr.push(sum);
+
             for(let i=0; i<list.length; i++){
                 let label = "";
                 if(list[i].IS_TYPE == "1"){
@@ -91,11 +98,11 @@ var unRndDetail = {
                 }
                 let data = {
                     label: label,
-                    value: list[i].IS_TYPE
+                    value: list[i].IS_TYPE == "9" ? "6" : list[i].IS_TYPE
                 };
                 arr.push(data);
                 if(i == 0){
-                    firstValue = list[i].IS_TYPE;
+                    firstValue = -1;
                 }
             }
 
@@ -111,14 +118,14 @@ var unRndDetail = {
             customKendo.fn_radioGroup("budgetType", arr, "horizontal");
             $("#budgetType").data("kendoRadioGroup").value(firstValue);
 
-            for(let i=0; i<=6; i++){
+            for(let i=-1; i<=6; i++){
                 $("#customBudgetGrid"+i).hide();
             }
 
             $("#customBudgetGrid" + firstValue).show();
 
             $("#budgetType").data("kendoRadioGroup").bind("change", function(){
-                for(let i=0; i<=6; i++){
+                for(let i=-1; i<=6; i++){
                     $("#customBudgetGrid"+i).hide();
                 }
                 $("#customBudgetGrid" + $("#budgetType").data("kendoRadioGroup").value()).show();
@@ -195,7 +202,7 @@ var unRndDetail = {
         }
 
         if(parameters.mngEmpSeq == ""){
-            alert("총괄책임자를 선택해주세요.");
+            alert("과제책임자를 선택해주세요.");
             return;
         }
 
@@ -261,7 +268,7 @@ var unRndDetail = {
         })
     },
 
-    fn_approve : function(stat){
+    delvDrafting: function() {
         var pjCode = $("#pjCode").val();
         var supDep = $("#supDep2").val();
         var supDepSub = $("#supDepSub2").val();
@@ -274,7 +281,7 @@ var unRndDetail = {
         var parameters = {
             pjtSn : $("#pjtSn").val(),
             pjtTmpCd : pjCode + supDep + supDepSub + pjtStat + pjtStatSub + year,
-            stat : stat,
+            stat : 10,
             regEmpName : $("#regEmpName").val()
         }
 
@@ -306,69 +313,27 @@ var unRndDetail = {
             type : "post",
             dataType : "json",
             success : function (rs){
-                alert("요청되었습니다.");
-                commonProject.getReloadPage(0, 0, 0, 0, 0, 0);
+                $("#unRndDelvDraftFrm").one("submit", function(){
+                    const url = "/popup/cam_project/approvalFormPopup/unRndDelvApprovalPop.do";
+                    const name = "_self";
+                    const option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50";
+                    window.open(url, name, option);
+                    this.action = "/popup/cam_project/approvalFormPopup/unRndDelvApprovalPop.do";
+                    this.method = 'POST';
+                    this.target = '_self';
+                }).trigger("submit");
             }
         });
-    },
-
-    fn_approveStat : function(stat){
-        let successText = "";
-        if(stat == "0"){
-            if(!confirm("요청취소하시겠습니까?")){
-                return ;
-            }
-            successText = "취소되었습니다.";
-        }
-        var parameters = {
-            pjtSn : $("#pjtSn").val(),
-            stat : stat
-        }
-        commonProject.loading();
-        $.ajax({
-            url : "/project/updDelvApproveStat",
-            data : parameters,
-            type : "post",
-            dataType : "json",
-            success : function (rs){
-                alert(successText);
-                commonProject.getReloadPage(0, 0, 0, 0, 0, 0);
-            }
-        });
-    },
-
-    delvDrafting: function() {
-        if($("#totResCost").val() == 0){
-            alert("예산이 설정되지 않았습니다. 예산 설정 후 저장버튼을 누르고 진행 바랍니다."); return;
-        }
-
-        $("#unRndDelvDraftFrm").one("submit", function(){
-            const url = "/popup/cam_project/approvalFormPopup/unRndDelvApprovalPop.do";
-            const name = "_self";
-            const option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50";
-            window.open(url, name, option);
-            this.action = "/popup/cam_project/approvalFormPopup/unRndDelvApprovalPop.do";
-            this.method = 'POST';
-            this.target = '_self';
-        }).trigger("submit");
     },
 
     fn_buttonSet : function(unRndMap){
+        $(".budgetBtn").show();
         let buttonHtml = "";
         if(unRndMap != null){
             let status = unRndMap.STATUS
             if(status == "0"){
                 buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"unRndDetail.fn_save()\">저장</button>";
-
-                const pjtResult = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn : $("#pjtSn").val()});
-                const pjtMap = pjtResult.map;
-                if(pjtMap.DELV_APPROVE_STAT == 0){
-                    buttonHtml += "<button type=\"button\" id=\"delvApp2Btn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">코드승인요청</button>";
-                }else if(pjtMap.DELV_APPROVE_STAT == 100){
-                    buttonHtml += "<button type=\"button\" id=\"delvAppBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"unRndDetail.delvDrafting()\">상신</button>";
-                }else{
-                    buttonHtml += "<button type=\"button\" id=\"delvApp2Btn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"unRndDetail.fn_approveStat(0)\">코드승인요청취소</button>";
-                }
+                buttonHtml += "<button type=\"button\" id=\"delvApp2Btn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">상신</button>";
             }else if(status == "10" || status == "20" || status == "50"){
                 buttonHtml += "<button type=\"button\" id=\"delvCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+unRndMap.DOC_ID+"', '"+unRndMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
             }else if(status == "30" || status == "40"){
@@ -376,7 +341,17 @@ var unRndDetail = {
                 buttonHtml += "<button type=\"button\" id=\"delvCanBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"tempOrReDraftingPop('"+unRndMap.DOC_ID+"', '"+unRndMap.DOC_MENU_CD+"', '"+unRndMap.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
 
             }else if(status == "100"){
-                buttonHtml += "<button type=\"button\" id=\"delvCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+unRndMap.DOC_ID+"', '"+unRndMap.APPRO_KEY+"', '"+unRndMap.DOC_MENU_CD+"');\">열람</button>";
+                buttonHtml += "<button type=\"button\" id=\"delvCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+rndMap.DOC_ID+"', '"+rndMap.APPRO_KEY+"', '"+rndMap.DOC_MENU_CD+"');\">열람</button>";
+
+                const pjtResult = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn : $("#pjtSn").val()});
+                const pjtMap = pjtResult.map;
+                if(pjtMap.DELV_APPROVE_STAT != 100){
+                    buttonHtml += "<span style=\"float: right; position: relative; top: 5px; right: 5px;\"><b style='color: red'>수주승인 요청 중...</b></span>";
+                }else{
+                    buttonHtml += "<span style=\"float: right; position: relative; top: 5px; right: 5px;\"><b style='color: red'>수주승인 완료</b></span>";
+                }
+                
+                $(".budgetBtn").hide();
             }else if(status == "111"){
                 buttonHtml += "<button type=\"button\" id=\"delvTempBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"tempOrReDraftingPop('"+unRndMap.DOC_ID+"', 'delv', '"+unRndMap.APPRO_KEY+"', 2, 'tempDrafting');\">전자결재 임시저장 중</button>";
             }else{
@@ -389,14 +364,82 @@ var unRndDetail = {
     },
 
     customBudgetGrid : function(url, params){
+        $("#customBudgetGrid-1").kendoGrid({
+            dataSource: customKendo.fn_gridDataSource2(url, params, 200),
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            noRecords: {
+                template: "사업정보를 저장 할 때마다 합계가 갱신됩니다."
+            },
+            editable : function (){
+                return true;
+            },
+            columns: [
+                {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'pCbPk\');"/>',
+                    template : "<input type='checkbox' id='pCbPk#=CB_SN#' name='pCbPk' class='pCbPk' value='#=CB_SN#'/>",
+                    width: 50
+                }, {
+                    title: "장",
+                    field : "CB_CODE_NAME_1",
+                    editable: function(){
+                        return false;
+                    },
+                }, {
+                    title: "관",
+                    field : "CB_CODE_NAME_2",
+                    editable: function(){
+                        return false;
+                    },
+                }, {
+                    title: "항",
+                    field : "CB_CODE_NAME_3",
+                    footerTemplate: "합계",
+                    template : function(e){
+                        return e.CB_CODE_NAME_3
+                    },
+                    editable: function(){
+                        return false;
+                    },
+                }, {
+                    title: "예산액",
+                    field : "CB_BUDGET",
+                    template : function(e){
+                        sum += Number(e.CB_BUDGET);
+                        return fn_numberWithCommas(e.CB_BUDGET);
+                    },
+                    footerTemplate : function (e) {
+                        return "<span id='total-1'></span>";
+                    },
+                    attributes: { style: "text-align: right" },
+                },
+
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            },
+            dataBound: function(){
+                $("#total-1").text(fn_numberWithCommas(sum));
+                sum = 0;
+            }
+        }).data("kendoGrid");
+
+        $('#customBudgetGrid-1').on('blur', '[id="CB_BUDGET"]', function(e){
+            var total = 0;
+            $.each($("#customBudgetGrid-1").data("kendoGrid").dataSource.data(), function(){
+                total += Number(this.CB_BUDGET);
+            })
+            $("#total-1").text(comma(total))
+        })
+
         for(let i=0; i<=6; i++) {
             params.account = String(i);
             $("#customBudgetGrid"+i).kendoGrid({
-                dataSource: customKendo.fn_gridDataSource2(url, params),
+                dataSource: customKendo.fn_gridDataSource2(url, params, 200),
                 sortable: true,
                 scrollable: true,
                 selectable: "row",
-                height: 489,
                 noRecords: {
                     template: "데이터가 존재하지 않습니다."
                 },
@@ -404,14 +447,14 @@ var unRndDetail = {
                     {
                         name: 'button',
                         template: function () {
-                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="unRndDetail.fn_customBudgetPop('+i+')">' +
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base budgetBtn" onclick="unRndDetail.fn_customBudgetPop('+i+')">' +
                                 '	<span class="k-button-text">추가</span>' +
                                 '</button>';
                         }
                     }, {
                         name: 'button',
                         template: function () {
-                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="unRndDetail.setCustomBudgetDel('+i+')">' +
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base budgetBtn" onclick="unRndDetail.setCustomBudgetDel('+i+')">' +
                                 '	<span class="k-button-text">삭제</span>' +
                                 '</button>';
                         }
@@ -422,8 +465,8 @@ var unRndDetail = {
                 },
                 columns: [
                     {
-                        headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'pCbPk\');"/>',
-                        template: "<input type='checkbox' id='pCbPk#=CB_SN#' name='pCbPk' class='pCbPk' value='#=CB_SN#'/>",
+                        headerTemplate: '<input type="checkbox" id="checkAll'+i+'" name="checkAll" onclick="fn_checkAll(\'checkAll'+i+'\', \'pCbPk'+i+'\');"/>',
+                        template : "<input type='checkbox' id='pCbPk#=CB_SN#' name='pCbPk"+i+"' class='pCbPk' value='#=CB_SN#'/>",
                         width: 50
                     }, {
                         title: "장",
@@ -505,10 +548,10 @@ var unRndDetail = {
     },
 
     setCustomBudgetDel : function(i){
-        if($("input[name='pCbPk']:checked").length == 0){ alert("삭제할 예산을 선택해주세요."); return; }
+        if($("input[name='pCbPk"+i+"']:checked").length == 0){ alert("삭제할 예산을 선택해주세요."); return; }
         if(confirm("선택한 코드를 삭제하시겠습니까?\n삭제 후 저장시 반영됩니다.")) {
             var grid = $("#customBudgetGrid"+i).data("kendoGrid");
-            $.each($("input[name='pCbPk']:checked"), function(i, v){
+            $.each($("input[name='pCbPk"+i+"']:checked"), function(i, v){
                 grid.removeRow($(v).closest("tr"))
             });
         }

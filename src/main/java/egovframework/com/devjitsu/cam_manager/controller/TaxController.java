@@ -42,4 +42,16 @@ public class TaxController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/etax/etaxList.do")
+    public String etaxList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "cam_manager/etax/etaxList";
+    }
 }

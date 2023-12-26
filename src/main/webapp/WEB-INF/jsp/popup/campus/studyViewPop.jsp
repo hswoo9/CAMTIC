@@ -8,6 +8,15 @@
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/campus/campus.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/campus/study/studyViewPop.js?v=${today}"></script>
+<style>
+    .barFixed {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+    }
+
+</style>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
@@ -27,19 +36,20 @@
 <input type="hidden" id="studyResultSn" value="${resultData.STUDY_RESULT_SN}" />
 
 <input type="hidden" id="addStatus" value="${data.ADD_STATUS}"/>
-<div class="table-responsive">
-    <div class="card-header pop-header">
-        <h3 class="card-title title_NM">
+<div class="col-lg-12" style="padding:0;">
+<div class="card-header pop-header barFixed">
+    <h3 class="card-title title_NM">
                 <span style="">
                     학습조 내용 조회
                 </span>
-        </h3>
-        <div class="btn-st popButton">
-            <input type="button" style="display: none;" class="k-button k-button-solid-info" value="결과보고서" id="resultBtn" onclick="studyView.fn_resultDocPop();"/>
-            <input type="button" style="display: none;" class="k-button k-button-solid-info" value="학습완료" id="compBtn" onclick="studyView.fn_studyComplete();"/>
-<%--            <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick="window.close();"/>--%>
-        </div>
+    </h3>
+    <div class="btn-st popButton">
+        <input type="button" style="display: none;" class="k-button k-button-solid-info" value="결과보고서" id="resultBtn" onclick="studyView.fn_resultDocPop();"/>
+        <input type="button" style="display: none;" class="k-button k-button-solid-info" value="학습완료" id="compBtn" onclick="studyView.fn_studyComplete();"/>
+        <%--            <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick="window.close();"/>--%>
     </div>
+</div>
+<div class="table-responsive" style="padding-top: 40px;">
 
     <table class="table table-bordered mt20" id="studyReqTable">
         <colgroup>
@@ -170,7 +180,7 @@
     </form>
 </div>
 
-
+<c:if test="${data.STATUS eq '100' || data.STATUS eq '101'}">
 <div class="table-responsive" style="margin-top: 15px;">
     <div class="card-header pop-header" style="margin-bottom: 15px;">
         <h3 class="card-title title_NM">
@@ -184,7 +194,8 @@
     </div>
     <div id="mainGrid" style=""></div>
 </div>
-
+</c:if>
+</div>
 <script>
     studyView.init();
 </script>

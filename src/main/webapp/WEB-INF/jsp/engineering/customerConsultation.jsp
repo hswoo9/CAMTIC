@@ -1229,7 +1229,7 @@
                                                 <th class="tableThSt">날짜</th>
                                                 <th class="tableThSt">투자금액</th>
                                                 <th class="tableThSt">등록자</th>
-                                                <th class="tableThSt">예비원가서</th>
+                                                <th class="tableThSt">수행계획서</th>
                                                 <th class="tableThSt">상태</th>
                                             </tr>
                                             </thead>
@@ -1370,7 +1370,7 @@
                                         <div class="mt10" style="display:flex;justify-content: center;">
                                             <button class="btn btn-quirk infoBtn" style="width:140px;">저장</button>
                                             <button class="btn btn-quirk infoBtn" style="width:140px;">결제요청 취소</button>
-                                            <button class="btn btn-quirk infoBtn" style="width:140px;">예비원가 추가</button>
+                                            <button class="btn btn-quirk infoBtn" style="width:140px;">수행계획서 추가</button>
                                             <button class="btn btn-quirk infoBtn" style="width:140px;">인쇄</button>
                                             <button class="btn btn-quirk infoBtn" style="width:140px;">닫기</button>
                                         </div>

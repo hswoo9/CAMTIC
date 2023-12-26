@@ -52,7 +52,7 @@ var reqCl = {
         // ]
 
         customKendo.fn_radioGroup("purcType", radioDataSource, "horizontal");
-        customKendo.fn_radioGroup("expType", radioExpDataSource, "horizontal");
+        //customKendo.fn_radioGroup("expType", radioExpDataSource, "horizontal");
         customKendo.fn_radioGroup("vat", radioVatDataSource, "horizontal");
         // customKendo.fn_radioGroup("prodCd", radioProdDataSource, "horizontal");
 
@@ -87,6 +87,9 @@ var reqCl = {
             $("#purcEmpName").val(data.EMP_NAME_KR);
             $("#purcEmpSeq").val(data.EMP_SEQ);
 
+            $("#vat").data("kendoRadioGroup").value(data.VAT);
+            $("#vat").data("kendoRadioGroup").trigger("change");
+
 
             if($("#claimSn").val() == ""){
                 reqCl.fn_setItem(data);
@@ -117,7 +120,7 @@ var reqCl = {
 
                 $("#vat").data("kendoRadioGroup").value(data.VAT);
 
-                $("#expType").data("kendoRadioGroup").value(data.EXP_TYPE);
+                //$("#expType").data("kendoRadioGroup").value(data.EXP_TYPE);
 
                 if(data.itemList[0].CLAIM_SN == "" || data.itemList[0].CLAIM_SN == null || data.itemList[0].CLAIM_SN == undefined) {
                     reqCl.fn_setItem(data);
@@ -168,7 +171,7 @@ var reqCl = {
 
             $("#vat").data("kendoRadioGroup").value(data.VAT);
 
-            $("#expType").data("kendoRadioGroup").value(data.EXP_TYPE);
+            //$("#expType").data("kendoRadioGroup").value(data.EXP_TYPE);
 
             $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
 
@@ -190,28 +193,8 @@ var reqCl = {
             reqCl.fn_ClaimBtnSet(data);
         }
 
-        $("#vat").data("kendoRadioGroup").bind("select", function(e){
-            var len = $("#claimTbody > tr").length;
-            var vatAmt = 0;
-            var itemAmt = 0;
-            var totAmt = 0;
-            for(var i = 0 ; i < len ; i++){
-                if(i == 0){
-                    totAmt += Number(uncomma($("#itemAmt").val()));
-                } else {
-                    totAmt += Number(uncomma($("#itemAmt" + i).val()));
-                }
-            }
-
-            if(e.target.val() == "N"){
-                vatAmt = (totAmt / 10);
-                $("#estAmt").val(comma(totAmt - vatAmt));
-                $("#vatAmt").val(comma(vatAmt));
-            } else {
-                $("#estAmt").val(comma(totAmt));
-                $("#vatAmt").val(0);
-            }
-            $("#totAmt").val(comma(totAmt));
+        $("#vat").data("kendoRadioGroup").bind("change", function(e){
+            reqCl.vatCalc();
         });
 
         if(data.PURC_TYPE == ""){
@@ -232,29 +215,37 @@ var reqCl = {
 
     },
 
-    fn_amtCalculator : function(){
+    vatCalc : function(){
+        let sum = 0;
+        $.each($(".purcItemAmt"), function(){
+            sum += Number(uncomma(this.value));
+        });
 
-        var len = $("#claimTbody > tr").length;
-        var vatAmt = 0;
-        var itemAmt = 0;
-        var totAmt = 0;
-        for(var i = 0 ; i < len ; i++){
-            if(i == 0){
-                totAmt += Number(uncomma($("#itemAmt").val()));
-            } else {
-                totAmt += Number(uncomma($("#itemAmt" + i).val()));
-            }
-        }
+        /** 견적가 500*/
+        /** 미포함 500 50 550*/
+        const sum2 = Math.floor(sum/10);
+
+        /** 포함 455 45 500*/
+        const sum3 = Math.ceil(sum / 1.1);
+        const sum4 = sum - sum3;
 
         if($("#vat").data("kendoRadioGroup").value() == "N"){
-            vatAmt = (totAmt / 10);
-            $("#estAmt").val(comma(totAmt - vatAmt));
-            $("#vatAmt").val(comma(vatAmt));
-        } else {
-            $("#estAmt").val(comma(totAmt));
-            $("#vatAmt").val(0);
+            $("#estAmt").val(comma(sum));
+            $("#vatAmt").val(comma(sum2));
+            $("#totAmt").val(comma(sum+sum2));
+        }else if($("#vat").data("kendoRadioGroup").value() == "Y"){
+            $("#estAmt").val(comma(sum3));
+            $("#vatAmt").val(comma(sum4));
+            $("#totAmt").val(comma(sum));
+        }else if($("#vat").data("kendoRadioGroup").value() == "D"){
+            $("#estAmt").val(comma(sum));
+            $("#vatAmt").val("0");
+            $("#totAmt").val(comma(sum));
         }
-        $("#totAmt").val(comma(totAmt));
+    },
+
+    fn_amtCalculator : function(){
+        reqCl.vatCalc();
     },
 
     fn_popCamCrmList : function(){
@@ -415,7 +406,7 @@ var reqCl = {
             purcType : $("#purcType").data("kendoRadioGroup").value(),
             pjtSn : $("#pjtSn").val(),
             pjtNm : $("#pjtNm").val(),
-            expType : $("#expType").data("kendoRadioGroup").value(),
+            //expType : $("#expType").data("kendoRadioGroup").value(),
             claimEtc : $("#claimEtc").val(),
             loginEmpSeq : $("#loginEmpSeq").val(),
             claimTitle : $("#claimTitle").val(),
@@ -452,11 +443,11 @@ var reqCl = {
             }
         }
 
-        if(parameters.expType == undefined || parameters.expType == null){
-            alert("결제구분을 선택해주세요.");
-            return;
+        //if(parameters.expType == undefined || parameters.expType == null){
+        //    alert("결제구분을 선택해주세요.");
+        //    return;
 
-        }
+        //}
 
         if(parameters.vat == undefined || parameters.vat == null){
             alert("부가세 분류를 선택해주세요.");
@@ -578,7 +569,7 @@ var reqCl = {
         var url = "/project/pop/projectView.do?busnClass="+ $("input[name='purcType']:checked").val();
 
         var name = "_blank";
-        var option = "width = 1100, height = 400, top = 100, left = 400, location = no"
+        var option = "width = 1100, height = 700, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 

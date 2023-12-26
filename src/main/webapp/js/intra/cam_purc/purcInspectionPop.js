@@ -73,7 +73,6 @@ var pri = {
         $("#inspectDt").attr("readonly", true);
 
         if($("#mode").val() == "mng"){
-            $("#saveBtn").hide();
         }else{
             $("#inspectBtn").hide();
         }
@@ -101,7 +100,7 @@ var pri = {
             $("#inspectEmpName").text(data.INSPECT_EMP_NAME);
 
             if($("#mode").val() == "mng"){
-                $("#inspectDtTd").html("<div style='margin-top: 3px'>"+data.INSPECT_DT+"</div>");
+                $("#inspectDtTd").html("<div id='INSPECT_DT_MNG' style='margin-top: 3px'>"+data.INSPECT_DT+"</div>");
                 $("#file1Label").hide();
             }else{
                 if(data.INSPECT_DT != null){
@@ -338,7 +337,7 @@ var pri = {
         var formData = new FormData()
         formData.append("purcSn", $("#purcSn").val());
         formData.append("inspectEmpName", $("#purcReqEmpName").text());
-        formData.append("inspectDt", $("#inspectDt").val());
+        formData.append("inspectDt", $("#inspectDt").val() == undefined ? $("#INSPECT_DT_MNG").text() : $("#inspectDt").val());
         formData.append("menuCd", "inspect");
         formData.append("empSeq", $("#purcReqEmpName").text());
 
@@ -354,8 +353,12 @@ var pri = {
         var result = customKendo.fn_customFormDataAjax("/purc/updPurcInspect.do", formData);
         if(result.flag){
             alert("저장되었습니다.");
-            opener.parent.prm.gridReload();
-            window.close();
+            try {
+                opener.parent.prm.gridReload();
+            }catch{
+
+            }
+            location.reload();
         }
     },
 

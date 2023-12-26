@@ -248,10 +248,50 @@ var historyList = {
         var popup = window.open(url, name, option);
     },
 
-    fn_modAf : function (key){
-        $("#modAf").data("kendoWindow").open();
 
+        fn_modAf : function (key){
+            $.ajax({
+                url: '/inside/getHistoryOne',
+                method: 'GET',
+                data: { apntSn: key },
+                success: function (data) {
+                    console.log("데이터 통신 성공",data);
+                    historyList.openModAfWindow(data.data, key);
+                },
+                error: function (error) {
+                    console.error("Error fetching data from the server: ", error);
+                }
+            });
+
+
+
+        //$("#modAf").data("kendoWindow").open();
+
+        //$("#selectKey").val(key);
+
+    },
+
+    openModAfWindow: function (data, key) {
+
+        $("#modAf").data("kendoWindow").open();
+        console.log("key",key);
         $("#selectKey").val(key);
+
+        if (data.CHNG_NAME !== null && data.CHNG_NAME !== "") {
+            $("#chngNm").val(data.CHNG_NAME);
+        }else{
+            $("#chngNm").val(data.EMP_NAME);
+        }
+        if (data.CHNG_POSITION !== null && data.CHNG_POSITION !== "") {
+            $("#chngPt").val(data.CHNG_POSITION);
+        }else{
+            $("#chngPt").val(data.AF_POSITION_NAME);
+        }
+        if (data.CHNG_DEPT !== null && data.CHNG_DEPT !== "") {
+            $("#chngDept").val(data.CHNG_DEPT);
+        }else{
+            $("#chngDept").val(data.AF_DEPT_NAME + " " + data.AF_TEAM_NAME);
+        }
     },
 
     saveChangeAf: function (){
@@ -263,7 +303,9 @@ var historyList = {
         }
 
         var data = {
-            chngAf : $("#chngAf").val(),
+            chngNm : $("#chngNm").val(),
+            chngPt : $("#chngPt").val(),
+            chngDept : $("#chngDept").val(),
             apntSn : $("#selectKey").val()
         }
 

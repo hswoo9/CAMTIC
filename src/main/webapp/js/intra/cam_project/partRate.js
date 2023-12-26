@@ -143,7 +143,6 @@ var partRate = {
         if(mem != null){
             var memHtml = '';
             var item = 0;
-
             for(var i = 0 ; i < mem.length ; i++){
                 var e = mem[i];
                 var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
@@ -192,7 +191,7 @@ var partRate = {
                 memHtml += '   <td><input type="text" id="memPayRate'+i+'" name="payRate" style="text-align: right" disabled value="0"></td>';      // 참여율 현금(%)
                 memHtml += '   <td><input type="text" id="memTotPayBudget'+i+'" name="totPayBudget" style="text-align: right" disabled value="0"></td>';      // 인건비 현금 총액
                 memHtml += '   <td><input type="text" id="memItemRate'+i+'" name="itemRate" value="0" style="text-align: right" onkeyup="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +');" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"></td>';
-                memHtml += '   <td><input type="text" id="memTotItemBudget'+i+'" name="totItemBudget" style="text-align: right" disabled value="0"></td>';      // 인건비 현물 총액
+                memHtml += '   <td><input type="text" id="memTotItemBudget'+i+'" name="totItemBudget" style="text-align: right" value="0" onkeyup="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +', this, false);" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"></td>';      // 인건비 현물 총액
                 memHtml += '   <td><input type="text" id="memTotRate'+i+'" name="totRate" style="text-align: right" disabled value="0"></td>';      // 총 참여율(%)
                 memHtml += '   <td><input type="text" id="memPayTotal'+i+'" name="payTotal" style="text-align: right" value="0" onkeyup="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +', this);" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"></td>';
                 memHtml += '   <td><input type="text" id="memMonSal'+i+'" name="monSal" style="text-align: right" disabled value="0"></td>';      // 월 인건비
@@ -298,12 +297,24 @@ var partRate = {
         $("#payTotal").val(comma(payBdgt));
         $("#itemTotal").val(comma(itemBdgt));
 
+        var total = 0;
+        $("input[name='payTotal']").each(function(){
+            total += Number(uncomma(this.value));
 
-        partRate.fn_memCalc(uncomma(totAmt), rs.PAY_BUDGET, item);
+        });
+        $("#allPayTotal").val(comma(total));
+
+
+        //partRate.fn_memCalc(uncomma(totAmt), rs.PAY_BUDGET, item);
         item++;
     },
 
-    fn_memCalc : function (bsSal, payBudget, i, e){
+    fn_memCalc : function (bsSal, payBudget, i, e, x){
+        var customFlag = true;
+
+        if(!x){
+            customFlag = false;
+        }
 
         if(e != null && e != "" && e != undefined){
             inputNumberFormat(e);
@@ -311,7 +322,7 @@ var partRate = {
 
         if(Number(uncomma($("#memChngSal" + i).val())) > Number(bsSal) && partRate.global.flag){
             alert("기준급여보다 클 수 없습니다.");
-            $("#memChngSal" + i).val(comma(bsSal));
+            //$("#memChngSal" + i).val(comma(bsSal));
             partRate.global.flag = false;
             return;
         }
@@ -330,6 +341,10 @@ var partRate = {
             $("#memTotRate" + i).val(memTotRate);    // 총 참여율(%) (인건비 총액 / (기준급여 변경 * 참여개월)) * 100
         }
 
+        if(!customFlag) {
+            $("#memItemRate" + i).val(Math.round(Number(uncomma($("#memTotItemBudget" + i).val())) / Number(uncomma($("#memPayTotal" + i).val())) * memTotRate));
+        }
+
         var memPayRate = Math.round(($("#memTotRate" + i).val() - $("#memItemRate" + i).val()) * 10) / 10;
         if(!isNaN(memPayRate)){
             $("#memPayRate" + i).val(memPayRate);
@@ -344,9 +359,13 @@ var partRate = {
             }
         }
 
+        var calData = $("#memTotPayBudget" + i);
+        calData.val(comma(Math.round( Number(uncomma($("#memPayTotal" + i).val())) - Number(uncomma($("#memTotItemBudget" + i).val())) )));
 
         $("#memTotItemBudget" + i).val(comma(Math.round(Number(uncomma($("#memPayTotal" + i).val())) - Number(uncomma($("#memTotPayBudget" + i).val())))));
+        //$("#memTotItemBudget" + i).val(comma(Math.round(  Number(uncomma($("#memTotItemBudget" + i).val())) / Number(uncomma($("#memPayTotal" + i).val())) )));
 
+        //여기서부터 합계 계산
         var totPay = 0;
         $("input[name='payTotal']").each(function(){
             totPay += Number(uncomma(this.value));
@@ -373,17 +392,17 @@ var partRate = {
     },
 
     fn_monDiff : function (_date1, _date2){
-        var pSDate = _date1; //참여 시작일
-        var pEDate = _date2; //참여 종료일
+        var pSDate = _date1; // 참여 시작일
+        var pEDate = _date2; // 참여 종료일
 
         var pSDateArray = pSDate.split("-");
         var pEDateArray = pEDate.split("-");
 
-        var pSDateSet = new Date(pSDateArray[0], pSDateArray[1], pSDateArray[2]);
-        var pEDateSet = new Date(pEDateArray[0], pEDateArray[1], pEDateArray[2]);
+        var pSDateSet = new Date(pSDateArray[0], pSDateArray[1] - 1, pSDateArray[2]);
+        var pEDateSet = new Date(pEDateArray[0], pEDateArray[1] - 1, pEDateArray[2]);
 
-        var pSDateLastSet = (new Date(pSDateArray[0], pSDateArray[1], 0)).getDate();
-        var pEDateLastSet = (new Date(pEDateArray[0], pEDateArray[1], 0)).getDate();
+        var pSDateLastSet = new Date(pSDateArray[0], pSDateArray[1], 0).getDate();
+        var pEDateLastSet = new Date(pEDateArray[0], pEDateArray[1], 0).getDate();
 
         var pSDateYear = pSDateSet.getFullYear();
         var pSDateMonth = pSDateSet.getMonth();
@@ -393,19 +412,26 @@ var partRate = {
         var pEDateMonth = pEDateSet.getMonth();
         var pEDateDay = pEDateSet.getDate();
 
-        var pMonthSet = ((pEDateYear - pSDateYear) * 12) + (pEDateMonth - pSDateMonth + 1) - 2;
+        var pMonthSet = ((pEDateYear - pSDateYear) * 12) + (pEDateMonth - pSDateMonth) - 1;
 
         var pSDateDaySet = pSDateLastSet - pSDateDay + 1;
         var pEDateDaySet = pEDateDay;
 
-        var pSDateDayPerSet = (pSDateDaySet / pSDateLastSet).toFixed(1);
-        var pEDateDayPerSet = (pEDateDaySet / pEDateLastSet).toFixed(1);
+        var pSDateDayPerSet = pSDateDaySet / pSDateLastSet;
+        var pEDateDayPerSet = pEDateDaySet / pEDateLastSet;
 
-        var pDateMonth = Number(pMonthSet) + Number(pSDateDayPerSet) + Number(pEDateDayPerSet);
+        var pDateMonth = pMonthSet + pSDateDayPerSet + pEDateDayPerSet;
 
+        var finalReturn = partRate.truncateStringToOneDecimal(pDateMonth.toString());
 
-        // return Math.round((diffDays / 30).toFixed(2) * 10) / 10;
-        return Math.round(pDateMonth * 100) / 100;
+        if(finalReturn == 0){
+            finalReturn = 0.1;
+        }
+        return finalReturn;
+    },
+
+    truncateStringToOneDecimal : function (str) {
+        return (Math.floor(Number(str) * 10) / 10).toString();
     },
 
     fn_save: function(){
@@ -461,8 +487,6 @@ var partRate = {
             parameterList[i] = parameters;
         }
 
-        console.log(parameterList)
-
         if(parameterList.length != 0){
             customKendo.fn_customAjax("/projectRnd/checkPartRateDetail", parameterList[0]);
         }
@@ -471,8 +495,6 @@ var partRate = {
             var rs = customKendo.fn_customAjax("/projectRnd/setPartRateDetail", parameterList[i]);
 
             // var rs = customKendo.fn_customAjax("/projectRnd/setReqPartRateStatus", parameterList[i]);
-
-
         }
 
         if(rs.code == 200){
@@ -578,8 +600,7 @@ var partRate = {
      * @param sn
      */
     fn_userPartRatePop : function(sn, key){
-
-        var url = "/mng/pop/userPartRate.do?sn=" + sn + "&pjtSn=" + key;
+        var url = "/mng/pop/userPartRate.do?sn=" + sn + "&pjtSn=" + key + "&adminYn=Y";
 
         var name = "_blank";
         var option = "width = 1800, height = 750, top = 100, left = 200, location = no";

@@ -101,10 +101,10 @@
                     <td>
                         <span id="purcType"></span>
                     </td>
-                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>결제구분</th>
+                    <%--<th scope="row" class="text-center th-color"><span class="red-star">*</span>결제구분</th>
                     <td>
                         <span id="expType"></span>
-                    </td>
+                    </td>--%>
                 </tr>
                 <tr id="project" style="display: none;">
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>프로젝트</th>
@@ -171,7 +171,7 @@
                         <span id="vat"></span>
                     </td>
                 </tr>
-                <tr>
+                <tr style="display: none">
                     <th scope="row" class="text-center th-color">처리</th>
                     <td colspan="3">
                         <input type="checkbox" style="position: relative; top: 5px;" value="N" id="checkProfit">
