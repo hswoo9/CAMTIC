@@ -194,6 +194,11 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     }
 
     @Override
+    public Map<String, Object> getPersonReqData(Map<String, Object> params) {
+        return projectUnRndRepository.getPersonReqData(params);
+    }
+
+    @Override
     public Map<String, Object> getTeacherData(Map<String, Object> params) {
         return projectUnRndRepository.getTeacherData(params);
     }

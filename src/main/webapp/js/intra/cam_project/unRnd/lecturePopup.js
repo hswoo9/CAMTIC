@@ -98,7 +98,7 @@ var lecturePop = {
             alert("수료증은 1명씩 출력가능합니다."); return;
         }
 
-        let url = "/project/pop/personPrintPop.do?pk="+$("#pk").val()+"&personSn="+$("input[name='person']:checked").val();
+        let url = "/project/pop/personPrintPop.do?pk="+$("#pk").val()+"&personReqSn="+$("#personReqSn"+$("input[name='person']:checked").val()).val();
         const name = "personReqPop";
         const option = "width=1680, height=870, scrollbars=no, top=200, left=200, resizable=no, toolbars=no, menubar=no";
         window.open(url, name, option);

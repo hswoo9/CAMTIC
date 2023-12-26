@@ -17,6 +17,7 @@ public interface ProjectUnRndService {
     List<Map<String, Object>> getLectureTeacherList(Map<String, Object> params);
     List<Map<String, Object>> getPersonList(Map<String, Object> params);
     Map<String, Object> getPersonData(Map<String, Object> params);
+    Map<String, Object> getPersonReqData(Map<String, Object> params);
     Map<String, Object> getTeacherData(Map<String, Object> params);
     List<Map<String, Object>> getLectureTeacherReqList(Map<String, Object> params);
     List<Map<String, Object>> getLecturePersonReqList(Map<String, Object> params);

@@ -44,9 +44,9 @@ const personPrintPop = {
     openCallBack: function(){
         const data = {
             pk : $("#pk").val(),
-            personSn : $("#personSn").val()
+            personReqSn : $("#personReqSn").val()
         }
-        const result = customKendo.fn_customAjax("/projectUnRnd/getPersonData", data);
+        const result = customKendo.fn_customAjax("/projectUnRnd/getPersonReqData", data);
         const personMap = result.data;
         const lectureResult = customKendo.fn_customAjax("/projectUnRnd/getLectureInfo", data);
         const lecMap = lectureResult.data;
@@ -54,12 +54,16 @@ const personPrintPop = {
         console.log(lecMap);
 
         /** 1. 사업정보 */
-        personPrintPop.global.hwpCtrl.PutFieldText('CO_NAME', personMap.CO_NAME);
-        personPrintPop.global.hwpCtrl.PutFieldText('PLACE', personMap.PLACE);
-        personPrintPop.global.hwpCtrl.PutFieldText('NAME', personMap.NAME);
-        personPrintPop.global.hwpCtrl.PutFieldText('BIRTH', personMap.BIRTH);
-        personPrintPop.global.hwpCtrl.PutFieldText('LEC_TITLE_BS', lecMap.LEC_TITLE_BS);
+        personPrintPop.global.hwpCtrl.PutFieldText("CO_NAME", personMap.CO_NAME);
+        personPrintPop.global.hwpCtrl.PutFieldText("PLACE", personMap.PLACE);
+        personPrintPop.global.hwpCtrl.PutFieldText("NAME", personMap.NAME);
+        personPrintPop.global.hwpCtrl.PutFieldText("BIRTH", personMap.BIRTH);
+        personPrintPop.global.hwpCtrl.PutFieldText("LEC_TITLE_BS", lecMap.LEC_TITLE_BS);
         personPrintPop.global.hwpCtrl.PutFieldText("LEC_DT", lecMap.LEC_STR_DE + " ~ " + lecMap.LEC_END_DE);
+
+
+        personPrintPop.global.hwpCtrl.PutFieldText("PRINT_NO", "제 CAMTIC EDU 23-"+personMap.PERSON_REQ_SN+"호");
+        personPrintPop.global.hwpCtrl.PutFieldText("REG_DT", fn_getNowDate(1));
     },
 
     resize: function() {

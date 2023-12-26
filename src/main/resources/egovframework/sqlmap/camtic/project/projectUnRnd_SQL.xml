@@ -242,6 +242,19 @@
         ORDER BY NAME
     </select>
 
+    <select id="getPersonReqData" parameterType="map" resultType="map">
+        /*getPersonReqData*/
+        SELECT
+            A.PERSON_REQ_SN,
+            B.*
+        FROM
+            CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ A
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON B ON A.PERSON_SN = B.PERSON_SN
+        WHERE A.PERSON_REQ_SN = #{personReqSn}
+        GROUP BY B.PERSON_SN
+    </select>
+
     <select id="getPersonData" parameterType="map" resultType="map">
         /*getPersonData*/
         SELECT

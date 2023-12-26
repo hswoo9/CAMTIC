@@ -64,7 +64,7 @@ let lectureEdu = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'person\');"/>',
-                    template : "<input type='checkbox' id='person#=PERSON_SN#' name='person' class='person' value='#=PERSON_SN#'/>",
+                    template : "<input type='checkbox' id='person#=PERSON_SN#' name='person' class='person' value='#=PERSON_SN#'/><input type='hidden' id='personReqSn#=PERSON_SN#' value='#=PERSON_REQ_SN#'/>",
                     width: "3%"
                 }, {
                     title: "번호",

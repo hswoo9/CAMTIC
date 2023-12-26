@@ -334,7 +334,14 @@ public class ProjectUnRndController {
         model.addAttribute("data", data);
         return "jsonView";
     }
-    /** 단위사업 개인회원 단일 DATA */
+    /** 단위사업 개인회원 수료증 단일 DATA */
+    @RequestMapping("/projectUnRnd/getPersonReqData")
+    public String getPersonReqData(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = projectUnRndService.getPersonReqData(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+    /** 단위사업 강사 단일 DATA */
     @RequestMapping("/projectUnRnd/getTeacherData")
     public String getTeacherData(@RequestParam Map<String, Object> params, Model model){
         Map<String, Object> data = projectUnRndService.getTeacherData(params);

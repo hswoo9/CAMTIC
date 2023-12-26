@@ -14,7 +14,7 @@
 <input type="hidden" id="pk" value="${data.pk}"/>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 
-<input type="hidden" id="personSn" value="${data.personSn}"/>
+<input type="hidden" id="personReqSn" value="${data.personReqSn}"/>
 
 
 
