@@ -397,7 +397,8 @@ var regExnpRe = {
         var parameters = {
             exnpSn : $("#exnpSn").val(),
             regEmpSeq : $("#regEmpSeq").val(),
-            empSeq : $("#regEmpSeq").val()
+            empSeq : $("#regEmpSeq").val(),
+            exnpG20Stat : 'Y',
         }
 
         if(!confirm("승인하시겠습니까?")){
