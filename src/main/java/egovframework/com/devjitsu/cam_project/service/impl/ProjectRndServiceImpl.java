@@ -417,6 +417,19 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         }else if("111".equals(docSts)) { // 임시저장
             projectRndRepository.updateRndDelvApprStat(params);
         }
+
+        if("10".equals(docSts)){
+            /** STEP1. pjtSn 으로 rndData 호출 */
+            Map<String, Object> rndMap = projectRndRepository.getRndDetail(params);
+
+            /** STEP2. rndData 에서 RND_FILE_SN 있으면 update */
+            if (rndMap != null && !rndMap.isEmpty()) {
+                if(rndMap.containsKey("RND_FILE_SN") && rndMap.get("RND_FILE_SN") != null){
+                    params.put("fileNo", rndMap.get("RND_FILE_SN").toString());
+                    projectRepository.setFileDocNm(params);
+                }
+            }
+        }
     }
 
     @Override
@@ -449,6 +462,22 @@ public class ProjectRndServiceImpl implements ProjectRndService {
             projectRndRepository.updateRndDevFinalApprStat(params);
         }else if("111".equals(docSts)) { // 임시저장
             projectRndRepository.updateRndDevApprStat(params);
+        }
+
+        if("10".equals(docSts)){
+            /** STEP0. devSn 으로 pjtSn 호출 */
+            Map<String, Object> pjtMap = projectRepository.getPjtSnToDev(params);
+            params.put("pjtSn", pjtMap.get("PJT_SN"));
+            /** STEP1. pjtSn 으로 rndData 호출 */
+            Map<String, Object> rndMap = projectRndRepository.getRndDetail(params);
+
+            /** STEP2. rndData 에서 RND_FILE_SN 있으면 update */
+            if (rndMap != null && !rndMap.isEmpty()) {
+                if(rndMap.containsKey("RND_FILE_SN") && rndMap.get("RND_FILE_SN") != null){
+                    params.put("fileNo", rndMap.get("RND_FILE_SN").toString());
+                    projectRepository.setFileCopy(params);
+                }
+            }
         }
     }
 
@@ -487,6 +516,86 @@ public class ProjectRndServiceImpl implements ProjectRndService {
             projectRndRepository.updRndProjectInfoRes(params);
         }else if("111".equals(docSts)) { // 임시저장
             projectRndRepository.updateRndResApprStat(params);
+        }
+
+        if("10".equals(docSts)){
+            /** STEP1. pjtSn 으로 rndData 호출 */
+            Map<String, Object> rndMap = projectRndRepository.getRndDetail(params);
+
+            /** STEP2. rndData 에서 RND_FILE_SN 있으면 update */
+            if (rndMap != null && !rndMap.isEmpty()) {
+                if(rndMap.containsKey("RND_FILE_SN") && rndMap.get("RND_FILE_SN") != null){
+                    params.put("fileNo", rndMap.get("RND_FILE_SN").toString());
+                    projectRepository.setFileCopy(params);
+                }
+            }
+
+            /** STEP1. pjtSn 으로 psMap 호출 */
+            Map<String, Object> psPrepMap = projectRepository.getPsPrepInfo(params);
+
+            /** STEP2. psPrepMap 에서 psFile1List ~ psFile6List 있으면 update */
+            if(psPrepMap != null && !psPrepMap.isEmpty()) {
+                params.put("psFileSn", psPrepMap.get("PS_FILE_SN").toString());
+                List<Map<String, Object>> psFile1List = projectRepository.getPsFile1(params);
+                List<Map<String, Object>> psFile2List = projectRepository.getPsFile2(params);
+                List<Map<String, Object>> psFile3List = projectRepository.getPsFile3(params);
+                List<Map<String, Object>> psFile4List = projectRepository.getPsFile4(params);
+                List<Map<String, Object>> psFile5List = projectRepository.getPsFile5(params);
+                List<Map<String, Object>> psFile6List = projectRepository.getPsFile6(params);
+
+                if(psFile1List.size() > 0){
+                    for(Map<String, Object> data : psFile1List){
+                        data.put("docId", params.get("docId"));
+                        projectRepository.setPsFileDocNm(data);
+                    }
+                }
+                if(psFile2List.size() > 0){
+                    for(Map<String, Object> data : psFile2List){
+                        data.put("docId", params.get("docId"));
+                        projectRepository.setPsFileDocNm(data);
+                    }
+                }
+                if(psFile3List.size() > 0){
+                    for(Map<String, Object> data : psFile3List){
+                        data.put("docId", params.get("docId"));
+                        projectRepository.setPsFileDocNm(data);
+                    }
+                }
+                if(psFile4List.size() > 0){
+                    for(Map<String, Object> data : psFile4List){
+                        data.put("docId", params.get("docId"));
+                        projectRepository.setPsFileDocNm(data);
+                    }
+                }
+                if(psFile5List.size() > 0){
+                    for(Map<String, Object> data : psFile5List){
+                        data.put("docId", params.get("docId"));
+                        projectRepository.setPsFileDocNm(data);
+                    }
+                }
+                if(psFile6List.size() > 0){
+                    for(Map<String, Object> data : psFile6List){
+                        data.put("docId", params.get("docId"));
+                        projectRepository.setPsFileDocNm(data);
+                    }
+                }
+            }
+
+            /** STEP1. pjtSn 으로 resultData 호출 */
+            Map<String, Object> resultMap = projectRepository.getResultInfo(params);
+
+            /** STEP2. resultData 에서 DSGN_FILE_SN, PROD_FILE_SN 있으면 update */
+            if (resultMap != null && !resultMap.isEmpty()) {
+                if(resultMap.containsKey("DSGN_FILE_SN")){
+                    params.put("fileNo", resultMap.get("DSGN_FILE_SN").toString());
+                    projectRepository.setResultFileDocNm(params);
+                }
+
+                if(resultMap.containsKey("PROD_FILE_SN")){
+                    params.put("fileNo", resultMap.get("PROD_FILE_SN").toString());
+                    projectRepository.setResultFileDocNm(params);
+                }
+            }
         }
     }
 

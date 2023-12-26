@@ -1989,6 +1989,15 @@
             DEV_SN = #{devSn}
     </update>
 
+    <update id="setFileDocNm" parameterType="map">
+        /* setFileDocNm */
+        UPDATE CAM_COMMON.DJ_FILE_INFO
+        SET
+            DOC_ID = #{docId}
+        WHERE
+            file_no = #{fileNo}
+    </update>
+
     <update id="setDelvFileDocNm" parameterType="map">
         /* setDelvFileDocNm */
         UPDATE CAM_COMMON.DJ_FILE_INFO
@@ -1998,6 +2007,41 @@
             file_no = #{fileNo}
           AND file_cd = 'delvFile'
     </update>
+
+    <insert id="setFileCopy" parameterType="map">
+        /* setFileCopy */
+        INSERT INTO CAM_COMMON.DJ_FILE_INFO
+        (
+            FILE_CD,
+            FILE_UUID,
+            FILE_ORG_NAME,
+            FILE_PATH,
+            FILE_DOWN_PATH,
+            FILE_SIZE,
+            FILE_EXT,
+            EMP_SEQ,
+            CONTENT_ID,
+            DOC_ID,
+            FR_KEY,
+            REG_EMP_SEQ
+        )
+        SELECT
+            FILE_CD,
+            FILE_UUID,
+            FILE_ORG_NAME,
+            FILE_PATH,
+            FILE_DOWN_PATH,
+            FILE_SIZE,
+            FILE_EXT,
+            EMP_SEQ,
+            CONTENT_ID,
+            #{docId},
+            FR_KEY,
+            REG_EMP_SEQ
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE FILE_NO = #{fileNo}
+    </insert>
 
     <insert id="setDelvFileCopy" parameterType="map">
         /* setDelvFileCopy */

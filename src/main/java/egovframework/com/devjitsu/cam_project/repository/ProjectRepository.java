@@ -460,8 +460,16 @@ public class ProjectRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("project.getEstFile", params);
     }
 
+    public void setFileDocNm(Map<String, Object> params) {
+        update("project.setFileDocNm", params);
+    }
+
     public void setDelvFileDocNm(Map<String, Object> params) {
         update("project.setDelvFileDocNm", params);
+    }
+
+    public void setFileCopy(Map<String, Object> params) {
+        update("project.setFileCopy", params);
     }
 
     public void setDelvFileCopy(Map<String, Object> params) {

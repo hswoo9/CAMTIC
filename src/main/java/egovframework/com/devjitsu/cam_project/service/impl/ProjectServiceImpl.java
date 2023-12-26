@@ -670,7 +670,7 @@ public class ProjectServiceImpl implements ProjectService {
             projectRepository.updateDelvApprStat(params);
         }
 
-        if("10".equals(docSts) || "101".equals(docSts)){
+        if("10".equals(docSts)){
             /** STEP1. pjtSn 으로 delvData 호출 */
             Map<String, Object> delvMap = projectRepository.getDelvData(params);
 
@@ -776,7 +776,7 @@ public class ProjectServiceImpl implements ProjectService {
             projectRepository.updateDevApprStat(params);
         }
 
-        if("10".equals(docSts) || "101".equals(docSts)){
+        if("10".equals(docSts)){
 
             /** STEP1. pjtSn 으로 delvData 호출 */
             Map<String, Object> delvMap = projectRepository.getDelvData(params);
