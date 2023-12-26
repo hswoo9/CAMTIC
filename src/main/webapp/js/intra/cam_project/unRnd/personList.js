@@ -72,7 +72,7 @@ var personList = {
                     title: "핸드폰",
                     width: "10%"
                 }, {
-                    field: "BELONG",
+                    field: "CO_NAME",
                     title: "소속",
                     width: "10%"
                 }, {

@@ -461,7 +461,11 @@ public class ProjectRepository extends AbstractDAO {
     }
 
     public void setDelvFileDocNm(Map<String, Object> params) {
-        update("bustrip.setDelvFileDocNm", params);
+        update("project.setDelvFileDocNm", params);
+    }
+
+    public void setDelvFileCopy(Map<String, Object> params) {
+        update("project.setDelvFileCopy", params);
     }
 
     public void setDevFileDocNm(Map<String, Object> params) {

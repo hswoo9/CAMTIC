@@ -670,18 +670,18 @@ public class ProjectServiceImpl implements ProjectService {
             projectRepository.updateDelvApprStat(params);
         }
 
-        /*if("10".equals(docSts) || "101".equals(docSts)){
-            *//** STEP1. pjtSn 으로 delvData 호출 *//*
+        if("10".equals(docSts) || "101".equals(docSts)){
+            /** STEP1. pjtSn 으로 delvData 호출 */
             Map<String, Object> delvMap = projectRepository.getDelvData(params);
 
-            *//** STEP2. delvData 에서 DELV_FILE_SN 있으면 update *//*
+            /** STEP2. delvData 에서 DELV_FILE_SN 있으면 update */
             if (delvMap != null && !delvMap.isEmpty()) {
                 if(delvMap.containsKey("DELV_FILE_SN") && delvMap.get("DELV_FILE_SN") != null){
                     params.put("fileNo", delvMap.get("DELV_FILE_SN").toString());
                     projectRepository.setDelvFileDocNm(params);
                 }
             }
-        }*/
+        }
     }
 
     @Override
@@ -717,6 +717,23 @@ public class ProjectServiceImpl implements ProjectService {
             projectRepository.updProjectStepDev(params);
         }else if("111".equals(docSts)) { // 임시저장
             projectRepository.updateDevApprStat(params);
+        }
+
+        if("10".equals(docSts)){
+            /** STEP0. devSn 으로 pjtSn 호출 */
+            Map<String, Object> pjtMap = projectRepository.getPjtSnToDev(params);
+            params.put("pjtSn", pjtMap.get("PJT_SN"));
+
+            /** STEP1. pjtSn 으로 delvData 호출 */
+            Map<String, Object> delvMap = projectRepository.getDelvData(params);
+
+            /** STEP2. delvData 에서 DELV_FILE_SN 있으면 update */
+            if (delvMap != null && !delvMap.isEmpty()) {
+                if(delvMap.containsKey("DELV_FILE_SN") && delvMap.get("DELV_FILE_SN") != null){
+                    params.put("fileNo", delvMap.get("DELV_FILE_SN").toString());
+                    projectRepository.setDelvFileCopy(params);
+                }
+            }
         }
 
         /*if("10".equals(docSts) || "101".equals(docSts)){

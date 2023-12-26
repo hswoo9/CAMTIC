@@ -79,6 +79,11 @@ var estInfo = {
     },
 
     fn_save : function (){
+        if($("#estPjtNm").val() == ""){
+            alert("견적명을 입력해주세요.");
+            return;
+        }
+
         if($("input[name='vatYn']:checked").val() == null || $("input[name='vatYn']:checked").val() == undefined || $("input[name='vatYn']:checked").val() == ""){
             alert("부가세 여부를 선택해주세요.");
             return;
@@ -174,6 +179,7 @@ var estInfo = {
 
         var html = "";
         var len = 0;
+        var lastVersion = "";
         if(rs.result.estList != null && rs.result.estList != "") {
             len = rs.result.estList.length;
             for (var i = 0; i < len; i++) {
@@ -205,6 +211,7 @@ var estInfo = {
 
                 if(i+1 == len){
                     $("#version").val(rs.result.estList[i].EST_SN);
+                    lastVersion = rs.result.estList[i].EST_SN;
                 }
             }
 
@@ -260,6 +267,10 @@ var estInfo = {
             $("#estExpAmt").val(estInfo.comma(rs.result.estList[len - 1].EST_TOT_AMT));
             estInfo.global.totAmt = Number(estInfo.uncomma($("#estExpAmt").val()));
             $("#vat" + rs.result.estList[len - 1].VAT).prop("checked", true);
+
+            if(lastVersion != ""){
+                estInfo.fn_versionClick(lastVersion)
+            }
         }
         if($("#version").val() == ""){
             $("#printBtn").hide();

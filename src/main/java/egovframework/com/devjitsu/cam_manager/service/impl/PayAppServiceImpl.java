@@ -192,6 +192,7 @@ public class PayAppServiceImpl implements PayAppService {
             payAppRepository.updateExnpFinalApprStat(params);
             Map<String, Object> pkMap = payAppRepository.getExnpData(params);
             if(!"4".equals(pkMap.get("PAY_APP_TYPE"))){
+                params.put("payAppType", pkMap.get("PAY_APP_TYPE"));
                 updateG20ExnpFinalAppr(params, "app");
             }
             //payAppRepository.updatePurcListFinalApprStat(params);
@@ -359,10 +360,10 @@ public class PayAppServiceImpl implements PayAppService {
         /** 1.지출결의서 일때 세금계산서, 계산서, 신용카드는 반제결의 승인시 g20 프로시저 호출 해야 함 */
         if("1".equals(pkMap.get("PAY_APP_TYPE"))){
             if(type.equals("resolution")){
-                params.put("evidTypeArr", "1,2,3");
+                params.put("evidTypeArr", "1,2,3,4,5,6,9");
                 list = payAppRepository.getExnpG20List(params);
-            }else{
-                params.put("evidTypeArr", "4,5");
+            } else {
+                params.put("evidTypeArr", "1,2,3");
                 list = payAppRepository.getExnpG20List(params);
             }
         } else if("2".equals(pkMap.get("PAY_APP_TYPE"))){
@@ -458,17 +459,21 @@ public class PayAppServiceImpl implements PayAppService {
                     data.put("TR_FG", "3");
                 }
 
-                g20Repository.insZnSautoabdocu(data);
-
-                payAppRepository.updExnpStat(data);
+                if((data.get("EVID_TYPE").toString().equals("1") || data.get("EVID_TYPE").toString().equals("2") || data.get("EVID_TYPE").toString().equals("3")) && type.equals("resolution")) {}
+                else {
+                    g20Repository.insZnSautoabdocu(data);
+                }
 
                 i++;
 
-                if(list.size() == i){
-                    data.put("LOGIN_EMP_CD", loginMap.get("ERP_EMP_SEQ"));
-                    g20Repository.execUspAncj080Insert00(data);
-                }
+                if(type.equals("resolution")) {
+                    payAppRepository.updExnpStat(data);
 
+                    if(list.size() == i) {
+                        data.put("LOGIN_EMP_CD", loginMap.get("ERP_EMP_SEQ"));
+                        g20Repository.execUspAncj080Insert00(data);
+                    }
+                }
             }
         }
     }

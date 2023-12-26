@@ -140,7 +140,7 @@
                         if(x.MENU_CHILDREN_YN == "Y"){
                             menu += "<a href='#' class='toggleMain' children='" + x.MENU_CHILDREN_YN + "'>" + x.MENU_NAME + "</a>";
                             menu += "<ul class='innerMain children' menu ='"+ x.MENU_ID +"'>";
-                            menu += "</ul";
+                            menu += "</ul>";
                         }else{
                             menu += "<a href='#' onclick=\"open_in_frame('" + x.MENU_PATH + "')\" menuNamePath='업무 > " + x.MENU_NAME_PATH + "' menuNameKr='" + x.MENU_NAME + "' class='toggleMain' children='" + x.MENU_CHILDREN_YN + "'>" + x.MENU_NAME + "</a>";
                         }
@@ -152,7 +152,7 @@
                         if(x.MENU_CHILDREN_YN == "Y") {
                             menu += "<a href='#' class='toggleMain1' children='" + x.MENU_CHILDREN_YN + "'>" + x.MENU_NAME + "</a>";
                             menu += "<ul class='innerMain children' menu ='" + x.MENU_ID + "'>";
-                            menu += "</ul";
+                            menu += "</ul>";
                         }else{
                             menu += "<a href='#' onclick=\"open_in_frame('" + x.MENU_PATH + "')\" menuNamePath='업무 > " + x.MENU_NAME_PATH + "' menuNameKr='" + x.MENU_NAME + "' class='toggleMain1' children='" + x.MENU_CHILDREN_YN + "'>" + x.MENU_NAME + "</a>";
                         }
