@@ -596,9 +596,9 @@
             A.STATUS AS DELV_STATUS
         FROM
             CAM_PJT_MNG.DJ_PJT_DELV A
-                LEFT JOIN
+        LEFT JOIN
             CAM_HR.DJ_EMP_INFO B ON A.PM_EMP_SEQ = B.EMP_SEQ
-                LEFT JOIN
+        LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
             PJT_SN = #{pjtSn} ORDER BY DELV_SN DESC LIMIT 1
@@ -1998,6 +1998,42 @@
             file_no = #{fileNo}
           AND file_cd = 'delvFile'
     </update>
+
+    <insert id="setDelvFileCopy" parameterType="map">
+        /* setDelvFileCopy */
+        INSERT INTO CAM_COMMON.DJ_FILE_INFO
+        (
+            FILE_CD,
+            FILE_UUID,
+            FILE_ORG_NAME,
+            FILE_PATH,
+            FILE_DOWN_PATH,
+            FILE_SIZE,
+            FILE_EXT,
+            EMP_SEQ,
+            CONTENT_ID,
+            DOC_ID,
+            FR_KEY,
+            REG_EMP_SEQ
+        )
+        SELECT
+            FILE_CD,
+            FILE_UUID,
+            FILE_ORG_NAME,
+            FILE_PATH,
+            FILE_DOWN_PATH,
+            FILE_SIZE,
+            FILE_EXT,
+            EMP_SEQ,
+            CONTENT_ID,
+            #{docId},
+            FR_KEY,
+            REG_EMP_SEQ
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE FILE_NO = #{fileNo}
+          AND FILE_CD = 'delvFile'
+    </insert>
 
     <update id="setDevFileDocNm" parameterType="map">
         /* setDevFileDocNm */

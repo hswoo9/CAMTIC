@@ -1187,7 +1187,18 @@ var draft = {
                 devSn: data.devSn
             }).rs.PJT_SN;
 
-            let result = customKendo.fn_customAjax("/project/getDevelopPlan", {
+            let result = customKendo.fn_customAjax("/project/engn/getDelvData", {
+                pjtSn: pjtSn
+            });
+            console.log(result);
+            let tempArr = [];
+            tempArr[0] = result.delvFile;
+            draft.getDocFileSet(tempArr);
+            draft.setKendoUpload();
+
+
+
+            /*let result = customKendo.fn_customAjax("/project/getDevelopPlan", {
                 pjtSn: pjtSn
             });
             console.log(result);
@@ -1195,7 +1206,7 @@ var draft = {
             tempArr[0] = result.devFile.devFile;
             tempArr[1] = result.devFile.estFile;
             draft.getDocFileSet(tempArr);
-            draft.setKendoUpload();
+            draft.setKendoUpload();*/
         }
 
         if(params.menuCd == "pjtRes") {
