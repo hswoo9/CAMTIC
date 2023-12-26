@@ -108,8 +108,24 @@ var delvInfo = {
     },
 
     fn_save : function(){
-        if($("#delvFileName").text() == ""){
-            alert("계약서를 등록해주세요.");
+
+        if($("#delvItem").val() == ""){
+            alert("납품품목을 입력해주세요.");
+            return;
+        }
+
+        if($("#delvCnt").val() == ""){
+            alert("납품수량을 입력해주세요.");
+            return;
+        }
+
+        if($("#delvUnit").val() == ""){
+            alert("납품단위를 입력해주세요.");
+            return;
+        }
+
+        if($("#delvIssu").val() == ""){
+            alert("특이사항을 입력해주세요.");
             return;
         }
 
@@ -118,10 +134,16 @@ var delvInfo = {
             return;
         }
 
+        if($("#delvFileName").text() == ""){
+            alert("계약서를 등록해주세요.");
+            return;
+        }
+
         if($("input[name='delvDept']:checked").val() == null || $("input[name='delvDept']:checked").val() == undefined || $("input[name='delvDept']:checked").val() == ""){
             alert("참여부서를 선택해주세요.");
             return;
         }
+
         if($("#pmSeq").val() == ""){
             alert("PM을 등록해주세요.");
             return;

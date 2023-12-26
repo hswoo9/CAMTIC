@@ -79,7 +79,7 @@
                     <input type="text" id="pjtEndDt" style="width: 43%"/>
                 </td>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>납품품목
+                    <span class="red-star">*</span>납품품목
                 </th>
                 <td>
                     <input type="text" id="delvItem" style="width: 90%;">
@@ -93,13 +93,13 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>납품수량
+                    <span class="red-star">*</span>납품수량
                 </th>
                 <td>
                     <input type="text" id="delvCnt" style="width: 90%;" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                 </td>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>납품단위
+                    <span class="red-star">*</span>납품단위
                 </th>
                 <td>
                     <input type="text" id="delvUnit" style="width: 90%;">
@@ -130,7 +130,7 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>특이사항
+                    <span class="red-star">*</span>특이사항
                 </th>
                 <td colspan="3">
                     <textarea type="text" id="delvIssu" style="width: 100%;"></textarea>
