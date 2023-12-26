@@ -79,6 +79,11 @@ var estInfo = {
     },
 
     fn_save : function (){
+        if($("#estPjtNm").val() == ""){
+            alert("견적명을 입력해주세요.");
+            return;
+        }
+
         if($("input[name='vatYn']:checked").val() == null || $("input[name='vatYn']:checked").val() == undefined || $("input[name='vatYn']:checked").val() == ""){
             alert("부가세 여부를 선택해주세요.");
             return;

@@ -55,7 +55,7 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>견적명
+                    <span class="red-star">*</span>견적명
                 </th>
                 <td colspan="3">
                     <input type="text" id="estPjtNm" style="width: 90%; text-align: left" />
