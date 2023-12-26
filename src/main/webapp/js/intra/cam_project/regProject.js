@@ -394,8 +394,14 @@ var regPrj = {
     },
 
     fn_save: function (){
+        if($("#pjtNm").val() == ""){
+            alert("제목을 입력해주세요."); return;
+        }
+        if($("#expAmt").val() == ""){
+            alert("견적가를 입력해주세요."); return;
+        }
         if($("#contLocSn").val() == ""){
-            alert("업체명을 선택해주세요.");
+            alert("업체명을 선택해주세요."); return;
         }
 
         var data = {

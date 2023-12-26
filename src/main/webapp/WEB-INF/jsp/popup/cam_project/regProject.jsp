@@ -157,7 +157,7 @@
                         <input type="text" id="expAmt" style="width: 70%; text-align: right" onkeyup="docuContractReq.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"> 원 (VAT별도)
                     </td>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>수주금액
+                        <span class="red-star"></span>수주금액
                     </th>
                     <td>
                         <input type="text" id="pjtAmt2" disabled style="width: 70%; text-align: right" onkeyup="docuContractReq.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0"> 원 (VAT별도)
