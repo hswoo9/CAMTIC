@@ -107,12 +107,12 @@ var crmHist = {
                 }, {
                     title: "최근수정일",
                     width: 100,
-                    field : "MOD_DT",
+                    field : "MOD_DATE",
                     template:function(e){
-                        if(e.MOD_DT == null || e.MOD_DT == ''){
+                        if(e.MOD_DATE == null || e.MOD_DATE == ''){
                             return "";
                         } else {
-                            return e.MOD_DT;
+                            return e.MOD_DATE;
                         }
                     }
                 }
