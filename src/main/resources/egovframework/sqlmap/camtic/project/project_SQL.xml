@@ -218,6 +218,10 @@
             CAM_CRM.DJ_CRM_MEM CM
         ON
             D.CRM_SN = CM.CRM_SN AND CM.CRM_MEM_SN = A.CRM_MEM_SN
+        LEFT JOIN
+            CAM_MNG.DJ_DEPO_SETTING DDS
+        ON
+            A.PJT_SN = DDS.FR_PJT_SN
         WHERE
             A.PJT_SN = #{pjtSn}
     </select>

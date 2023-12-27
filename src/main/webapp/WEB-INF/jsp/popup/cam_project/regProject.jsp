@@ -186,6 +186,16 @@
                         </span>
                     </td>
                 </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>세무정보
+                    </th>
+                    <td colspan="3">
+                        <c:if test="${data.CODE_VAL == '1'}">수익사업</c:if>
+                        <c:if test="${data.CODE_VAL == '2'}">고유목적사업</c:if>
+                        <c:if test="${data.CODE_VAL == '3'}">공통사업</c:if>
+                    </td>
+                </tr>
                 </thead>
             </table>
 
