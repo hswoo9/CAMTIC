@@ -63,7 +63,7 @@ var mngPartRate = {
                     title: "구분",
                     width: "5%",
                     template: function(e){
-                        if(e.REQ_SORT == "신규"){
+                        if(e.PART_RATE_VER == 1){
                             return '<span>신규</span>'
                         } else {
                             return '<span style="color:red">변경</span>'
