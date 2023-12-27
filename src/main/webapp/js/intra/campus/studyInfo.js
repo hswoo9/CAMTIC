@@ -86,13 +86,21 @@ var studyInfo = {
                     template : function (e){
                         if(e.STUDY_CLASS_SN == "2" || e.STUDY_CLASS_SN == "3"){
                             if(e.OJT_READER != "" && e.OJT_READER != null){
-                                return e.OJT_READER;
+                                if(e.COUNT_STUDY_MEMBER == "0" || e.COUNT_STUDY_MEMBER == "-1"){
+                                    return e.OJT_READER;
+                                }else {
+                                    return e.OJT_READER + " 외 " + e.COUNT_STUDY_MEMBER + "명";
+                                }
                             } else {
                                 return "";
                             }
                         } else {
                             if(e.STUDY_READER != "" && e.STUDY_READER != null){
-                                return e.STUDY_READER;
+                                if(e.COUNT_STUDY_MEMBER == "0" || e.COUNT_STUDY_MEMBER == "-1"){
+                                    return e.STUDY_READER;
+                                }else {
+                                    return e.STUDY_READER + " 외 " + e.COUNT_STUDY_MEMBER + "명";
+                                }
                             } else {
                                 return "";
                             }
