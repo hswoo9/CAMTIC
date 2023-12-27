@@ -303,6 +303,7 @@ const studyView = {
             success: function(rs){
                 if(rs.code == 200){
                     alert(rs.msg);
+                    studyView.fn_resultDocPop();
                     location.reload();
                 }
             }
