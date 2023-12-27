@@ -39,6 +39,7 @@
         <li class="member member_job"><a href="/camtic/member/job.do">채용공고</a></li>
         <li class="member member_step"><a href="/camtic/member/step.do">채용절차</a></li>
         <li class="member member_job_applicationCheck"><a href="/camtic/member/job_applicationCheck.do">입사지원 조회</a></li>
+        <li style="display: none" class="member_job_applicationRecruitList"><a href="/camtic/member/job_applicationRecruitList.do">입사지원 조회</a></li>
         <li style="display: none" class="member_job_view"><a href="/camtic/member/job_view.do">채용상세공고</a></li>
       </ul>
     </li>

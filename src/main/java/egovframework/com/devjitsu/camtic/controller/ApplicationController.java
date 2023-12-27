@@ -62,6 +62,7 @@ public class ApplicationController {
             }else{
                 returnMap.put("code", "200");
                 returnMap.putAll(applicationService.userAgreeChk(params));
+                returnMap.putAll(userMap);
                 HttpSession session = request.getSession();
                 session.setAttribute("userEmail", userMap.get("USER_EMAIL"));
                 session.setAttribute("recruitInfoSn", params.get("recruitInfoSn"));

@@ -638,4 +638,41 @@
         ORDER BY REG_DATE DESC
             LIMIT 120
     </select>
+
+    <select id="getMyRecruitList" parameterType="map" resultType="map">
+        /* getMyRecruitList */
+        SELECT
+            RAI.*,
+            CONCAT('근무부서 - [', RAI.DEPT_NAME, ' > ', RAI.TEAM_NAME, '] 채용부문 - [', RAI.JOB, '] 필요경력 - [', RAI.CAREER, ']') AS AREA_TITLE,
+            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN WHERE RECRUIT_AREA_INFO_SN = RAI.RECRUIT_AREA_INFO_SN AND SAVE_TYPE = 'S') as APPLICATION_CNT,
+            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN AM WHERE AM.RECRUIT_AREA_INFO_SN = RAI.RECRUIT_AREA_INFO_SN AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT != 'S') AS DOC_SCREEN_CNT,
+            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN AM WHERE AM.RECRUIT_AREA_INFO_SN = RAI.RECRUIT_AREA_INFO_SN AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT = 'I' AND AM.IN_AVOID = 'N') AS IN_SCREEN_CNT,
+            RI.START_DT,
+            RI.END_DT,
+            RI.RECRUIT_TITLE,
+            RI.RECRUIT_NUM,
+            AM.APPLICATION_STAT,
+            AM.PRELIMINARY_PASS,
+            AM.APPLICATION_ID
+        FROM
+            CAM_INSIDE.DJ_RECRUIT_AREA_INFO RAI
+            JOIN CAM_INSIDE.DJ_APPLICATION_MAIN AM ON RAI.RECRUIT_INFO_SN = AM.RECRUIT_INFO_SN
+            JOIN CAM_INSIDE.DJ_RECRUIT_INFO RI ON RAI.RECRUIT_INFO_SN = RI.RECRUIT_INFO_SN
+        WHERE 1=1
+            AND AM.USER_EMAIL = #{userEmail}
+            AND AM.ACTIVE = 'Y'
+        GROUP BY RAI.RECRUIT_AREA_INFO_SN
+        ORDER BY RAI.REG_DT DESC
+    </select>
+
+    <update id="cancelMyRecruit" parameterType="map">
+        /*cancelMyRecruit*/
+        UPDATE CAM_INSIDE.DJ_APPLICATION_MAIN
+        SET
+            ACTIVE = 'N'
+        WHERE
+            APPLICATION_ID = #{applicationId}
+        AND
+            RECRUIT_INFO_SN = #{recruitInfoSn}
+    </update>
 </mapper>

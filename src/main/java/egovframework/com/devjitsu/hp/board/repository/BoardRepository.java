@@ -109,4 +109,12 @@ public class BoardRepository extends AbstractDAO {
     public List<Map<String, Object>> selectAlarmList(Map<String, Object> params) {
         return selectList("boardCt.selectAlarmList", params);
     }
+
+    public List<Map<String, Object>> getMyRecruitList(Map<String, Object> params) {
+        return selectList("boardCt.getMyRecruitList", params);
+    }
+
+    public void cancelMyRecruit(Map<String, Object> params) {
+        delete("boardCt.cancelMyRecruit", params);
+    }
 }

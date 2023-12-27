@@ -343,4 +343,13 @@ public class BoardServiceImpl implements BoardService {
         return boardRepository.selectAlarmList(params);
     }
 
+    @Override
+    public List<Map<String, Object>> getMyRecruitList(Map<String, Object> params) {
+        return boardRepository.getMyRecruitList(params);
+    }
+
+    @Override
+    public void cancelMyRecruit(Map<String, Object> params) {
+        boardRepository.cancelMyRecruit(params);
+    }
 }

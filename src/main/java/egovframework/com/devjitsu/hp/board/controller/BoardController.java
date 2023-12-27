@@ -632,7 +632,7 @@ public class BoardController {
     }
 
     /**
-     * 채용공고 - 입사지원조회
+     * 채용공고 - 입사지원조회 로그인
      * */
     @RequestMapping("/camtic/member/job_applicationCheck.do")
     public String jobApplicationCheck(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
@@ -642,5 +642,51 @@ public class BoardController {
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
         return "camtic/member/job_applicationCheck";
+    }
+
+    /**
+     * 채용공고 - 입사지원조회현황 페이지
+     * */
+    @RequestMapping("/camtic/member/job_applicationRecruitList.do")
+    public String job_applicationRecruitList(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "camtic/member/job_applicationRecruitList";
+    }
+
+    /**
+     * 채용공고 - 입사지원조회현황 페이지
+     * */
+    @RequestMapping("/camtic/member/getMyRecruitList")
+    public String getMyRecruitList(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+
+        List<Map<String, Object>> list = boardService.getMyRecruitList(params);
+
+        model.addAttribute("list", list);
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "jsonView";
+    }
+
+    /**
+     * 채용공고 - 입사지원조회현황 페이지
+     * */
+    @RequestMapping("/camtic/member/cancelMyRecruit")
+    public String cancelMyRecruit(Model model, HttpServletRequest request, @RequestParam Map<String, Object> params){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+
+        boardService.cancelMyRecruit(params);
+
+        model.addAttribute("rs", "sc");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "jsonView";
     }
 }

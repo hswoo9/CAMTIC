@@ -70,7 +70,6 @@
                         <div class="txt_zone pr_view_content" style="line-height:35px;">
                             <div id="con1" style="margin-top:50px;">
                                 <h2>E-MAIL / PW</h2>
-                                <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="${params.recruitInfoSn}">
                                 <table class="table table-bordered mb-0" style="border:1px solid #ddd; text-align:center;margin-top:20px;">
                                     <colgroup>
                                         <col style="width:40%;"/>
@@ -80,18 +79,18 @@
                                     <tr>
                                         <th>이메일</th>
                                         <td>
-                                            <input type="text" class="recruitText" id="userEmail" name="userEmail" onkeypress="if(window.event.keyCode==13){setApplicationLogin()}" value="deer@naver.com">
+                                            <input type="text" class="recruitText" id="userEmail" name="userEmail" onkeypress="if(window.event.keyCode==13){setApplicationLogin()}" value="" placeholder="camtic@gmail.com">
                                         </td>
                                     </tr>
 
                                     <tr>
                                         <th>비밀번호</th>
-                                        <td><input type="password" class="recruitText" id="userPassword" name="userPassword" onkeypress="if(window.event.keyCode==13){setApplicationLogin()}" value="Jiat2300@@"></td>
+                                        <td><input type="password" class="recruitText" id="userPassword" name="userPassword" onkeypress="if(window.event.keyCode==13){setApplicationLogin()}" value=""></td>
                                     </tr>
 
                                     <tr>
                                         <th>비밀번호 확인</th>
-                                        <td><input type="password" class="recruitText" id="userPassword2" name="userPassword2" onkeypress="if(window.event.keyCode==13){setApplicationLogin()}" value="Jiat2300@@"></td>
+                                        <td><input type="password" class="recruitText" id="userPassword2" name="userPassword2" onkeypress="if(window.event.keyCode==13){setApplicationLogin()}" value=""></td>
                                     </tr>
                                 </table>
                                 <input type="hidden" id="userEmailSub1" name="id_sub1" value="">
@@ -119,65 +118,81 @@
 <script>
 
     var strongPassword = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})');
+    var strongPassword = new RegExp('(?=.{4,})');
 
     function fn_goList(){
         location.href = '/camtic/member/job.do';
     }
 
-    //상세보기 이동
-    function fn_detailBoard(key) {
-        location.href = "/camtic/pr/pr_view.do?boardArticleId=" + key + "&category=" + categoryId;
-    }
-
-    function setApplicationCheck(){
+    function setApplicationCheck() {
         /** 이메일 정규식 체크 */
-        if(!$("#userEmail").val()){
+        if (!$("#userEmail").val()) {
             alert("이메일을 입력해주세요.");
             $("#userEmail").focus();
             return false;
-        }else if(validEmailCheck(document.getElementById("userEmail")) == false){
+        } else if (validEmailCheck(document.getElementById("userEmail")) == false) {
             alert('이메일 형식을 올바르게 입력해주세요. ex) xxx@000.000');
             $("#userEmail").focus();
             return;
-        }else if(!$("#userPassword").val()){
+        } else if (!$("#userPassword").val()) {
             alert("비밀번호를 입력해주세요.");
             $("#userPassword").focus();
             return false;
-        }else if(!strongPassword.test($("#userPassword").val())){
-            alert("비밀번호 형식이 올바르지 않습니다.\n[8자리 이상, 숫자, 특수문자, 하나이상 대소문자 혼합]");
+        } else if (!strongPassword.test($("#userPassword").val())) {
+            //alert("비밀번호 형식이 올바르지 않습니다.\n[8자리 이상, 숫자, 특수문자, 하나이상 대소문자 혼합]");
+            alert("비밀번호는 4글자 이상으로 입력해주세요.");
             $("#userPassword").focus();
             return
-        }else if(!$("#userPassword2").val()){
+        } else if (!$("#userPassword2").val()) {
             alert("비밀번호 확인을 입력해주세요.");
             $("#userPassword2").focus();
             return;
-        }else if($("#userPassword").val() !== $("#userPassword2").val()){
+        } else if ($("#userPassword").val() !== $("#userPassword2").val()) {
             alert("비밀번호가 일치하지 않습니다.\n다시 입력해주세요.");
             $("#userPassword2").focus();
             return;
         }
 
-        if(confirm("입사지원 조회 하시겠습니까?")) {
+        if (confirm("입사지원 조회 하시겠습니까?")) {
+
+            var userEmail0 = securityEncrypt($("#userEmail").val());
+            var userEmail1 = "";
+            var userEmail2 = "";
+
+            if (userEmail0.length > 50) {
+                userEmail1 = userEmail0.substr(50);
+                userEmail0 = userEmail0.substr(0, 50);
+
+                if (userEmail1.length > 50) {
+                    userEmail2 = userEmail1.substr(50);
+                    userEmail1 = userEmail1.substr(0, 50);
+                }
+            }
+
+            $("#userEmailSub1").val(userEmail1);
+            $("#userEmailSub2").val(userEmail2);
+
+            var data = {
+                userEmail: userEmail0,
+                userEmailSub1: $("#userEmailSub1").val(),
+                userEmailSub2: $("#userEmailSub2").val(),
+                userPassword: securityEncUtil.securityEncrypt($("#userPassword").val(), "0"),
+                recruitInfoSn: $("#recruitInfoSn").val()
+            }
 
             var chk = customKendo.fn_customAjax("/join/userChk.do", data);
-            if (result.flag) {
-                /** 신규 사용자 */
-                location.href = '/camtic/member/job_userAgree.do';
-            } else {
-                if (chk.rs.code == "200") {
-                    if (!chk.rs.applicationChk) {
-                        /** 이미 있는 사용자 */
-                        if (chk.rs.chk) {
-                            if (chk.rs.applicationId) {
-                                location.href = "/camtic/member/job_applicationForm1.do?applicationId=" + chk.rs.applicationId;
-                            } else {
-                                location.href = '/camtic/member/job_applicationForm1.do';
-                            }
-                        } else {
-                            location.href = '/camtic/member/job_applicationList.do'; // 변경된 부분
-                        }
-                    } else {
-                        alert("이미 응시한 공고입니다.");
+            if (chk.flag) {
+                if (chk.rs.code == "999") {
+                    var result = customKendo.fn_customAjax("/join/setJoinAccess.do", data);
+                    if (result.flag) {
+                        alert("응시 지원하지 않은 이메일입니다.")
+                    }
+                } else {
+                    if (chk.rs.code == "500") {
+                        /** 비밀번호 오류 */
+                        alert(chk.rs.message);
+                    } else if (chk.rs.code == "200") {
+                        location.href = "/camtic/member/job_applicationRecruitList.do"
                     }
                 }
             }

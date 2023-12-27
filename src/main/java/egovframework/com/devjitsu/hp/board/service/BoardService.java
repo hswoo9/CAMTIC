@@ -70,4 +70,11 @@ public interface BoardService {
 
     /** 주요알림서비스 리스트 조회*/
     List<Map<String, Object>> selectAlarmList(Map<String, Object> param);
+
+    /** 나의 입사지원 데이터 조회 */
+    List<Map<String, Object>>getMyRecruitList(Map<String, Object> params);
+
+    /** 나의 입사지원 취소 */
+    void cancelMyRecruit(Map<String, Object> params);
+
 }
