@@ -184,7 +184,7 @@ const studyPropag = {
             async: false,
             success: function(result){
                 console.log(result);
-                alert("운영일지 저장이 완료되었습니다.");
+                alert("학습일지 저장이 완료되었습니다.");
                 opener.gridReload();
                 window.close();
             },
