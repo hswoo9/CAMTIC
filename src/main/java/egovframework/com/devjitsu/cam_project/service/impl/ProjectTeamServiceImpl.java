@@ -120,40 +120,45 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
 
     @Override
     public void updTeamVersionAppStat(Map<String, Object> params) {
-        /** PM 승인 */
-        projectTeamRepository.updPmAppStat(params);
-        /** 팀장 승인 */
-        projectTeamRepository.updTeamAppStat(params);
+        /** 최종승인 시 */
+        if(params.get("stat").equals("100")){
+            /** PM 승인 */
+            projectTeamRepository.updPmAppStat(params);
+            /** 팀장 승인 */
+            projectTeamRepository.updTeamAppStat(params);
 
 
-        /** 최종승인(모든 PM및 팀장 승인 완료)시 프로젝트 생성 */
-        boolean flag = true;
-        List<Map<String, Object>> ckList = projectTeamRepository.getTeamList(params);
-        for(Map<String, Object> data : ckList){
-            String pmCk = data.get("PM_CK").toString();
-            String teamCk = data.get("TEAM_CK").toString();
+            /** 최종승인(모든 PM및 팀장 승인 완료)시 프로젝트 생성 */
+            boolean flag = true;
+            List<Map<String, Object>> ckList = projectTeamRepository.getTeamList(params);
+            for(Map<String, Object> data : ckList){
+                String pmCk = data.get("PM_CK").toString();
+                String teamCk = data.get("TEAM_CK").toString();
 
-            if(!(pmCk.equals("Y") && teamCk.equals("Y"))){
-                flag = false;
+                if(!(pmCk.equals("Y") && teamCk.equals("Y"))){
+                    flag = false;
+                }
             }
-        }
 
-        if(flag){
-            projectTeamRepository.updTeamVersionAppStat(params);
-            if(params.get("stat").toString().equals("100")){
-                params.put("teamCk", "1");
-                List<Map<String, Object>> teamList = projectTeamRepository.getTeamList(params);
-                for(int i=0; i<teamList.size(); i++){
-                    /** WORK_TYPE : I면 insert U면 update*/
-                    if(teamList.get(i).get("WORK_TYPE").toString().equals("I")){
-                        projectTeamRepository.insTeamProject(teamList.get(i));
-                    }else if(teamList.get(i).get("WORK_TYPE").toString().equals("U")){
-                        projectTeamRepository.updTeamProject(teamList.get(i));
-                    }else if(teamList.get(i).get("WORK_TYPE").toString().equals("D")){
-                        projectTeamRepository.delTeamProject(teamList.get(i));
+            if(flag){
+                projectTeamRepository.updTeamVersionAppStat(params);
+                if(params.get("stat").toString().equals("100")){
+                    params.put("teamCk", "1");
+                    List<Map<String, Object>> teamList = projectTeamRepository.getTeamList(params);
+                    for(int i=0; i<teamList.size(); i++){
+                        /** WORK_TYPE : I면 insert U면 update*/
+                        if(teamList.get(i).get("WORK_TYPE").toString().equals("I")){
+                            projectTeamRepository.insTeamProject(teamList.get(i));
+                        }else if(teamList.get(i).get("WORK_TYPE").toString().equals("U")){
+                            projectTeamRepository.updTeamProject(teamList.get(i));
+                        }else if(teamList.get(i).get("WORK_TYPE").toString().equals("D")){
+                            projectTeamRepository.delTeamProject(teamList.get(i));
+                        }
                     }
                 }
             }
+        }else{
+            projectTeamRepository.updTeamVersionAppStat(params);
         }
     }
 
