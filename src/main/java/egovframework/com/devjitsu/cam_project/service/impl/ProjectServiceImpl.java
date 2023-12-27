@@ -104,6 +104,8 @@ public class ProjectServiceImpl implements ProjectService {
             projectRepository.insPjtEngn(params);
             key = params.get("PJT_SN").toString();
         } else {
+            projectRepository.updProjectInfo(params);
+            projectRepository.updPjtEngn(params);
             key = params.get("pjtSn").toString();
         }
     }

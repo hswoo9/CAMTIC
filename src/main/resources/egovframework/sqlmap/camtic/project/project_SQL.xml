@@ -259,6 +259,18 @@
             </selectKey>
     </insert>
 
+    <update id="updProjectInfo" parameterType="map">
+        /* updProjectInfo */
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            PJT_NM = #{pjtNm},
+            CONSULT_DT = #{contDt},
+            SECURITY = #{security},
+            MOD_EMP_SEQ = #{regEmpSeq},
+            MOD_DT = NOW()
+        WHERE PJT_SN = #{pjtSn}
+    </update>
+
     <insert id="insPjtEngn" parameterType="map">
         INSERT INTO CAM_PJT_MNG.DJ_PJT_ENGN
             (
@@ -284,6 +296,17 @@
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_ENGN'
         </selectKey>
     </insert>
+
+    <update id="updPjtEngn" parameterType="map">
+        /* updPjtEngn */
+        UPDATE CAM_PJT_MNG.DJ_PJT_ENGN
+        SET
+            CONT_DT = #{contDt},
+            EXP_AMT = #{expAmt},
+            CONT_LOC = #{contLoc},
+            CONT_LOC_SN = #{contLocSn}
+        WHERE PJT_SN = #{pjtSn}
+    </update>
 
     <delete id="delProject" parameterType="map">
         DELETE FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn}

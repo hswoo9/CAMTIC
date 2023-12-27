@@ -431,6 +431,10 @@ var regPrj = {
             data.menuCd = "engn";
         }
 
+        if($("#mainPjtSn").val() != ""){
+            data.pjtSn = $("#mainPjtSn").val()
+        }
+
 
         $.ajax({
             url : "/project/setProject",
@@ -440,9 +444,11 @@ var regPrj = {
             async : false,
             success : function(rs){
                 opener.parent.camPrj.gridReload();
-
-                window.location.href="/project/pop/viewRegProject.do?pjtSn=" + rs.params.PJT_SN;
-                // location.reload();
+                if($("#mainPjtSn").val() == ""){
+                    window.location.href="/project/pop/viewRegProject.do?pjtSn=" + rs.params.PJT_SN;
+                }else{
+                    window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#mainPjtSn").val();
+                }
             }
         });
     },

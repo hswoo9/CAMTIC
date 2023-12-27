@@ -37,6 +37,14 @@ public class ProjectRepository extends AbstractDAO {
         insert("project.insPjtEngn", params);
     }
 
+    public void updProjectInfo(Map<String, Object> params) {
+        update("project.updProjectInfo", params);
+    }
+
+    public void updPjtEngn(Map<String, Object> params) {
+        update("project.updPjtEngn", params);
+    }
+
     public void delProject(Map<String, Object> params) {
 
         delete("project.delProject", params);

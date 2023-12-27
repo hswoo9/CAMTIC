@@ -472,5 +472,18 @@ var regRnd = {
                 }
             }
         });
+    },
+
+    fn_checkPass: function(){
+        let pass = $("#pjtSecurity").val();
+        if(pass != "12345"){
+            alert("비밀번호가 다릅니다.");
+            $("#pjtSecurity").val("");
+            return;
+        }else{
+            const setParameters = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: $("#mainPjtSn").val()}).rs;
+            regRnd.fn_setTab(setParameters);
+            $("#pjtSecurityModal").data("kendoWindow").close();
+        }
     }
 }

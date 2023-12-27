@@ -251,8 +251,6 @@
 </div>
 
 <script>
-    regUnRnd.fn_defaultScript();
-
     $("#pjtStopModal").kendoWindow({
         title : "프로젝트 중단 사유",
         width: "700px",
@@ -306,7 +304,7 @@
         open : function (){
             var htmlStr =
                 '<div class="mb-10" style="text-align: right;">' +
-                '	<button type="button" id="passBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="regPrj.fn_checkPass()">확인</button>' +
+                '	<button type="button" id="passBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="regUnRnd.fn_checkPass()">확인</button>' +
                 '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#pjtSecurityModal \').data(\'kendoWindow\').close()">닫기</button>' +
                 '</div>' +
                 '<table class="popTable table table-bordered mb-0" style="margin-top: 10px">' +
@@ -342,6 +340,8 @@
     function userSearch() {
         window.open("/common/deptListPop.do", "조직도", "width=750, height=650");
     }
+
+    regUnRnd.fn_defaultScript();
 </script>
 </body>
 </html>
