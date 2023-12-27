@@ -75,8 +75,7 @@ var exnpReList = {
                     field: "PJT_NM",
                     width: 210,
                     template: function (e){
-                        var pjtNm = e.PJT_NM.toString().substring(0, 25);
-                        return pjtNm + "...";
+                        return e.PJT_NM;
                     }
                 }, {
                     title: "세출과목",

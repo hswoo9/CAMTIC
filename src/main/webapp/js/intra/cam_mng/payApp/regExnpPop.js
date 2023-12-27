@@ -430,7 +430,7 @@ var regExnp = {
             }
         }
 
-        $("#exnpDe").val(rs.APP_DE);
+        $("#exnpDe").val(ls[0].TR_DE);
         $("#pjtNm").val(rs.PJT_NM);
         $("#pjtSn").val(rs.PJT_SN);
         $("#pjtCd").val(rs.PJT_CD);
