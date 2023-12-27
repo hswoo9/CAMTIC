@@ -165,10 +165,13 @@
 
         let html = "";
 
+        if(data.length>0){
         data.forEach((item, index) => {
             html += "<tr>";
-            html += '<td>' +item.RECRUIT_NUM+'</td>';
-            html += '<td class="subject"><a href="#" onclick="fn_detailBoard('+ item.RECRUIT_INFO_SN +')">'+ item.RECRUIT_TITLE +'</a></td>';
+            //html += '<td>' +item.RECRUIT_NUM+'</td>';
+            html += '<td>' + (data.length - index) + '</td>';
+            //html += '<td class="subject"><a href="#" onclick="fn_detailBoard('+ item.RECRUIT_INFO_SN +')">'+ item.RECRUIT_TITLE +'</a></td>';
+            html += '<td class="subject">'+ item.RECRUIT_TITLE +'</td>';
             html += '<td>' + item.START_DT + ' <span style="margin-left:5px; margin-right:5px;">~</span> ' + item.END_DT + '</td>';
             html += '<td>' + item.JOB + '</td>';
             if(item.APPLICATION_STAT == 'D' || item.APPLICATION_STAT == 'I' || item.APPLICATION_STAT == 'IF'){
@@ -187,7 +190,7 @@
                 html += '<td>-</td>'
             }
 
-            if(item.APPLICATION_STAT == 'D' && item.APPLICATION_STAT == 'I') {
+            if(item.APPLICATION_STAT == 'I') {
                 html += '<td>합격</td>'
             }else if(item.PRELIMINARY_PASS == 'Y'){
                 html += '<td>예비 합격</td>'
@@ -199,6 +202,11 @@
             html += '<td><button type="button" class="k-button k-button-solid-error" onClick="cancelMyRecruit('+item.RECRUIT_INFO_SN+','+item.APPLICATION_ID+')"><span>취소</span></button></td>';
             html += "</tr>";
         });
+        }else{
+            html += "<tr>";
+            html += '<td colspan="8">입사지원한 공고가 없습니다.</td>';
+            html += "</tr>";
+        }
         $("#myRecruitList").append(html);
     }
 
