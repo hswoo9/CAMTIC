@@ -52,7 +52,13 @@ const studyView = {
             html += '<td>'+list[i].STUDY_POSITION_NAME+'</td>';
             html += '<td style="text-align: center">'+list[i].STUDY_EMP_NAME+'</td>';
             html += '<td style="text-align: center">';
-            html += '<input type="button" class="k-button k-button-solid-base" value="조장" onclick="studyView.updBtn(\''+list[i].STUDY_USER_SN+'\', \''+list[i].STUDY_INFO_SN+'\', \'1\', \'조장\')"/> <input type="button" class="k-button k-button-solid-base" value="간사" onclick="studyView.updBtn(\''+list[i].STUDY_USER_SN+'\', \''+list[i].STUDY_INFO_SN+'\', \'2\', \'간사\')"/>';
+            if(list[i].STUDY_CLASS_TEXT == "조장") {
+                html += '<input type="button" class="k-button k-button-solid-info" value="조장" onclick="studyView.updBtn(\''+list[i].STUDY_USER_SN+'\', \''+list[i].STUDY_INFO_SN+'\', \'1\', \'조장\')"/> ' + '<input type="button" class="k-button k-button-solid-base" value="간사" onclick="studyView.updBtn(\''+list[i].STUDY_USER_SN+'\', \''+list[i].STUDY_INFO_SN+'\', \'2\', \'간사\')"/>';
+            } else if(list[i].STUDY_CLASS_TEXT == "간사"){
+                html += '<input type="button" class="k-button k-button-solid-base" value="조장" onclick="studyView.updBtn(\''+list[i].STUDY_USER_SN+'\', \''+list[i].STUDY_INFO_SN+'\', \'1\', \'조장\')"/> ' + '<input type="button" class="k-button k-button-md k-button-solid k-button-solid-error" value="간사" onclick="studyView.updBtn(\''+list[i].STUDY_USER_SN+'\', \''+list[i].STUDY_INFO_SN+'\', \'2\', \'간사\')"/>';
+            }else {
+                html += '<input type="button" class="k-button k-button-solid-base" value="조장" onclick="studyView.updBtn(\'' + list[i].STUDY_USER_SN + '\', \'' + list[i].STUDY_INFO_SN + '\', \'1\', \'조장\')"/> ' + '<input type="button" class="k-button k-button-solid-base" value="간사" onclick="studyView.updBtn(\'' + list[i].STUDY_USER_SN + '\', \'' + list[i].STUDY_INFO_SN + '\', \'2\', \'간사\')"/>';
+            }
             html += '</td>';
             html += '</tr>';
             if(list[i].STUDY_CLASS_TEXT == "조장"){
@@ -114,7 +120,7 @@ const studyView = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 508,
+            height: 250,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],

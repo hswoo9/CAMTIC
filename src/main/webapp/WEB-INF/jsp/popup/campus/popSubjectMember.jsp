@@ -60,7 +60,8 @@
                 total: function (data) {
                     return data.list.length;
                 },
-            }
+            },
+            pageSize: 10
         });
 
         $("#mainGrid").kendoGrid({
@@ -71,7 +72,7 @@
             height: 508,
             pageable : {
                 refresh : true,
-                pageSizes: [10, 20, "ALL"],
+                pageSizes : [ 10, 20, 30, 50, 100 ],
                 buttonCount : 5
             },
             toolbar : [
