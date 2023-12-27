@@ -6,6 +6,15 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/campus/ojtViewPop.js?v=${toDate}"/></script>
+<style>
+    .barFixed {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+    }
+
+</style>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
 <input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
@@ -23,7 +32,7 @@
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
-        <div class="card-header pop-header">
+        <div class="card-header pop-header barFixed">
             <h3 class="card-title title_NM">OJT 신청서 조회</h3>
             <div class="btn-st popButton">
                 <button type="button" id="resultBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_resultPop()">결과보고서</button>
@@ -35,7 +44,7 @@
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
             </div>
         </div>
-        <div class="card-header" style="padding-top:25px;">
+        <div class="card-header" style="padding-top:60px;">
             <div class="col-lg-12" style="margin:0 auto;">
                 <div class="table-responsive">
                     <div class="table-responsive" style="margin-bottom: 5px;">
