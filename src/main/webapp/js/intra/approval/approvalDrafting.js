@@ -94,6 +94,15 @@ var draft = {
             layout : "horizontal",
             labelPosition : "after",
             value : "000",
+            change : function(e){
+                if(this.value() == "009"){
+                    $("#readerTr").show();
+                }else{
+                    draft.global.readersArr = [];
+                    $("#readerName").val("");
+                    $("#readerTr").hide();
+                }
+            }
         });
 
         $("#docGbn").kendoRadioGroup({
@@ -104,15 +113,10 @@ var draft = {
             change : function(e){
                 if(this.value() == "001"){
                     $("#receiverTr").show();
-                    $("#readerTr").show();
                 }else{
                     draft.global.receiversArr = [];
                     $("#receiverName").val("");
                     $("#receiverTr").hide();
-
-                    draft.global.readersArr = [];
-                    $("#readerName").val("");
-                    $("#readerTr").hide();
                 }
             }
         });
