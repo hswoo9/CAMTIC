@@ -17,7 +17,8 @@ var regPay = {
         crmSnId : "",
         crmNmId : "",
         saveAjaxData : "",
-        fileArray : []
+        fileArray : [],
+        exnpFlag : false
     },
 
     fn_defaultScript : function (){
@@ -151,7 +152,7 @@ var regPay = {
         $(".payDestInfo td").css("padding", "0.35rem");
         $(".payDestInfo td span").css("font-size", "10px");
 
-        $("#reasonPopText").kendoTextBox();
+        $("#reasonPopText, #reCallReason").kendoTextBox();
 
         var dataSource = customKendo.fn_customAjax("/setManagement/getExnpDeChangeRs");
 
@@ -190,6 +191,7 @@ var regPay = {
                 buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save(\'user\')">저장</button>';
                 buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \'payApp\', \'camticPayApp_'+data.PAY_APP_SN+'\', 2, \'reDrafting\');">재상신</button>';
             }else if(data.DOC_STATUS == "100"){
+                buttonHtml += '<button type="button" id="reCallBtn" style="margin-right: 5px;" class="k-button k-button-solid-primary" onclick="regPay.fn_revertModal(\''+data.DOC_ID+'\')">반려</button>';
                 buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \'payApp'+data.PAY_APP_SN+'\', \'payApp\');">열람</button>';
                 $("#addBtn").hide();
                 $("#exnpAddBtn").show();
@@ -356,6 +358,8 @@ var regPay = {
                     } else {
                         regPayDet.global.createHtmlStr += "" +
                             '   <td></td>';
+
+                        $("#reCallBtn").css("display", "none");
                     }
                 }
             }
@@ -961,6 +965,43 @@ var regPay = {
     },
 
 
+    fn_revertModal : function(docId){
+        if(!confirm("반려하시겠습니까?")){
+            return;
+        }
+
+        var dialog = $("#dialogRecall").data("kendoWindow");
+        $("#reCallReason").val("");
+        $("#reCallDocId").val(docId);
+        dialog.center();
+        dialog.open();
+    },
+
+    fn_revertDet : function (){
+        var data = {
+            revertIss : $("#reCallReason").val(),
+            payAppSn : $("#payAppSn").val(),
+            docId : $("#reCallDocId").val(),
+            regEmpSeq : $("#regEmpSeq").val()
+        }
+
+        $.ajax({
+            url : "/pay/payAppRevert",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                console.log(rs);
+                if(rs.code == 200){
+                    alert("반려되었습니다.");
+
+                    $("#dialogRecall").data("kendoWindow").close();
+                }
+            }
+        });
+    }
+
+
 }
 
 
@@ -1203,29 +1244,6 @@ var regPayDet = {
         }
     },
 
-    fn_revertDet : function(obj){
-        if(!confirm("반려하시겠습니까?")){
-            return ;
-        }
-
-        var data = {
-            payAppDetSn : obj.value
-        }
-
-        $.ajax({
-            url : "/payApp/setPayAppDetData",
-            data : data,
-            type : "post",
-            dataType : "json",
-            success : function(rs){
-                if(rs.code == 200){
-                    alert("반려되었습니다.");
-
-                    location.reload();
-                }
-            }
-        })
-    },
 
     fn_exnpAdd : function (){
 

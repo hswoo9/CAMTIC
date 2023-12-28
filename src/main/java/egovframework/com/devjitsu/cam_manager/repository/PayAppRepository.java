@@ -314,4 +314,13 @@ public class PayAppRepository extends AbstractDAO {
     public void updProjectBudgetInfo(Map<String, Object> params) {
         update("payApp.updProjectBudgetInfo", params);
     }
+
+    public void payAppRevert(Map<String, Object> params) {
+
+        update("payApp.payAppRevert", params);
+    }
+
+    public void insPayAppRevert(Map<String, Object> params) {
+        insert("payApp.insPayAppRevert", params);
+    }
 }

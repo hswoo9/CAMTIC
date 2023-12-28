@@ -58,7 +58,7 @@ public class G20ServiceImpl implements G20Service {
 
                     int paySum = 0;
                     for (int i=0; i<payList.size(); i++){
-                        if(map.get("BGT_CD").toString().equals(payList.get(i).get("BUDGET_SN").toString())){
+                        if(map.get("BGT_CD").toString().equals(payList.get(i).get("BUDGET_SN").toString()) && "N".equals(payList.get(i).get("REVERT_YN").toString())){
                             paySum += Integer.parseInt(payList.get(i).get("TOT_COST").toString());
                         }
                     }

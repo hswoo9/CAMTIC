@@ -77,7 +77,9 @@ var regExnpRe = {
         console.log(data);
         let buttonHtml = "";
         if(data.RE_STAT == "N"){
-            buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnpRe.fn_save()">반제결의서 승인</button>';
+            if((data.EVID_TYPE == "1" || data.EVID_TYPE == "2" || data.EVID_TYPE == "3")){
+                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnpRe.fn_save()">반제결의서 승인</button>';
+            }
         } else{
             buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnpRe.fn_regExnpInPop('+data.PAY_APP_SN+', '+data.EXNP_SN+')">여입결의서 작성</button>';
         }
@@ -104,6 +106,7 @@ var regExnpRe = {
         var ls = result.list;
 
         if($("#exnpSn").val() != ""){
+            rs.EVID_TYPE = ls[0].EVID_TYPE;
             regExnpRe.payAppBtnSet(rs);
         }
 

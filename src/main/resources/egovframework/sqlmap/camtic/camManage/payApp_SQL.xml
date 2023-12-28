@@ -150,6 +150,7 @@
             ACC_NM = #{accNm},
             PAY_APP_STAT = #{payAppStat},
             ADVANCES = #{advances},
+            REVERT_YN = 'N',
             MOD_DT = NOW(),
             MOD_EMP_SEQ = #{regEmpSeq},
             EXNP_ISS = #{exnpIss}
@@ -445,7 +446,7 @@
 
     <select id="getWaitPaymentList" parameterType="map" resultType="map">
         /*getWaitPaymentList*/
-        SELECT A.PJT_CD, B.* FROM
+        SELECT A.PJT_CD, A.REVERT_YN, B.* FROM
             CAM_MNG.DJ_PAY_APP A
         LEFT JOIN CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
         LEFT JOIN CAM_MNG.DJ_EXNP C ON C.PAY_APP_SN = B.PAY_APP_SN
@@ -1702,4 +1703,33 @@
         WHERE
             DEPO_SET_SN = #{depoSetSn}
     </update>
+
+    <update id="payAppRevert" parameterType="map">
+        /*payAppRevert*/
+        UPDATE CAM_MNG.DJ_PAY_APP
+        SET
+            DOC_ID = null,
+            DOC_STATUS = 0,
+            APPROVAL_EMP_SEQ = null,
+            REVERT_ISS = #{revertIss},
+            REVERT_YN = 'Y'
+        WHERE
+            PAY_APP_SN = #{payAppSn}
+    </update>
+
+    <insert id="insPayAppRevert" parameterType="map">
+        /*insPayAppRevert*/
+        INSERT INTO CAM_MNG.DJ_PAY_APP_REV
+            (
+                PAY_APP_SN,
+                DOC_ID,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{payAppSn},
+                #{docId},
+                #{regEmpSeq}
+            )
+    </insert>
 </mapper>

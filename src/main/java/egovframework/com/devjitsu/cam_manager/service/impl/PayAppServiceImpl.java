@@ -1194,4 +1194,13 @@ public class PayAppServiceImpl implements PayAppService {
             payAppRepository.updProjectBudgetInfo(params);
         }
     }
+
+    @Override
+    public void payAppRevert(Map<String, Object> params) {
+
+        payAppRepository.payAppRevert(params);
+
+        payAppRepository.insPayAppRevert(params);
+
+    }
 }

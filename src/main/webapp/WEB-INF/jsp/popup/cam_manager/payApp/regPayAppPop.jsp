@@ -49,7 +49,7 @@
                     <span id="titleStat">작성</span>
                 </span>
             </h3>
-            <div id="payAppBtnDiv" class="btn-st popButton">
+            <div id="payAppBtnDiv" class="btn-st popButton" style="font-size: 12px;">
                 <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="regPay.fn_save('user');">저장</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>
@@ -328,6 +328,12 @@
     <button type="button" id="updBtn" class="k-button k-button-solid-base" onclick="regPay.fn_updReason();">확인</button>
 </div>
 
+<div id="dialogRecall">
+    <input type="text" id="reCallReason" style="width: 85%" name="reasonPopText" value="">
+    <input type="hidden" id="reCallDocId" value="" >
+    <button type="button" id="reCallConfrimBtn" class="k-button k-button-solid-base" onclick="regPay.fn_revertDet();">반려</button>
+</div>
+
 <div id="dialogDraft" style="text-align: center">
     <table class="popTable table table-bordered mb-0" id="userReqPopImageTable" style="width: 100%">
         <colgroup>
@@ -375,6 +381,16 @@
 
     $("#dialog").kendoWindow({
         title: "내용",
+        visible : false,
+        resizable: false,
+        modal: true,
+        width: 500,
+        scrollable : false,
+        actions: ["Close"],
+    });
+
+    $("#dialogRecall").kendoWindow({
+        title: "반려사유",
         visible : false,
         resizable: false,
         modal: true,
