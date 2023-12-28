@@ -1438,6 +1438,9 @@ public class CampusController {
     public String setEduInfoInsert(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) {
         try{
             campusService.setEduInfoInsert(params, request, SERVER_DIR, BASE_DIR);
+            /*Integer eduInfoId = campusService.setEduInfoInsert(params, request, SERVER_DIR, BASE_DIR);*/
+            /*model.addAttribute("eduInfoId", eduInfoId);*/
+            model.addAttribute("eduInfoId", params.get("eduInfoId"));
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();
