@@ -23,16 +23,20 @@
 <input type="hidden" id="status" name="status" value="${params.status}" />
 <input type="hidden" id="auth" name="auth" value="${params.auth}" />
 
-<input type="hidden" id="loginDeptSeq" value="${loginVO.orgnztId}" />
+<input type="hidden" id="loginDeptSeq" value="${loginVO.orgnztId}"/>
+
 <input type="hidden" id="reqType" value="${params.reqType}" />
-<input type="hidden" id="partRatePjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="bsYm" value="${params.bsYm}" />
+<input type="hidden" id="docStatus" value=""/>
+<input type="hidden" id="g20BudgetAmt" value="" />
+
+<input type="hidden" id="partRatePjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="claimSn" value="${params.claimSn}" />
 <input type="hidden" id="purcSn" value="${params.purcSn}" />
 <input type="hidden" id="hrBizReqResultId" value="${params.hrBizReqResultId}" />
-<input type="hidden" id="docStatus" value=""/>
+<input type="hidden" id="bList" value="${params.bList}" />
 
-<input type="hidden" id="g20BudgetAmt" value="" />
+
 
 <div style="padding:0;">
     <div class="table-responsive">

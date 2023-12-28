@@ -426,4 +426,9 @@ public class BustripServiceImpl implements BustripService {
     public List<Map<String, Object>> getCardList(Map<String, Object> params) {
         return bustripRepository.getCardList(params);
     }
+
+    @Override
+    public Map<String, Object> getPersonalExnpData(Map<String, Object> params) {
+        return bustripRepository.getPersonalExnpData(params);
+    }
 }

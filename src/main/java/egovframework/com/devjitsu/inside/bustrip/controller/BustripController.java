@@ -739,4 +739,14 @@ public class BustripController {
 
         return "jsonView";
     }
+
+    /** 출장 여비정산 개인 데이터(지급신청용) */
+    @RequestMapping("/bustrip/getPersonalExnpData")
+    public String getPersonalExnpData(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> data = bustripService.getPersonalExnpData(params);
+        model.addAttribute("data", data);
+
+        return "jsonView";
+    }
 }

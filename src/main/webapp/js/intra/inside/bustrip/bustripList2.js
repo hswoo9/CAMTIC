@@ -65,7 +65,7 @@ var bustList = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bustList.bustripMainGrid()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -205,8 +205,8 @@ var bustList = {
                     title : "지급신청",
                     width: 70,
                     template : function (e){
-                        if(e.RS_STATUS == 100){
-                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.fn_reqRegPopup()">지급신청</button>'
+                        if(e.RS_STATUS == 100 && e.EXP_STAT == 100){
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.fn_reqRegPopup('+e.HR_BIZ_REQ_RESULT_ID+')">지급신청</button>'
                         } else {
                             return '-';
                         }
@@ -264,17 +264,11 @@ var bustList = {
         window.open(url, name, option);
     },
 
-    bustripDrafting: function(hrBizReqId){
-        $("#hrBizReqId").val(hrBizReqId);
-        $("#bustripDraftFrm").one("submit", function(){
-            let url = "/Inside/pop/approvalFormPopup/bustripApprovalPop.do";
-            let name = "bustripApprovalPop";
-            let option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
-            window.open(url, name, option);
-            this.action = "/Inside/pop/approvalFormPopup/bustripApprovalPop.do";
-            this.method = 'POST';
-            this.target = 'bustripApprovalPop';
-        }).trigger("submit");
+    fn_reqRegPopup : function (hrBizReqResultId){
+        var url = "/payApp/pop/regPayAppPop.do?hrBizReqResultId="+hrBizReqResultId+"&reqType=bustrip";
+        var name = "regPayAppPop";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
     }
 }
 

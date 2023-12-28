@@ -87,4 +87,6 @@ public interface BustripService {
     void setCardHist(Map<String, Object> params);
 
     List<Map<String, Object>> getCardList(Map<String, Object> params);
+
+    Map<String, Object> getPersonalExnpData(Map<String, Object> params);
 }

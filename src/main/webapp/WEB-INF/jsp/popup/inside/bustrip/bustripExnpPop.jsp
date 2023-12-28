@@ -43,7 +43,7 @@
                     <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="opener.gridReload(); window.close()" />
                 </c:when>
                 <c:when test="${rs.EXP_STAT != 10}">
-                    <input type="button" class="k-button k-button-solid-info" value="승인요청" onclick="bustripExnpReq.fn_saveBtn('${params.hrBizReqResultId}', '${type}')" />
+                    <input type="button" class="k-button k-button-solid-info" value="저장" onclick="bustripExnpReq.fn_saveBtn('${params.hrBizReqResultId}', '${type}')" />
                     <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="opener.gridReload(); window.close()" />
                 </c:when>
                 <c:otherwise>

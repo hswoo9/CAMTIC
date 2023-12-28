@@ -559,7 +559,7 @@ const bustripExnpReq = {
         var data = {
             hrBizReqResultId : hrBizReqResultId,
             empSeq : $("#regEmpSeq").val(),
-            status : 10
+            status : 100
         }
 
         if(mode != null && mode == "mng"){
@@ -568,7 +568,7 @@ const bustripExnpReq = {
             window.close();
         }else{
             var result = customKendo.fn_customAjax("/bustrip/setReqCert", data);
-            alert("승인요청이 완료되었습니다.");
+            alert("저장이 완료되었습니다.");
             parent.opener.gridReload();
             window.close();
         }

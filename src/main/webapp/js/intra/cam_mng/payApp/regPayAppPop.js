@@ -136,7 +136,7 @@ var regPay = {
                 regPayDet.addRow();
             }
             for(let i = 0; i < ls.length; i++) {
-                $("#eviType" + i).data("kendoDropDownList").value(1)
+                $("#eviType" + i).data("kendoDropDownList").value(1);
                 $("#crmNm" + i).val(ls[i].CRM_NM);
                 $("#crmSn" + i).val(ls[i].CRM_SN);
                 $("#totCost" + i).val(regPay.comma(ls[i].PURC_ITEM_AMT));
@@ -145,6 +145,85 @@ var regPay = {
         }
 
         if($("#reqType").val() == "bustrip"){
+            const hrBizReqResultId = $("#hrBizReqResultId").val();
+            const data = {
+                hrBizReqResultId : hrBizReqResultId
+            }
+            const result = customKendo.fn_customAjax("/bustrip/getPersonalExnpData", data);
+            const exnpData = result.data;
+
+            console.log(exnpData);
+
+            const cardResult = customKendo.fn_customAjax("/bustrip/getCardList", data);
+            const cardList = cardResult.list;
+            console.log("cardList");
+            console.log(cardList);
+
+            const pjtMap = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: exnpData.PJT_SN}).rs;
+
+            if(exnpData.PJT_SN != null){
+                $("#pjtSn").val(pjtMap.PJT_SN);
+                $("#pjtNm").val(pjtMap.PJT_NM);
+                if($("#pjtSn").val() != ""){
+                    selectProject(rs.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD)
+                }
+            }
+
+            /** 개인여비 */
+            var ls = cardList;
+            $("#eviType0").data("kendoDropDownList").value(1);
+            if(exnpData.CRM_SN != "99999999"){
+                $("#crmNm0").val(exnpData.VISIT_CRM);
+                $("#crmSn0").val(exnpData.CRM_SN);
+            }
+            if(exnpData.COMPANION != 0){
+                $("#etc0").val(exnpData.EMP_NAME + " 외 "+exnpData.COMPANION+"명 개인여비");
+            }else{
+                $("#etc0").val(exnpData.EMP_NAME);
+            }
+            $("#totCost0").val(regPay.comma(exnpData.PERSON_SUM));
+            $("#supCost0").val(regPay.comma(exnpData.PERSON_SUM));
+
+            /** 법인카드 사용내역 */
+            for(let i=1; i < cardList.length+1; i++) {
+                regPayDet.addRow();
+            }
+            for(let i=0; i<cardList.length; i++){
+                const cardMap = cardList[i];
+                const index = i+1;
+
+                const parameters = {
+                    cardNo : cardMap.CARD_NO,
+                    authDate : cardMap.AUTH_DD,
+                    authNo : cardMap.AUTH_NO,
+                    authTime : cardMap.AUTH_HH,
+                    buySts : cardMap.BUY_STS
+                }
+                console.log("parameters");
+                console.log(parameters);
+
+
+                const iBrenchResult = customKendo.fn_customAjax("/cam_mng/companyCard/useCardDetail", parameters);
+                const data = iBrenchResult.cardInfo;
+                console.log(data);
+
+                $("#crmNm" + index).val(data.MER_NM);
+                $("#trDe" + index).val(data.AUTH_DD.substring(0,4) + "-" + data.AUTH_DD.substring(4,6) + "-" + data.AUTH_DD.substring(6,8));
+                $("#trCd" + index).val(data.TR_CD);
+                $("#totCost" + index).val(comma(data.AUTH_AMT));
+                $("#supCost" + index).val(comma(data.SUPP_PRICE));
+                $("#vatCost" + index).val(comma(data.SURTAX));
+                $("#cardNo" + index).val(data.CARD_NO.substring(0,4) + "-" + data.CARD_NO.substring(4,8) + "-" + data.CARD_NO.substring(8,12) + "-" + data.CARD_NO.substring(12,16));
+                $("#card" + index).val(data.TR_NM);
+                $("#buySts" + index).val(data.BUY_STS);
+                $("#crmAccHolder" + index).val(data.DEPOSITOR);
+                $("#crmAccNo" + index).val(data.BA_NB);
+                $("#crmBnkNm" + index).val(data.JIRO_NM);
+                $("#regNo" + index).val(data.MER_BIZNO);
+                $("#authNo" + index).val(data.AUTH_NO);
+                $("#authDd" + index).val(data.AUTH_DD);
+                $("#authHh" + index).val(data.AUTH_HH);
+            }
         }
 
 

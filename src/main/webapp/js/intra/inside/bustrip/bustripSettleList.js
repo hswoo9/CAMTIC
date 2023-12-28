@@ -214,26 +214,6 @@ var bustripSettleList = {
         corpSum = 0;
         carSum = 0;
         totalSum = 0;
-    },
-
-    fn_reqRegPopup : function (){
-        if($("input[name='bustripCh']:checked").length == 0){
-            alert("삭제할 협업프로젝트를 선택해주세요."); return;
-        }
-
-        var joinSn = "";
-        $.each($("input[name='bustripCh']:checked"), function(i){
-            if(i != 0){
-                joinSn += ",";
-            }
-            joinSn += $(this).val();
-        });
-
-        var url = "/payApp/pop/regPayAppPop.do";
-        url = "/payApp/pop/regPayAppPop.do?bList="+joinSn+"&reqType=bustrip";
-        var name = "regPayAppPop";
-        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
-        var popup = window.open(url, name, option);
     }
 }
 

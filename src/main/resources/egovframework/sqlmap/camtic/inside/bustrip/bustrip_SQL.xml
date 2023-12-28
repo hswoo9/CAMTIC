@@ -103,6 +103,8 @@
         <if test="empSeq != null and !''.equals(empSeq)">
             AND (A.REG_EMP_SEQ = #{empSeq} OR (SELECT EMP_SEQ FROM CAM_INSIDE.DJ_HR_BIZ_COMPANION WHERE A.HR_BIZ_REQ_ID = HR_BIZ_REQ_ID AND EMP_SEQ = #{empSeq}) IS NOT NULL)
         </if>
+        GROUP BY A.HR_BIZ_REQ_ID
+        ORDER BY A.REG_DT DESC
     </select>
 
     <insert id="insBustripReq" parameterType="map">
@@ -1275,6 +1277,30 @@
         FROM
             CAM_INSIDE.DJ_HR_CARD_HIST
         WHERE HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+    </select>
+
+    <select id="getPersonalExnpData" parameterType="map" resultType="map">
+        /* getPersonalExnpData */
+        SELECT
+            (
+                (CASE WHEN IHBE.OIL_CORP_YN = 'N' THEN REPLACE(IHBE.OIL_COST, ',', '') ELSE 0 END)+
+                (CASE WHEN IHBE.TRAF_CORP_YN = 'N' THEN REPLACE(IHBE.TRAF_COST, ',', '') ELSE 0 END)+
+                (CASE WHEN IHBE.TRAF_DAY_CORP_YN = 'N' THEN REPLACE(IHBE.TRAF_DAY_COST, ',', '') ELSE 0 END)+
+                (CASE WHEN IHBE.TOLL_CORP_YN = 'N' THEN REPLACE(IHBE.TOLL_COST, ',', '') ELSE 0 END)+
+                REPLACE(IHBE.DAY_COST, ',', '')+
+                (CASE WHEN IHBE.EAT_CORP_YN = 'N' THEN REPLACE(IHBE.EAT_COST, ',', '') ELSE 0 END)+
+                (CASE WHEN IHBE.PARKING_CORP_YN = 'N' THEN REPLACE(IHBE.PARKING_COST, ',', '') ELSE 0 END)+
+                (CASE WHEN IHBE.ETC_CORP_YN = 'N' THEN REPLACE(IHBE.ETC_COST, ',', '') ELSE 0 END)
+            ) AS PERSON_SUM,
+            IFNULL((SELECT COUNT(EMP_NAME) FROM CAM_INSIDE.DJ_HR_BIZ_COMPANION SHBC WHERE IHBE.HR_BIZ_REQ_RESULT_ID = SHBC.HR_BIZ_REQ_RESULT_ID), 0) AS COMPANION,
+            BRR.*
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_EXNP IHBE
+        LEFT JOIN
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT BRR ON IHBE.HR_BIZ_REQ_RESULT_ID = BRR.HR_BIZ_REQ_RESULT_ID
+        WHERE
+            IHBE.HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+        GROUP BY HR_BIZ_REQ_RESULT_ID
     </select>
 </mapper>
 
