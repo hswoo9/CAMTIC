@@ -1438,6 +1438,9 @@ public class CampusController {
     public String setEduInfoInsert(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) {
         try{
             campusService.setEduInfoInsert(params, request, SERVER_DIR, BASE_DIR);
+            /*Integer eduInfoId = campusService.setEduInfoInsert(params, request, SERVER_DIR, BASE_DIR);*/
+            /*model.addAttribute("eduInfoId", eduInfoId);*/
+            model.addAttribute("eduInfoId", params.get("eduInfoId"));
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();
@@ -1461,8 +1464,9 @@ public class CampusController {
 
     /** 학습조 저장 */
     @RequestMapping("/campus/setStudyInfoInsert")
-    public String setStudyInfoInsert(@RequestParam Map<String, Object> params) {
+    public String setStudyInfoInsert(@RequestParam Map<String, Object> params, Model model) {
         campusService.setStudyInfoInsert(params);
+        model.addAttribute("studyUserSn", params.get("studyUserSn"));
         return "jsonView";
     }
 
