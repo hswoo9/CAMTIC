@@ -309,7 +309,7 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
-    public void setStudyInfoInsert(Map<String, Object> params) {
+    public Map<String, Object> setStudyInfoInsert(Map<String, Object> params) {
         int studyClass = Integer.parseInt(params.get("studyClassSn").toString());
         campusRepository.setStudyInfoInsert(params);
 
@@ -352,6 +352,7 @@ public class CampusServiceImpl implements CampusService {
                 campusRepository.setStudyUserInsert(params);
             }
         }
+        return params;
     }
 
     @Override

@@ -1464,8 +1464,9 @@ public class CampusController {
 
     /** 학습조 저장 */
     @RequestMapping("/campus/setStudyInfoInsert")
-    public String setStudyInfoInsert(@RequestParam Map<String, Object> params) {
+    public String setStudyInfoInsert(@RequestParam Map<String, Object> params, Model model) {
         campusService.setStudyInfoInsert(params);
+        model.addAttribute("studyUserSn", params.get("studyUserSn"));
         return "jsonView";
     }
 

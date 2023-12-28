@@ -89,7 +89,7 @@ public interface CampusService {
     /** 개인학습 끝 */
 
     /** 학습조 시작 */
-    void setStudyInfoInsert(Map<String, Object> params);
+    Map<String, Object> setStudyInfoInsert(Map<String, Object> params);
     void setStudyUserMngUpdate(Map<String, Object> params);
     void studyReq(Map<String, Object> params);
     void setStudyJournalInsert(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
