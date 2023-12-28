@@ -169,6 +169,13 @@ var paymentList = {
                     template : function(e){
                         console.log(e);
                         var stat = "";
+
+                        if(e.REVERT_YN == "Y"){
+                            stat = "반려";
+
+                            return '<span onclick="javascript:alert(\''+e.REVERT_ISS+'\')" style="font-weight: bold; color: red; cursor: pointer">'+stat+'</span>';
+                        }
+
                         if(e.DOC_STATUS == "100"){
                             stat = "결재완료"
                             if(e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.EXNP_STATUS != 0){

@@ -150,6 +150,7 @@
             ACC_NM = #{accNm},
             PAY_APP_STAT = #{payAppStat},
             ADVANCES = #{advances},
+            REVERT_YN = 'N',
             MOD_DT = NOW(),
             MOD_EMP_SEQ = #{regEmpSeq},
             EXNP_ISS = #{exnpIss}
