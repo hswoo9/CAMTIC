@@ -42,6 +42,9 @@
     .red-star {color: red; margin-right: 5px;}
     .k-upload-files {font-size: 12px; !important;}
     .reDraft {font-size: 13px}
+    .table td, .table th{
+        vertical-align: middle;
+    }
 </style>
 <%
     pageContext.setAttribute("CR", "\r");
@@ -134,13 +137,13 @@
                     <span id="urgentType"></span>
                 </td>
             </tr>
-            <tr class="text-right" style="display : none">
+            <tr class="text-right">
                 <th class="th-color">보안여부</th>
                 <td colspan="2">
                     <span id="securityType"></span>
                 </td>
             </tr>
-            <tr class="text-right" style="display : none">
+            <tr class="text-right">
                 <th class="th-color">문서구분</th>
                 <td colspan="2">
                     <span id="docGbn"></span>
@@ -177,16 +180,11 @@
             <tr id="receiverTr" style="display: none;">
                 <th class="text-right th-color">수신자
                 </th>
-                <td style="border-right: none">
-                    <input type="text" id="receiverName" name="receiverName" class="k-input k-textbox k-input-solid k-input-md" onclick="draft.receiverSelectPopup()" readonly>
-                </td>
-                <td style="border-left: none">
-                    <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="draft.receiverSelectPopup()" style="vertical-align: middle;">
-                        <span class="k-button-text">선택</span>
-                    </button>
+                <td style="border-right: none" colspan="2">
+                    <input type="text" id="receiverName" name="receiverName" class="k-input k-textbox k-input-solid k-input-md">
                 </td>
             </tr>
-            <tr class="text-right" style="display: none">
+            <tr class="text-right" id="readerTr" style="display: none;">
                 <th class="th-color">열람자</th>
                 <td style="border-right: none">
                     <input type="text" id="readerName" name="readerName" class="k-input k-textbox k-input-solid k-input-md" onclick="draft.readerSelectPopup()" readonly>

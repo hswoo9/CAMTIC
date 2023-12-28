@@ -42,6 +42,7 @@ public class ApprovalRepository extends AbstractDAO {
     public Map<String, Object> getDocApprovePrevRoute(Map<String, Object> params) { return (Map<String, Object>) selectOne("approval.getDocApprovePrevRoute", params);}
     public int getIsExistsAbsent(Map<String, Object> params) { return (int) selectOne("approval.getIsExistsAbsent", params);}
     public void setDocApproveRouteReadDt(Map<String, Object> params) { update("approval.setDocApproveRouteReadDt", params);}
+    public boolean getDocSecurityApprLineInUserChk(Map<String, Object> params) { return (boolean) selectOne("approval.getDocSecurityApprLineInUserChk", params);}
     public int getUserDocReadUserChk(Map<String, Object> params) { return (int)selectOne("approval.getUserDocReadUserChk", params);}
     public int setDocReaderReadCnt(Map<String, Object> params) { return (int)selectOne("approval.setDocReaderReadCnt", params);}
     public void setDocReaderUser(Map<String, Object> params) { insert("approval.setDocReaderUser", params);}

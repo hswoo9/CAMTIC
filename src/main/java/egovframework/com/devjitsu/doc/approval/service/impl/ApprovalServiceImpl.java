@@ -125,7 +125,13 @@ public class ApprovalServiceImpl implements ApprovalService {
 
         for(Map<String, Object> map : readerList){
             if(map.get("SEQ_TYPE").equals("u")){
-                displayReaderName += ", " + map.get("READER_EMP_NAME") + "(" + map.get("READER_DUTY_NAME") + ")";
+                displayReaderName += ", " + map.get("READER_EMP_NAME");
+
+                if(!StringUtils.isEmpty(map.get("READER_DUTY_NAME"))){
+                    displayReaderName += "(" + map.get("READER_DUTY_NAME") + ")";
+                }else{
+                    displayReaderName += "(" + map.get("READER_POSITION_NAME") + ")";
+                }
             }else{
                 displayReaderName += ", " + map.get("READER_DEPT_NAME");
             }
@@ -147,6 +153,26 @@ public class ApprovalServiceImpl implements ApprovalService {
     @Override
     public Map<String, Object> getDocInfo(Map<String, Object> params) {
         return approvalRepository.getDocInfo(params);
+    }
+
+    @Override
+    public boolean getDocSecurityIndexOfUserChk(Map<String, Object> params) {
+        boolean chk = false;
+
+        chk = approvalRepository.getDocSecurityApprLineInUserChk(params);
+
+        if(!chk){
+            StringBuilder deptPathQuery = getDeptPathQuery(params);
+            params.put("deptPathQuery", deptPathQuery.toString());
+            int result = approvalRepository.getUserDocReadUserChk(params);
+            if(result == 0){
+                chk = false;
+            }else{
+                chk = true;
+            }
+        }
+
+        return chk;
     }
 
     @Override

@@ -148,7 +148,7 @@ function makeParams(params, form, url){
 		var docTitle = $('<input type="hidden" name="docTitle"/>');
 		docTitle.val(params.docTitle);
 		form.append(docTitle);
-		url += "&docTitle="+params.docTitle;
+		url += "&docTitle="+encodeURI(params.docTitle);
 	}
 
 	return url;

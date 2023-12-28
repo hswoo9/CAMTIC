@@ -167,14 +167,14 @@
                 DJ_CAMTIC.A_DOC_READER DRD
         INNER JOIN (
             ${deptPathQuery}
-        )OC ON OC.GBN_ORG = DRD.SEQ_TYPE AND OC.GROUP_SEQ = 'camtic_new' AND OC.COMP_SEQ = '1000' AND OC.DEPT_SEQ = DRD.READER_DEPT_SEQ AND OC.EMP_SEQ = DRD.READER_EMP_SEQ
+        )OC ON OC.GBN_ORG = DRD.SEQ_TYPE AND OC.GROUP_SEQ = 'camtic_new' AND OC.COMP_SEQ = '1212' AND OC.DEPT_SEQ = DRD.READER_DEPT_SEQ AND OC.EMP_SEQ = DRD.READER_EMP_SEQ
         WHERE 1=1
-        <![CDATA[
-            AND
-                DATE_FORMAT(NOW(), '%Y%m%d') >= DATE_FORMAT(DRD.READING_START_DT, '%Y%m%d')
-            AND
-                DATE_FORMAT(NOW(), '%Y%m%d') <= DATE_FORMAT(DRD.READING_END_DT, '%Y%m%d')
-            ]]>
+--         <![CDATA[
+--             AND
+--                 DATE_FORMAT(NOW(), '%Y%m%d') >= DATE_FORMAT(DRD.READING_START_DT, '%Y%m%d')
+--             AND
+--                 DATE_FORMAT(NOW(), '%Y%m%d') <= DATE_FORMAT(DRD.READING_END_DT, '%Y%m%d')
+--             ]]>
         GROUP BY DOC_ID
         )DRD
         ON DI.DOC_ID = DRD.DOC_ID
@@ -263,15 +263,26 @@
 
     <select id="getDeptPathList" parameterType="map" resultType="map">
         /* getDeptPathList */
+--         SELECT
+--             'd' AS GBN_ORG,
+--             GROUP_SEQ AS GROUP_SEQ,
+--             COMP_SEQ AS COMP_SEQ,
+--             DEPT_SEQ AS DEPT_SEQ,
+--             '0' AS EMP_SEQ
+--         FROM
+--             CAM_HR.DJ_DEPT_INFO
+--         ORDER BY DEPT_LEVEL, ORDER_SN
+
         SELECT
-            'd' AS GBN_ORG,
-            GROUP_SEQ AS GROUP_SEQ,
-            COMP_SEQ AS COMP_SEQ,
-            DEPT_SEQ AS DEPT_SEQ,
+            LOWER(B.ORG_TYPE) AS GBN_ORG,
+            b.GROUP_SEQ AS GROUP_SEQ,
+            B.COMP_SEQ AS COMP_SEQ,
+            (CASE WHEN B.ORG_TYPE = 'c' THEN '0' ELSE IFNULL(B.DEPT_SEQ, '0') END) AS DEPT_SEQ,
             '0' AS EMP_SEQ
         FROM
-            CAM_HR.DJ_DEPT_INFO
-        ORDER BY DEPT_LEVEL, ORDER_SN
+            CAM_HR.DJ_DEPT_INFO B
+        INNER JOIN
+            CAM_HR.DJ_DEPT_INFO A ON CONCAT(A.PATH, '|')  LIKE CONCAT(B.PATH, '|%') AND A.ORG_TYPE = 'D' AND A.DEPT_SEQ = '1205'
     </select>
 
     <select id="getApproveDocBoxList" parameterType="map" resultType="map">
