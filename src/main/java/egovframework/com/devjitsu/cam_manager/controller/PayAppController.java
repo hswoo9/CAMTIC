@@ -892,4 +892,18 @@ public class PayAppController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/pay/payAppRevert")
+    public String payAppRevert(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            payAppService.payAppRevert(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+
+        return "jsonView";
+    }
 }
