@@ -22,6 +22,10 @@ var docView = {
     },
 
     fnDefaultScript : function(params, rs, loginVO){
+        if(rs.docInfo.SECURITY_TYPE == "009"){
+            docView.readPermissionChk(loginVO, params);
+        }
+
         document.querySelector('body').style.overflow = 'hidden';
         $("#loadingText").text("문서를 불러오는 중입니다.");
 
@@ -42,6 +46,23 @@ var docView = {
         docView.initBtn();
         docView.initData();
         docView.initAppr();
+    },
+
+    readPermissionChk : function(loginVO, params){
+        docView.global.searchAjaxData = {
+            empSeq : loginVO.uniqId,
+            deptSeq : loginVO.orgnztId,
+            compSeq : "1212",
+            groupSeq : "camtic_new",
+            docId : params.docId
+        }
+
+        var result = customKendo.fn_customAjax("/approval/getDocSecurityIndexOfUserChk.do", docView.global.searchAjaxData);
+        if(!result.confirm){
+            alert("열람 권한이 없습니다.");
+            window.close();
+            return;
+        }
     },
 
     editorComplete : function() {
@@ -265,8 +286,8 @@ var docView = {
     setDocReaderReadUser : function(){
         docView.global.searchAjaxData = {
             docId : docView.global.rs.docInfo.DOC_ID,
-            groupSeq : docView.global.loginVO.groupSeq,
-            compSeq : docView.global.loginVO.organId,
+            compSeq : "1212",
+            groupSeq : "camtic_new",
             empSeq : docView.global.loginVO.uniqId,
             deptSeq : docView.global.loginVO.orgnztId,
         }
@@ -667,24 +688,26 @@ var docView = {
             },
             columns: [
                 {
-                    field : "COMP_NAME",
-                    title: "회사",
-                    width : 180
-                }, {
                     field : "DEPT_NAME",
                     title: "부서",
+                    width : 180
                 },{
                     field : "DUTY_NAME",
                     title: "직책",
+                    template : function(e){
+                        return fn_getSpot(e.DUTY_NAME, e.POSITION_NAME)
+                    }
                 },{
-                    field : "EMP_NAME",
+                    field : "EMP_NAME_KR",
                     title: "이름",
                 },{
                     field : "READ_DAY",
                     title: "최초열람",
+                    width : 180
                 },{
                     field : "LAST_READ_DAY",
                     title: "마지막열람",
+                    width : 180
                 }]
         }).data("kendoGrid");
 
@@ -714,7 +737,40 @@ var docView = {
      * */
     docApprovalFileDown : function(area, format, type, docId, filePath, fileName, approKey){
         if(area == "main" && type == "single"){
-            hwpDocCtrl.saveAs(docView.global.rs.docInfo.DOC_TITLE + '.' + format.toUpperCase(), format.toUpperCase(), "download:true");
+            if(docView.global.rs.docInfo.DOC_GBN == "001"){
+                if(hwpDocCtrl.global.HwpCtrl.FieldExist("인")){
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('인', true, true, false);
+                    if(location.host.indexOf("10.10.10.114") > -1 || location.host.indexOf("one.epis.or.kr") > -1){
+                        hwpDocCtrl.global.HwpCtrl.InsertBackgroundPicture(
+                            "SelectedCell",
+                            "http://" + location.host + "/upload/receiveTmp/notSignature.jpg",
+                            1,
+                            6,
+                            0,
+                            0,
+                            0,
+                            0
+                        );
+                    }else{
+                        hwpDocCtrl.global.HwpCtrl.InsertBackgroundPicture(
+                            "SelectedCell",
+                            "http://121.186.165.80:8010/upload/receiveTmp/notSignature.jpg",
+                            1,
+                            6,
+                            0,
+                            0,
+                            0,
+                            0
+                        );
+                    }
+                }
+
+                hwpDocCtrl.saveAs(docView.global.rs.docInfo.DOC_TITLE + '.' + format.toUpperCase(), format.toUpperCase(), "download:true");
+                hwpDocCtrl.global.HwpCtrl.InsertBackgroundPicture("SelectedCellDelete", 0, 0, 0, 0, 0, 0, 0);
+            }else{
+                hwpDocCtrl.saveAs(docView.global.rs.docInfo.DOC_TITLE + '.' + format.toUpperCase(), format.toUpperCase(), "download:true");
+            }
+
         }else if(area == "attachment" && format == "zip"){
             kendo.saveAs({
                 dataURI: "/common/multiFileDownload.do?docId=" + docId + "&type=" + type + "&approKey=" + approKey
@@ -910,6 +966,10 @@ var docView = {
 
         if(docView.global.rs.docInfo.APPROVE_STAT_CODE == "111"){
             $("#docApprovalPDFDownBtn").hide();
+        }
+
+        if(docView.global.rs.docInfo.DOC_GBN == "001" && (docView.global.rs.docInfo.APPROVE_STAT_CODE == "100" || docView.global.rs.docInfo.APPROVE_STAT_CODE == "101")){
+            $("#otherTypePdfDown").show();
         }
     },
 

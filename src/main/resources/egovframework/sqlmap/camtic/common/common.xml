@@ -472,6 +472,15 @@
         DELETE FROM CAM_COMMON.DJ_FAVORITE_MENU WHERE REG_EMP_SEQ = #{empSeq} and FV_MENU_ID = #{menuID}
     </delete>
 
+    <select id="getDept" parameterType="map" resultType="map">
+        /*조직조 부서 : getDept*/
+        SELECT
+            DEPT_SEQ,
+            DEPT_NAME
+        FROM CAM_HR.DJ_DEPT_INFO
+        where DEPT_SEQ = #{deptSeq}
+    </select>
+
     <insert id="insFileUpload" parameterType="map">
         /*insFileUpload*/
         INSERT INTO CAM_COMMON.DJ_FILE_INFO

@@ -164,7 +164,7 @@ public class CommonServiceImpl implements CommonService {
 
             for(Map<String, Object> children : getMenuList){
                 if(parent.get("MENU_ID").equals(children.get("UPPER_MENU_ID"))){
-                    children.put("MENU_FULL_PATH", "epis_new|"+children.get("MENU_FULL_PATH"));
+                    children.put("MENU_FULL_PATH", "camtic_new|"+children.get("MENU_FULL_PATH"));
                     List<Map<String, Object>> childrenMenu = new ArrayList<Map<String, Object>>();
                     if(parent.containsKey("childrenMenu")){
                         childrenMenu = (List<Map<String, Object>>) parent.get("childrenMenu");
@@ -338,6 +338,11 @@ public class CommonServiceImpl implements CommonService {
     @Override
     public void insFileUpload(Map<String, Object> fileParameters) {
         commonRepository.insFileUpload(fileParameters);
+    }
+
+    @Override
+    public Map<String, Object> getDept(Map<String, Object> params) {
+        return commonRepository.getDept(params);
     }
 
     @Override

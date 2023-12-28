@@ -197,6 +197,18 @@ public class ApprovalController {
         return "jsonView";
     }
 
+    /** 결재선 지정 */
+    @RequestMapping("/approval/approvalReaderSelectPopup.do")
+    public String approvalReaderSelectPopup(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("data", commonService.ctDept((String) loginVO.getOrgnztId()));
+        model.addAttribute("loginVO", loginVO);
+
+        return "popup/approval/popup/approvalReaderSelectPopup";
+    }
+
     /** 상신전 부여할 문서번호 조회 */
     @RequestMapping("/approval/getDeptDocNum")
     @ResponseBody
@@ -310,6 +322,24 @@ public class ApprovalController {
         model.addAttribute("toDate", getCurrentDateTime());
 
         return "popup/approval/popup/approvalDocView";
+    }
+
+    /**
+     * 보안문서 페이시 로드시 (결재자, 열람자) 한번 더 체크
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/approval/getDocSecurityIndexOfUserChk.do")
+    public String getDocSecurityIndexOfUserChk(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) throws Exception {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        boolean check = approvalService.getDocSecurityIndexOfUserChk(params);
+
+        model.addAttribute("confirm", check);
+        return "jsonView";
     }
 
     /** 결재문서 열람자 열람시간 업데이트 */

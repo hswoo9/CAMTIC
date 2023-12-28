@@ -64,6 +64,13 @@ public interface CommonService {
     void insFileUpload(Map<String, Object> fileParameters);
 
     /**
+     * 부서 하나
+     * @param params
+     * @return
+     */
+    Map<String, Object> getDept(Map<String, Object> params);
+
+    /**
      * 알림
      */
     List<Map<String, Object>> getAlarmList(Map<String, Object> params);

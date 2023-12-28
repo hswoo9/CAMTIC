@@ -255,6 +255,12 @@ public class CommonController {
 
     }
 
+    @RequestMapping ("/common/getDept.do")
+    public String getDept (@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("rs", commonService.getDept(params));
+        return "jsonView";
+    }
+
     /**
      * 알림 리스트
      * @param params

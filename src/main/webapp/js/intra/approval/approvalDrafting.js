@@ -104,10 +104,15 @@ var draft = {
             change : function(e){
                 if(this.value() == "001"){
                     $("#receiverTr").show();
+                    $("#readerTr").show();
                 }else{
                     draft.global.receiversArr = [];
                     $("#receiverName").val("");
                     $("#receiverTr").hide();
+
+                    draft.global.readersArr = [];
+                    $("#readerName").val("");
+                    $("#readerTr").hide();
                 }
             }
         });
@@ -158,6 +163,30 @@ var draft = {
 
         draft.setFileForm(draft.global.params);
 
+        $("#receiverName").on("focusout", function(){
+            draft.global.receiversArr = [];
+            var receiverDeptName = $(this).val().split(",");
+
+            hwpDocCtrl.putFieldText('doc_receive', "");
+            hwpDocCtrl.putFieldText('doc_receivelist', "")
+
+            if(receiverDeptName.length > 1){
+                hwpDocCtrl.putFieldText('doc_receive', "수신처 참조");
+                hwpDocCtrl.putFieldText('doc_receivelist_txt', "수신처");
+                $.each(receiverDeptName, function(i, v){
+                    receiverDeptName[i] = receiverDeptName[i].trim();
+                    draft.global.receiversArr[i] = {
+                        seqType : "d",
+                        receiverDeptName : receiverDeptName[i]
+                    }
+                })
+                hwpDocCtrl.putFieldText('doc_receivelist', receiverDeptName.join().replaceAll(",", ", "));
+            }else{
+                hwpDocCtrl.putFieldText('doc_receive', receiverDeptName[0]);
+                hwpDocCtrl.putFieldText('doc_receivelist_txt', "")
+                hwpDocCtrl.putFieldText('doc_receivelist', "")
+            }
+        });
     },
 
     getDocFormTemplate : function(){
@@ -187,7 +216,7 @@ var draft = {
             var formInfoReqOpt = result;
             var formRdRcCfList = result;
             var formReaderList = formRdRcCfList.readerList;
-            var formReceiver = formRdRcCfList.receiverList;
+            // var formReceiver = formRdRcCfList.receiverList;
 
             returnArr.formInfoReqOpt = result.formInfoReqOpt;
             returnArr.formCustomFieldList =  formRdRcCfList.formCustomFieldList;
@@ -219,25 +248,25 @@ var draft = {
                 draft.global.readersArr.push(readerData);
             }
 
-            for(var i = 0; i < formReceiver.length; i++){
-                var receiverData = {
-                    docId : $("#docId").val(),
-                    seqType : formReceiver[i].SEQ_TYPE,
-                    receiverDeptSeq : formReceiver[i].RECEIVER_DEPT_SEQ,
-                    receiverDeptName : formReceiver[i].RECEIVER_DEPT_NAME,
-                    receiverEmpSeq : formReceiver[i].RECEIVER_EMP_SEQ,
-                    receiverEmpName : formReceiver[i].RECEIVER_EMP_NAME,
-                    receiverDutyName : formReceiver[i].RECEIVER_DUTY_NAME,
-                    receiverPositionName : formReceiver[i].RECEIVER_POSITION_NAME,
-                    empSeq : $("#empSeq").val()
-                }
-                draft.global.receiversArr.push(receiverData);
-            }
+            // for(var i = 0; i < formReceiver.length; i++){
+            //     var receiverData = {
+            //         docId : $("#docId").val(),
+            //         seqType : formReceiver[i].SEQ_TYPE,
+            //         receiverDeptSeq : formReceiver[i].RECEIVER_DEPT_SEQ,
+            //         receiverDeptName : formReceiver[i].RECEIVER_DEPT_NAME,
+            //         receiverEmpSeq : formReceiver[i].RECEIVER_EMP_SEQ,
+            //         receiverEmpName : formReceiver[i].RECEIVER_EMP_NAME,
+            //         receiverDutyName : formReceiver[i].RECEIVER_DUTY_NAME,
+            //         receiverPositionName : formReceiver[i].RECEIVER_POSITION_NAME,
+            //         empSeq : $("#empSeq").val()
+            //     }
+            //     draft.global.receiversArr.push(receiverData);
+            // }
 
             $("#readerName").val(result.readerName);
-            if(formInfoReqOpt.DOC_GBN == "001"){
-                $("#receiverName").val(result.receiverName);
-            }
+            // if(formInfoReqOpt.DOC_GBN == "001"){
+            //     $("#receiverName").val(result.receiverName);
+            // }
         }
 
         return returnArr;
@@ -307,6 +336,9 @@ var draft = {
         );
 
         draft.drafterArrAdd();
+
+        $("#docGbn").data("kendoRadioGroup").bind("change", draft.docGbnChange);
+        $("#docGbn").data("kendoRadioGroup").trigger("change");
     },
 
     resize : function() {
@@ -323,6 +355,22 @@ var draft = {
         draft.global.popStyle ="width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
 
         window.open(draft.global.windowPopUrl, draft.global.popName, draft.global.popStyle);
+    },
+
+    docGbnChange : function (){
+        if(draft.global.params.formId == "1"){
+            if(this.value() == "001"){
+                hwpDocCtrl.putFieldText("sender_name", "사단법인 캠틱종합기술원장");
+                hwpDocCtrl.putFieldText("doc_receivelist_txt", "수신자");
+                hwpDocCtrl.putFieldText("doc_receivelist", "");
+                hwpDocCtrl.putFieldText("doc_receive", "");
+            }else {
+                hwpDocCtrl.putFieldText("sender_name", "");
+                hwpDocCtrl.putFieldText("doc_receive", "내부결재");
+                hwpDocCtrl.putFieldText("doc_receivelist_txt", "");
+                hwpDocCtrl.putFieldText("doc_receivelist", "");
+            }
+        }
     },
 
     setHwpApprovalLinePutBak : function(){
@@ -395,15 +443,7 @@ var draft = {
     readerSelectPopup : function(){
         draft.global.windowPopUrl = "/approval/approvalReaderSelectPopup.do";
         draft.global.popName = "readerSelectPopup";
-        draft.global.popStyle ="width=1170, height=650, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
-
-        window.open(draft.global.windowPopUrl, draft.global.popName, draft.global.popStyle);
-    },
-
-    receiverSelectPopup : function(){
-        draft.global.windowPopUrl = "/approval/approvalReceiverSelectPopup.do";
-        draft.global.popName = "receiverSelectPopup";
-        draft.global.popStyle ="width=1170, height=650, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        draft.global.popStyle ="width=1170, height=612, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
 
         window.open(draft.global.windowPopUrl, draft.global.popName, draft.global.popStyle);
     },
@@ -413,10 +453,13 @@ var draft = {
         draft.global.readersArr = e;
     },
 
-    receiverSelectPopClose : function(e, receiverNameStr){
-        $("#receiverName").val(receiverNameStr);
-        draft.global.receiversArr = e;
-    },
+    // receiverSelectPopup : function(){
+    //     draft.global.windowPopUrl = "/approval/approvalReceiverSelectPopup.do";
+    //     draft.global.popName = "receiverSelectPopup";
+    //     draft.global.popStyle ="width=1170, height=650, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+    //
+    //     window.open(draft.global.windowPopUrl, draft.global.popName, draft.global.popStyle);
+    // },
 
     drafterArrAdd : function(){
         if(draft.global.approversArr.filter(element => element.approveOrder === "0").length == 0){
@@ -613,12 +656,12 @@ var draft = {
                 for(var i = 0; i < rs.receiverAll.length; i++){
                     var data = {
                         seqType : rs.receiverAll[i].SEQ_TYPE,
-                        receiverEmpSeq : rs.receiverAll[i].RECEIVER_EMP_SEQ,
-                        receiverEmpName : rs.receiverAll[i].RECEIVER_EMP_NAME,
-                        receiverDeptSeq : rs.receiverAll[i].RECEIVER_DEPT_SEQ,
+                        // receiverEmpSeq : rs.receiverAll[i].RECEIVER_EMP_SEQ,
+                        // receiverEmpName : rs.receiverAll[i].RECEIVER_EMP_NAME,
+                        // receiverDeptSeq : rs.receiverAll[i].RECEIVER_DEPT_SEQ,
                         receiverDeptName : rs.receiverAll[i].RECEIVER_DEPT_NAME,
-                        receiverDutyName : rs.receiverAll[i].RECEIVER_DUTY_NAME,
-                        receiverPositionName : rs.receiverAll[i].RECEIVER_POSITION_NAME,
+                        // receiverDutyName : rs.receiverAll[i].RECEIVER_DUTY_NAME,
+                        // receiverPositionName : rs.receiverAll[i].RECEIVER_POSITION_NAME,
                         empSeq : $("#empSeq").val()
                     }
                     draft.global.receiversArr.push(data);
@@ -1010,7 +1053,7 @@ var draft = {
         if($("#docGbn").getKendoRadioGroup().value() == "001"){
             /** 수신자 */
             if(draft.global.receiversArr.length > 0) {
-                formData.append("receiversArr", JSON.stringify(draft.global.receiversArr));
+                formData.append("receiversArr", JSON.stringify(draft.global.receiversArr.filter(e => e.receiverEmpName != "")));
             }
         }
 

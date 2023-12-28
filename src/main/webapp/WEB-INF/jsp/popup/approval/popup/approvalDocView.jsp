@@ -122,6 +122,10 @@
                 <span class='k-icon k-i-list-unordered k-button-icon'></span>
                 <span class='k-button-text' style="font-size: 13px">열람자이력</span>
             </button>
+            <button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' id="otherTypePdfDown" onclick="docView.docApprovalFileDown('main', 'pdf', 'single')" style="display: none">
+                <span class='k-icon k-i-file-pdf k-button-icon'></span>
+                <span class='k-button-text' style="font-size: 13px">외부 시행문 저장</span>
+            </button>
             <button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' id="docApprovalPDFDownBtn" onclick="docView.docApprovalFileDown('main', 'pdf', 'single')">
                 <span class='k-icon k-i-file-pdf k-button-icon'></span>
                 <span class='k-button-text' style="font-size: 13px">PDF 저장</span>
@@ -171,7 +175,7 @@
 
                         </td>
                     </tr>
-                    <tr style="display : none">
+                    <tr>
                         <th class="th-color text-right">보안여부</th>
                         <td id="securityTypeKr">
 
@@ -206,7 +210,7 @@
 
                         </td>
                     </tr>
-                    <tr style="display: none">
+                    <tr>
                         <th class="th-color text-right">열람자</th>
                         <td id="readerNameTd">
 

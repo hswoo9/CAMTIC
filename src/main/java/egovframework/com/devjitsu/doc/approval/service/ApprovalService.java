@@ -61,6 +61,13 @@ public interface ApprovalService {
     Map<String, Object> getDocInfo(Map<String, Object> params);
 
     /**
+     * 보안문서 체크(열람)
+     * @param params
+     * @return
+     */
+    boolean getDocSecurityIndexOfUserChk(Map<String, Object> params);
+
+    /**
      * 문서의 현재 결재 순서
      */
     Map<String, Object> getDocApproveNowRoute(Map<String, Object> params);

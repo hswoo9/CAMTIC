@@ -799,6 +799,20 @@
         AND APPROVE_EMP_SEQ = #{empSeq}
     </update>
 
+    <select id="getDocSecurityApprLineInUserChk" parameterType="map" resultType="boolean">
+        /* getDocSecurityApprLineInUserChk */
+        SELECT
+            CASE WHEN COUNT(*) > 0 THEN 1
+                 ELSE 0
+                END
+        FROM
+            DJ_CAMTIC.A_DOC_APPROVE_ROUTE DAR
+        WHERE
+            DOC_ID = #{docId}
+          AND
+            FIND_IN_SET (#{empSeq}, DAR.APPROVE_EMP_SEQ)
+    </select>
+
     <select id="getUserDocReadUserChk" parameterType="map" resultType="int">
         /* getUserDocReadUserChk */
         SELECT
@@ -816,7 +830,7 @@
                                  INNER JOIN (
                                  ${deptPathQuery}
                                  )OC
-                                            ON OC.GBN_ORG = DRD.SEQ_TYPE AND OC.GROUP_SEQ = 'epis_new' AND OC.COMP_SEQ = '1000' AND OC.DEPT_SEQ = DRD.READER_DEPT_SEQ AND OC.EMP_SEQ = DRD.READER_EMP_SEQ
+                                            ON OC.GBN_ORG = DRD.SEQ_TYPE AND OC.GROUP_SEQ = 'camtic_new' AND OC.COMP_SEQ = '1212' AND OC.DEPT_SEQ = DRD.READER_DEPT_SEQ AND OC.EMP_SEQ = DRD.READER_EMP_SEQ
                          GROUP BY DRD.DOC_ID
                      )DRD
                               ON DI.DOC_ID = DRD.DOC_ID
@@ -873,9 +887,9 @@
             EMP.DEPT_SEQ,
             EMP.DEPT_NAME,
             EMP.DUTY_CODE,
-            (SELECT B.DP_NAME FROM DJ_CAMTIC.V_DP_CODE_INFO B WHERE B.DP_SEQ = EMP.DUTY_CODE) as DUTY_NAME,
+            EMP.DUTY_NAME,
             EMP.POSITION_CODE,
-            (SELECT B.DP_NAME FROM DJ_CAMTIC.V_DP_CODE_INFO B WHERE B.DP_SEQ = EMP.POSITION_CODE) as POSITION_NAME,
+            EMP.POSITION_NAME,
             NOW(),
             NOW(),
             EMP.EMP_SEQ
@@ -885,22 +899,22 @@
                     E.EMP_SEQ AS EMP_SEQ,
                     E.LOGIN_ID AS USER_ID,
                     E.LOGIN_PASSWD AS USER_PW,
-                    E.ERP_EMP_NUM AS ERP_EMP_NUM,
                     E.EMP_NAME_KR AS EMP_NAME,
                     E.DEPT_SEQ AS DEPT_SEQ,
                     IF(E.DEPT_TEAM_NAME = '' OR E.DEPT_TEAM_NAME IS NULL, E.DEPT_NAME, E.DEPT_TEAM_NAME) AS DEPT_NAME,
                     E.DUTY_CODE AS DUTY_CODE,
+                    E.DUTY_NAME AS DUTY_NAME,
                     E.POSITION_CODE AS POSITION_CODE,
+                    E.POSITION_NAME AS POSITION_NAME,
                     E.GENDER_CODE AS GENDER_CODE,
                     DATE_FORMAT(E.JOIN_DAY, '%Y-%m-%d') AS JOIN_DAY,
-                    E.WORK_STATUS AS WORK_STATUS,
-                    E.USE_YN AS USE_YN
+                    E.ACTIVE AS ACTIVE
                 FROM
                     (SELECT @ROWNUM := 0) R, CAM_HR.DJ_EMP_INFO E
                 WHERE
-                    E.USE_YN != 'D'
+                    E.ACTIVE != 'D'
                 AND
-                    E.USE_YN = 'Y'
+                    E.ACTIVE = 'Y'
          )EMP
          INNER JOIN (
             SELECT
@@ -910,7 +924,7 @@
             INNER JOIN (
                 ${deptPathQuery}
             )OC
-            ON OC.GBN_ORG = DRD.SEQ_TYPE AND OC.GROUP_SEQ = 'camtic_new' AND OC.COMP_SEQ = '1000' AND OC.DEPT_SEQ = DRD.READER_DEPT_SEQ AND OC.EMP_SEQ = DRD.READER_EMP_SEQ
+            ON OC.GBN_ORG = DRD.SEQ_TYPE AND OC.GROUP_SEQ = 'camtic_new' AND OC.COMP_SEQ = '1212' AND OC.DEPT_SEQ = DRD.READER_DEPT_SEQ AND OC.EMP_SEQ = DRD.READER_EMP_SEQ
             WHERE
                 DRD.DOC_ID = #{docId}
             GROUP BY DOC_ID
@@ -994,8 +1008,8 @@
             RS.EMP_SEQ,
             CAM_HR.FN_GetName('DEPT', RS.DEPT_SEQ, 'KR') AS DEPT_NAME,
             RS.EMP_NAME_KR,
-            CAM_HR.FN_GetName('DUTY', RS.DUTY_CODE, 'KR') AS DUTY_NAME,
-            CAM_HR.FN_GetName('POSITION', RS.POSITION_CODE, 'KR') AS POSITION_NAME,
+            DUTY_NAME,
+            POSITION_NAME,
             NEW_DOC_READ_DAY,
             NEW_DOC_READ_TIME,
             LAST_DOC_READ_DAY,
@@ -1008,6 +1022,7 @@
                 COMP_SEQ,
                 DEPT_SEQ,
                 EMP_SEQ,
+                EMP_NAME_KR,
                 MAX(NEW_DOC_READ_DAY) NEW_DOC_READ_DAY,
                 MAX(NEW_DOC_READ_TIME) NEW_DOC_READ_TIME,
                 MAX(LAST_DOC_READ_DAY) LAST_DOC_READ_DAY,
@@ -1017,7 +1032,7 @@
             FROM (
                 SELECT
                     'camtic_new' AS GROUP_SEQ,
-                    '1000' AS COMP_SEQ,
+                    '1212' AS COMP_SEQ,
                     DRD.READER_DEPT_SEQ AS DEPT_SEQ,
                     DRD.READER_EMP_SEQ AS EMP_SEQ,
                     DRD.READER_EMP_NAME AS EMP_NAME_KR,
@@ -1026,7 +1041,9 @@
                     '' AS LAST_DOC_READ_DAY,
                     '' AS LAST_DOC_READ_TIME,
                     NULL AS DUTY_CODE,
-                    NULL AS POSITION_CODE
+                    NULL AS DUTY_NAME,
+                    NULL AS POSITION_CODE,
+                    NULL AS POSITION_NAME
                 FROM
                     DJ_CAMTIC.A_DOC_READER DRD
                 WHERE
@@ -1038,7 +1055,7 @@
                 UNION
                 SELECT
                     'camtic_new' AS GROUP_SEQ,
-                    '1000' AS COMP_SEQ,
+                    '1212' AS COMP_SEQ,
                     ED.DEPT_SEQ,
                     ED.EMP_SEQ,
                     ED.EMP_NAME_KR,
@@ -1047,7 +1064,9 @@
                     '' AS LAST_DOC_READ_DAY,
                     '' AS LAST_DOC_READ_TIME,
                     NULL AS DUTY_CODE,
-                    NULL AS POSITION_CODE
+                    NULL AS DUTY_NAME,
+                    NULL AS POSITION_CODE,
+                    NULL AS POSITION_NAME
                 FROM
                     CAM_HR.DJ_EMP_INFO ED
                 INNER JOIN
@@ -1056,7 +1075,7 @@
                 WHERE
                     DRD2.SEQ_TYPE = 'd'
                 AND
-                    ED.USE_YN = 'Y'
+                    ED.ACTIVE = 'Y'
                 AND
                     DRD2.ACTIVE = 'Y'
                 AND
@@ -1064,7 +1083,7 @@
                 UNION
                 SELECT
                     'camtic_new' AS GROUP_SEQ,
-                    '1000' AS COMP_SEQ,
+                    '1212' AS COMP_SEQ,
                     DRU.READER_DEPT_SEQ AS DEPT_SEQ,
                     DRU.READER_EMP_SEQ AS EMP_SEQ,
                     DRU.READER_EMP_NAME AS EMP_NAME_KR,
@@ -1073,7 +1092,9 @@
                     DATE_FORMAT(DRU.LAST_DOC_READ_DT, '%Y%m%d') AS LAST_DOC_READ_DAY,
                     DATE_FORMAT(DRU.LAST_DOC_READ_DT, '%H%i%s') AS LAST_DOC_READ_TIME,
                     DRU.READER_DUTY_CODE AS DUTY_CODE,
-                    DRU.READER_POSITION_CODE AS POSITION_CODE
+                    DRU.READER_DUTY_NAME AS DUTY_NAME,
+                    DRU.READER_POSITION_CODE AS POSITION_CODE,
+                    DRU.READER_POSITION_NAME AS POSITION_NAME
                 FROM
                     DJ_CAMTIC.A_DOC_READER_USER DRU
                 WHERE
@@ -1088,7 +1109,6 @@
         (
             (EMP.EMP_SEQ IS NOT NULL AND EMP.EMP_SEQ IS NOT NULL) OR NEW_DOC_READ_DAY > ' '
         )
-        ORDER BY IFNULL(order_text, 'ZZZZZZZZZZ')
     </select>
 
     <update id="setDocInfoStatUp" parameterType="map">

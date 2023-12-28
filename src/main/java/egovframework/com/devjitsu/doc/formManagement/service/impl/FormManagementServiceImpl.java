@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +37,13 @@ public class FormManagementServiceImpl implements FormManagementService {
 
         for(Map<String, Object> map : readerList){
             if(map.get("SEQ_TYPE").equals("u")){
-                readerNameStr += "," + map.get("READER_EMP_NAME") + "(" + map.get("READER_DUTY_NAME") + ")";
+                readerNameStr += ", " + map.get("READER_EMP_NAME");
+
+                if(!StringUtils.isEmpty(map.get("READER_DUTY_NAME"))){
+                    readerNameStr += "(" + map.get("READER_DUTY_NAME") + ")";
+                }else{
+                    readerNameStr += "(" + map.get("READER_POSITION_NAME") + ")";
+                }
             }else{
                 readerNameStr += "," + map.get("READER_DEPT_NAME");
             }
@@ -72,7 +79,13 @@ public class FormManagementServiceImpl implements FormManagementService {
 
         for(Map<String, Object> map : readerList){
             if(map.get("SEQ_TYPE").equals("u")){
-                readerNameStr += "," + map.get("READER_EMP_NAME") + "(" + map.get("READER_DUTY_NAME") + ")";
+                readerNameStr += ", " + map.get("READER_EMP_NAME");
+
+                if(!StringUtils.isEmpty(map.get("READER_DUTY_NAME"))){
+                    readerNameStr += "(" + map.get("READER_DUTY_NAME") + ")";
+                }else{
+                    readerNameStr += "(" + map.get("READER_POSITION_NAME") + ")";
+                }
             }else{
                 readerNameStr += "," + map.get("READER_DEPT_NAME");
             }
