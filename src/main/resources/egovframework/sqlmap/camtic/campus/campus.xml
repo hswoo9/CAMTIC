@@ -489,7 +489,7 @@
         <if test='studyClassSn != null and !"".equals(studyClassSn)'>
             AND STUDY_CLASS_SN = #{studyClassSn}
         </if>
-        ORDER BY STUDY_CLASS_SN, STUDY_USER_SN
+        ORDER BY STUDY_USER_SN
     </select>
 
     <select id="getStudyJournalList" resultType="map" parameterType="map">

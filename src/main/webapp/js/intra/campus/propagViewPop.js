@@ -224,7 +224,7 @@ const propagView = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 508,
+            height: 250,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],

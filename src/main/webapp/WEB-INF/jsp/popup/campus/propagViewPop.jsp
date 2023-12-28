@@ -6,6 +6,14 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/campus/propagViewPop.js?v=${toDate}"/></script>
+<style>
+    .barFixed {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+    }
+</style>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
 <input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
@@ -23,8 +31,8 @@
 <input type="hidden" id="studyResultSn" value="${resultData.STUDY_RESULT_SN}" />
 <body class="font-opensans" style="background-color:#fff;">
 
-<div class="table-responsive">
-    <div class="card-header pop-header">
+
+    <div class="card-header pop-header barFixed">
         <h3 class="card-title title_NM">전파학습 신청서 조회</h3>
         <div class="btn-st popButton">
             <button type="button" id="recBtn" style="display: none" class="k-button k-button-solid-info" onclick="propagView.fn_propagCertReq(100);">승인</button>
@@ -36,7 +44,8 @@
             <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
         </div>
     </div>
-    <table class="popTable table table-bordered mb-0">
+    <div class="table-responsive mt60">
+    <table class="popTable table table-bordered mb-0" style="margin-top: 60px">
         <colgroup>
             <col width="15%">
             <col width="18%">

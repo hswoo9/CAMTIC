@@ -52,17 +52,15 @@ var exnpReList = {
                     title: "번호",
                     width: 40,
                     template: "#= --record #"
-                },
-                // {
-                //     field: "DOC_NO",
-                //     title: "문서번호",
-                //     width: 120,
-                //     template: function(e){
-                //         console.log(e);
-                //         return "";
-                //     }
-                // },
-                {
+                }, {
+                    title: "구분",
+                    width: 80,
+                    field: "TYPE"
+                }, {
+                    title: "결의일자",
+                    width: 70,
+                    field: "DT3"
+                }, {
                     title: "적요",
                     field: "EXNP_BRIEFS",
                     width: 280,
@@ -75,42 +73,28 @@ var exnpReList = {
                     field: "PJT_NM",
                     width: 210,
                     template: function (e){
-                        var pjtNm = e.PJT_NM.toString().substring(0, 25);
-                        return pjtNm + "...";
+                        return e.PJT_NM;
                     }
                 }, {
                     title: "세출과목",
                     field: "BUDGET_NM_EX",
                     width: 210
                 }, {
-                    title: "신청일",
-                    width: 70,
-                    field: "REG_DT",
-                    template: function(e){
-                        return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
-                    }
-                }, {
-                    title: "지출요청일",
-                    width: 70,
-                    field: "REQ_DE"
-                }, {
-                    title: "지출예정일",
-                    width: 70,
-                    field: "DT3"
-                }, {
-                    title: "지출완료일",
-                    width: 70,
-                    field: "REQ_END_DE"
+                    title: "작성자",
+                    field: "REG_EMP_NAME",
+                    width: 80
                 }, {
                     title: "지출금액",
                     width: 80,
                     template: function(e){
                         var cost = e.TOT_COST;
-                        if(e.RE_STAT == "Y"){
-                            return '<div style="text-align: right">'+comma(cost)+'</div>';
-                        } else {
-                            return '<div style="text-align: right">'+0+'</div>';
-                        }
+                        return '<div style="text-align: right">'+comma(cost)+'</div>';
+
+                        // if(e.RE_STAT == "Y"){
+                        //     return '<div style="text-align: right">'+comma(cost)+'</div>';
+                        // } else {
+                        //     return '<div style="text-align: right">'+0+'</div>';
+                        // }
                     }
                 }, {
                     title: "상태",

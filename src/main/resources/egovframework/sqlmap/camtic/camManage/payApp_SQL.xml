@@ -150,6 +150,7 @@
             ACC_NM = #{accNm},
             PAY_APP_STAT = #{payAppStat},
             ADVANCES = #{advances},
+            REVERT_YN = 'N',
             MOD_DT = NOW(),
             MOD_EMP_SEQ = #{regEmpSeq},
             EXNP_ISS = #{exnpIss}
@@ -445,7 +446,7 @@
 
     <select id="getWaitPaymentList" parameterType="map" resultType="map">
         /*getWaitPaymentList*/
-        SELECT A.PJT_CD, B.* FROM
+        SELECT A.PJT_CD, A.REVERT_YN, B.* FROM
             CAM_MNG.DJ_PAY_APP A
         LEFT JOIN CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
         LEFT JOIN CAM_MNG.DJ_EXNP C ON C.PAY_APP_SN = B.PAY_APP_SN
@@ -771,20 +772,26 @@
     <select id="getExnpReList" parameterType="map" resultType="map">
         /*getExnpReList*/
         SELECT
+            CASE
+                WHEN ED.EVID_TYPE IN (1,2,3)
+                THEN '반제(지출)'
+                ELSE '지출'
+            END AS TYPE,
             E.*,
             ED.BUDGET_NM AS BUDGET_NM_EX,
             DI.APPRO_KEY AS APPRO_KEY,
             DI.DOC_MENU_CD AS DOC_MENU_CD,
-            IFNULL(SUM(ED.TOT_COST), 0) AS TOT_COST
+            IFNULL(SUM(ED.TOT_COST), 0) AS TOT_COST,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = E.REG_EMP_SEQ) AS REG_EMP_NAME
         FROM
             CAM_MNG.DJ_EXNP_DET ED
         LEFT JOIN
             CAM_MNG.DJ_EXNP E ON ED.EXNP_SN = E.EXNP_SN
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON E.DOC_ID = DI.DOC_ID
-        WHERE E.DOC_STATUS = '100'
+        WHERE (ED.EVID_TYPE IN (1, 2, 3) or ED.EVID_TYPE NOT IN (1, 2, 3))
+        AND E.DOC_STATUS = '100'
         AND E.PAY_APP_TYPE = 1
-        AND ED.EVID_TYPE IN (1, 2, 3)
         GROUP BY E.EXNP_SN
         ORDER BY E.EXNP_SN DESC
     </select>
@@ -804,7 +811,7 @@
     </select>
 
     <select id="getIncpReList" parameterType="map" resultType="map">
-        /*getExnpReList*/
+        /*getIncpReList*/
         SELECT
             I.*,
             DI.APPRO_KEY AS APPRO_KEY,
@@ -1619,6 +1626,7 @@
         INSERT INTO CAM_MNG.DJ_DEPO_SETTING
             (
                 FR_PJT_SN,
+                CODE_VAL,
                 PROFIT_CODE,
                 PURP_CODE,
                 COMM_CODE,
@@ -1629,6 +1637,7 @@
         VALUES
             (
                 #{pjtSn},
+                #{codeVal},
                 #{profitCode},
                 #{purpCode},
                 #{commCode},
@@ -1642,6 +1651,7 @@
         /*updProjectTaxInfo*/
         UPDATE CAM_MNG.DJ_DEPO_SETTING
         SET
+            CODE_VAL = #{codeVal},
             PROFIT_CODE = #{profitCode},
             PURP_CODE = #{purpCode},
             COMM_CODE = #{commCode},
@@ -1693,4 +1703,33 @@
         WHERE
             DEPO_SET_SN = #{depoSetSn}
     </update>
+
+    <update id="payAppRevert" parameterType="map">
+        /*payAppRevert*/
+        UPDATE CAM_MNG.DJ_PAY_APP
+        SET
+            DOC_ID = null,
+            DOC_STATUS = 0,
+            APPROVAL_EMP_SEQ = null,
+            REVERT_ISS = #{revertIss},
+            REVERT_YN = 'Y'
+        WHERE
+            PAY_APP_SN = #{payAppSn}
+    </update>
+
+    <insert id="insPayAppRevert" parameterType="map">
+        /*insPayAppRevert*/
+        INSERT INTO CAM_MNG.DJ_PAY_APP_REV
+            (
+                PAY_APP_SN,
+                DOC_ID,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{payAppSn},
+                #{docId},
+                #{regEmpSeq}
+            )
+    </insert>
 </mapper>

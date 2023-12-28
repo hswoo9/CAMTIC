@@ -130,8 +130,16 @@ const studyJournal = {
         if(studyLocation == ""){ alert("학습장소가 작성되지 않았습니다."); return; }
         if(studyUserSeq == ""){ alert("학습자가 선택되지 않았습니다."); return; }
         if(studyContent == ""){ alert("학습내용이 작성되지 않았습니다."); return; }
-        if(studyMoney == ""){ alert("소모비용이 작성되지 않았습니다."); return; }
-        if(journalAmtClass == ""){ alert("소요비용구분이 선택되지 않았습니다."); return; }
+
+        if(journalAmtClass == "1" || journalAmtClass == "2") {
+            if (studyMoney == "" || studyMoney == "0" ) {alert("소요비용이 작성되지 않았습니다.");return;}
+        }
+        /*if(studyMoney == ""){ alert("소모비용이 작성되지 않았습니다."); return; }*/
+        
+        if(studyMoney != '0') {
+            if (journalAmtClass == "") {alert("소요비용구분이 선택되지 않았습니다.");return;}
+        }
+        /*if(journalAmtClass == ""){ alert("소요비용구분이 선택되지 않았습니다."); return; }*/
 
         /** 학습조 학습주 실제 인정시간 조회 */
         var now = new Date();

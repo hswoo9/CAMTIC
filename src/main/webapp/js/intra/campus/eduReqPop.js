@@ -197,8 +197,10 @@ const eduReq = {
             enctype: 'multipart/form-data',
             async: false,
             success: function(result){
+                var eduInfoId = result.eduInfoId;
                 alert("교육수강 신청서 저장이 완료되었습니다.");
                 opener.parent.open_in_frame("/Campus/eduInfo.do");
+                eduReq.eduInfoViewPop(eduInfoId);
                 window.close();
 
             },
@@ -368,4 +370,12 @@ const eduReq = {
     fileChange: function(e){
         $(e).next().text($(e)[0].files[0].name);
     },
+
+    eduInfoViewPop: function(eduInfoId){
+        let url = "/Campus/pop/eduInfoViewPop.do?eduInfoId="+eduInfoId;
+        const name = "popup";
+        const option = "width = 965, height = 900, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    }
+
 }

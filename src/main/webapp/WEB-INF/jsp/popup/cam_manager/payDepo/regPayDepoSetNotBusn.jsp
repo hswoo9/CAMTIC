@@ -87,8 +87,22 @@
                 { text: "KIRIA", value: "5" },
                 { text: "JBTP", value: "6" },
                 { text: "기타", value: "99" },
-            ]
+            ],
         });
+
+        $("#execSystem").data("kendoDropDownList").enable(false);
+
+
+        $("input[name='budgetRadio']").click(function(){
+            if($("input[name=budgetRadio]:checked").val() == "CASH"){
+                $("#execSystem").data("kendoDropDownList").enable(false);
+                $("#execSystem").data("kendoDropDownList").value("");
+            } else {
+                $("#execSystem").data("kendoDropDownList").enable(true);
+            }
+        });
+
+
 
         // 저장정보 가져오기
         if($("#depoSetSn").val() != "" && $("#depoSetSn").val() != null && $("#depoSetSn").val() != "undefined"){
@@ -106,6 +120,14 @@
                     var rs = rs.data;
                     $("#execSystem").data("kendoDropDownList").value(rs.EXEC_SYSTEM);
                     $("input[name=budgetRadio][value=" + rs.BUDGET_GUBUN + "]").prop("checked", true);
+
+                    if($("input[name=budgetRadio]:checked").val() != "CASH"){
+                        if(rs.BUDGET_GUBUN == "CASH"){
+                            $("#execSystem").data("kendoDropDownList").enable(false);
+                        } else {
+                            $("#execSystem").data("kendoDropDownList").enable(true);
+                        }
+                    }
                 }
             });
         }
@@ -117,6 +139,10 @@
             execSystem : $("#execSystem").data("kendoDropDownList").value(),
             budgetGubun : $("input[name=budgetRadio]:checked").val(),
             regEmpSeq : $("#regEmpSeq").val()
+        }
+
+        if($("input[name=budgetRadio]:checked").val() == "CASH"){
+            data.execSystem = "";
         }
 
         if($("#depoSetSn").val() != "" && $("#depoSetSn").val() != null && $("#depoSetSn").val() != "undefined"){

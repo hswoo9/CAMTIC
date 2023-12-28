@@ -49,6 +49,17 @@ public class BustripController {
         return "inside/bustrip/bustripList";
     }
 
+    /** new 출장신청 리스트 페이지 */
+    @RequestMapping("/bustrip/bustripList2.do")
+    public String bustripList2(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/bustrip/bustripList2";
+    }
+
     /** 출장신청 등록 팝업*/
     @RequestMapping("/bustrip/pop/bustripReqPop.do")
     public String bustripReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {

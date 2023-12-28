@@ -231,6 +231,42 @@
                         </span>
                     </td>
                 </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>세무정보
+                    </th>
+                    <td>
+                        <c:if test="${data.CODE_VAL == '1'}">수익사업</c:if>
+                        <c:if test="${data.CODE_VAL == '2'}">고유목적사업</c:if>
+                        <c:if test="${data.CODE_VAL == '3'}">공통사업</c:if>
+                    </td>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>과세구분
+                    </th>
+                    <td>
+                        <c:if test="${data.TAX_GUBUN == '1'}">과세</c:if>
+                        <c:if test="${data.TAX_GUBUN == '2'}">면세</c:if>
+                        <c:if test="${data.TAX_GUBUN == '3'}">비과세</c:if>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>예산정보
+                    </th>
+                    <td colspan="3">
+                        <c:if test="${data.BUDGET_GUBUN == 'CASH'}">현금</c:if>
+                        <c:if test="${data.BUDGET_GUBUN == 'POINT'}">
+                            포인트 -
+                            <c:if test="${data.EXEC_SYSTEM == '1'}">e나라도움</c:if>
+                            <c:if test="${data.EXEC_SYSTEM == '2'}">RCMS</c:if>
+                            <c:if test="${data.EXEC_SYSTEM == '3'}">통합이지바로</c:if>
+                            <c:if test="${data.EXEC_SYSTEM == '4'}">보탬e</c:if>
+                            <c:if test="${data.EXEC_SYSTEM == '5'}">KIRIA</c:if>
+                            <c:if test="${data.EXEC_SYSTEM == '6'}">JBTP</c:if>
+                            <c:if test="${data.EXEC_SYSTEM == '99'}">기타</c:if>
+                        </c:if>
+                    </td>
+                </tr>
                 </thead>
             </table>
 

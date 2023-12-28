@@ -11,8 +11,11 @@ const studyView = {
 
     dataSet: function(){
 
-        if($("#addStatus").val() == "Y" || $("#addStatus").val() == "C") {
+        if($("#addStatus").val() == "Y" /*|| $("#addStatus").val() == "C"*/) {
             $("#resultDoc").html("<div style='color : red'> 결과보고서가 등록되지 않았습니다.</div>");
+            $("#resultBtn").css("display", "");
+        }else if($("#addStatus").val() == "C"){
+            $("#resultDoc").html("<div style='color : red'> 결과보고서 승인 요청 중 입니다.</div>");
             $("#resultBtn").css("display", "");
         } else if($("#addStatus").val() == "S") {
             $("#resultDoc").html("<div style='color : blue'> 결과보고서가 등록되어 있습니다. 결과보고서 버튼으로 조회가 가능합니다.</div>");
@@ -52,7 +55,13 @@ const studyView = {
             html += '<td>'+list[i].STUDY_POSITION_NAME+'</td>';
             html += '<td style="text-align: center">'+list[i].STUDY_EMP_NAME+'</td>';
             html += '<td style="text-align: center">';
-            html += '<input type="button" class="k-button k-button-solid-base" value="조장" onclick="studyView.updBtn(\''+list[i].STUDY_USER_SN+'\', \''+list[i].STUDY_INFO_SN+'\', \'1\', \'조장\')"/> <input type="button" class="k-button k-button-solid-base" value="간사" onclick="studyView.updBtn(\''+list[i].STUDY_USER_SN+'\', \''+list[i].STUDY_INFO_SN+'\', \'2\', \'간사\')"/>';
+            if(list[i].STUDY_CLASS_TEXT == "조장") {
+                html += '<input type="button" class="k-button k-button-solid-info" value="조장" onclick="studyView.updBtn(\''+list[i].STUDY_USER_SN+'\', \''+list[i].STUDY_INFO_SN+'\', \'1\', \'조장\')"/> ' + '<input type="button" class="k-button k-button-solid-base" value="간사" onclick="studyView.updBtn(\''+list[i].STUDY_USER_SN+'\', \''+list[i].STUDY_INFO_SN+'\', \'2\', \'간사\')"/>';
+            } else if(list[i].STUDY_CLASS_TEXT == "간사"){
+                html += '<input type="button" class="k-button k-button-solid-base" value="조장" onclick="studyView.updBtn(\''+list[i].STUDY_USER_SN+'\', \''+list[i].STUDY_INFO_SN+'\', \'1\', \'조장\')"/> ' + '<input type="button" class="k-button k-button-md k-button-solid k-button-solid-error" value="간사" onclick="studyView.updBtn(\''+list[i].STUDY_USER_SN+'\', \''+list[i].STUDY_INFO_SN+'\', \'2\', \'간사\')"/>';
+            }else {
+                html += '<input type="button" class="k-button k-button-solid-base" value="조장" onclick="studyView.updBtn(\'' + list[i].STUDY_USER_SN + '\', \'' + list[i].STUDY_INFO_SN + '\', \'1\', \'조장\')"/> ' + '<input type="button" class="k-button k-button-solid-base" value="간사" onclick="studyView.updBtn(\'' + list[i].STUDY_USER_SN + '\', \'' + list[i].STUDY_INFO_SN + '\', \'2\', \'간사\')"/>';
+            }
             html += '</td>';
             html += '</tr>';
             if(list[i].STUDY_CLASS_TEXT == "조장"){
@@ -114,7 +123,7 @@ const studyView = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 508,
+            height: 250,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
@@ -297,6 +306,7 @@ const studyView = {
             success: function(rs){
                 if(rs.code == 200){
                     alert(rs.msg);
+                    studyView.fn_resultDocPop();
                     location.reload();
                 }
             }

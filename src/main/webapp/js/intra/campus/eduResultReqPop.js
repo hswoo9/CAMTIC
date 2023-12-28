@@ -71,10 +71,10 @@ var eduResultReqPop = {
             alert("직무연계 포인트가 작성되지 않았습니다.");
             return;
         }
-        if(FBList == "") {
+        /*if(FBList == "") {
             alert("FEEDBACK LIST가 작성되지 않았습니다.");
             return;
-        }
+        }*/
 
         let data = {
             empSeq : empSeq,

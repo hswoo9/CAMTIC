@@ -6,6 +6,14 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/campus/openStudyReqPop.js?v=${toDate}"/></script>
+<style>
+    .barFixed {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+    }
+</style>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
 <input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
@@ -22,8 +30,8 @@
 <input type="hidden" id="pk" value="${params.pk}"/>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
-    <div class="table-responsive">
-        <div class="card-header pop-header">
+
+        <div class="card-header pop-header barFixed">
             <h3 class="card-title title_NM">오픈스터디 등록</h3>
             <div class="btn-st popButton">
                 <button type="button" id="stepDBtn" style="display: none" class="k-button k-button-solid-info" onclick="openStudyReq.openStudyResultPop();">모임완료</button>
@@ -38,6 +46,7 @@
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
             </div>
         </div>
+    <div class="table-responsive" style="margin-top: 40px;">
         <form id="table-responsive" style="padding: 20px 30px;">
             <table class="popTable table table-bordered mb-0">
                 <colgroup>

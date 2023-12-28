@@ -46,12 +46,12 @@
               <th>성 명</th>
               <td id="userName">${loginVO.name}</td>
             </tr>
-            <c:if test="${eduFormType == 1}">
+           <%-- <c:if test="${eduFormType == 1}">--%>
             <tr>
               <th>담당직무</th>
               <td colspan="5">${loginVO.jobDetailNm}</td>
             </tr>
-            </c:if>
+            <%--</c:if>--%>
           </table>
           <table class="table table-bordered mt20" id="eduReqTable" style="width: 1000px;">
             <colgroup>

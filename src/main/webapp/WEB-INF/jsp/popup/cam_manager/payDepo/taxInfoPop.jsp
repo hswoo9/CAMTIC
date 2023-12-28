@@ -54,19 +54,28 @@
                 </tr>
                 <tr id="project">
                     <th scope="row" rowspan="3" class="text-center th-color">사업장 코드 설정</th>
-                    <th scope="row" class="text-center th-color">수익사업</th>
+                    <th scope="row" class="text-center th-color">
+                        <input type="radio" value="1" id="codeVal1" name="codeVal" style="position: relative; top: 3px;" />
+                        <label for="codeVal1" style="position: relative; top: 1px;">수익사업</label>
+                    </th>
                     <td colspan="3">
                         <input type="text" id="profitCode" name="profitCode" />
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">고유목적사업</th>
+                    <th scope="row" class="text-center th-color">
+                        <input type="radio" value="2" id="codeVal2" name="codeVal" style="position: relative; top: 3px;" />
+                        <label for="codeVal2" style="position: relative; top: 1px;">고유목적사업</label>
+                    </th>
                     <td colspan="3">
                         <input type="text" id="purpCode" name="profitCode" />
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">공통사업</th>
+                    <th scope="row" class="text-center th-color">
+                        <input type="radio" value="3" id="codeVal3" name="codeVal" style="position: relative; top: 3px;" />
+                        <label for="codeVal3" style="position: relative; top: 1px;">공통사업</label>
+                    </th>
                     <td colspan="3">
                         <input type="text" id="commCode" name="profitCode" />
                     </td>
@@ -120,6 +129,7 @@
                 dataType : "json",
                 success : function(rs){
                     var rs = rs.data;
+                    $("input[name=codeVal][value=" + rs.CODE_VAL + "]").prop("checked", true);
                     $("#profitCode").data("kendoDropDownList").value(rs.PROFIT_CODE);
                     $("#purpCode").data("kendoDropDownList").value(rs.PURP_CODE);
                     $("#commCode").data("kendoDropDownList").value(rs.COMM_CODE);
@@ -132,11 +142,20 @@
     function fn_save () {
         var data = {
             pjtSn : $("#paramPjtSn").val(),
+            codeVal : $("input[name=codeVal]:checked").val(),
             profitCode : $("#profitCode").data("kendoDropDownList").value(),
             purpCode : $("#purpCode").data("kendoDropDownList").value(),
             commCode : $("#commCode").data("kendoDropDownList").value(),
             taxGubun : $("input[name=taxRadio]:checked").val(),
             regEmpSeq : $("#regEmpSeq").val()
+        }
+
+        if(data.codeVal == "1"){
+            profitCode : $("#profitCode").data("kendoDropDownList").value()
+        } else if (data.codeVal == "2"){
+            purpCode : $("#purpCode").data("kendoDropDownList").value()
+        } else if (data.codeVal == "3"){
+            commCode : $("#commCode").data("kendoDropDownList").value()
         }
 
         if($("#depoSetSn").val() != "" && $("#depoSetSn").val() != null && $("#depoSetSn").val() != "undefined"){

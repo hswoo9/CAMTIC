@@ -298,31 +298,33 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         map.put("pjtSn", map.get("PJT_SN"));
         int partRateCnt = projectRndRepository.getPartRateVerCount(map);
 
+        if(partRateCnt == 0){
+            map.put("REQ_SORT", "신규");
+        }else{
+            map.put("REQ_SORT", "변경");
+        }
+        
         map.put("partRateCnt", partRateCnt);
         map.put("PART_RATE_VER", (partRateCnt + 1));
         map.put("EMP_NAME", params.get("empName"));
         map.put("EMP_SEQ", params.get("empSeq"));
-        map.put("REQ_SORT", params.get("reqSort"));
         map.put("JOIN_MEM_NM", params.get("joinMemNm"));
         map.put("JOIN_MEM_SN", params.get("joinMemberSn"));
 
-        Map<String, Object> verMap = projectRndRepository.getPartRateVerBerData(map);
-//        if(verMap != null){
-//            if("".equals(map.get("JOIN_MEM_SN"))){
-//                map.put("JOIN_MEM_SN", verMap.get("JOIN_MEM_SN"));
-//            } else {
-//                map.put("JOIN_MEM_SN", verMap.get("JOIN_MEM_SN") + "," + map.get("JOIN_MEM_SN"));
-//            }
-//        }
+        /*Map<String, Object> verMap = projectRndRepository.getPartRateVerBerData(map);
+        if(verMap != null){
+            if("".equals(map.get("JOIN_MEM_SN"))){
+                map.put("JOIN_MEM_SN", verMap.get("JOIN_MEM_SN"));
+            } else {
+                map.put("JOIN_MEM_SN", verMap.get("JOIN_MEM_SN") + "," + map.get("JOIN_MEM_SN"));
+            }
+        }
 
-//
-//            if("".equals(map.get("JOIN_MEM_NM"))){
-//                map.put("JOIN_MEM_NM", verMap.get("JOIN_MEM_NM"));
-//            } else {
-//                map.put("JOIN_MEM_NM", verMap.get("JOIN_MEM_NM") + "," + map.get("JOIN_MEM_NM"));
-//            }
-
-
+        if("".equals(map.get("JOIN_MEM_NM"))){
+            map.put("JOIN_MEM_NM", verMap.get("JOIN_MEM_NM"));
+        } else {
+            map.put("JOIN_MEM_NM", verMap.get("JOIN_MEM_NM") + "," + map.get("JOIN_MEM_NM"));
+        }*/
 
         projectRndRepository.insReqPartRateVerData(map);
 

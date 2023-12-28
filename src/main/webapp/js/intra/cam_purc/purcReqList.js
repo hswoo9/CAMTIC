@@ -133,6 +133,35 @@ var prm = {
                         return status
                     }
                 }, {
+                    title: "지출상태",
+                    width: 120,
+                    template : function(e){
+                        console.log(e);
+                        var stat = "";
+                        if(e.INSPECT_YN == "Y" && e.INSPECT_STATUS == "100"){
+                            if(e.PAY_DOC_STATUS == "100"){
+                                stat = "결재완료"
+                                if(e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.EXNP_STATUS != 0){
+                                    stat = "지출완료";
+                                } else if(e.EXNP_DOC_STATUS != e.EXNP_STATUS){
+                                    stat = "부분지출";
+                                } else if (e.EXNP_STATUS != 0){
+                                    stat = "지출대기";
+                                }
+                            } else if(e.PAY_DOC_STATUS == "10" || e.PAY_DOC_STATUS == "50"){
+                                stat = "결재중"
+                            } else if(e.PAY_DOC_STATUS == "30"){
+                                stat = "반려"
+                            } else {
+                                stat = "작성중"
+                            }
+                        } else {
+                            stat = "-";
+                        }
+
+                        return stat;
+                    }
+                }, {
                     title: "검수",
                     field: "STATUS",
                     width: 80,

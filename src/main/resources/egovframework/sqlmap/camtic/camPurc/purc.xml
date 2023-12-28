@@ -7,7 +7,9 @@
         /* getPurcReqList */
         SELECT
             RE.*,
-            IFNULL((SELECT SUM(PURC_ITEM_AMT) FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE PURC_SN = RE.PURC_SN AND CLAIM_STAT = 'Y' ), 0) AS PURC_ITEM_AMT_SUM
+            IFNULL((SELECT SUM(PURC_ITEM_AMT) FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE PURC_SN = RE.PURC_SN AND CLAIM_STAT = 'Y' ), 0) AS PURC_ITEM_AMT_SUM,
+            (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = RE.PAY_APP_SN AND EXNP_SAVE = 'Y') AS EXNP_STATUS,
+            (SELECT COUNT(*) FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = RE.PAY_APP_SN AND REQ_END_DE IS NOT NULL AND REQ_END_DE != "") AS EXNP_DOC_STATUS
         FROM (
             SELECT
             MP.PURC_SN,
@@ -27,7 +29,9 @@
             ELSE '' END CLAIM_STATUS,
             IFNULL(PC.ORDER_DT, "") AS ORDER_DT,
             MP.INSPECT_STATUS,
-            MP.INSPECT_YN
+            MP.INSPECT_YN,
+            PA.PAY_APP_SN,
+            PA.DOC_STATUS AS PAY_DOC_STATUS
             FROM
             CAM_MNG.DJ_MNG_PURC MP
             JOIN
@@ -42,6 +46,9 @@
             LEFT JOIN
             CAM_MNG.DJ_PURC_CLAIM PC
             ON MP.PURC_SN = PC.PURC_SN
+            LEFT JOIN
+            CAM_MNG.DJ_PAY_APP PA
+            ON PA.LINK_KEY = MP.PURC_SN
             WHERE
             1=1
 

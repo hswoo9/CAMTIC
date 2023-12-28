@@ -68,29 +68,15 @@ var bustripSettleList = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bustripSettleList.fn_reqRegPopup();">' +
-                            '	<span class="k-button-text">지급신청</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name: 'button',
-                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
                 }, {
-                    name : 'button',
-                    template : function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bustripSettleList.bustripReqPop()">' +
-                            '	<span class="k-button-text">신청</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name : 'button',
-                    template : function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="bustripSettleList.fn_delBtn()">' +
-                            '	<span class="k-button-text">신청취소</span>' +
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bustripSettleList.fn_reqRegPopup();">' +
+                            '	<span class="k-button-text">지급신청</span>' +
                             '</button>';
                     }
                 }
@@ -101,14 +87,14 @@ var bustripSettleList = {
             dataBound: bustripSettleList.onDataBound,
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'bustripCh\');"/>',
                     template : function(e){
                         var chk = "";
                         if(e.CHK > 0){
                             chk = "checked";
                         }
 
-                        return "<input type='checkbox' id='eval_" + e.RECRUIT_COMMISSIONER_INFO_SN + "' name='evalChk' value='" + e.RECRUIT_COMMISSIONER_INFO_SN + "' " + chk + "/>"
+                        return "<input type='checkbox' id='bustrip_" + e.HR_BIZ_REQ_RESULT_ID + "' name='bustripCh' value='" + e.HR_BIZ_REQ_RESULT_ID + "' " + chk + "/>"
                     },
                     width: 50
                 }, {
@@ -230,13 +216,27 @@ var bustripSettleList = {
         totalSum = 0;
     },
 
-    fn_reqRegPopup : function (key){
-        var url = "/payApp/pop/regPayAppPop.do";
-        if(key != null && key != ""){
-            url = "/payApp/pop/regPayAppPop.do?payAppSn=" + key;
+    fn_reqRegPopup : function (){
+        if($("input[name='bustripCh']:checked").length == 0){
+            alert("삭제할 협업프로젝트를 선택해주세요."); return;
         }
-        var name = "blank";
+
+        var joinSn = "";
+        $.each($("input[name='bustripCh']:checked"), function(i){
+            if(i != 0){
+                joinSn += ",";
+            }
+            joinSn += $(this).val();
+        });
+
+        var url = "/payApp/pop/regPayAppPop.do";
+        url = "/payApp/pop/regPayAppPop.do?bList="+joinSn+"&reqType=bustrip";
+        var name = "regPayAppPop";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     }
+}
+
+function gridReload(){
+    bustripSettleList.mainGrid();
 }

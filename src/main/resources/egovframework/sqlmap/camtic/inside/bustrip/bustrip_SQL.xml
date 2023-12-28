@@ -3,8 +3,8 @@
 
 <mapper namespace="bustrip">
 
-    <select id="getBustripList" parameterType="map" resultType="map">
-        /* getBustripList */
+    <select id="getBustripListBak" parameterType="map" resultType="map">
+        /* getBustripListBak */
         SELECT
             IHBR.*,
             CAR_CLASS_NAME,
@@ -45,6 +45,64 @@
             </if>
         GROUP BY HBC.HR_BIZ_REQ_ID
         ORDER BY IHBR.REG_DT DESC
+    </select>
+
+    <select id="getBustripList" parameterType="map" resultType="map">
+        /* getBustripList */
+        SELECT
+            A.HR_BIZ_REQ_ID,
+            B.HR_BIZ_REQ_RESULT_ID,
+            A.BUSN_NAME,
+            A.EMP_NAME,
+            A.VISIT_CRM,
+            A.VISIT_LOC,
+            A.VISIT_LOC_SUB,
+            A.TRIP_DAY_FR,
+            A.TRIP_TIME_FR,
+            A.TRIP_DAY_TO,
+            A.TRIP_TIME_TO,
+            A.USE_TRSPT,
+            A.STATUS,
+            B.STATUS AS RS_STATUS,
+            A.PJT_SN,
+            B.EXP_STAT,
+            IFNULL((
+                SELECT
+                    SUM(REPLACE(TOT_COST, ',', '')) AS BUSTRIP_EXNP_SUM
+                FROM
+                    CAM_INSIDE.DJ_HR_BIZ_EXNP BE
+                WHERE
+                    BE.HR_BIZ_REQ_RESULT_ID = B.HR_BIZ_REQ_RESULT_ID
+            ), 0) AS RES_EXNP_SUM,
+            IFNULL((SELECT COUNT(EMP_NAME) FROM CAM_INSIDE.DJ_HR_BIZ_COMPANION SHBC WHERE A.HR_BIZ_REQ_ID = SHBC.HR_BIZ_REQ_ID AND SHBC.HR_BIZ_REQ_RESULT_ID IS NULL), 0) AS COMPANION
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_REQ A
+        LEFT JOIN
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT B
+        ON
+            A.HR_BIZ_REQ_ID = B.HR_BIZ_REQ_ID
+        WHERE
+        <![CDATA[
+            A.TRIP_DAY_FR >= #{startDate} AND A.TRIP_DAY_TO <= #{endDate}
+        ]]>
+        <if test='deptSeq != null and !"".equals(deptSeq)'>
+            AND A.DEPT_SEQ = #{deptSeq}
+        </if>
+        <if test="tripCode != null and tripCode != ''">
+            AND A.TRIP_CODE = #{tripCode}
+        </if>
+        <if test='"1".equals(project)'>
+            AND (A.BUSN_NAME IS NULL OR A.BUSN_NAME = "")
+        </if>
+        <if test='"2".equals(project)'>
+            AND (A.BUSN_NAME IS NOT NULL AND A.BUSN_NAME != "")
+        </if>
+        <if test="busnName != null and busnName != ''">
+            AND A.BUSN_NAME like concat('%', #{busnName}, '%')
+        </if>
+        <if test="empSeq != null and !''.equals(empSeq)">
+            AND (A.REG_EMP_SEQ = #{empSeq} OR (SELECT EMP_SEQ FROM CAM_INSIDE.DJ_HR_BIZ_COMPANION WHERE A.HR_BIZ_REQ_ID = HR_BIZ_REQ_ID AND EMP_SEQ = #{empSeq}) IS NOT NULL)
+        </if>
     </select>
 
     <insert id="insBustripReq" parameterType="map">

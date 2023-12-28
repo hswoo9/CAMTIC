@@ -164,12 +164,19 @@ const studyReq = {
         if(result.flag){
             alert(studyClassText+" 신청서 저장이 완료되었습니다.");
             opener.gridReload();
-            /*window.open("Campus/pop/eduReqPop.do?eduFormType='+eduFromType'");*/
-            window.close();
+            var pk = result.studyUserSn;
+            studyViewPop(pk);
         }else {
             alert("데이터 저장 중 에러가 발생했습니다.");
         }
     },
+}
+
+function studyViewPop(pk){
+    let url = "/Campus/pop/studyViewPop.do?mode=upd&pk="+pk;
+    const name = "studyReqPop";
+    const option = "width = 920, height = 900, top = 100, left = 200, location = no";
+    window.open(url, name, option);
 }
 
 function userDataSet(userArr){
