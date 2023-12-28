@@ -265,7 +265,8 @@ const historyReq = {
                         }
 
                     }
-                }, {
+                },
+                {
                     title: "발령전",
                     columns: [
                         {
@@ -498,40 +499,53 @@ const historyReq = {
             dataTextField : "dept_name"
         });
 
-        $.each(historyReq.global.editDataSource.data, function(i, v){
-            let searchData = {
-                parentDeptSeq : v.AF_DEPT_SEQ == undefined ? v.DEPT_SEQ : v.AF_DEPT_SEQ,
-                deptLevel : 2
-            }
-            let ds = customKendo.fn_customAjax("/dept/getDeptAList", searchData);
-            ds.rs.unshift({"dept_name" : "해당없음", "dept_seq" : ""});
-            $("#afTeam"+v.EMP_SEQ +"_"+i).data("kendoDropDownList").dataSource.data(ds.rs);
-            $("#afTeam"+v.EMP_SEQ +"_"+i).data("kendoDropDownList").value(v.AF_TEAM_SEQ == undefined ? v.TEAM_SEQ : v.AF_TEAM_SEQ);
+        $(document).ready(function() {
+            $.each(historyReq.global.editDataSource.data, function (i, v) {
+                let searchData = {
+                    parentDeptSeq: v.AF_DEPT_SEQ == undefined ? v.DEPT_SEQ : v.AF_DEPT_SEQ,
+                    deptLevel: 2
+                }
+
+                let ds = customKendo.fn_customAjax("/dept/getDeptAList", searchData);
+                console.log("ds.rs : ", ds.rs);
+                ds.rs.unshift({"dept_name": "해당없음", "dept_seq": ""});
+
+                $("#afTeam" + v.EMP_SEQ + "_" + i).data("kendoDropDownList").dataSource.data(ds.rs);
+                $("#afTeam" + v.EMP_SEQ + "_" + i).data("kendoDropDownList").value(v.AF_TEAM_SEQ == undefined ? v.TEAM_SEQ : v.AF_TEAM_SEQ);
+            });
         });
 
-        $(".apntCd").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "선택", value: "" },
-                { text: "임용 (정규직)", value: "1" },
-                { text: "임용 (계약직)", value: "2" },
-                { text: "임용 (인턴 사원)", value: "3" },
-                { text: "임용 (단기 직원)", value: "4" },
-                { text: "임용 (위촉 직원)", value: "5" },
-                { text: "임용 (경비 / 환경)", value: "6" },
-                { text: "승진 (직급)", value: "7" },
-                { text: "승진 (직위)", value: "8" },
-                { text: "전보", value: "9" },
-                { text: "겸직", value: "10" },
-                { text: "직무 대리", value: "11" },
-                { text: "파견", value: "12" },
-                { text: "면직", value: "13" },
-                { text: "강등", value: "14" },
-                { text: "조직 개편", value: "15" },
-                { text: "호칭 변경", value: "16" },
-                { text: "기타", value: "17" }
-            ]
+
+        $(".apntCd").each(function () {
+            $(this).kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                dataSource: [
+                    {text: "선택", value: ""},
+                    {text: "임용 (정규직)", value: "1"},
+                    {text: "임용 (계약직)", value: "2"},
+                    {text: "임용 (인턴 사원)", value: "3"},
+                    {text: "임용 (단기 직원)", value: "4"},
+                    {text: "임용 (위촉 직원)", value: "5"},
+                    {text: "임용 (경비 / 환경)", value: "6"},
+                    {text: "승진 (직급)", value: "7"},
+                    {text: "승진 (직위)", value: "8"},
+                    {text: "전보", value: "9"},
+                    {text: "겸직", value: "10"},
+                    {text: "직무 대리", value: "11"},
+                    {text: "파견", value: "12"},
+                    {text: "면직", value: "13"},
+                    {text: "강등", value: "14"},
+                    {text: "조직 개편", value: "15"},
+                    {text: "호칭 변경", value: "16"},
+                    {text: "기타", value: "17"}
+                ],
+                value: $(this).val(), // 초기값 설정
+                change: function() {
+                    console.log("Dropdown initialized for apntCd");
+                }
+
+            });
         });
 
         $(".afPosition").kendoDropDownList({
@@ -557,18 +571,19 @@ const historyReq = {
             ]
         });
 
-        $(".afDuty").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "해당없음", value: ""},
-                {text: "원장", value: "1"},
-                {text: "본부장", value: "2"},
-                {text: "사업부장", value: "3"},
-                {text: "센터장", value: "4"},
-                {text: "팀장", value: "5"}
-            ]
-        });
+            $(".afDuty").kendoDropDownList({
+                dataTextField: "text",
+                dataValueField: "value",
+                dataSource: [
+                    {text: "해당없음", value: ""},
+                    {text: "원장", value: "1"},
+                    {text: "본부장", value: "2"},
+                    {text: "사업부장", value: "3"},
+                    {text: "센터장", value: "4"},
+                    {text: "팀장", value: "5"}
+                ]
+            });
+
     },
 
     loading: function(){
@@ -687,7 +702,7 @@ const historyReq = {
         alert("인사발령이 완료됐습니다.");
         opener.historyList.gridReload();
         historyReq.editGrid();
-
+        historyReq.fn_popGridSetting();
         //window.close();
     },
 
