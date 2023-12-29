@@ -883,7 +883,12 @@ var draft = {
                     }else{
                         try {
                             opener.parent.gridReload();
-                        }catch (e) {
+                        }catch{
+
+                        }
+                        try{
+                            opener.opener.gridReload();
+                        }catch{
 
                         }
                         window.close();
@@ -938,7 +943,12 @@ var draft = {
                     }else{
                         try {
                             opener.parent.gridReload();
-                        }catch (e) {
+                        }catch{
+
+                        }
+                        try{
+                            opener.opener.gridReload();
+                        }catch{
 
                         }
                         window.close();
@@ -1121,7 +1131,12 @@ var draft = {
                 alert("결재되었습니다.");
                 try {
                     opener.parent.gridReload();
-                }catch (e) {
+                }catch{
+
+                }
+                try{
+                    opener.opener.gridReload();
+                }catch{
 
                 }
                 window.close();

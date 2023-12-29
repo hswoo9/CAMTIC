@@ -338,7 +338,7 @@ const bustripReq = {
                     if(reloadType == "href"){
                         location.href = "/bustrip/pop/bustripReqPop.do?hrBizReqId=" + rs.rs.hrBizReqId;
                     }else{
-                        location.reload()
+                        location.reload();
                     }
                     //window.close();
                 }
