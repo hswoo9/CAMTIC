@@ -41,6 +41,13 @@ var exnpReList = {
                 {
                     name: 'button',
                     template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="exnpReList.fn_exnpApprove()">' +
+                            '	<span class="k-button-text">반제결의서 승인</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="exnpReList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
@@ -49,6 +56,20 @@ var exnpReList = {
             ],
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
+                    width: 30,
+                    template : function(e){
+                        if(e.TYPE == "반제(지출)"){
+                            if(e.RE_STAT == "N"){
+                                return '<input type="checkbox" name="check" value="'+e.EXNP_SN+'"/>';
+                            } else {
+                                return '';
+                            }
+                        } else {
+                            return '';
+                        }
+                    }
+                }, {
                     title: "번호",
                     width: 40,
                     template: "#= --record #"
@@ -112,6 +133,11 @@ var exnpReList = {
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
+
+        $("#checkAll").click(function(){
+            if($(this).is(":checked")) $("input[name=check]").prop("checked", true);
+            else $("input[name=check]").prop("checked", false);
+        });
     },
 
     gridReload: function(){
@@ -130,5 +156,26 @@ var exnpReList = {
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
         window.open(url, name, option);
-    }
+    },
+
+    fn_exnpApprove : function (){
+
+        if(!confirm("승인하시겠습니까?")){
+            return ;
+        }
+
+        $("input[name=check]:checked").each(function(){
+            var parameters = {
+                exnpSn : this.value,
+                regEmpSeq : $("#myEmpSeq").val(),
+                empSeq : $("#myEmpSeq").val(),
+                exnpG20Stat : 'Y',
+            }
+
+            const result = customKendo.fn_customAjax("/pay/resolutionExnpAppr", parameters);
+        });
+
+        $("#mainGrid").data("kendoGrid").dataSource.read();
+    },
+
 }
