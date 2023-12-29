@@ -324,7 +324,7 @@
                 1 = 1
             AND
                 #{bsYear} BETWEEN DATE_FORMAT(A.PART_DET_STR_DT, '%Y') AND DATE_FORMAT(A.PART_DET_END_DT, '%Y')
-            AND B.MNG_STAT = 'C' AND B.BEF_VER_CHECK = 'Y'
+            AND B.BEF_VER_CHECK = 'Y'
             <if test='userKind != null and !"".equals(userKind) and "ATTEND".equals(userKind)'>
                 AND B.JOIN_MEM_NM LIKE CONCAT('%', #{kindContent}, '%')
             </if>
@@ -332,7 +332,7 @@
         ON
             AA.EMP_SEQ = BB.PART_EMP_SEQ
         WHERE
-             BB.MNG_STAT = 'C'
+            BB.PJT_SN IS NOT NULL
         <if test='status != null and !"".equals(status)'>
             AND AA.WORK_STATUS_CODE = #{status}
         </if>
