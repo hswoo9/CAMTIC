@@ -689,4 +689,29 @@
         WHERE Per_CD LIKE 'T%'
         ORDER BY PER_CD DESC
     </select>
+
+    <select id="getEtaxDb" resultType="map" parameterType="map">
+        /*getEtaxDb*/
+        SELECT
+            A.ISS_NO, A.CO_CD, A.DIV_CD, A.TR_CD, A.ISS_DT, A.TAX_TY, A.ISU_DT, A.DIVREG_NB, A.DIVSUB_NB, A.DIV_NM,
+            A.DIVCEO_NM, A.TRREG_NB, A.TRREG_NB, A.TRSUB_NB, A.TR_NM, A.TRCEO_NM, A.SUM_AM, A.SUP_AM, A.VAT_AM,
+            A.ETAX_TY, A.ETAX_FG, A.SEND_FG, A.DUMMY1, A.DUMMY2, A.ISS_YMD, A.ITEM_DC, A.ADDTAX_CD, A.ADDTAX_AM,
+            A.ADDRTE_RT, A.EMAIL_DC, A.TRCHARGE_EMAIL,
+            B.TR_CD AS ST_TR_CD, B.TR_FG, B.REG_NB, B.CEO_NM, B.BUSINESS, B.JONGMOK, B.ZIP, B.DIV_ADDR1, B.ADDR2,
+            B.TEL, B.FAX, B.BA_NB, B.INTER_DT, B.LIQ_WS, B.LIQ_RS, B.USE_YN, B.CLTTR_CD, B.JIRO_CD, B.DEPOSITOR,
+            B.TR_NMK, B.ATTR_NMK, B.BA_NB_TR, B.AREA_CD, B.GUGUN_CD,
+            C.BANK_NM
+        FROM
+            ETAXUP A
+        LEFT JOIN
+            STRADE B
+        ON
+            A.TR_CD = B.TR_CD
+        LEFT JOIN
+            SBANK C
+        ON B.JIRO_CD = C.BANK_CD
+        WHERE
+            ISU_DT BETWEEN '20230101' AND '20231231'
+    </select>
+
 </mapper>

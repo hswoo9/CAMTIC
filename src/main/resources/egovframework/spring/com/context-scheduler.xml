@@ -10,4 +10,9 @@
     <task:scheduled-tasks scheduler="absentScheduler">
         <task:scheduled ref="schedulerService" method="setAbsentStartEndUpd" cron="0 0/10 * * * ?"/>
     </task:scheduled-tasks>
+
+    <task:scheduler id="etaxG20Scheduler" pool-size="1"/>
+    <task:scheduled-tasks scheduler="etaxG20Scheduler">
+        <task:scheduled ref="schedulerService" method="etaxG20Scheduler" cron="0 0 * * * ?"/>
+    </task:scheduled-tasks>
 </beans>

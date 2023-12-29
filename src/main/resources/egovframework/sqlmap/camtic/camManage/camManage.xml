@@ -405,4 +405,39 @@
         WHERE
             CHNG_RS_SN = #{chngRsSn}
     </delete>
+
+    <delete id="delDjEtax" parameterType="map">
+        /*delDjEtax*/
+        DELETE FROM CAM_MNG.DJ_ETAXUP
+        WHERE
+            DATE_FORMAT('%Y-%m-%d', INSERT_DT) = #{date}
+    </delete>
+
+    <insert id="insDjEtaxUp" parameterType="list">
+        /*insDjEtaxUp*/
+        INSERT INTO CAM_MNG.DJ_ETAX_INFO
+            (
+                ISS_NO, CO_CD, DIV_CD, TR_CD, ISS_DT, TAX_TY, ISU_DT, DIVREG_NB, DIVSUB_NB, DIV_NM,
+                DIVCEO_NM, TRREG_NB, TRSUB_NB, TR_NM, TRCEO_NM, SUM_AM, SUP_AM, VAT_AM,
+                ETAX_TY, ETAX_FG, SEND_FG, DUMMY1, DUMMY2, ISS_YMD, ITEM_DC, ADDTAX_CD, ADDTAX_AM,
+                ADDRTE_RT, EMAIL_DC, TRCHARGE_EMAIL,
+                ST_TR_CD, TR_FG, REG_NB, CEO_NM, BUSINESS, JONGMOK, ZIP, DIV_ADDR1, ADDR2,
+                TEL, FAX, BA_NB, INTER_DT, LIQ_WS, LIQ_RS, USE_YN, CLTTR_CD, JIRO_CD, DEPOSITOR,
+                TR_NMK, ATTR_NMK, BA_NB_TR, AREA_CD, GUGUN_CD,
+                BANK_NM
+            )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+              (
+                #{item.ISS_NO}, #{item.CO_CD}, #{item.DIV_CD}, #{item.TR_CD}, #{item.ISS_DT}, #{item.TAX_TY}, #{item.ISU_DT}, #{item.DIVREG_NB}, #{item.DIVSUB_NB}, #{item.DIV_NM},
+                #{item.DIVCEO_NM}, #{item.TRREG_NB}, #{item.TRSUB_NB}, #{item.TR_NM}, #{item.TRCEO_NM}, #{item.SUM_AM}, #{item.SUP_AM}, #{item.VAT_AM},
+                #{item.ETAX_TY}, #{item.ETAX_FG}, #{item.SEND_FG}, #{item.DUMMY1}, #{item.DUMMY2}, #{item.ISS_YMD}, #{item.ITEM_DC}, #{item.ADDTAX_CD}, #{item.ADDTAX_AM},
+                #{item.ADDRTE_RT}, #{item.EMAIL_DC}, #{item.TRCHARGE_EMAIL},
+                #{item.ST_TR_CD}, #{item.TR_FG}, #{item.REG_NB}, #{item.CEO_NM}, #{item.BUSINESS}, #{item.JONGMOK}, #{item.ZIP}, #{item.DIV_ADDR1}, #{item.ADDR2},
+                #{item.TEL}, #{item.FAX}, #{item.BA_NB}, #{item.INTER_DT}, #{item.LIQ_WS}, #{item.LIQ_RS}, #{item.USE_YN}, #{item.CLTTR_CD}, #{item.JIRO_CD}, #{item.DEPOSITOR},
+                #{item.TR_NMK}, #{item.ATTR_NMK}, #{item.BA_NB_TR}, #{item.AREA_CD}, #{item.GUGUN_CD},
+                #{item.BANK_NM}
+              )
+        </foreach>
+    </insert>
 </mapper>

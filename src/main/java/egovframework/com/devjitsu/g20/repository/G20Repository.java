@@ -120,4 +120,8 @@ public class G20Repository extends AbstractDAO {
     public void insEtcEmpInfo(Map<String, Object> params) {
         insertMs("g20.insEtcEmpInfo", params);
     }
+
+    public List<Map<String, Object>> getEtaxDb(Map<String, Object> params) {
+        return selectListMs("g20.getEtaxDb", params);
+    }
 }
