@@ -1133,6 +1133,14 @@
         </if>
         <if test='approveStatCode != null and ("100".equals(approveStatCode) or "101".equals(approveStatCode))'>
             LAST_APPROVE_DT = NOW(),
+            DOC_PRESERVE_PERIOD = (
+                SELECT
+                    CASE WHEN COUNT(*) > 0 THEN DATE_FORMAT(DATE_ADD(DATE_ADD(NOW(), INTERVAL A.PRESERVE_PERIOD YEAR), INTERVAL -1 DAY), '%Y-%m-%d')
+                    ELSE DATE_FORMAT(DATE_ADD(DATE_ADD(NOW(), INTERVAL 5 YEAR), INTERVAL -1 DAY), '%Y-%m-%d') END
+                FROM
+                    DJ_CAMTIC.A_FORM_REQ_OPT A
+                WHERE A.FORM_ID = #{formId}
+            ),
         </if>
         <if test='type != null and "approve".equals(type) and !"0".equals(approveOrder)'>
             APPROVE_ORDER = (${approveOrder} + 1),

@@ -983,7 +983,6 @@ var draft = {
 
         formData.append("formId", $("#formId").val());
         formData.append("formName", $("#formName").val());
-
         formData.append("docType", $("#docType").val());
         formData.append("docNo", $("#docNo").val());
         formData.append("docId", $("#docId").val());
@@ -1178,6 +1177,7 @@ var draft = {
     makeApprovalFormData(type){
         draft.global.formData = new FormData();
         draft.global.formData.append("type", type);
+        draft.global.formData.append("formId", $("#formId").val());
         draft.global.formData.append("menuCd", $("#menuCd").val());
         draft.global.formData.append("docId", draft.global.draftDocInfo.DOC_ID);
         draft.global.formData.append("linkageProcessCode", draft.global.draftDocInfo.APPRO_KEY.split("_")[0]);
