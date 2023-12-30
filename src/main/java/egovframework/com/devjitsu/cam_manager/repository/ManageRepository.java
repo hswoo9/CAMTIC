@@ -74,4 +74,9 @@ public class ManageRepository extends AbstractDAO {
     public void insDjEtaxUp(List<Map<String, Object>> list) {
         insert("manage.insDjEtaxUp", list);
     }
+
+    public List<Map<String, Object>> getEtaxListAll(Map<String, Object> params) {
+
+        return selectList("manage.getEtaxListAll", params);
+    }
 }

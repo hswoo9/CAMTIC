@@ -97,7 +97,7 @@ var paymentRevList = {
                     width: 240,
                     template: function (e){
                         var pjtNm = e.PJT_NM.toString().substring(0, 25);
-                        return pjtNm + "...";
+                        return e.PJT_NM;
                     }
                 }, {
                     title: "신청일",

@@ -23,4 +23,7 @@ public interface ManageService {
     void setManageDepo(Map<String, Object> params);
 
     Map<String, Object> getManageDepo(Map<String, Object> params);
+
+    List<Map<String, Object>> getEtaxListAll(Map<String, Object> params);
+
 }

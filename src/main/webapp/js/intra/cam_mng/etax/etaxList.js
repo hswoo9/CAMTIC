@@ -21,7 +21,7 @@ var etaxList = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '/g20/getEtaxList',
+                    url : '/mng/getEtaxListAll',
                     dataType : "json",
                     type : "post"
                 },
@@ -115,25 +115,29 @@ var etaxList = {
                     title: "공급가액",
                     width: 100,
                     template: function (e){
-                        return '<div style="text-align: right;">'+comma(e.SUP_AM)+'</div>';
+                        return '<div style="text-align: right;">'+comma(e.SUP_AM.toString().split(".")[0])+'</div>';
                     }
                 }, {
                     title: "세액",
                     width: 100,
                     template: function (e){
-                        return '<div style="text-align: right;">'+comma(e.VAT_AM)+'</div>';
+                        return '<div style="text-align: right;">'+comma(e.VAT_AM.toString().split(".")[0])+'</div>';
                     }
                 }, {
                     title: "합계금액",
                     width: 100,
                     template: function (e){
-                        return '<div style="text-align: right;">'+comma(e.SUM_AM)+'</div>';
+                        return '<div style="text-align: right;">'+comma(e.SUM_AM.toString().split(".")[0])+'</div>';
                     }
                 }, {
                     title: "결의서",
                     width: 50,
                     template: function (e){
-                        return '미결의';
+                        if(e.DOC_ID != null && e.DOC_ID != "" && e.DOC_ID != undefined){
+                            return '결의서';
+                        } else {
+                            return '미결의';
+                        }
                     }
                 }
             ],

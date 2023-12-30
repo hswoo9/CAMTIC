@@ -407,6 +407,35 @@
             CHNG_RS_SN = #{chngRsSn}
     </delete>
 
+    <select id="getEtaxList" parameterType="map" resultType="map">
+        /* MariaDB  -  getEtaxList*/
+        SELECT
+            A.*
+        FROM
+            CAM_MNG.DJ_ETAX_INFO A
+        LEFT JOIN
+            CAM_MNG.DJ_USE_ETAX_INFO B
+        ON
+            A.ISS_NO = B.ISS_NO AND A.CO_CD = B.CO_CD AND A.TAX_TY = B.TAX_TY
+        WHERE
+        ISU_DT BETWEEN #{strDt} AND #{endDt}
+        <if test='type == 1 or "1".equals(type)'>
+            AND
+                A.TAX_TY = '2'
+        </if>
+        <if test='type == 2 or "2".equals(type)'>
+            AND
+                A.TAX_TY = '4'
+        </if>
+        <if test='searchValue != null and !"".equals("searchValue")'>
+            AND
+                A.TR_NM LIKE CONCAT('%', #{searchValue} , '%')
+        </if>
+        AND
+            B.USE_ETAX_SN IS NULL
+        ORDER BY A.ISU_DT DESC
+    </select>
+
     <delete id="delDjEtax" parameterType="map">
         /*delDjEtax*/
         DELETE FROM CAM_MNG.DJ_ETAX_INFO
@@ -441,4 +470,32 @@
               )
         </foreach>
     </insert>
+
+    <select id="getEtaxListAll" parameterType="map" resultType="map">
+        /*getEtaxListAll*/
+        SELECT
+            A.*,
+            (SELECT DOC_ID FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = B.PAY_APP_SN) AS DOC_ID
+        FROM
+            CAM_MNG.DJ_ETAX_INFO A
+        LEFT JOIN
+            CAM_MNG.DJ_USE_ETAX_INFO B
+        ON
+            A.ISS_NO = B.ISS_NO AND A.CO_CD = B.CO_CD AND A.TAX_TY = B.TAX_TY
+        WHERE
+            ISU_DT BETWEEN #{strDt} AND #{endDt}
+            <if test='type == 1 or "1".equals(type)'>
+                AND
+                    A.TAX_TY = '2'
+            </if>
+            <if test='type == 2 or "2".equals(type)'>
+                AND
+                    A.TAX_TY = '4'
+            </if>
+            <if test='searchValue != null and !"".equals("searchValue")'>
+                AND
+                    A.TR_NM LIKE CONCAT('%', #{searchValue} , '%')
+            </if>
+        ORDER BY A.ISU_DT DESC
+    </select>
 </mapper>
