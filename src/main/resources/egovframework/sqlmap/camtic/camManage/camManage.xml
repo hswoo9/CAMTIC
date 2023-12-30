@@ -411,7 +411,7 @@
         /*delDjEtax*/
         DELETE FROM CAM_MNG.DJ_ETAX_INFO
         WHERE
-            INSERT_DT BETWEEN '2023-01-01' AND '2023-12-31'
+            INSERT_DT BETWEEN #{strDt} AND #{endDt}
     </delete>
 
     <insert id="insDjEtaxUp" parameterType="list">
