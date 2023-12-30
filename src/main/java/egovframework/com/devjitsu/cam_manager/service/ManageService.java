@@ -26,4 +26,6 @@ public interface ManageService {
 
     List<Map<String, Object>> getEtaxListAll(Map<String, Object> params);
 
+
+    List<Map<String, Object>> getUserAccountManagementList(Map<String, Object> map);
 }
