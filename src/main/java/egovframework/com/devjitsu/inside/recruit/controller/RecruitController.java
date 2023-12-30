@@ -24,6 +24,11 @@ import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+
 @Controller
 public class RecruitController {
 
@@ -1069,6 +1074,16 @@ public class RecruitController {
             System.out.println("careerList : " + careerList);
             for (Map<String, Object> careerData : careerList) {
                 System.out.println(careerData);
+
+                careerData.put("EMP_SEQ",empSeq);
+                careerData.put("EMP_NAME",applicationInfo.get("USER_NAME"));
+                careerData.put("REG_EMP_SEQ", loginVO.getUniqId());
+
+                Map<String,Object> resultMap = careerPeriod(careerData);
+                System.out.println("***resultMap***"+resultMap);
+                userManageService.setCareerReqDetailInsert(resultMap);
+
+
             }
         }
 
@@ -1214,6 +1229,36 @@ public class RecruitController {
             }
         }
 
+
+        return resultMap;
+    }
+
+    private static Map<String,Object> careerPeriod(Map<String,Object> map){
+        Map<String,Object> resultMap = map;
+
+        Object startWorkDate = map.get("WORK_ST_DT");
+        Object endWorkDate = map.get("WORK_EN_DT");
+
+        if (startWorkDate instanceof String && endWorkDate instanceof String) {
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            LocalDate startDate = LocalDate.parse((String) startWorkDate, formatter);
+            LocalDate endDate = LocalDate.parse((String) endWorkDate, formatter);
+            YearMonth startYearMonth = YearMonth.from(startDate);
+            YearMonth endYearMonth = YearMonth.from(endDate);
+
+            long yearsWorked = ChronoUnit.YEARS.between(startYearMonth.atDay(1), endYearMonth.atDay(1));
+            long monthsWorked = ChronoUnit.MONTHS.between(startYearMonth, endYearMonth) % 12;
+
+            System.out.println("근무 년 수: " + yearsWorked);
+            System.out.println("근무 개월 수: " + monthsWorked);
+
+            resultMap.put("CAREER_PERIOD",yearsWorked);
+            resultMap.put("CAREER_MONTH",monthsWorked);
+        } else {
+            System.out.println("날짜 형식이 아닌 데이터가 포함되어 있습니다.");
+        }
 
         return resultMap;
     }

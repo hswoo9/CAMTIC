@@ -1794,4 +1794,7 @@ public class UserManageServiceImpl implements UserManageService {
 
     @Override
     public void setEduReqDetailInsert(Map<String,Object> params){userManageRepository.setEduReqDetailInsert(params);}
+
+    @Override
+    public void setCareerReqDetailInsert(Map<String,Object> params){userManageRepository.setCareerReqDetailInsert(params);}
 }
