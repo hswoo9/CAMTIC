@@ -27,9 +27,9 @@ var roomReq = {
         customKendo.fn_dropDownList("roomClass", roomArr, "text", "value", 1);
         let usePurposeArr = [
             {text: "교육 훈련", value: "1"},
-            {text: "일반 회의", value: "2"},
-            {text: "대관", value: "3"},
-            {text: "기타", value: "4"}
+            {text: "일반 회의", value: "4"},
+            {text: "대관", value: "5"},
+            {text: "기타", value: "0"}
         ]
         customKendo.fn_dropDownList("usePurpose", usePurposeArr, "text", "value", 2);
         $("#usePurpose").data("kendoDropDownList").bind("change", roomReq.fn_toggleUsePurpose)
@@ -50,8 +50,8 @@ var roomReq = {
             dataValueField: "value",
             dataSource: [
                 {text: "선택하세요", value: "" },
-                {text: "유료", value: "1"},
-                {text: "무료", value: "2"}
+                {text: "유료", value: "0"},
+                {text: "무료", value: "1"}
             ],
             index: 0
         });
