@@ -2,9 +2,13 @@ let bustSum = 0;
 
 var bustList = {
 
+    global : {
+        saveAjaxData : "",
+    },
+
     fn_defaultScript: function(){
         bustList.pageSet();
-        bustList.mainGrid();
+        bustList.gridReload();
     },
 
     pageSet: function(){
@@ -20,38 +24,22 @@ var bustList = {
         customKendo.fn_textBox(["busnName"]);
     },
 
-    mainGrid: function(){
-        let dataSource = new kendo.data.DataSource({
-            serverPaging: false,
-            transport: {
-                read: {
-                    url: "/bustrip/getBustripList",
-                    dataType: "json",
-                    type: "post"
-                },
-                parameterMap: function(data){
-                    data.startDate = $("#start_date").val();
-                    data.endDate = $("#end_date").val();
-                    data.tripCode = $("#tripCode").data("kendoDropDownList").value();
-                    data.project = $("#project").val();
-                    data.busnName = $("#busnName").val();
-                    data.empSeq = $("#regEmpSeq").val();
-                    return data;
-                }
-            },
-            schema: {
-                data: function(data){
-                    return data.list;
-                },
-                total: function(data){
-                    return data.list.length;
-                },
-            },
-            pageSize: 10,
-        });
+    gridReload: function (){
+        bustList.global.searchAjaxData = {
+            startDate : $("#start_date").val(),
+            endDate : $("#end_date").val(),
+            tripCode : $("#tripCode").data("kendoDropDownList").value(),
+            project : $("#project").val(),
+            busnName : $("#busnName").val(),
+            empSeq : $("#regEmpSeq").val()
+        }
 
+        bustList.mainGrid("/bustrip/getBustripList", bustList.global.searchAjaxData);
+    },
+
+    mainGrid: function(url, params){
         $("#bustripMainGrid").kendoGrid({
-            dataSource: dataSource,
+            dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             scrollable: true,
             selectable: "row",
@@ -273,5 +261,5 @@ var bustList = {
 }
 
 function gridReload(){
-    bustripList.mainGrid();
+    bustList.gridReload();
 }

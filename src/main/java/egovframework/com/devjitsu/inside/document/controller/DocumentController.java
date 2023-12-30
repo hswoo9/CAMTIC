@@ -17,6 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -141,13 +143,14 @@ public class DocumentController {
         model.addAttribute("loginVO", login);
 
         String hwpUrl = "";
+        HttpServletRequest servletRequest = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
-        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1") || servletRequest.getServerName().contains("218.158.231.186")){
             hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
             params.put("hwpTemplateFile", "http://218.158.231.186/upload/templateForm/");
         }else{
             hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
-            params.put("hwpTemplateFile", "http://218.158.231.186/upload/templateForm/");
+            params.put("hwpTemplateFile", "http://218.158.231.184/upload/templateForm/");
         }
 
         params.put("hwpUrl", hwpUrl);

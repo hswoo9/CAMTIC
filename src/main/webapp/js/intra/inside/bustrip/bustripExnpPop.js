@@ -569,7 +569,7 @@ const bustripExnpReq = {
         }else{
             var result = customKendo.fn_customAjax("/bustrip/setReqCert", data);
             alert("저장이 완료되었습니다.");
-            parent.opener.gridReload();
+            opener.gridReload();
             window.close();
         }
     },

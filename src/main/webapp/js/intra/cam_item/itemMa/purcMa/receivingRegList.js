@@ -251,7 +251,7 @@ var recL = {
 
         $("#checkAll").click(function(){
             if($(this).is(":checked")) $("input[name=iwSn]").prop("checked", true);
-            else $("input[name=iwSn").prop("checked", false);
+            else $("input[name=iwSn]").prop("checked", false);
         });
     },
 

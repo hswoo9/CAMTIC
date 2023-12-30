@@ -121,15 +121,18 @@ var userPartRate = {
                 for (var i = 0; i < rs.length; i++) {
                     var pjtStatus = "진행";
 
-                    var checkIngArr = ['Y', 'E', 'E1', 'E2', 'R', 'S'];
-                    if(checkIngArr.indexOf(rs[i].PJT_STEP) > -1){
+                    if(rs[i].MNG_STAT != 'C'){
                         pjtStatus = "예정";
                     }
 
+                    /*var checkIngArr = ['Y', 'E', 'E1', 'E2', 'R', 'S'];
+                    if(checkIngArr.indexOf(rs[i].PJT_STEP) > -1){
+                        pjtStatus = "예정";
+                    }
                     var checkEndArr = ['E6', 'E7', 'R3', 'S3'];
                     if(checkEndArr.indexOf(rs[i].PJT_STEP) > -1){
                         pjtStatus = "종료";
-                    }
+                    }*/
 
                     var pm = "";
                     if(parameters.empSeq == rs[i].PM_EMP_SEQ){
@@ -300,15 +303,18 @@ var userPartRate = {
                 for (var i = 0; i < rs.length; i++) {
                     var pjtStatus = "진행";
 
-                    var checkIngArr = ['Y', 'E', 'E1', 'E2', 'R', 'S'];
-                    if(checkIngArr.indexOf(rs[i].PJT_STEP) > -1){
+                    if(rs[i].MNG_STAT != 'C'){
                         pjtStatus = "예정";
                     }
 
+                    /*var checkIngArr = ['Y', 'E', 'E1', 'E2', 'R', 'S'];
+                    if(checkIngArr.indexOf(rs[i].PJT_STEP) > -1){
+                        pjtStatus = "예정";
+                    }
                     var checkEndArr = ['E6', 'E7', 'R3', 'S3'];
                     if(checkEndArr.indexOf(rs[i].PJT_STEP) > -1){
                         pjtStatus = "종료";
-                    }
+                    }*/
 
                     var pm = "";
                     if(parameters.empSeq == rs[i].PM_EMP_SEQ){

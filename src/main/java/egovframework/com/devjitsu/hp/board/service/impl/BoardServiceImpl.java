@@ -249,7 +249,7 @@ public class BoardServiceImpl implements BoardService {
         String fmtNow = now.format(fmt);
 
         String devUrl = "http:\\\\218.158.231.186";
-        String prodUrl = "http:\\\\218.158.231.186";
+        String prodUrl = "http:\\\\218.158.231.184";
 
         if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1") || request.getServerName().contains("218.158.231.186")){
             path = devUrl + base_dir + "boardFile/" + params.get("menuCd").toString()+"File/" + fmtNow + "/";

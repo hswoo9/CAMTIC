@@ -477,7 +477,7 @@
     </update>
 
     <update id="updateExnpApprStat" parameterType="map">
-        /* updatePayAppApprStat */
+        /* updateExnpApprStat */
         UPDATE CAM_MNG.DJ_EXNP
         SET
             DOC_STATUS = #{approveStatCode},
@@ -1581,6 +1581,13 @@
             PAY_APP_SN = #{PAY_APP_SN}
     </delete>
 
+    <delete id="delUseEtaxInfo" parameterType="map">
+        /*delUseEtaxInfo*/
+        DELETE FROM CAM_MNG.DJ_USE_ETAX_INFO
+        WHERE
+            PAY_APP_SN = #{PAY_APP_SN}
+    </delete>
+
     <select id="getApprovalExnpCommonFileData" parameterType="map" resultType="map">
         /*getApprovalExnpCommonFileData*/
         SELECT
@@ -1730,6 +1737,24 @@
                 #{payAppSn},
                 #{docId},
                 #{regEmpSeq}
+            )
+    </insert>
+
+    <insert id="insUseEtaxInfo" parameterType="map">
+        /*insUseEtaxInfo*/
+        INSERT INTO CAM_MNG.DJ_USE_ETAX_INFO
+            (
+                PAY_APP_SN,
+                ISS_NO,
+                CO_CD,
+                TAX_TY
+            )
+        VALUES
+            (
+                #{PAY_APP_SN},
+                #{ISS_NO},
+                #{CO_CD},
+                #{TAX_TY}
             )
     </insert>
 </mapper>

@@ -323,4 +323,12 @@ public class PayAppRepository extends AbstractDAO {
     public void insPayAppRevert(Map<String, Object> params) {
         insert("payApp.insPayAppRevert", params);
     }
+
+    public void insUseEtaxInfo(Map<String, Object> map) {
+        insert("payApp.insUseEtaxInfo", map);
+    }
+
+    public void delUseEtaxInfo(Map<String, Object> payAppInfo) {
+        delete("payApp.delUseEtaxInfo", payAppInfo);
+    }
 }
