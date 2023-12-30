@@ -65,8 +65,10 @@ public class SchedulerService {
         List<Map<String, Object>> list = new ArrayList<>();
         list = g20Repository.getEtaxDb(params);
 
-        manageRepository.delDjEtax(params);
-        manageRepository.insDjEtaxUp(list);
+        if(list.size() > 0){
+            manageRepository.delDjEtax(params);
+            manageRepository.insDjEtaxUp(list);
+        }
     }
 
     public void exnpApproveStatChangeSheduler(){
