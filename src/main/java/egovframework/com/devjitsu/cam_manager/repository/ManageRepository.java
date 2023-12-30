@@ -66,4 +66,12 @@ public class ManageRepository extends AbstractDAO {
     public Map<String, Object> getManageDepo(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("manage.getManageDepo", params);
     }
+
+    public void delDjEtax(Map<String, Object> list) {
+        delete("manage.delDjEtax", list);
+    }
+
+    public void insDjEtaxUp(List<Map<String, Object>> list) {
+        insert("manage.insDjEtaxUp", list);
+    }
 }
