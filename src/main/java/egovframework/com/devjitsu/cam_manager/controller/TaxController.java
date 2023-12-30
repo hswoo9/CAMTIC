@@ -54,4 +54,17 @@ public class TaxController {
 
         return "cam_manager/etax/etaxList";
     }
+
+    @RequestMapping("/etax/syncEtaxG20Data")
+    public String syncEtaxG20Data(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+
+        try{
+            taxService.syncEtaxG20Data();
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }

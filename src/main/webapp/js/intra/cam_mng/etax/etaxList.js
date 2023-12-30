@@ -57,6 +57,13 @@ var etaxList = {
                 {
                     name : 'button',
                     template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="etaxList.syncEtaxG20Data()">' +
+                            '	<span class="k-button-text">G20 동기화</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="etaxList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
@@ -145,5 +152,33 @@ var etaxList = {
                 record = (this.dataSource.page() -1) * this.dataSource.pageSize();
             }
         }).data("kendoGrid");
+    },
+
+    syncEtaxG20Data : function (){
+        var data = {
+            strDt : $("#strDt").val(),
+            endDt : $("#endDt").val(),
+        }
+
+        $.ajax({
+            url : "/etax/syncEtaxG20Data",
+            data : data,
+            type : "post",
+            dataType : "json",
+            beforeSend : function(request){
+                $("#my-spinner").show();
+            },
+            success :function (rs){
+                if(rs.code == 200){
+                    alert("완료되었습니다.");
+                    $("#mainGrid").data("kendoGrid").dataSource.read();
+                    $("#my-spinner").hide();
+                }
+            },
+            error : function(e){
+                alert("오류가 발생하였습니다.");
+                $("#my-spinner").hide();
+            }
+        });
     }
 }
