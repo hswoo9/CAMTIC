@@ -70,7 +70,7 @@
     <select id="getCategoryAllMainList" resultType="map" parameterType="map">
         /*getCategoryAllMainList*/
         SELECT
-            BOARD_ARTICLE_ID AS seq,
+            BOARD_ARTICLE_ID,
             BOARD_ID,
             BOARD_CATEGORY_ID,
             BOARD_ARTICLE_TITLE,
@@ -87,7 +87,7 @@
             ACTIVE = 'Y'
         UNION ALL
         SELECT
-            '' AS seq,
+            '' AS BOARD_ARTICLE_ID,
             'recruit' AS BOARD_ID,
             'recruit' AS BOARD_CATEGORY_ID,
             RECRUIT_TITLE AS BOARD_ARTICLE_TITLE,
