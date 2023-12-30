@@ -123,7 +123,7 @@ public class FormManagementController {
     /** 양식 삭제 */
     @RequestMapping("/formManagement/setFormDel.do")
     public String  setFormDel(@RequestParam Map<String, Object> params, Model model) throws Exception {
-        formManagementService.setFormDel(params, SERVER_PATH);
+        formManagementService.setFormDel(params, SERVER_PATH, BASE_DIR);
         return "jsonView";
     }
 

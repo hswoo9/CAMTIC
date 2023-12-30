@@ -184,9 +184,10 @@ public class FormManagementServiceImpl implements FormManagementService {
     }
 
     @Override
-    public void setFormDel(Map<String, Object> params, String SERVER_PATH) throws Exception {
+    public void setFormDel(Map<String, Object> params, String SERVER_PATH, String base_dir) throws Exception {
         HttpServletRequest servletRequest = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         Map<String, Object> formFileMap = new HashMap<>();
+        formFileMap.put("filePath", filePath(servletRequest, params, base_dir));
 
         String[] formId = params.get("formId").toString().split(",");
 
@@ -195,27 +196,24 @@ public class FormManagementServiceImpl implements FormManagementService {
             if(servletRequest.getServerName().contains("localhost") || servletRequest.getServerName().contains("127.0.0.1"))formFileMap.put("fileHostAddress", "localhost");
             else formFileMap.put("fileHostAddress", "server");
 
-            formFileMap.put("formFileType", "form");
             if(servletRequest.getServerName().contains("localhost") || servletRequest.getServerName().contains("127.0.0.1")) {
                 CommFileUtil CommFileUtil = new CommFileUtil();
+                formFileMap.put("formFileType", "form");
                 formFileExistsDel(CommFileUtil, formFileMap, null);
-            }else{
-                formFileExistsDel(null, formFileMap, SERVER_PATH);
-            }
 
-            formFileMap.put("formFileType", "logo");
-            if(servletRequest.getServerName().contains("localhost") || servletRequest.getServerName().contains("127.0.0.1")) {
-                CommFileUtil CommFileUtil = new CommFileUtil();
+                formFileMap.put("formFileType", "logo");
                 formFileExistsDel(CommFileUtil, formFileMap, null);
-            }else{
-                formFileExistsDel(null, formFileMap, SERVER_PATH);
-            }
 
-            formFileMap.put("formFileType", "symbol");
-            if(servletRequest.getServerName().contains("localhost") || servletRequest.getServerName().contains("127.0.0.1")) {
-                CommFileUtil CommFileUtil = new CommFileUtil();
+                formFileMap.put("formFileType", "symbol");
                 formFileExistsDel(CommFileUtil, formFileMap, null);
             }else{
+                formFileMap.put("formFileType", "form");
+                formFileExistsDel(null, formFileMap, SERVER_PATH);
+
+                formFileMap.put("formFileType", "logo");
+                formFileExistsDel(null, formFileMap, SERVER_PATH);
+
+                formFileMap.put("formFileType", "symbol");
                 formFileExistsDel(null, formFileMap, SERVER_PATH);
             }
 
