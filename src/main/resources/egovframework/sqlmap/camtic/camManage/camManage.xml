@@ -409,9 +409,9 @@
 
     <delete id="delDjEtax" parameterType="map">
         /*delDjEtax*/
-        DELETE FROM CAM_MNG.DJ_ETAXUP
+        DELETE FROM CAM_MNG.DJ_ETAX_INFO
         WHERE
-            DATE_FORMAT('%Y-%m-%d', INSERT_DT) = #{date}
+            A.INSERT_DT BETWEEN '2023-01-01' AND '2023-12-31'
     </delete>
 
     <insert id="insDjEtaxUp" parameterType="list">
