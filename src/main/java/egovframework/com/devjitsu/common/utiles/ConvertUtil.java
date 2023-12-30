@@ -130,7 +130,7 @@ public class ConvertUtil {
         }
 
         if(servletRequest.getServerName().contains("localhost") || servletRequest.getServerName().contains("127.0.0.1")){
-        }else if (servletRequest.getServerName().contains("218.158.231.186") || servletRequest.getServerName().contains("new.camtic.or.kr")){
+        }else if (servletRequest.getServerName().contains("218.158.231.184") || servletRequest.getServerName().contains("218.158.231.186") || servletRequest.getServerName().contains("new.camtic.or.kr")){
             path = "/home" + base_dir + path + "/";
         }else{
             path = "/data" + base_dir + path + "/";
@@ -143,7 +143,7 @@ public class ConvertUtil {
         String path = "";
 
         String devUrl = "http:\\\\218.158.231.186";
-        String prodUrl = "http:\\\\218.158.231.186";
+        String prodUrl = "http:\\\\218.158.231.184";
 
         if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1") || request.getServerName().contains("218.158.231.186")){
             path = devUrl + base_dir + "approveDocFile/" + params.get("menuCd");
