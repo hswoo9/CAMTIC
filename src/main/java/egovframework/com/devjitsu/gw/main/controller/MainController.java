@@ -136,6 +136,7 @@ public class MainController {
     public String getMainList(@RequestParam Map<String ,Object> param,HttpServletRequest request, Model model){
 
         List<Map<String, Object>> response = boardService.selectMainList(param);
+        List<Map<String, Object>> response1 = boardService.getCategoryAllMainList(param);
         List<Map<String, Object>> response2 = boardService.selectBsnsMainList(param);
 
         List<Map<String, Object>> response3 = boardService.getMainRecruitList(param);
@@ -144,7 +145,7 @@ public class MainController {
 
         model.addAttribute("list", response).addAttribute("list2", response2);
         model.addAttribute("list3", response3).addAttribute("list4", response4);
-        model.addAttribute("list5", response5);
+        model.addAttribute("list5", response5).addAttribute("list1", response1);
         return "jsonView";
     }
 

@@ -25,6 +25,9 @@ public class BoardRepository extends AbstractDAO {
     public List<Map<String, Object>> selectMainList(Map<String, Object> params) {
         return selectList("boardCt.selectMainList", params);
     }
+    public List<Map<String, Object>> getCategoryAllMainList(Map<String, Object> params) {
+        return selectList("boardCt.getCategoryAllMainList", params);
+    }
     public List<Map<String, Object>> selectBsnsMainList(Map<String, Object> params) {
         return selectList("boardCt.selectBsnsMainList", params);
     }
@@ -117,4 +120,5 @@ public class BoardRepository extends AbstractDAO {
     public void cancelMyRecruit(Map<String, Object> params) {
         delete("boardCt.cancelMyRecruit", params);
     }
+
 }
