@@ -87,7 +87,7 @@
             ACTIVE = 'Y'
         UNION ALL
         SELECT
-            '' AS BOARD_ARTICLE_ID,
+            RECRUIT_INFO_SN AS BOARD_ARTICLE_ID,
             'recruit' AS BOARD_ID,
             'recruit' AS BOARD_CATEGORY_ID,
             RECRUIT_TITLE AS BOARD_ARTICLE_TITLE,
