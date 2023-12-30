@@ -740,29 +740,16 @@ var docView = {
             if(docView.global.rs.docInfo.DOC_GBN == "001"){
                 if(hwpDocCtrl.global.HwpCtrl.FieldExist("인")){
                     hwpDocCtrl.global.HwpCtrl.MoveToField('인', true, true, false);
-                    if(location.host.indexOf("10.10.10.114") > -1 || location.host.indexOf("one.epis.or.kr") > -1){
-                        hwpDocCtrl.global.HwpCtrl.InsertBackgroundPicture(
-                            "SelectedCell",
-                            "http://" + location.host + "/upload/receiveTmp/notSignature.jpg",
-                            1,
-                            6,
-                            0,
-                            0,
-                            0,
-                            0
-                        );
-                    }else{
-                        hwpDocCtrl.global.HwpCtrl.InsertBackgroundPicture(
-                            "SelectedCell",
-                            "http://121.186.165.80:8010/upload/receiveTmp/notSignature.jpg",
-                            1,
-                            6,
-                            0,
-                            0,
-                            0,
-                            0
-                        );
-                    }
+                    hwpDocCtrl.global.HwpCtrl.InsertBackgroundPicture(
+                        "SelectedCell",
+                        "http://" + location.host + "/upload/journeyman/companySignature.png",
+                        1,
+                        6,
+                        0,
+                        0,
+                        0,
+                        0
+                    );
                 }
 
                 hwpDocCtrl.saveAs(docView.global.rs.docInfo.DOC_TITLE + '.' + format.toUpperCase(), format.toUpperCase(), "download:true");
