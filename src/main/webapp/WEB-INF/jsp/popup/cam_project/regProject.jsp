@@ -190,10 +190,18 @@
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>세무정보
                     </th>
-                    <td colspan="3">
+                    <td>
                         <c:if test="${data.CODE_VAL == '1'}">수익사업</c:if>
                         <c:if test="${data.CODE_VAL == '2'}">고유목적사업</c:if>
                         <c:if test="${data.CODE_VAL == '3'}">공통사업</c:if>
+                    </td>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star"></span>과세구분
+                    </th>
+                    <td>
+                        <c:if test="${data.TAX_GUBUN == '1'}">과세</c:if>
+                        <c:if test="${data.TAX_GUBUN == '2'}">면세</c:if>
+                        <c:if test="${data.TAX_GUBUN == '3'}">비과세</c:if>
                     </td>
                 </tr>
                 </thead>
