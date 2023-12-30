@@ -453,4 +453,7 @@ public class UserManageRepository extends AbstractDAO {
     public void setEduReqDetailInsert (Map<String,Object> map) {insert("userManage.setEduReqDetailInsert", map);}
 
     public void setCareerReqDetailInsert(Map<String,Object> map) {insert("userManage.setCareerReqDetailInsert", map);}
+
+    public void setCertReqDetailInsert(Map<String,Object> map) {insert("userManage.setCertReqDetailInsert", map);}
+
 }

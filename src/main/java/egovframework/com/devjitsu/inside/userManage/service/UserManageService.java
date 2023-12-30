@@ -244,4 +244,6 @@ public interface UserManageService{
     void setEduReqDetailInsert(Map<String,Object> params);
 
     void setCareerReqDetailInsert(Map<String,Object> params);
+
+    void setCertReqDetailInsert(Map<String,Object> params);
 }

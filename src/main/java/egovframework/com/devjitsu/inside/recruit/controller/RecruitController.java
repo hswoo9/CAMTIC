@@ -1094,6 +1094,13 @@ public class RecruitController {
             System.out.println("certList : " +certList);
             for (Map<String, Object> certData : certList) {
                 System.out.println(certData);
+
+                certData.put("EMP_SEQ",empSeq);
+                certData.put("EMP_NAME",applicationInfo.get("USER_NAME"));
+                certData.put("REG_EMP_SEQ", loginVO.getUniqId());
+                certData.put("ACQUISITION_DAY", "undefined");
+
+                userManageService.setCertReqDetailInsert(certData);
             }
         }
 
@@ -1104,6 +1111,13 @@ public class RecruitController {
             System.out.println(" langList : " + langList);
             for (Map<String, Object> langData :  langList) {
                 System.out.println(langData);
+
+                langData.put("EMP_SEQ",empSeq);
+                langData.put("EMP_NAME",applicationInfo.get("USER_NAME"));
+                langData.put("REG_EMP_SEQ", loginVO.getUniqId());
+
+
+
             }
         }
 
