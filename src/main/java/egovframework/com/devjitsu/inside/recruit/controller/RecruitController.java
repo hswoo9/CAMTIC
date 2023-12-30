@@ -1039,6 +1039,8 @@ public class RecruitController {
 
 
         userManageService.setUserReqDetailInsert(applicationInfo);
+        Object empSeq = applicationInfo.get("empSeq");
+        System.out.println("empSeq : " +empSeq);
 
         //학력
         Object schoolObject = applicationInfo.get("school");
@@ -1047,6 +1049,14 @@ public class RecruitController {
             System.out.println("schoolList : " + schoolList);
             for (Map<String, Object> schoolData : schoolList) {
                 System.out.println(schoolData);
+
+                schoolData.put("EMP_SEQ",empSeq);
+                schoolData.put("EMP_NAME",applicationInfo.get("USER_NAME"));
+
+                Map<String,Object> resultMap = classifySchoolData(schoolData);
+
+
+
             }
         }
 
@@ -1102,6 +1112,19 @@ public class RecruitController {
         }
 
         return resultList;
+    }
+
+    private static Map<String,Object> classifySchoolData(Map<String,Object> map){
+        Map<String,Object> resultMap = new HashMap<>();
+
+        resultMap.put("ADMISSION_DAY",map.get("ADMISSION_DT"));
+        resultMap.put("GRADUATION_DT",map.get("GRADUATION_DT"));
+
+        Object schoolType = map.get("SCHOOL_TYPE");
+        Object graduateType = map.get("GRADUATE_TYPE");
+
+
+        return resultMap;
     }
 
 }
