@@ -714,4 +714,9 @@
             A.INSERT_DT BETWEEN #{strDate} AND #{endDate}
     </select>
 
+    <select id="getExnpCheck" parameterType="map" resultType="int">
+        /*getExnpCheck*/
+        SELECT COUNT(*) FROM ZN_SAUTOABDOCU WHERE PMR_NO = #{PMR_NO};
+    </select>
+
 </mapper>
