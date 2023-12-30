@@ -561,6 +561,28 @@
         where
             RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
     </select>
+
+    <select id="getChkEmail" parameterType="map" resultType="boolean">
+        /* getChkEmail */
+        SELECT
+        CASE WHEN COUNT(*) > 0 THEN 1
+        ELSE 0
+        END
+        FROM
+            CAM_INSIDE.DJ_APPLICATION_MAIN DAM
+        JOIN
+            CAM_INSIDE.DJ_RECRUIT_INFO DRI
+        ON
+            DAM.RECRUIT_INFO_SN = DRI.RECRUIT_INFO_SN
+        WHERE
+            1=1
+        AND
+            SAVE_TYPE = 'S'
+        <if test="userEmail != null and userEmail != ''">
+            AND USER_EMAIL = #{userEmail}
+        </if>
+    </select>
+
 </mapper>
 
 

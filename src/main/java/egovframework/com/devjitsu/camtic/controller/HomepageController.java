@@ -88,7 +88,7 @@ public class HomepageController {
                     isAdmin = true;
                     login.setUserSe("ADMIN");
                 }
-                request.getSession().setAttribute("loginVO", login);
+                request.getSession().setAttribute("LoginVO", login);
                 request.getSession().setAttribute("isAdmin", isAdmin);
 
                 logger.info("이름은 : " + login.getName());
