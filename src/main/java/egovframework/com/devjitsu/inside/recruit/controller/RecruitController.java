@@ -1060,7 +1060,7 @@ public class RecruitController {
                 schoolData.put("REG_EMP_SEQ", loginVO.getUniqId());
 
                 Map<String,Object> resultMap = classifySchoolData(schoolData);
-                //이 아래에 insert 메소드 기입
+
                 userManageService.setEduReqDetailInsert(resultMap);
 
 
