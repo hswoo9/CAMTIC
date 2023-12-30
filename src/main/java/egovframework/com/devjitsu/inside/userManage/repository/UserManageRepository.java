@@ -450,4 +450,6 @@ public class UserManageRepository extends AbstractDAO {
         return (Map<String,Object>)selectOne("userManage.getCurrentPositionByYear",params);
     }
 
+    public void setEduReqDetailInsert (Map<String,Object> map) {insert("userManage.setEduReqDetailInsert", map);}
+
 }
