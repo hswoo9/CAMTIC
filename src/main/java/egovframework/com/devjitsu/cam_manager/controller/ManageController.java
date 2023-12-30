@@ -410,6 +410,22 @@ public class ManageController {
         return "jsonView";
     }
 
+    @RequestMapping("/mng/userAccountManagement.do")
+    public String userAccountManagement(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+
+        return "cam_manager/accountManagement/userAccountManagement";
+    }
+
+    @RequestMapping("/mng/userAccountManagementList")
+    public String userAccountManagementList(@RequestParam Map<String,Object> map, Model model, HttpServletRequest request) {
+        model.addAttribute("list", manageService.getUserAccountManagementList(map));
+        return "jsonView";
+    }
+
     @RequestMapping("/mng/getEtaxListAll")
     public String getEtaxListAll(@RequestParam Map<String, Object> params, Model model){
 
