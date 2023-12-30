@@ -108,8 +108,10 @@ var normalArticleList = {
 	},
 
 	detailPageMove : function(boardArticleId, publicYn, i){
+		var boardId = $("#boardId").val();
+
 		if(publicYn == "N" && isAdmin){
-			open_in_frame('/board/normalBoardDetail.do?boardArticleId='+ boardArticleId);
+			open_in_frame('/board/normalBoardDetail.do?boardArticleId='+ boardArticleId + '&boardId=' + boardId);
 		}else if(publicYn == "N" && !isAdmin){
 			normalArticleList.global.pasChkModal = $('<div id="articlePublicNArticlePass" class="pop_wrap_dir">' +
 				'				<div style="padding: 10px 0 15px 0;font-size: 12px;">' +
@@ -151,7 +153,7 @@ var normalArticleList = {
 			normalArticleList.global.pasChkModal.data("kendoWindow").open();
 			normalArticleList.global.articleSelIndex = i;
 		}else{
-			open_in_frame('/board/normalBoardDetail.do?boardArticleId='+ boardArticleId);
+			open_in_frame('/board/normalBoardDetail.do?boardArticleId='+ boardArticleId + '&boardId=' + boardId);
 		}
 	},
 
@@ -160,10 +162,12 @@ var normalArticleList = {
 	},
 
 	articlePublicNPassWordChk : function(){
+		var boardId = $("#boardId").val();
+
 		if($("#articlePublicPassWord").val() == normalArticleList.global.articleList[normalArticleList.global.articleSelIndex].PRIVATE_PASS_WORD){
 			normalArticleList.global.pasChkModal.data("kendoWindow").close();
 
-			open_in_frame('/board/normalBoardDetail.do?boardArticleId='+ normalArticleList.global.articleList[normalArticleList.global.articleSelIndex].BOARD_ARTICLE_ID);
+			open_in_frame('/board/normalBoardDetail.do?boardArticleId='+ normalArticleList.global.articleList[normalArticleList.global.articleSelIndex].BOARD_ARTICLE_ID + '&boardId=' + boardId);
 		}else{
 			alert("비밀번호가 일치하지 않습니다.");
 		}

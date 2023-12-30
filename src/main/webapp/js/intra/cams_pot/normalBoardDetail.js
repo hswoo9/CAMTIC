@@ -10,6 +10,7 @@ var normalArticleDetail = {
 
 	fnDefaultScript : function(){
 		normalArticleDetail.global.searchAjaxData = {
+			boardId : $("#boardId").val(),
 			boardArticleId : $("#boardArticleId").val()
 		}
 
@@ -62,7 +63,27 @@ var normalArticleDetail = {
 					title: "첨부파일명",
 					attributes: { style: "text-align: left" },
 					template : function(e){
-						return e.FILE_ORG_NAME + "." + e.FILE_EXT + "(" + formatBytes(e.FILE_SIZE, 3) + ")";
+						var fileName = e.FILE_ORG_NAME;
+
+						var lastDotIndex = fileName.lastIndexOf(".");
+						if (lastDotIndex !== -1) {
+							fileName = fileName.substring(0, lastDotIndex);
+						}
+
+						return fileName + "." + e.FILE_EXT + "(" + formatBytes(e.FILE_SIZE, 3) + ")";
+						/*
+						if(e.FILE_PATH.indexOf('/upload/camticOldFile/') == -1){
+							return fileName + "." + e.FILE_EXT + "(" + formatBytes(e.FILE_SIZE, 3) + ")";
+						}else{
+							$("#zipDownBtn").prop("disabled", true);
+							var filePath = e.FILE_PATH.substring(1);
+
+							return '<a style="cursor: pointer;" onclick="normalArticleDetail.fileDownOne(\'' + filePath + '\', \'' + fileName + '\')">'+ fileName + '.' + e.FILE_EXT + '(' + formatBytes(e.FILE_SIZE, 3) + ')</a>'
+							     + '<span style="color: red; padding-left: 5px;">이관된 첨부파일</span>';
+
+						}*/
+
+
 					}
 				}]
 		}).data("kendoGrid");
@@ -74,12 +95,18 @@ var normalArticleDetail = {
 
 		customKendo.fn_textBox(["articleReplyContent"]);
 
-		normalArticleDetail.getArticleReplyGrid()
+		normalArticleDetail.getArticleReplyGrid();
 	},
 
 	boardAttachmentDown : function(){
 		kendo.saveAs({
 			dataURI: "/common/multiFileDownload.do?type=board&boardArticleId=" + $("#boardArticleId").val()+ "&zipName=" + normalArticleDetail.global.articleDetailInfo.BOARD_ARTICLE_TITLE
+		});
+	},
+
+	fileDownOne : function(filePath, fileName) {
+		kendo.saveAs({
+			dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + fileName,
 		});
 	},
 
