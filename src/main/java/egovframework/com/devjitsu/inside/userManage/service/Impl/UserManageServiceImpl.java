@@ -1791,4 +1791,7 @@ public class UserManageServiceImpl implements UserManageService {
         }
         return dispositionPrefix + encodedFilename;
     }
+
+    @Override
+    public void setEduReqDetailInsert(Map<String,Object> params){userManageRepository.setEduReqDetailInsert(params);}
 }
