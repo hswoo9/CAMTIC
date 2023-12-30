@@ -217,7 +217,7 @@ var draft = {
         draft.global.flag = result.flag;
 
         if(result.flag){
-            var formInfoReqOpt = result;
+            var formInfoReqOpt = result.formInfoReqOpt;
             var formRdRcCfList = result;
             var formReaderList = formRdRcCfList.readerList;
             // var formReceiver = formRdRcCfList.receiverList;
@@ -229,9 +229,8 @@ var draft = {
             $("#formName").val(formInfoReqOpt.FORM_NAME);
 
             /** 기본정보 조회 */
-            $("#publicType").data("kendoRadioGroup").value(formInfoReqOpt.PUBLIC_TYPE);
-            $("#urgentType").data("kendoRadioGroup").value(formInfoReqOpt.URGENT_TYPE);
             $("#securityType").data("kendoRadioGroup").value(formInfoReqOpt.SECURITY_TYPE);
+            $("#securityType").data("kendoRadioGroup").trigger("change");
             $("#docGbn").data("kendoRadioGroup").value(formInfoReqOpt.DOC_GBN);
             $("#docGbn").data("kendoRadioGroup").trigger("change");
 

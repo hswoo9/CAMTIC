@@ -302,6 +302,13 @@
 									</colgroup>
 									<tbody>
 									<tr>
+										<th class="text-right th-color">보존연한
+										</th>
+										<td colspan="3">
+											<span id="preservePeriod"></span>
+										</td>
+									</tr>
+									<tr>
 										<th class="text-right th-color">보안여부
 										</th>
 										<td colspan="3">
