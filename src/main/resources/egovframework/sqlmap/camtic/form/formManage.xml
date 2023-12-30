@@ -70,6 +70,11 @@
             FORM_FOLDER_ID = #{formFolderId}
     </update>
 
+    <delete id="setFormFolderDel" parameterType="map">
+        /* setFormFolderDel */
+        DELETE FROM DJ_CAMTIC.A_FORM_FOLDER WHERE FORM_FOLDER_ID in (${formFolderId})
+    </delete>
+
     <select id="getFormList" parameterType="map" resultType="map">
         /* getFormList */
         SELECT
@@ -92,6 +97,7 @@
         FI.LINKAGE_POP_WIDTH,
         FI.LINKAGE_POP_HEIGHT,
         FRO.FORM_REQ_OPT_ID,
+        FRO.PRESERVE_PERIOD,
         FRO.PUBLIC_TYPE,
         FRO.URGENT_TYPE,
         FRO.SECURITY_TYPE,
@@ -150,6 +156,7 @@
             FI.LINKAGE_POP_WIDTH,
             FI.LINKAGE_POP_HEIGHT,
             FRO.FORM_REQ_OPT_ID,
+            FRO.PRESERVE_PERIOD,
             FRO.PUBLIC_TYPE,
             FRO.URGENT_TYPE,
             FRO.SECURITY_TYPE,
@@ -294,6 +301,26 @@
             FORM_ID = #{formId}
     </update>
 
+    <update id="setFormLinkageProcessUpd" parameterType="map">
+        /* setFormLinkageProcessUpd */
+        UPDATE
+            DJ_CAMTIC.A_FORM
+        SET
+            LINKAGE_TYPE = '1',
+            LINKAGE_PROCESS_ID = null,
+            LINKAGE_POP_ACTIVE = 'N',
+            LINKAGE_POP_WIDTH = '800',
+            LINKAGE_POP_HEIGHT = '600',
+            MOD_EMP_SEQ = #{empSeq}
+        WHERE
+            LINKAGE_PROCESS_ID IN(${linkageProcessId})
+    </update>
+
+    <delete id="setFormDel" parameterType="map">
+        /* setFormDel */
+        DELETE FROM DJ_CAMTIC.A_FORM WHERE FORM_ID = #{formId}
+    </delete>
+
     <select id="getTemplateFormFileExists" parameterType="map" resultType="map">
         SELECT
             FILE_UUID AS file_uuid,
@@ -346,8 +373,7 @@
         INSERT INTO DJ_CAMTIC.A_FORM_REQ_OPT
         (
             FORM_ID,
-            PUBLIC_TYPE,
-            URGENT_TYPE,
+            PRESERVE_PERIOD,
             SECURITY_TYPE,
             DOC_GBN,
             REG_EMP_SEQ
@@ -355,8 +381,7 @@
         VALUES
             (
                 #{formId},
-                #{publicType},
-                #{urgentType},
+                #{preservePeriod},
                 #{securityType},
                 #{docGbn},
                 #{empSeq}
@@ -368,8 +393,7 @@
         UPDATE
             DJ_CAMTIC.A_FORM_REQ_OPT
         SET
-            PUBLIC_TYPE = #{publicType},
-            URGENT_TYPE = #{urgentType},
+            PRESERVE_PERIOD = #{preservePeriod},
             SECURITY_TYPE = #{securityType},
             DOC_GBN = #{docGbn},
             MOD_EMP_SEQ = #{empSeq}
@@ -378,6 +402,11 @@
           AND
             FORM_REQ_OPT_ID = #{formReqOptId}
     </update>
+
+    <delete id="setFormReqOptDel" parameterType="map">
+        /* setFormReqOptDel */
+        DELETE FROM DJ_CAMTIC.A_FORM_REQ_OPT WHERE FORM_ID = #{formId}
+    </delete>
 
     <insert id="setFormReader" parameterType="list">
         /* setFormReader */
@@ -606,4 +635,10 @@
         WHERE
             LINKAGE_PROCESS_ID = #{linkageProcessId}
     </update>
+
+    <delete id="setLinkageProcessDel" parameterType="map">
+        /* setLinkageProcessDel */
+        DELETE FROM DJ_CAMTIC.A_LINKAGE_PROCESS WHERE LINKAGE_PROCESS_ID IN(${linkageProcessId})
+    </delete>
+
 </mapper>

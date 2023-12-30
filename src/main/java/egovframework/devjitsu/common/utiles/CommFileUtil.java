@@ -105,11 +105,11 @@ public class CommFileUtil {
     }
 
 
-    private String uploadPath = "/usr/local/apache-tomcat-8.5.59/webapps/upload/";
-    private String ADDRESS = "121.186.165.80";
-    private int PORT = 22;
+    private String uploadPath = "/usr/local/tomcat8/webapps/upload/";
+    private String ADDRESS = "218.158.231.186";
+    private int PORT = 20022;
     private String USERNAME = "root";
-    private String PASSWORD = "dev123!@#";
+    private String PASSWORD = "siwon12!@";
     private static Session session = null;
     private static Channel channel = null;
     private static ChannelSftp channelSftp = null;
@@ -201,7 +201,7 @@ public class CommFileUtil {
                         listMap.put("fileOrgName", originFileName.split("[.]")[0]);
                         listMap.put("fileUUID", storedFileName);
                         listMap.put("fileSize", multipartFile.getSize());
-                        listMap.put("filePath", "http:\\\\121.186.165.80:8010\\upload\\" + basePath + "/");
+                        listMap.put("filePath", "http:\\\\218.158.231.186\\upload\\" + basePath + "/");
                     }
                 }
             }

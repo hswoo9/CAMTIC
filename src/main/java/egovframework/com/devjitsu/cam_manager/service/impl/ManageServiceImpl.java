@@ -123,4 +123,9 @@ public class ManageServiceImpl implements ManageService {
 
         return manageRepository.getEtaxListAll(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getUserAccountManagementList(Map<String, Object> map) {
+        return manageRepository.getUserAccountManagementList(map);
+    }
 }

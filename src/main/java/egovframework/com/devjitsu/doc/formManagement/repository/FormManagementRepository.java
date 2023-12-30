@@ -12,6 +12,7 @@ public class FormManagementRepository extends AbstractDAO {
     public List<Map<String, Object>> getFormFolderList(Map<String, Object> params) { return selectList("formManage.getFormFolderList", params);}
     public void setFormFolder(Map<String, Object> params){ insert("formManage.setFormFolder", params);}
     public void setFormFolderUpd(Map<String, Object> params){ update("formManage.setFormFolderUpd", params);}
+    public void setFormFolderDel(Map<String, Object> params){ delete("formManage.setFormFolderDel", params);}
     public List<Map<String, Object>> getFormList(Map<String, Object> params){return selectList("formManage.getFormList", params);}
     public Map<String, Object> getDocFormInfoReqOpt(Map<String, Object> params) { return (Map<String, Object>) selectOne("formManage.getDocFormInfoReqOpt", params);}
     public List<Map<String, Object>> getFormReaderList(Map<String, Object> params){return selectList("formManage.getFormReaderList", params);}
@@ -20,13 +21,15 @@ public class FormManagementRepository extends AbstractDAO {
     public List<Map<String, Object>> getTemplateFormFile(Map<String, Object> params){ return selectList("formManage.getTemplateFormFile", params);}
     public void setForm(Map<String, Object> params){ insert("formManage.setForm", params);}
     public void setFormUpd(Map<String, Object> params){ update("formManage.setFormUpd", params);}
+    public void setFormLinkageProcessUpd(Map<String, Object> params){ update("formManage.setFormLinkageProcessUpd", params);}
+    public void setFormDel(Map<String, Object> params){ delete("formManage.setFormDel", params);}
     public Map<String, Object> getTemplateFormFileExists(Map<String, Object> params){ return (Map<String, Object>) selectOne("formManage.getTemplateFormFileExists", params);}
     public void setTemplateFormFileDelOne(Map<String, Object> params){ delete("formManage.setTemplateFormFileDelOne", params);}
     public void setTemplateFormFile(Map<String, Object> params){ insert("formManage.setTemplateFormFile", params);}
     public void setFormReqOpt(Map<String, Object> params) { insert("formManage.setFormReqOpt", params);}
     public void setFormReqOptUpd(Map<String, Object> params) { update("formManage.setFormReqOptUpd", params);}
+    public void setFormReqOptDel(Map<String, Object> params){ delete("formManage.setFormReqOptDel", params);}
     public void setFormReader(List<Map<String, Object>> params) { insert("formManage.setFormReader", params);}
-    public void setFormReceiver(List<Map<String, Object>> params) { insert("formManage.setFormReceiver", params);}
     public void setFormCustomField(List<Map<String, Object>> params) { insert("formManage.setFormCustomField", params);}
     public void setFormReaderReceiverDel(Map<String, Object> params) {
         delete("formManage.setFormReaderDel", params);
@@ -39,5 +42,6 @@ public class FormManagementRepository extends AbstractDAO {
     public void setLinkageProcess(Map<String, Object> params) { insert("formManage.setLinkageProcess", params);}
     public String getLinkageProcess(Map<String, Object> params) { return (String) selectOne("formManage.getLinkageProcess", params);}
     public void setLinkageProcessUpd(Map<String, Object> params) { update("formManage.setLinkageProcessUpd", params);}
+    public void setLinkageProcessDel(Map<String, Object> params) { delete("formManage.setLinkageProcessDel", params);}
 
 }
