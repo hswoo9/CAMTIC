@@ -711,7 +711,7 @@
             SBANK C
         ON B.JIRO_CD = C.BANK_CD
         WHERE
-            ISU_DT BETWEEN '20230101' AND '20231231'
+            A.INSERT_DT BETWEEN #{strDate} AND #{endDate}
     </select>
 
 </mapper>

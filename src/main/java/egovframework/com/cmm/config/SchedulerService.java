@@ -18,6 +18,8 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service("schedulerService")
@@ -38,10 +40,23 @@ public class SchedulerService {
 
     public void etaxG20Scheduler() {
         Date date = new Date();
+        String strDate = "";
+        String endDate = "";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+        String nowDate = simpleDateFormat.format(date);
+
+        LocalDate localDate = LocalDate.parse(nowDate);
+        LocalDate firstDate = localDate.withDayOfMonth(1);
+        LocalDate lastDate = localDate.withDayOfMonth(localDate.lengthOfMonth());
+
+        strDate = firstDate.toString();
+        endDate = lastDate.toString();
+
         Map<String, Object> params = new HashMap<>();
-        params.put("date", simpleDateFormat.format(date));
+
+        params.put("strDate", strDate);
+        params.put("endDate", endDate);
 
         List<Map<String, Object>> list = new ArrayList<>();
         list = g20Repository.getEtaxDb(params);

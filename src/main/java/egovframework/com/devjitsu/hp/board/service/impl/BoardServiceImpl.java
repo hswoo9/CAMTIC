@@ -74,6 +74,51 @@ public class BoardServiceImpl implements BoardService {
     public List<Map<String, Object>> selectMainList(Map<String, Object> params) {
         return boardRepository.selectMainList(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getCategoryAllMainList(Map<String, Object> params) {
+        return boardRepository.getCategoryAllMainList(params);
+    }
+
+    /*@Override
+    public List<Map<String, Object>> selectMainList(Map<String, Object> params) {
+
+        //채용 공고 조회
+        List<Map<String, Object>> recruitList = boardRepository.getMainRecruitList(params);
+
+        //게시판 글 목록 조회 (공지사항, 교육행사)
+        List<Map<String, Object>> mainList = boardRepository.selectMainList(params);
+
+        //메인페이지 category = all
+        List<Map<String, Object>> realMainList = new ArrayList<>();
+
+        System.out.println("main은"+mainList);
+        System.out.println("recruit은"+recruitList);
+
+
+        System.out.println("realMain은"+realMainList);
+
+        //날짜 비교
+        for (int i = 0; i < mainList.size(); i++) {
+            Date aa = (Date) mainList.get(i).get("REG_DATE");
+            boolean flag = true;
+
+            for (int j = 0; j < recruitList.size(); j++) {
+                Date bb = (Date) recruitList.get(j).get("REG_DT");
+
+                if (bb.after(aa)) {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag) {
+                realMainList.add(mainList.get(i));
+            }
+        }
+
+    }        return realMainList;*/
+
+
     @Override
     public List<Map<String, Object>> selectBsnsMainList(Map<String, Object> params) {
         return boardRepository.selectBsnsMainList(params);

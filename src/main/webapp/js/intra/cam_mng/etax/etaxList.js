@@ -21,7 +21,7 @@ var etaxList = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '/g20/getEtaxList',
+                    url : '/mng/getEtaxListAll',
                     dataType : "json",
                     type : "post"
                 },
@@ -55,6 +55,13 @@ var etaxList = {
             },
             toolbar: [
                 {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="etaxList.syncEtaxG20Data()">' +
+                            '	<span class="k-button-text">G20 동기화</span>' +
+                            '</button>';
+                    }
+                }, {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="etaxList.gridReload()">' +
@@ -115,25 +122,29 @@ var etaxList = {
                     title: "공급가액",
                     width: 100,
                     template: function (e){
-                        return '<div style="text-align: right;">'+comma(e.SUP_AM)+'</div>';
+                        return '<div style="text-align: right;">'+comma(e.SUP_AM.toString().split(".")[0])+'</div>';
                     }
                 }, {
                     title: "세액",
                     width: 100,
                     template: function (e){
-                        return '<div style="text-align: right;">'+comma(e.VAT_AM)+'</div>';
+                        return '<div style="text-align: right;">'+comma(e.VAT_AM.toString().split(".")[0])+'</div>';
                     }
                 }, {
                     title: "합계금액",
                     width: 100,
                     template: function (e){
-                        return '<div style="text-align: right;">'+comma(e.SUM_AM)+'</div>';
+                        return '<div style="text-align: right;">'+comma(e.SUM_AM.toString().split(".")[0])+'</div>';
                     }
                 }, {
                     title: "결의서",
                     width: 50,
                     template: function (e){
-                        return '미결의';
+                        if(e.DOC_ID != null && e.DOC_ID != "" && e.DOC_ID != undefined){
+                            return '결의서';
+                        } else {
+                            return '미결의';
+                        }
                     }
                 }
             ],
@@ -141,5 +152,33 @@ var etaxList = {
                 record = (this.dataSource.page() -1) * this.dataSource.pageSize();
             }
         }).data("kendoGrid");
+    },
+
+    syncEtaxG20Data : function (){
+        var data = {
+            strDt : $("#strDt").val(),
+            endDt : $("#endDt").val(),
+        }
+
+        $.ajax({
+            url : "/etax/syncEtaxG20Data",
+            data : data,
+            type : "post",
+            dataType : "json",
+            beforeSend : function(request){
+                $("#my-spinner").show();
+            },
+            success :function (rs){
+                if(rs.code == 200){
+                    alert("완료되었습니다.");
+                    $("#mainGrid").data("kendoGrid").dataSource.read();
+                    $("#my-spinner").hide();
+                }
+            },
+            error : function(e){
+                alert("오류가 발생하였습니다.");
+                $("#my-spinner").hide();
+            }
+        });
     }
 }

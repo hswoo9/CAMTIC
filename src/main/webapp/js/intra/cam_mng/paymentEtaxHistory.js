@@ -129,19 +129,19 @@ var payEtaxHist = {
                     title: "공급가액",
                     width: 100,
                     template: function (e){
-                        return '<div style="text-align: right;">'+comma(e.SUP_AM)+'</div>';
+                        return '<div style="text-align: right;">'+comma(e.SUP_AM.toString().split(".")[0])+'</div>';
                     }
                 }, {
                     title: "세액",
                     width: 100,
                     template: function (e){
-                        return '<div style="text-align: right;">'+comma(e.VAT_AM)+'</div>';
+                        return '<div style="text-align: right;">'+comma(e.VAT_AM.toString().split(".")[0])+'</div>';
                     }
                 }, {
                     title: "합계금액",
                     width: 100,
                     template: function (e){
-                        return '<div style="text-align: right;">'+comma(e.SUM_AM)+'</div>';
+                        return '<div style="text-align: right;">'+comma(e.SUM_AM.toString().split(".")[0])+'</div>';
                     }
                 }, {
                     title: "",

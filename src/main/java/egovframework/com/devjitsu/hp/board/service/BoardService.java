@@ -14,7 +14,13 @@ public interface BoardService {
     PagingResponse<PostResponse> selectBoardList(ArticlePage params);
     PagingResponse<PostResponse> getNewsSubscribeList(ArticlePage params);
 
+    /* 메인 기관 페이지 전체보기 */
+    List<Map<String, Object>> getCategoryAllMainList(Map<String, Object> param);
+
+    /* 메인 기관 페이지 공지사항, 교육/행사, 보도자료 */
     List<Map<String, Object>> selectMainList(Map<String, Object> param);
+
+
     List<Map<String, Object>> selectBsnsMainList(Map<String, Object> param);
 
     Object selectBoardListCnt(ArticlePage params);

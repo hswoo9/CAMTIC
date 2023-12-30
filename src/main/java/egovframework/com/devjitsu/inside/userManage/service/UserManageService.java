@@ -241,4 +241,5 @@ public interface UserManageService{
 
     Map<String,Object> getCurrentPositionByYear(Map<String,Object> params);
 
+    void setEduReqDetailInsert(Map<String,Object> params);
 }

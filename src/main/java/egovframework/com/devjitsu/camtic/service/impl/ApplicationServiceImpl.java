@@ -45,6 +45,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         }
 
         returnMap.put("applicationChk", applicationRepository.getApplicationChk(params));
+        returnMap.put("chkEmail", applicationRepository.getChkEmail(params));
 
         return returnMap;
     }

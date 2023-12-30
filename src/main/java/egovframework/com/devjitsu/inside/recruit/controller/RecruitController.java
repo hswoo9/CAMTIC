@@ -1039,6 +1039,8 @@ public class RecruitController {
 
 
         userManageService.setUserReqDetailInsert(applicationInfo);
+        Object empSeq = applicationInfo.get("empSeq");
+        System.out.println("empSeq : " +empSeq);
 
         //학력
         Object schoolObject = applicationInfo.get("school");
@@ -1047,6 +1049,16 @@ public class RecruitController {
             System.out.println("schoolList : " + schoolList);
             for (Map<String, Object> schoolData : schoolList) {
                 System.out.println(schoolData);
+
+                schoolData.put("EMP_SEQ",empSeq);
+                schoolData.put("EMP_NAME",applicationInfo.get("USER_NAME"));
+                schoolData.put("REG_EMP_SEQ", loginVO.getUniqId());
+
+                Map<String,Object> resultMap = classifySchoolData(schoolData);
+                //이 아래에 insert 메소드 기입
+                userManageService.setEduReqDetailInsert(resultMap);
+
+
             }
         }
 
@@ -1102,6 +1114,108 @@ public class RecruitController {
         }
 
         return resultList;
+    }
+
+    private static Map<String,Object> classifySchoolData(Map<String,Object> map){
+        Map<String,Object> resultMap = map;
+
+        resultMap.put("ADMISSION_DAY",map.get("ADMISSION_DT"));
+        resultMap.put("GRADUATION_DAY",map.get("GRADUATION_DT"));
+        resultMap.put("SCORE",map.get("GRADE"));
+        resultMap.put("GRADE_NO",map.get("DEGREE_FILE"));
+        resultMap.put("SCORE_NO",map.get("SEXUAL_FILE"));
+
+
+        Object schoolType = map.get("SCHOOL_TYPE");
+        Object graduateType = map.get("GRADUATE_TYPE");
+
+        //고등학교
+        if (schoolType != null && "1".equals(schoolType.toString())) {
+            resultMap.put("GUBUN_CODE", "B0102");
+            if(graduateType != null && "1".equals(graduateType.toString())){
+                resultMap.put("GRADUATION_CODE","B0301");
+                resultMap.put("DEGREE_CODE","undefined");
+            }else if("2".equals(graduateType.toString())){
+                resultMap.put("GRADUATION_CODE","B0302");
+                resultMap.put("DEGREE_CODE","undefined");
+            }else if("3".equals(graduateType.toString())){
+                resultMap.put("GRADUATION_CODE","B0303");
+                resultMap.put("DEGREE_CODE","undefined");
+            }
+        }
+        //전문대학
+        if (schoolType != null && "2".equals(schoolType.toString())) {
+            resultMap.put("GUBUN_CODE", "B0103");
+            if(graduateType != null && "1".equals(graduateType.toString())){
+                resultMap.put("GRADUATION_CODE","B0301");
+                resultMap.put("DEGREE_CODE","B0201");
+            }else if("2".equals(graduateType.toString())){
+                resultMap.put("GRADUATION_CODE","B0302");
+                resultMap.put("DEGREE_CODE","undefined");
+            }else if("3".equals(graduateType.toString())){
+                resultMap.put("GRADUATION_CODE","B0303");
+                resultMap.put("DEGREE_CODE","undefined");
+            }
+        }
+        //대학1
+        if (schoolType != null && "3".equals(schoolType.toString())) {
+            resultMap.put("GUBUN_CODE", "B0104");
+            if(graduateType != null && "1".equals(graduateType.toString())){
+                resultMap.put("GRADUATION_CODE","B0301");
+                resultMap.put("DEGREE_CODE","B0202");
+            }else if("2".equals(graduateType.toString())){
+                resultMap.put("GRADUATION_CODE","B0302");
+                resultMap.put("DEGREE_CODE","undefined");
+            }else if("3".equals(graduateType.toString())){
+                resultMap.put("GRADUATION_CODE","B0303");
+                resultMap.put("DEGREE_CODE","undefined");
+            }
+        }
+        //대학2
+        if (schoolType != null && "4".equals(schoolType.toString())) {
+            resultMap.put("GUBUN_CODE", "B0104");
+            if(graduateType != null && "1".equals(graduateType.toString())){
+                resultMap.put("GRADUATION_CODE","B0301");
+                resultMap.put("DEGREE_CODE","B0202");
+            }else if("2".equals(graduateType.toString())){
+                resultMap.put("GRADUATION_CODE","B0302");
+                resultMap.put("DEGREE_CODE","undefined");
+            }else if("3".equals(graduateType.toString())){
+                resultMap.put("GRADUATION_CODE","B0303");
+                resultMap.put("DEGREE_CODE","undefined");
+            }
+        }
+        //대학원(석사)
+        if (schoolType != null && "5".equals(schoolType.toString())) {
+            resultMap.put("GUBUN_CODE", "B0105");
+            if(graduateType != null && "1".equals(graduateType.toString())){
+                resultMap.put("GRADUATION_CODE","B0301");
+                resultMap.put("DEGREE_CODE","B0203");
+            }else if("2".equals(graduateType.toString())){
+                resultMap.put("GRADUATION_CODE","B0302");
+                resultMap.put("DEGREE_CODE","B0202");
+            }else if("3".equals(graduateType.toString())){
+                resultMap.put("GRADUATION_CODE","B0303");
+                resultMap.put("DEGREE_CODE","B0202");
+            }
+        }
+        //대학원(박사)
+        if (schoolType != null && "6".equals(schoolType.toString())) {
+            resultMap.put("GUBUN_CODE", "B0106");
+            if(graduateType != null && "1".equals(graduateType.toString())){
+                resultMap.put("GRADUATION_CODE","B0301");
+                resultMap.put("DEGREE_CODE","B0204");
+            }else if("2".equals(graduateType.toString())){
+                resultMap.put("GRADUATION_CODE","B0302");
+                resultMap.put("DEGREE_CODE","B0203");
+            }else if("3".equals(graduateType.toString())){
+                resultMap.put("GRADUATION_CODE","B0303");
+                resultMap.put("DEGREE_CODE","B0203");
+            }
+        }
+
+
+        return resultMap;
     }
 
 }

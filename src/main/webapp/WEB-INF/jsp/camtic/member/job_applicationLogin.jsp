@@ -214,7 +214,8 @@
                                 location.href = '/camtic/member/job_userAgree.do';
                             }
                         }else{
-                            alert("최종제출이 완료된 공고입니다.");
+                            //alert("최종제출이 완료된 공고입니다.");
+                            alert("이미 입사지원한 공고입니다. \n입사지원 조회를 통해 확인하시기 바랍니다.");
                         }
                     }
                 }

@@ -3991,5 +3991,54 @@
         </selectKey>
     </insert>
     -->
+    <insert id="setEduReqDetailInsert" parameterType="map">
+    /*setEduReqDetailInsert*/
+        INSERT INTO CAM_HR.DJ_EMP_EDUCATIONAL(
+        EMP_SEQ
+        ,EMP_NAME
+        ,ADMISSION_DAY
+        ,GRADUATION_DAY
+        <if test="DEGREE_CODE != null and DEGREE_CODE != ''">
+        ,DEGREE_CODE
+        </if>
+        ,REG_EMP_SEQ
+        ,REG_DATE
+        ,SCHOOL_NAME
+        ,GUBUN_CODE
+        ,GRADUATION_CODE
+        ,SCORE
+        <if test="GRADE_NO ! = null and GRADE_NO ! = ''">
+        ,GRADE_NO
+        </if>
+        <if test="SCORE_NO ! = null and SCORE_NO ! = ''">
+        ,SCORE_NO
+        </if>
+        ,admin_approval
+        )VALUES (
+        #{EMP_SEQ},
+        #{EMP_NAME},
+        #{ADMISSION_DAY},
+        #{GRADUATION_DAY},
+        <if test="DEGREE_CODE != null and DEGREE_CODE != ''">
+            #{DEGREE_CODE},
+        </if>
+        #{REG_EMP_SEQ},
+        NOW(),
+        #{SCHOOL_NAME},
+        #{GUBUN_CODE},
+        #{GRADUATION_CODE},
+        #{SCORE},
+        <if test="GRADE_NO ! = null and GRADE_NO ! = ''">
+            #{GRADE_NO},
+        </if>
+        <if test="SCORE_NO ! = null and SCORE_NO ! = ''">
+            #{SCORE_NO},
+        </if>
+        'Y'
+        )
+        <selectKey keyProperty="educationalId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_EDUCATIONAL'
+        </selectKey>
+    </insert>
 
 </mapper>

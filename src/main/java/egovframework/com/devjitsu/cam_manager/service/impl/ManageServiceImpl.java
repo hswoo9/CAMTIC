@@ -117,4 +117,15 @@ public class ManageServiceImpl implements ManageService {
     public Map<String, Object> getManageDepo (Map<String, Object> params){
         return manageRepository.getManageDepo(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getEtaxListAll(Map<String, Object> params) {
+
+        return manageRepository.getEtaxListAll(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getUserAccountManagementList(Map<String, Object> map) {
+        return manageRepository.getUserAccountManagementList(map);
+    }
 }
