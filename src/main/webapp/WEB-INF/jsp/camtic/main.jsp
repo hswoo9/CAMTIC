@@ -410,13 +410,18 @@
   //전체 게시판 조회(공지사항, 교육/행사, 채용공고)
   function getCategoryAll() {
     viewUrl = "/camtic/news/view.do?category=";
+    linkUrl = "/camtic/member/job_view.do?recruitInfoSn="
 
     $(".sec").html('');
 
     let html = "";
 
     resultData1.forEach((item, index) => {
-      html += "<a href='"+ viewUrl+item.BOARD_CATEGORY_ID+'&boardArticleId='+item.BOARD_ARTICLE_ID+" ' class='box'>";
+      if(item.BOARD_CATEGORY_ID == 'recruit'){
+        html += "<a href='"+ linkUrl + item.BOARD_ARTICLE_ID + "' class='box'>";
+      }else{
+        html += "<a href='"+ viewUrl + item.BOARD_CATEGORY_ID+'&boardArticleId='+item.BOARD_ARTICLE_ID+"' class='box'>";
+      }
 
       if(item.BOARD_CATEGORY_ID == 'recruit'){
         if(item.RECRUIT_STATUS_SN == 'E'){
@@ -477,7 +482,7 @@
       }else{
         html += "<a href='"+ viewUrl +item.BOARD_ARTICLE_ID+" ' class='box'>";
       }*/
-      html += "<a href='"+ viewUrl +item.BOARD_ARTICLE_ID+" ' class='box'>";
+      html += "<a href='"+ viewUrl +item.BOARD_ARTICLE_ID+"' class='box'>";
 
       html += '<p class="subject">'+ item.BOARD_ARTICLE_TITLE +'</p>';
       let contents = item.BOARD_ARTICLE_CONTENT.replace(/<\/?("[^"]*"|'[^']*'|[^>])*(>|$)/gi, "");
