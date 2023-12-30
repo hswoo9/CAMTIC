@@ -4007,8 +4007,12 @@
         ,GUBUN_CODE
         ,GRADUATION_CODE
         ,SCORE
+        <if test="GRADE_NO ! = null and GRADE_NO ! = ''">
         ,GRADE_NO
+        </if>
+        <if test="SCORE_NO ! = null and SCORE_NO ! = ''">
         ,SCORE_NO
+        </if>
         ,admin_approval
         )VALUES (
         #{EMP_SEQ},
@@ -4024,8 +4028,12 @@
         #{GUBUN_CODE},
         #{GRADUATION_CODE},
         #{SCORE},
-        #{GRADE_NO},
-        #{SCORE_NO},
+        <if test="GRADE_NO ! = null and GRADE_NO ! = ''">
+            #{GRADE_NO},
+        </if>
+        <if test="SCORE_NO ! = null and SCORE_NO ! = ''">
+            #{SCORE_NO},
+        </if>
         'Y'
         )
         <selectKey keyProperty="educationalId" resultType="Integer" order="BEFORE">
