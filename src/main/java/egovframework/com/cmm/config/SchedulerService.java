@@ -1,6 +1,7 @@
 package egovframework.com.cmm.config;
 
 import egovframework.com.devjitsu.cam_manager.repository.ManageRepository;
+import egovframework.com.devjitsu.cam_manager.service.PayAppService;
 import egovframework.com.devjitsu.doc.approval.repository.ApprovalUserRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
 import egovframework.expend.common.helper.convert.CommonConvert;
@@ -36,6 +37,9 @@ public class SchedulerService {
     @Autowired
     private ManageRepository manageRepository;
 
+    @Autowired
+    private PayAppService payAppService;
+
     public void setAbsentStartEndUpd() {approvalUserRepository.setAbsentStartEndUpd();}
 
     public void etaxG20Scheduler() {
@@ -61,8 +65,24 @@ public class SchedulerService {
         List<Map<String, Object>> list = new ArrayList<>();
         list = g20Repository.getEtaxDb(params);
 
-        manageRepository.delDjEtax(params);
-        manageRepository.insDjEtaxUp(list);
+        if(list.size() > 0){
+            manageRepository.delDjEtax(params);
+            manageRepository.insDjEtaxUp(list);
+        }
+    }
+
+    public void exnpApproveStatChangeSheduler(){
+        List<Map<String, Object>> list = manageRepository.getApproveExnpList();
+
+        for(Map<String, Object> map : list){
+            Map<String, Object> params = new HashMap<>();
+            params.put("regEmpSeq", map.get("REG_EMP_SEQ"));
+            params.put("empSeq", map.get("EMP_SEQ"));
+            params.put("exnpSn", map.get("EXNP_SN"));
+            params.put("exnpG20Stat", 'Y');
+
+            payAppService.resolutionExnpAppr(params);
+        }
     }
 
 }

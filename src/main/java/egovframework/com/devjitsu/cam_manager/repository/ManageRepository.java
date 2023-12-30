@@ -83,4 +83,9 @@ public class ManageRepository extends AbstractDAO {
     public List<Map<String, Object>> getUserAccountManagementList(Map<String, Object> map) {
         return selectList("manage.getUserAccountManagementList", map);
     }
+
+    public List<Map<String, Object>> getApproveExnpList() {
+
+        return selectList("manage.getApproveExnpList", null);
+    }
 }

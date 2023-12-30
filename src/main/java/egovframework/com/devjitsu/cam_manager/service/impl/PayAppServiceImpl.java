@@ -392,6 +392,16 @@ public class PayAppServiceImpl implements PayAppService {
                 int exnpDocNumber = 0;      // 같은 지출결의서 CNT
                 exnpDocNumber = payAppRepository.getExnpCountDoc(data);
                 data.put("PMR_NO", data.get("IN_DT") + "-" + String.format("%02d", userSq) + "-" + String.format("%02d", exnpDocNumber + 1));
+
+                while (true){
+                    int duplCheck = payAppRepository.getExnpCheck(data);
+                    if (duplCheck == 0) {
+                        break;
+                    }
+                    userSq++;
+                    data.put("PMR_NO", data.get("IN_DT") + "-" + String.format("%02d", userSq) + "-" + String.format("%02d", exnpDocNumber + 1));
+                }
+
                 data.put("USER_SQ", userSq);
 
                 Map<String, Object> tradeMap = g20Repository.getTradeInfo(data);

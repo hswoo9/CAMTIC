@@ -548,4 +548,18 @@
         </if>
         ORDER BY SORT
     </select>
+
+    <select id="getApproveExnpList" parameterType="map" resultType="map">
+        /*getApproveExnpList*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_EXNP
+        WHERE
+        <![CDATA[
+            DT3 <= now()
+        AND RE_STAT = 'N'
+        AND PAY_APP_TYPE = 1
+        ]]>
+    </select>
 </mapper>

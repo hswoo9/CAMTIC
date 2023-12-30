@@ -57,6 +57,11 @@ var draftFormList = {
                 htmlStr += "           <td id=\"formLinkageType\">시스템연동문서</td>";
             }
             htmlStr += "       </tr>" +
+                "       <tr>" +
+                "           <th class=\"text-center th-color\">보존연한</th>" +
+                "           <td>" + (result.formInfoReqOpt.PRESERVE_PERIOD == null ? "5" : result.formInfoReqOpt.PRESERVE_PERIOD) + "년" +
+                "           </td>" +
+                "       </tr>" +
                 "   </tbody>" +
                 "</table>" +
                 "<input type=\"button\" class=\"k-button k-button-md k-button-solid k-button-solid-base\" style='float: right;' id=\"formDraftBtn\" value=\"기안하기\" onclick='draftFormList.formDraftPop()' />";

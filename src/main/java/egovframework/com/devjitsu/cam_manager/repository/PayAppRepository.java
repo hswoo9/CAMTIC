@@ -331,4 +331,8 @@ public class PayAppRepository extends AbstractDAO {
     public void delUseEtaxInfo(Map<String, Object> payAppInfo) {
         delete("payApp.delUseEtaxInfo", payAppInfo);
     }
+
+    public int getExnpCheck(Map<String, Object> data) {
+        return (int) selectOneMs("g20.getExnpCheck", data);
+    }
 }

@@ -217,7 +217,7 @@ var draft = {
         draft.global.flag = result.flag;
 
         if(result.flag){
-            var formInfoReqOpt = result;
+            var formInfoReqOpt = result.formInfoReqOpt;
             var formRdRcCfList = result;
             var formReaderList = formRdRcCfList.readerList;
             // var formReceiver = formRdRcCfList.receiverList;
@@ -229,9 +229,8 @@ var draft = {
             $("#formName").val(formInfoReqOpt.FORM_NAME);
 
             /** 기본정보 조회 */
-            $("#publicType").data("kendoRadioGroup").value(formInfoReqOpt.PUBLIC_TYPE);
-            $("#urgentType").data("kendoRadioGroup").value(formInfoReqOpt.URGENT_TYPE);
             $("#securityType").data("kendoRadioGroup").value(formInfoReqOpt.SECURITY_TYPE);
+            $("#securityType").data("kendoRadioGroup").trigger("change");
             $("#docGbn").data("kendoRadioGroup").value(formInfoReqOpt.DOC_GBN);
             $("#docGbn").data("kendoRadioGroup").trigger("change");
 
@@ -984,7 +983,6 @@ var draft = {
 
         formData.append("formId", $("#formId").val());
         formData.append("formName", $("#formName").val());
-
         formData.append("docType", $("#docType").val());
         formData.append("docNo", $("#docNo").val());
         formData.append("docId", $("#docId").val());
@@ -1179,6 +1177,7 @@ var draft = {
     makeApprovalFormData(type){
         draft.global.formData = new FormData();
         draft.global.formData.append("type", type);
+        draft.global.formData.append("formId", $("#formId").val());
         draft.global.formData.append("menuCd", $("#menuCd").val());
         draft.global.formData.append("docId", draft.global.draftDocInfo.DOC_ID);
         draft.global.formData.append("linkageProcessCode", draft.global.draftDocInfo.APPRO_KEY.split("_")[0]);

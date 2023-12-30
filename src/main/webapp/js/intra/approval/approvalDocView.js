@@ -865,6 +865,7 @@ var docView = {
         var formData = new FormData();
         formData.append("type", type);
         formData.append("menuCd", $("#menuCd").val());
+        formData.append("formId", docView.global.rs.docInfo.FORM_ID);
         formData.append("docId", docView.global.rs.docInfo.DOC_ID);
         formData.append("linkageProcessCode", docView.global.params.approKey.split("_")[0]);
         formData.append("approKey", docView.global.params.approKey);

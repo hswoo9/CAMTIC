@@ -3,6 +3,18 @@
  * 전체관리 > 결재관리 > 양식관리
  *
  */
+var draft = {
+    global :{
+        readersArr : new Array(),
+    },
+
+    readerSelectPopClose : function(e, readerNameStr){
+        $("#readerName").val(readerNameStr);
+        draft.global.readersArr = e;
+        formM.global.readerArr = e;
+    },
+}
+
 var formM = {
     global : {
         readerArr : new Array(),
@@ -133,6 +145,19 @@ var formM = {
             labelPosition : "after",
             value : "HWP",
             enabled : false,
+        });
+
+        $("#preservePeriod").kendoRadioGroup({
+            items: [
+                { label : "1년", value : "1" },
+                { label : "2년", value : "2" },
+                { label : "3년", value : "3" },
+                { label : "4년", value : "4" },
+                { label : "5년", value : "5" }
+            ],
+            layout : "horizontal",
+            labelPosition : "after",
+            value : "1",
         });
 
         $("#securityType").kendoRadioGroup({
@@ -342,6 +367,7 @@ var formM = {
         }
 
         $("#formReqOptId").val(e.FORM_REQ_OPT_ID);
+        $("#preservePeriod").getKendoRadioGroup().value(e.PRESERVE_PERIOD);
         $("#securityType").getKendoRadioGroup().value(e.SECURITY_TYPE);
         $("#securityType").data("kendoRadioGroup").trigger("change");
         $("#docGbn").getKendoRadioGroup().value(e.DOC_GBN);
@@ -420,9 +446,9 @@ var formM = {
     },
 
     readerSelectPopup : function(){
-        formM.global.windowPopUrl = "/formManagement/readerSelectPopup.do";
+        formM.global.windowPopUrl = "/approval/approvalReaderSelectPopup.do";
         formM.global.popName = "readerSelectPopup";
-        formM.global.popStyle ="width=1170, height=650, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        formM.global.popStyle ="width=1170, height=612, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
 
         window.open(formM.global.windowPopUrl, formM.global.popName, formM.global.popStyle);
     },
@@ -529,6 +555,7 @@ var formM = {
         formData.append("empSeq", $("#empSeq").val());
 
         formData.append("formReqOptId", $("#formReqOptId").val());
+        formData.append("preservePeriod", $("#preservePeriod").getKendoRadioGroup().value());
         formData.append("securityType", $("#securityType").getKendoRadioGroup().value());
         formData.append("docGbn", $("#docGbn").getKendoRadioGroup().value());
         formData.append("readerArr", JSON.stringify(formM.global.readerArr));
@@ -613,8 +640,8 @@ var formM = {
         $("#linkagePopHeight").val("");
 
         /************* 필수 기본항목 설정 *************/
-        $("#formFileName").val("")
 
+        $("#preservePeriod").data("kendoRadioGroup").value("1");
         $("#securityType").data("kendoRadioGroup").value("000");
         $("#securityType").data("kendoRadioGroup").trigger("change");
         $("#docGbn").data("kendoRadioGroup").value("000");
