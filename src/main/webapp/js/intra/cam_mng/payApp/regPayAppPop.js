@@ -563,6 +563,8 @@ var regPay = {
 
                     var value = this.value();
 
+                    regPayDet.fn_eviTypeReset(e.sender.element[0].id.replace("eviType", ""));
+
                     if(value != ""){
                         if(value == "6"){
                             alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
@@ -880,6 +882,8 @@ var regPay = {
             }
 
 
+
+
             itemArr.push(data);
         });
 
@@ -1110,6 +1114,8 @@ var regPayDet = {
                 var value = $("#eviType0").val();
                 var itemIndex = 0;
 
+                regPayDet.fn_eviTypeReset(itemIndex);
+
                 if(value != ""){
                     if(value == "6"){
                         alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
@@ -1272,6 +1278,8 @@ var regPayDet = {
             change : function (e){
                 var value = $("#eviType" + itemIndex).val();
 
+                regPayDet.fn_eviTypeReset(itemIndex);
+
                 if(value != ""){
                     if(value == "6"){
                         alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
@@ -1433,6 +1441,31 @@ var regPayDet = {
         var name = "_blank";
         var option = "width = 850, height = 400, top = 200, left = 350, location = no";
         var popup = window.open(url, name, option);
+    },
+
+    fn_eviTypeReset: function(idx) {
+        $("#fileNo" + idx).val("");
+        $("#authNo" + idx).val("");
+        $("#authHh" + idx).val("");
+        $("#authDd" + idx).val("");
+        $("#issNo" + idx).val("");
+        $("#coCd" + idx).val("");
+        $("#taxTy" + idx).val("");
+        $("#crmNm" + idx).val("");
+        $("#buySts" + idx).val("");
+        $("#trCd" + idx).val("");
+        $("#regNo" + idx).val("");
+        $("#crmBnkNm" + idx).val("");
+        $("#crmAccNo" + idx).val("");
+        $("#crmAccHolder" + idx).val("");
+        $("#trDe" + idx).data("kendoDatePicker").value(new Date());
+        $("#totCost" + idx).val("");
+        $("#supCost" + idx).val("");
+        $("#vatCost" + idx).val("");
+        $("#card" + idx).val("");
+        $("#cardNo" + idx).val("");
+        $("#etc" + idx).val("");
+
     }
 }
 

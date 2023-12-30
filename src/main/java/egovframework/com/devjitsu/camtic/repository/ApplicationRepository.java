@@ -44,4 +44,6 @@ public class ApplicationRepository extends AbstractDAO {
     public void setApplicationMainSaveType(Map<String, Object> params) { update("application.setApplicationMainSaveType", params);}
 
     public List<Map<String,Object>> getApplicationByRecruitArea(Map<String, Object> params){return selectList("application.getApplicationByRecruitArea",params);}
+
+    public boolean getChkEmail(Map<String, Object> params) { return (boolean) selectOne("application.getChkEmail", params);}
 }

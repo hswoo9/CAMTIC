@@ -150,7 +150,7 @@
                       <div class="info _row" style="border-color:#997000;">
                         <ul>
                           <li>일자리사업팀</li>
-                          <li>전북조선업도약팀</li>
+                          <%--<li>전북조선업도약팀</li>--%>
                           <li>익산고용안정팀</li>
                         </ul>
                       </div>
@@ -211,14 +211,14 @@
               <td scope="col">063)219-0426</td>
             </tr>
             <tr>
-              <td rowspan="3" scope="col">일자리혁신지원센터</td>
+              <td rowspan="2" scope="col">일자리혁신지원센터</td>
               <td scope="col">일자리사업팀</td>
               <td scope="col">063)219-0385</td>
             </tr>
-            <tr>
+           <%-- <tr>
               <td scope="col">전북조선업도약팀</td>
               <td scope="col">063)450-1304</td>
-            </tr>
+            </tr>--%>
             <tr>
               <td scope="col">익산고용안정팀</td>
               <td scope="col">063)837-0401</td>

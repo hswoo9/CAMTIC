@@ -409,4 +409,15 @@ public class ManageController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/mng/getEtaxListAll")
+    public String getEtaxListAll(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = new ArrayList<>();
+        list = manageService.getEtaxListAll(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
 }

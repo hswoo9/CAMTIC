@@ -139,7 +139,7 @@
       <div class="inner">
         <div class="lef">
           <ul class="tab">
-            <li class="active"><button type="button" role="tab" id="tab4" onclick="goList('all')" aria-controls="tab-panel4" aria-selected="true">전체</button></li>
+            <li class="active"><button type="button" role="tab" id="tab4" onclick="getCategoryAll();" aria-controls="tab-panel4" aria-selected="true">전체</button></li>
             <li><button type="button" role="tab" id="tab1" onclick="goList('notice')" aria-controls="tab-panel1" aria-selected="false">공지사항</button></li>
             <li><button type="button" role="tab" id="tab5" onclick="goList('study')" aria-controls="tab-panel5" aria-selected="false">교육/행사</button></li>
             <li><button type="button" role="tab" id="tab2" onclick="getRecruitList();" aria-controls="tab-panel2" aria-selected="false">채용공고</button></li>
@@ -366,6 +366,7 @@
   var viewUrl = "";
 
   var resultData;
+  var resultData1;
   var resultData2;
   var resultData3;
   var resultData4;
@@ -376,6 +377,7 @@
     /*getInstagramData();
     getFacebookData();*/
     drawTable();
+    getCategoryAll();
     drawTable2();
     camticFocusList();
     snsPosts();
@@ -383,7 +385,6 @@
 
   function goList(e){
     data.category = e;
-
     fnDefaultScript();
     drawTable();
   }
@@ -397,12 +398,65 @@
       async: false,
       success: function(rs) {
         resultData = rs.list;
+        resultData1 = rs.list1;
         resultData2 = rs.list2;
         resultData3 = rs.list3;
         resultData4 = rs.list4;
         resultData5 = rs.list5;
       }
     });
+  }
+
+  //전체 게시판 조회(공지사항, 교육/행사, 채용공고)
+  function getCategoryAll() {
+    viewUrl = "/camtic/news/view.do?category=";
+    linkUrl = "/camtic/member/job_view.do?recruitInfoSn="
+
+    $(".sec").html('');
+
+    let html = "";
+
+    resultData1.forEach((item, index) => {
+      if(item.BOARD_CATEGORY_ID == 'recruit'){
+        html += "<a href='"+ linkUrl + item.BOARD_ARTICLE_ID + "' class='box'>";
+      }else{
+        html += "<a href='"+ viewUrl + item.BOARD_CATEGORY_ID+'&boardArticleId='+item.BOARD_ARTICLE_ID+"' class='box'>";
+      }
+
+      if(item.BOARD_CATEGORY_ID == 'recruit'){
+        if(item.RECRUIT_STATUS_SN == 'E'){
+          html += '<div class="ddakji end"><span style="font-size:13px;">' + item.RECRUIT_STATUS_TEXT  + '</span></div>';
+        }else if(item.RECRUIT_STATUS_SN == '3' || item.RECRUIT_STATUS_SN == '4' || item.RECRUIT_STATUS_SN == '5'){
+          html += '<div class="ddakji ing"><span style="font-size:13px;">심사중</span></div>';
+        }else if(item.RECRUIT_STATUS_SN == '2'){
+          html += '<div class="ddakji ing"><span style="font-size:13px;">접수중</span></div>';
+        }
+      }
+      if(item.BOARD_CATEGORY_ID == 'recruit') {
+        html += '<p class="subject" style="margin-top: 31px;">' + item.BOARD_ARTICLE_TITLE + '</p>';
+      }else{
+        html += '<p class="subject">' + item.BOARD_ARTICLE_TITLE + '</p>';
+      }
+
+      if(item.BOARD_CATEGORY_ID != 'recruit'){
+        let contents = item.BOARD_ARTICLE_CONTENT.replace(/<\/?("[^"]*"|'[^']*'|[^>])*(>|$)/gi, "");
+        html += '<div><p class="sum">'+ contents +'</p></div>';
+      }
+
+      //html += '<p class="date">'+ item.regDate +'</p>';
+      if (item.BOARD_CATEGORY_ID === 'recruit') {
+        html += '<p class="date">'+ item.regDate +'<span style="float:right;">채용공고</span></p>';
+      } else if (item.BOARD_CATEGORY_ID === 'notice') {
+        html += '<p class="date">'+ item.regDate +'<span style="float:right;">공지사항</span></p>';
+      } else if (item.BOARD_CATEGORY_ID === 'study') {
+        html += '<p class="date">' + item.regDate + '<span style="float:right;">교육/행사</span></p>';
+      }
+
+      html += '</a>';
+    });
+
+    /*tableBody.innerHTML = html;*/
+    $(".sec").append(html);
   }
 
   //게시글 리스트 그리기
@@ -414,21 +468,21 @@
       viewUrl = "/camtic/pr/pr_view.do?category=report&boardArticleId=";
     }else if(data && data.category == "study"){
       viewUrl = "/camtic/pr/pr_view.do?category=study&boardArticleId=";
-    }else if(data && data.category == "all"){
-        viewUrl = "/camtic/news/view.do?category=";
-    }
+    }/*else if(data && data.category == "all"){
+      viewUrl = "/camtic/news/view.do?category=";
+    }*/
 
     $(".sec").html('');
 
     let html = "";
 
     resultData.forEach((item, index) => {
-      if(data && data.category == "all"){
+      /*if(data && data.category == "all"){
         html += "<a href='"+ viewUrl+item.BOARD_CATEGORY_ID+'&boardArticleId='+item.BOARD_ARTICLE_ID+" ' class='box'>";
       }else{
         html += "<a href='"+ viewUrl +item.BOARD_ARTICLE_ID+" ' class='box'>";
-      }
-      /*html += "<a href='"+ viewUrl +item.BOARD_ARTICLE_ID+" ' class='box'>";*/
+      }*/
+      html += "<a href='"+ viewUrl +item.BOARD_ARTICLE_ID+"' class='box'>";
 
       html += '<p class="subject">'+ item.BOARD_ARTICLE_TITLE +'</p>';
       let contents = item.BOARD_ARTICLE_CONTENT.replace(/<\/?("[^"]*"|'[^']*'|[^>])*(>|$)/gi, "");

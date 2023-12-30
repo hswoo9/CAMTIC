@@ -143,7 +143,7 @@ var prm = {
                                 stat = "결재완료"
                                 if(e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.EXNP_STATUS != 0){
                                     stat = "지출완료";
-                                } else if(e.EXNP_DOC_STATUS != e.EXNP_STATUS){
+                                } else if(e.EXNP_DOC_STATUS != e.EXNP_STATUS && e.EXNP_DOC_STATUS != 0){
                                     stat = "부분지출";
                                 } else if (e.EXNP_STATUS != 0){
                                     stat = "지출대기";

@@ -87,11 +87,6 @@
                                         <th>비밀번호</th>
                                         <td><input type="password" class="recruitText" id="userPassword" name="userPassword" onkeypress="if(window.event.keyCode==13){setApplicationLogin()}" value=""></td>
                                     </tr>
-
-                                    <tr>
-                                        <th>비밀번호 확인</th>
-                                        <td><input type="password" class="recruitText" id="userPassword2" name="userPassword2" onkeypress="if(window.event.keyCode==13){setApplicationLogin()}" value=""></td>
-                                    </tr>
                                 </table>
                                 <input type="hidden" id="userEmailSub1" name="id_sub1" value="">
                                 <input type="hidden" id="userEmailSub2" name="id_sub2" value="">
@@ -117,7 +112,7 @@
 <script src="/js/intra/common/aes.js?v=1"></script>
 <script>
 
-    var strongPassword = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})');
+    //var strongPassword = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})');
     var strongPassword = new RegExp('(?=.{4,})');
 
     function fn_goList(){
@@ -142,14 +137,7 @@
             //alert("비밀번호 형식이 올바르지 않습니다.\n[8자리 이상, 숫자, 특수문자, 하나이상 대소문자 혼합]");
             alert("비밀번호는 4글자 이상으로 입력해주세요.");
             $("#userPassword").focus();
-            return
-        } else if (!$("#userPassword2").val()) {
-            alert("비밀번호 확인을 입력해주세요.");
-            $("#userPassword2").focus();
-            return;
-        } else if ($("#userPassword").val() !== $("#userPassword2").val()) {
-            alert("비밀번호가 일치하지 않습니다.\n다시 입력해주세요.");
-            $("#userPassword2").focus();
+
             return;
         }
 
@@ -191,7 +179,7 @@
                     if (chk.rs.code == "500") {
                         /** 비밀번호 오류 */
                         alert(chk.rs.message);
-                    } else if (chk.rs.code == "200") {
+                    } else if (chk.rs.code == "200" || chk.rs.chkEmail) {
                         location.href = "/camtic/member/job_applicationRecruitList.do"
                     }
                 }

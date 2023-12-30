@@ -67,6 +67,46 @@
             LIMIT 3
     </select>
 
+    <select id="getCategoryAllMainList" resultType="map" parameterType="map">
+        /*getCategoryAllMainList*/
+        SELECT
+            BOARD_ARTICLE_ID,
+            BOARD_ID,
+            BOARD_CATEGORY_ID,
+            BOARD_ARTICLE_TITLE,
+            BOARD_ARTICLE_CONTENT,
+            '' AS RECRUIT_DETAIL,
+            REG_DATE,
+            DATE_FORMAT(REG_DATE, '%Y-%m-%d') AS regDate,
+            '' AS RECRUIT_STATUS_SN
+        FROM
+            CAM_COMMON.DJ_BOARD_ARTICLE
+        WHERE
+            BOARD_CATEGORY_ID in ('notice','study')
+        AND
+            ACTIVE = 'Y'
+        UNION ALL
+        SELECT
+            RECRUIT_INFO_SN AS BOARD_ARTICLE_ID,
+            'recruit' AS BOARD_ID,
+            'recruit' AS BOARD_CATEGORY_ID,
+            RECRUIT_TITLE AS BOARD_ARTICLE_TITLE,
+            RECRUIT_DETAIL,
+            '' AS BOARD_ARTICLE_CONTENT,
+            REG_DT AS REG_DATE,
+            CONCAT(DATE_FORMAT(START_DT, '%Y-%m-%d'), ' ~ ', DATE_FORMAT(END_DT, '%Y-%m-%d')) AS regDate,
+            RECRUIT_STATUS_SN
+        FROM
+            CAM_INSIDE.DJ_RECRUIT_INFO IRI
+        WHERE
+            ACTIVE = 'Y'
+          AND
+            RECRUIT_STATUS_SN IN ('2', '3', '4', 'E')
+        ORDER BY
+            REG_DATE DESC
+        LIMIT 3;
+    </select>
+
     <select id="selectBsnsMainList" resultType="map" parameterType="map">
         /*selectBsnsMainList*/
         SELECT
@@ -651,6 +691,7 @@
             RI.END_DT,
             RI.RECRUIT_TITLE,
             RI.RECRUIT_NUM,
+            DATE_FORMAT(RAI.REG_DT, '%Y-%m-%d %H:%i') AS regDt,
             AM.APPLICATION_STAT,
             AM.PRELIMINARY_PASS,
             AM.APPLICATION_ID
@@ -675,4 +716,5 @@
         AND
             RECRUIT_INFO_SN = #{recruitInfoSn}
     </update>
+
 </mapper>

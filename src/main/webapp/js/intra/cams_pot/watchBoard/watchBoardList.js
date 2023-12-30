@@ -67,7 +67,8 @@ var wbl = {
 
         var i = 0;
 		list.forEach(row => {
-			var locationHost = "http://218.158.231.186";
+			var protocol = window.location.protocol + "//";
+			var locationHost = protocol + window.location.host;
 
 			var articleTitle = "";
 			if(row.board_ARTICLE_TITLE != null && row.board_ARTICLE_TITLE != ""){

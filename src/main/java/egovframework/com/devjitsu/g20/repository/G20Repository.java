@@ -102,7 +102,7 @@ public class G20Repository extends AbstractDAO {
     }
 
     public List<Map<String, Object>> getEtaxList(Map<String, Object> params) {
-        return selectListMs("g20.getEtaxList", params);
+        return selectList("manage.getEtaxList", params);
     }
 
     public Map<String, Object> getEtaxData(Map<String, Object> params) {
