@@ -10,7 +10,7 @@ var bgtItemInfo = {
         bgtItemInfo.global.params = setParameters;
 
         var date = new Date();
-        var baseDate = date.getFullYear().toString() + date.getMonth().toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0');
+        var baseDate = date.getFullYear().toString() + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0');
 
         bgtItemInfo.global.searchAjaxData = {
             pjtSn : bgtItemInfo.global.params.pjtCd,

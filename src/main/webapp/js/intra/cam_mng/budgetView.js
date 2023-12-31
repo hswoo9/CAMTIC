@@ -21,7 +21,7 @@ var bgView = {
                 opt01 : '3',
                 opt02 : '1',
                 opt03 : '2',
-                baseDate : date.getFullYear().toString() + date.getMonth().toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0')
+                baseDate : date.getFullYear().toString() + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0')
             }
 
             bgView.budgetMainGrid(data);
@@ -62,7 +62,7 @@ var bgView = {
                     data.opt01 = '3';
                     data.opt02 = '1';
                     data.opt03 = '2';
-                    data.baseDate = date.getFullYear().toString() + date.getMonth().toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0');
+                    data.baseDate = date.getFullYear().toString() + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0');
                     data.pjtSn = $("#pjtSn").val();
 
                     if($("#status").val() != "incp"){
