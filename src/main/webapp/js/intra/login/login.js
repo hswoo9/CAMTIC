@@ -13,8 +13,8 @@ var login = {
         if ($("#id").val() =="") {
             alert("아이디를 입력하세요");
             return;
-        }else if ($("#id").val() == "master" && !($("#password").val() == "camtic2021" || $("#password").val() == "Camtic2021" || $("#password").val() == "Camtic2021*^^*V")){
-            alert("비밀번호가 맞지 않습니다.");
+        }else if ($("#password").val() ==""){
+            alert("비밀번호를 입력하세요.");
             return;
         }else{
             var loginUrl = "/loginAccess";

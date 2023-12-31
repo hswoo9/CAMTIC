@@ -78,4 +78,7 @@ public interface CommonService {
     void setAlarmCheck(Map<String, Object> params);
     void setAlarmTopListDel(Map<String, Object> params);
     void setAlarmAllCheck(Map<String, Object> params);
+
+    /** 암호화 */
+    void setPasswordEncryption(Map<String, Object> params);
 }

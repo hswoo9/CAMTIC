@@ -353,4 +353,10 @@ public class CommonController {
 
         return "jsonView";
     }
+
+    /** 사용자 비밀번호 암호화 */
+    @RequestMapping("/common/setPasswordEncryption")
+    public void setPasswordEncryption(@RequestParam Map<String, Object> params){
+        commonService.setPasswordEncryption(params);
+    }
 }

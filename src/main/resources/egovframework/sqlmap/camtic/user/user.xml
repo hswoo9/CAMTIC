@@ -341,4 +341,9 @@
         AND
             FR_KEY = #{historySn}
     </select>
+
+    <select id="getUserEncryptionList" parameterType="map" resultType="map">
+        /* getUserEncryptionList */
+        SELECT * FROM CAM_HR.DJ_EMP_INFO
+    </select>
 </mapper>

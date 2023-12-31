@@ -1,11 +1,13 @@
 package egovframework.com.devjitsu.common.service.impl;
 
+import com.google.common.hash.Hashing;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.common.utiles.CommonUtil;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
+import egovframework.com.devjitsu.gw.user.repository.UserRepository;
 import egovframework.com.devjitsu.system.repository.MenuManagementRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +23,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
@@ -39,6 +42,9 @@ public class CommonServiceImpl implements CommonService {
 
     @Autowired
     private MenuManagementRepository menuManagementRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public void fileDownLoad(String fileNm, String path, String fileType, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -370,5 +376,17 @@ public class CommonServiceImpl implements CommonService {
     @Override
     public void setAlarmAllCheck(Map<String, Object> params) {
         commonRepository.setAlarmAllCheck(params);
+    }
+
+    @Override
+    public void setPasswordEncryption(Map<String, Object> params) {
+        params.put("encryption", "N");
+        List<Map<String, Object>> list = userRepository.getUserEncryptionList(params);
+        for(Map<String, Object> data : list){
+            String passwordTmp = data.get("LOGIN_PASSWD").toString();
+            String password = Hashing.sha256().hashString(passwordTmp, StandardCharsets.UTF_8).toString();
+            data.put("password", password);
+            commonRepository.setPasswordEncryption(data);
+        }
     }
 }

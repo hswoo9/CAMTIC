@@ -51,4 +51,8 @@ public class UserRepository extends AbstractDAO {
     }
 
     public List<Map<String, Object>> getHistoryFileInfo(Map<String, Object> params) {return selectList("user.getHistoryFileInfo", params);}
+
+    public List<Map<String, Object>> getUserEncryptionList(Map<String, Object> params) {
+        return selectList("user.getUserEncryptionList", params);
+    }
 }

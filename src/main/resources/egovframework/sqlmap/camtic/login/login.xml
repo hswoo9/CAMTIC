@@ -57,6 +57,10 @@
             <otherwise>AND HEI.LOGIN_ID = #{id}</otherwise>
         </choose>
 
+        <if test='passwd != null and !"".equals(passwd)'>
+            AND LOGIN_PASSWD = #{passwd}
+        </if>
+
     </select>
 
     <select id="actionLoginMap" resultType="map" parameterType="map">
