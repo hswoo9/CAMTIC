@@ -189,7 +189,7 @@ var teamReq = {
             opt01: "3",
             opt02: "1",
             opt03: "2",
-            baseDate: date.getFullYear().toString() + date.getMonth().toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0'),
+            baseDate: date.getFullYear().toString() + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0'),
             pjtSn: pjtSn
         });
 

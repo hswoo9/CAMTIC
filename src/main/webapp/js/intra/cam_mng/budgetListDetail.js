@@ -31,7 +31,7 @@ var bld = {
                     data.opt01 = '3';
                     data.opt02 = '1';
                     data.opt03 = '2';
-                    data.baseDate = date.getFullYear().toString() + date.getMonth().toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0');
+                    data.baseDate = date.getFullYear().toString() + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0');
                     data.pjtSn = $("#pjtSn").val();
                     data.temp = '1'; /*수입예산 1 , 지출예산 2*/
                     return data;
@@ -182,7 +182,7 @@ var bld = {
                     data.opt01 = '3';
                     data.opt02 = '1';
                     data.opt03 = '2';
-                    data.baseDate = date.getFullYear().toString() + date.getMonth().toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0');
+                    data.baseDate = date.getFullYear().toString() + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0');
                     data.pjtSn = $("#pjtSn").val();
                     data.temp = '2'; /*수입예산 1 , 지출예산 2*/
                     return data;
