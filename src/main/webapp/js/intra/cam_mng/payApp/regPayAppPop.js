@@ -124,11 +124,9 @@ var regPay = {
             var rs = result.data;
             const pjtMap = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: rs.PJT_SN}).rs;
 
-            if($("#pjtSn").val != ""){
-                $("#pjtSn").val(rs.PJT_SN);
-            }
+            $("#pjtSn").val(pjtMap.PJT_SN);
+            $("#pjtNm").val(pjtMap.PJT_NM);
             if($("#pjtSn").val() != ""){
-                $("#pjtSn").val(pjtMap.PJT_SN);
                 selectProject(rs.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD)
             }
             $("#appTitle").val(rs.PURC_REQ_PURPOSE);
