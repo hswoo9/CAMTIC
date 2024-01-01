@@ -67,7 +67,8 @@ var rndBg = {
                 opt01 : '3',
                 opt02 : '1',
                 opt03 : '2',
-                baseDate : date.getFullYear().toString() + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0')
+                // baseDate : date.getFullYear().toString() + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0')
+                baseDate : $("#baseYear").val() + '0101'
             }
 
             rndBg.budgetMainGrid(data);
@@ -89,16 +90,18 @@ var rndBg = {
                 },
                 parameterMap: function(data){
                     var date = new Date();
-                    var year = date.getFullYear().toString().substring(2,4);
+                    var year = $("#baseYear").val().toString().substring(2,4);
+
                     data.stat = "project";
                     data.gisu = year;
-                    data.fromDate = date.getFullYear().toString() + "0101";
-                    data.toDate = date.getFullYear().toString() + "1231";
+                    data.fromDate = $("#baseYear").val() + "0101";
+                    data.toDate =  $("#baseYear").val() + "1231";
                     data.mgtSeq = $("#budgetType").data("kendoRadioGroup").value();
                     data.opt01 = '3';
                     data.opt02 = '1';
                     data.opt03 = '2';
-                    data.baseDate = date.getFullYear().toString() + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0');
+                    data.baseDate =  $("#baseYear").val() + '0101';
+                    // data.baseDate = date.getFullYear().toString() + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0');
                     data.pjtSn = $("#pjtSn").val();
                     data.temp = '1'; /*수입예산 1 , 지출예산 2*/
                     return data;
@@ -238,16 +241,19 @@ var rndBg = {
                 },
                 parameterMap: function(data){
                     var date = new Date();
-                    var year = date.getFullYear().toString().substring(2,4);
+                    // var year = date.getFullYear().toString().substring(2,4);
+                    var year = $("#baseYear").val().toString().substring(2,4);
+
                     data.stat = "project";
                     data.gisu = year;
-                    data.fromDate = date.getFullYear().toString() + "0101";
-                    data.toDate = date.getFullYear().toString() + "1231";
+                    data.fromDate = $("#baseYear").val() + "0101";
+                    data.toDate = $("#baseYear").val() + "1231";
                     data.mgtSeq = $("#budgetType").data("kendoRadioGroup").value();
                     data.opt01 = '3';
                     data.opt02 = '1';
                     data.opt03 = '2';
-                    data.baseDate = date.getFullYear().toString() + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0');
+                    // data.baseDate = date.getFullYear().toString() + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0');
+                    data.baseDate = $("#baseYear").val() + '0101';
                     data.pjtSn = $("#pjtSn").val();
                     data.temp = '2'; /*수입예산 1 , 지출예산 2*/
                     return data;
