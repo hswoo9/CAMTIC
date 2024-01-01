@@ -1022,4 +1022,15 @@
         WHERE
             PURC_SN = #{purcSn}
     </select>
+
+    <select id="getProjectReqFile" parameterType="map" resultType="map">
+        /* getProjectReqFile */
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            CONTENT_ID IN (SELECT CONCAT('purcReq_', PURC_SN) FROM CAM_MNG.DJ_MNG_PURC WHERE PJT_SN = #{pjtSn})
+        ORDER BY REG_DATE DESC
+    </select>
 </mapper>
