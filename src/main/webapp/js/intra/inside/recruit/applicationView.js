@@ -353,9 +353,9 @@ var appView = {
                 '          <th>활용능력</th>' +
                 '          <th>증빙</th>' +
                 '        </tr>';
-        if (data.certFile !== null && data.certFile !== undefined) {
-            for (let i = 0; i < data.certFile.length; i++) {
-                const item = data.certFile[i];
+        if (data.cert !== null && data.cert !== undefined) {
+            for (let i = 0; i < data.cert.length; i++) {
+                const item = data.cert[i];
 
                 html += '<tr>';
                 html += '<td>' + item.CERT_NAME + '</td>';

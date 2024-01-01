@@ -221,7 +221,9 @@
             <td>${item.RETIRE_SALARY}</td>
             <td>${item.RETIRE_REASON}</td>
             <td>
-              <img src="/images/ico/file.gif" onclick="fileDown('${item.careerFile.file_path}${item.careerFile.file_uuid}', '${item.careerFile.file_org_name}.${item.careerFile.file_ext}', 'recruit')">
+              <c:if test="${item.careerFile ne null}">
+                <img src="/images/ico/file.gif" onclick="fileDown('${item.careerFile.file_path}${item.careerFile.file_uuid}', '${item.careerFile.file_org_name}.${item.careerFile.file_ext}', 'recruit')">
+              </c:if>
             </td>
           </tr>
           <tr>
@@ -304,7 +306,7 @@
           <th>활용능력</th>
           <th>증빙</th>
         </tr>
-        <c:forEach var="item" items="${data.certFile}">
+        <c:forEach var="item" items="${data.cert}">
           <tr>
             <td>${item.CERT_NAME}</td>
             <td>${item.CERT_CLASS}</td>
