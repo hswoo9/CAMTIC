@@ -180,7 +180,10 @@ function fn_inputNumberFormat(obj){
     }
 }
 
-function fileDown(filePath, fileName){
+function fileDown(filePath, fileName, stat){
+    if(stat == "recurit"){
+        filePath = "http://218.158.231.189" + filePath;
+    }
     kendo.saveAs({
         dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent(fileName),
     });
