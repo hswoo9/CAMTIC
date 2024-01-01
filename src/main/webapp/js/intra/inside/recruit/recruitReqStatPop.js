@@ -25,13 +25,13 @@ var rcReqStatPop = {
         customKendo.fn_dropDownList("recruitStatus", recruitStatusArr, "text", "value", 2);
         //$("#recruitStatus").data("kendoDropDownList").select(2);
 
-        $("#recruitDetail").kendoTextArea({ rows: 5, maxLength:200, placeholder: "" });
-        $("#eligibilityEtc").kendoTextArea({ rows: 5, maxLength:200, placeholder: "" });
-        $("#workType").kendoTextArea({ rows: 5, maxLength:200, placeholder: "" });
-        $("#admission").kendoTextArea({ rows: 5, maxLength:200, placeholder: "" });
-        $("#applicationDoc").kendoTextArea({ rows: 5, maxLength:200, placeholder: "" });
-        $("#receiptDocu").kendoTextArea({ rows: 5, maxLength:200, placeholder: "" });
-        $("#remark").kendoTextArea({ rows: 5, maxLength:200, placeholder: "" });
+        $("#recruitDetail").kendoTextArea({ rows: 5, maxLength:2000, placeholder: "" });
+        $("#eligibilityEtc").kendoTextArea({ rows: 5, maxLength:2000, placeholder: "" });
+        $("#workType").kendoTextArea({ rows: 5, maxLength:2000, placeholder: "" });
+        $("#admission").kendoTextArea({ rows: 5, maxLength:2000, placeholder: "" });
+        $("#applicationDoc").kendoTextArea({ rows: 5, maxLength:2000, placeholder: "" });
+        $("#receiptDocu").kendoTextArea({ rows: 5, maxLength:2000, placeholder: "" });
+        $("#remark").kendoTextArea({ rows: 5, maxLength:2000, placeholder: "" });
 
 
     },
