@@ -36,7 +36,7 @@
 	#articleContentDiv table {
 		background-color: transparent;
 	}
-	#articleContentDiv table tr table:first-child {
+	#articleContentDiv table tr table:first-child:not(#articleContentDiv table tr center table) {
 		border: 1px solid #afafaf;
 	}
 </style>
