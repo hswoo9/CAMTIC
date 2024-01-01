@@ -14,6 +14,36 @@
         white-space: nowrap;
         text-align: right;
     }
+
+    #tooltip span {
+        cursor: pointer;
+        display: block;
+        width: 20px;
+        height: 20px;
+        background-image: url("/images/ico/ico_alert.png");
+        background-size: 20px;
+        -moz-border-radius: 30px;
+        -webkit-border-radius: 30px;
+        border: none;
+        -moz-box-shadow: 0 0 0 1px rgba(0,0,0,0.5);
+        /*-webkit-box-shadow: 0 0 0 1px rgba(0,0,0,0.5);*/
+        /*box-shadow: 0 0 0 1px rgba(0,0,0,0.5);*/
+        -moz-transition:  -moz-box-shadow .3s;
+        -webkit-transition:  -webkit-box-shadow .3s;
+        transition:  box-shadow .3s;
+    }
+
+    #tooltip span:hover {
+        -moz-box-shadow: 0 0 0 15px rgba(0,0,0,0.5);
+        -webkit-box-shadow: 0 0 0 15px rgba(0,0,0,0.5);
+        box-shadow: 0 0 0 15px rgba(0,0,0,0.5);
+        -moz-transition:  -moz-box-shadow .3s;
+        -webkit-transition:  -webkit-box-shadow .3s;
+        transition:  box-shadow .3s;
+    }
+    .k-tooltip {
+        font-size: 12px !important;
+    }
 </style>
 <input type="hidden" id="step" value="R0" />
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
@@ -48,27 +78,46 @@
             <thead>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>과제책임자
+                    <span class="red-star">*</span>사업 목적/내용
                 </th>
                 <td colspan="3">
-                    <input type="text" id="mngDeptName" style="width: 13%" disabled>
-                    <input type="hidden" id="mngDeptSeq" disabled>
-                    <input type="text" id="mngEmpName" style="width: 8%" disabled>
-                    <input type="hidden" id="mngEmpSeq">
-                    <button type="button" id="stfs" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userSearch('mng');">
-                        검색
-                    </button>
+                    <textarea type="text" id="rndObj" name="rndObj" style="width: 100%"></textarea>
                 </td>
-                <%--<th scope="row" class="text-center th-color"><span class="red-star">*</span>총 사업비</th>
-                <td>
-                    <input type="text" id="allBusnCost" name="allBusnCost" disabled style="width: 40%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
-                </td>--%>
-                <%--<th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>출금대표통장
+            </tr>
+            <tr>
+                <th scope="row" class="text-center th-color">
+                    <span class="red-star">*</span>사업계획서
                 </th>
-                <td>
-                    <input type="text" id="bank" style="width: 80%;" value="">
-                </td>--%>
+                <td colspan="3">
+                    <label for="bsPlanFile" class="k-button k-button-solid-base">파일첨부</label>
+                    <input type="file" id="bsPlanFile" name="bsPlanFile" onchange="fileChange(this)" style="display: none">
+                    <span id="bsPlanFileName"></span>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-center th-color">
+                    <span class="red-star">*</span>사업비 분리사용 유무
+                </th>
+                <td colspan="3">
+                    <span>
+                        <div style="float: left">
+                            <input type="radio" id="sbjSepN" name="sbjSepYn" value="N" style="position: relative; top: 3px;">
+                            <label for="sbjSepN">없음</label>
+                            <input type="radio" id="sbjSepY" name="sbjSepYn" value="Y" style="position: relative; top: 3px;">
+                            <label for="sbjSepY">있음</label>
+                        </div>
+                        <div style="float: left; padding-left: 10px;">
+                            <div id="checkboxDiv" style="display: none"> |&nbsp&nbsp
+                                <label for="at1"><input type='checkbox' style="position: relative; top: 3px;" id='at1' name='accountType' class='accountType' value='1'/> 국비&nbsp&nbsp</label>
+                                <label for="at2"><input type='checkbox' style="position: relative; top: 3px;" id='at2' name='accountType' class='accountType' value='2'/> 도비&nbsp&nbsp</label>
+                                <label for="at3"><input type='checkbox' style="position: relative; top: 3px;" id='at3' name='accountType' class='accountType' value='3'/> 시비&nbsp&nbsp</label>
+                                <label for="at4"><input type='checkbox' style="position: relative; top: 3px;" id='at4' name='accountType' class='accountType' value='4'/> 자부담&nbsp&nbsp</label>
+                                <label for="at5"><input type='checkbox' style="position: relative; top: 3px;" id='at5' name='accountType' class='accountType' value='5'/> 업체부담&nbsp&nbsp</label>
+                                <label for="at9"><input type='checkbox' style="position: relative; top: 3px;" id='at9' name='accountType' class='accountType' value='9'/> 기타</label>
+                            </div>
+                        </div>
+                    </span>
+                </td>
             </tr>
             <tr>
                 <%--<th scope="row" class="text-center th-color"><span class="red-star">*</span>정부출연금</th>
@@ -103,6 +152,30 @@
                     <input type="text" id="totResCost" name="totResCost" style="width: 32%;text-align: right" value="0" disabled/>
                 </td>
             </tr>
+            <tr>
+                <th scope="row" class="text-center th-color">
+                    <span class="red-star">*</span>과제책임자
+                </th>
+                <td colspan="3">
+                    <input type="text" id="mngDeptName" style="width: 13%" disabled>
+                    <input type="hidden" id="mngDeptSeq" disabled>
+                    <input type="text" id="mngEmpName" style="width: 8%" disabled>
+                    <input type="hidden" id="mngEmpSeq">
+                    <button type="button" id="stfs" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userSearch('mng');">
+                        검색
+                    </button>
+                </td>
+                <%--<th scope="row" class="text-center th-color"><span class="red-star">*</span>총 사업비</th>
+                <td>
+                    <input type="text" id="allBusnCost" name="allBusnCost" disabled style="width: 40%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                </td>--%>
+                <%--<th scope="row" class="text-center th-color">
+                    <span class="red-star">*</span>출금대표통장
+                </th>
+                <td>
+                    <input type="text" id="bank" style="width: 80%;" value="">
+                </td>--%>
+            </tr>
             <%--<tr>
                 <th scope="row" class="text-center th-color"><span class="red-star">*</span>연구카드사용여부</th>
                 <td>
@@ -133,53 +206,15 @@
                     <input type="text" id="resDay" style="width: 90%;">
                 </td>
             </tr>--%>
-            <tr>
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>사업비 분리사용 유무
-                </th>
-                <td colspan="3">
-                    <span>
-                        <div style="float: left">
-                            <input type="radio" id="sbjSepN" name="sbjSepYn" value="N" style="position: relative; top: 3px;">
-                            <label for="sbjSepN">없음</label>
-                            <input type="radio" id="sbjSepY" name="sbjSepYn" value="Y" style="position: relative; top: 3px;">
-                            <label for="sbjSepY">있음</label>
-                        </div>
-                        <div style="float: left; padding-left: 10px;">
-                            <div id="checkboxDiv" style="display: none"> |&nbsp&nbsp
-                                <label for="at1"><input type='checkbox' style="position: relative; top: 3px;" id='at1' name='accountType' class='accountType' value='1'/> 국비&nbsp&nbsp</label>
-                                <label for="at2"><input type='checkbox' style="position: relative; top: 3px;" id='at2' name='accountType' class='accountType' value='2'/> 도비&nbsp&nbsp</label>
-                                <label for="at3"><input type='checkbox' style="position: relative; top: 3px;" id='at3' name='accountType' class='accountType' value='3'/> 시비&nbsp&nbsp</label>
-                                <label for="at4"><input type='checkbox' style="position: relative; top: 3px;" id='at4' name='accountType' class='accountType' value='4'/> 자부담&nbsp&nbsp</label>
-                                <label for="at5"><input type='checkbox' style="position: relative; top: 3px;" id='at5' name='accountType' class='accountType' value='5'/> 업체부담&nbsp&nbsp</label>
-                                <label for="at9"><input type='checkbox' style="position: relative; top: 3px;" id='at9' name='accountType' class='accountType' value='9'/> 기타</label>
-                            </div>
-                        </div>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>사업계획서
-                </th>
-                <td colspan="3">
-                    <label for="bsPlanFile" class="k-button k-button-solid-base">파일첨부</label>
-                    <input type="file" id="bsPlanFile" name="bsPlanFile" onchange="fileChange(this)" style="display: none">
-                    <span id="bsPlanFileName"></span>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>사업 목적/내용
-                </th>
-                <td colspan="3">
-                    <textarea type="text" id="rndObj" name="rndObj" style="width: 100%"></textarea>
-                </td>
-            </tr>
             <tr id="budgetExDiv" style="display: none">
                 <td colspan="4">
                     <br>
-                    <span id="budgetType"></span>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span id="budgetType"></span>
+                        <span id="tooltip">
+                            <span href="#" title="사업비 분리사용 유무에 따른 예산등록 금액 = 수주금액, 법인사업비(현금) / 현물 존재시 입력" id="projectTooltip"></span>
+                        </span>
+                    </div>
                     <div id="customBudgetGrid-1"></div>
                     <div id="customBudgetGrid0"></div>
                     <div id="customBudgetGrid1"></div>

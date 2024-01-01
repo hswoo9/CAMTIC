@@ -86,7 +86,7 @@
             EI.EMP_NAME_KR,
             BA.PUBLIC_YN,
             BA.PRIVATE_PASS_WORD,
-            (SELECT IF(COUNT(*) > 0, 'Y', 'N') FROM CAM_BOARD.DJ_BOARD_ARTICLE_FILE WHERE BOARD_ARTICLE_ID = BA.BOARD_ARTICLE_ID) AS FILE_YN,
+            (SELECT IF(COUNT(*) > 0, 'Y', 'N') FROM CAM_BOARD.DJ_BOARD_ARTICLE_FILE WHERE BOARD_ARTICLE_ID = BA.BOARD_ARTICLE_ID AND FILE_CD = #{boardId}) AS FILE_YN,
             (SELECT COUNT(*) FROM CAM_BOARD.V_BOARD_ARTICLE_REPLY WHERE BOARD_ARTICLE_ID = BA.BOARD_ARTICLE_ID) AS REPLY_CNT
         FROM
             CAM_BOARD.DJ_BOARD_ARTICLE BA
@@ -406,6 +406,8 @@
         ON BAF.BOARD_ARTICLE_ID = BA.BOARD_ARTICLE_ID
         WHERE
             BAF.BOARD_ARTICLE_ID = #{boardArticleId}
+        AND
+            BAF.FILE_CD = #{boardId}
     </select>
 
     <update id="setArticleDel" parameterType="map">

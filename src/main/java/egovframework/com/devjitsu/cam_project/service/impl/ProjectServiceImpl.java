@@ -7,6 +7,7 @@ import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRndRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectUnRndRepository;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
+import egovframework.com.devjitsu.cam_purc.repository.PurcRepository;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
 import egovframework.com.devjitsu.inside.bustrip.repository.BustripRepository;
@@ -44,6 +45,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private ProjectUnRndRepository projectUnRndRepository;
+
+    @Autowired
+    private PurcRepository purcRepository;
 
     @Override
     public Map<String, Object> getProjectInfo(Map<String, Object> params) {
@@ -856,6 +860,15 @@ public class ProjectServiceImpl implements ProjectService {
                     params.put("fileNo", resultMap.get("PROD_FILE_SN").toString());
                     projectRepository.setResultFileDocNm(params);
                 }
+            }
+
+            /** STEP1. pjtSn 으로 purcFile 호출 */
+            List<Map<String, Object>> purcFiles = purcRepository.getProjectReqFile(params);
+
+            /** STEP2. purcFile에 데이터 있으면 update */
+            for(Map<String, Object> data : purcFiles){
+                data.put("docId", params.get("docId"));
+                projectRepository.setPurcFileDocNm(data);
             }
         }
     }

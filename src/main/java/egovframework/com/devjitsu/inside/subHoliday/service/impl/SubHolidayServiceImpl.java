@@ -167,17 +167,31 @@ public class SubHolidayServiceImpl implements SubHolidayService {
             data.put("useDay", nowYearData.get("USE_DAY"));
         }
 
-        data.put("befYear", befYearData.get("befYear"));
-        data.put("bef2Year", befYearData.get("bef2Year"));
-        data.put("ann", befYearData.get("ann"));
-        data.put("halfAnn", befYearData.get("halfAnn"));
-        data.put("sickLv", befYearData.get("sickLv"));
-        data.put("pubHoly", befYearData.get("pubHoly"));
-        data.put("congHoly", befYearData.get("congHoly"));
-        data.put("matHoly", befYearData.get("matHoly"));
-        data.put("altHoly", befYearData.get("altHoly"));
-        data.put("compHoly", befYearData.get("compHoly"));
-        data.put("workHoly", befYearData.get("workHoly"));
+        if(befYearData == null){
+            data.put("befYear", 0);
+            data.put("bef2Year", 0);
+            data.put("ann", 0);
+            data.put("halfAnn", 0);
+            data.put("sickLv", 0);
+            data.put("pubHoly", 0);
+            data.put("congHoly", 0);
+            data.put("matHoly", 0);
+            data.put("altHoly", 0);
+            data.put("compHoly", 0);
+            data.put("workHoly", 0);
+        }else{
+            data.put("befYear", befYearData.get("befYear"));
+            data.put("bef2Year", befYearData.get("bef2Year"));
+            data.put("ann", befYearData.get("ann"));
+            data.put("halfAnn", befYearData.get("halfAnn"));
+            data.put("sickLv", befYearData.get("sickLv"));
+            data.put("pubHoly", befYearData.get("pubHoly"));
+            data.put("congHoly", befYearData.get("congHoly"));
+            data.put("matHoly", befYearData.get("matHoly"));
+            data.put("altHoly", befYearData.get("altHoly"));
+            data.put("compHoly", befYearData.get("compHoly"));
+            data.put("workHoly", befYearData.get("workHoly"));
+        }
 
         return data;
     }

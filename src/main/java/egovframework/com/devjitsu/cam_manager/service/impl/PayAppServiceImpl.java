@@ -361,6 +361,8 @@ public class PayAppServiceImpl implements PayAppService {
 
         Map<String, Object> pkMap = payAppRepository.getExnpData(params);
 
+        params.put("empSeq", pkMap.get("EMP_SEQ"));
+
         /** 1.지출결의서 일때 세금계산서, 계산서, 신용카드는 반제결의 승인시 g20 프로시저 호출 해야 함 */
         if("1".equals(pkMap.get("PAY_APP_TYPE"))){
             if(type.equals("resolution")){

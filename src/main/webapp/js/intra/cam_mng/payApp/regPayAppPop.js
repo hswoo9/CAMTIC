@@ -179,7 +179,7 @@ var regPay = {
             if(exnpData.COMPANION != 0){
                 $("#etc0").val(exnpData.EMP_NAME + " 외 "+exnpData.COMPANION+"명 개인여비");
             }else{
-                $("#etc0").val(exnpData.EMP_NAME);
+                $("#etc0").val(exnpData.EMP_NAME+" 개인여비");
             }
             $("#totCost0").val(regPay.comma(exnpData.PERSON_SUM));
             $("#supCost0").val(regPay.comma(exnpData.PERSON_SUM));
@@ -191,6 +191,81 @@ var regPay = {
             for(let i=0; i<cardList.length; i++){
                 const cardMap = cardList[i];
                 const index = i+1;
+
+                const parameters = {
+                    cardNo : cardMap.CARD_NO,
+                    authDate : cardMap.AUTH_DD,
+                    authNo : cardMap.AUTH_NO,
+                    authTime : cardMap.AUTH_HH,
+                    buySts : cardMap.BUY_STS
+                }
+                console.log("parameters");
+                console.log(parameters);
+
+
+                const iBrenchResult = customKendo.fn_customAjax("/cam_mng/companyCard/useCardDetail", parameters);
+                const data = iBrenchResult.cardInfo;
+                console.log(data);
+
+                $("#crmNm" + index).val(data.MER_NM);
+                $("#trDe" + index).val(data.AUTH_DD.substring(0,4) + "-" + data.AUTH_DD.substring(4,6) + "-" + data.AUTH_DD.substring(6,8));
+                $("#trCd" + index).val(data.TR_CD);
+                $("#totCost" + index).val(comma(data.AUTH_AMT));
+                $("#supCost" + index).val(comma(data.SUPP_PRICE));
+                $("#vatCost" + index).val(comma(data.SURTAX));
+                $("#cardNo" + index).val(data.CARD_NO.substring(0,4) + "-" + data.CARD_NO.substring(4,8) + "-" + data.CARD_NO.substring(8,12) + "-" + data.CARD_NO.substring(12,16));
+                $("#card" + index).val(data.TR_NM);
+                $("#buySts" + index).val(data.BUY_STS);
+                $("#crmAccHolder" + index).val(data.DEPOSITOR);
+                $("#crmAccNo" + index).val(data.BA_NB);
+                $("#crmBnkNm" + index).val(data.JIRO_NM);
+                $("#regNo" + index).val(data.MER_BIZNO);
+                $("#authNo" + index).val(data.AUTH_NO);
+                $("#authDd" + index).val(data.AUTH_DD);
+                $("#authHh" + index).val(data.AUTH_HH);
+            }
+        }
+
+        if($("#reqType").val() == "snack"){
+            const snackInfoSn = $("#snackInfoSn").val();
+            const data = {
+                snackInfoSn : snackInfoSn
+            }
+            const result = customKendo.fn_customAjax("/inside/getSnackOne", data);
+            const snackData = result.data;
+
+            console.log(snackData);
+
+            const cardResult = customKendo.fn_customAjax("/snack/getCardList", data);
+            const cardList = cardResult.list;
+            console.log("cardList");
+            console.log(cardList);
+
+            let count = 0;
+            /** 개인여비 */
+            if(snackData.PAY_TYPE != null){
+                if(snackData.PAY_TYPE != "2"){
+                    $("#eviType0").data("kendoDropDownList").value(1);
+                    $("#etc0").val(snackData.RECIPIENT_EMP_NAME + "의 개인카드 식대사용");
+                    $("#totCost0").val(regPay.comma(snackData.AMOUNT_SN));
+                    $("#supCost0").val(regPay.comma(snackData.AMOUNT_SN));
+                    count = 1;
+                }
+            }
+
+            /** 법인카드 사용내역 */
+            if(count == 0){
+                for(let i=(1+count); i < (cardList.length+count); i++) {
+                    regPayDet.addRow();
+                }
+            }else{
+                for(let i=(0+count); i < (cardList.length+count); i++) {
+                    regPayDet.addRow();
+                }
+            }
+            for(let i=0; i<cardList.length; i++){
+                const cardMap = cardList[i];
+                const index = i+count;
 
                 const parameters = {
                     cardNo : cardMap.CARD_NO,
@@ -270,7 +345,9 @@ var regPay = {
                 buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save(\'user\')">저장</button>';
                 buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \'payApp\', \'camticPayApp_'+data.PAY_APP_SN+'\', 2, \'reDrafting\');">재상신</button>';
             }else if(data.DOC_STATUS == "100"){
-                buttonHtml += '<button type="button" id="reCallBtn" style="margin-right: 5px;" class="k-button k-button-solid-primary" onclick="regPay.fn_revertModal(\''+data.DOC_ID+'\')">반려</button>';
+                if($("#auth").val() != 'user'){
+                    buttonHtml += '<button type="button" id="reCallBtn" style="margin-right: 5px;" class="k-button k-button-solid-primary" onclick="regPay.fn_revertModal(\''+data.DOC_ID+'\')">반려</button>';
+                }
                 buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \'payApp'+data.PAY_APP_SN+'\', \'payApp\');">열람</button>';
                 $("#addBtn").hide();
                 $("#exnpAddBtn").show();
@@ -627,6 +704,13 @@ var regPay = {
         } else {
             $("#footerLine").attr("colspan", "8");
         }
+
+        var totAllCost = 0;
+        $(".totCost").each(function(){
+            totAllCost += Number(regPay.uncomma($(this).val()));
+        });
+
+        $("#totalAllCost").text(regPay.comma(totAllCost));
     },
 
     fn_popDateSetting : function(){
@@ -971,6 +1055,7 @@ var regPay = {
         $("#row2").css("display", "");
         $("#row1").css("display", "none");
         $("#changeBtn").css("display", "none");
+        $("#modalSaveBtn").css("display", "");
     },
 
     fn_calCost: function(obj){
@@ -1021,7 +1106,7 @@ var regPay = {
         var url = "/project/pop/g20ProjectView.do?type=" + type;
 
         var name = "_blank";
-        var option = "width = 1100, height = 400, top = 100, left = 400, location = no"
+        var option = "width = 1100, height = 450, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 

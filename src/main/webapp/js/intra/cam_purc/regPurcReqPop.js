@@ -185,9 +185,9 @@ var prp = {
         }
 
 
-        if($("#file2")[0].files.length == 1){
+        /*if($("#file2")[0].files.length == 1){
             formData.append("file2", $("#file2")[0].files[0]);
-        }
+        }*/
 
         var itemArr = new Array()
         var flag = true;
@@ -555,10 +555,10 @@ var prp = {
                 prp.settingTempFileDataInit(data.purcFile);
             }
 
-            if(data.reqFile != null){
+            /*if(data.reqFile != null){
                 $("#file2Sn").val(data.reqFile.file_no);
                 $("#file2Name").text(data.reqFile.file_org_name + "." + data.reqFile.file_ext);
-            }
+            }*/
             $("#vat").data("kendoRadioGroup").value(data.VAT);
 
             prp.purcItemDataSet(data);

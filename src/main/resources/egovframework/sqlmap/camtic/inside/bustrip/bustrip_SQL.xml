@@ -52,6 +52,7 @@
         SELECT
             A.HR_BIZ_REQ_ID,
             B.HR_BIZ_REQ_RESULT_ID,
+            A.TRIP_CODE,
             A.BUSN_NAME,
             A.EMP_NAME,
             A.VISIT_CRM,

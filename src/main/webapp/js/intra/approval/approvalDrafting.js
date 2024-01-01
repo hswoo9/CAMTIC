@@ -1333,6 +1333,12 @@ var draft = {
             let result4 = customKendo.fn_customAjax("/project/engn/getResultInfo", {
                 pjtSn: data.pjtSn
             });
+
+            /** 구매요청서 */
+            let result5 = customKendo.fn_customAjax("/purc/getProjectReqFile", {
+                pjtSn: data.pjtSn
+            });
+
             console.log(result2);
             let tempArr = [];
             tempArr[0] = result.delvFile;
@@ -1375,6 +1381,15 @@ var draft = {
             tempArr[count] = result4.result.designFileList;
             count ++;
             tempArr[count] = result4.result.prodFileList;
+            count ++;
+
+            const purcList = result5.list;
+            for(let i=0; i<purcList.length; i++){
+                tempArr[count] = purcList[i];
+                count ++;
+            }
+
+
             draft.getDocFileSet(tempArr);
             draft.setKendoUpload();
         }
@@ -1396,6 +1411,12 @@ var draft = {
             let result4 = customKendo.fn_customAjax("/project/engn/getResultInfo", {
                 pjtSn: data.pjtSn
             });
+
+            /** 구매요청서 */
+            let result5 = customKendo.fn_customAjax("/purc/getProjectReqFile", {
+                pjtSn: data.pjtSn
+            });
+
             console.log(result2);
             let tempArr = [];
             tempArr[0] = result.map;
@@ -1438,6 +1459,13 @@ var draft = {
             tempArr[count] = result4.result.designFileList;
             count ++;
             tempArr[count] = result4.result.prodFileList;
+            count ++;
+
+            const purcList = result5.list;
+            for(let i=0; i<purcList.length; i++){
+                tempArr[count] = purcList[i];
+                count ++;
+            }
             draft.getDocFileSet(tempArr);
             draft.setKendoUpload();
         }
@@ -1459,6 +1487,12 @@ var draft = {
             let result4 = customKendo.fn_customAjax("/project/engn/getResultInfo", {
                 pjtSn: data.pjtSn
             });
+
+            /** 구매요청서 */
+            let result5 = customKendo.fn_customAjax("/purc/getProjectReqFile", {
+                pjtSn: data.pjtSn
+            });
+
             console.log(result2);
             let tempArr = [];
             tempArr[0] = result.map;
@@ -1501,6 +1535,13 @@ var draft = {
             tempArr[count] = result4.result.designFileList;
             count ++;
             tempArr[count] = result4.result.prodFileList;
+            count ++;
+
+            const purcList = result5.list;
+            for(let i=0; i<purcList.length; i++){
+                tempArr[count] = purcList[i];
+                count ++;
+            }
             draft.getDocFileSet(tempArr);
             draft.setKendoUpload();
         }

@@ -616,4 +616,14 @@
         WHERE
             RCV_EMP_SEQ = #{empSeq}
     </update>
+
+    <update id="setPasswordEncryption" parameterType="map">
+        /* setPasswordEncryption */
+        UPDATE
+            CAM_HR.DJ_EMP_INFO
+        SET
+            LOGIN_PASSWD = #{password}
+        WHERE
+            EMP_SEQ = #{EMP_SEQ}
+    </update>
 </mapper>

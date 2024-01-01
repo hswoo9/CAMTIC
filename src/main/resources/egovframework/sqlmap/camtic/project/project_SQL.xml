@@ -2136,6 +2136,16 @@
           AND file_cd = 'engnRsFile'
     </update>
 
+    <update id="setPurcFileDocNm" parameterType="map">
+        /* setPurcFileDocNm */
+        UPDATE CAM_COMMON.DJ_FILE_INFO
+        SET
+            DOC_ID = #{docId}
+        WHERE
+            file_no = #{fileNo}
+          AND file_cd = 'manage'
+    </update>
+
     <insert id="insTeamInfo" parameterType="map">
         /*insTeamInfo*/
         INSERT INTO CAM_PJT_MNG.DJ_PJT_TEAM

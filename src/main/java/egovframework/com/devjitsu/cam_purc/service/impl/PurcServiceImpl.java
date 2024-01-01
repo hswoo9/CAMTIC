@@ -513,4 +513,9 @@ public class PurcServiceImpl implements PurcService {
 
         return result;
     }
+
+    @Override
+    public List<Map<String, Object>> getProjectReqFile(Map<String, Object> map) {
+        return purcRepository.getProjectReqFile(map);
+    }
 }

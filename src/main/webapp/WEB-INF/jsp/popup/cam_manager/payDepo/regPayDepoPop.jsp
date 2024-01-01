@@ -179,7 +179,7 @@
 <script type="text/javascript">
     regPayDepo.fn_defaultScript();
 
-    function selectProject(sn, nm, cd){
+    function selectProject(sn, nm, cd, baseYear){
         $("#budgetNm").val("");
         $("#budgetSn").val("");
         regPayDepo.global.setFlag = false;

@@ -687,11 +687,11 @@
                                         <th>OJT</th>
                                     </tr>
                                     <tr>
-                                        <td>0건</td>
-                                        <td>0건</td>
-                                        <td>0건</td>
-                                        <td><span style="cursor:pointer;">1건</span></td>
-                                        <td>0건</td>
+                                        <td>${sInfo.PERSONAL_COUNT}건</td>
+                                        <td>${sInfo.COMMON_EDU_COUNT}건</td>
+                                        <td>${sInfo.STUDY_COUNT}건</td>
+                                        <td>${sInfo.PROPAG_COUNT}건</td>
+                                        <td>${sInfo.OJT_COUNT}건</td>
                                     </tr>
                                     </thead>
                                 </table>
@@ -1970,7 +1970,7 @@
                         row.append($("<td class='dept_team_name'></td>").text(card.dept_team_name));
                         row.append($("<td class='emp_name_kr'></td>").text(card.emp_name_kr));
                         /*row.append($("<td class='card_interview_date'></td>").text(card.card_interview_date));*/
-                        row.append($("<td class='card_interview_date' onClick='cardDetailPop(" + card.card_number + ")'></td>").text(card.card_interview_date+' '+ card.stime + '~' + card.etime));
+                        row.append($("<td class='card_interview_date' style='font-weight: 900; cursor: pointer;' onClick='cardDetailPop(" + card.card_number + ")'></td>").text(card.card_interview_date+' '+ card.stime + '~' + card.etime));
                         row.append($("<td class='card_interviewer'></td>").text(card.card_interviewer));
                      /*   row.append($("<td class='card_superior_person'></td>").text(card.card_superior_person));
                         row.append($("<td class='card_superior_person2'></td>").text(card.card_superior_person2));
@@ -2092,7 +2092,6 @@
         });
     }
      */
-
 
     function userPrintPop(empSeq){
         /*let url = "/inside/pop/userPrintPop.do?empSeq="+$("#empSeq").val();*/

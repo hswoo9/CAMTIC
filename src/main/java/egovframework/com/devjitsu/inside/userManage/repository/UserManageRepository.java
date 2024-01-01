@@ -110,6 +110,9 @@ public class UserManageRepository extends AbstractDAO {
     public List<Map<String,Object>> getProposalInfoList(Map<String,Object> map) {
         return selectList("userManage.getProposalInfoList", map);
     }
+    public Map<String,Object> getStudyInfoList(Map<String,Object> map) {
+        return (Map<String, Object>) selectOne("userManage.getStudyInfoList", map);
+    }
 	public List<Map<String, Object>> getDeptList(Map<String, Object> params) {
 		return selectList("userManage.getDeptList", params);
 	}
@@ -451,5 +454,9 @@ public class UserManageRepository extends AbstractDAO {
     }
 
     public void setEduReqDetailInsert (Map<String,Object> map) {insert("userManage.setEduReqDetailInsert", map);}
+
+    public void setCareerReqDetailInsert(Map<String,Object> map) {insert("userManage.setCareerReqDetailInsert", map);}
+
+    public void setCertReqDetailInsert(Map<String,Object> map) {insert("userManage.setCertReqDetailInsert", map);}
 
 }

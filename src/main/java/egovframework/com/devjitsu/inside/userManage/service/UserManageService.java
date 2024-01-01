@@ -26,6 +26,7 @@ public interface UserManageService{
     List<Map<String,Object>> getEmpInfoDetailList(Map<String,Object> map);
     List<Map<String,Object>> getDutyInfoList(Map<String,Object> map);
     List<Map<String,Object>> getProposalInfoList(Map<String,Object> map);
+    Map<String,Object> getStudyInfoList(Map<String,Object> map);
     void setBasicInfo(Map<String, Object> params);
     void setUserReqDetailInsert(Map<String, Object> params);
     void setEducationalInfo (Map<String, Object> params, MultipartHttpServletRequest request, String server_dir, String base_dir);
@@ -242,4 +243,8 @@ public interface UserManageService{
     Map<String,Object> getCurrentPositionByYear(Map<String,Object> params);
 
     void setEduReqDetailInsert(Map<String,Object> params);
+
+    void setCareerReqDetailInsert(Map<String,Object> params);
+
+    void setCertReqDetailInsert(Map<String,Object> params);
 }

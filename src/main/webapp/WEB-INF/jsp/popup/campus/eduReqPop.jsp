@@ -298,7 +298,7 @@
 <script>
   eduReq.init();
 
-  function selectProject(sn, nm, cd){
+  function selectProject(sn, nm, cd, baseYear){
     $("#pjtSn").val(sn);
     $("#pjtNm").val(nm);
     $("#pjtCd").val(cd);

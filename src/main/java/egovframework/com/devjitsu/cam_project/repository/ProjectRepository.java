@@ -496,6 +496,10 @@ public class ProjectRepository extends AbstractDAO {
         update("project.setResultFileDocNm", params);
     }
 
+    public void setPurcFileDocNm(Map<String, Object> params) {
+        update("project.setPurcFileDocNm", params);
+    }
+
     public void insTeamInfo(Map<String, Object> params) {
         insert("project.insTeamInfo", params);
     }
